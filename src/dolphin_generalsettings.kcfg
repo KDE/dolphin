@@ -19,6 +19,10 @@
             <label>Split the view into two panes</label>
             <default>false</default>
         </entry>
+        <entry name="FilterBar" type="Bool">
+            <label>Should the filter bar be shown</label>
+            <default>false</default>
+        </entry>
         <entry name="GlobalViewProps" type="Bool">
             <label>Should the view properties used for all directories</label>
             <default>false</default>

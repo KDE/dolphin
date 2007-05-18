@@ -42,8 +42,9 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     SettingsPageBase(parent),
     m_mainWindow(mainWin),
     m_homeUrl(0),
-    m_startSplit(0),
-    m_startEditable(0),
+    m_splitView(0),
+    m_editableUrl(0),
+    m_filterBar(0),
     m_showDeleteCommand(0)
 {
     const int spacing = KDialog::spacingHint();
@@ -82,17 +83,22 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
 
     QGroupBox* startBox = new QGroupBox(i18n("Start"), vBox);
 
-    // create 'Start with split view' checkbox
-    m_startSplit = new QCheckBox(i18n("Start with split view"), startBox);
-    m_startSplit->setChecked(settings->splitView());
+    // create 'Split view' checkbox
+    m_splitView = new QCheckBox(i18n("Split view"), startBox);
+    m_splitView->setChecked(settings->splitView());
 
-    // create 'Start with editable navigation bar' checkbox
-    m_startEditable = new QCheckBox(i18n("Start with editable navigation bar"), startBox);
-    m_startEditable->setChecked(settings->editableUrl());
+    // create 'Editable location' checkbox
+    m_editableUrl = new QCheckBox(i18n("Editable location"), startBox);
+    m_editableUrl->setChecked(settings->editableUrl());
+
+    // create 'Filter bar' checkbox
+    m_filterBar = new QCheckBox(i18n("Filter bar"),startBox);
+    m_filterBar->setChecked(settings->filterBar());
 
     QVBoxLayout* startBoxLayout = new QVBoxLayout(startBox);
-    startBoxLayout->addWidget(m_startSplit);
-    startBoxLayout->addWidget(m_startEditable);
+    startBoxLayout->addWidget(m_splitView);
+    startBoxLayout->addWidget(m_editableUrl);
+    startBoxLayout->addWidget(m_filterBar);
 
     m_showDeleteCommand = new QCheckBox(i18n("Show the command 'Delete' in context menu"), vBox);
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
@@ -121,8 +127,9 @@ void GeneralSettingsPage::applySettings()
         settings->setHomeUrl(url.prettyUrl());
     }
 
-    settings->setSplitView(m_startSplit->isChecked());
-    settings->setEditableUrl(m_startEditable->isChecked());
+    settings->setSplitView(m_splitView->isChecked());
+    settings->setEditableUrl(m_editableUrl->isChecked());
+    settings->setFilterBar(m_filterBar->isChecked());
 
     KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     KConfigGroup kdeConfig(globalConfig, "KDE");

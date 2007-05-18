@@ -100,8 +100,11 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
             this, SLOT(updateCutItems()));
 
     m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
-    m_urlNavigator->setUrlEditable(DolphinSettings::instance().generalSettings()->editableUrl());
-    m_urlNavigator->setHomeUrl(DolphinSettings::instance().generalSettings()->homeUrl());
+
+    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    m_urlNavigator->setUrlEditable(settings->editableUrl());
+    m_urlNavigator->setHomeUrl(settings->homeUrl());
+
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(changeDirectory(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
@@ -168,7 +171,7 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     m_iconSize = K3Icon::SizeMedium;
 
     m_filterBar = new FilterBar(this);
-    m_filterBar->hide();
+    m_filterBar->setVisible(settings->filterBar());
     connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
             this, SLOT(changeNameFilter(const QString&)));
     connect(m_filterBar, SIGNAL(closeRequest()),
