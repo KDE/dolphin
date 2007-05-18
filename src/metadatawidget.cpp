@@ -17,9 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <config-kmetadata.h>
-
 #include "metadatawidget.h"
+
+#include <config-kmetadata.h>
 
 #include <klocale.h>
 

@@ -19,8 +19,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <config-kmetadata.h>
 #include "dolphinmainwindow.h"
+
+#include <config-kmetadata.h>
 
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"

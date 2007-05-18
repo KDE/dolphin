@@ -17,9 +17,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
+#include "infosidebarpage.h"
+
 #include <config-kmetadata.h>
 
-#include "infosidebarpage.h"
+#include <kfileplacesmodel.h>
+#include <klocale.h>
+#include <kstandarddirs.h>
+#include <kio/previewjob.h>
+#include <kfileitem.h>
+#include <kdialog.h>
+#include <kglobalsettings.h>
+#include <kfilemetainfo.h>
+#include <kvbox.h>
+#include <kseparator.h>
+#include <kiconloader.h>
 
 #include <QDir>
 #include <QEvent>
@@ -34,21 +46,9 @@
 #include <QResizeEvent>
 #include <QTimer>
 
-#include <kfileplacesmodel.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <kio/previewjob.h>
-#include <kfileitem.h>
-#include <kdialog.h>
-#include <kglobalsettings.h>
-#include <kfilemetainfo.h>
-#include <kvbox.h>
-#include <kseparator.h>
-#include <kiconloader.h>
-
-#include "pixmapviewer.h"
 #include "dolphinsettings.h"
 #include "metadatawidget.h"
+#include "pixmapviewer.h"
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
