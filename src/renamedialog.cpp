@@ -120,7 +120,7 @@ void RenameDialog::slotButtonClicked(int button)
     KDialog::slotButtonClicked(button);
 }
 
-QString RenameDialog::extensionString(const QString& name) const
+QString RenameDialog::extensionString(const QString& name)
 {
     QString extension;
     bool foundExtension = false;  // true if at least one valid file extension

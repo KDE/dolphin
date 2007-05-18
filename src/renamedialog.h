@@ -92,13 +92,15 @@ private:
      * "Image.1.12.gif" -> ".gif"
      * "Image.tar.1.12.gz" -> ".tar.1.12.gz"
      */
-    QString extensionString(const QString& name) const;
+    static QString extensionString(const QString& name);
 
 private:
     bool m_renameOneItem;
     KLineEdit* m_lineEdit;
     QString m_newName;
     QString m_errorString;
+
+    friend class RenameDialogTest; // allow access for unit testing
 };
 
 #endif
