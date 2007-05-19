@@ -19,9 +19,10 @@
 #ifndef RENAMEDIALOG_H
 #define RENAMEDIALOG_H
 
+#include "libdolphin_export.h"
+
 #include <kdialog.h>
 #include <kurl.h>
-
 
 
 class KLineEdit;
@@ -45,7 +46,7 @@ class KLineEdit;
  * }
  * \endcode
  */
-class RenameDialog : public KDialog
+class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public KDialog
 {
     Q_OBJECT
 

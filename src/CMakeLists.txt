@@ -1,7 +1,7 @@
 
 add_subdirectory( pics )
 add_subdirectory( servicemenus )
-#add_subdirectory( tests )
+add_subdirectory( tests )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
 
@@ -18,6 +18,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinsettings.cpp
     viewproperties.cpp
     dolphinsortfilterproxymodel.cpp
+    renamedialog.cpp
     )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
@@ -62,7 +63,6 @@ set(dolphin_SRCS
    main.cpp
    metadatawidget.cpp
    pixmapviewer.cpp
-   renamedialog.cpp
    settingspagebase.cpp
    sidebarpage.cpp
    statusbarspaceinfo.cpp

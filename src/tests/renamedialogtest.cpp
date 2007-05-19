@@ -43,3 +43,5 @@ void RenameDialogTest::testExtensionString()
     result = RenameDialog::extensionString("Image.tar.1.12.gz");
     QCOMPARE(result, QString(".tar.1.12.gz"));
 }
+
+#include "renamedialogtest.moc"
