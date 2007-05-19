@@ -52,7 +52,6 @@
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
-    m_multipleSelection(false), //TODO: check if I'm needed
     m_pendingPreview(false),
     m_timer(0),
     m_preview(0),
@@ -63,6 +62,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     const int spacing = KDialog::spacingHint();
 
     m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(slotTimeout()));
 
@@ -110,7 +110,7 @@ InfoSidebarPage::~InfoSidebarPage()
 
 void InfoSidebarPage::setUrl(const KUrl& url)
 {
-    if (!m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+    if (url.isValid() && !m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
         cancelRequest();
         m_shownUrl = url;
         showItemInfo();
@@ -119,20 +119,17 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 
 void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
-    cancelRequest();
     SidebarPage::setSelection(selection);
-    m_multipleSelection = (selection.size() > 1);
-    showItemInfo();
+    m_timer->start(TimerDelay);
 }
 
 void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
 {
     cancelRequest();
 
-    if (!url.isEmpty() && !m_multipleSelection) {
+    if (!url.isEmpty() && (selection().size() <= 1)) {
         m_urlCandidate = url;
-        m_timer->setSingleShot(true);
-        m_timer->start(300);
+        m_timer->start(TimerDelay);
     }
 }
 
@@ -166,12 +163,13 @@ void InfoSidebarPage::showItemInfo()
     const KFileItemList& selectedItems = selection();
 
     KUrl file;
+    const int itemCount = selectedItems.count();
     if (selectedItems.count() == 0) {
         file = m_shownUrl;
     } else {
         file = selectedItems[0]->url();
     }
-    if (m_multipleSelection) {
+    if (itemCount > 1) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("exec",
                                            K3Icon::NoGroup,

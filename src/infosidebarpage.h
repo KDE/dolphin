@@ -107,6 +107,8 @@ private slots:
     void showPreview(const KFileItem& item, const QPixmap& pixmap);
 
 private:
+    enum { TimerDelay = 300 };
+
     /**
      * Checks whether the an URL is repesented by a bookmark. If yes,
      * then the bookmark icon and name are shown instead of a preview.
@@ -133,7 +135,6 @@ private:
     bool showMetaInfo(const QString& key) const;
 
 private:
-    bool m_multipleSelection;
     bool m_pendingPreview;
     QTimer* m_timer;
     KUrl m_shownUrl;
