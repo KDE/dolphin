@@ -33,18 +33,13 @@
 #include <kseparator.h>
 #include <kiconloader.h>
 
-#include <QDir>
 #include <QEvent>
-#include <QFontMetrics>
 #include <QInputDialog>
 #include <QLabel>
-#include <QLayout>
-#include <QMenu>
-#include <QPainter>
 #include <QPixmap>
-#include <QPushButton>
 #include <QResizeEvent>
 #include <QTimer>
+#include <QVBoxLayout>
 
 #include "dolphinsettings.h"
 #include "metadatawidget.h"
@@ -56,7 +51,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_timer(0),
     m_preview(0),
     m_name(0),
-    m_infos(0),
+    m_infoLabel(0),
     m_metadataWidget(0)
 {
     const int spacing = KDialog::spacingHint();
@@ -81,9 +76,9 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_name->setWordWrap(true);
 
     // general information
-    m_infos = new QLabel(this);
-    m_infos->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
-    m_infos->setTextFormat(Qt::RichText);
+    m_infoLabel = new QLabel(this);
+    m_infoLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    m_infoLabel->setTextFormat(Qt::RichText);
 
     if (MetaDataWidget::metaDataAvailable()) {
         m_metadataWidget = new MetaDataWidget(this);
@@ -93,11 +88,10 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     layout->addWidget(m_preview);
     layout->addWidget(m_name);
     layout->addWidget(new KSeparator(this));
-    layout->addWidget(m_infos);
+    layout->addWidget(m_infoLabel);
     layout->addWidget(new KSeparator(this));
     if (m_metadataWidget) {
         layout->addWidget(m_metadataWidget);
-        layout->addWidget(new KSeparator(this));
     }
     // ensure that widgets in the information side bar are aligned towards the top
     layout->addStretch(1);
@@ -204,7 +198,7 @@ void InfoSidebarPage::showItemInfo()
         m_name->setText(text);
     }
 
-    createMetaInfo();
+    showMetaInfo();
 }
 
 void InfoSidebarPage::slotTimeout()
@@ -259,107 +253,108 @@ void InfoSidebarPage::cancelRequest()
     m_pendingPreview = false;
 }
 
-void InfoSidebarPage::createMetaInfo()
+void InfoSidebarPage::showMetaInfo()
 {
-    beginInfoLines();
+    QString text;
+
     const KFileItemList& selectedItems = selection();
-    if (selectedItems.size() == 0) {
+    if (selectedItems.size() <= 1) {
         KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();
 
         if (fileItem.isDir()) {
-            addInfoLine(i18n("Type:"), i18n("Directory"));
+            addInfoLine(text, i18n("Type:"), i18n("Folder"));
+        } else {
+            addInfoLine(text, i18n("Type:"), fileItem.mimeComment());
+
+            QString sizeText(KIO::convertSize(fileItem.size()));
+            addInfoLine(text, i18n("Size:"), sizeText);
+            addInfoLine(text, i18n("Modified:"), fileItem.timeString());
+
+            // TODO: deactivate showing additional meta information, as the system
+            // hangs when retrieving the meta information of a zipped file
+            /*const KFileMetaInfo metaInfo(fileItem.url());
+            if (metaInfo.isValid()) {
+                const QHash<QString, KFileMetaInfoItem>& items = metaInfo.items();
+                QHash<QString, KFileMetaInfoItem>::const_iterator it = items.constBegin();
+                const QHash<QString, KFileMetaInfoItem>::const_iterator end = items.constEnd();
+                QString labelText;
+                while (it != end) {
+                    const KFileMetaInfoItem& metaInfo = it.value();
+                    const QVariant& value = metaInfo.value();
+                    if (value.isValid() && convertMetaInfo(metaInfo.name(), labelText)) {
+                        addInfoLine(text, labelText, value.toString());
+                    }
+                    ++it;
+                }
+            }*/
         }
+
         if (MetaDataWidget::metaDataAvailable()) {
             m_metadataWidget->setFile(fileItem.url());
-        }
-    } else if (selectedItems.count() == 1) {
-        KFileItem* fileItem = selectedItems.at(0);
-        addInfoLine(i18n("Type:"), fileItem->mimeComment());
-
-        QString sizeText(KIO::convertSize(fileItem->size()));
-        addInfoLine(i18n("Size:"), sizeText);
-        addInfoLine(i18n("Modified:"), fileItem->timeString());
-
-        const KFileMetaInfo& metaInfo = fileItem->metaInfo();
-        if (metaInfo.isValid()) {
-            QStringList keys = metaInfo.supportedKeys();
-            for (QStringList::Iterator it = keys.begin(); it != keys.end(); ++it) {
-                if (showMetaInfo(*it)) {
-                    KFileMetaInfoItem metaInfoItem = metaInfo.item(*it);
-                    addInfoLine(*it, metaInfoItem.value().toString());
-                }
-            }
-        }
-        if (MetaDataWidget::metaDataAvailable()) {
-            m_metadataWidget->setFile(fileItem->url());
         }
     } else {
         if (MetaDataWidget::metaDataAvailable()) {
             m_metadataWidget->setFiles(selectedItems.urlList());
         }
 
-        unsigned long int totSize = 0;
-        foreach(KFileItem* item, selectedItems) {
-            totSize += item->size(); //FIXME what to do with directories ? (same with the one-item-selected-code), item->size() does not return the size of the content : not very instinctive for users
+        unsigned long int totalSize = 0;
+        foreach (KFileItem* item, selectedItems) {
+            // TODO: what to do with directories (same with the one-item-selected-code)?,
+            // item->size() does not return the size of the content : not very instinctive for users
+            totalSize += item->size();
         }
-        addInfoLine(i18n("Total size:"), KIO::convertSize(totSize));
+        addInfoLine(text, i18n("Total size:"), KIO::convertSize(totalSize));
     }
-    endInfoLines();
+    m_infoLabel->setText(text);
 }
 
-void InfoSidebarPage::beginInfoLines()
+void InfoSidebarPage::addInfoLine(QString& text,
+                                  const QString& labelText,
+                                  const QString& infoText)
 {
-    m_infoLines = QString();
+    if (!infoText.isEmpty()) {
+        text += "<br/>";
+    }
+    text += QString("<b>%1</b> %2").arg(labelText).arg(infoText);
 }
 
-void InfoSidebarPage::endInfoLines()
+bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const
 {
-    m_infos->setText(m_infoLines);
-}
+    // TODO: This code prevents that interesting meta information might be hidden
+    // and only bypasses the current problem that not all the meta information should
+    // be shown to the user. Check whether it's possible with Nepomuk to show
+    // all "user relevant" information in a readable way...
 
-bool InfoSidebarPage::showMetaInfo(const QString& key) const
-{
-    // sorted list of keys, where it's data should be shown
-    static const char* keys[] = {
-                                    "Album",
-                                    "Artist",
-                                    "Author",
-                                    "Bitrate",
-                                    "Date",
-                                    "Dimensions",
-                                    "Genre",
-                                    "Length",
-                                    "Lines",
-                                    "Pages",
-                                    "Title",
-                                    "Words"
-                                };
+    struct MetaKey {
+        const char* key;
+        const char* text;
+    };
+
+    // sorted list of keys, where its data should be shown
+    static const MetaKey keys[] = {
+        { "audio.album", "Album:" },
+        { "audio.artist", "Artist:" },
+        { "audio.title", "Title:" },
+    };
 
     // do a binary search for the key...
     int top = 0;
-    int bottom = sizeof(keys) / sizeof(char*) - 1;
-    while (top < bottom) {
+    int bottom = sizeof(keys) / sizeof(MetaKey) - 1;
+    while (top <= bottom) {
         const int middle = (top + bottom) / 2;
-        const int result = key.compare(keys[middle]);
+        const int result = key.compare(keys[middle].key);
         if (result < 0) {
             bottom = middle - 1;
         } else if (result > 0) {
             top = middle + 1;
         } else {
+            text = keys[middle].text;
             return true;
         }
     }
 
     return false;
-}
-
-void InfoSidebarPage::addInfoLine(const QString& labelText, const QString& infoText)
-{
-    if (!m_infoLines.isEmpty()) {
-        m_infoLines += "<br/>";
-    }
-    m_infoLines += QString("<b>%1</b> %2").arg(labelText).arg(infoText);
 }
 
 #include "infosidebarpage.moc"

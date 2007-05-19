@@ -120,19 +120,26 @@ private:
     /** Assures that any pending item information request is cancelled. */
     void cancelRequest();
 
-    // TODO: the following methods are just a prototypes for meta
-    // info generation...
-    void createMetaInfo();
-    void addInfoLine(const QString& labelText,
-                     const QString& infoText);
-    void beginInfoLines();
-    void endInfoLines();
+    /**
+     * Shows the meta information for the current shown item inside
+     * a label.
+     */
+    void showMetaInfo();
 
     /**
-     * Returns true, if the string \a key represents a meta information
-     * that should be shown.
+     * Adds the texts \a labelText and \a infoText as one formated line
+     * to text.
      */
-    bool showMetaInfo(const QString& key) const;
+    void addInfoLine(QString& text,
+                     const QString& labelText,
+                     const QString& infoText);
+
+    /**
+     * Converts the meta key \a key to a readable format into \a text.
+     * Returns true, if the string \a key represents a meta information
+     * that should be shown. If false is returned, \a text is not modified.
+     */
+    bool convertMetaInfo(const QString& key, QString& text) const;
 
 private:
     bool m_pendingPreview;
@@ -143,8 +150,7 @@ private:
     PixmapViewer* m_preview;
     QLabel* m_name;
 
-    QString m_infoLines;
-    QLabel* m_infos;
+    QLabel* m_infoLabel;
 
     MetaDataWidget* m_metadataWidget;
 };
