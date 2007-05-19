@@ -31,7 +31,7 @@ class MetaDataWidget : public QWidget
 
 public:
     MetaDataWidget(QWidget* parent = 0);
-    ~MetaDataWidget();
+    virtual ~MetaDataWidget();
 
     /**
      * \return true if the KMetaData system could be found and initialized.
@@ -42,7 +42,7 @@ public:
 
 public Q_SLOTS:
     void setFile(const KUrl& url);
-    void setFiles(const KUrl::List urls);
+    void setFiles(const KUrl::List& urls);
 
 signals:
     /**
@@ -53,7 +53,7 @@ signals:
 
 private Q_SLOTS:
     void slotCommentChanged();
-    void slotRatingChanged(int r);
+    void slotRatingChanged(int rating);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);

@@ -54,18 +54,7 @@ class MetaDataWidget::Private
 {
 public:
 #ifdef HAVE_KMETADATA
-    void loadComment(const QString& comment)
-    {
-        editComment->blockSignals(true);
-        if (comment.isEmpty()) {
-            editComment->setFontItalic(true);
-            editComment->setText(i18n("Click to add comment..."));
-        } else {
-            editComment->setFontItalic(false);
-            editComment->setText(comment);
-        }
-        editComment->blockSignals(false);
-    }
+    void loadComment(const QString& comment);
 
     KUrl fileUrl;
 
@@ -77,15 +66,28 @@ public:
 #endif
 };
 
+void MetaDataWidget::Private::loadComment(const QString& comment)
+{
+    editComment->blockSignals(true);
+    if (comment.isEmpty()) {
+        editComment->setFontItalic(true);
+        editComment->setText(i18n("Click to add comment..."));
+    } else {
+        editComment->setFontItalic(false);
+        editComment->setText(comment);
+    }
+    editComment->blockSignals(false);
+}
 
-MetaDataWidget::MetaDataWidget(QWidget* parent)
-        : QWidget(parent)
+
+MetaDataWidget::MetaDataWidget(QWidget* parent) :
+    QWidget(parent)
 {
 #ifdef HAVE_KMETADATA
     d = new Private;
     d->editComment = new QTextEdit(this);
-    d->tagWidget = new Nepomuk::KMetaData::TagWidget(this);
     d->ratingWidget = new KRatingWidget(this);
+    d->tagWidget = new Nepomuk::KMetaData::TagWidget(this);
     connect(d->ratingWidget, SIGNAL(ratingChanged(int)), this, SLOT(slotRatingChanged(int)));
     connect(d->editComment, SIGNAL(textChanged()), this, SLOT(slotCommentChanged()));
 
@@ -129,11 +131,11 @@ void MetaDataWidget::setFile(const KUrl& url)
 }
 
 
-void MetaDataWidget::setFiles(const KUrl::List urls)
+void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
 #ifdef HAVE_KMETADATA
     // FIXME: support multiple files
-    setFile( urls.first() );
+    setFile(urls.first());
 #endif
 }
 
@@ -141,22 +143,22 @@ void MetaDataWidget::setFiles(const KUrl::List urls)
 void MetaDataWidget::slotCommentChanged()
 {
 #ifdef HAVE_KMETADATA
-    if ( d->editComment->toPlainText() != d->file.description() ) {
+    if (d->editComment->toPlainText() != d->file.description()) {
 //    d->file.setLocation(url.url());
-        d->file.setProperty( s_nfoFileUrl, d->fileUrl.url() );
+        d->file.setProperty(s_nfoFileUrl, d->fileUrl.url());
         d->file.setDescription(d->editComment->toPlainText());
     }
 #endif
 }
 
 
-void MetaDataWidget::slotRatingChanged(int r)
+void MetaDataWidget::slotRatingChanged(int rating)
 {
 #ifdef HAVE_KMETADATA
-    if ( r != d->file.rating() ) {
+    if (rating != d->file.rating()) {
         //    d->file.setLocation(url.url());
-        d->file.setProperty( s_nfoFileUrl, d->fileUrl.url() );
-        d->file.setRating(r);
+        d->file.setProperty(s_nfoFileUrl, d->fileUrl.url());
+        d->file.setRating(rating);
     }
 #endif
 }
@@ -165,15 +167,15 @@ void MetaDataWidget::slotRatingChanged(int r)
 bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
 {
 #ifdef HAVE_KMETADATA
-    if (obj == d->editComment->viewport()
-            || obj == d->editComment) {
+    if (obj == d->editComment->viewport() || obj == d->editComment) {
         if (event->type() == QEvent::FocusOut) {
             // make sure the info text is displayed again
             d->loadComment(d->editComment->toPlainText());
         } else if (event->type() == QEvent::FocusIn) {
             d->editComment->setFontItalic(false);
-            if (d->file.description().isEmpty())
+            if (d->file.description().isEmpty()) {
                 d->editComment->setText(QString());
+            }
         }
     }
 #endif
