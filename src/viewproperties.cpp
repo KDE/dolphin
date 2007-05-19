@@ -18,21 +18,20 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <assert.h>
+#include "viewproperties.h"
 
-#include <QtCore/QDate>
-#include <QtCore/QFile>
-#include <QtCore/QFileInfo>
+#include "dolphinsettings.h"
+#include "dolphin_directoryviewpropertysettings.h"
+#include "dolphin_generalsettings.h"
 
 #include <kcomponentdata.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
 
-#include "viewproperties.h"
-#include "dolphinsettings.h"
-#include "dolphin_directoryviewpropertysettings.h"
-#include "dolphin_generalsettings.h"
+#include <QDate>
+#include <QFile>
+#include <QFileInfo>
 
 #define FILE_NAME "/.directory"
 
