@@ -19,6 +19,8 @@
   */
 
 // NOTE: rectForIndex() not virtual on QListView !! relevant ?
+#include "klistview.h"
+#include "klistview_p.h"
 
 #include <QtGui/QPainter>
 #include <QtGui/QScrollBar>
@@ -27,8 +29,6 @@
 
 #include <kdebug.h>
 
-#include "klistview.h"
-#include "klistview_p.h"
 #include "kitemcategorizer.h"
 
 KListView::Private::Private(KListView *listView)

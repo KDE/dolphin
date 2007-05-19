@@ -21,6 +21,8 @@
 #ifndef __KLISTVIEW_P_H__
 #define __KLISTVIEW_P_H__
 
+class QSortFilterProxyModel;
+
 class KListView::Private
 {
 public:
