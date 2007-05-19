@@ -148,7 +148,7 @@ private:
     KUrl m_urlCandidate;
 
     PixmapViewer* m_preview;
-    QLabel* m_name;
+    QLabel* m_nameLabel;
 
     QLabel* m_infoLabel;
 

@@ -50,7 +50,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_pendingPreview(false),
     m_timer(0),
     m_preview(0),
-    m_name(0),
+    m_nameLabel(0),
     m_infoLabel(0),
     m_metadataWidget(0)
 {
@@ -70,10 +70,10 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_preview->setFixedHeight(K3Icon::SizeEnormous);
 
     // name
-    m_name = new QLabel(this);
-    m_name->setTextFormat(Qt::RichText);
-    m_name->setAlignment(m_name->alignment() | Qt::AlignHCenter);
-    m_name->setWordWrap(true);
+    m_nameLabel = new QLabel(this);
+    m_nameLabel->setTextFormat(Qt::RichText);
+    m_nameLabel->setAlignment(m_nameLabel->alignment() | Qt::AlignHCenter);
+    m_nameLabel->setWordWrap(true);
 
     // general information
     m_infoLabel = new QLabel(this);
@@ -86,7 +86,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 
     layout->addItem(new QSpacerItem(spacing, spacing, QSizePolicy::Preferred, QSizePolicy::Fixed));
     layout->addWidget(m_preview);
-    layout->addWidget(m_name);
+    layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator(this));
     layout->addWidget(m_infoLabel);
     layout->addWidget(new KSeparator(this));
@@ -138,11 +138,14 @@ void InfoSidebarPage::showEvent(QShowEvent* event)
 
 void InfoSidebarPage::resizeEvent(QResizeEvent* event)
 {
-    // If the item name cannot get wrapped, the maximum width of
-    // the label is increased, so that the width of the information sidebar
-    // gets increased. To prevent this, the maximum width is adjusted to
+    // If the text inside the name label or the info label cannot
+    // get wrapped, then the maximum width of the label is increased
+    // so that the width of the information sidebar gets increased.
+    // To prevent this, the maximum width is adjusted to
     // the current width of the sidebar.
-    m_name->setMaximumWidth(event->size().width() - KDialog::spacingHint() * 4);
+    const int maxWidth = event->size().width() - KDialog::spacingHint() * 4;
+    m_nameLabel->setMaximumWidth(maxWidth);
+    m_infoLabel->setMaximumWidth(maxWidth);
     SidebarPage::resizeEvent(event);
 }
 
@@ -169,7 +172,7 @@ void InfoSidebarPage::showItemInfo()
                                            K3Icon::NoGroup,
                                            K3Icon::SizeEnormous);
         m_preview->setPixmap(icon);
-        m_name->setText(i18n("%1 items selected", selectedItems.count()));
+        m_nameLabel->setText(i18n("%1 items selected", selectedItems.count()));
     } else if (!applyBookmark(file)) {
         // try to get a preview pixmap from the item...
         KUrl::List list;
@@ -195,7 +198,7 @@ void InfoSidebarPage::showItemInfo()
         QString text("<b>");
         text.append(file.fileName());
         text.append("</b>");
-        m_name->setText(text);
+        m_nameLabel->setText(text);
     }
 
     showMetaInfo();
@@ -237,7 +240,7 @@ bool InfoSidebarPage::applyBookmark(const KUrl& url)
             QString text("<b>");
             text.append(placesModel->text(index));
             text.append("</b>");
-            m_name->setText(text);
+            m_nameLabel->setText(text);
 
             m_preview->setPixmap(placesModel->icon(index).pixmap(128, 128));
             return true;
