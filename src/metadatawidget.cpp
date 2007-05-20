@@ -66,6 +66,7 @@ public:
 #endif
 };
 
+#ifdef HAVE_KMETADATA
 void MetaDataWidget::Private::loadComment(const QString& comment)
 {
     editComment->blockSignals(true);
@@ -78,6 +79,7 @@ void MetaDataWidget::Private::loadComment(const QString& comment)
     }
     editComment->blockSignals(false);
 }
+#endif
 
 
 MetaDataWidget::MetaDataWidget(QWidget* parent) :
