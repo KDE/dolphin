@@ -242,7 +242,10 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* activatedAction = popup->exec(QCursor::pos());
     if (activatedAction == propertiesAction) {
-        new KPropertiesDialog(m_mainWindow->activeView()->url());
+        const KUrl& url = m_mainWindow->activeView()->url();
+        KPropertiesDialog* dlg = new KPropertiesDialog(url);
+        dlg->exec();
+        delete dlg;
     } else if (activatedAction == bookmarkAction) {
         const KUrl& url = m_mainWindow->activeView()->url();
         if (url.isValid()) {

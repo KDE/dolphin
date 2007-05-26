@@ -458,7 +458,9 @@ void DolphinMainWindow::deleteItems()
 void DolphinMainWindow::properties()
 {
     const KFileItemList list = m_activeView->selectedItems();
-    new KPropertiesDialog(list, this);
+    KPropertiesDialog* dlg = new KPropertiesDialog(list, this);
+    dlg->exec();
+    delete dlg;
 }
 
 void DolphinMainWindow::quit()
