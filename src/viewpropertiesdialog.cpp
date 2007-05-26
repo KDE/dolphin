@@ -203,6 +203,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     main->setLayout(topLayout);
     setMainWidget(main);
+
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+                                    "ViewPropertiesDialog");
+    restoreDialogSize(dialogConfig);
 }
 
 ViewPropertiesDialog::~ViewPropertiesDialog()
@@ -210,6 +214,10 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
     m_isDirty = false;
     delete m_viewProps;
     m_viewProps = 0;
+
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+                              "ViewPropertiesDialog");
+    saveDialogSize(dialogConfig, KConfigFlags::Persistent);
 }
 
 void ViewPropertiesDialog::slotOk()

@@ -45,10 +45,15 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
     KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage, i18n("View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
+
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
+    restoreDialogSize(dialogConfig);
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
 {
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
+    saveDialogSize(dialogConfig, KConfigFlags::Persistent);
 }
 
 void DolphinSettingsDialog::slotButtonClicked(int button)
