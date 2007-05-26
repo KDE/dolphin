@@ -96,7 +96,7 @@ void TreeViewContextMenu::open()
 
     // insert 'Properties' entry
     QAction* propertiesAction = new QAction(i18n("Properties"), this);
-    connect(this, SIGNAL(triggered()), this, SLOT(showProperties()));
+    connect(propertiesAction, SIGNAL(triggered()), this, SLOT(showProperties()));
     popup->addAction(propertiesAction);
 
     popup->exec(QCursor::pos());
