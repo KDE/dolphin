@@ -48,6 +48,12 @@ public:
      */
     void applySettings();
 
+    /** Restores the settings to default values. */
+    void restoreDefaults();
+
+private:
+    void loadSettings();
+
 private:
     DolphinMainWindow* m_mainWindow;
     QRadioButton* m_smallIconSize;

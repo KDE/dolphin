@@ -51,29 +51,13 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     setSpacing(spacing);
     setMargin(margin);
 
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    Q_ASSERT(settings != 0);
-
-    // Create "Icon" properties
+    // Create 'Icon' properties
     QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), this);
     iconSizeBox->setSizePolicy(sizePolicy);
 
     m_smallIconSize  = new QRadioButton(i18n("Small"), this);
     m_mediumIconSize = new QRadioButton(i18n("Medium"), this);
     m_largeIconSize  = new QRadioButton(i18n("Large"), this);
-    switch (settings->iconSize()) {
-    case K3Icon::SizeLarge:
-        m_largeIconSize->setChecked(true);
-        break;
-
-    case K3Icon::SizeMedium:
-        m_mediumIconSize->setChecked(true);
-        break;
-
-    case K3Icon::SizeSmall:
-    default:
-        m_smallIconSize->setChecked(true);
-    }
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
     iconSizeGroup->addButton(m_smallIconSize);
@@ -91,11 +75,6 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* fontLabel = new QLabel(i18n("Font:"), textBox);
     m_fontRequester = new KFontRequester(textBox);
-    QFont font(settings->fontFamily(),
-               settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_fontRequester->setFont(font);
 
     QHBoxLayout* textLayout = new QHBoxLayout(textBox);
     textLayout->addWidget(fontLabel);
@@ -105,6 +84,8 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
     new QWidget(this);
+
+    loadSettings();
 }
 
 ColumnViewSettingsPage::~ColumnViewSettingsPage()
@@ -114,7 +95,6 @@ ColumnViewSettingsPage::~ColumnViewSettingsPage()
 void ColumnViewSettingsPage::applySettings()
 {
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    Q_ASSERT(settings != 0);
 
     int iconSize = K3Icon::SizeSmall;
     if (m_mediumIconSize->isChecked()) {
@@ -129,6 +109,38 @@ void ColumnViewSettingsPage::applySettings()
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
     settings->setBoldFont(font.bold());
+}
+
+void ColumnViewSettingsPage::restoreDefaults()
+{
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    settings->setDefaults();
+    loadSettings();
+}
+
+void ColumnViewSettingsPage::loadSettings()
+{
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+
+    switch (settings->iconSize()) {
+    case K3Icon::SizeLarge:
+        m_largeIconSize->setChecked(true);
+        break;
+
+    case K3Icon::SizeMedium:
+        m_mediumIconSize->setChecked(true);
+        break;
+
+    case K3Icon::SizeSmall:
+    default:
+        m_smallIconSize->setChecked(true);
+    }
+
+    QFont font(settings->fontFamily(),
+               settings->fontSize());
+    font.setItalic(settings->italicFont());
+    font.setBold(settings->boldFont());
+    m_fontRequester->setFont(font);
 }
 
 #include "columnviewsettingspage.moc"

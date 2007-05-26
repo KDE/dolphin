@@ -42,11 +42,9 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     m_mainWindow(mainWindow),
     m_localProps(0),
     m_globalProps(0),
-    m_maxPreviewSize(0)
+    m_maxPreviewSize(0),
+    m_spinBox(0)
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    Q_ASSERT(settings != 0);
-
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
     const QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
@@ -58,11 +56,6 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
 
     m_localProps = new QRadioButton(i18n("Remember view properties for each folder"), propsBox);
     m_globalProps = new QRadioButton(i18n("Use common view properties for all folders"), propsBox);
-    if (settings->globalViewProps()) {
-        m_globalProps->setChecked(true);
-    } else {
-        m_localProps->setChecked(true);
-    }
 
     QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
     propsBoxLayout->addWidget(m_localProps);
@@ -75,34 +68,13 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
 
     KHBox* vBox = new KHBox(previewBox);
     vBox->setSpacing(spacing);
-
-    const int min = 1;   // MB
-    const int max = 100; // MB
     m_maxPreviewSize = new QSlider(Qt::Horizontal, vBox);
-    m_maxPreviewSize->setRange(min, max);
-    m_maxPreviewSize->setPageStep(10);
-    m_maxPreviewSize->setSingleStep(1);
-    m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
 
-    KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
-    const int maxByteSize = globalConfig.readEntry("MaximumSize", 1024 * 1024 /* 1 MB */);
-    int maxMByteSize = maxByteSize / (1024 * 1024);
-    if (maxMByteSize < 1) {
-        maxMByteSize = 1;
-    } else if (maxMByteSize > max) {
-        maxMByteSize = max;
-    }
-    m_maxPreviewSize->setValue(maxMByteSize);
-
-    QSpinBox* spinBox = new QSpinBox(vBox);
-    spinBox->setRange(min, max);
-    spinBox->setSingleStep(1);
-    spinBox->setSuffix(" MB");
-    spinBox->setValue(m_maxPreviewSize->value());
+    m_spinBox = new QSpinBox(vBox);
 
     connect(m_maxPreviewSize, SIGNAL(valueChanged(int)),
-            spinBox, SLOT(setValue(int)));
-    connect(spinBox, SIGNAL(valueChanged(int)),
+            m_spinBox, SLOT(setValue(int)));
+    connect(m_spinBox, SIGNAL(valueChanged(int)),
             m_maxPreviewSize, SLOT(setValue(int)));
 
     QVBoxLayout* previewBoxLayout = new QVBoxLayout(previewBox);
@@ -113,11 +85,18 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
     new QWidget(this);
+
+    loadSettings();
 }
 
 
 GeneralViewSettingsPage::~GeneralViewSettingsPage()
-{}
+{
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    settings->setDefaults();
+
+    loadSettings();
+}
 
 void GeneralViewSettingsPage::applySettings()
 {
@@ -127,7 +106,6 @@ void GeneralViewSettingsPage::applySettings()
     const bool useGlobalProps = m_globalProps->isChecked();
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    Q_ASSERT(settings != 0);
     settings->setGlobalViewProps(useGlobalProps);
 
     if (useGlobalProps) {
@@ -145,6 +123,45 @@ void GeneralViewSettingsPage::applySettings()
                             byteCount,
                             KConfigBase::Normal | KConfigBase::Global);
     globalConfig.sync();
+}
+
+void GeneralViewSettingsPage::restoreDefaults()
+{
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    settings->setDefaults();
+    loadSettings();
+}
+
+void GeneralViewSettingsPage::loadSettings()
+{
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    if (settings->globalViewProps()) {
+        m_globalProps->setChecked(true);
+    } else {
+        m_localProps->setChecked(true);
+    }
+
+    const int min = 1;   // MB
+    const int max = 100; // MB
+    m_maxPreviewSize->setRange(min, max);
+    m_maxPreviewSize->setPageStep(10);
+    m_maxPreviewSize->setSingleStep(1);
+    m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
+
+    KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    const int maxByteSize = globalConfig.readEntry("MaximumSize", 1024 * 1024 /* 1 MB */);
+    int maxMByteSize = maxByteSize / (1024 * 1024);
+    if (maxMByteSize < 1) {
+        maxMByteSize = 1;
+    } else if (maxMByteSize > max) {
+        maxMByteSize = max;
+    }
+    m_maxPreviewSize->setValue(maxMByteSize);
+
+    m_spinBox->setRange(min, max);
+    m_spinBox->setSingleStep(1);
+    m_spinBox->setSuffix(" MB");
+    m_spinBox->setValue(m_maxPreviewSize->value());
 }
 
 #include "generalviewsettingspage.moc"

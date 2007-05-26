@@ -19,12 +19,15 @@
  ***************************************************************************/
 
 #include "dolphinsettingsdialog.h"
-#include <klocale.h>
-#include <kicon.h>
-#include "generalsettingspage.h"
-#include "viewsettingspage.h"
+
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
+#include "generalsettingspage.h"
+#include "viewsettingspage.h"
+
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kicon.h>
 
 DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     KPageDialog(),
@@ -35,7 +38,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
 
     setFaceType(List);
     setCaption(i18n("Dolphin Preferences"));
-    setButtons(Ok | Apply | Cancel);
+    setButtons(Ok | Apply | Cancel | Default);
     setDefaultButton(Ok);
 
     m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
@@ -58,9 +61,15 @@ DolphinSettingsDialog::~DolphinSettingsDialog()
 
 void DolphinSettingsDialog::slotButtonClicked(int button)
 {
-    if (button == Ok || button == Apply) {
+    if ((button == Ok) || (button == Apply)) {
         applySettings();
+    } else if (button == Default) {
+        const QString text(i18n("All settings will be reset to default values. Do you want to continue?"));
+        if (KMessageBox::questionYesNo(this, text) == KMessageBox::Yes) {
+            restoreDefaults();
+        }
     }
+
     KPageDialog::slotButtonClicked(button);
 }
 
@@ -68,6 +77,13 @@ void DolphinSettingsDialog::applySettings()
 {
     m_generalSettingsPage->applySettings();
     m_viewSettingsPage->applySettings();
+    DolphinApplication::app()->refreshMainWindows();
+}
+
+void DolphinSettingsDialog::restoreDefaults()
+{
+    m_generalSettingsPage->restoreDefaults();
+    m_viewSettingsPage->restoreDefaults();
     DolphinApplication::app()->refreshMainWindows();
 }
 

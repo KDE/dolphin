@@ -55,27 +55,15 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     setSpacing(spacing);
     setMargin(margin);
 
-    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    Q_ASSERT(settings != 0);
-
     // create "Columns" properties
     QGroupBox* columnsBox = new QGroupBox(i18n("Columns"), this);
     columnsBox->setSizePolicy(sizePolicy);
 
     m_dateBox = new QCheckBox(i18n("Date"), this);
-    m_dateBox->setChecked(settings->showDate());
-
     m_permissionsBox = new QCheckBox(i18n("Permissions"), this);
-    m_permissionsBox->setChecked(settings->showPermissions());
-
     m_ownerBox = new QCheckBox(i18n("Owner"), this);
-    m_ownerBox->setChecked(settings->showOwner());
-
     m_groupBox = new QCheckBox(i18n("Group"), this);
-    m_groupBox->setChecked(settings->showGroup());
-
     m_typeBox = new QCheckBox(i18n("Type"), this);
-    m_typeBox->setChecked(settings->showType());
 
     QHBoxLayout* columnsLayout = new QHBoxLayout(columnsBox);
     columnsLayout->addWidget(m_dateBox);
@@ -91,19 +79,6 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_smallIconSize  = new QRadioButton(i18n("Small"), this);
     m_mediumIconSize = new QRadioButton(i18n("Medium"), this);
     m_largeIconSize  = new QRadioButton(i18n("Large"), this);
-    switch (settings->iconSize()) {
-    case K3Icon::SizeLarge:
-        m_largeIconSize->setChecked(true);
-        break;
-
-    case K3Icon::SizeMedium:
-        m_mediumIconSize->setChecked(true);
-        break;
-
-    case K3Icon::SizeSmall:
-    default:
-        m_smallIconSize->setChecked(true);
-    }
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
     iconSizeGroup->addButton(m_smallIconSize);
@@ -121,11 +96,6 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* fontLabel = new QLabel(i18n("Font:"), textBox);
     m_fontRequester = new KFontRequester(textBox);
-    QFont font(settings->fontFamily(),
-               settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_fontRequester->setFont(font);
 
     QHBoxLayout* textLayout = new QHBoxLayout(textBox);
     textLayout->addWidget(fontLabel);
@@ -135,6 +105,8 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
     new QWidget(this);
+
+    loadSettings();
 }
 
 DetailsViewSettingsPage::~DetailsViewSettingsPage()
@@ -144,7 +116,6 @@ DetailsViewSettingsPage::~DetailsViewSettingsPage()
 void DetailsViewSettingsPage::applySettings()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    Q_ASSERT(settings != 0);
 
     settings->setShowDate(m_dateBox->isChecked());
     settings->setShowPermissions(m_permissionsBox->isChecked());
@@ -165,6 +136,44 @@ void DetailsViewSettingsPage::applySettings()
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
     settings->setBoldFont(font.bold());
+}
+
+void DetailsViewSettingsPage::restoreDefaults()
+{
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    settings->setDefaults();
+    loadSettings();
+}
+
+void DetailsViewSettingsPage::loadSettings()
+{
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+
+    m_dateBox->setChecked(settings->showDate());
+    m_permissionsBox->setChecked(settings->showPermissions());
+    m_ownerBox->setChecked(settings->showOwner());
+    m_groupBox->setChecked(settings->showGroup());
+    m_typeBox->setChecked(settings->showType());
+
+    switch (settings->iconSize()) {
+    case K3Icon::SizeLarge:
+        m_largeIconSize->setChecked(true);
+        break;
+
+    case K3Icon::SizeMedium:
+        m_mediumIconSize->setChecked(true);
+        break;
+
+    case K3Icon::SizeSmall:
+    default:
+        m_smallIconSize->setChecked(true);
+    }
+
+    QFont font(settings->fontFamily(),
+               settings->fontSize());
+    font.setItalic(settings->italicFont());
+    font.setBold(settings->boldFont());
+    m_fontRequester->setFont(font);
 }
 
 #include "detailsviewsettingspage.moc"

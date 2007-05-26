@@ -61,8 +61,14 @@ public:
      */
     void applySettings();
 
+    /** Restores the settings to default values. */
+    void restoreDefaults();
+
 private slots:
     void openIconSizeDialog();
+
+private:
+    void loadSettings();
 
 private:
     enum

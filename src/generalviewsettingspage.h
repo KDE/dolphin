@@ -25,6 +25,7 @@
 class DolphinMainWindow;
 class QRadioButton;
 class QSlider;
+class QSpinBox;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
@@ -45,11 +46,18 @@ public:
      */
     void applySettings();
 
+    /** Restores the settings to default values. */
+    void restoreDefaults();
+
+private:
+    void loadSettings();
+
 private:
     DolphinMainWindow* m_mainWindow;
     QRadioButton* m_localProps;
     QRadioButton* m_globalProps;
     QSlider* m_maxPreviewSize;
+    QSpinBox* m_spinBox;
 };
 
 #endif

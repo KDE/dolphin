@@ -43,8 +43,11 @@ public:
     ViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
     virtual ~ViewSettingsPage();
 
-    /** @see SettingsPageBase::applySettings */
+    /** @see SettingsPageBase::applySettings() */
     virtual void applySettings();
+
+    /** @see SettingsPageBase::restoreDefaults() */
+    virtual void restoreDefaults();
 
 private:
     GeneralViewSettingsPage* m_generalPage;

@@ -30,8 +30,8 @@ class QCheckBox;
 /**
  * @brief Page for the 'General' settings of the Dolphin settings dialog.
  *
- * The general settings allow to set the home Url, the default view mode
- * and the split view mode.
+ * The general settings allow to set the home URL and to configure the
+ * state of the view mode, split mode and the filter bar when starting Dolphin.
  */
 class GeneralSettingsPage : public SettingsPageBase
 {
@@ -41,13 +41,19 @@ public:
     GeneralSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
     virtual ~GeneralSettingsPage();
 
-    /** @see SettingsPageBase::applySettings */
+    /** @see SettingsPageBase::applySettings() */
     virtual void applySettings();
+
+    /** @see SettingsPageBase::restoreDefaults() */
+    virtual void restoreDefaults();
 
 private slots:
     void selectHomeUrl();
     void useCurrentLocation();
     void useDefaultLocation();
+
+private:
+    void loadSettings();
 
 private:
     DolphinMainWindow* m_mainWindow;

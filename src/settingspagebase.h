@@ -41,6 +41,12 @@ public:
      * persistently store the settings.
      */
     virtual void applySettings() = 0;
+
+    /**
+     * Must be implemented by a derived class to
+     * restored the settings to default values.
+     */
+    virtual void restoreDefaults() = 0;
 };
 
 #endif

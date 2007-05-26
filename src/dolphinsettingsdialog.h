@@ -43,10 +43,12 @@ public:
     virtual ~DolphinSettingsDialog();
 
 protected slots:
+    /** @see KDialog::slotButtonClicked() */
     virtual void slotButtonClicked(int button);
 
 private:
     void applySettings();
+    void restoreDefaults();
 
 private:
     DolphinMainWindow* m_mainWindow;

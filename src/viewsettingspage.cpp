@@ -68,7 +68,8 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 }
 
 ViewSettingsPage::~ViewSettingsPage()
-{}
+{
+}
 
 void ViewSettingsPage::applySettings()
 {
@@ -76,6 +77,14 @@ void ViewSettingsPage::applySettings()
     m_iconsPage->applySettings();
     m_detailsPage->applySettings();
     m_columnPage->applySettings();
+}
+
+void ViewSettingsPage::restoreDefaults()
+{
+    m_generalPage->restoreDefaults();
+    m_iconsPage->restoreDefaults();
+    m_detailsPage->restoreDefaults();
+    m_columnPage->restoreDefaults();
 }
 
 #include "viewsettingspage.moc"

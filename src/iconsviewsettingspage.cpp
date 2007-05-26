@@ -59,11 +59,6 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     setSpacing(spacing);
     setMargin(margin);
 
-    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    Q_ASSERT(settings != 0);
-    m_iconSize = settings->iconSize();
-    m_previewSize = settings->previewSize();
-
     m_iconSizeButton = new QPushButton(i18n("Change Icon && Preview Size..."), this);
     connect(m_iconSizeButton, SIGNAL(clicked()),
             this, SLOT(openIconSizeDialog()));
@@ -75,35 +70,15 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* fontLabel = new QLabel(i18n("Font:"), textGroup);
     m_fontRequester = new KFontRequester(textGroup);
-    QFont font(settings->fontFamily(),
-               settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_fontRequester->setFont(font);
 
     QLabel* textlinesCountLabel = new QLabel(i18n("Number of lines:"), textGroup);
     m_textlinesCountBox = new QSpinBox(1, 5, 1, textGroup);
-    m_textlinesCountBox->setValue(settings->numberOfTextlines());
 
     QLabel* textWidthLabel = new QLabel(i18n("Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
     m_textWidthBox->addItem(i18n("Small"));
     m_textWidthBox->addItem(i18n("Medium"));
     m_textWidthBox->addItem(i18n("Large"));
-
-    const bool leftToRightArrangement = (settings->arrangement() == QListView::LeftToRight);
-    int textWidthIndex = 0;
-    const int remainingWidth = settings->itemWidth() - settings->iconSize();
-    if (leftToRightArrangement) {
-        textWidthIndex = (remainingWidth - LeftToRightBase) / LeftToRightInc;
-    } else {
-        textWidthIndex = (remainingWidth - TopToBottomBase) / TopToBottomInc;
-    }
-    // ensure that chosen index is always valid
-    textWidthIndex = qMax(textWidthIndex, 0);
-    textWidthIndex = qMin(textWidthIndex, m_textWidthBox->count() - 1);
-
-    m_textWidthBox->setCurrentIndex(textWidthIndex);
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
     textGroupLayout->addWidget(fontLabel, 0, 0);
@@ -121,14 +96,12 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_arrangementBox = new QComboBox(gridGroup);
     m_arrangementBox->addItem(i18n("Left to Right"));
     m_arrangementBox->addItem(i18n("Top to Bottom"));
-    m_arrangementBox->setCurrentIndex(leftToRightArrangement ? 0 : 1);
 
     QLabel* gridSpacingLabel = new QLabel(i18n("Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
     m_gridSpacingBox->addItem(i18n("Small"));
     m_gridSpacingBox->addItem(i18n("Medium"));
     m_gridSpacingBox->addItem(i18n("Large"));
-    m_gridSpacingBox->setCurrentIndex((settings->gridSpacing() - GridSpacingBase) / GridSpacingInc);
 
     QGridLayout* gridGroupLayout = new QGridLayout(gridGroup);
     gridGroupLayout->addWidget(arrangementLabel, 0, 0);
@@ -140,6 +113,8 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
     new QWidget(this);
+
+    loadSettings();
 }
 
 IconsViewSettingsPage::~IconsViewSettingsPage()
@@ -148,7 +123,6 @@ IconsViewSettingsPage::~IconsViewSettingsPage()
 void IconsViewSettingsPage::applySettings()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    Q_ASSERT(settings != 0);
 
     settings->setIconSize(m_iconSize);
     settings->setPreviewSize(m_previewSize);
@@ -188,6 +162,13 @@ void IconsViewSettingsPage::applySettings()
                              m_gridSpacingBox->currentIndex() * GridSpacingInc);
 }
 
+void IconsViewSettingsPage::restoreDefaults()
+{
+    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    settings->setDefaults();
+    loadSettings();
+}
+
 void IconsViewSettingsPage::openIconSizeDialog()
 {
     IconSizeDialog dialog(this);
@@ -195,6 +176,38 @@ void IconsViewSettingsPage::openIconSizeDialog()
         m_iconSize = dialog.iconSize();
         m_previewSize = dialog.previewSize();
     }
+}
+
+void IconsViewSettingsPage::loadSettings()
+{
+    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+
+    m_iconSize = settings->iconSize();
+    m_previewSize = settings->previewSize();
+
+    QFont font(settings->fontFamily(),
+               settings->fontSize());
+    font.setItalic(settings->italicFont());
+    font.setBold(settings->boldFont());
+    m_fontRequester->setFont(font);
+
+    m_textlinesCountBox->setValue(settings->numberOfTextlines());
+
+    const bool leftToRightArrangement = (settings->arrangement() == QListView::LeftToRight);
+    int textWidthIndex = 0;
+    const int remainingWidth = settings->itemWidth() - settings->iconSize();
+    if (leftToRightArrangement) {
+        textWidthIndex = (remainingWidth - LeftToRightBase) / LeftToRightInc;
+    } else {
+        textWidthIndex = (remainingWidth - TopToBottomBase) / TopToBottomInc;
+    }
+    // ensure that chosen index is always valid
+    textWidthIndex = qMax(textWidthIndex, 0);
+    textWidthIndex = qMin(textWidthIndex, m_textWidthBox->count() - 1);
+
+    m_textWidthBox->setCurrentIndex(textWidthIndex);
+    m_arrangementBox->setCurrentIndex(leftToRightArrangement ? 0 : 1);
+    m_gridSpacingBox->setCurrentIndex((settings->gridSpacing() - GridSpacingBase) / GridSpacingInc);
 }
 
 #include "iconsviewsettingspage.moc"

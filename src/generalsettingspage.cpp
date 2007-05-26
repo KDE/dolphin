@@ -50,7 +50,6 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_confirmDelete(0)
 {
     const int spacing = KDialog::spacingHint();
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     KVBox* vBox = new KVBox(this);
@@ -63,7 +62,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     homeUrlBox->setSpacing(spacing);
 
     new QLabel(i18n("Location:"), homeUrlBox);
-    m_homeUrl = new QLineEdit(settings->homeUrl(), homeUrlBox);
+    m_homeUrl = new QLineEdit(homeUrlBox);
 
     QPushButton* selectHomeUrlButton = new QPushButton(KIcon("folder-open"), QString(), homeUrlBox);
     connect(selectHomeUrlButton, SIGNAL(clicked()),
@@ -85,17 +84,10 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
 
     QGroupBox* startBox = new QGroupBox(i18n("Start"), vBox);
 
-    // create 'Split view' checkbox
+    // create 'Split view', 'Editable location' and 'Filter bar' checkboxes
     m_splitView = new QCheckBox(i18n("Split view"), startBox);
-    m_splitView->setChecked(settings->splitView());
-
-    // create 'Editable location' checkbox
     m_editableUrl = new QCheckBox(i18n("Editable location"), startBox);
-    m_editableUrl->setChecked(settings->editableUrl());
-
-    // create 'Filter bar' checkbox
     m_filterBar = new QCheckBox(i18n("Filter bar"),startBox);
-    m_filterBar->setChecked(settings->filterBar());
 
     QVBoxLayout* startBoxLayout = new QVBoxLayout(startBox);
     startBoxLayout->addWidget(m_splitView);
@@ -130,6 +122,8 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     new QWidget(vBox);
 
     topLayout->addWidget(vBox);
+
+    loadSettings();
 }
 
 GeneralSettingsPage::~GeneralSettingsPage()
@@ -161,6 +155,20 @@ void GeneralSettingsPage::applySettings()
     kdeConfig.sync();
 }
 
+void GeneralSettingsPage::restoreDefaults()
+{
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    settings->setDefaults();
+
+    // TODO: reset default settings for trash and show delete command...
+    //KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
+    //KConfigGroup trashConfig(konqConfig, "Trash");
+    //KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+    //KConfigGroup kdeConfig(globalConfig, "KDE");
+
+    loadSettings();
+}
+
 void GeneralSettingsPage::selectHomeUrl()
 {
     const QString homeUrl(m_homeUrl->text());
@@ -179,6 +187,15 @@ void GeneralSettingsPage::useCurrentLocation()
 void GeneralSettingsPage::useDefaultLocation()
 {
     m_homeUrl->setText("file://" + QDir::homePath());
+}
+
+void GeneralSettingsPage::loadSettings()
+{
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    m_homeUrl->setText(settings->homeUrl());
+    m_splitView->setChecked(settings->splitView());
+    m_editableUrl->setChecked(settings->editableUrl());
+    m_filterBar->setChecked(settings->filterBar());
 }
 
 #include "generalsettingspage.moc"
