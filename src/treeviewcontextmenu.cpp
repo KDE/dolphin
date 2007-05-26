@@ -162,7 +162,9 @@ void TreeViewContextMenu::deleteItem()
 
 void TreeViewContextMenu::showProperties()
 {
-    new KPropertiesDialog(m_fileInfo->url());
+    KPropertiesDialog* dlg = new KPropertiesDialog(m_fileInfo->url() );
+    dlg->exec();
+    delete dlg;
 }
 
 #include "treeviewcontextmenu.moc"
