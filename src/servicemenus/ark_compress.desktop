@@ -5,6 +5,7 @@ Actions=compressHere
 
 [Desktop Action compressHere]
 Name=Compress Here
+Name[bg]=Компресиране тук
 Name[csb]=Kòmpresëjë tuwò
 Name[de]=Hier komprimieren
 Name[el]=Συμπίεση εδώ

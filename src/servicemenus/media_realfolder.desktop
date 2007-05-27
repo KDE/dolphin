@@ -5,6 +5,7 @@ X-KDE-Priority=TopLevel
 X-KDE-MediaNotifierHide=true
 [Desktop Action MediaRealFolder]
 Name=Open Medium System Folder
+Name[bg]=Отваряне системната директория на носителя
 Name[csb]=Systemòwi katalog Ôpen Mediów
 Name[de]=Systemordner des Mediums öffnen
 Name[el]=άνοιγμα του φακέλου συστήματος μέσων
