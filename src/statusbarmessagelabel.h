@@ -155,10 +155,6 @@ private:
     QPixmap m_pixmap;
     QPushButton* m_closeButton;
 
-    QColor mixColors(const QColor& c1,
-                     const QColor& c2,
-                     int percent) const;
-
     int borderGap() const
     {
         return 2;

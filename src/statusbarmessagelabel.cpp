@@ -21,6 +21,7 @@
 #include "statusbarmessagelabel.h"
 
 #include <kglobalsettings.h>
+#include <kgraphicsutils.h>
 #include <kiconloader.h>
 #include <kicon.h>
 #include <klocale.h>
@@ -137,8 +138,12 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QColor backgroundColor(palette().brush(QPalette::Background).color());
     QColor foregroundColor(KGlobalSettings::textColor());
     if (m_illumination > 0) {
-        backgroundColor = mixColors(backgroundColor, QColor(255, 255, 128), m_illumination);
-        foregroundColor = mixColors(foregroundColor, QColor(0, 0, 0), m_illumination);
+        QColor mixColor(255, 255, 128);
+        mixColor.setAlpha(m_illumination);
+        backgroundColor = KGraphicsUtils::blendColor(backgroundColor, mixColor);
+
+        mixColor.setRgb(0, 0, 0, m_illumination);
+        foregroundColor = KGraphicsUtils::blendColor(foregroundColor, mixColor);
     }
     painter.setBrush(backgroundColor);
     painter.setPen(backgroundColor);
@@ -175,8 +180,11 @@ void StatusBarMessageLabel::timerDone()
     switch (m_state) {
     case Illuminate: {
         // increase the illumination
-        if (m_illumination < 100) {
-            m_illumination += 20;
+        if (m_illumination < 255) {
+            m_illumination += 32;
+            if (m_illumination > 255) {
+                m_illumination = 255;
+            }
             update();
         } else {
             m_state = Illuminated;
@@ -256,17 +264,6 @@ int StatusBarMessageLabel::availableTextWidth() const
     const int buttonWidth = (m_type == DolphinStatusBar::Error) ?
                             m_closeButton->width() + borderGap() : 0;
     return width() - m_pixmap.width() - (borderGap() * 4) - buttonWidth;
-}
-
-QColor StatusBarMessageLabel::mixColors(const QColor& c1,
-                                        const QColor& c2,
-                                        int percent) const
-{
-    const int recip = 100 - percent;
-    const int red   = (c1.red()   * recip + c2.red()   * percent) / 100;
-    const int green = (c1.green() * recip + c2.green() * percent) / 100;
-    const int blue  = (c1.blue()  * recip + c2.blue()  * percent) / 100;
-    return QColor(red, green, blue);
 }
 
 void StatusBarMessageLabel::updateCloseButtonPosition()
