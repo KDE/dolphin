@@ -56,9 +56,7 @@ public:
 #ifdef HAVE_KMETADATA
     void loadComment(const QString& comment);
 
-    KUrl fileUrl;
-
-    Nepomuk::KMetaData::Resource file;
+    QMap<KUrl, Nepomuk::KMetaData::Resource> files;
 
     QTextEdit* editComment;
     KRatingWidget* ratingWidget;
@@ -90,7 +88,7 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
     d->editComment = new QTextEdit(this);
     d->ratingWidget = new KRatingWidget(this);
     d->tagWidget = new Nepomuk::KMetaData::TagWidget(this);
-    connect(d->ratingWidget, SIGNAL(ratingChanged(int)), this, SLOT(slotRatingChanged(int)));
+    connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));
     connect(d->editComment, SIGNAL(textChanged()), this, SLOT(slotCommentChanged()));
 
     QVBoxLayout* lay = new QVBoxLayout(this);
@@ -122,22 +120,43 @@ MetaDataWidget::~MetaDataWidget()
 
 void MetaDataWidget::setFile(const KUrl& url)
 {
-#ifdef HAVE_KMETADATA
-    // FIXME: replace with KMetaData::File once we have it again
-    d->fileUrl = url;
-    d->file = Nepomuk::KMetaData::Resource(url.url(), s_nfoFile);
-    d->ratingWidget->setRating(d->file.rating());
-    d->tagWidget->setTaggedResource(d->file);
-    d->loadComment(d->file.description());
-#endif
+    KUrl::List urls;
+    urls.append( url );
+    setFiles( urls );
 }
 
 
 void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
 #ifdef HAVE_KMETADATA
-    // FIXME: support multiple files
-    setFile(urls.first());
+    // FIXME: replace with KMetaData::File once we have it again
+    d->files.clear();
+    bool first = true;
+    QList<Nepomuk::KMetaData::Resource> fileRes;
+    Q_FOREACH( KUrl url, urls ) {
+        Nepomuk::KMetaData::Resource file( url.url(), s_nfoFile );
+//    file.setLocation(url.url());
+        d->files.insert( url, file );
+        fileRes.append( file );
+
+       if ( !first &&
+            d->ratingWidget->rating() != file.rating() ) {
+           d->ratingWidget->setRating( 0 ); // reset rating
+       }
+       else if ( first ) {
+           d->ratingWidget->setRating( file.rating() );
+       }
+
+       if ( !first &&
+            d->editComment->toPlainText() != file.description() ) {
+           d->loadComment( QString() );
+       }
+       else if ( first ) {
+           d->loadComment( file.description() );
+       }
+       first = false;
+    }
+    d->tagWidget->setTaggedResources(fileRes);
 #endif
 }
 
@@ -145,22 +164,20 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
 void MetaDataWidget::slotCommentChanged()
 {
 #ifdef HAVE_KMETADATA
-    if (d->editComment->toPlainText() != d->file.description()) {
-//    d->file.setLocation(url.url());
-        d->file.setProperty(s_nfoFileUrl, d->fileUrl.url());
-        d->file.setDescription(d->editComment->toPlainText());
+    for ( QMap<KUrl, Nepomuk::KMetaData::Resource>::iterator it = d->files.begin();
+          it != d->files.end(); ++it ) {
+        it.value().setDescription(d->editComment->toPlainText());
     }
 #endif
 }
 
 
-void MetaDataWidget::slotRatingChanged(int rating)
+void MetaDataWidget::slotRatingChanged(unsigned int rating)
 {
 #ifdef HAVE_KMETADATA
-    if (rating != d->file.rating()) {
-        //    d->file.setLocation(url.url());
-        d->file.setProperty(s_nfoFileUrl, d->fileUrl.url());
-        d->file.setRating(rating);
+    for ( QMap<KUrl, Nepomuk::KMetaData::Resource>::iterator it = d->files.begin();
+          it != d->files.end(); ++it ) {
+        it.value().setRating(rating);
     }
 #endif
 }
@@ -175,7 +192,7 @@ bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
             d->loadComment(d->editComment->toPlainText());
         } else if (event->type() == QEvent::FocusIn) {
             d->editComment->setFontItalic(false);
-            if (d->file.description().isEmpty()) {
+            if (!d->files.isEmpty() && d->files.begin().value().description().isEmpty()) {
                 d->editComment->setText(QString());
             }
         }

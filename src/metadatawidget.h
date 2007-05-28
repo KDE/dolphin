@@ -53,7 +53,7 @@ signals:
 
 private Q_SLOTS:
     void slotCommentChanged();
-    void slotRatingChanged(int rating);
+    void slotRatingChanged(unsigned int rating);
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
