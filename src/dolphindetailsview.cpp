@@ -32,13 +32,15 @@
 
 #include <QHeaderView>
 #include <QRubberBand>
+#include <QPainter>
 #include <QScrollBar>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
     m_controller(controller),
-    m_rubberBand(0),
-    m_origin()
+    m_showElasticBand(false),
+    m_elasticBandOrigin(),
+    m_elasticBandDestination()
 {
     Q_ASSERT(controller != 0);
 
@@ -155,34 +157,29 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     QTreeView::mousePressEvent(event);
 
     if (event->button() == Qt::LeftButton) {
-        // initialize rubberband for the selection
-        if (m_rubberBand == 0) {
-            m_rubberBand = new QRubberBand(QRubberBand::Rectangle, viewport());
-        }
+        m_showElasticBand = true;
 
         const QPoint pos(contentsPos());
-        m_origin = event->pos();
-        m_origin.setX(m_origin.x() + pos.x());
-        m_origin.setY(m_origin.y() + pos.y());
-        updateRubberBandGeometry();
-        m_rubberBand->show();
+        m_elasticBandOrigin = event->pos();
+        m_elasticBandOrigin.setX(m_elasticBandOrigin.x() + pos.x());
+        m_elasticBandOrigin.setY(m_elasticBandOrigin.y() + pos.y());
+        m_elasticBandDestination = event->pos();
     }
 }
 
 void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
 {
     QTreeView::mouseMoveEvent(event);
-    if (m_rubberBand != 0) {
-        updateRubberBandGeometry();
+    if (m_showElasticBand) {
+        updateElasticBand();
     }
 }
 
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QTreeView::mouseReleaseEvent(event);
-    if (m_rubberBand != 0) {
-        m_rubberBand->hide();
-    }
+    updateElasticBand();
+    m_showElasticBand = false;
     m_controller->triggerActivation();
 }
 
@@ -191,9 +188,8 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
-    if (m_rubberBand != 0) {
-        m_rubberBand->hide();
-    }
+    updateElasticBand();
+    m_showElasticBand = false;
 }
 
 void DolphinDetailsView::dropEvent(QDropEvent* event)
@@ -206,6 +202,26 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
                                           event->source());
     }
     QTreeView::dropEvent(event);
+}
+
+void DolphinDetailsView::paintEvent(QPaintEvent* event)
+{
+    QTreeView::paintEvent(event);
+    if (m_showElasticBand) {
+        // The following code has been taken from QListView
+        // and adapted to DolphinDetailsView.
+        // (C) 1992-2007 Trolltech ASA
+        QStyleOptionRubberBand opt;
+        opt.initFrom(this);
+        opt.shape = QRubberBand::Rectangle;
+        opt.opaque = false;
+        opt.rect = elasticBandRect();
+
+        QPainter painter(viewport());
+        painter.save();
+        style()->drawControl(QStyle::CE_RubberBand, &opt, &painter);
+        painter.restore();
+    }
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
@@ -242,14 +258,13 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
     }
 }
 
-void DolphinDetailsView::updateRubberBandGeometry()
+void DolphinDetailsView::updateElasticBand()
 {
-    if (m_rubberBand != 0) {
-        const QPoint pos(contentsPos());
-        const QPoint origin(m_origin.x() - pos.x(), m_origin.y() - pos.y());
-        const QPoint dest(viewport()->mapFromGlobal(QCursor::pos()));
-        m_rubberBand->setGeometry(QRect(origin, dest).normalized());
-    }
+    Q_ASSERT(m_showElasticBand);
+    QRect dirtyRegion(elasticBandRect());
+    m_elasticBandDestination = viewport()->mapFromGlobal(QCursor::pos());
+    dirtyRegion = dirtyRegion.united(elasticBandRect());
+    setDirtyRegion(dirtyRegion);
 }
 
 void DolphinDetailsView::zoomIn()
@@ -320,6 +335,13 @@ QPoint DolphinDetailsView::contentsPos() const
 
     const int y = scrollbar->sliderPosition() * maxHeight / visibleHeight;
     return QPoint(0, y);
+}
+
+QRect DolphinDetailsView::elasticBandRect() const
+{
+    const QPoint pos(contentsPos());
+    const QPoint topLeft(m_elasticBandOrigin.x() - pos.x(), m_elasticBandOrigin.y() - pos.y());
+    return QRect(topLeft, m_elasticBandDestination).normalized();
 }
 
 #include "dolphindetailsview.moc"
