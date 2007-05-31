@@ -27,6 +27,7 @@
 #include <libdolphin_export.h>
 
 class DolphinController;
+class QRubberBand;
 
 /**
  * @brief Represents the details view which shows the name, size,
@@ -48,6 +49,8 @@ protected:
     virtual bool event(QEvent* event);
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseMoveEvent(QMouseEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dropEvent(QDropEvent* event);
@@ -81,6 +84,12 @@ private slots:
      */
     void slotEntered(const QModelIndex& index);
 
+    /**
+     * Updates the geometry of the rubberband dependent from the current
+     * mouse position and the starting origin \a m_origin.
+     */
+    void updateRubberBandGeometry();
+
     void zoomIn();
     void zoomOut();
 
@@ -96,9 +105,15 @@ private:
      */
     void updateDecorationSize();
 
+    /** Return the upper left position in pixels of the viewport content. */
+    QPoint contentsPos() const;
+
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;
+
+    QRubberBand* m_rubberBand;
+    QPoint m_origin;
 };
 
 #endif

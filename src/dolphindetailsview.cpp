@@ -30,11 +30,15 @@
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 
-#include <QtGui/QHeaderView>
+#include <QHeaderView>
+#include <QRubberBand>
+#include <QScrollBar>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
-    m_controller(controller)
+    m_controller(controller),
+    m_rubberBand(0),
+    m_origin()
 {
     Q_ASSERT(controller != 0);
 
@@ -94,7 +98,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 }
 
 DolphinDetailsView::~DolphinDetailsView()
-{}
+{
+}
 
 bool DolphinDetailsView::event(QEvent* event)
 {
@@ -145,9 +150,39 @@ void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
     m_controller->triggerContextMenuRequest(event->pos());
 }
 
+void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
+{
+    QTreeView::mousePressEvent(event);
+
+    if (event->button() == Qt::LeftButton) {
+        // initialize rubberband for the selection
+        if (m_rubberBand == 0) {
+            m_rubberBand = new QRubberBand(QRubberBand::Rectangle, viewport());
+        }
+
+        const QPoint pos(contentsPos());
+        m_origin = event->pos();
+        m_origin.setX(m_origin.x() + pos.x());
+        m_origin.setY(m_origin.y() + pos.y());
+        updateRubberBandGeometry();
+        m_rubberBand->show();
+    }
+}
+
+void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
+{
+    QTreeView::mouseMoveEvent(event);
+    if (m_rubberBand != 0) {
+        updateRubberBandGeometry();
+    }
+}
+
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QTreeView::mouseReleaseEvent(event);
+    if (m_rubberBand != 0) {
+        m_rubberBand->hide();
+    }
     m_controller->triggerActivation();
 }
 
@@ -155,6 +190,9 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
 {
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
+    }
+    if (m_rubberBand != 0) {
+        m_rubberBand->hide();
     }
 }
 
@@ -201,6 +239,16 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
     }
     else {
         m_controller->emitViewportEntered();
+    }
+}
+
+void DolphinDetailsView::updateRubberBandGeometry()
+{
+    if (m_rubberBand != 0) {
+        const QPoint pos(contentsPos());
+        const QPoint origin(m_origin.x() - pos.x(), m_origin.y() - pos.y());
+        const QPoint dest(viewport()->mapFromGlobal(QCursor::pos()));
+        m_rubberBand->setGeometry(QRect(origin, dest).normalized());
     }
 }
 
@@ -254,6 +302,24 @@ void DolphinDetailsView::updateDecorationSize()
     m_controller->setZoomOutPossible(isZoomOutPossible());
 
     doItemsLayout();
+}
+
+QPoint DolphinDetailsView::contentsPos() const
+{
+    // implementation note: the horizonal position is ignored currently, as no
+    // horizontal scrolling is done anyway during a selection
+    const QScrollBar* scrollbar = verticalScrollBar();
+    Q_ASSERT(scrollbar != 0);
+
+    const int maxHeight = maximumViewportSize().height();
+    const int height = scrollbar->maximum() - scrollbar->minimum() + 1;
+    const int visibleHeight = model()->rowCount() + 1 - height;
+    if (visibleHeight <= 0) {
+        return QPoint(0, 0);
+    }
+
+    const int y = scrollbar->sliderPosition() * maxHeight / visibleHeight;
+    return QPoint(0, y);
 }
 
 #include "dolphindetailsview.moc"
