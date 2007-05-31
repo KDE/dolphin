@@ -138,8 +138,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QColor backgroundColor(palette().brush(QPalette::Background).color());
     QColor foregroundColor(KGlobalSettings::textColor());
     if (m_illumination > 0) {
-        QColor mixColor(255, 255, 128);
-        mixColor.setAlpha(m_illumination);
+        QColor mixColor(255, 255, 128, m_illumination);
         backgroundColor = KGraphicsUtils::blendColor(backgroundColor, mixColor);
 
         mixColor.setRgb(0, 0, 0, m_illumination);
