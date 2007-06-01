@@ -82,12 +82,12 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     homeBoxLayout->addWidget(homeUrlBox);
     homeBoxLayout->addWidget(buttonBox);
 
-    QGroupBox* startBox = new QGroupBox(i18n("Start"), vBox);
+    QGroupBox* startBox = new QGroupBox(i18n("Startup Settings"), vBox);
 
     // create 'Split view', 'Editable location' and 'Filter bar' checkboxes
-    m_splitView = new QCheckBox(i18n("Split view"), startBox);
-    m_editableUrl = new QCheckBox(i18n("Editable location"), startBox);
-    m_filterBar = new QCheckBox(i18n("Filter bar"),startBox);
+    m_splitView = new QCheckBox(i18n("Split view mode"), startBox);
+    m_editableUrl = new QCheckBox(i18n("Editable location bar"), startBox);
+    m_filterBar = new QCheckBox(i18n("Show filter bar"),startBox);
 
     QVBoxLayout* startBoxLayout = new QVBoxLayout(startBox);
     startBoxLayout->addWidget(m_splitView);
@@ -98,12 +98,12 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
     const KConfigGroup trashConfig(konqConfig, "Trash");
 
-    QGroupBox* confirmBox = new QGroupBox(i18n("Ask Confirmation For"), vBox);
+    QGroupBox* confirmBox = new QGroupBox(i18n("Ask For Confirmation When"), vBox);
 
-    m_confirmMoveToTrash = new QCheckBox(i18n("Move to trash"), confirmBox);
+    m_confirmMoveToTrash = new QCheckBox(i18n("Moving files or folders to trash"), confirmBox);
     m_confirmMoveToTrash->setChecked(trashConfig.readEntry("ConfirmTrash", false));
 
-    m_confirmDelete = new QCheckBox(i18n("Delete"), confirmBox);
+    m_confirmDelete = new QCheckBox(i18n("Deleting files or folders"), confirmBox);
     m_confirmDelete->setChecked(trashConfig.readEntry("ConfirmDelete", true));
 
     QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
@@ -111,7 +111,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     confirmBoxLayout->addWidget(m_confirmDelete);
 
     // create 'Show the command 'Delete' in context menu' checkbox
-    m_showDeleteCommand = new QCheckBox(i18n("Show the command 'Delete' in context menu"), vBox);
+    m_showDeleteCommand = new QCheckBox(i18n("Show 'Delete' command in context menu"), vBox);
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     const KConfigGroup kdeConfig(globalConfig, "KDE");
     m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
