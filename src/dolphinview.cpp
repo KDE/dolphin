@@ -731,6 +731,8 @@ void DolphinView::changeDirectory(const KUrl& url)
 void DolphinView::triggerItem(const QModelIndex& index)
 {
     if (!isValidNameIndex(index)) {
+        clearSelection();
+        showHoverInformation(index);
         return;
     }
 
