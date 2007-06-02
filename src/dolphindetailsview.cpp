@@ -39,6 +39,7 @@
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
     m_controller(controller),
+    m_dragging(false),
     m_showElasticBand(false),
     m_elasticBandOrigin(),
     m_elasticBandDestination()
@@ -203,6 +204,19 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
         updateElasticBand();
         m_showElasticBand = false;
     }
+    m_dragging = true;
+}
+
+void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
+{
+    QTreeView::dragMoveEvent(event);
+
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    const QPoint pos(0, event->pos().y());
+    const QModelIndex index = indexAt(pos);
+    setDirtyRegion(m_dropRect);
+    m_dropRect = visualRect(index);
+    setDirtyRegion(m_dropRect);
 }
 
 void DolphinDetailsView::dropEvent(QDropEvent* event)
@@ -215,6 +229,7 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
                                           event->source());
     }
     QTreeView::dropEvent(event);
+    m_dragging = false;
 }
 
 void DolphinDetailsView::paintEvent(QPaintEvent* event)
@@ -233,6 +248,18 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
         QPainter painter(viewport());
         painter.save();
         style()->drawControl(QStyle::CE_RubberBand, &opt, &painter);
+        painter.restore();
+    }
+
+    if (m_dragging) {
+        // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+        QPainter painter(viewport());
+        painter.save();
+        QBrush brush(m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight));
+        QColor color = brush.color();
+        color.setAlpha(64);
+        brush.setColor(color);
+        painter.fillRect(m_dropRect, brush);
         painter.restore();
     }
 }

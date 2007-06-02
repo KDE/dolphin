@@ -31,11 +31,13 @@
 
 #include <QAbstractProxyModel>
 #include <QApplication>
+#include <QPainter>
 #include <QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KListView(parent),
-    m_controller(controller)
+    m_controller(controller),
+    m_dragging(false)
 {
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
@@ -129,6 +131,18 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
+    m_dragging = true;
+}
+
+void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
+{
+    KListView::dragMoveEvent(event);
+
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    const QModelIndex index = indexAt(event->pos());
+    setDirtyRegion(m_dropRect);
+    m_dropRect = visualRect(index);
+    setDirtyRegion(m_dropRect);
 }
 
 void DolphinIconsView::dropEvent(QDropEvent* event)
@@ -141,6 +155,24 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
         event->acceptProposedAction();
     }
     KListView::dropEvent(event);
+    m_dragging = false;
+}
+
+void DolphinIconsView::paintEvent(QPaintEvent* event)
+{
+    KListView::paintEvent(event);
+
+    if (m_dragging) {
+        // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+        QPainter painter(viewport());
+        painter.save();
+        QBrush brush(m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight));
+        QColor color = brush.color();
+        color.setAlpha(64);
+        brush.setColor(color);
+        painter.fillRect(m_dropRect, brush);
+        painter.restore();
+    }
 }
 
 void DolphinIconsView::slotShowPreviewChanged(bool showPreview)

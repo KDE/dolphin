@@ -49,7 +49,9 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
 
 private slots:
     void slotShowPreviewChanged(bool show);
@@ -76,6 +78,9 @@ private:
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;
+
+    bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
+    QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
 };
 
 #endif

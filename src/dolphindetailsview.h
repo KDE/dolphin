@@ -52,6 +52,7 @@ protected:
     virtual void mouseMoveEvent(QMouseEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
     virtual void paintEvent(QPaintEvent* event);
 
@@ -119,6 +120,9 @@ private:
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;
+
+    bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
+    QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
 
     bool m_showElasticBand;
     QPoint m_elasticBandOrigin;
