@@ -30,6 +30,7 @@
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 
+#include <QApplication>
 #include <QHeaderView>
 #include <QRubberBand>
 #include <QPainter>
@@ -154,6 +155,13 @@ void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 {
+    if (!indexAt(event->pos()).isValid()) {
+        const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+        if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
+            clearSelection();
+        }
+    }
+
     QTreeView::mousePressEvent(event);
 
     if (event->button() == Qt::LeftButton) {
@@ -178,8 +186,10 @@ void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QTreeView::mouseReleaseEvent(event);
-    updateElasticBand();
-    m_showElasticBand = false;
+    if (m_showElasticBand) {
+        updateElasticBand();
+        m_showElasticBand = false;
+    }
     m_controller->triggerActivation();
 }
 
@@ -188,8 +198,11 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
-    updateElasticBand();
-    m_showElasticBand = false;
+
+    if (m_showElasticBand) {
+        updateElasticBand();
+        m_showElasticBand = false;
+    }
 }
 
 void DolphinDetailsView::dropEvent(QDropEvent* event)
