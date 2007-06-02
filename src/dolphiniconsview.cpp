@@ -29,8 +29,9 @@
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
 
-#include <QtGui/QAbstractProxyModel>
-#include <QtCore/QPoint>
+#include <QAbstractProxyModel>
+#include <QApplication>
+#include <QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KListView(parent),
@@ -103,6 +104,18 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
     KListView::contextMenuEvent(event);
     m_controller->triggerContextMenuRequest(event->pos());
+}
+
+void DolphinIconsView::mousePressEvent(QMouseEvent* event)
+{
+    if (!indexAt(event->pos()).isValid()) {
+        const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+        if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
+            clearSelection();
+        }
+    }
+
+    KListView::mousePressEvent(event);
 }
 
 void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
