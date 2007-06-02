@@ -22,11 +22,13 @@
 #include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 
-#include <QtGui/QKeyEvent>
-#include <QtGui/QHeaderView>
+#include <QKeyEvent>
+#include <QPainter>
+#include <QHeaderView>
 
 SidebarTreeView::SidebarTreeView(QWidget* parent) :
-    QTreeView(parent)
+    QTreeView(parent),
+    m_dragging(false)
 {
     setAcceptDrops(true);
     setUniformRowHeights(true);
@@ -70,6 +72,18 @@ void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
         event->acceptProposedAction();
     }
     QTreeView::dragEnterEvent(event);
+    m_dragging = true;
+}
+
+void SidebarTreeView::dragMoveEvent(QDragMoveEvent* event)
+{
+    QTreeView::dragMoveEvent(event);
+
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    const QModelIndex index = indexAt(event->pos());
+    setDirtyRegion(m_dropRect);
+    m_dropRect = visualRect(index);
+    setDirtyRegion(m_dropRect);
 }
 
 void SidebarTreeView::dropEvent(QDropEvent* event)
@@ -83,6 +97,24 @@ void SidebarTreeView::dropEvent(QDropEvent* event)
         if (index.isValid()) {
             emit urlsDropped(urls, index);
         }
+    }
+    m_dragging = false;
+}
+
+void SidebarTreeView::paintEvent(QPaintEvent* event)
+{
+    QTreeView::paintEvent(event);
+
+    if (m_dragging) {
+        // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+        QPainter painter(viewport());
+        painter.save();
+        QBrush brush(palette().brush(QPalette::Normal, QPalette::Highlight));
+        QColor color = brush.color();
+        color.setAlpha(64);
+        brush.setColor(color);
+        painter.fillRect(m_dropRect, brush);
+        painter.restore();
     }
 }
 
