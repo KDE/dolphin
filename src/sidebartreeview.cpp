@@ -75,6 +75,15 @@ void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
     m_dragging = true;
 }
 
+void SidebarTreeView::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    QTreeView::dragLeaveEvent(event);
+
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    m_dragging = false;
+    setDirtyRegion(m_dropRect);
+}
+
 void SidebarTreeView::dragMoveEvent(QDragMoveEvent* event)
 {
     QTreeView::dragMoveEvent(event);

@@ -134,6 +134,15 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
     m_dragging = true;
 }
 
+void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    KListView::dragLeaveEvent(event);
+
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    m_dragging = false;
+    setDirtyRegion(m_dropRect);
+}
+
 void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 {
     KListView::dragMoveEvent(event);
