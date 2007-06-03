@@ -12,6 +12,7 @@ Name[el]=άνοιγμα του φακέλου συστήματος μέσων
 Name[ja]=メディアシステムフォルダを開く
 Name[nds]=Systeem-Medienorner opmaken
 Name[sv]=Öppna systemkatalog på medium
+Name[th]=เปิดโฟลเดอร์ระบบของสื่อ
 Name[x-test]=xxOpen Medium System Folderxx
 Name[zh_TW]=開啟媒體系統資料夾
 Exec=kio_media_realfolder %u
