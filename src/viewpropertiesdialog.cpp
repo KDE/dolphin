@@ -34,14 +34,17 @@
 #include <kstandarddirs.h>
 #include <kurl.h>
 
-#include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QGridLayout>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
-#include <QtGui/QBoxLayout>
+#include <QAction>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QGridLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QMenu>
+#include <QPushButton>
+#include <QRadioButton>
+#include <QBoxLayout>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     KDialog(dolphinView),
@@ -50,8 +53,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewProps(0),
     m_viewMode(0),
     m_sorting(0),
-    m_sortOrder(0),
-    m_categorizedSorting(0),
+    m_descendingAction(0),
+    m_showInGroupsAction(0),
     m_additionalInfo(0),
     m_showPreview(0),
     m_showHiddenFiles(0),
@@ -90,17 +93,16 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QLabel* sortingLabel = new QLabel(i18n("Sorting:"), propsBox);
     QWidget* sortingBox = new QWidget(propsBox);
 
-    m_sortOrder = new QComboBox(sortingBox);
-    m_sortOrder->addItem(i18n("Ascending"));
-    m_sortOrder->addItem(i18n("Descending"));
-    const int sortOrderIdx = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
-    m_sortOrder->setCurrentIndex(sortOrderIdx);
+    QMenu* sortingFlagsMenu = new QMenu(sortingBox);
+    m_descendingAction = sortingFlagsMenu->addAction(i18n("Descending"));
+    m_descendingAction->setCheckable(true);
+    m_descendingAction->setChecked(m_viewProps->sortOrder() == Qt::Descending);
+    m_showInGroupsAction = sortingFlagsMenu->addAction(i18n("Show in Groups"));
+    m_showInGroupsAction->setCheckable(true);
+    m_showInGroupsAction->setChecked(m_viewProps->categorizedSorting());
 
-    m_categorizedSorting = new QComboBox(sortingBox);
-    m_categorizedSorting->addItem(i18n("Ungrouped"));
-    m_categorizedSorting->addItem(i18n("Show in Groups"));
-    m_categorizedSorting->setCurrentIndex(m_viewProps->categorizedSorting() ? 1 : 0);
-    m_categorizedSorting->setEnabled(iconsViewEnabled);
+    QPushButton* sortFlagsButton = new QPushButton(KIcon("configure"), QString(), sortingBox);
+    sortFlagsButton->setMenu(sortingFlagsMenu);
 
     m_sorting = new QComboBox(sortingBox);
     m_sorting->addItem("By Name");
@@ -114,9 +116,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
     sortingLayout->setMargin(0);
-    sortingLayout->addWidget(m_sortOrder);
     sortingLayout->addWidget(m_sorting);
-    sortingLayout->addWidget(m_categorizedSorting);
+    sortingLayout->addWidget(sortFlagsButton);
     sortingBox->setLayout(sortingLayout);
 
     QLabel* additionalInfoLabel = new QLabel(i18n("Additional information:"), propsBox);
@@ -151,10 +152,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
             this, SLOT(slotViewModeChanged(int)));
     connect(m_sorting, SIGNAL(activated(int)),
             this, SLOT(slotSortingChanged(int)));
-    connect(m_sortOrder, SIGNAL(activated(int)),
-            this, SLOT(slotSortOrderChanged(int)));
-    connect(m_categorizedSorting, SIGNAL(activated(int)),
-            this, SLOT(slotCategorizedSortingChanged(int)));
+    connect(m_descendingAction, SIGNAL(changed()),
+            this, SLOT(slotSortOrderChanged()));
+    connect(m_showInGroupsAction, SIGNAL(changed()),
+            this, SLOT(slotCategorizedSortingChanged()));
     connect(m_additionalInfo, SIGNAL(activated(int)),
             this, SLOT(slotAdditionalInfoChanged(int)));
     connect(m_showPreview, SIGNAL(clicked()),
@@ -237,7 +238,7 @@ void ViewPropertiesDialog::slotViewModeChanged(int index)
     m_isDirty = true;
 
     const bool iconsViewEnabled = (m_viewProps->viewMode() == DolphinView::IconsView);
-    m_categorizedSorting->setEnabled(iconsViewEnabled);
+    m_showInGroupsAction->setEnabled(iconsViewEnabled);
     m_additionalInfo->setEnabled(iconsViewEnabled);
 }
 
@@ -248,16 +249,18 @@ void ViewPropertiesDialog::slotSortingChanged(int index)
     m_isDirty = true;
 }
 
-void ViewPropertiesDialog::slotSortOrderChanged(int index)
+void ViewPropertiesDialog::slotSortOrderChanged()
 {
-    Qt::SortOrder sortOrder = (index == 0) ? Qt::AscendingOrder : Qt::DescendingOrder;
+    Qt::SortOrder sortOrder = m_descendingAction->isChecked() ?
+                              Qt::DescendingOrder :
+                              Qt::AscendingOrder;
     m_viewProps->setSortOrder(sortOrder);
     m_isDirty = true;
 }
 
-void ViewPropertiesDialog::slotCategorizedSortingChanged(int index)
+void ViewPropertiesDialog::slotCategorizedSortingChanged()
 {
-    m_viewProps->setCategorizedSorting(index == 1);
+    m_viewProps->setCategorizedSorting(m_showInGroupsAction->isChecked());
     m_isDirty = true;
 }
 
