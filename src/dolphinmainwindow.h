@@ -431,6 +431,14 @@ private:
      */
     void connectViewSignals(int viewIndex);
 
+    /**
+     * Updates the text of the split action:
+     * If \a isSplit is true, the text is set to "Split",
+     * otherwise the text is set to "Join". The icon
+     * is updated to match with the text.
+     */
+    void updateSplitAction(bool isSplit);
+
 private:
     /**
      * DolphinMainWindowsupports only one or two views, which

@@ -986,16 +986,7 @@ void DolphinMainWindow::init()
 void DolphinMainWindow::loadSettings()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-
-    KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
-    const bool isSplit = settings->splitView();
-    if (isSplit) {
-        splitAction->setChecked(true);
-        toggleSplitView();
-    }
-    const KIcon splitIcon(isSplit ? "fileview-join" : "fileview-split");
-    splitAction->setIcon(splitIcon);
-
+    updateSplitAction(settings->splitView());
     updateViewActions();
 }
 
@@ -1168,9 +1159,8 @@ void DolphinMainWindow::setupActions()
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
     KToggleAction* split = actionCollection()->add<KToggleAction>("split_view");
-    split->setText(i18n("Split"));
     split->setShortcut(Qt::Key_F10);
-    split->setIcon(KIcon("fileview-split"));
+    updateSplitAction(false);
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
     QAction* reload = actionCollection()->addAction("reload");
@@ -1405,11 +1395,7 @@ void DolphinMainWindow::updateViewActions()
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
     showHiddenFilesAction->setChecked(m_activeView->showHiddenFiles());
 
-    KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
-    const bool isSplit = (m_view[SecondaryIdx] != 0);
-    splitAction->setChecked(isSplit);
-    const KIcon splitIcon(isSplit ? "fileview-join" : "fileview-split");
-    splitAction->setIcon(splitIcon);
+    updateSplitAction(m_view[SecondaryIdx] != 0);
 
     KToggleAction* editableLocactionAction =
         static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
@@ -1477,6 +1463,18 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(changeUrl(const KUrl&)));
     connect(navigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
+}
+
+void DolphinMainWindow::updateSplitAction(bool isSplit)
+{
+    KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
+    if (isSplit) {
+        splitAction->setText(i18n("Join"));
+        splitAction->setIcon(KIcon("fileview-join"));
+    } else {
+        splitAction->setText(i18n("Split"));
+        splitAction->setIcon(KIcon("fileview-split"));
+    }
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :
