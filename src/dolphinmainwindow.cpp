@@ -753,20 +753,9 @@ void DolphinMainWindow::toggleSplitView()
         m_view[SecondaryIdx]->show();
     } else {
         // remove secondary view
-        if (m_activeView == m_view[PrimaryIdx]) {
-            m_view[SecondaryIdx]->close();
-            m_view[SecondaryIdx]->deleteLater();
-            m_view[SecondaryIdx] = 0;
-        } else {
-            // The secondary view is active, hence from the users point of view
-            // the content of the secondary view should be moved to the primary view.
-            // From an implementation point of view it is more efficient to close
-            // the primary view and exchange the internal pointers afterwards.
-            m_view[PrimaryIdx]->close();
-            delete m_view[PrimaryIdx];
-            m_view[PrimaryIdx] = m_view[SecondaryIdx];
-            m_view[SecondaryIdx] = 0;
-        }
+        m_view[SecondaryIdx]->close();
+        m_view[SecondaryIdx]->deleteLater();
+        m_view[SecondaryIdx] = 0;
     }
     setActiveView(m_view[PrimaryIdx]);
     emit activeViewChanged();
@@ -999,10 +988,13 @@ void DolphinMainWindow::loadSettings()
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
     KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
-    if (settings->splitView()) {
+    const bool isSplit = settings->splitView();
+    if (isSplit) {
         splitAction->setChecked(true);
         toggleSplitView();
     }
+    const KIcon splitIcon(isSplit ? "fileview-join" : "fileview-split");
+    splitAction->setIcon(splitIcon);
 
     updateViewActions();
 }
@@ -1084,7 +1076,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* detailsView = actionCollection()->add<KToggleAction>("details");
     detailsView->setText(i18n("Details"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
-    detailsView->setIcon(KIcon("fileview-text"));
+    detailsView->setIcon(KIcon("fileview-detailed"));
     connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
 
     KToggleAction* columnView = actionCollection()->add<KToggleAction>("columns");
@@ -1178,7 +1170,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* split = actionCollection()->add<KToggleAction>("split_view");
     split->setText(i18n("Split"));
     split->setShortcut(Qt::Key_F10);
-    split->setIcon(KIcon("view-left-right"));
+    split->setIcon(KIcon("fileview-split"));
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
     QAction* reload = actionCollection()->addAction("reload");
@@ -1414,7 +1406,10 @@ void DolphinMainWindow::updateViewActions()
     showHiddenFilesAction->setChecked(m_activeView->showHiddenFiles());
 
     KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
-    splitAction->setChecked(m_view[SecondaryIdx] != 0);
+    const bool isSplit = (m_view[SecondaryIdx] != 0);
+    splitAction->setChecked(isSplit);
+    const KIcon splitIcon(isSplit ? "fileview-join" : "fileview-split");
+    splitAction->setIcon(splitIcon);
 
     KToggleAction* editableLocactionAction =
         static_cast<KToggleAction*>(actionCollection()->action("editable_location"));

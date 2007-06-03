@@ -58,7 +58,7 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // initialize 'Details' tab
     m_detailsPage = new DetailsViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_detailsPage, KIcon("fileview-text"), i18n("Details"));
+    tabWidget->addTab(m_detailsPage, KIcon("fileview-detailed"), i18n("Details"));
 
     // initialize 'Column' tab
     m_columnPage = new ColumnViewSettingsPage(mainWindow, tabWidget);
