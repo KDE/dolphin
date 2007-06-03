@@ -1158,7 +1158,7 @@ void DolphinMainWindow::setupActions()
     showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
-    KToggleAction* split = actionCollection()->add<KToggleAction>("split_view");
+    QAction* split = actionCollection()->addAction("split_view");
     split->setShortcut(Qt::Key_F10);
     updateSplitAction(false);
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
@@ -1467,7 +1467,7 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
 
 void DolphinMainWindow::updateSplitAction(bool isSplit)
 {
-    KToggleAction* splitAction = static_cast<KToggleAction*>(actionCollection()->action("split_view"));
+    QAction* splitAction = actionCollection()->action("split_view");
     if (isSplit) {
         splitAction->setText(i18n("Join"));
         splitAction->setIcon(KIcon("fileview-join"));
