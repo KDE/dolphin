@@ -1078,7 +1078,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* iconsView = actionCollection()->add<KToggleAction>("icons");
     iconsView->setText(i18n("Icons"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
-    iconsView->setIcon(KIcon("view-icon"));
+    iconsView->setIcon(KIcon("fileview-icon"));
     connect(iconsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
 
     KToggleAction* detailsView = actionCollection()->add<KToggleAction>("details");

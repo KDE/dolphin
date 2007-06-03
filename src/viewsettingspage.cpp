@@ -54,7 +54,7 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // initialize 'Icons' tab
     m_iconsPage = new IconsViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_iconsPage, KIcon("view-icon"), i18n("Icons"));
+    tabWidget->addTab(m_iconsPage, KIcon("fileview-icon"), i18n("Icons"));
 
     // initialize 'Details' tab
     m_detailsPage = new DetailsViewSettingsPage(mainWindow, tabWidget);
