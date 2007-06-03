@@ -1150,7 +1150,7 @@ void DolphinMainWindow::setupActions()
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
     showPreview->setText(i18n("Preview"));
-    showPreview->setIcon(KIcon("thumbnail-show"));
+    showPreview->setIcon(KIcon("fileview-preview"));
     connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
 
     KToggleAction* showHiddenFiles = actionCollection()->add<KToggleAction>("show_hidden_files");
