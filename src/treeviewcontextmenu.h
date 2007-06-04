@@ -22,9 +22,7 @@
 
 #include <QtCore/QObject>
 
-class KMenu;
 class KFileItem;
-class QAction;
 
 /**
  * @brief Represents the context menu which appears when doing a right

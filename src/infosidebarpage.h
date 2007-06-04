@@ -33,18 +33,10 @@
 #include <kdesktopfileactions.h>
 #include <kvbox.h>
 
-namespace KIO
-{
-    class Job;
-}
-
 class QPixmap;
-class QIcon;
 class QString;
-class QPainter;
 class KFileItem;
 class QLabel;
-class KVBox;
 class PixmapViewer;
 class MetaDataWidget;
 

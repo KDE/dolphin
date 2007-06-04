@@ -25,7 +25,6 @@
 #include <kurl.h>
 
 class ApplyViewPropsJob;
-class KJob;
 class QLabel;
 class QProgressBar;
 class QTimer;

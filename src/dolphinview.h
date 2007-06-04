@@ -49,8 +49,6 @@ class DolphinMainWindow;
 class DolphinSortFilterProxyModel;
 class DolphinStatusBar;
 class QModelIndex;
-class QPainter;
-class QTimer;
 class ViewProperties;
 
 /**

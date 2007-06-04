@@ -29,7 +29,6 @@ class StatusBarMessageLabel;
 class StatusBarSpaceInfo;
 class QProgressBar;
 class QLabel;
-class QTimer;
 
 /**
  * @brief Represents the statusbar of a Dolphin view.

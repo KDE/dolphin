@@ -25,7 +25,6 @@
 class QLabel;
 class QToolButton;
 class KLineEdit;
-class DolphinMainWindow;
 
 /**
  * @brief Provides an input field for filtering the currently shown items.

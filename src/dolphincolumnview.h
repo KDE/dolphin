@@ -24,7 +24,6 @@
 #include <QtGui/QStyleOption>
 
 class DolphinController;
-class DolphinView;
 
 /**
  * @brief TODO

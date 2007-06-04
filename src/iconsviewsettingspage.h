@@ -26,9 +26,7 @@
 class DolphinMainWindow;
 class KFontRequester;
 class QComboBox;
-class QCheckBox;
 class QPushButton;
-class QSlider;
 class QSpinBox;
 
 /**

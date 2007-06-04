@@ -25,7 +25,6 @@
 #include <kurl.h>
 #include <libdolphin_export.h>
 
-class QFile;
 class ViewPropertySettings;
 /**
  * @brief Maintains the view properties like 'view mode' or

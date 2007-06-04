@@ -26,8 +26,6 @@
 #include <libdolphin_export.h>
 
 class DolphinController;
-class DolphinItemCategorizer;
-class DolphinView;
 
 /**
  * @brief Represents the view, where each item is shown as an icon.

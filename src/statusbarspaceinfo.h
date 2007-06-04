@@ -27,7 +27,6 @@
 #include <QtGui/QWidget>
 
 class KDiskFreeSp;
-class QTimer;
 
 /**
  * @short Shows the available space for the volume represented

@@ -24,7 +24,6 @@
 
 class DolphinMainWindow;
 class QLineEdit;
-class QRadioButton;
 class QCheckBox;
 
 /**
