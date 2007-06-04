@@ -21,7 +21,7 @@
 #include "statusbarmessagelabel.h"
 
 #include <kglobalsettings.h>
-#include <kgraphicsutils.h>
+#include <kcolorutils.h>
 #include <kiconloader.h>
 #include <kicon.h>
 #include <klocale.h>
@@ -139,10 +139,10 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QColor foregroundColor(KGlobalSettings::textColor());
     if (m_illumination > 0) {
         QColor mixColor(255, 255, 128, m_illumination);
-        backgroundColor = KGraphicsUtils::blendColor(backgroundColor, mixColor);
+        backgroundColor = KColorUtils::overlayColors(backgroundColor, mixColor);
 
         mixColor.setRgb(0, 0, 0, m_illumination);
-        foregroundColor = KGraphicsUtils::blendColor(foregroundColor, mixColor);
+        foregroundColor = KColorUtils::overlayColors(foregroundColor, mixColor);
     }
     painter.setBrush(backgroundColor);
     painter.setPen(backgroundColor);
