@@ -28,7 +28,6 @@
 #include "dolphin_detailsmodesettings.h"
 
 #include <kdirmodel.h>
-#include <kfileitemdelegate.h>
 
 #include <QApplication>
 #include <QHeaderView>

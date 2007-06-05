@@ -25,10 +25,6 @@
 
 #include "dolphin_iconsmodesettings.h"
 
-#include <kdirmodel.h>
-#include <kfileitem.h>
-#include <kfileitemdelegate.h>
-
 #include <QAbstractProxyModel>
 #include <QApplication>
 #include <QPainter>

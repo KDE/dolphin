@@ -24,10 +24,6 @@
 
 #include "dolphin_columnmodesettings.h"
 
-#include <kdirmodel.h>
-#include <kfileitem.h>
-#include <kfileitemdelegate.h>
-
 #include <QtGui/QAbstractProxyModel>
 #include <QtCore/QPoint>
 
