@@ -62,5 +62,3 @@ Name[uz]=Эҳтиётлик билан узиш
 Name[x-test]=xxSafely Removexx
 Name[zh_TW]=安全的移除
 Exec=kio_media_mounthelper -s %u
-
-
