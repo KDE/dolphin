@@ -1171,9 +1171,7 @@ void DolphinView::updateActivationState()
         emit urlChanged(url());
         emit selectionChanged(selectedItems());
     } else {
-        // darken the background if the view is inactive
-        // TODO: does not work for a black background
-        color = color.darker(105);
+        color.setAlpha(0);
     }
 
     QWidget* viewport = itemView()->viewport();
