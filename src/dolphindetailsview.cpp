@@ -155,14 +155,15 @@ void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 {
-    if (!indexAt(event->pos()).isValid()) {
+    QTreeView::mousePressEvent(event);
+
+    const QModelIndex index = indexAt(event->pos());
+    if (!index.isValid() || (index.column() != KDirModel::Name)) {
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
             clearSelection();
         }
     }
-
-    QTreeView::mousePressEvent(event);
 
     if (event->button() == Qt::LeftButton) {
         m_showElasticBand = true;

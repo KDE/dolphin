@@ -101,8 +101,6 @@ public slots:
      */
     void emitViewportEntered();
 
-    void indicateSelectionChange();
-
 signals:
     /**
      * Is emitted if a context menu should be opened.
@@ -162,9 +160,6 @@ signals:
      * Is emitted if the mouse cursor has entered
      * the viewport. */
     void viewportEntered();
-
-    /** Is emitted if the selection has been changed by the user. */
-    void selectionChanged();
 
     /** Is emitted if the view should zoom in. */
     void zoomIn();

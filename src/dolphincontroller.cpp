@@ -102,9 +102,4 @@ void DolphinController::emitViewportEntered()
     emit viewportEntered();
 }
 
-void DolphinController::indicateSelectionChange()
-{
-    emit selectionChanged();
-}
-
 #include "dolphincontroller.moc"

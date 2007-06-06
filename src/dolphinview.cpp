@@ -157,8 +157,6 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
             this, SLOT(updateSortOrder(Qt::SortOrder)));
     connect(m_controller, SIGNAL(itemTriggered(const QModelIndex&)),
             this, SLOT(triggerItem(const QModelIndex&)));
-    connect(m_controller, SIGNAL(selectionChanged()),
-            this, SLOT(emitSelectionChangedSignal()));
     connect(m_controller, SIGNAL(activated()),
             this, SLOT(requestActivation()));
     connect(m_controller, SIGNAL(itemEntered(const QModelIndex&)),
@@ -1275,7 +1273,7 @@ void DolphinView::createView()
     m_topLayout->insertWidget(1, view);
 
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            m_controller, SLOT(indicateSelectionChange()));
+            this, SLOT(emitSelectionChangedSignal()));
     connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
