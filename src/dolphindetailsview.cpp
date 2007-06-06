@@ -220,11 +220,15 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
     QTreeView::dragMoveEvent(event);
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    const QPoint pos(0, event->pos().y());
-    const QModelIndex index = indexAt(pos);
     setDirtyRegion(m_dropRect);
-    m_dropRect = visualRect(index);
-    setDirtyRegion(m_dropRect);
+    const QModelIndex index = indexAt(event->pos());
+    if (!index.isValid() || (index.column() != KDirModel::Name)) {
+        m_dragging = false;
+    } else {
+        m_dragging = true;
+        m_dropRect = visualRect(index);
+        setDirtyRegion(m_dropRect);
+    }
 }
 
 void DolphinDetailsView::dropEvent(QDropEvent* event)
