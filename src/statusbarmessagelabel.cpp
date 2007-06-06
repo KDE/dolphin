@@ -44,6 +44,10 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
 {
     setMinimumHeight(K3Icon::SizeSmall);
 
+    QPalette palette;
+    palette.setColor(QPalette::Background, Qt::transparent);
+    setPalette(palette);
+
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(timerDone()));
@@ -138,10 +142,10 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QColor backgroundColor(palette().brush(QPalette::Background).color());
     QColor foregroundColor(KGlobalSettings::textColor());
     if (m_illumination > 0) {
-        QColor mixColor(255, 255, 128, m_illumination);
-        backgroundColor = KColorUtils::overlayColors(backgroundColor, mixColor);
-
-        mixColor.setRgb(0, 0, 0, m_illumination);
+        // TODO: are there foreground and background colors available for
+        // "error messages"?
+        backgroundColor.setRgb(255, 255, 0, m_illumination);
+        QColor mixColor(0, 0, 0, m_illumination);
         foregroundColor = KColorUtils::overlayColors(foregroundColor, mixColor);
     }
     painter.setBrush(backgroundColor);
@@ -179,10 +183,11 @@ void StatusBarMessageLabel::timerDone()
     switch (m_state) {
     case Illuminate: {
         // increase the illumination
-        if (m_illumination < 255) {
+        const int illumination_max = 128;
+        if (m_illumination < illumination_max) {
             m_illumination += 32;
-            if (m_illumination > 255) {
-                m_illumination = 255;
+            if (m_illumination > illumination_max) {
+                m_illumination = illumination_max;
             }
             update();
         } else {

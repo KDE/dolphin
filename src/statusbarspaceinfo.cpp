@@ -38,6 +38,10 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
 {
     setMinimumWidth(200);
 
+    QPalette palette;
+    palette.setColor(QPalette::Background, Qt::transparent);
+    setPalette(palette);
+
     // Update the space information each 10 seconds. Polling is useful
     // here, as files can be deleted/added outside the scope of Dolphin.
     QTimer* timer = new QTimer(this);
@@ -67,11 +71,8 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 
     const int widthDec = 3;  // visual decrement for the available width
 
-    const QColor c1 = palette().brush(QPalette::Background).color();
-    const QColor c2 = KGlobalSettings::buttonTextColor();
-    const QColor frameColor((c1.red()   + c2.red())   / 2,
-                            (c1.green() + c2.green()) / 2,
-                            (c1.blue()  + c2.blue())  / 2);
+    QColor frameColor = palette().brush(QPalette::Background).color();
+    frameColor.setAlpha(128);
     painter.setPen(frameColor);
 
     const QColor backgrColor = KGlobalSettings::baseColor();
