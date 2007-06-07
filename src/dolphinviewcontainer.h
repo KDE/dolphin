@@ -107,13 +107,6 @@ public:
 
     KFileItem* fileItem(const QModelIndex index) const;
 
-    /**
-     * Renames the filename of the source URL by the new file name.
-     * If the new file name already exists, a dialog is opened which
-     * asks the user to enter a new name.
-     */
-    void rename(const KUrl& source, const QString& newName);
-
     DolphinStatusBar* statusBar() const;
 
     /**

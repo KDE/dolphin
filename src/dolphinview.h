@@ -200,12 +200,6 @@ public:
     bool supportsCategorizedSorting() const;
 
     /**
-     * Triggers the renaming of the currently selected items, where
-     * the user must input a new name for the items.
-     */
-    void renameSelectedItems();
-
-    /**
      * Selects all items.
      * @see DolphinView::selectedItems()
      */
@@ -241,13 +235,6 @@ public:
      * Returns the file item for the given model index \a index.
      */
     KFileItem* fileItem(const QModelIndex index) const;
-
-    /**
-     * Renames the filename of the source URL by the new file name.
-     * If the new file name already exists, a dialog is opened which
-     * asks the user to enter a new name.
-     */
-    void rename(const KUrl& source, const QString& newName);
 
     /**
      * Returns the x-position of the view content.

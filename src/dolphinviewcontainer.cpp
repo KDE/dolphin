@@ -277,61 +277,6 @@ KFileItem* DolphinViewContainer::fileItem(const QModelIndex index) const
     return m_dirModel->itemForIndex(dirModelIndex);
 }
 
-void DolphinViewContainer::rename(const KUrl& source, const QString& newName)
-{
-    bool ok = false;
-
-    if (newName.isEmpty() || (source.fileName() == newName)) {
-        return;
-    }
-
-    KUrl dest(source.upUrl());
-    dest.addPath(newName);
-
-    const bool destExists = KIO::NetAccess::exists(dest, false, this);
-    if (destExists) {
-        // the destination already exists, hence ask the user
-        // how to proceed...
-        KIO::RenameDialog renameDialog(this,
-                                       i18n("File Already Exists"),
-                                       source.path(),
-                                       dest.path(),
-                                       KIO::M_OVERWRITE);
-        switch (renameDialog.exec()) {
-        case KIO::R_OVERWRITE:
-            // the destination should be overwritten
-            ok = KIO::NetAccess::file_move(source, dest, -1, true);
-            break;
-
-        case KIO::R_RENAME: {
-            // a new name for the destination has been used
-            KUrl newDest(renameDialog.newDestUrl());
-            ok = KIO::NetAccess::file_move(source, newDest);
-            break;
-        }
-
-        default:
-            // the renaming operation has been canceled
-            return;
-        }
-    } else {
-        // no destination exists, hence just move the file to
-        // do the renaming
-        ok = KIO::NetAccess::file_move(source, dest);
-    }
-
-    const QString destFileName = dest.fileName();
-    if (ok) {
-        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.", source.fileName(), destFileName),
-                                DolphinStatusBar::OperationCompleted);
-
-        KonqOperations::rename(this, source, destFileName);
-    } else {
-        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.", source.fileName(), destFileName),
-                                DolphinStatusBar::Error);
-    }
-}
-
 DolphinMainWindow* DolphinViewContainer::mainWindow() const
 {
     return m_mainWindow;
