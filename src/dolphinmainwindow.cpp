@@ -779,7 +779,9 @@ void DolphinMainWindow::toggleSplitView()
         m_viewContainer[SecondaryIdx]->deleteLater();
         m_viewContainer[SecondaryIdx] = 0;
     }
+
     setActiveView(m_viewContainer[PrimaryIdx]);
+    updateViewActions();
     emit activeViewChanged();
 }
 
