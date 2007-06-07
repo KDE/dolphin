@@ -341,7 +341,7 @@ signals:
     /** Is emitted if the sort order (ascending or descending) has been changed. */
     void sortOrderChanged(Qt::SortOrder order);
 
-    /** Is emitted if the addtional information for an item has been changed. */
+    /** Is emitted if the additional information for an item has been changed. */
     void additionalInfoChanged(KFileItemDelegate::AdditionalInformation info);
 
     /**
@@ -357,11 +357,6 @@ signals:
      * Is emitted whenever the selection has been changed.
      */
     void selectionChanged(const KFileItemList& selection);
-
-    /**
-     * Is emitted whenever the filter bar has been turned show or hidden.
-     */
-    void showFilterBarChanged(bool shown);
 
     /**
      * Is emitted if a context menu is requested for the item \a item,
