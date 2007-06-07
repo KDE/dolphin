@@ -50,6 +50,7 @@ set(dolphin_SRCS
    dolphinmainwindow.cpp
    dolphinnewmenu.cpp
    dolphinview.cpp
+   dolphinviewcontainer.cpp
    dolphinstatusbar.cpp
    dolphindirlister.cpp
    dolphincontextmenu.cpp

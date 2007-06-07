@@ -22,6 +22,7 @@
 #include "dolphinmainwindow.h"
 #include "dolphinstatusbar.h"
 #include "dolphinview.h"
+#include "dolphinviewcontainer.h"
 
 #include <kactioncollection.h>
 #include <kio/job.h>
@@ -39,7 +40,7 @@ DolphinNewMenu::~DolphinNewMenu()
 void DolphinNewMenu::slotResult(KJob* job)
 {
     if (job->error()) {
-        DolphinStatusBar* statusBar = m_mainWin->activeView()->statusBar();
+        DolphinStatusBar* statusBar = m_mainWin->activeViewContainer()->statusBar();
         statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
     } else {
         KNewMenu::slotResult(job);

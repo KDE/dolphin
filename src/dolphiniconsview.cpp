@@ -106,6 +106,7 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 {
+    m_controller->triggerActivation();
     if (!indexAt(event->pos()).isValid()) {
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
@@ -114,12 +115,6 @@ void DolphinIconsView::mousePressEvent(QMouseEvent* event)
     }
 
     KListView::mousePressEvent(event);
-}
-
-void DolphinIconsView::mouseReleaseEvent(QMouseEvent* event)
-{
-    KListView::mouseReleaseEvent(event);
-    m_controller->triggerActivation();
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)

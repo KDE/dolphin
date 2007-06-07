@@ -19,50 +19,46 @@
  ***************************************************************************/
 
 
-#ifndef _DOLPHINVIEW_H_
-#define _DOLPHINVIEW_H_
+#ifndef DOLPHINVIEW_H
+#define DOLPHINVIEW_H
 
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
 #include <kio/job.h>
 
-#include <kurlnavigator.h>
-
-#include <QtGui/QKeyEvent>
-#include <QtCore/QLinkedList>
-#include <QtGui/QListView>
-#include <QtGui/QBoxLayout>
-#include <QtGui/QWidget>
+#include <QBoxLayout>
+#include <QKeyEvent>
+#include <QLinkedList>
+#include <QListView>
+#include <QWidget>
 
 class DolphinController;
-class FilterBar;
+class KDirLister;
 class KFileItemDelegate;
 class KUrl;
 class KDirModel;
-class KUrlNavigator;
 class DolphinColumnView;
 class DolphinDetailsView;
-class DolphinDirLister;
 class DolphinIconsView;
 class DolphinMainWindow;
 class DolphinSortFilterProxyModel;
-class DolphinStatusBar;
 class QModelIndex;
 class ViewProperties;
 
 /**
- * @short Represents a view for the directory content
- *        including the navigation bar, filter bar and status bar.
+ * @short Represents a view for the directory content.
  *
- * View modes for icons, details and columns are supported. Currently
- * Dolphin allows to have up to two views inside the main window.
+ * View modes for icons, details and columns are supported. It's
+ * possible to adjust:
+ * - sort order
+ * - sort type
+ * - show hidden files
+ * - show previews
  *
  * @see DolphinIconsView
  * @see DolphinDetailsView
  * @see DolphinColumnView
- * @see KUrlNavigator
- * @see DolphinStatusBar
  */
 class DolphinView : public QWidget
 {
@@ -109,22 +105,28 @@ public:
         MaxSortEnum = SortByType
     };
 
-    DolphinView(DolphinMainWindow* mainwindow,
-                QWidget *parent,
+    /**
+     * @param parent          Parent widget of the view.
+     * @param url             Specifies the content which should be shown.
+     * @param dirLister       Used directory lister. The lister is not owned
+     *                        by the view and won't get deleted.
+     * @param dirModel        Used directory model. The model is not owned
+     *                        by the view and won't get deleted.
+     * @param proxyModel      Used proxy model which specifies the sorting. The
+     *                        model is not owned by the view and won't get
+     *                        deleted.
+     * @param mode            Used display mode (IconsView, DetailsView or ColumnsView).
+     * @param showHiddenFiles If true, hidden files will be shown in the view.
+     */
+    DolphinView(QWidget* parent,
                 const KUrl& url,
+                KDirLister* dirLister,
+                KDirModel* dirModel,
+                DolphinSortFilterProxyModel* proxyModel,
                 Mode mode = IconsView,
                 bool showHiddenFiles = false);
 
     virtual ~DolphinView();
-
-    /**
-     * Sets the current active URL, where all actions are applied. The
-     * URL navigator is synchronized with this URL. The signals
-     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
-     * are emitted.
-     * @see DolphinView::urlNavigator()
-     */
-    void setUrl(const KUrl& url);
 
     /**
      * Returns the current active URL, where all actions are applied.
@@ -144,9 +146,10 @@ public:
     KUrl rootUrl() const;
 
     /**
-     * Returns true if the view is active and hence all actions are
-     * applied to this view.
+     * If \a active is true, the view will marked as active. The active
+     * view is defined as view where all actions are applied to.
      */
+    void setActive(bool active);
     bool isActive() const;
 
     /**
@@ -215,40 +218,6 @@ public:
      */
     void invertSelection();
 
-    /**
-     * Goes back one step in the URL history. The signals
-     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
-     * are submitted.
-     */
-    void goBack();
-
-    /**
-     * Goes forward one step in the Url history. The signals
-     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
-     * are submitted.
-     */
-    void goForward();
-
-    /**
-     * Goes up one step of the Url path. The signals
-     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
-     * are submitted.
-     */
-    void goUp();
-
-    /**
-     * Goes to the home URL. The signals KUrlNavigator::urlChanged()
-     * and KUrlNavigator::historyChanged() are submitted.
-     */
-    void goHome();
-
-    /**
-     * Sets the URL of the navigation bar to an editable state
-     * if \a editable is true. If \a editable is false, each part of
-     * the location is presented by a button for a fast navigation.
-     */
-    void setUrlEditable(bool editable);
-
     /** Returns true, if at least one item is selected. */
     bool hasSelection() const;
 
@@ -280,8 +249,6 @@ public:
      */
     void rename(const KUrl& source, const QString& newName);
 
-    DolphinStatusBar* statusBar() const;
-
     /**
      * Returns the x-position of the view content.
      * The content of the view might be larger than the visible area
@@ -295,12 +262,6 @@ public:
      * and hence a scrolling must be done.
      */
     int contentsY() const;
-
-    /**
-     * Returns true, if the URL shown by the navigation bar is editable.
-     * @see KUrlNavigator
-     */
-    bool isUrlEditable() const;
 
     /** Increases the size of the current set view mode. */
     void zoomIn();
@@ -338,21 +299,6 @@ public:
     /** Returns the additional information which should be shown for the items. */
     KFileItemDelegate::AdditionalInformation additionalInfo() const;
 
-    /** Returns the KUrlNavigator of the view for read access. */
-    const KUrlNavigator* urlNavigator() const
-    {
-        return m_urlNavigator;
-    }
-
-    /** Returns true, if the filter bar is visible. */
-    bool isFilterBarVisible() const;
-
-    /**
-     * Return the DolphinMainWindow this View belongs to. It is guranteed
-     * that we have one.
-     */
-    DolphinMainWindow* mainWindow() const ;
-
     /** Reloads the current directory. */
     void reload();
 
@@ -365,22 +311,10 @@ public:
 
 public slots:
     /**
-     * Popups the filter bar above the status bar if \a show is true.
+     * Changes the directory to \a url. If the current directory is equal to
+     * \a url, nothing will be done (use DolphinView::reload() instead).
      */
-    void showFilterBar(bool show);
-
-    /**
-     * Updates the number of items (= number of files + number of
-     * directories) in the statusbar. If files are selected, the number
-     * of selected files and the sum of the filesize is shown.
-     */
-    void updateStatusBar();
-
-    /**
-     * Requests the main window to set this view as active view, which
-     * means that all actions are applied to this view.
-     */
-    void requestActivation();
+    void setUrl(const KUrl& url);
 
     /**
      * Request of a selection change. The view will do its best to accommodate
@@ -391,6 +325,11 @@ public slots:
     void changeSelection(const KFileItemList& selection);
 
 signals:
+    /**
+     * Is emitted if the view has been activated by e. g. a mouse click.
+     */
+    void activated();
+
     /** Is emitted if URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
 
@@ -437,20 +376,38 @@ signals:
      */
     void showFilterBarChanged(bool shown);
 
+    /**
+     * Is emitted if a context menu is requested for the item \a item,
+     * which is part of \a url. If the item is 0, the context menu
+     * for the URL should be shown.
+     */
+    void requestContextMenu(KFileItem* item, const KUrl& url);
+
+    /**
+     * Is emitted if the URLs \a are dropped to the destination URL
+     * \a destination. No operation is done within the DolphinView, the
+     * receiver of the signal has to take care about the corresponding
+     * operation.
+     */
+    void urlsDropped(const KUrl::List& urls, const KUrl& destination);
+
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private slots:
-    void changeDirectory(const KUrl& url);
-    void triggerItem(const QModelIndex& index);
-    void updateProgress(int percent);
+    /**
+     * Marks the view as active (DolphinView:isActive() will return true)
+     * and emits the 'activated' signal if it is not already active.
+     */
+    void activate();
 
     /**
-     * Updates the number of items (= number of directories + number of files)
-     * and shows this information in the statusbar.
+     * If the item specified by \a index is a directory, then this
+     * directory will be loaded. If the  item is a file, the corresponding
+     * application will get started.
      */
-    void updateItemCount();
+    void triggerItem(const QModelIndex& index);
 
     /**
      * Generates a preview image for each file item in \a items.
@@ -471,20 +428,7 @@ private slots:
      */
     void restoreContentsPos();
 
-    /** Shows the information \a msg inside the statusbar. */
-    void showInfoMessage(const QString& msg);
-
-    /** Shows the error message \a msg inside the statusbar. */
-    void showErrorMessage(const QString& msg);
-
     void emitSelectionChangedSignal();
-    void closeFilterBar();
-
-    /**
-     * Filters the currently shown items by \a nameFilter. All items
-     * which contain the given filter string will be shown.
-     */
-    void changeNameFilter(const QString& nameFilter);
 
     /**
      * Opens the context menu on position \a pos. The position
@@ -525,12 +469,6 @@ private slots:
      */
     void emitContentsMoved();
 
-    /**
-     * Updates the activation state of the view by checking whether
-     * the currently active view is this view.
-     */
-    void updateActivationState();
-
     /** Applies an item effect to all cut items of the clipboard. */
     void updateCutItems();
 
@@ -550,18 +488,6 @@ private slots:
 
 private:
     void startDirLister(const KUrl& url, bool reload = false);
-
-    /**
-     * Returns the default text of the status bar, if no item is
-     * selected.
-     */
-    QString defaultStatusBarText() const;
-
-    /**
-     * Returns the text for the status bar, if at least one item
-     * is selected.
-     */
-    QString selectionStatusBarText() const;
 
     /**
      * Creates a new view representing the given view mode (DolphinView::mode()).
@@ -617,18 +543,13 @@ private:
         QPixmap pixmap;
     };
 
-    bool m_showProgress;
+    bool m_active;
     bool m_blockContentsMovedSignal;
     bool m_initializeColumnView;
     Mode m_mode;
 
-    int m_iconSize;
-    int m_folderCount;
-    int m_fileCount;
-
     DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;
-    KUrlNavigator* m_urlNavigator;
 
     DolphinController* m_controller;
     DolphinIconsView* m_iconsView;
@@ -636,14 +557,11 @@ private:
     DolphinColumnView* m_columnView;
     KFileItemDelegate* m_fileItemDelegate;
 
-    FilterBar* m_filterBar;
-    DolphinStatusBar* m_statusBar;
-
     KDirModel* m_dirModel;
-    DolphinDirLister* m_dirLister;
+    KDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
 
     QList<CutItem> m_cutItemsCache;
 };
 
-#endif // _DOLPHINVIEW_H_
+#endif // DOLPHINVIEW_H

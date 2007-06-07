@@ -155,6 +155,8 @@ void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 {
+    m_controller->triggerActivation();
+
     QTreeView::mousePressEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
@@ -191,7 +193,6 @@ void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
         updateElasticBand();
         m_showElasticBand = false;
     }
-    m_controller->triggerActivation();
 }
 
 void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)

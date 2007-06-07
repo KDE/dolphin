@@ -32,6 +32,7 @@
 #include <QtCore/QList>
 
 class DolphinApplication;
+class DolphinViewContainer;
 class KNewMenu;
 class KUrl;
 class QSplitter;
@@ -52,20 +53,20 @@ public:
     virtual ~DolphinMainWindow();
 
     /**
-        * Activates the given view, which means that
-        * all menu actions are applied to this view. When
-        * having a split view setup the nonactive view
-        * is usually shown in darker colors.
-        */
-    void setActiveView(DolphinView* view);
+     * Activates the given view, which means that
+     * all menu actions are applied to this view. When
+     * having a split view setup the nonactive view
+     * is usually shown in darker colors.
+     */
+    void setActiveView(DolphinViewContainer* view);
 
     /**
      * Returns the currently active view. See
      * DolphinMainWindow::setActiveView() for more details.
      */
-    DolphinView* activeView() const
+    DolphinViewContainer* activeViewContainer() const
     {
-        return m_activeView;
+        return m_activeViewContainer;
     }
 
     /** Renames the item represented by \a oldUrl to \a newUrl. */
@@ -406,6 +407,9 @@ private slots:
     /** Open a new main window. */
     void openNewMainWindow();
 
+    /** Toggles the active view if two views are shown within the main window. */
+    void toggleActiveView();
+
 private:
     DolphinMainWindow(int id);
     void init();
@@ -468,10 +472,10 @@ class UndoUiInterface : public KonqUndoManager::UiInterface
 
     KNewMenu* m_newMenu;
     QSplitter* m_splitter;
-    DolphinView* m_activeView;
+    DolphinViewContainer* m_activeViewContainer;
     int m_id;
 
-    DolphinView* m_view[SecondaryIdx + 1];
+    DolphinViewContainer* m_viewContainer[SecondaryIdx + 1];
 
     /// remember pending undo operations until they are finished
     QList<KonqUndoManager::CommandType> m_undoCommandTypes;

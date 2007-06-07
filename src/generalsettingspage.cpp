@@ -20,23 +20,24 @@
 
 #include "generalsettingspage.h"
 
+#include "dolphinsettings.h"
+#include "dolphinmainwindow.h"
+#include "dolphinview.h"
+#include "dolphinviewcontainer.h"
+
+#include "dolphin_generalsettings.h"
+
 #include <kdialog.h>
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <kvbox.h>
 
-#include <QtGui/QCheckBox>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QLineEdit>
-#include <QtGui/QPushButton>
-#include <QtGui/QRadioButton>
-
-#include "dolphinsettings.h"
-#include "dolphinmainwindow.h"
-#include "dolphinview.h"
-
-#include "dolphin_generalsettings.h"
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QPushButton>
+#include <QRadioButton>
 
 GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* parent) :
     SettingsPageBase(parent),
@@ -180,7 +181,7 @@ void GeneralSettingsPage::selectHomeUrl()
 
 void GeneralSettingsPage::useCurrentLocation()
 {
-    const DolphinView* view = m_mainWindow->activeView();
+    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_homeUrl->setText(view->url().prettyUrl());
 }
 

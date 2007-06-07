@@ -53,7 +53,9 @@ public:
         Error
     };
 
-    DolphinStatusBar(DolphinView* parent = 0);
+    DolphinStatusBar(QWidget* parent,
+                     const KUrl& url);
+
     virtual ~DolphinStatusBar();
 
     /**

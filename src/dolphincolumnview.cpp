@@ -88,10 +88,10 @@ void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
     m_controller->triggerContextMenuRequest(event->pos());
 }
 
-void DolphinColumnView::mouseReleaseEvent(QMouseEvent* event)
+void DolphinColumnView::mousePressEvent(QMouseEvent* event)
 {
-    QColumnView::mouseReleaseEvent(event);
     m_controller->triggerActivation();
+    QColumnView::mousePressEvent(event);
 }
 
 void DolphinColumnView::dragEnterEvent(QDragEnterEvent* event)

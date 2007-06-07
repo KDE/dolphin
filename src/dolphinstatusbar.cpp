@@ -30,7 +30,7 @@
 #include <kiconloader.h>
 #include <kvbox.h>
 
-DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
+DolphinStatusBar::DolphinStatusBar(QWidget* parent, const KUrl& url) :
     KHBox(parent),
     m_messageLabel(0),
     m_spaceInfo(0),
@@ -43,7 +43,7 @@ DolphinStatusBar::DolphinStatusBar(DolphinView* parent) :
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     m_spaceInfo = new StatusBarSpaceInfo(this);
-    m_spaceInfo->setUrl(parent->url());
+    m_spaceInfo->setUrl(url);
 
     m_progressText = new QLabel(this);
     m_progressText->hide();

@@ -20,17 +20,17 @@
 
 #include "dolphinview.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QClipboard>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QItemSelection>
-#include <QtGui/QBoxLayout>
-#include <QtCore/QTimer>
-#include <QtGui/QScrollBar>
+#include <QApplication>
+#include <QClipboard>
+#include <QKeyEvent>
+#include <QItemSelection>
+#include <QBoxLayout>
+#include <QTimer>
+#include <QScrollBar>
 
 #include <kdirmodel.h>
+#include <kdirlister.h>
 #include <kfileitemdelegate.h>
-#include <kfileplacesmodel.h>
 #include <kglobalsettings.h>
 #include <klocale.h>
 #include <kiconeffect.h>
@@ -44,109 +44,55 @@
 
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
-#include "dolphinstatusbar.h"
-#include "dolphinmainwindow.h"
-#include "dolphindirlister.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
-#include "dolphincontextmenu.h"
 #include "dolphinitemcategorizer.h"
-#include "filterbar.h"
 #include "renamedialog.h"
-#include "kurlnavigator.h"
 #include "viewproperties.h"
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 
-DolphinView::DolphinView(DolphinMainWindow* mainWindow,
-                         QWidget* parent,
+DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
+                         KDirLister* dirLister,
+                         KDirModel* dirModel,
+                         DolphinSortFilterProxyModel* proxyModel,
                          Mode mode,
                          bool showHiddenFiles) :
     QWidget(parent),
-    m_showProgress(false),
+    m_active(true),
     m_blockContentsMovedSignal(false),
     m_initializeColumnView(false),
     m_mode(mode),
-    m_iconSize(0),
-    m_folderCount(0),
-    m_fileCount(0),
-    m_mainWindow(mainWindow),
     m_topLayout(0),
-    m_urlNavigator(0),
     m_controller(0),
     m_iconsView(0),
     m_detailsView(0),
     m_columnView(0),
     m_fileItemDelegate(0),
-    m_filterBar(0),
-    m_statusBar(0),
-    m_dirModel(0),
-    m_dirLister(0),
-    m_proxyModel(0)
+    m_dirModel(dirModel),
+    m_dirLister(dirLister),
+    m_proxyModel(proxyModel)
 {
-    hide();
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    connect(m_mainWindow, SIGNAL(activeViewChanged()),
-            this, SLOT(updateActivationState()));
-
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updateCutItems()));
 
-    m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
-
-    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    m_urlNavigator->setUrlEditable(settings->editableUrl());
-    m_urlNavigator->setHomeUrl(settings->homeUrl());
-
-    connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(changeDirectory(const KUrl&)));
-    connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
-            this, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
-    connect(m_urlNavigator, SIGNAL(activated()),
-            this, SLOT(requestActivation()));
-    connect(this, SIGNAL(contentsMoved(int, int)),
-            m_urlNavigator, SLOT(savePosition(int, int)));
-
-    m_statusBar = new DolphinStatusBar(this);
-
-    m_dirLister = new DolphinDirLister();
-    m_dirLister->setAutoUpdate(true);
-    m_dirLister->setMainWindow(this);
-    m_dirLister->setShowingDotFiles(showHiddenFiles);
-    m_dirLister->setDelayedMimeTypes(true);
-
-    connect(m_dirLister, SIGNAL(clear()),
-            this, SLOT(updateStatusBar()));
-    connect(m_dirLister, SIGNAL(percent(int)),
-            this, SLOT(updateProgress(int)));
-    connect(m_dirLister, SIGNAL(deleteItem(KFileItem*)),
-            this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(updateItemCount()));
+            this, SLOT(restoreContentsPos()));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateCutItems()));
     connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
             this, SLOT(generatePreviews(const KFileItemList&)));
-    connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
-            this, SLOT(showInfoMessage(const QString&)));
-    connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
-            this, SLOT(showErrorMessage(const QString&)));
-
-    m_dirModel = new KDirModel();
-    m_dirModel->setDirLister(m_dirLister);
-    m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
-
-    m_proxyModel = new DolphinSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_dirModel);
 
     m_controller = new DolphinController(this);
+    m_controller->setUrl(url);
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
     connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&, QWidget*)),
@@ -158,44 +104,23 @@ DolphinView::DolphinView(DolphinMainWindow* mainWindow,
     connect(m_controller, SIGNAL(itemTriggered(const QModelIndex&)),
             this, SLOT(triggerItem(const QModelIndex&)));
     connect(m_controller, SIGNAL(activated()),
-            this, SLOT(requestActivation()));
+            this, SLOT(activate()));
     connect(m_controller, SIGNAL(itemEntered(const QModelIndex&)),
             this, SLOT(showHoverInformation(const QModelIndex&)));
     connect(m_controller, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
 
     createView();
-
-    m_iconSize = K3Icon::SizeMedium;
-
-    m_filterBar = new FilterBar(this);
-    m_filterBar->setVisible(settings->filterBar());
-    connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
-            this, SLOT(changeNameFilter(const QString&)));
-    connect(m_filterBar, SIGNAL(closeRequest()),
-            this, SLOT(closeFilterBar()));
-
-    m_topLayout->addWidget(m_urlNavigator);
     m_topLayout->addWidget(itemView());
-    m_topLayout->addWidget(m_filterBar);
-    m_topLayout->addWidget(m_statusBar);
 }
 
 DolphinView::~DolphinView()
 {
-    delete m_dirLister;
-    m_dirLister = 0;
-}
-
-void DolphinView::setUrl(const KUrl& url)
-{
-    m_urlNavigator->setUrl(url);
-    m_controller->setUrl(url);
 }
 
 const KUrl& DolphinView::url() const
 {
-    return m_urlNavigator->url();
+    return m_controller->url();
 }
 
 KUrl DolphinView::rootUrl() const
@@ -203,9 +128,37 @@ KUrl DolphinView::rootUrl() const
     return isColumnViewActive() ? m_dirLister->url() : url();
 }
 
+void DolphinView::setActive(bool active)
+{
+    if (active == m_active) {
+        return;
+    }
+
+    m_active = active;
+
+    QColor color = KGlobalSettings::baseColor();
+    if (active) {
+        emit urlChanged(url());
+        emit selectionChanged(selectedItems());
+    } else {
+        color.setAlpha(0);
+    }
+
+    QWidget* viewport = itemView()->viewport();
+    QPalette palette;
+    palette.setColor(viewport->backgroundRole(), color);
+    viewport->setPalette(palette);
+
+    update();
+
+    if (active) {
+        emit activated();
+    }
+}
+
 bool DolphinView::isActive() const
 {
-    return m_mainWindow->activeView() == this;
+    return m_active;
 }
 
 void DolphinView::setMode(Mode mode)
@@ -221,14 +174,16 @@ void DolphinView::setMode(Mode mode)
         // to go back to the root URL of the column view automatically.
         // Otherwise there it would not be possible to turn off the column view
         // without focusing the first column.
-        setUrl(m_dirLister->url());
+        // TODO: reactivate again after DolphinView/DolphinViewController split works
+        //setUrl(m_dirLister->url());
+        //m_controller->setUrl(m_dirLister->url());
     }
 
-    ViewProperties props(m_urlNavigator->url());
+    ViewProperties props(url());
     props.setViewMode(m_mode);
 
     createView();
-    startDirLister(m_urlNavigator->url());
+    startDirLister(url());
 
     emit modeChanged();
 }
@@ -240,13 +195,13 @@ DolphinView::Mode DolphinView::mode() const
 
 void DolphinView::setShowPreview(bool show)
 {
-    ViewProperties props(m_urlNavigator->url());
+    ViewProperties props(url());
     props.setShowPreview(show);
 
     m_controller->setShowPreview(show);
     emit showPreviewChanged();
 
-    startDirLister(m_urlNavigator->url(), true);
+    startDirLister(url(), true);
 }
 
 bool DolphinView::showPreview() const
@@ -260,13 +215,13 @@ void DolphinView::setShowHiddenFiles(bool show)
         return;
     }
 
-    ViewProperties props(m_urlNavigator->url());
+    ViewProperties props(url());
     props.setShowHiddenFiles(show);
 
     m_dirLister->setShowingDotFiles(show);
     emit showHiddenFilesChanged();
 
-    startDirLister(m_urlNavigator->url(), true);
+    startDirLister(url(), true);
 }
 
 bool DolphinView::showHiddenFiles() const
@@ -290,7 +245,7 @@ void DolphinView::setCategorizedSorting(bool categorized)
         delete categorizer;
     }
 
-    ViewProperties props(m_urlNavigator->url());
+    ViewProperties props(url());
     props.setCategorizedSorting(categorized);
     props.save();
 
@@ -314,7 +269,9 @@ bool DolphinView::supportsCategorizedSorting() const
 
 void DolphinView::renameSelectedItems()
 {
-    DolphinView* view = mainWindow()->activeView();
+    // TODO: temporary deactivate due to DolphinView/DolphinViewController split
+
+    /*DolphinView* view = 0; //mainWindow()->activeView();
     const KUrl::List urls = selectedUrls();
     if (urls.count() > 1) {
         // More than one item has been selected for renaming. Open
@@ -379,7 +336,7 @@ void DolphinView::renameSelectedItems()
             newUrl.setFileName(newName);
             m_mainWindow->rename(oldUrl, newUrl);
         }
-    }
+    }*/
 }
 
 void DolphinView::selectAll()
@@ -392,11 +349,6 @@ void DolphinView::invertSelection()
     selectAll(QItemSelectionModel::Toggle);
 }
 
-DolphinStatusBar* DolphinView::statusBar() const
-{
-    return m_statusBar;
-}
-
 int DolphinView::contentsX() const
 {
     return itemView()->horizontalScrollBar()->value();
@@ -405,16 +357,6 @@ int DolphinView::contentsX() const
 int DolphinView::contentsY() const
 {
     return itemView()->verticalScrollBar()->value();
-}
-
-bool DolphinView::isFilterBarVisible() const
-{
-    return m_filterBar->isVisible();
-}
-
-bool DolphinView::isUrlEditable() const
-{
-    return m_urlNavigator->isUrlEditable();
 }
 
 void DolphinView::zoomIn()
@@ -463,44 +405,19 @@ Qt::SortOrder DolphinView::sortOrder() const
 
 void DolphinView::setAdditionalInfo(KFileItemDelegate::AdditionalInformation info)
 {
-    ViewProperties props(m_urlNavigator->url());
+    ViewProperties props(url());
     props.setAdditionalInfo(info);
 
     m_controller->setShowAdditionalInfo(info != KFileItemDelegate::NoInformation);
     m_fileItemDelegate->setAdditionalInformation(info);
 
     emit additionalInfoChanged(info);
-    startDirLister(m_urlNavigator->url(), true);
+    startDirLister(url(), true);
 }
 
 KFileItemDelegate::AdditionalInformation DolphinView::additionalInfo() const
 {
     return m_fileItemDelegate->additionalInformation();
-}
-
-void DolphinView::goBack()
-{
-    m_urlNavigator->goBack();
-}
-
-void DolphinView::goForward()
-{
-    m_urlNavigator->goForward();
-}
-
-void DolphinView::goUp()
-{
-    m_urlNavigator->goUp();
-}
-
-void DolphinView::goHome()
-{
-    m_urlNavigator->goHome();
-}
-
-void DolphinView::setUrlEditable(bool editable)
-{
-    m_urlNavigator->setUrlEditable(editable);
 }
 
 bool DolphinView::hasSelection() const
@@ -571,9 +488,7 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
     KUrl dest(source.upUrl());
     dest.addPath(newName);
 
-    const bool destExists = KIO::NetAccess::exists(dest,
-                            false,
-                            mainWindow()->activeView());
+    const bool destExists = KIO::NetAccess::exists(dest, false, this);
     if (destExists) {
         // the destination already exists, hence ask the user
         // how to proceed...
@@ -607,21 +522,22 @@ void DolphinView::rename(const KUrl& source, const QString& newName)
 
     const QString destFileName = dest.fileName();
     if (ok) {
-        m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.", source.fileName(), destFileName),
-                                DolphinStatusBar::OperationCompleted);
+        // XYDZ
+        //m_statusBar->setMessage(i18n("Renamed file '%1' to '%2'.", source.fileName(), destFileName),
+        //                        DolphinStatusBar::OperationCompleted);
 
         KonqOperations::rename(this, source, destFileName);
     } else {
-        m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.", source.fileName(), destFileName),
-                                DolphinStatusBar::Error);
+        // XYDZ
+        //m_statusBar->setMessage(i18n("Renaming of file '%1' to '%2' failed.", source.fileName(), destFileName),
+        //                        DolphinStatusBar::Error);
     }
 }
 
 void DolphinView::reload()
 {
-    const KUrl& url = m_urlNavigator->url();
-    changeDirectory(url);
-    startDirLister(url, true);
+    setUrl(url());
+    startDirLister(url(), true);
 }
 
 void DolphinView::refresh()
@@ -633,19 +549,202 @@ void DolphinView::refresh()
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
-    mainWindow()->setActiveView(this);
+    setActive(true);;
+}
+void DolphinView::activate()
+{
+    setActive(true);
 }
 
-DolphinMainWindow* DolphinView::mainWindow() const
+void DolphinView::triggerItem(const QModelIndex& index)
 {
-    return m_mainWindow;
-}
-
-void DolphinView::changeDirectory(const KUrl& url)
-{
-    if (!isActive()) {
-        requestActivation();
+    if (!isValidNameIndex(index)) {
+        clearSelection();
+        showHoverInformation(index);
+        return;
     }
+
+    const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+    if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
+        // items are selected by the user, hence don't trigger the
+        // item specified by 'index'
+        return;
+    }
+
+    KFileItem* item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
+    if (item == 0) {
+        return;
+    }
+
+    // Prefer the local path over the URL. This assures that the
+    // volume space information is correct. Assuming that the URL is media:/sda1,
+    // and the local path is /windows/C: For the URL the space info is related
+    // to the root partition (and hence wrong) and for the local path the space
+    // info is related to the windows partition (-> correct).
+    const QString localPath(item->localPath());
+    KUrl url;
+    if (localPath.isEmpty()) {
+        url = item->url();
+    } else {
+        url = localPath;
+    }
+
+    if (item->isDir()) {
+        setUrl(url);
+    } else if (item->isFile()) {
+        // allow to browse through ZIP and tar files
+        KMimeType::Ptr mime = item->mimeTypePtr();
+        if (mime->is("application/zip")) {
+            url.setProtocol("zip");
+            setUrl(url);
+        } else if (mime->is("application/x-tar") ||
+                   mime->is("application/x-tarz") ||
+                   mime->is("application/x-bzip-compressed-tar") ||
+                   mime->is("application/x-compressed-tar") ||
+                   mime->is("application/x-tzo")) {
+            url.setProtocol("tar");
+            setUrl(url);
+        } else {
+            item->run();
+        }
+    } else {
+        item->run();
+    }
+}
+
+void DolphinView::generatePreviews(const KFileItemList& items)
+{
+    if (m_controller->showPreview()) {
+
+        // Must turn QList<KFileItem *> to QList<KFileItem>...
+        QList<KFileItem> itemsToPreview;
+        foreach( KFileItem* it, items )
+            itemsToPreview.append( *it );
+
+        KIO::PreviewJob* job = KIO::filePreview(itemsToPreview, 128);
+        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
+    }
+}
+
+void DolphinView::showPreview(const KFileItem& item, const QPixmap& pixmap)
+{
+    Q_ASSERT(!item.isNull());
+    if (item.url().directory() != m_dirLister->url().path()) {
+        // the preview job is still working on items of an older URL, hence
+        // the item is not part of the directory model anymore
+        return;
+    }
+
+    const QModelIndex idx = m_dirModel->indexForItem(item);
+    if (idx.isValid() && (idx.column() == 0)) {
+        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
+            KIconEffect iconEffect;
+            const QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
+            m_dirModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
+        } else {
+            m_dirModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
+        }
+    }
+}
+
+void DolphinView::restoreContentsPos()
+{
+    m_blockContentsMovedSignal = false;
+    if (!url().isEmpty()) {
+        QAbstractItemView* view = itemView();
+        // TODO #1: view->setCurrentItem(m_urlNavigator->currentFileName());
+        // TODO #2: temporary deactivated due to DolphinView/DolphinViewController split
+        //QPoint pos = m_urlNavigator->savedPosition();
+        QPoint pos(0, 0);
+        view->horizontalScrollBar()->setValue(pos.x());
+        view->verticalScrollBar()->setValue(pos.y());
+    }
+}
+
+void DolphinView::emitSelectionChangedSignal()
+{
+    emit selectionChanged(DolphinView::selectedItems());
+}
+
+void DolphinView::startDirLister(const KUrl& url, bool reload)
+{
+    if (!url.isValid()) {
+        // TODO: temporary deactivated due to DolphinView/DolphinViewController split
+
+        //const QString location(url.pathOrUrl());
+        //if (location.isEmpty()) {
+        //    m_statusBar->setMessage(i18n("The location is empty."), DolphinStatusBar::Error);
+        //} else {
+        //    m_statusBar->setMessage(i18n("The location '%1' is invalid.", location),
+        //                            DolphinStatusBar::Error);
+        //}
+        return;
+    }
+
+    // Only show the directory loading progress if the status bar does
+    // not contain another progress information. This means that
+    // the directory loading progress information has the lowest priority.
+
+    // TODO: temporary deactivated due to DolphinView/DolphinViewController split
+    //const QString progressText(m_statusBar->progressText());
+    //m_showProgress = progressText.isEmpty() ||
+    //                 (progressText == i18n("Loading folder..."));
+    //if (m_showProgress) {
+    //    m_statusBar->setProgressText(i18n("Loading folder..."));
+    //    m_statusBar->setProgress(0);
+    //}
+
+    m_cutItemsCache.clear();
+    m_blockContentsMovedSignal = true;
+    m_dirLister->stop();
+
+    bool openDir = true;
+    bool keepOldDirs = isColumnViewActive() && !m_initializeColumnView;
+    m_initializeColumnView = false;
+
+    if (keepOldDirs) {
+        if (reload) {
+            keepOldDirs = false;
+
+            const KUrl& dirListerUrl = m_dirLister->url();
+            if (dirListerUrl.isValid()) {
+                const KUrl::List dirs = m_dirLister->directories();
+                KUrl url;
+                foreach(url, dirs) {
+                    m_dirLister->updateDirectory(url);
+                }
+                openDir = false;
+            }
+        } else if (m_dirLister->directories().contains(url)) {
+            // The dir lister contains the directory already, so
+            // KDirLister::openUrl() may not been invoked twice.
+            m_dirLister->updateDirectory(url);
+            openDir = false;
+        } else {
+            const KUrl& dirListerUrl = m_dirLister->url();
+            if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
+                // The current URL is not a child of the dir lister
+                // URL. This may happen when e. g. a bookmark has been selected
+                // and hence the view must be reset.
+                keepOldDirs = false;
+            }
+        }
+    }
+
+    if (openDir) {
+        m_dirLister->openUrl(url, keepOldDirs, reload);
+    }
+}
+
+void DolphinView::setUrl(const KUrl& url)
+{
+    if (m_controller->url() == url) {
+        return;
+    }
+
+    m_controller->setUrl(url);
 
     const ViewProperties props(url);
 
@@ -723,324 +822,8 @@ void DolphinView::changeDirectory(const KUrl& url)
     startDirLister(url);
     emit urlChanged(url);
 
-    m_statusBar->clear();
-}
-
-void DolphinView::triggerItem(const QModelIndex& index)
-{
-    if (!isValidNameIndex(index)) {
-        clearSelection();
-        showHoverInformation(index);
-        return;
-    }
-
-    const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-    if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
-        // items are selected by the user, hence don't trigger the
-        // item specified by 'index'
-        return;
-    }
-
-    KFileItem* item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
-    if (item == 0) {
-        return;
-    }
-
-    // Prefer the local path over the URL. This assures that the
-    // volume space information is correct. Assuming that the URL is media:/sda1,
-    // and the local path is /windows/C: For the URL the space info is related
-    // to the root partition (and hence wrong) and for the local path the space
-    // info is related to the windows partition (-> correct).
-    const QString localPath(item->localPath());
-    KUrl url;
-    if (localPath.isEmpty()) {
-        url = item->url();
-    } else {
-        url = localPath;
-    }
-
-    if (item->isDir()) {
-        setUrl(url);
-    } else if (item->isFile()) {
-        // allow to browse through ZIP and tar files
-        KMimeType::Ptr mime = item->mimeTypePtr();
-        if (mime->is("application/zip")) {
-            url.setProtocol("zip");
-            setUrl(url);
-        } else if (mime->is("application/x-tar") ||
-                   mime->is("application/x-tarz") ||
-                   mime->is("application/x-bzip-compressed-tar") ||
-                   mime->is("application/x-compressed-tar") ||
-                   mime->is("application/x-tzo")) {
-            url.setProtocol("tar");
-            setUrl(url);
-        } else {
-            item->run();
-        }
-    } else {
-        item->run();
-    }
-}
-
-void DolphinView::updateProgress(int percent)
-{
-    if (m_showProgress) {
-        m_statusBar->setProgress(percent);
-    }
-}
-
-void DolphinView::updateItemCount()
-{
-    if (m_showProgress) {
-        m_statusBar->setProgressText(QString());
-        m_statusBar->setProgress(100);
-        m_showProgress = false;
-    }
-
-    KFileItemList items(m_dirLister->items());
-    KFileItemList::const_iterator it = items.begin();
-    const KFileItemList::const_iterator end = items.end();
-
-    m_fileCount = 0;
-    m_folderCount = 0;
-
-    while (it != end) {
-        KFileItem* item = *it;
-        if (item->isDir()) {
-            ++m_folderCount;
-        } else {
-            ++m_fileCount;
-        }
-        ++it;
-    }
-
-    updateStatusBar();
-
-    m_blockContentsMovedSignal = false;
-    QTimer::singleShot(0, this, SLOT(restoreContentsPos()));
-}
-
-void DolphinView::generatePreviews(const KFileItemList& items)
-{
-    if (m_controller->showPreview()) {
-
-        // Must turn QList<KFileItem *> to QList<KFileItem>...
-        QList<KFileItem> itemsToPreview;
-        foreach( KFileItem* it, items )
-            itemsToPreview.append( *it );
-
-        KIO::PreviewJob* job = KIO::filePreview(itemsToPreview, 128);
-        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
-    }
-}
-
-void DolphinView::showPreview(const KFileItem& item, const QPixmap& pixmap)
-{
-    Q_ASSERT(!item.isNull());
-    if (item.url().directory() != m_dirLister->url().path()) {
-        // the preview job is still working on items of an older URL, hence
-        // the item is not part of the directory model anymore
-        return;
-    }
-
-    const QModelIndex idx = m_dirModel->indexForItem(item);
-    if (idx.isValid() && (idx.column() == 0)) {
-        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
-            KIconEffect iconEffect;
-            const QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
-            m_dirModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
-        } else {
-            m_dirModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
-        }
-    }
-}
-
-void DolphinView::restoreContentsPos()
-{
-    KUrl currentUrl = m_urlNavigator->url();
-    if (!currentUrl.isEmpty()) {
-        QAbstractItemView* view = itemView();
-        // TODO: view->setCurrentItem(m_urlNavigator->currentFileName());
-        QPoint pos = m_urlNavigator->savedPosition();
-        view->horizontalScrollBar()->setValue(pos.x());
-        view->verticalScrollBar()->setValue(pos.y());
-    }
-}
-
-void DolphinView::showInfoMessage(const QString& msg)
-{
-    m_statusBar->setMessage(msg, DolphinStatusBar::Information);
-}
-
-void DolphinView::showErrorMessage(const QString& msg)
-{
-    m_statusBar->setMessage(msg, DolphinStatusBar::Error);
-}
-
-void DolphinView::emitSelectionChangedSignal()
-{
-    emit selectionChanged(DolphinView::selectedItems());
-}
-
-void DolphinView::closeFilterBar()
-{
-    m_filterBar->hide();
-    emit showFilterBarChanged(false);
-}
-
-void DolphinView::startDirLister(const KUrl& url, bool reload)
-{
-    if (!url.isValid()) {
-        const QString location(url.pathOrUrl());
-        if (location.isEmpty()) {
-            m_statusBar->setMessage(i18n("The location is empty."), DolphinStatusBar::Error);
-        } else {
-            m_statusBar->setMessage(i18n("The location '%1' is invalid.", location),
-                                    DolphinStatusBar::Error);
-        }
-        return;
-    }
-
-    // Only show the directory loading progress if the status bar does
-    // not contain another progress information. This means that
-    // the directory loading progress information has the lowest priority.
-    const QString progressText(m_statusBar->progressText());
-    m_showProgress = progressText.isEmpty() ||
-                     (progressText == i18n("Loading folder..."));
-    if (m_showProgress) {
-        m_statusBar->setProgressText(i18n("Loading folder..."));
-        m_statusBar->setProgress(0);
-    }
-
-    m_cutItemsCache.clear();
-    m_blockContentsMovedSignal = true;
-    m_dirLister->stop();
-
-    bool openDir = true;
-    bool keepOldDirs = isColumnViewActive() && !m_initializeColumnView;
-    m_initializeColumnView = false;
-
-    if (keepOldDirs) {
-        if (reload) {
-            keepOldDirs = false;
-
-            const KUrl& dirListerUrl = m_dirLister->url();
-            if (dirListerUrl.isValid()) {
-                const KUrl::List dirs = m_dirLister->directories();
-                KUrl url;
-                foreach(url, dirs) {
-                    m_dirLister->updateDirectory(url);
-                }
-                openDir = false;
-            }
-        } else if (m_dirLister->directories().contains(url)) {
-            // The dir lister contains the directory already, so
-            // KDirLister::openUrl() may not been invoked twice.
-            m_dirLister->updateDirectory(url);
-            openDir = false;
-        } else {
-            const KUrl& dirListerUrl = m_dirLister->url();
-            if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
-                // The current URL is not a child of the dir lister
-                // URL. This may happen when e. g. a bookmark has been selected
-                // and hence the view must be reset.
-                keepOldDirs = false;
-            }
-        }
-    }
-
-    if (openDir) {
-        m_dirLister->openUrl(url, keepOldDirs, reload);
-    }
-}
-
-QString DolphinView::defaultStatusBarText() const
-{
-    return KIO::itemsSummaryString(m_fileCount + m_folderCount,
-                                   m_fileCount,
-                                   m_folderCount,
-                                   0, false);
-}
-
-QString DolphinView::selectionStatusBarText() const
-{
-    QString text;
-    const KFileItemList list = selectedItems();
-    if (list.isEmpty()) {
-        // when an item is triggered, it is temporary selected but selectedItems()
-        // will return an empty list
-        return QString();
-    }
-
-    int fileCount = 0;
-    int folderCount = 0;
-    KIO::filesize_t byteSize = 0;
-    KFileItemList::const_iterator it = list.begin();
-    const KFileItemList::const_iterator end = list.end();
-    while (it != end) {
-        KFileItem* item = *it;
-        if (item->isDir()) {
-            ++folderCount;
-        } else {
-            ++fileCount;
-            byteSize += item->size();
-        }
-        ++it;
-    }
-
-    if (folderCount > 0) {
-        text = i18np("1 Folder selected", "%1 Folders selected", folderCount);
-        if (fileCount > 0) {
-            text += ", ";
-        }
-    }
-
-    if (fileCount > 0) {
-        const QString sizeText(KIO::convertSize(byteSize));
-        text += i18np("1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText);
-    }
-
-    return text;
-}
-
-void DolphinView::showFilterBar(bool show)
-{
-    Q_ASSERT(m_filterBar != 0);
-    if (show) {
-        m_filterBar->show();
-    } else {
-        m_filterBar->hide();
-    }
-}
-
-void DolphinView::updateStatusBar()
-{
-    // As the item count information is less important
-    // in comparison with other messages, it should only
-    // be shown if:
-    // - the status bar is empty or
-    // - shows already the item count information or
-    // - shows only a not very important information
-    // - if any progress is given don't show the item count info at all
-    const QString msg(m_statusBar->message());
-    const bool updateStatusBarMsg = (msg.isEmpty() ||
-                                     (msg == m_statusBar->defaultText()) ||
-                                     (m_statusBar->type() == DolphinStatusBar::Information)) &&
-                                    (m_statusBar->progress() == 100);
-
-    const QString text(hasSelection() ? selectionStatusBarText() : defaultStatusBarText());
-    m_statusBar->setDefaultText(text);
-
-    if (updateStatusBarMsg) {
-        m_statusBar->setMessage(text, DolphinStatusBar::Default);
-    }
-}
-
-void DolphinView::requestActivation()
-{
-    m_mainWindow->setActiveView(this);
+    // TODO: temporary deactivated due to DolphinView/DolphinViewController split
+    //m_statusBar->clear();
 }
 
 void DolphinView::changeSelection(const KFileItemList& selection)
@@ -1049,7 +832,7 @@ void DolphinView::changeSelection(const KFileItemList& selection)
     if (selection.isEmpty()) {
         return;
     }
-    KUrl baseUrl = url();
+    const KUrl& baseUrl = url();
     KUrl url;
     QItemSelection new_selection;
     foreach(KFileItem* item, selection) {
@@ -1064,31 +847,6 @@ void DolphinView::changeSelection(const KFileItemList& selection)
                                          | QItemSelectionModel::Current);
 }
 
-void DolphinView::changeNameFilter(const QString& nameFilter)
-{
-    // The name filter of KDirLister does a 'hard' filtering, which
-    // means that only the items are shown where the names match
-    // exactly the filter. This is non-transparent for the user, which
-    // just wants to have a 'soft' filtering: does the name contain
-    // the filter string?
-    QString adjustedFilter(nameFilter);
-    adjustedFilter.insert(0, '*');
-    adjustedFilter.append('*');
-
-    // Use the ProxyModel to filter:
-    // This code is #ifdefed as setNameFilter behaves
-    // slightly different than the QSortFilterProxyModel
-    // as it will not remove directories. I will ask
-    // our beloved usability experts for input
-    // -- z.
-#if 0
-    m_dirLister->setNameFilter(adjustedFilter);
-    m_dirLister->emitChanges();
-#else
-    m_proxyModel->setFilterRegExp(nameFilter);
-#endif
-}
-
 void DolphinView::openContextMenu(const QPoint& pos)
 {
     KFileItem* item = 0;
@@ -1098,8 +856,7 @@ void DolphinView::openContextMenu(const QPoint& pos)
         item = fileItem(index);
     }
 
-    DolphinContextMenu contextMenu(m_mainWindow, item, url());
-    contextMenu.open();
+    emit requestContextMenu(item, url());
 }
 
 void DolphinView::dropUrls(const KUrl::List& urls,
@@ -1122,15 +879,15 @@ void DolphinView::dropUrls(const KUrl::List& urls,
         return;
     }
 
-    const KUrl& destination = (directory == 0) ? url() :
-                              directory->url();
+    const KUrl& destination = (directory == 0) ?
+                              url() : directory->url();
     dropUrls(urls, destination);
 }
 
 void DolphinView::dropUrls(const KUrl::List& urls,
                            const KUrl& destination)
 {
-    m_mainWindow->dropUrls(urls, destination);
+    emit urlsDropped(urls, destination);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)
@@ -1160,26 +917,6 @@ void DolphinView::emitContentsMoved()
     }
 }
 
-void DolphinView::updateActivationState()
-{
-    m_urlNavigator->setActive(isActive());
-
-    QColor color = KGlobalSettings::baseColor();
-    if (isActive()) {
-        emit urlChanged(url());
-        emit selectionChanged(selectedItems());
-    } else {
-        color.setAlpha(0);
-    }
-
-    QWidget* viewport = itemView()->viewport();
-    QPalette palette;
-    palette.setColor(viewport->backgroundRole(), color);
-    viewport->setPalette(palette);
-
-    update();
-}
-
 void DolphinView::updateCutItems()
 {
     // restore the icons of all previously selected items to the
@@ -1207,14 +944,16 @@ void DolphinView::showHoverInformation(const QModelIndex& index)
 
     const KFileItem* item = fileItem(index);
     if (item != 0) {
-        m_statusBar->setMessage(item->getStatusBarInfo(), DolphinStatusBar::Default);
+        // TODO: temporary deactivated due to DolphinView/DolphinViewController split
+        //m_statusBar->setMessage(item->getStatusBarInfo(), DolphinStatusBar::Default);
         emit requestItemInfo(item->url());
     }
 }
 
 void DolphinView::clearHoverInformation()
 {
-    m_statusBar->clear();
+    // TODO: temporary deactivated due to DolphinView/DolphinViewController split
+    //m_statusBar->clear();
     emit requestItemInfo(KUrl());
 }
 

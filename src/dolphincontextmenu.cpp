@@ -23,6 +23,7 @@
 #include "dolphinmainwindow.h"
 #include "dolphinsettings.h"
 #include "dolphinview.h"
+#include "dolphinviewcontainer.h"
 
 #include <kactioncollection.h>
 #include <kfileplacesmodel.h>
@@ -57,7 +58,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
-    DolphinView* view = m_mainWindow->activeView();
+    DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedUrls = view->selectedUrls();
     m_selectedItems = view->selectedItems();
 }
@@ -242,11 +243,11 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* activatedAction = popup->exec(QCursor::pos());
     if (activatedAction == propertiesAction) {
-        const KUrl& url = m_mainWindow->activeView()->url();
+        const KUrl& url = m_mainWindow->activeViewContainer()->url();
         KPropertiesDialog dialog(url);
         dialog.exec();
     } else if (activatedAction == bookmarkAction) {
-        const KUrl& url = m_mainWindow->activeView()->url();
+        const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(url.fileName(), url);
         }
@@ -278,7 +279,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     const KConfigGroup kdeConfig(globalConfig, "KDE");
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
-    const KUrl& url = m_mainWindow->activeView()->url();
+    const KUrl& url = m_mainWindow->activeViewContainer()->url();
     if (url.isLocalFile()) {
         QAction* moveToTrashAction = collection->action("move_to_trash");
         popup->addAction(moveToTrashAction);

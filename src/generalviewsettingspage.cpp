@@ -20,15 +20,17 @@
 #include "generalviewsettingspage.h"
 #include "dolphinmainwindow.h"
 #include "dolphinsettings.h"
-#include "dolphin_generalsettings.h"
+#include "dolphinviewcontainer.h"
 #include "viewproperties.h"
 
-#include <QtGui/QLabel>
-#include <QtGui/QGroupBox>
-#include <QtGui/QRadioButton>
-#include <QtGui/QSlider>
-#include <QtGui/QSpinBox>
-#include <QtGui/QBoxLayout>
+#include "dolphin_generalsettings.h"
+
+#include <QLabel>
+#include <QGroupBox>
+#include <QRadioButton>
+#include <QSlider>
+#include <QSpinBox>
+#include <QBoxLayout>
 
 #include <kconfiggroup.h>
 #include <kdialog.h>
@@ -100,7 +102,7 @@ GeneralViewSettingsPage::~GeneralViewSettingsPage()
 
 void GeneralViewSettingsPage::applySettings()
 {
-    const KUrl& url = m_mainWindow->activeView()->url();
+    const KUrl& url = m_mainWindow->activeViewContainer()->url();
     ViewProperties props(url);  // read current view properties
 
     const bool useGlobalProps = m_globalProps->isChecked();

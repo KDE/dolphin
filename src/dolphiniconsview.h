@@ -45,7 +45,6 @@ protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
-    virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);

@@ -20,6 +20,7 @@
 
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
+#include "dolphinviewcontainer.h"
 
 #include <applicationadaptor.h>
 #include <kcmdlineargs.h>
@@ -90,8 +91,8 @@ int DolphinApplication::newInstance()
 int DolphinApplication::openWindow(const KUrl& url)
 {
     DolphinMainWindow* win = createMainWindow();
-    if ((win->activeView() != 0) && url.isValid()) {
-        win->activeView()->setUrl(url);
+    if ((win->activeViewContainer() != 0) && url.isValid()) {
+        win->activeViewContainer()->setUrl(url);
     }
     win->show();
     return win->getId();
