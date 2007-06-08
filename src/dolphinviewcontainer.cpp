@@ -131,8 +131,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                              m_dirLister,
                              m_dirModel,
                              m_proxyModel,
-                             mode,
-                             showHiddenFiles);
+                             mode);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
     connect(m_view, SIGNAL(requestContextMenu(KFileItem*, const KUrl&)),
@@ -141,6 +140,10 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
     connect(m_view, SIGNAL(requestItemInfo(const KUrl&)),
             this, SLOT(showItemInfo(const KUrl&)));
+    connect(m_view, SIGNAL(errorMessage(const QString&)),
+            this, SLOT(showErrorMessage(const QString&)));
+    connect(m_view, SIGNAL(infoMessage(const QString&)),
+            this, SLOT(showInfoMessage(const QString&)));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             m_view, SLOT(setUrl(const KUrl&)));

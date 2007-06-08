@@ -123,8 +123,7 @@ public:
                 KDirLister* dirLister,
                 KDirModel* dirModel,
                 DolphinSortFilterProxyModel* proxyModel,
-                Mode mode = IconsView,
-                bool showHiddenFiles = false);
+                Mode mode);
 
     virtual ~DolphinView();
 
@@ -372,6 +371,18 @@ signals:
      * operation.
      */
     void urlsDropped(const KUrl::List& urls, const KUrl& destination);
+
+    /**
+     * Is emitted if an information message with the content \a msg
+     * should be shown.
+     */
+    void infoMessage(const QString& msg);
+
+    /**
+     * Is emitted if an error message with the content \a msg
+     * should be shown.
+     */
+    void errorMessage(const QString& msg);
 
 protected:
     /** @see QWidget::mouseReleaseEvent */

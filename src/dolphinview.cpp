@@ -58,8 +58,7 @@ DolphinView::DolphinView(QWidget* parent,
                          KDirLister* dirLister,
                          KDirModel* dirModel,
                          DolphinSortFilterProxyModel* proxyModel,
-                         Mode mode,
-                         bool showHiddenFiles) :
+                         Mode mode) :
     QWidget(parent),
     m_active(true),
     m_blockContentsMovedSignal(false),
@@ -542,15 +541,12 @@ void DolphinView::emitSelectionChangedSignal()
 void DolphinView::startDirLister(const KUrl& url, bool reload)
 {
     if (!url.isValid()) {
-        // TODO: temporary deactivated due to DolphinView/DolphinViewController split
-
-        //const QString location(url.pathOrUrl());
-        //if (location.isEmpty()) {
-        //    m_statusBar->setMessage(i18n("The location is empty."), DolphinStatusBar::Error);
-        //} else {
-        //    m_statusBar->setMessage(i18n("The location '%1' is invalid.", location),
-        //                            DolphinStatusBar::Error);
-        //}
+        const QString location(url.pathOrUrl());
+        if (location.isEmpty()) {
+            emit errorMessage(i18n("The location is empty."));
+        } else {
+            emit errorMessage(i18n("The location '%1' is invalid.", location));
+        }
         return;
     }
 
@@ -679,9 +675,6 @@ void DolphinView::setUrl(const KUrl& url)
 
     startDirLister(url);
     emit urlChanged(url);
-
-    // TODO: temporary deactivated due to DolphinView/DolphinViewController split
-    //m_statusBar->clear();
 }
 
 void DolphinView::changeSelection(const KFileItemList& selection)
