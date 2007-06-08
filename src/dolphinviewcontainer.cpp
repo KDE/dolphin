@@ -139,6 +139,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(openContextMenu(KFileItem*, const KUrl&)));
     connect(m_view, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
             m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
+    connect(m_view, SIGNAL(requestItemInfo(const KUrl&)),
+            this, SLOT(showItemInfo(const KUrl&)));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             m_view, SLOT(setUrl(const KUrl&)));
@@ -317,6 +319,20 @@ void DolphinViewContainer::updateItemCount()
     updateStatusBar();
 
     QTimer::singleShot(0, this, SLOT(restoreContentsPos()));
+}
+
+void DolphinViewContainer::showItemInfo(const KUrl& url)
+{
+    if (url.isEmpty()) {
+        m_statusBar->clear();
+        return;
+    }
+
+    const QModelIndex index = m_dirModel->indexForUrl(url);
+    const KFileItem* item = m_dirModel->itemForIndex(index);
+    if (item != 0) {
+        m_statusBar->setMessage(item->getStatusBarInfo(), DolphinStatusBar::Default);
+    }
 }
 
 void DolphinViewContainer::showInfoMessage(const QString& msg)

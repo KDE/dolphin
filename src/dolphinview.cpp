@@ -815,16 +815,12 @@ void DolphinView::showHoverInformation(const QModelIndex& index)
 
     const KFileItem* item = fileItem(index);
     if (item != 0) {
-        // TODO: temporary deactivated due to DolphinView/DolphinViewController split
-        //m_statusBar->setMessage(item->getStatusBarInfo(), DolphinStatusBar::Default);
         emit requestItemInfo(item->url());
     }
 }
 
 void DolphinView::clearHoverInformation()
 {
-    // TODO: temporary deactivated due to DolphinView/DolphinViewController split
-    //m_statusBar->clear();
     emit requestItemInfo(KUrl());
 }
 

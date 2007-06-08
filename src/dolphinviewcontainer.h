@@ -156,6 +156,12 @@ private slots:
      */
     void updateItemCount();
 
+    /**
+     * Shows the item information for the URL \a url inside the statusbar. If the
+     * URL is empty, the default statusbar information is shown.
+     */
+    void showItemInfo(const KUrl& url);
+
     /** Shows the information \a msg inside the statusbar. */
     void showInfoMessage(const QString& msg);
 
