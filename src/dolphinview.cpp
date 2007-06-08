@@ -554,19 +554,6 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
         return;
     }
 
-    // Only show the directory loading progress if the status bar does
-    // not contain another progress information. This means that
-    // the directory loading progress information has the lowest priority.
-
-    // TODO: temporary deactivated due to DolphinView/DolphinViewController split
-    //const QString progressText(m_statusBar->progressText());
-    //m_showProgress = progressText.isEmpty() ||
-    //                 (progressText == i18n("Loading folder..."));
-    //if (m_showProgress) {
-    //    m_statusBar->setProgressText(i18n("Loading folder..."));
-    //    m_statusBar->setProgress(0);
-    //}
-
     m_cutItemsCache.clear();
     m_blockContentsMovedSignal = true;
     m_dirLister->stop();

@@ -286,6 +286,19 @@ DolphinMainWindow* DolphinViewContainer::mainWindow() const
 
 void DolphinViewContainer::updateProgress(int percent)
 {
+    if (!m_showProgress) {
+        // Only show the directory loading progress if the status bar does
+        // not contain another progress information. This means that
+        // the directory loading progress information has the lowest priority.
+        const QString progressText(m_statusBar->progressText());
+        m_showProgress = progressText.isEmpty() ||
+                        (progressText == i18n("Loading folder..."));
+        if (m_showProgress) {
+            m_statusBar->setProgressText(i18n("Loading folder..."));
+            m_statusBar->setProgress(0);
+        }
+    }
+
     if (m_showProgress) {
         m_statusBar->setProgress(percent);
     }
