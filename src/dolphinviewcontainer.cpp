@@ -91,6 +91,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(updateCutItems()));
 
     m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
+    connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
+            m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
 
     const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
