@@ -184,6 +184,18 @@ private slots:
      */
     void openContextMenu(KFileItem* item, const KUrl& url);
 
+    /**
+     * Saves the position of the contents to the
+     * current history element.
+     */
+    void saveContentsPos(int x, int y);
+
+    /**
+     * Restores the contents position of the view, if the view
+     * is part of the history.
+     */
+    void restoreContentsPos();
+
 private:
     /**
      * Returns the default text of the status bar, if no item is

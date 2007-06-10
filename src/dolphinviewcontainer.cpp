@@ -133,6 +133,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(openContextMenu(KFileItem*, const KUrl&)));
     connect(m_view, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
             m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
+    connect(m_view, SIGNAL(contentsMoved(int, int)),
+            this, SLOT(saveContentsPos(int, int)));
     connect(m_view, SIGNAL(requestItemInfo(const KUrl&)),
             this, SLOT(showItemInfo(const KUrl&)));
     connect(m_view, SIGNAL(errorMessage(const QString&)),
@@ -329,7 +331,7 @@ void DolphinViewContainer::updateItemCount()
 
     updateStatusBar();
 
-    QTimer::singleShot(0, this, SLOT(restoreContentsPos()));
+    QTimer::singleShot(100, this, SLOT(restoreContentsPos()));
 }
 
 void DolphinViewContainer::showItemInfo(const KUrl& url)
@@ -471,5 +473,19 @@ void DolphinViewContainer::openContextMenu(KFileItem* item,
     DolphinContextMenu contextMenu(m_mainWindow, item, url);
     contextMenu.open();
 }
+
+void DolphinViewContainer::saveContentsPos(int x, int y)
+{
+    m_urlNavigator->savePosition(x, y);
+}
+
+void DolphinViewContainer::restoreContentsPos()
+{
+    if (!url().isEmpty()) {
+        const QPoint pos = m_urlNavigator->savedPosition();
+        m_view->setContentsPosition(pos.x(), pos.y());
+    }
+}
+
 
 #include "dolphinviewcontainer.moc"

@@ -84,8 +84,6 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(updateCutItems()));
 
     connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(restoreContentsPos()));
-    connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateCutItems()));
     connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
             this, SLOT(generatePreviews(const KFileItemList&)));
@@ -276,14 +274,77 @@ void DolphinView::invertSelection()
     selectAll(QItemSelectionModel::Toggle);
 }
 
-int DolphinView::contentsX() const
+bool DolphinView::hasSelection() const
 {
-    return itemView()->horizontalScrollBar()->value();
+    return itemView()->selectionModel()->hasSelection();
 }
 
-int DolphinView::contentsY() const
+void DolphinView::clearSelection()
 {
-    return itemView()->verticalScrollBar()->value();
+    itemView()->selectionModel()->clear();
+}
+
+KFileItemList DolphinView::selectedItems() const
+{
+    const QAbstractItemView* view = itemView();
+
+    // Our view has a selection, we will map them back to the DirModel
+    // and then fill the KFileItemList.
+    Q_ASSERT((view != 0) && (view->selectionModel() != 0));
+
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
+    KFileItemList itemList;
+
+    const QModelIndexList indexList = selection.indexes();
+    QModelIndexList::const_iterator end = indexList.end();
+    for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
+        Q_ASSERT((*it).isValid());
+
+        KFileItem* item = m_dirModel->itemForIndex(*it);
+        if (item != 0) {
+            itemList.append(item);
+        }
+    }
+
+    return itemList;
+}
+
+KUrl::List DolphinView::selectedUrls() const
+{
+    KUrl::List urls;
+
+    const KFileItemList list = selectedItems();
+    KFileItemList::const_iterator it = list.begin();
+    const KFileItemList::const_iterator end = list.end();
+    while (it != end) {
+        KFileItem* item = *it;
+        urls.append(item->url());
+        ++it;
+    }
+
+    return urls;
+}
+
+KFileItem* DolphinView::fileItem(const QModelIndex index) const
+{
+    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
+    return m_dirModel->itemForIndex(dirModelIndex);
+}
+
+void DolphinView::setContentsPosition(int x, int y)
+{
+    QAbstractItemView* view = itemView();
+    view->horizontalScrollBar()->setValue(x);
+    view->verticalScrollBar()->setValue(y);
+
+    m_blockContentsMovedSignal = false;
+}
+
+QPoint DolphinView::contentsPosition() const
+{
+    const int x = itemView()->horizontalScrollBar()->value();
+    const int y = itemView()->verticalScrollBar()->value();
+    return QPoint(x, y);
 }
 
 void DolphinView::zoomIn()
@@ -345,63 +406,6 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::AdditionalInformation inf
 KFileItemDelegate::AdditionalInformation DolphinView::additionalInfo() const
 {
     return m_fileItemDelegate->additionalInformation();
-}
-
-bool DolphinView::hasSelection() const
-{
-    return itemView()->selectionModel()->hasSelection();
-}
-
-void DolphinView::clearSelection()
-{
-    itemView()->selectionModel()->clear();
-}
-
-KFileItemList DolphinView::selectedItems() const
-{
-    const QAbstractItemView* view = itemView();
-
-    // Our view has a selection, we will map them back to the DirModel
-    // and then fill the KFileItemList.
-    Q_ASSERT((view != 0) && (view->selectionModel() != 0));
-
-    const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
-    KFileItemList itemList;
-
-    const QModelIndexList indexList = selection.indexes();
-    QModelIndexList::const_iterator end = indexList.end();
-    for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
-        Q_ASSERT((*it).isValid());
-
-        KFileItem* item = m_dirModel->itemForIndex(*it);
-        if (item != 0) {
-            itemList.append(item);
-        }
-    }
-
-    return itemList;
-}
-
-KUrl::List DolphinView::selectedUrls() const
-{
-    KUrl::List urls;
-
-    const KFileItemList list = selectedItems();
-    KFileItemList::const_iterator it = list.begin();
-    const KFileItemList::const_iterator end = list.end();
-    while (it != end) {
-        KFileItem* item = *it;
-        urls.append(item->url());
-        ++it;
-    }
-
-    return urls;
-}
-
-KFileItem* DolphinView::fileItem(const QModelIndex index) const
-{
-    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
-    return m_dirModel->itemForIndex(dirModelIndex);
 }
 
 void DolphinView::reload()
@@ -519,20 +523,6 @@ void DolphinView::showPreview(const KFileItem& item, const QPixmap& pixmap)
     }
 }
 
-void DolphinView::restoreContentsPos()
-{
-    m_blockContentsMovedSignal = false;
-    if (!url().isEmpty()) {
-        QAbstractItemView* view = itemView();
-        // TODO #1: view->setCurrentItem(m_urlNavigator->currentFileName());
-        // TODO #2: temporary deactivated due to DolphinView/DolphinViewController split
-        //QPoint pos = m_urlNavigator->savedPosition();
-        QPoint pos(0, 0);
-        view->horizontalScrollBar()->setValue(pos.x());
-        view->verticalScrollBar()->setValue(pos.y());
-    }
-}
-
 void DolphinView::emitSelectionChangedSignal()
 {
     emit selectionChanged(DolphinView::selectedItems());
@@ -552,6 +542,7 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
 
     m_cutItemsCache.clear();
     m_blockContentsMovedSignal = true;
+
     m_dirLister->stop();
 
     bool openDir = true;
@@ -764,7 +755,8 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
 void DolphinView::emitContentsMoved()
 {
     if (!m_blockContentsMovedSignal) {
-        emit contentsMoved(contentsX(), contentsY());
+        const QPoint pos(contentsPosition());
+        emit contentsMoved(pos.x(), pos.y());
     }
 }
 

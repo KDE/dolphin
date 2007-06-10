@@ -236,18 +236,14 @@ public:
     KFileItem* fileItem(const QModelIndex index) const;
 
     /**
-     * Returns the x-position of the view content.
-     * The content of the view might be larger than the visible area
+     * Sets the upper left position of the view content
+     * to (x,y). The content of the view might be larger than the visible area
      * and hence a scrolling must be done.
      */
-    int contentsX() const;
+    void setContentsPosition(int x, int y);
 
-    /**
-     * Returns the y-position of the view content.
-     * The content of the view might be larger than the visible area
-     * and hence a scrolling must be done.
-     */
-    int contentsY() const;
+    /** Returns the upper left position of the view content. */
+    QPoint contentsPosition() const;
 
     /** Increases the size of the current set view mode. */
     void zoomIn();
@@ -414,12 +410,6 @@ private slots:
      * \a pixmap.
      */
     void showPreview(const KFileItem& item, const QPixmap& pixmap);
-
-    /**
-     * Restores the x- and y-position of the contents if the
-     * current view is part of the history.
-     */
-    void restoreContentsPos();
 
     void emitSelectionChangedSignal();
 
