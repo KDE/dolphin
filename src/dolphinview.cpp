@@ -61,7 +61,7 @@ DolphinView::DolphinView(QWidget* parent,
                          Mode mode) :
     QWidget(parent),
     m_active(true),
-    m_blockContentsMovedSignal(false),
+    m_loadingDirectory(false),
     m_initializeColumnView(false),
     m_mode(mode),
     m_topLayout(0),
@@ -337,7 +337,7 @@ void DolphinView::setContentsPosition(int x, int y)
     view->horizontalScrollBar()->setValue(x);
     view->verticalScrollBar()->setValue(y);
 
-    m_blockContentsMovedSignal = false;
+    m_loadingDirectory = false;
 }
 
 QPoint DolphinView::contentsPosition() const
@@ -541,7 +541,7 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     }
 
     m_cutItemsCache.clear();
-    m_blockContentsMovedSignal = true;
+    m_loadingDirectory = true;
 
     m_dirLister->stop();
 
@@ -754,7 +754,12 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
 
 void DolphinView::emitContentsMoved()
 {
-    if (!m_blockContentsMovedSignal) {
+    // only emit the contents moved signal if:
+    // - no directory loading is ongoing (this would reset the contents position
+    //   always to (0, 0))
+    // - if the Column View is active: the column view does an automatic
+    //   positioning during the loading operation, which must be remembered
+    if (!m_loadingDirectory || isColumnViewActive()) {
         const QPoint pos(contentsPosition());
         emit contentsMoved(pos.x(), pos.y());
     }

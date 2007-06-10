@@ -527,7 +527,7 @@ private:
     };
 
     bool m_active;
-    bool m_blockContentsMovedSignal;
+    bool m_loadingDirectory;
     bool m_initializeColumnView;
     Mode m_mode;
 
