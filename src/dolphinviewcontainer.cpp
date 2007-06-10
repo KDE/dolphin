@@ -83,9 +83,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    connect(m_mainWindow, SIGNAL(activeViewChanged()),
-            this, SLOT(updateActivationState()));
-
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updateCutItems()));
@@ -119,10 +116,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateItemCount()));
-    connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(updateCutItems()));
-    connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
-            this, SLOT(generatePreviews(const KFileItemList&)));
     connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
             this, SLOT(showInfoMessage(const QString&)));
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
