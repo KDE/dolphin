@@ -21,7 +21,7 @@
 
 #include "dolphinmainwindow.h"
 
-#include <config-kmetadata.h>
+#include "config-nepomuk.h"
 
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
@@ -1000,7 +1000,7 @@ void DolphinMainWindow::init()
         // assure a proper default size if Dolphin runs the first time
         resize(700, 500);
     }
-#ifdef HAVE_KMETADATA
+#ifdef HAVE_NEPOMUK
     if (!MetaDataWidget::metaDataAvailable())
         activeViewContainer()->statusBar()->setMessage(i18n("Failed to contact Nepomuk service, annotation and tagging are disabled."), DolphinStatusBar::Error);
 #endif

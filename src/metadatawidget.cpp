@@ -19,7 +19,7 @@
 
 #include "metadatawidget.h"
 
-#include <config-kmetadata.h>
+#include <config-nepomuk.h>
 
 #include <klocale.h>
 
@@ -27,23 +27,20 @@
 #include <QtGui/QGridLayout>
 #include <QtGui/QTextEdit>
 
-#ifdef HAVE_KMETADATA
-#include <kmetadata/kmetadatatagwidget.h>
-#include <kmetadata/resourcemanager.h>
-#include <kmetadata/resource.h>
-#include <kmetadata/variant.h>
-#include <kmetadata/kratingwidget.h>
+#ifdef HAVE_NEPOMUK
+#include <nepomuk/kmetadatatagwidget.h>
+#include <nepomuk/resourcemanager.h>
+#include <nepomuk/resource.h>
+#include <nepomuk/variant.h>
+#include <nepomuk/kratingwidget.h>
+#include <nepomuk/global.h>
 #endif
-
-// FIXME: these should be replaced by using KMetaData::File once it is available again
-static const char* s_nfoFile = "http://ont.semanticdesktop.org/2007/03/22/nfo#File";
-static const char* s_nfoFileUrl = "http://ont.semanticdesktop.org/2007/03/22/nfo#fileUrl";
 
 
 bool MetaDataWidget::metaDataAvailable()
 {
-#ifdef HAVE_KMETADATA
-    return !Nepomuk::KMetaData::ResourceManager::instance()->init();
+#ifdef HAVE_NEPOMUK
+    return !Nepomuk::ResourceManager::instance()->init();
 #else
     return false;
 #endif
@@ -53,18 +50,18 @@ bool MetaDataWidget::metaDataAvailable()
 class MetaDataWidget::Private
 {
 public:
-#ifdef HAVE_KMETADATA
+#ifdef HAVE_NEPOMUK
     void loadComment(const QString& comment);
 
-    QMap<KUrl, Nepomuk::KMetaData::Resource> files;
+    QMap<KUrl, Nepomuk::Resource> files;
 
     QTextEdit* editComment;
     KRatingWidget* ratingWidget;
-    Nepomuk::KMetaData::TagWidget* tagWidget;
+    Nepomuk::TagWidget* tagWidget;
 #endif
 };
 
-#ifdef HAVE_KMETADATA
+#ifdef HAVE_NEPOMUK
 void MetaDataWidget::Private::loadComment(const QString& comment)
 {
     editComment->blockSignals(true);
@@ -83,11 +80,11 @@ void MetaDataWidget::Private::loadComment(const QString& comment)
 MetaDataWidget::MetaDataWidget(QWidget* parent) :
     QWidget(parent)
 {
-#ifdef HAVE_KMETADATA
+#ifdef HAVE_NEPOMUK
     d = new Private;
     d->editComment = new QTextEdit(this);
     d->ratingWidget = new KRatingWidget(this);
-    d->tagWidget = new Nepomuk::KMetaData::TagWidget(this);
+    d->tagWidget = new Nepomuk::TagWidget(this);
     connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));
     connect(d->editComment, SIGNAL(textChanged()), this, SLOT(slotCommentChanged()));
 
@@ -128,13 +125,13 @@ void MetaDataWidget::setFile(const KUrl& url)
 
 void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
-#ifdef HAVE_KMETADATA
+#ifdef HAVE_NEPOMUK
     // FIXME: replace with KMetaData::File once we have it again
     d->files.clear();
     bool first = true;
-    QList<Nepomuk::KMetaData::Resource> fileRes;
+    QList<Nepomuk::Resource> fileRes;
     Q_FOREACH( KUrl url, urls ) {
-        Nepomuk::KMetaData::Resource file( url.url(), s_nfoFile );
+        Nepomuk::Resource file( url.url(), Nepomuk::NFO::File() );
 //    file.setLocation(url.url());
         d->files.insert( url, file );
         fileRes.append( file );
@@ -163,8 +160,8 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
 
 void MetaDataWidget::slotCommentChanged()
 {
-#ifdef HAVE_KMETADATA
-    for ( QMap<KUrl, Nepomuk::KMetaData::Resource>::iterator it = d->files.begin();
+#ifdef HAVE_NEPOMUK
+    for ( QMap<KUrl, Nepomuk::Resource>::iterator it = d->files.begin();
           it != d->files.end(); ++it ) {
         it.value().setDescription(d->editComment->toPlainText());
     }
@@ -174,8 +171,8 @@ void MetaDataWidget::slotCommentChanged()
 
 void MetaDataWidget::slotRatingChanged(unsigned int rating)
 {
-#ifdef HAVE_KMETADATA
-    for ( QMap<KUrl, Nepomuk::KMetaData::Resource>::iterator it = d->files.begin();
+#ifdef HAVE_NEPOMUK
+    for ( QMap<KUrl, Nepomuk::Resource>::iterator it = d->files.begin();
           it != d->files.end(); ++it ) {
         it.value().setRating(rating);
     }
@@ -185,7 +182,7 @@ void MetaDataWidget::slotRatingChanged(unsigned int rating)
 
 bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
 {
-#ifdef HAVE_KMETADATA
+#ifdef HAVE_NEPOMUK
     if (obj == d->editComment->viewport() || obj == d->editComment) {
         if (event->type() == QEvent::FocusOut) {
             // make sure the info text is displayed again

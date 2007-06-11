@@ -86,15 +86,15 @@ qt4_add_dbus_adaptor(dolphin_SRCS
    dolphinmainwindow.h DolphinMainWindow)
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
-find_package(KMetaData)
-macro_bool_to_01(KMetaData_FOUND HAVE_KMETADATA)
+find_package(Nepomuk)
+macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 
-configure_file(config-kmetadata.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-kmetadata.h )
+configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} konq dolphinprivate)
 
-if (KMetaData_FOUND)
-  target_link_libraries(dolphin ${KMETADATA_LIBRARIES})
-endif (KMetaData_FOUND)
+if (Nepomuk_FOUND)
+  target_link_libraries(dolphin ${NEPOMUK_LIBRARIES})
+endif (Nepomuk_FOUND)
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 
