@@ -171,9 +171,8 @@ void DolphinView::setMode(Mode mode)
         // to go back to the root URL of the column view automatically.
         // Otherwise there it would not be possible to turn off the column view
         // without focusing the first column.
-        // TODO: reactivate again after DolphinView/DolphinViewController split works
-        //setUrl(m_dirLister->url());
-        //m_controller->setUrl(m_dirLister->url());
+        setUrl(m_dirLister->url());
+        m_controller->setUrl(m_dirLister->url());
     }
 
     ViewProperties props(url());
