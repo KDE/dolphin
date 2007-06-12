@@ -53,21 +53,27 @@ public:
     virtual ~DolphinMainWindow();
 
     /**
-     * Activates the given view, which means that
-     * all menu actions are applied to this view. When
-     * having a split view setup the nonactive view
+     * Returns the currently active view.
+     * All menu actions are applied to this view. When
+     * having a split view setup, the nonactive view
      * is usually shown in darker colors.
      */
-    void setActiveView(DolphinViewContainer* view);
+    inline DolphinViewContainer* activeViewContainer() const;
 
     /**
-     * Returns the currently active view. See
-     * DolphinMainWindow::setActiveView() for more details.
+     * Returns true, if the main window contains two instances
+     * of a view container. The active view constainer can be
+     * accessed by DolphinMainWindow::activeViewContainer().
      */
-    DolphinViewContainer* activeViewContainer() const
-    {
-        return m_activeViewContainer;
-    }
+    inline bool isSplit() const;
+
+    /**
+     * If the main window contains two instances of a view container
+     * (DolphinMainWindow::isSplit() returns true), then the
+     * two views get toggled (the right view is on the left, the left
+     * view on the right).
+     */
+    void toggleViews();
 
     /** Renames the item represented by \a oldUrl to \a newUrl. */
     void rename(const KUrl& oldUrl, const KUrl& newUrl);
@@ -82,10 +88,7 @@ public:
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
-    KNewMenu* newMenu() const
-    {
-        return m_newMenu;
-    }
+    inline KNewMenu* newMenu() const;
 
 public slots:
     /**
@@ -105,10 +108,7 @@ public slots:
     /**
      * Returns the main window ID used through DBus.
      */
-    int getId() const
-    {
-        return m_id;
-    }
+    inline int getId() const;
 
     /**
      * Inform all affected dolphin components (sidebars, views) of an URL
@@ -415,7 +415,14 @@ private:
     void init();
     void loadSettings();
 
-    void setupAccel();
+    /**
+     * Activates the given view, which means that
+     * all menu actions are applied to this view. When
+     * having a split view setup, the nonactive view
+     * is usually shown in darker colors.
+     */
+    void setActiveViewContainer(DolphinViewContainer* view);
+
     void setupActions();
     void setupDockWidgets();
     void updateHistory();
@@ -445,13 +452,12 @@ private:
 
 private:
     /**
-     * DolphinMainWindowsupports only one or two views, which
-     * are handled internally as primary and secondary view.
+     * DolphinMainWindow supports up to two views beside each other.
      */
     enum ViewIndex
     {
-        PrimaryIdx = 0,
-        SecondaryIdx = 1
+        PrimaryView = 0,   ///< View shown on the left side of the main window.
+        SecondaryView = 1  ///< View shown on the left side of the main window.
     };
 
     /**
@@ -459,7 +465,7 @@ private:
      * assures that all errors are shown in the status bar of Dolphin
      * instead as modal error dialog with an OK button.
      */
-class UndoUiInterface : public KonqUndoManager::UiInterface
+    class UndoUiInterface : public KonqUndoManager::UiInterface
     {
     public:
         UndoUiInterface(DolphinMainWindow* mainWin);
@@ -475,11 +481,31 @@ class UndoUiInterface : public KonqUndoManager::UiInterface
     DolphinViewContainer* m_activeViewContainer;
     int m_id;
 
-    DolphinViewContainer* m_viewContainer[SecondaryIdx + 1];
+    DolphinViewContainer* m_viewContainer[SecondaryView + 1];
 
     /// remember pending undo operations until they are finished
     QList<KonqUndoManager::CommandType> m_undoCommandTypes;
 };
+
+DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
+{
+    return m_activeViewContainer;
+}
+
+bool DolphinMainWindow::isSplit() const
+{
+    return m_viewContainer[SecondaryView] != 0;
+}
+
+KNewMenu* DolphinMainWindow::newMenu() const
+{
+    return m_newMenu;
+}
+
+int DolphinMainWindow::getId() const
+{
+    return m_id;
+}
 
 #endif // DOLPHIN_MAINWINDOW_H
 

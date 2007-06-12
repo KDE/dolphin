@@ -234,6 +234,12 @@ void DolphinContextMenu::openViewportContextMenu()
     viewModeMenu->addAction(previewsMode);
 
     popup->addMenu(viewModeMenu);
+
+    QAction* toggleViewsAction = 0;
+    if (m_mainWindow->isSplit()) {
+        toggleViewsAction = popup->addAction(i18n("Toggle Views"));
+    }
+
     popup->addSeparator();
 
     QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark This Folder..."));
@@ -241,16 +247,18 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* propertiesAction = popup->addAction(i18n("Properties"));
 
-    QAction* activatedAction = popup->exec(QCursor::pos());
-    if (activatedAction == propertiesAction) {
+    QAction* action = popup->exec(QCursor::pos());
+    if (action == propertiesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         KPropertiesDialog dialog(url);
         dialog.exec();
-    } else if (activatedAction == bookmarkAction) {
+    } else if (action == bookmarkAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(url.fileName(), url);
         }
+    } else if ((toggleViewsAction != 0) && (action == toggleViewsAction)) {
+        m_mainWindow->toggleViews();
     }
 
     popup->deleteLater();
