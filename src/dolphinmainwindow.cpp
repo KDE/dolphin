@@ -221,8 +221,9 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
 
 void DolphinMainWindow::changeUrl(const KUrl& url)
 {
-    if (activeViewContainer() != 0) {
-        activeViewContainer()->setUrl(url);
+    DolphinViewContainer* view = activeViewContainer();
+    if (view != 0) {
+        view->setUrl(url);
         updateEditActions();
         updateViewActions();
         updateGoActions();
@@ -1026,9 +1027,11 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* view)
     updateViewActions();
     updateGoActions();
 
-    setCaption(m_activeViewContainer->url().fileName());
+    const KUrl& url = m_activeViewContainer->url();
+    setCaption(url.fileName());
 
     emit activeViewChanged();
+    emit urlChanged(url);
 }
 
 void DolphinMainWindow::setupActions()

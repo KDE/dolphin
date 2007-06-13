@@ -196,6 +196,12 @@ private slots:
      */
     void restoreContentsPos();
 
+    /**
+     * Marks the view container as active
+     * (see DolphinViewContainer::setActive()).
+     */
+    void activate();
+
 private:
     /**
      * Returns the default text of the status bar, if no item is
