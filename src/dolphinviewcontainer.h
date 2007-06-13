@@ -36,21 +36,15 @@
 #include <QtGui/QBoxLayout>
 #include <QtGui/QWidget>
 
-class DolphinController;
 class FilterBar;
-class KFileItemDelegate;
 class KUrl;
 class KDirModel;
 class KUrlNavigator;
-class DolphinColumnView;
-class DolphinDetailsView;
 class DolphinDirLister;
-class DolphinIconsView;
 class DolphinMainWindow;
 class DolphinSortFilterProxyModel;
 class DolphinStatusBar;
 class QModelIndex;
-class ViewProperties;
 
 /**
  * @short Represents a view for the directory content
