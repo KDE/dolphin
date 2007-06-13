@@ -56,7 +56,8 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
                                page);
     } else {
         m_newName = i18n("New name #");
-        editLabel = new QLabel(i18n("Rename the %1 selected items to:", itemCount),
+        editLabel = new QLabel(i18np("Rename the %1 selected item to:",
+                                     "Rename the %1 selected items to:", itemCount),
                                page);
     }
 
