@@ -162,16 +162,10 @@ void DolphinIconsView::paintEvent(QPaintEvent* event)
 {
     KListView::paintEvent(event);
 
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
-        // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-        QPainter painter(viewport());
-        painter.save();
-        QBrush brush(m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight));
-        QColor color = brush.color();
-        color.setAlpha(64);
-        brush.setColor(color);
-        painter.fillRect(m_dropRect, brush);
-        painter.restore();
+        const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
+        DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
     }
 }
 

@@ -26,8 +26,11 @@
 #include <libdolphin_export.h>
 
 class KUrl;
+class QBrush;
 class QModelIndex;
 class QPoint;
+class QRect;
+class QWidget;
 
 /**
  * @brief Allows to control Dolphin views and to react on state changes.
@@ -82,6 +85,11 @@ public:
     void triggerZoomOut();
     inline void setZoomOutPossible(bool possible);
     inline bool isZoomOutPossible() const;
+
+    // TODO: remove this method when the issue #160611 is solved in Qt 4.4
+    static void drawHoverIndication(QWidget* widget,
+                                    const QRect& bounds,
+                                    const QBrush& brush);
 
 public slots:
     /**
