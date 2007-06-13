@@ -26,11 +26,13 @@ Exec=amarok -e %U
 
 [Desktop Action appendAndPlay]
 Name=Append & Play
+Name[be]=Дадаць і граць
 Name[bg]=Добавяне и изпълнение
 Name[csb]=Dodôj ë grôj
 Name[de]=Anhängen und abs&pielen
 Name[el]=Προσθήκη & αναπαραγωγή
 Name[es]=Añadir y reproducir
+Name[fa]=پیوستن و پخش
 Name[ga]=Iarcheangail & Seinn
 Name[ja]=追加して再生
 Name[nds]=Anhangen un Afspelen

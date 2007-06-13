@@ -5,6 +5,7 @@ Actions=extractHere
 
 [Desktop Action extractHere]
 Name=Extract Here
+Name[be]=Выняць тут
 Name[bg]=Извличане тук
 Name[csb]=Rozpakùjë tuwò
 Name[de]=Hier entpacken

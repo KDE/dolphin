@@ -2,6 +2,7 @@
 ServiceTypes=image/jpeg
 Actions=jpegRot90;jpegRot270;jpegFlipV;jpegFlipH;
 X-KDE-Submenu=Transform Image
+X-KDE-Submenu[be]=Змяніць відарыс
 X-KDE-Submenu[bg]=Трансформиране на изображение
 X-KDE-Submenu[csb]=Przesztôłcë òbrôzk
 X-KDE-Submenu[de]=Bild umwandeln
@@ -18,6 +19,7 @@ X-KDE-Require=Write
 
 [Desktop Action jpegRot90]
 Name=Rotate Clockwise
+Name[be]=Павярнуць па гадзіннай стрэлцы
 Name[bg]=Въртене по час. стрелка
 Name[csb]=Òbrócë zgódno z czérënkã wskôzów zédżera
 Name[de]=Rechts drehen
@@ -35,6 +37,7 @@ Exec=jpegorient +90 %F
 
 [Desktop Action jpegRot270]
 Name=Rotate Counter-Clockwise
+Name[be]=Павярнуць супаць гадзіннай стрэлкі
 Name[bg]=Въртене обратно на час. стрелка
 Name[csb]=Òbrócë promcëmno do wskôzów zédżera
 Name[de]=Links drehen
