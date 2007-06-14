@@ -60,6 +60,7 @@ Exec=jpegorient +270 %F
 
 [Desktop Action jpegFlipV]
 Name=Flip Vertically
+Name[be]=Адбіць па вертыкалі
 Name[csb]=Òbrócë wertikalno
 Name[de]=Vertikal spiegeln
 Name[el]=Αναστροφή κατακόρυφα
@@ -76,6 +77,7 @@ Exec=jpegorient v %F
 
 [Desktop Action jpegFlipH]
 Name=Flip Horizontally
+Name[be]=Адбіць па гарызанталі
 Name[csb]=Òbrocë hòrizontalno
 Name[de]=Horizontal spiegeln
 Name[el]=Αναστροφή οριζόντια
