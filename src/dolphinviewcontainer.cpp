@@ -260,11 +260,6 @@ void DolphinViewContainer::renameSelectedItems()
     }
 }
 
-DolphinStatusBar* DolphinViewContainer::statusBar() const
-{
-    return m_statusBar;
-}
-
 bool DolphinViewContainer::isFilterBarVisible() const
 {
     return m_filterBar->isVisible();
@@ -279,11 +274,6 @@ KFileItem* DolphinViewContainer::fileItem(const QModelIndex index) const
 {
     const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
     return m_dirModel->itemForIndex(dirModelIndex);
-}
-
-DolphinMainWindow* DolphinViewContainer::mainWindow() const
-{
-    return m_mainWindow;
 }
 
 void DolphinViewContainer::updateProgress(int percent)
