@@ -38,9 +38,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
 
-    setMouseTracking(true);
-    viewport()->setAttribute(Qt::WA_Hover);
-
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
@@ -75,6 +72,14 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
 
 DolphinColumnView::~DolphinColumnView()
 {
+}
+
+QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
+{
+    QAbstractItemView* view = QColumnView::createColumn(index);
+    view->setMouseTracking(true);
+    view->viewport()->setAttribute(Qt::WA_Hover);
+    return view;
 }
 
 QStyleOptionViewItem DolphinColumnView::viewOptions() const

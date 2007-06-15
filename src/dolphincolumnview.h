@@ -37,6 +37,7 @@ public:
     virtual ~DolphinColumnView();
 
 protected:
+    virtual QAbstractItemView* createColumn(const QModelIndex& index);
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
