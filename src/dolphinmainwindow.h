@@ -191,6 +191,12 @@ private slots:
     void properties();
 
     /**
+     * Shows the error information from the places model
+     * in the status bar.
+     */
+    void slotHandlePlacesError(const QString &message);
+
+    /**
      * Shows the error information of the job \a job
      * in the status bar.
      */

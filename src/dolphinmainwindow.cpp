@@ -98,6 +98,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
             this, SLOT(slotUndoAvailable(bool)));
     connect(undoManager, SIGNAL(undoTextChanged(const QString&)),
             this, SLOT(slotUndoTextChanged(const QString&)));
+    connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(const QString&)),
+            this, SLOT(slotHandlePlacesError(const QString&)));
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -478,6 +480,14 @@ void DolphinMainWindow::properties()
 void DolphinMainWindow::quit()
 {
     close();
+}
+
+void DolphinMainWindow::slotHandlePlacesError(const QString &message)
+{
+    if (!message.isEmpty()) {
+        DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
+        statusBar->setMessage(message, DolphinStatusBar::Error);
+    }
 }
 
 void DolphinMainWindow::slotHandleJobError(KJob* job)
