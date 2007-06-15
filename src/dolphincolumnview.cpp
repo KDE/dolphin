@@ -27,6 +27,130 @@
 #include <QtGui/QAbstractProxyModel>
 #include <QtCore/QPoint>
 
+/**
+ * Represents one column inside the DolphinColumnView and has been
+ * extended to respect view options and hovering information.
+ */
+class ColumnWidget : public QListView
+{
+public:
+    ColumnWidget(QWidget* parent, DolphinColumnView* columnView);
+    virtual ~ColumnWidget();
+
+    void setDecorationSize(const QSize& size);
+
+protected:
+    virtual QStyleOptionViewItem viewOptions() const;
+    virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dragLeaveEvent(QDragLeaveEvent* event);
+    virtual void dragMoveEvent(QDragMoveEvent* event);
+    virtual void dropEvent(QDropEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
+
+private:
+    DolphinColumnView* m_columnView;
+    QStyleOptionViewItem m_viewOptions;
+
+    bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
+    QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
+};
+
+ColumnWidget::ColumnWidget(QWidget* parent, DolphinColumnView* columnView) :
+    QListView(parent),
+    m_columnView(columnView),
+    m_dragging(false),
+    m_dropRect()
+{
+    setAcceptDrops(true);
+    setSelectionBehavior(SelectItems);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setDropIndicatorShown(false);
+
+    setMouseTracking(true);
+    viewport()->setAttribute(Qt::WA_Hover);
+
+    // apply the column mode settings to the widget
+    const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    Q_ASSERT(settings != 0);
+
+    m_viewOptions = QListView::viewOptions();
+
+    QFont font(settings->fontFamily(), settings->fontSize());
+    font.setItalic(settings->italicFont());
+    font.setBold(settings->boldFont());
+    m_viewOptions.font = font;
+}
+
+ColumnWidget::~ColumnWidget()
+{
+}
+
+void ColumnWidget::setDecorationSize(const QSize& size)
+{
+    m_viewOptions.decorationSize = size;
+    doItemsLayout();
+}
+
+QStyleOptionViewItem ColumnWidget::viewOptions() const
+{
+    return m_viewOptions;
+}
+
+void ColumnWidget::dragEnterEvent(QDragEnterEvent* event)
+{
+    if (event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
+
+    m_dragging = true;
+}
+
+void ColumnWidget::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    QListView::dragLeaveEvent(event);
+
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    m_dragging = false;
+    setDirtyRegion(m_dropRect);
+}
+
+void ColumnWidget::dragMoveEvent(QDragMoveEvent* event)
+{
+    QListView::dragMoveEvent(event);
+
+   // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    const QModelIndex index = indexAt(event->pos());
+    setDirtyRegion(m_dropRect);
+    m_dropRect = visualRect(index);
+    setDirtyRegion(m_dropRect);
+}
+
+void ColumnWidget::dropEvent(QDropEvent* event)
+{
+    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    if (!urls.isEmpty()) {
+        event->acceptProposedAction();
+        m_columnView->m_controller->indicateDroppedUrls(urls,
+                                                          indexAt(event->pos()),
+                                                          event->source());
+    }
+    QListView::dropEvent(event);
+    m_dragging = false;
+}
+
+void ColumnWidget::paintEvent(QPaintEvent* event)
+{
+    QListView::paintEvent(event);
+
+    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
+    if (m_dragging) {
+        const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
+        DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
+    }
+}
+
+// ---
+
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
     QColumnView(parent),
     m_controller(controller)
@@ -56,17 +180,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
 
-    // apply the column mode settings to the widget
-    const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    Q_ASSERT(settings != 0);
-
-    m_viewOptions = QColumnView::viewOptions();
-
-    QFont font(settings->fontFamily(), settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_viewOptions.font = font;
-
     updateDecorationSize();
 }
 
@@ -76,15 +189,48 @@ DolphinColumnView::~DolphinColumnView()
 
 QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
 {
-    QAbstractItemView* view = QColumnView::createColumn(index);
-    view->setMouseTracking(true);
-    view->viewport()->setAttribute(Qt::WA_Hover);
-    return view;
-}
+    ColumnWidget* view = new ColumnWidget(viewport(), this);
 
-QStyleOptionViewItem DolphinColumnView::viewOptions() const
-{
-    return m_viewOptions;
+    // The following code has been copied 1:1 from QColumnView::createColumn().
+    // Copyright (C) 1992-2007 Trolltech ASA.
+    // It would be nice if QColumnView would offer a protected method for this
+    // (already send input to Benjamin, hopefully possible in Qt4.4)
+
+    view->setFrameShape(QFrame::NoFrame);
+    view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    view->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    view->setMinimumWidth(100);
+    view->setAttribute(Qt::WA_MacShowFocusRect, false);
+
+    // copy the 'view' behavior
+    view->setDragDropMode(dragDropMode());
+    view->setDragDropOverwriteMode(dragDropOverwriteMode());
+    view->setDropIndicatorShown(showDropIndicator());
+    view->setAlternatingRowColors(alternatingRowColors());
+    view->setAutoScroll(hasAutoScroll());
+    view->setEditTriggers(editTriggers());
+    view->setHorizontalScrollMode(horizontalScrollMode());
+    view->setIconSize(iconSize());
+    view->setSelectionBehavior(selectionBehavior());
+    view->setSelectionMode(selectionMode());
+    view->setTabKeyNavigation(tabKeyNavigation());
+    view->setTextElideMode(textElideMode());
+    view->setVerticalScrollMode(verticalScrollMode());
+
+    view->setModel(model());
+
+    // set the delegate to be the columnview delegate
+    QAbstractItemDelegate *delegate = view->itemDelegate();
+    view->setItemDelegate(itemDelegate());
+    delete delegate;
+
+    view->setRootIndex(index);
+
+    if (model()->canFetchMore(index)) {
+        model()->fetchMore(index);
+    }
+
+    return view;
 }
 
 void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
@@ -162,7 +308,13 @@ void DolphinColumnView::updateDecorationSize()
 {
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     const int iconSize = settings->iconSize();
-    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            widget->setDecorationSize(QSize(iconSize, iconSize));
+        }
+    }
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());

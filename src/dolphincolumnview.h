@@ -38,7 +38,6 @@ public:
 
 protected:
     virtual QAbstractItemView* createColumn(const QModelIndex& index);
-    virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
@@ -62,7 +61,8 @@ private:
 
 private:
     DolphinController* m_controller;
-    QStyleOptionViewItem m_viewOptions;
+
+    friend class ColumnWidget;
 };
 
 #endif
