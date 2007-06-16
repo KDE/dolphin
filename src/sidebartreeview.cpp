@@ -43,6 +43,10 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
 
     viewport()->setAttribute(Qt::WA_Hover);
 
+    QPalette palette = viewport()->palette();
+    palette.setColor(viewport()->backgroundRole(), Qt::transparent);
+    viewport()->setPalette(palette);
+
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     setItemDelegate(delegate);
 }
