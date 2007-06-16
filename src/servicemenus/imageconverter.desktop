@@ -3,7 +3,7 @@
 # Released under the same license as the KDE core distribution (GPL 2.0).
 #
 [Desktop Entry]
-Enconding=UTF-8
+Encoding=UTF-8
 ServiceTypes=image/*
 Actions=convToJPEG;convToPNG;convToGIF;convToTIF;
 X-KDE-Submenu=Convert To

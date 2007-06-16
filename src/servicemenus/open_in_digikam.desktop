@@ -17,6 +17,6 @@ Name[x-test]=xxOpen in Digikamxx
 Name[zh_TW]=在 Digikam 中開啟
 
 [Desktop Entry]
-Enconding=UTF-8
+Encoding=UTF-8
 Actions=OpenDigikam;
 ServiceTypes=media/gphoto2camera,media/camera_mounted,media/camera_unmounted
