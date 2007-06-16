@@ -1,4 +1,5 @@
 [Desktop Entry]
+Encoding=UTF-8
 ServiceTypes=media/cdrom_mounted,media/cdwriter_mounted,media/dvd_mounted,media/floppy5_mounted,media/floppy_mounted,media/hdd_mounted,media/nfs_mounted,media/smb_mounted,media/zip_mounted,media/vcd,media/svcd,media/dvdvideo
 Actions=MediaUnmount;
 X-KDE-Priority=TopLevel
