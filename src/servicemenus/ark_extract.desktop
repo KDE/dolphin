@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 ServiceTypes=application/x-bzip-compressed-tar,application/x-compressed-tar
-Actions=extractHere
+Actions=extractHere;
 
 [Desktop Action extractHere]
 Name=Extract Here

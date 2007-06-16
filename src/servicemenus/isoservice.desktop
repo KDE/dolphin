@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-Actions=OpenISO
+Actions=OpenISO;
 ServiceTypes=inode/blockdevice,application/x-cd-image
 
 [Desktop Action OpenISO]

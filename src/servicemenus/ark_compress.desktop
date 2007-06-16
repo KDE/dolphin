@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 ServiceTypes=inode/directory
-Actions=compressHere
+Actions=compressHere;
 
 [Desktop Action compressHere]
 Name=Compress Here

@@ -1,4 +1,5 @@
 [Desktop Entry]
+Encoding=UTF-8
 ServiceTypes=application/asx,audio/*
 Actions=appendToPlaylist;appendAndPlay;queueTrack;
 X-KDE-Submenu=Amarok

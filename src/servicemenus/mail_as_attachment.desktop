@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 ServiceTypes=all/allfiles
-Actions=mail_as_attachment
+Actions=mail_as_attachment;
 
 [Desktop Action mail_as_attachment]
 Name=Mail as Attachment...

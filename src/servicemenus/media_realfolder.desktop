@@ -1,6 +1,7 @@
 [Desktop Entry]
+Encoding=UTF-8
 ServiceTypes=media/cdrom_mounted,media/cdwriter_mounted,media/dvd_mounted,media/floppy5_mounted,media/floppy_mounted,media/hdd_mounted,media/nfs_mounted,media/smb_mounted,media/removable_mounted,media/zip_mounted
-Actions=MediaRealFolder
+Actions=MediaRealFolder;
 X-KDE-Priority=TopLevel
 X-KDE-MediaNotifierHide=true
 [Desktop Action MediaRealFolder]

@@ -1,4 +1,5 @@
 [Desktop Entry]
+Enconding=UTF-8
 ServiceTypes=application/x-font-ttf,application/x-font-type1,application/x-font-speedo,application/x-font-bdf,application/x-font-pcf,application/x-font-snf,application/x-font-otf,application/x-font-ttf,application/x-font-afm
 Actions=installFont;
 [Desktop Action installFont]
