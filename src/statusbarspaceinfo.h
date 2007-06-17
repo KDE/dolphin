@@ -56,9 +56,9 @@ private slots:
      * bug (?). More details are given inside the class KDiskFreeSp (see
      * KDE Libs documentation).
      */
-    void slotFoundMountPoint(const unsigned long& kBSize,
-                             const unsigned long& kBUsed,
-                             const unsigned long& kBAvailable,
+    void slotFoundMountPoint(const quint64& kBSize,
+                             const quint64& kBUsed,
+                             const quint64& kBAvailable,
                              const QString& mountPoint);
     void showResult();
 
@@ -76,8 +76,8 @@ private:
 private:
     KUrl m_url;
     bool m_gettingSize;
-    unsigned long m_kBSize;
-    unsigned long m_kBAvailable;
+    quint64 m_kBSize;
+    quint64 m_kBAvailable;
 };
 
 #endif
