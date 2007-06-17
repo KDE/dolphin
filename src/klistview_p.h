@@ -18,27 +18,121 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#ifndef __KLISTVIEW_P_H__
-#define __KLISTVIEW_P_H__
+#ifndef KLISTVIEW_P_H
+#define KLISTVIEW_P_H
 
-class QSortFilterProxyModel;
+class KSortFilterProxyModel;
 
+/**
+  * @internal
+  */
 class KListView::Private
 {
 public:
     Private(KListView *listView);
     ~Private();
 
-    QModelIndexList intersectionSet(const QRect &rect) const;
 
+    // Methods
+
+    /**
+      * Returns the list of items that intersects with @p rect
+      */
+    const QModelIndexList &intersectionSet(const QRect &rect);
+
+    /**
+      * Gets the item rect in the viewport for @p index
+      */
+    QRect visualRectInViewport(const QModelIndex &index) const;
+
+    /**
+      * Returns the category rect in the viewport for @p category
+      */
+    QRect visualCategoryRectInViewport(const QString &category) const;
+
+    /**
+      * Caches and returns the rect that corresponds to @p index
+      */
+    const QRect &cacheIndex(const QModelIndex &index);
+
+    /**
+      * Caches and returns the rect that corresponds to @p category
+      */
+    const QRect &cacheCategory(const QString &category);
+
+    /**
+      * Returns the rect that corresponds to @p index
+      * @note If the rect is not cached, it becomes cached
+      */
+    const QRect &cachedRectIndex(const QModelIndex &index);
+
+    /**
+      * Returns the rect that corresponds to @p category
+      * @note If the rect is not cached, it becomes cached
+      */
+    const QRect &cachedRectCategory(const QString &category);
+
+    /**
+      * Returns the visual rect (taking in count x and y offsets) for @p index
+      * @note If the rect is not cached, it becomes cached
+      */
+    QRect visualRect(const QModelIndex &index);
+
+    /**
+      * Returns the visual rect (taking in count x and y offsets) for @p category
+      * @note If the rect is not cached, it becomes cached
+      */
+    QRect categoryVisualRect(const QString &category);
+
+    /**
+      * This method will draw a new category with name @p category on the rect
+      * specified by @p option.rect, with painter @p painter
+      */
+    void drawNewCategory(const QString &category,
+                         const QStyleOption &option,
+                         QPainter *painter);
+
+    /**
+      * This method will update scrollbars ranges. Called when our model changes
+      * or when the view is resized
+      */
+    void updateScrollbars();
+
+
+    // Attributes
+
+    struct ElementInfo
+    {
+        QString category;
+        int relativeOffsetToCategory;
+    };
+
+    // Basic data
     KListView *listView;
-    QModelIndex hovered;
-    bool modelSortCapable;
-    int numCategories;
-    QList<QString> categories;
-    QHash<QString, int> elementsPerCategory;
     KItemCategorizer *itemCategorizer;
-    QSortFilterProxyModel *proxyModel;
+
+    // Behavior data
+    bool mouseButtonPressed;
+    QModelIndex hovered;
+    QPoint initialPressPosition;
+    QPoint mousePosition;
+
+    // Cache data
+    // We cannot merge some of them into structs because it would affect
+    // performance
+    QHash<QModelIndex, struct ElementInfo> elementsInfo; // in source model
+    QHash<QModelIndex, QRect> elementsPosition;          // in source model
+    QHash<QModelIndex, QModelIndex> elementDictionary;   // mapped indexes
+    QHash<QString, QModelIndexList> categoriesIndexes;
+    QHash<QString, QRect> categoriesPosition;
+    QStringList categories;
+    QModelIndexList intersectedIndexes;
+    QModelIndexList tempSelected;
+
+    // Attributes for speed reasons
+    KSortFilterProxyModel *proxyModel;
+    QModelIndexList sourceModelIndexList;                // in source model
+    QModelIndex lastIndex;
 };
 
 #endif // __KLISTVIEW_P_H__

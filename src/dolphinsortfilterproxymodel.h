@@ -20,7 +20,7 @@
 #ifndef DOLPHINSORTFILTERPROXYMODEL_H
 #define DOLPHINSORTFILTERPROXYMODEL_H
 
-#include <QtGui/QSortFilterProxyModel>
+#include <ksortfilterproxymodel.h>
 #include <dolphinview.h>
 #include <libdolphin_export.h>
 
@@ -39,7 +39,7 @@
  *
  * It is assured that directories are always sorted before files.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinSortFilterProxyModel : public QSortFilterProxyModel
+class LIBDOLPHINPRIVATE_EXPORT DolphinSortFilterProxyModel : public KSortFilterProxyModel
 {
     Q_OBJECT
 
@@ -80,6 +80,9 @@ public:
      * available columns, DolphinView::SortByName is returned.
      */
     static DolphinView::Sorting sortingForColumn(int column);
+
+    virtual bool lessThanGeneralPurpose(const QModelIndex &left,
+                                        const QModelIndex &right) const;
 
 protected:
     virtual bool lessThan(const QModelIndex& left,

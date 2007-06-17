@@ -41,38 +41,79 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
 {
     QString retString;
 
-    if (!index.isValid()) {
+    if (!index.isValid())
+    {
+        return retString;
+    }
+
+    int indexColumn;
+
+    switch (sortRole)
+    {
+        case DolphinView::SortByName:
+            indexColumn = KDirModel::Name;
+            break;
+        case DolphinView::SortBySize:
+            indexColumn = KDirModel::Size;
+            break;
+        default:
         return retString;
     }
 
     // KDirModel checks columns to know to which role are
     // we talking about
     QModelIndex theIndex = index.model()->index(index.row(),
-                           sortRole,
+                                                indexColumn,
                            index.parent());
 
-    const QSortFilterProxyModel* proxyModel = static_cast<const QSortFilterProxyModel*>(index.model());
-    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+    if (!theIndex.isValid()) {
+        return retString;
+    }
 
     QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
 
-    QModelIndex mappedIndex = proxyModel->mapToSource(theIndex);
-    KFileItem* item = dirModel->itemForIndex(mappedIndex);
+    const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
+    KFileItem* item = dirModel->itemForIndex(index);
 
-    switch (sortRole) {
+    switch (sortRole)
+    {
     case DolphinView::SortByName:
-        retString = data.toString().toUpper().at(0);
+            if (data.toString().size())
+            {
+                if (!item->isHidden() && data.toString().at(0).isLetter())
+                    retString = data.toString().toUpper().at(0);
+                else if (item->isHidden() && data.toString().at(0) == '.' &&
+                         data.toString().at(1).isLetter())
+                    retString = i18n(".%1 (Hidden)", data.toString().toUpper().at(1));
+                else if (item->isHidden() && data.toString().at(0) == '.' &&
+                         !data.toString().at(1).isLetter())
+                    retString = i18n("Others (Hidden)");
+                else if (item->isHidden() && data.toString().at(0) != '.')
+                    retString = i18n("%1 (Hidden)", data.toString().toUpper().at(0));
+                else if (item->isHidden())
+                    retString = data.toString().toUpper().at(0);
+                else
+                    retString = i18n("Others");
+            }
         break;
     case DolphinView::SortBySize:
         int fileSize = (item) ? item->size() : -1;
-        if (item && item->isDir()) {
-            retString = i18n("Unknown");
-        } else if (fileSize < 5242880) {
+        if (item && item->isDir() && !item->isHidden()) {
+                retString = i18n("Folders");
+        } else if (fileSize < 5242880 && !item->isHidden()) {
             retString = i18n("Small");
-        } else if (fileSize < 10485760) {
+        } else if (fileSize < 10485760 && !item->isHidden()) {
             retString = i18n("Medium");
-        } else {
+        } else if (!item->isHidden()){
             retString = i18n("Big");
+        } else if (item && item->isDir() && item->isHidden()) {
+                retString = i18n("Folders (Hidden)");
+        } else if (fileSize < 5242880 && item->isHidden()) {
+            retString = i18n("Small (Hidden)");
+        } else if (fileSize < 10485760 && item->isHidden()) {
+            retString = i18n("Medium (Hidden)");
+        } else if (item->isHidden()){
+            retString = i18n("Big (Hidden)");
         }
         break;
     }

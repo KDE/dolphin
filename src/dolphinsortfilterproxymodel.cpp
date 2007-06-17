@@ -2,6 +2,7 @@
  *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *   Copyright (C) 2006 by Dominic Battre <dominic@battre.de>              *
  *   Copyright (C) 2006 by Martin Pool <mbp@canonical.com>                 *
+ *   Copyright (C) 2007 by Rafael Fernández López <ereslibre@gmail.com>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -49,7 +50,7 @@ static DolphinView::Sorting dirModelColumnToDolphinView[] =
 
 
 DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
-    QSortFilterProxyModel(parent),
+    KSortFilterProxyModel(parent),
     m_sortColumn(0),
     m_sorting(DolphinView::SortByName),
     m_sortOrder(Qt::AscendingOrder)
@@ -57,7 +58,7 @@ DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
     setDynamicSortFilter(true);
 
     // sort by the user visible string for now
-    setSortRole(Qt::DisplayRole);
+    setSortRole(DolphinView::SortByName);
     setSortCaseSensitivity(Qt::CaseInsensitive);
     sort(KDirModel::Name, Qt::AscendingOrder);
 }
@@ -87,6 +88,7 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
     m_sorting = (column >= 0) && (column < dolphinMapSize) ?
                 dirModelColumnToDolphinView[column]  :
                 DolphinView::SortByName;
+    setSortRole(m_sorting);
     QSortFilterProxyModel::sort(column, sortOrder);
 }
 
@@ -110,38 +112,150 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
     return DolphinView::SortByName;
 }
 
+bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left,
+                                                         const QModelIndex &right) const
+{
+    KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
+
+    const KFileItem *leftFileItem  = dirModel->itemForIndex(left);
+     const KFileItem *rightFileItem = dirModel->itemForIndex(right);
+
+    if (sortRole() == DolphinView::SortByName) // If we are sorting by name
+    {
+        const QVariant leftData  = dirModel->data(left,  sortRole());
+        const QVariant rightData = dirModel->data(right, sortRole());
+
+        // Give preference to hidden items. They will be shown above regular
+        // items
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden())
+            return true;
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden())
+            return false;
+
+        // If we are handling two items of the same preference, just take in
+        // count their names. There is no need to check for case sensitivity
+        // here, since this is the method that explores for new categories
+        return leftData.toString().toLower() < rightData.toString().toLower();
+    }
+    else if (sortRole() == DolphinView::SortBySize) // If we are sorting by size
+    {
+        // Give preference to hidden items. They will be shown above regular
+        // items
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden())
+            return true;
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden())
+            return false;
+
+        // If we are sorting by size, show folders first. We will sort them
+        // correctly later
+        if (leftFileItem->isDir() && !rightFileItem->isDir())
+            return true;
+
+        return false;
+    }
+}
+
 bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
-        const QModelIndex& right) const
+                                           const QModelIndex& right) const
 {
     KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
 
     QVariant leftData  = dirModel->data(left,  sortRole());
     QVariant rightData = dirModel->data(right, sortRole());
 
-    if ((leftData.type() == QVariant::String) && (rightData.type() == QVariant::String)) {
-        // assure that directories are always sorted before files
-        // if the sorting is done by the 'Name' column
-        if (m_sortColumn == KDirModel::Name) {
-            const bool leftIsDir  = dirModel->itemForIndex(left)->isDir();
-            const bool rightIsDir = dirModel->itemForIndex(right)->isDir();
-            if (leftIsDir && !rightIsDir) {
+    const KFileItem *leftFileItem  = dirModel->itemForIndex(left);
+    const KFileItem *rightFileItem = dirModel->itemForIndex(right);
+
+    if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
+        if ((leftData.type() == QVariant::String) && (rightData.type() ==
+                                                            QVariant::String)) {
+            // Priority: hidden > folders > regular files. If an item is
+            // hidden (doesn't matter if file or folder) will have higher
+            // preference than a non-hidden item
+            if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
                 return true;
             }
-
-            if (!leftIsDir && rightIsDir) {
+            else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
                 return false;
             }
+
+            // On our priority, folders go above regular files
+            if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+                return true;
+            }
+            else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+                return false;
+            }
+
+            // So we are in the same priority, what counts now is their names
+            const QString leftStr = leftData.toString();
+            const QString rightStr = rightData.toString();
+
+            return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
+                   (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
+        }
+    }
+    else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
+        // Priority: hidden > folders > regular files. If an item is
+        // hidden (doesn't matter if file or folder) will have higher
+        // preference than a non-hidden item
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
+            return false;
         }
 
-        const QString leftStr  = leftData.toString();
-        const QString rightStr = rightData.toString();
+        // On our priority, folders go above regular files
+        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+            return true;
+        }
+        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
 
-        return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
-               (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
+        // If we have two folders, what we have to measure is the number of
+        // items that contains each other
+        if (leftFileItem->isDir() && rightFileItem->isDir()) {
+            const QVariant leftValue = dirModel->data(left, KDirModel::ChildCountRole);
+            const int leftCount = leftValue.type() == QVariant::Int ? leftValue.toInt() : KDirModel::ChildCountUnknown;
+
+            const QVariant rightValue = dirModel->data(right, KDirModel::ChildCountRole);
+            const int rightCount = rightValue.type() == QVariant::Int ? rightValue.toInt() : KDirModel::ChildCountUnknown;
+
+            // In the case they two have the same child items, we sort them by
+            // their names. So we have always everything ordered. We also check
+            // if we are taking in count their cases
+            if (leftCount == rightCount) {
+                const QString leftStr = leftData.toString();
+                const QString rightStr = rightData.toString();
+
+                return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
+                       (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
+            }
+
+            // If they had different number of items, we sort them depending
+            // on how many items had each other
+            return leftCount < rightCount;
+        }
+
+        // If what we are measuring is two files and they have the same size,
+        // sort them by their file names
+        if (leftFileItem->size() == rightFileItem->size()) {
+            const QString leftStr = leftData.toString();
+            const QString rightStr = rightData.toString();
+
+            return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
+                   (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
+        }
+
+        // If their sizes are different, sort them by their sizes, as expected
+        return leftFileItem->size() < rightFileItem->size();
     }
 
     // We have set a SortRole and trust the ProxyModel to do
     // the right thing for now.
+
     return QSortFilterProxyModel::lessThan(left, right);
 }
 

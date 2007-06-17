@@ -18,8 +18,8 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#ifndef __KLISTVIEW_H__
-#define __KLISTVIEW_H__
+#ifndef KLISTVIEW_H
+#define KLISTVIEW_H
 
 #include <QtGui/QListView>
 
@@ -37,9 +37,9 @@ public:
 
     ~KListView();
 
-    void setModel(QAbstractItemModel *model);
+    virtual void setModel(QAbstractItemModel *model);
 
-    QRect visualRect(const QModelIndex &index) const;
+    virtual QRect visualRect(const QModelIndex &index) const;
 
     KItemCategorizer *itemCategorizer() const;
 
@@ -47,42 +47,41 @@ public:
 
     virtual QModelIndex indexAt(const QPoint &point) const;
 
-    virtual int sizeHintForRow(int row) const;
-
+public Q_SLOTS:
+    virtual void reset();
 
 protected:
-    virtual void drawNewCategory(const QString &category,
-                                 const QStyleOptionViewItem &option,
-                                 QPainter *painter);
-
-    virtual int categoryHeight(const QStyleOptionViewItem &option) const;
-
     virtual void paintEvent(QPaintEvent *event);
+
+    virtual void resizeEvent(QResizeEvent *event);
 
     virtual void setSelection(const QRect &rect,
                               QItemSelectionModel::SelectionFlags flags);
 
-    virtual void timerEvent(QTimerEvent *event);
+    virtual void mouseMoveEvent(QMouseEvent *event);
 
+    virtual void mousePressEvent(QMouseEvent *event);
+
+    virtual void mouseReleaseEvent(QMouseEvent *event);
+
+    virtual void leaveEvent(QEvent *event);
 
 protected Q_SLOTS:
     virtual void rowsInserted(const QModelIndex &parent,
                               int start,
                               int end);
 
-    virtual void rowsAboutToBeRemoved(const QModelIndex &parent,
-                                      int start,
-                                      int end);
-
     virtual void rowsInsertedArtifficial(const QModelIndex &parent,
                                          int start,
                                          int end);
 
-    virtual void rowsAboutToBeRemovedArtifficial(const QModelIndex &parent,
-                                                 int start,
-                                                 int end);
+    virtual void rowsRemoved(const QModelIndex &parent,
+                             int start,
+                             int end);
 
-    virtual void itemsLayoutChanged();
+    virtual void updateGeometries();
+
+    virtual void slotSortingRoleChanged();
 
 
 private:

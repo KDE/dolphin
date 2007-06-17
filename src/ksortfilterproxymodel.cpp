@@ -18,26 +18,19 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#ifndef KITEMCATEGORIZER_H
-#define KITEMCATEGORIZER_H
+#include "ksortfilterproxymodel.h"
 
-#include <libdolphin_export.h>
-
-class QString;
-class QModelIndex;
-
-class LIBDOLPHINPRIVATE_EXPORT KItemCategorizer
+KSortFilterProxyModel::KSortFilterProxyModel(QObject *parent)
+    : QSortFilterProxyModel(parent)
 {
-public:
-    KItemCategorizer()
-    {
-    }
+}
 
-    virtual ~KItemCategorizer()
-    {
-    }
+KSortFilterProxyModel::~KSortFilterProxyModel()
+{
+}
 
-    virtual QString categoryForItem(const QModelIndex &index, int sortRole) = 0;
-};
-
-#endif
+bool KSortFilterProxyModel::lessThanCategoryPurpose(const QModelIndex &left,
+                                                    const QModelIndex &right) const
+{
+    return lessThan(left, right);
+}

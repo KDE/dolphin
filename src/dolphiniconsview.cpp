@@ -38,7 +38,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
-
+    setSpacing(10);
     setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
 
