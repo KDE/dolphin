@@ -125,27 +125,14 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
         const QVariant leftData  = dirModel->data(left,  sortRole());
         const QVariant rightData = dirModel->data(right, sortRole());
 
-        // Give preference to hidden items. They will be shown above regular
-        // items
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden())
-            return true;
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden())
-            return false;
+        QString leftStr = leftData.toString();
+        QString rightStr = rightData.toString();
 
-        // If we are handling two items of the same preference, just take in
-        // count their names. There is no need to check for case sensitivity
-        // here, since this is the method that explores for new categories
-        return leftData.toString().toLower() < rightData.toString().toLower();
+        // We don't care about case for building categories
+        return naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0;
     }
     else if (sortRole() == DolphinView::SortBySize) // If we are sorting by size
     {
-        // Give preference to hidden items. They will be shown above regular
-        // items
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden())
-            return true;
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden())
-            return false;
-
         // If we are sorting by size, show folders first. We will sort them
         // correctly later
         if (leftFileItem->isDir() && !rightFileItem->isDir())
@@ -188,17 +175,19 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
             }
 
             // So we are in the same priority, what counts now is their names
-            const QString leftStr = leftData.toString();
-            const QString rightStr = rightData.toString();
+            QString leftStr = leftData.toString();
+            QString rightStr = rightData.toString();
+
+            leftStr = leftStr.at(0) == '.' ? leftStr.mid(1) : leftStr;
+            rightStr = rightStr.at(0) == '.' ? rightStr.mid(1) : rightStr;
 
             return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
                    (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
         }
     }
     else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
-        // Priority: hidden > folders > regular files. If an item is
-        // hidden (doesn't matter if file or folder) will have higher
-        // preference than a non-hidden item
+        // If an item is hidden (doesn't matter if file or folder) will have
+        // higher preference than a non-hidden item
         if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
             return true;
         }

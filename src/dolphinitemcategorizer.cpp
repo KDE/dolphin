@@ -84,12 +84,12 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                     retString = data.toString().toUpper().at(0);
                 else if (item->isHidden() && data.toString().at(0) == '.' &&
                          data.toString().at(1).isLetter())
-                    retString = i18n(".%1 (Hidden)", data.toString().toUpper().at(1));
+                    retString = data.toString().toUpper().at(1);
                 else if (item->isHidden() && data.toString().at(0) == '.' &&
                          !data.toString().at(1).isLetter())
-                    retString = i18n("Others (Hidden)");
+                    retString = i18n("Others");
                 else if (item->isHidden() && data.toString().at(0) != '.')
-                    retString = i18n("%1 (Hidden)", data.toString().toUpper().at(0));
+                    retString = data.toString().toUpper().at(0);
                 else if (item->isHidden())
                     retString = data.toString().toUpper().at(0);
                 else
@@ -98,22 +98,14 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
         break;
     case DolphinView::SortBySize:
         int fileSize = (item) ? item->size() : -1;
-        if (item && item->isDir() && !item->isHidden()) {
+        if (item && item->isDir()) {
                 retString = i18n("Folders");
-        } else if (fileSize < 5242880 && !item->isHidden()) {
+        } else if (fileSize < 5242880) {
             retString = i18n("Small");
-        } else if (fileSize < 10485760 && !item->isHidden()) {
+        } else if (fileSize < 10485760) {
             retString = i18n("Medium");
-        } else if (!item->isHidden()){
+        } else {
             retString = i18n("Big");
-        } else if (item && item->isDir() && item->isHidden()) {
-                retString = i18n("Folders (Hidden)");
-        } else if (fileSize < 5242880 && item->isHidden()) {
-            retString = i18n("Small (Hidden)");
-        } else if (fileSize < 10485760 && item->isHidden()) {
-            retString = i18n("Medium (Hidden)");
-        } else if (item->isHidden()){
-            retString = i18n("Big (Hidden)");
         }
         break;
     }
