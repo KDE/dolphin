@@ -76,9 +76,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* textWidthLabel = new QLabel(i18n("Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
-    m_textWidthBox->addItem(i18n("Small"));
-    m_textWidthBox->addItem(i18n("Medium"));
-    m_textWidthBox->addItem(i18n("Large"));
+    m_textWidthBox->addItem(i18nc("Text width", "Small"));
+    m_textWidthBox->addItem(i18nc("Text width", "Medium"));
+    m_textWidthBox->addItem(i18nc("Text width", "Large"));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
     textGroupLayout->addWidget(fontLabel, 0, 0);
@@ -99,9 +99,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* gridSpacingLabel = new QLabel(i18n("Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
-    m_gridSpacingBox->addItem(i18n("Small"));
-    m_gridSpacingBox->addItem(i18n("Medium"));
-    m_gridSpacingBox->addItem(i18n("Large"));
+    m_gridSpacingBox->addItem(i18nc("Grid spacing", "Small"));
+    m_gridSpacingBox->addItem(i18nc("Grid spacing", "Medium"));
+    m_gridSpacingBox->addItem(i18nc("Grid spacing", "Large"));
 
     QGridLayout* gridGroupLayout = new QGridLayout(gridGroup);
     gridGroupLayout->addWidget(arrangementLabel, 0, 0);

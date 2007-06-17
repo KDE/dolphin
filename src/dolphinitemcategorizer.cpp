@@ -99,13 +99,13 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
     case DolphinView::SortBySize:
         int fileSize = (item) ? item->size() : -1;
         if (item && item->isDir()) {
-                retString = i18n("Folders");
+            retString = i18n("Folders");
         } else if (fileSize < 5242880) {
-            retString = i18n("Small");
+            retString = i18nc("Size", "Small");
         } else if (fileSize < 10485760) {
-            retString = i18n("Medium");
+            retString = i18nc("Size", "Medium");
         } else {
-            retString = i18n("Big");
+            retString = i18nc("Size", "Big");
         }
         break;
     }

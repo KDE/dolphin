@@ -55,9 +55,9 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), this);
     iconSizeBox->setSizePolicy(sizePolicy);
 
-    m_smallIconSize  = new QRadioButton(i18n("Small"), this);
-    m_mediumIconSize = new QRadioButton(i18n("Medium"), this);
-    m_largeIconSize  = new QRadioButton(i18n("Large"), this);
+    m_smallIconSize  = new QRadioButton(i18nc("Size", "Small"), this);
+    m_mediumIconSize = new QRadioButton(i18nc("Size", "Medium"), this);
+    m_largeIconSize  = new QRadioButton(i18nc("Size", "Large"), this);
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
     iconSizeGroup->addButton(m_smallIconSize);
