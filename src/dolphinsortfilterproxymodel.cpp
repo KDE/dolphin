@@ -216,8 +216,8 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
             // their names. So we have always everything ordered. We also check
             // if we are taking in count their cases
             if (leftCount == rightCount) {
-                const QString leftStr = leftData.toString();
-                const QString rightStr = rightData.toString();
+                const QString leftStr = dirModel->data(left,  DolphinView::SortByName).toString();
+                const QString rightStr = dirModel->data(right,  DolphinView::SortByName).toString();
 
                 return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
                        (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
@@ -231,8 +231,8 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         // If what we are measuring is two files and they have the same size,
         // sort them by their file names
         if (leftFileItem->size() == rightFileItem->size()) {
-            const QString leftStr = leftData.toString();
-            const QString rightStr = rightData.toString();
+            const QString leftStr = dirModel->data(left,  DolphinView::SortByName).toString();
+            const QString rightStr = dirModel->data(right,  DolphinView::SortByName).toString();
 
             return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
                    (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
