@@ -62,7 +62,15 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
+    virtual void mousePressEvent(QMouseEvent* event);
     virtual void paintEvent(QPaintEvent* event);
+
+private:
+    /** Used by ColumnWidget::setActive(). */
+    void activate();
+
+    /** Used by ColumnWidget::setActive(). */
+    void deactivate();
 
 private:
     bool m_active;
@@ -85,7 +93,6 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     m_dropRect()
 {
     setAcceptDrops(true);
-    setSelectionBehavior(SelectItems);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
 
@@ -105,6 +112,8 @@ ColumnWidget::ColumnWidget(QWidget* parent,
 
     const int iconSize = settings->iconSize();
     m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+
+    activate();
 }
 
 ColumnWidget::~ColumnWidget()
@@ -125,15 +134,11 @@ void ColumnWidget::setActive(bool active)
 
     m_active = active;
 
-    QColor bgColor = KColorScheme(KColorScheme::View).background();
-    if (!active) {
-        const QColor fgColor = KColorScheme(KColorScheme::View).foreground();
-        bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
+    if (active) {
+        activate();
+    } else {
+        deactivate();
     }
-
-    QPalette palette = viewport()->palette();
-    palette.setColor(viewport()->backgroundRole(), bgColor);
-    viewport()->setPalette(palette);
 }
 
 const KUrl& ColumnWidget::url() const
@@ -188,6 +193,17 @@ void ColumnWidget::dropEvent(QDropEvent* event)
     m_dragging = false;
 }
 
+void ColumnWidget::mousePressEvent(QMouseEvent* event)
+{
+    if (m_active || indexAt(event->pos()).isValid()) {
+        // Only accept the mouse press event in inactive views,
+        // if a click is done on an item. This assures that
+        // the current selection, which usually shows the
+        // the directory for next column, won't get deleted.
+        QListView::mousePressEvent(event);
+    }
+}
+
 void ColumnWidget::paintEvent(QPaintEvent* event)
 {
     QListView::paintEvent(event);
@@ -197,6 +213,29 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
         const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
         DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
     }
+}
+
+void ColumnWidget::activate()
+{
+    const QColor bgColor = KColorScheme(KColorScheme::View).background();
+    QPalette palette = viewport()->palette();
+    palette.setColor(viewport()->backgroundRole(), bgColor);
+    viewport()->setPalette(palette);
+
+    setSelectionMode(MultiSelection);
+}
+
+void ColumnWidget::deactivate()
+{
+    QColor bgColor = KColorScheme(KColorScheme::View).background();
+    const QColor fgColor = KColorScheme(KColorScheme::View).foreground();
+    bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
+
+    QPalette palette = viewport()->palette();
+    palette.setColor(viewport()->backgroundRole(), bgColor);
+    viewport()->setPalette(palette);
+
+    setSelectionMode(SingleSelection);
 }
 
 // ---
