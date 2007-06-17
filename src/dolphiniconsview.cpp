@@ -25,6 +25,8 @@
 
 #include "dolphin_iconsmodesettings.h"
 
+#include <kdialog.h>
+
 #include <QAbstractProxyModel>
 #include <QApplication>
 #include <QPainter>
@@ -38,7 +40,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
-    setSpacing(10);
+    setSpacing(KDialog::spacingHint());
     setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
 
