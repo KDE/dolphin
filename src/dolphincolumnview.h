@@ -26,7 +26,10 @@
 class DolphinController;
 
 /**
- * @brief TODO
+ * @brief Represents the view, where each directory is show as separate column.
+ *
+ * @see DolphinIconsView
+ * @see DolphinDetailsView
  */
 class DolphinColumnView : public QColumnView
 {
@@ -46,6 +49,7 @@ protected:
 private slots:
     void zoomIn();
     void zoomOut();
+    void triggerItem(const QModelIndex& index);
 
 private:
     bool isZoomInPossible() const;

@@ -24,8 +24,13 @@
 
 #include "dolphin_columnmodesettings.h"
 
-#include <QtGui/QAbstractProxyModel>
-#include <QtCore/QPoint>
+#include <kcolorutils.h>
+#include <kcolorscheme.h>
+#include <kdirmodel.h>
+#include <kfileitem.h>
+
+#include <QAbstractProxyModel>
+#include <QPoint>
 
 /**
  * Represents one column inside the DolphinColumnView and has been
@@ -34,10 +39,22 @@
 class ColumnWidget : public QListView
 {
 public:
-    ColumnWidget(QWidget* parent, DolphinColumnView* columnView);
+    ColumnWidget(QWidget* parent,
+                 DolphinColumnView* columnView,
+                 const KUrl& url);
     virtual ~ColumnWidget();
 
+    /** Sets the size of the icons. */
     void setDecorationSize(const QSize& size);
+
+    /**
+     * An active column is defined as column, which shows the same URL
+     * as indicated by the URL navigator. The active column is usually
+     * drawn in a lighter color. All operations are applied to this column.
+     */
+    void setActive(bool active);
+
+    inline const KUrl& url() const;
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
@@ -48,6 +65,8 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
 
 private:
+    bool m_active;
+    KUrl m_url;
     DolphinColumnView* m_columnView;
     QStyleOptionViewItem m_viewOptions;
 
@@ -55,8 +74,12 @@ private:
     QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
 };
 
-ColumnWidget::ColumnWidget(QWidget* parent, DolphinColumnView* columnView) :
+ColumnWidget::ColumnWidget(QWidget* parent,
+                           DolphinColumnView* columnView,
+                           const KUrl& url) :
     QListView(parent),
+    m_active(true),
+    m_url(url),
     m_columnView(columnView),
     m_dragging(false),
     m_dropRect()
@@ -79,6 +102,9 @@ ColumnWidget::ColumnWidget(QWidget* parent, DolphinColumnView* columnView) :
     font.setItalic(settings->italicFont());
     font.setBold(settings->boldFont());
     m_viewOptions.font = font;
+
+    const int iconSize = settings->iconSize();
+    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
 }
 
 ColumnWidget::~ColumnWidget()
@@ -89,6 +115,30 @@ void ColumnWidget::setDecorationSize(const QSize& size)
 {
     m_viewOptions.decorationSize = size;
     doItemsLayout();
+}
+
+void ColumnWidget::setActive(bool active)
+{
+    if (m_active == active) {
+        return;
+    }
+
+    m_active = active;
+
+    QColor bgColor = KColorScheme(KColorScheme::View).background();
+    if (!active) {
+        const QColor fgColor = KColorScheme(KColorScheme::View).foreground();
+        bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
+    }
+
+    QPalette palette = viewport()->palette();
+    palette.setColor(viewport()->backgroundRole(), bgColor);
+    viewport()->setPalette(palette);
+}
+
+const KUrl& ColumnWidget::url() const
+{
+    return m_url;
 }
 
 QStyleOptionViewItem ColumnWidget::viewOptions() const
@@ -131,8 +181,8 @@ void ColumnWidget::dropEvent(QDropEvent* event)
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
         m_columnView->m_controller->indicateDroppedUrls(urls,
-                                                          indexAt(event->pos()),
-                                                          event->source());
+                                                        indexAt(event->pos()),
+                                                        event->source());
     }
     QListView::dropEvent(event);
     m_dragging = false;
@@ -164,13 +214,13 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
 
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                this, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                this, SLOT(triggerItem(const QModelIndex&)));
     }
     connect(this, SIGNAL(activated(const QModelIndex&)),
-            controller, SLOT(triggerItem(const QModelIndex&)));
+            this, SLOT(triggerItem(const QModelIndex&)));
     connect(this, SIGNAL(entered(const QModelIndex&)),
             controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
@@ -189,7 +239,23 @@ DolphinColumnView::~DolphinColumnView()
 
 QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
 {
-    ColumnWidget* view = new ColumnWidget(viewport(), this);
+    // To be able to visually indicate whether a column is active (which means
+    // that it represents the content of the URL navigator), the column
+    // must remember its URL.
+    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+
+    const QModelIndex dirModelIndex = proxyModel->mapToSource(index);
+    KFileItem* fileItem = dirModel->itemForIndex(dirModelIndex);
+
+    KUrl columnUrl;
+    if (fileItem != 0) {
+        columnUrl = fileItem->url();
+    }
+
+    ColumnWidget* view = new ColumnWidget(viewport(),
+                                          this,
+                                          columnUrl);
 
     // The following code has been copied 1:1 from QColumnView::createColumn().
     // Copyright (C) 1992-2007 Trolltech ASA.
@@ -220,7 +286,7 @@ QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
     view->setModel(model());
 
     // set the delegate to be the columnview delegate
-    QAbstractItemDelegate *delegate = view->itemDelegate();
+    QAbstractItemDelegate* delegate = view->itemDelegate();
     view->setItemDelegate(itemDelegate());
     delete delegate;
 
@@ -289,6 +355,21 @@ void DolphinColumnView::zoomOut()
         default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
+    }
+}
+
+void DolphinColumnView::triggerItem(const QModelIndex& index)
+{
+    m_controller->triggerItem(index);
+
+    // Update the activation state of all columns. Only the column
+    // which represents the URL of the URL navigator is marked as active.
+    const KUrl& navigatorUrl = m_controller->url();
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            widget->setActive(navigatorUrl == widget->url());
+        }
     }
 }
 
