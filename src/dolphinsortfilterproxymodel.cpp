@@ -24,6 +24,7 @@
 
 #include <kdirmodel.h>
 #include <kfileitem.h>
+#include <kdatetime.h>
 
 static const int dolphinMapSize = 7;
 static int dolphinViewToDirModelColumn[] =
@@ -120,9 +121,8 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
     const KFileItem *leftFileItem  = dirModel->itemForIndex(left);
     const KFileItem *rightFileItem = dirModel->itemForIndex(right);
 
-    if (sortRole() == DolphinView::SortByName) // If we are sorting by name
-    {
-        const QVariant leftData  = dirModel->data(left,  sortRole());
+    if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
+        const QVariant leftData  = dirModel->data(left, sortRole());
         const QVariant rightData = dirModel->data(right, sortRole());
 
         QString leftStr = leftData.toString();
@@ -130,10 +130,9 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
 
         // We don't care about case for building categories. We also don't
         // want here to compare by a natural comparation
-        return leftStr.toLower() < rightStr.toLower();
+        return QString::compare(leftStr, rightStr, Qt::CaseInsensitive) < 0;
     }
-    else if (sortRole() == KDirModel::Size) // If we are sorting by size
-    {
+    else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
         // If we are sorting by size, show folders first. We will sort them
         // correctly later
         if (leftFileItem->isDir() && !rightFileItem->isDir())
@@ -141,8 +140,21 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
 
         return false;
     }
-    else if (sortRole() == KDirModel::Type)
-    {
+    else if (sortRole() == DolphinView::SortByDate) {
+        KDateTime leftTime;
+        leftTime.setTime_t(leftFileItem->time(KIO::UDS_MODIFICATION_TIME));
+        KDateTime rightTime;
+        rightTime.setTime_t(rightFileItem->time(KIO::UDS_MODIFICATION_TIME));
+
+        return leftTime > rightTime;
+    }
+    else if (sortRole() == DolphinView::SortByPermissions) {
+    }
+    else if (sortRole() == DolphinView::SortByOwner) {
+    }
+    else if (sortRole() == DolphinView::SortByGroup) {
+    }
+    else if (sortRole() == DolphinView::SortByType) {
         // If we are sorting by size, show folders first. We will sort them
         // correctly later
         if (leftFileItem->isDir() && !rightFileItem->isDir())
@@ -160,13 +172,13 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 {
     KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
 
-    QVariant leftData  = dirModel->data(left,  sortRole());
+    QVariant leftData  = dirModel->data(left, sortRole());
     QVariant rightData = dirModel->data(right, sortRole());
 
     const KFileItem *leftFileItem  = dirModel->itemForIndex(left);
     const KFileItem *rightFileItem = dirModel->itemForIndex(right);
 
-    if (sortRole() == KDirModel::Name) { // If we are sorting by name
+    if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
         if ((leftData.type() == QVariant::String) && (rightData.type() ==
                                                             QVariant::String)) {
             // Priority: hidden > folders > regular files. If an item is
@@ -198,7 +210,7 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
                    (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
         }
     }
-    else if (sortRole() == KDirModel::Size) { // If we are sorting by size
+    else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
         // If an item is hidden (doesn't matter if file or folder) will have
         // higher preference than a non-hidden item
         if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
@@ -229,8 +241,8 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
             // their names. So we have always everything ordered. We also check
             // if we are taking in count their cases
             if (leftCount == rightCount) {
-                const QString leftStr = dirModel->data(left,  KDirModel::Name).toString();
-                const QString rightStr = dirModel->data(right,  KDirModel::Name).toString();
+                const QString leftStr = dirModel->data(left, KDirModel::Name).toString();
+                const QString rightStr = dirModel->data(right, KDirModel::Name).toString();
 
                 return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
                        (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
@@ -244,8 +256,8 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         // If what we are measuring is two files and they have the same size,
         // sort them by their file names
         if (leftFileItem->size() == rightFileItem->size()) {
-            const QString leftStr = dirModel->data(left,  KDirModel::Name).toString();
-            const QString rightStr = dirModel->data(right,  KDirModel::Name).toString();
+            const QString leftStr = dirModel->data(left, KDirModel::Name).toString();
+            const QString rightStr = dirModel->data(right, KDirModel::Name).toString();
 
             return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
                    (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
@@ -254,7 +266,47 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         // If their sizes are different, sort them by their sizes, as expected
         return leftFileItem->size() < rightFileItem->size();
     }
-    else if (sortRole() == KDirModel::Type)
+    else if (sortRole() == DolphinView::SortByDate) {
+        // If an item is hidden (doesn't matter if file or folder) will have
+        // higher preference than a non-hidden item
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
+            return false;
+        }
+
+        // On our priority, folders go above regular files
+        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+            return true;
+        }
+        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
+        KDateTime leftTime;
+        leftTime.setTime_t(leftFileItem->time(KIO::UDS_MODIFICATION_TIME));
+        KDateTime rightTime;
+        rightTime.setTime_t(rightFileItem->time(KIO::UDS_MODIFICATION_TIME));
+
+        if (leftTime == rightTime)
+        {
+            const QString leftStr = dirModel->data(left, KDirModel::Name).toString();
+            const QString rightStr = dirModel->data(right, KDirModel::Name).toString();
+
+            return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
+                   (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
+        }
+
+        return leftTime > rightTime;
+    }
+    else if (sortRole() == DolphinView::SortByPermissions) {
+    }
+    else if (sortRole() == DolphinView::SortByOwner) {
+    }
+    else if (sortRole() == DolphinView::SortByGroup) {
+    }
+    else if (sortRole() == DolphinView::SortByType)
     {
         // If an item is hidden (doesn't matter if file or folder) will have
         // higher preference than a non-hidden item
