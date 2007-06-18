@@ -105,13 +105,13 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortFlagsButton->setMenu(sortingFlagsMenu);
 
     m_sorting = new QComboBox(sortingBox);
-    m_sorting->addItem("By Name");
-    m_sorting->addItem("By Size");
-    m_sorting->addItem("By Date");
-    m_sorting->addItem("By Permissions");
-    m_sorting->addItem("By Owner");
-    m_sorting->addItem("By Group");
-    m_sorting->addItem("By Type");
+    m_sorting->addItem(i18n("By Name"));
+    m_sorting->addItem(i18n("By Size"));
+    m_sorting->addItem(i18n("By Date"));
+    m_sorting->addItem(i18n("By Permissions"));
+    m_sorting->addItem(i18n("By Owner"));
+    m_sorting->addItem(i18n("By Group"));
+    m_sorting->addItem(i18n("By Type"));
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
