@@ -29,6 +29,18 @@ KSortFilterProxyModel::~KSortFilterProxyModel()
 {
 }
 
+void KSortFilterProxyModel::sort(int column, Qt::SortOrder order)
+{
+    QSortFilterProxyModel::sort(column, order);
+
+    m_sortOrder = order;
+}
+
+Qt::SortOrder KSortFilterProxyModel::sortOrder() const
+{
+    return m_sortOrder;
+}
+
 bool KSortFilterProxyModel::lessThanCategoryPurpose(const QModelIndex &left,
                                                     const QModelIndex &right) const
 {

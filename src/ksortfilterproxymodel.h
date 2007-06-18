@@ -32,11 +32,18 @@ public:
     KSortFilterProxyModel(QObject *parent = 0);
     ~KSortFilterProxyModel();
 
+    virtual void sort(int column, Qt::SortOrder order = Qt::AscendingOrder);
+
+    Qt::SortOrder sortOrder() const;
+
     virtual bool lessThanGeneralPurpose(const QModelIndex &left,
                                         const QModelIndex &right) const = 0;
 
     virtual bool lessThanCategoryPurpose(const QModelIndex &left,
                                          const QModelIndex &right) const;
+
+private:
+    Qt::SortOrder m_sortOrder;
 };
 
 #endif

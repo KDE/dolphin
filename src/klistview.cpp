@@ -55,10 +55,14 @@ public:
     {
         if (purpose == GeneralPurpose)
         {
-            return proxyModel->lessThanGeneralPurpose(left, right);
+            return proxyModel->sortOrder() == Qt::AscendingOrder ?
+                   proxyModel->lessThanGeneralPurpose(left, right) :
+                   !proxyModel->lessThanGeneralPurpose(left, right);
         }
 
-        return proxyModel->lessThanCategoryPurpose(left, right);
+        return proxyModel->sortOrder() == Qt::AscendingOrder ?
+               proxyModel->lessThanCategoryPurpose(left, right) :
+               !proxyModel->lessThanCategoryPurpose(left, right);
     }
 
 private:

@@ -89,7 +89,7 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
                 dirModelColumnToDolphinView[column]  :
                 DolphinView::SortByName;
     setSortRole(m_sorting);
-    QSortFilterProxyModel::sort(column, sortOrder);
+    KSortFilterProxyModel::sort(column, sortOrder);
 }
 
 bool DolphinSortFilterProxyModel::hasChildren(const QModelIndex& parent) const
@@ -249,7 +249,7 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 }
 
 int DolphinSortFilterProxyModel::naturalCompare(const QString& a,
-        const QString& b)
+                                                const QString& b)
 {
     // This method chops the input a and b into pieces of
     // digits and non-digits (a1.05 becomes a | 1 | . | 05)
