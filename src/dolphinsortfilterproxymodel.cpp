@@ -143,8 +143,15 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
     }
     else if (sortRole() == KDirModel::Type)
     {
-        return naturalCompare(leftFileItem->mimetype().toLower(),
-                              rightFileItem->mimetype().toLower()) < 0;
+        // If we are sorting by size, show folders first. We will sort them
+        // correctly later
+        if (leftFileItem->isDir() && !rightFileItem->isDir())
+            return true;
+        else if (!leftFileItem->isDir() && rightFileItem->isDir())
+            return false;
+
+        return naturalCompare(leftFileItem->mimeComment().toLower(),
+                              rightFileItem->mimeComment().toLower()) < 0;
     }
 }
 
@@ -249,6 +256,23 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     }
     else if (sortRole() == KDirModel::Type)
     {
+        // If an item is hidden (doesn't matter if file or folder) will have
+        // higher preference than a non-hidden item
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
+            return false;
+        }
+
+        // On our priority, folders go above regular files
+        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+            return true;
+        }
+        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
         if (leftFileItem->mimetype() == rightFileItem->mimetype())
         {
             const QString leftStr = dirModel->data(left,  KDirModel::Name).toString();
