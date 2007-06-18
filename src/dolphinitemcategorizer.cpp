@@ -134,12 +134,15 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
             break;
 
         case DolphinView::SortByPermissions:
+            retString = item->permissionsString();
             break;
 
         case DolphinView::SortByOwner:
+            retString = item->user();
             break;
 
         case DolphinView::SortByGroup:
+            retString = item->group();
             break;
 
         case DolphinView::SortBySize:
