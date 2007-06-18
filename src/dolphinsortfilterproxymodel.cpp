@@ -122,9 +122,18 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
     const KFileItem *rightFileItem = dirModel->itemForIndex(right);
 
     if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
+        QString leftFileName = leftFileItem->name();
+        QString rightFileName = rightFileItem->name();
+
+        leftFileName = leftFileName.at(0) == '.' ? leftFileName.mid(1) :
+                                                   leftFileName;
+
+        rightFileName = rightFileName.at(0) == '.' ? rightFileName.mid(1) :
+                                                     rightFileName;
+
         // We don't care about case for building categories. We also don't
         // want here to compare by a natural comparation
-        return QString::compare(leftFileItem->name(), rightFileItem->name(), Qt::CaseInsensitive) < 0;
+        return QString::compare(leftFileName, rightFileName, Qt::CaseInsensitive) < 0;
     }
     else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
         // If we are sorting by size, show folders first. We will sort them
@@ -181,21 +190,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
         if ((leftData.type() == QVariant::String) && (rightData.type() ==
                                                             QVariant::String)) {
-            // Priority: hidden > folders > regular files. If an item is
-            // hidden (doesn't matter if file or folder) will have higher
-            // preference than a non-hidden item
-            if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-                return true;
-            }
-            else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-                return false;
-            }
-
             // On our priority, folders go above regular files
             if (leftFileItem->isDir() && !rightFileItem->isDir()) {
                 return true;
             }
             else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+                return false;
+            }
+
+            // Hidden elements go before visible ones, if they both are
+            // folders or files
+            if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+                return true;
+            }
+            else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
                 return false;
             }
 
@@ -208,20 +216,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         }
     }
     else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
-        // If an item is hidden (doesn't matter if file or folder) will have
-        // higher preference than a non-hidden item
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
         // On our priority, folders go above regular files
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
             return true;
         }
         else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
+        // Hidden elements go before visible ones, if they both are
+        // folders or files
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
             return false;
         }
 
@@ -258,20 +266,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         return leftFileItem->size() < rightFileItem->size();
     }
     else if (sortRole() == DolphinView::SortByDate) {
-        // If an item is hidden (doesn't matter if file or folder) will have
-        // higher preference than a non-hidden item
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
         // On our priority, folders go above regular files
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
             return true;
         }
         else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
+        // Hidden elements go before visible ones, if they both are
+        // folders or files
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
             return false;
         }
 
@@ -289,20 +297,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         return leftTime > rightTime;
     }
     else if (sortRole() == DolphinView::SortByPermissions) {
-        // If an item is hidden (doesn't matter if file or folder) will have
-        // higher preference than a non-hidden item
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
         // On our priority, folders go above regular files
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
             return true;
         }
         else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
+        // Hidden elements go before visible ones, if they both are
+        // folders or files
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
             return false;
         }
 
@@ -319,20 +327,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
                               rightPermissions) < 0;
     }
     else if (sortRole() == DolphinView::SortByOwner) {
-        // If an item is hidden (doesn't matter if file or folder) will have
-        // higher preference than a non-hidden item
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
         // On our priority, folders go above regular files
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
             return true;
         }
         else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
+        // Hidden elements go before visible ones, if they both are
+        // folders or files
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
             return false;
         }
 
@@ -349,20 +357,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
                               rightOwner.toLower()) < 0;
     }
     else if (sortRole() == DolphinView::SortByGroup) {
-        // If an item is hidden (doesn't matter if file or folder) will have
-        // higher preference than a non-hidden item
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
         // On our priority, folders go above regular files
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
             return true;
         }
         else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
+        // Hidden elements go before visible ones, if they both are
+        // folders or files
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
             return false;
         }
 
@@ -379,20 +387,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
                               rightGroup.toLower()) < 0;
     }
     else if (sortRole() == DolphinView::SortByType) {
-        // If an item is hidden (doesn't matter if file or folder) will have
-        // higher preference than a non-hidden item
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
         // On our priority, folders go above regular files
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
             return true;
         }
         else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
+
+        // Hidden elements go before visible ones, if they both are
+        // folders or files
+        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+            return true;
+        }
+        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
             return false;
         }
 
