@@ -846,10 +846,10 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
     }
 
     // Add all elements mapped to the source model
-    for (int i = 0; i < d->proxyModel->rowCount(); i++)
+    for (int k = 0; k < d->proxyModel->rowCount(); k++)
     {
         d->sourceModelIndexList <<
-                         d->proxyModel->mapToSource(d->proxyModel->index(i, 0));
+                         d->proxyModel->mapToSource(d->proxyModel->index(k, 0));
     }
 
     // Sort them with the general purpose lessThan method
