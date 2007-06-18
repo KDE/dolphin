@@ -121,58 +121,59 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
     const KFileItem *leftFileItem  = dirModel->itemForIndex(left);
     const KFileItem *rightFileItem = dirModel->itemForIndex(right);
 
-    if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
-        QString leftFileName = leftFileItem->name();
-        QString rightFileName = rightFileItem->name();
+    QString leftFileName, rightFileName;
+    KDateTime leftTime, rightTime;
+    switch (sortRole()) {
+        case DolphinView::SortByName:
+            leftFileName = leftFileItem->name();
+            rightFileName = rightFileItem->name();
 
-        leftFileName = leftFileName.at(0) == '.' ? leftFileName.mid(1) :
-                                                   leftFileName;
+            leftFileName = leftFileName.at(0) == '.' ? leftFileName.mid(1) :
+                                                       leftFileName;
 
-        rightFileName = rightFileName.at(0) == '.' ? rightFileName.mid(1) :
-                                                     rightFileName;
+            rightFileName = rightFileName.at(0) == '.' ? rightFileName.mid(1) :
+                                                         rightFileName;
 
-        // We don't care about case for building categories. We also don't
-        // want here to compare by a natural comparation
-        return naturalCompare(leftFileName, rightFileName) < 0;
-    }
-    else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
-        // If we are sorting by size, show folders first. We will sort them
-        // correctly later
-        if (leftFileItem->isDir() && !rightFileItem->isDir())
-            return true;
+            // We don't care about case for building categories. We also don't
+            // want here to compare by a natural comparation
+            return naturalCompare(leftFileName, rightFileName) < 0;
 
-        return false;
-    }
-    else if (sortRole() == DolphinView::SortByDate) {
-        KDateTime leftTime;
-        leftTime.setTime_t(leftFileItem->time(KIO::UDS_MODIFICATION_TIME));
-        KDateTime rightTime;
-        rightTime.setTime_t(rightFileItem->time(KIO::UDS_MODIFICATION_TIME));
+        case DolphinView::SortBySize:
+            // If we are sorting by size, show folders first. We will sort them
+            // correctly later
+            if (leftFileItem->isDir() && !rightFileItem->isDir())
+                return true;
 
-        return leftTime > rightTime;
-    }
-    else if (sortRole() == DolphinView::SortByPermissions) {
-        return naturalCompare(leftFileItem->permissionsString(),
-                              rightFileItem->permissionsString()) < 0;
-    }
-    else if (sortRole() == DolphinView::SortByOwner) {
-        return naturalCompare(leftFileItem->user().toLower(),
-                              rightFileItem->user().toLower()) < 0;
-    }
-    else if (sortRole() == DolphinView::SortByGroup) {
-        return naturalCompare(leftFileItem->group().toLower(),
-                              rightFileItem->group().toLower()) < 0;
-    }
-    else if (sortRole() == DolphinView::SortByType) {
-        // If we are sorting by size, show folders first. We will sort them
-        // correctly later
-        if (leftFileItem->isDir() && !rightFileItem->isDir())
-            return true;
-        else if (!leftFileItem->isDir() && rightFileItem->isDir())
             return false;
 
-        return naturalCompare(leftFileItem->mimeComment().toLower(),
-                              rightFileItem->mimeComment().toLower()) < 0;
+        case DolphinView::SortByDate:
+            leftTime.setTime_t(leftFileItem->time(KIO::UDS_MODIFICATION_TIME));
+            rightTime.setTime_t(rightFileItem->time(KIO::UDS_MODIFICATION_TIME));
+
+            return leftTime > rightTime;
+
+        case DolphinView::SortByPermissions:
+            return naturalCompare(leftFileItem->permissionsString(),
+                                rightFileItem->permissionsString()) < 0;
+
+        case DolphinView::SortByOwner:
+            return naturalCompare(leftFileItem->user().toLower(),
+                                rightFileItem->user().toLower()) < 0;
+
+        case DolphinView::SortByGroup:
+            return naturalCompare(leftFileItem->group().toLower(),
+                                rightFileItem->group().toLower()) < 0;
+
+        case DolphinView::SortByType:
+            // If we are sorting by size, show folders first. We will sort them
+            // correctly later
+            if (leftFileItem->isDir() && !rightFileItem->isDir())
+                return true;
+            else if (!leftFileItem->isDir() && rightFileItem->isDir())
+                return false;
+
+            return naturalCompare(leftFileItem->mimeComment().toLower(),
+                                  rightFileItem->mimeComment().toLower()) < 0;
     }
 }
 
@@ -181,237 +182,126 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 {
     KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
 
-    QVariant leftData  = dirModel->data(left, sortRole());
-    QVariant rightData = dirModel->data(right, sortRole());
+    QVariant leftData  = dirModel->data(left, dolphinViewToDirModelColumn[sortRole()]);
+    QVariant rightData = dirModel->data(right, dolphinViewToDirModelColumn[sortRole()]);
 
     const KFileItem *leftFileItem  = dirModel->itemForIndex(left);
     const KFileItem *rightFileItem = dirModel->itemForIndex(right);
 
-    if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
-        if ((leftData.type() == QVariant::String) && (rightData.type() ==
-                                                            QVariant::String)) {
-            // On our priority, folders go above regular files
-            if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-                return true;
-            }
-            else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-                return false;
-            }
-
-            // Hidden elements go before visible ones, if they both are
-            // folders or files
-            if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-                return true;
-            }
-            else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-                return false;
-            }
-
-            // So we are in the same priority, what counts now is their names
-            const QString leftStr = leftData.toString();
-            const QString rightStr = rightData.toString();
-
-            return sortCaseSensitivity() ? (naturalCompare(leftStr, rightStr) < 0) :
-                   (naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0);
-        }
+    // On our priority, folders go above regular files
+    if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+        return true;
     }
-    else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
-        // On our priority, folders go above regular files
-        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-            return true;
-        }
-        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-            return false;
-        }
+    else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+        return false;
+    }
 
-        // Hidden elements go before visible ones, if they both are
-        // folders or files
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
+    // Hidden elements go before visible ones, if they both are
+    // folders or files
+    if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
+        return true;
+    }
+    else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
+        return false;
+    }
 
-        // If we have two folders, what we have to measure is the number of
-        // items that contains each other
-        if (leftFileItem->isDir() && rightFileItem->isDir()) {
-            const QVariant leftValue = dirModel->data(left, KDirModel::ChildCountRole);
-            const int leftCount = leftValue.type() == QVariant::Int ? leftValue.toInt() : KDirModel::ChildCountUnknown;
+    QVariant leftValue, rightValue;
+    QString leftValueString, rightValueString;
+    KDateTime leftTime, rightTime;
+    int leftCount, rightCount;
+    switch (sortRole()) {
+        case DolphinView::SortByName:
+            // So we are in the same priority, what counts now is their names
+            leftValueString = leftData.toString();
+            rightValueString = rightData.toString();
 
-            const QVariant rightValue = dirModel->data(right, KDirModel::ChildCountRole);
-            const int rightCount = rightValue.type() == QVariant::Int ? rightValue.toInt() : KDirModel::ChildCountUnknown;
+            return sortCaseSensitivity() ? (naturalCompare(leftValueString, rightValueString) < 0) :
+                   (naturalCompare(leftValueString.toLower(), rightValueString.toLower()) < 0);
 
-            // In the case they two have the same child items, we sort them by
-            // their names. So we have always everything ordered. We also check
-            // if we are taking in count their cases
-            if (leftCount == rightCount) {
+        case DolphinView::SortBySize:
+            // If we have two folders, what we have to measure is the number of
+            // items that contains each other
+            if (leftFileItem->isDir() && rightFileItem->isDir()) {
+                leftValue = dirModel->data(left, KDirModel::ChildCountRole);
+                leftCount = leftValue.type() == QVariant::Int ? leftValue.toInt() : KDirModel::ChildCountUnknown;
+
+                rightValue = dirModel->data(right, KDirModel::ChildCountRole);
+                rightCount = rightValue.type() == QVariant::Int ? rightValue.toInt() : KDirModel::ChildCountUnknown;
+
+                // In the case they two have the same child items, we sort them by
+                // their names. So we have always everything ordered. We also check
+                // if we are taking in count their cases
+                if (leftCount == rightCount) {
+                    return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
+                           (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
+                }
+
+                // If they had different number of items, we sort them depending
+                // on how many items had each other
+                return leftCount < rightCount;
+            }
+
+            // If what we are measuring is two files and they have the same size,
+            // sort them by their file names
+            if (leftFileItem->size() == rightFileItem->size()) {
                 return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
                        (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
             }
 
-            // If they had different number of items, we sort them depending
-            // on how many items had each other
-            return leftCount < rightCount;
-        }
+            // If their sizes are different, sort them by their sizes, as expected
+            return leftFileItem->size() < rightFileItem->size();
 
-        // If what we are measuring is two files and they have the same size,
-        // sort them by their file names
-        if (leftFileItem->size() == rightFileItem->size()) {
-            return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
-                   (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
-        }
+        case DolphinView::SortByDate:
+            leftTime.setTime_t(leftFileItem->time(KIO::UDS_MODIFICATION_TIME));
+            rightTime.setTime_t(rightFileItem->time(KIO::UDS_MODIFICATION_TIME));
 
-        // If their sizes are different, sort them by their sizes, as expected
-        return leftFileItem->size() < rightFileItem->size();
-    }
-    else if (sortRole() == DolphinView::SortByDate) {
-        // On our priority, folders go above regular files
-        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-            return true;
-        }
-        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-            return false;
-        }
+            if (leftTime == rightTime)
+            {
+                return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
+                       (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
+            }
 
-        // Hidden elements go before visible ones, if they both are
-        // folders or files
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
+            return leftTime > rightTime;
 
-        KDateTime leftTime;
-        leftTime.setTime_t(leftFileItem->time(KIO::UDS_MODIFICATION_TIME));
-        KDateTime rightTime;
-        rightTime.setTime_t(rightFileItem->time(KIO::UDS_MODIFICATION_TIME));
+        case DolphinView::SortByPermissions:
+            if (leftFileItem->permissionsString() == rightFileItem->permissionsString())
+            {
+                return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
+                       (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
+            }
 
-        if (leftTime == rightTime)
-        {
-            return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
-                   (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
-        }
+            return naturalCompare(leftFileItem->permissionsString(),
+                                  rightFileItem->permissionsString()) < 0;
 
-        return leftTime > rightTime;
-    }
-    else if (sortRole() == DolphinView::SortByPermissions) {
-        // On our priority, folders go above regular files
-        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-            return true;
-        }
-        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-            return false;
-        }
+        case DolphinView::SortByOwner:
+            if (leftFileItem->user() == rightFileItem->user())
+            {
+                return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
+                       (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
+            }
 
-        // Hidden elements go before visible ones, if they both are
-        // folders or files
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
+            return naturalCompare(leftFileItem->user(),
+                                  rightFileItem->user()) < 0;
 
-        const QString leftPermissions = leftFileItem->permissionsString();
-        const QString rightPermissions = rightFileItem->permissionsString();
+        case DolphinView::SortByGroup:
+            if (leftFileItem->group() == rightFileItem->group())
+            {
+                return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
+                       (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
+            }
 
-        if (leftPermissions == rightPermissions)
-        {
-            return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
-                   (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
-        }
+            return naturalCompare(leftFileItem->group(),
+                                  rightFileItem->group()) < 0;
 
-        return naturalCompare(leftPermissions,
-                              rightPermissions) < 0;
-    }
-    else if (sortRole() == DolphinView::SortByOwner) {
-        // On our priority, folders go above regular files
-        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-            return true;
-        }
-        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-            return false;
-        }
+        case DolphinView::SortByType:
+            if (leftFileItem->mimetype() == rightFileItem->mimetype())
+            {
+                return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
+                       (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
+            }
 
-        // Hidden elements go before visible ones, if they both are
-        // folders or files
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
-        const QString leftOwner = leftFileItem->user();
-        const QString rightOwner = rightFileItem->user();
-
-        if (leftOwner == rightOwner)
-        {
-            return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
-                   (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
-        }
-
-        return naturalCompare(leftOwner.toLower(),
-                              rightOwner.toLower()) < 0;
-    }
-    else if (sortRole() == DolphinView::SortByGroup) {
-        // On our priority, folders go above regular files
-        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-            return true;
-        }
-        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-            return false;
-        }
-
-        // Hidden elements go before visible ones, if they both are
-        // folders or files
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
-        const QString leftGroup = leftFileItem->group();
-        const QString rightGroup = rightFileItem->group();
-
-        if (leftGroup == rightGroup)
-        {
-            return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
-                   (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
-        }
-
-        return naturalCompare(leftGroup.toLower(),
-                              rightGroup.toLower()) < 0;
-    }
-    else if (sortRole() == DolphinView::SortByType) {
-        // On our priority, folders go above regular files
-        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-            return true;
-        }
-        else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-            return false;
-        }
-
-        // Hidden elements go before visible ones, if they both are
-        // folders or files
-        if (leftFileItem->isHidden() && !rightFileItem->isHidden()) {
-            return true;
-        }
-        else if (!leftFileItem->isHidden() && rightFileItem->isHidden()) {
-            return false;
-        }
-
-        if (leftFileItem->mimetype() == rightFileItem->mimetype())
-        {
-            return sortCaseSensitivity() ? (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
-                   (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
-        }
-
-        return naturalCompare(leftFileItem->mimeComment(),
-                              rightFileItem->mimeComment()) < 0;
+            return naturalCompare(leftFileItem->mimeComment(),
+                                  rightFileItem->mimeComment()) < 0;
     }
 
     // We have set a SortRole and trust the ProxyModel to do
