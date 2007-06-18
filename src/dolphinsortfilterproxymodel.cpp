@@ -133,7 +133,7 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
 
         // We don't care about case for building categories. We also don't
         // want here to compare by a natural comparation
-        return QString::compare(leftFileName, rightFileName, Qt::CaseInsensitive) < 0;
+        return naturalCompare(leftFileName, rightFileName) < 0;
     }
     else if (sortRole() == DolphinView::SortBySize) { // If we are sorting by size
         // If we are sorting by size, show folders first. We will sort them

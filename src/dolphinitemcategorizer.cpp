@@ -111,7 +111,24 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                 else if (item->isHidden())
                     retString = data.toString().toUpper().at(0);
                 else
-                    retString = i18n("Others");
+                {
+                    bool validCategory = false;
+
+                    const QChar* currA = data.toString().toUpper().unicode(); // iterator over a
+                    while (!currA->isNull() && !validCategory) {
+                        if (currA->isLetter())
+                            validCategory = true;
+                        else if (currA->isDigit())
+                            return i18n("Others");
+                        else
+                            ++currA;
+                    }
+
+                    if (!validCategory)
+                        retString = i18n("Others");
+                    else
+                        retString = *currA;
+                }
             }
             break;
 
