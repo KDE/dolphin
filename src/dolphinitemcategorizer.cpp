@@ -46,25 +46,11 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
         return retString;
     }
 
-    int indexColumn;
-
-    switch (sortRole)
-    {
-        case DolphinView::SortByName:
-            indexColumn = KDirModel::Name;
-            break;
-        case DolphinView::SortBySize:
-            indexColumn = KDirModel::Size;
-            break;
-        default:
-        return retString;
-    }
-
     // KDirModel checks columns to know to which role are
     // we talking about
     QModelIndex theIndex = index.model()->index(index.row(),
-                                                indexColumn,
-                           index.parent());
+                                                sortRole,
+                                                index.parent());
 
     if (!theIndex.isValid()) {
         return retString;
@@ -73,11 +59,12 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
     QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
 
     const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
-    KFileItem* item = dirModel->itemForIndex(index);
+    KFileItem *item = dirModel->itemForIndex(index);
+    int fileSize;
 
     switch (sortRole)
     {
-    case DolphinView::SortByName:
+        case KDirModel::Name:
             if (data.toString().size())
             {
                 if (!item->isHidden() && data.toString().at(0).isLetter())
@@ -95,19 +82,24 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                 else
                     retString = i18n("Others");
             }
-        break;
-    case DolphinView::SortBySize:
-        int fileSize = (item) ? item->size() : -1;
-        if (item && item->isDir()) {
-            retString = i18n("Folders");
-        } else if (fileSize < 5242880) {
-            retString = i18nc("Size", "Small");
-        } else if (fileSize < 10485760) {
-            retString = i18nc("Size", "Medium");
-        } else {
-            retString = i18nc("Size", "Big");
-        }
-        break;
+            break;
+
+        case KDirModel::Size:
+            fileSize = (item) ? item->size() : -1;
+            if (item && item->isDir()) {
+                retString = i18n("Folders");
+            } else if (fileSize < 5242880) {
+                retString = i18nc("Size", "Small");
+            } else if (fileSize < 10485760) {
+                retString = i18nc("Size", "Medium");
+            } else {
+                retString = i18nc("Size", "Big");
+            }
+            break;
+
+        case KDirModel::Type:
+            retString = item->mimeComment();
+            break;
     }
 
     return retString;
