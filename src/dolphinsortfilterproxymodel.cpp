@@ -128,8 +128,9 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
         QString leftStr = leftData.toString();
         QString rightStr = rightData.toString();
 
-        // We don't care about case for building categories
-        return naturalCompare(leftStr.toLower(), rightStr.toLower()) < 0;
+        // We don't care about case for building categories. We also don't
+        // want here to compare by a natural comparation
+        return leftStr.toLower() < rightStr.toLower();
     }
     else if (sortRole() == DolphinView::SortBySize) // If we are sorting by size
     {
