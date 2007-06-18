@@ -122,11 +122,14 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
     const KFileItem *rightFileItem = dirModel->itemForIndex(right);
 
     if (sortRole() == DolphinView::SortByName) { // If we are sorting by name
-        const QVariant leftData  = dirModel->data(left, sortRole());
-        const QVariant rightData = dirModel->data(right, sortRole());
+        const QVariant leftData  = dirModel->data(left, KDirModel::Name);
+        const QVariant rightData = dirModel->data(right, KDirModel::Name);
 
         QString leftStr = leftData.toString();
         QString rightStr = rightData.toString();
+
+        leftStr = leftStr.at(0) == '.' ? leftStr.mid(1) : leftStr;
+        rightStr = rightStr.at(0) == '.' ? rightStr.mid(1) : rightStr;
 
         // We don't care about case for building categories. We also don't
         // want here to compare by a natural comparation
