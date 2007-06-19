@@ -28,6 +28,8 @@
 class LIBDOLPHINPRIVATE_EXPORT KSortFilterProxyModel
     : public QSortFilterProxyModel
 {
+    Q_OBJECT
+
 public:
     KSortFilterProxyModel(QObject *parent = 0);
     ~KSortFilterProxyModel();
@@ -41,6 +43,9 @@ public:
 
     virtual bool lessThanCategoryPurpose(const QModelIndex &left,
                                          const QModelIndex &right) const;
+
+Q_SIGNALS:
+    void sortingRoleChanged();
 
 private:
     Qt::SortOrder m_sortOrder;

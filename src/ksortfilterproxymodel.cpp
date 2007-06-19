@@ -34,6 +34,8 @@ void KSortFilterProxyModel::sort(int column, Qt::SortOrder order)
     QSortFilterProxyModel::sort(column, order);
 
     m_sortOrder = order;
+
+    emit sortingRoleChanged();
 }
 
 Qt::SortOrder KSortFilterProxyModel::sortOrder() const
@@ -46,3 +48,5 @@ bool KSortFilterProxyModel::lessThanCategoryPurpose(const QModelIndex &left,
 {
     return lessThan(left, right);
 }
+
+#include "ksortfilterproxymodel.moc"
