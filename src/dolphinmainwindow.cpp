@@ -261,11 +261,11 @@ void DolphinMainWindow::slotShowHiddenFilesChanged()
 
 void DolphinMainWindow::slotCategorizedSortingChanged()
 {
-    KToggleAction* categorizedSortingAction =
-        static_cast<KToggleAction*>(actionCollection()->action("categorized"));
+    KToggleAction* showInGroupsAction =
+        static_cast<KToggleAction*>(actionCollection()->action("show_in_groups"));
     const DolphinView* view = m_activeViewContainer->view();
-    categorizedSortingAction->setChecked(view->categorizedSorting());
-    categorizedSortingAction->setEnabled(view->supportsCategorizedSorting());
+    showInGroupsAction->setChecked(view->categorizedSorting());
+    showInGroupsAction->setEnabled(view->supportsCategorizedSorting());
 }
 
 void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
@@ -1176,9 +1176,9 @@ void DolphinMainWindow::setupActions()
     sortDescending->setText(i18n("Descending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
-    KToggleAction* sortCategorized = actionCollection()->add<KToggleAction>("categorized");
-    sortCategorized->setText(i18n("Show in Groups"));
-    connect(sortCategorized, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
+    KToggleAction* showInGroups = actionCollection()->add<KToggleAction>("show_in_groups");
+    showInGroups->setText(i18n("Show in Groups"));
+    connect(showInGroups, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
 
     KToggleAction* clearInfo = actionCollection()->add<KToggleAction>("clear_info");
     clearInfo->setText(i18n("No Information"));

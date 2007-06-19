@@ -33,7 +33,6 @@
     <Action name="by_type" />
     <Separator/>
     <Action name="descending" />
-    <Action name="categorized" />
    </Menu>
    <Menu name="additional_info">
     <text>Additional Information</text>
@@ -43,6 +42,7 @@
     <Action name="show_date_info" />
    </Menu>
    <Action name="show_preview" />
+   <Action name="show_in_groups" />
    <Action name="show_hidden_files" />
    <Separator/>
    <Action name="split_view" />
