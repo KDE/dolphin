@@ -20,18 +20,18 @@
 
 #include "statusbarmessagelabel.h"
 
-#include <kglobalsettings.h>
+#include <kcolorscheme.h>
 #include <kcolorutils.h>
 #include <kiconloader.h>
 #include <kicon.h>
 #include <klocale.h>
 
-#include <QtGui/QFontMetrics>
-#include <QtGui/QPainter>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QPushButton>
-#include <QtGui/QPixmap>
-#include <QtCore/QTimer>
+#include <QFontMetrics>
+#include <QPainter>
+#include <QKeyEvent>
+#include <QPushButton>
+#include <QPixmap>
+#include <QTimer>
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     QWidget(parent),
@@ -139,8 +139,8 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QPainter painter(this);
 
     // draw background
-    QColor backgroundColor(palette().brush(QPalette::Background).color());
-    QColor foregroundColor(KGlobalSettings::textColor());
+    QColor backgroundColor = palette().brush(QPalette::Background).color();
+    QColor foregroundColor = KColorScheme(KColorScheme::View).foreground();
     if (m_illumination > 0) {
         // TODO: are there foreground and background colors available for
         // "error messages"?

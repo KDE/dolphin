@@ -24,14 +24,14 @@
 
 #include "dolphin_iconsmodesettings.h"
 
-#include <kglobalsettings.h>
+#include <kcolorscheme.h>
 #include <klocale.h>
 #include <kvbox.h>
 
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QSlider>
-#include <QtGui/QBoxLayout>
+#include <QGroupBox>
+#include <QLabel>
+#include <QSlider>
+#include <QBoxLayout>
 
 IconSizeDialog::IconSizeDialog(QWidget* parent) :
     KDialog(parent),
@@ -59,7 +59,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     // create 'Icon Size' group including slider and preview
     QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), main);
 
-    const QColor iconBackgroundColor(KGlobalSettings::baseColor());
+    const QColor iconBackgroundColor = KColorScheme(KColorScheme::View).background();
 
     KHBox* iconSizeHBox = new KHBox(iconSizeBox);
     iconSizeHBox->setSpacing(spacing);

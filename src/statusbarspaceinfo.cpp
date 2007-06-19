@@ -20,15 +20,15 @@
 
 #include "statusbarspaceinfo.h"
 
-#include <QtCore/QTimer>
-#include <QtGui/QPainter>
-#include <QtGui/QKeyEvent>
-
-#include <kglobalsettings.h>
+#include <kcolorscheme.h>
 #include <kdiskfreespace.h>
 #include <kmountpoint.h>
 #include <klocale.h>
 #include <kio/job.h>
+
+#include <QTimer>
+#include <QPainter>
+#include <QKeyEvent>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     QWidget(parent),
@@ -75,7 +75,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
     frameColor.setAlpha(128);
     painter.setPen(frameColor);
 
-    const QColor backgrColor = KGlobalSettings::baseColor();
+    const QColor backgrColor = KColorScheme(KColorScheme::View).background();
     painter.setBrush(backgrColor);
 
     painter.drawRect(QRect(0, barTop + 1 , barWidth - widthDec, barHeight));
@@ -104,7 +104,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
     }
 
     // draw text
-    painter.setPen(KGlobalSettings::textColor());
+    painter.setPen(KColorScheme(KColorScheme::View).foreground());
     painter.drawText(QRect(1, 1, barWidth - 2, barHeight + 6),
                      Qt::AlignCenter | Qt::TextWordWrap,
                      text);
@@ -138,8 +138,9 @@ void StatusBarSpaceInfo::refresh()
     m_kBAvailable = 0;
 
     // KDiskFreeSpace is for local paths only
-    if (!m_url.isLocalFile())
+    if (!m_url.isLocalFile()) {
         return;
+    }
 
     m_gettingSize = true;
     KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath(m_url.path());
@@ -163,7 +164,7 @@ void StatusBarSpaceInfo::refresh()
 
 QColor StatusBarSpaceInfo::progressColor(const QColor& bgColor) const
 {
-    QColor color = KGlobalSettings::buttonBackground();
+    QColor color = KColorScheme(KColorScheme::Button).background();
 
     // assure that enough contrast is given between the background color
     // and the progressbar color

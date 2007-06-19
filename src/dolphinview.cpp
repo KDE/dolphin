@@ -28,10 +28,10 @@
 #include <QTimer>
 #include <QScrollBar>
 
+#include <kcolorscheme.h>
 #include <kdirmodel.h>
 #include <kdirlister.h>
 #include <kfileitemdelegate.h>
-#include <kglobalsettings.h>
 #include <klocale.h>
 #include <kiconeffect.h>
 #include <kio/netaccess.h>
@@ -132,7 +132,7 @@ void DolphinView::setActive(bool active)
 
     m_active = active;
 
-    QColor color = KGlobalSettings::baseColor();
+    QColor color = KColorScheme(KColorScheme::View).background();
     if (active) {
         emit urlChanged(url());
         emit selectionChanged(selectedItems());
