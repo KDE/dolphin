@@ -19,7 +19,7 @@
 
 #include "infosidebarpage.h"
 
-#include "config-nepomuk.h"
+#include <config-nepomuk.h>
 
 #include <kfileplacesmodel.h>
 #include <klocale.h>

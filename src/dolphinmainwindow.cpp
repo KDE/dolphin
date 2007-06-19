@@ -21,7 +21,7 @@
 
 #include "dolphinmainwindow.h"
 
-#include "config-nepomuk.h"
+#include <config-nepomuk.h>
 
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
