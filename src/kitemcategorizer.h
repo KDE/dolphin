@@ -40,4 +40,4 @@ public:
     virtual QString categoryForItem(const QModelIndex &index, int sortRole) = 0;
 };
 
-#endif
+#endif // KITEMCATEGORIZER_H

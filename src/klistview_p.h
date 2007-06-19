@@ -135,4 +135,4 @@ public:
     QModelIndex lastIndex;
 };
 
-#endif // __KLISTVIEW_P_H__
+#endif // KLISTVIEW_P_H

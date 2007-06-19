@@ -51,4 +51,4 @@ private:
     Qt::SortOrder m_sortOrder;
 };
 
-#endif
+#endif // KSORTFILTERPROXYMODEL_H

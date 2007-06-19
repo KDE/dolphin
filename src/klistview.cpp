@@ -956,7 +956,7 @@ void KListView::updateGeometries()
 
 void KListView::slotSortingRoleChanged()
 {
-    if ((viewMode() != KListView::ListMode) && d->proxyModel &&
+    if ((viewMode() == KListView::IconMode) && d->proxyModel &&
         d->itemCategorizer)
     {
         // Force the view to update all elements

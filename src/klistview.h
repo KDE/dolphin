@@ -89,4 +89,4 @@ private:
     Private *d;
 };
 
-#endif // __KLISTVIEW_H__
+#endif // KLISTVIEW_H
