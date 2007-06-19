@@ -89,8 +89,8 @@ DolphinView::DolphinView(QWidget* parent,
 
     m_controller = new DolphinController(this);
     m_controller->setUrl(url);
-    connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
-            this, SLOT(openContextMenu(const QPoint&)));
+    connect(m_controller, SIGNAL(requestContextMenu(const QPoint&, const KUrl&)),
+            this, SLOT(openContextMenu(const QPoint&, const KUrl&)));
     connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&, QWidget*)),
             this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&, QWidget*)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
@@ -697,7 +697,7 @@ void DolphinView::changeSelection(const KFileItemList& selection)
                                          | QItemSelectionModel::Current);
 }
 
-void DolphinView::openContextMenu(const QPoint& pos)
+void DolphinView::openContextMenu(const QPoint& pos, const KUrl& url)
 {
     KFileItem* item = 0;
 
@@ -706,7 +706,7 @@ void DolphinView::openContextMenu(const QPoint& pos)
         item = fileItem(index);
     }
 
-    emit requestContextMenu(item, url());
+    emit requestContextMenu(item, url);
 }
 
 void DolphinView::dropUrls(const KUrl::List& urls,

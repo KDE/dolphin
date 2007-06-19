@@ -103,7 +103,7 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
     KListView::contextMenuEvent(event);
-    m_controller->triggerContextMenuRequest(event->pos());
+    m_controller->triggerContextMenuRequest(event->pos(), m_controller->url());
 }
 
 void DolphinIconsView::mousePressEvent(QMouseEvent* event)

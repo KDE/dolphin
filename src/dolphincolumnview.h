@@ -41,7 +41,6 @@ public:
 
 protected:
     virtual QAbstractItemView* createColumn(const QModelIndex& index);
-    virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dropEvent(QDropEvent* event);

@@ -34,10 +34,10 @@ DolphinController::~DolphinController()
 {
 }
 
-void DolphinController::triggerContextMenuRequest(const QPoint& pos)
+void DolphinController::triggerContextMenuRequest(const QPoint& pos, const KUrl& url)
 {
     emit activated();
-    emit requestContextMenu(pos);
+    emit requestContextMenu(pos, url);
 }
 
 void DolphinController::triggerActivation()

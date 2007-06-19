@@ -64,6 +64,7 @@ protected:
     virtual void dropEvent(QDropEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void paintEvent(QPaintEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event);
 
 private:
     /** Used by ColumnWidget::setActive(). */
@@ -215,6 +216,12 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
     }
 }
 
+void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
+{
+    QListView::contextMenuEvent(event);
+    m_columnView->m_controller->triggerContextMenuRequest(event->pos(), m_url);
+}
+
 void ColumnWidget::activate()
 {
     const QColor bgColor = KColorScheme(KColorScheme::View).background();
@@ -336,12 +343,6 @@ QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
     }
 
     return view;
-}
-
-void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
-{
-    QColumnView::contextMenuEvent(event);
-    m_controller->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinColumnView::mousePressEvent(QMouseEvent* event)
