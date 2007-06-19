@@ -51,15 +51,10 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
 
 private slots:
-    /**
-     * The strange signature of this method is due to a compiler
-     * bug (?). More details are given inside the class KDiskFreeSp (see
-     * KDE Libs documentation).
-     */
-    void slotFoundMountPoint(const quint64& kBSize,
-                             const quint64& kBUsed,
-                             const quint64& kBAvailable,
-                             const QString& mountPoint);
+    void slotFoundMountPoint(const QString& mountPoint,
+                             quint64 kBSize,
+                             quint64 kBUsed,
+                             quint64 kBAvailable);
     void showResult();
 
     /** Refreshs the space information for the current set URL. */

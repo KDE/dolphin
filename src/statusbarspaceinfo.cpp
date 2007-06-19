@@ -111,10 +111,10 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
 }
 
 
-void StatusBarSpaceInfo::slotFoundMountPoint(const quint64& kBSize,
-                                             const quint64& kBUsed,
-                                             const quint64& kBAvailable,
-                                             const QString& mountPoint)
+void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
+                                             quint64 kBSize,
+                                             quint64 kBUsed,
+                                             quint64 kBAvailable)
 {
     Q_UNUSED(kBUsed);
     Q_UNUSED(mountPoint);
@@ -148,14 +148,14 @@ void StatusBarSpaceInfo::refresh()
         return;
 
     KDiskFreeSpace* job = new KDiskFreeSpace(this);
-    connect(job, SIGNAL(foundMountPoint(const quint64&,
-                                        const quint64&,
-                                        const quint64&,
-                                        const QString&)),
-            this, SLOT(slotFoundMountPoint(const quint64&,
-                                           const quint64&,
-                                           const quint64&,
-                                           const QString&)));
+    connect(job, SIGNAL(foundMountPoint(const QString&,
+                                        quint64,
+                                        quint64,
+                                        quint64)),
+            this, SLOT(slotFoundMountPoint(const QString&,
+                                           quint64,
+                                           quint64,
+                                           quint64)));
     connect(job, SIGNAL(done()),
             this, SLOT(showResult()));
 
