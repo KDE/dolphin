@@ -486,6 +486,10 @@ void KListView::setItemCategorizer(KItemCategorizer *itemCategorizer)
     {
         rowsInserted(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
     }
+    else
+    {
+        updateGeometries();
+    }
 }
 
 QModelIndex KListView::indexAt(const QPoint &point) const
