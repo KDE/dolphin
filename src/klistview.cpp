@@ -21,7 +21,8 @@
 #include "klistview.h"
 #include "klistview_p.h"
 
-#include <math.h> // trunc
+#include <math.h> // trunc on C99 compliant systems
+#include <kdefakes.h> // trunc for not C99 compliant systems
 
 #include <QApplication>
 #include <QPainter>
