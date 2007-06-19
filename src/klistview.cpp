@@ -956,11 +956,11 @@ void KListView::updateGeometries()
 
 void KListView::slotSortingRoleChanged()
 {
-    if (d->proxyModel)
+    if ((viewMode() != KListView::ListMode) && d->proxyModel &&
+        d->itemCategorizer)
     {
         // Force the view to update all elements
-        rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() -
-                                                                             1);
+        rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
     }
 }
 
