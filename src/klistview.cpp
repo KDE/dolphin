@@ -386,6 +386,9 @@ void KListView::Private::updateScrollbars()
 {
     int lastItemBottom = cachedRectIndex(lastIndex).bottom() +
                            listView->spacing() - listView->viewport()->height();
+
+    listView->verticalScrollBar()->setSingleStep(listView->viewport()->height() / 10);
+    listView->verticalScrollBar()->setPageStep(listView->viewport()->height());
     listView->verticalScrollBar()->setRange(0, lastItemBottom);
 }
 
