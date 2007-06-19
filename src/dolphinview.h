@@ -115,15 +115,12 @@ public:
      * @param proxyModel      Used proxy model which specifies the sorting. The
      *                        model is not owned by the view and won't get
      *                        deleted.
-     * @param mode            Used display mode (IconsView, DetailsView or ColumnsView).
-     * @param showHiddenFiles If true, hidden files will be shown in the view.
      */
     DolphinView(QWidget* parent,
                 const KUrl& url,
                 KDirLister* dirLister,
                 KDirModel* dirModel,
-                DolphinSortFilterProxyModel* proxyModel,
-                Mode mode);
+                DolphinSortFilterProxyModel* proxyModel);
 
     virtual ~DolphinView();
 
@@ -471,6 +468,12 @@ private slots:
 
 private:
     void startDirLister(const KUrl& url, bool reload = false);
+
+    /**
+     * Applies the view properties which are defined by the current URL
+     * m_url to the DolphinView properties.
+     */
+    void applyViewProperties(const KUrl& url);
 
     /**
      * Creates a new view representing the given view mode (DolphinView::mode()).

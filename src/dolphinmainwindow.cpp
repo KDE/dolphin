@@ -769,9 +769,7 @@ void DolphinMainWindow::toggleSplitView()
         const DolphinView* view = m_viewContainer[PrimaryView]->view();
         m_viewContainer[SecondaryView] = new DolphinViewContainer(this,
                                                                  0,
-                                                                 view->rootUrl(),
-                                                                 view->mode(),
-                                                                 view->showHiddenFiles());
+                                                                 view->rootUrl());
         connectViewSignals(SecondaryView);
         m_splitter->addWidget(m_viewContainer[SecondaryView]);
         m_splitter->setSizes(QList<int>() << newWidth << newWidth);
@@ -975,10 +973,8 @@ void DolphinMainWindow::init()
     setCaption(homeUrl.fileName());
     ViewProperties props(homeUrl);
     m_viewContainer[PrimaryView] = new DolphinViewContainer(this,
-                                                           m_splitter,
-                                                           homeUrl,
-                                                           props.viewMode(),
-                                                           props.showHiddenFiles());
+                                                            m_splitter,
+                                                            homeUrl);
 
     m_activeViewContainer = m_viewContainer[PrimaryView];
     connectViewSignals(PrimaryView);

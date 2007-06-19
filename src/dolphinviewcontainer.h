@@ -65,9 +65,7 @@ class DolphinViewContainer : public QWidget
 public:
     DolphinViewContainer(DolphinMainWindow* mainwindow,
                          QWidget *parent,
-                         const KUrl& url,
-                         DolphinView::Mode mode = DolphinView::IconsView,
-                         bool showHiddenFiles = false);
+                         const KUrl& url);
 
     virtual ~DolphinViewContainer();
 

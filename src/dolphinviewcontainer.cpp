@@ -60,9 +60,7 @@
 
 DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                                            QWidget* parent,
-                                           const KUrl& url,
-                                           DolphinView::Mode mode,
-                                           bool showHiddenFiles) :
+                                           const KUrl& url) :
     QWidget(parent),
     m_showProgress(false),
     m_folderCount(0),
@@ -100,7 +98,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_dirLister = new DolphinDirLister();
     m_dirLister->setAutoUpdate(true);
     m_dirLister->setMainWindow(this);
-    m_dirLister->setShowingDotFiles(showHiddenFiles);
     m_dirLister->setDelayedMimeTypes(true);
 
     m_dirModel = new KDirModel();
@@ -127,8 +124,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                              url,
                              m_dirLister,
                              m_dirModel,
-                             m_proxyModel,
-                             mode);
+                             m_proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
     connect(m_view, SIGNAL(requestContextMenu(KFileItem*, const KUrl&)),

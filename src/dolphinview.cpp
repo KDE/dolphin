@@ -57,13 +57,12 @@ DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
                          KDirLister* dirLister,
                          KDirModel* dirModel,
-                         DolphinSortFilterProxyModel* proxyModel,
-                         Mode mode) :
+                         DolphinSortFilterProxyModel* proxyModel) :
     QWidget(parent),
     m_active(true),
     m_loadingDirectory(false),
     m_initializeColumnView(false),
-    m_mode(mode),
+    m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
     m_iconsView(0),
@@ -107,7 +106,7 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_controller, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
 
-    createView();
+    applyViewProperties(url);
     m_topLayout->addWidget(itemView());
 }
 
@@ -419,6 +418,20 @@ void DolphinView::refresh()
     reload();
 }
 
+void DolphinView::setUrl(const KUrl& url)
+{
+    if (m_controller->url() == url) {
+        return;
+    }
+
+    m_controller->setUrl(url);
+
+    applyViewProperties(url);
+
+    startDirLister(url);
+    emit urlChanged(url);
+}
+
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
@@ -582,14 +595,8 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     }
 }
 
-void DolphinView::setUrl(const KUrl& url)
+void DolphinView::applyViewProperties(const KUrl& url)
 {
-    if (m_controller->url() == url) {
-        return;
-    }
-
-    m_controller->setUrl(url);
-
     const ViewProperties props(url);
 
     const Mode mode = props.viewMode();
@@ -615,6 +622,11 @@ void DolphinView::setUrl(const KUrl& url)
             m_initializeColumnView = true;
         }
     }
+    if (itemView() == 0) {
+        createView();
+    }
+    Q_ASSERT(itemView() != 0);
+    Q_ASSERT(m_fileItemDelegate != 0);
 
     const bool showHiddenFiles = props.showHiddenFiles();
     if (showHiddenFiles != m_dirLister->showingDotFiles()) {
@@ -662,9 +674,6 @@ void DolphinView::setUrl(const KUrl& url)
         m_controller->setShowPreview(showPreview);
         emit showPreviewChanged();
     }
-
-    startDirLister(url);
-    emit urlChanged(url);
 }
 
 void DolphinView::changeSelection(const KFileItemList& selection)
