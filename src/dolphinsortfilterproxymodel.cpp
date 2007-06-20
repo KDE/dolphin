@@ -179,6 +179,7 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
                               rightFileItem->mimeComment().toLower()) < 0;
     }
     }
+    return false;
 }
 
 bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
