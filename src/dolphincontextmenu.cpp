@@ -64,7 +64,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
 }
 
 DolphinContextMenu::~DolphinContextMenu()
-{}
+{
+}
 
 void DolphinContextMenu::open()
 {
@@ -111,9 +112,9 @@ void DolphinContextMenu::openTrashContextMenu()
     if (popup->exec(QCursor::pos()) == emptyTrashAction) {
         const QString text(i18n("Do you really want to empty the Trash? All items will get deleted."));
         const bool del = KMessageBox::warningContinueCancel(m_mainWindow,
-                         text,
-                         QString(),
-                         KGuiItem(i18n("Empty Trash"), KIcon("user-trash"))
+                                                            text,
+                                                            QString(),
+                                                            KGuiItem(i18n("Empty Trash"), KIcon("user-trash"))
                                                            ) == KMessageBox::Continue;
         if (del) {
             KonqOperations::emptyTrash(m_mainWindow);
@@ -180,7 +181,7 @@ void DolphinContextMenu::openItemContextMenu()
         const KUrl selectedUrl(m_fileInfo->url());
         if (selectedUrl.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(selectedUrl.fileName(),
-                    selectedUrl);
+                                                                selectedUrl);
         }
     } else if (serviceActions.contains(activatedAction)) {
         // one of the 'Actions' items has been selected
@@ -369,7 +370,7 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
 }
 
 QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
-        QVector<KDesktopFileActions::Service>& actionsVector)
+                                                      QVector<KDesktopFileActions::Service>& actionsVector)
 {
     // Parts of the following code have been taken
     // from the class KonqOperations located in
