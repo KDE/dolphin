@@ -27,6 +27,7 @@
 #include <kcolorutils.h>
 #include <kcolorscheme.h>
 #include <kdirmodel.h>
+#include <kdirlister.h>
 #include <kfileitem.h>
 
 #include <QAbstractProxyModel>
@@ -76,7 +77,7 @@ private:
 private:
     bool m_active;
     KUrl m_url;
-    DolphinColumnView* m_columnView;
+    DolphinColumnView* m_view;
     QStyleOptionViewItem m_viewOptions;
 
     bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
@@ -89,7 +90,7 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     QListView(parent),
     m_active(true),
     m_url(url),
-    m_columnView(columnView),
+    m_view(columnView),
     m_dragging(false),
     m_dropRect()
 {
@@ -186,7 +187,7 @@ void ColumnWidget::dropEvent(QDropEvent* event)
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
-        m_columnView->m_controller->indicateDroppedUrls(urls,
+        m_view->m_controller->indicateDroppedUrls(urls,
                                                         indexAt(event->pos()),
                                                         event->source());
     }
@@ -218,8 +219,20 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
 
 void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 {
+    if (m_view->viewport()->children().first() == this) {
+        // This column widget represents the root column. DolphinColumnView::createColumn()
+        // cannot retrieve the correct URL at this stage, as the directory lister will be
+        // started after the model has been assigned. This will be fixed here, where it is
+        // assured that the directory lister has been started already.
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+        const KDirLister* dirLister = dirModel->dirLister();
+        m_url = dirLister->url();
+    }
+
     QListView::contextMenuEvent(event);
-    m_columnView->m_controller->triggerContextMenuRequest(event->pos(), m_url);
+    const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
+    m_view->m_controller->triggerContextMenuRequest(pos, m_url);
 }
 
 void ColumnWidget::activate()
@@ -304,9 +317,8 @@ QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
                                           columnUrl);
 
     // The following code has been copied 1:1 from QColumnView::createColumn().
-    // Copyright (C) 1992-2007 Trolltech ASA.
-    // It would be nice if QColumnView would offer a protected method for this
-    // (already send input to Benjamin, hopefully possible in Qt4.4)
+    // Copyright (C) 1992-2007 Trolltech ASA. In Qt 4.4 the new method
+    // QColumnView::initializeColumn() will be available for this.
 
     view->setFrameShape(QFrame::NoFrame);
     view->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
