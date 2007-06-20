@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -26,11 +26,7 @@
 
 #include <kcolorutils.h>
 #include <kcolorscheme.h>
-#include <kdirmodel.h>
-#include <kdirlister.h>
-#include <kfileitem.h>
 
-#include <QAbstractProxyModel>
 #include <QPoint>
 
 /**
@@ -40,9 +36,7 @@
 class ColumnWidget : public QListView
 {
 public:
-    ColumnWidget(QWidget* parent,
-                 DolphinColumnView* columnView,
-                 const KUrl& url);
+    ColumnWidget(QWidget* parent, DolphinColumnView* columnView);
     virtual ~ColumnWidget();
 
     /** Sets the size of the icons. */
@@ -54,8 +48,6 @@ public:
      * drawn in a lighter color. All operations are applied to this column.
      */
     void setActive(bool active);
-
-    inline const KUrl& url() const;
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
@@ -76,7 +68,6 @@ private:
 
 private:
     bool m_active;
-    KUrl m_url;
     DolphinColumnView* m_view;
     QStyleOptionViewItem m_viewOptions;
 
@@ -85,11 +76,9 @@ private:
 };
 
 ColumnWidget::ColumnWidget(QWidget* parent,
-                           DolphinColumnView* columnView,
-                           const KUrl& url) :
+                           DolphinColumnView* columnView) :
     QListView(parent),
     m_active(true),
-    m_url(url),
     m_view(columnView),
     m_dragging(false),
     m_dropRect()
@@ -141,11 +130,6 @@ void ColumnWidget::setActive(bool active)
     } else {
         deactivate();
     }
-}
-
-const KUrl& ColumnWidget::url() const
-{
-    return m_url;
 }
 
 QStyleOptionViewItem ColumnWidget::viewOptions() const
@@ -219,22 +203,10 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
 
 void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 {
-    if (m_view->viewport()->children().first() == this) {
-        // This column widget represents the root column. DolphinColumnView::createColumn()
-        // cannot retrieve the correct URL at this stage, as the directory lister will be
-        // started after the model has been assigned. This will be fixed here, where it is
-        // assured that the directory lister has been started already.
-        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-        const KDirLister* dirLister = dirModel->dirLister();
-        m_url = dirLister->url();
-    }
-
     QListView::contextMenuEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
-    const KUrl& navigatorUrl = m_view->m_controller->url();
-    if (index.isValid() || (m_url == navigatorUrl)) {
+    if (index.isValid() || m_active) {
         // Only open a context menu above an item or if the mouse is above
         // the active column.
         const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
@@ -305,23 +277,7 @@ DolphinColumnView::~DolphinColumnView()
 
 QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
 {
-    // To be able to visually indicate whether a column is active (which means
-    // that it represents the content of the URL navigator), the column
-    // must remember its URL.
-    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-
-    const QModelIndex dirModelIndex = proxyModel->mapToSource(index);
-    KFileItem* fileItem = dirModel->itemForIndex(dirModelIndex);
-
-    KUrl columnUrl;
-    if (fileItem != 0) {
-        columnUrl = fileItem->url();
-    }
-
-    ColumnWidget* view = new ColumnWidget(viewport(),
-                                          this,
-                                          columnUrl);
+    ColumnWidget* view = new ColumnWidget(viewport(), this);
 
     // The following code has been copied 1:1 from QColumnView::createColumn().
     // Copyright (C) 1992-2007 Trolltech ASA. In Qt 4.4 the new method
@@ -421,13 +377,13 @@ void DolphinColumnView::triggerItem(const QModelIndex& index)
 {
     m_controller->triggerItem(index);
 
-    // Update the activation state of all columns. Only the column
-    // which represents the URL of the URL navigator is marked as active.
-    const KUrl& navigatorUrl = m_controller->url();
+    // assure that the last column gets marked as active and all
+    // other columns as inactive
+    QObject* lastWidget = viewport()->children().last();
     foreach (QObject* object, viewport()->children()) {
         if (object->inherits("QListView")) {
             ColumnWidget* widget = static_cast<ColumnWidget*>(object);
-            widget->setActive(navigatorUrl == widget->url());
+            widget->setActive(widget == lastWidget);
         }
     }
 }
