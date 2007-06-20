@@ -419,7 +419,6 @@ private slots:
 private:
     DolphinMainWindow(int id);
     void init();
-    void loadSettings();
 
     /**
      * Activates the given view, which means that

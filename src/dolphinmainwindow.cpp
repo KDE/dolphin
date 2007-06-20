@@ -996,7 +996,12 @@ void DolphinMainWindow::init()
     updatePasteAction();
     updateGoActions();
 
-    loadSettings();
+    const bool split = generalSettings->splitView();
+    if (split) {
+        toggleSplitView();
+    }
+    updateSplitAction(split);
+    updateViewActions();
 
     if (firstRun) {
         // assure a proper default size if Dolphin runs the first time
@@ -1008,13 +1013,6 @@ void DolphinMainWindow::init()
 #endif
 
     emit urlChanged(homeUrl);
-}
-
-void DolphinMainWindow::loadSettings()
-{
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    updateSplitAction(settings->splitView());
-    updateViewActions();
 }
 
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* view)
