@@ -231,8 +231,15 @@ void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
     }
 
     QListView::contextMenuEvent(event);
-    const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
-    m_view->m_controller->triggerContextMenuRequest(pos, m_url);
+
+    const QModelIndex index = indexAt(event->pos());
+    const KUrl& navigatorUrl = m_view->m_controller->url();
+    if (index.isValid() || (m_url == navigatorUrl)) {
+        // Only open a context menu above an item or if the mouse is above
+        // the active column.
+        const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
+        m_view->m_controller->triggerContextMenuRequest(pos);
+    }
 }
 
 void ColumnWidget::activate()

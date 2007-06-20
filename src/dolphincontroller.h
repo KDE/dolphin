@@ -60,7 +60,7 @@ public:
     inline void setUrl(const KUrl& url);
     inline const KUrl& url() const;
 
-    void triggerContextMenuRequest(const QPoint& pos, const KUrl& url);
+    void triggerContextMenuRequest(const QPoint& pos);
 
     void triggerActivation();
 
@@ -116,10 +116,8 @@ signals:
      *                  context menu should be opened. It is recommended
      *                  to get the corresponding model index from
      *                  this position.
-     * @param url       URL of the viewport, if there is no valid model
-     *                  index on the given position.
      */
-    void requestContextMenu(const QPoint& pos, const KUrl& url);
+    void requestContextMenu(const QPoint& pos);
 
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.

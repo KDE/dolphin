@@ -413,12 +413,9 @@ private slots:
     /**
      * Opens the context menu on position \a pos. The position
      * is used to check whether the context menu is related to an
-     * item or to the viewport. If the context menu should be
-     * opened on the viewport, the URL \a url should be taken
-     * as viewport URL (the viewport URL can be different from
-     * DolphinView::url() for e. g. the column view).
+     * item or to the viewport.
      */
-    void openContextMenu(const QPoint& pos, const KUrl& url);
+    void openContextMenu(const QPoint& pos);
 
     /**
      * Drops the URLs \a urls to the index \a index. \a source
