@@ -415,6 +415,7 @@ void DolphinView::reload()
 void DolphinView::refresh()
 {
     createView();
+    applyViewProperties(m_controller->url());
     reload();
 }
 
