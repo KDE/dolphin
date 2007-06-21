@@ -274,9 +274,9 @@ void InfoSidebarPage::showMetaInfo()
             addInfoLine(text, i18n("Size:"), sizeText);
             addInfoLine(text, i18n("Modified:"), fileItem.timeString());
 
-            // TODO: deactivate showing additional meta information, as the system
-            // hangs when retrieving the meta information of a zipped file
-            /*const KFileMetaInfo metaInfo(fileItem.url());
+            // TODO: See convertMetaInfo below, find a way to display only interesting information
+            // in a readable way
+            const KFileMetaInfo metaInfo(fileItem.url());
             if (metaInfo.isValid()) {
                 const QHash<QString, KFileMetaInfoItem>& items = metaInfo.items();
                 QHash<QString, KFileMetaInfoItem>::const_iterator it = items.constBegin();
@@ -290,7 +290,7 @@ void InfoSidebarPage::showMetaInfo()
                     }
                     ++it;
                 }
-            }*/
+            }
         }
 
         if (MetaDataWidget::metaDataAvailable()) {
