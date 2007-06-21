@@ -114,7 +114,8 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                 {
                     bool validCategory = false;
 
-                    const QChar* currA = data.toString().toUpper().unicode(); // iterator over a
+                    const QString str(data.toString().toUpper());
+                    const QChar* currA = str.unicode();
                     while (!currA->isNull() && !validCategory) {
                         if (currA->isLetter())
                             validCategory = true;
