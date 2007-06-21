@@ -818,6 +818,13 @@ void KListView::leaveEvent(QEvent *event)
     viewport()->update();
 }
 
+void KListView::startDrag(Qt::DropActions supportedActions)
+{
+    d->mouseButtonPressed = false;
+
+    QListView::startDrag(supportedActions);
+}
+
 void KListView::rowsInserted(const QModelIndex &parent,
                              int start,
                              int end)
