@@ -34,7 +34,16 @@ kde4_automoc(${dolphinprivate_LIB_SRCS})
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
+find_package(Nepomuk)
+macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
+
+configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
+
 target_link_libraries(dolphinprivate ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} konq)
+if (Nepomuk_FOUND)
+  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES})
+endif (Nepomuk_FOUND)
+
 
 set_target_properties(dolphinprivate PROPERTIES VERSION 1.0.0 SOVERSION 1 )
 install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )

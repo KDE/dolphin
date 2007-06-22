@@ -22,6 +22,8 @@
 #ifndef DOLPHINVIEW_H
 #define DOLPHINVIEW_H
 
+#include <config-nepomuk.h>
+
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
@@ -102,7 +104,9 @@ public:
         SortByOwner,
         SortByGroup,
         SortByType,
-        MaxSortEnum = SortByType
+        SortByRating,
+        SortByTags,
+        MaxSortEnum = SortByTags
     };
 
     /**

@@ -25,6 +25,8 @@
 #include "dolphinview.h"
 #include "sidebarpage.h"
 
+#include <config-nepomuk.h>
+
 #include <kxmlguiwindow.h>
 #include <ksortablelist.h>
 #include <konq_undo.h>
@@ -277,6 +279,12 @@ private slots:
 
     /** The sorting of the current view should be done by the type. */
     void sortByType();
+
+    /** The sorting of the current view should be done by the rating. */
+    void sortByRating();
+
+    /** The sorting of the current view should be done by tags. */
+    void sortByTags();
 
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();

@@ -31,6 +31,8 @@
     <Action name="by_owner" />
     <Action name="by_group" />
     <Action name="by_type" />
+    <Action name="by_rating" />
+    <Action name="by_tags" />
     <Separator/>
     <Action name="descending" />
    </Menu>

@@ -22,9 +22,17 @@
 
 #include "dolphinview.h"
 
-#include <klocale.h>
-#include <kdirmodel.h>
+#ifdef HAVE_NEPOMUK
+#include <config-nepomuk.h>
+#include <nepomuk/global.h>
+#include <nepomuk/resource.h>
+#endif
+
 #include <kdatetime.h>
+#include <kdirmodel.h>
+#include <kfileitem.h>
+#include <klocale.h>
+#include <kurl.h>
 
 #include <QtGui/QSortFilterProxyModel>
 
@@ -47,55 +55,24 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
         return retString;
     }
 
-    int column;
-
-    switch (sortRole)
-    {
-        case DolphinView::SortByName:        // KDirModel::Name
-            column = KDirModel::Name;
-            break;
-        case DolphinView::SortBySize:        // KDirModel::Size
-            column = KDirModel::Size;
-            break;
-        case DolphinView::SortByDate:        // KDirModel::ModifiedTime
-            column = KDirModel::ModifiedTime;
-            break;
-        case DolphinView::SortByPermissions: // KDirModel::Permissions
-            column = KDirModel::Permissions;
-            break;
-        case DolphinView::SortByOwner:       // KDirModel::Owner
-            column = KDirModel::Owner;
-            break;
-        case DolphinView::SortByGroup:       // KDirModel::Group
-            column = KDirModel::Group;
-            break;
-        case DolphinView::SortByType:         // KDirModel::Type
-            column = KDirModel::Type;
-            break;
-        default:
-            column = KDirModel::Name;
-    }
-
-    // KDirModel checks columns to know to which role are
-    // we talking about
-    QModelIndex theIndex = index.model()->index(index.row(),
-                                                column,
-                                                index.parent());
-
-    if (!theIndex.isValid()) {
-        return retString;
-    }
-
-    QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
-
     const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
     KFileItem *item = dirModel->itemForIndex(index);
 
-    int fileSize;
-    KDateTime modifiedTime;
     switch (sortRole)
     {
         case DolphinView::SortByName:
+        {
+            // KDirModel checks columns to know to which role are
+            // we talking about
+            QModelIndex theIndex = index.model()->index(index.row(),
+                                                        KDirModel::Name,
+                                                        index.parent());
+
+            if (!theIndex.isValid()) {
+                return retString;
+            }
+
+            QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
             if (data.toString().size())
             {
                 if (!item->isHidden() && data.toString().at(0).isLetter())
@@ -132,8 +109,11 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                 }
             }
             break;
+        }
 
         case DolphinView::SortByDate:
+        {
+            KDateTime modifiedTime;
             modifiedTime.setTime_t(item->time(KIO::UDS_MODIFICATION_TIME));
             modifiedTime = modifiedTime.toLocalZone();
 
@@ -150,6 +130,7 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
             else
                 retString = i18n("More than a year");
             break;
+        }
 
         case DolphinView::SortByPermissions:
             retString = item->permissionsString();
@@ -163,8 +144,8 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
             retString = item->group();
             break;
 
-        case DolphinView::SortBySize:
-            fileSize = (item) ? item->size() : -1;
+        case DolphinView::SortBySize: {
+            const int fileSize = item ? item->size() : -1;
             if (item && item->isDir()) {
                 retString = i18n("Folders");
             } else if (fileSize < 5242880) {
@@ -175,10 +156,25 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                 retString = i18nc("Size", "Big");
             }
             break;
+        }
 
         case DolphinView::SortByType:
             retString = item->mimeComment();
             break;
+
+#ifdef HAVE_NEPOMUK
+        case DolphinView::SortByRating: {
+            KFileItem* item = dirModel->itemForIndex(index);
+            if (item != 0) {
+                const Nepomuk::Resource resource(item->url().url(), Nepomuk::NFO::File());
+                const quint32 rating = resource.rating();
+                retString = i18np("1 star", "%1 stars", rating);
+            }
+            break;
+        }
+        case DolphinView::SortByTags:
+            break;
+#endif
     }
 
     return retString;

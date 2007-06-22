@@ -292,6 +292,15 @@ void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
         break;
     case DolphinView::SortByType:
         action = actionCollection()->action("by_type");
+        break;
+#ifdef HAVE_NEPOMUK
+    case DolphinView::SortByRating:
+        action = actionCollection()->action("by_rating");
+        break;
+    case DolphinView::SortByTags:
+        action = actionCollection()->action("by_tags");
+        break;
+#endif
     default:
         break;
     }
@@ -720,6 +729,16 @@ void DolphinMainWindow::sortByGroup()
 void DolphinMainWindow::sortByType()
 {
     m_activeViewContainer->view()->setSorting(DolphinView::SortByType);
+}
+
+void DolphinMainWindow::sortByRating()
+{
+    m_activeViewContainer->view()->setSorting(DolphinView::SortByRating);
+}
+
+void DolphinMainWindow::sortByTags()
+{
+    m_activeViewContainer->view()->setSorting(DolphinView::SortByTags);
 }
 
 void DolphinMainWindow::toggleSortOrder()
@@ -1157,6 +1176,26 @@ void DolphinMainWindow::setupActions()
     sortByType->setText(i18n("By Type"));
     connect(sortByType, SIGNAL(triggered()), this, SLOT(sortByType()));
 
+    KToggleAction* sortByRating = actionCollection()->add<KToggleAction>("by_rating");
+    sortByRating->setText(i18n("By Rating"));
+
+    KToggleAction* sortByTags = actionCollection()->add<KToggleAction>("by_tags");
+    sortByTags->setText(i18n("By Tags"));
+
+#ifdef HAVE_NEPOMUK
+    if (MetaDataWidget::metaDataAvailable()) {
+        connect(sortByRating, SIGNAL(triggered()), this, SLOT(sortByRating()));
+        connect(sortByTags, SIGNAL(triggered()), this, SLOT(sortByTags()));
+    }
+    else {
+        sortByRating->setEnabled(false);
+        sortByTags->setEnabled(false);
+    }
+#else
+    sortByRating->setEnabled(false);
+    sortByTags->setEnabled(false);
+#endif
+
     QActionGroup* sortGroup = new QActionGroup(this);
     sortGroup->addAction(sortByName);
     sortGroup->addAction(sortBySize);
@@ -1165,6 +1204,8 @@ void DolphinMainWindow::setupActions()
     sortGroup->addAction(sortByOwner);
     sortGroup->addAction(sortByGroup);
     sortGroup->addAction(sortByType);
+    sortGroup->addAction(sortByRating);
+    sortGroup->addAction(sortByTags);
 
     KToggleAction* sortDescending = actionCollection()->add<KToggleAction>("descending");
     sortDescending->setText(i18n("Descending"));

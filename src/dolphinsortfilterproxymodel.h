@@ -48,16 +48,10 @@ public:
     virtual ~DolphinSortFilterProxyModel();
 
     void setSorting(DolphinView::Sorting sorting);
-    DolphinView::Sorting sorting() const
-    {
-        return m_sorting;
-    }
+    inline DolphinView::Sorting sorting() const;
 
     void setSortOrder(Qt::SortOrder sortOrder);
-    Qt::SortOrder sortOrder() const
-    {
-        return m_sortOrder;
-    }
+    inline Qt::SortOrder sortOrder() const;
 
     /**
      * @reimplemented, @internal
@@ -89,12 +83,27 @@ protected:
                           const QModelIndex& right) const;
 
 private:
+    /**
+     * Returns the rating for the item with the index \a index. 0 is
+     * returned if no item could be found.
+     */
+    quint32 ratingForIndex(const QModelIndex& index) const;
+
     static int naturalCompare(const QString& a, const QString& b);
 
 private:
-    int m_sortColumn;
     DolphinView::Sorting m_sorting;
     Qt::SortOrder m_sortOrder;
 };
+
+DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
+{
+    return m_sorting;
+}
+
+Qt::SortOrder DolphinSortFilterProxyModel::sortOrder() const
+{
+    return m_sortOrder;
+}
 
 #endif

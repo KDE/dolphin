@@ -26,6 +26,9 @@
 #include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
+#include <config-nepomuk.h>
+#include <nepomuk/resourcemanager.h>
+
 #include <kcomponentdata.h>
 #include <klocale.h>
 #include <kiconloader.h>
@@ -107,6 +110,12 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sorting->addItem(i18n("By Owner"));
     m_sorting->addItem(i18n("By Group"));
     m_sorting->addItem(i18n("By Type"));
+#ifdef HAVE_NEPOMUK
+    if (!Nepomuk::ResourceManager::instance()->init()) {
+        m_sorting->addItem(i18n("By Rating"));
+        m_sorting->addItem(i18n("By Tags"));
+    }
+#endif
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
