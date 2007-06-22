@@ -26,8 +26,10 @@
 #include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
+#ifdef HAVE_NEPOMUK
 #include <config-nepomuk.h>
 #include <nepomuk/resourcemanager.h>
+#endif
 
 #include <kcomponentdata.h>
 #include <klocale.h>
