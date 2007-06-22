@@ -168,7 +168,10 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
             if (item != 0) {
                 const Nepomuk::Resource resource(item->url().url(), Nepomuk::NFO::File());
                 const quint32 rating = resource.rating();
-                retString = i18np("1 star", "%1 stars", rating);
+                if (!rating)
+                    retString = i18n("Not yet rated");
+                else
+                    retString = i18np("1 star", "%1 stars", rating);
             }
             break;
         }
