@@ -188,11 +188,16 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     const KFileItem* leftFileItem  = dirModel->itemForIndex(left);
     const KFileItem* rightFileItem = dirModel->itemForIndex(right);
 
-    // On our priority, folders go above regular files.
-    if (leftFileItem->isDir() && !rightFileItem->isDir()) {
-        return true;
-    } else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
-        return false;
+    // If we are sorting by rating, folders and files are citizens of the same
+    // class
+    if (sortRole() != DolphinView::SortByRating)
+    {
+        // On our priority, folders go above regular files.
+        if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+            return true;
+        } else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+            return false;
+        }
     }
 
     // Hidden elements go before visible ones, if they both are
@@ -312,6 +317,13 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         const quint32 rightRating = ratingForIndex(right);
 
         if (leftRating == rightRating) {
+            // On our priority, folders go above regular files.
+            if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+                return true;
+            } else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+                return false;
+            }
+
             return sortCaseSensitivity() ?
                    (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
                    (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
