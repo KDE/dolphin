@@ -21,6 +21,7 @@
 #include "dolphinitemcategorizer.h"
 
 #include "dolphinview.h"
+#include "dolphinsortfilterproxymodel.h"
 
 #ifdef HAVE_NEPOMUK
 #include <config-nepomuk.h>
@@ -34,7 +35,8 @@
 #include <klocale.h>
 #include <kurl.h>
 
-#include <QtGui/QSortFilterProxyModel>
+#include <QList>
+#include <QSortFilterProxyModel>
 
 DolphinItemCategorizer::DolphinItemCategorizer() :
     KItemCategorizer()
@@ -164,19 +166,19 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
 
 #ifdef HAVE_NEPOMUK
         case DolphinView::SortByRating: {
-            KFileItem* item = dirModel->itemForIndex(index);
-            if (item != 0) {
-                const Nepomuk::Resource resource(item->url().url(), Nepomuk::NFO::File());
-                const quint32 rating = resource.rating();
-                if (!rating)
-                    retString = i18n("Not yet rated");
-                else
-                    retString = i18np("1 star", "%1 stars", rating);
+            const quint32 rating = DolphinSortFilterProxyModel::ratingForIndex(index);
+            if (rating) {
+                retString = i18np("1 star", "%1 stars", rating);
+            } else {
+                retString = i18n("Not yet rated");
             }
             break;
         }
-        case DolphinView::SortByTags:
+
+        case DolphinView::SortByTags: {
+            retString = DolphinSortFilterProxyModel::tagsForIndex(index);
             break;
+        }
 #endif
     }
 

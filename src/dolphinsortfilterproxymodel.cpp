@@ -26,11 +26,13 @@
 #include <config-nepomuk.h>
 #include <nepomuk/global.h>
 #include <nepomuk/resource.h>
+#include <nepomuk/tag.h>
 #endif
 
 #include <kdirmodel.h>
 #include <kfileitem.h>
 #include <kdatetime.h>
+#include <klocale.h>
 
 static DolphinView::Sorting sortingTypeTable[] =
 {
@@ -172,6 +174,9 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
         const quint32 leftRating = ratingForIndex(left);
         const quint32 rightRating = ratingForIndex(right);
         return leftRating > rightRating;
+    }
+    case DolphinView::SortByTags: {
+        return naturalCompare(tagsForIndex(left), tagsForIndex(right)) < 0;
     }
 #endif
     default:
@@ -331,6 +336,10 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 
         return leftRating > rightRating;
     }
+
+    case DolphinView::SortByTags: {
+        return naturalCompare(tagsForIndex(left), tagsForIndex(right)) < 0;
+    }
 #endif
     }
 
@@ -339,12 +348,12 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     return QSortFilterProxyModel::lessThan(left, right);
 }
 
-quint32 DolphinSortFilterProxyModel::ratingForIndex(const QModelIndex& index) const
+quint32 DolphinSortFilterProxyModel::ratingForIndex(const QModelIndex& index)
 {
 #ifdef HAVE_NEPOMUK
     quint32 rating = 0;
 
-    const KDirModel* dirModel = static_cast<const KDirModel*>(sourceModel());
+    const KDirModel* dirModel = static_cast<const KDirModel*>(index.model());
     KFileItem* item = dirModel->itemForIndex(index);
     if (item != 0) {
         const Nepomuk::Resource resource(item->url().url(), Nepomuk::NFO::File());
@@ -354,6 +363,38 @@ quint32 DolphinSortFilterProxyModel::ratingForIndex(const QModelIndex& index) co
 #else
     Q_UNUSED(index);
     return 0;
+#endif
+}
+
+QString DolphinSortFilterProxyModel::tagsForIndex(const QModelIndex& index)
+{
+#ifdef HAVE_NEPOMUK
+    QString tagsString;
+
+    const KDirModel* dirModel = static_cast<const KDirModel*>(index.model());
+    KFileItem* item = dirModel->itemForIndex(index);
+    if (item != 0) {
+        const Nepomuk::Resource resource(item->url().url(), Nepomuk::NFO::File());
+        const QList<Nepomuk::Tag> tags = resource.tags();
+        QStringList stringList;
+        foreach (const Nepomuk::Tag& tag, tags) {
+            stringList.append(tag.label());
+        }
+        stringList.sort();
+
+        foreach (const QString& str, stringList) {
+            tagsString += str;
+            tagsString += ' ';
+        }
+    }
+
+    if (tagsString.isEmpty()) {
+        tagsString = i18n("(no tags)");
+    }
+
+    return tagsString;
+#else
+    return QString();
 #endif
 }
 

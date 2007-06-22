@@ -87,13 +87,21 @@ private:
      * Returns the rating for the item with the index \a index. 0 is
      * returned if no item could be found.
      */
-    quint32 ratingForIndex(const QModelIndex& index) const;
+    static quint32 ratingForIndex(const QModelIndex& index);
+
+    /**
+     * Returns the tags for the item with the index \a index. If no
+     * tag is applied, a predefined string will be returned.
+     */
+    static QString tagsForIndex(const QModelIndex& index);
 
     static int naturalCompare(const QString& a, const QString& b);
 
 private:
     DolphinView::Sorting m_sorting;
     Qt::SortOrder m_sortOrder;
+
+    friend class DolphinItemCategorizer;
 };
 
 DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
