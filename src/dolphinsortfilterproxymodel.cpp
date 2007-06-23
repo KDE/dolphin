@@ -176,6 +176,14 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
         return leftRating > rightRating;
     }
     case DolphinView::SortByTags: {
+        const QString leftTags = tagsForIndex(left);
+        const QString rightTags = tagsForIndex(right);
+
+        if (leftTags.isEmpty() && !rightTags.isEmpty())
+            return false;
+        else if (!leftTags.isEmpty() && rightTags.isEmpty())
+            return true;
+
         return naturalCompare(tagsForIndex(left), tagsForIndex(right)) < 0;
     }
 #endif
@@ -194,8 +202,9 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     const KFileItem* rightFileItem = dirModel->itemForIndex(right);
 
     // If we are sorting by rating, folders and files are citizens of the same
-    // class
-    if (sortRole() != DolphinView::SortByRating)
+    // class. Same if we are sorting by tags.
+    if ((sortRole() != DolphinView::SortByRating) &&
+        (sortRole() != DolphinView::SortByTags))
     {
         // On our priority, folders go above regular files.
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
@@ -323,6 +332,11 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 
         if (leftRating == rightRating) {
             // On our priority, folders go above regular files.
+            // This checks are needed (don't think it's the same doing it here
+            // than above). Here we make dirs citizens of first class because
+            // we know we are on the same category. On the check we do on the
+            // top of the method we don't know, so we remove that check when we
+            // are sorting by rating. (ereslibre)
             if (leftFileItem->isDir() && !rightFileItem->isDir()) {
                 return true;
             } else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
@@ -338,7 +352,28 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     }
 
     case DolphinView::SortByTags: {
-        return naturalCompare(tagsForIndex(left), tagsForIndex(right)) < 0;
+        const QString leftTags = tagsForIndex(left);
+        const QString rightTags = tagsForIndex(right);
+
+        if (leftTags == rightTags) {
+            // On our priority, folders go above regular files.
+            // This checks are needed (don't think it's the same doing it here
+            // than above). Here we make dirs citizens of first class because
+            // we know we are on the same category. On the check we do on the
+            // top of the method we don't know, so we remove that check when we
+            // are sorting by tags. (ereslibre)
+            if (leftFileItem->isDir() && !rightFileItem->isDir()) {
+                return true;
+            } else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
+                return false;
+            }
+
+            return sortCaseSensitivity() ?
+                   (naturalCompare(leftFileItem->name(), rightFileItem->name()) < 0) :
+                   (naturalCompare(leftFileItem->name().toLower(), rightFileItem->name().toLower()) < 0);
+        }
+
+        return naturalCompare(leftTags, rightTags) < 0;
     }
 #endif
     }
@@ -384,12 +419,11 @@ QString DolphinSortFilterProxyModel::tagsForIndex(const QModelIndex& index)
 
         foreach (const QString& str, stringList) {
             tagsString += str;
-            tagsString += ' ';
+            tagsString += ", ";
         }
-    }
 
-    if (tagsString.isEmpty()) {
-        tagsString = i18n("(no tags)");
+        if (!tagsString.isEmpty())
+            tagsString.resize(tagsString.size() - 2);
     }
 
     return tagsString;

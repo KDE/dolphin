@@ -177,6 +177,10 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
 
         case DolphinView::SortByTags: {
             retString = DolphinSortFilterProxyModel::tagsForIndex(index);
+
+            if (retString.isEmpty())
+                retString = i18n("Not yet tagged");
+
             break;
         }
 #endif
