@@ -529,6 +529,7 @@ void KListView::reset()
     d->elementDictionary.clear();
     d->categoriesIndexes.clear();
     d->categoriesPosition.clear();
+    d->isIndexSelected.clear();       // selection cache
     d->categories.clear();
     d->intersectedIndexes.clear();
     d->sourceModelIndexList.clear();
@@ -670,39 +671,83 @@ void KListView::setSelection(const QRect &rect,
         return;
     }
 
-    // FIXME: I have to rethink and rewrite this method (ereslibre)
+    if (flags & QItemSelectionModel::Clear)
+    {
+        selectionModel()->clear();
+        d->isIndexSelected.clear();
+        d->isTemporarySelected.clear();
+    }
 
+    QItemSelection selection;
     QModelIndexList dirtyIndexes = d->intersectionSet(rect);
     foreach (const QModelIndex &index, dirtyIndexes)
     {
         if (!d->mouseButtonPressed && rect.intersects(visualRect(index)))
         {
-            selectionModel()->select(index, flags);
-        }
-        else
-        {
-            selectionModel()->select(index, QItemSelectionModel::Select);
-
-            if (d->mouseButtonPressed)
-                d->tempSelected.append(index);
-        }
-    }
-
-    if (d->mouseButtonPressed)
-    {
-        foreach (const QModelIndex &index, selectionModel()->selectedIndexes())
-        {
-            if (!rect.intersects(visualRect(index)))
+            if (d->isIndexSelected.contains(index))
             {
-                selectionModel()->select(index, QItemSelectionModel::Deselect);
+                if (!d->isIndexSelected[index])
+                    selection.select(index, index);
 
-                if (d->mouseButtonPressed)
+                d->isIndexSelected[index] = true;
+            }
+            else
+            {
+                d->isIndexSelected.insert(index, true);
+                selection.select(index, index);
+            }
+        }
+        else if (d->mouseButtonPressed)           // selection cache
+        {
+            if (!d->isIndexSelected.contains(index) ||
+                (d->isIndexSelected.contains(index) && !d->isIndexSelected[index]))
+            {
+                if (d->isTemporarySelected.contains(index))
                 {
-                    d->tempSelected.removeAll(index);
+                    d->isTemporarySelected[index] = true;
                 }
+                else
+                {
+                    d->isTemporarySelected.insert(index, true);
+                }
+            }
+
+            if (d->isIndexSelected.contains(index))
+            {
+                if (!d->isIndexSelected[index])
+                    selection.select(index, index);
+
+                d->isIndexSelected[index] = true;
+            }
+            else
+            {
+                d->isIndexSelected.insert(index, true);
+                selection.select(index, index);
             }
         }
     }
+
+    QItemSelection deselect;
+
+    foreach (const QModelIndex &index, d->isIndexSelected.keys())
+    {
+        if (!rect.intersects(visualRect(index)))
+        {
+            if (d->isTemporarySelected.contains(index) &&
+                d->isTemporarySelected[index])
+            {
+                deselect.select(index, index);
+                d->isTemporarySelected[index] = false;
+                d->isIndexSelected[index] = false;
+            }
+        }
+    }
+
+    if (selection.count())
+        selectionModel()->select(selection, QItemSelectionModel::Select);
+
+    if (deselect.count())
+        selectionModel()->select(deselect, QItemSelectionModel::Deselect);
 }
 
 void KListView::mouseMoveEvent(QMouseEvent *event)
@@ -725,8 +770,6 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
 void KListView::mousePressEvent(QMouseEvent *event)
 {
     QListView::mousePressEvent(event);
-
-    d->tempSelected.clear();
 
     if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
         !d->itemCategorizer)
@@ -764,7 +807,7 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
 
     event->accept();
 
-    // FIXME: I have to rethink and rewrite this method (ereslibre)
+    d->isTemporarySelected.clear();     // selection cache
 
     QPoint initialPressPosition = viewport()->mapFromGlobal(QCursor::pos());
     initialPressPosition.setY(initialPressPosition.y() + verticalOffset());
@@ -772,28 +815,23 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
 
     if (initialPressPosition == d->initialPressPosition)
     {
+        QItemSelection selection;
         foreach(const QString &category, d->categories)
         {
             if (d->categoryVisualRect(category).contains(event->pos()))
             {
                 QModelIndex index;
-                QItemSelectionModel::SelectionFlag flag;
                 foreach (const QModelIndex &mappedIndex,
                          d->categoriesIndexes[category])
                 {
                     index = d->proxyModel->mapFromSource(mappedIndex);
 
-                    if (selectionModel()->selectedIndexes().contains(index))
-                    {
-                        flag = QItemSelectionModel::Deselect;
-                    }
-                    else
-                    {
-                        flag = QItemSelectionModel::Select;
-                    }
-
-                    selectionModel()->select(index, flag);
+                    selection.select(index, index);
                 }
+
+                selectionModel()->select(selection, QItemSelectionModel::Toggle);
+
+                break;
             }
         }
     }
@@ -849,6 +887,7 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
     d->elementDictionary.clear();
     d->categoriesIndexes.clear();
     d->categoriesPosition.clear();
+    d->isIndexSelected.clear();       // selection cache
     d->categories.clear();
     d->intersectedIndexes.clear();
     d->sourceModelIndexList.clear();
