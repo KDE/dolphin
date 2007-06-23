@@ -826,7 +826,18 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
                 {
                     index = d->proxyModel->mapFromSource(mappedIndex);
 
-                    selection.select(index, index);
+                    if (d->isIndexSelected.contains(index))
+                    {
+                        if (!d->isIndexSelected[index])
+                            selection.select(index, index);
+
+                        d->isIndexSelected[index] = true;
+                    }
+                    else
+                    {
+                        d->isIndexSelected.insert(index, true);
+                        selection.select(index, index);
+                    }
                 }
 
                 selectionModel()->select(selection, QItemSelectionModel::Toggle);
