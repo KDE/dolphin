@@ -203,16 +203,20 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 
     // If we are sorting by rating, folders and files are citizens of the same
     // class. Same if we are sorting by tags.
+#ifdef HAVE_NEPOMUK
     if ((sortRole() != DolphinView::SortByRating) &&
         (sortRole() != DolphinView::SortByTags))
     {
+#endif
         // On our priority, folders go above regular files.
         if (leftFileItem->isDir() && !rightFileItem->isDir()) {
             return true;
         } else if (!leftFileItem->isDir() && rightFileItem->isDir()) {
             return false;
         }
+#ifdef HAVE_NEPOMUK
     }
+#endif
 
     // Hidden elements go before visible ones, if they both are
     // folders or files.

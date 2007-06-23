@@ -733,12 +733,16 @@ void DolphinMainWindow::sortByType()
 
 void DolphinMainWindow::sortByRating()
 {
+#ifdef HAVE_NEPOMUK
     m_activeViewContainer->view()->setSorting(DolphinView::SortByRating);
+#endif
 }
 
 void DolphinMainWindow::sortByTags()
 {
+#ifdef HAVE_NEPOMUK
     m_activeViewContainer->view()->setSorting(DolphinView::SortByTags);
+#endif
 }
 
 void DolphinMainWindow::toggleSortOrder()
