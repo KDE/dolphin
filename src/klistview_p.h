@@ -98,6 +98,11 @@ public:
       */
     void updateScrollbars();
 
+    /**
+      * This method will draw dragged items
+      */
+    void drawDraggedItems(QPainter *painter);
+
 
     // Attributes
 
@@ -113,6 +118,7 @@ public:
 
     // Behavior data
     bool mouseButtonPressed;
+    bool isDragging;
     QModelIndex hovered;
     QPoint initialPressPosition;
     QPoint mousePosition;

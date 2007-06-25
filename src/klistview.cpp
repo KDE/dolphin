@@ -79,6 +79,7 @@ KListView::Private::Private(KListView *listView)
     : listView(listView)
     , itemCategorizer(0)
     , mouseButtonPressed(false)
+    , isDragging(false)
     , proxyModel(0)
     , lastIndex(QModelIndex())
 {
@@ -392,6 +393,22 @@ void KListView::Private::updateScrollbars()
     listView->verticalScrollBar()->setRange(0, lastItemBottom);
 }
 
+void KListView::Private::drawDraggedItems(QPainter *painter)
+{
+    QStyleOptionViewItemV3 option = listView->viewOptions();
+    option.state &= ~QStyle::State_MouseOver;
+    foreach (const QModelIndex &index, listView->selectionModel()->selectedIndexes())
+    {
+        int dx = mousePosition.x() - initialPressPosition.x();
+        int dy = mousePosition.y() - initialPressPosition.y();
+
+        option.rect = visualRect(index);
+        option.rect.adjust(dx, dy, dx, dy);
+
+        listView->itemDelegate(index)->paint(painter, option, index);
+    }
+}
+
 
 //==============================================================================
 
@@ -438,7 +455,7 @@ void KListView::setModel(QAbstractItemModel *model)
 
 QRect KListView::visualRect(const QModelIndex &index) const
 {
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return QListView::visualRect(index);
@@ -494,7 +511,7 @@ void KListView::setItemCategorizer(KItemCategorizer *itemCategorizer)
 
 QModelIndex KListView::indexAt(const QPoint &point) const
 {
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return QListView::indexAt(point);
@@ -518,7 +535,7 @@ void KListView::reset()
 {
     QListView::reset();
 
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -539,7 +556,7 @@ void KListView::reset()
 
 void KListView::paintEvent(QPaintEvent *event)
 {
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         QListView::paintEvent(event);
@@ -610,7 +627,7 @@ void KListView::paintEvent(QPaintEvent *event)
         }
     }
 
-    if (d->mouseButtonPressed)
+    if (d->mouseButtonPressed && !d->isDragging)
     {
         QPoint start, end, initialPressPosition;
 
@@ -641,6 +658,9 @@ void KListView::paintEvent(QPaintEvent *event)
         painter.restore();
     }
 
+    if (d->isDragging)
+        d->drawDraggedItems(&painter);
+
     painter.restore();
 }
 
@@ -648,7 +668,7 @@ void KListView::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
 
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -664,7 +684,7 @@ void KListView::resizeEvent(QResizeEvent *event)
 void KListView::setSelection(const QRect &rect,
                              QItemSelectionModel::SelectionFlags flags)
 {
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         QListView::setSelection(rect, flags);
@@ -756,7 +776,7 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
 
     d->mousePosition = event->pos();
 
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -771,7 +791,7 @@ void KListView::mousePressEvent(QMouseEvent *event)
 {
     QListView::mousePressEvent(event);
 
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -799,7 +819,7 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
 
     d->mouseButtonPressed = false;
 
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -856,7 +876,7 @@ void KListView::leaveEvent(QEvent *event)
 
     d->hovered = QModelIndex();
 
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -869,9 +889,36 @@ void KListView::leaveEvent(QEvent *event)
 
 void KListView::startDrag(Qt::DropActions supportedActions)
 {
-    d->mouseButtonPressed = false;
-
     QListView::startDrag(supportedActions);
+
+    d->isDragging = false;
+    d->mouseButtonPressed = false;
+}
+
+void KListView::dragMoveEvent(QDragMoveEvent *event)
+{
+    QListView::dragMoveEvent(event);
+
+    d->mousePosition = event->pos();
+
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+        !d->itemCategorizer)
+    {
+        return;
+    }
+
+    if (d->mouseButtonPressed)
+    {
+        d->isDragging = true;
+    }
+    else
+    {
+        d->isDragging = false;
+    }
+
+    event->accept();
+
+    viewport()->update();
 }
 
 void KListView::rowsInserted(const QModelIndex &parent,
@@ -880,7 +927,7 @@ void KListView::rowsInserted(const QModelIndex &parent,
 {
     QListView::rowsInserted(parent, start, end);
 
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -890,8 +937,8 @@ void KListView::rowsInserted(const QModelIndex &parent,
 }
 
 void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
-                                                int start,
-                                                int end)
+                                        int start,
+                                        int end)
 {
     d->elementsInfo.clear();
     d->elementsPosition.clear();
@@ -1006,7 +1053,7 @@ void KListView::rowsRemoved(const QModelIndex &parent,
 
 void KListView::updateGeometries()
 {
-    if ((viewMode() == KListView::ListMode) || !d->proxyModel ||
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         QListView::updateGeometries();

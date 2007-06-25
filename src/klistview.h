@@ -68,6 +68,8 @@ protected:
 
     virtual void startDrag(Qt::DropActions supportedActions);
 
+    virtual void dragMoveEvent(QDragMoveEvent *event);
+
 protected Q_SLOTS:
     virtual void rowsInserted(const QModelIndex &parent,
                               int start,
