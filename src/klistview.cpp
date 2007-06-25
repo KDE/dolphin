@@ -399,8 +399,8 @@ void KListView::Private::drawDraggedItems(QPainter *painter)
     option.state &= ~QStyle::State_MouseOver;
     foreach (const QModelIndex &index, listView->selectionModel()->selectedIndexes())
     {
-        int dx = mousePosition.x() - initialPressPosition.x();
-        int dy = mousePosition.y() - initialPressPosition.y();
+        int dx = mousePosition.x() - initialPressPosition.x() + listView->horizontalOffset();
+        int dy = mousePosition.y() - initialPressPosition.y() + listView->verticalOffset();
 
         option.rect = visualRect(index);
         option.rect.adjust(dx, dy, dx, dy);
