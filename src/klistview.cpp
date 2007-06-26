@@ -80,6 +80,7 @@ KListView::Private::Private(KListView *listView)
     , itemCategorizer(0)
     , mouseButtonPressed(false)
     , isDragging(false)
+    , dragLeftViewport(false)
     , proxyModel(0)
     , lastIndex(QModelIndex())
 {
@@ -658,7 +659,7 @@ void KListView::paintEvent(QPaintEvent *event)
         painter.restore();
     }
 
-    if (d->isDragging)
+    if (d->isDragging && !d->dragLeftViewport)
         d->drawDraggedItems(&painter);
 
     painter.restore();
@@ -691,95 +692,74 @@ void KListView::setSelection(const QRect &rect,
         return;
     }
 
+    if (!flags)
+        return;
+
+    selectionModel()->clear();
+
     if (flags & QItemSelectionModel::Clear)
     {
-        selectionModel()->clear();
-        d->isIndexSelected.clear();
-        d->isTemporarySelected.clear();
+        d->lastSelection = QItemSelection();
     }
 
-    QItemSelection selection;
-    QItemSelection deselect;
     QModelIndexList dirtyIndexes = d->intersectionSet(rect);
-    foreach (const QModelIndex &index, dirtyIndexes)
+    QItemSelection selection;
+
+    if (!dirtyIndexes.count())
     {
-        if (!d->mouseButtonPressed && rect.intersects(visualRect(index)))
+        if (d->lastSelection.count())
         {
-            if (d->isIndexSelected.contains(index))
-            {
-                if (!d->isIndexSelected[index])
-                {
-                    selection.select(index, index);
-                    d->isIndexSelected[index] = true;
-                }
-                else
-                {
-                    deselect.select(index, index);
-                    d->isIndexSelected[index] = false;
-                }
-            }
-            else
-            {
-                d->isIndexSelected.insert(index, true);
-                selection.select(index, index);
-            }
+            selectionModel()->select(d->lastSelection, flags);
         }
-        else if (d->mouseButtonPressed)           // selection cache
-        {
-            if (!d->isIndexSelected.contains(index) ||
-                (d->isIndexSelected.contains(index) && !d->isIndexSelected[index]))
-            {
-                if (d->isTemporarySelected.contains(index))
-                {
-                    d->isTemporarySelected[index] = true;
-                }
-                else
-                {
-                    d->isTemporarySelected.insert(index, true);
-                }
-            }
 
-            if (d->isIndexSelected.contains(index))
-            {
-                if (!d->isIndexSelected[index])
-                    selection.select(index, index);
-
-                d->isIndexSelected[index] = true;
-            }
-            else
-            {
-                d->isIndexSelected.insert(index, true);
-                selection.select(index, index);
-            }
-        }
+        return;
     }
 
-    foreach (const QModelIndex &index, d->isIndexSelected.keys())
+    if (!d->mouseButtonPressed)
     {
-        if (!rect.intersects(visualRect(index)))
+        selection = QItemSelection(dirtyIndexes[0], dirtyIndexes[0]);
+    }
+    else
+    {
+        QModelIndex first = dirtyIndexes[0];
+        QModelIndex last;
+        foreach (const QModelIndex &index, dirtyIndexes)
         {
-            if (d->isTemporarySelected.contains(index) &&
-                d->isTemporarySelected[index])
+            if (last.isValid() && last.row() + 1 != index.row())
             {
-                deselect.select(index, index);
-                d->isTemporarySelected[index] = false;
-                d->isIndexSelected[index] = false;
+                QItemSelectionRange range(first, last);
+
+                selection << range;
+
+                first = index;
             }
+
+            last = index;
         }
+
+        if (last.isValid())
+            selection << QItemSelectionRange(first, last);
     }
 
-    if (selection.count())
-        selectionModel()->select(selection, QItemSelectionModel::Select);
+    if (d->lastSelection.count() && !d->mouseButtonPressed)
+    {
+        selection.merge(d->lastSelection, flags);
+    }
+    else if (d->lastSelection.count())
+    {
+        selection.merge(d->lastSelection, QItemSelectionModel::Select);
+    }
 
-    if (deselect.count())
-        selectionModel()->select(deselect, QItemSelectionModel::Deselect);
+    selectionModel()->select(selection, flags);
+
+    viewport()->update();
 }
 
 void KListView::mouseMoveEvent(QMouseEvent *event)
 {
-    QListView::mouseMoveEvent(event);
-
     d->mousePosition = event->pos();
+
+    QListView::mouseMoveEvent(event);
 
     if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
@@ -804,6 +784,8 @@ void KListView::mousePressEvent(QMouseEvent *event)
 
     event->accept();
 
+    d->dragLeftViewport = false;
+
     if (event->button() == Qt::LeftButton)
     {
         d->mouseButtonPressed = true;
@@ -822,8 +804,6 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
 {
     QListView::mouseReleaseEvent(event);
 
-    d->mouseButtonPressed = false;
-
     if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
@@ -832,7 +812,8 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
 
     event->accept();
 
-    d->isTemporarySelected.clear();     // selection cache
+    d->mouseButtonPressed = false;
+    d->lastSelection = selectionModel()->selection();
 
     QPoint initialPressPosition = viewport()->mapFromGlobal(QCursor::pos());
     initialPressPosition.setY(initialPressPosition.y() + verticalOffset());
@@ -920,6 +901,25 @@ void KListView::dragMoveEvent(QDragMoveEvent *event)
     {
         d->isDragging = false;
     }
+
+    d->dragLeftViewport = false;
+
+    event->accept();
+
+    viewport()->update();
+}
+
+void KListView::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    QListView::dragLeaveEvent(event);
+
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+        !d->itemCategorizer)
+    {
+        return;
+    }
+
+    d->dragLeftViewport = true;
 
     event->accept();
 

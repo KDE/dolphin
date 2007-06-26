@@ -119,9 +119,11 @@ public:
     // Behavior data
     bool mouseButtonPressed;
     bool isDragging;
+    bool dragLeftViewport;
     QModelIndex hovered;
     QPoint initialPressPosition;
     QPoint mousePosition;
+    QItemSelection lastSelection;
 
     // Cache data
     // We cannot merge some of them into structs because it would affect
@@ -134,7 +136,6 @@ public:
     QStringList categories;
     QModelIndexList intersectedIndexes;
     QHash<QModelIndex, bool> isIndexSelected;            // selection cache
-    QHash<QModelIndex, bool> isTemporarySelected;        // selection cache
 
     // Attributes for speed reasons
     KSortFilterProxyModel *proxyModel;

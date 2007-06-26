@@ -70,6 +70,8 @@ protected:
 
     virtual void dragMoveEvent(QDragMoveEvent *event);
 
+    virtual void dragLeaveEvent(QDragLeaveEvent *event);
+
 protected Q_SLOTS:
     virtual void rowsInserted(const QModelIndex &parent,
                               int start,
