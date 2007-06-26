@@ -1041,7 +1041,7 @@ void DolphinMainWindow::init()
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* view)
 {
     Q_ASSERT((view == m_viewContainer[PrimaryView]) || (view == m_viewContainer[SecondaryView]));
-    if (m_activeViewContainer == view) {
+    if (m_activeViewContainer == view || !view) {
         return;
     }
 
