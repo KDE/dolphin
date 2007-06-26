@@ -699,6 +699,7 @@ void KListView::setSelection(const QRect &rect,
     }
 
     QItemSelection selection;
+    QItemSelection deselect;
     QModelIndexList dirtyIndexes = d->intersectionSet(rect);
     foreach (const QModelIndex &index, dirtyIndexes)
     {
@@ -707,9 +708,15 @@ void KListView::setSelection(const QRect &rect,
             if (d->isIndexSelected.contains(index))
             {
                 if (!d->isIndexSelected[index])
+                {
                     selection.select(index, index);
-
-                d->isIndexSelected[index] = true;
+                    d->isIndexSelected[index] = true;
+                }
+                else
+                {
+                    deselect.select(index, index);
+                    d->isIndexSelected[index] = false;
+                }
             }
             else
             {
@@ -746,8 +753,6 @@ void KListView::setSelection(const QRect &rect,
             }
         }
     }
-
-    QItemSelection deselect;
 
     foreach (const QModelIndex &index, d->isIndexSelected.keys())
     {
