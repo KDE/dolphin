@@ -660,7 +660,10 @@ void KListView::paintEvent(QPaintEvent *event)
     }
 
     if (d->isDragging && !d->dragLeftViewport)
+    {
+        painter.setOpacity(0.5);
         d->drawDraggedItems(&painter);
+    }
 
     painter.restore();
 }
