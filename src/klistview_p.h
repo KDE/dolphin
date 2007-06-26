@@ -135,7 +135,6 @@ public:
     QHash<QString, QRect> categoriesPosition;
     QStringList categories;
     QModelIndexList intersectedIndexes;
-    QHash<QModelIndex, bool> isIndexSelected;            // selection cache
 
     // Attributes for speed reasons
     KSortFilterProxyModel *proxyModel;

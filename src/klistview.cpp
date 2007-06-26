@@ -547,7 +547,6 @@ void KListView::reset()
     d->elementDictionary.clear();
     d->categoriesIndexes.clear();
     d->categoriesPosition.clear();
-    d->isIndexSelected.clear();       // selection cache
     d->categories.clear();
     d->intersectedIndexes.clear();
     d->sourceModelIndexList.clear();
@@ -816,45 +815,32 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
     event->accept();
 
     d->mouseButtonPressed = false;
-    d->lastSelection = selectionModel()->selection();
 
     QPoint initialPressPosition = viewport()->mapFromGlobal(QCursor::pos());
     initialPressPosition.setY(initialPressPosition.y() + verticalOffset());
     initialPressPosition.setX(initialPressPosition.x() + horizontalOffset());
 
+    QItemSelection selection;
+
     if (initialPressPosition == d->initialPressPosition)
     {
-        QItemSelection selection;
         foreach(const QString &category, d->categories)
         {
             if (d->categoryVisualRect(category).contains(event->pos()))
             {
-                QModelIndex index;
-                foreach (const QModelIndex &mappedIndex,
-                         d->categoriesIndexes[category])
-                {
-                    index = d->proxyModel->mapFromSource(mappedIndex);
+                QItemSelectionRange selectionRange(d->proxyModel->mapFromSource(d->categoriesIndexes[category][0]),
+                                                   d->proxyModel->mapFromSource(d->categoriesIndexes[category][d->categoriesIndexes[category].count() - 1]));
 
-                    if (d->isIndexSelected.contains(index))
-                    {
-                        if (!d->isIndexSelected[index])
-                            selection.select(index, index);
+                selection << selectionRange;
 
-                        d->isIndexSelected[index] = true;
-                    }
-                    else
-                    {
-                        d->isIndexSelected.insert(index, true);
-                        selection.select(index, index);
-                    }
-                }
-
-                selectionModel()->select(selection, QItemSelectionModel::Toggle);
+                selectionModel()->select(selection, QItemSelectionModel::Select);
 
                 break;
             }
         }
     }
+
+    d->lastSelection = selectionModel()->selection();
 
     viewport()->update();
 }
@@ -954,7 +940,6 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
     d->elementDictionary.clear();
     d->categoriesIndexes.clear();
     d->categoriesPosition.clear();
-    d->isIndexSelected.clear();       // selection cache
     d->categories.clear();
     d->intersectedIndexes.clear();
     d->sourceModelIndexList.clear();
