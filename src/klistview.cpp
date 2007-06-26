@@ -948,6 +948,7 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
                                         int start,
                                         int end)
 {
+    d->lastSelection = QItemSelection();
     d->elementsInfo.clear();
     d->elementsPosition.clear();
     d->elementDictionary.clear();
@@ -1052,7 +1053,8 @@ void KListView::rowsRemoved(const QModelIndex &parent,
                             int start,
                             int end)
 {
-    if (d->proxyModel)
+    if ((viewMode() == KListView::IconMode) && d->proxyModel &&
+        d->itemCategorizer)
     {
         // Force the view to update all elements
         rowsInsertedArtifficial(parent, start, end);
