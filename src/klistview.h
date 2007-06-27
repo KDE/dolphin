@@ -72,6 +72,9 @@ protected:
 
     virtual void dragLeaveEvent(QDragLeaveEvent *event);
 
+    virtual QModelIndex moveCursor(CursorAction cursorAction,
+                                   Qt::KeyboardModifiers modifiers);
+
 protected Q_SLOTS:
     virtual void rowsInserted(const QModelIndex &parent,
                               int start,

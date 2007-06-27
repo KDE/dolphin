@@ -915,6 +915,18 @@ void KListView::dragLeaveEvent(QDragLeaveEvent *event)
     viewport()->update();
 }
 
+QModelIndex KListView::moveCursor(CursorAction cursorAction,
+                                  Qt::KeyboardModifiers modifiers)
+{
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+        !d->itemCategorizer)
+    {
+        return QListView::moveCursor(cursorAction, modifiers);
+    }
+
+    return QListView::moveCursor(cursorAction, modifiers);
+}
+
 void KListView::rowsInserted(const QModelIndex &parent,
                              int start,
                              int end)
