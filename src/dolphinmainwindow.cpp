@@ -390,11 +390,17 @@ void DolphinMainWindow::openNewMainWindow()
 
 void DolphinMainWindow::toggleActiveView()
 {
-    if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
-        setActiveViewContainer(m_viewContainer[SecondaryView]);
-    } else {
-        setActiveViewContainer(m_viewContainer[PrimaryView]);
+    if (m_viewContainer[SecondaryView] == 0) {
+        // only one view is available
+        return;
     }
+
+    Q_ASSERT(m_activeViewContainer != 0);
+    Q_ASSERT(m_viewContainer[PrimaryView] != 0);
+
+    DolphinViewContainer* left  = m_viewContainer[PrimaryView];
+    DolphinViewContainer* right = m_viewContainer[SecondaryView];
+    setActiveViewContainer(m_activeViewContainer == right ? left : right);
 }
 
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
@@ -1040,8 +1046,9 @@ void DolphinMainWindow::init()
 
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* view)
 {
+    Q_ASSERT(view != 0);
     Q_ASSERT((view == m_viewContainer[PrimaryView]) || (view == m_viewContainer[SecondaryView]));
-    if (m_activeViewContainer == view || !view) {
+    if (m_activeViewContainer == view) {
         return;
     }
 
