@@ -257,8 +257,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 this, SLOT(triggerItem(const QModelIndex&)));
     }
-    connect(this, SIGNAL(activated(const QModelIndex&)),
-            this, SLOT(triggerItem(const QModelIndex&)));
     connect(this, SIGNAL(entered(const QModelIndex&)),
             controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),

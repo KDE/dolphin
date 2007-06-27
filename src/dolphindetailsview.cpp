@@ -75,8 +75,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
     }
-    connect(this, SIGNAL(activated(const QModelIndex&)),
-            controller, SLOT(triggerItem(const QModelIndex&)));
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
