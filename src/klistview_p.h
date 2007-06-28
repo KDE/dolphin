@@ -99,9 +99,15 @@ public:
     void updateScrollbars();
 
     /**
-      * This method will draw dragged items
+      * This method will draw dragged items in the painting operation
       */
     void drawDraggedItems(QPainter *painter);
+
+    /**
+      * This method will determine which rect needs to be updated because of a
+      * dragging operation
+      */
+    void drawDraggedItems();
 
 
     // Attributes
@@ -121,6 +127,7 @@ public:
     bool isDragging;
     bool dragLeftViewport;
     QModelIndex hovered;
+    QString hoveredCategory;
     QPoint initialPressPosition;
     QPoint mousePosition;
     QItemSelection lastSelection;
@@ -135,7 +142,7 @@ public:
     QHash<QString, QRect> categoriesPosition;
     QStringList categories;
     QModelIndexList intersectedIndexes;
-    QString hoveredCategory;
+    QRect lastDraggedItemsRect;
 
     // Attributes for speed reasons
     KSortFilterProxyModel *proxyModel;

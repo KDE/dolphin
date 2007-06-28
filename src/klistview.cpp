@@ -409,6 +409,30 @@ void KListView::Private::drawDraggedItems(QPainter *painter)
     }
 }
 
+void KListView::Private::drawDraggedItems()
+{
+    int dx;
+    int dy;
+    QRect rectToUpdate;
+    QRect currentRect;
+    foreach (const QModelIndex &index, listView->selectionModel()->selectedIndexes())
+    {
+        dx = mousePosition.x() - initialPressPosition.x() + listView->horizontalOffset();
+        dy = mousePosition.y() - initialPressPosition.y() + listView->verticalOffset();
+
+        currentRect = visualRect(index);
+        currentRect.adjust(dx, dy, dx, dy);
+
+        rectToUpdate = rectToUpdate.united(currentRect);
+    }
+
+    listView->viewport()->update(lastDraggedItemsRect);
+
+    lastDraggedItemsRect = rectToUpdate;
+
+    listView->viewport()->update(rectToUpdate);
+}
+
 
 //==============================================================================
 
@@ -890,6 +914,8 @@ void KListView::dragMoveEvent(QDragMoveEvent *event)
     }
 
     d->dragLeftViewport = false;
+
+    d->drawDraggedItems();
 }
 
 void KListView::dragLeaveEvent(QDragLeaveEvent *event)
