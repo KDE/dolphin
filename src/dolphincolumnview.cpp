@@ -58,7 +58,7 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
-    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
@@ -182,10 +182,10 @@ void ColumnWidget::dropEvent(QDropEvent* event)
     m_dragging = false;
 }
 
-void ColumnWidget::mousePressEvent(QMouseEvent* event)
+void ColumnWidget::mouseReleaseEvent(QMouseEvent* event)
 {
     m_view->requestActivation(this);
-    QListView::mousePressEvent(event);
+    QListView::mouseReleaseEvent(event);
 }
 
 void ColumnWidget::paintEvent(QPaintEvent* event)
@@ -201,6 +201,8 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
 
 void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 {
+    m_view->requestActivation(this);
+
     QListView::contextMenuEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
