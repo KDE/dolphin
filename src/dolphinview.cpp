@@ -89,6 +89,8 @@ DolphinView::DolphinView(QWidget* parent,
 
     m_controller = new DolphinController(this);
     m_controller->setUrl(url);
+    connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
+            this, SIGNAL(urlChanged(const KUrl&)));
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
     connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&, QWidget*)),

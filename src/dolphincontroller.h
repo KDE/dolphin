@@ -57,7 +57,8 @@ public:
     explicit DolphinController(QObject* parent);
     virtual ~DolphinController();
 
-    inline void setUrl(const KUrl& url);
+    /** Sets the URL to \a url and emits the signal urlChanged(). */
+    void setUrl(const KUrl& url);
     inline const KUrl& url() const;
 
     void triggerContextMenuRequest(const QPoint& pos);
@@ -110,6 +111,12 @@ public slots:
     void emitViewportEntered();
 
 signals:
+    /**
+     * Is emitted if the URL for the Dolphin controller has been changed
+     * to \a url.
+     */
+    void urlChanged(const KUrl& url);
+
     /**
      * Is emitted if a context menu should be opened.
      * @param pos       Position relative to the view widget where the
@@ -182,11 +189,6 @@ private:
     bool m_zoomOutPossible;
     KUrl m_url;
 };
-
-void DolphinController::setUrl(const KUrl& url)
-{
-    m_url = url;
-}
 
 const KUrl& DolphinController::url() const
 {

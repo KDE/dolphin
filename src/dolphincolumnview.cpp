@@ -26,7 +26,10 @@
 
 #include <kcolorutils.h>
 #include <kcolorscheme.h>
+#include <kdirlister.h>
+#include <kdirmodel.h>
 
+#include <QAbstractProxyModel>
 #include <QPoint>
 
 /**
@@ -181,13 +184,8 @@ void ColumnWidget::dropEvent(QDropEvent* event)
 
 void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
-    if (m_active || indexAt(event->pos()).isValid()) {
-        // Only accept the mouse press event in inactive views,
-        // if a click is done on an item. This assures that
-        // the current selection, which usually shows the
-        // the directory for next column, won't get deleted.
-        QListView::mousePressEvent(event);
-    }
+    m_view->requestActivation(this);
+    QListView::mousePressEvent(event);
 }
 
 void ColumnWidget::paintEvent(QPaintEvent* event)
@@ -265,6 +263,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
+    connect(controller, SIGNAL(urlChanged(const KUrl&)),
+            this, SLOT(updateColumnsState(const KUrl&)));
 
     updateDecorationSize();
 }
@@ -374,14 +374,20 @@ void DolphinColumnView::zoomOut()
 void DolphinColumnView::triggerItem(const QModelIndex& index)
 {
     m_controller->triggerItem(index);
+    updateColumnsState(m_controller->url());
+}
 
-    // assure that the last column gets marked as active and all
-    // other columns as inactive
-    QObject* lastWidget = viewport()->children().last();
+void DolphinColumnView::updateColumnsState(const KUrl& url)
+{
+    const KUrl baseUrl = dirLister()->url();
+    const int activeIndex = url.path().count('/') - baseUrl.path().count('/');
+
+    int index = 0;
     foreach (QObject* object, viewport()->children()) {
         if (object->inherits("QListView")) {
             ColumnWidget* widget = static_cast<ColumnWidget*>(object);
-            widget->setActive(widget == lastWidget);
+            widget->setActive(index == activeIndex);
+            ++index;
         }
     }
 }
@@ -396,6 +402,23 @@ bool DolphinColumnView::isZoomOutPossible() const
 {
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     return settings->iconSize() > K3Icon::SizeSmall;
+}
+
+void DolphinColumnView::requestActivation(QWidget* column)
+{
+    KUrl::List dirs = dirLister()->directories();
+    KUrl::List::const_iterator it = dirs.constBegin();
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            const bool isActive = (widget == column);
+            widget->setActive(isActive);
+            if (isActive) {
+                m_controller->setUrl(*it);
+            }
+            ++it;
+        }
+    }
 }
 
 void DolphinColumnView::updateDecorationSize()
@@ -414,6 +437,13 @@ void DolphinColumnView::updateDecorationSize()
     m_controller->setZoomOutPossible(isZoomOutPossible());
 
     doItemsLayout();
+}
+
+KDirLister* DolphinColumnView::dirLister() const
+{
+    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+    return dirModel->dirLister();
 }
 
 #include "dolphincolumnview.moc"

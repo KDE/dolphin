@@ -24,6 +24,8 @@
 #include <QtGui/QStyleOption>
 
 class DolphinController;
+class KDirLister;
+class KUrl;
 
 /**
  * @brief Represents the view, where each directory is show as separate column.
@@ -50,9 +52,22 @@ private slots:
     void zoomOut();
     void triggerItem(const QModelIndex& index);
 
+    /**
+     * Updates the activation state of all columns, where \a url
+     * represents the URL of the active column. All operations
+     * are applied only to the column which is marked as active.
+     */
+    void updateColumnsState(const KUrl& url);
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
+
+    /**
+     * Requests the activation for the column \a column. The URL
+     * navigator will be changed to represent the column.
+     */
+    void requestActivation(QWidget* column);
 
     /**
      * Updates the size of the decoration dependent on the
@@ -61,6 +76,9 @@ private:
      * operations.
      */
     void updateDecorationSize();
+
+    /** Returns the directory lister used by the view. */
+    KDirLister* dirLister() const;
 
 private:
     DolphinController* m_controller;
