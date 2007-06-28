@@ -135,6 +135,7 @@ public:
     QHash<QString, QRect> categoriesPosition;
     QStringList categories;
     QModelIndexList intersectedIndexes;
+    QString hoveredCategory;
 
     // Attributes for speed reasons
     KSortFilterProxyModel *proxyModel;
