@@ -395,12 +395,10 @@ void KListView::Private::drawDraggedItems(QPainter *painter)
 {
     QStyleOptionViewItemV3 option = listView->viewOptions();
     option.state &= ~QStyle::State_MouseOver;
-    int dx;
-    int dy;
     foreach (const QModelIndex &index, listView->selectionModel()->selectedIndexes())
     {
-        dx = mousePosition.x() - initialPressPosition.x() + listView->horizontalOffset();
-        dy = mousePosition.y() - initialPressPosition.y() + listView->verticalOffset();
+        const int dx = mousePosition.x() - initialPressPosition.x() + listView->horizontalOffset();
+        const int dy = mousePosition.y() - initialPressPosition.y() + listView->verticalOffset();
 
         option.rect = visualRect(index);
         option.rect.adjust(dx, dy, dx, dy);
@@ -993,6 +991,8 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
                                         int start,
                                         int end)
 {
+    Q_UNUSED(parent);
+
     d->lastSelection = QItemSelection();
     d->elementsInfo.clear();
     d->elementsPosition.clear();
