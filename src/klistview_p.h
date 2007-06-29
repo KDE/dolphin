@@ -143,6 +143,7 @@ public:
     QStringList categories;
     QModelIndexList intersectedIndexes;
     QRect lastDraggedItemsRect;
+    QRect lastSelectionRect;
 
     // Attributes for speed reasons
     KSortFilterProxyModel *proxyModel;

@@ -637,19 +637,6 @@ void KListView::paintEvent(QPaintEvent *event)
         itemDelegate(index)->paint(&painter, option, index);
     }
 
-    // Redraw categories
-    QStyleOptionViewItem otherOption;
-    foreach (const QString &category, d->categories)
-    {
-        otherOption = option;
-        otherOption.rect = d->categoryVisualRect(category);
-
-        if (otherOption.rect.intersects(area))
-        {
-            d->drawNewCategory(category, otherOption, &painter);
-        }
-    }
-
     if (d->mouseButtonPressed && !d->isDragging)
     {
         QPoint start, end, initialPressPosition;
@@ -679,6 +666,19 @@ void KListView::paintEvent(QPaintEvent *event)
         painter.save();
         style()->drawControl(QStyle::CE_RubberBand, &yetAnotherOption, &painter);
         painter.restore();
+    }
+
+    // Redraw categories
+    QStyleOptionViewItem otherOption;
+    foreach (const QString &category, d->categories)
+    {
+        otherOption = option;
+        otherOption.rect = d->categoryVisualRect(category);
+
+        if (otherOption.rect.intersects(area))
+        {
+            d->drawNewCategory(category, otherOption, &painter);
+        }
     }
 
     if (d->isDragging && !d->dragLeftViewport)
@@ -800,6 +800,37 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
         }
 
         viewport()->update(d->categoryVisualRect(category));
+    }
+
+    QRect rect;
+    if (d->mouseButtonPressed && !d->isDragging)
+    {
+        QPoint start, end, initialPressPosition;
+
+        initialPressPosition = d->initialPressPosition;
+
+        initialPressPosition.setY(initialPressPosition.y() - verticalOffset());
+        initialPressPosition.setX(initialPressPosition.x() - horizontalOffset());
+
+        if (d->initialPressPosition.x() > d->mousePosition.x() ||
+            d->initialPressPosition.y() > d->mousePosition.y())
+        {
+            start = d->mousePosition;
+            end = initialPressPosition;
+        }
+        else
+        {
+            start = initialPressPosition;
+            end = d->mousePosition;
+        }
+
+        viewport()->update(d->lastSelectionRect);
+
+        rect = QRect(start, end).intersected(viewport()->rect().adjusted(-16, -16, 16, 16));
+
+        viewport()->update(rect);
+
+        d->lastSelectionRect = rect;
     }
 }
 
