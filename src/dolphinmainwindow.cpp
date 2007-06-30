@@ -176,20 +176,20 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
         QString seq = QKeySequence(Qt::ShiftModifier).toString();
         seq.chop(1); // chop superfluous '+'
         QAction* moveAction = popup.addAction(KIcon("goto-page"),
-                                              i18n("&Move Here") + '\t' + seq);
+                                              i18nc("@action:inmenu", "&Move Here") + '\t' + seq);
 
         seq = QKeySequence(Qt::ControlModifier).toString();
         seq.chop(1);
         QAction* copyAction = popup.addAction(KIcon("edit-copy"),
-                                              i18n("&Copy Here") + '\t' + seq);
+                                              i18nc("@action:inmenu", "&Copy Here") + '\t' + seq);
 
         seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
         seq.chop(1);
         QAction* linkAction = popup.addAction(KIcon("www"),
-                                              i18n("&Link Here") + '\t' + seq);
+                                              i18nc("@action:inmenu", "&Link Here") + '\t' + seq);
 
         popup.addSeparator();
-        popup.addAction(KIcon("process-stop"), i18n("Cancel"));
+        popup.addAction(KIcon("process-stop"), i18nc("@action:inmenu", "Cancel"));
 
         QAction* activatedAction = popup.exec(QCursor::pos());
         if (activatedAction == moveAction) {
@@ -518,7 +518,7 @@ void DolphinMainWindow::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
         DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
-        statusBar->setMessage(i18n("Delete operation completed."),
+        statusBar->setMessage(i18nc("@info:status", "Delete operation completed."),
                               DolphinStatusBar::OperationCompleted);
     }
 }
@@ -535,28 +535,28 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
         DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
         switch (command) {
         case KonqUndoManager::COPY:
-            statusBar->setMessage(i18n("Copy operation completed."),
+            statusBar->setMessage(i18nc("@info:status", "Copy operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
         case KonqUndoManager::MOVE:
-            statusBar->setMessage(i18n("Move operation completed."),
+            statusBar->setMessage(i18nc("@info:status", "Move operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
         case KonqUndoManager::LINK:
-            statusBar->setMessage(i18n("Link operation completed."),
+            statusBar->setMessage(i18nc("@info:status", "Link operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
         case KonqUndoManager::TRASH:
-            statusBar->setMessage(i18n("Move to trash operation completed."),
+            statusBar->setMessage(i18nc("@info:status", "Move to trash operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
         case KonqUndoManager::RENAME:
-            statusBar->setMessage(i18n("Renaming operation completed."),
+            statusBar->setMessage(i18nc("@info:status", "Renaming operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
 
         case KonqUndoManager::MKDIR:
-            statusBar->setMessage(i18n("Created folder."),
+            statusBar->setMessage(i18nc("@info:status", "Created folder."),
                                   DolphinStatusBar::OperationCompleted);
             break;
 
@@ -641,7 +641,7 @@ void DolphinMainWindow::updatePasteAction()
         return;
     }
 
-    QString text(i18n("Paste"));
+    QString text(i18nc("@action:inmenu", "Paste"));
     QClipboard* clipboard = QApplication::clipboard();
     const QMimeData* mimeData = clipboard->mimeData();
 
@@ -652,7 +652,7 @@ void DolphinMainWindow::updatePasteAction()
         pasteAction->setText(i18np("Paste One File", "Paste %1 Files", urls.count()));
     } else {
         pasteAction->setEnabled(false);
-        pasteAction->setText(i18n("Paste"));
+        pasteAction->setText(i18nc("@action:inmenu", "Paste"));
     }
 
     if (pasteAction->isEnabled()) {
@@ -1037,8 +1037,12 @@ void DolphinMainWindow::init()
         resize(700, 500);
     }
 #ifdef HAVE_NEPOMUK
-    if (!MetaDataWidget::metaDataAvailable())
-        activeViewContainer()->statusBar()->setMessage(i18n("Failed to contact Nepomuk service, annotation and tagging are disabled."), DolphinStatusBar::Error);
+    if (!MetaDataWidget::metaDataAvailable()) {
+        DolphinStatusBar* statusBar = activeViewContainer()->statusBar();
+        statusBar->setMessage(i18nc("@info:status",
+                                    "Failed to contact Nepomuk service, annotation and tagging are disabled."),
+                                    DolphinStatusBar::Error);
+    }
 #endif
 
     emit urlChanged(homeUrl);
@@ -1073,36 +1077,36 @@ void DolphinMainWindow::setupActions()
     // setup 'File' menu
     m_newMenu = new DolphinNewMenu(this);
     KMenu* menu = m_newMenu->menu();
-    menu->setTitle(i18n("Create New"));
+    menu->setTitle(i18nc("@title:menu", "Create New"));
     menu->setIcon(KIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
     QAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
-    newWindow->setText(i18n("New &Window"));
+    newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
     QAction* rename = actionCollection()->addAction("rename");
-    rename->setText(i18n("Rename..."));
+    rename->setText(i18nc("@action:inmenu File", "Rename..."));
     rename->setShortcut(Qt::Key_F2);
     connect(rename, SIGNAL(triggered()), this, SLOT(rename()));
 
     QAction* moveToTrash = actionCollection()->addAction("move_to_trash");
-    moveToTrash->setText(i18n("Move to Trash"));
+    moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
     moveToTrash->setIcon(KIcon("edit-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
 
     QAction* deleteAction = actionCollection()->addAction("delete");
-    deleteAction->setText(i18n("Delete"));
+    deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
     deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
     deleteAction->setIcon(KIcon("edit-delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
     QAction* properties = actionCollection()->addAction("properties");
-    properties->setText(i18n("Properties"));
+    properties->setText(i18nc("@action:inmenu File", "Properties"));
     properties->setShortcut(Qt::ALT | Qt::Key_Return);
     connect(properties, SIGNAL(triggered()), this, SLOT(properties()));
 
@@ -1118,12 +1122,12 @@ void DolphinMainWindow::setupActions()
     KStandardAction::paste(this, SLOT(paste()), actionCollection());
 
     QAction* selectAll = actionCollection()->addAction("select_all");
-    selectAll->setText(i18n("Select All"));
+    selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
     selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(selectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
     QAction* invertSelection = actionCollection()->addAction("invert_selection");
-    invertSelection->setText(i18n("Invert Selection"));
+    invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
     invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
 
@@ -1137,19 +1141,19 @@ void DolphinMainWindow::setupActions()
                              actionCollection());
 
     KToggleAction* iconsView = actionCollection()->add<KToggleAction>("icons");
-    iconsView->setText(i18n("Icons"));
+    iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
     iconsView->setIcon(KIcon("fileview-icon"));
     connect(iconsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
 
     KToggleAction* detailsView = actionCollection()->add<KToggleAction>("details");
-    detailsView->setText(i18n("Details"));
+    detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
     detailsView->setIcon(KIcon("fileview-detailed"));
     connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
 
     KToggleAction* columnView = actionCollection()->add<KToggleAction>("columns");
-    columnView->setText(i18n("Columns"));
+    columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
     columnView->setShortcut(Qt::CTRL | Qt::Key_3);
     columnView->setIcon(KIcon("fileview-column"));
     connect(columnView, SIGNAL(triggered()), this, SLOT(setColumnView()));
@@ -1160,38 +1164,38 @@ void DolphinMainWindow::setupActions()
     viewModeGroup->addAction(columnView);
 
     KToggleAction* sortByName = actionCollection()->add<KToggleAction>("by_name");
-    sortByName->setText(i18n("By Name"));
+    sortByName->setText(i18nc("@action:inmenu Sort", "By Name"));
     connect(sortByName, SIGNAL(triggered()), this, SLOT(sortByName()));
 
     KToggleAction* sortBySize = actionCollection()->add<KToggleAction>("by_size");
-    sortBySize->setText(i18n("By Size"));
+    sortBySize->setText(i18nc("@action:inmenu Sort", "By Size"));
     connect(sortBySize, SIGNAL(triggered()), this, SLOT(sortBySize()));
 
     KToggleAction* sortByDate = actionCollection()->add<KToggleAction>("by_date");
-    sortByDate->setText(i18n("By Date"));
+    sortByDate->setText(i18nc("@action:inmenu Sort", "By Date"));
     connect(sortByDate, SIGNAL(triggered()), this, SLOT(sortByDate()));
 
     KToggleAction* sortByPermissions = actionCollection()->add<KToggleAction>("by_permissions");
-    sortByPermissions->setText(i18n("By Permissions"));
+    sortByPermissions->setText(i18nc("@action:inmenu Sort", "By Permissions"));
     connect(sortByPermissions, SIGNAL(triggered()), this, SLOT(sortByPermissions()));
 
     KToggleAction* sortByOwner = actionCollection()->add<KToggleAction>("by_owner");
-    sortByOwner->setText(i18n("By Owner"));
+    sortByOwner->setText(i18nc("@action:inmenu Sort", "By Owner"));
     connect(sortByOwner, SIGNAL(triggered()), this, SLOT(sortByOwner()));
 
     KToggleAction* sortByGroup = actionCollection()->add<KToggleAction>("by_group");
-    sortByGroup->setText(i18n("By Group"));
+    sortByGroup->setText(i18nc("@action:inmenu Sort", "By Group"));
     connect(sortByGroup, SIGNAL(triggered()), this, SLOT(sortByGroup()));
 
     KToggleAction* sortByType = actionCollection()->add<KToggleAction>("by_type");
-    sortByType->setText(i18n("By Type"));
+    sortByType->setText(i18nc("@action:inmenu Sort", "By Type"));
     connect(sortByType, SIGNAL(triggered()), this, SLOT(sortByType()));
 
     KToggleAction* sortByRating = actionCollection()->add<KToggleAction>("by_rating");
-    sortByRating->setText(i18n("By Rating"));
+    sortByRating->setText(i18nc("@action:inmenu Sort", "By Rating"));
 
     KToggleAction* sortByTags = actionCollection()->add<KToggleAction>("by_tags");
-    sortByTags->setText(i18n("By Tags"));
+    sortByTags->setText(i18nc("@action:inmenu Sort", "By Tags"));
 
 #ifdef HAVE_NEPOMUK
     if (MetaDataWidget::metaDataAvailable()) {
@@ -1219,27 +1223,27 @@ void DolphinMainWindow::setupActions()
     sortGroup->addAction(sortByTags);
 
     KToggleAction* sortDescending = actionCollection()->add<KToggleAction>("descending");
-    sortDescending->setText(i18n("Descending"));
+    sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
     KToggleAction* showInGroups = actionCollection()->add<KToggleAction>("show_in_groups");
-    showInGroups->setText(i18n("Show in Groups"));
+    showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
     connect(showInGroups, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
 
     KToggleAction* clearInfo = actionCollection()->add<KToggleAction>("clear_info");
-    clearInfo->setText(i18n("No Information"));
+    clearInfo->setText(i18nc("@action:inmenu Additional information", "No Information"));
     connect(clearInfo, SIGNAL(triggered()), this, SLOT(clearInfo()));
 
     KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18n("Type"));
+    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
     connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(showMimeInfo()));
 
     KToggleAction* showSizeInfo = actionCollection()->add<KToggleAction>("show_size_info");
-    showSizeInfo->setText(i18n("Size"));
+    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
     connect(showSizeInfo, SIGNAL(triggered()), this, SLOT(showSizeInfo()));
 
     KToggleAction* showDateInfo = actionCollection()->add<KToggleAction>("show_date_info");
-    showDateInfo->setText(i18n("Date"));
+    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
     connect(showDateInfo, SIGNAL(triggered()), this, SLOT(showDateInfo()));
 
     QActionGroup* infoGroup = new QActionGroup(this);
@@ -1249,12 +1253,12 @@ void DolphinMainWindow::setupActions()
     infoGroup->addAction(showDateInfo);
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
-    showPreview->setText(i18n("Preview"));
+    showPreview->setText(i18nc("@action:intoolbar", "Preview"));
     showPreview->setIcon(KIcon("fileview-preview"));
     connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
 
     KToggleAction* showHiddenFiles = actionCollection()->add<KToggleAction>("show_hidden_files");
-    showHiddenFiles->setText(i18n("Show Hidden Files"));
+    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
     showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
@@ -1264,13 +1268,13 @@ void DolphinMainWindow::setupActions()
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
     QAction* reload = actionCollection()->addAction("reload");
-    reload->setText(i18n("Reload"));
+    reload->setText(i18nc("@action:inmenu View", "Reload"));
     reload->setShortcut(Qt::Key_F5);
     reload->setIcon(KIcon("view-refresh"));
     connect(reload, SIGNAL(triggered()), this, SLOT(reloadView()));
 
     QAction* stop = actionCollection()->addAction("stop");
-    stop->setText(i18n("Stop"));
+    stop->setText(i18nc("@action:inmenu View", "Stop"));
     stop->setIcon(KIcon("process-stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
@@ -1278,17 +1282,17 @@ void DolphinMainWindow::setupActions()
     // changed, so that the corresponding showFullLocation action is updated. Also
     // the naming "Show full Location" is currently confusing...
     KToggleAction* showFullLocation = actionCollection()->add<KToggleAction>("editable_location");
-    showFullLocation->setText(i18n("Show Full Location"));
+    showFullLocation->setText(i18nc("@action:inmenu Navigation Bar", "Show Full Location"));
     showFullLocation->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(showFullLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
     QAction* editLocation = actionCollection()->addAction("edit_location");
-    editLocation->setText(i18n("Edit Location"));
+    editLocation->setText(i18nc("@action:inmenu Navigation Bar", "Edit Location"));
     editLocation->setShortcut(Qt::Key_F6);
     connect(editLocation, SIGNAL(triggered()), this, SLOT(editLocation()));
 
     QAction* adjustViewProps = actionCollection()->addAction("view_properties");
-    adjustViewProps->setText(i18n("Adjust View Properties..."));
+    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(adjustViewProperties()));
 
     // setup 'Go' menu
@@ -1299,18 +1303,18 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Tools' menu
     QAction* findFile = actionCollection()->addAction("find_file");
-    findFile->setText(i18n("Find File..."));
+    findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
     findFile->setShortcut(Qt::CTRL | Qt::Key_F);
     findFile->setIcon(KIcon("file-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(findFile()));
 
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
-    showFilterBar->setText(i18n("Show Filter Bar"));
+    showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
     connect(showFilterBar, SIGNAL(triggered()), this, SLOT(toggleFilterBarVisibility()));
 
     QAction* compareFiles = actionCollection()->addAction("compare_files");
-    compareFiles->setText(i18n("Compare Files"));
+    compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
     compareFiles->setIcon(KIcon("kompare"));
     compareFiles->setEnabled(false);
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
@@ -1322,13 +1326,13 @@ void DolphinMainWindow::setupActions()
 void DolphinMainWindow::setupDockWidgets()
 {
     // setup "Information"
-    QDockWidget* infoDock = new QDockWidget(i18n("Information"));
+    QDockWidget* infoDock = new QDockWidget(i18nc("@title:window", "Information"));
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     SidebarPage* infoWidget = new InfoSidebarPage(infoDock);
     infoDock->setWidget(infoWidget);
 
-    infoDock->toggleViewAction()->setText(i18n("Information"));
+    infoDock->toggleViewAction()->setText(i18nc("@title:window", "Information"));
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
@@ -1340,13 +1344,13 @@ void DolphinMainWindow::setupDockWidgets()
             infoWidget, SLOT(requestDelayedItemInfo(KUrl)));
 
     // setup "Tree View"
-    QDockWidget* treeViewDock = new QDockWidget(i18n("Folders"));
+    QDockWidget* treeViewDock = new QDockWidget(i18nc("@title:window", "Folders"));
     treeViewDock->setObjectName("treeViewDock");
     treeViewDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     TreeViewSidebarPage* treeWidget = new TreeViewSidebarPage(treeViewDock);
     treeViewDock->setWidget(treeWidget);
 
-    treeViewDock->toggleViewAction()->setText(i18n("Folders"));
+    treeViewDock->toggleViewAction()->setText(i18nc("@title:window", "Folders"));
     actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
@@ -1360,13 +1364,13 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(dropUrls(KUrl::List, KUrl)));
 
     // setup "Terminal"
-    QDockWidget* terminalDock = new QDockWidget(i18n("Terminal"));
+    QDockWidget* terminalDock = new QDockWidget(i18nc("@title:window", "Terminal"));
     terminalDock->setObjectName("terminalDock");
     terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
     SidebarPage* terminalWidget = new TerminalSidebarPage(terminalDock);
     terminalDock->setWidget(terminalWidget);
 
-    terminalDock->toggleViewAction()->setText(i18n("Terminal"));
+    terminalDock->toggleViewAction()->setText(i18nc("@title:window", "Terminal"));
     actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, terminalDock);
@@ -1380,14 +1384,14 @@ void DolphinMainWindow::setupDockWidgets()
         terminalDock->hide();
     }
 
-    QDockWidget *placesDock = new QDockWidget(i18n("Places"));
+    QDockWidget *placesDock = new QDockWidget(i18nc("@title:window", "Places"));
     placesDock->setObjectName("placesDock");
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     KFilePlacesView *listView = new KFilePlacesView(placesDock);
     placesDock->setWidget(listView);
     listView->setModel(DolphinSettings::instance().placesModel());
 
-    placesDock->toggleViewAction()->setText(i18n("Show Places Panel"));
+    placesDock->toggleViewAction()->setText(i18nc("@title:window", "Places"));
     actionCollection()->addAction("show_places_panel", placesDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
@@ -1573,10 +1577,10 @@ void DolphinMainWindow::updateSplitAction(bool isSplit)
 {
     QAction* splitAction = actionCollection()->action("split_view");
     if (isSplit) {
-        splitAction->setText(i18n("Join"));
+        splitAction->setText(i18nc("@action:intoolbar Join views", "Join"));
         splitAction->setIcon(KIcon("fileview-join"));
     } else {
-        splitAction->setText(i18n("Split"));
+        splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setIcon(KIcon("fileview-split"));
     }
 }
