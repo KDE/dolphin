@@ -44,7 +44,7 @@ FilterBar::FilterBar(QWidget* parent) :
     hLayout->setMargin(0);
     hLayout->addSpacing(gap);
 
-    m_filter = new QLabel(i18n("Filter:"), this);
+    m_filter = new QLabel(i18nc("@label:textbox", "Filter:"), this);
     hLayout->addWidget(m_filter);
     hLayout->addSpacing(KDialog::spacingHint());
 

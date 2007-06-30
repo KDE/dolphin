@@ -62,7 +62,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     KHBox* homeUrlBox = new KHBox(homeBox);
     homeUrlBox->setSpacing(spacing);
 
-    new QLabel(i18n("Location:"), homeUrlBox);
+    new QLabel(i18nc("@label:textbox", "Location:"), homeUrlBox);
     m_homeUrl = new QLineEdit(homeUrlBox);
 
     QPushButton* selectHomeUrlButton = new QPushButton(KIcon("folder-open"), QString(), homeUrlBox);

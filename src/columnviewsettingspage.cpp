@@ -73,7 +73,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     QGroupBox* textBox = new QGroupBox(i18nc("@title:group", "Text"), this);
     textBox->setSizePolicy(sizePolicy);
 
-    QLabel* fontLabel = new QLabel(i18n("Font:"), textBox);
+    QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textBox);
     m_fontRequester = new KFontRequester(textBox);
 
     QHBoxLayout* textLayout = new QHBoxLayout(textBox);

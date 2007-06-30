@@ -52,10 +52,10 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     if (m_renameOneItem) {
         const KUrl& url = items.first();
         m_newName = url.fileName();
-        editLabel = new QLabel(i18n("Rename the item '%1' to:", m_newName),
+        editLabel = new QLabel(i18nc("@label:textbox", "Rename the item <filename>%1</filename> to:", m_newName),
                                page);
     } else {
-        m_newName = i18n("New name #");
+        m_newName = i18nc("@info:status", "New name #");
         editLabel = new QLabel(i18np("Rename the %1 selected item to:",
                                      "Rename the %1 selected items to:", itemCount),
                                page);
@@ -98,7 +98,7 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     topLayout->addWidget(m_lineEdit);
 
     if (!m_renameOneItem) {
-        QLabel* infoLabel = new QLabel(i18n("(# will be replaced by ascending numbers)"), page);
+        QLabel* infoLabel = new QLabel(i18nc("@info", "(# will be replaced by ascending numbers)"), page);
         topLayout->addWidget(infoLabel);
     }
 }

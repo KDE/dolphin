@@ -66,7 +66,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     // create 'File Previews' box
     QGroupBox* previewBox = new QGroupBox(i18nc("@title:group", "File Previews"), this);
 
-    QLabel* maxFileSize = new QLabel(i18n("Maximum file size:"), previewBox);
+    QLabel* maxFileSize = new QLabel(i18nc("@label:slider", "Maximum file size:"), previewBox);
 
     KHBox* vBox = new KHBox(previewBox);
     vBox->setSpacing(spacing);

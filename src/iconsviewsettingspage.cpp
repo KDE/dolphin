@@ -68,13 +68,13 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
     textGroup->setSizePolicy(sizePolicy);
 
-    QLabel* fontLabel = new QLabel(i18n("Font:"), textGroup);
+    QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
     m_fontRequester = new KFontRequester(textGroup);
 
-    QLabel* textlinesCountLabel = new QLabel(i18n("Number of lines:"), textGroup);
+    QLabel* textlinesCountLabel = new QLabel(i18nc("@label:textbox", "Number of lines:"), textGroup);
     m_textlinesCountBox = new QSpinBox(1, 5, 1, textGroup);
 
-    QLabel* textWidthLabel = new QLabel(i18n("Text width:"), textGroup);
+    QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
     m_textWidthBox->addItem(i18nc("Text width", "Small"));
     m_textWidthBox->addItem(i18nc("Text width", "Medium"));
@@ -92,12 +92,12 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     QGroupBox* gridGroup = new QGroupBox(i18nc("@title:group", "Grid"), this);
     gridGroup->setSizePolicy(sizePolicy);
 
-    QLabel* arrangementLabel = new QLabel(i18n("Arrangement:"), gridGroup);
+    QLabel* arrangementLabel = new QLabel(i18nc("@label:listbox", "Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
     m_arrangementBox->addItem(i18n("Left to Right"));
     m_arrangementBox->addItem(i18n("Top to Bottom"));
 
-    QLabel* gridSpacingLabel = new QLabel(i18n("Grid spacing:"), gridGroup);
+    QLabel* gridSpacingLabel = new QLabel(i18nc("@label:listbox", "Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
     m_gridSpacingBox->addItem(i18nc("Grid spacing", "Small"));
     m_gridSpacingBox->addItem(i18nc("Grid spacing", "Medium"));

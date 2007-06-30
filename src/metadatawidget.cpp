@@ -91,13 +91,13 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
     QVBoxLayout* lay = new QVBoxLayout(this);
     lay->setMargin(0);
     QHBoxLayout* hbox = new QHBoxLayout;
-    hbox->addWidget(new QLabel(i18n("Rating:"), this));
+    hbox->addWidget(new QLabel(i18nc("@label:slider", "Rating:"), this));
     hbox->addStretch(1);
     hbox->addWidget(d->ratingWidget);
     lay->addLayout(hbox);
     lay->addWidget(d->editComment);
     hbox = new QHBoxLayout;
-    hbox->addWidget(new QLabel(i18n("Tags:"), this));
+    hbox->addWidget(new QLabel(i18nc("@label:textbox", "Tags:"), this));
     hbox->addWidget(d->tagWidget, 1);
     lay->addLayout(hbox);
 

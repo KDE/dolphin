@@ -86,7 +86,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         propsBox = new QGroupBox(i18nc("@title:group", "Properties"), main);
     }
 
-    QLabel* viewModeLabel = new QLabel(i18n("View mode:"), propsBox);
+    QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsBox);
     m_viewMode = new QComboBox(propsBox);
     m_viewMode->addItem(KIcon("fileview-icon"), i18n("Icons"));
     m_viewMode->addItem(KIcon("fileview-detailed"), i18n("Details"));
@@ -95,7 +95,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode->setCurrentIndex(index);
     const bool iconsViewEnabled = (index == DolphinView::IconsView);
 
-    QLabel* sortingLabel = new QLabel(i18n("Sorting:"), propsBox);
+    QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsBox);
     QWidget* sortingBox = new QWidget(propsBox);
 
     m_sortOrder = new QComboBox(sortingBox);
@@ -126,7 +126,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortingLayout->addWidget(m_sorting);
     sortingBox->setLayout(sortingLayout);
 
-    QLabel* additionalInfoLabel = new QLabel(i18n("Additional information:"), propsBox);
+    QLabel* additionalInfoLabel = new QLabel(i18nc("@label:listbox", "Additional information:"), propsBox);
     m_additionalInfo = new QComboBox(propsBox);
     m_additionalInfo->addItem(i18n("No Information"), KFileItemDelegate::NoInformation);
     m_additionalInfo->addItem(i18n("Type"), KFileItemDelegate::FriendlyMimeType);
