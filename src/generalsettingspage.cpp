@@ -57,7 +57,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     vBox->setSpacing(spacing);
 
     // create 'Home URL' editor
-    QGroupBox* homeBox = new QGroupBox(i18n("Home Folder"), vBox);
+    QGroupBox* homeBox = new QGroupBox(i18nc("@title:group", "Home Folder"), vBox);
 
     KHBox* homeUrlBox = new KHBox(homeBox);
     homeUrlBox->setSpacing(spacing);
@@ -83,12 +83,12 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     homeBoxLayout->addWidget(homeUrlBox);
     homeBoxLayout->addWidget(buttonBox);
 
-    QGroupBox* startBox = new QGroupBox(i18n("Startup Settings"), vBox);
+    QGroupBox* startBox = new QGroupBox(i18nc("@title:group", "Startup Settings"), vBox);
 
     // create 'Split view', 'Editable location' and 'Filter bar' checkboxes
-    m_splitView = new QCheckBox(i18n("Split view mode"), startBox);
-    m_editableUrl = new QCheckBox(i18n("Editable location bar"), startBox);
-    m_filterBar = new QCheckBox(i18n("Show filter bar"),startBox);
+    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), startBox);
+    m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), startBox);
+    m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"),startBox);
 
     QVBoxLayout* startBoxLayout = new QVBoxLayout(startBox);
     startBoxLayout->addWidget(m_splitView);
@@ -99,12 +99,14 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
     const KConfigGroup trashConfig(konqConfig, "Trash");
 
-    QGroupBox* confirmBox = new QGroupBox(i18n("Ask For Confirmation When"), vBox);
+    QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), vBox);
 
-    m_confirmMoveToTrash = new QCheckBox(i18n("Moving files or folders to trash"), confirmBox);
+    m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
+                                               "Moving files or folders to trash"), confirmBox);
     m_confirmMoveToTrash->setChecked(trashConfig.readEntry("ConfirmTrash", false));
 
-    m_confirmDelete = new QCheckBox(i18n("Deleting files or folders"), confirmBox);
+    m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
+                                          "Deleting files or folders"), confirmBox);
     m_confirmDelete->setChecked(trashConfig.readEntry("ConfirmDelete", true));
 
     QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
@@ -112,7 +114,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     confirmBoxLayout->addWidget(m_confirmDelete);
 
     // create 'Show the command 'Delete' in context menu' checkbox
-    m_showDeleteCommand = new QCheckBox(i18n("Show 'Delete' command in context menu"), vBox);
+    m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command in context menu"), vBox);
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     const KConfigGroup kdeConfig(globalConfig, "KDE");
     m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));

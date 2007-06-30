@@ -65,7 +65,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // create 'Text' group for selecting the font, the number of lines
     // and the text width
-    QGroupBox* textGroup = new QGroupBox(i18n("Text"), this);
+    QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
     textGroup->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18n("Font:"), textGroup);
@@ -89,7 +89,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     textGroupLayout->addWidget(m_textWidthBox, 2, 1);
 
     // create the 'Grid' group for selecting the arrangement and the grid spacing
-    QGroupBox* gridGroup = new QGroupBox(i18n("Grid"), this);
+    QGroupBox* gridGroup = new QGroupBox(i18nc("@title:group", "Grid"), this);
     gridGroup->setSizePolicy(sizePolicy);
 
     QLabel* arrangementLabel = new QLabel(i18n("Arrangement:"), gridGroup);

@@ -83,7 +83,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     // create 'Properties' group containing view mode, sorting, sort order and show hidden files
     QWidget* propsBox = main;
     if (!useGlobalViewProps) {
-        propsBox = new QGroupBox(i18n("Properties"), main);
+        propsBox = new QGroupBox(i18nc("@title:group", "Properties"), main);
     }
 
     QLabel* viewModeLabel = new QLabel(i18n("View mode:"), propsBox);
@@ -136,13 +136,13 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_additionalInfo->setCurrentIndex(addInfoIndex);
     m_additionalInfo->setEnabled(iconsViewEnabled);
 
-    m_showPreview = new QCheckBox(i18n("Show preview"), propsBox);
+    m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
     m_showPreview->setChecked(m_viewProps->showPreview());
 
-    m_showInGroups = new QCheckBox(i18n("Show in Groups"), propsBox);
+    m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in Groups"), propsBox);
     m_showInGroups->setChecked(m_viewProps->categorizedSorting());
 
-    m_showHiddenFiles = new QCheckBox(i18n("Show hidden files"), propsBox);
+    m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"), propsBox);
     m_showHiddenFiles->setChecked(m_viewProps->showHiddenFiles());
 
     QGridLayout* propsBoxLayout = new QGridLayout(propsBox);
@@ -180,12 +180,15 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     // for each directory:
     if (!useGlobalViewProps) {
         // create 'Apply View Properties To' group
-        QGroupBox* applyBox = new QGroupBox(i18n("Apply View Properties To"), main);
+        QGroupBox* applyBox = new QGroupBox(i18nc("@title:group", "Apply View Properties To"), main);
 
-        m_applyToCurrentFolder = new QRadioButton(i18n("Current folder"), applyBox);
+        m_applyToCurrentFolder = new QRadioButton(i18nc("@option:radio Apply View Properties To",
+                                                        "Current folder"), applyBox);
         m_applyToCurrentFolder->setChecked(true);
-        m_applyToSubFolders = new QRadioButton(i18n("Current folder including all sub folders"), applyBox);
-        m_applyToAllFolders = new QRadioButton(i18n("All folders"), applyBox);
+        m_applyToSubFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
+                                                     "Current folder including all sub folders"), applyBox);
+        m_applyToAllFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
+                                                     "All folders"), applyBox);
 
         QButtonGroup* applyGroup = new QButtonGroup(this);
         applyGroup->addButton(m_applyToCurrentFolder);
@@ -197,7 +200,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         applyBoxLayout->addWidget(m_applyToSubFolders);
         applyBoxLayout->addWidget(m_applyToAllFolders);
 
-        m_useAsDefault = new QCheckBox(i18n("Use as default for new folders"), main);
+        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use as default for new folders"), main);
 
         topLayout->addWidget(applyBox);
         topLayout->addWidget(m_useAsDefault);

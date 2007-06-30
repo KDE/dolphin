@@ -54,17 +54,17 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     setSpacing(spacing);
     setMargin(margin);
 
-    QGroupBox* propsBox = new QGroupBox(i18n("View Properties"), this);
+    QGroupBox* propsBox = new QGroupBox(i18nc("@title:group", "View Properties"), this);
 
-    m_localProps = new QRadioButton(i18n("Remember view properties for each folder"), propsBox);
-    m_globalProps = new QRadioButton(i18n("Use common view properties for all folders"), propsBox);
+    m_localProps = new QRadioButton(i18nc("@option:radio", "Remember view properties for each folder"), propsBox);
+    m_globalProps = new QRadioButton(i18nc("@option:radio", "Use common view properties for all folders"), propsBox);
 
     QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
     propsBoxLayout->addWidget(m_localProps);
     propsBoxLayout->addWidget(m_globalProps);
 
     // create 'File Previews' box
-    QGroupBox* previewBox = new QGroupBox(i18n("File Previews"), this);
+    QGroupBox* previewBox = new QGroupBox(i18nc("@title:group", "File Previews"), this);
 
     QLabel* maxFileSize = new QLabel(i18n("Maximum file size:"), previewBox);
 

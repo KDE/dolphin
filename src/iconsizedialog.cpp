@@ -57,7 +57,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     QHBoxLayout* topLayout = new QHBoxLayout();
 
     // create 'Icon Size' group including slider and preview
-    QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), main);
+    QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), main);
 
     const QColor iconBackgroundColor = KColorScheme(KColorScheme::View).background();
 
@@ -82,7 +82,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     iconSizeLayout->addWidget(m_iconSizeViewer);
 
     // create 'Preview Size' group including slider and preview
-    QGroupBox* previewSizeBox = new QGroupBox(i18n("Preview Size"), main);
+    QGroupBox* previewSizeBox = new QGroupBox(i18nc("@title:group", "Preview Size"), main);
 
     KHBox* previewSizeHBox = new KHBox(previewSizeBox);
     previewSizeHBox->setSpacing(spacing);

@@ -56,14 +56,14 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     setMargin(margin);
 
     // create "Columns" properties
-    QGroupBox* columnsBox = new QGroupBox(i18n("Columns"), this);
+    QGroupBox* columnsBox = new QGroupBox(i18nc("@title:group", "Columns"), this);
     columnsBox->setSizePolicy(sizePolicy);
 
-    m_dateBox = new QCheckBox(i18n("Date"), this);
-    m_permissionsBox = new QCheckBox(i18n("Permissions"), this);
-    m_ownerBox = new QCheckBox(i18n("Owner"), this);
-    m_groupBox = new QCheckBox(i18n("Group"), this);
-    m_typeBox = new QCheckBox(i18n("Type"), this);
+    m_dateBox = new QCheckBox(i18nc("@option:check Columns", "Date"), this);
+    m_permissionsBox = new QCheckBox(i18nc("@option:check Columns", "Permissions"), this);
+    m_ownerBox = new QCheckBox(i18nc("@option:check Columns", "Owner"), this);
+    m_groupBox = new QCheckBox(i18nc("@option:check Columns", "Group"), this);
+    m_typeBox = new QCheckBox(i18nc("@option:check Columns", "Type"), this);
 
     QHBoxLayout* columnsLayout = new QHBoxLayout(columnsBox);
     columnsLayout->addWidget(m_dateBox);
@@ -73,12 +73,12 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     columnsLayout->addWidget(m_typeBox);
 
     // Create "Icon" properties
-    QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), this);
+    QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), this);
     iconSizeBox->setSizePolicy(sizePolicy);
 
-    m_smallIconSize  = new QRadioButton(i18nc("Size", "Small"), this);
-    m_mediumIconSize = new QRadioButton(i18nc("Size", "Medium"), this);
-    m_largeIconSize  = new QRadioButton(i18nc("Size", "Large"), this);
+    m_smallIconSize  = new QRadioButton(i18nc("@option:radio Size", "Small"), this);
+    m_mediumIconSize = new QRadioButton(i18nc("@option:radio Size", "Medium"), this);
+    m_largeIconSize  = new QRadioButton(i18nc("@option:radio Size", "Large"), this);
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
     iconSizeGroup->addButton(m_smallIconSize);
@@ -91,7 +91,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     iconSizeLayout->addWidget(m_largeIconSize);
 
     // create "Text" properties
-    QGroupBox* textBox = new QGroupBox(i18n("Text"), this);
+    QGroupBox* textBox = new QGroupBox(i18nc("@title:group", "Text"), this);
     textBox->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18n("Font:"), textBox);

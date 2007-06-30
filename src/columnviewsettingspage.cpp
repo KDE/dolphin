@@ -52,12 +52,12 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     setMargin(margin);
 
     // Create 'Icon' properties
-    QGroupBox* iconSizeBox = new QGroupBox(i18n("Icon Size"), this);
+    QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), this);
     iconSizeBox->setSizePolicy(sizePolicy);
 
-    m_smallIconSize  = new QRadioButton(i18nc("Size", "Small"), this);
-    m_mediumIconSize = new QRadioButton(i18nc("Size", "Medium"), this);
-    m_largeIconSize  = new QRadioButton(i18nc("Size", "Large"), this);
+    m_smallIconSize  = new QRadioButton(i18nc("@option:radio Size", "Small"), this);
+    m_mediumIconSize = new QRadioButton(i18nc("@option:radio Size", "Medium"), this);
+    m_largeIconSize  = new QRadioButton(i18nc("@option:radio Size", "Large"), this);
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
     iconSizeGroup->addButton(m_smallIconSize);
@@ -70,7 +70,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     iconSizeLayout->addWidget(m_largeIconSize);
 
     // create "Text" properties
-    QGroupBox* textBox = new QGroupBox(i18n("Text"), this);
+    QGroupBox* textBox = new QGroupBox(i18nc("@title:group", "Text"), this);
     textBox->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18n("Font:"), textBox);
