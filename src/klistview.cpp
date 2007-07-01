@@ -169,16 +169,14 @@ QRect KListView::Private::visualRectInViewport(const QModelIndex &index) const
     retRect.setLeft(retRect.left() + column * listView->spacing() +
                     column * itemWidth);
 
-    float rows;
-    int rowsInt;
     foreach (const QString &category, categories)
     {
         if (category == curCategory)
             break;
 
-        rows = (float) ((float) categoriesIndexes[category].count() /
-                        (float) elementsPerRow);
-        rowsInt = categoriesIndexes[category].count() / elementsPerRow;
+        float rows = (float) ((float) categoriesIndexes[category].count() /
+                              (float) elementsPerRow);
+        int rowsInt = categoriesIndexes[category].count() / elementsPerRow;
 
         if (rows - trunc(rows)) rowsInt++;
 
@@ -226,16 +224,14 @@ QRect KListView::Private::visualCategoryRectInViewport(const QString &category)
     if (!elementsPerRow)
         elementsPerRow++;
 
-    float rows;
-    int rowsInt;
     foreach (const QString &itCategory, categories)
     {
         if (itCategory == category)
             break;
 
-        rows = (float) ((float) categoriesIndexes[itCategory].count() /
-                        (float) elementsPerRow);
-        rowsInt = categoriesIndexes[itCategory].count() / elementsPerRow;
+        float rows = (float) ((float) categoriesIndexes[itCategory].count() /
+                              (float) elementsPerRow);
+        int rowsInt = categoriesIndexes[itCategory].count() / elementsPerRow;
 
         if (rows - trunc(rows)) rowsInt++;
 
