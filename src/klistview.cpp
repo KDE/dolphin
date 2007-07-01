@@ -399,25 +399,29 @@ void KListView::Private::drawDraggedItems(QPainter *painter)
         option.rect = visualRect(index);
         option.rect.adjust(dx, dy, dx, dy);
 
-        listView->itemDelegate(index)->paint(painter, option, index);
+        if (option.rect.intersects(listView->viewport()->rect()))
+        {
+            listView->itemDelegate(index)->paint(painter, option, index);
+        }
     }
 }
 
 void KListView::Private::drawDraggedItems()
 {
-    int dx;
-    int dy;
     QRect rectToUpdate;
     QRect currentRect;
     foreach (const QModelIndex &index, listView->selectionModel()->selectedIndexes())
     {
-        dx = mousePosition.x() - initialPressPosition.x() + listView->horizontalOffset();
-        dy = mousePosition.y() - initialPressPosition.y() + listView->verticalOffset();
+        int dx = mousePosition.x() - initialPressPosition.x() + listView->horizontalOffset();
+        int dy = mousePosition.y() - initialPressPosition.y() + listView->verticalOffset();
 
         currentRect = visualRect(index);
         currentRect.adjust(dx, dy, dx, dy);
 
-        rectToUpdate = rectToUpdate.united(currentRect);
+        if (currentRect.intersects(listView->viewport()->rect()))
+        {
+            rectToUpdate = rectToUpdate.united(currentRect);
+        }
     }
 
     listView->viewport()->update(lastDraggedItemsRect);
