@@ -13,6 +13,7 @@ set(dolphinprivate_LIB_SRCS
     dolphincontroller.cpp
     dolphindetailsview.cpp
     dolphiniconsview.cpp
+    dolphincolumnview.cpp
     dolphinitemcategorizer.cpp
     klistview.cpp
     ksortfilterproxymodel.cpp
@@ -20,6 +21,7 @@ set(dolphinprivate_LIB_SRCS
     viewproperties.cpp
     dolphinsortfilterproxymodel.cpp
     renamedialog.cpp
+    dolphinview.cpp
     )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
@@ -51,15 +53,31 @@ install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )
 
 ##########################################
 
+set(dolphinpart_SRCS
+   dolphinpart.cpp
+)
+
+kde4_automoc(${dolphinpart_SRCS})
+
+kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
+
+target_link_libraries(dolphinpart dolphinprivate)
+
+install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR} )
+
+install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart )
+install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+
+
+##########################################
+
 set(dolphin_SRCS
    applyviewpropsjob.cpp
    columnviewsettingspage.cpp
    detailsviewsettingspage.cpp
    dolphinapplication.cpp
-   dolphincolumnview.cpp
    dolphinmainwindow.cpp
    dolphinnewmenu.cpp
-   dolphinview.cpp
    dolphinviewcontainer.cpp
    dolphinstatusbar.cpp
    dolphindirlister.cpp

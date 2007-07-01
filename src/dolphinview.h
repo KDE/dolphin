@@ -24,6 +24,8 @@
 
 #include <config-nepomuk.h>
 
+#include "libdolphin_export.h"
+
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
@@ -62,7 +64,7 @@ class ViewProperties;
  * @see DolphinDetailsView
  * @see DolphinColumnView
  */
-class DolphinView : public QWidget
+class LIBDOLPHINPRIVATE_EXPORT DolphinView : public QWidget
 {
     Q_OBJECT
 

@@ -82,7 +82,7 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
 
         Q_ASSERT(m_dirModel == 0);
-        m_dirModel = new KDirModel();
+        m_dirModel = new KDirModel(this);
         m_dirModel->setDirLister(m_dirLister);
         m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
 

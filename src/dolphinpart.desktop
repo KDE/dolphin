@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Service
+Name=Dolphin Part
+MimeType=inode/directory
+ServiceTypes=KParts/ReadOnlyPart,Browser/View
+X-KDE-Library=dolphinpart
+X-KDE-BrowserView-Args=Icon
+X-KDE-BrowserView-HideFromMenus=true
+X-KDE-BrowserView-Built-Into=konqueror
+Icon=view_icon
+InitialPreference=7
