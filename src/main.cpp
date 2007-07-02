@@ -24,34 +24,30 @@
 #include <kcmdlineargs.h>
 #include <klocale.h>
 
-static KCmdLineOptions options[] =
-    {
-        { "+[Url]", I18N_NOOP("Document to open"), 0
-        },
-        KCmdLineLastOption
-    };
-
 int main(int argc, char **argv)
 {
-    KAboutData about("dolphin",
-                     I18N_NOOP("Dolphin"),
+    KAboutData about("dolphin", 0,
+                     ki18n("Dolphin"),
                      "0.9.0",
-                     I18N_NOOP("File Manager"),
+                     ki18n("File Manager"),
                      KAboutData::License_GPL,
-                     "(C) 2006 Peter Penz");
+                     ki18n("(C) 2006 Peter Penz"));
     about.setHomepage("http://enzosworld.gmxhome.de");
     about.setBugAddress("peter.penz@gmx.at");
-    about.addAuthor("Peter Penz", I18N_NOOP("Maintainer and developer"), "peter.penz@gmx.at");
-    about.addAuthor("Cvetoslav Ludmiloff", I18N_NOOP("Developer"), "ludmiloff@gmail.com");
-    about.addAuthor("Stefan Monov", I18N_NOOP("Developer"), "logixoul@gmail.com");
-    about.addAuthor("Michael Austin", I18N_NOOP("Documentation"), "tuxedup@users.sourceforge.net");
-    about.addAuthor("Orville Bennett", I18N_NOOP("Documentation"), "obennett@hartford.edu");
-    about.addCredit("Aaron J. Seigo", I18N_NOOP("... for the great support and the amazing patches"));
-    about.addCredit("Patrice Tremblay and Gregor Kalisnik", I18N_NOOP("... for their patches"));
-    about.addCredit("Ain, Itai, Ivan, Stephane, Patrice, Piotr and Stefano",
-                    I18N_NOOP("... for their translations"));
+    about.addAuthor(ki18n("Peter Penz"), ki18n("Maintainer and developer"), "peter.penz@gmx.at");
+    about.addAuthor(ki18n("Cvetoslav Ludmiloff"), ki18n("Developer"), "ludmiloff@gmail.com");
+    about.addAuthor(ki18n("Stefan Monov"), ki18n("Developer"), "logixoul@gmail.com");
+    about.addAuthor(ki18n("Michael Austin"), ki18n("Documentation"), "tuxedup@users.sourceforge.net");
+    about.addAuthor(ki18n("Orville Bennett"), ki18n("Documentation"), "obennett@hartford.edu");
+    about.addCredit(ki18n("Aaron J. Seigo"), ki18n("... for the great support and the amazing patches"));
+    about.addCredit(ki18n("Patrice Tremblay and Gregor Kalisnik"), ki18n("... for their patches"));
+    about.addCredit(ki18n("Ain, Itai, Ivan, Stephane, Patrice, Piotr and Stefano"),
+                    ki18n("... for their translations"));
 
     KCmdLineArgs::init(argc, argv, &about);
+
+    KCmdLineOptions options;
+    options.add("+[Url]", ki18n("Document to open"));
     KCmdLineArgs::addCmdLineOptions(options);
 
     if (!DolphinApplication::start()) {

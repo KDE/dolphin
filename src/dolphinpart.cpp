@@ -60,7 +60,7 @@ DolphinPart::~DolphinPart()
 
 KAboutData* DolphinPart::createAboutData()
 {
-    return new KAboutData("dolphinpart", I18N_NOOP( "Dolphin Part" ), "0.1");
+    return new KAboutData("dolphinpart", 0, ki18n( "Dolphin Part" ), "0.1");
 }
 
 bool DolphinPart::openUrl(const KUrl& url)
