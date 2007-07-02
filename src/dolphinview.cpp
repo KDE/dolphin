@@ -803,13 +803,13 @@ void DolphinView::showHoverInformation(const QModelIndex& index)
 
     const KFileItem* item = fileItem(index);
     if (item != 0) {
-        emit requestItemInfo(item->url());
+        emit requestItemInfo(*item);
     }
 }
 
 void DolphinView::clearHoverInformation()
 {
-    emit requestItemInfo(KUrl());
+    emit requestItemInfo(KFileItem());
 }
 
 

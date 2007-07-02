@@ -344,9 +344,9 @@ signals:
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
-     * It the URL is empty, no item information request is pending.
+     * If item is null, no item information request is pending.
      */
-    void requestItemInfo(const KUrl& url);
+    void requestItemInfo(const KFileItem& item);
 
     /** Is emitted if the contents has been moved to \a x, \a y. */
     void contentsMoved(int x, int y);

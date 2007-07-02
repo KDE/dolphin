@@ -148,9 +148,9 @@ signals:
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
-     * It the URL is empty, no item information request is pending.
+     * If item is null, no item information request is pending.
      */
-    void requestItemInfo(const KUrl& url);
+    void requestItemInfo(const KFileItem& item);
 
 protected:
     /** @see QMainWindow::closeEvent */
@@ -407,7 +407,7 @@ private slots:
     void slotSelectionChanged(const KFileItemList& selection);
 
     /** Emits the signal requestItemInfo(). */
-    void slotRequestItemInfo(const KUrl& url);
+    void slotRequestItemInfo(const KFileItem&);
 
     /**
      * Updates the state of the 'Back' and 'Forward' menu

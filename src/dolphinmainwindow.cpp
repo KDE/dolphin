@@ -366,9 +366,9 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
     emit selectionChanged(selection);
 }
 
-void DolphinMainWindow::slotRequestItemInfo(const KUrl& url)
+void DolphinMainWindow::slotRequestItemInfo(const KFileItem& item)
 {
-    emit requestItemInfo(url);
+    emit requestItemInfo(item);
 }
 
 void DolphinMainWindow::slotHistoryChanged()
@@ -1340,8 +1340,8 @@ void DolphinMainWindow::setupDockWidgets()
             infoWidget, SLOT(setUrl(KUrl)));
     connect(this, SIGNAL(selectionChanged(KFileItemList)),
             infoWidget, SLOT(setSelection(KFileItemList)));
-    connect(this, SIGNAL(requestItemInfo(KUrl)),
-            infoWidget, SLOT(requestDelayedItemInfo(KUrl)));
+    connect(this, SIGNAL(requestItemInfo(KFileItem)),
+            infoWidget, SLOT(requestDelayedItemInfo(KFileItem)));
 
     // setup "Tree View"
     QDockWidget* treeViewDock = new QDockWidget(i18nc("@title:window", "Folders"));
@@ -1561,8 +1561,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation)));
     connect(view, SIGNAL(selectionChanged(KFileItemList)),
             this, SLOT(slotSelectionChanged(KFileItemList)));
-    connect(view, SIGNAL(requestItemInfo(KUrl)),
-            this, SLOT(slotRequestItemInfo(KUrl)));
+    connect(view, SIGNAL(requestItemInfo(KFileItem)),
+            this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),
             this, SLOT(toggleActiveView()));
 

@@ -21,6 +21,8 @@
 #define DOLPHINPART_H
 
 #include <kparts/part.h>
+class KFileItem;
+class DolphinPartBrowserExtension;
 class DolphinSortFilterProxyModel;
 class KDirModel;
 class KDirLister;
@@ -44,11 +46,19 @@ public:
 protected:
     virtual bool openFile() { return true; }
 
+private Q_SLOTS:
+    void slotCompleted(const KUrl& url);
+    void slotCanceled(const KUrl& url);
+    void slotInfoMessage(const QString& msg);
+    void slotErrorMessage(const QString& msg);
+    void slotRequestItemInfo(const KFileItem& item);
+
 private:
     DolphinView* m_view;
     KDirLister* m_dirLister;
     KDirModel* m_dirModel;
     DolphinSortFilterProxyModel* m_proxyModel;
+    DolphinPartBrowserExtension* m_extension;
     Q_DISABLE_COPY(DolphinPart)
 };
 
