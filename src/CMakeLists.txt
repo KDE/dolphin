@@ -114,7 +114,7 @@ qt4_add_dbus_adaptor(dolphin_SRCS
    dolphinmainwindow.h DolphinMainWindow)
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
-target_link_libraries(dolphin  ${KDE4_KDECORE_LIBS} ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} konq dolphinprivate)
+target_link_libraries(dolphin  ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} konq dolphinprivate)
 
 if (Nepomuk_FOUND)
   target_link_libraries(dolphin ${NEPOMUK_LIBRARIES})
