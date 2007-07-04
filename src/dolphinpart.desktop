@@ -2,6 +2,9 @@
 Encoding=UTF-8
 Type=Service
 Name=Dolphin Part
+Name[el]=Τμήμα Dolphin
+Name[nds]=Dolphin-Komponent
+Name[nl]=Dolphin-onderdeel
 Name[pt]=Componente do Dolphin
 Name[pt_BR]=Componente do Dolphin
 Name[sv]=Dolphin-delprogram
