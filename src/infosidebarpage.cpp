@@ -160,12 +160,15 @@ void InfoSidebarPage::showItemInfo()
     const KFileItemList& selectedItems = selection();
 
     KUrl file;
-    const int itemCount = selectedItems.count();
-    if (selectedItems.count() == 0) {
+    if (selectedItems.isEmpty()) {
         file = m_shownUrl;
     } else {
         file = selectedItems[0]->url();
     }
+    if (!file.isValid()) {
+        return;
+    }
+    const int itemCount = selectedItems.count();
     if (itemCount > 1) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("exec",
