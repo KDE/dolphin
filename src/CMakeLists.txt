@@ -41,7 +41,7 @@ macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
-target_link_libraries(dolphinprivate ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} konq)
+target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq)
 if (Nepomuk_FOUND)
   target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES})
 endif (Nepomuk_FOUND)
