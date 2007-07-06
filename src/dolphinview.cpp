@@ -465,18 +465,11 @@ void DolphinView::triggerItem(const QModelIndex& index)
         return;
     }
 
-    // Prefer the local path over the URL. This assures that the
-    // volume space information is correct. Assuming that the URL is media:/sda1,
-    // and the local path is /windows/C: For the URL the space info is related
-    // to the root partition (and hence wrong) and for the local path the space
-    // info is related to the windows partition (-> correct).
-    const QString localPath(item->localPath());
-    KUrl url;
-    if (localPath.isEmpty()) {
-        url = item->url();
-    } else {
-        url = localPath;
-    }
+    // The stuff below should be moved to ViewContainer and be just a signal?
+
+    // Prefer the local path over the URL.
+    bool isLocal;
+    KUrl url = item->mostLocalUrl(isLocal);
 
     if (item->isDir()) {
         setUrl(url);
