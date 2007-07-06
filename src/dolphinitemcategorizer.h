@@ -31,7 +31,10 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinItemCategorizer : public KItemCategorizer
 public:
     DolphinItemCategorizer();
     virtual ~DolphinItemCategorizer();
-    virtual QString categoryForItem(const QModelIndex &index, int sortRole);
+    virtual QString categoryForItem(const QModelIndex &index, int sortRole) const;
+    virtual void drawCategory(const QModelIndex &index, int sortRole,
+                              const QStyleOption &option, QPainter *painter) const;
+    virtual int categoryHeight(const QStyleOption &option) const;
 };
 
 #endif // DOLPHINITEMCATEGORIZER_H

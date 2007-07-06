@@ -146,7 +146,7 @@ QRect KListView::Private::visualRectInViewport(const QModelIndex &index) const
     QString curCategory = elementsInfo[index].category;
 
     QRect retRect(listView->spacing(), listView->spacing() * 2 +
-                       30 /* categoryHeight */, 0, 0);
+                  itemCategorizer->categoryHeight(listView->viewOptions()), 0, 0);
 
     int viewportWidth = listView->viewport()->width() - listView->spacing();
 
@@ -183,7 +183,7 @@ QRect KListView::Private::visualRectInViewport(const QModelIndex &index) const
         retRect.setTop(retRect.top() +
                        (rowsInt * listView->spacing()) +
                        (rowsInt * itemHeight) +
-                       30 /* categoryHeight */ +
+                       itemCategorizer->categoryHeight(listView->viewOptions()) +
                        listView->spacing() * 2);
     }
 
@@ -238,11 +238,11 @@ QRect KListView::Private::visualCategoryRectInViewport(const QString &category)
         retRect.setTop(retRect.top() +
                        (rowsInt * listView->spacing()) +
                        (rowsInt * itemHeight) +
-                       30 /* categoryHeight */ +
+                       itemCategorizer->categoryHeight(listView->viewOptions()) +
                        listView->spacing() * 2);
     }
 
-    retRect.setHeight(30 /* categoryHeight */);
+    retRect.setHeight(itemCategorizer->categoryHeight(listView->viewOptions()));
 
     return retRect;
 }
@@ -311,69 +311,23 @@ QRect KListView::Private::categoryVisualRect(const QString &category)
     return retRect;
 }
 
-void KListView::Private::drawNewCategory(const QString &category,
+void KListView::Private::drawNewCategory(const QModelIndex &index,
+                                         int sortRole,
                                          const QStyleOption &option,
                                          QPainter *painter)
 {
-    QColor color = option.palette.color(QPalette::Text);
-
-    painter->save();
-    painter->setRenderHint(QPainter::Antialiasing);
-
-    QStyleOptionButton opt;
-
-    opt.rect = option.rect;
-    opt.palette = option.palette;
-    opt.direction = option.direction;
-    opt.text = category;
+    QStyleOption optionCopy = option;
+    const QString category = itemCategorizer->categoryForItem(index, sortRole);
 
     if ((category == hoveredCategory) && !mouseButtonPressed)
     {
-        const QPalette::ColorGroup group =
-                                          option.state & QStyle::State_Enabled ?
-                                          QPalette::Normal : QPalette::Disabled;
-
-        QLinearGradient gradient(option.rect.topLeft(),
-                                 option.rect.bottomRight());
-        gradient.setColorAt(0,
-                            option.palette.color(group,
-                                                 QPalette::Highlight).light());
-        gradient.setColorAt(1, Qt::transparent);
-
-        painter->fillRect(option.rect, gradient);
+        optionCopy.state |= QStyle::State_MouseOver;
     }
 
-    /*if (const KStyle *style = dynamic_cast<const KStyle*>(QApplication::style()))
-        {
-        style->drawControl(KStyle::CE_Category, &opt, painter, this);
-        }
-    else
-    {*/
-        QFont painterFont = painter->font();
-        painterFont.setWeight(QFont::Bold);
-        QFontMetrics metrics(painterFont);
-        painter->setFont(painterFont);
-
-        QPainterPath path;
-        path.addRect(option.rect.left(),
-                     option.rect.bottom() - 2,
-                     option.rect.width(),
-                     2);
-
-        QLinearGradient gradient(option.rect.topLeft(),
-                                 option.rect.bottomRight());
-        gradient.setColorAt(0, color);
-        gradient.setColorAt(1, Qt::transparent);
-
-        painter->setBrush(gradient);
-        painter->fillPath(path, gradient);
-
-        painter->setPen(color);
-
-        painter->drawText(option.rect, Qt::AlignVCenter | Qt::AlignLeft,
-             metrics.elidedText(category, Qt::ElideRight, option.rect.width()));
-    //}
-    painter->restore();
+    itemCategorizer->drawCategory(index,
+                                  sortRole,
+                                  optionCopy,
+                                  painter);
 }
 
 
@@ -424,11 +378,9 @@ void KListView::Private::drawDraggedItems()
         }
     }
 
-    listView->viewport()->update(lastDraggedItemsRect);
+    listView->viewport()->update(lastDraggedItemsRect.united(rectToUpdate));
 
     lastDraggedItemsRect = rectToUpdate;
-
-    listView->viewport()->update(rectToUpdate);
 }
 
 
@@ -448,6 +400,21 @@ KListView::~KListView()
 
 void KListView::setModel(QAbstractItemModel *model)
 {
+    d->lastSelection = QItemSelection();
+    d->currentViewIndex = QModelIndex();
+    d->forcedSelectionPosition = 0;
+    d->elementsInfo.clear();
+    d->elementsPosition.clear();
+    d->elementDictionary.clear();
+    d->invertedElementDictionary.clear();
+    d->categoriesIndexes.clear();
+    d->categoriesPosition.clear();
+    d->categories.clear();
+    d->intersectedIndexes.clear();
+    d->sourceModelIndexList.clear();
+    d->hovered = QModelIndex();
+    d->mouseButtonPressed = false;
+
     if (d->proxyModel)
     {
         QObject::disconnect(d->proxyModel,
@@ -498,6 +465,21 @@ KItemCategorizer *KListView::itemCategorizer() const
 
 void KListView::setItemCategorizer(KItemCategorizer *itemCategorizer)
 {
+    d->lastSelection = QItemSelection();
+    d->currentViewIndex = QModelIndex();
+    d->forcedSelectionPosition = 0;
+    d->elementsInfo.clear();
+    d->elementsPosition.clear();
+    d->elementDictionary.clear();
+    d->invertedElementDictionary.clear();
+    d->categoriesIndexes.clear();
+    d->categoriesPosition.clear();
+    d->categories.clear();
+    d->intersectedIndexes.clear();
+    d->sourceModelIndexList.clear();
+    d->hovered = QModelIndex();
+    d->mouseButtonPressed = false;
+
     if (!itemCategorizer && d->proxyModel)
     {
         QObject::disconnect(d->proxyModel,
@@ -557,15 +539,13 @@ void KListView::reset()
 {
     QListView::reset();
 
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
-        !d->itemCategorizer)
-    {
-        return;
-    }
-
+    d->lastSelection = QItemSelection();
+    d->currentViewIndex = QModelIndex();
+    d->forcedSelectionPosition = 0;
     d->elementsInfo.clear();
     d->elementsPosition.clear();
     d->elementDictionary.clear();
+    d->invertedElementDictionary.clear();
     d->categoriesIndexes.clear();
     d->categoriesPosition.clear();
     d->categories.clear();
@@ -635,6 +615,22 @@ void KListView::paintEvent(QPaintEvent *event)
         itemDelegate(index)->paint(&painter, option, index);
     }
 
+    // Redraw categories
+    int i = 0;
+    QStyleOptionViewItem otherOption;
+    foreach (const QString &category, d->categories)
+    {
+        otherOption = option;
+        otherOption.rect = d->categoryVisualRect(category);
+        otherOption.state &= ~QStyle::State_MouseOver;
+
+        if (otherOption.rect.intersects(area))
+        {
+            d->drawNewCategory(d->categoriesIndexes[category][0],
+                               d->proxyModel->sortRole(), otherOption, &painter);
+        }
+    }
+
     if (d->mouseButtonPressed && !d->isDragging)
     {
         QPoint start, end, initialPressPosition;
@@ -666,19 +662,6 @@ void KListView::paintEvent(QPaintEvent *event)
         painter.restore();
     }
 
-    // Redraw categories
-    QStyleOptionViewItem otherOption;
-    foreach (const QString &category, d->categories)
-    {
-        otherOption = option;
-        otherOption.rect = d->categoryVisualRect(category);
-
-        if (otherOption.rect.intersects(area))
-        {
-            d->drawNewCategory(category, otherOption, &painter);
-        }
-    }
-
     if (d->isDragging && !d->dragLeftViewport)
     {
         painter.setOpacity(0.5);
@@ -692,15 +675,16 @@ void KListView::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
 
+    // Clear the items positions cache
+    d->elementsPosition.clear();
+    d->categoriesPosition.clear();
+    d->forcedSelectionPosition = 0;
+
     if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
     }
-
-    // Clear the items positions cache
-    d->elementsPosition.clear();
-    d->categoriesPosition.clear();
 
     d->updateScrollbars();
 }
@@ -726,6 +710,7 @@ void KListView::setSelection(const QRect &rect,
     }
 
     QModelIndexList dirtyIndexes = d->intersectionSet(rect);
+
     QItemSelection selection;
 
     if (!dirtyIndexes.count())
@@ -741,6 +726,7 @@ void KListView::setSelection(const QRect &rect,
     if (!d->mouseButtonPressed)
     {
         selection = QItemSelection(dirtyIndexes[0], dirtyIndexes[0]);
+        d->currentViewIndex = dirtyIndexes[0];
     }
     else
     {
@@ -786,6 +772,8 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
         return;
     }
 
+    const QString previousHoveredCategory = d->hoveredCategory;
+
     d->mousePosition = event->pos();
     d->hoveredCategory = QString();
 
@@ -795,9 +783,13 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
         if (d->categoryVisualRect(category).intersects(QRect(event->pos(), event->pos())))
         {
             d->hoveredCategory = category;
+            viewport()->update(d->categoryVisualRect(category));
         }
-
-        viewport()->update(d->categoryVisualRect(category));
+        else if ((category == previousHoveredCategory) &&
+                 (!d->categoryVisualRect(previousHoveredCategory).intersects(QRect(event->pos(), event->pos()))))
+        {
+            viewport()->update(d->categoryVisualRect(category));
+        }
     }
 
     QRect rect;
@@ -822,11 +814,9 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
             end = d->mousePosition;
         }
 
-        viewport()->update(d->lastSelectionRect);
-
         rect = QRect(start, end).intersected(viewport()->rect().adjusted(-16, -16, 16, 16));
 
-        viewport()->update(rect);
+        //viewport()->update(rect.united(d->lastSelectionRect));
 
         d->lastSelectionRect = rect;
     }
@@ -834,14 +824,6 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
 
 void KListView::mousePressEvent(QMouseEvent *event)
 {
-    QListView::mousePressEvent(event);
-
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
-        !d->itemCategorizer)
-    {
-        return;
-    }
-
     d->dragLeftViewport = false;
 
     if (event->button() == Qt::LeftButton)
@@ -854,10 +836,14 @@ void KListView::mousePressEvent(QMouseEvent *event)
         d->initialPressPosition.setX(d->initialPressPosition.x() +
                                                             horizontalOffset());
     }
+
+    QListView::mousePressEvent(event);
 }
 
 void KListView::mouseReleaseEvent(QMouseEvent *event)
 {
+    d->mouseButtonPressed = false;
+
     QListView::mouseReleaseEvent(event);
 
     if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
@@ -865,8 +851,6 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
     {
         return;
     }
-
-    d->mouseButtonPressed = false;
 
     QPoint initialPressPosition = viewport()->mapFromGlobal(QCursor::pos());
     initialPressPosition.setY(initialPressPosition.y() + verticalOffset());
@@ -902,16 +886,10 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
 
 void KListView::leaveEvent(QEvent *event)
 {
-    QListView::leaveEvent(event);
-
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
-        !d->itemCategorizer)
-    {
-        return;
-    }
-
     d->hovered = QModelIndex();
     d->hoveredCategory = QString();
+
+    QListView::leaveEvent(event);
 }
 
 void KListView::startDrag(Qt::DropActions supportedActions)
@@ -920,17 +898,12 @@ void KListView::startDrag(Qt::DropActions supportedActions)
 
     d->isDragging = false;
     d->mouseButtonPressed = false;
+
+    viewport()->update(d->lastDraggedItemsRect);
 }
 
 void KListView::dragMoveEvent(QDragMoveEvent *event)
 {
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
-        !d->itemCategorizer)
-    {
-        QListView::dragMoveEvent(event);
-        return;
-    }
-
     d->mousePosition = event->pos();
 
     if (d->mouseButtonPressed)
@@ -944,20 +917,21 @@ void KListView::dragMoveEvent(QDragMoveEvent *event)
 
     d->dragLeftViewport = false;
 
+    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+        !d->itemCategorizer)
+    {
+        QListView::dragMoveEvent(event);
+        return;
+    }
+
     d->drawDraggedItems();
 }
 
 void KListView::dragLeaveEvent(QDragLeaveEvent *event)
 {
-    QListView::dragLeaveEvent(event);
-
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
-        !d->itemCategorizer)
-    {
-        return;
-    }
-
     d->dragLeftViewport = true;
+
+    QListView::dragLeaveEvent(event);
 }
 
 QModelIndex KListView::moveCursor(CursorAction cursorAction,
@@ -967,6 +941,119 @@ QModelIndex KListView::moveCursor(CursorAction cursorAction,
         !d->itemCategorizer)
     {
         return QListView::moveCursor(cursorAction, modifiers);
+    }
+
+    const QModelIndex current = selectionModel()->currentIndex();
+
+    int viewportWidth = viewport()->width() - spacing();
+    // We really need all items to be of same size. Otherwise we cannot do this
+    // (ereslibre)
+    // QSize itemSize = listView->sizeHintForIndex(index);
+    // int itemHeight = itemSize.height();
+    // int itemWidth = itemSize.width();
+    int itemHeight = 107;
+    int itemWidth = 130;
+    int itemWidthPlusSeparation = spacing() + itemWidth;
+    int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
+
+    QString lastCategory = d->categories[0];
+    QString theCategory = d->categories[0];
+    QString afterCategory = d->categories[0];
+    bool hasToBreak = false;
+    foreach (const QString &category, d->categories)
+    {
+        if (hasToBreak)
+        {
+            afterCategory = category;
+
+            break;
+        }
+
+        if (category == d->elementsInfo[d->proxyModel->mapToSource(current)].category)
+        {
+            theCategory = category;
+
+            hasToBreak = true;
+        }
+
+        if (!hasToBreak)
+        {
+            lastCategory = category;
+        }
+    }
+
+    switch (cursorAction)
+    {
+        case QAbstractItemView::MoveUp: {
+            if (d->elementsInfo[d->proxyModel->mapToSource(current)].relativeOffsetToCategory >= elementsPerRow)
+            {
+                int indexToMove = d->invertedElementDictionary[current].row();
+                indexToMove -= qMin(((d->elementsInfo[d->proxyModel->mapToSource(current)].relativeOffsetToCategory) + d->forcedSelectionPosition), elementsPerRow - d->forcedSelectionPosition + (d->elementsInfo[d->proxyModel->mapToSource(current)].relativeOffsetToCategory % elementsPerRow));
+
+                return d->elementDictionary[d->proxyModel->index(indexToMove, 0)];
+            }
+            else
+            {
+                int lastCategoryLastRow = (d->categoriesIndexes[lastCategory].count() - 1) % elementsPerRow;
+                int indexToMove = d->invertedElementDictionary[current].row() - d->elementsInfo[d->proxyModel->mapToSource(current)].relativeOffsetToCategory;
+
+                if (d->forcedSelectionPosition >= lastCategoryLastRow)
+                {
+                    indexToMove -= 1;
+                }
+                else
+                {
+                    indexToMove -= qMin((lastCategoryLastRow - d->forcedSelectionPosition + 1), d->forcedSelectionPosition + elementsPerRow + 1);
+                }
+
+                return d->elementDictionary[d->proxyModel->index(indexToMove, 0)];
+            }
+        }
+
+        case QAbstractItemView::MoveDown: {
+            if (d->elementsInfo[d->proxyModel->mapToSource(current)].relativeOffsetToCategory < (d->categoriesIndexes[theCategory].count() - 1 - ((d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow)))
+            {
+                int indexToMove = d->invertedElementDictionary[current].row();
+                indexToMove += qMin(elementsPerRow, d->categoriesIndexes[theCategory].count() - 1 - d->elementsInfo[d->proxyModel->mapToSource(current)].relativeOffsetToCategory);
+
+                return d->elementDictionary[d->proxyModel->index(indexToMove, 0)];
+            }
+            else
+            {
+                int afterCategoryLastRow = qMin(elementsPerRow, d->categoriesIndexes[afterCategory].count());
+                int indexToMove = d->invertedElementDictionary[current].row() + (d->categoriesIndexes[theCategory].count() - d->elementsInfo[d->proxyModel->mapToSource(current)].relativeOffsetToCategory);
+
+                if (d->forcedSelectionPosition >= afterCategoryLastRow)
+                {
+                    indexToMove += afterCategoryLastRow - 1;
+                }
+                else
+                {
+                    indexToMove += qMin(d->forcedSelectionPosition, elementsPerRow);
+                }
+
+                return d->elementDictionary[d->proxyModel->index(indexToMove, 0)];
+            }
+        }
+
+        case QAbstractItemView::MoveLeft:
+            d->forcedSelectionPosition = d->elementsInfo[d->proxyModel->mapToSource(d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current].row() - 1, 0)])].relativeOffsetToCategory % elementsPerRow;
+
+            if (d->forcedSelectionPosition < 0)
+                d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+
+            return d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current].row() - 1, 0)];
+
+        case QAbstractItemView::MoveRight:
+            d->forcedSelectionPosition = d->elementsInfo[d->proxyModel->mapToSource(d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current].row() + 1, 0)])].relativeOffsetToCategory % elementsPerRow;
+
+            if (d->forcedSelectionPosition < 0)
+                d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+
+            return d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current].row() + 1, 0)];
+
+        default:
+            break;
     }
 
     return QListView::moveCursor(cursorAction, modifiers);
@@ -981,6 +1068,21 @@ void KListView::rowsInserted(const QModelIndex &parent,
     if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
+        d->lastSelection = QItemSelection();
+        d->currentViewIndex = QModelIndex();
+        d->forcedSelectionPosition = 0;
+        d->elementsInfo.clear();
+        d->elementsPosition.clear();
+        d->elementDictionary.clear();
+        d->invertedElementDictionary.clear();
+        d->categoriesIndexes.clear();
+        d->categoriesPosition.clear();
+        d->categories.clear();
+        d->intersectedIndexes.clear();
+        d->sourceModelIndexList.clear();
+        d->hovered = QModelIndex();
+        d->mouseButtonPressed = false;
+
         return;
     }
 
@@ -994,9 +1096,12 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
     Q_UNUSED(parent);
 
     d->lastSelection = QItemSelection();
+    d->currentViewIndex = QModelIndex();
+    d->forcedSelectionPosition = 0;
     d->elementsInfo.clear();
     d->elementsPosition.clear();
     d->elementDictionary.clear();
+    d->invertedElementDictionary.clear();
     d->categoriesIndexes.clear();
     d->categoriesPosition.clear();
     d->categories.clear();
@@ -1082,6 +1187,9 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
 
             d->elementDictionary.insert(d->proxyModel->index(j, 0),
                                         d->proxyModel->mapFromSource(index));
+
+            d->invertedElementDictionary.insert(d->proxyModel->mapFromSource(index),
+                                                d->proxyModel->index(j, 0));
 
             i++;
             j++;

@@ -25,6 +25,13 @@
 
 #include <libdolphin_export.h>
 
+/**
+  * @internal
+  *
+  * This class is meant to be used with KListView class
+  *
+  * @see KListView
+  */
 class LIBDOLPHINPRIVATE_EXPORT KSortFilterProxyModel
     : public QSortFilterProxyModel
 {

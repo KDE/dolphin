@@ -27,6 +27,17 @@
 
 class KItemCategorizer;
 
+/**
+  * @short Item view for listing items
+  *
+  * KListView allows you to use it as it were a QListView. You can add an
+  * itemCategorizer to it, so your items became categorized depending on the
+  * KItemCategorizer inherited class rules.
+  *
+  * @see KItemCategorizer, KSortFilterProxyModel
+  *
+  * @author Rafael Fernández López <ereslibre@gmail.com>
+  */
 class LIBDOLPHINPRIVATE_EXPORT KListView
     : public QListView
 {
@@ -41,8 +52,15 @@ public:
 
     virtual QRect visualRect(const QModelIndex &index) const;
 
+    /**
+      * Will return the current categorizer. If none set, this method will
+      * return 0
+      */
     KItemCategorizer *itemCategorizer() const;
 
+    /**
+      * Sets the categorizer to be used. Causes the item view to repaint
+      */
     void setItemCategorizer(KItemCategorizer *itemCategorizer);
 
     virtual QModelIndex indexAt(const QPoint &point) const;

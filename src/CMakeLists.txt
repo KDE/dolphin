@@ -17,6 +17,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinitemcategorizer.cpp
     klistview.cpp
     ksortfilterproxymodel.cpp
+    kitemcategorizer.cpp
     dolphinsettings.cpp
     viewproperties.cpp
     dolphinsortfilterproxymodel.cpp

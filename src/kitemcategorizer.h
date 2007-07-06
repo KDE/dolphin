@@ -24,20 +24,49 @@
 #include <libdolphin_export.h>
 
 class QString;
+class QPainter;
 class QModelIndex;
+class QStyleOption;
 
+/**
+  * @short Class for item categorizing on KListView
+  *
+  * This class is meant to be used with KListView class. Its purpose is
+  * to decide to which category belongs a given index with the given role.
+  * Additionally it will let you to customize the way categories are drawn,
+  * only in the case that you want to do so
+  *
+  * @see KListView
+  *
+  * @author Rafael Fernández López <ereslibre@gmail.com>
+  */
 class LIBDOLPHINPRIVATE_EXPORT KItemCategorizer
 {
 public:
-    KItemCategorizer()
-    {
-    }
+    KItemCategorizer();
 
-    virtual ~KItemCategorizer()
-    {
-    }
+    virtual ~KItemCategorizer();
 
-    virtual QString categoryForItem(const QModelIndex &index, int sortRole) = 0;
+    /**
+      * This method will return the category where @param index fit on with the
+      * given @param sortRole role
+      */
+    virtual QString categoryForItem(const QModelIndex &index,
+                                    int sortRole) const = 0;
+
+    /**
+      * This method purpose is to draw a category represented by the given
+      * @param index with the given @param sortRole sorting role
+      *
+      * @note This method will be called one time per category, always with the
+      *       first element in that category
+      */
+    virtual void drawCategory(const QModelIndex &index,
+                              int sortRole,
+                              const QStyleOption &option,
+                              QPainter *painter) const;
+
+    virtual int categoryHeight(const QStyleOption &option) const;
 };
 
 #endif // KITEMCATEGORIZER_H

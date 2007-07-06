@@ -147,12 +147,14 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 
 void DolphinIconsView::dropEvent(QDropEvent* event)
 {
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (!urls.isEmpty()) {
-        m_controller->indicateDroppedUrls(urls,
-                                          indexAt(event->pos()),
-                                          event->source());
-        event->acceptProposedAction();
+    if (!selectionModel()->isSelected(indexAt(event->pos()))) {
+        const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+        if (!urls.isEmpty()) {
+            m_controller->indicateDroppedUrls(urls,
+                                              indexAt(event->pos()),
+                                              event->source());
+            event->acceptProposedAction();
+        }
     }
     KListView::dropEvent(event);
     m_dragging = false;

@@ -85,10 +85,12 @@ public:
     QRect categoryVisualRect(const QString &category);
 
     /**
-      * This method will draw a new category with name @p category on the rect
-      * specified by @p option.rect, with painter @p painter
+      * This method will draw a new category represented by index
+      * @param index  on the rect specified by @p option.rect, with
+      * painter @p painter
       */
-    void drawNewCategory(const QString &category,
+    void drawNewCategory(const QModelIndex &index,
+                         int sortRole,
                          const QStyleOption &option,
                          QPainter *painter);
 
@@ -131,6 +133,8 @@ public:
     QPoint initialPressPosition;
     QPoint mousePosition;
     QItemSelection lastSelection;
+    QModelIndex currentViewIndex;
+    int forcedSelectionPosition;
 
     // Cache data
     // We cannot merge some of them into structs because it would affect
@@ -138,6 +142,7 @@ public:
     QHash<QModelIndex, struct ElementInfo> elementsInfo; // in source model
     QHash<QModelIndex, QRect> elementsPosition;          // in source model
     QHash<QModelIndex, QModelIndex> elementDictionary;   // mapped indexes
+    QHash<QModelIndex, QModelIndex> invertedElementDictionary;   // mapped indexes
     QHash<QString, QModelIndexList> categoriesIndexes;
     QHash<QString, QRect> categoriesPosition;
     QStringList categories;
