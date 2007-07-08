@@ -274,7 +274,14 @@ void DolphinItemCategorizer::drawCategory(const QModelIndex &index,
         case DolphinView::SortByOwner: {
             opt.rect.setTop(option.rect.top() + (iconSize / 4));
             KUser user(category);
-            icon = QPixmap::fromImage(QImage(user.homeDir() + QDir::separator() + ".face.icon")).scaled(iconSize, iconSize);
+            if (QFile::exists(user.homeDir() + QDir::separator() + ".face.icon"))
+            {
+                icon = QPixmap::fromImage(QImage(user.homeDir() + QDir::separator() + ".face.icon")).scaled(iconSize, iconSize);
+            }
+            else
+            {
+                icon = KIconLoader::global()->loadIcon("user", K3Icon::Small);
+            }
             break;
         }
 
