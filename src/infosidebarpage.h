@@ -59,12 +59,12 @@ public slots:
     virtual void setSelection(const KFileItemList& selection);
 
     /**
-     * Does a delayed request of information for the item of the given URL.
+     * Does a delayed request of information for the item \a item.
      * If within this delay InfoSidebarPage::setUrl() or InfoSidebarPage::setSelection()
      * are invoked, then the request will be skipped. Requesting a delayed item information
      * makes sense when hovering items.
      */
-    void requestDelayedItemInfo(const KUrl& url);
+    void requestDelayedItemInfo(const KFileItem& item);
 
 protected:
     /** @see QWidget::showEvent() */

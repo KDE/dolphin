@@ -117,13 +117,16 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
     m_timer->start(TimerDelay);
 }
 
-void InfoSidebarPage::requestDelayedItemInfo(const KUrl& url)
+void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
 {
     cancelRequest();
 
-    if (!url.isEmpty() && (selection().size() <= 1)) {
-        m_urlCandidate = url;
-        m_timer->start(TimerDelay);
+    if (!item.isNull() && (selection().size() <= 1)) {
+        const KUrl url = item.url();
+        if (!url.isEmpty()) {
+            m_urlCandidate = url;
+            m_timer->start(TimerDelay);
+        }
     }
 }
 
