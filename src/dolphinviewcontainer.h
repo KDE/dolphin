@@ -152,8 +152,8 @@ private slots:
     void updateItemCount();
 
     /**
-     * Shows the item information for the URL \a url inside the statusbar. If the
-     * URL is empty, the default statusbar information is shown.
+     * Shows the information for the item \a item inside the statusbar. If the
+     * item is null, the default statusbar information is shown.
      */
     void showItemInfo(const KFileItem& item);
 
