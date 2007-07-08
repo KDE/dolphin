@@ -93,10 +93,10 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
         }
         painter.drawRect(QRect(left, barTop + 2, right, barHeight - 1));
 
-        text = i18n("%1 free", KIO::convertSizeFromKiB(m_kBAvailable));
+        text = i18nc("@info:status", "%1 free", KIO::convertSizeFromKiB(m_kBAvailable));
     } else {
         if (m_gettingSize) {
-            text = i18n("Getting size...");
+            text = i18nc("@info:status", "Getting size...");
         } else {
             text = QString();
             QTimer::singleShot(0, this, SLOT(hide()));

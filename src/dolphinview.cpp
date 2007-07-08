@@ -541,9 +541,9 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     if (!url.isValid()) {
         const QString location(url.pathOrUrl());
         if (location.isEmpty()) {
-            emit errorMessage(i18n("The location is empty."));
+            emit errorMessage(i18nc("@info:status", "The location is empty."));
         } else {
-            emit errorMessage(i18n("The location '%1' is invalid.", location));
+            emit errorMessage(i18nc("@info:status", "The location '%1' is invalid.", location));
         }
         return;
     }

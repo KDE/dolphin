@@ -279,10 +279,10 @@ void DolphinViewContainer::updateProgress(int percent)
         // not contain another progress information. This means that
         // the directory loading progress information has the lowest priority.
         const QString progressText(m_statusBar->progressText());
-        m_showProgress = progressText.isEmpty() ||
-                        (progressText == i18n("Loading folder..."));
+        const QString loadingText(i18nc("@status:progress", "Loading folder..."));
+        m_showProgress = progressText.isEmpty() || (progressText == loadingText);
         if (m_showProgress) {
-            m_statusBar->setProgressText(i18n("Loading folder..."));
+            m_statusBar->setProgressText(loadingText);
             m_statusBar->setProgress(0);
         }
     }
@@ -382,7 +382,7 @@ QString DolphinViewContainer::selectionStatusBarText() const
     }
 
     if (folderCount > 0) {
-        text = i18np("1 Folder selected", "%1 Folders selected", folderCount);
+        text = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
         if (fileCount > 0) {
             text += ", ";
         }
@@ -390,7 +390,7 @@ QString DolphinViewContainer::selectionStatusBarText() const
 
     if (fileCount > 0) {
         const QString sizeText(KIO::convertSize(byteSize));
-        text += i18np("1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText);
+        text += i18ncp("@info:status", "1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText);
     }
 
     return text;

@@ -55,7 +55,7 @@ FilterBar::FilterBar(QWidget* parent) :
     m_close = new QToolButton(this);
     m_close->setAutoRaise(true);
     m_close->setIcon(KIcon("dialog-close"));
-    m_close->setToolTip(i18n("Hide Filter Bar"));
+    m_close->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
     hLayout->addWidget(m_close);
     hLayout->addSpacing(gap);
 

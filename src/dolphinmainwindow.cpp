@@ -176,17 +176,20 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
         QString seq = QKeySequence(Qt::ShiftModifier).toString();
         seq.chop(1); // chop superfluous '+'
         QAction* moveAction = popup.addAction(KIcon("goto-page"),
-                                              i18nc("@action:inmenu", "&Move Here") + '\t' + seq);
+                                              i18nc("@action:inmenu",
+                                                    "&Move Here\t<shortcut>%1</shortcut>", seq));
 
         seq = QKeySequence(Qt::ControlModifier).toString();
         seq.chop(1);
         QAction* copyAction = popup.addAction(KIcon("edit-copy"),
-                                              i18nc("@action:inmenu", "&Copy Here") + '\t' + seq);
+                                              i18nc("@action:inmenu",
+                                                    "&Copy Here\t<shortcut>%1</shortcut>", seq));
 
         seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
         seq.chop(1);
         QAction* linkAction = popup.addAction(KIcon("www"),
-                                              i18nc("@action:inmenu", "&Link Here") + '\t' + seq);
+                                              i18nc("@action:inmenu",
+                                                    "&Link Here\t<shortcut>%1</shortcut>", seq));
 
         popup.addSeparator();
         popup.addAction(KIcon("process-stop"), i18nc("@action:inmenu", "Cancel"));
@@ -649,7 +652,7 @@ void DolphinMainWindow::updatePasteAction()
     if (!urls.isEmpty()) {
         pasteAction->setEnabled(true);
 
-        pasteAction->setText(i18np("Paste One File", "Paste %1 Files", urls.count()));
+        pasteAction->setText(i18ncp("@action:inmenu", "Paste One File", "Paste %1 Files", urls.count()));
     } else {
         pasteAction->setEnabled(false);
         pasteAction->setText(i18nc("@action:inmenu", "Paste"));
