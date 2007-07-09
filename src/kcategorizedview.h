@@ -18,8 +18,8 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#ifndef KLISTVIEW_H
-#define KLISTVIEW_H
+#ifndef KCATEGORIZEDVIEW_H
+#define KCATEGORIZEDVIEW_H
 
 #include <QtGui/QListView>
 
@@ -30,7 +30,7 @@ class KItemCategorizer;
 /**
   * @short Item view for listing items
   *
-  * KListView allows you to use it as it were a QListView. You can add an
+  * KCategorizedView allows you to use it as it were a QListView. You can add an
   * itemCategorizer to it, so your items became categorized depending on the
   * KItemCategorizer inherited class rules.
   *
@@ -38,15 +38,15 @@ class KItemCategorizer;
   *
   * @author Rafael Fernández López <ereslibre@gmail.com>
   */
-class LIBDOLPHINPRIVATE_EXPORT KListView
+class LIBDOLPHINPRIVATE_EXPORT KCategorizedView
     : public QListView
 {
     Q_OBJECT
 
 public:
-    KListView(QWidget *parent = 0);
+    KCategorizedView(QWidget *parent = 0);
 
-    ~KListView();
+    ~KCategorizedView();
 
     virtual void setModel(QAbstractItemModel *model);
 
@@ -116,4 +116,4 @@ private:
     Private *d;
 };
 
-#endif // KLISTVIEW_H
+#endif // KCATEGORIZEDVIEW_H

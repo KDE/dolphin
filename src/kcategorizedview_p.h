@@ -18,18 +18,18 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#ifndef KLISTVIEW_P_H
-#define KLISTVIEW_P_H
+#ifndef KCATEGORIZEDVIEW_P_H
+#define KCATEGORIZEDVIEW_P_H
 
 class KSortFilterProxyModel;
 
 /**
   * @internal
   */
-class KListView::Private
+class KCategorizedView::Private
 {
 public:
-    Private(KListView *listView);
+    Private(KCategorizedView *listView);
     ~Private();
 
 
@@ -121,7 +121,7 @@ public:
     };
 
     // Basic data
-    KListView *listView;
+    KCategorizedView *listView;
     KItemCategorizer *itemCategorizer;
 
     // Behavior data
@@ -156,4 +156,4 @@ public:
     QModelIndex lastIndex;
 };
 
-#endif // KLISTVIEW_P_H
+#endif // KCATEGORIZEDVIEW_P_H

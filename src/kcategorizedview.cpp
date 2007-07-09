@@ -18,8 +18,8 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#include "klistview.h"
-#include "klistview_p.h"
+#include "kcategorizedview.h"
+#include "kcategorizedview_p.h"
 
 #include <math.h> // trunc on C99 compliant systems
 #include <kdefakes.h> // trunc for not C99 compliant systems
@@ -75,7 +75,7 @@ private:
 //==============================================================================
 
 
-KListView::Private::Private(KListView *listView)
+KCategorizedView::Private::Private(KCategorizedView *listView)
     : listView(listView)
     , itemCategorizer(0)
     , mouseButtonPressed(false)
@@ -86,11 +86,11 @@ KListView::Private::Private(KListView *listView)
 {
 }
 
-KListView::Private::~Private()
+KCategorizedView::Private::~Private()
 {
 }
 
-const QModelIndexList &KListView::Private::intersectionSet(const QRect &rect)
+const QModelIndexList &KCategorizedView::Private::intersectionSet(const QRect &rect)
 {
     QModelIndex index;
     QRect indexVisualRect;
@@ -138,7 +138,7 @@ const QModelIndexList &KListView::Private::intersectionSet(const QRect &rect)
     return intersectedIndexes;
 }
 
-QRect KListView::Private::visualRectInViewport(const QModelIndex &index) const
+QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) const
 {
     if (!index.isValid())
         return QRect();
@@ -196,7 +196,7 @@ QRect KListView::Private::visualRectInViewport(const QModelIndex &index) const
     return retRect;
 }
 
-QRect KListView::Private::visualCategoryRectInViewport(const QString &category)
+QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &category)
                                                                            const
 {
     QRect retRect(listView->spacing(),
@@ -248,7 +248,7 @@ QRect KListView::Private::visualCategoryRectInViewport(const QString &category)
 }
 
 // We're sure elementsPosition doesn't contain index
-const QRect &KListView::Private::cacheIndex(const QModelIndex &index)
+const QRect &KCategorizedView::Private::cacheIndex(const QModelIndex &index)
 {
     QRect rect = visualRectInViewport(index);
     elementsPosition[index] = rect;
@@ -257,7 +257,7 @@ const QRect &KListView::Private::cacheIndex(const QModelIndex &index)
 }
 
 // We're sure categoriesPosition doesn't contain category
-const QRect &KListView::Private::cacheCategory(const QString &category)
+const QRect &KCategorizedView::Private::cacheCategory(const QString &category)
 {
     QRect rect = visualCategoryRectInViewport(category);
     categoriesPosition[category] = rect;
@@ -265,7 +265,7 @@ const QRect &KListView::Private::cacheCategory(const QString &category)
     return categoriesPosition[category];
 }
 
-const QRect &KListView::Private::cachedRectIndex(const QModelIndex &index)
+const QRect &KCategorizedView::Private::cachedRectIndex(const QModelIndex &index)
 {
     if (elementsPosition.contains(index)) // If we have it cached
     {                                        // return it
@@ -277,7 +277,7 @@ const QRect &KListView::Private::cachedRectIndex(const QModelIndex &index)
     }
 }
 
-const QRect &KListView::Private::cachedRectCategory(const QString &category)
+const QRect &KCategorizedView::Private::cachedRectCategory(const QString &category)
 {
     if (categoriesPosition.contains(category)) // If we have it cached
     {                                                // return it
@@ -289,7 +289,7 @@ const QRect &KListView::Private::cachedRectCategory(const QString &category)
     }
 }
 
-QRect KListView::Private::visualRect(const QModelIndex &index)
+QRect KCategorizedView::Private::visualRect(const QModelIndex &index)
 {
     QModelIndex mappedIndex = proxyModel->mapToSource(index);
 
@@ -301,7 +301,7 @@ QRect KListView::Private::visualRect(const QModelIndex &index)
     return retRect;
 }
 
-QRect KListView::Private::categoryVisualRect(const QString &category)
+QRect KCategorizedView::Private::categoryVisualRect(const QString &category)
 {
     QRect retRect = cachedRectCategory(category);
     int dx = -listView->horizontalOffset();
@@ -311,7 +311,7 @@ QRect KListView::Private::categoryVisualRect(const QString &category)
     return retRect;
 }
 
-void KListView::Private::drawNewCategory(const QModelIndex &index,
+void KCategorizedView::Private::drawNewCategory(const QModelIndex &index,
                                          int sortRole,
                                          const QStyleOption &option,
                                          QPainter *painter)
@@ -331,7 +331,7 @@ void KListView::Private::drawNewCategory(const QModelIndex &index,
 }
 
 
-void KListView::Private::updateScrollbars()
+void KCategorizedView::Private::updateScrollbars()
 {
     int lastItemBottom = cachedRectIndex(lastIndex).bottom() +
                            listView->spacing() - listView->viewport()->height();
@@ -341,7 +341,7 @@ void KListView::Private::updateScrollbars()
     listView->verticalScrollBar()->setRange(0, lastItemBottom);
 }
 
-void KListView::Private::drawDraggedItems(QPainter *painter)
+void KCategorizedView::Private::drawDraggedItems(QPainter *painter)
 {
     QStyleOptionViewItemV3 option = listView->viewOptions();
     option.state &= ~QStyle::State_MouseOver;
@@ -360,7 +360,7 @@ void KListView::Private::drawDraggedItems(QPainter *painter)
     }
 }
 
-void KListView::Private::drawDraggedItems()
+void KCategorizedView::Private::drawDraggedItems()
 {
     QRect rectToUpdate;
     QRect currentRect;
@@ -387,18 +387,18 @@ void KListView::Private::drawDraggedItems()
 //==============================================================================
 
 
-KListView::KListView(QWidget *parent)
+KCategorizedView::KCategorizedView(QWidget *parent)
     : QListView(parent)
     , d(new Private(this))
 {
 }
 
-KListView::~KListView()
+KCategorizedView::~KCategorizedView()
 {
     delete d;
 }
 
-void KListView::setModel(QAbstractItemModel *model)
+void KCategorizedView::setModel(QAbstractItemModel *model)
 {
     d->lastSelection = QItemSelection();
     d->currentViewIndex = QModelIndex();
@@ -442,9 +442,9 @@ void KListView::setModel(QAbstractItemModel *model)
     }
 }
 
-QRect KListView::visualRect(const QModelIndex &index) const
+QRect KCategorizedView::visualRect(const QModelIndex &index) const
 {
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return QListView::visualRect(index);
@@ -458,12 +458,12 @@ QRect KListView::visualRect(const QModelIndex &index) const
     return d->visualRect(index);
 }
 
-KItemCategorizer *KListView::itemCategorizer() const
+KItemCategorizer *KCategorizedView::itemCategorizer() const
 {
     return d->itemCategorizer;
 }
 
-void KListView::setItemCategorizer(KItemCategorizer *itemCategorizer)
+void KCategorizedView::setItemCategorizer(KItemCategorizer *itemCategorizer)
 {
     d->lastSelection = QItemSelection();
     d->currentViewIndex = QModelIndex();
@@ -513,9 +513,9 @@ void KListView::setItemCategorizer(KItemCategorizer *itemCategorizer)
     }
 }
 
-QModelIndex KListView::indexAt(const QPoint &point) const
+QModelIndex KCategorizedView::indexAt(const QPoint &point) const
 {
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return QListView::indexAt(point);
@@ -535,7 +535,7 @@ QModelIndex KListView::indexAt(const QPoint &point) const
     return index;
 }
 
-void KListView::reset()
+void KCategorizedView::reset()
 {
     QListView::reset();
 
@@ -555,9 +555,9 @@ void KListView::reset()
     d->mouseButtonPressed = false;
 }
 
-void KListView::paintEvent(QPaintEvent *event)
+void KCategorizedView::paintEvent(QPaintEvent *event)
 {
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         QListView::paintEvent(event);
@@ -671,7 +671,7 @@ void KListView::paintEvent(QPaintEvent *event)
     painter.restore();
 }
 
-void KListView::resizeEvent(QResizeEvent *event)
+void KCategorizedView::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
 
@@ -680,7 +680,7 @@ void KListView::resizeEvent(QResizeEvent *event)
     d->categoriesPosition.clear();
     d->forcedSelectionPosition = 0;
 
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -689,10 +689,10 @@ void KListView::resizeEvent(QResizeEvent *event)
     d->updateScrollbars();
 }
 
-void KListView::setSelection(const QRect &rect,
+void KCategorizedView::setSelection(const QRect &rect,
                              QItemSelectionModel::SelectionFlags flags)
 {
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         QListView::setSelection(rect, flags);
@@ -762,11 +762,11 @@ void KListView::setSelection(const QRect &rect,
     selectionModel()->select(selection, flags);
 }
 
-void KListView::mouseMoveEvent(QMouseEvent *event)
+void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
 {
     QListView::mouseMoveEvent(event);
 
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -822,7 +822,7 @@ void KListView::mouseMoveEvent(QMouseEvent *event)
     }
 }
 
-void KListView::mousePressEvent(QMouseEvent *event)
+void KCategorizedView::mousePressEvent(QMouseEvent *event)
 {
     d->dragLeftViewport = false;
 
@@ -840,13 +840,13 @@ void KListView::mousePressEvent(QMouseEvent *event)
     QListView::mousePressEvent(event);
 }
 
-void KListView::mouseReleaseEvent(QMouseEvent *event)
+void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
 {
     d->mouseButtonPressed = false;
 
     QListView::mouseReleaseEvent(event);
 
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return;
@@ -884,7 +884,7 @@ void KListView::mouseReleaseEvent(QMouseEvent *event)
         viewport()->update(d->categoryVisualRect(d->hoveredCategory));
 }
 
-void KListView::leaveEvent(QEvent *event)
+void KCategorizedView::leaveEvent(QEvent *event)
 {
     d->hovered = QModelIndex();
     d->hoveredCategory = QString();
@@ -892,7 +892,7 @@ void KListView::leaveEvent(QEvent *event)
     QListView::leaveEvent(event);
 }
 
-void KListView::startDrag(Qt::DropActions supportedActions)
+void KCategorizedView::startDrag(Qt::DropActions supportedActions)
 {
     QListView::startDrag(supportedActions);
 
@@ -902,7 +902,7 @@ void KListView::startDrag(Qt::DropActions supportedActions)
     viewport()->update(d->lastDraggedItemsRect);
 }
 
-void KListView::dragMoveEvent(QDragMoveEvent *event)
+void KCategorizedView::dragMoveEvent(QDragMoveEvent *event)
 {
     d->mousePosition = event->pos();
 
@@ -917,7 +917,7 @@ void KListView::dragMoveEvent(QDragMoveEvent *event)
 
     d->dragLeftViewport = false;
 
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         QListView::dragMoveEvent(event);
@@ -927,17 +927,17 @@ void KListView::dragMoveEvent(QDragMoveEvent *event)
     d->drawDraggedItems();
 }
 
-void KListView::dragLeaveEvent(QDragLeaveEvent *event)
+void KCategorizedView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     d->dragLeftViewport = true;
 
     QListView::dragLeaveEvent(event);
 }
 
-QModelIndex KListView::moveCursor(CursorAction cursorAction,
+QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
                                   Qt::KeyboardModifiers modifiers)
 {
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         return QListView::moveCursor(cursorAction, modifiers);
@@ -1059,13 +1059,13 @@ QModelIndex KListView::moveCursor(CursorAction cursorAction,
     return QListView::moveCursor(cursorAction, modifiers);
 }
 
-void KListView::rowsInserted(const QModelIndex &parent,
+void KCategorizedView::rowsInserted(const QModelIndex &parent,
                              int start,
                              int end)
 {
     QListView::rowsInserted(parent, start, end);
 
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         d->lastSelection = QItemSelection();
@@ -1089,7 +1089,7 @@ void KListView::rowsInserted(const QModelIndex &parent,
     rowsInsertedArtifficial(parent, start, end);
 }
 
-void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
+void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
                                         int start,
                                         int end)
 {
@@ -1201,11 +1201,11 @@ void KListView::rowsInsertedArtifficial(const QModelIndex &parent,
     d->updateScrollbars();
 }
 
-void KListView::rowsRemoved(const QModelIndex &parent,
+void KCategorizedView::rowsRemoved(const QModelIndex &parent,
                             int start,
                             int end)
 {
-    if ((viewMode() == KListView::IconMode) && d->proxyModel &&
+    if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
         d->itemCategorizer)
     {
         // Force the view to update all elements
@@ -1213,9 +1213,9 @@ void KListView::rowsRemoved(const QModelIndex &parent,
     }
 }
 
-void KListView::updateGeometries()
+void KCategorizedView::updateGeometries()
 {
-    if ((viewMode() != KListView::IconMode) || !d->proxyModel ||
+    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
     {
         QListView::updateGeometries();
@@ -1227,9 +1227,9 @@ void KListView::updateGeometries()
     QAbstractItemView::updateGeometries();
 }
 
-void KListView::slotSortingRoleChanged()
+void KCategorizedView::slotSortingRoleChanged()
 {
-    if ((viewMode() == KListView::IconMode) && d->proxyModel &&
+    if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
         d->itemCategorizer)
     {
         // Force the view to update all elements
@@ -1237,4 +1237,4 @@ void KListView::slotSortingRoleChanged()
     }
 }
 
-#include "klistview.moc"
+#include "kcategorizedview.moc"

@@ -20,7 +20,7 @@
 #ifndef DOLPHINICONSVIEW_H
 #define DOLPHINICONSVIEW_H
 
-#include <klistview.h>
+#include <kcategorizedview.h>
 #include <kitemcategorizer.h>
 #include <QtGui/QStyleOption>
 #include <libdolphin_export.h>
@@ -33,7 +33,7 @@ class DolphinController;
  * It is also possible that instead of the icon a preview of the item
  * content is shown.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KListView
+class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KCategorizedView
 {
     Q_OBJECT
 

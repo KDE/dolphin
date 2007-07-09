@@ -33,7 +33,7 @@
 #include <QPoint>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
-    KListView(parent),
+    KCategorizedView(parent),
     m_controller(controller),
     m_dragging(false)
 {
@@ -68,7 +68,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
 
-    m_viewOptions = KListView::viewOptions();
+    m_viewOptions = KCategorizedView::viewOptions();
     m_viewOptions.showDecorationSelected = true;
 
     QFont font(settings->fontFamily(), settings->fontSize());
@@ -100,7 +100,7 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
-    KListView::contextMenuEvent(event);
+    KCategorizedView::contextMenuEvent(event);
     m_controller->triggerContextMenuRequest(event->pos());
 }
 
@@ -114,7 +114,7 @@ void DolphinIconsView::mousePressEvent(QMouseEvent* event)
         }
     }
 
-    KListView::mousePressEvent(event);
+    KCategorizedView::mousePressEvent(event);
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
@@ -127,7 +127,7 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    KListView::dragLeaveEvent(event);
+    KCategorizedView::dragLeaveEvent(event);
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     m_dragging = false;
@@ -136,7 +136,7 @@ void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 
 void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 {
-    KListView::dragMoveEvent(event);
+    KCategorizedView::dragMoveEvent(event);
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
@@ -156,13 +156,13 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
             event->acceptProposedAction();
         }
     }
-    KListView::dropEvent(event);
+    KCategorizedView::dropEvent(event);
     m_dragging = false;
 }
 
 void DolphinIconsView::paintEvent(QPaintEvent* event)
 {
-    KListView::paintEvent(event);
+    KCategorizedView::paintEvent(event);
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
