@@ -50,19 +50,19 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // initialize 'General' tab
     m_generalPage = new GeneralViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_generalPage, KIcon("view-choose"), i18n("General"));
+    tabWidget->addTab(m_generalPage, KIcon("view-choose"), i18nc("@title:tab", "General"));
 
     // initialize 'Icons' tab
     m_iconsPage = new IconsViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_iconsPage, KIcon("fileview-icon"), i18n("Icons"));
+    tabWidget->addTab(m_iconsPage, KIcon("fileview-icon"), i18nc("@title:tab", "Icons"));
 
     // initialize 'Details' tab
     m_detailsPage = new DetailsViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_detailsPage, KIcon("fileview-detailed"), i18n("Details"));
+    tabWidget->addTab(m_detailsPage, KIcon("fileview-detailed"), i18nc("@title:tab", "Details"));
 
     // initialize 'Column' tab
     m_columnPage = new ColumnViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_columnPage, KIcon("fileview-column"), i18n("Column"));
+    tabWidget->addTab(m_columnPage, KIcon("fileview-column"), i18nc("@title:tab", "Column"));
 
     topLayout->addWidget(tabWidget, 0, 0);
 }

@@ -59,7 +59,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     setSpacing(spacing);
     setMargin(margin);
 
-    m_iconSizeButton = new QPushButton(i18n("Change Icon && Preview Size..."), this);
+    m_iconSizeButton = new QPushButton(i18nc("@action:button", "Change Icon && Preview Size..."), this);
     connect(m_iconSizeButton, SIGNAL(clicked()),
             this, SLOT(openIconSizeDialog()));
 
@@ -94,14 +94,14 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* arrangementLabel = new QLabel(i18nc("@label:listbox", "Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
-    m_arrangementBox->addItem(i18n("Left to Right"));
-    m_arrangementBox->addItem(i18n("Top to Bottom"));
+    m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Left to Right"));
+    m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Top to Bottom"));
 
     QLabel* gridSpacingLabel = new QLabel(i18nc("@label:listbox", "Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
-    m_gridSpacingBox->addItem(i18nc("Grid spacing", "Small"));
-    m_gridSpacingBox->addItem(i18nc("Grid spacing", "Medium"));
-    m_gridSpacingBox->addItem(i18nc("Grid spacing", "Large"));
+    m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Small"));
+    m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Medium"));
+    m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Large"));
 
     QGridLayout* gridGroupLayout = new QGridLayout(gridGroup);
     gridGroupLayout->addWidget(arrangementLabel, 0, 0);

@@ -46,7 +46,7 @@ ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));
 
-    setCaption(i18n("Applying View Properties"));
+    setCaption(i18nc("@title:window", "Applying View Properties"));
     setButtons(KDialog::Cancel);
 
     m_viewProps = new ViewProperties(dir);
@@ -106,7 +106,7 @@ void ViewPropsProgressInfo::updateProgress()
 {
     if (m_dirSizeJob != 0) {
         const int subdirs = m_dirSizeJob->totalSubdirs();
-        m_label->setText(i18n("Counting folders: %1", subdirs));
+        m_label->setText(i18nc("@info:progress", "Counting folders: %1", subdirs));
     }
 
     if (m_applyViewPropsJob != 0) {
@@ -122,7 +122,7 @@ void ViewPropsProgressInfo::applyViewProperties()
     }
 
     const int subdirs = m_dirSizeJob->totalSubdirs();
-    m_label->setText(i18n("Folders: %1", subdirs));
+    m_label->setText(i18nc("@info:progress", "Folders: %1", subdirs));
     m_progressBar->setMaximum(subdirs);
 
     m_dirSizeJob = 0;

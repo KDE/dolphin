@@ -67,7 +67,7 @@ void MetaDataWidget::Private::loadComment(const QString& comment)
     editComment->blockSignals(true);
     if (comment.isEmpty()) {
         editComment->setFontItalic(true);
-        editComment->setText(i18n("Click to add comment..."));
+        editComment->setText(i18nc("@info:tooltip", "Click to add comment..."));
     } else {
         editComment->setFontItalic(false);
         editComment->setText(comment);

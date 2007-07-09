@@ -272,13 +272,13 @@ void InfoSidebarPage::showMetaInfo()
         fileItem.refresh();
 
         if (fileItem.isDir()) {
-            addInfoLine(text, i18n("Type:"), i18n("Folder"));
+            addInfoLine(text, i18nc("@label", "Type:"), i18nc("@info", "Folder"));
         } else {
-            addInfoLine(text, i18n("Type:"), fileItem.mimeComment());
+            addInfoLine(text, i18nc("@label", "Type:"), fileItem.mimeComment());
 
             QString sizeText(KIO::convertSize(fileItem.size()));
-            addInfoLine(text, i18n("Size:"), sizeText);
-            addInfoLine(text, i18n("Modified:"), fileItem.timeString());
+            addInfoLine(text, i18nc("@label", "Size:"), sizeText);
+            addInfoLine(text, i18nc("@label", "Modified:"), fileItem.timeString());
 
             // TODO: See convertMetaInfo below, find a way to display only interesting information
             // in a readable way
@@ -313,7 +313,7 @@ void InfoSidebarPage::showMetaInfo()
             // item->size() does not return the size of the content : not very instinctive for users
             totalSize += item->size();
         }
-        addInfoLine(text, i18n("Total size:"), KIO::convertSize(totalSize));
+        addInfoLine(text, i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     }
     m_infoLabel->setText(text);
 }

@@ -101,7 +101,7 @@ void DolphinContextMenu::openTrashContextMenu()
 
     KMenu* popup = new KMenu(m_mainWindow);
 
-    QAction* emptyTrashAction = new QAction(KIcon("emptytrash"), i18n("Empty Trash"), popup);
+    QAction* emptyTrashAction = new QAction(KIcon("emptytrash"), i18nc("@action:inmenu", "Empty Trash"), popup);
     KConfig trashConfig("trashrc", KConfig::OnlyLocal);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     popup->addAction(emptyTrashAction);
@@ -110,11 +110,12 @@ void DolphinContextMenu::openTrashContextMenu()
     popup->addAction(propertiesAction);
 
     if (popup->exec(QCursor::pos()) == emptyTrashAction) {
-        const QString text(i18n("Do you really want to empty the Trash? All items will get deleted."));
+        const QString text(i18nc("@info", "Do you really want to empty the Trash? All items will get deleted."));
         const bool del = KMessageBox::warningContinueCancel(m_mainWindow,
                                                             text,
                                                             QString(),
-                                                            KGuiItem(i18n("Empty Trash"), KIcon("user-trash"))
+                                                            KGuiItem(i18nc("@action:button", "Empty Trash"),
+                                                                     KIcon("user-trash"))
                                                            ) == KMessageBox::Continue;
         if (del) {
             KonqOperations::emptyTrash(m_mainWindow);
@@ -131,7 +132,7 @@ void DolphinContextMenu::openTrashItemContextMenu()
 
     KMenu* popup = new KMenu(m_mainWindow);
 
-    QAction* restoreAction = new QAction(i18n("Restore"), m_mainWindow);
+    QAction* restoreAction = new QAction(i18nc("@action:inmenu", "Restore"), m_mainWindow);
     popup->addAction(restoreAction);
 
     QAction* deleteAction = m_mainWindow->actionCollection()->action("delete");
@@ -159,7 +160,8 @@ void DolphinContextMenu::openItemContextMenu()
     // insert 'Bookmark This Folder' entry if exactly one item is selected
     QAction* bookmarkAction = 0;
     if (m_fileInfo->isDir() && (m_selectedUrls.count() == 1)) {
-        bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark Folder..."));
+        bookmarkAction = popup->addAction(KIcon("bookmark-folder"),
+                                          i18nc("@action:inmenu", "Bookmark Folder..."));
     }
 
     // Insert 'Open With...' sub menu
@@ -220,7 +222,7 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->addAction(pasteAction);
 
     // setup 'View Mode' menu
-    KMenu* viewModeMenu = new KMenu(i18n("View Mode"));
+    KMenu* viewModeMenu = new KMenu(i18nc("@title:menu", "View Mode"));
 
     QAction* iconsMode = m_mainWindow->actionCollection()->action("icons");
     viewModeMenu->addAction(iconsMode);
@@ -238,15 +240,16 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* toggleViewsAction = 0;
     if (m_mainWindow->isSplit()) {
-        toggleViewsAction = popup->addAction(i18n("Toggle Views"));
+        toggleViewsAction = popup->addAction(i18nc("@action:inmenu", "Toggle Views"));
     }
 
     popup->addSeparator();
 
-    QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"), i18n("Bookmark This Folder..."));
+    QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"),
+                                               i18nc("@action:inmenu", "Bookmark This Folder..."));
     popup->addSeparator();
 
-    QAction* propertiesAction = popup->addAction(i18n("Properties"));
+    QAction* propertiesAction = popup->addAction(i18nc("@action:inmenu", "Properties"));
 
     QAction* action = popup->exec(QCursor::pos());
     if (action == propertiesAction) {
@@ -332,7 +335,7 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
                                 "Type == 'Application'");
         if (offers.count() > 0) {
             KService::List::Iterator it;
-            KMenu* openWithMenu = new KMenu(i18n("Open With"));
+            KMenu* openWithMenu = new KMenu(i18nc("@title:menu", "Open With"));
             for (it = offers.begin(); it != offers.end(); ++it) {
                 // The offer list from the KTrader returns duplicate
                 // application entries. Although this seems to be a configuration
@@ -348,7 +351,7 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
             }
 
             openWithMenu->addSeparator();
-            QAction* action = openWithMenu->addAction(i18n("&Other..."));
+            QAction* action = openWithMenu->addAction(i18nc("@action:inmenu Open With", "&Other..."));
 
             openWithActions << action;
             popup->addMenu(openWithMenu);
@@ -356,13 +359,13 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
             // No applications are registered, hence just offer
             // a "Open With..." item instead of a sub menu containing
             // only one entry.
-            QAction* action = popup->addAction(i18n("Open With..."));
+            QAction* action = popup->addAction(i18nc("@title:menu", "Open With..."));
             openWithActions << action;
         }
     } else {
         // At least one of the selected items has a different MIME type. In this case
         // just show a disabled "Open With..." entry.
-        QAction* action = popup->addAction(i18n("Open With..."));
+        QAction* action = popup->addAction(i18nc("@title:menu", "Open With..."));
         action->setEnabled(false);
     }
 
@@ -377,7 +380,7 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
     // libqonq/konq_operations.h of Konqueror.
     // (Copyright (C) 2000  David Faure <faure@kde.org>)
 
-    KMenu* actionsMenu = new KMenu(i18n("Actions"));
+    KMenu* actionsMenu = new KMenu(i18nc("@title:menu", "Actions"));
 
     QList<QAction*> serviceActions;
 

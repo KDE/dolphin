@@ -70,7 +70,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     Q_ASSERT(dolphinView != 0);
     const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
 
-    setCaption(i18n("View Properties"));
+    setCaption(i18nc("@title:window", "View Properties"));
     setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Apply);
 
     const KUrl& url = dolphinView->url();
@@ -88,9 +88,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsBox);
     m_viewMode = new QComboBox(propsBox);
-    m_viewMode->addItem(KIcon("fileview-icon"), i18n("Icons"));
-    m_viewMode->addItem(KIcon("fileview-detailed"), i18n("Details"));
-    m_viewMode->addItem(KIcon("fileview-column"), i18n("Column"));
+    m_viewMode->addItem(KIcon("fileview-icon"), i18nc("@item:inlistbox", "Icons"));
+    m_viewMode->addItem(KIcon("fileview-detailed"), i18nc("@item:inlistbox", "Details"));
+    m_viewMode->addItem(KIcon("fileview-column"), i18nc("@item:inlistbox", "Column"));
     const int index = static_cast<int>(m_viewProps->viewMode());
     m_viewMode->setCurrentIndex(index);
     const bool iconsViewEnabled = (index == DolphinView::IconsView);
@@ -99,23 +99,23 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QWidget* sortingBox = new QWidget(propsBox);
 
     m_sortOrder = new QComboBox(sortingBox);
-    m_sortOrder->addItem(i18n("Ascending"));
-    m_sortOrder->addItem(i18n("Descending"));
+    m_sortOrder->addItem(i18nc("@item:inlistbox", "Ascending"));
+    m_sortOrder->addItem(i18nc("@item:inlistbox", "Descending"));
     const int sortOrderIndex = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIndex);
 
     m_sorting = new QComboBox(sortingBox);
-    m_sorting->addItem(i18n("By Name"));
-    m_sorting->addItem(i18n("By Size"));
-    m_sorting->addItem(i18n("By Date"));
-    m_sorting->addItem(i18n("By Permissions"));
-    m_sorting->addItem(i18n("By Owner"));
-    m_sorting->addItem(i18n("By Group"));
-    m_sorting->addItem(i18n("By Type"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Name"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Size"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Date"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Permissions"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Owner"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Group"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Type"));
 #ifdef HAVE_NEPOMUK
     if (!Nepomuk::ResourceManager::instance()->init()) {
-        m_sorting->addItem(i18n("By Rating"));
-        m_sorting->addItem(i18n("By Tags"));
+        m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Rating"));
+        m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
     }
 #endif
     m_sorting->setCurrentIndex(m_viewProps->sorting());
@@ -128,10 +128,14 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QLabel* additionalInfoLabel = new QLabel(i18nc("@label:listbox", "Additional information:"), propsBox);
     m_additionalInfo = new QComboBox(propsBox);
-    m_additionalInfo->addItem(i18n("No Information"), KFileItemDelegate::NoInformation);
-    m_additionalInfo->addItem(i18n("Type"), KFileItemDelegate::FriendlyMimeType);
-    m_additionalInfo->addItem(i18n("Size"), KFileItemDelegate::Size);
-    m_additionalInfo->addItem(i18n("Date"), KFileItemDelegate::ModificationTime);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "No Information"),
+                              KFileItemDelegate::NoInformation);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "Type"),
+                              KFileItemDelegate::FriendlyMimeType);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "Size"),
+                              KFileItemDelegate::Size);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "Date"),
+                              KFileItemDelegate::ModificationTime);
     const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());
     m_additionalInfo->setCurrentIndex(addInfoIndex);
     m_additionalInfo->setEnabled(iconsViewEnabled);
@@ -313,7 +317,7 @@ void ViewPropertiesDialog::applyViewProperties()
                                    (m_applyToSubFolders != 0) &&
                                    m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
-        const QString text(i18n("The view properties of all sub folders will be changed. Do you want to continue?"));
+        const QString text(i18nc("@info", "The view properties of all sub folders will be changed. Do you want to continue?"));
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
             return;
         }
@@ -329,7 +333,7 @@ void ViewPropertiesDialog::applyViewProperties()
                                    (m_applyToAllFolders != 0) &&
                                    m_applyToAllFolders->isChecked();
     if (applyToAllFolders) {
-        const QString text(i18n("The view properties of all folders will be changed. Do you want to continue?"));
+        const QString text(i18nc("@info", "The view properties of all folders will be changed. Do you want to continue?"));
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
             return;
         }

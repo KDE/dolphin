@@ -52,7 +52,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(timerDone()));
 
-    m_closeButton = new QPushButton(i18n("Close"), this);
+    m_closeButton = new QPushButton(i18nc("@action:button", "Close"), this);
     m_closeButton->hide();
     connect(m_closeButton, SIGNAL(clicked()),
             this, SLOT(closeErrorMessage()));

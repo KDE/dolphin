@@ -36,11 +36,13 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     Q_ASSERT(itemCount >= 1);
     m_renameOneItem = (itemCount == 1);
 
-    setCaption(m_renameOneItem ? i18n("Rename Item") : i18n("Rename Items"));
+    setCaption(m_renameOneItem ?
+               i18nc("@title:window", "Rename Item") :
+               i18nc("@title:window", "Rename Items"));
     setButtons(Ok | Cancel);
     setDefaultButton(Ok);
 
-    setButtonGuiItem(Ok, KGuiItem(i18n("Rename"), "dialog-apply"));
+    setButtonGuiItem(Ok, KGuiItem(i18nc("@action:button", "Rename"), "dialog-apply"));
 
     QWidget* page = new QWidget(this);
     setMainWidget(page);
@@ -111,10 +113,11 @@ void RenameDialog::slotButtonClicked(int button)
     if (button == Ok) {
         m_newName = m_lineEdit->text();
         if (m_newName.isEmpty()) {
-            m_errorString = i18n("The new name is empty. A name with at least one character must be entered.");
+            m_errorString = i18nc("@info:status",
+                                  "The new name is empty. A name with at least one character must be entered.");
         } else if (!m_renameOneItem && m_newName.contains('#') != 1) {
             m_newName.truncate(0);
-            m_errorString = i18n("The name must contain exactly one # character.");
+            m_errorString = i18nc("@info:status", "The name must contain exactly one # character.");
         }
     }
 

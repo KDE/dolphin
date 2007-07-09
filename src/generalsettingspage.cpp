@@ -72,10 +72,10 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     KHBox* buttonBox = new KHBox(homeBox);
     buttonBox->setSpacing(spacing);
 
-    QPushButton* useCurrentButton = new QPushButton(i18n("Use Current Location"), buttonBox);
+    QPushButton* useCurrentButton = new QPushButton(i18nc("@action:button", "Use Current Location"), buttonBox);
     connect(useCurrentButton, SIGNAL(clicked()),
             this, SLOT(useCurrentLocation()));
-    QPushButton* useDefaultButton = new QPushButton(i18n("Use Default Location"), buttonBox);
+    QPushButton* useDefaultButton = new QPushButton(i18nc("@action:button", "Use Default Location"), buttonBox);
     connect(useDefaultButton, SIGNAL(clicked()),
             this, SLOT(useDefaultLocation()));
 

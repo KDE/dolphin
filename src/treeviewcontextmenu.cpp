@@ -51,13 +51,13 @@ void TreeViewContextMenu::open()
     KMenu* popup = new KMenu(m_parent);
 
     // insert 'Cut', 'Copy' and 'Paste'
-    QAction* cutAction   = new QAction(KIcon("edit-cut"), i18n("Cut"), this);
+    QAction* cutAction   = new QAction(KIcon("edit-cut"), i18nc("@action:inmenu", "Cut"), this);
     connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
 
-    QAction* copyAction  = new QAction(KIcon("edit-copy"), i18n("Copy"), this);
+    QAction* copyAction  = new QAction(KIcon("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
     connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
 
-    QAction* pasteAction = new QAction(KIcon("edit-paste"), i18n("Paste"), this);
+    QAction* pasteAction = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste"), this);
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
     const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
     pasteAction->setEnabled(!pasteData.isEmpty());
@@ -69,7 +69,7 @@ void TreeViewContextMenu::open()
     popup->addSeparator();
 
     // insert 'Rename'
-    QAction* renameAction = new QAction(i18n("Rename..."), this);
+    QAction* renameAction = new QAction(i18nc("@action:inmenu", "Rename..."), this);
     connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
     popup->addAction(renameAction);
 
@@ -79,7 +79,8 @@ void TreeViewContextMenu::open()
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
     const KUrl& url = m_fileInfo->url();
     if (url.isLocalFile()) {
-        QAction* moveToTrashAction = new QAction(KIcon("edit-trash"), i18n("Move To Trash"), this);
+        QAction* moveToTrashAction = new QAction(KIcon("edit-trash"),
+                                                 i18nc("@action:inmenu", "Move To Trash"), this);
         connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
         popup->addAction(moveToTrashAction);
     } else {
@@ -87,7 +88,7 @@ void TreeViewContextMenu::open()
     }
 
     if (showDeleteCommand) {
-        QAction* deleteAction = new QAction(KIcon("edit-delete"), i18n("Delete"), this);
+        QAction* deleteAction = new QAction(KIcon("edit-delete"), i18nc("@action:inmenu", "Delete"), this);
         connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
         popup->addAction(deleteAction);
     }
@@ -95,7 +96,7 @@ void TreeViewContextMenu::open()
     popup->addSeparator();
 
     // insert 'Properties' entry
-    QAction* propertiesAction = new QAction(i18n("Properties"), this);
+    QAction* propertiesAction = new QAction(i18nc("@action:inmenu", "Properties"), this);
     connect(propertiesAction, SIGNAL(triggered()), this, SLOT(showProperties()));
     popup->addAction(propertiesAction);
 

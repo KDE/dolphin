@@ -91,7 +91,7 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                     retString = data.toString().toUpper().at(1);
                 else if (item->isHidden() && data.toString().at(0) == '.' &&
                          !data.toString().at(1).isLetter())
-                    retString = i18n("Others");
+                    retString = i18nc("@title:group Name", "Others");
                 else if (item->isHidden() && data.toString().at(0) != '.')
                     retString = data.toString().toUpper().at(0);
                 else if (item->isHidden())
@@ -106,13 +106,13 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
                         if (currA->isLetter())
                             validCategory = true;
                         else if (currA->isDigit())
-                            return i18n("Others");
+                            return i18nc("@title:group", "Others");
                         else
                             ++currA;
                     }
 
                     if (!validCategory)
-                        retString = i18n("Others");
+                        retString = i18nc("@title:group Name", "Others");
                     else
                         retString = *currA;
                 }
@@ -127,17 +127,17 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
             modifiedTime = modifiedTime.toLocalZone();
 
             if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) == 0)
-                retString = i18n("Today");
+                retString = i18nc("@title:group Date", "Today");
             else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) == 1)
-                retString = i18n("Yesterday");
+                retString = i18nc("@title:group Date", "Yesterday");
             else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) < 7)
-                retString = i18n("Less than a week");
+                retString = i18nc("@title:group Date", "Less than a week");
             else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) < 31)
-                retString = i18n("Less than a month");
+                retString = i18nc("@title:group Date", "Less than a month");
             else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) < 365)
-                retString = i18n("Less than a year");
+                retString = i18nc("@title:group Date", "Less than a year");
             else
-                retString = i18n("More than a year");
+                retString = i18nc("@title:group Date", "More than a year");
             break;
         }
 
@@ -156,13 +156,13 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
         case DolphinView::SortBySize: {
             const int fileSize = item ? item->size() : -1;
             if (item && item->isDir()) {
-                retString = i18n("Folders");
+                retString = i18nc("@title:group Size", "Folders");
             } else if (fileSize < 5242880) {
-                retString = i18nc("Size", "Small");
+                retString = i18nc("@title:group Size", "Small");
             } else if (fileSize < 10485760) {
-                retString = i18nc("Size", "Medium");
+                retString = i18nc("@title:group Size", "Medium");
             } else {
-                retString = i18nc("Size", "Big");
+                retString = i18nc("@title:group Size", "Big");
             }
             break;
         }
@@ -183,7 +183,7 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
             retString = DolphinSortFilterProxyModel::tagsForIndex(index);
 
             if (retString.isEmpty())
-                retString = i18n("Not yet tagged");
+                retString = i18nc("@title:group Tags", "Not yet tagged");
 
             break;
         }

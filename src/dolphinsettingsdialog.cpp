@@ -37,16 +37,18 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     setMinimumSize(QSize(512, minSize.height()));
 
     setFaceType(List);
-    setCaption(i18n("Dolphin Preferences"));
+    setCaption(i18nc("@title:window", "Dolphin Preferences"));
     setButtons(Ok | Apply | Cancel | Default);
     setDefaultButton(Ok);
 
     m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
-    KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage, i18n("General"));
+    KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage,
+                                                    i18nc("@title:group", "General"));
     generalSettingsFrame->setIcon(KIcon("exec"));
 
     m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
-    KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage, i18n("View Modes"));
+    KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage,
+                                                 i18nc("@title:group", "View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
@@ -64,7 +66,7 @@ void DolphinSettingsDialog::slotButtonClicked(int button)
     if ((button == Ok) || (button == Apply)) {
         applySettings();
     } else if (button == Default) {
-        const QString text(i18n("All settings will be reset to default values. Do you want to continue?"));
+        const QString text(i18nc("@info", "All settings will be reset to default values. Do you want to continue?"));
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::Yes) {
             restoreDefaults();
         }
