@@ -33,7 +33,6 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     dolphin_generalsettings.kcfgc)
 
 
-kde4_automoc(${dolphinprivate_LIB_SRCS})
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
@@ -58,7 +57,6 @@ set(dolphinpart_SRCS
    dolphinpart.cpp
 )
 
-kde4_automoc(${dolphinpart_SRCS})
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
 
@@ -105,7 +103,6 @@ set(dolphin_SRCS
    viewsettingspage.cpp
    viewpropsprogressinfo.cpp )
 
-kde4_automoc(${dolphin_SRCS})
 
 qt4_add_dbus_adaptor(dolphin_SRCS
    org.kde.dolphin.Application.xml

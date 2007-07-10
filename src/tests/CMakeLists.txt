@@ -2,7 +2,6 @@ include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
 ########### renamedialogtest ###############
 
-kde4_automoc(renamedialogtest.cpp)
 
 kde4_add_unit_test(renamedialogtest renamedialogtest.cpp)
 
