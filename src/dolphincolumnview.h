@@ -20,8 +20,8 @@
 #ifndef DOLPHINCOLUMNVIEW_H
 #define DOLPHINCOLUMNVIEW_H
 
-#include <QtGui/QColumnView>
-#include <QtGui/QStyleOption>
+#include <QColumnView>
+#include <QStyleOption>
 
 class DolphinController;
 class KDirLister;
@@ -76,9 +76,6 @@ private:
      * operations.
      */
     void updateDecorationSize();
-
-    /** Returns the directory lister used by the view. */
-    KDirLister* dirLister() const;
 
 private:
     DolphinController* m_controller;

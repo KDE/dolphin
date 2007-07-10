@@ -39,7 +39,9 @@
 class ColumnWidget : public QListView
 {
 public:
-    ColumnWidget(QWidget* parent, DolphinColumnView* columnView);
+    ColumnWidget(QWidget* parent,
+                 DolphinColumnView* columnView,
+                 const KUrl& url);
     virtual ~ColumnWidget();
 
     /** Sets the size of the icons. */
@@ -51,6 +53,8 @@ public:
      * drawn in a lighter color. All operations are applied to this column.
      */
     void setActive(bool active);
+
+    inline const KUrl& url() const;
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
@@ -72,6 +76,7 @@ private:
 private:
     bool m_active;
     DolphinColumnView* m_view;
+    KUrl m_url;
     QStyleOptionViewItem m_viewOptions;
 
     bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
@@ -79,10 +84,12 @@ private:
 };
 
 ColumnWidget::ColumnWidget(QWidget* parent,
-                           DolphinColumnView* columnView) :
+                           DolphinColumnView* columnView,
+                           const KUrl& url) :
     QListView(parent),
     m_active(true),
     m_view(columnView),
+    m_url(url),
     m_dragging(false),
     m_dropRect()
 {
@@ -133,6 +140,11 @@ void ColumnWidget::setActive(bool active)
     } else {
         deactivate();
     }
+}
+
+const KUrl& ColumnWidget::url() const
+{
+    return m_url;
 }
 
 QStyleOptionViewItem ColumnWidget::viewOptions() const
@@ -222,6 +234,7 @@ void ColumnWidget::activate()
     viewport()->setPalette(palette);
 
     setSelectionMode(MultiSelection);
+    update();
 }
 
 void ColumnWidget::deactivate()
@@ -235,6 +248,7 @@ void ColumnWidget::deactivate()
     viewport()->setPalette(palette);
 
     setSelectionMode(SingleSelection);
+    update();
 }
 
 // ---
@@ -277,7 +291,24 @@ DolphinColumnView::~DolphinColumnView()
 
 QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
 {
-    ColumnWidget* view = new ColumnWidget(viewport(), this);
+    // let the column widget be aware about its URL...
+    KUrl columnUrl;
+    if (viewport()->children().count() == 0) {
+        // For the first column widget the directory lister has not been started
+        // yet, hence use the URL from the controller instead.
+        columnUrl = m_controller->url();
+    } else {
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+
+        const QModelIndex dirModelIndex = proxyModel->mapToSource(index);
+        KFileItem* fileItem = dirModel->itemForIndex(dirModelIndex);
+        if (fileItem != 0) {
+            columnUrl = fileItem->url();
+        }
+    }
+
+    ColumnWidget* view = new ColumnWidget(viewport(), this, columnUrl);
 
     // The following code has been copied 1:1 from QColumnView::createColumn().
     // Copyright (C) 1992-2007 Trolltech ASA. In Qt 4.4 the new method
@@ -381,15 +412,10 @@ void DolphinColumnView::triggerItem(const QModelIndex& index)
 
 void DolphinColumnView::updateColumnsState(const KUrl& url)
 {
-    const KUrl baseUrl = dirLister()->url();
-    const int activeIndex = url.path().count('/') - baseUrl.path().count('/');
-
-    int index = 0;
     foreach (QObject* object, viewport()->children()) {
         if (object->inherits("QListView")) {
             ColumnWidget* widget = static_cast<ColumnWidget*>(object);
-            widget->setActive(index == activeIndex);
-            ++index;
+            widget->setActive(widget->url() == url);
         }
     }
 }
@@ -408,17 +434,14 @@ bool DolphinColumnView::isZoomOutPossible() const
 
 void DolphinColumnView::requestActivation(QWidget* column)
 {
-    KUrl::List dirs = dirLister()->directories();
-    KUrl::List::const_iterator it = dirs.constBegin();
     foreach (QObject* object, viewport()->children()) {
         if (object->inherits("QListView")) {
             ColumnWidget* widget = static_cast<ColumnWidget*>(object);
             const bool isActive = (widget == column);
             widget->setActive(isActive);
             if (isActive) {
-                m_controller->setUrl(*it);
+                m_controller->setUrl(widget->url());
             }
-            ++it;
         }
     }
 }
@@ -439,13 +462,6 @@ void DolphinColumnView::updateDecorationSize()
     m_controller->setZoomOutPossible(isZoomOutPossible());
 
     doItemsLayout();
-}
-
-KDirLister* DolphinColumnView::dirLister() const
-{
-    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-    return dirModel->dirLister();
 }
 
 #include "dolphincolumnview.moc"
