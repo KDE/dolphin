@@ -27,27 +27,38 @@
 int main(int argc, char **argv)
 {
     KAboutData about("dolphin", 0,
-                     ki18n("Dolphin"),
+                     ki18nc("@info", "Dolphin"),
                      "0.9.0",
-                     ki18n("File Manager"),
+                     ki18nc("@info", "File Manager"),
                      KAboutData::License_GPL,
-                     ki18n("(C) 2006 Peter Penz"));
+                     ki18nc("@info:credit", "(C) 2006 Peter Penz"));
     about.setHomepage("http://enzosworld.gmxhome.de");
     about.setBugAddress("peter.penz@gmx.at");
-    about.addAuthor(ki18n("Peter Penz"), ki18n("Maintainer and developer"), "peter.penz@gmx.at");
-    about.addAuthor(ki18n("Cvetoslav Ludmiloff"), ki18n("Developer"), "ludmiloff@gmail.com");
-    about.addAuthor(ki18n("Stefan Monov"), ki18n("Developer"), "logixoul@gmail.com");
-    about.addAuthor(ki18n("Michael Austin"), ki18n("Documentation"), "tuxedup@users.sourceforge.net");
-    about.addAuthor(ki18n("Orville Bennett"), ki18n("Documentation"), "obennett@hartford.edu");
-    about.addCredit(ki18n("Aaron J. Seigo"), ki18n("... for the great support and the amazing patches"));
-    about.addCredit(ki18n("Patrice Tremblay and Gregor Kalisnik"), ki18n("... for their patches"));
-    about.addCredit(ki18n("Ain, Itai, Ivan, Stephane, Patrice, Piotr and Stefano"),
-                    ki18n("... for their translations"));
+    about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
+                    ki18nc("@info:credit", "Maintainer and developer"),
+                    "peter.penz@gmx.at");
+    about.addAuthor(ki18nc("@info:credit", "Cvetoslav Ludmiloff"),
+                    ki18nc("@info:credit", "Developer"),
+                    "ludmiloff@gmail.com");
+    about.addAuthor(ki18nc("@info:credit", "Stefan Monov"),
+                    ki18nc("@info:credit", "Developer"),
+                    "logixoul@gmail.com");
+    about.addAuthor(ki18nc("@info:credit", "Michael Austin"),
+                    ki18nc("@info:credit", "Documentation"),
+                    "tuxedup@users.sourceforge.net");
+    about.addAuthor(ki18nc("@info:credit", "Orville Bennett"),
+                    ki18nc("@info:credit", "Documentation"), "obennett@hartford.edu");
+    about.addCredit(ki18nc("@info:credit", "Aaron J. Seigo"),
+                    ki18nc("@info:credit", "... for the great support and the amazing patches"));
+    about.addCredit(ki18nc("@info:credit", "Patrice Tremblay and Gregor Kalisnik"),
+                    ki18nc("@info:credit", "... for their patches"));
+    about.addCredit(ki18nc("@info:credit", "Ain, Itai, Ivan, Stephane, Patrice, Piotr and Stefano"),
+                    ki18nc("@info:credit", "... for their translations"));
 
     KCmdLineArgs::init(argc, argv, &about);
 
     KCmdLineOptions options;
-    options.add("+[Url]", ki18n("Document to open"));
+    options.add("+[Url]", ki18nc("@info:shell", "Document to open"));
     KCmdLineArgs::addCmdLineOptions(options);
 
     if (!DolphinApplication::start()) {
