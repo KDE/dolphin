@@ -272,7 +272,7 @@ void InfoSidebarPage::showMetaInfo()
         fileItem.refresh();
 
         if (fileItem.isDir()) {
-            addInfoLine(text, i18nc("@label", "Type:"), i18nc("@info", "Folder"));
+            addInfoLine(text, i18nc("@label", "Type:"), i18nc("@label", "Folder"));
         } else {
             addInfoLine(text, i18nc("@label", "Type:"), fileItem.mimeComment());
 
@@ -322,7 +322,7 @@ void InfoSidebarPage::addInfoLine(QString& text,
                                   const QString& labelText,
                                   const QString& infoText)
 {
-    if (!infoText.isEmpty()) {
+    if (!text.isEmpty()) {
         text += "<br/>";
     }
     text += QString("<b>%1</b> %2").arg(labelText).arg(infoText);
