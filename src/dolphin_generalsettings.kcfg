@@ -4,31 +4,31 @@
     <kcfgfile name="dolphinrc"/>
     <group name="General">
         <entry name="EditableUrl" type="Bool">
-            <label>Should the URL be editable for the user</label>
+            <label context="@label">Should the URL be editable for the user</label>
             <default>false</default>
         </entry>
         <entry name="FirstRun" type="Bool">
-            <label>Is the application started the first time</label>
+            <label context="@label">Is the application started the first time</label>
             <default>true</default>
         </entry>
         <entry name="HomeUrl" type="String">
-            <label>Home URL</label>
+            <label context="@label">Home URL</label>
             <default>~</default>
         </entry>
         <entry name="SplitView" type="Bool">
-            <label>Split the view into two panes</label>
+            <label context="@label">Split the view into two panes</label>
             <default>false</default>
         </entry>
         <entry name="FilterBar" type="Bool">
-            <label>Should the filter bar be shown</label>
+            <label context="@label">Should the filter bar be shown</label>
             <default>false</default>
         </entry>
         <entry name="GlobalViewProps" type="Bool">
-            <label>Should the view properties used for all directories</label>
+            <label context="@label">Should the view properties used for all directories</label>
             <default>false</default>
         </entry>
         <entry name="ViewPropsTimestamp" type="DateTime" >
-            <label>Timestamp since when the view properties are valid</label>
+            <label context="@label">Timestamp since when the view properties are valid</label>
         </entry>
     </group>
 </kcfg>

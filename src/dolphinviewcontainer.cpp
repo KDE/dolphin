@@ -279,7 +279,7 @@ void DolphinViewContainer::updateProgress(int percent)
         // not contain another progress information. This means that
         // the directory loading progress information has the lowest priority.
         const QString progressText(m_statusBar->progressText());
-        const QString loadingText(i18nc("@status:progress", "Loading folder..."));
+        const QString loadingText(i18nc("@info:progress", "Loading folder..."));
         m_showProgress = progressText.isEmpty() || (progressText == loadingText);
         if (m_showProgress) {
             m_statusBar->setProgressText(loadingText);

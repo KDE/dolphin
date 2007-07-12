@@ -6,47 +6,47 @@
     <include>kglobalsettings.h</include>
     <group name="DetailsMode">
         <entry name="FontFamily" type="String">
-            <label>Font family</label>
+            <label context="@label">Font family</label>
             <default code="true">KGlobalSettings::generalFont().family()</default>
         </entry>
         <entry name="FontSize" type="Int">
-            <label>Font size</label>
+            <label context="@label">Font size</label>
             <default code="true">KGlobalSettings::generalFont().pointSize()</default>
         </entry>
         <entry name="ItalicFont" type="Bool">
-            <label>Italic</label>
+            <label context="@label">Italic</label>
             <default>false</default>
         </entry>
         <entry name="BoldFont" type="Bool">
-            <label>Bold</label>
+            <label context="@label">Bold</label>
             <default>false</default>
         </entry>
         <entry name="IconSize" type="Int">
-            <label>Icon size</label>
+            <label context="@label">Icon size</label>
             <default code="true">K3Icon::SizeSmall</default>
         </entry>
         <entry name="ShowDate" type="Bool">
-            <label>Show date</label>
+            <label context="@label">Show date</label>
             <default>true</default>
         </entry>
         <entry name="ShowGroup" type="Bool">
-            <label>Show group</label>
+            <label context="@label">Show group</label>
             <default>false</default>
         </entry>
         <entry name="ShowOwner" type="Bool">
-            <label>Show owner</label>
+            <label context="@label">Show owner</label>
             <default>false</default>
         </entry>
         <entry name="ShowPermissions" type="Bool">
-            <label>Show permissions</label>
+            <label context="@label">Show permissions</label>
             <default>false</default>
         </entry>
         <entry name="ShowSize" type="Bool">
-            <label>Show size</label>
+            <label context="@label">Show size</label>
             <default>false</default>
         </entry>
         <entry name="ShowType" type="Bool">
-            <label>Show type</label>
+            <label context="@label">Show type</label>
             <default>false</default>
         </entry>
     </group>

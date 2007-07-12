@@ -7,27 +7,27 @@
     <include>QListView</include>
     <group name="IconsMode">
         <entry name="Arrangement" type="Int">
-            <label>Arrangement</label>
+            <label context="@label">Arrangement</label>
             <default code="true">QListView::TopToBottom</default>
         </entry>
         <entry name="FontFamily" type="String">
-            <label>Font family</label>
+            <label context="@label">Font family</label>
             <default code="true">KGlobalSettings::generalFont().family()</default>
         </entry>
         <entry name="FontSize" type="Int">
-            <label>Font size</label>
+            <label context="@label">Font size</label>
             <default code="true">KGlobalSettings::generalFont().pointSize()</default>
         </entry>
         <entry name="ItalicFont" type="Bool">
-            <label>Italic</label>
+            <label context="@label">Italic</label>
             <default>false</default>
         </entry>
          <entry name="BoldFont" type="Bool">
-            <label>Bold</label>
+            <label context="@label">Bold</label>
             <default>false</default>
         </entry>
        <entry name="ItemHeight" type="Int">
-            <label>Item height</label>
+            <label context="@label">Item height</label>
             <!--
                  check 'void IconsViewSettingsPage::applySettings()' as reference (iconsviewsettingspage.cpp):
                  itemHeight += fontHeight * numberOfTextlines + 16;
@@ -35,7 +35,7 @@
             <default code="true">K3Icon::SizeMedium + (QFontMetrics(KGlobalSettings::generalFont()).height() * 2) + 16</default>
         </entry>
         <entry name="ItemWidth" type="Int">
-            <label>Item width</label>
+            <label context="@label">Item width</label>
             <!--
                  check 'void IconsViewSettingsPage::applySettings()' as reference (iconsviewsettingspage.cpp):
                  itemWidth = TopToBottomBase + textSizeIndex * TopToBottomInc;
@@ -43,19 +43,19 @@
             <default>96</default>
         </entry>
         <entry name="GridSpacing" type="Int">
-            <label>Grid spacing</label>
+            <label context="@label">Grid spacing</label>
             <default>8</default>
         </entry>
         <entry name="IconSize" type="Int">
-            <label>Icon size</label>
+            <label context="@label">Icon size</label>
             <default code="true">K3Icon::SizeMedium</default>
         </entry>
         <entry name="NumberOfTextlines" type="Int">
-            <label>Number of textlines</label>
+            <label context="@label">Number of textlines</label>
             <default>2</default>
         </entry>
         <entry name="PreviewSize" type="Int">
-            <label>Preview size</label>
+            <label context="@label">Preview size</label>
             <default code="true">K3Icon::SizeHuge</default>
         </entry>
     </group>

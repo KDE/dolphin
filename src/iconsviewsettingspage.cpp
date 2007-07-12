@@ -76,9 +76,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
-    m_textWidthBox->addItem(i18nc("Text width", "Small"));
-    m_textWidthBox->addItem(i18nc("Text width", "Medium"));
-    m_textWidthBox->addItem(i18nc("Text width", "Large"));
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
     textGroupLayout->addWidget(fontLabel, 0, 0);

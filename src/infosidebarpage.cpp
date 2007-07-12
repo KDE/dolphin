@@ -178,7 +178,7 @@ void InfoSidebarPage::showItemInfo()
                                            K3Icon::NoGroup,
                                            K3Icon::SizeEnormous);
         m_preview->setPixmap(icon);
-        m_nameLabel->setText(i18np("%1 item selected", "%1 items selected", selectedItems.count()));
+        m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectedItems.count()));
     } else if (!applyBookmark(file)) {
         // try to get a preview pixmap from the item...
         KUrl::List list;

@@ -17,13 +17,13 @@
   </Menu>
   <Menu name="view">
    <Menu name="view_mode" >
-    <text>View Mode</text>
+    <text context="@title:menu">View Mode</text>
     <Action name="icons" />
     <Action name="details" />
     <Action name="columns" />
    </Menu>
    <Menu name="sort">
-    <text>Sort</text>
+    <text context="@title:menu">Sort</text>
     <Action name="by_name" />
     <Action name="by_size" />
     <Action name="by_date" />
@@ -37,7 +37,7 @@
     <Action name="descending" />
    </Menu>
    <Menu name="additional_info">
-    <text>Additional Information</text>
+    <text context="@title:menu">Additional Information</text>
     <Action name="clear_info" />
     <Action name="show_mime_info" />
     <Action name="show_size_info" />
@@ -52,14 +52,14 @@
    <Action name="stop" />
    <Separator/>
    <Menu name="panels">
-    <text>Panels</text>
+    <text context="@title:menu">Panels</text>
     <Action name="show_places_panel" />
     <Action name="show_info_panel" />
     <Action name="show_folders_panel" />
     <Action name="show_terminal_panel" />
    </Menu>
    <Menu name="navigation_bar">
-    <text>Navigation Bar</text>
+    <text context="@title:menu">Navigation Bar</text>
     <Action name="editable_location" />
     <Action name="edit_location" />
    </Menu>
@@ -110,7 +110,7 @@
   </disable>
  </State>
  <ToolBar noMerge="1" name="mainToolBar" >
-  <text>Main Toolbar</text>
+  <text context="@title:menu">Main Toolbar</text>
   <Action name="go_back" />
   <Action name="go_forward" />
   <Separator name="separator_1" />
