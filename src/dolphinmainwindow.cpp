@@ -1336,6 +1336,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setWidget(infoWidget);
 
     infoDock->toggleViewAction()->setText(i18nc("@title:window", "Information"));
+    infoDock->toggleViewAction()->setShortcut(Qt::Key_F8);
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
@@ -1354,6 +1355,7 @@ void DolphinMainWindow::setupDockWidgets()
     treeViewDock->setWidget(treeWidget);
 
     treeViewDock->toggleViewAction()->setText(i18nc("@title:window", "Folders"));
+    treeViewDock->toggleViewAction()->setShortcut(Qt::Key_F9);
     actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
@@ -1374,6 +1376,7 @@ void DolphinMainWindow::setupDockWidgets()
     terminalDock->setWidget(terminalWidget);
 
     terminalDock->toggleViewAction()->setText(i18nc("@title:window", "Terminal"));
+    terminalDock->toggleViewAction()->setShortcut(Qt::Key_F4);
     actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, terminalDock);
@@ -1395,6 +1398,7 @@ void DolphinMainWindow::setupDockWidgets()
     listView->setModel(DolphinSettings::instance().placesModel());
 
     placesDock->toggleViewAction()->setText(i18nc("@title:window", "Places"));
+    placesDock->toggleViewAction()->setShortcut(Qt::Key_F7);
     actionCollection()->addAction("show_places_panel", placesDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
