@@ -23,16 +23,16 @@
     <Action name="columns" />
    </Menu>
    <Menu name="sort">
-    <text context="@title:menu">Sort</text>
-    <Action name="by_name" />
-    <Action name="by_size" />
-    <Action name="by_date" />
-    <Action name="by_permissions" />
-    <Action name="by_owner" />
-    <Action name="by_group" />
-    <Action name="by_type" />
-    <Action name="by_rating" />
-    <Action name="by_tags" />
+    <text context="@title:menu">Sort By</text>
+    <Action name="sort_by_name" />
+    <Action name="sort_by_size" />
+    <Action name="sort_by_date" />
+    <Action name="sort_by_permissions" />
+    <Action name="sort_by_owner" />
+    <Action name="sort_by_group" />
+    <Action name="sort_by_type" />
+    <Action name="sort_by_rating" />
+    <Action name="sort_by_tags" />
     <Separator/>
     <Action name="descending" />
    </Menu>

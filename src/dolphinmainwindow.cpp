@@ -276,32 +276,32 @@ void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
     QAction* action = 0;
     switch (sorting) {
     case DolphinView::SortByName:
-        action = actionCollection()->action("by_name");
+        action = actionCollection()->action("sort_by_name");
         break;
     case DolphinView::SortBySize:
-        action = actionCollection()->action("by_size");
+        action = actionCollection()->action("sort_by_size");
         break;
     case DolphinView::SortByDate:
-        action = actionCollection()->action("by_date");
+        action = actionCollection()->action("sort_by_date");
         break;
     case DolphinView::SortByPermissions:
-        action = actionCollection()->action("by_permissions");
+        action = actionCollection()->action("sort_by_permissions");
         break;
     case DolphinView::SortByOwner:
-        action = actionCollection()->action("by_owner");
+        action = actionCollection()->action("sort_by_owner");
         break;
     case DolphinView::SortByGroup:
-        action = actionCollection()->action("by_group");
+        action = actionCollection()->action("sort_by_group");
         break;
     case DolphinView::SortByType:
-        action = actionCollection()->action("by_type");
+        action = actionCollection()->action("sort_by_type");
         break;
 #ifdef HAVE_NEPOMUK
     case DolphinView::SortByRating:
-        action = actionCollection()->action("by_rating");
+        action = actionCollection()->action("sort_by_rating");
         break;
     case DolphinView::SortByTags:
-        action = actionCollection()->action("by_tags");
+        action = actionCollection()->action("sort_by_tags");
         break;
 #endif
     default:
@@ -1166,39 +1166,39 @@ void DolphinMainWindow::setupActions()
     viewModeGroup->addAction(detailsView);
     viewModeGroup->addAction(columnView);
 
-    KToggleAction* sortByName = actionCollection()->add<KToggleAction>("by_name");
-    sortByName->setText(i18nc("@action:inmenu Sort", "By Name"));
+    KToggleAction* sortByName = actionCollection()->add<KToggleAction>("sort_by_name");
+    sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
     connect(sortByName, SIGNAL(triggered()), this, SLOT(sortByName()));
 
-    KToggleAction* sortBySize = actionCollection()->add<KToggleAction>("by_size");
-    sortBySize->setText(i18nc("@action:inmenu Sort", "By Size"));
+    KToggleAction* sortBySize = actionCollection()->add<KToggleAction>("sort_by_size");
+    sortBySize->setText(i18nc("@action:inmenu Sort By", "Size"));
     connect(sortBySize, SIGNAL(triggered()), this, SLOT(sortBySize()));
 
-    KToggleAction* sortByDate = actionCollection()->add<KToggleAction>("by_date");
-    sortByDate->setText(i18nc("@action:inmenu Sort", "By Date"));
+    KToggleAction* sortByDate = actionCollection()->add<KToggleAction>("sort_by_date");
+    sortByDate->setText(i18nc("@action:inmenu Sort By", "Date"));
     connect(sortByDate, SIGNAL(triggered()), this, SLOT(sortByDate()));
 
-    KToggleAction* sortByPermissions = actionCollection()->add<KToggleAction>("by_permissions");
-    sortByPermissions->setText(i18nc("@action:inmenu Sort", "By Permissions"));
+    KToggleAction* sortByPermissions = actionCollection()->add<KToggleAction>("sort_by_permissions");
+    sortByPermissions->setText(i18nc("@action:inmenu Sort By", "Permissions"));
     connect(sortByPermissions, SIGNAL(triggered()), this, SLOT(sortByPermissions()));
 
-    KToggleAction* sortByOwner = actionCollection()->add<KToggleAction>("by_owner");
-    sortByOwner->setText(i18nc("@action:inmenu Sort", "By Owner"));
+    KToggleAction* sortByOwner = actionCollection()->add<KToggleAction>("sort_by_owner");
+    sortByOwner->setText(i18nc("@action:inmenu Sort By", "Owner"));
     connect(sortByOwner, SIGNAL(triggered()), this, SLOT(sortByOwner()));
 
-    KToggleAction* sortByGroup = actionCollection()->add<KToggleAction>("by_group");
-    sortByGroup->setText(i18nc("@action:inmenu Sort", "By Group"));
+    KToggleAction* sortByGroup = actionCollection()->add<KToggleAction>("sort_by_group");
+    sortByGroup->setText(i18nc("@action:inmenu Sort By", "Group"));
     connect(sortByGroup, SIGNAL(triggered()), this, SLOT(sortByGroup()));
 
-    KToggleAction* sortByType = actionCollection()->add<KToggleAction>("by_type");
-    sortByType->setText(i18nc("@action:inmenu Sort", "By Type"));
+    KToggleAction* sortByType = actionCollection()->add<KToggleAction>("sort_by_type");
+    sortByType->setText(i18nc("@action:inmenu Sort By", "Type"));
     connect(sortByType, SIGNAL(triggered()), this, SLOT(sortByType()));
 
-    KToggleAction* sortByRating = actionCollection()->add<KToggleAction>("by_rating");
-    sortByRating->setText(i18nc("@action:inmenu Sort", "By Rating"));
+    KToggleAction* sortByRating = actionCollection()->add<KToggleAction>("sort_by_rating");
+    sortByRating->setText(i18nc("@action:inmenu Sort By", "Rating"));
 
-    KToggleAction* sortByTags = actionCollection()->add<KToggleAction>("by_tags");
-    sortByTags->setText(i18nc("@action:inmenu Sort", "By Tags"));
+    KToggleAction* sortByTags = actionCollection()->add<KToggleAction>("sort_by_tags");
+    sortByTags->setText(i18nc("@action:inmenu Sort By", "Tags"));
 
 #ifdef HAVE_NEPOMUK
     if (MetaDataWidget::metaDataAvailable()) {
