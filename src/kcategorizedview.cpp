@@ -542,6 +542,7 @@ void KCategorizedView::reset()
     d->intersectedIndexes.clear();
     d->sourceModelIndexList.clear();
     d->hovered = QModelIndex();
+    d->biggestItemSize = QSize(0, 0);
     d->mouseButtonPressed = false;
 }
 
@@ -1067,6 +1068,7 @@ void KCategorizedView::rowsInserted(const QModelIndex &parent,
         d->intersectedIndexes.clear();
         d->sourceModelIndexList.clear();
         d->hovered = QModelIndex();
+        d->biggestItemSize = QSize(0, 0);
         d->mouseButtonPressed = false;
 
         return;
@@ -1094,6 +1096,7 @@ void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
     d->intersectedIndexes.clear();
     d->sourceModelIndexList.clear();
     d->hovered = QModelIndex();
+    d->biggestItemSize = QSize(0, 0);
     d->mouseButtonPressed = false;
 
     if (start > end || end < 0 || start < 0 || !d->proxyModel->rowCount())
