@@ -28,32 +28,36 @@ int main(int argc, char **argv)
 {
     KAboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),
-                     "0.9.0",
+                     "0.9.1",
                      ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
-                     ki18nc("@info:credit", "(C) 2006 Peter Penz"));
+                     ki18nc("@info:credit", "(C) 2006, 2007 Peter Penz"));
     about.setHomepage("http://enzosworld.gmxhome.de");
-    about.setBugAddress("peter.penz@gmx.at");
+    about.setBugAddress("http://bugs.kde.org");
     about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
                     ki18nc("@info:credit", "Maintainer and developer"),
                     "peter.penz@gmx.at");
-    about.addAuthor(ki18nc("@info:credit", "Cvetoslav Ludmiloff"),
+    about.addAuthor(ki18nc("@info:credit", "David Faure"),
                     ki18nc("@info:credit", "Developer"),
-                    "ludmiloff@gmail.com");
-    about.addAuthor(ki18nc("@info:credit", "Stefan Monov"),
+                    "faure@kde.org");
+    about.addAuthor(ki18nc("@info:credit", "Aaron J. Seigo"),
                     ki18nc("@info:credit", "Developer"),
-                    "logixoul@gmail.com");
+                    "aseigo@kde.org");
+    about.addAuthor(ki18nc("@info:credit", "Rafael Fernández López"),
+                    ki18nc("@info:credit", "Developer"),
+                    "ereslibre@gmail.com");
+    about.addAuthor(ki18nc("@info:credit", "Kevin Ottens"),
+                    ki18nc("@info:credit", "Developer"),
+                    "ervin@kde.org");
+    about.addAuthor(ki18nc("@info:credit", "Holger Freyther"),
+                    ki18nc("@info:credit", "Developer"),
+                    "freyther@gmx.net");
+    about.addAuthor(ki18nc("@info:credit", "Max Blazejak"),
+                    ki18nc("@info:credit", "Developer"),
+                    "m43ksrocks@gmail.com");
     about.addAuthor(ki18nc("@info:credit", "Michael Austin"),
                     ki18nc("@info:credit", "Documentation"),
                     "tuxedup@users.sourceforge.net");
-    about.addAuthor(ki18nc("@info:credit", "Orville Bennett"),
-                    ki18nc("@info:credit", "Documentation"), "obennett@hartford.edu");
-    about.addCredit(ki18nc("@info:credit", "Aaron J. Seigo"),
-                    ki18nc("@info:credit", "... for the great support and the amazing patches"));
-    about.addCredit(ki18nc("@info:credit", "Patrice Tremblay and Gregor Kalisnik"),
-                    ki18nc("@info:credit", "... for their patches"));
-    about.addCredit(ki18nc("@info:credit", "Ain, Itai, Ivan, Stephane, Patrice, Piotr and Stefano"),
-                    ki18nc("@info:credit", "... for their translations"));
 
     KCmdLineArgs::init(argc, argv, &about);
 
