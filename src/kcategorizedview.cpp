@@ -608,7 +608,6 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
     }
 
     // Redraw categories
-    int i = 0;
     QStyleOptionViewItem otherOption;
     foreach (const QString &category, d->categories)
     {
@@ -938,7 +937,6 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
     const QModelIndex current = selectionModel()->currentIndex();
 
     int viewportWidth = viewport()->width() - spacing();
-    int itemHeight = d->biggestItemSize.height();
     int itemWidth = d->biggestItemSize.width();
     int itemWidthPlusSeparation = spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
