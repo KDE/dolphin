@@ -27,9 +27,9 @@
 int main(int argc, char **argv)
 {
     KAboutData about("dolphin", 0,
-                     ki18nc("@info", "Dolphin"),
+                     ki18nc("@title", "Dolphin"),
                      "0.9.0",
-                     ki18nc("@info", "File Manager"),
+                     ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
                      ki18nc("@info:credit", "(C) 2006 Peter Penz"));
     about.setHomepage("http://enzosworld.gmxhome.de");
