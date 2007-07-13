@@ -78,6 +78,7 @@ private:
 KCategorizedView::Private::Private(KCategorizedView *listView)
     : listView(listView)
     , itemCategorizer(0)
+    , biggestItemSize(QSize(0, 0))
     , mouseButtonPressed(false)
     , isDragging(false)
     , dragLeftViewport(false)
@@ -150,14 +151,8 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
 
     int viewportWidth = listView->viewport()->width() - listView->spacing();
 
-    // We really need all items to be of same size. Otherwise we cannot do this
-    // (ereslibre)
-    // QSize itemSize =
-    //             listView->sizeHintForIndex(proxyModel->mapFromSource(index));
-    // int itemHeight = itemSize.height();
-    // int itemWidth = itemSize.width();*/
-    int itemHeight = 107;
-    int itemWidth = 130;
+    int itemHeight = biggestItemSize.height();
+    int itemWidth = biggestItemSize.width();
     int itemWidthPlusSeparation = listView->spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
     if (!elementsPerRow)
@@ -211,13 +206,8 @@ QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &cat
 
     int viewportWidth = listView->viewport()->width() - listView->spacing();
 
-    // We really need all items to be of same size. Otherwise we cannot do this
-    // (ereslibre)
-    // QSize itemSize = listView->sizeHintForIndex(index);
-    // int itemHeight = itemSize.height();
-    // int itemWidth = itemSize.width();
-    int itemHeight = 107;
-    int itemWidth = 130;
+    int itemHeight = biggestItemSize.height();
+    int itemWidth = biggestItemSize.width();
     int itemWidthPlusSeparation = listView->spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
 
@@ -947,13 +937,8 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
     const QModelIndex current = selectionModel()->currentIndex();
 
     int viewportWidth = viewport()->width() - spacing();
-    // We really need all items to be of same size. Otherwise we cannot do this
-    // (ereslibre)
-    // QSize itemSize = listView->sizeHintForIndex(index);
-    // int itemHeight = itemSize.height();
-    // int itemWidth = itemSize.width();
-    int itemHeight = 107;
-    int itemWidth = 130;
+    int itemHeight = d->biggestItemSize.height();
+    int itemWidth = d->biggestItemSize.width();
     int itemWidthPlusSeparation = spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
 
@@ -1119,6 +1104,11 @@ void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
     // Add all elements mapped to the source model
     for (int k = 0; k < d->proxyModel->rowCount(); k++)
     {
+        d->biggestItemSize = QSize(qMax(sizeHintForIndex(d->proxyModel->index(k, 0)).width(),
+                                        d->biggestItemSize.width()),
+                                   qMax(sizeHintForIndex(d->proxyModel->index(k, 0)).height(),
+                                        d->biggestItemSize.height()));
+
         d->sourceModelIndexList <<
                          d->proxyModel->mapToSource(d->proxyModel->index(k, 0));
     }

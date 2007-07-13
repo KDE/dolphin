@@ -123,6 +123,7 @@ public:
     // Basic data
     KCategorizedView *listView;
     KItemCategorizer *itemCategorizer;
+    QSize biggestItemSize;
 
     // Behavior data
     bool mouseButtonPressed;
