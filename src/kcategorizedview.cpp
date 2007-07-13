@@ -691,7 +691,7 @@ void KCategorizedView::resizeEvent(QResizeEvent *event)
 }
 
 void KCategorizedView::setSelection(const QRect &rect,
-                             QItemSelectionModel::SelectionFlags flags)
+                                    QItemSelectionModel::SelectionFlags flags)
 {
     if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->itemCategorizer)
@@ -865,10 +865,10 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
         {
             if (d->categoryVisualRect(category).contains(event->pos()))
             {
-                QItemSelectionRange selectionRange(d->proxyModel->mapFromSource(d->categoriesIndexes[category][0]),
-                                                   d->proxyModel->mapFromSource(d->categoriesIndexes[category][d->categoriesIndexes[category].count() - 1]));
-
-                selection << selectionRange;
+                foreach (const QModelIndex &index, d->categoriesIndexes[category])
+                {
+                    selection << QItemSelectionRange(d->proxyModel->mapFromSource(index));
+                }
 
                 selectionModel()->select(selection, QItemSelectionModel::Select);
 
