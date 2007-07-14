@@ -151,8 +151,20 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
 
     int viewportWidth = listView->viewport()->width() - listView->spacing();
 
-    int itemHeight = biggestItemSize.height();
-    int itemWidth = biggestItemSize.width();
+    int itemHeight;
+    int itemWidth;
+
+    if (listView->gridSize().isEmpty())
+    {
+        itemHeight = biggestItemSize.height();
+        itemWidth = biggestItemSize.width();
+    }
+    else
+    {
+        itemHeight = listView->gridSize().height();
+        itemWidth = listView->gridSize().width();
+    }
+
     int itemWidthPlusSeparation = listView->spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
     if (!elementsPerRow)
@@ -206,8 +218,20 @@ QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &cat
 
     int viewportWidth = listView->viewport()->width() - listView->spacing();
 
-    int itemHeight = biggestItemSize.height();
-    int itemWidth = biggestItemSize.width();
+    int itemHeight;
+    int itemWidth;
+
+    if (listView->gridSize().isEmpty())
+    {
+        itemHeight = biggestItemSize.height();
+        itemWidth = biggestItemSize.width();
+    }
+    else
+    {
+        itemHeight = listView->gridSize().height();
+        itemWidth = listView->gridSize().width();
+    }
+
     int itemWidthPlusSeparation = listView->spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
 
@@ -937,7 +961,17 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
     const QModelIndex current = selectionModel()->currentIndex();
 
     int viewportWidth = viewport()->width() - spacing();
-    int itemWidth = d->biggestItemSize.width();
+    int itemWidth;
+
+    if (gridSize().isEmpty())
+    {
+        itemWidth = d->biggestItemSize.width();
+    }
+    else
+    {
+        itemWidth = gridSize().width();
+    }
+
     int itemWidthPlusSeparation = spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
 
