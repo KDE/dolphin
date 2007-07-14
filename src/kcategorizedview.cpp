@@ -98,6 +98,17 @@ const QModelIndexList &KCategorizedView::Private::intersectionSet(const QRect &r
 
     intersectedIndexes.clear();
 
+    int itemHeight;
+
+    if (listView->gridSize().isEmpty())
+    {
+        itemHeight = biggestItemSize.height();
+    }
+    else
+    {
+        itemHeight = listView->gridSize().height();
+    }
+
     // Lets find out where we should start
     int top = proxyModel->rowCount() - 1;
     int bottom = 0;
@@ -108,10 +119,13 @@ const QModelIndexList &KCategorizedView::Private::intersectionSet(const QRect &r
 
         index = elementDictionary[proxyModel->index(middle, 0)];
         indexVisualRect = visualRect(index);
+        // We need the whole height (not only the visualRect). This will help us to update
+        // all needed indexes correctly (ereslibre)
+        indexVisualRect.setHeight(indexVisualRect.height() + (itemHeight - indexVisualRect.height()));
 
         if (qMax(indexVisualRect.topLeft().y(),
                  indexVisualRect.bottomRight().y()) < qMin(rect.topLeft().y(),
-                                                        rect.bottomRight().y()))
+                                                           rect.bottomRight().y()))
         {
             bottom = middle + 1;
         }
