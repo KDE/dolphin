@@ -70,6 +70,8 @@ int main(int argc, char **argv)
     }
 
     DolphinApplication app;
+    KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
+
 #ifdef __GNUC__
 #warning TODO, SessionManagement
 #endif
