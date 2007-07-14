@@ -213,7 +213,8 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
         {
             retRect.setTop(retRect.top() +
                            (rowsInt * itemHeight) +
-                           itemCategorizer->categoryHeight(listView->viewOptions()));
+                           itemCategorizer->categoryHeight(listView->viewOptions()) +
+                           listView->spacing());
         }
     }
 
@@ -301,7 +302,8 @@ QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &cat
         {
             retRect.setTop(retRect.top() +
                            (rowsInt * itemHeight) +
-                           itemCategorizer->categoryHeight(listView->viewOptions()));
+                           itemCategorizer->categoryHeight(listView->viewOptions()) +
+                           listView->spacing());
         }
     }
 
