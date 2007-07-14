@@ -201,15 +201,32 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
 
         if (rows - trunc(rows)) rowsInt++;
 
-        retRect.setTop(retRect.top() +
-                       (rowsInt * listView->spacing()) +
-                       (rowsInt * itemHeight) +
-                       itemCategorizer->categoryHeight(listView->viewOptions()) +
-                       listView->spacing() * 2);
+        if (listView->gridSize().isEmpty())
+        {
+            retRect.setTop(retRect.top() +
+                           (rowsInt * listView->spacing()) +
+                           (rowsInt * itemHeight) +
+                           itemCategorizer->categoryHeight(listView->viewOptions()) +
+                           listView->spacing() * 2);
+        }
+        else
+        {
+            retRect.setTop(retRect.top() +
+                           (rowsInt * itemHeight) +
+                           itemCategorizer->categoryHeight(listView->viewOptions()));
+        }
     }
 
-    retRect.setTop(retRect.top() + row * listView->spacing() +
-                   row * itemHeight);
+
+    if (listView->gridSize().isEmpty())
+    {
+        retRect.setTop(retRect.top() + row * listView->spacing() +
+                       (row * itemHeight));
+    }
+    else
+    {
+        retRect.setTop(retRect.top() + (row * itemHeight));
+    }
 
     retRect.setWidth(itemWidth);
 
@@ -272,11 +289,20 @@ QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &cat
 
         if (rows - trunc(rows)) rowsInt++;
 
-        retRect.setTop(retRect.top() +
-                       (rowsInt * listView->spacing()) +
-                       (rowsInt * itemHeight) +
-                       itemCategorizer->categoryHeight(listView->viewOptions()) +
-                       listView->spacing() * 2);
+        if (listView->gridSize().isEmpty())
+        {
+            retRect.setTop(retRect.top() +
+                           (rowsInt * listView->spacing()) +
+                           (rowsInt * itemHeight) +
+                           itemCategorizer->categoryHeight(listView->viewOptions()) +
+                           listView->spacing() * 2);
+        }
+        else
+        {
+            retRect.setTop(retRect.top() +
+                           (rowsInt * itemHeight) +
+                           itemCategorizer->categoryHeight(listView->viewOptions()));
+        }
     }
 
     retRect.setHeight(itemCategorizer->categoryHeight(listView->viewOptions()));
