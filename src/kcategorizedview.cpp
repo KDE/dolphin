@@ -198,7 +198,16 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
                    row * itemHeight);
 
     retRect.setWidth(itemWidth);
-    retRect.setHeight(itemHeight);
+
+    if (listView->gridSize().isEmpty())
+    {
+        retRect.setHeight(listView->sizeHintForIndex(proxyModel->mapFromSource(index)).height());
+    }
+    else
+    {
+        retRect.setHeight(qMin(listView->sizeHintForIndex(proxyModel->mapFromSource(index)).height(),
+                               listView->gridSize().height()));
+    }
 
     return retRect;
 }
@@ -347,8 +356,8 @@ void KCategorizedView::Private::drawNewCategory(const QModelIndex &index,
 
 void KCategorizedView::Private::updateScrollbars()
 {
-    int lastItemBottom = cachedRectIndex(lastIndex).bottom() +
-                           listView->spacing() - listView->viewport()->height();
+    int lastItemBottom = cachedRectIndex(lastIndex).top() +
+                         listView->spacing() + (listView->gridSize().isEmpty() ? 0 : listView->gridSize().height()) - listView->viewport()->height();
 
     listView->verticalScrollBar()->setSingleStep(listView->viewport()->height() / 10);
     listView->verticalScrollBar()->setPageStep(listView->viewport()->height());
