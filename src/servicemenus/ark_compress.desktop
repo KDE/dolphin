@@ -20,6 +20,7 @@ Name[pt]=Comprimir Aqui
 Name[pt_BR]=Comprimir Aqui
 Name[sv]=Komprimera här
 Name[th]=บีบอัดไว้ที่นี่
+Name[uk]=Стиснути тут
 Name[x-test]=xxCompress Herexx
 Name[zh_TW]=在此壓縮
 Exec=ark --add-to %u %u.tar.gz
