@@ -1,6 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Dolphin
+Name[sr]=Делфин
+Name[sr@latin]=Делфин
 Name[uk]=Дельфін
 Name[x-test]=xxDolphinxx
 Exec=dolphin %i %m -caption "%c"
@@ -21,7 +23,9 @@ GenericName[ja]=ファイルマネージャ
 GenericName[nds]=Dateipleger
 GenericName[nl]=Bestandsbeheerder
 GenericName[pt]=Gestor de Ficheiros
-GenericName[pt_BR]=Gestor de Ficheiros
+GenericName[pt_BR]=Gerenciador de Arquivos
+GenericName[sr]=Менаџер фајлова
+GenericName[sr@latin]=Менаџер фајлова
 GenericName[sv]=Filhanterare
 GenericName[th]=เครื่องมือจัดการแฟ้ม
 GenericName[uk]=Менеджер файлів
