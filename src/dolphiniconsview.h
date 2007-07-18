@@ -22,7 +22,10 @@
 
 #include <kcategorizedview.h>
 #include <kitemcategorizer.h>
-#include <QtGui/QStyleOption>
+
+#include <QSize>
+#include <QStyleOption>
+
 #include <libdolphin_export.h>
 
 class DolphinController;
@@ -40,6 +43,9 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KCategorizedView
 public:
     explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinIconsView();
+
+    /** @see QAbstractItemView::visualRect() */
+    virtual QRect visualRect(const QModelIndex& index) const;
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
@@ -76,6 +82,8 @@ private:
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;
+
+    QSize m_itemSize;
 
     bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
     QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4

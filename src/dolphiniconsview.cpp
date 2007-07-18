@@ -35,7 +35,9 @@
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KCategorizedView(parent),
     m_controller(controller),
-    m_dragging(false)
+    m_itemSize(),
+    m_dragging(false),
+    m_dropRect()
 {
     Q_ASSERT(controller != 0);
     setViewMode(QListView::IconMode);
@@ -91,6 +93,39 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
 
 DolphinIconsView::~DolphinIconsView()
 {
+}
+
+QRect DolphinIconsView::visualRect(const QModelIndex& index) const
+{
+    if (itemCategorizer() == 0) {
+        const bool leftToRightFlow = (flow() == QListView::LeftToRight);
+
+        QRect itemRect = KCategorizedView::visualRect(index);
+        const int maxWidth  = m_itemSize.width();
+        const int maxHeight = m_itemSize.height();
+
+        if (itemRect.width() > maxWidth) {
+            // assure that the maximum item width is not exceeded
+            if (leftToRightFlow) {
+                const int left = itemRect.left() + (itemRect.width() - maxWidth) / 2;
+                itemRect.setLeft(left);
+            }
+            itemRect.setWidth(maxWidth);
+        }
+
+        if (itemRect.height() > maxHeight) {
+            // assure that the maximum item height is not exceeded
+            if (!leftToRightFlow) {
+                const int top = itemRect.top() + (itemRect.height() - maxHeight) / 2;
+                itemRect.setTop(top);
+            }
+            itemRect.setHeight(maxHeight);
+        }
+
+        return itemRect;
+    }
+
+    return KCategorizedView::visualRect(index);
 }
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
@@ -320,6 +355,8 @@ void DolphinIconsView::updateGridSize(bool showPreview, bool showAdditionalInfo)
 
     const int spacing = settings->gridSpacing();
     setGridSize(QSize(itemWidth + spacing, itemHeight + spacing));
+
+    m_itemSize = QSize(itemWidth, itemHeight);
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());
