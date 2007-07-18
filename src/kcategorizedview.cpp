@@ -635,7 +635,7 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
     foreach (const QModelIndex &index, dirtyIndexes)
     {
         option.state = state;
-        option.rect = d->visualRect(index);
+        option.rect = visualRect(index);
 
         if (selectionModel() && selectionModel()->isSelected(index))
         {
@@ -935,7 +935,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
     d->lastSelection = selectionModel()->selection();
 
     if (d->hovered.isValid())
-        viewport()->update(d->visualRect(d->hovered));
+        viewport()->update(visualRect(d->hovered));
     else if (!d->hoveredCategory.isEmpty())
         viewport()->update(d->categoryVisualRect(d->hoveredCategory));
 }
