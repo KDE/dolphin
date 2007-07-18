@@ -97,35 +97,31 @@ DolphinIconsView::~DolphinIconsView()
 
 QRect DolphinIconsView::visualRect(const QModelIndex& index) const
 {
-    if (itemCategorizer() == 0) {
-        const bool leftToRightFlow = (flow() == QListView::LeftToRight);
+    const bool leftToRightFlow = (flow() == QListView::LeftToRight);
 
-        QRect itemRect = KCategorizedView::visualRect(index);
-        const int maxWidth  = m_itemSize.width();
-        const int maxHeight = m_itemSize.height();
+    QRect itemRect = KCategorizedView::visualRect(index);
+    const int maxWidth  = m_itemSize.width();
+    const int maxHeight = m_itemSize.height();
 
-        if (itemRect.width() > maxWidth) {
-            // assure that the maximum item width is not exceeded
-            if (leftToRightFlow) {
-                const int left = itemRect.left() + (itemRect.width() - maxWidth) / 2;
-                itemRect.setLeft(left);
-            }
-            itemRect.setWidth(maxWidth);
+    if (itemRect.width() > maxWidth) {
+        // assure that the maximum item width is not exceeded
+        if (leftToRightFlow) {
+            const int left = itemRect.left() + (itemRect.width() - maxWidth) / 2;
+            itemRect.setLeft(left);
         }
-
-        if (itemRect.height() > maxHeight) {
-            // assure that the maximum item height is not exceeded
-            if (!leftToRightFlow) {
-                const int top = itemRect.top() + (itemRect.height() - maxHeight) / 2;
-                itemRect.setTop(top);
-            }
-            itemRect.setHeight(maxHeight);
-        }
-
-        return itemRect;
+        itemRect.setWidth(maxWidth);
     }
 
-    return KCategorizedView::visualRect(index);
+    if (itemRect.height() > maxHeight) {
+        // assure that the maximum item height is not exceeded
+        if (!leftToRightFlow) {
+            const int top = itemRect.top() + (itemRect.height() - maxHeight) / 2;
+            itemRect.setTop(top);
+        }
+        itemRect.setHeight(maxHeight);
+    }
+
+    return itemRect;
 }
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
