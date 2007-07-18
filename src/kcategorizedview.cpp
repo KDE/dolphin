@@ -622,6 +622,11 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
 
     QStyleOptionViewItemV3 option = viewOptions();
     option.widget = this;
+    if (wordWrap())
+    {
+        option.features |= QStyleOptionViewItemV2::WrapText;
+    }
+
     QPainter painter(viewport());
     QRect area = event->rect();
     const bool focus = (hasFocus() || viewport()->hasFocus()) &&
