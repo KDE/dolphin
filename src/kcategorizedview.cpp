@@ -33,7 +33,7 @@
 #include <kstyle.h>
 
 #include "kitemcategorizer.h"
-#include "ksortfilterproxymodel.h"
+#include "dolphinsortfilterproxymodel.h"
 
 class LessThan
 {
@@ -44,7 +44,7 @@ public:
         CategoryPurpose
     };
 
-    inline LessThan(const KSortFilterProxyModel *proxyModel,
+    inline LessThan(const DolphinSortFilterProxyModel *proxyModel,
                     Purpose purpose)
         : proxyModel(proxyModel)
         , purpose(purpose)
@@ -67,7 +67,7 @@ public:
     }
 
 private:
-    const KSortFilterProxyModel *proxyModel;
+    const DolphinSortFilterProxyModel *proxyModel;
     const Purpose purpose;
 };
 
@@ -483,7 +483,7 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
 
     QListView::setModel(model);
 
-    d->proxyModel = dynamic_cast<KSortFilterProxyModel*>(model);
+    d->proxyModel = dynamic_cast<DolphinSortFilterProxyModel*>(model);
 
     if (d->proxyModel)
     {
