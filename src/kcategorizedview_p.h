@@ -21,7 +21,7 @@
 #ifndef KCATEGORIZEDVIEW_P_H
 #define KCATEGORIZEDVIEW_P_H
 
-class DolphinSortFilterProxyModel;
+class KSortFilterProxyModel;
 
 /**
   * @internal
@@ -152,7 +152,7 @@ public:
     QRect lastSelectionRect;
 
     // Attributes for speed reasons
-    DolphinSortFilterProxyModel *proxyModel;
+    KSortFilterProxyModel *proxyModel;
     QModelIndexList sourceModelIndexList;                // in source model
     QModelIndex lastIndex;
 };
