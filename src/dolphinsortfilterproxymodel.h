@@ -20,8 +20,9 @@
 #ifndef DOLPHINSORTFILTERPROXYMODEL_H
 #define DOLPHINSORTFILTERPROXYMODEL_H
 
-#include <ksortfilterproxymodel.h>
 #include <dolphinview.h>
+#include <kdirsortfilterproxymodel.h>
+#include <ksortfilterproxymodel.h>
 #include <libdolphin_export.h>
 
 /**
@@ -75,6 +76,7 @@ public:
      */
     static DolphinView::Sorting sortingForColumn(int column);
 
+    /** @see KSortFilterProxyModel::lessThanGeneralPurpose() */
     virtual bool lessThanGeneralPurpose(const QModelIndex &left,
                                         const QModelIndex &right) const;
 
@@ -83,6 +85,8 @@ protected:
                           const QModelIndex& right) const;
 
 private:
+    inline int naturalCompare(const QString& a, const QString& b) const;
+
     /**
      * Returns the rating for the item with the index \a index. 0 is
      * returned if no item could be found.
@@ -94,8 +98,6 @@ private:
      * tag is applied, a predefined string will be returned.
      */
     static QString tagsForIndex(const QModelIndex& index);
-
-    static int naturalCompare(const QString& a, const QString& b);
 
 private:
     DolphinView::Sorting m_sorting;
@@ -112,6 +114,11 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
 Qt::SortOrder DolphinSortFilterProxyModel::sortOrder() const
 {
     return m_sortOrder;
+}
+
+int DolphinSortFilterProxyModel::naturalCompare(const QString& a, const QString& b) const
+{
+    return KDirSortFilterProxyModel::naturalCompare(a, b);
 }
 
 #endif
