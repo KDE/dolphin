@@ -199,8 +199,8 @@ void DolphinItemCategorizer::drawCategory(const QModelIndex &index,
                                           QPainter *painter) const
 {
     QRect starRect = option.rect;
-    int iconSize = KIconLoader::global()->theme()->defaultSize(K3Icon::Small);
 
+    int iconSize =  KIconLoader::global()->currentSize(K3Icon::Small);                       
     const QString category = categoryForItem(index, sortRole);
 
     QColor color = option.palette.color(QPalette::Text);
@@ -366,7 +366,7 @@ void DolphinItemCategorizer::drawCategory(const QModelIndex &index,
 
 int DolphinItemCategorizer::categoryHeight(const QStyleOption &option) const
 {
-    int iconSize = KIconLoader::global()->theme()->defaultSize(K3Icon::Small);
+    int iconSize = KIconLoader::global()->currentSize(K3Icon::Small);
 
     return qMax(option.fontMetrics.height() + (iconSize / 4) * 2 + 2, iconSize + (iconSize / 4) * 2 + 2) /* 2 gradient */;
 }

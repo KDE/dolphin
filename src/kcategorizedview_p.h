@@ -154,7 +154,6 @@ public:
     // Attributes for speed reasons
     KSortFilterProxyModel *proxyModel;
     QModelIndexList sourceModelIndexList;                // in source model
-    QModelIndex lastIndex;
 };
 
 #endif // KCATEGORIZEDVIEW_P_H

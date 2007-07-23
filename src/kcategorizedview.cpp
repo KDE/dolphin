@@ -83,7 +83,6 @@ KCategorizedView::Private::Private(KCategorizedView *listView)
     , isDragging(false)
     , dragLeftViewport(false)
     , proxyModel(0)
-    , lastIndex(QModelIndex())
 {
 }
 
@@ -388,6 +387,9 @@ void KCategorizedView::Private::drawNewCategory(const QModelIndex &index,
 
 void KCategorizedView::Private::updateScrollbars()
 {
+    // find the last index in the last category 
+    QModelIndex lastIndex = categoriesIndexes.isEmpty() ? QModelIndex() : categoriesIndexes[categories.last()].last(); 
+
     int lastItemBottom = cachedRectIndex(lastIndex).top() +
                          listView->spacing() + (listView->gridSize().isEmpty() ? 0 : listView->gridSize().height()) - listView->viewport()->height();
 
@@ -1242,8 +1244,6 @@ void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
 
         qStableSort(indexList.begin(), indexList.end(), categoryLessThan);
     }
-
-    d->lastIndex = d->categoriesIndexes[d->categories[d->categories.count() - 1]][d->categoriesIndexes[d->categories[d->categories.count() - 1]].count() - 1];
 
     // Finally, fill data information of items situation. This will help when
     // trying to compute an item place in the viewport
