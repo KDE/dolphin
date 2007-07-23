@@ -123,7 +123,7 @@ install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 
 ########### install files ###############
 
-install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_DIR} )
+install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES  dolphin_directoryviewpropertysettings.kcfg dolphin_generalsettings.kcfg dolphin_columnmodesettings.kcfg dolphin_iconsmodesettings.kcfg dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 
