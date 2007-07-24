@@ -68,7 +68,7 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
     const KIO::UDSEntryList::ConstIterator end = list.end();
     for (; it != end; ++it) {
         const KIO::UDSEntry& entry = *it;
-        const QString name = entry.stringValue(KIO::UDS_NAME);
+        const QString name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
         if ((name != ".") && (name != "..") && entry.isDir()) {
             ++m_progress;
 
