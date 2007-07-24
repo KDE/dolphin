@@ -1000,8 +1000,11 @@ void KCategorizedView::dragLeaveEvent(QDragLeaveEvent *event)
 QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
                                   Qt::KeyboardModifiers modifiers)
 {
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->itemCategorizer)
+    if (    (viewMode() != KCategorizedView::IconMode) || 
+            !d->proxyModel ||
+            !d->itemCategorizer || 
+            d->categories.isEmpty()     
+       )
     {
         return QListView::moveCursor(cursorAction, modifiers);
     }
@@ -1023,9 +1026,10 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
     int itemWidthPlusSeparation = spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
 
-    QString lastCategory = d->categories[0];
-    QString theCategory = d->categories[0];
-    QString afterCategory = d->categories[0];
+    QString lastCategory = d->categories.first();
+    QString theCategory = d->categories.first();
+    QString afterCategory = d->categories.first();
+
     bool hasToBreak = false;
     foreach (const QString &category, d->categories)
     {
