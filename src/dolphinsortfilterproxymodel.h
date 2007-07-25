@@ -21,8 +21,8 @@
 #define DOLPHINSORTFILTERPROXYMODEL_H
 
 #include <dolphinview.h>
-#include <libdolphin_export.h>
 #include <kdirsortfilterproxymodel.h>
+#include <libdolphin_export.h>
 
 /**
  * @brief Acts as proxy model for KDirModel to sort and filter
