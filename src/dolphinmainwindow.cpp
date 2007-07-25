@@ -1379,7 +1379,7 @@ void DolphinMainWindow::setupDockWidgets()
     terminalDock->toggleViewAction()->setShortcut(Qt::Key_F4);
     actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());
 
-    addDockWidget(Qt::RightDockWidgetArea, terminalDock);
+    addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             terminalWidget, SLOT(setUrl(KUrl)));
 
