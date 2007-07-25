@@ -21,8 +21,8 @@
 #define DOLPHINSORTFILTERPROXYMODEL_H
 
 #include <dolphinview.h>
-#include <kdirsortfilterproxymodel.h>
 #include <libdolphin_export.h>
+#include <kdirsortfilterproxymodel.h>
 
 /**
  * @brief Acts as proxy model for KDirModel to sort and filter
@@ -70,37 +70,26 @@ public:
     static DolphinView::Sorting sortingForColumn(int column);
 
     /**
-     * This method is essential on the categorized view.
-     * It will does a "basic" sorting, just for finding out categories,
-     * and their order. Then over those elements DISORDERED on categories,
-     * the lessThan method will be applied for each category.
+     * This method is essential for the categorized view.
+     * It does a basic sorting for finding out categories
+     * and their order. The lessThan() method will be applied for
+     * each category.
      *
-     * The easy explanation is that not always folders go first. That will depend.
-     * Imagine we sort by Rating. Categories will be created by 10 stars,
-     * 9 stars, 8 stars... but a category with only a file with rating 10
+     * The easy explanation is that not always folders go first.
+     * Imagine we sort by rating. Categories will be created by 10 stars,
+     * 9 stars, 8 stars, ... but a category with only a file rated by 10
      * will go before a category with a folder with rating 8.
-     * That's the main reason, and that's lessThanGeneralPurpose() method.
-     * That will go category by category creating sets of elements...
+     * That's the main reason for having the lessThanGeneralPurpose() method.
      */
     virtual bool lessThanGeneralPurpose(const QModelIndex &left,
                                         const QModelIndex &right) const;
 
     /**
-     * Then for each set of elements lessThanCategoryPurpose() will be applied,
-     * because for each category we wan't first folders and bla bla bla...
-     * That's the main reason of that method existence.
-     *
-     * For that reason, is not that clear that we want ALWAYS folders first.
-     * On each category, yes, that's true. But that's not true always,
-     * as I have pointed out on the example before.
+     * For each category, that exists due to lessThanGeneralPurpose(), the
+     * lessThanCategoryPurpose() will be applied.
      */
-    bool lessThanCategoryPurpose(const QModelIndex &left,
-                                        const QModelIndex &right) const
-    {
-        //when we sort inside 1 category its the usual lessThan()
-        //from KDirSortFilterProxyModel(+nepomuk)
-        return lessThan(left,right);
-    }
+    inline bool lessThanCategoryPurpose(const QModelIndex &left,
+                                        const QModelIndex &right) const;
 
 signals:
     void sortingRoleChanged();
@@ -129,16 +118,20 @@ private:
     friend class DolphinItemCategorizer;
 };
 
-inline
 DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
 {
     return m_sorting;
 }
 
-inline
 Qt::SortOrder DolphinSortFilterProxyModel::sortOrder() const
 {
     return m_sortOrder;
+}
+
+bool DolphinSortFilterProxyModel::lessThanCategoryPurpose(const QModelIndex &left,
+                                                          const QModelIndex &right) const
+{
+    return lessThan(left, right);
 }
 
 #endif
