@@ -77,8 +77,8 @@ void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
     m_sorting = sortingForColumn(column);
     m_sortOrder = sortOrder;
     setSortRole(m_sorting);
-    emit sortingRoleChanged();
     KDirSortFilterProxyModel::sort(column, sortOrder);
+    emit sortingRoleChanged();
 }
 
 DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
