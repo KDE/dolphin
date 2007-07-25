@@ -22,7 +22,6 @@
 
 #include <dolphinview.h>
 #include <kdirsortfilterproxymodel.h>
-#include <ksortfilterproxymodel.h>
 #include <libdolphin_export.h>
 
 /**
@@ -40,7 +39,7 @@
  *
  * It is assured that directories are always sorted before files.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinSortFilterProxyModel : public KSortFilterProxyModel
+class LIBDOLPHINPRIVATE_EXPORT DolphinSortFilterProxyModel : public KDirSortFilterProxyModel
 {
     Q_OBJECT
 
@@ -63,12 +62,6 @@ public:
     virtual void sort(int column,
                       Qt::SortOrder order = Qt::AscendingOrder);
 
-    /** Reimplemented from QAbstractItemModel. Returns true for directories. */
-    virtual bool hasChildren(const QModelIndex& parent = QModelIndex()) const;
-
-    /** Reimplemented from QAbstractItemModel. Returns true for empty directories. */
-    virtual bool canFetchMore(const QModelIndex& parent) const;
-
     /**
      * Helper method to get the DolphinView::Sorting type for a given
      * column \a column. If the column is smaller 0 or greater than the
@@ -76,17 +69,47 @@ public:
      */
     static DolphinView::Sorting sortingForColumn(int column);
 
-    /** @see KSortFilterProxyModel::lessThanGeneralPurpose() */
+    /**
+     * This method is essential on the categorized view.
+     * It will does a "basic" sorting, just for finding out categories,
+     * and their order. Then over those elements DISORDERED on categories,
+     * the lessThan method will be applied for each category.
+     *
+     * The easy explanation is that not always folders go first. That will depend.
+     * Imagine we sort by Rating. Categories will be created by 10 stars,
+     * 9 stars, 8 stars... but a category with only a file with rating 10
+     * will go before a category with a folder with rating 8.
+     * That's the main reason, and that's lessThanGeneralPurpose() method.
+     * That will go category by category creating sets of elements...
+     */
     virtual bool lessThanGeneralPurpose(const QModelIndex &left,
                                         const QModelIndex &right) const;
+
+    /**
+     * Then for each set of elements lessThanCategoryPurpose() will be applied,
+     * because for each category we wan't first folders and bla bla bla...
+     * That's the main reason of that method existence.
+     *
+     * For that reason, is not that clear that we want ALWAYS folders first.
+     * On each category, yes, that's true. But that's not true always,
+     * as I have pointed out on the example before.
+     */
+    bool lessThanCategoryPurpose(const QModelIndex &left,
+                                        const QModelIndex &right) const
+    {
+        //when we sort inside 1 category its the usual lessThan()
+        //from KDirSortFilterProxyModel(+nepomuk)
+        return lessThan(left,right);
+    }
+
+signals:
+    void sortingRoleChanged();
 
 protected:
     virtual bool lessThan(const QModelIndex& left,
                           const QModelIndex& right) const;
 
 private:
-    inline int naturalCompare(const QString& a, const QString& b) const;
-
     /**
      * Returns the rating for the item with the index \a index. 0 is
      * returned if no item could be found.
@@ -100,25 +123,22 @@ private:
     static QString tagsForIndex(const QModelIndex& index);
 
 private:
-    DolphinView::Sorting m_sorting;
-    Qt::SortOrder m_sortOrder;
+    DolphinView::Sorting m_sorting:16;
+    Qt::SortOrder m_sortOrder:16;
 
     friend class DolphinItemCategorizer;
 };
 
+inline
 DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
 {
     return m_sorting;
 }
 
+inline
 Qt::SortOrder DolphinSortFilterProxyModel::sortOrder() const
 {
     return m_sortOrder;
-}
-
-int DolphinSortFilterProxyModel::naturalCompare(const QString& a, const QString& b) const
-{
-    return KDirSortFilterProxyModel::naturalCompare(a, b);
 }
 
 #endif
