@@ -45,6 +45,9 @@ public:
     TreeViewSidebarPage(QWidget* parent = 0);
     virtual ~TreeViewSidebarPage();
 
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
+
 public slots:
     /**
      * Changes the current selection inside the tree to \a url.

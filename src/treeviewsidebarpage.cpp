@@ -51,6 +51,13 @@ TreeViewSidebarPage::~TreeViewSidebarPage()
     m_dirLister = 0;
 }
 
+QSize TreeViewSidebarPage::sizeHint() const
+{
+    QSize size = SidebarPage::sizeHint();
+    size.setWidth(200);
+    return size;
+}
+
 void TreeViewSidebarPage::setUrl(const KUrl& url)
 {
     if (!url.isValid() || (url == SidebarPage::url())) {
