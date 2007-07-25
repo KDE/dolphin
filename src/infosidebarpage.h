@@ -51,6 +51,9 @@ public:
     explicit InfoSidebarPage(QWidget* parent = 0);
     virtual ~InfoSidebarPage();
 
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
+
 public slots:
     /** @see SidebarPage::setUrl() */
     virtual void setUrl(const KUrl& url);

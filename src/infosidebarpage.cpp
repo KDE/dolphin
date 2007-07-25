@@ -102,6 +102,13 @@ InfoSidebarPage::~InfoSidebarPage()
 {
 }
 
+QSize InfoSidebarPage::sizeHint() const
+{
+    QSize size = SidebarPage::sizeHint();
+    size.setWidth(minimumSizeHint().width());
+    return size;
+}
+
 void InfoSidebarPage::setUrl(const KUrl& url)
 {
     if (url.isValid() && !m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
