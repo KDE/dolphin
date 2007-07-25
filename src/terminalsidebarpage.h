@@ -37,6 +37,9 @@ public:
     TerminalSidebarPage(QWidget* parent = 0);
     virtual ~TerminalSidebarPage();
 
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
+
 public slots:
     /** @see SidebarPage::setUrl(). */
     virtual void setUrl(const KUrl& url);

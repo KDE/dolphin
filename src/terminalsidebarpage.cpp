@@ -40,6 +40,13 @@ TerminalSidebarPage::~TerminalSidebarPage()
 {
 }
 
+QSize TerminalSidebarPage::sizeHint() const
+{
+    QSize size = SidebarPage::sizeHint();
+    size.setHeight(200);
+    return size;
+}
+
 void TerminalSidebarPage::setUrl(const KUrl& url)
 {
     if (!SidebarPage::url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
