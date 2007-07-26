@@ -94,10 +94,6 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
 
 GeneralViewSettingsPage::~GeneralViewSettingsPage()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setDefaults();
-
-    loadSettings();
 }
 
 void GeneralViewSettingsPage::applySettings()
