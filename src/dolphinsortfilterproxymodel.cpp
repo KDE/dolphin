@@ -120,9 +120,8 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
         return leftFileItem->isDir() && !rightFileItem->isDir();
 
     case DolphinView::SortByDate: {
-        KDateTime leftTime, rightTime;
-        leftTime.setTime_t(leftFileItem->time(KFileItem::ModificationTime));
-        rightTime.setTime_t(rightFileItem->time(KFileItem::ModificationTime));
+        KDateTime leftTime = leftFileItem->time(KFileItem::ModificationTime);
+        KDateTime rightTime = rightFileItem->time(KFileItem::ModificationTime);
         return leftTime > rightTime;
     }
 
