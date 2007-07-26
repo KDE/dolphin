@@ -135,11 +135,11 @@ void ViewPropsProgressInfo::applyViewProperties()
 void ViewPropsProgressInfo::cancelApplying()
 {
     if (m_dirSizeJob != 0) {
-        m_dirSizeJob->doKill();
+        m_dirSizeJob->kill();
     }
 
     if (m_applyViewPropsJob != 0) {
-        m_applyViewPropsJob->doKill();
+        m_applyViewPropsJob->kill();
     }
 }
 
