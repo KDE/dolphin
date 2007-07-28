@@ -71,6 +71,8 @@ protected:
     virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseMoveEvent(QMouseEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
@@ -83,6 +85,7 @@ private:
 
 private:
     bool m_active;
+    bool m_swallowMouseMoveEvents;;
     DolphinColumnView* m_view;
     KUrl m_url;
     QStyleOptionViewItem m_viewOptions;
@@ -96,6 +99,7 @@ ColumnWidget::ColumnWidget(QWidget* parent,
                            const KUrl& url) :
     QListView(parent),
     m_active(true),
+    m_swallowMouseMoveEvents(false),
     m_view(columnView),
     m_url(url),
     m_dragging(false),
@@ -232,8 +236,6 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
     if (m_active) {
         selectionModel()->clear();
-        QListView::mousePressEvent(event);
-        return;
     }
 
     QListView::mousePressEvent(event);
@@ -252,6 +254,10 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
     } else {
         // a click on the viewport has been done
         requestActivation = true;
+
+        // Swallow mouse move events if a click is done on the viewport. Otherwise the QColumnView
+        // triggers an unwanted loading of directories on hovering folder items.
+        m_swallowMouseMoveEvents = true;
     }
 
     if (requestActivation) {
@@ -260,6 +266,21 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
         m_view->updateSelections();
     }
 }
+
+void ColumnWidget::mouseMoveEvent(QMouseEvent* event)
+{
+    // see description in ColumnView::mousePressEvent()
+    if (!m_swallowMouseMoveEvents) {
+        QListView::mouseMoveEvent(event);
+    }
+}
+
+void ColumnWidget::mouseReleaseEvent(QMouseEvent* event)
+{
+    QListView::mouseReleaseEvent(event);
+    m_swallowMouseMoveEvents = false;
+}
+
 
 void ColumnWidget::paintEvent(QPaintEvent* event)
 {
