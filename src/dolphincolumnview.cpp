@@ -26,6 +26,7 @@
 
 #include <kcolorutils.h>
 #include <kcolorscheme.h>
+#include <kdirlister.h>
 #include <kdirmodel.h>
 
 #include <QAbstractProxyModel>
@@ -55,6 +56,13 @@ public:
     inline bool isActive() const;
 
     inline const KUrl& url() const;
+
+    /**
+     * Updates the selection that the folder gets selected which represents
+     * the URL \a url. If \a url is empty, the selection of the column widget
+     * gets cleared.
+     */
+    void updateSelection(const KUrl& url);
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
@@ -93,10 +101,6 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     m_dragging(false),
     m_dropRect()
 {
-    setAcceptDrops(true);
-    setDragDropMode(QAbstractItemView::DragDrop);
-    setDropIndicatorShown(false);
-
     setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
 
@@ -152,6 +156,31 @@ const KUrl& ColumnWidget::url() const
     return m_url;
 }
 
+void ColumnWidget::updateSelection(const KUrl& url)
+{
+    setSelectionMode(SingleSelection);
+    QItemSelectionModel* selModel = selectionModel();
+    if (url.isEmpty()) {
+        selModel->clear();
+        return;
+    }
+
+    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
+    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+    const QModelIndex dirIndex = dirModel->indexForUrl(url);
+    const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
+
+    const QItemSelection selection = selModel->selection();
+    const bool isIndexSelected = selModel->isSelected(proxyIndex);
+
+    if (!m_active && ((selection.count() > 1) || !isIndexSelected)) {
+        selModel->clear();
+    }
+    if (!isIndexSelected) {
+        selModel->select(proxyIndex, QItemSelectionModel::Select);
+    }
+}
+
 QStyleOptionViewItem ColumnWidget::viewOptions() const
 {
     return m_viewOptions;
@@ -201,7 +230,14 @@ void ColumnWidget::dropEvent(QDropEvent* event)
 
 void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
+    if (m_active) {
+        selectionModel()->clear();
+        QListView::mousePressEvent(event);
+        return;
+    }
+
     QListView::mousePressEvent(event);
+
     const QModelIndex index = indexAt(event->pos());
 
     bool requestActivation = false;
@@ -238,7 +274,9 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
 
 void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 {
-    m_view->requestActivation(this);
+    if (!m_active) {
+        m_view->requestActivation(this);
+    }
 
     QListView::contextMenuEvent(event);
 
@@ -258,7 +296,6 @@ void ColumnWidget::activate()
     palette.setColor(viewport()->backgroundRole(), bgColor);
     viewport()->setPalette(palette);
 
-    setSelectionMode(MultiSelection);
     update();
 }
 
@@ -272,7 +309,6 @@ void ColumnWidget::deactivate()
     palette.setColor(viewport()->backgroundRole(), bgColor);
     viewport()->setPalette(palette);
 
-    setSelectionMode(SingleSelection);
     update();
 }
 
@@ -287,7 +323,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setAcceptDrops(true);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
-    setSelectionMode(MultiSelection);
+    setSelectionMode(SingleSelection);
 
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
@@ -401,6 +437,20 @@ void DolphinColumnView::dropEvent(QDropEvent* event)
     QColumnView::dropEvent(event);
 }
 
+void DolphinColumnView::showEvent(QShowEvent* event)
+{
+    QColumnView::showEvent(event);
+    if (!event->spontaneous()) {
+        // QColumnView might clear the selection for folders that are shown in the next column.
+        // As this is not wanted the selection is updated if the directory lister has been completed.
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+        KDirLister* dirLister = dirModel->dirLister();
+        connect(dirLister, SIGNAL(completed()),
+                this, SLOT(updateSelections()));
+    }
+}
+
 void DolphinColumnView::zoomIn()
 {
     if (isZoomInPossible()) {
@@ -445,6 +495,42 @@ void DolphinColumnView::updateColumnsState(const KUrl& url)
     }
 }
 
+
+void DolphinColumnView::updateDecorationSize()
+{
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    const int iconSize = settings->iconSize();
+
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            widget->setDecorationSize(QSize(iconSize, iconSize));
+        }
+    }
+
+    m_controller->setZoomInPossible(isZoomInPossible());
+    m_controller->setZoomOutPossible(isZoomOutPossible());
+
+    doItemsLayout();
+}
+
+void DolphinColumnView::updateSelections()
+{
+    ColumnWidget* previousWidget = 0;
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            if (previousWidget != 0) {
+                previousWidget->updateSelection(widget->url());
+            }
+            previousWidget = widget;
+       }
+    }
+    if (previousWidget != 0) {
+        previousWidget->updateSelection(KUrl());
+    }
+}
+
 bool DolphinColumnView::isZoomInPossible() const
 {
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
@@ -470,55 +556,6 @@ void DolphinColumnView::requestActivation(QWidget* column)
        }
     }
     updateSelections();
-}
-
-void DolphinColumnView::updateSelections()
-{
-    ColumnWidget* previousWidget = 0;
-    foreach (QObject* object, viewport()->children()) {
-        if (object->inherits("QListView")) {
-            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
-            if (previousWidget != 0) {
-                const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-                const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-                const QModelIndex dirIndex = dirModel->indexForUrl(widget->url());
-                const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
-
-                QItemSelectionModel* selModel = previousWidget->selectionModel();
-                const QItemSelection selection = selModel->selection();
-                const bool isIndexSelected = selModel->isSelected(proxyIndex);
-
-                const bool clearSelection = !previousWidget->isActive() &&
-                                            ((selection.count() > 1) || !isIndexSelected);
-                if (clearSelection) {
-                    selModel->clear();
-                }
-                if (!isIndexSelected) {
-                    selModel->select(proxyIndex, QItemSelectionModel::Select);
-                }
-            }
-
-            previousWidget = widget;
-       }
-    }
-}
-
-void DolphinColumnView::updateDecorationSize()
-{
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    const int iconSize = settings->iconSize();
-
-    foreach (QObject* object, viewport()->children()) {
-        if (object->inherits("QListView")) {
-            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
-            widget->setDecorationSize(QSize(iconSize, iconSize));
-        }
-    }
-
-    m_controller->setZoomInPossible(isZoomInPossible());
-    m_controller->setZoomOutPossible(isZoomOutPossible());
-
-    doItemsLayout();
 }
 
 #include "dolphincolumnview.moc"

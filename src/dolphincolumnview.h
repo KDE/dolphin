@@ -46,6 +46,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dropEvent(QDropEvent* event);
+    virtual void showEvent(QShowEvent* event);
 
 private slots:
     void zoomIn();
@@ -59,6 +60,21 @@ private slots:
      */
     void updateColumnsState(const KUrl& url);
 
+    /**
+     * Updates the size of the decoration dependent on the
+     * icon size of the ColumnModeSettings. The controller
+     * will get informed about possible zoom in/zoom out
+     * operations.
+     */
+    void updateDecorationSize();
+
+    /**
+     * Updates the selections of all columns to assure that
+     * folder which is shown in the next column is always selected
+     * (this behavior is not given inside QColumnView).
+     */
+    void updateSelections();
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
@@ -68,21 +84,6 @@ private:
      * navigator will be changed to represent the column.
      */
     void requestActivation(QWidget* column);
-
-    /**
-     * Updates the selections of all columns to assure that
-     * folder which is shown in the next column is always selected
-     * (this behavior is not given inside QColumnView).
-     */
-    void updateSelections();
-
-    /**
-     * Updates the size of the decoration dependent on the
-     * icon size of the ColumnModeSettings. The controller
-     * will get informed about possible zoom in/zoom out
-     * operations.
-     */
-    void updateDecorationSize();
 
 private:
     DolphinController* m_controller;
