@@ -165,23 +165,24 @@ void ColumnWidget::updateSelection(const KUrl& url)
     setSelectionMode(SingleSelection);
     QItemSelectionModel* selModel = selectionModel();
     if (url.isEmpty()) {
-        selModel->clear();
-        return;
-    }
+        if (!m_active) {
+            selModel->clear();
+        }
+    } else {
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+        const QModelIndex dirIndex = dirModel->indexForUrl(url);
+        const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
 
-    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
-    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-    const QModelIndex dirIndex = dirModel->indexForUrl(url);
-    const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
+        const QItemSelection selection = selModel->selection();
+        const bool isIndexSelected = selModel->isSelected(proxyIndex);
 
-    const QItemSelection selection = selModel->selection();
-    const bool isIndexSelected = selModel->isSelected(proxyIndex);
-
-    if (!m_active && ((selection.count() > 1) || !isIndexSelected)) {
-        selModel->clear();
-    }
-    if (!isIndexSelected) {
-        selModel->select(proxyIndex, QItemSelectionModel::Select);
+        if (!m_active && ((selection.count() > 1) || !isIndexSelected)) {
+            selModel->clear();
+        }
+        if (!isIndexSelected) {
+            selModel->select(proxyIndex, QItemSelectionModel::Select);
+        }
     }
 }
 
@@ -234,10 +235,6 @@ void ColumnWidget::dropEvent(QDropEvent* event)
 
 void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
-    if (m_active) {
-        selectionModel()->clear();
-    }
-
     QListView::mousePressEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
