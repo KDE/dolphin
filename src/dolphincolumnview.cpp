@@ -26,7 +26,6 @@
 
 #include <kcolorutils.h>
 #include <kcolorscheme.h>
-#include <kdirlister.h>
 #include <kdirmodel.h>
 
 #include <QAbstractProxyModel>
@@ -53,6 +52,7 @@ public:
      * drawn in a lighter color. All operations are applied to this column.
      */
     void setActive(bool active);
+    inline bool isActive() const;
 
     inline const KUrl& url() const;
 
@@ -62,7 +62,7 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
-    virtual void mouseReleaseEvent(QMouseEvent* event);
+    virtual void mousePressEvent(QMouseEvent* event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
@@ -142,6 +142,11 @@ void ColumnWidget::setActive(bool active)
     }
 }
 
+inline bool ColumnWidget::isActive() const
+{
+    return m_active;
+}
+
 const KUrl& ColumnWidget::url() const
 {
     return m_url;
@@ -187,17 +192,37 @@ void ColumnWidget::dropEvent(QDropEvent* event)
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
         m_view->m_controller->indicateDroppedUrls(urls,
-                                                        indexAt(event->pos()),
-                                                        event->source());
+                                                  indexAt(event->pos()),
+                                                  event->source());
     }
     QListView::dropEvent(event);
     m_dragging = false;
 }
 
-void ColumnWidget::mouseReleaseEvent(QMouseEvent* event)
+void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
-    m_view->requestActivation(this);
-    QListView::mouseReleaseEvent(event);
+    QListView::mousePressEvent(event);
+    const QModelIndex index = indexAt(event->pos());
+
+    bool requestActivation = false;
+    if (index.isValid()) {
+        // A click on an item has been done. Only request an activation
+        // if the item is not a directory.
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+        const QModelIndex dirIndex = proxyModel->mapToSource(index);
+        KFileItem* item = dirModel->itemForIndex(dirIndex);
+        requestActivation = (item != 0) && !item->isDir();
+    } else {
+        // a click on the viewport has been done
+        requestActivation = true;
+    }
+
+    if (requestActivation) {
+        m_view->requestActivation(this);
+    } else {
+        m_view->updateSelections();
+    }
 }
 
 void ColumnWidget::paintEvent(QPaintEvent* event)
@@ -260,9 +285,9 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     Q_ASSERT(controller != 0);
 
     setAcceptDrops(true);
-    setSelectionBehavior(SelectItems);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
+    setSelectionMode(MultiSelection);
 
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
@@ -442,7 +467,39 @@ void DolphinColumnView::requestActivation(QWidget* column)
             if (isActive) {
                 m_controller->setUrl(widget->url());
             }
-        }
+       }
+    }
+    updateSelections();
+}
+
+void DolphinColumnView::updateSelections()
+{
+    ColumnWidget* previousWidget = 0;
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            if (previousWidget != 0) {
+                const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+                const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+                const QModelIndex dirIndex = dirModel->indexForUrl(widget->url());
+                const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
+
+                QItemSelectionModel* selModel = previousWidget->selectionModel();
+                const QItemSelection selection = selModel->selection();
+                const bool isIndexSelected = selModel->isSelected(proxyIndex);
+
+                const bool clearSelection = !previousWidget->isActive() &&
+                                            ((selection.count() > 1) || !isIndexSelected);
+                if (clearSelection) {
+                    selModel->clear();
+                }
+                if (!isIndexSelected) {
+                    selModel->select(proxyIndex, QItemSelectionModel::Select);
+                }
+            }
+
+            previousWidget = widget;
+       }
     }
 }
 

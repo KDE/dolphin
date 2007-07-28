@@ -70,6 +70,13 @@ private:
     void requestActivation(QWidget* column);
 
     /**
+     * Updates the selections of all columns to assure that
+     * folder which is shown in the next column is always selected
+     * (this behavior is not given inside QColumnView).
+     */
+    void updateSelections();
+
+    /**
      * Updates the size of the decoration dependent on the
      * icon size of the ColumnModeSettings. The controller
      * will get informed about possible zoom in/zoom out
