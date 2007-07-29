@@ -476,6 +476,15 @@ private:
     void startDirLister(const KUrl& url, bool reload = false);
 
     /**
+     * Returns the URL where the view properties should be stored. Usually
+     * DolphinView::url() is returned, but in the case of a Column View the
+     * view properties are always stored in the directory represented by the
+     * first column. It is recommendend whenever using the ViewProperties class
+     * to use DolphinView::viewPropertiesUrl() as URL.
+     */
+    KUrl viewPropertiesUrl() const;
+
+    /**
      * Applies the view properties which are defined by the current URL
      * m_url to the DolphinView properties.
      */

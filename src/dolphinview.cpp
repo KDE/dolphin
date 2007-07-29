@@ -176,11 +176,12 @@ void DolphinView::setMode(Mode mode)
         m_controller->setUrl(m_dirLister->url());
     }
 
-    ViewProperties props(url());
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
     props.setViewMode(m_mode);
 
     createView();
-    startDirLister(url());
+    startDirLister(viewPropsUrl);
 
     emit modeChanged();
 }
@@ -192,13 +193,14 @@ DolphinView::Mode DolphinView::mode() const
 
 void DolphinView::setShowPreview(bool show)
 {
-    ViewProperties props(url());
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
     props.setShowPreview(show);
 
     m_controller->setShowPreview(show);
     emit showPreviewChanged();
 
-    startDirLister(url(), true);
+    startDirLister(viewPropsUrl, true);
 }
 
 bool DolphinView::showPreview() const
@@ -212,13 +214,14 @@ void DolphinView::setShowHiddenFiles(bool show)
         return;
     }
 
-    ViewProperties props(url());
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
     props.setShowHiddenFiles(show);
 
     m_dirLister->setShowingDotFiles(show);
     emit showHiddenFilesChanged();
 
-    startDirLister(url(), true);
+    startDirLister(viewPropsUrl, true);
 }
 
 bool DolphinView::showHiddenFiles() const
@@ -242,7 +245,7 @@ void DolphinView::setCategorizedSorting(bool categorized)
         delete categorizer;
     }
 
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setCategorizedSorting(categorized);
     props.save();
 
@@ -393,14 +396,15 @@ Qt::SortOrder DolphinView::sortOrder() const
 
 void DolphinView::setAdditionalInfo(KFileItemDelegate::AdditionalInformation info)
 {
-    ViewProperties props(url());
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
     props.setAdditionalInfo(info);
 
     m_controller->setShowAdditionalInfo(info != KFileItemDelegate::NoInformation);
     m_fileItemDelegate->setAdditionalInformation(info);
 
     emit additionalInfoChanged(info);
-    startDirLister(url(), true);
+    startDirLister(viewPropsUrl, true);
 }
 
 KFileItemDelegate::AdditionalInformation DolphinView::additionalInfo() const
@@ -424,21 +428,15 @@ void DolphinView::refresh()
 void DolphinView::setUrl(const KUrl& url)
 {
     if (m_controller->url() == url) {
-        // Although the view URL is equal to the controller URL,
-        // the view properties must be applied to the view.
-        // This assures a consistent state of the currently activated
-        // column and their view properties.
-        if (isColumnViewActive()) {
-            applyViewProperties(url);
-        }
-    } else {
-        m_controller->setUrl(url);
-
-        applyViewProperties(url);
-
-        startDirLister(url);
-        emit urlChanged(url);
+        return;
     }
+
+    m_controller->setUrl(url);
+
+    applyViewProperties(url);
+
+    startDirLister(url);
+    emit urlChanged(url);
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
@@ -597,21 +595,28 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     }
 }
 
+KUrl DolphinView::viewPropertiesUrl() const
+{
+    if (isColumnViewActive()) {
+        return m_dirLister->url();
+    }
+
+    return url();
+}
+
 void DolphinView::applyViewProperties(const KUrl& url)
 {
+    if (isColumnViewActive() && m_dirLister->url().isParentOf(url)) {
+        // The column view is active, hence don't apply the view properties
+        // of sub directories (represented by columns) to the view. The
+        // view always represents the properties of the first column.
+        return;
+    }
+
     const ViewProperties props(url);
 
     const Mode mode = props.viewMode();
-    bool changeMode = (m_mode != mode);
-    if (changeMode && isColumnViewActive()) {
-        // The column view is active. Only change the
-        // mode if the current URL is no child of the column view.
-        if (m_dirLister->url().isParentOf(url)) {
-            changeMode = false;
-        }
-    }
-
-    if (changeMode) {
+    if (m_mode != mode) {
         m_mode = mode;
         createView();
         emit modeChanged();
@@ -744,7 +749,7 @@ void DolphinView::dropUrls(const KUrl::List& urls,
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)
 {
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setSorting(sorting);
 
     m_proxyModel->setSorting(sorting);
@@ -754,7 +759,7 @@ void DolphinView::updateSorting(DolphinView::Sorting sorting)
 
 void DolphinView::updateSortOrder(Qt::SortOrder order)
 {
-    ViewProperties props(url());
+    ViewProperties props(viewPropertiesUrl());
     props.setSortOrder(order);
 
     m_proxyModel->setSortOrder(order);
