@@ -69,6 +69,9 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
+protected slots:
+    virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+
 private:
     /** Used by ColumnWidget::setActive(). */
     void activate();
@@ -204,9 +207,6 @@ void ColumnWidget::dropEvent(QDropEvent* event)
 
 void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
-    QListView::mousePressEvent(event);
-
-    bool requestActivation = false;
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         // A click on an item has been done. Only request an activation
@@ -218,22 +218,21 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
         if (item != 0) {
             if (item->isDir()) {
                 m_childUrl = item->url();
+                viewport()->update();
            } else {
-                requestActivation = true;
+                m_view->requestActivation(this);
             }
         }
     } else {
         // a click on the viewport has been done
-        requestActivation = true;
+        m_view->requestActivation(this);
 
         // Swallow mouse move events if a click is done on the viewport. Otherwise the QColumnView
         // triggers an unwanted loading of directories on hovering folder items.
         m_swallowMouseMoveEvents = true;
     }
 
-    if (requestActivation) {
-        m_view->requestActivation(this);
-    }
+    QListView::mousePressEvent(event);
 }
 
 void ColumnWidget::mouseMoveEvent(QMouseEvent* event)
@@ -253,23 +252,25 @@ void ColumnWidget::mouseReleaseEvent(QMouseEvent* event)
 
 void ColumnWidget::paintEvent(QPaintEvent* event)
 {
-    // indicate the shown URL of the next column by highlighting the shown folder item
-    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
-    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-    const QModelIndex dirIndex = dirModel->indexForUrl(m_childUrl);
-    const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
-    if (proxyIndex.isValid()) {
-        const QRect itemRect = visualRect(proxyIndex);
-        QPainter painter(viewport());
-        painter.save();
+    if (!m_childUrl.isEmpty()) {
+        // indicate the shown URL of the next column by highlighting the shown folder item
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+        const QModelIndex dirIndex = dirModel->indexForUrl(m_childUrl);
+        const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
+        if (proxyIndex.isValid() && !selectionModel()->isSelected(proxyIndex)) {
+            const QRect itemRect = visualRect(proxyIndex);
+            QPainter painter(viewport());
+            painter.save();
 
-        QColor color = KColorScheme(KColorScheme::View).foreground();
-        color.setAlpha(32);
-        painter.setPen(Qt::NoPen);
-        painter.setBrush(color);
-        painter.drawRect(itemRect);
+            QColor color = KColorScheme(KColorScheme::View).foreground();
+            color.setAlpha(32);
+            painter.setPen(Qt::NoPen);
+            painter.setBrush(color);
+            painter.drawRect(itemRect);
 
-        painter.restore();
+            painter.restore();
+        }
     }
 
     QListView::paintEvent(event);
@@ -296,6 +297,15 @@ void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
         const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
         m_view->m_controller->triggerContextMenuRequest(pos);
     }
+}
+
+void ColumnWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+{
+    // inactive views should not have any selection
+    if (!m_active) {
+        clearSelection();
+    }
+    QListView::selectionChanged(selected, deselected);
 }
 
 void ColumnWidget::activate()
