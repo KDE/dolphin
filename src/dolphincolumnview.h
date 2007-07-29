@@ -46,7 +46,6 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dropEvent(QDropEvent* event);
-    virtual void showEvent(QShowEvent* event);
 
 private slots:
     void zoomIn();
@@ -67,13 +66,6 @@ private slots:
      * operations.
      */
     void updateDecorationSize();
-
-    /**
-     * Updates the selections of all columns to assure that
-     * folder which is shown in the next column is always selected
-     * (this behavior is not given inside QColumnView).
-     */
-    void updateSelections();
 
 private:
     bool isZoomInPossible() const;
