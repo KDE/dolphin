@@ -85,7 +85,7 @@ private:
 
 private:
     bool m_active;
-    bool m_swallowMouseMoveEvents;;
+    bool m_swallowMouseMoveEvents;
     DolphinColumnView* m_view;
     KUrl m_url;
     QStyleOptionViewItem m_viewOptions;
