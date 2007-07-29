@@ -122,8 +122,7 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
 
         case DolphinView::SortByDate:
         {
-            KDateTime modifiedTime;
-            modifiedTime.setTime_t(item->time(KIO::UDSEntry::UDS_MODIFICATION_TIME));
+            KDateTime modifiedTime = item->time(KFileItem::ModificationTime);
             modifiedTime = modifiedTime.toLocalZone();
 
             if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) == 0)
