@@ -424,15 +424,21 @@ void DolphinView::refresh()
 void DolphinView::setUrl(const KUrl& url)
 {
     if (m_controller->url() == url) {
-        return;
+        // Although the view URL is equal to the controller URL,
+        // the view properties must be applied to the view.
+        // This assures a consistent state of the currently activated
+        // column and their view properties.
+        if (isColumnViewActive()) {
+            applyViewProperties(url);
+        }
+    } else {
+        m_controller->setUrl(url);
+
+        applyViewProperties(url);
+
+        startDirLister(url);
+        emit urlChanged(url);
     }
-
-    m_controller->setUrl(url);
-
-    applyViewProperties(url);
-
-    startDirLister(url);
-    emit urlChanged(url);
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
