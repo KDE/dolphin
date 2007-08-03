@@ -60,7 +60,7 @@ public:
 
     void obtainSelectionModel();
     void releaseSelectionModel();
-    
+
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void dragEnterEvent(QDragEnterEvent* event);
@@ -144,7 +144,7 @@ void ColumnWidget::setActive(bool active)
     } else {
         releaseSelectionModel();
     }
-    
+
     if (m_active == active) {
         return;
     }
@@ -255,6 +255,14 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
             } else if (item->isDir()) {
                 m_childUrl = item->url();
                 viewport()->update();
+
+                // Only request the activation if not the left button is pressed.
+                // The left button on a directory opens a new column, hence requesting
+                // an activation is useless as the new column will request the activation
+                // afterwards.
+                if (event->button() != Qt::LeftButton) {
+                    m_view->requestActivation(this);
+                }
             } else {
                 m_view->requestActivation(this);
             }
