@@ -73,9 +73,18 @@ private:
 
     /**
      * Requests the activation for the column \a column. The URL
-     * navigator will be changed to represent the column.
+     * navigator will be changed to represent the column. It is
+     * assured that the selection model of \a column will be set
+     * to the selection model of the Column View.
      */
     void requestActivation(QWidget* column);
+
+    /**
+     * Requests the selection model from the Column View for \a view.
+     * If another column has already obtained the Column View selection
+     * model, it will be replaced by a default selection model.
+     */
+    void requestSelectionModel(QAbstractItemView* view);
 
 private:
     DolphinController* m_controller;

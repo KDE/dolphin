@@ -30,6 +30,7 @@
 #include <kdirmodel.h>
 
 #include <QAbstractProxyModel>
+#include <QApplication>
 #include <QPoint>
 
 /**
@@ -57,6 +58,9 @@ public:
 
     inline const KUrl& url() const;
 
+    void obtainSelectionModel();
+    void releaseSelectionModel();
+    
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void dragEnterEvent(QDragEnterEvent* event);
@@ -135,6 +139,12 @@ void ColumnWidget::setDecorationSize(const QSize& size)
 
 void ColumnWidget::setActive(bool active)
 {
+    if (active) {
+        obtainSelectionModel();
+    } else {
+        releaseSelectionModel();
+    }
+    
     if (m_active == active) {
         return;
     }
@@ -156,6 +166,22 @@ inline bool ColumnWidget::isActive() const
 const KUrl& ColumnWidget::url() const
 {
     return m_url;
+}
+
+void ColumnWidget::obtainSelectionModel()
+{
+    if (selectionModel() != m_view->selectionModel()) {
+        selectionModel()->deleteLater();
+        setSelectionModel(m_view->selectionModel());
+    }
+}
+
+void ColumnWidget::releaseSelectionModel()
+{
+    if (selectionModel() == m_view->selectionModel()) {
+        QItemSelectionModel* replacementModel = new QItemSelectionModel(model());
+        setSelectionModel(replacementModel);
+    }
 }
 
 QStyleOptionViewItem ColumnWidget::viewOptions() const
@@ -207,6 +233,9 @@ void ColumnWidget::dropEvent(QDropEvent* event)
 
 void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
+    m_view->requestSelectionModel(this);
+
+    bool swallowMousePressEvent = false;
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
         // A click on an item has been done. Only request an activation
@@ -216,11 +245,30 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
         KFileItem* item = dirModel->itemForIndex(dirIndex);
         if (item != 0) {
-            if (item->isDir()) {
+            QItemSelectionModel* selModel = selectionModel();
+
+            const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+            if (modifier & Qt::ControlModifier) {
+                m_view->requestActivation(this);
+                selModel->select(index, QItemSelectionModel::Select);
+                swallowMousePressEvent = true;
+            } else if (item->isDir()) {
                 m_childUrl = item->url();
                 viewport()->update();
-           } else {
+            } else {
                 m_view->requestActivation(this);
+            }
+
+            // TODO: check behavior with ShiftModifier
+            //if (modifier & Qt::ShiftModifier)
+
+            // TODO: is the assumption OK that Qt::RightButton always represents the context menu button?
+            if (event->button() == Qt::RightButton) {
+                swallowMousePressEvent = true;
+                if (!selModel->isSelected(index)) {
+                    clearSelection();
+                }
+                selModel->select(index, QItemSelectionModel::Select);
             }
         }
     } else {
@@ -230,9 +278,12 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
         // Swallow mouse move events if a click is done on the viewport. Otherwise the QColumnView
         // triggers an unwanted loading of directories on hovering folder items.
         m_swallowMouseMoveEvents = true;
+        clearSelection();
     }
 
-    QListView::mousePressEvent(event);
+    if (!swallowMousePressEvent) {
+        QListView::mousePressEvent(event);
+    }
 }
 
 void ColumnWidget::mouseMoveEvent(QMouseEvent* event)
@@ -342,6 +393,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setAcceptDrops(true);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
+    setSelectionMode(ExtendedSelection);
 
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
@@ -540,7 +592,21 @@ void DolphinColumnView::requestActivation(QWidget* column)
             if (isActive) {
                 m_controller->setUrl(widget->url());
             }
-       }
+        }
+    }
+}
+
+void DolphinColumnView::requestSelectionModel(QAbstractItemView* view)
+{
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            if (widget == view) {
+                widget->obtainSelectionModel();
+            } else {
+                widget->releaseSelectionModel();
+            }
+        }
     }
 }
 
