@@ -239,8 +239,7 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
     bool swallowMousePressEvent = false;
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
-        // A click on an item has been done. Only request an activation
-        // if the item is not a directory.
+        // a click on an item has been done
         const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
         const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
@@ -251,7 +250,7 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
             const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
             if (modifier & Qt::ControlModifier) {
                 m_view->requestActivation(this);
-                selModel->select(index, QItemSelectionModel::Select);
+                selModel->select(index, QItemSelectionModel::Toggle);
                 swallowMousePressEvent = true;
             } else if (item->isDir()) {
                 m_childUrl = item->url();
@@ -635,13 +634,27 @@ void DolphinColumnView::selectActiveColumn(QItemSelectionModel::SelectionFlags f
     // possible to speedup the implementation by using QItemSelection, but all adempts
     // have failed yet...
 
+    // assure that the selection model of the active column is set properly, otherwise
+    // no visual update of the selections is done
+    const KUrl& activeUrl = m_controller->url();
+    foreach (QObject* object, viewport()->children()) {
+        if (object->inherits("QListView")) {
+            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            if (widget->url() == activeUrl) {
+                widget->obtainSelectionModel();
+            } else {
+                widget->releaseSelectionModel();
+            }
+        }
+    }
+
     QItemSelectionModel* selModel = selectionModel();
 
     const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
     const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
     KDirLister* dirLister = dirModel->dirLister();
 
-    const KFileItemList list = dirLister->itemsForDir(m_controller->url());
+    const KFileItemList list = dirLister->itemsForDir(activeUrl);
     foreach (KFileItem* item, list) {
         const QModelIndex index = dirModel->indexForUrl(item->url());
         selModel->select(proxyModel->mapFromSource(index), flags);
