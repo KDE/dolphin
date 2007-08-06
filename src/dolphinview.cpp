@@ -269,12 +269,27 @@ bool DolphinView::supportsCategorizedSorting() const
 
 void DolphinView::selectAll()
 {
-    selectAll(QItemSelectionModel::Select);
+    itemView()->selectAll();
 }
 
 void DolphinView::invertSelection()
 {
-    selectAll(QItemSelectionModel::Toggle);
+    if (isColumnViewActive()) {
+        // In opposite to QAbstractItemView::selectAll() there is no virtual method
+        // for adjusting the invertion of a selection. As the generic approach by using
+        // the selection model does not work for the column view, we delegate this task:
+        m_columnView->invertSelection();
+    } else {
+        QItemSelectionModel* selectionModel = itemView()->selectionModel();
+        const QAbstractItemModel* itemModel = selectionModel->model();
+
+        const QModelIndex topLeft = itemModel->index(0, 0);
+        const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
+                                                         itemModel->columnCount() - 1);
+
+        QItemSelection selection(topLeft, bottomRight);
+        selectionModel->select(selection, QItemSelectionModel::Toggle);
+    }
 }
 
 bool DolphinView::hasSelection() const
@@ -876,19 +891,6 @@ void DolphinView::createView()
             this, SLOT(emitContentsMoved()));
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
-}
-
-void DolphinView::selectAll(QItemSelectionModel::SelectionFlags flags)
-{
-    QItemSelectionModel* selectionModel = itemView()->selectionModel();
-    const QAbstractItemModel* itemModel = selectionModel->model();
-
-    const QModelIndex topLeft = itemModel->index(0, 0);
-    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
-                                    itemModel->columnCount() - 1);
-
-    QItemSelection selection(topLeft, bottomRight);
-    selectionModel->select(selection, flags);
 }
 
 QAbstractItemView* DolphinView::itemView() const

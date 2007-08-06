@@ -41,6 +41,15 @@ public:
     explicit DolphinColumnView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinColumnView();
 
+    /**
+     * Inverts the selection for the current active column.
+     */
+    void invertSelection();
+
+public slots:
+    /** @see QAbstractItemView::selectAll() */
+    virtual void selectAll();
+
 protected:
     virtual QAbstractItemView* createColumn(const QModelIndex& index);
     virtual void mousePressEvent(QMouseEvent* event);
@@ -85,6 +94,11 @@ private:
      * model, it will be replaced by a default selection model.
      */
     void requestSelectionModel(QAbstractItemView* view);
+
+    /**
+     * Helper method for selecting all items of an active column by \a flags.
+     */
+    void selectActiveColumn(QItemSelectionModel::SelectionFlags flags);
 
 private:
     DolphinController* m_controller;

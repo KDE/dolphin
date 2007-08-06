@@ -173,6 +173,7 @@ void ColumnWidget::obtainSelectionModel()
     if (selectionModel() != m_view->selectionModel()) {
         selectionModel()->deleteLater();
         setSelectionModel(m_view->selectionModel());
+        clearSelection();
     }
 }
 
@@ -428,6 +429,16 @@ DolphinColumnView::~DolphinColumnView()
 {
 }
 
+void DolphinColumnView::invertSelection()
+{
+    selectActiveColumn(QItemSelectionModel::Toggle);
+}
+
+void DolphinColumnView::selectAll()
+{
+    selectActiveColumn(QItemSelectionModel::Select);
+}
+
 QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
 {
     // let the column widget be aware about its URL...
@@ -598,7 +609,7 @@ void DolphinColumnView::requestActivation(QWidget* column)
             const bool isActive = (widget == column);
             widget->setActive(isActive);
             if (isActive) {
-                m_controller->setUrl(widget->url());
+               m_controller->setUrl(widget->url());
             }
         }
     }
@@ -615,6 +626,25 @@ void DolphinColumnView::requestSelectionModel(QAbstractItemView* view)
                 widget->releaseSelectionModel();
             }
         }
+    }
+}
+
+void DolphinColumnView::selectActiveColumn(QItemSelectionModel::SelectionFlags flags)
+{
+    // TODO: this approach of selecting the active column is very slow. It should be
+    // possible to speedup the implementation by using QItemSelection, but all adempts
+    // have failed yet...
+
+    QItemSelectionModel* selModel = selectionModel();
+
+    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+    KDirLister* dirLister = dirModel->dirLister();
+
+    const KFileItemList list = dirLister->itemsForDir(m_controller->url());
+    foreach (KFileItem* item, list) {
+        const QModelIndex index = dirModel->indexForUrl(item->url());
+        selModel->select(proxyModel->mapFromSource(index), flags);
     }
 }
 

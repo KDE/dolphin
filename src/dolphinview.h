@@ -497,12 +497,6 @@ private:
     void createView();
 
     /**
-     * Selects all items by using the selection flags \a flags. This is a helper
-     * method for the slots DolphinView::selectAll() and DolphinView::invertSelection().
-     */
-    void selectAll(QItemSelectionModel::SelectionFlags flags);
-
-    /**
      * Returns a pointer to the currently used item view, which is either
      * a ListView or a TreeView.
      */
