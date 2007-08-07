@@ -33,6 +33,46 @@
 #include <QApplication>
 #include <QPoint>
 
+/*
+ * General implementation notes
+ * ----------------------------
+ *
+ * In Qt4.3 the QColumnView widget has a default behavior regarding the
+ * active column and the selection handling, which leads to some usability
+ * problems within Dolphin:
+ *
+ * - No matter which mouse button has been clicked: If the mouse is above
+ *   a folder, the folder content will be loaded in the next column. The problem
+ *   is that this column also will marked as 'active column' within QColumnView,
+ *   hence it is not possible to select more than one folder within a column.
+ *
+ * - The currently opened folder is not always marked in the left column when
+ *   doing drag & drop and selections inside other columns.
+ *
+ * - The currently active column is visually not recognizable.
+ *
+ * - It is not possible for derived classes to remove inactive columns.
+ *
+ * DolphinView tries to bypass those points, but this required some workarounds:
+ *
+ * - QColumnView internally maps the selection model from the ColumnView to the
+ *   active column. As the active column from the Dolphin perspective is different
+ *   as the active column from QColumnView, the selection model is adjusted on
+ *   each interaction by the methods QColumnWidget::obtainSelectionModel(),
+ *   QColumnWidget::releaseSelectionModel() and QColumnView::requestSelectionModel().
+ *   QColumnView offers no hook to adjust this behavior, so those methods have to
+ *   be invoked throughout the code...
+ *
+ * - Some copy/paste code from QColumnView is part of DolphinColumnView::createColumn(), but Qt 4.4
+ *   will offer a solution for this.
+ *
+ * - The mousePressEvent() has been customized to prevent that folders are loaded on each
+ *   mouse click.
+ *
+ * We'll try to give some input for Trolltech if the Dolphin solution is stable enough, so hopefully
+ * some workarounds can be removed when switching to Qt 4.4 or later.
+ */
+
 /**
  * Represents one column inside the DolphinColumnView and has been
  * extended to respect view options and hovering information.
@@ -58,7 +98,16 @@ public:
 
     inline const KUrl& url() const;
 
+    /**
+     * Obtains the selection model from the column view. This assures that
+     * selections of the column view will always applied to the active column.
+     */
     void obtainSelectionModel();
+
+    /**
+     * Releases the selection model from the column view and replaces it by
+     * a custom selection model.
+     */
     void releaseSelectionModel();
 
 protected:
@@ -234,6 +283,15 @@ void ColumnWidget::dropEvent(QDropEvent* event)
 
 void ColumnWidget::mousePressEvent(QMouseEvent* event)
 {
+    // On each mouse press event QColumnView triggers the loading of the
+    // current folder in the next column. This is not wanted for Dolphin when
+    // opening a context menu or when the CTRL modifier is pressed. Beside usability
+    // aspects the loading of the folder also implies losing the current selection,
+    // which makes it impossible to select folders from the current column. To bypass
+    // this behavior QListView::mousePressEvent() is not invoked in those cases, which
+    // is not a nice solution. Maybe another solution can be found in future versions
+    // of QColumnView.
+
     m_view->requestSelectionModel(this);
 
     bool swallowMousePressEvent = false;
@@ -247,10 +305,14 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
         if (item != 0) {
             QItemSelectionModel* selModel = selectionModel();
 
+            bool activate = true;
             const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
             if (modifier & Qt::ControlModifier) {
                 m_view->requestActivation(this);
                 if (!selModel->hasSelection()) {
+                    // Assure to set the current index, so that a selection by the SHIFT key
+                    // will work. TODO: If the index specifies a folder, the loading of the folder will
+                    // be triggered by QColumnView although this is not wanted by Dolphin.
                     selModel->setCurrentIndex(index, QItemSelectionModel::Select);
                 }
                 selModel->select(index, QItemSelectionModel::Toggle);
@@ -263,10 +325,12 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
                 // The left button on a directory opens a new column, hence requesting
                 // an activation is useless as the new column will request the activation
                 // afterwards.
-                if (event->button() != Qt::LeftButton) {
-                    m_view->requestActivation(this);
+                if (event->button() == Qt::LeftButton) {
+                    activate = false;
                 }
-            } else {
+            }
+
+            if (activate) {
                 m_view->requestActivation(this);
             }
 
