@@ -250,6 +250,9 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
             const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
             if (modifier & Qt::ControlModifier) {
                 m_view->requestActivation(this);
+                if (!selModel->hasSelection()) {
+                    selModel->setCurrentIndex(index, QItemSelectionModel::Select);
+                }
                 selModel->select(index, QItemSelectionModel::Toggle);
                 swallowMousePressEvent = true;
             } else if (item->isDir()) {
@@ -266,9 +269,6 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
             } else {
                 m_view->requestActivation(this);
             }
-
-            // TODO: check behavior with ShiftModifier
-            //if (modifier & Qt::ShiftModifier)
 
             // TODO: is the assumption OK that Qt::RightButton always represents the context menu button?
             if (event->button() == Qt::RightButton) {
