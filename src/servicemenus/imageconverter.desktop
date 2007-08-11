@@ -35,23 +35,23 @@ TryExec=convert
 Name=JPEG
 Name[x-test]=xxJPEGxx
 Icon=image
-Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.jpg"
+Exec=convert %f "`echo %f | perl -pe 's/\\.[^.]+$//'`.jpg"
 
 [Desktop Action convToPNG]
 Name=PNG
 Name[x-test]=xxPNGxx
 Icon=image
-Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.png"
+Exec=convert %f "`echo %f | perl -pe 's/\\.[^.]+$//'`.png"
 
 [Desktop Action convToTIF]
 Name=TIF
 Name[x-test]=xxTIFxx
 Icon=image
-Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.tif"
+Exec=convert %f "`echo %f | perl -pe 's/\\.[^.]+$//'`.tif"
 
 [Desktop Action convToGIF]
 Name=GIF
 Name[x-test]=xxGIFxx
 Icon=image
-Exec=convert %f "`echo %f | perl -pe 's/\.[^.]+$//'`.gif"
+Exec=convert %f "`echo %f | perl -pe 's/\\.[^.]+$//'`.gif"
 
