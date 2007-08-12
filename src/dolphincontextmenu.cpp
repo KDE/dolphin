@@ -238,11 +238,6 @@ void DolphinContextMenu::openViewportContextMenu()
 
     popup->addMenu(viewModeMenu);
 
-    QAction* toggleViewsAction = 0;
-    if (m_mainWindow->isSplit()) {
-        toggleViewsAction = popup->addAction(i18nc("@action:inmenu", "Toggle Views"));
-    }
-
     popup->addSeparator();
 
     QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"),
@@ -261,8 +256,6 @@ void DolphinContextMenu::openViewportContextMenu()
         if (url.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(url.fileName(), url);
         }
-    } else if ((toggleViewsAction != 0) && (action == toggleViewsAction)) {
-        m_mainWindow->toggleViews();
     }
 
     popup->deleteLater();
