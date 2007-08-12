@@ -457,11 +457,11 @@ private:
 
     /**
      * Updates the text of the split action:
-     * If \a isSplit is true, the text is set to "Split",
+     * If two views are shown, the text is set to "Split",
      * otherwise the text is set to "Join". The icon
-     * is updated to match with the text.
+     * is updated to match with the text and the currently active view.
      */
-    void updateSplitAction(bool isSplit);
+    void updateSplitAction();
 
 private:
     /**

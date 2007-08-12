@@ -796,22 +796,30 @@ void DolphinMainWindow::showDateInfo()
 void DolphinMainWindow::toggleSplitView()
 {
     if (m_viewContainer[SecondaryView] == 0) {
-        const int newWidth = (m_viewContainer[PrimaryView]->width() - m_splitter->handleWidth()) / 2;
         // create a secondary view
+        const int newWidth = (m_viewContainer[PrimaryView]->width() - m_splitter->handleWidth()) / 2;
+
         const DolphinView* view = m_viewContainer[PrimaryView]->view();
-        m_viewContainer[SecondaryView] = new DolphinViewContainer(this,
-                                                                 0,
-                                                                 view->rootUrl());
+        m_viewContainer[SecondaryView] = new DolphinViewContainer(this, 0, view->rootUrl());
         connectViewSignals(SecondaryView);
         m_splitter->addWidget(m_viewContainer[SecondaryView]);
         m_splitter->setSizes(QList<int>() << newWidth << newWidth);
         m_viewContainer[SecondaryView]->view()->reload();
         m_viewContainer[SecondaryView]->setActive(false);
         m_viewContainer[SecondaryView]->show();
-    } else {
+    } else if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
         // remove secondary view
         m_viewContainer[SecondaryView]->close();
         m_viewContainer[SecondaryView]->deleteLater();
+        m_viewContainer[SecondaryView] = 0;
+    } else {
+        // The secondary view is active, hence from a users point of view
+        // the content of the secondary view should be moved to the primary view.
+        // From an implementation point of view it is more efficient to close
+        // the primary view and exchange the internal pointers afterwards.
+        m_viewContainer[PrimaryView]->close();
+        m_viewContainer[PrimaryView]->deleteLater();
+        m_viewContainer[PrimaryView] = m_viewContainer[SecondaryView];
         m_viewContainer[SecondaryView] = 0;
     }
 
@@ -1028,11 +1036,9 @@ void DolphinMainWindow::init()
     updatePasteAction();
     updateGoActions();
 
-    const bool split = generalSettings->splitView();
-    if (split) {
+    if (generalSettings->splitView()) {
         toggleSplitView();
     }
-    updateSplitAction(split);
     updateViewActions();
 
     if (firstRun) {
@@ -1267,7 +1273,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* split = actionCollection()->addAction("split_view");
     split->setShortcut(Qt::Key_F10);
-    updateSplitAction(false);
+    updateSplitAction();
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
     QAction* reload = actionCollection()->addAction("reload");
@@ -1507,7 +1513,7 @@ void DolphinMainWindow::updateViewActions()
         static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
     showHiddenFilesAction->setChecked(view->showHiddenFiles());
 
-    updateSplitAction(m_viewContainer[SecondaryView] != 0);
+    updateSplitAction();
 
     KToggleAction* editableLocactionAction =
         static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
@@ -1580,12 +1586,17 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotHistoryChanged()));
 }
 
-void DolphinMainWindow::updateSplitAction(bool isSplit)
+void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action("split_view");
-    if (isSplit) {
+    if (m_viewContainer[SecondaryView] != 0) {
         splitAction->setText(i18nc("@action:intoolbar Join views", "Join"));
-        splitAction->setIcon(KIcon("fileview-join"));
+        if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
+            splitAction->setIcon(KIcon("fileview-join"));
+        } else {
+            // TODO: replace by alternative icon as soon as it is available in Oxygen
+            splitAction->setIcon(KIcon("fileview-join"));
+        }
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setIcon(KIcon("fileview-split"));

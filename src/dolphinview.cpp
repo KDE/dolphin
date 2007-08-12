@@ -134,19 +134,7 @@ void DolphinView::setActive(bool active)
 
     m_active = active;
 
-    QColor color = KColorScheme(KColorScheme::View).background();
-    if (active) {
-        emit urlChanged(url());
-        emit selectionChanged(selectedItems());
-    } else {
-        color.setAlpha(0);
-    }
-
-    QWidget* viewport = itemView()->viewport();
-    QPalette palette;
-    palette.setColor(viewport->backgroundRole(), color);
-    viewport->setPalette(palette);
-
+    updateViewportColor();
     update();
 
     if (active) {
@@ -438,6 +426,7 @@ void DolphinView::refresh()
     createView();
     applyViewProperties(m_controller->url());
     reload();
+    updateViewportColor();
 }
 
 void DolphinView::setUrl(const KUrl& url)
@@ -962,6 +951,22 @@ void DolphinView::applyCutItemEffect()
         }
         ++it;
     }
+}
+
+void DolphinView::updateViewportColor()
+{
+    QColor color = KColorScheme(KColorScheme::View).background();
+    if (m_active) {
+        emit urlChanged(url());
+        emit selectionChanged(selectedItems());
+    } else {
+        color.setAlpha(0);
+    }
+
+    QWidget* viewport = itemView()->viewport();
+    QPalette palette;
+    palette.setColor(viewport->backgroundRole(), color);
+    viewport->setPalette(palette);
 }
 
 #include "dolphinview.moc"
