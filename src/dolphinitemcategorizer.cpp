@@ -65,7 +65,7 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
     }
 
     const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
-    KFileItem *item = dirModel->itemForIndex(index);
+    KFileItem item = dirModel->itemForIndex(index);
 
     switch (sortRole)
     {
@@ -84,17 +84,17 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
             QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
             if (data.toString().size())
             {
-                if (!item->isHidden() && data.toString().at(0).isLetter())
+                if (!item.isHidden() && data.toString().at(0).isLetter())
                     retString = data.toString().toUpper().at(0);
-                else if (item->isHidden() && data.toString().at(0) == '.' &&
+                else if (item.isHidden() && data.toString().at(0) == '.' &&
                          data.toString().at(1).isLetter())
                     retString = data.toString().toUpper().at(1);
-                else if (item->isHidden() && data.toString().at(0) == '.' &&
+                else if (item.isHidden() && data.toString().at(0) == '.' &&
                          !data.toString().at(1).isLetter())
                     retString = i18nc("@title:group Name", "Others");
-                else if (item->isHidden() && data.toString().at(0) != '.')
+                else if (item.isHidden() && data.toString().at(0) != '.')
                     retString = data.toString().toUpper().at(0);
-                else if (item->isHidden())
+                else if (item.isHidden())
                     retString = data.toString().toUpper().at(0);
                 else
                 {
@@ -122,7 +122,7 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
 
         case DolphinView::SortByDate:
         {
-            KDateTime modifiedTime = item->time(KFileItem::ModificationTime);
+            KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
             modifiedTime = modifiedTime.toLocalZone();
 
             if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) == 0)
@@ -141,20 +141,20 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
         }
 
         case DolphinView::SortByPermissions:
-            retString = item->permissionsString();
+            retString = item.permissionsString();
             break;
 
         case DolphinView::SortByOwner:
-            retString = item->user();
+            retString = item.user();
             break;
 
         case DolphinView::SortByGroup:
-            retString = item->group();
+            retString = item.group();
             break;
 
         case DolphinView::SortBySize: {
-            const int fileSize = item ? item->size() : -1;
-            if (item && item->isDir()) {
+            const int fileSize = !item.isNull() ? item.size() : -1;
+            if (!item.isNull() && item.isDir()) {
                 retString = i18nc("@title:group Size", "Folders");
             } else if (fileSize < 5242880) {
                 retString = i18nc("@title:group Size", "Small");
@@ -167,7 +167,7 @@ QString DolphinItemCategorizer::categoryForItem(const QModelIndex& index,
         }
 
         case DolphinView::SortByType:
-            retString = item->mimeComment();
+            retString = item.mimeComment();
             break;
 
 #ifdef HAVE_NEPOMUK
@@ -199,7 +199,7 @@ void DolphinItemCategorizer::drawCategory(const QModelIndex &index,
 {
     QRect starRect = option.rect;
 
-    int iconSize =  KIconLoader::global()->currentSize(K3Icon::Small);                       
+    int iconSize =  KIconLoader::global()->currentSize(K3Icon::Small);
     const QString category = categoryForItem(index, sortRole);
 
     QColor color = option.palette.color(QPalette::Text);
@@ -295,8 +295,8 @@ void DolphinItemCategorizer::drawCategory(const QModelIndex &index,
         case DolphinView::SortByType: {
             opt.rect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
             const KDirModel *model = static_cast<const KDirModel*>(index.model());
-            KFileItem *item = model->itemForIndex(index);
-            icon = KIconLoader::global()->loadIcon(KMimeType::iconNameForUrl(item->url()),
+            KFileItem item = model->itemForIndex(index);
+            icon = KIconLoader::global()->loadIcon(KMimeType::iconNameForUrl(item.url()),
                                                    K3Icon::Small);
             break;
         }

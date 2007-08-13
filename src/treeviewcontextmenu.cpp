@@ -34,7 +34,7 @@
 #include <QtGui/QClipboard>
 
 TreeViewContextMenu::TreeViewContextMenu(QWidget* parent,
-                                         KFileItem* fileInfo) :
+                                         const KFileItem& fileInfo) :
     m_parent(parent),
     m_fileInfo(fileInfo)
 {
@@ -46,7 +46,7 @@ TreeViewContextMenu::~TreeViewContextMenu()
 
 void TreeViewContextMenu::open()
 {
-    Q_ASSERT(m_fileInfo != 0);
+    Q_ASSERT(!m_fileInfo.isNull());
 
     KMenu* popup = new KMenu(m_parent);
 
@@ -77,7 +77,7 @@ void TreeViewContextMenu::open()
     const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     const KConfigGroup kdeConfig(globalConfig, "KDE");
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
-    const KUrl& url = m_fileInfo->url();
+    const KUrl& url = m_fileInfo.url();
     if (url.isLocalFile()) {
         QAction* moveToTrashAction = new QAction(KIcon("edit-trash"),
                                                  i18nc("@action:inmenu", "Move To Trash"), this);
@@ -108,7 +108,7 @@ void TreeViewContextMenu::cut()
 {
     QMimeData* mimeData = new QMimeData();
     KUrl::List kdeUrls;
-    kdeUrls.append(m_fileInfo->url());
+    kdeUrls.append(m_fileInfo.url());
     KonqMimeData::populateMimeData(mimeData, kdeUrls, KUrl::List(), true);
     QApplication::clipboard()->setMimeData(mimeData);
 }
@@ -117,7 +117,7 @@ void TreeViewContextMenu::copy()
 {
     QMimeData* mimeData = new QMimeData();
     KUrl::List kdeUrls;
-    kdeUrls.append(m_fileInfo->url());
+    kdeUrls.append(m_fileInfo.url());
     KonqMimeData::populateMimeData(mimeData, kdeUrls, KUrl::List(), false);
     QApplication::clipboard()->setMimeData(mimeData);
 }
@@ -128,7 +128,7 @@ void TreeViewContextMenu::paste()
     const QMimeData* mimeData = clipboard->mimeData();
 
     const KUrl::List source = KUrl::List::fromMimeData(mimeData);
-    const KUrl& dest = m_fileInfo->url();
+    const KUrl& dest = m_fileInfo.url();
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
         KonqOperations::copy(m_parent, KonqOperations::MOVE, source, dest);
         clipboard->clear();
@@ -139,7 +139,7 @@ void TreeViewContextMenu::paste()
 
 void TreeViewContextMenu::rename()
 {
-    const KUrl& oldUrl = m_fileInfo->url();
+    const KUrl& oldUrl = m_fileInfo.url();
     RenameDialog dialog(oldUrl);
     if (dialog.exec() == QDialog::Accepted) {
         const QString& newName = dialog.newName();
@@ -153,17 +153,17 @@ void TreeViewContextMenu::rename()
 
 void TreeViewContextMenu::moveToTrash()
 {
-    KonqOperations::del(m_parent, KonqOperations::TRASH, m_fileInfo->url());
+    KonqOperations::del(m_parent, KonqOperations::TRASH, m_fileInfo.url());
 }
 
 void TreeViewContextMenu::deleteItem()
 {
-    KonqOperations::del(m_parent, KonqOperations::DEL, m_fileInfo->url());
+    KonqOperations::del(m_parent, KonqOperations::DEL, m_fileInfo.url());
 }
 
 void TreeViewContextMenu::showProperties()
 {
-    KPropertiesDialog dialog(m_fileInfo->url());
+    KPropertiesDialog dialog(m_fileInfo.url());
     dialog.exec();
 }
 

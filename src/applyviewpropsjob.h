@@ -77,7 +77,6 @@ private slots:
 
 private:
     ViewProperties* m_viewProps;
-    KFileItemList m_lstItems;
     int m_currentItem;
     int m_progress;
     KUrl m_dir;

@@ -97,7 +97,7 @@ public:
      */
     void renameSelectedItems();
 
-    KFileItem* fileItem(const QModelIndex index) const;
+    KFileItem fileItem(const QModelIndex& index) const;
 
     inline const DolphinStatusBar* statusBar() const;
     inline DolphinStatusBar* statusBar();
@@ -177,7 +177,7 @@ private slots:
      *        should be applied to \a url.
      * @url   URL which contains \a item.
      */
-    void openContextMenu(KFileItem* item, const KUrl& url);
+    void openContextMenu(const KFileItem& item, const KUrl& url);
 
     /**
      * Saves the position of the contents to the

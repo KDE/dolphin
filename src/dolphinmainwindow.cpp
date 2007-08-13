@@ -237,7 +237,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
     }
 }
 
-void DolphinMainWindow::changeSelection(const KFileItemList& selection)
+void DolphinMainWindow::changeSelection(const QList<KFileItem>& selection)
 {
     activeViewContainer()->view()->changeSelection(selection);
 }
@@ -351,7 +351,7 @@ void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::AdditionalI
     }
 }
 
-void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
+void DolphinMainWindow::slotSelectionChanged(const QList<KFileItem>& selection)
 {
     updateEditActions();
 
@@ -490,8 +490,14 @@ void DolphinMainWindow::deleteItems()
 
 void DolphinMainWindow::properties()
 {
-    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
-    KPropertiesDialog dialog(list, this);
+    QList<KFileItem> list = m_activeViewContainer->view()->selectedItems();
+    // ### KPropertiesDialog still uses pointer-based KFileItemList
+    KFileItemList lst;
+    // Can't be a const_iterator :(
+    for ( QList<KFileItem>::iterator it = list.begin(), end = list.end() ; it != end ; ++it ) {
+        lst << & *it; // ugly!
+    }
+    KPropertiesDialog dialog(lst, this);
     dialog.exec();
 }
 
@@ -1348,8 +1354,8 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             infoWidget, SLOT(setUrl(KUrl)));
-    connect(this, SIGNAL(selectionChanged(KFileItemList)),
-            infoWidget, SLOT(setSelection(KFileItemList)));
+    connect(this, SIGNAL(selectionChanged(QList<KFileItem>)),
+            infoWidget, SLOT(setSelection(QList<KFileItem>)));
     connect(this, SIGNAL(requestItemInfo(KFileItem)),
             infoWidget, SLOT(requestDelayedItemInfo(KFileItem)));
 
@@ -1369,8 +1375,8 @@ void DolphinMainWindow::setupDockWidgets()
             treeWidget, SLOT(setUrl(KUrl)));
     connect(treeWidget, SIGNAL(changeUrl(KUrl)),
             this, SLOT(changeUrl(KUrl)));
-    connect(treeWidget, SIGNAL(changeSelection(KFileItemList)),
-            this, SLOT(changeSelection(KFileItemList)));
+    connect(treeWidget, SIGNAL(changeSelection(QList<KFileItem>)),
+            this, SLOT(changeSelection(QList<KFileItem>)));
     connect(treeWidget, SIGNAL(urlsDropped(KUrl::List, KUrl)),
             this, SLOT(dropUrls(KUrl::List, KUrl)));
 
@@ -1432,7 +1438,7 @@ void DolphinMainWindow::updateHistory()
 
 void DolphinMainWindow::updateEditActions()
 {
-    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+    const QList<KFileItem> list = m_activeViewContainer->view()->selectedItems();
     if (list.isEmpty()) {
         stateChanged("has_no_selection");
     } else {
@@ -1445,11 +1451,10 @@ void DolphinMainWindow::updateEditActions()
 
         bool enableMoveToTrash = true;
 
-        KFileItemList::const_iterator it = list.begin();
-        const KFileItemList::const_iterator end = list.end();
+        QList<KFileItem>::const_iterator it = list.begin();
+        const QList<KFileItem>::const_iterator end = list.end();
         while (it != end) {
-            KFileItem* item = *it;
-            const KUrl& url = item->url();
+            const KUrl& url = (*it).url();
             // only enable the 'Move to Trash' action for local files
             if (!url.isLocalFile()) {
                 enableMoveToTrash = false;
@@ -1572,8 +1577,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(view, SIGNAL(additionalInfoChanged(KFileItemDelegate::AdditionalInformation)),
             this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation)));
-    connect(view, SIGNAL(selectionChanged(KFileItemList)),
-            this, SLOT(slotSelectionChanged(KFileItemList)));
+    connect(view, SIGNAL(selectionChanged(QList<KFileItem>)),
+            this, SLOT(slotSelectionChanged(QList<KFileItem>)));
     connect(view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),

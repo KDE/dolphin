@@ -118,7 +118,7 @@ void InfoSidebarPage::setUrl(const KUrl& url)
     }
 }
 
-void InfoSidebarPage::setSelection(const KFileItemList& selection)
+void InfoSidebarPage::setSelection(const QList<KFileItem>& selection)
 {
     SidebarPage::setSelection(selection);
     m_timer->start(TimerDelay);
@@ -167,13 +167,13 @@ void InfoSidebarPage::showItemInfo()
 
     cancelRequest();
 
-    const KFileItemList& selectedItems = selection();
+    const QList<KFileItem>& selectedItems = selection();
 
     KUrl file;
     if (selectedItems.isEmpty()) {
         file = m_shownUrl;
     } else {
-        file = selectedItems[0]->url();
+        file = selectedItems[0].url();
     }
     if (!file.isValid()) {
         return;
@@ -273,7 +273,7 @@ void InfoSidebarPage::showMetaInfo()
 {
     QString text;
 
-    const KFileItemList& selectedItems = selection();
+    const QList<KFileItem>& selectedItems = selection();
     if (selectedItems.size() <= 1) {
         KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();
@@ -311,14 +311,18 @@ void InfoSidebarPage::showMetaInfo()
         }
     } else {
         if (MetaDataWidget::metaDataAvailable()) {
-            m_metadataWidget->setFiles(selectedItems.urlList());
+            KUrl::List urls;
+            foreach (const KFileItem& item, selectedItems) {
+                urls.append(item.url());
+            }
+            m_metadataWidget->setFiles(urls);
         }
 
         unsigned long int totalSize = 0;
-        foreach (KFileItem* item, selectedItems) {
+        foreach (const KFileItem& item, selectedItems) {
             // TODO: what to do with directories (same with the one-item-selected-code)?,
-            // item->size() does not return the size of the content : not very instinctive for users
-            totalSize += item->size();
+            // item.size() does not return the size of the content : not very instinctive for users
+            totalSize += item.size();
         }
         addInfoLine(text, i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     }

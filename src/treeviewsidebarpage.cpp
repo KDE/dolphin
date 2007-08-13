@@ -128,9 +128,9 @@ void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
     }
 
     const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
-    KFileItem* item = m_dirModel->itemForIndex(dirModelIndex);
+    KFileItem item = m_dirModel->itemForIndex(dirModelIndex);
 
-    emit changeSelection(KFileItemList());
+    emit changeSelection(QList<KFileItem>());
     TreeViewContextMenu contextMenu(this, item);
     contextMenu.open();
 }
@@ -166,10 +166,9 @@ void TreeViewSidebarPage::expandSelectionParent()
 void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
 {
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-    const KFileItem* item = m_dirModel->itemForIndex(dirIndex);
-    if (item != 0) {
-        const KUrl& url = item->url();
-        emit changeUrl(url);
+    const KFileItem item = m_dirModel->itemForIndex(dirIndex);
+    if (!item.isNull()) {
+        emit changeUrl(item.url());
     }
 }
 
@@ -178,10 +177,10 @@ void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
 {
     if (index.isValid()) {
         const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-        KFileItem* item = m_dirModel->itemForIndex(dirIndex);
-        Q_ASSERT(item != 0);
-        if (item->isDir()) {
-            emit urlsDropped(urls, item->url());
+        KFileItem item = m_dirModel->itemForIndex(dirIndex);
+        Q_ASSERT(!item.isNull());
+        if (item.isDir()) {
+            emit urlsDropped(urls, item.url());
         }
     }
 }

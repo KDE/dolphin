@@ -26,7 +26,7 @@
 SidebarPage::SidebarPage(QWidget* parent) :
     QWidget(parent),
     m_url(KUrl()),
-    m_currentSelection(KFileItemList())
+    m_currentSelection()
 {
 }
 
@@ -39,7 +39,7 @@ const KUrl& SidebarPage::url() const
     return m_url;
 }
 
-const KFileItemList& SidebarPage::selection() const
+const QList<KFileItem>& SidebarPage::selection() const
 {
     return m_currentSelection;
 }
@@ -49,7 +49,7 @@ void SidebarPage::setUrl(const KUrl& url)
     m_url = url;
 }
 
-void SidebarPage::setSelection(const KFileItemList& selection)
+void SidebarPage::setSelection(const QList<KFileItem>& selection)
 {
     m_currentSelection = selection;
 }

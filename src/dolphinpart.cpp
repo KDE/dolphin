@@ -70,7 +70,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
     // TODO connect to urlsDropped
     // TOOD connect to requestContextMenu
-    connect(m_view, SIGNAL(selectionChanged(KFileItemList)), m_extension, SIGNAL(selectionInfo(KFileItemList)));
+    connect(m_view, SIGNAL(selectionChanged(QList<KFileItem>)), m_extension, SIGNAL(selectionInfo(QList<KFileItem>)));
 
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)), this, SLOT(slotRequestItemInfo(KFileItem)));
 

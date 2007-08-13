@@ -21,8 +21,7 @@
 #define TREEVIEWCONTEXTMENU_H
 
 #include <QtCore/QObject>
-
-class KFileItem;
+#include <KFileItem>
 
 /**
  * @brief Represents the context menu which appears when doing a right
@@ -41,7 +40,7 @@ public:
      *                is above the viewport.
      */
     TreeViewContextMenu(QWidget* parent,
-                        KFileItem* fileInfo);
+                        const KFileItem& fileInfo);
 
     virtual ~TreeViewContextMenu();
 
@@ -72,7 +71,7 @@ private slots:
 
 private:
     QWidget* m_parent;
-    KFileItem* m_fileInfo;
+    KFileItem m_fileInfo;
 };
 
 #endif

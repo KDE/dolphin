@@ -301,8 +301,8 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
         const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
         const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
-        KFileItem* item = dirModel->itemForIndex(dirIndex);
-        if (item != 0) {
+        KFileItem item = dirModel->itemForIndex(dirIndex);
+        if (!item.isNull()) {
             QItemSelectionModel* selModel = selectionModel();
 
             bool activate = true;
@@ -317,8 +317,8 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
                 }
                 selModel->select(index, QItemSelectionModel::Toggle);
                 swallowMousePressEvent = true;
-            } else if (item->isDir()) {
-                m_childUrl = item->url();
+            } else if (item.isDir()) {
+                m_childUrl = item.url();
                 viewport()->update();
 
                 // Only request the activation if not the left button is pressed.
@@ -515,9 +515,9 @@ QAbstractItemView* DolphinColumnView::createColumn(const QModelIndex& index)
         const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
 
         const QModelIndex dirModelIndex = proxyModel->mapToSource(index);
-        KFileItem* fileItem = dirModel->itemForIndex(dirModelIndex);
-        if (fileItem != 0) {
-            columnUrl = fileItem->url();
+        KFileItem fileItem = dirModel->itemForIndex(dirModelIndex);
+        if (!fileItem.isNull()) {
+            columnUrl = fileItem.url();
         }
     }
 

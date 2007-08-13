@@ -62,7 +62,7 @@ public:
      * @viewType      On which view type is the context menu shown.
      */
     DolphinContextMenu(DolphinMainWindow* parent,
-                       KFileItem* fileInfo,
+                       const KFileItem& fileInfo,
                        const KUrl& baseUrl);
 
     virtual ~DolphinContextMenu();
@@ -127,9 +127,9 @@ private:
     };
 
     DolphinMainWindow* m_mainWindow;
-    KFileItem* m_fileInfo;
+    KFileItem m_fileInfo;
     KUrl m_baseUrl;
-    KFileItemList m_selectedItems;
+    QList<KFileItem> m_selectedItems;
     KUrl::List m_selectedUrls;
     int m_context;
 };

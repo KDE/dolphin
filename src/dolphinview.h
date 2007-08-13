@@ -224,7 +224,7 @@ public:
      * selected.
      * @see DolphinView::selectedUrls()
      */
-    KFileItemList selectedItems() const;
+    QList<KFileItem> selectedItems() const;
 
     /**
      * Returns a list of URLs for all selected items. An empty list
@@ -236,7 +236,7 @@ public:
     /**
      * Returns the file item for the given model index \a index.
      */
-    KFileItem* fileItem(const QModelIndex index) const;
+    KFileItem fileItem(const QModelIndex& index) const;
 
     /**
      * Sets the upper left position of the view content
@@ -307,7 +307,7 @@ public slots:
      * will actually get selected. The view will e.g. not select items which
      * are not in the currently displayed folder.
      */
-    void changeSelection(const KFileItemList& selection);
+    void changeSelection(const QList<KFileItem>& selection);
 
 signals:
     /**
@@ -354,14 +354,14 @@ signals:
     /**
      * Is emitted whenever the selection has been changed.
      */
-    void selectionChanged(const KFileItemList& selection);
+    void selectionChanged(const QList<KFileItem>& selection);
 
     /**
      * Is emitted if a context menu is requested for the item \a item,
      * which is part of \a url. If the item is 0, the context menu
      * for the URL should be shown.
      */
-    void requestContextMenu(KFileItem* item, const KUrl& url);
+    void requestContextMenu(const KFileItem& item, const KUrl& url);
 
     /**
      * Is emitted if the URLs \a are dropped to the destination URL
@@ -406,7 +406,7 @@ private slots:
      * The current preview settings (maximum size, 'Show Preview' menu)
      * are respected.
      */
-    void generatePreviews(const KFileItemList& items);
+    void generatePreviews(const QList<KFileItem>& items);
 
     /**
      * Replaces the icon of the item \a item by the preview pixmap

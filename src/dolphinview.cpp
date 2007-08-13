@@ -290,7 +290,7 @@ void DolphinView::clearSelection()
     itemView()->selectionModel()->clear();
 }
 
-KFileItemList DolphinView::selectedItems() const
+QList<KFileItem> DolphinView::selectedItems() const
 {
     const QAbstractItemView* view = itemView();
 
@@ -299,15 +299,15 @@ KFileItemList DolphinView::selectedItems() const
     Q_ASSERT((view != 0) && (view->selectionModel() != 0));
 
     const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
-    KFileItemList itemList;
+    QList<KFileItem> itemList;
 
     const QModelIndexList indexList = selection.indexes();
     QModelIndexList::const_iterator end = indexList.end();
     for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
         Q_ASSERT((*it).isValid());
 
-        KFileItem* item = m_dirModel->itemForIndex(*it);
-        if (item != 0) {
+        KFileItem item = m_dirModel->itemForIndex(*it);
+        if (!item.isNull()) {
             itemList.append(item);
         }
     }
@@ -318,20 +318,15 @@ KFileItemList DolphinView::selectedItems() const
 KUrl::List DolphinView::selectedUrls() const
 {
     KUrl::List urls;
-
-    const KFileItemList list = selectedItems();
-    KFileItemList::const_iterator it = list.begin();
-    const KFileItemList::const_iterator end = list.end();
-    while (it != end) {
-        KFileItem* item = *it;
-        urls.append(item->url());
-        ++it;
+    const QList<KFileItem> list = selectedItems();
+    for ( QList<KFileItem>::const_iterator it = list.begin(), end = list.end();
+          it != end; ++it ) {
+        urls.append((*it).url());
     }
-
     return urls;
 }
 
-KFileItem* DolphinView::fileItem(const QModelIndex index) const
+KFileItem DolphinView::fileItem(const QModelIndex& index) const
 {
     const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
     return m_dirModel->itemForIndex(dirModelIndex);
@@ -468,8 +463,8 @@ void DolphinView::triggerItem(const QModelIndex& index)
         return;
     }
 
-    KFileItem* item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
-    if (item == 0) {
+    KFileItem item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
+    if (item.isNull()) {
         return;
     }
 
@@ -477,13 +472,13 @@ void DolphinView::triggerItem(const QModelIndex& index)
 
     // Prefer the local path over the URL.
     bool isLocal;
-    KUrl url = item->mostLocalUrl(isLocal);
+    KUrl url = item.mostLocalUrl(isLocal);
 
-    if (item->isDir()) {
+    if (item.isDir()) {
         setUrl(url);
-    } else if (item->isFile()) {
+    } else if (item.isFile()) {
         // allow to browse through ZIP and tar files
-        KMimeType::Ptr mime = item->mimeTypePtr();
+        KMimeType::Ptr mime = item.mimeTypePtr();
         if (mime->is("application/zip")) {
             url.setProtocol("zip");
             setUrl(url);
@@ -495,23 +490,17 @@ void DolphinView::triggerItem(const QModelIndex& index)
             url.setProtocol("tar");
             setUrl(url);
         } else {
-            item->run();
+            item.run();
         }
     } else {
-        item->run();
+        item.run();
     }
 }
 
-void DolphinView::generatePreviews(const KFileItemList& items)
+void DolphinView::generatePreviews(const QList<KFileItem>& items)
 {
     if (m_controller->showPreview()) {
-
-        // Must turn QList<KFileItem *> to QList<KFileItem>...
-        QList<KFileItem> itemsToPreview;
-        foreach( KFileItem* it, items )
-            itemsToPreview.append( *it );
-
-        KIO::PreviewJob* job = KIO::filePreview(itemsToPreview, 128);
+        KIO::PreviewJob* job = KIO::filePreview(items, 128);
         connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
     }
@@ -687,7 +676,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
     }
 }
 
-void DolphinView::changeSelection(const KFileItemList& selection)
+void DolphinView::changeSelection(const QList<KFileItem>& selection)
 {
     clearSelection();
     if (selection.isEmpty()) {
@@ -696,10 +685,10 @@ void DolphinView::changeSelection(const KFileItemList& selection)
     const KUrl& baseUrl = url();
     KUrl url;
     QItemSelection new_selection;
-    foreach(KFileItem* item, selection) {
-        url = item->url().upUrl();
+    foreach(const KFileItem& item, selection) {
+        url = item.url().upUrl();
         if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
-            QModelIndex index = m_proxyModel->mapFromSource(m_dirModel->indexForItem(*item));
+            QModelIndex index = m_proxyModel->mapFromSource(m_dirModel->indexForItem(item));
             new_selection.select(index, index);
         }
     }
@@ -710,7 +699,7 @@ void DolphinView::changeSelection(const KFileItemList& selection)
 
 void DolphinView::openContextMenu(const QPoint& pos)
 {
-    KFileItem* item = 0;
+    KFileItem item;
 
     const QModelIndex index = itemView()->indexAt(pos);
     if (isValidNameIndex(index)) {
@@ -724,24 +713,24 @@ void DolphinView::dropUrls(const KUrl::List& urls,
                            const QModelIndex& index,
                            QWidget* source)
 {
-    KFileItem* directory = 0;
+    KFileItem directory;
     if (isValidNameIndex(index)) {
-        KFileItem* item = fileItem(index);
-        Q_ASSERT(item != 0);
-        if (item->isDir()) {
+        KFileItem item = fileItem(index);
+        Q_ASSERT(!item.isNull());
+        if (item.isDir()) {
             // the URLs are dropped above a directory
             directory = item;
         }
     }
 
-    if ((directory == 0) && (source == itemView())) {
+    if ((directory.isNull()) && (source == itemView())) {
         // The dropping is done into the same viewport where
         // the dragging has been started. Just ignore this...
         return;
     }
 
-    const KUrl& destination = (directory == 0) ?
-                              url() : directory->url();
+    const KUrl& destination = (directory.isNull()) ?
+                              url() : directory.url();
     dropUrls(urls, destination);
 }
 
@@ -809,9 +798,9 @@ void DolphinView::showHoverInformation(const QModelIndex& index)
         return;
     }
 
-    const KFileItem* item = fileItem(index);
-    if (item != 0) {
-        emit requestItemInfo(*item);
+    const KFileItem item = fileItem(index);
+    if (!item.isNull()) {
+        emit requestItemInfo(item);
     }
 }
 
@@ -930,9 +919,10 @@ void DolphinView::applyCutItemEffect()
         KFileItem* item = *it;
         if (isCutItem(*item)) {
             const QModelIndex index = m_dirModel->indexForItem(*item);
-            const KFileItem* item = m_dirModel->itemForIndex(index);
+            // Huh? the item is already known
+            //const KFileItem item = m_dirModel->itemForIndex(index);
             const QVariant value = m_dirModel->data(index, Qt::DecorationRole);
-            if ((value.type() == QVariant::Icon) && (item != 0)) {
+            if (value.type() == QVariant::Icon) {
                 const QIcon icon(qvariant_cast<QIcon>(value));
                 QPixmap pixmap = icon.pixmap(128, 128);
 

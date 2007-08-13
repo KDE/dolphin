@@ -49,7 +49,7 @@
 #include <Qt3Support/Q3ValueList>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
-                                       KFileItem* fileInfo,
+                                       const KFileItem& fileInfo,
                                        const KUrl& baseUrl) :
     m_mainWindow(parent),
     m_fileInfo(fileInfo),
@@ -74,7 +74,7 @@ void DolphinContextMenu::open()
         m_context |= TrashContext;
     }
 
-    if (m_fileInfo != 0) {
+    if (!m_fileInfo.isNull()) {
         m_context |= ItemContext;
         // TODO: handle other use cases like devices + desktop files
     }
@@ -150,7 +150,7 @@ void DolphinContextMenu::openTrashItemContextMenu()
 
 void DolphinContextMenu::openItemContextMenu()
 {
-    Q_ASSERT(m_fileInfo != 0);
+    Q_ASSERT(!m_fileInfo.isNull());
 
     KMenu* popup = new KMenu(m_mainWindow);
     insertDefaultItemActions(popup);
@@ -159,7 +159,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     // insert 'Bookmark This Folder' entry if exactly one item is selected
     QAction* bookmarkAction = 0;
-    if (m_fileInfo->isDir() && (m_selectedUrls.count() == 1)) {
+    if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
         bookmarkAction = popup->addAction(KIcon("bookmark-folder"),
                                           i18nc("@action:inmenu", "Bookmark Folder..."));
     }
@@ -180,7 +180,7 @@ void DolphinContextMenu::openItemContextMenu()
     QAction* activatedAction = popup->exec(QCursor::pos());
 
     if ((bookmarkAction != 0) && (activatedAction == bookmarkAction)) {
-        const KUrl selectedUrl(m_fileInfo->url());
+        const KUrl selectedUrl(m_fileInfo.url());
         if (selectedUrl.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(selectedUrl.fileName(),
                                                                 selectedUrl);
@@ -208,7 +208,7 @@ void DolphinContextMenu::openItemContextMenu()
 
 void DolphinContextMenu::openViewportContextMenu()
 {
-    Q_ASSERT(m_fileInfo == 0);
+    Q_ASSERT(!m_fileInfo.isNull());
     KMenu* popup = new KMenu(m_mainWindow);
 
     // setup 'Create New' menu
@@ -311,18 +311,18 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     // attached which allows to select a custom application. If no applications are registered
     // no sub menu is created at all, only "Open With..." will be offered.
     bool insertOpenWithItems = true;
-    const QString contextMimeType(m_fileInfo->mimetype());
+    const QString contextMimeType(m_fileInfo.mimetype());
 
-    QListIterator<KFileItem*> mimeIt(m_selectedItems);
+    QListIterator<KFileItem> mimeIt(m_selectedItems);
     while (insertOpenWithItems && mimeIt.hasNext()) {
-        KFileItem* item = mimeIt.next();
-        insertOpenWithItems = (contextMimeType == item->mimetype());
+        KFileItem item = mimeIt.next();
+        insertOpenWithItems = (contextMimeType == item.mimetype());
     }
 
     QList<QAction*> openWithActions;
     if (insertOpenWithItems) {
         // fill the 'Open with' sub menu with application types
-        const KMimeType::Ptr mimePtr = KMimeType::findByUrl(m_fileInfo->url());
+        const KMimeType::Ptr mimePtr = KMimeType::findByUrl(m_fileInfo.url());
         KService::List offers = KMimeTypeTrader::self()->query(mimePtr->name(),
                                 "Application",
                                 "Type == 'Application'");
@@ -401,11 +401,11 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                     if ((*it) == "all/allfiles") {
                         // The service type is valid for all files, but not for directories.
                         // Check whether the selected items only consist of files...
-                        QListIterator<KFileItem*> mimeIt(m_selectedItems);
+                        QListIterator<KFileItem> mimeIt(m_selectedItems);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
-                            KFileItem* item = mimeIt.next();
-                            insert = !item->isDir();
+                            KFileItem item = mimeIt.next();
+                            insert = !item.isDir();
                         }
                     }
 
@@ -413,11 +413,11 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                         // Check whether the MIME types of all selected files match
                         // to the mimetype of the service action. As soon as one MIME
                         // type does not match, no service menu is shown at all.
-                        QListIterator<KFileItem*> mimeIt(m_selectedItems);
+                        QListIterator<KFileItem> mimeIt(m_selectedItems);
                         insert = true;
                         while (insert && mimeIt.hasNext()) {
-                            KFileItem* item = mimeIt.next();
-                            const QString mimeType(item->mimetype());
+                            KFileItem item = mimeIt.next();
+                            const QString mimeType(item.mimetype());
                             const QString mimeGroup(mimeType.left(mimeType.indexOf('/')));
 
                             insert  = (*it == mimeType) ||

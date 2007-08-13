@@ -127,8 +127,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                              m_proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
-    connect(m_view, SIGNAL(requestContextMenu(KFileItem*, const KUrl&)),
-            this, SLOT(openContextMenu(KFileItem*, const KUrl&)));
+    connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&)),
+            this, SLOT(openContextMenu(KFileItem, const KUrl&)));
     connect(m_view, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
             m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
     connect(m_view, SIGNAL(contentsMoved(int, int)),
@@ -266,7 +266,7 @@ bool DolphinViewContainer::isUrlEditable() const
     return m_urlNavigator->isUrlEditable();
 }
 
-KFileItem* DolphinViewContainer::fileItem(const QModelIndex index) const
+KFileItem DolphinViewContainer::fileItem(const QModelIndex& index) const
 {
     const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
     return m_dirModel->itemForIndex(dirModelIndex);
@@ -358,7 +358,7 @@ QString DolphinViewContainer::defaultStatusBarText() const
 QString DolphinViewContainer::selectionStatusBarText() const
 {
     QString text;
-    const KFileItemList list = m_view->selectedItems();
+    const QList<KFileItem> list = m_view->selectedItems();
     if (list.isEmpty()) {
         // when an item is triggered, it is temporary selected but selectedItems()
         // will return an empty list
@@ -368,15 +368,15 @@ QString DolphinViewContainer::selectionStatusBarText() const
     int fileCount = 0;
     int folderCount = 0;
     KIO::filesize_t byteSize = 0;
-    KFileItemList::const_iterator it = list.begin();
-    const KFileItemList::const_iterator end = list.end();
+    QList<KFileItem>::const_iterator it = list.begin();
+    const QList<KFileItem>::const_iterator end = list.end();
     while (it != end) {
-        KFileItem* item = *it;
-        if (item->isDir()) {
+        const KFileItem& item = *it;
+        if (item.isDir()) {
             ++folderCount;
         } else {
             ++fileCount;
-            byteSize += item->size();
+            byteSize += item.size();
         }
         ++it;
     }
@@ -450,7 +450,7 @@ void DolphinViewContainer::changeNameFilter(const QString& nameFilter)
 #endif
 }
 
-void DolphinViewContainer::openContextMenu(KFileItem* item,
+void DolphinViewContainer::openContextMenu(const KFileItem& item,
                                            const KUrl& url)
 {
     DolphinContextMenu contextMenu(m_mainWindow, item, url);
