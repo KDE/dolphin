@@ -19,20 +19,21 @@
 
 #include "renamedialog.h"
 
+#include <kfileitem.h>
 #include <klineedit.h>
 #include <klocale.h>
 
 #include <QtGui/QLabel>
 #include <QtGui/QBoxLayout>
 
-RenameDialog::RenameDialog(const KUrl::List& items) :
+RenameDialog::RenameDialog(const KUrl::List& urls, const QList<KFileItem>& items) :
     KDialog(),
     m_renameOneItem(false)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));
 
-    const int itemCount = items.count();
+    const int itemCount = urls.count();
     Q_ASSERT(itemCount >= 1);
     m_renameOneItem = (itemCount == 1);
 
@@ -52,8 +53,7 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
 
     QLabel* editLabel = 0;
     if (m_renameOneItem) {
-        const KUrl& url = items.first();
-        m_newName = url.fileName();
+        m_newName = items.first().name();
         editLabel = new QLabel(i18nc("@label:textbox", "Rename the item <filename>%1</filename> to:", m_newName),
                                page);
     } else {
@@ -65,13 +65,13 @@ RenameDialog::RenameDialog(const KUrl::List& items) :
     }
 
     m_lineEdit = new KLineEdit(page);
-    QString extension = extensionString(items[0].prettyUrl());
+    QString extension = extensionString(urls[0].prettyUrl());
     if (extension.length() > 0) {
         // The first item seems to have a extension (e. g. '.jpg' or '.txt'). Now
-        // check whether all other items have the same extension. If this is the
+        // check whether all other URLs have the same extension. If this is the
         // case, add this extension to the name suggestion.
         for (int i = 1; i < itemCount; ++i) {
-            if (!items[i].prettyUrl().contains(extension)) {
+            if (!urls[i].prettyUrl().contains(extension)) {
                 // at least one item does not have the same extension
                 extension.truncate(0);
                 break;

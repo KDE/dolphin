@@ -20,6 +20,7 @@
 
 #include "treeviewcontextmenu.h"
 
+#include <kfileitem.h>
 #include <kiconloader.h>
 #include <kio/deletejob.h>
 #include <kmenu.h>
@@ -140,7 +141,9 @@ void TreeViewContextMenu::paste()
 void TreeViewContextMenu::rename()
 {
     const KUrl& oldUrl = m_fileInfo.url();
-    RenameDialog dialog(oldUrl);
+    QList<KFileItem> items;
+    items.append( m_fileInfo );
+    RenameDialog dialog(oldUrl, items);
     if (dialog.exec() == QDialog::Accepted) {
         const QString& newName = dialog.newName();
         if (!newName.isEmpty()) {

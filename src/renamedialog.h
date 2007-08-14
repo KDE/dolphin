@@ -25,6 +25,7 @@
 #include <kurl.h>
 
 
+class KFileItem;
 class KLineEdit;
 
 /**
@@ -51,7 +52,7 @@ class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public KDialog
     Q_OBJECT
 
 public:
-    explicit RenameDialog(const KUrl::List& items);
+    explicit RenameDialog(const KUrl::List& urls, const QList<KFileItem>& items);
     virtual ~RenameDialog();
 
     /**
