@@ -142,7 +142,7 @@ void TreeViewContextMenu::rename()
 {
     const KUrl& oldUrl = m_fileInfo.url();
     QList<KFileItem> items;
-    items.append( m_fileInfo );
+    items.append(m_fileInfo);
     RenameDialog dialog(oldUrl, items);
     if (dialog.exec() == QDialog::Accepted) {
         const QString& newName = dialog.newName();
