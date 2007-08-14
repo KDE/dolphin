@@ -259,7 +259,7 @@ quint32 DolphinSortFilterProxyModel::ratingForIndex(const QModelIndex& index)
     const KDirModel* dirModel = static_cast<const KDirModel*>(index.model());
     KFileItem item = dirModel->itemForIndex(index);
     if (!item.isNull()) {
-        const Nepomuk::Resource resource(item->url().url(), Nepomuk::NFO::File());
+        const Nepomuk::Resource resource(item.url().url(), Nepomuk::NFO::File());
         rating = resource.rating();
     }
     return rating;
@@ -277,7 +277,7 @@ QString DolphinSortFilterProxyModel::tagsForIndex(const QModelIndex& index)
     const KDirModel* dirModel = static_cast<const KDirModel*>(index.model());
     KFileItem item = dirModel->itemForIndex(index);
     if (!item.isNull()) {
-        const Nepomuk::Resource resource(item->url().url(), Nepomuk::NFO::File());
+        const Nepomuk::Resource resource(item.url().url(), Nepomuk::NFO::File());
         const QList<Nepomuk::Tag> tags = resource.tags();
         QStringList stringList;
         foreach (const Nepomuk::Tag& tag, tags) {
