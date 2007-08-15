@@ -208,7 +208,6 @@ void DolphinContextMenu::openItemContextMenu()
 
 void DolphinContextMenu::openViewportContextMenu()
 {
-    Q_ASSERT(!m_fileInfo.isNull());
     KMenu* popup = new KMenu(m_mainWindow);
 
     // setup 'Create New' menu
