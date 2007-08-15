@@ -133,14 +133,8 @@ void IconSizeDialog::updateIconSize(int value)
 {
     KIconLoader iconLoader;
     m_iconSizeViewer->setPixmap(iconLoader.loadIcon("folder", K3Icon::Desktop, iconSize(value)));
-
     if (m_previewSizeSlider != 0) {
-        int previewSizeValue = m_previewSizeSlider->value();
-        if (previewSizeValue < value) {
-            // assure that the preview size is never smaller than the icon size
-            previewSizeValue = value;
-        }
-        updatePreviewSize(previewSizeValue);
+        updatePreviewSize(m_previewSizeSlider->value());
     }
 }
 

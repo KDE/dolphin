@@ -20,9 +20,10 @@
 #include "pixmapviewer.h"
 
 #include <kiconloader.h>
-#include <QtGui/QPainter>
-#include <QtGui/QPixmap>
-#include <QtGui/QKeyEvent>
+
+#include <QPainter>
+#include <QPixmap>
+#include <QKeyEvent>
 
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),
@@ -30,10 +31,15 @@ PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     m_animationStep(0)
 {
     setMinimumWidth(K3Icon::SizeEnormous);
-    setMinimumWidth(K3Icon::SizeEnormous);
+    setMinimumHeight(K3Icon::SizeEnormous);
 
-    m_animation.setDuration(300);
-    connect(&m_animation, SIGNAL(valueChanged(qreal)), this, SLOT(update()));
+    m_animation.setDuration(150);
+    m_animation.setCurveShape(QTimeLine::LinearCurve);
+
+    if (m_transition != NoTransition) {
+        connect(&m_animation, SIGNAL(valueChanged(qreal)), this, SLOT(update()));
+        connect(&m_animation, SIGNAL(finished()), this, SLOT(checkPendingPixmaps()));
+    }
 }
 
 PixmapViewer::~PixmapViewer()
@@ -43,6 +49,15 @@ PixmapViewer::~PixmapViewer()
 void PixmapViewer::setPixmap(const QPixmap& pixmap)
 {
     if (pixmap.isNull()) {
+        return;
+    }
+
+    if ((m_transition != NoTransition) && (m_animation.state() == QTimeLine::Running)) {
+        m_pendingPixmaps.enqueue(pixmap);
+        if (m_pendingPixmaps.count() > 5) {
+            // don't queue more than 5 pixmaps
+            m_pendingPixmaps.takeFirst();
+        }
         return;
     }
 
@@ -63,21 +78,40 @@ void PixmapViewer::paintEvent(QPaintEvent* event)
 
     QPainter painter(this);
 
-    const float value = m_animation.currentValue();
+    if (m_transition != NoTransition) {
+        const float value = m_animation.currentValue();
+        const int scaledWidth  = static_cast<int>((m_oldPixmap.width()  * (1.0 - value)) + (m_pixmap.width()  * value));
+        const int scaledHeight = static_cast<int>((m_oldPixmap.height() * (1.0 - value)) + (m_pixmap.height() * value));
 
-    const int scaledWidth  = static_cast<int>((m_oldPixmap.width()  * (1.0 - value)) + (m_pixmap.width()  * value));
-    const int scaledHeight = static_cast<int>((m_oldPixmap.height() * (1.0 - value)) + (m_pixmap.height() * value));
-    const int x = (width()  - scaledWidth ) / 2;
-    const int y = (height() - scaledHeight) / 2;
+        const int x = (width()  - scaledWidth ) / 2;
+        const int y = (height() - scaledHeight) / 2;
 
-    const bool useOldPixmap = (m_transition == SizeTransition) &&
-                              (m_oldPixmap.width() > m_pixmap.width());
-    const QPixmap& largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
-    const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth,
-                                                    scaledHeight,
-                                                    Qt::IgnoreAspectRatio,
-                                                    Qt::SmoothTransformation);
-    painter.drawPixmap(x, y, scaledPixmap);
+        const bool useOldPixmap = (m_transition == SizeTransition) &&
+                                  (m_oldPixmap.width() > m_pixmap.width());
+        const QPixmap& largePixmap = useOldPixmap ? m_oldPixmap : m_pixmap;
+        const QPixmap scaledPixmap = largePixmap.scaled(scaledWidth,
+                                                        scaledHeight,
+                                                        Qt::IgnoreAspectRatio,
+                                                        Qt::FastTransformation);
+        painter.drawPixmap(x, y, scaledPixmap);
+    } else {
+        const int x = (width()  - m_pixmap.width() ) / 2;
+        const int y = (height() - m_pixmap.height()) / 2;
+        painter.drawPixmap(x, y, m_pixmap);
+    }
+}
+
+void PixmapViewer::checkPendingPixmaps()
+{
+    if (m_pendingPixmaps.count() > 0) {
+        QPixmap pixmap = m_pendingPixmaps.dequeue();
+        m_oldPixmap = m_pixmap.isNull() ? pixmap : m_pixmap;
+        m_pixmap = pixmap;
+        update();
+        m_animation.start();
+    } else {
+        m_oldPixmap = m_pixmap;
+    }
 }
 
 #include "pixmapviewer.moc"

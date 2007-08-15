@@ -20,9 +20,10 @@
 #ifndef PIXMAPVIEWER_H
 #define PIXMAPVIEWER_H
 
-#include <QtGui/QWidget>
-#include <QtGui/QPixmap>
-#include <QtCore/QTimeLine>
+#include <QWidget>
+#include <QPixmap>
+#include <QQueue>
+#include <QTimeLine>
 
 class QPaintEvent;
 
@@ -63,21 +64,27 @@ public:
 
     virtual ~PixmapViewer();
     void setPixmap(const QPixmap& pixmap);
-    const QPixmap& pixmap() const
-    {
-        return m_pixmap;
-    }
+    inline const QPixmap& pixmap() const;
 
 protected:
     virtual void paintEvent(QPaintEvent* event);
 
+private Q_SLOTS:
+    void checkPendingPixmaps();
+
 private:
     QPixmap m_pixmap;
     QPixmap m_oldPixmap;
+    QQueue<QPixmap> m_pendingPixmaps;
     QTimeLine m_animation;
     Transition m_transition;
     int m_animationStep;
 };
+
+const QPixmap& PixmapViewer::pixmap() const
+{
+    return m_pixmap;
+}
 
 
 #endif
