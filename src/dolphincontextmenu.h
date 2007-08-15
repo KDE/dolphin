@@ -59,7 +59,6 @@ public:
      *                is above the viewport.
      * @baseUrl       Base URL of the viewport where the context menu
      *                should be opened.
-     * @viewType      On which view type is the context menu shown.
      */
     DolphinContextMenu(DolphinMainWindow* parent,
                        const KFileItem& fileInfo,
@@ -67,7 +66,7 @@ public:
 
     virtual ~DolphinContextMenu();
 
-    /** Opens the context menu modal. */
+    /** Opens the context menu model. */
     void open();
 
 private:
