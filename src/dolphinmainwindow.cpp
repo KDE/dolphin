@@ -1595,7 +1595,7 @@ void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action("split_view");
     if (m_viewContainer[SecondaryView] != 0) {
-        splitAction->setText(i18nc("@action:intoolbar Join views", "Join"));
+        splitAction->setText(i18nc("@action:intoolbar Close inactive view", "Close"));
         if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
             splitAction->setIcon(KIcon("fileview-join"));
         } else {
