@@ -26,14 +26,14 @@
 #include <QtGui/QLabel>
 #include <QtGui/QBoxLayout>
 
-RenameDialog::RenameDialog(const KUrl::List& urls, const QList<KFileItem>& items) :
+RenameDialog::RenameDialog(const QList<KFileItem>& items) :
     KDialog(),
     m_renameOneItem(false)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));
 
-    const int itemCount = urls.count();
+    const int itemCount = items.count();
     Q_ASSERT(itemCount >= 1);
     m_renameOneItem = (itemCount == 1);
 
@@ -65,13 +65,13 @@ RenameDialog::RenameDialog(const KUrl::List& urls, const QList<KFileItem>& items
     }
 
     m_lineEdit = new KLineEdit(page);
-    QString extension = extensionString(urls[0].prettyUrl());
+    QString extension = extensionString(items[0].url().prettyUrl());
     if (extension.length() > 0) {
         // The first item seems to have a extension (e. g. '.jpg' or '.txt'). Now
         // check whether all other URLs have the same extension. If this is the
         // case, add this extension to the name suggestion.
         for (int i = 1; i < itemCount; ++i) {
-            if (!urls[i].prettyUrl().contains(extension)) {
+            if (!items[i].url().prettyUrl().contains(extension)) {
                 // at least one item does not have the same extension
                 extension.truncate(0);
                 break;

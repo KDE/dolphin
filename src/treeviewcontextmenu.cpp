@@ -140,16 +140,15 @@ void TreeViewContextMenu::paste()
 
 void TreeViewContextMenu::rename()
 {
-    const KUrl& oldUrl = m_fileInfo.url();
-    QList<KFileItem> items;
-    items.append(m_fileInfo);
-    RenameDialog dialog(oldUrl, items);
+    QList<KFileItem> item;
+    item.append(m_fileInfo);
+    RenameDialog dialog(item);
     if (dialog.exec() == QDialog::Accepted) {
         const QString& newName = dialog.newName();
         if (!newName.isEmpty()) {
-            KUrl newUrl = oldUrl;
+            KUrl newUrl = m_fileInfo.url();
             newUrl.setFileName(newName);
-            KonqOperations::rename(m_parent, oldUrl, newUrl);
+            KonqOperations::rename(m_parent, m_fileInfo.url(), newUrl);
         }
     }
 }

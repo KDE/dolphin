@@ -189,12 +189,11 @@ bool DolphinViewContainer::isActive() const
 void DolphinViewContainer::renameSelectedItems()
 {
     DolphinViewContainer* view = m_mainWindow->activeViewContainer();
-    const KUrl::List urls = m_view->selectedUrls();
     const QList<KFileItem> items = m_view->selectedItems();
-    if (urls.count() > 1) {
+    if (items.count() > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
-        RenameDialog dialog(urls, items);
+        RenameDialog dialog(items);
         if (dialog.exec() == QDialog::Rejected) {
             return;
         }
@@ -213,10 +212,10 @@ void DolphinViewContainer::renameSelectedItems()
             Q_ASSERT(replaceIndex >= 0);
             int index = 1;
 
-            KUrl::List::const_iterator it = urls.begin();
-            KUrl::List::const_iterator end = urls.end();
+            QList<KFileItem>::const_iterator it = items.begin();
+            QList<KFileItem>::const_iterator end = items.end();
             while (it != end) {
-                const KUrl& oldUrl = *it;
+                const KUrl& oldUrl = (*it).url();
                 QString number;
                 number.setNum(index++);
 
@@ -234,12 +233,12 @@ void DolphinViewContainer::renameSelectedItems()
     } else {
         // Only one item has been selected for renaming. Use the custom
         // renaming mechanism from the views.
-        Q_ASSERT(urls.count() == 1);
+        Q_ASSERT(items.count() == 1);
 
         // TODO: Think about using KFileItemDelegate as soon as it supports editing.
         // Currently the RenameDialog is used, but I'm not sure whether inline renaming
         // is a benefit for the user at all -> let's wait for some input first...
-        RenameDialog dialog(urls, items);
+        RenameDialog dialog(items);
         if (dialog.exec() == QDialog::Rejected) {
             return;
         }
@@ -249,7 +248,7 @@ void DolphinViewContainer::renameSelectedItems()
             view->statusBar()->setMessage(dialog.errorString(),
                                           DolphinStatusBar::Error);
         } else {
-            const KUrl& oldUrl = urls.first();
+            const KUrl& oldUrl = items.first().url();
             KUrl newUrl = oldUrl;
             newUrl.setFileName(newName);
             m_mainWindow->rename(oldUrl, newUrl);
