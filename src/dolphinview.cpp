@@ -497,10 +497,16 @@ void DolphinView::triggerItem(const QModelIndex& index)
     }
 }
 
-void DolphinView::generatePreviews(const QList<KFileItem>& items)
+void DolphinView::generatePreviews(const KFileItemList& items)
 {
     if (m_controller->showPreview()) {
-        KIO::PreviewJob* job = KIO::filePreview(items, 128);
+        // QList<KFileItem*> must be turned to QList<KFileItem>...
+        QList<KFileItem> itemsToPreview;
+        foreach (KFileItem* it, items) {
+            itemsToPreview.append(*it);
+        }
+
+        KIO::PreviewJob* job = KIO::filePreview(itemsToPreview, 128);
         connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
     }
