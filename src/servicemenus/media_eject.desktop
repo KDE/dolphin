@@ -64,9 +64,11 @@ Name[th]=เอาแผ่นออก
 Name[tr]=Çıkart
 Name[uk]=Виштовхнути
 Name[uz]=Чиқариш
+Name[vi]=Đẩy ra
 Name[wa]=Fé rexhe
 Name[x-test]=xxEjectxx
 Name[xh]=Khuphela ngaphandle
+Name[zh_CN]=出
 Name[zh_TW]=退出
 Exec=kio_media_mounthelper -e %u
 

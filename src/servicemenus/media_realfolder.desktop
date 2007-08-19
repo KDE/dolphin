@@ -24,7 +24,9 @@ Name[pt]=Abrir a Pasta de Sistema
 Name[pt_BR]=Abrir a Pasta de Sistema
 Name[sv]=Öppna systemkatalog på medium
 Name[th]=เปิดโฟลเดอร์ระบบของสื่อ
+Name[vi]=Mở thư mục Hệ thống trên vật chứa
 Name[x-test]=xxOpen Medium System Folderxx
+Name[zh_CN]=打开介质系统文件夹
 Name[zh_TW]=開啟媒體系統資料夾
 Exec=kio_media_realfolder %u
 

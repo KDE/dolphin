@@ -29,7 +29,9 @@ X-KDE-Submenu[sr@latin]=Претвори у
 X-KDE-Submenu[sv]=Konvertera till
 X-KDE-Submenu[th]=แปลงเป็น
 X-KDE-Submenu[uk]=Перетворити в
+X-KDE-Submenu[vi]=Chuyển đổi sang
 X-KDE-Submenu[x-test]=xxConvert Toxx
+X-KDE-Submenu[zh_CN]=转换到
 X-KDE-Submenu[zh_TW]=轉換到
 TryExec=convert
 
