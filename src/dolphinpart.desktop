@@ -2,6 +2,7 @@
 Encoding=UTF-8
 Type=Service
 Name=Dolphin Part
+Name[ar]=جزء من الدولفين
 Name[be]=Dolphin
 Name[de]=Dolphin-Komponente
 Name[el]=Τμήμα Dolphin
@@ -11,6 +12,7 @@ Name[he]=רכיב Dolphin
 Name[ja]=Dolphin パート
 Name[km]=ផ្នែក Dolphin 
 Name[nds]=Dolphin-Komponent
+Name[ne]=डल्फिन भाग
 Name[nl]=Dolphin-onderdeel
 Name[pa]=ਡਾਲਫਿਨ ਭਾਗ
 Name[pt]=Componente do Dolphin

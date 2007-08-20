@@ -4,6 +4,7 @@ Exec=kfloppy %u
 Icon=kfloppy
 Name=Format
 Name[af]=Formaat
+Name[ar]=الصيغة
 Name[be]=Фармат
 Name[bg]=Формат
 Name[br]=Furmadiñ

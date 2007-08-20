@@ -5,6 +5,7 @@ Actions=extractHere;
 
 [Desktop Action extractHere]
 Name=Extract Here
+Name[ar]=استخرج هنا
 Name[be]=Выняць тут
 Name[bg]=Извличане тук
 Name[csb]=Rozpakùjë tuwò
@@ -17,6 +18,7 @@ Name[he]=פרוק לכאן
 Name[ja]=ここに展開
 Name[km]=ស្រង់នៅ​ទី​នេះ
 Name[nds]=Hier ruttrecken
+Name[ne]=यहाँ छोड्नुहोस्
 Name[nl]=Hier uitpakken
 Name[pa]=ਇੱਥੇ ਖੋਲ੍ਹੋ
 Name[pt]=Extrair para Aqui

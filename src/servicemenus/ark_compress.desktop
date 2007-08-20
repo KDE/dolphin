@@ -5,6 +5,7 @@ Actions=compressHere;
 
 [Desktop Action compressHere]
 Name=Compress Here
+Name[ar]=اضغط هنا
 Name[be]=Сціснуць тут
 Name[bg]=Компресиране тук
 Name[csb]=Kòmpresëjë tuwò
@@ -17,6 +18,7 @@ Name[he]=דחוס לכאן
 Name[ja]=ここに圧縮
 Name[km]=បង្ហាប់​នៅ​ទី​នេះ
 Name[nds]=Hier komprimeren
+Name[ne]=यहाँ सङ्कुचन गर्नुहोस्
 Name[nl]=Hier inpakken
 Name[pa]=ਇੱਥੇ ਨਪੀੜੋ
 Name[pt]=Comprimir Aqui

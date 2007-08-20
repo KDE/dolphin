@@ -6,6 +6,7 @@ X-KDE-Priority=TopLevel
 X-KDE-MediaNotifierHide=true
 [Desktop Action MediaRealFolder]
 Name=Open Medium System Folder
+Name[ar]=افتح مجلد نظام الوسيط
 Name[be]=Адкрыць сістэмную тэчку носьбіта
 Name[bg]=Отваряне системната директория на носителя
 Name[csb]=Systemòwi katalog Ôpen Mediów
@@ -18,6 +19,7 @@ Name[he]=פתח את תיקיית המדיה של המערכת
 Name[ja]=メディアシステムフォルダを開く
 Name[km]=បើកថត​ប្រព័ន្ធ​មធ្យម
 Name[nds]=Systeem-Medienorner opmaken
+Name[ne]=मध्यम प्रणाली फोल्डर खोल्नुहोस्
 Name[nl]=Medium-systeemmap openen
 Name[pa]=ਮੀਡਿਅਮ ਸਿਸਟਮ ਫੋਲਡਰ ਖੋਲ੍ਹੋ
 Name[pt]=Abrir a Pasta de Sistema

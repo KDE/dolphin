@@ -1,6 +1,8 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=Dolphin
+Name[ar]=الدولفين
+Name[ne]=डल्फिन
 Name[pa]=ਡਾਲਫਿਨ
 Name[sr]=Делфин
 Name[sr@latin]=Делфин
@@ -24,6 +26,7 @@ GenericName[he]=מנהל קבצים
 GenericName[ja]=ファイルマネージャ
 GenericName[km]=កម្មវិធី​គ្រប់គ្រង​ឯកសារ
 GenericName[nds]=Dateipleger
+GenericName[ne]=फाइल प्रबन्धक
 GenericName[nl]=Bestandsbeheerder
 GenericName[pa]=ਫਾਇਲ ਮੈਨੇਜਰ
 GenericName[pt]=Gestor de Ficheiros

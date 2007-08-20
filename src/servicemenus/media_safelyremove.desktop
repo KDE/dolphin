@@ -7,6 +7,7 @@ X-KDE-MediaNotifierHide=true
 [Desktop Action MediaSafelyRemove]
 Name=Safely Remove
 Name[af]=Verwyder veilig
+Name[ar]=أزل بأمان
 Name[be]=Бяспечна выняць
 Name[bg]=Безопасно изваждане
 Name[ca]=Extreu amb seguretat
@@ -39,7 +40,7 @@ Name[mk]=Безбедно отстрани
 Name[ms]=Buang Dengan Selamat
 Name[nb]=Sikker fjerning
 Name[nds]=Seker rutnehmen
-Name[ne]=सुरक्षीत रुपमा हटाउनुहोस्
+Name[ne]=सुरक्षित रुपमा हटाउनुहोस्
 Name[nl]=Veilig verwijderen
 Name[nn]=Trygg fjerning
 Name[pa]=ਸੁਰੱਖਿਅਤ ਹਟਾਓ

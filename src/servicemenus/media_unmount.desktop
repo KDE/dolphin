@@ -7,6 +7,7 @@ X-KDE-MediaNotifierHide=true
 [Desktop Action MediaUnmount]
 Name=Unmount
 Name[af]=Ontkoppel
+Name[ar]=افصل
 Name[be]=Адмацаваць
 Name[bg]=Демонтиране
 Name[br]=Divarc'hañ
@@ -42,7 +43,7 @@ Name[mk]=Одмонтирај
 Name[ms]=Nyahlekap
 Name[nb]=Avmonter
 Name[nds]=Afhangen
-Name[ne]=अनमाउन्ट
+Name[ne]=अनमाउन्ट गर्नुहोस्
 Name[nl]=Afkoppelen (unmount)
 Name[nn]=Avmonter
 Name[pa]=ਅਣ-ਮਾਊਂਟ

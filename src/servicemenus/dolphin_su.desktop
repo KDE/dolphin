@@ -6,6 +6,7 @@ Actions=DolphinSU;
 [Desktop Action DolphinSU]
 ServiceTypes=inode/directory
 Name=Open as Root
+Name[ar]=افتح كمستخدم جذري
 Name[be]=Адкрыць як каранёвую
 Name[bg]=Отваряне като администратор
 Name[csb]=Òtemkni jakno sprôwnik (root)
@@ -18,6 +19,7 @@ Name[he]=פתח בתור root
 Name[ja]=root 権限で開く
 Name[km]=បើកជា Root
 Name[nds]=As Systeempleger opmaken
+Name[ne]=मूलको रूपमा खोल्नुहोस्
 Name[nl]=Als root openen
 Name[pa]=root ਵਾਂਗ ਖੋਲ੍ਹੋ
 Name[pt]=Abrir como 'Root'

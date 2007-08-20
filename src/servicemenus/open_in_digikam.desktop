@@ -2,6 +2,7 @@
 Exec=digikam --download-from %u
 Icon=digikam
 Name=Open in Digikam
+Name[ar]=افتح بواسطة Digikam
 Name[be]=Адкрыць у Digikam
 Name[bg]=Отваряне в Digikam
 Name[csb]=Òtemkni w Digikam
@@ -14,6 +15,7 @@ Name[he]=פתח ב־Digikam
 Name[ja]=Digikam で開く
 Name[km]=បើ​ក​នៅ​ក្នុង Digikam
 Name[nds]=Mit Digikam opmaken
+Name[ne]=डिकिगाममा खोल्नुहोस्
 Name[nl]=In digiKam openen
 Name[pa]=ਡਿਜ਼ਿਕੈਮ ਵਿੱਚ ਖੋਲ੍ਹੋ
 Name[pt]=Abrir no Digikam
