@@ -1595,12 +1595,12 @@ void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action("split_view");
     if (m_viewContainer[SecondaryView] != 0) {
-        splitAction->setText(i18nc("@action:intoolbar Close inactive view", "Close"));
         if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
-            splitAction->setIcon(KIcon("fileview-join"));
+            splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+            splitAction->setIcon(KIcon("fileview-close-right"));
         } else {
-            // TODO: replace by alternative icon as soon as it is available in Oxygen
-            splitAction->setIcon(KIcon("fileview-join"));
+            splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
+            splitAction->setIcon(KIcon("fileview-close-left"));
         }
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
