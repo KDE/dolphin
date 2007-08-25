@@ -158,10 +158,10 @@ void DolphinContextMenu::openItemContextMenu()
     popup->addSeparator();
 
     // insert 'Bookmark This Folder' entry if exactly one item is selected
-    QAction* bookmarkAction = 0;
+    QAction* addToPlacesAction = 0;
     if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
-        bookmarkAction = popup->addAction(KIcon("bookmark-folder"),
-                                          i18nc("@action:inmenu", "Bookmark Folder..."));
+        addToPlacesAction = popup->addAction(KIcon("bookmark-folder"),
+                                             i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
     }
 
     // Insert 'Open With...' sub menu
@@ -179,7 +179,7 @@ void DolphinContextMenu::openItemContextMenu()
 
     QAction* activatedAction = popup->exec(QCursor::pos());
 
-    if ((bookmarkAction != 0) && (activatedAction == bookmarkAction)) {
+    if ((addToPlacesAction != 0) && (activatedAction == addToPlacesAction)) {
         const KUrl selectedUrl(m_fileInfo.url());
         if (selectedUrl.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(selectedUrl.fileName(),
@@ -240,8 +240,8 @@ void DolphinContextMenu::openViewportContextMenu()
 
     popup->addSeparator();
 
-    QAction* bookmarkAction = popup->addAction(KIcon("bookmark-folder"),
-                                               i18nc("@action:inmenu", "Bookmark This Folder..."));
+    QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-folder"),
+                                                  i18nc("@action:inmenu Add current folder to places", "Add to Places"));
     popup->addSeparator();
 
     QAction* propertiesAction = popup->addAction(i18nc("@action:inmenu", "Properties"));
@@ -251,7 +251,7 @@ void DolphinContextMenu::openViewportContextMenu()
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         KPropertiesDialog dialog(url);
         dialog.exec();
-    } else if (action == bookmarkAction) {
+    } else if (action == addToPlacesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(url.fileName(), url);

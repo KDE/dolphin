@@ -105,12 +105,12 @@ private:
     enum { TimerDelay = 300 };
 
     /**
-     * Checks whether the an URL is repesented by a bookmark. If yes,
-     * then the bookmark icon and name are shown instead of a preview.
-     * @return True, if the URL represents exactly a bookmark.
+     * Checks whether the an URL is repesented by a place. If yes,
+     * then the place icon and name are shown instead of a preview.
+     * @return True, if the URL represents exactly a place.
      * @param url The url to check.
      */
-    bool applyBookmark(const KUrl& url);
+    bool applyPlace(const KUrl& url);
 
     /** Assures that any pending item information request is cancelled. */
     void cancelRequest();

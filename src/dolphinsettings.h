@@ -33,12 +33,11 @@ class KFilePlacesModel;
  * @brief Manages and stores all settings from Dolphin.
  *
  * The following properties are stored:
- * - home Url
+ * - home URL
  * - default view mode
- * - Url navigator state (editable or not)
+ * - URL navigator state (editable or not)
  * - split view
- * - bookmarks
- * - properties for icons and details view
+ * - properties for views
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinSettings
 {

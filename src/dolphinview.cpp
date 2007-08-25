@@ -576,7 +576,7 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
             const KUrl& dirListerUrl = m_dirLister->url();
             if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
                 // The current URL is not a child of the dir lister
-                // URL. This may happen when e. g. a bookmark has been selected
+                // URL. This may happen when e. g. a place has been selected
                 // and hence the view must be reset.
                 keepOldDirs = false;
             }

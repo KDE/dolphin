@@ -32,7 +32,7 @@ class QModelIndex;
 
 /**
  * @brief Shows a tree view of the directories starting from
- *        the currently selected bookmark.
+ *        the currently selected place.
  *
  * The tree view is always synchronized with the currently active view
  * from the main window.

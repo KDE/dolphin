@@ -189,7 +189,7 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
 {
     Q_ASSERT(m_dirLister != 0);
 
-    // adjust the root of the tree to the base bookmark
+    // adjust the root of the tree to the base place
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
     KUrl baseUrl = placesModel->url(placesModel->closestItem(url));
     if (!baseUrl.isValid()) {

@@ -186,7 +186,7 @@ void InfoSidebarPage::showItemInfo()
                                            K3Icon::SizeEnormous);
         m_preview->setPixmap(icon);
         m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectedItems.count()));
-    } else if (!applyBookmark(file)) {
+    } else if (!applyPlace(file)) {
         // try to get a preview pixmap from the item...
         KUrl::List list;
         list.append(file);
@@ -226,7 +226,7 @@ void InfoSidebarPage::slotTimeout()
 void InfoSidebarPage::showIcon(const KFileItem& item)
 {
     m_pendingPreview = false;
-    if (!applyBookmark(item.url())) {
+    if (!applyPlace(item.url())) {
         m_preview->setPixmap(item.pixmap(K3Icon::SizeEnormous));
     }
 }
@@ -241,7 +241,7 @@ void InfoSidebarPage::showPreview(const KFileItem& item,
     }
 }
 
-bool InfoSidebarPage::applyBookmark(const KUrl& url)
+bool InfoSidebarPage::applyPlace(const KUrl& url)
 {
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
     int count = placesModel->rowCount();

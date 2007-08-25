@@ -29,8 +29,7 @@ class DolphinMainWindow;
 /**
  * @brief Settings dialog for Dolphin.
  *
- * Contains the pages for general settings, view settings and
- * bookmark settings.
+ * Contains the pages for general settings and view settings.
  *
  * @author Peter Penz <peter.penz@gmx.at>
  */
