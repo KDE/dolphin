@@ -66,8 +66,12 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
                              m_proxyModel);
     setWidget(m_view);
 
-    connect(m_view, SIGNAL(infoMessage(QString)), this, SLOT(slotInfoMessage(QString)));
-    connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
+    connect(m_view, SIGNAL(infoMessage(QString)),
+            this, SLOT(slotInfoMessage(QString)));
+    connect(m_view, SIGNAL(errorMessage(QString)),
+            this, SLOT(slotErrorMessage(QString)));
+    connect(m_view, SIGNAL(itemTriggered(KFileItem)),
+            this, SLOT(slotItemTriggered(KFileItem)));
     // TODO connect to urlsDropped
     // TOOD connect to requestContextMenu
     connect(m_view, SIGNAL(selectionChanged(QList<KFileItem>)), m_extension, SIGNAL(selectionInfo(QList<KFileItem>)));
@@ -76,9 +80,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
-
-    // TODO when clicking on a file we want to emit m_extension->openUrlRequest(url, args)
-    // to be able to embed the viewer
 
     // TODO MMB-click should do something like KonqDirPart::mmbClicked
 
@@ -133,6 +134,11 @@ void DolphinPart::slotErrorMessage(const QString& msg)
 void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 {
     emit m_extension->mouseOverInfo(&item);
+}
+
+void DolphinPart::slotItemTriggered(const KFileItem& item)
+{
+    emit m_extension->openUrlRequest(item.url());
 }
 
 #include "dolphinpart.moc"

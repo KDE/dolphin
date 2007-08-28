@@ -139,11 +139,15 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(showErrorMessage(const QString&)));
     connect(m_view, SIGNAL(infoMessage(const QString&)),
             this, SLOT(showInfoMessage(const QString&)));
+    connect(m_view, SIGNAL(itemTriggered(KFileItem)),
+            this, SLOT(slotItemTriggered(KFileItem)));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             m_view, SLOT(setUrl(const KUrl&)));
 
     m_statusBar = new DolphinStatusBar(this, url);
+    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
+            m_statusBar, SLOT(updateSpaceInfoContent(const KUrl&)));
 
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());
@@ -473,6 +477,35 @@ void DolphinViewContainer::restoreContentsPos()
 void DolphinViewContainer::activate()
 {
     setActive(true);
+}
+
+void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
+{
+    // Prefer the local path over the URL.
+    bool isLocal;
+    KUrl url = item.mostLocalUrl(isLocal);
+
+    if (item.isDir()) {
+        m_view->setUrl(url);
+    } else if (item.isFile()) {
+        // allow to browse through ZIP and tar files
+        KMimeType::Ptr mime = item.mimeTypePtr();
+        if (mime->is("application/zip")) {
+            url.setProtocol("zip");
+            m_view->setUrl(url);
+        } else if (mime->is("application/x-tar") ||
+                   mime->is("application/x-tarz") ||
+                   mime->is("application/x-bzip-compressed-tar") ||
+                   mime->is("application/x-compressed-tar") ||
+                   mime->is("application/x-tzo")) {
+            url.setProtocol("tar");
+            m_view->setUrl(url);
+        } else {
+            item.run();
+        }
+    } else {
+        item.run();
+    }
 }
 
 #include "dolphinviewcontainer.moc"

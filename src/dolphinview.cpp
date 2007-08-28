@@ -450,11 +450,7 @@ void DolphinView::activate()
 
 void DolphinView::triggerItem(const QModelIndex& index)
 {
-    if (!isValidNameIndex(index)) {
-        clearSelection();
-        showHoverInformation(index);
-        return;
-    }
+    Q_ASSERT(index.isValid());
 
     const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
     if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
@@ -463,38 +459,12 @@ void DolphinView::triggerItem(const QModelIndex& index)
         return;
     }
 
-    KFileItem item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
+    const KFileItem item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
     if (item.isNull()) {
         return;
     }
 
-    // The stuff below should be moved to ViewContainer and be just a signal?
-
-    // Prefer the local path over the URL.
-    bool isLocal;
-    KUrl url = item.mostLocalUrl(isLocal);
-
-    if (item.isDir()) {
-        setUrl(url);
-    } else if (item.isFile()) {
-        // allow to browse through ZIP and tar files
-        KMimeType::Ptr mime = item.mimeTypePtr();
-        if (mime->is("application/zip")) {
-            url.setProtocol("zip");
-            setUrl(url);
-        } else if (mime->is("application/x-tar") ||
-                   mime->is("application/x-tarz") ||
-                   mime->is("application/x-bzip-compressed-tar") ||
-                   mime->is("application/x-compressed-tar") ||
-                   mime->is("application/x-tzo")) {
-            url.setProtocol("tar");
-            setUrl(url);
-        } else {
-            item.run();
-        }
-    } else {
-        item.run();
-    }
+    emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
 }
 
 void DolphinView::generatePreviews(const QList<KFileItem>& items)

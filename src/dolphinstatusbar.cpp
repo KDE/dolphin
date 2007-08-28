@@ -58,9 +58,6 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, const KUrl& url) :
     setMinimumHeight(barHeight);
     m_messageLabel->setMinimumTextHeight(barHeight);
     m_spaceInfo->setFixedHeight(barHeight);
-
-    connect(parent, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(updateSpaceInfoContent(const KUrl&)));
 }
 
 

@@ -71,10 +71,10 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                this, SLOT(slotItemActivated(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                this, SLOT(slotItemActivated(const QModelIndex&)));
     }
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
@@ -389,6 +389,21 @@ QRect DolphinDetailsView::elasticBandRect() const
     const QPoint pos(contentsPos());
     const QPoint topLeft(m_elasticBandOrigin.x() - pos.x(), m_elasticBandOrigin.y() - pos.y());
     return QRect(topLeft, m_elasticBandDestination).normalized();
+}
+
+static bool isValidNameIndex(const QModelIndex& index)
+{
+    return index.isValid() && (index.column() == KDirModel::Name);
+}
+
+void DolphinDetailsView::slotItemActivated(const QModelIndex& index)
+{
+    if (!isValidNameIndex(index)) {
+        clearSelection();
+        m_controller->emitItemEntered(index);
+    } else {
+        m_controller->triggerItem(index);
+    }
 }
 
 #include "dolphindetailsview.moc"

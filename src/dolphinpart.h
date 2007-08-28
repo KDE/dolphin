@@ -52,6 +52,7 @@ private Q_SLOTS:
     void slotInfoMessage(const QString& msg);
     void slotErrorMessage(const QString& msg);
     void slotRequestItemInfo(const KFileItem& item);
+    void slotItemTriggered(const KFileItem& item);
 
 private:
     DolphinView* m_view;

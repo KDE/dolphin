@@ -162,6 +162,7 @@ signals:
      * Is emitted if the item with the index \a index should be triggered.
      * Usually triggering on a directory opens the directory, triggering
      * on a file opens the corresponding application.
+     * Emitted with an invalid \a index when clicking on the viewport itself.
      */
     void itemTriggered(const QModelIndex& index);
 

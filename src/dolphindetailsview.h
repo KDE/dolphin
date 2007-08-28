@@ -103,6 +103,11 @@ private slots:
     void zoomIn();
     void zoomOut();
 
+    /**
+     * Called by QTreeView when an item is activated (clicked or double-clicked)
+     */
+    void slotItemActivated(const QModelIndex& index);
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;

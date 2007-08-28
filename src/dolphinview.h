@@ -319,6 +319,11 @@ signals:
     void urlChanged(const KUrl& url);
 
     /**
+     * Is emitted when clicking on an item
+     */
+    void itemTriggered(const KFileItem& item);
+
+    /**
      * Is emitted if the view mode (IconsView, DetailsView,
      * PreviewsView) has been changed.
      */

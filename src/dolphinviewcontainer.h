@@ -152,6 +152,11 @@ private slots:
     void updateItemCount();
 
     /**
+     * Handles clicking on an item
+     */
+    void slotItemTriggered(const KFileItem& item);
+
+    /**
      * Shows the information for the item \a item inside the statusbar. If the
      * item is null, the default statusbar information is shown.
      */
