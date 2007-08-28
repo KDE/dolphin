@@ -430,12 +430,11 @@ void DolphinView::setUrl(const KUrl& url)
         return;
     }
 
-    m_controller->setUrl(url);
+    m_controller->setUrl(url); // emits urlChanged, which we forward
 
     applyViewProperties(url);
 
     startDirLister(url);
-    emit urlChanged(url);
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
@@ -917,7 +916,7 @@ void DolphinView::updateViewportColor()
 {
     QColor color = KColorScheme(KColorScheme::View).background();
     if (m_active) {
-        emit urlChanged(url());
+        emit urlChanged(url()); // Hmm, this is a hack; the url hasn't really changed.
         emit selectionChanged(selectedItems());
     } else {
         color.setAlpha(0);

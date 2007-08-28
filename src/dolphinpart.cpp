@@ -107,9 +107,13 @@ bool DolphinPart::openUrl(const KUrl& url)
     const QString prettyUrl = url.pathOrUrl();
     emit setWindowCaption(prettyUrl);
     emit m_extension->setLocationBarUrl(prettyUrl);
+    const bool reload = arguments().reload();
+    if (m_view->url() == url && !reload) { // DolphinView won't do anything in that case, so don't emit started
+        return true;
+    }
     setUrl(url); // remember it at the KParts level
     m_view->setUrl(url);
-    if (arguments().reload())
+    if (reload)
         m_view->reload();
     emit started(0); // get the wheel to spin
     return true;
