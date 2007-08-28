@@ -177,7 +177,7 @@ private slots:
     void changeNameFilter(const QString& nameFilter);
 
     /**
-     * Opens the context menu on the current mouse postition.
+     * Opens the context menu on the current mouse position.
      * @item  File item context. If item is 0, the context menu
      *        should be applied to \a url.
      * @url   URL which contains \a item.

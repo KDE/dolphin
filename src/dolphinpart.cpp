@@ -72,11 +72,15 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotErrorMessage(QString)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
             this, SLOT(slotItemTriggered(KFileItem)));
-    // TODO connect to urlsDropped
-    // TOOD connect to requestContextMenu
-    connect(m_view, SIGNAL(selectionChanged(QList<KFileItem>)), m_extension, SIGNAL(selectionInfo(QList<KFileItem>)));
+    connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&)),
+            this, SLOT(slotOpenContextMenu(KFileItem, const KUrl&)));
+    connect(m_view, SIGNAL(selectionChanged(QList<KFileItem>)),
+            m_extension, SIGNAL(selectionInfo(QList<KFileItem>)));
 
-    connect(m_view, SIGNAL(requestItemInfo(KFileItem)), this, SLOT(slotRequestItemInfo(KFileItem)));
+    connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
+            this, SLOT(slotRequestItemInfo(KFileItem)));
+
+    // TODO connect to urlsDropped
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
@@ -101,8 +105,8 @@ KAboutData* DolphinPart::createAboutData()
 bool DolphinPart::openUrl(const KUrl& url)
 {
     const QString prettyUrl = url.pathOrUrl();
-    setWindowCaption(prettyUrl);
-    m_extension->setLocationBarUrl(prettyUrl);
+    emit setWindowCaption(prettyUrl);
+    emit m_extension->setLocationBarUrl(prettyUrl);
     m_view->setUrl(url);
     if (arguments().reload())
         m_view->reload();
@@ -139,6 +143,21 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 void DolphinPart::slotItemTriggered(const KFileItem& item)
 {
     emit m_extension->openUrlRequest(item.url());
+}
+
+void DolphinPart::slotOpenContextMenu(const KFileItem& item, const KUrl&)
+{
+    // TODO KonqKfmIconView had if ( !rootItem->isWritable() )
+    //            popupFlags |= KParts::BrowserExtension::NoDeletion;
+
+    // and when clicking on the viewport:
+    //        KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
+
+
+    KFileItem* itemCopy = new KFileItem(item); // ugly
+    KFileItemList items; items.append(itemCopy);
+    emit m_extension->popupMenu( 0, QCursor::pos(), items );
+    delete itemCopy;
 }
 
 #include "dolphinpart.moc"

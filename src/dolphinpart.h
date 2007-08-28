@@ -51,8 +51,22 @@ private Q_SLOTS:
     void slotCanceled(const KUrl& url);
     void slotInfoMessage(const QString& msg);
     void slotErrorMessage(const QString& msg);
+    /**
+     * Shows the information for the item \a item inside the statusbar. If the
+     * item is null, the default statusbar information is shown.
+     */
     void slotRequestItemInfo(const KFileItem& item);
+    /**
+     * Handles clicking on an item
+     */
     void slotItemTriggered(const KFileItem& item);
+    /**
+     * Opens the context menu on the current mouse position.
+     * @item  File item context. If item is 0, the context menu
+     *        should be applied to \a url.
+     * @url   URL which contains \a item.
+     */
+    void slotOpenContextMenu(const KFileItem& item, const KUrl& url);
 
 private:
     DolphinView* m_view;
