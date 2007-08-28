@@ -107,6 +107,7 @@ bool DolphinPart::openUrl(const KUrl& url)
     const QString prettyUrl = url.pathOrUrl();
     emit setWindowCaption(prettyUrl);
     emit m_extension->setLocationBarUrl(prettyUrl);
+    setUrl(url); // remember it at the KParts level
     m_view->setUrl(url);
     if (arguments().reload())
         m_view->reload();
