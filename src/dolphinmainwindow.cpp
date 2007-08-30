@@ -1367,7 +1367,7 @@ void DolphinMainWindow::setupDockWidgets()
     treeViewDock->setWidget(treeWidget);
 
     treeViewDock->toggleViewAction()->setText(i18nc("@title:window", "Folders"));
-    treeViewDock->toggleViewAction()->setShortcut(Qt::Key_F9);
+    treeViewDock->toggleViewAction()->setShortcut(Qt::Key_F7);
     actionCollection()->addAction("show_folders_panel", treeViewDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
@@ -1410,7 +1410,7 @@ void DolphinMainWindow::setupDockWidgets()
     listView->setModel(DolphinSettings::instance().placesModel());
 
     placesDock->toggleViewAction()->setText(i18nc("@title:window", "Places"));
-    placesDock->toggleViewAction()->setShortcut(Qt::Key_F7);
+    placesDock->toggleViewAction()->setShortcut(Qt::Key_F9);
     actionCollection()->addAction("show_places_panel", placesDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
