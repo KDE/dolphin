@@ -65,8 +65,8 @@ void TerminalSidebarPage::showEvent(QShowEvent* event)
     }
 
     if (m_terminal == 0) {
-        KLibFactory* factory = KLibLoader::self()->factory("libkonsolepart");
-        KParts::Part* part = factory ? static_cast<KParts::Part*>(factory->create(this, "KParts::ReadOnlyPart")) : 0;
+        KPluginFactory* factory = KLibLoader::self()->factory("libkonsolepart");
+        KParts::ReadOnlyPart* part = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
         if (part != 0) {
             m_layout->addWidget(part->widget());
             m_terminal = qobject_cast<TerminalInterface *>(part);
