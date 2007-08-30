@@ -31,17 +31,19 @@
 #include <kdirmodel.h>
 #include <kfileitem.h>
 
-#include <QtGui/QHeaderView>
-#include <QtGui/QItemSelection>
-#include <QtGui/QTreeView>
-#include <QtGui/QBoxLayout>
+#include <QItemSelection>
+#include <QTreeView>
+#include <QBoxLayout>
+#include <QModelIndex>
+#include <QTimer>
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_dirLister(0),
     m_dirModel(0),
     m_proxyModel(0),
-    m_treeView(0)
+    m_treeView(0),
+    m_leafDir()
 {
 }
 
@@ -92,6 +94,8 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirModel = new KDirModel(this);
         m_dirModel->setDirLister(m_dirLister);
         m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
+        connect(m_dirModel, SIGNAL(expand(const QModelIndex&)),
+                this, SLOT(triggerExpanding(const QModelIndex&)));
 
         Q_ASSERT(m_proxyModel == 0);
         m_proxyModel = new DolphinSortFilterProxyModel(this);
@@ -185,9 +189,63 @@ void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
     }
 }
 
+void TreeViewSidebarPage::triggerExpanding(const QModelIndex& index)
+{
+    Q_UNUSED(index);
+    // the expanding of the folders may not be done in the context
+    // of this slot
+    QTimer::singleShot(0, this, SLOT(expandToLeafDir()));
+}
+
+void TreeViewSidebarPage::expandToLeafDir()
+{
+    // expand all directories until the parent directory of m_leafDir
+    const KUrl parentUrl = m_leafDir.upUrl();
+    QModelIndex dirIndex = m_dirModel->indexForUrl(parentUrl);
+    QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+    m_treeView->setExpanded(proxyIndex, true);
+
+    // assure that m_leafDir gets selected
+    dirIndex = m_dirModel->indexForUrl(m_leafDir);
+    proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+    m_treeView->scrollTo(proxyIndex);
+
+    QItemSelectionModel* selModel = m_treeView->selectionModel();
+    selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+}
+
+void TreeViewSidebarPage::loadSubTree()
+{
+    disconnect(m_dirLister, SIGNAL(completed()),
+               this, SLOT(loadSubTree()));
+
+    QItemSelectionModel* selModel = m_treeView->selectionModel();
+    selModel->clearSelection();
+
+    if (m_leafDir.isParentOf(m_dirLister->url())) {
+        // The leaf directory is not a child of the base URL, hence
+        // no sub directory must be loaded or selected.
+        return;
+    }
+
+    const QModelIndex index = m_dirModel->indexForUrl(m_leafDir);
+    if (index.isValid()) {
+        // the item with the given URL is already part of the model
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
+        m_treeView->scrollTo(proxyIndex);
+        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+    } else {
+        // Load all sub directories that need to get expanded for making
+        // the leaf directory visible. The slot triggerExpanding() will
+        // get invoked if the expanding has been finished.
+        m_dirModel->expandToUrl(m_leafDir);
+    }
+}
+
 void TreeViewSidebarPage::loadTree(const KUrl& url)
 {
     Q_ASSERT(m_dirLister != 0);
+    m_leafDir = url;
 
     // adjust the root of the tree to the base place
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
@@ -198,42 +256,13 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
         baseUrl = url;
     }
 
+    connect(m_dirLister, SIGNAL(completed()),
+            this, SLOT(loadSubTree()));
     if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl);
-    }
-
-    // select the folder which contains the given URL
-    QItemSelectionModel* selModel = m_treeView->selectionModel();
-    selModel->clearSelection();
-
-    const QModelIndex index = m_dirModel->indexForUrl(url);
-    if (index.isValid()) {
-        // the item with the given URL is already part of the model
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
-        m_treeView->scrollTo(proxyIndex);
-        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
     } else {
-        // The item with the given URL is not loaded by the model yet. Iterate
-        // backward to the base URL and trigger the loading of the items for
-        // each hierarchy level.
-        connect(m_dirLister, SIGNAL(completed()),
-                this, SLOT(expandSelectionParent()));
-
-        // Implementation note: It is important to remove the trailing slash from
-        // the parent URL, as the directories from the dir lister (KDirLister::directories())
-        // don't have a trailing slash and hence KUrl::List::contains() would fail...
-        KUrl parentUrl = url.upUrl();
-        parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
-        while (!parentUrl.isParentOf(baseUrl)) {
-            if (m_dirLister->directories().contains(parentUrl)) {
-                m_dirLister->updateDirectory(parentUrl);
-            } else {
-                m_dirLister->openUrl(parentUrl, true, false);
-            }
-            parentUrl = parentUrl.upUrl();
-            parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
-        }
+        loadSubTree();
     }
 }
 

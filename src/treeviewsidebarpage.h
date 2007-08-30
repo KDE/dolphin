@@ -81,7 +81,31 @@ private slots:
     void dropUrls(const KUrl::List& urls,
                   const QModelIndex& index);
 
+    /**
+     * Invokes expandToLeafDir() asynchronously (the expanding
+     * may not be done in the context of this slot).
+     */
+    void triggerExpanding(const QModelIndex& index);
+
+    /**
+     * Expands all directories to make m_leafDir visible and
+     * adjusts the selection.
+     */
+    void expandToLeafDir();
+
+    /**
+     * Loads the sub tree to make m_leafDir visible. Is invoked
+     * indirectly by loadTree() after the directory lister has
+     * finished loading the root items.
+     */
+    void loadSubTree();
+
 private:
+    /**
+     * Initializes the base URL of the tree and expands all
+     * directories until \a url.
+     * @param url  URL of the leaf directory that should get expanded.
+     */
     void loadTree(const KUrl& url);
 
 private:
@@ -89,6 +113,7 @@ private:
     KDirModel* m_dirModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     SidebarTreeView* m_treeView;
+    KUrl m_leafDir;
 };
 
 #endif // TREEVIEWSIDEBARPAGE_H
