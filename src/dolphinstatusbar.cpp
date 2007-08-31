@@ -144,7 +144,7 @@ const QString& DolphinStatusBar::defaultText() const
 void DolphinStatusBar::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
-    QTimer::singleShot(0, this, SLOT(showSpaceInfo()));
+    QMetaObject::invokeMethod(this, "showSpaceInfo", Qt::QueuedConnection);
 }
 
 void DolphinStatusBar::updateProgressInfo()

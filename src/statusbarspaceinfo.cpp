@@ -99,7 +99,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
             text = i18nc("@info:status", "Getting size...");
         } else {
             text = QString();
-            QTimer::singleShot(0, this, SLOT(hide()));
+            QMetaObject::invokeMethod(this, "hide", Qt::QueuedConnection);
         }
     }
 

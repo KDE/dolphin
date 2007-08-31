@@ -35,7 +35,6 @@
 #include <QTreeView>
 #include <QBoxLayout>
 #include <QModelIndex>
-#include <QTimer>
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
@@ -194,7 +193,7 @@ void TreeViewSidebarPage::triggerExpanding(const QModelIndex& index)
     Q_UNUSED(index);
     // the expanding of the folders may not be done in the context
     // of this slot
-    QTimer::singleShot(0, this, SLOT(expandToLeafDir()));
+    QMetaObject::invokeMethod(this, "expandToLeafDir", Qt::QueuedConnection);
 }
 
 void TreeViewSidebarPage::expandToLeafDir()
