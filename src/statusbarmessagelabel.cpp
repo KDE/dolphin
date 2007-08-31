@@ -99,7 +99,6 @@ void StatusBarMessageLabel::setMessage(const QString& text,
         break;
 
     case DolphinStatusBar::Error:
-        iconName = "dialog-error";
         m_timer->start(100);
         m_state = Illuminate;
 
