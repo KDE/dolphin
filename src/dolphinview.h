@@ -288,7 +288,7 @@ public:
     void reload();
 
     /**
-     * Refreshs the view to get synchronized with the (updated) Dolphin settings.
+     * Refreshes the view to get synchronized with the (updated) Dolphin settings.
      * This method only needs to get invoked if the view settings for the Icons View,
      * Details View or Columns View have been changed.
      */

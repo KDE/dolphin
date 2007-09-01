@@ -81,7 +81,7 @@ public:
     void rename(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
-     * Refreshs the views of the main window by recreating them dependent from
+     * Refreshes the views of the main window by recreating them dependent from
      * the given Dolphin settings.
      */
     void refreshViews();

@@ -57,7 +57,7 @@ private slots:
                              quint64 kBAvailable);
     void showResult();
 
-    /** Refreshs the space information for the current set URL. */
+    /** Refreshes the space information for the current set URL. */
     void refresh();
 
 private:
