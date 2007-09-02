@@ -302,11 +302,8 @@ QList<KFileItem> DolphinView::selectedItems() const
     QList<KFileItem> itemList;
 
     const QModelIndexList indexList = selection.indexes();
-    QModelIndexList::const_iterator end = indexList.end();
-    for (QModelIndexList::const_iterator it = indexList.begin(); it != end; ++it) {
-        Q_ASSERT((*it).isValid());
-
-        KFileItem item = m_dirModel->itemForIndex(*it);
+    foreach (QModelIndex index, indexList) {
+        KFileItem item = m_dirModel->itemForIndex(index);
         if (!item.isNull()) {
             itemList.append(item);
         }
