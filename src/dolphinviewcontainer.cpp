@@ -81,10 +81,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    QClipboard* clipboard = QApplication::clipboard();
-    connect(clipboard, SIGNAL(dataChanged()),
-            this, SLOT(updateCutItems()));
-
     m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
     connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
             m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
