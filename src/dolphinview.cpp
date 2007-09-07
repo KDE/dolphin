@@ -911,7 +911,7 @@ void DolphinView::applyCutItemEffect()
 
 void DolphinView::updateViewportColor()
 {
-    QColor color = KColorScheme(KColorScheme::View).background();
+    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     if (m_active) {
         emit urlChanged(url()); // Hmm, this is a hack; the url hasn't really changed.
         emit selectionChanged(selectedItems());

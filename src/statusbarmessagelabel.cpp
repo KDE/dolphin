@@ -139,7 +139,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 
     // draw background
     QColor backgroundColor = palette().brush(QPalette::Background).color();
-    QColor foregroundColor = KColorScheme(KColorScheme::View).foreground();
+    QColor foregroundColor = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
     if (m_illumination > 0) {
         // TODO: are there foreground and background colors available for
         // "error messages"?

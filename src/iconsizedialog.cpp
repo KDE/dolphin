@@ -59,7 +59,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     // create 'Icon Size' group including slider and preview
     QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), main);
 
-    const QColor iconBackgroundColor = KColorScheme(KColorScheme::View).background();
+    const QColor iconBackgroundColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
 
     KHBox* iconSizeHBox = new KHBox(iconSizeBox);
     iconSizeHBox->setSpacing(spacing);

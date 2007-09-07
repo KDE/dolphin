@@ -386,7 +386,7 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
             QPainter painter(viewport());
             painter.save();
 
-            QColor color = KColorScheme(KColorScheme::View).foreground();
+            QColor color = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
             color.setAlpha(32);
             painter.setPen(Qt::NoPen);
             painter.setBrush(color);
@@ -433,7 +433,7 @@ void ColumnWidget::selectionChanged(const QItemSelection& selected, const QItemS
 
 void ColumnWidget::activate()
 {
-    const QColor bgColor = KColorScheme(KColorScheme::View).background();
+    const QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     QPalette palette = viewport()->palette();
     palette.setColor(viewport()->backgroundRole(), bgColor);
     viewport()->setPalette(palette);
@@ -443,8 +443,8 @@ void ColumnWidget::activate()
 
 void ColumnWidget::deactivate()
 {
-    QColor bgColor = KColorScheme(KColorScheme::View).background();
-    const QColor fgColor = KColorScheme(KColorScheme::View).foreground();
+    QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    const QColor fgColor = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
     bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
 
     QPalette palette = viewport()->palette();

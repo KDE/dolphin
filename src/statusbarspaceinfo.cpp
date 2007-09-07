@@ -75,7 +75,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
     frameColor.setAlpha(128);
     painter.setPen(frameColor);
 
-    const QColor backgrColor = KColorScheme(KColorScheme::View).background();
+    const QColor backgrColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     painter.setBrush(backgrColor);
 
     painter.drawRect(QRect(0, barTop + 1 , barWidth - widthDec, barHeight));
@@ -104,7 +104,7 @@ void StatusBarSpaceInfo::paintEvent(QPaintEvent* /* event */)
     }
 
     // draw text
-    painter.setPen(KColorScheme(KColorScheme::View).foreground());
+    painter.setPen(KColorScheme(QPalette::Active, KColorScheme::View).foreground().color());
     painter.drawText(QRect(1, 1, barWidth - 2, barHeight + 6),
                      Qt::AlignCenter | Qt::TextWordWrap,
                      text);
@@ -164,7 +164,7 @@ void StatusBarSpaceInfo::refresh()
 
 QColor StatusBarSpaceInfo::progressColor(const QColor& bgColor) const
 {
-    QColor color = KColorScheme(KColorScheme::Button).background();
+    QColor color = KColorScheme(QPalette::Active, KColorScheme::Button).background().color();
 
     // assure that enough contrast is given between the background color
     // and the progressbar color
