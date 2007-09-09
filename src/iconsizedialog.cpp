@@ -40,7 +40,8 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     m_iconSizeSlider(0),
     m_iconSizeViewer(0),
     m_previewSizeSlider(0),
-    m_previewSizeViewer(0)
+    m_previewSizeViewer(0),
+    m_iconLoader()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
@@ -131,8 +132,7 @@ void IconSizeDialog::slotButtonClicked(int button)
 
 void IconSizeDialog::updateIconSize(int value)
 {
-    KIconLoader iconLoader;
-    m_iconSizeViewer->setPixmap(iconLoader.loadIcon("folder", K3Icon::Desktop, iconSize(value)));
+    m_iconSizeViewer->setPixmap(m_iconLoader.loadIcon("folder", K3Icon::Desktop, iconSize(value)));
     if (m_previewSizeSlider != 0) {
         updatePreviewSize(m_previewSizeSlider->value());
     }
@@ -140,13 +140,12 @@ void IconSizeDialog::updateIconSize(int value)
 
 void IconSizeDialog::updatePreviewSize(int value)
 {
-    KIconLoader iconLoader;
     const int iconSizeValue = m_iconSizeSlider->value();
     if (value < iconSizeValue) {
         // assure that the preview size is never smaller than the icon size
         value = iconSizeValue;
     }
-    m_previewSizeViewer->setPixmap(iconLoader.loadIcon("preview", K3Icon::Desktop, iconSize(value)));
+    m_previewSizeViewer->setPixmap(m_iconLoader.loadIcon("preview", K3Icon::Desktop, iconSize(value)));
 }
 
 int IconSizeDialog::iconSize(int sliderValue) const
