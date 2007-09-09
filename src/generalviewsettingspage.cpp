@@ -147,7 +147,7 @@ void GeneralViewSettingsPage::loadSettings()
     m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
 
     KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
-    const int maxByteSize = globalConfig.readEntry("MaximumSize", 1024 * 1024 /* 1 MB */);
+    const int maxByteSize = globalConfig.readEntry("MaximumSize", 5 * 1024 * 1024 /* 5 MB */);
     int maxMByteSize = maxByteSize / (1024 * 1024);
     if (maxMByteSize < 1) {
         maxMByteSize = 1;
