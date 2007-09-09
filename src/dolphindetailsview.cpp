@@ -69,6 +69,10 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     connect(parent, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(setSortIndicatorOrder(Qt::SortOrder)));
 
+    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
+    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
+    // necessary connecting the signal 'singleClick()' or 'doubleClick' and to handle the
+    // RETURN-key in keyPressEvent().
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 this, SLOT(slotItemActivated(const QModelIndex&)));
@@ -268,6 +272,14 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
     if (m_dragging) {
         const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
         DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
+    }
+}
+
+void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
+{
+    QTreeView::keyPressEvent(event);
+    if (event->key() == Qt::Key_Return) {
+        m_controller->triggerItem(selectionModel()->currentIndex());
     }
 }
 

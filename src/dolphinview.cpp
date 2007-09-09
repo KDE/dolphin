@@ -432,6 +432,7 @@ void DolphinView::setUrl(const KUrl& url)
     applyViewProperties(url);
 
     startDirLister(url);
+    itemView()->setFocus();
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
@@ -835,6 +836,7 @@ void DolphinView::createView()
             this, SLOT(emitContentsMoved()));
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
+    view->setFocus();
 }
 
 QAbstractItemView* DolphinView::itemView() const
