@@ -21,7 +21,6 @@
 #define ICONSIZEDIALOG_H
 
 #include <kdialog.h>
-#include <kiconloader.h>
 
 class QSlider;
 class PixmapViewer;
@@ -78,7 +77,6 @@ private:
     PixmapViewer* m_iconSizeViewer;
     QSlider* m_previewSizeSlider;
     PixmapViewer* m_previewSizeViewer;
-    KIconLoader m_iconLoader;
 };
 
 #endif

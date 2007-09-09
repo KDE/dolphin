@@ -25,6 +25,7 @@
 #include "dolphin_iconsmodesettings.h"
 
 #include <kcolorscheme.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kvbox.h>
 
@@ -40,8 +41,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     m_iconSizeSlider(0),
     m_iconSizeViewer(0),
     m_previewSizeSlider(0),
-    m_previewSizeViewer(0),
-    m_iconLoader()
+    m_previewSizeViewer(0)
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
@@ -132,7 +132,7 @@ void IconSizeDialog::slotButtonClicked(int button)
 
 void IconSizeDialog::updateIconSize(int value)
 {
-    m_iconSizeViewer->setPixmap(m_iconLoader.loadIcon("folder", K3Icon::Desktop, iconSize(value)));
+    m_iconSizeViewer->setPixmap(KIconLoader::global()->loadIcon("folder", K3Icon::Desktop, iconSize(value)));
     if (m_previewSizeSlider != 0) {
         updatePreviewSize(m_previewSizeSlider->value());
     }
@@ -145,7 +145,7 @@ void IconSizeDialog::updatePreviewSize(int value)
         // assure that the preview size is never smaller than the icon size
         value = iconSizeValue;
     }
-    m_previewSizeViewer->setPixmap(m_iconLoader.loadIcon("preview", K3Icon::Desktop, iconSize(value)));
+    m_previewSizeViewer->setPixmap(KIconLoader::global()->loadIcon("preview", K3Icon::Desktop, iconSize(value)));
 }
 
 int IconSizeDialog::iconSize(int sliderValue) const
