@@ -38,7 +38,7 @@
 #include <kuser.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
-#include <kpixmapeffect.h>
+#include <kiconeffect.h>
 
 #include <QList>
 #include <QSortFilterProxyModel>
@@ -311,9 +311,11 @@ void DolphinItemCategorizer::drawCategory(const QModelIndex &index,
 
             QPixmap pixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
             QPixmap smallPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::NoGroup, iconSize / 2);
-            QPixmap disabledPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
+            QPixmap icon_disabledPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
 
-            KPixmapEffect::toGray(disabledPixmap, false);
+	    QImage disabledImage = icon_disabledPixmap.toImage();
+            KIconEffect::toGray(disabledImage, 1.0);
+	    QPixmap disabledPixmap = QPixmap::fromImage(disabledImage);
 
             int rating = category.toInt();
 
