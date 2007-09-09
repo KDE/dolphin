@@ -1311,7 +1311,11 @@ void DolphinMainWindow::setupActions()
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(adjustViewProperties()));
 
     // setup 'Go' menu
-    KStandardAction::back(this, SLOT(goBack()), actionCollection());
+    KAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
+    KShortcut backShortcut = backAction->shortcut();
+    backShortcut.setAlternate(Qt::Key_Backspace);
+    backAction->setShortcut(backShortcut);
+
     KStandardAction::forward(this, SLOT(goForward()), actionCollection());
     KStandardAction::up(this, SLOT(goUp()), actionCollection());
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
