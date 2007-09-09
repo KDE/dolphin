@@ -311,11 +311,11 @@ void DolphinItemCategorizer::drawCategory(const QModelIndex &index,
 
             QPixmap pixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
             QPixmap smallPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::NoGroup, iconSize / 2);
-            QPixmap icon_disabledPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
+            QPixmap disabledIcon = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
 
-	    QImage disabledImage = icon_disabledPixmap.toImage();
+            QImage disabledImage = disabledIcon.toImage();
             KIconEffect::toGray(disabledImage, 1.0);
-	    QPixmap disabledPixmap = QPixmap::fromImage(disabledImage);
+            QPixmap disabledPixmap = QPixmap::fromImage(disabledImage);
 
             int rating = category.toInt();
 
