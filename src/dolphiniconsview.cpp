@@ -209,8 +209,14 @@ void DolphinIconsView::paintEvent(QPaintEvent* event)
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
     KCategorizedView::keyPressEvent(event);
-    if (event->key() == Qt::Key_Return) {
-        m_controller->triggerItem(selectionModel()->currentIndex());
+
+    const QItemSelectionModel* selModel = selectionModel();
+    const QModelIndex currentIndex = selModel->currentIndex();
+    const bool triggerItem = currentIndex.isValid()
+                             && (event->key() == Qt::Key_Return)
+                             && (selModel->selectedIndexes().count() <= 1);
+    if (triggerItem) {
+        m_controller->triggerItem(currentIndex);
     }
 }
 
