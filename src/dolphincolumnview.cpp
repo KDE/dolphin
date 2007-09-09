@@ -467,6 +467,9 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setDropIndicatorShown(false);
     setSelectionMode(ExtendedSelection);
 
+    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
+    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
+    // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 this, SLOT(triggerItem(const QModelIndex&)));
