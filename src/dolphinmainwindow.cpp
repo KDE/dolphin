@@ -1348,7 +1348,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setWidget(infoWidget);
 
     infoDock->toggleViewAction()->setText(i18nc("@title:window", "Information"));
-    infoDock->toggleViewAction()->setShortcut(Qt::Key_F8);
+    infoDock->toggleViewAction()->setShortcut(Qt::Key_F11);
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
