@@ -121,6 +121,12 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 void InfoSidebarPage::setSelection(const QList<KFileItem>& selection)
 {
     SidebarPage::setSelection(selection);
+    if (selection.size() == 1) {
+        const KUrl url = selection.first().url();
+        if (!url.isEmpty()) {
+            m_urlCandidate = url;
+        }
+    }
     m_timer->start(TimerDelay);
 }
 
