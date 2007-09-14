@@ -20,12 +20,15 @@
 #ifndef DOLPHINCOLUMNVIEW_H
 #define DOLPHINCOLUMNVIEW_H
 
-#include <QColumnView>
+#include <QAbstractItemView>
+#include <QList>
 #include <QStyleOption>
 
+class ColumnWidget;
 class DolphinController;
 class KDirLister;
 class KUrl;
+class QTimeLine;
 
 /**
  * @brief Represents the view, where each directory is show as separate column.
@@ -33,7 +36,7 @@ class KUrl;
  * @see DolphinIconsView
  * @see DolphinDetailsView
  */
-class DolphinColumnView : public QColumnView
+class DolphinColumnView : public QAbstractItemView
 {
     Q_OBJECT
 
@@ -41,20 +44,23 @@ public:
     explicit DolphinColumnView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinColumnView();
 
-    /**
-     * Inverts the selection for the current active column.
-     */
-    void invertSelection();
-
-public slots:
-    /** @see QAbstractItemView::selectAll() */
-    virtual void selectAll();
+    virtual QModelIndex indexAt(const QPoint& point) const;
+    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
+    virtual QRect visualRect(const QModelIndex& index) const;
+    virtual void setModel(QAbstractItemModel* model);
 
 protected:
-    virtual QAbstractItemView* createColumn(const QModelIndex& index);
+    virtual bool isIndexHidden(const QModelIndex& index) const;
+    virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
+    virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags flags);
+    virtual QRegion visualRegionForSelection(const QItemSelection& selection) const;
+    virtual int horizontalOffset() const;
+    virtual int verticalOffset() const;
+
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dropEvent(QDropEvent* event);
+    virtual void resizeEvent(QResizeEvent* event);
 
 private slots:
     void zoomIn();
@@ -62,11 +68,16 @@ private slots:
     void triggerItem(const QModelIndex& index);
 
     /**
-     * Updates the activation state of all columns, where \a url
-     * represents the URL of the active column. All operations
-     * are applied only to the column which is marked as active.
+     * Moves the content of the columns view to represent
+     * the scrollbar position \a x.
      */
-    void updateColumnsState(const KUrl& url);
+    void moveContentHorizontally(int x);
+
+    /**
+     * Shows the column which represents the URL \a url. If the column
+     * is already shown, it gets activated, otherwise it will be created.
+     */
+    void showColumn(const KUrl& url);
 
     /**
      * Updates the size of the decoration dependent on the
@@ -80,30 +91,44 @@ private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
 
-    /**
-     * Requests the activation for the column \a column. The URL
-     * navigator will be changed to represent the column. It is
-     * assured that the selection model of \a column will be set
-     * to the selection model of the Column View.
-     */
-    void requestActivation(QWidget* column);
+    inline ColumnWidget* activeColumn() const;
+    void setActiveColumnIndex(int index);
+
+    void layoutColumns();
+    void updateScrollBar();
 
     /**
-     * Requests the selection model from the Column View for \a view.
-     * If another column has already obtained the Column View selection
-     * model, it will be replaced by a default selection model.
+     * Assures that the currently active column is fully visible
+     * by adjusting the horizontal position of the content.
      */
-    void requestSelectionModel(QAbstractItemView* view);
+    void assureVisibleActiveColumn();
 
     /**
-     * Helper method for selecting all items of an active column by \a flags.
+     * Request the activation for the column \a column. It is assured
+     * that the columns gets fully visible by adjusting the horizontal
+     * position of the content.
      */
-    void selectActiveColumn(QItemSelectionModel::SelectionFlags flags);
+    void requestActivation(ColumnWidget* column);
+
+    /**
+     * Deletes all inactive child columns, that are a child of
+     * the currently active column.
+     */
+    void deleteInactiveChildColumns();
 
 private:
     DolphinController* m_controller;
+    int m_index;
+    int m_contentX;
+    QList<ColumnWidget*> m_columns;
+    QTimeLine* m_animation;
 
     friend class ColumnWidget;
 };
+
+ColumnWidget* DolphinColumnView::activeColumn() const
+{
+    return m_columns[m_index];
+}
 
 #endif

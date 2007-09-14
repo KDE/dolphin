@@ -262,22 +262,15 @@ void DolphinView::selectAll()
 
 void DolphinView::invertSelection()
 {
-    if (isColumnViewActive()) {
-        // In opposite to QAbstractItemView::selectAll() there is no virtual method
-        // for adjusting the invertion of a selection. As the generic approach by using
-        // the selection model does not work for the column view, we delegate this task:
-        m_columnView->invertSelection();
-    } else {
-        QItemSelectionModel* selectionModel = itemView()->selectionModel();
-        const QAbstractItemModel* itemModel = selectionModel->model();
+    QItemSelectionModel* selectionModel = itemView()->selectionModel();
+    const QAbstractItemModel* itemModel = selectionModel->model();
 
-        const QModelIndex topLeft = itemModel->index(0, 0);
-        const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
-                                                         itemModel->columnCount() - 1);
+    const QModelIndex topLeft = itemModel->index(0, 0);
+    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
+                                                     itemModel->columnCount() - 1);
 
-        QItemSelection selection(topLeft, bottomRight);
-        selectionModel->select(selection, QItemSelectionModel::Toggle);
-    }
+    QItemSelection selection(topLeft, bottomRight);
+    selectionModel->select(selection, QItemSelectionModel::Toggle);
 }
 
 bool DolphinView::hasSelection() const
@@ -332,7 +325,11 @@ KFileItem DolphinView::fileItem(const QModelIndex& index) const
 void DolphinView::setContentsPosition(int x, int y)
 {
     QAbstractItemView* view = itemView();
-    view->horizontalScrollBar()->setValue(x);
+
+    // the ColumnView takes care itself for the horizontal scrolling
+    if (!isColumnViewActive()) {
+        view->horizontalScrollBar()->setValue(x);
+    }
     view->verticalScrollBar()->setValue(y);
 
     m_loadingDirectory = false;
