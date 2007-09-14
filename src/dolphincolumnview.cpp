@@ -80,6 +80,7 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 private:
     /** Used by ColumnWidget::setActive(). */
@@ -134,6 +135,11 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     setItemDelegate(delegate);
 
     activate();
+
+    connect(this, SIGNAL(entered(const QModelIndex&)),
+            m_view->m_controller, SLOT(emitItemEntered(const QModelIndex&)));
+    connect(this, SIGNAL(viewportEntered()),
+            m_view->m_controller, SLOT(emitViewportEntered()));
 }
 
 ColumnWidget::~ColumnWidget()
@@ -286,8 +292,26 @@ void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
     }
 }
 
+void ColumnWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+{
+    QItemSelectionModel* selModel = m_view->selectionModel();
+    selModel->select(selected, QItemSelectionModel::Select);
+    selModel->select(deselected, QItemSelectionModel::Deselect);
+}
+
 void ColumnWidget::activate()
 {
+    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
+    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
+    // necessary connecting the signal 'singleClick()' or 'doubleClick'.
+    if (KGlobalSettings::singleClick()) {
+        connect(this, SIGNAL(clicked(const QModelIndex&)),
+                m_view, SLOT(triggerItem(const QModelIndex&)));
+    } else {
+        connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+                m_view, SLOT(triggerItem(const QModelIndex&)));
+    }
+
     const QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     QPalette palette = viewport()->palette();
     palette.setColor(viewport()->backgroundRole(), bgColor);
@@ -298,6 +322,17 @@ void ColumnWidget::activate()
 
 void ColumnWidget::deactivate()
 {
+    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
+    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
+    // necessary connecting the signal 'singleClick()' or 'doubleClick'.
+    if (KGlobalSettings::singleClick()) {
+        disconnect(this, SIGNAL(clicked(const QModelIndex&)),
+                   m_view, SLOT(triggerItem(const QModelIndex&)));
+    } else {
+        disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+                   m_view, SLOT(triggerItem(const QModelIndex&)));
+    }
+
     QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     const QColor fgColor = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
     bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
@@ -358,7 +393,17 @@ DolphinColumnView::~DolphinColumnView()
 
 QModelIndex DolphinColumnView::indexAt(const QPoint& point) const
 {
+    foreach (ColumnWidget* column, m_columns) {
+        const QPoint topLeft = column->frameGeometry().topLeft();
+        const QPoint adjustedPoint(point.x() - topLeft.x(), point.y() - topLeft.y());
+        QModelIndex index = column->indexAt(adjustedPoint);
+        if (index.isValid()) {
+            return index;
+        }
+    }
     return activeColumn()->indexAt(point);
+
+    return QModelIndex();
 }
 
 void DolphinColumnView::scrollTo(const QModelIndex& index, ScrollHint hint)
@@ -586,28 +631,8 @@ void DolphinColumnView::setActiveColumnIndex(int index)
         m_columns[m_index]->setActive(false);
     }
 
-    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
-    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
-    // necessary connecting the signal 'singleClick()' or 'doubleClick'.
-    if (KGlobalSettings::singleClick()) {
-        if (hasActiveColumn) {
-            disconnect(m_columns[m_index], SIGNAL(clicked(const QModelIndex&)),
-                       this, SLOT(triggerItem(const QModelIndex&)));
-        }
-        m_index = index;
-        m_columns[m_index]->setActive(true);
-        connect(m_columns[m_index], SIGNAL(clicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
-    } else {
-        if (hasActiveColumn) {
-            disconnect(m_columns[m_index], SIGNAL(doubleClicked(const QModelIndex&)),
-                      this, SLOT(triggerItem(const QModelIndex&)));
-        }
-        m_index = index;
-        m_columns[m_index]->setActive(true);
-        connect(m_columns[m_index], SIGNAL(doubleClicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
-    }
+    m_index = index;
+    m_columns[m_index]->setActive(true);
 }
 
 void DolphinColumnView::layoutColumns()
