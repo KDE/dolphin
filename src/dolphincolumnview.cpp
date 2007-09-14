@@ -294,6 +294,8 @@ void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 
 void ColumnWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
+    QListView::selectionChanged(selected, deselected);
+
     QItemSelectionModel* selModel = m_view->selectionModel();
     selModel->select(selected, QItemSelectionModel::Select);
     selModel->select(deselected, QItemSelectionModel::Deselect);
