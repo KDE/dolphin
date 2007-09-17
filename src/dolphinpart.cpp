@@ -20,9 +20,9 @@
 #include "dolphinpart.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
+#include "dolphinmodel.h"
 
 #include <kdirlister.h>
-#include <kdirmodel.h>
 #include <kmessagebox.h>
 #include <kparts/browserextension.h>
 #include <kparts/genericfactory.h>
@@ -53,16 +53,16 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted(KUrl)));
     connect(m_dirLister, SIGNAL(canceled(KUrl)), this, SLOT(slotCanceled(KUrl)));
 
-    m_dirModel = new KDirModel(this);
-    m_dirModel->setDirLister(m_dirLister);
+    m_dolphinModel = new DolphinModel(this);
+    m_dolphinModel->setDirLister(m_dirLister);
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_dirModel);
+    m_proxyModel->setSourceModel(m_dolphinModel);
 
     m_view = new DolphinView(parentWidget,
                              KUrl(),
                              m_dirLister,
-                             m_dirModel,
+                             m_dolphinModel,
                              m_proxyModel);
     setWidget(m_view);
 

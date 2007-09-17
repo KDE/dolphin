@@ -21,7 +21,8 @@
 #ifndef KCATEGORIZEDVIEW_P_H
 #define KCATEGORIZEDVIEW_P_H
 
-class DolphinSortFilterProxyModel;
+class KCategorizedSortFilterProxyModel;
+class KCategoryDrawer;
 
 /**
   * @internal
@@ -122,7 +123,7 @@ public:
 
     // Basic data
     KCategorizedView *listView;
-    KItemCategorizer *itemCategorizer;
+    KCategoryDrawer *categoryDrawer;
     QSize biggestItemSize;
 
     // Behavior data
@@ -140,10 +141,8 @@ public:
     // Cache data
     // We cannot merge some of them into structs because it would affect
     // performance
-    QHash<QModelIndex, struct ElementInfo> elementsInfo; // in source model
-    QHash<QModelIndex, QRect> elementsPosition;          // in source model
-    QHash<QModelIndex, QModelIndex> elementDictionary;   // mapped indexes
-    QHash<QModelIndex, QModelIndex> invertedElementDictionary;   // mapped indexes
+    QHash<int, struct ElementInfo> elementsInfo;
+    QHash<int, QRect> elementsPosition;
     QHash<QString, QModelIndexList> categoriesIndexes;
     QHash<QString, QRect> categoriesPosition;
     QStringList categories;
@@ -152,8 +151,8 @@ public:
     QRect lastSelectionRect;
 
     // Attributes for speed reasons
-    DolphinSortFilterProxyModel *proxyModel;
-    QModelIndexList sourceModelIndexList;                // in source model
+    KCategorizedSortFilterProxyModel *proxyModel;
+    QModelIndexList modelIndexList;
 };
 
 #endif // KCATEGORIZEDVIEW_P_H

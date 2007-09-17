@@ -20,14 +20,13 @@
 
 #include "dolphindetailsview.h"
 
+#include "dolphinmodel.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "viewproperties.h"
 
 #include "dolphin_detailsmodesettings.h"
-
-#include <kdirmodel.h>
 
 #include <QApplication>
 #include <QHeaderView>
@@ -122,23 +121,23 @@ bool DolphinDetailsView::event(QEvent* event)
         const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
         Q_ASSERT(settings != 0);
         if (!settings->showDate()) {
-            hideColumn(KDirModel::ModifiedTime);
+            hideColumn(DolphinModel::ModifiedTime);
         }
 
         if (!settings->showPermissions()) {
-            hideColumn(KDirModel::Permissions);
+            hideColumn(DolphinModel::Permissions);
         }
 
         if (!settings->showOwner()) {
-            hideColumn(KDirModel::Owner);
+            hideColumn(DolphinModel::Owner);
         }
 
         if (!settings->showGroup()) {
-            hideColumn(KDirModel::Group);
+            hideColumn(DolphinModel::Group);
         }
 
         if (!settings->showType()) {
-            hideColumn(KDirModel::Type);
+            hideColumn(DolphinModel::Type);
         }
     }
 
@@ -163,7 +162,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     QTreeView::mousePressEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
-    if (!index.isValid() || (index.column() != KDirModel::Name)) {
+    if (!index.isValid() || (index.column() != DolphinModel::Name)) {
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
             clearSelection();
@@ -227,7 +226,7 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     setDirtyRegion(m_dropRect);
     const QModelIndex index = indexAt(event->pos());
-    if (!index.isValid() || (index.column() != KDirModel::Name)) {
+    if (!index.isValid() || (index.column() != DolphinModel::Name)) {
         m_dragging = false;
     } else {
         m_dragging = true;
@@ -314,7 +313,7 @@ void DolphinDetailsView::synchronizeSortingState(int column)
 void DolphinDetailsView::slotEntered(const QModelIndex& index)
 {
     const QPoint pos = viewport()->mapFromGlobal(QCursor::pos());
-    const int nameColumnWidth = header()->sectionSize(KDirModel::Name);
+    const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
     if (pos.x() < nameColumnWidth) {
         m_controller->emitItemEntered(index);
     }

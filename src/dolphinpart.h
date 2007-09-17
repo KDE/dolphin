@@ -24,7 +24,7 @@
 class KFileItem;
 class DolphinPartBrowserExtension;
 class DolphinSortFilterProxyModel;
-class KDirModel;
+class DolphinModel;
 class KDirLister;
 class DolphinView;
 class QLineEdit;
@@ -71,7 +71,7 @@ private Q_SLOTS:
 private:
     DolphinView* m_view;
     KDirLister* m_dirLister;
-    KDirModel* m_dirModel;
+    DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinPartBrowserExtension* m_extension;
     Q_DISABLE_COPY(DolphinPart)

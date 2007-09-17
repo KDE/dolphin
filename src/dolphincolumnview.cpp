@@ -19,6 +19,7 @@
 
 #include "dolphincolumnview.h"
 
+#include "dolphinmodel.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
 
@@ -27,7 +28,6 @@
 #include <kcolorutils.h>
 #include <kcolorscheme.h>
 #include <kdirlister.h>
-#include <kdirmodel.h>
 
 #include <QAbstractProxyModel>
 #include <QApplication>
@@ -239,8 +239,8 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
     if (!m_childUrl.isEmpty()) {
         // indicate the shown URL of the next column by highlighting the shown folder item
         const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
-        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-        const QModelIndex dirIndex = dirModel->indexForUrl(m_childUrl);
+        const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(proxyModel->sourceModel());
+        const QModelIndex dirIndex = dolphinModel->indexForUrl(m_childUrl);
         const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
         if (proxyIndex.isValid() && !selectionModel()->isSelected(proxyIndex)) {
             const QRect itemRect = visualRect(proxyIndex);
@@ -420,8 +420,6 @@ QRect DolphinColumnView::visualRect(const QModelIndex& index) const
 
 void DolphinColumnView::setModel(QAbstractItemModel* model)
 {
-    // TODO: remove all columns
-
     activeColumn()->setModel(model);
     QAbstractItemView::setModel(model);
 }

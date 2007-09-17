@@ -25,7 +25,7 @@
 
 #include <libdolphin_export.h>
 
-class KItemCategorizer;
+class KCategoryDrawer;
 
 /**
   * @short Item view for listing items
@@ -50,18 +50,13 @@ public:
 
     virtual void setModel(QAbstractItemModel *model);
 
+    void setGridSize(const QSize &size);
+
     virtual QRect visualRect(const QModelIndex &index) const;
 
-    /**
-      * Will return the current categorizer. If none set, this method will
-      * return 0
-      */
-    KItemCategorizer *itemCategorizer() const;
+    KCategoryDrawer *categoryDrawer() const;
 
-    /**
-      * Sets the categorizer to be used. Causes the item view to repaint
-      */
-    void setItemCategorizer(KItemCategorizer *itemCategorizer);
+    void setCategoryDrawer(KCategoryDrawer *categoryDrawer);
 
     virtual QModelIndex indexAt(const QPoint &point) const;
 
@@ -108,7 +103,7 @@ protected Q_SLOTS:
 
     virtual void updateGeometries();
 
-    virtual void slotSortingRoleChanged();
+    virtual void slotLayoutChanged();
 
 
 private:

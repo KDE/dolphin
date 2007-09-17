@@ -22,27 +22,28 @@
 
 #include "dolphinsortfilterproxymodel.h"
 
-#ifdef HAVE_NEPOMUK
 #include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
 #include <nepomuk/global.h>
 #include <nepomuk/resource.h>
 #include <nepomuk/tag.h>
 #endif
 
-#include <kdirmodel.h>
+#include "dolphinmodel.h"
+
 #include <kfileitem.h>
 #include <kdatetime.h>
 #include <klocale.h>
 
 static DolphinView::Sorting sortingTypeTable[] =
 {
-    DolphinView::SortByName,        // KDirModel::Name
-    DolphinView::SortBySize,        // KDirModel::Size
-    DolphinView::SortByDate,        // KDirModel::ModifiedTime
-    DolphinView::SortByPermissions, // KDirModel::Permissions
-    DolphinView::SortByOwner,       // KDirModel::Owner
-    DolphinView::SortByGroup,       // KDirModel::Group
-    DolphinView::SortByType         // KDirModel::Type
+    DolphinView::SortByName,        // DolphinModel::Name
+    DolphinView::SortBySize,        // DolphinModel::Size
+    DolphinView::SortByDate,        // DolphinModel::ModifiedTime
+    DolphinView::SortByPermissions, // DolphinModel::Permissions
+    DolphinView::SortByOwner,       // DolphinModel::Owner
+    DolphinView::SortByGroup,       // DolphinModel::Group
+    DolphinView::SortByType         // DolphinModel::Type
 #ifdef HAVE_NEPOMUK
     , DolphinView::SortByRating
     , DolphinView::SortByTags
@@ -62,23 +63,27 @@ DolphinSortFilterProxyModel::~DolphinSortFilterProxyModel()
 
 void DolphinSortFilterProxyModel::setSorting(DolphinView::Sorting sorting)
 {
+    m_sorting = sorting;
+
     // change the sorting column by keeping the current sort order
-    sort(sorting, m_sortOrder);
+    KDirSortFilterProxyModel::sort((int) m_sorting, m_sortOrder);
 }
 
 void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
 {
+    m_sortOrder = sortOrder;
+
     // change the sort order by keeping the current column
-    sort(m_sorting, sortOrder);
+    KDirSortFilterProxyModel::sort((int) m_sorting, m_sortOrder);
 }
 
 void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
 {
     m_sorting = sortingForColumn(column);
     m_sortOrder = sortOrder;
-    setSortRole(m_sorting);
-    KDirSortFilterProxyModel::sort(column, sortOrder);
+
     emit sortingRoleChanged();
+    KDirSortFilterProxyModel::sort((int) m_sorting, sortOrder);
 }
 
 DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
@@ -91,100 +96,56 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
 bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left,
                                                          const QModelIndex &right) const
 {
-    KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
-
-    const KFileItem leftFileItem  = dirModel->itemForIndex(left);
-    const KFileItem rightFileItem = dirModel->itemForIndex(right);
-
-    //FIXME left.column() should be used instead!
-    switch (sortRole()) {
-    case DolphinView::SortByName: {
-        QString leftFileName(leftFileItem.name());
-        if (leftFileName.at(0) == '.') {
-            leftFileName = leftFileName.mid(1);
-        }
-
-        QString rightFileName(rightFileItem.name());
-        if (rightFileName.at(0) == '.') {
-            rightFileName = rightFileName.mid(1);
-        }
-
-        // We don't care about case for building categories. We also don't
-        // want here to compare by a natural comparison.
-        return naturalCompare(leftFileName, rightFileName) < 0;
-    }
-
-    case DolphinView::SortBySize:
-        // If we are sorting by size, show folders first. We will sort them
-        // correctly later.
-        return leftFileItem.isDir() && !rightFileItem.isDir();
-
-    case DolphinView::SortByDate: {
-        KDateTime leftTime = leftFileItem.time(KFileItem::ModificationTime);
-        KDateTime rightTime = rightFileItem.time(KFileItem::ModificationTime);
-        return leftTime > rightTime;
-    }
-
-    case DolphinView::SortByPermissions: {
-        return naturalCompare(leftFileItem.permissionsString(),
-                            rightFileItem.permissionsString()) < 0;
-    }
-
-    case DolphinView::SortByOwner: {
-        return naturalCompare(leftFileItem.user().toLower(),
-                              rightFileItem.user().toLower()) < 0;
-    }
-
-    case DolphinView::SortByGroup: {
-        return naturalCompare(leftFileItem.group().toLower(),
-                              rightFileItem.group().toLower()) < 0;
-    }
-
-    case DolphinView::SortByType: {
-        // If we are sorting by size, show folders first. We will sort them
-        // correctly later.
-        if (leftFileItem.isDir() && !rightFileItem.isDir()) {
-            return true;
-        } else if (!leftFileItem.isDir() && rightFileItem.isDir()) {
-            return false;
-        }
-
-        return naturalCompare(leftFileItem.mimeComment().toLower(),
-                              rightFileItem.mimeComment().toLower()) < 0;
-    }
 #ifdef HAVE_NEPOMUK
+    DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
+
+    const KFileItem leftFileItem  = dolphinModel->itemForIndex(left);
+    const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
+
+    switch (left.column()) {
+
     case DolphinView::SortByRating: {
-        const quint32 leftRating = ratingForIndex(left);
-        const quint32 rightRating = ratingForIndex(right);
+        const quint32 leftRating = DolphinModel::ratingForIndex(left);
+        const quint32 rightRating = DolphinModel::ratingForIndex(right);
         return leftRating > rightRating;
     }
+
     case DolphinView::SortByTags: {
-        const QString leftTags = tagsForIndex(left);
-        const QString rightTags = tagsForIndex(right);
+        const QString leftTags = DolphinModel::tagsForIndex(left);
+        const QString rightTags = DolphinModel::tagsForIndex(right);
 
         if (leftTags.isEmpty() && !rightTags.isEmpty())
             return false;
         else if (!leftTags.isEmpty() && rightTags.isEmpty())
             return true;
 
-        return naturalCompare(tagsForIndex(left), tagsForIndex(right)) < 0;
+        return naturalCompare(DolphinModel::tagsForIndex(left), DolphinModel::tagsForIndex(right)) < 0;
     }
-#endif
+
     default:
         break;
+
     }
-    return false;
+#endif
+
+    return KDirSortFilterProxyModel::lessThanGeneralPurpose(left, right);
 }
 
 bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
                                            const QModelIndex& right) const
 {
 #ifdef HAVE_NEPOMUK
-    KDirModel* dirModel = static_cast<KDirModel*>(sourceModel());
+    DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
 
-    const KFileItem leftFileItem  = dirModel->itemForIndex(left);
-    const KFileItem rightFileItem = dirModel->itemForIndex(right);
+    const KFileItem leftFileItem  = dolphinModel->itemForIndex(left);
+    const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
 
+    // On our priority, folders go above regular files.
+    if (leftFileItem.isDir() && !rightFileItem.isDir()) {
+        return true;
+    } else if (!leftFileItem.isDir() && rightFileItem.isDir()) {
+        return false;
+    }
 
     // Hidden elements go before visible ones, if they both are
     // folders or files.
@@ -194,11 +155,11 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
         return false;
     }
 
-    //FIXME left.column() should be used instead!
-    switch (sortRole()) {
+    switch (left.column()) {
+
     case DolphinView::SortByRating: {
-        const quint32 leftRating  = ratingForIndex(left);
-        const quint32 rightRating = ratingForIndex(right);
+        const quint32 leftRating  = DolphinModel::ratingForIndex(left);
+        const quint32 rightRating = DolphinModel::ratingForIndex(right);
 
         if (leftRating == rightRating) {
             // On our priority, folders go above regular files.
@@ -222,8 +183,8 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
     }
 
     case DolphinView::SortByTags: {
-        const QString leftTags = tagsForIndex(left);
-        const QString rightTags = tagsForIndex(right);
+        const QString leftTags = DolphinModel::tagsForIndex(left);
+        const QString rightTags = DolphinModel::tagsForIndex(right);
 
         if (leftTags == rightTags) {
             // On our priority, folders go above regular files.
@@ -245,61 +206,14 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 
         return naturalCompare(leftTags, rightTags) < 0;
     }
+
+    default:
+        break;
+
     }
 #endif
 
     return KDirSortFilterProxyModel::lessThan(left, right);
-}
-
-quint32 DolphinSortFilterProxyModel::ratingForIndex(const QModelIndex& index)
-{
-#ifdef HAVE_NEPOMUK
-    quint32 rating = 0;
-
-    const KDirModel* dirModel = static_cast<const KDirModel*>(index.model());
-    KFileItem item = dirModel->itemForIndex(index);
-    if (!item.isNull()) {
-        const Nepomuk::Resource resource(item.url().url(), Nepomuk::NFO::File());
-        rating = resource.rating();
-    }
-    return rating;
-#else
-    Q_UNUSED(index);
-    return 0;
-#endif
-}
-
-QString DolphinSortFilterProxyModel::tagsForIndex(const QModelIndex& index)
-{
-#ifdef HAVE_NEPOMUK
-    QString tagsString;
-
-    const KDirModel* dirModel = static_cast<const KDirModel*>(index.model());
-    KFileItem item = dirModel->itemForIndex(index);
-    if (!item.isNull()) {
-        const Nepomuk::Resource resource(item.url().url(), Nepomuk::NFO::File());
-        const QList<Nepomuk::Tag> tags = resource.tags();
-        QStringList stringList;
-        foreach (const Nepomuk::Tag& tag, tags) {
-            stringList.append(tag.label());
-        }
-        stringList.sort();
-
-        foreach (const QString& str, stringList) {
-            tagsString += str;
-            tagsString += ", ";
-        }
-
-        if (!tagsString.isEmpty()) {
-            tagsString.resize(tagsString.size() - 2);
-        }
-    }
-
-    return tagsString;
-#else
-    Q_UNUSED(index);
-    return QString();
-#endif
 }
 
 #include "dolphinsortfilterproxymodel.moc"

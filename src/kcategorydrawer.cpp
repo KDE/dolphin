@@ -18,25 +18,27 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#include "kitemcategorizer.h"
+#include "kcategorydrawer.h"
 
 #include <QPainter>
 #include <QStyleOption>
 
-KItemCategorizer::KItemCategorizer()
+#include <kcategorizedsortfilterproxymodel.h>
+
+KCategoryDrawer::KCategoryDrawer()
 {
 }
 
-KItemCategorizer::~KItemCategorizer()
+KCategoryDrawer::~KCategoryDrawer()
 {
 }
 
-void KItemCategorizer::drawCategory(const QModelIndex &index,
-                                    int sortRole,
-                                    const QStyleOption &option,
-                                    QPainter *painter) const
+void KCategoryDrawer::drawCategory(const QModelIndex &index,
+                                   int sortRole,
+                                   const QStyleOption &option,
+                                   QPainter *painter) const
 {
-    const QString category = categoryForItem(index, sortRole);
+    const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryRole).toString();
 
     QColor color = option.palette.color(QPalette::Text);
 
@@ -94,7 +96,7 @@ void KItemCategorizer::drawCategory(const QModelIndex &index,
     painter->restore();
 }
 
-int KItemCategorizer::categoryHeight(const QStyleOption &option) const
+int KCategoryDrawer::categoryHeight(const QStyleOption &option) const
 {
     return option.fontMetrics.height() + 6 /* 4 separator; 2 gradient */;
 }

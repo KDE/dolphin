@@ -21,7 +21,6 @@
 
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
-#include "dolphinitemcategorizer.h"
 
 #include "dolphin_iconsmodesettings.h"
 
@@ -191,6 +190,7 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
             event->acceptProposedAction();
         }
     }
+
     KCategorizedView::dropEvent(event);
     m_dragging = false;
 }

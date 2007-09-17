@@ -21,7 +21,6 @@
 #define DOLPHINICONSVIEW_H
 
 #include <kcategorizedview.h>
-#include <kitemcategorizer.h>
 
 #include <QSize>
 #include <QStyleOption>

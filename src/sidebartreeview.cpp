@@ -20,8 +20,8 @@
 #include "sidebartreeview.h"
 
 #include "dolphincontroller.h"
+#include "dolphinmodel.h"
 
-#include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 #include <QKeyEvent>
 #include <QPainter>
@@ -59,12 +59,12 @@ bool SidebarTreeView::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
         // hide all columns except of the 'Name' column
-        hideColumn(KDirModel::Size);
-        hideColumn(KDirModel::ModifiedTime);
-        hideColumn(KDirModel::Permissions);
-        hideColumn(KDirModel::Owner);
-        hideColumn(KDirModel::Group);
-        hideColumn(KDirModel::Type);
+        hideColumn(DolphinModel::Size);
+        hideColumn(DolphinModel::ModifiedTime);
+        hideColumn(DolphinModel::Permissions);
+        hideColumn(DolphinModel::Owner);
+        hideColumn(DolphinModel::Group);
+        hideColumn(DolphinModel::Type);
         header()->hide();
     }
 

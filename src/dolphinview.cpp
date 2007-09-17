@@ -29,7 +29,6 @@
 #include <QScrollBar>
 
 #include <kcolorscheme.h>
-#include <kdirmodel.h>
 #include <kdirlister.h>
 #include <kfileitemdelegate.h>
 #include <klocale.h>
@@ -42,21 +41,22 @@
 #include <konq_operations.h>
 #include <kurl.h>
 
+#include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
-#include "dolphinitemcategorizer.h"
 #include "renamedialog.h"
 #include "viewproperties.h"
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
+#include "dolphincategorydrawer.h"
 
 DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
                          KDirLister* dirLister,
-                         KDirModel* dirModel,
+                         DolphinModel* dolphinModel,
                          DolphinSortFilterProxyModel* proxyModel) :
     QWidget(parent),
     m_active(true),
@@ -69,7 +69,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_detailsView(0),
     m_columnView(0),
     m_fileItemDelegate(0),
-    m_dirModel(dirModel),
+    m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
     m_proxyModel(proxyModel)
 {
@@ -224,30 +224,20 @@ void DolphinView::setCategorizedSorting(bool categorized)
     }
 
     Q_ASSERT(m_iconsView != 0);
-    if (categorized) {
-        Q_ASSERT(m_iconsView->itemCategorizer() == 0);
-        m_iconsView->setItemCategorizer(new DolphinItemCategorizer());
-    } else {
-        KItemCategorizer* categorizer = m_iconsView->itemCategorizer();
-        m_iconsView->setItemCategorizer(0);
-        delete categorizer;
-    }
 
     ViewProperties props(viewPropertiesUrl());
     props.setCategorizedSorting(categorized);
     props.save();
+
+    m_proxyModel->setCategorizedModel(categorized);
+    m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
 
     emit categorizedSortingChanged();
 }
 
 bool DolphinView::categorizedSorting() const
 {
-    if (!supportsCategorizedSorting()) {
-        return false;
-    }
-
-    Q_ASSERT(m_iconsView != 0);
-    return m_iconsView->itemCategorizer() != 0;
+    return m_proxyModel->isCategorizedModel();
 }
 
 bool DolphinView::supportsCategorizedSorting() const
@@ -287,7 +277,7 @@ QList<KFileItem> DolphinView::selectedItems() const
 {
     const QAbstractItemView* view = itemView();
 
-    // Our view has a selection, we will map them back to the DirModel
+    // Our view has a selection, we will map them back to the DolphinModel
     // and then fill the KFileItemList.
     Q_ASSERT((view != 0) && (view->selectionModel() != 0));
 
@@ -296,7 +286,7 @@ QList<KFileItem> DolphinView::selectedItems() const
 
     const QModelIndexList indexList = selection.indexes();
     foreach (QModelIndex index, indexList) {
-        KFileItem item = m_dirModel->itemForIndex(index);
+        KFileItem item = m_dolphinModel->itemForIndex(index);
         if (!item.isNull()) {
             itemList.append(item);
         }
@@ -318,8 +308,8 @@ KUrl::List DolphinView::selectedUrls() const
 
 KFileItem DolphinView::fileItem(const QModelIndex& index) const
 {
-    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
-    return m_dirModel->itemForIndex(dirModelIndex);
+    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+    return m_dolphinModel->itemForIndex(dolphinModelIndex);
 }
 
 void DolphinView::setContentsPosition(int x, int y)
@@ -453,7 +443,8 @@ void DolphinView::triggerItem(const QModelIndex& index)
         return;
     }
 
-    const KFileItem item = m_dirModel->itemForIndex(m_proxyModel->mapToSource(index));
+    const KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
+
     if (item.isNull()) {
         return;
     }
@@ -479,15 +470,15 @@ void DolphinView::showPreview(const KFileItem& item, const QPixmap& pixmap)
         return;
     }
 
-    const QModelIndex idx = m_dirModel->indexForItem(item);
+    const QModelIndex idx = m_dolphinModel->indexForItem(item);
     if (idx.isValid() && (idx.column() == 0)) {
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
             KIconEffect iconEffect;
             const QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
-            m_dirModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
+            m_dolphinModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
         } else {
-            m_dirModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
+            m_dolphinModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
         }
     }
 }
@@ -600,17 +591,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
 
     const bool categorized = props.categorizedSorting();
     if (categorized != categorizedSorting()) {
-        if (supportsCategorizedSorting()) {
-            Q_ASSERT(m_iconsView != 0);
-            if (categorized) {
-                Q_ASSERT(m_iconsView->itemCategorizer() == 0);
-                m_iconsView->setItemCategorizer(new DolphinItemCategorizer());
-            } else {
-                KItemCategorizer* categorizer = m_iconsView->itemCategorizer();
-                m_iconsView->setItemCategorizer(0);
-                delete categorizer;
-            }
-        }
+        m_proxyModel->setCategorizedModel(categorized);
         emit categorizedSortingChanged();
     }
 
@@ -652,7 +633,7 @@ void DolphinView::changeSelection(const QList<KFileItem>& selection)
     foreach(const KFileItem& item, selection) {
         url = item.url().upUrl();
         if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
-            QModelIndex index = m_proxyModel->mapFromSource(m_dirModel->indexForItem(item));
+            QModelIndex index = m_proxyModel->mapFromSource(m_dolphinModel->indexForItem(item));
             new_selection.select(index, index);
         }
     }
@@ -744,9 +725,9 @@ void DolphinView::updateCutItems()
     QList<CutItem>::const_iterator it = m_cutItemsCache.begin();
     QList<CutItem>::const_iterator end = m_cutItemsCache.end();
     while (it != end) {
-        const QModelIndex index = m_dirModel->indexForUrl((*it).url);
+        const QModelIndex index = m_dolphinModel->indexForUrl((*it).url);
         if (index.isValid()) {
-            m_dirModel->setData(index, QIcon((*it).pixmap), Qt::DecorationRole);
+            m_dolphinModel->setData(index, QIcon((*it).pixmap), Qt::DecorationRole);
         }
         ++it;
     }
@@ -781,11 +762,6 @@ void DolphinView::createView()
     if (view != 0) {
         m_topLayout->removeWidget(view);
         view->close();
-        if (view == m_iconsView) {
-            KItemCategorizer* categorizer = m_iconsView->itemCategorizer();
-            m_iconsView->setItemCategorizer(0);
-            delete categorizer;
-        }
         view->deleteLater();
         view = 0;
         m_iconsView = 0;
@@ -802,6 +778,7 @@ void DolphinView::createView()
     switch (m_mode) {
     case IconsView:
         m_iconsView = new DolphinIconsView(this, m_controller);
+        m_iconsView->setCategoryDrawer(new DolphinCategoryDrawer());
         view = m_iconsView;
         break;
 
@@ -824,7 +801,7 @@ void DolphinView::createView()
     view->setModel(m_proxyModel);
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    new KMimeTypeResolver(view, m_dirModel);
+    new KMimeTypeResolver(view, m_dolphinModel);
     m_topLayout->insertWidget(1, view);
 
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
@@ -849,7 +826,7 @@ QAbstractItemView* DolphinView::itemView() const
 
 bool DolphinView::isValidNameIndex(const QModelIndex& index) const
 {
-    return index.isValid() && (index.column() == KDirModel::Name);
+    return index.isValid() && (index.column() == DolphinModel::Name);
 }
 
 bool DolphinView::isCutItem(const KFileItem& item) const
@@ -883,10 +860,10 @@ void DolphinView::applyCutItemEffect()
     while (it != end) {
         KFileItem* item = *it;
         if (isCutItem(*item)) {
-            const QModelIndex index = m_dirModel->indexForItem(*item);
+            const QModelIndex index = m_dolphinModel->indexForItem(*item);
             // Huh? the item is already known
-            //const KFileItem item = m_dirModel->itemForIndex(index);
-            const QVariant value = m_dirModel->data(index, Qt::DecorationRole);
+            //const KFileItem item = m_dolphinModel->itemForIndex(index);
+            const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
             if (value.type() == QVariant::Icon) {
                 const QIcon icon(qvariant_cast<QIcon>(value));
                 QPixmap pixmap = icon.pixmap(128, 128);
@@ -901,7 +878,7 @@ void DolphinView::applyCutItemEffect()
                 // apply icon effect to the cut item
                 KIconEffect iconEffect;
                 pixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
-                m_dirModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
+                m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
             }
         }
         ++it;

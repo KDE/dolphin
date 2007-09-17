@@ -18,23 +18,28 @@
   * Boston, MA 02110-1301, USA.
   */
 
-#ifndef DOLPHINITEMCATEGORIZER_H
-#define DOLPHINITEMCATEGORIZER_H
+#ifndef DOLPHINCATEGORYDRAWER_H
+#define DOLPHINCATEGORYDRAWER_H
+
+#include "kcategorydrawer.h"
+
+#include <QStyleOption>
+#include <QModelIndex>
 
 #include <libdolphin_export.h>
-#include <kitemcategorizer.h>
 
-class QModelIndex;
-
-class LIBDOLPHINPRIVATE_EXPORT DolphinItemCategorizer : public KItemCategorizer
+class LIBDOLPHINPRIVATE_EXPORT DolphinCategoryDrawer
+    : public KCategoryDrawer
 {
 public:
-    DolphinItemCategorizer();
-    virtual ~DolphinItemCategorizer();
-    virtual QString categoryForItem(const QModelIndex &index, int sortRole) const;
+    DolphinCategoryDrawer();
+
+    virtual ~DolphinCategoryDrawer();
+
     virtual void drawCategory(const QModelIndex &index, int sortRole,
                               const QStyleOption &option, QPainter *painter) const;
+
     virtual int categoryHeight(const QStyleOption &option) const;
 };
 
-#endif // DOLPHINITEMCATEGORIZER_H
+#endif // DOLPHINCATEGORYDRAWER_H

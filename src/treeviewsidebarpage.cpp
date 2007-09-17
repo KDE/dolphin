@@ -19,6 +19,7 @@
 
 #include "treeviewsidebarpage.h"
 
+#include "dolphinmodel.h"
 #include "dolphinmainwindow.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
@@ -28,7 +29,6 @@
 
 #include <kfileplacesmodel.h>
 #include <kdirlister.h>
-#include <kdirmodel.h>
 #include <kfileitem.h>
 
 #include <QItemSelection>
@@ -39,7 +39,7 @@
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_dirLister(0),
-    m_dirModel(0),
+    m_dolphinModel(0),
     m_proxyModel(0),
     m_treeView(0),
     m_leafDir()
@@ -89,16 +89,16 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
 
-        Q_ASSERT(m_dirModel == 0);
-        m_dirModel = new KDirModel(this);
-        m_dirModel->setDirLister(m_dirLister);
-        m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
-        connect(m_dirModel, SIGNAL(expand(const QModelIndex&)),
+        Q_ASSERT(m_dolphinModel == 0);
+        m_dolphinModel = new DolphinModel(this);
+        m_dolphinModel->setDirLister(m_dirLister);
+        m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
+        connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
                 this, SLOT(triggerExpanding(const QModelIndex&)));
 
         Q_ASSERT(m_proxyModel == 0);
         m_proxyModel = new DolphinSortFilterProxyModel(this);
-        m_proxyModel->setSourceModel(m_dirModel);
+        m_proxyModel->setSourceModel(m_dolphinModel);
 
         Q_ASSERT(m_treeView == 0);
         m_treeView = new SidebarTreeView(this);
@@ -130,8 +130,8 @@ void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
         return;
     }
 
-    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
-    KFileItem item = m_dirModel->itemForIndex(dirModelIndex);
+    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+    KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
 
     emit changeSelection(QList<KFileItem>());
     TreeViewContextMenu contextMenu(this, item);
@@ -149,13 +149,13 @@ void TreeViewSidebarPage::expandSelectionParent()
         return;
     }
 
-    QModelIndex index = m_dirModel->indexForUrl(parentUrl);
+    QModelIndex index = m_dolphinModel->indexForUrl(parentUrl);
     if (index.isValid()) {
         QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
         m_treeView->setExpanded(proxyIndex, true);
 
         // select the item and assure that the item is visible
-        index = m_dirModel->indexForUrl(url());
+        index = m_dolphinModel->indexForUrl(url());
         if (index.isValid()) {
             proxyIndex = m_proxyModel->mapFromSource(index);
             m_treeView->scrollTo(proxyIndex);
@@ -169,7 +169,7 @@ void TreeViewSidebarPage::expandSelectionParent()
 void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
 {
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-    const KFileItem item = m_dirModel->itemForIndex(dirIndex);
+    const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
     if (!item.isNull()) {
         emit changeUrl(item.url());
     }
@@ -180,7 +180,7 @@ void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
 {
     if (index.isValid()) {
         const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-        KFileItem item = m_dirModel->itemForIndex(dirIndex);
+        KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
         Q_ASSERT(!item.isNull());
         if (item.isDir()) {
             emit urlsDropped(urls, item.url());
@@ -200,12 +200,12 @@ void TreeViewSidebarPage::expandToLeafDir()
 {
     // expand all directories until the parent directory of m_leafDir
     const KUrl parentUrl = m_leafDir.upUrl();
-    QModelIndex dirIndex = m_dirModel->indexForUrl(parentUrl);
+    QModelIndex dirIndex = m_dolphinModel->indexForUrl(parentUrl);
     QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
     m_treeView->setExpanded(proxyIndex, true);
 
     // assure that m_leafDir gets selected
-    dirIndex = m_dirModel->indexForUrl(m_leafDir);
+    dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     proxyIndex = m_proxyModel->mapFromSource(dirIndex);
     m_treeView->scrollTo(proxyIndex);
 
@@ -227,7 +227,7 @@ void TreeViewSidebarPage::loadSubTree()
         return;
     }
 
-    const QModelIndex index = m_dirModel->indexForUrl(m_leafDir);
+    const QModelIndex index = m_dolphinModel->indexForUrl(m_leafDir);
     if (index.isValid()) {
         // the item with the given URL is already part of the model
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
@@ -237,7 +237,7 @@ void TreeViewSidebarPage::loadSubTree()
         // Load all sub directories that need to get expanded for making
         // the leaf directory visible. The slot triggerExpanding() will
         // get invoked if the expanding has been finished.
-        m_dirModel->expandToUrl(m_leafDir);
+        m_dolphinModel->expandToUrl(m_leafDir);
     }
 }
 

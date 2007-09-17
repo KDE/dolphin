@@ -23,7 +23,6 @@
 
 #include "dolphinview.h"
 
-#include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
 #include <kio/job.h>
@@ -38,7 +37,7 @@
 
 class FilterBar;
 class KUrl;
-class KDirModel;
+class DolphinModel;
 class KUrlNavigator;
 class DolphinDirLister;
 class DolphinMainWindow;
@@ -231,7 +230,7 @@ private:
     FilterBar* m_filterBar;
     DolphinStatusBar* m_statusBar;
 
-    KDirModel* m_dirModel;
+    DolphinModel* m_dolphinModel;
     DolphinDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
 };

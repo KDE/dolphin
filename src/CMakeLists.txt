@@ -14,10 +14,11 @@ set(dolphinprivate_LIB_SRCS
     dolphindetailsview.cpp
     dolphiniconsview.cpp
     dolphincolumnview.cpp
-    dolphinitemcategorizer.cpp
     kcategorizedview.cpp
-    kitemcategorizer.cpp
+    kcategorydrawer.cpp
+    dolphinmodel.cpp
     dolphinsettings.cpp
+    dolphincategorydrawer.cpp
     viewproperties.cpp
     dolphinsortfilterproxymodel.cpp
     renamedialog.cpp

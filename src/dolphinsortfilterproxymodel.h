@@ -25,7 +25,7 @@
 #include <libdolphin_export.h>
 
 /**
- * @brief Acts as proxy model for KDirModel to sort and filter
+ * @brief Acts as proxy model for DolphinModel to sort and filter
  *        KFileItems.
  *
  * A natural sorting is done. This means that items like:
@@ -37,7 +37,10 @@
  * - item_2.png
  * - item_10.png
  *
- * It is assured that directories are always sorted before files.
+ * @note It is NOT assured that directories are always sorted before files.
+ *       For example, on a Nepomuk based sorting, it is possible to have a file
+ *       rated with 10 stars, and a directory rated with 5 stars. The file will
+ *       be shown before the directory.
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinSortFilterProxyModel : public KDirSortFilterProxyModel
 {
@@ -84,13 +87,6 @@ public:
     virtual bool lessThanGeneralPurpose(const QModelIndex &left,
                                         const QModelIndex &right) const;
 
-    /**
-     * For each category, that exists due to lessThanGeneralPurpose(), the
-     * lessThanCategoryPurpose() will be applied.
-     */
-    inline bool lessThanCategoryPurpose(const QModelIndex &left,
-                                        const QModelIndex &right) const;
-
 signals:
     void sortingRoleChanged();
 
@@ -99,23 +95,8 @@ protected:
                           const QModelIndex& right) const;
 
 private:
-    /**
-     * Returns the rating for the item with the index \a index. 0 is
-     * returned if no item could be found.
-     */
-    static quint32 ratingForIndex(const QModelIndex& index);
-
-    /**
-     * Returns the tags for the item with the index \a index. If no
-     * tag is applied, a predefined string will be returned.
-     */
-    static QString tagsForIndex(const QModelIndex& index);
-
-private:
     DolphinView::Sorting m_sorting:16;
     Qt::SortOrder m_sortOrder:16;
-
-    friend class DolphinItemCategorizer;
 };
 
 DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
@@ -126,12 +107,6 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
 Qt::SortOrder DolphinSortFilterProxyModel::sortOrder() const
 {
     return m_sortOrder;
-}
-
-bool DolphinSortFilterProxyModel::lessThanCategoryPurpose(const QModelIndex &left,
-                                                          const QModelIndex &right) const
-{
-    return lessThan(left, right);
 }
 
 #endif

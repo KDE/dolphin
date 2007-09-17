@@ -26,8 +26,8 @@
 #include "dolphin_generalsettings.h"
 #include "viewproperties.h"
 
-#ifdef HAVE_NEPOMUK
 #include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
 #include <nepomuk/resourcemanager.h>
 #endif
 

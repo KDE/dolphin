@@ -24,7 +24,7 @@
 #include <sidebarpage.h>
 
 class KDirLister;
-class KDirModel;
+class DolphinModel;
 
 class DolphinSortFilterProxyModel;
 class SidebarTreeView;
@@ -110,7 +110,7 @@ private:
 
 private:
     KDirLister* m_dirLister;
-    KDirModel* m_dirModel;
+    DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     SidebarTreeView* m_treeView;
     KUrl m_leafDir;

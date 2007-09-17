@@ -41,7 +41,7 @@ class DolphinController;
 class KDirLister;
 class KFileItemDelegate;
 class KUrl;
-class KDirModel;
+class DolphinModel;
 class DolphinColumnView;
 class DolphinDetailsView;
 class DolphinIconsView;
@@ -116,7 +116,7 @@ public:
      * @param url             Specifies the content which should be shown.
      * @param dirLister       Used directory lister. The lister is not owned
      *                        by the view and won't get deleted.
-     * @param dirModel        Used directory model. The model is not owned
+     * @param dolphinModel    Used directory model. The model is not owned
      *                        by the view and won't get deleted.
      * @param proxyModel      Used proxy model which specifies the sorting. The
      *                        model is not owned by the view and won't get
@@ -125,7 +125,7 @@ public:
     DolphinView(QWidget* parent,
                 const KUrl& url,
                 KDirLister* dirLister,
-                KDirModel* dirModel,
+                DolphinModel* dolphinModel,
                 DolphinSortFilterProxyModel* proxyModel);
 
     virtual ~DolphinView();
@@ -509,7 +509,7 @@ private:
 
     /**
      * Returns true if the index is valid and represents
-     * the column KDirModel::Name.
+     * the column DolphinModel::Name.
      */
     bool isValidNameIndex(const QModelIndex& index) const;
 
@@ -563,7 +563,7 @@ private:
     DolphinColumnView* m_columnView;
     KFileItemDelegate* m_fileItemDelegate;
 
-    KDirModel* m_dirModel;
+    DolphinModel* m_dolphinModel;
     KDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
 

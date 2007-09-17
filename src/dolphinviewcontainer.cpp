@@ -27,7 +27,6 @@
 #include <QtCore/QTimer>
 #include <QtGui/QScrollBar>
 
-#include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 #include <kfileplacesmodel.h>
 #include <kglobalsettings.h>
@@ -41,6 +40,7 @@
 #include <konq_operations.h>
 #include <kurl.h>
 
+#include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
 #include "dolphinstatusbar.h"
@@ -50,7 +50,6 @@
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
 #include "dolphincontextmenu.h"
-#include "dolphinitemcategorizer.h"
 #include "filterbar.h"
 #include "renamedialog.h"
 #include "kurlnavigator.h"
@@ -71,7 +70,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_view(0),
     m_filterBar(0),
     m_statusBar(0),
-    m_dirModel(0),
     m_dirLister(0),
     m_proxyModel(0)
 {
@@ -96,12 +94,13 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_dirLister->setMainWindow(this);
     m_dirLister->setDelayedMimeTypes(true);
 
-    m_dirModel = new KDirModel();
-    m_dirModel->setDirLister(m_dirLister);
-    m_dirModel->setDropsAllowed(KDirModel::DropOnDirectory);
+    m_dolphinModel = new DolphinModel();
+    m_dolphinModel->setDirLister(m_dirLister);
+    m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
+
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_dirModel);
+    m_proxyModel->setSourceModel(m_dolphinModel);
 
     connect(m_dirLister, SIGNAL(clear()),
             this, SLOT(updateStatusBar()));
@@ -119,7 +118,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_view = new DolphinView(this,
                              url,
                              m_dirLister,
-                             m_dirModel,
+                             m_dolphinModel,
                              m_proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
@@ -268,8 +267,8 @@ bool DolphinViewContainer::isUrlEditable() const
 
 KFileItem DolphinViewContainer::fileItem(const QModelIndex& index) const
 {
-    const QModelIndex dirModelIndex = m_proxyModel->mapToSource(index);
-    return m_dirModel->itemForIndex(dirModelIndex);
+    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+    return m_dolphinModel->itemForIndex(dolphinModelIndex);
 }
 
 void DolphinViewContainer::updateProgress(int percent)
@@ -349,6 +348,21 @@ void DolphinViewContainer::closeFilterBar()
 
 QString DolphinViewContainer::defaultStatusBarText() const
 {
+    int m_fileCount = 0;
+    int m_folderCount = 0;
+
+    for (int i = 0; i < m_proxyModel->rowCount(); i++)
+    {
+        if (m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(m_proxyModel->index(i, m_proxyModel->sortColumn()))).isDir())
+        {
+            m_folderCount++;
+        }
+        else
+        {
+            m_fileCount++;
+        }
+    }
+
     return KIO::itemsSummaryString(m_fileCount + m_folderCount,
                                    m_fileCount,
                                    m_folderCount,
@@ -448,6 +462,8 @@ void DolphinViewContainer::changeNameFilter(const QString& nameFilter)
 #else
     m_proxyModel->setFilterRegExp(nameFilter);
 #endif
+
+    updateStatusBar();
 }
 
 void DolphinViewContainer::openContextMenu(const KFileItem& item,
