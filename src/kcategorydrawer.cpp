@@ -82,8 +82,10 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
 
     QLinearGradient gradient(option.rect.topLeft(),
                              option.rect.bottomRight());
-    gradient.setColorAt(0, color);
-    gradient.setColorAt(1, Qt::transparent);
+    gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
+                                                            : 1, color);
+    gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
+                                                            : 0, Qt::transparent);
 
     painter->setBrush(gradient);
     painter->fillPath(path, gradient);

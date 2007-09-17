@@ -211,14 +211,12 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
                 if (option.direction == Qt::RightToLeft)
                 {
                     starRect.setLeft(starRect.left() + (iconSize / 2) /* separator between stars */);
-                    //starRect.setRight(starRect.right() + (iconSize / 2) /* separator between stars */);
                 }
 
                 starRect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 4));
                 starRect.setSize(QSize(iconSize / 2, iconSize / 2));
                 painter->drawPixmap(starRect, smallPixmap);
                 starRect.setTop(opt.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
-                //starRect.setSize(QSize(iconSize / 2, iconSize / 2));
 
                 if (option.direction == Qt::LeftToRight)
                 {
