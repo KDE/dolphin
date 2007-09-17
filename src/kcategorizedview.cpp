@@ -357,9 +357,22 @@ void KCategorizedView::Private::drawNewCategory(const QModelIndex &index,
     QStyleOption optionCopy = option;
     const QString category = proxyModel->data(index, KCategorizedSortFilterProxyModel::CategoryRole).toString();
 
+    optionCopy.state &= ~QStyle::State_Selected;
+
     if ((category == hoveredCategory) && !mouseButtonPressed)
     {
         optionCopy.state |= QStyle::State_MouseOver;
+    }
+    else if ((category == hoveredCategory) && mouseButtonPressed)
+    {
+        QPoint initialPressPosition = listView->viewport()->mapFromGlobal(QCursor::pos());
+        initialPressPosition.setY(initialPressPosition.y() + listView->verticalOffset());
+        initialPressPosition.setX(initialPressPosition.x() + listView->horizontalOffset());
+
+        if (initialPressPosition == this->initialPressPosition)
+        {
+            optionCopy.state |= QStyle::State_Selected;
+        }
     }
 
     categoryDrawer->drawCategory(index,
@@ -891,6 +904,8 @@ void KCategorizedView::mousePressEvent(QMouseEvent *event)
     }
 
     QListView::mousePressEvent(event);
+
+    viewport()->update(d->categoryVisualRect(d->hoveredCategory));
 }
 
 void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)

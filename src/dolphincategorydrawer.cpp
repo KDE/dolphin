@@ -62,7 +62,16 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
     const QString category = categoryVariant.toString();
 
-    QColor color = option.palette.color(QPalette::Text);
+    QColor color;
+
+    if (option.state & QStyle::State_Selected)
+    {
+        color = option.palette.color(QPalette::HighlightedText);
+    }
+    else
+    {
+        color = option.palette.color(QPalette::Text);
+    }
 
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
@@ -74,7 +83,20 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
     opt.direction = option.direction;
     opt.text = category;
 
-    if (option.state & QStyle::State_MouseOver)
+    if (option.state & QStyle::State_Selected)
+    {
+        QColor selected = option.palette.color(QPalette::Highlight);
+
+        QLinearGradient gradient(option.rect.topLeft(),
+                                 option.rect.bottomRight());
+        gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
+                                                                : 1, selected);
+        gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
+                                                                : 0, Qt::transparent);
+
+        painter->fillRect(option.rect, gradient);
+    }
+    else if (option.state & QStyle::State_MouseOver)
     {
         QColor hover = option.palette.color(QPalette::Highlight).light();
         hover.setAlpha(88);

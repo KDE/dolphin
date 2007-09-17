@@ -40,7 +40,16 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
 {
     const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryRole).toString();
 
-    QColor color = option.palette.color(QPalette::Text);
+    QColor color;
+
+    if (option.state & QStyle::State_Selected)
+    {
+        color = option.palette.color(QPalette::HighlightedText);
+    }
+    else
+    {
+        color = option.palette.color(QPalette::Text);
+    }
 
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
@@ -52,18 +61,30 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
     opt.direction = option.direction;
     opt.text = category;
 
-    if (option.state & QStyle::State_MouseOver)
+    if (option.state & QStyle::State_Selected)
     {
-        const QPalette::ColorGroup group =
-                                          option.state & QStyle::State_Enabled ?
-                                          QPalette::Normal : QPalette::Disabled;
+        QColor selected = option.palette.color(QPalette::Highlight);
 
         QLinearGradient gradient(option.rect.topLeft(),
                                  option.rect.bottomRight());
-        gradient.setColorAt(0,
-                            option.palette.color(group,
-                                                 QPalette::Highlight).light());
-        gradient.setColorAt(1, Qt::transparent);
+        gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
+                                                                : 1, selected);
+        gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
+                                                                : 0, Qt::transparent);
+
+        painter->fillRect(option.rect, gradient);
+    }
+    else if (option.state & QStyle::State_MouseOver)
+    {
+        QColor hover = option.palette.color(QPalette::Highlight).light();
+        hover.setAlpha(88);
+
+        QLinearGradient gradient(option.rect.topLeft(),
+                                 option.rect.bottomRight());
+        gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
+                                                                : 1, hover);
+        gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
+                                                                : 0, Qt::transparent);
 
         painter->fillRect(option.rect, gradient);
     }
