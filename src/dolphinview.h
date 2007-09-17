@@ -429,11 +429,14 @@ private slots:
     void openContextMenu(const QPoint& pos);
 
     /**
-     * Drops the URLs \a urls to the index \a index. \a source
+     * Drops the URLs \a urls to the destination path \a destPath. If
+     * the URLs are dropped above an item inside the destination path,
+     * the item is indicated by \a destIndex. \a source
      * indicates the widget where the dragging has been started from.
      */
     void dropUrls(const KUrl::List& urls,
-                  const QModelIndex& index,
+                  const KUrl& destPath,
+                  const QModelIndex& destIndex,
                   QWidget* source);
 
     /**

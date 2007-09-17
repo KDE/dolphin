@@ -58,8 +58,6 @@ protected:
     virtual int verticalOffset() const;
 
     virtual void mousePressEvent(QMouseEvent* event);
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dropEvent(QDropEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
 
 private slots:

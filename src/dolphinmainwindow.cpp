@@ -150,6 +150,9 @@ void DolphinMainWindow::refreshViews()
 void DolphinMainWindow::dropUrls(const KUrl::List& urls,
                                  const KUrl& destination)
 {
+    kDebug() << "Source" << urls;
+    kDebug() << "Destination:" << destination;
+
     Qt::DropAction action = Qt::CopyAction;
 
     Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();

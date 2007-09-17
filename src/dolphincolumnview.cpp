@@ -115,7 +115,11 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     viewport()->setAttribute(Qt::WA_Hover);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setSelectionBehavior(SelectItems);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setDragDropMode(QAbstractItemView::DragDrop);
+    setDropIndicatorShown(false);
+    setFocusPolicy(Qt::NoFocus);
 
     // apply the column mode settings to the widget
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
@@ -227,6 +231,7 @@ void ColumnWidget::dropEvent(QDropEvent* event)
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
         m_view->m_controller->indicateDroppedUrls(urls,
+                                                  url(),
                                                   indexAt(event->pos()),
                                                   event->source());
     }
@@ -398,12 +403,11 @@ QModelIndex DolphinColumnView::indexAt(const QPoint& point) const
     foreach (ColumnWidget* column, m_columns) {
         const QPoint topLeft = column->frameGeometry().topLeft();
         const QPoint adjustedPoint(point.x() - topLeft.x(), point.y() - topLeft.y());
-        QModelIndex index = column->indexAt(adjustedPoint);
+        const QModelIndex index = column->indexAt(adjustedPoint);
         if (index.isValid()) {
             return index;
         }
     }
-    return activeColumn()->indexAt(point);
 
     return QModelIndex();
 }
@@ -451,32 +455,13 @@ int DolphinColumnView::horizontalOffset() const
 
 int DolphinColumnView::verticalOffset() const
 {
-    return 0; // activeColumn()->verticalOffset();
+    return 0;
 }
 
 void DolphinColumnView::mousePressEvent(QMouseEvent* event)
 {
     m_controller->triggerActivation();
     QAbstractItemView::mousePressEvent(event);
-}
-
-void DolphinColumnView::dragEnterEvent(QDragEnterEvent* event)
-{
-    if (event->mimeData()->hasUrls()) {
-        event->acceptProposedAction();
-    }
-}
-
-void DolphinColumnView::dropEvent(QDropEvent* event)
-{
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (!urls.isEmpty()) {
-        m_controller->indicateDroppedUrls(urls,
-                                          indexAt(event->pos()),
-                                          event->source());
-        event->acceptProposedAction();
-    }
-    QAbstractItemView::dropEvent(event);
 }
 
 void DolphinColumnView::resizeEvent(QResizeEvent* event)
@@ -633,6 +618,8 @@ void DolphinColumnView::setActiveColumnIndex(int index)
 
     m_index = index;
     m_columns[m_index]->setActive(true);
+
+    m_controller->setUrl(m_columns[m_index]->url());
 }
 
 void DolphinColumnView::layoutColumns()

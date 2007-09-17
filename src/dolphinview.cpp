@@ -93,8 +93,8 @@ DolphinView::DolphinView(QWidget* parent,
             this, SIGNAL(urlChanged(const KUrl&)));
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
-    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&, QWidget*)),
-            this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&, QWidget*)));
+    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&, const QModelIndex&, QWidget*)),
+            this, SLOT(dropUrls(const KUrl::List&, const KUrl&, const QModelIndex&, QWidget*)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
@@ -655,12 +655,13 @@ void DolphinView::openContextMenu(const QPoint& pos)
 }
 
 void DolphinView::dropUrls(const KUrl::List& urls,
-                           const QModelIndex& index,
+                           const KUrl& destPath,
+                           const QModelIndex& destIndex,
                            QWidget* source)
 {
     KFileItem directory;
-    if (isValidNameIndex(index)) {
-        KFileItem item = fileItem(index);
+    if (isValidNameIndex(destIndex)) {
+        KFileItem item = fileItem(destIndex);
         Q_ASSERT(!item.isNull());
         if (item.isDir()) {
             // the URLs are dropped above a directory
@@ -675,7 +676,7 @@ void DolphinView::dropUrls(const KUrl::List& urls,
     }
 
     const KUrl& destination = (directory.isNull()) ?
-                              url() : directory.url();
+                              destPath : directory.url();
     dropUrls(urls, destination);
 }
 

@@ -241,6 +241,7 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
         m_controller->indicateDroppedUrls(urls,
+                                          m_controller->url(),
                                           indexAt(event->pos()),
                                           event->source());
     }

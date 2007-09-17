@@ -54,10 +54,11 @@ void DolphinController::triggerActivation()
 }
 
 void DolphinController::indicateDroppedUrls(const KUrl::List& urls,
-        const QModelIndex& index,
-        QWidget* source)
+                                            const KUrl& destPath,
+                                            const QModelIndex& destIndex,
+                                            QWidget* source)
 {
-    emit urlsDropped(urls, index, source);
+    emit urlsDropped(urls, destPath, destIndex, source);
 }
 
 
