@@ -264,11 +264,15 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
     if (paintIcon) {
         painter->drawPixmap(QRect(option.direction == Qt::LeftToRight ? opt.rect.left()
-                                                                      : opt.rect.right() - iconSize, opt.rect.top(), iconSize, iconSize), icon);
+                                                                      : opt.rect.right() - iconSize + (iconSize / 4), opt.rect.top(), iconSize, iconSize), icon);
 
         if (option.direction == Qt::LeftToRight)
         {
             opt.rect.setLeft(opt.rect.left() + iconSize + (iconSize / 4));
+        }
+        else
+        {
+            opt.rect.setRight(opt.rect.right() + (iconSize / 4));
         }
     }
 
