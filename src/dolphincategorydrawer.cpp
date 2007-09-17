@@ -286,7 +286,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
         if (option.direction == Qt::RightToLeft)
         {
             textRect.setWidth(textRect.width() - (paintIcon ? iconSize + (iconSize / 4)
-                                                            : (iconSize / 4)));
+                                                            : 0));
         }
 
         painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft,
