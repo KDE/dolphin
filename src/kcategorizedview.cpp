@@ -816,13 +816,12 @@ void KCategorizedView::setSelection(const QRect &rect,
             selection << QItemSelectionRange(first, last);
     }
 
-    if (d->lastSelection.count() && !d->mouseButtonPressed)
+    if (d->lastSelection.count())
     {
-        selection.merge(d->lastSelection, flags);
-    }
-    else if (d->lastSelection.count())
-    {
-        selection.merge(d->lastSelection, QItemSelectionModel::Select);
+        if ((selection.count() == 1) && (selection[0].indexes().count() == 1))
+            selection.merge(d->lastSelection, flags);
+        else
+            selection.merge(d->lastSelection, QItemSelectionModel::Select);
     }
 
     selectionModel()->select(selection, flags);
