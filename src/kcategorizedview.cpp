@@ -768,26 +768,30 @@ void KCategorizedView::setSelection(const QRect &rect,
     if (!flags)
         return;
 
-    selectionModel()->clear();
-
     if (flags & QItemSelectionModel::Clear)
     {
-        d->lastSelection = QItemSelection();
+        if (!rect.intersects(d->categoryVisualRect(d->hoveredCategory)))
+        {
+            d->lastSelection = QItemSelection();
+        }
     }
+
+    selectionModel()->clear();
 
     QModelIndexList dirtyIndexes = d->intersectionSet(rect);
 
-    QItemSelection selection;
-
     if (!dirtyIndexes.count())
     {
-        if (d->lastSelection.count())
+        if (!d->lastSelection.isEmpty() &&
+            (rect.intersects(d->categoryVisualRect(d->hoveredCategory)) || d->mouseButtonPressed))
         {
             selectionModel()->select(d->lastSelection, flags);
         }
 
         return;
     }
+
+    QItemSelection selection;
 
     if (!d->mouseButtonPressed)
     {
@@ -924,6 +928,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
     initialPressPosition.setX(initialPressPosition.x() + horizontalOffset());
 
     QItemSelection selection;
+    QItemSelection deselection;
 
     if (initialPressPosition == d->initialPressPosition)
     {
@@ -935,10 +940,18 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
                 {
                     QModelIndex selectIndex = index.model()->index(index.row(), 0);
 
-                    selection << QItemSelectionRange(selectIndex);
+                    if (!d->lastSelection.contains(selectIndex))
+                    {
+                        selection << QItemSelectionRange(selectIndex);
+                    }
+                    else
+                    {
+                        deselection << QItemSelectionRange(selectIndex);
+                    }
                 }
 
                 selectionModel()->select(selection, QItemSelectionModel::Select);
+                selectionModel()->select(deselection, QItemSelectionModel::Deselect);
 
                 break;
             }
