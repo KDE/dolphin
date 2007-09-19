@@ -79,6 +79,7 @@ protected:
     virtual void dropEvent(QDropEvent* event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
@@ -280,6 +281,20 @@ void ColumnWidget::mousePressEvent(QMouseEvent* event)
     QListView::mousePressEvent(event);
 }
 
+void ColumnWidget::keyPressEvent(QKeyEvent* event)
+{
+    QListView::keyPressEvent(event);
+
+    const QItemSelectionModel* selModel = selectionModel();
+    const QModelIndex currentIndex = selModel->currentIndex();
+    const bool triggerItem = currentIndex.isValid()
+                             && (event->key() == Qt::Key_Return)
+                             && (selModel->selectedIndexes().count() <= 1);
+    if (triggerItem) {
+        m_view->triggerItem(currentIndex);
+    }
+}
+
 void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 {
     if (!m_active) {
@@ -308,6 +323,11 @@ void ColumnWidget::selectionChanged(const QItemSelection& selected, const QItemS
 
 void ColumnWidget::activate()
 {
+    if (m_view->hasFocus()) {
+        setFocus(Qt::OtherFocusReason);
+    }
+    m_view->setFocusProxy(this);
+
     // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
     // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
@@ -323,6 +343,16 @@ void ColumnWidget::activate()
     QPalette palette = viewport()->palette();
     palette.setColor(viewport()->backgroundRole(), bgColor);
     viewport()->setPalette(palette);
+
+    if (!m_childUrl.isEmpty()) {
+        // assure that the current index is set on the index that represents
+        // the child URL
+        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
+        const QModelIndex dirIndex = dirModel->indexForUrl(m_childUrl);
+        const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
+        selectionModel()->setCurrentIndex(proxyIndex, QItemSelectionModel::Current);
+    }
 
     update();
 }
@@ -435,7 +465,41 @@ bool DolphinColumnView::isIndexHidden(const QModelIndex& index) const
 
 QModelIndex DolphinColumnView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
 {
-    return QModelIndex(); //activeColumn()->moveCursor(cursorAction, modifiers);
+    // Parts of this code have been taken from QColumnView::moveCursor().
+    // Copyright (C) 1992-2007 Trolltech ASA.
+
+    Q_UNUSED(modifiers);
+    if (model() == 0) {
+        return QModelIndex();
+    }
+
+    const QModelIndex current = currentIndex();
+    if (isRightToLeft()) {
+        if (cursorAction == MoveLeft) {
+            cursorAction = MoveRight;
+        } else if (cursorAction == MoveRight) {
+            cursorAction = MoveLeft;
+        }
+    }
+
+    switch (cursorAction) {
+    case MoveLeft:
+        if (m_index > 0) {
+            setActiveColumnIndex(m_index - 1);
+        }
+        break;
+
+    case MoveRight:
+        if (m_index < m_columns.count() - 1) {
+            setActiveColumnIndex(m_index + 1);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    return QModelIndex();
 }
 
 void DolphinColumnView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags flags)

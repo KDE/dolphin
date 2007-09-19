@@ -90,6 +90,13 @@ private:
     bool isZoomOutPossible() const;
 
     inline ColumnWidget* activeColumn() const;
+
+    /**
+     * Deactivates the currently active column and activates
+     * the new column indicated by \a index. m_index represents
+     * the active column afterwards. Also the URL of the navigator
+     * will be adjusted to reflect the column URL.
+     */
     void setActiveColumnIndex(int index);
 
     void layoutColumns();
