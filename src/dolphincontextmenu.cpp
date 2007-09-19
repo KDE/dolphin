@@ -46,7 +46,6 @@
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
 #include <QtCore/QDir>
-#include <Qt3Support/Q3ValueList>
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const KFileItem& fileInfo,
@@ -435,10 +434,10 @@ QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
                             actionsMenu->addMenu(menu);
                         }
 
-                        Q3ValueList<KDesktopFileActions::Service> userServices =
+                        QList<KDesktopFileActions::Service> userServices =
                             KDesktopFileActions::userDefinedServices(*dirIt + *entryIt, true);
 
-                        Q3ValueList<KDesktopFileActions::Service>::Iterator serviceIt;
+                        QList<KDesktopFileActions::Service>::const_iterator serviceIt;
                         for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
                             KDesktopFileActions::Service service = (*serviceIt);
                             if (!service.m_strIcon.isEmpty()) {

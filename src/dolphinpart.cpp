@@ -26,6 +26,7 @@
 #include <kmessagebox.h>
 #include <kparts/browserextension.h>
 #include <kparts/genericfactory.h>
+#include <QApplication>
 
 typedef KParts::GenericFactory<DolphinPart> DolphinPartFactory;
 K_EXPORT_COMPONENT_FACTORY(dolphinpart, DolphinPartFactory)
@@ -80,6 +81,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
 
+    // TODO provide a way to switch from iconview to listview (and others)
+
     // TODO connect to urlsDropped
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
@@ -90,6 +93,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     // TODO updating the paste action
     // if (paste) emit m_extension->setActionText( "paste", actionText );
     // emit m_extension->enableAction( "paste", paste );
+
+    // TODO updating the trash and del actions too - or removing special handling of those from konq?
 }
 
 DolphinPart::~DolphinPart()
@@ -147,21 +152,43 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 
 void DolphinPart::slotItemTriggered(const KFileItem& item)
 {
-    emit m_extension->openUrlRequest(item.url());
+    qDebug() << QApplication::mouseButtons();
+    if (QApplication::mouseButtons() & Qt::MidButton) {
+        qDebug() << "MMB!!" << item.mimetype();
+        if (item.mimeTypePtr()->is("inode/directory")) {
+            KParts::OpenUrlArguments args;
+            args.setMimeType( item.mimetype() );
+            emit m_extension->createNewWindow( item.url(), args );
+        } else {
+            qDebug() << "run()";
+            item.run();
+        }
+    } else {
+        // Left button. [Right button goes to slotOpenContextMenu before triggered can be emitted]
+        qDebug() << "LMB";
+        emit m_extension->openUrlRequest(item.url());
+    }
 }
 
-void DolphinPart::slotOpenContextMenu(const KFileItem& item, const KUrl&)
+void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
 {
+    KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems;
     // TODO KonqKfmIconView had if ( !rootItem->isWritable() )
     //            popupFlags |= KParts::BrowserExtension::NoDeletion;
 
-    // and when clicking on the viewport:
-    //        KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
+    KFileItem item(_item);
 
+    if (item.isNull()) { // viewport context menu
+        popupFlags |= KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
+        // TODO get m_dirLister->rootItem if possible. or via kdirmodel?
+        // and use this as fallback:
+        item = KFileItem( S_IFDIR, (mode_t)-1, url() );
+    }
 
+    // TODO port popupMenu to QList<KFileItem>
     KFileItem* itemCopy = new KFileItem(item); // ugly
     KFileItemList items; items.append(itemCopy);
-    emit m_extension->popupMenu( 0, QCursor::pos(), items );
+    emit m_extension->popupMenu( 0, QCursor::pos(), items, KParts::OpenUrlArguments(), KParts::BrowserArguments(), popupFlags );
     delete itemCopy;
 }
 

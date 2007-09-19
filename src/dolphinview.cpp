@@ -425,7 +425,7 @@ void DolphinView::setUrl(const KUrl& url)
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
-    setActive(true);;
+    setActive(true);
 }
 void DolphinView::activate()
 {
