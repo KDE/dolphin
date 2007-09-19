@@ -20,6 +20,10 @@
 
 #include "dolphinmodel.h"
 
+extern "C" {
+#include <sys/stat.h>
+}
+
 #include "dolphinsortfilterproxymodel.h"
 
 #include "kcategorizedview.h"
@@ -159,8 +163,58 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
             }
 
             case KDirModel::Permissions:
-                retString = item.permissionsString();
+            {
+                QString user;
+                QString group;
+                QString others;
+
+                mode_t permissions = item.permissions();
+
+                if (permissions & S_IRUSR)
+                    user = i18n("Read, ");
+
+                if (permissions & S_IWUSR)
+                    user += i18n("Write, ");
+
+                if (permissions & S_IXUSR)
+                    user += i18n("Execute, ");
+
+                if (user.isEmpty())
+                    user = i18n("Forbidden");
+                else
+                    user = user.mid(0, user.count() - 2);
+
+                if (permissions & S_IRGRP)
+                    group = i18n("Read, ");
+
+                if (permissions & S_IWGRP)
+                    group += i18n("Write, ");
+
+                if (permissions & S_IXGRP)
+                    group += i18n("Execute, ");
+
+                if (group.isEmpty())
+                    group = i18n("Forbidden");
+                else
+                    group = group.mid(0, group.count() - 2);
+
+                if (permissions & S_IROTH)
+                    others = i18n("Read, ");
+
+                if (permissions & S_IWOTH)
+                    others += i18n("Write, ");
+
+                if (permissions & S_IXOTH)
+                    others += i18n("Execute, ");
+
+                if (others.isEmpty())
+                    others = i18n("Forbidden");
+                else
+                    others = others.mid(0, others.count() - 2);
+
+                retString = i18nc("This shows files and folders permissions: user, group and others", "(User: %1) (Group: %2) (Others: %3)", user, group, others);
                 break;
+            }
 
             case KDirModel::Owner:
                 retString = item.user();
