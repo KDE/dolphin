@@ -24,6 +24,7 @@
 
 class DolphinMainWindow;
 class KFontRequester;
+class QSlider;
 class QRadioButton;
 
 /**
@@ -57,6 +58,7 @@ private:
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;
     KFontRequester* m_fontRequester;
+    QSlider* m_columnWidthSlider;
 };
 
 #endif

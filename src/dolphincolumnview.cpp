@@ -625,7 +625,8 @@ void DolphinColumnView::setActiveColumnIndex(int index)
 void DolphinColumnView::layoutColumns()
 {
     int x = m_contentX;
-    const int columnWidth = 250;
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    const int columnWidth = settings->columnWidth();
     foreach (ColumnWidget* column, m_columns) {
         column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
         x += columnWidth;

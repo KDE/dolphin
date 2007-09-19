@@ -25,5 +25,9 @@
             <label context="@label">Icon size</label>
             <default code="true">K3Icon::SizeSmall</default>
         </entry>
+        <entry name="ColumnWidth" type="Int">
+            <label context="@label">Column width</label>
+            <default>250</default>
+        </entry>
     </group>
 </kcfg>

@@ -26,14 +26,14 @@
 #include <kfontrequester.h>
 #include <klocale.h>
 
-#include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QGroupBox>
-#include <QtGui/QGridLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
-#include <QtGui/QSpinBox>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QSlider>
+#include <QRadioButton>
 
 ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
                                                QWidget* parent) :
@@ -42,7 +42,8 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     m_smallIconSize(0),
     m_mediumIconSize(0),
     m_largeIconSize(0),
-    m_fontRequester(0)
+    m_fontRequester(0),
+    m_columnWidthSlider(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -50,6 +51,23 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
 
     setSpacing(spacing);
     setMargin(margin);
+
+    // create "Column Width" properties
+    QGroupBox* columnWidthBox = new QGroupBox(i18nc("@title:group", "Column Width"), this);
+    columnWidthBox->setSizePolicy(sizePolicy);
+
+    QLabel* smallLabel = new QLabel(i18nc("@item:inrange Column Width", "Small"), columnWidthBox);
+    m_columnWidthSlider = new QSlider(Qt::Horizontal, columnWidthBox);
+    m_columnWidthSlider->setMinimum(0);
+    m_columnWidthSlider->setMaximum(5);
+    m_columnWidthSlider->setPageStep(1);
+    m_columnWidthSlider->setTickmarks(QSlider::TicksBelow);
+    QLabel* largeLabel = new QLabel(i18nc("@item:inrange Column Width", "Large"), columnWidthBox);
+
+    QHBoxLayout* columnWidthLayout = new QHBoxLayout(columnWidthBox);
+    columnWidthLayout->addWidget(smallLabel);
+    columnWidthLayout->addWidget(m_columnWidthSlider);
+    columnWidthLayout->addWidget(largeLabel);
 
     // Create 'Icon' properties
     QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), this);
@@ -109,6 +127,9 @@ void ColumnViewSettingsPage::applySettings()
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
     settings->setBoldFont(font.bold());
+
+    const int columnWidth = 150 + (m_columnWidthSlider->value() * 50);
+    settings->setColumnWidth(columnWidth);
 }
 
 void ColumnViewSettingsPage::restoreDefaults()
@@ -141,6 +162,8 @@ void ColumnViewSettingsPage::loadSettings()
     font.setItalic(settings->italicFont());
     font.setBold(settings->boldFont());
     m_fontRequester->setFont(font);
+
+    m_columnWidthSlider->setValue((settings->columnWidth() - 150) / 50);
 }
 
 #include "columnviewsettingspage.moc"
