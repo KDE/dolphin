@@ -124,6 +124,8 @@ private:
     bool m_autoSave;
     QString m_filepath;
     ViewPropertySettings* m_node;
+
+    static bool m_nepomukSupport;
 };
 
 #endif

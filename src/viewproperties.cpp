@@ -29,9 +29,15 @@
 #include <kstandarddirs.h>
 #include <kurl.h>
 
+#ifdef HAVE_NEPOMUK
+    #include <nepomuk/resourcemanager.h>
+#endif
+
 #include <QDate>
 #include <QFile>
 #include <QFileInfo>
+
+bool ViewProperties::m_nepomukSupport = false;
 
 #define FILE_NAME "/.directory"
 
@@ -40,6 +46,14 @@ ViewProperties::ViewProperties(const KUrl& url) :
     m_autoSave(true),
     m_node(0)
 {
+#ifdef HAVE_NEPOMUK
+    static bool checkedNepomukSupport = false;
+    if (!checkedNepomukSupport) {
+        m_nepomukSupport = !Nepomuk::ResourceManager::instance()->init();
+        checkedNepomukSupport = true;
+    }
+#endif
+
     KUrl cleanUrl(url);
     cleanUrl.cleanPath();
     m_filepath = cleanUrl.path();
@@ -159,7 +173,15 @@ void ViewProperties::setSorting(DolphinView::Sorting sorting)
 
 DolphinView::Sorting ViewProperties::sorting() const
 {
-    return static_cast<DolphinView::Sorting>(m_node->sorting());
+    // If Nepomuk is not available, return SortByName as fallback if SortByRating
+    // or SortByTags is stored.
+    DolphinView::Sorting sorting = static_cast<DolphinView::Sorting>(m_node->sorting());
+    const bool sortByName = !m_nepomukSupport &&
+                            ((sorting == DolphinView::SortByRating) || (sorting == DolphinView::SortByTags));
+    if (sortByName) {
+        sorting = DolphinView::SortByName;
+    }
+    return sorting;
 }
 
 void ViewProperties::setSortOrder(Qt::SortOrder sortOrder)
