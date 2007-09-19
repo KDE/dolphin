@@ -26,8 +26,9 @@
 
 class ColumnWidget;
 class DolphinController;
-class KDirLister;
+class DolphinModel;
 class KUrl;
+class QAbstractProxyModel;
 class QTimeLine;
 
 /**
@@ -127,6 +128,9 @@ private:
     int m_contentX;
     QList<ColumnWidget*> m_columns;
     QTimeLine* m_animation;
+
+    DolphinModel* m_dolphinModel;
+    QAbstractProxyModel* m_proxyModel;
 
     friend class ColumnWidget;
 };

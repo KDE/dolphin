@@ -104,7 +104,7 @@ private:
 ColumnWidget::ColumnWidget(QWidget* parent,
                            DolphinColumnView* columnView,
                            const KUrl& url) :
-    QListView(columnView),
+    QListView(parent),
     m_active(true),
     m_view(columnView),
     m_url(url),
@@ -244,10 +244,8 @@ void ColumnWidget::paintEvent(QPaintEvent* event)
 {
     if (!m_childUrl.isEmpty()) {
         // indicate the shown URL of the next column by highlighting the shown folder item
-        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(m_view->model());
-        const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(proxyModel->sourceModel());
-        const QModelIndex dirIndex = dolphinModel->indexForUrl(m_childUrl);
-        const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
+        const QModelIndex dirIndex = m_view->m_dolphinModel->indexForUrl(m_childUrl);
+        const QModelIndex proxyIndex = m_view->m_proxyModel->mapFromSource(dirIndex);
         if (proxyIndex.isValid() && !selectionModel()->isSelected(proxyIndex)) {
             const QRect itemRect = visualRect(proxyIndex);
             QPainter painter(viewport());
@@ -347,10 +345,8 @@ void ColumnWidget::activate()
     if (!m_childUrl.isEmpty()) {
         // assure that the current index is set on the index that represents
         // the child URL
-        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-        const QModelIndex dirIndex = dirModel->indexForUrl(m_childUrl);
-        const QModelIndex proxyIndex = proxyModel->mapFromSource(dirIndex);
+        const QModelIndex dirIndex = m_view->m_dolphinModel->indexForUrl(m_childUrl);
+        const QModelIndex proxyIndex = m_view->m_proxyModel->mapFromSource(dirIndex);
         selectionModel()->setCurrentIndex(proxyIndex, QItemSelectionModel::Current);
     }
 
@@ -391,7 +387,9 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     m_index(-1),
     m_contentX(0),
     m_columns(),
-    m_animation(0)
+    m_animation(0),
+    m_dolphinModel(0),
+    m_proxyModel(0)
 {
     Q_ASSERT(controller != 0);
 
@@ -454,12 +452,16 @@ QRect DolphinColumnView::visualRect(const QModelIndex& index) const
 
 void DolphinColumnView::setModel(QAbstractItemModel* model)
 {
+    m_proxyModel = static_cast<const QAbstractProxyModel*>(model);
+    m_dolphinModel = static_cast<const DolphinModel*>(m_proxyModel->sourceModel());
+
     activeColumn()->setModel(model);
     QAbstractItemView::setModel(model);
 }
 
 bool DolphinColumnView::isIndexHidden(const QModelIndex& index) const
 {
+    Q_UNUSED(index);
     return false;//activeColumn()->isIndexHidden(index);
 }
 
@@ -504,6 +506,8 @@ QModelIndex DolphinColumnView::moveCursor(CursorAction cursorAction, Qt::Keyboar
 
 void DolphinColumnView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags flags)
 {
+    Q_UNUSED(rect);
+    Q_UNUSED(flags);
     //activeColumn()->setSelection(rect, flags);
 }
 
@@ -572,9 +576,7 @@ void DolphinColumnView::triggerItem(const QModelIndex& index)
         return;
     }
 
-    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-    const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-    const KFileItem item = dirModel->itemForIndex(proxyModel->mapToSource(index));
+    const KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
     if ((item.url() != activeColumn()->url()) && item.isDir()) {
         deleteInactiveChildColumns();
 
@@ -627,15 +629,19 @@ void DolphinColumnView::showColumn(const KUrl& url)
                 deleteInactiveChildColumns();
             }
 
-            const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(model());
-            const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
-            const QModelIndex dirIndex = dirModel->indexForUrl(url);
+            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
             if (dirIndex.isValid()) {
-                triggerItem(proxyModel->mapFromSource(dirIndex));
+                triggerItem(m_proxyModel->mapFromSource(dirIndex));
             }
             return;
         }
         ++columnIndex;
+    }
+
+    // no existing column has been replaced and a new column must be created
+    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
+    if (dirIndex.isValid()) {
+        triggerItem(m_proxyModel->mapFromSource(dirIndex));
     }
 }
 
