@@ -36,11 +36,7 @@ FilterBar::FilterBar(QWidget* parent) :
 {
     const int gap = 3;
 
-    QVBoxLayout* vLayout = new QVBoxLayout(this);
-    vLayout->setMargin(0);
-    vLayout->addSpacing(gap);
-
-    QHBoxLayout* hLayout = new QHBoxLayout(vLayout);
+    QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->addSpacing(gap);
 

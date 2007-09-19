@@ -5,8 +5,6 @@ add_subdirectory( tests )
 
 include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
 
-add_definitions (-DQT3_SUPPORT)
-
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS

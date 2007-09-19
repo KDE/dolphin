@@ -72,7 +72,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_fontRequester = new KFontRequester(textGroup);
 
     QLabel* textlinesCountLabel = new QLabel(i18nc("@label:textbox", "Number of lines:"), textGroup);
-    m_textlinesCountBox = new QSpinBox(1, 5, 1, textGroup);
+    m_textlinesCountBox = new QSpinBox(textGroup);
+    m_textlinesCountBox->setMinimum(1);
+    m_textlinesCountBox->setMaximum(5);
 
     QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);

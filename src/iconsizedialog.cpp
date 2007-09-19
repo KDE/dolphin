@@ -70,7 +70,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     m_iconSizeSlider->setMaximum(5);
     m_iconSizeSlider->setPageStep(1);
     m_iconSizeSlider->setValue(sliderValue(settings->iconSize()));
-    m_iconSizeSlider->setTickmarks(QSlider::TicksBelow);
+    m_iconSizeSlider->setTickPosition(QSlider::TicksBelow);
     connect(m_iconSizeSlider, SIGNAL(valueChanged(int)),
             this, SLOT(updateIconSize(int)));
     new QLabel(i18nc("@item:inrange Icon Size", "Large"), iconSizeHBox);
@@ -78,7 +78,9 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     m_iconSizeViewer = new PixmapViewer(iconSizeBox, PixmapViewer::SizeTransition);
     m_iconSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
     m_iconSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
-    m_iconSizeViewer->setEraseColor(iconBackgroundColor);
+    QPalette p = m_iconSizeViewer->palette();
+    p.setColor(m_iconSizeViewer->backgroundRole(), iconBackgroundColor);
+    m_iconSizeViewer->setPalette(p);
     updateIconSize(m_iconSizeSlider->value());
 
     QVBoxLayout* iconSizeLayout = new QVBoxLayout(iconSizeBox);
@@ -96,7 +98,7 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     m_previewSizeSlider->setMaximum(5);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setValue(sliderValue(settings->previewSize()));
-    m_previewSizeSlider->setTickmarks(QSlider::TicksBelow);
+    m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
     connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
             this, SLOT(updatePreviewSize(int)));
     new QLabel(i18nc("@item:inrange Preview Size", "Large"), previewSizeHBox);
@@ -104,7 +106,9 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     m_previewSizeViewer = new PixmapViewer(previewSizeBox, PixmapViewer::SizeTransition);
     m_previewSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
     m_previewSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
-    m_previewSizeViewer->setEraseColor(iconBackgroundColor);
+    p = m_previewSizeViewer->palette();
+    p.setColor(m_previewSizeViewer->backgroundRole(), iconBackgroundColor);
+    m_previewSizeViewer->setPalette(p);
     updatePreviewSize(m_previewSizeSlider->value());
 
     QVBoxLayout* previewSizeLayout = new QVBoxLayout(previewSizeBox);

@@ -23,6 +23,7 @@
 
 #include <klocale.h>
 
+#include <QtCore/QEvent>
 #include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
 #include <QtGui/QTextEdit>

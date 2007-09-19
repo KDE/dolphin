@@ -61,7 +61,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     m_columnWidthSlider->setMinimum(0);
     m_columnWidthSlider->setMaximum(5);
     m_columnWidthSlider->setPageStep(1);
-    m_columnWidthSlider->setTickmarks(QSlider::TicksBelow);
+    m_columnWidthSlider->setTickPosition(QSlider::TicksBelow);
     QLabel* largeLabel = new QLabel(i18nc("@item:inrange Column Width", "Large"), columnWidthBox);
 
     QHBoxLayout* columnWidthLayout = new QHBoxLayout(columnWidthBox);
