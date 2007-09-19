@@ -65,12 +65,12 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_groupBox = new QCheckBox(i18nc("@option:check Columns", "Group"), this);
     m_typeBox = new QCheckBox(i18nc("@option:check Columns", "Type"), this);
 
-    QHBoxLayout* columnsLayout = new QHBoxLayout(columnsBox);
-    columnsLayout->addWidget(m_dateBox);
-    columnsLayout->addWidget(m_permissionsBox);
-    columnsLayout->addWidget(m_ownerBox);
-    columnsLayout->addWidget(m_groupBox);
-    columnsLayout->addWidget(m_typeBox);
+    QGridLayout* columnsLayout = new QGridLayout(columnsBox);
+    columnsLayout->addWidget(m_dateBox, 0, 0);
+    columnsLayout->addWidget(m_permissionsBox, 1, 0);
+    columnsLayout->addWidget(m_ownerBox, 2, 0);
+    columnsLayout->addWidget(m_groupBox, 0, 1);
+    columnsLayout->addWidget(m_typeBox, 1, 1);
 
     // Create "Icon" properties
     QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), this);
