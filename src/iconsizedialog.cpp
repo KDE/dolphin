@@ -65,7 +65,10 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     KHBox* iconSizeHBox = new KHBox(iconSizeBox);
     iconSizeHBox->setSpacing(spacing);
     new QLabel(i18nc("@item:inrange Icon Size", "Small"), iconSizeHBox);
-    m_iconSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, iconSizeHBox);
+    m_iconSizeSlider = new QSlider(Qt::Horizontal, iconSizeHBox);
+    m_iconSizeSlider->setMinimum(0);
+    m_iconSizeSlider->setMaximum(5);
+    m_iconSizeSlider->setPageStep(1);
     m_iconSizeSlider->setValue(sliderValue(settings->iconSize()));
     m_iconSizeSlider->setTickmarks(QSlider::TicksBelow);
     connect(m_iconSizeSlider, SIGNAL(valueChanged(int)),
@@ -88,7 +91,10 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     KHBox* previewSizeHBox = new KHBox(previewSizeBox);
     previewSizeHBox->setSpacing(spacing);
     new QLabel(i18nc("@item:inrange Preview Size", "Small"), previewSizeHBox);
-    m_previewSizeSlider = new QSlider(0, 5, 1, 0,  Qt::Horizontal, previewSizeHBox);
+    m_previewSizeSlider = new QSlider(Qt::Horizontal, previewSizeHBox);
+    m_previewSizeSlider->setMinimum(0);
+    m_previewSizeSlider->setMaximum(5);
+    m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setValue(sliderValue(settings->previewSize()));
     m_previewSizeSlider->setTickmarks(QSlider::TicksBelow);
     connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
