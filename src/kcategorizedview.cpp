@@ -1060,7 +1060,7 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
             break;
         }
 
-        if (category == d->elementsInfo[d->proxyModel->mapToSource(current).row()].category)
+        if (category == d->elementsInfo[current.row()].category)
         {
             theCategory = category;
 
@@ -1072,22 +1072,21 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
             lastCategory = category;
         }
     }
-// ### FIXME !!!
-#if 0
+
     switch (cursorAction)
     {
         case QAbstractItemView::MoveUp: {
-            if (d->elementsInfo[d->proxyModel->mapToSource(current).row()].relativeOffsetToCategory >= elementsPerRow)
+            if (d->elementsInfo[current.row()].relativeOffsetToCategory >= elementsPerRow)
             {
-                int indexToMove = d->invertedElementDictionary[current.row()].row();
-                indexToMove -= qMin(((d->elementsInfo[d->proxyModel->mapToSource(current).row()].relativeOffsetToCategory) + d->forcedSelectionPosition), elementsPerRow - d->forcedSelectionPosition + (d->elementsInfo[d->proxyModel->mapToSource(current).row()].relativeOffsetToCategory % elementsPerRow));
+                int indexToMove = current.row();
+                indexToMove -= qMin(((d->elementsInfo[current.row()].relativeOffsetToCategory) + d->forcedSelectionPosition), elementsPerRow - d->forcedSelectionPosition + (d->elementsInfo[current.row()].relativeOffsetToCategory % elementsPerRow));
 
-                return d->elementDictionary[indexToMove];
+                return d->proxyModel->index(indexToMove, 0);
             }
             else
             {
                 int lastCategoryLastRow = (d->categoriesIndexes[lastCategory].count() - 1) % elementsPerRow;
-                int indexToMove = d->invertedElementDictionary[current.row()].row() - d->elementsInfo[d->proxyModel->mapToSource(current).row()].relativeOffsetToCategory;
+                int indexToMove = current.row() - d->elementsInfo[current.row()].relativeOffsetToCategory;
 
                 if (d->forcedSelectionPosition >= lastCategoryLastRow)
                 {
@@ -1098,22 +1097,22 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
                     indexToMove -= qMin((lastCategoryLastRow - d->forcedSelectionPosition + 1), d->forcedSelectionPosition + elementsPerRow + 1);
                 }
 
-                return d->elementDictionary[indexToMove];
+                return d->proxyModel->index(indexToMove, 0);
             }
         }
 
         case QAbstractItemView::MoveDown: {
-            if (d->elementsInfo[d->proxyModel->mapToSource(current).row()].relativeOffsetToCategory < (d->categoriesIndexes[theCategory].count() - 1 - ((d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow)))
+            if (d->elementsInfo[current.row()].relativeOffsetToCategory < (d->categoriesIndexes[theCategory].count() - 1 - ((d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow)))
             {
-                int indexToMove = d->invertedElementDictionary[current.row()].row();
-                indexToMove += qMin(elementsPerRow, d->categoriesIndexes[theCategory].count() - 1 - d->elementsInfo[d->proxyModel->mapToSource(current).row()].relativeOffsetToCategory);
+                int indexToMove = current.row();
+                indexToMove += qMin(elementsPerRow, d->categoriesIndexes[theCategory].count() - 1 - d->elementsInfo[current.row()].relativeOffsetToCategory);
 
-                return d->elementDictionary[indexToMove];
+                return d->proxyModel->index(indexToMove, 0);
             }
             else
             {
                 int afterCategoryLastRow = qMin(elementsPerRow, d->categoriesIndexes[afterCategory].count());
-                int indexToMove = d->invertedElementDictionary[current.row()].row() + (d->categoriesIndexes[theCategory].count() - d->elementsInfo[d->proxyModel->mapToSource(current).row()].relativeOffsetToCategory);
+                int indexToMove = current.row() + (d->categoriesIndexes[theCategory].count() - d->elementsInfo[current.row()].relativeOffsetToCategory);
 
                 if (d->forcedSelectionPosition >= afterCategoryLastRow)
                 {
@@ -1124,30 +1123,30 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
                     indexToMove += qMin(d->forcedSelectionPosition, elementsPerRow);
                 }
 
-                return d->elementDictionary[indexToMove];
+                return d->proxyModel->index(indexToMove, 0);
             }
         }
 
         case QAbstractItemView::MoveLeft:
-            d->forcedSelectionPosition = d->elementsInfo[d->proxyModel->mapToSource(d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current.row()].row() - 1, 0).row()]).row()].relativeOffsetToCategory % elementsPerRow;
+            d->forcedSelectionPosition = d->elementsInfo[current.row() - 1].relativeOffsetToCategory % elementsPerRow;
 
             if (d->forcedSelectionPosition < 0)
                 d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
 
-            return d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current.row()].row() - 1, 0).row()];
+            return d->proxyModel->index(current.row() - 1, 0);
 
         case QAbstractItemView::MoveRight:
-            d->forcedSelectionPosition = d->elementsInfo[d->proxyModel->mapToSource(d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current.row()].row() + 1, 0).row()]).row()].relativeOffsetToCategory % elementsPerRow;
+            d->forcedSelectionPosition = d->elementsInfo[current.row() + 1].relativeOffsetToCategory % elementsPerRow;
 
             if (d->forcedSelectionPosition < 0)
                 d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
 
-            return d->elementDictionary[d->proxyModel->index(d->invertedElementDictionary[current.row()].row() + 1, 0).row()];
+            return d->proxyModel->index(current.row() + 1, 0);
 
         default:
             break;
     }
-#endif
+
     return QListView::moveCursor(cursorAction, modifiers);
 }
 
