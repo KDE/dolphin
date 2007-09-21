@@ -150,6 +150,7 @@ private:
 
 private:
     DolphinController* m_controller;
+    bool m_restoreActiveColumnFocus;
     int m_index;
     int m_contentX;
     QList<ColumnWidget*> m_columns;

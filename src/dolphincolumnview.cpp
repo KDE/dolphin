@@ -384,6 +384,7 @@ void ColumnWidget::deactivate()
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
     QAbstractItemView(parent),
     m_controller(controller),
+    m_restoreActiveColumnFocus(false),
     m_index(-1),
     m_contentX(0),
     m_columns(),
@@ -473,11 +474,18 @@ void DolphinColumnView::reload()
     // the same content as the first column. As this is not wanted, all columns
     // except of the first column are temporary hidden until the root index can
     // be updated again.
+    m_restoreActiveColumnFocus = false;
     QList<ColumnWidget*>::iterator start = m_columns.begin() + 1;
     QList<ColumnWidget*>::iterator end = m_columns.end();
     for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
-        (*it)->hide();
-        (*it)->setRootIndex(QModelIndex());
+        ColumnWidget* column = (*it);
+        if (column->isActive() && column->hasFocus()) {
+            // because of hiding the column, it will lose the focus
+            // -> remember that the focus should be restored after reloading
+            m_restoreActiveColumnFocus = true;
+        }
+        column->hide();
+        column->setRootIndex(QModelIndex());
    }
 
     // all columns are hidden, now reload the directory lister
@@ -714,8 +722,8 @@ void DolphinColumnView::triggerReloadColumns(const QModelIndex& index)
 
 void DolphinColumnView::reloadColumns()
 {
-    const int count = m_columns.count() - 1; // ignore the last column
-    for (int i = 0; i < count; ++i) {
+    const int end = m_columns.count() - 2; // next to last column
+    for (int i = 0; i <= end; ++i) {
         ColumnWidget* nextColumn = m_columns[i + 1];
         const QModelIndex rootIndex = nextColumn->rootIndex();
         if (!rootIndex.isValid()) {
@@ -724,6 +732,10 @@ void DolphinColumnView::reloadColumns()
             if (proxyIndex.isValid()) {
                 nextColumn->setRootIndex(proxyIndex);
                 nextColumn->show();
+                if (nextColumn->isActive() && m_restoreActiveColumnFocus) {
+                    nextColumn->setFocus();
+                    m_restoreActiveColumnFocus = false;
+                }
             }
         }
     }
