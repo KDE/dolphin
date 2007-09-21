@@ -525,9 +525,8 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
                 // The current URL is not a child of the dir lister
                 // URL. This may happen when e. g. a place has been selected
                 // and hence the view must be reset.
-                keepOldDirs = false;
+                m_dirLister->openUrl(url, false, false);
             }
-            m_dirLister->openUrl(url, keepOldDirs, false);
         }
     } else {
         m_dirLister->openUrl(url, false, reload);
