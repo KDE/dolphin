@@ -452,11 +452,40 @@ QRect DolphinColumnView::visualRect(const QModelIndex& index) const
 
 void DolphinColumnView::setModel(QAbstractItemModel* model)
 {
+    if (m_dolphinModel != 0) {
+        m_dolphinModel->disconnect(this);
+    }
+
     m_proxyModel = static_cast<const QAbstractProxyModel*>(model);
     m_dolphinModel = static_cast<const DolphinModel*>(m_proxyModel->sourceModel());
+    connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
+            this, SLOT(triggerReloadColumns(const QModelIndex&)));
 
     activeColumn()->setModel(model);
     QAbstractItemView::setModel(model);
+}
+
+void DolphinColumnView::reload()
+{
+    deleteInactiveChildColumns();
+
+    // Due to the reloading of the model all columns will be reset to show
+    // the same content as the first column. As this is not wanted, all columns
+    // except of the first column are temporary hidden until the root index can
+    // be updated again.
+    QList<ColumnWidget*>::iterator start = m_columns.begin() + 1;
+    QList<ColumnWidget*>::iterator end = m_columns.end();
+    for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
+        (*it)->hide();
+        (*it)->setRootIndex(QModelIndex());
+   }
+
+    // all columns are hidden, now reload the directory lister
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    connect(dirLister, SIGNAL(completed()),
+            this, SLOT(expandToActiveUrl()));
+    const KUrl baseUrl = m_columns[0]->url();
+    dirLister->openUrl(baseUrl, false, true);
 }
 
 bool DolphinColumnView::isIndexHidden(const QModelIndex& index) const
@@ -513,6 +542,7 @@ void DolphinColumnView::setSelection(const QRect& rect, QItemSelectionModel::Sel
 
 QRegion DolphinColumnView::visualRegionForSelection(const QItemSelection& selection) const
 {
+    Q_UNUSED(selection);
     return QRegion(); //activeColumn()->visualRegionForSelection(selection);
 }
 
@@ -661,6 +691,42 @@ void DolphinColumnView::updateDecorationSize()
     m_controller->setZoomOutPossible(isZoomOutPossible());
 
     doItemsLayout();
+}
+
+void DolphinColumnView::expandToActiveUrl()
+{
+    const KUrl& activeUrl = m_controller->url();
+    const KUrl baseUrl = m_dolphinModel->dirLister()->url();
+    if (baseUrl.isParentOf(activeUrl) && (baseUrl != activeUrl)) {
+        m_dolphinModel->expandToUrl(activeUrl);
+        reloadColumns();
+    }
+}
+
+void DolphinColumnView::triggerReloadColumns(const QModelIndex& index)
+{
+    Q_UNUSED(index);
+    disconnect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
+               this, SLOT(triggerReloadColumns(const QModelIndex&)));
+    // the reloading of the columns may not be done in the context of this slot
+    QMetaObject::invokeMethod(this, "reloadColumns", Qt::QueuedConnection);
+}
+
+void DolphinColumnView::reloadColumns()
+{
+    const int count = m_columns.count() - 1; // ignore the last column
+    for (int i = 0; i < count; ++i) {
+        ColumnWidget* nextColumn = m_columns[i + 1];
+        const QModelIndex rootIndex = nextColumn->rootIndex();
+        if (!rootIndex.isValid()) {
+            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_columns[i]->childUrl());
+            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+            if (proxyIndex.isValid()) {
+                nextColumn->setRootIndex(proxyIndex);
+                nextColumn->show();
+            }
+        }
+    }
 }
 
 bool DolphinColumnView::isZoomInPossible() const

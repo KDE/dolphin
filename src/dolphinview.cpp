@@ -505,28 +505,20 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
 
     m_dirLister->stop();
 
-    bool openDir = true;
     bool keepOldDirs = isColumnViewActive() && !m_initializeColumnView;
     m_initializeColumnView = false;
 
     if (keepOldDirs) {
+        // keeping old directories is only necessary for hierarchical views
+        // like the column view
         if (reload) {
-            keepOldDirs = false;
-
-            const KUrl& dirListerUrl = m_dirLister->url();
-            if (dirListerUrl.isValid()) {
-                const KUrl::List dirs = m_dirLister->directories();
-                KUrl url;
-                foreach(url, dirs) {
-                    m_dirLister->updateDirectory(url);
-                }
-                openDir = false;
-            }
+            // for the column view it is not enough to reload the directory lister,
+            // so this task is delegated to the column view directly
+            m_columnView->reload();
         } else if (m_dirLister->directories().contains(url)) {
             // The dir lister contains the directory already, so
-            // KDirLister::openUrl() may not been invoked twice.
+            // KDirLister::openUrl() may not get invoked twice.
             m_dirLister->updateDirectory(url);
-            openDir = false;
         } else {
             const KUrl& dirListerUrl = m_dirLister->url();
             if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
@@ -535,11 +527,10 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
                 // and hence the view must be reset.
                 keepOldDirs = false;
             }
+            m_dirLister->openUrl(url, keepOldDirs, false);
         }
-    }
-
-    if (openDir) {
-        m_dirLister->openUrl(url, keepOldDirs, reload);
+    } else {
+        m_dirLister->openUrl(url, false, reload);
     }
 }
 

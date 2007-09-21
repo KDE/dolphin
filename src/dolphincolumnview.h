@@ -50,6 +50,13 @@ public:
     virtual QRect visualRect(const QModelIndex& index) const;
     virtual void setModel(QAbstractItemModel* model);
 
+    /**
+     * Reloads the content of all columns. In opposite to non-hierarchical views
+     * it is not enough to reload the KDirLister, instead this method must be explicitly
+     * invoked.
+     */
+    void reload();
+
 protected:
     virtual bool isIndexHidden(const QModelIndex& index) const;
     virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
@@ -85,6 +92,25 @@ private slots:
      * operations.
      */
     void updateDecorationSize();
+
+    /**
+     * Expands the directory model the the currently active URL.
+     * Used by DolphinColumnView::reload() after the directory
+     * lister has been loaded.
+     */
+    void expandToActiveUrl();
+
+    /**
+     * Triggers the reloading of columns after the model index
+     * \a index has been expanded. Used by DolphinModel::expandToActiveUrl().
+     */
+    void triggerReloadColumns(const QModelIndex& index);
+
+    /**
+     * Adjusts the root index of all columns to represent the reloaded
+     * model. Used by DolphinModel::triggerReloadColumns().
+     */
+    void reloadColumns();
 
 private:
     bool isZoomInPossible() const;
