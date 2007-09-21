@@ -366,16 +366,10 @@ void ColumnWidget::deactivate()
                    m_view, SLOT(triggerItem(const QModelIndex&)));
     }
 
-    QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    const QColor fgColor = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
-    bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
-
-    QPalette palette = viewport()->palette();
-    palette.setColor(viewport()->backgroundRole(), bgColor);
+    const QPalette palette = m_view->viewport()->palette();
     viewport()->setPalette(palette);
 
     selectionModel()->clear();
-
     update();
 }
 
@@ -421,6 +415,15 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
 
     m_animation = new QTimeLine(500, this);
     connect(m_animation, SIGNAL(frameChanged(int)), horizontalScrollBar(), SLOT(setValue(int)));
+
+    // dim the background of the viewport
+    QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    const QColor fgColor = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
+    bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
+
+    QPalette palette = viewport()->palette();
+    palette.setColor(viewport()->backgroundRole(), bgColor);
+    viewport()->setPalette(palette);
 }
 
 DolphinColumnView::~DolphinColumnView()
