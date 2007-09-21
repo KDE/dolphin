@@ -13,6 +13,7 @@ X-KDE-Submenu[x-test]=xxAmarokxx
 
 [Desktop Action appendToPlaylist]
 Name=Append to Playlist
+Name[ar]=الحق بقائمة القراءة
 Name[be]=Дадаць у спіс прайгравання
 Name[bg]=Добавяне към списъка
 Name[csb]=Dodôj do lëstë graniô
@@ -50,6 +51,7 @@ Exec=amarok -e %U
 
 [Desktop Action appendAndPlay]
 Name=Append & Play
+Name[ar]=الحق وشغّل
 Name[be]=Дадаць і граць
 Name[bg]=Добавяне и изпълнение
 Name[csb]=Dodôj ë grôj

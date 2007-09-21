@@ -78,6 +78,7 @@ Exec=jpegorient +90 %F
 
 [Desktop Action jpegRot270]
 Name=Rotate Counter-Clockwise
+Name[ar]=أدر باتجاه عداد عقارب الساعة
 Name[be]=Павярнуць супаць гадзіннай стрэлкі
 Name[bg]=Въртене обратно на час. стрелка
 Name[csb]=Òbrócë promcëmno do wskôzów zédżera
