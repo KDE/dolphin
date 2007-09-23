@@ -20,10 +20,6 @@
 
 #include "dolphinmodel.h"
 
-extern "C" {
-#include <sys/stat.h>
-}
-
 #include "dolphinsortfilterproxymodel.h"
 
 #include "kcategorizedview.h"
@@ -50,6 +46,7 @@ extern "C" {
 #include <QSortFilterProxyModel>
 #include <QPainter>
 #include <QDir>
+#include <QFileInfo>
 
 DolphinModel::DolphinModel(QObject *parent)
     : KDirModel(parent)
@@ -168,15 +165,15 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 QString group;
                 QString others;
 
-                mode_t permissions = item.permissions();
+                QFileInfo info(item.url().pathOrUrl());
 
-                if (permissions & S_IRUSR)
+                if (info.permission(QFile::ReadUser))
                     user = i18n("Read, ");
 
-                if (permissions & S_IWUSR)
+                if (info.permission(QFile::WriteUser))
                     user += i18n("Write, ");
 
-                if (permissions & S_IXUSR)
+                if (info.permission(QFile::ExeUser))
                     user += i18n("Execute, ");
 
                 if (user.isEmpty())
@@ -184,13 +181,13 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 else
                     user = user.mid(0, user.count() - 2);
 
-                if (permissions & S_IRGRP)
+                if (info.permission(QFile::ReadGroup))
                     group = i18n("Read, ");
 
-                if (permissions & S_IWGRP)
+                if (info.permission(QFile::WriteGroup))
                     group += i18n("Write, ");
 
-                if (permissions & S_IXGRP)
+                if (info.permission(QFile::ExeGroup))
                     group += i18n("Execute, ");
 
                 if (group.isEmpty())
@@ -198,13 +195,13 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 else
                     group = group.mid(0, group.count() - 2);
 
-                if (permissions & S_IROTH)
+                if (info.permission(QFile::ReadOther))
                     others = i18n("Read, ");
 
-                if (permissions & S_IWOTH)
+                if (info.permission(QFile::WriteOther))
                     others += i18n("Write, ");
 
-                if (permissions & S_IXOTH)
+                if (info.permission(QFile::ExeOther))
                     others += i18n("Execute, ");
 
                 if (others.isEmpty())
