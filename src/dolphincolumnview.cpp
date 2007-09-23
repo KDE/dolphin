@@ -460,8 +460,8 @@ void DolphinColumnView::setModel(QAbstractItemModel* model)
         m_dolphinModel->disconnect(this);
     }
 
-    m_proxyModel = static_cast<const QAbstractProxyModel*>(model);
-    m_dolphinModel = static_cast<const DolphinModel*>(m_proxyModel->sourceModel());
+    m_proxyModel = static_cast<QAbstractProxyModel*>(model);
+    m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
     connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
             this, SLOT(triggerReloadColumns(const QModelIndex&)));
 
