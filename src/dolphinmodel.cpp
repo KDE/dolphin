@@ -144,18 +144,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 modifiedTime.setTime_t(item.time(KIO::UDSEntry::UDS_MODIFICATION_TIME));
                 modifiedTime = modifiedTime.toLocalZone();
 
-                if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) == 0)
-                    retString = i18nc("@title:group Date", "Today");
-                else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) == 1)
-                    retString = i18nc("@title:group Date", "Yesterday");
-                else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) < 7)
-                    retString = i18nc("@title:group Date", "Less than a week");
-                else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) < 31)
-                    retString = i18nc("@title:group Date", "Less than a month");
-                else if (modifiedTime.daysTo(KDateTime::currentLocalDateTime()) < 365)
-                    retString = i18nc("@title:group Date", "Less than a year");
-                else
-                    retString = i18nc("@title:group Date", "More than a year");
+                retString = modifiedTime.toString(i18nc("Prints out the month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
                 break;
             }
 
