@@ -471,8 +471,6 @@ void DolphinColumnView::setModel(QAbstractItemModel* model)
 
 void DolphinColumnView::reload()
 {
-    deleteInactiveChildColumns();
-
     // Due to the reloading of the model all columns will be reset to show
     // the same content as the first column. As this is not wanted, all columns
     // except of the first column are temporary hidden until the root index can
@@ -706,7 +704,9 @@ void DolphinColumnView::updateDecorationSize()
 
 void DolphinColumnView::expandToActiveUrl()
 {
-    const KUrl& activeUrl = m_controller->url();
+    const int lastIndex = m_columns.count() - 1;
+    Q_ASSERT(lastIndex >= 0);
+    const KUrl& activeUrl = m_columns[lastIndex]->url();
     const KUrl baseUrl = m_dolphinModel->dirLister()->url();
     if (baseUrl.isParentOf(activeUrl) && (baseUrl != activeUrl)) {
         m_dolphinModel->expandToUrl(activeUrl);
