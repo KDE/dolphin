@@ -536,6 +536,12 @@ void DolphinColumnView::showColumn(const KUrl& url)
                     (*it)->deleteLater();
                 }
                 m_columns.erase(start, end);
+
+                const int maxIndex = m_columns.count() - 1;
+                Q_ASSERT(maxIndex >= 0);
+                if (m_index > maxIndex) {
+                    m_index = maxIndex;
+                }
                 break;
             }
         }
