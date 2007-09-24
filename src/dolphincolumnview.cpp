@@ -56,19 +56,20 @@ public:
      * drawn in a lighter color. All operations are applied to this column.
      */
     void setActive(bool active);
-    inline bool isActive() const;
+    bool isActive() const;
 
     /**
      * Sets the directory URL of the child column that is shown next to
      * this column. This property is only used for a visual indication
      * of the shown directory, it does not trigger a loading of the model.
      */
-    inline void setChildUrl(const KUrl& url);
-    inline const KUrl& childUrl() const;
+    void setChildUrl(const KUrl& url);
+    const KUrl& childUrl() const;
 
-    /**
-     * Returns the directory URL that is shown inside the column widget.
-     */
+    /** Sets the directory URL that is shown inside the column widget. */
+    void setUrl(const KUrl& url);
+
+    /** Returns the directory URL that is shown inside the column widget. */
     inline const KUrl& url() const;
 
 protected:
@@ -185,6 +186,11 @@ inline void ColumnWidget::setChildUrl(const KUrl& url)
 inline const KUrl& ColumnWidget::childUrl() const
 {
     return m_childUrl;
+}
+
+inline void ColumnWidget::setUrl(const KUrl& url)
+{
+    m_url = url;
 }
 
 const KUrl& ColumnWidget::url() const
@@ -493,15 +499,25 @@ void DolphinColumnView::reload()
     KDirLister* dirLister = m_dolphinModel->dirLister();
     connect(dirLister, SIGNAL(completed()),
             this, SLOT(expandToActiveUrl()));
-    const KUrl baseUrl = m_columns[0]->url();
-    dirLister->openUrl(baseUrl, false, true);
+    const KUrl rootUrl = m_columns[0]->url();
+    dirLister->openUrl(rootUrl, false, true);
 }
 
 void DolphinColumnView::showColumn(const KUrl& url)
 {
-    if (!m_columns[0]->url().isParentOf(url)) {
+    const KUrl& rootUrl = m_columns[0]->url();
+    if (!rootUrl.isParentOf(url)) {
         // the URL is no child URL of the column view, hence do nothing
         return;
+    }
+
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    const KUrl dirListerUrl = dirLister->url();
+    if (dirListerUrl != rootUrl) {
+        // It is possible that root URL of the directory lister is adjusted
+        // after creating the column widget (e. g. when restoring the history
+        // having a different root URL than the controller indicates).
+        m_columns[0]->setUrl(dirListerUrl);
     }
 
     int columnIndex = 0;
@@ -514,8 +530,12 @@ void DolphinColumnView::showColumn(const KUrl& url)
             // the column is no parent of the requested URL, hence
             // just delete all remaining columns
             if (columnIndex > 0) {
-                setActiveColumnIndex(columnIndex - 1);
-                deleteInactiveChildColumns();
+                QList<ColumnWidget*>::iterator start = m_columns.begin() + columnIndex;
+                QList<ColumnWidget*>::iterator end = m_columns.end();
+                for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
+                    (*it)->deleteLater();
+                }
+                m_columns.erase(start, end);
                 break;
             }
         }
@@ -534,6 +554,8 @@ void DolphinColumnView::showColumn(const KUrl& url)
 
     QString path = activeUrl.url(KUrl::AddTrailingSlash);
     const QString targetPath = url.url(KUrl::AddTrailingSlash);
+
+    columnIndex = lastIndex;
     int slashIndex = path.count('/');
     bool hasSubPath = (slashIndex >= 0);
     while (hasSubPath) {
@@ -544,12 +566,28 @@ void DolphinColumnView::showColumn(const KUrl& url)
             path += subPath + '/';
             ++slashIndex;
 
+            const KUrl childUrl = KUrl(path);
             const QModelIndex dirIndex = m_dolphinModel->indexForUrl(KUrl(path));
-            if (dirIndex.isValid()) {
-                triggerItem(m_proxyModel->mapFromSource(dirIndex));
-            }
+            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+
+            m_columns[columnIndex]->setChildUrl(childUrl);
+            columnIndex++;
+
+            ColumnWidget* column = new ColumnWidget(viewport(), this, childUrl);
+            column->setModel(model());
+            column->setRootIndex(proxyIndex);
+            column->setActive(columnIndex == lastIndex);
+
+            m_columns.append(column);
+
+            // Before invoking layoutColumns() the column must be shown. To prevent
+            // a flickering the initial geometry is set to be invisible.
+            column->setGeometry(QRect(-1, -1, 1, 1));
+            column->show();
+            layoutColumns();
         }
     }
+    expandToActiveUrl();
 }
 
 bool DolphinColumnView::isIndexHidden(const QModelIndex& index) const
@@ -725,8 +763,8 @@ void DolphinColumnView::expandToActiveUrl()
     const int lastIndex = m_columns.count() - 1;
     Q_ASSERT(lastIndex >= 0);
     const KUrl& activeUrl = m_columns[lastIndex]->url();
-    const KUrl baseUrl = m_dolphinModel->dirLister()->url();
-    if (baseUrl.isParentOf(activeUrl) && (baseUrl != activeUrl)) {
+    const KUrl rootUrl = m_dolphinModel->dirLister()->url();
+    if (rootUrl.isParentOf(activeUrl) && (rootUrl != activeUrl)) {
         m_dolphinModel->expandToUrl(activeUrl);
         reloadColumns();
     }
@@ -735,8 +773,6 @@ void DolphinColumnView::expandToActiveUrl()
 void DolphinColumnView::triggerReloadColumns(const QModelIndex& index)
 {
     Q_UNUSED(index);
-    disconnect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
-               this, SLOT(triggerReloadColumns(const QModelIndex&)));
     // the reloading of the columns may not be done in the context of this slot
     QMetaObject::invokeMethod(this, "reloadColumns", Qt::QueuedConnection);
 }
