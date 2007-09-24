@@ -71,7 +71,8 @@ DolphinView::DolphinView(QWidget* parent,
     m_fileItemDelegate(0),
     m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
-    m_proxyModel(proxyModel)
+    m_proxyModel(proxyModel),
+    m_rootUrl(url)
 {
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
@@ -119,6 +120,11 @@ DolphinView::~DolphinView()
 const KUrl& DolphinView::url() const
 {
     return m_controller->url();
+}
+
+void DolphinView::setRootUrl(const KUrl& url)
+{
+    m_rootUrl = url;
 }
 
 KUrl DolphinView::rootUrl() const
@@ -414,12 +420,28 @@ void DolphinView::setUrl(const KUrl& url)
         return;
     }
 
+    const KUrl oldRootUrl = rootUrl();
     m_controller->setUrl(url); // emits urlChanged, which we forward
 
-    applyViewProperties(url);
+    const bool restoreColumnView = !isColumnViewActive()
+                                   && m_rootUrl.isParentOf(url)
+                                   && (m_rootUrl != url);
+    if (restoreColumnView) {
+        applyViewProperties(m_rootUrl);
+        startDirLister(m_rootUrl);
+        Q_ASSERT(itemView() == m_columnView);
+        m_columnView->showColumn(url);
+    } else {
+        applyViewProperties(url);
+        startDirLister(url);
+    }
 
-    startDirLister(url);
     itemView()->setFocus();
+
+    const KUrl newRootUrl = rootUrl();
+    if (newRootUrl != oldRootUrl) {
+        emit rootUrlChanged(newRootUrl);
+    }
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)

@@ -136,9 +136,11 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(showInfoMessage(const QString&)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
             this, SLOT(slotItemTriggered(KFileItem)));
+    connect(m_view, SIGNAL(rootUrlChanged(const KUrl&)),
+            m_urlNavigator, SLOT(saveRootUrl(const KUrl&)));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            m_view, SLOT(setUrl(const KUrl&)));
+            this, SLOT(restoreView(const KUrl&)));
 
     m_statusBar = new DolphinStatusBar(this, url);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
@@ -489,6 +491,12 @@ void DolphinViewContainer::restoreContentsPos()
 void DolphinViewContainer::activate()
 {
     setActive(true);
+}
+
+void DolphinViewContainer::restoreView(const KUrl& url)
+{
+    m_view->setRootUrl(m_urlNavigator->savedRootUrl());
+    m_view->setUrl(url);
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)

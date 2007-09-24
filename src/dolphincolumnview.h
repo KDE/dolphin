@@ -57,6 +57,13 @@ public:
      */
     void reload();
 
+public slots:
+    /**
+     * Shows the column which represents the URL \a url. If the column
+     * is already shown, it gets activated, otherwise it will be created.
+     */
+    void showColumn(const KUrl& url);
+
 protected:
     virtual bool isIndexHidden(const QModelIndex& index) const;
     virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
@@ -78,12 +85,6 @@ private slots:
      * the scrollbar position \a x.
      */
     void moveContentHorizontally(int x);
-
-    /**
-     * Shows the column which represents the URL \a url. If the column
-     * is already shown, it gets activated, otherwise it will be created.
-     */
-    void showColumn(const KUrl& url);
 
     /**
      * Updates the size of the decoration dependent on the

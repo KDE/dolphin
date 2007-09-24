@@ -201,6 +201,12 @@ private slots:
      */
     void activate();
 
+    /**
+     * Restores the current view to show \a url and assures
+     * that the root URL of the view is respected.
+     */
+    void restoreView(const KUrl& url);
+
 private:
     /**
      * Returns the default text of the status bar, if no item is

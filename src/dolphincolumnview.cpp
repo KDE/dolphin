@@ -497,6 +497,61 @@ void DolphinColumnView::reload()
     dirLister->openUrl(baseUrl, false, true);
 }
 
+void DolphinColumnView::showColumn(const KUrl& url)
+{
+    if (!m_columns[0]->url().isParentOf(url)) {
+        // the URL is no child URL of the column view, hence do nothing
+        return;
+    }
+
+    int columnIndex = 0;
+    foreach (ColumnWidget* column, m_columns) {
+        if (column->url() == url) {
+            // the column represents already the requested URL, hence activate it
+            requestActivation(column);
+            return;
+        } else if (!column->url().isParentOf(url)) {
+            // the column is no parent of the requested URL, hence
+            // just delete all remaining columns
+            if (columnIndex > 0) {
+                setActiveColumnIndex(columnIndex - 1);
+                deleteInactiveChildColumns();
+                break;
+            }
+        }
+        ++columnIndex;
+    }
+
+    // Create missing columns. Assuming that the path is "/home/peter/Temp/" and
+    // the target path is "/home/peter/Temp/a/b/c/", then the columns "a", "b" and
+    // "c" will be created.
+    const int lastIndex = m_columns.count() - 1;
+    Q_ASSERT(lastIndex >= 0);
+
+    const KUrl& activeUrl = m_columns[lastIndex]->url();
+    Q_ASSERT(activeUrl.isParentOf(url));
+    Q_ASSERT(activeUrl != url);
+
+    QString path = activeUrl.url(KUrl::AddTrailingSlash);
+    const QString targetPath = url.url(KUrl::AddTrailingSlash);
+    int slashIndex = path.count('/');
+    bool hasSubPath = (slashIndex >= 0);
+    while (hasSubPath) {
+        const QString subPath = targetPath.section('/', slashIndex, slashIndex);
+        if (subPath.isEmpty()) {
+            hasSubPath = false;
+        } else {
+            path += subPath + '/';
+            ++slashIndex;
+
+            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(KUrl(path));
+            if (dirIndex.isValid()) {
+                triggerItem(m_proxyModel->mapFromSource(dirIndex));
+            }
+        }
+    }
+}
+
 bool DolphinColumnView::isIndexHidden(const QModelIndex& index) const
 {
     Q_UNUSED(index);
@@ -645,61 +700,6 @@ void DolphinColumnView::moveContentHorizontally(int x)
 {
     m_contentX = -x;
     layoutColumns();
-}
-
-void DolphinColumnView::showColumn(const KUrl& url)
-{
-    if (!m_columns[0]->url().isParentOf(url)) {
-        // the URL is no child URL of the column view, hence do nothing
-        return;
-    }
-
-    int columnIndex = 0;
-    foreach (ColumnWidget* column, m_columns) {
-        if (column->url() == url) {
-            // the column represents already the requested URL, hence activate it
-            requestActivation(column);
-            return;
-        } else if (!column->url().isParentOf(url)) {
-            // the column is no parent of the requested URL, hence
-            // just delete all remaining columns
-            if (columnIndex > 0) {
-                setActiveColumnIndex(columnIndex - 1);
-                deleteInactiveChildColumns();
-                break;
-            }
-        }
-        ++columnIndex;
-    }
-
-    // Create missing columns. Assuming that the path is "/home/peter/Temp/" and
-    // the target path is "/home/peter/Temp/a/b/c/", then the columns "a", "b" and
-    // "c" will be created.
-    const int lastIndex = m_columns.count() - 1;
-    Q_ASSERT(lastIndex >= 0);
-
-    const KUrl& activeUrl = m_columns[lastIndex]->url();
-    Q_ASSERT(activeUrl.isParentOf(url));
-    Q_ASSERT(activeUrl != url);
-
-    QString path = activeUrl.url(KUrl::AddTrailingSlash);
-    const QString targetPath = url.url(KUrl::AddTrailingSlash);
-    int slashIndex = path.count('/');
-    bool hasSubPath = (slashIndex >= 0);
-    while (hasSubPath) {
-        const QString subPath = targetPath.section('/', slashIndex, slashIndex);
-        if (subPath.isEmpty()) {
-            hasSubPath = false;
-        } else {
-            path += subPath + '/';
-            ++slashIndex;
-
-            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(KUrl(path));
-            if (dirIndex.isValid()) {
-                triggerItem(m_proxyModel->mapFromSource(dirIndex));
-            }
-        }
-    }
 }
 
 void DolphinColumnView::updateDecorationSize()

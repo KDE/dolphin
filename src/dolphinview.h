@@ -137,6 +137,11 @@ public:
     const KUrl& url() const;
 
     /**
+     * Sets the root URL of the view (see also DolphinView::rootUrl())
+     */
+    void setRootUrl(const KUrl& url);
+
+    /**
      * Returns the root URL of the view, which is defined as the first
      * visible path of DolphinView::url(). Usually the root URL is
      * equal to DolphinView::url(), but in the case of the column view
@@ -388,6 +393,12 @@ signals:
      */
     void errorMessage(const QString& msg);
 
+    /**
+     * Is emitted if the root URL of the view has been changed
+     * to \a url (see also DolphinView::rootUrl()).
+     */
+    void rootUrlChanged(const KUrl& url);
+
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
@@ -571,6 +582,8 @@ private:
     DolphinSortFilterProxyModel* m_proxyModel;
 
     QList<CutItem> m_cutItemsCache;
+
+    KUrl m_rootUrl;
 };
 
 #endif // DOLPHINVIEW_H
