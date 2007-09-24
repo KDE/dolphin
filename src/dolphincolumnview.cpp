@@ -295,7 +295,7 @@ void ColumnWidget::keyPressEvent(QKeyEvent* event)
                              && (event->key() == Qt::Key_Return)
                              && (selModel->selectedIndexes().count() <= 1);
     if (triggerItem) {
-        m_view->triggerItem(currentIndex);
+        m_view->m_controller->triggerItem(currentIndex);
     }
 }
 
@@ -337,10 +337,10 @@ void ColumnWidget::activate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                m_view, SLOT(triggerItem(const QModelIndex&)));
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                m_view, SLOT(triggerItem(const QModelIndex&)));
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     }
 
     const QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
@@ -366,10 +366,10 @@ void ColumnWidget::deactivate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-                   m_view, SLOT(triggerItem(const QModelIndex&)));
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     } else {
         disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                   m_view, SLOT(triggerItem(const QModelIndex&)));
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     }
 
     const QPalette palette = m_view->viewport()->palette();
@@ -576,7 +576,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
             ColumnWidget* column = new ColumnWidget(viewport(), this, childUrl);
             column->setModel(model());
             column->setRootIndex(proxyIndex);
-            column->setActive(columnIndex == lastIndex);
+            column->setActive(false);
 
             m_columns.append(column);
 
@@ -587,6 +587,13 @@ void DolphinColumnView::showColumn(const KUrl& url)
             layoutColumns();
         }
     }
+
+    // set the last column as active column without modifying the controller
+    // and hence the history
+    activeColumn()->setActive(false);
+    m_index = columnIndex;
+    activeColumn()->setActive(true);
+
     expandToActiveUrl();
 }
 
@@ -696,41 +703,6 @@ void DolphinColumnView::zoomOut()
         default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
-    }
-}
-
-void DolphinColumnView::triggerItem(const QModelIndex& index)
-{
-    m_controller->triggerItem(index);
-
-    const Qt::KeyboardModifiers modifiers = QApplication::keyboardModifiers();
-    if ((modifiers & Qt::ControlModifier) || (modifiers & Qt::ShiftModifier)) {
-        return;
-    }
-
-    const KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
-    if ((item.url() != activeColumn()->url()) && item.isDir()) {
-        deleteInactiveChildColumns();
-
-        const KUrl& childUrl = m_controller->url();
-        activeColumn()->setChildUrl(childUrl);
-
-        ColumnWidget* column = new ColumnWidget(viewport(), this, childUrl);
-        column->setModel(model());
-        column->setRootIndex(index);
-
-        m_columns.append(column);
-
-        setActiveColumnIndex(m_index + 1);
-
-        // Before invoking layoutColumns() the column must be shown. To prevent
-        // a flickering the initial geometry is set to be invisible.
-        column->setGeometry(QRect(-1, -1, 1, 1));
-        column->show();
-
-        layoutColumns();
-        updateScrollBar();
-        assureVisibleActiveColumn();
     }
 }
 

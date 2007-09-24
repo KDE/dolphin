@@ -78,7 +78,6 @@ protected:
 private slots:
     void zoomIn();
     void zoomOut();
-    void triggerItem(const QModelIndex& index);
 
     /**
      * Moves the content of the columns view to represent
