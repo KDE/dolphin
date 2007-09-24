@@ -147,7 +147,7 @@ void DolphinPart::slotErrorMessage(const QString& msg)
 
 void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 {
-    emit m_extension->mouseOverInfo(&item);
+    emit m_extension->mouseOverInfo(item);
 }
 
 void DolphinPart::slotItemTriggered(const KFileItem& item)
