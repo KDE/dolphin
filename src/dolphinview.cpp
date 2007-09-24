@@ -423,15 +423,20 @@ void DolphinView::setUrl(const KUrl& url)
     const KUrl oldRootUrl = rootUrl();
     m_controller->setUrl(url); // emits urlChanged, which we forward
 
+    bool useUrlProperties = true;
     const bool restoreColumnView = !isColumnViewActive()
                                    && m_rootUrl.isParentOf(url)
                                    && (m_rootUrl != url);
     if (restoreColumnView) {
         applyViewProperties(m_rootUrl);
-        startDirLister(m_rootUrl);
-        Q_ASSERT(itemView() == m_columnView);
-        m_columnView->showColumn(url);
-    } else {
+        if (itemView() == m_columnView) {
+            startDirLister(m_rootUrl);
+            m_columnView->showColumn(url);
+            useUrlProperties = false;
+        }
+    }
+
+    if (useUrlProperties) {
         applyViewProperties(url);
         startDirLister(url);
     }
