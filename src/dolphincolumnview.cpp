@@ -661,26 +661,44 @@ void DolphinColumnView::showColumn(const KUrl& url)
             requestActivation(column);
             return;
         } else if (!column->url().isParentOf(url)) {
-            // the column is no parent of the requested URL, hence it must
-            // be deleted and a new column must be loaded
+            // the column is no parent of the requested URL, hence
+            // just delete all remaining columns
             if (columnIndex > 0) {
                 setActiveColumnIndex(columnIndex - 1);
                 deleteInactiveChildColumns();
+                break;
             }
-
-            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
-            if (dirIndex.isValid()) {
-                triggerItem(m_proxyModel->mapFromSource(dirIndex));
-            }
-            return;
         }
         ++columnIndex;
     }
 
-    // no existing column has been replaced and a new column must be created
-    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
-    if (dirIndex.isValid()) {
-        triggerItem(m_proxyModel->mapFromSource(dirIndex));
+    // Create missing columns. Assuming that the path is "/home/peter/Temp/" and
+    // the target path is "/home/peter/Temp/a/b/c/", then the columns "a", "b" and
+    // "c" will be created.
+    const int lastIndex = m_columns.count() - 1;
+    Q_ASSERT(lastIndex >= 0);
+
+    const KUrl& activeUrl = m_columns[lastIndex]->url();
+    Q_ASSERT(activeUrl.isParentOf(url));
+    Q_ASSERT(activeUrl != url);
+
+    QString path = activeUrl.url(KUrl::AddTrailingSlash);
+    const QString targetPath = url.url(KUrl::AddTrailingSlash);
+    int slashIndex = path.count('/');
+    bool hasSubPath = (slashIndex >= 0);
+    while (hasSubPath) {
+        const QString subPath = targetPath.section('/', slashIndex, slashIndex);
+        if (subPath.isEmpty()) {
+            hasSubPath = false;
+        } else {
+            path += subPath + '/';
+            ++slashIndex;
+
+            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(KUrl(path));
+            if (dirIndex.isValid()) {
+                triggerItem(m_proxyModel->mapFromSource(dirIndex));
+            }
+        }
     }
 }
 
