@@ -586,11 +586,15 @@ void DolphinColumnView::showColumn(const KUrl& url)
 
             m_columns.append(column);
 
-            // Before invoking layoutColumns() the column must be shown. To prevent
-            // a flickering the initial geometry is set to be invisible.
+            // Before invoking layoutColumns() the column must be set visible temporary.
+            // To prevent a flickering the initial geometry is set to a hidden position.
             column->setGeometry(QRect(-1, -1, 1, 1));
             column->show();
             layoutColumns();
+
+            // the layout is finished, now let the column be invisible until it
+            // gets a valid root index due to expandToActiveUrl()
+            column->hide();
         }
     }
 
@@ -761,7 +765,9 @@ void DolphinColumnView::reloadColumns()
     for (int i = 0; i <= end; ++i) {
         ColumnWidget* nextColumn = m_columns[i + 1];
         const QModelIndex rootIndex = nextColumn->rootIndex();
-        if (!rootIndex.isValid()) {
+        if (rootIndex.isValid()) {
+            nextColumn->show();
+        } else {
             const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_columns[i]->childUrl());
             const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
             if (proxyIndex.isValid()) {
