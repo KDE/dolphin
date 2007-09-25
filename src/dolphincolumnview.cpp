@@ -117,6 +117,7 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     viewport()->setAttribute(Qt::WA_Hover);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setSelectionBehavior(SelectItems);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
@@ -414,8 +415,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(moveContentHorizontally(int)));
 
     ColumnWidget* column = new ColumnWidget(viewport(), this, m_controller->url());
-    column->setVerticalScrollMode(ColumnWidget::ScrollPerPixel);
-    column->setHorizontalScrollMode(ColumnWidget::ScrollPerPixel);
     m_columns.append(column);
     setActiveColumnIndex(0);
 
