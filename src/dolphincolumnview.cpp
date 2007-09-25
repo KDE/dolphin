@@ -503,6 +503,23 @@ void DolphinColumnView::reload()
     dirLister->openUrl(rootUrl, false, true);
 }
 
+void DolphinColumnView::invertSelection()
+{
+    // TODO: this approach of inverting the selection is quite slow. It should
+    // be possible to speedup the implementation by using QItemSelection, but
+    // all adempts have failed yet...
+
+    ColumnWidget* column = activeColumn();
+    QItemSelectionModel* selModel = column->selectionModel();
+
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    const KFileItemList list = dirLister->itemsForDir(column->url());
+    foreach (KFileItem* item, list) {
+        const QModelIndex index = m_dolphinModel->indexForUrl(item->url());
+        selModel->select(m_proxyModel->mapFromSource(index), QItemSelectionModel::Toggle);
+    }
+}
+
 void DolphinColumnView::showColumn(const KUrl& url)
 {
     const KUrl& rootUrl = m_columns[0]->url();
@@ -619,6 +636,11 @@ void DolphinColumnView::showColumn(const KUrl& url)
     activeColumn()->setActive(true);
 
     expandToActiveUrl();
+}
+
+void DolphinColumnView::selectAll()
+{
+    activeColumn()->selectAll();
 }
 
 bool DolphinColumnView::isIndexHidden(const QModelIndex& index) const

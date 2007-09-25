@@ -252,15 +252,24 @@ void DolphinView::selectAll()
 
 void DolphinView::invertSelection()
 {
-    QItemSelectionModel* selectionModel = itemView()->selectionModel();
-    const QAbstractItemModel* itemModel = selectionModel->model();
+    if (isColumnViewActive()) {
+        // QAbstractItemView does not offer a virtual method invertSelection()
+        // as counterpart to QAbstractItemView::selectAll(). This makes it
+        // necessary to delegate the inverting of the selection to the
+        // column view, as only the selection of the active column should get
+        // inverted.
+        m_columnView->invertSelection();
+    } else {
+        QItemSelectionModel* selectionModel = itemView()->selectionModel();
+        const QAbstractItemModel* itemModel = selectionModel->model();
 
-    const QModelIndex topLeft = itemModel->index(0, 0);
-    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
-                                                     itemModel->columnCount() - 1);
+        const QModelIndex topLeft = itemModel->index(0, 0);
+        const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
+                                                         itemModel->columnCount() - 1);
 
-    QItemSelection selection(topLeft, bottomRight);
-    selectionModel->select(selection, QItemSelectionModel::Toggle);
+        const QItemSelection selection(topLeft, bottomRight);
+        selectionModel->select(selection, QItemSelectionModel::Toggle);
+    }
 }
 
 bool DolphinView::hasSelection() const
