@@ -452,18 +452,8 @@ void DolphinViewContainer::changeNameFilter(const QString& nameFilter)
     adjustedFilter.insert(0, '*');
     adjustedFilter.append('*');
 
-    // Use the ProxyModel to filter:
-    // This code is #ifdefed as setNameFilter behaves
-    // slightly different than the QSortFilterProxyModel
-    // as it will not remove directories. I will ask
-    // our beloved usability experts for input
-    // -- z.
-#if 0
     m_dirLister->setNameFilter(adjustedFilter);
     m_dirLister->emitChanges();
-#else
-    m_proxyModel->setFilterRegExp(nameFilter);
-#endif
 
     updateStatusBar();
 }
