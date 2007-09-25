@@ -219,7 +219,17 @@ bool DolphinView::showHiddenFiles() const
 
 void DolphinView::setCategorizedSorting(bool categorized)
 {
-    if (!supportsCategorizedSorting() || (categorized == categorizedSorting())) {
+    if (categorized == categorizedSorting()) {
+        return;
+    }
+
+    if (!categorized && !supportsCategorizedSorting())
+    {
+        m_proxyModel->setCategorizedModel(categorized);
+        m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
+
+        emit categorizedSortingChanged();
+
         return;
     }
 
@@ -803,11 +813,13 @@ void DolphinView::createView()
     case DetailsView:
         m_detailsView = new DolphinDetailsView(this, m_controller);
         view = m_detailsView;
+        setCategorizedSorting(false);
         break;
 
     case ColumnView:
         m_columnView = new DolphinColumnView(this, m_controller);
         view = m_columnView;
+        setCategorizedSorting(false);
         break;
     }
 
