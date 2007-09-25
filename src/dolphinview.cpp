@@ -414,8 +414,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         return;
     }
 
-    const bool restoreColumnView = !isColumnViewActive()
-                                    && !rootUrl.isEmpty()
+    const bool restoreColumnView =  !rootUrl.isEmpty()
                                     && !rootUrl.equals(url, KUrl::CompareWithoutTrailingSlash)
                                     && rootUrl.isParentOf(url);
 
