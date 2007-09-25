@@ -492,7 +492,6 @@ void DolphinColumnView::reload()
             m_restoreActiveColumnFocus = true;
         }
         column->hide();
-        column->setRootIndex(QModelIndex());
    }
 
     // all columns are hidden, now reload the directory lister
