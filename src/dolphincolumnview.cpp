@@ -591,6 +591,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
             column->setGeometry(QRect(-1, -1, 1, 1));
             column->show();
             layoutColumns();
+            updateScrollBar();
 
             // the layout is finished, now let the column be invisible until it
             // gets a valid root index due to expandToActiveUrl()
@@ -780,6 +781,7 @@ void DolphinColumnView::reloadColumns()
             }
         }
     }
+    assureVisibleActiveColumn();
 }
 
 bool DolphinColumnView::isZoomInPossible() const
