@@ -506,7 +506,18 @@ void DolphinColumnView::showColumn(const KUrl& url)
 {
     const KUrl& rootUrl = m_columns[0]->url();
     if (!rootUrl.isParentOf(url)) {
-        // the URL is no child URL of the column view, hence do nothing
+        // the URL is no child URL of the column view, hence clear all columns
+        // and reset the root column
+        QList<ColumnWidget*>::iterator start = m_columns.begin() + 1;
+        QList<ColumnWidget*>::iterator end = m_columns.end();
+        for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
+            (*it)->deleteLater();
+        }
+        m_columns.erase(start, end);
+        m_index = 0;
+        m_columns[0]->setActive(true);
+        m_columns[0]->setUrl(url);
+        assureVisibleActiveColumn();
         return;
     }
 
@@ -868,16 +879,6 @@ void DolphinColumnView::requestActivation(ColumnWidget* column)
             ++index;
         }
     }
-}
-
-void DolphinColumnView::deleteInactiveChildColumns()
-{
-    QList<ColumnWidget*>::iterator start = m_columns.begin() + m_index + 1;
-    QList<ColumnWidget*>::iterator end = m_columns.end();
-    for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
-        (*it)->deleteLater();
-    }
-    m_columns.erase(start, end);
 }
 
 #include "dolphincolumnview.moc"

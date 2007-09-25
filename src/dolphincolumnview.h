@@ -142,12 +142,6 @@ private:
      */
     void requestActivation(ColumnWidget* column);
 
-    /**
-     * Deletes all inactive child columns, that are a child of
-     * the currently active column.
-     */
-    void deleteInactiveChildColumns();
-
 private:
     DolphinController* m_controller;
     bool m_restoreActiveColumnFocus;
