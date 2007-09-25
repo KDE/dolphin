@@ -65,6 +65,8 @@ bool SidebarTreeView::event(QEvent* event)
         hideColumn(DolphinModel::Owner);
         hideColumn(DolphinModel::Group);
         hideColumn(DolphinModel::Type);
+        hideColumn(DolphinModel::Rating);
+        hideColumn(DolphinModel::Tags);
         header()->hide();
     }
 
