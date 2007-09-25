@@ -137,11 +137,6 @@ public:
     const KUrl& url() const;
 
     /**
-     * Sets the root URL of the view (see also DolphinView::rootUrl())
-     */
-    void setRootUrl(const KUrl& url);
-
-    /**
      * Returns the root URL of the view, which is defined as the first
      * visible path of DolphinView::url(). Usually the root URL is
      * equal to DolphinView::url(), but in the case of the column view
@@ -299,6 +294,16 @@ public:
      */
     void refresh();
 
+    /**
+     * Changes the directory of the view to \a url. If \a rootUrl is empty, the view
+     * properties from \a url are used for adjusting the view mode and the other properties.
+     * If \a rootUrl is not empty, the view properties from the root URL are considered
+     * instead. Specifying a root URL is only required if a view having a different root URL
+     * (e. g. the column view) should be restored. Usually using DolphinView::setUrl()
+     * is enough for changing the current URL.
+     */
+    void updateView(const KUrl& url, const KUrl& rootUrl);
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -394,10 +399,12 @@ signals:
     void errorMessage(const QString& msg);
 
     /**
-     * Is emitted if the root URL of the view has been changed
-     * to \a url (see also DolphinView::rootUrl()).
+     * Is emitted after DolphinView::setUrl() has been invoked and
+     * the path \a url is currently loaded. If this signal is emitted,
+     * it is assured that the view contains already the correct root
+     * URL and property settings.
      */
-    void rootUrlChanged(const KUrl& url);
+    void startedPathLoading(const KUrl& url);
 
 protected:
     /** @see QWidget::mouseReleaseEvent */

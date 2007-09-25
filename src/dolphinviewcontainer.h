@@ -207,6 +207,12 @@ private slots:
      */
     void restoreView(const KUrl& url);
 
+    /**
+     * Saves the root URL of the current URL \a url
+     * into the URL navigator.
+     */
+    void saveRootUrl(const KUrl& url);
+
 private:
     /**
      * Returns the default text of the status bar, if no item is

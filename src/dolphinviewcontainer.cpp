@@ -136,8 +136,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(showInfoMessage(const QString&)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
             this, SLOT(slotItemTriggered(KFileItem)));
-    connect(m_view, SIGNAL(rootUrlChanged(const KUrl&)),
-            m_urlNavigator, SLOT(saveRootUrl(const KUrl&)));
+    connect(m_view, SIGNAL(startedPathLoading(const KUrl&)),
+            this, SLOT(saveRootUrl(const KUrl&)));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(restoreView(const KUrl&)));
@@ -495,8 +495,13 @@ void DolphinViewContainer::activate()
 
 void DolphinViewContainer::restoreView(const KUrl& url)
 {
-    m_view->setRootUrl(m_urlNavigator->savedRootUrl());
-    m_view->setUrl(url);
+    m_view->updateView(url, m_urlNavigator->savedRootUrl());
+}
+
+void DolphinViewContainer::saveRootUrl(const KUrl& url)
+{
+    Q_UNUSED(url);
+    m_urlNavigator->saveRootUrl(m_view->rootUrl());
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
@@ -506,7 +511,6 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
     KUrl url = item.mostLocalUrl(isLocal);
 
     if (item.isDir()) {
-        m_view->setRootUrl(KUrl());  // the root URL is unknown
         m_view->setUrl(url);
     } else if (item.isFile()) {
         // allow to browse through ZIP and tar files

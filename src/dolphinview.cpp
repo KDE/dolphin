@@ -71,8 +71,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_fileItemDelegate(0),
     m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
-    m_proxyModel(proxyModel),
-    m_rootUrl(url)
+    m_proxyModel(proxyModel)
 {
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
@@ -120,11 +119,6 @@ DolphinView::~DolphinView()
 const KUrl& DolphinView::url() const
 {
     return m_controller->url();
-}
-
-void DolphinView::setRootUrl(const KUrl& url)
-{
-    m_rootUrl = url;
 }
 
 KUrl DolphinView::rootUrl() const
@@ -414,24 +408,23 @@ void DolphinView::refresh()
     updateViewportColor();
 }
 
-void DolphinView::setUrl(const KUrl& url)
+void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
 {
     if (m_controller->url() == url) {
         return;
     }
 
     const bool restoreColumnView = !isColumnViewActive()
-                                    && !m_rootUrl.isEmpty()
-                                    && m_rootUrl.isParentOf(url)
-                                    && (m_rootUrl != url);
+                                    && !rootUrl.isEmpty()
+                                    && !rootUrl.equals(url, KUrl::CompareWithoutTrailingSlash)
+                                    && rootUrl.isParentOf(url);
 
-    const KUrl oldRootUrl = rootUrl();
     m_controller->setUrl(url); // emits urlChanged, which we forward
 
     if (restoreColumnView) {
-        applyViewProperties(m_rootUrl);
+        applyViewProperties(rootUrl);
         Q_ASSERT(itemView() == m_columnView);
-        startDirLister(m_rootUrl);
+        startDirLister(rootUrl);
         m_columnView->showColumn(url);
     } else {
         applyViewProperties(url);
@@ -440,10 +433,12 @@ void DolphinView::setUrl(const KUrl& url)
 
     itemView()->setFocus();
 
-    const KUrl newRootUrl = rootUrl();
-    if (newRootUrl != oldRootUrl) {
-        emit rootUrlChanged(newRootUrl);
-    }
+    emit startedPathLoading(url);
+}
+
+void DolphinView::setUrl(const KUrl& url)
+{
+    updateView(url, KUrl());
 }
 
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
