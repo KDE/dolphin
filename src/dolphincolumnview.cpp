@@ -414,6 +414,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(moveContentHorizontally(int)));
 
     ColumnWidget* column = new ColumnWidget(viewport(), this, m_controller->url());
+    column->setVerticalScrollMode(ColumnWidget::ScrollPerPixel);
+    column->setHorizontalScrollMode(ColumnWidget::ScrollPerPixel);
     m_columns.append(column);
     setActiveColumnIndex(0);
 
@@ -590,6 +592,8 @@ void DolphinColumnView::showColumn(const KUrl& url)
             columnIndex++;
 
             ColumnWidget* column = new ColumnWidget(viewport(), this, childUrl);
+            column->setVerticalScrollMode(ColumnWidget::ScrollPerPixel);
+            column->setHorizontalScrollMode(ColumnWidget::ScrollPerPixel);
             column->setModel(model());
             column->setRootIndex(proxyIndex);
             column->setActive(false);
