@@ -635,7 +635,9 @@ void DolphinColumnView::showColumn(const KUrl& url)
     m_index = columnIndex;
     activeColumn()->setActive(true);
 
-    expandToActiveUrl();
+    connect(dirLister, SIGNAL(completed()),
+            this, SLOT(expandToActiveUrl()));
+    dirLister->openUrl(rootUrl, false, true);
 }
 
 void DolphinColumnView::selectAll()
@@ -778,6 +780,9 @@ void DolphinColumnView::updateDecorationSize()
 
 void DolphinColumnView::expandToActiveUrl()
 {
+    disconnect(m_dolphinModel->dirLister(), SIGNAL(completed()),
+               this, SLOT(expandToActiveUrl()));
+
     const int lastIndex = m_columns.count() - 1;
     Q_ASSERT(lastIndex >= 0);
     const KUrl& activeUrl = m_columns[lastIndex]->url();
@@ -802,9 +807,6 @@ void DolphinColumnView::reloadColumns()
     const int end = m_columns.count() - 2; // next to last column
     for (int i = 0; i <= end; ++i) {
         ColumnWidget* nextColumn = m_columns[i + 1];
-
-        KDirLister* dirLister = m_dolphinModel->dirLister();
-        dirLister->updateDirectory(nextColumn->url());
 
         const QModelIndex rootIndex = nextColumn->rootIndex();
         if (rootIndex.isValid()) {
