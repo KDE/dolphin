@@ -804,11 +804,16 @@ void DolphinView::createView()
 
     // ... and recreate it representing the current mode
     switch (m_mode) {
-    case IconsView:
+    case IconsView: {
+        const KUrl viewPropsUrl = viewPropertiesUrl();
+        const ViewProperties props(viewPropsUrl);
+
         m_iconsView = new DolphinIconsView(this, m_controller);
         m_iconsView->setCategoryDrawer(new DolphinCategoryDrawer());
         view = m_iconsView;
+        setCategorizedSorting(props.categorizedSorting());
         break;
+    }
 
     case DetailsView:
         m_detailsView = new DolphinDetailsView(this, m_controller);
