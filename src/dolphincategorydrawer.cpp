@@ -173,11 +173,11 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
             if (!faceIconPath.isEmpty())
             {
-                icon = QPixmap::fromImage(QImage(faceIconPath).scaledToHeight(option.fontMetrics.height(), Qt::SmoothTransformation));
+                icon = QPixmap::fromImage(QImage(faceIconPath).scaledToHeight(KIconLoader::global()->currentSize(K3Icon::MainToolbar), Qt::SmoothTransformation));
             }
             else
             {
-                icon = KIconLoader::global()->loadIcon("user", K3Icon::NoGroup, option.fontMetrics.height());
+                icon = KIconLoader::global()->loadIcon("user", K3Icon::MainToolbar, option.fontMetrics.height());
             }
 
             opt.rect.setTop(opt.rect.top() - icon.height());
@@ -199,7 +199,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             // so the group icon drawn is that one particularly. This way assures the drawn
             // icon is the one of the mimetype of the group itself. (ereslibre)
             icon = KIconLoader::global()->loadMimeTypeIcon(item.mimeTypePtr()->iconName(),
-                                                           K3Icon::NoGroup, option.fontMetrics.height());
+                                                           K3Icon::MainToolbar);
 
             opt.rect.setTop(opt.rect.top() - icon.height());
 
