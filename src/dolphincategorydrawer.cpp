@@ -52,7 +52,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 {
     QRect starRect = option.rect;
 
-    int iconSize =  KIconLoader::global()->currentSize(K3Icon::Small);
+    int iconSize = KIconLoader::global()->currentSize(K3Icon::Small);
     QVariant categoryVariant = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryRole);
 
     if (!categoryVariant.isValid())
@@ -167,16 +167,21 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             break;
 
         case KDirModel::Owner: {
-            opt.rect.setTop(option.rect.top() + (iconSize / 4));
+            opt.rect.setTop(option.rect.bottom() - (iconSize / 4));
             KUser user(category);
-            if (QFile::exists(user.homeDir() + QDir::separator() + ".face.icon"))
+            QString faceIconPath = user.faceIconPath();
+
+            if (!faceIconPath.isEmpty())
             {
-                icon = QPixmap::fromImage(QImage(user.homeDir() + QDir::separator() + ".face.icon")).scaled(iconSize, iconSize);
+                icon = QPixmap::fromImage(QImage(faceIconPath).scaledToHeight(option.fontMetrics.height(), Qt::SmoothTransformation));
             }
             else
             {
-                icon = KIconLoader::global()->loadIcon("user", K3Icon::Small);
+                icon = KIconLoader::global()->loadIcon("user", K3Icon::NoGroup, option.fontMetrics.height());
             }
+
+            opt.rect.setTop(opt.rect.top() - icon.height());
+
             break;
         }
 
@@ -185,7 +190,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             break;
 
         case KDirModel::Type: {
-            opt.rect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
+            opt.rect.setTop(option.rect.bottom() - (iconSize / 4));
             const KCategorizedSortFilterProxyModel *proxyModel = static_cast<const KCategorizedSortFilterProxyModel*>(index.model());
             const DolphinModel *model = static_cast<const DolphinModel*>(proxyModel->sourceModel());
             KFileItem item = model->itemForIndex(proxyModel->mapToSource(index));
@@ -194,7 +199,10 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             // so the group icon drawn is that one particularly. This way assures the drawn
             // icon is the one of the mimetype of the group itself. (ereslibre)
             icon = KIconLoader::global()->loadMimeTypeIcon(item.mimeTypePtr()->iconName(),
-                                                           K3Icon::Small);
+                                                           K3Icon::NoGroup, option.fontMetrics.height());
+
+            opt.rect.setTop(opt.rect.top() - icon.height());
+
             break;
         }
 
@@ -286,11 +294,11 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
     if (paintIcon) {
         painter->drawPixmap(QRect(option.direction == Qt::LeftToRight ? opt.rect.left()
-                                                                      : opt.rect.right() - iconSize + (iconSize / 4), opt.rect.top(), iconSize, iconSize), icon);
+                                                                      : opt.rect.right() - icon.width() + (iconSize / 4), opt.rect.top(), icon.width(), icon.height()), icon);
 
         if (option.direction == Qt::LeftToRight)
         {
-            opt.rect.setLeft(opt.rect.left() + iconSize + (iconSize / 4));
+            opt.rect.setLeft(opt.rect.left() + icon.width() + (iconSize / 4));
         }
         else
         {
@@ -307,7 +315,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
         if (option.direction == Qt::RightToLeft)
         {
-            textRect.setWidth(textRect.width() - (paintIcon ? iconSize + (iconSize / 2)
+            textRect.setWidth(textRect.width() - (paintIcon ? icon.width() + (iconSize / 2)
                                                             : -(iconSize / 4)));
         }
 
