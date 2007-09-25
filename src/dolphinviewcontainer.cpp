@@ -506,6 +506,7 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
     KUrl url = item.mostLocalUrl(isLocal);
 
     if (item.isDir()) {
+        m_view->setRootUrl(KUrl());  // the root URL is unknown
         m_view->setUrl(url);
     } else if (item.isFile()) {
         // allow to browse through ZIP and tar files
