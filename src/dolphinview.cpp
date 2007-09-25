@@ -219,12 +219,7 @@ bool DolphinView::showHiddenFiles() const
 
 void DolphinView::setCategorizedSorting(bool categorized)
 {
-    if (categorized && !supportsCategorizedSorting()) {
-        setCategorizedSorting(false);
-        return;
-    }
-
-    if (categorized == categorizedSorting()) {
+    if (!supportsCategorizedSorting() || (categorized == categorizedSorting())) {
         return;
     }
 
