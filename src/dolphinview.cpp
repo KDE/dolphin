@@ -168,6 +168,17 @@ void DolphinView::setMode(Mode mode)
     props.setViewMode(m_mode);
 
     createView();
+
+    // Not all view modes support categorized sorting. Adjust the sorting model
+    // if changing the view mode results in a change of the categorized sorting
+    // capabilities.
+    const bool categorized = props.categorizedSorting() && supportsCategorizedSorting();
+    if (categorized != categorizedSorting()) {
+        m_proxyModel->setCategorizedModel(categorized);
+        m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
+        emit categorizedSortingChanged();
+    }
+
     startDirLister(viewPropsUrl);
 
     emit modeChanged();
@@ -222,17 +233,9 @@ void DolphinView::setCategorizedSorting(bool categorized)
         return;
     }
 
-    if (!categorized && !supportsCategorizedSorting())
-    {
-        m_proxyModel->setCategorizedModel(categorized);
-        m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
-
-        emit categorizedSortingChanged();
-
-        return;
-    }
-
-    Q_ASSERT(m_iconsView != 0);
+    // setCategorizedSorting(true) may only get invoked
+    // if the view supports categorized sorting
+    Q_ASSERT(!categorized || supportsCategorizedSorting());
 
     ViewProperties props(viewPropertiesUrl());
     props.setCategorizedSorting(categorized);
@@ -615,9 +618,10 @@ void DolphinView::applyViewProperties(const KUrl& url)
         emit showHiddenFilesChanged();
     }
 
-    const bool categorized = props.categorizedSorting();
+    const bool categorized = props.categorizedSorting() && supportsCategorizedSorting();
     if (categorized != categorizedSorting()) {
         m_proxyModel->setCategorizedModel(categorized);
+        m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
         emit categorizedSortingChanged();
     }
 
@@ -812,19 +816,11 @@ void DolphinView::createView()
     case DetailsView:
         m_detailsView = new DolphinDetailsView(this, m_controller);
         view = m_detailsView;
-
-        // categorized sorting is not supported yet for the details
-        // view, even if the view properties indicate this
-        setCategorizedSorting(false);
         break;
 
     case ColumnView:
         m_columnView = new DolphinColumnView(this, m_controller);
         view = m_columnView;
-
-        // categorized sorting is not supported yet for the column
-        // view, even if the view properties indicate this
-        setCategorizedSorting(false);
         break;
     }
 
