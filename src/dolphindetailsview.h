@@ -57,6 +57,7 @@ protected:
     virtual void dropEvent(QDropEvent* event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
+    virtual void resizeEvent(QResizeEvent* event);
 
 private slots:
     /**

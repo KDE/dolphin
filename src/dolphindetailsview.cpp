@@ -297,6 +297,39 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
     }
 }
 
+void DolphinDetailsView::resizeEvent(QResizeEvent* event)
+{
+    QTreeView::resizeEvent(event);
+
+    // assure that the width of the name-column does not get too small
+    const int minWidth = 120;
+    QHeaderView* headerView = header();
+    bool useFixedWidth = (headerView->sectionSize(KDirModel::Name) <= minWidth)
+                         && (headerView->resizeMode(0) != QHeaderView::Fixed);
+    if (useFixedWidth) {
+        // the current width of the name-column is too small, hence
+        // use a fixed size
+        headerView->setResizeMode(QHeaderView::Interactive);
+        headerView->setResizeMode(0, QHeaderView::Fixed);
+        headerView->resizeSection(KDirModel::Name, minWidth);
+    } else if (headerView->resizeMode(0) != QHeaderView::Stretch) {
+        // check whether there is enough available viewport width
+        // to automatically resize the columns
+        const int availableWidth = viewport()->width();
+
+        int headerWidth = 0;
+        const int count = headerView->count();
+        for (int i = 0; i < count; ++i) {
+            headerWidth += headerView->sectionSize(i);
+        }
+
+        if (headerWidth < availableWidth) {
+            headerView->setResizeMode(QHeaderView::ResizeToContents);
+            headerView->setResizeMode(0, QHeaderView::Stretch);
+        }
+    }
+}
+
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
     QHeaderView* headerView = header();
@@ -368,6 +401,16 @@ void DolphinDetailsView::zoomOut()
     }
 }
 
+void DolphinDetailsView::slotItemActivated(const QModelIndex& index)
+{
+    if (index.isValid() && (index.column() == KDirModel::Name)) {
+        m_controller->triggerItem(index);
+    } else {
+        clearSelection();
+        m_controller->emitItemEntered(index);
+    }
+}
+
 bool DolphinDetailsView::isZoomInPossible() const
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
@@ -420,16 +463,6 @@ QRect DolphinDetailsView::elasticBandRect() const
 static bool isValidNameIndex(const QModelIndex& index)
 {
     return index.isValid() && (index.column() == KDirModel::Name);
-}
-
-void DolphinDetailsView::slotItemActivated(const QModelIndex& index)
-{
-    if (!isValidNameIndex(index)) {
-        clearSelection();
-        m_controller->emitItemEntered(index);
-    } else {
-        m_controller->triggerItem(index);
-    }
 }
 
 #include "dolphindetailsview.moc"
