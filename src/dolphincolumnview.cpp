@@ -524,11 +524,9 @@ void DolphinColumnView::reload()
 
     // all columns are hidden, now reload the directory lister
     KDirLister* dirLister = m_dolphinModel->dirLister();
-    connect(dirLister, SIGNAL(completed()),
-            this, SLOT(expandToActiveUrl()));
     const KUrl& rootUrl = m_columns[0]->url();
     dirLister->openUrl(rootUrl, false, true);
-    reloadColumns();
+    updateColumns();
 }
 
 void DolphinColumnView::showColumn(const KUrl& url)
@@ -645,15 +643,6 @@ void DolphinColumnView::showColumn(const KUrl& url)
     activeColumn()->setActive(false);
     m_index = columnIndex;
     activeColumn()->setActive(true);
-
-    reloadColumns();
-
-    // reloadColumns() is enough for simple use cases where only one column is added.
-    // However when exchanging several columns a more complex synchronization must be
-    // done by invoking synchronize(). The delay is an optimization for default use
-    // cases and gives the directory lister the chance to be already finished when
-    // synchronize() is invoked, which assures zero flickering.
-    QTimer::singleShot(1000, this, SLOT(synchronize()));
 }
 
 void DolphinColumnView::selectAll()
@@ -796,34 +785,34 @@ void DolphinColumnView::updateDecorationSize()
 
 void DolphinColumnView::expandToActiveUrl()
 {
-    disconnect(m_dolphinModel->dirLister(), SIGNAL(completed()),
-               this, SLOT(expandToActiveUrl()));
-
     const int lastIndex = m_columns.count() - 1;
     Q_ASSERT(lastIndex >= 0);
     const KUrl& activeUrl = m_columns[lastIndex]->url();
     const KUrl rootUrl = m_dolphinModel->dirLister()->url();
-    const bool expand = rootUrl.isParentOf(activeUrl)
+    const bool expand = m_dirListerCompleted
+                        && rootUrl.isParentOf(activeUrl)
                         && !rootUrl.equals(activeUrl, KUrl::CompareWithoutTrailingSlash);
     if (expand) {
-        Q_ASSERT(m_dirListerCompleted);
         m_dolphinModel->expandToUrl(activeUrl);
     }
-    reloadColumns();
+    updateColumns();
 }
 
-void DolphinColumnView::triggerReloadColumns(const QModelIndex& index)
+void DolphinColumnView::triggerUpdateColumns(const QModelIndex& index)
 {
     Q_UNUSED(index);
-    // the reloading of the columns may not be done in the context of this slot
-    QMetaObject::invokeMethod(this, "reloadColumns", Qt::QueuedConnection);
+    // the updating of the columns may not be done in the context of this slot
+    QMetaObject::invokeMethod(this, "updateColumns", Qt::QueuedConnection);
 }
 
-void DolphinColumnView::reloadColumns()
+void DolphinColumnView::updateColumns()
 {
     const int end = m_columns.count() - 2; // next to last column
     for (int i = 0; i <= end; ++i) {
         ColumnWidget* nextColumn = m_columns[i + 1];
+
+        KDirLister* dirLister = m_dolphinModel->dirLister();
+        dirLister->updateDirectory(nextColumn->url());
 
         const QModelIndex rootIndex = nextColumn->rootIndex();
         if (rootIndex.isValid()) {
@@ -844,18 +833,6 @@ void DolphinColumnView::reloadColumns()
     assureVisibleActiveColumn();
 }
 
-void DolphinColumnView::synchronize()
-{
-    if (m_dirListerCompleted) {
-        // expanding the active URL may only be done if the directory lister
-        // has been completed the loading
-        expandToActiveUrl();
-    } else {
-        reload();
-    }
-}
-
-
 void DolphinColumnView::slotDirListerStarted(const KUrl& url)
 {
     Q_UNUSED(url);
@@ -865,6 +842,7 @@ void DolphinColumnView::slotDirListerStarted(const KUrl& url)
 void DolphinColumnView::slotDirListerCompleted()
 {
     m_dirListerCompleted = true;
+    QMetaObject::invokeMethod(this, "expandToActiveUrl", Qt::QueuedConnection);
 }
 
 bool DolphinColumnView::isZoomInPossible() const

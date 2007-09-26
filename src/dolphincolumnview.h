@@ -107,23 +107,16 @@ private slots:
     void expandToActiveUrl();
 
     /**
-     * Triggers the reloading of columns after the model index
+     * Triggers the updating of columns after the model index
      * \a index has been expanded. Used by DolphinModel::expandToActiveUrl().
      */
-    void triggerReloadColumns(const QModelIndex& index);
+    void triggerUpdateColumns(const QModelIndex& index);
 
     /**
      * Adjusts the root index of all columns to represent the reloaded
-     * model. Used by DolphinModel::triggerReloadColumns().
+     * model. Used by DolphinModel::triggerUpdateColumns().
      */
-    void reloadColumns();
-
-    /**
-     * Synchronizes the current state of the directory lister with
-     * the currently shown columns. This is required if the directory
-     * lister has been changed from outside without user interaction.
-     */
-    void synchronize();
+    void updateColumns();
 
     /**
      * Is invoked when the directory lister has started the loading
