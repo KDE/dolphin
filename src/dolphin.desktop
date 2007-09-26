@@ -48,3 +48,5 @@ GenericName[x-test]=xxFile Managerxx
 GenericName[zh_CN]=文件管理器
 GenericName[zh_TW]=檔案管理程式
 Terminal=false
+MimeType=inode/directory;
+InitialPreference=8
