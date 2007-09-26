@@ -118,9 +118,7 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     viewport()->setAttribute(Qt::WA_Hover);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    // TODO: enable ScrollPerPixel again as soon as a Qt-patch
-    // is supplied which fixes a possible crash
-    //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setSelectionBehavior(SelectItems);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
@@ -807,13 +805,14 @@ void DolphinColumnView::triggerUpdateColumns(const QModelIndex& index)
 
 void DolphinColumnView::updateColumns()
 {
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    foreach (ColumnWidget* column, m_columns) {
+        dirLister->updateDirectory(column->url());
+    }
+
     const int end = m_columns.count() - 2; // next to last column
     for (int i = 0; i <= end; ++i) {
         ColumnWidget* nextColumn = m_columns[i + 1];
-
-        KDirLister* dirLister = m_dolphinModel->dirLister();
-        dirLister->updateDirectory(nextColumn->url());
-
         const QModelIndex rootIndex = nextColumn->rootIndex();
         if (rootIndex.isValid()) {
             nextColumn->show();
