@@ -309,7 +309,7 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
     if (useFixedWidth) {
         // the current width of the name-column is too small, hence
         // use a fixed size
-        headerView->setResizeMode(QHeaderView::Interactive);
+        headerView->setResizeMode(QHeaderView::Fixed);
         headerView->setResizeMode(0, QHeaderView::Fixed);
         headerView->resizeSection(KDirModel::Name, minWidth);
     } else if (headerView->resizeMode(0) != QHeaderView::Stretch) {
