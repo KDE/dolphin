@@ -40,8 +40,11 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
     setAutoExpandDelay(300);
-    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    // TODO: enable ScrollPerPixel again as soon as a Qt-patch
+    // is supplied which fixes a possible crash
+    // (see http://lists.kde.org/?l=kde-core-devel&m=119077433611662&w=2)
+    //setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     viewport()->setAttribute(Qt::WA_Hover);
 
