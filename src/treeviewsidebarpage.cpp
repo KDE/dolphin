@@ -222,9 +222,6 @@ void TreeViewSidebarPage::expandToLeafDir()
 
 void TreeViewSidebarPage::loadSubTree()
 {
-    disconnect(m_dirLister, SIGNAL(completed()),
-               this, SLOT(loadSubTree()));
-
     QItemSelectionModel* selModel = m_treeView->selectionModel();
     selModel->clearSelection();
 
@@ -240,11 +237,10 @@ void TreeViewSidebarPage::loadSubTree()
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
         m_treeView->scrollTo(proxyIndex);
         selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
-    } else {
+    } else if (m_dirListerCompleted) {
         // Load all sub directories that need to get expanded for making
         // the leaf directory visible. The slot triggerExpanding() will
         // get invoked if the expanding has been finished.
-        Q_ASSERT(m_dirListerCompleted);
         m_dolphinModel->expandToUrl(m_leafDir);
     }
 }
@@ -258,8 +254,8 @@ void TreeViewSidebarPage::slotDirListerStarted(const KUrl& url)
 void TreeViewSidebarPage::slotDirListerCompleted()
 {
     m_dirListerCompleted = true;
+    QMetaObject::invokeMethod(this, "loadSubTree", Qt::QueuedConnection);
 }
-
 
 void TreeViewSidebarPage::loadTree(const KUrl& url)
 {
@@ -275,9 +271,7 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
         baseUrl = url;
     }
 
-    connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(loadSubTree()));
-    if ((m_dirLister->url() != baseUrl) || !m_dirListerCompleted) {
+    if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl);
     } else {
