@@ -273,7 +273,7 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
 
     if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
-        m_dirLister->openUrl(baseUrl);
+        m_dirLister->openUrl(baseUrl, false, true);
     } else {
         loadSubTree();
     }
