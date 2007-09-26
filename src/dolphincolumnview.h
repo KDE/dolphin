@@ -50,6 +50,10 @@ public:
     virtual QRect visualRect(const QModelIndex& index) const;
     virtual void setModel(QAbstractItemModel* model);
 
+    /** Inverts the selection of the currently active column. */
+    void invertSelection();
+
+public slots:
     /**
      * Reloads the content of all columns. In opposite to non-hierarchical views
      * it is not enough to reload the KDirLister, instead this method must be explicitly
@@ -57,10 +61,6 @@ public:
      */
     void reload();
 
-    /** Inverts the selection of the currently active column. */
-    void invertSelection();
-
-public slots:
     /**
      * Shows the column which represents the URL \a url. If the column
      * is already shown, it gets activated, otherwise it will be created.
@@ -118,6 +118,8 @@ private slots:
      */
     void reloadColumns();
 
+    void triggerItem(const QModelIndex& index);
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
@@ -151,6 +153,7 @@ private:
 private:
     DolphinController* m_controller;
     bool m_restoreActiveColumnFocus;
+    bool m_initializedDirLister;
     int m_index;
     int m_contentX;
     QList<ColumnWidget*> m_columns;

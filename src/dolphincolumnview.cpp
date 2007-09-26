@@ -117,7 +117,9 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     viewport()->setAttribute(Qt::WA_Hover);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+    // TODO: enable ScrollPerPixel again as soon as a Qt-patch
+    // is supplied which fixes a possible crash
+    //setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setSelectionBehavior(SelectItems);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
@@ -296,7 +298,7 @@ void ColumnWidget::keyPressEvent(QKeyEvent* event)
                              && (event->key() == Qt::Key_Return)
                              && (selModel->selectedIndexes().count() <= 1);
     if (triggerItem) {
-        m_view->m_controller->triggerItem(currentIndex);
+        m_view->triggerItem(currentIndex);
     }
 }
 
@@ -338,10 +340,10 @@ void ColumnWidget::activate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+                m_view, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+                m_view, SLOT(triggerItem(const QModelIndex&)));
     }
 
     const QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
@@ -367,10 +369,10 @@ void ColumnWidget::deactivate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+                   m_view, SLOT(triggerItem(const QModelIndex&)));
     } else {
         disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+                   m_view, SLOT(triggerItem(const QModelIndex&)));
     }
 
     const QPalette palette = m_view->viewport()->palette();
@@ -386,6 +388,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     QAbstractItemView(parent),
     m_controller(controller),
     m_restoreActiveColumnFocus(false),
+    m_initializedDirLister(false),
     m_index(-1),
     m_contentX(0),
     m_columns(),
@@ -476,6 +479,23 @@ void DolphinColumnView::setModel(QAbstractItemModel* model)
     QAbstractItemView::setModel(model);
 }
 
+void DolphinColumnView::invertSelection()
+{
+    // TODO: this approach of inverting the selection is quite slow. It should
+    // be possible to speedup the implementation by using QItemSelection, but
+    // all adempts have failed yet...
+
+    ColumnWidget* column = activeColumn();
+    QItemSelectionModel* selModel = column->selectionModel();
+
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    const KFileItemList list = dirLister->itemsForDir(column->url());
+    foreach (KFileItem* item, list) {
+        const QModelIndex index = m_dolphinModel->indexForUrl(item->url());
+        selModel->select(m_proxyModel->mapFromSource(index), QItemSelectionModel::Toggle);
+    }
+}
+
 void DolphinColumnView::reload()
 {
     // Due to the reloading of the model all columns will be reset to show
@@ -493,31 +513,15 @@ void DolphinColumnView::reload()
             m_restoreActiveColumnFocus = true;
         }
         column->hide();
-   }
+    }
 
     // all columns are hidden, now reload the directory lister
     KDirLister* dirLister = m_dolphinModel->dirLister();
     connect(dirLister, SIGNAL(completed()),
             this, SLOT(expandToActiveUrl()));
-    const KUrl rootUrl = m_columns[0]->url();
-    dirLister->openUrl(rootUrl, false, true);
-}
-
-void DolphinColumnView::invertSelection()
-{
-    // TODO: this approach of inverting the selection is quite slow. It should
-    // be possible to speedup the implementation by using QItemSelection, but
-    // all adempts have failed yet...
-
-    ColumnWidget* column = activeColumn();
-    QItemSelectionModel* selModel = column->selectionModel();
-
-    KDirLister* dirLister = m_dolphinModel->dirLister();
-    const KFileItemList list = dirLister->itemsForDir(column->url());
-    foreach (KFileItem* item, list) {
-        const QModelIndex index = m_dolphinModel->indexForUrl(item->url());
-        selModel->select(m_proxyModel->mapFromSource(index), QItemSelectionModel::Toggle);
-    }
+    const KUrl& rootUrl = m_columns[0]->url();
+    m_initializedDirLister = dirLister->openUrl(m_columns[0]->url(), false, true);
+    reloadColumns();
 }
 
 void DolphinColumnView::showColumn(const KUrl& url)
@@ -635,9 +639,13 @@ void DolphinColumnView::showColumn(const KUrl& url)
     m_index = columnIndex;
     activeColumn()->setActive(true);
 
-    connect(dirLister, SIGNAL(completed()),
-            this, SLOT(expandToActiveUrl()));
-    dirLister->openUrl(rootUrl, false, true);
+    if (m_initializedDirLister) {
+        // expanding the active URL may only be done if the directory lister
+        // has been initialized
+        QMetaObject::invokeMethod(this, "expandToActiveUrl", Qt::QueuedConnection);
+    } else {
+        QMetaObject::invokeMethod(this, "reload", Qt::QueuedConnection);
+    }
 }
 
 void DolphinColumnView::selectAll()
@@ -791,8 +799,8 @@ void DolphinColumnView::expandToActiveUrl()
                         && !rootUrl.equals(activeUrl, KUrl::CompareWithoutTrailingSlash);
     if (expand) {
         m_dolphinModel->expandToUrl(activeUrl);
-        reloadColumns();
     }
+    reloadColumns();
 }
 
 void DolphinColumnView::triggerReloadColumns(const QModelIndex& index)
@@ -825,6 +833,12 @@ void DolphinColumnView::reloadColumns()
         }
     }
     assureVisibleActiveColumn();
+}
+
+void DolphinColumnView::triggerItem(const QModelIndex& index)
+{
+    m_initializedDirLister = true;
+    m_controller->triggerItem(index);
 }
 
 bool DolphinColumnView::isZoomInPossible() const
