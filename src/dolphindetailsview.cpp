@@ -141,6 +141,9 @@ bool DolphinDetailsView::event(QEvent* event)
         if (!settings->showType()) {
             hideColumn(DolphinModel::Type);
         }
+
+        hideColumn(DolphinModel::Rating);
+        hideColumn(DolphinModel::Tags);
     }
 
     return QTreeView::event(event);
