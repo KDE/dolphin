@@ -53,7 +53,6 @@ public:
     /** Inverts the selection of the currently active column. */
     void invertSelection();
 
-public slots:
     /**
      * Reloads the content of all columns. In opposite to non-hierarchical views
      * it is not enough to reload the KDirLister, instead this method must be explicitly
@@ -61,6 +60,7 @@ public slots:
      */
     void reload();
 
+public slots:
     /**
      * Shows the column which represents the URL \a url. If the column
      * is already shown, it gets activated, otherwise it will be created.
@@ -118,7 +118,25 @@ private slots:
      */
     void reloadColumns();
 
-    void triggerItem(const QModelIndex& index);
+    /**
+     * Synchronizes the current state of the directory lister with
+     * the currently shown columns. This is required if the directory
+     * lister has been changed from outside without user interaction.
+     */
+    void synchronize();
+
+    /**
+     * Is invoked when the directory lister has started the loading
+     * of the URL \a url and sets the internal m_dirListerCompleted
+     * state to false.
+     */
+    void slotDirListerStarted(const KUrl& url);
+
+    /**
+     * Is invoked when the directory lister has completed the loading
+     * and sets the internal m_dirListerCompleted state to true.
+     */
+    void slotDirListerCompleted();
 
 private:
     bool isZoomInPossible() const;
@@ -153,7 +171,7 @@ private:
 private:
     DolphinController* m_controller;
     bool m_restoreActiveColumnFocus;
-    bool m_initializedDirLister;
+    bool m_dirListerCompleted;
     int m_index;
     int m_contentX;
     QList<ColumnWidget*> m_columns;

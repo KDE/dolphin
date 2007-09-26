@@ -33,6 +33,7 @@
 #include <QApplication>
 #include <QPoint>
 #include <QScrollBar>
+#include <QTimer>
 #include <QTimeLine>
 
 /**
@@ -298,7 +299,7 @@ void ColumnWidget::keyPressEvent(QKeyEvent* event)
                              && (event->key() == Qt::Key_Return)
                              && (selModel->selectedIndexes().count() <= 1);
     if (triggerItem) {
-        m_view->triggerItem(currentIndex);
+        m_view->m_controller->triggerItem(currentIndex);
     }
 }
 
@@ -340,10 +341,10 @@ void ColumnWidget::activate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                m_view, SLOT(triggerItem(const QModelIndex&)));
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                m_view, SLOT(triggerItem(const QModelIndex&)));
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     }
 
     const QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
@@ -369,10 +370,10 @@ void ColumnWidget::deactivate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-                   m_view, SLOT(triggerItem(const QModelIndex&)));
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     } else {
         disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                   m_view, SLOT(triggerItem(const QModelIndex&)));
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     }
 
     const QPalette palette = m_view->viewport()->palette();
@@ -388,7 +389,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     QAbstractItemView(parent),
     m_controller(controller),
     m_restoreActiveColumnFocus(false),
-    m_initializedDirLister(false),
+    m_dirListerCompleted(false),
     m_index(-1),
     m_contentX(0),
     m_columns(),
@@ -475,6 +476,12 @@ void DolphinColumnView::setModel(QAbstractItemModel* model)
     connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
             this, SLOT(triggerReloadColumns(const QModelIndex&)));
 
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    connect(dirLister, SIGNAL(started(const KUrl&)),
+            this, SLOT(slotDirListerStarted(const KUrl&)));
+    connect(dirLister, SIGNAL(completed()),
+            this, SLOT(slotDirListerCompleted()));
+
     activeColumn()->setModel(model);
     QAbstractItemView::setModel(model);
 }
@@ -520,7 +527,7 @@ void DolphinColumnView::reload()
     connect(dirLister, SIGNAL(completed()),
             this, SLOT(expandToActiveUrl()));
     const KUrl& rootUrl = m_columns[0]->url();
-    m_initializedDirLister = dirLister->openUrl(m_columns[0]->url(), false, true);
+    dirLister->openUrl(rootUrl, false, true);
     reloadColumns();
 }
 
@@ -639,13 +646,14 @@ void DolphinColumnView::showColumn(const KUrl& url)
     m_index = columnIndex;
     activeColumn()->setActive(true);
 
-    if (m_initializedDirLister) {
-        // expanding the active URL may only be done if the directory lister
-        // has been initialized
-        QMetaObject::invokeMethod(this, "expandToActiveUrl", Qt::QueuedConnection);
-    } else {
-        QMetaObject::invokeMethod(this, "reload", Qt::QueuedConnection);
-    }
+    reloadColumns();
+
+    // reloadColumns() is enough for simple use cases where only one column is added.
+    // However when exchanging several columns a more complex synchronization must be
+    // done by invoking synchronize(). The delay is an optimization for default use
+    // cases and gives the directory lister the chance to be already finished when
+    // synchronize() is invoked, which assures zero flickering.
+    QTimer::singleShot(1000, this, SLOT(synchronize()));
 }
 
 void DolphinColumnView::selectAll()
@@ -798,6 +806,7 @@ void DolphinColumnView::expandToActiveUrl()
     const bool expand = rootUrl.isParentOf(activeUrl)
                         && !rootUrl.equals(activeUrl, KUrl::CompareWithoutTrailingSlash);
     if (expand) {
+        Q_ASSERT(m_dirListerCompleted);
         m_dolphinModel->expandToUrl(activeUrl);
     }
     reloadColumns();
@@ -835,10 +844,27 @@ void DolphinColumnView::reloadColumns()
     assureVisibleActiveColumn();
 }
 
-void DolphinColumnView::triggerItem(const QModelIndex& index)
+void DolphinColumnView::synchronize()
 {
-    m_initializedDirLister = true;
-    m_controller->triggerItem(index);
+    if (m_dirListerCompleted) {
+        // expanding the active URL may only be done if the directory lister
+        // has been completed the loading
+        expandToActiveUrl();
+    } else {
+        reload();
+    }
+}
+
+
+void DolphinColumnView::slotDirListerStarted(const KUrl& url)
+{
+    Q_UNUSED(url);
+    m_dirListerCompleted = false;
+}
+
+void DolphinColumnView::slotDirListerCompleted()
+{
+    m_dirListerCompleted = true;
 }
 
 bool DolphinColumnView::isZoomInPossible() const
