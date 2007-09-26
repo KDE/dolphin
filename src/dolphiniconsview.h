@@ -28,6 +28,7 @@
 #include <libdolphin_export.h>
 
 class DolphinController;
+class DolphinCategoryDrawer;
 
 /**
  * @brief Represents the view, where each item is shown as an icon.
@@ -81,6 +82,7 @@ private:
 
 private:
     DolphinController* m_controller;
+    DolphinCategoryDrawer* m_categoryDrawer;
     QStyleOptionViewItem m_viewOptions;
 
     QSize m_itemSize;

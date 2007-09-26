@@ -19,6 +19,7 @@
 
 #include "dolphiniconsview.h"
 
+#include "dolphincategorydrawer.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
 
@@ -34,6 +35,7 @@
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KCategorizedView(parent),
     m_controller(controller),
+    m_categoryDrawer(0),
     m_itemSize(),
     m_dragging(false),
     m_dropRect()
@@ -92,10 +94,15 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
         m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
         m_viewOptions.displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
     }
+
+    m_categoryDrawer = new DolphinCategoryDrawer();
+    setCategoryDrawer(m_categoryDrawer);
 }
 
 DolphinIconsView::~DolphinIconsView()
 {
+    delete m_categoryDrawer;
+    m_categoryDrawer = 0;
 }
 
 QRect DolphinIconsView::visualRect(const QModelIndex& index) const

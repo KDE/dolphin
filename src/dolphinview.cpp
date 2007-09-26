@@ -51,7 +51,6 @@
 #include "viewproperties.h"
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
-#include "dolphincategorydrawer.h"
 
 DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
@@ -805,25 +804,26 @@ void DolphinView::createView()
     // ... and recreate it representing the current mode
     switch (m_mode) {
     case IconsView: {
-        const KUrl viewPropsUrl = viewPropertiesUrl();
-        const ViewProperties props(viewPropsUrl);
-
         m_iconsView = new DolphinIconsView(this, m_controller);
-        m_iconsView->setCategoryDrawer(new DolphinCategoryDrawer());
         view = m_iconsView;
-        setCategorizedSorting(props.categorizedSorting());
         break;
     }
 
     case DetailsView:
         m_detailsView = new DolphinDetailsView(this, m_controller);
         view = m_detailsView;
+
+        // categorized sorting is not supported yet for the details
+        // view, even if the view properties indicate this
         setCategorizedSorting(false);
         break;
 
     case ColumnView:
         m_columnView = new DolphinColumnView(this, m_controller);
         view = m_columnView;
+
+        // categorized sorting is not supported yet for the column
+        // view, even if the view properties indicate this
         setCategorizedSorting(false);
         break;
     }
