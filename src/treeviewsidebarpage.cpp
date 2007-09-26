@@ -38,6 +38,7 @@
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
+    m_dirListerCompleted(false),
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
@@ -88,6 +89,12 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister->setMainWindow(this);
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
+
+        m_dirListerCompleted = true;
+        connect(m_dirLister, SIGNAL(started(const KUrl&)),
+                this, SLOT(slotDirListerStarted(const KUrl&)));
+        connect(m_dirLister, SIGNAL(completed()),
+                this, SLOT(slotDirListerCompleted()));
 
         Q_ASSERT(m_dolphinModel == 0);
         m_dolphinModel = new DolphinModel(this);
@@ -237,9 +244,22 @@ void TreeViewSidebarPage::loadSubTree()
         // Load all sub directories that need to get expanded for making
         // the leaf directory visible. The slot triggerExpanding() will
         // get invoked if the expanding has been finished.
+        Q_ASSERT(m_dirListerCompleted);
         m_dolphinModel->expandToUrl(m_leafDir);
     }
 }
+
+void TreeViewSidebarPage::slotDirListerStarted(const KUrl& url)
+{
+    Q_UNUSED(url);
+    m_dirListerCompleted = false;
+}
+
+void TreeViewSidebarPage::slotDirListerCompleted()
+{
+    m_dirListerCompleted = true;
+}
+
 
 void TreeViewSidebarPage::loadTree(const KUrl& url)
 {
@@ -257,7 +277,7 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
 
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(loadSubTree()));
-    if (m_dirLister->url() != baseUrl) {
+    if ((m_dirLister->url() != baseUrl) || !m_dirListerCompleted) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl);
     } else {

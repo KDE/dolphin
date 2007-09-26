@@ -100,6 +100,19 @@ private slots:
      */
     void loadSubTree();
 
+    /**
+     * Is invoked when the directory lister has started the loading
+     * of the URL \a url and sets the internal m_dirListerCompleted
+     * state to false.
+     */
+    void slotDirListerStarted(const KUrl& url);
+
+    /**
+     * Is invoked when the directory lister has completed the loading
+     * and sets the internal m_dirListerCompleted state to true.
+     */
+    void slotDirListerCompleted();
+
 private:
     /**
      * Initializes the base URL of the tree and expands all
@@ -109,6 +122,7 @@ private:
     void loadTree(const KUrl& url);
 
 private:
+    bool m_dirListerCompleted;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
