@@ -61,6 +61,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_active(true),
     m_loadingDirectory(false),
     m_initializeColumnView(false),
+    m_storedCategorizedSorting(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
@@ -172,7 +173,8 @@ void DolphinView::setMode(Mode mode)
     // Not all view modes support categorized sorting. Adjust the sorting model
     // if changing the view mode results in a change of the categorized sorting
     // capabilities.
-    const bool categorized = props.categorizedSorting() && supportsCategorizedSorting();
+    m_storedCategorizedSorting = props.categorizedSorting();
+    const bool categorized = m_storedCategorizedSorting && supportsCategorizedSorting();
     if (categorized != categorizedSorting()) {
         m_proxyModel->setCategorizedModel(categorized);
         m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
@@ -241,6 +243,7 @@ void DolphinView::setCategorizedSorting(bool categorized)
     props.setCategorizedSorting(categorized);
     props.save();
 
+    m_storedCategorizedSorting = categorized;
     m_proxyModel->setCategorizedModel(categorized);
     m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
 
@@ -249,7 +252,14 @@ void DolphinView::setCategorizedSorting(bool categorized)
 
 bool DolphinView::categorizedSorting() const
 {
-    return m_proxyModel->isCategorizedModel();
+    // If all view modes would support categorized sorting, returning
+    // m_proxyModel->isCategorizedModel() would be the way to go. As
+    // currently only the icons view supports caterized sorting, we remember
+    // the stored view properties state in m_storedCategorizedSorting and
+    // return this state. The application takes care to disable the corresponding
+    // checkbox by checking DolphinView::supportsCategorizedSorting() to indicate
+    // that this setting is not applied to the current view mode.
+    return m_storedCategorizedSorting;
 }
 
 bool DolphinView::supportsCategorizedSorting() const
@@ -618,7 +628,8 @@ void DolphinView::applyViewProperties(const KUrl& url)
         emit showHiddenFilesChanged();
     }
 
-    const bool categorized = props.categorizedSorting() && supportsCategorizedSorting();
+    m_storedCategorizedSorting = props.categorizedSorting();
+    const bool categorized = m_storedCategorizedSorting && supportsCategorizedSorting();
     if (categorized != categorizedSorting()) {
         m_proxyModel->setCategorizedModel(categorized);
         m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());

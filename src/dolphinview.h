@@ -573,6 +573,7 @@ private:
     bool m_active;
     bool m_loadingDirectory;
     bool m_initializeColumnView;
+    bool m_storedCategorizedSorting;
     Mode m_mode;
 
     DolphinMainWindow* m_mainWindow;
