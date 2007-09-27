@@ -154,11 +154,12 @@ void GeneralViewSettingsPage::loadSettings()
     } else if (maxMByteSize > max) {
         maxMByteSize = max;
     }
-    m_maxPreviewSize->setValue(maxMByteSize);
 
     m_spinBox->setRange(min, max);
     m_spinBox->setSingleStep(1);
     m_spinBox->setSuffix(" MB");
+
+    m_maxPreviewSize->setValue(maxMByteSize);
     m_spinBox->setValue(m_maxPreviewSize->value());
 }
 
