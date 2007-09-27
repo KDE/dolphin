@@ -139,6 +139,8 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     const int iconSize = settings->iconSize();
     m_viewOptions.decorationSize = QSize(iconSize, iconSize);
 
+    m_viewOptions.showDecorationSelected = true;
+
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     setItemDelegate(delegate);
 
