@@ -110,6 +110,12 @@ private slots:
      */
     void slotItemActivated(const QModelIndex& index);
 
+    /**
+     * Opens a context menu at the position \a pos and allows to
+     * configure the visibility of the header columns.
+     */
+    void configureColumns(const QPoint& pos);
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;

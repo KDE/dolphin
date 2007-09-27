@@ -28,6 +28,10 @@
 
 #include "dolphin_detailsmodesettings.h"
 
+#include <klocale.h>
+#include <kmenu.h>
+
+#include <QAction>
 #include <QApplication>
 #include <QHeaderView>
 #include <QRubberBand>
@@ -60,8 +64,12 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setSortIndicatorSection(props.sorting());
     setSortIndicatorOrder(props.sortOrder());
 
-    connect(header(), SIGNAL(sectionClicked(int)),
+    QHeaderView* headerView = header();
+    connect(headerView, SIGNAL(sectionClicked(int)),
             this, SLOT(synchronizeSortingState(int)));
+    headerView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
+            this, SLOT(configureColumns(const QPoint&)));
 
     connect(parent, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(setSortIndicatorSection(DolphinView::Sorting)));
@@ -403,6 +411,47 @@ void DolphinDetailsView::slotItemActivated(const QModelIndex& index)
     } else {
         clearSelection();
         m_controller->emitItemEntered(index);
+    }
+}
+
+void DolphinDetailsView::configureColumns(const QPoint& pos)
+{
+    KMenu popup(this);
+    popup.addTitle(i18nc("@title:menu", "Columns"));
+
+    QHeaderView* headerView = header();
+    for (int i = DolphinModel::ModifiedTime; i <= DolphinModel::Type; ++i) {
+        const int logicalIndex = headerView->logicalIndex(i);
+        const QString text = model()->headerData(i, Qt::Horizontal).toString();
+        QAction* action = popup.addAction(text);
+        action->setCheckable(true);
+        action->setChecked(!headerView->isSectionHidden(logicalIndex));
+        action->setData(i);
+    }
+
+    QAction* activatedAction = popup.exec(header()->mapToGlobal(pos));
+    if (activatedAction != 0) {
+        const bool show = activatedAction->isChecked();
+        DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+        Q_ASSERT(settings != 0);
+
+        // remember the changed column visibility in the settings
+        const int columnIndex = activatedAction->data().toInt();
+        switch (columnIndex) {
+        case DolphinModel::ModifiedTime: settings->setShowDate(show); break;
+        case DolphinModel::Permissions:  settings->setShowPermissions(show); break;
+        case DolphinModel::Owner:        settings->setShowOwner(show); break;
+        case DolphinModel::Group:        settings->setShowGroup(show); break;
+        case DolphinModel::Type:         settings->setShowType(show); break;
+        default: break;
+        }
+
+        // apply the changed column visibility
+        if (show) {
+            showColumn(columnIndex);
+        } else {
+            hideColumn(columnIndex);
+        }
     }
 }
 
