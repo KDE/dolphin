@@ -106,6 +106,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     font.setItalic(settings->italicFont());
     font.setBold(settings->boldFont());
     m_viewOptions.font = font;
+    m_viewOptions.showDecorationSelected = true;
 
     updateDecorationSize();
 }
