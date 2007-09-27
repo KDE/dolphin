@@ -52,8 +52,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
     setAlternatingRowColors(true);
-    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
-    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);

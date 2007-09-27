@@ -615,8 +615,6 @@ void DolphinColumnView::showColumn(const KUrl& url)
             columnIndex++;
 
             ColumnWidget* column = new ColumnWidget(viewport(), this, childUrl);
-            column->setVerticalScrollMode(ColumnWidget::ScrollPerPixel);
-            column->setHorizontalScrollMode(ColumnWidget::ScrollPerPixel);
             column->setModel(model());
             column->setRootIndex(proxyIndex);
             column->setActive(false);
