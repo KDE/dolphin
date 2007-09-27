@@ -91,9 +91,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode->addItem(KIcon("fileview-icon"), i18nc("@item:inlistbox", "Icons"));
     m_viewMode->addItem(KIcon("fileview-detailed"), i18nc("@item:inlistbox", "Details"));
     m_viewMode->addItem(KIcon("fileview-column"), i18nc("@item:inlistbox", "Column"));
-    const int index = static_cast<int>(m_viewProps->viewMode());
-    m_viewMode->setCurrentIndex(index);
-    const bool iconsViewEnabled = (index == DolphinView::IconsView);
 
     QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsBox);
     QWidget* sortingBox = new QWidget(propsBox);
@@ -101,8 +98,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder = new QComboBox(sortingBox);
     m_sortOrder->addItem(i18nc("@item:inlistbox", "Ascending"));
     m_sortOrder->addItem(i18nc("@item:inlistbox", "Descending"));
-    const int sortOrderIndex = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
-    m_sortOrder->setCurrentIndex(sortOrderIndex);
 
     m_sorting = new QComboBox(sortingBox);
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Name"));
@@ -118,7 +113,6 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
     }
 #endif
-    m_sorting->setCurrentIndex(m_viewProps->sorting());
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
     sortingLayout->setMargin(0);
@@ -136,18 +130,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
                               KFileItemDelegate::Size);
     m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "Date"),
                               KFileItemDelegate::ModificationTime);
-    const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());
-    m_additionalInfo->setCurrentIndex(addInfoIndex);
-    m_additionalInfo->setEnabled(iconsViewEnabled);
 
     m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
-    m_showPreview->setChecked(m_viewProps->showPreview());
-
     m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in Groups"), propsBox);
-    m_showInGroups->setChecked(m_viewProps->categorizedSorting());
-
     m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"), propsBox);
-    m_showHiddenFiles->setChecked(m_viewProps->showHiddenFiles());
 
     QGridLayout* propsBoxLayout = new QGridLayout(propsBox);
     propsBoxLayout->addWidget(viewModeLabel, 0, 0);
@@ -225,6 +211,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                                     "ViewPropertiesDialog");
     restoreDialogSize(dialogConfig);
+
+    loadSettings();
 }
 
 ViewPropertiesDialog::~ViewPropertiesDialog()
@@ -373,6 +361,32 @@ void ViewPropertiesDialog::applyViewProperties()
         defaultProps.save();
         settings->setGlobalViewProps(false);
     }
+}
+
+void ViewPropertiesDialog::loadSettings()
+{
+    // load view mode
+    const int index = static_cast<int>(m_viewProps->viewMode());
+    m_viewMode->setCurrentIndex(index);
+    const bool iconsViewEnabled = (index == DolphinView::IconsView);
+
+    // load sort order and sorting
+    const int sortOrderIndex = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
+    m_sortOrder->setCurrentIndex(sortOrderIndex);
+    m_sorting->setCurrentIndex(m_viewProps->sorting());
+
+    // load additional info
+    const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());
+    m_additionalInfo->setCurrentIndex(addInfoIndex);
+    m_additionalInfo->setEnabled(iconsViewEnabled);
+
+    // load show preview, show in groups and show hidden files settings
+    m_showPreview->setChecked(m_viewProps->showPreview());
+
+    m_showInGroups->setChecked(m_viewProps->categorizedSorting());
+    m_showInGroups->setEnabled(iconsViewEnabled); // only the icons view supports categorized sorting
+
+    m_showHiddenFiles->setChecked(m_viewProps->showHiddenFiles());
 }
 
 #include "viewpropertiesdialog.moc"

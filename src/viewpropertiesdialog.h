@@ -57,6 +57,9 @@ private slots:
     void markAsDirty();
 
 private:
+    void loadSettings();
+
+private:
     bool m_isDirty;
     DolphinView* m_dolphinView;
     ViewProperties* m_viewProps;
