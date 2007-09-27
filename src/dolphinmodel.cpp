@@ -40,7 +40,6 @@
 #include <kuser.h>
 #include <kmimetype.h>
 #include <kstandarddirs.h>
-#include <kpixmapeffect.h>
 
 #include <QList>
 #include <QSortFilterProxyModel>

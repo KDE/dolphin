@@ -3,7 +3,7 @@ add_subdirectory( pics )
 add_subdirectory( servicemenus )
 add_subdirectory( tests )
 
-include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
+include_directories( ${CMAKE_SOURCE_DIR}/libkonq ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${BLITZ_INCLUDES} )
 
 ########### next target ###############
 
@@ -39,7 +39,7 @@ macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
-target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq)
+target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${BLITZ_LIBRARIES})
 if (Nepomuk_FOUND)
   target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES})
 endif (Nepomuk_FOUND)

@@ -26,7 +26,7 @@
 
 #include <kiconloader.h>
 #include <kcategorizedsortfilterproxymodel.h>
-#include <kpixmapeffect.h>
+#include <qimageblitz.h>
 #include <kuser.h>
 
 #include <config-nepomuk.h>
@@ -218,7 +218,9 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             QPixmap smallPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::NoGroup, iconSize / 2);
             QPixmap disabledPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
 
-            KPixmapEffect::toGray(disabledPixmap, false);
+            QImage img = disabledPixmap.toImage();
+            Blitz::grayscale(img);
+            disabledPixmap = QPixmap::fromImage(img);
 
             int rating = category.toInt();
 
