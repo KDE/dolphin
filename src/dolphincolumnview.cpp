@@ -71,7 +71,7 @@ public:
     void setUrl(const KUrl& url);
 
     /** Returns the directory URL that is shown inside the column widget. */
-    inline const KUrl& url() const;
+    const KUrl& url() const;
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
@@ -195,12 +195,12 @@ inline void ColumnWidget::setUrl(const KUrl& url)
     m_url = url;
 }
 
-const KUrl& ColumnWidget::url() const
+inline const KUrl& ColumnWidget::url() const
 {
     return m_url;
 }
 
-QStyleOptionViewItem ColumnWidget::viewOptions() const
+inline QStyleOptionViewItem ColumnWidget::viewOptions() const
 {
     return m_viewOptions;
 }

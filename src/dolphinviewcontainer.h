@@ -98,8 +98,8 @@ public:
 
     KFileItem fileItem(const QModelIndex& index) const;
 
-    inline const DolphinStatusBar* statusBar() const;
-    inline DolphinStatusBar* statusBar();
+    const DolphinStatusBar* statusBar() const;
+    DolphinStatusBar* statusBar();
 
     /**
      * Returns true, if the URL shown by the navigation bar is editable.
@@ -107,11 +107,11 @@ public:
      */
     bool isUrlEditable() const;
 
-    inline const KUrlNavigator* urlNavigator() const;
-    inline KUrlNavigator* urlNavigator();
+    const KUrlNavigator* urlNavigator() const;
+    KUrlNavigator* urlNavigator();
 
-    inline const DolphinView* view() const;
-    inline DolphinView* view();
+    const DolphinView* view() const;
+    DolphinView* view();
 
     /** Returns true, if the filter bar is visible. */
     bool isFilterBarVisible() const;
@@ -120,7 +120,7 @@ public:
      * Return the DolphinMainWindow this View belongs to. It is guaranteed
      * that we have one.
      */
-    inline const DolphinMainWindow* mainWindow() const;
+    const DolphinMainWindow* mainWindow() const;
 
 public slots:
     /**
@@ -247,38 +247,39 @@ private:
     DolphinSortFilterProxyModel* m_proxyModel;
 };
 
-const DolphinStatusBar* DolphinViewContainer::statusBar() const
+inline const DolphinStatusBar* DolphinViewContainer::statusBar() const
 {
     return m_statusBar;
 }
 
-DolphinStatusBar* DolphinViewContainer::statusBar()
+inline DolphinStatusBar* DolphinViewContainer::statusBar()
 {
     return m_statusBar;
 }
 
-const KUrlNavigator* DolphinViewContainer::urlNavigator() const
+inline const KUrlNavigator* DolphinViewContainer::urlNavigator() const
 {
     return m_urlNavigator;
 }
 
-KUrlNavigator* DolphinViewContainer::urlNavigator()
+inline KUrlNavigator* DolphinViewContainer::urlNavigator()
 {
     return m_urlNavigator;
 }
 
-const DolphinView* DolphinViewContainer::view() const
+inline const DolphinView* DolphinViewContainer::view() const
 {
     return m_view;
 }
 
-DolphinView* DolphinViewContainer::view()
+inline DolphinView* DolphinViewContainer::view()
 {
     return m_view;
 }
 
-const DolphinMainWindow* DolphinViewContainer::mainWindow() const
+inline const DolphinMainWindow* DolphinViewContainer::mainWindow() const
 {
     return m_mainWindow;
 }
+
 #endif // DOLPHINVIEWCONTAINER_H

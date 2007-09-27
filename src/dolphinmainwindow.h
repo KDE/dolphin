@@ -60,14 +60,14 @@ public:
      * having a split view setup, the nonactive view
      * is usually shown in darker colors.
      */
-    inline DolphinViewContainer* activeViewContainer() const;
+    DolphinViewContainer* activeViewContainer() const;
 
     /**
      * Returns true, if the main window contains two instances
      * of a view container. The active view constainer can be
      * accessed by DolphinMainWindow::activeViewContainer().
      */
-    inline bool isSplit() const;
+    bool isSplit() const;
 
     /**
      * If the main window contains two instances of a view container
@@ -90,7 +90,7 @@ public:
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
-    inline KNewMenu* newMenu() const;
+    KNewMenu* newMenu() const;
 
 public slots:
     /**
@@ -110,7 +110,7 @@ public slots:
     /**
      * Returns the main window ID used through DBus.
      */
-    inline int getId() const;
+    int getId() const;
 
     /**
      * Inform all affected dolphin components (sidebars, views) of an URL
@@ -500,22 +500,22 @@ private:
     QList<KonqUndoManager::CommandType> m_undoCommandTypes;
 };
 
-DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
+inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
 {
     return m_activeViewContainer;
 }
 
-bool DolphinMainWindow::isSplit() const
+inline bool DolphinMainWindow::isSplit() const
 {
     return m_viewContainer[SecondaryView] != 0;
 }
 
-KNewMenu* DolphinMainWindow::newMenu() const
+inline KNewMenu* DolphinMainWindow::newMenu() const
 {
     return m_newMenu;
 }
 
-int DolphinMainWindow::getId() const
+inline int DolphinMainWindow::getId() const
 {
     return m_id;
 }

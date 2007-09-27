@@ -59,7 +59,7 @@ public:
 
     /** Sets the URL to \a url and emits the signal urlChanged(). */
     void setUrl(const KUrl& url);
-    inline const KUrl& url() const;
+    const KUrl& url() const;
 
     void triggerContextMenuRequest(const QPoint& pos);
 
@@ -75,18 +75,18 @@ public:
     void indicateSortOrderChange(Qt::SortOrder order);
 
     void setShowPreview(bool show);
-    inline bool showPreview() const;
+    bool showPreview() const;
 
     void setShowAdditionalInfo(bool show);
-    inline bool showAdditionalInfo() const;
+    bool showAdditionalInfo() const;
 
     void triggerZoomIn();
-    inline void setZoomInPossible(bool possible);
-    inline bool isZoomInPossible() const;
+    void setZoomInPossible(bool possible);
+    bool isZoomInPossible() const;
 
     void triggerZoomOut();
-    inline void setZoomOutPossible(bool possible);
-    inline bool isZoomOutPossible() const;
+    void setZoomOutPossible(bool possible);
+    bool isZoomOutPossible() const;
 
     // TODO: remove this method when the issue #160611 is solved in Qt 4.4
     static void drawHoverIndication(QWidget* widget,
@@ -194,37 +194,37 @@ private:
     KUrl m_url;
 };
 
-const KUrl& DolphinController::url() const
+inline const KUrl& DolphinController::url() const
 {
     return m_url;
 }
 
-bool DolphinController::showPreview() const
+inline bool DolphinController::showPreview() const
 {
     return m_showPreview;
 }
 
-bool DolphinController::showAdditionalInfo() const
+inline bool DolphinController::showAdditionalInfo() const
 {
     return m_showAdditionalInfo;
 }
 
-void DolphinController::setZoomInPossible(bool possible)
+inline void DolphinController::setZoomInPossible(bool possible)
 {
     m_zoomInPossible = possible;
 }
 
-bool DolphinController::isZoomInPossible() const
+inline bool DolphinController::isZoomInPossible() const
 {
     return m_zoomInPossible;
 }
 
-void DolphinController::setZoomOutPossible(bool possible)
+inline void DolphinController::setZoomOutPossible(bool possible)
 {
     m_zoomOutPossible = possible;
 }
 
-bool DolphinController::isZoomOutPossible() const
+inline bool DolphinController::isZoomOutPossible() const
 {
     return m_zoomOutPossible;
 }

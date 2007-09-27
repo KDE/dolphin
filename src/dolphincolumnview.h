@@ -135,7 +135,7 @@ private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
 
-    inline ColumnWidget* activeColumn() const;
+    ColumnWidget* activeColumn() const;
 
     /**
      * Deactivates the currently active column and activates
@@ -176,7 +176,7 @@ private:
     friend class ColumnWidget;
 };
 
-ColumnWidget* DolphinColumnView::activeColumn() const
+inline ColumnWidget* DolphinColumnView::activeColumn() const
 {
     return m_columns[m_index];
 }

@@ -64,7 +64,7 @@ public:
 
     virtual ~PixmapViewer();
     void setPixmap(const QPixmap& pixmap);
-    inline const QPixmap& pixmap() const;
+    const QPixmap& pixmap() const;
 
 protected:
     virtual void paintEvent(QPaintEvent* event);
@@ -81,7 +81,7 @@ private:
     int m_animationStep;
 };
 
-const QPixmap& PixmapViewer::pixmap() const
+inline const QPixmap& PixmapViewer::pixmap() const
 {
     return m_pixmap;
 }

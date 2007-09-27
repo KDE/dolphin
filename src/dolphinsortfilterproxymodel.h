@@ -51,10 +51,10 @@ public:
     virtual ~DolphinSortFilterProxyModel();
 
     void setSorting(DolphinView::Sorting sorting);
-    inline DolphinView::Sorting sorting() const;
+    DolphinView::Sorting sorting() const;
 
     void setSortOrder(Qt::SortOrder sortOrder);
-    inline Qt::SortOrder sortOrder() const;
+    Qt::SortOrder sortOrder() const;
 
     /**
      * @reimplemented, @internal
@@ -99,12 +99,12 @@ private:
     Qt::SortOrder m_sortOrder:16;
 };
 
-DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
+inline DolphinView::Sorting DolphinSortFilterProxyModel::sorting() const
 {
     return m_sorting;
 }
 
-Qt::SortOrder DolphinSortFilterProxyModel::sortOrder() const
+inline Qt::SortOrder DolphinSortFilterProxyModel::sortOrder() const
 {
     return m_sortOrder;
 }
