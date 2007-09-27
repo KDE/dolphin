@@ -20,9 +20,12 @@
 
 #include "dolphinapplication.h"
 
+#include "dolphinmainwindow.h"
+
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <klocale.h>
+#include <kmainwindow.h>
 
 int main(int argc, char **argv)
 {
@@ -72,17 +75,21 @@ int main(int argc, char **argv)
     DolphinApplication app;
     KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
 
-#ifdef __GNUC__
-#warning TODO, SessionManagement
-#endif
-#if 0
-    if (false /* KDE4-TODO: app.isSessionRestored() */) {
+    if (app.isSessionRestored()) {
         int n = 1;
         while (KMainWindow::canBeRestored(n)) {
-            Dolphin::mainWin().restore(n);
+            const QString className = KXmlGuiWindow::classNameOfToplevel(n);
+            if (className == QLatin1String("DolphinMainWindow")) {
+                DolphinMainWindow* win = app.createMainWindow();
+                win->restore(n);
+            } else {
+                kWarning() << "Unknown class " << className << " in session saved data!";
+            }
             ++n;
         }
     } else {
-#endif
-        return app.exec();
+        app.exec();
     }
+
+    return 0;
+}
