@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     DolphinApplication app;
     KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
 
-    if (app.isSessionRestored()) {
+    if (false /*app.isSessionRestored()*/) {
         int n = 1;
         while (KMainWindow::canBeRestored(n)) {
             const QString className = KXmlGuiWindow::classNameOfToplevel(n);
