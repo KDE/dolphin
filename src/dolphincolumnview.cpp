@@ -416,14 +416,14 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     connect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(moveContentHorizontally(int)));
 
+    m_animation = new QTimeLine(500, this);
+    connect(m_animation, SIGNAL(frameChanged(int)), horizontalScrollBar(), SLOT(setValue(int)));
+
     ColumnWidget* column = new ColumnWidget(viewport(), this, m_controller->url());
     m_columns.append(column);
     setActiveColumnIndex(0);
 
     updateDecorationSize();
-
-    m_animation = new QTimeLine(500, this);
-    connect(m_animation, SIGNAL(frameChanged(int)), horizontalScrollBar(), SLOT(setValue(int)));
 
     // dim the background of the viewport
     QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
@@ -639,6 +639,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
     activeColumn()->setActive(false);
     m_index = columnIndex;
     activeColumn()->setActive(true);
+    assureVisibleActiveColumn();
 }
 
 void DolphinColumnView::selectAll()
@@ -757,7 +758,7 @@ void DolphinColumnView::zoomOut()
 
 void DolphinColumnView::moveContentHorizontally(int x)
 {
-    m_contentX = -x;
+    m_contentX = isRightToLeft() ? +x : -x;
     layoutColumns();
 }
 
@@ -803,11 +804,6 @@ void DolphinColumnView::triggerUpdateColumns(const QModelIndex& index)
 
 void DolphinColumnView::updateColumns()
 {
-    KDirLister* dirLister = m_dolphinModel->dirLister();
-    foreach (ColumnWidget* column, m_columns) {
-        dirLister->updateDirectory(column->url());
-    }
-
     const int end = m_columns.count() - 2; // next to last column
     for (int i = 0; i <= end; ++i) {
         ColumnWidget* nextColumn = m_columns[i + 1];
@@ -827,7 +823,6 @@ void DolphinColumnView::updateColumns()
             }
         }
     }
-    assureVisibleActiveColumn();
 }
 
 void DolphinColumnView::slotDirListerStarted(const KUrl& url)
@@ -869,16 +864,26 @@ void DolphinColumnView::setActiveColumnIndex(int index)
     m_columns[m_index]->setActive(true);
 
     m_controller->setUrl(m_columns[m_index]->url());
+
+    assureVisibleActiveColumn();
 }
 
 void DolphinColumnView::layoutColumns()
 {
-    int x = m_contentX;
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     const int columnWidth = settings->columnWidth();
-    foreach (ColumnWidget* column, m_columns) {
-        column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
-        x += columnWidth;
+    if (isRightToLeft()) {
+        int x = viewport()->width() - columnWidth + m_contentX;
+        foreach (ColumnWidget* column, m_columns) {
+            column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
+            x -= columnWidth;
+        }
+    } else {
+        int x = m_contentX;
+        foreach (ColumnWidget* column, m_columns) {
+            column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
+            x += columnWidth;
+        }
     }
 }
 
@@ -899,15 +904,20 @@ void DolphinColumnView::assureVisibleActiveColumn()
     const int x = activeColumn()->x();
     const int width = activeColumn()->width();
     if (x + width > viewportWidth) {
-        int newContentX = m_contentX - x - width + viewportWidth;
-        if (newContentX > 0) {
-            newContentX = 0;
+        const int newContentX = m_contentX - x - width + viewportWidth;
+        if (isRightToLeft()) {
+            m_animation->setFrameRange(m_contentX, newContentX);
+        } else {
+            m_animation->setFrameRange(-m_contentX, -newContentX);
         }
-        m_animation->setFrameRange(-m_contentX, -newContentX);
         m_animation->start();
     } else if (x < 0) {
         const int newContentX = m_contentX - x;
-        m_animation->setFrameRange(-m_contentX, -newContentX);
+        if (isRightToLeft()) {
+            m_animation->setFrameRange(m_contentX, newContentX);
+        } else {
+            m_animation->setFrameRange(-m_contentX, -newContentX);
+        }
         m_animation->start();
     }
 }
@@ -921,7 +931,6 @@ void DolphinColumnView::requestActivation(ColumnWidget* column)
         foreach (ColumnWidget* currColumn, m_columns) {
             if (currColumn == column) {
                 setActiveColumnIndex(index);
-                assureVisibleActiveColumn();
                 return;
             }
             ++index;
