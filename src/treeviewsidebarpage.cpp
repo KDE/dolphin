@@ -145,34 +145,6 @@ void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
     contextMenu.open();
 }
 
-void TreeViewSidebarPage::expandSelectionParent()
-{
-    disconnect(m_dirLister, SIGNAL(completed()),
-               this, SLOT(expandSelectionParent()));
-
-    // expand the parent folder of the selected item
-    KUrl parentUrl = url().upUrl();
-    if (!m_dirLister->url().isParentOf(parentUrl)) {
-        return;
-    }
-
-    QModelIndex index = m_dolphinModel->indexForUrl(parentUrl);
-    if (index.isValid()) {
-        QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
-        m_treeView->setExpanded(proxyIndex, true);
-
-        // select the item and assure that the item is visible
-        index = m_dolphinModel->indexForUrl(url());
-        if (index.isValid()) {
-            proxyIndex = m_proxyModel->mapFromSource(index);
-            m_treeView->scrollTo(proxyIndex);
-
-            QItemSelectionModel* selModel = m_treeView->selectionModel();
-            selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
-        }
-    }
-}
-
 void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
 {
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);

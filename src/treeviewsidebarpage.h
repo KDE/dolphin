@@ -63,13 +63,6 @@ protected:
 
 private slots:
     /**
-     * Expands the tree in a way that the item with the URL m_selectedUrl
-     * gets visible. Is called by TreeViewSidebarPage::updateSelection()
-     * if the dir lister has been completed.
-     */
-    void expandSelectionParent();
-
-    /**
      * Updates the active view to the URL
      * which is given by the item with the index \a index.
      */
