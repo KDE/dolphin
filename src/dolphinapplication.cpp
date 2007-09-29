@@ -26,6 +26,7 @@
 #include <kcmdlineargs.h>
 #include <kurl.h>
 #include <QtDBus/QDBusConnection>
+#include <QtCore/QDir>
 
 DolphinApplication::DolphinApplication() :
     m_lastId(0)
@@ -74,6 +75,7 @@ int DolphinApplication::newInstance()
 {
     int exitValue = KUniqueApplication::newInstance();
 
+    KCmdLineArgs::setCwd(QDir::currentPath().toUtf8());
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     if (args->count() > 0) {
         for (int i = 0; i < args->count(); ++i) {
