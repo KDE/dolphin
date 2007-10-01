@@ -172,7 +172,9 @@ void DolphinPart::slotItemTriggered(const KFileItem& item)
 
 void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
 {
-    KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems;
+    KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems
+                                                      | KParts::BrowserExtension::ShowProperties
+                                                      | KParts::BrowserExtension::ShowUrlOperations;
     // TODO KonqKfmIconView had if ( !rootItem->isWritable() )
     //            popupFlags |= KParts::BrowserExtension::NoDeletion;
 
@@ -186,7 +188,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
     }
 
     KFileItemList items; items.append(item);
-    emit m_extension->popupMenu( 0, QCursor::pos(), items, KParts::OpenUrlArguments(), KParts::BrowserArguments(), popupFlags );
+    emit m_extension->popupMenu( QCursor::pos(), items, KParts::OpenUrlArguments(), KParts::BrowserArguments(), popupFlags );
 }
 
 #include "dolphinpart.moc"
