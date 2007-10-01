@@ -106,7 +106,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(percent(int)),
             this, SLOT(updateProgress(int)));
-    connect(m_dirLister, SIGNAL(deleteItem(KFileItem*)),
+    connect(m_dirLister, SIGNAL(deleteItem(const KFileItem&)),
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateItemCount()));
@@ -309,8 +309,8 @@ void DolphinViewContainer::updateItemCount()
     m_folderCount = 0;
 
     while (it != end) {
-        KFileItem* item = *it;
-        if (item->isDir()) {
+        const KFileItem item = *it;
+        if (item.isDir()) {
             ++m_folderCount;
         } else {
             ++m_fileCount;

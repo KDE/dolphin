@@ -493,14 +493,9 @@ void DolphinMainWindow::deleteItems()
 
 void DolphinMainWindow::properties()
 {
-    QList<KFileItem> list = m_activeViewContainer->view()->selectedItems();
-    // ### KPropertiesDialog still uses pointer-based KFileItemList
-    KFileItemList lst;
-    // Can't be a const_iterator :(
-    for ( QList<KFileItem>::iterator it = list.begin(), end = list.end() ; it != end ; ++it ) {
-        lst << & *it; // ugly!
-    }
-    KPropertiesDialog dialog(lst, this);
+    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+
+    KPropertiesDialog dialog(list, this);
     dialog.exec();
 }
 

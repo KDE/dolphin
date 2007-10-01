@@ -900,9 +900,9 @@ void DolphinView::applyCutItemEffect()
     KFileItemList::const_iterator it = items.begin();
     const KFileItemList::const_iterator end = items.end();
     while (it != end) {
-        KFileItem* item = *it;
-        if (isCutItem(*item)) {
-            const QModelIndex index = m_dolphinModel->indexForItem(*item);
+        const KFileItem item = *it;
+        if (isCutItem(item)) {
+            const QModelIndex index = m_dolphinModel->indexForItem(item);
             // Huh? the item is already known
             //const KFileItem item = m_dolphinModel->itemForIndex(index);
             const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
@@ -913,7 +913,7 @@ void DolphinView::applyCutItemEffect()
                 // remember current pixmap for the item to be able
                 // to restore it when other items get cut
                 CutItem cutItem;
-                cutItem.url = item->url();
+                cutItem.url = item.url();
                 cutItem.pixmap = pixmap;
                 m_cutItemsCache.append(cutItem);
 

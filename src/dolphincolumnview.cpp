@@ -497,8 +497,8 @@ void DolphinColumnView::invertSelection()
 
     KDirLister* dirLister = m_dolphinModel->dirLister();
     const KFileItemList list = dirLister->itemsForDir(column->url());
-    foreach (KFileItem* item, list) {
-        const QModelIndex index = m_dolphinModel->indexForUrl(item->url());
+    foreach (const KFileItem item, list) {
+        const QModelIndex index = m_dolphinModel->indexForUrl(item.url());
         selModel->select(m_proxyModel->mapFromSource(index), QItemSelectionModel::Toggle);
     }
 }

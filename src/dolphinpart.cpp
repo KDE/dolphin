@@ -185,11 +185,8 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
         item = KFileItem( S_IFDIR, (mode_t)-1, url() );
     }
 
-    // TODO port popupMenu to QList<KFileItem>
-    KFileItem* itemCopy = new KFileItem(item); // ugly
-    KFileItemList items; items.append(itemCopy);
+    KFileItemList items; items.append(item);
     emit m_extension->popupMenu( 0, QCursor::pos(), items, KParts::OpenUrlArguments(), KParts::BrowserArguments(), popupFlags );
-    delete itemCopy;
 }
 
 #include "dolphinpart.moc"
