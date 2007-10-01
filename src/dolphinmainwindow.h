@@ -398,7 +398,7 @@ private slots:
     void slotSortOrderChanged(Qt::SortOrder order);
 
     /** Updates the state of the 'Additional Information' actions. */
-    void slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation info);
+    void slotAdditionalInfoChanged(KFileItemDelegate::InformationList info);
 
     /**
      * Updates the state of the 'Edit' menu actions and emits

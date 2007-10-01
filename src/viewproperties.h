@@ -71,8 +71,8 @@ public:
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
 
-    void setAdditionalInfo(KFileItemDelegate::AdditionalInformation info);
-    KFileItemDelegate::AdditionalInformation additionalInfo() const;
+    void setAdditionalInfo(KFileItemDelegate::InformationList info);
+    KFileItemDelegate::InformationList additionalInfo() const;
 
     /**
      * Sets the directory properties view mode, show preview,

@@ -269,11 +269,11 @@ void ViewPropertiesDialog::slotCategorizedSortingChanged()
 
 void ViewPropertiesDialog::slotAdditionalInfoChanged(int index)
 {
-    KFileItemDelegate::AdditionalInformation info = KFileItemDelegate::NoInformation;
+    KFileItemDelegate::InformationList info;
     switch (index) {
-    case 1:  info = KFileItemDelegate::FriendlyMimeType; break;
-    case 2:  info = KFileItemDelegate::Size; break;
-    case 3:  info = KFileItemDelegate::ModificationTime; break;
+    case 1:  info << KFileItemDelegate::FriendlyMimeType; break;
+    case 2:  info << KFileItemDelegate::Size; break;
+    case 3:  info << KFileItemDelegate::ModificationTime; break;
     default: break;
     }
     m_viewProps->setAdditionalInfo(info);
@@ -376,7 +376,8 @@ void ViewPropertiesDialog::loadSettings()
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
     // load additional info
-    const int addInfoIndex = m_additionalInfo->findData(m_viewProps->additionalInfo());
+    KFileItemDelegate::InformationList info = m_viewProps->additionalInfo();
+    const int addInfoIndex = m_additionalInfo->findData(info.isEmpty() ? KFileItemDelegate::NoInformation : info.first());
     m_additionalInfo->setCurrentIndex(addInfoIndex);
     m_additionalInfo->setEnabled(iconsViewEnabled);
 

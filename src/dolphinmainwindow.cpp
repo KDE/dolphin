@@ -324,9 +324,11 @@ void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
     descending->setChecked(sortDescending);
 }
 
-void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation info)
+void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::InformationList list)
 {
     QAction* action = 0;
+    KFileItemDelegate::Information info = list.isEmpty() ? KFileItemDelegate::NoInformation : list.first();
+
     switch (info) {
     case KFileItemDelegate::FriendlyMimeType:
         action = actionCollection()->action("show_mime_info");
@@ -1577,8 +1579,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
-    connect(view, SIGNAL(additionalInfoChanged(KFileItemDelegate::AdditionalInformation)),
-            this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::AdditionalInformation)));
+    connect(view, SIGNAL(additionalInfoChanged(KFileItemDelegate::InformationList)),
+            this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::InformationList)));
     connect(view, SIGNAL(selectionChanged(QList<KFileItem>)),
             this, SLOT(slotSelectionChanged(QList<KFileItem>)));
     connect(view, SIGNAL(requestItemInfo(KFileItem)),

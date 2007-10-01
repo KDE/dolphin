@@ -197,17 +197,25 @@ Qt::SortOrder ViewProperties::sortOrder() const
     return static_cast<Qt::SortOrder>(m_node->sortOrder());
 }
 
-void ViewProperties::setAdditionalInfo(KFileItemDelegate::AdditionalInformation info)
+void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
 {
+    KFileItemDelegate::Information info = list.isEmpty() ?
+                            KFileItemDelegate::NoInformation : list.first();
+
     if (m_node->additionalInfo() != info) {
         m_node->setAdditionalInfo(info);
         updateTimeStamp();
     }
 }
 
-KFileItemDelegate::AdditionalInformation ViewProperties::additionalInfo() const
+KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 {
-    return static_cast<KFileItemDelegate::AdditionalInformation>(m_node->additionalInfo());
+    KFileItemDelegate::Information info = static_cast<KFileItemDelegate::Information>(m_node->additionalInfo());
+
+    if (info != KFileItemDelegate::NoInformation)
+        return KFileItemDelegate::InformationList() << info;
+    else
+        return KFileItemDelegate::InformationList();
 }
 
 

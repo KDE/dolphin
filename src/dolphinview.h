@@ -279,10 +279,13 @@ public:
     Qt::SortOrder sortOrder() const;
 
     /** Sets the additional information which should be shown for the items. */
-    void setAdditionalInfo(KFileItemDelegate::AdditionalInformation info);
+    void setAdditionalInfo(KFileItemDelegate::InformationList info);
+
+    /** Sets the additional information which should be shown for the items. */
+    void setAdditionalInfo(KFileItemDelegate::Information info);
 
     /** Returns the additional information which should be shown for the items. */
-    KFileItemDelegate::AdditionalInformation additionalInfo() const;
+    KFileItemDelegate::InformationList additionalInfo() const;
 
     /** Reloads the current directory. */
     void reload();
@@ -355,7 +358,7 @@ signals:
     void sortOrderChanged(Qt::SortOrder order);
 
     /** Is emitted if the additional information for an item has been changed. */
-    void additionalInfoChanged(KFileItemDelegate::AdditionalInformation info);
+    void additionalInfoChanged(KFileItemDelegate::InformationList info);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.

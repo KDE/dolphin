@@ -407,22 +407,31 @@ Qt::SortOrder DolphinView::sortOrder() const
     return m_proxyModel->sortOrder();
 }
 
-void DolphinView::setAdditionalInfo(KFileItemDelegate::AdditionalInformation info)
+void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
 {
     const KUrl viewPropsUrl = viewPropertiesUrl();
     ViewProperties props(viewPropsUrl);
     props.setAdditionalInfo(info);
 
-    m_controller->setShowAdditionalInfo(info != KFileItemDelegate::NoInformation);
-    m_fileItemDelegate->setAdditionalInformation(info);
+    m_controller->setShowAdditionalInfo(!info.isEmpty());
+    m_fileItemDelegate->setShowInformation(info);
 
     emit additionalInfoChanged(info);
     startDirLister(viewPropsUrl, true);
 }
 
-KFileItemDelegate::AdditionalInformation DolphinView::additionalInfo() const
+void DolphinView::setAdditionalInfo(KFileItemDelegate::Information info)
 {
-    return m_fileItemDelegate->additionalInformation();
+    KFileItemDelegate::InformationList list;
+    if (info != KFileItemDelegate::NoInformation)
+        list << info;
+
+    setAdditionalInfo(list);
+}
+
+KFileItemDelegate::InformationList DolphinView::additionalInfo() const
+{
+    return m_fileItemDelegate->showInformation();
 }
 
 void DolphinView::reload()
@@ -648,10 +657,10 @@ void DolphinView::applyViewProperties(const KUrl& url)
         emit sortOrderChanged(sortOrder);
     }
 
-    KFileItemDelegate::AdditionalInformation info = props.additionalInfo();
-    if (info != m_fileItemDelegate->additionalInformation()) {
-        m_controller->setShowAdditionalInfo(info != KFileItemDelegate::NoInformation);
-        m_fileItemDelegate->setAdditionalInformation(info);
+    KFileItemDelegate::InformationList info = props.additionalInfo();
+    if (info != m_fileItemDelegate->showInformation()) {
+        m_controller->setShowAdditionalInfo(!info.isEmpty());
+        m_fileItemDelegate->setShowInformation(info);
         emit additionalInfoChanged(info);
     }
 
