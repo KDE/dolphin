@@ -42,7 +42,7 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     m_timer(0),
     m_closeButton(0)
 {
-    setMinimumHeight(K3Icon::SizeSmall);
+    setMinimumHeight(KIconLoader::SizeSmall);
 
     QPalette palette;
     palette.setColor(QPalette::Background, Qt::transparent);

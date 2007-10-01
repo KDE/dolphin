@@ -76,8 +76,8 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     new QLabel(i18nc("@item:inrange Icon Size", "Large"), iconSizeHBox);
 
     m_iconSizeViewer = new PixmapViewer(iconSizeBox, PixmapViewer::SizeTransition);
-    m_iconSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
-    m_iconSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
+    m_iconSizeViewer->setMinimumWidth(KIconLoader::SizeEnormous);
+    m_iconSizeViewer->setFixedHeight(KIconLoader::SizeEnormous);
     QPalette p = m_iconSizeViewer->palette();
     p.setColor(m_iconSizeViewer->backgroundRole(), iconBackgroundColor);
     m_iconSizeViewer->setPalette(p);
@@ -104,8 +104,8 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     new QLabel(i18nc("@item:inrange Preview Size", "Large"), previewSizeHBox);
 
     m_previewSizeViewer = new PixmapViewer(previewSizeBox, PixmapViewer::SizeTransition);
-    m_previewSizeViewer->setMinimumWidth(K3Icon::SizeEnormous);
-    m_previewSizeViewer->setFixedHeight(K3Icon::SizeEnormous);
+    m_previewSizeViewer->setMinimumWidth(KIconLoader::SizeEnormous);
+    m_previewSizeViewer->setFixedHeight(KIconLoader::SizeEnormous);
     p = m_previewSizeViewer->palette();
     p.setColor(m_previewSizeViewer->backgroundRole(), iconBackgroundColor);
     m_previewSizeViewer->setPalette(p);
@@ -142,7 +142,7 @@ void IconSizeDialog::slotButtonClicked(int button)
 
 void IconSizeDialog::updateIconSize(int value)
 {
-    m_iconSizeViewer->setPixmap(KIconLoader::global()->loadIcon("folder", K3Icon::Desktop, iconSize(value)));
+    m_iconSizeViewer->setPixmap(KIconLoader::global()->loadIcon("folder", KIconLoader::Desktop, iconSize(value)));
     if (m_previewSizeSlider != 0) {
         updatePreviewSize(m_previewSizeSlider->value());
     }
@@ -155,19 +155,19 @@ void IconSizeDialog::updatePreviewSize(int value)
         // assure that the preview size is never smaller than the icon size
         value = iconSizeValue;
     }
-    m_previewSizeViewer->setPixmap(KIconLoader::global()->loadIcon("preview", K3Icon::Desktop, iconSize(value)));
+    m_previewSizeViewer->setPixmap(KIconLoader::global()->loadIcon("preview", KIconLoader::Desktop, iconSize(value)));
 }
 
 int IconSizeDialog::iconSize(int sliderValue) const
 {
-    int size = K3Icon::SizeMedium;
+    int size = KIconLoader::SizeMedium;
     switch (sliderValue) {
-    case 0: size = K3Icon::SizeSmall; break;
-    case 1: size = K3Icon::SizeSmallMedium; break;
-    case 2: size = K3Icon::SizeMedium; break;
-    case 3: size = K3Icon::SizeLarge; break;
-    case 4: size = K3Icon::SizeHuge; break;
-    case 5: size = K3Icon::SizeEnormous; break;
+    case 0: size = KIconLoader::SizeSmall; break;
+    case 1: size = KIconLoader::SizeSmallMedium; break;
+    case 2: size = KIconLoader::SizeMedium; break;
+    case 3: size = KIconLoader::SizeLarge; break;
+    case 4: size = KIconLoader::SizeHuge; break;
+    case 5: size = KIconLoader::SizeEnormous; break;
     }
     return size;
 }
@@ -176,12 +176,12 @@ int IconSizeDialog::sliderValue(int iconSize) const
 {
     int value = 0;
     switch (iconSize) {
-    case K3Icon::SizeSmall:       value = 0; break;
-    case K3Icon::SizeSmallMedium: value = 1; break;
-    case K3Icon::SizeMedium:      value = 2; break;
-    case K3Icon::SizeLarge:       value = 3; break;
-    case K3Icon::SizeHuge:        value = 4; break;
-    case K3Icon::SizeEnormous:    value = 5; break;
+    case KIconLoader::SizeSmall:       value = 0; break;
+    case KIconLoader::SizeSmallMedium: value = 1; break;
+    case KIconLoader::SizeMedium:      value = 2; break;
+    case KIconLoader::SizeLarge:       value = 3; break;
+    case KIconLoader::SizeHuge:        value = 4; break;
+    case KIconLoader::SizeEnormous:    value = 5; break;
     default: break;
     }
     return value;

@@ -30,8 +30,8 @@ PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     m_transition(transition),
     m_animationStep(0)
 {
-    setMinimumWidth(K3Icon::SizeEnormous);
-    setMinimumHeight(K3Icon::SizeEnormous);
+    setMinimumWidth(KIconLoader::SizeEnormous);
+    setMinimumHeight(KIconLoader::SizeEnormous);
 
     m_animation.setDuration(150);
     m_animation.setCurveShape(QTimeLine::LinearCurve);

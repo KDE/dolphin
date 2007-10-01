@@ -66,8 +66,8 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 
     // preview
     m_preview = new PixmapViewer(this);
-    m_preview->setMinimumWidth(K3Icon::SizeEnormous);
-    m_preview->setFixedHeight(K3Icon::SizeEnormous);
+    m_preview->setMinimumWidth(KIconLoader::SizeEnormous);
+    m_preview->setFixedHeight(KIconLoader::SizeEnormous);
 
     // name
     m_nameLabel = new QLabel(this);
@@ -188,8 +188,8 @@ void InfoSidebarPage::showItemInfo()
     if (itemCount > 1) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("exec",
-                                           K3Icon::NoGroup,
-                                           K3Icon::SizeEnormous);
+                                           KIconLoader::NoGroup,
+                                           KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
         m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectedItems.count()));
     } else if (!applyPlace(file)) {
@@ -202,7 +202,7 @@ void InfoSidebarPage::showItemInfo()
 
         KIO::PreviewJob* job = KIO::filePreview(list,
                                                 m_preview->width(),
-                                                K3Icon::SizeEnormous,
+                                                KIconLoader::SizeEnormous,
                                                 0,
                                                 0,
                                                 true,
@@ -233,7 +233,7 @@ void InfoSidebarPage::showIcon(const KFileItem& item)
 {
     m_pendingPreview = false;
     if (!applyPlace(item.url())) {
-        m_preview->setPixmap(item.pixmap(K3Icon::SizeEnormous));
+        m_preview->setPixmap(item.pixmap(KIconLoader::SizeEnormous));
     }
 }
 

@@ -524,7 +524,7 @@ void DolphinView::showPreview(const KFileItem& item, const QPixmap& pixmap)
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
             KIconEffect iconEffect;
-            const QPixmap cutPixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
+            const QPixmap cutPixmap = iconEffect.apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
             m_dolphinModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
         } else {
             m_dolphinModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
@@ -919,7 +919,7 @@ void DolphinView::applyCutItemEffect()
 
                 // apply icon effect to the cut item
                 KIconEffect iconEffect;
-                pixmap = iconEffect.apply(pixmap, K3Icon::Desktop, K3Icon::DisabledState);
+                pixmap = iconEffect.apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
                 m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
             }
         }

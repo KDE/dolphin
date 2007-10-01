@@ -303,26 +303,25 @@ bool DolphinIconsView::isZoomInPossible() const
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     const int size = m_controller->showPreview() ? settings->previewSize() : settings->iconSize();
-    return size < K3Icon::SizeEnormous;
+    return size < KIconLoader::SizeEnormous;
 }
 
 bool DolphinIconsView::isZoomOutPossible() const
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     const int size = m_controller->showPreview() ? settings->previewSize() : settings->iconSize();
-    return size > K3Icon::SizeSmall;
+    return size > KIconLoader::SizeSmall;
 }
 
 int DolphinIconsView::increasedIconSize(int size) const
 {
-    // TODO: get rid of K3Icon sizes
     int incSize = 0;
     switch (size) {
-    case K3Icon::SizeSmall:       incSize = K3Icon::SizeSmallMedium; break;
-    case K3Icon::SizeSmallMedium: incSize = K3Icon::SizeMedium; break;
-    case K3Icon::SizeMedium:      incSize = K3Icon::SizeLarge; break;
-    case K3Icon::SizeLarge:       incSize = K3Icon::SizeHuge; break;
-    case K3Icon::SizeHuge:        incSize = K3Icon::SizeEnormous; break;
+    case KIconLoader::SizeSmall:       incSize = KIconLoader::SizeSmallMedium; break;
+    case KIconLoader::SizeSmallMedium: incSize = KIconLoader::SizeMedium; break;
+    case KIconLoader::SizeMedium:      incSize = KIconLoader::SizeLarge; break;
+    case KIconLoader::SizeLarge:       incSize = KIconLoader::SizeHuge; break;
+    case KIconLoader::SizeHuge:        incSize = KIconLoader::SizeEnormous; break;
     default: Q_ASSERT(false); break;
     }
     return incSize;
@@ -330,14 +329,13 @@ int DolphinIconsView::increasedIconSize(int size) const
 
 int DolphinIconsView::decreasedIconSize(int size) const
 {
-    // TODO: get rid of K3Icon sizes
     int decSize = 0;
     switch (size) {
-    case K3Icon::SizeSmallMedium: decSize = K3Icon::SizeSmall; break;
-    case K3Icon::SizeMedium: decSize = K3Icon::SizeSmallMedium; break;
-    case K3Icon::SizeLarge: decSize = K3Icon::SizeMedium; break;
-    case K3Icon::SizeHuge: decSize = K3Icon::SizeLarge; break;
-    case K3Icon::SizeEnormous: decSize = K3Icon::SizeHuge; break;
+    case KIconLoader::SizeSmallMedium: decSize = KIconLoader::SizeSmall; break;
+    case KIconLoader::SizeMedium: decSize = KIconLoader::SizeSmallMedium; break;
+    case KIconLoader::SizeLarge: decSize = KIconLoader::SizeMedium; break;
+    case KIconLoader::SizeHuge: decSize = KIconLoader::SizeLarge; break;
+    case KIconLoader::SizeEnormous: decSize = KIconLoader::SizeHuge; break;
     default: Q_ASSERT(false); break;
     }
     return decSize;

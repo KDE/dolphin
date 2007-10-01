@@ -123,11 +123,11 @@ void DetailsViewSettingsPage::applySettings()
     settings->setShowGroup(m_groupBox->isChecked());
     settings->setShowType(m_typeBox->isChecked());
 
-    int iconSize = K3Icon::SizeSmall;
+    int iconSize = KIconLoader::SizeSmall;
     if (m_mediumIconSize->isChecked()) {
-        iconSize = K3Icon::SizeMedium;
+        iconSize = KIconLoader::SizeMedium;
     } else if (m_largeIconSize->isChecked()) {
-        iconSize = K3Icon::SizeLarge;
+        iconSize = KIconLoader::SizeLarge;
     }
     settings->setIconSize(iconSize);
 
@@ -156,15 +156,15 @@ void DetailsViewSettingsPage::loadSettings()
     m_typeBox->setChecked(settings->showType());
 
     switch (settings->iconSize()) {
-    case K3Icon::SizeLarge:
+    case KIconLoader::SizeLarge:
         m_largeIconSize->setChecked(true);
         break;
 
-    case K3Icon::SizeMedium:
+    case KIconLoader::SizeMedium:
         m_mediumIconSize->setChecked(true);
         break;
 
-    case K3Icon::SizeSmall:
+    case KIconLoader::SizeSmall:
     default:
         m_smallIconSize->setChecked(true);
     }

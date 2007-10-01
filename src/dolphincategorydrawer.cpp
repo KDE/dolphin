@@ -52,7 +52,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 {
     QRect starRect = option.rect;
 
-    int iconSize = KIconLoader::global()->currentSize(K3Icon::Small);
+    int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
     QVariant categoryVariant = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryRole);
 
     if (!categoryVariant.isValid())
@@ -177,7 +177,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             }
             else
             {
-                icon = KIconLoader::global()->loadIcon("user", K3Icon::NoGroup, option.fontMetrics.height());
+                icon = KIconLoader::global()->loadIcon("user", KIconLoader::NoGroup, option.fontMetrics.height());
             }
 
             opt.rect.setTop(opt.rect.top() - icon.height());
@@ -199,7 +199,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             // so the group icon drawn is that one particularly. This way assures the drawn
             // icon is the one of the mimetype of the group itself. (ereslibre)
             icon = KIconLoader::global()->loadMimeTypeIcon(item.mimeTypePtr()->iconName(),
-                                                           K3Icon::NoGroup, option.fontMetrics.height());
+                                                           KIconLoader::NoGroup, option.fontMetrics.height());
 
             opt.rect.setTop(opt.rect.top() - icon.height());
 
@@ -214,9 +214,9 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             starRect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
             starRect.setSize(QSize(iconSize, iconSize));
 
-            QPixmap pixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
-            QPixmap smallPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::NoGroup, iconSize / 2);
-            QPixmap disabledPixmap = KIconLoader::global()->loadIcon("rating", K3Icon::Small);
+            QPixmap pixmap = KIconLoader::global()->loadIcon("rating", KIconLoader::Small);
+            QPixmap smallPixmap = KIconLoader::global()->loadIcon("rating", KIconLoader::NoGroup, iconSize / 2);
+            QPixmap disabledPixmap = KIconLoader::global()->loadIcon("rating", KIconLoader::Small);
 
             QImage img = disabledPixmap.toImage();
             Blitz::grayscale(img);
@@ -330,7 +330,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
 int DolphinCategoryDrawer::categoryHeight(const QStyleOption &option) const
 {
-    int iconSize = KIconLoader::global()->currentSize(K3Icon::Small);
+    int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
 
     return qMax(option.fontMetrics.height() + (iconSize / 4) * 2 + 2, iconSize + (iconSize / 4) * 2 + 2) /* 2 gradient */;
 }

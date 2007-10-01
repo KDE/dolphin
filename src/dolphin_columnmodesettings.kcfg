@@ -23,7 +23,7 @@
         </entry>
         <entry name="IconSize" type="Int">
             <label context="@label">Icon size</label>
-            <default code="true">K3Icon::SizeSmall</default>
+            <default code="true">KIconLoader::SizeSmall</default>
         </entry>
         <entry name="ColumnWidth" type="Int">
             <label context="@label">Column width</label>

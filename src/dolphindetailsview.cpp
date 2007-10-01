@@ -381,10 +381,9 @@ void DolphinDetailsView::zoomIn()
 {
     if (isZoomInPossible()) {
         DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-        // TODO: get rid of K3Icon sizes
         switch (settings->iconSize()) {
-        case K3Icon::SizeSmall:  settings->setIconSize(K3Icon::SizeMedium); break;
-        case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeLarge); break;
+        case KIconLoader::SizeSmall:  settings->setIconSize(KIconLoader::SizeMedium); break;
+        case KIconLoader::SizeMedium: settings->setIconSize(KIconLoader::SizeLarge); break;
         default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
@@ -395,10 +394,9 @@ void DolphinDetailsView::zoomOut()
 {
     if (isZoomOutPossible()) {
         DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-        // TODO: get rid of K3Icon sizes
         switch (settings->iconSize()) {
-        case K3Icon::SizeLarge:  settings->setIconSize(K3Icon::SizeMedium); break;
-        case K3Icon::SizeMedium: settings->setIconSize(K3Icon::SizeSmall); break;
+        case KIconLoader::SizeLarge:  settings->setIconSize(KIconLoader::SizeMedium); break;
+        case KIconLoader::SizeMedium: settings->setIconSize(KIconLoader::SizeSmall); break;
         default: Q_ASSERT(false); break;
         }
         updateDecorationSize();
@@ -459,13 +457,13 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
 bool DolphinDetailsView::isZoomInPossible() const
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    return settings->iconSize() < K3Icon::SizeLarge;
+    return settings->iconSize() < KIconLoader::SizeLarge;
 }
 
 bool DolphinDetailsView::isZoomOutPossible() const
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    return settings->iconSize() > K3Icon::SizeSmall;
+    return settings->iconSize() > KIconLoader::SizeSmall;
 }
 
 void DolphinDetailsView::updateDecorationSize()
