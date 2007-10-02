@@ -84,8 +84,8 @@ DolphinView::DolphinView(QWidget* parent,
 
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateCutItems()));
-    connect(m_dirLister, SIGNAL(newItems(const QList<KFileItem>&)),
-            this, SLOT(generatePreviews(const QList<KFileItem>&)));
+    connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
+            this, SLOT(generatePreviews(const KFileItemList&)));
 
     m_controller = new DolphinController(this);
     m_controller->setUrl(url);
@@ -510,7 +510,7 @@ void DolphinView::triggerItem(const QModelIndex& index)
     emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
 }
 
-void DolphinView::generatePreviews(const QList<KFileItem>& items)
+void DolphinView::generatePreviews(const KFileItemList& items)
 {
     if (m_controller->showPreview()) {
         KIO::PreviewJob* job = KIO::filePreview(items, 128);

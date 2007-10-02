@@ -432,7 +432,7 @@ private slots:
      * The current preview settings (maximum size, 'Show Preview' menu)
      * are respected.
      */
-    void generatePreviews(const QList<KFileItem>& items);
+    void generatePreviews(const KFileItemList& items);
 
     /**
      * Replaces the icon of the item \a item by the preview pixmap
