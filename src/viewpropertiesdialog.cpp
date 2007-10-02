@@ -121,14 +121,15 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortingBox->setLayout(sortingLayout);
 
     QLabel* additionalInfoLabel = new QLabel(i18nc("@label:listbox", "Additional information:"), propsBox);
+    // TODO: the additional information can be shown in parallel since today
     m_additionalInfo = new QComboBox(propsBox);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "No Information"),
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
                               KFileItemDelegate::NoInformation);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "Type"),
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
                               KFileItemDelegate::FriendlyMimeType);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "Size"),
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
                               KFileItemDelegate::Size);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "Date"),
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
                               KFileItemDelegate::ModificationTime);
 
     m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
