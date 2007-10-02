@@ -26,7 +26,7 @@
 #include <QtGui/QLabel>
 #include <QtGui/QBoxLayout>
 
-RenameDialog::RenameDialog(const QList<KFileItem>& items) :
+RenameDialog::RenameDialog(const KFileItemList& items) :
     KDialog(),
     m_renameOneItem(false)
 {

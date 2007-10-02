@@ -128,7 +128,7 @@ private:
     DolphinMainWindow* m_mainWindow;
     KFileItem m_fileInfo;
     KUrl m_baseUrl;
-    QList<KFileItem> m_selectedItems;
+    KFileItemList m_selectedItems;
     KUrl::List m_selectedUrls;
     int m_context;
 };

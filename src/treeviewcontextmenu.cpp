@@ -140,7 +140,7 @@ void TreeViewContextMenu::paste()
 
 void TreeViewContextMenu::rename()
 {
-    QList<KFileItem> item;
+    KFileItemList item;
     item.append(m_fileInfo);
     RenameDialog dialog(item);
     if (dialog.exec() == QDialog::Accepted) {

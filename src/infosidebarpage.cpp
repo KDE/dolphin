@@ -118,7 +118,7 @@ void InfoSidebarPage::setUrl(const KUrl& url)
     }
 }
 
-void InfoSidebarPage::setSelection(const QList<KFileItem>& selection)
+void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
     SidebarPage::setSelection(selection);
     if (selection.size() == 1) {
@@ -173,7 +173,7 @@ void InfoSidebarPage::showItemInfo()
 
     cancelRequest();
 
-    const QList<KFileItem>& selectedItems = selection();
+    const KFileItemList& selectedItems = selection();
 
     KUrl file;
     if (selectedItems.isEmpty()) {
@@ -279,7 +279,7 @@ void InfoSidebarPage::showMetaInfo()
 {
     QString text;
 
-    const QList<KFileItem>& selectedItems = selection();
+    const KFileItemList& selectedItems = selection();
     if (selectedItems.size() <= 1) {
         KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
         fileItem.refresh();

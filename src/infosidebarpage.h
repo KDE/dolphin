@@ -59,7 +59,7 @@ public slots:
     virtual void setUrl(const KUrl& url);
 
     /** @see SidebarPage::setSelection() */
-    virtual void setSelection(const QList<KFileItem>& selection);
+    virtual void setSelection(const KFileItemList& selection);
 
     /**
      * Does a delayed request of information for the item \a item.

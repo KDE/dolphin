@@ -39,7 +39,7 @@ public:
     const KUrl& url() const;
 
     /** Returns the current selected items of the active Dolphin view. */
-    const QList<KFileItem>& selection() const;
+    const KFileItemList& selection() const;
 
 public slots:
     /**
@@ -52,7 +52,7 @@ public slots:
      * This is invoked to inform the sidebar that the user has selected a new
      * set of items.
      */
-    virtual void setSelection(const QList<KFileItem>& selection);
+    virtual void setSelection(const KFileItemList& selection);
 
 signals:
     /**
@@ -70,7 +70,7 @@ signals:
      * e.g. the current folder. The new selection will be reported via the
      * setSelection slot.
      */
-    void changeSelection(const QList<KFileItem>& selection);
+    void changeSelection(const KFileItemList& selection);
 
     /**
      * This signal is emitted whenever a drop action on this widget needs the
@@ -80,7 +80,7 @@ signals:
 
 private:
     KUrl m_url;
-    QList<KFileItem> m_currentSelection;
+    KFileItemList m_currentSelection;
 };
 
 #endif // _SIDEBARPAGE_H_

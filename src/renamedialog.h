@@ -26,6 +26,7 @@
 
 
 class KFileItem;
+class KFileItemList;
 class KLineEdit;
 
 /**
@@ -52,7 +53,7 @@ class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public KDialog
     Q_OBJECT
 
 public:
-    explicit RenameDialog(const QList<KFileItem>& items);
+    explicit RenameDialog(const KFileItemList& items);
     virtual ~RenameDialog();
 
     /**

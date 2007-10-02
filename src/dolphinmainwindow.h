@@ -122,7 +122,7 @@ public slots:
      * Inform all affected dolphin components that a selection change is
      * requested.
      */
-    void changeSelection(const QList<KFileItem>& selection);
+    void changeSelection(const KFileItemList& selection);
 
     /** Stores all settings and quits Dolphin. */
     void quit();
@@ -138,7 +138,7 @@ signals:
      * Is sent if the selection of the currently active view has
      * been changed.
      */
-    void selectionChanged(const QList<KFileItem>& selection);
+    void selectionChanged(const KFileItemList& selection);
 
     /**
      * Is sent if the url of the currently active view has
@@ -404,7 +404,7 @@ private slots:
      * Updates the state of the 'Edit' menu actions and emits
      * the signal selectionChanged().
      */
-    void slotSelectionChanged(const QList<KFileItem>& selection);
+    void slotSelectionChanged(const KFileItemList& selection);
 
     /** Emits the signal requestItemInfo(). */
     void slotRequestItemInfo(const KFileItem&);

@@ -140,7 +140,7 @@ void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
     const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
     KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
 
-    emit changeSelection(QList<KFileItem>());
+    emit changeSelection(KFileItemList());
     TreeViewContextMenu contextMenu(this, item);
     contextMenu.open();
 }

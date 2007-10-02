@@ -190,7 +190,7 @@ bool DolphinViewContainer::isActive() const
 void DolphinViewContainer::renameSelectedItems()
 {
     DolphinViewContainer* view = m_mainWindow->activeViewContainer();
-    const QList<KFileItem> items = m_view->selectedItems();
+    const KFileItemList items = m_view->selectedItems();
     if (items.count() > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
@@ -213,8 +213,8 @@ void DolphinViewContainer::renameSelectedItems()
             Q_ASSERT(replaceIndex >= 0);
             int index = 1;
 
-            QList<KFileItem>::const_iterator it = items.begin();
-            QList<KFileItem>::const_iterator end = items.end();
+            KFileItemList::const_iterator it = items.begin();
+            KFileItemList::const_iterator end = items.end();
             while (it != end) {
                 const KUrl& oldUrl = (*it).url();
                 QString number;
@@ -374,7 +374,7 @@ QString DolphinViewContainer::defaultStatusBarText() const
 QString DolphinViewContainer::selectionStatusBarText() const
 {
     QString text;
-    const QList<KFileItem> list = m_view->selectedItems();
+    const KFileItemList list = m_view->selectedItems();
     if (list.isEmpty()) {
         // when an item is triggered, it is temporary selected but selectedItems()
         // will return an empty list
@@ -384,8 +384,8 @@ QString DolphinViewContainer::selectionStatusBarText() const
     int fileCount = 0;
     int folderCount = 0;
     KIO::filesize_t byteSize = 0;
-    QList<KFileItem>::const_iterator it = list.begin();
-    const QList<KFileItem>::const_iterator end = list.end();
+    KFileItemList::const_iterator it = list.begin();
+    const KFileItemList::const_iterator end = list.end();
     while (it != end) {
         const KFileItem& item = *it;
         if (item.isDir()) {

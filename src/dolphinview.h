@@ -224,7 +224,7 @@ public:
      * selected.
      * @see DolphinView::selectedUrls()
      */
-    QList<KFileItem> selectedItems() const;
+    KFileItemList selectedItems() const;
 
     /**
      * Returns a list of URLs for all selected items. An empty list
@@ -320,7 +320,7 @@ public slots:
      * will actually get selected. The view will e.g. not select items which
      * are not in the currently displayed folder.
      */
-    void changeSelection(const QList<KFileItem>& selection);
+    void changeSelection(const KFileItemList& selection);
 
 signals:
     /**
@@ -372,7 +372,7 @@ signals:
     /**
      * Is emitted whenever the selection has been changed.
      */
-    void selectionChanged(const QList<KFileItem>& selection);
+    void selectionChanged(const KFileItemList& selection);
 
     /**
      * Is emitted if a context menu is requested for the item \a item,

@@ -304,7 +304,7 @@ void DolphinView::clearSelection()
     itemView()->selectionModel()->clear();
 }
 
-QList<KFileItem> DolphinView::selectedItems() const
+KFileItemList DolphinView::selectedItems() const
 {
     const QAbstractItemView* view = itemView();
 
@@ -313,7 +313,7 @@ QList<KFileItem> DolphinView::selectedItems() const
     Q_ASSERT((view != 0) && (view->selectionModel() != 0));
 
     const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
-    QList<KFileItem> itemList;
+    KFileItemList itemList;
 
     const QModelIndexList indexList = selection.indexes();
     foreach (QModelIndex index, indexList) {
@@ -329,10 +329,9 @@ QList<KFileItem> DolphinView::selectedItems() const
 KUrl::List DolphinView::selectedUrls() const
 {
     KUrl::List urls;
-    const QList<KFileItem> list = selectedItems();
-    for ( QList<KFileItem>::const_iterator it = list.begin(), end = list.end();
-          it != end; ++it ) {
-        urls.append((*it).url());
+    const KFileItemList list = selectedItems();
+    foreach (KFileItem item, list) {
+        urls.append(item.url());
     }
     return urls;
 }
@@ -671,7 +670,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
     }
 }
 
-void DolphinView::changeSelection(const QList<KFileItem>& selection)
+void DolphinView::changeSelection(const KFileItemList& selection)
 {
     clearSelection();
     if (selection.isEmpty()) {

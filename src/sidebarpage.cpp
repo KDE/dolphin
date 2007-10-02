@@ -39,7 +39,7 @@ const KUrl& SidebarPage::url() const
     return m_url;
 }
 
-const QList<KFileItem>& SidebarPage::selection() const
+const KFileItemList& SidebarPage::selection() const
 {
     return m_currentSelection;
 }
@@ -49,7 +49,7 @@ void SidebarPage::setUrl(const KUrl& url)
     m_url = url;
 }
 
-void SidebarPage::setSelection(const QList<KFileItem>& selection)
+void SidebarPage::setSelection(const KFileItemList& selection)
 {
     m_currentSelection = selection;
 }

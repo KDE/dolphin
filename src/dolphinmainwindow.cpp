@@ -240,7 +240,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
     }
 }
 
-void DolphinMainWindow::changeSelection(const QList<KFileItem>& selection)
+void DolphinMainWindow::changeSelection(const KFileItemList& selection)
 {
     activeViewContainer()->view()->changeSelection(selection);
 }
@@ -356,7 +356,7 @@ void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::Information
     }
 }
 
-void DolphinMainWindow::slotSelectionChanged(const QList<KFileItem>& selection)
+void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 {
     updateEditActions();
 
@@ -1358,8 +1358,8 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             infoWidget, SLOT(setUrl(KUrl)));
-    connect(this, SIGNAL(selectionChanged(QList<KFileItem>)),
-            infoWidget, SLOT(setSelection(QList<KFileItem>)));
+    connect(this, SIGNAL(selectionChanged(KFileItemList)),
+            infoWidget, SLOT(setSelection(KFileItemList)));
     connect(this, SIGNAL(requestItemInfo(KFileItem)),
             infoWidget, SLOT(requestDelayedItemInfo(KFileItem)));
 
@@ -1379,8 +1379,8 @@ void DolphinMainWindow::setupDockWidgets()
             treeWidget, SLOT(setUrl(KUrl)));
     connect(treeWidget, SIGNAL(changeUrl(KUrl)),
             this, SLOT(changeUrl(KUrl)));
-    connect(treeWidget, SIGNAL(changeSelection(QList<KFileItem>)),
-            this, SLOT(changeSelection(QList<KFileItem>)));
+    connect(treeWidget, SIGNAL(changeSelection(KFileItemList)),
+            this, SLOT(changeSelection(KFileItemList)));
     connect(treeWidget, SIGNAL(urlsDropped(KUrl::List, KUrl)),
             this, SLOT(dropUrls(KUrl::List, KUrl)));
 
@@ -1442,7 +1442,7 @@ void DolphinMainWindow::updateHistory()
 
 void DolphinMainWindow::updateEditActions()
 {
-    const QList<KFileItem> list = m_activeViewContainer->view()->selectedItems();
+    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
     if (list.isEmpty()) {
         stateChanged("has_no_selection");
     } else {
@@ -1455,8 +1455,8 @@ void DolphinMainWindow::updateEditActions()
 
         bool enableMoveToTrash = true;
 
-        QList<KFileItem>::const_iterator it = list.begin();
-        const QList<KFileItem>::const_iterator end = list.end();
+        KFileItemList::const_iterator it = list.begin();
+        const KFileItemList::const_iterator end = list.end();
         while (it != end) {
             const KUrl& url = (*it).url();
             // only enable the 'Move to Trash' action for local files
@@ -1581,8 +1581,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(view, SIGNAL(additionalInfoChanged(KFileItemDelegate::InformationList)),
             this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::InformationList)));
-    connect(view, SIGNAL(selectionChanged(QList<KFileItem>)),
-            this, SLOT(slotSelectionChanged(QList<KFileItem>)));
+    connect(view, SIGNAL(selectionChanged(KFileItemList)),
+            this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),
