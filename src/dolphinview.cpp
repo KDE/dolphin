@@ -412,20 +412,11 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
     ViewProperties props(viewPropsUrl);
     props.setAdditionalInfo(info);
 
-    m_controller->setShowAdditionalInfo(!info.isEmpty());
+    m_controller->setAdditionalInfoCount(info.count());
     m_fileItemDelegate->setShowInformation(info);
 
     emit additionalInfoChanged(info);
     startDirLister(viewPropsUrl, true);
-}
-
-void DolphinView::setAdditionalInfo(KFileItemDelegate::Information info)
-{
-    KFileItemDelegate::InformationList list;
-    if (info != KFileItemDelegate::NoInformation)
-        list << info;
-
-    setAdditionalInfo(list);
 }
 
 KFileItemDelegate::InformationList DolphinView::additionalInfo() const
@@ -658,7 +649,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
 
     KFileItemDelegate::InformationList info = props.additionalInfo();
     if (info != m_fileItemDelegate->showInformation()) {
-        m_controller->setShowAdditionalInfo(!info.isEmpty());
+        m_controller->setAdditionalInfoCount(info.count());
         m_fileItemDelegate->setShowInformation(info);
         emit additionalInfoChanged(info);
     }
@@ -807,6 +798,11 @@ void DolphinView::clearHoverInformation()
 
 void DolphinView::createView()
 {
+    KFileItemDelegate::InformationList infoList;
+    if (m_fileItemDelegate != 0) {
+        infoList = m_fileItemDelegate->showInformation();
+    }
+
     // delete current view
     QAbstractItemView* view = itemView();
     if (view != 0) {
@@ -846,6 +842,7 @@ void DolphinView::createView()
     Q_ASSERT(view != 0);
 
     m_fileItemDelegate = new KFileItemDelegate(view);
+    m_fileItemDelegate->setShowInformation(infoList);
     view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);

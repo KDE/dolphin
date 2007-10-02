@@ -64,8 +64,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
             this, SLOT(slotShowPreviewChanged(bool)));
-    connect(controller, SIGNAL(showAdditionalInfoChanged(bool)),
-            this, SLOT(slotShowAdditionalInfoChanged(bool)));
+    connect(controller, SIGNAL(additionalInfoCountChanged(int)),
+            this, SLOT(slotAdditionalInfoCountChanged(int)));
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
@@ -84,7 +84,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_viewOptions.font = font;
 
     setWordWrap(settings->numberOfTextlines() > 1);
-    updateGridSize(controller->showPreview(), controller->showAdditionalInfo());
+    updateGridSize(controller->showPreview(), controller->additionalInfoCount());
 
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
@@ -230,12 +230,12 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 
 void DolphinIconsView::slotShowPreviewChanged(bool showPreview)
 {
-    updateGridSize(showPreview, m_controller->showAdditionalInfo());
+    updateGridSize(showPreview, m_controller->additionalInfoCount());
 }
 
-void DolphinIconsView::slotShowAdditionalInfoChanged(bool showAdditionalInfo)
+void DolphinIconsView::slotAdditionalInfoCountChanged(int count)
 {
-    updateGridSize(m_controller->showPreview(), showAdditionalInfo);
+    updateGridSize(m_controller->showPreview(), count);
 }
 
 void DolphinIconsView::zoomIn()
@@ -264,7 +264,7 @@ void DolphinIconsView::zoomIn()
         settings->setItemWidth(settings->itemWidth() + diff);
         settings->setItemHeight(settings->itemHeight() + diff);
 
-        updateGridSize(showPreview, m_controller->showAdditionalInfo());
+        updateGridSize(showPreview, m_controller->additionalInfoCount());
     }
 }
 
@@ -295,7 +295,7 @@ void DolphinIconsView::zoomOut()
         settings->setItemWidth(settings->itemWidth() - diff);
         settings->setItemHeight(settings->itemHeight() - diff);
 
-        updateGridSize(showPreview, m_controller->showAdditionalInfo());
+        updateGridSize(showPreview, m_controller->additionalInfoCount());
     }
 }
 
@@ -341,7 +341,7 @@ int DolphinIconsView::decreasedIconSize(int size) const
     return decSize;
 }
 
-void DolphinIconsView::updateGridSize(bool showPreview, bool showAdditionalInfo)
+void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 {
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
@@ -360,9 +360,8 @@ void DolphinIconsView::updateGridSize(bool showPreview, bool showAdditionalInfo)
         size = previewSize;
     }
 
-    if (showAdditionalInfo) {
-        itemHeight += m_viewOptions.font.pointSize() * 2;
-    }
+    Q_ASSERT(additionalInfoCount >= 0);
+    itemHeight += additionalInfoCount * m_viewOptions.font.pointSize() * 2;
 
     if (settings->arrangement() == QListView::TopToBottom) {
         // The decoration width indirectly defines the maximum

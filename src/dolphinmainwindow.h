@@ -27,9 +27,10 @@
 
 #include <config-nepomuk.h>
 
-#include <kxmlguiwindow.h>
-#include <ksortablelist.h>
+#include <kfileitemdelegate.h>
 #include <konq_undo.h>
+#include <ksortablelist.h>
+#include <kxmlguiwindow.h>
 
 #include <QtCore/QList>
 
@@ -292,20 +293,14 @@ private slots:
     /** Switches between sorting by categories or not. */
     void toggleSortCategorization();
 
-    /**
-     * Clears any additional information for an item except for the
-     * name and the icon.
-     */
-    void clearInfo();
+    /** Switches between showing the MIME type as additional information for the item or not. */
+    void toggleMimeInfo();
 
-    /** Shows the MIME type as additional information for the item. */
-    void showMimeInfo();
+    /** Switches between showing the size as additional information for the item or not. */
+    void toggleSizeInfo();
 
-    /** Shows the size as additional information for the item. */
-    void showSizeInfo();
-
-    /** Shows the date as additional information for the item. */
-    void showDateInfo();
+    /** Switchtes between showing the date as additional information for the item or not. */
+    void toggleDateInfo();
 
     /**
      * Switches between one and two views:
@@ -462,6 +457,14 @@ private:
      * is updated to match with the text and the currently active view.
      */
     void updateSplitAction();
+
+    /**
+     * Helper method for the slots toggleDateInfo(), toggleSizeInfo()
+     * and toggleMimeInfo(). Applies \a info dependent from the  current
+     * checked state of the action \a actionName to the file item delegate.
+     */
+    void toggleAdditionalInfo(const char* actionName,
+                              KFileItemDelegate::Information info);
 
 private:
     /**

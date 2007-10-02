@@ -281,9 +281,6 @@ public:
     /** Sets the additional information which should be shown for the items. */
     void setAdditionalInfo(KFileItemDelegate::InformationList info);
 
-    /** Sets the additional information which should be shown for the items. */
-    void setAdditionalInfo(KFileItemDelegate::Information info);
-
     /** Returns the additional information which should be shown for the items. */
     KFileItemDelegate::InformationList additionalInfo() const;
 

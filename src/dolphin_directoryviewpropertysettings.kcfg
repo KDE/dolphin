@@ -52,7 +52,7 @@
 
         <entry name="AdditionalInfo" type="Int">
             <label context="@label">Additional information</label>
-            <default code="true">KFileItemDelegate::NoInformation</default>
+            <default>0</default>
         </entry>
 
         <entry name="Timestamp" type="DateTime" >

@@ -77,8 +77,8 @@ public:
     void setShowPreview(bool show);
     bool showPreview() const;
 
-    void setShowAdditionalInfo(bool show);
-    bool showAdditionalInfo() const;
+    void setAdditionalInfoCount(int count);
+    bool additionalInfoCount() const;
 
     void triggerZoomIn();
     void setZoomInPossible(bool possible);
@@ -156,10 +156,10 @@ signals:
     void showPreviewChanged(bool show);
 
     /**
-     * Is emitted if the state for showing additional info has been
-     * changed to \a show.
+     * Is emitted if the number of additional informations has been
+     * changed to \a count.
      */
-    void showAdditionalInfoChanged(bool show);
+    void additionalInfoCountChanged(int count);
 
     /**
      * Is emitted if the item with the index \a index should be triggered.
@@ -188,9 +188,9 @@ signals:
 
 private:
     bool m_showPreview;
-    bool m_showAdditionalInfo;
     bool m_zoomInPossible;
     bool m_zoomOutPossible;
+    int m_additionalInfoCount;
     KUrl m_url;
 };
 
@@ -204,9 +204,9 @@ inline bool DolphinController::showPreview() const
     return m_showPreview;
 }
 
-inline bool DolphinController::showAdditionalInfo() const
+inline bool DolphinController::additionalInfoCount() const
 {
-    return m_showAdditionalInfo;
+    return m_additionalInfoCount;
 }
 
 inline void DolphinController::setZoomInPossible(bool possible)

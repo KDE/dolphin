@@ -199,8 +199,22 @@ Qt::SortOrder ViewProperties::sortOrder() const
 
 void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
 {
-    KFileItemDelegate::Information info = list.isEmpty() ?
-                            KFileItemDelegate::NoInformation : list.first();
+    int info = NoInfo;
+    foreach (KFileItemDelegate::Information currentInfo, list) {
+        switch (currentInfo) {
+        case KFileItemDelegate::FriendlyMimeType:
+            info = info | TypeInfo;
+            break;
+        case KFileItemDelegate::Size:
+            info = info | SizeInfo;
+            break;
+        case KFileItemDelegate::ModificationTime:
+            info = info | DateInfo;
+            break;
+        default:
+            break;
+        }
+    }
 
     if (m_node->additionalInfo() != info) {
         m_node->setAdditionalInfo(info);
@@ -210,12 +224,20 @@ void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
 
 KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 {
-    KFileItemDelegate::Information info = static_cast<KFileItemDelegate::Information>(m_node->additionalInfo());
+    const int info = m_node->additionalInfo();
 
-    if (info != KFileItemDelegate::NoInformation)
-        return KFileItemDelegate::InformationList() << info;
-    else
-        return KFileItemDelegate::InformationList();
+    KFileItemDelegate::InformationList list;
+    if (info & TypeInfo) {
+        list.append(KFileItemDelegate::FriendlyMimeType);
+    }
+    if (info & SizeInfo) {
+        list.append(KFileItemDelegate::Size);
+    }
+    if (info & DateInfo) {
+        list.append(KFileItemDelegate::ModificationTime);
+    }
+
+    return list;
 }
 
 

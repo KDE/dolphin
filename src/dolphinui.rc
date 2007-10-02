@@ -38,7 +38,6 @@
    </Menu>
    <Menu name="additional_info">
     <text context="@title:menu">Additional Information</text>
-    <Action name="clear_info" />
     <Action name="show_mime_info" />
     <Action name="show_size_info" />
     <Action name="show_date_info" />

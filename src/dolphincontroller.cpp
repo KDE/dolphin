@@ -24,9 +24,10 @@
 DolphinController::DolphinController(QObject* parent) :
     QObject(parent),
     m_showPreview(false),
-    m_showAdditionalInfo(false),
     m_zoomInPossible(false),
-    m_zoomOutPossible(false)
+    m_zoomOutPossible(false),
+    m_additionalInfoCount(0),
+    m_url()
 {
 }
 
@@ -80,11 +81,11 @@ void DolphinController::setShowPreview(bool show)
     }
 }
 
-void DolphinController::setShowAdditionalInfo(bool show)
+void DolphinController::setAdditionalInfoCount(int count)
 {
-    if (m_showAdditionalInfo != show) {
-        m_showAdditionalInfo = show;
-        emit showAdditionalInfoChanged(show);
+    if (m_additionalInfoCount != count) {
+        m_additionalInfoCount = count;
+        emit additionalInfoCountChanged(count);
     }
 }
 

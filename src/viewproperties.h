@@ -120,6 +120,14 @@ private:
     Q_DISABLE_COPY(ViewProperties)
 
 private:
+    enum AdditionalInfoValues
+    {
+        NoInfo   = 0,
+        TypeInfo = 1,
+        SizeInfo = 2,
+        DateInfo = 4
+    };
+
     bool m_changedProps;
     bool m_autoSave;
     QString m_filepath;

@@ -326,33 +326,35 @@ void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
 
 void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::InformationList list)
 {
-    QAction* action = 0;
-    KFileItemDelegate::Information info = list.isEmpty() ? KFileItemDelegate::NoInformation : list.first();
+    QAction* showMimeInfo = actionCollection()->action("show_mime_info");
+    QAction* showSizeInfo = actionCollection()->action("show_size_info");
+    QAction* showDateInfo = actionCollection()->action("show_date_info");
 
-    switch (info) {
-    case KFileItemDelegate::FriendlyMimeType:
-        action = actionCollection()->action("show_mime_info");
-        break;
-    case KFileItemDelegate::Size:
-        action = actionCollection()->action("show_size_info");
-        break;
-    case KFileItemDelegate::ModificationTime:
-        action = actionCollection()->action("show_date_info");
-        break;
-    case KFileItemDelegate::NoInformation:
-    default:
-        action = actionCollection()->action("clear_info");
-        break;
-    }
+    showMimeInfo->setChecked(false);
+    showSizeInfo->setChecked(false);
+    showDateInfo->setChecked(false);
 
-    if (action != 0) {
-        KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
-        toggleAction->setChecked(true);
+    const DolphinView* view = m_activeViewContainer->view();
+    // currently only the icons view supports additional information
+    const bool enable = (view->mode() == DolphinView::IconsView);
+    showMimeInfo->setEnabled(enable);
+    showSizeInfo->setEnabled(enable);
+    showDateInfo->setEnabled(enable);
 
-        QActionGroup* group = toggleAction->actionGroup();
-        Q_ASSERT(group != 0);
-        const DolphinView* view = m_activeViewContainer->view();
-        group->setEnabled(view->mode() == DolphinView::IconsView);
+    foreach (KFileItemDelegate::Information info, list) {
+        switch (info) {
+        case KFileItemDelegate::FriendlyMimeType:
+            showMimeInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::Size:
+            showSizeInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::ModificationTime:
+            showDateInfo->setChecked(true);
+            break;
+        default:
+            break;
+        }
     }
 }
 
@@ -776,27 +778,19 @@ void DolphinMainWindow::toggleSortCategorization()
     view->setCategorizedSorting(!categorizedSorting);
 }
 
-void DolphinMainWindow::clearInfo()
+void DolphinMainWindow::toggleMimeInfo()
 {
-    m_activeViewContainer->view()->setAdditionalInfo(KFileItemDelegate::NoInformation);
+    toggleAdditionalInfo("show_mime_info", KFileItemDelegate::FriendlyMimeType);
 }
 
-void DolphinMainWindow::showMimeInfo()
+void DolphinMainWindow::toggleSizeInfo()
 {
-    clearStatusBar();
-    m_activeViewContainer->view()->setAdditionalInfo(KFileItemDelegate::FriendlyMimeType);
+    toggleAdditionalInfo("show_size_info", KFileItemDelegate::Size);
 }
 
-void DolphinMainWindow::showSizeInfo()
+void DolphinMainWindow::toggleDateInfo()
 {
-    clearStatusBar();
-    m_activeViewContainer->view()->setAdditionalInfo(KFileItemDelegate::Size);
-}
-
-void DolphinMainWindow::showDateInfo()
-{
-    clearStatusBar();
-    m_activeViewContainer->view()->setAdditionalInfo(KFileItemDelegate::ModificationTime);
+    toggleAdditionalInfo("show_date_info", KFileItemDelegate::ModificationTime);
 }
 
 void DolphinMainWindow::toggleSplitView()
@@ -1245,27 +1239,17 @@ void DolphinMainWindow::setupActions()
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
     connect(showInGroups, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
 
-    KToggleAction* clearInfo = actionCollection()->add<KToggleAction>("clear_info");
-    clearInfo->setText(i18nc("@action:inmenu Additional information", "No Information"));
-    connect(clearInfo, SIGNAL(triggered()), this, SLOT(clearInfo()));
-
     KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
     showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
-    connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(showMimeInfo()));
+    connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(toggleMimeInfo()));
 
     KToggleAction* showSizeInfo = actionCollection()->add<KToggleAction>("show_size_info");
     showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
-    connect(showSizeInfo, SIGNAL(triggered()), this, SLOT(showSizeInfo()));
+    connect(showSizeInfo, SIGNAL(triggered()), this, SLOT(toggleSizeInfo()));
 
     KToggleAction* showDateInfo = actionCollection()->add<KToggleAction>("show_date_info");
     showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
-    connect(showDateInfo, SIGNAL(triggered()), this, SLOT(showDateInfo()));
-
-    QActionGroup* infoGroup = new QActionGroup(this);
-    infoGroup->addAction(clearInfo);
-    infoGroup->addAction(showMimeInfo);
-    infoGroup->addAction(showSizeInfo);
-    infoGroup->addAction(showDateInfo);
+    connect(showDateInfo, SIGNAL(triggered()), this, SLOT(toggleDateInfo()));
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
@@ -1609,6 +1593,28 @@ void DolphinMainWindow::updateSplitAction()
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setIcon(KIcon("fileview-split"));
+    }
+}
+
+void DolphinMainWindow::toggleAdditionalInfo(const char* actionName,
+                                             KFileItemDelegate::Information info)
+{
+    clearStatusBar();
+
+    DolphinView* view = m_activeViewContainer->view();
+    KFileItemDelegate::InformationList list = view->additionalInfo();
+
+    const bool show = actionCollection()->action(actionName)->isChecked();
+
+    const int index = list.indexOf(info);
+    const bool containsInfo = (index >= 0);
+    if (show && !containsInfo) {
+        list.append(info);
+        view->setAdditionalInfo(list);
+    } else if (!show && containsInfo) {
+        list.removeAt(index);
+        view->setAdditionalInfo(list);
+        Q_ASSERT(list.indexOf(info) < 0);
     }
 }
 

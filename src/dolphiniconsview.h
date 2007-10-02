@@ -60,7 +60,7 @@ protected:
 
 private slots:
     void slotShowPreviewChanged(bool show);
-    void slotShowAdditionalInfoChanged(bool show);
+    void slotAdditionalInfoCountChanged(int count);
     void zoomIn();
     void zoomOut();
 
@@ -76,9 +76,9 @@ private:
 
     /**
      * Updates the size of the grid depending on the state
-     * of \a showPreview and \a showAdditionalInfo.
+     * of \a showPreview and \a additionalInfoCount.
      */
-    void updateGridSize(bool showPreview, bool showAdditionalInfo);
+    void updateGridSize(bool showPreview, int additionalInfoCount);
 
 private:
     DolphinController* m_controller;
