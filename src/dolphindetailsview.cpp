@@ -125,6 +125,7 @@ bool DolphinDetailsView::event(QEvent* event)
         headerView->setStretchLastSection(false);
         headerView->setResizeMode(QHeaderView::ResizeToContents);
         headerView->setResizeMode(0, QHeaderView::Stretch);
+        headerView->setMovable(false);
 
         // hide columns if this is indicated by the settings
         const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
