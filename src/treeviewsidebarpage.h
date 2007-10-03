@@ -78,7 +78,13 @@ private slots:
      * Invokes expandToLeafDir() asynchronously (the expanding
      * may not be done in the context of this slot).
      */
-    void triggerExpanding(const QModelIndex& index);
+    void triggerExpanding();
+
+    /**
+     * Invokes loadSubTree() asynchronously (the loading
+     * may not be done in the context of this slot).
+     */
+    void triggerLoadSubTree();
 
     /**
      * Expands all directories to make m_leafDir visible and
@@ -92,19 +98,6 @@ private slots:
      * finished loading the root items.
      */
     void loadSubTree();
-
-    /**
-     * Is invoked when the directory lister has started the loading
-     * of the URL \a url and sets the internal m_dirListerCompleted
-     * state to false.
-     */
-    void slotDirListerStarted(const KUrl& url);
-
-    /**
-     * Is invoked when the directory lister has completed the loading
-     * and sets the internal m_dirListerCompleted state to true.
-     */
-    void slotDirListerCompleted();
 
 private:
     /**

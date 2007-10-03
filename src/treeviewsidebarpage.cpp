@@ -38,7 +38,6 @@
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
-    m_dirListerCompleted(false),
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
@@ -90,18 +89,17 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
 
-        m_dirListerCompleted = true;
         connect(m_dirLister, SIGNAL(started(const KUrl&)),
                 this, SLOT(slotDirListerStarted(const KUrl&)));
         connect(m_dirLister, SIGNAL(completed()),
-                this, SLOT(slotDirListerCompleted()));
+                this, SLOT(triggerLoadSubTree()));
 
         Q_ASSERT(m_dolphinModel == 0);
         m_dolphinModel = new DolphinModel(this);
         m_dolphinModel->setDirLister(m_dirLister);
         m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
         connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
-                this, SLOT(triggerExpanding(const QModelIndex&)));
+                this, SLOT(triggerExpanding()));
 
         Q_ASSERT(m_proxyModel == 0);
         m_proxyModel = new DolphinSortFilterProxyModel(this);
@@ -167,12 +165,18 @@ void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
     }
 }
 
-void TreeViewSidebarPage::triggerExpanding(const QModelIndex& index)
+void TreeViewSidebarPage::triggerExpanding()
 {
-    Q_UNUSED(index);
     // the expanding of the folders may not be done in the context
     // of this slot
     QMetaObject::invokeMethod(this, "expandToLeafDir", Qt::QueuedConnection);
+}
+
+void TreeViewSidebarPage::triggerLoadSubTree()
+{
+    // the loading of the sub tree may not be done in the context
+    // of this slot
+    QMetaObject::invokeMethod(this, "loadSubTree", Qt::QueuedConnection);
 }
 
 void TreeViewSidebarPage::expandToLeafDir()
@@ -192,6 +196,7 @@ void TreeViewSidebarPage::expandToLeafDir()
     selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
 }
 
+
 void TreeViewSidebarPage::loadSubTree()
 {
     QItemSelectionModel* selModel = m_treeView->selectionModel();
@@ -209,24 +214,12 @@ void TreeViewSidebarPage::loadSubTree()
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
         m_treeView->scrollTo(proxyIndex);
         selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
-    } else if (m_dirListerCompleted) {
+    } else {
         // Load all sub directories that need to get expanded for making
         // the leaf directory visible. The slot triggerExpanding() will
         // get invoked if the expanding has been finished.
         m_dolphinModel->expandToUrl(m_leafDir);
     }
-}
-
-void TreeViewSidebarPage::slotDirListerStarted(const KUrl& url)
-{
-    Q_UNUSED(url);
-    m_dirListerCompleted = false;
-}
-
-void TreeViewSidebarPage::slotDirListerCompleted()
-{
-    m_dirListerCompleted = true;
-    QMetaObject::invokeMethod(this, "loadSubTree", Qt::QueuedConnection);
 }
 
 void TreeViewSidebarPage::loadTree(const KUrl& url)

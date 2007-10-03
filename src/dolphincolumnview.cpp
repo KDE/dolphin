@@ -389,7 +389,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     QAbstractItemView(parent),
     m_controller(controller),
     m_restoreActiveColumnFocus(false),
-    m_dirListerCompleted(false),
     m_index(-1),
     m_contentX(0),
     m_columns(),
@@ -477,10 +476,8 @@ void DolphinColumnView::setModel(QAbstractItemModel* model)
             this, SLOT(triggerReloadColumns(const QModelIndex&)));
 
     KDirLister* dirLister = m_dolphinModel->dirLister();
-    connect(dirLister, SIGNAL(started(const KUrl&)),
-            this, SLOT(slotDirListerStarted(const KUrl&)));
     connect(dirLister, SIGNAL(completed()),
-            this, SLOT(slotDirListerCompleted()));
+            this, SLOT(triggerExpandToActiveUrl()));
 
     activeColumn()->setModel(model);
     QAbstractItemView::setModel(model);
@@ -786,8 +783,7 @@ void DolphinColumnView::expandToActiveUrl()
     Q_ASSERT(lastIndex >= 0);
     const KUrl& activeUrl = m_columns[lastIndex]->url();
     const KUrl rootUrl = m_dolphinModel->dirLister()->url();
-    const bool expand = m_dirListerCompleted
-                        && rootUrl.isParentOf(activeUrl)
+    const bool expand = rootUrl.isParentOf(activeUrl)
                         && !rootUrl.equals(activeUrl, KUrl::CompareWithoutTrailingSlash);
     if (expand) {
         m_dolphinModel->expandToUrl(activeUrl);
@@ -825,15 +821,8 @@ void DolphinColumnView::updateColumns()
     }
 }
 
-void DolphinColumnView::slotDirListerStarted(const KUrl& url)
+void DolphinColumnView::triggerExpandToActiveUrl()
 {
-    Q_UNUSED(url);
-    m_dirListerCompleted = false;
-}
-
-void DolphinColumnView::slotDirListerCompleted()
-{
-    m_dirListerCompleted = true;
     QMetaObject::invokeMethod(this, "expandToActiveUrl", Qt::QueuedConnection);
 }
 

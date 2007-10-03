@@ -119,17 +119,10 @@ private slots:
     void updateColumns();
 
     /**
-     * Is invoked when the directory lister has started the loading
-     * of the URL \a url and sets the internal m_dirListerCompleted
-     * state to false.
-     */
-    void slotDirListerStarted(const KUrl& url);
-
-    /**
      * Is invoked when the directory lister has completed the loading
-     * and sets the internal m_dirListerCompleted state to true.
+     * and invokes expandToActiveUrl() asynchronously.
      */
-    void slotDirListerCompleted();
+    void triggerExpandToActiveUrl();
 
 private:
     bool isZoomInPossible() const;
@@ -164,7 +157,6 @@ private:
 private:
     DolphinController* m_controller;
     bool m_restoreActiveColumnFocus;
-    bool m_dirListerCompleted;
     int m_index;
     int m_contentX;
     QList<ColumnWidget*> m_columns;
