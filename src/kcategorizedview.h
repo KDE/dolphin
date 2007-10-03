@@ -1,6 +1,6 @@
 /**
   * This file is part of the KDE project
-  * Copyright (C) 2007 Rafael Fernández López <ereslibre@gmail.com>
+  * Copyright (C) 2007 Rafael Fernández López <ereslibre@kde.org>
   *
   * This library is free software; you can redistribute it and/or
   * modify it under the terms of the GNU Library General Public
@@ -36,7 +36,7 @@ class KCategoryDrawer;
   *
   * @see KItemCategorizer, KSortFilterProxyModel
   *
-  * @author Rafael Fernández López <ereslibre@gmail.com>
+  * @author Rafael Fernández López <ereslibre@kde.org>
   */
 class LIBDOLPHINPRIVATE_EXPORT KCategorizedView
     : public QListView

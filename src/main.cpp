@@ -48,7 +48,7 @@ int main(int argc, char **argv)
                     "aseigo@kde.org");
     about.addAuthor(ki18nc("@info:credit", "Rafael Fernández López"),
                     ki18nc("@info:credit", "Developer"),
-                    "ereslibre@gmail.com");
+                    "ereslibre@kde.org");
     about.addAuthor(ki18nc("@info:credit", "Kevin Ottens"),
                     ki18nc("@info:credit", "Developer"),
                     "ervin@kde.org");

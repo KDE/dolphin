@@ -2,7 +2,7 @@
  *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *   Copyright (C) 2006 by Dominic Battre <dominic@battre.de>              *
  *   Copyright (C) 2006 by Martin Pool <mbp@canonical.com>                 *
- *   Copyright (C) 2007 by Rafael Fernández López <ereslibre@gmail.com>    *
+ *   Copyright (C) 2007 by Rafael Fernández López <ereslibre@kde.org>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
