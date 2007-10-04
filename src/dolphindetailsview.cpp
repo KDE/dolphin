@@ -157,9 +157,10 @@ bool DolphinDetailsView::event(QEvent* event)
         hideColumn(DolphinModel::Tags);
     }
     else if (event->type() == QEvent::UpdateRequest) {
-        // A wheel movement will scroll 4 items
-        if (model()->rowCount())
+        // a wheel movement will scroll 4 items
+        if (model()->rowCount() > 0) {
             verticalScrollBar()->setSingleStep((sizeHintForRow(0) / 3) * 4);
+        }
     }
 
     return QTreeView::event(event);

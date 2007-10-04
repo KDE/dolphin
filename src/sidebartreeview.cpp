@@ -73,9 +73,10 @@ bool SidebarTreeView::event(QEvent* event)
         header()->hide();
     }
     else if (event->type() == QEvent::UpdateRequest) {
-        // A wheel movement will scroll 1 item
-        if (model()->rowCount())
+        // a wheel movement will scroll 1 item
+        if (model()->rowCount() > 0) {
             verticalScrollBar()->setSingleStep(sizeHintForRow(0) / 3);
+        }
     }
 
     return QTreeView::event(event);
