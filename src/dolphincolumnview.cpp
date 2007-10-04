@@ -118,12 +118,13 @@ ColumnWidget::ColumnWidget(QWidget* parent,
     viewport()->setAttribute(Qt::WA_Hover);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setSelectionBehavior(SelectItems);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
     setFocusPolicy(Qt::NoFocus);
+    setVerticalScrollMode(QListView::ScrollPerPixel);
+    setHorizontalScrollMode(QListView::ScrollPerPixel);
 
     // apply the column mode settings to the widget
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
@@ -522,7 +523,7 @@ void DolphinColumnView::reload()
     // all columns are hidden, now reload the directory lister
     KDirLister* dirLister = m_dolphinModel->dirLister();
     const KUrl& rootUrl = m_columns[0]->url();
-    dirLister->openUrl(rootUrl, false, true);
+    dirLister->openUrl(rootUrl, KDirLister::Reload);
     updateColumns();
 }
 
