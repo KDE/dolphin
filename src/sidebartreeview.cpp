@@ -46,7 +46,7 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
 //       check avoids a division by zero happening on versions before 4.3.1.
 //       Right now KDE in theory can be shipped with Qt 4.3.0 and above.
 //       ereslibre
-#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2))
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2) || defined(QT_KDE_QT_COPY))
     setVerticalScrollMode(QListView::ScrollPerPixel);
     setHorizontalScrollMode(QListView::ScrollPerPixel);
 #endif
@@ -83,7 +83,7 @@ bool SidebarTreeView::event(QEvent* event)
 //       check avoids a division by zero happening on versions before 4.3.1.
 //       Right now KDE in theory can be shipped with Qt 4.3.0 and above.
 //       ereslibre
-#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2))
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2) || defined(QT_KDE_QT_COPY))
     else if (event->type() == QEvent::UpdateRequest) {
         // a wheel movement will scroll 1 item
         if (model()->rowCount() > 0) {

@@ -112,7 +112,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 //       check avoids a division by zero happening on versions before 4.3.1.
 //       Right now KDE in theory can be shipped with Qt 4.3.0 and above.
 //       ereslibre
-#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2))
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2) || defined(QT_KDE_QT_COPY))
     setVerticalScrollMode(QTreeView::ScrollPerPixel);
     setHorizontalScrollMode(QTreeView::ScrollPerPixel);
 #endif
@@ -166,7 +166,7 @@ bool DolphinDetailsView::event(QEvent* event)
 //       check avoids a division by zero happening on versions before 4.3.1.
 //       Right now KDE in theory can be shipped with Qt 4.3.0 and above.
 //       ereslibre
-#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2))
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2) || defined(QT_KDE_QT_COPY))
     else if (event->type() == QEvent::UpdateRequest) {
         // a wheel movement will scroll 4 items
         if (model()->rowCount() > 0) {
