@@ -108,8 +108,14 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_viewOptions.font = font;
     m_viewOptions.showDecorationSelected = true;
 
-    setVerticalScrollMode(QListView::ScrollPerPixel);
-    setHorizontalScrollMode(QListView::ScrollPerPixel);
+// TODO: Remove this check when 4.3.2 is released and KDE requires it... this
+//       check avoids a division by zero happening on versions before 4.3.1.
+//       Right now KDE in theory can be shipped with Qt 4.3.0 and above.
+//       ereslibre
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2))
+    setVerticalScrollMode(QTreeView::ScrollPerPixel);
+    setHorizontalScrollMode(QTreeView::ScrollPerPixel);
+#endif
 
     updateDecorationSize();
 }
@@ -156,12 +162,18 @@ bool DolphinDetailsView::event(QEvent* event)
         hideColumn(DolphinModel::Rating);
         hideColumn(DolphinModel::Tags);
     }
+// TODO: Remove this check when 4.3.2 is released and KDE requires it... this
+//       check avoids a division by zero happening on versions before 4.3.1.
+//       Right now KDE in theory can be shipped with Qt 4.3.0 and above.
+//       ereslibre
+#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2))
     else if (event->type() == QEvent::UpdateRequest) {
         // a wheel movement will scroll 4 items
         if (model()->rowCount() > 0) {
             verticalScrollBar()->setSingleStep((sizeHintForRow(0) / 3) * 4);
         }
     }
+#endif
 
     return QTreeView::event(event);
 }
