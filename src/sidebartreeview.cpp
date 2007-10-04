@@ -26,6 +26,7 @@
 #include <QKeyEvent>
 #include <QPainter>
 #include <QHeaderView>
+#include <QScrollBar>
 
 SidebarTreeView::SidebarTreeView(QWidget* parent) :
     QTreeView(parent),
@@ -40,6 +41,8 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
     setAutoExpandDelay(300);
+    setVerticalScrollMode(QListView::ScrollPerPixel);
+    setHorizontalScrollMode(QListView::ScrollPerPixel);
 
     viewport()->setAttribute(Qt::WA_Hover);
 
@@ -68,6 +71,11 @@ bool SidebarTreeView::event(QEvent* event)
         hideColumn(DolphinModel::Rating);
         hideColumn(DolphinModel::Tags);
         header()->hide();
+    }
+    else if (event->type() == QEvent::UpdateRequest) {
+        // A wheel movement will scroll 1 item
+        if (model()->rowCount())
+            verticalScrollBar()->setSingleStep(sizeHintForRow(0) / 3);
     }
 
     return QTreeView::event(event);

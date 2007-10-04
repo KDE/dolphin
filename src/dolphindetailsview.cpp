@@ -108,6 +108,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_viewOptions.font = font;
     m_viewOptions.showDecorationSelected = true;
 
+    setVerticalScrollMode(QListView::ScrollPerPixel);
+    setHorizontalScrollMode(QListView::ScrollPerPixel);
+
     updateDecorationSize();
 }
 
@@ -152,6 +155,11 @@ bool DolphinDetailsView::event(QEvent* event)
 
         hideColumn(DolphinModel::Rating);
         hideColumn(DolphinModel::Tags);
+    }
+    else if (event->type() == QEvent::UpdateRequest) {
+        // A wheel movement will scroll 4 items
+        if (model()->rowCount())
+            verticalScrollBar()->setSingleStep((sizeHintForRow(0) / 3) * 4);
     }
 
     return QTreeView::event(event);
