@@ -60,6 +60,14 @@ private:
     void loadSettings();
 
 private:
+    enum AdditionalInfoValues
+    {
+        NoInfo   = 0,
+        TypeInfo = 1,
+        SizeInfo = 2,
+        DateInfo = 4
+    };
+
     bool m_isDirty;
     DolphinView* m_dolphinView;
     ViewProperties* m_viewProps;

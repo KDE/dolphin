@@ -121,16 +121,23 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortingBox->setLayout(sortingLayout);
 
     QLabel* additionalInfoLabel = new QLabel(i18nc("@label:listbox", "Additional information:"), propsBox);
-    // TODO: the additional information can be shown in parallel since today
     m_additionalInfo = new QComboBox(propsBox);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
-                              KFileItemDelegate::NoInformation);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
-                              KFileItemDelegate::FriendlyMimeType);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
-                              KFileItemDelegate::Size);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info", "--- TODO ---"),
-                              KFileItemDelegate::ModificationTime);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "No Information"), NoInfo);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "Type"), TypeInfo);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "Size"), SizeInfo);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "Date"), DateInfo);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "Type, Size"), TypeInfo | SizeInfo);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "Type, Date"), TypeInfo | DateInfo);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "Size, Date"), SizeInfo | DateInfo);
+    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
+                                    "Type, Size, Date"),TypeInfo | SizeInfo | DateInfo);
 
     m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
     m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in Groups"), propsBox);
@@ -270,14 +277,20 @@ void ViewPropertiesDialog::slotCategorizedSortingChanged()
 
 void ViewPropertiesDialog::slotAdditionalInfoChanged(int index)
 {
-    KFileItemDelegate::InformationList info;
-    switch (index) {
-    case 1:  info << KFileItemDelegate::FriendlyMimeType; break;
-    case 2:  info << KFileItemDelegate::Size; break;
-    case 3:  info << KFileItemDelegate::ModificationTime; break;
-    default: break;
+    const int info = m_additionalInfo->itemData(index).toInt();
+
+    KFileItemDelegate::InformationList list;
+    if (info & TypeInfo) {
+        list.append(KFileItemDelegate::FriendlyMimeType);
     }
-    m_viewProps->setAdditionalInfo(info);
+    if (info & SizeInfo) {
+        list.append(KFileItemDelegate::Size);
+    }
+    if (info & DateInfo) {
+        list.append(KFileItemDelegate::ModificationTime);
+    }
+
+    m_viewProps->setAdditionalInfo(list);
     m_isDirty = true;
 }
 
@@ -377,8 +390,25 @@ void ViewPropertiesDialog::loadSettings()
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
     // load additional info
-    KFileItemDelegate::InformationList info = m_viewProps->additionalInfo();
-    const int addInfoIndex = m_additionalInfo->findData(info.isEmpty() ? KFileItemDelegate::NoInformation : info.first());
+    const KFileItemDelegate::InformationList list = m_viewProps->additionalInfo();
+    int info = NoInfo;
+    foreach (KFileItemDelegate::Information currentInfo, list) {
+        switch (currentInfo) {
+        case KFileItemDelegate::FriendlyMimeType:
+            info = info | TypeInfo;
+            break;
+        case KFileItemDelegate::Size:
+            info = info | SizeInfo;
+            break;
+        case KFileItemDelegate::ModificationTime:
+            info = info | DateInfo;
+            break;
+        default:
+            break;
+        }
+    }
+
+    const int addInfoIndex = m_additionalInfo->findData(info);
     m_additionalInfo->setCurrentIndex(addInfoIndex);
     m_additionalInfo->setEnabled(iconsViewEnabled);
 
