@@ -56,7 +56,7 @@ void ApplyViewPropsJob::processNextItem()
 
 void ApplyViewPropsJob::startNextJob(const KUrl& url)
 {
-    KIO::ListJob* listJob = KIO::listRecursive(url, false);
+    KIO::ListJob* listJob = KIO::listRecursive(url, KIO::HideProgressInfo);
     connect(listJob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList&)),
             SLOT(slotEntries(KIO::Job*, const KIO::UDSEntryList&)));
     addSubjob(listJob);
