@@ -980,8 +980,8 @@ void KCategorizedView::startDrag(Qt::DropActions supportedActions)
     //        pixmap of selected icons to the dragging cursor, but it sets a non
     //        ARGB window so it is no transparent. Use QAbstractItemView when
     //        this is fixed on Qt.
-    //QListView::startDrag(supportedActions);
-    QAbstractItemView::startDrag(supportedActions);
+    // QAbstractItemView::startDrag(supportedActions);
+    QListView::startDrag(supportedActions);
 
     d->isDragging = false;
     d->mouseButtonPressed = false;
