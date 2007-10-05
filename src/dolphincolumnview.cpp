@@ -152,8 +152,7 @@ KUrl DolphinColumnView::rootUrl() const
 
 void DolphinColumnView::showColumn(const KUrl& url)
 {
-    const KUrl& rootUrl = m_columns[0]->url();
-    if (!rootUrl.isParentOf(url)) {
+    if (!rootUrl().isParentOf(url)) {
         setRootUrl(url);
         return;
     }
