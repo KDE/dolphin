@@ -452,9 +452,13 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
 
     if (restoreColumnView) {
         applyViewProperties(rootUrl);
-        Q_ASSERT(itemView() == m_columnView);
         startDirLister(rootUrl);
-        m_columnView->showColumn(url);
+        // Restoring the column view relies on the URL-history. It might be possible
+        // that the view properties have been changed or deleted in the meantime, so
+        // it cannot be asserted that really a column view has been created:
+        if (itemView() == m_columnView) {
+            m_columnView->showColumn(url);
+        }
     } else {
         applyViewProperties(url);
         startDirLister(url);
