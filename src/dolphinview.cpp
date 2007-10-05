@@ -60,7 +60,6 @@ DolphinView::DolphinView(QWidget* parent,
     QWidget(parent),
     m_active(true),
     m_loadingDirectory(false),
-    m_initializeColumnView(false),
     m_storedCategorizedSorting(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
@@ -103,8 +102,8 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(triggerItem(const QModelIndex&)));
     connect(m_controller, SIGNAL(activated()),
             this, SLOT(activate()));
-    connect(m_controller, SIGNAL(itemEntered(const QModelIndex&)),
-            this, SLOT(showHoverInformation(const QModelIndex&)));
+    connect(m_controller, SIGNAL(itemEntered(const KFileItem&)),
+            this, SLOT(showHoverInformation(const KFileItem&)));
     connect(m_controller, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
 
@@ -181,7 +180,7 @@ void DolphinView::setMode(Mode mode)
         emit categorizedSortingChanged();
     }
 
-    startDirLister(viewPropsUrl);
+    loadDirectory(viewPropsUrl);
 
     emit modeChanged();
 }
@@ -200,7 +199,7 @@ void DolphinView::setShowPreview(bool show)
     m_controller->setShowPreview(show);
     emit showPreviewChanged();
 
-    startDirLister(viewPropsUrl, true);
+    loadDirectory(viewPropsUrl, true);
 }
 
 bool DolphinView::showPreview() const
@@ -219,9 +218,10 @@ void DolphinView::setShowHiddenFiles(bool show)
     props.setShowHiddenFiles(show);
 
     m_dirLister->setShowingDotFiles(show);
+    m_controller->setShowHiddenFiles(show);
     emit showHiddenFilesChanged();
 
-    startDirLister(viewPropsUrl, true);
+    loadDirectory(viewPropsUrl, true);
 }
 
 bool DolphinView::showHiddenFiles() const
@@ -278,8 +278,8 @@ void DolphinView::invertSelection()
         // QAbstractItemView does not offer a virtual method invertSelection()
         // as counterpart to QAbstractItemView::selectAll(). This makes it
         // necessary to delegate the inverting of the selection to the
-        // column view, as only the selection of the active column should get
-        // inverted.
+        // column view, as only the selection of the active column should
+        // get inverted.
         m_columnView->invertSelection();
     } else {
         QItemSelectionModel* selectionModel = itemView()->selectionModel();
@@ -416,7 +416,7 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
     m_fileItemDelegate->setShowInformation(info);
 
     emit additionalInfoChanged(info);
-    startDirLister(viewPropsUrl, true);
+    loadDirectory(viewPropsUrl, true);
 }
 
 KFileItemDelegate::InformationList DolphinView::additionalInfo() const
@@ -427,7 +427,7 @@ KFileItemDelegate::InformationList DolphinView::additionalInfo() const
 void DolphinView::reload()
 {
     setUrl(url());
-    startDirLister(url(), true);
+    loadDirectory(url(), true);
 }
 
 void DolphinView::refresh()
@@ -452,7 +452,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
 
     if (restoreColumnView) {
         applyViewProperties(rootUrl);
-        startDirLister(rootUrl);
+        loadDirectory(rootUrl);
         // Restoring the column view relies on the URL-history. It might be possible
         // that the view properties have been changed or deleted in the meantime, so
         // it cannot be asserted that really a column view has been created:
@@ -461,7 +461,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         }
     } else {
         applyViewProperties(url);
-        startDirLister(url);
+        loadDirectory(url);
     }
 
     itemView()->setFocus();
@@ -540,7 +540,7 @@ void DolphinView::emitSelectionChangedSignal()
     emit selectionChanged(DolphinView::selectedItems());
 }
 
-void DolphinView::startDirLister(const KUrl& url, bool reload)
+void DolphinView::loadDirectory(const KUrl& url, bool reload)
 {
     if (!url.isValid()) {
         const QString location(url.pathOrUrl());
@@ -556,32 +556,12 @@ void DolphinView::startDirLister(const KUrl& url, bool reload)
     m_loadingDirectory = true;
 
     m_dirLister->stop();
+    m_dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
 
-    bool keepOldDirs = isColumnViewActive() && !m_initializeColumnView;
-    m_initializeColumnView = false;
-
-    if (keepOldDirs) {
-        // keeping old directories is only necessary for hierarchical views
-        // like the column view
-        if (reload) {
-            // for the column view it is not enough to reload the directory lister,
-            // so this task is delegated to the column view directly
-            m_columnView->reload();
-        } else if (m_dirLister->directories().contains(url)) {
-            // The dir lister contains the directory already, so
-            // KDirLister::openUrl() may not get invoked twice.
-            m_dirLister->updateDirectory(url);
-        } else {
-            const KUrl& dirListerUrl = m_dirLister->url();
-            if ((dirListerUrl == url) || !m_dirLister->url().isParentOf(url)) {
-                // The current URL is not a child of the dir lister
-                // URL. This may happen when e. g. a place has been selected
-                // and hence the view must be reset.
-                m_dirLister->openUrl(url, KDirLister::NoFlags);
-            }
-        }
-    } else {
-        m_dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
+    if (isColumnViewActive() && reload) {
+        // reloading the directory lister is not enough in the case of the
+        // column view, as each column has its own directory lister internally...
+        m_columnView->reload();
     }
 }
 
@@ -610,14 +590,6 @@ void DolphinView::applyViewProperties(const KUrl& url)
         m_mode = mode;
         createView();
         emit modeChanged();
-
-        if (m_mode == ColumnView) {
-            // The mode has been changed to the Column View. When starting the dir
-            // lister with DolphinView::startDirLister() it is important to give a
-            // hint that the dir lister may not keep the current directory
-            // although this is the default for showing a hierarchy.
-            m_initializeColumnView = true;
-        }
     }
     if (itemView() == 0) {
         createView();
@@ -628,6 +600,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
     const bool showHiddenFiles = props.showHiddenFiles();
     if (showHiddenFiles != m_dirLister->showingDotFiles()) {
         m_dirLister->setShowingDotFiles(showHiddenFiles);
+        m_controller->setShowHiddenFiles(showHiddenFiles);
         emit showHiddenFilesChanged();
     }
 
@@ -782,16 +755,13 @@ void DolphinView::updateCutItems()
     applyCutItemEffect();
 }
 
-void DolphinView::showHoverInformation(const QModelIndex& index)
+void DolphinView::showHoverInformation(const KFileItem& item)
 {
     if (hasSelection()) {
         return;
     }
 
-    const KFileItem item = fileItem(index);
-    if (!item.isNull()) {
-        emit requestItemInfo(item);
-    }
+    emit requestItemInfo(item);
 }
 
 void DolphinView::clearHoverInformation()

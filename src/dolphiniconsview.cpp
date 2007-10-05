@@ -26,6 +26,7 @@
 #include "dolphin_iconsmodesettings.h"
 
 #include <kdialog.h>
+#include <kdirmodel.h>
 
 #include <QAbstractProxyModel>
 #include <QApplication>
@@ -58,8 +59,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
     }
-    connect(this, SIGNAL(entered(const QModelIndex&)),
-            controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
@@ -70,6 +69,9 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
+
+    connect(this, SIGNAL(entered(const QModelIndex&)),
+            this, SLOT(slotEntered(const QModelIndex&)));
 
     // apply the icons mode settings to the widget
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
@@ -226,6 +228,16 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
     if (triggerItem) {
         m_controller->triggerItem(currentIndex);
     }
+}
+
+void DolphinIconsView::slotEntered(const QModelIndex& index)
+{
+    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(model());
+    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+    const QModelIndex dirIndex = proxyModel->mapToSource(index);
+
+    const KFileItem item = dirModel->itemForIndex(dirIndex);
+    m_controller->emitItemEntered(item);
 }
 
 void DolphinIconsView::slotShowPreviewChanged(bool showPreview)

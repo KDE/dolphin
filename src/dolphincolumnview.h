@@ -24,7 +24,7 @@
 #include <QList>
 #include <QStyleOption>
 
-class ColumnWidget;
+class DolphinColumnWidget;
 class DolphinController;
 class DolphinModel;
 class KUrl;
@@ -99,36 +99,14 @@ private slots:
      */
     void updateDecorationSize();
 
-    /**
-     * Expands the directory model the the currently active URL.
-     * Used by DolphinColumnView::reload() after the directory
-     * lister has been loaded.
-     */
-    void expandToActiveUrl();
-
-    /**
-     * Triggers the updating of columns after the model index
-     * \a index has been expanded. Used by DolphinModel::expandToActiveUrl().
-     */
-    void triggerUpdateColumns(const QModelIndex& index);
-
-    /**
-     * Adjusts the root index of all columns to represent the reloaded
-     * model. Used by DolphinModel::triggerUpdateColumns().
-     */
-    void updateColumns();
-
-    /**
-     * Is invoked when the directory lister has completed the loading
-     * and invokes expandToActiveUrl() asynchronously.
-     */
-    void triggerExpandToActiveUrl();
+    void slotShowHiddenFilesChanged(bool show);
+    void slotShowPreviewChanged(bool show);
 
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
 
-    ColumnWidget* activeColumn() const;
+    DolphinColumnWidget* activeColumn() const;
 
     /**
      * Deactivates the currently active column and activates
@@ -152,23 +130,23 @@ private:
      * that the columns gets fully visible by adjusting the horizontal
      * position of the content.
      */
-    void requestActivation(ColumnWidget* column);
+    void requestActivation(DolphinColumnWidget* column);
 
 private:
     DolphinController* m_controller;
     bool m_restoreActiveColumnFocus;
     int m_index;
     int m_contentX;
-    QList<ColumnWidget*> m_columns;
+    QList<DolphinColumnWidget*> m_columns;
     QTimeLine* m_animation;
 
     DolphinModel* m_dolphinModel;
     QAbstractProxyModel* m_proxyModel;
 
-    friend class ColumnWidget;
+    friend class DolphinColumnWidget;
 };
 
-inline ColumnWidget* DolphinColumnView::activeColumn() const
+inline DolphinColumnWidget* DolphinColumnView::activeColumn() const
 {
     return m_columns[m_index];
 }

@@ -486,11 +486,11 @@ private slots:
 
     /**
      * Updates the status bar to show hover information for the
-     * item with the index \a index. If currently other items are selected,
+     * item \a item. If currently other items are selected,
      * no hover information is shown.
      * @see DolphinView::clearHoverInformation()
      */
-    void showHoverInformation(const QModelIndex& index);
+    void showHoverInformation(const KFileItem& item);
 
     /**
      * Clears the hover information shown in the status bar.
@@ -499,7 +499,7 @@ private slots:
     void clearHoverInformation();
 
 private:
-    void startDirLister(const KUrl& url, bool reload = false);
+    void loadDirectory(const KUrl& url, bool reload = false);
 
     /**
      * Returns the URL where the view properties should be stored. Usually
@@ -571,8 +571,7 @@ private:
     };
 
     bool m_active;
-    bool m_loadingDirectory;
-    bool m_initializeColumnView;
+    bool m_loadingDirectory;;
     bool m_storedCategorizedSorting;
     Mode m_mode;
 

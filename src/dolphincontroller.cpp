@@ -23,6 +23,7 @@
 
 DolphinController::DolphinController(QObject* parent) :
     QObject(parent),
+    m_showHiddenFiles(false),
     m_showPreview(false),
     m_zoomInPossible(false),
     m_zoomOutPossible(false),
@@ -71,6 +72,14 @@ void DolphinController::indicateSortingChange(DolphinView::Sorting sorting)
 void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
 {
     emit sortOrderChanged(order);
+}
+
+void DolphinController::setShowHiddenFiles(bool show)
+{
+    if (m_showHiddenFiles != show) {
+        m_showHiddenFiles = show;
+        emit showHiddenFilesChanged(show);
+    }
 }
 
 void DolphinController::setShowPreview(bool show)
@@ -131,9 +140,9 @@ void DolphinController::triggerItem(const QModelIndex& index)
     emit itemTriggered(index);
 }
 
-void DolphinController::emitItemEntered(const QModelIndex& index)
+void DolphinController::emitItemEntered(const KFileItem& item)
 {
-    emit itemEntered(index);
+    emit itemEntered(item);
 }
 
 void DolphinController::emitViewportEntered()

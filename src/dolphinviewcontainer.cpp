@@ -94,10 +94,9 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_dirLister->setMainWindow(this);
     m_dirLister->setDelayedMimeTypes(true);
 
-    m_dolphinModel = new DolphinModel();
+    m_dolphinModel = new DolphinModel(this);
     m_dolphinModel->setDirLister(m_dirLister);
     m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
-
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dolphinModel);

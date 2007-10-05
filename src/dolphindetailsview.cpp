@@ -28,9 +28,11 @@
 
 #include "dolphin_detailsmodesettings.h"
 
+#include <kdirmodel.h>
 #include <klocale.h>
 #include <kmenu.h>
 
+#include <QAbstractProxyModel>
 #include <QAction>
 #include <QApplication>
 #include <QHeaderView>
@@ -383,7 +385,7 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
     const QPoint pos = viewport()->mapFromGlobal(QCursor::pos());
     const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
     if (pos.x() < nameColumnWidth) {
-        m_controller->emitItemEntered(index);
+        m_controller->emitItemEntered(itemForIndex(index));
     }
     else {
         m_controller->emitViewportEntered();
@@ -397,6 +399,13 @@ void DolphinDetailsView::updateElasticBand()
     m_elasticBandDestination = viewport()->mapFromGlobal(QCursor::pos());
     dirtyRegion = dirtyRegion.united(elasticBandRect());
     setDirtyRegion(dirtyRegion);
+}
+
+QRect DolphinDetailsView::elasticBandRect() const
+{
+    const QPoint pos(contentsPos());
+    const QPoint topLeft(m_elasticBandOrigin.x() - pos.x(), m_elasticBandOrigin.y() - pos.y());
+    return QRect(topLeft, m_elasticBandDestination).normalized();
 }
 
 void DolphinDetailsView::zoomIn()
@@ -431,7 +440,7 @@ void DolphinDetailsView::slotItemActivated(const QModelIndex& index)
         m_controller->triggerItem(index);
     } else {
         clearSelection();
-        m_controller->emitItemEntered(index);
+        m_controller->emitItemEntered(itemForIndex(index));
     }
 }
 
@@ -518,16 +527,12 @@ QPoint DolphinDetailsView::contentsPos() const
     return QPoint(0, y);
 }
 
-QRect DolphinDetailsView::elasticBandRect() const
+KFileItem DolphinDetailsView::itemForIndex(const QModelIndex& index) const
 {
-    const QPoint pos(contentsPos());
-    const QPoint topLeft(m_elasticBandOrigin.x() - pos.x(), m_elasticBandOrigin.y() - pos.y());
-    return QRect(topLeft, m_elasticBandDestination).normalized();
-}
-
-static bool isValidNameIndex(const QModelIndex& index)
-{
-    return index.isValid() && (index.column() == KDirModel::Name);
+    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(model());
+    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+    const QModelIndex dirIndex = proxyModel->mapToSource(index);
+    return dirModel->itemForIndex(dirIndex);
 }
 
 #include "dolphindetailsview.moc"

@@ -74,6 +74,9 @@ public:
 
     void indicateSortOrderChange(Qt::SortOrder order);
 
+    void setShowHiddenFiles(bool show);
+    bool showHiddenFiles() const;
+
     void setShowPreview(bool show);
     bool showPreview() const;
 
@@ -103,7 +106,7 @@ public slots:
      * Emits the signal itemEntered(). The method should be invoked by
      * the controller parent whenever the mouse cursor is above an item.
      */
-    void emitItemEntered(const QModelIndex& index);
+    void emitItemEntered(const KFileItem& item);
 
     /**
      * Emits the signal viewportEntered(). The method should be invoked by
@@ -150,6 +153,12 @@ signals:
     void sortOrderChanged(Qt::SortOrder order);
 
     /**
+     * Is emitted if the state for showing hidden files has been
+     * changed to \a show.
+     */
+    void showHiddenFilesChanged(bool show);
+
+    /**
      * Is emitted if the state for showing previews has been
      * changed to \a show.
      */
@@ -173,7 +182,7 @@ signals:
      * Is emitted if the mouse cursor has entered the item
      * given by \a index.
      */
-    void itemEntered(const QModelIndex& index);
+    void itemEntered(const KFileItem& item);
 
     /**
      * Is emitted if the mouse cursor has entered
@@ -187,6 +196,7 @@ signals:
     void zoomOut();
 
 private:
+    bool m_showHiddenFiles;
     bool m_showPreview;
     bool m_zoomInPossible;
     bool m_zoomOutPossible;
@@ -197,6 +207,11 @@ private:
 inline const KUrl& DolphinController::url() const
 {
     return m_url;
+}
+
+inline bool DolphinController::showHiddenFiles() const
+{
+    return m_showHiddenFiles;
 }
 
 inline bool DolphinController::showPreview() const

@@ -59,6 +59,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent* event);
 
 private slots:
+    void slotEntered(const QModelIndex& index);
     void slotShowPreviewChanged(bool show);
     void slotAdditionalInfoCountChanged(int count);
     void zoomIn();

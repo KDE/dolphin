@@ -20,7 +20,11 @@
 #include "dolphincolumnview.h"
 
 #include "dolphinmodel.h"
+#include "dolphincolumnwidget.h"
 #include "dolphincontroller.h"
+#include "dolphindirlister.h"
+#include "dolphinmodel.h"
+#include "dolphinsortfilterproxymodel.h"
 #include "dolphinsettings.h"
 
 #include "dolphin_columnmodesettings.h"
@@ -35,363 +39,6 @@
 #include <QScrollBar>
 #include <QTimer>
 #include <QTimeLine>
-
-/**
- * Represents one column inside the DolphinColumnView and has been
- * extended to respect view options and hovering information.
- */
-class ColumnWidget : public QListView
-{
-public:
-    ColumnWidget(QWidget* parent,
-                 DolphinColumnView* columnView,
-                 const KUrl& url);
-    virtual ~ColumnWidget();
-
-    /** Sets the size of the icons. */
-    void setDecorationSize(const QSize& size);
-
-    /**
-     * An active column is defined as column, which shows the same URL
-     * as indicated by the URL navigator. The active column is usually
-     * drawn in a lighter color. All operations are applied to this column.
-     */
-    void setActive(bool active);
-    bool isActive() const;
-
-    /**
-     * Sets the directory URL of the child column that is shown next to
-     * this column. This property is only used for a visual indication
-     * of the shown directory, it does not trigger a loading of the model.
-     */
-    void setChildUrl(const KUrl& url);
-    const KUrl& childUrl() const;
-
-    /** Sets the directory URL that is shown inside the column widget. */
-    void setUrl(const KUrl& url);
-
-    /** Returns the directory URL that is shown inside the column widget. */
-    const KUrl& url() const;
-
-protected:
-    virtual QStyleOptionViewItem viewOptions() const;
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dragLeaveEvent(QDragLeaveEvent* event);
-    virtual void dragMoveEvent(QDragMoveEvent* event);
-    virtual void dropEvent(QDropEvent* event);
-    virtual void paintEvent(QPaintEvent* event);
-    virtual void mousePressEvent(QMouseEvent* event);
-    virtual void keyPressEvent(QKeyEvent* event);
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-    virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
-
-private:
-    /** Used by ColumnWidget::setActive(). */
-    void activate();
-
-    /** Used by ColumnWidget::setActive(). */
-    void deactivate();
-
-private:
-    bool m_active;
-    DolphinColumnView* m_view;
-    KUrl m_url;      // URL of the directory that is shown
-    KUrl m_childUrl; // URL of the next column that is shown
-    QStyleOptionViewItem m_viewOptions;
-
-    bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
-    QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
-};
-
-ColumnWidget::ColumnWidget(QWidget* parent,
-                           DolphinColumnView* columnView,
-                           const KUrl& url) :
-    QListView(parent),
-    m_active(true),
-    m_view(columnView),
-    m_url(url),
-    m_childUrl(),
-    m_dragging(false),
-    m_dropRect()
-{
-    setMouseTracking(true);
-    viewport()->setAttribute(Qt::WA_Hover);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setSelectionBehavior(SelectItems);
-    setSelectionMode(QAbstractItemView::ExtendedSelection);
-    setDragDropMode(QAbstractItemView::DragDrop);
-    setDropIndicatorShown(false);
-    setFocusPolicy(Qt::NoFocus);
-
-// TODO: Remove this check when 4.3.2 is released and KDE requires it... this
-//       check avoids a division by zero happening on versions before 4.3.1.
-//       Right now KDE in theory can be shipped with Qt 4.3.0 and above.
-//       ereslibre
-#if (QT_VERSION >= QT_VERSION_CHECK(4, 3, 2) || defined(QT_KDE_QT_COPY))
-    setVerticalScrollMode(QListView::ScrollPerPixel);
-    setHorizontalScrollMode(QListView::ScrollPerPixel);
-#endif
-
-    // apply the column mode settings to the widget
-    const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    Q_ASSERT(settings != 0);
-
-    m_viewOptions = QListView::viewOptions();
-
-    QFont font(settings->fontFamily(), settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_viewOptions.font = font;
-
-    const int iconSize = settings->iconSize();
-    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
-
-    m_viewOptions.showDecorationSelected = true;
-
-    KFileItemDelegate* delegate = new KFileItemDelegate(this);
-    setItemDelegate(delegate);
-
-    activate();
-
-    connect(this, SIGNAL(entered(const QModelIndex&)),
-            m_view->m_controller, SLOT(emitItemEntered(const QModelIndex&)));
-    connect(this, SIGNAL(viewportEntered()),
-            m_view->m_controller, SLOT(emitViewportEntered()));
-}
-
-ColumnWidget::~ColumnWidget()
-{
-}
-
-void ColumnWidget::setDecorationSize(const QSize& size)
-{
-    m_viewOptions.decorationSize = size;
-    doItemsLayout();
-}
-
-void ColumnWidget::setActive(bool active)
-{
-    if (m_active == active) {
-        return;
-    }
-
-    m_active = active;
-
-    if (active) {
-        activate();
-    } else {
-        deactivate();
-    }
-}
-
-inline bool ColumnWidget::isActive() const
-{
-    return m_active;
-}
-
-inline void ColumnWidget::setChildUrl(const KUrl& url)
-{
-    m_childUrl = url;
-}
-
-inline const KUrl& ColumnWidget::childUrl() const
-{
-    return m_childUrl;
-}
-
-inline void ColumnWidget::setUrl(const KUrl& url)
-{
-    m_url = url;
-}
-
-inline const KUrl& ColumnWidget::url() const
-{
-    return m_url;
-}
-
-inline QStyleOptionViewItem ColumnWidget::viewOptions() const
-{
-    return m_viewOptions;
-}
-
-void ColumnWidget::dragEnterEvent(QDragEnterEvent* event)
-{
-    if (event->mimeData()->hasUrls()) {
-        event->acceptProposedAction();
-    }
-
-    m_dragging = true;
-}
-
-void ColumnWidget::dragLeaveEvent(QDragLeaveEvent* event)
-{
-    QListView::dragLeaveEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    m_dragging = false;
-    setDirtyRegion(m_dropRect);
-}
-
-void ColumnWidget::dragMoveEvent(QDragMoveEvent* event)
-{
-    QListView::dragMoveEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    const QModelIndex index = indexAt(event->pos());
-    setDirtyRegion(m_dropRect);
-    m_dropRect = visualRect(index);
-    setDirtyRegion(m_dropRect);
-}
-
-void ColumnWidget::dropEvent(QDropEvent* event)
-{
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (!urls.isEmpty()) {
-        event->acceptProposedAction();
-        m_view->m_controller->indicateDroppedUrls(urls,
-                                                  url(),
-                                                  indexAt(event->pos()),
-                                                  event->source());
-    }
-    QListView::dropEvent(event);
-    m_dragging = false;
-}
-
-void ColumnWidget::paintEvent(QPaintEvent* event)
-{
-    if (!m_childUrl.isEmpty()) {
-        // indicate the shown URL of the next column by highlighting the shown folder item
-        const QModelIndex dirIndex = m_view->m_dolphinModel->indexForUrl(m_childUrl);
-        const QModelIndex proxyIndex = m_view->m_proxyModel->mapFromSource(dirIndex);
-        if (proxyIndex.isValid() && !selectionModel()->isSelected(proxyIndex)) {
-            const QRect itemRect = visualRect(proxyIndex);
-            QPainter painter(viewport());
-            painter.save();
-
-            QColor color = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
-            color.setAlpha(32);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(color);
-            painter.drawRect(itemRect);
-
-            painter.restore();
-        }
-    }
-
-    QListView::paintEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    if (m_dragging) {
-        const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
-        DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
-    }
-}
-
-void ColumnWidget::mousePressEvent(QMouseEvent* event)
-{
-    if (!m_active) {
-        m_view->requestActivation(this);
-    }
-
-    QListView::mousePressEvent(event);
-}
-
-void ColumnWidget::keyPressEvent(QKeyEvent* event)
-{
-    QListView::keyPressEvent(event);
-
-    const QItemSelectionModel* selModel = selectionModel();
-    const QModelIndex currentIndex = selModel->currentIndex();
-    const bool triggerItem = currentIndex.isValid()
-                             && (event->key() == Qt::Key_Return)
-                             && (selModel->selectedIndexes().count() <= 1);
-    if (triggerItem) {
-        m_view->m_controller->triggerItem(currentIndex);
-    }
-}
-
-void ColumnWidget::contextMenuEvent(QContextMenuEvent* event)
-{
-    if (!m_active) {
-        m_view->requestActivation(this);
-    }
-
-    QListView::contextMenuEvent(event);
-
-    const QModelIndex index = indexAt(event->pos());
-    if (index.isValid() || m_active) {
-        // Only open a context menu above an item or if the mouse is above
-        // the active column.
-        const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
-        m_view->m_controller->triggerContextMenuRequest(pos);
-    }
-}
-
-void ColumnWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
-{
-    QListView::selectionChanged(selected, deselected);
-
-    QItemSelectionModel* selModel = m_view->selectionModel();
-    selModel->select(selected, QItemSelectionModel::Select);
-    selModel->select(deselected, QItemSelectionModel::Deselect);
-}
-
-void ColumnWidget::activate()
-{
-    if (m_view->hasFocus()) {
-        setFocus(Qt::OtherFocusReason);
-    }
-    m_view->setFocusProxy(this);
-
-    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
-    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
-    // necessary connecting the signal 'singleClick()' or 'doubleClick'.
-    if (KGlobalSettings::singleClick()) {
-        connect(this, SIGNAL(clicked(const QModelIndex&)),
-                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    } else {
-        connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    }
-
-    const QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    QPalette palette = viewport()->palette();
-    palette.setColor(viewport()->backgroundRole(), bgColor);
-    viewport()->setPalette(palette);
-
-    if (!m_childUrl.isEmpty()) {
-        // assure that the current index is set on the index that represents
-        // the child URL
-        const QModelIndex dirIndex = m_view->m_dolphinModel->indexForUrl(m_childUrl);
-        const QModelIndex proxyIndex = m_view->m_proxyModel->mapFromSource(dirIndex);
-        selectionModel()->setCurrentIndex(proxyIndex, QItemSelectionModel::Current);
-    }
-
-    update();
-}
-
-void ColumnWidget::deactivate()
-{
-    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
-    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
-    // necessary connecting the signal 'singleClick()' or 'doubleClick'.
-    if (KGlobalSettings::singleClick()) {
-        disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    } else {
-        disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    }
-
-    const QPalette palette = m_view->viewport()->palette();
-    viewport()->setPalette(palette);
-
-    selectionModel()->clear();
-    update();
-}
-
-// ---
 
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
     QAbstractItemView(parent),
@@ -421,6 +68,10 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(zoomOut()));
     connect(controller, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(showColumn(const KUrl&)));
+    connect(controller, SIGNAL(showHiddenFilesChanged(bool)),
+            this, SLOT(slotShowHiddenFilesChanged(bool)));
+    connect(controller, SIGNAL(showPreviewChanged(bool)),
+            this, SLOT(slotShowPreviewChanged(bool)));
 
     connect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(moveContentHorizontally(int)));
@@ -428,7 +79,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     m_animation = new QTimeLine(500, this);
     connect(m_animation, SIGNAL(frameChanged(int)), horizontalScrollBar(), SLOT(setValue(int)));
 
-    ColumnWidget* column = new ColumnWidget(viewport(), this, m_controller->url());
+    DolphinColumnWidget* column = new DolphinColumnWidget(viewport(), this, m_controller->url());
     m_columns.append(column);
     setActiveColumnIndex(0);
 
@@ -450,7 +101,7 @@ DolphinColumnView::~DolphinColumnView()
 
 QModelIndex DolphinColumnView::indexAt(const QPoint& point) const
 {
-    foreach (ColumnWidget* column, m_columns) {
+    foreach (DolphinColumnWidget* column, m_columns) {
         const QPoint topLeft = column->frameGeometry().topLeft();
         const QPoint adjustedPoint(point.x() - topLeft.x(), point.y() - topLeft.y());
         const QModelIndex index = column->indexAt(adjustedPoint);
@@ -474,64 +125,29 @@ QRect DolphinColumnView::visualRect(const QModelIndex& index) const
 
 void DolphinColumnView::setModel(QAbstractItemModel* model)
 {
-    if (m_dolphinModel != 0) {
-        m_dolphinModel->disconnect(this);
-    }
-
     m_proxyModel = static_cast<QAbstractProxyModel*>(model);
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
-    connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
-            this, SLOT(triggerReloadColumns(const QModelIndex&)));
-
-    KDirLister* dirLister = m_dolphinModel->dirLister();
-    connect(dirLister, SIGNAL(completed()),
-            this, SLOT(triggerExpandToActiveUrl()));
-
-    activeColumn()->setModel(model);
     QAbstractItemView::setModel(model);
 }
 
 void DolphinColumnView::invertSelection()
 {
-    // TODO: this approach of inverting the selection is quite slow. It should
-    // be possible to speedup the implementation by using QItemSelection, but
-    // all adempts have failed yet...
+    QItemSelectionModel* selectionModel = activeColumn()->selectionModel();
+    const QAbstractItemModel* itemModel = selectionModel->model();
 
-    ColumnWidget* column = activeColumn();
-    QItemSelectionModel* selModel = column->selectionModel();
+    const QModelIndex topLeft = itemModel->index(0, 0);
+    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
+                                                     itemModel->columnCount() - 1);
 
-    KDirLister* dirLister = m_dolphinModel->dirLister();
-    const KFileItemList list = dirLister->itemsForDir(column->url());
-    foreach (const KFileItem item, list) {
-        const QModelIndex index = m_dolphinModel->indexForUrl(item.url());
-        selModel->select(m_proxyModel->mapFromSource(index), QItemSelectionModel::Toggle);
-    }
+    const QItemSelection selection(topLeft, bottomRight);
+    selectionModel->select(selection, QItemSelectionModel::Toggle);
 }
 
 void DolphinColumnView::reload()
 {
-    // Due to the reloading of the model all columns will be reset to show
-    // the same content as the first column. As this is not wanted, all columns
-    // except of the first column are temporary hidden until the root index can
-    // be updated again.
-    m_restoreActiveColumnFocus = false;
-    QList<ColumnWidget*>::iterator start = m_columns.begin() + 1;
-    QList<ColumnWidget*>::iterator end = m_columns.end();
-    for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
-        ColumnWidget* column = (*it);
-        if (column->isActive() && column->hasFocus()) {
-            // because of hiding the column, it will lose the focus
-            // -> remember that the focus should be restored after reloading
-            m_restoreActiveColumnFocus = true;
-        }
-        column->hide();
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->reload();
     }
-
-    // all columns are hidden, now reload the directory lister
-    KDirLister* dirLister = m_dolphinModel->dirLister();
-    const KUrl& rootUrl = m_columns[0]->url();
-    dirLister->openUrl(rootUrl, KDirLister::Reload);
-    updateColumns();
 }
 
 void DolphinColumnView::showColumn(const KUrl& url)
@@ -540,9 +156,9 @@ void DolphinColumnView::showColumn(const KUrl& url)
     if (!rootUrl.isParentOf(url)) {
         // the URL is no child URL of the column view, hence clear all columns
         // and reset the root column
-        QList<ColumnWidget*>::iterator start = m_columns.begin() + 1;
-        QList<ColumnWidget*>::iterator end = m_columns.end();
-        for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
+        QList<DolphinColumnWidget*>::iterator start = m_columns.begin() + 1;
+        QList<DolphinColumnWidget*>::iterator end = m_columns.end();
+        for (QList<DolphinColumnWidget*>::iterator it = start; it != end; ++it) {
             (*it)->deleteLater();
         }
         m_columns.erase(start, end);
@@ -563,7 +179,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
     }
 
     int columnIndex = 0;
-    foreach (ColumnWidget* column, m_columns) {
+    foreach (DolphinColumnWidget* column, m_columns) {
         if (column->url() == url) {
             // the column represents already the requested URL, hence activate it
             requestActivation(column);
@@ -572,9 +188,9 @@ void DolphinColumnView::showColumn(const KUrl& url)
             // the column is no parent of the requested URL, hence
             // just delete all remaining columns
             if (columnIndex > 0) {
-                QList<ColumnWidget*>::iterator start = m_columns.begin() + columnIndex;
-                QList<ColumnWidget*>::iterator end = m_columns.end();
-                for (QList<ColumnWidget*>::iterator it = start; it != end; ++it) {
+                QList<DolphinColumnWidget*>::iterator start = m_columns.begin() + columnIndex;
+                QList<DolphinColumnWidget*>::iterator end = m_columns.end();
+                for (QList<DolphinColumnWidget*>::iterator it = start; it != end; ++it) {
                     (*it)->deleteLater();
                 }
                 m_columns.erase(start, end);
@@ -621,9 +237,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
             m_columns[columnIndex]->setChildUrl(childUrl);
             columnIndex++;
 
-            ColumnWidget* column = new ColumnWidget(viewport(), this, childUrl);
-            column->setModel(model());
-            column->setRootIndex(proxyIndex);
+            DolphinColumnWidget* column = new DolphinColumnWidget(viewport(), this, childUrl);
             column->setActive(false);
 
             m_columns.append(column);
@@ -637,7 +251,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
 
             // the layout is finished, now let the column be invisible until it
             // gets a valid root index due to expandToActiveUrl()
-            column->hide();
+            //column->hide();
         }
     }
 
@@ -774,7 +388,7 @@ void DolphinColumnView::updateDecorationSize()
 
     foreach (QObject* object, viewport()->children()) {
         if (object->inherits("QListView")) {
-            ColumnWidget* widget = static_cast<ColumnWidget*>(object);
+            DolphinColumnWidget* widget = static_cast<DolphinColumnWidget*>(object);
             widget->setDecorationSize(QSize(iconSize, iconSize));
         }
     }
@@ -785,53 +399,18 @@ void DolphinColumnView::updateDecorationSize()
     doItemsLayout();
 }
 
-void DolphinColumnView::expandToActiveUrl()
+void DolphinColumnView::slotShowHiddenFilesChanged(bool show)
 {
-    const int lastIndex = m_columns.count() - 1;
-    Q_ASSERT(lastIndex >= 0);
-    const KUrl& activeUrl = m_columns[lastIndex]->url();
-    const KUrl rootUrl = m_dolphinModel->dirLister()->url();
-    const bool expand = rootUrl.isParentOf(activeUrl)
-                        && !rootUrl.equals(activeUrl, KUrl::CompareWithoutTrailingSlash);
-    if (expand) {
-        m_dolphinModel->expandToUrl(activeUrl);
-    }
-    updateColumns();
-}
-
-void DolphinColumnView::triggerUpdateColumns(const QModelIndex& index)
-{
-    Q_UNUSED(index);
-    // the updating of the columns may not be done in the context of this slot
-    QMetaObject::invokeMethod(this, "updateColumns", Qt::QueuedConnection);
-}
-
-void DolphinColumnView::updateColumns()
-{
-    const int end = m_columns.count() - 2; // next to last column
-    for (int i = 0; i <= end; ++i) {
-        ColumnWidget* nextColumn = m_columns[i + 1];
-        const QModelIndex rootIndex = nextColumn->rootIndex();
-        if (rootIndex.isValid()) {
-            nextColumn->show();
-        } else {
-            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_columns[i]->childUrl());
-            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-            if (proxyIndex.isValid()) {
-                nextColumn->setRootIndex(proxyIndex);
-                nextColumn->show();
-                if (nextColumn->isActive() && m_restoreActiveColumnFocus) {
-                    nextColumn->setFocus();
-                    m_restoreActiveColumnFocus = false;
-                }
-            }
-        }
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->setShowHiddenFiles(show);
     }
 }
 
-void DolphinColumnView::triggerExpandToActiveUrl()
+void DolphinColumnView::slotShowPreviewChanged(bool show)
 {
-    QMetaObject::invokeMethod(this, "expandToActiveUrl", Qt::QueuedConnection);
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->setShowPreview(show);
+    }
 }
 
 bool DolphinColumnView::isZoomInPossible() const
@@ -871,13 +450,13 @@ void DolphinColumnView::layoutColumns()
     const int columnWidth = settings->columnWidth();
     if (isRightToLeft()) {
         int x = viewport()->width() - columnWidth + m_contentX;
-        foreach (ColumnWidget* column, m_columns) {
+        foreach (DolphinColumnWidget* column, m_columns) {
             column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
             x -= columnWidth;
         }
     } else {
         int x = m_contentX;
-        foreach (ColumnWidget* column, m_columns) {
+        foreach (DolphinColumnWidget* column, m_columns) {
             column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
             x += columnWidth;
         }
@@ -887,7 +466,7 @@ void DolphinColumnView::layoutColumns()
 void DolphinColumnView::updateScrollBar()
 {
     int contentWidth = 0;
-    foreach (ColumnWidget* column, m_columns) {
+    foreach (DolphinColumnWidget* column, m_columns) {
         contentWidth += column->width();
     }
 
@@ -919,13 +498,13 @@ void DolphinColumnView::assureVisibleActiveColumn()
     }
 }
 
-void DolphinColumnView::requestActivation(ColumnWidget* column)
+void DolphinColumnView::requestActivation(DolphinColumnWidget* column)
 {
     if (column->isActive()) {
         assureVisibleActiveColumn();
     } else {
         int index = 0;
-        foreach (ColumnWidget* currColumn, m_columns) {
+        foreach (DolphinColumnWidget* currColumn, m_columns) {
             if (currColumn == column) {
                 setActiveColumnIndex(index);
                 return;

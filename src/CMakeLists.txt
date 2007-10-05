@@ -12,6 +12,7 @@ set(dolphinprivate_LIB_SRCS
     dolphindetailsview.cpp
     dolphiniconsview.cpp
     dolphincolumnview.cpp
+    dolphincolumnwidget.cpp
     kcategorizedview.cpp
     kcategorydrawer.cpp
     dolphinmodel.cpp
