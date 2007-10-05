@@ -252,6 +252,7 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
 
 void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 {
+    m_view->m_controller->triggerActivation();
     if (!m_active) {
         m_view->requestActivation(this);
     }
@@ -302,24 +303,6 @@ void DolphinColumnWidget::triggerItem(const QModelIndex& index)
 {
     const KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
     m_view->m_controller->triggerItem(item);
-    /*
-    const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-    if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
-        // items are selected by the user, hence don't trigger the
-        // item specified by 'index'
-        return;
-    }
-
-    // TODO: check ZIP support (see DolphinViewContainer::triggerItem)
-    KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
-    if (item.isDir()) {
-        bool isLocal;
-        const KUrl url = item.mostLocalUrl(isLocal);
-        m_view->showColumn(url);
-        m_view->m_controller->setUrl(url);
-    } else if (item.isFile()) {
-        item.run();
-    }*/
 }
 
 void DolphinColumnWidget::generatePreviews(const KFileItemList& items)
