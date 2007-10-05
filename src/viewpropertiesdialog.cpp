@@ -231,7 +231,7 @@ ViewPropertiesDialog::~ViewPropertiesDialog()
 
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                               "ViewPropertiesDialog");
-    saveDialogSize(dialogConfig, KConfigFlags::Persistent);
+    saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 void ViewPropertiesDialog::slotOk()

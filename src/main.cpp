@@ -26,6 +26,7 @@
 #include <kcmdlineargs.h>
 #include <klocale.h>
 #include <kmainwindow.h>
+#include <kdebug.h>
 
 int main(int argc, char **argv)
 {

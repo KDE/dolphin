@@ -23,6 +23,7 @@
 #define _DOLPHIN_APPLICATION_H
 
 #include <kuniqueapplication.h>
+#include <kurl.h>
 
 class DolphinMainWindow;
 class KUrl;

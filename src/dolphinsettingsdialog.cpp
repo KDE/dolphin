@@ -58,7 +58,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
 DolphinSettingsDialog::~DolphinSettingsDialog()
 {
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
-    saveDialogSize(dialogConfig, KConfigFlags::Persistent);
+    saveDialogSize(dialogConfig);
 }
 
 void DolphinSettingsDialog::slotButtonClicked(int button)
