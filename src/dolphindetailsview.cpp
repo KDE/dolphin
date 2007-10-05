@@ -84,10 +84,10 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     // RETURN-key in keyPressEvent().
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                this, SLOT(slotItemActivated(const QModelIndex&)));
+                this, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                this, SLOT(slotItemActivated(const QModelIndex&)));
+                this, SLOT(triggerItem(const QModelIndex&)));
     }
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
@@ -317,11 +317,11 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 
     const QItemSelectionModel* selModel = selectionModel();
     const QModelIndex currentIndex = selModel->currentIndex();
-    const bool triggerItem = currentIndex.isValid()
-                             && (event->key() == Qt::Key_Return)
-                             && (selModel->selectedIndexes().count() <= 1);
-    if (triggerItem) {
-        m_controller->triggerItem(currentIndex);
+    const bool trigger = currentIndex.isValid()
+                         && (event->key() == Qt::Key_Return)
+                         && (selModel->selectedIndexes().count() <= 1);
+    if (trigger) {
+        triggerItem(currentIndex);
     }
 }
 
@@ -434,13 +434,14 @@ void DolphinDetailsView::zoomOut()
     }
 }
 
-void DolphinDetailsView::slotItemActivated(const QModelIndex& index)
+void DolphinDetailsView::triggerItem(const QModelIndex& index)
 {
+    const KFileItem item = itemForIndex(index);
     if (index.isValid() && (index.column() == KDirModel::Name)) {
-        m_controller->triggerItem(index);
+        m_controller->triggerItem(item);
     } else {
         clearSelection();
-        m_controller->emitItemEntered(itemForIndex(index));
+        m_controller->emitItemEntered(item);
     }
 }
 

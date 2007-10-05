@@ -418,11 +418,11 @@ private slots:
     void activate();
 
     /**
-     * If the item specified by \a index is a directory, then this
+     * If the item \a item is a directory, then this
      * directory will be loaded. If the  item is a file, the corresponding
      * application will get started.
      */
-    void triggerItem(const QModelIndex& index);
+    void triggerItem(const KFileItem& index);
 
     /**
      * Generates a preview image for each file item in \a items.

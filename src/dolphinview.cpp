@@ -98,8 +98,8 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(updateSortOrder(Qt::SortOrder)));
-    connect(m_controller, SIGNAL(itemTriggered(const QModelIndex&)),
-            this, SLOT(triggerItem(const QModelIndex&)));
+    connect(m_controller, SIGNAL(itemTriggered(const KFileItem&)),
+            this, SLOT(triggerItem(const KFileItem&)));
     connect(m_controller, SIGNAL(activated()),
             this, SLOT(activate()));
     connect(m_controller, SIGNAL(itemEntered(const KFileItem&)),
@@ -122,7 +122,7 @@ const KUrl& DolphinView::url() const
 
 KUrl DolphinView::rootUrl() const
 {
-    return isColumnViewActive() ? m_dirLister->url() : url();
+    return isColumnViewActive() ? m_columnView->rootUrl() : url();
 }
 
 void DolphinView::setActive(bool active)
@@ -457,6 +457,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         // that the view properties have been changed or deleted in the meantime, so
         // it cannot be asserted that really a column view has been created:
         if (itemView() == m_columnView) {
+            m_columnView->setRootUrl(rootUrl);
             m_columnView->showColumn(url);
         }
     } else {
@@ -484,18 +485,14 @@ void DolphinView::activate()
     setActive(true);
 }
 
-void DolphinView::triggerItem(const QModelIndex& index)
+void DolphinView::triggerItem(const KFileItem& item)
 {
-    Q_ASSERT(index.isValid());
-
     const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
     if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
         // items are selected by the user, hence don't trigger the
         // item specified by 'index'
         return;
     }
-
-    const KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
 
     if (item.isNull()) {
         return;
@@ -558,10 +555,14 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
     m_dirLister->stop();
     m_dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
 
-    if (isColumnViewActive() && reload) {
-        // reloading the directory lister is not enough in the case of the
+    if (isColumnViewActive()) {
+        // adjusting the directory lister is not enough in the case of the
         // column view, as each column has its own directory lister internally...
-        m_columnView->reload();
+        if (reload) {
+            m_columnView->reload();
+        } else {
+            m_columnView->showColumn(url);
+        }
     }
 }
 
@@ -576,7 +577,7 @@ KUrl DolphinView::viewPropertiesUrl() const
 
 void DolphinView::applyViewProperties(const KUrl& url)
 {
-    if (isColumnViewActive() && m_dirLister->url().isParentOf(url)) {
+    if (isColumnViewActive() && rootUrl().isParentOf(url)) {
         // The column view is active, hence don't apply the view properties
         // of sub directories (represented by columns) to the view. The
         // view always represents the properties of the first column.

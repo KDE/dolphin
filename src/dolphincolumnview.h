@@ -20,6 +20,8 @@
 #ifndef DOLPHINCOLUMNVIEW_H
 #define DOLPHINCOLUMNVIEW_H
 
+#include <kurl.h>
+
 #include <QAbstractItemView>
 #include <QList>
 #include <QStyleOption>
@@ -27,7 +29,6 @@
 class DolphinColumnWidget;
 class DolphinController;
 class DolphinModel;
-class KUrl;
 class QAbstractProxyModel;
 class QTimeLine;
 
@@ -48,7 +49,6 @@ public:
     virtual QModelIndex indexAt(const QPoint& point) const;
     virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
     virtual QRect visualRect(const QModelIndex& index) const;
-    virtual void setModel(QAbstractItemModel* model);
 
     /** Inverts the selection of the currently active column. */
     void invertSelection();
@@ -59,6 +59,15 @@ public:
      * invoked.
      */
     void reload();
+
+    /**
+     * Adjusts the root URL of the first column and removes all
+     * other columns.
+     */
+    void setRootUrl(const KUrl& url);
+
+    /** Returns the URL of the first column. */
+    KUrl rootUrl() const;
 
 public slots:
     /**
@@ -132,6 +141,9 @@ private:
      */
     void requestActivation(DolphinColumnWidget* column);
 
+    /** Removes all columns except of the root column. */
+    void removeAllColumns();
+
 private:
     DolphinController* m_controller;
     bool m_restoreActiveColumnFocus;
@@ -139,9 +151,6 @@ private:
     int m_contentX;
     QList<DolphinColumnWidget*> m_columns;
     QTimeLine* m_animation;
-
-    DolphinModel* m_dolphinModel;
-    QAbstractProxyModel* m_proxyModel;
 
     friend class DolphinColumnWidget;
 };

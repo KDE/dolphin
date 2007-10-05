@@ -135,9 +135,9 @@ void DolphinController::drawHoverIndication(QWidget* widget,
     painter.restore();
 }
 
-void DolphinController::triggerItem(const QModelIndex& index)
+void DolphinController::triggerItem(const KFileItem& item)
 {
-    emit itemTriggered(index);
+    emit itemTriggered(item);
 }
 
 void DolphinController::emitItemEntered(const KFileItem& item)

@@ -54,10 +54,10 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     // RETURN-key in keyPressEvent().
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                this, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                this, SLOT(triggerItem(const QModelIndex&)));
     }
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
@@ -222,22 +222,22 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 
     const QItemSelectionModel* selModel = selectionModel();
     const QModelIndex currentIndex = selModel->currentIndex();
-    const bool triggerItem = currentIndex.isValid()
-                             && (event->key() == Qt::Key_Return)
-                             && (selModel->selectedIndexes().count() <= 1);
-    if (triggerItem) {
-        m_controller->triggerItem(currentIndex);
+    const bool trigger = currentIndex.isValid()
+                         && (event->key() == Qt::Key_Return)
+                         && (selModel->selectedIndexes().count() <= 1);
+    if (trigger) {
+        triggerItem(currentIndex);
     }
+}
+
+void DolphinIconsView::triggerItem(const QModelIndex& index)
+{
+    m_controller->triggerItem(itemForIndex(index));
 }
 
 void DolphinIconsView::slotEntered(const QModelIndex& index)
 {
-    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(model());
-    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-    const QModelIndex dirIndex = proxyModel->mapToSource(index);
-
-    const KFileItem item = dirModel->itemForIndex(dirIndex);
-    m_controller->emitItemEntered(item);
+    m_controller->emitItemEntered(itemForIndex(index));
 }
 
 void DolphinIconsView::slotShowPreviewChanged(bool showPreview)
@@ -392,5 +392,14 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());
 }
+
+KFileItem DolphinIconsView::itemForIndex(const QModelIndex& index) const
+{
+    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(model());
+    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+    const QModelIndex dirIndex = proxyModel->mapToSource(index);
+    return dirModel->itemForIndex(dirIndex);
+}
+
 
 #include "dolphiniconsview.moc"

@@ -47,9 +47,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     m_index(-1),
     m_contentX(0),
     m_columns(),
-    m_animation(0),
-    m_dolphinModel(0),
-    m_proxyModel(0)
+    m_animation(0)
 {
     Q_ASSERT(controller != 0);
 
@@ -66,8 +64,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
-    connect(controller, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(showColumn(const KUrl&)));
     connect(controller, SIGNAL(showHiddenFilesChanged(bool)),
             this, SLOT(slotShowHiddenFilesChanged(bool)));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
@@ -123,13 +119,6 @@ QRect DolphinColumnView::visualRect(const QModelIndex& index) const
     return activeColumn()->visualRect(index);
 }
 
-void DolphinColumnView::setModel(QAbstractItemModel* model)
-{
-    m_proxyModel = static_cast<QAbstractProxyModel*>(model);
-    m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
-    QAbstractItemView::setModel(model);
-}
-
 void DolphinColumnView::invertSelection()
 {
     QItemSelectionModel* selectionModel = activeColumn()->selectionModel();
@@ -150,32 +139,23 @@ void DolphinColumnView::reload()
     }
 }
 
+void DolphinColumnView::setRootUrl(const KUrl& url)
+{
+    removeAllColumns();
+    m_columns[0]->setUrl(url);
+}
+
+KUrl DolphinColumnView::rootUrl() const
+{
+    return m_columns[0]->url();
+}
+
 void DolphinColumnView::showColumn(const KUrl& url)
 {
     const KUrl& rootUrl = m_columns[0]->url();
     if (!rootUrl.isParentOf(url)) {
-        // the URL is no child URL of the column view, hence clear all columns
-        // and reset the root column
-        QList<DolphinColumnWidget*>::iterator start = m_columns.begin() + 1;
-        QList<DolphinColumnWidget*>::iterator end = m_columns.end();
-        for (QList<DolphinColumnWidget*>::iterator it = start; it != end; ++it) {
-            (*it)->deleteLater();
-        }
-        m_columns.erase(start, end);
-        m_index = 0;
-        m_columns[0]->setActive(true);
-        m_columns[0]->setUrl(url);
-        assureVisibleActiveColumn();
+        setRootUrl(url);
         return;
-    }
-
-    KDirLister* dirLister = m_dolphinModel->dirLister();
-    const KUrl dirListerUrl = dirLister->url();
-    if (dirListerUrl != rootUrl) {
-        // It is possible that root URL of the directory lister is adjusted
-        // after creating the column widget (e. g. when restoring the history
-        // having a different root URL than the controller indicates).
-        m_columns[0]->setUrl(dirListerUrl);
     }
 
     int columnIndex = 0;
@@ -231,9 +211,6 @@ void DolphinColumnView::showColumn(const KUrl& url)
             ++slashIndex;
 
             const KUrl childUrl = KUrl(path);
-            const QModelIndex dirIndex = m_dolphinModel->indexForUrl(KUrl(path));
-            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-
             m_columns[columnIndex]->setChildUrl(childUrl);
             columnIndex++;
 
@@ -248,10 +225,6 @@ void DolphinColumnView::showColumn(const KUrl& url)
             column->show();
             layoutColumns();
             updateScrollBar();
-
-            // the layout is finished, now let the column be invisible until it
-            // gets a valid root index due to expandToActiveUrl()
-            //column->hide();
         }
     }
 
@@ -512,6 +485,19 @@ void DolphinColumnView::requestActivation(DolphinColumnWidget* column)
             ++index;
         }
     }
+}
+
+void DolphinColumnView::removeAllColumns()
+{
+    QList<DolphinColumnWidget*>::iterator start = m_columns.begin() + 1;
+    QList<DolphinColumnWidget*>::iterator end = m_columns.end();
+    for (QList<DolphinColumnWidget*>::iterator it = start; it != end; ++it) {
+        (*it)->deleteLater();
+    }
+    m_columns.erase(start, end);
+    m_index = 0;
+    m_columns[0]->setActive(true);
+    assureVisibleActiveColumn();
 }
 
 #include "dolphincolumnview.moc"

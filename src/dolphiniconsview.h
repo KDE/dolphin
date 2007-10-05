@@ -22,6 +22,8 @@
 
 #include <kcategorizedview.h>
 
+#include <kfileitem.h>
+
 #include <QSize>
 #include <QStyleOption>
 
@@ -59,6 +61,7 @@ protected:
     virtual void keyPressEvent(QKeyEvent* event);
 
 private slots:
+    void triggerItem(const QModelIndex& index);
     void slotEntered(const QModelIndex& index);
     void slotShowPreviewChanged(bool show);
     void slotAdditionalInfoCountChanged(int count);
@@ -80,6 +83,8 @@ private:
      * of \a showPreview and \a additionalInfoCount.
      */
     void updateGridSize(bool showPreview, int additionalInfoCount);
+
+    KFileItem itemForIndex(const QModelIndex& index) const;
 
 private:
     DolphinController* m_controller;

@@ -101,13 +101,8 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     activate();
 
-    connect(this, SIGNAL(entered(const QModelIndex&)),
-            m_view->m_controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             m_view->m_controller, SLOT(emitViewportEntered()));
-    connect(this, SIGNAL(viewportEntered()),
-            m_view->m_controller, SLOT(emitViewportEntered()));
-
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
 
@@ -305,6 +300,9 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
 }
 void DolphinColumnWidget::triggerItem(const QModelIndex& index)
 {
+    const KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
+    m_view->m_controller->triggerItem(item);
+    /*
     const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
     if ((modifier & Qt::ShiftModifier) || (modifier & Qt::ControlModifier)) {
         // items are selected by the user, hence don't trigger the
@@ -321,7 +319,7 @@ void DolphinColumnWidget::triggerItem(const QModelIndex& index)
         m_view->m_controller->setUrl(url);
     } else if (item.isFile()) {
         item.run();
-    }
+    }*/
 }
 
 void DolphinColumnWidget::generatePreviews(const KFileItemList& items)

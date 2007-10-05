@@ -100,7 +100,7 @@ public slots:
     /**
      * Emits the signal itemTriggered(). The method should be invoked by the
      * controller parent whenever the user has triggered an item. */
-    void triggerItem(const QModelIndex& index);
+    void triggerItem(const KFileItem& item);
 
     /**
      * Emits the signal itemEntered(). The method should be invoked by
@@ -171,12 +171,12 @@ signals:
     void additionalInfoCountChanged(int count);
 
     /**
-     * Is emitted if the item with the index \a index should be triggered.
+     * Is emitted if the item \a item should be triggered.
      * Usually triggering on a directory opens the directory, triggering
-     * on a file opens the corresponding application.
-     * Emitted with an invalid \a index when clicking on the viewport itself.
+     * on a file opens the corresponding application. The item is null
+     * (see KFileItem::isNull()), when clicking on the viewport itself.
      */
-    void itemTriggered(const QModelIndex& index);
+    void itemTriggered(const KFileItem& item);
 
     /**
      * Is emitted if the mouse cursor has entered the item
