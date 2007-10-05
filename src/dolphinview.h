@@ -571,7 +571,7 @@ private:
     };
 
     bool m_active;
-    bool m_loadingDirectory;;
+    bool m_loadingDirectory;
     bool m_storedCategorizedSorting;
     Mode m_mode;
 
