@@ -1022,7 +1022,7 @@ void KCategorizedView::dragLeaveEvent(QDragLeaveEvent *event)
 }
 
 QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
-                                  Qt::KeyboardModifiers modifiers)
+                                         Qt::KeyboardModifiers modifiers)
 {
     if ((viewMode() != KCategorizedView::IconMode) ||
          !d->proxyModel ||
@@ -1133,6 +1133,16 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
         }
 
         case QAbstractItemView::MoveLeft:
+            if (layoutDirection() == Qt::RightToLeft)
+            {
+                d->forcedSelectionPosition = d->elementsInfo[current.row() + 1].relativeOffsetToCategory % elementsPerRow;
+
+                if (d->forcedSelectionPosition < 0)
+                    d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+
+                return d->proxyModel->index(current.row() + 1, 0);
+            }
+
             d->forcedSelectionPosition = d->elementsInfo[current.row() - 1].relativeOffsetToCategory % elementsPerRow;
 
             if (d->forcedSelectionPosition < 0)
@@ -1141,6 +1151,16 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
             return d->proxyModel->index(current.row() - 1, 0);
 
         case QAbstractItemView::MoveRight:
+            if (layoutDirection() == Qt::RightToLeft)
+            {
+                d->forcedSelectionPosition = d->elementsInfo[current.row() - 1].relativeOffsetToCategory % elementsPerRow;
+
+                if (d->forcedSelectionPosition < 0)
+                    d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+
+                return d->proxyModel->index(current.row() - 1, 0);
+            }
+
             d->forcedSelectionPosition = d->elementsInfo[current.row() + 1].relativeOffsetToCategory % elementsPerRow;
 
             if (d->forcedSelectionPosition < 0)
