@@ -883,8 +883,6 @@ void DolphinView::applyCutItemEffect()
         const KFileItem item = *it;
         if (isCutItem(item)) {
             const QModelIndex index = m_dolphinModel->indexForItem(item);
-            // Huh? the item is already known
-            //const KFileItem item = m_dolphinModel->itemForIndex(index);
             const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
             if (value.type() == QVariant::Icon) {
                 const QIcon icon(qvariant_cast<QIcon>(value));
