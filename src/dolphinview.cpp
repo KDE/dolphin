@@ -159,8 +159,9 @@ void DolphinView::setMode(Mode mode)
         // to go back to the root URL of the column view automatically.
         // Otherwise there it would not be possible to turn off the column view
         // without focusing the first column.
-        setUrl(m_dirLister->url());
-        m_controller->setUrl(m_dirLister->url());
+        const KUrl root = rootUrl();
+        setUrl(root);
+        m_controller->setUrl(root);
     }
 
     const KUrl viewPropsUrl = viewPropertiesUrl();
