@@ -91,16 +91,6 @@ private:
                                         QVector<KService::Ptr>& openWithVector);
 
     /**
-     * Inserts the 'Actions...' submenu to \a popup.
-     * @param popup          Menu where the 'Actions...' sub menu should
-     *                       be added.
-     * @param openWithVector Output parameter which contains all 'Actions...'
-     *                       services.
-     */
-    QList<QAction*> insertActionItems(KMenu* popup,
-                                      QVector<KDesktopFileActions::Service>& actionsVector);
-
-    /**
      * Returns true, if 'menu' contains already
      * an entry with the name 'entryName'.
      */

@@ -37,6 +37,7 @@
 #include <knewmenu.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
+#include <konq_menuactions.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
 #include <krun.h>
@@ -168,9 +169,10 @@ void DolphinContextMenu::openItemContextMenu()
     const QList<QAction*> openWithActions = insertOpenWithItems(popup, openWithVector);
 
     // Insert 'Actions' sub menu
-    QVector<KDesktopFileActions::Service> actionsVector;
-    const QList<QAction*> serviceActions = insertActionItems(popup, actionsVector);
-    popup->addSeparator();
+    KonqMenuActions menuActions;
+    menuActions.setItems(m_selectedItems);
+    if (menuActions.addActionsTo(popup))
+        popup->addSeparator();
 
     // insert 'Properties...' entry
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
@@ -184,10 +186,6 @@ void DolphinContextMenu::openItemContextMenu()
             DolphinSettings::instance().placesModel()->addPlace(selectedUrl.fileName(),
                                                                 selectedUrl);
         }
-    } else if (serviceActions.contains(activatedAction)) {
-        // one of the 'Actions' items has been selected
-        int id = serviceActions.indexOf(activatedAction);
-        KDesktopFileActions::executeService(m_selectedUrls, actionsVector[id]);
     } else if (openWithActions.contains(activatedAction)) {
         // one of the 'Open With' items has been selected
         if (openWithActions.last() == activatedAction) {
@@ -201,7 +199,6 @@ void DolphinContextMenu::openItemContextMenu()
     }
 
     openWithVector.clear();
-    actionsVector.clear();
     popup->deleteLater();
 }
 
@@ -362,137 +359,6 @@ QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
     }
 
     return openWithActions;
-}
-
-QList<QAction*> DolphinContextMenu::insertActionItems(KMenu* popup,
-                                                      QVector<KDesktopFileActions::Service>& actionsVector)
-{
-    // Parts of the following code have been taken
-    // from the class KonqOperations located in
-    // libqonq/konq_operations.h of Konqueror.
-    // (Copyright (C) 2000  David Faure <faure@kde.org>)
-
-    KMenu* actionsMenu = new KMenu(i18nc("@title:menu", "Actions"));
-
-    QList<QAction*> serviceActions;
-
-    QStringList dirs = KGlobal::dirs()->findDirs("data", "dolphin/servicemenus/");
-
-    KMenu* menu = 0;
-    for (QStringList::ConstIterator dirIt = dirs.begin(); dirIt != dirs.end(); ++dirIt) {
-        QDir dir(*dirIt);
-        QStringList filters;
-        filters << "*.desktop";
-        dir.setNameFilters(filters);
-        QStringList entries = dir.entryList(QDir::Files);
-
-        for (QStringList::ConstIterator entryIt = entries.begin(); entryIt != entries.end(); ++entryIt) {
-            KConfigGroup cfg(KSharedConfig::openConfig(*dirIt + *entryIt, KConfig::OnlyLocal), "Desktop Entry");
-            if ((cfg.hasKey("Actions") || cfg.hasKey("X-KDE-GetActionMenu")) && cfg.hasKey("ServiceTypes")) {
-                //const QStringList types = cfg.readListEntry("ServiceTypes");
-                QStringList types;
-                types = cfg.readEntry("ServiceTypes", types);
-                for (QStringList::ConstIterator it = types.begin(); it != types.end(); ++it) {
-                    // check whether the mime type is equal or whether the
-                    // mimegroup (e. g. image/*) is supported
-
-                    bool insert = false;
-                    if ((*it) == "all/allfiles") {
-                        // The service type is valid for all files, but not for directories.
-                        // Check whether the selected items only consist of files...
-                        QListIterator<KFileItem> mimeIt(m_selectedItems);
-                        insert = true;
-                        while (insert && mimeIt.hasNext()) {
-                            KFileItem item = mimeIt.next();
-                            insert = !item.isDir();
-                        }
-                    }
-
-                    if (!insert) {
-                        // Check whether the MIME types of all selected files match
-                        // to the mimetype of the service action. As soon as one MIME
-                        // type does not match, no service menu is shown at all.
-                        QListIterator<KFileItem> mimeIt(m_selectedItems);
-                        insert = true;
-                        while (insert && mimeIt.hasNext()) {
-                            KFileItem item = mimeIt.next();
-                            const QString mimeType(item.mimetype());
-                            const QString mimeGroup(mimeType.left(mimeType.indexOf('/')));
-
-                            insert  = (*it == mimeType) ||
-                                      ((*it).right(1) == "*") &&
-                                      ((*it).left((*it).indexOf('/')) == mimeGroup);
-                        }
-                    }
-
-                    if (insert) {
-                        menu = actionsMenu;
-
-                        const QString submenuName = cfg.readEntry("X-KDE-Submenu");
-                        if (!submenuName.isEmpty()) {
-                            menu = new KMenu(submenuName);
-                            actionsMenu->addMenu(menu);
-                        }
-
-                        QList<KDesktopFileActions::Service> userServices =
-                            KDesktopFileActions::userDefinedServices(*dirIt + *entryIt, true);
-
-                        QList<KDesktopFileActions::Service>::const_iterator serviceIt;
-                        for (serviceIt = userServices.begin(); serviceIt != userServices.end(); ++serviceIt) {
-                            KDesktopFileActions::Service service = (*serviceIt);
-                            if (!service.m_strIcon.isEmpty()) {
-                                QAction* action = menu->addAction(KIcon(service.m_strIcon),
-                                                                  service.m_strName);
-                                serviceActions << action;
-                            } else {
-                                QAction *action = menu->addAction(service.m_strName);
-                                serviceActions << action;
-                            }
-                            actionsVector.append(service);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    const int itemsCount = actionsMenu->actions().count();
-    if (itemsCount == 0) {
-        // no actions are available at all, hence show the "Actions"
-        // submenu disabled
-        actionsMenu->setEnabled(false);
-    }
-
-    if (itemsCount == 1) {
-        // Exactly one item is available. Instead of showing a sub menu with
-        // only one item, show the item directly in the root menu.
-        if (menu == actionsMenu) {
-            // The item is an action, hence show the action in the root menu.
-            const QList<QAction*> actions = actionsMenu->actions();
-            Q_ASSERT(actions.count() == 1);
-
-            const QString text = actions[0]->text();
-            const QIcon icon = actions[0]->icon();
-            if (icon.isNull()) {
-                QAction* action = popup->addAction(text);
-                serviceActions.clear();
-                serviceActions << action;
-            } else {
-                QAction* action = popup->addAction(icon, text);
-                serviceActions.clear();
-                serviceActions << action;
-            }
-        } else {
-            // The item is a sub menu, hence show the sub menu in the root menu.
-            popup->addMenu(menu);
-        }
-        actionsMenu->deleteLater();
-        actionsMenu = 0;
-    } else {
-        popup->addMenu(actionsMenu);
-    }
-
-    return serviceActions;
 }
 
 bool DolphinContextMenu::containsEntry(const KMenu* menu,
