@@ -43,7 +43,7 @@
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
     QAbstractItemView(parent),
     m_controller(controller),
-    m_restoreActiveColumnFocus(false),
+    m_active(false),
     m_index(-1),
     m_contentX(0),
     m_columns(),
@@ -68,6 +68,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(slotShowHiddenFilesChanged(bool)));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
             this, SLOT(slotShowPreviewChanged(bool)));
+    connect(controller, SIGNAL(activationChanged(bool)),
+            this, SLOT(updateColumnsBackground(bool)));
 
     connect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(moveContentHorizontally(int)));
@@ -80,15 +82,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setActiveColumnIndex(0);
 
     updateDecorationSize();
-
-    // dim the background of the viewport
-    QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    const QColor fgColor = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
-    bgColor = KColorUtils::mix(bgColor, fgColor, 0.04);
-
-    QPalette palette = viewport()->palette();
-    palette.setColor(viewport()->backgroundRole(), bgColor);
-    viewport()->setPalette(palette);
+    updateColumnsBackground(true);
 }
 
 DolphinColumnView::~DolphinColumnView()
@@ -310,7 +304,7 @@ int DolphinColumnView::verticalOffset() const
 
 void DolphinColumnView::mousePressEvent(QMouseEvent* event)
 {
-    m_controller->triggerActivation();
+    m_controller->requestActivation();
     QAbstractItemView::mousePressEvent(event);
 }
 
@@ -369,6 +363,27 @@ void DolphinColumnView::updateDecorationSize()
     m_controller->setZoomOutPossible(isZoomOutPossible());
 
     doItemsLayout();
+}
+
+void DolphinColumnView::updateColumnsBackground(bool active)
+{
+    if (active == m_active) {
+        return;
+    }
+
+    m_active = active;
+
+    // dim the background of the viewport
+    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    color.setAlpha(150);
+
+    QPalette palette;
+    palette.setColor(viewport()->backgroundRole(), color);
+    viewport()->setPalette(palette);
+
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->updateBackground();
+    }
 }
 
 void DolphinColumnView::slotShowHiddenFilesChanged(bool show)

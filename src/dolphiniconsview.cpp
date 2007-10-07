@@ -149,7 +149,7 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 {
-    m_controller->triggerActivation();
+    m_controller->requestActivation();
     if (!indexAt(event->pos()).isValid()) {
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {

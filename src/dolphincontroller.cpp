@@ -50,7 +50,7 @@ void DolphinController::triggerContextMenuRequest(const QPoint& pos)
     emit requestContextMenu(pos);
 }
 
-void DolphinController::triggerActivation()
+void DolphinController::requestActivation()
 {
     emit activated();
 }
@@ -96,6 +96,11 @@ void DolphinController::setAdditionalInfoCount(int count)
         m_additionalInfoCount = count;
         emit additionalInfoCountChanged(count);
     }
+}
+
+void DolphinController::indicateActivationChange(bool active)
+{
+    emit activationChanged(active);
 }
 
 void DolphinController::triggerZoomIn()

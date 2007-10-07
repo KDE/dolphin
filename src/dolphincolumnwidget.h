@@ -78,6 +78,12 @@ public:
     void setShowHiddenFiles(bool show);
     void setShowPreview(bool show);
 
+    /**
+     * Updates the background color dependent from the activation state
+     * \a isViewActive of the column view.
+     */
+    void updateBackground();
+
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void dragEnterEvent(QDragEnterEvent* event);

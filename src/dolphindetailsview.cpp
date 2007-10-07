@@ -193,7 +193,7 @@ void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 {
-    m_controller->triggerActivation();
+    m_controller->requestActivation();
 
     QTreeView::mousePressEvent(event);
 

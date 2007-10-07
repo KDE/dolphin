@@ -33,21 +33,38 @@ class QRect;
 class QWidget;
 
 /**
- * @brief Allows to control Dolphin views and to react on state changes.
+ * @brief Acts as mediator between the abstract Dolphin view and the view
+ *        implementations.
  *
- * One instance of a DolphinController can be assigned to a variable number of
- * Dolphin views (DolphinIconsView, DolphinDetailsView) by passing it in
- * the constructor:
+ * The abstract Dolphin view (see DolphinView) represents the parent of the controller.
+ * The controller is passed to the current view implementation
+ * (see DolphinIconsView, DolphinDetailsView and DolphinColumnView)
+ * by passing it in the constructor:
  *
  * \code
  * DolphinController* controller = new DolphinController(parent);
- * DolphinDetailsView* detailsView = new DolphinDetailsView(parent, controller);
- * DolphinIconsView* iconsView = new DolphinIconsView(parent, controller);
+ * QAbstractItemView* view = new DolphinIconsView(parent, controller);
  * \endcode
  *
- * The Dolphin view assures that the controller gets informed about selection changes,
- * when an item should be triggered and a lot more. The controller emits the corresponding signals
- * so that the receiver may react on those changes.
+ * The communication of the view implementations to the abstract view is done by:
+ * - triggerContextMenuRequest()
+ * - requestActivation()
+ * - indicateDroppedUrls()
+ * - indicateSortingChange()
+ * - indicateSortOrderChanged()
+ * - setZoomInPossible()
+ * - setZoomOutPossible()
+ * - triggerItem()
+ * - emitItemEntered()
+ * - emitViewportEntered()
+ *
+ * The communication of the abstract view to the view implementations is done by:
+ * - setShowHiddenFiles()
+ * - setShowPreview()
+ * - setAdditionalInfoCount()
+ * - indicateActivationChange()
+ * - triggerZoomIn()
+ * - triggerZoomOut()
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinController : public QObject
 {
@@ -61,33 +78,110 @@ public:
     void setUrl(const KUrl& url);
     const KUrl& url() const;
 
+    /**
+     * Requests a context menu for the position \a pos. This method
+     * should be invoked by the view implementation when a context
+     * menu should be opened. The abstract Dolphin view itself
+     * takes care itself to get the selected items depending from
+     * \a pos.
+     */
     void triggerContextMenuRequest(const QPoint& pos);
 
-    void triggerActivation();
+    /**
+     * Requests an activation of the view and emits the signal
+     * activated(). This method should be invoked by the view implementation
+     * if e. g. a mouse click on the view has been done.
+     * After the activation has been changed, the view implementation
+     * might listen to the activationChanged() signal.
+     */
+    void requestActivation();
 
+    /**
+     * Indicates that URLs are dropped above a destination. This method
+     * should be invoked by the view implementation. The abstract Dolphin view
+     * will start the corresponding action (copy, move, link).
+     * @param urls      URLs that are dropped above a destination.
+     * @param destPath  Path of the destination.
+     * @param destIndex Model index of the destination item.
+     * @param source    Pointer to the view implementation which invoked this method.
+     */
     void indicateDroppedUrls(const KUrl::List& urls,
                              const KUrl& destPath,
                              const QModelIndex& destIndex,
                              QWidget* source);
 
+    /**
+     * Informs the abstract Dolphin view about a sorting change done inside
+     * the view implementation. This method should be invoked by the view
+     * implementation (e. g. the details view uses this method in combination
+     * with the details header).
+     */
     void indicateSortingChange(DolphinView::Sorting sorting);
 
+    /**
+     * Informs the abstract Dolphin view about a sort order change done inside
+     * the view implementation. This method should be invoked by the view
+     * implementation (e. g. the details view uses this method in combination
+     * with the details header).
+     */
     void indicateSortOrderChange(Qt::SortOrder order);
 
+    /**
+     * Informs the view implementation about a change of the show hidden files
+     * state and is invoked by the abstract Dolphin view.
+     * The signal showHiddenFilesChanged() is emitted.
+     */
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
+    /**
+     * Informs the view implementation about a change of the show preview
+     * state and is invoked by the abstract Dolphin view.
+     * The signal showPreviewChanged() is emitted.
+     */
     void setShowPreview(bool show);
     bool showPreview() const;
 
+    /**
+     * Informs the view implementation about a change of the number of
+     * additional informations and is invoked by the abstract Dolphin view.
+     * The signal additionalInfoCountChanged() is emitted.
+     */
     void setAdditionalInfoCount(int count);
     bool additionalInfoCount() const;
 
+    /**
+     * Informs the view implementation about a change of the activation
+     * state and is invoked by the abstract Dolphin view. The signal
+     * activationChanged() is emitted.
+     */
+    void indicateActivationChange(bool active);
+
+    /**
+     * Tells the view implementation to zoom in by emitting the signal zoomIn()
+     * and is invoked by the abstract Dolphin view.
+     */
     void triggerZoomIn();
+
+    /**
+     * Is invoked by the view implementation to indicate whether a zooming in
+     * is possible. The abstract Dolphin view updates the corresponding menu
+     * action depending on this state.
+     */
     void setZoomInPossible(bool possible);
     bool isZoomInPossible() const;
 
+    /**
+     * Tells the view implementation to zoom out by emitting the signal zoomOut()
+     * and is invoked by the abstract Dolphin view.
+     */
     void triggerZoomOut();
+
+    /**
+     * Is invoked by the view implementation to indicate whether a zooming out
+     * is possible. The abstract Dolphin view updates the corresponding menu
+     * action depending on this state.
+     */
     void setZoomOutPossible(bool possible);
     bool isZoomOutPossible() const;
 
@@ -122,7 +216,8 @@ signals:
     void urlChanged(const KUrl& url);
 
     /**
-     * Is emitted if a context menu should be opened.
+     * Is emitted if a context menu should be opened (see triggerContextMenuRequest()).
+     * The abstract Dolphin view connects to this signal and will open the context menu.
      * @param pos       Position relative to the view widget where the
      *                  context menu should be opened. It is recommended
      *                  to get the corresponding model index from
@@ -132,6 +227,8 @@ signals:
 
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
+     * The abstract Dolphin view connects to this signal to know the
+     * destination view for the menu actions.
      */
     void activated();
 
@@ -146,53 +243,86 @@ signals:
                      const QModelIndex& destIndex,
                      QWidget* source);
 
-    /** Is emitted if the sorting has been changed to \a sorting. */
+    /**
+     * Is emitted if the sorting has been changed to \a sorting by
+     * the view implementation (see indicateSortingChanged().
+     * The abstract Dolphin view connects to
+     * this signal to update its menu action.
+     */
     void sortingChanged(DolphinView::Sorting sorting);
 
-    /** Is emitted if the sort order has been changed to \a sort order. */
+    /**
+     * Is emitted if the sort order has been changed to \a order
+     * by the view implementation (see indicateSortOrderChanged().
+     * The abstract Dolphin view connects
+     * to this signal to update its menu actions.
+     */
     void sortOrderChanged(Qt::SortOrder order);
 
     /**
      * Is emitted if the state for showing hidden files has been
-     * changed to \a show.
+     * changed to \a show by the abstract Dolphin view. The view
+     * implementation might connect to this signal if custom
+     * updates are required in this case.
      */
     void showHiddenFilesChanged(bool show);
 
     /**
      * Is emitted if the state for showing previews has been
-     * changed to \a show.
+     * changed to \a show by the abstract Dolphin view.
+     * The view implementation might connect to this signal if custom
+     * updates are required in this case.
      */
     void showPreviewChanged(bool show);
 
     /**
      * Is emitted if the number of additional informations has been
-     * changed to \a count.
+     * changed to \a count by the abstract Dolphin view.
+     * The view implementation might connect to this signal if custom
+     * updates are required in this case.
      */
     void additionalInfoCountChanged(int count);
 
     /**
-     * Is emitted if the item \a item should be triggered.
-     * Usually triggering on a directory opens the directory, triggering
-     * on a file opens the corresponding application. The item is null
-     * (see KFileItem::isNull()), when clicking on the viewport itself.
+     * Is emitted if the activation state has been changed to \a active
+     * by the abstract Dolphin view.
+     * The view implementation might connect to this signal if custom
+     * updates are required in this case.
+     */
+    void activationChanged(bool active);
+
+    /**
+     * Is emitted if the item \a item should be triggered. The abstract
+     * Dolphin view connects to this signal. If the item represents a directory,
+     * the directory is opened. On a file the corresponding application is opened.
+     * The item is null (see KFileItem::isNull()), when clicking on the viewport itself.
      */
     void itemTriggered(const KFileItem& item);
 
     /**
      * Is emitted if the mouse cursor has entered the item
-     * given by \a index.
+     * given by \a index (see emitItemEntered()).
+     * The abstract Dolphin view connects to this signal.
      */
     void itemEntered(const KFileItem& item);
 
     /**
      * Is emitted if the mouse cursor has entered
-     * the viewport. */
+     * the viewport (see emitViewportEntered().
+     * The abstract Dolphin view connects to this signal.
+     */
     void viewportEntered();
 
-    /** Is emitted if the view should zoom in. */
+    /**
+     * Is emitted if the view should zoom in. The view implementation
+     * must connect to this signal if it supports zooming.
+     */
     void zoomIn();
 
-    /** Is emitted if the view should zoom out. */
+    /**
+     * Is emitted if the view should zoom out. The view implementation
+     * must connect to this signal if it supports zooming.
+     */
     void zoomOut();
 
 private:

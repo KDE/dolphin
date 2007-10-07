@@ -133,12 +133,29 @@ void DolphinView::setActive(bool active)
 
     m_active = active;
 
-    updateViewportColor();
+    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    if (active) {
+        // TODO: emitting urlChanged() is a hack, as the URL hasn't really changed. It
+        // bypasses the problem when having a split view and changing the active view to
+        // update the some URL dependent states. A nicer approach should be no big deal...
+        emit urlChanged(url());
+        emit selectionChanged(selectedItems());
+    } else {
+        color.setAlpha(150);
+    }
+
+    QWidget* viewport = itemView()->viewport();
+    QPalette palette;
+    palette.setColor(viewport->backgroundRole(), color);
+    viewport->setPalette(palette);
+
     update();
 
     if (active) {
         emit activated();
     }
+
+    m_controller->indicateActivationChange(active);
 }
 
 bool DolphinView::isActive() const
@@ -433,10 +450,14 @@ void DolphinView::reload()
 
 void DolphinView::refresh()
 {
+    const bool oldActivationState = m_active;
+    m_active = true;
+
     createView();
     applyViewProperties(m_controller->url());
     reload();
-    updateViewportColor();
+
+    setActive(oldActivationState);
 }
 
 void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
@@ -904,22 +925,6 @@ void DolphinView::applyCutItemEffect()
         }
         ++it;
     }
-}
-
-void DolphinView::updateViewportColor()
-{
-    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    if (m_active) {
-        emit urlChanged(url()); // Hmm, this is a hack; the url hasn't really changed.
-        emit selectionChanged(selectedItems());
-    } else {
-        color.setAlpha(0);
-    }
-
-    QWidget* viewport = itemView()->viewport();
-    QPalette palette;
-    palette.setColor(viewport->backgroundRole(), color);
-    viewport->setPalette(palette);
 }
 
 #include "dolphinview.moc"

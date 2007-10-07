@@ -108,6 +108,12 @@ private slots:
      */
     void updateDecorationSize();
 
+    /**
+     * Updates the background color of the columns to respect
+     * the current activation state \a active.
+     */
+    void updateColumnsBackground(bool active);
+
     void slotShowHiddenFilesChanged(bool show);
     void slotShowPreviewChanged(bool show);
 
@@ -146,7 +152,7 @@ private:
 
 private:
     DolphinController* m_controller;
-    bool m_restoreActiveColumnFocus;
+    bool m_active;
     int m_index;
     int m_contentX;
     QList<DolphinColumnWidget*> m_columns;

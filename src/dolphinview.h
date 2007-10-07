@@ -544,12 +544,6 @@ private:
     void applyCutItemEffect();
 
     /**
-     * Updates the color of the viewport depending from the
-     * activation state (see DolphinView::isActive()).
-     */
-    void updateViewportColor();
-
-    /**
      * Returns true, if the ColumnView is activated. As the column view
      * requires some special handling for iterating through directories,
      * this method has been introduced for convenience.

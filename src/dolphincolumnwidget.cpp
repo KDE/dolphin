@@ -177,6 +177,19 @@ void DolphinColumnWidget::setShowPreview(bool show)
     }
 }
 
+void DolphinColumnWidget::updateBackground()
+{
+    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
+    if (!m_active || !m_view->m_active) {
+        color.setAlpha(0);
+    }
+    QPalette palette = viewport()->palette();
+    palette.setColor(viewport()->backgroundRole(), color);
+    viewport()->setPalette(palette);
+
+    update();
+}
+
 void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)
 {
     if (event->mimeData()->hasUrls()) {
@@ -252,7 +265,7 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
 
 void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 {
-    m_view->m_controller->triggerActivation();
+    m_view->m_controller->requestActivation();
     if (!m_active) {
         m_view->requestActivation(this);
     }
@@ -367,11 +380,6 @@ void DolphinColumnWidget::activate()
                 this, SLOT(triggerItem(const QModelIndex&)));
     }
 
-    const QColor bgColor = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    QPalette palette = viewport()->palette();
-    palette.setColor(viewport()->backgroundRole(), bgColor);
-    viewport()->setPalette(palette);
-
     if (!m_childUrl.isEmpty()) {
         // assure that the current index is set on the index that represents
         // the child URL
@@ -380,7 +388,7 @@ void DolphinColumnWidget::activate()
         selectionModel()->setCurrentIndex(proxyIndex, QItemSelectionModel::Current);
     }
 
-    update();
+    updateBackground();
 }
 
 void DolphinColumnWidget::deactivate()
@@ -396,11 +404,8 @@ void DolphinColumnWidget::deactivate()
                    this, SLOT(triggerItem(const QModelIndex&)));
     }
 
-    const QPalette palette = m_view->viewport()->palette();
-    viewport()->setPalette(palette);
-
     selectionModel()->clear();
-    update();
+    updateBackground();
 }
 
 bool DolphinColumnWidget::isCutItem(const KFileItem& item) const
