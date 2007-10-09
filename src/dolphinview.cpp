@@ -88,8 +88,16 @@ DolphinView::DolphinView(QWidget* parent,
 
     m_controller = new DolphinController(this);
     m_controller->setUrl(url);
+
+    // Receiver of the DolphinView signal 'urlChanged()' don't need
+    // to care whether the internal controller changed the URL already or whether
+    // the controller just requested an URL change and will be updated later.
+    // In both cases the URL has been changed:
     connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
             this, SIGNAL(urlChanged(const KUrl&)));
+    connect(m_controller, SIGNAL(requestUrlChange(const KUrl&)),
+            this, SIGNAL(urlChanged(const KUrl&)));
+
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
     connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&, const QModelIndex&, QWidget*)),
@@ -466,18 +474,11 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         return;
     }
 
-    const bool restoreColumnView =  !rootUrl.isEmpty()
-                                    && !rootUrl.equals(url, KUrl::CompareWithoutTrailingSlash)
-                                    && rootUrl.isParentOf(url);
-
     m_controller->setUrl(url); // emits urlChanged, which we forward
 
-    if (restoreColumnView) {
+    if (!rootUrl.isEmpty() && rootUrl.isParentOf(url)) {
         applyViewProperties(rootUrl);
         loadDirectory(rootUrl);
-        // Restoring the column view relies on the URL-history. It might be possible
-        // that the view properties have been changed or deleted in the meantime, so
-        // it cannot be asserted that really a column view has been created:
         if (itemView() == m_columnView) {
             m_columnView->setRootUrl(rootUrl);
             m_columnView->showColumn(url);

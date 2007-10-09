@@ -49,6 +49,7 @@ class QWidget;
  * The communication of the view implementations to the abstract view is done by:
  * - triggerContextMenuRequest()
  * - requestActivation()
+ * - triggerUrlChangeRequest()
  * - indicateDroppedUrls()
  * - indicateSortingChange()
  * - indicateSortOrderChanged()
@@ -59,6 +60,7 @@ class QWidget;
  * - emitViewportEntered()
  *
  * The communication of the abstract view to the view implementations is done by:
+ * - setUrl()
  * - setShowHiddenFiles()
  * - setShowPreview()
  * - setAdditionalInfoCount()
@@ -74,9 +76,24 @@ public:
     explicit DolphinController(QObject* parent);
     virtual ~DolphinController();
 
-    /** Sets the URL to \a url and emits the signal urlChanged(). */
+    /**
+     * Sets the URL to \a url and emits the signal urlChanged() if
+     * \a url is different for the current URL. This method should
+     * be invoked by the abstract Dolphin view whenever the current
+     * URL has been changed.
+     */
     void setUrl(const KUrl& url);
     const KUrl& url() const;
+
+    /**
+     * Allows a view implementation to request an URL change to \a url.
+     * The signal requestUrlChange() is emitted and the abstract Dolphin view
+     * will assure that the URL of the Dolphin Controller will be updated
+     * later. Invoking this method makes only sense if the view implementation
+     * shows a hierarchy of URLs and allows to change the URL within
+     * the view (e. g. this is the case in the column view).
+     */
+    void triggerUrlChangeRequest(const KUrl& url);
 
     /**
      * Requests a context menu for the position \a pos. This method
@@ -214,6 +231,12 @@ signals:
      * to \a url.
      */
     void urlChanged(const KUrl& url);
+
+    /**
+     * Is emitted if the view implementation requests a changing of the current
+     * URL to \a url (see triggerUrlChangeRequest()).
+     */
+    void requestUrlChange(const KUrl& url);
 
     /**
      * Is emitted if a context menu should be opened (see triggerContextMenuRequest()).

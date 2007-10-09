@@ -263,12 +263,14 @@ QModelIndex DolphinColumnView::moveCursor(CursorAction cursorAction, Qt::Keyboar
     case MoveLeft:
         if (m_index > 0) {
             setActiveColumnIndex(m_index - 1);
+            m_controller->triggerUrlChangeRequest(activeColumn()->url());
         }
         break;
 
     case MoveRight:
         if (m_index < m_columns.count() - 1) {
             setActiveColumnIndex(m_index + 1);
+            m_controller->triggerUrlChangeRequest(m_columns[m_index]->url());
         }
         break;
 
@@ -425,8 +427,6 @@ void DolphinColumnView::setActiveColumnIndex(int index)
 
     m_index = index;
     m_columns[m_index]->setActive(true);
-
-    m_controller->setUrl(m_columns[m_index]->url());
 
     assureVisibleActiveColumn();
 }

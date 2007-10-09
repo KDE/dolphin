@@ -44,6 +44,13 @@ void DolphinController::setUrl(const KUrl& url)
     }
 }
 
+void DolphinController::triggerUrlChangeRequest(const KUrl& url)
+{
+    if (m_url != url) {
+        emit requestUrlChange(url);
+    }
+}
+
 void DolphinController::triggerContextMenuRequest(const QPoint& pos)
 {
     emit activated();

@@ -268,6 +268,7 @@ void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
     m_view->m_controller->requestActivation();
     if (!m_active) {
         m_view->requestActivation(this);
+        m_view->m_controller->triggerUrlChangeRequest(m_url);
     }
 
     QListView::mousePressEvent(event);
@@ -291,6 +292,7 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 {
     if (!m_active) {
         m_view->requestActivation(this);
+        m_view->m_controller->triggerUrlChangeRequest(m_url);
     }
 
     QListView::contextMenuEvent(event);
