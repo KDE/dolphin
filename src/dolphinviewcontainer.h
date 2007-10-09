@@ -145,10 +145,10 @@ private slots:
     void updateProgress(int percent);
 
     /**
-     * Updates the number of items (= number of directories + number of files)
-     * and shows this information in the statusbar.
+     * Assures that the viewport position is restored and updates the
+     * statusbar to reflect the current content.
      */
-    void updateItemCount();
+    void slotDirListerCompleted();
 
     /**
      * Handles clicking on an item
@@ -173,7 +173,7 @@ private slots:
      * Filters the currently shown items by \a nameFilter. All items
      * which contain the given filter string will be shown.
      */
-    void changeNameFilter(const QString& nameFilter);
+    void setNameFilter(const QString& nameFilter);
 
     /**
      * Opens the context menu on the current mouse position.
@@ -228,9 +228,6 @@ private:
 
 private:
     bool m_showProgress;
-
-    int m_folderCount;
-    int m_fileCount;
 
     DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;

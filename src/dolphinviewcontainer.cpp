@@ -62,8 +62,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                                            const KUrl& url) :
     QWidget(parent),
     m_showProgress(false),
-    m_folderCount(0),
-    m_fileCount(0),
     m_mainWindow(mainWindow),
     m_topLayout(0),
     m_urlNavigator(0),
@@ -108,7 +106,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     connect(m_dirLister, SIGNAL(deleteItem(const KFileItem&)),
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(updateItemCount()));
+            this, SLOT(slotDirListerCompleted()));
     connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
             this, SLOT(showInfoMessage(const QString&)));
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
@@ -148,7 +146,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());
     connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
-            this, SLOT(changeNameFilter(const QString&)));
+            this, SLOT(setNameFilter(const QString&)));
     connect(m_filterBar, SIGNAL(closeRequest()),
             this, SLOT(closeFilterBar()));
 
@@ -292,29 +290,12 @@ void DolphinViewContainer::updateProgress(int percent)
     }
 }
 
-void DolphinViewContainer::updateItemCount()
+void DolphinViewContainer::slotDirListerCompleted()
 {
     if (m_showProgress) {
         m_statusBar->setProgressText(QString());
         m_statusBar->setProgress(100);
         m_showProgress = false;
-    }
-
-    KFileItemList items(m_dirLister->items());
-    KFileItemList::const_iterator it = items.begin();
-    const KFileItemList::const_iterator end = items.end();
-
-    m_fileCount = 0;
-    m_folderCount = 0;
-
-    while (it != end) {
-        const KFileItem item = *it;
-        if (item.isDir()) {
-            ++m_folderCount;
-        } else {
-            ++m_fileCount;
-        }
-        ++it;
     }
 
     updateStatusBar();
@@ -349,24 +330,12 @@ void DolphinViewContainer::closeFilterBar()
 
 QString DolphinViewContainer::defaultStatusBarText() const
 {
-    int m_fileCount = 0;
-    int m_folderCount = 0;
-
-    for (int i = 0; i < m_proxyModel->rowCount(); i++)
-    {
-        if (m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(m_proxyModel->index(i, m_proxyModel->sortColumn()))).isDir())
-        {
-            m_folderCount++;
-        }
-        else
-        {
-            m_fileCount++;
-        }
-    }
-
-    return KIO::itemsSummaryString(m_fileCount + m_folderCount,
-                                   m_fileCount,
-                                   m_folderCount,
+    int folderCount = 0;
+    int fileCount = 0;
+    m_view->calculateItemCount(fileCount, folderCount);
+    return KIO::itemsSummaryString(fileCount + folderCount,
+                                   fileCount,
+                                   folderCount,
                                    0, false);
 }
 
@@ -440,20 +409,9 @@ void DolphinViewContainer::updateStatusBar()
     }
 }
 
-void DolphinViewContainer::changeNameFilter(const QString& nameFilter)
+void DolphinViewContainer::setNameFilter(const QString& nameFilter)
 {
-    // The name filter of KDirLister does a 'hard' filtering, which
-    // means that only the items are shown where the names match
-    // exactly the filter. This is non-transparent for the user, which
-    // just wants to have a 'soft' filtering: does the name contain
-    // the filter string?
-    QString adjustedFilter(nameFilter);
-    adjustedFilter.insert(0, '*');
-    adjustedFilter.append('*');
-
-    m_dirLister->setNameFilter(adjustedFilter);
-    m_dirLister->emitChanges();
-
+    m_view->setNameFilter(nameFilter);
     updateStatusBar();
 }
 

@@ -304,6 +304,21 @@ public:
      */
     void updateView(const KUrl& url, const KUrl& rootUrl);
 
+    /**
+     * Filters the currently shown items by \a nameFilter. All items
+     * which contain the given filter string will be shown.
+     */
+    void setNameFilter(const QString& nameFilter);
+
+    /**
+     * Calculates the number of currently shown files into
+     * \a fileCount and the number of folders into \a folderCount.
+     * It is recommend using this method instead of asking the
+     * directory lister or the model directly, as it takes
+     * filtering and hierarchical previews into account.
+     */
+    void calculateItemCount(int& fileCount, int& folderCount);
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -318,6 +333,7 @@ public slots:
      * are not in the currently displayed folder.
      */
     void changeSelection(const KFileItemList& selection);
+
 
 signals:
     /**

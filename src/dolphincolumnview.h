@@ -24,6 +24,7 @@
 
 #include <QAbstractItemView>
 #include <QList>
+#include <QString>
 #include <QStyleOption>
 
 class DolphinColumnWidget;
@@ -68,6 +69,18 @@ public:
 
     /** Returns the URL of the first column. */
     KUrl rootUrl() const;
+
+    /**
+     * Filters the currently shown items by \a nameFilter. All items
+     * which contain the given filter string will be shown.
+     */
+    void setNameFilter(const QString& nameFilter);
+
+    /**
+     * Returns the currently used name filter. All items
+     * which contain the name filter will be shown.
+     */
+    QString nameFilter() const;
 
 public slots:
     /**

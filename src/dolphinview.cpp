@@ -493,6 +493,38 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
     emit startedPathLoading(url);
 }
 
+void DolphinView::setNameFilter(const QString& nameFilter)
+{
+    // The name filter of KDirLister does a 'hard' filtering, which
+    // means that only the items are shown where the names match
+    // exactly the filter. This is non-transparent for the user, which
+    // just wants to have a 'soft' filtering: does the name contain
+    // the filter string?
+    QString adjustedFilter(nameFilter);
+    adjustedFilter.insert(0, '*');
+    adjustedFilter.append('*');
+
+    m_dirLister->setNameFilter(adjustedFilter);
+    m_dirLister->emitChanges();
+
+    if (isColumnViewActive()) {
+        // adjusting the directory lister is not enough in the case of the
+        // column view, as each column has its own directory lister internally...
+        m_columnView->setNameFilter(nameFilter);
+    }
+}
+
+void DolphinView::calculateItemCount(int& fileCount, int& folderCount)
+{
+    foreach (KFileItem item, m_dirLister->items()) {
+        if (item.isDir()) {
+            ++folderCount;
+        } else {
+            ++fileCount;
+        }
+    }
+}
+
 void DolphinView::setUrl(const KUrl& url)
 {
     updateView(url, KUrl());

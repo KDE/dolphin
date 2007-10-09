@@ -84,6 +84,19 @@ public:
      */
     void updateBackground();
 
+    /**
+     * Filters the currently shown items by \a nameFilter. All items
+     * which contain the given filter string will be shown.
+     */
+    void setNameFilter(const QString& nameFilter);
+
+    /**
+     * Returns the currently used name filter. All items
+     * which contain the name filter will be shown.
+     */
+    QString nameFilter() const;
+
+
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void dragEnterEvent(QDragEnterEvent* event);

@@ -139,6 +139,18 @@ void DolphinColumnView::setRootUrl(const KUrl& url)
     m_columns[0]->setUrl(url);
 }
 
+void DolphinColumnView::setNameFilter(const QString& nameFilter)
+{
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->setNameFilter(nameFilter);
+    }
+}
+
+QString DolphinColumnView::nameFilter() const
+{
+    return activeColumn()->nameFilter();
+}
+
 KUrl DolphinColumnView::rootUrl() const
 {
     return m_columns[0]->url();
@@ -208,6 +220,10 @@ void DolphinColumnView::showColumn(const KUrl& url)
             columnIndex++;
 
             DolphinColumnWidget* column = new DolphinColumnWidget(viewport(), this, childUrl);
+            const QString filter = nameFilter();
+            if (!filter.isEmpty()) {
+                column->setNameFilter(filter);
+            }
             column->setActive(false);
 
             m_columns.append(column);
