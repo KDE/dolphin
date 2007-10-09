@@ -229,7 +229,6 @@ private:
 private:
     bool m_showProgress;
 
-    int m_iconSize;
     int m_folderCount;
     int m_fileCount;
 
