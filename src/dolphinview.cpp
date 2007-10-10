@@ -19,6 +19,8 @@
  ***************************************************************************/
 
 #include "dolphinview.h"
+#include <ktoggleaction.h>
+#include <kactioncollection.h>
 
 #include <QApplication>
 #include <QClipboard>
@@ -958,6 +960,49 @@ void DolphinView::applyCutItemEffect()
         }
         ++it;
     }
+}
+
+KToggleAction* DolphinView::iconsModeAction(KActionCollection* actionCollection)
+{
+    KToggleAction* iconsView = actionCollection->add<KToggleAction>("icons");
+    iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
+    iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
+    iconsView->setIcon(KIcon("fileview-icon"));
+    iconsView->setData(QVariant::fromValue(IconsView));
+    return iconsView;
+}
+
+KToggleAction* DolphinView::detailsModeAction(KActionCollection* actionCollection)
+{
+    KToggleAction* detailsView = actionCollection->add<KToggleAction>("details");
+    detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
+    detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
+    detailsView->setIcon(KIcon("fileview-detailed"));
+    detailsView->setData(QVariant::fromValue(DetailsView));
+    return detailsView;
+}
+
+KToggleAction* DolphinView::columnsModeAction(KActionCollection* actionCollection)
+{
+    KToggleAction* columnView = actionCollection->add<KToggleAction>("columns");
+    columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
+    columnView->setShortcut(Qt::CTRL | Qt::Key_3);
+    columnView->setIcon(KIcon("fileview-column"));
+    columnView->setData(QVariant::fromValue(ColumnView));
+    return columnView;
+}
+
+QString DolphinView::currentViewModeActionName() const
+{
+    switch (m_mode) {
+    case DolphinView::IconsView:
+        return "icons";
+    case DolphinView::DetailsView:
+        return "details";
+    case DolphinView::ColumnView:
+        return "columns";
+    }
+    return QString(); // can't happen
 }
 
 #include "dolphinview.moc"

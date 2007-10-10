@@ -67,6 +67,14 @@ private Q_SLOTS:
      * @url   URL which contains \a item.
      */
     void slotOpenContextMenu(const KFileItem& item, const KUrl& url);
+    /**
+     * Emitted when the user requested a change of view mode
+     */
+    void slotViewModeActionTriggered(QAction*);
+
+private:
+    void createActions();
+    void updateViewActions();
 
 private:
     DolphinView* m_view;

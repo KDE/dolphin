@@ -37,6 +37,7 @@
 #include <QListView>
 #include <QWidget>
 
+class KToggleAction;
 class DolphinController;
 class KDirLister;
 class KFileItemDelegate;
@@ -318,6 +319,29 @@ public:
      * filtering and hierarchical previews into account.
      */
     void calculateItemCount(int& fileCount, int& folderCount);
+
+    /**
+     * Returns the "switch to icons mode" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KToggleAction* iconsModeAction(KActionCollection* collection);
+
+    /**
+     * Returns the "switch to details mode" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KToggleAction* detailsModeAction(KActionCollection* collection);
+
+    /**
+     * Returns the "switch to columns mode" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KToggleAction* columnsModeAction(KActionCollection* collection);
+
+    /**
+     * Returns the action name corresponding to the current view mode
+     */
+    QString currentViewModeActionName() const;
 
 public slots:
     /**
@@ -602,5 +626,8 @@ private:
 
     KUrl m_rootUrl;
 };
+
+/// Allow using DolphinView::Mode in QVariant
+Q_DECLARE_METATYPE(DolphinView::Mode)
 
 #endif // DOLPHINVIEW_H

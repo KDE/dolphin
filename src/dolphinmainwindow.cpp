@@ -698,19 +698,11 @@ void DolphinMainWindow::invertSelection()
     clearStatusBar();
     m_activeViewContainer->view()->invertSelection();
 }
-void DolphinMainWindow::setIconsView()
-{
-    m_activeViewContainer->view()->setMode(DolphinView::IconsView);
-}
 
-void DolphinMainWindow::setDetailsView()
+void DolphinMainWindow::setViewMode(QAction* action)
 {
-    m_activeViewContainer->view()->setMode(DolphinView::DetailsView);
-}
-
-void DolphinMainWindow::setColumnView()
-{
-    m_activeViewContainer->view()->setMode(DolphinView::ColumnView);
+    const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
+    m_activeViewContainer->view()->setMode(mode);
 }
 
 void DolphinMainWindow::sortByName()
@@ -1149,28 +1141,16 @@ void DolphinMainWindow::setupActions()
                              SLOT(zoomOut()),
                              actionCollection());
 
-    KToggleAction* iconsView = actionCollection()->add<KToggleAction>("icons");
-    iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
-    iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
-    iconsView->setIcon(KIcon("fileview-icon"));
-    connect(iconsView, SIGNAL(triggered()), this, SLOT(setIconsView()));
 
-    KToggleAction* detailsView = actionCollection()->add<KToggleAction>("details");
-    detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
-    detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
-    detailsView->setIcon(KIcon("fileview-detailed"));
-    connect(detailsView, SIGNAL(triggered()), this, SLOT(setDetailsView()));
-
-    KToggleAction* columnView = actionCollection()->add<KToggleAction>("columns");
-    columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
-    columnView->setShortcut(Qt::CTRL | Qt::Key_3);
-    columnView->setIcon(KIcon("fileview-column"));
-    connect(columnView, SIGNAL(triggered()), this, SLOT(setColumnView()));
+    KToggleAction* iconsView = DolphinView::iconsModeAction(actionCollection());
+    KToggleAction* detailsView = DolphinView::detailsModeAction(actionCollection());
+    KToggleAction* columnView = DolphinView::columnsModeAction(actionCollection());
 
     QActionGroup* viewModeGroup = new QActionGroup(this);
     viewModeGroup->addAction(iconsView);
     viewModeGroup->addAction(detailsView);
     viewModeGroup->addAction(columnView);
+    connect(viewModeGroup, SIGNAL(triggered(QAction*)), this, SLOT(setViewMode(QAction*)));
 
     KToggleAction* sortByName = actionCollection()->add<KToggleAction>("sort_by_name");
     sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
@@ -1469,21 +1449,7 @@ void DolphinMainWindow::updateViewActions()
         zoomOutAction->setEnabled(view->isZoomOutPossible());
     }
 
-    QAction* action = 0;
-    switch (view->mode()) {
-    case DolphinView::IconsView:
-        action = actionCollection()->action("icons");
-        break;
-    case DolphinView::DetailsView:
-        action = actionCollection()->action("details");
-        break;
-    case DolphinView::ColumnView:
-        action = actionCollection()->action("columns");
-        break;
-    default:
-        break;
-    }
-
+    QAction* action = actionCollection()->action(view->currentViewModeActionName());
     if (action != 0) {
         KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
         toggleAction->setChecked(true);

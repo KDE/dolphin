@@ -18,6 +18,9 @@
 */
 
 #include "dolphinpart.h"
+#include <kactioncollection.h>
+#include <ktoggleaction.h>
+#include <QActionGroup>
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinmodel.h"
@@ -67,6 +70,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
                              m_proxyModel);
     setWidget(m_view);
 
+    setXMLFile("dolphinpart.rc");
+
     connect(m_view, SIGNAL(infoMessage(QString)),
             this, SLOT(slotInfoMessage(QString)));
     connect(m_view, SIGNAL(errorMessage(QString)),
@@ -81,7 +86,11 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
 
-    // TODO provide a way to switch from iconview to listview (and others)
+    createActions();
+    updateViewActions();
+
+    // TODO provide these actions in the menu, merged with the existing view-mode-actions somehow
+    // [Q_PROPERTY introspection?]
 
     // TODO connect to urlsDropped
 
@@ -100,6 +109,24 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
 DolphinPart::~DolphinPart()
 {
     delete m_dirLister;
+}
+
+void DolphinPart::createActions()
+{
+    QActionGroup* viewModeActions = new QActionGroup(this);
+    viewModeActions->addAction(DolphinView::iconsModeAction(actionCollection()));
+    viewModeActions->addAction(DolphinView::detailsModeAction(actionCollection()));
+    viewModeActions->addAction(DolphinView::columnsModeAction(actionCollection()));
+    connect(viewModeActions, SIGNAL(triggered(QAction*)), this, SLOT(slotViewModeActionTriggered(QAction*)));
+}
+
+void DolphinPart::updateViewActions()
+{
+    QAction* action = actionCollection()->action(m_view->currentViewModeActionName());
+    if (action != 0) {
+        KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
+        toggleAction->setChecked(true);
+    }
 }
 
 KAboutData* DolphinPart::createAboutData()
@@ -189,6 +216,12 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
 
     KFileItemList items; items.append(item);
     emit m_extension->popupMenu( QCursor::pos(), items, KParts::OpenUrlArguments(), KParts::BrowserArguments(), popupFlags );
+}
+
+void DolphinPart::slotViewModeActionTriggered(QAction* action)
+{
+    const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
+    m_view->setMode(mode);
 }
 
 #include "dolphinpart.moc"

@@ -251,14 +251,8 @@ private slots:
      */
     void invertSelection();
 
-    /** The current active view is switched to the icons mode. */
-    void setIconsView();
-
-    /** The current active view is switched to the details mode. */
-    void setDetailsView();
-
-    /** The current active view is switched to the column mode. */
-    void setColumnView();
+    /** The current active view is switched to a new view mode. */
+    void setViewMode(QAction *);
 
     /** The sorting of the current view should be done by the name. */
     void sortByName();

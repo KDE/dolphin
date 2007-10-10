@@ -1,1 +1,58 @@
- 
+<!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
+<kpartgui version="2" name="dolphinpart" >
+ <MenuBar>
+   <Menu name="edit">
+   <Action name="select_all" />
+   <Action name="invert_selection" />
+  </Menu>
+  <Menu name="view">
+   <Menu name="sort">
+    <text context="@title:menu">Sort by</text>
+    <Action name="sort_by_name" />
+    <Action name="sort_by_size" />
+    <Action name="sort_by_date" />
+    <Action name="sort_by_permissions" />
+    <Action name="sort_by_owner" />
+    <Action name="sort_by_group" />
+    <Action name="sort_by_type" />
+    <Action name="sort_by_rating" />
+    <Action name="sort_by_tags" />
+    <Separator/>
+    <Action name="descending" />
+   </Menu>
+   <Menu name="additional_info">
+    <text context="@title:menu">Additional Information</text>
+    <Action name="show_mime_info" />
+    <Action name="show_size_info" />
+    <Action name="show_date_info" />
+   </Menu>
+   <Action name="show_preview" />
+   <Action name="show_in_groups" />
+   <Action name="show_hidden_files" />
+   <Menu name="panels">
+    <text context="@title:menu">Panels</text>
+    <Action name="show_places_panel" />
+    <Action name="show_info_panel" />
+    <Action name="show_folders_panel" />
+    <Action name="show_terminal_panel" />
+   </Menu>
+   <Menu name="navigation_bar">
+    <text context="@title:menu">Navigation Bar</text>
+    <Action name="editable_location" />
+    <Action name="edit_location" />
+   </Menu>
+   <Separator/>
+   <Action name="view_properties" />
+  </Menu>
+  <Menu name="tools">
+    <Action name="find_file" />
+    <Action name="show_filter_bar" />
+    <Action name="compare_files" />
+  </Menu>
+</MenuBar>
+<ToolBar name="mainToolBar"><text context="@title:menu">Dolphin Toolbar</text>
+  <Action name="icons" />
+  <Action name="details" />
+  <Action name="columns" />
+</ToolBar>
+</kpartgui>
