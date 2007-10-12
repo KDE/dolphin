@@ -477,6 +477,10 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
     if (d->proxyModel)
     {
         QObject::disconnect(d->proxyModel,
+                            SIGNAL(layoutAboutToBeChanged()),
+                            this, SLOT(slotLayoutAboutToBeChanged()));
+
+        QObject::disconnect(d->proxyModel,
                             SIGNAL(layoutChanged()),
                             this, SLOT(slotLayoutChanged()));
 
@@ -491,6 +495,14 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
 
     if (d->proxyModel)
     {
+        d->modelSortRole = d->proxyModel->sortRole();
+        d->modelSortColumn = d->proxyModel->sortColumn();
+        d->modelSortOrder = d->proxyModel->sortOrder();
+
+        QObject::connect(d->proxyModel,
+                         SIGNAL(layoutAboutToBeChanged()),
+                         this, SLOT(slotLayoutAboutToBeChanged()));
+
         QObject::connect(d->proxyModel,
                          SIGNAL(layoutChanged()),
                          this, SLOT(slotLayoutChanged()));
@@ -540,6 +552,10 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
     if (!categoryDrawer && d->proxyModel)
     {
         QObject::disconnect(d->proxyModel,
+                            SIGNAL(layoutAboutToBeChanged()),
+                            this, SLOT(slotLayoutAboutToBeChanged()));
+
+        QObject::disconnect(d->proxyModel,
                             SIGNAL(layoutChanged()),
                             this, SLOT(slotLayoutChanged()));
 
@@ -549,6 +565,10 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
     }
     else if (categoryDrawer && d->proxyModel)
     {
+        QObject::connect(d->proxyModel,
+                         SIGNAL(layoutAboutToBeChanged()),
+                         this, SLOT(slotLayoutAboutToBeChanged()));
+
         QObject::connect(d->proxyModel,
                          SIGNAL(layoutChanged()),
                          this, SLOT(slotLayoutChanged()));
@@ -1176,8 +1196,8 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
 }
 
 void KCategorizedView::rowsInserted(const QModelIndex &parent,
-                             int start,
-                             int end)
+                                    int start,
+                                    int end)
 {
     QListView::rowsInserted(parent, start, end);
 
@@ -1304,10 +1324,24 @@ void KCategorizedView::updateGeometries()
     QAbstractItemView::updateGeometries();
 }
 
-void KCategorizedView::slotLayoutChanged()
+void KCategorizedView::slotLayoutAboutToBeChanged()
 {
     if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
         d->categoryDrawer && d->proxyModel->isCategorizedModel())
+    {
+        d->modelSortRole = d->proxyModel->sortRole();
+        d->modelSortColumn = d->proxyModel->sortColumn();
+        d->modelSortOrder = d->proxyModel->sortOrder();
+    }
+}
+
+void KCategorizedView::slotLayoutChanged()
+{
+    if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
+        d->categoryDrawer && d->proxyModel->isCategorizedModel() &&
+        ((d->modelSortRole != d->proxyModel->sortRole()) ||
+         (d->modelSortColumn != d->proxyModel->sortColumn()) ||
+         (d->modelSortOrder != d->proxyModel->sortOrder())))
     {
         // Force the view to update all elements
         rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);

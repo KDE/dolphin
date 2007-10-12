@@ -149,6 +149,9 @@ public:
     QModelIndexList intersectedIndexes;
     QRect lastDraggedItemsRect;
     QRect lastSelectionRect;
+    int modelSortRole;
+    int modelSortColumn;
+    Qt::SortOrder modelSortOrder;
 
     // Attributes for speed reasons
     KCategorizedSortFilterProxyModel *proxyModel;
