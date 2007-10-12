@@ -1345,6 +1345,10 @@ void KCategorizedView::slotLayoutChanged()
     {
         // Force the view to update all elements
         rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
+
+        d->modelSortRole = d->proxyModel->sortRole();
+        d->modelSortColumn = d->proxyModel->sortColumn();
+        d->modelSortOrder = d->proxyModel->sortOrder();
     }
 }
 
