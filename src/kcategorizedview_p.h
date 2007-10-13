@@ -151,6 +151,7 @@ public:
     QRect lastSelectionRect;
     int modelSortRole;
     int modelSortColumn;
+    bool modelCategorized;
     Qt::SortOrder modelSortOrder;
 
     // Attributes for speed reasons

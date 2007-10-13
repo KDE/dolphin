@@ -497,6 +497,7 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
     {
         d->modelSortRole = d->proxyModel->sortRole();
         d->modelSortColumn = d->proxyModel->sortColumn();
+        d->modelCategorized = true;
         d->modelSortOrder = d->proxyModel->sortOrder();
 
         QObject::connect(d->proxyModel,
@@ -515,6 +516,10 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
         {
             rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
         }
+    }
+    else
+    {
+        d->modelCategorized = false;
     }
 }
 
@@ -1334,14 +1339,21 @@ void KCategorizedView::slotLayoutChanged()
         d->categoryDrawer && d->proxyModel->isCategorizedModel() &&
         ((d->modelSortRole != d->proxyModel->sortRole()) ||
          (d->modelSortColumn != d->proxyModel->sortColumn()) ||
-         (d->modelSortOrder != d->proxyModel->sortOrder())))
+         (d->modelSortOrder != d->proxyModel->sortOrder()) ||
+         (d->modelCategorized != d->proxyModel->isCategorizedModel())))
     {
         // Force the view to update all elements
         rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
 
         d->modelSortRole = d->proxyModel->sortRole();
         d->modelSortColumn = d->proxyModel->sortColumn();
+        d->modelCategorized = d->proxyModel->isCategorizedModel();
         d->modelSortOrder = d->proxyModel->sortOrder();
+    }
+    else if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
+             d->categoryDrawer && d->proxyModel->isCategorizedModel())
+    {
+        d->updateScrollbars();
     }
 }
 
