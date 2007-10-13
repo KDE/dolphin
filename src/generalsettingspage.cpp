@@ -96,18 +96,11 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     startBoxLayout->addWidget(m_filterBar);
 
     // create 'Ask Confirmation For' group
-    KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
-    const KConfigGroup trashConfig(konqConfig, "Trash");
-
     QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), vBox);
-
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                                "Moving files or folders to trash"), confirmBox);
-    m_confirmMoveToTrash->setChecked(trashConfig.readEntry("ConfirmTrash", false));
-
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                           "Deleting files or folders"), confirmBox);
-    m_confirmDelete->setChecked(trashConfig.readEntry("ConfirmDelete", true));
 
     QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
     confirmBoxLayout->addWidget(m_confirmMoveToTrash);
@@ -115,9 +108,6 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
 
     // create 'Show the command 'Delete' in context menu' checkbox
     m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command in context menu"), vBox);
-    const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
-    const KConfigGroup kdeConfig(globalConfig, "KDE");
-    m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -147,12 +137,13 @@ void GeneralSettingsPage::applySettings()
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
 
-    KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
-    KConfigGroup trashConfig(konqConfig, "Trash");
+    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+
+    KConfigGroup trashConfig(globalConfig, "Trash");
     trashConfig.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
     trashConfig.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
+    trashConfig.sync();
 
-    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
     KConfigGroup kdeConfig(globalConfig, "KDE");
     kdeConfig.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
     kdeConfig.sync();
@@ -199,6 +190,15 @@ void GeneralSettingsPage::loadSettings()
     m_splitView->setChecked(settings->splitView());
     m_editableUrl->setChecked(settings->editableUrl());
     m_filterBar->setChecked(settings->filterBar());
+
+    const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+
+    const KConfigGroup trashConfig(globalConfig, "Trash");
+    m_confirmMoveToTrash->setChecked(trashConfig.readEntry("ConfirmTrash", false));
+    m_confirmDelete->setChecked(trashConfig.readEntry("ConfirmDelete", true));
+
+    const KConfigGroup kdeConfig(globalConfig, "KDE");
+    m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
 }
 
 #include "generalsettingspage.moc"
