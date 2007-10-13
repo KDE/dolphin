@@ -112,6 +112,8 @@ public:
       */
     void drawDraggedItems();
 
+    void layoutChanged(bool forceItemReload = false);
+
 
     // Attributes
 
