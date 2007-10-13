@@ -23,6 +23,7 @@
 #include <kvbox.h>
 
 class DolphinMainWindow;
+class QCheckBox;
 class QRadioButton;
 class QSlider;
 class QSpinBox;
@@ -58,6 +59,7 @@ private:
     QRadioButton* m_globalProps;
     QSlider* m_maxPreviewSize;
     QSpinBox* m_spinBox;
+    QCheckBox* m_useFileThumbnails;
 };
 
 #endif

@@ -25,8 +25,9 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <QLabel>
+#include <QCheckBox>
 #include <QGroupBox>
+#include <QLabel>
 #include <QRadioButton>
 #include <QSlider>
 #include <QSpinBox>
@@ -45,7 +46,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     m_localProps(0),
     m_globalProps(0),
     m_maxPreviewSize(0),
-    m_spinBox(0)
+    m_spinBox(0),
+    m_useFileThumbnails(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -79,9 +81,12 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     connect(m_spinBox, SIGNAL(valueChanged(int)),
             m_maxPreviewSize, SLOT(setValue(int)));
 
+    m_useFileThumbnails = new QCheckBox(i18n("Use thumbnails embedded in files"), previewBox);
+
     QVBoxLayout* previewBoxLayout = new QVBoxLayout(previewBox);
     previewBoxLayout->addWidget(maxFileSize);
     previewBoxLayout->addWidget(vBox);
+    previewBoxLayout->addWidget(m_useFileThumbnails);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -119,6 +124,9 @@ void GeneralViewSettingsPage::applySettings()
     const int byteCount = m_maxPreviewSize->value() * 1024 * 1024; // value() returns size in MB
     globalConfig.writeEntry("MaximumSize",
                             byteCount,
+                            KConfigBase::Normal | KConfigBase::Global);
+    globalConfig.writeEntry("UseFileThumbnails",
+                            m_useFileThumbnails->isChecked(),
                             KConfigBase::Normal | KConfigBase::Global);
     globalConfig.sync();
 }
@@ -161,6 +169,9 @@ void GeneralViewSettingsPage::loadSettings()
 
     m_maxPreviewSize->setValue(maxMByteSize);
     m_spinBox->setValue(m_maxPreviewSize->value());
+
+    const bool useFileThumbnails = globalConfig.readEntry("UseFileThumbnails", true);
+    m_useFileThumbnails->setChecked(useFileThumbnails);
 }
 
 #include "generalviewsettingspage.moc"
