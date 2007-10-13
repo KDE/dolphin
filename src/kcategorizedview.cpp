@@ -589,7 +589,7 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
     {
         if (d->proxyModel)
         {
-            rowsInserted(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
+            rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
         }
     }
     else
@@ -1254,25 +1254,24 @@ void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
         return;
     }
 
-    // Add all elements mapped to the source model
-    for (int k = 0; k < d->proxyModel->rowCount(); k++)
-    {
-        d->biggestItemSize = QSize(qMax(sizeHintForIndex(d->proxyModel->index(k, 0)).width(),
-                                        d->biggestItemSize.width()),
-                                   qMax(sizeHintForIndex(d->proxyModel->index(k, 0)).height(),
-                                        d->biggestItemSize.height()));
-
-        d->modelIndexList << d->proxyModel->index(k, d->proxyModel->sortColumn());
-    }
-
-    // Explore categories
-    QString prevCategory = d->proxyModel->data(d->modelIndexList[0], KCategorizedSortFilterProxyModel::CategoryRole).toString();
+    // Add all elements mapped to the source model and explore categories
+    QString prevCategory = d->proxyModel->data(d->proxyModel->index(0, d->proxyModel->sortColumn()), KCategorizedSortFilterProxyModel::CategoryRole).toString();
     QString lastCategory = prevCategory;
     QModelIndexList modelIndexList;
     struct Private::ElementInfo elementInfo;
     int offset = -1;
-    foreach (const QModelIndex &index, d->modelIndexList)
+    for (int k = 0; k < d->proxyModel->rowCount(); ++k)
     {
+        QModelIndex index = d->proxyModel->index(k, d->proxyModel->sortColumn());
+        QModelIndex indexSize = d->proxyModel->index(k, 0);
+
+        d->biggestItemSize = QSize(qMax(sizeHintForIndex(indexSize).width(),
+                                        d->biggestItemSize.width()),
+                                   qMax(sizeHintForIndex(indexSize).height(),
+                                        d->biggestItemSize.height()));
+
+        d->modelIndexList << index;
+
         lastCategory = d->proxyModel->data(index, KCategorizedSortFilterProxyModel::CategoryRole).toString();
 
         elementInfo.category = lastCategory;
