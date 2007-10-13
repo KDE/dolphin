@@ -277,7 +277,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     popup->addAction(renameAction);
 
     // insert 'Move to Trash' and (optionally) 'Delete'
-    const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+    const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals");
     const KConfigGroup kdeConfig(globalConfig, "KDE");
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
     const KUrl& url = m_mainWindow->activeViewContainer()->url();
