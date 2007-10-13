@@ -68,10 +68,10 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     // create 'File Previews' box
     QGroupBox* previewBox = new QGroupBox(i18nc("@title:group", "File Previews"), this);
 
-    QLabel* maxFileSize = new QLabel(i18nc("@label:slider", "Maximum file size:"), previewBox);
-
     KHBox* vBox = new KHBox(previewBox);
     vBox->setSpacing(spacing);
+
+    QLabel* maxFileSize = new QLabel(i18nc("@label:slider", "Maximum file size:"), vBox);
     m_maxPreviewSize = new QSlider(Qt::Horizontal, vBox);
 
     m_spinBox = new QSpinBox(vBox);
@@ -84,7 +84,6 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     m_useFileThumbnails = new QCheckBox(i18n("Use thumbnails embedded in files"), previewBox);
 
     QVBoxLayout* previewBoxLayout = new QVBoxLayout(previewBox);
-    previewBoxLayout->addWidget(maxFileSize);
     previewBoxLayout->addWidget(vBox);
     previewBoxLayout->addWidget(m_useFileThumbnails);
 
