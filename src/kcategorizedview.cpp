@@ -477,16 +477,16 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
     if (d->proxyModel)
     {
         QObject::disconnect(d->proxyModel,
-                            SIGNAL(layoutAboutToBeChanged()),
-                            this, SLOT(slotLayoutAboutToBeChanged()));
-
-        QObject::disconnect(d->proxyModel,
                             SIGNAL(layoutChanged()),
                             this, SLOT(slotLayoutChanged()));
 
         QObject::disconnect(d->proxyModel,
                             SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                             this, SLOT(slotLayoutChanged()));
+
+        QObject::disconnect(d->proxyModel,
+                            SIGNAL(rowsRemoved(QModelIndex,int,int)),
+                            this, SLOT(rowsRemoved(QModelIndex,int,int)));
     }
 
     QListView::setModel(model);
@@ -500,16 +500,21 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
         d->modelSortOrder = d->proxyModel->sortOrder();
 
         QObject::connect(d->proxyModel,
-                         SIGNAL(layoutAboutToBeChanged()),
-                         this, SLOT(slotLayoutAboutToBeChanged()));
-
-        QObject::connect(d->proxyModel,
                          SIGNAL(layoutChanged()),
                          this, SLOT(slotLayoutChanged()));
 
         QObject::connect(d->proxyModel,
                          SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                          this, SLOT(slotLayoutChanged()));
+
+        QObject::connect(d->proxyModel,
+                         SIGNAL(rowsRemoved(QModelIndex,int,int)),
+                         this, SLOT(rowsRemoved(QModelIndex,int,int)));
+
+        if (d->proxyModel->rowCount())
+        {
+            rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
+        }
     }
 }
 
@@ -552,23 +557,19 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
     if (!categoryDrawer && d->proxyModel)
     {
         QObject::disconnect(d->proxyModel,
-                            SIGNAL(layoutAboutToBeChanged()),
-                            this, SLOT(slotLayoutAboutToBeChanged()));
-
-        QObject::disconnect(d->proxyModel,
                             SIGNAL(layoutChanged()),
                             this, SLOT(slotLayoutChanged()));
 
         QObject::disconnect(d->proxyModel,
                             SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                             this, SLOT(slotLayoutChanged()));
+
+        QObject::disconnect(d->proxyModel,
+                            SIGNAL(rowsRemoved(QModelIndex,int,int)),
+                            this, SLOT(rowsRemoved(QModelIndex,int,int)));
     }
     else if (categoryDrawer && d->proxyModel)
     {
-        QObject::connect(d->proxyModel,
-                         SIGNAL(layoutAboutToBeChanged()),
-                         this, SLOT(slotLayoutAboutToBeChanged()));
-
         QObject::connect(d->proxyModel,
                          SIGNAL(layoutChanged()),
                          this, SLOT(slotLayoutChanged()));
@@ -576,6 +577,10 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
         QObject::connect(d->proxyModel,
                          SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                          this, SLOT(slotLayoutChanged()));
+
+        QObject::connect(d->proxyModel,
+                         SIGNAL(rowsRemoved(QModelIndex,int,int)),
+                         this, SLOT(rowsRemoved(QModelIndex,int,int)));
     }
 
     d->categoryDrawer = categoryDrawer;
@@ -1225,8 +1230,8 @@ void KCategorizedView::rowsInserted(const QModelIndex &parent,
 }
 
 void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
-                                        int start,
-                                        int end)
+                                               int start,
+                                               int end)
 {
     Q_UNUSED(parent);
 
@@ -1299,14 +1304,14 @@ void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
 }
 
 void KCategorizedView::rowsRemoved(const QModelIndex &parent,
-                            int start,
-                            int end)
+                                   int start,
+                                   int end)
 {
     if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
         d->categoryDrawer && d->proxyModel->isCategorizedModel())
     {
         // Force the view to update all elements
-        rowsInsertedArtifficial(parent, start, end);
+        rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
     }
 }
 
@@ -1322,17 +1327,6 @@ void KCategorizedView::updateGeometries()
     // Avoid QListView::updateGeometries(), since it will try to set another
     // range to our scroll bars, what we don't want (ereslibre)
     QAbstractItemView::updateGeometries();
-}
-
-void KCategorizedView::slotLayoutAboutToBeChanged()
-{
-    if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
-        d->categoryDrawer && d->proxyModel->isCategorizedModel())
-    {
-        d->modelSortRole = d->proxyModel->sortRole();
-        d->modelSortColumn = d->proxyModel->sortColumn();
-        d->modelSortOrder = d->proxyModel->sortOrder();
-    }
 }
 
 void KCategorizedView::slotLayoutChanged()

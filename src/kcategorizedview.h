@@ -103,7 +103,6 @@ protected Q_SLOTS:
 
     virtual void updateGeometries();
 
-    virtual void slotLayoutAboutToBeChanged();
     virtual void slotLayoutChanged();
 
 
