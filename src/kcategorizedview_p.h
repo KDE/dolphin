@@ -153,6 +153,7 @@ public:
     QRect lastSelectionRect;
     int modelSortRole;
     int modelSortColumn;
+    int modelLastRowCount;
     bool modelCategorized;
     Qt::SortOrder modelSortOrder;
 

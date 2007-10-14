@@ -422,6 +422,7 @@ void KCategorizedView::Private::layoutChanged(bool forceItemReload)
           (modelSortRole != proxyModel->sortRole()) ||
           (modelSortColumn != proxyModel->sortColumn()) ||
           (modelSortOrder != proxyModel->sortOrder()) ||
+          (modelLastRowCount != proxyModel->rowCount()) ||
           (modelCategorized != proxyModel->isCategorizedModel()))))
     {
         // Force the view to update all elements
@@ -432,6 +433,7 @@ void KCategorizedView::Private::layoutChanged(bool forceItemReload)
             modelSortRole = proxyModel->sortRole();
             modelSortColumn = proxyModel->sortColumn();
             modelSortOrder = proxyModel->sortOrder();
+            modelLastRowCount = proxyModel->rowCount();
             modelCategorized = proxyModel->isCategorizedModel();
         }
     }
@@ -526,6 +528,7 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
         d->modelSortRole = d->proxyModel->sortRole();
         d->modelSortColumn = d->proxyModel->sortColumn();
         d->modelSortOrder = d->proxyModel->sortOrder();
+        d->modelLastRowCount = d->proxyModel->rowCount();
         d->modelCategorized = d->proxyModel->isCategorizedModel();
 
         QObject::connect(d->proxyModel,
