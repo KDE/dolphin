@@ -743,6 +743,7 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
 
     // Redraw categories
     QStyleOptionViewItem otherOption;
+    bool intersectedInThePast = false;
     foreach (const QString &category, d->categories)
     {
         otherOption = option;
@@ -751,10 +752,17 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
 
         if (otherOption.rect.intersects(area))
         {
+            intersectedInThePast = true;
+
             QModelIndex indexToDraw = d->proxyModel->index(d->categoriesIndexes[category][0].row(), d->proxyModel->sortColumn());
 
             d->drawNewCategory(indexToDraw,
                                d->proxyModel->sortRole(), otherOption, &painter);
+        }
+        else if (intersectedInThePast)
+        {
+            break; // the visible area has been finished, we don't need to keep asking, the rest won't intersect
+                   // this is doable because we know that categories are correctly ordered on the list
         }
     }
 
