@@ -418,18 +418,22 @@ void KCategorizedView::Private::layoutChanged(bool forceItemReload)
 {
     if ((listView->viewMode() == KCategorizedView::IconMode) && proxyModel &&
         categoryDrawer && proxyModel->isCategorizedModel() &&
-        (((modelSortRole != proxyModel->sortRole()) ||
+        ((forceItemReload ||
+          (modelSortRole != proxyModel->sortRole()) ||
           (modelSortColumn != proxyModel->sortColumn()) ||
           (modelSortOrder != proxyModel->sortOrder()) ||
-          (modelCategorized != proxyModel->isCategorizedModel())) || forceItemReload))
+          (modelCategorized != proxyModel->isCategorizedModel()))))
     {
         // Force the view to update all elements
         listView->rowsInsertedArtifficial(QModelIndex(), 0, proxyModel->rowCount() - 1);
 
-        modelSortRole = proxyModel->sortRole();
-        modelSortColumn = proxyModel->sortColumn();
-        modelCategorized = proxyModel->isCategorizedModel();
-        modelSortOrder = proxyModel->sortOrder();
+        if (!forceItemReload)
+        {
+            modelSortRole = proxyModel->sortRole();
+            modelSortColumn = proxyModel->sortColumn();
+            modelSortOrder = proxyModel->sortOrder();
+            modelCategorized = proxyModel->isCategorizedModel();
+        }
     }
     else if ((listView->viewMode() == KCategorizedView::IconMode) && proxyModel &&
              categoryDrawer && proxyModel->isCategorizedModel())
@@ -521,8 +525,8 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
     {
         d->modelSortRole = d->proxyModel->sortRole();
         d->modelSortColumn = d->proxyModel->sortColumn();
-        d->modelCategorized = true;
         d->modelSortOrder = d->proxyModel->sortOrder();
+        d->modelCategorized = d->proxyModel->isCategorizedModel();
 
         QObject::connect(d->proxyModel,
                          SIGNAL(layoutChanged()),
@@ -538,7 +542,7 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
 
         if (d->proxyModel->rowCount())
         {
-            rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
+            d->layoutChanged(true);
         }
     }
     else
@@ -618,7 +622,10 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
     {
         if (d->proxyModel)
         {
-            rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
+            if (d->proxyModel->rowCount())
+            {
+                d->layoutChanged(true);
+            }
         }
     }
     else

@@ -204,7 +204,6 @@ void DolphinView::setMode(Mode mode)
     const bool categorized = m_storedCategorizedSorting && supportsCategorizedSorting();
     if (categorized != m_proxyModel->isCategorizedModel()) {
         m_proxyModel->setCategorizedModel(categorized);
-        m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
         emit categorizedSortingChanged();
     }
 
@@ -273,7 +272,6 @@ void DolphinView::setCategorizedSorting(bool categorized)
 
     m_storedCategorizedSorting = categorized;
     m_proxyModel->setCategorizedModel(categorized);
-    m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
 
     emit categorizedSortingChanged();
 }
@@ -666,7 +664,6 @@ void DolphinView::applyViewProperties(const KUrl& url)
     const bool categorized = m_storedCategorizedSorting && supportsCategorizedSorting();
     if (categorized != m_proxyModel->isCategorizedModel()) {
         m_proxyModel->setCategorizedModel(categorized);
-        m_proxyModel->sort(m_proxyModel->sortColumn(), m_proxyModel->sortOrder());
         emit categorizedSortingChanged();
     }
 
