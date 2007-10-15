@@ -51,30 +51,16 @@ public:
 
     void setMessage(const QString& text, DolphinStatusBar::Type type);
 
-    DolphinStatusBar::Type type() const
-    {
-        return m_type;
-    }
-    const QString& text() const
-    {
-        return m_text;
-    }
+    DolphinStatusBar::Type type() const;
 
-    void setDefaultText(const QString& text)
-    {
-        m_defaultText = text;
-    }
-    const QString& defaultText() const
-    {
-        return m_defaultText;
-    }
+    const QString& text() const;
+
+    void setDefaultText(const QString& text);
+    const QString& defaultText() const;
 
     // TODO: maybe a better approach is possible with the size hint
     void setMinimumTextHeight(int min);
-    int minimumTextHeight() const
-    {
-        return m_minTextHeight;
-    }
+    int minimumTextHeight() const;
 
     /**
      * Returns the gap of the width of the current set text to the
@@ -160,5 +146,30 @@ private:
         return 2;
     }
 };
+
+inline DolphinStatusBar::Type StatusBarMessageLabel::type() const
+{
+    return m_type;
+}
+
+inline const QString& StatusBarMessageLabel::text() const
+{
+    return m_text;
+}
+
+inline void StatusBarMessageLabel::setDefaultText(const QString& text)
+{
+    m_defaultText = text;
+}
+
+inline const QString& StatusBarMessageLabel::defaultText() const
+{
+    return m_defaultText;
+}
+
+inline int StatusBarMessageLabel::minimumTextHeight() const
+{
+    return m_minTextHeight;
+}
 
 #endif

@@ -180,7 +180,6 @@ void DolphinStatusBar::showSpaceInfo()
         // The space information is shown currently. Hide it
         // if the progress bar is visible or if the status bar
         // text does not fit into the available width.
-        const QSize size(m_progressBar->sizeHint());
         if (isProgressBarVisible || (widthGap > 0)) {
             m_spaceInfo->hide();
         }
