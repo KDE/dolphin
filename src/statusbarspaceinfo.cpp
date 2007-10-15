@@ -30,8 +30,12 @@
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     QProgressBar(parent),
+    m_gettingSize(false),
     m_text()
 {
+    setMinimum(0);
+    setMaximum(0);
+
     setMaximumWidth(200);
 
     // Update the space information each 10 seconds. Polling is useful
@@ -49,7 +53,6 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
 {
     m_url = url;
     refresh();
-    QTimer::singleShot(300, this, SLOT(update()));
 }
 
 QString StatusBarSpaceInfo::text() const
@@ -62,14 +65,17 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
                                              quint64 kBUsed,
                                              quint64 kBAvailable)
 {
-    Q_UNUSED(kBUsed);
+    Q_UNUSED(kBSize);
     Q_UNUSED(mountPoint);
 
-    m_text = i18nc("@info:status", "%1 free", KIO::convertSizeFromKiB(kBAvailable));
-
-    setMinimum(0);
-    setMaximum(kBAvailable);
-    setValue(kBUsed);
+    m_gettingSize = false;
+    const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) ||
+                               (kBAvailable != static_cast<quint64>(maximum()));
+    if (valuesChanged) {
+        setMaximum(kBAvailable);
+        setValue(kBUsed);
+        m_text = i18nc("@info:status", "%1 free", KIO::convertSizeFromKiB(kBAvailable));
+    }
 }
 
 void StatusBarSpaceInfo::refresh()
@@ -79,15 +85,12 @@ void StatusBarSpaceInfo::refresh()
         return;
     }
 
-    m_text = i18nc("@info:status", "Getting size...");
-    setMinimum(0);
-    setMaximum(0);
-
     KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath(m_url.path());
     if (!mp) {
         return;
     }
 
+    m_gettingSize = true;
     KDiskFreeSpace* job = new KDiskFreeSpace(this);
     connect(job, SIGNAL(foundMountPoint(const QString&,
                                         quint64,
@@ -99,6 +102,21 @@ void StatusBarSpaceInfo::refresh()
                                            quint64)));
 
     job->readDF(mp->mountPoint());
+
+    // refresh() is invoked for each directory change. Usually getting
+    // the size information can be done very fast, so to prevent any
+    // flickering the "Getting size..." indication is only shown if
+    // at least 300 ms have been passed.
+    QTimer::singleShot(300, this, SLOT(showGettingSizeInfo()));
+}
+
+void StatusBarSpaceInfo::showGettingSizeInfo()
+{
+    if (m_gettingSize) {
+        m_text = i18nc("@info:status", "Getting size...");
+        setMinimum(0);
+        setMaximum(0);
+    }
 }
 
 #include "statusbarspaceinfo.moc"

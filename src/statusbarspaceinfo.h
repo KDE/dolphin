@@ -56,7 +56,10 @@ private slots:
     /** Refreshes the space information for the current set URL. */
     void refresh();
 
+    void showGettingSizeInfo();
+
 private:
+    bool m_gettingSize;
     KUrl m_url;
     QString m_text;
 };
