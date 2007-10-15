@@ -137,14 +137,12 @@ void GeneralSettingsPage::applySettings()
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
 
-    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals");
-
-    KConfigGroup trashConfig(globalConfig, "Trash");
+    KConfigGroup trashConfig(KGlobal::config(), "Trash");
     trashConfig.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
     trashConfig.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
     trashConfig.sync();
 
-    KConfigGroup kdeConfig(globalConfig, "KDE");
+    KConfigGroup kdeConfig(KGlobal::config(), "KDE");
     kdeConfig.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
     kdeConfig.sync();
 }
@@ -155,9 +153,6 @@ void GeneralSettingsPage::restoreDefaults()
     settings->setDefaults();
 
     // TODO: reset default settings for trash and show delete command...
-    //KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals");
-    //KConfigGroup trashConfig(konqConfig, "Trash");
-    //KConfigGroup kdeConfig(globalConfig, "KDE");
 
     loadSettings();
 }
@@ -190,13 +185,11 @@ void GeneralSettingsPage::loadSettings()
     m_editableUrl->setChecked(settings->editableUrl());
     m_filterBar->setChecked(settings->filterBar());
 
-    const KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals");
-
-    const KConfigGroup trashConfig(globalConfig, "Trash");
+    const KConfigGroup trashConfig(KGlobal::config(), "Trash");
     m_confirmMoveToTrash->setChecked(trashConfig.readEntry("ConfirmTrash", false));
     m_confirmDelete->setChecked(trashConfig.readEntry("ConfirmDelete", true));
 
-    const KConfigGroup kdeConfig(globalConfig, "KDE");
+    const KConfigGroup kdeConfig(KGlobal::config(), "KDE");
     m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
 }
 
