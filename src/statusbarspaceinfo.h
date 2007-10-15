@@ -22,9 +22,10 @@
 
 #include <kurl.h>
 
-#include <QtGui/QColor>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QWidget>
+#include <QColor>
+#include <QKeyEvent>
+#include <QProgressBar>
+#include <QString>
 
 class KDiskFreeSp;
 
@@ -32,7 +33,7 @@ class KDiskFreeSp;
  * @short Shows the available space for the volume represented
  *        by the given URL as part of the status bar.
  */
-class StatusBarSpaceInfo : public QWidget
+class StatusBarSpaceInfo : public QProgressBar
 {
     Q_OBJECT
 
@@ -41,38 +42,28 @@ public:
     virtual ~StatusBarSpaceInfo();
 
     void setUrl(const KUrl& url);
-    const KUrl& url() const
-    {
-        return m_url;
-    }
+    const KUrl& url() const;
 
-protected:
-    /** @see QWidget::paintEvent() */
-    virtual void paintEvent(QPaintEvent* event);
+    /** @see QProgressBar::text() */
+    virtual QString text() const;
 
 private slots:
     void slotFoundMountPoint(const QString& mountPoint,
                              quint64 kBSize,
                              quint64 kBUsed,
                              quint64 kBAvailable);
-    void showResult();
 
     /** Refreshes the space information for the current set URL. */
     void refresh();
 
 private:
-    /**
-     * Returns a color for the progress bar by respecting
-     * the given background color \a bgColor. It is assured
-     * that enough contrast is given to have a visual indication.
-     */
-    QColor progressColor(const QColor& bgColor) const;
-
-private:
     KUrl m_url;
-    bool m_gettingSize;
-    quint64 m_kBSize;
-    quint64 m_kBAvailable;
+    QString m_text;
 };
+
+inline const KUrl& StatusBarSpaceInfo::url() const
+{
+    return m_url;
+}
 
 #endif
