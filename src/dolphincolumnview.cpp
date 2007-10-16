@@ -47,6 +47,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     m_index(-1),
     m_contentX(0),
     m_columns(),
+    m_emptyViewport(0),
     m_animation(0)
 {
     Q_ASSERT(controller != 0);
@@ -55,6 +56,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
     setSelectionMode(ExtendedSelection);
+    setFocusPolicy(Qt::NoFocus);
+    setFrameShape(QFrame::NoFrame);
 
     connect(this, SIGNAL(entered(const QModelIndex&)),
             controller, SLOT(emitItemEntered(const QModelIndex&)));
@@ -80,6 +83,9 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     DolphinColumnWidget* column = new DolphinColumnWidget(viewport(), this, m_controller->url());
     m_columns.append(column);
     setActiveColumnIndex(0);
+
+    m_emptyViewport = new QFrame(viewport());
+    m_emptyViewport->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
 
     updateDecorationSize();
     updateColumnsBackground(true);
@@ -392,11 +398,8 @@ void DolphinColumnView::updateColumnsBackground(bool active)
     m_active = active;
 
     // dim the background of the viewport
-    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    color.setAlpha(150);
-
     QPalette palette;
-    palette.setColor(viewport()->backgroundRole(), color);
+    palette.setColor(viewport()->backgroundRole(), QColor(0, 0, 0, 0));
     viewport()->setPalette(palette);
 
     foreach (DolphinColumnWidget* column, m_columns) {
@@ -449,29 +452,40 @@ void DolphinColumnView::setActiveColumnIndex(int index)
 
 void DolphinColumnView::layoutColumns()
 {
+    const int gap = 4;
+
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     const int columnWidth = settings->columnWidth();
+
+    QRect emptyViewportRect;
     if (isRightToLeft()) {
         int x = viewport()->width() - columnWidth + m_contentX;
         foreach (DolphinColumnWidget* column, m_columns) {
-            column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
+            column->setGeometry(QRect(x, 0, columnWidth - gap, viewport()->height()));
             x -= columnWidth;
         }
+        emptyViewportRect = QRect(0, 0, x + columnWidth - gap, viewport()->height());
     } else {
         int x = m_contentX;
         foreach (DolphinColumnWidget* column, m_columns) {
-            column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
+            column->setGeometry(QRect(x, 0, columnWidth - gap, viewport()->height()));
             x += columnWidth;
         }
+        emptyViewportRect = QRect(x, 0, viewport()->width() - x - gap, viewport()->height());
+    }
+
+    if (emptyViewportRect.isValid()) {
+        m_emptyViewport->show();
+        m_emptyViewport->setGeometry(emptyViewportRect);
+    } else {
+        m_emptyViewport->hide();
     }
 }
 
 void DolphinColumnView::updateScrollBar()
 {
-    int contentWidth = 0;
-    foreach (DolphinColumnWidget* column, m_columns) {
-        contentWidth += column->width();
-    }
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    const int contentWidth = m_columns.count() * settings->columnWidth();
 
     horizontalScrollBar()->setPageStep(contentWidth);
     horizontalScrollBar()->setRange(0, contentWidth - viewport()->width());
@@ -481,7 +495,10 @@ void DolphinColumnView::assureVisibleActiveColumn()
 {
     const int viewportWidth = viewport()->width();
     const int x = activeColumn()->x();
-    const int width = activeColumn()->width();
+
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    const int width = settings->columnWidth();
+
     if (x + width > viewportWidth) {
         const int newContentX = m_contentX - x - width + viewportWidth;
         if (isRightToLeft()) {

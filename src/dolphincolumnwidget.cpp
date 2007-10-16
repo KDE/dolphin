@@ -69,7 +69,6 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
-    setFocusPolicy(Qt::NoFocus);
 
 // TODO: Remove this check when 4.3.2 is released and KDE requires it... this
 //       check avoids a division by zero happening on versions before 4.3.1.
@@ -181,7 +180,7 @@ void DolphinColumnWidget::updateBackground()
 {
     QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     if (!m_active || !m_view->m_active) {
-        color.setAlpha(0);
+        color.setAlpha(150);
     }
     QPalette palette = viewport()->palette();
     palette.setColor(viewport()->backgroundRole(), color);
@@ -386,10 +385,7 @@ void DolphinColumnWidget::slotEntered(const QModelIndex& index)
 
 void DolphinColumnWidget::activate()
 {
-    if (m_view->hasFocus()) {
-        setFocus(Qt::OtherFocusReason);
-    }
-    m_view->setFocusProxy(this);
+    setFocus(Qt::OtherFocusReason);
 
     // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
     // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
@@ -415,6 +411,8 @@ void DolphinColumnWidget::activate()
 
 void DolphinColumnWidget::deactivate()
 {
+    clearFocus();
+
     // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
     // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.

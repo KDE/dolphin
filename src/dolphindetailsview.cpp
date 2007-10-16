@@ -120,6 +120,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 #endif
 
     updateDecorationSize();
+
+    setFocus();
 }
 
 DolphinDetailsView::~DolphinDetailsView()

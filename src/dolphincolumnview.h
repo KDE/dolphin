@@ -31,6 +31,7 @@ class DolphinColumnWidget;
 class DolphinController;
 class DolphinModel;
 class QAbstractProxyModel;
+class QFrame;
 class QTimeLine;
 
 /**
@@ -169,6 +170,7 @@ private:
     int m_index;
     int m_contentX;
     QList<DolphinColumnWidget*> m_columns;
+    QFrame* m_emptyViewport;
     QTimeLine* m_animation;
 
     friend class DolphinColumnWidget;

@@ -488,8 +488,6 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         loadDirectory(url);
     }
 
-    itemView()->setFocus();
-
     emit startedPathLoading(url);
 }
 
@@ -886,7 +884,6 @@ void DolphinView::createView()
             this, SLOT(emitContentsMoved()));
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
-    view->setFocus();
 }
 
 QAbstractItemView* DolphinView::itemView() const

@@ -99,6 +99,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
 
     m_categoryDrawer = new DolphinCategoryDrawer();
     setCategoryDrawer(m_categoryDrawer);
+
+    setFocus();
 }
 
 DolphinIconsView::~DolphinIconsView()
