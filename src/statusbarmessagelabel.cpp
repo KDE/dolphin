@@ -59,7 +59,8 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
 }
 
 StatusBarMessageLabel::~StatusBarMessageLabel()
-{}
+{
+}
 
 void StatusBarMessageLabel::setMessage(const QString& text,
                                        DolphinStatusBar::Type type)
@@ -122,7 +123,9 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min)
     if (min != m_minTextHeight) {
         m_minTextHeight = min;
         setMinimumHeight(min);
-        m_closeButton->setFixedHeight(min - borderGap() * 2);
+        if (m_closeButton->height() > min) {
+            m_closeButton->setFixedHeight(min);
+        }
     }
 }
 
@@ -152,12 +155,12 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     painter.drawRect(QRect(0, 0, width(), height()));
 
     // draw pixmap
-    int x = borderGap();
+    int x = BorderGap;
     int y = (m_minTextHeight - m_pixmap.height()) / 2;
 
     if (!m_pixmap.isNull()) {
         painter.drawPixmap(x, y, m_pixmap);
-        x += m_pixmap.width() + borderGap();
+        x += m_pixmap.width() + BorderGap;
     }
 
     // draw text
@@ -265,14 +268,14 @@ void StatusBarMessageLabel::assureVisibleText()
 int StatusBarMessageLabel::availableTextWidth() const
 {
     const int buttonWidth = (m_type == DolphinStatusBar::Error) ?
-                            m_closeButton->width() + borderGap() : 0;
-    return width() - m_pixmap.width() - (borderGap() * 4) - buttonWidth;
+                            m_closeButton->width() + BorderGap : 0;
+    return width() - m_pixmap.width() - (BorderGap * 4) - buttonWidth;
 }
 
 void StatusBarMessageLabel::updateCloseButtonPosition()
 {
-    const int x = width() - m_closeButton->width() - borderGap();
-    const int y = height() - m_closeButton->height() - borderGap();
+    const int x = width() - m_closeButton->width() - BorderGap;
+    const int y = (height() - m_closeButton->height()) / 2;
     m_closeButton->move(x, y);
 }
 

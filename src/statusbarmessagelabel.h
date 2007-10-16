@@ -125,10 +125,8 @@ private:
         Desaturate
     };
 
-    enum
-    {
-        GeometryTimeout = 100
-    };
+    enum { GeometryTimeout = 100 };
+    enum { BorderGap = 2 };
 
     DolphinStatusBar::Type m_type;
     State m_state;
@@ -140,11 +138,6 @@ private:
     QList<QString> m_pendingMessages;
     QPixmap m_pixmap;
     QPushButton* m_closeButton;
-
-    int borderGap() const
-    {
-        return 2;
-    }
 };
 
 inline DolphinStatusBar::Type StatusBarMessageLabel::type() const

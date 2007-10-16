@@ -51,18 +51,20 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, const KUrl& url) :
     m_progressBar = new QProgressBar(this);
     m_progressBar->hide();
 
-    const QSize size(m_progressBar->sizeHint());
-    const int barHeight = size.height();
+    const int contentHeight = QFontMetrics(m_messageLabel->font()).height();
+    const int barHeight = contentHeight + 8;
 
-    m_progressBar->setMaximumWidth(200);
     setMinimumHeight(barHeight);
     m_messageLabel->setMinimumTextHeight(barHeight);
-    m_spaceInfo->setFixedHeight(barHeight);
+    m_spaceInfo->setFixedHeight(contentHeight);
+    m_progressBar->setFixedHeight(contentHeight);
+    m_progressBar->setMaximumWidth(200);
 }
 
 
 DolphinStatusBar::~DolphinStatusBar()
-{}
+{
+}
 
 void DolphinStatusBar::setMessage(const QString& msg,
                                   Type type)
