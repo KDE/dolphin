@@ -77,8 +77,9 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 
     // general information
     m_infoLabel = new QLabel(this);
-    m_infoLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
+    m_infoLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     m_infoLabel->setTextFormat(Qt::RichText);
+    m_infoLabel->setWordWrap(true);
 
     if (MetaDataWidget::metaDataAvailable()) {
         m_metadataWidget = new MetaDataWidget(this);
