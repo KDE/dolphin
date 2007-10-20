@@ -236,6 +236,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         updateViewActions();
         updateGoActions();
         setCaption(url.fileName());
+        emit urlChanged(url);
     }
 }
 
