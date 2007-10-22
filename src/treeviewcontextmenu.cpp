@@ -79,7 +79,7 @@ void TreeViewContextMenu::open()
     bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
     const KUrl& url = m_fileInfo.url();
     if (url.isLocalFile()) {
-        QAction* moveToTrashAction = new QAction(KIcon("edit-trash"),
+        QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
                                                  i18nc("@action:inmenu", "Move To Trash"), this);
         connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
         popup->addAction(moveToTrashAction);

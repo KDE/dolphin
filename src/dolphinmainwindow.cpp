@@ -1096,7 +1096,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* moveToTrash = actionCollection()->addAction("move_to_trash");
     moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
-    moveToTrash->setIcon(KIcon("edit-trash"));
+    moveToTrash->setIcon(KIcon("user-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
 
