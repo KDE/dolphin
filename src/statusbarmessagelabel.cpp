@@ -21,7 +21,6 @@
 #include "statusbarmessagelabel.h"
 
 #include <kcolorscheme.h>
-#include <kcolorutils.h>
 #include <kiconloader.h>
 #include <kicon.h>
 #include <klocale.h>
@@ -141,17 +140,17 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     QPainter painter(this);
 
     // draw background
-    QColor backgroundColor = palette().brush(QPalette::Background).color();
-    QColor foregroundColor = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
+    QColor backgroundColor = palette().window().color();
     if (m_illumination > 0) {
-        // TODO: are there foreground and background colors available for
-        // "error messages"?
-        backgroundColor.setRgb(255, 255, 0, m_illumination);
-        QColor mixColor(0, 0, 0, m_illumination);
-        foregroundColor = KColorUtils::overlayColors(foregroundColor, mixColor);
+        KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
+//         QColor blendColor = scheme.background(KColorScheme::NegativeBackground).color();
+//         backgroundColor = scheme.background().color(); // FIXME shouldn't be needed but I'm getting black otherwise??
+//         backgroundColor = KColorUtils::mix(backgroundColor, blendColor, double(m_illumination) / 128.0);
+        backgroundColor = scheme.background(KColorScheme::NegativeBackground).color();
+        backgroundColor.setAlpha(qMin(255, m_illumination*2));
     }
     painter.setBrush(backgroundColor);
-    painter.setPen(backgroundColor);
+    painter.setPen(Qt::NoPen);
     painter.drawRect(QRect(0, 0, width(), height()));
 
     // draw pixmap
@@ -164,7 +163,7 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     }
 
     // draw text
-    painter.setPen(foregroundColor);
+    painter.setPen(palette().windowText().color());
     int flags = Qt::AlignVCenter;
     if (height() > m_minTextHeight) {
         flags = flags | Qt::TextWordWrap;
