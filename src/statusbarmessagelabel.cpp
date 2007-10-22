@@ -142,10 +142,10 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
     // draw background
     QColor backgroundColor = palette().window().color();
     if (m_illumination > 0) {
+        // at this point, a: we are a second label being drawn over the already
+        // painted status area, so we can be translucent, and b: our palette's
+        // window color (bg only) seems to be wrong (always black)
         KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
-//         QColor blendColor = scheme.background(KColorScheme::NegativeBackground).color();
-//         backgroundColor = scheme.background().color(); // FIXME shouldn't be needed but I'm getting black otherwise??
-//         backgroundColor = KColorUtils::mix(backgroundColor, blendColor, double(m_illumination) / 128.0);
         backgroundColor = scheme.background(KColorScheme::NegativeBackground).color();
         backgroundColor.setAlpha(qMin(255, m_illumination*2));
     }
