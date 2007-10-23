@@ -72,6 +72,12 @@ private Q_SLOTS:
      */
     void slotViewModeActionTriggered(QAction*);
 
+    /**
+     * Asks the host to open the URL \a url if the current view has
+     * a different URL.
+     */
+    void slotUrlChanged(const KUrl& url);
+
 private:
     void createActions();
     void updateViewActions();

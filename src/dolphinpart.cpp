@@ -82,9 +82,10 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotOpenContextMenu(KFileItem, const KUrl&)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
             m_extension, SIGNAL(selectionInfo(KFileItemList)));
-
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
+    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
+            this, SLOT(slotUrlChanged(const KUrl&)));
 
     createActions();
     updateViewActions();
@@ -222,6 +223,16 @@ void DolphinPart::slotViewModeActionTriggered(QAction* action)
 {
     const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
     m_view->setMode(mode);
+}
+
+void DolphinPart::slotUrlChanged(const KUrl& url)
+{
+    if (m_view->url() != url) {
+        // If the view URL is not equal to 'url', then an inner URL change has
+        // been done (e. g. by activating an existing column in the column view).
+        // From the hosts point of view this must be handled like changing the URL.
+        emit m_extension->openUrlRequest(url);
+    }
 }
 
 #include "dolphinpart.moc"
