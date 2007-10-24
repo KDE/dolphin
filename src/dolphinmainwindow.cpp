@@ -1370,22 +1370,23 @@ void DolphinMainWindow::setupDockWidgets()
         terminalDock->hide();
     }
 
-    QDockWidget *placesDock = new QDockWidget(i18nc("@title:window", "Places"));
+    QDockWidget* placesDock = new QDockWidget(i18nc("@title:window", "Places"));
     placesDock->setObjectName("placesDock");
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    KFilePlacesView *listView = new KFilePlacesView(placesDock);
-    placesDock->setWidget(listView);
-    listView->setModel(DolphinSettings::instance().placesModel());
+    KFilePlacesView* placesView = new KFilePlacesView(placesDock);
+    placesDock->setWidget(placesView);
+    placesView->setModel(DolphinSettings::instance().placesModel());
+    placesView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     placesDock->toggleViewAction()->setText(i18nc("@title:window", "Places"));
     placesDock->toggleViewAction()->setShortcut(Qt::Key_F9);
     actionCollection()->addAction("show_places_panel", placesDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
-    connect(listView, SIGNAL(urlChanged(KUrl)),
+    connect(placesView, SIGNAL(urlChanged(KUrl)),
             this, SLOT(changeUrl(KUrl)));
     connect(this, SIGNAL(urlChanged(KUrl)),
-            listView, SLOT(setUrl(KUrl)));
+            placesView, SLOT(setUrl(KUrl)));
 }
 
 void DolphinMainWindow::updateHistory()
