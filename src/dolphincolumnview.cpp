@@ -59,8 +59,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setFocusPolicy(Qt::NoFocus);
     setFrameShape(QFrame::NoFrame);
 
-    connect(this, SIGNAL(entered(const QModelIndex&)),
-            controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(zoomIn()),

@@ -89,8 +89,6 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
 
-        connect(m_dirLister, SIGNAL(started(const KUrl&)),
-                this, SLOT(slotDirListerStarted(const KUrl&)));
         connect(m_dirLister, SIGNAL(completed()),
                 this, SLOT(triggerLoadSubTree()));
 
