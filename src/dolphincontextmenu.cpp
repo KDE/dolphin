@@ -102,7 +102,7 @@ void DolphinContextMenu::openTrashContextMenu()
     KMenu* popup = new KMenu(m_mainWindow);
 
     QAction* emptyTrashAction = new QAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"), popup);
-    KConfig trashConfig("trashrc", KConfig::OnlyLocal);
+    KConfig trashConfig("trashrc", KConfig::SimpleConfig);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     popup->addAction(emptyTrashAction);
 
