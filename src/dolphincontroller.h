@@ -160,14 +160,6 @@ public:
     void indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info);
 
     /**
-     * Informs the view implementation about a change of the show preview
-     * state and is invoked by the abstract Dolphin view.
-     * The signal showPreviewChanged() is emitted.
-     */
-    void setShowPreview(bool show);
-    bool showPreview() const;
-
-    /**
      * Informs the view implementation about a change of the activation
      * state and is invoked by the abstract Dolphin view. The signal
      * activationChanged() is emitted.
@@ -291,14 +283,6 @@ signals:
     void additionalInfoChanged(const KFileItemDelegate::InformationList& info);
 
     /**
-     * Is emitted if the state for showing previews has been
-     * changed to \a show by the abstract Dolphin view.
-     * The view implementation might connect to this signal if custom
-     * updates are required in this case.
-     */
-    void showPreviewChanged(bool show);
-
-    /**
      * Is emitted if the activation state has been changed to \a active
      * by the abstract Dolphin view.
      * The view implementation might connect to this signal if custom
@@ -341,7 +325,6 @@ signals:
     void zoomOut();
 
 private:
-    bool m_showPreview;
     bool m_zoomInPossible;
     bool m_zoomOutPossible;
     KUrl m_url;
@@ -356,11 +339,6 @@ inline const DolphinView* DolphinController::dolphinView() const
 inline const KUrl& DolphinController::url() const
 {
     return m_url;
-}
-
-inline bool DolphinController::showPreview() const
-{
-    return m_showPreview;
 }
 
 inline void DolphinController::setZoomInPossible(bool possible)

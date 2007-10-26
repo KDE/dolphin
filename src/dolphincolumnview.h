@@ -129,7 +129,7 @@ private slots:
     void updateColumnsBackground(bool active);
 
     void slotShowHiddenFilesChanged();
-    void slotShowPreviewChanged(bool show);
+    void slotShowPreviewChanged();
 
 private:
     bool isZoomInPossible() const;

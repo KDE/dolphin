@@ -61,14 +61,16 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     }
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(showPreviewChanged(bool)),
-            this, SLOT(slotShowPreviewChanged(bool)));
-    connect(controller->dolphinView(), SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
-            this, SLOT(slotAdditionalInfoChanged(const KFileItemDelegate::InformationList&)));
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
+
+    const DolphinView* view = controller->dolphinView();
+    connect(view, SIGNAL(showPreviewChanged()),
+            this, SLOT(slotShowPreviewChanged()));
+    connect(view, SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
+            this, SLOT(slotAdditionalInfoChanged(const KFileItemDelegate::InformationList&)));
 
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
@@ -86,7 +88,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_viewOptions.font = font;
 
     setWordWrap(settings->numberOfTextlines() > 1);
-    updateGridSize(controller->showPreview(), 0);
+    updateGridSize(view->showPreview(), 0);
 
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
@@ -246,15 +248,17 @@ void DolphinIconsView::slotEntered(const QModelIndex& index)
     m_controller->emitItemEntered(itemForIndex(index));
 }
 
-void DolphinIconsView::slotShowPreviewChanged(bool showPreview)
+void DolphinIconsView::slotShowPreviewChanged()
 {
-    const int infoCount = m_controller->dolphinView()->additionalInfo().count();
-    updateGridSize(showPreview, infoCount);
+    const DolphinView* view = m_controller->dolphinView();
+    const int infoCount = view->additionalInfo().count();
+    updateGridSize(view->showPreview(), infoCount);
 }
 
 void DolphinIconsView::slotAdditionalInfoChanged(const KFileItemDelegate::InformationList& info)
 {
-    updateGridSize(m_controller->showPreview(), info.count());
+    const bool showPreview = m_controller->dolphinView()->showPreview();
+    updateGridSize(showPreview, info.count());
 }
 
 void DolphinIconsView::zoomIn()
@@ -265,7 +269,7 @@ void DolphinIconsView::zoomIn()
         const int oldIconSize = settings->iconSize();
         int newIconSize = oldIconSize;
 
-        const bool showPreview = m_controller->showPreview();
+        const bool showPreview = m_controller->dolphinView()->showPreview();
         if (showPreview) {
             const int previewSize = increasedIconSize(settings->previewSize());
             settings->setPreviewSize(previewSize);
@@ -296,7 +300,7 @@ void DolphinIconsView::zoomOut()
         const int oldIconSize = settings->iconSize();
         int newIconSize = oldIconSize;
 
-        const bool showPreview = m_controller->showPreview();
+        const bool showPreview = m_controller->dolphinView()->showPreview();
         if (showPreview) {
             const int previewSize = decreasedIconSize(settings->previewSize());
             settings->setPreviewSize(previewSize);
@@ -323,14 +327,16 @@ void DolphinIconsView::zoomOut()
 bool DolphinIconsView::isZoomInPossible() const
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    const int size = m_controller->showPreview() ? settings->previewSize() : settings->iconSize();
+    const bool showPreview = m_controller->dolphinView()->showPreview();
+    const int size = showPreview ? settings->previewSize() : settings->iconSize();
     return size < KIconLoader::SizeEnormous;
 }
 
 bool DolphinIconsView::isZoomOutPossible() const
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    const int size = m_controller->showPreview() ? settings->previewSize() : settings->iconSize();
+    const bool showPreview = m_controller->dolphinView()->showPreview();
+    const int size = showPreview ? settings->previewSize() : settings->iconSize();
     return size > KIconLoader::SizeSmall;
 }
 

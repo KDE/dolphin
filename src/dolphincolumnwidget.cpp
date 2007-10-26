@@ -336,7 +336,7 @@ void DolphinColumnWidget::generatePreviews(const KFileItemList& items)
     // TODO: same implementation as in DolphinView; create helper class
     // for generatePreviews(), showPreview() and isCutItem()
 
-    if (m_view->m_controller->showPreview()) {
+    if (m_view->m_controller->dolphinView()->showPreview()) {
         KIO::PreviewJob* job = KIO::filePreview(items, 128);
         connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem&, const QPixmap&)));

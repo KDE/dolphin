@@ -61,6 +61,7 @@ DolphinView::DolphinView(QWidget* parent,
                          DolphinSortFilterProxyModel* proxyModel) :
     QWidget(parent),
     m_active(true),
+    m_showPreview(false),
     m_loadingDirectory(false),
     m_storedCategorizedSorting(false),
     m_mode(DolphinView::IconsView),
@@ -227,11 +228,16 @@ DolphinView::Mode DolphinView::mode() const
 
 void DolphinView::setShowPreview(bool show)
 {
+    if (m_showPreview == show) {
+        return;
+    }
+
     const KUrl viewPropsUrl = viewPropertiesUrl();
     ViewProperties props(viewPropsUrl);
     props.setShowPreview(show);
 
-    m_controller->setShowPreview(show);
+    m_showPreview = show;
+
     emit showPreviewChanged();
 
     loadDirectory(viewPropsUrl, true);
@@ -239,7 +245,7 @@ void DolphinView::setShowPreview(bool show)
 
 bool DolphinView::showPreview() const
 {
-    return m_controller->showPreview();
+    return m_showPreview;
 }
 
 void DolphinView::setShowHiddenFiles(bool show)
@@ -556,7 +562,7 @@ void DolphinView::triggerItem(const KFileItem& item)
 
 void DolphinView::generatePreviews(const KFileItemList& items)
 {
-    if (m_controller->showPreview()) {
+    if (m_controller->dolphinView()->showPreview()) {
         KIO::PreviewJob* job = KIO::filePreview(items, 128);
         connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
                 this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
@@ -683,8 +689,8 @@ void DolphinView::applyViewProperties(const KUrl& url)
     }
 
     const bool showPreview = props.showPreview();
-    if (showPreview != m_controller->showPreview()) {
-        m_controller->setShowPreview(showPreview);
+    if (showPreview != m_showPreview) {
+        m_showPreview = showPreview;
         emit showPreviewChanged();
     }
 }

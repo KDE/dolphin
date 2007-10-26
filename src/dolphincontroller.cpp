@@ -23,7 +23,6 @@
 
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
-    m_showPreview(false),
     m_zoomInPossible(false),
     m_zoomOutPossible(false),
     m_url(),
@@ -83,14 +82,6 @@ void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
 void DolphinController::indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info)
 {
     emit additionalInfoChanged(info);
-}
-
-void DolphinController::setShowPreview(bool show)
-{
-    if (m_showPreview != show) {
-        m_showPreview = show;
-        emit showPreviewChanged(show);
-    }
 }
 
 void DolphinController::indicateActivationChange(bool active)
