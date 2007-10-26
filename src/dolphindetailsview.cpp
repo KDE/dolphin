@@ -482,6 +482,9 @@ void DolphinDetailsView::updateColumnVisibility()
 {
     KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
     if (list.isEmpty() || list.contains(KFileItemDelegate::NoInformation)) {
+        // Using the details view without any additional information (-> additional column)
+        // makes no sense and leads to a usability problem as no viewport area is available
+        // anymore. Hence as fallback provide at least a size and date column.
         list.clear();
         list.append(KFileItemDelegate::Size);
         list.append(KFileItemDelegate::ModificationTime);
