@@ -39,10 +39,6 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
                                                  QWidget* parent) :
     KVBox(parent),
     m_mainWindow(mainWindow),
-    m_dateBox(0),
-    m_permissionsBox(0),
-    m_ownerBox(0),
-    m_groupBox(0),
     m_smallIconSize(0),
     m_mediumIconSize(0),
     m_largeIconSize(0),
@@ -54,23 +50,6 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     setSpacing(spacing);
     setMargin(margin);
-
-    // create "Columns" properties
-    QGroupBox* columnsBox = new QGroupBox(i18nc("@title:group", "Columns"), this);
-    columnsBox->setSizePolicy(sizePolicy);
-
-    m_dateBox = new QCheckBox(i18nc("@option:check Columns", "Date"), this);
-    m_permissionsBox = new QCheckBox(i18nc("@option:check Columns", "Permissions"), this);
-    m_ownerBox = new QCheckBox(i18nc("@option:check Columns", "Owner"), this);
-    m_groupBox = new QCheckBox(i18nc("@option:check Columns", "Group"), this);
-    m_typeBox = new QCheckBox(i18nc("@option:check Columns", "Type"), this);
-
-    QGridLayout* columnsLayout = new QGridLayout(columnsBox);
-    columnsLayout->addWidget(m_dateBox, 0, 0);
-    columnsLayout->addWidget(m_permissionsBox, 1, 0);
-    columnsLayout->addWidget(m_ownerBox, 2, 0);
-    columnsLayout->addWidget(m_groupBox, 0, 1);
-    columnsLayout->addWidget(m_typeBox, 1, 1);
 
     // Create "Icon" properties
     QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), this);
@@ -117,12 +96,6 @@ void DetailsViewSettingsPage::applySettings()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
 
-    settings->setShowDate(m_dateBox->isChecked());
-    settings->setShowPermissions(m_permissionsBox->isChecked());
-    settings->setShowOwner(m_ownerBox->isChecked());
-    settings->setShowGroup(m_groupBox->isChecked());
-    settings->setShowType(m_typeBox->isChecked());
-
     int iconSize = KIconLoader::SizeSmall;
     if (m_mediumIconSize->isChecked()) {
         iconSize = KIconLoader::SizeMedium;
@@ -148,12 +121,6 @@ void DetailsViewSettingsPage::restoreDefaults()
 void DetailsViewSettingsPage::loadSettings()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-
-    m_dateBox->setChecked(settings->showDate());
-    m_permissionsBox->setChecked(settings->showPermissions());
-    m_ownerBox->setChecked(settings->showOwner());
-    m_groupBox->setChecked(settings->showGroup());
-    m_typeBox->setChecked(settings->showType());
 
     switch (settings->iconSize()) {
     case KIconLoader::SizeLarge:

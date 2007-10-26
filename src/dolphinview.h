@@ -395,7 +395,7 @@ signals:
     void sortOrderChanged(Qt::SortOrder order);
 
     /** Is emitted if the additional information for an item has been changed. */
-    void additionalInfoChanged(KFileItemDelegate::InformationList info);
+    void additionalInfoChanged(const KFileItemDelegate::InformationList& info);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
@@ -489,12 +489,12 @@ private slots:
     /**
      * Drops the URLs \a urls to the destination path \a destPath. If
      * the URLs are dropped above an item inside the destination path,
-     * the item is indicated by \a destIndex. \a source
+     * the item is indicated by \a destItem. \a source
      * indicates the widget where the dragging has been started from.
      */
     void dropUrls(const KUrl::List& urls,
                   const KUrl& destPath,
-                  const QModelIndex& destIndex,
+                  const KFileItem& destItem,
                   QWidget* source);
 
     /**
@@ -514,6 +514,12 @@ private slots:
      * sort order given by \a order.
      */
     void updateSortOrder(Qt::SortOrder order);
+
+    /**
+     * Updates the view properties of the current URL to the
+     * additional informations given by \a info.
+     */
+    void updateAdditionalInfo(const KFileItemDelegate::InformationList& info);
 
     /**
      * Emits the signal contentsMoved with the current coordinates
@@ -567,12 +573,6 @@ private:
      * a ListView or a TreeView.
      */
     QAbstractItemView* itemView() const;
-
-    /**
-     * Returns true if the index is valid and represents
-     * the column DolphinModel::Name.
-     */
-    bool isValidNameIndex(const QModelIndex& index) const;
 
     /**
      * Returns true, if the item \a item has been cut into

@@ -252,7 +252,10 @@ void ViewPropertiesDialog::slotViewModeChanged(int index)
 
     const bool iconsViewEnabled = (m_viewProps->viewMode() == DolphinView::IconsView);
     m_showInGroups->setEnabled(iconsViewEnabled);
-    m_additionalInfo->setEnabled(iconsViewEnabled);
+
+    // TODO: a different approach is required now due to having a lot more additional infos
+    m_additionalInfo->setEnabled(false);
+    //m_additionalInfo->setEnabled(iconsViewEnabled);
 }
 
 void ViewPropertiesDialog::slotSortingChanged(int index)
@@ -410,7 +413,9 @@ void ViewPropertiesDialog::loadSettings()
 
     const int addInfoIndex = m_additionalInfo->findData(info);
     m_additionalInfo->setCurrentIndex(addInfoIndex);
-    m_additionalInfo->setEnabled(iconsViewEnabled);
+    // TODO: a different approach is required now due to having a lot more additional infos
+    m_additionalInfo->setEnabled(false);
+    //m_additionalInfo->setEnabled(iconsViewEnabled);
 
     // load show preview, show in groups and show hidden files settings
     m_showPreview->setChecked(m_viewProps->showPreview());

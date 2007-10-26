@@ -25,29 +25,5 @@
             <label context="@label">Icon size</label>
             <default code="true">KIconLoader::SizeSmall</default>
         </entry>
-        <entry name="ShowDate" type="Bool">
-            <label context="@label">Show date</label>
-            <default>true</default>
-        </entry>
-        <entry name="ShowGroup" type="Bool">
-            <label context="@label">Show group</label>
-            <default>false</default>
-        </entry>
-        <entry name="ShowOwner" type="Bool">
-            <label context="@label">Show owner</label>
-            <default>false</default>
-        </entry>
-        <entry name="ShowPermissions" type="Bool">
-            <label context="@label">Show permissions</label>
-            <default>false</default>
-        </entry>
-        <entry name="ShowSize" type="Bool">
-            <label context="@label">Show size</label>
-            <default>false</default>
-        </entry>
-        <entry name="ShowType" type="Bool">
-            <label context="@label">Show type</label>
-            <default>false</default>
-        </entry>
     </group>
 </kcfg>

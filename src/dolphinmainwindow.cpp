@@ -326,31 +326,50 @@ void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
 
 void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::InformationList list)
 {
-    QAction* showMimeInfo = actionCollection()->action("show_mime_info");
     QAction* showSizeInfo = actionCollection()->action("show_size_info");
     QAction* showDateInfo = actionCollection()->action("show_date_info");
+    QAction* showPermissionsInfo = actionCollection()->action("show_permissions_info");
+    QAction* showOwnerInfo = actionCollection()->action("show_owner_info");
+    QAction* showGroupInfo = actionCollection()->action("show_group_info");
+    QAction* showMimeInfo = actionCollection()->action("show_mime_info");
 
-    showMimeInfo->setChecked(false);
     showSizeInfo->setChecked(false);
     showDateInfo->setChecked(false);
+    showPermissionsInfo->setChecked(false);
+    showOwnerInfo->setChecked(false);
+    showGroupInfo->setChecked(false);
+    showMimeInfo->setChecked(false);
 
     const DolphinView* view = m_activeViewContainer->view();
-    // currently only the icons view supports additional information
-    const bool enable = (view->mode() == DolphinView::IconsView);
-    showMimeInfo->setEnabled(enable);
+
+    // currently the column view does not support additional information
+    const bool enable = (view->mode() != DolphinView::ColumnView);
     showSizeInfo->setEnabled(enable);
     showDateInfo->setEnabled(enable);
+    showPermissionsInfo->setEnabled(enable);
+    showOwnerInfo->setEnabled(enable);
+    showGroupInfo->setEnabled(enable);
+    showMimeInfo->setEnabled(enable);
 
     foreach (KFileItemDelegate::Information info, list) {
         switch (info) {
-        case KFileItemDelegate::FriendlyMimeType:
-            showMimeInfo->setChecked(true);
-            break;
         case KFileItemDelegate::Size:
             showSizeInfo->setChecked(true);
             break;
         case KFileItemDelegate::ModificationTime:
             showDateInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::Permissions:
+            showPermissionsInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::Owner:
+            showOwnerInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::OwnerAndGroup:
+            showGroupInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::FriendlyMimeType:
+            showMimeInfo->setChecked(true);
             break;
         default:
             break;
@@ -770,11 +789,6 @@ void DolphinMainWindow::toggleSortCategorization()
     view->setCategorizedSorting(!categorizedSorting);
 }
 
-void DolphinMainWindow::toggleMimeInfo()
-{
-    toggleAdditionalInfo("show_mime_info", KFileItemDelegate::FriendlyMimeType);
-}
-
 void DolphinMainWindow::toggleSizeInfo()
 {
     toggleAdditionalInfo("show_size_info", KFileItemDelegate::Size);
@@ -783,6 +797,26 @@ void DolphinMainWindow::toggleSizeInfo()
 void DolphinMainWindow::toggleDateInfo()
 {
     toggleAdditionalInfo("show_date_info", KFileItemDelegate::ModificationTime);
+}
+
+void DolphinMainWindow::togglePermissionsInfo()
+{
+    toggleAdditionalInfo("show_permissions_info", KFileItemDelegate::Permissions);
+}
+
+void DolphinMainWindow::toggleOwnerInfo()
+{
+    toggleAdditionalInfo("show_owner_info", KFileItemDelegate::Owner);
+}
+
+void DolphinMainWindow::toggleGroupInfo()
+{
+    toggleAdditionalInfo("show_group_info", KFileItemDelegate::OwnerAndGroup);
+}
+
+void DolphinMainWindow::toggleMimeInfo()
+{
+    toggleAdditionalInfo("show_mime_info", KFileItemDelegate::FriendlyMimeType);
 }
 
 void DolphinMainWindow::toggleSplitView()
@@ -1037,14 +1071,6 @@ void DolphinMainWindow::init()
         // assure a proper default size if Dolphin runs the first time
         resize(700, 500);
     }
-#ifdef HAVE_NEPOMUK
-    if (!MetaDataWidget::metaDataAvailable()) {
-        DolphinStatusBar* statusBar = activeViewContainer()->statusBar();
-        statusBar->setMessage(i18nc("@info:status",
-                                    "Failed to contact Nepomuk service, annotation and tagging are disabled."),
-                                    DolphinStatusBar::Error);
-    }
-#endif
 
     emit urlChanged(homeUrl);
 }
@@ -1219,10 +1245,6 @@ void DolphinMainWindow::setupActions()
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
     connect(showInGroups, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
 
-    KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
-    connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(toggleMimeInfo()));
-
     KToggleAction* showSizeInfo = actionCollection()->add<KToggleAction>("show_size_info");
     showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
     connect(showSizeInfo, SIGNAL(triggered()), this, SLOT(toggleSizeInfo()));
@@ -1230,6 +1252,22 @@ void DolphinMainWindow::setupActions()
     KToggleAction* showDateInfo = actionCollection()->add<KToggleAction>("show_date_info");
     showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
     connect(showDateInfo, SIGNAL(triggered()), this, SLOT(toggleDateInfo()));
+
+    KToggleAction* showPermissionsInfo = actionCollection()->add<KToggleAction>("show_permissions_info");
+    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
+    connect(showPermissionsInfo, SIGNAL(triggered()), this, SLOT(togglePermissionsInfo()));
+
+    KToggleAction* showOwnerInfo = actionCollection()->add<KToggleAction>("show_owner_info");
+    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
+    connect(showOwnerInfo, SIGNAL(triggered()), this, SLOT(toggleOwnerInfo()));
+
+    KToggleAction* showGroupInfo = actionCollection()->add<KToggleAction>("show_group_info");
+    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
+    connect(showGroupInfo, SIGNAL(triggered()), this, SLOT(toggleGroupInfo()));
+
+    KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
+    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
+    connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(toggleMimeInfo()));
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));

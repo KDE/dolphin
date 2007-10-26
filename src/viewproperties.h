@@ -123,9 +123,12 @@ private:
     enum AdditionalInfoValues
     {
         NoInfo   = 0,
-        TypeInfo = 1,
-        SizeInfo = 2,
-        DateInfo = 4
+        SizeInfo = 1,
+        DateInfo = 2,
+        PermissionsInfo = 4,
+        OwnerInfo = 8,
+        GroupInfo = 16,
+        TypeInfo = 32,
     };
 
     bool m_changedProps;

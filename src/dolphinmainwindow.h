@@ -287,14 +287,23 @@ private slots:
     /** Switches between sorting by categories or not. */
     void toggleSortCategorization();
 
-    /** Switches between showing the MIME type as additional information for the item or not. */
-    void toggleMimeInfo();
-
     /** Switches between showing the size as additional information for the item or not. */
     void toggleSizeInfo();
 
     /** Switchtes between showing the date as additional information for the item or not. */
     void toggleDateInfo();
+
+    /** Switchtes between showing the permissions as additional information for the item or not. */
+    void togglePermissionsInfo();
+
+    /** Switchtes between showing the owner as additional information for the item or not. */
+    void toggleOwnerInfo();
+
+    /** Switchtes between showing the group as additional information for the item or not. */
+    void toggleGroupInfo();
+
+    /** Switches between showing the MIME type as additional information for the item or not. */
+    void toggleMimeInfo();
 
     /**
      * Switches between one and two views:

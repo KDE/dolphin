@@ -21,14 +21,15 @@
 
 #include <QPainter>
 
-DolphinController::DolphinController(QObject* parent) :
-    QObject(parent),
+DolphinController::DolphinController(DolphinView* dolphinView) :
+    QObject(dolphinView),
     m_showHiddenFiles(false),
     m_showPreview(false),
     m_zoomInPossible(false),
     m_zoomOutPossible(false),
-    m_additionalInfoCount(0),
-    m_url()
+//m_additionalInfoCount(0),
+    m_url(),
+    m_dolphinView(dolphinView)
 {
 }
 
@@ -64,10 +65,10 @@ void DolphinController::requestActivation()
 
 void DolphinController::indicateDroppedUrls(const KUrl::List& urls,
                                             const KUrl& destPath,
-                                            const QModelIndex& destIndex,
+                                            const KFileItem& destItem,
                                             QWidget* source)
 {
-    emit urlsDropped(urls, destPath, destIndex, source);
+    emit urlsDropped(urls, destPath, destItem, source);
 }
 
 
@@ -79,6 +80,11 @@ void DolphinController::indicateSortingChange(DolphinView::Sorting sorting)
 void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
 {
     emit sortOrderChanged(order);
+}
+
+void DolphinController::indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info)
+{
+    emit additionalInfoChanged(info);
 }
 
 void DolphinController::setShowHiddenFiles(bool show)
@@ -97,13 +103,13 @@ void DolphinController::setShowPreview(bool show)
     }
 }
 
-void DolphinController::setAdditionalInfoCount(int count)
+/*void DolphinController::setAdditionalInfoCount(int count)
 {
     if (m_additionalInfoCount != count) {
         m_additionalInfoCount = count;
         emit additionalInfoCountChanged(count);
     }
-}
+}*/
 
 void DolphinController::indicateActivationChange(bool active)
 {

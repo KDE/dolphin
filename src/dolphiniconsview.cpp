@@ -63,8 +63,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
             this, SLOT(slotShowPreviewChanged(bool)));
-    connect(controller, SIGNAL(additionalInfoCountChanged(int)),
-            this, SLOT(slotAdditionalInfoCountChanged(int)));
+    connect(controller->dolphinView(), SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
+            this, SLOT(slotAdditionalInfoChanged(const KFileItemDelegate::InformationList&)));
     connect(controller, SIGNAL(zoomIn()),
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
@@ -86,7 +86,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_viewOptions.font = font;
 
     setWordWrap(settings->numberOfTextlines() > 1);
-    updateGridSize(controller->showPreview(), controller->additionalInfoCount());
+    updateGridSize(controller->showPreview(), 0);
 
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
@@ -195,11 +195,15 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
     if (!selectionModel()->isSelected(indexAt(event->pos()))) {
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         if (!urls.isEmpty()) {
-            m_controller->indicateDroppedUrls(urls,
-                                              m_controller->url(),
-                                              indexAt(event->pos()),
-                                              event->source());
-            event->acceptProposedAction();
+            const QModelIndex index = indexAt(event->pos());
+            if (index.isValid()) {
+                const KFileItem item = itemForIndex(index);
+                m_controller->indicateDroppedUrls(urls,
+                                                  m_controller->url(),
+                                                  item,
+                                                  event->source());
+                event->acceptProposedAction();
+            }
         }
     }
 
@@ -244,12 +248,13 @@ void DolphinIconsView::slotEntered(const QModelIndex& index)
 
 void DolphinIconsView::slotShowPreviewChanged(bool showPreview)
 {
-    updateGridSize(showPreview, m_controller->additionalInfoCount());
+    const int infoCount = m_controller->dolphinView()->additionalInfo().count();
+    updateGridSize(showPreview, infoCount);
 }
 
-void DolphinIconsView::slotAdditionalInfoCountChanged(int count)
+void DolphinIconsView::slotAdditionalInfoChanged(const KFileItemDelegate::InformationList& info)
 {
-    updateGridSize(m_controller->showPreview(), count);
+    updateGridSize(m_controller->showPreview(), info.count());
 }
 
 void DolphinIconsView::zoomIn()
@@ -278,7 +283,8 @@ void DolphinIconsView::zoomIn()
         settings->setItemWidth(settings->itemWidth() + diff);
         settings->setItemHeight(settings->itemHeight() + diff);
 
-        updateGridSize(showPreview, m_controller->additionalInfoCount());
+        const int infoCount = m_controller->dolphinView()->additionalInfo().count();
+        updateGridSize(showPreview, infoCount);
     }
 }
 
@@ -309,7 +315,8 @@ void DolphinIconsView::zoomOut()
         settings->setItemWidth(settings->itemWidth() - diff);
         settings->setItemHeight(settings->itemHeight() - diff);
 
-        updateGridSize(showPreview, m_controller->additionalInfoCount());
+        const int infoCount = m_controller->dolphinView()->additionalInfo().count();
+        updateGridSize(showPreview, infoCount);
     }
 }
 

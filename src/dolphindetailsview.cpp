@@ -97,6 +97,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
+    connect(controller->dolphinView(), SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
+            this, SLOT(updateColumnVisibility()));
 
     // apply the details mode settings to the widget
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
@@ -140,28 +142,7 @@ bool DolphinDetailsView::event(QEvent* event)
         headerView->setResizeMode(0, QHeaderView::Stretch);
         headerView->setMovable(false);
 
-        // hide columns if this is indicated by the settings
-        const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-        Q_ASSERT(settings != 0);
-        if (!settings->showDate()) {
-            hideColumn(DolphinModel::ModifiedTime);
-        }
-
-        if (!settings->showPermissions()) {
-            hideColumn(DolphinModel::Permissions);
-        }
-
-        if (!settings->showOwner()) {
-            hideColumn(DolphinModel::Owner);
-        }
-
-        if (!settings->showGroup()) {
-            hideColumn(DolphinModel::Group);
-        }
-
-        if (!settings->showType()) {
-            hideColumn(DolphinModel::Type);
-        }
+        updateColumnVisibility();
 
         hideColumn(DolphinModel::Rating);
         hideColumn(DolphinModel::Tags);
@@ -278,10 +259,14 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
-        m_controller->indicateDroppedUrls(urls,
-                                          m_controller->url(),
-                                          indexAt(event->pos()),
-                                          event->source());
+        const QModelIndex index = indexAt(event->pos());
+        if (index.isValid() && (index.column() == DolphinModel::Name)) {
+            const KFileItem item = itemForIndex(index);
+            m_controller->indicateDroppedUrls(urls,
+                                              m_controller->url(),
+                                              item,
+                                              event->source());
+        }
     }
     QTreeView::dropEvent(event);
     m_dragging = false;
@@ -453,7 +438,7 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
     popup.addTitle(i18nc("@title:menu", "Columns"));
 
     QHeaderView* headerView = header();
-    for (int i = DolphinModel::ModifiedTime; i <= DolphinModel::Type; ++i) {
+    for (int i = DolphinModel::Size; i <= DolphinModel::Type; ++i) {
         const int logicalIndex = headerView->logicalIndex(i);
         const QString text = model()->headerData(i, Qt::Horizontal).toString();
         QAction* action = popup.addAction(text);
@@ -465,27 +450,50 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
     QAction* activatedAction = popup.exec(header()->mapToGlobal(pos));
     if (activatedAction != 0) {
         const bool show = activatedAction->isChecked();
-        DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-        Q_ASSERT(settings != 0);
-
-        // remember the changed column visibility in the settings
         const int columnIndex = activatedAction->data().toInt();
+
+        KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
+        KFileItemDelegate::Information info = KFileItemDelegate::NoInformation;
         switch (columnIndex) {
-        case DolphinModel::ModifiedTime: settings->setShowDate(show); break;
-        case DolphinModel::Permissions:  settings->setShowPermissions(show); break;
-        case DolphinModel::Owner:        settings->setShowOwner(show); break;
-        case DolphinModel::Group:        settings->setShowGroup(show); break;
-        case DolphinModel::Type:         settings->setShowType(show); break;
+        case DolphinModel::Size:         info = KFileItemDelegate::Size; break;
+        case DolphinModel::ModifiedTime: info = KFileItemDelegate::ModificationTime; break;
+        case DolphinModel::Permissions:  info = KFileItemDelegate::Permissions; break;
+        case DolphinModel::Owner:        info = KFileItemDelegate::Owner; break;
+        case DolphinModel::Group:        info = KFileItemDelegate::OwnerAndGroup; break;
+        case DolphinModel::Type:         info = KFileItemDelegate::FriendlyMimeType; break;
         default: break;
         }
 
-        // apply the changed column visibility
         if (show) {
-            showColumn(columnIndex);
+            Q_ASSERT(!list.contains(info));
+            list.append(info);
         } else {
-            hideColumn(columnIndex);
+            Q_ASSERT(list.contains(info));
+            const int index = list.indexOf(info);
+            list.removeAt(index);
         }
+
+        m_controller->indicateAdditionalInfoChange(list);
+        setColumnHidden(columnIndex, !show);
     }
+}
+
+void DolphinDetailsView::updateColumnVisibility()
+{
+    KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
+    if (list.isEmpty() || list.contains(KFileItemDelegate::NoInformation)) {
+        list.clear();
+        list.append(KFileItemDelegate::Size);
+        list.append(KFileItemDelegate::ModificationTime);
+        m_controller->indicateAdditionalInfoChange(list);
+    }
+
+    setColumnHidden(DolphinModel::Size,         !list.contains(KFileItemDelegate::Size));
+    setColumnHidden(DolphinModel::ModifiedTime, !list.contains(KFileItemDelegate::ModificationTime));
+    setColumnHidden(DolphinModel::Permissions,  !list.contains(KFileItemDelegate::Permissions));
+    setColumnHidden(DolphinModel::Owner,        !list.contains(KFileItemDelegate::Owner));
+    setColumnHidden(DolphinModel::Group,        !list.contains(KFileItemDelegate::OwnerAndGroup));
+    setColumnHidden(DolphinModel::Type,         !list.contains(KFileItemDelegate::FriendlyMimeType));
 }
 
 bool DolphinDetailsView::isZoomInPossible() const

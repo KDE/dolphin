@@ -48,7 +48,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     m_contentX(0),
     m_columns(),
     m_emptyViewport(0),
-    m_animation(0)
+    m_animation(0),
+    m_nameFilter()
 {
     Q_ASSERT(controller != 0);
 
@@ -145,14 +146,17 @@ void DolphinColumnView::setRootUrl(const KUrl& url)
 
 void DolphinColumnView::setNameFilter(const QString& nameFilter)
 {
-    foreach (DolphinColumnWidget* column, m_columns) {
-        column->setNameFilter(nameFilter);
+    if (nameFilter != m_nameFilter) {
+        m_nameFilter = nameFilter;
+        foreach (DolphinColumnWidget* column, m_columns) {
+            column->setNameFilter(nameFilter);
+        }
     }
 }
 
 QString DolphinColumnView::nameFilter() const
 {
-    return activeColumn()->nameFilter();
+    return m_nameFilter;
 }
 
 KUrl DolphinColumnView::rootUrl() const

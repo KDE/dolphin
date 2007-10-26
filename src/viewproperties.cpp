@@ -202,14 +202,23 @@ void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
     int info = NoInfo;
     foreach (KFileItemDelegate::Information currentInfo, list) {
         switch (currentInfo) {
-        case KFileItemDelegate::FriendlyMimeType:
-            info = info | TypeInfo;
-            break;
         case KFileItemDelegate::Size:
             info = info | SizeInfo;
             break;
         case KFileItemDelegate::ModificationTime:
             info = info | DateInfo;
+            break;
+        case KFileItemDelegate::Permissions:
+            info = info | PermissionsInfo;
+            break;
+        case KFileItemDelegate::Owner:
+            info = info | OwnerInfo;
+            break;
+        case KFileItemDelegate::OwnerAndGroup:
+            info = info | GroupInfo;
+            break;
+        case KFileItemDelegate::FriendlyMimeType:
+            info = info | TypeInfo;
             break;
         default:
             break;
@@ -227,14 +236,23 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
     const int info = m_node->additionalInfo();
 
     KFileItemDelegate::InformationList list;
-    if (info & TypeInfo) {
-        list.append(KFileItemDelegate::FriendlyMimeType);
-    }
     if (info & SizeInfo) {
         list.append(KFileItemDelegate::Size);
     }
     if (info & DateInfo) {
         list.append(KFileItemDelegate::ModificationTime);
+    }
+    if (info & PermissionsInfo) {
+        list.append(KFileItemDelegate::Permissions);
+    }
+    if (info & OwnerInfo) {
+        list.append(KFileItemDelegate::Owner);
+    }
+    if (info & GroupInfo) {
+        list.append(KFileItemDelegate::OwnerAndGroup);
+    }
+    if (info & TypeInfo) {
+        list.append(KFileItemDelegate::FriendlyMimeType);
     }
 
     return list;

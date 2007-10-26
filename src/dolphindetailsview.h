@@ -116,6 +116,8 @@ private slots:
      */
     void configureColumns(const QPoint& pos);
 
+    void updateColumnVisibility();
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;

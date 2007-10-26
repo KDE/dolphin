@@ -296,7 +296,12 @@ void InfoSidebarPage::showMetaInfo()
 
             // TODO: See convertMetaInfo below, find a way to display only interesting information
             // in a readable way
-            const KFileMetaInfo metaInfo(fileItem.url());
+            const KFileMetaInfo::WhatFlags flags = KFileMetaInfo::Fastest |
+                                                   KFileMetaInfo::TechnicalInfo |
+                                                   KFileMetaInfo::ContentInfo |
+                                                   KFileMetaInfo::Thumbnail;
+            const QString path = fileItem.url().url();
+            const KFileMetaInfo metaInfo(path, QString(), flags);
             if (metaInfo.isValid()) {
                 const QHash<QString, KFileMetaInfoItem>& items = metaInfo.items();
                 QHash<QString, KFileMetaInfoItem>::const_iterator it = items.constBegin();

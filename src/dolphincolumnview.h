@@ -172,6 +172,7 @@ private:
     QList<DolphinColumnWidget*> m_columns;
     QFrame* m_emptyViewport;
     QTimeLine* m_animation;
+    QString m_nameFilter;
 
     friend class DolphinColumnWidget;
 };

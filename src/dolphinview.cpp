@@ -102,12 +102,14 @@ DolphinView::DolphinView(QWidget* parent,
 
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
-    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&, const QModelIndex&, QWidget*)),
-            this, SLOT(dropUrls(const KUrl::List&, const KUrl&, const QModelIndex&, QWidget*)));
+    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&, const KFileItem&, QWidget*)),
+            this, SLOT(dropUrls(const KUrl::List&, const KUrl&, const KFileItem&, QWidget*)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(updateSortOrder(Qt::SortOrder)));
+    connect(m_controller, SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
+            this, SLOT(updateAdditionalInfo(const KFileItemDelegate::InformationList&)));
     connect(m_controller, SIGNAL(itemTriggered(const KFileItem&)),
             this, SLOT(triggerItem(const KFileItem&)));
     connect(m_controller, SIGNAL(activated()),
@@ -196,6 +198,12 @@ void DolphinView::setMode(Mode mode)
     props.setViewMode(m_mode);
 
     createView();
+
+    // the file item delegate has been recreated, apply the current
+    // additional information manually
+    const KFileItemDelegate::InformationList infoList = props.additionalInfo();
+    m_fileItemDelegate->setShowInformation(infoList);
+    emit additionalInfoChanged(infoList);
 
     // Not all view modes support categorized sorting. Adjust the sorting model
     // if changing the view mode results in a change of the categorized sorting
@@ -437,12 +445,15 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
     const KUrl viewPropsUrl = viewPropertiesUrl();
     ViewProperties props(viewPropsUrl);
     props.setAdditionalInfo(info);
-
-    m_controller->setAdditionalInfoCount(info.count());
     m_fileItemDelegate->setShowInformation(info);
 
     emit additionalInfoChanged(info);
-    loadDirectory(viewPropsUrl, true);
+
+    if (itemView() != m_detailsView) {
+        // the details view requires no reloading of the directory, as it maps
+        // the file item delegate info to its columns internally
+        loadDirectory(viewPropsUrl, true);
+    }
 }
 
 KFileItemDelegate::InformationList DolphinView::additionalInfo() const
@@ -493,17 +504,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
 
 void DolphinView::setNameFilter(const QString& nameFilter)
 {
-    // The name filter of KDirLister does a 'hard' filtering, which
-    // means that only the items are shown where the names match
-    // exactly the filter. This is non-transparent for the user, which
-    // just wants to have a 'soft' filtering: does the name contain
-    // the filter string?
-    QString adjustedFilter(nameFilter);
-    adjustedFilter.insert(0, '*');
-    adjustedFilter.append('*');
-
-    m_dirLister->setNameFilter(adjustedFilter);
-    m_dirLister->emitChanges();
+    m_proxyModel->setFilterRegExp(nameFilter);
 
     if (isColumnViewActive()) {
         // adjusting the directory lister is not enough in the case of the
@@ -679,7 +680,6 @@ void DolphinView::applyViewProperties(const KUrl& url)
 
     KFileItemDelegate::InformationList info = props.additionalInfo();
     if (info != m_fileItemDelegate->showInformation()) {
-        m_controller->setAdditionalInfoCount(info.count());
         m_fileItemDelegate->setShowInformation(info);
         emit additionalInfoChanged(info);
     }
@@ -717,7 +717,7 @@ void DolphinView::openContextMenu(const QPoint& pos)
     KFileItem item;
 
     const QModelIndex index = itemView()->indexAt(pos);
-    if (isValidNameIndex(index)) {
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
         item = fileItem(index);
     }
 
@@ -726,27 +726,23 @@ void DolphinView::openContextMenu(const QPoint& pos)
 
 void DolphinView::dropUrls(const KUrl::List& urls,
                            const KUrl& destPath,
-                           const QModelIndex& destIndex,
+                           const KFileItem& destItem,
                            QWidget* source)
 {
-    KFileItem directory;
-    if (isValidNameIndex(destIndex)) {
-        KFileItem item = fileItem(destIndex);
-        Q_ASSERT(!item.isNull());
-        if (item.isDir()) {
-            // the URLs are dropped above a directory
-            directory = item;
+    bool dropAboveDir = false;
+    if (!destItem.isNull()) {
+        dropAboveDir = destItem.isDir();
+        if (!dropAboveDir) {
+            // the dropping is done above a file
+            return;
         }
-    }
-
-    if ((directory.isNull()) && (source == itemView())) {
-        // The dropping is done into the same viewport where
-        // the dragging has been started. Just ignore this...
+    } else if (source == itemView()) {
+        // the dropping is done into the same viewport where the dragging
+        // has been started
         return;
     }
 
-    const KUrl& destination = (directory.isNull()) ?
-                              destPath : directory.url();
+    const KUrl& destination = dropAboveDir ? destItem.url() : destPath;
     dropUrls(urls, destination);
 }
 
@@ -774,6 +770,17 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
     m_proxyModel->setSortOrder(order);
 
     emit sortOrderChanged(order);
+}
+
+void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList& info)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setAdditionalInfo(info);
+
+    m_fileItemDelegate->setShowInformation(info);
+
+    emit additionalInfoChanged(info);
+
 }
 
 void DolphinView::emitContentsMoved()
@@ -825,11 +832,6 @@ void DolphinView::clearHoverInformation()
 
 void DolphinView::createView()
 {
-    KFileItemDelegate::InformationList infoList;
-    if (m_fileItemDelegate != 0) {
-        infoList = m_fileItemDelegate->showInformation();
-    }
-
     // delete current view
     QAbstractItemView* view = itemView();
     if (view != 0) {
@@ -869,7 +871,6 @@ void DolphinView::createView()
     Q_ASSERT(view != 0);
 
     m_fileItemDelegate = new KFileItemDelegate(view);
-    m_fileItemDelegate->setShowInformation(infoList);
     view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);
@@ -895,11 +896,6 @@ QAbstractItemView* DolphinView::itemView() const
     }
 
     return m_iconsView;
-}
-
-bool DolphinView::isValidNameIndex(const QModelIndex& index) const
-{
-    return index.isValid() && (index.column() == DolphinModel::Name);
 }
 
 bool DolphinView::isCutItem(const KFileItem& item) const

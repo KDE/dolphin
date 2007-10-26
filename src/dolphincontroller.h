@@ -25,12 +25,15 @@
 #include <QtCore/QObject>
 #include <libdolphin_export.h>
 
+class DolphinView;
 class KUrl;
 class QBrush;
-class QModelIndex;
 class QPoint;
 class QRect;
 class QWidget;
+
+// TODO: get rid of all the state duplications in the controller and allow read access
+// to the Dolphin view for all view implementations
 
 /**
  * @brief Acts as mediator between the abstract Dolphin view and the view
@@ -42,7 +45,7 @@ class QWidget;
  * by passing it in the constructor:
  *
  * \code
- * DolphinController* controller = new DolphinController(parent);
+ * DolphinController* controller = new DolphinController(dolphinView);
  * QAbstractItemView* view = new DolphinIconsView(parent, controller);
  * \endcode
  *
@@ -73,8 +76,14 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinController : public QObject
     Q_OBJECT
 
 public:
-    explicit DolphinController(QObject* parent);
+    explicit DolphinController(DolphinView* dolphinView);
     virtual ~DolphinController();
+
+    /**
+     * Allows read access for the the view implementation to the abstract
+     * Dolphin view.
+     */
+    const DolphinView* dolphinView() const;
 
     /**
      * Sets the URL to \a url and emits the signal urlChanged() if
@@ -119,12 +128,12 @@ public:
      * will start the corresponding action (copy, move, link).
      * @param urls      URLs that are dropped above a destination.
      * @param destPath  Path of the destination.
-     * @param destIndex Model index of the destination item.
+     * @param destItem  Destination item (can be null, see KFileItem::isNull()).
      * @param source    Pointer to the view implementation which invoked this method.
      */
     void indicateDroppedUrls(const KUrl::List& urls,
                              const KUrl& destPath,
-                             const QModelIndex& destIndex,
+                             const KFileItem& destItem,
                              QWidget* source);
 
     /**
@@ -142,6 +151,14 @@ public:
      * with the details header).
      */
     void indicateSortOrderChange(Qt::SortOrder order);
+
+    /**
+     * Informs the abstract Dolphin view about an additional information change
+     * done inside the view implementation. This method should be invoked by the
+     * view implementation (e. g. the details view uses this method in combination
+     * with the details header).
+     */
+    void indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info);
 
     /**
      * Informs the view implementation about a change of the show hidden files
@@ -164,8 +181,8 @@ public:
      * additional informations and is invoked by the abstract Dolphin view.
      * The signal additionalInfoCountChanged() is emitted.
      */
-    void setAdditionalInfoCount(int count);
-    bool additionalInfoCount() const;
+    //void setAdditionalInfoCount(int count);
+    //bool additionalInfoCount() const;
 
     /**
      * Informs the view implementation about a change of the activation
@@ -258,12 +275,13 @@ signals:
     /**
      * Is emitted if the URLs \a urls have been dropped to the destination
      * path \a destPath. If the URLs have been dropped above an item of
-     * the destination path, the item is indicated by \a destIndex.
-     * \a source indicates the widget where the dragging has been started from.
+     * the destination path, the item is indicated by \a destItem
+     * (can be null, see KFileItem::isNull()). \a source indicates
+     * the widget where the dragging has been started from.
      */
     void urlsDropped(const KUrl::List& urls,
                      const KUrl& destPath,
-                     const QModelIndex& destIndex,
+                     const KFileItem& destItem,
                      QWidget* source);
 
     /**
@@ -281,6 +299,13 @@ signals:
      * to this signal to update its menu actions.
      */
     void sortOrderChanged(Qt::SortOrder order);
+
+    /**
+     * Is emitted if the additional info has been changed to \a info
+     * by the view implementation. The abstract Dolphin view connects
+     * to this signal to update its menu actions.
+     */
+    void additionalInfoChanged(const KFileItemDelegate::InformationList& info);
 
     /**
      * Is emitted if the state for showing hidden files has been
@@ -304,7 +329,7 @@ signals:
      * The view implementation might connect to this signal if custom
      * updates are required in this case.
      */
-    void additionalInfoCountChanged(int count);
+    //void additionalInfoCountChanged(int count);
 
     /**
      * Is emitted if the activation state has been changed to \a active
@@ -353,9 +378,15 @@ private:
     bool m_showPreview;
     bool m_zoomInPossible;
     bool m_zoomOutPossible;
-    int m_additionalInfoCount;
+    //int m_additionalInfoCount;
     KUrl m_url;
+    DolphinView* m_dolphinView;
 };
+
+inline const DolphinView* DolphinController::dolphinView() const
+{
+    return m_dolphinView;
+}
 
 inline const KUrl& DolphinController::url() const
 {
@@ -372,10 +403,10 @@ inline bool DolphinController::showPreview() const
     return m_showPreview;
 }
 
-inline bool DolphinController::additionalInfoCount() const
+/*inline bool DolphinController::additionalInfoCount() const
 {
     return m_additionalInfoCount;
-}
+}*/
 
 inline void DolphinController::setZoomInPossible(bool possible)
 {

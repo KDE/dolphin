@@ -90,13 +90,6 @@ public:
      */
     void setNameFilter(const QString& nameFilter);
 
-    /**
-     * Returns the currently used name filter. All items
-     * which contain the name filter will be shown.
-     */
-    QString nameFilter() const;
-
-
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void dragEnterEvent(QDragEnterEvent* event);
@@ -144,6 +137,8 @@ private:
      * the clipboard.
      */
     bool isCutItem(const KFileItem& item) const;
+
+    KFileItem itemForIndex(const QModelIndex& index) const;
 
 private:
     bool m_active;

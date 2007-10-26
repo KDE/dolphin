@@ -35,6 +35,7 @@
 #include <kfileitem.h>
 #include <kio/previewjob.h>
 #include <kiconeffect.h>
+#include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
 #include <QAbstractProxyModel>
@@ -122,6 +123,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_proxyModel->setSourceModel(m_dolphinModel);
 
     setModel(m_proxyModel);
+    new KMimeTypeResolver(this, m_dolphinModel);
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);
 }
@@ -191,22 +193,7 @@ void DolphinColumnWidget::updateBackground()
 
 void DolphinColumnWidget::setNameFilter(const QString& nameFilter)
 {
-    // The name filter of KDirLister does a 'hard' filtering, which
-    // means that only the items are shown where the names match
-    // exactly the filter. This is non-transparent for the user, which
-    // just wants to have a 'soft' filtering: does the name contain
-    // the filter string?
-    QString adjustedFilter(nameFilter);
-    adjustedFilter.insert(0, '*');
-    adjustedFilter.append('*');
-
-    m_dirLister->setNameFilter(adjustedFilter);
-    m_dirLister->emitChanges();
-}
-
-QString DolphinColumnWidget::nameFilter() const
-{
-    return m_dirLister->nameFilter();
+    m_proxyModel->setFilterRegExp(nameFilter);
 }
 
 void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)
@@ -242,11 +229,15 @@ void DolphinColumnWidget::dropEvent(QDropEvent* event)
 {
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty()) {
-        event->acceptProposedAction();
-        m_view->m_controller->indicateDroppedUrls(urls,
-                                                  url(),
-                                                  indexAt(event->pos()),
-                                                  event->source());
+        const QModelIndex index = indexAt(event->pos());
+        if (index.isValid()) {
+            const KFileItem item = itemForIndex(index);
+            m_view->m_controller->indicateDroppedUrls(urls,
+                                                      url(),
+                                                      item,
+                                                      event->source());
+            event->acceptProposedAction();
+        }
     }
     QListView::dropEvent(event);
     m_dragging = false;
@@ -335,7 +326,7 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
 }
 void DolphinColumnWidget::triggerItem(const QModelIndex& index)
 {
-    const KFileItem item = m_dolphinModel->itemForIndex(m_proxyModel->mapToSource(index));
+    const KFileItem item = itemForIndex(index);
     m_view->m_controller->triggerItem(item);
 }
 
@@ -448,5 +439,12 @@ bool DolphinColumnWidget::isCutItem(const KFileItem& item) const
 
     return false;
 }
+
+KFileItem DolphinColumnWidget::itemForIndex(const QModelIndex& index) const
+{
+    const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
+    return m_dolphinModel->itemForIndex(dirIndex);
+}
+
 
 #include "dolphincolumnwidget.moc"

@@ -23,6 +23,7 @@
 #include <kcategorizedview.h>
 
 #include <kfileitem.h>
+#include <kfileitemdelegate.h>
 
 #include <QSize>
 #include <QStyleOption>
@@ -64,7 +65,7 @@ private slots:
     void triggerItem(const QModelIndex& index);
     void slotEntered(const QModelIndex& index);
     void slotShowPreviewChanged(bool show);
-    void slotAdditionalInfoCountChanged(int count);
+    void slotAdditionalInfoChanged(const KFileItemDelegate::InformationList& info);
     void zoomIn();
     void zoomOut();
 

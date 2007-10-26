@@ -37,10 +37,13 @@
     <Action name="descending" />
    </Menu>
    <Menu name="additional_info">
-    <text context="@title:menu">Additional Information</text>
-    <Action name="show_mime_info" />
-    <Action name="show_size_info" />
-    <Action name="show_date_info" />
+       <text context="@title:menu">Additional Information</text>
+       <Action name="show_size_info" />
+       <Action name="show_date_info" />
+       <Action name="show_permissions_info" />
+       <Action name="show_owner_info" />
+       <Action name="show_group_info" />
+       <Action name="show_mime_info" />
    </Menu>
    <Action name="show_preview" />
    <Action name="show_in_groups" />
