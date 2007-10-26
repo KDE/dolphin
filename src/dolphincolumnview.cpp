@@ -66,8 +66,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
-    connect(controller, SIGNAL(showHiddenFilesChanged(bool)),
-            this, SLOT(slotShowHiddenFilesChanged(bool)));
+    connect(controller->dolphinView(), SIGNAL(showHiddenFilesChanged()),
+            this, SLOT(slotShowHiddenFilesChanged()));
     connect(controller, SIGNAL(showPreviewChanged(bool)),
             this, SLOT(slotShowPreviewChanged(bool)));
     connect(controller, SIGNAL(activationChanged(bool)),
@@ -409,8 +409,9 @@ void DolphinColumnView::updateColumnsBackground(bool active)
     }
 }
 
-void DolphinColumnView::slotShowHiddenFilesChanged(bool show)
+void DolphinColumnView::slotShowHiddenFilesChanged()
 {
+    const bool show = m_controller->dolphinView()->showHiddenFiles();
     foreach (DolphinColumnWidget* column, m_columns) {
         column->setShowHiddenFiles(show);
     }

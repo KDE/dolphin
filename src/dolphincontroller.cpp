@@ -23,11 +23,9 @@
 
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
-    m_showHiddenFiles(false),
     m_showPreview(false),
     m_zoomInPossible(false),
     m_zoomOutPossible(false),
-//m_additionalInfoCount(0),
     m_url(),
     m_dolphinView(dolphinView)
 {
@@ -87,14 +85,6 @@ void DolphinController::indicateAdditionalInfoChange(const KFileItemDelegate::In
     emit additionalInfoChanged(info);
 }
 
-void DolphinController::setShowHiddenFiles(bool show)
-{
-    if (m_showHiddenFiles != show) {
-        m_showHiddenFiles = show;
-        emit showHiddenFilesChanged(show);
-    }
-}
-
 void DolphinController::setShowPreview(bool show)
 {
     if (m_showPreview != show) {
@@ -102,14 +92,6 @@ void DolphinController::setShowPreview(bool show)
         emit showPreviewChanged(show);
     }
 }
-
-/*void DolphinController::setAdditionalInfoCount(int count)
-{
-    if (m_additionalInfoCount != count) {
-        m_additionalInfoCount = count;
-        emit additionalInfoCountChanged(count);
-    }
-}*/
 
 void DolphinController::indicateActivationChange(bool active)
 {

@@ -253,7 +253,6 @@ void DolphinView::setShowHiddenFiles(bool show)
     props.setShowHiddenFiles(show);
 
     m_dirLister->setShowingDotFiles(show);
-    m_controller->setShowHiddenFiles(show);
     emit showHiddenFilesChanged();
 
     loadDirectory(viewPropsUrl, true);
@@ -655,7 +654,6 @@ void DolphinView::applyViewProperties(const KUrl& url)
     const bool showHiddenFiles = props.showHiddenFiles();
     if (showHiddenFiles != m_dirLister->showingDotFiles()) {
         m_dirLister->setShowingDotFiles(showHiddenFiles);
-        m_controller->setShowHiddenFiles(showHiddenFiles);
         emit showHiddenFilesChanged();
     }
 

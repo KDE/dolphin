@@ -128,7 +128,7 @@ private slots:
      */
     void updateColumnsBackground(bool active);
 
-    void slotShowHiddenFilesChanged(bool show);
+    void slotShowHiddenFilesChanged();
     void slotShowPreviewChanged(bool show);
 
 private:

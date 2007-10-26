@@ -66,7 +66,6 @@ class QWidget;
  * - setUrl()
  * - setShowHiddenFiles()
  * - setShowPreview()
- * - setAdditionalInfoCount()
  * - indicateActivationChange()
  * - triggerZoomIn()
  * - triggerZoomOut()
@@ -161,28 +160,12 @@ public:
     void indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info);
 
     /**
-     * Informs the view implementation about a change of the show hidden files
-     * state and is invoked by the abstract Dolphin view.
-     * The signal showHiddenFilesChanged() is emitted.
-     */
-    void setShowHiddenFiles(bool show);
-    bool showHiddenFiles() const;
-
-    /**
      * Informs the view implementation about a change of the show preview
      * state and is invoked by the abstract Dolphin view.
      * The signal showPreviewChanged() is emitted.
      */
     void setShowPreview(bool show);
     bool showPreview() const;
-
-    /**
-     * Informs the view implementation about a change of the number of
-     * additional informations and is invoked by the abstract Dolphin view.
-     * The signal additionalInfoCountChanged() is emitted.
-     */
-    //void setAdditionalInfoCount(int count);
-    //bool additionalInfoCount() const;
 
     /**
      * Informs the view implementation about a change of the activation
@@ -308,28 +291,12 @@ signals:
     void additionalInfoChanged(const KFileItemDelegate::InformationList& info);
 
     /**
-     * Is emitted if the state for showing hidden files has been
-     * changed to \a show by the abstract Dolphin view. The view
-     * implementation might connect to this signal if custom
-     * updates are required in this case.
-     */
-    void showHiddenFilesChanged(bool show);
-
-    /**
      * Is emitted if the state for showing previews has been
      * changed to \a show by the abstract Dolphin view.
      * The view implementation might connect to this signal if custom
      * updates are required in this case.
      */
     void showPreviewChanged(bool show);
-
-    /**
-     * Is emitted if the number of additional informations has been
-     * changed to \a count by the abstract Dolphin view.
-     * The view implementation might connect to this signal if custom
-     * updates are required in this case.
-     */
-    //void additionalInfoCountChanged(int count);
 
     /**
      * Is emitted if the activation state has been changed to \a active
@@ -374,11 +341,9 @@ signals:
     void zoomOut();
 
 private:
-    bool m_showHiddenFiles;
     bool m_showPreview;
     bool m_zoomInPossible;
     bool m_zoomOutPossible;
-    //int m_additionalInfoCount;
     KUrl m_url;
     DolphinView* m_dolphinView;
 };
@@ -393,20 +358,10 @@ inline const KUrl& DolphinController::url() const
     return m_url;
 }
 
-inline bool DolphinController::showHiddenFiles() const
-{
-    return m_showHiddenFiles;
-}
-
 inline bool DolphinController::showPreview() const
 {
     return m_showPreview;
 }
-
-/*inline bool DolphinController::additionalInfoCount() const
-{
-    return m_additionalInfoCount;
-}*/
 
 inline void DolphinController::setZoomInPossible(bool possible)
 {
