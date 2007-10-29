@@ -178,7 +178,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
 
         QString seq = QKeySequence(Qt::ShiftModifier).toString();
         seq.chop(1); // chop superfluous '+'
-        QAction* moveAction = popup.addAction(KIcon("goto-page"),
+        QAction* moveAction = popup.addAction(KIcon("go-jump"),
                                               i18nc("@action:inmenu",
                                                     "&Move Here\t<shortcut>%1</shortcut>", seq));
 
@@ -190,7 +190,7 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
 
         seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
         seq.chop(1);
-        QAction* linkAction = popup.addAction(KIcon("www"),
+        QAction* linkAction = popup.addAction(KIcon("insert-link"),
                                               i18nc("@action:inmenu",
                                                     "&Link Here\t<shortcut>%1</shortcut>", seq));
 

@@ -160,7 +160,7 @@ void DolphinContextMenu::openItemContextMenu()
     // insert 'Bookmark This Folder' entry if exactly one item is selected
     QAction* addToPlacesAction = 0;
     if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
-        addToPlacesAction = popup->addAction(KIcon("bookmark-folder"),
+        addToPlacesAction = popup->addAction(KIcon("folder-bookmarks"),
                                              i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
     }
 
@@ -236,7 +236,7 @@ void DolphinContextMenu::openViewportContextMenu()
 
     popup->addSeparator();
 
-    QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-folder"),
+    QAction* addToPlacesAction = popup->addAction(KIcon("folder-bookmarks"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
     popup->addSeparator();
 
