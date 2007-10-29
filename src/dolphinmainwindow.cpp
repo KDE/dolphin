@@ -1109,30 +1109,30 @@ void DolphinMainWindow::setupActions()
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
-    QAction* newWindow = actionCollection()->addAction("new_window");
+    KAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
-    QAction* rename = actionCollection()->addAction("rename");
+    KAction* rename = actionCollection()->addAction("rename");
     rename->setText(i18nc("@action:inmenu File", "Rename..."));
     rename->setShortcut(Qt::Key_F2);
     connect(rename, SIGNAL(triggered()), this, SLOT(rename()));
 
-    QAction* moveToTrash = actionCollection()->addAction("move_to_trash");
+    KAction* moveToTrash = actionCollection()->addAction("move_to_trash");
     moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
     moveToTrash->setIcon(KIcon("user-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
 
-    QAction* deleteAction = actionCollection()->addAction("delete");
+    KAction* deleteAction = actionCollection()->addAction("delete");
     deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
     deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
     deleteAction->setIcon(KIcon("edit-delete"));
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
-    QAction* properties = actionCollection()->addAction("properties");
+    KAction* properties = actionCollection()->addAction("properties");
     properties->setText(i18nc("@action:inmenu File", "Properties"));
     properties->setShortcut(Qt::ALT | Qt::Key_Return);
     connect(properties, SIGNAL(triggered()), this, SLOT(properties()));
@@ -1148,12 +1148,12 @@ void DolphinMainWindow::setupActions()
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
     KStandardAction::paste(this, SLOT(paste()), actionCollection());
 
-    QAction* selectAll = actionCollection()->addAction("select_all");
+    KAction* selectAll = actionCollection()->addAction("select_all");
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
     selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
     connect(selectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
-    QAction* invertSelection = actionCollection()->addAction("invert_selection");
+    KAction* invertSelection = actionCollection()->addAction("invert_selection");
     invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
     invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
@@ -1279,18 +1279,18 @@ void DolphinMainWindow::setupActions()
     showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
-    QAction* split = actionCollection()->addAction("split_view");
+    KAction* split = actionCollection()->addAction("split_view");
     split->setShortcut(Qt::Key_F10);
     updateSplitAction();
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
-    QAction* reload = actionCollection()->addAction("reload");
+    KAction* reload = actionCollection()->addAction("reload");
     reload->setText(i18nc("@action:inmenu View", "Reload"));
     reload->setShortcut(Qt::Key_F5);
     reload->setIcon(KIcon("view-refresh"));
     connect(reload, SIGNAL(triggered()), this, SLOT(reloadView()));
 
-    QAction* stop = actionCollection()->addAction("stop");
+    KAction* stop = actionCollection()->addAction("stop");
     stop->setText(i18nc("@action:inmenu View", "Stop"));
     stop->setIcon(KIcon("process-stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
@@ -1303,12 +1303,12 @@ void DolphinMainWindow::setupActions()
     showFullLocation->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(showFullLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
-    QAction* editLocation = actionCollection()->addAction("edit_location");
+    KAction* editLocation = actionCollection()->addAction("edit_location");
     editLocation->setText(i18nc("@action:inmenu Navigation Bar", "Edit Location"));
     editLocation->setShortcut(Qt::Key_F6);
     connect(editLocation, SIGNAL(triggered()), this, SLOT(editLocation()));
 
-    QAction* adjustViewProps = actionCollection()->addAction("view_properties");
+    KAction* adjustViewProps = actionCollection()->addAction("view_properties");
     adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(adjustViewProperties()));
 
@@ -1334,7 +1334,7 @@ void DolphinMainWindow::setupActions()
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
     connect(showFilterBar, SIGNAL(triggered()), this, SLOT(toggleFilterBarVisibility()));
 
-    QAction* compareFiles = actionCollection()->addAction("compare_files");
+    KAction* compareFiles = actionCollection()->addAction("compare_files");
     compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
     compareFiles->setIcon(KIcon("kompare"));
     compareFiles->setEnabled(false);
