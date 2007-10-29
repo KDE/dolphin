@@ -128,7 +128,7 @@ private:
         PermissionsInfo = 4,
         OwnerInfo = 8,
         GroupInfo = 16,
-        TypeInfo = 32,
+        TypeInfo = 32
     };
 
     bool m_changedProps;
