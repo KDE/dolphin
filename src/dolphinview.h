@@ -489,13 +489,11 @@ private slots:
     /**
      * Drops the URLs \a urls to the destination path \a destPath. If
      * the URLs are dropped above an item inside the destination path,
-     * the item is indicated by \a destItem. \a source
-     * indicates the widget where the dragging has been started from.
+     * the item is indicated by \a destItem.
      */
     void dropUrls(const KUrl::List& urls,
                   const KUrl& destPath,
-                  const KFileItem& destItem,
-                  QWidget* source);
+                  const KFileItem& destItem);
 
     /**
      * Drops the URLs \a urls at the

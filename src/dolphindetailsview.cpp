@@ -249,7 +249,11 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
         m_dragging = false;
     } else {
         m_dragging = true;
-        m_dropRect = visualRect(index);
+        if (itemForIndex(index).isDir()) {
+            m_dropRect = visualRect(index);
+        } else {
+            m_dropRect.setSize(QSize()); // set as invalid
+        }
         setDirtyRegion(m_dropRect);
     }
 }
@@ -260,13 +264,13 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
     if (!urls.isEmpty()) {
         event->acceptProposedAction();
         const QModelIndex index = indexAt(event->pos());
+        KFileItem item;
         if (index.isValid() && (index.column() == DolphinModel::Name)) {
-            const KFileItem item = itemForIndex(index);
-            m_controller->indicateDroppedUrls(urls,
-                                              m_controller->url(),
-                                              item,
-                                              event->source());
+            item = itemForIndex(index);
         }
+        m_controller->indicateDroppedUrls(urls,
+                                          m_controller->url(),
+                                          item);
     }
     QTreeView::dropEvent(event);
     m_dragging = false;

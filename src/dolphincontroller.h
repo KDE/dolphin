@@ -128,12 +128,10 @@ public:
      * @param urls      URLs that are dropped above a destination.
      * @param destPath  Path of the destination.
      * @param destItem  Destination item (can be null, see KFileItem::isNull()).
-     * @param source    Pointer to the view implementation which invoked this method.
      */
     void indicateDroppedUrls(const KUrl::List& urls,
                              const KUrl& destPath,
-                             const KFileItem& destItem,
-                             QWidget* source);
+                             const KFileItem& destItem);
 
     /**
      * Informs the abstract Dolphin view about a sorting change done inside
@@ -251,13 +249,11 @@ signals:
      * Is emitted if the URLs \a urls have been dropped to the destination
      * path \a destPath. If the URLs have been dropped above an item of
      * the destination path, the item is indicated by \a destItem
-     * (can be null, see KFileItem::isNull()). \a source indicates
-     * the widget where the dragging has been started from.
+     * (can be null, see KFileItem::isNull()).
      */
     void urlsDropped(const KUrl::List& urls,
                      const KUrl& destPath,
-                     const KFileItem& destItem,
-                     QWidget* source);
+                     const KFileItem& destItem);
 
     /**
      * Is emitted if the sorting has been changed to \a sorting by

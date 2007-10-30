@@ -222,7 +222,11 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
     setDirtyRegion(m_dropRect);
-    m_dropRect = visualRect(index);
+    if (itemForIndex(index).isDir()) {
+        m_dropRect = visualRect(index);
+    } else {
+        m_dropRect.setSize(QSize()); // set as invalid
+    }
     setDirtyRegion(m_dropRect);
 }
 
@@ -231,14 +235,11 @@ void DolphinColumnWidget::dropEvent(QDropEvent* event)
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty()) {
         const QModelIndex index = indexAt(event->pos());
-        if (index.isValid()) {
-            const KFileItem item = itemForIndex(index);
-            m_view->m_controller->indicateDroppedUrls(urls,
-                                                      url(),
-                                                      item,
-                                                      event->source());
-            event->acceptProposedAction();
-        }
+        const KFileItem item = itemForIndex(index);
+        m_view->m_controller->indicateDroppedUrls(urls,
+                                                  url(),
+                                                  item);
+        event->acceptProposedAction();
     }
     QListView::dropEvent(event);
     m_dragging = false;

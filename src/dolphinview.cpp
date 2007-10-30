@@ -103,8 +103,8 @@ DolphinView::DolphinView(QWidget* parent,
 
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
-    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&, const KFileItem&, QWidget*)),
-            this, SLOT(dropUrls(const KUrl::List&, const KUrl&, const KFileItem&, QWidget*)));
+    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&, const KFileItem&)),
+            this, SLOT(dropUrls(const KUrl::List&, const KUrl&, const KFileItem&)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
@@ -730,24 +730,14 @@ void DolphinView::openContextMenu(const QPoint& pos)
 
 void DolphinView::dropUrls(const KUrl::List& urls,
                            const KUrl& destPath,
-                           const KFileItem& destItem,
-                           QWidget* source)
+                           const KFileItem& destItem)
 {
-    bool dropAboveDir = false;
-    if (!destItem.isNull()) {
-        dropAboveDir = destItem.isDir();
-        if (!dropAboveDir) {
-            // the dropping is done above a file
-            return;
-        }
-    } else if (source == itemView()) {
-        // the dropping is done into the same viewport where the dragging
-        // has been started
-        return;
+    const KUrl& destination = !destItem.isNull() && destItem.isDir() ?
+                              destItem.url() : destPath;
+    const KUrl sourceDir = KUrl(urls.first().directory());
+    if (sourceDir != destination) {
+        dropUrls(urls, destination);
     }
-
-    const KUrl& destination = dropAboveDir ? destItem.url() : destPath;
-    dropUrls(urls, destination);
 }
 
 void DolphinView::dropUrls(const KUrl::List& urls,

@@ -62,10 +62,9 @@ void DolphinController::requestActivation()
 
 void DolphinController::indicateDroppedUrls(const KUrl::List& urls,
                                             const KUrl& destPath,
-                                            const KFileItem& destItem,
-                                            QWidget* source)
+                                            const KFileItem& destItem)
 {
-    emit urlsDropped(urls, destPath, destItem, source);
+    emit urlsDropped(urls, destPath, destItem);
 }
 
 
