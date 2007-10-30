@@ -61,7 +61,6 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                                     "AdditionalInfoDialog");
     restoreDialogSize(dialogConfig);
-
 }
 
 AdditionalInfoDialog::~AdditionalInfoDialog()
@@ -69,7 +68,6 @@ AdditionalInfoDialog::~AdditionalInfoDialog()
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                               "AdditionalInfoDialog");
     saveDialogSize(dialogConfig, KConfigBase::Persistent);
-
 }
 
 KFileItemDelegate::InformationList AdditionalInfoDialog::additionalInfo() const
