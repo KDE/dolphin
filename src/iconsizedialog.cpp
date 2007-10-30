@@ -119,10 +119,17 @@ IconSizeDialog::IconSizeDialog(QWidget* parent) :
     topLayout->addWidget(previewSizeBox);
     main->setLayout(topLayout);
     setMainWidget(main);
+
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+                                    "IconSizeDialog");
+    restoreDialogSize(dialogConfig);
 }
 
 IconSizeDialog::~IconSizeDialog()
 {
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+                              "IconSizeDialog");
+    saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 void IconSizeDialog::slotButtonClicked(int button)
