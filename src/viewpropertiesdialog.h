@@ -25,6 +25,7 @@
 
 class QCheckBox;
 class QComboBox;
+class QPushButton;
 class QRadioButton;
 class ViewProperties;
 class DolphinView;
@@ -51,23 +52,16 @@ private slots:
     void slotSortingChanged(int index);
     void slotSortOrderChanged(int index);
     void slotCategorizedSortingChanged();
-    void slotAdditionalInfoChanged(int index);
     void slotShowPreviewChanged();
     void slotShowHiddenFilesChanged();
     void markAsDirty();
+    void configureAdditionalInfo();
 
 private:
+    void applyViewProperties();
     void loadSettings();
 
 private:
-    enum AdditionalInfoValues
-    {
-        NoInfo   = 0,
-        TypeInfo = 1,
-        SizeInfo = 2,
-        DateInfo = 4
-    };
-
     bool m_isDirty;
     DolphinView* m_dolphinView;
     ViewProperties* m_viewProps;
@@ -75,16 +69,14 @@ private:
     QComboBox* m_viewMode;
     QComboBox* m_sortOrder;
     QComboBox* m_sorting;
-    QComboBox* m_additionalInfo;
     QCheckBox* m_showPreview;
     QCheckBox* m_showInGroups;
     QCheckBox* m_showHiddenFiles;
+    QPushButton* m_additionalInfo;
     QRadioButton* m_applyToCurrentFolder;
     QRadioButton* m_applyToSubFolders;
     QRadioButton* m_applyToAllFolders;
     QCheckBox* m_useAsDefault;
-
-    void applyViewProperties();
 };
 
 #endif

@@ -69,6 +69,7 @@ install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 ##########################################
 
 set(dolphin_SRCS
+   additionalinfodialog.cpp
    applyviewpropsjob.cpp
    columnviewsettingspage.cpp
    detailsviewsettingspage.cpp

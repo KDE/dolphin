@@ -19,12 +19,14 @@
  ***************************************************************************/
 
 #include "viewpropertiesdialog.h"
-#include "viewpropsprogressinfo.h"
+
+#include "additionalinfodialog.h"
 #include "dolphinview.h"
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphin_generalsettings.h"
 #include "viewproperties.h"
+#include "viewpropsprogressinfo.h"
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
@@ -59,10 +61,10 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode(0),
     m_sortOrder(0),
     m_sorting(0),
-    m_additionalInfo(0),
     m_showPreview(0),
     m_showInGroups(0),
     m_showHiddenFiles(0),
+    m_additionalInfo(0),
     m_applyToCurrentFolder(0),
     m_applyToSubFolders(0),
     m_useAsDefault(0)
@@ -120,39 +122,23 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortingLayout->addWidget(m_sorting);
     sortingBox->setLayout(sortingLayout);
 
-    QLabel* additionalInfoLabel = new QLabel(i18nc("@label:listbox", "Additional information:"), propsBox);
-    m_additionalInfo = new QComboBox(propsBox);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "No Information"), NoInfo);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "Type"), TypeInfo);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "Size"), SizeInfo);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "Date"), DateInfo);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "Type, Size"), TypeInfo | SizeInfo);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "Type, Date"), TypeInfo | DateInfo);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "Size, Date"), SizeInfo | DateInfo);
-    m_additionalInfo->addItem(i18nc("@item:inlistbox Additional info",
-                                    "Type, Size, Date"),TypeInfo | SizeInfo | DateInfo);
-
     m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
     m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in Groups"), propsBox);
     m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"), propsBox);
+
+    m_additionalInfo = new QPushButton(i18nc("@action:button", "Additional Information"), propsBox);
+    connect(m_additionalInfo, SIGNAL(clicked()),
+            this, SLOT(configureAdditionalInfo()));
 
     QGridLayout* propsBoxLayout = new QGridLayout(propsBox);
     propsBoxLayout->addWidget(viewModeLabel, 0, 0);
     propsBoxLayout->addWidget(m_viewMode, 0, 1);
     propsBoxLayout->addWidget(sortingLabel, 1, 0);
     propsBoxLayout->addWidget(sortingBox, 1, 1);
-    propsBoxLayout->addWidget(additionalInfoLabel, 2, 0);
-    propsBoxLayout->addWidget(m_additionalInfo, 2, 1);
-    propsBoxLayout->addWidget(m_showPreview, 3, 0);
-    propsBoxLayout->addWidget(m_showInGroups, 4, 0);
-    propsBoxLayout->addWidget(m_showHiddenFiles, 5, 0);
+    propsBoxLayout->addWidget(m_showPreview, 2, 0);
+    propsBoxLayout->addWidget(m_showInGroups, 3, 0);
+    propsBoxLayout->addWidget(m_showHiddenFiles, 4, 0);
+    propsBoxLayout->addWidget(m_additionalInfo, 5, 0);
 
     topLayout->addWidget(propsBox);
 
@@ -250,12 +236,9 @@ void ViewPropertiesDialog::slotViewModeChanged(int index)
     m_viewProps->setViewMode(static_cast<DolphinView::Mode>(index));
     m_isDirty = true;
 
-    const bool iconsViewEnabled = (m_viewProps->viewMode() == DolphinView::IconsView);
-    m_showInGroups->setEnabled(iconsViewEnabled);
-
-    // TODO: a different approach is required now due to having a lot more additional infos
-    m_additionalInfo->setEnabled(false);
-    //m_additionalInfo->setEnabled(iconsViewEnabled);
+    const DolphinView::Mode mode = m_viewProps->viewMode();
+    m_showInGroups->setEnabled(mode == DolphinView::IconsView);
+    m_additionalInfo->setEnabled(mode != DolphinView::ColumnView);
 }
 
 void ViewPropertiesDialog::slotSortingChanged(int index)
@@ -278,25 +261,6 @@ void ViewPropertiesDialog::slotCategorizedSortingChanged()
     m_isDirty = true;
 }
 
-void ViewPropertiesDialog::slotAdditionalInfoChanged(int index)
-{
-    const int info = m_additionalInfo->itemData(index).toInt();
-
-    KFileItemDelegate::InformationList list;
-    if (info & TypeInfo) {
-        list.append(KFileItemDelegate::FriendlyMimeType);
-    }
-    if (info & SizeInfo) {
-        list.append(KFileItemDelegate::Size);
-    }
-    if (info & DateInfo) {
-        list.append(KFileItemDelegate::ModificationTime);
-    }
-
-    m_viewProps->setAdditionalInfo(list);
-    m_isDirty = true;
-}
-
 void ViewPropertiesDialog::slotShowPreviewChanged()
 {
     const bool show = m_showPreview->isChecked();
@@ -314,6 +278,16 @@ void ViewPropertiesDialog::slotShowHiddenFilesChanged()
 void ViewPropertiesDialog::markAsDirty()
 {
     m_isDirty = true;
+}
+
+void ViewPropertiesDialog::configureAdditionalInfo()
+{
+    const KFileItemDelegate::InformationList info = m_viewProps->additionalInfo();
+    AdditionalInfoDialog dialog(this, info);
+    if (dialog.exec() == QDialog::Accepted) {
+        m_viewProps->setAdditionalInfo(dialog.additionalInfo());
+        m_isDirty = true;
+    }
 }
 
 void ViewPropertiesDialog::applyViewProperties()
@@ -385,43 +359,19 @@ void ViewPropertiesDialog::loadSettings()
     // load view mode
     const int index = static_cast<int>(m_viewProps->viewMode());
     m_viewMode->setCurrentIndex(index);
-    const bool iconsViewEnabled = (index == DolphinView::IconsView);
 
     // load sort order and sorting
     const int sortOrderIndex = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIndex);
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
-    // load additional info
-    const KFileItemDelegate::InformationList list = m_viewProps->additionalInfo();
-    int info = NoInfo;
-    foreach (KFileItemDelegate::Information currentInfo, list) {
-        switch (currentInfo) {
-        case KFileItemDelegate::FriendlyMimeType:
-            info = info | TypeInfo;
-            break;
-        case KFileItemDelegate::Size:
-            info = info | SizeInfo;
-            break;
-        case KFileItemDelegate::ModificationTime:
-            info = info | DateInfo;
-            break;
-        default:
-            break;
-        }
-    }
-
-    const int addInfoIndex = m_additionalInfo->findData(info);
-    m_additionalInfo->setCurrentIndex(addInfoIndex);
-    // TODO: a different approach is required now due to having a lot more additional infos
-    m_additionalInfo->setEnabled(false);
-    //m_additionalInfo->setEnabled(iconsViewEnabled);
+    m_additionalInfo->setEnabled(index != DolphinView::ColumnView);
 
     // load show preview, show in groups and show hidden files settings
     m_showPreview->setChecked(m_viewProps->showPreview());
 
     m_showInGroups->setChecked(m_viewProps->categorizedSorting());
-    m_showInGroups->setEnabled(iconsViewEnabled); // only the icons view supports categorized sorting
+    m_showInGroups->setEnabled(index == DolphinView::IconsView); // only the icons view supports categorized sorting
 
     m_showHiddenFiles->setChecked(m_viewProps->showHiddenFiles());
 }
