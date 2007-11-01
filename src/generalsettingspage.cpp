@@ -137,7 +137,8 @@ void GeneralSettingsPage::applySettings()
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
 
-    KConfigGroup trashConfig(KGlobal::config(), "Trash");
+    KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
+    KConfigGroup trashConfig(konqConfig, "Trash");
     trashConfig.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
     trashConfig.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
     trashConfig.sync();
@@ -185,7 +186,8 @@ void GeneralSettingsPage::loadSettings()
     m_editableUrl->setChecked(settings->editableUrl());
     m_filterBar->setChecked(settings->filterBar());
 
-    const KConfigGroup trashConfig(KGlobal::config(), "Trash");
+    KSharedConfig::Ptr konqConfig = KSharedConfig::openConfig("konquerorrc", KConfig::IncludeGlobals);
+    const KConfigGroup trashConfig(konqConfig, "Trash");
     m_confirmMoveToTrash->setChecked(trashConfig.readEntry("ConfirmTrash", false));
     m_confirmDelete->setChecked(trashConfig.readEntry("ConfirmDelete", true));
 
