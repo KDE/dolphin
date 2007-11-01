@@ -339,7 +339,7 @@ void ViewPropertiesDialog::applyViewProperties()
 
     m_isDirty = false;
 
-    if (m_useAsDefault->isChecked()) {
+    if (m_useAsDefault && m_useAsDefault->isChecked()) {
         // For directories where no .directory file is available, the .directory
         // file stored for the global view properties is used as fallback. To update
         // this file we temporary turn on the global view properties mode.
