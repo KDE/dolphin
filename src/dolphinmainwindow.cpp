@@ -1144,7 +1144,12 @@ void DolphinMainWindow::setupActions()
                           SLOT(undo()),
                           actionCollection());
 
-    KStandardAction::cut(this, SLOT(cut()), actionCollection());
+    //Need to remove shift+del from cut action, else the shortcut for deletejob
+    //doesn't work
+    KAction* cut = KStandardAction::cut(this, SLOT(cut()), actionCollection());
+    KShortcut cutShortcut = cut->shortcut();
+    cutShortcut.remove(Qt::SHIFT + Qt::Key_Delete, KShortcut::KeepEmpty);
+    cut->setShortcut(cutShortcut);
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
     KStandardAction::paste(this, SLOT(paste()), actionCollection());
 
