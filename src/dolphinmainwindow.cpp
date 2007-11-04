@@ -1333,7 +1333,7 @@ void DolphinMainWindow::setupActions()
     QAction* findFile = actionCollection()->addAction("find_file");
     findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
     findFile->setShortcut(Qt::CTRL | Qt::Key_F);
-    findFile->setIcon(KIcon("file-find"));
+    findFile->setIcon(KIcon("edit-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(findFile()));
 
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
