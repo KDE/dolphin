@@ -917,7 +917,9 @@ void DolphinMainWindow::toggleEditLocation()
 
 void DolphinMainWindow::editLocation()
 {
-    m_activeViewContainer->urlNavigator()->setUrlEditable(true);
+    KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
+    navigator->setUrlEditable(true);
+    navigator->setFocus();
 }
 
 void DolphinMainWindow::adjustViewProperties()
