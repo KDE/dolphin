@@ -24,6 +24,7 @@
 
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
+#include <kicon.h>
 #include <klocale.h>
 #include <kmainwindow.h>
 #include <kdebug.h>
@@ -74,6 +75,9 @@ int main(int argc, char **argv)
     }
 
     DolphinApplication app;
+    // the .desktop file is not taken into account when launching manually, so
+    // set the icon precautionally:
+    QApplication::setWindowIcon(KIcon("system-file-manager"));
     KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
 
     if (false /*app.isSessionRestored()*/) {
