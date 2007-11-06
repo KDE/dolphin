@@ -359,7 +359,7 @@ void DolphinDetailsView::closeEvent(QCloseEvent* event)
         KFileItemDelegate::InformationList info;
         info.append(KFileItemDelegate::NoInformation);
         m_controller->indicateAdditionalInfoChange(info);
-        m_clearAdditionalInfo = true;
+        m_clearAdditionalInfo = false;
     }
     QTreeView::closeEvent(event);
 }
