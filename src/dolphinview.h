@@ -566,6 +566,8 @@ private:
      */
     void createView();
 
+    void deleteView();
+
     /**
      * Returns a pointer to the currently used item view, which is either
      * a ListView or a TreeView.

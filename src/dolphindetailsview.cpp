@@ -43,6 +43,7 @@
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
     m_controller(controller),
+    m_clearAdditionalInfo(false),
     m_dragging(false),
     m_showElasticBand(false),
     m_elasticBandOrigin(),
@@ -349,6 +350,20 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
     }
 }
 
+void DolphinDetailsView::closeEvent(QCloseEvent* event)
+{
+    if (m_clearAdditionalInfo) {
+        disconnect(m_controller->dolphinView(), SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
+                this, SLOT(updateColumnVisibility()));
+
+        KFileItemDelegate::InformationList info;
+        info.append(KFileItemDelegate::NoInformation);
+        m_controller->indicateAdditionalInfoChange(info);
+        m_clearAdditionalInfo = true;
+    }
+    QTreeView::closeEvent(event);
+}
+
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
     QHeaderView* headerView = header();
@@ -457,17 +472,7 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
         const int columnIndex = activatedAction->data().toInt();
 
         KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
-        KFileItemDelegate::Information info = KFileItemDelegate::NoInformation;
-        switch (columnIndex) {
-        case DolphinModel::Size:         info = KFileItemDelegate::Size; break;
-        case DolphinModel::ModifiedTime: info = KFileItemDelegate::ModificationTime; break;
-        case DolphinModel::Permissions:  info = KFileItemDelegate::Permissions; break;
-        case DolphinModel::Owner:        info = KFileItemDelegate::Owner; break;
-        case DolphinModel::Group:        info = KFileItemDelegate::OwnerAndGroup; break;
-        case DolphinModel::Type:         info = KFileItemDelegate::FriendlyMimeType; break;
-        default: break;
-        }
-
+        const KFileItemDelegate::Information info = infoForColumn(columnIndex);
         if (show) {
             Q_ASSERT(!list.contains(info));
             list.append(info);
@@ -485,7 +490,10 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
 void DolphinDetailsView::updateColumnVisibility()
 {
     KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
-    if (list.isEmpty() || list.contains(KFileItemDelegate::NoInformation)) {
+    const bool useDefaultColumns = !isVisible() &&
+                                   (list.isEmpty() ||
+                                    list.contains(KFileItemDelegate::NoInformation));
+    if (useDefaultColumns) {
         // Using the details view without any additional information (-> additional column)
         // makes no sense and leads to a usability problem as no viewport area is available
         // anymore. Hence as fallback provide at least a size and date column.
@@ -493,14 +501,17 @@ void DolphinDetailsView::updateColumnVisibility()
         list.append(KFileItemDelegate::Size);
         list.append(KFileItemDelegate::ModificationTime);
         m_controller->indicateAdditionalInfoChange(list);
+        m_clearAdditionalInfo = true;
     }
 
-    setColumnHidden(DolphinModel::Size,         !list.contains(KFileItemDelegate::Size));
-    setColumnHidden(DolphinModel::ModifiedTime, !list.contains(KFileItemDelegate::ModificationTime));
-    setColumnHidden(DolphinModel::Permissions,  !list.contains(KFileItemDelegate::Permissions));
-    setColumnHidden(DolphinModel::Owner,        !list.contains(KFileItemDelegate::Owner));
-    setColumnHidden(DolphinModel::Group,        !list.contains(KFileItemDelegate::OwnerAndGroup));
-    setColumnHidden(DolphinModel::Type,         !list.contains(KFileItemDelegate::FriendlyMimeType));
+    for (int i = DolphinModel::Size; i <= DolphinModel::Type; ++i) {
+        const KFileItemDelegate::Information info = infoForColumn(i);
+        const bool hide = !list.contains(info);
+        if (isColumnHidden(i) != hide) {
+            setColumnHidden(i, hide);
+            m_clearAdditionalInfo = false;
+        }
+    }
 }
 
 bool DolphinDetailsView::isZoomInPossible() const
@@ -551,6 +562,23 @@ KFileItem DolphinDetailsView::itemForIndex(const QModelIndex& index) const
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
     const QModelIndex dirIndex = proxyModel->mapToSource(index);
     return dirModel->itemForIndex(dirIndex);
+}
+
+KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex) const
+{
+    KFileItemDelegate::Information info = KFileItemDelegate::NoInformation;
+
+    switch (columnIndex) {
+    case DolphinModel::Size:         info = KFileItemDelegate::Size; break;
+    case DolphinModel::ModifiedTime: info = KFileItemDelegate::ModificationTime; break;
+    case DolphinModel::Permissions:  info = KFileItemDelegate::Permissions; break;
+    case DolphinModel::Owner:        info = KFileItemDelegate::Owner; break;
+    case DolphinModel::Group:        info = KFileItemDelegate::OwnerAndGroup; break;
+    case DolphinModel::Type:         info = KFileItemDelegate::FriendlyMimeType; break;
+    default: break;
+    }
+
+    return info;
 }
 
 #include "dolphindetailsview.moc"

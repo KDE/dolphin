@@ -194,6 +194,11 @@ void DolphinView::setMode(Mode mode)
         m_controller->setUrl(root);
     }
 
+    deleteView();
+
+    // It is important to read the view properties _after_ deleting the view,
+    // as e. g. the detail view might adjust the additional information properties
+    // after getting closed:
     const KUrl viewPropsUrl = viewPropertiesUrl();
     ViewProperties props(viewPropsUrl);
     props.setViewMode(m_mode);
@@ -770,6 +775,7 @@ void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList&
 {
     ViewProperties props(viewPropertiesUrl());
     props.setAdditionalInfo(info);
+    props.save();
 
     m_fileItemDelegate->setShowInformation(info);
 
@@ -826,24 +832,12 @@ void DolphinView::clearHoverInformation()
 
 void DolphinView::createView()
 {
-    // delete current view
-    QAbstractItemView* view = itemView();
-    if (view != 0) {
-        m_topLayout->removeWidget(view);
-        view->close();
-        view->deleteLater();
-        view = 0;
-        m_iconsView = 0;
-        m_detailsView = 0;
-        m_columnView = 0;
-        m_fileItemDelegate = 0;
-    }
-
+    deleteView();
     Q_ASSERT(m_iconsView == 0);
     Q_ASSERT(m_detailsView == 0);
     Q_ASSERT(m_columnView == 0);
 
-    // ... and recreate it representing the current mode
+    QAbstractItemView* view = 0;
     switch (m_mode) {
     case IconsView: {
         m_iconsView = new DolphinIconsView(this, m_controller);
@@ -879,6 +873,21 @@ void DolphinView::createView()
             this, SLOT(emitContentsMoved()));
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
+}
+
+void DolphinView::deleteView()
+{
+    QAbstractItemView* view = itemView();
+    if (view != 0) {
+        m_topLayout->removeWidget(view);
+        view->close();
+        view->deleteLater();
+        view = 0;
+        m_iconsView = 0;
+        m_detailsView = 0;
+        m_columnView = 0;
+        m_fileItemDelegate = 0;
+    }
 }
 
 QAbstractItemView* DolphinView::itemView() const
