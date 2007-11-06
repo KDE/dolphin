@@ -106,10 +106,17 @@ void DolphinContextMenu::openTrashContextMenu()
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     popup->addAction(emptyTrashAction);
 
+    popup->addSeparator();
+
+    QAction* addToPlacesAction = popup->addAction(KIcon("folder-bookmarks"),
+                                                  i18nc("@action:inmenu Add current folder to places", "Add to Places"));
+    popup->addSeparator();
+
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
 
-    if (popup->exec(QCursor::pos()) == emptyTrashAction) {
+    QAction *action = popup->exec(QCursor::pos());
+    if (action == emptyTrashAction) {
         const QString text(i18nc("@info", "Do you really want to empty the Trash? All items will get deleted."));
         const bool del = KMessageBox::warningContinueCancel(m_mainWindow,
                                                             text,
@@ -119,6 +126,11 @@ void DolphinContextMenu::openTrashContextMenu()
                                                            ) == KMessageBox::Continue;
         if (del) {
             KonqOperations::emptyTrash(m_mainWindow);
+        }
+    } else if (action == addToPlacesAction) {
+        const KUrl& url = m_mainWindow->activeViewContainer()->url();
+        if (url.isValid()) {
+            DolphinSettings::instance().placesModel()->addPlace(i18n("Trash"), url);
         }
     }
 
