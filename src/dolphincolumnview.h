@@ -83,13 +83,13 @@ public:
      */
     QString nameFilter() const;
 
-public slots:
     /**
      * Shows the column which represents the URL \a url. If the column
      * is already shown, it gets activated, otherwise it will be created.
      */
     void showColumn(const KUrl& url);
 
+public slots:
     /** @see QAbstractItemView::selectAll() */
     virtual void selectAll();
 
