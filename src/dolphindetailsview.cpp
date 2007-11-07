@@ -134,13 +134,8 @@ DolphinDetailsView::~DolphinDetailsView()
 bool DolphinDetailsView::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
-        // Assure that by respecting the available width that:
-        // - the 'Name' column is stretched as large as possible
-        // - the remaining columns are as small as possible
         QHeaderView* headerView = header();
-        headerView->setStretchLastSection(false);
-        headerView->setResizeMode(QHeaderView::ResizeToContents);
-        headerView->setResizeMode(0, QHeaderView::Stretch);
+        headerView->setResizeMode(QHeaderView::Fixed);
         headerView->setMovable(false);
 
         updateColumnVisibility();
@@ -320,34 +315,7 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 {
     QTreeView::resizeEvent(event);
-
-    // assure that the width of the name-column does not get too small
-    const int minWidth = 120;
-    QHeaderView* headerView = header();
-    bool useFixedWidth = (headerView->sectionSize(KDirModel::Name) <= minWidth)
-                         && (headerView->resizeMode(0) != QHeaderView::Fixed);
-    if (useFixedWidth) {
-        // the current width of the name-column is too small, hence
-        // use a fixed size
-        headerView->setResizeMode(QHeaderView::Fixed);
-        headerView->setResizeMode(0, QHeaderView::Fixed);
-        headerView->resizeSection(KDirModel::Name, minWidth);
-    } else if (headerView->resizeMode(0) != QHeaderView::Stretch) {
-        // check whether there is enough available viewport width
-        // to automatically resize the columns
-        const int availableWidth = viewport()->width();
-
-        int headerWidth = 0;
-        const int count = headerView->count();
-        for (int i = 0; i < count; ++i) {
-            headerWidth += headerView->sectionSize(i);
-        }
-
-        if (headerWidth < availableWidth) {
-            headerView->setResizeMode(QHeaderView::ResizeToContents);
-            headerView->setResizeMode(0, QHeaderView::Stretch);
-        }
-    }
+    resizeColumns();
 }
 
 void DolphinDetailsView::closeEvent(QCloseEvent* event)
@@ -512,6 +480,8 @@ void DolphinDetailsView::updateColumnVisibility()
             m_clearAdditionalInfo = false;
         }
     }
+
+    resizeColumns();
 }
 
 bool DolphinDetailsView::isZoomInPossible() const
@@ -579,6 +549,42 @@ KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex
     }
 
     return info;
+}
+
+void DolphinDetailsView::resizeColumns()
+{
+    // Using the resize mode QHeaderView::ResizeToContents is too slow (it takes
+    // around 3 seconds for each (!) resize operation when having > 10000 items).
+    // This gets a problem especially when opening large directories, where several
+    // resize operations are received for showing the currently available items during
+    // loading (the application hangs around 20 seconds when loading > 10000 items).
+
+    QHeaderView* headerView = header();
+    QFontMetrics fontMetrics(viewport()->font());
+
+    int columnWidth[KDirModel::ColumnCount];
+    columnWidth[KDirModel::Size] = fontMetrics.width("00000 Items");
+    columnWidth[KDirModel::ModifiedTime] = fontMetrics.width("0000-00-00 00:00");
+    columnWidth[KDirModel::Permissions] = fontMetrics.width("xxxxxxxxxx");
+    columnWidth[KDirModel::Owner] = fontMetrics.width("xxxxxxxxxx");
+    columnWidth[KDirModel::Group] = fontMetrics.width("xxxxxxxxxx");
+    columnWidth[KDirModel::Type] = fontMetrics.width("XXXX Xxxxxxx");
+
+    int requiredWidth = 0;
+    for (int i = KDirModel::Size; i <= KDirModel::Type; ++i) {
+        if (!isColumnHidden(i)) {
+            columnWidth[i] += 20; // provide a default gap
+            requiredWidth += columnWidth[i];
+            headerView->resizeSection(i, columnWidth[i]);
+        }
+    }
+
+    // resize the name column in a way that the whole available width is used
+    columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
+    if (columnWidth[KDirModel::Name] < 120) {
+        columnWidth[KDirModel::Name] = 120;
+    }
+    headerView->resizeSection(KDirModel::Name, columnWidth[KDirModel::Name]);
 }
 
 #include "dolphindetailsview.moc"

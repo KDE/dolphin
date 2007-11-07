@@ -138,6 +138,11 @@ private:
 
     KFileItemDelegate::Information infoForColumn(int columnIndex) const;
 
+    /**
+     * Resizes all columns in a way to use the whole available width of the view.
+     */
+    void resizeColumns();
+
 private:
     DolphinController* m_controller;
     QStyleOptionViewItem m_viewOptions;
