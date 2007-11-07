@@ -326,6 +326,7 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
     selModel->select(selected, QItemSelectionModel::Select);
     selModel->select(deselected, QItemSelectionModel::Deselect);
 }
+
 void DolphinColumnWidget::triggerItem(const QModelIndex& index)
 {
     const KFileItem item = itemForIndex(index);
