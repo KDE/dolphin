@@ -32,7 +32,7 @@
                  check 'void IconsViewSettingsPage::applySettings()' as reference (iconsviewsettingspage.cpp):
                  itemHeight += fontHeight * numberOfTextlines + 16;
             /-->
-            <default code="true">KIconLoader::SizeMedium + (QFontMetrics(KGlobalSettings::generalFont()).height() * 2) + 16</default>
+            <default code="true">KIconLoader::SizeMedium + QFontMetrics(KGlobalSettings::generalFont()).height() + 16</default>
         </entry>
         <entry name="ItemWidth" type="Int">
             <label context="@label">Item width</label>
@@ -52,7 +52,7 @@
         </entry>
         <entry name="NumberOfTextlines" type="Int">
             <label context="@label">Number of textlines</label>
-            <default>2</default>
+            <default>1</default>
         </entry>
         <entry name="PreviewSize" type="Int">
             <label context="@label">Preview size</label>
