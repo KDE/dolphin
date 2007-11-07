@@ -80,6 +80,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_infoLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     m_infoLabel->setTextFormat(Qt::RichText);
     m_infoLabel->setWordWrap(true);
+    m_infoLabel->setFont(KGlobalSettings::smallestReadableFont());
 
     if (MetaDataWidget::metaDataAvailable()) {
         m_metadataWidget = new MetaDataWidget(this);
@@ -90,8 +91,8 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator(this));
     layout->addWidget(m_infoLabel);
-    layout->addWidget(new KSeparator(this));
-    if (m_metadataWidget) {
+    if (m_metadataWidget != 0) {
+        layout->addWidget(new KSeparator(this));
         layout->addWidget(m_metadataWidget);
     }
     // ensure that widgets in the information side bar are aligned towards the top
