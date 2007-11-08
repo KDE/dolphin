@@ -30,8 +30,7 @@
 #include <kicon.h>
 
 DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
-    KPageDialog(),
-    m_mainWindow(mainWindow)
+    KPageDialog(mainWindow)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(512, minSize.height()));

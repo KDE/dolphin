@@ -50,7 +50,6 @@ private:
     void restoreDefaults();
 
 private:
-    DolphinMainWindow* m_mainWindow;
     GeneralSettingsPage* m_generalSettingsPage;
     ViewSettingsPage* m_viewSettingsPage;
 };

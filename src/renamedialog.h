@@ -53,7 +53,7 @@ class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public KDialog
     Q_OBJECT
 
 public:
-    explicit RenameDialog(const KFileItemList& items);
+    explicit RenameDialog(QWidget *parent, const KFileItemList& items);
     virtual ~RenameDialog();
 
     /**

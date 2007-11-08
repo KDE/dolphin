@@ -26,8 +26,8 @@
 #include <QtGui/QLabel>
 #include <QtGui/QBoxLayout>
 
-RenameDialog::RenameDialog(const KFileItemList& items) :
-    KDialog(),
+RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
+    KDialog(parent),
     m_renameOneItem(false)
 {
     const QSize minSize = minimumSize();

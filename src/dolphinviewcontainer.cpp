@@ -191,7 +191,7 @@ void DolphinViewContainer::renameSelectedItems()
     if (items.count() > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
-        RenameDialog dialog(items);
+        RenameDialog dialog(this, items);
         if (dialog.exec() == QDialog::Rejected) {
             return;
         }
@@ -236,7 +236,7 @@ void DolphinViewContainer::renameSelectedItems()
         // TODO: Think about using KFileItemDelegate as soon as it supports editing.
         // Currently the RenameDialog is used, but I'm not sure whether inline renaming
         // is a benefit for the user at all -> let's wait for some input first...
-        RenameDialog dialog(items);
+        RenameDialog dialog(this, items);
         if (dialog.exec() == QDialog::Rejected) {
             return;
         }
