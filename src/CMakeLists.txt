@@ -46,7 +46,11 @@ endif (Nepomuk_FOUND)
 
 
 set_target_properties(dolphinprivate PROPERTIES VERSION 1.0.0 SOVERSION 1 )
-install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR} )
+install(TARGETS dolphinprivate 
+        RUNTIME DESTINATION ${BIN_INSTALL_DIR}
+        LIBRARY DESTINATION ${LIB_INSTALL_DIR}
+        ARCHIVE DESTINATION ${LIB_INSTALL_DIR}
+)
 
 
 ##########################################
