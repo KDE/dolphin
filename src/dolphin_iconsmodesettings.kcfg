@@ -30,9 +30,9 @@
             <label context="@label">Item height</label>
             <!--
                  check 'void IconsViewSettingsPage::applySettings()' as reference (iconsviewsettingspage.cpp):
-                 itemHeight += fontHeight * numberOfTextlines + 16;
+                 itemHeight += fontHeight * numberOfTextlines + 10;
             /-->
-            <default code="true">KIconLoader::SizeMedium + QFontMetrics(KGlobalSettings::generalFont()).height() + 16</default>
+            <default code="true">KIconLoader::SizeMedium + QFontMetrics(KGlobalSettings::generalFont()).height() + 10</default>
         </entry>
         <entry name="ItemWidth" type="Int">
             <label context="@label">Item width</label>

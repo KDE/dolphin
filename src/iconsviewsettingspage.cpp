@@ -145,7 +145,7 @@ void IconsViewSettingsPage::applySettings()
     const int textSizeIndex = m_textWidthBox->currentIndex();
     if (arrangement == QListView::TopToBottom) {
         itemWidth += TopToBottomBase + textSizeIndex * TopToBottomInc;
-        itemHeight += fontHeight * numberOfTextlines + 16;
+        itemHeight += fontHeight * numberOfTextlines + 10;
     } else {
         itemWidth += LeftToRightBase + textSizeIndex * LeftToRightInc;
     }
