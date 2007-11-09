@@ -5,7 +5,6 @@ Name[ar]=الدولفين
 Name[ne]=डल्फिन
 Name[pa]=ਡਾਲਫਿਨ
 Name[sr]=Делфин
-Name[sr@latin]=Delfin
 Name[uk]=Дельфін
 Name[x-test]=xxDolphinxx
 Exec=dolphin %i -caption "%c"
