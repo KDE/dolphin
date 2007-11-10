@@ -29,7 +29,6 @@ class KDirLister;
 class DolphinView;
 class QLineEdit;
 class KAboutData;
-namespace KParts { class ReadOnlyPart; }
 
 class DolphinPart : public KParts::ReadOnlyPart
 {
