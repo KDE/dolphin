@@ -189,7 +189,7 @@ void InfoSidebarPage::showItemInfo()
     const int itemCount = selectedItems.count();
     if (itemCount > 1) {
         KIconLoader iconLoader;
-        QPixmap icon = iconLoader.loadIcon("exec",
+        QPixmap icon = iconLoader.loadIcon("system-run",
                                            KIconLoader::NoGroup,
                                            KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);

@@ -43,7 +43,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
     KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage,
                                                     i18nc("@title:group", "General"));
-    generalSettingsFrame->setIcon(KIcon("exec"));
+    generalSettingsFrame->setIcon(KIcon("system-run"));
 
     m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
     KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage,
