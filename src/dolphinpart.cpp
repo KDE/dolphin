@@ -93,6 +93,9 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     // TODO provide these actions in the menu, merged with the existing view-mode-actions somehow
     // [Q_PROPERTY introspection?]
 
+    // TODO sort_by_* actions
+    // TODO show_*_info actions
+
     // TODO connect to urlsDropped
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
@@ -137,14 +140,14 @@ KAboutData* DolphinPart::createAboutData()
 
 bool DolphinPart::openUrl(const KUrl& url)
 {
-    const QString prettyUrl = url.pathOrUrl();
-    emit setWindowCaption(prettyUrl);
-    emit m_extension->setLocationBarUrl(prettyUrl);
     const bool reload = arguments().reload();
     if (m_view->url() == url && !reload) { // DolphinView won't do anything in that case, so don't emit started
         return true;
     }
     setUrl(url); // remember it at the KParts level
+    const QString prettyUrl = url.pathOrUrl();
+    emit setWindowCaption(prettyUrl);
+    emit m_extension->setLocationBarUrl(prettyUrl);
     m_view->setUrl(url);
     if (reload)
         m_view->reload();
