@@ -390,6 +390,8 @@ void KCategorizedView::Private::updateScrollbars()
     int lastItemBottom = cachedRectIndex(lastIndex).top() +
                          listView->spacing() + (listView->gridSize().isEmpty() ? 0 : listView->gridSize().height()) - listView->viewport()->height();
 
+    listView->horizontalScrollBar()->setRange(0, 0);
+
     listView->verticalScrollBar()->setSingleStep(listView->viewport()->height() / 10);
     listView->verticalScrollBar()->setPageStep(listView->viewport()->height());
     listView->verticalScrollBar()->setRange(0, lastItemBottom);
