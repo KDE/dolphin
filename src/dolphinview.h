@@ -358,6 +358,11 @@ public slots:
      */
     void changeSelection(const KFileItemList& selection);
 
+    /**
+     * Triggers the renaming of the currently selected items, where
+     * the user must input a new name for the items.
+     */
+    void renameSelectedItems();
 
 signals:
     /**
@@ -445,6 +450,12 @@ signals:
      * URL and property settings.
      */
     void startedPathLoading(const KUrl& url);
+
+    /**
+     * Is emitted when renaming one or more items.
+     * Used for feedback in the mainwindow.
+     */
+    void renaming();
 
 protected:
     /** @see QWidget::mouseReleaseEvent */

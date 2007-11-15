@@ -53,7 +53,6 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kio/deletejob.h>
-#include <kio/renamedialog.h>
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmenu.h>
@@ -123,10 +122,9 @@ void DolphinMainWindow::toggleViews()
     m_viewContainer[SecondaryView] = container;
 }
 
-void DolphinMainWindow::rename(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinMainWindow::slotRenaming()
 {
     clearStatusBar();
-    KonqOperations::rename(this, oldUrl, newUrl);
     m_undoCommandTypes.append(KonqFileUndoManager::RENAME);
 }
 
@@ -484,7 +482,7 @@ void DolphinMainWindow::updateNewMenu()
 void DolphinMainWindow::rename()
 {
     clearStatusBar();
-    m_activeViewContainer->renameSelectedItems();
+    m_activeViewContainer->view()->renameSelectedItems();
 }
 
 void DolphinMainWindow::moveToTrash()
@@ -1460,7 +1458,7 @@ void DolphinMainWindow::updateEditActions()
 
         QAction* renameAction = actionCollection()->action("rename");
         if (renameAction != 0) {
-            renameAction->setEnabled(list.count() >= 1);
+            renameAction->setEnabled(true);
         }
 
         bool enableMoveToTrash = true;
@@ -1583,6 +1581,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),
             this, SLOT(toggleActiveView()));
+    connect(view, SIGNAL(renaming()),
+            this, SLOT(slotRenaming()));
 
     const KUrlNavigator* navigator = container->urlNavigator();
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),

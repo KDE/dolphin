@@ -78,14 +78,18 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotErrorMessage(QString)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
             this, SLOT(slotItemTriggered(KFileItem)));
-    connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&)),
-            this, SLOT(slotOpenContextMenu(KFileItem, const KUrl&)));
+    connect(m_view, SIGNAL(requestContextMenu(KFileItem,KUrl)),
+            this, SLOT(slotOpenContextMenu(KFileItem,KUrl)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
             m_extension, SIGNAL(selectionInfo(KFileItemList)));
+    connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
+            this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotUrlChanged(const KUrl&)));
+    connect(m_view, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(slotUrlChanged(KUrl)));
+    connect(m_view, SIGNAL(modeChanged()),
+            this, SLOT(updateViewActions()));
 
     createActions();
     updateViewActions();
@@ -122,6 +126,27 @@ void DolphinPart::createActions()
     viewModeActions->addAction(DolphinView::detailsModeAction(actionCollection()));
     viewModeActions->addAction(DolphinView::columnsModeAction(actionCollection()));
     connect(viewModeActions, SIGNAL(triggered(QAction*)), this, SLOT(slotViewModeActionTriggered(QAction*)));
+
+    KAction* renameAction = new KAction(i18nc("@action:inmenu", "Rename..."), this);
+    connect(renameAction, SIGNAL(triggered()), m_view, SLOT(renameSelectedItems()));
+    renameAction->setShortcut(Qt::Key_F2);
+    actionCollection()->addAction("rename", renameAction);
+}
+
+void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
+{
+    // Yes, DolphinMainWindow has very similar code :/
+    if (selection.isEmpty()) {
+        stateChanged("has_no_selection");
+    } else {
+        stateChanged("has_selection");
+
+        QAction* renameAction = actionCollection()->action("rename");
+        Q_ASSERT(renameAction);
+        if (renameAction) {
+            renameAction->setEnabled(true);
+        }
+    }
 }
 
 void DolphinPart::updateViewActions()
@@ -218,8 +243,18 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
         item = KFileItem( S_IFDIR, (mode_t)-1, url() );
     }
 
+    KParts::BrowserExtension::ActionGroupMap actionGroups;
+    QList<QAction *> editActions;
+    editActions.append(actionCollection()->action("rename"));
+    actionGroups.insert("editactions", editActions);
+
     KFileItemList items; items.append(item);
-    emit m_extension->popupMenu( QCursor::pos(), items, KParts::OpenUrlArguments(), KParts::BrowserArguments(), popupFlags );
+    emit m_extension->popupMenu(QCursor::pos(),
+                                items,
+                                KParts::OpenUrlArguments(),
+                                KParts::BrowserArguments(),
+                                popupFlags,
+                                actionGroups);
 }
 
 void DolphinPart::slotViewModeActionTriggered(QAction* action)

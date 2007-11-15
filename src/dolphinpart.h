@@ -21,6 +21,7 @@
 #define DOLPHINPART_H
 
 #include <kparts/part.h>
+class KFileItemList;
 class KFileItem;
 class DolphinPartBrowserExtension;
 class DolphinSortFilterProxyModel;
@@ -77,9 +78,19 @@ private Q_SLOTS:
      */
     void slotUrlChanged(const KUrl& url);
 
+    /**
+     * Updates the state of the 'Edit' menu actions and emits
+     * the signal selectionChanged().
+     */
+    void slotSelectionChanged(const KFileItemList& selection);
+
+    /**
+     * Same as in DolphinMainWindow: updates the view menu actions
+     */
+    void updateViewActions();
+
 private:
     void createActions();
-    void updateViewActions();
 
 private:
     DolphinView* m_view;
@@ -90,6 +101,4 @@ private:
     Q_DISABLE_COPY(DolphinPart)
 };
 
-
 #endif /* DOLPHINPART_H */
-

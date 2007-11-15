@@ -90,12 +90,6 @@ public:
     void setActive(bool active);
     bool isActive() const;
 
-    /**
-     * Triggers the renaming of the currently selected items, where
-     * the user must input a new name for the items.
-     */
-    void renameSelectedItems();
-
     KFileItem fileItem(const QModelIndex& index) const;
 
     const DolphinStatusBar* statusBar() const;

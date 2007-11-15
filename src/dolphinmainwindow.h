@@ -422,6 +422,9 @@ private slots:
     /** Toggles the active view if two views are shown within the main window. */
     void toggleActiveView();
 
+    /** Called when the view is renaming a file. */
+    void slotRenaming();
+
 private:
     DolphinMainWindow(int id);
     void init();

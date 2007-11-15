@@ -33,7 +33,6 @@
 #include <klocale.h>
 #include <kiconeffect.h>
 #include <kio/netaccess.h>
-#include <kio/renamedialog.h>
 #include <kio/previewjob.h>
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
@@ -51,7 +50,6 @@
 #include "dolphiniconsview.h"
 #include "dolphincontextmenu.h"
 #include "filterbar.h"
-#include "renamedialog.h"
 #include "kurlnavigator.h"
 #include "viewproperties.h"
 #include "dolphinsettings.h"
@@ -182,76 +180,6 @@ bool DolphinViewContainer::isActive() const
 {
     Q_ASSERT(m_view->isActive() == m_urlNavigator->isActive());
     return m_view->isActive();
-}
-
-void DolphinViewContainer::renameSelectedItems()
-{
-    DolphinViewContainer* view = m_mainWindow->activeViewContainer();
-    const KFileItemList items = m_view->selectedItems();
-    if (items.count() > 1) {
-        // More than one item has been selected for renaming. Open
-        // a rename dialog and rename all items afterwards.
-        RenameDialog dialog(this, items);
-        if (dialog.exec() == QDialog::Rejected) {
-            return;
-        }
-
-        const QString& newName = dialog.newName();
-        if (newName.isEmpty()) {
-            view->statusBar()->setMessage(dialog.errorString(),
-                                          DolphinStatusBar::Error);
-        } else {
-            // TODO: check how this can be integrated into KonqFileUndoManager/KonqOperations
-            // as one operation instead of n rename operations like it is done now...
-            Q_ASSERT(newName.contains('#'));
-
-            // iterate through all selected items and rename them...
-            const int replaceIndex = newName.indexOf('#');
-            Q_ASSERT(replaceIndex >= 0);
-            int index = 1;
-
-            KFileItemList::const_iterator it = items.begin();
-            KFileItemList::const_iterator end = items.end();
-            while (it != end) {
-                const KUrl& oldUrl = (*it).url();
-                QString number;
-                number.setNum(index++);
-
-                QString name(newName);
-                name.replace(replaceIndex, 1, number);
-
-                if (oldUrl.fileName() != name) {
-                    KUrl newUrl = oldUrl;
-                    newUrl.setFileName(name);
-                    m_mainWindow->rename(oldUrl, newUrl);
-                }
-                ++it;
-            }
-        }
-    } else {
-        // Only one item has been selected for renaming. Use the custom
-        // renaming mechanism from the views.
-        Q_ASSERT(items.count() == 1);
-
-        // TODO: Think about using KFileItemDelegate as soon as it supports editing.
-        // Currently the RenameDialog is used, but I'm not sure whether inline renaming
-        // is a benefit for the user at all -> let's wait for some input first...
-        RenameDialog dialog(this, items);
-        if (dialog.exec() == QDialog::Rejected) {
-            return;
-        }
-
-        const QString& newName = dialog.newName();
-        if (newName.isEmpty()) {
-            view->statusBar()->setMessage(dialog.errorString(),
-                                          DolphinStatusBar::Error);
-        } else {
-            const KUrl& oldUrl = items.first().url();
-            KUrl newUrl = oldUrl;
-            newUrl.setFileName(newName);
-            m_mainWindow->rename(oldUrl, newUrl);
-        }
-    }
 }
 
 bool DolphinViewContainer::isFilterBarVisible() const
