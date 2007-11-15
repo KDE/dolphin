@@ -18,28 +18,22 @@
 */
 
 #include "dolphinpart.h"
-#include <kactioncollection.h>
-#include <ktoggleaction.h>
-#include <QActionGroup>
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinmodel.h"
 
+#include <kactioncollection.h>
 #include <kdirlister.h>
 #include <kmessagebox.h>
-#include <kparts/browserextension.h>
 #include <kparts/genericfactory.h>
+#include <ktoggleaction.h>
+
+#include <QActionGroup>
 #include <QApplication>
+#include <QClipboard>
 
 typedef KParts::GenericFactory<DolphinPart> DolphinPartFactory;
 K_EXPORT_COMPONENT_FACTORY(dolphinpart, DolphinPartFactory)
-
-class DolphinPartBrowserExtension : public KParts::BrowserExtension
-{
-public:
-    DolphinPartBrowserExtension( KParts::ReadOnlyPart* part )
-        : KParts::BrowserExtension( part ) {}
-};
 
 DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringList& args)
     : KParts::ReadOnlyPart(parent)
@@ -91,6 +85,10 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     connect(m_view, SIGNAL(modeChanged()),
             this, SLOT(updateViewActions()));
 
+    QClipboard* clipboard = QApplication::clipboard();
+    connect(clipboard, SIGNAL(dataChanged()),
+            this, SLOT(updatePasteAction()));
+
     createActions();
     updateViewActions();
 
@@ -106,10 +104,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     // (sort of spacial navigation)
 
     // TODO MMB-click should do something like KonqDirPart::mmbClicked
-
-    // TODO updating the paste action
-    // if (paste) emit m_extension->setActionText( "paste", actionText );
-    // emit m_extension->enableAction( "paste", paste );
 
     // TODO updating the trash and del actions too - or removing special handling of those from konq?
 }
@@ -137,7 +131,8 @@ void DolphinPart::createActions()
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
 {
     // Yes, DolphinMainWindow has very similar code :/
-    if (selection.isEmpty()) {
+    const bool hasSelection = !selection.isEmpty();
+    if (!hasSelection) {
         stateChanged("has_no_selection");
     } else {
         stateChanged("has_selection");
@@ -148,6 +143,15 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
             renameAction->setEnabled(true);
         }
     }
+    emit m_extension->enableAction("cut", hasSelection);
+    emit m_extension->enableAction("copy", hasSelection);
+}
+
+void DolphinPart::updatePasteAction()
+{
+    QPair<bool, QString> pasteInfo = m_view->pasteInfo();
+    emit m_extension->enableAction( "paste", pasteInfo.first );
+    emit m_extension->setActionText( "paste", pasteInfo.second );
 }
 
 void DolphinPart::updateViewActions()
@@ -272,6 +276,23 @@ void DolphinPart::slotUrlChanged(const KUrl& url)
         // From the hosts point of view this must be handled like changing the URL.
         emit m_extension->openUrlRequest(url);
     }
+}
+
+////
+
+void DolphinPartBrowserExtension::cut()
+{
+    m_part->view()->cutSelectedItems();
+}
+
+void DolphinPartBrowserExtension::copy()
+{
+    m_part->view()->copySelectedItems();
+}
+
+void DolphinPartBrowserExtension::paste()
+{
+    m_part->view()->paste();
 }
 
 #include "dolphinpart.moc"

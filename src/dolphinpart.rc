@@ -1,8 +1,7 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="dolphinpart" version="4" >
  <MenuBar>
-   <Menu name="edit">
-   <!-- TODO cut, copy, paste -->
+  <Menu name="edit">
    <Action name="rename"/>
    <!-- TODO trash, del -->
    <Action name="select_all" />
@@ -51,8 +50,6 @@
 </ToolBar>
 <State name="has_selection" >
   <enable>
-   <Action name="edit_cut" />
-   <Action name="edit_copy" />
    <Action name="move_to_trash" />
    <Action name="delete" />
    <Action name="properties" />
@@ -60,8 +57,6 @@
  </State>
  <State name="has_no_selection" >
   <disable>
-   <Action name="edit_cut" />
-   <Action name="edit_copy" />
    <Action name="rename" />
    <Action name="move_to_trash" />
    <Action name="delete" />

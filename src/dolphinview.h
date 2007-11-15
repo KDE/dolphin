@@ -29,6 +29,7 @@
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
+#include <konq_fileundomanager.h>
 #include <kio/job.h>
 
 #include <QBoxLayout>
@@ -343,6 +344,13 @@ public:
      */
     QString currentViewModeActionName() const;
 
+    /**
+     * Returns the state of the paste action:
+     * first is whether the action should be enabled
+     * second is the text for the action
+     */
+    QPair<bool, QString> pasteInfo() const;
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -363,6 +371,18 @@ public slots:
      * the user must input a new name for the items.
      */
     void renameSelectedItems();
+
+    /**
+     * Copies all selected items to the clipboard and marks
+     * the items as cutted.
+     */
+    void cutSelectedItems();
+
+    /** Copies all selected items to the clipboard. */
+    void copySelectedItems();
+
+    /** Pastes the clipboard data to this view. */
+    void paste();
 
 signals:
     /**
@@ -452,10 +472,10 @@ signals:
     void startedPathLoading(const KUrl& url);
 
     /**
-     * Is emitted when renaming one or more items.
+     * Is emitted when renaming, copying, moving, linking etc.
      * Used for feedback in the mainwindow.
      */
-    void renaming();
+    void doingOperation(KonqFileUndoManager::CommandType type);
 
 protected:
     /** @see QWidget::mouseReleaseEvent */

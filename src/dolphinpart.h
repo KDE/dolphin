@@ -21,6 +21,7 @@
 #define DOLPHINPART_H
 
 #include <kparts/part.h>
+#include <kparts/browserextension.h>
 class KFileItemList;
 class KFileItem;
 class DolphinPartBrowserExtension;
@@ -49,6 +50,8 @@ public:
 
     /// see the supportsUndo property
     bool supportsUndo() const { return true; }
+
+    DolphinView* view() { return m_view; }
 
 protected:
     /**
@@ -99,6 +102,12 @@ private Q_SLOTS:
      */
     void updateViewActions();
 
+    /**
+     * Updates the text of the paste action dependent from
+     * the number of items which are in the clipboard.
+     */
+    void updatePasteAction();
+
 private:
     void createActions();
 
@@ -109,6 +118,22 @@ private:
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinPartBrowserExtension* m_extension;
     Q_DISABLE_COPY(DolphinPart)
+};
+
+class DolphinPartBrowserExtension : public KParts::BrowserExtension
+{
+    Q_OBJECT
+public:
+    DolphinPartBrowserExtension( DolphinPart* part )
+        : KParts::BrowserExtension( part ), m_part(part) {}
+
+public Q_SLOTS:
+    void cut();
+    void copy();
+    void paste();
+
+private:
+    DolphinPart* m_part;
 };
 
 #endif /* DOLPHINPART_H */

@@ -122,10 +122,10 @@ void DolphinMainWindow::toggleViews()
     m_viewContainer[SecondaryView] = container;
 }
 
-void DolphinMainWindow::slotRenaming()
+void DolphinMainWindow::slotDoingOperation(KonqFileUndoManager::CommandType commandType)
 {
     clearStatusBar();
-    m_undoCommandTypes.append(KonqFileUndoManager::RENAME);
+    m_undoCommandTypes.append(commandType);
 }
 
 void DolphinMainWindow::refreshViews()
@@ -611,55 +611,17 @@ void DolphinMainWindow::undo()
 
 void DolphinMainWindow::cut()
 {
-    QMimeData* mimeData = new QMimeData();
-    const KUrl::List kdeUrls = m_activeViewContainer->view()->selectedUrls();
-    const KUrl::List mostLocalUrls;
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
-    QApplication::clipboard()->setMimeData(mimeData);
+    m_activeViewContainer->view()->cutSelectedItems();
 }
 
 void DolphinMainWindow::copy()
 {
-    QMimeData* mimeData = new QMimeData();
-    const KUrl::List kdeUrls = m_activeViewContainer->view()->selectedUrls();
-    const KUrl::List mostLocalUrls;
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, false);
-
-    QApplication::clipboard()->setMimeData(mimeData);
+    m_activeViewContainer->view()->copySelectedItems();
 }
 
 void DolphinMainWindow::paste()
 {
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-
-    clearStatusBar();
-
-    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
-
-    // per default the pasting is done into the current Url of the view
-    KUrl destUrl(m_activeViewContainer->url());
-
-    // check whether the pasting should be done into a selected directory
-    KUrl::List selectedUrls = m_activeViewContainer->view()->selectedUrls();
-    if (selectedUrls.count() == 1) {
-        const KFileItem fileItem(S_IFDIR,
-                                 KFileItem::Unknown,
-                                 selectedUrls.first(),
-                                 true);
-        if (fileItem.isDir()) {
-            // only one item is selected which is a directory, hence paste
-            // into this directory
-            destUrl = selectedUrls.first();
-        }
-    }
-
-    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        moveUrls(sourceUrls, destUrl);
-        clipboard->clear();
-    } else {
-        copyUrls(sourceUrls, destUrl);
-    }
+    m_activeViewContainer->view()->paste();
 }
 
 void DolphinMainWindow::updatePasteAction()
@@ -669,39 +631,9 @@ void DolphinMainWindow::updatePasteAction()
         return;
     }
 
-    QString text(i18nc("@action:inmenu", "Paste"));
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-
-    KUrl::List urls = KUrl::List::fromMimeData(mimeData);
-    if (!urls.isEmpty()) {
-        pasteAction->setEnabled(true);
-
-        pasteAction->setText(i18ncp("@action:inmenu", "Paste One File", "Paste %1 Files", urls.count()));
-    } else {
-        pasteAction->setEnabled(false);
-        pasteAction->setText(i18nc("@action:inmenu", "Paste"));
-    }
-
-    if (pasteAction->isEnabled()) {
-        KUrl::List urls = m_activeViewContainer->view()->selectedUrls();
-        const uint count = urls.count();
-        if (count > 1) {
-            // pasting should not be allowed when more than one file
-            // is selected
-            pasteAction->setEnabled(false);
-        } else if (count == 1) {
-            // Only one file is selected. Pasting is only allowed if this
-            // file is a directory.
-            // TODO: this doesn't work with remote protocols; instead we need a
-            // m_activeViewContainer->selectedFileItems() to get the real KFileItems
-            const KFileItem fileItem(S_IFDIR,
-                                     KFileItem::Unknown,
-                                     urls.first(),
-                                     true);
-            pasteAction->setEnabled(fileItem.isDir());
-        }
-    }
+    QPair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
+    pasteAction->setEnabled(pasteInfo.first);
+    pasteAction->setText(pasteInfo.second);
 }
 
 void DolphinMainWindow::selectAll()
@@ -1581,8 +1513,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),
             this, SLOT(toggleActiveView()));
-    connect(view, SIGNAL(renaming()),
-            this, SLOT(slotRenaming()));
+    connect(view, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
+            this, SLOT(slotDoingOperation(KonqFileUndoManager::CommandType)));
 
     const KUrlNavigator* navigator = container->urlNavigator();
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),

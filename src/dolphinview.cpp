@@ -29,6 +29,7 @@
 #include <QBoxLayout>
 #include <QTimer>
 #include <QScrollBar>
+#include <QClipboard>
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
@@ -1035,7 +1036,7 @@ void DolphinView::renameSelectedItems()
                     KUrl newUrl = oldUrl;
                     newUrl.setFileName(name);
                     KonqOperations::rename(this, oldUrl, newUrl);
-                    emit renaming();
+                    emit doingOperation(KonqFileUndoManager::RENAME);
                 }
                 ++it;
             }
@@ -1061,9 +1062,98 @@ void DolphinView::renameSelectedItems()
             KUrl newUrl = oldUrl;
             newUrl.setFileName(newName);
             KonqOperations::rename(this, oldUrl, newUrl);
-            emit renaming();
+            emit doingOperation(KonqFileUndoManager::RENAME);
         }
     }
+}
+
+void DolphinView::cutSelectedItems()
+{
+    QMimeData* mimeData = new QMimeData();
+    const KUrl::List kdeUrls = selectedUrls();
+    const KUrl::List mostLocalUrls;
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
+    QApplication::clipboard()->setMimeData(mimeData);
+}
+
+void DolphinView::copySelectedItems()
+{
+    QMimeData* mimeData = new QMimeData();
+    const KUrl::List kdeUrls = selectedUrls();
+    const KUrl::List mostLocalUrls;
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, false);
+    QApplication::clipboard()->setMimeData(mimeData);
+}
+
+void DolphinView::paste()
+{
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
+
+    // per default the pasting is done into the current Url of the view
+    KUrl destUrl(url());
+
+    // check whether the pasting should be done into a selected directory
+    const KUrl::List selectedUrls = this->selectedUrls();
+    if (selectedUrls.count() == 1) {
+        const KFileItem fileItem(S_IFDIR,
+                                 KFileItem::Unknown,
+                                 selectedUrls.first(),
+                                 true);
+        if (fileItem.isDir()) {
+            // only one item is selected which is a directory, hence paste
+            // into this directory
+            destUrl = selectedUrls.first();
+        }
+    }
+
+    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, destUrl);
+        emit doingOperation(KonqFileUndoManager::MOVE);
+        clipboard->clear();
+    } else {
+        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, destUrl);
+        emit doingOperation(KonqFileUndoManager::COPY);
+    }
+}
+
+QPair<bool, QString> DolphinView::pasteInfo() const
+{
+    QPair<bool, QString> ret;
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    KUrl::List urls = KUrl::List::fromMimeData(mimeData);
+    if (!urls.isEmpty()) {
+        ret.first = true;
+        ret.second = i18ncp("@action:inmenu", "Paste One File", "Paste %1 Files", urls.count());
+    } else {
+        ret.first = false;
+        ret.second = i18nc("@action:inmenu", "Paste");
+    }
+
+    if (ret.first) {
+        const KUrl::List urls = selectedUrls();
+        const uint count = urls.count();
+        if (count > 1) {
+            // pasting should not be allowed when more than one file
+            // is selected
+            ret.first = false;
+        } else if (count == 1) {
+            // Only one file is selected. Pasting is only allowed if this
+            // file is a directory.
+            // TODO: this doesn't work with remote protocols; instead we need a
+            // m_activeViewContainer->selectedFileItems() to get the real KFileItems
+            const KFileItem fileItem(S_IFDIR,
+                                     KFileItem::Unknown,
+                                     urls.first(),
+                                     true);
+            ret.first = fileItem.isDir();
+        }
+    }
+    return ret;
 }
 
 #include "dolphinview.moc"

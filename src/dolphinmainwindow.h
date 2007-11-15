@@ -422,8 +422,8 @@ private slots:
     /** Toggles the active view if two views are shown within the main window. */
     void toggleActiveView();
 
-    /** Called when the view is renaming a file. */
-    void slotRenaming();
+    /** Called when the view is doing a file operation, like renaming, copying, moving etc. */
+    void slotDoingOperation(KonqFileUndoManager::CommandType type);
 
 private:
     DolphinMainWindow(int id);
