@@ -1,5 +1,4 @@
 [Desktop Entry]
-Encoding=UTF-8
 Type=Service
 Name=Dolphin Part
 Name[ar]=جزء من الدولفين
@@ -37,7 +36,7 @@ Name[x-test]=xxDolphin Partxx
 Name[zh_CN]=Dolphin 部件
 Name[zh_TW]=Dolphin 部件
 MimeType=inode/directory;
-ServiceTypes=KParts/ReadOnlyPart,Browser/View
+X-KDE-ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=dolphinpart
 X-KDE-BrowserView-Args=Icon
 X-KDE-BrowserView-HideFromMenus=true
