@@ -129,6 +129,7 @@ void DolphinPart::createActions()
 
     KAction* renameAction = new KAction(i18nc("@action:inmenu", "Rename..."), this);
     connect(renameAction, SIGNAL(triggered()), m_view, SLOT(renameSelectedItems()));
+    renameAction->setEnabled(false);
     renameAction->setShortcut(Qt::Key_F2);
     actionCollection()->addAction("rename", renameAction);
 }

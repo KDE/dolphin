@@ -34,6 +34,10 @@ class KAboutData;
 class DolphinPart : public KParts::ReadOnlyPart
 {
     Q_OBJECT
+    // Used by konqueror. Technically it means "we want undo enabled if
+    // there are things in the undo history and the current part is a dolphin part".
+    // Even though it's konqueror doing the undo...
+    Q_PROPERTY( bool supportsUndo READ supportsUndo )
 
 public:
     explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QStringList& args);
@@ -43,7 +47,13 @@ public:
 
     virtual bool openUrl(const KUrl& url);
 
+    /// see the supportsUndo property
+    bool supportsUndo() const { return true; }
+
 protected:
+    /**
+     * We reimplement openUrl so no need to implement openFile.
+     */
     virtual bool openFile() { return true; }
 
 private Q_SLOTS:
