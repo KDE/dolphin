@@ -22,9 +22,9 @@
 #include "dolphincategorydrawer.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
-
 #include "dolphin_iconsmodesettings.h"
 
+#include <kcategorizedsortfilterproxymodel.h>
 #include <kdialog.h>
 #include <kdirmodel.h>
 
@@ -45,6 +45,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
     setSpacing(KDialog::spacingHint());
+    setMovement(QListView::Snap);
     setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
 
@@ -135,6 +136,20 @@ QRect DolphinIconsView::visualRect(const QModelIndex& index) const
             itemRect.setTop(top);
         }
         itemRect.setHeight(maxHeight);
+    }
+
+    KCategorizedSortFilterProxyModel* proxyModel = dynamic_cast<KCategorizedSortFilterProxyModel*>(model());
+    if (leftToRightFlow && !proxyModel->isCategorizedModel()) {
+        // TODO: This workaround bypasses a layout issue in QListView::visualRect(), where
+        // the horizontal position of items might get calculated in a wrong manner when the item
+        // name is too long. I'll try create a patch for Qt but as Dolphin must also work with
+        // Qt 4.3.0 this workaround must get applied at least for KDE 4.0.
+        const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+        const int margin = settings->gridSpacing() / 2;
+        const int gridWidth = gridSize().width();
+        int left = itemRect.left();
+        left = ((left - margin + 1) / gridWidth) * gridWidth + margin;
+        itemRect.moveLeft(left);
     }
 
     return itemRect;
