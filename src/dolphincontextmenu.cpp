@@ -106,11 +106,8 @@ void DolphinContextMenu::openTrashContextMenu()
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
     popup->addAction(emptyTrashAction);
 
-    popup->addSeparator();
-
     QAction* addToPlacesAction = popup->addAction(KIcon("folder-bookmarks"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
-    popup->addSeparator();
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
