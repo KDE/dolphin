@@ -28,7 +28,7 @@
 #include <config-nepomuk.h>
 
 #include <kfileitemdelegate.h>
-#include <konq_undo.h>
+#include <konq_fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
 
@@ -484,7 +484,7 @@ private:
      * assures that all errors are shown in the status bar of Dolphin
      * instead as modal error dialog with an OK button.
      */
-    class UndoUiInterface : public KonqUndoManager::UiInterface
+    class UndoUiInterface : public KonqFileUndoManager::UiInterface
     {
     public:
         UndoUiInterface(DolphinMainWindow* mainWin);
@@ -503,7 +503,7 @@ private:
     DolphinViewContainer* m_viewContainer[SecondaryView + 1];
 
     /// remember pending undo operations until they are finished
-    QList<KonqUndoManager::CommandType> m_undoCommandTypes;
+    QList<KonqFileUndoManager::CommandType> m_undoCommandTypes;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

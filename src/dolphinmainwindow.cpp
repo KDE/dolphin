@@ -89,9 +89,9 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     new MainWindowAdaptor(this);
     QDBusConnection::sessionBus().registerObject(QString("/dolphin/MainWindow%1").arg(m_id), this);
 
-    KonqUndoManager::incRef();
+    KonqFileUndoManager::incRef();
 
-    KonqUndoManager* undoManager = KonqUndoManager::self();
+    KonqFileUndoManager* undoManager = KonqFileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface(this));
 
     connect(undoManager, SIGNAL(undoAvailable(bool)),
@@ -104,7 +104,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
 
 DolphinMainWindow::~DolphinMainWindow()
 {
-    KonqUndoManager::decRef();
+    KonqFileUndoManager::decRef();
     DolphinApplication::app()->removeMainWindow(this);
 }
 
@@ -127,7 +127,7 @@ void DolphinMainWindow::rename(const KUrl& oldUrl, const KUrl& newUrl)
 {
     clearStatusBar();
     KonqOperations::rename(this, oldUrl, newUrl);
-    m_undoCommandTypes.append(KonqUndoManager::RENAME);
+    m_undoCommandTypes.append(KonqFileUndoManager::RENAME);
 }
 
 void DolphinMainWindow::refreshViews()
@@ -492,7 +492,7 @@ void DolphinMainWindow::moveToTrash()
     clearStatusBar();
     const KUrl::List selectedUrls = m_activeViewContainer->view()->selectedUrls();
     KonqOperations::del(this, KonqOperations::TRASH, selectedUrls);
-    m_undoCommandTypes.append(KonqUndoManager::TRASH);
+    m_undoCommandTypes.append(KonqFileUndoManager::TRASH);
 }
 
 void DolphinMainWindow::deleteItems()
@@ -561,31 +561,31 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
     }
 
     if (available && (m_undoCommandTypes.count() > 0)) {
-        const KonqUndoManager::CommandType command = m_undoCommandTypes.takeFirst();
+        const KonqFileUndoManager::CommandType command = m_undoCommandTypes.takeFirst();
         DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
         switch (command) {
-        case KonqUndoManager::COPY:
+        case KonqFileUndoManager::COPY:
             statusBar->setMessage(i18nc("@info:status", "Copy operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqUndoManager::MOVE:
+        case KonqFileUndoManager::MOVE:
             statusBar->setMessage(i18nc("@info:status", "Move operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqUndoManager::LINK:
+        case KonqFileUndoManager::LINK:
             statusBar->setMessage(i18nc("@info:status", "Link operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqUndoManager::TRASH:
+        case KonqFileUndoManager::TRASH:
             statusBar->setMessage(i18nc("@info:status", "Move to trash operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqUndoManager::RENAME:
+        case KonqFileUndoManager::RENAME:
             statusBar->setMessage(i18nc("@info:status", "Renaming operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
 
-        case KonqUndoManager::MKDIR:
+        case KonqFileUndoManager::MKDIR:
             statusBar->setMessage(i18nc("@info:status", "Created folder."),
                                   DolphinStatusBar::OperationCompleted);
             break;
@@ -608,7 +608,7 @@ void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 void DolphinMainWindow::undo()
 {
     clearStatusBar();
-    KonqUndoManager::self()->undo();
+    KonqFileUndoManager::self()->undo();
 }
 
 void DolphinMainWindow::cut()
@@ -1536,19 +1536,19 @@ void DolphinMainWindow::updateGoActions()
 void DolphinMainWindow::copyUrls(const KUrl::List& source, const KUrl& dest)
 {
     KonqOperations::copy(this, KonqOperations::COPY, source, dest);
-    m_undoCommandTypes.append(KonqUndoManager::COPY);
+    m_undoCommandTypes.append(KonqFileUndoManager::COPY);
 }
 
 void DolphinMainWindow::moveUrls(const KUrl::List& source, const KUrl& dest)
 {
     KonqOperations::copy(this, KonqOperations::MOVE, source, dest);
-    m_undoCommandTypes.append(KonqUndoManager::MOVE);
+    m_undoCommandTypes.append(KonqFileUndoManager::MOVE);
 }
 
 void DolphinMainWindow::linkUrls(const KUrl::List& source, const KUrl& dest)
 {
     KonqOperations::copy(this, KonqOperations::LINK, source, dest);
-    m_undoCommandTypes.append(KonqUndoManager::LINK);
+    m_undoCommandTypes.append(KonqFileUndoManager::LINK);
 }
 
 void DolphinMainWindow::clearStatusBar()
@@ -1631,7 +1631,7 @@ void DolphinMainWindow::toggleAdditionalInfo(const char* actionName,
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :
-    KonqUndoManager::UiInterface(mainWin),
+    KonqFileUndoManager::UiInterface(mainWin),
     m_mainWin(mainWin)
 {
     Q_ASSERT(m_mainWin != 0);

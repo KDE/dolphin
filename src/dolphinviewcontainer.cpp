@@ -201,7 +201,7 @@ void DolphinViewContainer::renameSelectedItems()
             view->statusBar()->setMessage(dialog.errorString(),
                                           DolphinStatusBar::Error);
         } else {
-            // TODO: check how this can be integrated into KonqUndoManager/KonqOperations
+            // TODO: check how this can be integrated into KonqFileUndoManager/KonqOperations
             // as one operation instead of n rename operations like it is done now...
             Q_ASSERT(newName.contains('#'));
 
