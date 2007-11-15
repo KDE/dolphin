@@ -54,9 +54,7 @@ TreeViewSidebarPage::~TreeViewSidebarPage()
 
 QSize TreeViewSidebarPage::sizeHint() const
 {
-    QSize size = SidebarPage::sizeHint();
-    size.setWidth(200);
-    return size;
+    return QSize(200, 400);
 }
 
 void TreeViewSidebarPage::setUrl(const KUrl& url)
