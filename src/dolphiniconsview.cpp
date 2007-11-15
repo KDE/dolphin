@@ -147,9 +147,8 @@ QRect DolphinIconsView::visualRect(const QModelIndex& index) const
         const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
         const int margin = settings->gridSpacing() / 2;
         const int gridWidth = gridSize().width();
-        int left = itemRect.left();
-        left = ((left - margin + 1) / gridWidth) * gridWidth + margin;
-        itemRect.moveLeft(left);
+        const int gridIndex = (itemRect.left() - margin + 1) / gridWidth;
+        itemRect.moveLeft(gridIndex * gridWidth + margin);
     }
 
     return itemRect;
