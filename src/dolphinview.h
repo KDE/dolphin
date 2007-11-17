@@ -38,6 +38,7 @@
 #include <QListView>
 #include <QWidget>
 
+class KAction;
 class KToggleAction;
 class DolphinController;
 class KDirLister;
@@ -340,6 +341,24 @@ public:
     static KToggleAction* columnsModeAction(KActionCollection* collection);
 
     /**
+     * Creates the rename action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createRenameAction(KActionCollection* collection);
+
+    /**
+     * Creates the "move to trash" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createMoveToTrashAction(KActionCollection* collection);
+
+    /**
+     * Creates the delete action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createDeleteAction(KActionCollection* collection);
+
+    /**
      * Returns the action name corresponding to the current view mode
      */
     QString currentViewModeActionName() const;
@@ -371,6 +390,16 @@ public slots:
      * the user must input a new name for the items.
      */
     void renameSelectedItems();
+
+    /**
+     * Moves all selected items to the trash.
+     */
+    void trashSelectedItems();
+
+    /**
+     * Deletes all selected items.
+     */
+    void deleteSelectedItems();
 
     /**
      * Copies all selected items to the clipboard and marks
@@ -462,6 +491,12 @@ signals:
      * should be shown.
      */
     void errorMessage(const QString& msg);
+
+    /**
+     * Is emitted if an "operation completed" message with the content \a msg
+     * should be shown.
+     */
+    void operationCompletedMessage(const QString& msg);
 
     /**
      * Is emitted after DolphinView::setUrl() has been invoked and
@@ -572,6 +607,12 @@ private slots:
      * @see DolphinView::showHoverInformation().
      */
     void clearHoverInformation();
+
+    /**
+     * Indicates in the status bar that the delete operation
+     * of the job \a job has been finished.
+     */
+    void slotDeleteFileFinished(KJob* job);
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);

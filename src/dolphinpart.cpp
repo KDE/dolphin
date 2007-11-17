@@ -91,8 +91,9 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
 
     createActions();
     updateViewActions();
+    slotSelectionChanged(KFileItemList()); // initially disable selection-dependent actions
 
-    // TODO provide these actions in the menu, merged with the existing view-mode-actions somehow
+    // TODO provide the viewmode actions in the menu, merged with the existing view-mode-actions somehow
     // [Q_PROPERTY introspection?]
 
     // TODO sort_by_* actions
@@ -104,8 +105,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     // (sort of spacial navigation)
 
     // TODO MMB-click should do something like KonqDirPart::mmbClicked
-
-    // TODO updating the trash and del actions too - or removing special handling of those from konq?
 }
 
 DolphinPart::~DolphinPart()
@@ -121,11 +120,15 @@ void DolphinPart::createActions()
     viewModeActions->addAction(DolphinView::columnsModeAction(actionCollection()));
     connect(viewModeActions, SIGNAL(triggered(QAction*)), this, SLOT(slotViewModeActionTriggered(QAction*)));
 
-    KAction* renameAction = new KAction(i18nc("@action:inmenu", "Rename..."), this);
+    KAction* renameAction = DolphinView::createRenameAction(actionCollection());
     connect(renameAction, SIGNAL(triggered()), m_view, SLOT(renameSelectedItems()));
-    renameAction->setEnabled(false);
-    renameAction->setShortcut(Qt::Key_F2);
-    actionCollection()->addAction("rename", renameAction);
+
+    KAction* moveToTrashAction = DolphinView::createMoveToTrashAction(actionCollection());
+    connect(moveToTrashAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)),
+            this, SLOT(slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers)));
+
+    KAction* deleteAction = DolphinView::createDeleteAction(actionCollection());
+    connect(deleteAction, SIGNAL(triggered()), m_view, SLOT(deleteSelectedItems()));
 }
 
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
@@ -136,13 +139,18 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
         stateChanged("has_no_selection");
     } else {
         stateChanged("has_selection");
+    }
 
-        QAction* renameAction = actionCollection()->action("rename");
-        Q_ASSERT(renameAction);
-        if (renameAction) {
-            renameAction->setEnabled(true);
+    QStringList actions;
+    actions << "rename" << "move_to_trash" << "delete";
+    foreach(const QString& actionName, actions) {
+        QAction* action = actionCollection()->action(actionName);
+        Q_ASSERT(action);
+        if (action) {
+            action->setEnabled(hasSelection);
         }
     }
+
     emit m_extension->enableAction("cut", hasSelection);
     emit m_extension->enableAction("copy", hasSelection);
 }
@@ -251,6 +259,8 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
     editActions.append(actionCollection()->action("rename"));
+    editActions.append(actionCollection()->action("move_to_trash"));
+    editActions.append(actionCollection()->action("delete"));
     actionGroups.insert("editactions", editActions);
 
     KFileItemList items; items.append(item);
@@ -293,6 +303,19 @@ void DolphinPartBrowserExtension::copy()
 void DolphinPartBrowserExtension::paste()
 {
     m_part->view()->paste();
+}
+
+////
+
+void DolphinPart::slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers modifiers)
+{
+    // Note: kde3's konq_mainwindow.cpp used to check
+    // reason == KAction::PopupMenuActivation && ...
+    // but this isn't supported anymore
+    if (modifiers & Qt::ShiftModifier)
+        m_view->deleteSelectedItems();
+    else
+        m_view->trashSelectedItems();
 }
 
 #include "dolphinpart.moc"

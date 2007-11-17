@@ -161,6 +161,9 @@ private slots:
     /** Shows the error message \a msg inside the statusbar. */
     void showErrorMessage(const QString& msg);
 
+    /** Shows the "operation completed" message \a msg inside the statusbar. */
+    void showOperationCompletedMessage(const QString& msg);
+
     void closeFilterBar();
 
     /**

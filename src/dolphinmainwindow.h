@@ -200,18 +200,6 @@ private slots:
     void slotHandlePlacesError(const QString &message);
 
     /**
-     * Shows the error information of the job \a job
-     * in the status bar.
-     */
-    void slotHandleJobError(KJob* job);
-
-    /**
-     * Indicates in the status bar that the delete operation
-     * of the job \a job has been finished.
-     */
-    void slotDeleteFileFinished(KJob* job);
-
-    /**
      * Updates the state of the 'Undo' menu action dependent
      * from the parameter \a available.
      */

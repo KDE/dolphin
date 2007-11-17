@@ -129,6 +129,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(showErrorMessage(const QString&)));
     connect(m_view, SIGNAL(infoMessage(const QString&)),
             this, SLOT(showInfoMessage(const QString&)));
+    connect(m_view, SIGNAL(operationCompletedMessage(const QString&)),
+            this, SLOT(showOperationCompletedMessage(const QString&)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
             this, SLOT(slotItemTriggered(KFileItem)));
     connect(m_view, SIGNAL(startedPathLoading(const KUrl&)),
@@ -248,6 +250,11 @@ void DolphinViewContainer::showInfoMessage(const QString& msg)
 void DolphinViewContainer::showErrorMessage(const QString& msg)
 {
     m_statusBar->setMessage(msg, DolphinStatusBar::Error);
+}
+
+void DolphinViewContainer::showOperationCompletedMessage(const QString& msg)
+{
+    m_statusBar->setMessage(msg, DolphinStatusBar::OperationCompleted);
 }
 
 void DolphinViewContainer::closeFilterBar()

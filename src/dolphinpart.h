@@ -108,6 +108,11 @@ private Q_SLOTS:
      */
     void updatePasteAction();
 
+    /**
+     * Connected to the "move_to_trash" action; adds "shift means del" handling.
+     */
+    void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
+
 private:
     void createActions();
 

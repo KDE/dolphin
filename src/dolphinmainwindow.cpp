@@ -52,7 +52,6 @@
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
-#include <kio/deletejob.h>
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmenu.h>
@@ -488,28 +487,13 @@ void DolphinMainWindow::rename()
 void DolphinMainWindow::moveToTrash()
 {
     clearStatusBar();
-    const KUrl::List selectedUrls = m_activeViewContainer->view()->selectedUrls();
-    KonqOperations::del(this, KonqOperations::TRASH, selectedUrls);
-    m_undoCommandTypes.append(KonqFileUndoManager::TRASH);
+    m_activeViewContainer->view()->trashSelectedItems();
 }
 
 void DolphinMainWindow::deleteItems()
 {
     clearStatusBar();
-
-    const KUrl::List list = m_activeViewContainer->view()->selectedUrls();
-    const bool del = KonqOperations::askDeleteConfirmation(list,
-                     KonqOperations::DEL,
-                     KonqOperations::DEFAULT_CONFIRMATION,
-                     this);
-
-    if (del) {
-        KIO::Job* job = KIO::del(list);
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotHandleJobError(KJob*)));
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotDeleteFileFinished(KJob*)));
-    }
+    m_activeViewContainer->view()->deleteSelectedItems();
 }
 
 void DolphinMainWindow::properties()
@@ -530,24 +514,6 @@ void DolphinMainWindow::slotHandlePlacesError(const QString &message)
     if (!message.isEmpty()) {
         DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
         statusBar->setMessage(message, DolphinStatusBar::Error);
-    }
-}
-
-void DolphinMainWindow::slotHandleJobError(KJob* job)
-{
-    if (job->error() != 0) {
-        DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
-        statusBar->setMessage(job->errorString(),
-                              DolphinStatusBar::Error);
-    }
-}
-
-void DolphinMainWindow::slotDeleteFileFinished(KJob* job)
-{
-    if (job->error() == 0) {
-        DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
-        statusBar->setMessage(i18nc("@info:status", "Delete operation completed."),
-                              DolphinStatusBar::OperationCompleted);
     }
 }
 
@@ -1047,21 +1013,13 @@ void DolphinMainWindow::setupActions()
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
 
-    KAction* rename = actionCollection()->addAction("rename");
-    rename->setText(i18nc("@action:inmenu File", "Rename..."));
-    rename->setShortcut(Qt::Key_F2);
+    KAction* rename = DolphinView::createRenameAction(actionCollection());
     connect(rename, SIGNAL(triggered()), this, SLOT(rename()));
 
-    KAction* moveToTrash = actionCollection()->addAction("move_to_trash");
-    moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
-    moveToTrash->setIcon(KIcon("user-trash"));
-    moveToTrash->setShortcut(QKeySequence::Delete);
+    KAction* moveToTrash = DolphinView::createMoveToTrashAction(actionCollection());
     connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
 
-    KAction* deleteAction = actionCollection()->addAction("delete");
-    deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
-    deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
-    deleteAction->setIcon(KIcon("edit-delete"));
+    KAction* deleteAction = DolphinView::createDeleteAction(actionCollection());
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
     KAction* properties = actionCollection()->addAction("properties");

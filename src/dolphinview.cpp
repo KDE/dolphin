@@ -36,6 +36,7 @@
 #include <kfileitemdelegate.h>
 #include <klocale.h>
 #include <kiconeffect.h>
+#include <kio/deletejob.h>
 #include <kio/netaccess.h>
 #include <kio/previewjob.h>
 #include <kmimetyperesolver.h>
@@ -1067,6 +1068,36 @@ void DolphinView::renameSelectedItems()
     }
 }
 
+void DolphinView::trashSelectedItems()
+{
+    emit doingOperation(KonqFileUndoManager::TRASH);
+    KonqOperations::del(this, KonqOperations::TRASH, selectedUrls());
+}
+
+void DolphinView::deleteSelectedItems()
+{
+    const KUrl::List list = selectedUrls();
+    const bool del = KonqOperations::askDeleteConfirmation(list,
+                     KonqOperations::DEL,
+                     KonqOperations::DEFAULT_CONFIRMATION,
+                     this);
+
+    if (del) {
+        KIO::Job* job = KIO::del(list);
+        connect(job, SIGNAL(result(KJob*)),
+                this, SLOT(slotDeleteFileFinished(KJob*)));
+    }
+}
+
+void DolphinView::slotDeleteFileFinished(KJob* job)
+{
+    if (job->error() == 0) {
+        emit operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
+    } else {
+        emit errorMessage(job->errorString());
+    }
+}
+
 void DolphinView::cutSelectedItems()
 {
     QMimeData* mimeData = new QMimeData();
@@ -1154,6 +1185,32 @@ QPair<bool, QString> DolphinView::pasteInfo() const
         }
     }
     return ret;
+}
+
+KAction* DolphinView::createRenameAction(KActionCollection* collection)
+{
+    KAction* rename = collection->addAction("rename");
+    rename->setText(i18nc("@action:inmenu File", "Rename..."));
+    rename->setShortcut(Qt::Key_F2);
+    return rename;
+}
+
+KAction* DolphinView::createMoveToTrashAction(KActionCollection* collection)
+{
+    KAction* moveToTrash = collection->addAction("move_to_trash");
+    moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
+    moveToTrash->setIcon(KIcon("user-trash"));
+    moveToTrash->setShortcut(QKeySequence::Delete);
+    return moveToTrash;
+}
+
+KAction* DolphinView::createDeleteAction(KActionCollection* collection)
+{
+    KAction* deleteAction = collection->addAction("delete");
+    deleteAction->setIcon(KIcon("edit-delete"));
+    deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
+    deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
+    return deleteAction;
 }
 
 #include "dolphinview.moc"
