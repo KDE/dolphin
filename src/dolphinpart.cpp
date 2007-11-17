@@ -27,6 +27,7 @@
 #include <kmessagebox.h>
 #include <kparts/genericfactory.h>
 #include <ktoggleaction.h>
+#include <kconfiggroup.h>
 
 #include <QActionGroup>
 #include <QApplication>
@@ -258,18 +259,45 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
 
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
-    editActions.append(actionCollection()->action("rename"));
-    editActions.append(actionCollection()->action("move_to_trash"));
-    editActions.append(actionCollection()->action("delete"));
-    actionGroups.insert("editactions", editActions);
 
-    KFileItemList items; items.append(item);
-    emit m_extension->popupMenu(QCursor::pos(),
-                                items,
-                                KParts::OpenUrlArguments(),
-                                KParts::BrowserArguments(),
-                                popupFlags,
-                                actionGroups);
+    if (!item.isNull()) { // only for context menu on one or more items
+        // TODO if ( sMoving )
+        editActions.append(actionCollection()->action("rename"));
+
+        bool addTrash = false;
+        bool addDel = false;
+
+        // TODO if ( sMoving && !isIntoTrash && !isTrashLink )
+        addTrash = true;
+
+        /* TODO if ( sDeleting ) */ {
+            if ( !item.isLocalFile() )
+                addDel = true;
+            else if (QApplication::keyboardModifiers() & Qt::ShiftModifier) {
+                addTrash = false;
+                addDel = true;
+            }
+            else {
+                KConfigGroup configGroup( KGlobal::config(), "KDE" );
+                if ( configGroup.readEntry( "ShowDeleteCommand", false) )
+                    addDel = true;
+            }
+        }
+
+        if (addTrash)
+            editActions.append(actionCollection()->action("move_to_trash"));
+        if (addDel)
+            editActions.append(actionCollection()->action("delete"));
+        actionGroups.insert("editactions", editActions);
+
+        KFileItemList items; items.append(item);
+        emit m_extension->popupMenu(QCursor::pos(),
+                                    items,
+                                    KParts::OpenUrlArguments(),
+                                    KParts::BrowserArguments(),
+                                    popupFlags,
+                                    actionGroups);
+    }
 }
 
 void DolphinPart::slotViewModeActionTriggered(QAction* action)
