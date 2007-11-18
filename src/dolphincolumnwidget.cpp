@@ -309,12 +309,14 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 
     QListView::contextMenuEvent(event);
 
-    const QModelIndex index = indexAt(event->pos());
-    if (index.isValid() || m_active) {
-        // Only open a context menu above an item or if the mouse is above
-        // the active column.
-        const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
-        m_view->m_controller->triggerContextMenuRequest(pos);
+    if (selectionModel()->hasSelection()) {
+        const QModelIndex index = indexAt(event->pos());
+        if (index.isValid() || m_active) {
+            // Only open a context menu above an item or if the mouse is above
+            // the active column.
+            const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
+            m_view->m_controller->triggerContextMenuRequest(pos);
+        }
     }
 }
 
