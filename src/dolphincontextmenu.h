@@ -97,6 +97,12 @@ private:
     bool containsEntry(const KMenu* menu,
                        const QString& entryName) const;
 
+    /**
+     * Adds the "Show menubar" action to the menu if the
+     * menubar is hidden.
+     */
+    void addShowMenubarAction(KMenu* menu);
+
 private:
     struct Entry
     {

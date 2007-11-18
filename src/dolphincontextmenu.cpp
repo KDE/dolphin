@@ -32,6 +32,7 @@
 #include <kiconloader.h>
 #include <kio/netaccess.h>
 #include <kmenu.h>
+#include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
 #include <knewmenu.h>
@@ -101,6 +102,8 @@ void DolphinContextMenu::openTrashContextMenu()
 
     KMenu* popup = new KMenu(m_mainWindow);
 
+    addShowMenubarAction(popup);
+
     QAction* emptyTrashAction = new QAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"), popup);
     KConfig trashConfig("trashrc", KConfig::SimpleConfig);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
@@ -141,6 +144,8 @@ void DolphinContextMenu::openTrashItemContextMenu()
 
     KMenu* popup = new KMenu(m_mainWindow);
 
+    addShowMenubarAction(popup);
+
     QAction* restoreAction = new QAction(i18nc("@action:inmenu", "Restore"), m_mainWindow);
     popup->addAction(restoreAction);
 
@@ -162,6 +167,7 @@ void DolphinContextMenu::openItemContextMenu()
     Q_ASSERT(!m_fileInfo.isNull());
 
     KMenu* popup = new KMenu(m_mainWindow);
+    addShowMenubarAction(popup);
     insertDefaultItemActions(popup);
 
     popup->addSeparator();
@@ -215,6 +221,8 @@ void DolphinContextMenu::openViewportContextMenu()
 {
     Q_ASSERT(m_fileInfo.isNull());
     KMenu* popup = new KMenu(m_mainWindow);
+
+    addShowMenubarAction(popup);
 
     // setup 'Create New' menu
     KNewMenu* newMenu = m_mainWindow->newMenu();
@@ -384,6 +392,19 @@ bool DolphinContextMenu::containsEntry(const KMenu* menu,
     }
 
     return false;
+}
+
+void DolphinContextMenu::addShowMenubarAction(KMenu* menu)
+{
+    KAction* showMenuBar = m_mainWindow->showMenuBarAction();
+    if (!m_mainWindow->menuBar()->isVisible()) {
+        // TODO: it should not be necessary to uncheck the menu
+        // bar action, but currently the action states don't get
+        // updated if the menu is disabled
+        showMenuBar->setChecked(false);
+        menu->addAction(showMenuBar);
+        menu->addSeparator();
+    }
 }
 
 #include "dolphincontextmenu.moc"

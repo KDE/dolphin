@@ -55,6 +55,7 @@
 #include <kinputdialog.h>
 #include <klocale.h>
 #include <kmenu.h>
+#include <kmenubar.h>
 #include <kmessagebox.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -76,6 +77,7 @@
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
     m_newMenu(0),
+    m_showMenuBar(0),
     m_splitter(0),
     m_activeViewContainer(0),
     m_id(id)
@@ -916,6 +918,12 @@ void DolphinMainWindow::compareFiles()
 
 }
 
+void DolphinMainWindow::toggleShowMenuBar()
+{
+    const bool visible = menuBar()->isVisible();
+    menuBar()->setVisible(!visible);
+}
+
 void DolphinMainWindow::editSettings()
 {
     DolphinSettingsDialog dialog(this);
@@ -1243,6 +1251,7 @@ void DolphinMainWindow::setupActions()
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
 
     // setup 'Settings' menu
+    m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
     KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
 }
 

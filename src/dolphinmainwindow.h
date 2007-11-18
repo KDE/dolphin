@@ -93,6 +93,12 @@ public:
      */
     KNewMenu* newMenu() const;
 
+    /**
+     * Returns the 'Show Menubar' action which can be shared with
+     * other menus (e. g. a context menu).
+     */
+    KAction* showMenuBarAction() const;
+
 public slots:
     /**
      * Handles the dropping of URLs to the given
@@ -362,6 +368,12 @@ private slots:
     /** Opens Kompare for 2 selected files. */
     void compareFiles();
 
+    /**
+     * Hides the menu bar if it is visible, makes the menu bar
+     * visible if it is hidden.
+     */
+    void toggleShowMenuBar();
+
     /** Opens the settings dialog for Dolphin. */
     void editSettings();
 
@@ -487,6 +499,7 @@ private:
     };
 
     KNewMenu* m_newMenu;
+    KAction* m_showMenuBar;
     QSplitter* m_splitter;
     DolphinViewContainer* m_activeViewContainer;
     int m_id;
@@ -510,6 +523,11 @@ inline bool DolphinMainWindow::isSplit() const
 inline KNewMenu* DolphinMainWindow::newMenu() const
 {
     return m_newMenu;
+}
+
+inline KAction* DolphinMainWindow::showMenuBarAction() const
+{
+    return m_showMenuBar;
 }
 
 inline int DolphinMainWindow::getId() const
