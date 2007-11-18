@@ -162,9 +162,7 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
     KCategorizedView::contextMenuEvent(event);
-    if (selectionModel()->hasSelection()) {
-        m_controller->triggerContextMenuRequest(event->pos());
-    }
+    m_controller->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinIconsView::mousePressEvent(QMouseEvent* event)

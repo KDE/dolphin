@@ -167,9 +167,7 @@ QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 {
     QTreeView::contextMenuEvent(event);
-    if (selectionModel()->hasSelection()) {
-        m_controller->triggerContextMenuRequest(event->pos());
-    }
+    m_controller->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
