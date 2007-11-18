@@ -487,7 +487,14 @@ void DolphinMainWindow::rename()
 void DolphinMainWindow::moveToTrash()
 {
     clearStatusBar();
-    m_activeViewContainer->view()->trashSelectedItems();
+
+    DolphinView* view = m_activeViewContainer->view();
+
+    if (QApplication::keyboardModifiers() & Qt::ShiftModifier) {
+        view->deleteSelectedItems();
+    } else {
+        view->trashSelectedItems();
+    }
 }
 
 void DolphinMainWindow::deleteItems()
