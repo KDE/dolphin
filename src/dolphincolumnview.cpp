@@ -178,6 +178,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
         if (column->url() == url) {
             // the column represents already the requested URL, hence activate it
             requestActivation(column);
+            layoutColumns();
             return;
         } else if (!column->url().isParentOf(url)) {
             // the column is no parent of the requested URL, hence
