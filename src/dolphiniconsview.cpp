@@ -415,7 +415,7 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     }
 
     const int spacing = settings->gridSpacing();
-    setGridSize(QSize(itemWidth + spacing, itemHeight + spacing));
+    setGridSize(QSize(itemWidth + spacing * 2, itemHeight + spacing));
 
     m_itemSize = QSize(itemWidth, itemHeight);
 

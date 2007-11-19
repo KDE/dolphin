@@ -72,7 +72,7 @@ private:
     enum
     {
         GridSpacingBase =   8,
-        GridSpacingInc  =  24,
+        GridSpacingInc  =  12,
         LeftToRightBase = 128,
         LeftToRightInc  =  64,
         TopToBottomBase =  64,
