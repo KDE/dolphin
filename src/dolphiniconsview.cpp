@@ -145,7 +145,7 @@ QRect DolphinIconsView::visualRect(const QModelIndex& index) const
         // name is too long. I'll try create a patch for Qt but as Dolphin must also work with
         // Qt 4.3.0 this workaround must get applied at least for KDE 4.0.
         const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-        const int margin = settings->gridSpacing() / 2;
+        const int margin = settings->gridSpacing();
         const int gridWidth = gridSize().width();
         const int gridIndex = (itemRect.left() - margin + 1) / gridWidth;
         itemRect.moveLeft(gridIndex * gridWidth + margin);
