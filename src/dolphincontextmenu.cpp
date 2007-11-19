@@ -75,7 +75,7 @@ void DolphinContextMenu::open()
         m_context |= TrashContext;
     }
 
-    if (!m_fileInfo.isNull()) {
+    if (!m_fileInfo.isNull() && (m_selectedItems.count() > 0)) {
         m_context |= ItemContext;
         // TODO: handle other use cases like devices + desktop files
     }
@@ -219,7 +219,6 @@ void DolphinContextMenu::openItemContextMenu()
 
 void DolphinContextMenu::openViewportContextMenu()
 {
-    Q_ASSERT(m_fileInfo.isNull());
     KMenu* popup = new KMenu(m_mainWindow);
 
     addShowMenubarAction(popup);
