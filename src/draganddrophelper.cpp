@@ -61,6 +61,10 @@ void DragAndDropHelper::drawHoverIndication(QWidget* widget,
                                             const QRect& bounds,
                                             const QBrush& brush)
 {
+    if (bounds.isEmpty()) {
+        return;
+    }
+
     QPainter painter(widget);
     painter.save();
     QBrush blendedBrush(brush);
