@@ -142,8 +142,12 @@ QRect DolphinIconsView::visualRect(const QModelIndex& index) const
         itemRect.setHeight(maxHeight);
     }
 
-    if (leftToRightFlow && bypassVisualRectIssue()) {
-        // TODO: check inline comment inside bypassVisualRectIssue() for details
+    KCategorizedSortFilterProxyModel* proxyModel = dynamic_cast<KCategorizedSortFilterProxyModel*>(model());
+    if (leftToRightFlow && !proxyModel->isCategorizedModel()) {
+        // TODO: QListView::visualRect() calculates a wrong position of the items under
+        // certain circumstances (e. g. if the text is too long). This issue is bypassed
+        // by the following code (I'll try create a patch for Qt but as Dolphin must also work with
+        // Qt 4.3.0 this workaround must get applied at least for KDE 4.0).
         const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
         const int margin = settings->gridSpacing();
         const int gridWidth = gridSize().width();
@@ -180,12 +184,10 @@ void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 
 void DolphinIconsView::startDrag(Qt::DropActions supportedActions)
 {
-    if (bypassVisualRectIssue()) {
-        // TODO: check inline comment inside bypassVisualRectIssue() for details
-        DragAndDropHelper::startDrag(this, supportedActions);
-    } else {
-        KCategorizedView::startDrag(supportedActions);
-    }
+    // TODO: invoking KCategorizedView::startDrag() should not be necessary, we'll
+    // fix this in KDE 4.1
+    KCategorizedView::startDrag(supportedActions);
+    DragAndDropHelper::startDrag(this, supportedActions);
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
@@ -198,12 +200,7 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    if (bypassVisualRectIssue()) {
-        // TODO: check inline comment inside bypassVisualRectIssue() for details
-        QAbstractItemView::dragLeaveEvent(event);
-    } else {
-        KCategorizedView::dragLeaveEvent(event);
-    }
+    KCategorizedView::dragLeaveEvent(event);
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     m_dragging = false;
@@ -212,12 +209,7 @@ void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 
 void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 {
-    if (bypassVisualRectIssue()) {
-        // TODO: check inline comment inside bypassVisualRectIssue() for details
-        QAbstractItemView::dragMoveEvent(event);
-    } else {
-        KCategorizedView::dragMoveEvent(event);
-    }
+    KCategorizedView::dragMoveEvent(event);
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
@@ -244,12 +236,7 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
         }
     }
 
-    if (bypassVisualRectIssue()) {
-        // TODO: check inline comment inside bypassVisualRectIssue() for details
-        QAbstractItemView::dropEvent(event);
-    } else {
-        KCategorizedView::dropEvent(event);
-    }
+    KCategorizedView::dropEvent(event);
 
     m_dragging = false;
 }
@@ -455,23 +442,6 @@ KFileItem DolphinIconsView::itemForIndex(const QModelIndex& index) const
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
     const QModelIndex dirIndex = proxyModel->mapToSource(index);
     return dirModel->itemForIndex(dirIndex);
-}
-
-bool DolphinIconsView::bypassVisualRectIssue() const
-{
-    // TODO: QListView::visualRect() calculates a wrong position of the items under
-    // certain circumstances (e. g. if the text is too long). This issue is bypassed
-    // inside DolphinIconsView::visualRect(), but internally QListView does not use
-    // visualRect() but the (non-virtual) QListView::rectForIndex(). This leads
-    // to problems in combination with drag & drop operations: visual fragments get
-    // created. To bypass the drag & drop issue the calls for QListView::dragMoveEvent(),
-    // QListView::dropEvent() are replaced by the QAbstractItemView counterparts and
-    // QAbstractItemView::startDrag() has been reimplemented.
-    //
-    // I'll try create a patch for Qt but as Dolphin must also work with
-    // Qt 4.3.0 this workaround must get applied at least for KDE 4.0.
-    KCategorizedSortFilterProxyModel* proxyModel = dynamic_cast<KCategorizedSortFilterProxyModel*>(model());
-    return !proxyModel->isCategorizedModel();
 }
 
 #include "dolphiniconsview.moc"

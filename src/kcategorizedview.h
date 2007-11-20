@@ -85,6 +85,8 @@ protected:
 
     virtual void dragLeaveEvent(QDragLeaveEvent *event);
 
+    virtual void dropEvent(QDropEvent *event);
+
     virtual QModelIndex moveCursor(CursorAction cursorAction,
                                    Qt::KeyboardModifiers modifiers);
 

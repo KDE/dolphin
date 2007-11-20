@@ -88,13 +88,6 @@ private:
 
     KFileItem itemForIndex(const QModelIndex& index) const;
 
-    /**
-     * Returns true, if the QListView-issue in QListView::visualRect()
-     * must be bypassed. TODO: this method is only temporary to have
-     * a usable drag & drop behavior until the issue in Qt is fixed.
-     */
-    bool bypassVisualRectIssue() const;
-
 private:
     DolphinController* m_controller;
     DolphinCategoryDrawer* m_categoryDrawer;

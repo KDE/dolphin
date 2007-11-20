@@ -34,6 +34,12 @@
 #include "kcategorydrawer.h"
 #include "kcategorizedsortfilterproxymodel.h"
 
+// By defining DOLPHIN_DRAGANDDROP the custom drag and drop implementation of
+// KCategorizedView is bypassed to have a consistent drag and drop look for all
+// views. Hopefully transparent pixmaps for drag objects will be supported in
+// Qt 4.4, so that this workaround can be skipped.
+#define DOLPHIN_DRAGANDDROP
+
 KCategorizedView::Private::Private(KCategorizedView *listView)
     : listView(listView)
     , categoryDrawer(0)
@@ -1055,7 +1061,9 @@ void KCategorizedView::startDrag(Qt::DropActions supportedActions)
     //        ARGB window so it is no transparent. Use QAbstractItemView when
     //        this is fixed on Qt.
     // QAbstractItemView::startDrag(supportedActions);
+#if !defined(DOLPHIN_DRAGANDDROP)
     QListView::startDrag(supportedActions);
+#endif
 
     d->isDragging = false;
     d->mouseButtonPressed = false;
@@ -1081,7 +1089,11 @@ void KCategorizedView::dragMoveEvent(QDragMoveEvent *event)
     if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
+#if defined(DOLPHIN_DRAGANDDROP)
+        QAbstractItemView::dragMoveEvent(event);
+#else
         QListView::dragMoveEvent(event);
+#endif
         return;
     }
 
@@ -1092,7 +1104,20 @@ void KCategorizedView::dragLeaveEvent(QDragLeaveEvent *event)
 {
     d->dragLeftViewport = true;
 
+#if defined(DOLPHIN_DRAGANDDROP)
+    QAbstractItemView::dragLeaveEvent(event);
+#else
     QListView::dragLeaveEvent(event);
+#endif
+}
+
+void KCategorizedView::dropEvent(QDropEvent *event)
+{
+#if defined(DOLPHIN_DRAGANDDROP)
+    QAbstractItemView::dropEvent(event);
+#else
+    QListView::dropEvent(event);
+#endif
 }
 
 QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
