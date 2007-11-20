@@ -24,6 +24,7 @@
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
+#include "draganddrophelper.h"
 #include "viewproperties.h"
 
 #include "dolphin_detailsmodesettings.h"
@@ -212,6 +213,11 @@ void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
     }
 }
 
+void DolphinDetailsView::startDrag(Qt::DropActions supportedActions)
+{
+    DragAndDropHelper::startDrag(this, supportedActions);
+}
+
 void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
 {
     if (event->mimeData()->hasUrls()) {
@@ -294,7 +300,7 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
         const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
-        DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
+        DragAndDropHelper::drawHoverIndication(viewport(), m_dropRect, brush);
     }
 }
 

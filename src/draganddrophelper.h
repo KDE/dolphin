@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,36 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef SIDEBARTREEVIEW_H
-#define SIDEBARTREEVIEW_H
+#ifndef DRAGANDDROPHELPER_H
+#define DRAGANDDROPHELPER_H
 
-#include <kurl.h>
-#include <QtGui/QTreeView>
+#include <Qt>
+
+class QAbstractItemView;
+class QBrush;
+class QRect;
+class QWidget;
 
 /**
- * @brief Tree view widget which is used for the sidebar panel.
+ * @brief Helper class to bypass some drag & drop limitations in Qt.
  *
- * @see TreeViewSidebarPage
+ * The class is used by DolphinIconsView, DolphinDetailsView,
+ * DolphinColumnView and SidebarTreeView to have a consistent
+ * drag and drop behavior between all views.
  */
-class SidebarTreeView : public QTreeView
+class DragAndDropHelper
 {
-    Q_OBJECT
 
 public:
-    explicit SidebarTreeView(QWidget* parent = 0);
-    virtual ~SidebarTreeView();
-
-signals:
     /**
-      * Is emitted if the URLs \a urls have been dropped to
-      * the index \a index.
-      */
-    void urlsDropped(const KUrl::List& urls,
-                     const QModelIndex& index);
+     * Creates a drag object for the view \a itemView for all selected items.
+     */
+    static void startDrag(QAbstractItemView* itemView, Qt::DropActions supportedActions);
 
-protected:
-    virtual bool event(QEvent* event);
-    virtual void startDrag(Qt::DropActions supportedActions);
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dragLeaveEvent(QDragLeaveEvent* event);
-    virtual void dragMoveEvent(QDragMoveEvent* event);
-    virtual void dropEvent(QDropEvent* event);
-    virtual void paintEvent(QPaintEvent* event);
-
-private:
-    bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
-    QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
+    // TODO: remove this method when the issue #160611 is solved in Qt 4.4
+    static void drawHoverIndication(QWidget* widget,
+                                    const QRect& bounds,
+                                    const QBrush& brush);
 };
 
 #endif

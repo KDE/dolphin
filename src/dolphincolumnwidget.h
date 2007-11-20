@@ -92,6 +92,7 @@ public:
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
+    virtual void startDrag(Qt::DropActions supportedActions);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);

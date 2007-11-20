@@ -26,8 +26,8 @@
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinsettings.h"
-
 #include "dolphin_columnmodesettings.h"
+#include "draganddrophelper.h"
 
 #include <kcolorutils.h>
 #include <kcolorscheme.h>
@@ -197,6 +197,11 @@ void DolphinColumnWidget::setNameFilter(const QString& nameFilter)
     m_proxyModel->setFilterRegExp(nameFilter);
 }
 
+void DolphinColumnWidget::startDrag(Qt::DropActions supportedActions)
+{
+    DragAndDropHelper::startDrag(this, supportedActions);
+}
+
 void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)
 {
     if (event->mimeData()->hasUrls()) {
@@ -271,7 +276,7 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
         const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
-        DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
+        DragAndDropHelper::drawHoverIndication(viewport(), m_dropRect, brush);
     }
 }
 

@@ -51,6 +51,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void mouseMoveEvent(QMouseEvent* event);
     virtual void mouseReleaseEvent(QMouseEvent* event);
+    virtual void startDrag(Qt::DropActions supportedActions);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);

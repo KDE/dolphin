@@ -12,6 +12,7 @@ set(dolphinprivate_LIB_SRCS
     dolphiniconsview.cpp
     dolphincolumnview.cpp
     dolphincolumnwidget.cpp
+    draganddrophelper.cpp
     kcategorizedview.cpp
     kcategorydrawer.cpp
     dolphinmodel.cpp
@@ -81,6 +82,7 @@ set(dolphin_SRCS
    dolphindirlister.cpp
    dolphincontextmenu.cpp
    dolphinsettingsdialog.cpp
+   draganddrophelper.cpp
    filterbar.cpp
    generalsettingspage.cpp
    generalviewsettingspage.cpp

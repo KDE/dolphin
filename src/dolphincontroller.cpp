@@ -19,8 +19,6 @@
 
 #include "dolphincontroller.h"
 
-#include <QPainter>
-
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
     m_zoomInPossible(false),
@@ -96,33 +94,6 @@ void DolphinController::triggerZoomIn()
 void DolphinController::triggerZoomOut()
 {
     emit zoomOut();
-}
-
-void DolphinController::drawHoverIndication(QWidget* widget,
-                                            const QRect& bounds,
-                                            const QBrush& brush)
-{
-    QPainter painter(widget);
-    painter.save();
-    QBrush blendedBrush(brush);
-    QColor color = blendedBrush.color();
-    color.setAlpha(64);
-    blendedBrush.setColor(color);
-
-    const int radius = 10;
-    QPainterPath path(QPointF(bounds.left(), bounds.top() + radius));
-    path.quadTo(bounds.left(), bounds.top(), bounds.left() + radius, bounds.top());
-    path.lineTo(bounds.right() - radius, bounds.top());
-    path.quadTo(bounds.right(), bounds.top(), bounds.right(), bounds.top() + radius);
-    path.lineTo(bounds.right(), bounds.bottom() - radius);
-    path.quadTo(bounds.right(), bounds.bottom(), bounds.right() - radius, bounds.bottom());
-    path.lineTo(bounds.left() + radius, bounds.bottom());
-    path.quadTo(bounds.left(), bounds.bottom(), bounds.left(), bounds.bottom() - radius);
-    path.closeSubpath();
-
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.fillPath(path, blendedBrush);
-    painter.restore();
 }
 
 void DolphinController::triggerItem(const KFileItem& item)

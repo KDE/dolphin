@@ -21,6 +21,7 @@
 
 #include "dolphincontroller.h"
 #include "dolphinmodel.h"
+#include "draganddrophelper.h"
 
 #include <kfileitemdelegate.h>
 #include <QKeyEvent>
@@ -95,6 +96,11 @@ bool SidebarTreeView::event(QEvent* event)
     return QTreeView::event(event);
 }
 
+void SidebarTreeView::startDrag(Qt::DropActions supportedActions)
+{
+    DragAndDropHelper::startDrag(this, supportedActions);
+}
+
 void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
 {
     if (event->mimeData()->hasUrls()) {
@@ -146,7 +152,7 @@ void SidebarTreeView::paintEvent(QPaintEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
         const QBrush& brush = palette().brush(QPalette::Normal, QPalette::Highlight);
-        DolphinController::drawHoverIndication(viewport(), m_dropRect, brush);
+        DragAndDropHelper::drawHoverIndication(viewport(), m_dropRect, brush);
     }
 }
 

@@ -54,6 +54,7 @@ protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
+    virtual void startDrag(Qt::DropActions supportedActions);
     virtual void dragEnterEvent(QDragEnterEvent* event);
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);
@@ -86,6 +87,13 @@ private:
     void updateGridSize(bool showPreview, int additionalInfoCount);
 
     KFileItem itemForIndex(const QModelIndex& index) const;
+
+    /**
+     * Returns true, if the QListView-issue in QListView::visualRect()
+     * must be bypassed. TODO: this method is only temporary to have
+     * a usable drag & drop behavior until the issue in Qt is fixed.
+     */
+    bool bypassVisualRectIssue() const;
 
 private:
     DolphinController* m_controller;
