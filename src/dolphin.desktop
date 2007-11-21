@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Dolphin
 Name[ar]=الدولفين
+Name[lv]= Dolphin
 Name[ne]=डल्फिन
 Name[pa]=ਡਾਲਫਿਨ
 Name[sr]=Делфин
@@ -32,6 +33,7 @@ GenericName[ja]=ファイルマネージャ
 GenericName[kk]=Файл менеджері
 GenericName[km]=កម្មវិធី​គ្រប់គ្រង​ឯកសារ
 GenericName[ko]=파일 관리자
+GenericName[lv]=Failu pārvaldnieks
 GenericName[nb]=Filbehandler
 GenericName[nds]=Dateipleger
 GenericName[ne]=फाइल प्रबन्धक
