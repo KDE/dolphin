@@ -42,6 +42,9 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     : KParts::ReadOnlyPart(parent)
 {
     Q_UNUSED(args)
+
+    KGlobal::locale()->insertCatalog("dolphin");
+
     setComponentData( DolphinPartFactory::componentData() );
     m_extension = new DolphinPartBrowserExtension(this);
 
