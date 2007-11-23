@@ -49,7 +49,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView, Qt::DropActions s
             const KFileItem item = dirModel->itemForIndex(index);
             pixmap = item.pixmap(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
         } else {
-            pixmap = KIcon("item-drag-multiple").pixmap(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
+            pixmap = KIcon("document-multiple").pixmap(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
         }
         drag->setPixmap(pixmap);
         drag->setMimeData(data);
