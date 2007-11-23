@@ -22,6 +22,7 @@
 
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+class KAction;
 class KFileItemList;
 class KFileItem;
 class DolphinPartBrowserExtension;
@@ -112,6 +113,8 @@ private Q_SLOTS:
      * Connected to the "move_to_trash" action; adds "shift means del" handling.
      */
     void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
+
+    void slotNewDir();
 
 private:
     void createActions();

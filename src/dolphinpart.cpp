@@ -22,6 +22,8 @@
 #include "dolphinview.h"
 #include "dolphinmodel.h"
 
+#include <konq_operations.h>
+
 #include <kactioncollection.h>
 #include <kdirlister.h>
 #include <kmessagebox.h>
@@ -130,6 +132,14 @@ void DolphinPart::createActions()
 
     KAction* deleteAction = DolphinView::createDeleteAction(actionCollection());
     connect(deleteAction, SIGNAL(triggered()), m_view, SLOT(deleteSelectedItems()));
+
+    // This action doesn't appear in the GUI, it's for the shortcut only.
+    // KNewMenu takes care of the GUI stuff.
+    KAction* newDirAction = actionCollection()->addAction( "create_dir" );
+    newDirAction->setText( i18n("Create Folder..." ) );
+    connect(newDirAction, SIGNAL(triggered()), SLOT(slotNewDir()));
+    newDirAction->setShortcut(Qt::Key_F10);
+    widget()->addAction(newDirAction);
 }
 
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
@@ -344,6 +354,11 @@ void DolphinPart::slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers mod
         m_view->deleteSelectedItems();
     else
         m_view->trashSelectedItems();
+}
+
+void DolphinPart::slotNewDir()
+{
+    KonqOperations::newDir(widget(), url());
 }
 
 #include "dolphinpart.moc"
