@@ -42,9 +42,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     : KParts::ReadOnlyPart(parent)
 {
     Q_UNUSED(args)
-
-    KGlobal::locale()->insertCatalog("dolphin");
-
     setComponentData( DolphinPartFactory::componentData() );
     m_extension = new DolphinPartBrowserExtension(this);
 
@@ -187,7 +184,7 @@ void DolphinPart::updateViewActions()
 
 KAboutData* DolphinPart::createAboutData()
 {
-    return new KAboutData("dolphinpart", 0, ki18nc("@title", "Dolphin Part"), "0.1");
+    return new KAboutData("dolphinpart", "dolphin", ki18nc("@title", "Dolphin Part"), "0.1");
 }
 
 bool DolphinPart::openUrl(const KUrl& url)
