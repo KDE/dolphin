@@ -282,7 +282,19 @@ void ViewPropertiesDialog::markAsDirty()
 
 void ViewPropertiesDialog::configureAdditionalInfo()
 {
-    const KFileItemDelegate::InformationList info = m_viewProps->additionalInfo();
+    KFileItemDelegate::InformationList info = m_viewProps->additionalInfo();
+    const bool useDefaultInfo = (m_viewProps->viewMode() == DolphinView::DetailsView) &&
+                                (info.isEmpty() || info.contains(KFileItemDelegate::NoInformation));
+    if (useDefaultInfo) {
+        // Using the details view without any additional information (-> additional column)
+        // makes no sense and leads to a usability problem as no viewport area is available
+        // anymore. Hence as fallback provide at least a size and date column.
+        info.clear();
+        info.append(KFileItemDelegate::Size);
+        info.append(KFileItemDelegate::ModificationTime);
+        m_viewProps->setAdditionalInfo(info);
+    }
+
     AdditionalInfoDialog dialog(this, info);
     if (dialog.exec() == QDialog::Accepted) {
         m_viewProps->setAdditionalInfo(dialog.additionalInfo());
