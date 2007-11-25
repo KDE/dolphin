@@ -210,15 +210,18 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
 
     switch (action) {
     case Qt::MoveAction:
-        moveUrls(urls, destination);
+        KonqOperations::copy(this, KonqOperations::MOVE, urls, destination);
+        m_undoCommandTypes.append(KonqFileUndoManager::MOVE);
         break;
 
     case Qt::CopyAction:
-        copyUrls(urls, destination);
+        KonqOperations::copy(this, KonqOperations::COPY, urls, destination);
+        m_undoCommandTypes.append(KonqFileUndoManager::COPY);
         break;
 
     case Qt::LinkAction:
-        linkUrls(urls, destination);
+        KonqOperations::copy(this, KonqOperations::LINK, urls, destination);
+        m_undoCommandTypes.append(KonqFileUndoManager::LINK);
         break;
 
     default:
@@ -1435,24 +1438,6 @@ void DolphinMainWindow::updateGoActions()
     QAction* goUpAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Up));
     const KUrl& currentUrl = m_activeViewContainer->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
-}
-
-void DolphinMainWindow::copyUrls(const KUrl::List& source, const KUrl& dest)
-{
-    KonqOperations::copy(this, KonqOperations::COPY, source, dest);
-    m_undoCommandTypes.append(KonqFileUndoManager::COPY);
-}
-
-void DolphinMainWindow::moveUrls(const KUrl::List& source, const KUrl& dest)
-{
-    KonqOperations::copy(this, KonqOperations::MOVE, source, dest);
-    m_undoCommandTypes.append(KonqFileUndoManager::MOVE);
-}
-
-void DolphinMainWindow::linkUrls(const KUrl::List& source, const KUrl& dest)
-{
-    KonqOperations::copy(this, KonqOperations::LINK, source, dest);
-    m_undoCommandTypes.append(KonqFileUndoManager::LINK);
 }
 
 void DolphinMainWindow::clearStatusBar()

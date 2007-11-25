@@ -443,9 +443,6 @@ private:
     void updateEditActions();
     void updateViewActions();
     void updateGoActions();
-    void copyUrls(const KUrl::List& source, const KUrl& dest);
-    void moveUrls(const KUrl::List& source, const KUrl& dest);
-    void linkUrls(const KUrl::List& source, const KUrl& dest);
     void clearStatusBar();
 
     /**
