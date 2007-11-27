@@ -214,10 +214,18 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
     setDirtyRegion(m_dropRect);
-    if (itemForIndex(index).isDir()) {
-        m_dropRect = visualRect(index);
-    } else {
+
+    if(!index.isValid()) {
         m_dropRect.setSize(QSize()); // set as invalid
+    } else {
+        KFileItem item = itemForIndex(index);
+        if (item.isNull()) {
+            kWarning(7007) << "Invalid item returned for index";
+        } else if (itemForIndex(index).isDir()) {
+            m_dropRect = visualRect(index);
+        } else {
+            m_dropRect.setSize(QSize()); // set as invalid
+	}
     }
     setDirtyRegion(m_dropRect);
 }
