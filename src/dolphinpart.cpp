@@ -197,10 +197,10 @@ bool DolphinPart::openUrl(const KUrl& url)
     const QString prettyUrl = url.pathOrUrl();
     emit setWindowCaption(prettyUrl);
     emit m_extension->setLocationBarUrl(prettyUrl);
+    emit started(0); // get the wheel to spin
     m_view->setUrl(url);
     if (reload)
         m_view->reload();
-    emit started(0); // get the wheel to spin
     return true;
 }
 
