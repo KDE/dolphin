@@ -227,10 +227,13 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
     setDirtyRegion(m_dropRect);
-    if (itemForIndex(index).isDir()) {
-        m_dropRect = visualRect(index);
-    } else {
-        m_dropRect.setSize(QSize()); // set as invalid
+
+    m_dropRect.setSize(QSize()); // set as invalid
+    if (index.isValid()) {
+        const KFileItem item = itemForIndex(index);
+        if (!item.isNull() && item.isDir()) {
+            m_dropRect = visualRect(index);
+        }
     }
     setDirtyRegion(m_dropRect);
 }

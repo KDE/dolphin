@@ -251,7 +251,8 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
         m_dragging = false;
     } else {
         m_dragging = true;
-        if (itemForIndex(index).isDir()) {
+        const KFileItem item = itemForIndex(index);
+        if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         } else {
             m_dropRect.setSize(QSize()); // set as invalid
