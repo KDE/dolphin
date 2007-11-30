@@ -110,10 +110,13 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Group"));
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Type"));
 #ifdef HAVE_NEPOMUK
-    if (!Nepomuk::ResourceManager::instance()->init()) {
-        m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Rating"));
-        m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
-    }
+    // TODO: Hided "sort by rating" and "sort by tags" as without caching the performance
+    // is too slow currently (Nepomuk will support caching in future releases).
+    //
+    // if (!Nepomuk::ResourceManager::instance()->init()) {
+    //    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Rating"));
+    //    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
+    // }
 #endif
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();

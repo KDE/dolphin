@@ -1129,24 +1129,27 @@ void DolphinMainWindow::setupActions()
     sortByType->setText(i18nc("@action:inmenu Sort By", "Type"));
     connect(sortByType, SIGNAL(triggered()), this, SLOT(sortByType()));
 
-    KToggleAction* sortByRating = actionCollection()->add<KToggleAction>("sort_by_rating");
-    sortByRating->setText(i18nc("@action:inmenu Sort By", "Rating"));
-
-    KToggleAction* sortByTags = actionCollection()->add<KToggleAction>("sort_by_tags");
-    sortByTags->setText(i18nc("@action:inmenu Sort By", "Tags"));
-
+    // TODO: Hided "sort by rating" and "sort by tags" as without caching the performance
+    // is too slow currently (Nepomuk will support caching in future releases).
+    //
+    // KToggleAction* sortByRating = actionCollection()->add<KToggleAction>("sort_by_rating");
+    // sortByRating->setText(i18nc("@action:inmenu Sort By", "Rating"));
+    //
+    // KToggleAction* sortByTags = actionCollection()->add<KToggleAction>("sort_by_tags");
+    // sortByTags->setText(i18nc("@action:inmenu Sort By", "Tags"));
+    //
 #ifdef HAVE_NEPOMUK
-    if (MetaDataWidget::metaDataAvailable()) {
-        connect(sortByRating, SIGNAL(triggered()), this, SLOT(sortByRating()));
-        connect(sortByTags, SIGNAL(triggered()), this, SLOT(sortByTags()));
-    }
-    else {
-        sortByRating->setEnabled(false);
-        sortByTags->setEnabled(false);
-    }
+    // if (MetaDataWidget::metaDataAvailable()) {
+    //     connect(sortByRating, SIGNAL(triggered()), this, SLOT(sortByRating()));
+    //     connect(sortByTags, SIGNAL(triggered()), this, SLOT(sortByTags()));
+    // }
+    // else {
+    //     sortByRating->setEnabled(false);
+    //     sortByTags->setEnabled(false);
+    // }
 #else
-    sortByRating->setEnabled(false);
-    sortByTags->setEnabled(false);
+    // sortByRating->setEnabled(false);
+    // sortByTags->setEnabled(false);
 #endif
 
     QActionGroup* sortGroup = new QActionGroup(this);
@@ -1157,8 +1160,11 @@ void DolphinMainWindow::setupActions()
     sortGroup->addAction(sortByOwner);
     sortGroup->addAction(sortByGroup);
     sortGroup->addAction(sortByType);
-    sortGroup->addAction(sortByRating);
-    sortGroup->addAction(sortByTags);
+
+    // TODO: Hided "sort by rating" and "sort by tags" as without caching the performance
+    // is too slow currently (Nepomuk will support caching in future releases).
+    //sortGroup->addAction(sortByRating);
+    //sortGroup->addAction(sortByTags);
 
     KToggleAction* sortDescending = actionCollection()->add<KToggleAction>("descending");
     sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
