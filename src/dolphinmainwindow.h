@@ -160,21 +160,14 @@ signals:
     void requestItemInfo(const KFileItem& item);
 
 protected:
-    /** @see QMainWindow::closeEvent */
+    /** @see QMainWindow::closeEvent() */
     virtual void closeEvent(QCloseEvent* event);
 
-    /**
-     * This method is called when it is time for the app to save its
-     * properties for session management purposes.
-     */
-    void saveProperties(KConfig*);
+    /** @see KMainWindow::saveProperties() */
+    virtual void saveProperties(KConfigGroup& group);
 
-    /**
-     * This method is called when this app is restored.  The KConfig
-     * object points to the session management config file that was saved
-     * with @ref saveProperties
-     */
-    void readProperties(KConfig*);
+    /** @see KMainWindow::readProperties() */
+    virtual void readProperties(const KConfigGroup& group);
 
 private slots:
     /** Updates the 'Create New...' sub menu. */

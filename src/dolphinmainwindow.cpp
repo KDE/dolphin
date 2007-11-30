@@ -445,34 +445,44 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     KXmlGuiWindow::closeEvent(event);
 }
 
-void DolphinMainWindow::saveProperties(KConfig* config)
+void DolphinMainWindow::saveProperties(KConfigGroup& group)
 {
-    KConfigGroup primaryView = config->group("Primary view");
-    primaryView.writeEntry("Url", m_viewContainer[PrimaryView]->url().url());
-    primaryView.writeEntry("Editable Url", m_viewContainer[PrimaryView]->isUrlEditable());
-    if (m_viewContainer[SecondaryView] != 0) {
-        KConfigGroup secondaryView = config->group("Secondary view");
-        secondaryView.writeEntry("Url", m_viewContainer[SecondaryView]->url().url());
-        secondaryView.writeEntry("Editable Url", m_viewContainer[SecondaryView]->isUrlEditable());
+    DolphinViewContainer* cont = m_viewContainer[PrimaryView];
+    group.writeEntry("Primary Url", cont->url().url());
+    group.writeEntry("Primary Editable Url", cont->isUrlEditable());
+
+    cont = m_viewContainer[SecondaryView];
+    if (cont != 0) {
+        group.writeEntry("Secondary Url", cont->url().url());
+        group.writeEntry("Secondary Editable Url", cont->isUrlEditable());
     }
 }
 
-void DolphinMainWindow::readProperties(KConfig* config)
+void DolphinMainWindow::readProperties(const KConfigGroup& group)
 {
-    const KConfigGroup primaryViewGroup = config->group("Primary view");
-    m_viewContainer[PrimaryView]->setUrl(primaryViewGroup.readEntry("Url"));
-    bool editable = primaryViewGroup.readEntry("Editable Url", false);
-    m_viewContainer[PrimaryView]->urlNavigator()->setUrlEditable(editable);
+    DolphinViewContainer* cont = m_viewContainer[PrimaryView];
 
-    if (config->hasGroup("Secondary view")) {
-        const KConfigGroup secondaryViewGroup = config->group("Secondary view");
-        if (m_viewContainer[PrimaryView] == 0) {
+    cont->setUrl(group.readEntry("Primary Url"));
+    bool editable = group.readEntry("Primary Editable Url", false);
+    cont->urlNavigator()->setUrlEditable(editable);
+
+    cont = m_viewContainer[SecondaryView];
+    const QString secondaryUrl = group.readEntry("Secondary Url");
+    if (!secondaryUrl.isEmpty()) {
+        if (cont == 0) {
+            // a secondary view should be shown, but no one is available
+            // currently -> create a new view
             toggleSplitView();
+            cont = m_viewContainer[SecondaryView];
+            Q_ASSERT(cont != 0);
         }
-        m_viewContainer[PrimaryView]->setUrl(secondaryViewGroup.readEntry("Url"));
-        editable = secondaryViewGroup.readEntry("Editable Url", false);
-        m_viewContainer[PrimaryView]->urlNavigator()->setUrlEditable(editable);
-    } else if (m_viewContainer[SecondaryView] != 0) {
+
+        cont->setUrl(secondaryUrl);
+        bool editable = group.readEntry("Secondary Editable Url", false);
+        cont->urlNavigator()->setUrlEditable(editable);
+    } else if (cont != 0) {
+        // no secondary view should be shown, but the default setting shows
+        // one already -> close the view
         toggleSplitView();
     }
 }

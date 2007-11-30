@@ -80,7 +80,7 @@ int main(int argc, char **argv)
     QApplication::setWindowIcon(KIcon("system-file-manager"));
     KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
 
-    if (false /*app.isSessionRestored()*/) {
+    if (app.isSessionRestored()) {
         int n = 1;
         while (KMainWindow::canBeRestored(n)) {
             const QString className = KXmlGuiWindow::classNameOfToplevel(n);
