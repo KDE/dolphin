@@ -136,7 +136,7 @@ bool DolphinDetailsView::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
         QHeaderView* headerView = header();
-        headerView->setResizeMode(QHeaderView::Fixed);
+        headerView->setResizeMode(QHeaderView::Interactive);
         headerView->setMovable(false);
 
         updateColumnVisibility();
@@ -322,7 +322,15 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 {
     QTreeView::resizeEvent(event);
-    resizeColumns();
+
+    // TODO: There seems to be no easy way to find out whether the resize event
+    // has been triggered because of resizing the window or by adjusting the column-width
+    // by a left mouse-click (the columns should only be resized automatically when the window
+    // size is adjusted). The following workaround works well, but it should be
+    // considered solving this in a more transparent way.
+    if (!(QApplication::mouseButtons() & Qt::LeftButton)) {
+        resizeColumns();
+    }
 }
 
 void DolphinDetailsView::closeEvent(QCloseEvent* event)
