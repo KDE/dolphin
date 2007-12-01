@@ -522,8 +522,11 @@ void DolphinMainWindow::properties()
 {
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
 
-    KPropertiesDialog dialog(list, this);
-    dialog.exec();
+    KPropertiesDialog *dialog = new KPropertiesDialog(list, this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+    dialog->raise();
+    dialog->activateWindow();
 }
 
 void DolphinMainWindow::quit()
