@@ -93,8 +93,8 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
     return sortingTypeTable[column];
 }
 
-bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left,
-                                                         const QModelIndex &right) const
+int DolphinSortFilterProxyModel::compareCategories(const QModelIndex &left,
+                                                   const QModelIndex &right) const
 {
 #ifdef HAVE_NEPOMUK
     DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
@@ -128,11 +128,11 @@ bool DolphinSortFilterProxyModel::lessThanGeneralPurpose(const QModelIndex &left
     }
 #endif
 
-    return KDirSortFilterProxyModel::lessThanGeneralPurpose(left, right);
+    return KDirSortFilterProxyModel::compareCategories(left, right);
 }
 
-bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
-                                           const QModelIndex& right) const
+bool DolphinSortFilterProxyModel::subsortLessThan(const QModelIndex& left,
+                                                  const QModelIndex& right) const
 {
 #ifdef HAVE_NEPOMUK
     DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
@@ -212,8 +212,7 @@ bool DolphinSortFilterProxyModel::lessThan(const QModelIndex& left,
 
     }
 #endif
-
-    return KDirSortFilterProxyModel::lessThan(left, right);
+    return KDirSortFilterProxyModel::subsortLessThan(left, right);
 }
 
 #include "dolphinsortfilterproxymodel.moc"

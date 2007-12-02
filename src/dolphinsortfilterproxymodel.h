@@ -84,15 +84,15 @@ public:
      * will go before a category with a folder with rating 8.
      * That's the main reason for having the lessThanGeneralPurpose() method.
      */
-    virtual bool lessThanGeneralPurpose(const QModelIndex &left,
-                                        const QModelIndex &right) const;
+    virtual int compareCategories(const QModelIndex &left,
+                                  const QModelIndex &right) const;
 
 signals:
     void sortingRoleChanged();
 
 protected:
-    virtual bool lessThan(const QModelIndex& left,
-                          const QModelIndex& right) const;
+    virtual bool subsortLessThan(const QModelIndex& left,
+                                 const QModelIndex& right) const;
 
 private:
     DolphinView::Sorting m_sorting:16;
