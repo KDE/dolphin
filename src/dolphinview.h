@@ -690,6 +690,7 @@ private:
     DolphinDetailsView* m_detailsView;
     DolphinColumnView* m_columnView;
     KFileItemDelegate* m_fileItemDelegate;
+    QItemSelectionModel *m_selectionModel;
 
     DolphinModel* m_dolphinModel;
     KDirLister* m_dirLister;
