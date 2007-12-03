@@ -89,7 +89,6 @@ public:
      * which contain the given filter string will be shown.
      */
     void setNameFilter(const QString& nameFilter);
-    virtual void setModel ( QAbstractItemModel * model );
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;

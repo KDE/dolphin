@@ -115,16 +115,18 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dirLister->setShowingDotFiles(showHiddenFiles);
     connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
             this, SLOT(generatePreviews(const KFileItemList&)));
-}
 
-void DolphinColumnWidget::setModel ( QAbstractItemModel * model )
-{
-    m_proxyModel = dynamic_cast<DolphinSortFilterProxyModel *>(model);
-    if(m_proxyModel)
-        m_dolphinModel = dynamic_cast<DolphinModel *>(m_proxyModel->sourceModel());
+    m_dolphinModel = new DolphinModel(this);
+    m_dolphinModel->setDirLister(m_dirLister);
+    m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
+
+    m_proxyModel = new DolphinSortFilterProxyModel(this);
+    m_proxyModel->setSourceModel(m_dolphinModel);
+
+    setModel(m_proxyModel);
     new KMimeTypeResolver(this, m_dolphinModel);
-    m_dirLister->openUrl(m_url, KDirLister::NoFlags);
-    QListView::setModel(m_proxyModel);
+
+    m_dirLister->openUrl(url, KDirLister::NoFlags);
 }
 
 DolphinColumnWidget::~DolphinColumnWidget()

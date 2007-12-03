@@ -554,19 +554,4 @@ void DolphinColumnView::removeAllColumns()
     assureVisibleActiveColumn();
 }
 
-void DolphinColumnView::setModel ( QAbstractItemModel * model )
-{
-    QAbstractItemView::setModel(model);
-    if(m_columns[0]) {
-	m_columns[0]->setModel(model);
-        m_columns[0]->setSelectionModel(selectionModel());
-    }
-}
-void DolphinColumnView::setSelectionModel ( QItemSelectionModel * selectionModel )
-{
-    if(m_columns[0])
-        m_columns[0]->setSelectionModel(selectionModel);
-    QAbstractItemView::setSelectionModel(selectionModel);
-}
-
 #include "dolphincolumnview.moc"
