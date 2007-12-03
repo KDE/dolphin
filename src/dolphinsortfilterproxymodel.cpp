@@ -115,9 +115,9 @@ int DolphinSortFilterProxyModel::compareCategories(const QModelIndex &left,
         const QString rightTags = DolphinModel::tagsForIndex(right);
 
         if (leftTags.isEmpty() && !rightTags.isEmpty())
-            return -1;
-        else if (!leftTags.isEmpty() && rightTags.isEmpty())
             return 1;
+        else if (!leftTags.isEmpty() && rightTags.isEmpty())
+            return -1;
 
         return naturalCompare(DolphinModel::tagsForIndex(left), DolphinModel::tagsForIndex(right)) < 0;
     }
