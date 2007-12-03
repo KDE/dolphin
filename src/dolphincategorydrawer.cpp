@@ -53,7 +53,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
     QRect starRect = option.rect;
 
     int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
-    QVariant categoryVariant = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryRole);
+    QVariant categoryVariant = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
 
     if (!categoryVariant.isValid())
     {

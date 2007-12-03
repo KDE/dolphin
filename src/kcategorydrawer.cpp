@@ -38,7 +38,7 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
                                    const QStyleOption &option,
                                    QPainter *painter) const
 {
-    const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryRole).toString();
+    const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
 
     QColor color;
 

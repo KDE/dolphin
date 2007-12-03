@@ -93,43 +93,6 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
     return sortingTypeTable[column];
 }
 
-int DolphinSortFilterProxyModel::compareCategories(const QModelIndex &left,
-                                                   const QModelIndex &right) const
-{
-#ifdef HAVE_NEPOMUK
-    DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
-
-    const KFileItem leftFileItem  = dolphinModel->itemForIndex(left);
-    const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
-
-    switch (left.column()) {
-
-    case DolphinView::SortByRating: {
-        const qint32 leftRating = DolphinModel::ratingForIndex(left);
-        const qint32 rightRating = DolphinModel::ratingForIndex(right);
-        return leftRating - rightRating;
-    }
-
-    case DolphinView::SortByTags: {
-        const QString leftTags = DolphinModel::tagsForIndex(left);
-        const QString rightTags = DolphinModel::tagsForIndex(right);
-
-        if (leftTags.isEmpty() && !rightTags.isEmpty())
-            return 1;
-        else if (!leftTags.isEmpty() && rightTags.isEmpty())
-            return -1;
-
-        return naturalCompare(DolphinModel::tagsForIndex(left), DolphinModel::tagsForIndex(right)) < 0;
-    }
-
-    default:
-        break;
-
-    }
-#endif
-    return KDirSortFilterProxyModel::compareCategories(left, right);
-}
-
 bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
                                                   const QModelIndex& right) const
 {

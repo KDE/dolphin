@@ -72,21 +72,6 @@ public:
      */
     static DolphinView::Sorting sortingForColumn(int column);
 
-    /**
-     * This method is essential for the categorized view.
-     * It does a basic sorting for finding out categories
-     * and their order. The lessThan() method will be applied for
-     * each category.
-     *
-     * The easy explanation is that not always folders go first.
-     * Imagine we sort by rating. Categories will be created by 10 stars,
-     * 9 stars, 8 stars, ... but a category with only a file rated by 10
-     * will go before a category with a folder with rating 8.
-     * That's the main reason for having the lessThanGeneralPurpose() method.
-     */
-    virtual int compareCategories(const QModelIndex &left,
-                                  const QModelIndex &right) const;
-
 signals:
     void sortingRoleChanged();
 

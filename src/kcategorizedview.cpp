@@ -361,7 +361,7 @@ void KCategorizedView::Private::drawNewCategory(const QModelIndex &index,
     }
 
     QStyleOption optionCopy = option;
-    const QString category = proxyModel->data(index, KCategorizedSortFilterProxyModel::CategoryRole).toString();
+    const QString category = proxyModel->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
 
     optionCopy.state &= ~QStyle::State_Selected;
 
@@ -1329,7 +1329,7 @@ void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
     }
 
     // Add all elements mapped to the source model and explore categories
-    QString prevCategory = d->proxyModel->data(d->proxyModel->index(0, d->proxyModel->sortColumn()), KCategorizedSortFilterProxyModel::CategoryRole).toString();
+    QString prevCategory = d->proxyModel->data(d->proxyModel->index(0, d->proxyModel->sortColumn()), KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
     QString lastCategory = prevCategory;
     QModelIndexList modelIndexList;
     struct Private::ElementInfo elementInfo;
@@ -1346,7 +1346,7 @@ void KCategorizedView::rowsInsertedArtifficial(const QModelIndex &parent,
 
         d->modelIndexList << index;
 
-        lastCategory = d->proxyModel->data(index, KCategorizedSortFilterProxyModel::CategoryRole).toString();
+        lastCategory = d->proxyModel->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
 
         elementInfo.category = lastCategory;
 
