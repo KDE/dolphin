@@ -103,6 +103,8 @@ protected:
 
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
+    virtual void setSelectionModel ( QItemSelectionModel * selectionModel );
+    virtual void setModel ( QAbstractItemModel * model );
 
 private slots:
     void zoomIn();
