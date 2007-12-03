@@ -204,7 +204,6 @@ void DolphinView::setMode(Mode mode)
     const KUrl viewPropsUrl = viewPropertiesUrl();
     ViewProperties props(viewPropsUrl);
     props.setViewMode(m_mode);
-
     createView();
 
     // the file item delegate has been recreated, apply the current
@@ -222,8 +221,6 @@ void DolphinView::setMode(Mode mode)
         m_proxyModel->setCategorizedModel(categorized);
         emit categorizedSortingChanged();
     }
-
-    loadDirectory(viewPropsUrl);
 
     emit modeChanged();
 }
