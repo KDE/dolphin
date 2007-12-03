@@ -98,7 +98,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
     }
     else if (option.state & QStyle::State_MouseOver)
     {
-        QColor hover = option.palette.color(QPalette::Highlight).light();
+        QColor hover = option.palette.color(QPalette::Highlight);
         hover.setAlpha(88);
 
         QLinearGradient gradient(option.rect.topLeft(),

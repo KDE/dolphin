@@ -127,7 +127,6 @@ int DolphinSortFilterProxyModel::compareCategories(const QModelIndex &left,
 
     }
 #endif
-
     return KDirSortFilterProxyModel::compareCategories(left, right);
 }
 
