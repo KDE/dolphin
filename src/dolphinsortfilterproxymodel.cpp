@@ -105,9 +105,9 @@ int DolphinSortFilterProxyModel::compareCategories(const QModelIndex &left,
     switch (left.column()) {
 
     case DolphinView::SortByRating: {
-        const quint32 leftRating = DolphinModel::ratingForIndex(left);
-        const quint32 rightRating = DolphinModel::ratingForIndex(right);
-        return leftRating > rightRating;
+        const qint32 leftRating = DolphinModel::ratingForIndex(left);
+        const qint32 rightRating = DolphinModel::ratingForIndex(right);
+        return leftRating - rightRating;
     }
 
     case DolphinView::SortByTags: {
@@ -115,9 +115,9 @@ int DolphinSortFilterProxyModel::compareCategories(const QModelIndex &left,
         const QString rightTags = DolphinModel::tagsForIndex(right);
 
         if (leftTags.isEmpty() && !rightTags.isEmpty())
-            return false;
+            return -1;
         else if (!leftTags.isEmpty() && rightTags.isEmpty())
-            return true;
+            return 1;
 
         return naturalCompare(DolphinModel::tagsForIndex(left), DolphinModel::tagsForIndex(right)) < 0;
     }
