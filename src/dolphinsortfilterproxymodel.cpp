@@ -130,7 +130,7 @@ int DolphinSortFilterProxyModel::compareCategories(const QModelIndex &left,
     return KDirSortFilterProxyModel::compareCategories(left, right);
 }
 
-bool DolphinSortFilterProxyModel::subsortLessThan(const QModelIndex& left,
+bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
                                                   const QModelIndex& right) const
 {
 #ifdef HAVE_NEPOMUK
@@ -211,7 +211,7 @@ bool DolphinSortFilterProxyModel::subsortLessThan(const QModelIndex& left,
 
     }
 #endif
-    return KDirSortFilterProxyModel::subsortLessThan(left, right);
+    return KDirSortFilterProxyModel::subSortLessThan(left, right);
 }
 
 #include "dolphinsortfilterproxymodel.moc"

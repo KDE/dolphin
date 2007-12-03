@@ -91,7 +91,7 @@ signals:
     void sortingRoleChanged();
 
 protected:
-    virtual bool subsortLessThan(const QModelIndex& left,
+    virtual bool subSortLessThan(const QModelIndex& left,
                                  const QModelIndex& right) const;
 
 private:
