@@ -272,7 +272,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
         {
             QFileInfo info(item.url().pathOrUrl());
 
-            retVariant = KDirSortFilterProxyModel::pointsForPermissions(info);
+            retVariant = -KDirSortFilterProxyModel::pointsForPermissions(info);
             break;
         }
 
