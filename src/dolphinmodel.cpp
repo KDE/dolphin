@@ -82,7 +82,6 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
 		QString name = data.toString();
                 if (!name.isEmpty()) {
-		    QChar first
                     if (!item.isHidden() && name.at(0).isLetter())
                         retString = name.at(0).toUpper();
                     else if (item.isHidden()) { 
