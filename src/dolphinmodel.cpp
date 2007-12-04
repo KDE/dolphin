@@ -58,22 +58,18 @@ DolphinModel::~DolphinModel()
 
 QVariant DolphinModel::data(const QModelIndex &index, int role) const
 {
-    if (role == KCategorizedSortFilterProxyModel::CategoryDisplayRole)
-    {
+    if (role == KCategorizedSortFilterProxyModel::CategoryDisplayRole) {
         QString retString;
 
-        if (!index.isValid())
-        {
+        if (!index.isValid()) {
             return retString;
         }
 
         const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
         KFileItem item = dirModel->itemForIndex(index);
 
-        switch (index.column())
-        {
-            case KDirModel::Name:
-            {
+        switch (index.column()) {
+            case KDirModel::Name: {
                 // KDirModel checks columns to know to which role are
                 // we talking about
                 QModelIndex theIndex = index.model()->index(index.row(),
@@ -85,8 +81,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 }
 
                 QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
-                if (data.toString().size())
-                {
+                if (data.toString().size()) {
                     if (!item.isHidden() && data.toString().at(0).isLetter())
                         retString = data.toString().toUpper().at(0);
                     else if (item.isHidden() && data.toString().at(0) == '.' &&
@@ -137,8 +132,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 break;
             }
 
-            case KDirModel::ModifiedTime:
-            {
+            case KDirModel::ModifiedTime: {
                 KDateTime modifiedTime;
                 modifiedTime.setTime_t(item.time(KIO::UDSEntry::UDS_MODIFICATION_TIME));
                 modifiedTime = modifiedTime.toLocalZone();
@@ -147,8 +141,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 break;
             }
 
-            case KDirModel::Permissions:
-            {
+            case KDirModel::Permissions: {
                 QString user;
                 QString group;
                 QString others;
@@ -234,12 +227,10 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
 
         return retString;
     }
-    else if (role == KCategorizedSortFilterProxyModel::CategorySortRole)
-    {
+    else if (role == KCategorizedSortFilterProxyModel::CategorySortRole) {
         QVariant retVariant;
 
-        if (!index.isValid())
-        {
+        if (!index.isValid()) {
             return retVariant;
         }
 
@@ -254,12 +245,19 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
 
         case KDirModel::Size: {
             const int fileSize = !item.isNull() ? item.size() : -1;
-            retVariant = fileSize;
+            if (item.isDir()) {
+                retVariant = 0;
+            } else if (fileSize < 5242880) {
+                retVariant = 1;
+            } else if (fileSize < 10485760) {
+                retVariant = 2;
+            } else {
+                retVariant = 3;
+            }
             break;
         }
 
-        case KDirModel::ModifiedTime:
-        {
+        case KDirModel::ModifiedTime: {
             KDateTime modifiedTime;
             modifiedTime.setTime_t(item.time(KIO::UDSEntry::UDS_MODIFICATION_TIME));
             modifiedTime = modifiedTime.toLocalZone();
@@ -268,8 +266,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
             break;
         }
 
-        case KDirModel::Permissions:
-        {
+        case KDirModel::Permissions: {
             QFileInfo info(item.url().pathOrUrl());
 
             retVariant = -KDirSortFilterProxyModel::pointsForPermissions(info);
