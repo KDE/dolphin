@@ -86,7 +86,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                         retString = name.at(0).toUpper();
                     else if (item.isHidden()) { 
   		        if(name.at(0) == '.') {
-	 		    if(data.size() > 1 && name.at(1).isLetter())
+	 		    if(name.size() > 1 && name.at(1).isLetter())
                                 retString = name.at(1).toUpper();
 			    else
                                 retString = i18nc("@title:group Name", "Others");
