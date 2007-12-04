@@ -79,26 +79,26 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                 if (!theIndex.isValid()) {
                     return retString;
                 }
-
                 QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
-                if (data.toString().size()) {
-                    if (!item.isHidden() && data.toString().at(0).isLetter())
-                        retString = data.toString().at(0).toUpper();
-                    else if (item.isHidden() && data.toString().at(0) == '.' &&
-                            data.toString().at(1).isLetter())
-                        retString = data.toString().at(1).toUpper();
-                    else if (item.isHidden() && data.toString().at(0) == '.' &&
-                            !data.toString().at(1).isLetter())
-                        retString = i18nc("@title:group Name", "Others");
-                    else if (item.isHidden() && data.toString().at(0) != '.')
-                        retString = data.toString().at(0).toUpper();
-                    else if (item.isHidden())
-                        retString = data.toString().at(0).toUpper();
-                    else
+		QString name = data.toString();
+                if (!name.isEmpty()) {
+		    QChar first
+                    if (!item.isHidden() && name.at(0).isLetter())
+                        retString = name.at(0).toUpper();
+                    else if (item.isHidden()) { 
+  		        if(name.at(0) == '.') {
+	 		    if(data.size() > 1 && name.at(1).isLetter())
+                                retString = name.at(1).toUpper();
+			    else
+                                retString = i18nc("@title:group Name", "Others");
+			} else
+                            retString = name.at(0).toUpper();
+		    }
+		    else
                     {
                         bool validCategory = false;
 
-                        const QString str(data.toString().toUpper());
+                        const QString str(name.toUpper());
                         const QChar* currA = str.unicode();
                         while (!currA->isNull() && !validCategory) {
                             if (currA->isLetter())
