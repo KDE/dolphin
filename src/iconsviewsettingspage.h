@@ -25,6 +25,7 @@
 
 class DolphinMainWindow;
 class KFontRequester;
+class QCheckBox;
 class QComboBox;
 class QPushButton;
 class QSpinBox;
@@ -87,6 +88,7 @@ private:
     QComboBox* m_textWidthBox;
     KFontRequester* m_fontRequester;
     QSpinBox* m_textlinesCountBox;
+    QCheckBox* m_showAdditionalInfo;
 
     QComboBox* m_arrangementBox;
     QComboBox* m_gridSpacingBox;

@@ -25,6 +25,7 @@
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphin_generalsettings.h"
+#include "dolphin_iconsmodesettings.h"
 #include "viewproperties.h"
 #include "viewpropsprogressinfo.h"
 
@@ -380,7 +381,10 @@ void ViewPropertiesDialog::loadSettings()
     m_sortOrder->setCurrentIndex(sortOrderIndex);
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
-    m_additionalInfo->setEnabled(index != DolphinView::ColumnView);
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    const bool enabled = (index == DolphinView::DetailsView) ||
+                         ((index == DolphinView::IconsView) && settings->showAdditionalInfo());
+    m_additionalInfo->setEnabled(enabled);
 
     // load show preview, show in groups and show hidden files settings
     m_showPreview->setChecked(m_viewProps->showPreview());

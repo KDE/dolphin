@@ -88,6 +88,12 @@ private:
 
     KFileItem itemForIndex(const QModelIndex& index) const;
 
+    /**
+     * Returns the number of additional information lines that should
+     * be shown below the item name.
+     */
+    int additionalInfoCount() const;
+
 private:
     DolphinController* m_controller;
     DolphinCategoryDrawer* m_categoryDrawer;

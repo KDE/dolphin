@@ -282,12 +282,16 @@ void DolphinIconsView::slotEntered(const QModelIndex& index)
 void DolphinIconsView::slotShowPreviewChanged()
 {
     const DolphinView* view = m_controller->dolphinView();
-    const int infoCount = view->additionalInfo().count();
-    updateGridSize(view->showPreview(), infoCount);
+    updateGridSize(view->showPreview(), additionalInfoCount());
 }
 
 void DolphinIconsView::slotAdditionalInfoChanged(const KFileItemDelegate::InformationList& info)
 {
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    if (!settings->showAdditionalInfo()) {
+        return;
+    }
+
     const bool showPreview = m_controller->dolphinView()->showPreview();
     updateGridSize(showPreview, info.count());
 }
@@ -318,8 +322,7 @@ void DolphinIconsView::zoomIn()
         settings->setItemWidth(settings->itemWidth() + diff);
         settings->setItemHeight(settings->itemHeight() + diff);
 
-        const int infoCount = m_controller->dolphinView()->additionalInfo().count();
-        updateGridSize(showPreview, infoCount);
+        updateGridSize(showPreview, additionalInfoCount());
     }
 }
 
@@ -350,8 +353,7 @@ void DolphinIconsView::zoomOut()
         settings->setItemWidth(settings->itemWidth() - diff);
         settings->setItemHeight(settings->itemHeight() - diff);
 
-        const int infoCount = m_controller->dolphinView()->additionalInfo().count();
-        updateGridSize(showPreview, infoCount);
+        updateGridSize(showPreview, additionalInfoCount());
     }
 }
 
@@ -445,6 +447,13 @@ KFileItem DolphinIconsView::itemForIndex(const QModelIndex& index) const
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
     const QModelIndex dirIndex = proxyModel->mapToSource(index);
     return dirModel->itemForIndex(dirIndex);
+}
+
+int DolphinIconsView::additionalInfoCount() const
+{
+    const DolphinView* view = m_controller->dolphinView();
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    return settings->showAdditionalInfo() ? view->additionalInfo().count() : 0;
 }
 
 #include "dolphiniconsview.moc"

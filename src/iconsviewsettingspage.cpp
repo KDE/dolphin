@@ -30,14 +30,15 @@
 #include <kglobalsettings.h>
 #include <klocale.h>
 
-#include <QtGui/QComboBox>
-#include <QtGui/QGroupBox>
-#include <QtGui/QLabel>
-#include <QtGui/QListView>
-#include <QtGui/QPushButton>
-#include <QtGui/QSpinBox>
-#include <QtGui/QGridLayout>
-#include <QtCore/QDebug>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QLabel>
+#include <QListView>
+#include <QPushButton>
+#include <QSpinBox>
+#include <QGridLayout>
+#include <QVBoxLayout>
 
 IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
                                              QWidget* parent) :
@@ -49,6 +50,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_textWidthBox(0),
     m_fontRequester(0),
     m_textlinesCountBox(0),
+    m_showAdditionalInfo(0),
     m_arrangementBox(0),
     m_gridSpacingBox(0)
 {
@@ -82,13 +84,21 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
 
-    QGridLayout* textGroupLayout = new QGridLayout(textGroup);
+    m_showAdditionalInfo = new QCheckBox(i18nc("@option:check",
+                                               "Allow showing of additional information"), textGroup);
+
+    QVBoxLayout* textVBoxLayout = new QVBoxLayout(textGroup);
+
+    QGridLayout* textGroupLayout = new QGridLayout();
     textGroupLayout->addWidget(fontLabel, 0, 0);
     textGroupLayout->addWidget(m_fontRequester, 0, 1);
     textGroupLayout->addWidget(textlinesCountLabel, 1, 0);
     textGroupLayout->addWidget(m_textlinesCountBox, 1, 1);
     textGroupLayout->addWidget(textWidthLabel, 2, 0);
     textGroupLayout->addWidget(m_textWidthBox, 2, 1);
+
+    textVBoxLayout->addLayout(textGroupLayout);
+    textVBoxLayout->addWidget(m_showAdditionalInfo);
 
     // create the 'Grid' group for selecting the arrangement and the grid spacing
     QGroupBox* gridGroup = new QGroupBox(i18nc("@title:group", "Grid"), this);
@@ -120,7 +130,8 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 }
 
 IconsViewSettingsPage::~IconsViewSettingsPage()
-{}
+{
+}
 
 void IconsViewSettingsPage::applySettings()
 {
@@ -160,6 +171,8 @@ void IconsViewSettingsPage::applySettings()
 
     settings->setNumberOfTextlines(numberOfTextlines);
 
+    settings->setShowAdditionalInfo(m_showAdditionalInfo->isChecked());
+
     settings->setGridSpacing(GridSpacingBase +
                              m_gridSpacingBox->currentIndex() * GridSpacingInc);
 }
@@ -194,6 +207,8 @@ void IconsViewSettingsPage::loadSettings()
     m_fontRequester->setFont(font);
 
     m_textlinesCountBox->setValue(settings->numberOfTextlines());
+
+    m_showAdditionalInfo->setChecked(settings->showAdditionalInfo());
 
     const bool leftToRightArrangement = (settings->arrangement() == QListView::LeftToRight);
     int textWidthIndex = 0;

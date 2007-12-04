@@ -41,6 +41,7 @@
 #include "kfileplacesview.h"
 
 #include "dolphin_generalsettings.h"
+#include "dolphin_iconsmodesettings.h"
 
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -344,8 +345,10 @@ void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::Information
 
     const DolphinView* view = m_activeViewContainer->view();
 
-    // currently the column view does not support additional information
-    const bool enable = (view->mode() != DolphinView::ColumnView);
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    const bool enable = (view->mode() == DolphinView::DetailsView) ||
+                         ((view->mode() == DolphinView::IconsView) && settings->showAdditionalInfo());
+
     showSizeInfo->setEnabled(enable);
     showDateInfo->setEnabled(enable);
     showPermissionsInfo->setEnabled(enable);
