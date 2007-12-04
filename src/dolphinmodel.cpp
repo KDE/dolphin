@@ -80,21 +80,19 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                     return retString;
                 }
                 QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
-		QString name = data.toString();
+                QString name = data.toString();
                 if (!name.isEmpty()) {
                     if (!item.isHidden() && name.at(0).isLetter())
                         retString = name.at(0).toUpper();
-                    else if (item.isHidden()) { 
-  		        if(name.at(0) == '.') {
-	 		    if(name.size() > 1 && name.at(1).isLetter())
+                    else if (item.isHidden()) {
+                        if(name.at(0) == '.') {
+                            if(name.size() > 1 && name.at(1).isLetter())
                                 retString = name.at(1).toUpper();
-			    else
+                            else
                                 retString = i18nc("@title:group Name", "Others");
-			} else
+                        } else
                             retString = name.at(0).toUpper();
-		    }
-		    else
-                    {
+                    } else {
                         bool validCategory = false;
 
                         const QString str(name.toUpper());
