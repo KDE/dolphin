@@ -861,10 +861,11 @@ void DolphinView::createView()
     view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);
-    if(m_selectionModel)
-	view->setSelectionModel(m_selectionModel);
-    else
+    if (m_selectionModel != 0) {
+        view->setSelectionModel(m_selectionModel);
+    } else {
         m_selectionModel = view->selectionModel();
+    }
 
     m_selectionModel->setParent(this);  //Reparent the selection model.  We do not want it to be deleted when we delete the model
 

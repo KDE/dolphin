@@ -85,31 +85,35 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                     if (!item.isHidden() && name.at(0).isLetter())
                         retString = name.at(0).toUpper();
                     else if (item.isHidden()) {
-                        if(name.at(0) == '.') {
-                            if(name.size() > 1 && name.at(1).isLetter())
+                        if (name.at(0) == '.') {
+                            if (name.size() > 1 && name.at(1).isLetter()) {
                                 retString = name.at(1).toUpper();
-                            else
+                            } else {
                                 retString = i18nc("@title:group Name", "Others");
-                        } else
+                            }
+                        } else {
                             retString = name.at(0).toUpper();
+                        }
                     } else {
                         bool validCategory = false;
 
                         const QString str(name.toUpper());
                         const QChar* currA = str.unicode();
                         while (!currA->isNull() && !validCategory) {
-                            if (currA->isLetter())
+                            if (currA->isLetter()) {
                                 validCategory = true;
-                            else if (currA->isDigit())
+                            } else if (currA->isDigit()) {
                                 return i18nc("@title:group", "Others");
-                            else
+                            } else {
                                 ++currA;
+                            }
                         }
 
-                        if (!validCategory)
-                            retString = i18nc("@title:group Name", "Others");
-                        else
+                        if (!validCategory) {
+                            retString = validCategory ? *currA : i18nc("@title:group Name", "Others");
+                        } else {
                             retString = *currA;
+                        }
                     }
                 }
                 break;
@@ -214,9 +218,9 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
             case DolphinModel::Tags: {
                 retString = tagsForIndex(index);
 
-                if (retString.isEmpty())
+                if (retString.isEmpty()) {
                     retString = i18nc("@title:group Tags", "Not yet tagged");
-
+                }
                 break;
             }
 #endif
