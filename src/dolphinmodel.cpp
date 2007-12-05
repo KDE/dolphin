@@ -47,6 +47,8 @@
 #include <QDir>
 #include <QFileInfo>
 
+static QString others = I18N_NOOP2("@title:group Name", "Uncategorized");
+
 DolphinModel::DolphinModel(QObject *parent)
     : KDirModel(parent)
 {
@@ -89,7 +91,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                             if (name.size() > 1 && name.at(1).isLetter()) {
                                 retString = name.at(1).toUpper();
                             } else {
-                                retString = i18nc("@title:group Name", "Others");
+                                retString = others;
                             }
                         } else {
                             retString = name.at(0).toUpper();
@@ -103,14 +105,14 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                             if (currA->isLetter()) {
                                 validCategory = true;
                             } else if (currA->isDigit()) {
-                                return i18nc("@title:group", "Others");
+                                return others;
                             } else {
                                 ++currA;
                             }
                         }
 
                         if (!validCategory) {
-                            retString = validCategory ? *currA : i18nc("@title:group Name", "Others");
+                            retString = validCategory ? *currA : others;
                         } else {
                             retString = *currA;
                         }
@@ -241,6 +243,10 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
         switch (index.column()) {
         case KDirModel::Name: {
             retVariant = data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
+
+            if (retVariant == others)
+                retVariant = QString();
+
             break;
         }
 
