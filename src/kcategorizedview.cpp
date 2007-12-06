@@ -24,12 +24,12 @@
 #include <math.h> // trunc on C99 compliant systems
 #include <kdefakes.h> // trunc for not C99 compliant systems
 
-#include <QApplication>
 #include <QPainter>
 #include <QScrollBar>
 #include <QPaintEvent>
 
 #include <kstyle.h>
+#include <kapplication.h>
 
 #include "kcategorydrawer.h"
 #include "kcategorizedsortfilterproxymodel.h"
@@ -696,6 +696,7 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
     }
 
     QStyleOptionViewItemV3 option = viewOptions();
+    option.palette = KApplication::palette();
     option.widget = this;
     if (wordWrap())
     {
