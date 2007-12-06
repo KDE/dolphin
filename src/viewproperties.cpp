@@ -59,7 +59,8 @@ ViewProperties::ViewProperties(const KUrl& url) :
     m_filepath = cleanUrl.path();
 
     if ((m_filepath.length() < 1) || (m_filepath.at(0) != QChar('/'))) {
-        m_node = new ViewPropertySettings();
+        const QString file = destinationDir("global") + FILE_NAME;
+        m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
         return;
     }
 
@@ -79,7 +80,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
         m_filepath = destinationDir("remote") + m_filepath;
     }
 
-    const QString file(m_filepath + FILE_NAME);
+    const QString file = m_filepath + FILE_NAME;
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
     const bool useDefaultProps = !useGlobalViewProps &&
