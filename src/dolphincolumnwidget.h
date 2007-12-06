@@ -20,7 +20,9 @@
 #ifndef DOLPHINCOLUMNWIDGET_H
 #define DOLPHINCOLUMNWIDGET_H
 
+#include <QFont>
 #include <QListView>
+#include <QSize>
 #include <QStyleOption>
 
 #include <kurl.h>
@@ -147,7 +149,10 @@ private:
     DolphinColumnView* m_view;
     KUrl m_url;      // URL of the directory that is shown
     KUrl m_childUrl; // URL of the next column that is shown
-    QStyleOptionViewItem m_viewOptions;
+
+    QFont m_font;
+    QSize m_decorationSize;
+
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
@@ -182,11 +187,6 @@ inline void DolphinColumnWidget::setUrl(const KUrl& url)
 inline const KUrl& DolphinColumnWidget::url() const
 {
     return m_url;
-}
-
-inline QStyleOptionViewItem DolphinColumnWidget::viewOptions() const
-{
-    return m_viewOptions;
 }
 
 #endif

@@ -25,6 +25,7 @@
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
 
+#include <QFont>
 #include <QSize>
 #include <QStyleOption>
 
@@ -97,7 +98,11 @@ private:
 private:
     DolphinController* m_controller;
     DolphinCategoryDrawer* m_categoryDrawer;
-    QStyleOptionViewItem m_viewOptions;
+
+    QFont m_font;
+    QSize m_decorationSize;
+    QStyleOptionViewItem::Position m_decorationPosition;
+    Qt::Alignment m_displayAlignment;
 
     QSize m_itemSize;
 

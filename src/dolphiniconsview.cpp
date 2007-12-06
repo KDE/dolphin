@@ -38,6 +38,10 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     KCategorizedView(parent),
     m_controller(controller),
     m_categoryDrawer(0),
+    m_font(),
+    m_decorationSize(),
+    m_decorationPosition(QStyleOptionViewItem::Top),
+    m_displayAlignment(Qt::AlignHCenter),
     m_itemSize(),
     m_dragging(false),
     m_dropRect()
@@ -84,24 +88,21 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
 
-    m_viewOptions = KCategorizedView::viewOptions();
-    m_viewOptions.showDecorationSelected = true;
-
-    QFont font(settings->fontFamily(), settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_viewOptions.font = font;
+    m_font = QFont(settings->fontFamily(), settings->fontSize());
+    m_font.setItalic(settings->italicFont());
+    m_font.setBold(settings->boldFont());
 
     setWordWrap(settings->numberOfTextlines() > 1);
     updateGridSize(view->showPreview(), 0);
 
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
-        m_viewOptions.decorationPosition = QStyleOptionViewItem::Top;
+        m_decorationPosition = QStyleOptionViewItem::Top;
+        m_displayAlignment = Qt::AlignHCenter;
     } else {
         setFlow(QListView::TopToBottom);
-        m_viewOptions.decorationPosition = QStyleOptionViewItem::Left;
-        m_viewOptions.displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
+        m_decorationPosition = QStyleOptionViewItem::Left;
+        m_displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
     }
 
     m_categoryDrawer = new DolphinCategoryDrawer();
@@ -121,6 +122,7 @@ QRect DolphinIconsView::visualRect(const QModelIndex& index) const
     const bool leftToRightFlow = (flow() == QListView::LeftToRight);
 
     QRect itemRect = KCategorizedView::visualRect(index);
+
     const int maxWidth  = m_itemSize.width();
     const int maxHeight = m_itemSize.height();
 
@@ -152,7 +154,8 @@ QRect DolphinIconsView::visualRect(const QModelIndex& index) const
         const int margin = settings->gridSpacing();
         const int gridWidth = gridSize().width();
         const int gridIndex = (itemRect.left() - margin + 1) / gridWidth;
-        itemRect.moveLeft(gridIndex * gridWidth + margin);
+        const int centerInc = (maxWidth - itemRect.width()) / 2;
+        itemRect.moveLeft((gridIndex * gridWidth) + margin + centerInc);
     }
 
     return itemRect;
@@ -160,7 +163,13 @@ QRect DolphinIconsView::visualRect(const QModelIndex& index) const
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
-    return m_viewOptions;
+    QStyleOptionViewItem viewOptions = KCategorizedView::viewOptions();
+    viewOptions.font = m_font;
+    viewOptions.decorationPosition = m_decorationPosition;
+    viewOptions.decorationSize = m_decorationSize;
+    viewOptions.displayAlignment = m_displayAlignment;
+    viewOptions.showDecorationSelected = true;
+    return viewOptions;
 }
 
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
@@ -250,7 +259,7 @@ void DolphinIconsView::paintEvent(QPaintEvent* event)
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
-        const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
+        const QBrush& brush = viewOptions().palette.brush(QPalette::Normal, QPalette::Highlight);
         DragAndDropHelper::drawHoverIndication(viewport(), m_dropRect, brush);
     }
 }
@@ -421,21 +430,21 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     }
 
     Q_ASSERT(additionalInfoCount >= 0);
-    itemHeight += additionalInfoCount * m_viewOptions.font.pointSize() * 2;
+    itemHeight += additionalInfoCount * m_font.pointSize() * 2;
 
     if (settings->arrangement() == QListView::TopToBottom) {
         // The decoration width indirectly defines the maximum
         // width for the text wrapping. To use the maximum item width
         // for text wrapping, it is used as decoration width.
-        m_viewOptions.decorationSize = QSize(itemWidth, size);
+        m_decorationSize = QSize(itemWidth, size);
     } else {
-        m_viewOptions.decorationSize = QSize(size, size);
+        m_decorationSize = QSize(size, size);
     }
+
+    m_itemSize = QSize(itemWidth, itemHeight);
 
     const int spacing = settings->gridSpacing();
     setGridSize(QSize(itemWidth + spacing * 2, itemHeight + spacing));
-
-    m_itemSize = QSize(itemWidth, itemHeight);
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());

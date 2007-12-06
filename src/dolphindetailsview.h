@@ -22,8 +22,7 @@
 #define DOLPHINDETAILSVIEW_H
 
 #include <dolphinview.h>
-#include <QtGui/QStyleOption>
-#include <QtGui/QTreeView>
+#include <QTreeView>
 #include <libdolphin_export.h>
 
 class DolphinController;
@@ -146,7 +145,9 @@ private:
 
 private:
     DolphinController* m_controller;
-    QStyleOptionViewItem m_viewOptions;
+
+    QFont m_font;
+    QSize m_decorationSize;
 
     bool m_clearAdditionalInfo;
 

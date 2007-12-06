@@ -44,6 +44,8 @@
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
     m_controller(controller),
+    m_font(),
+    m_decorationSize(),
     m_clearAdditionalInfo(false),
     m_dragging(false),
     m_showElasticBand(false),
@@ -107,13 +109,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     Q_ASSERT(settings != 0);
 
-    m_viewOptions = QTreeView::viewOptions();
-
-    QFont font(settings->fontFamily(), settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_viewOptions.font = font;
-    m_viewOptions.showDecorationSelected = true;
+    m_font = QFont(settings->fontFamily(), settings->fontSize());
 
 // TODO: Remove this check when 4.3.2 is released and KDE requires it... this
 //       check avoids a division by zero happening on versions before 4.3.1.
@@ -163,7 +159,11 @@ bool DolphinDetailsView::event(QEvent* event)
 
 QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 {
-    return m_viewOptions;
+    QStyleOptionViewItem viewOptions = QTreeView::viewOptions();
+    viewOptions.font = m_font;
+    viewOptions.showDecorationSelected = true;
+    viewOptions.decorationSize = m_decorationSize;
+    return viewOptions;
 }
 
 void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
@@ -301,7 +301,7 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
-        const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
+        const QBrush& brush = viewOptions().palette.brush(QPalette::Normal, QPalette::Highlight);
         DragAndDropHelper::drawHoverIndication(viewport(), m_dropRect, brush);
     }
 }
@@ -516,7 +516,7 @@ void DolphinDetailsView::updateDecorationSize()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     const int iconSize = settings->iconSize();
-    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
+    m_decorationSize = QSize(iconSize, iconSize);
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());

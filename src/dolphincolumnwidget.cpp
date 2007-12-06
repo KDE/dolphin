@@ -55,7 +55,8 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_view(columnView),
     m_url(url),
     m_childUrl(),
-    m_viewOptions(),
+    m_font(),
+    m_decorationSize(),
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
@@ -84,17 +85,12 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     Q_ASSERT(settings != 0);
 
-    m_viewOptions = QListView::viewOptions();
-
-    QFont font(settings->fontFamily(), settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_viewOptions.font = font;
+    m_font = QFont(settings->fontFamily(), settings->fontSize());
+    m_font.setItalic(settings->italicFont());
+    m_font.setBold(settings->boldFont());
 
     const int iconSize = settings->iconSize();
-    m_viewOptions.decorationSize = QSize(iconSize, iconSize);
-
-    m_viewOptions.showDecorationSelected = true;
+    m_decorationSize = QSize(iconSize, iconSize);
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     setItemDelegate(delegate);
@@ -137,7 +133,7 @@ DolphinColumnWidget::~DolphinColumnWidget()
 
 void DolphinColumnWidget::setDecorationSize(const QSize& size)
 {
-    m_viewOptions.decorationSize = size;
+    m_decorationSize = size;
     doItemsLayout();
 }
 
@@ -195,6 +191,16 @@ void DolphinColumnWidget::updateBackground()
 void DolphinColumnWidget::setNameFilter(const QString& nameFilter)
 {
     m_proxyModel->setFilterRegExp(nameFilter);
+}
+
+
+QStyleOptionViewItem DolphinColumnWidget::viewOptions() const
+{
+    QStyleOptionViewItem viewOptions = QListView::viewOptions();
+    viewOptions.font = m_font;
+    viewOptions.decorationSize = m_decorationSize;
+    viewOptions.showDecorationSelected = true;
+    return viewOptions;
 }
 
 void DolphinColumnWidget::startDrag(Qt::DropActions supportedActions)
@@ -278,7 +284,7 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
-        const QBrush& brush = m_viewOptions.palette.brush(QPalette::Normal, QPalette::Highlight);
+        const QBrush& brush = viewOptions().palette.brush(QPalette::Normal, QPalette::Highlight);
         DragAndDropHelper::drawHoverIndication(viewport(), m_dropRect, brush);
     }
 }
