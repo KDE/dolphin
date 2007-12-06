@@ -29,7 +29,6 @@
 #include <QPaintEvent>
 
 #include <kstyle.h>
-#include <kapplication.h>
 
 #include "kcategorydrawer.h"
 #include "kcategorizedsortfilterproxymodel.h"
@@ -696,7 +695,6 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
     }
 
     QStyleOptionViewItemV3 option = viewOptions();
-    option.palette = KApplication::palette();
     option.widget = this;
     if (wordWrap())
     {
