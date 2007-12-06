@@ -47,7 +47,7 @@
 #include <QDir>
 #include <QFileInfo>
 
-static QString others = I18N_NOOP2("@title:group Name", "Uncategorized");
+static const char *others = I18N_NOOP2("@title:group Name", "Uncategorized");
 
 DolphinModel::DolphinModel(QObject *parent)
     : KDirModel(parent)
@@ -91,7 +91,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                             if (name.size() > 1 && name.at(1).isLetter()) {
                                 retString = name.at(1).toUpper();
                             } else {
-                                retString = others;
+                                retString = i18nc("@title:group Name", others);
                             }
                         } else {
                             retString = name.at(0).toUpper();
@@ -105,14 +105,14 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
                             if (currA->isLetter()) {
                                 validCategory = true;
                             } else if (currA->isDigit()) {
-                                return others;
+                                return i18nc("@title:group Name", others);
                             } else {
                                 ++currA;
                             }
                         }
 
                         if (!validCategory) {
-                            retString = validCategory ? *currA : others;
+                            retString = validCategory ? *currA : i18nc("@title:group Name", others);
                         } else {
                             retString = *currA;
                         }
@@ -244,7 +244,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
         case KDirModel::Name: {
             retVariant = data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
 
-            if (retVariant == others)
+            if (retVariant == i18nc("@title:group Name", others))
                 retVariant = QString();
 
             break;
