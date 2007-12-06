@@ -147,6 +147,7 @@ void DolphinView::setActive(bool active)
     }
 
     m_active = active;
+    m_selectionModel->clearSelection();
 
     QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     if (active) {
@@ -816,7 +817,7 @@ void DolphinView::updateCutItems()
 
 void DolphinView::showHoverInformation(const KFileItem& item)
 {
-    if (hasSelection()) {
+    if (hasSelection() || !m_active) {
         return;
     }
 
@@ -825,7 +826,9 @@ void DolphinView::showHoverInformation(const KFileItem& item)
 
 void DolphinView::clearHoverInformation()
 {
-    emit requestItemInfo(KFileItem());
+    if (m_active) {
+        emit requestItemInfo(KFileItem());
+    }
 }
 
 
