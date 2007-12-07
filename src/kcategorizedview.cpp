@@ -695,9 +695,6 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
     }
 
     QStyleOptionViewItemV3 option = viewOptions();
-    option.palette = palette(); // viewOptions() doesn't seem to return the correct palette
-                                // if the app was already running and the color scheme was changed
-                                // (ereslibre)
     option.widget = this;
     if (wordWrap())
     {
