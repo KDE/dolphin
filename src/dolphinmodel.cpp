@@ -47,7 +47,7 @@
 #include <QDir>
 #include <QFileInfo>
 
-static const char *others = I18N_NOOP2("@title:group Name", "Uncategorized");
+static const char *others = I18N_NOOP2("@title:group Name", "Others");
 
 DolphinModel::DolphinModel(QObject *parent)
     : KDirModel(parent)
@@ -245,7 +245,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
             retVariant = data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
 
             if (retVariant == i18nc("@title:group Name", others))
-                retVariant = QString();
+                retVariant = QString(QChar(QChar::ReplacementCharacter));
 
             break;
         }
