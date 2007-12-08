@@ -127,7 +127,9 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
 DolphinColumnWidget::~DolphinColumnWidget()
 {
-    delete m_dolphinModel;
+    m_proxyModel->deleteLater();
+    m_proxyModel = 0;
+    m_dolphinModel->deleteLater();
     m_dolphinModel = 0;
     m_dirLister = 0; // deleted by m_dolphinModel
 }
