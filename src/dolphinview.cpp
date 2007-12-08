@@ -870,7 +870,9 @@ void DolphinView::createView()
         m_selectionModel = view->selectionModel();
     }
 
-    m_selectionModel->setParent(this);  //Reparent the selection model.  We do not want it to be deleted when we delete the model
+    // reparent the selection model, as it should not be deleted
+    // when deleting the model
+    m_selectionModel->setParent(this);
 
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
