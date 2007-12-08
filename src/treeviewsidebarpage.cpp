@@ -48,8 +48,9 @@ TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
 
 TreeViewSidebarPage::~TreeViewSidebarPage()
 {
-    delete m_dirLister;
-    m_dirLister = 0;
+    delete m_dolphinModel;
+    m_dolphinModel = 0;
+    m_dirLister = 0; // deleted by m_dolphinModel
 }
 
 QSize TreeViewSidebarPage::sizeHint() const
