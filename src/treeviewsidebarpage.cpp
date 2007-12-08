@@ -48,9 +48,9 @@ TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
 
 TreeViewSidebarPage::~TreeViewSidebarPage()
 {
-    m_proxyModel->deleteLater();
+    delete m_proxyModel;
     m_proxyModel = 0;
-    m_dolphinModel->deleteLater();
+    delete m_dolphinModel;
     m_dolphinModel = 0;
     m_dirLister = 0; // deleted by m_dolphinModel
 }
