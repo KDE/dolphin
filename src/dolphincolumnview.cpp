@@ -341,6 +341,7 @@ void DolphinColumnView::resizeEvent(QResizeEvent* event)
 {
     QAbstractItemView::resizeEvent(event);
     layoutColumns();
+    updateScrollBar();
     assureVisibleActiveColumn();
 }
 
