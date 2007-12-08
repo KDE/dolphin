@@ -43,7 +43,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     setButtons(Ok | Cancel);
     setDefaultButton(Ok);
 
-    setButtonGuiItem(Ok, KGuiItem(i18nc("@action:button", "Rename"), "dialog-apply"));
+    setButtonGuiItem(Ok, KGuiItem(i18nc("@action:button", "Rename"), "dialog-ok-apply"));
 
     QWidget* page = new QWidget(this);
     setMainWidget(page);
