@@ -36,13 +36,14 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
 find_package(Nepomuk)
+find_package(Soprano)
 macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
 target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${BLITZ_LIBRARIES})
 if (Nepomuk_FOUND)
-  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES})
+  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${SOPRANO_LIBRARIES})
 endif (Nepomuk_FOUND)
 
 

@@ -35,6 +35,7 @@
 #include <nepomuk/variant.h>
 #include <nepomuk/kratingwidget.h>
 #include <nepomuk/global.h>
+#include <Soprano/Vocabulary/Xesam>
 #endif
 
 
@@ -132,7 +133,7 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
     bool first = true;
     QList<Nepomuk::Resource> fileRes;
     Q_FOREACH( KUrl url, urls ) {
-        Nepomuk::Resource file( url.url(), Nepomuk::NFO::File() );
+        Nepomuk::Resource file( url.url(), Soprano::Vocabulary::Xesam::File() );
 //    file.setLocation(url.url());
         d->files.insert( url, file );
         fileRes.append( file );

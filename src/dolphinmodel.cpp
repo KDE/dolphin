@@ -29,6 +29,7 @@
 #include <nepomuk/global.h>
 #include <nepomuk/resource.h>
 #include <nepomuk/tag.h>
+#include <Soprano/Vocabulary/Xesam>
 #endif
 
 #include <kdatetime.h>
@@ -331,7 +332,7 @@ quint32 DolphinModel::ratingForIndex(const QModelIndex& index)
     const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(index.model());
     KFileItem item = dolphinModel->itemForIndex(index);
     if (!item.isNull()) {
-        const Nepomuk::Resource resource(item.url().url(), Nepomuk::NFO::File());
+        const Nepomuk::Resource resource(item.url().url(), Soprano::Vocabulary::Xesam::File());
         rating = resource.rating();
     }
     return rating;
@@ -349,7 +350,7 @@ QString DolphinModel::tagsForIndex(const QModelIndex& index)
     const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(index.model());
     KFileItem item = dolphinModel->itemForIndex(index);
     if (!item.isNull()) {
-        const Nepomuk::Resource resource(item.url().url(), Nepomuk::NFO::File());
+        const Nepomuk::Resource resource(item.url().url(), Soprano::Vocabulary::Xesam::File());
         const QList<Nepomuk::Tag> tags = resource.tags();
         QStringList stringList;
         foreach (const Nepomuk::Tag& tag, tags) {
