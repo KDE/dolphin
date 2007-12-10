@@ -20,7 +20,7 @@
 #ifndef DRAGANDDROPHELPER_H
 #define DRAGANDDROPHELPER_H
 
-#include <Qt>
+#include <QtCore/Qt>
 
 class QAbstractItemView;
 class QBrush;
