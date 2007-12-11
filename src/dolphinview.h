@@ -52,6 +52,10 @@ class DolphinMainWindow;
 class DolphinSortFilterProxyModel;
 class QModelIndex;
 class ViewProperties;
+namespace KIO
+{
+    class PreviewJob;
+}
 
 /**
  * @short Represents a view for the directory content.
@@ -541,7 +545,7 @@ private slots:
      * Replaces the icon of the item \a item by the preview pixmap
      * \a pixmap.
      */
-    void showPreview(const KFileItem& item, const QPixmap& pixmap);
+    void replaceIcon(const KFileItem& item, const QPixmap& pixmap);
 
     void emitSelectionChangedSignal();
 
@@ -613,6 +617,12 @@ private slots:
      * of the job \a job has been finished.
      */
     void slotDeleteFileFinished(KJob* job);
+
+    /**
+     * Is invoked when the preview job has been finished and
+     * set m_previewJob to 0.
+     */
+    void slotPreviewJobFinished(KJob* job);
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
@@ -695,6 +705,8 @@ private:
     DolphinModel* m_dolphinModel;
     KDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
+
+    KIO::PreviewJob* m_previewJob;
 
     QList<CutItem> m_cutItemsCache;
 

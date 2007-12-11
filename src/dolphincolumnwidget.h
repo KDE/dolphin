@@ -31,9 +31,14 @@ class DolphinColumnView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
 class KDirLister;
+class KJob;
 class KFileItem;
 class KFileItemList;
 class QPixmap;
+namespace KIO
+{
+    class PreviewJob;
+}
 
 /**
  * Represents one column inside the DolphinColumnView and has been
@@ -124,9 +129,15 @@ private slots:
      * Replaces the icon of the item \a item by the preview pixmap
      * \a pixmap.
      */
-    void showPreview(const KFileItem& item, const QPixmap& pixmap);
+    void replaceIcon(const KFileItem& item, const QPixmap& pixmap);
 
     void slotEntered(const QModelIndex& index);
+
+    /**
+     * Is invoked when the preview job has been finished and
+     * set m_previewJob to 0.
+     */
+    void slotPreviewJobFinished(KJob* job);
 
 private:
     /** Used by DolphinColumnWidget::setActive(). */
@@ -156,6 +167,8 @@ private:
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
+
+    KIO::PreviewJob* m_previewJob;
 
     bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
     QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4

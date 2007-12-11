@@ -35,6 +35,7 @@
 #include <kfileitem.h>
 #include <kio/previewjob.h>
 #include <kiconeffect.h>
+#include <kjob.h>
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
@@ -60,6 +61,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
+    m_previewJob(0),
     m_dragging(false),
     m_dropRect()
 {
@@ -132,6 +134,11 @@ DolphinColumnWidget::~DolphinColumnWidget()
     delete m_dolphinModel;
     m_dolphinModel = 0;
     m_dirLister = 0; // deleted by m_dolphinModel
+
+    if (m_previewJob != 0) {
+        m_previewJob->kill();
+        m_previewJob = 0;
+    }
 }
 
 void DolphinColumnWidget::setDecorationSize(const QSize& size)
@@ -356,19 +363,27 @@ void DolphinColumnWidget::generatePreviews(const KFileItemList& items)
     // for generatePreviews(), showPreview() and isCutItem()
 
     if (m_view->m_controller->dolphinView()->showPreview()) {
-        KIO::PreviewJob* job = KIO::filePreview(items, 128);
-        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
+        if (m_previewJob != 0) {
+            m_previewJob->kill();
+            m_previewJob = 0;
+        }
+
+        m_previewJob = KIO::filePreview(items, 128);
+        connect(m_previewJob, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+                this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
+        connect(m_previewJob, SIGNAL(finished(KJob*)),
+                this, SLOT(slotPreviewJobFinished(KJob*)));
     }
 }
 
-void DolphinColumnWidget::showPreview(const KFileItem& item, const QPixmap& pixmap)
+void DolphinColumnWidget::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
 {
     // TODO: same implementation as in DolphinView; create helper class
     // for generatePreviews(), showPreview() and isCutItem()
 
     Q_ASSERT(!item.isNull());
-    if (item.url().directory() != m_dirLister->url().path()) {
+    const bool showPreview = m_view->m_controller->dolphinView()->showPreview();
+    if (!showPreview || (item.url().directory() != m_dirLister->url().path())) {
         // the preview job is still working on items of an older URL, hence
         // the item is not part of the directory model anymore
         return;
@@ -392,6 +407,12 @@ void DolphinColumnWidget::slotEntered(const QModelIndex& index)
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
     const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
     m_view->m_controller->emitItemEntered(item);
+}
+
+void DolphinColumnWidget::slotPreviewJobFinished(KJob* job)
+{
+    Q_ASSERT(job == m_previewJob);
+    m_previewJob = 0;
 }
 
 void DolphinColumnWidget::activate()

@@ -39,6 +39,7 @@
 #include <kio/deletejob.h>
 #include <kio/netaccess.h>
 #include <kio/previewjob.h>
+#include <kjob.h>
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -75,7 +76,8 @@ DolphinView::DolphinView(QWidget* parent,
     m_selectionModel(0),
     m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
-    m_proxyModel(proxyModel)
+    m_proxyModel(proxyModel),
+    m_previewJob(0)
 {
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
@@ -128,6 +130,10 @@ DolphinView::DolphinView(QWidget* parent,
 
 DolphinView::~DolphinView()
 {
+    if (m_previewJob != 0) {
+        m_previewJob->kill();
+        m_previewJob = 0;
+    }
 }
 
 const KUrl& DolphinView::url() const
@@ -568,17 +574,25 @@ void DolphinView::triggerItem(const KFileItem& item)
 void DolphinView::generatePreviews(const KFileItemList& items)
 {
     if (m_controller->dolphinView()->showPreview()) {
-        KIO::PreviewJob* job = KIO::filePreview(items, 128);
-        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
+        if (m_previewJob != 0) {
+            m_previewJob->kill();
+            m_previewJob = 0;
+        }
+
+        m_previewJob = KIO::filePreview(items, 128);
+        connect(m_previewJob, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+                this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
+        connect(m_previewJob, SIGNAL(finished(KJob*)),
+                this, SLOT(slotPreviewJobFinished(KJob*)));
     }
 }
 
-void DolphinView::showPreview(const KFileItem& item, const QPixmap& pixmap)
+void DolphinView::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
 {
     Q_ASSERT(!item.isNull());
-    if (item.url().directory() != m_dirLister->url().path()) {
-        // the preview job is still working on items of an older URL, hence
+    if (!m_showPreview || (item.url().directory() != m_dirLister->url().path())) {
+        // the preview has been deactivated in the meanwhile or the preview
+        // job is still working on items of an older URL, hence
         // the item is not part of the directory model anymore
         return;
     }
@@ -1107,6 +1121,12 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     } else {
         emit errorMessage(job->errorString());
     }
+}
+
+void DolphinView::slotPreviewJobFinished(KJob* job)
+{
+    Q_ASSERT(job == m_previewJob);
+    m_previewJob = 0;
 }
 
 void DolphinView::cutSelectedItems()
