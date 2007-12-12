@@ -870,12 +870,29 @@ void KCategorizedView::setSelection(const QRect &rect,
         return;
     }
 
+    int viewportWidth = viewport()->width() - spacing();
+    int itemWidth;
+
+    if (gridSize().isEmpty())
+    {
+        itemWidth = d->biggestItemSize.width();
+    }
+    else
+    {
+        itemWidth = gridSize().width();
+    }
+
+    int itemWidthPlusSeparation = spacing() + itemWidth;
+    int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
+
     QItemSelection selection;
 
     if (!d->mouseButtonPressed)
     {
         selection = QItemSelection(dirtyIndexes[0], dirtyIndexes[0]);
         d->currentViewIndex = dirtyIndexes[0];
+        selectionModel()->setCurrentIndex(d->currentViewIndex, flags);
+        d->forcedSelectionPosition = d->elementsInfo[d->currentViewIndex.row()].relativeOffsetToCategory % elementsPerRow;
     }
     else
     {
@@ -897,6 +914,12 @@ void KCategorizedView::setSelection(const QRect &rect,
 
         if (last.isValid())
             selection << QItemSelectionRange(first, last);
+
+        if (first == last)
+        {
+            selectionModel()->setCurrentIndex(first, QItemSelectionModel::SelectCurrent);
+            d->forcedSelectionPosition = d->elementsInfo[first.row()].relativeOffsetToCategory % elementsPerRow;
+        }
     }
 
     if (d->lastSelection.count())
