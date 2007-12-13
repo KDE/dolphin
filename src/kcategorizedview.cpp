@@ -849,88 +849,122 @@ void KCategorizedView::setSelection(const QRect &rect,
 
     if (flags & QItemSelectionModel::Clear)
     {
-        if (!rect.intersects(d->categoryVisualRect(d->hoveredCategory)))
-        {
-            d->lastSelection = QItemSelection();
-        }
+        selectionModel()->clear();
     }
-
-    selectionModel()->clear();
 
     QModelIndexList dirtyIndexes = d->intersectionSet(rect);
 
+    // no items affected, just leave
     if (!dirtyIndexes.count())
     {
-        if (!d->lastSelection.isEmpty() &&
-            (rect.intersects(d->categoryVisualRect(d->hoveredCategory)) || d->mouseButtonPressed))
-        {
-            selectionModel()->select(d->lastSelection, flags);
-        }
+        selectionModel()->select(d->lastSelection, flags);
+
+        d->lastSelection.clear();
 
         return;
     }
 
-    int viewportWidth = viewport()->width() - spacing();
-    int itemWidth;
+    d->lastSelection.clear();
 
-    if (gridSize().isEmpty())
+    if (!(flags & QItemSelectionModel::Current))
     {
-        itemWidth = d->biggestItemSize.width();
+        Q_ASSERT(dirtyIndexes.count() == 1);
+
+        selectionModel()->select(dirtyIndexes[0], flags);
+
+        return;
     }
-    else
-    {
-        itemWidth = gridSize().width();
-    }
 
-    int itemWidthPlusSeparation = spacing() + itemWidth;
-    int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
+    QModelIndex topLeft;
+    QModelIndex bottomRight;
 
-    QItemSelection selection;
-
-    if (!d->mouseButtonPressed)
+    if (d->mouseButtonPressed) // selection with click + drag
     {
-        selection = QItemSelection(dirtyIndexes[0], dirtyIndexes[0]);
-        d->currentViewIndex = dirtyIndexes[0];
-        selectionModel()->setCurrentIndex(d->currentViewIndex, flags);
-        d->forcedSelectionPosition = d->elementsInfo[d->currentViewIndex.row()].relativeOffsetToCategory % elementsPerRow;
-    }
-    else
-    {
-        QModelIndex first = dirtyIndexes[0];
-        QModelIndex last;
+        QModelIndex prev = dirtyIndexes[0];
+        QModelIndex first = prev;
         foreach (const QModelIndex &index, dirtyIndexes)
         {
-            if (last.isValid() && last.row() + 1 != index.row())
-            {
-                QItemSelectionRange range(first, last);
-
-                selection << range;
+            if ((index.row() - prev.row()) > 1) {
+                d->lastSelection << QItemSelectionRange(first, prev);
 
                 first = index;
             }
 
-            last = index;
+            prev = index;
         }
 
-        if (last.isValid())
-            selection << QItemSelectionRange(first, last);
+        d->lastSelection << QItemSelectionRange(first, prev);
 
-        if (first == last)
-        {
-            selectionModel()->setCurrentIndex(first, QItemSelectionModel::SelectCurrent);
-            d->forcedSelectionPosition = d->elementsInfo[first.row()].relativeOffsetToCategory % elementsPerRow;
-        }
+        selectionModel()->select(d->lastSelection, flags);
     }
-
-    if (d->lastSelection.count())
+    else // selection with click + keyboard keys
     {
-        if ((selection.count() == 1) && (selection[0].indexes().count() == 1))
-            selection.merge(d->lastSelection, flags);
-        else
-            selection.merge(d->lastSelection, QItemSelectionModel::Select);
-    }
+        QModelIndex topLeftIndex = indexAt(QPoint(rect.topLeft().x(),
+                                                  rect.topLeft().y()));
+        QModelIndex bottomRightIndex = indexAt(QPoint(rect.bottomRight().x(),
+                                                      rect.bottomRight().y()));
 
-    selectionModel()->select(selection, flags);
+        // keyboard selection comes "upside down". Let's normalize it
+        if (topLeftIndex.row() > bottomRightIndex.row())
+        {
+            QModelIndex auxIndex = topLeftIndex;
+            topLeftIndex = bottomRightIndex;
+            bottomRightIndex = auxIndex;
+        }
+
+        int viewportWidth = viewport()->width() - spacing();
+        int itemWidth;
+
+        if (gridSize().isEmpty())
+        {
+            itemWidth = d->biggestItemSize.width();
+        }
+        else
+        {
+            itemWidth = gridSize().width();
+        }
+
+        int itemWidthPlusSeparation = spacing() + itemWidth;
+        int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
+        if (!elementsPerRow)
+            elementsPerRow++;
+
+        QModelIndexList theoricDirty(dirtyIndexes);
+        dirtyIndexes.clear();
+        int first = model()->rowCount();
+        int last = 0;
+
+        foreach (const QModelIndex &index, theoricDirty)
+        {
+            if ((index.row() < first) &&
+                ((((topLeftIndex.row() / elementsPerRow) == (index.row() / elementsPerRow)) &&
+                  ((topLeftIndex.row() % elementsPerRow) <= (index.row() % elementsPerRow))) ||
+                 (topLeftIndex.row() / elementsPerRow) != (index.row() / elementsPerRow)))
+            {
+                first = index.row();
+                topLeft = index;
+            }
+
+            if ((index.row() > last) &&
+                ((((bottomRightIndex.row() / elementsPerRow) == (index.row() / elementsPerRow)) &&
+                  ((bottomRightIndex.row() % elementsPerRow) >= (index.row() % elementsPerRow))) ||
+                 (bottomRightIndex.row() / elementsPerRow) != (index.row() / elementsPerRow)))
+            {
+                last = index.row();
+                bottomRight = index;
+            }
+        }
+
+        for (int i = first; i <= last; i++)
+        {
+            dirtyIndexes << model()->index(i, theoricDirty[0].column(), theoricDirty[0].parent());
+        }
+
+        // our current selection will result modified
+        d->lastSelection = QItemSelection(topLeft, bottomRight);
+
+        selectionModel()->select(d->lastSelection, flags);
+    }
 }
 
 void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
@@ -986,10 +1020,6 @@ void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
         }
 
         rect = QRect(start, end).intersected(viewport()->rect().adjusted(-16, -16, 16, 16));
-
-        //viewport()->update(rect.united(d->lastSelectionRect));
-
-        d->lastSelectionRect = rect;
     }
 }
 
@@ -1031,7 +1061,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
 
     QItemSelection selection;
     QItemSelection deselection;
-
+#if 0
     if (initialPressPosition == d->initialPressPosition)
     {
         foreach(const QString &category, d->categories)
@@ -1042,7 +1072,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
                 {
                     QModelIndex selectIndex = index.model()->index(index.row(), 0);
 
-                    if (!d->lastSelection.contains(selectIndex))
+                    if (/*!d->lastSelection.contains(selectIndex)*/)
                     {
                         selection << QItemSelectionRange(selectIndex);
                     }
@@ -1059,8 +1089,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
             }
         }
     }
-
-    d->lastSelection = selectionModel()->selection();
+#endif
 
     if (d->hovered.isValid())
         viewport()->update(visualRect(d->hovered));
@@ -1155,7 +1184,16 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
         return QListView::moveCursor(cursorAction, modifiers);
     }
 
-    const QModelIndex current = selectionModel()->currentIndex();
+    QModelIndex current = selectionModel()->currentIndex();
+
+    if (!current.isValid())
+    {
+        current = model()->index(0, 0, QModelIndex());
+        setCurrentIndex(current);
+        d->forcedSelectionPosition = 0;
+
+        return current;
+    }
 
     int viewportWidth = viewport()->width() - spacing();
     int itemWidth;
@@ -1171,6 +1209,8 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
 
     int itemWidthPlusSeparation = spacing() + itemWidth;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
+    if (!elementsPerRow)
+        elementsPerRow++;
 
     QString lastCategory = d->categories.first();
     QString theCategory = d->categories.first();
@@ -1256,36 +1296,56 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
         case QAbstractItemView::MoveLeft:
             if (layoutDirection() == Qt::RightToLeft)
             {
+                if (!(d->elementsInfo[current.row() + 1].relativeOffsetToCategory % elementsPerRow))
+                    return current;
+
                 d->forcedSelectionPosition = d->elementsInfo[current.row() + 1].relativeOffsetToCategory % elementsPerRow;
 
+#if 0 //follow qt view behavior. lateral movements won't change visual row
                 if (d->forcedSelectionPosition < 0)
                     d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+#endif
 
                 return d->proxyModel->index(current.row() + 1, 0);
             }
 
+            if (!(d->elementsInfo[current.row()].relativeOffsetToCategory % elementsPerRow))
+                return current;
+
             d->forcedSelectionPosition = d->elementsInfo[current.row() - 1].relativeOffsetToCategory % elementsPerRow;
 
+#if 0 //follow qt view behavior. lateral movements won't change visual row
             if (d->forcedSelectionPosition < 0)
                 d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+#endif
 
             return d->proxyModel->index(current.row() - 1, 0);
 
         case QAbstractItemView::MoveRight:
             if (layoutDirection() == Qt::RightToLeft)
             {
+                if (!(d->elementsInfo[current.row()].relativeOffsetToCategory % elementsPerRow))
+                    return current;
+
                 d->forcedSelectionPosition = d->elementsInfo[current.row() - 1].relativeOffsetToCategory % elementsPerRow;
 
+#if 0 //follow qt view behavior. lateral movements won't change visual row
                 if (d->forcedSelectionPosition < 0)
                     d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+#endif
 
                 return d->proxyModel->index(current.row() - 1, 0);
             }
 
+            if (!(d->elementsInfo[current.row() + 1].relativeOffsetToCategory % elementsPerRow))
+                return current;
+
             d->forcedSelectionPosition = d->elementsInfo[current.row() + 1].relativeOffsetToCategory % elementsPerRow;
 
+#if 0 //follow qt view behavior. lateral movements won't change visual row
             if (d->forcedSelectionPosition < 0)
                 d->forcedSelectionPosition = (d->categoriesIndexes[theCategory].count() - 1) % elementsPerRow;
+#endif
 
             return d->proxyModel->index(current.row() + 1, 0);
 

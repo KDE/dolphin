@@ -136,7 +136,6 @@ public:
     QString hoveredCategory;
     QPoint initialPressPosition;
     QPoint mousePosition;
-    QItemSelection lastSelection;
     QModelIndex currentViewIndex;
     int forcedSelectionPosition;
 
@@ -150,12 +149,12 @@ public:
     QStringList categories;
     QModelIndexList intersectedIndexes;
     QRect lastDraggedItemsRect;
-    QRect lastSelectionRect;
     int modelSortRole;
     int modelSortColumn;
     int modelLastRowCount;
     bool modelCategorized;
     Qt::SortOrder modelSortOrder;
+    QItemSelection lastSelection;
 
     // Attributes for speed reasons
     KCategorizedSortFilterProxyModel *proxyModel;
