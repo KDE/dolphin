@@ -1059,37 +1059,28 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
     initialPressPosition.setY(initialPressPosition.y() + verticalOffset());
     initialPressPosition.setX(initialPressPosition.x() + horizontalOffset());
 
-    QItemSelection selection;
-    QItemSelection deselection;
-#if 0
     if (initialPressPosition == d->initialPressPosition)
     {
         foreach(const QString &category, d->categories)
         {
             if (d->categoryVisualRect(category).contains(event->pos()))
             {
-                foreach (const QModelIndex &index, d->categoriesIndexes[category])
+                QItemSelection selection;
+                QModelIndexList indexList = d->categoriesIndexes[category];
+
+                foreach (const QModelIndex &index, indexList)
                 {
                     QModelIndex selectIndex = index.model()->index(index.row(), 0);
 
-                    if (/*!d->lastSelection.contains(selectIndex)*/)
-                    {
-                        selection << QItemSelectionRange(selectIndex);
-                    }
-                    else
-                    {
-                        deselection << QItemSelectionRange(selectIndex);
-                    }
+                    selection << QItemSelectionRange(selectIndex);
                 }
 
-                selectionModel()->select(selection, QItemSelectionModel::Select);
-                selectionModel()->select(deselection, QItemSelectionModel::Deselect);
+                selectionModel()->select(selection, QItemSelectionModel::SelectCurrent);
 
                 break;
             }
         }
     }
-#endif
 
     if (d->hovered.isValid())
         viewport()->update(visualRect(d->hovered));
