@@ -19,7 +19,7 @@
   */
 
 #include "dolphincategorydrawer.h"
-
+#include "ratingpainter.h"
 #include <QPainter>
 #include <QFile>
 #include <QDir>
@@ -211,80 +211,11 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             paintText = false;
             paintIcon = false;
 
-            starRect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
-            starRect.setSize(QSize(iconSize, iconSize));
-
-            QPixmap pixmap = KIconLoader::global()->loadIcon("rating", KIconLoader::Small);
-            QPixmap smallPixmap = KIconLoader::global()->loadIcon("rating", KIconLoader::NoGroup, iconSize / 2);
-            QPixmap disabledPixmap = KIconLoader::global()->loadIcon("rating", KIconLoader::Small);
-
-            QImage img = disabledPixmap.toImage();
-            Blitz::grayscale(img);
-            disabledPixmap = QPixmap::fromImage(img);
-
-            int rating = category.toInt();
-
-            for (int i = 0; i < rating - (rating % 2); i += 2) {
-                painter->drawPixmap(starRect, pixmap);
-
-                if (option.direction == Qt::LeftToRight)
-                {
-                    starRect.setLeft(starRect.left() + iconSize + (iconSize / 4) /* separator between stars */);
-                    starRect.setRight(starRect.right() + iconSize + (iconSize / 4) /* separator between stars */);
-                }
-                else
-                {
-                    starRect.setLeft(starRect.left() - iconSize - (iconSize / 4) /* separator between stars */);
-                    starRect.setRight(starRect.right() - iconSize - (iconSize / 4) /* separator between stars */);
-                }
-            }
-
-            if (rating && rating % 2) {
-                if (option.direction == Qt::RightToLeft)
-                {
-                    starRect.setLeft(starRect.left() + (iconSize / 2) /* separator between stars */);
-                }
-
-                starRect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 4));
-                starRect.setSize(QSize(iconSize / 2, iconSize / 2));
-                painter->drawPixmap(starRect, smallPixmap);
-                starRect.setTop(opt.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
-
-                if (option.direction == Qt::LeftToRight)
-                {
-                    starRect.setLeft(starRect.left() + (iconSize / 2) + (iconSize / 4));
-                    starRect.setRight(starRect.right() + (iconSize / 2) + (iconSize / 4));
-                }
-                else
-                {
-                    starRect.setLeft(starRect.left() - (iconSize / 2) - (iconSize / 4));
-                    starRect.setRight(starRect.right() - (iconSize / 2) - (iconSize / 4));
-                }
-
-                if (option.direction == Qt::RightToLeft)
-                {
-                    starRect.setLeft(starRect.left() - (iconSize / 2));
-                    starRect.setRight(starRect.right() - (iconSize / 2));
-                }
-
-                starRect.setSize(QSize(iconSize, iconSize));
-            }
-
-            for (int i = rating; i < 9; i += 2) {
-                painter->drawPixmap(starRect, disabledPixmap);
-
-                if (option.direction == Qt::LeftToRight)
-                {
-                    starRect.setLeft(starRect.left() + iconSize + (iconSize / 4));
-                    starRect.setRight(starRect.right() + iconSize + (iconSize / 4));
-                }
-                else
-                {
-                    starRect.setLeft(starRect.left() - iconSize - (iconSize / 4));
-                    starRect.setRight(starRect.right() - iconSize - (iconSize / 4));
-                }
-            }
-
+            painter->setLayoutDirection( option.direction );
+            QRect ratingRect( option.rect );
+            ratingRect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
+            ratingRect.setHeight( iconSize );
+            Nepomuk::RatingPainter::drawRating( painter, ratingRect, Qt::AlignLeft, category.toInt() );
             break;
         }
 
