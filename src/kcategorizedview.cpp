@@ -39,6 +39,11 @@
 // Qt 4.4, so that this workaround can be skipped.
 #define DOLPHIN_DRAGANDDROP
 
+// By defining KDE_WORKAROUND_FOR_QT_VIEW_BUG we save the selection being held
+// before mousePressEvent happens. On Qt there is something clearing the last
+// selection made, what make it impossible to save our very last selection.
+#define KDE_WORKAROUND_FOR_QT_VIEW_BUG
+
 KCategorizedView::Private::Private(KCategorizedView *listView)
     : listView(listView)
     , categoryDrawer(0)
@@ -1038,7 +1043,13 @@ void KCategorizedView::mousePressEvent(QMouseEvent *event)
                                                             horizontalOffset());
     }
 
+#ifdef KDE_WORKAROUND_FOR_QT_VIEW_BUG
+    QItemSelection prevSelection = selectionModel()->selection();
+#endif
     QListView::mousePressEvent(event);
+#ifdef KDE_WORKAROUND_FOR_QT_VIEW_BUG
+    selectionModel()->select(prevSelection, QItemSelectionModel::Select);
+#endif
 
     viewport()->update(d->categoryVisualRect(d->hoveredCategory));
 }
