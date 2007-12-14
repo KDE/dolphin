@@ -27,14 +27,12 @@ class QPainter;
 
 #include <kicon.h>
 
-#include <nepomuk/nepomuk_export.h>
-
 
 namespace Nepomuk {
     /**
      * Utility class that draws a row of stars for a rating value.
      */
-    class NEPOMUK_EXPORT RatingPainter
+    class RatingPainter
     {
     public:
         /**
