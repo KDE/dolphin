@@ -401,8 +401,9 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
         m_view->setUrl(url);
     } else if (item.isFile()) {
         // allow to browse through ZIP and tar files
+        // TODO: make this configurable for Dolphin in KDE 4.1
         KMimeType::Ptr mime = item.mimeTypePtr();
-        if (mime->is("application/zip")) {
+        if (mime->is("application/zip") && mime->patterns().contains("*.zip")) {
             url.setProtocol("zip");
             m_view->setUrl(url);
         } else if (mime->is("application/x-tar") ||
