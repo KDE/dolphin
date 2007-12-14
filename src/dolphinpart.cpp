@@ -102,12 +102,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     // TODO sort_by_* actions
     // TODO show_*_info actions
 
-    // TODO connect to urlsDropped
-
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
-
-    // TODO MMB-click should do something like KonqDirPart::mmbClicked
 }
 
 DolphinPart::~DolphinPart()
@@ -144,7 +140,6 @@ void DolphinPart::createActions()
 
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
 {
-    // Yes, DolphinMainWindow has very similar code :/
     const bool hasSelection = !selection.isEmpty();
     if (!hasSelection) {
         stateChanged("has_no_selection");
@@ -232,20 +227,23 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 
 void DolphinPart::slotItemTriggered(const KFileItem& item)
 {
-    qDebug() << QApplication::mouseButtons();
+    // MMB click support.
+    // TODO: this doesn't work, mouseButtons() is always 0.
+    // Issue N176832 for the missing QAIV signal; task 177399
+    kDebug() << QApplication::mouseButtons();
     if (QApplication::mouseButtons() & Qt::MidButton) {
-        qDebug() << "MMB!!" << item.mimetype();
+        kDebug() << "MMB!!" << item.mimetype();
         if (item.mimeTypePtr()->is("inode/directory")) {
             KParts::OpenUrlArguments args;
             args.setMimeType( item.mimetype() );
             emit m_extension->createNewWindow( item.url(), args );
         } else {
-            qDebug() << "run()";
+            kDebug() << "run()";
             item.run();
         }
     } else {
         // Left button. [Right button goes to slotOpenContextMenu before triggered can be emitted]
-        qDebug() << "LMB";
+        kDebug() << "LMB";
         emit m_extension->openUrlRequest(item.url());
     }
 }

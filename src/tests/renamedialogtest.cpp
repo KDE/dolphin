@@ -17,9 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include <qtest_kde.h>
-
 #include "renamedialogtest.h"
+#include <qtest_kde.h>
 #include <renamedialog.h>
 
 QTEST_KDEMAIN(RenameDialogTest, NoGUI)

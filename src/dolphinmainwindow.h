@@ -102,14 +102,7 @@ public:
 public slots:
     /**
      * Handles the dropping of URLs to the given
-     * destination. A context menu with the options
-     * 'Move Here', 'Copy Here', 'Link Here' and
-     * 'Cancel' is offered to the user.
-     * @param urls        List of URLs which have been
-     *                    dropped.
-     * @param destination Destination URL, where the
-     *                    list or URLs should be moved,
-     *                    copied or linked to.
+     * destination. This is only called by the TreeViewSidebarPage.
      */
     void dropUrls(const KUrl::List& urls,
                   const KUrl& destination);

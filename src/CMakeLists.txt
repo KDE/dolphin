@@ -22,6 +22,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinsortfilterproxymodel.cpp
     renamedialog.cpp
     dolphinview.cpp
+    dolphindropcontroller.cpp
     )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS

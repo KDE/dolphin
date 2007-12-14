@@ -477,14 +477,6 @@ signals:
     void requestContextMenu(const KFileItem& item, const KUrl& url);
 
     /**
-     * Is emitted if the URLs \a are dropped to the destination URL
-     * \a destination. No operation is done within the DolphinView, the
-     * receiver of the signal has to take care about the corresponding
-     * operation.
-     */
-    void urlsDropped(const KUrl::List& urls, const KUrl& destination);
-
-    /**
      * Is emitted if an information message with the content \a msg
      * should be shown.
      */
@@ -566,8 +558,8 @@ private slots:
                   const KFileItem& destItem);
 
     /**
-     * Drops the URLs \a urls at the
-     * destination \a destination.
+     * Handles the dropping of URLs to the given destination.
+     * @see DolphinDropController
      */
     void dropUrls(const KUrl::List& urls,
                   const KUrl& destination);
@@ -585,7 +577,7 @@ private slots:
 
     /**
      * Updates the view properties of the current URL to the
-     * additional informations given by \a info.
+     * additional information given by \a info.
      */
     void updateAdditionalInfo(const KFileItemDelegate::InformationList& info);
 

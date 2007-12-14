@@ -23,13 +23,11 @@
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
 #include "dolphindirlister.h"
-#include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinsettings.h"
 #include "dolphin_columnmodesettings.h"
 #include "draganddrophelper.h"
 
-#include <kcolorutils.h>
 #include <kcolorscheme.h>
 #include <kdirlister.h>
 #include <kfileitem.h>
@@ -39,13 +37,10 @@
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
-#include <QAbstractProxyModel>
 #include <QApplication>
 #include <QClipboard>
+#include <QPainter>
 #include <QPoint>
-#include <QScrollBar>
-#include <QTimer>
-#include <QTimeLine>
 
 DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                                          DolphinColumnView* columnView,

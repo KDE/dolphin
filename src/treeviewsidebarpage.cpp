@@ -20,7 +20,6 @@
 #include "treeviewsidebarpage.h"
 
 #include "dolphinmodel.h"
-#include "dolphinmainwindow.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinsettings.h"

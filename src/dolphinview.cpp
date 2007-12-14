@@ -29,7 +29,6 @@
 #include <QBoxLayout>
 #include <QTimer>
 #include <QScrollBar>
-#include <QClipboard>
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
@@ -40,11 +39,13 @@
 #include <kio/netaccess.h>
 #include <kio/previewjob.h>
 #include <kjob.h>
+#include <kmenu.h>
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
 #include <kurl.h>
 
+#include "dolphindropcontroller.h"
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
@@ -751,6 +752,7 @@ void DolphinView::dropUrls(const KUrl::List& urls,
                            const KUrl& destPath,
                            const KFileItem& destItem)
 {
+    Q_ASSERT(!urls.isEmpty());
     const KUrl& destination = !destItem.isNull() && destItem.isDir() ?
                               destItem.url() : destPath;
     const KUrl sourceDir = KUrl(urls.first().directory());
@@ -762,7 +764,11 @@ void DolphinView::dropUrls(const KUrl::List& urls,
 void DolphinView::dropUrls(const KUrl::List& urls,
                            const KUrl& destination)
 {
-    emit urlsDropped(urls, destination);
+    DolphinDropController dropController(this);
+    // forward doingOperation signal up to the mainwindow
+    connect(&dropController, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
+            this, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)));
+    dropController.dropUrls(urls, destination);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)

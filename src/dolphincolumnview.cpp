@@ -19,25 +19,14 @@
 
 #include "dolphincolumnview.h"
 
-#include "dolphinmodel.h"
 #include "dolphincolumnwidget.h"
 #include "dolphincontroller.h"
-#include "dolphindirlister.h"
-#include "dolphinmodel.h"
-#include "dolphinsortfilterproxymodel.h"
 #include "dolphinsettings.h"
 
 #include "dolphin_columnmodesettings.h"
 
-#include <kcolorutils.h>
-#include <kcolorscheme.h>
-#include <kdirlister.h>
-
-#include <QAbstractProxyModel>
-#include <QApplication>
 #include <QPoint>
 #include <QScrollBar>
-#include <QTimer>
 #include <QTimeLine>
 
 DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* controller) :
