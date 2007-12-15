@@ -130,13 +130,13 @@ public:
 
     // Behavior data
     bool mouseButtonPressed;
+    bool rightMouseButtonPressed;
     bool isDragging;
     bool dragLeftViewport;
     QModelIndex hovered;
     QString hoveredCategory;
     QPoint initialPressPosition;
     QPoint mousePosition;
-    QModelIndex currentViewIndex;
     int forcedSelectionPosition;
 
     // Cache data
