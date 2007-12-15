@@ -207,10 +207,13 @@ void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
             // case QTreeView does no selection at all, which is not the wanted behavior
             // in Dolphin -> select all items within the elastic band rectangle
             clearSelection();
-            if (mousePos.x() < header()->sectionSize(DolphinModel::Name)) {
-                setSelection(QRect(m_elasticBandOrigin, m_elasticBandDestination),
-                             QItemSelectionModel::Select);
-            }
+
+            const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
+            QRect selRect = QRect(m_elasticBandOrigin, m_elasticBandDestination).normalized();
+            const QRect nameColumnsRect(0, 0, nameColumnWidth, viewport()->height());
+            selRect = nameColumnsRect.intersected(selRect);
+
+            setSelection(selRect, QItemSelectionModel::Select);
         }
 
         QTreeView::mouseMoveEvent(event);
