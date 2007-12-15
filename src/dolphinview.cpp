@@ -320,7 +320,13 @@ bool DolphinView::supportsCategorizedSorting() const
 
 void DolphinView::selectAll()
 {
-    itemView()->selectAll();
+    QAbstractItemView* view = itemView();
+    // TODO: there seems to be a bug in QAbstractItemView::selectAll(); if
+    // the Ctrl-key is pressed (e. g. for Ctrl+A), selectAll() inverts the
+    // selection instead of selecting all items. This is bypassed for KDE 4.0
+    // by invoking clearSelection() first.
+    view->clearSelection();
+    view->selectAll();
 }
 
 void DolphinView::invertSelection()
