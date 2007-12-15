@@ -199,9 +199,24 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 
 void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
 {
-    QTreeView::mouseMoveEvent(event);
     if (m_showElasticBand) {
+        const QPoint mousePos = event->pos();
+        const QModelIndex index = indexAt(mousePos);
+        if (!index.isValid()) {
+            // the destination of the selection rectangle is above the viewport. In this
+            // case QTreeView does no selection at all, which is not the wanted behavior
+            // in Dolphin -> select all items within the elastic band rectangle
+            clearSelection();
+            if (mousePos.x() < header()->sectionSize(DolphinModel::Name)) {
+                setSelection(QRect(m_elasticBandOrigin, m_elasticBandDestination),
+                             QItemSelectionModel::Select);
+            }
+        }
+
+        QTreeView::mouseMoveEvent(event);
         updateElasticBand();
+    } else {
+        QTreeView::mouseMoveEvent(event);
     }
 }
 
