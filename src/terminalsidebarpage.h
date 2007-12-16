@@ -24,6 +24,7 @@
 
 class TerminalInterface;
 class QVBoxLayout;
+class QWidget;
 
 /**
  * @brief Shows the terminal which is synchronized with the URL of the
@@ -51,6 +52,7 @@ protected:
 private:
     QVBoxLayout* m_layout;
     TerminalInterface* m_terminal;
+    QWidget* m_terminalWidget;
 };
 
 #endif // TERMINALSIDEBARPAGE_H

@@ -30,7 +30,8 @@
 TerminalSidebarPage::TerminalSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_layout(0),
-    m_terminal(0)
+    m_terminal(0),
+    m_terminalWidget(0)
 {
     m_layout = new QVBoxLayout(this);
     m_layout->setMargin(0);
@@ -68,13 +69,16 @@ void TerminalSidebarPage::showEvent(QShowEvent* event)
         KPluginFactory* factory = KPluginLoader("libkonsolepart").factory();
         KParts::ReadOnlyPart* part = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
         if (part != 0) {
-            m_layout->addWidget(part->widget());
+            m_terminalWidget = part->widget();
+            m_layout->addWidget(m_terminalWidget);
             m_terminal = qobject_cast<TerminalInterface *>(part);
+            m_terminal->showShellInDir(url().path());
         }
     }
     if (m_terminal != 0) {
-        m_terminal->showShellInDir(url().path());
+        m_terminal->sendInput("cd " + KShell::quoteArg(url().path()) + '\n');
         m_terminal->sendInput("clear\n");
+        m_terminalWidget->setFocus();
     }
 
     SidebarPage::showEvent(event);
