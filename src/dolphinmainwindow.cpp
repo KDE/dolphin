@@ -69,11 +69,13 @@
 #include <kstatusbar.h>
 #include <kstandardaction.h>
 #include <kurl.h>
+#include <kurlcombobox.h>
 
-#include <QtGui/QKeyEvent>
-#include <QtGui/QClipboard>
-#include <QtGui/QSplitter>
-#include <QtGui/QDockWidget>
+#include <QKeyEvent>
+#include <QClipboard>
+#include <QLineEdit>
+#include <QSplitter>
+#include <QDockWidget>
 
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
@@ -559,7 +561,19 @@ void DolphinMainWindow::updatePasteAction()
 void DolphinMainWindow::selectAll()
 {
     clearStatusBar();
-    m_activeViewContainer->view()->selectAll();
+
+    // if the URL navigator is editable and focused, select the whole
+    // URL instead of all items of the view
+
+    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    QLineEdit* lineEdit = urlNavigator->editor()->lineEdit();
+    const bool selectUrl = urlNavigator->isUrlEditable() &&
+                           lineEdit->hasFocus();
+    if (selectUrl) {
+        lineEdit->selectAll();
+    } else {
+        m_activeViewContainer->view()->selectAll();
+    }
 }
 
 void DolphinMainWindow::invertSelection()
