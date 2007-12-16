@@ -38,7 +38,7 @@ int main(int argc, char **argv)
                      KAboutData::License_GPL,
                      ki18nc("@info:credit", "(C) 2006, 2007 Peter Penz"));
     about.setHomepage("http://enzosworld.gmxhome.de");
-    about.setBugAddress("http://bugs.kde.org");
+    about.setBugAddress("submit@bugs.kde.org");
     about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
                     ki18nc("@info:credit", "Maintainer and developer"),
                     "peter.penz@gmx.at");
