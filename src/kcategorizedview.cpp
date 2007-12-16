@@ -1041,6 +1041,8 @@ void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
         }
 
         rect = QRect(start, end).intersected(viewport()->rect().adjusted(-16, -16, 16, 16));
+
+        viewport()->update();
     }
 }
 
