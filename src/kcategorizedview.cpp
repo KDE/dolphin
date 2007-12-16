@@ -744,7 +744,7 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
                 option.state |= QStyle::State_Editing;
         }
 
-        if ((index == d->hovered) && !d->mouseButtonPressed)
+        if ((index == d->hovered) && !d->mouseButtonPressed && (this->state() != QAbstractItemView::DraggingState))
             option.state |= QStyle::State_MouseOver;
         else
             option.state &= ~QStyle::State_MouseOver;
