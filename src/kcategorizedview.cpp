@@ -662,8 +662,6 @@ QModelIndex KCategorizedView::indexAt(const QPoint &point) const
         index = item[0];
     }
 
-    d->hovered = index;
-
     return index;
 }
 
@@ -744,7 +742,10 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
                 option.state |= QStyle::State_Editing;
         }
 
-        if ((index == d->hovered) && !d->mouseButtonPressed && (this->state() != QAbstractItemView::DraggingState))
+        // we are only interested to give the mouse over feedback when no
+        // dragging is happening (ereslibre)
+        if ((index == d->hovered) && !d->mouseButtonPressed &&
+            (this->state() == QAbstractItemView::NoState))
             option.state |= QStyle::State_MouseOver;
         else
             option.state &= ~QStyle::State_MouseOver;
@@ -984,6 +985,17 @@ void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
         !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         return;
+    }
+
+    QModelIndexList item = d->intersectionSet(QRect(event->pos(), event->pos()));
+
+    if (item.count() == 1)
+    {
+        d->hovered = item[0];
+    }
+    else
+    {
+        d->hovered = QModelIndex();
     }
 
     const QString previousHoveredCategory = d->hoveredCategory;
