@@ -192,6 +192,8 @@ void TreeViewSidebarPage::expandToLeafDir()
 
     QItemSelectionModel* selModel = m_treeView->selectionModel();
     selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+
+    m_treeView->resizeColumnToContents(DolphinModel::Name);
 }
 
 
@@ -201,6 +203,8 @@ void TreeViewSidebarPage::loadSubTree()
     selModel->clearSelection();
 
     if (m_leafDir.isParentOf(m_dirLister->url())) {
+        m_treeView->resizeColumnToContents(DolphinModel::Name);
+
         // The leaf directory is not a child of the base URL, hence
         // no sub directory must be loaded or selected.
         return;
@@ -218,6 +222,8 @@ void TreeViewSidebarPage::loadSubTree()
         // get invoked if the expanding has been finished.
         m_dolphinModel->expandToUrl(m_leafDir);
     }
+
+    m_treeView->resizeColumnToContents(DolphinModel::Name);
 }
 
 void TreeViewSidebarPage::loadTree(const KUrl& url)
