@@ -119,8 +119,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
     connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&)),
             this, SLOT(openContextMenu(KFileItem, const KUrl&)));
-    connect(m_view, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
-            m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
     connect(m_view, SIGNAL(contentsMoved(int, int)),
             this, SLOT(saveContentsPos(int, int)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
