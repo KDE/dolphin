@@ -44,7 +44,7 @@ public:
     static void startDrag(QAbstractItemView* itemView, Qt::DropActions supportedActions);
 
     // TODO: remove this method when the issue #160611 is solved in Qt 4.4
-    static void drawHoverIndication(QWidget* widget,
+    static void drawHoverIndication(QAbstractItemView* itemView,
                                     const QRect& bounds,
                                     const QBrush& brush);
 };

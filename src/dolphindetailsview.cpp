@@ -320,7 +320,7 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     if (m_dragging) {
         const QBrush& brush = viewOptions().palette.brush(QPalette::Normal, QPalette::Highlight);
-        DragAndDropHelper::drawHoverIndication(viewport(), m_dropRect, brush);
+        DragAndDropHelper::drawHoverIndication(this, m_dropRect, brush);
     }
 }
 
