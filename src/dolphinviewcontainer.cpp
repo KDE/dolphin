@@ -397,7 +397,7 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
 
     if (item.isDir()) {
         m_view->setUrl(url);
-    } else if (item.isFile()) {
+    } else if (item.isFile() && url.isLocalFile()) {
         // allow to browse through ZIP and tar files
         // TODO: make this configurable for Dolphin in KDE 4.1
 
