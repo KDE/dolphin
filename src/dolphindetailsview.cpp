@@ -402,11 +402,12 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
 
 void DolphinDetailsView::updateElasticBand()
 {
-    Q_ASSERT(m_showElasticBand);
-    QRect dirtyRegion(elasticBandRect());
-    m_elasticBandDestination = viewport()->mapFromGlobal(QCursor::pos());
-    dirtyRegion = dirtyRegion.united(elasticBandRect());
-    setDirtyRegion(dirtyRegion);
+    if (m_showElasticBand) {
+        QRect dirtyRegion(elasticBandRect());
+        m_elasticBandDestination = viewport()->mapFromGlobal(QCursor::pos());
+        dirtyRegion = dirtyRegion.united(elasticBandRect());
+        setDirtyRegion(dirtyRegion);
+    }
 }
 
 QRect DolphinDetailsView::elasticBandRect() const
