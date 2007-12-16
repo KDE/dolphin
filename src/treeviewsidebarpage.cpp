@@ -246,6 +246,8 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
     } else {
         loadSubTree();
     }
+
+    m_treeView->resizeColumnToContents(DolphinModel::Name);
 }
 
 #include "treeviewsidebarpage.moc"
