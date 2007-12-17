@@ -2,7 +2,10 @@
 add_subdirectory( pics )
 add_subdirectory( tests )
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${BLITZ_INCLUDES} ${SOPRANO_INCLUDE_DIR} )
+include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${BLITZ_INCLUDES} )
+if (Soprano_FOUND)
+  include_directories( ${SOPRANO_INCLUDE_DIR} )
+endif (Soprano_FOUND)
 
 ########### next target ###############
 
