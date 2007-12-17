@@ -55,6 +55,7 @@ DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :
     m_sorting(DolphinView::SortByName),
     m_sortOrder(Qt::AscendingOrder)
 {
+    setSupportedDragActions(Qt::CopyAction | Qt::MoveAction | Qt::LinkAction | Qt::IgnoreAction);
 }
 
 DolphinSortFilterProxyModel::~DolphinSortFilterProxyModel()
