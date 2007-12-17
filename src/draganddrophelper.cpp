@@ -54,7 +54,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView, Qt::DropActions s
         }
         drag->setPixmap(pixmap);
         drag->setMimeData(data);
-        drag->exec(supportedActions, Qt::MoveAction);
+        drag->exec(supportedActions, Qt::IgnoreAction);
     }
 }
 
