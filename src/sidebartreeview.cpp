@@ -106,10 +106,12 @@ void SidebarTreeView::startDrag(Qt::DropActions supportedActions)
 
 void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
 {
+    QTreeView::dragEnterEvent(event);
+
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
-    QTreeView::dragEnterEvent(event);
+
     m_dragging = true;
 }
 
@@ -131,6 +133,11 @@ void SidebarTreeView::dragMoveEvent(QDragMoveEvent* event)
     setDirtyRegion(m_dropRect);
     m_dropRect = visualRect(index);
     setDirtyRegion(m_dropRect);
+
+    if (event->mimeData()->hasUrls()) {
+        // accept url drops, independently from the destination item
+        event->acceptProposedAction();
+    }
 }
 
 void SidebarTreeView::dropEvent(QDropEvent* event)
