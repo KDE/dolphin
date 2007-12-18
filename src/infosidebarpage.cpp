@@ -333,9 +333,10 @@ void InfoSidebarPage::showMetaInfo()
 
         unsigned long int totalSize = 0;
         foreach (const KFileItem& item, selectedItems) {
-            // TODO: what to do with directories (same with the one-item-selected-code)?,
-            // item.size() does not return the size of the content : not very instinctive for users
-            totalSize += item.size();
+            // Only count the size of files, not dirs; to match what
+            // DolphinViewContainer::selectionStatusBarText does.
+            if (!item.isDir() && !item.isLink())
+                totalSize += item.size();
         }
         addInfoLine(text, i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     }
