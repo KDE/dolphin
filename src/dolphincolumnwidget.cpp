@@ -247,6 +247,20 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
         }
     }
     setDirtyRegion(m_dropRect);
+
+    bool destIsDir = false;
+    if (index.isValid()) {
+        const KFileItem item = itemForIndex(index);
+        if (!item.isNull() && item.isDir()) {
+            m_dropRect = visualRect(index);
+            destIsDir = true;
+        }
+    } else { // dropping on viewport
+        destIsDir = true;
+    }
+    if (destIsDir && event->mimeData()->hasUrls()) {
+        event->acceptProposedAction();
+    }
 }
 
 void DolphinColumnWidget::dropEvent(QDropEvent* event)
