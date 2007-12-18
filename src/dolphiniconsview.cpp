@@ -225,17 +225,14 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
     setDirtyRegion(m_dropRect);
 
     m_dropRect.setSize(QSize()); // set as invalid
-    bool destIsDir = false;
     if (index.isValid()) {
         const KFileItem item = itemForIndex(index);
-        if (!item.isNull() && item.isDir()) {
+        if (!item.isNull()) {
             m_dropRect = visualRect(index);
-            destIsDir = true;
         }
-    } else { // dropping on viewport
-        destIsDir = true;
     }
-    if (destIsDir && event->mimeData()->hasUrls()) {
+    if (event->mimeData()->hasUrls()) {
+        // accept url drops, independently from the destination item
         event->acceptProposedAction();
     }
 
