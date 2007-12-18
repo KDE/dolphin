@@ -1159,14 +1159,15 @@ void KCategorizedView::dragMoveEvent(QDragMoveEvent *event)
 
     d->dragLeftViewport = false;
 
+#if defined(DOLPHIN_DRAGANDDROP)
+    QAbstractItemView::dragMoveEvent(event);
+#else
+    QListView::dragMoveEvent(event);
+#endif
+
     if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
         !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
-#if defined(DOLPHIN_DRAGANDDROP)
-        QAbstractItemView::dragMoveEvent(event);
-#else
-        QListView::dragMoveEvent(event);
-#endif
         return;
     }
 
