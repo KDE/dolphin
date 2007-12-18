@@ -321,7 +321,12 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
     }
 
     QAction* compareFilesAction = actionCollection()->action("compare_files");
-    compareFilesAction->setEnabled(selectedUrlsCount == 2);
+    if (selectedUrlsCount == 2) {
+        const bool kompareInstalled = !KGlobal::dirs()->findExe("kompare").isEmpty();
+        compareFilesAction->setEnabled(selectedUrlsCount == 2 && kompareInstalled);
+    } else {
+        compareFilesAction->setEnabled(false);
+    }
 
     m_activeViewContainer->updateStatusBar();
 
