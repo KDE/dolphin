@@ -50,6 +50,7 @@ void DolphinDropController::dropUrls(const KUrl::List& urls,
     Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
     const bool shiftPressed   = modifier & Qt::ShiftModifier;
     const bool controlPressed = modifier & Qt::ControlModifier;
+    const bool altPressed = modifier & Qt::AltModifier;
     if (shiftPressed && controlPressed) {
         // shortcut for 'Link Here' is used
         action = Qt::LinkAction;
@@ -59,6 +60,9 @@ void DolphinDropController::dropUrls(const KUrl::List& urls,
     } else if (controlPressed) {
         // shortcut for 'Copy Here' is used
         action = Qt::CopyAction;
+    } else if (altPressed) {
+        // shortcut for 'Link Here' is used
+        action = Qt::LinkAction;
     } else {
         // open a context menu which offers the following actions:
         // - Move Here
