@@ -68,6 +68,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
+    setSelectionRectVisible(true);
 
 // TODO: Remove this check when 4.3.2 is released and KDE requires it... this
 //       check avoids a division by zero happening on versions before 4.3.1.
