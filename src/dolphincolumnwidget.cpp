@@ -247,6 +247,11 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
         }
     }
     setDirtyRegion(m_dropRect);
+
+    if (event->mimeData()->hasUrls()) {
+        // accept url drops, independently from the destination item
+        event->acceptProposedAction();
+    }
 }
 
 void DolphinColumnWidget::dropEvent(QDropEvent* event)

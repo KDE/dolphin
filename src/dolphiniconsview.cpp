@@ -227,8 +227,10 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
     m_dropRect.setSize(QSize()); // set as invalid
     if (index.isValid()) {
         const KFileItem item = itemForIndex(index);
-        if (!item.isNull()) {
+        if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
+        } else {
+            m_dropRect.setSize(QSize()); // set as invalid
         }
     }
     if (event->mimeData()->hasUrls()) {
