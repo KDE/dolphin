@@ -1274,6 +1274,8 @@ void DolphinMainWindow::setupDockWidgets()
     SidebarPage* terminalWidget = new TerminalSidebarPage(terminalDock);
     terminalDock->setWidget(terminalWidget);
 
+    connect(terminalWidget, SIGNAL(hideTerminalSidebarPage()), terminalDock, SLOT(hide()));
+
     terminalDock->toggleViewAction()->setText(i18nc("@title:window", "Terminal"));
     terminalDock->toggleViewAction()->setShortcut(Qt::Key_F4);
     actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());

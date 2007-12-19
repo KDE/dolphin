@@ -44,6 +44,10 @@ public:
 public slots:
     /** @see SidebarPage::setUrl(). */
     virtual void setUrl(const KUrl& url);
+    void terminalExited();
+
+signals:
+    void hideTerminalSidebarPage();
 
 protected:
     /** @see QWidget::showEvent() */
