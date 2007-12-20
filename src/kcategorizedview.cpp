@@ -1040,7 +1040,8 @@ void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
             end = d->mousePosition;
         }
 
-        rect = QRect(start, end).intersected(viewport()->rect().adjusted(-16, -16, 16, 16));
+        rect = QRect(start, end).adjusted(-16, -16, 16, 16);
+        rect = rect.united(QRect(start, end).adjusted(16, 16, -16, -16)).intersected(viewport()->rect());
 
         viewport()->update(rect);
     }
@@ -1110,6 +1111,34 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
                 break;
             }
         }
+    }
+
+    QRect rect;
+    if (!d->isDragging)
+    {
+        QPoint start, end, initialPressPosition;
+
+        initialPressPosition = d->initialPressPosition;
+
+        initialPressPosition.setY(initialPressPosition.y() - verticalOffset());
+        initialPressPosition.setX(initialPressPosition.x() - horizontalOffset());
+
+        if (d->initialPressPosition.x() > d->mousePosition.x() ||
+            d->initialPressPosition.y() > d->mousePosition.y())
+        {
+            start = d->mousePosition;
+            end = initialPressPosition;
+        }
+        else
+        {
+            start = initialPressPosition;
+            end = d->mousePosition;
+        }
+
+        rect = QRect(start, end).adjusted(-16, -16, 16, 16);
+        rect = rect.united(QRect(start, end).adjusted(16, 16, -16, -16)).intersected(viewport()->rect());
+
+        viewport()->update(rect);
     }
 
     if (d->hovered.isValid())
