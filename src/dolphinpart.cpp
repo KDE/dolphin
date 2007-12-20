@@ -320,7 +320,7 @@ void DolphinPart::slotUrlChanged(const KUrl& url)
         // If the view URL is not equal to 'url', then an inner URL change has
         // been done (e. g. by activating an existing column in the column view).
         // From the hosts point of view this must be handled like changing the URL.
-        emit m_extension->openUrlRequest(url);
+        emit m_extension->openUrlRequestDelayed(url, KParts::OpenUrlArguments(), KParts::BrowserArguments());
     }
 }
 
