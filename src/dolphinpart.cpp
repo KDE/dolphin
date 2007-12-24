@@ -18,6 +18,7 @@
 */
 
 #include "dolphinpart.h"
+#include <kglobalsettings.h>
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinmodel.h"
@@ -136,6 +137,45 @@ void DolphinPart::createActions()
     connect(newDirAction, SIGNAL(triggered()), SLOT(slotNewDir()));
     newDirAction->setShortcut(Qt::Key_F10);
     widget()->addAction(newDirAction);
+
+    // Go menu
+
+    QActionGroup* goActionGroup = new QActionGroup(this);
+    connect(goActionGroup, SIGNAL(triggered(QAction*)),
+            this, SLOT(slotGoTriggered(QAction*)));
+
+    createGoAction("go_applications", "start-here",
+                   i18nc("@action:inmenu Go", "App&lications"), QString("programs:/"),
+                   goActionGroup);
+    createGoAction("go_network_folders", "drive-remote",
+                   i18nc("@action:inmenu Go", "&Network Folders"), QString("remote:/"),
+                   goActionGroup);
+    createGoAction("go_settings", "preferences-system",
+                   i18nc("@action:inmenu Go", "Sett&ings"), QString("settings:/"),
+                   goActionGroup);
+    createGoAction("go_trash", "user-trash",
+                   i18nc("@action:inmenu Go", "Trash"), QString("trash:/"),
+                   goActionGroup);
+    createGoAction("go_autostart", "",
+                   i18nc("@action:inmenu Go", "Autostart"), KGlobalSettings::autostartPath(),
+                   goActionGroup);
+}
+
+void DolphinPart::createGoAction(const char* name, const char* iconName,
+                                 const QString& text, const QString& url,
+                                 QActionGroup* actionGroup)
+{
+    KAction* action = actionCollection()->addAction(name);
+    action->setIcon(KIcon(iconName));
+    action->setText(text);
+    action->setData(url);
+    action->setActionGroup(actionGroup);
+}
+
+void DolphinPart::slotGoTriggered(QAction* action)
+{
+    const QString url = action->data().toString();
+    emit m_extension->openUrlRequest(KUrl(url));
 }
 
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)

@@ -22,6 +22,7 @@
 
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+class QActionGroup;
 class KAction;
 class KFileItemList;
 class KFileItem;
@@ -114,10 +115,21 @@ private Q_SLOTS:
      */
     void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
 
+    /**
+     * Connected to the key shortcut for "new directory" (F10)
+     */
     void slotNewDir();
+
+    /**
+     * Connected to all "Go" menu actions provided by DolphinPart
+     */
+    void slotGoTriggered(QAction* action);
 
 private:
     void createActions();
+    void createGoAction(const char* name, const char* iconName,
+                        const QString& text, const QString& url,
+                        QActionGroup* actionGroup);
 
 private:
     DolphinView* m_view;

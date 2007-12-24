@@ -39,6 +39,14 @@
    <Separator/>
    <Action name="view_properties" />
   </Menu>
+  <Menu name="go">
+    <Action name="go_applications"/>
+    <Action name="go_network_folders"/>
+    <Action name="go_settings"/>
+    <Action name="go_media"/>
+    <Action name="go_trash"/>
+    <Action name="go_autostart"/>
+  </Menu>
   <Menu name="tools">
     <Action name="find_file" />
     <Action name="show_filter_bar" />
