@@ -18,6 +18,7 @@
 */
 
 #include "dolphinpart.h"
+#include <kpropertiesdialog.h>
 #include <kglobalsettings.h>
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
@@ -131,8 +132,13 @@ void DolphinPart::createActions()
     connect(deleteAction, SIGNAL(triggered()), m_view, SLOT(deleteSelectedItems()));
 
     KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
-    editMimeTypeAction->setText( i18n( "&Edit File Type..." ) );
+    editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
     connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
+
+    KAction *propertiesAction = actionCollection()->addAction( "properties" );
+    propertiesAction->setText( i18nc("@action:inmenu Edit", "Properties") );
+    propertiesAction->setShortcut(Qt::ALT+Qt::Key_Return);
+    connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
 
     // This action doesn't appear in the GUI, it's for the shortcut only.
     // KNewMenu takes care of the GUI stuff.
@@ -192,7 +198,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
     }
 
     QStringList actions;
-    actions << "rename" << "move_to_trash" << "delete" << "editMimeType";
+    actions << "rename" << "move_to_trash" << "delete" << "editMimeType" << "properties";
     foreach(const QString& actionName, actions) {
         QAction* action = actionCollection()->action(actionName);
         Q_ASSERT(action);
@@ -407,7 +413,16 @@ void DolphinPart::slotEditMimeType()
 {
     const KFileItemList items = m_view->selectedItems();
     if (!items.isEmpty()) {
-        KonqOperations::editMimeType( items.first().mimetype(), m_view );
+        KonqOperations::editMimeType(items.first().mimetype(), m_view);
+    }
+}
+
+void DolphinPart::slotProperties()
+{
+    const KFileItemList items = m_view->selectedItems();
+    if (!items.isEmpty()) {
+        KPropertiesDialog dialog(items.first().url(), m_view);
+        dialog.exec();
     }
 }
 

@@ -164,7 +164,7 @@ void TreeViewContextMenu::deleteItem()
 
 void TreeViewContextMenu::showProperties()
 {
-    KPropertiesDialog dialog(m_fileInfo.url());
+    KPropertiesDialog dialog(m_fileInfo.url(), m_parent);
     dialog.exec();
 }
 

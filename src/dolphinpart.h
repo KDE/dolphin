@@ -130,6 +130,11 @@ private Q_SLOTS:
      */
     void slotEditMimeType();
 
+    /**
+     * Connected to the "properties" action
+     */
+    void slotProperties();
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,
