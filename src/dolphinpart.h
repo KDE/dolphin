@@ -125,6 +125,11 @@ private Q_SLOTS:
      */
     void slotGoTriggered(QAction* action);
 
+    /**
+     * Connected to the "editMimeType" action
+     */
+    void slotEditMimeType();
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,

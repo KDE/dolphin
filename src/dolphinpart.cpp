@@ -130,6 +130,10 @@ void DolphinPart::createActions()
     KAction* deleteAction = DolphinView::createDeleteAction(actionCollection());
     connect(deleteAction, SIGNAL(triggered()), m_view, SLOT(deleteSelectedItems()));
 
+    KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
+    editMimeTypeAction->setText( i18n( "&Edit File Type..." ) );
+    connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
+
     // This action doesn't appear in the GUI, it's for the shortcut only.
     // KNewMenu takes care of the GUI stuff.
     KAction* newDirAction = actionCollection()->addAction( "create_dir" );
@@ -188,7 +192,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
     }
 
     QStringList actions;
-    actions << "rename" << "move_to_trash" << "delete";
+    actions << "rename" << "move_to_trash" << "delete" << "editMimeType";
     foreach(const QString& actionName, actions) {
         QAction* action = actionCollection()->action(actionName);
         Q_ASSERT(action);
@@ -397,6 +401,14 @@ void DolphinPart::slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers mod
 void DolphinPart::slotNewDir()
 {
     KonqOperations::newDir(widget(), url());
+}
+
+void DolphinPart::slotEditMimeType()
+{
+    const KFileItemList items = m_view->selectedItems();
+    if (!items.isEmpty()) {
+        KonqOperations::editMimeType( items.first().mimetype(), m_view );
+    }
 }
 
 #include "dolphinpart.moc"
