@@ -1209,8 +1209,8 @@ QPair<bool, QString> DolphinView::pasteInfo() const
     }
 
     if (ret.first) {
-        const KUrl::List urls = selectedUrls();
-        const uint count = urls.count();
+        const KFileItemList items = selectedItems();
+        const uint count = items.count();
         if (count > 1) {
             // pasting should not be allowed when more than one file
             // is selected
@@ -1218,13 +1218,7 @@ QPair<bool, QString> DolphinView::pasteInfo() const
         } else if (count == 1) {
             // Only one file is selected. Pasting is only allowed if this
             // file is a directory.
-            // TODO: this doesn't work with remote protocols; instead we need a
-            // m_activeViewContainer->selectedFileItems() to get the real KFileItems
-            const KFileItem fileItem(S_IFDIR,
-                                     KFileItem::Unknown,
-                                     urls.first(),
-                                     true);
-            ret.first = fileItem.isDir();
+            ret.first = items.first().isDir();
         }
     }
     return ret;
