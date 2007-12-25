@@ -365,19 +365,21 @@ void KCategorizedView::Private::drawNewCategory(const QModelIndex &index,
 
     optionCopy.state &= ~QStyle::State_Selected;
 
-    if ((category == hoveredCategory) && !mouseButtonPressed)
-    {
-        optionCopy.state |= QStyle::State_MouseOver;
-    }
-    else if ((category == hoveredCategory) && mouseButtonPressed)
-    {
-        QPoint initialPressPosition = listView->viewport()->mapFromGlobal(QCursor::pos());
-        initialPressPosition.setY(initialPressPosition.y() + listView->verticalOffset());
-        initialPressPosition.setX(initialPressPosition.x() + listView->horizontalOffset());
-
-        if (initialPressPosition == this->initialPressPosition)
+    if ((listView->selectionMode() != SingleSelection) && (listView->selectionMode() != NoSelection)) {
+        if ((category == hoveredCategory) && !mouseButtonPressed)
         {
-            optionCopy.state |= QStyle::State_Selected;
+            optionCopy.state |= QStyle::State_MouseOver;
+        }
+        else if ((category == hoveredCategory) && mouseButtonPressed)
+        {
+            QPoint initialPressPosition = listView->viewport()->mapFromGlobal(QCursor::pos());
+            initialPressPosition.setY(initialPressPosition.y() + listView->verticalOffset());
+            initialPressPosition.setX(initialPressPosition.x() + listView->horizontalOffset());
+
+            if (initialPressPosition == this->initialPressPosition)
+            {
+                optionCopy.state |= QStyle::State_Selected;
+            }
         }
     }
 
@@ -774,39 +776,42 @@ void KCategorizedView::paintEvent(QPaintEvent *event)
         else if (intersectedInThePast)
         {
             break; // the visible area has been finished, we don't need to keep asking, the rest won't intersect
-                   // this is doable because we know that categories are correctly ordered on the list
+                // this is doable because we know that categories are correctly ordered on the list
         }
     }
 
-    if (d->mouseButtonPressed && !d->isDragging)
+    if ((selectionMode() != SingleSelection) && (selectionMode() != NoSelection))
     {
-        QPoint start, end, initialPressPosition;
-
-        initialPressPosition = d->initialPressPosition;
-
-        initialPressPosition.setY(initialPressPosition.y() - verticalOffset());
-        initialPressPosition.setX(initialPressPosition.x() - horizontalOffset());
-
-        if (d->initialPressPosition.x() > d->mousePosition.x() ||
-            d->initialPressPosition.y() > d->mousePosition.y())
+        if (d->mouseButtonPressed && !d->isDragging)
         {
-            start = d->mousePosition;
-            end = initialPressPosition;
-        }
-        else
-        {
-            start = initialPressPosition;
-            end = d->mousePosition;
-        }
+            QPoint start, end, initialPressPosition;
 
-        QStyleOptionRubberBand yetAnotherOption;
-        yetAnotherOption.initFrom(this);
-        yetAnotherOption.shape = QRubberBand::Rectangle;
-        yetAnotherOption.opaque = false;
-        yetAnotherOption.rect = QRect(start, end).intersected(viewport()->rect().adjusted(-16, -16, 16, 16));
-        painter.save();
-        style()->drawControl(QStyle::CE_RubberBand, &yetAnotherOption, &painter);
-        painter.restore();
+            initialPressPosition = d->initialPressPosition;
+
+            initialPressPosition.setY(initialPressPosition.y() - verticalOffset());
+            initialPressPosition.setX(initialPressPosition.x() - horizontalOffset());
+
+            if (d->initialPressPosition.x() > d->mousePosition.x() ||
+                d->initialPressPosition.y() > d->mousePosition.y())
+            {
+                start = d->mousePosition;
+                end = initialPressPosition;
+            }
+            else
+            {
+                start = initialPressPosition;
+                end = d->mousePosition;
+            }
+
+            QStyleOptionRubberBand yetAnotherOption;
+            yetAnotherOption.initFrom(this);
+            yetAnotherOption.shape = QRubberBand::Rectangle;
+            yetAnotherOption.opaque = false;
+            yetAnotherOption.rect = QRect(start, end).intersected(viewport()->rect().adjusted(-16, -16, 16, 16));
+            painter.save();
+            style()->drawControl(QStyle::CE_RubberBand, &yetAnotherOption, &painter);
+            painter.restore();
+        }
     }
 
     if (d->isDragging && !d->dragLeftViewport)
@@ -1090,7 +1095,8 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
     initialPressPosition.setY(initialPressPosition.y() + verticalOffset());
     initialPressPosition.setX(initialPressPosition.x() + horizontalOffset());
 
-    if (initialPressPosition == d->initialPressPosition)
+    if ((selectionMode() != SingleSelection) && (selectionMode() != NoSelection) &&
+        (initialPressPosition == d->initialPressPosition))
     {
         foreach(const QString &category, d->categories)
         {
@@ -1570,7 +1576,8 @@ void KCategorizedView::currentChanged(const QModelIndex &current,
     if (!elementsPerRow)
         elementsPerRow++;
 
-    d->forcedSelectionPosition = d->elementsInfo[current.row()].relativeOffsetToCategory % elementsPerRow;
+    if (d->mouseButtonPressed || d->rightMouseButtonPressed)
+        d->forcedSelectionPosition = d->elementsInfo[current.row()].relativeOffsetToCategory % elementsPerRow;
 
     QListView::currentChanged(current, previous);
 }

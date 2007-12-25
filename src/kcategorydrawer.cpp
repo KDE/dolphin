@@ -23,6 +23,7 @@
 #include <QPainter>
 #include <QStyleOption>
 
+#include <kiconloader.h>
 #include <kcategorizedsortfilterproxymodel.h>
 
 KCategoryDrawer::KCategoryDrawer()
@@ -60,6 +61,17 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
     opt.palette = option.palette;
     opt.direction = option.direction;
     opt.text = category;
+
+    int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
+
+    if (option.direction == Qt::LeftToRight)
+    {
+        opt.rect.setLeft(opt.rect.left() + (iconSize / 4));
+    }
+    else
+    {
+        opt.rect.setRight(opt.rect.width() - (iconSize / 4));
+    }
 
     if (option.state & QStyle::State_Selected)
     {
@@ -113,7 +125,7 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
 
     painter->setPen(color);
 
-    painter->drawText(option.rect, Qt::AlignVCenter | Qt::AlignLeft,
+    painter->drawText(opt.rect, Qt::AlignVCenter | Qt::AlignLeft,
     metrics.elidedText(category, Qt::ElideRight, option.rect.width()));
 
     painter->restore();
