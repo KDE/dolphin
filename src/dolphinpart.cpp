@@ -154,10 +154,10 @@ void DolphinPart::createActions()
     connect(goActionGroup, SIGNAL(triggered(QAction*)),
             this, SLOT(slotGoTriggered(QAction*)));
 
-    createGoAction("go_applications", "start-here",
+    createGoAction("go_applications", "start-here-kde",
                    i18nc("@action:inmenu Go", "App&lications"), QString("programs:/"),
                    goActionGroup);
-    createGoAction("go_network_folders", "drive-remote",
+    createGoAction("go_network_folders", "folder-remote",
                    i18nc("@action:inmenu Go", "&Network Folders"), QString("remote:/"),
                    goActionGroup);
     createGoAction("go_settings", "preferences-system",
