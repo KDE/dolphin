@@ -396,7 +396,7 @@ void KCategorizedView::Private::updateScrollbars()
     QModelIndex lastIndex = categoriesIndexes.isEmpty() ? QModelIndex() : categoriesIndexes[categories.last()].last();
 
     int lastItemBottom = cachedRectIndex(lastIndex).top() +
-                         listView->spacing() + (listView->gridSize().isEmpty() ? 0 : listView->gridSize().height()) - listView->viewport()->height();
+                         listView->spacing() + (listView->gridSize().isEmpty() ? cachedRectIndex(lastIndex).height() : listView->gridSize().height()) - listView->viewport()->height();
 
     listView->horizontalScrollBar()->setRange(0, 0);
 
@@ -1242,17 +1242,6 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
         return QListView::moveCursor(cursorAction, modifiers);
     }
 
-    QModelIndex current = selectionModel()->currentIndex();
-
-    if (!current.isValid())
-    {
-        current = model()->index(0, 0, QModelIndex());
-        selectionModel()->select(current, QItemSelectionModel::NoUpdate);
-        d->forcedSelectionPosition = 0;
-
-        return current;
-    }
-
     int viewportWidth = viewport()->width() - spacing();
     int itemWidth;
 
@@ -1269,6 +1258,28 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
     if (!elementsPerRow)
         elementsPerRow++;
+
+    QModelIndex current = selectionModel()->currentIndex();
+
+    if (!current.isValid())
+    {
+        if (cursorAction == MoveEnd)
+        {
+            current = model()->index(model()->rowCount() - 1, 0, QModelIndex());
+            d->forcedSelectionPosition = d->elementsInfo[current.row()].relativeOffsetToCategory % elementsPerRow;
+        }
+        else
+        {
+            current = model()->index(0, 0, QModelIndex());
+            d->forcedSelectionPosition = 0;
+        }
+
+        return current;
+    }
+    else if (!current.isValid())
+    {
+        return QModelIndex();
+    }
 
     QString lastCategory = d->categories.first();
     QString theCategory = d->categories.first();
