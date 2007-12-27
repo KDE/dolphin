@@ -396,7 +396,7 @@ void KCategorizedView::Private::updateScrollbars()
     QModelIndex lastIndex = categoriesIndexes.isEmpty() ? QModelIndex() : categoriesIndexes[categories.last()].last();
 
     int lastItemBottom = cachedRectIndex(lastIndex).top() +
-                         listView->spacing() + (listView->gridSize().isEmpty() ? cachedRectIndex(lastIndex).height() : listView->gridSize().height()) - listView->viewport()->height();
+                         listView->spacing() + (listView->gridSize().isEmpty() ? biggestItemSize.height() : listView->gridSize().height()) - listView->viewport()->height();
 
     listView->horizontalScrollBar()->setRange(0, 0);
 
