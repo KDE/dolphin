@@ -177,7 +177,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             }
             else
             {
-                icon = KIconLoader::global()->loadIcon("user", KIconLoader::NoGroup, option.fontMetrics.height());
+                icon = KIconLoader::global()->loadIcon("user-identity", KIconLoader::NoGroup, option.fontMetrics.height());
             }
 
             opt.rect.setTop(opt.rect.top() - icon.height());
