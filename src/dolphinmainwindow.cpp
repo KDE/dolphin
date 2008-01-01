@@ -1151,7 +1151,7 @@ void DolphinMainWindow::setupActions()
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
-    showPreview->setIcon(KIcon("fileview-preview"));
+    showPreview->setIcon(KIcon("view-preview"));
     connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
 
     KToggleAction* showHiddenFiles = actionCollection()->add<KToggleAction>("show_hidden_files");
@@ -1457,14 +1457,14 @@ void DolphinMainWindow::updateSplitAction()
     if (m_viewContainer[SecondaryView] != 0) {
         if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
-            splitAction->setIcon(KIcon("fileview-close-right"));
+            splitAction->setIcon(KIcon("view-right-close"));
         } else {
             splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
-            splitAction->setIcon(KIcon("fileview-close-left"));
+            splitAction->setIcon(KIcon("view-left-close"));
         }
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
-        splitAction->setIcon(KIcon("fileview-split"));
+        splitAction->setIcon(KIcon("view-right-new"));
     }
 }
 

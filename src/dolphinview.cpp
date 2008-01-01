@@ -998,7 +998,7 @@ KToggleAction* DolphinView::iconsModeAction(KActionCollection* actionCollection)
     KToggleAction* iconsView = actionCollection->add<KToggleAction>("icons");
     iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
-    iconsView->setIcon(KIcon("fileview-icon"));
+    iconsView->setIcon(KIcon("view-list-icons"));
     iconsView->setData(QVariant::fromValue(IconsView));
     return iconsView;
 }
@@ -1008,7 +1008,7 @@ KToggleAction* DolphinView::detailsModeAction(KActionCollection* actionCollectio
     KToggleAction* detailsView = actionCollection->add<KToggleAction>("details");
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
-    detailsView->setIcon(KIcon("fileview-detailed"));
+    detailsView->setIcon(KIcon("view-list-details"));
     detailsView->setData(QVariant::fromValue(DetailsView));
     return detailsView;
 }
@@ -1018,7 +1018,7 @@ KToggleAction* DolphinView::columnsModeAction(KActionCollection* actionCollectio
     KToggleAction* columnView = actionCollection->add<KToggleAction>("columns");
     columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
     columnView->setShortcut(Qt::CTRL | Qt::Key_3);
-    columnView->setIcon(KIcon("fileview-column"));
+    columnView->setIcon(KIcon("view-file-columns"));
     columnView->setData(QVariant::fromValue(ColumnView));
     return columnView;
 }

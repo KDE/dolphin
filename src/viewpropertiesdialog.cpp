@@ -91,9 +91,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsBox);
     m_viewMode = new QComboBox(propsBox);
-    m_viewMode->addItem(KIcon("fileview-icon"), i18nc("@item:inlistbox", "Icons"));
-    m_viewMode->addItem(KIcon("fileview-detailed"), i18nc("@item:inlistbox", "Details"));
-    m_viewMode->addItem(KIcon("fileview-column"), i18nc("@item:inlistbox", "Column"));
+    m_viewMode->addItem(KIcon("view-list-icons"), i18nc("@item:inlistbox", "Icons"));
+    m_viewMode->addItem(KIcon("view-list-details"), i18nc("@item:inlistbox", "Details"));
+    m_viewMode->addItem(KIcon("view-file-columns"), i18nc("@item:inlistbox", "Column"));
 
     QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsBox);
     QWidget* sortingBox = new QWidget(propsBox);
