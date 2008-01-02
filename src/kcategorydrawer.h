@@ -46,7 +46,7 @@ public:
                               const QStyleOption &option,
                               QPainter *painter) const;
 
-    virtual int categoryHeight(const QStyleOption &option) const;
+    virtual int categoryHeight(const QModelIndex &index, const QStyleOption &option) const;
 };
 
 #endif // KCATEGORYDRAWER_H

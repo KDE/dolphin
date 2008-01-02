@@ -35,7 +35,7 @@ KCategoryDrawer::~KCategoryDrawer()
 }
 
 void KCategoryDrawer::drawCategory(const QModelIndex &index,
-                                   int sortRole,
+                                   int /*sortRole*/,
                                    const QStyleOption &option,
                                    QPainter *painter) const
 {
@@ -54,24 +54,6 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
 
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing);
-
-    QStyleOptionButton opt;
-
-    opt.rect = option.rect;
-    opt.palette = option.palette;
-    opt.direction = option.direction;
-    opt.text = category;
-
-    int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
-
-    if (option.direction == Qt::LeftToRight)
-    {
-        opt.rect.setLeft(opt.rect.left() + (iconSize / 4));
-    }
-    else
-    {
-        opt.rect.setRight(opt.rect.width() - (iconSize / 4));
-    }
 
     if (option.state & QStyle::State_Selected)
     {
@@ -103,15 +85,13 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
 
     QFont painterFont = painter->font();
     painterFont.setWeight(QFont::Bold);
-    painterFont.setPointSize(painterFont.pointSize() + 2);
     QFontMetrics metrics(painterFont);
     painter->setFont(painterFont);
 
-    QPainterPath path;
-    path.addRect(option.rect.left(),
-                 option.rect.bottom() - 2,
-                 option.rect.width(),
-                 2);
+    QRect lineRect(option.rect.left(),
+                   option.rect.bottom() - 1,
+                   option.rect.width(),
+                   1);
 
     QLinearGradient gradient(option.rect.topLeft(),
                              option.rect.bottomRight());
@@ -120,18 +100,19 @@ void KCategoryDrawer::drawCategory(const QModelIndex &index,
     gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
                                                             : 0, Qt::transparent);
 
-    painter->setBrush(gradient);
-    painter->fillPath(path, gradient);
+    painter->fillRect(lineRect, gradient);
 
     painter->setPen(color);
 
-    painter->drawText(opt.rect, Qt::AlignVCenter | Qt::AlignLeft,
+    painter->drawText(option.rect, Qt::AlignVCenter | Qt::AlignLeft,
     metrics.elidedText(category, Qt::ElideRight, option.rect.width()));
 
     painter->restore();
 }
 
-int KCategoryDrawer::categoryHeight(const QStyleOption &option) const
+int KCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyleOption &option) const
 {
-    return option.fontMetrics.height() + 6 /* 4 separator; 2 gradient */;
+    Q_UNUSED(index);
+
+    return option.fontMetrics.height() + 4 /* 3 separator; 1 gradient */;
 }

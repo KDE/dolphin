@@ -118,9 +118,9 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
     QPainterPath path;
     path.addRect(option.rect.left(),
-                 option.rect.bottom() - 2,
+                 option.rect.bottom() - 1,
                  option.rect.width(),
-                 2);
+                 1);
 
     QLinearGradient gradient(option.rect.topLeft(),
                              option.rect.bottomRight());
@@ -134,15 +134,15 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
     if (option.direction == Qt::LeftToRight)
     {
-        opt.rect.setLeft(opt.rect.left() + (iconSize / 4));
-        starRect.setLeft(starRect.left() + (iconSize / 4));
-        starRect.setRight(starRect.right() + (iconSize / 4));
+        opt.rect.setLeft(opt.rect.left());
+        starRect.setLeft(starRect.left());
+        starRect.setRight(starRect.right());
     }
     else
     {
-        opt.rect.setRight(opt.rect.width() - (iconSize / 4));
-        starRect.setLeft(starRect.width() - iconSize);
-        starRect.setRight(starRect.width() - (iconSize / 4));
+        opt.rect.setRight(opt.rect.width());
+        starRect.setLeft(starRect.width());
+        starRect.setRight(starRect.width());
     }
 
     bool paintIcon = true;
@@ -241,14 +241,14 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 
     if (paintText) {
         opt.rect.setTop(option.rect.top() + (iconSize / 4));
-        opt.rect.setBottom(opt.rect.bottom() - 2);
+        opt.rect.setBottom(opt.rect.bottom() - 1);
         painter->setPen(color);
 
         QRect textRect = opt.rect;
 
         if (option.direction == Qt::RightToLeft)
         {
-            textRect.setWidth(textRect.width() - (paintIcon ? icon.width() + (iconSize / 2)
+            textRect.setWidth(textRect.width() - (paintIcon ? icon.width() + (iconSize / 4)
                                                             : -(iconSize / 4)));
         }
 
@@ -259,9 +259,23 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
     painter->restore();
 }
 
-int DolphinCategoryDrawer::categoryHeight(const QStyleOption &option) const
+int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyleOption &option) const
 {
     int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
+    int heightWithoutIcon = option.fontMetrics.height() + (iconSize / 4) * 2 + 1; /* 1 pixel-width gradient */
+    bool paintIcon;
 
-    return qMax(option.fontMetrics.height() + (iconSize / 4) * 2 + 2, iconSize + (iconSize / 4) * 2 + 2) /* 2 gradient */;
+    switch (index.column()) {
+        case KDirModel::Owner:
+        case KDirModel::Type:
+            paintIcon = true;
+            break;
+        default:
+            paintIcon = false;
+    }
+
+    if (paintIcon)
+        return qMax(heightWithoutIcon, iconSize + (iconSize / 4) * 2 + 1) /* 1 pixel-width gradient */;
+
+    return heightWithoutIcon;
 }

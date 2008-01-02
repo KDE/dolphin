@@ -129,12 +129,12 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
     if (listView->layoutDirection() == Qt::LeftToRight)
     {
         retRect = QRect(listView->spacing(), listView->spacing() * 2 +
-                        categoryDrawer->categoryHeight(listView->viewOptions()), 0, 0);
+                        categoryDrawer->categoryHeight(index, listView->viewOptions()), 0, 0);
     }
     else
     {
         retRect = QRect(listView->viewport()->width() - listView->spacing(), listView->spacing() * 2 +
-                        categoryDrawer->categoryHeight(listView->viewOptions()), 0, 0);
+                        categoryDrawer->categoryHeight(index, listView->viewOptions()), 0, 0);
     }
 
     int viewportWidth = listView->viewport()->width() - listView->spacing();
@@ -189,7 +189,7 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
 
         retRect.setTop(retRect.top() +
                        (rowsInt * itemHeight) +
-                       categoryDrawer->categoryHeight(listView->viewOptions()) +
+                       categoryDrawer->categoryHeight(index, listView->viewOptions()) +
                        listView->spacing() * 2);
 
         if (listView->gridSize().isEmpty())
@@ -273,7 +273,7 @@ QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &cat
 
         retRect.setTop(retRect.top() +
                        (rowsInt * itemHeight) +
-                       categoryDrawer->categoryHeight(listView->viewOptions()) +
+                       categoryDrawer->categoryHeight(index, listView->viewOptions()) +
                        listView->spacing() * 2);
 
         if (listView->gridSize().isEmpty())
@@ -283,7 +283,7 @@ QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &cat
         }
     }
 
-    retRect.setHeight(categoryDrawer->categoryHeight(listView->viewOptions()));
+    retRect.setHeight(categoryDrawer->categoryHeight(index, listView->viewOptions()));
 
     return retRect;
 }
