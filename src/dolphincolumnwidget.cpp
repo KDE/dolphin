@@ -116,6 +116,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dolphinModel);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     setModel(m_proxyModel);
     new KMimeTypeResolver(this, m_dolphinModel);

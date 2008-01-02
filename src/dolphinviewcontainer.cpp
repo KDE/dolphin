@@ -96,6 +96,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dolphinModel);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     connect(m_dirLister, SIGNAL(clear()),
             this, SLOT(updateStatusBar()));
