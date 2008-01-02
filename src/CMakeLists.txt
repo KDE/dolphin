@@ -1,5 +1,6 @@
 
 add_subdirectory( pics )
+add_subdirectory( icons )
 add_subdirectory( tests )
 
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${BLITZ_INCLUDES} )
