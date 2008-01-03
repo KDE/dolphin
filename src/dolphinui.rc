@@ -124,6 +124,6 @@
   <Action name="split_view" />
  </ToolBar>
  <ActionProperties>
-  <Action shortcut="Backspace; XF86Back" name="go_back" />
+  <Action shortcut="Backspace; Back" name="go_back" />
  </ActionProperties>
 </kpartgui>
