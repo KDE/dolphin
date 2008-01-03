@@ -123,7 +123,4 @@
   <Action name="show_preview" />
   <Action name="split_view" />
  </ToolBar>
- <ActionProperties>
-  <Action shortcut="Backspace; Back" name="go_back" />
- </ActionProperties>
 </kpartgui>
