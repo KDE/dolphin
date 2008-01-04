@@ -2,6 +2,8 @@
 add_subdirectory( pics )
 add_subdirectory( tests )
 
+macro_optional_find_package(Soprano)
+
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${BLITZ_INCLUDES} )
 if (Soprano_FOUND)
   include_directories( ${SOPRANO_INCLUDE_DIR} )
