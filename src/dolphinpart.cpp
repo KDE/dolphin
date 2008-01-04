@@ -277,6 +277,14 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 
 void DolphinPart::slotItemTriggered(const KFileItem& item)
 {
+    KParts::OpenUrlArguments args;
+    args.setMimeType(item.mimetype());
+
+    // Ideally, konqueror should be changed to not require trustedSource for directory views,
+    // since the idea was not to need BrowserArguments for non-browser stuff...
+    KParts::BrowserArguments browserArgs;
+    browserArgs.trustedSource = true;
+
     // MMB click support.
     // TODO: this doesn't work, mouseButtons() is always 0.
     // Issue N176832 for the missing QAIV signal; task 177399
@@ -284,9 +292,7 @@ void DolphinPart::slotItemTriggered(const KFileItem& item)
     if (QApplication::mouseButtons() & Qt::MidButton) {
         kDebug() << "MMB!!" << item.mimetype();
         if (item.mimeTypePtr()->is("inode/directory")) {
-            KParts::OpenUrlArguments args;
-            args.setMimeType( item.mimetype() );
-            emit m_extension->createNewWindow( item.url(), args );
+            emit m_extension->createNewWindow(item.url(), args);
         } else {
             kDebug() << "run()";
             item.run();
@@ -294,7 +300,7 @@ void DolphinPart::slotItemTriggered(const KFileItem& item)
     } else {
         // Left button. [Right button goes to slotOpenContextMenu before triggered can be emitted]
         kDebug() << "LMB";
-        emit m_extension->openUrlRequest(item.url());
+        emit m_extension->openUrlRequest(item.url(), args, browserArgs);
     }
 }
 
