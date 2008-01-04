@@ -13,7 +13,7 @@
   </Menu>
   <Menu name="view">
    <Menu name="sort">
-    <text context="@title:menu">Sort by</text>
+    <text context="@title:menu">Sort By</text>
     <Action name="sort_by_name" />
     <Action name="sort_by_size" />
     <Action name="sort_by_date" />
