@@ -71,7 +71,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     KHBox* vBox = new KHBox(previewBox);
     vBox->setSpacing(spacing);
 
-    QLabel* maxFileSize = new QLabel(i18nc("@label:slider", "Maximum file size:"), vBox);
+    new QLabel(i18nc("@label:slider", "Maximum file size:"), vBox);
     m_maxPreviewSize = new QSlider(Qt::Horizontal, vBox);
 
     m_spinBox = new QSpinBox(vBox);
