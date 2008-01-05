@@ -127,7 +127,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortingBox->setLayout(sortingLayout);
 
     m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
-    m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in Groups"), propsBox);
+    m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"), propsBox);
     m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"), propsBox);
 
     m_additionalInfo = new QPushButton(i18nc("@action:button", "Additional Information"), propsBox);
