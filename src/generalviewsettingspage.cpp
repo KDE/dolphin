@@ -154,6 +154,9 @@ void GeneralViewSettingsPage::loadSettings()
     m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
 
     KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    // TODO: The default value of 5 MB must match with the default value inside
+    // kdelibs/kio/kio/previewjob.cpp. Maybe a static getter method in PreviewJob
+    // should be added for getting the default size?
     const int maxByteSize = globalConfig.readEntry("MaximumSize", 5 * 1024 * 1024 /* 5 MB */);
     int maxMByteSize = maxByteSize / (1024 * 1024);
     if (maxMByteSize < 1) {
