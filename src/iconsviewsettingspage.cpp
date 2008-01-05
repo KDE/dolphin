@@ -50,7 +50,6 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_textWidthBox(0),
     m_fontRequester(0),
     m_textlinesCountBox(0),
-    m_showAdditionalInfo(0),
     m_arrangementBox(0),
     m_gridSpacingBox(0)
 {
@@ -84,21 +83,13 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
 
-    m_showAdditionalInfo = new QCheckBox(i18nc("@option:check",
-                                               "Allow showing of additional information"), textGroup);
-
-    QVBoxLayout* textVBoxLayout = new QVBoxLayout(textGroup);
-
-    QGridLayout* textGroupLayout = new QGridLayout();
+    QGridLayout* textGroupLayout = new QGridLayout(textGroup);
     textGroupLayout->addWidget(fontLabel, 0, 0);
     textGroupLayout->addWidget(m_fontRequester, 0, 1);
     textGroupLayout->addWidget(textlinesCountLabel, 1, 0);
     textGroupLayout->addWidget(m_textlinesCountBox, 1, 1);
     textGroupLayout->addWidget(textWidthLabel, 2, 0);
     textGroupLayout->addWidget(m_textWidthBox, 2, 1);
-
-    textVBoxLayout->addLayout(textGroupLayout);
-    textVBoxLayout->addWidget(m_showAdditionalInfo);
 
     // create the 'Grid' group for selecting the arrangement and the grid spacing
     QGroupBox* gridGroup = new QGroupBox(i18nc("@title:group", "Grid"), this);
@@ -171,8 +162,6 @@ void IconsViewSettingsPage::applySettings()
 
     settings->setNumberOfTextlines(numberOfTextlines);
 
-    settings->setShowAdditionalInfo(m_showAdditionalInfo->isChecked());
-
     settings->setGridSpacing(GridSpacingBase +
                              m_gridSpacingBox->currentIndex() * GridSpacingInc);
 }
@@ -207,8 +196,6 @@ void IconsViewSettingsPage::loadSettings()
     m_fontRequester->setFont(font);
 
     m_textlinesCountBox->setValue(settings->numberOfTextlines());
-
-    m_showAdditionalInfo->setChecked(settings->showAdditionalInfo());
 
     const bool leftToRightArrangement = (settings->arrangement() == QListView::LeftToRight);
     int textWidthIndex = 0;

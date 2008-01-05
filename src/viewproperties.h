@@ -71,7 +71,18 @@ public:
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
 
+    /**
+     * Sets the additional information for the current set view-mode.
+     * Note that the additional-info property is the only property where
+     * the value is dependent from another property (in this case the view-mode).
+     */
     void setAdditionalInfo(KFileItemDelegate::InformationList info);
+    
+    /**
+     * Returns the additional information for the current set view-mode.
+     * Note that the additional-info property is the only property where
+     * the value is dependent from another property (in this case the view-mode).
+     */
     KFileItemDelegate::InformationList additionalInfo() const;
 
     /**
@@ -116,6 +127,26 @@ private:
      * directory.
      */
     QString destinationDir(const QString& subDir) const;
+
+    /**
+     * Returns the encoded additional information that can be stored
+     * in the .directory file. See ViewProperties::decodedAdditionalInfo()
+     * for the coding format.
+     * @param info   Additional information for the current view mode.
+     */
+    int encodedAdditionalInfo(int info) const;
+
+    /**
+     * Returns the decoded additional information from the .directory
+     * file by respecting the current set view mode. The additional
+     * information from the .directory file is an integer value, where:
+     * - Byte 0 stores the additional info for the details view
+     * - Byte 1 stores the additional info for the icons view
+     * - Byte 2 stores the additional info for the column view
+     * The additional information property is the only property that is
+     * dependent from another property (in this case the view-mode).
+     */
+    int decodedAdditionalInfo() const;
 
     Q_DISABLE_COPY(ViewProperties)
 

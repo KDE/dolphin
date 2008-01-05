@@ -26,10 +26,6 @@
             <label context="@label">Bold</label>
             <default>false</default>
         </entry>
-        <entry name="ShowAdditionalInfo" type="Bool">
-            <label context="@label">Allow showing of additional information</label>
-            <default>true</default>
-        </entry>
         <entry name="ItemHeight" type="Int">
             <label context="@label">Item height</label>
             <!--

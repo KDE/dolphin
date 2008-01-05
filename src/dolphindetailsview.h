@@ -58,7 +58,6 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
-    virtual void closeEvent(QCloseEvent* event);
 
 private slots:
     /**
@@ -148,8 +147,6 @@ private:
 
     QFont m_font;
     QSize m_decorationSize;
-
-    bool m_clearAdditionalInfo;
 
     bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
     QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4

@@ -303,11 +303,6 @@ void DolphinIconsView::slotShowPreviewChanged()
 
 void DolphinIconsView::slotAdditionalInfoChanged(const KFileItemDelegate::InformationList& info)
 {
-    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    if (!settings->showAdditionalInfo()) {
-        return;
-    }
-
     const bool showPreview = m_controller->dolphinView()->showPreview();
     updateGridSize(showPreview, info.count());
 }
@@ -468,8 +463,7 @@ KFileItem DolphinIconsView::itemForIndex(const QModelIndex& index) const
 int DolphinIconsView::additionalInfoCount() const
 {
     const DolphinView* view = m_controller->dolphinView();
-    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    return settings->showAdditionalInfo() ? view->additionalInfo().count() : 0;
+    return view->additionalInfo().count();
 }
 
 #include "dolphiniconsview.moc"

@@ -226,16 +226,17 @@ void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
         }
     }
 
-    if (m_node->additionalInfo() != info) {
-        m_node->setAdditionalInfo(info);
+    const int encodedInfo = encodedAdditionalInfo(info);
+    if (m_node->additionalInfo() != encodedInfo) {
+        m_node->setAdditionalInfo(encodedInfo);
         updateTimeStamp();
     }
 }
 
 KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 {
-    const int info = m_node->additionalInfo();
-
+    const int info = decodedAdditionalInfo();
+    
     KFileItemDelegate::InformationList list;
     if (info & SizeInfo) {
         list.append(KFileItemDelegate::Size);
@@ -306,4 +307,49 @@ QString ViewProperties::destinationDir(const QString& subDir) const
     QString basePath = KGlobal::mainComponent().componentName();
     basePath.append("/view_properties/").append(subDir);
     return KStandardDirs::locateLocal("data", basePath);
+}
+
+int ViewProperties::encodedAdditionalInfo(int info) const
+{
+    int encodedInfo = m_node->additionalInfo();
+    
+    switch (viewMode()) {
+    case DolphinView::DetailsView:
+        encodedInfo = (encodedInfo & 0xFFFF00) | info;
+        break;
+    case DolphinView::IconsView:
+        encodedInfo = (encodedInfo & 0xFF00FF) | (info << 8);
+        break;
+    case DolphinView::ColumnView:
+        encodedInfo = (encodedInfo & 0x00FFFF) | (info << 16);
+        break;
+    default: break;
+    }
+
+    return encodedInfo;
+}
+
+int ViewProperties::decodedAdditionalInfo() const
+{
+    int decodedInfo = m_node->additionalInfo();
+    
+    switch (viewMode()) {
+    case DolphinView::DetailsView:
+        decodedInfo = decodedInfo & 0xFF;
+        if (decodedInfo == NoInfo) {
+            // a details view without any additional info makes no sense, hence
+            // provide at least a size-info and date-info as fallback
+            decodedInfo = SizeInfo | DateInfo;
+        }
+        break;
+    case DolphinView::IconsView:
+        decodedInfo = (decodedInfo >> 8) & 0xFF;
+        break;
+    case DolphinView::ColumnView:
+        decodedInfo = (decodedInfo >> 16) & 0xFF;
+        break;
+    default: break;
+    }
+
+    return decodedInfo;
 }
