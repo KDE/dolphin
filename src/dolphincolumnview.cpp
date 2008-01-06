@@ -503,7 +503,8 @@ void DolphinColumnView::assureVisibleActiveColumn()
         } else {
             m_animation->setFrameRange(-m_contentX, -newContentX);
         }
-        m_animation->start();
+        if(m_animation->state() != QTimeLine::Running)
+           m_animation->start();
     } else if (x < 0) {
         const int newContentX = m_contentX - x;
         if (isRightToLeft()) {
@@ -511,7 +512,8 @@ void DolphinColumnView::assureVisibleActiveColumn()
         } else {
             m_animation->setFrameRange(-m_contentX, -newContentX);
         }
-        m_animation->start();
+        if(m_animation->state() != QTimeLine::Running)
+           m_animation->start();
     }
 }
 
