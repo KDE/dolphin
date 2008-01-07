@@ -46,7 +46,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_controller(controller),
     m_font(),
     m_decorationSize(),
-    m_clearAdditionalInfo(false),
     m_dragging(false),
     m_showElasticBand(false),
     m_elasticBandOrigin(),
@@ -357,20 +356,6 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
     }
 }
 
-void DolphinDetailsView::closeEvent(QCloseEvent* event)
-{
-    if (m_clearAdditionalInfo) {
-        disconnect(m_controller->dolphinView(), SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
-                this, SLOT(updateColumnVisibility()));
-
-        KFileItemDelegate::InformationList info;
-        info.append(KFileItemDelegate::NoInformation);
-        m_controller->indicateAdditionalInfoChange(info);
-        m_clearAdditionalInfo = false;
-    }
-    QTreeView::closeEvent(event);
-}
-
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
     QHeaderView* headerView = header();
@@ -497,27 +482,12 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
 
 void DolphinDetailsView::updateColumnVisibility()
 {
-    KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
-    const bool useDefaultColumns = !isVisible() &&
-                                   (list.isEmpty() ||
-                                    list.contains(KFileItemDelegate::NoInformation));
-    if (useDefaultColumns) {
-        // Using the details view without any additional information (-> additional column)
-        // makes no sense and leads to a usability problem as no viewport area is available
-        // anymore. Hence as fallback provide at least a size and date column.
-        list.clear();
-        list.append(KFileItemDelegate::Size);
-        list.append(KFileItemDelegate::ModificationTime);
-        m_controller->indicateAdditionalInfoChange(list);
-        m_clearAdditionalInfo = true;
-    }
-
+    const KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
     for (int i = DolphinModel::Size; i <= DolphinModel::Type; ++i) {
         const KFileItemDelegate::Information info = infoForColumn(i);
         const bool hide = !list.contains(info);
         if (isColumnHidden(i) != hide) {
             setColumnHidden(i, hide);
-            m_clearAdditionalInfo = false;
         }
     }
 

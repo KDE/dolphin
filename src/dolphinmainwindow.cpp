@@ -273,9 +273,8 @@ void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::Information
 
     const DolphinView* view = m_activeViewContainer->view();
 
-    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     const bool enable = (view->mode() == DolphinView::DetailsView) ||
-                         ((view->mode() == DolphinView::IconsView) && settings->showAdditionalInfo());
+                        (view->mode() == DolphinView::IconsView);
 
     showSizeInfo->setEnabled(enable);
     showDateInfo->setEnabled(enable);

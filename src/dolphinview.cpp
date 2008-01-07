@@ -206,9 +206,6 @@ void DolphinView::setMode(Mode mode)
 
     deleteView();
 
-    // It is important to read the view properties _after_ deleting the view,
-    // as e. g. the detail view might adjust the additional information properties
-    // after getting closed:
     const KUrl viewPropsUrl = viewPropertiesUrl();
     ViewProperties props(viewPropsUrl);
     props.setViewMode(m_mode);

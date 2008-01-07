@@ -381,9 +381,8 @@ void ViewPropertiesDialog::loadSettings()
     m_sortOrder->setCurrentIndex(sortOrderIndex);
     m_sorting->setCurrentIndex(m_viewProps->sorting());
 
-    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     const bool enabled = (index == DolphinView::DetailsView) ||
-                         ((index == DolphinView::IconsView) && settings->showAdditionalInfo());
+                         (index == DolphinView::IconsView);
     m_additionalInfo->setEnabled(enabled);
 
     // load show preview, show in groups and show hidden files settings
