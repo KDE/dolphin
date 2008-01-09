@@ -229,15 +229,20 @@ void StatusBarMessageLabel::assureVisibleText()
         return;
     }
 
-    // calculate the required height of the widget thats
-    // needed for having a fully visible text
-    QFontMetrics fontMetrics(font());
-    const QRect bounds(fontMetrics.boundingRect(0, 0, availableTextWidth(), height(),
-                       Qt::AlignVCenter | Qt::TextWordWrap,
-                       m_text));
-    int requiredHeight = bounds.height();
-    if (requiredHeight < m_minTextHeight) {
-        requiredHeight = m_minTextHeight;
+    int requiredHeight = m_minTextHeight;
+    if (m_type != DolphinStatusBar::Default) {
+        // Calculate the required height of the widget thats
+        // needed for having a fully visible text. Note that for the default
+        // statusbar type (e. g. hover information) increasing the text height
+        // is not wanted, as this might rearrange the layout of items.
+
+        QFontMetrics fontMetrics(font());
+        const QRect bounds(fontMetrics.boundingRect(0, 0, availableTextWidth(), height(),
+                           Qt::AlignVCenter | Qt::TextWordWrap, m_text));
+        requiredHeight = bounds.height();
+        if (requiredHeight < m_minTextHeight) {
+            requiredHeight = m_minTextHeight;
+        }
     }
 
     // Increase/decrease the current height of the widget to the
