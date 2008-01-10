@@ -116,9 +116,9 @@ void RenameDialog::slotButtonClicked(int button)
         if (m_newName.isEmpty()) {
             m_errorString = i18nc("@info:status",
                                   "The new name is empty. A name with at least one character must be entered.");
-        } else if (!m_renameOneItem && m_newName.count('#') != 1) {
+        } else if (!m_renameOneItem && (m_newName.count('#') == 0)) {
             m_newName.truncate(0);
-            m_errorString = i18nc("@info:status", "The name must contain exactly one # character.");
+            m_errorString = i18nc("@info:status", "The name must contain at least one # character.");
         }
     }
 

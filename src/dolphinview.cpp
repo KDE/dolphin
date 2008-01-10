@@ -1053,19 +1053,14 @@ void DolphinView::renameSelectedItems()
             Q_ASSERT(newName.contains('#'));
 
             // iterate through all selected items and rename them...
-            const int replaceIndex = newName.indexOf('#');
-            Q_ASSERT(replaceIndex >= 0);
             int index = 1;
-
-            KFileItemList::const_iterator it = items.begin();
-            const KFileItemList::const_iterator end = items.end();
-            while (it != end) {
-                const KUrl& oldUrl = (*it).url();
+            foreach (KFileItem item, items) {
+                const KUrl& oldUrl = item.url();
                 QString number;
                 number.setNum(index++);
 
-                QString name(newName);
-                name.replace(replaceIndex, 1, number);
+                QString name = newName;
+                name.replace('#', number);
 
                 if (oldUrl.fileName() != name) {
                     KUrl newUrl = oldUrl;
@@ -1073,7 +1068,6 @@ void DolphinView::renameSelectedItems()
                     KonqOperations::rename(this, oldUrl, newUrl);
                     emit doingOperation(KonqFileUndoManager::RENAME);
                 }
-                ++it;
             }
         }
     } else {
