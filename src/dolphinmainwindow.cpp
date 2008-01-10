@@ -1159,7 +1159,7 @@ void DolphinMainWindow::setupActions()
     connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
 
     KAction* split = actionCollection()->addAction("split_view");
-    split->setShortcut(Qt::Key_F10);
+    split->setShortcut(Qt::Key_F3);
     updateSplitAction();
     connect(split, SIGNAL(triggered()), this, SLOT(toggleSplitView()));
 
