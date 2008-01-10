@@ -184,12 +184,16 @@ void DolphinColumnWidget::setShowPreview(bool show)
 
 void DolphinColumnWidget::updateBackground()
 {
-    QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    if (!m_active || !m_view->m_active) {
-        color.setAlpha(150);
-    }
+    // TODO: The alpha-value 150 is copied from DolphinView::setActive(). When
+    // cleaning up the cut-indication of DolphinColumnWidget with the code from
+    // DolphinView a common helper-class should be available which can be shared
+    // by all view implementations -> no hardcoded value anymore
+    const QPalette::ColorRole role = viewport()->backgroundRole();
+    QColor color = viewport()->palette().color(role);
+    color.setAlpha((m_active && m_view->m_active) ? 255 : 150);
+
     QPalette palette = viewport()->palette();
-    palette.setColor(viewport()->backgroundRole(), color);
+    palette.setColor(role, color);
     viewport()->setPalette(palette);
 
     update();

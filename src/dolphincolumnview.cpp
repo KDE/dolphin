@@ -393,8 +393,12 @@ void DolphinColumnView::updateColumnsBackground(bool active)
     m_active = active;
 
     // dim the background of the viewport
-    QPalette palette;
-    palette.setColor(viewport()->backgroundRole(), QColor(0, 0, 0, 0));
+    const QPalette::ColorRole role = viewport()->backgroundRole();
+    QColor background = viewport()->palette().color(role);
+    background.setAlpha(0);  // make background transparent
+
+    QPalette palette = viewport()->palette();
+    palette.setColor(role, background);
     viewport()->setPalette(palette);
 
     foreach (DolphinColumnWidget* column, m_columns) {
