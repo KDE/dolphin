@@ -1102,7 +1102,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
         {
             if (d->categoryVisualRect(category).contains(event->pos()))
             {
-                QItemSelection selection;
+                QItemSelection selection = selectionModel()->selection();
                 QModelIndexList indexList = d->categoriesIndexes[category];
 
                 foreach (const QModelIndex &index, indexList)
@@ -1112,7 +1112,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
                     selection << QItemSelectionRange(selectIndex);
                 }
 
-                selectionModel()->select(selection, QItemSelectionModel::Select);
+                selectionModel()->select(selection, QItemSelectionModel::SelectCurrent);
 
                 break;
             }
