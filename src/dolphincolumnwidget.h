@@ -30,15 +30,12 @@
 class DolphinColumnView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
+class IconManager;
 class KDirLister;
 class KJob;
 class KFileItem;
 class KFileItemList;
 class QPixmap;
-namespace KIO
-{
-    class PreviewJob;
-}
 
 /**
  * Represents one column inside the DolphinColumnView and has been
@@ -118,26 +115,7 @@ private slots:
      */
     void triggerItem(const QModelIndex& index);
 
-    /**
-     * Generates a preview image for each file item in \a items.
-     * The current preview settings (maximum size, 'Show Preview' menu)
-     * are respected.
-     */
-    void generatePreviews(const KFileItemList& items);
-
-    /**
-     * Replaces the icon of the item \a item by the preview pixmap
-     * \a pixmap.
-     */
-    void replaceIcon(const KFileItem& item, const QPixmap& pixmap);
-
     void slotEntered(const QModelIndex& index);
-
-    /**
-     * Is invoked when the preview job has been finished and
-     * set m_previewJob to 0.
-     */
-    void slotPreviewJobFinished(KJob* job);
 
 private:
     /** Used by DolphinColumnWidget::setActive(). */
@@ -146,17 +124,10 @@ private:
     /** Used by DolphinColumnWidget::setActive(). */
     void deactivate();
 
-    /**
-     * Returns true, if the item \a item has been cut into
-     * the clipboard.
-     */
-    bool isCutItem(const KFileItem& item) const;
-
     KFileItem itemForIndex(const QModelIndex& index) const;
 
 private:
     bool m_active;
-    bool m_showPreview;
     DolphinColumnView* m_view;
     KUrl m_url;      // URL of the directory that is shown
     KUrl m_childUrl; // URL of the next column that is shown
@@ -168,7 +139,7 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 
-    KIO::PreviewJob* m_previewJob;
+    IconManager* m_iconManager;
 
     bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
     QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4

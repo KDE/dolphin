@@ -17,18 +17,19 @@ set(dolphinprivate_LIB_SRCS
     dolphiniconsview.cpp
     dolphincolumnview.cpp
     dolphincolumnwidget.cpp
+    dolphindropcontroller.cpp
+    dolphinsortfilterproxymodel.cpp
     draganddrophelper.cpp
-    kcategorizedview.cpp
-    kcategorydrawer.cpp
     dolphinmodel.cpp
     dolphinsettings.cpp
     dolphincategorydrawer.cpp
-    viewproperties.cpp
-    dolphinsortfilterproxymodel.cpp
-    renamedialog.cpp
     dolphinview.cpp
+    iconmanager.cpp
+    kcategorizedview.cpp
+    kcategorydrawer.cpp
     ratingpainter.cpp
-    dolphindropcontroller.cpp
+    renamedialog.cpp
+    viewproperties.cpp
     )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS

@@ -37,6 +37,8 @@
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
+#include "iconmanager.h"
+
 #include <QApplication>
 #include <QClipboard>
 #include <QPainter>
@@ -47,7 +49,6 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                                          const KUrl& url) :
     QListView(parent),
     m_active(true),
-    m_showPreview(false),
     m_view(columnView),
     m_url(url),
     m_childUrl(),
@@ -56,7 +57,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
-    m_previewJob(0),
+    m_iconManager(0),
     m_dragging(false),
     m_dropRect()
 {
@@ -107,8 +108,6 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dirLister->setDelayedMimeTypes(true);
     const bool showHiddenFiles = m_view->m_controller->dolphinView()->showHiddenFiles();
     m_dirLister->setShowingDotFiles(showHiddenFiles);
-    connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
-            this, SLOT(generatePreviews(const KFileItemList&)));
 
     m_dolphinModel = new DolphinModel(this);
     m_dolphinModel->setDirLister(m_dirLister);
@@ -120,6 +119,8 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     setModel(m_proxyModel);
     new KMimeTypeResolver(this, m_dolphinModel);
+    m_iconManager = new IconManager(this, m_dolphinModel);
+    m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);
 }
@@ -131,11 +132,6 @@ DolphinColumnWidget::~DolphinColumnWidget()
     delete m_dolphinModel;
     m_dolphinModel = 0;
     m_dirLister = 0; // deleted by m_dolphinModel
-
-    if (m_previewJob != 0) {
-        m_previewJob->kill();
-        m_previewJob = 0;
-    }
 }
 
 void DolphinColumnWidget::setDecorationSize(const QSize& size)
@@ -176,10 +172,11 @@ void DolphinColumnWidget::setShowHiddenFiles(bool show)
 
 void DolphinColumnWidget::setShowPreview(bool show)
 {
-    if (show != m_showPreview) {
-        m_dirLister->stop();
-        m_dirLister->openUrl(m_url, KDirLister::Reload);
-    }
+    kDebug() << "-------------- column widget: show" << show;
+    m_iconManager->setShowPreview(show);
+
+    m_dirLister->stop();
+    m_dirLister->openUrl(m_url, KDirLister::Reload);
 }
 
 void DolphinColumnWidget::updateBackground()
@@ -363,62 +360,11 @@ void DolphinColumnWidget::triggerItem(const QModelIndex& index)
     m_view->m_controller->triggerItem(item);
 }
 
-void DolphinColumnWidget::generatePreviews(const KFileItemList& items)
-{
-    // TODO: same implementation as in DolphinView; create helper class
-    // for generatePreviews(), showPreview() and isCutItem()
-
-    if (m_view->m_controller->dolphinView()->showPreview()) {
-        if (m_previewJob != 0) {
-            m_previewJob->kill();
-            m_previewJob = 0;
-        }
-
-        m_previewJob = KIO::filePreview(items, 128);
-        connect(m_previewJob, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
-        connect(m_previewJob, SIGNAL(finished(KJob*)),
-                this, SLOT(slotPreviewJobFinished(KJob*)));
-    }
-}
-
-void DolphinColumnWidget::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
-{
-    // TODO: same implementation as in DolphinView; create helper class
-    // for generatePreviews(), showPreview() and isCutItem()
-
-    Q_ASSERT(!item.isNull());
-    const bool showPreview = m_view->m_controller->dolphinView()->showPreview();
-    if (!showPreview || (item.url().directory() != m_dirLister->url().path())) {
-        // the preview job is still working on items of an older URL, hence
-        // the item is not part of the directory model anymore
-        return;
-    }
-
-    const QModelIndex idx = m_dolphinModel->indexForItem(item);
-    if (idx.isValid() && (idx.column() == 0)) {
-        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
-            KIconEffect iconEffect;
-            const QPixmap cutPixmap = iconEffect.apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-            m_dolphinModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
-        } else {
-            m_dolphinModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
-        }
-    }
-}
-
 void DolphinColumnWidget::slotEntered(const QModelIndex& index)
 {
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
     const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
     m_view->m_controller->emitItemEntered(item);
-}
-
-void DolphinColumnWidget::slotPreviewJobFinished(KJob* job)
-{
-    Q_ASSERT(job == m_previewJob);
-    m_previewJob = 0;
 }
 
 void DolphinColumnWidget::activate()
@@ -464,27 +410,6 @@ void DolphinColumnWidget::deactivate()
 
     selectionModel()->clear();
     updateBackground();
-}
-
-bool DolphinColumnWidget::isCutItem(const KFileItem& item) const
-{
-    // TODO: same implementation as in DolphinView; create helper class
-    // for generatePreviews(), showPreview() and isCutItem()
-
-    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-    const KUrl::List cutUrls = KUrl::List::fromMimeData(mimeData);
-
-    const KUrl& itemUrl = item.url();
-    KUrl::List::const_iterator it = cutUrls.begin();
-    const KUrl::List::const_iterator end = cutUrls.end();
-    while (it != end) {
-        if (*it == itemUrl) {
-            return true;
-        }
-        ++it;
-    }
-
-    return false;
 }
 
 KFileItem DolphinColumnWidget::itemForIndex(const QModelIndex& index) const

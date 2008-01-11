@@ -33,16 +33,16 @@
 #include <kcolorscheme.h>
 #include <kdirlister.h>
 #include <kfileitemdelegate.h>
-#include <klocale.h>
 #include <kiconeffect.h>
+#include <klocale.h>
 #include <kio/deletejob.h>
 #include <kio/netaccess.h>
 #include <kio/previewjob.h>
 #include <kjob.h>
 #include <kmenu.h>
 #include <kmimetyperesolver.h>
-#include <konqmimedata.h>
 #include <konq_operations.h>
+#include <konqmimedata.h>
 #include <kurl.h>
 
 #include "dolphindropcontroller.h"
@@ -52,10 +52,11 @@
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
-#include "renamedialog.h"
-#include "viewproperties.h"
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
+#include "iconmanager.h"
+#include "renamedialog.h"
+#include "viewproperties.h"
 
 DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
@@ -78,21 +79,15 @@ DolphinView::DolphinView(QWidget* parent,
     m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
     m_proxyModel(proxyModel),
-    m_previewJob(0)
+    m_iconManager(0)
 {
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    QClipboard* clipboard = QApplication::clipboard();
-    connect(clipboard, SIGNAL(dataChanged()),
-            this, SLOT(updateCutItems()));
-
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(updateCutItems()));
-    connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
-            this, SLOT(generatePreviews(const KFileItemList&)));
 
     m_controller = new DolphinController(this);
     m_controller->setUrl(url);
@@ -125,16 +120,14 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_controller, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
 
+    m_iconManager = new IconManager(this, m_dolphinModel);
+
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
 }
 
 DolphinView::~DolphinView()
 {
-    if (m_previewJob != 0) {
-        m_previewJob->kill();
-        m_previewJob = 0;
-    }
 }
 
 const KUrl& DolphinView::url() const
@@ -246,7 +239,7 @@ void DolphinView::setShowPreview(bool show)
     props.setShowPreview(show);
 
     m_showPreview = show;
-
+    m_iconManager->setShowPreview(show);
     emit showPreviewChanged();
 
     loadDirectory(viewPropsUrl, true);
@@ -575,45 +568,6 @@ void DolphinView::triggerItem(const KFileItem& item)
     emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
 }
 
-void DolphinView::generatePreviews(const KFileItemList& items)
-{
-    if (m_controller->dolphinView()->showPreview()) {
-        if (m_previewJob != 0) {
-            m_previewJob->kill();
-            m_previewJob = 0;
-        }
-
-        m_previewJob = KIO::filePreview(items, 128);
-        connect(m_previewJob, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
-        connect(m_previewJob, SIGNAL(finished(KJob*)),
-                this, SLOT(slotPreviewJobFinished(KJob*)));
-    }
-}
-
-void DolphinView::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
-{
-    Q_ASSERT(!item.isNull());
-    if (!m_showPreview || (item.url().directory() != m_dirLister->url().path())) {
-        // the preview has been deactivated in the meanwhile or the preview
-        // job is still working on items of an older URL, hence
-        // the item is not part of the directory model anymore
-        return;
-    }
-
-    const QModelIndex idx = m_dolphinModel->indexForItem(item);
-    if (idx.isValid() && (idx.column() == 0)) {
-        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
-            KIconEffect iconEffect;
-            const QPixmap cutPixmap = iconEffect.apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-            m_dolphinModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
-        } else {
-            m_dolphinModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
-        }
-    }
-}
-
 void DolphinView::emitSelectionChangedSignal()
 {
     emit selectionChanged(DolphinView::selectedItems());
@@ -631,7 +585,6 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
         return;
     }
 
-    m_cutItemsCache.clear();
     m_loadingDirectory = true;
 
     m_dirLister->stop();
@@ -714,6 +667,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
     const bool showPreview = props.showPreview();
     if (showPreview != m_showPreview) {
         m_showPreview = showPreview;
+        m_iconManager->setShowPreview(showPreview);
         emit showPreviewChanged();
     }
 }
@@ -819,25 +773,6 @@ void DolphinView::emitContentsMoved()
     }
 }
 
-void DolphinView::updateCutItems()
-{
-    // restore the icons of all previously selected items to the
-    // original state...
-    QList<CutItem>::const_iterator it = m_cutItemsCache.begin();
-    QList<CutItem>::const_iterator end = m_cutItemsCache.end();
-    while (it != end) {
-        const QModelIndex index = m_dolphinModel->indexForUrl((*it).url);
-        if (index.isValid()) {
-            m_dolphinModel->setData(index, QIcon((*it).pixmap), Qt::DecorationRole);
-        }
-        ++it;
-    }
-    m_cutItemsCache.clear();
-
-    // ... and apply an item effect to all currently cut items
-    applyCutItemEffect();
-}
-
 void DolphinView::showHoverInformation(const KFileItem& item)
 {
     if (hasSelection() || !m_active) {
@@ -853,7 +788,6 @@ void DolphinView::clearHoverInformation()
         emit requestItemInfo(KFileItem());
     }
 }
-
 
 void DolphinView::createView()
 {
@@ -952,42 +886,6 @@ bool DolphinView::isCutItem(const KFileItem& item) const
     }
 
     return false;
-}
-
-void DolphinView::applyCutItemEffect()
-{
-    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-    if (!KonqMimeData::decodeIsCutSelection(mimeData)) {
-        return;
-    }
-
-    KFileItemList items(m_dirLister->items());
-    KFileItemList::const_iterator it = items.begin();
-    const KFileItemList::const_iterator end = items.end();
-    while (it != end) {
-        const KFileItem item = *it;
-        if (isCutItem(item)) {
-            const QModelIndex index = m_dolphinModel->indexForItem(item);
-            const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
-            if (value.type() == QVariant::Icon) {
-                const QIcon icon(qvariant_cast<QIcon>(value));
-                QPixmap pixmap = icon.pixmap(128, 128);
-
-                // remember current pixmap for the item to be able
-                // to restore it when other items get cut
-                CutItem cutItem;
-                cutItem.url = item.url();
-                cutItem.pixmap = pixmap;
-                m_cutItemsCache.append(cutItem);
-
-                // apply icon effect to the cut item
-                KIconEffect iconEffect;
-                pixmap = iconEffect.apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-                m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
-            }
-        }
-        ++it;
-    }
 }
 
 KToggleAction* DolphinView::iconsModeAction(KActionCollection* actionCollection)
@@ -1124,12 +1022,6 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     } else {
         emit errorMessage(job->errorString());
     }
-}
-
-void DolphinView::slotPreviewJobFinished(KJob* job)
-{
-    Q_ASSERT(job == m_previewJob);
-    m_previewJob = 0;
 }
 
 void DolphinView::cutSelectedItems()

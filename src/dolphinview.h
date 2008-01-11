@@ -38,24 +38,21 @@
 #include <QListView>
 #include <QWidget>
 
-class KAction;
-class KToggleAction;
 class DolphinController;
-class KDirLister;
-class KFileItemDelegate;
-class KUrl;
-class DolphinModel;
 class DolphinColumnView;
 class DolphinDetailsView;
 class DolphinIconsView;
 class DolphinMainWindow;
+class DolphinModel;
 class DolphinSortFilterProxyModel;
+class IconManager;
+class KAction;
+class KDirLister;
+class KFileItemDelegate;
+class KUrl;
+class KToggleAction;
 class QModelIndex;
 class ViewProperties;
-namespace KIO
-{
-    class PreviewJob;
-}
 
 /**
  * @short Represents a view for the directory content.
@@ -526,19 +523,6 @@ private slots:
      */
     void triggerItem(const KFileItem& index);
 
-    /**
-     * Generates a preview image for each file item in \a items.
-     * The current preview settings (maximum size, 'Show Preview' menu)
-     * are respected.
-     */
-    void generatePreviews(const KFileItemList& items);
-
-    /**
-     * Replaces the icon of the item \a item by the preview pixmap
-     * \a pixmap.
-     */
-    void replaceIcon(const KFileItem& item, const QPixmap& pixmap);
-
     void emitSelectionChangedSignal();
 
     /**
@@ -587,9 +571,6 @@ private slots:
      */
     void emitContentsMoved();
 
-    /** Applies an item effect to all cut items of the clipboard. */
-    void updateCutItems();
-
     /**
      * Updates the status bar to show hover information for the
      * item \a item. If currently other items are selected,
@@ -609,12 +590,6 @@ private slots:
      * of the job \a job has been finished.
      */
     void slotDeleteFileFinished(KJob* job);
-
-    /**
-     * Is invoked when the preview job has been finished and
-     * set m_previewJob to 0.
-     */
-    void slotPreviewJobFinished(KJob* job);
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
@@ -654,9 +629,6 @@ private:
      */
     bool isCutItem(const KFileItem& item) const;
 
-    /** Applies an item effect to all cut items. */
-    void applyCutItemEffect();
-
     /**
      * Returns true, if the ColumnView is activated. As the column view
      * requires some special handling for iterating through directories,
@@ -668,16 +640,6 @@ private:
     }
 
 private:
-    /**
-     * Remembers the original pixmap for an item before
-     * the cut effect is applied.
-     */
-    struct CutItem
-    {
-        KUrl url;
-        QPixmap pixmap;
-    };
-
     bool m_active;
     bool m_showPreview;
     bool m_loadingDirectory;
@@ -698,9 +660,7 @@ private:
     KDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
 
-    KIO::PreviewJob* m_previewJob;
-
-    QList<CutItem> m_cutItemsCache;
+    IconManager* m_iconManager;
 
     KUrl m_rootUrl;
 };
