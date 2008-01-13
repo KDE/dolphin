@@ -833,6 +833,7 @@ void DolphinView::createView()
 
     new KMimeTypeResolver(view, m_dolphinModel);
     m_iconManager = new IconManager(view, m_proxyModel);
+    m_iconManager->setShowPreview(m_showPreview);
 
     m_topLayout->insertWidget(1, view);
 
