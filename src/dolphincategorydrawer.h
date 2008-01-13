@@ -21,7 +21,7 @@
 #ifndef DOLPHINCATEGORYDRAWER_H
 #define DOLPHINCATEGORYDRAWER_H
 
-#include "kcategorydrawer.h"
+#include <kcategorydrawer.h>
 
 #include <QStyleOption>
 #include <QModelIndex>

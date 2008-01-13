@@ -25,8 +25,6 @@ set(dolphinprivate_LIB_SRCS
     dolphincategorydrawer.cpp
     dolphinview.cpp
     iconmanager.cpp
-    kcategorizedview.cpp
-    kcategorydrawer.cpp
     ratingpainter.cpp
     renamedialog.cpp
     viewproperties.cpp
