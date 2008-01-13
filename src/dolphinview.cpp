@@ -120,8 +120,6 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_controller, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
 
-    m_iconManager = new IconManager(this, m_dolphinModel);
-
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
 }
@@ -834,6 +832,8 @@ void DolphinView::createView()
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     new KMimeTypeResolver(view, m_dolphinModel);
+    m_iconManager = new IconManager(view, m_proxyModel);
+
     m_topLayout->insertWidget(1, view);
 
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
@@ -856,6 +856,7 @@ void DolphinView::deleteView()
         m_detailsView = 0;
         m_columnView = 0;
         m_fileItemDelegate = 0;
+        m_iconManager = 0;
     }
 }
 

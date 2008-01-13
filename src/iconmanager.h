@@ -20,6 +20,7 @@
 #ifndef ICONMANAGER_H
 #define ICONMANAGER_H
 
+#include <kfileitem.h>
 #include <kurl.h>
 
 #include <QList>
@@ -27,9 +28,9 @@
 #include <QPixmap>
 
 class DolphinModel;
-class KFileItem;
-class KFileItemList;
+class DolphinSortFilterProxyModel;
 class KJob;
+class QAbstractItemView;
 
 /**
  * @brief Manages the icon state of a directory model.
@@ -43,7 +44,7 @@ class IconManager : public QObject
     Q_OBJECT
 
 public:
-    IconManager(QObject* parent, DolphinModel* model);
+    IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model);
     virtual ~IconManager();
     void setShowPreview(bool show);
     bool showPreview() const;
@@ -92,11 +93,14 @@ private:
         QPixmap pixmap;
     };
 
-   bool m_showPreview;
-   QList<KJob*> m_previewJobs;
-   DolphinModel* m_dolphinModel;
+    bool m_showPreview;
 
-   QList<CutItem> m_cutItemsCache;
+    QAbstractItemView* m_view;
+    QList<KJob*> m_previewJobs;
+    DolphinModel* m_dolphinModel;
+    DolphinSortFilterProxyModel* m_proxyModel;
+
+    QList<CutItem> m_cutItemsCache;
 };
 
 inline bool IconManager::showPreview() const

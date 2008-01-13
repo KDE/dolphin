@@ -119,7 +119,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     setModel(m_proxyModel);
     new KMimeTypeResolver(this, m_dolphinModel);
-    m_iconManager = new IconManager(this, m_dolphinModel);
+    m_iconManager = new IconManager(this, m_proxyModel);
     m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);

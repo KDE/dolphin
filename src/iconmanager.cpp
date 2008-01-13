@@ -20,6 +20,7 @@
 #include "iconmanager.h"
 
 #include "dolphinmodel.h"
+#include "dolphinsortfilterproxymodel.h"
 
 #include <kiconeffect.h>
 #include <kio/previewjob.h>
@@ -28,17 +29,21 @@
 #include <konqmimedata.h>
 
 #include <QApplication>
+#include <QAbstractItemView>
 #include <QClipboard>
 #include <QIcon>
 
-IconManager::IconManager(QObject* parent, DolphinModel* model) :
+IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model) :
     QObject(parent),
     m_showPreview(false),
+    m_view(parent),
     m_previewJobs(),
-    m_dolphinModel(model),
+    m_dolphinModel(0),
+    m_proxyModel(model),
     m_cutItemsCache()
 {
-    connect(model->dirLister(), SIGNAL(newItems(const KFileItemList&)),
+    m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
+    connect(m_dolphinModel->dirLister(), SIGNAL(newItems(const KFileItemList&)),
             this, SLOT(generatePreviews(const KFileItemList&)));
 
     QClipboard* clipboard = QApplication::clipboard();
@@ -71,7 +76,23 @@ void IconManager::generatePreviews(const KFileItemList& items)
         return;
     }
 
-    KIO::PreviewJob* job = KIO::filePreview(items, 128);
+    const QRect visibleArea = m_view->viewport()->rect();
+
+    // Order the items in a way that the preview for the visible items
+    // is generated first, as this improves the feeled performance a lot.
+    KFileItemList orderedItems;
+    foreach (KFileItem item, items) {
+        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        const QRect itemRect = m_view->visualRect(proxyIndex);
+        if (itemRect.intersects(visibleArea)) {
+            orderedItems.insert(0, item);
+        } else {
+            orderedItems.append(item);
+        }
+    }
+
+    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128);
     connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
             this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
     connect(job, SIGNAL(finished(KJob*)),
@@ -103,7 +124,6 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
         }
     }
 }
-
 
 void IconManager::slotPreviewJobFinished(KJob* job)
 {
