@@ -126,14 +126,22 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
 
     QRect retRect;
 
-    if (listView->layoutDirection() == Qt::LeftToRight)
+    if (listView->flow() == QListView::LeftToRight)
     {
-        retRect = QRect(listView->spacing(), listView->spacing() * 2 +
-                        categoryDrawer->categoryHeight(index, listView->viewOptions()), 0, 0);
+        if (listView->layoutDirection() == Qt::LeftToRight)
+        {
+            retRect = QRect(listView->spacing(), listView->spacing() * 2 +
+                            categoryDrawer->categoryHeight(index, listView->viewOptions()), 0, 0);
+        }
+        else
+        {
+            retRect = QRect(listView->viewport()->width() - listView->spacing(), listView->spacing() * 2 +
+                            categoryDrawer->categoryHeight(index, listView->viewOptions()), 0, 0);
+        }
     }
     else
     {
-        retRect = QRect(listView->viewport()->width() - listView->spacing(), listView->spacing() * 2 +
+        retRect = QRect(listView->spacing(), listView->spacing() * 2 +
                         categoryDrawer->categoryHeight(index, listView->viewOptions()), 0, 0);
     }
 
@@ -142,37 +150,61 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
     int itemHeight;
     int itemWidth;
 
-    if (listView->gridSize().isEmpty())
+    if (listView->gridSize().isEmpty() && (listView->flow() == QListView::LeftToRight))
     {
         itemHeight = biggestItemSize.height();
         itemWidth = biggestItemSize.width();
     }
-    else
+    else if (listView->flow() == QListView::LeftToRight)
     {
         itemHeight = listView->gridSize().height();
         itemWidth = listView->gridSize().width();
     }
+    else if (listView->gridSize().isEmpty() && (listView->flow() == QListView::TopToBottom))
+    {
+        itemHeight = biggestItemSize.height();
+        itemWidth = listView->viewport()->width() - listView->spacing() * 2;
+    }
+    else
+    {
+        itemHeight = listView->gridSize().height();
+        itemWidth = listView->gridSize().width() - listView->spacing() * 2;
+    }
 
     int itemWidthPlusSeparation = listView->spacing() + itemWidth;
+    if (!itemWidthPlusSeparation)
+        itemWidthPlusSeparation++;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
     if (!elementsPerRow)
         elementsPerRow++;
 
-    int column = elementsInfo[index.row()].relativeOffsetToCategory % elementsPerRow;
-    int row = elementsInfo[index.row()].relativeOffsetToCategory / elementsPerRow;
+    int column;
+    int row;
 
-    if (listView->layoutDirection() == Qt::LeftToRight)
+    if (listView->flow() == QListView::LeftToRight)
     {
-        retRect.setLeft(retRect.left() + column * listView->spacing() +
-                        column * itemWidth);
+        column = elementsInfo[index.row()].relativeOffsetToCategory % elementsPerRow;
+        row = elementsInfo[index.row()].relativeOffsetToCategory / elementsPerRow;
+
+        if (listView->layoutDirection() == Qt::LeftToRight)
+        {
+            retRect.setLeft(retRect.left() + column * listView->spacing() +
+                            column * itemWidth);
+        }
+        else
+        {
+            retRect.setLeft(retRect.right() - column * listView->spacing() -
+                            column * itemWidth - itemWidth);
+
+            retRect.setRight(retRect.right() - column * listView->spacing() -
+                            column * itemWidth);
+        }
     }
     else
     {
-        retRect.setLeft(retRect.right() - column * listView->spacing() -
-                         column * itemWidth - itemWidth);
-
-        retRect.setRight(retRect.right() - column * listView->spacing() -
-                         column * itemWidth);
+        elementsPerRow = 1;
+        column = elementsInfo[index.row()].relativeOffsetToCategory % elementsPerRow;
+        row = elementsInfo[index.row()].relativeOffsetToCategory / elementsPerRow;
     }
 
     foreach (const QString &category, categories)
@@ -225,8 +257,7 @@ QRect KCategorizedView::Private::visualRectInViewport(const QModelIndex &index) 
     return retRect;
 }
 
-QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &category)
-                                                                           const
+QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &category) const
 {
     QRect retRect(listView->spacing(),
                   listView->spacing(),
@@ -259,6 +290,11 @@ QRect KCategorizedView::Private::visualCategoryRectInViewport(const QString &cat
 
     if (!elementsPerRow)
         elementsPerRow++;
+
+    if (listView->flow() == QListView::TopToBottom)
+    {
+        elementsPerRow = 1;
+    }
 
     foreach (const QString &itCategory, categories)
     {
@@ -426,8 +462,7 @@ void KCategorizedView::Private::drawDraggedItems(QPainter *painter)
 
 void KCategorizedView::Private::layoutChanged(bool forceItemReload)
 {
-    if ((listView->viewMode() == KCategorizedView::IconMode) && proxyModel &&
-        categoryDrawer && proxyModel->isCategorizedModel() &&
+    if (proxyModel && categoryDrawer && proxyModel->isCategorizedModel() &&
         ((forceItemReload ||
           (modelSortRole != proxyModel->sortRole()) ||
           (modelSortColumn != proxyModel->sortColumn()) ||
@@ -447,8 +482,7 @@ void KCategorizedView::Private::layoutChanged(bool forceItemReload)
             modelCategorized = proxyModel->isCategorizedModel();
         }
     }
-    else if ((listView->viewMode() == KCategorizedView::IconMode) && proxyModel &&
-             categoryDrawer && proxyModel->isCategorizedModel())
+    else if (proxyModel && categoryDrawer && proxyModel->isCategorizedModel())
     {
         updateScrollbars();
     }
@@ -485,6 +519,8 @@ KCategorizedView::KCategorizedView(QWidget *parent)
     : QListView(parent)
     , d(new Private(this))
 {
+    setHorizontalScrollMode(QAbstractItemView::ScrollPerPixel);
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 KCategorizedView::~KCategorizedView()
@@ -566,8 +602,7 @@ void KCategorizedView::setModel(QAbstractItemModel *model)
 
 QRect KCategorizedView::visualRect(const QModelIndex &index) const
 {
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         return QListView::visualRect(index);
     }
@@ -649,8 +684,7 @@ void KCategorizedView::setCategoryDrawer(KCategoryDrawer *categoryDrawer)
 
 QModelIndex KCategorizedView::indexAt(const QPoint &point) const
 {
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         return QListView::indexAt(point);
     }
@@ -688,8 +722,7 @@ void KCategorizedView::reset()
 
 void KCategorizedView::paintEvent(QPaintEvent *event)
 {
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         QListView::paintEvent(event);
         return;
@@ -832,8 +865,7 @@ void KCategorizedView::resizeEvent(QResizeEvent *event)
     d->categoriesPosition.clear();
     d->forcedSelectionPosition = 0;
 
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         return;
     }
@@ -844,8 +876,7 @@ void KCategorizedView::resizeEvent(QResizeEvent *event)
 void KCategorizedView::setSelection(const QRect &rect,
                                     QItemSelectionModel::SelectionFlags flags)
 {
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         QListView::setSelection(rect, flags);
         return;
@@ -941,6 +972,8 @@ void KCategorizedView::setSelection(const QRect &rect,
         }
 
         int itemWidthPlusSeparation = spacing() + itemWidth;
+        if (!itemWidthPlusSeparation)
+            itemWidthPlusSeparation++;
         int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
         if (!elementsPerRow)
             elementsPerRow++;
@@ -986,8 +1019,7 @@ void KCategorizedView::mouseMoveEvent(QMouseEvent *event)
 {
     QListView::mouseMoveEvent(event);
 
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         return;
     }
@@ -1085,8 +1117,7 @@ void KCategorizedView::mouseReleaseEvent(QMouseEvent *event)
 
     QListView::mouseReleaseEvent(event);
 
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         return;
     }
@@ -1200,8 +1231,7 @@ void KCategorizedView::dragMoveEvent(QDragMoveEvent *event)
     QListView::dragMoveEvent(event);
 #endif
 
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         return;
     }
@@ -1233,11 +1263,10 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
                                          Qt::KeyboardModifiers modifiers)
 {
     if ((viewMode() != KCategorizedView::IconMode) ||
-         !d->proxyModel ||
-         !d->categoryDrawer ||
-          d->categories.isEmpty() ||
-         !d->proxyModel->isCategorizedModel()
-       )
+        !d->proxyModel ||
+        !d->categoryDrawer ||
+         d->categories.isEmpty() ||
+        !d->proxyModel->isCategorizedModel())
     {
         return QListView::moveCursor(cursorAction, modifiers);
     }
@@ -1255,6 +1284,8 @@ QModelIndex KCategorizedView::moveCursor(CursorAction cursorAction,
     }
 
     int itemWidthPlusSeparation = spacing() + itemWidth;
+    if (!itemWidthPlusSeparation)
+        itemWidthPlusSeparation++;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
     if (!elementsPerRow)
         elementsPerRow++;
@@ -1431,8 +1462,7 @@ void KCategorizedView::rowsInserted(const QModelIndex &parent,
 {
     QListView::rowsInserted(parent, start, end);
 
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         d->forcedSelectionPosition = 0;
         d->elementsInfo.clear();
@@ -1533,8 +1563,7 @@ void KCategorizedView::rowsRemoved(const QModelIndex &parent,
                                    int start,
                                    int end)
 {
-    if ((viewMode() == KCategorizedView::IconMode) && d->proxyModel &&
-        d->categoryDrawer && d->proxyModel->isCategorizedModel())
+    if (d->proxyModel && d->categoryDrawer && d->proxyModel->isCategorizedModel())
     {
         // Force the view to update all elements
         rowsInsertedArtifficial(QModelIndex(), 0, d->proxyModel->rowCount() - 1);
@@ -1543,8 +1572,7 @@ void KCategorizedView::rowsRemoved(const QModelIndex &parent,
 
 void KCategorizedView::updateGeometries()
 {
-    if ((viewMode() != KCategorizedView::IconMode) || !d->proxyModel ||
-        !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
+    if (!d->proxyModel || !d->categoryDrawer || !d->proxyModel->isCategorizedModel())
     {
         QListView::updateGeometries();
         return;
@@ -1583,6 +1611,8 @@ void KCategorizedView::currentChanged(const QModelIndex &current,
     }
 
     int itemWidthPlusSeparation = spacing() + itemWidth;
+    if (!itemWidthPlusSeparation)
+        itemWidthPlusSeparation++;
     int elementsPerRow = viewportWidth / itemWidthPlusSeparation;
     if (!elementsPerRow)
         elementsPerRow++;
