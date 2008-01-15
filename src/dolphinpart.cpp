@@ -28,6 +28,7 @@
 
 #include <kactioncollection.h>
 #include <kdirlister.h>
+#include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kparts/genericfactory.h>
 #include <ktoggleaction.h>
@@ -46,6 +47,9 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     Q_UNUSED(args)
     setComponentData( DolphinPartFactory::componentData() );
     m_extension = new DolphinPartBrowserExtension(this);
+
+    // make sure that other apps using this part find Dolphin's view-file-columns icons
+    KIconLoader::global()->addAppDir("dolphin");
 
     m_dirLister = new KDirLister;
     m_dirLister->setAutoUpdate(true);
