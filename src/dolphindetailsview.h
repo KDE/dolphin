@@ -118,6 +118,18 @@ private slots:
 
     void updateColumnVisibility();
 
+    /**
+     * Disables the automatical resizing of columns, if the user has resized the columns
+     * with the mouse.
+     */
+    void slotHeaderSectionResized(int logicalIndex, int oldSize, int newSize);
+
+    /**
+     * Disables the automatical resizing of the columns. Per default all columns
+     * are resized to use the maximum available width of the view as good as possible.
+     */
+    void disableAutoResizing();
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;
@@ -143,6 +155,8 @@ private:
     void resizeColumns();
 
 private:
+	bool m_autoResize;  // if true, the columns are resized automatically to the available width
+
     DolphinController* m_controller;
 
     QFont m_font;

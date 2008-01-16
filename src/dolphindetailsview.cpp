@@ -43,6 +43,7 @@
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
+	m_autoResize(true),
     m_controller(controller),
     m_font(),
     m_decorationSize(),
@@ -76,6 +77,10 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
             this, SLOT(configureColumns(const QPoint&)));
+    connect(headerView, SIGNAL(sectionResized(int, int, int)),
+            this, SLOT(slotHeaderSectionResized(int, int, int)));
+    connect(headerView, SIGNAL(sectionHandleDoubleClicked(int)),
+            this, SLOT(disableAutoResizing()));
 
     connect(parent, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(setSortIndicatorSection(DolphinView::Sorting)));
@@ -345,13 +350,7 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 {
     QTreeView::resizeEvent(event);
-
-    // TODO: There seems to be no easy way to find out whether the resize event
-    // has been triggered because of resizing the window or by adjusting the column-width
-    // by a left mouse-click (the columns should only be resized automatically when the window
-    // size is adjusted). The following workaround works well, but it should be
-    // considered solving this in a more transparent way.
-    if (!(QApplication::mouseButtons() & Qt::LeftButton)) {
+    if (m_autoResize) {
         resizeColumns();
     }
 }
@@ -492,6 +491,21 @@ void DolphinDetailsView::updateColumnVisibility()
     }
 
     resizeColumns();
+}
+
+void DolphinDetailsView::slotHeaderSectionResized(int logicalIndex, int oldSize, int newSize)
+{
+    Q_UNUSED(logicalIndex);
+    Q_UNUSED(oldSize);
+    Q_UNUSED(newSize);
+    if (QApplication::mouseButtons() & Qt::LeftButton) {
+        disableAutoResizing();
+    }
+}
+
+void DolphinDetailsView::disableAutoResizing()
+{
+    m_autoResize = false;
 }
 
 bool DolphinDetailsView::isZoomInPossible() const
