@@ -172,7 +172,6 @@ void DolphinColumnWidget::setShowHiddenFiles(bool show)
 
 void DolphinColumnWidget::setShowPreview(bool show)
 {
-    kDebug() << "-------------- column widget: show" << show;
     m_iconManager->setShowPreview(show);
 
     m_dirLister->stop();
