@@ -432,14 +432,6 @@ void DolphinColumnWidget::activate()
                 this, SLOT(triggerItem(const QModelIndex&)));
     }
 
-    if (!m_childUrl.isEmpty()) {
-        // assure that the current index is set on the index that represents
-        // the child URL
-        const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_childUrl);
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        selectionModel()->setCurrentIndex(proxyIndex, QItemSelectionModel::Current);
-    }
-
     updateBackground();
 }
 
