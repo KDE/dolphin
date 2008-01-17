@@ -381,6 +381,9 @@ void DolphinColumnWidget::activate()
                 this, SLOT(triggerItem(const QModelIndex&)));
     }
 
+    if (selectionModel() && selectionModel()->currentIndex().isValid())
+        selectionModel()->setCurrentIndex(selectionModel()->currentIndex(), QItemSelectionModel::SelectCurrent);
+
     updateBackground();
 }
 
