@@ -37,6 +37,7 @@
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
+    m_setLeafVisible(false),
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
@@ -67,6 +68,7 @@ void TreeViewSidebarPage::setUrl(const KUrl& url)
 
     SidebarPage::setUrl(url);
     if (m_dirLister != 0) {
+        m_setLeafVisible = true;
         loadTree(url);
     }
 }
@@ -184,21 +186,13 @@ void TreeViewSidebarPage::expandToLeafDir()
     QModelIndex dirIndex = m_dolphinModel->indexForUrl(parentUrl);
     QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
     m_treeView->setExpanded(proxyIndex, true);
-
-    // assure that m_leafDir gets selected
-    dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
-    proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-    m_treeView->scrollTo(proxyIndex);
-
-    QItemSelectionModel* selModel = m_treeView->selectionModel();
-    selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+    selectLeafDirectory();
 }
 
 
 void TreeViewSidebarPage::loadSubTree()
 {
-    QItemSelectionModel* selModel = m_treeView->selectionModel();
-    selModel->clearSelection();
+    m_treeView->selectionModel()->clearSelection();
 
     if (m_leafDir.isParentOf(m_dirLister->url())) {
         // The leaf directory is not a child of the base URL, hence
@@ -208,10 +202,7 @@ void TreeViewSidebarPage::loadSubTree()
 
     const QModelIndex index = m_dolphinModel->indexForUrl(m_leafDir);
     if (index.isValid()) {
-        // the item with the given URL is already part of the model
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(index);
-        m_treeView->scrollTo(proxyIndex);
-        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+        selectLeafDirectory();
     } else {
         // Load all sub directories that need to get expanded for making
         // the leaf directory visible. The slot triggerExpanding() will
@@ -231,7 +222,14 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
     if (!baseUrl.isValid()) {
         // it's possible that no closest item is available and hence an
         // empty URL is returned
-        baseUrl = url;
+        if (url.isLocalFile()) {
+            // use the root directory as base for local URLs
+            baseUrl = KUrl("file:///");
+        } else {
+            // clear the path for non-local URLs and use it as base
+            baseUrl = url;
+            baseUrl.setPath(QString());
+        }
     }
 
     if (m_dirLister->url() != baseUrl) {
@@ -240,6 +238,20 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
     } else {
         loadSubTree();
     }
+}
+
+void TreeViewSidebarPage::selectLeafDirectory()
+{
+    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
+    const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+
+    if (m_setLeafVisible) {
+        m_treeView->scrollTo(proxyIndex);
+        m_setLeafVisible = false;
+    }
+
+    QItemSelectionModel* selModel = m_treeView->selectionModel();
+    selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
 }
 
 #include "treeviewsidebarpage.moc"
