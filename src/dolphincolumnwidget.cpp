@@ -400,7 +400,9 @@ void DolphinColumnWidget::deactivate()
                    this, SLOT(triggerItem(const QModelIndex&)));
     }
 
+    const QModelIndex current = selectionModel()->currentIndex();
     selectionModel()->clear();
+    selectionModel()->setCurrentIndex(current, QItemSelectionModel::NoUpdate);
     updateBackground();
 }
 
