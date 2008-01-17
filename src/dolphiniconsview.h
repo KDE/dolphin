@@ -62,6 +62,7 @@ protected:
     virtual void dropEvent(QDropEvent* event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
+    virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
     void triggerItem(const QModelIndex& index);

@@ -33,6 +33,7 @@
 #include <QApplication>
 #include <QPainter>
 #include <QPoint>
+#include <QScrollBar>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KCategorizedView(parent),
@@ -282,6 +283,25 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
                          && (selModel->selectedIndexes().count() <= 1);
     if (trigger) {
         triggerItem(currentIndex);
+    }
+}
+
+void DolphinIconsView::wheelEvent(QWheelEvent* event)
+{
+    KCategorizedView::wheelEvent(event);
+
+    // if the icons are aligned left to right, the vertical wheel event should
+    // be applied to the horizontal scrollbar
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    const bool scrollHorizontal = (event->orientation() == Qt::Vertical) &&
+                                  (settings->arrangement() == QListView::LeftToRight);
+    if (scrollHorizontal) {
+        QWheelEvent horizEvent(event->pos(),
+                               event->delta(),
+                               event->buttons(),
+                               event->modifiers(),
+                               Qt::Horizontal);
+        QApplication::sendEvent(horizontalScrollBar(), &horizEvent);
     }
 }
 
