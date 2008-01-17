@@ -107,7 +107,15 @@ private:
      */
     void loadTree(const KUrl& url);
 
+    /**
+     * Selects the current leaf directory m_leafDir and assures
+     * that the directory is visible if the leaf has been set by
+     * TreeViewSidebarPage::setUrl().
+     */
+    void selectLeafDirectory();
+
 private:
+    bool m_setLeafVisible;
     bool m_dirListerCompleted;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
