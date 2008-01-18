@@ -139,8 +139,9 @@ private:
 private:
     bool m_pendingPreview;
     QTimer* m_timer;
-    KUrl m_shownUrl;
-    KUrl m_urlCandidate;
+    KUrl m_shownUrl;      // URL that is shown as info
+    KUrl m_urlCandidate;  // URL candidate that will replace m_shownURL after a delay
+    KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
 
     PixmapViewer* m_preview;
     QLabel* m_nameLabel;
