@@ -33,7 +33,7 @@ int main(int argc, char **argv)
 {
     KAboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),
-                     "1.0.1",
+                     "1.0.99",
                      ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
                      ki18nc("@info:credit", "(C) 2006, 2007 Peter Penz"));
