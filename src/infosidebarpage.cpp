@@ -48,7 +48,9 @@
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_pendingPreview(false),
-    m_timer(0),
+    m_shownUrl(),
+    m_urlCandidate(),
+    m_fileItem(),
     m_preview(0),
     m_nameLabel(0),
     m_infoLabel(0),
@@ -136,10 +138,13 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
 {
     cancelRequest();
 
+    m_fileItem = KFileItem();
+
     if (!item.isNull() && (selection().size() <= 1)) {
         const KUrl url = item.url();
         if (!url.isEmpty()) {
             m_urlCandidate = url;
+            m_fileItem = item;
             m_timer->start(TimerDelay);
         }
     }
@@ -283,16 +288,21 @@ void InfoSidebarPage::showMetaInfo()
 
     const KFileItemList& selectedItems = selection();
     if (selectedItems.size() <= 1) {
-        KFileItem fileItem(S_IFDIR, KFileItem::Unknown, m_shownUrl);
-        fileItem.refresh();
+        KFileItem fileItem;
+        if (m_fileItem.isNull()) {
+            // no pending request is ongoing
+            fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+            fileItem.refresh();
+        } else {
+            fileItem = m_fileItem;
+        }
 
         if (fileItem.isDir()) {
             addInfoLine(text, i18nc("@label", "Type:"), i18nc("@label", "Folder"));
         } else {
             addInfoLine(text, i18nc("@label", "Type:"), fileItem.mimeComment());
 
-            QString sizeText(KIO::convertSize(fileItem.size()));
-            addInfoLine(text, i18nc("@label", "Size:"), sizeText);
+            addInfoLine(text, i18nc("@label", "Size:"), KIO::convertSize(fileItem.size()));
             addInfoLine(text, i18nc("@label", "Modified:"), fileItem.timeString());
 
             // TODO: See convertMetaInfo below, find a way to display only interesting information
@@ -335,8 +345,9 @@ void InfoSidebarPage::showMetaInfo()
         foreach (const KFileItem& item, selectedItems) {
             // Only count the size of files, not dirs; to match what
             // DolphinViewContainer::selectionStatusBarText does.
-            if (!item.isDir() && !item.isLink())
+            if (!item.isDir() && !item.isLink()) {
                 totalSize += item.size();
+            }
         }
         addInfoLine(text, i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     }
