@@ -34,10 +34,12 @@
 #include <QTreeView>
 #include <QBoxLayout>
 #include <QModelIndex>
+#include <QScrollBar>
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_setLeafVisible(false),
+    m_horizontalPos(0),
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
@@ -216,20 +218,16 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
     Q_ASSERT(m_dirLister != 0);
     m_leafDir = url;
 
-    // adjust the root of the tree to the base place
-    KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
-    KUrl baseUrl = placesModel->url(placesModel->closestItem(url));
-    if (!baseUrl.isValid()) {
-        // it's possible that no closest item is available and hence an
-        // empty URL is returned
-        if (url.isLocalFile()) {
-            // use the root directory as base for local URLs
-            baseUrl = KUrl("file:///");
-        } else {
-            // clear the path for non-local URLs and use it as base
-            baseUrl = url;
-            baseUrl.setPath(QString());
-        }
+    m_horizontalPos = m_treeView->horizontalScrollBar()->value();
+
+    KUrl baseUrl = url;
+    if (url.isLocalFile()) {
+        // use the root directory as base for local URLs
+        baseUrl = KUrl("file:///");
+    } else {
+        // clear the path for non-local URLs and use it as base
+        baseUrl = url;
+        baseUrl.setPath(QString());
     }
 
     if (m_dirLister->url() != baseUrl) {
@@ -244,6 +242,9 @@ void TreeViewSidebarPage::selectLeafDirectory()
 {
     const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+    if (!proxyIndex.isValid()) {
+        return;
+    }
 
     if (m_setLeafVisible) {
         m_treeView->scrollTo(proxyIndex);
@@ -252,6 +253,8 @@ void TreeViewSidebarPage::selectLeafDirectory()
 
     QItemSelectionModel* selModel = m_treeView->selectionModel();
     selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+
+    m_treeView->horizontalScrollBar()->setValue(m_horizontalPos);
 }
 
 #include "treeviewsidebarpage.moc"
