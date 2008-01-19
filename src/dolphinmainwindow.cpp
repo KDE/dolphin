@@ -59,6 +59,7 @@
 #include <kmenu.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
+#include <konq_operations.h>
 #include <konqmimedata.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
@@ -420,6 +421,12 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
         // one already -> close the view
         toggleSplitView();
     }
+}
+
+void DolphinMainWindow::createDir()
+{
+    const KUrl& url = m_activeViewContainer->view()->url();
+    KonqOperations::newDir(this, url);
 }
 
 void DolphinMainWindow::updateNewMenu()
@@ -985,6 +992,13 @@ void DolphinMainWindow::setupActions()
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
+    // This action doesn't appear in the GUI, it's for the shortcut only.
+    // KNewMenu takes care of the GUI stuff.
+    KAction* newDirAction = actionCollection()->addAction("create_dir");
+    newDirAction->setText(i18n("Create Folder..."));
+    connect(newDirAction, SIGNAL(triggered()), SLOT(createDir()));
+    newDirAction->setShortcut(Qt::Key_F10);
+
     KAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
@@ -1012,8 +1026,8 @@ void DolphinMainWindow::setupActions()
                           SLOT(undo()),
                           actionCollection());
 
-    //Need to remove shift+del from cut action, else the shortcut for deletejob
-    //doesn't work
+    // need to remove shift+del from cut action, else the shortcut for deletejob
+    // doesn't work
     KAction* cut = KStandardAction::cut(this, SLOT(cut()), actionCollection());
     KShortcut cutShortcut = cut->shortcut();
     cutShortcut.remove(Qt::SHIFT + Qt::Key_Delete, KShortcut::KeepEmpty);
@@ -1039,7 +1053,6 @@ void DolphinMainWindow::setupActions()
     KStandardAction::zoomOut(this,
                              SLOT(zoomOut()),
                              actionCollection());
-
 
     KToggleAction* iconsView = DolphinView::iconsModeAction(actionCollection());
     KToggleAction* detailsView = DolphinView::detailsModeAction(actionCollection());
