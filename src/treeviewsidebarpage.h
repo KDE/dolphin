@@ -99,6 +99,11 @@ private slots:
      */
     void loadSubTree();
 
+    /**
+     * Assures that the leaf folder gets visible.
+     */
+    void scrollToLeaf();
+
 private:
     /**
      * Initializes the base URL of the tree and expands all

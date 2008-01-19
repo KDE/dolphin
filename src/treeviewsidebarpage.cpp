@@ -35,6 +35,7 @@
 #include <QBoxLayout>
 #include <QModelIndex>
 #include <QScrollBar>
+#include <QTimer>
 
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
@@ -213,6 +214,15 @@ void TreeViewSidebarPage::loadSubTree()
     }
 }
 
+void TreeViewSidebarPage::scrollToLeaf()
+{
+    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
+    const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+    if (proxyIndex.isValid()) {
+        m_treeView->scrollTo(proxyIndex);
+    }
+}
+
 void TreeViewSidebarPage::loadTree(const KUrl& url)
 {
     Q_ASSERT(m_dirLister != 0);
@@ -247,7 +257,11 @@ void TreeViewSidebarPage::selectLeafDirectory()
     }
 
     if (m_setLeafVisible) {
-        m_treeView->scrollTo(proxyIndex);
+        // Invoke m_treeView->scrollTo(proxyIndex) asynchronously by
+        // scrollToLeaf(). This assures that the scrolling is done after
+        // the horizontal scrollbar gets visible (otherwise the scrollbar
+        // might hide the leaf).
+        QTimer::singleShot(100, this, SLOT(scrollToLeaf()));
         m_setLeafVisible = false;
     }
 
