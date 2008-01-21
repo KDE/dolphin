@@ -369,6 +369,12 @@ public:
     static KAction* createNewDirAction(KActionCollection* collection);
 
     /**
+     * Creates the "sort descending" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createSortDescendingAction(KActionCollection* collection);
+
+    /**
      * Returns the action name corresponding to the current view mode
      */
     QString currentViewModeActionName() const;
@@ -422,6 +428,9 @@ public slots:
 
     /** Pastes the clipboard data to this view. */
     void paste();
+
+    /** Switches between an ascending and descending sorting order. */
+    void toggleSortOrder();
 
 signals:
     /**

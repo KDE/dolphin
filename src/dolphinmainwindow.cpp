@@ -650,11 +650,7 @@ void DolphinMainWindow::sortByTags()
 
 void DolphinMainWindow::toggleSortOrder()
 {
-    DolphinView* view = m_activeViewContainer->view();
-    const Qt::SortOrder order = (view->sortOrder() == Qt::AscendingOrder) ?
-                                Qt::DescendingOrder :
-                                Qt::AscendingOrder;
-    view->setSortOrder(order);
+    m_activeViewContainer->view()->toggleSortOrder();
 }
 
 void DolphinMainWindow::toggleSortCategorization()
@@ -1126,8 +1122,7 @@ void DolphinMainWindow::setupActions()
     //sortGroup->addAction(sortByRating);
     //sortGroup->addAction(sortByTags);
 
-    KToggleAction* sortDescending = actionCollection()->add<KToggleAction>("descending");
-    sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
+    KAction* sortDescending = DolphinView::createSortDescendingAction(actionCollection());
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
     KToggleAction* showInGroups = actionCollection()->add<KToggleAction>("show_in_groups");

@@ -93,6 +93,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotUrlChanged(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SLOT(updateViewActions()));
+    connect(m_view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
+            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
@@ -143,6 +145,13 @@ void DolphinPart::createActions()
     propertiesAction->setText( i18nc("@action:inmenu Edit", "Properties") );
     propertiesAction->setShortcut(Qt::ALT+Qt::Key_Return);
     connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
+
+    // View menu
+
+    // TODO sort_by_*
+
+    KAction* sortDescending = DolphinView::createSortDescendingAction(actionCollection());
+    connect(sortDescending, SIGNAL(triggered()), m_view, SLOT(toggleSortOrder()));
 
     // Go menu
 
@@ -429,6 +438,13 @@ void DolphinPart::slotProperties()
 void DolphinPart::createDir()
 {
     KonqOperations::newDir(m_view, url());
+}
+
+void DolphinPart::slotSortOrderChanged(Qt::SortOrder order)
+{
+    KToggleAction* descending = static_cast<KToggleAction*>(actionCollection()->action("descending"));
+    const bool sortDescending = (order == Qt::DescendingOrder);
+    descending->setChecked(sortDescending);
 }
 
 #include "dolphinpart.moc"

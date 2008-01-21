@@ -136,6 +136,9 @@ private Q_SLOTS:
      */
     void createDir();
 
+    /** Updates the state of the 'Sort Ascending/Descending' action. */
+    void slotSortOrderChanged(Qt::SortOrder);
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,
