@@ -163,9 +163,6 @@ protected:
     virtual void readProperties(const KConfigGroup& group);
 
 private slots:
-    /** Opens the dialog for creating a directory. */
-    void createDir();
-
     /** Updates the 'Create New...' sub menu. */
     void updateNewMenu();
 

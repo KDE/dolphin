@@ -62,7 +62,8 @@ DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
                          KDirLister* dirLister,
                          DolphinModel* dolphinModel,
-                         DolphinSortFilterProxyModel* proxyModel) :
+                         DolphinSortFilterProxyModel* proxyModel,
+                         KActionCollection* actionCollection) :
     QWidget(parent),
     m_active(true),
     m_showPreview(false),
@@ -122,6 +123,16 @@ DolphinView::DolphinView(QWidget* parent,
 
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
+
+    Q_ASSERT(actionCollection != 0);
+    if (actionCollection->action("create_dir") == 0) {
+        // This action doesn't appear in the GUI, it's for the shortcut only.
+        // KNewMenu takes care of the GUI stuff.
+        KAction* newDirAction = actionCollection->addAction("create_dir");
+        newDirAction->setText(i18n("Create Folder..."));
+        connect(newDirAction, SIGNAL(triggered()), SLOT(createDir()));
+        newDirAction->setShortcut(Qt::Key_F10);
+    }
 }
 
 DolphinView::~DolphinView()
@@ -1024,6 +1035,11 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     } else {
         emit errorMessage(job->errorString());
     }
+}
+
+void DolphinView::createDir()
+{
+    KonqOperations::newDir(this, url());
 }
 
 void DolphinView::cutSelectedItems()

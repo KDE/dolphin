@@ -47,6 +47,7 @@ class DolphinModel;
 class DolphinSortFilterProxyModel;
 class IconManager;
 class KAction;
+class KActionCollection;
 class KDirLister;
 class KFileItemDelegate;
 class KUrl;
@@ -116,21 +117,23 @@ public:
     };
 
     /**
-     * @param parent          Parent widget of the view.
-     * @param url             Specifies the content which should be shown.
-     * @param dirLister       Used directory lister. The lister is not owned
-     *                        by the view and won't get deleted.
-     * @param dolphinModel    Used directory model. The model is not owned
-     *                        by the view and won't get deleted.
-     * @param proxyModel      Used proxy model which specifies the sorting. The
-     *                        model is not owned by the view and won't get
-     *                        deleted.
+     * @param parent           Parent widget of the view.
+     * @param url              Specifies the content which should be shown.
+     * @param dirLister        Used directory lister. The lister is not owned
+     *                         by the view and won't get deleted.
+     * @param dolphinModel     Used directory model. The model is not owned
+     *                         by the view and won't get deleted.
+     * @param proxyModel       Used proxy model which specifies the sorting. The
+     *                         model is not owned by the view and won't get
+     *                         deleted.
+     * @param actionCollection Action collection which contains the menu actions.
      */
     DolphinView(QWidget* parent,
                 const KUrl& url,
                 KDirLister* dirLister,
                 DolphinModel* dolphinModel,
-                DolphinSortFilterProxyModel* proxyModel);
+                DolphinSortFilterProxyModel* proxyModel,
+                KActionCollection* actionCollection);
 
     virtual ~DolphinView();
 
@@ -590,6 +593,12 @@ private slots:
      * of the job \a job has been finished.
      */
     void slotDeleteFileFinished(KJob* job);
+
+    /**
+     * Opens the dialog for creating a directory. Is connected
+     * with the key shortcut for "new directory" (F10).
+     */
+    void createDir();
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);

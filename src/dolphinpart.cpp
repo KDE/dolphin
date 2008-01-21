@@ -70,7 +70,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
                              KUrl(),
                              m_dirLister,
                              m_dolphinModel,
-                             m_proxyModel);
+                             m_proxyModel,
+                             actionCollection());
     setWidget(m_view);
 
     setXMLFile("dolphinpart.rc");
@@ -143,14 +144,6 @@ void DolphinPart::createActions()
     propertiesAction->setText( i18nc("@action:inmenu Edit", "Properties") );
     propertiesAction->setShortcut(Qt::ALT+Qt::Key_Return);
     connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
-
-    // This action doesn't appear in the GUI, it's for the shortcut only.
-    // KNewMenu takes care of the GUI stuff.
-    KAction* newDirAction = actionCollection()->addAction( "create_dir" );
-    newDirAction->setText( i18n("Create Folder..." ) );
-    connect(newDirAction, SIGNAL(triggered()), SLOT(slotNewDir()));
-    newDirAction->setShortcut(Qt::Key_F10);
-    widget()->addAction(newDirAction);
 
     // Go menu
 
@@ -412,11 +405,6 @@ void DolphinPart::slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers mod
         m_view->deleteSelectedItems();
     else
         m_view->trashSelectedItems();
-}
-
-void DolphinPart::slotNewDir()
-{
-    KonqOperations::newDir(widget(), url());
 }
 
 void DolphinPart::slotEditMimeType()

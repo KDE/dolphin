@@ -59,7 +59,6 @@
 #include <kmenu.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
-#include <konq_operations.h>
 #include <konqmimedata.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
@@ -421,12 +420,6 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
         // one already -> close the view
         toggleSplitView();
     }
-}
-
-void DolphinMainWindow::createDir()
-{
-    const KUrl& url = m_activeViewContainer->view()->url();
-    KonqOperations::newDir(this, url);
 }
 
 void DolphinMainWindow::updateNewMenu()
@@ -991,13 +984,6 @@ void DolphinMainWindow::setupActions()
     menu->setIcon(KIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
-
-    // This action doesn't appear in the GUI, it's for the shortcut only.
-    // KNewMenu takes care of the GUI stuff.
-    KAction* newDirAction = actionCollection()->addAction("create_dir");
-    newDirAction->setText(i18n("Create Folder..."));
-    connect(newDirAction, SIGNAL(triggered()), SLOT(createDir()));
-    newDirAction->setShortcut(Qt::Key_F10);
 
     KAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
