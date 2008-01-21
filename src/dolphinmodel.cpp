@@ -137,8 +137,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
             }
 
             case KDirModel::ModifiedTime: {
-                KDateTime modifiedTime;
-                modifiedTime.setTime_t(item.time(KIO::UDSEntry::UDS_MODIFICATION_TIME));
+                KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
                 modifiedTime = modifiedTime.toLocalZone();
 
                 retString = modifiedTime.toString(i18nc("Prints out the month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
@@ -266,8 +265,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
         }
 
         case KDirModel::ModifiedTime: {
-            KDateTime modifiedTime;
-            modifiedTime.setTime_t(item.time(KIO::UDSEntry::UDS_MODIFICATION_TIME));
+            KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
             modifiedTime = modifiedTime.toLocalZone();
 
             retVariant = -(modifiedTime.date().year() * 100 + modifiedTime.date().month());
