@@ -116,11 +116,6 @@ private Q_SLOTS:
     void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
 
     /**
-     * Connected to the key shortcut for "new directory" (F10)
-     */
-    void slotNewDir();
-
-    /**
      * Connected to all "Go" menu actions provided by DolphinPart
      */
     void slotGoTriggered(QAction* action);
