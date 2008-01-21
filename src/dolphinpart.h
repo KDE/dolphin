@@ -130,6 +130,12 @@ private Q_SLOTS:
      */
     void slotProperties();
 
+    /**
+     * Opens the dialog for creating a directory. Is connected
+     * with the key shortcut for "new directory" (F10).
+     */
+    void createDir();
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,

@@ -70,8 +70,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
                              KUrl(),
                              m_dirLister,
                              m_dolphinModel,
-                             m_proxyModel,
-                             actionCollection());
+                             m_proxyModel);
     setWidget(m_view);
 
     setXMLFile("dolphinpart.rc");
@@ -146,6 +145,9 @@ void DolphinPart::createActions()
     connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
 
     // Go menu
+
+    KAction* newDirAction = DolphinView::createNewDirAction(actionCollection());
+    connect(newDirAction, SIGNAL(triggered()), SLOT(createDir()));
 
     QActionGroup* goActionGroup = new QActionGroup(this);
     connect(goActionGroup, SIGNAL(triggered(QAction*)),
@@ -422,6 +424,11 @@ void DolphinPart::slotProperties()
         KPropertiesDialog dialog(items.first().url(), m_view);
         dialog.exec();
     }
+}
+
+void DolphinPart::createDir()
+{
+    KonqOperations::newDir(m_view, url());
 }
 
 #include "dolphinpart.moc"

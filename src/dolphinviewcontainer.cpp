@@ -115,8 +115,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                              url,
                              m_dirLister,
                              m_dolphinModel,
-                             m_proxyModel,
-                             mainWindow->actionCollection());
+                             m_proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
     connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&)),

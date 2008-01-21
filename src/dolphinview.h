@@ -128,14 +128,12 @@ public:
      * @param proxyModel       Used proxy model which specifies the sorting. The
      *                         model is not owned by the view and won't get
      *                         deleted.
-     * @param actionCollection Action collection which contains the menu actions.
      */
     DolphinView(QWidget* parent,
                 const KUrl& url,
                 KDirLister* dirLister,
                 DolphinModel* dolphinModel,
-                DolphinSortFilterProxyModel* proxyModel,
-                KActionCollection* actionCollection);
+                DolphinSortFilterProxyModel* proxyModel);
 
     virtual ~DolphinView();
 
@@ -363,6 +361,12 @@ public:
      * This code is here to share it between the mainwindow and the part
      */
     static KAction* createDeleteAction(KActionCollection* collection);
+
+    /**
+     * Creates the "new directory" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createNewDirAction(KActionCollection* collection);
 
     /**
      * Returns the action name corresponding to the current view mode
@@ -617,12 +621,6 @@ private slots:
      * set m_previewJob to 0.
      */
     void slotPreviewJobFinished(KJob* job);
-
-    /**
-     * Opens the dialog for creating a directory. Is connected
-     * with the key shortcut for "new directory" (F10).
-     */
-    void createDir();
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);

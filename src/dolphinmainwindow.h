@@ -163,6 +163,12 @@ protected:
     virtual void readProperties(const KConfigGroup& group);
 
 private slots:
+    /**
+     * Opens the dialog for creating a directory. Is connected
+     * with the key shortcut for "new directory" (F10).
+     */
+    void createDir();
+
     /** Updates the 'Create New...' sub menu. */
     void updateNewMenu();
 
