@@ -79,17 +79,10 @@ StartupSettingsPage::StartupSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     homeBoxLayout->addWidget(homeUrlBox);
     homeBoxLayout->addWidget(buttonBox);
 
-    QGroupBox* startBox = new QGroupBox(i18nc("@title:group", "Settings"), vBox);
-
     // create 'Split view', 'Editable location' and 'Filter bar' checkboxes
-    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), startBox);
-    m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), startBox);
-    m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"),startBox);
-
-    QVBoxLayout* startBoxLayout = new QVBoxLayout(startBox);
-    startBoxLayout->addWidget(m_splitView);
-    startBoxLayout->addWidget(m_editableUrl);
-    startBoxLayout->addWidget(m_filterBar);
+    m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), vBox);
+    m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), vBox);
+    m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"), vBox);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
