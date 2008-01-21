@@ -746,6 +746,14 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
     emit sortOrderChanged(order);
 }
 
+void DolphinView::toggleSortOrder()
+{
+    const Qt::SortOrder order = (sortOrder() == Qt::AscendingOrder) ?
+                                Qt::DescendingOrder :
+                                Qt::AscendingOrder;
+    setSortOrder(order);
+}
+
 void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList& info)
 {
     ViewProperties props(viewPropertiesUrl());
@@ -1143,6 +1151,13 @@ KAction* DolphinView::createNewDirAction(KActionCollection* collection)
     newDirAction->setText(i18n("Create Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);
     return newDirAction;
+}
+
+KAction* DolphinView::createSortDescendingAction(KActionCollection* collection)
+{
+    KToggleAction* sortDescending = collection->add<KToggleAction>("descending");
+    sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
+    return sortDescending;
 }
 
 #include "dolphinview.moc"
