@@ -60,6 +60,7 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <konqmimedata.h>
+#include <konq_operations.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
 #include <ktoggleaction.h>
@@ -420,6 +421,12 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
         // one already -> close the view
         toggleSplitView();
     }
+}
+
+void DolphinMainWindow::createDir()
+{
+    const KUrl& url = m_activeViewContainer->view()->url();
+    KonqOperations::newDir(this, url);
 }
 
 void DolphinMainWindow::updateNewMenu()
@@ -984,6 +991,9 @@ void DolphinMainWindow::setupActions()
     menu->setIcon(KIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
+
+    KAction* newDirAction = DolphinView::createNewDirAction(actionCollection());
+    connect(newDirAction, SIGNAL(triggered()), SLOT(createDir()));
 
     KAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
