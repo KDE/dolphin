@@ -28,9 +28,6 @@ class QCheckBox;
 
 /**
  * @brief Page for the 'General' settings of the Dolphin settings dialog.
- *
- * The general settings allow to set the home URL and to configure the
- * state of the view mode, split mode and the filter bar when starting Dolphin.
  */
 class GeneralSettingsPage : public SettingsPageBase
 {
@@ -46,22 +43,10 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
-private slots:
-    void selectHomeUrl();
-    void useCurrentLocation();
-    void useDefaultLocation();
-
 private:
     void loadSettings();
 
 private:
-    DolphinMainWindow* m_mainWindow;
-    QLineEdit* m_homeUrl;
-
-    QCheckBox* m_splitView;
-    QCheckBox* m_editableUrl;
-    QCheckBox* m_filterBar;
-
     QCheckBox* m_showDeleteCommand;
     QCheckBox* m_confirmMoveToTrash;
     QCheckBox* m_confirmDelete;

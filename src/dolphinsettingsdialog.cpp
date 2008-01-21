@@ -23,6 +23,7 @@
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
 #include "generalsettingspage.h"
+#include "startupsettingspage.h"
 #include "viewsettingspage.h"
 
 #include <klocale.h>
@@ -30,7 +31,11 @@
 #include <kicon.h>
 
 DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
-    KPageDialog(mainWindow)
+    KPageDialog(mainWindow),
+    m_startupSettingsPage(0),
+    m_generalSettingsPage(0),
+    m_viewSettingsPage(0)
+
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(512, minSize.height()));
@@ -39,6 +44,11 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     setCaption(i18nc("@title:window", "Dolphin Preferences"));
     setButtons(Ok | Apply | Cancel | Default);
     setDefaultButton(Ok);
+
+    m_startupSettingsPage = new StartupSettingsPage(mainWindow, this);
+    KPageWidgetItem* startupSettingsFrame = addPage(m_startupSettingsPage,
+                                                    i18nc("@title:group", "Startup"));
+    startupSettingsFrame->setIcon(KIcon("go-home"));
 
     m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
     KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage,
@@ -76,6 +86,7 @@ void DolphinSettingsDialog::slotButtonClicked(int button)
 
 void DolphinSettingsDialog::applySettings()
 {
+    m_startupSettingsPage->applySettings();
     m_generalSettingsPage->applySettings();
     m_viewSettingsPage->applySettings();
     DolphinApplication::app()->refreshMainWindows();
@@ -83,6 +94,7 @@ void DolphinSettingsDialog::applySettings()
 
 void DolphinSettingsDialog::restoreDefaults()
 {
+    m_startupSettingsPage->restoreDefaults();
     m_generalSettingsPage->restoreDefaults();
     m_viewSettingsPage->restoreDefaults();
     DolphinApplication::app()->refreshMainWindows();

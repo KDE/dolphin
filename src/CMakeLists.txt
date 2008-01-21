@@ -101,6 +101,7 @@ set(dolphin_SRCS
    pixmapviewer.cpp
    settingspagebase.cpp
    sidebarpage.cpp
+   startupsettingspage.cpp
    statusbarspaceinfo.cpp
    statusbarmessagelabel.cpp
    terminalsidebarpage.cpp

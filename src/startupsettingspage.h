@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,44 +16,50 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+#ifndef STARTUPSETTINGSPAGE_H
+#define STARTUPSETTINGSPAGE_H
 
-#ifndef DOLPHINSETTINGSDIALOG_H
-#define DOLPHINSETTINGSDIALOG_H
+#include <settingspagebase.h>
 
-#include <kpagedialog.h>
-
-class GeneralSettingsPage;
-class StartupSettingsPage;
-class ViewSettingsPage;
 class DolphinMainWindow;
+class QLineEdit;
+class QCheckBox;
 
 /**
- * @brief Settings dialog for Dolphin.
+ * @brief Page for the 'Startup' settings of the Dolphin settings dialog.
  *
- * Contains the pages for startup settings, general settings and view settings.
- *
- * @author Peter Penz <peter.penz@gmx.at>
+ * The startup settings allow to set the home URL and to configure the
+ * state of the view mode, split mode and the filter bar when starting Dolphin.
  */
-class DolphinSettingsDialog : public KPageDialog
+class StartupSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(DolphinMainWindow* mainWindow);
-    virtual ~DolphinSettingsDialog();
+    StartupSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    virtual ~StartupSettingsPage();
 
-protected slots:
-    /** @see KDialog::slotButtonClicked() */
-    virtual void slotButtonClicked(int button);
+    /** @see SettingsPageBase::applySettings() */
+    virtual void applySettings();
+
+    /** @see SettingsPageBase::restoreDefaults() */
+    virtual void restoreDefaults();
+
+private slots:
+    void selectHomeUrl();
+    void useCurrentLocation();
+    void useDefaultLocation();
 
 private:
-    void applySettings();
-    void restoreDefaults();
+    void loadSettings();
 
 private:
-    StartupSettingsPage* m_startupSettingsPage;
-    GeneralSettingsPage* m_generalSettingsPage;
-    ViewSettingsPage* m_viewSettingsPage;
+    DolphinMainWindow* m_mainWindow;
+    QLineEdit* m_homeUrl;
+
+    QCheckBox* m_splitView;
+    QCheckBox* m_editableUrl;
+    QCheckBox* m_filterBar;
 };
 
 #endif
