@@ -399,10 +399,13 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
 
     if (item.isDir()) {
         m_view->setUrl(url);
-    } else if (item.isFile() && url.isLocalFile()) {
-        // allow to browse through ZIP and tar files
-        // TODO: make this configurable for Dolphin in KDE 4.1
+        return;
+    }
 
+    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    const bool browseThroughArchives = settings->browseThroughArchives() &&
+                                       item.isFile() && url.isLocalFile();
+    if (browseThroughArchives) {
         KMimeType::Ptr mime = item.mimeTypePtr();
 
         // Don't use mime->is("application/zip"), as this would
@@ -410,19 +413,21 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
         if (mime->name() == "application/zip") {
             url.setProtocol("zip");
             m_view->setUrl(url);
-        } else if (mime->is("application/x-tar") ||
-                   mime->is("application/x-tarz") ||
-                   mime->is("application/x-bzip-compressed-tar") ||
-                   mime->is("application/x-compressed-tar") ||
-                   mime->is("application/x-tzo")) {
+            return;
+        }
+
+        if (mime->is("application/x-tar") ||
+            mime->is("application/x-tarz") ||
+            mime->is("application/x-bzip-compressed-tar") ||
+            mime->is("application/x-compressed-tar") ||
+            mime->is("application/x-tzo")) {
             url.setProtocol("tar");
             m_view->setUrl(url);
-        } else {
-            item.run();
+            return;
         }
-    } else {
-        item.run();
     }
+
+    item.run();
 }
 
 #include "dolphinviewcontainer.moc"

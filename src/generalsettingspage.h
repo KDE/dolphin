@@ -65,6 +65,8 @@ private:
     QCheckBox* m_showDeleteCommand;
     QCheckBox* m_confirmMoveToTrash;
     QCheckBox* m_confirmDelete;
+
+    QCheckBox* m_browseThroughArchives;
 };
 
 #endif

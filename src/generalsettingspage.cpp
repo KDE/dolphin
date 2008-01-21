@@ -48,7 +48,8 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_filterBar(0),
     m_showDeleteCommand(0),
     m_confirmMoveToTrash(0),
-    m_confirmDelete(0)
+    m_confirmDelete(0),
+    m_browseThroughArchives(0)
 {
     const int spacing = KDialog::spacingHint();
 
@@ -109,6 +110,8 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     // create 'Show the command 'Delete' in context menu' checkbox
     m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command in context menu"), vBox);
 
+    m_browseThroughArchives = new QCheckBox(i18nc("option:check", "Browse through archives"), vBox);
+
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
@@ -146,6 +149,8 @@ void GeneralSettingsPage::applySettings()
     KConfigGroup kdeConfig(KGlobal::config(), "KDE");
     kdeConfig.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
     kdeConfig.sync();
+
+    settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
 }
 
 void GeneralSettingsPage::restoreDefaults()
@@ -193,6 +198,8 @@ void GeneralSettingsPage::loadSettings()
 
     const KConfigGroup kdeConfig(KGlobal::config(), "KDE");
     m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
+
+    m_browseThroughArchives->setChecked(settings->browseThroughArchives());
 }
 
 #include "generalsettingspage.moc"
