@@ -1272,4 +1272,41 @@ KAction* DolphinView::createSortDescendingAction(KActionCollection* collection)
     return sortDescending;
 }
 
+QActionGroup* DolphinView::createAdditionalInformationActionGroup(KActionCollection* collection)
+{
+    QActionGroup* showInformationGroup = new QActionGroup(collection);
+
+    KToggleAction* showSizeInfo = collection->add<KToggleAction>("show_size_info");
+    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
+    showSizeInfo->setData(KFileItemDelegate::Size);
+    showSizeInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showDateInfo = collection->add<KToggleAction>("show_date_info");
+    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
+    showDateInfo->setData(KFileItemDelegate::ModificationTime);
+    showDateInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showPermissionsInfo = collection->add<KToggleAction>("show_permissions_info");
+    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
+    showPermissionsInfo->setData(KFileItemDelegate::Permissions);
+    showPermissionsInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showOwnerInfo = collection->add<KToggleAction>("show_owner_info");
+    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
+    showOwnerInfo->setData(KFileItemDelegate::Owner);
+    showOwnerInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showGroupInfo = collection->add<KToggleAction>("show_group_info");
+    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
+    showGroupInfo->setData(KFileItemDelegate::OwnerAndGroup);
+    showGroupInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showMimeInfo = collection->add<KToggleAction>("show_mime_info");
+    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
+    showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);
+    showMimeInfo->setActionGroup(showInformationGroup);
+
+    return showInformationGroup;
+}
+
 #include "dolphinview.moc"

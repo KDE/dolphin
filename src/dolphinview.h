@@ -38,6 +38,7 @@
 #include <QListView>
 #include <QWidget>
 
+class QActionGroup;
 class KAction;
 class KToggleAction;
 class DolphinController;
@@ -373,6 +374,12 @@ public:
      * This code is here to share it between the mainwindow and the part
      */
     static KAction* createSortDescendingAction(KActionCollection* collection);
+
+    /**
+     * Creates an action group with all the "show additional information" actions in it.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static QActionGroup* createAdditionalInformationActionGroup(KActionCollection* collection);
 
     /**
      * Returns the action name corresponding to the current view mode

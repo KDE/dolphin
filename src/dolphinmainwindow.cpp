@@ -660,36 +660,6 @@ void DolphinMainWindow::toggleSortCategorization()
     view->setCategorizedSorting(!categorizedSorting);
 }
 
-void DolphinMainWindow::toggleSizeInfo()
-{
-    toggleAdditionalInfo("show_size_info", KFileItemDelegate::Size);
-}
-
-void DolphinMainWindow::toggleDateInfo()
-{
-    toggleAdditionalInfo("show_date_info", KFileItemDelegate::ModificationTime);
-}
-
-void DolphinMainWindow::togglePermissionsInfo()
-{
-    toggleAdditionalInfo("show_permissions_info", KFileItemDelegate::Permissions);
-}
-
-void DolphinMainWindow::toggleOwnerInfo()
-{
-    toggleAdditionalInfo("show_owner_info", KFileItemDelegate::Owner);
-}
-
-void DolphinMainWindow::toggleGroupInfo()
-{
-    toggleAdditionalInfo("show_group_info", KFileItemDelegate::OwnerAndGroup);
-}
-
-void DolphinMainWindow::toggleMimeInfo()
-{
-    toggleAdditionalInfo("show_mime_info", KFileItemDelegate::FriendlyMimeType);
-}
-
 void DolphinMainWindow::toggleSplitView()
 {
     if (m_viewContainer[SecondaryView] == 0) {
@@ -1129,29 +1099,8 @@ void DolphinMainWindow::setupActions()
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
     connect(showInGroups, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
 
-    KToggleAction* showSizeInfo = actionCollection()->add<KToggleAction>("show_size_info");
-    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
-    connect(showSizeInfo, SIGNAL(triggered()), this, SLOT(toggleSizeInfo()));
-
-    KToggleAction* showDateInfo = actionCollection()->add<KToggleAction>("show_date_info");
-    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
-    connect(showDateInfo, SIGNAL(triggered()), this, SLOT(toggleDateInfo()));
-
-    KToggleAction* showPermissionsInfo = actionCollection()->add<KToggleAction>("show_permissions_info");
-    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
-    connect(showPermissionsInfo, SIGNAL(triggered()), this, SLOT(togglePermissionsInfo()));
-
-    KToggleAction* showOwnerInfo = actionCollection()->add<KToggleAction>("show_owner_info");
-    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
-    connect(showOwnerInfo, SIGNAL(triggered()), this, SLOT(toggleOwnerInfo()));
-
-    KToggleAction* showGroupInfo = actionCollection()->add<KToggleAction>("show_group_info");
-    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
-    connect(showGroupInfo, SIGNAL(triggered()), this, SLOT(toggleGroupInfo()));
-
-    KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
-    connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(toggleMimeInfo()));
+    QActionGroup* showInformationActionGroup = DolphinView::createAdditionalInformationActionGroup(actionCollection());
+    connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
@@ -1472,15 +1421,17 @@ void DolphinMainWindow::updateSplitAction()
     }
 }
 
-void DolphinMainWindow::toggleAdditionalInfo(const char* actionName,
-                                             KFileItemDelegate::Information info)
+void DolphinMainWindow::toggleAdditionalInfo(QAction* action)
 {
     clearStatusBar();
+
+    const KFileItemDelegate::Information info =
+        static_cast<KFileItemDelegate::Information>(action->data().toInt());
 
     DolphinView* view = m_activeViewContainer->view();
     KFileItemDelegate::InformationList list = view->additionalInfo();
 
-    const bool show = actionCollection()->action(actionName)->isChecked();
+    const bool show = action->isChecked();
 
     const int index = list.indexOf(info);
     const bool containsInfo = (index >= 0);
