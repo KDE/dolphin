@@ -106,7 +106,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(zoomIn()));
     connect(controller, SIGNAL(zoomOut()),
             this, SLOT(zoomOut()));
-    connect(controller->dolphinView(), SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
+    connect(controller->dolphinView(), SIGNAL(additionalInfoChanged()),
             this, SLOT(updateColumnVisibility()));
 
     // apply the details mode settings to the widget

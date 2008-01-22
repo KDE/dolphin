@@ -256,58 +256,10 @@ void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
     descending->setChecked(sortDescending);
 }
 
-void DolphinMainWindow::slotAdditionalInfoChanged(KFileItemDelegate::InformationList list)
+void DolphinMainWindow::slotAdditionalInfoChanged()
 {
-    QAction* showSizeInfo = actionCollection()->action("show_size_info");
-    QAction* showDateInfo = actionCollection()->action("show_date_info");
-    QAction* showPermissionsInfo = actionCollection()->action("show_permissions_info");
-    QAction* showOwnerInfo = actionCollection()->action("show_owner_info");
-    QAction* showGroupInfo = actionCollection()->action("show_group_info");
-    QAction* showMimeInfo = actionCollection()->action("show_mime_info");
-
-    showSizeInfo->setChecked(false);
-    showDateInfo->setChecked(false);
-    showPermissionsInfo->setChecked(false);
-    showOwnerInfo->setChecked(false);
-    showGroupInfo->setChecked(false);
-    showMimeInfo->setChecked(false);
-
-    const DolphinView* view = m_activeViewContainer->view();
-
-    const bool enable = (view->mode() == DolphinView::DetailsView) ||
-                        (view->mode() == DolphinView::IconsView);
-
-    showSizeInfo->setEnabled(enable);
-    showDateInfo->setEnabled(enable);
-    showPermissionsInfo->setEnabled(enable);
-    showOwnerInfo->setEnabled(enable);
-    showGroupInfo->setEnabled(enable);
-    showMimeInfo->setEnabled(enable);
-
-    foreach (KFileItemDelegate::Information info, list) {
-        switch (info) {
-        case KFileItemDelegate::Size:
-            showSizeInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::ModificationTime:
-            showDateInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::Permissions:
-            showPermissionsInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::Owner:
-            showOwnerInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::OwnerAndGroup:
-            showGroupInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::FriendlyMimeType:
-            showMimeInfo->setChecked(true);
-            break;
-        default:
-            break;
-        }
-    }
+    DolphinView* view = m_activeViewContainer->view();
+    view->updateAdditionalInfoActions(actionCollection());
 }
 
 void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
@@ -658,36 +610,6 @@ void DolphinMainWindow::toggleSortCategorization()
     DolphinView* view = m_activeViewContainer->view();
     const bool categorizedSorting = view->categorizedSorting();
     view->setCategorizedSorting(!categorizedSorting);
-}
-
-void DolphinMainWindow::toggleSizeInfo()
-{
-    toggleAdditionalInfo("show_size_info", KFileItemDelegate::Size);
-}
-
-void DolphinMainWindow::toggleDateInfo()
-{
-    toggleAdditionalInfo("show_date_info", KFileItemDelegate::ModificationTime);
-}
-
-void DolphinMainWindow::togglePermissionsInfo()
-{
-    toggleAdditionalInfo("show_permissions_info", KFileItemDelegate::Permissions);
-}
-
-void DolphinMainWindow::toggleOwnerInfo()
-{
-    toggleAdditionalInfo("show_owner_info", KFileItemDelegate::Owner);
-}
-
-void DolphinMainWindow::toggleGroupInfo()
-{
-    toggleAdditionalInfo("show_group_info", KFileItemDelegate::OwnerAndGroup);
-}
-
-void DolphinMainWindow::toggleMimeInfo()
-{
-    toggleAdditionalInfo("show_mime_info", KFileItemDelegate::FriendlyMimeType);
 }
 
 void DolphinMainWindow::toggleSplitView()
@@ -1128,29 +1050,8 @@ void DolphinMainWindow::setupActions()
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
     connect(showInGroups, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
 
-    KToggleAction* showSizeInfo = actionCollection()->add<KToggleAction>("show_size_info");
-    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
-    connect(showSizeInfo, SIGNAL(triggered()), this, SLOT(toggleSizeInfo()));
-
-    KToggleAction* showDateInfo = actionCollection()->add<KToggleAction>("show_date_info");
-    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
-    connect(showDateInfo, SIGNAL(triggered()), this, SLOT(toggleDateInfo()));
-
-    KToggleAction* showPermissionsInfo = actionCollection()->add<KToggleAction>("show_permissions_info");
-    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
-    connect(showPermissionsInfo, SIGNAL(triggered()), this, SLOT(togglePermissionsInfo()));
-
-    KToggleAction* showOwnerInfo = actionCollection()->add<KToggleAction>("show_owner_info");
-    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
-    connect(showOwnerInfo, SIGNAL(triggered()), this, SLOT(toggleOwnerInfo()));
-
-    KToggleAction* showGroupInfo = actionCollection()->add<KToggleAction>("show_group_info");
-    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
-    connect(showGroupInfo, SIGNAL(triggered()), this, SLOT(toggleGroupInfo()));
-
-    KToggleAction* showMimeInfo = actionCollection()->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
-    connect(showMimeInfo, SIGNAL(triggered()), this, SLOT(toggleMimeInfo()));
+    QActionGroup* showInformationActionGroup = DolphinView::createAdditionalInformationActionGroup(actionCollection());
+    connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
 
     KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
@@ -1383,7 +1284,7 @@ void DolphinMainWindow::updateViewActions()
     slotSortingChanged(view->sorting());
     slotSortOrderChanged(view->sortOrder());
     slotCategorizedSortingChanged();
-    slotAdditionalInfoChanged(view->additionalInfo());
+    slotAdditionalInfoChanged();
 
     KToggleAction* showFilterBarAction =
         static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
@@ -1436,8 +1337,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
-    connect(view, SIGNAL(additionalInfoChanged(KFileItemDelegate::InformationList)),
-            this, SLOT(slotAdditionalInfoChanged(KFileItemDelegate::InformationList)));
+    connect(view, SIGNAL(additionalInfoChanged()),
+            this, SLOT(slotAdditionalInfoChanged()));
     connect(view, SIGNAL(selectionChanged(KFileItemList)),
             this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(view, SIGNAL(requestItemInfo(KFileItem)),
@@ -1471,26 +1372,10 @@ void DolphinMainWindow::updateSplitAction()
     }
 }
 
-void DolphinMainWindow::toggleAdditionalInfo(const char* actionName,
-                                             KFileItemDelegate::Information info)
+void DolphinMainWindow::toggleAdditionalInfo(QAction* action)
 {
     clearStatusBar();
-
-    DolphinView* view = m_activeViewContainer->view();
-    KFileItemDelegate::InformationList list = view->additionalInfo();
-
-    const bool show = actionCollection()->action(actionName)->isChecked();
-
-    const int index = list.indexOf(info);
-    const bool containsInfo = (index >= 0);
-    if (show && !containsInfo) {
-        list.append(info);
-        view->setAdditionalInfo(list);
-    } else if (!show && containsInfo) {
-        list.removeAt(index);
-        view->setAdditionalInfo(list);
-        Q_ASSERT(list.indexOf(info) < 0);
-    }
+    m_activeViewContainer->view()->toggleAdditionalInfo(action);
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :

@@ -139,6 +139,9 @@ private Q_SLOTS:
     /** Updates the state of the 'Sort Ascending/Descending' action. */
     void slotSortOrderChanged(Qt::SortOrder);
 
+    /** Updates the state of the 'Additional Information' actions. */
+    void slotAdditionalInfoChanged();
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,

@@ -68,7 +68,7 @@ private slots:
     void triggerItem(const QModelIndex& index);
     void slotEntered(const QModelIndex& index);
     void slotShowPreviewChanged();
-    void slotAdditionalInfoChanged(const KFileItemDelegate::InformationList& info);
+    void slotAdditionalInfoChanged();
     void zoomIn();
     void zoomOut();
 

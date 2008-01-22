@@ -206,7 +206,7 @@ void DolphinView::setMode(Mode mode)
     // additional information manually
     const KFileItemDelegate::InformationList infoList = props.additionalInfo();
     m_fileItemDelegate->setShowInformation(infoList);
-    emit additionalInfoChanged(infoList);
+    emit additionalInfoChanged();
 
     // Not all view modes support categorized sorting. Adjust the sorting model
     // if changing the view mode results in a change of the categorized sorting
@@ -458,7 +458,7 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
     props.setAdditionalInfo(info);
     m_fileItemDelegate->setShowInformation(info);
 
-    emit additionalInfoChanged(info);
+    emit additionalInfoChanged();
 
     if (itemView() != m_detailsView) {
         // the details view requires no reloading of the directory, as it maps
@@ -659,7 +659,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
     KFileItemDelegate::InformationList info = props.additionalInfo();
     if (info != m_fileItemDelegate->showInformation()) {
         m_fileItemDelegate->setShowInformation(info);
-        emit additionalInfoChanged(info);
+        emit additionalInfoChanged();
     }
 
     const bool showPreview = props.showPreview();
@@ -762,8 +762,80 @@ void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList&
 
     m_fileItemDelegate->setShowInformation(info);
 
-    emit additionalInfoChanged(info);
+    emit additionalInfoChanged(); // will call updateAdditionalInfoActions just below
+}
 
+void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
+{
+    const bool enable = (m_mode == DolphinView::DetailsView) ||
+                        (m_mode == DolphinView::IconsView);
+
+    QAction* showSizeInfo = collection->action("show_size_info");
+    QAction* showDateInfo = collection->action("show_date_info");
+    QAction* showPermissionsInfo = collection->action("show_permissions_info");
+    QAction* showOwnerInfo = collection->action("show_owner_info");
+    QAction* showGroupInfo = collection->action("show_group_info");
+    QAction* showMimeInfo = collection->action("show_mime_info");
+
+    showSizeInfo->setChecked(false);
+    showDateInfo->setChecked(false);
+    showPermissionsInfo->setChecked(false);
+    showOwnerInfo->setChecked(false);
+    showGroupInfo->setChecked(false);
+    showMimeInfo->setChecked(false);
+
+    showSizeInfo->setEnabled(enable);
+    showDateInfo->setEnabled(enable);
+    showPermissionsInfo->setEnabled(enable);
+    showOwnerInfo->setEnabled(enable);
+    showGroupInfo->setEnabled(enable);
+    showMimeInfo->setEnabled(enable);
+
+    foreach (KFileItemDelegate::Information info, m_fileItemDelegate->showInformation()) {
+        switch (info) {
+        case KFileItemDelegate::Size:
+            showSizeInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::ModificationTime:
+            showDateInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::Permissions:
+            showPermissionsInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::Owner:
+            showOwnerInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::OwnerAndGroup:
+            showGroupInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::FriendlyMimeType:
+            showMimeInfo->setChecked(true);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+void DolphinView::toggleAdditionalInfo(QAction* action)
+{
+    const KFileItemDelegate::Information info =
+        static_cast<KFileItemDelegate::Information>(action->data().toInt());
+
+    KFileItemDelegate::InformationList list = additionalInfo();
+
+    const bool show = action->isChecked();
+
+    const int index = list.indexOf(info);
+    const bool containsInfo = (index >= 0);
+    if (show && !containsInfo) {
+        list.append(info);
+        setAdditionalInfo(list);
+    } else if (!show && containsInfo) {
+        list.removeAt(index);
+        setAdditionalInfo(list);
+        Q_ASSERT(list.indexOf(info) < 0);
+    }
 }
 
 void DolphinView::emitContentsMoved()
@@ -1158,6 +1230,44 @@ KAction* DolphinView::createSortDescendingAction(KActionCollection* collection)
     KToggleAction* sortDescending = collection->add<KToggleAction>("descending");
     sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
     return sortDescending;
+}
+
+QActionGroup* DolphinView::createAdditionalInformationActionGroup(KActionCollection* collection)
+{
+    QActionGroup* showInformationGroup = new QActionGroup(collection);
+    showInformationGroup->setExclusive(false);
+
+    KToggleAction* showSizeInfo = collection->add<KToggleAction>("show_size_info");
+    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
+    showSizeInfo->setData(KFileItemDelegate::Size);
+    showSizeInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showDateInfo = collection->add<KToggleAction>("show_date_info");
+    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
+    showDateInfo->setData(KFileItemDelegate::ModificationTime);
+    showDateInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showPermissionsInfo = collection->add<KToggleAction>("show_permissions_info");
+    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
+    showPermissionsInfo->setData(KFileItemDelegate::Permissions);
+    showPermissionsInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showOwnerInfo = collection->add<KToggleAction>("show_owner_info");
+    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
+    showOwnerInfo->setData(KFileItemDelegate::Owner);
+    showOwnerInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showGroupInfo = collection->add<KToggleAction>("show_group_info");
+    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
+    showGroupInfo->setData(KFileItemDelegate::OwnerAndGroup);
+    showGroupInfo->setActionGroup(showInformationGroup);
+
+    KToggleAction* showMimeInfo = collection->add<KToggleAction>("show_mime_info");
+    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
+    showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);
+    showMimeInfo->setActionGroup(showInformationGroup);
+
+    return showInformationGroup;
 }
 
 #include "dolphinview.moc"
