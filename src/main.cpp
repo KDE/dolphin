@@ -91,6 +91,7 @@ int main(int argc, char **argv)
             }
             ++n;
         }
+        app.exec();
     } else {
         app.exec();
     }
