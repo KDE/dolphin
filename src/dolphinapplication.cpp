@@ -73,21 +73,21 @@ void DolphinApplication::refreshMainWindows()
 
 int DolphinApplication::newInstance()
 {
-    int exitValue = KUniqueApplication::newInstance();
-
     KCmdLineArgs::setCwd(QDir::currentPath().toUtf8());
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
+    static bool first = true;
     if (args->count() > 0) {
         for (int i = 0; i < args->count(); ++i) {
             openWindow(args->url(i));
         }
-    } else {
+    } else if( !first || !isSessionRestored()) {
         openWindow(KUrl());
     }
+    first = false;
 
     args->clear();
 
-    return exitValue;
+    return 0;
 }
 
 int DolphinApplication::openWindow(const KUrl& url)
