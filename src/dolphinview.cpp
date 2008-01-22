@@ -1275,6 +1275,7 @@ KAction* DolphinView::createSortDescendingAction(KActionCollection* collection)
 QActionGroup* DolphinView::createAdditionalInformationActionGroup(KActionCollection* collection)
 {
     QActionGroup* showInformationGroup = new QActionGroup(collection);
+    showInformationGroup->setExclusive(false);
 
     KToggleAction* showSizeInfo = collection->add<KToggleAction>("show_size_info");
     showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
