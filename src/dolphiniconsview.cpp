@@ -78,8 +78,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     const DolphinView* view = controller->dolphinView();
     connect(view, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
-    connect(view, SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
-            this, SLOT(slotAdditionalInfoChanged(const KFileItemDelegate::InformationList&)));
+    connect(view, SIGNAL(additionalInfoChanged()),
+            this, SLOT(slotAdditionalInfoChanged()));
 
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
@@ -301,10 +301,11 @@ void DolphinIconsView::slotShowPreviewChanged()
     updateGridSize(view->showPreview(), additionalInfoCount());
 }
 
-void DolphinIconsView::slotAdditionalInfoChanged(const KFileItemDelegate::InformationList& info)
+void DolphinIconsView::slotAdditionalInfoChanged()
 {
-    const bool showPreview = m_controller->dolphinView()->showPreview();
-    updateGridSize(showPreview, info.count());
+    const DolphinView* view = m_controller->dolphinView();
+    const bool showPreview = view->showPreview();
+    updateGridSize(showPreview, view->additionalInfo().count());
 }
 
 void DolphinIconsView::zoomIn()

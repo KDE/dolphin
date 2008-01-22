@@ -274,8 +274,8 @@ private slots:
     void toggleSortCategorization();
 
     /**
-     * Applies \a info dependent from the current checked state of the action
-     * \a actionName to the file item delegate.
+     * Switches on or off the displaying of additional information
+     * as specified by \a action.
      */
     void toggleAdditionalInfo(QAction* action);
 
@@ -376,7 +376,7 @@ private slots:
     void slotSortOrderChanged(Qt::SortOrder order);
 
     /** Updates the state of the 'Additional Information' actions. */
-    void slotAdditionalInfoChanged(KFileItemDelegate::InformationList info);
+    void slotAdditionalInfoChanged();
 
     /**
      * Updates the state of the 'Edit' menu actions and emits

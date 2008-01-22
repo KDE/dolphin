@@ -382,6 +382,11 @@ public:
     static QActionGroup* createAdditionalInformationActionGroup(KActionCollection* collection);
 
     /**
+     * Updates the state of the 'Additional Information' actions in \a collection.
+     */
+    void updateAdditionalInfoActions(KActionCollection* collection);
+
+    /**
      * Returns the action name corresponding to the current view mode
      */
     QString currentViewModeActionName() const;
@@ -439,6 +444,12 @@ public slots:
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();
 
+    /**
+     * Switches on or off the displaying of additional information
+     * as specified by \a action.
+     */
+    void toggleAdditionalInfo(QAction* action);
+
 signals:
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
@@ -474,8 +485,8 @@ signals:
     /** Is emitted if the sort order (ascending or descending) has been changed. */
     void sortOrderChanged(Qt::SortOrder order);
 
-    /** Is emitted if the additional information for an item has been changed. */
-    void additionalInfoChanged(const KFileItemDelegate::InformationList& info);
+    /** Is emitted if the additional information shown for this view has been changed. */
+    void additionalInfoChanged();
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
