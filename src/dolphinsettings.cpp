@@ -30,13 +30,16 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 
+class DolphinSettingsSingleton
+{
+public:
+    DolphinSettings instance;
+};
+K_GLOBAL_STATIC(DolphinSettingsSingleton, s_settings)
+
 DolphinSettings& DolphinSettings::instance()
 {
-    static DolphinSettings* instance = 0;
-    if (instance == 0) {
-        instance = new DolphinSettings();
-    }
-    return *instance;
+    return s_settings->instance;
 }
 
 void DolphinSettings::save()

@@ -71,6 +71,7 @@ public:
 protected:
     DolphinSettings();
     virtual ~DolphinSettings();
+    friend class DolphinSettingsSingleton;
 
 private:
     GeneralSettings* m_generalSettings;
