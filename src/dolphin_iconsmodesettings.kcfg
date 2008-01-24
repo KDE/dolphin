@@ -52,7 +52,7 @@
         </entry>
         <entry name="NumberOfTextlines" type="Int">
             <label context="@label">Number of textlines</label>
-            <default>1</default>
+            <default>2</default>
         </entry>
         <entry name="PreviewSize" type="Int">
             <label context="@label">Preview size</label>
