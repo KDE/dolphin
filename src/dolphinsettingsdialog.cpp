@@ -50,15 +50,15 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
                                                     i18nc("@title:group", "Startup"));
     startupSettingsFrame->setIcon(KIcon("go-home"));
 
-    m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
-    KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage,
-                                                    i18nc("@title:group", "General"));
-    generalSettingsFrame->setIcon(KIcon("system-run"));
-
     m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
     KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage,
                                                  i18nc("@title:group", "View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
+
+    m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
+    KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage,
+                                                    i18nc("@title:group", "General"));
+    generalSettingsFrame->setIcon(KIcon("system-run"));
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
     restoreDialogSize(dialogConfig);
