@@ -103,6 +103,11 @@ private:
      */
     void addShowMenubarAction(KMenu* menu);
 
+    /**
+     * Returns a name for adding the URL \a url to the Places panel.
+     */
+    QString placesName(const KUrl& url) const;
+
 private:
     struct Entry
     {
