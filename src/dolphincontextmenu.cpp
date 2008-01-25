@@ -198,7 +198,7 @@ void DolphinContextMenu::openItemContextMenu()
     if ((addToPlacesAction != 0) && (activatedAction == addToPlacesAction)) {
         const KUrl selectedUrl(m_fileInfo.url());
         if (selectedUrl.isValid()) {
-            DolphinSettings::instance().placesModel()->addPlace(selectedUrl.fileName(),
+            DolphinSettings::instance().placesModel()->addPlace(placesName(selectedUrl),
                                                                 selectedUrl);
         }
     } else if (openWithActions.contains(activatedAction)) {
@@ -266,7 +266,7 @@ void DolphinContextMenu::openViewportContextMenu()
     } else if (action == addToPlacesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
-            DolphinSettings::instance().placesModel()->addPlace(url.fileName(), url);
+            DolphinSettings::instance().placesModel()->addPlace(placesName(url), url);
         }
     }
 
@@ -404,6 +404,15 @@ void DolphinContextMenu::addShowMenubarAction(KMenu* menu)
         menu->addAction(showMenuBar);
         menu->addSeparator();
     }
+}
+
+QString DolphinContextMenu::placesName(const KUrl& url) const
+{
+    QString name = url.fileName();
+    if (name.isEmpty()) {
+        name = url.host();
+    }
+    return name;
 }
 
 #include "dolphincontextmenu.moc"
