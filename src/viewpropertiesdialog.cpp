@@ -89,14 +89,16 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         propsBox = new QGroupBox(i18nc("@title:group", "Properties"), main);
     }
 
-    QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsBox);
-    m_viewMode = new QComboBox(propsBox);
+    QWidget* propsGrid = new QWidget();
+
+    QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
+    m_viewMode = new QComboBox(propsGrid);
     m_viewMode->addItem(KIcon("view-list-icons"), i18nc("@item:inlistbox", "Icons"));
     m_viewMode->addItem(KIcon("view-list-details"), i18nc("@item:inlistbox", "Details"));
     m_viewMode->addItem(KIcon("view-file-columns"), i18nc("@item:inlistbox", "Column"));
 
-    QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsBox);
-    QWidget* sortingBox = new QWidget(propsBox);
+    QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsGrid);
+    QWidget* sortingBox = new QWidget(propsGrid);
 
     m_sortOrder = new QComboBox(sortingBox);
     m_sortOrder->addItem(i18nc("@item:inlistbox", "Ascending"));
@@ -119,6 +121,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     //    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
     // }
 #endif
+    m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
+    m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"), propsBox);
+    m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"), propsBox);
+
+    m_additionalInfo = new QPushButton(i18nc("@action:button", "Additional Information"), propsBox);
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
     sortingLayout->setMargin(0);
@@ -126,23 +133,18 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     sortingLayout->addWidget(m_sorting);
     sortingBox->setLayout(sortingLayout);
 
-    m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
-    m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"), propsBox);
-    m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"), propsBox);
+    QGridLayout* propsGridLayout = new QGridLayout(propsGrid);
+    propsGridLayout->addWidget(viewModeLabel, 0, 0);
+    propsGridLayout->addWidget(m_viewMode, 0, 1);
+    propsGridLayout->addWidget(sortingLabel, 1, 0);
+    propsGridLayout->addWidget(sortingBox, 1, 1);
 
-    m_additionalInfo = new QPushButton(i18nc("@action:button", "Additional Information"), propsBox);
-    connect(m_additionalInfo, SIGNAL(clicked()),
-            this, SLOT(configureAdditionalInfo()));
-
-    QGridLayout* propsBoxLayout = new QGridLayout(propsBox);
-    propsBoxLayout->addWidget(viewModeLabel, 0, 0);
-    propsBoxLayout->addWidget(m_viewMode, 0, 1);
-    propsBoxLayout->addWidget(sortingLabel, 1, 0);
-    propsBoxLayout->addWidget(sortingBox, 1, 1);
-    propsBoxLayout->addWidget(m_showPreview, 2, 0);
-    propsBoxLayout->addWidget(m_showInGroups, 3, 0);
-    propsBoxLayout->addWidget(m_showHiddenFiles, 4, 0);
-    propsBoxLayout->addWidget(m_additionalInfo, 5, 0);
+    QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
+    propsBoxLayout->addWidget(propsGrid);
+    propsBoxLayout->addWidget(m_showPreview);
+    propsBoxLayout->addWidget(m_showInGroups);
+    propsBoxLayout->addWidget(m_showHiddenFiles);
+    propsBoxLayout->addWidget(m_additionalInfo);
 
     topLayout->addWidget(propsBox);
 
@@ -152,8 +154,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
             this, SLOT(slotSortingChanged(int)));
     connect(m_sortOrder, SIGNAL(activated(int)),
             this, SLOT(slotSortOrderChanged(int)));
-    connect(m_additionalInfo, SIGNAL(activated(int)),
-            this, SLOT(slotAdditionalInfoChanged(int)));
+    connect(m_additionalInfo, SIGNAL(clicked()),
+            this, SLOT(configureAdditionalInfo()));
     connect(m_showPreview, SIGNAL(clicked()),
             this, SLOT(slotShowPreviewChanged()));
     connect(m_showInGroups, SIGNAL(clicked()),
