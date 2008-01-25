@@ -50,11 +50,13 @@ QSize TerminalSidebarPage::sizeHint() const
 
 void TerminalSidebarPage::setUrl(const KUrl& url)
 {
-    if (!SidebarPage::url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
-        SidebarPage::setUrl(url);
-        if ((m_terminal != 0) && isVisible()) {
-            m_terminal->sendInput("cd " + KShell::quoteArg(url.path()) + '\n');
-        }
+    if (!url.isValid() || (url == SidebarPage::url())) {
+        return;
+    }
+
+    SidebarPage::setUrl(url);
+    if ((m_terminal != 0) && isVisible() && url.isLocalFile()) {
+        m_terminal->sendInput("cd " + KShell::quoteArg(url.path()) + '\n');
     }
 }
 
