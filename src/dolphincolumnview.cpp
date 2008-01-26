@@ -370,11 +370,13 @@ void DolphinColumnView::updateDecorationSize()
 {
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     const int iconSize = settings->iconSize();
+    const QSize size(iconSize, iconSize);
+    setIconSize(size);
 
     foreach (QObject* object, viewport()->children()) {
         if (object->inherits("QListView")) {
             DolphinColumnWidget* widget = static_cast<DolphinColumnWidget*>(object);
-            widget->setDecorationSize(QSize(iconSize, iconSize));
+            widget->setDecorationSize(size);
         }
     }
 

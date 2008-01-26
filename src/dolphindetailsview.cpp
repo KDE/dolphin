@@ -524,6 +524,7 @@ void DolphinDetailsView::updateDecorationSize()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     const int iconSize = settings->iconSize();
+    setIconSize(QSize(iconSize, iconSize));
     m_decorationSize = QSize(iconSize, iconSize);
 
     m_controller->setZoomInPossible(isZoomInPossible());

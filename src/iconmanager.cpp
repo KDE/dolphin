@@ -31,6 +31,7 @@
 #include <QApplication>
 #include <QAbstractItemView>
 #include <QClipboard>
+#include <QColor>
 #include <QIcon>
 
 IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model) :
@@ -42,9 +43,11 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
     m_proxyModel(model),
     m_cutItemsCache()
 {
+    Q_ASSERT(m_view->iconSize().isValid());  // each view must provide its current icon size
+
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
     connect(m_dolphinModel->dirLister(), SIGNAL(newItems(const KFileItemList&)),
-            this, SLOT(generatePreviews(const KFileItemList&)));
+            this, SLOT(updateIcons(const KFileItemList&)));
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
@@ -70,18 +73,30 @@ void IconManager::setShowPreview(bool show)
     }
 }
 
-void IconManager::generatePreviews(const KFileItemList& items)
+void IconManager::updateIcons(const KFileItemList& items)
 {
+    // make the icons of all hidden files semitransparent
+    foreach (KFileItem item, items) {
+        if (item.name().startsWith('.')) {
+            applyHiddenItemEffect(item);
+        }
+    }
+
     if (!m_showPreview) {
         return;
     }
 
+    // generate previews
     const QRect visibleArea = m_view->viewport()->rect();
 
     // Order the items in a way that the preview for the visible items
     // is generated first, as this improves the feeled performance a lot.
     KFileItemList orderedItems;
     foreach (KFileItem item, items) {
+        if (item.name().startsWith('.')) {
+            applyHiddenItemEffect(item);
+        }
+
         const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         const QRect itemRect = m_view->visualRect(proxyIndex);
@@ -92,7 +107,8 @@ void IconManager::generatePreviews(const KFileItemList& items)
         }
     }
 
-    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128);
+    const QSize size = m_view->iconSize();
+    KIO::PreviewJob* job = KIO::filePreview(orderedItems, size.width(), size.height());
     connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
             this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
     connect(job, SIGNAL(finished(KJob*)),
@@ -114,13 +130,18 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
 
     const QModelIndex idx = m_dolphinModel->indexForItem(item);
     if (idx.isValid() && (idx.column() == 0)) {
+        QPixmap newPixmap = pixmap;
+        if (item.name().startsWith('.')) {
+            KIconEffect::semiTransparent(newPixmap);
+        }
+
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
             KIconEffect iconEffect;
-            const QPixmap cutPixmap = iconEffect.apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-            m_dolphinModel->setData(idx, QIcon(cutPixmap), Qt::DecorationRole);
+            newPixmap = iconEffect.apply(newPixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
+            m_dolphinModel->setData(idx, QIcon(newPixmap), Qt::DecorationRole);
         } else {
-            m_dolphinModel->setData(idx, QIcon(pixmap), Qt::DecorationRole);
+            m_dolphinModel->setData(idx, QIcon(newPixmap), Qt::DecorationRole);
         }
     }
 }
@@ -176,7 +197,7 @@ void IconManager::applyCutItemEffect()
             const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
             if (value.type() == QVariant::Icon) {
                 const QIcon icon(qvariant_cast<QIcon>(value));
-                QPixmap pixmap = icon.pixmap(128, 128);
+                QPixmap pixmap = icon.pixmap(m_view->iconSize());
 
                 // remember current pixmap for the item to be able
                 // to restore it when other items get cut
@@ -191,6 +212,18 @@ void IconManager::applyCutItemEffect()
                 m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
             }
         }
+    }
+}
+
+void IconManager::applyHiddenItemEffect(const KFileItem& hiddenItem)
+{
+    const QModelIndex index = m_dolphinModel->indexForItem(hiddenItem);
+    const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
+    if (value.type() == QVariant::Icon) {
+        const QIcon icon(qvariant_cast<QIcon>(value));
+        QPixmap pixmap = icon.pixmap(m_view->iconSize());
+        KIconEffect::semiTransparent(pixmap);
+        m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
     }
 }
 

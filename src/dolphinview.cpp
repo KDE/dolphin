@@ -410,11 +410,13 @@ QPoint DolphinView::contentsPosition() const
 void DolphinView::zoomIn()
 {
     m_controller->triggerZoomIn();
+    reload();
 }
 
 void DolphinView::zoomOut()
 {
     m_controller->triggerZoomOut();
+    reload();
 }
 
 bool DolphinView::isZoomInPossible() const

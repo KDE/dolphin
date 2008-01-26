@@ -451,6 +451,7 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 
         size = previewSize;
     }
+    setIconSize(QSize(size, size));
 
     Q_ASSERT(additionalInfoCount >= 0);
     itemHeight += additionalInfoCount * m_font.pointSize() * 2;

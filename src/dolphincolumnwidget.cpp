@@ -89,7 +89,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_font.setBold(settings->boldFont());
 
     const int iconSize = settings->iconSize();
-    m_decorationSize = QSize(iconSize, iconSize);
+    setDecorationSize(QSize(iconSize, iconSize));
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     setItemDelegate(delegate);
@@ -136,6 +136,7 @@ DolphinColumnWidget::~DolphinColumnWidget()
 
 void DolphinColumnWidget::setDecorationSize(const QSize& size)
 {
+    setIconSize(size);
     m_decorationSize = size;
     doItemsLayout();
 }

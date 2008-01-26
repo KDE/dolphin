@@ -51,11 +51,11 @@ public:
 
 private slots:
     /**
-     * Generates a preview image for each file item in \a items.
-     * The current preview settings (maximum size, 'Show Preview' menu)
-     * are respected.
+     * Updates the icons of for each item in \a items by making hidden
+     * items semitransparent and generating previews. The current preview
+     * settings (maximum size, 'Show Preview' menu) are respected.
      */
-    void generatePreviews(const KFileItemList& items);
+    void updateIcons(const KFileItemList& items);
 
     /**
      * Replaces the icon of the item \a item by the preview pixmap
@@ -81,6 +81,9 @@ private:
 
     /** Applies an item effect to all cut items. */
     void applyCutItemEffect();
+
+    /** Applies an item effect to the hidden item \a hiddenItem. */
+    void applyHiddenItemEffect(const KFileItem& hiddenItem);
 
 private:
     /**
