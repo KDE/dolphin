@@ -26,7 +26,9 @@
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinsettings.h"
 #include "dolphin_columnmodesettings.h"
+#include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
+#include "selectionmanager.h"
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
@@ -118,6 +120,13 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     setModel(m_proxyModel);
+    const bool useSelManager = KGlobalSettings::singleClick() &&
+                               DolphinSettings::instance().generalSettings()->showSelectionToggle();
+    if (useSelManager) {
+        SelectionManager* selManager = new SelectionManager(this);
+        connect(selManager, SIGNAL(selectionChanged()),
+                this, SLOT(requestActivation()));
+    }
     new KMimeTypeResolver(this, m_dolphinModel);
     m_iconManager = new IconManager(this, m_proxyModel);
     m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
@@ -304,12 +313,7 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
 
 void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 {
-    m_view->m_controller->requestActivation();
-    if (!m_active) {
-        m_view->requestActivation(this);
-        m_view->m_controller->triggerUrlChangeRequest(m_url);
-    }
-
+    requestActivation();
     QListView::mousePressEvent(event);
 }
 
@@ -365,6 +369,16 @@ void DolphinColumnWidget::slotEntered(const QModelIndex& index)
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
     const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
     m_view->m_controller->emitItemEntered(item);
+}
+
+void DolphinColumnWidget::requestActivation()
+{
+    m_view->m_controller->requestActivation();
+    if (!m_active) {
+        m_view->requestActivation(this);
+        m_view->m_controller->triggerUrlChangeRequest(m_url);
+        selectionModel()->clear();
+    }
 }
 
 void DolphinColumnWidget::activate()

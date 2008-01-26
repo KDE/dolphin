@@ -27,6 +27,8 @@ set(dolphinprivate_LIB_SRCS
     iconmanager.cpp
     ratingpainter.cpp
     renamedialog.cpp
+    selectiontoggle.cpp
+    selectionmanager.cpp
     viewproperties.cpp
     )
 

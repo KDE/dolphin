@@ -117,6 +117,8 @@ private slots:
 
     void slotEntered(const QModelIndex& index);
 
+    void requestActivation();
+
 private:
     /** Used by DolphinColumnWidget::setActive(). */
     void activate();

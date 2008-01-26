@@ -23,7 +23,9 @@
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
 #include "dolphin_iconsmodesettings.h"
+#include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
+#include "selectionmanager.h"
 
 #include <kcategorizedsortfilterproxymodel.h>
 #include <kdialog.h>
@@ -65,6 +67,11 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 this, SLOT(triggerItem(const QModelIndex&)));
+        if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
+            SelectionManager* selManager = new SelectionManager(this);
+            connect(selManager, SIGNAL(selectionChanged()),
+                    this, SLOT(requestActivation()));
+        }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 this, SLOT(triggerItem(const QModelIndex&)));
@@ -387,6 +394,11 @@ void DolphinIconsView::zoomOut()
 
         updateGridSize(showPreview, additionalInfoCount());
     }
+}
+
+void DolphinIconsView::requestActivation()
+{
+    m_controller->requestActivation();
 }
 
 bool DolphinIconsView::isZoomInPossible() const

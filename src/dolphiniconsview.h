@@ -71,6 +71,7 @@ private slots:
     void slotAdditionalInfoChanged();
     void zoomIn();
     void zoomOut();
+    void requestActivation();
 
 private:
     bool isZoomInPossible() const;

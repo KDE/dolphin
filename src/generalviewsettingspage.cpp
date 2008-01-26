@@ -47,7 +47,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     m_globalProps(0),
     m_maxPreviewSize(0),
     m_spinBox(0),
-    m_useFileThumbnails(0)
+    m_useFileThumbnails(0),
+    m_showSelectionToggle(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -86,6 +87,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     QVBoxLayout* previewBoxLayout = new QVBoxLayout(previewBox);
     previewBoxLayout->addWidget(vBox);
     previewBoxLayout->addWidget(m_useFileThumbnails);
+
+    m_showSelectionToggle = new QCheckBox(i18nc("option:check", "Show selection toggle"), this);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -128,6 +131,8 @@ void GeneralViewSettingsPage::applySettings()
                             m_useFileThumbnails->isChecked(),
                             KConfigBase::Normal | KConfigBase::Global);
     globalConfig.sync();
+
+    settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
 }
 
 void GeneralViewSettingsPage::restoreDefaults()
@@ -174,6 +179,8 @@ void GeneralViewSettingsPage::loadSettings()
 
     const bool useFileThumbnails = globalConfig.readEntry("UseFileThumbnails", true);
     m_useFileThumbnails->setChecked(useFileThumbnails);
+
+    m_showSelectionToggle->setChecked(settings->showSelectionToggle());
 }
 
 #include "generalviewsettingspage.moc"

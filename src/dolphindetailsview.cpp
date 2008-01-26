@@ -25,9 +25,11 @@
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "draganddrophelper.h"
+#include "selectionmanager.h"
 #include "viewproperties.h"
 
 #include "dolphin_detailsmodesettings.h"
+#include "dolphin_generalsettings.h"
 
 #include <kdirmodel.h>
 #include <klocale.h>
@@ -94,6 +96,11 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 this, SLOT(triggerItem(const QModelIndex&)));
+        if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
+            SelectionManager* selManager = new SelectionManager(this);
+            connect(selManager, SIGNAL(selectionChanged()),
+                    this, SLOT(requestActivation()));
+        }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 this, SLOT(triggerItem(const QModelIndex&)));
@@ -506,6 +513,11 @@ void DolphinDetailsView::slotHeaderSectionResized(int logicalIndex, int oldSize,
 void DolphinDetailsView::disableAutoResizing()
 {
     m_autoResize = false;
+}
+
+void DolphinDetailsView::requestActivation()
+{
+    m_controller->requestActivation();
 }
 
 bool DolphinDetailsView::isZoomInPossible() const

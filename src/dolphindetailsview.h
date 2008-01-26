@@ -130,6 +130,8 @@ private slots:
      */
     void disableAutoResizing();
 
+    void requestActivation();
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;

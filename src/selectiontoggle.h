@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,50 +17,43 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef GENERALVIEWSETTINGSPAGE_H
-#define GENERALVIEWSETTINGSPAGE_H
+#ifndef SELECTIONTOGGLE_H
+#define SELECTIONTOGGLE_H
 
-#include <kvbox.h>
-
-class DolphinMainWindow;
-class QCheckBox;
-class QRadioButton;
-class QSlider;
-class QSpinBox;
+#include <QAbstractButton>
+#include <QPixmap>
+#include <QTimer>
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- * to modify general settings for the view modes.
+ * @brief Toggle button for changing the selection of an hovered item.
+ * @see SelectionManager
  */
-class GeneralViewSettingsPage : public KVBox
+class SelectionToggle : public QAbstractButton
 {
     Q_OBJECT
 
 public:
-    GeneralViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~GeneralViewSettingsPage();
+    explicit SelectionToggle(QWidget* parent);
+    virtual ~SelectionToggle();
+    virtual QSize sizeHint() const;
 
-    /**
-     * Applies the general settings for the view modes
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
-    void applySettings();
+public slots:
+    virtual void setVisible(bool visible);
 
-    /** Restores the settings to default values. */
-    void restoreDefaults();
+protected:
+    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual void enterEvent(QEvent* event);
+    virtual void leaveEvent(QEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
+
+private slots:
+    void showIcon();
 
 private:
-    void loadSettings();
-
-private:
-    DolphinMainWindow* m_mainWindow;
-    QRadioButton* m_localProps;
-    QRadioButton* m_globalProps;
-    QSlider* m_maxPreviewSize;
-    QSpinBox* m_spinBox;
-    QCheckBox* m_useFileThumbnails;
-    QCheckBox* m_showSelectionToggle;
+    bool m_showIcon;
+    bool m_isHovered;
+    QPixmap m_icon;
+    QTimer* m_timer;
 };
 
 #endif

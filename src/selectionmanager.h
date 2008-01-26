@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,50 +17,50 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef GENERALVIEWSETTINGSPAGE_H
-#define GENERALVIEWSETTINGSPAGE_H
+#ifndef SELECTIONMANAGER_H
+#define SELECTIONMANAGER_H
 
-#include <kvbox.h>
+#include <kfileitem.h>
 
-class DolphinMainWindow;
-class QCheckBox;
-class QRadioButton;
-class QSlider;
-class QSpinBox;
+#include <QObject>
+
+class DolphinSortFilterProxyModel;
+class QAbstractItemView;
+class QModelIndex;
+class QAbstractButton;
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- * to modify general settings for the view modes.
+ * @brief Allows to select and deselect items for the single-click mode.
+ *
+ * Whenever an item is hovered by the mouse, a toggle button is shown
+ * which allows to select/deselect the current item.
  */
-class GeneralViewSettingsPage : public KVBox
+class SelectionManager : public QObject
 {
     Q_OBJECT
 
 public:
-    GeneralViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~GeneralViewSettingsPage();
+    SelectionManager(QAbstractItemView* parent);
+    virtual ~SelectionManager();
 
-    /**
-     * Applies the general settings for the view modes
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
-    void applySettings();
+signals:
+    /** Is emitted if the selection has been changed by the toggle button. */
+    void selectionChanged();
 
-    /** Restores the settings to default values. */
-    void restoreDefaults();
-
-private:
-    void loadSettings();
+private slots:
+    void slotEntered(const QModelIndex& index);
+    void slotViewportEntered();
+    void slotSelectionChanged();
+    void setItemSelected(bool selected);
 
 private:
-    DolphinMainWindow* m_mainWindow;
-    QRadioButton* m_localProps;
-    QRadioButton* m_globalProps;
-    QSlider* m_maxPreviewSize;
-    QSpinBox* m_spinBox;
-    QCheckBox* m_useFileThumbnails;
-    QCheckBox* m_showSelectionToggle;
+    KFileItem itemForIndex(const QModelIndex& index) const;
+    const QModelIndex indexForItem(const KFileItem& item) const;
+
+private:
+    QAbstractItemView* m_view;
+    QAbstractButton* m_button;
+    KFileItem m_item;
 };
 
 #endif
