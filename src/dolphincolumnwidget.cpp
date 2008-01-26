@@ -126,7 +126,9 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
         SelectionManager* selManager = new SelectionManager(this);
         connect(selManager, SIGNAL(selectionChanged()),
                 this, SLOT(requestActivation()));
-    }
+        connect(m_view->m_controller, SIGNAL(urlChanged(const KUrl&)),
+                selManager, SLOT(reset()));
+}
     new KMimeTypeResolver(this, m_dolphinModel);
     m_iconManager = new IconManager(this, m_proxyModel);
     m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());

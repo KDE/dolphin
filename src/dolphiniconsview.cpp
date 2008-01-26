@@ -71,6 +71,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             SelectionManager* selManager = new SelectionManager(this);
             connect(selManager, SIGNAL(selectionChanged()),
                     this, SLOT(requestActivation()));
+            connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
+                    selManager, SLOT(reset()));
         }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),

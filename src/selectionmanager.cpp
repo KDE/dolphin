@@ -47,12 +47,16 @@ SelectionManager::SelectionManager(QAbstractItemView* parent) :
     m_button->hide();
     connect(m_button, SIGNAL(clicked(bool)),
             this, SLOT(setItemSelected(bool)));
-    connect(m_view->selectionModel(), SIGNAL(selectionChanged()),
-            this, SLOT(slotSelectionChanged()));
 }
 
 SelectionManager::~SelectionManager()
 {
+}
+
+void SelectionManager::reset()
+{
+    m_button->hide();
+    m_item = KFileItem();
 }
 
 void SelectionManager::slotEntered(const QModelIndex& index)
@@ -86,15 +90,6 @@ void SelectionManager::slotViewportEntered()
 {
     m_button->hide();
     m_item = KFileItem();
-}
-
-void SelectionManager::slotSelectionChanged()
-{
-    const QModelIndex index = indexForItem(m_item);
-    if (index.isValid()) {
-        QItemSelectionModel* selModel = m_view->selectionModel();
-        m_button->setChecked(selModel->isSelected(index));
-    }
 }
 
 void SelectionManager::setItemSelected(bool selected)

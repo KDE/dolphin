@@ -43,6 +43,13 @@ public:
     SelectionManager(QAbstractItemView* parent);
     virtual ~SelectionManager();
 
+public slots:
+    /**
+     * Resets the selection manager so that the toggle button gets
+     * invisible.
+     */
+    void reset();
+
 signals:
     /** Is emitted if the selection has been changed by the toggle button. */
     void selectionChanged();
@@ -50,7 +57,6 @@ signals:
 private slots:
     void slotEntered(const QModelIndex& index);
     void slotViewportEntered();
-    void slotSelectionChanged();
     void setItemSelected(bool selected);
 
 private:
