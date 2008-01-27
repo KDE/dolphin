@@ -438,7 +438,7 @@ void DolphinMainWindow::slotHandlePlacesError(const QString &message)
 
 void DolphinMainWindow::slotUndoAvailable(bool available)
 {
-    QAction* undoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Undo));
+    QAction* undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
     if (undoAction != 0) {
         undoAction->setEnabled(available);
     }
@@ -482,7 +482,7 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
 
 void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 {
-    QAction* undoAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Undo));
+    QAction* undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
     if (undoAction != 0) {
         undoAction->setText(text);
     }
@@ -511,7 +511,7 @@ void DolphinMainWindow::paste()
 
 void DolphinMainWindow::updatePasteAction()
 {
-    QAction* pasteAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
+    QAction* pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
     if (pasteAction == 0) {
         return;
     }
@@ -1265,12 +1265,12 @@ void DolphinMainWindow::updateEditActions()
 void DolphinMainWindow::updateViewActions()
 {
     const DolphinView* view = m_activeViewContainer->view();
-    QAction* zoomInAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::ZoomIn));
+    QAction* zoomInAction = actionCollection()->action(KStandardAction::name(KStandardAction::ZoomIn));
     if (zoomInAction != 0) {
         zoomInAction->setEnabled(view->isZoomInPossible());
     }
 
-    QAction* zoomOutAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::ZoomOut));
+    QAction* zoomOutAction = actionCollection()->action(KStandardAction::name(KStandardAction::ZoomOut));
     if (zoomOutAction != 0) {
         zoomOutAction->setEnabled(view->isZoomOutPossible());
     }
@@ -1308,7 +1308,7 @@ void DolphinMainWindow::updateViewActions()
 
 void DolphinMainWindow::updateGoActions()
 {
-    QAction* goUpAction = actionCollection()->action(KStandardAction::stdName(KStandardAction::Up));
+    QAction* goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
     const KUrl& currentUrl = m_activeViewContainer->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
 }

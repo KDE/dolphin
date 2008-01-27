@@ -230,7 +230,7 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->addMenu(newMenu->menu());
     popup->addSeparator();
 
-    QAction* pasteAction = m_mainWindow->actionCollection()->action(KStandardAction::stdName(KStandardAction::Paste));
+    QAction* pasteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
     popup->addAction(pasteAction);
 
     // setup 'View Mode' menu
@@ -279,9 +279,9 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     const KActionCollection* collection = m_mainWindow->actionCollection();
 
     // insert 'Cut', 'Copy' and 'Paste'
-    QAction* cutAction = collection->action(KStandardAction::stdName(KStandardAction::Cut));
-    QAction* copyAction  = collection->action(KStandardAction::stdName(KStandardAction::Copy));
-    QAction* pasteAction = collection->action(KStandardAction::stdName(KStandardAction::Paste));
+    QAction* cutAction = collection->action(KStandardAction::name(KStandardAction::Cut));
+    QAction* copyAction  = collection->action(KStandardAction::name(KStandardAction::Copy));
+    QAction* pasteAction = collection->action(KStandardAction::name(KStandardAction::Paste));
 
     popup->addAction(cutAction);
     popup->addAction(copyAction);

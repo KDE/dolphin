@@ -40,6 +40,8 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_confirmDelete(0),
     m_browseThroughArchives(0)
 {
+    Q_UNUSED(mainWin);
+
     const int spacing = KDialog::spacingHint();
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);

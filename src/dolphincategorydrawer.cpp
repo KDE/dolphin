@@ -50,6 +50,8 @@ DolphinCategoryDrawer::~DolphinCategoryDrawer()
 void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
                                          const QStyleOption &option, QPainter *painter) const
 {
+    Q_UNUSED(sortRole);
+
     QRect starRect = option.rect;
 
     int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
