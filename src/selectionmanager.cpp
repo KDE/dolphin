@@ -65,6 +65,9 @@ void SelectionManager::slotEntered(const QModelIndex& index)
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
         m_item = itemForIndex(index);
 
+        connect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
+                this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
+
         const QRect rect = m_view->visualRect(index);
         const int gap = 2;
         const int x = rect.right() - m_button->width() - gap;
@@ -83,13 +86,14 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         m_button->show();
     } else {
         m_item = KFileItem();
+        disconnect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
+                   this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
     }
 }
 
 void SelectionManager::slotViewportEntered()
 {
     m_button->hide();
-    m_item = KFileItem();
 }
 
 void SelectionManager::setItemSelected(bool selected)
@@ -106,6 +110,14 @@ void SelectionManager::setItemSelected(bool selected)
             selModel->select(index, QItemSelectionModel::Deselect);
         }
     }
+}
+
+void SelectionManager::slotRowsRemoved(const QModelIndex& parent, int start, int end)
+{
+    Q_UNUSED(parent);
+    Q_UNUSED(start);
+    Q_UNUSED(end);
+    m_button->hide();
 }
 
 KFileItem SelectionManager::itemForIndex(const QModelIndex& index) const

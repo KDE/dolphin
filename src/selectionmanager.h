@@ -58,6 +58,7 @@ private slots:
     void slotEntered(const QModelIndex& index);
     void slotViewportEntered();
     void setItemSelected(bool selected);
+    void slotRowsRemoved(const QModelIndex& parent, int start, int end);
 
 private:
     KFileItem itemForIndex(const QModelIndex& index) const;
