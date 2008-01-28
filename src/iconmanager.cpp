@@ -77,7 +77,7 @@ void IconManager::updateIcons(const KFileItemList& items)
 {
     // make the icons of all hidden files semitransparent
     foreach (KFileItem item, items) {
-        if (item.name().startsWith('.')) {
+        if (item.isHidden()) {
             applyHiddenItemEffect(item);
         }
     }
@@ -93,10 +93,6 @@ void IconManager::updateIcons(const KFileItemList& items)
     // is generated first, as this improves the feeled performance a lot.
     KFileItemList orderedItems;
     foreach (KFileItem item, items) {
-        if (item.name().startsWith('.')) {
-            applyHiddenItemEffect(item);
-        }
-
         const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         const QRect itemRect = m_view->visualRect(proxyIndex);
@@ -131,7 +127,7 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
     const QModelIndex idx = m_dolphinModel->indexForItem(item);
     if (idx.isValid() && (idx.column() == 0)) {
         QPixmap newPixmap = pixmap;
-        if (item.name().startsWith('.')) {
+        if (item.isHidden()) {
             KIconEffect::semiTransparent(newPixmap);
         }
 
