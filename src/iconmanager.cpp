@@ -126,18 +126,24 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
 
     const QModelIndex idx = m_dolphinModel->indexForItem(item);
     if (idx.isValid() && (idx.column() == 0)) {
-        QPixmap newPixmap = pixmap;
+        QPixmap icon = pixmap;
         if (item.isHidden()) {
-            KIconEffect::semiTransparent(newPixmap);
+            if (!icon.hasAlpha()) {
+                // the semitransparent operation requires having an alpha mask
+                QPixmap alphaMask(icon.width(), icon.height());
+                alphaMask.fill();
+                icon.setAlphaChannel(alphaMask);
+            }
+            KIconEffect::semiTransparent(icon);
         }
 
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
             KIconEffect iconEffect;
-            newPixmap = iconEffect.apply(newPixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-            m_dolphinModel->setData(idx, QIcon(newPixmap), Qt::DecorationRole);
+            icon = iconEffect.apply(icon, KIconLoader::Desktop, KIconLoader::DisabledState);
+            m_dolphinModel->setData(idx, QIcon(icon), Qt::DecorationRole);
         } else {
-            m_dolphinModel->setData(idx, QIcon(newPixmap), Qt::DecorationRole);
+            m_dolphinModel->setData(idx, QIcon(icon), Qt::DecorationRole);
         }
     }
 }
