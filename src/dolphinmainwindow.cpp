@@ -191,16 +191,14 @@ void DolphinMainWindow::slotShowPreviewChanged()
 
 void DolphinMainWindow::slotShowHiddenFilesChanged()
 {
-    KToggleAction* showHiddenFilesAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
+    QAction* showHiddenFilesAction = actionCollection()->action("show_hidden_files");
     const DolphinView* view = m_activeViewContainer->view();
     showHiddenFilesAction->setChecked(view->showHiddenFiles());
 }
 
 void DolphinMainWindow::slotCategorizedSortingChanged()
 {
-    KToggleAction* showInGroupsAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_in_groups"));
+    QAction* showInGroupsAction = actionCollection()->action("show_in_groups");
     const DolphinView* view = m_activeViewContainer->view();
     showInGroupsAction->setChecked(view->categorizedSorting());
     showInGroupsAction->setEnabled(view->supportsCategorizedSorting());
@@ -244,14 +242,13 @@ void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
     }
 
     if (action != 0) {
-        KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
-        toggleAction->setChecked(true);
+        action->setChecked(true);
     }
 }
 
 void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
 {
-    KToggleAction* descending = static_cast<KToggleAction*>(actionCollection()->action("descending"));
+    QAction* descending = actionCollection()->action("descending");
     const bool sortDescending = (order == Qt::DescendingOrder);
     descending->setChecked(sortDescending);
 }
@@ -297,8 +294,7 @@ void DolphinMainWindow::slotHistoryChanged()
 
 void DolphinMainWindow::updateFilterBarAction(bool show)
 {
-    KToggleAction* showFilterBarAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
+    QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
     showFilterBarAction->setChecked(show);
 }
 
@@ -605,11 +601,10 @@ void DolphinMainWindow::toggleSortOrder()
     m_activeViewContainer->view()->toggleSortOrder();
 }
 
-void DolphinMainWindow::toggleSortCategorization()
+void DolphinMainWindow::toggleSortCategorization(bool categorizedSorting)
 {
     DolphinView* view = m_activeViewContainer->view();
-    const bool categorizedSorting = view->categorizedSorting();
-    view->setCategorizedSorting(!categorizedSorting);
+    view->setCategorizedSorting(categorizedSorting);
 }
 
 void DolphinMainWindow::toggleSplitView()
@@ -657,31 +652,20 @@ void DolphinMainWindow::stopLoading()
 {
 }
 
-void DolphinMainWindow::togglePreview()
+void DolphinMainWindow::togglePreview(bool show)
 {
     clearStatusBar();
-
-    const KToggleAction* showPreviewAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_preview"));
-    const bool show = showPreviewAction->isChecked();
     m_activeViewContainer->view()->setShowPreview(show);
 }
 
-void DolphinMainWindow::toggleShowHiddenFiles()
+void DolphinMainWindow::toggleShowHiddenFiles(bool show)
 {
     clearStatusBar();
-
-    const KToggleAction* showHiddenFilesAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
-    const bool show = showHiddenFilesAction->isChecked();
     m_activeViewContainer->view()->setShowHiddenFiles(show);
 }
 
-void DolphinMainWindow::toggleFilterBarVisibility()
+void DolphinMainWindow::toggleFilterBarVisibility(bool show)
 {
-    const KToggleAction* showFilterBarAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
-    const bool show = showFilterBarAction->isChecked();
     m_activeViewContainer->showFilterBar(show);
 }
 
@@ -701,11 +685,9 @@ void DolphinMainWindow::toggleEditLocation()
 {
     clearStatusBar();
 
-    KToggleAction* action = static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
-
-    bool editOrBrowse = action->isChecked();
+    QAction* action = actionCollection()->action("editable_location");
     KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
-    urlNavigator->setUrlEditable(editOrBrowse);
+    urlNavigator->setUrlEditable(action->isChecked());
 }
 
 void DolphinMainWindow::editLocation()
@@ -978,6 +960,8 @@ void DolphinMainWindow::setupActions()
     viewModeGroup->addAction(columnView);
     connect(viewModeGroup, SIGNAL(triggered(QAction*)), this, SLOT(setViewMode(QAction*)));
 
+    // TODO use a QActionGroup
+
     KToggleAction* sortByName = actionCollection()->add<KToggleAction>("sort_by_name");
     sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
     connect(sortByName, SIGNAL(triggered()), this, SLOT(sortByName()));
@@ -1046,22 +1030,17 @@ void DolphinMainWindow::setupActions()
     KAction* sortDescending = DolphinView::createSortDescendingAction(actionCollection());
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
-    KToggleAction* showInGroups = actionCollection()->add<KToggleAction>("show_in_groups");
-    showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
-    connect(showInGroups, SIGNAL(triggered()), this, SLOT(toggleSortCategorization()));
+    KAction* showInGroups = DolphinView::createShowInGroupsAction(actionCollection());
+    connect(showInGroups, SIGNAL(triggered(bool)), this, SLOT(toggleSortCategorization(bool)));
 
     QActionGroup* showInformationActionGroup = DolphinView::createAdditionalInformationActionGroup(actionCollection());
     connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
 
-    KToggleAction* showPreview = actionCollection()->add<KToggleAction>("show_preview");
-    showPreview->setText(i18nc("@action:intoolbar", "Preview"));
-    showPreview->setIcon(KIcon("view-preview"));
-    connect(showPreview, SIGNAL(triggered()), this, SLOT(togglePreview()));
+    KAction* showPreview = DolphinView::createShowPreviewAction(actionCollection());
+    connect(showPreview, SIGNAL(triggered(bool)), this, SLOT(togglePreview(bool)));
 
-    KToggleAction* showHiddenFiles = actionCollection()->add<KToggleAction>("show_hidden_files");
-    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
-    showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
-    connect(showHiddenFiles, SIGNAL(triggered()), this, SLOT(toggleShowHiddenFiles()));
+    KAction* showHiddenFiles = DolphinView::createShowHiddenFilesAction(actionCollection());
+    connect(showHiddenFiles, SIGNAL(triggered(bool)), this, SLOT(toggleShowHiddenFiles(bool)));
 
     KAction* split = actionCollection()->addAction("split_view");
     split->setShortcut(Qt::Key_F3);
@@ -1116,7 +1095,7 @@ void DolphinMainWindow::setupActions()
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
-    connect(showFilterBar, SIGNAL(triggered()), this, SLOT(toggleFilterBarVisibility()));
+    connect(showFilterBar, SIGNAL(triggered(bool)), this, SLOT(toggleFilterBarVisibility(bool)));
 
     KAction* compareFiles = actionCollection()->addAction("compare_files");
     compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
@@ -1277,8 +1256,7 @@ void DolphinMainWindow::updateViewActions()
 
     QAction* action = actionCollection()->action(view->currentViewModeActionName());
     if (action != 0) {
-        KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
-        toggleAction->setChecked(true);
+        action->setChecked(true);
     }
 
     slotSortingChanged(view->sorting());
@@ -1286,22 +1264,18 @@ void DolphinMainWindow::updateViewActions()
     slotCategorizedSortingChanged();
     slotAdditionalInfoChanged();
 
-    KToggleAction* showFilterBarAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_filter_bar"));
+    QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
     showFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
-    KToggleAction* showPreviewAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_preview"));
+    QAction* showPreviewAction = actionCollection()->action("show_preview");
     showPreviewAction->setChecked(view->showPreview());
 
-    KToggleAction* showHiddenFilesAction =
-        static_cast<KToggleAction*>(actionCollection()->action("show_hidden_files"));
+    QAction* showHiddenFilesAction = actionCollection()->action("show_hidden_files");
     showHiddenFilesAction->setChecked(view->showHiddenFiles());
 
     updateSplitAction();
 
-    KToggleAction* editableLocactionAction =
-        static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
+    QAction* editableLocactionAction = actionCollection()->action("editable_location");
     const KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
     editableLocactionAction->setChecked(urlNavigator->isUrlEditable());
 }

@@ -271,7 +271,7 @@ private slots:
     void toggleSortOrder();
 
     /** Switches between sorting by categories or not. */
-    void toggleSortCategorization();
+    void toggleSortCategorization(bool);
 
     /**
      * Switches on or off the displaying of additional information
@@ -293,19 +293,17 @@ private slots:
     void stopLoading();
 
     /** Switches between showing a preview of the file content and showing the icon. */
-    void togglePreview();
+    void togglePreview(bool);
 
     /**
-     * Switches between showing and hiding of hidden marked files dependent
-     * from the current state of the 'Show Hidden Files' menu toggle action.
+     * Switches between showing and hiding of hidden marked files
      */
-    void toggleShowHiddenFiles();
+    void toggleShowHiddenFiles(bool);
 
     /**
-     * Toggles between showing and hiding of the filter bar dependent
-     * from the current state of the 'Show Filter Bar' menu toggle action.
+     * Toggles between showing and hiding of the filter bar
      */
-    void toggleFilterBarVisibility();
+    void toggleFilterBarVisibility(bool show);
 
     /** Increases the size of the current set view mode. */
     void zoomIn();
