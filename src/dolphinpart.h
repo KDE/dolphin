@@ -136,6 +136,15 @@ private Q_SLOTS:
      */
     void createDir();
 
+    /** Updates the state of the 'Show preview' menu action. */
+    void slotShowPreviewChanged();
+
+    /** Updates the state of the 'Show hidden files' menu action. */
+    void slotShowHiddenFilesChanged();
+
+    /** Updates the state of the 'Categorized sorting' menu action. */
+    void slotCategorizedSortingChanged();
+
     /** Updates the state of the 'Sort Ascending/Descending' action. */
     void slotSortOrderChanged(Qt::SortOrder);
 

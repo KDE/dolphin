@@ -93,6 +93,13 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotUrlChanged(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SLOT(updateViewActions()));
+    connect(m_view, SIGNAL(showPreviewChanged()),
+            this, SLOT(slotShowPreviewChanged()));
+    connect(m_view, SIGNAL(showHiddenFilesChanged()),
+            this, SLOT(slotShowHiddenFilesChanged()));
+    connect(m_view, SIGNAL(categorizedSortingChanged()),
+            this, SLOT(slotCategorizedSortingChanged()));
+    // TODO slotSortingChanged
     connect(m_view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(m_view, SIGNAL(additionalInfoChanged()),
@@ -110,7 +117,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     // [Q_PROPERTY introspection?]
 
     // TODO sort_by_* actions
-    // TODO show_*_info actions
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
@@ -157,6 +163,15 @@ void DolphinPart::createActions()
 
     QActionGroup* showInformationActionGroup = DolphinView::createAdditionalInformationActionGroup(actionCollection());
     connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), m_view, SLOT(toggleAdditionalInfo(QAction*)));
+
+    KAction* showPreview = DolphinView::createShowPreviewAction(actionCollection());
+    connect(showPreview, SIGNAL(triggered(bool)), m_view, SLOT(setShowPreview(bool)));
+
+    KAction* showInGroups = DolphinView::createShowInGroupsAction(actionCollection());
+    connect(showInGroups, SIGNAL(triggered(bool)), m_view, SLOT(setCategorizedSorting(bool)));
+
+    KAction* showHiddenFiles = DolphinView::createShowHiddenFilesAction(actionCollection());
+    connect(showHiddenFiles, SIGNAL(triggered(bool)), m_view, SLOT(setShowHiddenFiles(bool)));
 
     // Go menu
 
@@ -456,5 +471,26 @@ void DolphinPart::slotAdditionalInfoChanged()
 {
     m_view->updateAdditionalInfoActions(actionCollection());
 }
+
+void DolphinPart::slotShowPreviewChanged()
+{
+    updateViewActions(); // see DolphinMainWindow
+}
+
+void DolphinPart::slotShowHiddenFilesChanged()
+{
+    QAction* showHiddenFilesAction = actionCollection()->action("show_hidden_files");
+    showHiddenFilesAction->setChecked(m_view->showHiddenFiles());
+}
+
+void DolphinPart::slotCategorizedSortingChanged()
+{
+    // Duplicated from DolphinMainWindow too.
+    QAction* showInGroupsAction = actionCollection()->action("show_in_groups");
+    showInGroupsAction->setChecked(m_view->categorizedSorting());
+    showInGroupsAction->setEnabled(m_view->supportsCategorizedSorting());
+}
+
+// TODO a DolphinViewActionHandler for reducing the duplication in the action handling
 
 #include "dolphinpart.moc"

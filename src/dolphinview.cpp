@@ -1344,6 +1344,29 @@ KAction* DolphinView::createSortDescendingAction(KActionCollection* collection)
     return sortDescending;
 }
 
+KAction* DolphinView::createShowPreviewAction(KActionCollection* collection)
+{
+    KToggleAction* showPreview = collection->add<KToggleAction>("show_preview");
+    showPreview->setText(i18nc("@action:intoolbar", "Preview"));
+    showPreview->setIcon(KIcon("view-preview"));
+    return showPreview;
+}
+
+KAction* DolphinView::createShowInGroupsAction(KActionCollection* collection)
+{
+    KToggleAction* showInGroups = collection->add<KToggleAction>("show_in_groups");
+    showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
+    return showInGroups;
+}
+
+KAction* DolphinView::createShowHiddenFilesAction(KActionCollection* collection)
+{
+    KToggleAction* showHiddenFiles = collection->add<KToggleAction>("show_hidden_files");
+    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
+    showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
+    return showHiddenFiles;
+}
+
 QActionGroup* DolphinView::createAdditionalInformationActionGroup(KActionCollection* collection)
 {
     QActionGroup* showInformationGroup = new QActionGroup(collection);

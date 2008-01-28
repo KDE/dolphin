@@ -166,39 +166,18 @@ public:
      * Changes the view mode for the current directory to \a mode.
      * If the view properties should be remembered for each directory
      * (GeneralSettings::globalViewProps() returns false), then the
-     * changed view mode will be be stored automatically.
+     * changed view mode will be stored automatically.
      */
     void setMode(Mode mode);
     Mode mode() const;
 
-    /**
-     * Turns on the file preview for the all files of the current directory,
-     * if \a show is true.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * preview setting will be be stored automatically.
-     */
-    void setShowPreview(bool show);
+    /** See setShowPreview */
     bool showPreview() const;
 
-    /**
-     * Shows all hidden files of the current directory,
-     * if \a show is true.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * show hidden file setting will be be stored automatically.
-     */
-    void setShowHiddenFiles(bool show);
+    /** See setShowHiddenFiles */
     bool showHiddenFiles() const;
 
-    /**
-     * Summarizes all sorted items by their category \a categorized
-     * is true.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * categorized sorting setting will be be stored automatically.
-     */
-    void setCategorizedSorting(bool categorized);
+    /** See setCategorizedSorting */
     bool categorizedSorting() const;
 
     /**
@@ -382,6 +361,24 @@ public:
     static QActionGroup* createAdditionalInformationActionGroup(KActionCollection* collection);
 
     /**
+     * Creates the "show preview" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createShowPreviewAction(KActionCollection* collection);
+
+    /**
+     * Creates the "show in groups" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createShowInGroupsAction(KActionCollection* collection);
+
+    /**
+     * Creates the "show hidden files" action.
+     * This code is here to share it between the mainwindow and the part
+     */
+    static KAction* createShowHiddenFilesAction(KActionCollection* collection);
+
+    /**
      * Updates the state of the 'Additional Information' actions in \a collection.
      */
     void updateAdditionalInfoActions(KActionCollection* collection);
@@ -440,6 +437,33 @@ public slots:
 
     /** Pastes the clipboard data to this view. */
     void paste();
+
+    /**
+     * Turns on the file preview for the all files of the current directory,
+     * if \a show is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * preview setting will be stored automatically.
+     */
+    void setShowPreview(bool show);
+
+    /**
+     * Shows all hidden files of the current directory,
+     * if \a show is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * show hidden file setting will be stored automatically.
+     */
+    void setShowHiddenFiles(bool show);
+
+    /**
+     * Summarizes all sorted items by their category \a categorized
+     * is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * categorized sorting setting will be stored automatically.
+     */
+    void setCategorizedSorting(bool categorized);
 
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();
