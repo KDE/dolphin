@@ -25,6 +25,7 @@
 #include <config-nepomuk.h>
 
 #include "dolphinapplication.h"
+#include "dolphinfileplacesview.h"
 #include "dolphinnewmenu.h"
 #include "dolphinsettings.h"
 #include "dolphinsettingsdialog.h"
@@ -35,11 +36,8 @@
 #include "mainwindowadaptor.h"
 #include "terminalsidebarpage.h"
 #include "treeviewsidebarpage.h"
-#include "kurlnavigator.h"
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
-#include "kfileplacesmodel.h"
-#include "kfileplacesview.h"
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
@@ -50,6 +48,7 @@
 #include <kdesktopfile.h>
 #include <kdeversion.h>
 #include <kfiledialog.h>
+#include <kfileplacesmodel.h>
 #include <kglobal.h>
 #include <kicon.h>
 #include <kiconloader.h>
@@ -59,6 +58,7 @@
 #include <kmenu.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
+#include <kurlnavigator.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
 #include <kpropertiesdialog.h>
@@ -1177,7 +1177,8 @@ void DolphinMainWindow::setupDockWidgets()
     QDockWidget* placesDock = new QDockWidget(i18nc("@title:window", "Places"));
     placesDock->setObjectName("placesDock");
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    KFilePlacesView* placesView = new KFilePlacesView(placesDock);
+
+    DolphinFilePlacesView* placesView = new DolphinFilePlacesView(placesDock);
     placesDock->setWidget(placesView);
     placesView->setModel(DolphinSettings::instance().placesModel());
     placesView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

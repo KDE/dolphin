@@ -90,6 +90,7 @@ set(dolphin_SRCS
    dolphinstatusbar.cpp
    dolphindirlister.cpp
    dolphincontextmenu.cpp
+   dolphinfileplacesview.cpp
    dolphinsettingsdialog.cpp
    draganddrophelper.cpp
    filterbar.cpp
