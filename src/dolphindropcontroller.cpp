@@ -45,24 +45,23 @@ void DolphinDropController::dropUrls(const KUrl::List& urls,
     kDebug() << "Source" << urls;
     kDebug() << "Destination:" << destination;
 
+    if (destination.protocol() == "trash") {
+        KonqOperations::del(m_parentWidget, KonqOperations::TRASH, urls);
+        return;
+    }
+
     Qt::DropAction action = Qt::CopyAction;
 
     Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
     const bool shiftPressed   = modifier & Qt::ShiftModifier;
     const bool controlPressed = modifier & Qt::ControlModifier;
     const bool altPressed = modifier & Qt::AltModifier;
-    if (shiftPressed && controlPressed) {
-        // shortcut for 'Link Here' is used
+    if ((shiftPressed && controlPressed) || altPressed) {
         action = Qt::LinkAction;
-    } else if (shiftPressed) {
-        // shortcut for 'Move Here' is used
-        action = Qt::MoveAction;
     } else if (controlPressed) {
-        // shortcut for 'Copy Here' is used
         action = Qt::CopyAction;
-    } else if (altPressed) {
-        // shortcut for 'Link Here' is used
-        action = Qt::LinkAction;
+    } else if (shiftPressed) {
+        action = Qt::MoveAction;
     } else {
         // open a context menu which offers the following actions:
         // - Move Here
