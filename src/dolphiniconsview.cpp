@@ -299,18 +299,27 @@ void DolphinIconsView::wheelEvent(QWheelEvent* event)
 {
     KCategorizedView::wheelEvent(event);
 
-    // if the icons are aligned left to right, the vertical wheel event should
-    // be applied to the horizontal scrollbar
-    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    const bool scrollHorizontal = (event->orientation() == Qt::Vertical) &&
-                                  (settings->arrangement() == QListView::LeftToRight);
-    if (scrollHorizontal) {
-        QWheelEvent horizEvent(event->pos(),
-                               event->delta(),
-                               event->buttons(),
-                               event->modifiers(),
-                               Qt::Horizontal);
-        QApplication::sendEvent(horizontalScrollBar(), &horizEvent);
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+        int d = event->delta();
+        if (d > 0) {
+            zoomIn();
+        } else if (d < 0) {
+            zoomOut();
+        }
+    } else {
+        // if the icons are aligned left to right, the vertical wheel event should
+        // be applied to the horizontal scrollbar
+        const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+        const bool scrollHorizontal = (event->orientation() == Qt::Vertical) &&
+                                      (settings->arrangement() == QListView::LeftToRight);
+        if (scrollHorizontal) {
+            QWheelEvent horizEvent(event->pos(),
+                                   event->delta(),
+                                   event->buttons(),
+                                   event->modifiers(),
+                                   Qt::Horizontal);
+            QApplication::sendEvent(horizontalScrollBar(), &horizEvent);
+        }
     }
 }
 
