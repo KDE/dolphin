@@ -68,16 +68,10 @@ void SelectionManager::slotEntered(const QModelIndex& index)
                 this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
 
         const QRect rect = m_view->visualRect(index);
-        const int gap = 2;
-        const int x = rect.right() - m_toggle->width() - gap;
-        int y = rect.top();
-        if (rect.height() <= m_toggle->height() * 2) {
-            // center the button vertically
-            y += (rect.height() - m_toggle->height()) / 2;
-        } else {
-            y += gap;
-        }
 
+        const int gap = 2;
+        const int x = rect.left() + gap;
+        const int y = rect.top() + gap;
         m_toggle->move(QPoint(x, y));
 
         QItemSelectionModel* selModel = m_view->selectionModel();
