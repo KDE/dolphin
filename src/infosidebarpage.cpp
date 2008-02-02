@@ -172,6 +172,7 @@ void InfoSidebarPage::resizeEvent(QResizeEvent* event)
 
     // try to increase the preview as large as possible
     m_preview->setSizeHint(QSize(maxWidth, maxWidth));
+    m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
     m_timer->start(TimerDelay);
 
     SidebarPage::resizeEvent(event);
