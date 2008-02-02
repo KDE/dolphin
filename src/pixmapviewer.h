@@ -66,6 +66,13 @@ public:
     void setPixmap(const QPixmap& pixmap);
     const QPixmap& pixmap() const;
 
+    /**
+     * Sets the size hint to \a size and triggers a relayout
+     * of the parent widget. Per default no size hint is given.
+     */
+    void setSizeHint(const QSize& size);
+    virtual QSize sizeHint() const;
+
 protected:
     virtual void paintEvent(QPaintEvent* event);
 
@@ -79,6 +86,7 @@ private:
     QTimeLine m_animation;
     Transition m_transition;
     int m_animationStep;
+    QSize m_sizeHint;
 };
 
 inline const QPixmap& PixmapViewer::pixmap() const

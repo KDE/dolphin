@@ -69,7 +69,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     // preview
     m_preview = new PixmapViewer(this);
     m_preview->setMinimumWidth(KIconLoader::SizeEnormous);
-    m_preview->setFixedHeight(KIconLoader::SizeEnormous);
+    m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
 
     // name
     m_nameLabel = new QLabel(this);
@@ -169,6 +169,11 @@ void InfoSidebarPage::resizeEvent(QResizeEvent* event)
     const int maxWidth = event->size().width() - KDialog::spacingHint() * 4;
     m_nameLabel->setMaximumWidth(maxWidth);
     m_infoLabel->setMaximumWidth(maxWidth);
+
+    // try to increase the preview as large as possible
+    m_preview->setSizeHint(QSize(maxWidth, maxWidth));
+    m_timer->start(TimerDelay);
+
     SidebarPage::resizeEvent(event);
 }
 
@@ -196,7 +201,7 @@ void InfoSidebarPage::showItemInfo()
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("system-run",
                                            KIconLoader::NoGroup,
-                                           KIconLoader::SizeEnormous);
+                                           m_preview->width());
         m_preview->setPixmap(icon);
         m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectedItems.count()));
     } else if (!applyPlace(file)) {
@@ -209,7 +214,7 @@ void InfoSidebarPage::showItemInfo()
 
         KIO::PreviewJob* job = KIO::filePreview(list,
                                                 m_preview->width(),
-                                                KIconLoader::SizeEnormous,
+                                                m_preview->height(),
                                                 0,
                                                 0,
                                                 true,

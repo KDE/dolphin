@@ -21,6 +21,7 @@
 
 #include <kiconloader.h>
 
+#include <QLayout>
 #include <QPainter>
 #include <QPixmap>
 #include <QKeyEvent>
@@ -28,7 +29,8 @@
 PixmapViewer::PixmapViewer(QWidget* parent, Transition transition) :
     QWidget(parent),
     m_transition(transition),
-    m_animationStep(0)
+    m_animationStep(0),
+    m_sizeHint()
 {
     setMinimumWidth(KIconLoader::SizeEnormous);
     setMinimumHeight(KIconLoader::SizeEnormous);
@@ -70,6 +72,19 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
     if (animate) {
         m_animation.start();
     }
+}
+
+void PixmapViewer::setSizeHint(const QSize& size)
+{
+    m_sizeHint = size;
+    if ((parentWidget() != 0) && (parentWidget()->layout() != 0)) {
+        parentWidget()->layout()->activate();
+    }
+}
+
+QSize PixmapViewer::sizeHint() const
+{
+    return m_sizeHint;
 }
 
 void PixmapViewer::paintEvent(QPaintEvent* event)
