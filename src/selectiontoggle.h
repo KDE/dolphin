@@ -20,12 +20,19 @@
 #ifndef SELECTIONTOGGLE_H
 #define SELECTIONTOGGLE_H
 
+#include <kfileitem.h>
+
 #include <QAbstractButton>
 #include <QPixmap>
-#include <QTimer>
+
+class QTimeLine;
 
 /**
  * @brief Toggle button for changing the selection of an hovered item.
+ *
+ * The toggle button is visually invisible until it is displayed at least
+ * for one second.
+ *
  * @see SelectionManager
  */
 class SelectionToggle : public QAbstractButton
@@ -37,6 +44,15 @@ public:
     virtual ~SelectionToggle();
     virtual QSize sizeHint() const;
 
+    /**
+     * Resets the selection toggle so that it is hidden and stays
+     * visually invisible for at least one second after it is shown again.
+     */
+    void reset();
+
+    void setFileItem(const KFileItem& item);
+    KFileItem fileItem() const;
+
 public slots:
     virtual void setVisible(bool visible);
 
@@ -47,13 +63,22 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
 
 private slots:
-    void showIcon();
+    /**
+     * Sets the alpha value for the fading animation and is
+     * connected with m_fadingTimeLine.
+     */
+    void setFadingValue(int value);
 
 private:
-    bool m_showIcon;
+    void startFading();
+    void stopFading();
+
+private:
     bool m_isHovered;
+    int m_fadingValue;
     QPixmap m_icon;
-    QTimer* m_timer;
+    QTimeLine* m_fadingTimeLine;
+    KFileItem m_item;
 };
 
 #endif

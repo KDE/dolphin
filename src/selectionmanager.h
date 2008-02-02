@@ -28,6 +28,7 @@ class DolphinSortFilterProxyModel;
 class QAbstractItemView;
 class QModelIndex;
 class QAbstractButton;
+class SelectionToggle;
 
 /**
  * @brief Allows to select and deselect items for the single-click mode.
@@ -66,8 +67,7 @@ private:
 
 private:
     QAbstractItemView* m_view;
-    QAbstractButton* m_button;
-    KFileItem m_item;
+    SelectionToggle* m_toggle;
 };
 
 #endif

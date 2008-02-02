@@ -27,24 +27,20 @@
 #include <QPaintEvent>
 #include <QRect>
 #include <QTimer>
-
-#include <kdebug.h>
+#include <QTimeLine>
 
 SelectionToggle::SelectionToggle(QWidget* parent) :
     QAbstractButton(parent),
-    m_showIcon(false),
     m_isHovered(false),
+    m_fadingValue(0),
     m_icon(),
-    m_timer(0)
+    m_fadingTimeLine(0)
 {
     parent->installEventFilter(this);
     resize(sizeHint());
     m_icon = KIconLoader::global()->loadIcon("dialog-ok",
                                              KIconLoader::NoGroup,
                                              KIconLoader::SizeSmall);
-    m_timer = new QTimer(this);
-    connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(showIcon()));
 }
 
 SelectionToggle::~SelectionToggle()
@@ -56,15 +52,34 @@ QSize SelectionToggle::sizeHint() const
     return QSize(16, 16);
 }
 
+void SelectionToggle::reset()
+{
+    m_item = KFileItem();
+    hide();
+}
+
+void SelectionToggle::setFileItem(const KFileItem& item)
+{
+    m_item = item;
+    if (!item.isNull()) {
+        startFading();
+    }
+}
+
+KFileItem SelectionToggle::fileItem() const
+{
+    return m_item;
+}
+
 void SelectionToggle::setVisible(bool visible)
 {
     QAbstractButton::setVisible(visible);
+
+    stopFading();
     if (visible) {
-        m_timer->start(1000);
-    } else {
-        m_timer->stop();
-        m_showIcon = false;
+        startFading();
     }
+
 }
 
 bool SelectionToggle::eventFilter(QObject* obj, QEvent* event)
@@ -78,8 +93,14 @@ bool SelectionToggle::eventFilter(QObject* obj, QEvent* event)
 void SelectionToggle::enterEvent(QEvent* event)
 {
     QAbstractButton::enterEvent(event);
+
+    // if the mouse cursor is above the selection toggle, display
+    // it immediately without fading timer
     m_isHovered = true;
-    m_showIcon = true;
+    if (m_fadingTimeLine != 0) {
+        m_fadingTimeLine->stop();
+    }
+    m_fadingValue = 255;
     update();
 }
 
@@ -99,15 +120,52 @@ void SelectionToggle::paintEvent(QPaintEvent* event)
         KIconEffect iconEffect;
         QPixmap activeIcon = iconEffect.apply(m_icon, KIconLoader::Desktop, KIconLoader::ActiveState);
         painter.drawPixmap(0, 0, activeIcon);
-    } else if (m_showIcon) {
-        painter.drawPixmap(0, 0, m_icon);
+    } else {
+        if (m_fadingValue < 255) {
+            // apply an alpha mask respecting the fading value to the icon
+            QPixmap icon = m_icon;
+            QPixmap alphaMask(icon.width(), icon.height());
+            const QColor color(m_fadingValue, m_fadingValue, m_fadingValue);
+            alphaMask.fill(color);
+            icon.setAlphaChannel(alphaMask);
+            painter.drawPixmap(0, 0, icon);
+        } else {
+            // no fading is required
+            painter.drawPixmap(0, 0, m_icon);
+        }
     }
 }
 
-void SelectionToggle::showIcon()
+void SelectionToggle::setFadingValue(int value)
 {
-    m_showIcon = true;
+    m_fadingValue = value;
+    if (m_fadingValue >= 255) {
+        Q_ASSERT(m_fadingTimeLine != 0);
+        m_fadingTimeLine->stop();
+    }
     update();
+}
+
+void SelectionToggle::startFading()
+{
+    Q_ASSERT(m_fadingTimeLine == 0);
+
+    m_fadingTimeLine = new QTimeLine(2000, this);
+    connect(m_fadingTimeLine, SIGNAL(frameChanged(int)),
+            this, SLOT(setFadingValue(int)));
+    m_fadingTimeLine->setFrameRange(0, 255);
+    m_fadingTimeLine->start();
+    m_fadingValue = 0;
+}
+
+void SelectionToggle::stopFading()
+{
+    if (m_fadingTimeLine != 0) {
+        m_fadingTimeLine->stop();
+        delete m_fadingTimeLine;
+        m_fadingTimeLine = 0;
+    }
+    m_fadingValue = 0;
 }
 
 #include "selectiontoggle.moc"

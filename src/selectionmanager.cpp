@@ -31,21 +31,21 @@
 #include <QPainter>
 #include <QPaintEvent>
 #include <QRect>
+#include <QTimeLine>
 
 SelectionManager::SelectionManager(QAbstractItemView* parent) :
     QObject(parent),
     m_view(parent),
-    m_button(0),
-    m_item()
+    m_toggle(0)
 {
     connect(parent, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
     connect(parent, SIGNAL(viewportEntered()),
             this, SLOT(slotViewportEntered()));
-    m_button = new SelectionToggle(m_view->viewport());
-    m_button->setCheckable(true);
-    m_button->hide();
-    connect(m_button, SIGNAL(clicked(bool)),
+    m_toggle = new SelectionToggle(m_view->viewport());
+    m_toggle->setCheckable(true);
+    m_toggle->hide();
+    connect(m_toggle, SIGNAL(clicked(bool)),
             this, SLOT(setItemSelected(bool)));
 }
 
@@ -55,37 +55,36 @@ SelectionManager::~SelectionManager()
 
 void SelectionManager::reset()
 {
-    m_button->hide();
-    m_item = KFileItem();
+    m_toggle->reset();
 }
 
 void SelectionManager::slotEntered(const QModelIndex& index)
 {
-    m_button->hide();
+    m_toggle->hide();
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        m_item = itemForIndex(index);
+        m_toggle->setFileItem(itemForIndex(index));
 
         connect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                 this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
 
         const QRect rect = m_view->visualRect(index);
         const int gap = 2;
-        const int x = rect.right() - m_button->width() - gap;
+        const int x = rect.right() - m_toggle->width() - gap;
         int y = rect.top();
-        if (rect.height() <= m_button->height() * 2) {
+        if (rect.height() <= m_toggle->height() * 2) {
             // center the button vertically
-            y += (rect.height() - m_button->height()) / 2;
+            y += (rect.height() - m_toggle->height()) / 2;
         } else {
             y += gap;
         }
 
-        m_button->move(QPoint(x, y));
+        m_toggle->move(QPoint(x, y));
 
         QItemSelectionModel* selModel = m_view->selectionModel();
-        m_button->setChecked(selModel->isSelected(index));
-        m_button->show();
+        m_toggle->setChecked(selModel->isSelected(index));
+        m_toggle->show();
     } else {
-        m_item = KFileItem();
+        m_toggle->setFileItem(KFileItem());
         disconnect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                    this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
     }
@@ -93,15 +92,15 @@ void SelectionManager::slotEntered(const QModelIndex& index)
 
 void SelectionManager::slotViewportEntered()
 {
-    m_button->hide();
+    m_toggle->hide();
 }
 
 void SelectionManager::setItemSelected(bool selected)
 {
     emit selectionChanged();
-    Q_ASSERT(!m_item.isNull());
+    Q_ASSERT(!m_toggle->fileItem().isNull());
 
-    const QModelIndex index = indexForItem(m_item);
+    const QModelIndex index = indexForItem(m_toggle->fileItem());
     if (index.isValid()) {
         QItemSelectionModel* selModel = m_view->selectionModel();
         if (selected) {
@@ -117,7 +116,7 @@ void SelectionManager::slotRowsRemoved(const QModelIndex& parent, int start, int
     Q_UNUSED(parent);
     Q_UNUSED(start);
     Q_UNUSED(end);
-    m_button->hide();
+    m_toggle->hide();
 }
 
 KFileItem SelectionManager::itemForIndex(const QModelIndex& index) const
