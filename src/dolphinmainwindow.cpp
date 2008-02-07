@@ -259,6 +259,13 @@ void DolphinMainWindow::slotAdditionalInfoChanged()
     view->updateAdditionalInfoActions(actionCollection());
 }
 
+void DolphinMainWindow::slotEditableStateChanged(bool editable)
+{
+    KToggleAction* editableLocationAction =
+        static_cast<KToggleAction*>(actionCollection()->action("editable_location"));
+    editableLocationAction->setChecked(editable);
+}
+
 void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 {
     updateEditActions();
@@ -1058,9 +1065,7 @@ void DolphinMainWindow::setupActions()
     stop->setIcon(KIcon("process-stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
-    // TODO: the URL navigator must emit a signal if the editable state has been
-    // changed, so that the corresponding showFullLocation action is updated. Also
-    // the naming "Show full Location" is currently confusing...
+    // TODO: the naming "Show full Location" is currently confusing...
     KToggleAction* showFullLocation = actionCollection()->add<KToggleAction>("editable_location");
     showFullLocation->setText(i18nc("@action:inmenu Navigation Bar", "Show Full Location"));
     showFullLocation->setShortcut(Qt::CTRL | Qt::Key_L);
@@ -1328,6 +1333,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(changeUrl(const KUrl&)));
     connect(navigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
+    connect(navigator, SIGNAL(editableStateChanged(bool)),
+            this, SLOT(slotEditableStateChanged(bool)));
 }
 
 void DolphinMainWindow::updateSplitAction()

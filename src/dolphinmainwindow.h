@@ -312,7 +312,7 @@ private slots:
     void zoomOut();
 
     /**
-     * Toggles between edit and brose mode of the navigation bar.
+     * Toggles between edit and browse mode of the navigation bar.
      */
     void toggleEditLocation();
 
@@ -375,6 +375,9 @@ private slots:
 
     /** Updates the state of the 'Additional Information' actions. */
     void slotAdditionalInfoChanged();
+
+    /** Updates the state of the 'Show Full Location' action. */
+    void slotEditableStateChanged(bool editable);
 
     /**
      * Updates the state of the 'Edit' menu actions and emits
