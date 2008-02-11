@@ -20,6 +20,7 @@
  ***************************************************************************/
 
 #include "dolphinmainwindow.h"
+#include "dolphinviewactionhandler.h"
 #include "dolphindropcontroller.h"
 
 #include <config-nepomuk.h>
@@ -60,7 +61,6 @@
 #include <kmessagebox.h>
 #include <kurlnavigator.h>
 #include <konqmimedata.h>
-#include <konq_operations.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
 #include <ktoggleaction.h>
@@ -182,28 +182,6 @@ void DolphinMainWindow::slotViewModeChanged()
     updateViewActions();
 }
 
-void DolphinMainWindow::slotShowPreviewChanged()
-{
-    // It is not enough to update the 'Show Preview' action, also
-    // the 'Zoom In' and 'Zoom Out' actions must be adapted.
-    updateViewActions();
-}
-
-void DolphinMainWindow::slotShowHiddenFilesChanged()
-{
-    QAction* showHiddenFilesAction = actionCollection()->action("show_hidden_files");
-    const DolphinView* view = m_activeViewContainer->view();
-    showHiddenFilesAction->setChecked(view->showHiddenFiles());
-}
-
-void DolphinMainWindow::slotCategorizedSortingChanged()
-{
-    QAction* showInGroupsAction = actionCollection()->action("show_in_groups");
-    const DolphinView* view = m_activeViewContainer->view();
-    showInGroupsAction->setChecked(view->categorizedSorting());
-    showInGroupsAction->setEnabled(view->supportsCategorizedSorting());
-}
-
 void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
 {
     QAction* action = 0;
@@ -244,19 +222,6 @@ void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
     if (action != 0) {
         action->setChecked(true);
     }
-}
-
-void DolphinMainWindow::slotSortOrderChanged(Qt::SortOrder order)
-{
-    QAction* descending = actionCollection()->action("descending");
-    const bool sortDescending = (order == Qt::DescendingOrder);
-    descending->setChecked(sortDescending);
-}
-
-void DolphinMainWindow::slotAdditionalInfoChanged()
-{
-    DolphinView* view = m_activeViewContainer->view();
-    view->updateAdditionalInfoActions(actionCollection());
 }
 
 void DolphinMainWindow::slotEditableStateChanged(bool editable)
@@ -378,41 +343,10 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
     }
 }
 
-void DolphinMainWindow::createDir()
-{
-    const KUrl& url = m_activeViewContainer->view()->url();
-    KonqOperations::newDir(this, url);
-}
-
 void DolphinMainWindow::updateNewMenu()
 {
     m_newMenu->slotCheckUpToDate();
     m_newMenu->setPopupFiles(activeViewContainer()->url());
-}
-
-void DolphinMainWindow::rename()
-{
-    clearStatusBar();
-    m_activeViewContainer->view()->renameSelectedItems();
-}
-
-void DolphinMainWindow::moveToTrash()
-{
-    clearStatusBar();
-
-    DolphinView* view = m_activeViewContainer->view();
-
-    if (QApplication::keyboardModifiers() & Qt::ShiftModifier) {
-        view->deleteSelectedItems();
-    } else {
-        view->trashSelectedItems();
-    }
-}
-
-void DolphinMainWindow::deleteItems()
-{
-    clearStatusBar();
-    m_activeViewContainer->view()->deleteSelectedItems();
 }
 
 void DolphinMainWindow::properties()
@@ -603,17 +537,6 @@ void DolphinMainWindow::sortByTags()
 #endif
 }
 
-void DolphinMainWindow::toggleSortOrder()
-{
-    m_activeViewContainer->view()->toggleSortOrder();
-}
-
-void DolphinMainWindow::toggleSortCategorization(bool categorizedSorting)
-{
-    DolphinView* view = m_activeViewContainer->view();
-    view->setCategorizedSorting(categorizedSorting);
-}
-
 void DolphinMainWindow::toggleSplitView()
 {
     if (m_viewContainer[SecondaryView] == 0) {
@@ -646,7 +569,7 @@ void DolphinMainWindow::toggleSplitView()
 
     setActiveViewContainer(m_viewContainer[PrimaryView]);
     updateViewActions();
-    emit activeViewChanged();
+    emit activeViewChanged(); // TODO unused; remove?
 }
 
 void DolphinMainWindow::reloadView()
@@ -659,33 +582,9 @@ void DolphinMainWindow::stopLoading()
 {
 }
 
-void DolphinMainWindow::togglePreview(bool show)
-{
-    clearStatusBar();
-    m_activeViewContainer->view()->setShowPreview(show);
-}
-
-void DolphinMainWindow::toggleShowHiddenFiles(bool show)
-{
-    clearStatusBar();
-    m_activeViewContainer->view()->setShowHiddenFiles(show);
-}
-
 void DolphinMainWindow::toggleFilterBarVisibility(bool show)
 {
     m_activeViewContainer->showFilterBar(show);
-}
-
-void DolphinMainWindow::zoomIn()
-{
-    m_activeViewContainer->view()->zoomIn();
-    updateViewActions();
-}
-
-void DolphinMainWindow::zoomOut()
-{
-    m_activeViewContainer->view()->zoomOut();
-    updateViewActions();
 }
 
 void DolphinMainWindow::toggleEditLocation()
@@ -827,6 +726,8 @@ void DolphinMainWindow::init()
 
     const KUrl& homeUrl = settings.generalSettings()->homeUrl();
     setCaption(homeUrl.fileName());
+    m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
+    connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
     ViewProperties props(homeUrl);
     m_viewContainer[PrimaryView] = new DolphinViewContainer(this,
                                                             m_splitter,
@@ -834,8 +735,10 @@ void DolphinMainWindow::init()
 
     m_activeViewContainer = m_viewContainer[PrimaryView];
     connectViewSignals(PrimaryView);
-    m_viewContainer[PrimaryView]->view()->reload();
+    DolphinView* view = m_viewContainer[PrimaryView]->view();
+    view->reload();
     m_viewContainer[PrimaryView]->show();
+    m_actionHandler->setCurrentView(view);
 
     setCentralWidget(m_splitter);
     setupDockWidgets();
@@ -865,16 +768,16 @@ void DolphinMainWindow::init()
     emit urlChanged(homeUrl);
 }
 
-void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* view)
+void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
 {
-    Q_ASSERT(view != 0);
-    Q_ASSERT((view == m_viewContainer[PrimaryView]) || (view == m_viewContainer[SecondaryView]));
-    if (m_activeViewContainer == view) {
+    Q_ASSERT(viewContainer != 0);
+    Q_ASSERT((viewContainer == m_viewContainer[PrimaryView]) || (viewContainer == m_viewContainer[SecondaryView]));
+    if (m_activeViewContainer == viewContainer) {
         return;
     }
 
     m_activeViewContainer->setActive(false);
-    m_activeViewContainer = view;
+    m_activeViewContainer = viewContainer;
     m_activeViewContainer->setActive(true);
 
     updateHistory();
@@ -885,7 +788,9 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* view)
     const KUrl& url = m_activeViewContainer->url();
     setCaption(url.fileName());
 
-    emit activeViewChanged();
+    m_actionHandler->setCurrentView(viewContainer->view());
+
+    emit activeViewChanged(); // TODO unused; remove?
     emit urlChanged(url);
 }
 
@@ -899,23 +804,11 @@ void DolphinMainWindow::setupActions()
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
-    KAction* newDirAction = DolphinView::createNewDirAction(actionCollection());
-    connect(newDirAction, SIGNAL(triggered()), SLOT(createDir()));
-
     KAction* newWindow = actionCollection()->addAction("new_window");
     newWindow->setIcon(KIcon("window-new"));
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
-
-    KAction* rename = DolphinView::createRenameAction(actionCollection());
-    connect(rename, SIGNAL(triggered()), this, SLOT(rename()));
-
-    KAction* moveToTrash = DolphinView::createMoveToTrashAction(actionCollection());
-    connect(moveToTrash, SIGNAL(triggered()), this, SLOT(moveToTrash()));
-
-    KAction* deleteAction = DolphinView::createDeleteAction(actionCollection());
-    connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItems()));
 
     KAction* properties = actionCollection()->addAction("properties");
     properties->setText(i18nc("@action:inmenu File", "Properties"));
@@ -949,13 +842,6 @@ void DolphinMainWindow::setupActions()
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
 
     // setup 'View' menu
-    KStandardAction::zoomIn(this,
-                            SLOT(zoomIn()),
-                            actionCollection());
-
-    KStandardAction::zoomOut(this,
-                             SLOT(zoomOut()),
-                             actionCollection());
 
     KToggleAction* iconsView = DolphinView::iconsModeAction(actionCollection());
     KToggleAction* detailsView = DolphinView::detailsModeAction(actionCollection());
@@ -966,6 +852,9 @@ void DolphinMainWindow::setupActions()
     viewModeGroup->addAction(detailsView);
     viewModeGroup->addAction(columnView);
     connect(viewModeGroup, SIGNAL(triggered(QAction*)), this, SLOT(setViewMode(QAction*)));
+
+    //QActionGroup* sortActionGroup = DolphinView::createSortActionGroup(actionCollection());
+    //connect(sortActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(sortActionGroupTriggered(QAction*)));
 
     // TODO use a QActionGroup
 
@@ -1033,21 +922,6 @@ void DolphinMainWindow::setupActions()
     // is too slow currently (Nepomuk will support caching in future releases).
     //sortGroup->addAction(sortByRating);
     //sortGroup->addAction(sortByTags);
-
-    KAction* sortDescending = DolphinView::createSortDescendingAction(actionCollection());
-    connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
-
-    KAction* showInGroups = DolphinView::createShowInGroupsAction(actionCollection());
-    connect(showInGroups, SIGNAL(triggered(bool)), this, SLOT(toggleSortCategorization(bool)));
-
-    QActionGroup* showInformationActionGroup = DolphinView::createAdditionalInformationActionGroup(actionCollection());
-    connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
-
-    KAction* showPreview = DolphinView::createShowPreviewAction(actionCollection());
-    connect(showPreview, SIGNAL(triggered(bool)), this, SLOT(togglePreview(bool)));
-
-    KAction* showHiddenFiles = DolphinView::createShowHiddenFilesAction(actionCollection());
-    connect(showHiddenFiles, SIGNAL(triggered(bool)), this, SLOT(toggleShowHiddenFiles(bool)));
 
     KAction* split = actionCollection()->addAction("split_view");
     split->setShortcut(Qt::Key_F3);
@@ -1249,35 +1123,18 @@ void DolphinMainWindow::updateEditActions()
 
 void DolphinMainWindow::updateViewActions()
 {
+    m_actionHandler->updateViewActions();
+
     const DolphinView* view = m_activeViewContainer->view();
-    QAction* zoomInAction = actionCollection()->action(KStandardAction::name(KStandardAction::ZoomIn));
-    if (zoomInAction != 0) {
-        zoomInAction->setEnabled(view->isZoomInPossible());
-    }
-
-    QAction* zoomOutAction = actionCollection()->action(KStandardAction::name(KStandardAction::ZoomOut));
-    if (zoomOutAction != 0) {
-        zoomOutAction->setEnabled(view->isZoomOutPossible());
-    }
-
     QAction* action = actionCollection()->action(view->currentViewModeActionName());
     if (action != 0) {
         action->setChecked(true);
     }
 
     slotSortingChanged(view->sorting());
-    slotSortOrderChanged(view->sortOrder());
-    slotCategorizedSortingChanged();
-    slotAdditionalInfoChanged();
 
     QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
     showFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
-
-    QAction* showPreviewAction = actionCollection()->action("show_preview");
-    showPreviewAction->setChecked(view->showPreview());
-
-    QAction* showHiddenFilesAction = actionCollection()->action("show_hidden_files");
-    showHiddenFilesAction->setChecked(view->showHiddenFiles());
 
     updateSplitAction();
 
@@ -1307,18 +1164,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
     DolphinView* view = container->view();
     connect(view, SIGNAL(modeChanged()),
             this, SLOT(slotViewModeChanged()));
-    connect(view, SIGNAL(showPreviewChanged()),
-            this, SLOT(slotShowPreviewChanged()));
-    connect(view, SIGNAL(showHiddenFilesChanged()),
-            this, SLOT(slotShowHiddenFilesChanged()));
-    connect(view, SIGNAL(categorizedSortingChanged()),
-            this, SLOT(slotCategorizedSortingChanged()));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
-    connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
-            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
-    connect(view, SIGNAL(additionalInfoChanged()),
-            this, SLOT(slotAdditionalInfoChanged()));
     connect(view, SIGNAL(selectionChanged(KFileItemList)),
             this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(view, SIGNAL(requestItemInfo(KFileItem)),
@@ -1352,12 +1199,6 @@ void DolphinMainWindow::updateSplitAction()
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setIcon(KIcon("view-right-new"));
     }
-}
-
-void DolphinMainWindow::toggleAdditionalInfo(QAction* action)
-{
-    clearStatusBar();
-    m_activeViewContainer->view()->toggleAdditionalInfo(action);
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :

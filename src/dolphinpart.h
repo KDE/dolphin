@@ -22,6 +22,7 @@
 
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+class DolphinViewActionHandler;
 class QActionGroup;
 class KAction;
 class KFileItemList;
@@ -111,11 +112,6 @@ private Q_SLOTS:
     void updatePasteAction();
 
     /**
-     * Connected to the "move_to_trash" action; adds "shift means del" handling.
-     */
-    void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
-
-    /**
      * Connected to all "Go" menu actions provided by DolphinPart
      */
     void slotGoTriggered(QAction* action);
@@ -130,27 +126,6 @@ private Q_SLOTS:
      */
     void slotProperties();
 
-    /**
-     * Opens the dialog for creating a directory. Is connected
-     * with the key shortcut for "new directory" (F10).
-     */
-    void createDir();
-
-    /** Updates the state of the 'Show preview' menu action. */
-    void slotShowPreviewChanged();
-
-    /** Updates the state of the 'Show hidden files' menu action. */
-    void slotShowHiddenFilesChanged();
-
-    /** Updates the state of the 'Categorized sorting' menu action. */
-    void slotCategorizedSortingChanged();
-
-    /** Updates the state of the 'Sort Ascending/Descending' action. */
-    void slotSortOrderChanged(Qt::SortOrder);
-
-    /** Updates the state of the 'Additional Information' actions. */
-    void slotAdditionalInfoChanged();
-
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,
@@ -159,6 +134,7 @@ private:
 
 private:
     DolphinView* m_view;
+    DolphinViewActionHandler* m_actionHandler;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;

@@ -24,6 +24,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinsettings.cpp
     dolphincategorydrawer.cpp
     dolphinview.cpp
+    dolphinviewactionhandler.cpp
     iconmanager.cpp
     ratingpainter.cpp
     renamedialog.cpp

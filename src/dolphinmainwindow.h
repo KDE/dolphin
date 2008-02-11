@@ -34,6 +34,7 @@
 
 #include <QtCore/QList>
 
+class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinViewContainer;
 class KNewMenu;
@@ -163,26 +164,10 @@ protected:
     virtual void readProperties(const KConfigGroup& group);
 
 private slots:
-    /**
-     * Opens the dialog for creating a directory. Is connected
-     * with the key shortcut for "new directory" (F10).
-     */
-    void createDir();
+    void clearStatusBar();
 
     /** Updates the 'Create New...' sub menu. */
     void updateNewMenu();
-
-    /**
-     * Let the user input a name for the selected item(s) and trigger
-     * a renaming afterwards.
-     */
-    void rename();
-
-    /** Moves the selected items of the active view to the trash. */
-    void moveToTrash();
-
-    /** Deletes the selected items of the active view. */
-    void deleteItems();
 
     /**
      * Opens the properties window for the selected items of the
@@ -267,18 +252,6 @@ private slots:
     /** The sorting of the current view should be done by tags. */
     void sortByTags();
 
-    /** Switches between an ascending and descending sorting order. */
-    void toggleSortOrder();
-
-    /** Switches between sorting by categories or not. */
-    void toggleSortCategorization(bool);
-
-    /**
-     * Switches on or off the displaying of additional information
-     * as specified by \a action.
-     */
-    void toggleAdditionalInfo(QAction* action);
-
     /**
      * Switches between one and two views:
      * If one view is visible, it will get split into two views.
@@ -292,24 +265,10 @@ private slots:
     /** Stops the loading process for the current active view. */
     void stopLoading();
 
-    /** Switches between showing a preview of the file content and showing the icon. */
-    void togglePreview(bool);
-
-    /**
-     * Switches between showing and hiding of hidden marked files
-     */
-    void toggleShowHiddenFiles(bool);
-
     /**
      * Toggles between showing and hiding of the filter bar
      */
     void toggleFilterBarVisibility(bool show);
-
-    /** Increases the size of the current set view mode. */
-    void zoomIn();
-
-    /** Decreases the size of the current set view mode. */
-    void zoomOut();
 
     /**
      * Toggles between edit and browse mode of the navigation bar.
@@ -358,23 +317,8 @@ private slots:
     /** Updates the state of all 'View' menu actions. */
     void slotViewModeChanged();
 
-    /** Updates the state of the 'Show preview' menu action. */
-    void slotShowPreviewChanged();
-
-    /** Updates the state of the 'Show hidden files' menu action. */
-    void slotShowHiddenFilesChanged();
-
-    /** Updates the state of the 'Categorized sorting' menu action. */
-    void slotCategorizedSortingChanged();
-
     /** Updates the state of the 'Sort by' actions. */
     void slotSortingChanged(DolphinView::Sorting sorting);
-
-    /** Updates the state of the 'Sort Ascending/Descending' action. */
-    void slotSortOrderChanged(Qt::SortOrder order);
-
-    /** Updates the state of the 'Additional Information' actions. */
-    void slotAdditionalInfoChanged();
 
     /** Updates the state of the 'Show Full Location' action. */
     void slotEditableStateChanged(bool editable);
@@ -424,7 +368,6 @@ private:
     void updateEditActions();
     void updateViewActions();
     void updateGoActions();
-    void clearStatusBar();
 
     /**
      * Connects the signals from the created DolphinView with
@@ -475,6 +418,8 @@ private:
     int m_id;
 
     DolphinViewContainer* m_viewContainer[SecondaryView + 1];
+
+    DolphinViewActionHandler* m_actionHandler;
 
     /// remember pending undo operations until they are finished
     QList<KonqFileUndoManager::CommandType> m_undoCommandTypes;

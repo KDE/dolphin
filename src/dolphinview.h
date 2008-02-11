@@ -323,60 +323,6 @@ public:
     static KToggleAction* columnsModeAction(KActionCollection* collection);
 
     /**
-     * Creates the rename action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createRenameAction(KActionCollection* collection);
-
-    /**
-     * Creates the "move to trash" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createMoveToTrashAction(KActionCollection* collection);
-
-    /**
-     * Creates the delete action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createDeleteAction(KActionCollection* collection);
-
-    /**
-     * Creates the "new directory" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createNewDirAction(KActionCollection* collection);
-
-    /**
-     * Creates the "sort descending" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createSortDescendingAction(KActionCollection* collection);
-
-    /**
-     * Creates an action group with all the "show additional information" actions in it.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static QActionGroup* createAdditionalInformationActionGroup(KActionCollection* collection);
-
-    /**
-     * Creates the "show preview" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createShowPreviewAction(KActionCollection* collection);
-
-    /**
-     * Creates the "show in groups" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createShowInGroupsAction(KActionCollection* collection);
-
-    /**
-     * Creates the "show hidden files" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KAction* createShowHiddenFilesAction(KActionCollection* collection);
-
-    /**
      * Updates the state of the 'Additional Information' actions in \a collection.
      */
     void updateAdditionalInfoActions(KActionCollection* collection);

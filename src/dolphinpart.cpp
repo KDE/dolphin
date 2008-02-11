@@ -18,14 +18,15 @@
 */
 
 #include "dolphinpart.h"
-#include <kpropertiesdialog.h>
-#include <kglobalsettings.h>
+#include "dolphinviewactionhandler.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinmodel.h"
 
 #include <konq_operations.h>
 
+#include <kpropertiesdialog.h>
+#include <kglobalsettings.h>
 #include <kactioncollection.h>
 #include <kdirlister.h>
 #include <kiconloader.h>
@@ -93,17 +94,10 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotUrlChanged(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SLOT(updateViewActions()));
-    connect(m_view, SIGNAL(showPreviewChanged()),
-            this, SLOT(slotShowPreviewChanged()));
-    connect(m_view, SIGNAL(showHiddenFilesChanged()),
-            this, SLOT(slotShowHiddenFilesChanged()));
-    connect(m_view, SIGNAL(categorizedSortingChanged()),
-            this, SLOT(slotCategorizedSortingChanged()));
     // TODO slotSortingChanged
-    connect(m_view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
-            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
-    connect(m_view, SIGNAL(additionalInfoChanged()),
-            this, SLOT(slotAdditionalInfoChanged()));
+
+    m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
+    m_actionHandler->setCurrentView(m_view);
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
@@ -135,16 +129,6 @@ void DolphinPart::createActions()
     viewModeActions->addAction(DolphinView::columnsModeAction(actionCollection()));
     connect(viewModeActions, SIGNAL(triggered(QAction*)), this, SLOT(slotViewModeActionTriggered(QAction*)));
 
-    KAction* renameAction = DolphinView::createRenameAction(actionCollection());
-    connect(renameAction, SIGNAL(triggered()), m_view, SLOT(renameSelectedItems()));
-
-    KAction* moveToTrashAction = DolphinView::createMoveToTrashAction(actionCollection());
-    connect(moveToTrashAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)),
-            this, SLOT(slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers)));
-
-    KAction* deleteAction = DolphinView::createDeleteAction(actionCollection());
-    connect(deleteAction, SIGNAL(triggered()), m_view, SLOT(deleteSelectedItems()));
-
     KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
     editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
     connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
@@ -154,29 +138,9 @@ void DolphinPart::createActions()
     propertiesAction->setShortcut(Qt::ALT+Qt::Key_Return);
     connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
 
-    // View menu
-
-    // TODO sort_by_*
-
-    KAction* sortDescending = DolphinView::createSortDescendingAction(actionCollection());
-    connect(sortDescending, SIGNAL(triggered()), m_view, SLOT(toggleSortOrder()));
-
-    QActionGroup* showInformationActionGroup = DolphinView::createAdditionalInformationActionGroup(actionCollection());
-    connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), m_view, SLOT(toggleAdditionalInfo(QAction*)));
-
-    KAction* showPreview = DolphinView::createShowPreviewAction(actionCollection());
-    connect(showPreview, SIGNAL(triggered(bool)), m_view, SLOT(setShowPreview(bool)));
-
-    KAction* showInGroups = DolphinView::createShowInGroupsAction(actionCollection());
-    connect(showInGroups, SIGNAL(triggered(bool)), m_view, SLOT(setCategorizedSorting(bool)));
-
-    KAction* showHiddenFiles = DolphinView::createShowHiddenFilesAction(actionCollection());
-    connect(showHiddenFiles, SIGNAL(triggered(bool)), m_view, SLOT(setShowHiddenFiles(bool)));
+    // View menu: all done by DolphinViewActionHandler
 
     // Go menu
-
-    KAction* newDirAction = DolphinView::createNewDirAction(actionCollection());
-    connect(newDirAction, SIGNAL(triggered()), SLOT(createDir()));
 
     QActionGroup* goActionGroup = new QActionGroup(this);
     connect(goActionGroup, SIGNAL(triggered(QAction*)),
@@ -248,10 +212,10 @@ void DolphinPart::updatePasteAction()
 
 void DolphinPart::updateViewActions()
 {
+    m_actionHandler->updateViewActions();
     QAction* action = actionCollection()->action(m_view->currentViewModeActionName());
     if (action != 0) {
-        KToggleAction* toggleAction = static_cast<KToggleAction*>(action);
-        toggleAction->setChecked(true);
+        action->setChecked(true);
     }
 }
 
@@ -427,17 +391,6 @@ void DolphinPartBrowserExtension::paste()
 
 ////
 
-void DolphinPart::slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers modifiers)
-{
-    // Note: kde3's konq_mainwindow.cpp used to check
-    // reason == KAction::PopupMenuActivation && ...
-    // but this isn't supported anymore
-    if (modifiers & Qt::ShiftModifier)
-        m_view->deleteSelectedItems();
-    else
-        m_view->trashSelectedItems();
-}
-
 void DolphinPart::slotEditMimeType()
 {
     const KFileItemList items = m_view->selectedItems();
@@ -454,43 +407,5 @@ void DolphinPart::slotProperties()
         dialog.exec();
     }
 }
-
-void DolphinPart::createDir()
-{
-    KonqOperations::newDir(m_view, url());
-}
-
-void DolphinPart::slotSortOrderChanged(Qt::SortOrder order)
-{
-    KToggleAction* descending = static_cast<KToggleAction*>(actionCollection()->action("descending"));
-    const bool sortDescending = (order == Qt::DescendingOrder);
-    descending->setChecked(sortDescending);
-}
-
-void DolphinPart::slotAdditionalInfoChanged()
-{
-    m_view->updateAdditionalInfoActions(actionCollection());
-}
-
-void DolphinPart::slotShowPreviewChanged()
-{
-    updateViewActions(); // see DolphinMainWindow
-}
-
-void DolphinPart::slotShowHiddenFilesChanged()
-{
-    QAction* showHiddenFilesAction = actionCollection()->action("show_hidden_files");
-    showHiddenFilesAction->setChecked(m_view->showHiddenFiles());
-}
-
-void DolphinPart::slotCategorizedSortingChanged()
-{
-    // Duplicated from DolphinMainWindow too.
-    QAction* showInGroupsAction = actionCollection()->action("show_in_groups");
-    showInGroupsAction->setChecked(m_view->categorizedSorting());
-    showInGroupsAction->setEnabled(m_view->supportsCategorizedSorting());
-}
-
-// TODO a DolphinViewActionHandler for reducing the duplication in the action handling
 
 #include "dolphinpart.moc"
