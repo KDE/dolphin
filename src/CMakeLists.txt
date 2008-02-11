@@ -25,6 +25,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinsortfilterproxymodel.cpp
     renamedialog.cpp
     dolphinview.cpp
+    dolphinviewactionhandler.cpp
     ratingpainter.cpp
     dolphindropcontroller.cpp
     )

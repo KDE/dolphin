@@ -810,7 +810,7 @@ void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList&
 
     m_fileItemDelegate->setShowInformation(info);
 
-    emit additionalInfoChanged(); // will call updateAdditionalInfoActions just below
+    emit additionalInfoChanged();
 }
 
 void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
@@ -1299,110 +1299,6 @@ QPair<bool, QString> DolphinView::pasteInfo() const
         }
     }
     return ret;
-}
-
-KAction* DolphinView::createRenameAction(KActionCollection* collection)
-{
-    KAction* rename = collection->addAction("rename");
-    rename->setText(i18nc("@action:inmenu File", "Rename..."));
-    rename->setShortcut(Qt::Key_F2);
-    return rename;
-}
-
-KAction* DolphinView::createMoveToTrashAction(KActionCollection* collection)
-{
-    KAction* moveToTrash = collection->addAction("move_to_trash");
-    moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
-    moveToTrash->setIcon(KIcon("user-trash"));
-    moveToTrash->setShortcut(QKeySequence::Delete);
-    return moveToTrash;
-}
-
-KAction* DolphinView::createDeleteAction(KActionCollection* collection)
-{
-    KAction* deleteAction = collection->addAction("delete");
-    deleteAction->setIcon(KIcon("edit-delete"));
-    deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
-    deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
-    return deleteAction;
-}
-
-KAction* DolphinView::createNewDirAction(KActionCollection* collection)
-{
-    // This action doesn't appear in the GUI, it's for the shortcut only.
-    // KNewMenu takes care of the GUI stuff.
-    KAction* newDirAction = collection->addAction("create_dir");
-    newDirAction->setText(i18n("Create Folder..."));
-    newDirAction->setShortcut(Qt::Key_F10);
-    return newDirAction;
-}
-
-KAction* DolphinView::createSortDescendingAction(KActionCollection* collection)
-{
-    KToggleAction* sortDescending = collection->add<KToggleAction>("descending");
-    sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
-    return sortDescending;
-}
-
-KAction* DolphinView::createShowPreviewAction(KActionCollection* collection)
-{
-    KToggleAction* showPreview = collection->add<KToggleAction>("show_preview");
-    showPreview->setText(i18nc("@action:intoolbar", "Preview"));
-    showPreview->setIcon(KIcon("view-preview"));
-    return showPreview;
-}
-
-KAction* DolphinView::createShowInGroupsAction(KActionCollection* collection)
-{
-    KToggleAction* showInGroups = collection->add<KToggleAction>("show_in_groups");
-    showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
-    return showInGroups;
-}
-
-KAction* DolphinView::createShowHiddenFilesAction(KActionCollection* collection)
-{
-    KToggleAction* showHiddenFiles = collection->add<KToggleAction>("show_hidden_files");
-    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
-    showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
-    return showHiddenFiles;
-}
-
-QActionGroup* DolphinView::createAdditionalInformationActionGroup(KActionCollection* collection)
-{
-    QActionGroup* showInformationGroup = new QActionGroup(collection);
-    showInformationGroup->setExclusive(false);
-
-    KToggleAction* showSizeInfo = collection->add<KToggleAction>("show_size_info");
-    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
-    showSizeInfo->setData(KFileItemDelegate::Size);
-    showSizeInfo->setActionGroup(showInformationGroup);
-
-    KToggleAction* showDateInfo = collection->add<KToggleAction>("show_date_info");
-    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
-    showDateInfo->setData(KFileItemDelegate::ModificationTime);
-    showDateInfo->setActionGroup(showInformationGroup);
-
-    KToggleAction* showPermissionsInfo = collection->add<KToggleAction>("show_permissions_info");
-    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
-    showPermissionsInfo->setData(KFileItemDelegate::Permissions);
-    showPermissionsInfo->setActionGroup(showInformationGroup);
-
-    KToggleAction* showOwnerInfo = collection->add<KToggleAction>("show_owner_info");
-    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
-    showOwnerInfo->setData(KFileItemDelegate::Owner);
-    showOwnerInfo->setActionGroup(showInformationGroup);
-
-    KToggleAction* showGroupInfo = collection->add<KToggleAction>("show_group_info");
-    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
-    showGroupInfo->setData(KFileItemDelegate::OwnerAndGroup);
-    showGroupInfo->setActionGroup(showInformationGroup);
-
-    KToggleAction* showMimeInfo = collection->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
-    showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);
-    showMimeInfo->setActionGroup(showInformationGroup);
-
-    return showInformationGroup;
 }
 
 #include "dolphinview.moc"

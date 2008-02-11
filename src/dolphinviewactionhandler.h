@@ -1,0 +1,165 @@
+/***************************************************************************
+ *   Copyright (C) 2008 by David Faure <faure@kde.org>                     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ ***************************************************************************/
+
+
+#ifndef DOLPHINVIEWACTIONHANDLER_H
+#define DOLPHINVIEWACTIONHANDLER_H
+
+#include "libdolphin_export.h"
+#include <QtCore/QObject>
+class QAction;
+class QActionGroup;
+class DolphinView;
+class KActionCollection;
+
+/**
+ * @short Handles all actions for DolphinView
+ *
+ * The action handler owns all the actions and slots related to DolphinView,
+ * but can the view that is acts upon can be switched to another one
+ * (this is used in the case of split views).
+ *
+ * The purpose of this class is also to share this code between DolphinMainWindow
+ * and DolphinPart.
+ *
+ * @see DolphinView
+ * @see DolphinMainWindow
+ * @see DolphinPart
+ */
+class LIBDOLPHINPRIVATE_EXPORT DolphinViewActionHandler : public QObject
+{
+    Q_OBJECT
+
+public:
+    explicit DolphinViewActionHandler(KActionCollection* collection, QObject* parent);
+
+    /**
+     * Sets the view that this action handler should work on.
+     */
+    void setCurrentView(DolphinView* view);
+
+    /**
+     * Update all actions in the 'View' menu, i.e. those that depend on the
+     * settings in the current view.
+     */
+    void updateViewActions();
+
+Q_SIGNALS:
+    /**
+     * Emitted by DolphinViewActionHandler when the user triggered an action.
+     * This is only used for clearining the statusbar in DolphinMainWindow.
+     */
+    void actionBeingHandled();
+
+private Q_SLOTS:
+    /**
+     * Opens the dialog for creating a directory. Is connected
+     * with the key shortcut for "new directory" (F10).
+     */
+    void slotCreateDir();
+
+    /**
+     * Let the user input a name for the selected item(s) and trigger
+     * a renaming afterwards.
+     */
+    void slotRename();
+
+    /**
+     * Moves the selected items of the active view to the trash.
+     * This methods adds "shift means del" handling.
+     */
+    void slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers);
+
+    /**
+     * Deletes the selected items of the active view.
+     */
+    void slotDeleteItems();
+
+    /**
+     * Switches between showing a preview of the file content and showing the icon.
+     */
+    void togglePreview(bool);
+
+    /** Updates the state of the 'Show preview' menu action. */
+    void slotShowPreviewChanged();
+
+    /** Increases the size of the current set view mode. */
+    void zoomIn();
+
+    /** Decreases the size of the current set view mode. */
+    void zoomOut();
+
+    /** Switches between an ascending and descending sorting order. */
+    void toggleSortOrder();
+
+    /**
+     * Updates the state of the 'Sort Ascending/Descending' action.
+     */
+    void slotSortOrderChanged(Qt::SortOrder order);
+
+    /**
+     * Switches on or off the displaying of additional information
+     * as specified by \a action.
+     */
+    void toggleAdditionalInfo(QAction* action);
+
+    /**
+     * Updates the state of the 'Additional Information' actions.
+     */
+    void slotAdditionalInfoChanged();
+
+    /**
+     * Switches between sorting by categories or not.
+     */
+    void toggleSortCategorization(bool);
+
+    /**
+     * Updates the state of the 'Categorized sorting' menu action.
+     */
+    void slotCategorizedSortingChanged();
+
+    /**
+     * Switches between showing and hiding of hidden marked files
+     */
+    void toggleShowHiddenFiles(bool);
+
+    /**
+     * Updates the state of the 'Show hidden files' menu action.
+     */
+    void slotShowHiddenFilesChanged();
+
+private:
+    /**
+     * Create all the actions.
+     * This is called only once (by the constructor)
+     */
+    void createActions();
+    /**
+     * Creates an action group with all the "show additional information" actions in it.
+     * Helper method for createActions();
+     */
+    QActionGroup* createAdditionalInformationActionGroup();
+
+    KActionCollection* m_actionCollection;
+    DolphinView* m_currentView;
+};
+
+
+#endif /* DOLPHINVIEWACTIONHANDLER_H */
+
