@@ -358,10 +358,10 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 {
-    QTreeView::resizeEvent(event);
     if (m_autoResize) {
         resizeColumns();
     }
+    QTreeView::resizeEvent(event);
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
