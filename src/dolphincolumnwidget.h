@@ -20,6 +20,8 @@
 #ifndef DOLPHINCOLUMNWIDGET_H
 #define DOLPHINCOLUMNWIDGET_H
 
+#include "dolphinview.h"
+
 #include <QFont>
 #include <QListView>
 #include <QSize>
@@ -79,6 +81,8 @@ public:
     /** Reloads the directory DolphinColumnWidget::url(). */
     void reload();
 
+    void setSorting(DolphinView::Sorting sorting);
+    void setSortOrder(Qt::SortOrder order);
     void setShowHiddenFiles(bool show);
     void setShowPreview(bool show);
 

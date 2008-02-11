@@ -118,6 +118,9 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dolphinModel);
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    const DolphinView* dolphinView = m_view->m_controller->dolphinView();
+    m_proxyModel->setSorting(dolphinView->sorting());
+    m_proxyModel->setSortOrder(dolphinView->sortOrder());
 
     setModel(m_proxyModel);
     const bool useSelManager = KGlobalSettings::singleClick() &&
@@ -171,6 +174,16 @@ void DolphinColumnWidget::reload()
 {
     m_dirLister->stop();
     m_dirLister->openUrl(m_url, KDirLister::Reload);
+}
+
+void DolphinColumnWidget::setSorting(DolphinView::Sorting sorting)
+{
+    m_proxyModel->setSorting(sorting);
+}
+
+void DolphinColumnWidget::setSortOrder(Qt::SortOrder order)
+{
+    m_proxyModel->setSortOrder(order);
 }
 
 void DolphinColumnWidget::setShowHiddenFiles(bool show)

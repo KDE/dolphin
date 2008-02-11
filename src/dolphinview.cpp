@@ -594,7 +594,7 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
 KUrl DolphinView::viewPropertiesUrl() const
 {
     if (isColumnViewActive()) {
-        return m_dirLister->url();
+        return m_columnView->rootUrl();
     }
 
     return url();

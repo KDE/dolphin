@@ -20,6 +20,8 @@
 #ifndef DOLPHINCOLUMNVIEW_H
 #define DOLPHINCOLUMNVIEW_H
 
+#include "dolphinview.h"
+
 #include <kurl.h>
 
 #include <QAbstractItemView>
@@ -128,6 +130,8 @@ private slots:
      */
     void updateColumnsBackground(bool active);
 
+    void slotSortingChanged(DolphinView::Sorting sorting);
+    void slotSortOrderChanged(Qt::SortOrder order);
     void slotShowHiddenFilesChanged();
     void slotShowPreviewChanged();
 

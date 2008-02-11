@@ -59,6 +59,10 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(updateColumnsBackground(bool)));
 
     const DolphinView* view = controller->dolphinView();
+    connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
+            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
+    connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
+            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(view, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
     connect(view, SIGNAL(showPreviewChanged()),
@@ -405,6 +409,20 @@ void DolphinColumnView::updateColumnsBackground(bool active)
 
     foreach (DolphinColumnWidget* column, m_columns) {
         column->updateBackground();
+    }
+}
+
+void DolphinColumnView::slotSortingChanged(DolphinView::Sorting sorting)
+{
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->setSorting(sorting);
+    }
+}
+
+void DolphinColumnView::slotSortOrderChanged(Qt::SortOrder order)
+{
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->setSortOrder(order);
     }
 }
 
