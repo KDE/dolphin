@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Dolphin
 Name[ar]=الدولفين
+Name[gu]=ડોલ્ફિન
 Name[hi]=डॉल्फ़िन
 Name[kn]=ಡಾಲ್ಫಿನ್
 Name[ne]=डल्फिन
@@ -33,6 +34,7 @@ GenericName[fr]=Gestionnaire de fichiers
 GenericName[fy]=Triembehearder
 GenericName[ga]=Bainisteoir Comhad
 GenericName[gl]=Xestor de ficheiros
+GenericName[gu]=ફાઇલ વ્યવસ્થાપક
 GenericName[he]=מנהל קבצים
 GenericName[hi]=फ़ाइल प्रबंधक
 GenericName[hu]=Fájlkezelő
