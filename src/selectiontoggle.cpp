@@ -54,21 +54,21 @@ QSize SelectionToggle::sizeHint() const
 
 void SelectionToggle::reset()
 {
-    m_item = KFileItem();
+    m_url = KUrl();
     hide();
 }
 
-void SelectionToggle::setFileItem(const KFileItem& item)
+void SelectionToggle::setUrl(const KUrl& url)
 {
-    m_item = item;
-    if (!item.isNull()) {
+    m_url = url;
+    if (!url.isEmpty()) {
         startFading();
     }
 }
 
-KFileItem SelectionToggle::fileItem() const
+KUrl SelectionToggle::url() const
 {
-    return m_item;
+    return m_url;
 }
 
 void SelectionToggle::setVisible(bool visible)

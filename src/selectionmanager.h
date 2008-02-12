@@ -62,8 +62,8 @@ private slots:
     void slotRowsRemoved(const QModelIndex& parent, int start, int end);
 
 private:
-    KFileItem itemForIndex(const QModelIndex& index) const;
-    const QModelIndex indexForItem(const KFileItem& item) const;
+    KUrl urlForIndex(const QModelIndex& index) const;
+    const QModelIndex indexForUrl(const KUrl& url) const;
 
 private:
     QAbstractItemView* m_view;

@@ -20,7 +20,7 @@
 #ifndef SELECTIONTOGGLE_H
 #define SELECTIONTOGGLE_H
 
-#include <kfileitem.h>
+#include <kurl.h>
 
 #include <QAbstractButton>
 #include <QPixmap>
@@ -50,8 +50,8 @@ public:
      */
     void reset();
 
-    void setFileItem(const KFileItem& item);
-    KFileItem fileItem() const;
+    void setUrl(const KUrl& url);
+    KUrl url() const;
 
 public slots:
     virtual void setVisible(bool visible);
@@ -78,7 +78,7 @@ private:
     int m_fadingValue;
     QPixmap m_icon;
     QTimeLine* m_fadingTimeLine;
-    KFileItem m_item;
+    KUrl m_url;
 };
 
 #endif

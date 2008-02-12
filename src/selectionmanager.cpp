@@ -62,7 +62,7 @@ void SelectionManager::slotEntered(const QModelIndex& index)
 {
     m_toggle->hide();
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        m_toggle->setFileItem(itemForIndex(index));
+        m_toggle->setUrl(urlForIndex(index));
 
         connect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                 this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
@@ -78,7 +78,7 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         m_toggle->setChecked(selModel->isSelected(index));
         m_toggle->show();
     } else {
-        m_toggle->setFileItem(KFileItem());
+        m_toggle->setUrl(KUrl());
         disconnect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                    this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
     }
@@ -92,9 +92,8 @@ void SelectionManager::slotViewportEntered()
 void SelectionManager::setItemSelected(bool selected)
 {
     emit selectionChanged();
-    Q_ASSERT(!m_toggle->fileItem().isNull());
 
-    const QModelIndex index = indexForItem(m_toggle->fileItem());
+    const QModelIndex index = indexForUrl(m_toggle->url());
     if (index.isValid()) {
         QItemSelectionModel* selModel = m_view->selectionModel();
         if (selected) {
@@ -113,19 +112,19 @@ void SelectionManager::slotRowsRemoved(const QModelIndex& parent, int start, int
     m_toggle->hide();
 }
 
-KFileItem SelectionManager::itemForIndex(const QModelIndex& index) const
+KUrl SelectionManager::urlForIndex(const QModelIndex& index) const
 {
     QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(m_view->model());
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
     const QModelIndex dirIndex = proxyModel->mapToSource(index);
-    return dirModel->itemForIndex(dirIndex);
+    return dirModel->itemForIndex(dirIndex).url();
 }
 
-const QModelIndex SelectionManager::indexForItem(const KFileItem& item) const
+const QModelIndex SelectionManager::indexForUrl(const KUrl& url) const
 {
     QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(m_view->model());
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-    const QModelIndex dirIndex = dirModel->indexForItem(item);
+    const QModelIndex dirIndex = dirModel->indexForUrl(url);
     return proxyModel->mapFromSource(dirIndex);
 }
 
