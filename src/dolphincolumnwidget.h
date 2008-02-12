@@ -109,6 +109,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void wheelEvent(QWheelEvent* event);
     virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 private slots:

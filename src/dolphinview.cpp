@@ -537,6 +537,20 @@ void DolphinView::mouseReleaseEvent(QMouseEvent* event)
     QWidget::mouseReleaseEvent(event);
     setActive(true);
 }
+
+void DolphinView::wheelEvent(QWheelEvent* event)
+{
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+        int d = event->delta();
+        if (d > 0 && isZoomInPossible()) {
+            zoomIn();
+        } else if (d < 0 && isZoomOutPossible()) {
+            zoomOut();
+        }
+	event->accept();
+    }
+}
+
 void DolphinView::activate()
 {
     setActive(true);

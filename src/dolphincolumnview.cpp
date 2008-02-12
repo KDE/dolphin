@@ -338,6 +338,16 @@ void DolphinColumnView::resizeEvent(QResizeEvent* event)
     assureVisibleActiveColumn();
 }
 
+void DolphinColumnView::wheelEvent(QWheelEvent* event)
+{
+    // let Ctrl+wheel events propagate to the DolphinView for icon zooming
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+        event->ignore();
+	return;
+    }
+    QAbstractItemView::wheelEvent(event);
+}
+
 void DolphinColumnView::zoomIn()
 {
     if (isZoomInPossible()) {

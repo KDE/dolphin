@@ -364,6 +364,16 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
     }
 }
 
+void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
+{
+    // let Ctrl+wheel events propagate to the DolphinView for icon zooming
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+        event->ignore();
+	return;
+    }
+    QListView::wheelEvent(event);
+}
+
 void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
     QListView::selectionChanged(selected, deselected);

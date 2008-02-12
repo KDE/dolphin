@@ -105,6 +105,7 @@ protected:
 
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
+    virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
     void zoomIn();

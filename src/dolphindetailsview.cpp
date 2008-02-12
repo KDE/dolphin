@@ -364,6 +364,16 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
     QTreeView::resizeEvent(event);
 }
 
+void DolphinDetailsView::wheelEvent(QWheelEvent* event)
+{
+    // let Ctrl+wheel events propagate to the DolphinView for icon zooming
+    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+        event->ignore();
+	return;
+    }
+    QTreeView::wheelEvent(event);
+}
+
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
     QHeaderView* headerView = header();
