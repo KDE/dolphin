@@ -38,9 +38,9 @@ SelectionToggle::SelectionToggle(QWidget* parent) :
 {
     parent->installEventFilter(this);
     resize(sizeHint());
-    m_icon = KIconLoader::global()->loadIcon("dialog-ok",
-                                             KIconLoader::NoGroup,
-                                             KIconLoader::SizeSmall);
+    setIconOverlay(isChecked());
+    connect(this, SIGNAL(toggled(bool)),
+            this, SLOT(setIconOverlay(bool)));
 }
 
 SelectionToggle::~SelectionToggle()
@@ -115,7 +115,24 @@ void SelectionToggle::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
     painter.setClipRect(event->rect());
+    painter.setRenderHint(QPainter::Antialiasing);
 
+    // draw an alpha blended circle as background
+    const QPalette& palette = parentWidget()->palette();
+
+    const QBrush& backgroundBrush = palette.brush(QPalette::Normal, QPalette::Window);
+    QColor background = backgroundBrush.color();
+    background.setAlpha(m_fadingValue / 2);
+    painter.setBrush(background);
+
+    const QBrush& foregroundBrush = palette.brush(QPalette::Normal, QPalette::WindowText);
+    QColor foreground = foregroundBrush.color();
+    foreground.setAlpha(m_fadingValue / 4);
+    painter.setPen(foreground);
+
+    painter.drawEllipse(0, 0, width(), height());
+
+    // draw the icon overlay
     if (m_isHovered) {
         KIconEffect iconEffect;
         QPixmap activeIcon = iconEffect.apply(m_icon, KIconLoader::Desktop, KIconLoader::ActiveState);
@@ -146,11 +163,20 @@ void SelectionToggle::setFadingValue(int value)
     update();
 }
 
+void SelectionToggle::setIconOverlay(bool checked)
+{
+    const char* icon = checked ? "list-remove" : "list-add";
+    m_icon = KIconLoader::global()->loadIcon(icon,
+                                             KIconLoader::NoGroup,
+                                             KIconLoader::SizeSmall);
+    update();
+}
+
 void SelectionToggle::startFading()
 {
     Q_ASSERT(m_fadingTimeLine == 0);
 
-    m_fadingTimeLine = new QTimeLine(2000, this);
+    m_fadingTimeLine = new QTimeLine(1500, this);
     connect(m_fadingTimeLine, SIGNAL(frameChanged(int)),
             this, SLOT(setFadingValue(int)));
     m_fadingTimeLine->setFrameRange(0, 255);

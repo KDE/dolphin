@@ -69,6 +69,8 @@ private slots:
      */
     void setFadingValue(int value);
 
+    void setIconOverlay(bool checked);
+
 private:
     void startFading();
     void stopFading();
