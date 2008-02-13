@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dolphinviewactionhandler.h"
+#include <kdebug.h>
 
 #include "dolphinview.h"
 
@@ -46,6 +47,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
 
     m_currentView = view;
 
+    connect(view, SIGNAL(modeChanged()),
+            this, SLOT(updateViewActions()));
     connect(view, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
@@ -88,6 +91,12 @@ void DolphinViewActionHandler::createActions()
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(slotDeleteItems()));
 
     // View menu
+
+    QActionGroup* viewModeActions = new QActionGroup(this);
+    viewModeActions->addAction(iconsModeAction());
+    viewModeActions->addAction(detailsModeAction());
+    viewModeActions->addAction(columnsModeAction());
+    connect(viewModeActions, SIGNAL(triggered(QAction*)), this, SLOT(slotViewModeActionTriggered(QAction*)));
 
     KStandardAction::zoomIn(this,
                             SLOT(zoomIn()),
@@ -164,6 +173,12 @@ void DolphinViewActionHandler::slotCreateDir()
     KonqOperations::newDir(m_currentView, m_currentView->url());
 }
 
+void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
+{
+    const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
+    m_currentView->setMode(mode);
+}
+
 void DolphinViewActionHandler::slotRename()
 {
     emit actionBeingHandled();
@@ -201,8 +216,26 @@ void DolphinViewActionHandler::slotShowPreviewChanged()
     updateViewActions();
 }
 
+QString DolphinViewActionHandler::currentViewModeActionName() const
+{
+    switch (m_currentView->mode()) {
+    case DolphinView::IconsView:
+        return "icons";
+    case DolphinView::DetailsView:
+        return "details";
+    case DolphinView::ColumnView:
+        return "columns";
+    }
+    return QString(); // can't happen
+}
+
 void DolphinViewActionHandler::updateViewActions()
 {
+    QAction* viewModeAction = m_actionCollection->action(currentViewModeActionName());
+    if (viewModeAction != 0) {
+        viewModeAction->setChecked(true);
+    }
+
     QAction* zoomInAction = m_actionCollection->action(KStandardAction::stdName(KStandardAction::ZoomIn));
     if (zoomInAction != 0) {
         zoomInAction->setEnabled(m_currentView->isZoomInPossible());
@@ -284,3 +317,33 @@ void DolphinViewActionHandler::slotShowHiddenFilesChanged()
     showHiddenFilesAction->setChecked(m_currentView->showHiddenFiles());
 }
 
+
+KToggleAction* DolphinViewActionHandler::iconsModeAction()
+{
+    KToggleAction* iconsView = m_actionCollection->add<KToggleAction>("icons");
+    iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
+    iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
+    iconsView->setIcon(KIcon("view-list-icons"));
+    iconsView->setData(QVariant::fromValue(DolphinView::IconsView));
+    return iconsView;
+}
+
+KToggleAction* DolphinViewActionHandler::detailsModeAction()
+{
+    KToggleAction* detailsView = m_actionCollection->add<KToggleAction>("details");
+    detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
+    detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
+    detailsView->setIcon(KIcon("view-list-details"));
+    detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
+    return detailsView;
+}
+
+KToggleAction* DolphinViewActionHandler::columnsModeAction()
+{
+    KToggleAction* columnView = m_actionCollection->add<KToggleAction>("columns");
+    columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
+    columnView->setShortcut(Qt::CTRL | Qt::Key_3);
+    columnView->setIcon(KIcon("view-file-columns"));
+    columnView->setData(QVariant::fromValue(DolphinView::ColumnView));
+    return columnView;
+}

@@ -93,7 +93,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     connect(m_view, SIGNAL(urlChanged(KUrl)),
             this, SLOT(slotUrlChanged(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
-            this, SLOT(updateViewActions()));
+            this, SIGNAL(viewModeChanged())); // relay signal
     // TODO slotSortingChanged
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
@@ -104,11 +104,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(updatePasteAction()));
 
     createActions();
-    updateViewActions();
+    m_actionHandler->updateViewActions();
     slotSelectionChanged(KFileItemList()); // initially disable selection-dependent actions
-
-    // TODO provide the viewmode actions in the menu, merged with the existing view-mode-actions somehow
-    // [Q_PROPERTY introspection?]
 
     // TODO sort_by_* actions
 
@@ -123,12 +120,6 @@ DolphinPart::~DolphinPart()
 
 void DolphinPart::createActions()
 {
-    QActionGroup* viewModeActions = new QActionGroup(this);
-    viewModeActions->addAction(DolphinView::iconsModeAction(actionCollection()));
-    viewModeActions->addAction(DolphinView::detailsModeAction(actionCollection()));
-    viewModeActions->addAction(DolphinView::columnsModeAction(actionCollection()));
-    connect(viewModeActions, SIGNAL(triggered(QAction*)), this, SLOT(slotViewModeActionTriggered(QAction*)));
-
     KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
     editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
     connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
@@ -208,15 +199,6 @@ void DolphinPart::updatePasteAction()
     QPair<bool, QString> pasteInfo = m_view->pasteInfo();
     emit m_extension->enableAction( "paste", pasteInfo.first );
     emit m_extension->setActionText( "paste", pasteInfo.second );
-}
-
-void DolphinPart::updateViewActions()
-{
-    m_actionHandler->updateViewActions();
-    QAction* action = actionCollection()->action(m_view->currentViewModeActionName());
-    if (action != 0) {
-        action->setChecked(true);
-    }
 }
 
 KAboutData* DolphinPart::createAboutData()
@@ -356,12 +338,6 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
     }
 }
 
-void DolphinPart::slotViewModeActionTriggered(QAction* action)
-{
-    const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
-    m_view->setMode(mode);
-}
-
 void DolphinPart::slotUrlChanged(const KUrl& url)
 {
     if (m_view->url() != url) {
@@ -406,6 +382,18 @@ void DolphinPart::slotProperties()
         KPropertiesDialog dialog(items.first().url(), m_view);
         dialog.exec();
     }
+}
+
+void DolphinPart::setCurrentViewMode(const QString& viewModeName)
+{
+    QAction* action = actionCollection()->action(viewModeName);
+    Q_ASSERT(action);
+    action->trigger();
+}
+
+QString DolphinPart::currentViewMode() const
+{
+    return m_actionHandler->currentViewModeActionName();
 }
 
 #include "dolphinpart.moc"

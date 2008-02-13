@@ -57,3 +57,26 @@ X-KDE-BrowserView-HideFromMenus=true
 X-KDE-BrowserView-Built-Into=konqueror
 Icon=view_icon
 InitialPreference=7
+
+# Provide info about the view modes using the Actions mechanism so that KService parses it.
+# Konqueror then queries KService to get hold of the translated texts for the view modes
+Actions=icons;details;columns;
+
+[Desktop Action icons]
+Name=Icons
+Icon=view-list-icons
+# Dummy
+Exec=dolphin
+
+[Desktop Action details]
+Name=Details
+Icon=view-list-details
+# Dummy
+Exec=dolphin
+
+[Desktop Action columns]
+Name=Columns
+Icon=view-file-columns
+# Dummy
+Exec=dolphin
+

@@ -38,9 +38,6 @@
 #include <QListView>
 #include <QWidget>
 
-class QActionGroup;
-class KAction;
-class KToggleAction;
 class DolphinController;
 class KDirLister;
 class KFileItemDelegate;
@@ -307,32 +304,9 @@ public:
     void calculateItemCount(int& fileCount, int& folderCount);
 
     /**
-     * Returns the "switch to icons mode" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KToggleAction* iconsModeAction(KActionCollection* collection);
-
-    /**
-     * Returns the "switch to details mode" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KToggleAction* detailsModeAction(KActionCollection* collection);
-
-    /**
-     * Returns the "switch to columns mode" action.
-     * This code is here to share it between the mainwindow and the part
-     */
-    static KToggleAction* columnsModeAction(KActionCollection* collection);
-
-    /**
      * Updates the state of the 'Additional Information' actions in \a collection.
      */
     void updateAdditionalInfoActions(KActionCollection* collection);
-
-    /**
-     * Returns the action name corresponding to the current view mode
-     */
-    QString currentViewModeActionName() const;
 
     /**
      * Returns the state of the paste action:

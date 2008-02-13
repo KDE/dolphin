@@ -177,11 +177,6 @@ void DolphinMainWindow::changeSelection(const KFileItemList& selection)
     activeViewContainer()->view()->changeSelection(selection);
 }
 
-void DolphinMainWindow::slotViewModeChanged()
-{
-    updateViewActions();
-}
-
 void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
 {
     QAction* action = 0;
@@ -473,12 +468,6 @@ void DolphinMainWindow::invertSelection()
 {
     clearStatusBar();
     m_activeViewContainer->view()->invertSelection();
-}
-
-void DolphinMainWindow::setViewMode(QAction* action)
-{
-    const DolphinView::Mode mode = action->data().value<DolphinView::Mode>();
-    m_activeViewContainer->view()->setMode(mode);
 }
 
 void DolphinMainWindow::sortByName()
@@ -836,20 +825,9 @@ void DolphinMainWindow::setupActions()
 
     // setup 'View' menu
 
-    KToggleAction* iconsView = DolphinView::iconsModeAction(actionCollection());
-    KToggleAction* detailsView = DolphinView::detailsModeAction(actionCollection());
-    KToggleAction* columnView = DolphinView::columnsModeAction(actionCollection());
-
-    QActionGroup* viewModeGroup = new QActionGroup(this);
-    viewModeGroup->addAction(iconsView);
-    viewModeGroup->addAction(detailsView);
-    viewModeGroup->addAction(columnView);
-    connect(viewModeGroup, SIGNAL(triggered(QAction*)), this, SLOT(setViewMode(QAction*)));
-
+    //TODO
     //QActionGroup* sortActionGroup = DolphinView::createSortActionGroup(actionCollection());
     //connect(sortActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(sortActionGroupTriggered(QAction*)));
-
-    // TODO use a QActionGroup
 
     KToggleAction* sortByName = actionCollection()->add<KToggleAction>("sort_by_name");
     sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
@@ -1120,11 +1098,6 @@ void DolphinMainWindow::updateViewActions()
     m_actionHandler->updateViewActions();
 
     const DolphinView* view = m_activeViewContainer->view();
-    QAction* action = actionCollection()->action(view->currentViewModeActionName());
-    if (action != 0) {
-        action->setChecked(true);
-    }
-
     slotSortingChanged(view->sorting());
 
     QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
@@ -1156,8 +1129,6 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(updateFilterBarAction(bool)));
 
     DolphinView* view = container->view();
-    connect(view, SIGNAL(modeChanged()),
-            this, SLOT(slotViewModeChanged()));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(selectionChanged(KFileItemList)),
