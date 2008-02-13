@@ -34,6 +34,7 @@
 
 #include <QtCore/QList>
 
+class KAction;
 class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinViewContainer;
@@ -222,9 +223,6 @@ private slots:
      */
     void invertSelection();
 
-    /** The current active view is switched to a new view mode. */
-    void setViewMode(QAction *);
-
     /** The sorting of the current view should be done by the name. */
     void sortByName();
 
@@ -313,9 +311,6 @@ private slots:
 
     /** Opens the settings dialog for Dolphin. */
     void editSettings();
-
-    /** Updates the state of all 'View' menu actions. */
-    void slotViewModeChanged();
 
     /** Updates the state of the 'Sort by' actions. */
     void slotSortingChanged(DolphinView::Sorting sorting);

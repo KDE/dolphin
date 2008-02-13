@@ -23,6 +23,7 @@
 
 #include "libdolphin_export.h"
 #include <QtCore/QObject>
+class KToggleAction;
 class QAction;
 class QActionGroup;
 class DolphinView;
@@ -55,6 +56,12 @@ public:
     void setCurrentView(DolphinView* view);
 
     /**
+     * Returns the name of the action for the current viewmode
+     */
+    QString currentViewModeActionName() const;
+
+public Q_SLOTS:
+    /**
      * Update all actions in the 'View' menu, i.e. those that depend on the
      * settings in the current view.
      */
@@ -73,6 +80,11 @@ private Q_SLOTS:
      * with the key shortcut for "new directory" (F10).
      */
     void slotCreateDir();
+
+    /**
+     * Emitted when the user requested a change of view mode
+     */
+    void slotViewModeActionTriggered(QAction*);
 
     /**
      * Let the user input a name for the selected item(s) and trigger
@@ -156,10 +168,27 @@ private:
      */
     QActionGroup* createAdditionalInformationActionGroup();
 
+    /**
+     * Returns the "switch to icons mode" action.
+     * Helper method for createActions();
+     */
+    KToggleAction* iconsModeAction();
+
+    /**
+     * Returns the "switch to details mode" action.
+     * Helper method for createActions();
+     */
+    KToggleAction* detailsModeAction();
+
+    /**
+     * Returns the "switch to columns mode" action.
+     * Helper method for createActions();
+     */
+    KToggleAction* columnsModeAction();
+
+
     KActionCollection* m_actionCollection;
     DolphinView* m_currentView;
 };
 
-
 #endif /* DOLPHINVIEWACTIONHANDLER_H */
-

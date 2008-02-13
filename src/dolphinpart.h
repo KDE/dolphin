@@ -43,17 +43,38 @@ class DolphinPart : public KParts::ReadOnlyPart
     // Even though it's konqueror doing the undo...
     Q_PROPERTY( bool supportsUndo READ supportsUndo )
 
+    Q_PROPERTY( QString currentViewMode READ currentViewMode WRITE setCurrentViewMode )
+
 public:
     explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QStringList& args);
     ~DolphinPart();
 
     static KAboutData* createAboutData();
 
+    /**
+     * Standard KParts::ReadOnlyPart openUrl method.
+     * Called by Konqueror to view a directory in DolphinPart.
+     */
     virtual bool openUrl(const KUrl& url);
 
     /// see the supportsUndo property
     bool supportsUndo() const { return true; }
 
+    /**
+     * Used by konqueror for setting the view mode
+     * @param viewModeName internal name for the view mode, like "icons"
+     * Those names come from the Actions line in dolphinpart.desktop,
+     * and have to match the name of the KActions.
+     */
+    void setCurrentViewMode(const QString& viewModeName);
+
+    /**
+     * Used by konqueror for displaying the current view mode.
+     * @see setCurrentViewMode
+     */
+    QString currentViewMode() const;
+
+    /// Returns the view owned by this part; used by DolphinPartBrowserExtension
     DolphinView* view() { return m_view; }
 
 protected:
@@ -61,6 +82,12 @@ protected:
      * We reimplement openUrl so no need to implement openFile.
      */
     virtual bool openFile() { return true; }
+
+Q_SIGNALS:
+    /**
+     * Emitted when the view mode changes. Used by konqueror.
+     */
+    void viewModeChanged();
 
 private Q_SLOTS:
     void slotCompleted(const KUrl& url);
@@ -83,10 +110,6 @@ private Q_SLOTS:
      * @url   URL which contains \a item.
      */
     void slotOpenContextMenu(const KFileItem& item, const KUrl& url);
-    /**
-     * Emitted when the user requested a change of view mode
-     */
-    void slotViewModeActionTriggered(QAction*);
 
     /**
      * Asks the host to open the URL \a url if the current view has
@@ -99,11 +122,6 @@ private Q_SLOTS:
      * the signal selectionChanged().
      */
     void slotSelectionChanged(const KFileItemList& selection);
-
-    /**
-     * Same as in DolphinMainWindow: updates the view menu actions
-     */
-    void updateViewActions();
 
     /**
      * Updates the text of the paste action dependent from
