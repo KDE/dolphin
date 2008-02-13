@@ -94,7 +94,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotUrlChanged(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SIGNAL(viewModeChanged())); // relay signal
-    // TODO slotSortingChanged
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);

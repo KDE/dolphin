@@ -21,6 +21,7 @@
 #ifndef DOLPHINVIEWACTIONHANDLER_H
 #define DOLPHINVIEWACTIONHANDLER_H
 
+#include "dolphinview.h"
 #include "libdolphin_export.h"
 #include <QtCore/QObject>
 class KToggleAction;
@@ -126,10 +127,20 @@ private Q_SLOTS:
     void slotSortOrderChanged(Qt::SortOrder order);
 
     /**
+     * Updates the state of the 'Sort by' actions.
+     */
+    void slotSortingChanged(DolphinView::Sorting sorting);
+
+    /**
      * Switches on or off the displaying of additional information
      * as specified by \a action.
      */
     void toggleAdditionalInfo(QAction* action);
+
+    /**
+     * Changes the sorting of the current view.
+     */
+    void slotSortTriggered(QAction*);
 
     /**
      * Updates the state of the 'Additional Information' actions.
@@ -167,6 +178,12 @@ private:
      * Helper method for createActions();
      */
     QActionGroup* createAdditionalInformationActionGroup();
+
+    /**
+     * Creates an action group with all the "sort by" actions in it.
+     * Helper method for createActions();
+     */
+    QActionGroup* createSortByActionGroup();
 
     /**
      * Returns the "switch to icons mode" action.

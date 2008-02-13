@@ -59,6 +59,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotCategorizedSortingChanged()));
     connect(view, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
+    connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
+            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
 }
 
 void DolphinViewActionHandler::createActions()
@@ -115,6 +117,9 @@ void DolphinViewActionHandler::createActions()
     sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
+    QActionGroup* sortByActionGroup = createSortByActionGroup();
+    connect(sortByActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotSortTriggered(QAction*)));
+
     QActionGroup* showInformationActionGroup = createAdditionalInformationActionGroup();
     connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
 
@@ -165,6 +170,76 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
     showMimeInfo->setActionGroup(showInformationGroup);
 
     return showInformationGroup;
+}
+
+Q_DECLARE_METATYPE(DolphinView::Sorting)
+
+QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
+{
+    QActionGroup* sortByActionGroup = new QActionGroup(m_actionCollection);
+    sortByActionGroup->setExclusive(true);
+
+    KToggleAction* sortByName = m_actionCollection->add<KToggleAction>("sort_by_name");
+    sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
+    sortByName->setData(QVariant::fromValue(DolphinView::SortByName));
+    sortByActionGroup->addAction(sortByName);
+
+    KToggleAction* sortBySize = m_actionCollection->add<KToggleAction>("sort_by_size");
+    sortBySize->setText(i18nc("@action:inmenu Sort By", "Size"));
+    sortBySize->setData(QVariant::fromValue(DolphinView::SortBySize));
+    sortByActionGroup->addAction(sortBySize);
+
+    KToggleAction* sortByDate = m_actionCollection->add<KToggleAction>("sort_by_date");
+    sortByDate->setText(i18nc("@action:inmenu Sort By", "Date"));
+    sortByDate->setData(QVariant::fromValue(DolphinView::SortByDate));
+    sortByActionGroup->addAction(sortByDate);
+
+    KToggleAction* sortByPermissions = m_actionCollection->add<KToggleAction>("sort_by_permissions");
+    sortByPermissions->setText(i18nc("@action:inmenu Sort By", "Permissions"));
+    sortByPermissions->setData(QVariant::fromValue(DolphinView::SortByPermissions));
+    sortByActionGroup->addAction(sortByPermissions);
+
+    KToggleAction* sortByOwner = m_actionCollection->add<KToggleAction>("sort_by_owner");
+    sortByOwner->setText(i18nc("@action:inmenu Sort By", "Owner"));
+    sortByOwner->setData(QVariant::fromValue(DolphinView::SortByOwner));
+    sortByActionGroup->addAction(sortByOwner);
+
+    KToggleAction* sortByGroup = m_actionCollection->add<KToggleAction>("sort_by_group");
+    sortByGroup->setText(i18nc("@action:inmenu Sort By", "Group"));
+    sortByGroup->setData(QVariant::fromValue(DolphinView::SortByGroup));
+    sortByActionGroup->addAction(sortByGroup);
+
+    KToggleAction* sortByType = m_actionCollection->add<KToggleAction>("sort_by_type");
+    sortByType->setText(i18nc("@action:inmenu Sort By", "Type"));
+    sortByType->setData(QVariant::fromValue(DolphinView::SortByType));
+    sortByActionGroup->addAction(sortByType);
+
+    // TODO: Hid "sort by rating" and "sort by tags" as without caching the performance
+    // is too slow currently (Nepomuk will support caching in future releases).
+    //
+    // KToggleAction* sortByRating = m_actionCollection->add<KToggleAction>("sort_by_rating");
+    // sortByRating->setData(QVariant::fromValue(DolphinView::SortByRating));
+    // sortByRating->setText(i18nc("@action:inmenu Sort By", "Rating"));
+    // sortByActionGroup->addAction(sortByRating);
+    //
+    // KToggleAction* sortByTags = m_actionCollection->add<KToggleAction>("sort_by_tags");
+    // sortByTags->setData(QVariant::fromValue(DolphinView::SortByTags));
+    // sortByTags->setText(i18nc("@action:inmenu Sort By", "Tags"));
+    // sortByActionGroup->addAction(sortByTags);
+    //
+#ifdef HAVE_NEPOMUK
+    // if (!MetaDataWidget::metaDataAvailable()) {
+    //     sortByRating->setEnabled(false);
+    //     sortByTags->setEnabled(false);
+    // }
+#else
+    // sortByRating->setEnabled(false);
+    // sortByTags->setEnabled(false);
+#endif
+
+
+
+    return sortByActionGroup;
 }
 
 void DolphinViewActionHandler::slotCreateDir()
@@ -252,6 +327,7 @@ void DolphinViewActionHandler::updateViewActions()
     slotSortOrderChanged(m_currentView->sortOrder());
     slotAdditionalInfoChanged();
     slotCategorizedSortingChanged();
+    slotSortingChanged(m_currentView->sorting());
 
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
     showHiddenFilesAction->setChecked(m_currentView->showHiddenFiles());
@@ -346,4 +422,52 @@ KToggleAction* DolphinViewActionHandler::columnsModeAction()
     columnView->setIcon(KIcon("view-file-columns"));
     columnView->setData(QVariant::fromValue(DolphinView::ColumnView));
     return columnView;
+}
+
+void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
+{
+    QAction* action = 0;
+    switch (sorting) {
+    case DolphinView::SortByName:
+        action = m_actionCollection->action("sort_by_name");
+        break;
+    case DolphinView::SortBySize:
+        action = m_actionCollection->action("sort_by_size");
+        break;
+    case DolphinView::SortByDate:
+        action = m_actionCollection->action("sort_by_date");
+        break;
+    case DolphinView::SortByPermissions:
+        action = m_actionCollection->action("sort_by_permissions");
+        break;
+    case DolphinView::SortByOwner:
+        action = m_actionCollection->action("sort_by_owner");
+        break;
+    case DolphinView::SortByGroup:
+        action = m_actionCollection->action("sort_by_group");
+        break;
+    case DolphinView::SortByType:
+        action = m_actionCollection->action("sort_by_type");
+        break;
+#ifdef HAVE_NEPOMUK
+    case DolphinView::SortByRating:
+        action = m_actionCollection->action("sort_by_rating");
+        break;
+    case DolphinView::SortByTags:
+        action = m_actionCollection->action("sort_by_tags");
+        break;
+#endif
+    default:
+        break;
+    }
+
+    if (action != 0) {
+        action->setChecked(true);
+    }
+}
+
+void DolphinViewActionHandler::slotSortTriggered(QAction* action)
+{
+    const DolphinView::Sorting sorting = action->data().value<DolphinView::Sorting>();
+    m_currentView->setSorting(sorting);
 }
