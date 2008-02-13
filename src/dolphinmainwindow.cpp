@@ -177,48 +177,6 @@ void DolphinMainWindow::changeSelection(const KFileItemList& selection)
     activeViewContainer()->view()->changeSelection(selection);
 }
 
-void DolphinMainWindow::slotSortingChanged(DolphinView::Sorting sorting)
-{
-    QAction* action = 0;
-    switch (sorting) {
-    case DolphinView::SortByName:
-        action = actionCollection()->action("sort_by_name");
-        break;
-    case DolphinView::SortBySize:
-        action = actionCollection()->action("sort_by_size");
-        break;
-    case DolphinView::SortByDate:
-        action = actionCollection()->action("sort_by_date");
-        break;
-    case DolphinView::SortByPermissions:
-        action = actionCollection()->action("sort_by_permissions");
-        break;
-    case DolphinView::SortByOwner:
-        action = actionCollection()->action("sort_by_owner");
-        break;
-    case DolphinView::SortByGroup:
-        action = actionCollection()->action("sort_by_group");
-        break;
-    case DolphinView::SortByType:
-        action = actionCollection()->action("sort_by_type");
-        break;
-#ifdef HAVE_NEPOMUK
-    case DolphinView::SortByRating:
-        action = actionCollection()->action("sort_by_rating");
-        break;
-    case DolphinView::SortByTags:
-        action = actionCollection()->action("sort_by_tags");
-        break;
-#endif
-    default:
-        break;
-    }
-
-    if (action != 0) {
-        action->setChecked(true);
-    }
-}
-
 void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 {
     updateEditActions();
@@ -468,55 +426,6 @@ void DolphinMainWindow::invertSelection()
 {
     clearStatusBar();
     m_activeViewContainer->view()->invertSelection();
-}
-
-void DolphinMainWindow::sortByName()
-{
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByName);
-}
-
-void DolphinMainWindow::sortBySize()
-{
-    m_activeViewContainer->view()->setSorting(DolphinView::SortBySize);
-}
-
-void DolphinMainWindow::sortByDate()
-{
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByDate);
-}
-
-void DolphinMainWindow::sortByPermissions()
-{
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByPermissions);
-}
-
-void DolphinMainWindow::sortByOwner()
-{
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByOwner);
-}
-
-void DolphinMainWindow::sortByGroup()
-{
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByGroup);
-}
-
-void DolphinMainWindow::sortByType()
-{
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByType);
-}
-
-void DolphinMainWindow::sortByRating()
-{
-#ifdef HAVE_NEPOMUK
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByRating);
-#endif
-}
-
-void DolphinMainWindow::sortByTags()
-{
-#ifdef HAVE_NEPOMUK
-    m_activeViewContainer->view()->setSorting(DolphinView::SortByTags);
-#endif
 }
 
 void DolphinMainWindow::toggleSplitView()
@@ -824,75 +733,7 @@ void DolphinMainWindow::setupActions()
     connect(invertSelection, SIGNAL(triggered()), this, SLOT(invertSelection()));
 
     // setup 'View' menu
-
-    //TODO
-    //QActionGroup* sortActionGroup = DolphinView::createSortActionGroup(actionCollection());
-    //connect(sortActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(sortActionGroupTriggered(QAction*)));
-
-    KToggleAction* sortByName = actionCollection()->add<KToggleAction>("sort_by_name");
-    sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
-    connect(sortByName, SIGNAL(triggered()), this, SLOT(sortByName()));
-
-    KToggleAction* sortBySize = actionCollection()->add<KToggleAction>("sort_by_size");
-    sortBySize->setText(i18nc("@action:inmenu Sort By", "Size"));
-    connect(sortBySize, SIGNAL(triggered()), this, SLOT(sortBySize()));
-
-    KToggleAction* sortByDate = actionCollection()->add<KToggleAction>("sort_by_date");
-    sortByDate->setText(i18nc("@action:inmenu Sort By", "Date"));
-    connect(sortByDate, SIGNAL(triggered()), this, SLOT(sortByDate()));
-
-    KToggleAction* sortByPermissions = actionCollection()->add<KToggleAction>("sort_by_permissions");
-    sortByPermissions->setText(i18nc("@action:inmenu Sort By", "Permissions"));
-    connect(sortByPermissions, SIGNAL(triggered()), this, SLOT(sortByPermissions()));
-
-    KToggleAction* sortByOwner = actionCollection()->add<KToggleAction>("sort_by_owner");
-    sortByOwner->setText(i18nc("@action:inmenu Sort By", "Owner"));
-    connect(sortByOwner, SIGNAL(triggered()), this, SLOT(sortByOwner()));
-
-    KToggleAction* sortByGroup = actionCollection()->add<KToggleAction>("sort_by_group");
-    sortByGroup->setText(i18nc("@action:inmenu Sort By", "Group"));
-    connect(sortByGroup, SIGNAL(triggered()), this, SLOT(sortByGroup()));
-
-    KToggleAction* sortByType = actionCollection()->add<KToggleAction>("sort_by_type");
-    sortByType->setText(i18nc("@action:inmenu Sort By", "Type"));
-    connect(sortByType, SIGNAL(triggered()), this, SLOT(sortByType()));
-
-    // TODO: Hided "sort by rating" and "sort by tags" as without caching the performance
-    // is too slow currently (Nepomuk will support caching in future releases).
-    //
-    // KToggleAction* sortByRating = actionCollection()->add<KToggleAction>("sort_by_rating");
-    // sortByRating->setText(i18nc("@action:inmenu Sort By", "Rating"));
-    //
-    // KToggleAction* sortByTags = actionCollection()->add<KToggleAction>("sort_by_tags");
-    // sortByTags->setText(i18nc("@action:inmenu Sort By", "Tags"));
-    //
-#ifdef HAVE_NEPOMUK
-    // if (MetaDataWidget::metaDataAvailable()) {
-    //     connect(sortByRating, SIGNAL(triggered()), this, SLOT(sortByRating()));
-    //     connect(sortByTags, SIGNAL(triggered()), this, SLOT(sortByTags()));
-    // }
-    // else {
-    //     sortByRating->setEnabled(false);
-    //     sortByTags->setEnabled(false);
-    // }
-#else
-    // sortByRating->setEnabled(false);
-    // sortByTags->setEnabled(false);
-#endif
-
-    QActionGroup* sortGroup = new QActionGroup(this);
-    sortGroup->addAction(sortByName);
-    sortGroup->addAction(sortBySize);
-    sortGroup->addAction(sortByDate);
-    sortGroup->addAction(sortByPermissions);
-    sortGroup->addAction(sortByOwner);
-    sortGroup->addAction(sortByGroup);
-    sortGroup->addAction(sortByType);
-
-    // TODO: Hided "sort by rating" and "sort by tags" as without caching the performance
-    // is too slow currently (Nepomuk will support caching in future releases).
-    //sortGroup->addAction(sortByRating);
-    //sortGroup->addAction(sortByTags);
+    // (note that most of it is set up in DolphinViewActionHandler)
 
     KAction* split = actionCollection()->addAction("split_view");
     split->setShortcut(Qt::Key_F3);
@@ -1097,9 +938,6 @@ void DolphinMainWindow::updateViewActions()
 {
     m_actionHandler->updateViewActions();
 
-    const DolphinView* view = m_activeViewContainer->view();
-    slotSortingChanged(view->sorting());
-
     QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
     showFilterBarAction->setChecked(m_activeViewContainer->isFilterBarVisible());
 
@@ -1129,8 +967,6 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
             this, SLOT(updateFilterBarAction(bool)));
 
     DolphinView* view = container->view();
-    connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
-            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(selectionChanged(KFileItemList)),
             this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(view, SIGNAL(requestItemInfo(KFileItem)),

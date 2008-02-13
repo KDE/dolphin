@@ -223,33 +223,6 @@ private slots:
      */
     void invertSelection();
 
-    /** The sorting of the current view should be done by the name. */
-    void sortByName();
-
-    /** The sorting of the current view should be done by the size. */
-    void sortBySize();
-
-    /** The sorting of the current view should be done by the date. */
-    void sortByDate();
-
-    /** The sorting of the current view should be done by the permissions. */
-    void sortByPermissions();
-
-    /** The sorting of the current view should be done by the owner. */
-    void sortByOwner();
-
-    /** The sorting of the current view should be done by the group. */
-    void sortByGroup();
-
-    /** The sorting of the current view should be done by the type. */
-    void sortByType();
-
-    /** The sorting of the current view should be done by the rating. */
-    void sortByRating();
-
-    /** The sorting of the current view should be done by tags. */
-    void sortByTags();
-
     /**
      * Switches between one and two views:
      * If one view is visible, it will get split into two views.
@@ -311,9 +284,6 @@ private slots:
 
     /** Opens the settings dialog for Dolphin. */
     void editSettings();
-
-    /** Updates the state of the 'Sort by' actions. */
-    void slotSortingChanged(DolphinView::Sorting sorting);
 
     /**
      * Updates the state of the 'Edit' menu actions and emits
