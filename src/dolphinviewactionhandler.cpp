@@ -236,12 +236,12 @@ void DolphinViewActionHandler::updateViewActions()
         viewModeAction->setChecked(true);
     }
 
-    QAction* zoomInAction = m_actionCollection->action(KStandardAction::stdName(KStandardAction::ZoomIn));
+    QAction* zoomInAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomIn));
     if (zoomInAction != 0) {
         zoomInAction->setEnabled(m_currentView->isZoomInPossible());
     }
 
-    QAction* zoomOutAction = m_actionCollection->action(KStandardAction::stdName(KStandardAction::ZoomOut));
+    QAction* zoomOutAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomOut));
     if (zoomOutAction != 0) {
         zoomOutAction->setEnabled(m_currentView->isZoomOutPossible());
     }
