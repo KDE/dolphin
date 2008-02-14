@@ -13,7 +13,7 @@
         </entry>
         <entry name="HomeUrl" type="String">
             <label context="@label">Home URL</label>
-            <default>~</default>
+            <default></default>
         </entry>
         <entry name="SplitView" type="Bool">
             <label context="@label">Split the view into two panes</label>
