@@ -29,6 +29,7 @@
 #include <kdialog.h>
 #include <kfiledialog.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <kvbox.h>
 
 #include <QCheckBox>
@@ -103,9 +104,11 @@ void StartupSettingsPage::applySettings()
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
     const KUrl url(m_homeUrl->text());
-    KFileItem fileItem(S_IFDIR, KFileItem::Unknown, url);
+    KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, url);
     if (url.isValid() && fileItem.isDir()) {
         settings->setHomeUrl(url.prettyUrl());
+    } else {
+        KMessageBox::error(this, i18n("The location for the home folder is invalid and will not get applied."));
     }
 
     settings->setSplitView(m_splitView->isChecked());
