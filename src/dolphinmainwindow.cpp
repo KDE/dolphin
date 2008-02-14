@@ -606,9 +606,11 @@ void DolphinMainWindow::editSettings()
 
 void DolphinMainWindow::init()
 {
+    DolphinSettings& settings = DolphinSettings::instance();
+
     // Check whether Dolphin runs the first time. If yes then
     // a proper default window size is given at the end of DolphinMainWindow::init().
-    GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* generalSettings = settings.generalSettings();
     const bool firstRun = generalSettings->firstRun();
     if (firstRun) {
         generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
@@ -621,11 +623,9 @@ void DolphinMainWindow::init()
 
     m_splitter = new QSplitter(this);
 
-    DolphinSettings& settings = DolphinSettings::instance();
-
     setupActions();
 
-    const KUrl& homeUrl = settings.generalSettings()->homeUrl();
+    const KUrl& homeUrl = generalSettings->homeUrl();
     setCaption(homeUrl.fileName());
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
