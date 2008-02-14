@@ -172,6 +172,17 @@ void InfoSidebarPage::resizeEvent(QResizeEvent* event)
 
     // try to increase the preview as large as possible
     m_preview->setSizeHint(QSize(maxWidth, maxWidth));
+
+    // ---
+    // TODO: The following workaround was not necessary with Qt 4.3.x
+    // but is mandatory with the current Qt4.4 beta version. Check with
+    // Qt 4.4.0 whether the issue is Dolphin specific
+    // (see PixmapViewer::setSizeHint()) or a regression in Qt.
+    QVBoxLayout* vBox = static_cast<QVBoxLayout*>(layout());
+    vBox->removeWidget(m_preview);
+    vBox->insertWidget(0, m_preview);
+    // ---
+
     m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
     m_timer->start(TimerDelay);
 
