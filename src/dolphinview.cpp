@@ -86,9 +86,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(updateCutItems()));
-
     m_controller = new DolphinController(this);
     m_controller->setUrl(url);
 
