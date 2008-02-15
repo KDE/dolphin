@@ -77,9 +77,7 @@ void PixmapViewer::setPixmap(const QPixmap& pixmap)
 void PixmapViewer::setSizeHint(const QSize& size)
 {
     m_sizeHint = size;
-    if ((parentWidget() != 0) && (parentWidget()->layout() != 0)) {
-        parentWidget()->layout()->activate();
-    }
+    updateGeometry();
 }
 
 QSize PixmapViewer::sizeHint() const
