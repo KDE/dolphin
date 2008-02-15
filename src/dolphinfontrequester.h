@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,48 +17,59 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef COLUMNVIEWSETTINGSPAGE_H
-#define COLUMNVIEWSETTINGSPAGE_H
+#ifndef DOLPHINFONTREQUESTER_H
+#define DOLPHINFONTREQUESTER_H
 
-#include <kvbox.h>
+#include <khbox.h>
 
-class DolphinMainWindow;
-class DolphinFontRequester;
-class QSlider;
-class QRadioButton;
+#include <QFont>
+
+class QComboBox;
+class QPushButton;
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- *        to modify the settings for the details view.
+ * @brief Allows to select between using the system font or a custom font.
  */
-class ColumnViewSettingsPage : public KVBox
+class DolphinFontRequester : public KHBox
 {
     Q_OBJECT
 
 public:
-    ColumnViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~ColumnViewSettingsPage();
+    enum Mode
+    {
+        SystemFont = 0,
+        CustomFont = 1
+    };
+
+    DolphinFontRequester(QWidget* parent);
+    virtual ~DolphinFontRequester();
+
+    void setMode(Mode mode);
+    Mode mode() const;
 
     /**
-     * Applies the settings for the details view.
-     * The settings are persisted automatically when
-     * closing Dolphin.
+     * Returns the custom font (see DolphinFontRequester::customFont()),
+     * if the mode is \a CustomFont, otherwise the system font is
+     * returned.
      */
-    void applySettings();
+    QFont font() const;
 
-    /** Restores the settings to default values. */
-    void restoreDefaults();
+    void setCustomFont(const QFont& font);
+    QFont customFont() const;
+
+protected:
+    bool event(QEvent* event);
+
+private slots:
+    void openFontDialog();
+    void changeMode(int index);
 
 private:
-    void loadSettings();
+    QComboBox* m_modeCombo;
+    QPushButton* m_chooseFontButton;
 
-private:
-    DolphinMainWindow* m_mainWindow;
-    QRadioButton* m_smallIconSize;
-    QRadioButton* m_mediumIconSize;
-    QRadioButton* m_largeIconSize;
-    DolphinFontRequester* m_fontRequester;
-    QSlider* m_columnWidthSlider;
+    Mode m_mode;
+    QFont m_customFont;
 };
 
 #endif

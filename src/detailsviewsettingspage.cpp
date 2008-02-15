@@ -23,16 +23,16 @@
 #include "dolphin_detailsmodesettings.h"
 
 #include <kdialog.h>
-#include <kfontrequester.h>
+#include <dolphinfontrequester.h>
 #include <klocale.h>
 
-#include <QtGui/QButtonGroup>
-#include <QtGui/QCheckBox>
-#include <QtGui/QComboBox>
-#include <QtGui/QGroupBox>
-#include <QtGui/QGridLayout>
-#include <QtGui/QLabel>
-#include <QtGui/QRadioButton>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QGroupBox>
+#include <QGridLayout>
+#include <QLabel>
+#include <QRadioButton>
 #include <QtGui/QSpinBox>
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
@@ -74,7 +74,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     textBox->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textBox);
-    m_fontRequester = new KFontRequester(textBox);
+    m_fontRequester = new DolphinFontRequester(textBox);
 
     QHBoxLayout* textLayout = new QHBoxLayout(textBox);
     textLayout->addWidget(fontLabel);
@@ -105,6 +105,7 @@ void DetailsViewSettingsPage::applySettings()
     settings->setIconSize(iconSize);
 
     const QFont font = m_fontRequester->font();
+    settings->setUseSystemFont(m_fontRequester->mode() == DolphinFontRequester::SystemFont);
     settings->setFontFamily(font.family());
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
@@ -136,11 +137,16 @@ void DetailsViewSettingsPage::loadSettings()
         m_smallIconSize->setChecked(true);
     }
 
-    QFont font(settings->fontFamily(),
-               settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_fontRequester->setFont(font);
+    if (settings->useSystemFont()) {
+        m_fontRequester->setMode(DolphinFontRequester::SystemFont);
+    } else {
+        QFont font(settings->fontFamily(),
+                   settings->fontSize());
+        font.setItalic(settings->italicFont());
+        font.setBold(settings->boldFont());
+        m_fontRequester->setMode(DolphinFontRequester::CustomFont);
+        m_fontRequester->setCustomFont(font);
+    }
 }
 
 #include "detailsviewsettingspage.moc"

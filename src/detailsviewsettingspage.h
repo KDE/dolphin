@@ -23,7 +23,7 @@
 #include <kvbox.h>
 
 class DolphinMainWindow;
-class KFontRequester;
+class DolphinFontRequester;
 class QCheckBox;
 class QRadioButton;
 
@@ -57,7 +57,7 @@ private:
     QRadioButton* m_smallIconSize;
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;
-    KFontRequester* m_fontRequester;
+    DolphinFontRequester* m_fontRequester;
 };
 
 #endif

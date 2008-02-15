@@ -10,6 +10,10 @@
             <label context="@label">Arrangement</label>
             <default code="true">QListView::TopToBottom</default>
         </entry>
+        <entry name="UseSystemFont" type="Bool">
+            <label context="@label">Use system font</label>
+            <default>true</default>
+        </entry>
         <entry name="FontFamily" type="String">
             <label context="@label">Font family</label>
             <default code="true">KGlobalSettings::generalFont().family()</default>

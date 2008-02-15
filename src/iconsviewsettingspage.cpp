@@ -19,13 +19,13 @@
 
 #include "iconsviewsettingspage.h"
 
+#include "dolphinfontrequester.h"
 #include "dolphinsettings.h"
 #include "iconsizedialog.h"
 
 #include "dolphin_iconsmodesettings.h"
 
 #include <kdialog.h>
-#include <kfontrequester.h>
 #include <kiconloader.h>
 #include <kglobalsettings.h>
 #include <klocale.h>
@@ -70,7 +70,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     textGroup->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
-    m_fontRequester = new KFontRequester(textGroup);
+    m_fontRequester = new DolphinFontRequester(textGroup);
 
     QLabel* textlinesCountLabel = new QLabel(i18nc("@label:textbox", "Number of lines:"), textGroup);
     m_textlinesCountBox = new QSpinBox(textGroup);
@@ -155,6 +155,7 @@ void IconsViewSettingsPage::applySettings()
     settings->setItemWidth(itemWidth);
     settings->setItemHeight(itemHeight);
 
+    settings->setUseSystemFont(m_fontRequester->mode() == DolphinFontRequester::SystemFont);
     settings->setFontFamily(font.family());
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
@@ -189,11 +190,16 @@ void IconsViewSettingsPage::loadSettings()
     m_iconSize = settings->iconSize();
     m_previewSize = settings->previewSize();
 
-    QFont font(settings->fontFamily(),
-               settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_fontRequester->setFont(font);
+    if (settings->useSystemFont()) {
+        m_fontRequester->setMode(DolphinFontRequester::SystemFont);
+    } else {
+        QFont font(settings->fontFamily(),
+                   settings->fontSize());
+        font.setItalic(settings->italicFont());
+        font.setBold(settings->boldFont());
+        m_fontRequester->setMode(DolphinFontRequester::CustomFont);
+        m_fontRequester->setCustomFont(font);
+    }
 
     m_textlinesCountBox->setValue(settings->numberOfTextlines());
 

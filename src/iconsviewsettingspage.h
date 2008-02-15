@@ -24,7 +24,7 @@
 #include <kvbox.h>
 
 class DolphinMainWindow;
-class KFontRequester;
+class DolphinFontRequester;
 class QCheckBox;
 class QComboBox;
 class QPushButton;
@@ -86,7 +86,7 @@ private:
 
     QPushButton* m_iconSizeButton;
     QComboBox* m_textWidthBox;
-    KFontRequester* m_fontRequester;
+    DolphinFontRequester* m_fontRequester;
     QSpinBox* m_textlinesCountBox;
 
     QComboBox* m_arrangementBox;

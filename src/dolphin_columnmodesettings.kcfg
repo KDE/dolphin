@@ -9,6 +9,10 @@
             <label context="@label">Font family</label>
             <default code="true">KGlobalSettings::generalFont().family()</default>
         </entry>
+        <entry name="UseSystemFont" type="Bool">
+            <label context="@label">Use system font</label>
+            <default>true</default>
+        </entry>
         <entry name="FontSize" type="Int">
             <label context="@label">Font size</label>
             <default code="true">KGlobalSettings::generalFont().pointSize()</default>

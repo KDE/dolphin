@@ -85,6 +85,7 @@ set(dolphin_SRCS
    columnviewsettingspage.cpp
    detailsviewsettingspage.cpp
    dolphinapplication.cpp
+   dolphinfontrequester.cpp
    dolphinmainwindow.cpp
    dolphinnewmenu.cpp
    dolphinviewcontainer.cpp

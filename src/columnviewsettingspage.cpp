@@ -19,11 +19,11 @@
 
 #include "columnviewsettingspage.h"
 
+#include "dolphinfontrequester.h"
 #include "dolphinsettings.h"
 #include "dolphin_columnmodesettings.h"
 
 #include <kdialog.h>
-#include <kfontrequester.h>
 #include <klocale.h>
 
 #include <QButtonGroup>
@@ -92,7 +92,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     textBox->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textBox);
-    m_fontRequester = new KFontRequester(textBox);
+    m_fontRequester = new DolphinFontRequester(textBox);
 
     QHBoxLayout* textLayout = new QHBoxLayout(textBox);
     textLayout->addWidget(fontLabel);
@@ -123,6 +123,7 @@ void ColumnViewSettingsPage::applySettings()
     settings->setIconSize(iconSize);
 
     const QFont font = m_fontRequester->font();
+    settings->setUseSystemFont(m_fontRequester->mode() == DolphinFontRequester::SystemFont);
     settings->setFontFamily(font.family());
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
@@ -157,11 +158,16 @@ void ColumnViewSettingsPage::loadSettings()
         m_smallIconSize->setChecked(true);
     }
 
-    QFont font(settings->fontFamily(),
-               settings->fontSize());
-    font.setItalic(settings->italicFont());
-    font.setBold(settings->boldFont());
-    m_fontRequester->setFont(font);
+    if (settings->useSystemFont()) {
+        m_fontRequester->setMode(DolphinFontRequester::SystemFont);
+    } else {
+        QFont font(settings->fontFamily(),
+                   settings->fontSize());
+        font.setItalic(settings->italicFont());
+        font.setBold(settings->boldFont());
+        m_fontRequester->setMode(DolphinFontRequester::CustomFont);
+        m_fontRequester->setCustomFont(font);
+    }
 
     m_columnWidthSlider->setValue((settings->columnWidth() - 150) / 50);
 }
