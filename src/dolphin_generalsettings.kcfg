@@ -2,6 +2,7 @@
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
     <kcfgfile name="dolphinrc"/>
+    <include>QDir</include>
     <group name="General">
         <entry name="EditableUrl" type="Bool">
             <label context="@label">Should the URL be editable for the user</label>
@@ -13,7 +14,7 @@
         </entry>
         <entry name="HomeUrl" type="String">
             <label context="@label">Home URL</label>
-            <default></default>
+            <default code="true">QDir::homePath()</default>
         </entry>
         <entry name="SplitView" type="Bool">
             <label context="@label">Split the view into two panes</label>

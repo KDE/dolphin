@@ -140,7 +140,7 @@ void StartupSettingsPage::useCurrentLocation()
 
 void StartupSettingsPage::useDefaultLocation()
 {
-    m_homeUrl->setText("file://" + QDir::homePath());
+    m_homeUrl->setText(QDir::homePath());
 }
 
 void StartupSettingsPage::loadSettings()

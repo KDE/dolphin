@@ -614,9 +614,6 @@ void DolphinMainWindow::init()
     const bool firstRun = generalSettings->firstRun();
     if (firstRun) {
         generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
-        Q_ASSERT(generalSettings->homeUrl().isEmpty());
-        const KUrl homeUrl(QDir::homePath());
-        generalSettings->setHomeUrl(homeUrl.prettyUrl());
     }
 
     setAcceptDrops(true);
