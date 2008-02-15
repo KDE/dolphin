@@ -106,7 +106,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     //m_dirLister = new DolphinDirLister(); TODO
     m_dirLister = new KDirLister();
     m_dirLister->setAutoUpdate(true);
-    m_dirLister->setMainWindow(this);
+    m_dirLister->setMainWindow(topLevelWidget());
     m_dirLister->setDelayedMimeTypes(true);
     const bool showHiddenFiles = m_view->m_controller->dolphinView()->showHiddenFiles();
     m_dirLister->setShowingDotFiles(showHiddenFiles);

@@ -90,7 +90,7 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister = new KDirLister();
         m_dirLister->setDirOnlyMode(true);
         m_dirLister->setAutoUpdate(true);
-        m_dirLister->setMainWindow(this);
+        m_dirLister->setMainWindow(topLevelWidget());
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
 
