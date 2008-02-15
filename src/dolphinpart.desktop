@@ -139,12 +139,14 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[is]=Nánar
 Icon=view-list-details
 # Dummy
 Exec=dolphin
 
 [Desktop Action columns]
 Name=Columns
+Name[is]=Dálkar
 Icon=view-file-columns
 # Dummy
 Exec=dolphin
