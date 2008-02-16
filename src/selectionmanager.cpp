@@ -66,6 +66,10 @@ void SelectionManager::slotEntered(const QModelIndex& index)
 
         connect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                 this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
+        connect(m_view->selectionModel(),
+                SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+                this,
+                SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
 
         const QRect rect = m_view->visualRect(index);
 
@@ -81,6 +85,10 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         m_toggle->setUrl(KUrl());
         disconnect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                    this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
+        disconnect(m_view->selectionModel(),
+                   SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+                   this,
+                   SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
     }
 }
 
@@ -110,6 +118,24 @@ void SelectionManager::slotRowsRemoved(const QModelIndex& parent, int start, int
     Q_UNUSED(start);
     Q_UNUSED(end);
     m_toggle->hide();
+}
+
+void SelectionManager::slotSelectionChanged(const QItemSelection& selected,
+                                            const QItemSelection& deselected)
+{
+    // The selection has been changed outside the scope of the selection manager
+    // (e. g. by the rubberband or the "Select All" action). Take care updating
+    // the state of the toggle button.
+    const QModelIndex index = indexForUrl(m_toggle->url());
+    if (index.isValid()) {
+        if (selected.contains(index)) {
+            m_toggle->setChecked(true);
+        }
+
+        if (deselected.contains(index)) {
+            m_toggle->setChecked(false);
+        }
+    }
 }
 
 KUrl SelectionManager::urlForIndex(const QModelIndex& index) const

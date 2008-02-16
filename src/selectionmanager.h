@@ -28,6 +28,7 @@ class DolphinSortFilterProxyModel;
 class QAbstractItemView;
 class QModelIndex;
 class QAbstractButton;
+class QItemSelection;
 class SelectionToggle;
 
 /**
@@ -60,6 +61,7 @@ private slots:
     void slotViewportEntered();
     void setItemSelected(bool selected);
     void slotRowsRemoved(const QModelIndex& parent, int start, int end);
+    void slotSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 private:
     KUrl urlForIndex(const QModelIndex& index) const;
