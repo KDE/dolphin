@@ -227,7 +227,7 @@ void DolphinView::setShowPreview(bool show)
     m_iconManager->setShowPreview(show);
     emit showPreviewChanged();
 
-    loadDirectory(viewPropsUrl, true);
+    loadDirectory(viewPropsUrl);
 }
 
 bool DolphinView::showPreview() const
@@ -248,7 +248,7 @@ void DolphinView::setShowHiddenFiles(bool show)
     m_dirLister->setShowingDotFiles(show);
     emit showHiddenFilesChanged();
 
-    loadDirectory(viewPropsUrl, true);
+    loadDirectory(viewPropsUrl);
 }
 
 bool DolphinView::showHiddenFiles() const
@@ -452,7 +452,7 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
     if (itemView() != m_detailsView) {
         // the details view requires no reloading of the directory, as it maps
         // the file item delegate info to its columns internally
-        loadDirectory(viewPropsUrl, true);
+        loadDirectory(viewPropsUrl);
     }
 }
 

@@ -58,6 +58,7 @@ private:
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;
     DolphinFontRequester* m_fontRequester;
+    QCheckBox* m_expandableFolders;
 };
 
 #endif

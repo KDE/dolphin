@@ -116,11 +116,24 @@ void IconManager::updateIcons(const KFileItemList& items)
 void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
 {
     Q_ASSERT(!item.isNull());
+    if (!m_showPreview) {
+        // the preview has been canceled in the meantime
+        return;
+    }
+
+    // check whether the item is part of the directory lister (it is possible
+    // that a preview from an old directory lister is received)
     KDirLister* dirLister = m_dolphinModel->dirLister();
-    if (!m_showPreview || (item.url().directory() != dirLister->url().path())) {
-        // the preview has been canceled in the meanwhile or the preview
-        // job is still working on items of an older URL, hence
-        // the item is not part of the directory model anymore
+    bool isOldPreview = true;
+    const KUrl::List dirs = dirLister->directories();
+    const QString itemDir = item.url().directory();
+    foreach (KUrl url, dirs) {
+        if (url.path() == itemDir) {
+            isOldPreview = false;
+            break;
+        }
+    }
+    if (isOldPreview) {
         return;
     }
 
@@ -192,7 +205,13 @@ void IconManager::applyCutItemEffect()
         return;
     }
 
-    const KFileItemList items(m_dolphinModel->dirLister()->items());
+    KFileItemList items;
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    const KUrl::List dirs = dirLister->directories();
+    foreach (KUrl url, dirs) {
+        items << dirLister->itemsForDir(url);
+    }
+
     foreach (KFileItem item, items) {
         if (isCutItem(item)) {
             const QModelIndex index = m_dolphinModel->indexForItem(item);

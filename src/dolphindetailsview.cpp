@@ -54,17 +54,19 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_elasticBandOrigin(),
     m_elasticBandDestination()
 {
+    const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    Q_ASSERT(settings != 0);
     Q_ASSERT(controller != 0);
 
     setAcceptDrops(true);
-    setRootIsDecorated(false);
     setSortingEnabled(true);
     setUniformRowHeights(true);
     setSelectionBehavior(SelectItems);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
     setAlternatingRowColors(true);
-    setItemsExpandable(false);
+    setRootIsDecorated(settings->expandableFolders());
+    setItemsExpandable(settings->expandableFolders());
 
     setMouseTracking(true);
     viewport()->setAttribute(Qt::WA_Hover);
@@ -117,10 +119,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(zoomOut()));
     connect(controller->dolphinView(), SIGNAL(additionalInfoChanged()),
             this, SLOT(updateColumnVisibility()));
-
-    // apply the details mode settings to the widget
-    const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    Q_ASSERT(settings != 0);
 
     m_font = QFont(settings->fontFamily(), settings->fontSize());
 

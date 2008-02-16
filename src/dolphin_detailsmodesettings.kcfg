@@ -29,5 +29,9 @@
             <label context="@label">Icon size</label>
             <default code="true">KIconLoader::SizeSmall</default>
         </entry>
+        <entry name="ExpandableFolders" type="Bool">
+            <label context="@label">Expandable folders</label>
+            <default>false</default>
+        </entry>
     </group>
 </kcfg>

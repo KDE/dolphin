@@ -42,7 +42,8 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_smallIconSize(0),
     m_mediumIconSize(0),
     m_largeIconSize(0),
-    m_fontRequester(0)
+    m_fontRequester(0),
+    m_expandableFolders(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -80,6 +81,9 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     textLayout->addWidget(fontLabel);
     textLayout->addWidget(m_fontRequester);
 
+    // create "Expandable Folders" checkbox
+    m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable Folders"), this);
+
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
@@ -110,6 +114,8 @@ void DetailsViewSettingsPage::applySettings()
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
     settings->setBoldFont(font.bold());
+
+    settings->setExpandableFolders(m_expandableFolders->isChecked());
 }
 
 void DetailsViewSettingsPage::restoreDefaults()
@@ -147,6 +153,8 @@ void DetailsViewSettingsPage::loadSettings()
         m_fontRequester->setMode(DolphinFontRequester::CustomFont);
         m_fontRequester->setCustomFont(font);
     }
+
+    m_expandableFolders->setChecked(settings->expandableFolders());
 }
 
 #include "detailsviewsettingspage.moc"
