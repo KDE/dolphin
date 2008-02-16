@@ -227,11 +227,30 @@ void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
             setSelection(selRect, QItemSelectionModel::Select);
         }
 
-        QTreeView::mouseMoveEvent(event);
+        // TODO: see comment at end of method
+        // QTreeView::mouseMoveEvent(event);
+        QAbstractItemView::mouseMoveEvent(event);
         updateElasticBand();
     } else {
-        QTreeView::mouseMoveEvent(event);
+        // TODO: see comment at end of method
+        //QTreeView::mouseMoveEvent(event);
+        QAbstractItemView::mouseMoveEvent(event);
     }
+
+    // The original implementation of QTreeView::mouseMoveEvent() looks like this (Qt4.4):
+    //
+    // void QTreeView::mouseMoveEvent(QMouseEvent *event)
+    // {
+    //     Q_D(QTreeView);
+    //     if (d->itemDecorationAt(event->pos()) == -1) // ### what about expanding/collapsing state ?
+    //         QAbstractItemView::mouseMoveEvent(event);
+    // }
+    //
+    // This prevents that the signal 'entered()' is emitted when the mouse is above a decoration,
+    // although the hovered item has changed. The SelectionManager is connected to 'entered()'
+    // and assumes that the old item is selected. This is currently bypassed by skipping
+    // the base implementation and invoking QAbstractItemView::mouseMoveEvent() directly.
+    // Submitted a bug report to Trolltech, bug ID is still pending.
 }
 
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
