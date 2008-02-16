@@ -139,14 +139,20 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[ca]=Detalls
+Name[da]=Detaljer
 Name[is]=Nánar
+Name[nds]=Enkelheiten
 Icon=view-list-details
 # Dummy
 Exec=dolphin
 
 [Desktop Action columns]
 Name=Columns
+Name[ca]=Columnes
+Name[da]=Kolonner
 Name[is]=Dálkar
+Name[nds]=Striepen
 Icon=view-file-columns
 # Dummy
 Exec=dolphin
