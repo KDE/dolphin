@@ -148,7 +148,7 @@ private:
 
     QLabel* m_infoLabel;
 
-    MetaDataWidget* m_metadataWidget;
+    MetaDataWidget* m_metaDataWidget;
 };
 
 #endif // INFOSIDEBARPAGE_H

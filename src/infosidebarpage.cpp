@@ -54,7 +54,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_preview(0),
     m_nameLabel(0),
     m_infoLabel(0),
-    m_metadataWidget(0)
+    m_metaDataWidget(0)
 {
     const int spacing = KDialog::spacingHint();
 
@@ -85,7 +85,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_infoLabel->setFont(KGlobalSettings::smallestReadableFont());
 
     if (MetaDataWidget::metaDataAvailable()) {
-        m_metadataWidget = new MetaDataWidget(this);
+        m_metaDataWidget = new MetaDataWidget(this);
     }
 
     layout->addItem(new QSpacerItem(spacing, spacing, QSizePolicy::Preferred, QSizePolicy::Fixed));
@@ -93,9 +93,9 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator(this));
     layout->addWidget(m_infoLabel);
-    if (m_metadataWidget != 0) {
+    if (m_metaDataWidget != 0) {
         layout->addWidget(new KSeparator(this));
-        layout->addWidget(m_metadataWidget);
+        layout->addWidget(m_metaDataWidget);
     }
     // ensure that widgets in the information side bar are aligned towards the top
     layout->addStretch(1);
@@ -335,16 +335,16 @@ void InfoSidebarPage::showMetaInfo()
             }
         }
 
-        if (m_metadataWidget != 0) {
-            m_metadataWidget->setFile(fileItem.url());
+        if (m_metaDataWidget != 0) {
+            m_metaDataWidget->setFile(fileItem.url());
         }
     } else {
-        if (m_metadataWidget != 0) {
+        if (m_metaDataWidget != 0) {
             KUrl::List urls;
             foreach (const KFileItem& item, selectedItems) {
                 urls.append(item.url());
             }
-            m_metadataWidget->setFiles(urls);
+            m_metaDataWidget->setFiles(urls);
         }
 
         unsigned long int totalSize = 0;
