@@ -335,11 +335,11 @@ void InfoSidebarPage::showMetaInfo()
             }
         }
 
-        if (MetaDataWidget::metaDataAvailable()) {
+        if (m_metadataWidget != 0) {
             m_metadataWidget->setFile(fileItem.url());
         }
     } else {
-        if (MetaDataWidget::metaDataAvailable()) {
+        if (m_metadataWidget != 0) {
             KUrl::List urls;
             foreach (const KFileItem& item, selectedItems) {
                 urls.append(item.url());
