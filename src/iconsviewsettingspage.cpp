@@ -159,7 +159,7 @@ void IconsViewSettingsPage::applySettings()
     settings->setFontFamily(font.family());
     settings->setFontSize(font.pointSize());
     settings->setItalicFont(font.italic());
-    settings->setBoldFont(font.bold());
+    settings->setFontWeight(font.weight());
 
     settings->setNumberOfTextlines(numberOfTextlines);
 
@@ -196,7 +196,7 @@ void IconsViewSettingsPage::loadSettings()
         QFont font(settings->fontFamily(),
                    settings->fontSize());
         font.setItalic(settings->italicFont());
-        font.setBold(settings->boldFont());
+        font.setWeight(settings->fontWeight());
         m_fontRequester->setMode(DolphinFontRequester::CustomFont);
         m_fontRequester->setCustomFont(font);
     }

@@ -72,6 +72,7 @@ private slots:
     void zoomIn();
     void zoomOut();
     void requestActivation();
+    void updateFont();
 
 private:
     bool isZoomInPossible() const;

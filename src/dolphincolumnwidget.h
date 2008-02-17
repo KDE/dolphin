@@ -124,6 +124,8 @@ private slots:
 
     void requestActivation();
 
+    void updateFont();
+
 private:
     /** Used by DolphinColumnWidget::setActive(). */
     void activate();

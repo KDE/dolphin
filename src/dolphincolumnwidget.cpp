@@ -86,9 +86,14 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     Q_ASSERT(settings != 0);
 
-    m_font = QFont(settings->fontFamily(), settings->fontSize());
-    m_font.setItalic(settings->italicFont());
-    m_font.setBold(settings->boldFont());
+    if (settings->useSystemFont()) {
+        m_font = KGlobalSettings::generalFont();
+    } else {
+        m_font = QFont(settings->fontFamily(),
+                       settings->fontSize(),
+                       settings->fontWeight(),
+                       settings->italicFont());
+    }
 
     const int iconSize = settings->iconSize();
     setDecorationSize(QSize(iconSize, iconSize));
@@ -131,12 +136,16 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                 this, SLOT(requestActivation()));
         connect(m_view->m_controller, SIGNAL(urlChanged(const KUrl&)),
                 selManager, SLOT(reset()));
-}
+    }
+
     new KMimeTypeResolver(this, m_dolphinModel);
     m_iconManager = new IconManager(this, m_proxyModel);
     m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);
+
+    connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
+            this, SLOT(updateFont()));
 }
 
 DolphinColumnWidget::~DolphinColumnWidget()
@@ -403,6 +412,16 @@ void DolphinColumnWidget::requestActivation()
         m_view->requestActivation(this);
         m_view->m_controller->triggerUrlChangeRequest(m_url);
         selectionModel()->clear();
+    }
+}
+
+void DolphinColumnWidget::updateFont()
+{
+    const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    Q_ASSERT(settings != 0);
+
+    if (settings->useSystemFont()) {
+        m_font = KGlobalSettings::generalFont();
     }
 }
 

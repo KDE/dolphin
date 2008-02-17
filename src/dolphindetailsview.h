@@ -133,6 +133,8 @@ private slots:
 
     void requestActivation();
 
+    void updateFont();
+
 private:
     bool isZoomInPossible() const;
     bool isZoomOutPossible() const;

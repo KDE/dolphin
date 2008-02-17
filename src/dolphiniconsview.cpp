@@ -98,9 +98,14 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
 
-    m_font = QFont(settings->fontFamily(), settings->fontSize());
-    m_font.setItalic(settings->italicFont());
-    m_font.setBold(settings->boldFont());
+    if (settings->useSystemFont()) {
+        m_font = KGlobalSettings::generalFont();
+    } else {
+        m_font = QFont(settings->fontFamily(),
+                       settings->fontSize(),
+                       settings->fontWeight(),
+                       settings->italicFont());
+    }
 
     setWordWrap(settings->numberOfTextlines() > 1);
     updateGridSize(view->showPreview(), 0);
@@ -119,6 +124,9 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     setCategoryDrawer(m_categoryDrawer);
 
     setFocus();
+
+    connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
+            this, SLOT(updateFont()));
 }
 
 DolphinIconsView::~DolphinIconsView()
@@ -405,6 +413,16 @@ void DolphinIconsView::zoomOut()
 void DolphinIconsView::requestActivation()
 {
     m_controller->requestActivation();
+}
+
+void DolphinIconsView::updateFont()
+{
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    Q_ASSERT(settings != 0);
+
+    if (settings->useSystemFont()) {
+        m_font = KGlobalSettings::generalFont();
+    }
 }
 
 bool DolphinIconsView::isZoomInPossible() const

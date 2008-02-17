@@ -120,7 +120,14 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     connect(controller->dolphinView(), SIGNAL(additionalInfoChanged()),
             this, SLOT(updateColumnVisibility()));
 
-    m_font = QFont(settings->fontFamily(), settings->fontSize());
+    if (settings->useSystemFont()) {
+        m_font = KGlobalSettings::generalFont();
+    } else {
+        m_font = QFont(settings->fontFamily(),
+                       settings->fontSize(),
+                       settings->fontWeight(),
+                       settings->italicFont());
+    }
 
 // TODO: Remove this check when 4.3.2 is released and KDE requires it... this
 //       check avoids a division by zero happening on versions before 4.3.1.
@@ -134,6 +141,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     updateDecorationSize();
 
     setFocus();
+
+    connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
+            this, SLOT(updateFont()));
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -547,6 +557,16 @@ void DolphinDetailsView::disableAutoResizing()
 void DolphinDetailsView::requestActivation()
 {
     m_controller->requestActivation();
+}
+
+void DolphinDetailsView::updateFont()
+{
+    const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    Q_ASSERT(settings != 0);
+
+    if (settings->useSystemFont()) {
+        m_font = KGlobalSettings::generalFont();
+    }
 }
 
 bool DolphinDetailsView::isZoomInPossible() const

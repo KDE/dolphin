@@ -21,9 +21,9 @@
             <label context="@label">Italic</label>
             <default>false</default>
         </entry>
-        <entry name="BoldFont" type="Bool">
-            <label context="@label">Bold</label>
-            <default>false</default>
+        <entry name="FontWeight" type="Int">
+            <label context="@label">Font weight</label>
+            <default>0</default>
         </entry>
         <entry name="IconSize" type="Int">
             <label context="@label">Icon size</label>
