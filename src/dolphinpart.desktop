@@ -5,6 +5,8 @@ Name[ga]=Amharc Dolphin
 Name[gu]=ડોલ્ફિન દેખાવ
 Name[km]=ទិដ្ឋភាព Dolphin
 Name[ko]=Dolphin 보기
+Name[pt]=Área do Dolphin
+Name[pt_BR]=Área do Dolphin
 MimeType=inode/directory;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=dolphinpart
@@ -100,6 +102,8 @@ Name=Details
 Name[ga]=Mionsonraí
 Name[gu]=વિગતો
 Name[ko]=자세히
+Name[pt]=Detalhes
+Name[pt_BR]=Detalhes
 Icon=view-list-details
 # Dummy
 Exec=dolphin
@@ -109,6 +113,8 @@ Name=Columns
 Name[ga]=Colúin
 Name[gu]=સ્થંભો
 Name[ko]=열
+Name[pt]=Colunas
+Name[pt_BR]=Colunas
 Icon=view-file-columns
 # Dummy
 Exec=dolphin
