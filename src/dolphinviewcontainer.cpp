@@ -87,7 +87,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
 
     m_dirLister = new DolphinDirLister();
     m_dirLister->setAutoUpdate(true);
-    m_dirLister->setMainWindow(topLevelWidget());
+    m_dirLister->setMainWindow(window());
     m_dirLister->setDelayedMimeTypes(true);
 
     m_dolphinModel = new DolphinModel(this);

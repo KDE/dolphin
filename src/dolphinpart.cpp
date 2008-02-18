@@ -54,7 +54,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
 
     m_dirLister = new KDirLister;
     m_dirLister->setAutoUpdate(true);
-    m_dirLister->setMainWindow(parentWidget->topLevelWidget());
+    m_dirLister->setMainWindow(parentWidget->window());
     m_dirLister->setDelayedMimeTypes(true);
 
     //connect(m_dirLister, SIGNAL(started(KUrl)), this, SLOT(slotStarted()));
