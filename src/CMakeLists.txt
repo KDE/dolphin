@@ -57,7 +57,7 @@ endif (Nepomuk_FOUND)
 
 
 set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
-install(TARGETS dolphinprivate  DESTINATION ${LIB_INSTALL_DIR})
+install(TARGETS dolphinprivate  DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 
 ##########################################
