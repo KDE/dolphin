@@ -143,6 +143,9 @@ Name[ca]=Detalls
 Name[da]=Detaljer
 Name[is]=Nánar
 Name[nds]=Enkelheiten
+Name[pt]=Detalhes
+Name[pt_BR]=Detalhes
+Name[zh_CN]=细节
 Icon=view-list-details
 # Dummy
 Exec=dolphin
@@ -153,6 +156,9 @@ Name[ca]=Columnes
 Name[da]=Kolonner
 Name[is]=Dálkar
 Name[nds]=Striepen
+Name[pt]=Colunas
+Name[pt_BR]=Colunas
+Name[zh_CN]=列
 Icon=view-file-columns
 # Dummy
 Exec=dolphin
