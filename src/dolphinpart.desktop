@@ -1,12 +1,16 @@
 [Desktop Entry]
 Type=Service
 Name=Dolphin View
+Name[es]=Vista de Dolphin
 Name[ga]=Amharc Dolphin
 Name[gu]=ડોલ્ફિન દેખાવ
+Name[ja]=Dolphin ビュー
 Name[km]=ទិដ្ឋភាព Dolphin
 Name[ko]=Dolphin 보기
 Name[pt]=Área do Dolphin
 Name[pt_BR]=Área do Dolphin
+Name[zh_CN]=Dolphin 视图
+Name[zh_TW]=Dolphin 檢視
 MimeType=inode/directory;
 X-KDE-ServiceTypes=KParts/ReadOnlyPart,Browser/View
 X-KDE-Library=dolphinpart
@@ -99,22 +103,32 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[es]=Detalles
 Name[ga]=Mionsonraí
 Name[gu]=વિગતો
+Name[ja]=詳細
+Name[km]=សេចក្ដី​លម្អិត
 Name[ko]=자세히
 Name[pt]=Detalhes
 Name[pt_BR]=Detalhes
+Name[zh_CN]=细节
+Name[zh_TW]=詳情
 Icon=view-list-details
 # Dummy
 Exec=dolphin
 
 [Desktop Action columns]
 Name=Columns
+Name[es]=Columnas
 Name[ga]=Colúin
 Name[gu]=સ્થંભો
+Name[ja]=カラム
+Name[km]=ជួរឈរ
 Name[ko]=열
 Name[pt]=Colunas
 Name[pt_BR]=Colunas
+Name[zh_CN]=列
+Name[zh_TW]=欄位
 Icon=view-file-columns
 # Dummy
 Exec=dolphin
