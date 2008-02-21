@@ -85,6 +85,7 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
 #ifdef HAVE_NEPOMUK
     d = new Private;
     d->editComment = new QTextEdit(this);
+    d->editComment->setFocusPolicy(Qt::ClickFocus);
     d->ratingWidget = new KRatingWidget(this);
     d->tagWidget = new Nepomuk::TagWidget(this);
     connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));

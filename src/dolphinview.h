@@ -75,11 +75,11 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinView : public QWidget
 
 public:
     /**
-        * Defines the view mode for a directory. The view mode
-        * can be defined when constructing a DolphinView. The
-        * view mode is automatically updated if the directory itself
-        * defines a view mode (see class ViewProperties for details).
-        */
+     * Defines the view mode for a directory. The view mode
+     * can be defined when constructing a DolphinView. The
+     * view mode is automatically updated if the directory itself
+     * defines a view mode (see class ViewProperties for details).
+     */
     enum Mode
     {
         /**
@@ -489,6 +489,7 @@ protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
+    virtual bool eventFilter(QObject* watched, QEvent* event);
 
 private slots:
     /**

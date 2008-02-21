@@ -346,7 +346,7 @@ void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
 {
     QListView::keyPressEvent(event);
-    Q_ASSERT(m_view->m_controller->itemView() == this);
+    requestActivation();
     m_view->m_controller->handleKeyPressEvent(event);
 }
 
@@ -373,7 +373,8 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
 {
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
-    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+    // (installing an event filter does not work, as the wheel event is handled first)
+    if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
         return;
     }

@@ -537,15 +537,24 @@ void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 
 void DolphinView::wheelEvent(QWheelEvent* event)
 {
-    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
-        int d = event->delta();
-        if (d > 0 && isZoomInPossible()) {
+    if (event->modifiers() & Qt::ControlModifier) {
+        const int delta = event->delta();
+        if ((delta > 0) && isZoomInPossible()) {
             zoomIn();
-        } else if (d < 0 && isZoomOutPossible()) {
+        } else if ((delta < 0) && isZoomOutPossible()) {
             zoomOut();
         }
-	event->accept();
+        event->accept();
     }
+}
+
+bool DolphinView::eventFilter(QObject* watched, QEvent* event)
+{
+    if ((watched == itemView()) && (event->type() == QEvent::FocusIn)) {
+        m_controller->requestActivation();
+    }
+
+    return QWidget::eventFilter(watched, event);
 }
 
 void DolphinView::activate()
@@ -897,6 +906,8 @@ void DolphinView::createView()
     }
 
     Q_ASSERT(view != 0);
+    view->installEventFilter(this);
+
     m_controller->setItemView(view);
 
     m_fileItemDelegate = new KFileItemDelegate(view);

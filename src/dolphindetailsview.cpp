@@ -386,9 +386,10 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 {
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
-    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+    // (installing an event filter does not work, as the wheel event is handled first)
+    if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
-	return;
+        return;
     }
     QTreeView::wheelEvent(event);
 }
