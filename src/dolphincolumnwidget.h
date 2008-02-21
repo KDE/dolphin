@@ -133,8 +133,6 @@ private:
     /** Used by DolphinColumnWidget::setActive(). */
     void deactivate();
 
-    KFileItem itemForIndex(const QModelIndex& index) const;
-
 private:
     bool m_active;
     DolphinColumnView* m_view;

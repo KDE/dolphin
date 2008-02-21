@@ -19,6 +19,9 @@
 
 #include "dolphincontroller.h"
 
+#include <kdirmodel.h>
+#include <QAbstractProxyModel>
+
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
     m_zoomInPossible(false),
@@ -96,14 +99,46 @@ void DolphinController::triggerZoomOut()
     emit zoomOut();
 }
 
-void DolphinController::triggerItem(const KFileItem& item)
+void DolphinController::handleKeyPressEvent(QKeyEvent* event, QAbstractItemView* view)
 {
-    emit itemTriggered(item);
+    const QItemSelectionModel* selModel = view->selectionModel();
+    const QModelIndex currentIndex = selModel->currentIndex();
+    const bool trigger = currentIndex.isValid()
+                         && (event->key() == Qt::Key_Return)
+                         && (selModel->selectedIndexes().count() > 0);
+    if (trigger) {
+        const QModelIndexList indexList = selModel->selectedIndexes();
+        foreach (const QModelIndex& index, indexList) {
+            triggerItem(index, view);
+        }
+    }
 }
 
-void DolphinController::emitItemEntered(const KFileItem& item)
+KFileItem DolphinController::itemForIndex(const QModelIndex& index, QAbstractItemView* view) const
 {
-    emit itemEntered(item);
+    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(view->model());
+    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+    const QModelIndex dirIndex = proxyModel->mapToSource(index);
+    return dirModel->itemForIndex(dirIndex);
+}
+
+void DolphinController::triggerItem(const QModelIndex& index, QAbstractItemView* view)
+{
+    const KFileItem item = itemForIndex(index, view);
+    if (index.isValid() && (index.column() == KDirModel::Name)) {
+        emit itemTriggered(item);
+    } else {
+        view->clearSelection();
+        emit itemEntered(item);
+    }
+}
+
+void DolphinController::emitItemEntered(const QModelIndex& index, QAbstractItemView* view)
+{
+    KFileItem item = itemForIndex(index, view);
+    if (!item.isNull()) {
+        emit itemEntered(item);
+    }
 }
 
 void DolphinController::emitViewportEntered()

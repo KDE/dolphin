@@ -150,8 +150,6 @@ private:
     /** Return the upper left position in pixels of the viewport content. */
     QPoint contentsPos() const;
 
-    KFileItem itemForIndex(const QModelIndex& index) const;
-
     KFileItemDelegate::Information infoForColumn(int columnIndex) const;
 
     /**

@@ -310,7 +310,7 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
         m_dragging = false;
     } else {
         m_dragging = true;
-        const KFileItem item = itemForIndex(index);
+        const KFileItem item = m_controller->itemForIndex(index, this);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         } else {
@@ -333,7 +333,7 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
         const QModelIndex index = indexAt(event->pos());
         KFileItem item;
         if (index.isValid() && (index.column() == DolphinModel::Name)) {
-            item = itemForIndex(index);
+            item = m_controller->itemForIndex(index, this);
         }
         m_controller->indicateDroppedUrls(urls,
                                           m_controller->url(),
@@ -372,21 +372,7 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
 void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 {
     QTreeView::keyPressEvent(event);
-
-    const QItemSelectionModel* selModel = selectionModel();
-    const QModelIndex currentIndex = selModel->currentIndex();
-    const bool trigger = currentIndex.isValid()
-                         && (event->key() == Qt::Key_Return)
-                         && (selModel->selectedIndexes().count() > 0);
-    if(trigger) {
-        const QModelIndexList indexList = selModel->selectedIndexes();
-        foreach (const QModelIndex &index, indexList) {
-            KFileItem item = itemForIndex(index);
-            if (!item.isNull()) {
-                triggerItem(index);
-            }
-        }
-    }
+    m_controller->handleKeyPressEvent(event, this);
 }
 
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
@@ -434,7 +420,7 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
     const QPoint pos = viewport()->mapFromGlobal(QCursor::pos());
     const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
     if (pos.x() < nameColumnWidth) {
-        m_controller->emitItemEntered(itemForIndex(index));
+        m_controller->emitItemEntered(index, this);
     }
     else {
         m_controller->emitViewportEntered();
@@ -486,13 +472,7 @@ void DolphinDetailsView::zoomOut()
 
 void DolphinDetailsView::triggerItem(const QModelIndex& index)
 {
-    const KFileItem item = itemForIndex(index);
-    if (index.isValid() && (index.column() == KDirModel::Name)) {
-        m_controller->triggerItem(item);
-    } else {
-        clearSelection();
-        m_controller->emitItemEntered(item);
-    }
+    m_controller->triggerItem(index, this);
 }
 
 void DolphinDetailsView::configureColumns(const QPoint& pos)
@@ -616,14 +596,6 @@ QPoint DolphinDetailsView::contentsPos() const
 
     const int y = scrollbar->sliderPosition() * maxHeight / visibleHeight;
     return QPoint(0, y);
-}
-
-KFileItem DolphinDetailsView::itemForIndex(const QModelIndex& index) const
-{
-    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(model());
-    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-    const QModelIndex dirIndex = proxyModel->mapToSource(index);
-    return dirModel->itemForIndex(dirIndex);
 }
 
 KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex) const

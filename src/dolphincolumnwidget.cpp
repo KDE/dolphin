@@ -277,7 +277,7 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
 
     m_dropRect.setSize(QSize()); // set as invalid
     if (index.isValid()) {
-        const KFileItem item = itemForIndex(index);
+        const KFileItem item = m_view->m_controller->itemForIndex(index, this);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         }
@@ -295,7 +295,7 @@ void DolphinColumnWidget::dropEvent(QDropEvent* event)
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty()) {
         const QModelIndex index = indexAt(event->pos());
-        const KFileItem item = itemForIndex(index);
+        const KFileItem item = m_view->m_controller->itemForIndex(index, this);
         m_view->m_controller->indicateDroppedUrls(urls,
                                                   url(),
                                                   item);
@@ -344,21 +344,7 @@ void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
 {
     QListView::keyPressEvent(event);
-
-    const QItemSelectionModel* selModel = selectionModel();
-    const QModelIndex currentIndex = selModel->currentIndex();
-    const bool trigger = currentIndex.isValid()
-                         && (event->key() == Qt::Key_Return)
-                         && (selModel->selectedIndexes().count() > 0);
-    if(trigger) {
-        const QModelIndexList indexList = selModel->selectedIndexes();
-        foreach (const QModelIndex &index, indexList) {
-            KFileItem item = itemForIndex(index);
-            if (!item.isNull()) {
-                triggerItem(index);
-            }
-        }
-    }
+    m_view->m_controller->handleKeyPressEvent(event, this);
 }
 
 void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
@@ -400,15 +386,12 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
 
 void DolphinColumnWidget::triggerItem(const QModelIndex& index)
 {
-    const KFileItem item = itemForIndex(index);
-    m_view->m_controller->triggerItem(item);
+    m_view->m_controller->triggerItem(index, this);
 }
 
 void DolphinColumnWidget::slotEntered(const QModelIndex& index)
 {
-    const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-    const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
-    m_view->m_controller->emitItemEntered(item);
+    m_view->m_controller->emitItemEntered(index, this);
 }
 
 void DolphinColumnWidget::requestActivation()
@@ -472,12 +455,5 @@ void DolphinColumnWidget::deactivate()
     selectionModel()->setCurrentIndex(current, QItemSelectionModel::NoUpdate);
     updateBackground();
 }
-
-KFileItem DolphinColumnWidget::itemForIndex(const QModelIndex& index) const
-{
-    const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-    return m_dolphinModel->itemForIndex(dirIndex);
-}
-
 
 #include "dolphincolumnwidget.moc"

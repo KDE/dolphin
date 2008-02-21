@@ -244,7 +244,7 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 
     m_dropRect.setSize(QSize()); // set as invalid
     if (index.isValid()) {
-        const KFileItem item = itemForIndex(index);
+        const KFileItem item = m_controller->itemForIndex(index, this);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         } else {
@@ -265,7 +265,7 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         if (!urls.isEmpty()) {
             const QModelIndex index = indexAt(event->pos());
-            const KFileItem item = itemForIndex(index);
+            const KFileItem item = m_controller->itemForIndex(index, this);
             m_controller->indicateDroppedUrls(urls,
                                               m_controller->url(),
                                               item);
@@ -292,21 +292,7 @@ void DolphinIconsView::paintEvent(QPaintEvent* event)
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
     KCategorizedView::keyPressEvent(event);
-
-    const QItemSelectionModel* selModel = selectionModel();
-    const QModelIndex currentIndex = selModel->currentIndex();
-    const bool trigger = currentIndex.isValid()
-                         && (event->key() == Qt::Key_Return)
-                         && (selModel->selectedIndexes().count() > 0);
-    if(trigger) {
-        const QModelIndexList indexList = selModel->selectedIndexes();
-        foreach (const QModelIndex &index, indexList) {
-            KFileItem item = itemForIndex(index);
-            if (!item.isNull()) {
-                triggerItem(index);
-            }
-        }
-    }
+    m_controller->handleKeyPressEvent(event, this);
 }
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
@@ -314,7 +300,7 @@ void DolphinIconsView::wheelEvent(QWheelEvent* event)
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
         event->ignore();
-	return;
+        return;
     }
     KCategorizedView::wheelEvent(event);
     // if the icons are aligned left to right, the vertical wheel event should
@@ -334,12 +320,12 @@ void DolphinIconsView::wheelEvent(QWheelEvent* event)
 
 void DolphinIconsView::triggerItem(const QModelIndex& index)
 {
-    m_controller->triggerItem(itemForIndex(index));
+    m_controller->triggerItem(index, this);
 }
 
 void DolphinIconsView::slotEntered(const QModelIndex& index)
 {
-    m_controller->emitItemEntered(itemForIndex(index));
+    m_controller->emitItemEntered(index, this);
 }
 
 void DolphinIconsView::slotShowPreviewChanged()
@@ -514,14 +500,6 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());
-}
-
-KFileItem DolphinIconsView::itemForIndex(const QModelIndex& index) const
-{
-    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(model());
-    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-    const QModelIndex dirIndex = proxyModel->mapToSource(index);
-    return dirModel->itemForIndex(dirIndex);
 }
 
 int DolphinIconsView::additionalInfoCount() const

@@ -25,6 +25,7 @@
 #include <QtCore/QObject>
 #include <libdolphin_export.h>
 
+class QAbstractItemView;
 class DolphinView;
 class KUrl;
 class QBrush;
@@ -59,6 +60,7 @@ class QWidget;
  * - setZoomInPossible()
  * - setZoomOutPossible()
  * - triggerItem()
+ * - handleKeyPressEvent()
  * - emitItemEntered()
  * - emitViewportEntered()
  *
@@ -192,17 +194,32 @@ public:
     void setZoomOutPossible(bool possible);
     bool isZoomOutPossible() const;
 
-public slots:
     /**
-     * Emits the signal itemTriggered(). The method should be invoked by the
-     * controller parent whenever the user has triggered an item. */
-    void triggerItem(const KFileItem& item);
+     * Should be invoked in each view implementation whenever a key has been
+     * pressed. If the selection model of \a view is not empty and
+     * the return key has been pressed, the selected items will get triggered.
+     */
+    void handleKeyPressEvent(QKeyEvent* event, QAbstractItemView* view);
 
     /**
-     * Emits the signal itemEntered(). The method should be invoked by
-     * the controller parent whenever the mouse cursor is above an item.
+     * Returns the file item for the proxy index \a index of the view \a view.
      */
-    void emitItemEntered(const KFileItem& item);
+    KFileItem itemForIndex(const QModelIndex& index, QAbstractItemView* view) const;
+
+public slots:
+    /**
+     * Emits the signal itemTriggered() if the file item for the index \a index
+     * is not null. The method should be invoked by the
+     * controller parent whenever the user has triggered an item.
+     */
+    void triggerItem(const QModelIndex& index, QAbstractItemView* view);
+
+    /**
+     * Emits the signal itemEntered() if the file item for the index \a index
+     * is not null. The method should be invoked by the controller parent
+     * whenever the mouse cursor is above an item.
+     */
+    void emitItemEntered(const QModelIndex& index, QAbstractItemView* view);
 
     /**
      * Emits the signal viewportEntered(). The method should be invoked by

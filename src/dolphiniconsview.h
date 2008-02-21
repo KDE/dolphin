@@ -90,8 +90,6 @@ private:
      */
     void updateGridSize(bool showPreview, int additionalInfoCount);
 
-    KFileItem itemForIndex(const QModelIndex& index) const;
-
     /**
      * Returns the number of additional information lines that should
      * be shown below the item name.
