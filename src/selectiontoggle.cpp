@@ -36,6 +36,7 @@ SelectionToggle::SelectionToggle(QWidget* parent) :
     m_icon(),
     m_fadingTimeLine(0)
 {
+    setFocusPolicy(Qt::NoFocus);
     parent->installEventFilter(this);
     resize(sizeHint());
     setIconOverlay(isChecked());
