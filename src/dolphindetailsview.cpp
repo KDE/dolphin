@@ -394,6 +394,12 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
     QTreeView::wheelEvent(event);
 }
 
+void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    QTreeView::currentChanged(current, previous);
+    selectionModel()->select(current, QItemSelectionModel::ClearAndSelect);
+}
+
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
     QHeaderView* headerView = header();
