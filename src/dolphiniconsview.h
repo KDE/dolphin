@@ -65,8 +65,6 @@ protected:
     virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
-    void triggerItem(const QModelIndex& index);
-    void slotEntered(const QModelIndex& index);
     void slotShowPreviewChanged();
     void slotAdditionalInfoChanged();
     void zoomIn();

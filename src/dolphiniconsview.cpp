@@ -66,7 +66,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     // RETURN-key in keyPressEvent().
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
+                controller, SLOT(triggerItem(const QModelIndex&)));
         if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
             SelectionManager* selManager = new SelectionManager(this);
             connect(selManager, SIGNAL(selectionChanged()),
@@ -76,8 +76,10 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
         }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
+                controller, SLOT(triggerItem(const QModelIndex&)));
     }
+    connect(this, SIGNAL(entered(const QModelIndex&)),
+            controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(zoomIn()),
@@ -90,9 +92,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             this, SLOT(slotShowPreviewChanged()));
     connect(view, SIGNAL(additionalInfoChanged()),
             this, SLOT(slotAdditionalInfoChanged()));
-
-    connect(this, SIGNAL(entered(const QModelIndex&)),
-            this, SLOT(slotEntered(const QModelIndex&)));
 
     // apply the icons mode settings to the widget
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
@@ -244,7 +243,7 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 
     m_dropRect.setSize(QSize()); // set as invalid
     if (index.isValid()) {
-        const KFileItem item = m_controller->itemForIndex(index, this);
+        const KFileItem item = m_controller->itemForIndex(index);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         } else {
@@ -265,7 +264,7 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         if (!urls.isEmpty()) {
             const QModelIndex index = indexAt(event->pos());
-            const KFileItem item = m_controller->itemForIndex(index, this);
+            const KFileItem item = m_controller->itemForIndex(index);
             m_controller->indicateDroppedUrls(urls,
                                               m_controller->url(),
                                               item);
@@ -292,7 +291,7 @@ void DolphinIconsView::paintEvent(QPaintEvent* event)
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
     KCategorizedView::keyPressEvent(event);
-    m_controller->handleKeyPressEvent(event, this);
+    m_controller->handleKeyPressEvent(event);
 }
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
@@ -316,16 +315,6 @@ void DolphinIconsView::wheelEvent(QWheelEvent* event)
                                Qt::Horizontal);
         QApplication::sendEvent(horizontalScrollBar(), &horizEvent);
     }
-}
-
-void DolphinIconsView::triggerItem(const QModelIndex& index)
-{
-    m_controller->triggerItem(index, this);
-}
-
-void DolphinIconsView::slotEntered(const QModelIndex& index)
-{
-    m_controller->emitItemEntered(index, this);
 }
 
 void DolphinIconsView::slotShowPreviewChanged()

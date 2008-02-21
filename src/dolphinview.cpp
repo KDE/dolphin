@@ -897,6 +897,7 @@ void DolphinView::createView()
     }
 
     Q_ASSERT(view != 0);
+    m_controller->setItemView(view);
 
     m_fileItemDelegate = new KFileItemDelegate(view);
     view->setItemDelegate(m_fileItemDelegate);

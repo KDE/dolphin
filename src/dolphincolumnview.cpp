@@ -555,6 +555,7 @@ void DolphinColumnView::assureVisibleActiveColumn()
 
 void DolphinColumnView::requestActivation(DolphinColumnWidget* column)
 {
+    m_controller->setItemView(column);
     if (column->isActive()) {
         assureVisibleActiveColumn();
     } else {

@@ -41,13 +41,15 @@ class QWidget;
  *        implementations.
  *
  * The abstract Dolphin view (see DolphinView) represents the parent of the controller.
+ * The lifetime of the controller is equal to the lifetime of the Dolphin view.
  * The controller is passed to the current view implementation
  * (see DolphinIconsView, DolphinDetailsView and DolphinColumnView)
- * by passing it in the constructor:
+ * by passing it in the constructor and informing the controller about the change
+ * of the view implementation:
  *
  * \code
- * DolphinController* controller = new DolphinController(dolphinView);
  * QAbstractItemView* view = new DolphinIconsView(parent, controller);
+ * controller->setItemView(view);
  * \endcode
  *
  * The communication of the view implementations to the abstract view is done by:
@@ -94,6 +96,15 @@ public:
      */
     void setUrl(const KUrl& url);
     const KUrl& url() const;
+
+    /**
+     * Changes the current item view where the controller is working. This
+     * is only necessary for views like the tree view, where internally
+     * several QAbstractItemView instances are used.
+     */
+    void setItemView(QAbstractItemView* view);
+
+    QAbstractItemView* itemView() const;
 
     /**
      * Allows a view implementation to request an URL change to \a url.
@@ -199,12 +210,12 @@ public:
      * pressed. If the selection model of \a view is not empty and
      * the return key has been pressed, the selected items will get triggered.
      */
-    void handleKeyPressEvent(QKeyEvent* event, QAbstractItemView* view);
+    void handleKeyPressEvent(QKeyEvent* event);
 
     /**
      * Returns the file item for the proxy index \a index of the view \a view.
      */
-    KFileItem itemForIndex(const QModelIndex& index, QAbstractItemView* view) const;
+    KFileItem itemForIndex(const QModelIndex& index) const;
 
 public slots:
     /**
@@ -212,14 +223,14 @@ public slots:
      * is not null. The method should be invoked by the
      * controller parent whenever the user has triggered an item.
      */
-    void triggerItem(const QModelIndex& index, QAbstractItemView* view);
+    void triggerItem(const QModelIndex& index);
 
     /**
      * Emits the signal itemEntered() if the file item for the index \a index
      * is not null. The method should be invoked by the controller parent
      * whenever the mouse cursor is above an item.
      */
-    void emitItemEntered(const QModelIndex& index, QAbstractItemView* view);
+    void emitItemEntered(const QModelIndex& index);
 
     /**
      * Emits the signal viewportEntered(). The method should be invoked by
@@ -337,6 +348,7 @@ private:
     bool m_zoomOutPossible;
     KUrl m_url;
     DolphinView* m_dolphinView;
+    QAbstractItemView* m_itemView;
 };
 
 inline const DolphinView* DolphinController::dolphinView() const
@@ -347,6 +359,11 @@ inline const DolphinView* DolphinController::dolphinView() const
 inline const KUrl& DolphinController::url() const
 {
     return m_url;
+}
+
+inline QAbstractItemView* DolphinController::itemView() const
+{
+    return m_itemView;
 }
 
 inline void DolphinController::setZoomInPossible(bool possible)

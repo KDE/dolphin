@@ -107,11 +107,6 @@ private slots:
     void zoomOut();
 
     /**
-     * Called by QTreeView when an item is activated (clicked or double-clicked)
-     */
-    void triggerItem(const QModelIndex& index);
-
-    /**
      * Opens a context menu at the position \a pos and allows to
      * configure the visibility of the header columns.
      */

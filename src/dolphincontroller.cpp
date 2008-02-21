@@ -27,7 +27,8 @@ DolphinController::DolphinController(DolphinView* dolphinView) :
     m_zoomInPossible(false),
     m_zoomOutPossible(false),
     m_url(),
-    m_dolphinView(dolphinView)
+    m_dolphinView(dolphinView),
+    m_itemView(0)
 {
 }
 
@@ -41,6 +42,11 @@ void DolphinController::setUrl(const KUrl& url)
         m_url = url;
         emit urlChanged(url);
     }
+}
+
+void DolphinController::setItemView(QAbstractItemView* view)
+{
+    m_itemView = view;
 }
 
 void DolphinController::triggerUrlChangeRequest(const KUrl& url)
@@ -99,9 +105,11 @@ void DolphinController::triggerZoomOut()
     emit zoomOut();
 }
 
-void DolphinController::handleKeyPressEvent(QKeyEvent* event, QAbstractItemView* view)
+void DolphinController::handleKeyPressEvent(QKeyEvent* event)
 {
-    const QItemSelectionModel* selModel = view->selectionModel();
+    Q_ASSERT(m_itemView != 0);
+
+    const QItemSelectionModel* selModel = m_itemView->selectionModel();
     const QModelIndex currentIndex = selModel->currentIndex();
     const bool trigger = currentIndex.isValid()
                          && (event->key() == Qt::Key_Return)
@@ -109,33 +117,35 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event, QAbstractItemView*
     if (trigger) {
         const QModelIndexList indexList = selModel->selectedIndexes();
         foreach (const QModelIndex& index, indexList) {
-            triggerItem(index, view);
+            triggerItem(index);
         }
     }
 }
 
-KFileItem DolphinController::itemForIndex(const QModelIndex& index, QAbstractItemView* view) const
+KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
 {
-    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(view->model());
+    Q_ASSERT(m_itemView != 0);
+
+    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(m_itemView->model());
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
     const QModelIndex dirIndex = proxyModel->mapToSource(index);
     return dirModel->itemForIndex(dirIndex);
 }
 
-void DolphinController::triggerItem(const QModelIndex& index, QAbstractItemView* view)
+void DolphinController::triggerItem(const QModelIndex& index)
 {
-    const KFileItem item = itemForIndex(index, view);
+    const KFileItem item = itemForIndex(index);
     if (index.isValid() && (index.column() == KDirModel::Name)) {
         emit itemTriggered(item);
     } else {
-        view->clearSelection();
+        m_itemView->clearSelection();
         emit itemEntered(item);
     }
 }
 
-void DolphinController::emitItemEntered(const QModelIndex& index, QAbstractItemView* view)
+void DolphinController::emitItemEntered(const QModelIndex& index)
 {
-    KFileItem item = itemForIndex(index, view);
+    KFileItem item = itemForIndex(index);
     if (!item.isNull()) {
         emit itemEntered(item);
     }

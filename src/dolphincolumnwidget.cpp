@@ -277,7 +277,8 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
 
     m_dropRect.setSize(QSize()); // set as invalid
     if (index.isValid()) {
-        const KFileItem item = m_view->m_controller->itemForIndex(index, this);
+        m_view->m_controller->setItemView(this);
+        const KFileItem item = m_view->m_controller->itemForIndex(index);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         }
@@ -295,7 +296,8 @@ void DolphinColumnWidget::dropEvent(QDropEvent* event)
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty()) {
         const QModelIndex index = indexAt(event->pos());
-        const KFileItem item = m_view->m_controller->itemForIndex(index, this);
+        m_view->m_controller->setItemView(this);
+        const KFileItem item = m_view->m_controller->itemForIndex(index);
         m_view->m_controller->indicateDroppedUrls(urls,
                                                   url(),
                                                   item);
@@ -344,13 +346,15 @@ void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
 {
     QListView::keyPressEvent(event);
-    m_view->m_controller->handleKeyPressEvent(event, this);
+    Q_ASSERT(m_view->m_controller->itemView() == this);
+    m_view->m_controller->handleKeyPressEvent(event);
 }
 
 void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 {
     if (!m_active) {
         m_view->requestActivation(this);
+        Q_ASSERT(m_view->m_controller->itemView() == this);
         m_view->m_controller->triggerUrlChangeRequest(m_url);
     }
 
@@ -361,6 +365,7 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
         // Only open a context menu above an item or if the mouse is above
         // the active column.
         const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
+        Q_ASSERT(m_view->m_controller->itemView() == this);
         m_view->m_controller->triggerContextMenuRequest(pos);
     }
 }
@@ -370,7 +375,7 @@ void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
         event->ignore();
-	return;
+        return;
     }
     QListView::wheelEvent(event);
 }
@@ -384,14 +389,10 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
     selModel->select(deselected, QItemSelectionModel::Deselect);
 }
 
-void DolphinColumnWidget::triggerItem(const QModelIndex& index)
-{
-    m_view->m_controller->triggerItem(index, this);
-}
-
 void DolphinColumnWidget::slotEntered(const QModelIndex& index)
 {
-    m_view->m_controller->emitItemEntered(index, this);
+    m_view->m_controller->setItemView(this);
+    m_view->m_controller->emitItemEntered(index);
 }
 
 void DolphinColumnWidget::requestActivation()
@@ -402,6 +403,7 @@ void DolphinColumnWidget::requestActivation()
         m_view->m_controller->triggerUrlChangeRequest(m_url);
         selectionModel()->clear();
     }
+    Q_ASSERT(m_view->m_controller->itemView() == this);
 }
 
 void DolphinColumnWidget::updateFont()
@@ -423,10 +425,10 @@ void DolphinColumnWidget::activate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     }
 
     if (selectionModel() && selectionModel()->currentIndex().isValid())

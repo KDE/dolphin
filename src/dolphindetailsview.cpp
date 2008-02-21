@@ -97,7 +97,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     // RETURN-key in keyPressEvent().
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
+                controller, SLOT(triggerItem(const QModelIndex&)));
         if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
             SelectionManager* selManager = new SelectionManager(this);
             connect(selManager, SIGNAL(selectionChanged()),
@@ -107,7 +107,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
         }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                this, SLOT(triggerItem(const QModelIndex&)));
+                controller, SLOT(triggerItem(const QModelIndex&)));
     }
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
@@ -310,7 +310,7 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
         m_dragging = false;
     } else {
         m_dragging = true;
-        const KFileItem item = m_controller->itemForIndex(index, this);
+        const KFileItem item = m_controller->itemForIndex(index);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         } else {
@@ -333,7 +333,7 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
         const QModelIndex index = indexAt(event->pos());
         KFileItem item;
         if (index.isValid() && (index.column() == DolphinModel::Name)) {
-            item = m_controller->itemForIndex(index, this);
+            item = m_controller->itemForIndex(index);
         }
         m_controller->indicateDroppedUrls(urls,
                                           m_controller->url(),
@@ -372,7 +372,7 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
 void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 {
     QTreeView::keyPressEvent(event);
-    m_controller->handleKeyPressEvent(event, this);
+    m_controller->handleKeyPressEvent(event);
 }
 
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
@@ -420,7 +420,7 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
     const QPoint pos = viewport()->mapFromGlobal(QCursor::pos());
     const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
     if (pos.x() < nameColumnWidth) {
-        m_controller->emitItemEntered(index, this);
+        m_controller->emitItemEntered(index);
     }
     else {
         m_controller->emitViewportEntered();
@@ -468,11 +468,6 @@ void DolphinDetailsView::zoomOut()
         }
         updateDecorationSize();
     }
-}
-
-void DolphinDetailsView::triggerItem(const QModelIndex& index)
-{
-    m_controller->triggerItem(index, this);
 }
 
 void DolphinDetailsView::configureColumns(const QPoint& pos)

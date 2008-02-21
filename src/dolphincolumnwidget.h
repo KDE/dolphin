@@ -113,17 +113,8 @@ protected:
     virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
 private slots:
-    /**
-     * If the item specified by \a index is a directory, then this
-     * directory will be loaded in a new column. If the  item is a
-     * file, the corresponding application will get started.
-     */
-    void triggerItem(const QModelIndex& index);
-
     void slotEntered(const QModelIndex& index);
-
     void requestActivation();
-
     void updateFont();
 
 private:
