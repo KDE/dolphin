@@ -320,9 +320,15 @@ void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
     const QModelIndex currentIndex = selModel->currentIndex();
     const bool trigger = currentIndex.isValid()
                          && (event->key() == Qt::Key_Return)
-                         && (selModel->selectedIndexes().count() <= 1);
-    if (trigger) {
-        triggerItem(currentIndex);
+                         && (selModel->selectedIndexes().count() > 0);
+    if(trigger) {
+        const QModelIndexList indexList = selModel->selectedIndexes();
+        foreach (const QModelIndex &index, indexList) {
+            KFileItem item = itemForIndex(index);
+            if (!item.isNull()) {
+                triggerItem(index);
+            }
+        }
     }
 }
 
