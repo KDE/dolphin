@@ -212,9 +212,20 @@ void DolphinMainWindow::slotRequestItemInfo(const KFileItem& item)
     emit requestItemInfo(item);
 }
 
-void DolphinMainWindow::slotHistoryChanged()
+void DolphinMainWindow::updateHistory()
 {
-    updateHistory();
+    const KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    const int index = urlNavigator->historyIndex();
+
+    QAction* backAction = actionCollection()->action("go_back");
+    if (backAction != 0) {
+        backAction->setEnabled(index < urlNavigator->historySize() - 1);
+    }
+
+    QAction* forwardAction = actionCollection()->action("go_forward");
+    if (forwardAction != 0) {
+        forwardAction->setEnabled(index > 0);
+    }
 }
 
 void DolphinMainWindow::updateFilterBarAction(bool show)
@@ -897,22 +908,6 @@ void DolphinMainWindow::setupDockWidgets()
             placesView, SLOT(setUrl(KUrl)));
 }
 
-void DolphinMainWindow::updateHistory()
-{
-    const KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
-    const int index = urlNavigator->historyIndex();
-
-    QAction* backAction = actionCollection()->action("go_back");
-    if (backAction != 0) {
-        backAction->setEnabled(index < urlNavigator->historySize() - 1);
-    }
-
-    QAction* forwardAction = actionCollection()->action("go_forward");
-    if (forwardAction != 0) {
-        forwardAction->setEnabled(index > 0);
-    }
-}
-
 void DolphinMainWindow::updateEditActions()
 {
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
@@ -991,7 +986,7 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(changeUrl(const KUrl&)));
     connect(navigator, SIGNAL(historyChanged()),
-            this, SLOT(slotHistoryChanged()));
+            this, SLOT(updateHistory()));
     connect(navigator, SIGNAL(editableStateChanged(bool)),
             this, SLOT(slotEditableStateChanged(bool)));
 }

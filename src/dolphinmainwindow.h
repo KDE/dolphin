@@ -301,7 +301,7 @@ private slots:
      * Updates the state of the 'Back' and 'Forward' menu
      * actions corresponding the the current history.
      */
-    void slotHistoryChanged();
+    void updateHistory();
 
     /** Updates the state of the 'Show filter bar' menu action. */
     void updateFilterBarAction(bool show);
@@ -329,7 +329,6 @@ private:
 
     void setupActions();
     void setupDockWidgets();
-    void updateHistory();
     void updateEditActions();
     void updateViewActions();
     void updateGoActions();
