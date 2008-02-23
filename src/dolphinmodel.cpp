@@ -268,7 +268,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
             KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
             modifiedTime = modifiedTime.toLocalZone();
 
-            retVariant = -(modifiedTime.date().year() * 100 + modifiedTime.date().month());
+            retVariant = modifiedTime.date().year() * 100 + modifiedTime.date().month();
             break;
         }
 
