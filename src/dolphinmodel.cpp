@@ -270,7 +270,7 @@ QVariant DolphinModel::data(const QModelIndex &index, int role) const
             modifiedTime.setTime_t(item.time(KIO::UDSEntry::UDS_MODIFICATION_TIME));
             modifiedTime = modifiedTime.toLocalZone();
 
-            retVariant = -(modifiedTime.date().year() * 100 + modifiedTime.date().month());
+            retVariant = modifiedTime.date().year() * 100 + modifiedTime.date().month();
             break;
         }
 
