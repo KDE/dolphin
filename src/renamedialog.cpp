@@ -128,24 +128,30 @@ void RenameDialog::slotButtonClicked(int button)
 QString RenameDialog::extensionString(const QString& name)
 {
     QString extension;
-    bool foundExtension = false;  // true if at least one valid file extension
-                                  // like "gif", "txt", ... has been found
 
-    QStringList strings = name.split('.');
+    const QStringList strings = name.split('.');
     const int size = strings.size();
-    for (int i = 1; i < size; ++i) {
+    for (int i = size - 1; i >= 0; --i) {
         const QString& str = strings.at(i);
-        if (!foundExtension) {
-            // Sub strings like "9", "12", "99", ... which contain only
-            // numbers don't count as extension. Usually they are version
-            // numbers like in "cmake-2.4.5".
-            bool ok = false;
-            str.toInt(&ok);
-            foundExtension = !ok;
+
+        // Sub strings like "9", "12", "99", ... which contain only
+        // numbers don't count as extension. Usually they are version
+        // numbers like in "cmake-2.4.5".
+        bool isNumeric = false;
+        str.toInt(&isNumeric);
+        if (isNumeric) {
+            break;
         }
-        if (foundExtension) {
-            extension += '.' + str;
+
+        // Extensions may not contain a space and the maximum length
+        // should not exceed 4 characters. This prevents that strings like
+        // "Open office.org writer documentation.pdf" get ".org writer documentation.pdf"
+        // as extension.
+        if (str.contains(' ') || (str.length() > 4)) {
+            break;
         }
+
+        extension.insert(0, '.' + str);
     }
 
     return extension;

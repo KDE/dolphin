@@ -40,7 +40,16 @@ void RenameDialogTest::testExtensionString()
     QCOMPARE(result, QString(".gif"));
 
     result = RenameDialog::extensionString("Image.tar.1.12.gz");
-    QCOMPARE(result, QString(".tar.1.12.gz"));
+    QCOMPARE(result, QString(".gz"));
+
+    result = RenameDialog::extensionString("Open office.org writer documentation.pdf");
+    QCOMPARE(result, QString(".pdf"));
+
+    result = RenameDialog::extensionString("Test.toolongextension.pdf");
+    QCOMPARE(result, QString(".pdf"));
+
+    result = RenameDialog::extensionString("Test.x x.pdf");
+    QCOMPARE(result, QString(".pdf"));
 }
 
 #include "renamedialogtest.moc"
