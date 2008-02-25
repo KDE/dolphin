@@ -91,10 +91,8 @@ int main(int argc, char **argv)
             }
             ++n;
         }
-        app.exec();
-    } else {
-        app.exec();
     }
+    app.exec();
 
     return 0;
 }
