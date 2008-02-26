@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Dolphin View
+Name[el]=Προβολή του Dolphin
 Name[es]=Vista de Dolphin
 Name[ga]=Amharc Dolphin
 Name[gu]=ડોલ્ફિન દેખાવ
@@ -9,7 +10,7 @@ Name[km]=ទិដ្ឋភាព Dolphin
 Name[ko]=Dolphin 보기
 Name[nds]=Dolphin-Ansicht
 Name[pt]=Área do Dolphin
-Name[pt_BR]=Área do Dolphin
+Name[pt_BR]=Visualização Dolphin
 Name[zh_CN]=Dolphin 视图
 Name[zh_TW]=Dolphin 檢視
 MimeType=inode/directory;
@@ -104,6 +105,7 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[el]=Λεπτομέρειες
 Name[es]=Detalles
 Name[ga]=Mionsonraí
 Name[gu]=વિગતો
@@ -121,6 +123,7 @@ Exec=dolphin
 
 [Desktop Action columns]
 Name=Columns
+Name[el]=Στήλες
 Name[es]=Columnas
 Name[ga]=Colúin
 Name[gu]=સ્થંભો
