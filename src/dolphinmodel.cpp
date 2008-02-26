@@ -48,9 +48,9 @@
 #include <QDir>
 #include <QFileInfo>
 
-static const char *others = I18N_NOOP2("@title:group Name", "Others");
+static const char* others = I18N_NOOP2("@title:group Name", "Others");
 
-DolphinModel::DolphinModel(QObject *parent)
+DolphinModel::DolphinModel(QObject* parent)
     : KDirModel(parent)
 {
 }
@@ -59,262 +59,16 @@ DolphinModel::~DolphinModel()
 {
 }
 
-QVariant DolphinModel::data(const QModelIndex &index, int role) const
+QVariant DolphinModel::data(const QModelIndex& index, int role) const
 {
-    if (role == KCategorizedSortFilterProxyModel::CategoryDisplayRole) {
-        QString retString;
-
-        if (!index.isValid()) {
-            return retString;
-        }
-
-        const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
-        KFileItem item = dirModel->itemForIndex(index);
-
-        switch (index.column()) {
-            case KDirModel::Name: {
-                // KDirModel checks columns to know to which role are
-                // we talking about
-                QModelIndex theIndex = index.model()->index(index.row(),
-                                                            KDirModel::Name,
-                                                            index.parent());
-
-                if (!theIndex.isValid()) {
-                    return retString;
-                }
-                QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
-                QString name = data.toString();
-                if (!name.isEmpty()) {
-                    if (!item.isHidden() && name.at(0).isLetter())
-                        retString = name.at(0).toUpper();
-                    else if (item.isHidden()) {
-                        if (name.at(0) == '.') {
-                            if (name.size() > 1 && name.at(1).isLetter()) {
-                                retString = name.at(1).toUpper();
-                            } else {
-                                retString = i18nc("@title:group Name", others);
-                            }
-                        } else {
-                            retString = name.at(0).toUpper();
-                        }
-                    } else {
-                        bool validCategory = false;
-
-                        const QString str(name.toUpper());
-                        const QChar* currA = str.unicode();
-                        while (!currA->isNull() && !validCategory) {
-                            if (currA->isLetter()) {
-                                validCategory = true;
-                            } else if (currA->isDigit()) {
-                                return i18nc("@title:group Name", others);
-                            } else {
-                                ++currA;
-                            }
-                        }
-
-                        if (!validCategory) {
-                            retString = validCategory ? *currA : i18nc("@title:group Name", others);
-                        } else {
-                            retString = *currA;
-                        }
-                    }
-                }
-                break;
-            }
-
-            case KDirModel::Size: {
-                const int fileSize = !item.isNull() ? item.size() : -1;
-                if (!item.isNull() && item.isDir()) {
-                    retString = i18nc("@title:group Size", "Folders");
-                } else if (fileSize < 5242880) {
-                    retString = i18nc("@title:group Size", "Small");
-                } else if (fileSize < 10485760) {
-                    retString = i18nc("@title:group Size", "Medium");
-                } else {
-                    retString = i18nc("@title:group Size", "Big");
-                }
-                break;
-            }
-
-            case KDirModel::ModifiedTime: {
-                KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
-                modifiedTime = modifiedTime.toLocalZone();
-
-                retString = modifiedTime.toString(i18nc("Prints out the month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
-                break;
-            }
-
-            case KDirModel::Permissions: {
-                QString user;
-                QString group;
-                QString others;
-
-                QFileInfo info(item.url().pathOrUrl());
-
-                if (info.permission(QFile::ReadUser))
-                    user = i18n("Read, ");
-
-                if (info.permission(QFile::WriteUser))
-                    user += i18n("Write, ");
-
-                if (info.permission(QFile::ExeUser))
-                    user += i18n("Execute, ");
-
-                if (user.isEmpty())
-                    user = i18n("Forbidden");
-                else
-                    user = user.mid(0, user.count() - 2);
-
-                if (info.permission(QFile::ReadGroup))
-                    group = i18n("Read, ");
-
-                if (info.permission(QFile::WriteGroup))
-                    group += i18n("Write, ");
-
-                if (info.permission(QFile::ExeGroup))
-                    group += i18n("Execute, ");
-
-                if (group.isEmpty())
-                    group = i18n("Forbidden");
-                else
-                    group = group.mid(0, group.count() - 2);
-
-                if (info.permission(QFile::ReadOther))
-                    others = i18n("Read, ");
-
-                if (info.permission(QFile::WriteOther))
-                    others += i18n("Write, ");
-
-                if (info.permission(QFile::ExeOther))
-                    others += i18n("Execute, ");
-
-                if (others.isEmpty())
-                    others = i18n("Forbidden");
-                else
-                    others = others.mid(0, others.count() - 2);
-
-                retString = i18nc("This shows files and folders permissions: user, group and others", "(User: %1) (Group: %2) (Others: %3)", user, group, others);
-                break;
-            }
-
-            case KDirModel::Owner:
-                retString = item.user();
-                break;
-
-            case KDirModel::Group:
-                retString = item.group();
-                break;
-
-            case KDirModel::Type:
-                retString = item.mimeComment();
-                break;
-
-#ifdef HAVE_NEPOMUK
-            case DolphinModel::Rating: {
-                const quint32 rating = ratingForIndex(index);
-
-                retString = QString::number(rating);
-                break;
-            }
-
-            case DolphinModel::Tags: {
-                retString = tagsForIndex(index);
-
-                if (retString.isEmpty()) {
-                    retString = i18nc("@title:group Tags", "Not yet tagged");
-                }
-                break;
-            }
-#endif
-        }
-
-        return retString;
+    switch (role) {
+    case KCategorizedSortFilterProxyModel::CategoryDisplayRole:
+        return displayRoleData(index);
+    case KCategorizedSortFilterProxyModel::CategorySortRole:
+        return sortRoleData(index);
+    default:
+        return KDirModel::data(index, role);
     }
-    else if (role == KCategorizedSortFilterProxyModel::CategorySortRole) {
-        QVariant retVariant;
-
-        if (!index.isValid()) {
-            return retVariant;
-        }
-
-        const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
-        KFileItem item = dirModel->itemForIndex(index);
-
-        switch (index.column()) {
-        case KDirModel::Name: {
-            retVariant = data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
-
-            if (retVariant == i18nc("@title:group Name", others))
-                retVariant = QString(QChar(QChar::ReplacementCharacter));
-
-            break;
-        }
-
-        case KDirModel::Size: {
-            const int fileSize = !item.isNull() ? item.size() : -1;
-            if (item.isDir()) {
-                retVariant = 0;
-            } else if (fileSize < 5242880) {
-                retVariant = 1;
-            } else if (fileSize < 10485760) {
-                retVariant = 2;
-            } else {
-                retVariant = 3;
-            }
-            break;
-        }
-
-        case KDirModel::ModifiedTime: {
-            KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
-            modifiedTime = modifiedTime.toLocalZone();
-
-            retVariant = modifiedTime.date().year() * 100 + modifiedTime.date().month();
-            break;
-        }
-
-        case KDirModel::Permissions: {
-            QFileInfo info(item.url().pathOrUrl());
-
-            retVariant = -KDirSortFilterProxyModel::pointsForPermissions(info);
-            break;
-        }
-
-        case KDirModel::Owner:
-            retVariant = item.user();
-            break;
-
-        case KDirModel::Group:
-            retVariant = item.group();
-            break;
-
-        case KDirModel::Type:
-            if (item.isDir())
-                retVariant = QString(); // when sorting we want folders to be placed first
-            else
-                retVariant = item.mimeComment();
-            break;
-
-#ifdef HAVE_NEPOMUK
-        case DolphinModel::Rating: {
-            retVariant = ratingForIndex(index);
-            break;
-        }
-
-        case DolphinModel::Tags: {
-            retVariant = tagsForIndex(index).count();
-            break;
-        }
-#endif
-
-        default:
-            break;
-
-        }
-
-        return retVariant;
-    }
-
-    return KDirModel::data(index, role);
 }
 
 int DolphinModel::columnCount(const QModelIndex &parent) const
@@ -371,4 +125,297 @@ QString DolphinModel::tagsForIndex(const QModelIndex& index)
     Q_UNUSED(index);
     return QString();
 #endif
+}
+
+QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
+{
+    QString retString;
+
+    if (!index.isValid()) {
+        return retString;
+    }
+
+    const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
+    KFileItem item = dirModel->itemForIndex(index);
+
+    switch (index.column()) {
+    case KDirModel::Name: {
+        // KDirModel checks columns to know to which role are
+        // we talking about
+        QModelIndex theIndex = index.model()->index(index.row(),
+            KDirModel::Name,
+            index.parent());
+
+        if (!theIndex.isValid()) {
+            return retString;
+        }
+        QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
+        QString name = data.toString();
+        if (!name.isEmpty()) {
+            if (!item.isHidden() && name.at(0).isLetter())
+                retString = name.at(0).toUpper();
+            else if (item.isHidden()) {
+                if (name.at(0) == '.') {
+                    if (name.size() > 1 && name.at(1).isLetter()) {
+                        retString = name.at(1).toUpper();
+                    } else {
+                        retString = i18nc("@title:group Name", others);
+                    }
+                } else {
+                    retString = name.at(0).toUpper();
+                }
+            } else {
+                bool validCategory = false;
+
+                const QString str(name.toUpper());
+                const QChar* currA = str.unicode();
+                while (!currA->isNull() && !validCategory) {
+                    if (currA->isLetter()) {
+                        validCategory = true;
+                    } else if (currA->isDigit()) {
+                        return i18nc("@title:group Name", others);
+                    } else {
+                        ++currA;
+                    }
+                }
+
+                if (!validCategory) {
+                    retString = validCategory ? *currA : i18nc("@title:group Name", others);
+                } else {
+                    retString = *currA;
+                }
+            }
+        }
+        break;
+    }
+
+    case KDirModel::Size: {
+        const int fileSize = !item.isNull() ? item.size() : -1;
+        if (!item.isNull() && item.isDir()) {
+            retString = i18nc("@title:group Size", "Folders");
+        } else if (fileSize < 5242880) {
+            retString = i18nc("@title:group Size", "Small");
+        } else if (fileSize < 10485760) {
+            retString = i18nc("@title:group Size", "Medium");
+        } else {
+            retString = i18nc("@title:group Size", "Big");
+        }
+        break;
+    }
+
+    case KDirModel::ModifiedTime: {
+        KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
+        modifiedTime = modifiedTime.toLocalZone();
+
+        const QDate currentDate = KDateTime::currentLocalDateTime().date();
+        const QDate modifiedDate = modifiedTime.date();
+
+        if ((currentDate.year() == modifiedDate.year()) && (currentDate.month() == modifiedDate.month())) {
+            const int currentWeek = currentDate.weekNumber();
+            const int modifiedWeek = modifiedDate.weekNumber();
+            switch (currentWeek - modifiedWeek) {
+            case 0:
+                switch (modifiedDate.daysTo(currentDate)) {
+                case 0:  retString = i18nc("@title:group Date", "Today"); break;
+                case 1:  retString = i18nc("@title:group Date", "Yesterday"); break;
+                default: retString = modifiedTime.toString(i18nc("Prints out the week day name: %A", "%A"));
+                }
+                break;
+            case 1:
+                retString = i18nc("@title:group Date", "Last Week");
+                break;
+            case 2:
+                retString = i18nc("@title:group Date", "Two Weeks Ago");
+                break;
+            case 3:
+                retString = i18nc("@title:group Date", "Three Weeks Ago");
+                break;
+            case 4:
+                retString = i18nc("@title:group Date", "Earlier this Month");
+                break;
+            default:
+                Q_ASSERT(false);
+            }
+        } else {
+            retString = modifiedTime.toString(i18nc("Prints out the month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
+        }
+        break;
+    }
+
+    case KDirModel::Permissions: {
+        QString user;
+        QString group;
+        QString others;
+
+        QFileInfo info(item.url().pathOrUrl());
+
+        // set user string
+        if (info.permission(QFile::ReadUser)) {
+            user = i18n("Read, ");
+        }
+        if (info.permission(QFile::WriteUser)) {
+            user += i18n("Write, ");
+        }
+        if (info.permission(QFile::ExeUser)) {
+            user += i18n("Execute, ");
+        }
+        user = user.isEmpty() ? i18n("Forbidden") : user.mid(0, user.count() - 2);
+
+        // set group string
+        if (info.permission(QFile::ReadGroup)) {
+            group = i18n("Read, ");
+        }
+        if (info.permission(QFile::WriteGroup)) {
+            group += i18n("Write, ");
+        }
+        if (info.permission(QFile::ExeGroup)) {
+            group += i18n("Execute, ");
+        }
+        group = group.isEmpty() ? i18n("Forbidden") : group.mid(0, group.count() - 2);
+
+        // set permission string
+        if (info.permission(QFile::ReadOther)) {
+            others = i18n("Read, ");
+        }
+        if (info.permission(QFile::WriteOther)) {
+            others += i18n("Write, ");
+        }
+        if (info.permission(QFile::ExeOther)) {
+            others += i18n("Execute, ");
+        }
+        others = others.isEmpty() ? i18n("Forbidden") : others.mid(0, others.count() - 2);
+
+        retString = i18nc("This shows files and folders permissions: user, group and others", "(User: %1) (Group: %2) (Others: %3)", user, group, others);
+        break;
+                                 }
+
+    case KDirModel::Owner:
+        retString = item.user();
+        break;
+
+    case KDirModel::Group:
+        retString = item.group();
+        break;
+
+    case KDirModel::Type:
+        retString = item.mimeComment();
+        break;
+
+#ifdef HAVE_NEPOMUK
+    case DolphinModel::Rating: {
+        const quint32 rating = ratingForIndex(index);
+        retString = QString::number(rating);
+        break;
+                               }
+
+    case DolphinModel::Tags: {
+        retString = tagsForIndex(index);
+        if (retString.isEmpty()) {
+            retString = i18nc("@title:group Tags", "Not yet tagged");
+        }
+        break;
+    }
+#endif
+    }
+
+    return retString;
+}
+
+QVariant DolphinModel::sortRoleData(const QModelIndex& index) const
+{
+    QVariant retVariant;
+
+    if (!index.isValid()) {
+        return retVariant;
+    }
+
+    const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
+    KFileItem item = dirModel->itemForIndex(index);
+
+    switch (index.column()) {
+    case KDirModel::Name: {
+        retVariant = data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
+
+        if (retVariant == i18nc("@title:group Name", others)) {
+            retVariant = QString(QChar(QChar::ReplacementCharacter));
+        }
+        break;
+    }
+
+    case KDirModel::Size: {
+        const int fileSize = !item.isNull() ? item.size() : -1;
+        if (item.isDir()) {
+            retVariant = 0;
+        } else if (fileSize < 5242880) {
+            retVariant = 1;
+        } else if (fileSize < 10485760) {
+            retVariant = 2;
+        } else {
+            retVariant = 3;
+        }
+        break;
+    }
+
+    case KDirModel::ModifiedTime: {
+        KDateTime modifiedTime = item.time(KFileItem::ModificationTime);
+        modifiedTime = modifiedTime.toLocalZone();
+
+        const QDate currentDate = KDateTime::currentLocalDateTime().date();
+        const QDate modifiedDate = modifiedTime.date();
+
+        int weekOfMonth = 0;
+        int dayOfWeek = 0;
+        if ((currentDate.year() == modifiedDate.year()) && (currentDate.month() == modifiedDate.month())) {
+            weekOfMonth = 4 - currentDate.weekNumber() + modifiedDate.weekNumber();
+            Q_ASSERT(weekOfMonth >= 0);
+            Q_ASSERT(weekOfMonth <= 4);
+            if (weekOfMonth == 0) {
+                dayOfWeek = modifiedDate.dayOfWeek();
+            }
+        }
+
+        retVariant = modifiedDate.year() * 10000 + modifiedDate.month() * 100 +
+                     weekOfMonth * 10 + dayOfWeek;
+        break;
+    }
+
+    case KDirModel::Permissions: {
+        QFileInfo info(item.url().pathOrUrl());
+
+        retVariant = -KDirSortFilterProxyModel::pointsForPermissions(info);
+        break;
+    }
+
+    case KDirModel::Owner:
+        retVariant = item.user();
+        break;
+
+    case KDirModel::Group:
+        retVariant = item.group();
+        break;
+
+    case KDirModel::Type:
+        if (item.isDir())
+            retVariant = QString(); // when sorting we want folders to be placed first
+        else
+            retVariant = item.mimeComment();
+        break;
+
+#ifdef HAVE_NEPOMUK
+    case DolphinModel::Rating: {
+        retVariant = ratingForIndex(index);
+        break;
+    }
+
+    case DolphinModel::Tags: {
+        retVariant = tagsForIndex(index).count();
+        break;
+    }
+#endif
+
+    default:
+        break;
+    }
+
+    return retVariant;
 }

@@ -35,12 +35,12 @@ public:
         ExtraColumnCount
     };
 
-    DolphinModel(QObject *parent = 0);
+    DolphinModel(QObject* parent = 0);
     virtual ~DolphinModel();
 
-    virtual QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
 
-    virtual int columnCount(const QModelIndex &parent = QModelIndex()) const;
+    virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
 
     /**
      * Returns the rating for the item with the index \a index. 0 is
@@ -53,6 +53,10 @@ public:
      * tag is applied, a predefined string will be returned.
      */
     static QString tagsForIndex(const QModelIndex& index);
+
+private:
+    QVariant displayRoleData(const QModelIndex& index) const;
+    QVariant sortRoleData(const QModelIndex& index) const;
 };
 
 #endif // DOLPHINMODEL_H
