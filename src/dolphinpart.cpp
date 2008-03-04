@@ -327,7 +327,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
             editActions.append(actionCollection()->action("delete"));
         actionGroups.insert("editactions", editActions);
 
-        KFileItemList items; items.append(item);
+        KFileItemList items = m_view->selectedItems();
         emit m_extension->popupMenu(QCursor::pos(),
                                     items,
                                     KParts::OpenUrlArguments(),
