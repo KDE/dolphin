@@ -327,7 +327,10 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
             editActions.append(actionCollection()->action("delete"));
         actionGroups.insert("editactions", editActions);
 
-        KFileItemList items = m_view->selectedItems();
+        // TODO: We should change the signature of the slots (and signals) for being able
+        //       to tell for which items we want a popup.
+        KFileItemList items = (m_view->selectedItems().count() ? m_view->selectedItems()
+                                                               : KFileItemList() << item);
         emit m_extension->popupMenu(QCursor::pos(),
                                     items,
                                     KParts::OpenUrlArguments(),
