@@ -85,6 +85,19 @@ private:
     /** Applies an item effect to the hidden item \a hiddenItem. */
     void applyHiddenItemEffect(const KFileItem& hiddenItem);
 
+    /**
+     * Applies a frame around the icon. False is returned if
+     * no frame has been added because the icon is too small.
+     */
+    bool applyImageFrame(QPixmap& icon);
+
+    /**
+     * Resizes the icon to \a maxSize if the icon size does not
+     * fit into the maximum size. The aspect ratio of the icon
+     * is kept.
+     */
+    void limitToSize(QPixmap& icon, const QSize& maxSize);
+
 private:
     /**
      * Remembers the original pixmap for an item before

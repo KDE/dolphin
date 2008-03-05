@@ -24,7 +24,6 @@
 
 #include <kiconeffect.h>
 #include <kio/previewjob.h>
-#include <kdebug.h>
 #include <kdirlister.h>
 #include <konqmimedata.h>
 
@@ -32,6 +31,7 @@
 #include <QAbstractItemView>
 #include <QClipboard>
 #include <QColor>
+#include <QPainter>
 #include <QIcon>
 
 IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model) :
@@ -104,7 +104,7 @@ void IconManager::updateIcons(const KFileItemList& items)
     }
 
     const QSize size = m_view->iconSize();
-    KIO::PreviewJob* job = KIO::filePreview(orderedItems, size.width(), size.height());
+    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
     connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
             this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
     connect(job, SIGNAL(finished(KJob*)),
@@ -140,10 +140,17 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
     const QModelIndex idx = m_dolphinModel->indexForItem(item);
     if (idx.isValid() && (idx.column() == 0)) {
         QPixmap icon = pixmap;
+
+        const QString mimeType = item.mimetype();
+        const QString mimeTypeGroup = mimeType.left(mimeType.indexOf('/'));
+        if ((mimeTypeGroup != "image") || !applyImageFrame(icon)) {
+            limitToSize(icon, m_view->iconSize());
+        }
+
         if (item.isHidden()) {
             if (!icon.hasAlpha()) {
                 // the semitransparent operation requires having an alpha mask
-                QPixmap alphaMask(icon.width(), icon.height());
+                QPixmap alphaMask(icon.size());
                 alphaMask.fill();
                 icon.setAlphaChannel(alphaMask);
             }
@@ -245,6 +252,73 @@ void IconManager::applyHiddenItemEffect(const KFileItem& hiddenItem)
         QPixmap pixmap = icon.pixmap(m_view->iconSize());
         KIconEffect::semiTransparent(pixmap);
         m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
+    }
+}
+
+bool IconManager::applyImageFrame(QPixmap& icon)
+{
+    const QSize maxSize = m_view->iconSize();
+    if ((maxSize.width() <= 24) || (maxSize.height() <= 24)) {
+        // the maximum size is too small for a frame
+        return false;
+    }
+
+    const int frame = 4;
+    const int doubleFrame = frame * 2;
+
+    // resize the icon to the maximum size minus the space required for the frame
+    limitToSize(icon, QSize(maxSize.width() - doubleFrame, maxSize.height() - doubleFrame));
+
+    QPainter painter;
+    const QPalette palette = m_view->palette();
+    QPixmap framedIcon(icon.size().width() + doubleFrame, icon.size().height() + doubleFrame);
+    framedIcon.fill(palette.color(QPalette::Normal, QPalette::Base));
+    const int width = framedIcon.width() - 1;
+    const int height = framedIcon.height() - 1;
+
+    painter.begin(&framedIcon);
+    painter.drawPixmap(frame, frame, icon);
+
+    // draw a white frame around the icon
+    painter.setPen(Qt::NoPen);
+    painter.setBrush(palette.brush(QPalette::Normal, QPalette::Base));
+    painter.drawRect(0, 0, width, frame);
+    painter.drawRect(0, height - frame, width, frame);
+    painter.drawRect(0, frame, frame,  height - doubleFrame);
+    painter.drawRect(width - frame, frame, frame,  height - doubleFrame);
+
+    // add a border
+    painter.setPen(palette.color(QPalette::Text));
+    painter.setBrush(Qt::NoBrush);
+    painter.drawRect(0, 0, width, height);
+    painter.drawRect(1, 1, width - 2, height - 2);
+
+    // dimm image frame by 25 %
+    painter.setPen(QColor(0, 0, 0, 64));
+    painter.drawRect(frame, frame, width - doubleFrame, height - doubleFrame);
+    painter.end();
+
+    icon = framedIcon;
+
+    // provide an alpha channel for the border
+    QPixmap alphaChannel(icon.size());
+    alphaChannel.fill();
+
+    QPainter alphaPainter(&alphaChannel);
+    alphaPainter.setBrush(Qt::NoBrush);
+    alphaPainter.setPen(QColor(32, 32, 32));
+    alphaPainter.drawRect(0, 0, width, height);
+    alphaPainter.setPen(QColor(64, 64, 64));
+    alphaPainter.drawRect(1, 1, width - 2, height - 2);
+
+    icon.setAlphaChannel(alphaChannel);
+    return true;
+}
+
+void IconManager::limitToSize(QPixmap& icon, const QSize& maxSize)
+{
+    if ((icon.width() > maxSize.width()) || (icon.height() > maxSize.height())) {
+        icon = icon.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 }
 

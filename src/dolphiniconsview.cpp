@@ -468,7 +468,6 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 
         size = previewSize;
     }
-    setIconSize(QSize(size, size));
 
     Q_ASSERT(additionalInfoCount >= 0);
     itemHeight += additionalInfoCount * m_font.pointSize() * 2;
@@ -478,8 +477,10 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
         // width for the text wrapping. To use the maximum item width
         // for text wrapping, it is used as decoration width.
         m_decorationSize = QSize(itemWidth, size);
+        setIconSize(QSize(itemWidth, size));
     } else {
         m_decorationSize = QSize(size, size);
+        setIconSize(QSize(size, size));
     }
 
     m_itemSize = QSize(itemWidth, itemHeight);
