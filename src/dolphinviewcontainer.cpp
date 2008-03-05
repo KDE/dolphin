@@ -392,9 +392,7 @@ void DolphinViewContainer::saveRootUrl(const KUrl& url)
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
 {
-    // Prefer the local path over the URL.
-    bool isLocal;
-    KUrl url = item.mostLocalUrl(isLocal);
+    KUrl url = item.targetUrl();
 
     if (item.isDir()) {
         m_view->setUrl(url);

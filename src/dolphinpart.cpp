@@ -273,7 +273,7 @@ void DolphinPart::slotItemTriggered(const KFileItem& item)
     } else {
         // Left button. [Right button goes to slotOpenContextMenu before triggered can be emitted]
         kDebug() << "LMB";
-        emit m_extension->openUrlRequest(item.url(), args, browserArgs);
+        emit m_extension->openUrlRequest(item.targetUrl(), args, browserArgs);
     }
 }
 
