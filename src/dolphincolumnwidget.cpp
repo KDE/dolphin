@@ -156,6 +156,9 @@ void DolphinColumnWidget::setDecorationSize(const QSize& size)
     setIconSize(size);
     m_decorationSize = size;
     doItemsLayout();
+    if (m_iconManager != 0) {
+        m_iconManager->updatePreviews();
+    }
 }
 
 void DolphinColumnWidget::setActive(bool active)
