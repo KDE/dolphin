@@ -391,13 +391,13 @@ void DolphinColumnWidget::slotEntered(const QModelIndex& index)
 
 void DolphinColumnWidget::requestActivation()
 {
+    m_view->m_controller->setItemView(this);
     m_view->m_controller->requestActivation();
     if (!m_active) {
         m_view->requestActivation(this);
         m_view->m_controller->triggerUrlChangeRequest(m_url);
         selectionModel()->clear();
     }
-    Q_ASSERT(m_view->m_controller->itemView() == this);
 }
 
 void DolphinColumnWidget::updateFont()
