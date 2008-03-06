@@ -249,7 +249,8 @@ void IconManager::applyHiddenItemEffect(const KFileItem& hiddenItem)
     const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
     if (value.type() == QVariant::Icon) {
         const QIcon icon(qvariant_cast<QIcon>(value));
-        QPixmap pixmap = icon.pixmap(m_view->iconSize());
+        const QSize maxSize = m_view->iconSize();
+        QPixmap pixmap = icon.pixmap(maxSize.height(), maxSize.height()); // ignore the width
         KIconEffect::semiTransparent(pixmap);
         m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
     }
