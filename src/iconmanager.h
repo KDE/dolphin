@@ -48,6 +48,7 @@ public:
     virtual ~IconManager();
     void setShowPreview(bool show);
     bool showPreview() const;
+    void updatePreviews();
 
 private slots:
     /**
@@ -73,6 +74,8 @@ private slots:
     void updateCutItems();
 
 private:
+    void generatePreviews(const KFileItemList &items);
+
     /**
      * Returns true, if the item \a item has been cut into
      * the clipboard.
@@ -97,6 +100,9 @@ private:
      * is kept.
      */
     void limitToSize(QPixmap& icon, const QSize& maxSize);
+
+    /** Kills all ongoing preview jobs. */
+    void killJobs();
 
 private:
     /**

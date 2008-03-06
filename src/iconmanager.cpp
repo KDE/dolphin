@@ -56,11 +56,7 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
 
 IconManager::~IconManager()
 {
-    foreach (KJob* job, m_previewJobs) {
-        Q_ASSERT(job != 0);
-        job->kill();
-    }
-    m_previewJobs.clear();
+    killJobs();
 }
 
 
@@ -73,6 +69,25 @@ void IconManager::setShowPreview(bool show)
     }
 }
 
+void IconManager::updatePreviews()
+{
+    if (!m_showPreview) {
+        return;
+    }
+
+    killJobs();
+    KFileItemList itemList;
+
+    const int rowCount = m_dolphinModel->rowCount();
+    for (int row = 0; row < rowCount; ++row) {
+        const QModelIndex index = m_dolphinModel->index(row, 0);
+        KFileItem item = m_dolphinModel->itemForIndex(index);
+        itemList.append(item);
+    }
+
+    generatePreviews(itemList);
+}
+
 void IconManager::updateIcons(const KFileItemList& items)
 {
     // make the icons of all hidden files semitransparent
@@ -82,35 +97,9 @@ void IconManager::updateIcons(const KFileItemList& items)
         }
     }
 
-    if (!m_showPreview) {
-        return;
+    if (m_showPreview) {
+        generatePreviews(items);
     }
-
-    // generate previews
-    const QRect visibleArea = m_view->viewport()->rect();
-
-    // Order the items in a way that the preview for the visible items
-    // is generated first, as this improves the feeled performance a lot.
-    KFileItemList orderedItems;
-    foreach (KFileItem item, items) {
-        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        const QRect itemRect = m_view->visualRect(proxyIndex);
-        if (itemRect.intersects(visibleArea)) {
-            orderedItems.insert(0, item);
-        } else {
-            orderedItems.append(item);
-        }
-    }
-
-    const QSize size = m_view->iconSize();
-    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
-    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-            this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
-    connect(job, SIGNAL(finished(KJob*)),
-            this, SLOT(slotPreviewJobFinished(KJob*)));
-
-    m_previewJobs.append(job);
 }
 
 void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
@@ -188,6 +177,35 @@ void IconManager::updateCutItems()
 
     // ... and apply an item effect to all currently cut items
     applyCutItemEffect();
+}
+
+void IconManager::generatePreviews(const KFileItemList &items)
+{
+    Q_ASSERT(m_showPreview);
+    const QRect visibleArea = m_view->viewport()->rect();
+
+    // Order the items in a way that the preview for the visible items
+    // is generated first, as this improves the feeled performance a lot.
+    KFileItemList orderedItems;
+    foreach (KFileItem item, items) {
+        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        const QRect itemRect = m_view->visualRect(proxyIndex);
+        if (itemRect.intersects(visibleArea)) {
+            orderedItems.insert(0, item);
+        } else {
+            orderedItems.append(item);
+        }
+    }
+
+    const QSize size = m_view->iconSize();
+    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
+    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+            this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
+    connect(job, SIGNAL(finished(KJob*)),
+            this, SLOT(slotPreviewJobFinished(KJob*)));
+
+    m_previewJobs.append(job);
 }
 
 bool IconManager::isCutItem(const KFileItem& item) const
@@ -321,6 +339,15 @@ void IconManager::limitToSize(QPixmap& icon, const QSize& maxSize)
     if ((icon.width() > maxSize.width()) || (icon.height() > maxSize.height())) {
         icon = icon.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
+}
+
+void IconManager::killJobs()
+{
+    foreach (KJob* job, m_previewJobs) {
+        Q_ASSERT(job != 0);
+        job->kill();
+    }
+    m_previewJobs.clear();
 }
 
 #include "iconmanager.moc"
