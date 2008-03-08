@@ -144,7 +144,7 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
            d->ratingWidget->setRating( 0 ); // reset rating
        }
        else if ( first ) {
-           d->ratingWidget->setRating( file.rating() );
+           d->ratingWidget->setRating( (qint32)(file.rating()) );
        }
 
        if ( !first &&
