@@ -135,6 +135,7 @@ Exec=dolphin
 [Desktop Action columns]
 Name=Columns
 Name[ca]=Columnes
+Name[de]=Spalten
 Name[el]=Στήλες
 Name[eo]=Kolumnoj
 Name[es]=Columnas
