@@ -97,43 +97,18 @@ bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
                                                   const QModelIndex& right) const
 {
 #ifdef HAVE_NEPOMUK
-    DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
-
-    const KFileItem leftFileItem  = dolphinModel->itemForIndex(left);
-    const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
-
-    // On our priority, folders go above regular files.
-    if (leftFileItem.isDir() && !rightFileItem.isDir()) {
-        return true;
-    } else if (!leftFileItem.isDir() && rightFileItem.isDir()) {
-        return false;
-    }
-
-    // Hidden elements go before visible ones, if they both are
-    // folders or files.
-    if (leftFileItem.isHidden() && !rightFileItem.isHidden()) {
-        return true;
-    } else if (!leftFileItem.isHidden() && rightFileItem.isHidden()) {
-        return false;
-    }
-
     switch (left.column()) {
-
     case DolphinView::SortByRating: {
         const quint32 leftRating  = DolphinModel::ratingForIndex(left);
         const quint32 rightRating = DolphinModel::ratingForIndex(right);
 
         if (leftRating == rightRating) {
-            // On our priority, folders go above regular files.
-            // This checks are needed (don't think it's the same doing it here
-            // than above). Here we make dirs citizens of first class because
-            // we know we are on the same category. On the check we do on the
-            // top of the method we don't know, so we remove that check when we
-            // are sorting by rating. (ereslibre)
-            if (leftFileItem.isDir() && !rightFileItem.isDir()) {
-                return true;
-            } else if (!leftFileItem.isDir() && rightFileItem.isDir()) {
-                return false;
+            DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
+            const KFileItem leftFileItem = dolphinModel->itemForIndex(left);
+            const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
+            bool result;
+            if (isDirectoryOrHidden(leftFileItem, rightFileItem, result)) {
+                return result;
             }
 
             return sortCaseSensitivity() ?
@@ -149,16 +124,12 @@ bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
         const QString rightTags = DolphinModel::tagsForIndex(right);
 
         if (leftTags == rightTags) {
-            // On our priority, folders go above regular files.
-            // This checks are needed (don't think it's the same doing it here
-            // than above). Here we make dirs citizens of first class because
-            // we know we are on the same category. On the check we do on the
-            // top of the method we don't know, so we remove that check when we
-            // are sorting by tags. (ereslibre)
-            if (leftFileItem.isDir() && !rightFileItem.isDir()) {
-                return true;
-            } else if (!leftFileItem.isDir() && rightFileItem.isDir()) {
-                return false;
+            DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
+            const KFileItem leftFileItem = dolphinModel->itemForIndex(left);
+            const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
+            bool result;
+            if (isDirectoryOrHidden(leftFileItem, rightFileItem, result)) {
+                return result;
             }
 
             return sortCaseSensitivity() ?
@@ -171,10 +142,31 @@ bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
 
     default:
         break;
-
     }
 #endif
     return KDirSortFilterProxyModel::subSortLessThan(left, right);
+}
+
+bool DolphinSortFilterProxyModel::isDirectoryOrHidden(const KFileItem& left,
+                                                      const KFileItem& right,
+                                                      bool& result) const
+{
+    bool isDirectoryOrHidden = true;
+
+    const bool isLessThan = (sortOrder() == Qt::AscendingOrder);
+    if (left.isDir() && !right.isDir()) {
+        result = isLessThan;
+    } else if (!left.isDir() && right.isDir()) {
+        result = !isLessThan;
+    } else if (left.isHidden() && !right.isHidden()) {
+        result = isLessThan;
+    } else if (!left.isHidden() && right.isHidden()) {
+        result = !isLessThan;
+    } else {
+        isDirectoryOrHidden = false;
+    }
+
+    return isDirectoryOrHidden;
 }
 
 #include "dolphinsortfilterproxymodel.moc"

@@ -80,6 +80,17 @@ protected:
                                  const QModelIndex& right) const;
 
 private:
+    /**
+     * Returns true, if the left or right file item is a directory
+     * or a hidden file. In this case \a result provides the information
+     * whether \a left is less than \a right. If false is returned,
+     * the value of \a result is undefined.
+     */
+    bool isDirectoryOrHidden(const KFileItem& left,
+                             const KFileItem& right,
+                             bool& result) const;
+
+private:
     DolphinView::Sorting m_sorting:16;
     Qt::SortOrder m_sortOrder:16;
 };
