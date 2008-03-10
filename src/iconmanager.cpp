@@ -66,6 +66,9 @@ void IconManager::setShowPreview(bool show)
         m_showPreview = show;
         m_cutItemsCache.clear();
         updateCutItems();
+        if (show) {
+            updatePreviews();
+        }
     }
 }
 
