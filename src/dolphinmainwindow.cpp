@@ -35,10 +35,13 @@
 #include "infosidebarpage.h"
 #include "metadatawidget.h"
 #include "mainwindowadaptor.h"
-#include "terminalsidebarpage.h"
 #include "treeviewsidebarpage.h"
 #include "viewpropertiesdialog.h"
 #include "viewproperties.h"
+
+#ifndef Q_OS_WIN
+#include "terminalsidebarpage.h"
+#endif
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
@@ -865,6 +868,7 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(dropUrls(KUrl::List, KUrl)));
 
     // setup "Terminal"
+#ifndef Q_OS_WIN
     QDockWidget* terminalDock = new QDockWidget(i18nc("@title:window", "Terminal"));
     terminalDock->setObjectName("terminalDock");
     terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
@@ -880,12 +884,15 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             terminalWidget, SLOT(setUrl(KUrl)));
-
+#endif
+			
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
         infoDock->hide();
         treeViewDock->hide();
+#ifndef Q_OS_WIN
         terminalDock->hide();
+#endif		
     }
 
     QDockWidget* placesDock = new QDockWidget(i18nc("@title:window", "Places"));

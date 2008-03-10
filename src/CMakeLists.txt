@@ -76,7 +76,6 @@ install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart )
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 
-
 ##########################################
 
 set(dolphin_SRCS
@@ -109,7 +108,6 @@ set(dolphin_SRCS
    startupsettingspage.cpp
    statusbarspaceinfo.cpp
    statusbarmessagelabel.cpp
-   terminalsidebarpage.cpp
    treeviewcontextmenu.cpp
    treeviewsidebarpage.cpp
    sidebartreeview.cpp
@@ -117,6 +115,9 @@ set(dolphin_SRCS
    viewsettingspage.cpp
    viewpropsprogressinfo.cpp )
 
+if(NOT WIN32)
+   set(dolphin_SRCS ${dolphin_SRCS} terminalsidebarpage.cpp)
+endif(NOT WIN32)
 
 qt4_add_dbus_adaptor(dolphin_SRCS
    org.kde.dolphin.Application.xml
