@@ -131,12 +131,6 @@ public slots:
 
 signals:
     /**
-     * Is send if the active view has been changed in
-     * the split view mode.
-     */
-    void activeViewChanged();
-
-    /**
      * Is sent if the selection of the currently active view has
      * been changed.
      */

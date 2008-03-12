@@ -481,7 +481,6 @@ void DolphinMainWindow::toggleSplitView()
 
     setActiveViewContainer(m_viewContainer[PrimaryView]);
     updateViewActions();
-    emit activeViewChanged(); // TODO unused; remove?
 }
 
 void DolphinMainWindow::reloadView()
@@ -707,7 +706,6 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     const KUrl& url = m_activeViewContainer->url();
     setCaption(url.fileName());
 
-    emit activeViewChanged(); // TODO unused; remove?
     emit urlChanged(url);
 }
 
