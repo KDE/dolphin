@@ -671,6 +671,8 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     m_activeViewContainer = viewContainer;
     m_activeViewContainer->setActive(true);
 
+    m_actionHandler->setCurrentView(viewContainer->view());
+
     updateHistory();
     updateEditActions();
     updateViewActions();
@@ -678,8 +680,6 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
 
     const KUrl& url = m_activeViewContainer->url();
     setCaption(url.fileName());
-
-    m_actionHandler->setCurrentView(viewContainer->view());
 
     emit activeViewChanged(); // TODO unused; remove?
     emit urlChanged(url);
