@@ -49,7 +49,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_controller(controller),
     m_font(),
     m_decorationSize(),
-    m_dragging(false),
     m_showElasticBand(false),
     m_elasticBandOrigin(),
     m_elasticBandDestination()
@@ -261,15 +260,11 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
         updateElasticBand();
         m_showElasticBand = false;
     }
-    m_dragging = true;
 }
 
 void DolphinDetailsView::dragLeaveEvent(QDragLeaveEvent* event)
 {
     QTreeView::dragLeaveEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    m_dragging = false;
     setDirtyRegion(m_dropRect);
 }
 
@@ -280,10 +275,7 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     setDirtyRegion(m_dropRect);
     const QModelIndex index = indexAt(event->pos());
-    if (!index.isValid() || (index.column() != DolphinModel::Name)) {
-        m_dragging = false;
-    } else {
-        m_dragging = true;
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
         const KFileItem item = m_controller->itemForIndex(index);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
@@ -314,7 +306,6 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
                                           item);
     }
     QTreeView::dropEvent(event);
-    m_dragging = false;
 }
 
 void DolphinDetailsView::paintEvent(QPaintEvent* event)
@@ -334,12 +325,6 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
         painter.save();
         style()->drawControl(QStyle::CE_RubberBand, &opt, &painter);
         painter.restore();
-    }
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    if (m_dragging) {
-        const QBrush& brush = viewOptions().palette.brush(QPalette::Normal, QPalette::Highlight);
-        DragAndDropHelper::drawHoverIndication(this, m_dropRect, brush);
     }
 }
 

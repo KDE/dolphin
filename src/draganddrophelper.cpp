@@ -25,11 +25,7 @@
 
 #include <QAbstractItemView>
 #include <QAbstractProxyModel>
-#include <QBrush>
 #include <QDrag>
-#include <QPainter>
-#include <QRect>
-#include <QWidget>
 
 void DragAndDropHelper::startDrag(QAbstractItemView* itemView, Qt::DropActions supportedActions)
 {
@@ -56,41 +52,4 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView, Qt::DropActions s
         drag->setMimeData(data);
         drag->exec(supportedActions, Qt::IgnoreAction);
     }
-}
-
-void DragAndDropHelper::drawHoverIndication(QAbstractItemView* itemView,
-                                            const QRect& bounds,
-                                            const QBrush& brush)
-{
-    if (bounds.isEmpty()) {
-        return;
-    }
-
-    QWidget* widget = itemView->viewport();
-
-    QPainter painter(widget);
-    painter.save();
-    QBrush blendedBrush(brush);
-    QColor color = blendedBrush.color();
-    color.setAlpha(64);
-    blendedBrush.setColor(color);
-
-    if (dynamic_cast<DolphinIconsView*>(itemView)) {
-        const int radius = 10;
-        QPainterPath path(QPointF(bounds.left(), bounds.top() + radius));
-        path.quadTo(bounds.left(), bounds.top(), bounds.left() + radius, bounds.top());
-        path.lineTo(bounds.right() - radius, bounds.top());
-        path.quadTo(bounds.right(), bounds.top(), bounds.right(), bounds.top() + radius);
-        path.lineTo(bounds.right(), bounds.bottom() - radius);
-        path.quadTo(bounds.right(), bounds.bottom(), bounds.right() - radius, bounds.bottom());
-        path.lineTo(bounds.left() + radius, bounds.bottom());
-        path.quadTo(bounds.left(), bounds.bottom(), bounds.left(), bounds.bottom() - radius);
-        path.closeSubpath();
-
-        painter.setRenderHint(QPainter::Antialiasing);
-        painter.fillPath(path, blendedBrush);
-    } else {
-        painter.fillRect(bounds, blendedBrush);
-    }
-    painter.restore();
 }

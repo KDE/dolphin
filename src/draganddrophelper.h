@@ -28,7 +28,7 @@ class QRect;
 class QWidget;
 
 /**
- * @brief Helper class to bypass some drag & drop limitations in Qt.
+ * @brief Helper class for having a common drag and drop behavior.
  *
  * The class is used by DolphinIconsView, DolphinDetailsView,
  * DolphinColumnView and SidebarTreeView to have a consistent
@@ -42,11 +42,6 @@ public:
      * Creates a drag object for the view \a itemView for all selected items.
      */
     static void startDrag(QAbstractItemView* itemView, Qt::DropActions supportedActions);
-
-    // TODO: remove this method when the issue #160611 is solved in Qt 4.4
-    static void drawHoverIndication(QAbstractItemView* itemView,
-                                    const QRect& bounds,
-                                    const QBrush& brush);
 };
 
 #endif

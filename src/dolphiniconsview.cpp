@@ -46,7 +46,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_decorationPosition(QStyleOptionViewItem::Top),
     m_displayAlignment(Qt::AlignHCenter),
     m_itemSize(),
-    m_dragging(false),
     m_dropRect()
 {
     Q_ASSERT(controller != 0);
@@ -56,9 +55,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     setMovement(QListView::Static);
     setDragEnabled(true);
     viewport()->setAcceptDrops(true);
-
-    setMouseTracking(true);
-    viewport()->setAttribute(Qt::WA_Hover);
 
     // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
     // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
@@ -221,15 +217,11 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
-    m_dragging = true;
 }
 
 void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 {
     KCategorizedView::dragLeaveEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    m_dragging = false;
     setDirtyRegion(m_dropRect);
 }
 
@@ -273,19 +265,6 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
     }
 
     KCategorizedView::dropEvent(event);
-
-    m_dragging = false;
-}
-
-void DolphinIconsView::paintEvent(QPaintEvent* event)
-{
-    KCategorizedView::paintEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    if (m_dragging) {
-        const QBrush& brush = viewOptions().palette.brush(QPalette::Normal, QPalette::Highlight);
-        DragAndDropHelper::drawHoverIndication(this, m_dropRect, brush);
-    }
 }
 
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)

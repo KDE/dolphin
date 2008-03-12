@@ -139,8 +139,7 @@ private:
 
     IconManager* m_iconManager;
 
-    bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
-    QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
+    QRect m_dropRect;
 };
 
 inline bool DolphinColumnWidget::isActive() const

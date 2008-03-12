@@ -60,7 +60,6 @@ protected:
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
-    virtual void paintEvent(QPaintEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
 
@@ -104,9 +103,7 @@ private:
     Qt::Alignment m_displayAlignment;
 
     QSize m_itemSize;
-
-    bool m_dragging;   // TODO: remove this property when the issue #160611 is solved in Qt 4.4
-    QRect m_dropRect;  // TODO: remove this property when the issue #160611 is solved in Qt 4.4
+    QRect m_dropRect;
 };
 
 #endif

@@ -60,7 +60,6 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dolphinModel(0),
     m_proxyModel(0),
     m_iconManager(0),
-    m_dragging(false),
     m_dropRect()
 {
     setMouseTracking(true);
@@ -251,16 +250,11 @@ void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
-
-    m_dragging = true;
 }
 
 void DolphinColumnWidget::dragLeaveEvent(QDragLeaveEvent* event)
 {
     QListView::dragLeaveEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    m_dragging = false;
     setDirtyRegion(m_dropRect);
 }
 
@@ -301,7 +295,6 @@ void DolphinColumnWidget::dropEvent(QDropEvent* event)
         event->acceptProposedAction();
     }
     QListView::dropEvent(event);
-    m_dragging = false;
 }
 
 void DolphinColumnWidget::paintEvent(QPaintEvent* event)
@@ -326,12 +319,6 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
     }
 
     QListView::paintEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    if (m_dragging) {
-        const QBrush& brush = viewOptions().palette.brush(QPalette::Normal, QPalette::Highlight);
-        DragAndDropHelper::drawHoverIndication(this, m_dropRect, brush);
-    }
 }
 
 void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
