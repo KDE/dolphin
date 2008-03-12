@@ -697,6 +697,8 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     m_activeViewContainer = viewContainer;
     m_activeViewContainer->setActive(true);
 
+    m_actionHandler->setCurrentView(viewContainer->view());
+
     updateHistory();
     updateEditActions();
     updateViewActions();
@@ -704,8 +706,6 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
 
     const KUrl& url = m_activeViewContainer->url();
     setCaption(url.fileName());
-
-    m_actionHandler->setCurrentView(viewContainer->view());
 
     emit activeViewChanged(); // TODO unused; remove?
     emit urlChanged(url);
@@ -885,14 +885,14 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, SIGNAL(urlChanged(KUrl)),
             terminalWidget, SLOT(setUrl(KUrl)));
 #endif
-			
+
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
         infoDock->hide();
         treeViewDock->hide();
 #ifndef Q_OS_WIN
         terminalDock->hide();
-#endif		
+#endif
     }
 
     QDockWidget* placesDock = new QDockWidget(i18nc("@title:window", "Places"));
