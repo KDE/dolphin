@@ -39,6 +39,7 @@
 #include <kio/previewjob.h>
 #include <kjob.h>
 #include <kmenu.h>
+#include <kmessagebox.h>
 #include <kmimetyperesolver.h>
 #include <konq_operations.h>
 #include <konqmimedata.h>
@@ -1103,8 +1104,8 @@ void DolphinView::paste()
 
     const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
 
-    // per default the pasting is done into the current Url of the view
-    KUrl destUrl(url());
+    // per default the pasting is done into the current URL of the view
+    KUrl destUrl = url();
 
     // check whether the pasting should be done into a selected directory
     const KUrl::List selectedUrls = this->selectedUrls();
@@ -1117,6 +1118,17 @@ void DolphinView::paste()
             // only one item is selected which is a directory, hence paste
             // into this directory
             destUrl = selectedUrls.first();
+            if (sourceUrls.contains(destUrl)) {
+                const QString text = i18nc("@info", "The folder <filename>%1</filename> is pasted into itself. Is this intended?", fileItem.name());
+                int result = KMessageBox::questionYesNo(window(),
+                                                        text,
+                                                        i18nc("@title:window", "Paste into Folder"),
+                                                        KGuiItem(i18nc("@label", "Paste"), "dialog-ok"),
+                                                        KGuiItem(i18nc("@label", "Cancel"), "dialog-cancel"));
+                if (result == KMessageBox::No) {
+                    return;
+                }
+            }
         }
     }
 
