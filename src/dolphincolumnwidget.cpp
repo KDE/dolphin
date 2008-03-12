@@ -63,7 +63,6 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dropRect()
 {
     setMouseTracking(true);
-    viewport()->setAttribute(Qt::WA_Hover);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     setSelectionBehavior(SelectItems);

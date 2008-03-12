@@ -56,6 +56,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     setDragEnabled(true);
     viewport()->setAcceptDrops(true);
 
+    setMouseTracking(true);
+
     // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
     // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
     // necessary connecting the signal 'singleClick()' or 'doubleClick' and to handle the

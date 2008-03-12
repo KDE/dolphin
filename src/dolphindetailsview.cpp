@@ -68,7 +68,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setItemsExpandable(settings->expandableFolders());
 
     setMouseTracking(true);
-    viewport()->setAttribute(Qt::WA_Hover);
 
     const ViewProperties props(controller->url());
     setSortIndicatorSection(props.sorting());
