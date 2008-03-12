@@ -19,6 +19,7 @@
 
 #include "selectiontoggle.h"
 
+#include <kglobalsettings.h>
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kiconeffect.h>
@@ -177,7 +178,10 @@ void SelectionToggle::startFading()
 {
     Q_ASSERT(m_fadingTimeLine == 0);
 
-    m_fadingTimeLine = new QTimeLine(1500, this);
+    const bool animate = KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects;
+    const int duration = animate ? 1500 : 1;
+
+    m_fadingTimeLine = new QTimeLine(duration, this);
     connect(m_fadingTimeLine, SIGNAL(frameChanged(int)),
             this, SLOT(setFadingValue(int)));
     m_fadingTimeLine->setFrameRange(0, 255);
