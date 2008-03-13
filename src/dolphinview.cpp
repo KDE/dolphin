@@ -1151,7 +1151,14 @@ QPair<bool, QString> DolphinView::pasteInfo() const
     KUrl::List urls = KUrl::List::fromMimeData(mimeData);
     if (!urls.isEmpty()) {
         ret.first = true;
-        ret.second = i18ncp("@action:inmenu", "Paste One File", "Paste %1 Files", urls.count());
+        if (urls.count() == 1) {
+            const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, urls.first(), true);
+            ret.second = item.isDir() ? i18nc("@action:inmenu", "Paste One Folder") :
+                                        i18nc("@action:inmenu", "Paste One File");
+
+        } else {
+            ret.second = i18ncp("@action:inmenu", "Paste One Item", "Paste %1 Items", urls.count());
+        }
     } else {
         ret.first = false;
         ret.second = i18nc("@action:inmenu", "Paste");
