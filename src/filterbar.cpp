@@ -45,6 +45,7 @@ FilterBar::FilterBar(QWidget* parent) :
     hLayout->addSpacing(KDialog::spacingHint());
 
     m_filterInput = new KLineEdit(this);
+    m_filterInput->setClearButtonShown(true);
     m_filter->setBuddy(m_filterInput);
     hLayout->addWidget(m_filterInput);
 
