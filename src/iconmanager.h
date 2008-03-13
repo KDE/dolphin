@@ -85,9 +85,6 @@ private:
     /** Applies an item effect to all cut items. */
     void applyCutItemEffect();
 
-    /** Applies an item effect to the hidden item \a hiddenItem. */
-    void applyHiddenItemEffect(const KFileItem& hiddenItem);
-
     /**
      * Applies a frame around the icon. False is returned if
      * no frame has been added because the icon is too small.

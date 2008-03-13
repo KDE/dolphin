@@ -93,13 +93,6 @@ void IconManager::updatePreviews()
 
 void IconManager::updateIcons(const KFileItemList& items)
 {
-    // make the icons of all hidden files semitransparent
-    foreach (KFileItem item, items) {
-        if (item.isHidden()) {
-            applyHiddenItemEffect(item);
-        }
-    }
-
     if (m_showPreview) {
         generatePreviews(items);
     }
@@ -137,16 +130,6 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
         const QString mimeTypeGroup = mimeType.left(mimeType.indexOf('/'));
         if ((mimeTypeGroup != "image") || !applyImageFrame(icon)) {
             limitToSize(icon, m_view->iconSize());
-        }
-
-        if (item.isHidden()) {
-            if (!icon.hasAlpha()) {
-                // the semitransparent operation requires having an alpha mask
-                QPixmap alphaMask(icon.size());
-                alphaMask.fill();
-                icon.setAlphaChannel(alphaMask);
-            }
-            KIconEffect::semiTransparent(icon);
         }
 
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
@@ -261,19 +244,6 @@ void IconManager::applyCutItemEffect()
                 m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
             }
         }
-    }
-}
-
-void IconManager::applyHiddenItemEffect(const KFileItem& hiddenItem)
-{
-    const QModelIndex index = m_dolphinModel->indexForItem(hiddenItem);
-    const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
-    if (value.type() == QVariant::Icon) {
-        const QIcon icon(qvariant_cast<QIcon>(value));
-        const QSize maxSize = m_view->iconSize();
-        QPixmap pixmap = icon.pixmap(maxSize.height(), maxSize.height()); // ignore the width
-        KIconEffect::semiTransparent(pixmap);
-        m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
     }
 }
 
