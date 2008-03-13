@@ -136,12 +136,7 @@ void IconSizeDialog::slotButtonClicked(int button)
 {
     if (button == Ok) {
         m_iconSize = iconSize(m_iconSizeSlider->value());
-
         m_previewSize = iconSize(m_previewSizeSlider->value());
-        if (m_previewSize < m_iconSize) {
-            // assure that the preview size is never smaller than the icon size
-            m_previewSize = m_iconSize;
-        }
     }
 
     KDialog::slotButtonClicked(button);
@@ -150,18 +145,10 @@ void IconSizeDialog::slotButtonClicked(int button)
 void IconSizeDialog::updateIconSize(int value)
 {
     m_iconSizeViewer->setPixmap(KIconLoader::global()->loadIcon("folder", KIconLoader::Desktop, iconSize(value)));
-    if (m_previewSizeSlider != 0) {
-        updatePreviewSize(m_previewSizeSlider->value());
-    }
 }
 
 void IconSizeDialog::updatePreviewSize(int value)
 {
-    const int iconSizeValue = m_iconSizeSlider->value();
-    if (value < iconSizeValue) {
-        // assure that the preview size is never smaller than the icon size
-        value = iconSizeValue;
-    }
     m_previewSizeViewer->setPixmap(KIconLoader::global()->loadIcon("preview", KIconLoader::Desktop, iconSize(value)));
 }
 
