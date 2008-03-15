@@ -129,7 +129,14 @@ void MetaDataWidget::setFile(const KUrl& url)
 void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
 #ifdef HAVE_NEPOMUK
-    // FIXME: replace with KMetaData::File once we have it again
+    // FIXME #1: For 100 files MetaDataWidget::setFiles() blocks
+    // for around 15 seconds (maybe we should delegate this to a KJob).
+    // In the meantime we temporary just reset the widgets:
+    d->ratingWidget->setRating( 0 );
+    d->loadComment( QString() );
+    return;
+
+    // FIXME #2: replace with KMetaData::File once we have it again
     d->files.clear();
     bool first = true;
     QList<Nepomuk::Resource> fileRes;
