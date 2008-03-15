@@ -285,8 +285,8 @@ bool IconManager::applyImageFrame(QPixmap& icon)
     painter.drawRect(0, 0, width, height);
     painter.drawRect(1, 1, width - 2, height - 2);
 
-    // dimm image frame by 25 %
-    painter.setPen(QColor(0, 0, 0, 64));
+    // dim image frame by 12.5 %
+    painter.setPen(QColor(0, 0, 0, 32));
     painter.drawRect(frame, frame, width - doubleFrame, height - doubleFrame);
     painter.end();
 
