@@ -194,6 +194,7 @@ void InfoSidebarPage::showItemInfo()
     if (!file.isValid()) {
         return;
     }
+
     const int itemCount = selectedItems.count();
     if (itemCount > 1) {
         KIconLoader iconLoader;
@@ -275,7 +276,6 @@ bool InfoSidebarPage::applyPlace(const KUrl& url)
 void InfoSidebarPage::cancelRequest()
 {
     m_timer->stop();
-    m_pendingPreview = false;
 }
 
 void InfoSidebarPage::showMetaInfo()
