@@ -102,6 +102,7 @@ set(dolphin_SRCS
    infosidebarpage.cpp
    main.cpp
    metadatawidget.cpp
+   metatextlabel.cpp
    pixmapviewer.cpp
    settingspagebase.cpp
    sidebarpage.cpp

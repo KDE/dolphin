@@ -29,7 +29,6 @@
 #include <kdialog.h>
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
-#include <kvbox.h>
 #include <kseparator.h>
 #include <kiconloader.h>
 
@@ -43,6 +42,7 @@
 
 #include "dolphinsettings.h"
 #include "metadatawidget.h"
+#include "metatextlabel.h"
 #include "pixmapviewer.h"
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
@@ -51,10 +51,10 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_shownUrl(),
     m_urlCandidate(),
     m_fileItem(),
-    m_preview(0),
     m_nameLabel(0),
-    m_infoLabel(0),
-    m_metaDataWidget(0)
+    m_preview(0),
+    m_metaDataWidget(0),
+    m_metaTextLabel(0)
 {
     const int spacing = KDialog::spacingHint();
 
@@ -66,37 +66,35 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setSpacing(spacing);
 
-    // preview
-    m_preview = new PixmapViewer(this);
-    m_preview->setMinimumWidth(KIconLoader::SizeEnormous);
-    m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
-
     // name
     m_nameLabel = new QLabel(this);
-    m_nameLabel->setTextFormat(Qt::RichText);
-    m_nameLabel->setAlignment(m_nameLabel->alignment() | Qt::AlignHCenter);
+    QFont font = m_nameLabel->font();
+    font.setBold(true);
+    m_nameLabel->setFont(font);
+    m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setWordWrap(true);
 
-    // general information
-    m_infoLabel = new QLabel(this);
-    m_infoLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    m_infoLabel->setTextFormat(Qt::RichText);
-    m_infoLabel->setWordWrap(true);
-    m_infoLabel->setFont(KGlobalSettings::smallestReadableFont());
+    // preview
+    m_preview = new PixmapViewer(this);
+    m_preview->setMinimumWidth(KIconLoader::SizeEnormous + KIconLoader::SizeMedium);
+    m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
 
     if (MetaDataWidget::metaDataAvailable()) {
+        // rating, comment and tags
         m_metaDataWidget = new MetaDataWidget(this);
     }
 
-    layout->addItem(new QSpacerItem(spacing, spacing, QSizePolicy::Preferred, QSizePolicy::Fixed));
-    layout->addWidget(m_preview);
+    // general meta text information
+    m_metaTextLabel = new MetaTextLabel(this);
+    m_metaTextLabel->setMinimumWidth(spacing);
+
     layout->addWidget(m_nameLabel);
-    layout->addWidget(new KSeparator(this));
-    layout->addWidget(m_infoLabel);
+    layout->addWidget(m_preview);
     if (m_metaDataWidget != 0) {
-        layout->addWidget(new KSeparator(this));
         layout->addWidget(m_metaDataWidget);
     }
+    layout->addWidget(m_metaTextLabel);
+
     // ensure that widgets in the information side bar are aligned towards the top
     layout->addStretch(1);
     setLayout(layout);
@@ -168,7 +166,6 @@ void InfoSidebarPage::resizeEvent(QResizeEvent* event)
     // the current width of the sidebar.
     const int maxWidth = event->size().width() - KDialog::spacingHint() * 4;
     m_nameLabel->setMaximumWidth(maxWidth);
-    m_infoLabel->setMaximumWidth(maxWidth);
 
     // try to increase the preview as large as possible
     m_preview->setSizeHint(QSize(maxWidth, maxWidth));
@@ -227,10 +224,7 @@ void InfoSidebarPage::showItemInfo()
         connect(job, SIGNAL(failed(const KFileItem&)),
                 this, SLOT(showIcon(const KFileItem&)));
 
-        QString text("<b>");
-        text.append(file.fileName());
-        text.append("</b>");
-        m_nameLabel->setText(text);
+        m_nameLabel->setText(file.fileName());
     }
 
     showMetaInfo();
@@ -269,11 +263,7 @@ bool InfoSidebarPage::applyPlace(const KUrl& url)
         QModelIndex index = placesModel->index(i, 0);
 
         if (url.equals(placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
-            QString text("<b>");
-            text.append(placesModel->text(index));
-            text.append("</b>");
-            m_nameLabel->setText(text);
-
+            m_nameLabel->setText(placesModel->text(index));
             m_preview->setPixmap(placesModel->icon(index).pixmap(128, 128));
             return true;
         }
@@ -290,7 +280,7 @@ void InfoSidebarPage::cancelRequest()
 
 void InfoSidebarPage::showMetaInfo()
 {
-    QString text;
+    m_metaTextLabel->clear();
 
     const KFileItemList& selectedItems = selection();
     if (selectedItems.size() <= 1) {
@@ -304,12 +294,12 @@ void InfoSidebarPage::showMetaInfo()
         }
 
         if (fileItem.isDir()) {
-            addInfoLine(text, i18nc("@label", "Type:"), i18nc("@label", "Folder"));
+            m_metaTextLabel->add(i18nc("@label", "Type:"), i18nc("@label", "Folder"));
         } else {
-            addInfoLine(text, i18nc("@label", "Type:"), fileItem.mimeComment());
+            m_metaTextLabel->add(i18nc("@label", "Type:"), fileItem.mimeComment());
 
-            addInfoLine(text, i18nc("@label", "Size:"), KIO::convertSize(fileItem.size()));
-            addInfoLine(text, i18nc("@label", "Modified:"), fileItem.timeString());
+            m_metaTextLabel->add(i18nc("@label", "Size:"), KIO::convertSize(fileItem.size()));
+            m_metaTextLabel->add(i18nc("@label", "Modified:"), fileItem.timeString());
 
             // TODO: See convertMetaInfo below, find a way to display only interesting information
             // in a readable way
@@ -318,17 +308,17 @@ void InfoSidebarPage::showMetaInfo()
                                                    KFileMetaInfo::ContentInfo |
                                                    KFileMetaInfo::Thumbnail;
             const QString path = fileItem.url().url();
-            const KFileMetaInfo metaInfo(path, QString(), flags);
-            if (metaInfo.isValid()) {
-                const QHash<QString, KFileMetaInfoItem>& items = metaInfo.items();
+            const KFileMetaInfo fileMetaInfo(path, QString(), flags);
+            if (fileMetaInfo.isValid()) {
+                const QHash<QString, KFileMetaInfoItem>& items = fileMetaInfo.items();
                 QHash<QString, KFileMetaInfoItem>::const_iterator it = items.constBegin();
                 const QHash<QString, KFileMetaInfoItem>::const_iterator end = items.constEnd();
                 QString labelText;
                 while (it != end) {
-                    const KFileMetaInfoItem& metaInfo = it.value();
-                    const QVariant& value = metaInfo.value();
-                    if (value.isValid() && convertMetaInfo(metaInfo.name(), labelText)) {
-                        addInfoLine(text, labelText, value.toString());
+                    const KFileMetaInfoItem& metaInfoItem = it.value();
+                    const QVariant& value = metaInfoItem.value();
+                    if (value.isValid() && convertMetaInfo(metaInfoItem.name(), labelText)) {
+                        m_metaTextLabel->add(labelText, value.toString());
                     }
                     ++it;
                 }
@@ -349,25 +339,14 @@ void InfoSidebarPage::showMetaInfo()
 
         unsigned long int totalSize = 0;
         foreach (const KFileItem& item, selectedItems) {
-            // Only count the size of files, not dirs; to match what
-            // DolphinViewContainer::selectionStatusBarText does.
+            // Only count the size of files, not dirs to match what
+            // DolphinViewContainer::selectionStatusBarText() does.
             if (!item.isDir() && !item.isLink()) {
                 totalSize += item.size();
             }
         }
-        addInfoLine(text, i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
+        m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     }
-    m_infoLabel->setText(text);
-}
-
-void InfoSidebarPage::addInfoLine(QString& text,
-                                  const QString& labelText,
-                                  const QString& infoText)
-{
-    if (!text.isEmpty()) {
-        text += "<br/>";
-    }
-    text += QString("<b>%1</b> %2").arg(labelText).arg(infoText);
 }
 
 bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const

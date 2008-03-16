@@ -39,6 +39,7 @@ class KFileItem;
 class QLabel;
 class PixmapViewer;
 class MetaDataWidget;
+class MetaTextLabel;
 
 /**
  * @brief Sidebar for showing meta information of one ore more selected items.
@@ -122,14 +123,6 @@ private:
     void showMetaInfo();
 
     /**
-     * Adds the texts \a labelText and \a infoText as one formated line
-     * to text.
-     */
-    void addInfoLine(QString& text,
-                     const QString& labelText,
-                     const QString& infoText);
-
-    /**
      * Converts the meta key \a key to a readable format into \a text.
      * Returns true, if the string \a key represents a meta information
      * that should be shown. If false is returned, \a text is not modified.
@@ -143,12 +136,10 @@ private:
     KUrl m_urlCandidate;  // URL candidate that will replace m_shownURL after a delay
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
 
-    PixmapViewer* m_preview;
     QLabel* m_nameLabel;
-
-    QLabel* m_infoLabel;
-
+    PixmapViewer* m_preview;
     MetaDataWidget* m_metaDataWidget;
+    MetaTextLabel* m_metaTextLabel;
 };
 
 #endif // INFOSIDEBARPAGE_H
