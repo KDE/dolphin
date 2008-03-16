@@ -197,9 +197,9 @@ void InfoSidebarPage::showItemInfo()
     const int itemCount = selectedItems.count();
     if (itemCount > 1) {
         KIconLoader iconLoader;
-        QPixmap icon = iconLoader.loadIcon("system-run",
+        QPixmap icon = iconLoader.loadIcon("dialog-information",
                                            KIconLoader::NoGroup,
-                                           m_preview->width());
+                                           KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
         m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectedItems.count()));
     } else if (!applyPlace(file)) {
