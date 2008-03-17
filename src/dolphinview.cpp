@@ -866,11 +866,9 @@ void DolphinView::emitContentsMoved()
 
 void DolphinView::showHoverInformation(const KFileItem& item)
 {
-    if (hasSelection() || !m_active) {
-        return;
+    if (!hasSelection()) {
+        emit requestItemInfo(item);
     }
-
-    emit requestItemInfo(item);
 }
 
 void DolphinView::clearHoverInformation()
