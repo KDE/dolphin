@@ -1121,8 +1121,8 @@ void DolphinView::paste()
                 int result = KMessageBox::questionYesNo(window(),
                                                         text,
                                                         i18nc("@title:window", "Paste into Folder"),
-                                                        KGuiItem(i18nc("@label", "Paste"), "dialog-ok"),
-                                                        KGuiItem(i18nc("@label", "Cancel"), "dialog-cancel"));
+                                                        KGuiItem(i18nc("@action:button", "Paste"), "dialog-ok"),
+                                                        KGuiItem(i18nc("@action:button", "Cancel"), "dialog-cancel"));
                 if (result == KMessageBox::No) {
                     return;
                 }

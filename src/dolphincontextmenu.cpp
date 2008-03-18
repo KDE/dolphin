@@ -130,7 +130,7 @@ void DolphinContextMenu::openTrashContextMenu()
     } else if (action == addToPlacesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
-            DolphinSettings::instance().placesModel()->addPlace(i18n("Trash"), url);
+            DolphinSettings::instance().placesModel()->addPlace(i18nc("@label", "Trash"), url);
         }
     }
 

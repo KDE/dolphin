@@ -50,7 +50,7 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // initialize 'General' tab
     m_generalPage = new GeneralViewSettingsPage(mainWindow, tabWidget);
-    tabWidget->addTab(m_generalPage, KIcon("view-choose"), i18nc("@title:tab", "General"));
+    tabWidget->addTab(m_generalPage, KIcon("view-choose"), i18nc("@title:tab General settings", "General"));
 
     // initialize 'Icons' tab
     m_iconsPage = new IconsViewSettingsPage(mainWindow, tabWidget);

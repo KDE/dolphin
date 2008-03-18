@@ -40,7 +40,7 @@ DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     connect(m_modeCombo, SIGNAL(activated(int)),
             this, SLOT(changeMode(int)));
 
-    m_chooseFontButton = new QPushButton(i18n("Choose..."), this);
+    m_chooseFontButton = new QPushButton(i18nc("@action:button Choose font", "Choose..."), this);
     connect(m_chooseFontButton, SIGNAL(clicked()),
             this, SLOT(openFontDialog()));
 

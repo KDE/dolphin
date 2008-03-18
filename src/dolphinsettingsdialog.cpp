@@ -57,7 +57,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
 
     m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
     KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage,
-                                                    i18nc("@title:group", "General"));
+                                                    i18nc("@title:group General settings", "General"));
     generalSettingsFrame->setIcon(KIcon("system-run"));
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");

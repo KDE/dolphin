@@ -23,7 +23,7 @@
             <default code="true">KGlobalSettings::generalFont().pointSize()</default>
         </entry>
         <entry name="ItalicFont" type="Bool">
-            <label context="@label">Italic</label>
+            <label context="@label Font style">Italic</label>
             <default>false</default>
         </entry>
         <entry name="FontWeight" type="Int">

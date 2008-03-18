@@ -101,8 +101,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QWidget* sortingBox = new QWidget(propsGrid);
 
     m_sortOrder = new QComboBox(sortingBox);
-    m_sortOrder->addItem(i18nc("@item:inlistbox", "Ascending"));
-    m_sortOrder->addItem(i18nc("@item:inlistbox", "Descending"));
+    m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
+    m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
 
     m_sorting = new QComboBox(sortingBox);
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Name"));

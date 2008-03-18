@@ -714,7 +714,7 @@ void DolphinMainWindow::setupActions()
     // setup 'File' menu
     m_newMenu = new DolphinNewMenu(this);
     KMenu* menu = m_newMenu->menu();
-    menu->setTitle(i18nc("@title:menu", "Create New"));
+    menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(KIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
@@ -867,7 +867,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     // setup "Terminal"
 #ifndef Q_OS_WIN
-    QDockWidget* terminalDock = new QDockWidget(i18nc("@title:window", "Terminal"));
+    QDockWidget* terminalDock = new QDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
     terminalDock->setObjectName("terminalDock");
     terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
     SidebarPage* terminalWidget = new TerminalSidebarPage(terminalDock);
@@ -875,7 +875,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     connect(terminalWidget, SIGNAL(hideTerminalSidebarPage()), terminalDock, SLOT(hide()));
 
-    terminalDock->toggleViewAction()->setText(i18nc("@title:window", "Terminal"));
+    terminalDock->toggleViewAction()->setText(i18nc("@title:window Shell terminal", "Terminal"));
     terminalDock->toggleViewAction()->setShortcut(Qt::Key_F4);
     actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());
 

@@ -27,7 +27,7 @@
 #include <QLabel>
 
 MetaTextLabel::MetaTextLabel(QWidget* parent) :
-    QGroupBox(i18nc("@title:group", "General"), parent),
+    QGroupBox(i18nc("@title:group General metadata", "General"), parent),
     m_lines(0),
     m_layout(0)
 {

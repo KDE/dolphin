@@ -108,7 +108,7 @@ void StartupSettingsPage::applySettings()
     if (url.isValid() && fileItem.isDir()) {
         settings->setHomeUrl(url.prettyUrl());
     } else {
-        KMessageBox::error(this, i18n("The location for the home folder is invalid and will not get applied."));
+        KMessageBox::error(this, i18nc("@info", "The location for the home folder is invalid and will not get applied."));
     }
 
     settings->setSplitView(m_splitView->isChecked());

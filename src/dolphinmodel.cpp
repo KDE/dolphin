@@ -218,7 +218,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                 switch (modifiedDate.daysTo(currentDate)) {
                 case 0:  retString = i18nc("@title:group Date", "Today"); break;
                 case 1:  retString = i18nc("@title:group Date", "Yesterday"); break;
-                default: retString = modifiedTime.toString(i18nc("Prints out the week day name: %A", "%A"));
+                default: retString = modifiedTime.toString(i18nc("@title:group The week day name: %A", "%A"));
                 }
                 break;
             case 1:
@@ -237,7 +237,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                 Q_ASSERT(false);
             }
         } else {
-            retString = modifiedTime.toString(i18nc("Prints out the month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
+            retString = modifiedTime.toString(i18nc("@title:group The month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
         }
         break;
     }
@@ -251,41 +251,41 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
 
         // set user string
         if (info.permission(QFile::ReadUser)) {
-            user = i18n("Read, ");
+            user = i18nc("@item:intext Access permission, concatenated", "Read, ");
         }
         if (info.permission(QFile::WriteUser)) {
-            user += i18n("Write, ");
+            user += i18nc("@item:intext Access permission, concatenated", "Write, ");
         }
         if (info.permission(QFile::ExeUser)) {
-            user += i18n("Execute, ");
+            user += i18nc("@item:intext Access permission, concatenated", "Execute, ");
         }
-        user = user.isEmpty() ? i18n("Forbidden") : user.mid(0, user.count() - 2);
+        user = user.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : user.mid(0, user.count() - 2);
 
         // set group string
         if (info.permission(QFile::ReadGroup)) {
-            group = i18n("Read, ");
+            group = i18nc("@item:intext Access permission, concatenated", "Read, ");
         }
         if (info.permission(QFile::WriteGroup)) {
-            group += i18n("Write, ");
+            group += i18nc("@item:intext Access permission, concatenated", "Write, ");
         }
         if (info.permission(QFile::ExeGroup)) {
-            group += i18n("Execute, ");
+            group += i18nc("@item:intext Access permission, concatenated", "Execute, ");
         }
-        group = group.isEmpty() ? i18n("Forbidden") : group.mid(0, group.count() - 2);
+        group = group.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : group.mid(0, group.count() - 2);
 
         // set permission string
         if (info.permission(QFile::ReadOther)) {
-            others = i18n("Read, ");
+            others = i18nc("@item:intext Access permission, concatenated", "Read, ");
         }
         if (info.permission(QFile::WriteOther)) {
-            others += i18n("Write, ");
+            others += i18nc("@item:intext Access permission, concatenated", "Write, ");
         }
         if (info.permission(QFile::ExeOther)) {
-            others += i18n("Execute, ");
+            others += i18nc("@item:intext Access permission, concatenated", "Execute, ");
         }
-        others = others.isEmpty() ? i18n("Forbidden") : others.mid(0, others.count() - 2);
+        others = others.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : others.mid(0, others.count() - 2);
 
-        retString = i18nc("This shows files and folders permissions: user, group and others", "(User: %1) (Group: %2) (Others: %3)", user, group, others);
+        retString = i18nc("@title:group Files and folders by permissions", "(User: %1) (Group: %2) (Others: %3)", user, group, others);
         break;
                                  }
 

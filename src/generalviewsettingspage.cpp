@@ -82,13 +82,13 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     connect(m_spinBox, SIGNAL(valueChanged(int)),
             m_maxPreviewSize, SLOT(setValue(int)));
 
-    m_useFileThumbnails = new QCheckBox(i18n("Use thumbnails embedded in files"), previewBox);
+    m_useFileThumbnails = new QCheckBox(i18nc("@option:check", "Use thumbnails embedded in files"), previewBox);
 
     QVBoxLayout* previewBoxLayout = new QVBoxLayout(previewBox);
     previewBoxLayout->addWidget(vBox);
     previewBoxLayout->addWidget(m_useFileThumbnails);
 
-    m_showSelectionToggle = new QCheckBox(i18nc("option:check", "Show selection toggle"), this);
+    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection toggle"), this);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout

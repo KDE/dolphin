@@ -62,7 +62,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     // create 'Show the command 'Delete' in context menu' checkbox
     m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command in context menu"), vBox);
 
-    m_browseThroughArchives = new QCheckBox(i18nc("option:check", "Browse through archives"), vBox);
+    m_browseThroughArchives = new QCheckBox(i18nc("@option:check", "Browse through archives"), vBox);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
