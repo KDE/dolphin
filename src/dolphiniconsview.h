@@ -48,9 +48,6 @@ public:
     explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinIconsView();
 
-    /** @see QAbstractItemView::visualRect() */
-    virtual QRect visualRect(const QModelIndex& index) const;
-
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);

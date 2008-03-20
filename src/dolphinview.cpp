@@ -31,7 +31,6 @@
 #include <kactioncollection.h>
 #include <kcolorscheme.h>
 #include <kdirlister.h>
-#include <kfileitemdelegate.h>
 #include <kiconeffect.h>
 #include <klocale.h>
 #include <kio/deletejob.h>
@@ -50,6 +49,7 @@
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
+#include "dolphinfileitemdelegate.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
@@ -909,7 +909,7 @@ void DolphinView::createView()
 
     m_controller->setItemView(view);
 
-    m_fileItemDelegate = new KFileItemDelegate(view);
+    m_fileItemDelegate = new DolphinFileItemDelegate(view);
     view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);

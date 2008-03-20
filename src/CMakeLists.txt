@@ -18,6 +18,7 @@ set(dolphinprivate_LIB_SRCS
     dolphincolumnview.cpp
     dolphincolumnwidget.cpp
     dolphindropcontroller.cpp
+    dolphinfileitemdelegate.cpp
     dolphinsortfilterproxymodel.cpp
     draganddrophelper.cpp
     dolphinmodel.cpp

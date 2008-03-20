@@ -21,6 +21,7 @@
 
 #include "dolphincategorydrawer.h"
 #include "dolphincontroller.h"
+#include "dolphinfileitemdelegate.h"
 #include "dolphinsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_generalsettings.h"
@@ -130,50 +131,6 @@ DolphinIconsView::~DolphinIconsView()
 {
     delete m_categoryDrawer;
     m_categoryDrawer = 0;
-}
-
-QRect DolphinIconsView::visualRect(const QModelIndex& index) const
-{
-    const bool leftToRightFlow = (flow() == QListView::LeftToRight);
-
-    QRect itemRect = KCategorizedView::visualRect(index);
-
-    const int maxWidth  = m_itemSize.width();
-    const int maxHeight = m_itemSize.height();
-
-    if (itemRect.width() > maxWidth) {
-        // assure that the maximum item width is not exceeded
-        if (leftToRightFlow) {
-            const int left = itemRect.left() + (itemRect.width() - maxWidth) / 2;
-            itemRect.setLeft(left);
-        }
-        itemRect.setWidth(maxWidth);
-    }
-
-    if (itemRect.height() > maxHeight) {
-        // assure that the maximum item height is not exceeded
-        if (!leftToRightFlow) {
-            const int top = itemRect.top() + (itemRect.height() - maxHeight) / 2;
-            itemRect.setTop(top);
-        }
-        itemRect.setHeight(maxHeight);
-    }
-
-    KCategorizedSortFilterProxyModel* proxyModel = dynamic_cast<KCategorizedSortFilterProxyModel*>(model());
-    if (leftToRightFlow && !proxyModel->isCategorizedModel()) {
-        // TODO: QListView::visualRect() calculates a wrong position of the items under
-        // certain circumstances (e. g. if the text is too long). This issue is bypassed
-        // by the following code (I'll try create a patch for Qt but as Dolphin must also work with
-        // Qt 4.3.0 this workaround must get applied at least for KDE 4.0).
-        const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-        const int margin = settings->gridSpacing();
-        const int gridWidth = gridSize().width();
-        const int gridIndex = (itemRect.left() - margin + 1) / gridWidth;
-        const int centerInc = (maxWidth - itemRect.width()) / 2;
-        itemRect.moveLeft((gridIndex * gridWidth) + margin + centerInc);
-    }
-
-    return itemRect;
 }
 
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
@@ -461,6 +418,11 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());
+
+    DolphinFileItemDelegate* delegate = qobject_cast<DolphinFileItemDelegate*>(itemDelegate());
+    if (delegate != 0) {
+        delegate->setMaximumSize(m_itemSize);
+    }
 }
 
 int DolphinIconsView::additionalInfoCount() const
