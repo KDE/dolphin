@@ -255,6 +255,15 @@ void DolphinIconsView::wheelEvent(QWheelEvent* event)
     }
 }
 
+void DolphinIconsView::showEvent(QShowEvent* event)
+{
+    Q_ASSERT(qobject_cast<DolphinFileItemDelegate*>(itemDelegate()) != 0);
+    DolphinFileItemDelegate* delegate = static_cast<DolphinFileItemDelegate*>(itemDelegate());
+    delegate->setMaximumSize(m_itemSize);
+
+    KCategorizedView::showEvent(event);
+}
+
 void DolphinIconsView::slotShowPreviewChanged()
 {
     const DolphinView* view = m_controller->dolphinView();

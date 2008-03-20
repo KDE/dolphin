@@ -59,6 +59,7 @@ protected:
     virtual void dropEvent(QDropEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
+    virtual void showEvent(QShowEvent* event);
 
 private slots:
     void slotShowPreviewChanged();
