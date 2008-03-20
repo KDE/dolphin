@@ -85,7 +85,7 @@ void DolphinDropController::dropUrls(const KUrl::List& urls,
 
         seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
         seq.chop(1);
-        QAction* linkAction = popup.addAction(KIcon("insert-link"),
+        QAction* linkAction = popup.addAction(KIcon("edit-create-symbolic-link"),
                                               i18nc("@action:inmenu",
                                                     "&Link Here\t<shortcut>%1</shortcut>", seq));
 
