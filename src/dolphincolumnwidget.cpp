@@ -429,10 +429,10 @@ void DolphinColumnWidget::deactivate()
     // necessary connecting the signal 'singleClick()' or 'doubleClick'.
     if (KGlobalSettings::singleClick()) {
         disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-                   this, SLOT(triggerItem(const QModelIndex&)));
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     } else {
         disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                   this, SLOT(triggerItem(const QModelIndex&)));
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
     }
 
     const QModelIndex current = selectionModel()->currentIndex();
