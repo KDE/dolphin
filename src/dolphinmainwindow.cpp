@@ -678,7 +678,7 @@ void DolphinMainWindow::init()
 
     if (firstRun) {
         // assure a proper default size if Dolphin runs the first time
-        resize(700, 500);
+        resize(750, 500);
     }
 
     emit urlChanged(homeUrl);
@@ -886,7 +886,6 @@ void DolphinMainWindow::setupDockWidgets()
 
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
-        infoDock->hide();
         treeViewDock->hide();
 #ifndef Q_OS_WIN
         terminalDock->hide();
