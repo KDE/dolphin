@@ -23,11 +23,6 @@
 #include "dolphinsortfilterproxymodel.h"
 
 #include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-#include <nepomuk/global.h>
-#include <nepomuk/resource.h>
-#include <nepomuk/tag.h>
-#endif
 
 #include "dolphinmodel.h"
 
