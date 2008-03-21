@@ -89,7 +89,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_activeViewContainer(0),
     m_id(id)
 {
-    setObjectName("Dolphin");
+    setObjectName("Dolphin#");
     m_viewContainer[PrimaryView] = 0;
     m_viewContainer[SecondaryView] = 0;
 
