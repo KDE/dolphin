@@ -5,6 +5,7 @@ add_subdirectory( tests )
 macro_optional_find_package(Soprano)
 
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${BLITZ_INCLUDES} )
+
 if (Soprano_FOUND)
   include_directories( ${SOPRANO_INCLUDE_DIR} )
 endif (Soprano_FOUND)
@@ -27,7 +28,6 @@ set(dolphinprivate_LIB_SRCS
     dolphinview.cpp
     dolphinviewactionhandler.cpp
     iconmanager.cpp
-    ratingpainter.cpp
     renamedialog.cpp
     selectiontoggle.cpp
     selectionmanager.cpp
@@ -103,6 +103,8 @@ set(dolphin_SRCS
    infosidebarpage.cpp
    main.cpp
    metadatawidget.cpp
+   commentwidget.cpp
+   commenteditwidget.cpp
    metatextlabel.cpp
    pixmapviewer.cpp
    settingspagebase.cpp
@@ -116,6 +118,19 @@ set(dolphin_SRCS
    viewpropertiesdialog.cpp
    viewsettingspage.cpp
    viewpropsprogressinfo.cpp )
+
+if(Nepomuk_FOUND)
+set(dolphin_SRCS
+  ${dolphin_SRCS}
+  nepomukmassupdatejob.cpp
+  tagcloud/tagcloud.cpp
+  tagcloud/resourcetaggingwidget.cpp
+  tagcloud/taggingpopup.cpp
+  tagcloud/newtagdialog.cpp
+)
+kde4_add_ui_files(dolphin_SRCS tagcloud/newtagdialog.ui)
+
+endif(Nepomuk_FOUND)
 
 if(NOT WIN32)
    set(dolphin_SRCS ${dolphin_SRCS} terminalsidebarpage.cpp)

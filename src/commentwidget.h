@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sebastian Trueg <trueg@kde.org>                 *
+ *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,55 +17,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef METADATA_WIDGET_H
-#define METADATA_WIDGET_H
+#ifndef _NEPOMUK_COMMENT_WIDGET_H_
+#define _NEPOMUK_COMMENT_WIDGET_H_
 
 #include <QtGui/QWidget>
 
-#include <kurl.h>
-
-namespace Nepomuk {
-    class Tag;
-}
-
-class MetaDataWidget : public QWidget
+class CommentWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    MetaDataWidget(QWidget* parent = 0);
-    virtual ~MetaDataWidget();
+    CommentWidget( QWidget* parent = 0 );
+    ~CommentWidget();
 
-    /**
-     * \return true if the KMetaData system could be found and initialized.
-     * false if KMetaData was not available at compile time or if it has not
-     * been initialized properly.
-     */
-    static bool metaDataAvailable();
+    void setComment( const QString& comment );
+    QString comment() const;
 
-public Q_SLOTS:
-    void setFile(const KUrl& url);
-    void setFiles(const KUrl::List& urls);
-
-signals:
-    /**
-     * This signal gets emitted if the metadata for the set file was changed on the
-     * outside. NOT IMPLEMENTED YET.
-     */
-    void metaDataChanged();
-
-private Q_SLOTS:
-    void slotCommentChanged(const QString&);
-    void slotRatingChanged(unsigned int rating);
-    void metadataUpdateDone();
-    void slotTagClicked( const Nepomuk::Tag& );
-
-protected:
-    bool eventFilter(QObject* obj, QEvent* event);
+Q_SIGNALS:
+    void commentChanged( const QString& );
 
 private:
+    bool eventFilter( QObject* watched, QEvent* event );
+
     class Private;
-    Private* d;
+    Private* const d;
+
+    Q_PRIVATE_SLOT( d, void _k_slotEnableEditing() )
 };
 
 #endif

@@ -18,23 +18,21 @@
   * Boston, MA 02110-1301, USA.
   */
 
+#include "config-nepomuk.h"
+
 #include "dolphincategorydrawer.h"
-#include "ratingpainter.h"
 #include <QPainter>
 #include <QFile>
 #include <QDir>
+
+#ifdef HAVE_NEPOMUK
+#include <nepomuk/kratingpainter.h>
+#endif
 
 #include <kiconloader.h>
 #include <kcategorizedsortfilterproxymodel.h>
 #include <qimageblitz.h>
 #include <kuser.h>
-
-#include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-#include <nepomuk/global.h>
-#include <nepomuk/resource.h>
-#include <nepomuk/tag.h>
-#endif
 
 #include "dolphinview.h"
 #include "dolphinmodel.h"
@@ -217,7 +215,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             QRect ratingRect( option.rect );
             ratingRect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
             ratingRect.setHeight( iconSize );
-            Nepomuk::RatingPainter::drawRating( painter, ratingRect, Qt::AlignLeft, category.toInt() );
+            KRatingPainter::paintRating( painter, ratingRect, Qt::AlignLeft, category.toInt() );
             break;
         }
 

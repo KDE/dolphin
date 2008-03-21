@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sebastian Trueg <trueg@kde.org>                 *
+ *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,55 +17,46 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef METADATA_WIDGET_H
-#define METADATA_WIDGET_H
+#ifndef _COMMENT_EDIT_WIDGET_H_
+#define _COMMENT_EDIT_WIDGET_H_
 
-#include <QtGui/QWidget>
+#include <QtGui/QFrame>
 
-#include <kurl.h>
+class QResizeEvent;
+class QMouseEvent;
+class QHideEvent;
 
-namespace Nepomuk {
-    class Tag;
-}
-
-class MetaDataWidget : public QWidget
+class CommentEditWidget : public QFrame
 {
     Q_OBJECT
 
 public:
-    MetaDataWidget(QWidget* parent = 0);
-    virtual ~MetaDataWidget();
+    CommentEditWidget( QWidget* parent = 0 );
+    ~CommentEditWidget();
+
+    void setComment( const QString& s );
+    QString comment();
 
     /**
-     * \return true if the KMetaData system could be found and initialized.
-     * false if KMetaData was not available at compile time or if it has not
-     * been initialized properly.
+     * Show the comment widget at position pos.
+     * \return true if the user chose to save the comment,
+     * false otherwise.
      */
-    static bool metaDataAvailable();
+    bool exec( const QPoint& pos );
 
-public Q_SLOTS:
-    void setFile(const KUrl& url);
-    void setFiles(const KUrl::List& urls);
-
-signals:
-    /**
-     * This signal gets emitted if the metadata for the set file was changed on the
-     * outside. NOT IMPLEMENTED YET.
-     */
-    void metaDataChanged();
-
-private Q_SLOTS:
-    void slotCommentChanged(const QString&);
-    void slotRatingChanged(unsigned int rating);
-    void metadataUpdateDone();
-    void slotTagClicked( const Nepomuk::Tag& );
-
-protected:
-    bool eventFilter(QObject* obj, QEvent* event);
+    bool eventFilter( QObject* watched, QEvent* event );
 
 private:
+    void updateButtons();
+    void resizeEvent( QResizeEvent* );
+    void mousePressEvent( QMouseEvent* e );
+    void hideEvent( QHideEvent* e );
+
     class Private;
-    Private* d;
+    Private* const d;
+
+    Q_PRIVATE_SLOT( d, void _k_saveClicked() )
+    Q_PRIVATE_SLOT( d, void _k_cancelClicked() )
 };
 
 #endif

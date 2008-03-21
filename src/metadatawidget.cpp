@@ -19,9 +19,13 @@
 
 #include "metadatawidget.h"
 
+#include "commentwidget.h"
+
 #include <config-nepomuk.h>
 
 #include <klocale.h>
+#include <KDebug>
+#include <KMessageBox>
 
 #include <QtCore/QEvent>
 #include <QtGui/QLabel>
@@ -29,13 +33,14 @@
 #include <QtGui/QTextEdit>
 
 #ifdef HAVE_NEPOMUK
+#include "nepomukmassupdatejob.h"
 #include <nepomuk/kmetadatatagwidget.h>
 #include <nepomuk/resourcemanager.h>
 #include <nepomuk/resource.h>
 #include <nepomuk/variant.h>
 #include <nepomuk/kratingwidget.h>
-#include <nepomuk/global.h>
 #include <Soprano/Vocabulary/Xesam>
+#include "tagcloud/resourcetaggingwidget.h"
 #endif
 
 
@@ -57,24 +62,16 @@ public:
 
     QMap<KUrl, Nepomuk::Resource> files;
 
-    QTextEdit* editComment;
+    CommentWidget* editComment;
     KRatingWidget* ratingWidget;
-    Nepomuk::TagWidget* tagWidget;
+    Nepomuk::ResourceTaggingWidget* tagWidget;
 #endif
 };
 
 #ifdef HAVE_NEPOMUK
 void MetaDataWidget::Private::loadComment(const QString& comment)
 {
-    editComment->blockSignals(true);
-    if (comment.isEmpty()) {
-        editComment->setFontItalic(true);
-        editComment->setText(i18nc("@info:tooltip", "Click to add comment..."));
-    } else {
-        editComment->setFontItalic(false);
-        editComment->setText(comment);
-    }
-    editComment->blockSignals(false);
+    editComment->setComment( comment );
 }
 #endif
 
@@ -84,28 +81,21 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
 {
 #ifdef HAVE_NEPOMUK
     d = new Private;
-    d->editComment = new QTextEdit(this);
+    d->editComment = new CommentWidget(this);
     d->editComment->setFocusPolicy(Qt::ClickFocus);
     d->ratingWidget = new KRatingWidget(this);
-    d->tagWidget = new Nepomuk::TagWidget(this);
+    d->ratingWidget->setAlignment( Qt::AlignCenter );
+    d->tagWidget = new Nepomuk::ResourceTaggingWidget(this);
     connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));
-    connect(d->editComment, SIGNAL(textChanged()), this, SLOT(slotCommentChanged()));
+    connect(d->editComment, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
+    connect( d->tagWidget, SIGNAL( tagClicked( const Nepomuk::Tag& ) ), this, SLOT( slotTagClicked( const Nepomuk::Tag& ) ) );
 
     QVBoxLayout* lay = new QVBoxLayout(this);
     lay->setMargin(0);
-    QHBoxLayout* hbox = new QHBoxLayout;
-    hbox->addWidget(new QLabel(i18nc("@label:slider", "Rating:"), this));
-    hbox->addStretch(1);
-    hbox->addWidget(d->ratingWidget);
-    lay->addLayout(hbox);
+    lay->addWidget(d->ratingWidget);
     lay->addWidget(d->editComment);
-    hbox = new QHBoxLayout;
-    hbox->addWidget(new QLabel(i18nc("@label:textbox", "Tags:"), this));
-    hbox->addWidget(d->tagWidget, 1);
-    lay->addLayout(hbox);
-
-    d->editComment->installEventFilter(this);
-    d->editComment->viewport()->installEventFilter(this);
+    QHBoxLayout* hbox = new QHBoxLayout;
+    lay->addWidget( d->tagWidget );
 #else
     d = 0;
 #endif
@@ -120,6 +110,7 @@ MetaDataWidget::~MetaDataWidget()
 
 void MetaDataWidget::setFile(const KUrl& url)
 {
+    kDebug() << url;
     KUrl::List urls;
     urls.append( url );
     setFiles( urls );
@@ -129,52 +120,44 @@ void MetaDataWidget::setFile(const KUrl& url)
 void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
 #ifdef HAVE_NEPOMUK
-    // FIXME #1: For 100 files MetaDataWidget::setFiles() blocks
-    // for around 15 seconds (maybe we should delegate this to a KJob).
-    // In the meantime we temporary just reset the widgets:
-    d->ratingWidget->setRating( 0 );
-    d->loadComment( QString() );
-    return;
-
-    // FIXME #2: replace with KMetaData::File once we have it again
     d->files.clear();
     bool first = true;
     QList<Nepomuk::Resource> fileRes;
     Q_FOREACH( KUrl url, urls ) {
-        Nepomuk::Resource file( url.url(), Soprano::Vocabulary::Xesam::File() );
-//    file.setLocation(url.url());
+        Nepomuk::Resource file( url, Soprano::Vocabulary::Xesam::File() );
         d->files.insert( url, file );
         fileRes.append( file );
 
-       if ( !first &&
-            d->ratingWidget->rating() != file.rating() ) {
-           d->ratingWidget->setRating( 0 ); // reset rating
-       }
-       else if ( first ) {
-           d->ratingWidget->setRating( (qint32)(file.rating()) );
-       }
+        if ( !first &&
+             d->ratingWidget->rating() != file.rating() ) {
+            d->ratingWidget->setRating( 0 ); // reset rating
+        }
+        else if ( first ) {
+            d->ratingWidget->setRating( (qint32)(file.rating()) );
+        }
 
-       if ( !first &&
-            d->editComment->toPlainText() != file.description() ) {
-           d->loadComment( QString() );
-       }
-       else if ( first ) {
-           d->loadComment( file.description() );
-       }
-       first = false;
+        if ( !first &&
+             d->editComment->comment() != file.description() ) {
+            d->loadComment( QString() );
+        }
+        else if ( first ) {
+            d->loadComment( file.description() );
+        }
+        first = false;
     }
-    d->tagWidget->setTaggedResources(fileRes);
+    d->tagWidget->setResource( fileRes.first() );
 #endif
 }
 
 
-void MetaDataWidget::slotCommentChanged()
+void MetaDataWidget::slotCommentChanged( const QString& s )
 {
 #ifdef HAVE_NEPOMUK
-    for ( QMap<KUrl, Nepomuk::Resource>::iterator it = d->files.begin();
-          it != d->files.end(); ++it ) {
-        it.value().setDescription(d->editComment->toPlainText());
-    }
+    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::commentResources( d->files.values(), s );
+    connect( job, SIGNAL( result( KJob* ) ),
+             this, SLOT( metadataUpdateDone() ) );
+    setEnabled( false ); // no updates during execution
+    job->start();
 #endif
 }
 
@@ -182,31 +165,31 @@ void MetaDataWidget::slotCommentChanged()
 void MetaDataWidget::slotRatingChanged(unsigned int rating)
 {
 #ifdef HAVE_NEPOMUK
-    for ( QMap<KUrl, Nepomuk::Resource>::iterator it = d->files.begin();
-          it != d->files.end(); ++it ) {
-        it.value().setRating(rating);
-    }
+    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::rateResources( d->files.values(), rating );
+    connect( job, SIGNAL( result( KJob* ) ),
+             this, SLOT( metadataUpdateDone() ) );
+    setEnabled( false ); // no updates during execution
+    job->start();
 #endif
+}
+
+
+void MetaDataWidget::metadataUpdateDone()
+{
+    setEnabled( true );
 }
 
 
 bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
 {
-#ifdef HAVE_NEPOMUK
-    if (obj == d->editComment->viewport() || obj == d->editComment) {
-        if (event->type() == QEvent::FocusOut) {
-            // make sure the info text is displayed again
-            d->loadComment(d->editComment->toPlainText());
-        } else if (event->type() == QEvent::FocusIn) {
-            d->editComment->setFontItalic(false);
-            if (!d->files.isEmpty() && d->files.begin().value().description().isEmpty()) {
-                d->editComment->setText(QString());
-            }
-        }
-    }
-#endif
-
     return QWidget::eventFilter(obj, event);
+}
+
+
+void MetaDataWidget::slotTagClicked( const Nepomuk::Tag& tag )
+{
+    // FIXME
+    KMessageBox::information( this, "FIXME: connect me to the dolphinmodel: tags:/" + tag.genericLabel() );
 }
 
 #include "metadatawidget.moc"
