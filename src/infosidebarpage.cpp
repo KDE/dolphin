@@ -35,8 +35,10 @@
 #include <QEvent>
 #include <QInputDialog>
 #include <QLabel>
+#include <QPainter>
 #include <QPixmap>
 #include <QResizeEvent>
+#include <QStyleOptionMenuItem>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -44,6 +46,37 @@
 #include "metadatawidget.h"
 #include "metatextlabel.h"
 #include "pixmapviewer.h"
+
+class InfoSeparator : public QWidget
+{
+public:
+    InfoSeparator(QWidget* parent);
+    virtual ~InfoSeparator();
+
+protected:
+    virtual void paintEvent(QPaintEvent* event);
+};
+
+InfoSeparator::InfoSeparator(QWidget* parent) :
+    QWidget(parent)
+{
+    setMinimumSize(0, 8);
+}
+
+InfoSeparator::~InfoSeparator()
+{
+}
+
+void InfoSeparator::paintEvent(QPaintEvent* event)
+{
+    Q_UNUSED(event);
+    QPainter painter(this);
+
+    QStyleOptionMenuItem option;
+    option.initFrom(this);
+    option.menuItemType = QStyleOptionMenuItem::Separator;
+    style()->drawControl(QStyle::CE_MenuItem, &option, &painter, this);
+}
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
@@ -90,8 +123,10 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 
     layout->addWidget(m_nameLabel);
     layout->addWidget(m_preview);
+    layout->addWidget(new InfoSeparator(this));
     if (m_metaDataWidget != 0) {
         layout->addWidget(m_metaDataWidget);
+        layout->addWidget(new InfoSeparator(this));
     }
     layout->addWidget(m_metaTextLabel);
 

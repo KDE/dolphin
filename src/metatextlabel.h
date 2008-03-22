@@ -20,7 +20,7 @@
 #ifndef METATEXTLABEL_H
 #define METATEXTLABEL_H
 
-#include <QGroupBox>
+#include <QWidget>
 
 class KVBox;
 class QHBoxLayout;
@@ -30,7 +30,7 @@ class QHBoxLayout;
  *
  * Each line contains a label and the the meta information.
  */
-class MetaTextLabel : public QGroupBox
+class MetaTextLabel : public QWidget
 {
     Q_OBJECT
 
