@@ -122,6 +122,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_metaTextLabel->setMinimumWidth(spacing);
 
     layout->addWidget(m_nameLabel);
+    layout->addWidget(new InfoSeparator(this));
     layout->addWidget(m_preview);
     layout->addWidget(new InfoSeparator(this));
     if (m_metaDataWidget != 0) {
