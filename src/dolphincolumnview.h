@@ -91,6 +91,12 @@ public:
      */
     void showColumn(const KUrl& url);
 
+    /**
+     * Does an inline editing for the item \a item
+     * inside the active column.
+     */
+    void editItem(const KFileItem& item);
+
 public slots:
     /** @see QAbstractItemView::selectAll() */
     virtual void selectAll();

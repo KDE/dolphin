@@ -249,6 +249,11 @@ void DolphinColumnView::showColumn(const KUrl& url)
     assureVisibleActiveColumn();
 }
 
+void DolphinColumnView::editItem(const KFileItem& item)
+{
+    activeColumn()->editItem(item);
+}
+
 void DolphinColumnView::selectAll()
 {
     activeColumn()->selectAll();
@@ -305,13 +310,12 @@ void DolphinColumnView::setSelection(const QRect& rect, QItemSelectionModel::Sel
 {
     Q_UNUSED(rect);
     Q_UNUSED(flags);
-    //activeColumn()->setSelection(rect, flags);
 }
 
 QRegion DolphinColumnView::visualRegionForSelection(const QItemSelection& selection) const
 {
     Q_UNUSED(selection);
-    return QRegion(); //activeColumn()->visualRegionForSelection(selection);
+    return QRegion();
 }
 
 int DolphinColumnView::horizontalOffset() const

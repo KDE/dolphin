@@ -31,6 +31,7 @@
 #include <kactioncollection.h>
 #include <kcolorscheme.h>
 #include <kdirlister.h>
+#include <kfileitemdelegate.h>
 #include <kiconeffect.h>
 #include <klocale.h>
 #include <kio/deletejob.h>
@@ -49,7 +50,6 @@
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
-#include "dolphinfileitemdelegate.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
@@ -866,16 +866,12 @@ void DolphinView::emitContentsMoved()
 
 void DolphinView::showHoverInformation(const KFileItem& item)
 {
-    if (!hasSelection()) {
-        emit requestItemInfo(item);
-    }
+    emit requestItemInfo(item);
 }
 
 void DolphinView::clearHoverInformation()
 {
-    if (m_active) {
-        emit requestItemInfo(KFileItem());
-    }
+    emit requestItemInfo(KFileItem());
 }
 
 void DolphinView::createView()
@@ -909,7 +905,7 @@ void DolphinView::createView()
 
     m_controller->setItemView(view);
 
-    m_fileItemDelegate = new DolphinFileItemDelegate(view);
+    m_fileItemDelegate = new KFileItemDelegate(view);
     view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);
@@ -1021,14 +1017,19 @@ void DolphinView::renameSelectedItems()
                 }
             }
         }
-    } else {
-        // Only one item has been selected for renaming. Use the custom
-        // renaming mechanism from the views.
+    } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
         Q_ASSERT(items.count() == 1);
 
-        // TODO: Think about using KFileItemDelegate as soon as it supports editing.
-        // Currently the RenameDialog is used, but I'm not sure whether inline renaming
-        // is a benefit for the user at all -> let's wait for some input first...
+        if (isColumnViewActive()) {
+            m_columnView->editItem(items.first());
+        } else {
+            const QModelIndex dirIndex = m_dolphinModel->indexForItem(items.first());
+            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+            itemView()->edit(proxyIndex);
+        }
+    } else {
+        Q_ASSERT(items.count() == 1);
+
         RenameDialog dialog(this, items);
         if (dialog.exec() == QDialog::Rejected) {
             return;

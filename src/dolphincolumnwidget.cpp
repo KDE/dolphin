@@ -229,6 +229,14 @@ void DolphinColumnWidget::setNameFilter(const QString& nameFilter)
     m_proxyModel->setFilterRegExp(nameFilter);
 }
 
+void DolphinColumnWidget::editItem(const KFileItem& item)
+{
+    const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
+    const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+    if (proxyIndex.isValid()) {
+        edit(proxyIndex);
+    }
+}
 
 QStyleOptionViewItem DolphinColumnWidget::viewOptions() const
 {
@@ -305,15 +313,11 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
         if (proxyIndex.isValid() && !selectionModel()->isSelected(proxyIndex)) {
             const QRect itemRect = visualRect(proxyIndex);
             QPainter painter(viewport());
-            painter.save();
-
             QColor color = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
             color.setAlpha(32);
             painter.setPen(Qt::NoPen);
             painter.setBrush(color);
             painter.drawRect(itemRect);
-
-            painter.restore();
         }
     }
 

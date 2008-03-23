@@ -41,7 +41,6 @@
 class DolphinController;
 class DolphinColumnView;
 class DolphinDetailsView;
-class DolphinFileItemDelegate;
 class DolphinIconsView;
 class DolphinMainWindow;
 class DolphinModel;
@@ -636,7 +635,7 @@ private:
     DolphinIconsView* m_iconsView;
     DolphinDetailsView* m_detailsView;
     DolphinColumnView* m_columnView;
-    DolphinFileItemDelegate* m_fileItemDelegate;
+    KFileItemDelegate* m_fileItemDelegate;
     QItemSelectionModel* m_selectionModel;
 
     DolphinModel* m_dolphinModel;

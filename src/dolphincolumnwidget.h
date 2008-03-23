@@ -98,6 +98,11 @@ public:
      */
     void setNameFilter(const QString& nameFilter);
 
+    /**
+     * Does an inline editing for the item \a item.
+     */
+    void editItem(const KFileItem& item);
+
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void startDrag(Qt::DropActions supportedActions);
@@ -140,6 +145,8 @@ private:
     IconManager* m_iconManager;
 
     QRect m_dropRect;
+
+    friend class DolphinColumnView;
 };
 
 inline bool DolphinColumnWidget::isActive() const
