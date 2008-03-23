@@ -1,0 +1,4 @@
+File=dolphin_folderspanelsettings.kcfg
+ClassName=FoldersPanelSettings
+Singleton=true
+Mutators=true

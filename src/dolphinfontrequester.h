@@ -57,6 +57,10 @@ public:
     void setCustomFont(const QFont& font);
     QFont customFont() const;
 
+signals:
+    /** Is emitted, if the font has been changed. */
+    void changed();
+
 protected:
     bool event(QEvent* event);
 

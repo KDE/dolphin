@@ -17,45 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinfileitemdelegate.h"
+#ifndef DOLPHINCONFIGMODULE_H
+#define DOLPHINCONFIGMODULE_H
 
-DolphinFileItemDelegate::DolphinFileItemDelegate(QObject* parent) :
-    KFileItemDelegate(parent),
-    m_maxSize(0, 0)
+#include <kcmodule.h>
+
+class ViewSettingsPageBase;
+
+/**
+ * @brief Allow to configure the Dolphin views.
+ */
+class DolphinConfigModule : public KCModule
 {
-}
+    Q_OBJECT
 
-DolphinFileItemDelegate::~DolphinFileItemDelegate()
-{
-}
+public:
+    DolphinConfigModule(QWidget* parent, const QVariantList& args);
+    virtual ~DolphinConfigModule();
 
-void DolphinFileItemDelegate::setMaximumSize(const QSize& size)
-{
-    m_maxSize = size;
-}
+    virtual void save();
+    virtual void defaults();
 
+private:
+    QList<ViewSettingsPageBase*> m_pages;
+};
 
-QSize DolphinFileItemDelegate::maximumSize() const
-{
-    return m_maxSize;
-}
-
-QSize DolphinFileItemDelegate::sizeHint(const QStyleOptionViewItem& option,
-                                        const QModelIndex& index) const
-{
-    QSize size = KFileItemDelegate::sizeHint(option, index);
-
-    const int maxWidth = m_maxSize.width();
-    if ((maxWidth > 0) && (size.width() > maxWidth)) {
-        size.setWidth(maxWidth);
-    }
-
-    const int maxHeight = m_maxSize.height();
-    if ((maxHeight > 0) && (size.height() > maxHeight)) {
-        size.setHeight(maxHeight);
-    }
-
-    return size;
-}
-
-#include "dolphinfileitemdelegate.moc"
+#endif

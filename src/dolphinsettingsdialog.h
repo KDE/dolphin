@@ -23,10 +23,8 @@
 
 #include <kpagedialog.h>
 
-class GeneralSettingsPage;
-class StartupSettingsPage;
-class ViewSettingsPage;
 class DolphinMainWindow;
+class SettingsPageBase;
 
 /**
  * @brief Settings dialog for Dolphin.
@@ -47,14 +45,16 @@ protected slots:
     /** @see KDialog::slotButtonClicked() */
     virtual void slotButtonClicked(int button);
 
+private slots:
+    /** Enables the Apply button. */
+    void enableApply();
+
 private:
     void applySettings();
     void restoreDefaults();
 
 private:
-    StartupSettingsPage* m_startupSettingsPage;
-    GeneralSettingsPage* m_generalSettingsPage;
-    ViewSettingsPage* m_viewSettingsPage;
+    QList<SettingsPageBase*> m_pages;
 };
 
 #endif

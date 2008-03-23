@@ -32,6 +32,10 @@
             <label context="@label">Browse through archives</label>
             <default>false</default>
         </entry>
+        <entry name="RenameInline" type="Bool">
+            <label context="@label">Rename inline</label>
+            <default>false</default>
+        </entry>
         <entry name="ShowSelectionToggle" type="Bool">
             <label context="@label">Show selection toggle</label>
             <default>true</default>

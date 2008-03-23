@@ -21,9 +21,8 @@
 #define ICONSVIEWSETTINGSPAGE_H
 
 #include <dolphiniconsview.h>
-#include <kvbox.h>
+#include <viewsettingspagebase.h>
 
-class DolphinMainWindow;
 class DolphinFontRequester;
 class QCheckBox;
 class QComboBox;
@@ -45,12 +44,12 @@ class QSpinBox;
  *
  * @see DolphinIconsViewSettings
  */
-class IconsViewSettingsPage : public KVBox
+class IconsViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    IconsViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    IconsViewSettingsPage(QWidget* parent);
     virtual ~IconsViewSettingsPage();
 
     /**
@@ -58,10 +57,10 @@ public:
      * The settings are persisted automatically when
      * closing Dolphin.
      */
-    void applySettings();
+    virtual void applySettings();
 
     /** Restores the settings to default values. */
-    void restoreDefaults();
+    virtual void restoreDefaults();
 
 private slots:
     void openIconSizeDialog();
@@ -80,7 +79,6 @@ private:
         TopToBottomInc  =  32
     };
 
-    DolphinMainWindow* m_mainWindow;
     int m_iconSize;
     int m_previewSize;
 

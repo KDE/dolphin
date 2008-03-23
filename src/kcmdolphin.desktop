@@ -1,0 +1,16 @@
+Name=Dolphin
+Comment=This service allows to configure the Dolphin views.
+
+[Desktop Entry]
+Icon=view-choose
+Type=Service
+X-KDE-ServiceTypes=KCModule
+Exec=kcmshell4 kcmdolphin
+
+X-KDE-Library=kcm_dolphin
+X-KDE-PluginKeyword=dolphin
+X-KDE-ParentApp=kcontrol
+
+Name=Views
+Comment=Configure file manager settings
+X-KDE-Keywords=file manager

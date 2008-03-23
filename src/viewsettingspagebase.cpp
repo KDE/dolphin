@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,42 +14,18 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef SETTINGSPAGEBASE_H
-#define SETTINGSPAGEBASE_H
+#include "viewsettingspagebase.h"
 
-#include <QtGui/QWidget>
-
-/**
- * @brief Base class for the settings pages of the Dolphin settings dialog.
- *
- * @author Peter Penz <peter.penz@gmx.at>
- */
-class SettingsPageBase : public QWidget
+ViewSettingsPageBase::ViewSettingsPageBase(QWidget* parent) :
+    KVBox(parent)
 {
-    Q_OBJECT
+}
 
-public:
-    explicit SettingsPageBase(QWidget* parent);
-    virtual ~SettingsPageBase();
+ViewSettingsPageBase::~ViewSettingsPageBase()
+{
+}
 
-    /**
-     * Must be implemented by a derived class to
-     * persistently store the settings.
-     */
-    virtual void applySettings() = 0;
-
-    /**
-     * Must be implemented by a derived class to
-     * restored the settings to default values.
-     */
-    virtual void restoreDefaults() = 0;
-
-signals:
-    /** Is emitted if a setting has been changed. */
-    void changed();
-};
-
-#endif
+#include "viewsettingspagebase.moc"

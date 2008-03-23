@@ -29,13 +29,13 @@
 #include <kdialog.h>
 #include <kfiledialog.h>
 #include <klocale.h>
+#include <klineedit.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
 
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
-#include <QLineEdit>
 #include <QPushButton>
 #include <QRadioButton>
 
@@ -60,7 +60,8 @@ StartupSettingsPage::StartupSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     homeUrlBox->setSpacing(spacing);
 
     new QLabel(i18nc("@label:textbox", "Location:"), homeUrlBox);
-    m_homeUrl = new QLineEdit(homeUrlBox);
+    m_homeUrl = new KLineEdit(homeUrlBox);
+    m_homeUrl->setClearButtonShown(true);
 
     QPushButton* selectHomeUrlButton = new QPushButton(KIcon("folder-open"), QString(), homeUrlBox);
     connect(selectHomeUrlButton, SIGNAL(clicked()),
@@ -84,6 +85,9 @@ StartupSettingsPage::StartupSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), vBox);
     m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), vBox);
     m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"), vBox);
+    connect(m_splitView,   SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_editableUrl, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_filterBar,   SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -93,6 +97,10 @@ StartupSettingsPage::StartupSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     topLayout->addWidget(vBox);
 
     loadSettings();
+
+    // it's important connecting 'textChanged' after loadSettings(), as loadSettings()
+    // invokes m_homeUrl->setText()
+    connect(m_homeUrl, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
 }
 
 StartupSettingsPage::~StartupSettingsPage()
@@ -129,6 +137,7 @@ void StartupSettingsPage::selectHomeUrl()
     KUrl url = KFileDialog::getExistingDirectoryUrl(homeUrl);
     if (!url.isEmpty()) {
         m_homeUrl->setText(url.prettyUrl());
+        emit changed();
     }
 }
 

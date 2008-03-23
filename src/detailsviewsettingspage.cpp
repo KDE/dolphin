@@ -35,10 +35,8 @@
 #include <QRadioButton>
 #include <QtGui/QSpinBox>
 
-DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
-                                                 QWidget* parent) :
-    KVBox(parent),
-    m_mainWindow(mainWindow),
+DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
+    ViewSettingsPageBase(parent),
     m_smallIconSize(0),
     m_mediumIconSize(0),
     m_largeIconSize(0),
@@ -59,6 +57,9 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_smallIconSize  = new QRadioButton(i18nc("@option:radio Icon Size", "Small"), this);
     m_mediumIconSize = new QRadioButton(i18nc("@option:radio Icon Size", "Medium"), this);
     m_largeIconSize  = new QRadioButton(i18nc("@option:radio Icon Size", "Large"), this);
+    connect(m_smallIconSize,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_mediumIconSize, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_largeIconSize,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
     iconSizeGroup->addButton(m_smallIconSize);
@@ -76,6 +77,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textBox);
     m_fontRequester = new DolphinFontRequester(textBox);
+    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
     QHBoxLayout* textLayout = new QHBoxLayout(textBox);
     textLayout->addWidget(fontLabel);
@@ -83,6 +85,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     // create "Expandable Folders" checkbox
     m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable Folders"), this);
+    connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout

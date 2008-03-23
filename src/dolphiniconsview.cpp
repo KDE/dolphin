@@ -21,7 +21,6 @@
 
 #include "dolphincategorydrawer.h"
 #include "dolphincontroller.h"
-#include "dolphinfileitemdelegate.h"
 #include "dolphinsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_generalsettings.h"
@@ -31,6 +30,7 @@
 #include <kcategorizedsortfilterproxymodel.h>
 #include <kdialog.h>
 #include <kdirmodel.h>
+#include <kfileitemdelegate.h>
 
 #include <QAbstractProxyModel>
 #include <QApplication>
@@ -257,8 +257,7 @@ void DolphinIconsView::wheelEvent(QWheelEvent* event)
 
 void DolphinIconsView::showEvent(QShowEvent* event)
 {
-    Q_ASSERT(qobject_cast<DolphinFileItemDelegate*>(itemDelegate()) != 0);
-    DolphinFileItemDelegate* delegate = static_cast<DolphinFileItemDelegate*>(itemDelegate());
+    KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
     delegate->setMaximumSize(m_itemSize);
 
     KCategorizedView::showEvent(event);
@@ -428,7 +427,7 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());
 
-    DolphinFileItemDelegate* delegate = qobject_cast<DolphinFileItemDelegate*>(itemDelegate());
+    KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
     if (delegate != 0) {
         delegate->setMaximumSize(m_itemSize);
     }

@@ -20,9 +20,8 @@
 #ifndef DETAILSVIEWSETTINGSPAGE_H
 #define DETAILSVIEWSETTINGSPAGE_H
 
-#include <kvbox.h>
+#include <viewsettingspagebase.h>
 
-class DolphinMainWindow;
 class DolphinFontRequester;
 class QCheckBox;
 class QRadioButton;
@@ -31,12 +30,12 @@ class QRadioButton;
  * @brief Represents the page from the Dolphin Settings which allows
  *        to modify the settings for the details view.
  */
-class DetailsViewSettingsPage : public KVBox
+class DetailsViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    DetailsViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    DetailsViewSettingsPage(QWidget* parent);
     virtual ~DetailsViewSettingsPage();
 
     /**
@@ -44,16 +43,15 @@ public:
      * The settings are persisted automatically when
      * closing Dolphin.
      */
-    void applySettings();
+    virtual void applySettings();
 
     /** Restores the settings to default values. */
-    void restoreDefaults();
+    virtual void restoreDefaults();
 
 private:
     void loadSettings();
 
 private:
-    DolphinMainWindow* m_mainWindow;
     QRadioButton* m_smallIconSize;
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;

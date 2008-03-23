@@ -17,32 +17,39 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINFILEITEMDELEGATE_H
-#define DOLPHINFILEITEMDELEGATE_H
+#ifndef VIEWSETTINGSPAGEBASE_H
+#define VIEWSETTINGSPAGEBASE_H
 
-#include <kfileitemdelegate.h>
+#include <kvbox.h>
 
 /**
- * @brief Extends KFileItemDelegate with the ability to set
- *        a maximum size.
+ * @brief Base class for view settings configuration pages.
+ *
+ * @see GeneralViewSettingsPage;
+ * @see IconViewSettingsPage
+ * @see DetailsViewSettingsPage
+ * @see ColumnViewSettingsPage
  */
-class DolphinFileItemDelegate : public KFileItemDelegate
+class ViewSettingsPageBase : public KVBox
 {
     Q_OBJECT
 
 public:
-    explicit DolphinFileItemDelegate(QObject* parent = 0);
-    virtual ~DolphinFileItemDelegate();
+    ViewSettingsPageBase(QWidget* parent);
+    virtual ~ViewSettingsPageBase();
 
-    void setMaximumSize(const QSize& size);
-    QSize maximumSize() const;
+    /**
+     * Applies the settings for the view.
+     * The settings are persisted automatically when
+     * closing Dolphin.
+     */
+    virtual void applySettings() = 0;
 
-    /** @see QItemDelegate::sizeHint() */
-    virtual QSize sizeHint(const QStyleOptionViewItem& option,
-                           const QModelIndex& index) const;
+    /** Restores the settings to default values. */
+    virtual void restoreDefaults() = 0;
 
-private:
-    QSize m_maxSize;
+signals:
+    void changed();
 };
 
 #endif

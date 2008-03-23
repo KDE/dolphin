@@ -32,9 +32,7 @@
 
 DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     KPageDialog(mainWindow),
-    m_startupSettingsPage(0),
-    m_generalSettingsPage(0),
-    m_viewSettingsPage(0)
+    m_pages()
 
 {
     const QSize minSize = minimumSize();
@@ -43,25 +41,33 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     setFaceType(List);
     setCaption(i18nc("@title:window", "Dolphin Preferences"));
     setButtons(Ok | Apply | Cancel | Default);
+    enableButtonApply(false);
     setDefaultButton(Ok);
 
-    m_startupSettingsPage = new StartupSettingsPage(mainWindow, this);
-    KPageWidgetItem* startupSettingsFrame = addPage(m_startupSettingsPage,
+    StartupSettingsPage* startupSettingsPage = new StartupSettingsPage(mainWindow, this);
+    KPageWidgetItem* startupSettingsFrame = addPage(startupSettingsPage,
                                                     i18nc("@title:group", "Startup"));
     startupSettingsFrame->setIcon(KIcon("go-home"));
+    connect(startupSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
 
-    m_viewSettingsPage = new ViewSettingsPage(mainWindow, this);
-    KPageWidgetItem* viewSettingsFrame = addPage(m_viewSettingsPage,
+    ViewSettingsPage* viewSettingsPage = new ViewSettingsPage(mainWindow, this);
+    KPageWidgetItem* viewSettingsFrame = addPage(viewSettingsPage,
                                                  i18nc("@title:group", "View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
+    connect(viewSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
 
-    m_generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
-    KPageWidgetItem* generalSettingsFrame = addPage(m_generalSettingsPage,
+    GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
+    KPageWidgetItem* generalSettingsFrame = addPage(generalSettingsPage,
                                                     i18nc("@title:group General settings", "General"));
     generalSettingsFrame->setIcon(KIcon("system-run"));
+    connect(generalSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "SettingsDialog");
     restoreDialogSize(dialogConfig);
+
+    m_pages.append(startupSettingsPage);
+    m_pages.append(viewSettingsPage);
+    m_pages.append(generalSettingsPage);
 }
 
 DolphinSettingsDialog::~DolphinSettingsDialog()
@@ -84,19 +90,24 @@ void DolphinSettingsDialog::slotButtonClicked(int button)
     KPageDialog::slotButtonClicked(button);
 }
 
+void DolphinSettingsDialog::enableApply()
+{
+    enableButtonApply(true);
+}
+
 void DolphinSettingsDialog::applySettings()
 {
-    m_startupSettingsPage->applySettings();
-    m_generalSettingsPage->applySettings();
-    m_viewSettingsPage->applySettings();
+    foreach (SettingsPageBase* page, m_pages) {
+        page->applySettings();
+    }
     DolphinApplication::app()->refreshMainWindows();
 }
 
 void DolphinSettingsDialog::restoreDefaults()
 {
-    m_startupSettingsPage->restoreDefaults();
-    m_generalSettingsPage->restoreDefaults();
-    m_viewSettingsPage->restoreDefaults();
+    foreach (SettingsPageBase* page, m_pages) {
+        page->restoreDefaults();
+    }
     DolphinApplication::app()->refreshMainWindows();
 }
 

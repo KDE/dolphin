@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+    <kcfgfile name="dolphinrc"/>
+    <group name="FoldersPanel">
+        <entry name="ShowHiddenFiles" type="Bool">
+            <label context="@label">Show hidden files</label>
+            <default>false</default>
+        </entry>
+    </group>
+</kcfg>

@@ -20,7 +20,7 @@
 #ifndef COLUMNVIEWSETTINGSPAGE_H
 #define COLUMNVIEWSETTINGSPAGE_H
 
-#include <kvbox.h>
+#include <viewsettingspagebase.h>
 
 class DolphinMainWindow;
 class DolphinFontRequester;
@@ -31,12 +31,12 @@ class QRadioButton;
  * @brief Represents the page from the Dolphin Settings which allows
  *        to modify the settings for the details view.
  */
-class ColumnViewSettingsPage : public KVBox
+class ColumnViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    ColumnViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    ColumnViewSettingsPage(QWidget* parent);
     virtual ~ColumnViewSettingsPage();
 
     /**
@@ -44,16 +44,15 @@ public:
      * The settings are persisted automatically when
      * closing Dolphin.
      */
-    void applySettings();
+    virtual void applySettings();
 
     /** Restores the settings to default values. */
-    void restoreDefaults();
+    virtual void restoreDefaults();
 
 private:
     void loadSettings();
 
 private:
-    DolphinMainWindow* m_mainWindow;
     QRadioButton* m_smallIconSize;
     QRadioButton* m_mediumIconSize;
     QRadioButton* m_largeIconSize;

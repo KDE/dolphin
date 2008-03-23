@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,32 +14,36 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "viewsettingspage.h"
+#include "kcmdolphin.h"
 
 #include "columnviewsettingspage.h"
 #include "detailsviewsettingspage.h"
-#include "dolphinmainwindow.h"
-#include "dolphinviewcontainer.h"
 #include "generalviewsettingspage.h"
 #include "iconsviewsettingspage.h"
 
-#include <QtGui/QBoxLayout>
-#include <QtGui/QTabWidget>
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
-
 #include <kdialog.h>
 #include <klocale.h>
-#include <kiconloader.h>
+#include <kpluginfactory.h>
+#include <kpluginloader.h>
 
-ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
-                                   QWidget* parent) :
-    SettingsPageBase(parent),
+#include <QDir>
+#include <QPushButton>
+#include <QVBoxLayout>
+
+K_PLUGIN_FACTORY(KCMDolphinConfigFactory, registerPlugin<DolphinConfigModule>("dolphin");)
+K_EXPORT_PLUGIN(KCMDolphinConfigFactory("kcmdolphin"))
+
+DolphinConfigModule::DolphinConfigModule(QWidget* parent, const QVariantList& args) :
+    KCModule(KCMDolphinConfigFactory::componentData(), parent),
     m_pages()
 {
+    Q_UNUSED(args);
+
+    setButtons(KCModule::Default | KCModule::Help);
+
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setMargin(0);
     topLayout->setSpacing(KDialog::spacingHint());
@@ -48,25 +51,24 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     QTabWidget* tabWidget = new QTabWidget(this);
 
     // initialize 'General' tab
-    const KUrl& url = mainWindow->activeViewContainer()->url();
-    GeneralViewSettingsPage* generalPage = new GeneralViewSettingsPage(url, tabWidget);
+    GeneralViewSettingsPage* generalPage = new GeneralViewSettingsPage(QDir::homePath(), tabWidget);
     tabWidget->addTab(generalPage, KIcon("view-choose"), i18nc("@title:tab General settings", "General"));
-    connect(generalPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(generalPage, SIGNAL(changed()), this, SLOT(changed()));
 
     // initialize 'Icons' tab
     IconsViewSettingsPage* iconsPage = new IconsViewSettingsPage(tabWidget);
     tabWidget->addTab(iconsPage, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
-    connect(iconsPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(iconsPage, SIGNAL(changed()), this, SLOT(changed()));
 
     // initialize 'Details' tab
     DetailsViewSettingsPage* detailsPage = new DetailsViewSettingsPage(tabWidget);
     tabWidget->addTab(detailsPage, KIcon("view-list-details"), i18nc("@title:tab", "Details"));
-    connect(detailsPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(detailsPage, SIGNAL(changed()), this, SLOT(changed()));
 
     // initialize 'Column' tab
     ColumnViewSettingsPage* columnPage = new ColumnViewSettingsPage(tabWidget);
     tabWidget->addTab(columnPage, KIcon("view-file-columns"), i18nc("@title:tab", "Column"));
-    connect(columnPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(columnPage, SIGNAL(changed()), this, SLOT(changed()));
 
     m_pages.append(generalPage);
     m_pages.append(iconsPage);
@@ -76,22 +78,22 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     topLayout->addWidget(tabWidget, 0, 0);
 }
 
-ViewSettingsPage::~ViewSettingsPage()
+DolphinConfigModule::~DolphinConfigModule()
 {
 }
 
-void ViewSettingsPage::applySettings()
+void DolphinConfigModule::save()
 {
     foreach (ViewSettingsPageBase* page, m_pages) {
         page->applySettings();
     }
 }
 
-void ViewSettingsPage::restoreDefaults()
+void DolphinConfigModule::defaults()
 {
     foreach (ViewSettingsPageBase* page, m_pages) {
         page->restoreDefaults();
     }
 }
 
-#include "viewsettingspage.moc"
+#include "kcmdolphin.moc"

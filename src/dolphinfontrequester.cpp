@@ -34,6 +34,8 @@ DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
     m_mode(SystemFont),
     m_customFont()
 {
+    setSpacing(KDialog::spacingHint());
+
     m_modeCombo = new QComboBox(this);
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "System Font"));
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "Custom Font"));
@@ -96,12 +98,14 @@ void DolphinFontRequester::openFontDialog()
     if (result == KFontDialog::Accepted) {
         m_customFont = font;
         m_modeCombo->setFont(m_customFont);
+        emit changed();
     }
 }
 
 void DolphinFontRequester::changeMode(int index)
 {
     setMode((index == CustomFont) ? CustomFont : SystemFont);
+    emit changed();
 }
 
 #include "dolphinfontrequester.moc"

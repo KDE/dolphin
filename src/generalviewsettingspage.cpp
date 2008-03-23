@@ -39,10 +39,10 @@
 #include <klocale.h>
 #include <khbox.h>
 
-GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
+GeneralViewSettingsPage::GeneralViewSettingsPage(const KUrl& url,
                                                  QWidget* parent) :
-    KVBox(parent),
-    m_mainWindow(mainWindow),
+    ViewSettingsPageBase(parent),
+    m_url(url),
     m_localProps(0),
     m_globalProps(0),
     m_maxPreviewSize(0),
@@ -60,7 +60,10 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     QGroupBox* propsBox = new QGroupBox(i18nc("@title:group", "View Properties"), this);
 
     m_localProps = new QRadioButton(i18nc("@option:radio", "Remember view properties for each folder"), propsBox);
+    connect(m_localProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
     m_globalProps = new QRadioButton(i18nc("@option:radio", "Use common view properties for all folders"), propsBox);
+    connect(m_globalProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
     propsBoxLayout->addWidget(m_localProps);
@@ -82,13 +85,20 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(DolphinMainWindow* mainWindow,
     connect(m_spinBox, SIGNAL(valueChanged(int)),
             m_maxPreviewSize, SLOT(setValue(int)));
 
+    connect(m_maxPreviewSize, SIGNAL(valueChanged(int)),
+            this, SIGNAL(changed()));
+    connect(m_spinBox, SIGNAL(valueChanged(int)),
+            this, SIGNAL(changed()));
+
     m_useFileThumbnails = new QCheckBox(i18nc("@option:check", "Use thumbnails embedded in files"), previewBox);
+    connect(m_useFileThumbnails, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QVBoxLayout* previewBoxLayout = new QVBoxLayout(previewBox);
     previewBoxLayout->addWidget(vBox);
     previewBoxLayout->addWidget(m_useFileThumbnails);
 
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection toggle"), this);
+    connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -105,8 +115,7 @@ GeneralViewSettingsPage::~GeneralViewSettingsPage()
 
 void GeneralViewSettingsPage::applySettings()
 {
-    const KUrl& url = m_mainWindow->activeViewContainer()->url();
-    ViewProperties props(url);  // read current view properties
+    ViewProperties props(m_url);  // read current view properties
 
     const bool useGlobalProps = m_globalProps->isChecked();
 
@@ -118,7 +127,7 @@ void GeneralViewSettingsPage::applySettings()
         // It is important that GeneralSettings::globalViewProps() is set before
         // the class ViewProperties is used, as ViewProperties uses this setting
         // to find the destination folder for storing the view properties.
-        ViewProperties globalProps(url);
+        ViewProperties globalProps(m_url);
         globalProps.setDirProperties(props);
     }
 

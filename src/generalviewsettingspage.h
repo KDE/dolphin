@@ -20,7 +20,8 @@
 #ifndef GENERALVIEWSETTINGSPAGE_H
 #define GENERALVIEWSETTINGSPAGE_H
 
-#include <kvbox.h>
+#include <kurl.h>
+#include <viewsettingspagebase.h>
 
 class DolphinMainWindow;
 class QCheckBox;
@@ -32,12 +33,17 @@ class QSpinBox;
  * @brief Represents the page from the Dolphin Settings which allows
  * to modify general settings for the view modes.
  */
-class GeneralViewSettingsPage : public KVBox
+class GeneralViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    GeneralViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    /**
+     * @param url     URL of the currently shown directory, which is used
+     *                to read the viewproperties.
+     * @param parent  Parent widget of the settings page.
+     */
+    GeneralViewSettingsPage(const KUrl& url, QWidget* parent);
     virtual ~GeneralViewSettingsPage();
 
     /**
@@ -45,16 +51,16 @@ public:
      * The settings are persisted automatically when
      * closing Dolphin.
      */
-    void applySettings();
+    virtual void applySettings();
 
     /** Restores the settings to default values. */
-    void restoreDefaults();
+    virtual void restoreDefaults();
 
 private:
     void loadSettings();
 
 private:
-    DolphinMainWindow* m_mainWindow;
+    KUrl m_url;
     QRadioButton* m_localProps;
     QRadioButton* m_globalProps;
     QSlider* m_maxPreviewSize;

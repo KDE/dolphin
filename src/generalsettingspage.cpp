@@ -35,10 +35,11 @@
 
 GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* parent) :
     SettingsPageBase(parent),
-    m_showDeleteCommand(0),
     m_confirmMoveToTrash(0),
     m_confirmDelete(0),
-    m_browseThroughArchives(0)
+    m_showDeleteCommand(0),
+    m_browseThroughArchives(0),
+    m_renameInline(0)
 {
     Q_UNUSED(mainWin);
 
@@ -52,8 +53,10 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), vBox);
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                                "Moving files or folders to trash"), confirmBox);
+    connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                           "Deleting files or folders"), confirmBox);
+    connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
     confirmBoxLayout->addWidget(m_confirmMoveToTrash);
@@ -61,8 +64,13 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
 
     // create 'Show the command 'Delete' in context menu' checkbox
     m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command in context menu"), vBox);
+    connect(m_showDeleteCommand, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_browseThroughArchives = new QCheckBox(i18nc("@option:check", "Browse through archives"), vBox);
+    connect(m_browseThroughArchives, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
+    m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), vBox);
+    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -93,6 +101,7 @@ void GeneralSettingsPage::applySettings()
     kdeConfig.sync();
 
     settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
+    settings->setRenameInline(m_renameInline->isChecked());
 }
 
 void GeneralSettingsPage::restoreDefaults()
@@ -117,6 +126,7 @@ void GeneralSettingsPage::loadSettings()
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_browseThroughArchives->setChecked(settings->browseThroughArchives());
+    m_renameInline->setChecked(settings->renameInline());
 }
 
 #include "generalsettingspage.moc"

@@ -23,11 +23,8 @@
 #include <QtGui/QWidget>
 #include <settingspagebase.h>
 
-class ColumnViewSettingsPage;
+class ViewSettingsPageBase;
 class DolphinMainWindow;
-class GeneralViewSettingsPage;
-class IconsViewSettingsPage;
-class DetailsViewSettingsPage;
 
 /**
  * @brief Page for the 'View' settings of the Dolphin settings dialog.
@@ -50,10 +47,7 @@ public:
     virtual void restoreDefaults();
 
 private:
-    GeneralViewSettingsPage* m_generalPage;
-    IconsViewSettingsPage* m_iconsPage;
-    DetailsViewSettingsPage* m_detailsPage;
-    ColumnViewSettingsPage* m_columnPage;
+    QList<ViewSettingsPageBase*> m_pages;
 };
 
 #endif

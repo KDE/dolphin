@@ -19,7 +19,6 @@ set(dolphinprivate_LIB_SRCS
     dolphincolumnview.cpp
     dolphincolumnwidget.cpp
     dolphindropcontroller.cpp
-    dolphinfileitemdelegate.cpp
     dolphinsortfilterproxymodel.cpp
     draganddrophelper.cpp
     dolphinmodel.cpp
@@ -40,8 +39,6 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     dolphin_detailsmodesettings.kcfgc
     dolphin_iconsmodesettings.kcfgc
     dolphin_generalsettings.kcfgc)
-
-
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
@@ -80,44 +77,48 @@ install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 ##########################################
 
 set(dolphin_SRCS
-   additionalinfodialog.cpp
-   applyviewpropsjob.cpp
-   columnviewsettingspage.cpp
-   detailsviewsettingspage.cpp
-   dolphinapplication.cpp
-   dolphinfontrequester.cpp
-   dolphinmainwindow.cpp
-   dolphinnewmenu.cpp
-   dolphinviewcontainer.cpp
-   dolphinstatusbar.cpp
-   dolphindirlister.cpp
-   dolphincontextmenu.cpp
-   dolphinfileplacesview.cpp
-   dolphinsettingsdialog.cpp
-   draganddrophelper.cpp
-   filterbar.cpp
-   generalsettingspage.cpp
-   generalviewsettingspage.cpp
-   iconsizedialog.cpp
-   iconsviewsettingspage.cpp
-   infosidebarpage.cpp
-   main.cpp
-   metadatawidget.cpp
-   commentwidget.cpp
-   commenteditwidget.cpp
-   metatextlabel.cpp
-   pixmapviewer.cpp
-   settingspagebase.cpp
-   sidebarpage.cpp
-   startupsettingspage.cpp
-   statusbarspaceinfo.cpp
-   statusbarmessagelabel.cpp
-   treeviewcontextmenu.cpp
-   treeviewsidebarpage.cpp
-   sidebartreeview.cpp
-   viewpropertiesdialog.cpp
-   viewsettingspage.cpp
-   viewpropsprogressinfo.cpp )
+    additionalinfodialog.cpp
+    applyviewpropsjob.cpp
+    columnviewsettingspage.cpp
+    commentwidget.cpp
+    commenteditwidget.cpp
+    detailsviewsettingspage.cpp
+    dolphinapplication.cpp
+    dolphinfontrequester.cpp
+    dolphinmainwindow.cpp
+    dolphinnewmenu.cpp
+    dolphinviewcontainer.cpp
+    dolphinstatusbar.cpp
+    dolphindirlister.cpp
+    dolphincontextmenu.cpp
+    dolphinfileplacesview.cpp
+    dolphinsettingsdialog.cpp
+    draganddrophelper.cpp
+    filterbar.cpp
+    generalsettingspage.cpp
+    generalviewsettingspage.cpp
+    iconsizedialog.cpp
+    iconsviewsettingspage.cpp
+    infosidebarpage.cpp
+    main.cpp
+    metadatawidget.cpp
+    metatextlabel.cpp
+    pixmapviewer.cpp
+    settingspagebase.cpp
+    sidebarpage.cpp
+    startupsettingspage.cpp
+    statusbarspaceinfo.cpp
+    statusbarmessagelabel.cpp
+    treeviewcontextmenu.cpp
+    treeviewsidebarpage.cpp
+    sidebartreeview.cpp
+    viewpropertiesdialog.cpp
+    viewsettingspage.cpp
+    viewsettingspagebase.cpp
+    viewpropsprogressinfo.cpp)
+
+kde4_add_kcfg_files(dolphin_SRCS
+    dolphin_folderspanelsettings.kcfgc)
 
 if(Nepomuk_FOUND)
 set(dolphin_SRCS
@@ -152,9 +153,40 @@ endif (Nepomuk_FOUND)
 
 install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
 
+##########################################
+
+set(kcm_dolphin_PART_SRCS
+    kcmdolphin.cpp
+    columnviewsettingspage.cpp
+    detailsviewsettingspage.cpp
+    dolphinfontrequester.cpp
+    dolphinsettings.cpp
+    generalviewsettingspage.cpp
+    iconsizedialog.cpp
+    iconsviewsettingspage.cpp
+    pixmapviewer.cpp
+    viewsettingspagebase.cpp
+    viewproperties.cpp)
+
+kde4_add_kcfg_files(kcm_dolphin_PART_SRCS
+    dolphin_columnmodesettings.kcfgc
+    dolphin_directoryviewpropertysettings.kcfgc
+    dolphin_detailsmodesettings.kcfgc
+    dolphin_iconsmodesettings.kcfgc
+    dolphin_generalsettings.kcfgc)
+
+kde4_add_plugin(kcm_dolphin ${kcm_dolphin_PART_SRCS})
+
+target_link_libraries(kcm_dolphin  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} )
+if (Nepomuk_FOUND)
+  target_link_libraries(kcm_dolphin ${NEPOMUK_LIBRARIES})
+endif (Nepomuk_FOUND)
+
+install(TARGETS kcm_dolphin DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES  dolphin_directoryviewpropertysettings.kcfg dolphin_generalsettings.kcfg dolphin_columnmodesettings.kcfg dolphin_iconsmodesettings.kcfg dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
+install( FILES kcmdolphin.desktop DESTINATION ${SERVICES_INSTALL_DIR} )

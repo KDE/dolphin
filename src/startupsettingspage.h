@@ -22,7 +22,7 @@
 #include <settingspagebase.h>
 
 class DolphinMainWindow;
-class QLineEdit;
+class KLineEdit;
 class QCheckBox;
 
 /**
@@ -55,7 +55,7 @@ private:
 
 private:
     DolphinMainWindow* m_mainWindow;
-    QLineEdit* m_homeUrl;
+    KLineEdit* m_homeUrl;
 
     QCheckBox* m_splitView;
     QCheckBox* m_editableUrl;

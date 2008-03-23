@@ -35,10 +35,8 @@
 #include <QSlider>
 #include <QRadioButton>
 
-ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
-                                               QWidget* parent) :
-    KVBox(parent),
-    m_mainWindow(mainWindow),
+ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
+    ViewSettingsPageBase(parent),
     m_smallIconSize(0),
     m_mediumIconSize(0),
     m_largeIconSize(0),
@@ -63,6 +61,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     m_columnWidthSlider->setPageStep(1);
     m_columnWidthSlider->setTickPosition(QSlider::TicksBelow);
     QLabel* largeLabel = new QLabel(i18nc("@item:inrange Column Width", "Large"), columnWidthBox);
+    connect(m_columnWidthSlider, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
 
     QHBoxLayout* columnWidthLayout = new QHBoxLayout(columnWidthBox);
     columnWidthLayout->addWidget(smallLabel);
@@ -76,6 +75,9 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
     m_smallIconSize  = new QRadioButton(i18nc("@option:radio Icon Size", "Small"), this);
     m_mediumIconSize = new QRadioButton(i18nc("@option:radio Icon Size", "Medium"), this);
     m_largeIconSize  = new QRadioButton(i18nc("@option:radio Icon Size", "Large"), this);
+    connect(m_smallIconSize,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_mediumIconSize, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_largeIconSize,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QButtonGroup* iconSizeGroup = new QButtonGroup(this);
     iconSizeGroup->addButton(m_smallIconSize);
@@ -93,6 +95,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textBox);
     m_fontRequester = new DolphinFontRequester(textBox);
+    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
     QHBoxLayout* textLayout = new QHBoxLayout(textBox);
     textLayout->addWidget(fontLabel);

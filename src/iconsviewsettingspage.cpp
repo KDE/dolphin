@@ -40,10 +40,8 @@
 #include <QGridLayout>
 #include <QVBoxLayout>
 
-IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
-                                             QWidget* parent) :
-    KVBox(parent),
-    m_mainWindow(mainWindow),
+IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
+    ViewSettingsPageBase(parent),
     m_iconSize(0),
     m_previewSize(0),
     m_iconSizeButton(0),
@@ -71,17 +69,20 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
     m_fontRequester = new DolphinFontRequester(textGroup);
+    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
     QLabel* textlinesCountLabel = new QLabel(i18nc("@label:textbox", "Number of lines:"), textGroup);
     m_textlinesCountBox = new QSpinBox(textGroup);
     m_textlinesCountBox->setMinimum(1);
     m_textlinesCountBox->setMaximum(5);
+    connect(m_textlinesCountBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
 
     QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
     m_textWidthBox = new QComboBox(textGroup);
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
+    connect(m_textWidthBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
     textGroupLayout->addWidget(fontLabel, 0, 0);
@@ -99,12 +100,14 @@ IconsViewSettingsPage::IconsViewSettingsPage(DolphinMainWindow* mainWindow,
     m_arrangementBox = new QComboBox(gridGroup);
     m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Left to Right"));
     m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Top to Bottom"));
+    connect(m_arrangementBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QLabel* gridSpacingLabel = new QLabel(i18nc("@label:listbox", "Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Small"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Medium"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Large"));
+    connect(m_gridSpacingBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QGridLayout* gridGroupLayout = new QGridLayout(gridGroup);
     gridGroupLayout->addWidget(arrangementLabel, 0, 0);
@@ -180,6 +183,7 @@ void IconsViewSettingsPage::openIconSizeDialog()
     if (dialog.exec() == QDialog::Accepted) {
         m_iconSize = dialog.iconSize();
         m_previewSize = dialog.previewSize();
+        emit changed();
     }
 }
 
