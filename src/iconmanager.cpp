@@ -38,10 +38,12 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
     QObject(parent),
     m_showPreview(false),
     m_view(parent),
+    m_previewTimer(0),
     m_previewJobs(),
     m_dolphinModel(0),
     m_proxyModel(model),
-    m_cutItemsCache()
+    m_cutItemsCache(),
+    m_previews()
 {
     Q_ASSERT(m_view->iconSize().isValid());  // each view must provide its current icon size
 
@@ -52,6 +54,9 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updateCutItems()));
+
+    m_previewTimer = new QTimer(this);
+    connect(m_previewTimer, SIGNAL(timeout()), this, SLOT(dispatchPreviewQueue()));
 }
 
 IconManager::~IconManager()
@@ -98,6 +103,97 @@ void IconManager::updateIcons(const KFileItemList& items)
     }
 }
 
+void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
+{
+    Preview preview;
+    preview.item = item;
+    preview.pixmap = pixmap;
+    m_previews.append(preview);
+}
+
+void IconManager::slotPreviewJobFinished(KJob* job)
+{
+    const int index = m_previewJobs.indexOf(job);
+    m_previewJobs.removeAt(index);
+}
+
+void IconManager::updateCutItems()
+{
+    // restore the icons of all previously selected items to the
+    // original state...
+    foreach (CutItem cutItem, m_cutItemsCache) {
+        const QModelIndex index = m_dolphinModel->indexForUrl(cutItem.url);
+        if (index.isValid()) {
+            m_dolphinModel->setData(index, QIcon(cutItem.pixmap), Qt::DecorationRole);
+        }
+    }
+    m_cutItemsCache.clear();
+
+    // ... and apply an item effect to all currently cut items
+    applyCutItemEffect();
+}
+
+void IconManager::dispatchPreviewQueue()
+{
+    const int previewsCount = m_previews.count();
+    if (previewsCount == 0) {
+        return;
+    }
+
+    // Applying the previews to the model must be done step by step
+    // in larger blocks: Applying a preview immediately when getting the signal
+    // 'gotPreview()' from the PreviewJob is too expensive, as a relayout
+    // of the view would be triggered for each single preview.
+
+    int dispatchCount = 30;
+    if (dispatchCount > previewsCount) {
+        dispatchCount = previewsCount;
+    }
+
+    for (int i = 0; i < dispatchCount; ++i) {
+        const Preview& preview = m_previews.first();
+        replaceIcon(preview.item, preview.pixmap);
+        m_previews.pop_front();
+    }
+
+    if (m_previews.count() > 0) {
+        // there are still pending previews; if no preview job is
+        // working, poll more aggressively:
+        const int timeout = (m_previewJobs.count() > 0) ? 200 : 10;
+        m_previewTimer->start(timeout);
+    }
+}
+
+void IconManager::generatePreviews(const KFileItemList &items)
+{
+    Q_ASSERT(m_showPreview);
+    const QRect visibleArea = m_view->viewport()->rect();
+
+    // Order the items in a way that the preview for the visible items
+    // is generated first, as this improves the feeled performance a lot.
+    KFileItemList orderedItems;
+    foreach (KFileItem item, items) {
+        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        const QRect itemRect = m_view->visualRect(proxyIndex);
+        if (itemRect.intersects(visibleArea)) {
+            orderedItems.insert(0, item);
+        } else {
+            orderedItems.append(item);
+        }
+    }
+
+    const QSize size = m_view->iconSize();
+    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
+    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+            this, SLOT(addToPreviewQueue(const KFileItem&, const QPixmap&)));
+    connect(job, SIGNAL(finished(KJob*)),
+            this, SLOT(slotPreviewJobFinished(KJob*)));
+
+    m_previewJobs.append(job);
+    m_previewTimer->start(200);
+}
+
 void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
 {
     Q_ASSERT(!item.isNull());
@@ -141,57 +237,6 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
             m_dolphinModel->setData(idx, QIcon(icon), Qt::DecorationRole);
         }
     }
-}
-
-void IconManager::slotPreviewJobFinished(KJob* job)
-{
-    const int index = m_previewJobs.indexOf(job);
-    m_previewJobs.removeAt(index);
-}
-
-void IconManager::updateCutItems()
-{
-    // restore the icons of all previously selected items to the
-    // original state...
-    foreach (CutItem cutItem, m_cutItemsCache) {
-        const QModelIndex index = m_dolphinModel->indexForUrl(cutItem.url);
-        if (index.isValid()) {
-            m_dolphinModel->setData(index, QIcon(cutItem.pixmap), Qt::DecorationRole);
-        }
-    }
-    m_cutItemsCache.clear();
-
-    // ... and apply an item effect to all currently cut items
-    applyCutItemEffect();
-}
-
-void IconManager::generatePreviews(const KFileItemList &items)
-{
-    Q_ASSERT(m_showPreview);
-    const QRect visibleArea = m_view->viewport()->rect();
-
-    // Order the items in a way that the preview for the visible items
-    // is generated first, as this improves the feeled performance a lot.
-    KFileItemList orderedItems;
-    foreach (KFileItem item, items) {
-        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        const QRect itemRect = m_view->visualRect(proxyIndex);
-        if (itemRect.intersects(visibleArea)) {
-            orderedItems.insert(0, item);
-        } else {
-            orderedItems.append(item);
-        }
-    }
-
-    const QSize size = m_view->iconSize();
-    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
-    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-            this, SLOT(replaceIcon(const KFileItem&, const QPixmap&)));
-    connect(job, SIGNAL(finished(KJob*)),
-            this, SLOT(slotPreviewJobFinished(KJob*)));
-
-    m_previewJobs.append(job);
 }
 
 bool IconManager::isCutItem(const KFileItem& item) const

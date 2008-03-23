@@ -59,10 +59,11 @@ private slots:
     void updateIcons(const KFileItemList& items);
 
     /**
-     * Replaces the icon of the item \a item by the preview pixmap
-     * \a pixmap.
+     * Adds the preview \a pixmap for the item \a item to the preview
+     * queue and starts a timer which will dispatch the preview queue
+     * later.
      */
-    void replaceIcon(const KFileItem& item, const QPixmap& pixmap);
+    void addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap);
 
     /**
      * Is invoked when the preview job has been finished and
@@ -73,8 +74,20 @@ private slots:
     /** Synchronizes the item icon with the clipboard of cut items. */
     void updateCutItems();
 
+    /**
+     * Dispatches the preview queue m_previews block by block within
+     * time slices.
+     */
+    void dispatchPreviewQueue();
+
 private:
     void generatePreviews(const KFileItemList &items);
+
+    /**
+     * Replaces the icon of the item \a item by the preview pixmap
+     * \a pixmap.
+     */
+    void replaceIcon(const KFileItem& item, const QPixmap& pixmap);
 
     /**
      * Returns true, if the item \a item has been cut into
@@ -112,14 +125,25 @@ private:
         QPixmap pixmap;
     };
 
+    /**
+     * Remembers the received preview pixmap for an item.
+     */
+    struct Preview
+    {
+        KFileItem item;
+        QPixmap pixmap;
+    };
+
     bool m_showPreview;
 
     QAbstractItemView* m_view;
+    QTimer* m_previewTimer;
     QList<KJob*> m_previewJobs;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 
     QList<CutItem> m_cutItemsCache;
+    QList<Preview> m_previews;
 };
 
 inline bool IconManager::showPreview() const
