@@ -135,32 +135,35 @@ void IconManager::updateCutItems()
 
 void IconManager::dispatchPreviewQueue()
 {
-    const int previewsCount = m_previews.count();
-    if (previewsCount == 0) {
-        return;
+    int previewsCount = m_previews.count();
+    if (previewsCount > 0) {
+        // Applying the previews to the model must be done step by step
+        // in larger blocks: Applying a preview immediately when getting the signal
+        // 'gotPreview()' from the PreviewJob is too expensive, as a relayout
+        // of the view would be triggered for each single preview.
+
+        int dispatchCount = 30;
+        if (dispatchCount > m_previews.count()) {
+            dispatchCount = m_previews.count();
+        }
+
+        for (int i = 0; i < dispatchCount; ++i) {
+            const Preview& preview = m_previews.first();
+            replaceIcon(preview.item, preview.pixmap);
+            m_previews.pop_front();
+        }
+
+        previewsCount = m_previews.count();
     }
 
-    // Applying the previews to the model must be done step by step
-    // in larger blocks: Applying a preview immediately when getting the signal
-    // 'gotPreview()' from the PreviewJob is too expensive, as a relayout
-    // of the view would be triggered for each single preview.
-
-    int dispatchCount = 30;
-    if (dispatchCount > previewsCount) {
-        dispatchCount = previewsCount;
-    }
-
-    for (int i = 0; i < dispatchCount; ++i) {
-        const Preview& preview = m_previews.first();
-        replaceIcon(preview.item, preview.pixmap);
-        m_previews.pop_front();
-    }
-
-    if (m_previews.count() > 0) {
-        // there are still pending previews; if no preview job is
-        // working, poll more aggressively:
-        const int timeout = (m_previewJobs.count() > 0) ? 200 : 10;
-        m_previewTimer->start(timeout);
+    const bool workingPreviewJobs = (m_previewJobs.count() > 0);
+    if (workingPreviewJobs) {
+        // poll for previews as long as not all preview jobs are finished
+        m_previewTimer->start(200);
+    } else if (previewsCount > 0) {
+        // all preview jobs are finished but there are still pending previews
+        // in the queue -> poll more aggressively
+        m_previewTimer->start(10);
     }
 }
 
