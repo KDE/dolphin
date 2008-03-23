@@ -315,14 +315,6 @@ bool IconManager::applyImageFrame(QPixmap& icon)
     painter.begin(&framedIcon);
     painter.drawPixmap(frame, frame, icon);
 
-    // draw a white frame around the icon
-    painter.setPen(Qt::NoPen);
-    painter.setBrush(palette.brush(QPalette::Normal, QPalette::Base));
-    painter.drawRect(0, 0, width, frame);
-    painter.drawRect(0, height - frame, width, frame);
-    painter.drawRect(0, frame, frame,  height - doubleFrame);
-    painter.drawRect(width - frame, frame, frame,  height - doubleFrame);
-
     // add a border
     painter.setPen(palette.color(QPalette::Text));
     painter.setBrush(Qt::NoBrush);
