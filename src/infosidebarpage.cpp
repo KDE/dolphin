@@ -166,11 +166,8 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
         m_shownUrl = url();
         showItemInfo();
     } else {
-        if (count == 1) {
-            const KUrl url = selection.first().url();
-            if (!url.isEmpty()) {
-                m_urlCandidate = url;
-            }
+        if ((count == 1) && !selection.first().url().isEmpty()) {
+            m_urlCandidate = selection.first().url();
         }
         m_timer->start(TimerDelay);
     }
@@ -178,32 +175,28 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
 
 void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
 {
-    if (!selection().isEmpty()) {
-        // if items are selected, no item information may get requested
-        return;
-    }
-
     cancelRequest();
 
     m_fileItem = KFileItem();
-
-    if (!item.isNull() && (selection().size() <= 1)) {
-        const KUrl url = item.url();
-        if (!url.isEmpty()) {
-            m_urlCandidate = url;
-            m_fileItem = item;
+    if (item.isNull()) {
+        // The cursor is above the viewport. If files are selected,
+        // show information regarding the selection.
+        if (selection().size() > 0) {
             m_timer->start(TimerDelay);
         }
+    } else if (!item.url().isEmpty()) {
+        m_urlCandidate = item.url();
+        m_fileItem = item;
+        m_timer->start(TimerDelay);
     }
 }
 
 void InfoSidebarPage::showEvent(QShowEvent* event)
 {
     SidebarPage::showEvent(event);
-    if (event->spontaneous()) {
-        return;
+    if (!event->spontaneous()) {
+        showItemInfo();
     }
-    showItemInfo();
 }
 
 void InfoSidebarPage::resizeEvent(QResizeEvent* event)
@@ -233,19 +226,19 @@ void InfoSidebarPage::showItemInfo()
     cancelRequest();
 
     const KFileItemList& selectedItems = selection();
-    const KUrl file = selectedItems.isEmpty() ? m_shownUrl : selectedItems[0].url();
+    const KUrl file = (!m_fileItem.isNull() || selectedItems.isEmpty()) ? m_shownUrl : selectedItems[0].url();
     if (!file.isValid()) {
         return;
     }
 
-    const int itemCount = selectedItems.count();
-    if (itemCount > 1) {
+    const int selectionCount = selectedItems.count();
+    if (m_fileItem.isNull() && (selectionCount > 1)) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("dialog-information",
                                            KIconLoader::NoGroup,
                                            KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
-        m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectedItems.count()));
+        m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectionCount));
     } else if (!applyPlace(file)) {
         // try to get a preview pixmap from the item...
         KUrl::List list;
@@ -326,7 +319,7 @@ void InfoSidebarPage::showMetaInfo()
     m_metaTextLabel->clear();
 
     const KFileItemList& selectedItems = selection();
-    if (selectedItems.size() <= 1) {
+    if ((selectedItems.size() <= 1) || !m_fileItem.isNull()) {
         KFileItem fileItem;
         if (m_fileItem.isNull()) {
             // no pending request is ongoing
