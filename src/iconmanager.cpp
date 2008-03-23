@@ -49,7 +49,7 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
 
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
     connect(m_dolphinModel->dirLister(), SIGNAL(newItems(const KFileItemList&)),
-            this, SLOT(updateIcons(const KFileItemList&)));
+            this, SLOT(generatePreviews(const KFileItemList&)));
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
@@ -96,11 +96,37 @@ void IconManager::updatePreviews()
     generatePreviews(itemList);
 }
 
-void IconManager::updateIcons(const KFileItemList& items)
+void IconManager::generatePreviews(const KFileItemList &items)
 {
-    if (m_showPreview) {
-        generatePreviews(items);
+    if (!m_showPreview) {
+        return;
     }
+
+    const QRect visibleArea = m_view->viewport()->rect();
+
+    // Order the items in a way that the preview for the visible items
+    // is generated first, as this improves the feeled performance a lot.
+    KFileItemList orderedItems;
+    foreach (KFileItem item, items) {
+        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        const QRect itemRect = m_view->visualRect(proxyIndex);
+        if (itemRect.intersects(visibleArea)) {
+            orderedItems.insert(0, item);
+        } else {
+            orderedItems.append(item);
+        }
+    }
+
+    const QSize size = m_view->iconSize();
+    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
+    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+            this, SLOT(addToPreviewQueue(const KFileItem&, const QPixmap&)));
+    connect(job, SIGNAL(finished(KJob*)),
+            this, SLOT(slotPreviewJobFinished(KJob*)));
+
+    m_previewJobs.append(job);
+    m_previewTimer->start(200);
 }
 
 void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
@@ -165,36 +191,6 @@ void IconManager::dispatchPreviewQueue()
         // in the queue -> poll more aggressively
         m_previewTimer->start(10);
     }
-}
-
-void IconManager::generatePreviews(const KFileItemList &items)
-{
-    Q_ASSERT(m_showPreview);
-    const QRect visibleArea = m_view->viewport()->rect();
-
-    // Order the items in a way that the preview for the visible items
-    // is generated first, as this improves the feeled performance a lot.
-    KFileItemList orderedItems;
-    foreach (KFileItem item, items) {
-        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        const QRect itemRect = m_view->visualRect(proxyIndex);
-        if (itemRect.intersects(visibleArea)) {
-            orderedItems.insert(0, item);
-        } else {
-            orderedItems.append(item);
-        }
-    }
-
-    const QSize size = m_view->iconSize();
-    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
-    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-            this, SLOT(addToPreviewQueue(const KFileItem&, const QPixmap&)));
-    connect(job, SIGNAL(finished(KJob*)),
-            this, SLOT(slotPreviewJobFinished(KJob*)));
-
-    m_previewJobs.append(job);
-    m_previewTimer->start(200);
 }
 
 void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)

@@ -52,11 +52,9 @@ public:
 
 private slots:
     /**
-     * Updates the icons of for each item in \a items by making hidden
-     * items semitransparent and generating previews. The current preview
-     * settings (maximum size, 'Show Preview' menu) are respected.
+     * Generates previews for the items \a items asynchronously.
      */
-    void updateIcons(const KFileItemList& items);
+    void generatePreviews(const KFileItemList &items);
 
     /**
      * Adds the preview \a pixmap for the item \a item to the preview
@@ -81,8 +79,6 @@ private slots:
     void dispatchPreviewQueue();
 
 private:
-    void generatePreviews(const KFileItemList &items);
-
     /**
      * Replaces the icon of the item \a item by the preview pixmap
      * \a pixmap.
