@@ -76,17 +76,30 @@ int DolphinApplication::newInstance()
     KCmdLineArgs::setCwd(QDir::currentPath().toUtf8());
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
     static bool first = true;
-    if (args->count() > 0) {
+
+    switch (args->count()) {
+    case 0:
+        if( !first || !isSessionRestored()) {
+            openWindow(KUrl());
+        }
+        break;
+
+    case 1:
+        openWindow(args->url(0));
+        break;
+
+    case 2:
+        openSplitWindow(args->url(0),args->url(1));
+        break;
+
+    default:
         for (int i = 0; i < args->count(); ++i) {
             openWindow(args->url(i));
         }
-    } else if( !first || !isSessionRestored()) {
-        openWindow(KUrl());
     }
+
     first = false;
-
     args->clear();
-
     return 0;
 }
 
@@ -99,5 +112,20 @@ int DolphinApplication::openWindow(const KUrl& url)
     win->show();
     return win->getId();
 }
+
+int DolphinApplication::openSplitWindow(const KUrl& leftUrl, const KUrl& rightUrl)
+{
+    DolphinMainWindow* win = createMainWindow();
+    if ((win->activeViewContainer() != 0) && leftUrl.isValid()) {
+        win->activeViewContainer()->setUrl(leftUrl);
+    }
+    win->toggleSplitView();
+    if ((win->activeViewContainer() != 0) && rightUrl.isValid()){
+      win->activeViewContainer()->setUrl(rightUrl);
+    }
+    win->show();
+    return win->getId();
+}
+
 
 #include "dolphinapplication.moc"

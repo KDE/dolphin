@@ -58,6 +58,7 @@ public:
 
 public slots:
     int openWindow(const KUrl& url);
+    int openSplitWindow(const KUrl& leftUrl,const KUrl& rightUrl);
 
 protected:
     /** Called by the DolphinMainWindow to deregister. */
