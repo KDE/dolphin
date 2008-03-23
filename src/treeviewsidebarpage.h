@@ -48,6 +48,9 @@ public:
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
+    void setShowHiddenFiles(bool show);
+    bool showHiddenFiles() const;
+
 public slots:
     /**
      * Changes the current selection inside the tree to \a url.

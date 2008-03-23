@@ -23,6 +23,7 @@
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinsettings.h"
+#include "dolphin_folderspanelsettings.h"
 #include "sidebartreeview.h"
 #include "treeviewcontextmenu.h"
 
@@ -51,6 +52,8 @@ TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
 
 TreeViewSidebarPage::~TreeViewSidebarPage()
 {
+    FoldersPanelSettings::self()->writeConfig();
+
     delete m_proxyModel;
     m_proxyModel = 0;
     delete m_dolphinModel;
@@ -61,6 +64,20 @@ TreeViewSidebarPage::~TreeViewSidebarPage()
 QSize TreeViewSidebarPage::sizeHint() const
 {
     return QSize(200, 400);
+}
+
+void TreeViewSidebarPage::setShowHiddenFiles(bool show)
+{
+    FoldersPanelSettings::setShowHiddenFiles(show);
+    if (m_dirLister != 0) {
+        m_dirLister->setShowingDotFiles(show);
+        m_dirLister->openUrl(m_dirLister->url(), KDirLister::Reload);
+    }
+}
+
+bool TreeViewSidebarPage::showHiddenFiles() const
+{
+    return FoldersPanelSettings::showHiddenFiles();
 }
 
 void TreeViewSidebarPage::setUrl(const KUrl& url)
@@ -93,6 +110,7 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister->setMainWindow(window());
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
+        m_dirLister->setShowingDotFiles(FoldersPanelSettings::showHiddenFiles());
 
         connect(m_dirLister, SIGNAL(completed()),
                 this, SLOT(triggerLoadSubTree()));
@@ -132,16 +150,14 @@ void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
 {
     SidebarPage::contextMenuEvent(event);
 
+    KFileItem item;
     const QModelIndex index = m_treeView->indexAt(event->pos());
-    if (!index.isValid()) {
-        // only open a context menu above a directory item
-        return;
+    if (index.isValid()) {
+        const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+        item = m_dolphinModel->itemForIndex(dolphinModelIndex);
+        emit changeSelection(KFileItemList());
     }
 
-    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
-    KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
-
-    emit changeSelection(KFileItemList());
     TreeViewContextMenu contextMenu(this, item);
     contextMenu.open();
 }

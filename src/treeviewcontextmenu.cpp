@@ -20,6 +20,8 @@
 
 #include "treeviewcontextmenu.h"
 
+#include "dolphin_folderspanelsettings.h"
+
 #include <kfileitem.h>
 #include <kiconloader.h>
 #include <kio/deletejob.h>
@@ -30,12 +32,14 @@
 #include <kpropertiesdialog.h>
 
 #include "renamedialog.h"
+#include "treeviewsidebarpage.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
 
-TreeViewContextMenu::TreeViewContextMenu(QWidget* parent,
+TreeViewContextMenu::TreeViewContextMenu(TreeViewSidebarPage* parent,
                                          const KFileItem& fileInfo) :
+    QObject(parent),
     m_parent(parent),
     m_fileInfo(fileInfo)
 {
@@ -47,58 +51,67 @@ TreeViewContextMenu::~TreeViewContextMenu()
 
 void TreeViewContextMenu::open()
 {
-    Q_ASSERT(!m_fileInfo.isNull());
-
     KMenu* popup = new KMenu(m_parent);
 
-    // insert 'Cut', 'Copy' and 'Paste'
-    QAction* cutAction   = new QAction(KIcon("edit-cut"), i18nc("@action:inmenu", "Cut"), this);
-    connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
+    if (!m_fileInfo.isNull()) {
+        // insert 'Cut', 'Copy' and 'Paste'
+        QAction* cutAction   = new QAction(KIcon("edit-cut"), i18nc("@action:inmenu", "Cut"), this);
+        connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
 
-    QAction* copyAction  = new QAction(KIcon("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
-    connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
+        QAction* copyAction  = new QAction(KIcon("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
+        connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
 
-    QAction* pasteAction = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste"), this);
-    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-    const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
-    pasteAction->setEnabled(!pasteData.isEmpty());
-    connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+        QAction* pasteAction = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste"), this);
+        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+        const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
+        pasteAction->setEnabled(!pasteData.isEmpty());
+        connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
 
-    popup->addAction(cutAction);
-    popup->addAction(copyAction);
-    popup->addAction(pasteAction);
-    popup->addSeparator();
+        popup->addAction(cutAction);
+        popup->addAction(copyAction);
+        popup->addAction(pasteAction);
+        popup->addSeparator();
 
-    // insert 'Rename'
-    QAction* renameAction = new QAction(i18nc("@action:inmenu", "Rename..."), this);
-    connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
-    popup->addAction(renameAction);
+        // insert 'Rename'
+        QAction* renameAction = new QAction(i18nc("@action:inmenu", "Rename..."), this);
+        connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
+        popup->addAction(renameAction);
 
-    // insert 'Move to Trash' and (optionally) 'Delete'
-    KConfigGroup kdeConfig(KGlobal::config(), "KDE");
-    bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
-    const KUrl& url = m_fileInfo.url();
-    if (url.isLocalFile()) {
-        QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
-                                                 i18nc("@action:inmenu", "Move To Trash"), this);
-        connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
-        popup->addAction(moveToTrashAction);
-    } else {
-        showDeleteCommand = true;
+        // insert 'Move to Trash' and (optionally) 'Delete'
+        KConfigGroup kdeConfig(KGlobal::config(), "KDE");
+        bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
+        const KUrl& url = m_fileInfo.url();
+        if (url.isLocalFile()) {
+            QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
+                                                    i18nc("@action:inmenu", "Move To Trash"), this);
+            connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
+            popup->addAction(moveToTrashAction);
+        } else {
+            showDeleteCommand = true;
+        }
+
+        if (showDeleteCommand) {
+            QAction* deleteAction = new QAction(KIcon("edit-delete"), i18nc("@action:inmenu", "Delete"), this);
+            connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
+            popup->addAction(deleteAction);
+        }
+
+        popup->addSeparator();
+
+        // insert 'Properties' entry
+        QAction* propertiesAction = new QAction(i18nc("@action:inmenu", "Properties"), this);
+        connect(propertiesAction, SIGNAL(triggered()), this, SLOT(showProperties()));
+        popup->addAction(propertiesAction);
+
+        popup->addSeparator();
     }
 
-    if (showDeleteCommand) {
-        QAction* deleteAction = new QAction(KIcon("edit-delete"), i18nc("@action:inmenu", "Delete"), this);
-        connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
-        popup->addAction(deleteAction);
-    }
+    QAction* showHiddenFilesAction = new QAction(i18nc("@action:inmenu", "Show Hidden Files"), this);
+    showHiddenFilesAction->setCheckable(true);
+    showHiddenFilesAction->setChecked(FoldersPanelSettings::showHiddenFiles());
+    popup->addAction(showHiddenFilesAction);
 
-    popup->addSeparator();
-
-    // insert 'Properties' entry
-    QAction* propertiesAction = new QAction(i18nc("@action:inmenu", "Properties"), this);
-    connect(propertiesAction, SIGNAL(triggered()), this, SLOT(showProperties()));
-    popup->addAction(propertiesAction);
+    connect(showHiddenFilesAction, SIGNAL(toggled(bool)), this, SLOT(setShowHiddenFiles(bool)));
 
     popup->exec(QCursor::pos());
     popup->deleteLater();
@@ -166,6 +179,11 @@ void TreeViewContextMenu::showProperties()
 {
     KPropertiesDialog dialog(m_fileInfo.url(), m_parent);
     dialog.exec();
+}
+
+void TreeViewContextMenu::setShowHiddenFiles(bool show)
+{
+    m_parent->setShowHiddenFiles(show);
 }
 
 #include "treeviewcontextmenu.moc"

@@ -23,6 +23,8 @@
 #include <QtCore/QObject>
 #include <KFileItem>
 
+class TreeViewSidebarPage;
+
 /**
  * @brief Represents the context menu which appears when doing a right
  *        click on an item of the treeview.
@@ -33,13 +35,13 @@ class TreeViewContextMenu : public QObject
 
 public:
     /**
-     * @parent        Pointer to the parent widget the context menu
+     * @parent        Pointer to the treeview sidebar page the context menu
      *                belongs to.
      * @fileInfo      Pointer to the file item the context menu
      *                is applied. If 0 is passed, the context menu
      *                is above the viewport.
      */
-    TreeViewContextMenu(QWidget* parent,
+    TreeViewContextMenu(TreeViewSidebarPage* parent,
                         const KFileItem& fileInfo);
 
     virtual ~TreeViewContextMenu();
@@ -69,8 +71,14 @@ private slots:
     /** Shows the properties of the item m_fileInfo. */
     void showProperties();
 
+    /**
+     * Sets the 'Show Hidden Files' setting for the
+     * folders panel to \a show.
+     */
+    void setShowHiddenFiles(bool show);
+
 private:
-    QWidget* m_parent;
+    TreeViewSidebarPage* m_parent;
     KFileItem m_fileInfo;
 };
 
