@@ -1,4 +1,13 @@
 Name=Dolphin
+Name[ar]=الدولفين
+Name[gu]=ડોલ્ફિન
+Name[hi]=डॉल्फ़िन
+Name[kn]=ಡಾಲ್ಫಿನ್
+Name[ne]=डल्फिन
+Name[pa]=ਡਾਲਫਿਨ
+Name[sr]=Делфин
+Name[ta]=டால்பின்
+Name[x-test]=xxDolphinxx
 Comment=This service allows to configure the Dolphin views.
 
 [Desktop Entry]
