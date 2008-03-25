@@ -160,13 +160,14 @@ set(kcm_dolphin_PART_SRCS
     columnviewsettingspage.cpp
     detailsviewsettingspage.cpp
     dolphinfontrequester.cpp
-    dolphinsettings.cpp
+#    dolphinsettings.cpp
     generalviewsettingspage.cpp
     iconsizedialog.cpp
     iconsviewsettingspage.cpp
     pixmapviewer.cpp
     viewsettingspagebase.cpp
-    viewproperties.cpp)
+#    viewproperties.cpp
+)
 
 kde4_add_kcfg_files(kcm_dolphin_PART_SRCS
     dolphin_columnmodesettings.kcfgc
@@ -177,7 +178,7 @@ kde4_add_kcfg_files(kcm_dolphin_PART_SRCS
 
 kde4_add_plugin(kcm_dolphin ${kcm_dolphin_PART_SRCS})
 
-target_link_libraries(kcm_dolphin  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} )
+target_link_libraries(kcm_dolphin  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 if (Nepomuk_FOUND)
   target_link_libraries(kcm_dolphin ${NEPOMUK_LIBRARIES})
 endif (Nepomuk_FOUND)

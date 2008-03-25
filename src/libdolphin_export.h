@@ -26,16 +26,14 @@
 /* needed, because e.g. Q_OS_UNIX is so frequently used */
 #include <QtCore/QBool>
 
-#ifdef MAKE_DOLPHINPRIVATE_LIB
-# define LIBDOLPHINPRIVATE_EXPORT KDE_EXPORT
-#else
-# ifdef Q_OS_WIN
-#  define LIBDOLPHINPRIVATE_EXPORT KDE_IMPORT
-# else
+#ifndef LIBDOLPHINPRIVATE_EXPORT
+# if defined(MAKE_DOLPHINPRIVATE_LIB)
+   /* We are building this library */
 #  define LIBDOLPHINPRIVATE_EXPORT KDE_EXPORT
+# else
+   /* We are using this library */
+#  define LIBDOLPHINPRIVATE_EXPORT KDE_IMPORT
 # endif
 #endif
 
-
 #endif
-

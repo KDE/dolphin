@@ -24,7 +24,6 @@
 #include <QtCore/QList>
 
 #include <nepomuk/tag.h>
-#include <nepomuk/nepomuk_export.h>
 
 #include <Soprano/Statement>
 
@@ -34,7 +33,7 @@ class QMouseEvent;
 class QEvent;
 
 namespace Nepomuk {
-    class NEPOMUK_EXPORT TagCloud : public QFrame
+    class TagCloud : public QFrame
     {
         Q_OBJECT
 
