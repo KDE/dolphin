@@ -82,7 +82,7 @@
    <item>
     <widget class="QLabel" name="label" >
      <property name="text" >
-      <string>Detailed Desctiption (optional):</string>
+      <string>Detailed Description (optional):</string>
      </property>
     </widget>
    </item>
