@@ -9,6 +9,10 @@ Name[sr]=Делфин
 Name[ta]=டால்பின்
 Name[x-test]=xxDolphinxx
 Comment=This service allows to configure the Dolphin views.
+Comment[pt]=Este serviço permite-lhe configurar as vistas do Dolphin.
+Comment[pt_BR]=Este serviço permite-lhe configurar as vistas do Dolphin.
+Comment[x-test]=xxThis service allows to configure the Dolphin views.xx
+Comment[zh_TW]=此服務允許設定 Dolphin 的檢視。
 
 [Desktop Entry]
 Icon=view-choose
@@ -21,5 +25,15 @@ X-KDE-PluginKeyword=dolphin
 X-KDE-ParentApp=kcontrol
 
 Name=Views
+Name[ga]=Amhairc
+Name[pt]=Janelas
+Name[pt_BR]=Janelas
+Name[x-test]=xxViewsxx
+Name[zh_TW]=檢視
 Comment=Configure file manager settings
+Comment[ga]=Cumraigh socruithe bhainisteoir na gcomhad
+Comment[pt]=Configuração as opções do gestor de ficheiros
+Comment[pt_BR]=Configuração as opções do gestor de ficheiros
+Comment[x-test]=xxConfigure file manager settingsxx
+Comment[zh_TW]=設定檔案管理員
 X-KDE-Keywords=file manager
