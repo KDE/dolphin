@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dolphinviewcontainer.h"
+#include <kprotocolmanager.h>
 
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
@@ -400,25 +401,16 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
     }
 
     const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    const bool browseThroughArchives = settings->browseThroughArchives() &&
-                                       item.isFile() && url.isLocalFile();
-    if (browseThroughArchives) {
-        KMimeType::Ptr mime = item.mimeTypePtr();
-
-        // Don't use mime->is("application/zip"), as this would
-        // also browse through Open Office files:
-        if (mime->name() == "application/zip") {
-            url.setProtocol("zip");
-            m_view->setUrl(url);
-            return;
-        }
-
-        if (mime->is("application/x-tar") ||
-            mime->is("application/x-tarz") ||
-            mime->is("application/x-bzip-compressed-tar") ||
-            mime->is("application/x-compressed-tar") ||
-            mime->is("application/x-tzo")) {
-            url.setProtocol("tar");
+    const bool browseThroughArchives = settings->browseThroughArchives();
+    if (browseThroughArchives && item.isFile() && url.isLocalFile()) {
+        // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
+        // zip:/<path>/ when clicking on a zip file, etc.
+        // The .protocol file specifies the mimetype that the kioslave handles.
+        // Note that we don't use mimetype inheritance since we don't want to
+        // open OpenDocument files as zip folders...
+        const QString protocol = KProtocolManager::protocolForArchiveMimetype(item.mimetype());
+        if (!protocol.isEmpty()) {
+            url.setProtocol(protocol);
             m_view->setUrl(url);
             return;
         }
