@@ -139,6 +139,7 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[bg]=Подробности
 Name[ca]=Detalls
 Name[da]=Detaljer
 Name[el]=Λεπτομέρειες
@@ -168,6 +169,7 @@ Exec=dolphin
 
 [Desktop Action columns]
 Name=Columns
+Name[bg]=Колони
 Name[ca]=Columnes
 Name[da]=Kolonner
 Name[de]=Spalten
