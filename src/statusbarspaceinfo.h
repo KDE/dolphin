@@ -53,6 +53,8 @@ private slots:
                              quint64 kBUsed,
                              quint64 kBAvailable);
 
+    void slotKDFSDone();
+
     /** Refreshes the space information for the current set URL. */
     void refresh();
 
@@ -60,6 +62,7 @@ private slots:
 
 private:
     bool m_gettingSize;
+    bool m_foundMountPoint;
     KUrl m_url;
     QString m_text;
 };

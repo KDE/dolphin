@@ -31,6 +31,7 @@
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     QProgressBar(parent),
     m_gettingSize(false),
+    m_foundMountPoint(false),
     m_text()
 {
     setMinimum(0);
@@ -69,6 +70,7 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
     Q_UNUSED(mountPoint);
 
     m_gettingSize = false;
+    m_foundMountPoint = true;
     const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) ||
                                (kBAvailable != static_cast<quint64>(maximum()));
     if (valuesChanged) {
@@ -76,6 +78,17 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
         setMaximum(kBSize);
         setValue(kBUsed);
     }
+}
+
+void StatusBarSpaceInfo::slotKDFSDone()
+{
+    if( m_foundMountPoint )
+        return;
+    m_gettingSize = false;
+    m_text = i18n("Free disk space could not be determined");
+    setMinimum(0);
+    setMaximum(0);
+    setValue(0);
 }
 
 void StatusBarSpaceInfo::refresh()
@@ -93,6 +106,7 @@ void StatusBarSpaceInfo::refresh()
     }
 
     m_gettingSize = true;
+    m_foundMountPoint = false;
     KDiskFreeSpace* job = new KDiskFreeSpace(this);
     connect(job, SIGNAL(foundMountPoint(const QString&,
                                         quint64,
@@ -102,6 +116,7 @@ void StatusBarSpaceInfo::refresh()
                                            quint64,
                                            quint64,
                                            quint64)));
+    connect(job, SIGNAL(done()), this, SLOT(slotKDFSDone()));
 
     job->readDF(mp->mountPoint());
 
