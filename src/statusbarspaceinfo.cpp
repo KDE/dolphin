@@ -74,7 +74,7 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
     const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) ||
                                (kBAvailable != static_cast<quint64>(maximum()));
     if (valuesChanged) {
-        m_text = i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable));
+        m_text = i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable*1024));
         setMaximum(kBSize);
         setValue(kBUsed);
     }
