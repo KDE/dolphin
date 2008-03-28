@@ -190,7 +190,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
     }
 
     case KDirModel::Size: {
-        const int fileSize = !item.isNull() ? item.size() : -1;
+        const KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
         if (!item.isNull() && item.isDir()) {
             retString = i18nc("@title:group Size", "Folders");
         } else if (fileSize < 5242880) {
@@ -343,7 +343,7 @@ QVariant DolphinModel::sortRoleData(const QModelIndex& index) const
     }
 
     case KDirModel::Size: {
-        const int fileSize = !item.isNull() ? item.size() : -1;
+        const KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
         if (item.isDir()) {
             retVariant = 0;
         } else if (fileSize < 5242880) {
