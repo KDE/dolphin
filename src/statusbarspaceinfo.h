@@ -53,7 +53,7 @@ private slots:
                              quint64 kBUsed,
                              quint64 kBAvailable);
 
-    void slotKDFSDone();
+    void slotDiskFreeSpaceDone();
 
     /** Refreshes the space information for the current set URL. */
     void refresh();

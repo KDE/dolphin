@@ -74,18 +74,20 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
     const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) ||
                                (kBAvailable != static_cast<quint64>(maximum()));
     if (valuesChanged) {
-        m_text = i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable*1024));
+        m_text = i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable * 1024));
         setMaximum(kBSize);
         setValue(kBUsed);
     }
 }
 
-void StatusBarSpaceInfo::slotKDFSDone()
+void StatusBarSpaceInfo::slotDiskFreeSpaceDone()
 {
-    if( m_foundMountPoint )
+    if (m_foundMountPoint) {
         return;
+    }
+
     m_gettingSize = false;
-    m_text = i18n("Free disk space could not be determined");
+    m_text = i18nc("@info:status", "Unknown size");
     setMinimum(0);
     setMaximum(0);
     setValue(0);
@@ -116,7 +118,7 @@ void StatusBarSpaceInfo::refresh()
                                            quint64,
                                            quint64,
                                            quint64)));
-    connect(job, SIGNAL(done()), this, SLOT(slotKDFSDone()));
+    connect(job, SIGNAL(done()), this, SLOT(slotDiskFreeSpaceDone()));
 
     job->readDF(mp->mountPoint());
 
