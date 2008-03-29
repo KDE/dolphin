@@ -359,6 +359,13 @@ public slots:
     void paste();
 
     /**
+     * Pastes the clipboard data into the currently selected
+     * folder. If the current selection is not exactly one folder, no
+     * paste operation is done.
+     */
+    void pasteIntoFolder();
+
+    /**
      * Turns on the file preview for the all files of the current directory,
      * if \a show is true.
      * If the view properties should be remembered for each directory
@@ -610,6 +617,12 @@ private:
      * the clipboard.
      */
     bool isCutItem(const KFileItem& item) const;
+
+    /**
+     * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
+     * Pastes the clipboard data into the URL \a url.
+     */
+    void pasteToUrl(const KUrl& url);
 
     /**
      * Returns true, if the ColumnView is activated. As the column view

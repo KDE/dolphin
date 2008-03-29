@@ -69,9 +69,6 @@ public:
     /** Opens the context menu model. */
     void open();
 
-private slots:
-    void pasteIntoFolder();
-
 private:
     void openTrashContextMenu();
     void openTrashItemContextMenu();

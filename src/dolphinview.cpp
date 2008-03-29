@@ -607,17 +607,14 @@ void DolphinView::copySelectedItems()
 
 void DolphinView::paste()
 {
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
+    pasteToUrl(url());
+}
 
-    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
-    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url());
-        emit doingOperation(KonqFileUndoManager::MOVE);
-        clipboard->clear();
-    } else {
-        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url());
-        emit doingOperation(KonqFileUndoManager::COPY);
+void DolphinView::pasteIntoFolder()
+{
+    const KFileItemList items = selectedItems();
+    if ((items.count() == 1) && items.first().isDir()) {
+        pasteToUrl(items.first().url());
     }
 }
 
@@ -1136,6 +1133,22 @@ bool DolphinView::isCutItem(const KFileItem& item) const
     }
 
     return false;
+}
+
+void DolphinView::pasteToUrl(const KUrl& url)
+{
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
+    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url);
+        emit doingOperation(KonqFileUndoManager::MOVE);
+        clipboard->clear();
+    } else {
+        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url);
+        emit doingOperation(KonqFileUndoManager::COPY);
+    }
 }
 
 #include "dolphinview.moc"

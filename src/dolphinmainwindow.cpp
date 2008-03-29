@@ -87,7 +87,9 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_showMenuBar(0),
     m_splitter(0),
     m_activeViewContainer(0),
-    m_id(id)
+    m_id(id),
+    m_viewContainer(),
+    m_actionHandler(0)
 {
     setObjectName("Dolphin#");
     m_viewContainer[PrimaryView] = 0;
@@ -160,6 +162,11 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
     connect(&dropController, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
             this, SLOT(slotDoingOperation(KonqFileUndoManager::CommandType)));
     dropController.dropUrls(urls, destination);
+}
+
+void DolphinMainWindow::pasteIntoFolder()
+{
+    m_activeViewContainer->view()->pasteIntoFolder();
 }
 
 void DolphinMainWindow::changeUrl(const KUrl& url)

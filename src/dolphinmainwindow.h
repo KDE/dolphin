@@ -110,6 +110,13 @@ public slots:
                   const KUrl& destination);
 
     /**
+     * Pastes the clipboard data into the currently selected folder
+     * of the active view. If not exactly one folder is selected,
+     * no pasting is done at all.
+     */
+    void pasteIntoFolder();
+
+    /**
      * Returns the main window ID used through DBus.
      */
     int getId() const;
