@@ -24,6 +24,8 @@
 #include <QPainter>
 #include <QFile>
 #include <QDir>
+#include <QApplication>
+#include <QStyleOption>
 
 #ifdef HAVE_NEPOMUK
 #include <nepomuk/kratingpainter.h>
@@ -36,6 +38,8 @@
 
 #include "dolphinview.h"
 #include "dolphinmodel.h"
+
+#define HORIZONTAL_HINT 3
 
 DolphinCategoryDrawer::DolphinCategoryDrawer()
 {
@@ -79,37 +83,19 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
     QStyleOptionButton opt;
 
     opt.rect = option.rect;
+    opt.rect.setLeft(opt.rect.left() + HORIZONTAL_HINT);
+    opt.rect.setRight(opt.rect.right() - HORIZONTAL_HINT);
     opt.palette = option.palette;
     opt.direction = option.direction;
     opt.text = category;
 
-    if (option.state & QStyle::State_Selected)
-    {
-        QColor selected = option.palette.color(QPalette::Highlight);
-
-        QLinearGradient gradient(option.rect.topLeft(),
-                                 option.rect.bottomRight());
-        gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
-                                                                : 1, selected);
-        gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
-                                                                : 0, Qt::transparent);
-
-        painter->fillRect(option.rect, gradient);
-    }
-    else if (option.state & QStyle::State_MouseOver)
-    {
-        QColor hover = option.palette.color(QPalette::Highlight);
-        hover.setAlpha(88);
-
-        QLinearGradient gradient(option.rect.topLeft(),
-                                 option.rect.bottomRight());
-        gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
-                                                                : 1, hover);
-        gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
-                                                                : 0, Qt::transparent);
-
-        painter->fillRect(option.rect, gradient);
-    }
+    QStyleOptionViewItemV4 viewOptions;
+    viewOptions.rect = option.rect;
+    viewOptions.palette = option.palette;
+    viewOptions.direction = option.direction;
+    viewOptions.state = option.state;
+    viewOptions.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
+    QApplication::style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewOptions, painter, 0);
 
     QFont painterFont = painter->font();
     painterFont.setWeight(QFont::Bold);
