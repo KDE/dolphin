@@ -331,6 +331,7 @@ void InfoSidebarPage::showMetaInfo()
 
         if (fileItem.isDir()) {
             m_metaTextLabel->add(i18nc("@label", "Type:"), i18nc("@label", "Folder"));
+            m_metaTextLabel->add(i18nc("@label", "Modified:"), fileItem.timeString());
         } else {
             m_metaTextLabel->add(i18nc("@label", "Type:"), fileItem.mimeComment());
 
