@@ -477,6 +477,233 @@ void DolphinView::setUrl(const KUrl& url)
     updateView(url, KUrl());
 }
 
+void DolphinView::changeSelection(const KFileItemList& selection)
+{
+    clearSelection();
+    if (selection.isEmpty()) {
+        return;
+    }
+    const KUrl& baseUrl = url();
+    KUrl url;
+    QItemSelection new_selection;
+    foreach(const KFileItem& item, selection) {
+        url = item.url().upUrl();
+        if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+            QModelIndex index = m_proxyModel->mapFromSource(m_dolphinModel->indexForItem(item));
+            new_selection.select(index, index);
+        }
+    }
+    itemView()->selectionModel()->select(new_selection,
+                                         QItemSelectionModel::ClearAndSelect
+                                         | QItemSelectionModel::Current);
+}
+
+void DolphinView::renameSelectedItems()
+{
+    const KFileItemList items = selectedItems();
+    if (items.count() > 1) {
+        // More than one item has been selected for renaming. Open
+        // a rename dialog and rename all items afterwards.
+        RenameDialog dialog(this, items);
+        if (dialog.exec() == QDialog::Rejected) {
+            return;
+        }
+
+        const QString newName = dialog.newName();
+        if (newName.isEmpty()) {
+            emit errorMessage(dialog.errorString());
+        } else {
+            // TODO: check how this can be integrated into KonqFileUndoManager/KonqOperations
+            // as one operation instead of n rename operations like it is done now...
+            Q_ASSERT(newName.contains('#'));
+
+            // iterate through all selected items and rename them...
+            int index = 1;
+            foreach (KFileItem item, items) {
+                const KUrl& oldUrl = item.url();
+                QString number;
+                number.setNum(index++);
+
+                QString name = newName;
+                name.replace('#', number);
+
+                if (oldUrl.fileName() != name) {
+                    KUrl newUrl = oldUrl;
+                    newUrl.setFileName(name);
+                    KonqOperations::rename(this, oldUrl, newUrl);
+                    emit doingOperation(KonqFileUndoManager::RENAME);
+                }
+            }
+        }
+    } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
+        Q_ASSERT(items.count() == 1);
+
+        if (isColumnViewActive()) {
+            m_columnView->editItem(items.first());
+        } else {
+            const QModelIndex dirIndex = m_dolphinModel->indexForItem(items.first());
+            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+            itemView()->edit(proxyIndex);
+        }
+    } else {
+        Q_ASSERT(items.count() == 1);
+
+        RenameDialog dialog(this, items);
+        if (dialog.exec() == QDialog::Rejected) {
+            return;
+        }
+
+        const QString& newName = dialog.newName();
+        if (newName.isEmpty()) {
+            emit errorMessage(dialog.errorString());
+        } else {
+            const KUrl& oldUrl = items.first().url();
+            KUrl newUrl = oldUrl;
+            newUrl.setFileName(newName);
+            KonqOperations::rename(this, oldUrl, newUrl);
+            emit doingOperation(KonqFileUndoManager::RENAME);
+        }
+    }
+}
+
+void DolphinView::trashSelectedItems()
+{
+    emit doingOperation(KonqFileUndoManager::TRASH);
+    KonqOperations::del(this, KonqOperations::TRASH, selectedUrls());
+}
+
+void DolphinView::deleteSelectedItems()
+{
+    const KUrl::List list = selectedUrls();
+    const bool del = KonqOperations::askDeleteConfirmation(list,
+                     KonqOperations::DEL,
+                     KonqOperations::DEFAULT_CONFIRMATION,
+                     this);
+
+    if (del) {
+        KIO::Job* job = KIO::del(list);
+        connect(job, SIGNAL(result(KJob*)),
+                this, SLOT(slotDeleteFileFinished(KJob*)));
+    }
+}
+
+void DolphinView::cutSelectedItems()
+{
+    QMimeData* mimeData = new QMimeData();
+    const KUrl::List kdeUrls = selectedUrls();
+    const KUrl::List mostLocalUrls;
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
+    QApplication::clipboard()->setMimeData(mimeData);
+}
+
+void DolphinView::copySelectedItems()
+{
+    QMimeData* mimeData = new QMimeData();
+    const KUrl::List kdeUrls = selectedUrls();
+    const KUrl::List mostLocalUrls;
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, false);
+    QApplication::clipboard()->setMimeData(mimeData);
+}
+
+void DolphinView::paste()
+{
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
+    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url());
+        emit doingOperation(KonqFileUndoManager::MOVE);
+        clipboard->clear();
+    } else {
+        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url());
+        emit doingOperation(KonqFileUndoManager::COPY);
+    }
+}
+
+void DolphinView::setShowPreview(bool show)
+{
+    if (m_showPreview == show) {
+        return;
+    }
+
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
+    props.setShowPreview(show);
+
+    m_showPreview = show;
+    m_iconManager->setShowPreview(show);
+    emit showPreviewChanged();
+
+    loadDirectory(viewPropsUrl);
+}
+
+void DolphinView::setShowHiddenFiles(bool show)
+{
+    if (m_dirLister->showingDotFiles() == show) {
+        return;
+    }
+
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
+    props.setShowHiddenFiles(show);
+
+    m_dirLister->setShowingDotFiles(show);
+    emit showHiddenFilesChanged();
+
+    loadDirectory(viewPropsUrl);
+}
+
+void DolphinView::setCategorizedSorting(bool categorized)
+{
+    if (categorized == categorizedSorting()) {
+        return;
+    }
+
+    // setCategorizedSorting(true) may only get invoked
+    // if the view supports categorized sorting
+    Q_ASSERT(!categorized || supportsCategorizedSorting());
+
+    ViewProperties props(viewPropertiesUrl());
+    props.setCategorizedSorting(categorized);
+    props.save();
+
+    m_storedCategorizedSorting = categorized;
+    m_proxyModel->setCategorizedModel(categorized);
+
+    emit categorizedSortingChanged();
+}
+
+void DolphinView::toggleSortOrder()
+{
+    const Qt::SortOrder order = (sortOrder() == Qt::AscendingOrder) ?
+                                Qt::DescendingOrder :
+                                Qt::AscendingOrder;
+    setSortOrder(order);
+}
+
+void DolphinView::toggleAdditionalInfo(QAction* action)
+{
+    const KFileItemDelegate::Information info =
+        static_cast<KFileItemDelegate::Information>(action->data().toInt());
+
+    KFileItemDelegate::InformationList list = additionalInfo();
+
+    const bool show = action->isChecked();
+
+    const int index = list.indexOf(info);
+    const bool containsInfo = (index >= 0);
+    if (show && !containsInfo) {
+        list.append(info);
+        setAdditionalInfo(list);
+    } else if (!show && containsInfo) {
+        list.removeAt(index);
+        setAdditionalInfo(list);
+        Q_ASSERT(list.indexOf(info) < 0);
+    }
+}
+
+
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
@@ -529,6 +756,181 @@ void DolphinView::triggerItem(const KFileItem& item)
 void DolphinView::emitSelectionChangedSignal()
 {
     emit selectionChanged(DolphinView::selectedItems());
+}
+
+void DolphinView::openContextMenu(const QPoint& pos)
+{
+    KFileItem item;
+
+    const QModelIndex index = itemView()->indexAt(pos);
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
+        item = fileItem(index);
+    }
+
+    emit requestContextMenu(item, url());
+}
+
+void DolphinView::dropUrls(const KUrl::List& urls,
+                           const KUrl& destPath,
+                           const KFileItem& destItem)
+{
+    Q_ASSERT(!urls.isEmpty());
+    const KUrl& destination = !destItem.isNull() && destItem.isDir() ?
+                              destItem.url() : destPath;
+    const KUrl sourceDir = KUrl(urls.first().directory());
+    if (sourceDir != destination) {
+        dropUrls(urls, destination);
+    }
+}
+
+void DolphinView::dropUrls(const KUrl::List& urls,
+                           const KUrl& destination)
+{
+    DolphinDropController dropController(this);
+    // forward doingOperation signal up to the mainwindow
+    connect(&dropController, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
+            this, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)));
+    dropController.dropUrls(urls, destination);
+}
+
+void DolphinView::updateSorting(DolphinView::Sorting sorting)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setSorting(sorting);
+
+    m_proxyModel->setSorting(sorting);
+
+    emit sortingChanged(sorting);
+}
+
+void DolphinView::updateSortOrder(Qt::SortOrder order)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setSortOrder(order);
+
+    m_proxyModel->setSortOrder(order);
+
+    emit sortOrderChanged(order);
+}
+
+void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList& info)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setAdditionalInfo(info);
+    props.save();
+
+    m_fileItemDelegate->setShowInformation(info);
+
+    emit additionalInfoChanged();
+}
+
+void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
+{
+    const bool enable = (m_mode == DolphinView::DetailsView) ||
+                        (m_mode == DolphinView::IconsView);
+
+    QAction* showSizeInfo = collection->action("show_size_info");
+    QAction* showDateInfo = collection->action("show_date_info");
+    QAction* showPermissionsInfo = collection->action("show_permissions_info");
+    QAction* showOwnerInfo = collection->action("show_owner_info");
+    QAction* showGroupInfo = collection->action("show_group_info");
+    QAction* showMimeInfo = collection->action("show_mime_info");
+
+    showSizeInfo->setChecked(false);
+    showDateInfo->setChecked(false);
+    showPermissionsInfo->setChecked(false);
+    showOwnerInfo->setChecked(false);
+    showGroupInfo->setChecked(false);
+    showMimeInfo->setChecked(false);
+
+    showSizeInfo->setEnabled(enable);
+    showDateInfo->setEnabled(enable);
+    showPermissionsInfo->setEnabled(enable);
+    showOwnerInfo->setEnabled(enable);
+    showGroupInfo->setEnabled(enable);
+    showMimeInfo->setEnabled(enable);
+
+    foreach (KFileItemDelegate::Information info, m_fileItemDelegate->showInformation()) {
+        switch (info) {
+        case KFileItemDelegate::Size:
+            showSizeInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::ModificationTime:
+            showDateInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::Permissions:
+            showPermissionsInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::Owner:
+            showOwnerInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::OwnerAndGroup:
+            showGroupInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::FriendlyMimeType:
+            showMimeInfo->setChecked(true);
+            break;
+        default:
+            break;
+        }
+    }
+}
+
+QPair<bool, QString> DolphinView::pasteInfo() const
+{
+    QPair<bool, QString> ret;
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    KUrl::List urls = KUrl::List::fromMimeData(mimeData);
+    if (!urls.isEmpty()) {
+        ret.first = true;
+        if (urls.count() == 1) {
+            const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, urls.first(), true);
+            ret.second = item.isDir() ? i18nc("@action:inmenu", "Paste One Folder") :
+                                        i18nc("@action:inmenu", "Paste One File");
+
+        } else {
+            ret.second = i18ncp("@action:inmenu", "Paste One Item", "Paste %1 Items", urls.count());
+        }
+    } else {
+        ret.first = false;
+        ret.second = i18nc("@action:inmenu", "Paste");
+    }
+
+    return ret;
+}
+
+void DolphinView::emitContentsMoved()
+{
+    // only emit the contents moved signal if:
+    // - no directory loading is ongoing (this would reset the contents position
+    //   always to (0, 0))
+    // - if the Column View is active: the column view does an automatic
+    //   positioning during the loading operation, which must be remembered
+    if (!m_loadingDirectory || isColumnViewActive()) {
+        const QPoint pos(contentsPosition());
+        emit contentsMoved(pos.x(), pos.y());
+    }
+}
+
+void DolphinView::showHoverInformation(const KFileItem& item)
+{
+    emit requestItemInfo(item);
+}
+
+void DolphinView::clearHoverInformation()
+{
+    emit requestItemInfo(KFileItem());
+}
+
+void DolphinView::slotDeleteFileFinished(KJob* job)
+{
+    if (job->error() == 0) {
+        emit operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
+    } else {
+        emit errorMessage(job->errorString());
+    }
 }
 
 void DolphinView::loadDirectory(const KUrl& url, bool reload)
@@ -628,197 +1030,6 @@ void DolphinView::applyViewProperties(const KUrl& url)
         m_iconManager->setShowPreview(showPreview);
         emit showPreviewChanged();
     }
-}
-
-void DolphinView::changeSelection(const KFileItemList& selection)
-{
-    clearSelection();
-    if (selection.isEmpty()) {
-        return;
-    }
-    const KUrl& baseUrl = url();
-    KUrl url;
-    QItemSelection new_selection;
-    foreach(const KFileItem& item, selection) {
-        url = item.url().upUrl();
-        if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
-            QModelIndex index = m_proxyModel->mapFromSource(m_dolphinModel->indexForItem(item));
-            new_selection.select(index, index);
-        }
-    }
-    itemView()->selectionModel()->select(new_selection,
-                                         QItemSelectionModel::ClearAndSelect
-                                         | QItemSelectionModel::Current);
-}
-
-void DolphinView::openContextMenu(const QPoint& pos)
-{
-    KFileItem item;
-
-    const QModelIndex index = itemView()->indexAt(pos);
-    if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        item = fileItem(index);
-    }
-
-    emit requestContextMenu(item, url());
-}
-
-void DolphinView::dropUrls(const KUrl::List& urls,
-                           const KUrl& destPath,
-                           const KFileItem& destItem)
-{
-    Q_ASSERT(!urls.isEmpty());
-    const KUrl& destination = !destItem.isNull() && destItem.isDir() ?
-                              destItem.url() : destPath;
-    const KUrl sourceDir = KUrl(urls.first().directory());
-    if (sourceDir != destination) {
-        dropUrls(urls, destination);
-    }
-}
-
-void DolphinView::dropUrls(const KUrl::List& urls,
-                           const KUrl& destination)
-{
-    DolphinDropController dropController(this);
-    // forward doingOperation signal up to the mainwindow
-    connect(&dropController, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
-            this, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)));
-    dropController.dropUrls(urls, destination);
-}
-
-void DolphinView::updateSorting(DolphinView::Sorting sorting)
-{
-    ViewProperties props(viewPropertiesUrl());
-    props.setSorting(sorting);
-
-    m_proxyModel->setSorting(sorting);
-
-    emit sortingChanged(sorting);
-}
-
-void DolphinView::updateSortOrder(Qt::SortOrder order)
-{
-    ViewProperties props(viewPropertiesUrl());
-    props.setSortOrder(order);
-
-    m_proxyModel->setSortOrder(order);
-
-    emit sortOrderChanged(order);
-}
-
-void DolphinView::toggleSortOrder()
-{
-    const Qt::SortOrder order = (sortOrder() == Qt::AscendingOrder) ?
-                                Qt::DescendingOrder :
-                                Qt::AscendingOrder;
-    setSortOrder(order);
-}
-
-void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList& info)
-{
-    ViewProperties props(viewPropertiesUrl());
-    props.setAdditionalInfo(info);
-    props.save();
-
-    m_fileItemDelegate->setShowInformation(info);
-
-    emit additionalInfoChanged();
-}
-
-void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
-{
-    const bool enable = (m_mode == DolphinView::DetailsView) ||
-                        (m_mode == DolphinView::IconsView);
-
-    QAction* showSizeInfo = collection->action("show_size_info");
-    QAction* showDateInfo = collection->action("show_date_info");
-    QAction* showPermissionsInfo = collection->action("show_permissions_info");
-    QAction* showOwnerInfo = collection->action("show_owner_info");
-    QAction* showGroupInfo = collection->action("show_group_info");
-    QAction* showMimeInfo = collection->action("show_mime_info");
-
-    showSizeInfo->setChecked(false);
-    showDateInfo->setChecked(false);
-    showPermissionsInfo->setChecked(false);
-    showOwnerInfo->setChecked(false);
-    showGroupInfo->setChecked(false);
-    showMimeInfo->setChecked(false);
-
-    showSizeInfo->setEnabled(enable);
-    showDateInfo->setEnabled(enable);
-    showPermissionsInfo->setEnabled(enable);
-    showOwnerInfo->setEnabled(enable);
-    showGroupInfo->setEnabled(enable);
-    showMimeInfo->setEnabled(enable);
-
-    foreach (KFileItemDelegate::Information info, m_fileItemDelegate->showInformation()) {
-        switch (info) {
-        case KFileItemDelegate::Size:
-            showSizeInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::ModificationTime:
-            showDateInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::Permissions:
-            showPermissionsInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::Owner:
-            showOwnerInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::OwnerAndGroup:
-            showGroupInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::FriendlyMimeType:
-            showMimeInfo->setChecked(true);
-            break;
-        default:
-            break;
-        }
-    }
-}
-
-void DolphinView::toggleAdditionalInfo(QAction* action)
-{
-    const KFileItemDelegate::Information info =
-        static_cast<KFileItemDelegate::Information>(action->data().toInt());
-
-    KFileItemDelegate::InformationList list = additionalInfo();
-
-    const bool show = action->isChecked();
-
-    const int index = list.indexOf(info);
-    const bool containsInfo = (index >= 0);
-    if (show && !containsInfo) {
-        list.append(info);
-        setAdditionalInfo(list);
-    } else if (!show && containsInfo) {
-        list.removeAt(index);
-        setAdditionalInfo(list);
-        Q_ASSERT(list.indexOf(info) < 0);
-    }
-}
-
-void DolphinView::emitContentsMoved()
-{
-    // only emit the contents moved signal if:
-    // - no directory loading is ongoing (this would reset the contents position
-    //   always to (0, 0))
-    // - if the Column View is active: the column view does an automatic
-    //   positioning during the loading operation, which must be remembered
-    if (!m_loadingDirectory || isColumnViewActive()) {
-        const QPoint pos(contentsPosition());
-        emit contentsMoved(pos.x(), pos.y());
-    }
-}
-
-void DolphinView::showHoverInformation(const KFileItem& item)
-{
-    emit requestItemInfo(item);
-}
-
-void DolphinView::clearHoverInformation()
-{
-    emit requestItemInfo(KFileItem());
 }
 
 void DolphinView::createView()
@@ -925,216 +1136,6 @@ bool DolphinView::isCutItem(const KFileItem& item) const
     }
 
     return false;
-}
-
-void DolphinView::renameSelectedItems()
-{
-    const KFileItemList items = selectedItems();
-    if (items.count() > 1) {
-        // More than one item has been selected for renaming. Open
-        // a rename dialog and rename all items afterwards.
-        RenameDialog dialog(this, items);
-        if (dialog.exec() == QDialog::Rejected) {
-            return;
-        }
-
-        const QString newName = dialog.newName();
-        if (newName.isEmpty()) {
-            emit errorMessage(dialog.errorString());
-        } else {
-            // TODO: check how this can be integrated into KonqFileUndoManager/KonqOperations
-            // as one operation instead of n rename operations like it is done now...
-            Q_ASSERT(newName.contains('#'));
-
-            // iterate through all selected items and rename them...
-            int index = 1;
-            foreach (KFileItem item, items) {
-                const KUrl& oldUrl = item.url();
-                QString number;
-                number.setNum(index++);
-
-                QString name = newName;
-                name.replace('#', number);
-
-                if (oldUrl.fileName() != name) {
-                    KUrl newUrl = oldUrl;
-                    newUrl.setFileName(name);
-                    KonqOperations::rename(this, oldUrl, newUrl);
-                    emit doingOperation(KonqFileUndoManager::RENAME);
-                }
-            }
-        }
-    } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
-        Q_ASSERT(items.count() == 1);
-
-        if (isColumnViewActive()) {
-            m_columnView->editItem(items.first());
-        } else {
-            const QModelIndex dirIndex = m_dolphinModel->indexForItem(items.first());
-            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-            itemView()->edit(proxyIndex);
-        }
-    } else {
-        Q_ASSERT(items.count() == 1);
-
-        RenameDialog dialog(this, items);
-        if (dialog.exec() == QDialog::Rejected) {
-            return;
-        }
-
-        const QString& newName = dialog.newName();
-        if (newName.isEmpty()) {
-            emit errorMessage(dialog.errorString());
-        } else {
-            const KUrl& oldUrl = items.first().url();
-            KUrl newUrl = oldUrl;
-            newUrl.setFileName(newName);
-            KonqOperations::rename(this, oldUrl, newUrl);
-            emit doingOperation(KonqFileUndoManager::RENAME);
-        }
-    }
-}
-
-void DolphinView::trashSelectedItems()
-{
-    emit doingOperation(KonqFileUndoManager::TRASH);
-    KonqOperations::del(this, KonqOperations::TRASH, selectedUrls());
-}
-
-void DolphinView::deleteSelectedItems()
-{
-    const KUrl::List list = selectedUrls();
-    const bool del = KonqOperations::askDeleteConfirmation(list,
-                     KonqOperations::DEL,
-                     KonqOperations::DEFAULT_CONFIRMATION,
-                     this);
-
-    if (del) {
-        KIO::Job* job = KIO::del(list);
-        connect(job, SIGNAL(result(KJob*)),
-                this, SLOT(slotDeleteFileFinished(KJob*)));
-    }
-}
-
-void DolphinView::slotDeleteFileFinished(KJob* job)
-{
-    if (job->error() == 0) {
-        emit operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
-    } else {
-        emit errorMessage(job->errorString());
-    }
-}
-
-void DolphinView::cutSelectedItems()
-{
-    QMimeData* mimeData = new QMimeData();
-    const KUrl::List kdeUrls = selectedUrls();
-    const KUrl::List mostLocalUrls;
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
-    QApplication::clipboard()->setMimeData(mimeData);
-}
-
-void DolphinView::copySelectedItems()
-{
-    QMimeData* mimeData = new QMimeData();
-    const KUrl::List kdeUrls = selectedUrls();
-    const KUrl::List mostLocalUrls;
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, false);
-    QApplication::clipboard()->setMimeData(mimeData);
-}
-
-void DolphinView::paste()
-{
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-
-    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
-    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url());
-        emit doingOperation(KonqFileUndoManager::MOVE);
-        clipboard->clear();
-    } else {
-        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url());
-        emit doingOperation(KonqFileUndoManager::COPY);
-    }
-}
-
-void DolphinView::setShowPreview(bool show)
-{
-    if (m_showPreview == show) {
-        return;
-    }
-
-    const KUrl viewPropsUrl = viewPropertiesUrl();
-    ViewProperties props(viewPropsUrl);
-    props.setShowPreview(show);
-
-    m_showPreview = show;
-    m_iconManager->setShowPreview(show);
-    emit showPreviewChanged();
-
-    loadDirectory(viewPropsUrl);
-}
-
-void DolphinView::setShowHiddenFiles(bool show)
-{
-    if (m_dirLister->showingDotFiles() == show) {
-        return;
-    }
-
-    const KUrl viewPropsUrl = viewPropertiesUrl();
-    ViewProperties props(viewPropsUrl);
-    props.setShowHiddenFiles(show);
-
-    m_dirLister->setShowingDotFiles(show);
-    emit showHiddenFilesChanged();
-
-    loadDirectory(viewPropsUrl);
-}
-
-void DolphinView::setCategorizedSorting(bool categorized)
-{
-    if (categorized == categorizedSorting()) {
-        return;
-    }
-
-    // setCategorizedSorting(true) may only get invoked
-    // if the view supports categorized sorting
-    Q_ASSERT(!categorized || supportsCategorizedSorting());
-
-    ViewProperties props(viewPropertiesUrl());
-    props.setCategorizedSorting(categorized);
-    props.save();
-
-    m_storedCategorizedSorting = categorized;
-    m_proxyModel->setCategorizedModel(categorized);
-
-    emit categorizedSortingChanged();
-}
-
-QPair<bool, QString> DolphinView::pasteInfo() const
-{
-    QPair<bool, QString> ret;
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-
-    KUrl::List urls = KUrl::List::fromMimeData(mimeData);
-    if (!urls.isEmpty()) {
-        ret.first = true;
-        if (urls.count() == 1) {
-            const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, urls.first(), true);
-            ret.second = item.isDir() ? i18nc("@action:inmenu", "Paste One Folder") :
-                                        i18nc("@action:inmenu", "Paste One File");
-
-        } else {
-            ret.second = i18ncp("@action:inmenu", "Paste One Item", "Paste %1 Items", urls.count());
-        }
-    } else {
-        ret.first = false;
-        ret.second = i18nc("@action:inmenu", "Paste");
-    }
-
-    return ret;
 }
 
 #include "dolphinview.moc"
