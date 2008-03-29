@@ -95,6 +95,24 @@ void DolphinContextMenu::open()
     }
 }
 
+void DolphinContextMenu::pasteIntoFolder()
+{
+    // TODO: this method should go into DolphinView (see DolphinContextMenu::createPasteAction())
+    Q_ASSERT(m_selectedItems.count() == 1);
+    Q_ASSERT(m_fileInfo.isDir());
+
+    QClipboard* clipboard = QApplication::clipboard();
+    const QMimeData* mimeData = clipboard->mimeData();
+
+    const KUrl::List source = KUrl::List::fromMimeData(mimeData);
+    const KUrl& dest = m_fileInfo.url();
+    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
+        KonqOperations::copy(m_mainWindow, KonqOperations::MOVE, source, dest);
+        clipboard->clear();
+    } else {
+        KonqOperations::copy(m_mainWindow, KonqOperations::COPY, source, dest);
+    }
+}
 
 void DolphinContextMenu::openTrashContextMenu()
 {
@@ -230,7 +248,7 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->addMenu(newMenu->menu());
     popup->addSeparator();
 
-    QAction* pasteAction = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
+    QAction* pasteAction = createPasteAction();
     popup->addAction(pasteAction);
 
     // setup 'View Mode' menu
@@ -281,7 +299,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     // insert 'Cut', 'Copy' and 'Paste'
     QAction* cutAction = collection->action(KStandardAction::name(KStandardAction::Cut));
     QAction* copyAction  = collection->action(KStandardAction::name(KStandardAction::Copy));
-    QAction* pasteAction = collection->action(KStandardAction::name(KStandardAction::Paste));
+    QAction* pasteAction = createPasteAction();
 
     popup->addAction(cutAction);
     popup->addAction(copyAction);
@@ -413,6 +431,23 @@ QString DolphinContextMenu::placesName(const KUrl& url) const
         name = url.host();
     }
     return name;
+}
+
+QAction* DolphinContextMenu::createPasteAction()
+{
+    // TODO: move this method as QAction* action pasteAction() into DolphinMainWindow
+    QAction* action = 0;
+    if ((m_selectedItems.count() == 1) && m_fileInfo.isDir()) {
+        action = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste Into Folder"), this);
+        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+        const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
+        action->setEnabled(!pasteData.isEmpty());
+        connect(action, SIGNAL(triggered()), this, SLOT(pasteIntoFolder()));
+    } else {
+        action = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
+    }
+
+    return action;
 }
 
 #include "dolphincontextmenu.moc"

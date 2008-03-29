@@ -69,6 +69,9 @@ public:
     /** Opens the context menu model. */
     void open();
 
+private slots:
+    void pasteIntoFolder();
+
 private:
     void openTrashContextMenu();
     void openTrashItemContextMenu();
@@ -107,6 +110,8 @@ private:
      * Returns a name for adding the URL \a url to the Places panel.
      */
     QString placesName(const KUrl& url) const;
+
+    QAction* createPasteAction();
 
 private:
     struct Entry

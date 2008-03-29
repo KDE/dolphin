@@ -1102,41 +1102,12 @@ void DolphinView::paste()
     const QMimeData* mimeData = clipboard->mimeData();
 
     const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
-
-    // per default the pasting is done into the current URL of the view
-    KUrl destUrl = url();
-
-    // check whether the pasting should be done into a selected directory
-    const KUrl::List selectedUrls = this->selectedUrls();
-    if (selectedUrls.count() == 1) {
-        const KFileItem fileItem(S_IFDIR,
-                                 KFileItem::Unknown,
-                                 selectedUrls.first(),
-                                 true);
-        if (fileItem.isDir()) {
-            // only one item is selected which is a directory, hence paste
-            // into this directory
-            destUrl = selectedUrls.first();
-            if (sourceUrls.contains(destUrl)) {
-                const QString text = i18nc("@info", "The folder <filename>%1</filename> is pasted into itself. Is this intended?", fileItem.name());
-                int result = KMessageBox::questionYesNo(window(),
-                                                        text,
-                                                        i18nc("@title:window", "Paste into Folder"),
-                                                        KGuiItem(i18nc("@action:button", "Paste"), "dialog-ok"),
-                                                        KGuiItem(i18nc("@action:button", "Cancel"), "dialog-cancel"));
-                if (result == KMessageBox::No) {
-                    return;
-                }
-            }
-        }
-    }
-
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, destUrl);
+        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url());
         emit doingOperation(KonqFileUndoManager::MOVE);
         clipboard->clear();
     } else {
-        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, destUrl);
+        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url());
         emit doingOperation(KonqFileUndoManager::COPY);
     }
 }
@@ -1163,19 +1134,6 @@ QPair<bool, QString> DolphinView::pasteInfo() const
         ret.second = i18nc("@action:inmenu", "Paste");
     }
 
-    if (ret.first) {
-        const KFileItemList items = selectedItems();
-        const uint count = items.count();
-        if (count > 1) {
-            // pasting should not be allowed when more than one file
-            // is selected
-            ret.first = false;
-        } else if (count == 1) {
-            // Only one file is selected. Pasting is only allowed if this
-            // file is a directory.
-            ret.first = items.first().isDir();
-        }
-    }
     return ret;
 }
 
