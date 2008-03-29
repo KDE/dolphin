@@ -214,67 +214,14 @@ DolphinView::Mode DolphinView::mode() const
     return m_mode;
 }
 
-void DolphinView::setShowPreview(bool show)
-{
-    if (m_showPreview == show) {
-        return;
-    }
-
-    const KUrl viewPropsUrl = viewPropertiesUrl();
-    ViewProperties props(viewPropsUrl);
-    props.setShowPreview(show);
-
-    m_showPreview = show;
-    m_iconManager->setShowPreview(show);
-    emit showPreviewChanged();
-
-    loadDirectory(viewPropsUrl);
-}
-
 bool DolphinView::showPreview() const
 {
     return m_showPreview;
 }
 
-void DolphinView::setShowHiddenFiles(bool show)
-{
-    if (m_dirLister->showingDotFiles() == show) {
-        return;
-    }
-
-    const KUrl viewPropsUrl = viewPropertiesUrl();
-    ViewProperties props(viewPropsUrl);
-    props.setShowHiddenFiles(show);
-
-    m_dirLister->setShowingDotFiles(show);
-    emit showHiddenFilesChanged();
-
-    loadDirectory(viewPropsUrl);
-}
-
 bool DolphinView::showHiddenFiles() const
 {
     return m_dirLister->showingDotFiles();
-}
-
-void DolphinView::setCategorizedSorting(bool categorized)
-{
-    if (categorized == categorizedSorting()) {
-        return;
-    }
-
-    // setCategorizedSorting(true) may only get invoked
-    // if the view supports categorized sorting
-    Q_ASSERT(!categorized || supportsCategorizedSorting());
-
-    ViewProperties props(viewPropertiesUrl());
-    props.setCategorizedSorting(categorized);
-    props.save();
-
-    m_storedCategorizedSorting = categorized;
-    m_proxyModel->setCategorizedModel(categorized);
-
-    emit categorizedSortingChanged();
 }
 
 bool DolphinView::categorizedSorting() const
@@ -1110,6 +1057,59 @@ void DolphinView::paste()
         KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url());
         emit doingOperation(KonqFileUndoManager::COPY);
     }
+}
+
+void DolphinView::setShowPreview(bool show)
+{
+    if (m_showPreview == show) {
+        return;
+    }
+
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
+    props.setShowPreview(show);
+
+    m_showPreview = show;
+    m_iconManager->setShowPreview(show);
+    emit showPreviewChanged();
+
+    loadDirectory(viewPropsUrl);
+}
+
+void DolphinView::setShowHiddenFiles(bool show)
+{
+    if (m_dirLister->showingDotFiles() == show) {
+        return;
+    }
+
+    const KUrl viewPropsUrl = viewPropertiesUrl();
+    ViewProperties props(viewPropsUrl);
+    props.setShowHiddenFiles(show);
+
+    m_dirLister->setShowingDotFiles(show);
+    emit showHiddenFilesChanged();
+
+    loadDirectory(viewPropsUrl);
+}
+
+void DolphinView::setCategorizedSorting(bool categorized)
+{
+    if (categorized == categorizedSorting()) {
+        return;
+    }
+
+    // setCategorizedSorting(true) may only get invoked
+    // if the view supports categorized sorting
+    Q_ASSERT(!categorized || supportsCategorizedSorting());
+
+    ViewProperties props(viewPropertiesUrl());
+    props.setCategorizedSorting(categorized);
+    props.save();
+
+    m_storedCategorizedSorting = categorized;
+    m_proxyModel->setCategorizedModel(categorized);
+
+    emit categorizedSortingChanged();
 }
 
 QPair<bool, QString> DolphinView::pasteInfo() const
