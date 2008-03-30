@@ -47,7 +47,6 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KCategorizedView
 public:
     explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinIconsView();
-    virtual QRect visualRect(const QModelIndex& index) const;
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;

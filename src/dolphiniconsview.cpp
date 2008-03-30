@@ -133,25 +133,6 @@ DolphinIconsView::~DolphinIconsView()
     m_categoryDrawer = 0;
 }
 
-QRect DolphinIconsView::visualRect(const QModelIndex& index) const
-{
-    QRect itemRect = KCategorizedView::visualRect(index);
-
-    KCategorizedSortFilterProxyModel* proxyModel = dynamic_cast<KCategorizedSortFilterProxyModel*>(model());
-    if ((flow() == QListView::LeftToRight) && !proxyModel->isCategorizedModel()) {
-        // TODO: QListView might return a wrong x-position if the decoration size decreases. This is bypassed
-        // by the following workaround...
-        const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-        const int margin = settings->gridSpacing();
-        const int gridWidth = gridSize().width();
-        const int gridIndex = (itemRect.left() - margin + 1) / gridWidth;
-        const int centerInc = (m_itemSize.width() - itemRect.width()) / 2;
-        itemRect.moveLeft((gridIndex * gridWidth) + margin + centerInc);
-    }
-
-    return itemRect;
-}
-
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = KCategorizedView::viewOptions();
