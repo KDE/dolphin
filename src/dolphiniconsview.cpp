@@ -133,6 +133,18 @@ DolphinIconsView::~DolphinIconsView()
     m_categoryDrawer = 0;
 }
 
+void DolphinIconsView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
+{
+    KCategorizedView::dataChanged(topLeft, bottomRight);
+
+    KCategorizedSortFilterProxyModel* proxyModel = dynamic_cast<KCategorizedSortFilterProxyModel*>(model());
+    if ((flow() == QListView::LeftToRight) && !proxyModel->isCategorizedModel()) {
+        // bypass a QListView issue that items are not layout correctly if the decoration size of
+        // an index changes
+        scheduleDelayedItemsLayout();
+    }
+}
+
 QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = KCategorizedView::viewOptions();

@@ -48,6 +48,9 @@ public:
     explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinIconsView();
 
+protected slots:
+    virtual void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
+
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void contextMenuEvent(QContextMenuEvent* event);
