@@ -162,7 +162,7 @@ QString CommentEditWidget::comment()
 bool CommentEditWidget::exec( const QPoint& pos )
 {
     d->success = false;
-    d->textEdit->setText( d->comment );
+    d->textEdit->setPlainText( d->comment );
     d->textEdit->setFocus();
     d->textEdit->moveCursor( QTextCursor::End );
     QEventLoop eventLoop;
