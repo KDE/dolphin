@@ -25,26 +25,26 @@
 
         <entry name="ShowPreview" type="Bool" >
             <label context="@label">Show preview</label>
-            <whatsthis context="@info:whatsthis">When this option is enabled, a preview of the file content is shown as icon.</whatsthis>
+            <whatsthis context="@info:whatsthis">When this option is enabled, a preview of the file content is shown as an icon.</whatsthis>
             <default>false</default>
         </entry>
 
         <entry name="CategorizedSorting" type="Bool" >
             <label context="@label">Categorized Sorting</label>
-            <whatsthis context="@info:whatsthis">When this option is enabled, the sorted items get summarized by their category.</whatsthis>
+            <whatsthis context="@info:whatsthis">When this option is enabled, the sorted items are summarized by their category.</whatsthis>
             <default>false</default>
         </entry>
 
         <entry name="Sorting" type="Int" >
             <label context="@label">Sort files by</label>
-            <whatsthis context="@info:whatsthis">This option defines which attribute (name, size, date, etc) sorting is performed on.</whatsthis>
+            <whatsthis context="@info:whatsthis">This option defines which attribute (name, size, date, etc.) sorting is performed on.</whatsthis>
             <default code="true">DolphinView::SortByName</default>
             <min>0</min>
             <max code="true">DolphinView::MaxSortEnum</max>
         </entry>
 
         <entry name="SortOrder" type="Int" >
-            <label context="@label">Order to sort files in</label>
+            <label context="@label">Order in which to sort files</label>
             <default code="true">Qt::AscendingOrder</default>
             <min code="true">Qt::AscendingOrder</min>
             <max code="true">Qt::DescendingOrder</max>

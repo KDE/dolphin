@@ -116,7 +116,7 @@ void DolphinContextMenu::openTrashContextMenu()
 
     QAction *action = popup->exec(QCursor::pos());
     if (action == emptyTrashAction) {
-        const QString text(i18nc("@info", "Do you really want to empty the Trash? All items will get deleted."));
+        const QString text(i18nc("@info", "Do you really want to empty the Trash? All items will be deleted."));
         const bool del = KMessageBox::warningContinueCancel(m_mainWindow,
                                                             text,
                                                             QString(),

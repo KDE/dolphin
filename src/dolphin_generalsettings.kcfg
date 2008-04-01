@@ -25,7 +25,7 @@
             <default>false</default>
         </entry>
         <entry name="GlobalViewProps" type="Bool">
-            <label context="@label">Should the view properties used for all directories</label>
+            <label context="@label">Should the view properties be used for all directories</label>
             <default>false</default>
         </entry>
         <entry name="BrowseThroughArchives" type="Bool">
