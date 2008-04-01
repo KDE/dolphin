@@ -145,7 +145,7 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
         }
         first = false;
     }
-    d->tagWidget->setResource( fileRes.first() );
+    d->tagWidget->setResources( fileRes );
 #endif
 }
 

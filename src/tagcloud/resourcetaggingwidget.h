@@ -41,6 +41,7 @@ namespace Nepomuk {
 
     public Q_SLOTS:
         void setResource( const Nepomuk::Resource& );
+        void setResources( const QList<Nepomuk::Resource>& );
 
     private Q_SLOTS:
         void slotTagToggled( const Nepomuk::Tag& tag, bool enabled );

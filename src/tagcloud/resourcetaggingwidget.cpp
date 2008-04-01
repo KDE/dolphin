@@ -25,14 +25,22 @@
 #include <QtGui/QContextMenuEvent>
 #include <QtGui/QCursor>
 #include <QtGui/QLabel>
+#include <QtCore/QSet>
 
 #include <KLocale>
+
+namespace Nepomuk {
+    inline uint qHash( const Tag& res )
+    {
+        return qHash( res.resourceUri().toString() );
+    }
+}
 
 
 class Nepomuk::ResourceTaggingWidget::Private
 {
 public:
-    Nepomuk::Resource resource;
+    QList<Nepomuk::Resource> resources;
 
     TagCloud* resourceTagCloud;
     TaggingPopup* popup;
@@ -41,26 +49,51 @@ public:
 
     void showTaggingPopup( const QPoint& );
     void _k_slotShowTaggingPopup();
+    static QList<Tag> intersectTags( const QList<Resource>& );
 };
 
 
 void Nepomuk::ResourceTaggingWidget::Private::showTaggingPopup( const QPoint& pos )
 {
     popup->showAllTags();
-    resourceTags = resource.tags();
+    resourceTags = intersectTags( resources );
     Q_FOREACH( Tag tag, resourceTags ) {
         popup->setTagSelected( tag, true );
     }
 
     popup->exec( pos );
 
-    resource.setTags( resourceTags );
+    foreach( Resource res, resources ) {
+        res.setTags( resourceTags );
+    }
+
+    resourceTagCloud->showTags( resourceTags );
 }
 
 
 void Nepomuk::ResourceTaggingWidget::Private::_k_slotShowTaggingPopup()
 {
     showTaggingPopup( QCursor::pos() );
+}
+
+
+QList<Nepomuk::Tag> Nepomuk::ResourceTaggingWidget::Private::intersectTags( const QList<Resource>& res )
+{
+    if ( res.count() == 1 ) {
+        return res.first().tags();
+    }
+    else if ( !res.isEmpty() ) {
+        // determine the tags used for all resources
+        QSet<Tag> tags = QSet<Tag>::fromList( res.first().tags() );
+        QList<Resource>::const_iterator it = res.begin();
+        for ( ++it; it != res.end(); ++it ) {
+            tags.intersect( QSet<Tag>::fromList( (*it).tags() ) );
+        }
+        return tags.values();
+    }
+    else {
+        return QList<Tag>();
+    }
 }
 
 
@@ -101,8 +134,14 @@ Nepomuk::ResourceTaggingWidget::~ResourceTaggingWidget()
 
 void Nepomuk::ResourceTaggingWidget::setResource( const Nepomuk::Resource& res )
 {
-    d->resource = res;
-    d->resourceTagCloud->showResourceTags( res );
+    setResources( QList<Resource>() << res );
+}
+
+
+void Nepomuk::ResourceTaggingWidget::setResources( const QList<Nepomuk::Resource>& resList )
+{
+    d->resources = resList;
+    d->resourceTagCloud->showTags( d->intersectTags( resList ) );
 }
 
 
@@ -122,7 +161,7 @@ void Nepomuk::ResourceTaggingWidget::slotTagAdded( const Nepomuk::Tag& tag )
 {
     // assign it right away
     d->resourceTags.append( tag );
-    d->resource.addTag( tag );
+//    d->resource.addTag( tag );
 }
 
 
