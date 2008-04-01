@@ -204,7 +204,7 @@ int Nepomuk::TagCloud::Private::calculateWeight( const Nepomuk::Tag& tag )
     Soprano::QueryResultIterator it
         = ResourceManager::instance()->mainModel()->executeQuery( QString( "select ?r where { ?r <%1> <%2> . }" )
                                                                   .arg( Soprano::Vocabulary::NAO::hasTag().toString() )
-                                                                  .arg( tag.resourceUri().toString() ),
+                                                                  .arg( QString::fromAscii( tag.resourceUri().toEncoded() ) ),
                                                                   Soprano::Query::QueryLanguageSparql );
     int w = 0;
     while ( it.next() ) {
@@ -832,46 +832,41 @@ void Nepomuk::TagCloud::paintEvent( QPaintEvent* e )
     QPainter p( this );
     QRegion paintRegion = e->region();
 
-    if ( d->nodes.isEmpty() && !d->newTagButtonEnabled ) {
-        p.drawText( contentsRect(), d->alignment, i18n( "No Tags" ) );
-    }
-    else {
-        p.save();
-        p.setMatrix( d->zoomMatrix );
+    p.save();
+    p.setMatrix( d->zoomMatrix );
 
-        for ( QList<TagNode>::iterator it = d->nodes.begin();
-              it != d->nodes.end(); ++it ) {
-            TagNode& node = *it;
+    for ( QList<TagNode>::iterator it = d->nodes.begin();
+          it != d->nodes.end(); ++it ) {
+        TagNode& node = *it;
 
-            if ( paintRegion.contains( node.zoomedRect ) ) {
-                p.setFont( node.font );
+        if ( paintRegion.contains( node.zoomedRect ) ) {
+            p.setFont( node.font );
 
-                if ( &node == d->hoverTag ) {
-                    p.setPen( hoverTextBrush.brush( this ).color() );
-                }
-                else if ( d->selectionEnabled && node.selected ) {
-                    p.setPen( activeTextBrush.brush( this ).color() );
-                }
-                else {
-                    p.setPen( normalTextBrush.brush( this ).color() );
-                }
-                p.drawText( node.rect, Qt::AlignCenter, node.text );
-            }
-        }
-
-        if ( d->newTagButtonEnabled ) {
-            p.setFont( d->newTagNode.font );
-            if ( &d->newTagNode == d->hoverTag ) {
+            if ( &node == d->hoverTag ) {
                 p.setPen( hoverTextBrush.brush( this ).color() );
+            }
+            else if ( d->selectionEnabled && node.selected ) {
+                p.setPen( activeTextBrush.brush( this ).color() );
             }
             else {
                 p.setPen( normalTextBrush.brush( this ).color() );
             }
-            p.drawText( d->newTagNode.rect, Qt::AlignCenter, d->customNewTagAction ? d->customNewTagAction->text() : d->newTagNode.text );
+            p.drawText( node.rect, Qt::AlignCenter, node.text );
         }
-
-        p.restore();
     }
+
+    if ( d->newTagButtonEnabled ) {
+        p.setFont( d->newTagNode.font );
+        if ( &d->newTagNode == d->hoverTag ) {
+            p.setPen( hoverTextBrush.brush( this ).color() );
+        }
+        else {
+            p.setPen( normalTextBrush.brush( this ).color() );
+        }
+        p.drawText( d->newTagNode.rect, Qt::AlignCenter, d->customNewTagAction ? d->customNewTagAction->text() : d->newTagNode.text );
+    }
+
+    p.restore();
 }
 
 
