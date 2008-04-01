@@ -182,7 +182,7 @@ void SelectionToggle::startFading()
     Q_ASSERT(m_fadingTimeLine == 0);
 
     const bool animate = KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects;
-    const int duration = animate ? 1500 : 1;
+    const int duration = animate ? 600 : 1;
 
     m_fadingTimeLine = new QTimeLine(duration, this);
     connect(m_fadingTimeLine, SIGNAL(frameChanged(int)),
