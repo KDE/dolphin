@@ -29,6 +29,8 @@
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QDir>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -87,6 +89,7 @@ void DolphinConfigModule::save()
     foreach (ViewSettingsPageBase* page, m_pages) {
         page->applySettings();
     }
+    reparseConfiguration();
 }
 
 void DolphinConfigModule::defaults()
@@ -94,6 +97,13 @@ void DolphinConfigModule::defaults()
     foreach (ViewSettingsPageBase* page, m_pages) {
         page->restoreDefaults();
     }
+    reparseConfiguration();
+}
+
+void DolphinConfigModule::reparseConfiguration()
+{
+    QDBusMessage message = QDBusMessage::createSignal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration");
+    QDBusConnection::sessionBus().send(message);
 }
 
 #include "kcmdolphin.moc"

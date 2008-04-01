@@ -39,6 +39,9 @@ public:
     virtual void defaults();
 
 private:
+    void reparseConfiguration();
+
+private:
     QList<ViewSettingsPageBase*> m_pages;
 };
 

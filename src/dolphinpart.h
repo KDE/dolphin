@@ -171,6 +171,7 @@ public Q_SLOTS:
     void cut();
     void copy();
     void paste();
+    void reparseConfiguration();
 
 private:
     DolphinPart* m_part;

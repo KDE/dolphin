@@ -367,6 +367,11 @@ void DolphinPartBrowserExtension::paste()
     m_part->view()->paste();
 }
 
+void DolphinPartBrowserExtension::reparseConfiguration()
+{
+    m_part->view()->refresh();
+}
+
 ////
 
 void DolphinPart::slotEditMimeType()
