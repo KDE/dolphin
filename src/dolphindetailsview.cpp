@@ -66,6 +66,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setAlternatingRowColors(true);
     setRootIsDecorated(settings->expandableFolders());
     setItemsExpandable(settings->expandableFolders());
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     setMouseTracking(true);
 

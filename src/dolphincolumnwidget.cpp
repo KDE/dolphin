@@ -70,6 +70,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
     setSelectionRectVisible(true);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     setVerticalScrollMode(QListView::ScrollPerPixel);
     setHorizontalScrollMode(QListView::ScrollPerPixel);

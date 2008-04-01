@@ -55,6 +55,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     setSpacing(KDialog::spacingHint());
     setMovement(QListView::Static);
     setDragEnabled(true);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
     viewport()->setAcceptDrops(true);
 
     setMouseTracking(true);
