@@ -24,7 +24,7 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QContextMenuEvent>
 #include <QtGui/QCursor>
-#include <QtGui/QAction>
+#include <QtGui/QLabel>
 
 #include <KLocale>
 
@@ -38,8 +38,6 @@ public:
     TaggingPopup* popup;
 
     QList<Tag> resourceTags;
-
-    QAction* changeTagsAction;
 
     void showTaggingPopup( const QPoint& );
     void _k_slotShowTaggingPopup();
@@ -74,9 +72,10 @@ Nepomuk::ResourceTaggingWidget::ResourceTaggingWidget( QWidget* parent )
     layout->setMargin( 0 );
     d->resourceTagCloud = new TagCloud( this );
     layout->addWidget( d->resourceTagCloud );
-
-    d->changeTagsAction = new QAction( i18n( "Change tags..." ), this );
-    d->resourceTagCloud->setCustomNewTagAction( d->changeTagsAction );
+    QLabel* changeTagsLabel = new QLabel( "<p align=center><a style=\"font-size:small;\" href=\"dummy\">" + i18n( "Change tags..." ) + "</a>", this );
+    connect( changeTagsLabel, SIGNAL( linkActivated( const QString ) ),
+             this, SLOT( _k_slotShowTaggingPopup() ) );
+    layout->addWidget( changeTagsLabel );
 
     // the popup tag cloud
     d->popup = new TaggingPopup;
@@ -87,9 +86,6 @@ Nepomuk::ResourceTaggingWidget::ResourceTaggingWidget( QWidget* parent )
              this, SLOT( slotTagToggled( const Nepomuk::Tag&, bool ) ) );
     connect( d->popup, SIGNAL( tagAdded( const Nepomuk::Tag& ) ),
              this, SLOT( slotTagAdded( const Nepomuk::Tag& ) ) );
-
-    connect( d->changeTagsAction, SIGNAL( activated() ),
-             this, SLOT( _k_slotShowTaggingPopup() ) );
 
     connect( d->resourceTagCloud, SIGNAL( tagClicked( const Nepomuk::Tag& ) ),
              this, SIGNAL( tagClicked( const Nepomuk::Tag& ) ) );

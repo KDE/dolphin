@@ -732,6 +732,7 @@ QSize Nepomuk::TagCloud::sizeHint() const
 
 QSize Nepomuk::TagCloud::minimumSizeHint() const
 {
+    return QFrame::minimumSizeHint();
     // If we have tags d->rebuildCloud() has been called at least once,
     // thus, we have proper rects (i.e. needed sizes)
     if ( d->nodes.isEmpty() && !d->newTagButtonEnabled ) {
@@ -759,6 +760,8 @@ int Nepomuk::TagCloud::heightForWidth( int contentsWidth ) const
 {
     // If we have tags d->rebuildCloud() has been called at least once,
     // thus, we have proper rects (i.e. needed sizes)
+
+    // FIXME: add zoom here
 
     if ( d->cachedHfwWidth != contentsWidth ) {
         // have to keep in mind the frame
