@@ -23,6 +23,7 @@
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kiconeffect.h>
+#include <klocale.h>
 
 #include <QPainter>
 #include <QPaintEvent>
@@ -103,6 +104,8 @@ void SelectionToggle::enterEvent(QEvent* event)
         m_fadingTimeLine->stop();
     }
     m_fadingValue = 255;
+    setToolTip(isChecked() ? i18nc("@info:tooltip", "Deselect Item") :
+                             i18nc("@info:tooltip", "Select Item"));
     update();
 }
 
