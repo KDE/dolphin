@@ -63,12 +63,18 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     confirmBoxLayout->addWidget(m_confirmMoveToTrash);
     confirmBoxLayout->addWidget(m_confirmDelete);
 
+    QGroupBox* contextMenuBox = new QGroupBox(i18nc("@title:group", "Context Menu"), vBox);
+
     // create 'Show the command 'Delete' in context menu' checkbox
-    m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command in context menu"), vBox);
+    m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command"), contextMenuBox);
     connect(m_showDeleteCommand, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
-    m_showCopyMoveMenu = new QCheckBox(i18nc("@option:check", "Show 'Copy To' and 'Move To' commands in context menu"), vBox);
+    m_showCopyMoveMenu = new QCheckBox(i18nc("@option:check", "Show 'Copy To' and 'Move To' commands"), contextMenuBox);
     connect(m_showCopyMoveMenu, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
+    QVBoxLayout* contextMenuBoxLayout = new QVBoxLayout(contextMenuBox);
+    contextMenuBoxLayout->addWidget(m_showDeleteCommand);
+    contextMenuBoxLayout->addWidget(m_showCopyMoveMenu);
 
     m_browseThroughArchives = new QCheckBox(i18nc("@option:check", "Browse through archives"), vBox);
     connect(m_browseThroughArchives, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
