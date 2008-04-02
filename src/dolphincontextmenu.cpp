@@ -24,6 +24,7 @@
 #include "dolphinsettings.h"
 #include "dolphinview.h"
 #include "dolphinviewcontainer.h"
+#include "dolphin_generalsettings.h"
 
 #include <kactioncollection.h>
 #include <kfileplacesmodel.h>
@@ -185,8 +186,16 @@ void DolphinContextMenu::openItemContextMenu()
     // Insert 'Actions' sub menu
     KonqMenuActions menuActions;
     menuActions.setItems(m_selectedItems);
-    if (menuActions.addActionsTo(popup))
+    if (menuActions.addActionsTo(popup)) {
         popup->addSeparator();
+    }
+
+    // Insert 'Copy To' and 'Move To' sub menus
+    if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
+        m_copyToMenu.setItems(m_selectedItems);
+        m_copyToMenu.addActionsTo(popup);
+        popup->addSeparator();
+    }
 
     // insert 'Properties...' entry
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");

@@ -51,6 +51,7 @@ private:
     QCheckBox* m_confirmDelete;
 
     QCheckBox* m_showDeleteCommand;
+    QCheckBox* m_showCopyMoveMenu;
     QCheckBox* m_browseThroughArchives;
     QCheckBox* m_renameInline;
 };

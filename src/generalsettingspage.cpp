@@ -38,6 +38,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_confirmMoveToTrash(0),
     m_confirmDelete(0),
     m_showDeleteCommand(0),
+    m_showCopyMoveMenu(0),
     m_browseThroughArchives(0),
     m_renameInline(0)
 {
@@ -65,6 +66,9 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     // create 'Show the command 'Delete' in context menu' checkbox
     m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command in context menu"), vBox);
     connect(m_showDeleteCommand, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
+    m_showCopyMoveMenu = new QCheckBox(i18nc("@option:check", "Show 'Copy To' and 'Move To' commands in context menu"), vBox);
+    connect(m_showCopyMoveMenu, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_browseThroughArchives = new QCheckBox(i18nc("@option:check", "Browse through archives"), vBox);
     connect(m_browseThroughArchives, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -100,6 +104,7 @@ void GeneralSettingsPage::applySettings()
     kdeConfig.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
     kdeConfig.sync();
 
+    settings->setShowCopyMoveMenu(m_showCopyMoveMenu->isChecked());
     settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
 }
@@ -125,6 +130,7 @@ void GeneralSettingsPage::loadSettings()
     m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    m_showCopyMoveMenu->setChecked(settings->showCopyMoveMenu());
     m_browseThroughArchives->setChecked(settings->browseThroughArchives());
     m_renameInline->setChecked(settings->renameInline());
 }

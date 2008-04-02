@@ -24,6 +24,7 @@
 #include <kfileitem.h>
 #include <kservice.h>
 #include <kurl.h>
+#include <konq_copytomenu.h>
 
 #include <QtCore/QObject>
 
@@ -134,6 +135,7 @@ private:
     KFileItemList m_selectedItems;
     KUrl::List m_selectedUrls;
     int m_context;
+    KonqCopyToMenu m_copyToMenu;
 };
 
 #endif

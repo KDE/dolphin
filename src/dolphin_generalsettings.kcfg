@@ -40,6 +40,10 @@
             <label context="@label">Show selection toggle</label>
             <default>true</default>
         </entry>
+        <entry name="ShowCopyMoveMenu" type="Bool">
+            <label context="@label">Show 'Copy To' and 'Move To' commands in context menu</label>
+            <default>false</default>
+        </entry>
         <entry name="ViewPropsTimestamp" type="DateTime" >
             <label context="@label">Timestamp since when the view properties are valid</label>
         </entry>
