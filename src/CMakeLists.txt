@@ -143,6 +143,9 @@ qt4_add_dbus_adaptor(dolphin_SRCS
 qt4_add_dbus_adaptor(dolphin_SRCS
    org.kde.dolphin.MainWindow.xml
    dolphinmainwindow.h DolphinMainWindow)
+
+kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-file-manager.png")
+
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
 target_link_libraries(dolphin  ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} konq dolphinprivate)
