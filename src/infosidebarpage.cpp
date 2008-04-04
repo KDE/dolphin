@@ -323,7 +323,8 @@ void InfoSidebarPage::showMetaInfo()
         KFileItem fileItem;
         if (m_fileItem.isNull()) {
             // no pending request is ongoing
-            fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+            const KUrl url = (selectedItems.size() == 1) ? selectedItems.first().url() : m_shownUrl;
+            fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, url);
             fileItem.refresh();
         } else {
             fileItem = m_fileItem;
