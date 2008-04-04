@@ -9,18 +9,6 @@ Name[sr]=Делфин
 Name[ta]=டால்பின்
 Name[x-test]=xxDolphinxx
 Comment=This service allows configuration of the Dolphin views.
-Comment[de]=Mit diesem Dienst können Dolphin-Ansichten eingerichtet werden.
-Comment[es]=Este servicio le permite configurar las vistas de Dolphin
-Comment[km]=សេវា​អនុញ្ញាត​ឲ្យ​កំណត់​រចនាសម្ព័ន្ធ​ទិដ្ឋភាព​ Dolphin ។
-Comment[pt]=Este serviço permite-lhe configurar as vistas do Dolphin.
-Comment[pt_BR]=Este serviço permite configurar as visualizações do Dolphin.
-Comment[ro]=Acest serviviu permite configurarea vizualizărilor Dolphin.
-Comment[th]=บริการนี้ใช้ในการปรับแต่งมุมมองของดอลฟิน
-Comment[tr]=Bu servis Dolphin görünümlerini yapılandırmanızı sağlar.
-Comment[uk]=Ця служба дасть змогу налаштувати перегляди Dolphin.
-Comment[x-test]=xxThis service allows to configure the Dolphin views.xx
-Comment[zh_CN]=此服务允许您配置 Dolphin 视图。
-Comment[zh_TW]=此服務允許設定 Dolphin 的檢視。
 
 [Desktop Entry]
 Icon=view-choose
