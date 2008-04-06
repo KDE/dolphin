@@ -355,7 +355,17 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QTreeView::currentChanged(current, previous);
-    selectionModel()->select(current, QItemSelectionModel::ClearAndSelect);
+
+    // Stay consistent with QListView: When changing the current index by key presses,
+    // also change the selection.
+    const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
+    const bool adjustSelection =  !(modifier & Qt::ShiftModifier) &&
+                                  !(modifier & Qt::ControlModifier) &&
+                                  !m_showElasticBand;
+
+    if (adjustSelection) {
+        selectionModel()->select(current, QItemSelectionModel::ClearAndSelect);
+    }
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
