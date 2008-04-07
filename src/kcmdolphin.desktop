@@ -9,6 +9,7 @@ Name[sr]=Делфин
 Name[ta]=டால்பின்
 Name[x-test]=xxDolphinxx
 Comment=This service allows configuration of the Dolphin views.
+Comment[fi]=Tämä palvelu sallii Dolphinin näkymien muokkauksen.
 
 [Desktop Entry]
 Icon=view-choose
@@ -23,6 +24,7 @@ X-KDE-ParentApp=kcontrol
 Name=Views
 Name[de]=Ansichten
 Name[es]=Vistas
+Name[fi]=Näkymät
 Name[ga]=Amhairc
 Name[km]=មើល
 Name[pt]=Janelas
@@ -37,6 +39,7 @@ Name[zh_TW]=檢視
 Comment=Configure file manager settings
 Comment[de]=Einstellungen zum Dateimanager vornehmen
 Comment[es]=Configurar las preferencias gestor de archivos
+Comment[fi]=Muokkaa tiedostonhallinnan asetuksia
 Comment[ga]=Cumraigh socruithe bhainisteoir na gcomhad
 Comment[km]=កំណត់​រចនាសម្ព័ន្ធ​ការ​កំណត់​កម្មវិធី​គ្រប់គ្រង​ឯកសារ
 Comment[pt]=Configuração as opções do gestor de ficheiros
