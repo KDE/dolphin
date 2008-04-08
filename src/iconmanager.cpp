@@ -294,8 +294,12 @@ void IconManager::applyCutItemEffect()
 bool IconManager::applyImageFrame(QPixmap& icon)
 {
     const QSize maxSize = m_view->iconSize();
-    if ((maxSize.width() <= 24) || (maxSize.height() <= 24)) {
-        // the maximum size is too small for a frame
+    const bool applyFrame = (maxSize.width()  > KIconLoader::SizeSmallMedium) &&
+                            (maxSize.height() > KIconLoader::SizeSmallMedium) &&
+                            ((icon.width()  > KIconLoader::SizeLarge) ||
+                             (icon.height() > KIconLoader::SizeLarge));
+    if (!applyFrame) {
+        // the maximum size or the image itself is too small for a frame
         return false;
     }
 
