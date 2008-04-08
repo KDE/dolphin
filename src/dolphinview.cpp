@@ -67,6 +67,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_showPreview(false),
     m_loadingDirectory(false),
     m_storedCategorizedSorting(false),
+    m_isContextMenuOpen(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
@@ -568,7 +569,8 @@ void DolphinView::triggerItem(const KFileItem& item)
         return;
     }
 
-    if (item.isNull()) {
+    // TODO: the m_isContextMenuOpen check is a workaround for Qt-issue xxxxxx
+    if (item.isNull() || m_isContextMenuOpen) {
         return;
     }
 
@@ -748,7 +750,9 @@ void DolphinView::openContextMenu(const QPoint& pos)
         item = fileItem(index);
     }
 
+    m_isContextMenuOpen = true; // TODO: workaround for Qt-issue xxxxxx
     emit requestContextMenu(item, url());
+    m_isContextMenuOpen = false;
 }
 
 void DolphinView::dropUrls(const KUrl::List& urls,

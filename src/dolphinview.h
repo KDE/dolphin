@@ -659,6 +659,7 @@ private:
     bool m_showPreview;
     bool m_loadingDirectory;
     bool m_storedCategorizedSorting;
+    bool m_isContextMenuOpen;   // TODO: workaround for Qt-issue xxxxxx
     Mode m_mode;
 
     DolphinMainWindow* m_mainWindow;
