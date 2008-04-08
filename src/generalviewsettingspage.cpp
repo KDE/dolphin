@@ -48,7 +48,8 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const KUrl& url,
     m_maxPreviewSize(0),
     m_spinBox(0),
     m_useFileThumbnails(0),
-    m_showSelectionToggle(0)
+    m_showSelectionToggle(0),
+    m_showToolTips(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -100,6 +101,9 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const KUrl& url,
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection toggle"), this);
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
+    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
+    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
@@ -142,6 +146,7 @@ void GeneralViewSettingsPage::applySettings()
     globalConfig.sync();
 
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
+    settings->setShowToolTips(m_showToolTips->isChecked());
 }
 
 void GeneralViewSettingsPage::restoreDefaults()
@@ -190,6 +195,7 @@ void GeneralViewSettingsPage::loadSettings()
     m_useFileThumbnails->setChecked(useFileThumbnails);
 
     m_showSelectionToggle->setChecked(settings->showSelectionToggle());
+    m_showToolTips->setChecked(settings->showToolTips());
 }
 
 #include "generalviewsettingspage.moc"

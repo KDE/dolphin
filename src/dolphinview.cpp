@@ -120,6 +120,10 @@ DolphinView::DolphinView(QWidget* parent,
 
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
+
+    if (DolphinSettings::instance().generalSettings()->showToolTips()) {
+        // TODO: instantiate ToolTipManager here...
+    }
 }
 
 DolphinView::~DolphinView()

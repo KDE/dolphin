@@ -40,6 +40,10 @@
             <label context="@label">Show selection toggle</label>
             <default>true</default>
         </entry>
+        <entry name="ShowToolTips" type="Bool">
+            <label context="@label">Show tooltips</label>
+            <default>false</default>
+        </entry>
         <entry name="ShowCopyMoveMenu" type="Bool">
             <label context="@label">Show 'Copy To' and 'Move To' commands in context menu</label>
             <default>false</default>

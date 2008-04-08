@@ -67,6 +67,7 @@ private:
     QSpinBox* m_spinBox;
     QCheckBox* m_useFileThumbnails;
     QCheckBox* m_showSelectionToggle;
+    QCheckBox* m_showToolTips;
 };
 
 #endif
