@@ -52,6 +52,7 @@ class KDirLister;
 class KFileItemDelegate;
 class KUrl;
 class KToggleAction;
+class ToolTipManager;
 class QModelIndex;
 class ViewProperties;
 
@@ -657,6 +658,7 @@ private:
     DolphinSortFilterProxyModel* m_proxyModel;
 
     IconManager* m_iconManager;
+    ToolTipManager* m_toolTipManager;
 
     KUrl m_rootUrl;
 };

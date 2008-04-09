@@ -82,7 +82,8 @@ DolphinView::DolphinView(QWidget* parent,
     m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
     m_proxyModel(proxyModel),
-    m_iconManager(0)
+    m_iconManager(0),
+    m_toolTipManager(0)
 {
     setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
@@ -750,6 +751,9 @@ void DolphinView::triggerItem(const KFileItem& item)
         return;
     }
 
+    if (m_toolTipManager != 0) {
+        m_toolTipManager->hideTip();
+    }
     emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
 }
 
@@ -765,6 +769,10 @@ void DolphinView::openContextMenu(const QPoint& pos)
     const QModelIndex index = itemView()->indexAt(pos);
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
         item = fileItem(index);
+    }
+
+    if (m_toolTipManager != 0) {
+        m_toolTipManager->hideTip();
     }
 
     m_isContextMenuOpen = true; // TODO: workaround for Qt-issue xxxxxx
@@ -1086,7 +1094,7 @@ void DolphinView::createView()
     m_iconManager->setShowPreview(m_showPreview);
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
-        new ToolTipManager(view, m_proxyModel);
+        m_toolTipManager = new ToolTipManager(view, m_proxyModel);
     }
 
     m_topLayout->insertWidget(1, view);
@@ -1112,6 +1120,7 @@ void DolphinView::deleteView()
         m_columnView = 0;
         m_fileItemDelegate = 0;
         m_iconManager = 0;
+        m_toolTipManager = 0;
     }
 }
 

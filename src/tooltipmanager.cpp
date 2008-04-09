@@ -57,6 +57,11 @@ ToolTipManager::~ToolTipManager()
 {
 }
 
+void ToolTipManager::hideTip()
+{
+    hideToolTip();
+}
+
 bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 {
     if ((watched == m_view->viewport()) && (event->type() == QEvent::Leave)) {

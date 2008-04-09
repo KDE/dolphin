@@ -48,6 +48,13 @@ public:
                             DolphinSortFilterProxyModel* model);
     virtual ~ToolTipManager();
 
+    /**
+     * Hides the currently shown tooltip. Invoking this method is
+     * only needed when the tooltip should be hidden although
+     * an item is hovered.
+     */
+    void hideTip();
+
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
