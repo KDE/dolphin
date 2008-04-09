@@ -57,6 +57,7 @@
 #include "dolphin_generalsettings.h"
 #include "iconmanager.h"
 #include "renamedialog.h"
+#include "tooltipmanager.h"
 #include "viewproperties.h"
 
 DolphinView::DolphinView(QWidget* parent,
@@ -121,10 +122,6 @@ DolphinView::DolphinView(QWidget* parent,
 
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
-
-    if (DolphinSettings::instance().generalSettings()->showToolTips()) {
-        // TODO: instantiate ToolTipManager here...
-    }
 }
 
 DolphinView::~DolphinView()
@@ -1087,6 +1084,10 @@ void DolphinView::createView()
     new KMimeTypeResolver(view, m_dolphinModel);
     m_iconManager = new IconManager(view, m_proxyModel);
     m_iconManager->setShowPreview(m_showPreview);
+
+    if (DolphinSettings::instance().generalSettings()->showToolTips()) {
+        new ToolTipManager(view, m_proxyModel);
+    }
 
     m_topLayout->insertWidget(1, view);
 

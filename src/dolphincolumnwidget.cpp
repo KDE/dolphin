@@ -29,6 +29,7 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "selectionmanager.h"
+#include "tooltipmanager.h"
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
@@ -134,6 +135,10 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     new KMimeTypeResolver(this, m_dolphinModel);
     m_iconManager = new IconManager(this, m_proxyModel);
     m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
+
+    if (DolphinSettings::instance().generalSettings()->showToolTips()) {
+        new ToolTipManager(this, m_proxyModel);
+    }
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);
 

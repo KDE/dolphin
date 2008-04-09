@@ -27,9 +27,13 @@ set(dolphinprivate_LIB_SRCS
     dolphinview.cpp
     dolphinviewactionhandler.cpp
     iconmanager.cpp
+    ktooltip.cpp
+    kballoontipdelegate.cpp
+    kformattedballoontipdelegate.cpp
     renamedialog.cpp
     selectiontoggle.cpp
     selectionmanager.cpp
+    tooltipmanager.cpp
     viewproperties.cpp
     )
 
