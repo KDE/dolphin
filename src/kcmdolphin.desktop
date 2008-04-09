@@ -10,6 +10,10 @@ Name[ta]=டால்பின்
 Name[x-test]=xxDolphinxx
 Comment=This service allows configuration of the Dolphin views.
 Comment[fi]=Tämä palvelu sallii Dolphinin näkymien muokkauksen.
+Comment[km]=សេវា​នេះ​អនុញ្ញាត​ឲ្យ​កំណត់​រចនាសម្ព័ន្ធ​ទិដ្ឋភាព​ Dolphin ។
+Comment[pt_BR]=Este serviço permite configurar as visualizações do Dolphin.
+Comment[th]=บริการนี้ใช้ในการปรับแต่งมุมมองของดอลฟิน
+Comment[zh_TW]=此服務允許設定 Dolphin 的檢視。
 
 [Desktop Entry]
 Icon=view-choose
@@ -26,6 +30,7 @@ Name[de]=Ansichten
 Name[es]=Vistas
 Name[fi]=Näkymät
 Name[ga]=Amhairc
+Name[gu]=દેખાવો
 Name[km]=មើល
 Name[pt]=Janelas
 Name[pt_BR]=Visualizações
@@ -41,6 +46,7 @@ Comment[de]=Einstellungen zum Dateimanager vornehmen
 Comment[es]=Configurar las preferencias gestor de archivos
 Comment[fi]=Muokkaa tiedostonhallinnan asetuksia
 Comment[ga]=Cumraigh socruithe bhainisteoir na gcomhad
+Comment[gu]=ફાઇલ વ્યવસ્થાપક ગોઠવણીઓ રૂપરેખાંકિત કરો
 Comment[km]=កំណត់​រចនាសម្ព័ន្ធ​ការ​កំណត់​កម្មវិធី​គ្រប់គ្រង​ឯកសារ
 Comment[pt]=Configuração as opções do gestor de ficheiros
 Comment[pt_BR]=Configurar opções do gerenciador de arquivos
