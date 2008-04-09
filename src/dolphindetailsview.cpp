@@ -358,12 +358,7 @@ void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModel
 
     // Stay consistent with QListView: When changing the current index by key presses,
     // also change the selection.
-    const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-    const bool adjustSelection =  !(modifier & Qt::ShiftModifier) &&
-                                  !(modifier & Qt::ControlModifier) &&
-                                  !m_showElasticBand;
-
-    if (adjustSelection) {
+    if (QApplication::mouseButtons() == Qt::NoButton) {
         selectionModel()->select(current, QItemSelectionModel::ClearAndSelect);
     }
 }
