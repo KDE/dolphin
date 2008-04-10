@@ -46,7 +46,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
     : KParts::ReadOnlyPart(parent)
 {
     Q_UNUSED(args)
-    setComponentData( DolphinPartFactory::componentData() );
+    setComponentData(DolphinPartFactory::componentData(), false);
     m_extension = new DolphinPartBrowserExtension(this);
 
     // make sure that other apps using this part find Dolphin's view-file-columns icons
@@ -110,6 +110,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
 
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
+
+    loadPlugins(this, this, componentData());
 }
 
 DolphinPart::~DolphinPart()
