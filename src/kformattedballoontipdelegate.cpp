@@ -28,7 +28,7 @@ QSize KFormattedBalloonTipDelegate::sizeHint(const KStyleOptionToolTip *option, 
     doc.setHtml(item->text());
     QIcon icon = item->icon();
     QSize is = (icon.isNull()) ? QSize(0,0) : QSize(icon.actualSize(option->decorationSize).width(),0);
-    return doc.size().toSize()+is+QSize(20,20);
+    return doc.size().toSize()+is+QSize(20+5,20+1);
 }
 
 void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionToolTip *option, const KToolTipItem *item) const
@@ -58,12 +58,12 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionTo
 
     QTextDocument doc;
     doc.setHtml(item->text());
-    QBitmap bitmap(doc.size().toSize());
-    bitmap.fill(Qt::color0);
+    QPixmap bitmap(doc.size().toSize());
+    bitmap.fill(Qt::transparent);
     QPainter p(&bitmap);
     doc.drawContents(&p);
 
-    painter->drawPixmap(contents, bitmap, QRect(QPoint(0,0), bitmap.size()));
+    painter->drawPixmap(contents, bitmap);
 }
 
 QRegion KFormattedBalloonTipDelegate::inputShape(const KStyleOptionToolTip *option) const
