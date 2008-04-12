@@ -72,6 +72,7 @@
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <kstandardaction.h>
+#include <ktabbar.h>
 #include <kurl.h>
 #include <kurlcombobox.h>
 
@@ -85,15 +86,17 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
     m_newMenu(0),
     m_showMenuBar(0),
-    m_splitter(0),
+    m_tabBar(0),
     m_activeViewContainer(0),
+    m_centralWidgetLayout(0),
     m_id(id),
-    m_viewContainer(),
+    m_tabIndex(0),
+    m_viewTab(),
     m_actionHandler(0)
 {
     setObjectName("Dolphin#");
-    m_viewContainer[PrimaryView] = 0;
-    m_viewContainer[SecondaryView] = 0;
+
+    m_viewTab.append(ViewTab());
 
     new MainWindowAdaptor(this);
     QDBusConnection::sessionBus().registerObject(QString("/dolphin/MainWindow%1").arg(m_id), this);
@@ -119,17 +122,17 @@ DolphinMainWindow::~DolphinMainWindow()
 
 void DolphinMainWindow::toggleViews()
 {
-    if (m_viewContainer[SecondaryView] == 0) {
+    if (m_viewTab[m_tabIndex].primaryView == 0) {
         return;
     }
 
     // move secondary view from the last position of the splitter
     // to the first position
-    m_splitter->insertWidget(0, m_viewContainer[SecondaryView]);
+    m_viewTab[m_tabIndex].splitter->insertWidget(0, m_viewTab[m_tabIndex].secondaryView);
 
-    DolphinViewContainer* container = m_viewContainer[PrimaryView];
-    m_viewContainer[PrimaryView] = m_viewContainer[SecondaryView];
-    m_viewContainer[SecondaryView] = container;
+    DolphinViewContainer* container = m_viewTab[m_tabIndex].primaryView;
+    m_viewTab[m_tabIndex].primaryView = m_viewTab[m_tabIndex].secondaryView;
+    m_viewTab[m_tabIndex].secondaryView = container;
 }
 
 void DolphinMainWindow::slotDoingOperation(KonqFileUndoManager::CommandType commandType)
@@ -140,16 +143,16 @@ void DolphinMainWindow::slotDoingOperation(KonqFileUndoManager::CommandType comm
 
 void DolphinMainWindow::refreshViews()
 {
-    Q_ASSERT(m_viewContainer[PrimaryView] != 0);
+    Q_ASSERT(m_viewTab[m_tabIndex].primaryView != 0);
 
     // remember the current active view, as because of
     // the refreshing the active view might change to
     // the secondary view
     DolphinViewContainer* activeViewContainer = m_activeViewContainer;
 
-    m_viewContainer[PrimaryView]->view()->refresh();
-    if (m_viewContainer[SecondaryView] != 0) {
-        m_viewContainer[SecondaryView]->view()->refresh();
+    m_viewTab[m_tabIndex].primaryView->view()->refresh();
+    if (m_viewTab[m_tabIndex].secondaryView != 0) {
+        m_viewTab[m_tabIndex].secondaryView->view()->refresh();
     }
 
     setActiveViewContainer(activeViewContainer);
@@ -177,7 +180,11 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         updateEditActions();
         updateViewActions();
         updateGoActions();
-        setCaption(url.fileName());
+        const QString caption = url.fileName();
+        setCaption(caption);
+        if (m_viewTab.count() > 1) {
+            m_tabBar->setTabText(m_tabIndex, caption);
+        }
         emit urlChanged(url);
     }
 }
@@ -198,10 +205,10 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 {
     updateEditActions();
 
-    Q_ASSERT(m_viewContainer[PrimaryView] != 0);
-    int selectedUrlsCount = m_viewContainer[PrimaryView]->view()->selectedUrls().count();
-    if (m_viewContainer[SecondaryView] != 0) {
-        selectedUrlsCount += m_viewContainer[SecondaryView]->view()->selectedUrls().count();
+    Q_ASSERT(m_viewTab[m_tabIndex].primaryView != 0);
+    int selectedUrlsCount = m_viewTab[m_tabIndex].primaryView->view()->selectedUrls().count();
+    if (m_viewTab[m_tabIndex].secondaryView != 0) {
+        selectedUrlsCount += m_viewTab[m_tabIndex].secondaryView->view()->selectedUrls().count();
     }
 
     QAction* compareFilesAction = actionCollection()->action("compare_files");
@@ -249,18 +256,24 @@ void DolphinMainWindow::openNewMainWindow()
     DolphinApplication::app()->createMainWindow()->show();
 }
 
+void DolphinMainWindow::openNewTab()
+{
+    openNewTab(m_activeViewContainer->url());
+    m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+}
+
 void DolphinMainWindow::toggleActiveView()
 {
-    if (m_viewContainer[SecondaryView] == 0) {
+    if (m_viewTab[m_tabIndex].secondaryView == 0) {
         // only one view is available
         return;
     }
 
     Q_ASSERT(m_activeViewContainer != 0);
-    Q_ASSERT(m_viewContainer[PrimaryView] != 0);
+    Q_ASSERT(m_viewTab[m_tabIndex].primaryView != 0);
 
-    DolphinViewContainer* left  = m_viewContainer[PrimaryView];
-    DolphinViewContainer* right = m_viewContainer[SecondaryView];
+    DolphinViewContainer* left  = m_viewTab[m_tabIndex].primaryView;
+    DolphinViewContainer* right = m_viewTab[m_tabIndex].secondaryView;
     setActiveViewContainer(m_activeViewContainer == right ? left : right);
 }
 
@@ -277,11 +290,12 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
 void DolphinMainWindow::saveProperties(KConfigGroup& group)
 {
-    DolphinViewContainer* cont = m_viewContainer[PrimaryView];
+    // TODO: remember tabs
+    DolphinViewContainer* cont = m_viewTab[m_tabIndex].primaryView;
     group.writeEntry("Primary Url", cont->url().url());
     group.writeEntry("Primary Editable Url", cont->isUrlEditable());
 
-    cont = m_viewContainer[SecondaryView];
+    cont = m_viewTab[m_tabIndex].secondaryView;
     if (cont != 0) {
         group.writeEntry("Secondary Url", cont->url().url());
         group.writeEntry("Secondary Editable Url", cont->isUrlEditable());
@@ -290,20 +304,21 @@ void DolphinMainWindow::saveProperties(KConfigGroup& group)
 
 void DolphinMainWindow::readProperties(const KConfigGroup& group)
 {
-    DolphinViewContainer* cont = m_viewContainer[PrimaryView];
+    // TODO: read tabs
+    DolphinViewContainer* cont = m_viewTab[m_tabIndex].primaryView;
 
     cont->setUrl(group.readEntry("Primary Url"));
     bool editable = group.readEntry("Primary Editable Url", false);
     cont->urlNavigator()->setUrlEditable(editable);
 
-    cont = m_viewContainer[SecondaryView];
+    cont = m_viewTab[m_tabIndex].secondaryView;
     const QString secondaryUrl = group.readEntry("Secondary Url");
     if (!secondaryUrl.isEmpty()) {
         if (cont == 0) {
             // a secondary view should be shown, but no one is available
             // currently -> create a new view
             toggleSplitView();
-            cont = m_viewContainer[SecondaryView];
+            cont = m_viewTab[m_tabIndex].secondaryView;
             Q_ASSERT(cont != 0);
         }
 
@@ -458,35 +473,37 @@ void DolphinMainWindow::invertSelection()
 
 void DolphinMainWindow::toggleSplitView()
 {
-    if (m_viewContainer[SecondaryView] == 0) {
+    if (m_viewTab[m_tabIndex].secondaryView == 0) {
         // create a secondary view
-        const int newWidth = (m_viewContainer[PrimaryView]->width() - m_splitter->handleWidth()) / 2;
+        QSplitter* splitter = m_viewTab[m_tabIndex].splitter;
+        const int newWidth = (m_viewTab[m_tabIndex].primaryView->width() - splitter->handleWidth()) / 2;
 
-        const DolphinView* view = m_viewContainer[PrimaryView]->view();
-        m_viewContainer[SecondaryView] = new DolphinViewContainer(this, 0, view->rootUrl());
-        connectViewSignals(SecondaryView);
-        m_splitter->addWidget(m_viewContainer[SecondaryView]);
-        m_splitter->setSizes(QList<int>() << newWidth << newWidth);
-        m_viewContainer[SecondaryView]->view()->reload();
-        m_viewContainer[SecondaryView]->setActive(false);
-        m_viewContainer[SecondaryView]->show();
-    } else if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
+        const DolphinView* view = m_viewTab[m_tabIndex].primaryView->view();
+        m_viewTab[m_tabIndex].secondaryView = new DolphinViewContainer(this, 0, view->rootUrl());
+        connectViewSignals(m_viewTab[m_tabIndex].secondaryView);
+        splitter->addWidget(m_viewTab[m_tabIndex].secondaryView);
+        splitter->setSizes(QList<int>() << newWidth << newWidth);
+        m_viewTab[m_tabIndex].secondaryView->view()->reload();
+        m_viewTab[m_tabIndex].secondaryView->setActive(false);
+        m_viewTab[m_tabIndex].secondaryView->show();
+    } else if (m_activeViewContainer == m_viewTab[m_tabIndex].primaryView) {
         // remove secondary view
-        m_viewContainer[SecondaryView]->close();
-        m_viewContainer[SecondaryView]->deleteLater();
-        m_viewContainer[SecondaryView] = 0;
+        m_viewTab[m_tabIndex].secondaryView->close();
+        m_viewTab[m_tabIndex].secondaryView->deleteLater();
+        m_viewTab[m_tabIndex].secondaryView = 0;
     } else {
         // The secondary view is active, hence from a users point of view
         // the content of the secondary view should be moved to the primary view.
         // From an implementation point of view it is more efficient to close
         // the primary view and exchange the internal pointers afterwards.
-        m_viewContainer[PrimaryView]->close();
-        m_viewContainer[PrimaryView]->deleteLater();
-        m_viewContainer[PrimaryView] = m_viewContainer[SecondaryView];
-        m_viewContainer[SecondaryView] = 0;
+
+        m_viewTab[m_tabIndex].primaryView->close();
+        m_viewTab[m_tabIndex].primaryView->deleteLater();
+        m_viewTab[m_tabIndex].primaryView = m_viewTab[m_tabIndex].secondaryView;
+        m_viewTab[m_tabIndex].secondaryView = 0;
     }
 
-    setActiveViewContainer(m_viewContainer[PrimaryView]);
+    setActiveViewContainer(m_viewTab[m_tabIndex].primaryView);
     updateViewActions();
 }
 
@@ -570,16 +587,16 @@ void DolphinMainWindow::compareFiles()
     // - both in the secondary view
     // - one in the primary view and the other in the secondary
     //   view
-    Q_ASSERT(m_viewContainer[PrimaryView] != 0);
+    Q_ASSERT(m_viewTab[m_tabIndex].primaryView != 0);
 
     KUrl urlA;
     KUrl urlB;
-    KUrl::List urls = m_viewContainer[PrimaryView]->view()->selectedUrls();
+    KUrl::List urls = m_viewTab[m_tabIndex].primaryView->view()->selectedUrls();
 
     switch (urls.count()) {
     case 0: {
-        Q_ASSERT(m_viewContainer[SecondaryView] != 0);
-        urls = m_viewContainer[SecondaryView]->view()->selectedUrls();
+        Q_ASSERT(m_viewTab[m_tabIndex].secondaryView != 0);
+        urls = m_viewTab[m_tabIndex].secondaryView->view()->selectedUrls();
         Q_ASSERT(urls.count() == 2);
         urlA = urls[0];
         urlB = urls[1];
@@ -588,8 +605,8 @@ void DolphinMainWindow::compareFiles()
 
     case 1: {
         urlA = urls[0];
-        Q_ASSERT(m_viewContainer[SecondaryView] != 0);
-        urls = m_viewContainer[SecondaryView]->view()->selectedUrls();
+        Q_ASSERT(m_viewTab[m_tabIndex].secondaryView != 0);
+        urls = m_viewTab[m_tabIndex].secondaryView->view()->selectedUrls();
         Q_ASSERT(urls.count() == 1);
         urlB = urls[0];
         break;
@@ -614,7 +631,6 @@ void DolphinMainWindow::compareFiles()
     command.append(urlB.pathOrUrl());
     command.append('\"');
     KRun::runCommand(command, "Kompare", "kompare", this);
-
 }
 
 void DolphinMainWindow::toggleShowMenuBar()
@@ -627,6 +643,33 @@ void DolphinMainWindow::editSettings()
 {
     DolphinSettingsDialog dialog(this);
     dialog.exec();
+}
+
+void DolphinMainWindow::setActiveTab(int index)
+{
+    Q_ASSERT(index >= 0);
+    Q_ASSERT(index < m_viewTab.count());
+    if (index == m_tabIndex) {
+        return;
+    }
+
+    // hide current tab content
+    QSplitter* splitter = m_viewTab[m_tabIndex].splitter;
+    m_centralWidgetLayout->removeWidget(splitter);
+    splitter->hide();
+
+    // show active tab content
+    m_tabIndex = index;
+
+    ViewTab& viewTab = m_viewTab[index];
+    m_centralWidgetLayout->addWidget(viewTab.splitter);
+    viewTab.splitter->show();
+    viewTab.primaryView->show();
+    if (viewTab.secondaryView != 0) {
+        viewTab.secondaryView->show();
+    }
+
+    setActiveViewContainer(viewTab.primaryView);
 }
 
 void DolphinMainWindow::init()
@@ -643,7 +686,7 @@ void DolphinMainWindow::init()
 
     setAcceptDrops(true);
 
-    m_splitter = new QSplitter(this);
+    m_viewTab[m_tabIndex].splitter = new QSplitter(this);
 
     setupActions();
 
@@ -652,18 +695,31 @@ void DolphinMainWindow::init()
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
     ViewProperties props(homeUrl);
-    m_viewContainer[PrimaryView] = new DolphinViewContainer(this,
-                                                            m_splitter,
-                                                            homeUrl);
+    m_viewTab[m_tabIndex].primaryView = new DolphinViewContainer(this,
+                                                                 m_viewTab[m_tabIndex].splitter,
+                                                                 homeUrl);
 
-    m_activeViewContainer = m_viewContainer[PrimaryView];
-    connectViewSignals(PrimaryView);
-    DolphinView* view = m_viewContainer[PrimaryView]->view();
+    m_activeViewContainer = m_viewTab[m_tabIndex].primaryView;
+    connectViewSignals(m_activeViewContainer);
+    DolphinView* view = m_activeViewContainer->view();
     view->reload();
-    m_viewContainer[PrimaryView]->show();
+    m_activeViewContainer->show();
     m_actionHandler->setCurrentView(view);
 
-    setCentralWidget(m_splitter);
+    m_tabBar = new KTabBar(this);
+    m_tabBar->setHoverCloseButton(true);
+    connect(m_tabBar, SIGNAL(currentChanged(int)),
+            this, SLOT(setActiveTab(int)));
+
+    QWidget* centralWidget = new QWidget(this);
+    m_centralWidgetLayout = new QVBoxLayout(centralWidget);
+    m_centralWidgetLayout->setSpacing(0);
+    m_centralWidgetLayout->setMargin(0);
+    m_centralWidgetLayout->addWidget(m_tabBar);
+    m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter);
+
+
+    setCentralWidget(centralWidget);
     setupDockWidgets();
 
     setupGUI(Keys | Save | Create | ToolBar);
@@ -694,7 +750,8 @@ void DolphinMainWindow::init()
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
 {
     Q_ASSERT(viewContainer != 0);
-    Q_ASSERT((viewContainer == m_viewContainer[PrimaryView]) || (viewContainer == m_viewContainer[SecondaryView]));
+    Q_ASSERT((viewContainer == m_viewTab[m_tabIndex].primaryView) ||
+             (viewContainer == m_viewTab[m_tabIndex].secondaryView));
     if (m_activeViewContainer == viewContainer) {
         return;
     }
@@ -711,7 +768,11 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     updateGoActions();
 
     const KUrl& url = m_activeViewContainer->url();
-    setCaption(url.fileName());
+    const QString caption = url.fileName();
+    setCaption(caption);
+    if (m_viewTab.count() > 1) {
+        m_tabBar->setTabText(m_tabIndex, caption);
+    }
 
     emit urlChanged(url);
 }
@@ -731,6 +792,12 @@ void DolphinMainWindow::setupActions()
     newWindow->setText(i18nc("@action:inmenu File", "New &Window"));
     newWindow->setShortcut(Qt::CTRL | Qt::Key_N);
     connect(newWindow, SIGNAL(triggered()), this, SLOT(openNewMainWindow()));
+
+    KAction* newTab = actionCollection()->addAction("new_tab");
+    newTab->setIcon(KIcon("tab-new"));
+    newTab->setText(i18nc("@action:inmenu File", "New Tab"));
+    newTab->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_N);
+    connect(newTab, SIGNAL(triggered()), this, SLOT(openNewTab()));
 
     KAction* properties = actionCollection()->addAction("properties");
     properties->setText(i18nc("@action:inmenu File", "Properties"));
@@ -977,9 +1044,8 @@ void DolphinMainWindow::clearStatusBar()
     m_activeViewContainer->statusBar()->clear();
 }
 
-void DolphinMainWindow::connectViewSignals(int viewIndex)
+void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
 {
-    DolphinViewContainer* container = m_viewContainer[viewIndex];
     connect(container, SIGNAL(showFilterBarChanged(bool)),
             this, SLOT(updateFilterBarAction(bool)));
 
@@ -1005,8 +1071,8 @@ void DolphinMainWindow::connectViewSignals(int viewIndex)
 void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action("split_view");
-    if (m_viewContainer[SecondaryView] != 0) {
-        if (m_activeViewContainer == m_viewContainer[PrimaryView]) {
+    if (m_viewTab[m_tabIndex].secondaryView != 0) {
+        if (m_activeViewContainer == m_viewTab[m_tabIndex].primaryView) {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             splitAction->setIcon(KIcon("view-right-close"));
         } else {
@@ -1017,6 +1083,25 @@ void DolphinMainWindow::updateSplitAction()
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setIcon(KIcon("view-right-new"));
     }
+}
+
+void DolphinMainWindow::openNewTab(const KUrl& url)
+{
+    if (m_viewTab.count() == 1) {
+        // Only one view is open currently and hence no tab is shown at
+        // all. Before creating a tab for 'url', provide a tab for the current URL.
+        m_tabBar->addTab(KIcon("folder"), m_activeViewContainer->url().fileName());
+    }
+
+    m_tabBar->addTab(KIcon("folder"), url.fileName());
+
+    ViewTab viewTab;
+    viewTab.splitter = new QSplitter(this);
+    viewTab.primaryView = new DolphinViewContainer(this, viewTab.splitter, url);
+    connectViewSignals(viewTab.primaryView);
+    viewTab.primaryView->view()->reload();
+
+    m_viewTab.append(viewTab);
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :

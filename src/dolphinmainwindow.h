@@ -39,6 +39,7 @@ class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinViewContainer;
 class KNewMenu;
+class KTabBar;
 class KUrl;
 class QSplitter;
 
@@ -310,11 +311,20 @@ private slots:
     /** Open a new main window. */
     void openNewMainWindow();
 
+    /** Opens a new empty view that is part of a tab. */
+    void openNewTab();
+
     /** Toggles the active view if two views are shown within the main window. */
     void toggleActiveView();
 
     /** Called when the view is doing a file operation, like renaming, copying, moving etc. */
     void slotDoingOperation(KonqFileUndoManager::CommandType type);
+
+    /**
+     * Activates the tab with the index \a index, which means that the current view
+     * is replaced by the view of the given tab.
+     */
+    void setActiveTab(int index);
 
 private:
     DolphinMainWindow(int id);
@@ -336,11 +346,11 @@ private:
 
     /**
      * Connects the signals from the created DolphinView with
-     * the index \a viewIndex with the corresponding slots of
+     * the DolphinViewContainer \a container with the corresponding slots of
      * the DolphinMainWindow. This method must be invoked each
      * time a DolphinView has been created.
      */
-    void connectViewSignals(int viewIndex);
+    void connectViewSignals(DolphinViewContainer* container);
 
     /**
      * Updates the text of the split action:
@@ -350,16 +360,12 @@ private:
      */
     void updateSplitAction();
 
-private:
     /**
-     * DolphinMainWindow supports up to two views beside each other.
+     * Opens a new tab showing the URL \a url.
      */
-    enum ViewIndex
-    {
-        PrimaryView = 0,   ///< View shown on the left side of the main window.
-        SecondaryView = 1  ///< View shown on the left side of the main window.
-    };
+    void openNewTab(const KUrl& url);
 
+private:
     /**
      * Implements a custom error handling for the undo manager. This
      * assures that all errors are shown in the status bar of Dolphin
@@ -378,11 +384,21 @@ private:
 
     KNewMenu* m_newMenu;
     KAction* m_showMenuBar;
-    QSplitter* m_splitter;
+    KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
+    QVBoxLayout* m_centralWidgetLayout;
     int m_id;
 
-    DolphinViewContainer* m_viewContainer[SecondaryView + 1];
+    struct ViewTab
+    {
+        ViewTab() : primaryView(0), secondaryView(0), splitter(0) {}
+        DolphinViewContainer* primaryView;
+        DolphinViewContainer* secondaryView;
+        QSplitter* splitter;
+    };
+
+    int m_tabIndex;
+    QList<ViewTab> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
 
@@ -397,7 +413,7 @@ inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
 
 inline bool DolphinMainWindow::isSplit() const
 {
-    return m_viewContainer[SecondaryView] != 0;
+    return m_viewTab[m_tabIndex].secondaryView != 0;
 }
 
 inline KNewMenu* DolphinMainWindow::newMenu() const

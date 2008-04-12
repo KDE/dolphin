@@ -4,6 +4,7 @@
   <Menu name="file">
    <Action name="create_new" />
    <Action name="new_window" />
+   <Action name="new_tab" />
    <Separator/>
    <Action name="rename" />
    <Action name="move_to_trash" />
