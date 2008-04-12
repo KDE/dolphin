@@ -311,8 +311,13 @@ private slots:
     /** Open a new main window. */
     void openNewMainWindow();
 
-    /** Opens a new empty view that is part of a tab. */
+    /** Opens a new view with the current URL that is part of a tab. */
     void openNewTab();
+
+    /**
+     * Opens a new tab showing the URL \a url.
+     */
+    void openNewTab(const KUrl& url);
 
     /** Toggles the active view if two views are shown within the main window. */
     void toggleActiveView();
@@ -359,11 +364,6 @@ private:
      * is updated to match with the text and the currently active view.
      */
     void updateSplitAction();
-
-    /**
-     * Opens a new tab showing the URL \a url.
-     */
-    void openNewTab(const KUrl& url);
 
 private:
     /**

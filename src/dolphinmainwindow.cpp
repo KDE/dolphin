@@ -262,6 +262,25 @@ void DolphinMainWindow::openNewTab()
     m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
 }
 
+void DolphinMainWindow::openNewTab(const KUrl& url)
+{
+    if (m_viewTab.count() == 1) {
+        // Only one view is open currently and hence no tab is shown at
+        // all. Before creating a tab for 'url', provide a tab for the current URL.
+        m_tabBar->addTab(KIcon("folder"), m_activeViewContainer->url().fileName());
+    }
+
+    m_tabBar->addTab(KIcon("folder"), url.fileName());
+
+    ViewTab viewTab;
+    viewTab.splitter = new QSplitter(this);
+    viewTab.primaryView = new DolphinViewContainer(this, viewTab.splitter, url);
+    connectViewSignals(viewTab.primaryView);
+    viewTab.primaryView->view()->reload();
+
+    m_viewTab.append(viewTab);
+}
+
 void DolphinMainWindow::toggleActiveView()
 {
     if (m_viewTab[m_tabIndex].secondaryView == 0) {
@@ -1058,6 +1077,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(toggleActiveView()));
     connect(view, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
             this, SLOT(slotDoingOperation(KonqFileUndoManager::CommandType)));
+    connect(view, SIGNAL(tabRequested(const KUrl&)),
+            this, SLOT(openNewTab(const KUrl&)));
 
     const KUrlNavigator* navigator = container->urlNavigator();
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),
@@ -1083,25 +1104,6 @@ void DolphinMainWindow::updateSplitAction()
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setIcon(KIcon("view-right-new"));
     }
-}
-
-void DolphinMainWindow::openNewTab(const KUrl& url)
-{
-    if (m_viewTab.count() == 1) {
-        // Only one view is open currently and hence no tab is shown at
-        // all. Before creating a tab for 'url', provide a tab for the current URL.
-        m_tabBar->addTab(KIcon("folder"), m_activeViewContainer->url().fileName());
-    }
-
-    m_tabBar->addTab(KIcon("folder"), url.fileName());
-
-    ViewTab viewTab;
-    viewTab.splitter = new QSplitter(this);
-    viewTab.primaryView = new DolphinViewContainer(this, viewTab.splitter, url);
-    connectViewSignals(viewTab.primaryView);
-    viewTab.primaryView->view()->reload();
-
-    m_viewTab.append(viewTab);
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :

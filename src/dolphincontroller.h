@@ -325,6 +325,11 @@ signals:
     void itemEntered(const KFileItem& item);
 
     /**
+     * Is emitted if a new tab should be opened for the URL \a url.
+     */
+    void tabRequested(const KUrl& url);
+
+    /**
      * Is emitted if the mouse cursor has entered
      * the viewport (see emitViewportEntered().
      * The abstract Dolphin view connects to this signal.
@@ -343,9 +348,13 @@ signals:
      */
     void zoomOut();
 
+private slots:
+    void updateOpenTabState();
+
 private:
     bool m_zoomInPossible;
     bool m_zoomOutPossible;
+    bool m_openTab; // TODO: this is a workaround until  Qt-issue 176832 has been fixed
     KUrl m_url;
     DolphinView* m_dolphinView;
     QAbstractItemView* m_itemView;

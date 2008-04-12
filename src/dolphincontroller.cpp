@@ -21,11 +21,13 @@
 
 #include <kdirmodel.h>
 #include <QAbstractProxyModel>
+#include <QApplication>
 
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
     m_zoomInPossible(false),
     m_zoomOutPossible(false),
+    m_openTab(false),
     m_url(),
     m_dolphinView(dolphinView),
     m_itemView(0)
@@ -46,7 +48,16 @@ void DolphinController::setUrl(const KUrl& url)
 
 void DolphinController::setItemView(QAbstractItemView* view)
 {
+    if (m_itemView != 0) {
+        disconnect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
+                   this, SLOT(updateOpenTabState()));
+    }
+
     m_itemView = view;
+
+    // TODO: this is a workaround until  Qt-issue 176832 has been fixed
+    connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
+            this, SLOT(updateOpenTabState()));
 }
 
 void DolphinController::triggerUrlChangeRequest(const KUrl& url)
@@ -134,12 +145,21 @@ KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
 
 void DolphinController::triggerItem(const QModelIndex& index)
 {
+    const bool openTab = m_openTab;
+    m_openTab = false;
+
     const KFileItem item = itemForIndex(index);
     if (index.isValid() && (index.column() == KDirModel::Name)) {
-        emit itemTriggered(item);
+        if (openTab && item.isDir()) {
+            emit tabRequested(item.url());
+        } else {
+            emit itemTriggered(item);
+        }
     } else {
         m_itemView->clearSelection();
-        emit itemEntered(item);
+        if (!openTab) {
+            emit itemEntered(item);
+        }
     }
 }
 
@@ -154,6 +174,11 @@ void DolphinController::emitItemEntered(const QModelIndex& index)
 void DolphinController::emitViewportEntered()
 {
     emit viewportEntered();
+}
+
+void DolphinController::updateOpenTabState()
+{
+    m_openTab = QApplication::mouseButtons() & Qt::MidButton;
 }
 
 #include "dolphincontroller.moc"

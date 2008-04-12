@@ -114,6 +114,8 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(updateAdditionalInfo(const KFileItemDelegate::InformationList&)));
     connect(m_controller, SIGNAL(itemTriggered(const KFileItem&)),
             this, SLOT(triggerItem(const KFileItem&)));
+    connect(m_controller, SIGNAL(tabRequested(const KUrl&)),
+            this, SIGNAL(tabRequested(const KUrl&)));
     connect(m_controller, SIGNAL(activated()),
             this, SLOT(activate()));
     connect(m_controller, SIGNAL(itemEntered(const KFileItem&)),

@@ -412,9 +412,14 @@ signals:
     void urlChanged(const KUrl& url);
 
     /**
-     * Is emitted when clicking on an item
+     * Is emitted when clicking on an item with the left mouse button.
      */
     void itemTriggered(const KFileItem& item);
+
+    /**
+     * Is emitted if a new tab should be opened for the URL \a url.
+     */
+    void tabRequested(const KUrl& url);
 
     /**
      * Is emitted if the view mode (IconsView, DetailsView,
