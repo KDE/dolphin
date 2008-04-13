@@ -268,6 +268,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
         // Only one view is open currently and hence no tab is shown at
         // all. Before creating a tab for 'url', provide a tab for the current URL.
         m_tabBar->addTab(KIcon("folder"), m_activeViewContainer->url().fileName());
+        m_tabBar->blockSignals(false);
     }
 
     m_tabBar->addTab(KIcon("folder"), url.fileName());
@@ -693,6 +694,46 @@ void DolphinMainWindow::setActiveTab(int index)
                                                          viewTab.secondaryView);
 }
 
+void DolphinMainWindow::closeTab(int index)
+{
+    Q_ASSERT(index >= 0);
+    Q_ASSERT(index < m_viewTab.count());
+    if (m_viewTab.count() == 1) {
+          // the last tab may never get closed
+        return;
+    }
+
+    if (index == m_tabIndex) {
+        // The tab that should be closed is the active tab. Activate the
+        // previous tab before closing the tab.
+        setActiveTab((index > 0) ? index - 1 : 1);
+    }
+
+    // delete tab
+    m_viewTab[index].primaryView->deleteLater();
+    if (m_viewTab[index].secondaryView != 0) {
+        m_viewTab[index].secondaryView->deleteLater();
+    }
+    m_viewTab[index].splitter->deleteLater();
+    m_viewTab.erase(m_viewTab.begin() + index);
+
+    m_tabBar->blockSignals(true);
+    m_tabBar->removeTab(index);
+
+    if (m_tabIndex > index) {
+        m_tabIndex--;
+        Q_ASSERT(m_tabIndex >= 0);
+    }
+
+    // if only one tab is left, also remove the tab entry so that
+    // closing the last tab is not possible
+    if (m_viewTab.count() == 1) {
+        m_tabBar->removeTab(0);
+    } else {
+        m_tabBar->blockSignals(false);
+    }
+}
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -729,8 +770,12 @@ void DolphinMainWindow::init()
 
     m_tabBar = new KTabBar(this);
     m_tabBar->setHoverCloseButton(true);
+    m_tabBar->setHoverCloseButtonDelayed(false);
     connect(m_tabBar, SIGNAL(currentChanged(int)),
             this, SLOT(setActiveTab(int)));
+    connect(m_tabBar, SIGNAL(closeRequest(int)),
+           this, SLOT(closeTab(int)));
+    m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
     QWidget* centralWidget = new QWidget(this);
     m_centralWidgetLayout = new QVBoxLayout(centralWidget);

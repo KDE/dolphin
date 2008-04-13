@@ -331,6 +331,11 @@ private slots:
      */
     void setActiveTab(int index);
 
+    /**
+     * Closes the tab with the index \index and activates the tab with index - 1.
+     */
+    void closeTab(int index);
+
 private:
     DolphinMainWindow(int id);
     void init();
