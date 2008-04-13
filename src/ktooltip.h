@@ -128,7 +128,7 @@ public:
       * that accepts input. Any mouse events that occur outside this
       * region will be sent to the widget below the tooltip.
       *
-      * The default implemenation returns a region containing the
+      * The default implementation returns a region containing the
       * bounding rect of the tooltip.
       *
       * This function will only be called if haveAlphaChannel()
@@ -139,7 +139,7 @@ public:
      /**
       * Reimplement this function to specify a shape mask for the tooltip.
       *
-      * The default implemenation returns a region containing the
+      * The default implementation returns a region containing the
       * bounding rect of the tooltip.
       *
       * This function will only be called if haveAlphaChannel()
