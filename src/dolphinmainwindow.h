@@ -391,7 +391,8 @@ private:
 
     struct ViewTab
     {
-        ViewTab() : primaryView(0), secondaryView(0), splitter(0) {}
+        ViewTab() : isPrimaryViewActive(true), primaryView(0), secondaryView(0), splitter(0) {}
+        bool isPrimaryViewActive;
         DolphinViewContainer* primaryView;
         DolphinViewContainer* secondaryView;
         QSplitter* splitter;

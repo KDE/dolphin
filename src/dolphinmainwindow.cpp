@@ -673,6 +673,7 @@ void DolphinMainWindow::setActiveTab(int index)
     }
 
     // hide current tab content
+    m_viewTab[m_tabIndex].isPrimaryViewActive = m_viewTab[m_tabIndex].primaryView->isActive();
     QSplitter* splitter = m_viewTab[m_tabIndex].splitter;
     m_centralWidgetLayout->removeWidget(splitter);
     splitter->hide();
@@ -688,7 +689,8 @@ void DolphinMainWindow::setActiveTab(int index)
         viewTab.secondaryView->show();
     }
 
-    setActiveViewContainer(viewTab.primaryView);
+    setActiveViewContainer(viewTab.isPrimaryViewActive ? viewTab.primaryView :
+                                                         viewTab.secondaryView);
 }
 
 void DolphinMainWindow::init()
@@ -777,7 +779,13 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
 
     m_activeViewContainer->setActive(false);
     m_activeViewContainer = viewContainer;
+
+    // Activating the view container might trigger a recursive setActiveViewContainer() call
+    // inside DolphinMainWindow::toggleActiveView() when having a split view. Temporary
+    // disconnect the activated() signal in this case:
+    disconnect(m_activeViewContainer->view(), SIGNAL(activated()), this, SLOT(toggleActiveView()));
     m_activeViewContainer->setActive(true);
+    connect(m_activeViewContainer->view(), SIGNAL(activated()), this, SLOT(toggleActiveView()));
 
     m_actionHandler->setCurrentView(viewContainer->view());
 
