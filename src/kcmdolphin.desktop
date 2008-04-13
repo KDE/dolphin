@@ -9,10 +9,14 @@ Name[sr]=Делфин
 Name[ta]=டால்பின்
 Name[x-test]=xxDolphinxx
 Comment=This service allows configuration of the Dolphin views.
+Comment[ca]=Aquest servei permet la configuració de les vistes del Dolphin.
+Comment[el]=Αυτή η υπηρεσία επιτρέπει τη ρύθμιση των προβολών του Dolphin.
 Comment[fi]=Tämä palvelu sallii Dolphinin näkymien muokkauksen.
 Comment[km]=សេវា​នេះ​អនុញ្ញាត​ឲ្យ​កំណត់​រចនាសម្ព័ន្ធ​ទិដ្ឋភាព​ Dolphin ។
+Comment[pt]=Este serviço permite-lhe configurar as vistas do Dolphin.
 Comment[pt_BR]=Este serviço permite configurar as visualizações do Dolphin.
 Comment[th]=บริการนี้ใช้ในการปรับแต่งมุมมองของดอลฟิน
+Comment[uk]=Ця служба дасть змогу налаштувати перегляди Dolphin.
 Comment[zh_TW]=此服務允許設定 Dolphin 的檢視。
 
 [Desktop Entry]
@@ -26,7 +30,9 @@ X-KDE-PluginKeyword=dolphin
 X-KDE-ParentApp=kcontrol
 
 Name=Views
+Name[ca]=Vistes
 Name[de]=Ansichten
+Name[el]=Προβολές
 Name[es]=Vistas
 Name[fi]=Näkymät
 Name[ga]=Amhairc
@@ -43,7 +49,9 @@ Name[x-test]=xxViewsxx
 Name[zh_CN]=视图
 Name[zh_TW]=檢視
 Comment=Configure file manager settings
+Comment[ca]=Configura les opcions del gestor de fitxers
 Comment[de]=Einstellungen zum Dateimanager vornehmen
+Comment[el]=Ρύθμιση επιλογών διαχείρισης αρχείων
 Comment[es]=Configurar las preferencias gestor de archivos
 Comment[fi]=Muokkaa tiedostonhallinnan asetuksia
 Comment[ga]=Cumraigh socruithe bhainisteoir na gcomhad
