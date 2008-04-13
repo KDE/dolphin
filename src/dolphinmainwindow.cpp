@@ -675,19 +675,19 @@ void DolphinMainWindow::setActiveTab(int index)
     // hide current tab content
     m_viewTab[m_tabIndex].isPrimaryViewActive = m_viewTab[m_tabIndex].primaryView->isActive();
     QSplitter* splitter = m_viewTab[m_tabIndex].splitter;
-    m_centralWidgetLayout->removeWidget(splitter);
     splitter->hide();
+    m_centralWidgetLayout->removeWidget(splitter);
 
     // show active tab content
     m_tabIndex = index;
 
     ViewTab& viewTab = m_viewTab[index];
     m_centralWidgetLayout->addWidget(viewTab.splitter);
-    viewTab.splitter->show();
     viewTab.primaryView->show();
     if (viewTab.secondaryView != 0) {
         viewTab.secondaryView->show();
     }
+    viewTab.splitter->show();
 
     setActiveViewContainer(viewTab.isPrimaryViewActive ? viewTab.primaryView :
                                                          viewTab.secondaryView);
