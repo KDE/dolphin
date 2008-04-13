@@ -18,9 +18,10 @@
   * Boston, MA 02110-1301, USA.
   */
 
+#include "dolphincategorydrawer.h"
+
 #include "config-nepomuk.h"
 
-#include "dolphincategorydrawer.h"
 #include <QPainter>
 #include <QFile>
 #include <QDir>
