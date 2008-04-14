@@ -769,12 +769,11 @@ void DolphinMainWindow::init()
     m_actionHandler->setCurrentView(view);
 
     m_tabBar = new KTabBar(this);
-    m_tabBar->setHoverCloseButton(true);
-    m_tabBar->setHoverCloseButtonDelayed(false);
+    m_tabBar->setCloseButtonEnabled(true);
     connect(m_tabBar, SIGNAL(currentChanged(int)),
             this, SLOT(setActiveTab(int)));
     connect(m_tabBar, SIGNAL(closeRequest(int)),
-           this, SLOT(closeTab(int)));
+            this, SLOT(closeTab(int)));
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
     QWidget* centralWidget = new QWidget(this);
