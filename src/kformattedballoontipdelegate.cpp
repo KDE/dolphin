@@ -74,7 +74,7 @@ QRegion KFormattedBalloonTipDelegate::inputShape(const KStyleOptionToolTip *opti
     QPainter p(&bitmap);
     p.setPen(QPen(Qt::color1, 1));
     p.setBrush(Qt::color1);
-    p.drawPath(createPath(option, &QRect()));
+    p.drawPath(createPath(option, 0));
 
     return QRegion(bitmap);
 }
