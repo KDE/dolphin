@@ -219,6 +219,7 @@ bool DolphinPart::openUrl(const KUrl& url)
     emit m_extension->setLocationBarUrl(prettyUrl);
     emit started(0); // get the wheel to spin
     m_view->setUrl(url);
+    emit aboutToOpenURL();
     if (reload)
         m_view->reload();
     return true;

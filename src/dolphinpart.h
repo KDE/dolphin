@@ -89,6 +89,12 @@ Q_SIGNALS:
      */
     void viewModeChanged();
 
+    /**
+     * Emitted whenever the current URL is about to be changed.
+     */
+    void aboutToOpenURL();
+
+
 private Q_SLOTS:
     void slotCompleted(const KUrl& url);
     void slotCanceled(const KUrl& url);
