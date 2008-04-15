@@ -364,13 +364,13 @@ void InfoSidebarPage::showMetaInfo()
         }
 
         if (m_metaDataWidget != 0) {
-            m_metaDataWidget->setFile(fileItem.url());
+            m_metaDataWidget->setFile(fileItem.targetUrl());
         }
     } else {
         if (m_metaDataWidget != 0) {
             KUrl::List urls;
             foreach (const KFileItem& item, selectedItems) {
-                urls.append(item.url());
+                urls.append(item.targetUrl());
             }
             m_metaDataWidget->setFiles(urls);
         }
