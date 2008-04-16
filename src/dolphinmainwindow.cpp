@@ -753,8 +753,9 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
     QAction* selectedAction = menu.exec(pos);
     if (selectedAction == newTabAction) {
         const ViewTab& tab = m_viewTab[index];
-        const KUrl url = tab.primaryView->isActive() ? tab.primaryView->url() :
-                                                       tab.secondaryView->url();
+        Q_ASSERT(tab.primaryView != 0);
+        const KUrl url = (tab.secondaryView != 0) && tab.secondaryView->isActive() ?
+                         tab.secondaryView->url() : tab.primaryView->url();
         openNewTab(url);
         m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
     } else if (selectedAction == closeOtherTabsAction) {
