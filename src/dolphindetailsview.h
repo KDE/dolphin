@@ -26,6 +26,7 @@
 #include <libdolphin_export.h>
 
 class DolphinController;
+class SelectionManager;
 
 /**
  * @brief Represents the details view which shows the name, size,
@@ -158,6 +159,7 @@ private:
 	bool m_autoResize;  // if true, the columns are resized automatically to the available width
 
     DolphinController* m_controller;
+    SelectionManager* m_selectionManager;
 
     QFont m_font;
     QSize m_decorationSize;

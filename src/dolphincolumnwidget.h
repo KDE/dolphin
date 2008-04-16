@@ -37,6 +37,7 @@ class KDirLister;
 class KJob;
 class KFileItem;
 class KFileItemList;
+class SelectionManager;
 class QPixmap;
 
 /**
@@ -133,6 +134,7 @@ private:
 private:
     bool m_active;
     DolphinColumnView* m_view;
+    SelectionManager* m_selectionManager;
     KUrl m_url;      // URL of the directory that is shown
     KUrl m_childUrl; // URL of the next column that is shown
 

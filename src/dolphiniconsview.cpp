@@ -41,6 +41,7 @@
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KCategorizedView(parent),
     m_controller(controller),
+    m_selectionManager(0),
     m_categoryDrawer(0),
     m_font(),
     m_decorationSize(),
@@ -68,11 +69,11 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
         if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
-            SelectionManager* selManager = new SelectionManager(this);
-            connect(selManager, SIGNAL(selectionChanged()),
+            m_selectionManager = new SelectionManager(this);
+            connect(m_selectionManager, SIGNAL(selectionChanged()),
                     this, SLOT(requestActivation()));
             connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
-                    selManager, SLOT(reset()));
+                    m_selectionManager, SLOT(reset()));
         }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
@@ -247,6 +248,10 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
 {
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
+    }
+
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
@@ -452,6 +457,10 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
     if (delegate != 0) {
         delegate->setMaximumSize(m_itemSize);
+    }
+
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
     }
 }
 

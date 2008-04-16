@@ -47,6 +47,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     QTreeView(parent),
 	m_autoResize(true),
     m_controller(controller),
+    m_selectionManager(0),
     m_font(),
     m_decorationSize(),
     m_showElasticBand(false),
@@ -98,12 +99,12 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
         if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
-            SelectionManager* selManager = new SelectionManager(this);
-            connect(selManager, SIGNAL(selectionChanged()),
+            m_selectionManager = new SelectionManager(this);
+            connect(m_selectionManager, SIGNAL(selectionChanged()),
                     this, SLOT(requestActivation()));
             connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
-                    selManager, SLOT(reset()));
-        }
+                    m_selectionManager, SLOT(reset()));
+         }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
@@ -345,11 +346,16 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 
 void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 {
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
+    }
+
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
         return;
     }
+
     QTreeView::wheelEvent(event);
 }
 
@@ -554,6 +560,10 @@ void DolphinDetailsView::updateDecorationSize()
 
     m_controller->setZoomInPossible(isZoomInPossible());
     m_controller->setZoomOutPossible(isZoomOutPossible());
+
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
+    }
 
     doItemsLayout();
 }

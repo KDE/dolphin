@@ -53,6 +53,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     QListView(parent),
     m_active(true),
     m_view(columnView),
+    m_selectionManager(0),
     m_url(url),
     m_childUrl(),
     m_font(),
@@ -125,11 +126,11 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     const bool useSelManager = KGlobalSettings::singleClick() &&
                                DolphinSettings::instance().generalSettings()->showSelectionToggle();
     if (useSelManager) {
-        SelectionManager* selManager = new SelectionManager(this);
-        connect(selManager, SIGNAL(selectionChanged()),
+        m_selectionManager = new SelectionManager(this);
+        connect(m_selectionManager, SIGNAL(selectionChanged()),
                 this, SLOT(requestActivation()));
         connect(m_view->m_controller, SIGNAL(urlChanged(const KUrl&)),
-                selManager, SLOT(reset()));
+                m_selectionManager, SLOT(reset()));
     }
 
     new KMimeTypeResolver(this, m_dolphinModel);
@@ -162,6 +163,9 @@ void DolphinColumnWidget::setDecorationSize(const QSize& size)
     doItemsLayout();
     if (m_iconManager != 0) {
         m_iconManager->updatePreviews();
+    }
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
     }
 }
 
@@ -365,11 +369,16 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
 {
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
+    }
+
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
         return;
     }
+
     QListView::wheelEvent(event);
 }
 

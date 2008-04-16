@@ -32,6 +32,7 @@
 #include <libdolphin_export.h>
 
 class DolphinController;
+class SelectionManager;
 class DolphinCategoryDrawer;
 
 /**
@@ -97,6 +98,7 @@ private:
 
 private:
     DolphinController* m_controller;
+    SelectionManager* m_selectionManager;
     DolphinCategoryDrawer* m_categoryDrawer;
 
     QFont m_font;
