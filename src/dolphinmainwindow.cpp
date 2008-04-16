@@ -180,10 +180,9 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         updateEditActions();
         updateViewActions();
         updateGoActions();
-        const QString caption = url.fileName();
-        setCaption(caption);
+        setCaption(url.fileName());
         if (m_viewTab.count() > 1) {
-            m_tabBar->setTabText(m_tabIndex, caption);
+            m_tabBar->setTabText(m_tabIndex, tabName(url));
         }
         emit urlChanged(url);
     }
@@ -267,11 +266,11 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     if (m_viewTab.count() == 1) {
         // Only one view is open currently and hence no tab is shown at
         // all. Before creating a tab for 'url', provide a tab for the current URL.
-        m_tabBar->addTab(KIcon("folder"), m_activeViewContainer->url().fileName());
+        m_tabBar->addTab(KIcon("folder"), tabName(m_activeViewContainer->url()));
         m_tabBar->blockSignals(false);
     }
 
-    m_tabBar->addTab(KIcon("folder"), url.fileName());
+    m_tabBar->addTab(KIcon("folder"), tabName(url));
 
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
@@ -694,6 +693,11 @@ void DolphinMainWindow::setActiveTab(int index)
                                                          viewTab.secondaryView);
 }
 
+void DolphinMainWindow::closeTab()
+{
+    closeTab(m_tabBar->currentIndex());
+}
+
 void DolphinMainWindow::closeTab(int index)
 {
     Q_ASSERT(index >= 0);
@@ -731,6 +735,38 @@ void DolphinMainWindow::closeTab(int index)
         m_tabBar->removeTab(0);
     } else {
         m_tabBar->blockSignals(false);
+    }
+}
+
+void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
+{
+    KMenu menu(this);
+
+    QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
+    newTabAction->setShortcut(actionCollection()->action("new_tab")->shortcut());
+
+    QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Other Tabs"));
+
+    QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
+    closeTabAction->setShortcut(actionCollection()->action("close_tab")->shortcut());
+
+    QAction* selectedAction = menu.exec(pos);
+    if (selectedAction == newTabAction) {
+        const ViewTab& tab = m_viewTab[index];
+        const KUrl url = tab.primaryView->isActive() ? tab.primaryView->url() :
+                                                       tab.secondaryView->url();
+        openNewTab(url);
+        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+    } else if (selectedAction == closeOtherTabsAction) {
+        const int count = m_tabBar->count();
+        for (int i = 0; i < index; ++i) {
+            closeTab(0);
+        }
+        for (int i = index + 1; i < count; ++i) {
+            closeTab(1);
+        }
+    } else if (selectedAction == closeTabAction) {
+        closeTab(index);
     }
 }
 
@@ -774,6 +810,8 @@ void DolphinMainWindow::init()
             this, SLOT(setActiveTab(int)));
     connect(m_tabBar, SIGNAL(closeRequest(int)),
             this, SLOT(closeTab(int)));
+    connect(m_tabBar, SIGNAL(contextMenu(int, const QPoint&)),
+            this, SLOT(openTabContextMenu(int, const QPoint&)));
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
     QWidget* centralWidget = new QWidget(this);
@@ -839,10 +877,9 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     updateGoActions();
 
     const KUrl& url = m_activeViewContainer->url();
-    const QString caption = url.fileName();
-    setCaption(caption);
+    setCaption(url.fileName());
     if (m_viewTab.count() > 1) {
-        m_tabBar->setTabText(m_tabIndex, caption);
+        m_tabBar->setTabText(m_tabIndex, tabName(url));
     }
 
     emit urlChanged(url);
@@ -869,6 +906,11 @@ void DolphinMainWindow::setupActions()
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
     newTab->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_N);
     connect(newTab, SIGNAL(triggered()), this, SLOT(openNewTab()));
+
+    QAction* closeTab = new QAction(KIcon("tab-close"), i18nc("@action:inmenu File", "Close Tab"), this);
+    closeTab->setShortcut(Qt::CTRL | Qt::Key_W);
+    connect(closeTab, SIGNAL(triggered()), this, SLOT(closeTab()));
+    actionCollection()->addAction("close_tab", closeTab);
 
     KAction* properties = actionCollection()->addAction("properties");
     properties->setText(i18nc("@action:inmenu File", "Properties"));
@@ -1156,6 +1198,11 @@ void DolphinMainWindow::updateSplitAction()
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
         splitAction->setIcon(KIcon("view-right-new"));
     }
+}
+
+QString DolphinMainWindow::tabName(const KUrl& url) const
+{
+    return url.equals(KUrl("file:///")) ? "/" : url.fileName();
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :

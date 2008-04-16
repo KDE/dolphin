@@ -331,10 +331,19 @@ private slots:
      */
     void setActiveTab(int index);
 
+    /** Closes the currently active tab. */
+    void closeTab();
+
     /**
      * Closes the tab with the index \index and activates the tab with index - 1.
      */
     void closeTab(int index);
+
+    /**
+     * Opens a context menu for the tab with the index \a index
+     * on the position \a pos.
+     */
+    void openTabContextMenu(int index, const QPoint& pos);
 
 private:
     DolphinMainWindow(int id);
@@ -369,6 +378,9 @@ private:
      * is updated to match with the text and the currently active view.
      */
     void updateSplitAction();
+
+    /** Returns the name of the tab for the URL \a url. */
+    QString tabName(const KUrl& url) const;
 
 private:
     /**
