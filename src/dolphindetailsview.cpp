@@ -134,6 +134,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     updateDecorationSize();
 
     setFocus();
+    viewport()->installEventFilter(this);
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
@@ -361,6 +362,18 @@ void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModel
     if (QApplication::mouseButtons() == Qt::NoButton) {
         selectionModel()->select(current, QItemSelectionModel::ClearAndSelect);
     }
+}
+
+bool DolphinDetailsView::eventFilter(QObject* watched, QEvent* event)
+{
+    if ((watched == viewport()) && (event->type() == QEvent::Leave)) {
+        // if the mouse is above an item and moved very fast outside the widget,
+        // no viewportEntered() signal might be emitted although the mouse has been moved
+        // above the viewport
+        m_controller->emitViewportEntered();
+    }
+
+    return QTreeView::eventFilter(watched, event);
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)

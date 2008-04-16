@@ -276,6 +276,15 @@ void DolphinIconsView::showEvent(QShowEvent* event)
     KCategorizedView::showEvent(event);
 }
 
+void DolphinIconsView::leaveEvent(QEvent* event)
+{
+    KCategorizedView::leaveEvent(event);
+    // if the mouse is above an item and moved very fast outside the widget,
+    // no viewportEntered() signal might be emitted although the mouse has been moved
+    // above the viewport
+    m_controller->emitViewportEntered();
+}
+
 void DolphinIconsView::slotShowPreviewChanged()
 {
     const DolphinView* view = m_controller->dolphinView();

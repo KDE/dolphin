@@ -373,6 +373,15 @@ void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
     QListView::wheelEvent(event);
 }
 
+void DolphinColumnWidget::leaveEvent(QEvent* event)
+{
+    QListView::leaveEvent(event);
+    // if the mouse is above an item and moved very fast outside the widget,
+    // no viewportEntered() signal might be emitted although the mouse has been moved
+    // above the viewport
+    m_view->m_controller->emitViewportEntered();
+}
+
 void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
     QListView::selectionChanged(selected, deselected);

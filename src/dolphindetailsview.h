@@ -60,6 +60,7 @@ protected:
     virtual void resizeEvent(QResizeEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+    virtual bool eventFilter(QObject* watched, QEvent* event);
 
 private slots:
     /**
