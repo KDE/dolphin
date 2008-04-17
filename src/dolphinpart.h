@@ -46,7 +46,7 @@ class DolphinPart : public KParts::ReadOnlyPart
     Q_PROPERTY( QString currentViewMode READ currentViewMode WRITE setCurrentViewMode )
 
 public:
-    explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QStringList& args);
+    explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
     ~DolphinPart();
 
     static KAboutData* createAboutData();

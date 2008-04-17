@@ -25,24 +25,27 @@
 
 #include <konq_operations.h>
 
-#include <kpropertiesdialog.h>
-#include <kglobalsettings.h>
+#include <kaboutdata.h>
 #include <kactioncollection.h>
-#include <kdirlister.h>
-#include <kiconloader.h>
-#include <kmessagebox.h>
-#include <kparts/genericfactory.h>
-#include <ktoggleaction.h>
 #include <kconfiggroup.h>
+#include <kdebug.h>
+#include <kdirlister.h>
+#include <kglobalsettings.h>
+#include <kiconloader.h>
+#include <klocale.h>
+#include <kmessagebox.h>
+#include <kpluginfactory.h>
+#include <kpropertiesdialog.h>
+#include <ktoggleaction.h>
 
 #include <QActionGroup>
 #include <QApplication>
 #include <QClipboard>
 
-typedef KParts::GenericFactory<DolphinPart> DolphinPartFactory;
-K_EXPORT_COMPONENT_FACTORY(dolphinpart, DolphinPartFactory)
+K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
+K_EXPORT_PLUGIN(DolphinPartFactory("dolphin"))
 
-DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringList& args)
+DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
 {
     Q_UNUSED(args)
