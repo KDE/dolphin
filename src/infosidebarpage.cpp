@@ -261,7 +261,7 @@ void InfoSidebarPage::showItemInfo()
         connect(job, SIGNAL(failed(const KFileItem&)),
                 this, SLOT(showIcon(const KFileItem&)));
 
-        m_nameLabel->setText( !m_fileItem.isNull() && selectedItems.isEmpty() ? m_fileItem.text() : ( !selectedItems.isEmpty() ? selectedItems[0].text() : file.fileName() ) );
+        m_nameLabel->setText(file.fileName());
     }
 
     showMetaInfo();
