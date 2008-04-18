@@ -25,6 +25,7 @@
 #include "dolphinview.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
+#include "fileitemcapabilities.h"
 
 #include <kactioncollection.h>
 #include <kfileplacesmodel.h>
@@ -54,6 +55,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const KFileItem& fileInfo,
                                        const KUrl& baseUrl) :
     m_mainWindow(parent),
+    m_capabilities(0),
     m_fileInfo(fileInfo),
     m_baseUrl(baseUrl),
     m_context(NoContext)
@@ -67,6 +69,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
 
 DolphinContextMenu::~DolphinContextMenu()
 {
+    delete m_capabilities;
+    m_capabilities = 0;
 }
 
 void DolphinContextMenu::open()
@@ -193,6 +197,7 @@ void DolphinContextMenu::openItemContextMenu()
     // Insert 'Copy To' and 'Move To' sub menus
     if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
         m_copyToMenu.setItems(m_selectedItems);
+        m_copyToMenu.setReadOnly(!capabilities().supportsMoving());
         m_copyToMenu.addActionsTo(popup);
         popup->addSeparator();
     }
@@ -430,13 +435,21 @@ QAction* DolphinContextMenu::createPasteAction()
         action = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste Into Folder"), this);
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
-        action->setEnabled(!pasteData.isEmpty());
+        action->setEnabled(!pasteData.isEmpty() && capabilities().supportsWriting());
         connect(action, SIGNAL(triggered()), m_mainWindow, SLOT(pasteIntoFolder()));
     } else {
         action = m_mainWindow->actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
     }
 
     return action;
+}
+
+FileItemCapabilities& DolphinContextMenu::capabilities()
+{
+    if (m_capabilities == 0) {
+        m_capabilities = new FileItemCapabilities(m_selectedItems);
+    }
+    return *m_capabilities;
 }
 
 #include "dolphincontextmenu.moc"

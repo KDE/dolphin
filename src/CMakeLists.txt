@@ -98,6 +98,7 @@ set(dolphin_SRCS
     dolphinfileplacesview.cpp
     dolphinsettingsdialog.cpp
     draganddrophelper.cpp
+    fileitemcapabilities.cpp
     filterbar.cpp
     generalsettingspage.cpp
     generalviewsettingspage.cpp
