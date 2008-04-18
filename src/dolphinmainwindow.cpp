@@ -32,6 +32,7 @@
 #include "dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
 #include "dolphinviewcontainer.h"
+#include "fileitemcapabilities.h"
 #include "infosidebarpage.h"
 #include "metadatawidget.h"
 #include "mainwindowadaptor.h"
@@ -457,10 +458,6 @@ void DolphinMainWindow::paste()
 void DolphinMainWindow::updatePasteAction()
 {
     QAction* pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
-    if (pasteAction == 0) {
-        return;
-    }
-
     QPair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
     pasteAction->setEnabled(pasteInfo.first);
     pasteAction->setText(pasteInfo.second);
@@ -1108,26 +1105,11 @@ void DolphinMainWindow::updateEditActions()
     } else {
         stateChanged("has_selection");
 
-        QAction* renameAction = actionCollection()->action("rename");
-        if (renameAction != 0) {
-            renameAction->setEnabled(true);
-        }
-
-        bool enableMoveToTrash = true;
-
-        KFileItemList::const_iterator it = list.begin();
-        const KFileItemList::const_iterator end = list.end();
-        while (it != end) {
-            const KUrl& url = (*it).url();
-            // only enable the 'Move to Trash' action for local files
-            if (!url.isLocalFile()) {
-                enableMoveToTrash = false;
-            }
-            ++it;
-        }
-
-        QAction* moveToTrashAction = actionCollection()->action("move_to_trash");
-        moveToTrashAction->setEnabled(enableMoveToTrash);
+        FileItemCapabilities capabilities(list);
+        actionCollection()->action("rename")->setEnabled(capabilities.supportsWriting());
+        const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsWriting();
+        actionCollection()->action("move_to_trash")->setEnabled(enableMoveToTrash);
+        actionCollection()->action("delete")->setEnabled(capabilities.supportsWriting());
     }
     updatePasteAction();
 }

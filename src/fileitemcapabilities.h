@@ -37,6 +37,7 @@ public:
     bool supportsDeleting() const;
     bool supportsWriting() const;
     bool supportsMoving() const;
+    bool isLocal() const;
 
 private:
     bool m_supportsReading : 1;
@@ -64,6 +65,11 @@ inline bool FileItemCapabilities::supportsWriting() const
 inline bool FileItemCapabilities::supportsMoving() const
 {
     return m_supportsMoving;
+}
+
+inline bool FileItemCapabilities::isLocal() const
+{
+    return m_isLocal;
 }
 
 #endif

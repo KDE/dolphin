@@ -95,6 +95,7 @@
   <enable>
    <Action name="edit_cut" />
    <Action name="edit_copy" />
+   <Action name="rename" />
    <Action name="move_to_trash" />
    <Action name="delete" />
    <Action name="properties" />
