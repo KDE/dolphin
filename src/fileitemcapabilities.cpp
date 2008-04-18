@@ -36,7 +36,7 @@ FileItemCapabilities::FileItemCapabilities(const KFileItemList& items) :
         const KUrl url = item.url();
         m_isLocal = m_isLocal && url.isLocalFile();
         m_supportsReading  = m_supportsReading  && KProtocolManager::supportsReading(url);
-        m_supportsDeleting = m_supportsDeleting && KProtocolManager::supportsReading(url);
+        m_supportsDeleting = m_supportsDeleting && KProtocolManager::supportsDeleting(url);
         m_supportsWriting  = m_supportsWriting  && KProtocolManager::supportsWriting(url);
         m_supportsMoving   = m_supportsMoving   && KProtocolManager::supportsMoving(url);
 

@@ -1106,10 +1106,10 @@ void DolphinMainWindow::updateEditActions()
         stateChanged("has_selection");
 
         FileItemCapabilities capabilities(list);
-        actionCollection()->action("rename")->setEnabled(capabilities.supportsWriting());
-        const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsWriting();
+        actionCollection()->action("rename")->setEnabled(capabilities.supportsMoving());
+        const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
         actionCollection()->action("move_to_trash")->setEnabled(enableMoveToTrash);
-        actionCollection()->action("delete")->setEnabled(capabilities.supportsWriting());
+        actionCollection()->action("delete")->setEnabled(capabilities.supportsDeleting());
     }
     updatePasteAction();
 }
