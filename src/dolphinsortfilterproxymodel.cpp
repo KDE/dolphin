@@ -29,6 +29,7 @@
 #include <kfileitem.h>
 #include <kdatetime.h>
 #include <klocale.h>
+#include <kstringhandler.h>
 
 static DolphinView::Sorting sortingTypeTable[] =
 {
@@ -106,9 +107,7 @@ bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
                 return result;
             }
 
-            return sortCaseSensitivity() ?
-                   (naturalCompare(leftFileItem.name(), rightFileItem.name()) < 0) :
-                   (naturalCompare(leftFileItem.name().toLower(), rightFileItem.name().toLower()) < 0);
+            return KStringHandler::naturalCompare(leftFileItem.name(), rightFileItem.name(), sortCaseSensitivity()) < 0;
         }
 
         return leftRating > rightRating;
@@ -127,12 +126,10 @@ bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
                 return result;
             }
 
-            return sortCaseSensitivity() ?
-                   (naturalCompare(leftFileItem.name(), rightFileItem.name()) < 0) :
-                   (naturalCompare(leftFileItem.name().toLower(), rightFileItem.name().toLower()) < 0);
+            return KStringHandler::naturalCompare(leftFileItem.name(), rightFileItem.name(), sortCaseSensitivity()) < 0;
         }
 
-        return naturalCompare(leftTags, rightTags) < 0;
+        return KStringHandler::naturalCompare(leftTags, rightTags) < 0;
     }
 
     default:
