@@ -417,7 +417,7 @@ void ArgbLabel::hideTip()
 KToolTipManager *KToolTipManager::s_instance = 0;
 
 KToolTipManager::KToolTipManager()
-	: label(0), currentItem(0)
+	: label(0), currentItem(0), m_delegate(0)
 {
 #ifdef Q_WS_X11
     Display *dpy      = QX11Info::display();
