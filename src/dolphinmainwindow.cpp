@@ -102,10 +102,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     new MainWindowAdaptor(this);
     QDBusConnection::sessionBus().registerObject(QString("/dolphin/MainWindow%1").arg(m_id), this);
 
-    KonqFileUndoManager::incRef();
-
     KonqFileUndoManager* undoManager = KonqFileUndoManager::self();
-    undoManager->setUiInterface(new UndoUiInterface(this));
+    undoManager->setUiInterface(new UndoUiInterface());
 
     connect(undoManager, SIGNAL(undoAvailable(bool)),
             this, SLOT(slotUndoAvailable(bool)));
@@ -117,7 +115,6 @@ DolphinMainWindow::DolphinMainWindow(int id) :
 
 DolphinMainWindow::~DolphinMainWindow()
 {
-    KonqFileUndoManager::decRef();
     DolphinApplication::app()->removeMainWindow(this);
 }
 
@@ -437,6 +434,7 @@ void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 void DolphinMainWindow::undo()
 {
     clearStatusBar();
+    KonqFileUndoManager::self()->uiInterface()->setParentWidget(this);
     KonqFileUndoManager::self()->undo();
 }
 
@@ -1188,11 +1186,9 @@ QString DolphinMainWindow::tabName(const KUrl& url) const
     return url.equals(KUrl("file:///")) ? "/" : url.fileName();
 }
 
-DolphinMainWindow::UndoUiInterface::UndoUiInterface(DolphinMainWindow* mainWin) :
-    KonqFileUndoManager::UiInterface(mainWin),
-    m_mainWin(mainWin)
+DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
+    KonqFileUndoManager::UiInterface()
 {
-    Q_ASSERT(m_mainWin != 0);
 }
 
 DolphinMainWindow::UndoUiInterface::~UndoUiInterface()
@@ -1201,8 +1197,13 @@ DolphinMainWindow::UndoUiInterface::~UndoUiInterface()
 
 void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
 {
-    DolphinStatusBar* statusBar = m_mainWin->activeViewContainer()->statusBar();
-    statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
+    DolphinMainWindow* mainWin= qobject_cast<DolphinMainWindow *>(parentWidget());
+    if (mainWin) {
+        DolphinStatusBar* statusBar = mainWin->activeViewContainer()->statusBar();
+        statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
+    } else {
+        KonqFileUndoManager::UiInterface::jobError(job);
+    }
 }
 
 #include "dolphinmainwindow.moc"

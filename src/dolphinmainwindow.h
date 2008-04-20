@@ -391,12 +391,9 @@ private:
     class UndoUiInterface : public KonqFileUndoManager::UiInterface
     {
     public:
-        UndoUiInterface(DolphinMainWindow* mainWin);
+        UndoUiInterface();
         virtual ~UndoUiInterface();
         virtual void jobError(KIO::Job* job);
-
-    private:
-        DolphinMainWindow* m_mainWin;
     };
 
     KNewMenu* m_newMenu;
