@@ -9,9 +9,6 @@
     <height>149</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>Form</string>
-  </property>
   <layout class="QVBoxLayout" >
    <item>
     <widget class="KTitleWidget" native="1" name="m_labelTitle" />
@@ -39,7 +36,7 @@
        <item>
         <widget class="QLabel" name="label_2" >
          <property name="text" >
-          <string>Name:</string>
+          <string comment="@label Tag name">Name:</string>
          </property>
         </widget>
        </item>
@@ -82,7 +79,7 @@
    <item>
     <widget class="QLabel" name="label" >
      <property name="text" >
-      <string>Detailed Description (optional):</string>
+      <string comment="@label">Detailed Description (optional):</string>
      </property>
     </widget>
    </item>

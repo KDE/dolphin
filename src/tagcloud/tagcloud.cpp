@@ -131,7 +131,7 @@ public:
           hoverTag( 0 ),
           cachedHfwWidth( -1 ),
           m_parent( parent ) {
-        newTagNode.text = i18n( "New Tag..." );
+        newTagNode.text = i18nc( "@label", "New Tag..." );
     }
 
     int maxFontSize;
@@ -736,7 +736,7 @@ QSize Nepomuk::TagCloud::minimumSizeHint() const
     // If we have tags d->rebuildCloud() has been called at least once,
     // thus, we have proper rects (i.e. needed sizes)
     if ( d->nodes.isEmpty() && !d->newTagButtonEnabled ) {
-        return QSize( fontMetrics().width( i18n( "No Tags" ) ), fontMetrics().height() );
+        return QSize( fontMetrics().width( i18nc( "@label Indicator when no tags defined", "No Tags" ) ), fontMetrics().height() );
     }
     else {
         QSize size;

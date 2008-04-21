@@ -71,7 +71,7 @@ void Nepomuk::MassUpdateJob::start()
     if ( m_index < 0 ) {
         kDebug();
         emit description( this,
-                          i18n("Changing annotations") );
+                          i18nc("@info:progress", "Changing annotations") );
         m_index = 0;
         m_processTimer.start();
     }

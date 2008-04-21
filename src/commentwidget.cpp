@@ -52,10 +52,10 @@ private:
 void CommentWidget::Private::update()
 {
     if ( comment.isEmpty() ) {
-        label->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18n( "Add comment..." ) + "</a>" );
+        label->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Add comment..." ) + "</a>" );
     }
     else {
-        label->setText( "<p>" + comment + "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18n( "Change comment..." ) + "</a>" );
+        label->setText( "<p>" + comment + "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Change comment..." ) + "</a>" );
     }
 }
 

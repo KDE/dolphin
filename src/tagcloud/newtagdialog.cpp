@@ -28,7 +28,7 @@
 NewTagDialog::NewTagDialog( QWidget* parent )
     : KDialog( parent )
 {
-    setCaption( i18n( "Create new Tag" ) );
+    setCaption( i18nc( "@title:window", "Create new Tag" ) );
     setButtons( Ok|Cancel );
     enableButtonOk( false );
 
@@ -53,8 +53,8 @@ void NewTagDialog::slotLabelChanged( const QString& text )
 Nepomuk::Tag NewTagDialog::createTag( QWidget* parent )
 {
     NewTagDialog dlg( parent );
-    dlg.m_labelTitle->setText( i18n( "Create New Tag" ) );
-    dlg.m_labelTitle->setComment( i18n( "with optional icon and description" ) );
+    dlg.m_labelTitle->setText( i18nc( "@title:window", "Create New Tag" ) );
+    dlg.m_labelTitle->setComment( i18nc( "@title:window subtitle to previous message", "with optional icon and description" ) );
     dlg.m_labelTitle->setPixmap( KIcon( "nepomuk" ).pixmap( 32, 32 ) );
 
     dlg.m_editTagLabel->setFocus();

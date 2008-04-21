@@ -126,8 +126,8 @@ CommentEditWidget::CommentEditWidget( QWidget* parent )
     d->buttonCancel->setAutoRaise( true );
     d->buttonSave->setIcon( KIcon( "document-save" ) );
     d->buttonCancel->setIcon( KIcon( "edit-delete" ) );
-    d->buttonSave->setText( i18n( "Save" ) );
-    d->buttonCancel->setText( i18n( "Cancel" ) );
+    d->buttonSave->setText( i18nc( "@action:button", "Save" ) );
+    d->buttonCancel->setText( i18nc( "@action:button", "Cancel" ) );
 
     QFont fnt( font() );
     fnt.setPointSize( fnt.pointSize()-2 );
