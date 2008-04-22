@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by <haraldhv (at) stud.ntnu.no>                    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,43 +17,47 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef SIDEBARTREEVIEW_H
-#define SIDEBARTREEVIEW_H
+#ifndef _KTREEVIEW_P_H_
+#define _KTREEVIEW_P_H_
 
-#include <kurl.h>
-#include <ktreeview.h>
+#include <QTimer>
+#include <QObject>
 
-/**
- * @brief Tree view widget which is used for the sidebar panel.
- *
- * @see TreeViewSidebarPage
- */
-class SidebarTreeView : public KTreeView
+#include "ktreeview.h"
+
+class KTreeView::KTreeViewPrivate : public QObject
 {
-    Q_OBJECT
+	Q_OBJECT
 
-public:
-    explicit SidebarTreeView(QWidget* parent = 0);
-    virtual ~SidebarTreeView();
 
-signals:
-    /**
-      * Is emitted if the URLs \a urls have been dropped to
-      * the index \a index.
-      */
-    void urlsDropped(const KUrl::List& urls,
-                     const QModelIndex& index);
 
-protected:
-    virtual bool event(QEvent* event);
-    virtual void startDrag(Qt::DropActions supportedActions);
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dragLeaveEvent(QDragLeaveEvent* event);
-    virtual void dragMoveEvent(QDragMoveEvent* event);
-    virtual void dropEvent(QDropEvent* event);
+	public Q_SLOTS:
+		void autoScrollTimeout();
+		void considerAutoScroll();
 
-private:
-    QRect m_dropRect;
+	public:
+
+		KTreeViewPrivate(KTreeView *parent);
+		//~KTreeViewPrivate();
+		KTreeView *parent;
+
+		//Function for start scrolling towards a certain position
+		void setScrollTowards( int scrollTowards );
+
+		//Privates for doing the scrolling
+		QTimer scrollTimer;
+		QTimer considerDelayTimer;
+		bool autoHorizontalScroll;
+		int scrollTowards;
+
+		//Constants
+		const int scrollPixels;
+		const int scrollDelay;
+		const int leftSideMargin;
+		const int considerDelay;
+		const QPoint topLeftPoint;
+
+
 };
 
-#endif
+#endif /* ifndef _KTREEVIEW_P_H_ */

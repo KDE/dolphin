@@ -105,6 +105,7 @@ set(dolphin_SRCS
     iconsizedialog.cpp
     iconsviewsettingspage.cpp
     infosidebarpage.cpp
+	ktreeview.cpp
     main.cpp
     metadatawidget.cpp
     metatextlabel.cpp

@@ -30,7 +30,7 @@
 #include <QScrollBar>
 
 SidebarTreeView::SidebarTreeView(QWidget* parent) :
-    QTreeView(parent)
+    KTreeView(parent)
 {
     setAcceptDrops(true);
     setUniformRowHeights(true);
