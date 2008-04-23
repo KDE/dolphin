@@ -808,6 +808,8 @@ void DolphinMainWindow::init()
             this, SLOT(closeTab(int)));
     connect(m_tabBar, SIGNAL(contextMenu(int, const QPoint&)),
             this, SLOT(openTabContextMenu(int, const QPoint&)));
+    connect(m_tabBar, SIGNAL(newTabRequest()),
+            this, SLOT(openNewTab()));
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
     QWidget* centralWidget = new QWidget(this);
