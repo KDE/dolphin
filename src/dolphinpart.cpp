@@ -85,6 +85,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotErrorMessage(QString)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
             this, SLOT(slotItemTriggered(KFileItem)));
+    connect(m_view, SIGNAL(tabRequested(KUrl)),
+            this, SLOT(createNewWindow(KUrl)));
     connect(m_view, SIGNAL(requestContextMenu(KFileItem,KUrl)),
             this, SLOT(slotOpenContextMenu(KFileItem,KUrl)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
@@ -263,24 +265,18 @@ void DolphinPart::slotItemTriggered(const KFileItem& item)
     // since the idea was not to need BrowserArguments for non-browser stuff...
     KParts::BrowserArguments browserArgs;
     browserArgs.trustedSource = true;
+    emit m_extension->openUrlRequest(item.targetUrl(), args, browserArgs);
+}
 
-    // MMB click support.
-    // TODO: this doesn't work, mouseButtons() is always 0.
-    // Issue N176832 for the missing QAIV signal; task 177399
-    kDebug() << QApplication::mouseButtons();
-    if (QApplication::mouseButtons() & Qt::MidButton) {
-        kDebug() << "MMB!!" << item.mimetype();
-        if (item.mimeTypePtr()->is("inode/directory")) {
-            emit m_extension->createNewWindow(item.url(), args);
-        } else {
-            kDebug() << "run()";
-            item.run();
-        }
-    } else {
-        // Left button. [Right button goes to slotOpenContextMenu before triggered can be emitted]
-        kDebug() << "LMB";
-        emit m_extension->openUrlRequest(item.targetUrl(), args, browserArgs);
-    }
+void DolphinPart::createNewWindow(const KUrl& url)
+{
+    // TODO: Check issue N176832 for the missing QAIV signal; task 177399 - maybe this code
+    // should be moved into DolphinPart::slotItemTriggered()
+    KFileItem item(S_IFDIR, (mode_t)-1, url);
+    Q_ASSERT(item.mimeTypePtr()->is("inode/directory"));  // the signal 'tabRequested' is only emitted for dirs
+    KParts::OpenUrlArguments args;
+    args.setMimeType(item.mimetype());
+    emit m_extension->createNewWindow(url, args);
 }
 
 void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)

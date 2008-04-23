@@ -92,7 +92,7 @@ Q_SIGNALS:
 
     /**
      * Emitted whenever the current URL is about to be changed.
-     */ 
+     */
     void aboutToOpenURL();
 
 private Q_SLOTS:
@@ -109,6 +109,10 @@ private Q_SLOTS:
      * Handles clicking on an item
      */
     void slotItemTriggered(const KFileItem& item);
+    /**
+     * Creates a new window showing the content of \a url.
+     */
+    void createNewWindow(const KUrl& url);
     /**
      * Opens the context menu on the current mouse position.
      * @item  File item context. If item is 0, the context menu
