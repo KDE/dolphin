@@ -57,7 +57,7 @@ void Nepomuk::ResourceTaggingWidget::Private::showTaggingPopup( const QPoint& po
 {
     popup->showAllTags();
     resourceTags = intersectTags( resources );
-    Q_FOREACH( Tag tag, resourceTags ) {
+    Q_FOREACH( const Tag &tag, resourceTags ) {
         popup->setTagSelected( tag, true );
     }
 

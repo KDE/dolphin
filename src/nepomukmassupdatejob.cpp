@@ -46,7 +46,7 @@ Nepomuk::MassUpdateJob::~MassUpdateJob()
 void Nepomuk::MassUpdateJob::setFiles( const KUrl::List& urls )
 {
     m_resources.clear();
-    foreach( KUrl url, urls ) {
+    foreach( const KUrl &url, urls ) {
         m_resources.append( Resource( url ) );
     }
     setTotalAmount( KJob::Files, m_resources.count() );

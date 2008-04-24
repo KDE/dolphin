@@ -107,7 +107,7 @@ void IconManager::generatePreviews(const KFileItemList &items)
     // Order the items in a way that the preview for the visible items
     // is generated first, as this improves the feeled performance a lot.
     KFileItemList orderedItems;
-    foreach (KFileItem item, items) {
+    foreach (const KFileItem &item, items) {
         const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         const QRect itemRect = m_view->visualRect(proxyIndex);
@@ -147,7 +147,7 @@ void IconManager::updateCutItems()
 {
     // restore the icons of all previously selected items to the
     // original state...
-    foreach (CutItem cutItem, m_cutItemsCache) {
+    foreach (const CutItem &cutItem, m_cutItemsCache) {
         const QModelIndex index = m_dolphinModel->indexForUrl(cutItem.url);
         if (index.isValid()) {
             m_dolphinModel->setData(index, QIcon(cutItem.pixmap), Qt::DecorationRole);
@@ -207,7 +207,7 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
     bool isOldPreview = true;
     const KUrl::List dirs = dirLister->directories();
     const QString itemDir = item.url().directory();
-    foreach (KUrl url, dirs) {
+    foreach (const KUrl &url, dirs) {
         if (url.path() == itemDir) {
             isOldPreview = false;
             break;
@@ -244,7 +244,7 @@ bool IconManager::isCutItem(const KFileItem& item) const
     const KUrl::List cutUrls = KUrl::List::fromMimeData(mimeData);
 
     const KUrl& itemUrl = item.url();
-    foreach (KUrl url, cutUrls) {
+    foreach (const KUrl &url, cutUrls) {
         if (url == itemUrl) {
             return true;
         }
@@ -263,11 +263,11 @@ void IconManager::applyCutItemEffect()
     KFileItemList items;
     KDirLister* dirLister = m_dolphinModel->dirLister();
     const KUrl::List dirs = dirLister->directories();
-    foreach (KUrl url, dirs) {
+    foreach (const KUrl &url, dirs) {
         items << dirLister->itemsForDir(url);
     }
 
-    foreach (KFileItem item, items) {
+    foreach (const KFileItem &item, items) {
         if (isCutItem(item)) {
             const QModelIndex index = m_dolphinModel->indexForItem(item);
             const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);

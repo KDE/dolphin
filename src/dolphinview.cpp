@@ -301,7 +301,7 @@ KFileItemList DolphinView::selectedItems() const
     KFileItemList itemList;
 
     const QModelIndexList indexList = selection.indexes();
-    foreach (QModelIndex index, indexList) {
+    foreach (const QModelIndex &index, indexList) {
         KFileItem item = m_dolphinModel->itemForIndex(index);
         if (!item.isNull()) {
             itemList.append(item);
@@ -315,7 +315,7 @@ KUrl::List DolphinView::selectedUrls() const
 {
     KUrl::List urls;
     const KFileItemList list = selectedItems();
-    foreach (KFileItem item, list) {
+    foreach (const KFileItem &item, list) {
         urls.append(item.url());
     }
     return urls;
@@ -468,7 +468,7 @@ void DolphinView::setNameFilter(const QString& nameFilter)
 
 void DolphinView::calculateItemCount(int& fileCount, int& folderCount)
 {
-    foreach (KFileItem item, m_dirLister->items()) {
+    foreach (const KFileItem &item, m_dirLister->items()) {
         if (item.isDir()) {
             ++folderCount;
         } else {
@@ -524,7 +524,7 @@ void DolphinView::renameSelectedItems()
 
             // iterate through all selected items and rename them...
             int index = 1;
-            foreach (KFileItem item, items) {
+            foreach (const KFileItem &item, items) {
                 const KUrl& oldUrl = item.url();
                 QString number;
                 number.setNum(index++);

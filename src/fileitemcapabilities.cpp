@@ -32,7 +32,7 @@ FileItemCapabilities::FileItemCapabilities(const KFileItemList& items) :
     m_isLocal(true)
 {
     QFileInfo parentDirInfo;
-    foreach (KFileItem item, items) {
+    foreach (const KFileItem &item, items) {
         const KUrl url = item.url();
         m_isLocal = m_isLocal && url.isLocalFile();
         m_supportsReading  = m_supportsReading  && KProtocolManager::supportsReading(url);

@@ -123,7 +123,7 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
     d->files.clear();
     bool first = true;
     QList<Nepomuk::Resource> fileRes;
-    Q_FOREACH( KUrl url, urls ) {
+    Q_FOREACH( const KUrl &url, urls ) {
         Nepomuk::Resource file( url, Soprano::Vocabulary::Xesam::File() );
         d->files.insert( url, file );
         fileRes.append( file );

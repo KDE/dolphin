@@ -651,7 +651,7 @@ void Nepomuk::TagCloud::showTags( const QList<Tag>& tags )
     d->showAllTags = false;
     d->invalidateCachedValues();
     d->nodes.clear();
-    Q_FOREACH( Tag tag, tags ) {
+    Q_FOREACH( const Tag &tag, tags ) {
         TagNode node;
         node.tag = tag;
         node.weight = d->calculateWeight( tag );
