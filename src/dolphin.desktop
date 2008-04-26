@@ -8,6 +8,7 @@ Name[ne]=डल्फिन
 Name[pa]=ਡਾਲਫਿਨ
 Name[sr]=Делфин
 Name[ta]=டால்பின்
+Name[te]=డాల్ఫిన్
 Name[x-test]=xxDolphinxx
 Exec=dolphin %i -caption "%c" "%u"
 Icon=system-file-manager
