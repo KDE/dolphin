@@ -299,15 +299,17 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
 
-    if (!item.isNull()) { // only for context menu on one or more items
+    if (!_item.isNull()) { // only for context menu on one or more items
         // TODO if ( sMoving )
         editActions.append(actionCollection()->action("rename"));
 
         bool addTrash = false;
         bool addDel = false;
 
-        // TODO if ( sMoving && !isIntoTrash && !isTrashLink )
-        addTrash = true;
+        bool isIntoTrash = _item.url().protocol() == "trash";
+
+        if ( /*TODO sMoving &&*/ !isIntoTrash )
+            addTrash = true;
 
         /* TODO if ( sDeleting ) */ {
             if ( !item.isLocalFile() )
@@ -328,18 +330,18 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
         if (addDel)
             editActions.append(actionCollection()->action("delete"));
         actionGroups.insert("editactions", editActions);
-
-        // TODO: We should change the signature of the slots (and signals) for being able
-        //       to tell for which items we want a popup.
-        KFileItemList items = (m_view->selectedItems().count() ? m_view->selectedItems()
-                                                               : KFileItemList() << item);
-        emit m_extension->popupMenu(QCursor::pos(),
-                                    items,
-                                    KParts::OpenUrlArguments(),
-                                    KParts::BrowserArguments(),
-                                    popupFlags,
-                                    actionGroups);
     }
+
+    // TODO: We should change the signature of the slots (and signals) for being able
+    //       to tell for which items we want a popup.
+    KFileItemList items = (m_view->selectedItems().count() ? m_view->selectedItems()
+                           : KFileItemList() << item);
+    emit m_extension->popupMenu(QCursor::pos(),
+                                items,
+                                KParts::OpenUrlArguments(),
+                                KParts::BrowserArguments(),
+                                popupFlags,
+                                actionGroups);
 }
 
 void DolphinPart::slotUrlChanged(const KUrl& url)
