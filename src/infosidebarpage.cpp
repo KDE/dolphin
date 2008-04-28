@@ -29,6 +29,7 @@
 #include <kdialog.h>
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
+#include <kiconeffect.h>
 #include <kseparator.h>
 #include <kiconloader.h>
 
@@ -245,7 +246,10 @@ void InfoSidebarPage::showItemInfo()
         list.append(file);
 
         m_pendingPreview = true;
-        m_preview->setPixmap(QPixmap());
+
+        KIconEffect iconEffect;
+        QPixmap disabledPixmap = iconEffect.apply(m_preview->pixmap(), KIconLoader::Desktop, KIconLoader::DisabledState);
+        m_preview->setPixmap(disabledPixmap);
 
         KIO::PreviewJob* job = KIO::filePreview(list,
                                                 m_preview->width(),
