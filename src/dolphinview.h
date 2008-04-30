@@ -29,7 +29,7 @@
 #include <kparts/part.h>
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
-#include <konq_fileundomanager.h>
+#include <kio/fileundomanager.h>
 #include <kio/job.h>
 
 #include <QBoxLayout>
@@ -496,7 +496,7 @@ signals:
      * Is emitted when renaming, copying, moving, linking etc.
      * Used for feedback in the mainwindow.
      */
-    void doingOperation(KonqFileUndoManager::CommandType type);
+    void doingOperation(KIO::FileUndoManager::CommandType type);
 
 protected:
     /** @see QWidget::mouseReleaseEvent */

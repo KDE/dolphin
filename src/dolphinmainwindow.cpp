@@ -102,7 +102,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     new MainWindowAdaptor(this);
     QDBusConnection::sessionBus().registerObject(QString("/dolphin/MainWindow%1").arg(m_id), this);
 
-    KonqFileUndoManager* undoManager = KonqFileUndoManager::self();
+    KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface());
 
     connect(undoManager, SIGNAL(undoAvailable(bool)),
@@ -133,7 +133,7 @@ void DolphinMainWindow::toggleViews()
     m_viewTab[m_tabIndex].secondaryView = container;
 }
 
-void DolphinMainWindow::slotDoingOperation(KonqFileUndoManager::CommandType commandType)
+void DolphinMainWindow::slotDoingOperation(KIO::FileUndoManager::CommandType commandType)
 {
     clearStatusBar();
     m_undoCommandTypes.append(commandType);
@@ -160,8 +160,8 @@ void DolphinMainWindow::dropUrls(const KUrl::List& urls,
                                  const KUrl& destination)
 {
     DolphinDropController dropController(this);
-    connect(&dropController, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
-            this, SLOT(slotDoingOperation(KonqFileUndoManager::CommandType)));
+    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
+            this, SLOT(slotDoingOperation(KIO::FileUndoManager::CommandType)));
     dropController.dropUrls(urls, destination);
 }
 
@@ -387,31 +387,31 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
     }
 
     if (available && (m_undoCommandTypes.count() > 0)) {
-        const KonqFileUndoManager::CommandType command = m_undoCommandTypes.takeFirst();
+        const KIO::FileUndoManager::CommandType command = m_undoCommandTypes.takeFirst();
         DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
         switch (command) {
-        case KonqFileUndoManager::COPY:
+        case KIO::FileUndoManager::Copy:
             statusBar->setMessage(i18nc("@info:status", "Copy operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqFileUndoManager::MOVE:
+        case KIO::FileUndoManager::Move:
             statusBar->setMessage(i18nc("@info:status", "Move operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqFileUndoManager::LINK:
+        case KIO::FileUndoManager::Link:
             statusBar->setMessage(i18nc("@info:status", "Link operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqFileUndoManager::TRASH:
+        case KIO::FileUndoManager::Trash:
             statusBar->setMessage(i18nc("@info:status", "Move to trash operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
-        case KonqFileUndoManager::RENAME:
+        case KIO::FileUndoManager::Rename:
             statusBar->setMessage(i18nc("@info:status", "Renaming operation completed."),
                                   DolphinStatusBar::OperationCompleted);
             break;
 
-        case KonqFileUndoManager::MKDIR:
+        case KIO::FileUndoManager::Mkdir:
             statusBar->setMessage(i18nc("@info:status", "Created folder."),
                                   DolphinStatusBar::OperationCompleted);
             break;
@@ -434,8 +434,8 @@ void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 void DolphinMainWindow::undo()
 {
     clearStatusBar();
-    KonqFileUndoManager::self()->uiInterface()->setParentWidget(this);
-    KonqFileUndoManager::self()->undo();
+    KIO::FileUndoManager::self()->uiInterface()->setParentWidget(this);
+    KIO::FileUndoManager::self()->undo();
 }
 
 void DolphinMainWindow::cut()
@@ -1152,8 +1152,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),
             this, SLOT(toggleActiveView()));
-    connect(view, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
-            this, SLOT(slotDoingOperation(KonqFileUndoManager::CommandType)));
+    connect(view, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
+            this, SLOT(slotDoingOperation(KIO::FileUndoManager::CommandType)));
     connect(view, SIGNAL(tabRequested(const KUrl&)),
             this, SLOT(openNewTab(const KUrl&)));
 
@@ -1189,7 +1189,7 @@ QString DolphinMainWindow::tabName(const KUrl& url) const
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
-    KonqFileUndoManager::UiInterface()
+    KIO::FileUndoManager::UiInterface()
 {
 }
 
@@ -1204,7 +1204,7 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
         DolphinStatusBar* statusBar = mainWin->activeViewContainer()->statusBar();
         statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
     } else {
-        KonqFileUndoManager::UiInterface::jobError(job);
+        KIO::FileUndoManager::UiInterface::jobError(job);
     }
 }
 

@@ -29,6 +29,7 @@
 // TODO replace with KonqOperations::doDrop [or move doDrop code into this class]
 // Note that this means changing the DolphinDropController controller usage
 // to "create with new and let it autodelete" instead of on stack, since doDrop is async.
+// NOTE: let's wait for KDirModel::dropEvent first.
 
 DolphinDropController::DolphinDropController(QWidget* parentWidget)
     : QObject(parentWidget), m_parentWidget(parentWidget)
@@ -107,17 +108,17 @@ void DolphinDropController::dropUrls(const KUrl::List& urls,
     switch (action) {
     case Qt::MoveAction:
         KonqOperations::copy(m_parentWidget, KonqOperations::MOVE, urls, destination);
-        emit doingOperation(KonqFileUndoManager::MOVE);
+        emit doingOperation(KIO::FileUndoManager::Move);
         break;
 
     case Qt::CopyAction:
         KonqOperations::copy(m_parentWidget, KonqOperations::COPY, urls, destination);
-        emit doingOperation(KonqFileUndoManager::COPY);
+        emit doingOperation(KIO::FileUndoManager::Copy);
         break;
 
     case Qt::LinkAction:
         KonqOperations::copy(m_parentWidget, KonqOperations::LINK, urls, destination);
-        emit doingOperation(KonqFileUndoManager::LINK);
+        emit doingOperation(KIO::FileUndoManager::Link);
         break;
 
     default:

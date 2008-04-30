@@ -518,7 +518,7 @@ void DolphinView::renameSelectedItems()
         if (newName.isEmpty()) {
             emit errorMessage(dialog.errorString());
         } else {
-            // TODO: check how this can be integrated into KonqFileUndoManager/KonqOperations
+            // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
             // as one operation instead of n rename operations like it is done now...
             Q_ASSERT(newName.contains('#'));
 
@@ -536,7 +536,7 @@ void DolphinView::renameSelectedItems()
                     KUrl newUrl = oldUrl;
                     newUrl.setFileName(name);
                     KonqOperations::rename(this, oldUrl, newUrl);
-                    emit doingOperation(KonqFileUndoManager::RENAME);
+                    emit doingOperation(KIO::FileUndoManager::Rename);
                 }
             }
         }
@@ -566,14 +566,14 @@ void DolphinView::renameSelectedItems()
             KUrl newUrl = oldUrl;
             newUrl.setFileName(newName);
             KonqOperations::rename(this, oldUrl, newUrl);
-            emit doingOperation(KonqFileUndoManager::RENAME);
+            emit doingOperation(KIO::FileUndoManager::Rename);
         }
     }
 }
 
 void DolphinView::trashSelectedItems()
 {
-    emit doingOperation(KonqFileUndoManager::TRASH);
+    emit doingOperation(KIO::FileUndoManager::Trash);
     KonqOperations::del(this, KonqOperations::TRASH, selectedUrls());
 }
 
@@ -800,8 +800,8 @@ void DolphinView::dropUrls(const KUrl::List& urls,
 {
     DolphinDropController dropController(this);
     // forward doingOperation signal up to the mainwindow
-    connect(&dropController, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
-            this, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)));
+    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
+            this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
     dropController.dropUrls(urls, destination);
 }
 
@@ -1163,11 +1163,11 @@ void DolphinView::pasteToUrl(const KUrl& url)
     const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
         KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url);
-        emit doingOperation(KonqFileUndoManager::MOVE);
+        emit doingOperation(KIO::FileUndoManager::Move);
         clipboard->clear();
     } else {
         KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url);
-        emit doingOperation(KonqFileUndoManager::COPY);
+        emit doingOperation(KIO::FileUndoManager::Copy);
     }
 }
 

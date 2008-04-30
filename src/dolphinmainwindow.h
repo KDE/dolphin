@@ -28,7 +28,7 @@
 #include <config-nepomuk.h>
 
 #include <kfileitemdelegate.h>
-#include <konq_fileundomanager.h>
+#include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
 
@@ -323,7 +323,7 @@ private slots:
     void toggleActiveView();
 
     /** Called when the view is doing a file operation, like renaming, copying, moving etc. */
-    void slotDoingOperation(KonqFileUndoManager::CommandType type);
+    void slotDoingOperation(KIO::FileUndoManager::CommandType type);
 
     /**
      * Activates the tab with the index \a index, which means that the current view
@@ -388,7 +388,7 @@ private:
      * assures that all errors are shown in the status bar of Dolphin
      * instead as modal error dialog with an OK button.
      */
-    class UndoUiInterface : public KonqFileUndoManager::UiInterface
+    class UndoUiInterface : public KIO::FileUndoManager::UiInterface
     {
     public:
         UndoUiInterface();
@@ -418,7 +418,7 @@ private:
     DolphinViewActionHandler* m_actionHandler;
 
     /// remember pending undo operations until they are finished
-    QList<KonqFileUndoManager::CommandType> m_undoCommandTypes;
+    QList<KIO::FileUndoManager::CommandType> m_undoCommandTypes;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

@@ -39,8 +39,8 @@ void DolphinFilePlacesView::slotUrlsDropped(const KUrl& dest, QDropEvent* event,
 
     DolphinDropController dropController(parent);
     // forward doingOperation signal up to the mainwindow
-    connect(&dropController, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)),
-            this, SIGNAL(doingOperation(KonqFileUndoManager::CommandType)));
+    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
+            this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
     dropController.dropUrls(urls, dest);
 }
 

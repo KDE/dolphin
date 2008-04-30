@@ -22,7 +22,7 @@
 
 #include <QObject>
 #include <kurl.h>
-#include <konq_fileundomanager.h>
+#include <kio/fileundomanager.h>
 
 #include "libdolphin_export.h"
 
@@ -55,7 +55,7 @@ signals:
      * Is emitted when renaming, copying, moving, linking etc.
      * Used for feedback in the mainwindow.
      */
-    void doingOperation(KonqFileUndoManager::CommandType type);
+    void doingOperation(KIO::FileUndoManager::CommandType type);
 
 private:
     QWidget* m_parentWidget;
