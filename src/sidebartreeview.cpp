@@ -79,9 +79,6 @@ bool SidebarTreeView::event(QEvent* event)
             verticalScrollBar()->setSingleStep(sizeHintForRow(0) / 3);
         }
     }
-    else if (event->type() == QEvent::MetaCall) {
-        resizeColumnToContents(DolphinModel::Name);
-    }
 
     return QTreeView::event(event);
 }
