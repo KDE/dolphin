@@ -337,6 +337,10 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
 void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 {
     requestActivation();
+    if (indexAt(event->pos()).isValid() && (event->button() == Qt::LeftButton)) {
+        // TODO: see comment in DolphinIconsView::mousePressEvent()
+        setState(QAbstractItemView::DraggingState);
+    }
     QListView::mousePressEvent(event);
 }
 

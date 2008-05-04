@@ -188,6 +188,11 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     QTreeView::mousePressEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
+    if (index.isValid() && (event->button() == Qt::LeftButton)) {
+        // TODO: see comment in DolphinIconsView::mousePressEvent()
+        setState(QAbstractItemView::DraggingState);
+    }
+
     if (!index.isValid() || (index.column() != DolphinModel::Name)) {
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
@@ -250,6 +255,7 @@ void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 void DolphinDetailsView::startDrag(Qt::DropActions supportedActions)
 {
     DragAndDropHelper::startDrag(this, supportedActions);
+    m_showElasticBand = false;
 }
 
 void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)

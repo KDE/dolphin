@@ -167,7 +167,17 @@ void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 {
     m_controller->requestActivation();
-    if (!indexAt(event->pos()).isValid()) {
+    const QModelIndex index = indexAt(event->pos());
+    if (index.isValid() && (event->button() == Qt::LeftButton)) {
+        // TODO: It should not be necessary to manually set the dragging state, but I could
+        // not reproduce this issue with a Qt-only example yet to find the root cause.
+        // Issue description: start Dolphin, split the view and drag an item from the
+        // inactive view to the active view by a very fast mouse movement. Result:
+        // the item gets selected instead of being dragged...
+        setState(QAbstractItemView::DraggingState);
+    }
+
+    if (!index.isValid()) {
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
             clearSelection();
