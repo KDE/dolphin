@@ -43,7 +43,9 @@
 #include <QClipboard>
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
-K_EXPORT_PLUGIN(DolphinPartFactory("dolphin"))
+// The componentdata name must be dolphinpart so that dolphinpart.rc is found
+// Alternatively we would have to install it as dolphin/dolphinpart.rc
+K_EXPORT_PLUGIN(DolphinPartFactory("dolphinpart"))
 
 DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
