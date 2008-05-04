@@ -254,12 +254,6 @@ private slots:
      */
     void editLocation();
 
-    /**
-     * Opens the view properties dialog, which allows to modify the properties
-     * of the currently active view.
-     */
-    void adjustViewProperties();
-
     /** Goes back on step of the URL history. */
     void goBack();
 

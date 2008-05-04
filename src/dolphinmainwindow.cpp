@@ -37,7 +37,6 @@
 #include "metadatawidget.h"
 #include "mainwindowadaptor.h"
 #include "treeviewsidebarpage.h"
-#include "viewpropertiesdialog.h"
 #include "viewproperties.h"
 
 #ifndef Q_OS_WIN
@@ -562,13 +561,6 @@ void DolphinMainWindow::editLocation()
     lineEdit->setSelection(0, text.length());
 }
 
-void DolphinMainWindow::adjustViewProperties()
-{
-    clearStatusBar();
-    ViewPropertiesDialog dlg(m_activeViewContainer->view());
-    dlg.exec();
-}
-
 void DolphinMainWindow::goBack()
 {
     clearStatusBar();
@@ -975,10 +967,6 @@ void DolphinMainWindow::setupActions()
     editLocation->setText(i18nc("@action:inmenu Navigation Bar", "Edit Location"));
     editLocation->setShortcut(Qt::Key_F6);
     connect(editLocation, SIGNAL(triggered()), this, SLOT(editLocation()));
-
-    KAction* adjustViewProps = actionCollection()->addAction("view_properties");
-    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
-    connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(adjustViewProperties()));
 
     // setup 'Go' menu
     KAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());

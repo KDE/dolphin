@@ -35,6 +35,10 @@ set(dolphinprivate_LIB_SRCS
     selectionmanager.cpp
     tooltipmanager.cpp
     viewproperties.cpp
+    viewpropertiesdialog.cpp
+    viewpropsprogressinfo.cpp
+    additionalinfodialog.cpp
+    applyviewpropsjob.cpp
     )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
@@ -84,8 +88,6 @@ install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 ##########################################
 
 set(dolphin_SRCS
-    additionalinfodialog.cpp
-    applyviewpropsjob.cpp
     columnviewsettingspage.cpp
     commentwidget.cpp
     commenteditwidget.cpp
@@ -121,10 +123,9 @@ set(dolphin_SRCS
     treeviewcontextmenu.cpp
     treeviewsidebarpage.cpp
     sidebartreeview.cpp
-    viewpropertiesdialog.cpp
     viewsettingspage.cpp
     viewsettingspagebase.cpp
-    viewpropsprogressinfo.cpp)
+    )
 
 kde4_add_kcfg_files(dolphin_SRCS
     dolphin_folderspanelsettings.kcfgc)

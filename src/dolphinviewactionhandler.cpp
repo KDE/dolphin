@@ -18,14 +18,15 @@
  ***************************************************************************/
 
 #include "dolphinviewactionhandler.h"
-#include <kdebug.h>
 
+#include "viewpropertiesdialog.h"
 #include "dolphinview.h"
 
 #include <konq_operations.h>
 
 #include <kaction.h>
 #include <kactioncollection.h>
+#include <kdebug.h>
 #include <klocale.h>
 #include <ktoggleaction.h>
 
@@ -132,6 +133,9 @@ void DolphinViewActionHandler::createActions()
     showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
     connect(showHiddenFiles, SIGNAL(triggered(bool)), this, SLOT(toggleShowHiddenFiles(bool)));
 
+    KAction* adjustViewProps = m_actionCollection->addAction("view_properties");
+    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
+    connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(slotAdjustViewProperties()));
 }
 
 QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
@@ -470,4 +474,11 @@ void DolphinViewActionHandler::slotSortTriggered(QAction* action)
 {
     const DolphinView::Sorting sorting = action->data().value<DolphinView::Sorting>();
     m_currentView->setSorting(sorting);
+}
+
+void DolphinViewActionHandler::slotAdjustViewProperties()
+{
+    emit actionBeingHandled();
+    ViewPropertiesDialog dlg(m_currentView);
+    dlg.exec();
 }

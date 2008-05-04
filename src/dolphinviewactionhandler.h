@@ -167,6 +167,12 @@ private Q_SLOTS:
      */
     void slotShowHiddenFilesChanged();
 
+    /**
+     * Opens the view properties dialog, which allows to modify the properties
+     * of the currently active view.
+     */
+    void slotAdjustViewProperties();
+
 private:
     /**
      * Create all the actions.
