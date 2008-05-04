@@ -500,11 +500,15 @@ void DolphinMainWindow::toggleSplitView()
         m_viewTab[m_tabIndex].secondaryView->view()->reload();
         m_viewTab[m_tabIndex].secondaryView->setActive(false);
         m_viewTab[m_tabIndex].secondaryView->show();
+
+        setActiveViewContainer(m_viewTab[m_tabIndex].secondaryView);
     } else if (m_activeViewContainer == m_viewTab[m_tabIndex].primaryView) {
         // remove secondary view
         m_viewTab[m_tabIndex].secondaryView->close();
         m_viewTab[m_tabIndex].secondaryView->deleteLater();
         m_viewTab[m_tabIndex].secondaryView = 0;
+
+        setActiveViewContainer(m_viewTab[m_tabIndex].primaryView);
     } else {
         // The secondary view is active, hence from a users point of view
         // the content of the secondary view should be moved to the primary view.
@@ -515,9 +519,10 @@ void DolphinMainWindow::toggleSplitView()
         m_viewTab[m_tabIndex].primaryView->deleteLater();
         m_viewTab[m_tabIndex].primaryView = m_viewTab[m_tabIndex].secondaryView;
         m_viewTab[m_tabIndex].secondaryView = 0;
+
+        setActiveViewContainer(m_viewTab[m_tabIndex].primaryView);
     }
 
-    setActiveViewContainer(m_viewTab[m_tabIndex].primaryView);
     updateViewActions();
 }
 
