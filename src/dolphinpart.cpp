@@ -216,15 +216,24 @@ KAboutData* DolphinPart::createAboutData()
 
 bool DolphinPart::openUrl(const KUrl& url)
 {
-    const bool reload = arguments().reload();
+    bool reload = arguments().reload();
+    // A bit of a workaround so that changing the namefilter works: force reload.
+    // Otherwise DolphinView wouldn't relist the URL, so nothing would happen.
+    if (m_nameFilter != m_dirLister->nameFilter())
+        reload = true;
     if (m_view->url() == url && !reload) { // DolphinView won't do anything in that case, so don't emit started
         return true;
     }
     setUrl(url); // remember it at the KParts level
-    const QString prettyUrl = url.pathOrUrl();
+    KUrl visibleUrl(url);
+    if (!m_nameFilter.isEmpty()) {
+        visibleUrl.addPath(m_nameFilter);
+    }
+    QString prettyUrl = visibleUrl.pathOrUrl();
     emit setWindowCaption(prettyUrl);
     emit m_extension->setLocationBarUrl(prettyUrl);
     emit started(0); // get the wheel to spin
+    m_dirLister->setNameFilter(m_nameFilter);
     m_view->setUrl(url);
     emit aboutToOpenURL();
     if (reload)
@@ -407,6 +416,14 @@ void DolphinPart::setCurrentViewMode(const QString& viewModeName)
 QString DolphinPart::currentViewMode() const
 {
     return m_actionHandler->currentViewModeActionName();
+}
+
+void DolphinPart::setNameFilter(const QString& nameFilter)
+{
+    // This is the "/home/dfaure/*.diff" kind of name filter (KDirLister::setNameFilter)
+    // which is unrelated to DolphinView::setNameFilter which is substring filtering in a proxy.
+    m_nameFilter = nameFilter;
+    // TODO save/restore name filter in saveState/restoreState like KonqDirPart did in kde3?
 }
 
 #include "dolphinpart.moc"

@@ -45,6 +45,9 @@ class DolphinPart : public KParts::ReadOnlyPart
 
     Q_PROPERTY( QString currentViewMode READ currentViewMode WRITE setCurrentViewMode )
 
+    // Used by konqueror when typing something like /home/dfaure/*.diff in the location bar
+    Q_PROPERTY( QString nameFilter READ nameFilter WRITE setNameFilter )
+
 public:
     explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
     ~DolphinPart();
@@ -76,6 +79,16 @@ public:
 
     /// Returns the view owned by this part; used by DolphinPartBrowserExtension
     DolphinView* view() { return m_view; }
+
+    /**
+     * Sets a name filter, like *.diff
+     */
+    void setNameFilter(const QString& nameFilter);
+
+    /**
+     * Returns the current name filter. Used by konqueror to show it in the URL.
+     */
+    QString nameFilter() const { return m_nameFilter; }
 
 protected:
     /**
@@ -167,6 +180,7 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinPartBrowserExtension* m_extension;
+    QString m_nameFilter;
     Q_DISABLE_COPY(DolphinPart)
 };
 
