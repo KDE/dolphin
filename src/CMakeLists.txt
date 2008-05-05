@@ -2,9 +2,10 @@
 add_subdirectory( pics )
 add_subdirectory( tests )
 
+find_package(QImageBlitz REQUIRED)
 macro_optional_find_package(Soprano)
 
-include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${BLITZ_INCLUDES} )
+include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${QIMAGEBLITZ_INCLUDES} )
 
 if (Soprano_FOUND)
   include_directories( ${SOPRANO_INCLUDE_DIR} )
@@ -56,7 +57,7 @@ macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
-target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${BLITZ_LIBRARIES})
+target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${QIMAGEBLITZ_LIBRARIES})
 if(X11_Xrender_FOUND)
   target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
