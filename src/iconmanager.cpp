@@ -98,6 +98,8 @@ void IconManager::updatePreviews()
 
 void IconManager::generatePreviews(const KFileItemList &items)
 {
+    applyCutItemEffect();
+
     if (!m_showPreview) {
         return;
     }
@@ -274,7 +276,10 @@ void IconManager::applyCutItemEffect()
             const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
             if (value.type() == QVariant::Icon) {
                 const QIcon icon(qvariant_cast<QIcon>(value));
-                QPixmap pixmap = icon.pixmap(m_view->iconSize());
+                const QSize actualSize = icon.actualSize(m_view->iconSize());
+                QPixmap pixmap = icon.pixmap(actualSize);
+                //QSize size(m_view->iconSize().height(), m_view->iconSize().height());
+                //QPixmap pixmap = icon.pixmap(size);
 
                 // remember current pixmap for the item to be able
                 // to restore it when other items get cut
