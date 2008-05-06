@@ -131,8 +131,8 @@ void IconManager::generatePreviews(const KFileItemList &items)
 
 void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
 {
-    Preview preview;
-    preview.item = item;
+    ItemInfo preview;
+    preview.url = item.url();
     preview.pixmap = pixmap;
     m_previews.append(preview);
 }
@@ -147,7 +147,7 @@ void IconManager::updateCutItems()
 {
     // restore the icons of all previously selected items to the
     // original state...
-    foreach (const CutItem &cutItem, m_cutItemsCache) {
+    foreach (const ItemInfo& cutItem, m_cutItemsCache) {
         const QModelIndex index = m_dolphinModel->indexForUrl(cutItem.url);
         if (index.isValid()) {
             m_dolphinModel->setData(index, QIcon(cutItem.pixmap), Qt::DecorationRole);
@@ -169,13 +169,13 @@ void IconManager::dispatchPreviewQueue()
         // of the view would be triggered for each single preview.
 
         int dispatchCount = 30;
-        if (dispatchCount > m_previews.count()) {
-            dispatchCount = m_previews.count();
+        if (dispatchCount > previewsCount) {
+            dispatchCount = previewsCount;
         }
 
         for (int i = 0; i < dispatchCount; ++i) {
-            const Preview& preview = m_previews.first();
-            replaceIcon(preview.item, preview.pixmap);
+            const ItemInfo& preview = m_previews.first();
+            replaceIcon(preview.url, preview.pixmap);
             m_previews.pop_front();
         }
 
@@ -193,9 +193,9 @@ void IconManager::dispatchPreviewQueue()
     }
 }
 
-void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
+void IconManager::replaceIcon(const KUrl& url, const QPixmap& pixmap)
 {
-    Q_ASSERT(!item.isNull());
+    Q_ASSERT(url.isValid());
     if (!m_showPreview) {
         // the preview has been canceled in the meantime
         return;
@@ -206,8 +206,8 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
     KDirLister* dirLister = m_dolphinModel->dirLister();
     bool isOldPreview = true;
     const KUrl::List dirs = dirLister->directories();
-    const QString itemDir = item.url().directory();
-    foreach (const KUrl &url, dirs) {
+    const QString itemDir = url.directory();
+    foreach (const KUrl& url, dirs) {
         if (url.path() == itemDir) {
             isOldPreview = false;
             break;
@@ -217,10 +217,11 @@ void IconManager::replaceIcon(const KFileItem& item, const QPixmap& pixmap)
         return;
     }
 
-    const QModelIndex idx = m_dolphinModel->indexForItem(item);
+    const QModelIndex idx = m_dolphinModel->indexForUrl(url);
     if (idx.isValid() && (idx.column() == 0)) {
         QPixmap icon = pixmap;
 
+        const KFileItem item = m_dolphinModel->itemForIndex(idx);
         const QString mimeType = item.mimetype();
         const QString mimeTypeGroup = mimeType.left(mimeType.indexOf('/'));
         if ((mimeTypeGroup != "image") || !applyImageFrame(icon)) {
@@ -243,8 +244,8 @@ bool IconManager::isCutItem(const KFileItem& item) const
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
     const KUrl::List cutUrls = KUrl::List::fromMimeData(mimeData);
 
-    const KUrl& itemUrl = item.url();
-    foreach (const KUrl &url, cutUrls) {
+    const KUrl itemUrl = item.url();
+    foreach (const KUrl& url, cutUrls) {
         if (url == itemUrl) {
             return true;
         }
@@ -263,11 +264,11 @@ void IconManager::applyCutItemEffect()
     KFileItemList items;
     KDirLister* dirLister = m_dolphinModel->dirLister();
     const KUrl::List dirs = dirLister->directories();
-    foreach (const KUrl &url, dirs) {
+    foreach (const KUrl& url, dirs) {
         items << dirLister->itemsForDir(url);
     }
 
-    foreach (const KFileItem &item, items) {
+    foreach (const KFileItem& item, items) {
         if (isCutItem(item)) {
             const QModelIndex index = m_dolphinModel->indexForItem(item);
             const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
@@ -277,7 +278,7 @@ void IconManager::applyCutItemEffect()
 
                 // remember current pixmap for the item to be able
                 // to restore it when other items get cut
-                CutItem cutItem;
+                ItemInfo cutItem;
                 cutItem.url = item.url();
                 cutItem.pixmap = pixmap;
                 m_cutItemsCache.append(cutItem);

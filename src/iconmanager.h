@@ -80,10 +80,10 @@ private slots:
 
 private:
     /**
-     * Replaces the icon of the item \a item by the preview pixmap
+     * Replaces the icon of the item with the \a url by the preview pixmap
      * \a pixmap.
      */
-    void replaceIcon(const KFileItem& item, const QPixmap& pixmap);
+    void replaceIcon(const KUrl& url, const QPixmap& pixmap);
 
     /**
      * Returns true, if the item \a item has been cut into
@@ -112,21 +112,11 @@ private:
 
 private:
     /**
-     * Remembers the original pixmap for an item before
-     * the cut effect is applied.
+     * Remembers the pixmap for an item specified by an URL.
      */
-    struct CutItem
+    struct ItemInfo
     {
         KUrl url;
-        QPixmap pixmap;
-    };
-
-    /**
-     * Remembers the received preview pixmap for an item.
-     */
-    struct Preview
-    {
-        KFileItem item;
         QPixmap pixmap;
     };
 
@@ -138,8 +128,8 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 
-    QList<CutItem> m_cutItemsCache;
-    QList<Preview> m_previews;
+    QList<ItemInfo> m_cutItemsCache;
+    QList<ItemInfo> m_previews;
 };
 
 inline bool IconManager::showPreview() const
