@@ -48,6 +48,7 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KCategorizedView
 public:
     explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinIconsView();
+    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
 protected slots:
     virtual void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
