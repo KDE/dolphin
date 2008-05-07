@@ -71,7 +71,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_proxyModel(0)
 {
     hide();
-    setFocusPolicy(Qt::StrongFocus);
+
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);

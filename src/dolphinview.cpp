@@ -86,7 +86,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_iconManager(0),
     m_toolTipManager(0)
 {
-    setFocusPolicy(Qt::StrongFocus);
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
