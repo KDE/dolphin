@@ -143,7 +143,7 @@ void DolphinIconsView::scrollTo(const QModelIndex& index, ScrollHint hint)
     // index each time the layout has been changed. This becomes an issue when
     // previews are loaded and the scrollbar is used: the scrollbar will always
     // be reset to 0 on each new preview.
-    if (m_enableScrollTo) {
+    if (m_enableScrollTo || (state() != QAbstractItemView::NoState)) {
         KCategorizedView::scrollTo(index, hint);
         m_enableScrollTo = false;
     }
