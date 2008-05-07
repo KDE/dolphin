@@ -77,6 +77,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
                              m_dirLister,
                              m_dolphinModel,
                              m_proxyModel);
+    m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
 
     setXMLFile("dolphinpart.rc");
@@ -284,7 +285,6 @@ void DolphinPart::createNewWindow(const KUrl& url)
     // TODO: Check issue N176832 for the missing QAIV signal; task 177399 - maybe this code
     // should be moved into DolphinPart::slotItemTriggered()
     KFileItem item(S_IFDIR, (mode_t)-1, url);
-    Q_ASSERT(item.mimeTypePtr()->is("inode/directory"));  // the signal 'tabRequested' is only emitted for dirs
     KParts::OpenUrlArguments args;
     args.setMimeType(item.mimetype());
     emit m_extension->createNewWindow(url, args);

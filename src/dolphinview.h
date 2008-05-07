@@ -316,6 +316,15 @@ public:
      */
     QPair<bool, QString> pasteInfo() const;
 
+    /**
+     * If \a tabsForFiles is true, the signal tabRequested() will also
+     * emitted also for files. Per default tabs for files is disabled
+     * and hence the signal tabRequested() will only be emitted for
+     * directories.
+     */
+    void setTabsForFilesEnabled(bool tabsForFiles);
+    bool isTabsForFilesEnabled() const;
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to
@@ -641,11 +650,13 @@ private:
     }
 
 private:
-    bool m_active;
-    bool m_showPreview;
-    bool m_loadingDirectory;
-    bool m_storedCategorizedSorting;
-    bool m_isContextMenuOpen;   // TODO: workaround for Qt-issue xxxxxx
+    bool m_active : 1;
+    bool m_showPreview : 1;
+    bool m_loadingDirectory : 1;
+    bool m_storedCategorizedSorting : 1;
+    bool m_tabsForFiles : 1;
+    bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue xxxxxx
+
     Mode m_mode;
 
     DolphinMainWindow* m_mainWindow;

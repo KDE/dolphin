@@ -150,7 +150,7 @@ void DolphinController::triggerItem(const QModelIndex& index)
 
     const KFileItem item = itemForIndex(index);
     if (index.isValid() && (index.column() == KDirModel::Name)) {
-        if (openTab && item.isDir()) {
+        if (openTab && (item.isDir() || m_dolphinView->isTabsForFilesEnabled())) {
             emit tabRequested(item.url());
         } else {
             emit itemTriggered(item);

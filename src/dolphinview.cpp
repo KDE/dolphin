@@ -70,6 +70,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_showPreview(false),
     m_loadingDirectory(false),
     m_storedCategorizedSorting(false),
+    m_tabsForFiles(false),
     m_isContextMenuOpen(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
@@ -911,6 +912,16 @@ QPair<bool, QString> DolphinView::pasteInfo() const
     }
 
     return ret;
+}
+
+void DolphinView::setTabsForFilesEnabled(bool tabsForFiles)
+{
+    m_tabsForFiles = tabsForFiles;
+}
+
+bool DolphinView::isTabsForFilesEnabled() const
+{
+    return m_tabsForFiles;
 }
 
 void DolphinView::emitContentsMoved()
