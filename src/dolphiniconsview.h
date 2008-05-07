@@ -98,6 +98,7 @@ private:
     int additionalInfoCount() const;
 
 private:
+    bool m_enableScrollTo;
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
     DolphinCategoryDrawer* m_categoryDrawer;

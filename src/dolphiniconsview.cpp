@@ -40,6 +40,7 @@
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KCategorizedView(parent),
+    m_enableScrollTo(false),
     m_controller(controller),
     m_selectionManager(0),
     m_categoryDrawer(0),
@@ -137,12 +138,15 @@ DolphinIconsView::~DolphinIconsView()
 
 void DolphinIconsView::scrollTo(const QModelIndex& index, ScrollHint hint)
 {
-    Q_UNUSED(index);
-    Q_UNUSED(hint);
-    // Disable the QListView implementation of scrollTo(), as QAbstractItemView
-    // wants to scroll to the current index each time the layout has been changed.
-    // This becomes an issue when previews are loaded and the scrollbar is used: the
-    // scrollbar will always be reset to 0 on each new preview.
+    // Enable the QListView implementation of scrollTo() only if it has been
+    // triggered by a key press. Otherwise QAbstractItemView wants to scroll to the current
+    // index each time the layout has been changed. This becomes an issue when
+    // previews are loaded and the scrollbar is used: the scrollbar will always
+    // be reset to 0 on each new preview.
+    if (m_enableScrollTo) {
+        KCategorizedView::scrollTo(index, hint);
+        m_enableScrollTo = false;
+    }
 }
 
 void DolphinIconsView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
@@ -264,6 +268,7 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
     KCategorizedView::keyPressEvent(event);
     m_controller->handleKeyPressEvent(event);
+    m_enableScrollTo = true; // see DolphinIconsView::scrollTo()
 }
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
