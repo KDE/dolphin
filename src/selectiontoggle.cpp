@@ -44,6 +44,8 @@ SelectionToggle::SelectionToggle(QWidget* parent) :
     setIconOverlay(isChecked());
     connect(this, SIGNAL(toggled(bool)),
             this, SLOT(setIconOverlay(bool)));
+    connect(KGlobalSettings::self(), SIGNAL(iconChanged(int)),
+            this, SLOT(refreshIcon()));
 }
 
 SelectionToggle::~SelectionToggle()
@@ -175,6 +177,11 @@ void SelectionToggle::setIconOverlay(bool checked)
                                              KIconLoader::NoGroup,
                                              KIconLoader::SizeSmall);
     update();
+}
+
+void SelectionToggle::refreshIcon()
+{
+    setIconOverlay(isChecked());
 }
 
 void SelectionToggle::startFading()
