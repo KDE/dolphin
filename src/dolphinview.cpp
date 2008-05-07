@@ -749,7 +749,7 @@ void DolphinView::triggerItem(const KFileItem& item)
         return;
     }
 
-    // TODO: the m_isContextMenuOpen check is a workaround for Qt-issue xxxxxx
+    // TODO: the m_isContextMenuOpen check is a workaround for Qt-issue 207192
     if (item.isNull() || m_isContextMenuOpen) {
         return;
     }
@@ -778,7 +778,7 @@ void DolphinView::openContextMenu(const QPoint& pos)
         m_toolTipManager->hideTip();
     }
 
-    m_isContextMenuOpen = true; // TODO: workaround for Qt-issue xxxxxx
+    m_isContextMenuOpen = true; // TODO: workaround for Qt-issue 207192
     emit requestContextMenu(item, url());
     m_isContextMenuOpen = false;
 }
