@@ -96,7 +96,7 @@ void IconManager::updatePreviews()
     generatePreviews(itemList);
 }
 
-void IconManager::generatePreviews(const KFileItemList &items)
+void IconManager::generatePreviews(const KFileItemList& items)
 {
     applyCutItemEffect();
 
@@ -278,8 +278,6 @@ void IconManager::applyCutItemEffect()
                 const QIcon icon(qvariant_cast<QIcon>(value));
                 const QSize actualSize = icon.actualSize(m_view->iconSize());
                 QPixmap pixmap = icon.pixmap(actualSize);
-                //QSize size(m_view->iconSize().height(), m_view->iconSize().height());
-                //QPixmap pixmap = icon.pixmap(size);
 
                 // remember current pixmap for the item to be able
                 // to restore it when other items get cut
