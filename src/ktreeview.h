@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by <haraldhv (at) stud.ntnu.no>                    *
+ *   Copyright (C) 2008 by <peter.penz@gmx.at>                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,26 +18,27 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _KTREEVIEW_H_
-#define _KTREEVIEW_H_
+#ifndef KTREEVIEW_H
+#define KTREEVIEW_H
 
 #include <QTreeView>
 
 class KTreeView : public QTreeView
 {
+    Q_OBJECT
 
-	Q_OBJECT
+public:
+    KTreeView(QWidget *parent = 0);
+    virtual ~KTreeView();
 
-	public:
-		KTreeView(QWidget *parent = NULL);
+    void setAutoHorizontalScroll(bool value);
+    bool autoHorizontalScroll() const;
 
-		void setAutoHorizontalScroll(bool value);
-		bool autoHorizontalScroll( void );
+    virtual void setSelectionModel(QItemSelectionModel *selectionModel);
 
-	private:
-		class KTreeViewPrivate;
-		KTreeViewPrivate *d;
-
+private:
+    class KTreeViewPrivate;
+    KTreeViewPrivate *d;
 };
 
-#endif /* ifndef _KTREEVIEW_H_ */
+#endif /* ifndef KTREEVIEW_H */

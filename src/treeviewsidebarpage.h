@@ -124,7 +124,6 @@ private:
 
 private:
     bool m_setLeafVisible;
-    int m_horizontalPos;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;

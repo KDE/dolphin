@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by <haraldhv (at) stud.ntnu.no>                    *
+ *   Copyright (C) 2008 by <peter.penz@gmx.at>                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,47 +18,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _KTREEVIEW_P_H_
-#define _KTREEVIEW_P_H_
+#ifndef KTREEVIEW_P_H
+#define KTREEVIEW_P_H
 
-#include <QTimer>
 #include <QObject>
 
 #include "ktreeview.h"
 
+class QTimer;
+class QTimeLine;
+
 class KTreeView::KTreeViewPrivate : public QObject
 {
-	Q_OBJECT
+    Q_OBJECT
 
+public Q_SLOTS:
+    void startScrolling();
+    void updateVerticalScrollBar(int value);
 
+public:
+    KTreeViewPrivate(KTreeView *parent);
+    KTreeView *parent;
+    void setScrollTowards( int scrollTowards );
 
-	public Q_SLOTS:
-		void autoScrollTimeout();
-		void considerAutoScroll();
-
-	public:
-
-		KTreeViewPrivate(KTreeView *parent);
-		//~KTreeViewPrivate();
-		KTreeView *parent;
-
-		//Function for start scrolling towards a certain position
-		void setScrollTowards( int scrollTowards );
-
-		//Privates for doing the scrolling
-		QTimer scrollTimer;
-		QTimer considerDelayTimer;
-		bool autoHorizontalScroll;
-		int scrollTowards;
-
-		//Constants
-		const int scrollPixels;
-		const int scrollDelay;
-		const int leftSideMargin;
-		const int considerDelay;
-		const QPoint topLeftPoint;
-
-
+    bool autoHorizontalScroll;
+    QTimeLine *timeLine;
+    QTimer *startScrollTimer;
 };
 
-#endif /* ifndef _KTREEVIEW_P_H_ */
+#endif /* ifndef KTREEVIEW_P_H */

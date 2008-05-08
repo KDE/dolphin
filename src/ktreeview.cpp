@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by <haraldhv (at) stud.ntnu.no>                    *
+ *   Copyright (C) 2008 by <peter.penz@gmx.at>                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,151 +18,124 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include <KGlobalSettings>
-
-#include <QDebug>
-#include <QScrollBar>
-
 #include "ktreeview.h"
 #include "ktreeview_p.h"
 
-KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent)
-	: parent(parent),
-	autoHorizontalScroll(true),
-	scrollTowards(0),
-	scrollPixels(5),
-	scrollDelay(50),
-	leftSideMargin(30),
-	considerDelay(500),
-	topLeftPoint(QPoint(10,10))
+#include <KGlobalSettings>
+
+#include <QItemSelectionModel>
+#include <QScrollBar>
+#include <QTimer>
+#include <QTimeLine>
+
+KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent) :
+    parent(parent),
+    autoHorizontalScroll(false),
+    timeLine(0),
+    startScrollTimer(0)
 {
-	Q_ASSERT(parent->verticalScrollBar());
+    startScrollTimer = new QTimer(this);
+    startScrollTimer->setSingleShot(true);
+    startScrollTimer->setInterval(50);
+    connect(startScrollTimer, SIGNAL(timeout()),
+            this, SLOT(startScrolling()));
 
-	considerDelayTimer.setInterval(considerDelay);
+    timeLine = new QTimeLine(300, this);
+    connect(timeLine, SIGNAL(frameChanged(int)),
+            this, SLOT(updateVerticalScrollBar(int)));
 
-	connect( &considerDelayTimer,
-			SIGNAL(timeout()),
-			this,
-			SLOT(considerAutoScroll())
-		   );
-
-	connect( parent->verticalScrollBar(),
-			SIGNAL(rangeChanged(int, int)),
-			&considerDelayTimer,
-			SLOT(start())
-		   );
-
-	connect( parent->verticalScrollBar(),
-			SIGNAL(valueChanged(int)),
-			&considerDelayTimer,
-			SLOT(start())
-		   );
-
-	connect( parent,
-			SIGNAL( collapsed ( const QModelIndex &)),
-			&considerDelayTimer,
-			SLOT(start())
-		   );
-
-	connect( parent,
-			SIGNAL( expanded ( const QModelIndex &)),
-			&considerDelayTimer,
-			SLOT(start())
-		   );
-
+    connect(parent->verticalScrollBar(), SIGNAL(rangeChanged(int, int)),
+            startScrollTimer, SLOT(start()));
+    connect(parent->verticalScrollBar(), SIGNAL(valueChanged(int)),
+            startScrollTimer, SLOT(start()));
+    connect(parent, SIGNAL(collapsed(const QModelIndex&)),
+            startScrollTimer, SLOT(start()));
+    connect(parent, SIGNAL(expanded(const QModelIndex&)),
+            startScrollTimer, SLOT(start()));
 }
 
-void KTreeView::KTreeViewPrivate::considerAutoScroll()
+KTreeView::~KTreeView()
 {
-	qDebug() << "Considering auto scroll";
-
-	QModelIndex i = parent->indexAt(topLeftPoint);
-	int smallest = parent->width();
-
-	while (i.isValid())
-	{
-		QRect r = parent->visualRect(i);
-		if (r.top() > parent->height())
-			break;
-
-		int leftSide = r.left();
-
-		smallest = qMin(smallest, leftSide);
-		i = parent->indexBelow(i);
-	}
-
-	int currentScroll = parent->horizontalScrollBar()->value();
-
-	setScrollTowards(smallest + currentScroll - leftSideMargin);
-
-	considerDelayTimer.stop();
-
 }
 
-void KTreeView::KTreeViewPrivate::autoScrollTimeout()
+void KTreeView::KTreeViewPrivate::startScrolling()
 {
+    QModelIndex index;
 
-	Q_ASSERT(parent);
+    const int viewportHeight = parent->viewport()->height();
 
-	QScrollBar *scrollBar = parent->horizontalScrollBar();
-	if (scrollBar == NULL)
-	{
-		qDebug() << "Warning: no scrollbar present, but told to scroll.";
-		scrollTimer.stop();
-		return;
-	}
+    // check whether there is a selected index which is partly visible
+    const QModelIndexList selectedIndexes = parent->selectionModel()->selectedIndexes();
+    if (selectedIndexes.count() == 1) {
+        QModelIndex selectedIndex = selectedIndexes.first();
+        const QRect rect = parent->visualRect(selectedIndex);
+        if ((rect.bottom() >= 0) && (rect.top() <= viewportHeight)) {
+            // the selected index is (at least partly) visible, use it as
+            // scroll target
+            index = selectedIndex;
+        }
+    }
 
-	int currentScroll = scrollBar->value();
+    if (!index.isValid()) {
+        // no partly selected index is visible, determine the most left visual index
+        QModelIndex visibleIndex = parent->indexAt(QPoint(0, 0));
+        if (!visibleIndex.isValid()) {
+            return;
+        }
 
-	int difference = currentScroll - scrollTowards;
+        index = visibleIndex;
+        int minimum = parent->width();
+        do {
+            const QRect rect = parent->visualRect(visibleIndex);
+            if (rect.top() > viewportHeight) {
+                // the current index and all successors are not visible anymore
+                break;
+            }
+            if (rect.left() < minimum) {
+                minimum = rect.left();
+                index = visibleIndex;
+            }
+            visibleIndex = parent->indexBelow(visibleIndex);
+        } while (visibleIndex.isValid());
+    }
 
-	if (qAbs(difference) < scrollPixels)
-	{
-		scrollBar->setValue(scrollTowards);
-		scrollTimer.stop();
-		return;
-	}
+    // start the horizontal scrolling to assure that the item indicated by 'index' gets fully visible
+    Q_ASSERT(index.isValid());
+    const QRect rect = parent->visualRect(index);
 
-	if (difference < 0)
-	{
-		scrollBar->setValue(currentScroll + scrollPixels);
-	}
-	else
-	{
-		scrollBar->setValue(currentScroll - scrollPixels);
-	}
+    QScrollBar *scrollBar = parent->horizontalScrollBar();
+    const int oldScrollBarPos = scrollBar->value();
+
+    const int itemRight = oldScrollBarPos + rect.left() + rect.width() - 1;
+    const int availableWidth = parent->viewport()->width();
+    int scrollBarPos = itemRight - availableWidth;
+    const int scrollBarPosMax = oldScrollBarPos + rect.left() - parent->indentation();
+    if (scrollBarPos > scrollBarPosMax) {
+        scrollBarPos = scrollBarPosMax;
+    }
+
+    if (scrollBarPos != oldScrollBarPos) {
+        timeLine->setFrameRange(oldScrollBarPos, scrollBarPos);
+        timeLine->start();
+    }
 }
 
-void KTreeView::KTreeViewPrivate::setScrollTowards( int scrollTowards )
+void KTreeView::KTreeViewPrivate::updateVerticalScrollBar(int value)
 {
-	if (scrollTowards < 0)
-		scrollTowards = 0;
-	this->scrollTowards = scrollTowards;
-	scrollTimer.start(scrollDelay);
+    QScrollBar *scrollBar = parent->horizontalScrollBar();
+    scrollBar->setValue(value);
+    startScrollTimer->stop();
 }
 
-//************************************************
+// ************************************************
 
-KTreeView::KTreeView(QWidget *parent)
-	: QTreeView(parent)
-	, d(new KTreeViewPrivate(this))
+KTreeView::KTreeView(QWidget *parent) :
+	QTreeView(parent),
+	d(new KTreeViewPrivate(this))
 {
-	/* The graphicEffectsLevel was not available in the 4.0.3 version of
-	 * the libs I was compiling with, so this is left out for now and
-	 * enabled by default...
-	 */
-	//if (KGlobalSettings::graphicEffectsLevel() >=
-			//KGlobalSettings::SimpleAnimationEffects)
-	//{
-		setAutoHorizontalScroll(true);
-	//}
-		connect(
-				&d->scrollTimer,
-				SIGNAL(timeout()),
-				d,
-				SLOT(autoScrollTimeout())
-			   );
-
+    if (KGlobalSettings::graphicEffectsLevel() >= KGlobalSettings::SimpleAnimationEffects) {
+        setAutoHorizontalScroll(true);
+    }
 }
 
 void KTreeView::setAutoHorizontalScroll(bool value)
@@ -169,9 +143,17 @@ void KTreeView::setAutoHorizontalScroll(bool value)
 	d->autoHorizontalScroll = value;
 }
 
-bool KTreeView::autoHorizontalScroll( void )
+bool KTreeView::autoHorizontalScroll() const
 {
 	return d->autoHorizontalScroll;
+}
+
+void KTreeView::setSelectionModel(QItemSelectionModel *selectionModel)
+{
+    QTreeView::setSelectionModel(selectionModel);
+    connect(selectionModel,
+            SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            d->startScrollTimer, SLOT(start()));
 }
 
 #include "ktreeview.moc"

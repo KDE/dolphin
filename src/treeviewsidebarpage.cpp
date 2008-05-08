@@ -41,7 +41,6 @@
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_setLeafVisible(false),
-    m_horizontalPos(0),
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
@@ -211,8 +210,6 @@ void TreeViewSidebarPage::expandToLeafDir()
 
 void TreeViewSidebarPage::loadSubTree()
 {
-    m_treeView->selectionModel()->clearSelection();
-
     if (m_leafDir.isParentOf(m_dirLister->url())) {
         // The leaf directory is not a child of the base URL, hence
         // no sub directory must be loaded or selected.
@@ -243,8 +240,6 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
 {
     Q_ASSERT(m_dirLister != 0);
     m_leafDir = url;
-
-    m_horizontalPos = m_treeView->horizontalScrollBar()->value();
 
     KUrl baseUrl = url;
     if (url.isLocalFile()) {
@@ -283,8 +278,6 @@ void TreeViewSidebarPage::selectLeafDirectory()
 
     QItemSelectionModel* selModel = m_treeView->selectionModel();
     selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
-
-    m_treeView->horizontalScrollBar()->setValue(m_horizontalPos);
 }
 
 #include "treeviewsidebarpage.moc"
