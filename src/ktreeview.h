@@ -35,6 +35,7 @@ public:
     bool autoHorizontalScroll() const;
 
     virtual void setSelectionModel(QItemSelectionModel *selectionModel);
+    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
 private:
     class KTreeViewPrivate;

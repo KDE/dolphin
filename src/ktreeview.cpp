@@ -36,7 +36,7 @@ KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent) :
 {
     startScrollTimer = new QTimer(this);
     startScrollTimer->setSingleShot(true);
-    startScrollTimer->setInterval(50);
+    startScrollTimer->setInterval(300);
     connect(startScrollTimer, SIGNAL(timeout()),
             this, SLOT(startScrolling()));
 
@@ -154,6 +154,19 @@ void KTreeView::setSelectionModel(QItemSelectionModel *selectionModel)
     connect(selectionModel,
             SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
             d->startScrollTimer, SLOT(start()));
+}
+
+void KTreeView::scrollTo(const QModelIndex& index, ScrollHint hint)
+{
+    if (d->autoHorizontalScroll) {
+        // assure that the value of the horizontal scrollbar stays on its current value,
+        // KTreeView will adjust the value manually
+        const int value = horizontalScrollBar()->value();
+        QTreeView::scrollTo(index, hint);
+        horizontalScrollBar()->setValue(value);
+    } else {
+        QTreeView::scrollTo(index, hint);
+    }
 }
 
 #include "ktreeview.moc"
