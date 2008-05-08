@@ -210,6 +210,8 @@ void TreeViewSidebarPage::expandToLeafDir()
 
 void TreeViewSidebarPage::loadSubTree()
 {
+    m_treeView->selectionModel()->clearSelection();
+
     if (m_leafDir.isParentOf(m_dirLister->url())) {
         // The leaf directory is not a child of the base URL, hence
         // no sub directory must be loaded or selected.
