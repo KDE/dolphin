@@ -92,9 +92,6 @@ bool SidebarTreeView::event(QEvent* event)
         }
 #endif
     }
-    else if (event->type() == QEvent::MetaCall) {
-        resizeColumnToContents(DolphinModel::Name);
-    }
 
     return QTreeView::event(event);
 }
