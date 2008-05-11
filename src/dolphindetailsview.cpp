@@ -188,9 +188,16 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     QTreeView::mousePressEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
-    if (index.isValid() && (event->button() == Qt::LeftButton)) {
-        // TODO: see comment in DolphinIconsView::mousePressEvent()
-        setState(QAbstractItemView::DraggingState);
+    const bool updateState = index.isValid() &&
+                             (index.column() == DolphinModel::Name) &&
+                             (event->button() == Qt::LeftButton);
+    if (updateState) {
+        // TODO: See comment in DolphinIconsView::mousePressEvent(). Only update
+        // the state if no expanding/collapsing area has been hit:
+        const QRect rect = visualRect(index);
+        if (event->pos().x() >= rect.x() + indentation()) {
+            setState(QAbstractItemView::DraggingState);
+        }
     }
 
     if (!index.isValid() || (index.column() != DolphinModel::Name)) {
