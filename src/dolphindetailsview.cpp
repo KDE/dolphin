@@ -46,6 +46,7 @@
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
 	m_autoResize(true),
+    m_expandingTogglePressed(false),
     m_controller(controller),
     m_selectionManager(0),
     m_font(),
@@ -187,6 +188,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 
     QTreeView::mousePressEvent(event);
 
+    m_expandingTogglePressed = false;
     const QModelIndex index = indexAt(event->pos());
     const bool updateState = index.isValid() &&
                              (index.column() == DolphinModel::Name) &&
@@ -197,6 +199,8 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
         const QRect rect = visualRect(index);
         if (event->pos().x() >= rect.x() + indentation()) {
             setState(QAbstractItemView::DraggingState);
+        } else {
+            m_expandingTogglePressed = true;
         }
     }
 
@@ -207,7 +211,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
         }
     }
 
-    if (event->button() == Qt::LeftButton) {
+    if ((event->button() == Qt::LeftButton) && !m_expandingTogglePressed) {
         m_showElasticBand = true;
 
         const QPoint pos(contentsPos());
@@ -248,11 +252,20 @@ void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
         // QTreeView::mouseMoveEvent(event);
         QAbstractItemView::mouseMoveEvent(event);
     }
+
+    if (m_expandingTogglePressed) {
+        // Per default QTreeView starts either a selection or a drag operation when dragging
+        // the expanding toggle button (Qt-issue - see TODO comment in DolphinIconsView::mousePressEvent()).
+        // Turn off this behavior in Dolphin to stay predictable:
+        clearSelection();
+        setState(QAbstractItemView::NoState);
+    }
 }
 
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 {
     QTreeView::mouseReleaseEvent(event);
+    m_expandingTogglePressed = false;
     if (m_showElasticBand) {
         updateElasticBand();
         m_showElasticBand = false;

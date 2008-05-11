@@ -157,6 +157,7 @@ private:
 
 private:
 	bool m_autoResize;  // if true, the columns are resized automatically to the available width
+    bool m_expandingTogglePressed;
 
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
