@@ -31,6 +31,7 @@
 #include <kdirlister.h>
 #include <kfileitem.h>
 
+#include <QApplication>
 #include <QItemSelection>
 #include <QTreeView>
 #include <QBoxLayout>
@@ -41,6 +42,7 @@
 TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_setLeafVisible(false),
+    m_mouseButtons(Qt::NoButton),
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
@@ -135,6 +137,8 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
                 this, SLOT(updateActiveView(const QModelIndex&)));
         connect(m_treeView, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&)),
                 this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&)));
+        connect(m_treeView, SIGNAL(pressed(const QModelIndex&)),
+                this, SLOT(updateMouseButtons()));
 
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
@@ -166,7 +170,7 @@ void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
     const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
     if (!item.isNull()) {
-        emit changeUrl(item.url());
+        emit changeUrl(item.url(), m_mouseButtons);
     }
 }
 
@@ -236,6 +240,11 @@ void TreeViewSidebarPage::scrollToLeaf()
     if (proxyIndex.isValid()) {
         m_treeView->scrollTo(proxyIndex);
     }
+}
+
+void TreeViewSidebarPage::updateMouseButtons()
+{
+    m_mouseButtons = QApplication::mouseButtons();
 }
 
 void TreeViewSidebarPage::loadTree(const KUrl& url)

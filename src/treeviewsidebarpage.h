@@ -51,6 +51,27 @@ public:
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
+signals:
+    /**
+     * Is emitted if the an URL change is requested.
+     */
+    void changeUrl(const KUrl& url, Qt::MouseButtons buttons);
+
+    /**
+     * This signal is emitted when the sidebar requests a change in the
+     * current selection. The file-management view recieving this signal is
+     * not required to select all listed files, limiting the selection to
+     * e.g. the current folder. The new selection will be reported via the
+     * setSelection slot.
+     */
+    void changeSelection(const KFileItemList& selection);
+
+    /**
+     * This signal is emitted whenever a drop action on this widget needs the
+     * MainWindow's attention.
+     */
+    void urlsDropped(const KUrl::List& urls, const KUrl& destination);
+
 public slots:
     /**
      * Changes the current selection inside the tree to \a url.
@@ -107,6 +128,8 @@ private slots:
      */
     void scrollToLeaf();
 
+    void updateMouseButtons();
+
 private:
     /**
      * Initializes the base URL of the tree and expands all
@@ -124,6 +147,7 @@ private:
 
 private:
     bool m_setLeafVisible;
+    Qt::MouseButtons m_mouseButtons;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;

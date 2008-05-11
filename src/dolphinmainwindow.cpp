@@ -1046,8 +1046,8 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::LeftDockWidgetArea, treeViewDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             treeWidget, SLOT(setUrl(KUrl)));
-    connect(treeWidget, SIGNAL(changeUrl(KUrl)),
-            this, SLOT(changeUrl(KUrl)));
+    connect(treeWidget, SIGNAL(changeUrl(KUrl, Qt::MouseButtons)),
+            this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
     connect(treeWidget, SIGNAL(changeSelection(KFileItemList)),
             this, SLOT(changeSelection(KFileItemList)));
     connect(treeWidget, SIGNAL(urlsDropped(KUrl::List, KUrl)),
