@@ -339,6 +339,13 @@ private slots:
      */
     void openTabContextMenu(int index, const QPoint& pos);
 
+    /**
+     * Handles a click on a places item: if the middle mouse button is
+     * clicked, a new tab is opened for \a url, otherwise the current
+     * view is replaced by \a url.
+     */
+    void handlePlacesClick(const KUrl& url, Qt::MouseButtons buttons);
+
 private:
     DolphinMainWindow(int id);
     void init();

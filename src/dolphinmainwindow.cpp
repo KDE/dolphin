@@ -763,6 +763,16 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
     }
 }
 
+void DolphinMainWindow::handlePlacesClick(const KUrl& url, Qt::MouseButtons buttons)
+{
+    if (buttons & Qt::MidButton) {
+        openNewTab(url);
+        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+    } else {
+        changeUrl(url);
+    }
+}
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -1084,8 +1094,8 @@ void DolphinMainWindow::setupDockWidgets()
     actionCollection()->addAction("show_places_panel", placesDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
-    connect(placesView, SIGNAL(urlChanged(KUrl)),
-            this, SLOT(changeUrl(KUrl)));
+    connect(placesView, SIGNAL(urlChanged(KUrl, Qt::MouseButtons)),
+            this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesView, SLOT(setUrl(KUrl)));
 }

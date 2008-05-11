@@ -22,15 +22,24 @@
 #include <konq_operations.h>
 
 DolphinFilePlacesView::DolphinFilePlacesView(QWidget* parent) :
-    KFilePlacesView(parent)
+    KFilePlacesView(parent),
+    m_mouseButtons(Qt::NoButton)
 {
     setDropOnPlaceEnabled(true);
     connect(this, SIGNAL(urlsDropped(const KUrl&, QDropEvent*, QWidget*)),
             this, SLOT(slotUrlsDropped(const KUrl&, QDropEvent*, QWidget*)));
+    connect(this, SIGNAL(urlChanged(const KUrl&)),
+            this, SLOT(emitExtendedUrlChangedSignal(const KUrl&)));
 }
 
 DolphinFilePlacesView::~DolphinFilePlacesView()
 {
+}
+
+void DolphinFilePlacesView::mousePressEvent(QMouseEvent* event)
+{
+    m_mouseButtons = event->buttons();
+    KFilePlacesView::mousePressEvent(event);
 }
 
 void DolphinFilePlacesView::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
@@ -42,6 +51,11 @@ void DolphinFilePlacesView::slotUrlsDropped(const KUrl& dest, QDropEvent* event,
     connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
             this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
     dropController.dropUrls(urls, dest);
+}
+
+void DolphinFilePlacesView::emitExtendedUrlChangedSignal(const KUrl& url)
+{
+    emit urlChanged(url, m_mouseButtons);
 }
 
 #include "dolphinfileplacesview.moc"

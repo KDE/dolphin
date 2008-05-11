@@ -34,8 +34,18 @@ public:
     DolphinFilePlacesView(QWidget* parent);
     virtual ~DolphinFilePlacesView();
 
+signals:
+    void urlChanged(const KUrl& url, Qt::MouseButtons buttons);
+
+protected:
+    virtual void mousePressEvent(QMouseEvent* event);
+
 private slots:
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
+    void emitExtendedUrlChangedSignal(const KUrl& url);
+
+private:
+    Qt::MouseButtons m_mouseButtons;
 };
 
 #endif // DOLPHINFILEPLACESVIEW_H
