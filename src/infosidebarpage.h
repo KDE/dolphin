@@ -59,8 +59,11 @@ public slots:
     /** @see SidebarPage::setUrl() */
     virtual void setUrl(const KUrl& url);
 
-    /** @see SidebarPage::setSelection() */
-    virtual void setSelection(const KFileItemList& selection);
+    /**
+     * This is invoked to inform the sidebar that the user has selected a new
+     * set of items.
+     */
+    void setSelection(const KFileItemList& selection);
 
     /**
      * Does a delayed request of information for the item \a item.
@@ -135,6 +138,7 @@ private:
     KUrl m_shownUrl;      // URL that is shown as info
     KUrl m_urlCandidate;  // URL candidate that will replace m_shownURL after a delay
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
+    KFileItemList m_selection;
 
     QLabel* m_nameLabel;
     PixmapViewer* m_preview;

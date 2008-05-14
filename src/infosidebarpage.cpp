@@ -53,6 +53,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_shownUrl(),
     m_urlCandidate(),
     m_fileItem(),
+    m_selection(),
     m_nameLabel(0),
     m_preview(0),
     m_metaDataWidget(0),
@@ -128,7 +129,7 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 
 void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
-    SidebarPage::setSelection(selection);
+    m_selection = selection;
 
     const int count = selection.count();
     if (count == 0) {
@@ -150,7 +151,7 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
     if (item.isNull()) {
         // The cursor is above the viewport. If files are selected,
         // show information regarding the selection.
-        if (selection().size() > 0) {
+        if (m_selection.size() > 0) {
             m_timer->start(TimerDelay);
         }
     } else if (!item.url().isEmpty()) {
@@ -194,13 +195,12 @@ void InfoSidebarPage::showItemInfo()
 
     cancelRequest();
 
-    const KFileItemList& selectedItems = selection();
-    const KUrl file = (!m_fileItem.isNull() || selectedItems.isEmpty()) ? m_shownUrl : selectedItems[0].url();
+    const KUrl file = (!m_fileItem.isNull() || m_selection.isEmpty()) ? m_shownUrl : m_selection[0].url();
     if (!file.isValid()) {
         return;
     }
 
-    const int selectionCount = selectedItems.count();
+    const int selectionCount = m_selection.count();
     if (m_fileItem.isNull() && (selectionCount > 1)) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("dialog-information",
@@ -290,12 +290,11 @@ void InfoSidebarPage::showMetaInfo()
 {
     m_metaTextLabel->clear();
 
-    const KFileItemList& selectedItems = selection();
-    if ((selectedItems.size() <= 1) || !m_fileItem.isNull()) {
+    if ((m_selection.size() <= 1) || !m_fileItem.isNull()) {
         KFileItem fileItem;
         if (m_fileItem.isNull()) {
             // no pending request is ongoing
-            const KUrl url = (selectedItems.size() == 1) ? selectedItems.first().url() : m_shownUrl;
+            const KUrl url = (m_selection.size() == 1) ? m_selection.first().url() : m_shownUrl;
             fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, url);
             fileItem.refresh();
         } else {
@@ -341,14 +340,14 @@ void InfoSidebarPage::showMetaInfo()
     } else {
         if (m_metaDataWidget != 0) {
             KUrl::List urls;
-            foreach (const KFileItem& item, selectedItems) {
+            foreach (const KFileItem& item, m_selection) {
                 urls.append(item.targetUrl());
             }
             m_metaDataWidget->setFiles(urls);
         }
 
         unsigned long int totalSize = 0;
-        foreach (const KFileItem& item, selectedItems) {
+        foreach (const KFileItem& item, m_selection) {
             // Only count the size of files, not dirs to match what
             // DolphinViewContainer::selectionStatusBarText() does.
             if (!item.isDir() && !item.isLink()) {

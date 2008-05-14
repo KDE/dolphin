@@ -31,15 +31,13 @@
 class SidebarPage : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit SidebarPage(QWidget* parent = 0);
     virtual ~SidebarPage();
 
     /** Returns the current set URL of the active Dolphin view. */
     const KUrl& url() const;
-
-    /** Returns the current selected items of the active Dolphin view. */
-    const KFileItemList& selection() const;
 
 public slots:
     /**
@@ -48,15 +46,8 @@ public slots:
      */
     virtual void setUrl(const KUrl& url);
 
-    /**
-     * This is invoked to inform the sidebar that the user has selected a new
-     * set of items.
-     */
-    virtual void setSelection(const KFileItemList& selection);
-
 private:
     KUrl m_url;
-    KFileItemList m_currentSelection;
 };
 
 #endif // _SIDEBARPAGE_H_
