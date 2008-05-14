@@ -152,6 +152,7 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
         // The cursor is above the viewport. If files are selected,
         // show information regarding the selection.
         if (m_selection.size() > 0) {
+            m_pendingPreview = false;
             m_timer->start(TimerDelay);
         }
     } else if (!item.url().isEmpty()) {
