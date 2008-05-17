@@ -18,6 +18,7 @@ Type=Application
 X-DocPath=dolphin/index.html
 Categories=Qt;KDE;System;FileManager;
 GenericName=File Manager
+GenericName[af]=Lêerbestuurder
 GenericName[ar]=مدير الملفات
 GenericName[be]=Кіраўнік файлаў
 GenericName[bg]=Файлов браузър

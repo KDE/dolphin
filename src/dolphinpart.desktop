@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Service
 Name=Dolphin View
+Name[af]=Dolphin Deel
 Name[ca]=Vista del Dolphin
 Name[de]=Dolphin-Ansicht
 Name[el]=Προβολή του Dolphin
@@ -8,6 +9,7 @@ Name[eo]=Dolphin-rigardo
 Name[es]=Vista de Dolphin
 Name[et]=Dolphini vaade
 Name[fi]=Dolphin
+Name[fr]=Vue de Dolphin
 Name[ga]=Amharc Dolphin
 Name[gu]=ડોલ્ફિન દેખાવ
 Name[ja]=Dolphin ビュー
@@ -47,7 +49,7 @@ Actions=icons;details;columns;
 
 [Desktop Action icons]
 Name=Icons
-Name[af]=Ikoone
+Name[af]=Ikone
 Name[ar]=الأيقونات
 Name[be]=Значкі
 Name[bg]=Икони
@@ -113,7 +115,8 @@ Name[tg]=Нишонаҳо
 Name[th]=ไอคอน
 Name[tr]=Simgeler
 Name[uk]=Піктограми
-Name[uz]=Нишончалар
+Name[uz]=Nishonchalar
+Name[uz@cyrillic]=Нишончалар
 Name[vi]=Biểu tượng
 Name[wa]=Imådjetes
 Name[x-test]=xxIconsxx
@@ -126,6 +129,7 @@ Exec=dolphin
 
 [Desktop Action details]
 Name=Details
+Name[af]=Besonderhede
 Name[ca]=Detalls
 Name[csb]=Detale
 Name[el]=Λεπτομέρειες
@@ -136,6 +140,7 @@ Name[fi]=Yksityiskohdat
 Name[fr]=Détails
 Name[ga]=Mionsonraí
 Name[gu]=વિગતો
+Name[hu]=Részletek
 Name[ja]=詳細
 Name[km]=សេចក្ដី​លម្អិត
 Name[ko]=자세히
@@ -167,6 +172,7 @@ Exec=dolphin
 
 [Desktop Action columns]
 Name=Columns
+Name[af]=Kolomme
 Name[ca]=Columnes
 Name[de]=Spalten
 Name[el]=Στήλες
@@ -177,6 +183,7 @@ Name[fi]=Sarakkeet
 Name[fr]=Colonnes
 Name[ga]=Colúin
 Name[gu]=સ્થંભો
+Name[hu]=Oszlopok
 Name[ja]=カラム
 Name[km]=ជួរឈរ
 Name[ko]=열
