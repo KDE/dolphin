@@ -347,7 +347,7 @@ void InfoSidebarPage::showMetaInfo()
             m_metaDataWidget->setFiles(urls);
         }
 
-        unsigned long int totalSize = 0;
+        quint64 totalSize = 0;
         foreach (const KFileItem& item, m_selection) {
             // Only count the size of files, not dirs to match what
             // DolphinViewContainer::selectionStatusBarText() does.
