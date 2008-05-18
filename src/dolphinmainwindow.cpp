@@ -737,7 +737,7 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
     QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
     newTabAction->setShortcut(actionCollection()->action("new_tab")->shortcut());
 
-    QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Other Tabs"));
+    QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
 
     QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
     closeTabAction->setShortcut(actionCollection()->action("close_tab")->shortcut());
