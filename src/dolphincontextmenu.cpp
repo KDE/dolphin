@@ -41,6 +41,7 @@
 #include <konqmimedata.h>
 #include <konq_operations.h>
 #include <konq_menuactions.h>
+#include <konq_popupmenuinformation.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
 #include <krun.h>
@@ -189,7 +190,9 @@ void DolphinContextMenu::openItemContextMenu()
 
     // Insert 'Actions' sub menu
     KonqMenuActions menuActions;
-    menuActions.setItems(m_selectedItems);
+    KonqPopupMenuInformation menuInfo;
+    menuInfo.setItems(m_selectedItems);
+    menuActions.setPopupMenuInfo(menuInfo);
     if (menuActions.addActionsTo(popup)) {
         popup->addSeparator();
     }
