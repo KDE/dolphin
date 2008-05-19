@@ -185,14 +185,18 @@ void DolphinContextMenu::openItemContextMenu()
     }
 
     // Insert 'Open With...' sub menu
+    // TODO: port to menuActions.addOpenWithActionsTo(popup);
     QVector<KService::Ptr> openWithVector;
     const QList<QAction*> openWithActions = insertOpenWithItems(popup, openWithVector);
 
+    KonqPopupMenuInformation popupInfo;
+    popupInfo.setItems(m_selectedItems);
+    popupInfo.setReadOnly(!capabilities().supportsMoving());
+    popupInfo.setParentWidget(m_mainWindow);
+
     // Insert 'Actions' sub menu
     KonqMenuActions menuActions;
-    KonqPopupMenuInformation menuInfo;
-    menuInfo.setItems(m_selectedItems);
-    menuActions.setPopupMenuInfo(menuInfo);
+    menuActions.setPopupMenuInfo(popupInfo);
     if (menuActions.addActionsTo(popup)) {
         popup->addSeparator();
     }
@@ -200,7 +204,7 @@ void DolphinContextMenu::openItemContextMenu()
     // Insert 'Copy To' and 'Move To' sub menus
     if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
         m_copyToMenu.setItems(m_selectedItems);
-        m_copyToMenu.setReadOnly(!capabilities().supportsMoving());
+        m_copyToMenu.setReadOnly(!capabilities().supportsWriting());
         m_copyToMenu.addActionsTo(popup);
         popup->addSeparator();
     }
