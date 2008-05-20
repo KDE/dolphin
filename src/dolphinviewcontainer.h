@@ -90,8 +90,6 @@ public:
     void setActive(bool active);
     bool isActive() const;
 
-    KFileItem fileItem(const QModelIndex& index) const;
-
     const DolphinStatusBar* statusBar() const;
     DolphinStatusBar* statusBar();
 

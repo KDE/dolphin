@@ -199,12 +199,6 @@ bool DolphinViewContainer::isUrlEditable() const
     return m_urlNavigator->isUrlEditable();
 }
 
-KFileItem DolphinViewContainer::fileItem(const QModelIndex& index) const
-{
-    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
-    return m_dolphinModel->itemForIndex(dolphinModelIndex);
-}
-
 void DolphinViewContainer::updateProgress(int percent)
 {
     if (!m_showProgress) {
