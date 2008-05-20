@@ -108,12 +108,6 @@ public:
     /** Returns true, if the filter bar is visible. */
     bool isFilterBarVisible() const;
 
-    /**
-     * Return the DolphinMainWindow this View belongs to. It is guaranteed
-     * that we have one.
-     */
-    const DolphinMainWindow* mainWindow() const;
-
 public slots:
     /**
      * Popups the filter bar above the status bar if \a show is true.
@@ -266,11 +260,6 @@ inline const DolphinView* DolphinViewContainer::view() const
 inline DolphinView* DolphinViewContainer::view()
 {
     return m_view;
-}
-
-inline const DolphinMainWindow* DolphinViewContainer::mainWindow() const
-{
-    return m_mainWindow;
 }
 
 #endif // DOLPHINVIEWCONTAINER_H
