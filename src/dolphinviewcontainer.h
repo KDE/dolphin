@@ -230,6 +230,9 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
+
+    KUrl m_previousUrl;
+    KUrl m_currentUrl;
 };
 
 inline const DolphinStatusBar* DolphinViewContainer::statusBar() const

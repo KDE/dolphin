@@ -347,6 +347,20 @@ QPoint DolphinView::contentsPosition() const
     return QPoint(x, y);
 }
 
+void DolphinView::setCurrentItem(const KUrl& url)
+{
+    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
+    if (dirIndex.isValid()) {
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        QAbstractItemView* view = itemView();
+        const bool clearSelection = !hasSelection();
+        view->setCurrentIndex(proxyIndex);
+        if (clearSelection) {
+            view->clearSelection();
+        }
+    }
+}
+
 void DolphinView::zoomIn()
 {
     m_controller->triggerZoomIn();

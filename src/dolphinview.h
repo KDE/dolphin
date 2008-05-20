@@ -233,6 +233,12 @@ public:
     /** Returns the upper left position of the view content. */
     QPoint contentsPosition() const;
 
+    /**
+     * Sets the current item (= item that has the keyboard focus) to
+     * the item with the URL \a url.
+     */
+    void setCurrentItem(const KUrl& url);
+
     /** Increases the size of the current set view mode. */
     void zoomIn();
 

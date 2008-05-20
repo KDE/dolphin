@@ -68,7 +68,9 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_filterBar(0),
     m_statusBar(0),
     m_dirLister(0),
-    m_proxyModel(0)
+    m_proxyModel(0),
+    m_previousUrl(),
+    m_currentUrl()
 {
     hide();
 
@@ -167,14 +169,18 @@ DolphinViewContainer::~DolphinViewContainer()
     m_dirLister = 0; // deleted by m_dolphinModel
 }
 
-void DolphinViewContainer::setUrl(const KUrl& url)
+void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
-    m_urlNavigator->setUrl(url);
+    if (newUrl != m_currentUrl) {
+        m_previousUrl = m_currentUrl;
+        m_currentUrl = newUrl;
+        m_urlNavigator->setUrl(newUrl);
+    }
 }
 
 const KUrl& DolphinViewContainer::url() const
 {
-    return m_urlNavigator->url();
+    return m_currentUrl;
 }
 
 void DolphinViewContainer::setActive(bool active)
@@ -228,7 +234,7 @@ void DolphinViewContainer::slotDirListerCompleted()
     }
 
     updateStatusBar();
-
+    m_view->setCurrentItem(m_previousUrl);
     QTimer::singleShot(100, this, SLOT(restoreContentsPos()));
 }
 
