@@ -134,7 +134,7 @@ void StartupSettingsPage::restoreDefaults()
 void StartupSettingsPage::selectHomeUrl()
 {
     const QString homeUrl = m_homeUrl->text();
-    KUrl url = KFileDialog::getExistingDirectoryUrl(homeUrl);
+    KUrl url = KFileDialog::getExistingDirectoryUrl(homeUrl, this);
     if (!url.isEmpty()) {
         m_homeUrl->setText(url.prettyUrl());
         emit changed();
