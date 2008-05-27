@@ -165,7 +165,7 @@ if (Nepomuk_FOUND)
   target_link_libraries(dolphin ${NEPOMUK_LIBRARIES})
 endif (Nepomuk_FOUND)
 
-install(TARGETS dolphin DESTINATION ${BIN_INSTALL_DIR})
+install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
 
