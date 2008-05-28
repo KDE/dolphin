@@ -138,6 +138,11 @@ private Q_SLOTS:
      * Asks the host to open the URL \a url if the current view has
      * a different URL.
      */
+    void slotRequestUrlChange(const KUrl& url);
+
+    /**
+     * Informs the host that we are opening \a url (e.g. after a redirection).
+     */
     void slotUrlChanged(const KUrl& url);
 
     /**

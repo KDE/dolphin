@@ -421,6 +421,12 @@ signals:
     void urlChanged(const KUrl& url);
 
     /**
+     * Is emitted if the view requests a changing of the current
+     * URL to \a url (see DolphinController::triggerUrlChangeRequest()).
+     */
+    void requestUrlChange(const KUrl& url);
+
+    /**
      * Is emitted when clicking on an item with the left mouse button.
      */
     void itemTriggered(const KFileItem& item);
@@ -594,6 +600,18 @@ private slots:
      * of the job \a job has been finished.
      */
     void slotDeleteFileFinished(KJob* job);
+
+    /**
+     * Called when KDirLister emits redirection.
+     * Testcase: fish://localhost
+     */
+    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+
+    /**
+     * Is emitted if the controller requests a changing of the current
+     * URL to \a url
+     */
+    void slotRequestUrlChange(const KUrl& url);
 
     /**
      * Restores the current item (= item that has the keyboard focus)

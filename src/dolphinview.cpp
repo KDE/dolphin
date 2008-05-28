@@ -102,7 +102,7 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
             this, SIGNAL(urlChanged(const KUrl&)));
     connect(m_controller, SIGNAL(requestUrlChange(const KUrl&)),
-            this, SIGNAL(urlChanged(const KUrl&)));
+            this, SIGNAL(slotRequestUrlChange(const KUrl&)));
 
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
@@ -125,6 +125,8 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_controller, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
 
+    connect(m_dirLister, SIGNAL(redirection(KUrl, KUrl)),
+            this, SLOT(slotRedirection(KUrl, KUrl)));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(restoreCurrentItem()));
 
@@ -1201,6 +1203,18 @@ void DolphinView::pasteToUrl(const KUrl& url)
         KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url);
         emit doingOperation(KIO::FileUndoManager::Copy);
     }
+}
+
+void DolphinView::slotRequestUrlChange(const KUrl& url)
+{
+    emit requestUrlChange(url);
+    m_controller->setUrl(url);
+}
+
+void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    if (oldUrl == m_controller->url())
+        m_controller->setUrl(newUrl);
 }
 
 #include "dolphinview.moc"
