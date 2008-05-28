@@ -1188,7 +1188,16 @@ void DolphinMainWindow::updateSplitAction()
 
 QString DolphinMainWindow::tabName(const KUrl& url) const
 {
-    return url.equals(KUrl("file:///")) ? "/" : url.fileName();
+    QString name;
+    if (url.equals(KUrl("file:///"))) {
+        name = "/";
+    } else {
+        name = url.fileName();
+        if (name.isEmpty()) {
+            name = url.protocol();
+        }
+    }
+    return name;
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
