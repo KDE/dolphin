@@ -233,12 +233,6 @@ public:
     /** Returns the upper left position of the view content. */
     QPoint contentsPosition() const;
 
-    /**
-     * Sets the current item (= item that has the keyboard focus) to
-     * the item with the URL \a url.
-     */
-    void setCurrentItem(const KUrl& url);
-
     /** Increases the size of the current set view mode. */
     void zoomIn();
 
@@ -601,6 +595,12 @@ private slots:
      */
     void slotDeleteFileFinished(KJob* job);
 
+    /**
+     * Restores the current item (= item that has the keyboard focus)
+     * to m_currentItemUrl.
+     */
+    void restoreCurrentItem();
+
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
 
@@ -683,6 +683,7 @@ private:
     ToolTipManager* m_toolTipManager;
 
     KUrl m_rootUrl;
+    KUrl m_currentItemUrl;
 };
 
 /// Allow using DolphinView::Mode in QVariant

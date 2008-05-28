@@ -84,7 +84,9 @@ DolphinView::DolphinView(QWidget* parent,
     m_dirLister(dirLister),
     m_proxyModel(proxyModel),
     m_iconManager(0),
-    m_toolTipManager(0)
+    m_toolTipManager(0),
+    m_rootUrl(),
+    m_currentItemUrl()
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -122,6 +124,9 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(showHoverInformation(const KFileItem&)));
     connect(m_controller, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
+
+    connect(m_dirLister, SIGNAL(completed()),
+            this, SLOT(restoreCurrentItem()));
 
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
@@ -347,20 +352,6 @@ QPoint DolphinView::contentsPosition() const
     return QPoint(x, y);
 }
 
-void DolphinView::setCurrentItem(const KUrl& url)
-{
-    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
-    if (dirIndex.isValid()) {
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        QAbstractItemView* view = itemView();
-        const bool clearSelection = !hasSelection();
-        view->setCurrentIndex(proxyIndex);
-        if (clearSelection) {
-            view->clearSelection();
-        }
-    }
-}
-
 void DolphinView::zoomIn()
 {
     m_controller->triggerZoomIn();
@@ -493,6 +484,8 @@ void DolphinView::calculateItemCount(int& fileCount, int& folderCount)
 
 void DolphinView::setUrl(const KUrl& url)
 {
+    // remember current item candidate (see restoreCurrentItem())
+    m_currentItemUrl = url;
     updateView(url, KUrl());
 }
 
@@ -966,6 +959,21 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
         emit operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
     } else {
         emit errorMessage(job->errorString());
+    }
+}
+
+
+void DolphinView::restoreCurrentItem()
+{
+    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_currentItemUrl);
+    if (dirIndex.isValid()) {
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        QAbstractItemView* view = itemView();
+        const bool clearSelection = !hasSelection();
+        view->setCurrentIndex(proxyIndex);
+        if (clearSelection) {
+            view->clearSelection();
+        }
     }
 }
 
