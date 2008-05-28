@@ -76,6 +76,7 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_nameLabel->setFont(font);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setWordWrap(true);
+    m_nameLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     // preview
     m_preview = new PixmapViewer(this);
@@ -85,11 +86,13 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     if (MetaDataWidget::metaDataAvailable()) {
         // rating, comment and tags
         m_metaDataWidget = new MetaDataWidget(this);
+        m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     }
 
     // general meta text information
     m_metaTextLabel = new MetaTextLabel(this);
     m_metaTextLabel->setMinimumWidth(spacing);
+    m_metaTextLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator(this));
