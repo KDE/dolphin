@@ -305,26 +305,28 @@ void InfoSidebarPage::showMetaInfo()
             addInfoLine(text, i18nc("@label", "Size:"), KIO::convertSize(fileItem.size()));
             addInfoLine(text, i18nc("@label", "Modified:"), fileItem.timeString());
 
-            // TODO: See convertMetaInfo below, find a way to display only interesting information
-            // in a readable way
-            const KFileMetaInfo::WhatFlags flags = KFileMetaInfo::Fastest |
-                                                   KFileMetaInfo::TechnicalInfo |
-                                                   KFileMetaInfo::ContentInfo |
-                                                   KFileMetaInfo::Thumbnail;
-            const QString path = fileItem.url().url();
-            const KFileMetaInfo metaInfo(path, QString(), flags);
-            if (metaInfo.isValid()) {
-                const QHash<QString, KFileMetaInfoItem>& items = metaInfo.items();
-                QHash<QString, KFileMetaInfoItem>::const_iterator it = items.constBegin();
-                const QHash<QString, KFileMetaInfoItem>::const_iterator end = items.constEnd();
-                QString labelText;
-                while (it != end) {
-                    const KFileMetaInfoItem& metaInfo = it.value();
-                    const QVariant& value = metaInfo.value();
-                    if (value.isValid() && convertMetaInfo(metaInfo.name(), labelText)) {
-                        addInfoLine(text, labelText, value.toString());
+            if (fileItem.isLocalFile()) {
+                // TODO: See convertMetaInfo below, find a way to display only interesting information
+                // in a readable way
+                const KFileMetaInfo::WhatFlags flags = KFileMetaInfo::Fastest |
+                                                       KFileMetaInfo::TechnicalInfo |
+                                                       KFileMetaInfo::ContentInfo |
+                                                       KFileMetaInfo::Thumbnail;
+                const QString path = fileItem.url().url();
+                const KFileMetaInfo metaInfo(path, QString(), flags);
+                if (metaInfo.isValid()) {
+                    const QHash<QString, KFileMetaInfoItem>& items = metaInfo.items();
+                    QHash<QString, KFileMetaInfoItem>::const_iterator it = items.constBegin();
+                    const QHash<QString, KFileMetaInfoItem>::const_iterator end = items.constEnd();
+                    QString labelText;
+                    while (it != end) {
+                        const KFileMetaInfoItem& metaInfo = it.value();
+                        const QVariant& value = metaInfo.value();
+                        if (value.isValid() && convertMetaInfo(metaInfo.name(), labelText)) {
+                            addInfoLine(text, labelText, value.toString());
+                        }
+                        ++it;
                     }
-                    ++it;
                 }
             }
         }

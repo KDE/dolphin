@@ -92,6 +92,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QStringLi
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(m_view, SIGNAL(urlChanged(KUrl)),
             this, SLOT(slotUrlChanged(KUrl)));
+    connect(m_view, SIGNAL(requestUrlChange(KUrl)),
+            this, SLOT(slotRequestUrlChange(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SIGNAL(viewModeChanged())); // relay signal
 
@@ -344,6 +346,12 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
 }
 
 void DolphinPart::slotUrlChanged(const KUrl& url)
+{
+    QString prettyUrl = url.pathOrUrl();
+    emit m_extension->setLocationBarUrl(prettyUrl);
+}
+
+void DolphinPart::slotRequestUrlChange(const KUrl& url)
 {
     if (m_view->url() != url) {
         // If the view URL is not equal to 'url', then an inner URL change has
