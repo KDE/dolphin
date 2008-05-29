@@ -105,7 +105,7 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
             this, SIGNAL(urlChanged(const KUrl&)));
     connect(m_controller, SIGNAL(requestUrlChange(const KUrl&)),
-            this, SIGNAL(slotRequestUrlChange(const KUrl&)));
+            this, SLOT(slotRequestUrlChange(const KUrl&)));
 
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
