@@ -84,8 +84,9 @@ void IconManager::updatePreviews()
     }
 
     killJobs();
-    KFileItemList itemList;
+    m_cutItemsCache.clear();
 
+    KFileItemList itemList;
     const int rowCount = m_dolphinModel->rowCount();
     for (int row = 0; row < rowCount; ++row) {
         const QModelIndex index = m_dolphinModel->index(row, 0);
@@ -94,6 +95,7 @@ void IconManager::updatePreviews()
     }
 
     generatePreviews(itemList);
+    updateCutItems();
 }
 
 void IconManager::generatePreviews(const KFileItemList& items)
