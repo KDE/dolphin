@@ -58,6 +58,7 @@ protected:
     virtual void dropEvent(QDropEvent* event);
     virtual void paintEvent(QPaintEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
+    virtual void keyReleaseEvent(QKeyEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
@@ -158,6 +159,7 @@ private:
 private:
 	bool m_autoResize;  // if true, the columns are resized automatically to the available width
     bool m_expandingTogglePressed;
+    bool m_keyPressed;  // true if a key is pressed currently; info used by currentChanged()
 
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;

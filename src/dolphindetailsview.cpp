@@ -47,6 +47,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     QTreeView(parent),
 	m_autoResize(true),
     m_expandingTogglePressed(false),
+    m_keyPressed(false),
     m_controller(controller),
     m_selectionManager(0),
     m_font(),
@@ -360,6 +361,13 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 {
     QTreeView::keyPressEvent(event);
     m_controller->handleKeyPressEvent(event);
+    m_keyPressed = true;
+}
+
+void DolphinDetailsView::keyReleaseEvent(QKeyEvent* event)
+{
+    QTreeView::keyReleaseEvent(event);
+    m_keyPressed = false;
 }
 
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
@@ -391,7 +399,7 @@ void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModel
 
     // Stay consistent with QListView: When changing the current index by key presses,
     // also change the selection.
-    if (QApplication::mouseButtons() == Qt::NoButton) {
+    if (m_keyPressed) {
         selectionModel()->select(current, QItemSelectionModel::ClearAndSelect);
     }
 }
