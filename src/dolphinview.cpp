@@ -176,6 +176,7 @@ void DolphinView::setActive(bool active)
     update();
 
     if (active) {
+        itemView()->setFocus();
         emit activated();
     }
 
