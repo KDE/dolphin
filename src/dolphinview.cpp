@@ -155,7 +155,6 @@ void DolphinView::setActive(bool active)
     }
 
     m_active = active;
-    m_selectionModel->clearSelection();
 
     QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     if (active) {
