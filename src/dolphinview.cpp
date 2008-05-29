@@ -1213,8 +1213,9 @@ void DolphinView::slotRequestUrlChange(const KUrl& url)
 
 void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
-    if (oldUrl == m_controller->url())
+    if (oldUrl == m_controller->url()) {
         m_controller->setUrl(newUrl);
+    }
 }
 
 #include "dolphinview.moc"
