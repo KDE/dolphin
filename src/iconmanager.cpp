@@ -232,6 +232,20 @@ void IconManager::replaceIcon(const KUrl& url, const QPixmap& pixmap)
 
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
+            // Remember the current icon in the cache for cut items before
+            // the disabled effect is applied. This makes it possible restoring
+            // the uncut version again when cutting other items.
+            QList<ItemInfo>::iterator begin = m_cutItemsCache.begin();
+            QList<ItemInfo>::iterator end   = m_cutItemsCache.end();
+            for (QList<ItemInfo>::iterator it = begin; it != end; ++it) {
+                if ((*it).url == item.url()) {
+                    (*it).pixmap = icon;
+                    break;
+                }
+            }
+
+            // apply the disabled effect to the icon for marking it as "cut item"
+            // and apply the icon to the item
             KIconEffect iconEffect;
             icon = iconEffect.apply(icon, KIconLoader::Desktop, KIconLoader::DisabledState);
             m_dolphinModel->setData(idx, QIcon(icon), Qt::DecorationRole);
