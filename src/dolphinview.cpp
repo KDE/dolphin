@@ -1207,7 +1207,7 @@ void DolphinView::pasteToUrl(const KUrl& url)
 
 void DolphinView::slotRequestUrlChange(const KUrl& url)
 {
-    emit requestUrlChange(url);
+    emit urlChanged(url);
     m_controller->setUrl(url);
 }
 
