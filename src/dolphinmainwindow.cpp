@@ -1113,6 +1113,7 @@ void DolphinMainWindow::updateEditActions()
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
         actionCollection()->action("move_to_trash")->setEnabled(enableMoveToTrash);
         actionCollection()->action("delete")->setEnabled(capabilities.supportsDeleting());
+        actionCollection()->action(KStandardAction::name(KStandardAction::Cut))->setEnabled(capabilities.supportsMoving());
     }
     updatePasteAction();
 }
