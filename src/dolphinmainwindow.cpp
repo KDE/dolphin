@@ -1108,12 +1108,19 @@ void DolphinMainWindow::updateEditActions()
     } else {
         stateChanged("has_selection");
 
+        KActionCollection* col = actionCollection();
+        QAction* renameAction      = col->action("rename");
+        QAction* moveToTrashAction = col->action("move_to_trash");
+        QAction* deleteAction      = col->action("delete");
+        QAction* cutAction         = col->action(KStandardAction::name(KStandardAction::Cut));
+
         FileItemCapabilities capabilities(list);
-        actionCollection()->action("rename")->setEnabled(capabilities.supportsMoving());
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
-        actionCollection()->action("move_to_trash")->setEnabled(enableMoveToTrash);
-        actionCollection()->action("delete")->setEnabled(capabilities.supportsDeleting());
-        actionCollection()->action(KStandardAction::name(KStandardAction::Cut))->setEnabled(capabilities.supportsMoving());
+
+        renameAction->setEnabled(capabilities.supportsMoving());
+        moveToTrashAction->setEnabled(enableMoveToTrash);
+        deleteAction->setEnabled(capabilities.supportsDeleting());
+        cutAction->setEnabled(capabilities.supportsMoving());
     }
     updatePasteAction();
 }
