@@ -210,12 +210,15 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
         const QDate currentDate = KDateTime::currentLocalDateTime().date();
         const QDate modifiedDate = modifiedTime.date();
 
-        if ((currentDate.year() == modifiedDate.year()) && (currentDate.month() == modifiedDate.month())) {
-            const int currentWeek = currentDate.weekNumber();
-            const int modifiedWeek = modifiedDate.weekNumber();
+        const int daysDistance = modifiedDate.daysTo(currentDate);
+        const int currentWeek = currentDate.weekNumber();
+        const int modifiedWeek = modifiedDate.weekNumber();
+
+        if (currentDate.year() == modifiedDate.year() &&
+            currentDate.month() == modifiedDate.month()) {
             switch (currentWeek - modifiedWeek) {
             case 0:
-                switch (modifiedDate.daysTo(currentDate)) {
+                switch (daysDistance) {
                 case 0:  retString = i18nc("@title:group Date", "Today"); break;
                 case 1:  retString = i18nc("@title:group Date", "Yesterday"); break;
                 default: retString = modifiedTime.toString(i18nc("@title:group The week day name: %A", "%A"));
@@ -237,7 +240,23 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                 Q_ASSERT(false);
             }
         } else {
-            retString = modifiedTime.toString(i18nc("@title:group The month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
+            if (daysDistance <= (currentDate.day() + modifiedDate.daysInMonth())) {
+                if (daysDistance == 1) {
+                    retString = i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Yesterday (%B, %Y)");
+                } else if (daysDistance <= 7) {
+                    retString = modifiedTime.toString(i18nc("@title:group The week day name: %A, %B is full month name in current locale, and %Y is full year number", "%A (%B, %Y)"));
+                } else if (daysDistance <= 7 * 2) {
+                    retString = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Last Week (%B, %Y)"));
+                } else if (daysDistance <= 7 * 3) {
+                    retString = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Two Weeks Ago (%B, %Y)"));
+                } else if (daysDistance <= 7 * 4) {
+                    retString = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Three Weeks Ago (%B, %Y)"));
+                } else {
+                    retString = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Earlier on %B, %Y"));
+                }
+            } else {
+                retString = modifiedTime.toString(i18nc("@title:group The month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
+            }
         }
         break;
     }
@@ -363,19 +382,7 @@ QVariant DolphinModel::sortRoleData(const QModelIndex& index) const
         const QDate currentDate = KDateTime::currentLocalDateTime().date();
         const QDate modifiedDate = modifiedTime.date();
 
-        int weekOfMonth = 0;
-        int dayOfWeek = 0;
-        if ((currentDate.year() == modifiedDate.year()) && (currentDate.month() == modifiedDate.month())) {
-            weekOfMonth = 4 - currentDate.weekNumber() + modifiedDate.weekNumber();
-            Q_ASSERT(weekOfMonth >= 0);
-            Q_ASSERT(weekOfMonth <= 4);
-            if (weekOfMonth == 0) {
-                dayOfWeek = modifiedDate.dayOfWeek();
-            }
-        }
-
-        retVariant = modifiedDate.year() * 10000 + modifiedDate.month() * 100 +
-                     weekOfMonth * 10 + dayOfWeek;
+        retVariant = -modifiedDate.daysTo(currentDate);
         break;
     }
 
