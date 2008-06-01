@@ -32,18 +32,23 @@
 #include <QClipboard>
 #include <QColor>
 #include <QPainter>
+#include <QScrollBar>
 #include <QIcon>
 
 IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model) :
     QObject(parent),
     m_showPreview(false),
+    m_clearItemQueues(true),
     m_view(parent),
     m_previewTimer(0),
+    m_scrollAreaTimer(0),
     m_previewJobs(),
     m_dolphinModel(0),
     m_proxyModel(model),
     m_cutItemsCache(),
-    m_previews()
+    m_previews(),
+    m_pendingItems(),
+    m_dispatchedItems()
 {
     Q_ASSERT(m_view->iconSize().isValid());  // each view must provide its current icon size
 
@@ -56,12 +61,29 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
             this, SLOT(updateCutItems()));
 
     m_previewTimer = new QTimer(this);
+    m_previewTimer->setSingleShot(true);
     connect(m_previewTimer, SIGNAL(timeout()), this, SLOT(dispatchPreviewQueue()));
+
+    // Whenever the scrollbar values have been changed, the pending previews should
+    // be reordered in a way that the previews for the visible items are generated
+    // first. The reordering is done with a small delay, so that during moving the
+    // scrollbars the CPU load is kept low.
+    m_scrollAreaTimer = new QTimer(this);
+    m_scrollAreaTimer->setSingleShot(true);
+    m_scrollAreaTimer->setInterval(200);
+    connect(m_scrollAreaTimer, SIGNAL(timeout()),
+            this, SLOT(resumePreviews()));
+    connect(m_view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(pausePreviews()));
+    connect(m_view->verticalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(pausePreviews()));
 }
 
 IconManager::~IconManager()
 {
-    killJobs();
+    killPreviewJobs();
+    m_pendingItems.clear();
+    m_dispatchedItems.clear();
 }
 
 
@@ -83,8 +105,10 @@ void IconManager::updatePreviews()
         return;
     }
 
-    killJobs();
+    killPreviewJobs();
     m_cutItemsCache.clear();
+    m_pendingItems.clear();
+    m_dispatchedItems.clear();
 
     KFileItemList itemList;
     const int rowCount = m_dolphinModel->rowCount();
@@ -106,31 +130,24 @@ void IconManager::generatePreviews(const KFileItemList& items)
         return;
     }
 
-    const QRect visibleArea = m_view->viewport()->rect();
-
     // Order the items in a way that the preview for the visible items
     // is generated first, as this improves the feeled performance a lot.
+    const QRect visibleArea = m_view->viewport()->rect();
     KFileItemList orderedItems;
-    foreach (const KFileItem &item, items) {
+    foreach (const KFileItem& item, items) {
         const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         const QRect itemRect = m_view->visualRect(proxyIndex);
         if (itemRect.intersects(visibleArea)) {
             orderedItems.insert(0, item);
+            m_pendingItems.insert(0, item.url());
         } else {
             orderedItems.append(item);
+            m_pendingItems.append(item.url());
         }
     }
 
-    const QSize size = m_view->iconSize();
-    KIO::PreviewJob* job = KIO::filePreview(orderedItems, 128, 128);
-    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-            this, SLOT(addToPreviewQueue(const KFileItem&, const QPixmap&)));
-    connect(job, SIGNAL(finished(KJob*)),
-            this, SLOT(slotPreviewJobFinished(KJob*)));
-
-    m_previewJobs.append(job);
-    m_previewTimer->start(200);
+    startPreviewJob(orderedItems);
 }
 
 void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
@@ -139,12 +156,19 @@ void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap
     preview.url = item.url();
     preview.pixmap = pixmap;
     m_previews.append(preview);
+
+    m_dispatchedItems.append(item.url());
 }
 
 void IconManager::slotPreviewJobFinished(KJob* job)
 {
     const int index = m_previewJobs.indexOf(job);
     m_previewJobs.removeAt(index);
+
+    if ((m_previewJobs.count() == 0) && m_clearItemQueues) {
+        m_pendingItems.clear();
+        m_dispatchedItems.clear();
+    }
 }
 
 void IconManager::updateCutItems()
@@ -195,6 +219,63 @@ void IconManager::dispatchPreviewQueue()
         // in the queue -> poll more aggressively
         m_previewTimer->start(10);
     }
+}
+
+void IconManager::pausePreviews()
+{
+    foreach (KJob* job, m_previewJobs) {
+        Q_ASSERT(job != 0);
+        job->suspend();
+    }
+    m_scrollAreaTimer->start();
+}
+
+void IconManager::resumePreviews()
+{
+    // Before creating new preview jobs the m_pendingItems queue must be
+    // cleaned up by removing the already dispatched items. Implementation
+    // note: The order of the m_dispatchedItems queue and the m_pendingItems
+    // queue is usually equal. So even when having a lot of elements the
+    // nested loop is no performance bottle neck, as the inner loop is only
+    // entered once in most cases.
+    foreach (const KUrl& url, m_dispatchedItems) {
+        QList<KUrl>::iterator begin = m_pendingItems.begin();
+        QList<KUrl>::iterator end   = m_pendingItems.end();
+        for (QList<KUrl>::iterator it = begin; it != end; ++it) {
+            if ((*it) == url) {
+                m_pendingItems.erase(it);
+                break;
+            }
+        }
+    }
+    m_dispatchedItems.clear();
+
+    // Create a new preview job for the remaining items.
+    // Order the items in a way that the preview for the visible items
+    // is generated first, as this improves the feeled performance a lot.
+    const QRect visibleArea = m_view->viewport()->rect();
+    KFileItemList orderedItems;
+    foreach (const KUrl& url, m_pendingItems) {
+        const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
+        const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        const QRect itemRect = m_view->visualRect(proxyIndex);
+        if (itemRect.intersects(visibleArea)) {
+            orderedItems.insert(0, item);
+        } else {
+            orderedItems.append(item);
+        }
+    }
+
+    // Kill all suspended preview jobs. Usually when a preview job
+    // has been finished, slotPreviewJobFinished() clears all item queues.
+    // This is not wanted in this case, as a new job is created afterwards
+    // for m_pendingItems.
+    m_clearItemQueues = false;
+    killPreviewJobs();
+    m_clearItemQueues = true;
+
+    startPreviewJob(orderedItems);
 }
 
 void IconManager::replaceIcon(const KUrl& url, const QPixmap& pixmap)
@@ -374,7 +455,24 @@ void IconManager::limitToSize(QPixmap& icon, const QSize& maxSize)
     }
 }
 
-void IconManager::killJobs()
+void IconManager::startPreviewJob(const KFileItemList& items)
+{
+    if (items.count() == 0) {
+        return;
+    }
+
+    const QSize size = m_view->iconSize();
+    KIO::PreviewJob* job = KIO::filePreview(items, 128, 128);
+    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+            this, SLOT(addToPreviewQueue(const KFileItem&, const QPixmap&)));
+    connect(job, SIGNAL(finished(KJob*)),
+            this, SLOT(slotPreviewJobFinished(KJob*)));
+
+    m_previewJobs.append(job);
+    m_previewTimer->start(200);
+}
+
+void IconManager::killPreviewJobs()
 {
     foreach (KJob* job, m_previewJobs) {
         Q_ASSERT(job != 0);
