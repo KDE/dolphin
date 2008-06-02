@@ -32,7 +32,6 @@
 #include "dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
 #include "dolphinviewcontainer.h"
-#include "fileitemcapabilities.h"
 #include "infosidebarpage.h"
 #include "metadatawidget.h"
 #include "mainwindowadaptor.h"
@@ -63,6 +62,7 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kurlnavigator.h>
+#include <konq_fileitemcapabilities.h>
 #include <konqmimedata.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
@@ -1114,7 +1114,7 @@ void DolphinMainWindow::updateEditActions()
         QAction* deleteAction      = col->action("delete");
         QAction* cutAction         = col->action(KStandardAction::name(KStandardAction::Cut));
 
-        FileItemCapabilities capabilities(list);
+        KonqFileItemCapabilities capabilities(list);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
 
         renameAction->setEnabled(capabilities.supportsMoving());

@@ -23,6 +23,7 @@
 #include "dolphinview.h"
 #include "dolphinmodel.h"
 
+#include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 
 #include <kaboutdata.h>
@@ -185,24 +186,37 @@ void DolphinPart::slotGoTriggered(QAction* action)
 void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
 {
     const bool hasSelection = !selection.isEmpty();
+
+    QAction* renameAction  = actionCollection()->action("rename");
+    QAction* moveToTrashAction = actionCollection()->action("move_to_trash");
+    QAction* deleteAction = actionCollection()->action("delete");
+    QAction* editMimeTypeAction = actionCollection()->action("editMimeType");
+    QAction* propertiesAction = actionCollection()->action("properties");
+
     if (!hasSelection) {
         stateChanged("has_no_selection");
+
+        emit m_extension->enableAction("cut", false);
+        emit m_extension->enableAction("copy", false);
+        renameAction->setEnabled(false);
+        moveToTrashAction->setEnabled(false);
+        deleteAction->setEnabled(false);
+        editMimeTypeAction->setEnabled(false);
+        propertiesAction->setEnabled(false);
     } else {
         stateChanged("has_selection");
-    }
 
-    QStringList actions;
-    actions << "rename" << "move_to_trash" << "delete" << "editMimeType" << "properties";
-    foreach(const QString& actionName, actions) {
-        QAction* action = actionCollection()->action(actionName);
-        Q_ASSERT(action);
-        if (action) {
-            action->setEnabled(hasSelection);
-        }
+        KonqFileItemCapabilities capabilities(selection);
+        const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
+        
+        renameAction->setEnabled(capabilities.supportsMoving());
+        moveToTrashAction->setEnabled(enableMoveToTrash);
+        deleteAction->setEnabled(capabilities.supportsDeleting());
+        editMimeTypeAction->setEnabled(true);
+        propertiesAction->setEnabled(true);
+        emit m_extension->enableAction("cut", capabilities.supportsMoving());
+        emit m_extension->enableAction("copy", true);
     }
-
-    emit m_extension->enableAction("cut", hasSelection);
-    emit m_extension->enableAction("copy", hasSelection);
 }
 
 void DolphinPart::updatePasteAction()

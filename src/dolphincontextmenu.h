@@ -34,7 +34,7 @@ class KMenu;
 class KFileItem;
 class QAction;
 class DolphinMainWindow;
-class FileItemCapabilities;
+class KonqFileItemCapabilities;
 
 /**
  * @brief Represents the context menu which appears when doing a right
@@ -113,7 +113,7 @@ private:
     QAction* createPasteAction();
 
 private:
-    FileItemCapabilities& capabilities();
+    KonqFileItemCapabilities& capabilities();
 
 private:
     struct Entry
@@ -134,7 +134,7 @@ private:
     };
 
     DolphinMainWindow* m_mainWindow;
-    FileItemCapabilities* m_capabilities;
+    KonqFileItemCapabilities* m_capabilities;
     KFileItem m_fileInfo;
     KUrl m_baseUrl;
     KFileItemList m_selectedItems;

@@ -79,7 +79,7 @@ set(dolphinpart_SRCS
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
 
-target_link_libraries(dolphinpart dolphinprivate)
+target_link_libraries(dolphinpart dolphinprivate konq)
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR} )
 
@@ -104,7 +104,6 @@ set(dolphin_SRCS
     dolphinfileplacesview.cpp
     dolphinsettingsdialog.cpp
     draganddrophelper.cpp
-    fileitemcapabilities.cpp
     filterbar.cpp
     generalsettingspage.cpp
     generalviewsettingspage.cpp

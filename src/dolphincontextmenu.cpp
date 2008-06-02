@@ -25,7 +25,6 @@
 #include "dolphinview.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
-#include "fileitemcapabilities.h"
 
 #include <kactioncollection.h>
 #include <kfileplacesmodel.h>
@@ -39,6 +38,7 @@
 #include <kmimetypetrader.h>
 #include <knewmenu.h>
 #include <konqmimedata.h>
+#include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <konq_menuactions.h>
 #include <konq_popupmenuinformation.h>
@@ -451,10 +451,10 @@ QAction* DolphinContextMenu::createPasteAction()
     return action;
 }
 
-FileItemCapabilities& DolphinContextMenu::capabilities()
+KonqFileItemCapabilities& DolphinContextMenu::capabilities()
 {
     if (m_capabilities == 0) {
-        m_capabilities = new FileItemCapabilities(m_selectedItems);
+        m_capabilities = new KonqFileItemCapabilities(m_selectedItems);
     }
     return *m_capabilities;
 }
