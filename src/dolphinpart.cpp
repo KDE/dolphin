@@ -297,34 +297,44 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
     KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems
                                                       | KParts::BrowserExtension::ShowProperties
                                                       | KParts::BrowserExtension::ShowUrlOperations;
-    // TODO KonqKfmIconView had if ( !rootItem->isWritable() )
-    //            popupFlags |= KParts::BrowserExtension::NoDeletion;
 
     KFileItem item(_item);
 
     if (item.isNull()) { // viewport context menu
         popupFlags |= KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
-        // TODO get m_dirLister->rootItem if possible. or via kdirmodel?
-        // and use this as fallback:
-        item = KFileItem( S_IFDIR, (mode_t)-1, url() );
+        item = m_dirLister->rootItem();
+        if (item.isNull())
+            item = KFileItem( S_IFDIR, (mode_t)-1, url() );
     }
 
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
 
     if (!_item.isNull()) { // only for context menu on one or more items
-        // TODO if ( sMoving )
-        editActions.append(actionCollection()->action("rename"));
+        bool sDeleting = true;
+        bool sMoving = true;
+
+        // If the parent directory of the selected item is writable, moving
+        // and deleting are possible.
+        KFileItem parentDir = m_dirLister->rootItem();
+        if (!parentDir.isWritable()) {
+            popupFlags |= KParts::BrowserExtension::NoDeletion;
+            sDeleting = false;
+            sMoving = false;
+        }
+    
+        if ( sMoving )
+            editActions.append(actionCollection()->action("rename"));
 
         bool addTrash = false;
         bool addDel = false;
 
         bool isIntoTrash = _item.url().protocol() == "trash";
 
-        if ( /*TODO sMoving &&*/ !isIntoTrash )
+        if ( sMoving && !isIntoTrash )
             addTrash = true;
 
-        /* TODO if ( sDeleting ) */ {
+        if ( sDeleting ) {
             if ( !item.isLocalFile() )
                 addDel = true;
             else if (QApplication::keyboardModifiers() & Qt::ShiftModifier) {
