@@ -191,7 +191,6 @@ void DolphinContextMenu::openItemContextMenu()
 
     KonqPopupMenuInformation popupInfo;
     popupInfo.setItems(m_selectedItems);
-    popupInfo.setReadOnly(!capabilities().supportsMoving());
     popupInfo.setParentWidget(m_mainWindow);
 
     // Insert 'Actions' sub menu
