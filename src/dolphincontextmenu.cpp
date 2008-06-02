@@ -184,18 +184,16 @@ void DolphinContextMenu::openItemContextMenu()
                                              i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
     }
 
-    // Insert 'Open With...' sub menu
-    // TODO: port to menuActions.addOpenWithActionsTo(popup);
-    QVector<KService::Ptr> openWithVector;
-    const QList<QAction*> openWithActions = insertOpenWithItems(popup, openWithVector);
-
     KonqPopupMenuInformation popupInfo;
     popupInfo.setItems(m_selectedItems);
     popupInfo.setParentWidget(m_mainWindow);
-
-    // Insert 'Actions' sub menu
     KonqMenuActions menuActions;
     menuActions.setPopupMenuInfo(popupInfo);
+
+    // Insert 'Open With...' action or sub menu
+    menuActions.addOpenWithActionsTo(popup, "DesktopEntryName != 'dolphin'");
+
+    // Insert 'Actions' sub menu
     if (menuActions.addActionsTo(popup)) {
         popup->addSeparator();
     }
@@ -220,19 +218,8 @@ void DolphinContextMenu::openItemContextMenu()
             DolphinSettings::instance().placesModel()->addPlace(placesName(selectedUrl),
                                                                 selectedUrl);
         }
-    } else if (openWithActions.contains(activatedAction)) {
-        // one of the 'Open With' items has been selected
-        if (openWithActions.last() == activatedAction) {
-            // the item 'Other...' has been selected
-            KRun::displayOpenWithDialog(m_selectedUrls, m_mainWindow);
-        } else {
-            int id = openWithActions.indexOf(activatedAction);
-            KService::Ptr servicePtr = openWithVector[id];
-            KRun::run(*servicePtr, m_selectedUrls, m_mainWindow);
-        }
     }
 
-    openWithVector.clear();
     popup->deleteLater();
 }
 
@@ -326,90 +313,6 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
         QAction* deleteAction = collection->action("delete");
         popup->addAction(deleteAction);
     }
-}
-
-QList<QAction*> DolphinContextMenu::insertOpenWithItems(KMenu* popup,
-        QVector<KService::Ptr>& openWithVector)
-{
-    // Parts of the following code have been taken
-    // from the class KonqOperations located in
-    // libqonq/konq_operations.h of Konqueror.
-    // (Copyright (C) 2000  David Faure <faure@kde.org>)
-
-    // Prepare 'Open With' sub menu. Usually a sub menu is created, where all applications
-    // are listed which are registered to open the item. As last entry "Other..." will be
-    // attached which allows to select a custom application. If no applications are registered
-    // no sub menu is created at all, only "Open With..." will be offered.
-    bool insertOpenWithItems = true;
-    const QString contextMimeType(m_fileInfo.mimetype());
-
-    QListIterator<KFileItem> mimeIt(m_selectedItems);
-    while (insertOpenWithItems && mimeIt.hasNext()) {
-        KFileItem item = mimeIt.next();
-        insertOpenWithItems = (contextMimeType == item.mimetype());
-    }
-
-    QList<QAction*> openWithActions;
-    if (insertOpenWithItems) {
-        // fill the 'Open with' sub menu with application types
-        const KMimeType::Ptr mimePtr = KMimeType::findByUrl(m_fileInfo.url());
-        KService::List offers = KMimeTypeTrader::self()->query(mimePtr->name(),
-                                "Application",
-                                "Type == 'Application'");
-        if (offers.count() > 0) {
-            KService::List::Iterator it;
-            KMenu* openWithMenu = new KMenu(i18nc("@title:menu", "Open With"));
-            for (it = offers.begin(); it != offers.end(); ++it) {
-                // The offer list from the KTrader returns duplicate
-                // application entries. Although this seems to be a configuration
-                // problem outside the scope of Dolphin, duplicated entries just
-                // will be skipped here.
-                const QString appName((*it)->name());
-                if (!containsEntry(openWithMenu, appName)) {
-                    const KIcon icon((*it)->icon());
-                    QAction* action = openWithMenu->addAction(icon, appName);
-                    openWithVector.append(*it);
-                    openWithActions << action;
-                }
-            }
-
-            openWithMenu->addSeparator();
-            QAction* action = openWithMenu->addAction(i18nc("@action:inmenu Open With", "&Other..."));
-
-            openWithActions << action;
-            popup->addMenu(openWithMenu);
-        } else {
-            // No applications are registered, hence just offer
-            // a "Open With..." item instead of a sub menu containing
-            // only one entry.
-            QAction* action = popup->addAction(i18nc("@title:menu", "Open With..."));
-            openWithActions << action;
-        }
-    } else {
-        // At least one of the selected items has a different MIME type. In this case
-        // just show a disabled "Open With..." entry.
-        QAction* action = popup->addAction(i18nc("@title:menu", "Open With..."));
-        action->setEnabled(false);
-    }
-
-    return openWithActions;
-}
-
-bool DolphinContextMenu::containsEntry(const KMenu* menu,
-                                       const QString& entryName) const
-{
-    Q_ASSERT(menu != 0);
-
-    const QList<QAction*> list = menu->actions();
-    const uint count = list.count();
-    for (uint i = 0; i < count; ++i) {
-        const QAction* action = list.at(i);
-        if (action->text() == entryName) {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 void DolphinContextMenu::addShowMenubarAction(KMenu* menu)

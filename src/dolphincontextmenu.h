@@ -80,26 +80,6 @@ private:
     void insertDefaultItemActions(KMenu* popup);
 
     /**
-     * Inserts the 'Open With...' submenu to \a popup.
-     * @param popup          Menu where the 'Open With...' sub menu should
-     *                       be added.
-     * @param openWithVector Output parameter which contains all 'Open with...'
-     *                       services.
-     * @return               Identifier of the first 'Open With...' entry.
-     *                       All succeeding identifiers have an increased value of 1
-     *                       to the predecessor.
-     */
-    QList<QAction*> insertOpenWithItems(KMenu* popup,
-                                        QVector<KService::Ptr>& openWithVector);
-
-    /**
-     * Returns true, if 'menu' contains already
-     * an entry with the name 'entryName'.
-     */
-    bool containsEntry(const KMenu* menu,
-                       const QString& entryName) const;
-
-    /**
      * Adds the "Show menubar" action to the menu if the
      * menubar is hidden.
      */
