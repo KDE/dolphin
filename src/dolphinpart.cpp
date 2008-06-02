@@ -331,7 +331,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
 
         bool isIntoTrash = _item.url().protocol() == "trash";
 
-        if ( sMoving && !isIntoTrash )
+        if ( sMoving && !isIntoTrash && item.isLocalFile() )
             addTrash = true;
 
         if ( sDeleting ) {
