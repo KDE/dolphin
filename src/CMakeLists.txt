@@ -5,7 +5,9 @@ add_subdirectory( tests )
 find_package(QImageBlitz REQUIRED)
 
 macro_optional_find_package(Nepomuk)
+macro_log_feature(Nepomuk_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
 macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
+configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${QIMAGEBLITZ_INCLUDES} )
 
@@ -53,8 +55,6 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     dolphin_generalsettings.kcfgc)
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
-
-configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
 target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${QIMAGEBLITZ_LIBRARIES})
 if(X11_Xrender_FOUND)
