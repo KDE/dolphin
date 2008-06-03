@@ -3,13 +3,16 @@ add_subdirectory( pics )
 add_subdirectory( tests )
 
 find_package(QImageBlitz REQUIRED)
-macro_optional_find_package(Soprano)
+
+macro_optional_find_package(Nepomuk)
+macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${QIMAGEBLITZ_INCLUDES} )
 
-if (Soprano_FOUND)
-  include_directories( ${SOPRANO_INCLUDE_DIR} )
-endif (Soprano_FOUND)
+if (Nepomuk_FOUND)
+  # Yes, Soprano includes is what we need here
+  include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_INCLUDE_DIR} )
+endif (Nepomuk_FOUND)
 
 ########### next target ###############
 
@@ -50,10 +53,6 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     dolphin_generalsettings.kcfgc)
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
-
-find_package(Nepomuk)
-find_package(Soprano)
-macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
