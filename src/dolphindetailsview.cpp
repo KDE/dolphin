@@ -206,6 +206,10 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     }
 
     if (!index.isValid() || (index.column() != DolphinModel::Name)) {
+        if (QApplication::mouseButtons() & Qt::MidButton) {
+            m_controller->replaceUrlByClipboard();
+        }
+
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
             clearSelection();

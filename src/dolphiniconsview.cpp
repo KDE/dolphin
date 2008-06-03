@@ -34,8 +34,6 @@
 
 #include <QAbstractProxyModel>
 #include <QApplication>
-#include <QPainter>
-#include <QPoint>
 #include <QScrollBar>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
@@ -192,6 +190,9 @@ void DolphinIconsView::mousePressEvent(QMouseEvent* event)
     }
 
     if (!index.isValid()) {
+        if (QApplication::mouseButtons() & Qt::MidButton) {
+            m_controller->replaceUrlByClipboard();
+        }
         const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
             clearSelection();

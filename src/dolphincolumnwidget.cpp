@@ -337,7 +337,11 @@ void DolphinColumnWidget::paintEvent(QPaintEvent* event)
 void DolphinColumnWidget::mousePressEvent(QMouseEvent* event)
 {
     requestActivation();
-    if (indexAt(event->pos()).isValid() && (event->button() == Qt::LeftButton)) {
+    if (!indexAt(event->pos()).isValid()) {
+        if (QApplication::mouseButtons() & Qt::MidButton) {
+            m_view->m_controller->replaceUrlByClipboard();
+        }
+    } else if (event->button() == Qt::LeftButton) {
         // TODO: see comment in DolphinIconsView::mousePressEvent()
         setState(QAbstractItemView::DraggingState);
     }

@@ -65,6 +65,7 @@ class QWidget;
  * - handleKeyPressEvent()
  * - emitItemEntered()
  * - emitViewportEntered()
+ * - replaceUrlByClipboard()
  *
  * The communication of the abstract view to the view implementations is done by:
  * - setUrl()
@@ -211,6 +212,13 @@ public:
      * the return key has been pressed, the selected items will get triggered.
      */
     void handleKeyPressEvent(QKeyEvent* event);
+
+    /**
+     * Replaces the URL of the abstract Dolphin view  with the content
+     * of the clipboard as URL. If the clipboard contains no text,
+     * nothing will be done.
+     */
+    void replaceUrlByClipboard();
 
     /**
      * Returns the file item for the proxy index \a index of the view \a view.
