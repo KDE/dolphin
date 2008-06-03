@@ -47,6 +47,8 @@
 #include "metatextlabel.h"
 #include "pixmapviewer.h"
 
+#include <kdebug.h>
+
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_pendingPreview(false),
@@ -319,8 +321,7 @@ void InfoSidebarPage::showMetaInfo()
                 // in a readable way
                 const KFileMetaInfo::WhatFlags flags = KFileMetaInfo::Fastest |
                                                        KFileMetaInfo::TechnicalInfo |
-                                                       KFileMetaInfo::ContentInfo |
-                                                       KFileMetaInfo::Thumbnail;
+                                                       KFileMetaInfo::ContentInfo;
                 const QString path = fileItem.url().path();
                 const KFileMetaInfo fileMetaInfo(path, QString(), flags);
                 if (fileMetaInfo.isValid()) {
