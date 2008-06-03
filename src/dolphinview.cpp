@@ -95,10 +95,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_controller = new DolphinController(this);
     m_controller->setUrl(url);
 
-    // Receiver of the DolphinView signal 'urlChanged()' don't need
-    // to care whether the internal controller changed the URL already or whether
-    // the controller just requested an URL change and will be updated later.
-    // In both cases the URL has been changed:
     connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
             this, SIGNAL(urlChanged(const KUrl&)));
     connect(m_controller, SIGNAL(requestUrlChange(const KUrl&)),
