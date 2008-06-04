@@ -172,6 +172,11 @@ private Q_SLOTS:
      */
     void slotProperties();
 
+    /**
+     * Open a terminal window, starting with the current directory.
+     */
+    void slotOpenTerminal();
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,

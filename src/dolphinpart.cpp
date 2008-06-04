@@ -38,6 +38,9 @@
 #include <kpluginfactory.h>
 #include <kpropertiesdialog.h>
 #include <ktoggleaction.h>
+#include <kio/netaccess.h>
+#include <kauthorized.h>
+#include <kshell.h>
 
 #include <QActionGroup>
 #include <QApplication>
@@ -164,6 +167,16 @@ void DolphinPart::createActions()
     createGoAction("go_autostart", "",
                    i18nc("@action:inmenu Go", "Autostart"), KGlobalSettings::autostartPath(),
                    goActionGroup);
+
+    // Tools menu
+    if (KAuthorized::authorizeKAction("shell_access")) {
+        KAction* action = actionCollection()->addAction("open_terminal");
+        action->setIcon(KIcon("utilities-terminal"));
+        action->setText(i18nc("@action:inmenu Tools", "Open &Terminal"));
+        connect(action, SIGNAL(triggered()), SLOT(slotOpenTerminal()));
+        action->setShortcut(Qt::Key_F4);
+    }
+
 }
 
 void DolphinPart::createGoAction(const char* name, const char* iconName,
@@ -208,7 +221,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
 
         KonqFileItemCapabilities capabilities(selection);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
-        
+
         renameAction->setEnabled(capabilities.supportsMoving());
         moveToTrashAction->setEnabled(enableMoveToTrash);
         deleteAction->setEnabled(capabilities.supportsDeleting());
@@ -336,7 +349,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
             sDeleting = false;
             sMoving = false;
         }
-    
+
         if ( sMoving )
             editActions.append(actionCollection()->action("rename"));
 
@@ -456,6 +469,37 @@ void DolphinPart::setNameFilter(const QString& nameFilter)
     // which is unrelated to DolphinView::setNameFilter which is substring filtering in a proxy.
     m_nameFilter = nameFilter;
     // TODO save/restore name filter in saveState/restoreState like KonqDirPart did in kde3?
+}
+
+void DolphinPart::slotOpenTerminal()
+{
+    KConfigGroup confGroup(KGlobal::config(), "General"); // set by componentchooser kcm
+    const QString preferredTerminal = confGroup.readPathEntry("TerminalApplication", "konsole");
+
+    QString dir(QDir::homePath());
+
+    KUrl u(url());
+
+    // If the given directory is not local, it can still be the URL of an
+    // ioslave using UDS_LOCAL_PATH which to be converted first.
+    u = KIO::NetAccess::mostLocalUrl(u, widget());
+
+    //If the URL is local after the above conversion, set the directory.
+    if (u.isLocalFile()) {
+        dir = u.path();
+    }
+
+    // Compensate for terminal having arguments.
+    QStringList args = KShell::splitArgs(preferredTerminal);
+    if (args.isEmpty()) {
+        return;
+    }
+    const QString prog = args.takeFirst();
+    if (prog == "konsole") {
+        args << "--workdir";
+        args << dir;
+    }
+    QProcess::startDetached(prog, args);
 }
 
 #include "dolphinpart.moc"
