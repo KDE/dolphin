@@ -93,6 +93,17 @@ void DolphinViewActionHandler::createActions()
     deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(slotDeleteItems()));
 
+    // This action is useful for being enabled when "move_to_trash" should be
+    // disabled and "delete" is enabled (e.g. non-local files), so that Key_Del
+    // can be used for deleting the file (#76016). It needs to be a separate action
+    // so that the Edit menu isn't affected.
+    KAction* deleteWithTrashShortcut = m_actionCollection->addAction("delete_shortcut");
+    // TODO after message freeze, a more descriptive text, for the shortcuts editor.
+    deleteWithTrashShortcut->setText(i18nc("@action:inmenu File", "Delete"));
+    deleteWithTrashShortcut->setShortcut(QKeySequence::Delete);
+    deleteWithTrashShortcut->setEnabled(false);
+    connect(deleteWithTrashShortcut, SIGNAL(triggered()), this, SLOT(slotDeleteItems()));
+
     // View menu
 
     QActionGroup* viewModeActions = new QActionGroup(this);

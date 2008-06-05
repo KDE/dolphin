@@ -1113,6 +1113,7 @@ void DolphinMainWindow::updateEditActions()
         QAction* moveToTrashAction = col->action("move_to_trash");
         QAction* deleteAction      = col->action("delete");
         QAction* cutAction         = col->action(KStandardAction::name(KStandardAction::Cut));
+        QAction* deleteWithTrashShortcut = col->action("delete_shortcut"); // see DolphinViewActionHandler
 
         KonqFileItemCapabilities capabilities(list);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
@@ -1120,6 +1121,7 @@ void DolphinMainWindow::updateEditActions()
         renameAction->setEnabled(capabilities.supportsMoving());
         moveToTrashAction->setEnabled(enableMoveToTrash);
         deleteAction->setEnabled(capabilities.supportsDeleting());
+        deleteWithTrashShortcut->setEnabled(capabilities.supportsDeleting() && !enableMoveToTrash);
         cutAction->setEnabled(capabilities.supportsMoving());
     }
     updatePasteAction();

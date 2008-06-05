@@ -122,8 +122,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     m_actionHandler->updateViewActions();
     slotSelectionChanged(KFileItemList()); // initially disable selection-dependent actions
 
-    // TODO sort_by_* actions
-
     // TODO there was a "always open a new window" (when clicking on a directory) setting in konqueror
     // (sort of spacial navigation)
 
@@ -213,26 +211,27 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
     QAction* deleteAction = actionCollection()->action("delete");
     QAction* editMimeTypeAction = actionCollection()->action("editMimeType");
     QAction* propertiesAction = actionCollection()->action("properties");
+    QAction* deleteWithTrashShortcut = actionCollection()->action("delete_shortcut"); // see DolphinViewActionHandler
 
     if (!hasSelection) {
         stateChanged("has_no_selection");
 
         emit m_extension->enableAction("cut", false);
         emit m_extension->enableAction("copy", false);
-        renameAction->setEnabled(false);
-        moveToTrashAction->setEnabled(false);
-        deleteAction->setEnabled(false);
+        deleteWithTrashShortcut->setEnabled(false);
         editMimeTypeAction->setEnabled(false);
-        propertiesAction->setEnabled(false);
     } else {
         stateChanged("has_selection");
 
+        // TODO share this code with DolphinMainWindow::updateEditActions (and the desktop code)
+        // in libkonq
         KonqFileItemCapabilities capabilities(selection);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
 
         renameAction->setEnabled(capabilities.supportsMoving());
         moveToTrashAction->setEnabled(enableMoveToTrash);
         deleteAction->setEnabled(capabilities.supportsDeleting());
+        deleteWithTrashShortcut->setEnabled(capabilities.supportsDeleting() && !enableMoveToTrash);
         editMimeTypeAction->setEnabled(true);
         propertiesAction->setEnabled(true);
         emit m_extension->enableAction("cut", capabilities.supportsMoving());

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui version="4" name="dolphin" >
+<kpartgui name="dolphin" version="5">
  <MenuBar>
   <Menu name="file">
    <Action name="create_new" />
@@ -109,6 +109,7 @@
    <Action name="rename" />
    <Action name="move_to_trash" />
    <Action name="delete" />
+   <Action name="delete_shortcut" />
    <Action name="properties" />
    <Action name="invert_selection" />
   </disable>
