@@ -39,8 +39,10 @@
 #include <kpropertiesdialog.h>
 #include <ktoggleaction.h>
 #include <kio/netaccess.h>
+#include <ktoolinvocation.h>
 #include <kauthorized.h>
-#include <kshell.h>
+#include <knewmenu.h>
+#include <kmenu.h>
 
 #include <QActionGroup>
 #include <QApplication>
@@ -135,6 +137,12 @@ DolphinPart::~DolphinPart()
 
 void DolphinPart::createActions()
 {
+    // Edit menu
+
+    m_newMenu = new KNewMenu(actionCollection(), widget(), "new_menu");
+    connect(m_newMenu->menu(), SIGNAL(aboutToShow()),
+            this, SLOT(updateNewMenu()));
+
     KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
     editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
     connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
@@ -473,9 +481,6 @@ void DolphinPart::setNameFilter(const QString& nameFilter)
 
 void DolphinPart::slotOpenTerminal()
 {
-    KConfigGroup confGroup(KGlobal::config(), "General"); // set by componentchooser kcm
-    const QString preferredTerminal = confGroup.readPathEntry("TerminalApplication", "konsole");
-
     QString dir(QDir::homePath());
 
     KUrl u(url());
@@ -489,17 +494,15 @@ void DolphinPart::slotOpenTerminal()
         dir = u.path();
     }
 
-    // Compensate for terminal having arguments.
-    QStringList args = KShell::splitArgs(preferredTerminal);
-    if (args.isEmpty()) {
-        return;
-    }
-    const QString prog = args.takeFirst();
-    if (prog == "konsole") {
-        args << "--workdir";
-        args << dir;
-    }
-    QProcess::startDetached(prog, args);
+    KToolInvocation::invokeTerminal(QString(), dir);
+}
+
+void DolphinPart::updateNewMenu()
+{
+    // As requested by KNewMenu :
+    m_newMenu->slotCheckUpToDate();
+    // And set the files that the menu apply on :
+    m_newMenu->setPopupFiles(url());
 }
 
 #include "dolphinpart.moc"

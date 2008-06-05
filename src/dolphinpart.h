@@ -22,6 +22,7 @@
 
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+class KNewMenu;
 class DolphinViewActionHandler;
 class QActionGroup;
 class KAction;
@@ -177,6 +178,11 @@ private Q_SLOTS:
      */
     void slotOpenTerminal();
 
+    /**
+     * Updates the 'Create New...' sub menu, just before it's shown.
+     */
+    void updateNewMenu();
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,
@@ -190,6 +196,7 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinPartBrowserExtension* m_extension;
+    KNewMenu* m_newMenu;
     QString m_nameFilter;
     Q_DISABLE_COPY(DolphinPart)
 };

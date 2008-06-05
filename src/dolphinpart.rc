@@ -1,7 +1,9 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphinpart" version="7" >
+<kpartgui name="dolphinpart" version="8" >
  <MenuBar>
   <Menu name="edit">
+   <Action name="new_menu"/>
+   <Separator/>
    <Action name="rename"/>
    <Action name="move_to_trash" />
    <Action name="delete"/>
