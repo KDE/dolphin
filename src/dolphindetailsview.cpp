@@ -363,9 +363,9 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
 
 void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 {
+    m_keyPressed = true;
     QTreeView::keyPressEvent(event);
     m_controller->handleKeyPressEvent(event);
-    m_keyPressed = true;
 }
 
 void DolphinDetailsView::keyReleaseEvent(QKeyEvent* event)
