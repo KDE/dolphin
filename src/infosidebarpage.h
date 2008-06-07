@@ -105,6 +105,12 @@ private slots:
      */
     void showPreview(const KFileItem& item, const QPixmap& pixmap);
 
+    void slotFileRenamed(const QString& source, const QString& dest);
+    void slotFilesAdded(const QString& directory);
+    void slotFilesChanged(const QStringList& files);
+    void slotFilesRemoved(const QStringList& files);
+    void slotLeftDirectory(const QString& directory);
+
 private:
     enum { TimerDelay = 300 };
 

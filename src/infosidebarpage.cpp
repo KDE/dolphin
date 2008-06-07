@@ -21,12 +21,13 @@
 
 #include <config-nepomuk.h>
 
+#include <kdialog.h>
+#include <kdirnotify.h>
 #include <kfileplacesmodel.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kio/previewjob.h>
 #include <kfileitem.h>
-#include <kdialog.h>
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
 #include <kiconeffect.h>
@@ -46,8 +47,6 @@
 #include "metadatawidget.h"
 #include "metatextlabel.h"
 #include "pixmapviewer.h"
-
-#include <kdebug.h>
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
@@ -242,6 +241,61 @@ void InfoSidebarPage::showPreview(const KFileItem& item,
     }
 }
 
+void InfoSidebarPage::slotFileRenamed(const QString& source, const QString& dest)
+{
+    if (m_shownUrl == KUrl(source)) {
+        // the currently shown file has been renamed, hence update the item information
+        // for the renamed file
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(dest));
+        requestDelayedItemInfo(item);
+    }
+}
+
+void InfoSidebarPage::slotFilesAdded(const QString& directory)
+{
+    if (m_shownUrl == KUrl(directory)) {
+        // If the 'trash' icon changes because the trash has been emptied or got filled,
+        // the signal filesAdded("trash:/") will be emitted.
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(directory));
+        requestDelayedItemInfo(item);
+    }
+}
+
+void InfoSidebarPage::slotFilesChanged(const QStringList& files)
+{
+    foreach (const QString& fileName, files) {
+        if (m_shownUrl == KUrl(fileName)) {
+            showItemInfo();
+            break;
+        }
+    }
+}
+
+void InfoSidebarPage::slotFilesRemoved(const QStringList& files)
+{
+    foreach (const QString& fileName, files) {
+        if (m_shownUrl == KUrl(fileName)) {
+            // the currently shown item has been removed, show
+            // the parent directory as fallback
+            m_shownUrl = url();
+            showItemInfo();
+            break;
+        }
+    }
+}
+
+void InfoSidebarPage::slotLeftDirectory(const QString& directory)
+{
+    if (m_shownUrl == KUrl(directory)) {
+        // The signal 'leftDirectory' is also emitted when a media
+        // has been unmounted. In this case no directory change will be
+        // done in Dolphin, but the Information Panel must be updated to
+        // indicate an invalid directory.
+        m_shownUrl = url();
+        showItemInfo();
+    }
+}
+
 bool InfoSidebarPage::applyPlace(const KUrl& url)
 {
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
@@ -426,6 +480,14 @@ void InfoSidebarPage::init()
     // ensure that widgets in the information side bar are aligned towards the top
     layout->addStretch(1);
     setLayout(layout);
+
+    org::kde::KDirNotify* dirNotify = new org::kde::KDirNotify(QString(), QString(),
+                                                               QDBusConnection::sessionBus(), this);
+    connect(dirNotify, SIGNAL(FileRenamed(QString, QString)), SLOT(slotFileRenamed(QString, QString)));
+    connect(dirNotify, SIGNAL(FilesAdded(QString)), SLOT(slotFilesAdded(QString)));
+    connect(dirNotify, SIGNAL(FilesChanged(QStringList)), SLOT(slotFilesChanged(QStringList)));
+    connect(dirNotify, SIGNAL(FilesRemoved(QStringList)), SLOT(slotFilesRemoved(QStringList)));
+    connect(dirNotify, SIGNAL(leftDirectory(QString)), SLOT(slotLeftDirectory(QString)));
 
     m_initialized = true;
 }
