@@ -351,7 +351,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
         // If the parent directory of the selected item is writable, moving
         // and deleting are possible.
         KFileItem parentDir = m_dirLister->rootItem();
-        if (!parentDir.isWritable()) {
+        if (!parentDir.isNull() && !parentDir.isWritable()) {
             popupFlags |= KParts::BrowserExtension::NoDeletion;
             sDeleting = false;
             sMoving = false;
