@@ -51,6 +51,7 @@
 
 InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
+    m_initialized(false),
     m_pendingPreview(false),
     m_shownUrl(),
     m_urlCandidate(),
@@ -61,54 +62,6 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     m_metaDataWidget(0),
     m_metaTextLabel(0)
 {
-    const int spacing = KDialog::spacingHint();
-
-    m_timer = new QTimer(this);
-    m_timer->setSingleShot(true);
-    connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(slotTimeout()));
-
-    QVBoxLayout* layout = new QVBoxLayout;
-    layout->setSpacing(spacing);
-
-    // name
-    m_nameLabel = new QLabel(this);
-    QFont font = m_nameLabel->font();
-    font.setBold(true);
-    m_nameLabel->setFont(font);
-    m_nameLabel->setAlignment(Qt::AlignHCenter);
-    m_nameLabel->setWordWrap(true);
-    m_nameLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
-    // preview
-    m_preview = new PixmapViewer(this);
-    m_preview->setMinimumWidth(KIconLoader::SizeEnormous + KIconLoader::SizeMedium);
-    m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
-
-    if (MetaDataWidget::metaDataAvailable()) {
-        // rating, comment and tags
-        m_metaDataWidget = new MetaDataWidget(this);
-        m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    }
-
-    // general meta text information
-    m_metaTextLabel = new MetaTextLabel(this);
-    m_metaTextLabel->setMinimumWidth(spacing);
-    m_metaTextLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
-    layout->addWidget(m_nameLabel);
-    layout->addWidget(new KSeparator(this));
-    layout->addWidget(m_preview);
-    layout->addWidget(new KSeparator(this));
-    if (m_metaDataWidget != 0) {
-        layout->addWidget(m_metaDataWidget);
-        layout->addWidget(new KSeparator(this));
-    }
-    layout->addWidget(m_metaTextLabel);
-
-    // ensure that widgets in the information side bar are aligned towards the top
-    layout->addStretch(1);
-    setLayout(layout);
 }
 
 InfoSidebarPage::~InfoSidebarPage()
@@ -126,14 +79,22 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 {
     SidebarPage::setUrl(url);
     if (url.isValid() && !m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
-        cancelRequest();
-        m_shownUrl = url;
-        showItemInfo();
+        if (m_initialized) {
+            cancelRequest();
+            m_shownUrl = url;
+            showItemInfo();
+        } else {
+            m_shownUrl = url;
+        }
     }
 }
 
 void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
+    if (!m_initialized) {
+        return;
+    }
+
     m_selection = selection;
 
     const int count = selection.count();
@@ -150,6 +111,10 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
 
 void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
 {
+    if (!m_initialized) {
+        return;
+    }
+
     cancelRequest();
 
     m_fileItem = KFileItem();
@@ -171,24 +136,32 @@ void InfoSidebarPage::showEvent(QShowEvent* event)
 {
     SidebarPage::showEvent(event);
     if (!event->spontaneous()) {
+        if (!m_initialized) {
+            // do a delayed initialization so that no performance
+            // penalty is given when Dolphin is started with a closed
+            // Information Panel
+            init();
+        }
         showItemInfo();
     }
 }
 
 void InfoSidebarPage::resizeEvent(QResizeEvent* event)
 {
-    // If the text inside the name label or the info label cannot
-    // get wrapped, then the maximum width of the label is increased
-    // so that the width of the information sidebar gets increased.
-    // To prevent this, the maximum width is adjusted to
-    // the current width of the sidebar.
-    const int maxWidth = event->size().width() - KDialog::spacingHint() * 4;
-    m_nameLabel->setMaximumWidth(maxWidth);
+    if (m_initialized) {
+        // If the text inside the name label or the info label cannot
+        // get wrapped, then the maximum width of the label is increased
+        // so that the width of the information sidebar gets increased.
+        // To prevent this, the maximum width is adjusted to
+        // the current width of the sidebar.
+        const int maxWidth = event->size().width() - KDialog::spacingHint() * 4;
+        m_nameLabel->setMaximumWidth(maxWidth);
 
-    // try to increase the preview as large as possible
-    m_preview->setSizeHint(QSize(maxWidth, maxWidth));
-    m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
-    m_timer->start(TimerDelay);
+        // try to increase the preview as large as possible
+        m_preview->setSizeHint(QSize(maxWidth, maxWidth));
+        m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
+        m_timer->start(TimerDelay);
+    }
 
     SidebarPage::resizeEvent(event);
 }
@@ -401,6 +374,60 @@ bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const
     }
 
     return false;
+}
+
+void InfoSidebarPage::init()
+{
+    const int spacing = KDialog::spacingHint();
+
+    m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
+    connect(m_timer, SIGNAL(timeout()),
+            this, SLOT(slotTimeout()));
+
+    QVBoxLayout* layout = new QVBoxLayout;
+    layout->setSpacing(spacing);
+
+    // name
+    m_nameLabel = new QLabel(this);
+    QFont font = m_nameLabel->font();
+    font.setBold(true);
+    m_nameLabel->setFont(font);
+    m_nameLabel->setAlignment(Qt::AlignHCenter);
+    m_nameLabel->setWordWrap(true);
+    m_nameLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    // preview
+    m_preview = new PixmapViewer(this);
+    m_preview->setMinimumWidth(KIconLoader::SizeEnormous + KIconLoader::SizeMedium);
+    m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
+
+    if (MetaDataWidget::metaDataAvailable()) {
+        // rating, comment and tags
+        m_metaDataWidget = new MetaDataWidget(this);
+        m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    }
+
+    // general meta text information
+    m_metaTextLabel = new MetaTextLabel(this);
+    m_metaTextLabel->setMinimumWidth(spacing);
+    m_metaTextLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    layout->addWidget(m_nameLabel);
+    layout->addWidget(new KSeparator(this));
+    layout->addWidget(m_preview);
+    layout->addWidget(new KSeparator(this));
+    if (m_metaDataWidget != 0) {
+        layout->addWidget(m_metaDataWidget);
+        layout->addWidget(new KSeparator(this));
+    }
+    layout->addWidget(m_metaTextLabel);
+
+    // ensure that widgets in the information side bar are aligned towards the top
+    layout->addStretch(1);
+    setLayout(layout);
+
+    m_initialized = true;
 }
 
 #include "infosidebarpage.moc"

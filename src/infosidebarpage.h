@@ -132,7 +132,10 @@ private:
      */
     bool convertMetaInfo(const QString& key, QString& text) const;
 
+    void init();
+
 private:
+    bool m_initialized;
     bool m_pendingPreview;
     QTimer* m_timer;
     KUrl m_shownUrl;      // URL that is shown as info
