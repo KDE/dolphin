@@ -109,6 +109,7 @@ private slots:
     void slotFilesAdded(const QString& directory);
     void slotFilesChanged(const QStringList& files);
     void slotFilesRemoved(const QStringList& files);
+    void slotEnteredDirectory(const QString& directory);
     void slotLeftDirectory(const QString& directory);
 
 private:

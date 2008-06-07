@@ -284,6 +284,14 @@ void InfoSidebarPage::slotFilesRemoved(const QStringList& files)
     }
 }
 
+void InfoSidebarPage::slotEnteredDirectory(const QString& directory)
+{
+    if (m_shownUrl == KUrl(directory)) {
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(directory));
+        requestDelayedItemInfo(item);
+    }
+}
+
 void InfoSidebarPage::slotLeftDirectory(const QString& directory)
 {
     if (m_shownUrl == KUrl(directory)) {
@@ -487,6 +495,7 @@ void InfoSidebarPage::init()
     connect(dirNotify, SIGNAL(FilesAdded(QString)), SLOT(slotFilesAdded(QString)));
     connect(dirNotify, SIGNAL(FilesChanged(QStringList)), SLOT(slotFilesChanged(QStringList)));
     connect(dirNotify, SIGNAL(FilesRemoved(QStringList)), SLOT(slotFilesRemoved(QStringList)));
+    connect(dirNotify, SIGNAL(enteredDirectory(QString)), SLOT(slotEnteredDirectory(QString)));
     connect(dirNotify, SIGNAL(leftDirectory(QString)), SLOT(slotLeftDirectory(QString)));
 
     m_initialized = true;
