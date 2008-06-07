@@ -66,17 +66,19 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
                                              quint64 kBUsed,
                                              quint64 kBAvailable)
 {
-    Q_UNUSED(kBSize);
     Q_UNUSED(mountPoint);
 
     m_gettingSize = false;
     m_foundMountPoint = true;
     const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) ||
-                               (kBAvailable != static_cast<quint64>(maximum()));
+                               (kBSize != static_cast<quint64>(maximum()));
     if (valuesChanged) {
         m_text = i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable * 1024));
+        setUpdatesEnabled(false);
         setMaximum(kBSize);
         setValue(kBUsed);
+        setUpdatesEnabled(true);
+        update();
     }
 }
 
@@ -88,9 +90,8 @@ void StatusBarSpaceInfo::slotDiskFreeSpaceDone()
 
     m_gettingSize = false;
     m_text = i18nc("@info:status", "Unknown size");
-    setMinimum(0);
-    setMaximum(0);
     setValue(0);
+    update();
 }
 
 void StatusBarSpaceInfo::refresh()
@@ -98,6 +99,7 @@ void StatusBarSpaceInfo::refresh()
     // KDiskFreeSpace is for local paths only
     if (!m_url.isLocalFile()) {
         m_text = i18nc("@info:status", "Unknown size");
+        setValue(0);
         update();
         return;
     }
@@ -133,9 +135,8 @@ void StatusBarSpaceInfo::showGettingSizeInfo()
 {
     if (m_gettingSize) {
         m_text = i18nc("@info:status", "Getting size...");
-        update();
-        setMinimum(0);
         setMaximum(0);
+        update();
     }
 }
 
