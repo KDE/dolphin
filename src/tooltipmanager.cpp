@@ -28,7 +28,7 @@
 
 #include <QTimer>
 
-K_GLOBAL_STATIC(KFormattedBalloonTipDelegate, g_delegate);
+K_GLOBAL_STATIC(KFormattedBalloonTipDelegate, g_delegate)
 
 ToolTipManager::ToolTipManager(QAbstractItemView* parent,
                                DolphinSortFilterProxyModel* model) :
