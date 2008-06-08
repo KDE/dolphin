@@ -236,7 +236,7 @@ void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
 KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 {
     const int info = decodedAdditionalInfo();
-    
+
     KFileItemDelegate::InformationList list;
     if (info & SizeInfo) {
         list.append(KFileItemDelegate::Size);
@@ -312,7 +312,7 @@ QString ViewProperties::destinationDir(const QString& subDir) const
 int ViewProperties::encodedAdditionalInfo(int info) const
 {
     int encodedInfo = m_node->additionalInfo();
-    
+
     switch (viewMode()) {
     case DolphinView::DetailsView:
         encodedInfo = (encodedInfo & 0xFFFF00) | info;
@@ -332,7 +332,7 @@ int ViewProperties::encodedAdditionalInfo(int info) const
 int ViewProperties::decodedAdditionalInfo() const
 {
     int decodedInfo = m_node->additionalInfo();
-    
+
     switch (viewMode()) {
     case DolphinView::DetailsView:
         decodedInfo = decodedInfo & 0xFF;
