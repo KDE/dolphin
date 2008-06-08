@@ -28,10 +28,10 @@ class KFormattedBalloonTipDelegate : public KToolTipDelegate
 {
 public:
     KFormattedBalloonTipDelegate() {}
-    ~KFormattedBalloonTipDelegate() {}
+    virtual ~KFormattedBalloonTipDelegate() {}
 
-    QSize sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const;
-    void paint(QPainter *painter, const KStyleOptionToolTip *option, const KToolTipItem *item) const;
+    virtual QSize sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const;
+    virtual void paint(QPainter *painter, const KStyleOptionToolTip *option, const KToolTipItem *item) const;
     QRegion inputShape(const KStyleOptionToolTip *option) const;
     QRegion shapeMask(const KStyleOptionToolTip *option) const;
 
