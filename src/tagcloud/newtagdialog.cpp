@@ -36,13 +36,25 @@ NewTagDialog::NewTagDialog( QWidget* parent )
 
     connect( m_editTagLabel, SIGNAL( textChanged(const QString&) ),
              this, SLOT( slotLabelChanged(const QString&) ) );
+
+    // TODO: use KGlobal::config() if NewTagDialog will be moved to kdelibs (KDE 4.2?)
+    KConfigGroup group(KSharedConfig::openConfig("dolphinrc"), "NewTagDialog");
+    restoreDialogSize(group);
 }
 
 
 NewTagDialog::~NewTagDialog()
 {
+    // TODO: use KGlobal::config() if NewTagDialog will be moved to kdelibs (KDE 4.2?)
+    KConfigGroup group(KSharedConfig::openConfig("dolphinrc"), "NewTagDialog");
+    saveDialogSize(group, KConfigBase::Persistent);
 }
 
+
+QSize NewTagDialog::sizeHint() const
+{
+    return QSize(400, 256);
+}
 
 void NewTagDialog::slotLabelChanged( const QString& text )
 {

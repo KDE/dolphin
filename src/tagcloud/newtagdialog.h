@@ -33,6 +33,8 @@ class NewTagDialog : public KDialog, public Ui_NewTagDialog
 public:
     ~NewTagDialog();
 
+    virtual QSize sizeHint() const;
+
     static Nepomuk::Tag createTag( QWidget* parent = 0 );
 
 private Q_SLOTS:
