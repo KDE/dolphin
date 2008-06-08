@@ -320,8 +320,8 @@ void ViewPropertiesDialog::applyViewProperties()
         }
 
         ViewPropsProgressInfo* info = new ViewPropsProgressInfo(m_dolphinView,
-                                      m_dolphinView->url(),
-                                      *m_viewProps);
+                                                                m_dolphinView->url(),
+                                                                *m_viewProps);
         info->setAttribute(Qt::WA_DeleteOnClose);
         info->setWindowModality(Qt::NonModal);
         info->show();
