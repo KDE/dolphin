@@ -330,6 +330,25 @@ void ViewPropertiesDialog::applyViewProperties()
     const bool applyToAllFolders = m_isDirty &&
                                    (m_applyToAllFolders != 0) &&
                                    m_applyToAllFolders->isChecked();
+
+    // If the user selected 'Apply To All Folders' the view properties implicitely
+    // are also used as default for new folders.
+    const bool useAsDefault = applyToAllFolders ||
+                              (m_useAsDefault != 0) && m_useAsDefault->isChecked();
+    if (useAsDefault) {
+        // For directories where no .directory file is available, the .directory
+        // file stored for the global view properties is used as fallback. To update
+        // this file we temporary turn on the global view properties mode.
+        GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+        Q_ASSERT(!settings->globalViewProps());
+
+        settings->setGlobalViewProps(true);
+        ViewProperties defaultProps(m_dolphinView->url());
+        defaultProps.setDirProperties(*m_viewProps);
+        defaultProps.save();
+        settings->setGlobalViewProps(false);
+    }
+
     if (applyToAllFolders) {
         const QString text(i18nc("@info", "The view properties of all folders will be changed. Do you want to continue?"));
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
@@ -346,8 +365,6 @@ void ViewPropertiesDialog::applyViewProperties()
         KIO::NetAccess::del(mirroredDir, this);
     }
 
-    m_viewProps->save();
-
     m_dolphinView->setMode(m_viewProps->viewMode());
     m_dolphinView->setSorting(m_viewProps->sorting());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
@@ -356,21 +373,9 @@ void ViewPropertiesDialog::applyViewProperties()
     m_dolphinView->setShowPreview(m_viewProps->showPreview());
     m_dolphinView->setShowHiddenFiles(m_viewProps->showHiddenFiles());
 
+    m_viewProps->save();
+
     m_isDirty = false;
-
-    if (m_useAsDefault && m_useAsDefault->isChecked()) {
-        // For directories where no .directory file is available, the .directory
-        // file stored for the global view properties is used as fallback. To update
-        // this file we temporary turn on the global view properties mode.
-        GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-        Q_ASSERT(!settings->globalViewProps());
-
-        settings->setGlobalViewProps(true);
-        ViewProperties defaultProps(m_dolphinView->url());
-        defaultProps.setDirProperties(*m_viewProps);
-        defaultProps.save();
-        settings->setGlobalViewProps(false);
-    }
 }
 
 void ViewPropertiesDialog::loadSettings()
