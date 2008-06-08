@@ -21,10 +21,14 @@
 
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "ktooltip.h"
-#include "kicon.h"
+
+#include <kformattedballoontipdelegate.h>
+#include <kicon.h>
+#include <ktooltip.h>
 
 #include <QTimer>
+
+K_GLOBAL_STATIC(KFormattedBalloonTipDelegate, g_delegate);
 
 ToolTipManager::ToolTipManager(QAbstractItemView* parent,
                                DolphinSortFilterProxyModel* model) :
@@ -34,10 +38,9 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_proxyModel(model),
     m_timer(0),
     m_item(),
-    m_pos(),
-    m_delegate()
+    m_pos()
 {
-    KToolTip::setToolTipDelegate(&m_delegate);
+    KToolTip::setToolTipDelegate(g_delegate);
 
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
     connect(parent, SIGNAL(entered(const QModelIndex&)),

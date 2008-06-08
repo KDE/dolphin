@@ -24,7 +24,6 @@
 #include <QPoint>
 
 #include <kfileitem.h>
-#include <kformattedballoontipdelegate.h>
 
 class DolphinModel;
 class DolphinSortFilterProxyModel;
@@ -71,7 +70,6 @@ private:
     QTimer* m_timer;
     KFileItem m_item;
     QPoint m_pos;
-    KFormattedBalloonTipDelegate m_delegate;
 };
 
 #endif
