@@ -403,6 +403,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
 
 void DolphinPart::slotUrlChanged(const KUrl& url)
 {
+    KParts::ReadOnlyPart::setUrl(url);
     QString prettyUrl = url.pathOrUrl();
     emit m_extension->setLocationBarUrl(prettyUrl);
 }
