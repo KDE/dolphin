@@ -458,16 +458,6 @@ void DolphinMainWindow::updatePasteAction()
     QPair<bool, QString> pasteInfo = m_activeViewContainer->view()->pasteInfo();
     pasteAction->setEnabled(pasteInfo.first);
     pasteAction->setText(pasteInfo.second);
-
-    if (pasteAction->isEnabled()) {
-        // disable the paste action if no writing is supported
-        const KUrl& url = m_activeViewContainer->view()->url();
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-        KFileItemList list;
-        list.append(item);
-        KonqFileItemCapabilities capabilities(list);
-        pasteAction->setEnabled(capabilities.supportsWriting());
-    }
 }
 
 void DolphinMainWindow::selectAll()

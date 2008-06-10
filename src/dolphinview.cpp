@@ -41,6 +41,7 @@
 #include <kmenu.h>
 #include <kmessagebox.h>
 #include <kmimetyperesolver.h>
+#include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <konqmimedata.h>
 #include <ktoggleaction.h>
@@ -901,7 +902,10 @@ QPair<bool, QString> DolphinView::pasteInfo() const
 
     KUrl::List urls = KUrl::List::fromMimeData(mimeData);
     if (!urls.isEmpty()) {
-        ret.first = true;
+        // disable the paste action if no writing is supported
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url());
+        ret.first = KonqFileItemCapabilities(KFileItemList() << item).supportsWriting();
+
         if (urls.count() == 1) {
             const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, urls.first(), true);
             ret.second = item.isDir() ? i18nc("@action:inmenu", "Paste One Folder") :
