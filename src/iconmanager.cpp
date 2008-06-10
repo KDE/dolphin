@@ -86,6 +86,10 @@ IconManager::~IconManager()
     killPreviewJobs();
     m_pendingItems.clear();
     m_dispatchedItems.clear();
+    if (m_mimeTypeResolver != 0) {
+        m_mimeTypeResolver->deleteLater();
+        m_mimeTypeResolver = 0;
+    }
 }
 
 
