@@ -251,9 +251,6 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* columnsMode = m_mainWindow->actionCollection()->action("columns");
     viewModeMenu->addAction(columnsMode);
 
-    QAction* previewsMode = m_mainWindow->actionCollection()->action("previews");
-    viewModeMenu->addAction(previewsMode);
-
     popup->addMenu(viewModeMenu);
 
     popup->addSeparator();
