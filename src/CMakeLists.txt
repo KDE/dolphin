@@ -82,7 +82,7 @@ target_link_libraries(dolphinpart dolphinprivate konq)
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR} )
 
-install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin)
+install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 
 ##########################################

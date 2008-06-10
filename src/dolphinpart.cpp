@@ -49,7 +49,7 @@
 #include <QClipboard>
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
-K_EXPORT_PLUGIN(DolphinPartFactory("dolphin"))
+K_EXPORT_PLUGIN(DolphinPartFactory("dolphinpart", "dolphin"))
 
 DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args)
     : KParts::ReadOnlyPart(parent)
