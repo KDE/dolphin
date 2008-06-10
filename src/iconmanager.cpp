@@ -25,6 +25,7 @@
 #include <kiconeffect.h>
 #include <kio/previewjob.h>
 #include <kdirlister.h>
+#include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
 #include <QApplication>
@@ -45,6 +46,7 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
     m_previewJobs(),
     m_dolphinModel(0),
     m_proxyModel(model),
+    m_mimeTypeResolver(0),
     m_cutItemsCache(),
     m_previews(),
     m_pendingItems(),
@@ -96,6 +98,16 @@ void IconManager::setShowPreview(bool show)
         if (show) {
             updatePreviews();
         }
+    }
+
+    if (show && (m_mimeTypeResolver != 0)) {
+        // don't resolve the MIME types if the preview is turned on
+        m_mimeTypeResolver->deleteLater();
+        m_mimeTypeResolver = 0;
+    } else if (!show && (m_mimeTypeResolver == 0)) {
+        // the preview is turned off: resolve the MIME-types so that
+        // the icons gets updated
+        m_mimeTypeResolver = new KMimeTypeResolver(m_view, m_dolphinModel);
     }
 }
 

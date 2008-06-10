@@ -37,7 +37,6 @@
 #include <kio/previewjob.h>
 #include <kiconeffect.h>
 #include <kjob.h>
-#include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
 #include "iconmanager.h"
@@ -133,7 +132,6 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                 m_selectionManager, SLOT(reset()));
     }
 
-    new KMimeTypeResolver(this, m_dolphinModel);
     m_iconManager = new IconManager(this, m_proxyModel);
     m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
 

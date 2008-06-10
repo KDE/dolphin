@@ -1125,7 +1125,6 @@ void DolphinView::createView()
 
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    new KMimeTypeResolver(view, m_dolphinModel);
     m_iconManager = new IconManager(view, m_proxyModel);
     m_iconManager->setShowPreview(m_showPreview);
 

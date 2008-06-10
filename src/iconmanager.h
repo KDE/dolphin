@@ -30,6 +30,7 @@
 class DolphinModel;
 class DolphinSortFilterProxyModel;
 class KJob;
+class KMimeTypeResolver;
 class QAbstractItemView;
 
 /**
@@ -165,6 +166,8 @@ private:
     QList<KJob*> m_previewJobs;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
+
+    KMimeTypeResolver* m_mimeTypeResolver;
 
     QList<ItemInfo> m_cutItemsCache;
     QList<ItemInfo> m_previews;
