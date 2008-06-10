@@ -65,8 +65,9 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     }
 
     m_lineEdit = new KLineEdit(page);
-    QString extension = extensionString(items[0].url().prettyUrl());
+    QString extension = KMimeType::extractKnownExtension(items[0].url().prettyUrl());
     if (extension.length() > 0) {
+        extension.insert(0, '.');
         // The first item seems to have a extension (e. g. '.jpg' or '.txt'). Now
         // check whether all other URLs have the same extension. If this is the
         // case, add this extension to the name suggestion.
@@ -107,7 +108,8 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
 }
 
 RenameDialog::~RenameDialog()
-{}
+{
+}
 
 void RenameDialog::slotButtonClicked(int button)
 {
@@ -123,38 +125,6 @@ void RenameDialog::slotButtonClicked(int button)
     }
 
     KDialog::slotButtonClicked(button);
-}
-
-QString RenameDialog::extensionString(const QString& name)
-{
-    QString extension;
-
-    const QStringList strings = name.split('.');
-    const int size = strings.size();
-    for (int i = size - 1; i >= 0; --i) {
-        const QString& str = strings.at(i);
-
-        // Sub strings like "9", "12", "99", ... which contain only
-        // numbers don't count as extension. Usually they are version
-        // numbers like in "cmake-2.4.5".
-        bool isNumeric = false;
-        str.toInt(&isNumeric);
-        if (isNumeric) {
-            break;
-        }
-
-        // Extensions may not contain a space and the maximum length
-        // should not exceed 4 characters. This prevents that strings like
-        // "Open office.org writer documentation.pdf" get ".org writer documentation.pdf"
-        // as extension.
-        if (str.contains(' ') || (str.length() > 4)) {
-            break;
-        }
-
-        extension.insert(0, '.' + str);
-    }
-
-    return extension;
 }
 
 #include "renamedialog.moc"
