@@ -152,6 +152,12 @@ private:
     /** Kills all ongoing preview jobs. */
     void killPreviewJobs();
 
+    /**
+     * Orders the items \a items in a way that the visible items
+     * are moved to the front of the list. When passing this
+     * list to a preview job, the visible items will get generated
+     * first.
+     */
     void orderItems(KFileItemList& items);
 
 private:
