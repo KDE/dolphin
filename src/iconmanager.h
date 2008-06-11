@@ -60,9 +60,17 @@ public:
     bool showPreview() const;
 
     /**
-     * Updates the previews for all already available items.
+     * Updates the previews for all already available items. It is only necessary
+     * to invoke this method when the icon size of the abstract item view has
+     * been changed.
      */
     void updatePreviews();
+
+    /**
+     * Cancels all pending previews. Should be invoked when the URL of the item
+     * view has been changed.
+     */
+    void cancelPreviews();
 
 private slots:
     /**
@@ -143,6 +151,12 @@ private:
 
     /** Kills all ongoing preview jobs. */
     void killPreviewJobs();
+
+    /**
+     * Returns true, if the item list \a items contains an item with the
+     * URL \a url. This is a helper method for IconManager::generatePreviews().
+     */
+    bool itemListContains(const KFileItemList& items, const KUrl& url) const;
 
 private:
     /** Remembers the pixmap for an item specified by an URL. */

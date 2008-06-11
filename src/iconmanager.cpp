@@ -138,6 +138,14 @@ void IconManager::updatePreviews()
     updateCutItems();
 }
 
+void IconManager::cancelPreviews()
+{
+    killPreviewJobs();
+    m_cutItemsCache.clear();
+    m_pendingItems.clear();
+    m_dispatchedItems.clear();
+}
+
 void IconManager::generatePreviews(const KFileItemList& items)
 {
     applyCutItemEffect();
@@ -148,18 +156,25 @@ void IconManager::generatePreviews(const KFileItemList& items)
 
     // Order the items in a way that the preview for the visible items
     // is generated first, as this improves the feeled performance a lot.
+    // Implementation note: using KDirModel::itemForUrl() would lead to a more
+    // readable code, but it is a lot slower in comparison to itemListContains().
     const QRect visibleArea = m_view->viewport()->rect();
     KFileItemList orderedItems;
-    foreach (const KFileItem& item, items) {
-        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+    const int rowCount = m_proxyModel->rowCount();
+    for (int row = 0; row < rowCount; ++row) {
+        const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
         const QRect itemRect = m_view->visualRect(proxyIndex);
-        if (itemRect.intersects(visibleArea)) {
-            orderedItems.insert(0, item);
-            m_pendingItems.insert(0, item.url());
-        } else {
-            orderedItems.append(item);
-            m_pendingItems.append(item.url());
+        const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
+        KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
+        const KUrl url = item.url();
+        if (itemListContains(items, url)) {
+            if (itemRect.intersects(visibleArea)) {
+                orderedItems.insert(0, item);
+                m_pendingItems.insert(0, url);
+            } else {
+                orderedItems.append(item);
+                m_pendingItems.append(url);
+            }
         }
     }
 
@@ -269,17 +284,25 @@ void IconManager::resumePreviews()
     // Create a new preview job for the remaining items.
     // Order the items in a way that the preview for the visible items
     // is generated first, as this improves the feeled performance a lot.
+    // Implementation note: using KDirModel::itemForUrl() would lead to a more
+    // readable code, but it is a lot slower in comparison
+    // to m_pendingItems.contains().
     const QRect visibleArea = m_view->viewport()->rect();
     KFileItemList orderedItems;
-    foreach (const KUrl& url, m_pendingItems) {
-        const QModelIndex dirIndex = m_dolphinModel->indexForUrl(url);
-        const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+
+    const int rowCount = m_proxyModel->rowCount();
+    for (int row = 0; row < rowCount; ++row) {
+        const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
         const QRect itemRect = m_view->visualRect(proxyIndex);
-        if (itemRect.intersects(visibleArea)) {
-            orderedItems.insert(0, item);
-        } else {
-            orderedItems.append(item);
+        const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
+        KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
+        const KUrl url = item.url();
+        if (m_pendingItems.contains(url)) {
+            if (itemRect.intersects(visibleArea)) {
+                orderedItems.insert(0, item);
+            } else {
+                orderedItems.append(item);
+            }
         }
     }
 
@@ -495,6 +518,16 @@ void IconManager::killPreviewJobs()
         job->kill();
     }
     m_previewJobs.clear();
+}
+
+bool IconManager::itemListContains(const KFileItemList& items, const KUrl& url) const
+{
+    foreach (const KFileItem& item, items) {
+        if (url == item.url()) {
+            return true;
+        }
+    }
+    return false;
 }
 
 #include "iconmanager.moc"
