@@ -442,6 +442,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         return;
     }
 
+    m_iconManager->cancelPreviews();
     m_controller->setUrl(url); // emits urlChanged, which we forward
 
     if (!rootUrl.isEmpty() && rootUrl.isParentOf(url)) {
