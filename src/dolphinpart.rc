@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphinpart" version="8" >
+<kpartgui name="dolphinpart" version="9" >
  <MenuBar>
   <Menu name="edit">
    <Action name="new_menu"/>
@@ -51,7 +51,7 @@
     <Action name="go_trash"/>
     <Action name="go_autostart"/>
   </Menu>
-  <Menu name="tools">
+  <Menu name="tools"><text context="@title:menu">Tools</text>
     <Action name="open_terminal"/>
     <Action name="find_file" />
     <Action name="show_filter_bar" />
