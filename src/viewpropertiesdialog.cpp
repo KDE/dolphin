@@ -362,10 +362,6 @@ void ViewPropertiesDialog::applyViewProperties()
         // all existing viewproperties invalid, as they have a smaller time stamp.
         GeneralSettings* settings = DolphinSettings::instance().generalSettings();
         settings->setViewPropsTimestamp(QDateTime::currentDateTime());
-
-        // This is also a good chance to make a cleanup of all mirrored view properties:
-        const KUrl mirroredDir = ViewProperties::mirroredDirectory();
-        KIO::NetAccess::del(mirroredDir, this);
     }
 
     m_dolphinView->setMode(m_viewProps->viewMode());
