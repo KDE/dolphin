@@ -310,8 +310,12 @@ void ViewPropertiesDialog::configureAdditionalInfo()
 
 void ViewPropertiesDialog::applyViewProperties()
 {
-    const bool applyToSubFolders = m_isDirty &&
-                                   (m_applyToSubFolders != 0) &&
+    // if nothing changed in the dialog, we have nothing to apply
+    if (!m_isDirty) {
+        return;
+    }
+
+    const bool applyToSubFolders = (m_applyToSubFolders != 0) &&
                                    m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
         const QString text(i18nc("@info", "The view properties of all sub folders will be changed. Do you want to continue?"));
@@ -327,8 +331,7 @@ void ViewPropertiesDialog::applyViewProperties()
         info->show();
     }
 
-    const bool applyToAllFolders = m_isDirty &&
-                                   (m_applyToAllFolders != 0) &&
+    const bool applyToAllFolders = (m_applyToAllFolders != 0) &&
                                    m_applyToAllFolders->isChecked();
 
     // If the user selected 'Apply To All Folders' the view properties implicitely
