@@ -486,37 +486,60 @@ void IconManager::orderItems(KFileItemList& items)
     // Order the items in a way that the preview for the visible items
     // is generated first, as this improves the feeled performance a lot.
     //
-    // Implementation note: using KDirModel::itemForUrl() would lead to a more
-    // readable code, but it is slower as iterating all model indicess
-    // and checking whether the index is part of 'items'.
+    // Implementation note: 2 different algorithms are used for the sorting.
+    // Algorithm 1 is faster when having a lot of items in comparison
+    // to the number of rows in the model. Algorithm 2 is faster
+    // when having quite less items in comparison to the number of rows in
+    // the model. Choosing the right algorithm is important when having directories
+    // with several hundreds or thousands of items.
 
     const int itemCount = items.count();
+    const int rowCount = m_proxyModel->rowCount();
     const QRect visibleArea = m_view->viewport()->rect();
 
-    const int rowCount = m_proxyModel->rowCount();
-    for (int row = 0; row < rowCount; ++row) {
-        const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
-        const QRect itemRect = m_view->visualRect(proxyIndex);
-        const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
+    if (itemCount * 10 > rowCount) {
+        // Algorithm 1: The number of items is > 10 % of the row count. Parse all rows
+        // and check whether the received row is part of the item list.
+        for (int row = 0; row < rowCount; ++row) {
+            const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
+            const QRect itemRect = m_view->visualRect(proxyIndex);
+            const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
 
-        KFileItem item = m_dolphinModel->itemForIndex(dirIndex);  // O(1)
-        const KUrl url = item.url();
+            KFileItem item = m_dolphinModel->itemForIndex(dirIndex);  // O(1)
+            const KUrl url = item.url();
 
-        // check whether the item is part of the item list 'items'
-        int index = -1;
-        for (int i = 0; i < itemCount; ++i) {
-            if (items[i].url() == url) {
-                index = i;
-                break;
+            // check whether the item is part of the item list 'items'
+            int index = -1;
+            for (int i = 0; i < itemCount; ++i) {
+                if (items[i].url() == url) {
+                    index = i;
+                    break;
+                }
+            }
+
+            if ((index > 0) && itemRect.intersects(visibleArea)) {
+                // The current item is (at least partly) visible. Move it
+                // to the front of the list, so that the preview is
+                // generated earlier.
+                items.removeAt(index);
+                items.insert(0, item);
             }
         }
+    } else {
+        // Algorithm 2: The number of items is <= 10 % of the row count. In this case iterate
+        // all items and receive the corresponding row from the item.
+        for (int i = 0; i < itemCount; ++i) {
+            const QModelIndex dirIndex = m_dolphinModel->indexForItem(items[i]); // O(n) (n = number of rows)
+            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+            const QRect itemRect = m_view->visualRect(proxyIndex);
 
-        if ((index > 0) && itemRect.intersects(visibleArea)) {
-            // The current item is (at least partly) visible. Move it
-            // to the front of the list, so that the preview is
-            // generated earlier.
-            items.removeAt(index);
-            items.insert(0, item);
+            if (itemRect.intersects(visibleArea)) {
+                // The current item is (at least partly) visible. Move it
+                // to the front of the list, so that the preview is
+                // generated earlier.
+                items.insert(0, items[i]);
+                items.removeAt(i + 1);
+            }
         }
     }
 }
