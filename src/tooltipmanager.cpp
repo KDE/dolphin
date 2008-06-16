@@ -76,15 +76,19 @@ bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 
 void ToolTipManager::requestToolTip(const QModelIndex& index)
 {
-    KToolTip::hideTip();
+    if (index.column() == DolphinModel::Name) {
+        KToolTip::hideTip();
 
-    const QRect rect = m_view->visualRect(index);
-    m_pos = m_view->viewport()->mapToGlobal(rect.bottomRight());
+        const QRect rect = m_view->visualRect(index);
+        m_pos = m_view->viewport()->mapToGlobal(rect.bottomRight());
 
-    const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-    m_item = m_dolphinModel->itemForIndex(dirIndex);
+        const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
+        m_item = m_dolphinModel->itemForIndex(dirIndex);
 
-    m_timer->start(500);
+        m_timer->start(500);
+    } else {
+        hideToolTip();
+    }
 }
 
 void ToolTipManager::hideToolTip()

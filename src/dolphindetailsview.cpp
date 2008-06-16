@@ -187,6 +187,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 {
     m_controller->requestActivation();
 
+    const QModelIndex current = currentIndex();
     QTreeView::mousePressEvent(event);
 
     m_expandingTogglePressed = false;
@@ -214,6 +215,9 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
         if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
             clearSelection();
         }
+
+        // restore the current index, other columns are handled as viewport area
+        selectionModel()->setCurrentIndex(current, QItemSelectionModel::Current);
     }
 
     if ((event->button() == Qt::LeftButton) && !m_expandingTogglePressed) {
@@ -269,7 +273,18 @@ void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
 
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 {
-    QTreeView::mouseReleaseEvent(event);
+    const QModelIndex index = indexAt(event->pos());
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
+        QTreeView::mouseReleaseEvent(event);
+    } else {
+        // don't change the current index if the cursor is released
+        // above any other column than the name column, as the other
+        // columns act as viewport
+        const QModelIndex current = currentIndex();
+        QTreeView::mouseReleaseEvent(event);
+        selectionModel()->setCurrentIndex(current, QItemSelectionModel::Current);
+    }
+
     m_expandingTogglePressed = false;
     if (m_showElasticBand) {
         updateElasticBand();
@@ -444,12 +459,9 @@ void DolphinDetailsView::synchronizeSortingState(int column)
 
 void DolphinDetailsView::slotEntered(const QModelIndex& index)
 {
-    const QPoint pos = viewport()->mapFromGlobal(QCursor::pos());
-    const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
-    if (pos.x() < nameColumnWidth) {
+    if (index.column() == DolphinModel::Name) {
         m_controller->emitItemEntered(index);
-    }
-    else {
+    } else {
         m_controller->emitViewportEntered();
     }
 }

@@ -169,7 +169,7 @@ void DolphinController::triggerItem(const QModelIndex& index)
     } else {
         m_itemView->clearSelection();
         if (!openTab) {
-            emit itemEntered(item);
+            emit itemEntered(KFileItem());
         }
     }
 }

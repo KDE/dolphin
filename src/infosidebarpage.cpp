@@ -94,6 +94,14 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
         return;
     }
 
+    if ((selection.count() == 0) && (m_selection.count() == 0)) {
+        // The selection has not really changed, only the current index.
+        // QItemSelectionModel emits a signal in this case and it is less
+        // expensive doing the check this way instead of patching
+        // DolphinView::emitSelectionChanged().
+        return;
+    }
+
     m_selection = selection;
 
     const int count = selection.count();
