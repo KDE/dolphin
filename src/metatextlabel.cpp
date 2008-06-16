@@ -81,6 +81,7 @@ void MetaTextLabel::add(const QString& labelText, const QString& infoText)
     info->setWordWrap(true);
 
     QHBoxLayout* layout = new QHBoxLayout(line);
+    layout->setMargin(2);
     layout->addWidget(label, 50);
     layout->addWidget(info, 50);
 
