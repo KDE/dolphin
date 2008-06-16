@@ -106,10 +106,10 @@ void SelectionManager::setItemSelected(bool selected)
         QItemSelectionModel* selModel = m_view->selectionModel();
         if (selected) {
             selModel->select(index, QItemSelectionModel::Select);
-            selModel->setCurrentIndex(index, QItemSelectionModel::Select);
         } else {
             selModel->select(index, QItemSelectionModel::Deselect);
         }
+        selModel->setCurrentIndex(index, QItemSelectionModel::Current);
     }
 }
 
