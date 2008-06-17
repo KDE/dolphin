@@ -44,7 +44,7 @@ X-KDE-Library=dolphinpart
 #X-KDE-BrowserView-Args=Icon
 X-KDE-BrowserView-HideFromMenus=true
 X-KDE-BrowserView-Built-Into=konqueror
-Icon=view_icon
+Icon=view-icon
 InitialPreference=7
 
 # Provide info about the view modes using the Actions mechanism so that KService parses it.
