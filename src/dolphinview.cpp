@@ -796,8 +796,8 @@ void DolphinView::dropUrls(const KUrl::List& urls,
                            const KFileItem& destItem)
 {
     Q_ASSERT(!urls.isEmpty());
-    const KUrl& destination = !destItem.isNull() && destItem.isDir() ?
-                              destItem.url() : destPath;
+    const KUrl destination = !destItem.isNull() && destItem.isDir() ?
+                             destItem.url() : destPath;
     const KUrl sourceDir = KUrl(urls.first().directory());
     if (sourceDir != destination) {
         DolphinDropController dropController(this);
