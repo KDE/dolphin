@@ -29,7 +29,6 @@
 #include <kaboutdata.h>
 #include <kactioncollection.h>
 #include <kconfiggroup.h>
-#include <kdebug.h>
 #include <kdirlister.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
