@@ -386,6 +386,7 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
         Q_ASSERT(m_view->m_controller->itemView() == this);
         m_view->m_controller->triggerUrlChangeRequest(m_url);
     }
+    Q_ASSERT(m_active);
 
     QListView::contextMenuEvent(event);
 
@@ -394,13 +395,9 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
         clearSelection();
     }
 
-    if (index.isValid() || m_active) {
-        // Only open a context menu above an item or if the mouse is above
-        // the active column.
-        const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
-        Q_ASSERT(m_view->m_controller->itemView() == this);
-        m_view->m_controller->triggerContextMenuRequest(pos);
-    }
+    const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
+    Q_ASSERT(m_view->m_controller->itemView() == this);
+    m_view->m_controller->triggerContextMenuRequest(pos);
 }
 
 void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
