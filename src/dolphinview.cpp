@@ -800,18 +800,12 @@ void DolphinView::dropUrls(const KUrl::List& urls,
                               destItem.url() : destPath;
     const KUrl sourceDir = KUrl(urls.first().directory());
     if (sourceDir != destination) {
-        dropUrls(urls, destination);
+        DolphinDropController dropController(this);
+        // forward doingOperation signal up to the mainwindow
+        connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
+                this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
+        dropController.dropUrls(urls, destination);
     }
-}
-
-void DolphinView::dropUrls(const KUrl::List& urls,
-                           const KUrl& destination)
-{
-    DolphinDropController dropController(this);
-    // forward doingOperation signal up to the mainwindow
-    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
-            this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
-    dropController.dropUrls(urls, destination);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)

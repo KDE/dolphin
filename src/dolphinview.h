@@ -547,12 +547,6 @@ private slots:
                   const KFileItem& destItem);
 
     /**
-     * Handles the dropping of URLs to the given destination.
-     * @see DolphinDropController
-     */
-    void dropUrls(const KUrl::List& urls,
-                  const KUrl& destination);
-    /**
      * Updates the view properties of the current URL to the
      * sorting given by \a sorting.
      */
