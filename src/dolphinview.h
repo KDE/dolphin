@@ -219,11 +219,6 @@ public:
     KUrl::List selectedUrls() const;
 
     /**
-     * Returns the file item for the given model index \a index.
-     */
-    KFileItem fileItem(const QModelIndex& index) const;
-
-    /**
      * Sets the upper left position of the view content
      * to (x,y). The content of the view might be larger than the visible area
      * and hence a scrolling must be done.

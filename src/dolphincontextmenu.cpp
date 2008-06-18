@@ -337,7 +337,8 @@ QString DolphinContextMenu::placesName(const KUrl& url) const
 QAction* DolphinContextMenu::createPasteAction()
 {
     QAction* action = 0;
-    if ((m_selectedItems.count() == 1) && m_fileInfo.isDir()) {
+    const bool isDir = !m_fileInfo.isNull() && m_fileInfo.isDir();
+    if (isDir && (m_selectedItems.count() == 1)) {
         action = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste Into Folder"), this);
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);

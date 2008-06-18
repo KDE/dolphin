@@ -92,15 +92,25 @@ DolphinColumnView::~DolphinColumnView()
 QModelIndex DolphinColumnView::indexAt(const QPoint& point) const
 {
     foreach (DolphinColumnWidget* column, m_columns) {
-        const QPoint topLeft = column->frameGeometry().topLeft();
-        const QPoint adjustedPoint(point.x() - topLeft.x(), point.y() - topLeft.y());
-        const QModelIndex index = column->indexAt(adjustedPoint);
+        const QModelIndex index = column->indexAt(columnPosition(column, point));
         if (index.isValid()) {
             return index;
         }
     }
 
     return QModelIndex();
+}
+
+KFileItem DolphinColumnView::itemAt(const QPoint& point) const
+{
+    foreach (DolphinColumnWidget* column, m_columns) {
+        KFileItem item = column->itemAt(columnPosition(column, point));
+        if (!item.isNull()) {
+            return item;
+        }
+    }
+
+    return KFileItem();
 }
 
 void DolphinColumnView::scrollTo(const QModelIndex& index, ScrollHint hint)
@@ -252,6 +262,11 @@ void DolphinColumnView::showColumn(const KUrl& url)
 void DolphinColumnView::editItem(const KFileItem& item)
 {
     activeColumn()->editItem(item);
+}
+
+KFileItemList DolphinColumnView::selectedItems() const
+{
+    return activeColumn()->selectedItems();
 }
 
 void DolphinColumnView::selectAll()
@@ -585,6 +600,12 @@ void DolphinColumnView::removeAllColumns()
     m_index = 0;
     m_columns[0]->setActive(true);
     assureVisibleActiveColumn();
+}
+
+QPoint DolphinColumnView::columnPosition(DolphinColumnWidget* column, const QPoint& point) const
+{
+    const QPoint topLeft = column->frameGeometry().topLeft();
+    return QPoint(point.x() - topLeft.x(), point.y() - topLeft.y());
 }
 
 #include "dolphincolumnview.moc"

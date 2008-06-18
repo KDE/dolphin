@@ -50,8 +50,19 @@ public:
     explicit DolphinColumnView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinColumnView();
 
+    /** @see QAbstractItemView::indexAt() */
     virtual QModelIndex indexAt(const QPoint& point) const;
+
+    /**
+     * Returns the item on the position \a pos. The KFileItem instance
+     * is null if no item is below the position.
+     */
+    KFileItem itemAt(const QPoint& point) const;
+
+    /** @see QAbstractItemView::scrollTo() */
     virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
+
+    /** @see QAbstractItemView::visualRect() */
     virtual QRect visualRect(const QModelIndex& index) const;
 
     /** Inverts the selection of the currently active column. */
@@ -96,6 +107,11 @@ public:
      * inside the active column.
      */
     void editItem(const KFileItem& item);
+
+    /**
+     * Returns the selected items of the active column.
+     */
+    KFileItemList selectedItems() const;
 
 public slots:
     /** @see QAbstractItemView::selectAll() */
@@ -174,6 +190,12 @@ private:
 
     /** Removes all columns except of the root column. */
     void removeAllColumns();
+
+    /**
+     * Returns the position of the point \a point relative to the column
+     * \a column.
+     */
+    QPoint columnPosition(DolphinColumnWidget* column, const QPoint& point) const;
 
 private:
     DolphinController* m_controller;

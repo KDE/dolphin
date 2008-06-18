@@ -104,6 +104,14 @@ public:
      */
     void editItem(const KFileItem& item);
 
+    /**
+     * Returns the item on the position \a pos. The KFileItem instance
+     * is null if no item is below the position.
+     */
+    KFileItem itemAt(const QPoint& pos) const;
+
+    KFileItemList selectedItems() const;
+
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void startDrag(Qt::DropActions supportedActions);

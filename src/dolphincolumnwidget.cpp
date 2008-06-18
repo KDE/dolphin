@@ -28,6 +28,7 @@
 #include "dolphin_columnmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
+#include "iconmanager.h"
 #include "selectionmanager.h"
 #include "tooltipmanager.h"
 
@@ -38,8 +39,6 @@
 #include <kiconeffect.h>
 #include <kjob.h>
 #include <konqmimedata.h>
-
-#include "iconmanager.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -246,6 +245,33 @@ void DolphinColumnWidget::editItem(const KFileItem& item)
     }
 }
 
+KFileItem DolphinColumnWidget::itemAt(const QPoint& pos) const
+{
+    KFileItem item;
+    const QModelIndex index = indexAt(pos);
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
+        const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+        item = m_dolphinModel->itemForIndex(dolphinModelIndex);
+    }
+    return item;
+}
+
+KFileItemList DolphinColumnWidget::selectedItems() const
+{
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource(selectionModel()->selection());
+    KFileItemList itemList;
+
+    const QModelIndexList indexList = selection.indexes();
+    foreach (const QModelIndex &index, indexList) {
+        KFileItem item = m_dolphinModel->itemForIndex(index);
+        if (!item.isNull()) {
+            itemList.append(item);
+        }
+    }
+
+    return itemList;
+}
+
 QStyleOptionViewItem DolphinColumnWidget::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = QListView::viewOptions();
@@ -364,6 +390,10 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
     QListView::contextMenuEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
+    if (!index.isValid()) {
+        clearSelection();
+    }
+
     if (index.isValid() || m_active) {
         // Only open a context menu above an item or if the mouse is above
         // the active column.

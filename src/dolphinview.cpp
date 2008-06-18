@@ -295,6 +295,10 @@ void DolphinView::clearSelection()
 
 KFileItemList DolphinView::selectedItems() const
 {
+    if (isColumnViewActive()) {
+        return m_columnView->selectedItems();
+    }
+
     const QAbstractItemView* view = itemView();
 
     // Our view has a selection, we will map them back to the DolphinModel
@@ -323,12 +327,6 @@ KUrl::List DolphinView::selectedUrls() const
         urls.append(item.url());
     }
     return urls;
-}
-
-KFileItem DolphinView::fileItem(const QModelIndex& index) const
-{
-    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
-    return m_dolphinModel->itemForIndex(dolphinModelIndex);
 }
 
 void DolphinView::setContentsPosition(int x, int y)
@@ -774,10 +772,14 @@ void DolphinView::emitSelectionChangedSignal()
 void DolphinView::openContextMenu(const QPoint& pos)
 {
     KFileItem item;
-
-    const QModelIndex index = itemView()->indexAt(pos);
-    if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        item = fileItem(index);
+    if (isColumnViewActive()) {
+        item = m_columnView->itemAt(pos);
+    } else {
+        const QModelIndex index = itemView()->indexAt(pos);
+        if (index.isValid() && (index.column() == DolphinModel::Name)) {
+            const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+            item = m_dolphinModel->itemForIndex(dolphinModelIndex);
+        }
     }
 
     if (m_toolTipManager != 0) {
