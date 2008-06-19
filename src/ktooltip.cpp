@@ -64,6 +64,7 @@ KToolTipItem::KToolTipItem(const QIcon &icon, const QString &text, int type)
 
 KToolTipItem::~KToolTipItem()
 {
+    delete d;
 }
 
 int KToolTipItem::type() const
