@@ -1143,6 +1143,12 @@ void DolphinView::deleteView()
 {
     QAbstractItemView* view = itemView();
     if (view != 0) {
+        // It's important to set the keyboard focus to the parent
+        // before deleting the view: Otherwise when having a split
+        // view the other view will get the focus and will request
+        // an activation (see DolphinView::eventFilter()).
+        setFocus();
+
         m_topLayout->removeWidget(view);
         view->close();
         view->deleteLater();
