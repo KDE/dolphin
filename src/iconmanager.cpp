@@ -53,16 +53,19 @@
  * QListView does not invoke QItemDelegate::sizeHint() when the
  * uniformItemSize property has been set to true, so this property is
  * set before exchanging a block of icons. It is important to reset
- * it to false again before the event loop is entered, otherwise QListView
+ * it again before the event loop is entered, otherwise QListView
  * would not get the correct size hints after dispatching the layoutChanged()
  * signal.
  */
 class LayoutBlocker {
 public:
-    LayoutBlocker(QAbstractItemView* view) : m_view(0)
+    LayoutBlocker(QAbstractItemView* view) :
+        m_uniformSizes(false),
+        m_view(0)
     {
         if (view->inherits("QListView")) {
             m_view = qobject_cast<QListView*>(view);
+            m_uniformSizes = m_view->uniformItemSizes();
             m_view->setUniformItemSizes(true);
         }
     }
@@ -70,11 +73,12 @@ public:
     ~LayoutBlocker()
     {
         if (m_view != 0) {
-            m_view->setUniformItemSizes(false);
+            m_view->setUniformItemSizes(m_uniformSizes);
         }
     }
 
 private:
+    bool m_uniformSizes;
     QListView* m_view;
 };
 
