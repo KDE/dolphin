@@ -32,9 +32,51 @@
 #include <QAbstractItemView>
 #include <QClipboard>
 #include <QColor>
+#include <QListView>
 #include <QPainter>
 #include <QScrollBar>
 #include <QIcon>
+
+/**
+ * If the passed item view is an instance of QListView, expensive
+ * layout operations are blocked in the constructor and are unblocked
+ * again in the destructor.
+ *
+ * This helper class is a workaround for the following huge performance
+ * problem when having directories with several 1000 items:
+ * - each change of an icon emits a dataChanged() signal from the model
+ * - QListView iterates through all items on each dataChanged() signal
+ *   and invokes QItemDelegate::sizeHint()
+ * - the sizeHint() implementation of KFileItemDelegate is quite complex,
+ *   invoking it 1000 times for each icon change might block the UI
+ *
+ * QListView does not invoke QItemDelegate::sizeHint() when the
+ * uniformItemSize property has been set to true, so this property is
+ * set before exchanging a block of icons. It is important to reset
+ * it to false again before the event loop is entered, otherwise QListView
+ * would not get the correct size hints after dispatching the layoutChanged()
+ * signal.
+ */
+class LayoutBlocker {
+public:
+    LayoutBlocker(QAbstractItemView* view) : m_view(0)
+    {
+        if (view->inherits("QListView")) {
+            m_view = qobject_cast<QListView*>(view);
+            m_view->setUniformItemSizes(true);
+        }
+    }
+
+    ~LayoutBlocker()
+    {
+        if (m_view != 0) {
+            m_view->setUniformItemSizes(false);
+        }
+    }
+
+private:
+    QListView* m_view;
+};
 
 IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model) :
     QObject(parent),
@@ -215,6 +257,7 @@ void IconManager::dispatchPreviewQueue()
             dispatchCount = previewsCount;
         }
 
+        LayoutBlocker blocker(m_view);
         for (int i = 0; i < dispatchCount; ++i) {
             const ItemInfo& preview = m_previews.first();
             replaceIcon(preview.url, preview.pixmap);
