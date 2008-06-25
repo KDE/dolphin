@@ -378,7 +378,11 @@ void DolphinDetailsView::paintEvent(QPaintEvent* event)
 
 void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 {
-    m_keyPressed = true;
+    // If the Control modifier is pressed, a multiple selection
+    // is done and DolphinDetailsView::currentChanged() may not
+    // not change the selection in a custom way.
+    m_keyPressed = !(event->modifiers() & Qt::ControlModifier);
+
     QTreeView::keyPressEvent(event);
     m_controller->handleKeyPressEvent(event);
 }
