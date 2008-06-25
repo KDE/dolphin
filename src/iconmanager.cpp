@@ -61,10 +61,9 @@ class LayoutBlocker {
 public:
     LayoutBlocker(QAbstractItemView* view) :
         m_uniformSizes(false),
-        m_view(0)
+        m_view(qobject_cast<QListView*>(view))
     {
-        if (view->inherits("QListView")) {
-            m_view = qobject_cast<QListView*>(view);
+        if (m_view != 0) {
             m_uniformSizes = m_view->uniformItemSizes();
             m_view->setUniformItemSizes(true);
         }
