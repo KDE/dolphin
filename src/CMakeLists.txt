@@ -55,7 +55,7 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
-target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${QIMAGEBLITZ_LIBRARIES})
+target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${QIMAGEBLITZ_LIBRARIES} ${X11_LIBRARIES})
 if(X11_Xrender_FOUND)
   target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
@@ -77,7 +77,7 @@ set(dolphinpart_SRCS
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
 
-target_link_libraries(dolphinpart dolphinprivate konq)
+target_link_libraries(dolphinpart dolphinprivate konq ${KDE4_KPARTS_LIBS} ${KDE4_KDEUI_LIBS})
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR} )
 
