@@ -51,6 +51,8 @@ public:
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
+    void rename(const KFileItem& item);
+
 signals:
     /**
      * Is emitted if the an URL change is requested.

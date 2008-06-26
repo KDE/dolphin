@@ -24,12 +24,15 @@
 #include "dolphinview.h"
 #include "dolphinsettings.h"
 #include "dolphin_folderspanelsettings.h"
+#include "dolphin_generalsettings.h"
+#include "renamedialog.h"
 #include "sidebartreeview.h"
 #include "treeviewcontextmenu.h"
 
 #include <kfileplacesmodel.h>
 #include <kdirlister.h>
 #include <kfileitem.h>
+#include <konq_operations.h>
 
 #include <QApplication>
 #include <QItemSelection>
@@ -79,6 +82,28 @@ void TreeViewSidebarPage::setShowHiddenFiles(bool show)
 bool TreeViewSidebarPage::showHiddenFiles() const
 {
     return FoldersPanelSettings::showHiddenFiles();
+}
+
+
+void TreeViewSidebarPage::rename(const KFileItem& item)
+{
+    if (DolphinSettings::instance().generalSettings()->renameInline()) {
+        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        m_treeView->edit(proxyIndex);
+    } else {
+        KFileItemList items;
+        items.append(item);
+        RenameDialog dialog(this, items);
+        if (dialog.exec() == QDialog::Accepted) {
+            const QString& newName = dialog.newName();
+            if (!newName.isEmpty()) {
+                KUrl newUrl = item.url();
+                newUrl.setFileName(newName);
+                KonqOperations::rename(this, item.url(), newUrl);
+            }
+        }
+    }
 }
 
 void TreeViewSidebarPage::setUrl(const KUrl& url)
