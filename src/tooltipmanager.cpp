@@ -26,7 +26,10 @@
 #include <kicon.h>
 #include <ktooltip.h>
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QTimer>
+#include <QToolTip>
 
 K_GLOBAL_STATIC(KFormattedBalloonTipDelegate, g_delegate)
 
@@ -38,7 +41,7 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_proxyModel(model),
     m_timer(0),
     m_item(),
-    m_pos()
+    m_itemRect()
 {
     KToolTip::setToolTipDelegate(g_delegate);
 
@@ -79,8 +82,9 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
     if (index.column() == DolphinModel::Name) {
         KToolTip::hideTip();
 
-        const QRect rect = m_view->visualRect(index);
-        m_pos = m_view->viewport()->mapToGlobal(rect.bottomRight());
+        m_itemRect = m_view->visualRect(index);
+        const QPoint pos = m_view->viewport()->mapToGlobal(m_itemRect.topLeft());
+        m_itemRect.moveTo(pos);
 
         const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
         m_item = m_dolphinModel->itemForIndex(dirIndex);
@@ -100,7 +104,41 @@ void ToolTipManager::hideToolTip()
 void ToolTipManager::showToolTip()
 {
     KToolTipItem* tip = new KToolTipItem(KIcon(m_item.iconName()), m_item.getToolTipText());
-    KToolTip::showTip(m_pos, tip);
+
+    KStyleOptionToolTip option;
+    // TODO: get option content from KToolTip or add KToolTip::sizeHint() method
+    option.direction      = QApplication::layoutDirection();
+    option.fontMetrics    = QFontMetrics(QToolTip::font());
+    option.activeCorner   = KStyleOptionToolTip::TopLeftCorner;
+    option.palette        = QToolTip::palette();
+    option.font           = QToolTip::font();
+    option.rect           = QRect();
+    option.state          = QStyle::State_None;
+    option.decorationSize = QSize(32, 32);
+
+    const QSize size = g_delegate->sizeHint(&option, tip);
+    const QRect desktop = QApplication::desktop()->availableGeometry();
+
+    // m_itemRect defines the area of the item, where the tooltip should be
+    // shown. Per default the tooltip is shown in the bottom right corner.
+    // If the tooltip content exceeds the desktop borders, it must be assured that:
+    // - the content is fully visible
+    // - the content is not drawn inside m_itemRect
+    int x = m_itemRect.right();
+    int y = m_itemRect.bottom();
+    const int xDiff = x + size.width()  - desktop.width();
+    const int yDiff = y + size.height() - desktop.height();
+
+    if ((xDiff > 0) && (yDiff > 0)) {
+        x = m_itemRect.left() - size.width();
+        y = m_itemRect.top() - size.height();
+    } else if (xDiff > 0) {
+        x -= xDiff;
+    } else if (yDiff > 0) {
+        y -= yDiff;
+    }
+
+    KToolTip::showTip(QPoint(x, y), tip);
 }
 
 #include "tooltipmanager.moc"

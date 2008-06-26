@@ -21,7 +21,7 @@
 #define TOOLTIPMANAGER_H
 
 #include <QObject>
-#include <QPoint>
+#include <QRect>
 
 #include <kfileitem.h>
 
@@ -69,7 +69,7 @@ private:
 
     QTimer* m_timer;
     KFileItem m_item;
-    QPoint m_pos;
+    QRect m_itemRect;
 };
 
 #endif
