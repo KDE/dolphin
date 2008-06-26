@@ -281,10 +281,6 @@ void Nepomuk::TagCloud::Private::sortNodes()
 
 void Nepomuk::TagCloud::Private::rebuildCloud()
 {
-    if ( nodes.isEmpty() && !newTagButtonEnabled ) {
-        return;
-    }
-
     // - Always try to be quadratic
     // - Always prefer to expand horizontally
     // - If we cannot fit everything into m_parent->contentsRect(), zoom
@@ -297,7 +293,7 @@ void Nepomuk::TagCloud::Private::rebuildCloud()
     // initialize the nodes' sizes
     // ----------------------------------------------
     for ( QList<TagNode>::iterator it = nodes.begin();
-              it != nodes.end(); ++it ) {
+          it != nodes.end(); ++it ) {
         TagNode& node = *it;
         node.rect = QFontMetrics( node.font ).boundingRect( node.text );
     }
@@ -309,154 +305,156 @@ void Nepomuk::TagCloud::Private::rebuildCloud()
     // and position the nodes
     // ----------------------------------------------
     rows.clear();
-    if ( 0 ) { // FIXME: make it configurable
-        QRect lineRect;
-        QRect totalRect;
-        QList<TagNode*> row;
-        for ( QList<TagNode>::iterator it = nodes.begin();
-              it != nodes.end(); /* We do increment it below */ ) {
-            TagNode& node = *it;
+    if ( !nodes.isEmpty() || newTagButtonEnabled ) {
+        if ( 0 ) { // FIXME: make it configurable
+            QRect lineRect;
+            QRect totalRect;
+            QList<TagNode*> row;
+            for ( QList<TagNode>::iterator it = nodes.begin();
+                  it != nodes.end(); /* We do increment it below */ ) {
+                TagNode& node = *it;
 
-            int usedSpacing = row.isEmpty() ? 0 : s_hSpacing;
-            if ( lineRect.width() + usedSpacing + node.rect.width() <= contentsRect.width() ) {
-                node.rect.moveBottomLeft( QPoint( lineRect.right() + usedSpacing, lineRect.bottom() ) );
-                QRect newLineRect = lineRect.united( node.rect );
-                newLineRect.moveTopLeft( lineRect.topLeft() );
-                lineRect = newLineRect;
-                row.append( &node );
+                int usedSpacing = row.isEmpty() ? 0 : s_hSpacing;
+                if ( lineRect.width() + usedSpacing + node.rect.width() <= contentsRect.width() ) {
+                    node.rect.moveBottomLeft( QPoint( lineRect.right() + usedSpacing, lineRect.bottom() ) );
+                    QRect newLineRect = lineRect.united( node.rect );
+                    newLineRect.moveTopLeft( lineRect.topLeft() );
+                    lineRect = newLineRect;
+                    row.append( &node );
 
-                // update all other nodes in this line
-                Q_FOREACH( TagNode* n, row ) {
-                    n->rect.moveBottom( lineRect.bottom() - ( lineRect.height() - n->rect.height() )/2 );
+                    // update all other nodes in this line
+                    Q_FOREACH( TagNode* n, row ) {
+                        n->rect.moveBottom( lineRect.bottom() - ( lineRect.height() - n->rect.height() )/2 );
+                    }
+
+                    ++it;
                 }
-
-                ++it;
-            }
-            else {
-                rows.append( row );
-                row.clear();
-                int newLineTop = lineRect.bottom() + s_vSpacing;
-                lineRect = QRect();
-                lineRect.moveTop( newLineTop );
-            }
-        }
-        rows.append( row );
-    }
-    else {
-        // initialize first row
-        rows.append( QList<TagNode*>() );
-        for ( QList<TagNode>::iterator it = nodes.begin();
-              it != nodes.end(); ++it ) {
-            TagNode& node = *it;
-            rows.first().append( &node );
-        }
-        if ( newTagButtonEnabled ) {
-            rows.first().append( &newTagNode );
-        }
-
-        // calculate the rows
-        QList<QList<TagNode*> > bestRows( rows );
-        QSize size( rowLength( rows.first() ), rowHeight( rows.first() ) );
-        QSize bestSize( size );
-        while ( ( size.height() < size.width() ||
-                  size.width() > contentsRect.width() ) &&
-                size.height() <= contentsRect.height() ) {
-            // find the longest row
-            int maxRow = 0;
-            int maxLen = 0;
-            for ( int i = 0; i < rows.count(); ++i ) {
-                int rowLen = rowLength( rows[i] );
-                if ( rowLen > maxLen ) {
-                    maxLen = rowLen;
-                    maxRow = i;
+                else {
+                    rows.append( row );
+                    row.clear();
+                    int newLineTop = lineRect.bottom() + s_vSpacing;
+                    lineRect = QRect();
+                    lineRect.moveTop( newLineTop );
                 }
             }
-
-            // move the last item from the longest row to the next row
-            TagNode* node = rows[maxRow].takeLast();
-            if ( rows.count() <= maxRow+1 ) {
-                rows.append( QList<TagNode*>() );
+            rows.append( row );
+        }
+        else {
+            // initialize first row
+            rows.append( QList<TagNode*>() );
+            for ( QList<TagNode>::iterator it = nodes.begin();
+                  it != nodes.end(); ++it ) {
+                TagNode& node = *it;
+                rows.first().append( &node );
             }
-            rows[maxRow+1].prepend( node );
+            if ( newTagButtonEnabled ) {
+                rows.first().append( &newTagNode );
+            }
 
-            // update the size
-            size = cloudSize( rows );
+            // calculate the rows
+            QList<QList<TagNode*> > bestRows( rows );
+            QSize size( rowLength( rows.first() ), rowHeight( rows.first() ) );
+            QSize bestSize( size );
+            while ( ( size.height() < size.width() ||
+                      size.width() > contentsRect.width() ) &&
+                    size.height() <= contentsRect.height() ) {
+                // find the longest row
+                int maxRow = 0;
+                int maxLen = 0;
+                for ( int i = 0; i < rows.count(); ++i ) {
+                    int rowLen = rowLength( rows[i] );
+                    if ( rowLen > maxLen ) {
+                        maxLen = rowLen;
+                        maxRow = i;
+                    }
+                }
 
-            if ( size.width() < bestSize.width() &&
-                 ( size.width() > size.height()  ||
-                   bestSize.width() > contentsRect.width() ) &&
-                 size.height() <= contentsRect.height() ) {
-                bestSize = size;
-                bestRows = rows;
+                // move the last item from the longest row to the next row
+                TagNode* node = rows[maxRow].takeLast();
+                if ( rows.count() <= maxRow+1 ) {
+                    rows.append( QList<TagNode*>() );
+                }
+                rows[maxRow+1].prepend( node );
+
+                // update the size
+                size = cloudSize( rows );
+
+                if ( size.width() < bestSize.width() &&
+                     ( size.width() > size.height()  ||
+                       bestSize.width() > contentsRect.width() ) &&
+                     size.height() <= contentsRect.height() ) {
+                    bestSize = size;
+                    bestRows = rows;
+                }
+            }
+            rows = bestRows;
+
+            // position the tags
+            int y = 0;
+            for ( QList<QList<TagNode*> >::iterator rowIt = rows.begin(); rowIt != rows.end(); ++rowIt ) {
+                QList<TagNode*>& row = *rowIt;
+                int h = rowHeight( row );
+                int x = 0;
+                Q_FOREACH( TagNode* node, row ) {
+                    node->rect.moveTop( y + ( h - node->rect.height() )/2 );
+                    node->rect.moveLeft( x );
+                    x += s_hSpacing + node->rect.width();
+                }
+                y += h + s_vSpacing;
             }
         }
-        rows = bestRows;
 
-        // position the tags
-        int y = 0;
+
+        // let's see if we have to zoom
+        // ----------------------------------------------
+        zoomMatrix = QMatrix();
+        int w = contentsRect.width();
+        if ( zoomEnabled ) {
+            for ( QList<QList<TagNode*> >::iterator rowIt = rows.begin(); rowIt != rows.end(); ++rowIt ) {
+                QList<TagNode*>& row = *rowIt;
+                w = qMax( w, row.last()->rect.right() );
+            }
+            if ( w > contentsRect.width() ) {
+                double zoomFactor = ( double )contentsRect.width() / ( double )w;
+                zoomMatrix.scale( zoomFactor, zoomFactor );
+            }
+        }
+
+        // force horizontal alignment
+        // ----------------------------------------------
         for ( QList<QList<TagNode*> >::iterator rowIt = rows.begin(); rowIt != rows.end(); ++rowIt ) {
             QList<TagNode*>& row = *rowIt;
-            int h = rowHeight( row );
-            int x = 0;
-            Q_FOREACH( TagNode* node, row ) {
-                node->rect.moveTop( y + ( h - node->rect.height() )/2 );
-                node->rect.moveLeft( x );
-                x += s_hSpacing + node->rect.width();
+            int space = /*contentsRect.right()*/w - row.last()->rect.right();
+            if ( alignment & ( Qt::AlignRight|Qt::AlignHCenter ) ) {
+                Q_FOREACH( TagNode* node, row ) {
+                    node->rect.moveLeft( node->rect.left() + ( alignment & Qt::AlignRight ? space : space/2 ) );
+                }
             }
-            y += h + s_vSpacing;
-        }
-    }
-
-
-    // let's see if we have to zoom
-    // ----------------------------------------------
-    zoomMatrix = QMatrix();
-    int w = contentsRect.width();
-    if ( zoomEnabled ) {
-        for ( QList<QList<TagNode*> >::iterator rowIt = rows.begin(); rowIt != rows.end(); ++rowIt ) {
-            QList<TagNode*>& row = *rowIt;
-            w = qMax( w, row.last()->rect.right() );
-        }
-        if ( w > contentsRect.width() ) {
-            double zoomFactor = ( double )contentsRect.width() / ( double )w;
-            zoomMatrix.scale( zoomFactor, zoomFactor );
-        }
-    }
-
-    // force horizontal alignment
-    // ----------------------------------------------
-    for ( QList<QList<TagNode*> >::iterator rowIt = rows.begin(); rowIt != rows.end(); ++rowIt ) {
-        QList<TagNode*>& row = *rowIt;
-        int space = /*contentsRect.right()*/w - row.last()->rect.right();
-        if ( alignment & ( Qt::AlignRight|Qt::AlignHCenter ) ) {
-            Q_FOREACH( TagNode* node, row ) {
-                node->rect.moveLeft( node->rect.left() + ( alignment & Qt::AlignRight ? space : space/2 ) );
+            else if ( alignment & Qt::AlignJustify && row.count() > 1 ) {
+                space /= ( row.count()-1 );
+                int i = 0;
+                Q_FOREACH( TagNode* node, row ) {
+                    node->rect.moveLeft( node->rect.left() + ( space * i++ ) );
+                }
             }
         }
-        else if ( alignment & Qt::AlignJustify && row.count() > 1 ) {
-            space /= ( row.count()-1 );
-            int i = 0;
-            Q_FOREACH( TagNode* node, row ) {
-                node->rect.moveLeft( node->rect.left() + ( space * i++ ) );
+
+        // force vertical alignment
+        // ----------------------------------------------
+        int verticalSpace = contentsRect.bottom() - rows.last().first()->rect.bottom();
+        if ( alignment & ( Qt::AlignBottom|Qt::AlignVCenter ) ) {
+            for ( QList<QList<TagNode*> >::iterator rowIt = rows.begin(); rowIt != rows.end(); ++rowIt ) {
+                Q_FOREACH( TagNode* node, *rowIt ) {
+                    node->rect.moveTop( node->rect.top() + ( alignment & Qt::AlignBottom ? verticalSpace : verticalSpace/2 ) );
+                }
             }
         }
-    }
 
-    // force vertical alignment
-    // ----------------------------------------------
-    int verticalSpace = contentsRect.bottom() - rows.last().first()->rect.bottom();
-    if ( alignment & ( Qt::AlignBottom|Qt::AlignVCenter ) ) {
-        for ( QList<QList<TagNode*> >::iterator rowIt = rows.begin(); rowIt != rows.end(); ++rowIt ) {
-            Q_FOREACH( TagNode* node, *rowIt ) {
-                node->rect.moveTop( node->rect.top() + ( alignment & Qt::AlignBottom ? verticalSpace : verticalSpace/2 ) );
-            }
+        for( QList<TagNode>::iterator it = nodes.begin(); it != nodes.end(); ++it ) {
+            it->zoomedRect = zoomMatrix.mapRect( it->rect );
         }
+        newTagNode.zoomedRect = zoomMatrix.mapRect( newTagNode.rect );
     }
-
-    for( QList<TagNode>::iterator it = nodes.begin(); it != nodes.end(); ++it ) {
-        it->zoomedRect = zoomMatrix.mapRect( it->rect );
-    }
-    newTagNode.zoomedRect = zoomMatrix.mapRect( newTagNode.rect );
 
     m_parent->updateGeometry();
     m_parent->update();
@@ -761,8 +759,6 @@ int Nepomuk::TagCloud::heightForWidth( int contentsWidth ) const
     // If we have tags d->rebuildCloud() has been called at least once,
     // thus, we have proper rects (i.e. needed sizes)
 
-    // FIXME: add zoom here
-
     if ( d->cachedHfwWidth != contentsWidth ) {
         // have to keep in mind the frame
         contentsWidth -= frameWidth()*2;
@@ -781,6 +777,7 @@ int Nepomuk::TagCloud::heightForWidth( int contentsWidth ) const
         bool newRow = true;
         int rowW = 0;
         int rowH = 0;
+        int maxW = 0;
         for ( int i = 0; i < allNodes.count(); ++i ) {
             int w = rowW;
             if ( !newRow ) {
@@ -800,6 +797,7 @@ int Nepomuk::TagCloud::heightForWidth( int contentsWidth ) const
                 rowH = allNodes[i]->rect.height();
                 rowW = allNodes[i]->rect.width();
             }
+            maxW = qMax( maxW, rowW );
         }
         if ( rowH > 0 ) {
             h += s_vSpacing + rowH;
@@ -807,6 +805,11 @@ int Nepomuk::TagCloud::heightForWidth( int contentsWidth ) const
 
         d->cachedHfwWidth = contentsWidth;
         d->cachedHfwHeight = h;
+
+        // zooming
+        if ( maxW > contentsWidth ) {
+            d->cachedHfwHeight = d->cachedHfwHeight * contentsWidth / maxW;
+        }
     }
 
     return d->cachedHfwHeight + frameWidth()*2;
