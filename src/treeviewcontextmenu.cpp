@@ -27,6 +27,7 @@
 #include <kio/deletejob.h>
 #include <kmenu.h>
 #include <konqmimedata.h>
+#include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
@@ -53,18 +54,21 @@ void TreeViewContextMenu::open()
     KMenu* popup = new KMenu(m_parent);
 
     if (!m_fileInfo.isNull()) {
+        KonqFileItemCapabilities capabilities(KFileItemList() << m_fileInfo);
+
         // insert 'Cut', 'Copy' and 'Paste'
-        QAction* cutAction   = new QAction(KIcon("edit-cut"), i18nc("@action:inmenu", "Cut"), this);
+        QAction* cutAction = new QAction(KIcon("edit-cut"), i18nc("@action:inmenu", "Cut"), this);
+        cutAction->setEnabled(capabilities.supportsMoving());
         connect(cutAction, SIGNAL(triggered()), this, SLOT(cut()));
 
-        QAction* copyAction  = new QAction(KIcon("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
+        QAction* copyAction = new QAction(KIcon("edit-copy"), i18nc("@action:inmenu", "Copy"), this);
         connect(copyAction, SIGNAL(triggered()), this, SLOT(copy()));
 
         QAction* pasteAction = new QAction(KIcon("edit-paste"), i18nc("@action:inmenu", "Paste"), this);
         const QMimeData* mimeData = QApplication::clipboard()->mimeData();
         const KUrl::List pasteData = KUrl::List::fromMimeData(mimeData);
-        pasteAction->setEnabled(!pasteData.isEmpty());
         connect(pasteAction, SIGNAL(triggered()), this, SLOT(paste()));
+        pasteAction->setEnabled(!pasteData.isEmpty() && capabilities.supportsWriting());
 
         popup->addAction(cutAction);
         popup->addAction(copyAction);
@@ -73,6 +77,7 @@ void TreeViewContextMenu::open()
 
         // insert 'Rename'
         QAction* renameAction = new QAction(i18nc("@action:inmenu", "Rename..."), this);
+        renameAction->setEnabled(capabilities.supportsMoving());
         connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
         popup->addAction(renameAction);
 
@@ -83,6 +88,8 @@ void TreeViewContextMenu::open()
         if (url.isLocalFile()) {
             QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
                                                     i18nc("@action:inmenu", "Move To Trash"), this);
+            const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
+            moveToTrashAction->setEnabled(enableMoveToTrash);
             connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
             popup->addAction(moveToTrashAction);
         } else {
@@ -91,6 +98,7 @@ void TreeViewContextMenu::open()
 
         if (showDeleteCommand) {
             QAction* deleteAction = new QAction(KIcon("edit-delete"), i18nc("@action:inmenu", "Delete"), this);
+            deleteAction->setEnabled(capabilities.supportsDeleting());
             connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteItem()));
             popup->addAction(deleteAction);
         }
