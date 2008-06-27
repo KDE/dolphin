@@ -85,6 +85,7 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
     QObject(parent),
     m_showPreview(false),
     m_clearItemQueues(true),
+    m_pendingVisiblePreviews(0),
     m_view(parent),
     m_previewTimer(0),
     m_scrollAreaTimer(0),
@@ -227,6 +228,8 @@ void IconManager::slotPreviewJobFinished(KJob* job)
     if ((m_previewJobs.count() == 0) && m_clearItemQueues) {
         m_pendingItems.clear();
         m_dispatchedItems.clear();
+        m_pendingVisiblePreviews = 0;
+        QMetaObject::invokeMethod(this, "dispatchPreviewQueue", Qt::QueuedConnection);
     }
 }
 
@@ -248,36 +251,28 @@ void IconManager::updateCutItems()
 
 void IconManager::dispatchPreviewQueue()
 {
-    int previewsCount = m_previews.count();
+    const int previewsCount = m_previews.count();
     if (previewsCount > 0) {
         // Applying the previews to the model must be done step by step
         // in larger blocks: Applying a preview immediately when getting the signal
         // 'gotPreview()' from the PreviewJob is too expensive, as a relayout
         // of the view would be triggered for each single preview.
-
-        int dispatchCount = 30;
-        if (dispatchCount > previewsCount) {
-            dispatchCount = previewsCount;
-        }
-
         LayoutBlocker blocker(m_view);
-        for (int i = 0; i < dispatchCount; ++i) {
+        for (int i = 0; i < previewsCount; ++i) {
             const ItemInfo& preview = m_previews.first();
             replaceIcon(preview.url, preview.pixmap);
             m_previews.pop_front();
+            if (m_pendingVisiblePreviews > 0) {
+                --m_pendingVisiblePreviews;
+            }
         }
-
-        previewsCount = m_previews.count();
     }
 
-    const bool workingPreviewJobs = (m_previewJobs.count() > 0);
-    if (workingPreviewJobs) {
-        // poll for previews as long as not all preview jobs are finished
+    if (m_pendingVisiblePreviews > 0) {
+        // As long as there are pending previews for visible items, poll
+        // the preview queue each 200 ms. If there are no pending previews,
+        // the queue is dispatched in slotPreviewJobFinished().
         m_previewTimer->start(200);
-    } else if (previewsCount > 0) {
-        // all preview jobs are finished but there are still pending previews
-        // in the queue -> poll more aggressively
-        m_previewTimer->start(10);
     }
 }
 
@@ -569,6 +564,7 @@ void IconManager::orderItems(KFileItemList& items)
                 // generated earlier.
                 items.removeAt(index);
                 items.insert(0, item);
+                ++m_pendingVisiblePreviews;
             }
         }
     } else {
@@ -585,6 +581,7 @@ void IconManager::orderItems(KFileItemList& items)
                 // generated earlier.
                 items.insert(0, items[i]);
                 items.removeAt(i + 1);
+                ++m_pendingVisiblePreviews;
             }
         }
     }

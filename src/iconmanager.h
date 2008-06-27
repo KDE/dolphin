@@ -176,6 +176,8 @@ private:
      */
     bool m_clearItemQueues;
 
+    int m_pendingVisiblePreviews;
+
     QAbstractItemView* m_view;
     QTimer* m_previewTimer;
     QTimer* m_scrollAreaTimer;
