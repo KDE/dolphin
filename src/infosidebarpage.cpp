@@ -181,19 +181,18 @@ void InfoSidebarPage::showItemInfo()
 
     cancelRequest();
 
-    const KUrl file = (!m_fileItem.isNull() || m_selection.isEmpty()) ? m_shownUrl : m_selection[0].url();
+    const KUrl file = fileUrl();
     if (!file.isValid()) {
         return;
     }
 
-    const int selectionCount = m_selection.count();
-    if (m_fileItem.isNull() && (selectionCount > 1)) {
+    if (showMultipleSelectionInfo()) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("dialog-information",
                                            KIconLoader::NoGroup,
                                            KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
-        m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected", selectionCount));
+        m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected",  m_selection.count()));
     } else if (!applyPlace(file)) {
         // try to get a preview pixmap from the item...
         KUrl::List list;
@@ -339,10 +338,26 @@ void InfoSidebarPage::showMetaInfo()
 {
     m_metaTextLabel->clear();
 
-    const KUrl file = (!m_fileItem.isNull() || m_selection.isEmpty()) ? m_shownUrl : m_selection[0].url();
+    if (showMultipleSelectionInfo()) {
+        if (m_metaDataWidget != 0) {
+            KUrl::List urls;
+            foreach (const KFileItem& item, m_selection) {
+                urls.append(item.targetUrl());
+            }
+            m_metaDataWidget->setFiles(urls);
+        }
 
-    if ((m_selection.size() <= 1) || !m_fileItem.isNull()) {
-        KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, file);
+        quint64 totalSize = 0;
+        foreach (const KFileItem& item, m_selection) {
+            // Only count the size of files, not dirs to match what
+            // DolphinViewContainer::selectionStatusBarText() does.
+            if (!item.isDir() && !item.isLink()) {
+                totalSize += item.size();
+            }
+        }
+        m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
+    } else {
+        KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, fileUrl());
         fileItem.refresh();
 
         if (fileItem.isDir()) {
@@ -382,24 +397,6 @@ void InfoSidebarPage::showMetaInfo()
         if (m_metaDataWidget != 0) {
             m_metaDataWidget->setFile(fileItem.targetUrl());
         }
-    } else {
-        if (m_metaDataWidget != 0) {
-            KUrl::List urls;
-            foreach (const KFileItem& item, m_selection) {
-                urls.append(item.targetUrl());
-            }
-            m_metaDataWidget->setFiles(urls);
-        }
-
-        quint64 totalSize = 0;
-        foreach (const KFileItem& item, m_selection) {
-            // Only count the size of files, not dirs to match what
-            // DolphinViewContainer::selectionStatusBarText() does.
-            if (!item.isDir() && !item.isLink()) {
-                totalSize += item.size();
-            }
-        }
-        m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     }
 }
 
@@ -439,6 +436,16 @@ bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const
     }
 
     return false;
+}
+
+KUrl InfoSidebarPage::fileUrl() const
+{
+    return (!m_fileItem.isNull() || m_selection.isEmpty()) ? m_shownUrl : m_selection[0].url();
+}
+
+bool InfoSidebarPage::showMultipleSelectionInfo() const
+{
+    return m_fileItem.isNull() && (m_selection.count() > 1);
 }
 
 void InfoSidebarPage::init()

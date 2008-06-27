@@ -139,6 +139,23 @@ private:
      */
     bool convertMetaInfo(const QString& key, QString& text) const;
 
+    /**
+     * Returns the URL of the file where the preview and meta information
+     * should be received, if InfoSidebarPage::showMultipleSelectionInfo()
+     * returns false.
+     */
+    KUrl fileUrl() const;
+
+    /**
+     * Returns true, if the meta information should be shown for
+     * the items multiple selected items that are stored in
+     * m_selection. If true is returned, it is assured that
+     * m_selection.count() > 1. If false is returned, the meta
+     * information should be shown for the file
+     * InfosidebarPage::fileUrl();
+     */
+    bool showMultipleSelectionInfo() const;
+
     void init();
 
 private:
