@@ -67,17 +67,19 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
-        if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
-            m_selectionManager = new SelectionManager(this);
-            connect(m_selectionManager, SIGNAL(selectionChanged()),
-                    this, SLOT(requestActivation()));
-            connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
-                    m_selectionManager, SLOT(reset()));
-        }
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
     }
+
+    if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
+        m_selectionManager = new SelectionManager(this);
+        connect(m_selectionManager, SIGNAL(selectionChanged()),
+                this, SLOT(requestActivation()));
+        connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
+                m_selectionManager, SLOT(reset()));
+    }
+
     connect(this, SIGNAL(entered(const QModelIndex&)),
             controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),

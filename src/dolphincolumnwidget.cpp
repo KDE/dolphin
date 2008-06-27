@@ -121,9 +121,8 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_proxyModel->setSortOrder(dolphinView->sortOrder());
 
     setModel(m_proxyModel);
-    const bool useSelManager = KGlobalSettings::singleClick() &&
-                               DolphinSettings::instance().generalSettings()->showSelectionToggle();
-    if (useSelManager) {
+
+    if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
         m_selectionManager = new SelectionManager(this);
         connect(m_selectionManager, SIGNAL(selectionChanged()),
                 this, SLOT(requestActivation()));
