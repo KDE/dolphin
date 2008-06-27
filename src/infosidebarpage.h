@@ -148,7 +148,7 @@ private:
 
     /**
      * Returns true, if the meta information should be shown for
-     * the items multiple selected items that are stored in
+     * the multiple selected items that are stored in
      * m_selection. If true is returned, it is assured that
      * m_selection.count() > 1. If false is returned, the meta
      * information should be shown for the file
