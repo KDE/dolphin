@@ -339,16 +339,11 @@ void InfoSidebarPage::showMetaInfo()
 {
     m_metaTextLabel->clear();
 
+    const KUrl file = (!m_fileItem.isNull() || m_selection.isEmpty()) ? m_shownUrl : m_selection[0].url();
+
     if ((m_selection.size() <= 1) || !m_fileItem.isNull()) {
-        KFileItem fileItem;
-        if (m_fileItem.isNull()) {
-            // no pending request is ongoing
-            const KUrl url = (m_selection.size() == 1) ? m_selection.first().url() : m_shownUrl;
-            fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, url);
-            fileItem.refresh();
-        } else {
-            fileItem = m_fileItem;
-        }
+        KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, file);
+        fileItem.refresh();
 
         if (fileItem.isDir()) {
             m_metaTextLabel->add(i18nc("@label", "Type:"), i18nc("@label", "Folder"));
