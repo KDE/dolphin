@@ -209,8 +209,7 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
 
     QAction* compareFilesAction = actionCollection()->action("compare_files");
     if (selectedUrlsCount == 2) {
-        const bool kompareInstalled = !KGlobal::dirs()->findExe("kompare").isEmpty();
-        compareFilesAction->setEnabled(selectedUrlsCount == 2 && kompareInstalled);
+        compareFilesAction->setEnabled(isKompareInstalled());
     } else {
         compareFilesAction->setEnabled(false);
     }
@@ -1208,6 +1207,19 @@ QString DolphinMainWindow::tabName(const KUrl& url) const
         }
     }
     return name;
+}
+
+bool DolphinMainWindow::isKompareInstalled() const
+{
+    static bool initialized = false;
+    static bool installed = false;
+    if (!initialized) {
+        // TODO: maybe replace this approach later by using a menu
+        // plugin like kdiff3plugin.cpp
+        installed = !KGlobal::dirs()->findExe("kompare").isEmpty();
+        initialized = true;
+    }
+    return installed;
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :

@@ -383,6 +383,8 @@ private:
     /** Returns the name of the tab for the URL \a url. */
     QString tabName(const KUrl& url) const;
 
+    bool isKompareInstalled() const;
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This
