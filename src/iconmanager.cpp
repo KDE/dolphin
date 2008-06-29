@@ -538,6 +538,7 @@ void IconManager::orderItems(KFileItemList& items)
     const int rowCount = m_proxyModel->rowCount();
     const QRect visibleArea = m_view->viewport()->rect();
 
+    int insertPos = 0;
     if (itemCount * 10 > rowCount) {
         // Algorithm 1: The number of items is > 10 % of the row count. Parse all rows
         // and check whether the received row is part of the item list.
@@ -563,7 +564,8 @@ void IconManager::orderItems(KFileItemList& items)
                 // to the front of the list, so that the preview is
                 // generated earlier.
                 items.removeAt(index);
-                items.insert(0, item);
+                items.insert(insertPos, item);
+                ++insertPos;
                 ++m_pendingVisiblePreviews;
             }
         }
@@ -579,8 +581,9 @@ void IconManager::orderItems(KFileItemList& items)
                 // The current item is (at least partly) visible. Move it
                 // to the front of the list, so that the preview is
                 // generated earlier.
-                items.insert(0, items[i]);
+                items.insert(insertPos, items[i]);
                 items.removeAt(i + 1);
+                ++insertPos;
                 ++m_pendingVisiblePreviews;
             }
         }
