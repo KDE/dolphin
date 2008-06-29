@@ -52,6 +52,8 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
     SidebarPage(parent),
     m_initialized(false),
     m_pendingPreview(false),
+    m_infoTimer(0),
+    m_outdatedPreviewTimer(0),
     m_shownUrl(),
     m_urlCandidate(),
     m_fileItem(),
@@ -112,7 +114,7 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
         if ((count == 1) && !selection.first().url().isEmpty()) {
             m_urlCandidate = selection.first().url();
         }
-        m_infoTimer->start(TimerDelay);
+        m_infoTimer->start();
     }
 }
 
@@ -130,12 +132,12 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
         // show information regarding the selection.
         if (m_selection.size() > 0) {
             m_pendingPreview = false;
-            m_infoTimer->start(TimerDelay);
+            m_infoTimer->start();
         }
     } else if (!item.url().isEmpty()) {
         m_urlCandidate = item.url();
         m_fileItem = item;
-        m_infoTimer->start(TimerDelay);
+        m_infoTimer->start();
     }
 }
 
@@ -167,7 +169,7 @@ void InfoSidebarPage::resizeEvent(QResizeEvent* event)
         // try to increase the preview as large as possible
         m_preview->setSizeHint(QSize(maxWidth, maxWidth));
         m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
-        m_infoTimer->start(TimerDelay);
+        m_infoTimer->start();
     }
 
     SidebarPage::resizeEvent(event);
@@ -200,9 +202,10 @@ void InfoSidebarPage::showItemInfo()
 
         m_pendingPreview = true;
 
-        KIconEffect iconEffect;
-        QPixmap disabledPixmap = iconEffect.apply(m_preview->pixmap(), KIconLoader::Desktop, KIconLoader::DisabledState);
-        m_preview->setPixmap(disabledPixmap);
+        // Mark the currently shown preview as outdated. This is done
+        // with a small delay to prevent a flickering when the next preview
+        // can be shown within a short timeframe.
+        m_outdatedPreviewTimer->start();
 
         KIO::PreviewJob* job = KIO::filePreview(list,
                                                 m_preview->width(),
@@ -230,8 +233,18 @@ void InfoSidebarPage::slotInfoTimeout()
     showItemInfo();
 }
 
+void InfoSidebarPage::markOutdatedPreview()
+{
+    KIconEffect iconEffect;
+    QPixmap disabledPixmap = iconEffect.apply(m_preview->pixmap(),
+                                              KIconLoader::Desktop,
+                                              KIconLoader::DisabledState);
+    m_preview->setPixmap(disabledPixmap);
+}
+
 void InfoSidebarPage::showIcon(const KFileItem& item)
 {
+    m_outdatedPreviewTimer->stop();
     m_pendingPreview = false;
     if (!applyPlace(item.url())) {
         m_preview->setPixmap(item.pixmap(KIconLoader::SizeEnormous));
@@ -241,6 +254,8 @@ void InfoSidebarPage::showIcon(const KFileItem& item)
 void InfoSidebarPage::showPreview(const KFileItem& item,
                                   const QPixmap& pixmap)
 {
+    m_outdatedPreviewTimer->stop();
+
     Q_UNUSED(item);
     if (m_pendingPreview) {
         m_preview->setPixmap(pixmap);
@@ -453,9 +468,19 @@ void InfoSidebarPage::init()
     const int spacing = KDialog::spacingHint();
 
     m_infoTimer = new QTimer(this);
+    m_infoTimer->setInterval(300);
     m_infoTimer->setSingleShot(true);
     connect(m_infoTimer, SIGNAL(timeout()),
             this, SLOT(slotInfoTimeout()));
+
+    // Initialize timer for disabling an outdated preview with a small
+    // delay. This prevents flickering if the new preview can be generated
+    // within a very small timeframe.
+    m_outdatedPreviewTimer = new QTimer(this);
+    m_outdatedPreviewTimer->setInterval(300);
+    m_outdatedPreviewTimer->setSingleShot(true);
+    connect(m_outdatedPreviewTimer, SIGNAL(timeout()),
+            this, SLOT(markOutdatedPreview()));
 
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setSpacing(spacing);

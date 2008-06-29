@@ -94,6 +94,12 @@ private slots:
     void slotInfoTimeout();
 
     /**
+     * Marks the currently shown preview as outdated
+     * by greying the content.
+     */
+    void markOutdatedPreview();
+
+    /**
      * Is invoked if no preview is available for the item. In this
      * case the icon will be shown.
      */
@@ -113,8 +119,6 @@ private slots:
     void slotLeftDirectory(const QString& directory);
 
 private:
-    enum { TimerDelay = 300 };
-
     /**
      * Checks whether the an URL is repesented by a place. If yes,
      * then the place icon and name are shown instead of a preview.
@@ -162,6 +166,7 @@ private:
     bool m_initialized;
     bool m_pendingPreview;
     QTimer* m_infoTimer;
+    QTimer* m_outdatedPreviewTimer;
     KUrl m_shownUrl;      // URL that is shown as info
     KUrl m_urlCandidate;  // URL candidate that will replace m_shownURL after a delay
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
