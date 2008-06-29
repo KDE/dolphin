@@ -489,7 +489,7 @@ bool IconManager::applyImageFrame(QPixmap& icon)
 void IconManager::limitToSize(QPixmap& icon, const QSize& maxSize)
 {
     if ((icon.width() > maxSize.width()) || (icon.height() > maxSize.height())) {
-        icon = icon.scaled(maxSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        icon = icon.scaled(maxSize, Qt::KeepAspectRatio, Qt::FastTransformation);
     }
 }
 
