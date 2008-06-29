@@ -170,6 +170,11 @@ private:
      */
     bool m_clearItemQueues;
 
+    /**
+     * True if a selection has been done which should cut items.
+     */
+    bool m_hasCutSelection;
+
     int m_pendingVisiblePreviews;
 
     QAbstractItemView* m_view;

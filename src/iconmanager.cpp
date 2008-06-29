@@ -85,6 +85,7 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
     QObject(parent),
     m_showPreview(false),
     m_clearItemQueues(true),
+    m_hasCutSelection(false),
     m_pendingVisiblePreviews(0),
     m_view(parent),
     m_previewTimer(0),
@@ -137,7 +138,6 @@ IconManager::~IconManager()
         m_mimeTypeResolver = 0;
     }
 }
-
 
 void IconManager::setShowPreview(bool show)
 {
@@ -242,8 +242,7 @@ void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap
         limitToSize(icon, m_view->iconSize());
     }
 
-    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-    if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
+    if (m_hasCutSelection && isCutItem(item)) {
         // Remember the current icon in the cache for cut items before
         // the disabled effect is applied. This makes it possible restoring
         // the uncut version again when cutting other items.
@@ -394,7 +393,8 @@ bool IconManager::isCutItem(const KFileItem& item) const
 void IconManager::applyCutItemEffect()
 {
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-    if (!KonqMimeData::decodeIsCutSelection(mimeData)) {
+    m_hasCutSelection = KonqMimeData::decodeIsCutSelection(mimeData);
+    if (!m_hasCutSelection) {
         return;
     }
 
@@ -498,6 +498,9 @@ void IconManager::startPreviewJob(const KFileItemList& items)
     if (items.count() == 0) {
         return;
     }
+
+    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+    m_hasCutSelection = KonqMimeData::decodeIsCutSelection(mimeData);
 
     const QSize size = m_view->iconSize();
     KIO::PreviewJob* job = KIO::filePreview(items, 128, 128);
