@@ -908,7 +908,7 @@ void DolphinMainWindow::setupActions()
     KAction* newTab = actionCollection()->addAction("new_tab");
     newTab->setIcon(KIcon("tab-new"));
     newTab->setText(i18nc("@action:inmenu File", "New Tab"));
-    newTab->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_N);
+    newTab->setShortcut(KShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_N, Qt::CTRL | Qt::Key_T));
     connect(newTab, SIGNAL(triggered()), this, SLOT(openNewTab()));
 
     QAction* closeTab = new QAction(KIcon("tab-close"), i18nc("@action:inmenu File", "Close Tab"), this);
