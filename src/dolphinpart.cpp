@@ -449,11 +449,19 @@ void DolphinPart::slotEditMimeType()
 
 void DolphinPart::slotProperties()
 {
-    const KFileItemList items = m_view->selectedItems();
-    if (!items.isEmpty()) {
-        KPropertiesDialog dialog(items.first().url(), m_view);
-        dialog.exec();
+    KPropertiesDialog* dialog = 0;
+    const KFileItemList list = m_view->selectedItems();
+    if (list.isEmpty()) {
+        const KUrl url = m_view->url();
+        dialog = new KPropertiesDialog(url, m_view);
+    } else {
+        dialog = new KPropertiesDialog(list, m_view);
     }
+
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+    dialog->raise();
+    dialog->activateWindow();
 }
 
 void DolphinPart::setCurrentViewMode(const QString& viewModeName)

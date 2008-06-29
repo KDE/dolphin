@@ -355,9 +355,15 @@ void DolphinMainWindow::updateNewMenu()
 
 void DolphinMainWindow::properties()
 {
+    KPropertiesDialog* dialog = 0;
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+    if (list.isEmpty()) {
+        const KUrl url = activeViewContainer()->url();
+        dialog = new KPropertiesDialog(url, this);
+    } else {
+        dialog = new KPropertiesDialog(list, this);
+    }
 
-    KPropertiesDialog *dialog = new KPropertiesDialog(list, this);
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
     dialog->raise();

@@ -67,7 +67,6 @@
   <enable>
    <Action name="move_to_trash" />
    <Action name="delete" />
-   <Action name="properties" />
   </enable>
  </State>
  <State name="has_no_selection" >
@@ -75,7 +74,6 @@
    <Action name="rename" />
    <Action name="move_to_trash" />
    <Action name="delete" />
-   <Action name="properties" />
   </disable>
 </State>
 </kpartgui>

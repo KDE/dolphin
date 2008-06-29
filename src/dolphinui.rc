@@ -86,7 +86,6 @@
    <Action name="delete" />
    <Action name="invert_selection" />
    <Separator/>
-   <Action name="properties" />
    <Action name="go_back" />
    <Action name="go_forward" />
   </disable>
@@ -98,7 +97,6 @@
    <Action name="rename" />
    <Action name="move_to_trash" />
    <Action name="delete" />
-   <Action name="properties" />
    <Action name="invert_selection" />
   </enable>
  </State>
@@ -110,7 +108,6 @@
    <Action name="move_to_trash" />
    <Action name="delete" />
    <Action name="delete_shortcut" />
-   <Action name="properties" />
    <Action name="invert_selection" />
   </disable>
  </State>
