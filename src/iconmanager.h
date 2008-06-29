@@ -116,12 +116,6 @@ private slots:
 
 private:
     /**
-     * Replaces the icon of the item with the \a url by the preview pixmap
-     * \a pixmap.
-     */
-    void replaceIcon(const KUrl& url, const QPixmap& pixmap);
-
-    /**
      * Returns true, if the item \a item has been cut into
      * the clipboard.
      */

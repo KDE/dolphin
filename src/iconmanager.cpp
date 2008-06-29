@@ -212,9 +212,61 @@ void IconManager::generatePreviews(const KFileItemList& items)
 
 void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
 {
+    if (!m_showPreview) {
+        // the preview has been canceled in the meantime
+        return;
+    }
+    const KUrl url = item.url();
+
+    // check whether the item is part of the directory lister (it is possible
+    // that a preview from an old directory lister is received)
+    KDirLister* dirLister = m_dolphinModel->dirLister();
+    bool isOldPreview = true;
+    const KUrl::List dirs = dirLister->directories();
+    const QString itemDir = url.directory();
+    foreach (const KUrl& url, dirs) {
+        if (url.path() == itemDir) {
+            isOldPreview = false;
+            break;
+        }
+    }
+    if (isOldPreview) {
+        return;
+    }
+
+    QPixmap icon = pixmap;
+
+    const QString mimeType = item.mimetype();
+    const QString mimeTypeGroup = mimeType.left(mimeType.indexOf('/'));
+    if ((mimeTypeGroup != "image") || !applyImageFrame(icon)) {
+        limitToSize(icon, m_view->iconSize());
+    }
+
+    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+    if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
+        // Remember the current icon in the cache for cut items before
+        // the disabled effect is applied. This makes it possible restoring
+        // the uncut version again when cutting other items.
+        QList<ItemInfo>::iterator begin = m_cutItemsCache.begin();
+        QList<ItemInfo>::iterator end   = m_cutItemsCache.end();
+        for (QList<ItemInfo>::iterator it = begin; it != end; ++it) {
+            if ((*it).url == item.url()) {
+                (*it).pixmap = icon;
+                break;
+            }
+        }
+
+        // apply the disabled effect to the icon for marking it as "cut item"
+        // and apply the icon to the item
+        KIconEffect iconEffect;
+        icon = iconEffect.apply(icon, KIconLoader::Desktop, KIconLoader::DisabledState);
+    }
+
+    // remember the preview and URL, so that it can be applied to the model
+    // in IconManager::dispatchPreviewQueue()
     ItemInfo preview;
-    preview.url = item.url();
-    preview.pixmap = pixmap;
+    preview.url = url;
+    preview.pixmap = icon;
     m_previews.append(preview);
 
     m_dispatchedItems.append(item);
@@ -260,7 +312,12 @@ void IconManager::dispatchPreviewQueue()
         LayoutBlocker blocker(m_view);
         for (int i = 0; i < previewsCount; ++i) {
             const ItemInfo& preview = m_previews.first();
-            replaceIcon(preview.url, preview.pixmap);
+
+            const QModelIndex idx = m_dolphinModel->indexForUrl(preview.url);
+            if (idx.isValid() && (idx.column() == 0)) {
+                m_dolphinModel->setData(idx, QIcon(preview.pixmap), Qt::DecorationRole);
+            }
+
             m_previews.pop_front();
             if (m_pendingVisiblePreviews > 0) {
                 --m_pendingVisiblePreviews;
@@ -317,66 +374,6 @@ void IconManager::resumePreviews()
     m_clearItemQueues = true;
 
     startPreviewJob(orderedItems);
-}
-
-void IconManager::replaceIcon(const KUrl& url, const QPixmap& pixmap)
-{
-    Q_ASSERT(url.isValid());
-    if (!m_showPreview) {
-        // the preview has been canceled in the meantime
-        return;
-    }
-
-    // check whether the item is part of the directory lister (it is possible
-    // that a preview from an old directory lister is received)
-    KDirLister* dirLister = m_dolphinModel->dirLister();
-    bool isOldPreview = true;
-    const KUrl::List dirs = dirLister->directories();
-    const QString itemDir = url.directory();
-    foreach (const KUrl& url, dirs) {
-        if (url.path() == itemDir) {
-            isOldPreview = false;
-            break;
-        }
-    }
-    if (isOldPreview) {
-        return;
-    }
-
-    const QModelIndex idx = m_dolphinModel->indexForUrl(url);
-    if (idx.isValid() && (idx.column() == 0)) {
-        QPixmap icon = pixmap;
-
-        const KFileItem item = m_dolphinModel->itemForIndex(idx);
-        const QString mimeType = item.mimetype();
-        const QString mimeTypeGroup = mimeType.left(mimeType.indexOf('/'));
-        if ((mimeTypeGroup != "image") || !applyImageFrame(icon)) {
-            limitToSize(icon, m_view->iconSize());
-        }
-
-        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        if (KonqMimeData::decodeIsCutSelection(mimeData) && isCutItem(item)) {
-            // Remember the current icon in the cache for cut items before
-            // the disabled effect is applied. This makes it possible restoring
-            // the uncut version again when cutting other items.
-            QList<ItemInfo>::iterator begin = m_cutItemsCache.begin();
-            QList<ItemInfo>::iterator end   = m_cutItemsCache.end();
-            for (QList<ItemInfo>::iterator it = begin; it != end; ++it) {
-                if ((*it).url == item.url()) {
-                    (*it).pixmap = icon;
-                    break;
-                }
-            }
-
-            // apply the disabled effect to the icon for marking it as "cut item"
-            // and apply the icon to the item
-            KIconEffect iconEffect;
-            icon = iconEffect.apply(icon, KIconLoader::Desktop, KIconLoader::DisabledState);
-            m_dolphinModel->setData(idx, QIcon(icon), Qt::DecorationRole);
-        } else {
-            m_dolphinModel->setData(idx, QIcon(icon), Qt::DecorationRole);
-        }
-    }
 }
 
 bool IconManager::isCutItem(const KFileItem& item) const
