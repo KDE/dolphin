@@ -144,11 +144,11 @@ private:
     bool convertMetaInfo(const QString& key, QString& text) const;
 
     /**
-     * Returns the URL of the file where the preview and meta information
+     * Returns the item for file where the preview and meta information
      * should be received, if InfoSidebarPage::showMultipleSelectionInfo()
      * returns false.
      */
-    KUrl fileUrl() const;
+    KFileItem fileItem() const;
 
     /**
      * Returns true, if the meta information should be shown for

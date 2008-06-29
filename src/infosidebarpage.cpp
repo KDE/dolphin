@@ -183,10 +183,11 @@ void InfoSidebarPage::showItemInfo()
 
     cancelRequest();
 
-    const KUrl file = fileUrl();
-    if (!file.isValid()) {
+    const KFileItem item = fileItem();
+    if (item.isNull()) {
         return;
     }
+    const KUrl itemUrl = item.url();
 
     if (showMultipleSelectionInfo()) {
         KIconLoader iconLoader;
@@ -195,11 +196,8 @@ void InfoSidebarPage::showItemInfo()
                                            KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
         m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected",  m_selection.count()));
-    } else if (!applyPlace(file)) {
+    } else if (!applyPlace(itemUrl)) {
         // try to get a preview pixmap from the item...
-        KUrl::List list;
-        list.append(file);
-
         m_pendingPreview = true;
 
         // Mark the currently shown preview as outdated. This is done
@@ -207,7 +205,7 @@ void InfoSidebarPage::showItemInfo()
         // can be shown within a short timeframe.
         m_outdatedPreviewTimer->start();
 
-        KIO::PreviewJob* job = KIO::filePreview(list,
+        KIO::PreviewJob* job = KIO::filePreview(KUrl::List() << itemUrl,
                                                 m_preview->width(),
                                                 m_preview->height(),
                                                 0,
@@ -221,7 +219,7 @@ void InfoSidebarPage::showItemInfo()
         connect(job, SIGNAL(failed(const KFileItem&)),
                 this, SLOT(showIcon(const KFileItem&)));
 
-        m_nameLabel->setText(file.fileName());
+        m_nameLabel->setText(itemUrl.fileName());
     }
 
     showMetaInfo();
@@ -372,25 +370,23 @@ void InfoSidebarPage::showMetaInfo()
         }
         m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     } else {
-        KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, fileUrl());
-        fileItem.refresh();
-
-        if (fileItem.isDir()) {
+        const KFileItem item = fileItem();
+        if (item.isDir()) {
             m_metaTextLabel->add(i18nc("@label", "Type:"), i18nc("@label", "Folder"));
-            m_metaTextLabel->add(i18nc("@label", "Modified:"), fileItem.timeString());
+            m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
         } else {
-            m_metaTextLabel->add(i18nc("@label", "Type:"), fileItem.mimeComment());
+            m_metaTextLabel->add(i18nc("@label", "Type:"), item.mimeComment());
 
-            m_metaTextLabel->add(i18nc("@label", "Size:"), KIO::convertSize(fileItem.size()));
-            m_metaTextLabel->add(i18nc("@label", "Modified:"), fileItem.timeString());
+            m_metaTextLabel->add(i18nc("@label", "Size:"), KIO::convertSize(item.size()));
+            m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
 
-            if (fileItem.isLocalFile()) {
+            if (item.isLocalFile()) {
                 // TODO: See convertMetaInfo below, find a way to display only interesting information
                 // in a readable way
                 const KFileMetaInfo::WhatFlags flags = KFileMetaInfo::Fastest |
                                                        KFileMetaInfo::TechnicalInfo |
                                                        KFileMetaInfo::ContentInfo;
-                const QString path = fileItem.url().path();
+                const QString path = item.url().path();
                 const KFileMetaInfo fileMetaInfo(path, QString(), flags);
                 if (fileMetaInfo.isValid()) {
                     const QHash<QString, KFileMetaInfoItem>& items = fileMetaInfo.items();
@@ -410,7 +406,7 @@ void InfoSidebarPage::showMetaInfo()
         }
 
         if (m_metaDataWidget != 0) {
-            m_metaDataWidget->setFile(fileItem.targetUrl());
+            m_metaDataWidget->setFile(item.targetUrl());
         }
     }
 }
@@ -453,9 +449,16 @@ bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const
     return false;
 }
 
-KUrl InfoSidebarPage::fileUrl() const
+KFileItem InfoSidebarPage::fileItem() const
 {
-    return (!m_fileItem.isNull() || m_selection.isEmpty()) ? m_shownUrl : m_selection[0].url();
+    if (!m_fileItem.isNull()) {
+        return m_fileItem;
+    }
+
+    const KUrl url = m_selection.isEmpty() ? m_shownUrl : m_selection[0].url();
+    KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+    item.refresh();
+    return item;
 }
 
 bool InfoSidebarPage::showMultipleSelectionInfo() const
