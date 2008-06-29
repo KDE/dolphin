@@ -23,6 +23,7 @@
 #include <QAbstractProxyModel>
 #include <QApplication>
 #include <QClipboard>
+#include <QDir>
 
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
@@ -136,10 +137,14 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event)
 
 void DolphinController::replaceUrlByClipboard()
 {
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-    if (mimeData->hasText()) {
-        const QString text = mimeData->text();
+    const QClipboard* clipboard = QApplication::clipboard();
+    QString text;
+    if (clipboard->mimeData(QClipboard::Selection)->hasText()) {
+        text = clipboard->mimeData(QClipboard::Selection)->text();
+    } else if (clipboard->mimeData(QClipboard::Clipboard)->hasText()) {
+        text = clipboard->mimeData(QClipboard::Clipboard)->text();
+    }
+    if (!text.isEmpty() && QDir::isAbsolutePath(text)) {
         m_dolphinView->setUrl(KUrl(text));
     }
 }
