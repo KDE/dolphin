@@ -112,7 +112,7 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
         if ((count == 1) && !selection.first().url().isEmpty()) {
             m_urlCandidate = selection.first().url();
         }
-        m_timer->start(TimerDelay);
+        m_infoTimer->start(TimerDelay);
     }
 }
 
@@ -130,12 +130,12 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
         // show information regarding the selection.
         if (m_selection.size() > 0) {
             m_pendingPreview = false;
-            m_timer->start(TimerDelay);
+            m_infoTimer->start(TimerDelay);
         }
     } else if (!item.url().isEmpty()) {
         m_urlCandidate = item.url();
         m_fileItem = item;
-        m_timer->start(TimerDelay);
+        m_infoTimer->start(TimerDelay);
     }
 }
 
@@ -167,7 +167,7 @@ void InfoSidebarPage::resizeEvent(QResizeEvent* event)
         // try to increase the preview as large as possible
         m_preview->setSizeHint(QSize(maxWidth, maxWidth));
         m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
-        m_timer->start(TimerDelay);
+        m_infoTimer->start(TimerDelay);
     }
 
     SidebarPage::resizeEvent(event);
@@ -224,7 +224,7 @@ void InfoSidebarPage::showItemInfo()
     showMetaInfo();
 }
 
-void InfoSidebarPage::slotTimeout()
+void InfoSidebarPage::slotInfoTimeout()
 {
     m_shownUrl = m_urlCandidate;
     showItemInfo();
@@ -331,7 +331,7 @@ bool InfoSidebarPage::applyPlace(const KUrl& url)
 
 void InfoSidebarPage::cancelRequest()
 {
-    m_timer->stop();
+    m_infoTimer->stop();
 }
 
 void InfoSidebarPage::showMetaInfo()
@@ -452,10 +452,10 @@ void InfoSidebarPage::init()
 {
     const int spacing = KDialog::spacingHint();
 
-    m_timer = new QTimer(this);
-    m_timer->setSingleShot(true);
-    connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(slotTimeout()));
+    m_infoTimer = new QTimer(this);
+    m_infoTimer->setSingleShot(true);
+    connect(m_infoTimer, SIGNAL(timeout()),
+            this, SLOT(slotInfoTimeout()));
 
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setSpacing(spacing);

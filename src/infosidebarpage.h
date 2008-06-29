@@ -91,7 +91,7 @@ private slots:
      * Triggered if the request for item information has timed out.
      * @see InfoSidebarPage::requestDelayedItemInfo()
      */
-    void slotTimeout();
+    void slotInfoTimeout();
 
     /**
      * Is invoked if no preview is available for the item. In this
@@ -161,7 +161,7 @@ private:
 private:
     bool m_initialized;
     bool m_pendingPreview;
-    QTimer* m_timer;
+    QTimer* m_infoTimer;
     KUrl m_shownUrl;      // URL that is shown as info
     KUrl m_urlCandidate;  // URL candidate that will replace m_shownURL after a delay
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
