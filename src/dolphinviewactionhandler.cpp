@@ -28,6 +28,7 @@
 #include <kactioncollection.h>
 #include <klocale.h>
 #include <ktoggleaction.h>
+#include <krun.h>
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
     : QObject(parent),
@@ -146,6 +147,14 @@ void DolphinViewActionHandler::createActions()
     KAction* adjustViewProps = m_actionCollection->addAction("view_properties");
     adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(slotAdjustViewProperties()));
+
+    // Tools menu
+
+    QAction* findFile = m_actionCollection->addAction("find_file");
+    findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
+    findFile->setShortcut(Qt::CTRL | Qt::Key_F);
+    findFile->setIcon(KIcon("edit-find"));
+    connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
 }
 
 QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
@@ -491,4 +500,9 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
     emit actionBeingHandled();
     ViewPropertiesDialog dlg(m_currentView);
     dlg.exec();
+}
+
+void DolphinViewActionHandler::slotFindFile()
+{
+    KRun::run("kfind", m_currentView->url(), m_currentView->window());
 }

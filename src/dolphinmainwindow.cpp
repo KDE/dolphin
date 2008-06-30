@@ -61,18 +61,18 @@
 #include <kmenu.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
-#include <kurlnavigator.h>
 #include <konq_fileitemcapabilities.h>
 #include <konqmimedata.h>
 #include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
-#include <ktoggleaction.h>
 #include <krun.h>
 #include <kshell.h>
 #include <kstandarddirs.h>
 #include <kstatusbar.h>
 #include <kstandardaction.h>
 #include <ktabbar.h>
+#include <ktoggleaction.h>
+#include <kurlnavigator.h>
 #include <kurl.h>
 #include <kurlcombobox.h>
 
@@ -590,11 +590,6 @@ void DolphinMainWindow::goHome()
     m_activeViewContainer->urlNavigator()->goHome();
 }
 
-void DolphinMainWindow::findFile()
-{
-    KRun::run("kfind", m_activeViewContainer->url(), this);
-}
-
 void DolphinMainWindow::compareFiles()
 {
     // The method is only invoked if exactly 2 files have
@@ -994,12 +989,6 @@ void DolphinMainWindow::setupActions()
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
-    QAction* findFile = actionCollection()->addAction("find_file");
-    findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
-    findFile->setShortcut(Qt::CTRL | Qt::Key_F);
-    findFile->setIcon(KIcon("edit-find"));
-    connect(findFile, SIGNAL(triggered()), this, SLOT(findFile()));
-
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);

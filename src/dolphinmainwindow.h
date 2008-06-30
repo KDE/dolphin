@@ -266,9 +266,6 @@ private slots:
     /** Goes to the home URL. */
     void goHome();
 
-    /** Opens KFind for the current shown directory. */
-    void findFile();
-
     /** Opens Kompare for 2 selected files. */
     void compareFiles();
 

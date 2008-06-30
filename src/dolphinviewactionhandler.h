@@ -173,6 +173,11 @@ private Q_SLOTS:
      */
     void slotAdjustViewProperties();
 
+    /**
+     * Opens the Find File dialog for the currently shown directory.
+     */
+    void slotFindFile();
+
 private:
     /**
      * Create all the actions.
