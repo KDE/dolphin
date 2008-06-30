@@ -183,12 +183,6 @@ void InfoSidebarPage::showItemInfo()
 
     cancelRequest();
 
-    const KFileItem item = fileItem();
-    if (item.isNull()) {
-        return;
-    }
-    const KUrl itemUrl = item.url();
-
     if (showMultipleSelectionInfo()) {
         KIconLoader iconLoader;
         QPixmap icon = iconLoader.loadIcon("dialog-information",
@@ -196,30 +190,34 @@ void InfoSidebarPage::showItemInfo()
                                            KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
         m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected",  m_selection.count()));
-    } else if (!applyPlace(itemUrl)) {
-        // try to get a preview pixmap from the item...
-        m_pendingPreview = true;
+    } else {
+        const KFileItem item = fileItem();
+        const KUrl itemUrl = item.url();
+        if (!applyPlace(itemUrl)) {
+            // try to get a preview pixmap from the item...
+            m_pendingPreview = true;
 
-        // Mark the currently shown preview as outdated. This is done
-        // with a small delay to prevent a flickering when the next preview
-        // can be shown within a short timeframe.
-        m_outdatedPreviewTimer->start();
+            // Mark the currently shown preview as outdated. This is done
+            // with a small delay to prevent a flickering when the next preview
+            // can be shown within a short timeframe.
+            m_outdatedPreviewTimer->start();
 
-        KIO::PreviewJob* job = KIO::filePreview(KUrl::List() << itemUrl,
-                                                m_preview->width(),
-                                                m_preview->height(),
-                                                0,
-                                                0,
-                                                true,
-                                                false);
-        job->setIgnoreMaximumSize(true);
+            KIO::PreviewJob* job = KIO::filePreview(KUrl::List() << itemUrl,
+                                                    m_preview->width(),
+                                                    m_preview->height(),
+                                                    0,
+                                                    0,
+                                                    true,
+                                                    false);
+            job->setIgnoreMaximumSize(true);
 
-        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
-        connect(job, SIGNAL(failed(const KFileItem&)),
-                this, SLOT(showIcon(const KFileItem&)));
+            connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+                    this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
+            connect(job, SIGNAL(failed(const KFileItem&)),
+                    this, SLOT(showIcon(const KFileItem&)));
 
-        m_nameLabel->setText(itemUrl.fileName());
+            m_nameLabel->setText(itemUrl.fileName());
+        }
     }
 
     showMetaInfo();
@@ -455,8 +453,14 @@ KFileItem InfoSidebarPage::fileItem() const
         return m_fileItem;
     }
 
-    const KUrl url = m_selection.isEmpty() ? m_shownUrl : m_selection[0].url();
-    KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+    if (!m_selection.isEmpty()) {
+        Q_ASSERT(m_selection.count() == 1);
+        return m_selection.first();
+    }
+
+    // no item is hovered and no selection has been done: provide
+    // an item for the directory represented by m_shownUrl
+    KFileItem item(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
     item.refresh();
     return item;
 }
