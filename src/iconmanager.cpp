@@ -361,6 +361,9 @@ void IconManager::resumePreviews()
     }
     m_dispatchedItems.clear();
 
+    m_pendingVisiblePreviews = 0;
+    dispatchPreviewQueue();
+
     KFileItemList orderedItems = m_pendingItems;
     orderItems(orderedItems);
 
