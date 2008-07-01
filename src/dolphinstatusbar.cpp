@@ -116,7 +116,7 @@ void DolphinStatusBar::setProgress(int percent)
 
     m_progressBar->setValue(m_progress);
     if (!m_progressBar->isVisible() || (percent == 100)) {
-        QTimer::singleShot(500, this, SLOT(updateProgressInfo()));
+        QTimer::singleShot(300, this, SLOT(updateProgressInfo()));
     }
 
     const QString& defaultText = m_messageLabel->defaultText();
@@ -179,13 +179,12 @@ void DolphinStatusBar::showSpaceInfo()
     const bool isProgressBarVisible = m_progressBar->isVisible();
 
     if (m_spaceInfo->isVisible()) {
-        // The space information is shown currently. Hide it
-        // if the progress bar is visible or if the status bar
-        // text does not fit into the available width.
-        if (isProgressBarVisible || (widthGap > 0)) {
+        // The space information is shown currently. Hide it if
+        // the status bar text does not fit into the available width.
+        if (widthGap > 0) {
             m_spaceInfo->hide();
         }
-    } else if (widthGap + m_spaceInfo->width() <= 0) {
+    } else if (!isProgressBarVisible && (widthGap + m_spaceInfo->width() <= 0)) {
         m_spaceInfo->show();
     }
 }
