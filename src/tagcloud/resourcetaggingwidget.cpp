@@ -170,4 +170,10 @@ void Nepomuk::ResourceTaggingWidget::contextMenuEvent( QContextMenuEvent* e )
     d->showTaggingPopup( e->globalPos() );
 }
 
+
+void Nepomuk::ResourceTaggingWidget::showTagPopup( const QPoint& pos )
+{
+    d->showTaggingPopup( pos );
+}
+
 #include "resourcetaggingwidget.moc"
