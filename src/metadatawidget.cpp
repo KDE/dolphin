@@ -188,9 +188,8 @@ bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
 
 void MetaDataWidget::slotTagClicked( const Nepomuk::Tag& tag )
 {
-    // FIXME
 #ifdef HAVE_NEPOMUK
-    KMessageBox::information( this, "FIXME: connect me to the dolphinmodel: tags:/" + tag.genericLabel() );
+    d->tagWidget->showTagPopup( QCursor::pos() );
 #endif
 }
 
