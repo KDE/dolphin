@@ -189,8 +189,7 @@ bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
 void MetaDataWidget::slotTagClicked( const Nepomuk::Tag& tag )
 {
 #ifdef HAVE_NEPOMUK
-    // TODO re-enable once the method exists
-    //d->tagWidget->showTagPopup( QCursor::pos() );
+    d->tagWidget->showTagPopup( QCursor::pos() );
 #endif
 }
 
