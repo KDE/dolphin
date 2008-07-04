@@ -70,6 +70,7 @@ private:
 private:
     QAbstractItemView* m_view;
     SelectionToggle* m_toggle;
+    bool m_connected;
 };
 
 #endif

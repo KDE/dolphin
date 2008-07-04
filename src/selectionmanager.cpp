@@ -36,7 +36,8 @@
 SelectionManager::SelectionManager(QAbstractItemView* parent) :
     QObject(parent),
     m_view(parent),
-    m_toggle(0)
+    m_toggle(0),
+    m_connected(false)
 {
     connect(parent, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
@@ -64,12 +65,15 @@ void SelectionManager::slotEntered(const QModelIndex& index)
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
         m_toggle->setUrl(urlForIndex(index));
 
-        connect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
-                this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
-        connect(m_view->selectionModel(),
-                SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-                this,
-                SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
+        if (!m_connected) {
+            connect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
+                    this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
+            connect(m_view->selectionModel(),
+                    SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+                    this,
+                    SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
+            m_connected = true;
+        }
 
         const QRect rect = m_view->visualRect(index);
 
@@ -89,6 +93,7 @@ void SelectionManager::slotEntered(const QModelIndex& index)
                    SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
                    this,
                    SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
+        m_connected = false;
     }
 }
 
