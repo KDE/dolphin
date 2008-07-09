@@ -68,6 +68,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_additionalInfo(0),
     m_applyToCurrentFolder(0),
     m_applyToSubFolders(0),
+    m_applyToAllFolders(0),
     m_useAsDefault(0)
 {
     Q_ASSERT(dolphinView != 0);
