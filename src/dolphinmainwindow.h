@@ -173,13 +173,6 @@ private slots:
     void updateNewMenu();
 
     /**
-     * Opens the properties window for the selected items of the
-     * active view. The properties windows shows information
-     * like name, size and permissions.
-     */
-    void properties();
-
-    /**
      * Shows the error information from the places model
      * in the status bar.
      */

@@ -29,6 +29,7 @@
 #include <klocale.h>
 #include <ktoggleaction.h>
 #include <krun.h>
+#include <kpropertiesdialog.h>
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
     : QObject(parent),
@@ -103,6 +104,12 @@ void DolphinViewActionHandler::createActions()
     deleteWithTrashShortcut->setShortcut(QKeySequence::Delete);
     deleteWithTrashShortcut->setEnabled(false);
     connect(deleteWithTrashShortcut, SIGNAL(triggered()), this, SLOT(slotDeleteItems()));
+
+    KAction *propertiesAction = m_actionCollection->addAction( "properties" );
+    // Well, it's the File menu in dolphinmainwindow and the Edit menu in dolphinpart... :)
+    propertiesAction->setText( i18nc("@action:inmenu File", "Properties") );
+    propertiesAction->setShortcut(Qt::ALT | Qt::Key_Return);
+    connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
 
     // View menu
 
@@ -505,4 +512,21 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 void DolphinViewActionHandler::slotFindFile()
 {
     KRun::run("kfind", m_currentView->url(), m_currentView->window());
+}
+
+void DolphinViewActionHandler::slotProperties()
+{
+    KPropertiesDialog* dialog = 0;
+    const KFileItemList list = m_currentView->selectedItems();
+    if (list.isEmpty()) {
+        const KUrl url = m_currentView->url();
+        dialog = new KPropertiesDialog(url, m_currentView);
+    } else {
+        dialog = new KPropertiesDialog(list, m_currentView);
+    }
+
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+    dialog->raise();
+    dialog->activateWindow();
 }

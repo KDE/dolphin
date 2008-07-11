@@ -169,11 +169,6 @@ private Q_SLOTS:
     void slotEditMimeType();
 
     /**
-     * Connected to the "properties" action
-     */
-    void slotProperties();
-
-    /**
      * Open a terminal window, starting with the current directory.
      */
     void slotOpenTerminal();

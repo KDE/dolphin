@@ -178,6 +178,14 @@ private Q_SLOTS:
      */
     void slotFindFile();
 
+    /**
+     * Connected to the "properties" action.
+     * Opens the properties dialog for the selected items of the
+     * active view. The properties dialog shows information
+     * like name, size and permissions.
+     */
+    void slotProperties();
+
 private:
     /**
      * Create all the actions.

@@ -63,7 +63,6 @@
 #include <kmessagebox.h>
 #include <konq_fileitemcapabilities.h>
 #include <konqmimedata.h>
-#include <kpropertiesdialog.h>
 #include <kprotocolinfo.h>
 #include <krun.h>
 #include <kshell.h>
@@ -351,23 +350,6 @@ void DolphinMainWindow::updateNewMenu()
 {
     m_newMenu->slotCheckUpToDate();
     m_newMenu->setPopupFiles(activeViewContainer()->url());
-}
-
-void DolphinMainWindow::properties()
-{
-    KPropertiesDialog* dialog = 0;
-    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
-    if (list.isEmpty()) {
-        const KUrl url = activeViewContainer()->url();
-        dialog = new KPropertiesDialog(url, this);
-    } else {
-        dialog = new KPropertiesDialog(list, this);
-    }
-
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
-    dialog->raise();
-    dialog->activateWindow();
 }
 
 void DolphinMainWindow::quit()
@@ -916,11 +898,6 @@ void DolphinMainWindow::setupActions()
     closeTab->setShortcut(Qt::CTRL | Qt::Key_W);
     connect(closeTab, SIGNAL(triggered()), this, SLOT(closeTab()));
     actionCollection()->addAction("close_tab", closeTab);
-
-    KAction* properties = actionCollection()->addAction("properties");
-    properties->setText(i18nc("@action:inmenu File", "Properties"));
-    properties->setShortcut(Qt::ALT | Qt::Key_Return);
-    connect(properties, SIGNAL(triggered()), this, SLOT(properties()));
 
     KStandardAction::quit(this, SLOT(quit()), actionCollection());
 

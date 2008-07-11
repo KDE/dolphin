@@ -35,7 +35,6 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kpluginfactory.h>
-#include <kpropertiesdialog.h>
 #include <ktoggleaction.h>
 #include <kio/netaccess.h>
 #include <ktoolinvocation.h>
@@ -141,11 +140,6 @@ void DolphinPart::createActions()
     KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
     editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
     connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
-
-    KAction *propertiesAction = actionCollection()->addAction( "properties" );
-    propertiesAction->setText( i18nc("@action:inmenu Edit", "Properties") );
-    propertiesAction->setShortcut(Qt::ALT+Qt::Key_Return);
-    connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
 
     // View menu: all done by DolphinViewActionHandler
 
@@ -445,23 +439,6 @@ void DolphinPart::slotEditMimeType()
     if (!items.isEmpty()) {
         KonqOperations::editMimeType(items.first().mimetype(), m_view);
     }
-}
-
-void DolphinPart::slotProperties()
-{
-    KPropertiesDialog* dialog = 0;
-    const KFileItemList list = m_view->selectedItems();
-    if (list.isEmpty()) {
-        const KUrl url = m_view->url();
-        dialog = new KPropertiesDialog(url, m_view);
-    } else {
-        dialog = new KPropertiesDialog(list, m_view);
-    }
-
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
-    dialog->raise();
-    dialog->activateWindow();
 }
 
 void DolphinPart::setCurrentViewMode(const QString& viewModeName)
