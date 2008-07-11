@@ -98,8 +98,8 @@ void DolphinViewActionHandler::createActions()
     // can be used for deleting the file (#76016). It needs to be a separate action
     // so that the Edit menu isn't affected.
     KAction* deleteWithTrashShortcut = m_actionCollection->addAction("delete_shortcut");
-    // TODO after message freeze, a more descriptive text, for the shortcuts editor.
-    deleteWithTrashShortcut->setText(i18nc("@action:inmenu File", "Delete"));
+    // The descriptive text is just for the shortcuts editor.
+    deleteWithTrashShortcut->setText(i18nc("@action:inmenu File", "Delete (using shortcut for Trash)"));
     deleteWithTrashShortcut->setShortcut(QKeySequence::Delete);
     deleteWithTrashShortcut->setEnabled(false);
     connect(deleteWithTrashShortcut, SIGNAL(triggered()), this, SLOT(slotDeleteItems()));
