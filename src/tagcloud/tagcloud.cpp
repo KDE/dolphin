@@ -464,7 +464,8 @@ void Nepomuk::TagCloud::Private::rebuildCloud()
 // binary search in row
 TagNode* Nepomuk::TagCloud::Private::findTagInRow( const QList<TagNode*>& row, const QPoint& pos )
 {
-    int x = row.count() * pos.x() / m_parent->width();
+    int x = m_parent->width() ? row.count() * pos.x() / m_parent->width() : 0;
+
     int i = 0;
     while ( 1 ) {
         if ( x-i >= 0 && x-i < row.count() && row[x-i]->zoomedRect.contains( pos ) ) {
@@ -485,7 +486,7 @@ TagNode* Nepomuk::TagCloud::Private::findTagInRow( const QList<TagNode*>& row, c
 // binary search in cloud
 TagNode* Nepomuk::TagCloud::Private::tagAt( const QPoint& pos )
 {
-    int y = rows.count() * pos.y() / m_parent->height();
+    int y = m_parent->height() ? rows.count() * pos.y() / m_parent->height() : 0;
 
     int i = 0;
     while ( 1 ) {
