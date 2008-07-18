@@ -29,15 +29,12 @@
 #include <QKeyEvent>
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
-    QProgressBar(parent),
+    KCapacityBar(KCapacityBar::DrawTextInline, parent),
     m_gettingSize(false),
-    m_foundMountPoint(false),
-    m_text()
+    m_foundMountPoint(false)
 {
-    setMinimum(0);
-    setMaximum(0);
-
     setMaximumWidth(200);
+    setMinimumWidth(200); // something to fix on kcapacitybar (ereslibre)
 
     // Update the space information each 10 seconds. Polling is useful
     // here, as files can be deleted/added outside the scope of Dolphin.
@@ -56,11 +53,6 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
     refresh();
 }
 
-QString StatusBarSpaceInfo::text() const
-{
-    return m_text;
-}
-
 void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
                                              quint64 kBSize,
                                              quint64 kBUsed,
@@ -70,13 +62,11 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
 
     m_gettingSize = false;
     m_foundMountPoint = true;
-    const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) ||
-                               (kBSize != static_cast<quint64>(maximum()));
+    const bool valuesChanged = (kBUsed != static_cast<quint64>(value()));
     if (valuesChanged) {
-        m_text = i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable * 1024));
+        setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable * 1024)));
         setUpdatesEnabled(false);
-        setMaximum(kBSize);
-        setValue(kBUsed);
+        setValue((kBUsed * 100) / kBSize);
         setUpdatesEnabled(true);
         update();
     }
@@ -89,7 +79,7 @@ void StatusBarSpaceInfo::slotDiskFreeSpaceDone()
     }
 
     m_gettingSize = false;
-    m_text = i18nc("@info:status", "Unknown size");
+    setText(i18nc("@info:status", "Unknown size"));
     setValue(0);
     update();
 }
@@ -98,7 +88,7 @@ void StatusBarSpaceInfo::refresh()
 {
     // KDiskFreeSpace is for local paths only
     if (!m_url.isLocalFile()) {
-        m_text = i18nc("@info:status", "Unknown size");
+        setText(i18nc("@info:status", "Unknown size"));
         setValue(0);
         update();
         return;
@@ -134,8 +124,7 @@ void StatusBarSpaceInfo::refresh()
 void StatusBarSpaceInfo::showGettingSizeInfo()
 {
     if (m_gettingSize) {
-        m_text = i18nc("@info:status", "Getting size...");
-        setMaximum(0);
+        setText(i18nc("@info:status", "Getting size..."));
         update();
     }
 }

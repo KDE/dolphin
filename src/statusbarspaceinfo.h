@@ -24,8 +24,9 @@
 
 #include <QColor>
 #include <QKeyEvent>
-#include <QProgressBar>
 #include <QString>
+
+#include <kcapacitybar.h>
 
 class KDiskFreeSp;
 
@@ -33,7 +34,7 @@ class KDiskFreeSp;
  * @short Shows the available space for the volume represented
  *        by the given URL as part of the status bar.
  */
-class StatusBarSpaceInfo : public QProgressBar
+class StatusBarSpaceInfo : public KCapacityBar
 {
     Q_OBJECT
 
@@ -43,9 +44,6 @@ public:
 
     void setUrl(const KUrl& url);
     const KUrl& url() const;
-
-    /** @see QProgressBar::text() */
-    virtual QString text() const;
 
 private slots:
     void slotFoundMountPoint(const QString& mountPoint,
@@ -64,7 +62,6 @@ private:
     bool m_gettingSize;
     bool m_foundMountPoint;
     KUrl m_url;
-    QString m_text;
 };
 
 inline const KUrl& StatusBarSpaceInfo::url() const
