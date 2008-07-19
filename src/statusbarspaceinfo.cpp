@@ -31,7 +31,8 @@
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),
     m_gettingSize(false),
-    m_foundMountPoint(false)
+    m_foundMountPoint(false),
+    m_kBSize(0)
 {
     setMaximumWidth(200);
     setMinimumWidth(200); // something to fix on kcapacitybar (ereslibre)
@@ -62,10 +63,11 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
 
     m_gettingSize = false;
     m_foundMountPoint = true;
-    const bool valuesChanged = (kBUsed != static_cast<quint64>(value()));
+    const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) || (kBSize != m_kBSize);
     if (valuesChanged) {
         setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable * 1024)));
         setUpdatesEnabled(false);
+        m_kBSize = kBSize;
         setValue((kBUsed * 100) / kBSize);
         setUpdatesEnabled(true);
         update();
@@ -124,6 +126,7 @@ void StatusBarSpaceInfo::refresh()
 void StatusBarSpaceInfo::showGettingSizeInfo()
 {
     if (m_gettingSize) {
+        m_kBSize = 0;
         setText(i18nc("@info:status", "Getting size..."));
         update();
     }

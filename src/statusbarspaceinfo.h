@@ -61,6 +61,7 @@ private slots:
 private:
     bool m_gettingSize;
     bool m_foundMountPoint;
+    quint64 m_kBSize;
     KUrl m_url;
 };
 
