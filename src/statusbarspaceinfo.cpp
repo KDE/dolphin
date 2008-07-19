@@ -68,7 +68,7 @@ void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
         setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable * 1024)));
         setUpdatesEnabled(false);
         m_kBSize = kBSize;
-        setValue((kBUsed * 100) / kBSize);
+        setValue(kBSize > 0 ? (kBUsed * 100) / kBSize : 0);
         setUpdatesEnabled(true);
         update();
     }
