@@ -39,6 +39,11 @@
 #include "ktooltip_p.h"
 
 
+// compile with XShape older than 1.0
+#ifndef ShapeInput
+const int ShapeInput = 2;
+#endif
+
 
 class KToolTipItemPrivate
 {
