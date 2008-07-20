@@ -37,9 +37,6 @@ public:
     virtual void setSelectionModel(QItemSelectionModel *selectionModel);
     virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
-protected:
-    virtual bool event(QEvent* event);
-
 private:
     class KTreeViewPrivate;
     KTreeViewPrivate *d;

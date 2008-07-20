@@ -23,7 +23,6 @@
 
 #include <KGlobalSettings>
 
-#include <QEvent>
 #include <QItemSelectionModel>
 #include <QScrollBar>
 #include <QTimer>
@@ -38,15 +37,10 @@ KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent) :
     startScrollTimer = new QTimer(this);
     startScrollTimer->setSingleShot(true);
     startScrollTimer->setInterval(300);
-
-    timeLine = new QTimeLine(300, this);
-}
-
-void KTreeView::KTreeViewPrivate::connectScrollTimers()
-{
     connect(startScrollTimer, SIGNAL(timeout()),
             this, SLOT(startScrolling()));
 
+    timeLine = new QTimeLine(300, this);
     connect(timeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateVerticalScrollBar(int)));
 
@@ -173,14 +167,6 @@ void KTreeView::scrollTo(const QModelIndex& index, ScrollHint hint)
     } else {
         QTreeView::scrollTo(index, hint);
     }
-}
-
-bool KTreeView::event(QEvent* event)
-{
-    if (event->type() == QEvent::Polish) {
-        d->connectScrollTimers();
-    }
-    return QTreeView::event(event);
 }
 
 #include "ktreeview.moc"
