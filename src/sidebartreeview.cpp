@@ -80,7 +80,7 @@ bool SidebarTreeView::event(QEvent* event)
         }
     }
 
-    return QTreeView::event(event);
+    return KTreeView::event(event);
 }
 
 void SidebarTreeView::startDrag(Qt::DropActions supportedActions)
@@ -90,7 +90,7 @@ void SidebarTreeView::startDrag(Qt::DropActions supportedActions)
 
 void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
 {
-    QTreeView::dragEnterEvent(event);
+    KTreeView::dragEnterEvent(event);
     if (event->mimeData()->hasUrls()) {
         event->acceptProposedAction();
     }
@@ -98,13 +98,13 @@ void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
 
 void SidebarTreeView::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    QTreeView::dragLeaveEvent(event);
+    KTreeView::dragLeaveEvent(event);
     setDirtyRegion(m_dropRect);
 }
 
 void SidebarTreeView::dragMoveEvent(QDragMoveEvent* event)
 {
-    QTreeView::dragMoveEvent(event);
+    KTreeView::dragMoveEvent(event);
 
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
@@ -122,7 +122,7 @@ void SidebarTreeView::dropEvent(QDropEvent* event)
 {
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (urls.isEmpty()) {
-        QTreeView::dropEvent(event);
+        KTreeView::dropEvent(event);
     } else {
         event->acceptProposedAction();
         const QModelIndex index = indexAt(event->pos());
