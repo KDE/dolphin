@@ -169,5 +169,12 @@ void KTreeView::scrollTo(const QModelIndex& index, ScrollHint hint)
     }
 }
 
+void KTreeView::hideEvent(QHideEvent *event)
+{
+    d->startScrollTimer->stop();
+    d->timeLine->stop();
+    QTreeView::hideEvent(event);
+}
+
 #include "ktreeview.moc"
 #include "ktreeview_p.moc"
