@@ -23,6 +23,7 @@
 
 #include <KGlobalSettings>
 
+#include <QEvent>
 #include <QItemSelectionModel>
 #include <QScrollBar>
 #include <QTimer>
@@ -37,10 +38,15 @@ KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent) :
     startScrollTimer = new QTimer(this);
     startScrollTimer->setSingleShot(true);
     startScrollTimer->setInterval(300);
+
+    timeLine = new QTimeLine(300, this);
+}
+
+void KTreeView::KTreeViewPrivate::connectScrollTimers()
+{
     connect(startScrollTimer, SIGNAL(timeout()),
             this, SLOT(startScrolling()));
 
-    timeLine = new QTimeLine(300, this);
     connect(timeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateVerticalScrollBar(int)));
 
@@ -52,10 +58,6 @@ KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent) :
             startScrollTimer, SLOT(start()));
     connect(parent, SIGNAL(expanded(const QModelIndex&)),
             startScrollTimer, SLOT(start()));
-}
-
-KTreeView::~KTreeView()
-{
 }
 
 void KTreeView::KTreeViewPrivate::startScrolling()
@@ -130,12 +132,16 @@ void KTreeView::KTreeViewPrivate::updateVerticalScrollBar(int value)
 // ************************************************
 
 KTreeView::KTreeView(QWidget *parent) :
-	QTreeView(parent),
-	d(new KTreeViewPrivate(this))
+    QTreeView(parent),
+    d(new KTreeViewPrivate(this))
 {
     if (KGlobalSettings::graphicEffectsLevel() >= KGlobalSettings::SimpleAnimationEffects) {
         setAutoHorizontalScroll(true);
     }
+}
+
+KTreeView::~KTreeView()
+{
 }
 
 void KTreeView::setAutoHorizontalScroll(bool value)
@@ -167,6 +173,14 @@ void KTreeView::scrollTo(const QModelIndex& index, ScrollHint hint)
     } else {
         QTreeView::scrollTo(index, hint);
     }
+}
+
+bool KTreeView::event(QEvent* event)
+{
+    if (event->type() == QEvent::Polish) {
+        d->connectScrollTimers();
+    }
+    return QTreeView::event(event);
 }
 
 #include "ktreeview.moc"
