@@ -32,6 +32,9 @@ class KTreeView::KTreeViewPrivate : public QObject
 {
     Q_OBJECT
 
+public:
+    void connectScrollTimers();
+
 public Q_SLOTS:
     void startScrolling();
     void updateVerticalScrollBar(int value);
