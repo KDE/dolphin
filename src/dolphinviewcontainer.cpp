@@ -35,8 +35,11 @@
 #include <kiconeffect.h>
 #include <kio/netaccess.h>
 #include <kio/previewjob.h>
+#include <kmenu.h>
 #include <kmimetyperesolver.h>
+#include <knewmenu.h>
 #include <konqmimedata.h>
+#include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <kurl.h>
 
@@ -170,6 +173,11 @@ DolphinViewContainer::~DolphinViewContainer()
 void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
     m_urlNavigator->setUrl(newUrl);
+
+    // Temporary disable the 'File'->'Create New...' menu until
+    // the write permissions can be checked in a fast way at
+    // DolphinViewContainer::slotDirListerCompleted().
+    m_mainWindow->newMenu()->menu()->setEnabled(false);
 }
 
 const KUrl& DolphinViewContainer::url() const
@@ -229,6 +237,18 @@ void DolphinViewContainer::slotDirListerCompleted()
 
     updateStatusBar();
     QTimer::singleShot(100, this, SLOT(restoreContentsPos()));
+
+    // Enable the 'File'->'Create New...' menu only if the directory
+    // supports writing.
+    KMenu* createNew = m_mainWindow->newMenu()->menu();
+    KFileItem item = m_dirLister->rootItem();
+    if (item.isNull()) {
+        // it is unclear whether writing is supported
+        createNew->setEnabled(true);
+    } else {
+        KonqFileItemCapabilities capabilities(KFileItemList() << item);
+        createNew->setEnabled(capabilities.supportsWriting());
+    }
 }
 
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
