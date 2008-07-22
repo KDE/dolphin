@@ -488,7 +488,7 @@ void DolphinMainWindow::toggleSplitView()
         m_viewTab[m_tabIndex].secondaryView->show();
 
         setActiveViewContainer(m_viewTab[m_tabIndex].secondaryView);
-    } else if (m_activeViewContainer == m_viewTab[m_tabIndex].primaryView) {
+    } else if (m_activeViewContainer == m_viewTab[m_tabIndex].secondaryView) {
         // remove secondary view
         m_viewTab[m_tabIndex].secondaryView->close();
         m_viewTab[m_tabIndex].secondaryView->deleteLater();
@@ -496,7 +496,7 @@ void DolphinMainWindow::toggleSplitView()
 
         setActiveViewContainer(m_viewTab[m_tabIndex].primaryView);
     } else {
-        // The secondary view is active, hence from a users point of view
+        // The primary view is active and should be closed. Hence from a users point of view
         // the content of the secondary view should be moved to the primary view.
         // From an implementation point of view it is more efficient to close
         // the primary view and exchange the internal pointers afterwards.
@@ -1154,7 +1154,7 @@ void DolphinMainWindow::updateSplitAction()
 {
     QAction* splitAction = actionCollection()->action("split_view");
     if (m_viewTab[m_tabIndex].secondaryView != 0) {
-        if (m_activeViewContainer == m_viewTab[m_tabIndex].primaryView) {
+        if (m_activeViewContainer == m_viewTab[m_tabIndex].secondaryView) {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
             splitAction->setIcon(KIcon("view-right-close"));
         } else {
