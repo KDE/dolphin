@@ -190,7 +190,7 @@ void DolphinColumnView::showColumn(const KUrl& url)
                 QList<DolphinColumnWidget*>::iterator start = m_columns.begin() + columnIndex;
                 QList<DolphinColumnWidget*>::iterator end = m_columns.end();
                 for (QList<DolphinColumnWidget*>::iterator it = start; it != end; ++it) {
-                    (*it)->deleteLater();
+                    deleteColumn(*it);
                 }
                 m_columns.erase(start, end);
 
@@ -594,7 +594,7 @@ void DolphinColumnView::removeAllColumns()
     QList<DolphinColumnWidget*>::iterator start = m_columns.begin() + 1;
     QList<DolphinColumnWidget*>::iterator end = m_columns.end();
     for (QList<DolphinColumnWidget*>::iterator it = start; it != end; ++it) {
-        (*it)->deleteLater();
+        deleteColumn(*it);
     }
     m_columns.erase(start, end);
     m_index = 0;
@@ -606,6 +606,17 @@ QPoint DolphinColumnView::columnPosition(DolphinColumnWidget* column, const QPoi
 {
     const QPoint topLeft = column->frameGeometry().topLeft();
     return QPoint(point.x() - topLeft.x(), point.y() - topLeft.y());
+}
+
+void DolphinColumnView::deleteColumn(DolphinColumnWidget* column)
+{
+    if (column != 0) {
+        if (m_controller->itemView() == column) {
+            m_controller->setItemView(0);
+        }
+        column->disconnect();
+        column->deleteLater();
+    }   
 }
 
 #include "dolphincolumnview.moc"
