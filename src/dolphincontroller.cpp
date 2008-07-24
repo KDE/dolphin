@@ -57,9 +57,11 @@ void DolphinController::setItemView(QAbstractItemView* view)
 
     m_itemView = view;
 
-    // TODO: this is a workaround until  Qt-issue 176832 has been fixed
-    connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
-            this, SLOT(updateOpenTabState()));
+    if (m_itemView != 0) {
+        // TODO: this is a workaround until  Qt-issue 176832 has been fixed
+        connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
+                this, SLOT(updateOpenTabState()));
+    }
 }
 
 void DolphinController::triggerUrlChangeRequest(const KUrl& url)

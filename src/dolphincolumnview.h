@@ -197,6 +197,12 @@ private:
      */
     QPoint columnPosition(DolphinColumnWidget* column, const QPoint& point) const;
 
+    /**
+     * Deletes the column. If the itemview of the controller is set to the column,
+     * the controllers itemview is set to 0.
+     */
+    void deleteColumn(DolphinColumnWidget* column);
+
 private:
     DolphinController* m_controller;
     bool m_active;
