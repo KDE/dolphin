@@ -329,6 +329,17 @@ KUrl::List DolphinView::selectedUrls() const
     return urls;
 }
 
+int DolphinView::selectedItemsCount() const
+{
+    if (isColumnViewActive()) {
+        // TODO: get rid of this special case by adjusting the dir lister
+        // to the current column
+        return m_columnView->selectedItems().count();
+    }
+
+    return itemView()->selectionModel()->selection().count();
+}
+
 void DolphinView::setContentsPosition(int x, int y)
 {
     QAbstractItemView* view = itemView();

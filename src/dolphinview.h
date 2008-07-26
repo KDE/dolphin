@@ -219,6 +219,12 @@ public:
     KUrl::List selectedUrls() const;
 
     /**
+     * Returns the number of selected items (this is faster than
+     * invoking selectedItems().count()).
+     */
+    int selectedItemsCount() const;
+
+    /**
      * Sets the upper left position of the view content
      * to (x,y). The content of the view might be larger than the visible area
      * and hence a scrolling must be done.
