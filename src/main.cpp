@@ -36,7 +36,7 @@ int main(int argc, char **argv)
                      ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
                      ki18nc("@info:credit", "(C) 2006-2008 Peter Penz"));
-    about.setHomepage("http://enzosworld.gmxhome.de");
+    about.setHomepage("http://dolphin.kde.org");
     about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
                     ki18nc("@info:credit", "Maintainer and developer"),
                     "peter.penz@gmx.at");
