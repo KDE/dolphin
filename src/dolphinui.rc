@@ -73,6 +73,7 @@
     <Action name="find_file" />
     <Action name="show_filter_bar" />
     <Action name="compare_files" />
+    <Action name="quick_view" />
   </Menu>
 </MenuBar>
 <State name="new_file" >

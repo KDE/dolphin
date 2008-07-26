@@ -201,9 +201,9 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
     updateEditActions();
 
     Q_ASSERT(m_viewTab[m_tabIndex].primaryView != 0);
-    int selectedUrlsCount = m_viewTab[m_tabIndex].primaryView->view()->selectedUrls().count();
+    int selectedUrlsCount = m_viewTab[m_tabIndex].primaryView->view()->selectedItemsCount();
     if (m_viewTab[m_tabIndex].secondaryView != 0) {
-        selectedUrlsCount += m_viewTab[m_tabIndex].secondaryView->view()->selectedUrls().count();
+        selectedUrlsCount += m_viewTab[m_tabIndex].secondaryView->view()->selectedItemsCount();
     }
 
     QAction* compareFilesAction = actionCollection()->action("compare_files");
@@ -212,6 +212,9 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
     } else {
         compareFilesAction->setEnabled(false);
     }
+
+    const bool activeViewHasSelection = (activeViewContainer()->view()->selectedItemsCount() > 0);
+    actionCollection()->action("quick_view")->setEnabled(activeViewHasSelection);
 
     m_activeViewContainer->updateStatusBar();
 
@@ -626,6 +629,22 @@ void DolphinMainWindow::compareFiles()
     KRun::runCommand(command, "Kompare", "kompare", this);
 }
 
+void DolphinMainWindow::quickView()
+{
+    const KUrl::List urls = activeViewContainer()->view()->selectedUrls();
+    Q_ASSERT(urls.count() > 0);
+
+    // TODO: this is a quick hack - use QDBus interface directly in future
+    const QString command = "qdbus org.kde.plasma /Previewer org.kde.Previewer.openFile";
+    foreach (const KUrl& url, urls) {
+        QString openUrlCommand = command;
+        openUrlCommand.append(" \"");
+        openUrlCommand.append(url.prettyUrl());
+        openUrlCommand.append('"');
+        KRun::runCommand(openUrlCommand, 0, 0, this);
+    }
+}
+
 void DolphinMainWindow::toggleShowMenuBar()
 {
     const bool visible = menuBar()->isVisible();
@@ -976,6 +995,13 @@ void DolphinMainWindow::setupActions()
     compareFiles->setIcon(KIcon("kompare"));
     compareFiles->setEnabled(false);
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
+
+    KAction* quickView = actionCollection()->addAction("quick_view");
+    quickView->setText(i18nc("@action:inmenu Tools", "Quick View"));
+    quickView->setIcon(KIcon("view-preview"));
+    quickView->setShortcut(Qt::Key_Space);
+    quickView->setEnabled(false);
+    connect(quickView, SIGNAL(triggered()), this, SLOT(quickView()));
 
     // setup 'Settings' menu
     m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
