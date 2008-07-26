@@ -117,7 +117,7 @@ void ToolTipManager::showToolTip()
     option.decorationSize = QSize(32, 32);
 
     const QSize size = g_delegate->sizeHint(&option, tip);
-    const QRect desktop = QApplication::desktop()->availableGeometry();
+    const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
 
     // m_itemRect defines the area of the item, where the tooltip should be
     // shown. Per default the tooltip is shown in the bottom right corner.
@@ -126,16 +126,11 @@ void ToolTipManager::showToolTip()
     // - the content is not drawn inside m_itemRect
     int x = m_itemRect.right();
     int y = m_itemRect.bottom();
-    const int xDiff = x + size.width()  - desktop.width();
-    const int yDiff = y + size.height() - desktop.height();
-
-    if ((xDiff > 0) && (yDiff > 0)) {
+    if (x + size.width() - 1 > desktop.right()) {
         x = m_itemRect.left() - size.width();
+    }
+    if (y + size.height() - 1 > desktop.bottom()) {
         y = m_itemRect.top() - size.height();
-    } else if (xDiff > 0) {
-        x -= xDiff;
-    } else if (yDiff > 0) {
-        y -= yDiff;
     }
 
     KToolTip::showTip(QPoint(x, y), tip);
