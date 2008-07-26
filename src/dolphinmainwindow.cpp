@@ -637,7 +637,6 @@ void DolphinMainWindow::quickView()
 
     QDBusMessage msg = QDBusMessage::createMethodCall("org.kde.plasma", "/Previewer", "", "openFile");
     foreach (const KUrl& url, urls) {
-        QList<QVariant> args;
         msg.setArguments(QList<QVariant>() << url.prettyUrl());
         QDBusConnection::sessionBus().send(msg);
     }
