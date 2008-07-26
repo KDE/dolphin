@@ -75,6 +75,7 @@
 #include <kurl.h>
 #include <kurlcombobox.h>
 
+#include <QDBusMessage>
 #include <QKeyEvent>
 #include <QClipboard>
 #include <QLineEdit>
@@ -634,14 +635,11 @@ void DolphinMainWindow::quickView()
     const KUrl::List urls = activeViewContainer()->view()->selectedUrls();
     Q_ASSERT(urls.count() > 0);
 
-    // TODO: this is a quick hack - use QDBus interface directly in future
-    const QString command = "qdbus org.kde.plasma /Previewer org.kde.Previewer.openFile";
+    QDBusMessage msg = QDBusMessage::createMethodCall("org.kde.plasma", "/Previewer", "", "openFile");
     foreach (const KUrl& url, urls) {
-        QString openUrlCommand = command;
-        openUrlCommand.append(" \"");
-        openUrlCommand.append(url.prettyUrl());
-        openUrlCommand.append('"');
-        KRun::runCommand(openUrlCommand, 0, 0, this);
+        QList<QVariant> args;
+        msg.setArguments(QList<QVariant>() << url.prettyUrl());
+        QDBusConnection::sessionBus().send(msg);
     }
 }
 
