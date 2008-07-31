@@ -702,7 +702,7 @@ void DolphinMainWindow::closeTab(int index)
     if (index == m_tabIndex) {
         // The tab that should be closed is the active tab. Activate the
         // previous tab before closing the tab.
-        setActiveTab((index > 0) ? index - 1 : 1);
+        m_tabBar->setCurrentIndex((index > 0) ? index - 1 : 1);
     }
 
     // delete tab
