@@ -511,7 +511,12 @@ void DolphinView::changeSelection(const KFileItemList& selection)
 void DolphinView::renameSelectedItems()
 {
     const KFileItemList items = selectedItems();
-    if (items.count() > 1) {
+    const int itemCount = items.count();
+    if (itemCount < 1) {
+        return;
+    }
+    
+    if (itemCount > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
         RenameDialog dialog(this, items);
@@ -546,8 +551,6 @@ void DolphinView::renameSelectedItems()
             }
         }
     } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
-        Q_ASSERT(items.count() == 1);
-
         if (isColumnViewActive()) {
             m_columnView->editItem(items.first());
         } else {
@@ -556,8 +559,6 @@ void DolphinView::renameSelectedItems()
             itemView()->edit(proxyIndex);
         }
     } else {
-        Q_ASSERT(items.count() == 1);
-
         RenameDialog dialog(this, items);
         if (dialog.exec() == QDialog::Rejected) {
             return;
