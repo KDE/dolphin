@@ -59,6 +59,7 @@ private:
 
     QCheckBox* m_splitView;
     QCheckBox* m_editableUrl;
+    QCheckBox* m_showFullPath;
     QCheckBox* m_filterBar;
 };
 

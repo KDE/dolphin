@@ -87,6 +87,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
 
     const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
+    m_urlNavigator->setShowFullPath(settings->showFullPath());
     m_urlNavigator->setHomeUrl(settings->homeUrl());
 
     m_dirLister = new DolphinDirLister();

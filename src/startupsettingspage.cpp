@@ -45,6 +45,7 @@ StartupSettingsPage::StartupSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_homeUrl(0),
     m_splitView(0),
     m_editableUrl(0),
+    m_showFullPath(0),
     m_filterBar(0)
 {
     const int spacing = KDialog::spacingHint();
@@ -84,10 +85,12 @@ StartupSettingsPage::StartupSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     // create 'Split view', 'Editable location' and 'Filter bar' checkboxes
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), vBox);
     m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), vBox);
+    m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"), vBox);
     m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"), vBox);
-    connect(m_splitView,   SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_editableUrl, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_filterBar,   SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_splitView,    SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_editableUrl,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showFullPath, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_filterBar,    SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -121,6 +124,7 @@ void StartupSettingsPage::applySettings()
 
     settings->setSplitView(m_splitView->isChecked());
     settings->setEditableUrl(m_editableUrl->isChecked());
+    settings->setShowFullPath(m_showFullPath->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
 }
 
@@ -158,6 +162,7 @@ void StartupSettingsPage::loadSettings()
     m_homeUrl->setText(settings->homeUrl());
     m_splitView->setChecked(settings->splitView());
     m_editableUrl->setChecked(settings->editableUrl());
+    m_showFullPath->setChecked(settings->showFullPath());
     m_filterBar->setChecked(settings->filterBar());
 }
 
