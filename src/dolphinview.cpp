@@ -562,6 +562,8 @@ void DolphinView::renameSelectedItems()
             }
         }
     } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
+        Q_ASSERT(itemCount == 1);
+        
         if (isColumnViewActive()) {
             m_columnView->editItem(items.first());
         } else {
@@ -570,6 +572,8 @@ void DolphinView::renameSelectedItems()
             itemView()->edit(proxyIndex);
         }
     } else {
+        Q_ASSERT(itemCount == 1);
+        
         RenameDialog dialog(this, items);
         if (dialog.exec() == QDialog::Rejected) {
             return;
