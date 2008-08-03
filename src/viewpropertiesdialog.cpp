@@ -338,7 +338,7 @@ void ViewPropertiesDialog::applyViewProperties()
     // If the user selected 'Apply To All Folders' the view properties implicitely
     // are also used as default for new folders.
     const bool useAsDefault = applyToAllFolders ||
-                              (m_useAsDefault != 0) && m_useAsDefault->isChecked();
+                              ((m_useAsDefault != 0) && m_useAsDefault->isChecked());
     if (useAsDefault) {
         // For directories where no .directory file is available, the .directory
         // file stored for the global view properties is used as fallback. To update
