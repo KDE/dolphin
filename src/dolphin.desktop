@@ -1,6 +1,7 @@
 [Desktop Entry]
 Name=Dolphin
 Name[ar]=الدولفين
+Name[bn]=ডলফিন
 Name[fy]=Dolfyn
 Name[gu]=ડોલ્ફિન
 Name[hi]=डॉल्फ़िन
@@ -25,6 +26,7 @@ GenericName[af]=Lêerbestuurder
 GenericName[ar]=مدير الملفات
 GenericName[be]=Кіраўнік файлаў
 GenericName[bg]=Файлов браузър
+GenericName[bn]=ফাইল ম্যানেজার
 GenericName[bn_IN]=ফাইল পরিচালন ব্যবস্থা
 GenericName[ca]=Gestor de fitxers
 GenericName[cs]=Správce souborů
