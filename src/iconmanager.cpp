@@ -19,12 +19,11 @@
 
 #include "iconmanager.h"
 
-#include "dolphinmodel.h"
-#include "dolphinsortfilterproxymodel.h"
-
 #include <kiconeffect.h>
 #include <kio/previewjob.h>
 #include <kdirlister.h>
+#include <kdirmodel.h>
+#include <kdirsortfilterproxymodel.h>
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
@@ -81,7 +80,7 @@ private:
     QListView* m_view;
 };
 
-IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model) :
+IconManager::IconManager(QAbstractItemView* parent, KDirSortFilterProxyModel* model) :
     QObject(parent),
     m_showPreview(false),
     m_clearItemQueues(true),
@@ -91,7 +90,7 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
     m_previewTimer(0),
     m_scrollAreaTimer(0),
     m_previewJobs(),
-    m_dolphinModel(0),
+    m_dirModel(0),
     m_proxyModel(model),
     m_mimeTypeResolver(0),
     m_cutItemsCache(),
@@ -101,8 +100,8 @@ IconManager::IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel*
 {
     Q_ASSERT(m_view->iconSize().isValid());  // each view must provide its current icon size
 
-    m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
-    connect(m_dolphinModel->dirLister(), SIGNAL(newItems(const KFileItemList&)),
+    m_dirModel = static_cast<KDirModel*>(m_proxyModel->sourceModel());
+    connect(m_dirModel->dirLister(), SIGNAL(newItems(const KFileItemList&)),
             this, SLOT(generatePreviews(const KFileItemList&)));
 
     QClipboard* clipboard = QApplication::clipboard();
@@ -157,7 +156,7 @@ void IconManager::setShowPreview(bool show)
     } else if (!show && (m_mimeTypeResolver == 0)) {
         // the preview is turned off: resolve the MIME-types so that
         // the icons gets updated
-        m_mimeTypeResolver = new KMimeTypeResolver(m_view, m_dolphinModel);
+        m_mimeTypeResolver = new KMimeTypeResolver(m_view, m_dirModel);
     }
 }
 
@@ -173,10 +172,10 @@ void IconManager::updatePreviews()
     m_dispatchedItems.clear();
 
     KFileItemList itemList;
-    const int rowCount = m_dolphinModel->rowCount();
+    const int rowCount = m_dirModel->rowCount();
     for (int row = 0; row < rowCount; ++row) {
-        const QModelIndex index = m_dolphinModel->index(row, 0);
-        KFileItem item = m_dolphinModel->itemForIndex(index);
+        const QModelIndex index = m_dirModel->index(row, 0);
+        KFileItem item = m_dirModel->itemForIndex(index);
         itemList.append(item);
     }
 
@@ -220,7 +219,7 @@ void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap
 
     // check whether the item is part of the directory lister (it is possible
     // that a preview from an old directory lister is received)
-    KDirLister* dirLister = m_dolphinModel->dirLister();
+    KDirLister* dirLister = m_dirModel->dirLister();
     bool isOldPreview = true;
     const KUrl::List dirs = dirLister->directories();
     const QString itemDir = url.directory();
@@ -289,9 +288,9 @@ void IconManager::updateCutItems()
     // restore the icons of all previously selected items to the
     // original state...
     foreach (const ItemInfo& cutItem, m_cutItemsCache) {
-        const QModelIndex index = m_dolphinModel->indexForUrl(cutItem.url);
+        const QModelIndex index = m_dirModel->indexForUrl(cutItem.url);
         if (index.isValid()) {
-            m_dolphinModel->setData(index, QIcon(cutItem.pixmap), Qt::DecorationRole);
+            m_dirModel->setData(index, QIcon(cutItem.pixmap), Qt::DecorationRole);
         }
     }
     m_cutItemsCache.clear();
@@ -312,9 +311,9 @@ void IconManager::dispatchPreviewQueue()
         for (int i = 0; i < previewsCount; ++i) {
             const ItemInfo& preview = m_previews.first();
 
-            const QModelIndex idx = m_dolphinModel->indexForUrl(preview.url);
+            const QModelIndex idx = m_dirModel->indexForUrl(preview.url);
             if (idx.isValid() && (idx.column() == 0)) {
-                m_dolphinModel->setData(idx, QIcon(preview.pixmap), Qt::DecorationRole);
+                m_dirModel->setData(idx, QIcon(preview.pixmap), Qt::DecorationRole);
             }
 
             m_previews.pop_front();
@@ -402,7 +401,7 @@ void IconManager::applyCutItemEffect()
     }
 
     KFileItemList items;
-    KDirLister* dirLister = m_dolphinModel->dirLister();
+    KDirLister* dirLister = m_dirModel->dirLister();
     const KUrl::List dirs = dirLister->directories();
     foreach (const KUrl& url, dirs) {
         items << dirLister->itemsForDir(url);
@@ -410,8 +409,8 @@ void IconManager::applyCutItemEffect()
 
     foreach (const KFileItem& item, items) {
         if (isCutItem(item)) {
-            const QModelIndex index = m_dolphinModel->indexForItem(item);
-            const QVariant value = m_dolphinModel->data(index, Qt::DecorationRole);
+            const QModelIndex index = m_dirModel->indexForItem(item);
+            const QVariant value = m_dirModel->data(index, Qt::DecorationRole);
             if (value.type() == QVariant::Icon) {
                 const QIcon icon(qvariant_cast<QIcon>(value));
                 const QSize actualSize = icon.actualSize(m_view->iconSize());
@@ -427,7 +426,7 @@ void IconManager::applyCutItemEffect()
                 // apply icon effect to the cut item
                 KIconEffect iconEffect;
                 pixmap = iconEffect.apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-                m_dolphinModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
+                m_dirModel->setData(index, QIcon(pixmap), Qt::DecorationRole);
             }
         }
     }
@@ -557,7 +556,7 @@ void IconManager::orderItems(KFileItemList& items)
             const QRect itemRect = m_view->visualRect(proxyIndex);
             const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
 
-            KFileItem item = m_dolphinModel->itemForIndex(dirIndex);  // O(1)
+            KFileItem item = m_dirModel->itemForIndex(dirIndex);  // O(1)
             const KUrl url = item.url();
 
             // check whether the item is part of the item list 'items'
@@ -583,7 +582,7 @@ void IconManager::orderItems(KFileItemList& items)
         // Algorithm 2: The number of items is <= 10 % of the row count. In this case iterate
         // all items and receive the corresponding row from the item.
         for (int i = 0; i < itemCount; ++i) {
-            const QModelIndex dirIndex = m_dolphinModel->indexForItem(items[i]); // O(n) (n = number of rows)
+            const QModelIndex dirIndex = m_dirModel->indexForItem(items[i]); // O(n) (n = number of rows)
             const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
             const QRect itemRect = m_view->visualRect(proxyIndex);
 

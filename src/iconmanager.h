@@ -27,8 +27,8 @@
 #include <QObject>
 #include <QPixmap>
 
-class DolphinModel;
-class DolphinSortFilterProxyModel;
+class KDirModel;
+class KDirSortFilterProxyModel;
 class KJob;
 class KMimeTypeResolver;
 class QAbstractItemView;
@@ -54,7 +54,7 @@ class IconManager : public QObject
     Q_OBJECT
 
 public:
-    IconManager(QAbstractItemView* parent, DolphinSortFilterProxyModel* model);
+    IconManager(QAbstractItemView* parent, KDirSortFilterProxyModel* model);
     virtual ~IconManager();
     void setShowPreview(bool show);
     bool showPreview() const;
@@ -181,8 +181,8 @@ private:
     QTimer* m_previewTimer;
     QTimer* m_scrollAreaTimer;
     QList<KJob*> m_previewJobs;
-    DolphinModel* m_dolphinModel;
-    DolphinSortFilterProxyModel* m_proxyModel;
+    KDirModel* m_dirModel;
+    KDirSortFilterProxyModel* m_proxyModel;
 
     KMimeTypeResolver* m_mimeTypeResolver;
 
