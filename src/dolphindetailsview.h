@@ -107,8 +107,7 @@ private slots:
      */
     QRect elasticBandRect() const;
 
-    void zoomIn();
-    void zoomOut();
+    void setZoomLevel(int level);
 
     /**
      * Opens a context menu at the position \a pos and allows to
@@ -135,9 +134,6 @@ private slots:
     void updateFont();
 
 private:
-    bool isZoomInPossible() const;
-    bool isZoomOutPossible() const;
-
     /**
      * Updates the size of the decoration dependent on the
      * icon size of the DetailsModeSettings. The controller

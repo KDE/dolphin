@@ -234,12 +234,17 @@ public:
     /** Returns the upper left position of the view content. */
     QPoint contentsPosition() const;
 
-    /** Increases the size of the current set view mode. */
-    void zoomIn();
-
-    /** Decreases the size of the current set view mode. */
-    void zoomOut();
-
+    /**
+     * Sets the zoom level to \a level. It is assured that the used
+     * level is adjusted to be inside the range DolphinView::zoomLevelMinimum() and
+     * DolphinView::zoomLevelMaximum().
+     */
+    void setZoomLevel(int level);
+    int zoomLevel() const;
+    
+    int zoomLevelMinimum() const;
+    int zoomLevelMaximum() const;
+    
     /**
      * Returns true, if zooming in is possible. If false is returned,
      * the minimal zoom size is possible.
@@ -460,6 +465,9 @@ signals:
 
     /** Is emitted if the additional information shown for this view has been changed. */
     void additionalInfoChanged();
+    
+    /** Is emitted if the zoom level has been changed by zooming in or out. */
+    void zoomLevelChanged(int level);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the sidebar.

@@ -84,10 +84,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(zoomIn()),
-            this, SLOT(zoomIn()));
-    connect(controller, SIGNAL(zoomOut()),
-            this, SLOT(zoomOut()));
+    connect(controller, SIGNAL(zoomLevelChanged(int)),
+            this, SLOT(setZoomLevel(int)));
 
     const DolphinView* view = controller->dolphinView();
     connect(view, SIGNAL(showPreviewChanged()),
@@ -331,56 +329,28 @@ void DolphinIconsView::slotAdditionalInfoChanged()
     updateGridSize(showPreview, view->additionalInfo().count());
 }
 
-void DolphinIconsView::zoomIn()
+void DolphinIconsView::setZoomLevel(int level)
 {
-    if (isZoomInPossible()) {
-        IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
 
-        const int oldIconSize = settings->iconSize();
-        int newIconSize = oldIconSize;
+    const int oldIconSize = settings->iconSize();
+    int newIconSize = oldIconSize;
 
-        const bool showPreview = m_controller->dolphinView()->showPreview();
-        if (showPreview) {
-            const int previewSize = increasedIconSize(settings->previewSize());
-            settings->setPreviewSize(previewSize);
-        } else {
-            newIconSize = increasedIconSize(oldIconSize);
-            settings->setIconSize(newIconSize);
-        }
-
-        // increase also the grid size
-        const int diff = newIconSize - oldIconSize;
-        settings->setItemWidth(settings->itemWidth() + diff);
-        settings->setItemHeight(settings->itemHeight() + diff);
-
-        updateGridSize(showPreview, additionalInfoCount());
+    const bool showPreview = m_controller->dolphinView()->showPreview();
+    if (showPreview) {
+        const int previewSize = DolphinController::iconSizeForZoomLevel(level);
+        settings->setPreviewSize(previewSize);
+    } else {
+        newIconSize = DolphinController::iconSizeForZoomLevel(level);
+        settings->setIconSize(newIconSize);
     }
-}
 
-void DolphinIconsView::zoomOut()
-{
-    if (isZoomOutPossible()) {
-        IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    // increase also the grid size
+    const int diff = newIconSize - oldIconSize;
+    settings->setItemWidth(settings->itemWidth() + diff);
+    settings->setItemHeight(settings->itemHeight() + diff);
 
-        const int oldIconSize = settings->iconSize();
-        int newIconSize = oldIconSize;
-
-        const bool showPreview = m_controller->dolphinView()->showPreview();
-        if (showPreview) {
-            const int previewSize = decreasedIconSize(settings->previewSize());
-            settings->setPreviewSize(previewSize);
-        } else {
-            newIconSize = decreasedIconSize(settings->iconSize());
-            settings->setIconSize(newIconSize);
-        }
-
-        // decrease also the grid size
-        const int diff = oldIconSize - newIconSize;
-        settings->setItemWidth(settings->itemWidth() - diff);
-        settings->setItemHeight(settings->itemHeight() - diff);
-
-        updateGridSize(showPreview, additionalInfoCount());
-    }
+    updateGridSize(showPreview, additionalInfoCount());
 }
 
 void DolphinIconsView::requestActivation()
@@ -396,50 +366,6 @@ void DolphinIconsView::updateFont()
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
     }
-}
-
-bool DolphinIconsView::isZoomInPossible() const
-{
-    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    const bool showPreview = m_controller->dolphinView()->showPreview();
-    const int size = showPreview ? settings->previewSize() : settings->iconSize();
-    return size < KIconLoader::SizeEnormous;
-}
-
-bool DolphinIconsView::isZoomOutPossible() const
-{
-    IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    const bool showPreview = m_controller->dolphinView()->showPreview();
-    const int size = showPreview ? settings->previewSize() : settings->iconSize();
-    return size > KIconLoader::SizeSmall;
-}
-
-int DolphinIconsView::increasedIconSize(int size) const
-{
-    int incSize = 0;
-    switch (size) {
-    case KIconLoader::SizeSmall:       incSize = KIconLoader::SizeSmallMedium; break;
-    case KIconLoader::SizeSmallMedium: incSize = KIconLoader::SizeMedium; break;
-    case KIconLoader::SizeMedium:      incSize = KIconLoader::SizeLarge; break;
-    case KIconLoader::SizeLarge:       incSize = KIconLoader::SizeHuge; break;
-    case KIconLoader::SizeHuge:        incSize = KIconLoader::SizeEnormous; break;
-    default: Q_ASSERT(false); break;
-    }
-    return incSize;
-}
-
-int DolphinIconsView::decreasedIconSize(int size) const
-{
-    int decSize = 0;
-    switch (size) {
-    case KIconLoader::SizeSmallMedium: decSize = KIconLoader::SizeSmall; break;
-    case KIconLoader::SizeMedium: decSize = KIconLoader::SizeSmallMedium; break;
-    case KIconLoader::SizeLarge: decSize = KIconLoader::SizeMedium; break;
-    case KIconLoader::SizeHuge: decSize = KIconLoader::SizeLarge; break;
-    case KIconLoader::SizeEnormous: decSize = KIconLoader::SizeHuge; break;
-    default: Q_ASSERT(false); break;
-    }
-    return decSize;
 }
 
 void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
@@ -478,9 +404,6 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 
     const int spacing = settings->gridSpacing();
     setGridSize(QSize(itemWidth + spacing * 2, itemHeight + spacing));
-
-    m_controller->setZoomInPossible(isZoomInPossible());
-    m_controller->setZoomOutPossible(isZoomOutPossible());
 
     KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
     if (delegate != 0) {

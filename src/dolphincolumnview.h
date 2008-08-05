@@ -130,8 +130,7 @@ protected:
     virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
-    void zoomIn();
-    void zoomOut();
+    void setZoomLevel(int level);
 
     /**
      * Moves the content of the columns view to represent
@@ -159,9 +158,6 @@ private slots:
     void slotShowPreviewChanged();
 
 private:
-    bool isZoomInPossible() const;
-    bool isZoomOutPossible() const;
-
     DolphinColumnWidget* activeColumn() const;
 
     /**

@@ -506,7 +506,14 @@ void IconManager::startPreviewJob(const KFileItemList& items)
     m_hasCutSelection = KonqMimeData::decodeIsCutSelection(mimeData);
 
     const QSize size = m_view->iconSize();
-    KIO::PreviewJob* job = KIO::filePreview(items, 128, 128);
+
+    // PreviewJob internally caches items always with the size of
+    // 128 x 128 pixels or 256 x 256 pixels. A downscaling is done 
+    // by PreviewJob if a smaller size is requested. As the IconManager must
+    // do a downscaling anyhow because of the frame, only the provided
+    // cache sizes are requested.
+    const int cacheSize = (size.width() > 128) || (size.height() > 128) ? 256 : 128;
+    KIO::PreviewJob* job = KIO::filePreview(items, cacheSize, cacheSize);
     connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
             this, SLOT(addToPreviewQueue(const KFileItem&, const QPixmap&)));
     connect(job, SIGNAL(finished(KJob*)),

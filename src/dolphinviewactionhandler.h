@@ -130,6 +130,11 @@ private Q_SLOTS:
      * Updates the state of the 'Sort by' actions.
      */
     void slotSortingChanged(DolphinView::Sorting sorting);
+    
+    /**
+     * Updates the state of the 'Zoom In' and 'Zoom Out' actions.
+     */    
+    void slotZoomLevelChanged(int level);
 
     /**
      * Switches on or off the displaying of additional information

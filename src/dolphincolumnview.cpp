@@ -51,10 +51,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
 
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(zoomIn()),
-            this, SLOT(zoomIn()));
-    connect(controller, SIGNAL(zoomOut()),
-            this, SLOT(zoomOut()));
+    connect(controller, SIGNAL(zoomLevelChanged(int)),
+            this, SLOT(setZoomLevel(int)));
     connect(controller, SIGNAL(activationChanged(bool)),
             this, SLOT(updateColumnsBackground(bool)));
 
@@ -367,30 +365,13 @@ void DolphinColumnView::wheelEvent(QWheelEvent* event)
     QAbstractItemView::wheelEvent(event);
 }
 
-void DolphinColumnView::zoomIn()
+void DolphinColumnView::setZoomLevel(int level)
 {
-    if (isZoomInPossible()) {
-        ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-        switch (settings->iconSize()) {
-        case KIconLoader::SizeSmall:  settings->setIconSize(KIconLoader::SizeMedium); break;
-        case KIconLoader::SizeMedium: settings->setIconSize(KIconLoader::SizeLarge); break;
-        default: Q_ASSERT(false); break;
-        }
-        updateDecorationSize();
-    }
-}
-
-void DolphinColumnView::zoomOut()
-{
-    if (isZoomOutPossible()) {
-        ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-        switch (settings->iconSize()) {
-        case KIconLoader::SizeLarge:  settings->setIconSize(KIconLoader::SizeMedium); break;
-        case KIconLoader::SizeMedium: settings->setIconSize(KIconLoader::SizeSmall); break;
-        default: Q_ASSERT(false); break;
-        }
-        updateDecorationSize();
-    }
+    const int size = DolphinController::iconSizeForZoomLevel(level);
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    settings->setIconSize(size);
+    
+    updateDecorationSize();
 }
 
 void DolphinColumnView::moveContentHorizontally(int x)
@@ -412,9 +393,6 @@ void DolphinColumnView::updateDecorationSize()
             widget->setDecorationSize(size);
         }
     }
-
-    m_controller->setZoomInPossible(isZoomInPossible());
-    m_controller->setZoomOutPossible(isZoomOutPossible());
 
     doItemsLayout();
 }
@@ -469,18 +447,6 @@ void DolphinColumnView::slotShowPreviewChanged()
     foreach (DolphinColumnWidget* column, m_columns) {
         column->setShowPreview(show);
     }
-}
-
-bool DolphinColumnView::isZoomInPossible() const
-{
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    return settings->iconSize() < KIconLoader::SizeLarge;
-}
-
-bool DolphinColumnView::isZoomOutPossible() const
-{
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    return settings->iconSize() > KIconLoader::SizeSmall;
 }
 
 void DolphinColumnView::setActiveColumnIndex(int index)

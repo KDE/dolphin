@@ -27,8 +27,7 @@
 
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
-    m_zoomInPossible(false),
-    m_zoomOutPossible(false),
+    m_zoomLevel(0),
     m_openTab(false),
     m_url(),
     m_dolphinView(dolphinView),
@@ -58,6 +57,17 @@ void DolphinController::setItemView(QAbstractItemView* view)
     m_itemView = view;
 
     if (m_itemView != 0) {
+        switch (m_itemView->iconSize().height()) {
+        case KIconLoader::SizeSmallMedium:      m_zoomLevel = 0; break;
+        case KIconLoader::SizeMedium:           m_zoomLevel = 1; break;
+        case KIconLoader::SizeLarge:            m_zoomLevel = 2; break;
+        case KIconLoader::SizeHuge:             m_zoomLevel = 3; break;
+        case KIconLoader::SizeEnormous:         m_zoomLevel = 4; break;
+        case KIconLoader::SizeEnormous * 3 / 2: m_zoomLevel = 5; break;
+        case KIconLoader::SizeEnormous * 2:     m_zoomLevel = 6; break;
+        default: Q_ASSERT(false);               m_zoomLevel = 2; break;
+        }
+        
         // TODO: this is a workaround until  Qt-issue 176832 has been fixed
         connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
                 this, SLOT(updateOpenTabState()));
@@ -110,14 +120,30 @@ void DolphinController::indicateActivationChange(bool active)
     emit activationChanged(active);
 }
 
-void DolphinController::triggerZoomIn()
+void DolphinController::setZoomLevel(int level)
 {
-    emit zoomIn();
+    Q_ASSERT(level >= zoomLevelMinimum());
+    Q_ASSERT(level <= zoomLevelMaximum());
+    if (level != m_zoomLevel) {
+        m_zoomLevel = level;
+        emit zoomLevelChanged(m_zoomLevel);
+    }
 }
 
-void DolphinController::triggerZoomOut()
+int DolphinController::iconSizeForZoomLevel(int level)
 {
-    emit zoomOut();
+    int size = KIconLoader::SizeMedium;
+    switch (level) {
+    case 0: size = KIconLoader::SizeSmallMedium; break;
+    case 1: size = KIconLoader::SizeMedium; break;
+    case 2: size = KIconLoader::SizeLarge; break;
+    case 3: size = KIconLoader::SizeHuge; break;
+    case 4: size = KIconLoader::SizeEnormous; break;
+    case 5: size = KIconLoader::SizeEnormous * 3 / 2; break;
+    case 6: size = KIconLoader::SizeEnormous * 2; break;
+    default: Q_ASSERT(false); break;
+    }
+    return size;
 }
 
 void DolphinController::handleKeyPressEvent(QKeyEvent* event)

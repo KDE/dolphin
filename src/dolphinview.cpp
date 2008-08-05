@@ -360,26 +360,34 @@ QPoint DolphinView::contentsPosition() const
     return QPoint(x, y);
 }
 
-void DolphinView::zoomIn()
+void DolphinView::setZoomLevel(int level)
 {
-    m_controller->triggerZoomIn();
-    m_iconManager->updatePreviews();
+    if (level < zoomLevelMinimum()) {
+        level = zoomLevelMinimum();
+    } else if (level > zoomLevelMaximum()) {
+        level = zoomLevelMaximum();
+    }
+    
+    if (level != zoomLevel()) {
+        m_controller->setZoomLevel(level);
+        m_iconManager->updatePreviews();
+        emit zoomLevelChanged(level);
+    }
 }
 
-void DolphinView::zoomOut()
+int DolphinView::zoomLevel() const
 {
-    m_controller->triggerZoomOut();
-    m_iconManager->updatePreviews();
+    return m_controller->zoomLevel();
 }
 
-bool DolphinView::isZoomInPossible() const
+int DolphinView::zoomLevelMinimum() const
 {
-    return m_controller->isZoomInPossible();
+    return m_controller->zoomLevelMinimum();
 }
 
-bool DolphinView::isZoomOutPossible() const
+int DolphinView::zoomLevelMaximum() const
 {
-    return m_controller->isZoomOutPossible();
+    return m_controller->zoomLevelMaximum();
 }
 
 void DolphinView::setSorting(Sorting sorting)
@@ -737,10 +745,11 @@ void DolphinView::wheelEvent(QWheelEvent* event)
 {
     if (event->modifiers() & Qt::ControlModifier) {
         const int delta = event->delta();
-        if ((delta > 0) && isZoomInPossible()) {
-            zoomIn();
-        } else if ((delta < 0) && isZoomOutPossible()) {
-            zoomOut();
+        const int level = zoomLevel();
+        if (delta > 0) {
+            setZoomLevel(level + 1);
+        } else if (delta < 0) {
+            setZoomLevel(level - 1);
         }
         event->accept();
     }

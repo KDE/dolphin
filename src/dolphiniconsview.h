@@ -70,21 +70,11 @@ protected:
 private slots:
     void slotShowPreviewChanged();
     void slotAdditionalInfoChanged();
-    void zoomIn();
-    void zoomOut();
+    void setZoomLevel(int level);
     void requestActivation();
     void updateFont();
 
 private:
-    bool isZoomInPossible() const;
-    bool isZoomOutPossible() const;
-
-    /** Returns the increased icon size for the size \a size. */
-    int increasedIconSize(int size) const;
-
-    /** Returns the decreased icon size for the size \a size. */
-    int decreasedIconSize(int size) const;
-
     /**
      * Updates the size of the grid depending on the state
      * of \a showPreview and \a additionalInfoCount.

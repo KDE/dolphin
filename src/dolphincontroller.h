@@ -59,8 +59,6 @@ class QWidget;
  * - indicateDroppedUrls()
  * - indicateSortingChange()
  * - indicateSortOrderChanged()
- * - setZoomInPossible()
- * - setZoomOutPossible()
  * - triggerItem()
  * - handleKeyPressEvent()
  * - emitItemEntered()
@@ -72,8 +70,7 @@ class QWidget;
  * - setShowHiddenFiles()
  * - setShowPreview()
  * - indicateActivationChange()
- * - triggerZoomIn()
- * - triggerZoomOut()
+ * - setZoomLevel()
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinController : public QObject
 {
@@ -179,32 +176,30 @@ public:
     void indicateActivationChange(bool active);
 
     /**
-     * Tells the view implementation to zoom in by emitting the signal zoomIn()
-     * and is invoked by the abstract Dolphin view.
+     * Sets the zoom level to \a level and emits the signal zoomLevelChanged().
+     * It must be assured that the used level is inside the range 
+     * DolphinController::zoomLevelMinimum() and
+     * DolphinController::zoomLevelMaximum().
+     * Is invoked by the abstract Dolphin view.
      */
-    void triggerZoomIn();
-
+    void setZoomLevel(int level);
+    int zoomLevel() const;
+    
+    int zoomLevelMinimum() const;
+    int zoomLevelMaximum() const;
+    
     /**
-     * Is invoked by the view implementation to indicate whether a zooming in
-     * is possible. The abstract Dolphin view updates the corresponding menu
-     * action depending on this state.
+     * Helper method for the view implementation to get
+     * the icon size for the zoom level \a level
+     * (see DolphinController::zoomLevel()).
      */
-    void setZoomInPossible(bool possible);
-    bool isZoomInPossible() const;
+    static int iconSizeForZoomLevel(int level);
 
     /**
      * Tells the view implementation to zoom out by emitting the signal zoomOut()
      * and is invoked by the abstract Dolphin view.
      */
     void triggerZoomOut();
-
-    /**
-     * Is invoked by the view implementation to indicate whether a zooming out
-     * is possible. The abstract Dolphin view updates the corresponding menu
-     * action depending on this state.
-     */
-    void setZoomOutPossible(bool possible);
-    bool isZoomOutPossible() const;
 
     /**
      * Should be invoked in each view implementation whenever a key has been
@@ -345,23 +340,16 @@ signals:
     void viewportEntered();
 
     /**
-     * Is emitted if the view should zoom in. The view implementation
+     * Is emitted if the view should change the zoom to \a level. The view implementation
      * must connect to this signal if it supports zooming.
      */
-    void zoomIn();
-
-    /**
-     * Is emitted if the view should zoom out. The view implementation
-     * must connect to this signal if it supports zooming.
-     */
-    void zoomOut();
+    void zoomLevelChanged(int level);
 
 private slots:
     void updateOpenTabState();
 
 private:
-    bool m_zoomInPossible;
-    bool m_zoomOutPossible;
+    int m_zoomLevel;
     bool m_openTab; // TODO: this is a workaround until  Qt-issue 176832 has been fixed
     KUrl m_url;
     DolphinView* m_dolphinView;
@@ -383,24 +371,19 @@ inline QAbstractItemView* DolphinController::itemView() const
     return m_itemView;
 }
 
-inline void DolphinController::setZoomInPossible(bool possible)
+inline int DolphinController::zoomLevel() const
 {
-    m_zoomInPossible = possible;
+    return m_zoomLevel;
 }
 
-inline bool DolphinController::isZoomInPossible() const
+inline int DolphinController::zoomLevelMinimum() const
 {
-    return m_zoomInPossible;
+    return 0;
 }
 
-inline void DolphinController::setZoomOutPossible(bool possible)
+inline int DolphinController::zoomLevelMaximum() const
 {
-    m_zoomOutPossible = possible;
-}
-
-inline bool DolphinController::isZoomOutPossible() const
-{
-    return m_zoomOutPossible;
+    return 6;
 }
 
 #endif

@@ -63,6 +63,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotShowHiddenFilesChanged()));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
+    connect(view, SIGNAL(zoomLevelChanged(int)),
+            this, SLOT(slotZoomLevelChanged(int)));
 }
 
 void DolphinViewActionHandler::createActions()
@@ -341,16 +343,6 @@ void DolphinViewActionHandler::updateViewActions()
         viewModeAction->setChecked(true);
     }
 
-    QAction* zoomInAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomIn));
-    if (zoomInAction != 0) {
-        zoomInAction->setEnabled(m_currentView->isZoomInPossible());
-    }
-
-    QAction* zoomOutAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomOut));
-    if (zoomOutAction != 0) {
-        zoomOutAction->setEnabled(m_currentView->isZoomOutPossible());
-    }
-
     QAction* showPreviewAction = m_actionCollection->action("show_preview");
     showPreviewAction->setChecked(m_currentView->showPreview());
 
@@ -358,6 +350,7 @@ void DolphinViewActionHandler::updateViewActions()
     slotAdditionalInfoChanged();
     slotCategorizedSortingChanged();
     slotSortingChanged(m_currentView->sorting());
+    slotZoomLevelChanged(m_currentView->zoomLevel());
 
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
     showHiddenFilesAction->setChecked(m_currentView->showHiddenFiles());
@@ -366,13 +359,15 @@ void DolphinViewActionHandler::updateViewActions()
 
 void DolphinViewActionHandler::zoomIn()
 {
-    m_currentView->zoomIn();
+    const int level = m_currentView->zoomLevel();
+    m_currentView->setZoomLevel(level + 1);
     updateViewActions();
 }
 
 void DolphinViewActionHandler::zoomOut()
 {
-    m_currentView->zoomOut();
+    const int level = m_currentView->zoomLevel();
+    m_currentView->setZoomLevel(level - 1);
     updateViewActions();
 }
 
@@ -493,6 +488,19 @@ void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
 
     if (action != 0) {
         action->setChecked(true);
+    }
+}
+
+void DolphinViewActionHandler::slotZoomLevelChanged(int level)
+{
+    QAction* zoomInAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomIn));
+    if (zoomInAction != 0) {
+        zoomInAction->setEnabled(level < m_currentView->zoomLevelMaximum());
+    }
+
+    QAction* zoomOutAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomOut));
+    if (zoomOutAction != 0) {
+        zoomOutAction->setEnabled(level > m_currentView->zoomLevelMinimum());
     }
 }
 

@@ -117,10 +117,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(slotEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(zoomIn()),
-            this, SLOT(zoomIn()));
-    connect(controller, SIGNAL(zoomOut()),
-            this, SLOT(zoomOut()));
+    connect(controller, SIGNAL(zoomLevelChanged(int)),
+            this, SLOT(setZoomLevel(int)));
     connect(controller->dolphinView(), SIGNAL(additionalInfoChanged()),
             this, SLOT(updateColumnVisibility()));
 
@@ -489,30 +487,13 @@ QRect DolphinDetailsView::elasticBandRect() const
     return QRect(topLeft, m_elasticBandDestination).normalized();
 }
 
-void DolphinDetailsView::zoomIn()
+void DolphinDetailsView::setZoomLevel(int level)
 {
-    if (isZoomInPossible()) {
-        DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-        switch (settings->iconSize()) {
-        case KIconLoader::SizeSmall:  settings->setIconSize(KIconLoader::SizeMedium); break;
-        case KIconLoader::SizeMedium: settings->setIconSize(KIconLoader::SizeLarge); break;
-        default: Q_ASSERT(false); break;
-        }
-        updateDecorationSize();
-    }
-}
-
-void DolphinDetailsView::zoomOut()
-{
-    if (isZoomOutPossible()) {
-        DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-        switch (settings->iconSize()) {
-        case KIconLoader::SizeLarge:  settings->setIconSize(KIconLoader::SizeMedium); break;
-        case KIconLoader::SizeMedium: settings->setIconSize(KIconLoader::SizeSmall); break;
-        default: Q_ASSERT(false); break;
-        }
-        updateDecorationSize();
-    }
+    const int size = DolphinController::iconSizeForZoomLevel(level);
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    settings->setIconSize(size);
+    
+    updateDecorationSize();
 }
 
 void DolphinDetailsView::configureColumns(const QPoint& pos)
@@ -595,27 +576,12 @@ void DolphinDetailsView::updateFont()
     }
 }
 
-bool DolphinDetailsView::isZoomInPossible() const
-{
-    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    return settings->iconSize() < KIconLoader::SizeLarge;
-}
-
-bool DolphinDetailsView::isZoomOutPossible() const
-{
-    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    return settings->iconSize() > KIconLoader::SizeSmall;
-}
-
 void DolphinDetailsView::updateDecorationSize()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     const int iconSize = settings->iconSize();
     setIconSize(QSize(iconSize, iconSize));
     m_decorationSize = QSize(iconSize, iconSize);
-
-    m_controller->setZoomInPossible(isZoomInPossible());
-    m_controller->setZoomOutPossible(isZoomOutPossible());
 
     if (m_selectionManager != 0) {
         m_selectionManager->reset();
