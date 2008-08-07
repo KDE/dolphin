@@ -367,8 +367,9 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
                 addDel = true;
             }
             else {
-                KConfigGroup configGroup( KGlobal::config(), "KDE" );
-                if ( configGroup.readEntry( "ShowDeleteCommand", false) )
+                KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
+                KConfigGroup configGroup(globalConfig, "KDE");
+                if ( configGroup.readEntry("ShowDeleteCommand", false) )
                     addDel = true;
             }
         }

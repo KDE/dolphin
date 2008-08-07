@@ -106,9 +106,10 @@ void GeneralSettingsPage::applySettings()
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
     confirmationGroup.sync();
 
-    KConfigGroup kdeConfig(KGlobal::config(), "KDE");
-    kdeConfig.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
-    kdeConfig.sync();
+    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+    KConfigGroup configGroup(globalConfig, "KDE");
+    configGroup.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
+    configGroup.sync();
 
     settings->setShowCopyMoveMenu(m_showCopyMoveMenu->isChecked());
     settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
@@ -132,9 +133,10 @@ void GeneralSettingsPage::loadSettings()
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", false));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", true));
 
-    const KConfigGroup kdeConfig(KGlobal::config(), "KDE");
-    m_showDeleteCommand->setChecked(kdeConfig.readEntry("ShowDeleteCommand", false));
-
+    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
+    KConfigGroup configGroup(globalConfig, "KDE");
+    m_showDeleteCommand->setChecked(configGroup.readEntry("ShowDeleteCommand", false));
+    
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_showCopyMoveMenu->setChecked(settings->showCopyMoveMenu());
     m_browseThroughArchives->setChecked(settings->browseThroughArchives());
