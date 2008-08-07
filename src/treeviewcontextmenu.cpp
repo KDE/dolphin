@@ -82,8 +82,10 @@ void TreeViewContextMenu::open()
         popup->addAction(renameAction);
 
         // insert 'Move to Trash' and (optionally) 'Delete'
-        KConfigGroup kdeConfig(KGlobal::config(), "KDE");
-        bool showDeleteCommand = kdeConfig.readEntry("ShowDeleteCommand", false);
+        KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
+        KConfigGroup configGroup(globalConfig, "KDE");
+        bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
+
         const KUrl& url = m_fileInfo.url();
         if (url.isLocalFile()) {
             QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
