@@ -665,6 +665,14 @@ private:
      * Pastes the clipboard data into the URL \a url.
      */
     void pasteToUrl(const KUrl& url);
+    
+    /**
+     * Checks whether the current item view has the same zoom level
+     * as \a oldZoomLevel. If this is not the case, the zoom level
+     * of the controller is updated and a zoomLevelChanged() signal
+     * is emitted.
+     */
+    void updateZoomLevel(int oldZoomLevel);
 
     /**
      * Returns true, if the ColumnView is activated. As the column view

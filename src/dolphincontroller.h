@@ -194,6 +194,13 @@ public:
      * (see DolphinController::zoomLevel()).
      */
     static int iconSizeForZoomLevel(int level);
+    
+    /**
+     * Helper method for the view implementation to get
+     * the zoom level for the icon size \a size
+     * (see DolphinController::zoomLevel()).
+     */
+    static int zoomLevelForIconSize(const QSize& size);
 
     /**
      * Tells the view implementation to zoom out by emitting the signal zoomOut()
@@ -383,7 +390,7 @@ inline int DolphinController::zoomLevelMinimum() const
 
 inline int DolphinController::zoomLevelMaximum() const
 {
-    return 6;
+    return 7;
 }
 
 #endif

@@ -664,7 +664,14 @@ void DolphinView::setShowPreview(bool show)
 
     m_showPreview = show;
     m_iconManager->setShowPreview(show);
+    
+    const int oldZoomLevel = m_controller->zoomLevel();
     emit showPreviewChanged();
+    
+    // Enabling or disabling the preview might change the icon size of the view.
+    // As the view does not emit a signal when the icon size has been changed,
+    // the used zoom level of the controller must be adjusted manually:
+    updateZoomLevel(oldZoomLevel);
 
     loadDirectory(viewPropsUrl);
 }
@@ -986,6 +993,18 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     }
 }
 
+void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    if (oldUrl == m_controller->url()) {
+        m_controller->setUrl(newUrl);
+    }
+}
+
+void DolphinView::slotRequestUrlChange(const KUrl& url)
+{
+    emit requestUrlChange(url);
+    m_controller->setUrl(url);
+}
 
 void DolphinView::restoreCurrentItem()
 {
@@ -1096,7 +1115,14 @@ void DolphinView::applyViewProperties(const KUrl& url)
     if (showPreview != m_showPreview) {
         m_showPreview = showPreview;
         m_iconManager->setShowPreview(showPreview);
+        
+        const int oldZoomLevel = m_controller->zoomLevel();
         emit showPreviewChanged();
+        
+        // Enabling or disabling the preview might change the icon size of the view.
+        // As the view does not emit a signal when the icon size has been changed,
+        // the used zoom level of the controller must be adjusted manually:
+        updateZoomLevel(oldZoomLevel);
     }
 }
 
@@ -1232,16 +1258,12 @@ void DolphinView::pasteToUrl(const KUrl& url)
     }
 }
 
-void DolphinView::slotRequestUrlChange(const KUrl& url)
-{
-    emit requestUrlChange(url);
-    m_controller->setUrl(url);
-}
-
-void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
-{
-    if (oldUrl == m_controller->url()) {
-        m_controller->setUrl(newUrl);
+void DolphinView::updateZoomLevel(int oldZoomLevel)
+{       
+    const int newZoomLevel = DolphinController::zoomLevelForIconSize(itemView()->iconSize());
+    if (oldZoomLevel != newZoomLevel) {
+        m_controller->setZoomLevel(newZoomLevel);
+        emit zoomLevelChanged(newZoomLevel);
     }
 }
 
