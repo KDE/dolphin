@@ -2,6 +2,7 @@
 Type=Service
 Name=Dolphin View
 Name[af]=Dolphin Deel
+Name[ar]=معاينة الدولفين
 Name[bg]=Преглед в Dolphin
 Name[bn]=ডলফিন ভিউ
 Name[bn_IN]=Dolphin প্রদর্শন
@@ -156,6 +157,7 @@ Exec=dolphin
 [Desktop Action details]
 Name=Details
 Name[af]=Besonderhede
+Name[ar]=تفاصيل
 Name[bg]=Подробности
 Name[bn]=বিস্তারিত
 Name[bn_IN]=বিবরণ
@@ -218,6 +220,7 @@ Exec=dolphin
 [Desktop Action columns]
 Name=Columns
 Name[af]=Kolomme
+Name[ar]=الاعمدة
 Name[bg]=Колони
 Name[bn_IN]=কলাম
 Name[ca]=Columnes
