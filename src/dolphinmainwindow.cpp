@@ -774,6 +774,11 @@ void DolphinMainWindow::handlePlacesClick(const KUrl& url, Qt::MouseButtons butt
     }
 }
 
+void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& canDecode)
+{
+    canDecode = KUrl::List::canDecode(event->mimeData());
+}
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -818,6 +823,8 @@ void DolphinMainWindow::init()
             this, SLOT(openTabContextMenu(int, const QPoint&)));
     connect(m_tabBar, SIGNAL(newTabRequest()),
             this, SLOT(openNewTab()));
+    connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)),
+            this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
     QWidget* centralWidget = new QWidget(this);
