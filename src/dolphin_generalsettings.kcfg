@@ -55,5 +55,9 @@
         <entry name="ViewPropsTimestamp" type="DateTime" >
             <label context="@label">Timestamp since when the view properties are valid</label>
         </entry>
+        <entry name="AutoExpandFolders" type="Bool">
+            <label context="@label">Use auto-expanding folders for all view types</label>
+            <default>false</default>
+        </entry>
     </group>
 </kcfg>

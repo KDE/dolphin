@@ -53,9 +53,11 @@
 #include "dolphincontroller.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
+#include "dolphin_detailsmodesettings.h"
 #include "dolphiniconsview.h"
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
+#include "folderexpander.h"
 #include "iconmanager.h"
 #include "renamedialog.h"
 #include "tooltipmanager.h"
@@ -741,7 +743,6 @@ void DolphinView::toggleAdditionalInfo(QAction* action)
     }
 }
 
-
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);
@@ -1154,6 +1155,20 @@ void DolphinView::createView()
 
     Q_ASSERT(view != 0);
     view->installEventFilter(this);
+
+    if (m_mode != ColumnView) {
+        // Give the view the ability to auto-expand its directories on hovering
+        // (the column view takes care about this itself). If the details view
+        // uses expandable folders, the auto-expanding should be used always.
+        DolphinSettings& settings = DolphinSettings::instance();
+        const bool enabled = settings.generalSettings()->autoExpandFolders() ||
+                            ((m_detailsView != 0) && settings.detailsModeSettings()->expandableFolders());
+
+        FolderExpander* folderExpander = new FolderExpander(view, m_proxyModel);
+        folderExpander->setEnabled(enabled);
+        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&)),
+                m_controller, SLOT(triggerItem(const QModelIndex&)));
+    }
 
     m_controller->setItemView(view);
 

@@ -31,6 +31,7 @@ set(dolphinprivate_LIB_SRCS
     dolphincategorydrawer.cpp
     dolphinview.cpp
     dolphinviewactionhandler.cpp
+    folderexpander.cpp
     iconmanager.cpp
     ktooltip.cpp
     kballoontipdelegate.cpp
@@ -108,7 +109,7 @@ set(dolphin_SRCS
     iconsizedialog.cpp
     iconsviewsettingspage.cpp
     infosidebarpage.cpp
-	ktreeview.cpp
+    ktreeview.cpp
     main.cpp
     metadatawidget.cpp
     metatextlabel.cpp

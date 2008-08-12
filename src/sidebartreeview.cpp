@@ -40,7 +40,6 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
     setFrameStyle(QFrame::NoFrame);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
-    setAutoExpandDelay(300);
 
     setVerticalScrollMode(QListView::ScrollPerPixel);
     setHorizontalScrollMode(QListView::ScrollPerPixel);

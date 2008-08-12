@@ -25,6 +25,7 @@
 #include "dolphinsettings.h"
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
+#include "folderexpander.h"
 #include "renamedialog.h"
 #include "sidebartreeview.h"
 #include "treeviewcontextmenu.h"
@@ -157,6 +158,8 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_treeView->setModel(m_proxyModel);
         m_proxyModel->setSorting(DolphinView::SortByName);
         m_proxyModel->setSortOrder(Qt::AscendingOrder);
+        
+        new FolderExpander(m_treeView, m_proxyModel);
 
         connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
                 this, SLOT(updateActiveView(const QModelIndex&)));

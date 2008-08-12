@@ -28,6 +28,7 @@
 #include "dolphin_columnmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
+#include "folderexpander.h"
 #include "iconmanager.h"
 #include "selectionmanager.h"
 #include "tooltipmanager.h"
@@ -141,6 +142,11 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
+     
+    FolderExpander* folderExpander = new FolderExpander(this, m_proxyModel);
+    folderExpander->setEnabled(DolphinSettings::instance().generalSettings()->autoExpandFolders());
+    connect (folderExpander, SIGNAL(enterDir(const QModelIndex&)),
+             m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
 }
 
 DolphinColumnWidget::~DolphinColumnWidget()
