@@ -121,6 +121,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(setZoomLevel(int)));
     connect(controller->dolphinView(), SIGNAL(additionalInfoChanged()),
             this, SLOT(updateColumnVisibility()));
+    connect(controller, SIGNAL(activationChanged(bool)),
+            this, SLOT(slotActivationChanged(bool)));
 
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
@@ -554,6 +556,11 @@ void DolphinDetailsView::slotHeaderSectionResized(int logicalIndex, int oldSize,
     if (QApplication::mouseButtons() & Qt::LeftButton) {
         disableAutoResizing();
     }
+}
+
+void DolphinDetailsView::slotActivationChanged(bool active)
+{
+    setAlternatingRowColors(active);
 }
 
 void DolphinDetailsView::disableAutoResizing()

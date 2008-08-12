@@ -122,6 +122,12 @@ private slots:
      * with the mouse.
      */
     void slotHeaderSectionResized(int logicalIndex, int oldSize, int newSize);
+    
+    /**
+     * Changes the alternating row colors setting depending from
+     * the activation state \a active.
+     */
+    void slotActivationChanged(bool active);
 
     /**
      * Disables the automatical resizing of the columns. Per default all columns
