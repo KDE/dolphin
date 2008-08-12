@@ -278,6 +278,8 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     viewTab.primaryView->view()->reload();
 
     m_viewTab.append(viewTab);
+    
+    actionCollection()->action("close_tab")->setEnabled(true);
 }
 
 void DolphinMainWindow::toggleActiveView()
@@ -723,6 +725,7 @@ void DolphinMainWindow::closeTab(int index)
     // closing the last tab is not possible
     if (m_viewTab.count() == 1) {
         m_tabBar->removeTab(0);
+        actionCollection()->action("close_tab")->setEnabled(false);
     } else {
         m_tabBar->blockSignals(false);
     }
@@ -912,6 +915,7 @@ void DolphinMainWindow::setupActions()
 
     QAction* closeTab = new QAction(KIcon("tab-close"), i18nc("@action:inmenu File", "Close Tab"), this);
     closeTab->setShortcut(Qt::CTRL | Qt::Key_W);
+    closeTab->setEnabled(false);
     connect(closeTab, SIGNAL(triggered()), this, SLOT(closeTab()));
     actionCollection()->addAction("close_tab", closeTab);
 
