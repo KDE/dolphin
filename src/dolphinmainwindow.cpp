@@ -855,6 +855,9 @@ void DolphinMainWindow::init()
     }
     updateViewActions();
 
+    QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
+    showFilterBarAction->setChecked(generalSettings->filterBar());
+
     if (firstRun) {
         // assure a proper default size if Dolphin runs the first time
         resize(750, 500);
