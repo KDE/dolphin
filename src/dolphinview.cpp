@@ -605,12 +605,21 @@ void DolphinView::renameSelectedItems()
 void DolphinView::trashSelectedItems()
 {
     emit doingOperation(KIO::FileUndoManager::Trash);
-    KonqOperations::del(this, KonqOperations::TRASH, selectedUrls());
+    KUrl::List list = selectedUrls();
+    DolphinDetailsView *dv = qobject_cast<DolphinDetailsView*>(itemView());
+    if (dv && dv->itemsExpandable()) {
+        list = KonqOperations::simplifiedUrlList(list);
+    }
+    KonqOperations::del(this, KonqOperations::TRASH, list);
 }
 
 void DolphinView::deleteSelectedItems()
 {
-    const KUrl::List list = selectedUrls();
+    KUrl::List list = selectedUrls();
+    DolphinDetailsView *dv = qobject_cast<DolphinDetailsView*>(itemView());
+    if (dv && dv->itemsExpandable()) {
+        list = KonqOperations::simplifiedUrlList(list);
+    }
     const bool del = KonqOperations::askDeleteConfirmation(list,
                      KonqOperations::DEL,
                      KonqOperations::DEFAULT_CONFIRMATION,
@@ -626,7 +635,11 @@ void DolphinView::deleteSelectedItems()
 void DolphinView::cutSelectedItems()
 {
     QMimeData* mimeData = new QMimeData();
-    const KUrl::List kdeUrls = selectedUrls();
+    KUrl::List kdeUrls = selectedUrls();
+    DolphinDetailsView *dv = qobject_cast<DolphinDetailsView*>(itemView());
+    if (dv && dv->itemsExpandable()) {
+        kdeUrls = KonqOperations::simplifiedUrlList(kdeUrls);
+    }
     const KUrl::List mostLocalUrls;
     KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
     QApplication::clipboard()->setMimeData(mimeData);
