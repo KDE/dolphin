@@ -60,6 +60,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     Q_ASSERT(settings != 0);
     Q_ASSERT(controller != 0);
 
+    setLayoutDirection(Qt::LeftToRight);
     setAcceptDrops(true);
     setSortingEnabled(true);
     setUniformRowHeights(true);

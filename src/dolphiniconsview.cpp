@@ -50,6 +50,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_dropRect()
 {
     Q_ASSERT(controller != 0);
+    setLayoutDirection(Qt::LeftToRight);
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
     setSpacing(KDialog::spacingHint());

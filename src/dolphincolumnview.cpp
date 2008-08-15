@@ -48,6 +48,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     setSelectionMode(ExtendedSelection);
     setFocusPolicy(Qt::NoFocus);
     setFrameShape(QFrame::NoFrame);
+    setLayoutDirection(Qt::LeftToRight);
 
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
