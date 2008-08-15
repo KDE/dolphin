@@ -673,16 +673,20 @@ private:
      * is emitted.
      */
     void updateZoomLevel(int oldZoomLevel);
+    
+    /**
+     * Returns a list of URLs for all selected items. The list is
+     * simplified, so that when the URLs are part of different tree
+     * levels, only the parent is returned.
+     */
+    KUrl::List simplifiedSelectedUrls() const;
 
     /**
      * Returns true, if the ColumnView is activated. As the column view
      * requires some special handling for iterating through directories,
      * this method has been introduced for convenience.
      */
-    bool isColumnViewActive() const
-    {
-        return m_columnView != 0;
-    }
+    bool isColumnViewActive() const;
 
 private:
     bool m_active : 1;
@@ -714,6 +718,11 @@ private:
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
 };
+
+inline bool DolphinView::isColumnViewActive() const
+{
+    return m_columnView != 0;
+}
 
 /// Allow using DolphinView::Mode in QVariant
 Q_DECLARE_METATYPE(DolphinView::Mode)

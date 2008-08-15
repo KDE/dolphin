@@ -605,21 +605,13 @@ void DolphinView::renameSelectedItems()
 void DolphinView::trashSelectedItems()
 {
     emit doingOperation(KIO::FileUndoManager::Trash);
-    KUrl::List list = selectedUrls();
-    DolphinDetailsView *dv = qobject_cast<DolphinDetailsView*>(itemView());
-    if (dv && dv->itemsExpandable()) {
-        list = KonqOperations::simplifiedUrlList(list);
-    }
+    const KUrl::List list = simplifiedSelectedUrls();
     KonqOperations::del(this, KonqOperations::TRASH, list);
 }
 
 void DolphinView::deleteSelectedItems()
 {
-    KUrl::List list = selectedUrls();
-    DolphinDetailsView *dv = qobject_cast<DolphinDetailsView*>(itemView());
-    if (dv && dv->itemsExpandable()) {
-        list = KonqOperations::simplifiedUrlList(list);
-    }
+    const KUrl::List list = simplifiedSelectedUrls();
     const bool del = KonqOperations::askDeleteConfirmation(list,
                      KonqOperations::DEL,
                      KonqOperations::DEFAULT_CONFIRMATION,
@@ -635,11 +627,7 @@ void DolphinView::deleteSelectedItems()
 void DolphinView::cutSelectedItems()
 {
     QMimeData* mimeData = new QMimeData();
-    KUrl::List kdeUrls = selectedUrls();
-    DolphinDetailsView *dv = qobject_cast<DolphinDetailsView*>(itemView());
-    if (dv && dv->itemsExpandable()) {
-        kdeUrls = KonqOperations::simplifiedUrlList(kdeUrls);
-    }
+    const KUrl::List kdeUrls = simplifiedSelectedUrls();
     const KUrl::List mostLocalUrls;
     KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
     QApplication::clipboard()->setMimeData(mimeData);
@@ -1293,6 +1281,15 @@ void DolphinView::updateZoomLevel(int oldZoomLevel)
         m_controller->setZoomLevel(newZoomLevel);
         emit zoomLevelChanged(newZoomLevel);
     }
+}
+
+KUrl::List DolphinView::simplifiedSelectedUrls() const
+{
+    KUrl::List list = selectedUrls();
+    if ((m_detailsView != 0) && m_detailsView->itemsExpandable()) {
+        list = KonqOperations::simplifiedUrlList(list);
+    }
+    return list;
 }
 
 #include "dolphinview.moc"
