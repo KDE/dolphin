@@ -33,19 +33,6 @@ class QSortFilterProxyModel;
 class QModelIndex;
 class KDirModel;
 
-/* Grants "auto expand"/ "spring-loaded folders" to 
-   the provided view.  Qt has its own auto-expand 
-   mechanism, but this works only for QTreeView and
-   does not play well with our auto-scrolling in
-   the Folders pane.  Auto-expansion is enabled by default.
-
-   If the provided view is a QTreeView, the expanded state
-   is automatically toggled on hover.  Otherwise, the enterDir()
-   signal is emitted, and the caller needs to ensure that
-   the requested directory is entered.
-
-   The FolderExpander becomes a child of the provided view */
-
 /**
  * Grants auto expanding functionality to the provided item view.
  * Qt has its own auto expand mechanism, but this works only
@@ -53,7 +40,7 @@ class KDirModel;
  * per default.
  *
  * If the provided view is an instance of the class QTreeView, the
- * expanded of the directory is automatically done on hover. Otherwise
+ * expansion of the directory is automatically done on hover. Otherwise
  * the enterDir() signal is emitted and the caller needs to ensure that
  * the requested directory is entered.
  *
