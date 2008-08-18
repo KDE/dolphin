@@ -21,14 +21,22 @@
 #include "kformattedballoontipdelegate.h"
 #include <QBitmap>
 #include <QTextDocument>
+#include <kdebug.h>
 
 QSize KFormattedBalloonTipDelegate::sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const
 {
     QTextDocument doc;
     doc.setHtml(item->text());
     QIcon icon = item->icon();
-    QSize is = (icon.isNull()) ? QSize(0,0) : QSize(icon.actualSize(option->decorationSize).width(),0);
-    return doc.size().toSize()+is+QSize(20+5,20+1);
+        
+    QSize iconSize = (icon.isNull()) ? QSize(0,0) : icon.actualSize(option->decorationSize);
+    QSize docSize = doc.size().toSize();
+    QSize contentSize = iconSize + docSize;
+    
+    // Re-adjust contentSize's height so that it is the maximum of the icon
+    // and doc sizes.
+    contentSize.setHeight( iconSize.height() > doc.size().height() ? iconSize.height() : doc.size().height());
+    return contentSize + QSize(20+5,20+1);
 }
 
 void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionToolTip *option, const KToolTipItem *item) const
@@ -62,6 +70,9 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionTo
     bitmap.fill(Qt::transparent);
     QPainter p(&bitmap);
     doc.drawContents(&p);
+    
+    // Ensure doc text is not stretched when icon is larger.
+    contents.setSize(doc.size().toSize());
 
     painter->drawPixmap(contents, bitmap);
 }
