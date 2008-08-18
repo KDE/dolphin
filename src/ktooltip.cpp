@@ -95,6 +95,7 @@ QVariant KToolTipItem::data(int role) const
 void KToolTipItem::setData(int role, const QVariant &data)
 {
     d->map[role] = data;
+    KToolTipManager::instance()->update();
 }
 
 
@@ -471,6 +472,7 @@ void KToolTipManager::showTip(const QPoint &pos, KToolTipItem *item)
     hideTip();
     label->showTip(pos, item);
     currentItem = item;
+    m_tooltipPos = pos;
 }
 
 void KToolTipManager::hideTip()
@@ -507,6 +509,13 @@ bool KToolTipManager::haveAlphaChannel() const
 void KToolTipManager::setDelegate(KToolTipDelegate *delegate)
 {
     m_delegate = delegate;
+}
+
+void KToolTipManager::update()
+{
+    if (currentItem == 0)
+        return;
+    label->showTip(m_tooltipPos, currentItem);
 }
 
 KToolTipDelegate *KToolTipManager::delegate() const

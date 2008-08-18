@@ -44,6 +44,8 @@ public:
 
     void setDelegate(KToolTipDelegate *delegate);
     KToolTipDelegate *delegate() const;
+    
+    void update();
 
 private:
     KToolTipManager();
@@ -51,6 +53,8 @@ private:
     KAbstractToolTipLabel *label;
     KToolTipItem *currentItem;
     KToolTipDelegate *m_delegate;
+    
+    QPoint m_tooltipPos;
 
 #ifdef Q_WS_X11
     bool haveArgbVisual;
