@@ -80,7 +80,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
     m_emptyViewport = new QFrame(viewport());
     m_emptyViewport->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
 
-    updateDecorationSize();
+    updateDecorationSize(view->showPreview());
     updateColumnsBackground(true);
 }
 
@@ -370,9 +370,15 @@ void DolphinColumnView::setZoomLevel(int level)
 {
     const int size = DolphinController::iconSizeForZoomLevel(level);
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    settings->setIconSize(size);
     
-    updateDecorationSize();
+    const bool showPreview = m_controller->dolphinView()->showPreview();
+    if (showPreview) {
+        settings->setPreviewSize(size);
+    } else {
+        settings->setIconSize(size);
+    }
+    
+    updateDecorationSize(showPreview);
 }
 
 void DolphinColumnView::moveContentHorizontally(int x)
@@ -381,10 +387,10 @@ void DolphinColumnView::moveContentHorizontally(int x)
     layoutColumns();
 }
 
-void DolphinColumnView::updateDecorationSize()
+void DolphinColumnView::updateDecorationSize(bool showPreview)
 {
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    const int iconSize = settings->iconSize();
+    const int iconSize = showPreview ? settings->previewSize() : settings->iconSize();
     const QSize size(iconSize, iconSize);
     setIconSize(size);
 
@@ -445,6 +451,7 @@ void DolphinColumnView::slotShowHiddenFilesChanged()
 void DolphinColumnView::slotShowPreviewChanged()
 {
     const bool show = m_controller->dolphinView()->showPreview();
+    updateDecorationSize(show);
     foreach (DolphinColumnWidget* column, m_columns) {
         column->setShowPreview(show);
     }

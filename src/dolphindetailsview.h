@@ -108,6 +108,8 @@ private slots:
     QRect elasticBandRect() const;
 
     void setZoomLevel(int level);
+    
+    void slotShowPreviewChanged();
 
     /**
      * Opens a context menu at the position \a pos and allows to
@@ -146,7 +148,7 @@ private:
      * will get informed about possible zoom in/zoom out
      * operations.
      */
-    void updateDecorationSize();
+    void updateDecorationSize(bool showPreview);
 
     /** Return the upper left position in pixels of the viewport content. */
     QPoint contentsPos() const;

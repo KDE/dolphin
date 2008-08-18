@@ -144,7 +144,7 @@ private slots:
      * will get informed about possible zoom in/zoom out
      * operations.
      */
-    void updateDecorationSize();
+    void updateDecorationSize(bool showPreview);
 
     /**
      * Updates the background color of the columns to respect

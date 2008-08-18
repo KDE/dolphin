@@ -136,8 +136,12 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 
     setVerticalScrollMode(QTreeView::ScrollPerPixel);
     setHorizontalScrollMode(QTreeView::ScrollPerPixel);
+    
+    const DolphinView* view = controller->dolphinView();
+    connect(view, SIGNAL(showPreviewChanged()),
+            this, SLOT(slotShowPreviewChanged()));
 
-    updateDecorationSize();
+    updateDecorationSize(view->showPreview());
 
     setFocus();
     viewport()->installEventFilter(this);
@@ -494,9 +498,22 @@ void DolphinDetailsView::setZoomLevel(int level)
 {
     const int size = DolphinController::iconSizeForZoomLevel(level);
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    settings->setIconSize(size);
     
-    updateDecorationSize();
+    const bool showPreview = m_controller->dolphinView()->showPreview();
+    if (showPreview) {
+        settings->setPreviewSize(size);
+    } else {
+        settings->setIconSize(size);
+    }
+    
+    updateDecorationSize(showPreview);
+}
+
+
+void DolphinDetailsView::slotShowPreviewChanged()
+{
+    const DolphinView* view = m_controller->dolphinView();
+    updateDecorationSize(view->showPreview());
 }
 
 void DolphinDetailsView::configureColumns(const QPoint& pos)
@@ -584,10 +601,10 @@ void DolphinDetailsView::updateFont()
     }
 }
 
-void DolphinDetailsView::updateDecorationSize()
+void DolphinDetailsView::updateDecorationSize(bool showPreview)
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    const int iconSize = settings->iconSize();
+    const int iconSize = showPreview ? settings->previewSize() : settings->iconSize();
     setIconSize(QSize(iconSize, iconSize));
     m_decorationSize = QSize(iconSize, iconSize);
 
