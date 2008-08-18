@@ -19,10 +19,10 @@
 
 #include "tooltipmanager.h"
 
+#include "dolphintooltip.h"
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 
-#include <kformattedballoontipdelegate.h>
 #include <kicon.h>
 #include <ktooltip.h>
 
@@ -31,7 +31,7 @@
 #include <QTimer>
 #include <QToolTip>
 
-K_GLOBAL_STATIC(KFormattedBalloonTipDelegate, g_delegate)
+K_GLOBAL_STATIC(DolphinBalloonTooltipDelegate, g_delegate)
 
 ToolTipManager::ToolTipManager(QAbstractItemView* parent,
                                DolphinSortFilterProxyModel* model) :
@@ -103,7 +103,10 @@ void ToolTipManager::hideToolTip()
 
 void ToolTipManager::showToolTip()
 {
-    KToolTipItem* tip = new KToolTipItem(KIcon(m_item.iconName()), m_item.getToolTipText());
+    // TODO - create tip during requestTip(...) - this makes it more likely that the previews
+    // job will have completed by the time the tooltip is shown, resulting in less flicker.
+    // The memory management will be more intricate, though.
+    DolphinToolTipItem *tip = new DolphinToolTipItem(m_item);
 
     KStyleOptionToolTip option;
     // TODO: get option content from KToolTip or add KToolTip::sizeHint() method
@@ -127,12 +130,22 @@ void ToolTipManager::showToolTip()
     int x = m_itemRect.right();
     int y = m_itemRect.bottom();
     if (x + size.width() - 1 > desktop.right()) {
-        x = m_itemRect.left() - size.width();
+        // Any room to the left of the item? 
+        if (m_itemRect.left() - size.width() > desktop.left())
+        {
+            x = m_itemRect.left() - size.width();
+        }
+        else
+        {
+            // Move left until we are back onscreen; we'll be horizontally
+            // overlapping m_itemRect, but hopefully the y value will keep us
+            // from drawing inside it.
+            x = desktop.right() - size.width();
+        }
     }
     if (y + size.height() - 1 > desktop.bottom()) {
         y = m_itemRect.top() - size.height();
     }
-
     KToolTip::showTip(QPoint(x, y), tip);
 }
 

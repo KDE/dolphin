@@ -28,6 +28,7 @@ set(dolphinprivate_LIB_SRCS
     draganddrophelper.cpp
     dolphinmodel.cpp
     dolphinsettings.cpp
+    dolphintooltip.cpp
     dolphincategorydrawer.cpp
     dolphinview.cpp
     dolphinviewactionhandler.cpp
