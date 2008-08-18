@@ -44,7 +44,7 @@ void DolphinToolTipItem::setPreview(const KFileItem& fileItem, const QPixmap& pr
     painter.drawPixmap((PREVIEW_WIDTH - preview.width()) / 2, (PREVIEW_HEIGHT - preview.height()) / 2, preview); 
     setData(Qt::DecorationRole, QIcon(paddedImage));*/
     setData(Qt::DecorationRole, QIcon(preview));
-};
+}
 // Delegate everything to the base class, after re-setting the decorationSize
 // to the preview size.
 QSize DolphinBalloonTooltipDelegate::sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const
