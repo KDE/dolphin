@@ -53,6 +53,7 @@ TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     m_treeView(0),
     m_leafDir()
 {
+  setLayoutDirection(Qt::LeftToRight);
 }
 
 TreeViewSidebarPage::~TreeViewSidebarPage()
