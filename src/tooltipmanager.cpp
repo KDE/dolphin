@@ -127,16 +127,35 @@ void ToolTipManager::showToolTip()
     // If the tooltip content exceeds the desktop borders, it must be assured that:
     // - the content is fully visible
     // - the content is not drawn inside m_itemRect
-    int x = m_itemRect.right();
-    int y = m_itemRect.bottom();
-    // TODO: handle usecase if x or y get smaller than the 
-    // desktop-left or the desktop-top
-    if (x + size.width() - 1 > desktop.right()) {
-        x = m_itemRect.left() - size.width();
+    const bool hasRoomToLeft  = (m_itemRect.left()   - size.width()  >= desktop.left());
+    const bool hasRoomToRight = (m_itemRect.right()  + size.width()  <= desktop.right());
+    const bool hasRoomAbove   = (m_itemRect.top()    - size.height() >= desktop.top());
+    const bool hasRoomBelow   = (m_itemRect.bottom() + size.height() <= desktop.bottom());    
+    if (!hasRoomAbove && !hasRoomBelow && !hasRoomToLeft && !hasRoomToRight) {
+        delete tip;
+        tip = 0;
+        return;
     }
-    if (y + size.height() - 1 > desktop.bottom()) {
-        y = m_itemRect.top() - size.height();
+
+    int x = 0;
+    if (hasRoomToLeft || hasRoomToRight) {
+        x = hasRoomToRight ? m_itemRect.right() : m_itemRect.left() - size.width();
+    } else {
+        // Put the tooltip at the far right of the screen. The item will be overlapped
+        // horizontally, but the y-coordinate will be adjusted afterwards so that no overlapping
+        // occurs vertically.
+        x = desktop.right() - size.width();
     }
+    
+    int y = 0;
+    if (hasRoomBelow || hasRoomAbove) {
+        y = hasRoomBelow ? m_itemRect.bottom() : m_itemRect.top() - size.height();
+    } else {
+        // Put the tooltip at the bottom of the screen. The x-coordinate has already
+        // been adjusted, so that no overlapping with m_itemRect occurs.
+        y = desktop.bottom() - size.height();
+    }
+
     KToolTip::showTip(QPoint(x, y), tip);
 }
 
