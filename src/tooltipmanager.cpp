@@ -129,19 +129,10 @@ void ToolTipManager::showToolTip()
     // - the content is not drawn inside m_itemRect
     int x = m_itemRect.right();
     int y = m_itemRect.bottom();
+    // TODO: handle usecase if x or y get smaller than the 
+    // desktop-left or the desktop-top
     if (x + size.width() - 1 > desktop.right()) {
-        // Any room to the left of the item? 
-        if (m_itemRect.left() - size.width() > desktop.left())
-        {
-            x = m_itemRect.left() - size.width();
-        }
-        else
-        {
-            // Move left until we are back onscreen; we'll be horizontally
-            // overlapping m_itemRect, but hopefully the y value will keep us
-            // from drawing inside it.
-            x = desktop.right() - size.width();
-        }
+        x = m_itemRect.left() - size.width();
     }
     if (y + size.height() - 1 > desktop.bottom()) {
         y = m_itemRect.top() - size.height();
