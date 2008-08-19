@@ -35,21 +35,19 @@ class DolphinToolTipItem : public QObject, public KToolTipItem
 {
     Q_OBJECT
 public:
-        DolphinToolTipItem(const KFileItem & fileItem);
+        DolphinToolTipItem(const KFileItem& fileItem);
         virtual ~DolphinToolTipItem();
 private slots:
         void setPreview(const KFileItem& fileItem, const QPixmap& preview);
-private:
 };
 
 class DolphinBalloonTooltipDelegate : public KFormattedBalloonTipDelegate
 {
 public:
-    DolphinBalloonTooltipDelegate() {}
-    virtual ~DolphinBalloonTooltipDelegate() {}
+    DolphinBalloonTooltipDelegate();
+    virtual ~DolphinBalloonTooltipDelegate();
 
-    virtual QSize sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const;
-    virtual void paint(QPainter *painter, const KStyleOptionToolTip *option, const KToolTipItem *item) const;
-private:
+    virtual QSize sizeHint(const KStyleOptionToolTip* option, const KToolTipItem* item) const;
+    virtual void paint(QPainter* painter, const KStyleOptionToolTip* option, const KToolTipItem* item) const;
 };
 #endif
