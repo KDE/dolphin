@@ -20,7 +20,7 @@
 
 #include "statusbarspaceinfo.h"
 
-#include <kdiskfreespace.h>
+#include <KDiskFreeSpaceInfo>
 #include <kmountpoint.h>
 #include <klocale.h>
 #include <kio/job.h>
@@ -30,8 +30,6 @@
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),
-    m_gettingSize(false),
-    m_foundMountPoint(false),
     m_kBSize(0)
 {
     setMaximumWidth(200);
@@ -54,38 +52,6 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
     refresh();
 }
 
-void StatusBarSpaceInfo::slotFoundMountPoint(const QString& mountPoint,
-                                             quint64 kBSize,
-                                             quint64 kBUsed,
-                                             quint64 kBAvailable)
-{
-    Q_UNUSED(mountPoint);
-
-    m_gettingSize = false;
-    m_foundMountPoint = true;
-    const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) || (kBSize != m_kBSize);
-    if (valuesChanged) {
-        setText(i18nc("@info:status Free disk space", "%1 free", KIO::convertSize(kBAvailable * 1024)));
-        setUpdatesEnabled(false);
-        m_kBSize = kBSize;
-        setValue(kBSize > 0 ? (kBUsed * 100) / kBSize : 0);
-        setUpdatesEnabled(true);
-        update();
-    }
-}
-
-void StatusBarSpaceInfo::slotDiskFreeSpaceDone()
-{
-    if (m_foundMountPoint) {
-        return;
-    }
-
-    m_gettingSize = false;
-    setText(i18nc("@info:status", "Unknown size"));
-    setValue(0);
-    update();
-}
-
 void StatusBarSpaceInfo::refresh()
 {
     // KDiskFreeSpace is for local paths only
@@ -101,33 +67,26 @@ void StatusBarSpaceInfo::refresh()
         return;
     }
 
-    m_gettingSize = true;
-    m_foundMountPoint = false;
-    KDiskFreeSpace* job = new KDiskFreeSpace(this);
-    connect(job, SIGNAL(foundMountPoint(const QString&,
-                                        quint64,
-                                        quint64,
-                                        quint64)),
-            this, SLOT(slotFoundMountPoint(const QString&,
-                                           quint64,
-                                           quint64,
-                                           quint64)));
-    connect(job, SIGNAL(done()), this, SLOT(slotDiskFreeSpaceDone()));
+    KDiskFreeSpaceInfo job = KDiskFreeSpaceInfo::freeSpaceInfo(mp->mountPoint());
 
-    job->readDF(mp->mountPoint());
+    if(!job.isValid())
+    {
+        setText(i18nc("@info:status", "Unknown size"));
+        setValue(0);
+        update();
+        return;
+    }
 
-    // refresh() is invoked for each directory change. Usually getting
-    // the size information can be done very fast, so to prevent any
-    // flickering the "Getting size..." indication is only shown if
-    // at least 300 ms have been passed.
-    QTimer::singleShot(300, this, SLOT(showGettingSizeInfo()));
-}
+    KIO::filesize_t kBSize = job.size() / 1024;
+    KIO::filesize_t kBUsed = job.used() / 1024;
 
-void StatusBarSpaceInfo::showGettingSizeInfo()
-{
-    if (m_gettingSize) {
-        m_kBSize = 0;
-        setText(i18nc("@info:status", "Getting size..."));
+    const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) || (kBSize != m_kBSize);
+    if (valuesChanged) {
+        setText(i18nc("@info:status Free disk space", "%1 free", job.available()));
+        setUpdatesEnabled(false);
+        m_kBSize = kBSize;
+        setValue(kBSize > 0 ? (kBUsed * 100) / kBSize : 0);
+        setUpdatesEnabled(true);
         update();
     }
 }

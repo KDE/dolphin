@@ -46,21 +46,10 @@ public:
     const KUrl& url() const;
 
 private slots:
-    void slotFoundMountPoint(const QString& mountPoint,
-                             quint64 kBSize,
-                             quint64 kBUsed,
-                             quint64 kBAvailable);
-
-    void slotDiskFreeSpaceDone();
-
     /** Refreshes the space information for the current set URL. */
     void refresh();
 
-    void showGettingSizeInfo();
-
 private:
-    bool m_gettingSize;
-    bool m_foundMountPoint;
     quint64 m_kBSize;
     KUrl m_url;
 };
