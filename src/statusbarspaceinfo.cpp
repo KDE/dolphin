@@ -68,9 +68,7 @@ void StatusBarSpaceInfo::refresh()
     }
 
     KDiskFreeSpaceInfo job = KDiskFreeSpaceInfo::freeSpaceInfo(mp->mountPoint());
-
-    if(!job.isValid())
-    {
+    if (!job.isValid()) {
         setText(i18nc("@info:status", "Unknown size"));
         setValue(0);
         update();
@@ -82,7 +80,9 @@ void StatusBarSpaceInfo::refresh()
 
     const bool valuesChanged = (kBUsed != static_cast<quint64>(value())) || (kBSize != m_kBSize);
     if (valuesChanged) {
-        setText(i18nc("@info:status Free disk space", "%1 free", job.available()));
+        setText(i18nc("@info:status Free disk space", "%1 free",
+                KIO::convertSize(job.available())));
+        
         setUpdatesEnabled(false);
         m_kBSize = kBSize;
         setValue(kBSize > 0 ? (kBUsed * 100) / kBSize : 0);
