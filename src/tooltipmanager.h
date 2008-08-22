@@ -30,6 +30,7 @@ class DolphinSortFilterProxyModel;
 class QAbstractItemView;
 class QModelIndex;
 class QTimer;
+class KToolTipItem;
 
 /**
  * @brief Manages the tooltips for an item view.
@@ -60,16 +61,30 @@ protected:
 private slots:
     void requestToolTip(const QModelIndex& index);
     void hideToolTip();
-    void showToolTip();
+    void prepareToolTip();
+    void startPreviewJob();
+    void setPreviewPix(const KFileItem& item, const QPixmap& pix);
+    void previewFailed(const KFileItem& item);
 
 private:
+    void showToolTip(KToolTipItem* tip);
+
     QAbstractItemView* m_view;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 
     QTimer* m_timer;
+    QTimer* m_previewTimer;
+    QTimer* m_waitOnPreviewTimer;
     KFileItem m_item;
     QRect m_itemRect;
+    bool m_preview;
+    bool m_generatingPreview;
+    bool m_previewIsLate;
+    int m_previewPass;
+    KToolTipItem* m_emptyRenderedKToolTipItem;
+    QPixmap m_pix;
+
 };
 
 #endif

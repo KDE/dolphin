@@ -31,16 +31,6 @@
 class KFileItem;
 class QPixmap;
 
-class DolphinToolTipItem : public QObject, public KToolTipItem
-{
-    Q_OBJECT
-public:
-        DolphinToolTipItem(const KFileItem& fileItem);
-        virtual ~DolphinToolTipItem();
-private slots:
-        void setPreview(const KFileItem& fileItem, const QPixmap& preview);
-};
-
 class DolphinBalloonTooltipDelegate : public KFormattedBalloonTipDelegate
 {
 public:
