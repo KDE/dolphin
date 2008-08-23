@@ -51,11 +51,11 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_waitOnPreviewTimer(0),
     m_item(),
     m_itemRect(),
-    m_preview(),
-    m_generatingPreview(),
-    m_previewIsLate(),
-    m_previewPass(),
-    m_emptyRenderedKToolTipItem(),
+    m_preview(false),
+    m_generatingPreview(false),
+    m_previewIsLate(false),
+    m_previewPass(0),
+    m_emptyRenderedKToolTipItem(0),
     m_pix()
 {
     KToolTip::setToolTipDelegate(g_delegate);
@@ -82,12 +82,6 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
             this, SLOT(prepareToolTip()));
 
     m_view->viewport()->installEventFilter(this);
-
-    m_preview = false;
-    m_generatingPreview = false;
-    m_previewIsLate = false;
-    m_previewPass = 0;
-    m_pix = QPixmap();
 }
 
 ToolTipManager::~ToolTipManager()
@@ -267,6 +261,7 @@ void ToolTipManager::setPreviewPix(const KFileItem& item,
                                    const QPixmap& pixmap)
 {
     if (m_item.url() != item.url()) {
+        m_generatingPreview = false;
         return;
     }
     
