@@ -65,17 +65,17 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
             this, SIGNAL(changed()));
 
     // create "Text" properties
-    QGroupBox* textBox = new QGroupBox(i18nc("@title:group", "Text"), this);
-    textBox->setSizePolicy(sizePolicy);
-
-    QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textBox);
-    m_fontRequester = new DolphinFontRequester(textBox);
+    QWidget* textGroup = new QWidget(this);
+    textGroup->setSizePolicy(sizePolicy);
+    
+    QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
+    m_fontRequester = new DolphinFontRequester(textGroup);
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    QHBoxLayout* textLayout = new QHBoxLayout(textBox);
-    textLayout->addWidget(fontLabel);
+    QHBoxLayout* textLayout = new QHBoxLayout(textGroup);
+    textLayout->addWidget(fontLabel, 0, Qt::AlignRight);
     textLayout->addWidget(m_fontRequester);
-
+    
     // create "Expandable Folders" checkbox
     m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable Folders"), this);
     connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));

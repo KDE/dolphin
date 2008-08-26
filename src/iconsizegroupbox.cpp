@@ -45,9 +45,9 @@ IconSizeGroupBox::IconSizeGroupBox(QWidget* parent) :
             this, SIGNAL(defaultSizeChanged(int)));
     
     QGridLayout* layout = new QGridLayout(this);
-    layout->addWidget(defaultLabel, 0, 0);
+    layout->addWidget(defaultLabel, 0, 0, Qt::AlignRight);
     layout->addWidget(m_defaultSizeSlider, 0, 1);
-    layout->addWidget(previewLabel, 1, 0);
+    layout->addWidget(previewLabel, 1, 0, Qt::AlignRight);
     layout->addWidget(m_previewSizeSlider, 1, 1);
 }
 

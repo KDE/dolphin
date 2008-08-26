@@ -41,7 +41,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),
     m_iconSizeGroupBox(0),
     m_fontRequester(0),
-    m_columnWidthSlider(0)
+    m_textWidthBox(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -65,34 +65,25 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
             this, SIGNAL(changed()));
 
     // create "Text" properties
-    QGroupBox* textBox = new QGroupBox(i18nc("@title:group", "Text"), this);
-    textBox->setSizePolicy(sizePolicy);
+    QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
+    textGroup->setSizePolicy(sizePolicy);
 
-    QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textBox);
-    m_fontRequester = new DolphinFontRequester(textBox);
+    QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
+    m_fontRequester = new DolphinFontRequester(textGroup);
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    QHBoxLayout* textLayout = new QHBoxLayout(textBox);
-    textLayout->addWidget(fontLabel);
-    textLayout->addWidget(m_fontRequester);
+    QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
+    m_textWidthBox = new QComboBox(textGroup);
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
+    connect(m_textWidthBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
-    // create "Column Width" properties
-    QGroupBox* columnWidthBox = new QGroupBox(i18nc("@title:group", "Column Width"), this);
-    columnWidthBox->setSizePolicy(sizePolicy);
-
-    QLabel* smallLabel = new QLabel(i18nc("@item:inrange Column Width", "Small"), columnWidthBox);
-    m_columnWidthSlider = new QSlider(Qt::Horizontal, columnWidthBox);
-    m_columnWidthSlider->setMinimum(0);
-    m_columnWidthSlider->setMaximum(5);
-    m_columnWidthSlider->setPageStep(1);
-    m_columnWidthSlider->setTickPosition(QSlider::TicksBelow);
-    QLabel* largeLabel = new QLabel(i18nc("@item:inrange Column Width", "Large"), columnWidthBox);
-    connect(m_columnWidthSlider, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
-
-    QHBoxLayout* columnWidthLayout = new QHBoxLayout(columnWidthBox);
-    columnWidthLayout->addWidget(smallLabel);
-    columnWidthLayout->addWidget(m_columnWidthSlider);
-    columnWidthLayout->addWidget(largeLabel);
+    QGridLayout* textGroupLayout = new QGridLayout(textGroup);
+    textGroupLayout->addWidget(fontLabel, 0, 0, Qt::AlignRight);
+    textGroupLayout->addWidget(m_fontRequester, 0, 1);
+    textGroupLayout->addWidget(textWidthLabel, 1, 0, Qt::AlignRight);
+    textGroupLayout->addWidget(m_textWidthBox, 1, 1);
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -122,8 +113,9 @@ void ColumnViewSettingsPage::applySettings()
     settings->setItalicFont(font.italic());
     settings->setFontWeight(font.weight());
 
-    const int columnWidth = 150 + (m_columnWidthSlider->value() * 50);
-    settings->setColumnWidth(columnWidth);
+    // TODO:
+    //const int columnWidth = 150 + (m_columnWidthSlider->value() * 50);
+    //settings->setColumnWidth(columnWidth);
 }
 
 void ColumnViewSettingsPage::restoreDefaults()
@@ -156,7 +148,8 @@ void ColumnViewSettingsPage::loadSettings()
         m_fontRequester->setCustomFont(font);
     }
 
-    m_columnWidthSlider->setValue((settings->columnWidth() - 150) / 50);
+    // TODO:
+    //m_columnWidthSlider->setValue((settings->columnWidth() - 150) / 50);
 }
 
 #include "columnviewsettingspage.moc"

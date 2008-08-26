@@ -25,7 +25,7 @@
 class DolphinMainWindow;
 class DolphinFontRequester;
 class IconSizeGroupBox;
-class QSlider;
+class QComboBox;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
@@ -55,7 +55,7 @@ private:
 private:
     IconSizeGroupBox* m_iconSizeGroupBox;
     DolphinFontRequester* m_fontRequester;
-    QSlider* m_columnWidthSlider;
+    QComboBox* m_textWidthBox;
 };
 
 #endif

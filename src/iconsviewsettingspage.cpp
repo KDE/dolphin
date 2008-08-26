@@ -94,11 +94,11 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     connect(m_textWidthBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
-    textGroupLayout->addWidget(fontLabel, 0, 0);
+    textGroupLayout->addWidget(fontLabel, 0, 0, Qt::AlignRight);
     textGroupLayout->addWidget(m_fontRequester, 0, 1);
-    textGroupLayout->addWidget(textlinesCountLabel, 1, 0);
+    textGroupLayout->addWidget(textlinesCountLabel, 1, 0, Qt::AlignRight);
     textGroupLayout->addWidget(m_textlinesCountBox, 1, 1);
-    textGroupLayout->addWidget(textWidthLabel, 2, 0);
+    textGroupLayout->addWidget(textWidthLabel, 2, 0, Qt::AlignRight);
     textGroupLayout->addWidget(m_textWidthBox, 2, 1);
 
     // create the 'Grid' group for selecting the arrangement and the grid spacing
@@ -119,9 +119,9 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     connect(m_gridSpacingBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QGridLayout* gridGroupLayout = new QGridLayout(gridGroup);
-    gridGroupLayout->addWidget(arrangementLabel, 0, 0);
+    gridGroupLayout->addWidget(arrangementLabel, 0, 0, Qt::AlignRight);
     gridGroupLayout->addWidget(m_arrangementBox, 0, 1);
-    gridGroupLayout->addWidget(gridSpacingLabel, 1, 0);
+    gridGroupLayout->addWidget(gridSpacingLabel, 1, 0, Qt::AlignRight);
     gridGroupLayout->addWidget(m_gridSpacingBox, 1, 1);
 
     // Add a dummy widget with no restriction regarding
