@@ -838,7 +838,7 @@ void DolphinMainWindow::init()
     setCentralWidget(centralWidget);
     setupDockWidgets();
 
-    setupGUI(Keys | Save | Create | ToolBar);
+    setupGUI(Keys | Create | ToolBar);
     createGUI();
 
     stateChanged("new_file");
