@@ -612,6 +612,7 @@ void Nepomuk::TagCloud::setZoomEnabled( bool zoom )
 
 void Nepomuk::TagCloud::setContextMenuEnabled( bool enabled )
 {
+    Q_UNUSED(enabled);
 }
 
 
