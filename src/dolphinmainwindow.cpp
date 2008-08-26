@@ -838,11 +838,9 @@ void DolphinMainWindow::init()
     setCentralWidget(centralWidget);
     setupDockWidgets();
 
-    setupGUI(Keys | Create | ToolBar);
-    createGUI();
+    setupGUI(Keys | Save | Create | ToolBar);
 
     stateChanged("new_file");
-    setAutoSaveSettings();
 
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
