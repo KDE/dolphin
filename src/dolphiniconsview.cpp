@@ -26,6 +26,7 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "selectionmanager.h"
+#include "zoomlevelinfo.h"
 
 #include <kcategorizedsortfilterproxymodel.h>
 #include <kdialog.h>
@@ -339,10 +340,10 @@ void DolphinIconsView::setZoomLevel(int level)
 
     const bool showPreview = m_controller->dolphinView()->showPreview();
     if (showPreview) {
-        const int previewSize = DolphinController::iconSizeForZoomLevel(level);
+        const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
         settings->setPreviewSize(previewSize);
     } else {
-        newIconSize = DolphinController::iconSizeForZoomLevel(level);
+        newIconSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
         settings->setIconSize(newIconSize);
     }
 

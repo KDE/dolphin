@@ -27,6 +27,7 @@
 #include "draganddrophelper.h"
 #include "selectionmanager.h"
 #include "viewproperties.h"
+#include "zoomlevelinfo.h"
 
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
@@ -496,7 +497,7 @@ QRect DolphinDetailsView::elasticBandRect() const
 
 void DolphinDetailsView::setZoomLevel(int level)
 {
-    const int size = DolphinController::iconSizeForZoomLevel(level);
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     
     const bool showPreview = m_controller->dolphinView()->showPreview();

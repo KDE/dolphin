@@ -62,6 +62,7 @@
 #include "renamedialog.h"
 #include "tooltipmanager.h"
 #include "viewproperties.h"
+#include "zoomlevelinfo.h"
 
 DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
@@ -364,10 +365,10 @@ QPoint DolphinView::contentsPosition() const
 
 void DolphinView::setZoomLevel(int level)
 {
-    if (level < zoomLevelMinimum()) {
-        level = zoomLevelMinimum();
-    } else if (level > zoomLevelMaximum()) {
-        level = zoomLevelMaximum();
+    if (level < ZoomLevelInfo::minimumLevel()) {
+        level = ZoomLevelInfo::minimumLevel();
+    } else if (level > ZoomLevelInfo::maximumLevel()) {
+        level = ZoomLevelInfo::maximumLevel();
     }
     
     if (level != zoomLevel()) {
@@ -380,16 +381,6 @@ void DolphinView::setZoomLevel(int level)
 int DolphinView::zoomLevel() const
 {
     return m_controller->zoomLevel();
-}
-
-int DolphinView::zoomLevelMinimum() const
-{
-    return m_controller->zoomLevelMinimum();
-}
-
-int DolphinView::zoomLevelMaximum() const
-{
-    return m_controller->zoomLevelMaximum();
 }
 
 void DolphinView::setSorting(Sorting sorting)
@@ -1276,7 +1267,7 @@ void DolphinView::pasteToUrl(const KUrl& url)
 
 void DolphinView::updateZoomLevel(int oldZoomLevel)
 {       
-    const int newZoomLevel = DolphinController::zoomLevelForIconSize(itemView()->iconSize());
+    const int newZoomLevel = ZoomLevelInfo::zoomLevelForIconSize(itemView()->iconSize());
     if (oldZoomLevel != newZoomLevel) {
         m_controller->setZoomLevel(newZoomLevel);
         emit zoomLevelChanged(newZoomLevel);

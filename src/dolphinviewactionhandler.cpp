@@ -21,6 +21,7 @@
 
 #include "viewpropertiesdialog.h"
 #include "dolphinview.h"
+#include "zoomlevelinfo.h"
 
 #include <konq_operations.h>
 
@@ -495,12 +496,12 @@ void DolphinViewActionHandler::slotZoomLevelChanged(int level)
 {
     QAction* zoomInAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomIn));
     if (zoomInAction != 0) {
-        zoomInAction->setEnabled(level < m_currentView->zoomLevelMaximum());
+        zoomInAction->setEnabled(level < ZoomLevelInfo::maximumLevel());
     }
 
     QAction* zoomOutAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomOut));
     if (zoomOutAction != 0) {
-        zoomOutAction->setEnabled(level > m_currentView->zoomLevelMinimum());
+        zoomOutAction->setEnabled(level > ZoomLevelInfo::minimumLevel());
     }
 }
 

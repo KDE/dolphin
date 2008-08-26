@@ -18,6 +18,8 @@ endif (Nepomuk_FOUND)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
+    additionalinfodialog.cpp
+    applyviewpropsjob.cpp
     dolphincontroller.cpp
     dolphindetailsview.cpp
     dolphiniconsview.cpp
@@ -44,8 +46,7 @@ set(dolphinprivate_LIB_SRCS
     viewproperties.cpp
     viewpropertiesdialog.cpp
     viewpropsprogressinfo.cpp
-    additionalinfodialog.cpp
-    applyviewpropsjob.cpp
+    zoomlevelinfo.cpp
     )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
@@ -107,7 +108,7 @@ set(dolphin_SRCS
     filterbar.cpp
     generalsettingspage.cpp
     generalviewsettingspage.cpp
-    iconsizedialog.cpp
+    iconsizegroupbox.cpp
     iconsviewsettingspage.cpp
     infosidebarpage.cpp
     ktreeview.cpp
@@ -125,6 +126,7 @@ set(dolphin_SRCS
     sidebartreeview.cpp
     viewsettingspage.cpp
     viewsettingspagebase.cpp
+    zoomlevelinfo.cpp
     )
 
 kde4_add_kcfg_files(dolphin_SRCS
@@ -175,11 +177,12 @@ set(kcm_dolphin_PART_SRCS
     dolphinfontrequester.cpp
 #    dolphinsettings.cpp
     generalviewsettingspage.cpp
-    iconsizedialog.cpp
+    iconsizegroupbox.cpp
     iconsviewsettingspage.cpp
     pixmapviewer.cpp
     viewsettingspagebase.cpp
 #    viewproperties.cpp
+    zoomlevelinfo.cpp
 )
 
 kde4_add_kcfg_files(kcm_dolphin_PART_SRCS

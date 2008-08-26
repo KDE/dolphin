@@ -19,8 +19,10 @@
 
 #include "detailsviewsettingspage.h"
 
+#include "iconsizegroupbox.h"
 #include "dolphinsettings.h"
 #include "dolphin_detailsmodesettings.h"
+#include "zoomlevelinfo.h"
 
 #include <kdialog.h>
 #include <dolphinfontrequester.h>
@@ -37,9 +39,7 @@
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),
-    m_smallIconSize(0),
-    m_mediumIconSize(0),
-    m_largeIconSize(0),
+    m_iconSizeGroupBox(0),
     m_fontRequester(0),
     m_expandableFolders(0)
 {
@@ -51,25 +51,18 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     setMargin(margin);
 
     // Create "Icon" properties
-    QGroupBox* iconSizeBox = new QGroupBox(i18nc("@title:group", "Icon Size"), this);
-    iconSizeBox->setSizePolicy(sizePolicy);
-
-    m_smallIconSize  = new QRadioButton(i18nc("@option:radio Icon Size", "Small"), this);
-    m_mediumIconSize = new QRadioButton(i18nc("@option:radio Icon Size", "Medium"), this);
-    m_largeIconSize  = new QRadioButton(i18nc("@option:radio Icon Size", "Large"), this);
-    connect(m_smallIconSize,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_mediumIconSize, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_largeIconSize,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    QButtonGroup* iconSizeGroup = new QButtonGroup(this);
-    iconSizeGroup->addButton(m_smallIconSize);
-    iconSizeGroup->addButton(m_mediumIconSize);
-    iconSizeGroup->addButton(m_largeIconSize);
-
-    QHBoxLayout* iconSizeLayout = new QHBoxLayout(iconSizeBox);
-    iconSizeLayout->addWidget(m_smallIconSize);
-    iconSizeLayout->addWidget(m_mediumIconSize);
-    iconSizeLayout->addWidget(m_largeIconSize);
+    m_iconSizeGroupBox = new IconSizeGroupBox(this);
+    m_iconSizeGroupBox->setSizePolicy(sizePolicy);
+    
+    const int min = ZoomLevelInfo::minimumLevel();
+    const int max = ZoomLevelInfo::maximumLevel();
+    m_iconSizeGroupBox->setDefaultSizeRange(min, max);
+    m_iconSizeGroupBox->setPreviewSizeRange(min, max);
+    
+    connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)),
+            this, SIGNAL(changed()));
+    connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)),
+            this, SIGNAL(changed()));
 
     // create "Text" properties
     QGroupBox* textBox = new QGroupBox(i18nc("@title:group", "Text"), this);
@@ -103,13 +96,10 @@ void DetailsViewSettingsPage::applySettings()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
 
-    int iconSize = KIconLoader::SizeSmall;
-    if (m_mediumIconSize->isChecked()) {
-        iconSize = KIconLoader::SizeMedium;
-    } else if (m_largeIconSize->isChecked()) {
-        iconSize = KIconLoader::SizeLarge;
-    }
+    const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->defaultSizeValue());
+    const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->previewSizeValue());
     settings->setIconSize(iconSize);
+    settings->setPreviewSize(previewSize);
 
     const QFont font = m_fontRequester->font();
     settings->setUseSystemFont(m_fontRequester->mode() == DolphinFontRequester::SystemFont);
@@ -132,20 +122,14 @@ void DetailsViewSettingsPage::loadSettings()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
 
-    switch (settings->iconSize()) {
-    case KIconLoader::SizeLarge:
-        m_largeIconSize->setChecked(true);
-        break;
-
-    case KIconLoader::SizeMedium:
-        m_mediumIconSize->setChecked(true);
-        break;
-
-    case KIconLoader::SizeSmall:
-    default:
-        m_smallIconSize->setChecked(true);
-    }
-
+    const QSize iconSize(settings->iconSize(), settings->iconSize());
+    const int iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
+    m_iconSizeGroupBox->setDefaultSizeValue(iconSizeValue);
+    
+    const QSize previewSize(settings->previewSize(), settings->previewSize());
+    const int previewSizeValue = ZoomLevelInfo::zoomLevelForIconSize(previewSize);
+    m_iconSizeGroupBox->setPreviewSizeValue(previewSizeValue);
+    
     if (settings->useSystemFont()) {
         m_fontRequester->setMode(DolphinFontRequester::SystemFont);
     } else {

@@ -21,7 +21,8 @@
 
 #include "dolphinfontrequester.h"
 #include "dolphinsettings.h"
-#include "iconsizedialog.h"
+#include "iconsizegroupbox.h"
+#include "zoomlevelinfo.h"
 
 #include "dolphin_iconsmodesettings.h"
 
@@ -42,9 +43,7 @@
 
 IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),
-    m_iconSize(0),
-    m_previewSize(0),
-    m_iconSizeButton(0),
+    m_iconSizeGroupBox(0),
     m_textWidthBox(0),
     m_fontRequester(0),
     m_textlinesCountBox(0),
@@ -58,10 +57,20 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     setSpacing(spacing);
     setMargin(margin);
 
-    m_iconSizeButton = new QPushButton(i18nc("@action:button", "Change Icon && Preview Size..."), this);
-    connect(m_iconSizeButton, SIGNAL(clicked()),
-            this, SLOT(openIconSizeDialog()));
-
+    // Create "Icon" properties
+    m_iconSizeGroupBox = new IconSizeGroupBox(this);
+    m_iconSizeGroupBox->setSizePolicy(sizePolicy);
+    
+    const int min = ZoomLevelInfo::minimumLevel();
+    const int max = ZoomLevelInfo::maximumLevel();
+    m_iconSizeGroupBox->setDefaultSizeRange(min, max);
+    m_iconSizeGroupBox->setPreviewSizeRange(min, max);
+    
+    connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)),
+            this, SIGNAL(changed()));
+    connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)),
+            this, SIGNAL(changed()));
+    
     // create 'Text' group for selecting the font, the number of lines
     // and the text width
     QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
@@ -131,8 +140,10 @@ void IconsViewSettingsPage::applySettings()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
 
-    settings->setIconSize(m_iconSize);
-    settings->setPreviewSize(m_previewSize);
+    const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->defaultSizeValue());
+    const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->previewSizeValue());
+    settings->setIconSize(iconSize);
+    settings->setPreviewSize(previewSize);
 
     const QFont font = m_fontRequester->font();
     const int fontHeight = QFontMetrics(font).height();
@@ -177,22 +188,17 @@ void IconsViewSettingsPage::restoreDefaults()
     loadSettings();
 }
 
-void IconsViewSettingsPage::openIconSizeDialog()
-{
-    IconSizeDialog dialog(this);
-    if (dialog.exec() == QDialog::Accepted) {
-        m_iconSize = dialog.iconSize();
-        m_previewSize = dialog.previewSize();
-        emit changed();
-    }
-}
-
 void IconsViewSettingsPage::loadSettings()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
 
-    m_iconSize = settings->iconSize();
-    m_previewSize = settings->previewSize();
+    const QSize iconSize(settings->iconSize(), settings->iconSize());
+    const int iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
+    m_iconSizeGroupBox->setDefaultSizeValue(iconSizeValue);
+    
+    const QSize previewSize(settings->previewSize(), settings->previewSize());
+    const int previewSizeValue = ZoomLevelInfo::zoomLevelForIconSize(previewSize);
+    m_iconSizeGroupBox->setPreviewSizeValue(previewSizeValue);
 
     if (settings->useSystemFont()) {
         m_fontRequester->setMode(DolphinFontRequester::SystemFont);

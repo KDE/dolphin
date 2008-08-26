@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,35 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef COLUMNVIEWSETTINGSPAGE_H
-#define COLUMNVIEWSETTINGSPAGE_H
+#ifndef ZOOMLEVELINFO_H
+#define ZOOMLEVELINFO_H
 
-#include <viewsettingspagebase.h>
-
-class DolphinMainWindow;
-class DolphinFontRequester;
-class IconSizeGroupBox;
-class QSlider;
+class QSize;
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- *        to modify the settings for the details view.
+ * @short Helper class for getting information about the zooming
+ *        capabilities.
  */
-class ColumnViewSettingsPage : public ViewSettingsPageBase
-{
-    Q_OBJECT
-
+class ZoomLevelInfo {
 public:
-    ColumnViewSettingsPage(QWidget* parent);
-    virtual ~ColumnViewSettingsPage();
-
+    static int minimumLevel();
+    static int maximumLevel();
+    
     /**
-     * Applies the settings for the details view.
-     * The settings are persisted automatically when
-     * closing Dolphin.
+     * Helper method for the view implementation to get
+     * the icon size for the zoom level \a level that
+     * is between the range ZoomLevelInfo::minimumLevel() and
+     * ZoomLevelInfo::maximumLevel().
      */
-    virtual void applySettings();
-
-    /** Restores the settings to default values. */
-    virtual void restoreDefaults();
-
-private:
-    void loadSettings();
-
-private:
-    IconSizeGroupBox* m_iconSizeGroupBox;
-    DolphinFontRequester* m_fontRequester;
-    QSlider* m_columnWidthSlider;
+    static int iconSizeForZoomLevel(int level);
+    
+    /**
+     * Helper method for the view implementation to get
+     * the zoom level for the icon size \a size that
+     * is between the range ZoomLevelInfo::minimumLevel() and
+     * ZoomLevelInfo::maximumLevel().
+     */
+    static int zoomLevelForIconSize(const QSize& size);
 };
 
 #endif

@@ -236,24 +236,21 @@ public:
 
     /**
      * Sets the zoom level to \a level. It is assured that the used
-     * level is adjusted to be inside the range DolphinView::zoomLevelMinimum() and
-     * DolphinView::zoomLevelMaximum().
+     * level is adjusted to be inside the range ZoomLevelInfo::minimumLevel() and
+     * ZoomLevelInfo::maximumLevel().
      */
     void setZoomLevel(int level);
     int zoomLevel() const;
     
-    int zoomLevelMinimum() const;
-    int zoomLevelMaximum() const;
-    
     /**
      * Returns true, if zooming in is possible. If false is returned,
-     * the minimal zoom size is possible.
+     * the maximimum zooming level has been reached.
      */
     bool isZoomInPossible() const;
 
     /**
      * Returns true, if zooming out is possible. If false is returned,
-     * the maximum zoom size is possible.
+     * the minimum zooming level has been reached.
      */
     bool isZoomOutPossible() const;
 

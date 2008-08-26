@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "dolphincontroller.h"
+#include "zoomlevelinfo.h"
 
 #include <kdirmodel.h>
 #include <QAbstractProxyModel>
@@ -57,7 +58,7 @@ void DolphinController::setItemView(QAbstractItemView* view)
     m_itemView = view;
 
     if (m_itemView != 0) {
-        m_zoomLevel = zoomLevelForIconSize(m_itemView->iconSize());
+        m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(m_itemView->iconSize());
         
         // TODO: this is a workaround until  Qt-issue 176832 has been fixed
         connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
@@ -113,46 +114,12 @@ void DolphinController::indicateActivationChange(bool active)
 
 void DolphinController::setZoomLevel(int level)
 {
-    Q_ASSERT(level >= zoomLevelMinimum());
-    Q_ASSERT(level <= zoomLevelMaximum());
+    Q_ASSERT(level >= ZoomLevelInfo::minimumLevel());
+    Q_ASSERT(level <= ZoomLevelInfo::maximumLevel());
     if (level != m_zoomLevel) {
         m_zoomLevel = level;
         emit zoomLevelChanged(m_zoomLevel);
     }
-}
-
-int DolphinController::iconSizeForZoomLevel(int level)
-{
-    int size = KIconLoader::SizeMedium;
-    switch (level) {
-    case 0: size = KIconLoader::SizeSmall; break; 
-    case 1: size = KIconLoader::SizeSmallMedium; break;
-    case 2: size = KIconLoader::SizeMedium; break;
-    case 3: size = KIconLoader::SizeLarge; break;
-    case 4: size = KIconLoader::SizeHuge; break;
-    case 5: size = KIconLoader::SizeEnormous; break;
-    case 6: size = KIconLoader::SizeEnormous * 3 / 2; break;
-    case 7: size = KIconLoader::SizeEnormous * 2; break;
-    default: Q_ASSERT(false); break;
-    }
-    return size;
-}
-
-int DolphinController::zoomLevelForIconSize(const QSize& size)
-{
-    int level = 0;
-    switch (size.height()) {
-    case KIconLoader::SizeSmall:            level = 0; break;
-    case KIconLoader::SizeSmallMedium:      level = 1; break;
-    case KIconLoader::SizeMedium:           level = 2; break;
-    case KIconLoader::SizeLarge:            level = 3; break;
-    case KIconLoader::SizeHuge:             level = 4; break;
-    case KIconLoader::SizeEnormous:         level = 5; break;
-    case KIconLoader::SizeEnormous * 3 / 2: level = 6; break;
-    case KIconLoader::SizeEnormous * 2:     level = 7; break;
-    default: Q_ASSERT(false);               level = 3; break;
-    }
-    return level;
 }
 
 void DolphinController::handleKeyPressEvent(QKeyEvent* event)

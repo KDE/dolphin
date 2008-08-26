@@ -23,8 +23,8 @@
 #include <viewsettingspagebase.h>
 
 class DolphinFontRequester;
+class IconSizeGroupBox;
 class QCheckBox;
-class QRadioButton;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
@@ -52,9 +52,7 @@ private:
     void loadSettings();
 
 private:
-    QRadioButton* m_smallIconSize;
-    QRadioButton* m_mediumIconSize;
-    QRadioButton* m_largeIconSize;
+    IconSizeGroupBox* m_iconSizeGroupBox;
     DolphinFontRequester* m_fontRequester;
     QCheckBox* m_expandableFolders;
 };

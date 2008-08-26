@@ -22,6 +22,7 @@
 #include "dolphincolumnwidget.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
+#include "zoomlevelinfo.h"
 
 #include "dolphin_columnmodesettings.h"
 
@@ -368,7 +369,7 @@ void DolphinColumnView::wheelEvent(QWheelEvent* event)
 
 void DolphinColumnView::setZoomLevel(int level)
 {
-    const int size = DolphinController::iconSizeForZoomLevel(level);
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     
     const bool showPreview = m_controller->dolphinView()->showPreview();

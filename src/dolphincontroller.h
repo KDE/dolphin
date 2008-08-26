@@ -185,23 +185,6 @@ public:
     void setZoomLevel(int level);
     int zoomLevel() const;
     
-    int zoomLevelMinimum() const;
-    int zoomLevelMaximum() const;
-    
-    /**
-     * Helper method for the view implementation to get
-     * the icon size for the zoom level \a level
-     * (see DolphinController::zoomLevel()).
-     */
-    static int iconSizeForZoomLevel(int level);
-    
-    /**
-     * Helper method for the view implementation to get
-     * the zoom level for the icon size \a size
-     * (see DolphinController::zoomLevel()).
-     */
-    static int zoomLevelForIconSize(const QSize& size);
-
     /**
      * Tells the view implementation to zoom out by emitting the signal zoomOut()
      * and is invoked by the abstract Dolphin view.
@@ -381,16 +364,6 @@ inline QAbstractItemView* DolphinController::itemView() const
 inline int DolphinController::zoomLevel() const
 {
     return m_zoomLevel;
-}
-
-inline int DolphinController::zoomLevelMinimum() const
-{
-    return 0;
-}
-
-inline int DolphinController::zoomLevelMaximum() const
-{
-    return 7;
 }
 
 #endif

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,69 +14,46 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef ICONSIZEDIALOG_H
-#define ICONSIZEDIALOG_H
+#ifndef ICONSIZEGROUPBOX_H
+#define ICONSIZEGROUPBOX_H
 
-#include <kdialog.h>
+#include <QGroupBox>
 
 class QSlider;
-class PixmapViewer;
 
 /**
- * @brief Allows to adjust the size for icons and previews.
+ * @short Provides a group box for adjusting the icon sizes.
  *
- * Default usage:
- * \code
- *  IconSizeDialog dialog(this);
- *  if (dialog.exec() == QDialog::Accepted) {
- *      const int iconSize = dialog.iconSize();
- *      const int previewSize = dialog.previewSize();
- *      // ...
- *  }
- * \endcode
+ * It is possible to adjust the default icon size and the icon
+ * size when previews are used.
  */
-class IconSizeDialog : public KDialog
+class IconSizeGroupBox : public QGroupBox
 {
     Q_OBJECT
 
 public:
-    explicit IconSizeDialog(QWidget* parent);
-    virtual ~IconSizeDialog();
-
-    int iconSize() const
-    {
-        return m_iconSize;
-    }
-    int previewSize() const
-    {
-        return m_previewSize;
-    }
-
-protected slots:
-    virtual void slotButtonClicked(int button);
-
-private slots:
-    void updateIconSize(int value);
-    void updatePreviewSize(int value);
-
+    explicit IconSizeGroupBox(QWidget* parent);
+    virtual ~IconSizeGroupBox();
+    
+    void setDefaultSizeRange(int min, int max);
+    void setPreviewSizeRange(int min, int max);
+    
+    void setDefaultSizeValue(int value);
+    int defaultSizeValue() const;
+    
+    void setPreviewSizeValue(int value);
+    int previewSizeValue() const;
+    
+signals:
+    void defaultSizeChanged(int value);
+    void previewSizeChanged(int value);
+    
 private:
-    /** Returns the icon size for the given slider value. */
-    int iconSize(int sliderValue) const;
-
-    /** Returns the slider value for the given icon size. */
-    int sliderValue(int iconSize) const;
-
-private:
-    int m_iconSize;
-    int m_previewSize;
-
-    QSlider* m_iconSizeSlider;
-    PixmapViewer* m_iconSizeViewer;
+    QSlider* m_defaultSizeSlider;
     QSlider* m_previewSizeSlider;
-    PixmapViewer* m_previewSizeViewer;
 };
 
 #endif

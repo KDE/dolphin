@@ -24,9 +24,9 @@
 #include <viewsettingspagebase.h>
 
 class DolphinFontRequester;
+class IconSizeGroupBox;
 class QCheckBox;
 class QComboBox;
-class QPushButton;
 class QSpinBox;
 
 /**
@@ -62,9 +62,6 @@ public:
     /** Restores the settings to default values. */
     virtual void restoreDefaults();
 
-private slots:
-    void openIconSizeDialog();
-
 private:
     void loadSettings();
 
@@ -79,10 +76,7 @@ private:
         TopToBottomInc  =  32
     };
 
-    int m_iconSize;
-    int m_previewSize;
-
-    QPushButton* m_iconSizeButton;
+    IconSizeGroupBox* m_iconSizeGroupBox;
     QComboBox* m_textWidthBox;
     DolphinFontRequester* m_fontRequester;
     QSpinBox* m_textlinesCountBox;
