@@ -105,6 +105,7 @@ bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 void ToolTipManager::requestToolTip(const QModelIndex& index)
 {
     if (index.column() == DolphinModel::Name) {
+        m_waitOnPreviewTimer->stop();
         KToolTip::hideTip();
 
         m_itemRect = m_view->visualRect(index);
@@ -132,6 +133,8 @@ void ToolTipManager::hideToolTip()
 {
     m_timer->stop();
     m_previewTimer->stop();
+    m_waitOnPreviewTimer->stop();
+    m_previewIsLate = false;
     KToolTip::hideTip();
 }
 
