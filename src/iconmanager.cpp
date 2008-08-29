@@ -462,29 +462,23 @@ bool IconManager::applyImageFrame(QPixmap& icon)
 
     // add a border
     painter.setPen(palette.color(QPalette::Text));
-    painter.setBrush(Qt::NoBrush);
     painter.drawRect(0, 0, width, height);
     painter.drawRect(1, 1, width - 2, height - 2);
-
-    // dim image frame by 12.5 %
-    painter.setPen(QColor(0, 0, 0, 32));
-    painter.drawRect(frame, frame, width - doubleFrame, height - doubleFrame);
+     
+    painter.setCompositionMode(QPainter::CompositionMode_Plus);
+    QColor blendColor = palette.color(QPalette::Normal, QPalette::Base);
+    
+    blendColor.setAlpha(255 - 32);
+    painter.setPen(blendColor);
+    painter.drawRect(0, 0, width, height);
+    
+    blendColor.setAlpha(255 - 64);
+    painter.setPen(blendColor);
+    painter.drawRect(1, 1, width - 2, height - 2);
     painter.end();
 
     icon = framedIcon;
 
-    // provide an alpha channel for the border
-    QPixmap alphaChannel(icon.size());
-    alphaChannel.fill();
-
-    QPainter alphaPainter(&alphaChannel);
-    alphaPainter.setBrush(Qt::NoBrush);
-    alphaPainter.setPen(QColor(32, 32, 32));
-    alphaPainter.drawRect(0, 0, width, height);
-    alphaPainter.setPen(QColor(64, 64, 64));
-    alphaPainter.drawRect(1, 1, width - 2, height - 2);
-
-    icon.setAlphaChannel(alphaChannel);
     return true;
 }
 
