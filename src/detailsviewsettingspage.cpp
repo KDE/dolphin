@@ -65,7 +65,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
             this, SIGNAL(changed()));
 
     // create "Text" properties
-    QWidget* textGroup = new QWidget(this);
+    QWidget* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
     textGroup->setSizePolicy(sizePolicy);
     
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
