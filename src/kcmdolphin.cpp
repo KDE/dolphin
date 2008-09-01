@@ -44,6 +44,8 @@ DolphinConfigModule::DolphinConfigModule(QWidget* parent, const QVariantList& ar
 {
     Q_UNUSED(args);
 
+    KGlobal::locale()->insertCatalog("dolphin");
+
     setButtons(KCModule::Default | KCModule::Help);
 
     QVBoxLayout* topLayout = new QVBoxLayout(this);
