@@ -45,6 +45,7 @@ FilterBar::FilterBar(QWidget* parent) :
     hLayout->addSpacing(KDialog::spacingHint());
 
     m_filterInput = new KLineEdit(this);
+    m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonShown(true);
     m_filter->setBuddy(m_filterInput);
     hLayout->addWidget(m_filterInput);
@@ -65,12 +66,9 @@ FilterBar::~FilterBar()
 {
 }
 
-void FilterBar::hideEvent(QHideEvent* event)
+void FilterBar::clear()
 {
-    if (!event->spontaneous()) {
-        m_filterInput->clear();
-        m_filterInput->clearFocus();
-    }
+    m_filterInput->clear();
 }
 
 void FilterBar::showEvent(QShowEvent* event)
