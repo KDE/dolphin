@@ -66,12 +66,9 @@ FilterBar::~FilterBar()
 {
 }
 
-void FilterBar::hideEvent(QHideEvent* event)
+void FilterBar::clear()
 {
-    if (!event->spontaneous()) {
-        m_filterInput->clear();
-        m_filterInput->clearFocus();
-    }
+    m_filterInput->clear();
 }
 
 void FilterBar::showEvent(QShowEvent* event)

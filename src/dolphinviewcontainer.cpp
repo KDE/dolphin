@@ -279,6 +279,7 @@ void DolphinViewContainer::showOperationCompletedMessage(const QString& msg)
 void DolphinViewContainer::closeFilterBar()
 {
     m_filterBar->hide();
+    m_filterBar->clear();
     emit showFilterBarChanged(false);
 }
 
