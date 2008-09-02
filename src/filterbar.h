@@ -59,9 +59,6 @@ protected:
     virtual void showEvent(QShowEvent* event);
     virtual void keyReleaseEvent(QKeyEvent* event);
 
-private slots:
-    void emitCloseRequest();
-
 private:
     QLabel* m_filter;
     KLineEdit* m_filterInput;

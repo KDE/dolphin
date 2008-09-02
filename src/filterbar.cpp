@@ -29,20 +29,21 @@
 #include <klineedit.h>
 #include <kiconloader.h>
 
-#include "dolphinmainwindow.h"
-
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)
 {
-    const int gap = 3;
-
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
-    hLayout->addSpacing(gap);
+
+    m_close = new QToolButton(this);
+    m_close->setAutoRaise(true);
+    m_close->setIcon(KIcon("dialog-close"));
+    m_close->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
+    hLayout->addWidget(m_close);
+    hLayout->addSpacing(KDialog::spacingHint());
 
     m_filter = new QLabel(i18nc("@label:textbox", "Filter:"), this);
     hLayout->addWidget(m_filter);
-    hLayout->addSpacing(KDialog::spacingHint());
 
     m_filterInput = new KLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
@@ -50,16 +51,9 @@ FilterBar::FilterBar(QWidget* parent) :
     m_filter->setBuddy(m_filterInput);
     hLayout->addWidget(m_filterInput);
 
-    m_close = new QToolButton(this);
-    m_close->setAutoRaise(true);
-    m_close->setIcon(KIcon("dialog-close"));
-    m_close->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
-    hLayout->addWidget(m_close);
-    hLayout->addSpacing(gap);
-
     connect(m_filterInput, SIGNAL(textChanged(const QString&)),
             this, SIGNAL(filterChanged(const QString&)));
-    connect(m_close, SIGNAL(clicked()), this, SLOT(emitCloseRequest()));
+    connect(m_close, SIGNAL(clicked()), this, SIGNAL(closeRequest()));
 }
 
 FilterBar::~FilterBar()
@@ -82,13 +76,8 @@ void FilterBar::keyReleaseEvent(QKeyEvent* event)
 {
     QWidget::keyReleaseEvent(event);
     if ((event->key() == Qt::Key_Escape)) {
-        emitCloseRequest();
+        emit closeRequest();
     }
-}
-
-void FilterBar::emitCloseRequest()
-{
-    emit closeRequest();
 }
 
 #include "filterbar.moc"
