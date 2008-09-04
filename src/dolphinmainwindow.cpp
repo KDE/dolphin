@@ -1008,7 +1008,7 @@ void DolphinMainWindow::setupActions()
     KAction* quickView = actionCollection()->addAction("quick_view");
     quickView->setText(i18nc("@action:inmenu Tools", "Quick View"));
     quickView->setIcon(KIcon("view-preview"));
-    quickView->setShortcut(Qt::Key_Space);
+    quickView->setShortcut(Qt::CTRL + Qt::Key_Return);
     quickView->setEnabled(false);
     connect(quickView, SIGNAL(triggered()), this, SLOT(quickView()));
 
