@@ -556,7 +556,7 @@ void IconManager::orderItems(KFileItemList& items)
             // check whether the item is part of the item list 'items'
             int index = -1;
             for (int i = 0; i < itemCount; ++i) {
-                if (items[i].url() == url) {
+                if (items.at(i).url() == url) {
                     index = i;
                     break;
                 }
@@ -576,7 +576,7 @@ void IconManager::orderItems(KFileItemList& items)
         // Algorithm 2: The number of items is <= 10 % of the row count. In this case iterate
         // all items and receive the corresponding row from the item.
         for (int i = 0; i < itemCount; ++i) {
-            const QModelIndex dirIndex = m_dirModel->indexForItem(items[i]); // O(n) (n = number of rows)
+            const QModelIndex dirIndex = m_dirModel->indexForItem(items.at(i)); // O(n) (n = number of rows)
             const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
             const QRect itemRect = m_view->visualRect(proxyIndex);
 
@@ -584,7 +584,7 @@ void IconManager::orderItems(KFileItemList& items)
                 // The current item is (at least partly) visible. Move it
                 // to the front of the list, so that the preview is
                 // generated earlier.
-                items.insert(insertPos, items[i]);
+                items.insert(insertPos, items.at(i));
                 items.removeAt(i + 1);
                 ++insertPos;
                 ++m_pendingVisiblePreviews;
