@@ -2,6 +2,7 @@
 Type=Service
 Name=Dolphin View
 Name[af]=Dolphin Deel
+Name[be@latin]=Vyhlad „Dolphin”
 Name[bg]=Преглед в Dolphin
 Name[bn_IN]=Dolphin প্রদর্শন
 Name[ca]=Vista del Dolphin
@@ -74,6 +75,7 @@ Name=Icons
 Name[af]=Ikone
 Name[ar]=الأيقونات
 Name[be]=Значкі
+Name[be@latin]=Ikony
 Name[bg]=Икони
 Name[bn]=আইকন
 Name[bn_IN]=আইকন
@@ -154,6 +156,7 @@ Exec=dolphin
 [Desktop Action details]
 Name=Details
 Name[af]=Besonderhede
+Name[be@latin]=Detali
 Name[bg]=Подробности
 Name[bn_IN]=বিবরণ
 Name[ca]=Detalls
@@ -217,6 +220,7 @@ Exec=dolphin
 [Desktop Action columns]
 Name=Columns
 Name[af]=Kolomme
+Name[be@latin]=Słupki
 Name[bg]=Колони
 Name[bn_IN]=কলাম
 Name[ca]=Columnes
