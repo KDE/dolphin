@@ -29,7 +29,7 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "folderexpander.h"
-#include "iconmanager.h"
+#include "kfilepreviewgenerator.h"
 #include "selectionmanager.h"
 #include "tooltipmanager.h"
 
@@ -60,7 +60,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
-    m_iconManager(0),
+    m_previewGenerator(0),
     m_dropRect()
 {
     setMouseTracking(true);
@@ -131,8 +131,8 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                 m_selectionManager, SLOT(reset()));
     }
 
-    m_iconManager = new IconManager(this, m_proxyModel);
-    m_iconManager->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
+    m_previewGenerator = new KFilePreviewGenerator(this, m_proxyModel);
+    m_previewGenerator->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         new ToolTipManager(this, m_proxyModel);
@@ -163,8 +163,8 @@ void DolphinColumnWidget::setDecorationSize(const QSize& size)
     setIconSize(size);
     m_decorationSize = size;
     doItemsLayout();
-    if (m_iconManager != 0) {
-        m_iconManager->updatePreviews();
+    if (m_previewGenerator != 0) {
+        m_previewGenerator->updatePreviews();
     }
     if (m_selectionManager != 0) {
         m_selectionManager->reset();
@@ -213,7 +213,7 @@ void DolphinColumnWidget::setShowHiddenFiles(bool show)
 
 void DolphinColumnWidget::setShowPreview(bool show)
 {
-    m_iconManager->setShowPreview(show);
+    m_previewGenerator->setShowPreview(show);
 
     m_dirLister->stop();
     m_dirLister->openUrl(m_url, KDirLister::Reload);

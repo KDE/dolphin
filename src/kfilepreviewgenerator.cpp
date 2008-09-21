@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "iconmanager.h"
+#include "kfilepreviewgenerator.h"
 
 #include <kiconeffect.h>
 #include <kio/previewjob.h>
@@ -80,7 +80,7 @@ private:
     QListView* m_view;
 };
 
-IconManager::IconManager(QAbstractItemView* parent, KDirSortFilterProxyModel* model) :
+KFilePreviewGenerator::KFilePreviewGenerator(QAbstractItemView* parent, KDirSortFilterProxyModel* model) :
     QObject(parent),
     m_showPreview(false),
     m_clearItemQueues(true),
@@ -127,7 +127,7 @@ IconManager::IconManager(QAbstractItemView* parent, KDirSortFilterProxyModel* mo
             this, SLOT(pausePreviews()));
 }
 
-IconManager::~IconManager()
+KFilePreviewGenerator::~KFilePreviewGenerator()
 {
     killPreviewJobs();
     m_pendingItems.clear();
@@ -138,7 +138,7 @@ IconManager::~IconManager()
     }
 }
 
-void IconManager::setShowPreview(bool show)
+void KFilePreviewGenerator::setShowPreview(bool show)
 {
     if (m_showPreview != show) {
         m_showPreview = show;
@@ -160,7 +160,7 @@ void IconManager::setShowPreview(bool show)
     }
 }
 
-void IconManager::updatePreviews()
+void KFilePreviewGenerator::updatePreviews()
 {
     if (!m_showPreview) {
         return;
@@ -183,7 +183,7 @@ void IconManager::updatePreviews()
     updateCutItems();
 }
 
-void IconManager::cancelPreviews()
+void KFilePreviewGenerator::cancelPreviews()
 {
     killPreviewJobs();
     m_cutItemsCache.clear();
@@ -191,7 +191,7 @@ void IconManager::cancelPreviews()
     m_dispatchedItems.clear();
 }
 
-void IconManager::generatePreviews(const KFileItemList& items)
+void KFilePreviewGenerator::generatePreviews(const KFileItemList& items)
 {
     applyCutItemEffect();
 
@@ -209,7 +209,7 @@ void IconManager::generatePreviews(const KFileItemList& items)
     startPreviewJob(orderedItems);
 }
 
-void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
+void KFilePreviewGenerator::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
 {
     if (!m_showPreview) {
         // the preview has been canceled in the meantime
@@ -261,7 +261,7 @@ void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap
     }
 
     // remember the preview and URL, so that it can be applied to the model
-    // in IconManager::dispatchPreviewQueue()
+    // in KFilePreviewGenerator::dispatchPreviewQueue()
     ItemInfo preview;
     preview.url = url;
     preview.pixmap = icon;
@@ -270,7 +270,7 @@ void IconManager::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap
     m_dispatchedItems.append(item);
 }
 
-void IconManager::slotPreviewJobFinished(KJob* job)
+void KFilePreviewGenerator::slotPreviewJobFinished(KJob* job)
 {
     const int index = m_previewJobs.indexOf(job);
     m_previewJobs.removeAt(index);
@@ -283,7 +283,7 @@ void IconManager::slotPreviewJobFinished(KJob* job)
     }
 }
 
-void IconManager::updateCutItems()
+void KFilePreviewGenerator::updateCutItems()
 {
     // restore the icons of all previously selected items to the
     // original state...
@@ -299,7 +299,7 @@ void IconManager::updateCutItems()
     applyCutItemEffect();
 }
 
-void IconManager::dispatchPreviewQueue()
+void KFilePreviewGenerator::dispatchPreviewQueue()
 {
     const int previewsCount = m_previews.count();
     if (previewsCount > 0) {
@@ -331,7 +331,7 @@ void IconManager::dispatchPreviewQueue()
     }
 }
 
-void IconManager::pausePreviews()
+void KFilePreviewGenerator::pausePreviews()
 {
     foreach (KJob* job, m_previewJobs) {
         Q_ASSERT(job != 0);
@@ -340,7 +340,7 @@ void IconManager::pausePreviews()
     m_scrollAreaTimer->start();
 }
 
-void IconManager::resumePreviews()
+void KFilePreviewGenerator::resumePreviews()
 {
     // Before creating new preview jobs the m_pendingItems queue must be
     // cleaned up by removing the already dispatched items. Implementation
@@ -377,7 +377,7 @@ void IconManager::resumePreviews()
     startPreviewJob(orderedItems);
 }
 
-bool IconManager::isCutItem(const KFileItem& item) const
+bool KFilePreviewGenerator::isCutItem(const KFileItem& item) const
 {
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
     const KUrl::List cutUrls = KUrl::List::fromMimeData(mimeData);
@@ -392,7 +392,7 @@ bool IconManager::isCutItem(const KFileItem& item) const
     return false;
 }
 
-void IconManager::applyCutItemEffect()
+void KFilePreviewGenerator::applyCutItemEffect()
 {
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
     m_hasCutSelection = KonqMimeData::decodeIsCutSelection(mimeData);
@@ -432,7 +432,7 @@ void IconManager::applyCutItemEffect()
     }
 }
 
-bool IconManager::applyImageFrame(QPixmap& icon)
+bool KFilePreviewGenerator::applyImageFrame(QPixmap& icon)
 {
     const QSize maxSize = m_view->iconSize();
     const bool applyFrame = (maxSize.width()  > KIconLoader::SizeSmallMedium) &&
@@ -482,14 +482,14 @@ bool IconManager::applyImageFrame(QPixmap& icon)
     return true;
 }
 
-void IconManager::limitToSize(QPixmap& icon, const QSize& maxSize)
+void KFilePreviewGenerator::limitToSize(QPixmap& icon, const QSize& maxSize)
 {
     if ((icon.width() > maxSize.width()) || (icon.height() > maxSize.height())) {
         icon = icon.scaled(maxSize, Qt::KeepAspectRatio, Qt::FastTransformation);
     }
 }
 
-void IconManager::startPreviewJob(const KFileItemList& items)
+void KFilePreviewGenerator::startPreviewJob(const KFileItemList& items)
 {
     if (items.count() == 0) {
         return;
@@ -502,7 +502,7 @@ void IconManager::startPreviewJob(const KFileItemList& items)
 
     // PreviewJob internally caches items always with the size of
     // 128 x 128 pixels or 256 x 256 pixels. A downscaling is done 
-    // by PreviewJob if a smaller size is requested. As the IconManager must
+    // by PreviewJob if a smaller size is requested. As the KFilePreviewGenerator must
     // do a downscaling anyhow because of the frame, only the provided
     // cache sizes are requested.
     const int cacheSize = (size.width() > 128) || (size.height() > 128) ? 256 : 128;
@@ -516,7 +516,7 @@ void IconManager::startPreviewJob(const KFileItemList& items)
     m_previewTimer->start(200);
 }
 
-void IconManager::killPreviewJobs()
+void KFilePreviewGenerator::killPreviewJobs()
 {
     foreach (KJob* job, m_previewJobs) {
         Q_ASSERT(job != 0);
@@ -525,7 +525,7 @@ void IconManager::killPreviewJobs()
     m_previewJobs.clear();
 }
 
-void IconManager::orderItems(KFileItemList& items)
+void KFilePreviewGenerator::orderItems(KFileItemList& items)
 {
     // Order the items in a way that the preview for the visible items
     // is generated first, as this improves the feeled performance a lot.
@@ -593,4 +593,4 @@ void IconManager::orderItems(KFileItemList& items)
     }
 }
 
-#include "iconmanager.moc"
+#include "kfilepreviewgenerator.moc"

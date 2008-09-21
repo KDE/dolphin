@@ -58,7 +58,7 @@
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 #include "folderexpander.h"
-#include "iconmanager.h"
+#include "kfilepreviewgenerator.h"
 #include "renamedialog.h"
 #include "tooltipmanager.h"
 #include "viewproperties.h"
@@ -87,7 +87,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
     m_proxyModel(proxyModel),
-    m_iconManager(0),
+    m_previewGenerator(0),
     m_toolTipManager(0),
     m_rootUrl(),
     m_currentItemUrl()
@@ -373,7 +373,7 @@ void DolphinView::setZoomLevel(int level)
     
     if (level != zoomLevel()) {
         m_controller->setZoomLevel(level);
-        m_iconManager->updatePreviews();
+        m_previewGenerator->updatePreviews();
         emit zoomLevelChanged(level);
     }
 }
@@ -452,7 +452,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         return;
     }
 
-    m_iconManager->cancelPreviews();
+    m_previewGenerator->cancelPreviews();
     m_controller->setUrl(url); // emits urlChanged, which we forward
 
     if (!rootUrl.isEmpty() && rootUrl.isParentOf(url)) {
@@ -657,7 +657,7 @@ void DolphinView::setShowPreview(bool show)
     props.setShowPreview(show);
 
     m_showPreview = show;
-    m_iconManager->setShowPreview(show);
+    m_previewGenerator->setShowPreview(show);
     
     const int oldZoomLevel = m_controller->zoomLevel();
     emit showPreviewChanged();
@@ -1107,7 +1107,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
     const bool showPreview = props.showPreview();
     if (showPreview != m_showPreview) {
         m_showPreview = showPreview;
-        m_iconManager->setShowPreview(showPreview);
+        m_previewGenerator->setShowPreview(showPreview);
         
         const int oldZoomLevel = m_controller->zoomLevel();
         emit showPreviewChanged();
@@ -1180,8 +1180,8 @@ void DolphinView::createView()
 
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    m_iconManager = new IconManager(view, m_proxyModel);
-    m_iconManager->setShowPreview(m_showPreview);
+    m_previewGenerator = new KFilePreviewGenerator(view, m_proxyModel);
+    m_previewGenerator->setShowPreview(m_showPreview);
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         m_toolTipManager = new ToolTipManager(view, m_proxyModel);
@@ -1215,7 +1215,7 @@ void DolphinView::deleteView()
         m_detailsView = 0;
         m_columnView = 0;
         m_fileItemDelegate = 0;
-        m_iconManager = 0;
+        m_previewGenerator = 0;
         m_toolTipManager = 0;
     }
 }

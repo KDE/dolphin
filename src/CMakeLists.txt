@@ -35,7 +35,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinview.cpp
     dolphinviewactionhandler.cpp
     folderexpander.cpp
-    iconmanager.cpp
+    kfilepreviewgenerator.cpp
     ktooltip.cpp
     kballoontipdelegate.cpp
     kformattedballoontipdelegate.cpp

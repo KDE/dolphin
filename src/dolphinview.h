@@ -45,7 +45,7 @@ class DolphinIconsView;
 class DolphinMainWindow;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
-class IconManager;
+class KFilePreviewGenerator;
 class KAction;
 class KActionCollection;
 class KDirLister;
@@ -709,7 +709,7 @@ private:
     KDirLister* m_dirLister;
     DolphinSortFilterProxyModel* m_proxyModel;
 
-    IconManager* m_iconManager;
+    KFilePreviewGenerator* m_previewGenerator;
     ToolTipManager* m_toolTipManager;
 
     KUrl m_rootUrl;

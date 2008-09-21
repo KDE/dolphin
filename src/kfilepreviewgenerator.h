@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef ICONMANAGER_H
-#define ICONMANAGER_H
+#ifndef KFILEPREVIEWGENERATOR_H
+#define KFILEPREVIEWGENERATOR_H
 
 #include <kfileitem.h>
 #include <kurl.h>
@@ -49,13 +49,13 @@ class QAbstractItemView;
  *   resumed. Also in this case the previews for the visible items
  *   are generated first.
  */
-class IconManager : public QObject
+class KFilePreviewGenerator : public QObject
 {
     Q_OBJECT
 
 public:
-    IconManager(QAbstractItemView* parent, KDirSortFilterProxyModel* model);
-    virtual ~IconManager();
+    KFilePreviewGenerator(QAbstractItemView* parent, KDirSortFilterProxyModel* model);
+    virtual ~KFilePreviewGenerator();
     void setShowPreview(bool show);
     bool showPreview() const;
 
@@ -101,7 +101,7 @@ private slots:
     void dispatchPreviewQueue();
 
     /**
-     * Pauses all preview jobs and invokes IconManager::resumePreviews()
+     * Pauses all preview jobs and invokes KFilePreviewGenerator::resumePreviews()
      * after a short delay. Is invoked as soon as the user has moved
      * a scrollbar.
      */
@@ -202,7 +202,7 @@ private:
     KFileItemList m_dispatchedItems;
 };
 
-inline bool IconManager::showPreview() const
+inline bool KFilePreviewGenerator::showPreview() const
 {
     return m_showPreview;
 }

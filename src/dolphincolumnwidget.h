@@ -32,8 +32,8 @@
 class DolphinColumnView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
-class IconManager;
 class KDirLister;
+class KFilePreviewGenerator;
 class KJob;
 class KFileItem;
 class KFileItemList;
@@ -153,7 +153,7 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 
-    IconManager* m_iconManager;
+    KFilePreviewGenerator* m_previewGenerator;
 
     QRect m_dropRect;
 
