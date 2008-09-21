@@ -34,7 +34,7 @@ class KMimeTypeResolver;
 class QAbstractItemView;
 
 /**
- * @brief Manages the icon state of a directory model.
+ * @brief Generates previews for files of an item view.
  *
  * Per default a preview is generated for each item.
  * Additionally the clipboard is checked for cut items.
@@ -54,22 +54,34 @@ class KFilePreviewGenerator : public QObject
     Q_OBJECT
 
 public:
+    /**
+     * @param parent  Item view containing the file items where previews should
+     *                be generated. It is mandatory that the item view specifies
+     *                an icon size by QAbstractItemView::setIconSize(), otherwise
+     *                no previews will be generated.
+     * @param model   Model of the item view.
+     */
     KFilePreviewGenerator(QAbstractItemView* parent, KDirSortFilterProxyModel* model);
     virtual ~KFilePreviewGenerator();
+    
+    /**
+     * If \a show is set to true, a preview is generated for each item. If \a show
+     * is false, the MIME type icon of the item is shown instead. Per default showing
+     * of the preview is turned on. Note that it is mandatory that the item view
+     * specifies an icon size by QAbstractItemView::setIconSize(), otherwise
+     * KFilePreviewGenerator::showPreview() will always return false.
+     */
     void setShowPreview(bool show);
     bool showPreview() const;
 
     /**
-     * Updates the previews for all already available items. It is only necessary
-     * to invoke this method when the icon size of the abstract item view has
-     * been changed.
+     * Updates the previews for all already available items. Usually It is only
+     * necessary to invoke this method when the icon size of the abstract item view
+     * has been changed by QAbstractItemView::setIconSize().
      */
     void updatePreviews();
 
-    /**
-     * Cancels all pending previews. Should be invoked when the URL of the item
-     * view has been changed.
-     */
+    /** Cancels all pending previews. */
     void cancelPreviews();
 
 private slots:

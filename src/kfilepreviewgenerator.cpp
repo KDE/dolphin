@@ -82,7 +82,7 @@ private:
 
 KFilePreviewGenerator::KFilePreviewGenerator(QAbstractItemView* parent, KDirSortFilterProxyModel* model) :
     QObject(parent),
-    m_showPreview(false),
+    m_showPreview(true),
     m_clearItemQueues(true),
     m_hasCutSelection(false),
     m_pendingVisiblePreviews(0),
@@ -98,7 +98,9 @@ KFilePreviewGenerator::KFilePreviewGenerator(QAbstractItemView* parent, KDirSort
     m_pendingItems(),
     m_dispatchedItems()
 {
-    Q_ASSERT(m_view->iconSize().isValid());  // each view must provide its current icon size
+    if (!m_view->iconSize().isValid()) {
+        m_showPreview = false;
+    }
 
     m_dirModel = static_cast<KDirModel*>(m_proxyModel->sourceModel());
     connect(m_dirModel->dirLister(), SIGNAL(newItems(const KFileItemList&)),
@@ -140,6 +142,12 @@ KFilePreviewGenerator::~KFilePreviewGenerator()
 
 void KFilePreviewGenerator::setShowPreview(bool show)
 {
+    if (show && !m_view->iconSize().isValid()) {
+        // the view must provide an icon size, otherwise the showing
+        // off previews will get ignored
+        return;
+    }
+    
     if (m_showPreview != show) {
         m_showPreview = show;
         m_cutItemsCache.clear();
