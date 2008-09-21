@@ -19,6 +19,7 @@
 
 #include "kfilepreviewgenerator.h"
 
+#include <kfileitem.h>
 #include <kiconeffect.h>
 #include <kio/previewjob.h>
 #include <kdirlister.h>
@@ -31,8 +32,10 @@
 #include <QAbstractItemView>
 #include <QClipboard>
 #include <QColor>
+#include <QList>
 #include <QListView>
 #include <QPainter>
+#include <QPixmap>
 #include <QScrollBar>
 #include <QIcon>
 

@@ -20,17 +20,10 @@
 #ifndef KFILEPREVIEWGENERATOR_H
 #define KFILEPREVIEWGENERATOR_H
 
-#include <kfileitem.h>
-#include <kurl.h>
-
-#include <QList>
 #include <QObject>
-#include <QPixmap>
 
 class KDirModel;
 class KDirSortFilterProxyModel;
-class KJob;
-class KMimeTypeResolver;
 class QAbstractItemView;
 
 /**
