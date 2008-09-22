@@ -46,9 +46,15 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
 
     viewport()->setAttribute(Qt::WA_Hover);
 
-    QPalette palette = viewport()->palette();
-    palette.setColor(viewport()->backgroundRole(), Qt::transparent);
-    viewport()->setPalette(palette);
+    // make the background transparent and apply the window-text color
+    // to the text color, so that enough contrast is given for all color
+    // schemes
+    QPalette p = palette();
+    p.setColor(QPalette::Active,   QPalette::Text, p.color(QPalette::Active,   QPalette::WindowText));
+    p.setColor(QPalette::Inactive, QPalette::Text, p.color(QPalette::Inactive, QPalette::WindowText));
+    p.setColor(QPalette::Disabled, QPalette::Text, p.color(QPalette::Disabled, QPalette::WindowText));
+    setPalette(p);
+    viewport()->setAutoFillBackground(false);
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     setItemDelegate(delegate);
