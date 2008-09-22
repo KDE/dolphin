@@ -230,14 +230,8 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
         }
         y = hasRoomBelow ? m_itemRect.bottom() : m_itemRect.top() - size.height();
     } else {
-        if (hasRoomToLeft || hasRoomToRight) {
-            x = hasRoomToRight ? m_itemRect.right() : m_itemRect.left() - size.width();
-        } else {
-            // Put the tooltip at the far right of the screen. The item will be overlapped
-            // horizontally, but the y-coordinate will be adjusted afterwards so that no overlapping
-            // occurs vertically.
-            x = desktop.right() - size.width();
-        }
+        Q_ASSERT(hasRoomToLeft || hasRoomToRight);
+        x = hasRoomToRight ? m_itemRect.right() : m_itemRect.left() - size.width();
         
         // Put the tooltip at the bottom of the screen. The x-coordinate has already
         // been adjusted, so that no overlapping with m_itemRect occurs.
