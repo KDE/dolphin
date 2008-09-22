@@ -43,10 +43,6 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
 {
     setMinimumHeight(KIconLoader::SizeSmall);
 
-    QPalette palette;
-    palette.setColor(QPalette::Background, Qt::transparent);
-    setPalette(palette);
-
     m_timer = new QTimer(this);
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(timerDone()));
@@ -140,23 +136,21 @@ void StatusBarMessageLabel::paintEvent(QPaintEvent* /* event */)
 {
     QPainter painter(this);
 
-    // draw background
-    QColor backgroundColor = palette().window().color();
     if (m_illumination > 0) {
         // at this point, a: we are a second label being drawn over the already
         // painted status area, so we can be translucent, and b: our palette's
         // window color (bg only) seems to be wrong (always black)
         KColorScheme scheme(palette().currentColorGroup(), KColorScheme::Window);
-        backgroundColor = scheme.background(KColorScheme::NegativeBackground).color();
-        backgroundColor.setAlpha(qMin(255, m_illumination*2));
+        QColor backgroundColor = scheme.background(KColorScheme::NegativeBackground).color();
+        backgroundColor.setAlpha(qMin(255, m_illumination * 2));
+        painter.setBrush(backgroundColor);
+        painter.setPen(Qt::NoPen);
+        painter.drawRect(QRect(0, 0, width(), height()));
     }
-    painter.setBrush(backgroundColor);
-    painter.setPen(Qt::NoPen);
-    painter.drawRect(QRect(0, 0, width(), height()));
 
     // draw pixmap
     int x = BorderGap;
-    int y = (m_minTextHeight - m_pixmap.height()) / 2;
+    const int y = (m_minTextHeight - m_pixmap.height()) / 2;
 
     if (!m_pixmap.isNull()) {
         painter.drawPixmap(x, y, m_pixmap);
