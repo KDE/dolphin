@@ -221,20 +221,24 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
         return;
     }
 
-    int x = 0;
-    if (hasRoomToLeft || hasRoomToRight) {
-        x = hasRoomToRight ? m_itemRect.right() : m_itemRect.left() - size.width();
-    } else {
-        // Put the tooltip at the far right of the screen. The item will be overlapped
-        // horizontally, but the y-coordinate will be adjusted afterwards so that no overlapping
-        // occurs vertically.
-        x = desktop.right() - size.width();
-    }
-    
+    int x = 0;   
     int y = 0;
     if (hasRoomBelow || hasRoomAbove) {
+        x = QCursor::pos().x() + 16; // TODO: use mouse pointer width instead of the magic value of 16
+        if (x + size.width() >= desktop.right()) {
+            x = desktop.right() - size.width();
+        }
         y = hasRoomBelow ? m_itemRect.bottom() : m_itemRect.top() - size.height();
     } else {
+        if (hasRoomToLeft || hasRoomToRight) {
+            x = hasRoomToRight ? m_itemRect.right() : m_itemRect.left() - size.width();
+        } else {
+            // Put the tooltip at the far right of the screen. The item will be overlapped
+            // horizontally, but the y-coordinate will be adjusted afterwards so that no overlapping
+            // occurs vertically.
+            x = desktop.right() - size.width();
+        }
+        
         // Put the tooltip at the bottom of the screen. The x-coordinate has already
         // been adjusted, so that no overlapping with m_itemRect occurs.
         y = desktop.bottom() - size.height();
