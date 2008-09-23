@@ -19,17 +19,18 @@
 
 #include "kfilepreviewgenerator.h"
 
+#include <kabstractviewadapter_p.h>
 #include <kfileitem.h>
 #include <kiconeffect.h>
 #include <kio/previewjob.h>
 #include <kdirlister.h>
 #include <kdirmodel.h>
-#include <kdirsortfilterproxymodel.h>
 #include <kmimetyperesolver.h>
 #include <konqmimedata.h>
 
 #include <QApplication>
 #include <QAbstractItemView>
+#include <QAbstractProxyModel>
 #include <QClipboard>
 #include <QColor>
 #include <QList>
@@ -44,6 +45,64 @@
 #  include <X11/Xlib.h>
 #  include <X11/extensions/Xrender.h>
 #endif
+
+/**
+ * Implementation of the view adapter for the default case when
+ * an instance of QAbstractItemView is used as view.
+ */
+class DefaultViewAdapter : public AbstractViewAdapter
+{
+public:
+    DefaultViewAdapter(QAbstractItemView* view, QObject* parent);
+    virtual QObject* createMimeTypeResolver(KDirModel* model) const;
+    virtual QSize iconSize() const;
+    virtual QPalette palette() const;
+    virtual QRect visibleArea() const;
+    virtual QRect visualRect(const QModelIndex& index) const;
+    virtual void connect(Signal signal, QObject* receiver, const char* slot);
+
+private:
+    QAbstractItemView* m_view;
+};
+
+DefaultViewAdapter::DefaultViewAdapter(QAbstractItemView* view, QObject* parent) :
+    AbstractViewAdapter(parent),
+    m_view(view)
+{
+}
+
+QObject* DefaultViewAdapter::createMimeTypeResolver(KDirModel* model) const
+{
+    return new KMimeTypeResolver(m_view, model);
+}
+
+QSize DefaultViewAdapter::iconSize() const
+{
+    return m_view->iconSize();
+}
+
+QPalette DefaultViewAdapter::palette() const
+{
+    return m_view->palette();
+}
+
+QRect DefaultViewAdapter::visibleArea() const
+{
+    return m_view->viewport()->rect();
+}
+
+QRect DefaultViewAdapter::visualRect(const QModelIndex& index) const
+{
+    return m_view->visualRect(index);
+}
+
+void DefaultViewAdapter::connect(Signal signal, QObject* receiver, const char* slot)
+{
+    if (signal == ScrollBarValueChanged) {
+        QObject::connect(m_view->horizontalScrollBar(), SIGNAL(valueChanged(int)), receiver, slot);
+        QObject::connect(m_view->verticalScrollBar(), SIGNAL(valueChanged(int)), receiver, slot);
+    }
+}
 
 /**
  * If the passed item view is an instance of QListView, expensive
@@ -93,8 +152,8 @@ class KFilePreviewGenerator::Private
 {
 public:
     Private(KFilePreviewGenerator* parent,
-            QAbstractItemView* view,
-            KDirSortFilterProxyModel* model);
+            AbstractViewAdapter* viewAdapter,
+            QAbstractProxyModel* model);
     ~Private();
     
     /**
@@ -199,14 +258,15 @@ public:
 
     int m_pendingVisiblePreviews;
 
-    QAbstractItemView* m_view;
+    AbstractViewAdapter* m_viewAdapter;
+    QAbstractItemView* m_itemView;
     QTimer* m_previewTimer;
     QTimer* m_scrollAreaTimer;
     QList<KJob*> m_previewJobs;
     KDirModel* m_dirModel;
-    KDirSortFilterProxyModel* m_proxyModel;
+    QAbstractProxyModel* m_proxyModel;
 
-    KMimeTypeResolver* m_mimeTypeResolver;
+    QObject* m_mimeTypeResolver;
 
     QList<ItemInfo> m_cutItemsCache;
     QList<ItemInfo> m_previews;
@@ -229,13 +289,14 @@ private:
 };
 
 KFilePreviewGenerator::Private::Private(KFilePreviewGenerator* parent,
-                                        QAbstractItemView* view,
-                                        KDirSortFilterProxyModel* model) :
+                                        AbstractViewAdapter* viewAdapter,
+                                        QAbstractProxyModel* model) :
     m_showPreview(true),
     m_clearItemQueues(true),
     m_hasCutSelection(false),
     m_pendingVisiblePreviews(0),
-    m_view(view),
+    m_viewAdapter(viewAdapter),
+    m_itemView(0),
     m_previewTimer(0),
     m_scrollAreaTimer(0),
     m_previewJobs(),
@@ -248,7 +309,7 @@ KFilePreviewGenerator::Private::Private(KFilePreviewGenerator* parent,
     m_dispatchedItems(),
     q(parent)
 {
-    if (!m_view->iconSize().isValid()) {
+    if (!m_viewAdapter->iconSize().isValid()) {
         m_showPreview = false;
     }
 
@@ -273,10 +334,8 @@ KFilePreviewGenerator::Private::Private(KFilePreviewGenerator* parent,
     m_scrollAreaTimer->setInterval(200);
     connect(m_scrollAreaTimer, SIGNAL(timeout()),
             q, SLOT(resumePreviews()));
-    connect(m_view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-            q, SLOT(pausePreviews()));
-    connect(m_view->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            q, SLOT(pausePreviews()));
+    m_viewAdapter->connect(AbstractViewAdapter::ScrollBarValueChanged,
+                           q, SLOT(pausePreviews()));
 }
 
 KFilePreviewGenerator::Private::~Private()
@@ -337,7 +396,7 @@ void KFilePreviewGenerator::Private::addToPreviewQueue(const KFileItem& item, co
     const QString mimeType = item.mimetype();
     const QString mimeTypeGroup = mimeType.left(mimeType.indexOf('/'));
     if ((mimeTypeGroup != "image") || !applyImageFrame(icon)) {
-        limitToSize(icon, m_view->iconSize());
+        limitToSize(icon, m_viewAdapter->iconSize());
     }
 
     if (m_hasCutSelection && isCutItem(item)) {
@@ -406,7 +465,7 @@ void KFilePreviewGenerator::Private::dispatchPreviewQueue()
         // in larger blocks: Applying a preview immediately when getting the signal
         // 'gotPreview()' from the PreviewJob is too expensive, as a relayout
         // of the view would be triggered for each single preview.
-        LayoutBlocker blocker(m_view);
+        LayoutBlocker blocker(m_itemView);
         for (int i = 0; i < previewsCount; ++i) {
             const ItemInfo& preview = m_previews.first();
 
@@ -512,7 +571,7 @@ void KFilePreviewGenerator::Private::applyCutItemEffect()
             const QVariant value = m_dirModel->data(index, Qt::DecorationRole);
             if (value.type() == QVariant::Icon) {
                 const QIcon icon(qvariant_cast<QIcon>(value));
-                const QSize actualSize = icon.actualSize(m_view->iconSize());
+                const QSize actualSize = icon.actualSize(m_viewAdapter->iconSize());
                 QPixmap pixmap = icon.pixmap(actualSize);
 
                 // remember current pixmap for the item to be able
@@ -533,7 +592,7 @@ void KFilePreviewGenerator::Private::applyCutItemEffect()
 
 bool KFilePreviewGenerator::Private::applyImageFrame(QPixmap& icon)
 {
-    const QSize maxSize = m_view->iconSize();
+    const QSize maxSize = m_viewAdapter->iconSize();
     const bool applyFrame = (maxSize.width()  > KIconLoader::SizeSmallMedium) &&
                             (maxSize.height() > KIconLoader::SizeSmallMedium) &&
                             ((icon.width()  > KIconLoader::SizeLarge) ||
@@ -550,7 +609,7 @@ bool KFilePreviewGenerator::Private::applyImageFrame(QPixmap& icon)
     limitToSize(icon, QSize(maxSize.width() - doubleFrame, maxSize.height() - doubleFrame));
 
     QPainter painter;
-    const QPalette palette = m_view->palette();
+    const QPalette palette = m_viewAdapter->palette();
     QPixmap framedIcon(icon.size().width() + doubleFrame, icon.size().height() + doubleFrame);
     framedIcon.fill(palette.color(QPalette::Normal, QPalette::Base));
     const int width = framedIcon.width() - 1;
@@ -625,7 +684,7 @@ void KFilePreviewGenerator::Private::startPreviewJob(const KFileItemList& items)
     const QMimeData* mimeData = QApplication::clipboard()->mimeData();
     m_hasCutSelection = KonqMimeData::decodeIsCutSelection(mimeData);
 
-    const QSize size = m_view->iconSize();
+    const QSize size = m_viewAdapter->iconSize();
 
     // PreviewJob internally caches items always with the size of
     // 128 x 128 pixels or 256 x 256 pixels. A downscaling is done 
@@ -666,7 +725,7 @@ void KFilePreviewGenerator::Private::orderItems(KFileItemList& items)
 
     const int itemCount = items.count();
     const int rowCount = m_proxyModel->rowCount();
-    const QRect visibleArea = m_view->viewport()->rect();
+    const QRect visibleArea = m_viewAdapter->visibleArea();
 
     int insertPos = 0;
     if (itemCount * 10 > rowCount) {
@@ -674,7 +733,7 @@ void KFilePreviewGenerator::Private::orderItems(KFileItemList& items)
         // and check whether the received row is part of the item list.
         for (int row = 0; row < rowCount; ++row) {
             const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
-            const QRect itemRect = m_view->visualRect(proxyIndex);
+            const QRect itemRect = m_viewAdapter->visualRect(proxyIndex);
             const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
 
             KFileItem item = m_dirModel->itemForIndex(dirIndex);  // O(1)
@@ -705,7 +764,7 @@ void KFilePreviewGenerator::Private::orderItems(KFileItemList& items)
         for (int i = 0; i < itemCount; ++i) {
             const QModelIndex dirIndex = m_dirModel->indexForItem(items.at(i)); // O(n) (n = number of rows)
             const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-            const QRect itemRect = m_view->visualRect(proxyIndex);
+            const QRect itemRect = m_viewAdapter->visualRect(proxyIndex);
 
             if (itemRect.intersects(visibleArea)) {
                 // The current item is (at least partly) visible. Move it
@@ -720,7 +779,14 @@ void KFilePreviewGenerator::Private::orderItems(KFileItemList& items)
     }
 }
 
-KFilePreviewGenerator::KFilePreviewGenerator(QAbstractItemView* parent, KDirSortFilterProxyModel* model) :
+KFilePreviewGenerator::KFilePreviewGenerator(QAbstractItemView* parent, QAbstractProxyModel* model) :
+    QObject(parent),
+    d(new Private(this, new DefaultViewAdapter(parent, this), model))
+{
+    d->m_itemView = parent;
+}
+
+KFilePreviewGenerator::KFilePreviewGenerator(AbstractViewAdapter* parent, QAbstractProxyModel* model) :
     QObject(parent),
     d(new Private(this, parent, model))
 {
@@ -733,7 +799,7 @@ KFilePreviewGenerator::~KFilePreviewGenerator()
 
 void KFilePreviewGenerator::setShowPreview(bool show)
 {
-    if (show && !d->m_view->iconSize().isValid()) {
+    if (show && !d->m_viewAdapter->iconSize().isValid()) {
         // the view must provide an icon size, otherwise the showing
         // off previews will get ignored
         return;
@@ -755,7 +821,7 @@ void KFilePreviewGenerator::setShowPreview(bool show)
     } else if (!show && (d->m_mimeTypeResolver == 0)) {
         // the preview is turned off: resolve the MIME-types so that
         // the icons gets updated
-        d->m_mimeTypeResolver = new KMimeTypeResolver(d->m_view, d->m_dirModel);
+        d->m_mimeTypeResolver = d->m_viewAdapter->createMimeTypeResolver(d->m_dirModel);
     }
 }
 

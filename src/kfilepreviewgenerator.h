@@ -22,9 +22,10 @@
 
 #include <QObject>
 
+class AbstractViewAdapter;
 class KDirModel;
-class KDirSortFilterProxyModel;
 class QAbstractItemView;
+class QAbstractProxyModel;
 
 /**
  * @brief Generates previews for files of an item view.
@@ -54,7 +55,11 @@ public:
      *                no previews will be generated.
      * @param model   Model of the item view.
      */
-    KFilePreviewGenerator(QAbstractItemView* parent, KDirSortFilterProxyModel* model);
+    KFilePreviewGenerator(QAbstractItemView* parent, QAbstractProxyModel* model);
+    
+    /** @internal */
+    KFilePreviewGenerator(AbstractViewAdapter* parent, QAbstractProxyModel* model);
+    
     virtual ~KFilePreviewGenerator();
     
     /**
