@@ -65,7 +65,7 @@ public:
     /**
      * If \a show is set to true, a preview is generated for each item. If \a show
      * is false, the MIME type icon of the item is shown instead. Per default showing
-     * of the preview is turned on. Note that it is mandatory that the item view
+     * the preview is turned on. Note that it is mandatory that the item view
      * specifies an icon size by QAbstractItemView::setIconSize(), otherwise
      * KFilePreviewGenerator::showPreview() will always return false.
      */
@@ -73,7 +73,7 @@ public:
     bool showPreview() const;
 
     /**
-     * Updates the previews for all already available items. Usually It is only
+     * Updates the previews for all already available items. Usually it is only
      * necessary to invoke this method when the icon size of the abstract item view
      * has been changed by QAbstractItemView::setIconSize().
      */
