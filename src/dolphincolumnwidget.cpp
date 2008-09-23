@@ -93,6 +93,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     setDecorationSize(QSize(iconSize, iconSize));
 
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
+    delegate->setShowToolTipWhenElided(false);
     setItemDelegate(delegate);
 
     activate();

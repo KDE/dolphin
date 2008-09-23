@@ -1165,6 +1165,7 @@ void DolphinView::createView()
     m_controller->setItemView(view);
 
     m_fileItemDelegate = new KFileItemDelegate(view);
+    m_fileItemDelegate->setShowToolTipWhenElided(false);
     view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);
