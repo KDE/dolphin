@@ -834,7 +834,6 @@ void DolphinMainWindow::init()
     m_centralWidgetLayout->addWidget(m_tabBar);
     m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter);
 
-
     setCentralWidget(centralWidget);
     setupDockWidgets();
 
@@ -861,6 +860,7 @@ void DolphinMainWindow::init()
         resize(750, 500);
     }
 
+    m_showMenuBar->setChecked(!menuBar()->isHidden());  // workaround for bug #171080
     emit urlChanged(homeUrl);
 }
 

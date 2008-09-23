@@ -322,10 +322,6 @@ void DolphinContextMenu::addShowMenubarAction(KMenu* menu)
 {
     KAction* showMenuBar = m_mainWindow->showMenuBarAction();
     if (!m_mainWindow->menuBar()->isVisible()) {
-        // TODO: it should not be necessary to uncheck the menu
-        // bar action, but currently the action states don't get
-        // updated if the menu is disabled
-        showMenuBar->setChecked(false);
         menu->addAction(showMenuBar);
         menu->addSeparator();
     }
