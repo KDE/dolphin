@@ -69,8 +69,8 @@ public:
      * specifies an icon size by QAbstractItemView::setIconSize(), otherwise
      * KFilePreviewGenerator::showPreview() will always return false.
      */
-    void setShowPreview(bool show);
-    bool showPreview() const;
+    void setPreviewShown(bool show);
+    bool isPreviewShown() const;
 
     /**
      * Updates the previews for all already available items. Usually it is only

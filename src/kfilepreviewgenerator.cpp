@@ -243,7 +243,7 @@ public:
         QPixmap pixmap;
     };
 
-    bool m_showPreview;
+    bool m_previewShown;
 
     /**
      * True, if m_pendingItems and m_dispatchedItems should be
@@ -291,7 +291,7 @@ private:
 KFilePreviewGenerator::Private::Private(KFilePreviewGenerator* parent,
                                         KAbstractViewAdapter* viewAdapter,
                                         QAbstractProxyModel* model) :
-    m_showPreview(true),
+    m_previewShown(true),
     m_clearItemQueues(true),
     m_hasCutSelection(false),
     m_pendingVisiblePreviews(0),
@@ -310,7 +310,7 @@ KFilePreviewGenerator::Private::Private(KFilePreviewGenerator* parent,
     q(parent)
 {
     if (!m_viewAdapter->iconSize().isValid()) {
-        m_showPreview = false;
+        m_previewShown = false;
     }
 
     m_dirModel = static_cast<KDirModel*>(m_proxyModel->sourceModel());
@@ -353,7 +353,7 @@ void KFilePreviewGenerator::Private::generatePreviews(const KFileItemList& items
 {
     applyCutItemEffect();
 
-    if (!m_showPreview) {
+    if (!m_previewShown) {
         return;
     }
 
@@ -369,7 +369,7 @@ void KFilePreviewGenerator::Private::generatePreviews(const KFileItemList& items
 
 void KFilePreviewGenerator::Private::addToPreviewQueue(const KFileItem& item, const QPixmap& pixmap)
 {
-    if (!m_showPreview) {
+    if (!m_previewShown) {
         // the preview has been canceled in the meantime
         return;
     }
@@ -797,7 +797,7 @@ KFilePreviewGenerator::~KFilePreviewGenerator()
     delete d;
 }
 
-void KFilePreviewGenerator::setShowPreview(bool show)
+void KFilePreviewGenerator::setPreviewShown(bool show)
 {
     if (show && !d->m_viewAdapter->iconSize().isValid()) {
         // the view must provide an icon size, otherwise the showing
@@ -805,8 +805,8 @@ void KFilePreviewGenerator::setShowPreview(bool show)
         return;
     }
     
-    if (d->m_showPreview != show) {
-        d->m_showPreview = show;
+    if (d->m_previewShown != show) {
+        d->m_previewShown = show;
         d->m_cutItemsCache.clear();
         d->updateCutItems();
         if (show) {
@@ -825,14 +825,14 @@ void KFilePreviewGenerator::setShowPreview(bool show)
     }
 }
 
-bool KFilePreviewGenerator::showPreview() const
+bool KFilePreviewGenerator::isPreviewShown() const
 {
-    return d->m_showPreview;
+    return d->m_previewShown;
 }
 
 void KFilePreviewGenerator::updatePreviews()
 {
-    if (!d->m_showPreview) {
+    if (!d->m_previewShown) {
         return;
     }
 

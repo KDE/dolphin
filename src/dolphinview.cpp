@@ -657,7 +657,7 @@ void DolphinView::setShowPreview(bool show)
     props.setShowPreview(show);
 
     m_showPreview = show;
-    m_previewGenerator->setShowPreview(show);
+    m_previewGenerator->setPreviewShown(show);
     
     const int oldZoomLevel = m_controller->zoomLevel();
     emit showPreviewChanged();
@@ -1107,7 +1107,7 @@ void DolphinView::applyViewProperties(const KUrl& url)
     const bool showPreview = props.showPreview();
     if (showPreview != m_showPreview) {
         m_showPreview = showPreview;
-        m_previewGenerator->setShowPreview(showPreview);
+        m_previewGenerator->setPreviewShown(showPreview);
         
         const int oldZoomLevel = m_controller->zoomLevel();
         emit showPreviewChanged();
@@ -1182,7 +1182,7 @@ void DolphinView::createView()
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_previewGenerator = new KFilePreviewGenerator(view, m_proxyModel);
-    m_previewGenerator->setShowPreview(m_showPreview);
+    m_previewGenerator->setPreviewShown(m_showPreview);
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         m_toolTipManager = new ToolTipManager(view, m_proxyModel);

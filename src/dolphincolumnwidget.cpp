@@ -133,7 +133,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     }
 
     m_previewGenerator = new KFilePreviewGenerator(this, m_proxyModel);
-    m_previewGenerator->setShowPreview(m_view->m_controller->dolphinView()->showPreview());
+    m_previewGenerator->setPreviewShown(m_view->m_controller->dolphinView()->showPreview());
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         new ToolTipManager(this, m_proxyModel);
@@ -214,7 +214,7 @@ void DolphinColumnWidget::setShowHiddenFiles(bool show)
 
 void DolphinColumnWidget::setShowPreview(bool show)
 {
-    m_previewGenerator->setShowPreview(show);
+    m_previewGenerator->setPreviewShown(show);
 
     m_dirLister->stop();
     m_dirLister->openUrl(m_url, KDirLister::Reload);
