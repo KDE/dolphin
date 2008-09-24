@@ -107,8 +107,8 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
 
     QLabel* arrangementLabel = new QLabel(i18nc("@label:listbox", "Arrangement:"), gridGroup);
     m_arrangementBox = new QComboBox(gridGroup);
-    m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Left to Right"));
-    m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Top to Bottom"));
+    m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Columns"));
+    m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Rows"));
     connect(m_arrangementBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QLabel* gridSpacingLabel = new QLabel(i18nc("@label:listbox", "Grid spacing:"), gridGroup);
