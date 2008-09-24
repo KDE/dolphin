@@ -22,7 +22,7 @@
 
 #include <QObject>
 
-class AbstractViewAdapter;
+class KAbstractViewAdapter;
 class KDirModel;
 class QAbstractItemView;
 class QAbstractProxyModel;
@@ -58,7 +58,7 @@ public:
     KFilePreviewGenerator(QAbstractItemView* parent, QAbstractProxyModel* model);
     
     /** @internal */
-    KFilePreviewGenerator(AbstractViewAdapter* parent, QAbstractProxyModel* model);
+    KFilePreviewGenerator(KAbstractViewAdapter* parent, QAbstractProxyModel* model);
     
     virtual ~KFilePreviewGenerator();
     

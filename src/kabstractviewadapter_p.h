@@ -33,12 +33,13 @@ class QSize;
  * for files. The interface allows KFilePreviewGenerator to be
  * independent from the view implementation.
  */
-class AbstractViewAdapter : public QObject
+class KAbstractViewAdapter : public QObject
 {
 public:
     enum Signal { ScrollBarValueChanged };
 
-    AbstractViewAdapter(QObject *parent) : QObject(parent) {}
+    KAbstractViewAdapter(QObject *parent) : QObject(parent) {}
+    virtual ~KAbstractViewAdapter() {}
     virtual QObject *createMimeTypeResolver(KDirModel*) const = 0;
     virtual QSize iconSize() const = 0;
     virtual QPalette palette() const = 0;
