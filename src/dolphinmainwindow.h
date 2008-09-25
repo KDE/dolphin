@@ -291,7 +291,7 @@ private slots:
 
     /**
      * Updates the state of the 'Back' and 'Forward' menu
-     * actions corresponding the the current history.
+     * actions corresponding to the current history.
      */
     void updateHistory();
 

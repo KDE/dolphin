@@ -40,7 +40,7 @@ public:
     FilterBar(QWidget* parent = 0);
     virtual ~FilterBar();
     
-    /** Clears the the input field. */
+    /** Clears the input field. */
     void clear();
     
 signals:

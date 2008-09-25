@@ -81,7 +81,7 @@ public:
     virtual ~DolphinController();
 
     /**
-     * Allows read access for the the view implementation to the abstract
+     * Allows read access for the view implementation to the abstract
      * Dolphin view.
      */
     const DolphinView* dolphinView() const;

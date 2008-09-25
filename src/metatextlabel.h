@@ -28,7 +28,7 @@ class QHBoxLayout;
 /**
  * @brief Displays general meta in several lines.
  *
- * Each line contains a label and the the meta information.
+ * Each line contains a label and the meta information.
  */
 class MetaTextLabel : public QWidget
 {
