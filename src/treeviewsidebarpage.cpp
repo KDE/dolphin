@@ -164,8 +164,8 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
 
         connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
                 this, SLOT(updateActiveView(const QModelIndex&)));
-        connect(m_treeView, SIGNAL(urlsDropped(const KUrl::List&, const QModelIndex&)),
-                this, SLOT(dropUrls(const KUrl::List&, const QModelIndex&)));
+        connect(m_treeView, SIGNAL(urlsDropped(const QModelIndex&, QDropEvent*)),
+                this, SLOT(dropUrls(const QModelIndex&, QDropEvent*)));
         connect(m_treeView, SIGNAL(pressed(const QModelIndex&)),
                 this, SLOT(updateMouseButtons()));
 
@@ -203,15 +203,14 @@ void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
     }
 }
 
-void TreeViewSidebarPage::dropUrls(const KUrl::List& urls,
-                                   const QModelIndex& index)
+void TreeViewSidebarPage::dropUrls(const QModelIndex& index, QDropEvent* event)
 {
     if (index.isValid()) {
         const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
         KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
         Q_ASSERT(!item.isNull());
         if (item.isDir()) {
-            emit urlsDropped(urls, item.url());
+            emit urlsDropped(item, item.url(), event);
         }
     }
 }

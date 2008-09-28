@@ -21,10 +21,13 @@
 #define DOLPHINDROPCONTROLLER_H
 
 #include <QObject>
-#include <kurl.h>
 #include <kio/fileundomanager.h>
 
 #include "libdolphin_export.h"
+
+class QDropEvent;
+class KUrl;
+class KFileItem;
 
 /**
  * @brief Handler for drop events, shared between DolphinView and TreeViewSidebarPage
@@ -41,14 +44,13 @@ public:
      * destination. A context menu with the options
      * 'Move Here', 'Copy Here', 'Link Here' and
      * 'Cancel' is offered to the user.
-     * @param urls        List of URLs which have been
-     *                    dropped.
-     * @param destination Destination URL, where the
-     *                    list or URLs should be moved,
-     *                    copied or linked to.
+     * @param destItem  Item of the destination (can be null, see KFileItem::isNull()).
+     * @param destPath  Path of the destination.
+     * @param event     Drop event
      */
-    void dropUrls(const KUrl::List& urls,
-                  const KUrl& destination);
+    void dropUrls(const KFileItem& destItem,
+                  const KUrl& destPath,
+                  QDropEvent* event);
 
 signals:
     /**

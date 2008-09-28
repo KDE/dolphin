@@ -136,13 +136,13 @@ public:
      * Indicates that URLs are dropped above a destination. This method
      * should be invoked by the view implementation. The abstract Dolphin view
      * will start the corresponding action (copy, move, link).
-     * @param urls      URLs that are dropped above a destination.
+     * @param destItem  Item of the destination (can be null, see KFileItem::isNull()).
      * @param destPath  Path of the destination.
-     * @param destItem  Destination item (can be null, see KFileItem::isNull()).
+     * @param event     Drop event
      */
-    void indicateDroppedUrls(const KUrl::List& urls,
+    void indicateDroppedUrls(const KFileItem& destItem,
                              const KUrl& destPath,
-                             const KFileItem& destItem);
+                             QDropEvent* event);
 
     /**
      * Informs the abstract Dolphin view about a sorting change done inside
@@ -262,14 +262,14 @@ signals:
     void activated();
 
     /**
-     * Is emitted if the URLs \a urls have been dropped to the destination
+     * Is emitted if URLs have been dropped to the destination
      * path \a destPath. If the URLs have been dropped above an item of
      * the destination path, the item is indicated by \a destItem
      * (can be null, see KFileItem::isNull()).
      */
-    void urlsDropped(const KUrl::List& urls,
+    void urlsDropped(const KFileItem& destItem,
                      const KUrl& destPath,
-                     const KFileItem& destItem);
+                     QDropEvent* event);
 
     /**
      * Is emitted if the sorting has been changed to \a sorting by

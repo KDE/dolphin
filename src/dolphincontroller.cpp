@@ -84,11 +84,11 @@ void DolphinController::requestActivation()
     emit activated();
 }
 
-void DolphinController::indicateDroppedUrls(const KUrl::List& urls,
+void DolphinController::indicateDroppedUrls(const KFileItem& destItem,
                                             const KUrl& destPath,
-                                            const KFileItem& destItem)
+                                            QDropEvent* event)
 {
-    emit urlsDropped(urls, destPath, destItem);
+    emit urlsDropped(destItem, destPath, event);
 }
 
 

@@ -41,6 +41,7 @@ class DolphinViewContainer;
 class KNewMenu;
 class KTabBar;
 class KUrl;
+class QDropEvent;
 class QSplitter;
 
 /**
@@ -107,8 +108,9 @@ public slots:
      * Handles the dropping of URLs to the given
      * destination. This is only called by the TreeViewSidebarPage.
      */
-    void dropUrls(const KUrl::List& urls,
-                  const KUrl& destination);
+    void dropUrls(const KFileItem& destItem,
+                  const KUrl& destPath,
+                  QDropEvent* event);
 
     /**
      * Pastes the clipboard data into the currently selected folder

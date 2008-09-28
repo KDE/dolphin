@@ -252,17 +252,9 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 
 void DolphinIconsView::dropEvent(QDropEvent* event)
 {
-    if (!selectionModel()->isSelected(indexAt(event->pos()))) {
-        const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-        if (!urls.isEmpty()) {
-            const QModelIndex index = indexAt(event->pos());
-            const KFileItem item = m_controller->itemForIndex(index);
-            m_controller->indicateDroppedUrls(urls,
-                                              m_controller->url(),
-                                              item);
-            event->acceptProposedAction();
-        }
-    }
+    const QModelIndex index = indexAt(event->pos());
+    const KFileItem item = m_controller->itemForIndex(index);
+    m_controller->indicateDroppedUrls(item, m_controller->url(), event);
 
     KCategorizedView::dropEvent(event);
 }

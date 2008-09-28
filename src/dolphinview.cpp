@@ -32,6 +32,7 @@
 #include <kcolorscheme.h>
 #include <kdirlister.h>
 #include <kfileitemdelegate.h>
+#include <kfilepreviewgenerator.h>
 #include <kiconeffect.h>
 #include <klocale.h>
 #include <kio/deletejob.h>
@@ -58,7 +59,6 @@
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 #include "folderexpander.h"
-#include "kfilepreviewgenerator.h"
 #include "renamedialog.h"
 #include "tooltipmanager.h"
 #include "viewproperties.h"
@@ -106,8 +106,8 @@ DolphinView::DolphinView(QWidget* parent,
 
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
             this, SLOT(openContextMenu(const QPoint&)));
-    connect(m_controller, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&, const KFileItem&)),
-            this, SLOT(dropUrls(const KUrl::List&, const KUrl&, const KFileItem&)));
+    connect(m_controller, SIGNAL(urlsDropped(const KFileItem&, const KUrl&, QDropEvent*)),
+            this, SLOT(dropUrls(const KFileItem&, const KUrl&, QDropEvent*)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
@@ -816,21 +816,15 @@ void DolphinView::openContextMenu(const QPoint& pos)
     m_isContextMenuOpen = false;
 }
 
-void DolphinView::dropUrls(const KUrl::List& urls,
+void DolphinView::dropUrls(const KFileItem& destItem,
                            const KUrl& destPath,
-                           const KFileItem& destItem)
+                           QDropEvent* event)
 {
-    Q_ASSERT(!urls.isEmpty());
-    const KUrl destination = !destItem.isNull() && destItem.isDir() ?
-                             destItem.url() : destPath;
-    const KUrl sourceDir = KUrl(urls.first().directory());
-    if (sourceDir != destination) {
-        DolphinDropController dropController(this);
-        // forward doingOperation signal up to the mainwindow
-        connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
-                this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
-        dropController.dropUrls(urls, destination);
-    }
+    DolphinDropController dropController(this);
+    // forward doingOperation signal up to the mainwindow
+    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
+            this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
+    dropController.dropUrls(destItem, destPath, event);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)

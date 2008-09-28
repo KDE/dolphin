@@ -125,16 +125,11 @@ void SidebarTreeView::dragMoveEvent(QDragMoveEvent* event)
 
 void SidebarTreeView::dropEvent(QDropEvent* event)
 {
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (urls.isEmpty()) {
-        KTreeView::dropEvent(event);
-    } else {
-        event->acceptProposedAction();
-        const QModelIndex index = indexAt(event->pos());
-        if (index.isValid()) {
-            emit urlsDropped(urls, index);
-        }
+    const QModelIndex index = indexAt(event->pos());
+    if (index.isValid()) {
+        emit urlsDropped(index, event);
     }
+    KTreeView::dropEvent(event);
 }
 
 #include "sidebartreeview.moc"

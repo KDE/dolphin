@@ -19,17 +19,13 @@
  ***************************************************************************/
 
 #include "dolphindropcontroller.h"
+#include <kfileitem.h>
 #include <klocale.h>
 #include <kicon.h>
 #include <QApplication>
 #include <kdebug.h>
 #include <kmenu.h>
 #include <konq_operations.h>
-
-// TODO replace with KonqOperations::doDrop [or move doDrop code into this class]
-// Note that this means changing the DolphinDropController controller usage
-// to "create with new and let it autodelete" instead of on stack, since doDrop is async.
-// NOTE: let's wait for KDirModel::dropEvent first.
 
 DolphinDropController::DolphinDropController(QWidget* parentWidget)
     : QObject(parentWidget), m_parentWidget(parentWidget)
@@ -40,90 +36,24 @@ DolphinDropController::~DolphinDropController()
 {
 }
 
-void DolphinDropController::dropUrls(const KUrl::List& urls,
-                                     const KUrl& destination)
+void DolphinDropController::dropUrls(const KFileItem& destItem,
+                                     const KUrl& destPath,
+                                     QDropEvent* event)
 {
-    kDebug() << "Source" << urls;
-    kDebug() << "Destination:" << destination;
-
-    if (destination.protocol() == "trash") {
-        KonqOperations::del(m_parentWidget, KonqOperations::TRASH, urls);
-        return;
-    }
-
-    Qt::DropAction action = Qt::CopyAction;
-
-    Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-    const bool shiftPressed   = modifier & Qt::ShiftModifier;
-    const bool controlPressed = modifier & Qt::ControlModifier;
-    const bool altPressed = modifier & Qt::AltModifier;
-    if ((shiftPressed && controlPressed) || altPressed) {
-        action = Qt::LinkAction;
-    } else if (controlPressed) {
-        action = Qt::CopyAction;
-    } else if (shiftPressed) {
-        action = Qt::MoveAction;
-    } else {
-        // open a context menu which offers the following actions:
-        // - Move Here
-        // - Copy Here
-        // - Link Here
-        // - Cancel
-
-        KMenu popup(m_parentWidget);
-
-        QString seq = QKeySequence(Qt::ShiftModifier).toString();
-        seq.chop(1); // chop superfluous '+'
-        QAction* moveAction = popup.addAction(KIcon("go-jump"),
-                                              i18nc("@action:inmenu",
-                                                    "&Move Here\t<shortcut>%1</shortcut>", seq));
-
-        seq = QKeySequence(Qt::ControlModifier).toString();
-        seq.chop(1);
-        QAction* copyAction = popup.addAction(KIcon("edit-copy"),
-                                              i18nc("@action:inmenu",
-                                                    "&Copy Here\t<shortcut>%1</shortcut>", seq));
-
-        seq = QKeySequence(Qt::ControlModifier + Qt::ShiftModifier).toString();
-        seq.chop(1);
-        QAction* linkAction = popup.addAction(KIcon("edit-link"),
-                                              i18nc("@action:inmenu",
-                                                    "&Link Here\t<shortcut>%1</shortcut>", seq));
-
-        popup.addSeparator();
-        popup.addAction(KIcon("process-stop"), i18nc("@action:inmenu", "Cancel"));
-
-        QAction* activatedAction = popup.exec(QCursor::pos());
-        if (activatedAction == moveAction) {
-            action = Qt::MoveAction;
-        } else if (activatedAction == copyAction) {
-            action = Qt::CopyAction;
-        } else if (activatedAction == linkAction) {
-            action = Qt::LinkAction;
+    const bool dropToItem = !destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile());
+    const KUrl destination = dropToItem ? destItem.url() : destPath;
+                             
+    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    const KUrl sourceDir = KUrl(urls.first().directory());
+    if (sourceDir != destination) {
+        if (dropToItem) {
+            KonqOperations::doDrop(destItem, destination, event, m_parentWidget);
         } else {
-            return;
+            KonqOperations::doDrop(KFileItem(), destination, event, m_parentWidget);
         }
     }
-
-    switch (action) {
-    case Qt::MoveAction:
-        KonqOperations::copy(m_parentWidget, KonqOperations::MOVE, urls, destination);
-        emit doingOperation(KIO::FileUndoManager::Move);
-        break;
-
-    case Qt::CopyAction:
-        KonqOperations::copy(m_parentWidget, KonqOperations::COPY, urls, destination);
-        emit doingOperation(KIO::FileUndoManager::Copy);
-        break;
-
-    case Qt::LinkAction:
-        KonqOperations::copy(m_parentWidget, KonqOperations::LINK, urls, destination);
-        emit doingOperation(KIO::FileUndoManager::Link);
-        break;
-
-    default:
-        break;
-    }
+    // TODO: emit doingOperation, so that the main window gets informed about
+    // about the finished operations
 }
 
 #include "dolphindropcontroller.moc"

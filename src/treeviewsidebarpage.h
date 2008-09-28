@@ -72,7 +72,7 @@ signals:
      * This signal is emitted whenever a drop action on this widget needs the
      * MainWindow's attention.
      */
-    void urlsDropped(const KUrl::List& urls, const KUrl& destination);
+    void urlsDropped(const KFileItem& destItem, const KUrl& destPath, QDropEvent* event);
 
 public slots:
     /**
@@ -95,10 +95,10 @@ private slots:
     void updateActiveView(const QModelIndex& index);
 
     /**
-     * Is emitted if the URLs \a urls have been dropped
-     * to the index \a index. */
-    void dropUrls(const KUrl::List& urls,
-                  const QModelIndex& index);
+     * Is emitted if URLs have been dropped
+     * to the index \a index.
+     */
+    void dropUrls(const QModelIndex& index, QDropEvent* event);
 
     /**
      * Invokes expandToLeafDir() asynchronously (the expanding

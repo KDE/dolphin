@@ -349,18 +349,12 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
 
 void DolphinDetailsView::dropEvent(QDropEvent* event)
 {
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (!urls.isEmpty()) {
-        event->acceptProposedAction();
-        const QModelIndex index = indexAt(event->pos());
-        KFileItem item;
-        if (index.isValid() && (index.column() == DolphinModel::Name)) {
-            item = m_controller->itemForIndex(index);
-        }
-        m_controller->indicateDroppedUrls(urls,
-                                          m_controller->url(),
-                                          item);
+    const QModelIndex index = indexAt(event->pos());
+    KFileItem item;
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
+        item = m_controller->itemForIndex(index);
     }
+    m_controller->indicateDroppedUrls(item, m_controller->url(), event);
     QTreeView::dropEvent(event);
 }
 

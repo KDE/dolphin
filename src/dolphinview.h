@@ -549,13 +549,13 @@ private slots:
     void openContextMenu(const QPoint& pos);
 
     /**
-     * Drops the URLs \a urls to the destination path \a destPath. If
+     * Drops dragged URLs to the destination path \a destPath. If
      * the URLs are dropped above an item inside the destination path,
      * the item is indicated by \a destItem.
      */
-    void dropUrls(const KUrl::List& urls,
+    void dropUrls(const KFileItem& destItem,
                   const KUrl& destPath,
-                  const KFileItem& destItem);
+                  QDropEvent* event);
 
     /**
      * Updates the view properties of the current URL to the

@@ -38,11 +38,10 @@ public:
 
 signals:
     /**
-      * Is emitted if the URLs \a urls have been dropped to
+      * Is emitted if the URL have been dropped to
       * the index \a index.
       */
-    void urlsDropped(const KUrl::List& urls,
-                     const QModelIndex& index);
+    void urlsDropped(const QModelIndex& index, QDropEvent* event);
 
 protected:
     virtual bool event(QEvent* event);

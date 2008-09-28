@@ -29,13 +29,13 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "folderexpander.h"
-#include "kfilepreviewgenerator.h"
 #include "selectionmanager.h"
 #include "tooltipmanager.h"
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
 #include <kfileitem.h>
+#include <kfilepreviewgenerator.h>
 #include <kio/previewjob.h>
 #include <kiconeffect.h>
 #include <kjob.h>
@@ -331,16 +331,10 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
 
 void DolphinColumnWidget::dropEvent(QDropEvent* event)
 {
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    if (!urls.isEmpty()) {
-        const QModelIndex index = indexAt(event->pos());
-        m_view->m_controller->setItemView(this);
-        const KFileItem item = m_view->m_controller->itemForIndex(index);
-        m_view->m_controller->indicateDroppedUrls(urls,
-                                                  url(),
-                                                  item);
-        event->acceptProposedAction();
-    }
+    const QModelIndex index = indexAt(event->pos());
+    m_view->m_controller->setItemView(this);
+    const KFileItem item = m_view->m_controller->itemForIndex(index);
+    m_view->m_controller->indicateDroppedUrls(item, url(), event);
     QListView::dropEvent(event);
 }
 

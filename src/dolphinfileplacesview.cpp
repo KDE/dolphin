@@ -19,6 +19,7 @@
 
 #include "dolphinfileplacesview.h"
 #include "dolphindropcontroller.h"
+#include <kfileitem.h>
 #include <konq_operations.h>
 
 DolphinFilePlacesView::DolphinFilePlacesView(QWidget* parent) :
@@ -44,13 +45,11 @@ void DolphinFilePlacesView::mousePressEvent(QMouseEvent* event)
 
 void DolphinFilePlacesView::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
 {
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-
     DolphinDropController dropController(parent);
     // forward doingOperation signal up to the mainwindow
     connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
             this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
-    dropController.dropUrls(urls, dest);
+    dropController.dropUrls(KFileItem(), dest, event);
 }
 
 void DolphinFilePlacesView::emitExtendedUrlChangedSignal(const KUrl& url)

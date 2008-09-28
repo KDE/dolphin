@@ -82,6 +82,8 @@
 #include <QSplitter>
 #include <QDockWidget>
 
+#include <kdebug.h>
+
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
     m_newMenu(0),
@@ -155,13 +157,14 @@ void DolphinMainWindow::refreshViews()
     setActiveViewContainer(activeViewContainer);
 }
 
-void DolphinMainWindow::dropUrls(const KUrl::List& urls,
-                                 const KUrl& destination)
+void DolphinMainWindow::dropUrls(const KFileItem& destItem,
+                                 const KUrl& destPath,
+                                 QDropEvent* event)
 {
     DolphinDropController dropController(this);
     connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
             this, SLOT(slotDoingOperation(KIO::FileUndoManager::CommandType)));
-    dropController.dropUrls(urls, destination);
+    dropController.dropUrls(destItem, destPath, event);
 }
 
 void DolphinMainWindow::pasteIntoFolder()
@@ -1056,8 +1059,9 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
     connect(treeWidget, SIGNAL(changeSelection(KFileItemList)),
             this, SLOT(changeSelection(KFileItemList)));
-    connect(treeWidget, SIGNAL(urlsDropped(KUrl::List, KUrl)),
-            this, SLOT(dropUrls(KUrl::List, KUrl)));
+    // TODO: connecting to urlsDropped() fails!
+    connect(treeWidget, SIGNAL(urlsDropped(KFileItem&, KUrl&, QDropEvent*)),
+            this, SLOT(dropUrls(KFileItem&, KUrl&, QDropEvent*)));
 
     // setup "Terminal"
 #ifndef Q_OS_WIN
