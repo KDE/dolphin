@@ -1,7 +1,7 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="dolphinpart" version="9" >
  <MenuBar>
-  <Menu name="edit">
+  <Menu name="edit"><text>&amp;Edit</text>
    <Action name="new_menu"/>
    <Separator/>
    <Action name="rename"/>
@@ -13,7 +13,7 @@
    <Action name="select_all" />
    <Action name="invert_selection" />
   </Menu>
-  <Menu name="view">
+  <Menu name="view"><text>&amp;View</text>
    <Menu name="sort">
     <text context="@title:menu">Sort By</text>
     <Action name="sort_by_name" />
@@ -43,7 +43,7 @@
    <Separator/>
    <Action name="view_properties" />
   </Menu>
-  <Menu name="go">
+  <Menu name="go"><text>&amp;Go</text>
     <Action name="go_applications"/>
     <Action name="go_network_folders"/>
     <Action name="go_settings"/>
