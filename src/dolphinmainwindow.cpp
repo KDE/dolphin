@@ -281,7 +281,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     viewTab.primaryView->view()->reload();
 
     m_viewTab.append(viewTab);
-    
+
     actionCollection()->action("close_tab")->setEnabled(true);
 }
 
@@ -1059,9 +1059,8 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
     connect(treeWidget, SIGNAL(changeSelection(KFileItemList)),
             this, SLOT(changeSelection(KFileItemList)));
-    // TODO: connecting to urlsDropped() fails!
-    connect(treeWidget, SIGNAL(urlsDropped(KFileItem&, KUrl&, QDropEvent*)),
-            this, SLOT(dropUrls(KFileItem&, KUrl&, QDropEvent*)));
+    connect(treeWidget, SIGNAL(urlsDropped(KFileItem, KUrl, QDropEvent*)),
+            this, SLOT(dropUrls(KFileItem, KUrl, QDropEvent*)));
 
     // setup "Terminal"
 #ifndef Q_OS_WIN
