@@ -37,7 +37,10 @@ ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
     m_viewProps->setSorting(viewProps.sorting());
     m_viewProps->setSortOrder(viewProps.sortOrder());
 
-    startNextJob(dir);
+    KIO::ListJob* listJob = KIO::listRecursive(dir, KIO::HideProgressInfo);
+    connect(listJob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList&)),
+            SLOT(slotEntries(KIO::Job*, const KIO::UDSEntryList&)));
+    addSubjob(listJob);
 }
 
 ApplyViewPropsJob::~ApplyViewPropsJob()
@@ -46,25 +49,11 @@ ApplyViewPropsJob::~ApplyViewPropsJob()
     m_viewProps = 0;
 }
 
-void ApplyViewPropsJob::processNextItem()
-{
-    emitResult();
-}
-
-void ApplyViewPropsJob::startNextJob(const KUrl& url)
-{
-    KIO::ListJob* listJob = KIO::listRecursive(url, KIO::HideProgressInfo);
-    connect(listJob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList&)),
-            SLOT(slotEntries(KIO::Job*, const KIO::UDSEntryList&)));
-    addSubjob(listJob);
-}
-
 void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
 {
     KIO::UDSEntryList::ConstIterator it = list.begin();
     const KIO::UDSEntryList::ConstIterator end = list.end();
-    for (; it != end; ++it) {
-        const KIO::UDSEntry& entry = *it;
+    foreach(const KIO::UDSEntry& entry, list) {
         const QString name = entry.stringValue(KIO::UDSEntry::UDS_NAME);
         if ((name != ".") && (name != "..") && entry.isDir()) {
             ++m_progress;
