@@ -20,25 +20,12 @@
 
 #include "dolphindropcontroller.h"
 #include <kfileitem.h>
-#include <klocale.h>
-#include <kicon.h>
-#include <QApplication>
-#include <kdebug.h>
-#include <kmenu.h>
 #include <konq_operations.h>
-
-DolphinDropController::DolphinDropController(QWidget* parentWidget)
-    : QObject(parentWidget), m_parentWidget(parentWidget)
-{
-}
-
-DolphinDropController::~DolphinDropController()
-{
-}
 
 void DolphinDropController::dropUrls(const KFileItem& destItem,
                                      const KUrl& destPath,
-                                     QDropEvent* event)
+                                     QDropEvent* event,
+                                     QWidget* widget)
 {
     const bool dropToItem = !destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile());
     const KUrl destination = dropToItem ? destItem.url() : destPath;
@@ -47,13 +34,9 @@ void DolphinDropController::dropUrls(const KFileItem& destItem,
     const KUrl sourceDir = KUrl(urls.first().directory());
     if (sourceDir != destination) {
         if (dropToItem) {
-            KonqOperations::doDrop(destItem, destination, event, m_parentWidget);
+            KonqOperations::doDrop(destItem, destination, event, widget);
         } else {
-            KonqOperations::doDrop(KFileItem(), destination, event, m_parentWidget);
+            KonqOperations::doDrop(KFileItem(), destination, event, widget);
         }
     }
-    // TODO: emit doingOperation, so that the main window gets informed about
-    // about the finished operations
 }
-
-#include "dolphindropcontroller.moc"

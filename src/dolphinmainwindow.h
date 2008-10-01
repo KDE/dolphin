@@ -34,6 +34,8 @@
 
 #include <QtCore/QList>
 
+typedef KIO::FileUndoManager::CommandType CommandType;
+
 class KAction;
 class DolphinViewActionHandler;
 class DolphinApplication;
@@ -104,14 +106,6 @@ public:
     KAction* showMenuBarAction() const;
 
 public slots:
-    /**
-     * Handles the dropping of URLs to the given
-     * destination. This is only called by the TreeViewSidebarPage.
-     */
-    void dropUrls(const KFileItem& destItem,
-                  const KUrl& destPath,
-                  QDropEvent* event);
-
     /**
      * Pastes the clipboard data into the currently selected folder
      * of the active view. If not exactly one folder is selected,
@@ -314,8 +308,11 @@ private slots:
     /** Toggles the active view if two views are shown within the main window. */
     void toggleActiveView();
 
-    /** Called when the view is doing a file operation, like renaming, copying, moving etc. */
-    void slotDoingOperation(KIO::FileUndoManager::CommandType type);
+    /**
+     * Indicates in the statusbar that the execution of the command \a command
+     * has been finished.
+     */
+    void showCommand(CommandType command);
 
     /**
      * Activates the tab with the index \a index, which means that the current view
@@ -423,9 +420,6 @@ private:
     QList<ViewTab> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
-
-    /// remember pending undo operations until they are finished
-    QList<KIO::FileUndoManager::CommandType> m_undoCommandTypes;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

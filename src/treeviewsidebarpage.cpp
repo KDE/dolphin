@@ -19,6 +19,7 @@
 
 #include "treeviewsidebarpage.h"
 
+#include "dolphindropcontroller.h"
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
@@ -210,7 +211,7 @@ void TreeViewSidebarPage::dropUrls(const QModelIndex& index, QDropEvent* event)
         KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
         Q_ASSERT(!item.isNull());
         if (item.isDir()) {
-            emit urlsDropped(item, item.url(), event);
+            DolphinDropController::dropUrls(item, item.url(), event, this);
         }
     }
 }

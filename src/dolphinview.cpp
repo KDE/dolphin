@@ -558,7 +558,6 @@ void DolphinView::renameSelectedItems()
                     KUrl newUrl = oldUrl;
                     newUrl.setFileName(name);
                     KonqOperations::rename(this, oldUrl, newUrl);
-                    emit doingOperation(KIO::FileUndoManager::Rename);
                 }
             }
         }
@@ -588,14 +587,12 @@ void DolphinView::renameSelectedItems()
             KUrl newUrl = oldUrl;
             newUrl.setFileName(newName);
             KonqOperations::rename(this, oldUrl, newUrl);
-            emit doingOperation(KIO::FileUndoManager::Rename);
         }
     }
 }
 
 void DolphinView::trashSelectedItems()
 {
-    emit doingOperation(KIO::FileUndoManager::Trash);
     const KUrl::List list = simplifiedSelectedUrls();
     KonqOperations::del(this, KonqOperations::TRASH, list);
 }
@@ -820,11 +817,7 @@ void DolphinView::dropUrls(const KFileItem& destItem,
                            const KUrl& destPath,
                            QDropEvent* event)
 {
-    DolphinDropController dropController(this);
-    // forward doingOperation signal up to the mainwindow
-    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
-            this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
-    dropController.dropUrls(destItem, destPath, event);
+    DolphinDropController::dropUrls(destItem, destPath, event, this);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)
@@ -1252,11 +1245,9 @@ void DolphinView::pasteToUrl(const KUrl& url)
     const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
         KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url);
-        emit doingOperation(KIO::FileUndoManager::Move);
         clipboard->clear();
     } else {
         KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url);
-        emit doingOperation(KIO::FileUndoManager::Copy);
     }
 }
 

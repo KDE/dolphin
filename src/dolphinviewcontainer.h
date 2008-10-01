@@ -201,6 +201,12 @@ private slots:
      * into the URL navigator.
      */
     void saveRootUrl(const KUrl& url);
+    
+    /**
+     * Is connected with the URL navigator and drops the URLs
+     * above the destination \a destination.
+     */
+    void dropUrls(const KUrl& destination, QDropEvent* event);
 
 private:
     /**

@@ -513,12 +513,6 @@ signals:
      */
     void startedPathLoading(const KUrl& url);
 
-    /**
-     * Is emitted when renaming, copying, moving, linking etc.
-     * Used for feedback in the mainwindow.
-     */
-    void doingOperation(KIO::FileUndoManager::CommandType type);
-
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);

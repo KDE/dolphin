@@ -68,12 +68,6 @@ signals:
      */
     void changeSelection(const KFileItemList& selection);
 
-    /**
-     * This signal is emitted whenever a drop action on this widget needs the
-     * MainWindow's attention.
-     */
-    void urlsDropped(const KFileItem& destItem, const KUrl& destPath, QDropEvent* event);
-
 public slots:
     /**
      * Changes the current selection inside the tree to \a url.

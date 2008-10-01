@@ -110,6 +110,10 @@ DolphinMainWindow::DolphinMainWindow(int id) :
             this, SLOT(slotUndoAvailable(bool)));
     connect(undoManager, SIGNAL(undoTextChanged(const QString&)),
             this, SLOT(slotUndoTextChanged(const QString&)));
+    connect(undoManager, SIGNAL(jobRecordingStarted(CommandType)),
+            this, SLOT(clearStatusBar()));
+    connect(undoManager, SIGNAL(jobRecordingFinished(CommandType)),
+            this, SLOT(showCommand(CommandType)));
     connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(const QString&)),
             this, SLOT(slotHandlePlacesError(const QString&)));
 }
@@ -134,10 +138,39 @@ void DolphinMainWindow::toggleViews()
     m_viewTab[m_tabIndex].secondaryView = container;
 }
 
-void DolphinMainWindow::slotDoingOperation(KIO::FileUndoManager::CommandType commandType)
+void DolphinMainWindow::showCommand(CommandType command)
 {
-    clearStatusBar();
-    m_undoCommandTypes.append(commandType);
+    DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
+    switch (command) {
+    case KIO::FileUndoManager::Copy:
+        statusBar->setMessage(i18nc("@info:status", "Copy operation completed."),
+                              DolphinStatusBar::OperationCompleted);
+        break;
+    case KIO::FileUndoManager::Move:
+        statusBar->setMessage(i18nc("@info:status", "Move operation completed."),
+                              DolphinStatusBar::OperationCompleted);
+        break;
+    case KIO::FileUndoManager::Link:
+        statusBar->setMessage(i18nc("@info:status", "Link operation completed."),
+                              DolphinStatusBar::OperationCompleted);
+        break;
+    case KIO::FileUndoManager::Trash:
+        statusBar->setMessage(i18nc("@info:status", "Move to trash operation completed."),
+                              DolphinStatusBar::OperationCompleted);
+        break;
+    case KIO::FileUndoManager::Rename:
+        statusBar->setMessage(i18nc("@info:status", "Renaming operation completed."),
+                              DolphinStatusBar::OperationCompleted);
+        break;
+
+    case KIO::FileUndoManager::Mkdir:
+        statusBar->setMessage(i18nc("@info:status", "Created folder."),
+                              DolphinStatusBar::OperationCompleted);
+        break;
+
+    default:
+        break;
+    }
 }
 
 void DolphinMainWindow::refreshViews()
@@ -155,16 +188,6 @@ void DolphinMainWindow::refreshViews()
     }
 
     setActiveViewContainer(activeViewContainer);
-}
-
-void DolphinMainWindow::dropUrls(const KFileItem& destItem,
-                                 const KUrl& destPath,
-                                 QDropEvent* event)
-{
-    DolphinDropController dropController(this);
-    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
-            this, SLOT(slotDoingOperation(KIO::FileUndoManager::CommandType)));
-    dropController.dropUrls(destItem, destPath, event);
 }
 
 void DolphinMainWindow::pasteIntoFolder()
@@ -379,42 +402,6 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
     QAction* undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
     if (undoAction != 0) {
         undoAction->setEnabled(available);
-    }
-
-    if (available && (m_undoCommandTypes.count() > 0)) {
-        const KIO::FileUndoManager::CommandType command = m_undoCommandTypes.takeFirst();
-        DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
-        switch (command) {
-        case KIO::FileUndoManager::Copy:
-            statusBar->setMessage(i18nc("@info:status", "Copy operation completed."),
-                                  DolphinStatusBar::OperationCompleted);
-            break;
-        case KIO::FileUndoManager::Move:
-            statusBar->setMessage(i18nc("@info:status", "Move operation completed."),
-                                  DolphinStatusBar::OperationCompleted);
-            break;
-        case KIO::FileUndoManager::Link:
-            statusBar->setMessage(i18nc("@info:status", "Link operation completed."),
-                                  DolphinStatusBar::OperationCompleted);
-            break;
-        case KIO::FileUndoManager::Trash:
-            statusBar->setMessage(i18nc("@info:status", "Move to trash operation completed."),
-                                  DolphinStatusBar::OperationCompleted);
-            break;
-        case KIO::FileUndoManager::Rename:
-            statusBar->setMessage(i18nc("@info:status", "Renaming operation completed."),
-                                  DolphinStatusBar::OperationCompleted);
-            break;
-
-        case KIO::FileUndoManager::Mkdir:
-            statusBar->setMessage(i18nc("@info:status", "Created folder."),
-                                  DolphinStatusBar::OperationCompleted);
-            break;
-
-        default:
-            break;
-        }
-
     }
 }
 
@@ -1059,8 +1046,6 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
     connect(treeWidget, SIGNAL(changeSelection(KFileItemList)),
             this, SLOT(changeSelection(KFileItemList)));
-    connect(treeWidget, SIGNAL(urlsDropped(KFileItem, KUrl, QDropEvent*)),
-            this, SLOT(dropUrls(KFileItem, KUrl, QDropEvent*)));
 
     // setup "Terminal"
 #ifndef Q_OS_WIN
@@ -1174,8 +1159,6 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),
             this, SLOT(toggleActiveView()));
-    connect(view, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
-            this, SLOT(slotDoingOperation(KIO::FileUndoManager::CommandType)));
     connect(view, SIGNAL(tabRequested(const KUrl&)),
             this, SLOT(openNewTab(const KUrl&)));
 

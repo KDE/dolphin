@@ -45,11 +45,7 @@ void DolphinFilePlacesView::mousePressEvent(QMouseEvent* event)
 
 void DolphinFilePlacesView::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
 {
-    DolphinDropController dropController(parent);
-    // forward doingOperation signal up to the mainwindow
-    connect(&dropController, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)),
-            this, SIGNAL(doingOperation(KIO::FileUndoManager::CommandType)));
-    dropController.dropUrls(KFileItem(), dest, event);
+    DolphinDropController::dropUrls(KFileItem(), dest, event, parent);
 }
 
 void DolphinFilePlacesView::emitExtendedUrlChangedSignal(const KUrl& url)

@@ -20,25 +20,19 @@
 #ifndef DOLPHINDROPCONTROLLER_H
 #define DOLPHINDROPCONTROLLER_H
 
-#include <QObject>
-#include <kio/fileundomanager.h>
-
 #include "libdolphin_export.h"
 
 class QDropEvent;
+class QWidget;
 class KUrl;
 class KFileItem;
 
 /**
  * @brief Handler for drop events, shared between DolphinView and TreeViewSidebarPage
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinDropController : public QObject
+class LIBDOLPHINPRIVATE_EXPORT DolphinDropController
 {
-    Q_OBJECT
 public:
-    explicit DolphinDropController(QWidget* parentWidget);
-    virtual ~DolphinDropController();
-
     /**
      * Handles the dropping of URLs to the given
      * destination. A context menu with the options
@@ -46,21 +40,13 @@ public:
      * 'Cancel' is offered to the user.
      * @param destItem  Item of the destination (can be null, see KFileItem::isNull()).
      * @param destPath  Path of the destination.
-     * @param event     Drop event
+     * @param event     Drop event.
+     * @param widget    Source widget where the dragging has been started.
      */
-    void dropUrls(const KFileItem& destItem,
-                  const KUrl& destPath,
-                  QDropEvent* event);
-
-signals:
-    /**
-     * Is emitted when renaming, copying, moving, linking etc.
-     * Used for feedback in the mainwindow.
-     */
-    void doingOperation(KIO::FileUndoManager::CommandType type);
-
-private:
-    QWidget* m_parentWidget;
+    static void dropUrls(const KFileItem& destItem,
+                         const KUrl& destPath,
+                         QDropEvent* event,
+                         QWidget* widget);
 };
 
 #endif // DOLPHINDROPCONTROLLER_H

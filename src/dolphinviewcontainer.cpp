@@ -46,6 +46,7 @@
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
+#include "dolphindropcontroller.h"
 #include "dolphinstatusbar.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
@@ -80,8 +81,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_topLayout->setMargin(0);
 
     m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
-    connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl::List&, const KUrl&)),
-            m_mainWindow, SLOT(dropUrls(const KUrl::List&, const KUrl&)));
+    connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl&, QDropEvent*)),
+            this, SLOT(dropUrls(const KUrl&, QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
             this, SLOT(activate()));
 
@@ -404,6 +405,11 @@ void DolphinViewContainer::saveRootUrl(const KUrl& url)
 {
     Q_UNUSED(url);
     m_urlNavigator->saveRootUrl(m_view->rootUrl());
+}
+
+void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
+{
+    DolphinDropController::dropUrls(KFileItem(), destination, event, this);
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
