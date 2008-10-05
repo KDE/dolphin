@@ -30,16 +30,16 @@
 
 StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     KCapacityBar(KCapacityBar::DrawTextInline, parent),
-    m_kBSize(0)
+    m_kBSize(0),
+    m_timer(0)
 {
     setMaximumWidth(200);
     setMinimumWidth(200); // something to fix on kcapacitybar (ereslibre)
 
-    // Update the space information each 10 seconds. Polling is useful
+    // Use a timer to update the space information. Polling is useful
     // here, as files can be deleted/added outside the scope of Dolphin.
-    QTimer* timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()), this, SLOT(refresh()));
-    timer->start(10000);
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(refresh()));
 }
 
 StatusBarSpaceInfo::~StatusBarSpaceInfo()
@@ -52,8 +52,26 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
     refresh();
 }
 
+void StatusBarSpaceInfo::showEvent(QShowEvent* event)
+{
+    KCapacityBar::showEvent(event);
+    if (!event->spontaneous()) {
+        m_timer->start(10000);
+    }
+}
+
+void StatusBarSpaceInfo::hideEvent(QHideEvent* event)
+{
+    m_timer->stop();
+    KCapacityBar::hideEvent(event);
+}
+
 void StatusBarSpaceInfo::refresh()
 {
+    if (!isVisible()) {
+        return;
+    }
+    
     // KDiskFreeSpace is for local paths only
     if (!m_url.isLocalFile()) {
         setText(i18nc("@info:status", "Unknown size"));

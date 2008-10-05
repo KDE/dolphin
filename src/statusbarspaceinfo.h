@@ -29,6 +29,8 @@
 #include <kcapacitybar.h>
 
 class KDiskFreeSp;
+class QHideEvent;
+class QShowEvent;
 
 /**
  * @short Shows the available space for the volume represented
@@ -45,6 +47,10 @@ public:
     void setUrl(const KUrl& url);
     const KUrl& url() const;
 
+protected:
+    void showEvent(QShowEvent* event);
+    void hideEvent(QHideEvent* event);
+    
 private slots:
     /** Refreshes the space information for the current set URL. */
     void refresh();
@@ -52,6 +58,7 @@ private slots:
 private:
     quint64 m_kBSize;
     KUrl m_url;
+    QTimer* m_timer;
 };
 
 inline const KUrl& StatusBarSpaceInfo::url() const
