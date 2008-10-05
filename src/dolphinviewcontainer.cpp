@@ -144,9 +144,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(restoreView(const KUrl&)));
 
-    m_statusBar = new DolphinStatusBar(this, url);
-    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
-            m_statusBar, SLOT(updateSpaceInfoContent(const KUrl&)));
+    m_statusBar = new DolphinStatusBar(this, m_view);
 
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());

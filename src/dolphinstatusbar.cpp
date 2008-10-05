@@ -19,9 +19,12 @@
  ***************************************************************************/
 
 #include "dolphinstatusbar.h"
+#include "dolphinsettings.h"
 #include "dolphinview.h"
+#include "dolphin_generalsettings.h"
 #include "statusbarmessagelabel.h"
 #include "statusbarspaceinfo.h"
+#include "zoomlevelinfo.h"
 
 #include <QtGui/QLabel>
 #include <QtGui/QProgressBar>
@@ -30,27 +33,58 @@
 #include <kiconloader.h>
 #include <kvbox.h>
 
-DolphinStatusBar::DolphinStatusBar(QWidget* parent, const KUrl& url) :
+DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     KHBox(parent),
+    m_view(view),
     m_messageLabel(0),
     m_spaceInfo(0),
+    m_zoomSlider(0),
+    m_zoomTimer(0),
     m_progressBar(0),
-    m_progress(100)
+    m_progress(100),
+    m_requestedZoomLevel(0)
 {
     setSpacing(4);
 
+    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
+            this, SLOT(updateSpaceInfoContent(const KUrl&)));
+
+    // initialize message label
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
+    // initialize space information
     m_spaceInfo = new StatusBarSpaceInfo(this);
-    m_spaceInfo->setUrl(url);
-
+    m_spaceInfo->setUrl(m_view->url());
+    
+    // initialize zoom slider
+    m_zoomSlider = new QSlider(Qt::Horizontal, this);
+    m_zoomSlider->setPageStep(1);
+    
+    const int min = ZoomLevelInfo::minimumLevel();
+    const int max = ZoomLevelInfo::maximumLevel();
+    m_zoomSlider->setRange(min, max);
+    m_zoomSlider->setValue(view->zoomLevel());
+    
+    connect(m_zoomSlider, SIGNAL(sliderMoved(int)),
+            this, SLOT(requestZoomLevel(int)));
+    connect(m_view, SIGNAL(zoomLevelChanged(int)),
+            m_zoomSlider, SLOT(setValue(int)));
+            
+    m_zoomTimer = new QTimer(this);
+    m_zoomTimer->setSingleShot(true);
+    m_zoomTimer->setInterval(50);
+    connect(m_zoomTimer, SIGNAL(timeout()),
+            this, SLOT(updateZoomLevel()));
+            
+    // initialize progress informatino
     m_progressText = new QLabel(this);
     m_progressText->hide();
 
     m_progressBar = new QProgressBar(this);
     m_progressBar->hide();
 
+    // initialize sizes
     const int contentHeight = QFontMetrics(m_messageLabel->font()).height() + 4;
     const int barHeight = contentHeight + 4;
 
@@ -59,6 +93,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, const KUrl& url) :
     m_spaceInfo->setFixedHeight(contentHeight);
     m_progressBar->setFixedHeight(contentHeight);
     m_progressBar->setMaximumWidth(200);
+    m_zoomSlider->setMaximumWidth(100);
+    
+    setExtensionsVisible(true);
 }
 
 
@@ -76,7 +113,7 @@ void DolphinStatusBar::setMessage(const QString& msg,
         m_progressBar->hide();
         m_progressText->hide();
     }
-    showSpaceInfo();
+    assureVisibleText();
 }
 
 DolphinStatusBar::Type DolphinStatusBar::type() const
@@ -146,47 +183,76 @@ const QString& DolphinStatusBar::defaultText() const
 void DolphinStatusBar::resizeEvent(QResizeEvent* event)
 {
     QWidget::resizeEvent(event);
-    QMetaObject::invokeMethod(this, "showSpaceInfo", Qt::QueuedConnection);
+    QMetaObject::invokeMethod(this, "assureVisibleText", Qt::QueuedConnection);
 }
 
 void DolphinStatusBar::updateProgressInfo()
 {
     const bool isErrorShown = (m_messageLabel->type() == Error);
     if (m_progress < 100) {
-        // show the progress information and hide the space information
-        m_spaceInfo->hide();
+        // show the progress information and hide the extensions
+        setExtensionsVisible(false);
         if (!isErrorShown) {
             m_progressText->show();
             m_progressBar->show();
         }
     } else {
-        // hide the progress information and show the space information
+        // hide the progress information and show the extensions
         m_progressText->hide();
         m_progressBar->hide();
-        showSpaceInfo();
+        assureVisibleText();
     }
 }
 
 void DolphinStatusBar::updateSpaceInfoContent(const KUrl& url)
 {
     m_spaceInfo->setUrl(url);
-    showSpaceInfo();
+    assureVisibleText();
 }
 
-void DolphinStatusBar::showSpaceInfo()
+void DolphinStatusBar::requestZoomLevel(int zoomLevel)
+{
+    m_requestedZoomLevel = zoomLevel;
+    m_zoomTimer->start();
+}
+
+void DolphinStatusBar::updateZoomLevel()
+{
+    m_view->setZoomLevel(m_requestedZoomLevel);
+}
+
+void DolphinStatusBar::assureVisibleText()
 {
     const int widthGap = m_messageLabel->widthGap();
     const bool isProgressBarVisible = m_progressBar->isVisible();
+    
+    const int spaceInfoWidth  = m_spaceInfo->isVisible()  ? m_spaceInfo->width()  : 0;
+    const int zoomSliderWidth = m_zoomSlider->isVisible() ? m_zoomSlider->width() : 0;
+    const int widgetsWidth = spaceInfoWidth + zoomSliderWidth;
 
-    if (m_spaceInfo->isVisible()) {
-        // The space information is shown currently. Hide it if
-        // the status bar text does not fit into the available width.
+    if (widgetsWidth > 0) {
+        // The space information and (or) the zoom slider are (is) shown.
+        // Hide them if the status bar text does not fit into the available width.
         if (widthGap > 0) {
-            m_spaceInfo->hide();
+            setExtensionsVisible(false);
         }
-    } else if (!isProgressBarVisible && (widthGap + m_spaceInfo->width() <= 0)) {
-        m_spaceInfo->show();
+    } else if (!isProgressBarVisible && (widthGap + widgetsWidth <= 0)) {
+        setExtensionsVisible(true);
     }
+}
+
+void DolphinStatusBar::setExtensionsVisible(bool visible)
+{
+    bool spaceInfoVisible = visible;
+    bool zoomSliderVisible = visible;
+    if (visible) {
+        const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+        spaceInfoVisible = settings->showSpaceInfo();
+        zoomSliderVisible = settings->showZoomSlider();
+    }
+    
+    m_spaceInfo->setVisible(spaceInfoVisible);
+    m_zoomSlider->setVisible(zoomSliderVisible);
 }
 
 #include "dolphinstatusbar.moc"

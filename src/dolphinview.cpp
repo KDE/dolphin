@@ -193,6 +193,7 @@ void DolphinView::setMode(Mode mode)
         return; // the wished mode is already set
     }
 
+    const int oldZoomLevel = m_controller->zoomLevel();
     m_mode = mode;
 
     deleteView();
@@ -219,6 +220,7 @@ void DolphinView::setMode(Mode mode)
     }
 
     emit modeChanged();
+    updateZoomLevel(oldZoomLevel);
 }
 
 DolphinView::Mode DolphinView::mode() const
@@ -1102,9 +1104,13 @@ void DolphinView::applyViewProperties(const KUrl& url)
 
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
+        const int oldZoomLevel = m_controller->zoomLevel();
+        
         m_mode = mode;
         createView();
         emit modeChanged();
+        
+        updateZoomLevel(oldZoomLevel);
     }
     if (itemView() == 0) {
         createView();
@@ -1220,7 +1226,7 @@ void DolphinView::createView()
 
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    m_previewGenerator = new KFilePreviewGenerator(view, m_proxyModel);
+    m_previewGenerator = new KFilePreviewGenerator(view);
     m_previewGenerator->setPreviewShown(m_showPreview);
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {

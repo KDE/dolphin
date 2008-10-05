@@ -59,5 +59,13 @@
             <label context="@label">Use auto-expanding folders for all view types</label>
             <default>false</default>
         </entry>
+        <entry name="ShowZoomSlider" type="Bool">
+            <label context="@label">Show zoom slider in the statusbar</label>
+            <default>true</default>
+        </entry>
+        <entry name="ShowSpaceInfo" type="Bool">
+            <label context="@label">Show the space information in the statusbar</label>
+            <default>false</default>
+        </entry>
     </group>
 </kcfg>

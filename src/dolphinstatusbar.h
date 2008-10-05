@@ -27,8 +27,10 @@ class DolphinView;
 class KUrl;
 class StatusBarMessageLabel;
 class StatusBarSpaceInfo;
-class QProgressBar;
 class QLabel;
+class QProgressBar;
+class QSlider;
+class QTimer;
 
 /**
  * @brief Represents the statusbar of a Dolphin view.
@@ -53,8 +55,7 @@ public:
         Error
     };
 
-    DolphinStatusBar(QWidget* parent,
-                     const KUrl& url);
+    DolphinStatusBar(QWidget* parent, DolphinView* view);
 
     virtual ~DolphinStatusBar();
 
@@ -128,21 +129,50 @@ private slots:
      * content is updated.
      */
     void updateSpaceInfoContent(const KUrl& url);
+    
+    /**
+     * Requests setting the zoom level to \a zoomLevel by applying it
+     * to m_requestedZoomLevel and triggering a short timer, which will
+     * invoke DolphinStatusBar::updateZoomLevel(). This assures no blocking
+     * of the zoom slider when zooming views having a huge number of
+     * items.
+     */
+    void requestZoomLevel(int zoomLevel);
 
     /**
-     * Shows the space information if there is enough room to show it
-     * without the need to clip the status bar text. If the progress
-     * bar is shown, the space information won't be shown.
+     * Updates the zoom level to m_requestedZoomLevel (see also
+     * DolphinStatusBar::requestZoomLevel().
      */
-    void showSpaceInfo();
+    void updateZoomLevel();
+
+    /**
+     * Assures that the text of the statusbar stays visible by hiding
+     * the space information widget or the zoom slider widget if not
+     * enough width is available.
+     */
+    void assureVisibleText();
+    
+private:
+    /**
+     * Makes the space information widget and zoom slider widget
+     * visible, if \a visible is true and the settings allow to show
+     * the widgets. If \a visible is false, it is assured that both
+     * widgets are hidden.
+     */
+    void setExtensionsVisible(bool visible);
 
 private:
+    DolphinView* m_view;
     StatusBarMessageLabel* m_messageLabel;
     StatusBarSpaceInfo* m_spaceInfo;
+    QSlider* m_zoomSlider;
+    QTimer* m_zoomTimer;
 
     QLabel* m_progressText;
     QProgressBar* m_progressBar;
     int m_progress;
+    
+    int m_requestedZoomLevel;
 };
 
 #endif
