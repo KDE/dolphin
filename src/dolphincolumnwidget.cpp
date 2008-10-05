@@ -132,7 +132,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                 m_selectionManager, SLOT(reset()));
     }
 
-    m_previewGenerator = new KFilePreviewGenerator(this, m_proxyModel);
+    m_previewGenerator = new KFilePreviewGenerator(this);
     m_previewGenerator->setPreviewShown(m_view->m_controller->dolphinView()->showPreview());
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
