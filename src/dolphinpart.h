@@ -178,6 +178,18 @@ private Q_SLOTS:
      */
     void updateNewMenu();
 
+    /**
+     * Updates the number of items (= number of files + number of
+     * directories) in the statusbar. If files are selected, the number
+     * of selected files and the sum of the filesize is shown.
+     */
+    void updateStatusBar();
+
+   /**
+    * Notify container of folder loading progress.
+    */
+    void updateProgress(int percent);
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,

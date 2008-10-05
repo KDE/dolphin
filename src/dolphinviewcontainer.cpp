@@ -284,58 +284,6 @@ void DolphinViewContainer::closeFilterBar()
     emit showFilterBarChanged(false);
 }
 
-QString DolphinViewContainer::defaultStatusBarText() const
-{
-    int folderCount = 0;
-    int fileCount = 0;
-    m_view->calculateItemCount(fileCount, folderCount);
-    return KIO::itemsSummaryString(fileCount + folderCount,
-                                   fileCount,
-                                   folderCount,
-                                   0, false);
-}
-
-QString DolphinViewContainer::selectionStatusBarText() const
-{
-    QString text;
-    const KFileItemList list = m_view->selectedItems();
-    if (list.isEmpty()) {
-        // when an item is triggered, it is temporary selected but selectedItems()
-        // will return an empty list
-        return QString();
-    }
-
-    int fileCount = 0;
-    int folderCount = 0;
-    KIO::filesize_t byteSize = 0;
-    KFileItemList::const_iterator it = list.begin();
-    const KFileItemList::const_iterator end = list.end();
-    while (it != end) {
-        const KFileItem& item = *it;
-        if (item.isDir()) {
-            ++folderCount;
-        } else {
-            ++fileCount;
-            byteSize += item.size();
-        }
-        ++it;
-    }
-
-    if (folderCount > 0) {
-        text = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
-        if (fileCount > 0) {
-            text += ", ";
-        }
-    }
-
-    if (fileCount > 0) {
-        const QString sizeText(KIO::convertSize(byteSize));
-        text += i18ncp("@info:status", "1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText);
-    }
-
-    return text;
-}
-
 void DolphinViewContainer::showFilterBar(bool show)
 {
     Q_ASSERT(m_filterBar != 0);
@@ -357,7 +305,7 @@ void DolphinViewContainer::updateStatusBar()
                                      (m_statusBar->type() == DolphinStatusBar::Information)) &&
                                     (m_statusBar->progress() == 100);
 
-    const QString text(m_view->hasSelection() ? selectionStatusBarText() : defaultStatusBarText());
+    const QString text(m_view->statusBarText());
     m_statusBar->setDefaultText(text);
 
     if (updateStatusBarMsg) {

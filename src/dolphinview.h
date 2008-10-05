@@ -305,7 +305,13 @@ public:
      * directory lister or the model directly, as it takes
      * filtering and hierarchical previews into account.
      */
-    void calculateItemCount(int& fileCount, int& folderCount);
+    void calculateItemCount(int& fileCount, int& folderCount) const;
+    
+    /**
+     * Returns a textual representation of the state of the current
+     * folder or selected items, suitable for use in the status bar.
+     */
+    QString statusBarText() const;
 
     /**
      * Updates the state of the 'Additional Information' actions in \a collection.

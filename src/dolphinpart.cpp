@@ -67,6 +67,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     //connect(m_dirLister, SIGNAL(started(KUrl)), this, SLOT(slotStarted()));
     connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted(KUrl)));
     connect(m_dirLister, SIGNAL(canceled(KUrl)), this, SLOT(slotCanceled(KUrl)));
+    connect(m_dirLister, SIGNAL(percent(int)), this, SLOT(updateProgress(int)));
 
     m_dolphinModel = new DolphinModel(this);
     m_dolphinModel->setDirLister(m_dirLister);
@@ -106,6 +107,14 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotRequestUrlChange(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SIGNAL(viewModeChanged())); // relay signal
+    
+    // Watch for changes that should result in updates to the
+    // status bar text.
+    connect(m_dirLister, SIGNAL(deleteItem(const KFileItem&)),
+            this, SLOT(updateStatusBar()));
+    connect(m_dirLister, SIGNAL(clear()),
+            this, SLOT(updateStatusBar()));
+
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);
@@ -293,6 +302,11 @@ void DolphinPart::slotErrorMessage(const QString& msg)
 void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 {
     emit m_extension->mouseOverInfo(item);
+    if (item.isNull()) {
+        updateStatusBar();
+    } else {
+        ReadOnlyPart::setStatusBarText(item.getStatusBarInfo());
+    }
 }
 
 void DolphinPart::slotItemTriggered(const KFileItem& item)
@@ -486,6 +500,16 @@ void DolphinPart::updateNewMenu()
     m_newMenu->slotCheckUpToDate();
     // And set the files that the menu apply on :
     m_newMenu->setPopupFiles(url());
+}
+
+void DolphinPart::updateStatusBar()
+{
+    emit ReadOnlyPart::setStatusBarText(m_view->statusBarText());
+}
+
+void DolphinPart::updateProgress(int percent)
+{
+    m_extension->loadingProgress(percent);
 }
 
 #include "dolphinpart.moc"

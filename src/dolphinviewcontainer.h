@@ -209,19 +209,6 @@ private slots:
     void dropUrls(const KUrl& destination, QDropEvent* event);
 
 private:
-    /**
-     * Returns the default text of the status bar, if no item is
-     * selected.
-     */
-    QString defaultStatusBarText() const;
-
-    /**
-     * Returns the text for the status bar, if at least one item
-     * is selected.
-     */
-    QString selectionStatusBarText() const;
-
-private:
     bool m_showProgress;
 
     DolphinMainWindow* m_mainWindow;
