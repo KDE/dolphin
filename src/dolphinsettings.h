@@ -44,28 +44,11 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinSettings
 public:
     static DolphinSettings& instance();
 
-    GeneralSettings* generalSettings() const
-    {
-        return m_generalSettings;
-    }
-    IconsModeSettings* iconsModeSettings() const
-    {
-        return m_iconsModeSettings;
-    }
-    DetailsModeSettings* detailsModeSettings() const
-    {
-        return m_detailsModeSettings;
-    }
-    ColumnModeSettings* columnModeSettings() const
-    {
-        return m_columnModeSettings;
-    }
-    KFilePlacesModel* placesModel() const
-    {
-        return m_placesModel;
-    }
-
-    /** @see DolphinSettingsBase::save */
+    GeneralSettings* generalSettings() const;
+    IconsModeSettings* iconsModeSettings() const;
+    DetailsModeSettings* detailsModeSettings() const;
+    ColumnModeSettings* columnModeSettings() const;
+    KFilePlacesModel* placesModel() const;
     virtual void save();
 
 protected:
@@ -80,5 +63,30 @@ private:
     ColumnModeSettings* m_columnModeSettings;
     KFilePlacesModel* m_placesModel;
 };
+
+inline GeneralSettings* DolphinSettings::generalSettings() const
+{
+    return m_generalSettings;
+}
+
+inline IconsModeSettings* DolphinSettings::iconsModeSettings() const
+{
+    return m_iconsModeSettings;
+}
+
+inline DetailsModeSettings* DolphinSettings::detailsModeSettings() const
+{
+    return m_detailsModeSettings;
+}
+
+inline ColumnModeSettings* DolphinSettings::columnModeSettings() const
+{
+    return m_columnModeSettings;
+}
+
+inline KFilePlacesModel* DolphinSettings::placesModel() const
+{
+    return m_placesModel;
+}
 
 #endif
