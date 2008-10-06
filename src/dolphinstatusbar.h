@@ -131,19 +131,9 @@ private slots:
     void updateSpaceInfoContent(const KUrl& url);
     
     /**
-     * Requests setting the zoom level to \a zoomLevel by applying it
-     * to m_requestedZoomLevel and triggering a short timer, which will
-     * invoke DolphinStatusBar::updateZoomLevel(). This assures no blocking
-     * of the zoom slider when zooming views having a huge number of
-     * items.
+     * Sets the zoom level of the item view to \a zoomLevel.
      */
-    void requestZoomLevel(int zoomLevel);
-
-    /**
-     * Updates the zoom level to m_requestedZoomLevel (see also
-     * DolphinStatusBar::requestZoomLevel().
-     */
-    void updateZoomLevel();
+    void setZoomLevel(int zoomLevel);
 
     /**
      * Assures that the text of the statusbar stays visible by hiding
@@ -166,13 +156,10 @@ private:
     StatusBarMessageLabel* m_messageLabel;
     StatusBarSpaceInfo* m_spaceInfo;
     QSlider* m_zoomSlider;
-    QTimer* m_zoomTimer;
 
     QLabel* m_progressText;
     QProgressBar* m_progressBar;
     int m_progress;
-    
-    int m_requestedZoomLevel;
 };
 
 #endif

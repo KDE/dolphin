@@ -39,10 +39,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_messageLabel(0),
     m_spaceInfo(0),
     m_zoomSlider(0),
-    m_zoomTimer(0),
     m_progressBar(0),
-    m_progress(100),
-    m_requestedZoomLevel(0)
+    m_progress(100)
 {
     setSpacing(4);
 
@@ -67,15 +65,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_zoomSlider->setValue(view->zoomLevel());
     
     connect(m_zoomSlider, SIGNAL(sliderMoved(int)),
-            this, SLOT(requestZoomLevel(int)));
+            this, SLOT(setZoomLevel(int)));
     connect(m_view, SIGNAL(zoomLevelChanged(int)),
             m_zoomSlider, SLOT(setValue(int)));
-            
-    m_zoomTimer = new QTimer(this);
-    m_zoomTimer->setSingleShot(true);
-    m_zoomTimer->setInterval(50);
-    connect(m_zoomTimer, SIGNAL(timeout()),
-            this, SLOT(updateZoomLevel()));
             
     // initialize progress informatino
     m_progressText = new QLabel(this);
@@ -210,15 +202,9 @@ void DolphinStatusBar::updateSpaceInfoContent(const KUrl& url)
     assureVisibleText();
 }
 
-void DolphinStatusBar::requestZoomLevel(int zoomLevel)
+void DolphinStatusBar::setZoomLevel(int zoomLevel)
 {
-    m_requestedZoomLevel = zoomLevel;
-    m_zoomTimer->start();
-}
-
-void DolphinStatusBar::updateZoomLevel()
-{
-    m_view->setZoomLevel(m_requestedZoomLevel);
+    m_view->setZoomLevel(zoomLevel);
 }
 
 void DolphinStatusBar::assureVisibleText()
