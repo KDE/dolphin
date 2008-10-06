@@ -104,6 +104,11 @@ public:
 
     const DolphinView* view() const;
     DolphinView* view();
+    
+    /**
+     * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
+     */
+    void refresh();
 
     /** Returns true, if the filter bar is visible. */
     bool isFilterBarVisible() const;

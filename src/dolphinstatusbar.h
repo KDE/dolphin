@@ -115,6 +115,11 @@ public:
      */
     void setDefaultText(const QString& text);
     const QString& defaultText() const;
+        
+    /**
+     * Refreshes the status bar to get synchronized with the (updated) Dolphin settings.
+     */
+    void refresh();
 
 protected:
     /** @see QWidget::resizeEvent() */

@@ -56,6 +56,7 @@ void StatusBarSpaceInfo::showEvent(QShowEvent* event)
 {
     KCapacityBar::showEvent(event);
     if (!event->spontaneous()) {
+        refresh();
         m_timer->start(10000);
     }
 }

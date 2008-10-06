@@ -39,6 +39,8 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_confirmDelete(0),
     m_showDeleteCommand(0),
     m_showCopyMoveMenu(0),
+    m_showZoomSlider(0),
+    m_showSpaceInfo(0),
     m_browseThroughArchives(0),
     m_renameInline(0)
 {
@@ -75,6 +77,18 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     QVBoxLayout* contextMenuBoxLayout = new QVBoxLayout(contextMenuBox);
     contextMenuBoxLayout->addWidget(m_showDeleteCommand);
     contextMenuBoxLayout->addWidget(m_showCopyMoveMenu);
+    
+    QGroupBox* statusBarBox = new QGroupBox(i18nc("@title:group", "Status Bar"), vBox);
+    
+    m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), statusBarBox);
+    connect(m_showZoomSlider, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
+    m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), statusBarBox);
+    connect(m_showSpaceInfo, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
+    QVBoxLayout* statusBarBoxLayout = new QVBoxLayout(statusBarBox);
+    statusBarBoxLayout->addWidget(m_showZoomSlider);
+    statusBarBoxLayout->addWidget(m_showSpaceInfo);
 
     m_browseThroughArchives = new QCheckBox(i18nc("@option:check", "Browse through archives"), vBox);
     connect(m_browseThroughArchives, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -112,6 +126,8 @@ void GeneralSettingsPage::applySettings()
     configGroup.sync();
 
     settings->setShowCopyMoveMenu(m_showCopyMoveMenu->isChecked());
+    settings->setShowZoomSlider(m_showZoomSlider->isChecked());
+    settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
     settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
 }
@@ -139,6 +155,8 @@ void GeneralSettingsPage::loadSettings()
     
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_showCopyMoveMenu->setChecked(settings->showCopyMoveMenu());
+    m_showZoomSlider->setChecked(settings->showZoomSlider());
+    m_showSpaceInfo->setChecked(settings->showSpaceInfo());
     m_browseThroughArchives->setChecked(settings->browseThroughArchives());
     m_renameInline->setChecked(settings->renameInline());
 }

@@ -90,7 +90,6 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     setExtensionsVisible(true);
 }
 
-
 DolphinStatusBar::~DolphinStatusBar()
 {
 }
@@ -170,6 +169,12 @@ void DolphinStatusBar::setDefaultText(const QString& text)
 const QString& DolphinStatusBar::defaultText() const
 {
     return m_messageLabel->defaultText();
+}
+
+void DolphinStatusBar::refresh()
+{
+    setExtensionsVisible(true);
+    assureVisibleText();
 }
 
 void DolphinStatusBar::resizeEvent(QResizeEvent* event)

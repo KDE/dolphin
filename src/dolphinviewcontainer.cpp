@@ -197,6 +197,12 @@ bool DolphinViewContainer::isActive() const
     return m_view->isActive();
 }
 
+void DolphinViewContainer::refresh()
+{
+    m_view->refresh();
+    m_statusBar->refresh();
+}
+
 bool DolphinViewContainer::isFilterBarVisible() const
 {
     return m_filterBar->isVisible();
