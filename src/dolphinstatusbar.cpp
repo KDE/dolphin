@@ -26,11 +26,14 @@
 #include "statusbarspaceinfo.h"
 #include "zoomlevelinfo.h"
 
-#include <QtGui/QLabel>
-#include <QtGui/QProgressBar>
-#include <QtCore/QTimer>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QProgressBar>
+#include <QToolButton>
+#include <QTimer>
 
 #include <kiconloader.h>
+#include <kicon.h>
 #include <kvbox.h>
 
 DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
@@ -38,10 +41,14 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_view(view),
     m_messageLabel(0),
     m_spaceInfo(0),
+    m_zoomWidget(0),
+    m_zoomOut(0),
     m_zoomSlider(0),
+    m_zoomIn(0),
     m_progressBar(0),
     m_progress(100)
 {
+    setMargin(0);
     setSpacing(4);
 
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
@@ -56,7 +63,13 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_spaceInfo->setUrl(m_view->url());
     
     // initialize zoom slider
-    m_zoomSlider = new QSlider(Qt::Horizontal, this);
+    m_zoomWidget = new QWidget(this);
+
+    m_zoomOut = new QToolButton(m_zoomWidget);
+    m_zoomOut->setIcon(KIcon("zoom-out"));
+    m_zoomOut->setAutoRaise(true);
+    
+    m_zoomSlider = new QSlider(Qt::Horizontal, m_zoomWidget);
     m_zoomSlider->setPageStep(1);
     
     const int min = ZoomLevelInfo::minimumLevel();
@@ -64,12 +77,23 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_zoomSlider->setRange(min, max);
     m_zoomSlider->setValue(view->zoomLevel());
     
-    connect(m_zoomSlider, SIGNAL(valueChanged(int)),
-            this, SLOT(setZoomLevel(int)));
-    connect(m_view, SIGNAL(zoomLevelChanged(int)),
-            m_zoomSlider, SLOT(setValue(int)));
+    m_zoomIn = new QToolButton(m_zoomWidget);
+    m_zoomIn->setIcon(KIcon("zoom-in"));
+    m_zoomIn->setAutoRaise(true);
+        
+    QHBoxLayout* zoomWidgetLayout = new QHBoxLayout(m_zoomWidget);
+    zoomWidgetLayout->setSpacing(0);
+    zoomWidgetLayout->setMargin(0);
+    zoomWidgetLayout->addWidget(m_zoomOut);
+    zoomWidgetLayout->addWidget(m_zoomSlider);
+    zoomWidgetLayout->addWidget(m_zoomIn);
+    
+    connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setZoomLevel(int)));
+    connect(m_view, SIGNAL(zoomLevelChanged(int)), m_zoomSlider, SLOT(setValue(int)));
+    connect(m_zoomOut, SIGNAL(clicked()), this, SLOT(zoomOut()));
+    connect(m_zoomIn, SIGNAL(clicked()), this, SLOT(zoomIn()));
             
-    // initialize progress informatino
+    // initialize progress information
     m_progressText = new QLabel(this);
     m_progressText->hide();
 
@@ -83,9 +107,12 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     setMinimumHeight(barHeight);
     m_messageLabel->setMinimumTextHeight(barHeight);
     m_spaceInfo->setFixedHeight(contentHeight);
+    
     m_progressBar->setFixedHeight(contentHeight);
     m_progressBar->setMaximumWidth(200);
-    m_zoomSlider->setMaximumWidth(100);
+    
+    m_zoomWidget->setMaximumWidth(150);
+    m_zoomWidget->setFixedHeight(contentHeight);
     
     setExtensionsVisible(true);
 }
@@ -209,6 +236,8 @@ void DolphinStatusBar::updateSpaceInfoContent(const KUrl& url)
 
 void DolphinStatusBar::setZoomLevel(int zoomLevel)
 {
+    m_zoomOut->setEnabled(zoomLevel > m_zoomSlider->minimum());
+    m_zoomIn->setEnabled(zoomLevel < m_zoomSlider->maximum());
     m_view->setZoomLevel(zoomLevel);
 }
 
@@ -218,8 +247,8 @@ void DolphinStatusBar::assureVisibleText()
     const bool isProgressBarVisible = m_progressBar->isVisible();
     
     const int spaceInfoWidth  = m_spaceInfo->isVisible()  ? m_spaceInfo->width()  : 0;
-    const int zoomSliderWidth = m_zoomSlider->isVisible() ? m_zoomSlider->width() : 0;
-    const int widgetsWidth = spaceInfoWidth + zoomSliderWidth;
+    const int zoomWidgetWidth = m_zoomWidget->isVisible() ? m_zoomWidget->width() : 0;
+    const int widgetsWidth = spaceInfoWidth + zoomWidgetWidth;
 
     if (widgetsWidth > 0) {
         // The space information and (or) the zoom slider are (is) shown.
@@ -230,6 +259,18 @@ void DolphinStatusBar::assureVisibleText()
     } else if (!isProgressBarVisible && (widthGap + widgetsWidth <= 0)) {
         setExtensionsVisible(true);
     }
+}
+
+void DolphinStatusBar::zoomOut()
+{
+    const int value = m_zoomSlider->value();
+    m_zoomSlider->setValue(value - 1);
+}
+
+void DolphinStatusBar::zoomIn()
+{
+    const int value = m_zoomSlider->value();
+    m_zoomSlider->setValue(value + 1);
 }
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)
@@ -243,7 +284,7 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     }
     
     m_spaceInfo->setVisible(spaceInfoVisible);
-    m_zoomSlider->setVisible(zoomSliderVisible);
+    m_zoomWidget->setVisible(zoomSliderVisible);
 }
 
 #include "dolphinstatusbar.moc"

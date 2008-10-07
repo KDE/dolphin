@@ -29,6 +29,7 @@ class StatusBarMessageLabel;
 class StatusBarSpaceInfo;
 class QLabel;
 class QProgressBar;
+class QToolButton;
 class QSlider;
 class QTimer;
 
@@ -147,6 +148,9 @@ private slots:
      */
     void assureVisibleText();
     
+    void zoomOut();
+    void zoomIn();
+    
 private:
     /**
      * Makes the space information widget and zoom slider widget
@@ -160,7 +164,11 @@ private:
     DolphinView* m_view;
     StatusBarMessageLabel* m_messageLabel;
     StatusBarSpaceInfo* m_spaceInfo;
+    
+    QWidget* m_zoomWidget;
+    QToolButton* m_zoomOut;
     QSlider* m_zoomSlider;
+    QToolButton* m_zoomIn;
 
     QLabel* m_progressText;
     QProgressBar* m_progressBar;
