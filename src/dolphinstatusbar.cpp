@@ -64,7 +64,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_zoomSlider->setRange(min, max);
     m_zoomSlider->setValue(view->zoomLevel());
     
-    connect(m_zoomSlider, SIGNAL(sliderMoved(int)),
+    connect(m_zoomSlider, SIGNAL(valueChanged(int)),
             this, SLOT(setZoomLevel(int)));
     connect(m_view, SIGNAL(zoomLevelChanged(int)),
             m_zoomSlider, SLOT(setValue(int)));
