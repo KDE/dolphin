@@ -350,7 +350,13 @@ void DolphinViewContainer::activate()
 
 void DolphinViewContainer::restoreView(const KUrl& url)
 {
-    m_view->updateView(url, m_urlNavigator->savedRootUrl());
+    if (url.protocol().isEmpty()) {
+        // The URL navigator only checks for validity, not
+        // if the URL can be listed. 
+        showErrorMessage(i18nc("@info:status", "Protocol not supported"));
+    } else {
+        m_view->updateView(url, m_urlNavigator->savedRootUrl());
+    }
 }
 
 void DolphinViewContainer::saveRootUrl(const KUrl& url)

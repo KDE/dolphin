@@ -200,6 +200,13 @@ void DolphinMainWindow::pasteIntoFolder()
 
 void DolphinMainWindow::changeUrl(const KUrl& url)
 {
+    if (url.protocol().isEmpty()) {
+        // The URL navigator only checks for validity, not
+        // if the URL can be listed. An error message is
+        // shown due to DolphinViewContainer::restoreView().
+        return;
+    }
+    
     DolphinViewContainer* view = activeViewContainer();
     if (view != 0) {
         view->setUrl(url);
