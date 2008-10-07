@@ -58,6 +58,7 @@
 #include <kio/netaccess.h>
 #include <kinputdialog.h>
 #include <klocale.h>
+#include <kprotocolmanager.h>
 #include <kmenu.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
@@ -200,7 +201,7 @@ void DolphinMainWindow::pasteIntoFolder()
 
 void DolphinMainWindow::changeUrl(const KUrl& url)
 {
-    if (url.protocol().isEmpty()) {
+    if (!KProtocolManager::supportsListing(url)) {
         // The URL navigator only checks for validity, not
         // if the URL can be listed. An error message is
         // shown due to DolphinViewContainer::restoreView().
