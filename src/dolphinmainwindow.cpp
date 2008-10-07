@@ -182,9 +182,12 @@ void DolphinMainWindow::refreshViews()
     // the secondary view
     DolphinViewContainer* activeViewContainer = m_activeViewContainer;
 
-    m_viewTab[m_tabIndex].primaryView->refresh();
-    if (m_viewTab[m_tabIndex].secondaryView != 0) {
-        m_viewTab[m_tabIndex].secondaryView->refresh();
+    const int tabCount = m_viewTab.count();
+    for (int i = 0; i < tabCount; ++i) {
+        m_viewTab[i].primaryView->refresh();
+        if (m_viewTab[i].secondaryView != 0) {
+            m_viewTab[i].secondaryView->refresh();
+        }
     }
 
     setActiveViewContainer(activeViewContainer);
