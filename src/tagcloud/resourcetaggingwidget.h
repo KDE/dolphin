@@ -56,6 +56,7 @@ namespace Nepomuk {
         Private* const d;
 
         Q_PRIVATE_SLOT( d, void _k_slotShowTaggingPopup() )
+        Q_PRIVATE_SLOT( d, void _k_metadataUpdateDone() )
     };
 }
 

@@ -20,6 +20,7 @@
 #include "resourcetaggingwidget.h"
 #include "tagcloud.h"
 #include "taggingpopup.h"
+#include "../nepomukmassupdatejob.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QContextMenuEvent>
@@ -49,7 +50,10 @@ public:
 
     void showTaggingPopup( const QPoint& );
     void _k_slotShowTaggingPopup();
+    void _k_metadataUpdateDone();
     static QList<Tag> intersectTags( const QList<Resource>& );
+
+    ResourceTaggingWidget* q;
 };
 
 
@@ -63,9 +67,11 @@ void Nepomuk::ResourceTaggingWidget::Private::showTaggingPopup( const QPoint& po
 
     popup->exec( pos );
 
-    foreach( Resource res, resources ) {
-        res.setTags( resourceTags );
-    }
+    MassUpdateJob* job = MassUpdateJob::tagResources( resources, resourceTags );
+    connect( job, SIGNAL( result( KJob* ) ),
+             q, SLOT( _k_metadataUpdateDone() ) );
+    q->setEnabled( false ); // no updates during execution
+    job->start();
 
     resourceTagCloud->showTags( resourceTags );
 }
@@ -74,6 +80,12 @@ void Nepomuk::ResourceTaggingWidget::Private::showTaggingPopup( const QPoint& po
 void Nepomuk::ResourceTaggingWidget::Private::_k_slotShowTaggingPopup()
 {
     showTaggingPopup( QCursor::pos() );
+}
+
+
+void Nepomuk::ResourceTaggingWidget::Private::_k_metadataUpdateDone()
+{
+    q->setEnabled( true );
 }
 
 
@@ -101,6 +113,8 @@ Nepomuk::ResourceTaggingWidget::ResourceTaggingWidget( QWidget* parent )
     : QWidget( parent ),
       d( new Private() )
 {
+    d->q = this;
+
     QVBoxLayout* layout = new QVBoxLayout( this );
     layout->setMargin( 0 );
     d->resourceTagCloud = new TagCloud( this );
