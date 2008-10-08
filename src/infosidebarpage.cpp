@@ -195,6 +195,7 @@ void InfoSidebarPage::showItemInfo()
                                            KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
         m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected",  m_selection.count()));
+        m_shownUrl = KUrl();
     } else {
         const KFileItem item = fileItem();
         const KUrl itemUrl = item.url();
