@@ -79,7 +79,7 @@ QSize InfoSidebarPage::sizeHint() const
 void InfoSidebarPage::setUrl(const KUrl& url)
 {
     SidebarPage::setUrl(url);
-    if (url.isValid() && !m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+    if (url.isValid() && !isEqualToShownUrl(url)) {
         if (m_initialized) {
             cancelRequest();
             m_shownUrl = url;
@@ -108,8 +108,10 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
 
     const int count = selection.count();
     if (count == 0) {
-        m_shownUrl = url();
-        showItemInfo();
+        if (!isEqualToShownUrl(url())) {
+            m_shownUrl = url();
+            showItemInfo();
+        }
     } else {
         if ((count == 1) && !selection.first().url().isEmpty()) {
             m_urlCandidate = selection.first().url();
@@ -134,10 +136,13 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
             m_pendingPreview = false;
             m_infoTimer->start();
         }
-    } else if (!item.url().isEmpty()) {
-        m_urlCandidate = item.url();
-        m_fileItem = item;
-        m_infoTimer->start();
+    } else {
+        const KUrl url = item.url();
+        if (url.isValid() && !isEqualToShownUrl(url)) {
+            m_urlCandidate = item.url();
+            m_fileItem = item;
+            m_infoTimer->start();
+        }    
     }
 }
 
@@ -468,6 +473,11 @@ KFileItem InfoSidebarPage::fileItem() const
 bool InfoSidebarPage::showMultipleSelectionInfo() const
 {
     return m_fileItem.isNull() && (m_selection.count() > 1);
+}
+
+bool InfoSidebarPage::isEqualToShownUrl(const KUrl& url) const
+{
+    return m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash);
 }
 
 void InfoSidebarPage::init()

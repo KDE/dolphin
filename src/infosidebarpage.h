@@ -159,6 +159,11 @@ private:
      * InfosidebarPage::fileUrl();
      */
     bool showMultipleSelectionInfo() const;
+    
+    /**
+     * Returns true, if \a url is equal to the shown URL m_shownUrl.
+     */
+    bool isEqualToShownUrl(const KUrl& url) const;
 
     void init();
 
