@@ -28,6 +28,9 @@
 #include <KMessageBox>
 
 #include <QtCore/QEvent>
+#include <QtCore/QMutex>
+#include <QtCore/QMutexLocker>
+#include <QtCore/QThread>
 #include <QtGui/QLabel>
 #include <QtGui/QGridLayout>
 #include <QtGui/QTextEdit>
@@ -60,11 +63,40 @@ public:
 #ifdef HAVE_NEPOMUK
     void loadComment(const QString& comment);
 
-    QMap<KUrl, Nepomuk::Resource> files;
-
     CommentWidget* editComment;
     KRatingWidget* ratingWidget;
     Nepomuk::ResourceTaggingWidget* tagWidget;
+    
+    // shared data between the GUI-thread and
+    // the loader-thread (see LoadFilesThread):
+    QMutex mutex;
+    struct SharedData
+    {
+        int rating;
+        QString comment;
+        QList<Nepomuk::Resource> fileRes;
+        QMap<KUrl, Nepomuk::Resource> files;
+    } sharedData;
+    
+    /**
+     * Loads the meta data of files and writes
+     * the result into a shared data pool that
+     * can be used by the widgets in the GUI thread.
+     */
+    class LoadFilesThread : public QThread
+    {
+    public:
+        LoadFilesThread(SharedData* sharedData, QMutex* mutex);
+        void setFiles(const KUrl::List& urls);
+        virtual void run();
+        
+    private:
+        SharedData* m_sharedData;
+        QMutex* m_mutex;
+        KUrl::List m_urls;
+    };
+    
+    LoadFilesThread* loadFilesThread;
 #endif
 };
 
@@ -75,6 +107,59 @@ void MetaDataWidget::Private::loadComment(const QString& comment)
 }
 #endif
 
+MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
+    MetaDataWidget::Private::SharedData* sharedData,
+    QMutex* mutex) :
+    m_sharedData(sharedData),
+    m_mutex(mutex),
+    m_urls()
+{
+}
+
+void MetaDataWidget::Private::LoadFilesThread::setFiles(const KUrl::List& urls)
+{
+    QMutexLocker locker( m_mutex );
+    m_urls = urls;
+}
+
+void MetaDataWidget::Private::LoadFilesThread::run()
+{
+    QMutexLocker locker( m_mutex );
+    const KUrl::List urls = m_urls;
+    locker.unlock();
+    
+    bool first = true;
+    QList<Nepomuk::Resource> fileRes;
+    QMap<KUrl, Nepomuk::Resource> files;
+    unsigned int rating = 0;
+    QString comment;
+    Q_FOREACH( const KUrl &url, urls ) {
+        Nepomuk::Resource file( url, Soprano::Vocabulary::Xesam::File() );
+        files.insert( url, file );
+        fileRes.append( file );
+
+        if ( !first && rating != file.rating() ) {
+            rating = 0; // reset rating
+        }
+        else if ( first ) {
+            rating = file.rating();
+        }
+
+        if ( !first && comment != file.description() ) {
+            comment.clear();
+        }
+        else if ( first ) {
+            comment = file.description();
+        }
+        first = false;
+    }
+    
+    locker.relock();
+    m_sharedData->rating = rating;
+    m_sharedData->comment = comment;
+    m_sharedData->fileRes = fileRes;
+    m_sharedData->files = files;
+}
 
 MetaDataWidget::MetaDataWidget(QWidget* parent) :
     QWidget(parent)
@@ -89,12 +174,15 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
     connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));
     connect(d->editComment, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
     connect( d->tagWidget, SIGNAL( tagClicked( const Nepomuk::Tag& ) ), this, SLOT( slotTagClicked( const Nepomuk::Tag& ) ) );
+    
+    d->sharedData.rating = 0;
+    d->loadFilesThread = new Private::LoadFilesThread(&d->sharedData, &d->mutex);
+    connect(d->loadFilesThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
 
     QVBoxLayout* lay = new QVBoxLayout(this);
     lay->setMargin(0);
     lay->addWidget(d->ratingWidget);
     lay->addWidget(d->editComment);
-    QHBoxLayout* hbox = new QHBoxLayout;
     lay->addWidget( d->tagWidget );
 #else
     d = 0;
@@ -104,6 +192,7 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
 
 MetaDataWidget::~MetaDataWidget()
 {
+    delete d->loadFilesThread;
     delete d;
 }
 
@@ -116,36 +205,11 @@ void MetaDataWidget::setFile(const KUrl& url)
     setFiles( urls );
 }
 
-
 void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
 #ifdef HAVE_NEPOMUK
-    d->files.clear();
-    bool first = true;
-    QList<Nepomuk::Resource> fileRes;
-    Q_FOREACH( const KUrl &url, urls ) {
-        Nepomuk::Resource file( url, Soprano::Vocabulary::Xesam::File() );
-        d->files.insert( url, file );
-        fileRes.append( file );
-
-        if ( !first &&
-             d->ratingWidget->rating() != file.rating() ) {
-            d->ratingWidget->setRating( 0 ); // reset rating
-        }
-        else if ( first ) {
-            d->ratingWidget->setRating( (qint32)(file.rating()) );
-        }
-
-        if ( !first &&
-             d->editComment->comment() != file.description() ) {
-            d->loadComment( QString() );
-        }
-        else if ( first ) {
-            d->loadComment( file.description() );
-        }
-        first = false;
-    }
-    d->tagWidget->setResources( fileRes );
+    d->loadFilesThread->setFiles( urls );
+    d->loadFilesThread->start();
 #endif
 }
 
@@ -153,7 +217,8 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
 void MetaDataWidget::slotCommentChanged( const QString& s )
 {
 #ifdef HAVE_NEPOMUK
-    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::commentResources( d->files.values(), s );
+    QMutexLocker locker( &d->mutex );
+    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::commentResources( d->sharedData.files.values(), s );
     connect( job, SIGNAL( result( KJob* ) ),
              this, SLOT( metadataUpdateDone() ) );
     setEnabled( false ); // no updates during execution
@@ -165,7 +230,8 @@ void MetaDataWidget::slotCommentChanged( const QString& s )
 void MetaDataWidget::slotRatingChanged(unsigned int rating)
 {
 #ifdef HAVE_NEPOMUK
-    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::rateResources( d->files.values(), rating );
+    QMutexLocker locker( &d->mutex );
+    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::rateResources( d->sharedData.files.values(), rating );
     connect( job, SIGNAL( result( KJob* ) ),
              this, SLOT( metadataUpdateDone() ) );
     setEnabled( false ); // no updates during execution
@@ -188,9 +254,18 @@ bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
 
 void MetaDataWidget::slotTagClicked( const Nepomuk::Tag& tag )
 {
+    Q_UNUSED( tag );
 #ifdef HAVE_NEPOMUK
     d->tagWidget->showTagPopup( QCursor::pos() );
 #endif
+}
+
+void MetaDataWidget::slotLoadingFinished()
+{
+    QMutexLocker locker( &d->mutex );
+    d->ratingWidget->setRating( d->sharedData.rating );
+    d->loadComment( d->sharedData.comment );
+    d->tagWidget->setResources( d->sharedData.fileRes );
 }
 
 #include "metadatawidget.moc"

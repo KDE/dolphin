@@ -59,6 +59,7 @@ private Q_SLOTS:
     void slotRatingChanged(unsigned int rating);
     void metadataUpdateDone();
     void slotTagClicked( const Nepomuk::Tag& );
+    void slotLoadingFinished();
 
 protected:
     bool eventFilter(QObject* obj, QEvent* event);
