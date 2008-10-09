@@ -107,12 +107,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     setMinimumHeight(barHeight);
     m_messageLabel->setMinimumTextHeight(barHeight);
     m_spaceInfo->setFixedHeight(contentHeight);
-    
-    m_progressBar->setFixedHeight(contentHeight);
-    m_progressBar->setMaximumWidth(200);
-    
-    m_zoomWidget->setMaximumWidth(150);
-    m_zoomWidget->setFixedHeight(contentHeight);
+    m_progressBar->setFixedSize(200, contentHeight);
+    m_zoomWidget->setFixedSize(150, contentHeight);
     
     setExtensionsVisible(true);
 }
@@ -124,6 +120,10 @@ DolphinStatusBar::~DolphinStatusBar()
 void DolphinStatusBar::setMessage(const QString& msg,
                                   Type type)
 {
+    if ((msg == m_messageLabel->text()) && (type == m_messageLabel->type())) {
+        return;
+    }
+    
     m_messageLabel->setMessage(msg, type);
 
     const int widthGap = m_messageLabel->widthGap();
@@ -244,20 +244,21 @@ void DolphinStatusBar::setZoomLevel(int zoomLevel)
 void DolphinStatusBar::assureVisibleText()
 {
     const int widthGap = m_messageLabel->widthGap();
-    const bool isProgressBarVisible = m_progressBar->isVisible();
-    
-    const int spaceInfoWidth  = m_spaceInfo->isVisible()  ? m_spaceInfo->width()  : 0;
-    const int zoomWidgetWidth = m_zoomWidget->isVisible() ? m_zoomWidget->width() : 0;
-    const int widgetsWidth = spaceInfoWidth + zoomWidgetWidth;
-
-    if (widgetsWidth > 0) {
-        // The space information and (or) the zoom slider are (is) shown.
+    if (m_spaceInfo->isVisible() || m_zoomWidget->isVisible()) {
+        // At least the space information or the zoom slider is shown.
         // Hide them if the status bar text does not fit into the available width.
         if (widthGap > 0) {
             setExtensionsVisible(false);
         }
-    } else if (!isProgressBarVisible && (widthGap + widgetsWidth <= 0)) {
-        setExtensionsVisible(true);
+    } else if (!m_progressBar->isVisible()) {
+        const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+        const int spaceInfoWidth  = settings->showSpaceInfo()  ? m_spaceInfo->minimumWidth()  : 0;
+        const int zoomWidgetWidth = settings->showZoomSlider() ? m_zoomWidget->minimumWidth() : 0;
+        const int widgetsWidth = spaceInfoWidth + zoomWidgetWidth;
+        
+        if (widthGap + widgetsWidth <= 0) {
+            setExtensionsVisible(true);
+        }
     }
 }
 
