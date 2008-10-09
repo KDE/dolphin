@@ -105,7 +105,6 @@ void MetaDataWidget::Private::loadComment(const QString& comment)
 {
     editComment->setComment( comment );
 }
-#endif
 
 MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
     MetaDataWidget::Private::SharedData* sharedData,
@@ -160,6 +159,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     m_sharedData->fileRes = fileRes;
     m_sharedData->files = files;
 }
+#endif
 
 MetaDataWidget::MetaDataWidget(QWidget* parent) :
     QWidget(parent)
@@ -192,7 +192,9 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
 
 MetaDataWidget::~MetaDataWidget()
 {
+#ifdef HAVE_NEPOMUK
     delete d->loadFilesThread;
+#endif
     delete d;
 }
 
@@ -210,6 +212,8 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
 #ifdef HAVE_NEPOMUK
     d->loadFilesThread->setFiles( urls );
     d->loadFilesThread->start();
+#else
+    Q_UNUSED( urls );
 #endif
 }
 
@@ -223,6 +227,8 @@ void MetaDataWidget::slotCommentChanged( const QString& s )
              this, SLOT( metadataUpdateDone() ) );
     setEnabled( false ); // no updates during execution
     job->start();
+#else
+    Q_UNUSED( s );
 #endif
 }
 
@@ -236,6 +242,8 @@ void MetaDataWidget::slotRatingChanged(unsigned int rating)
              this, SLOT( metadataUpdateDone() ) );
     setEnabled( false ); // no updates during execution
     job->start();
+#else
+    Q_UNUSED( rating );
 #endif
 }
 
@@ -262,10 +270,12 @@ void MetaDataWidget::slotTagClicked( const Nepomuk::Tag& tag )
 
 void MetaDataWidget::slotLoadingFinished()
 {
+#ifdef HAVE_NEPOMUK
     QMutexLocker locker( &d->mutex );
     d->ratingWidget->setRating( d->sharedData.rating );
     d->loadComment( d->sharedData.comment );
     d->tagWidget->setResources( d->sharedData.fileRes );
+#endif
 }
 
 #include "metadatawidget.moc"
