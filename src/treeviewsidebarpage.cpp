@@ -87,7 +87,6 @@ bool TreeViewSidebarPage::showHiddenFiles() const
     return FoldersPanelSettings::showHiddenFiles();
 }
 
-
 void TreeViewSidebarPage::rename(const KFileItem& item)
 {
     if (DolphinSettings::instance().generalSettings()->renameInline()) {
@@ -141,15 +140,12 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
         m_dirLister->setShowingDotFiles(FoldersPanelSettings::showHiddenFiles());
 
-        connect(m_dirLister, SIGNAL(completed()),
-                this, SLOT(triggerLoadSubTree()));
-
         Q_ASSERT(m_dolphinModel == 0);
         m_dolphinModel = new DolphinModel(this);
         m_dolphinModel->setDirLister(m_dirLister);
         m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
         connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
-                this, SLOT(triggerExpanding()));
+                this, SLOT(expandToDir(const QModelIndex&)));
 
         Q_ASSERT(m_proxyModel == 0);
         m_proxyModel = new DolphinSortFilterProxyModel(this);
@@ -216,50 +212,10 @@ void TreeViewSidebarPage::dropUrls(const QModelIndex& index, QDropEvent* event)
     }
 }
 
-void TreeViewSidebarPage::triggerExpanding()
+void TreeViewSidebarPage::expandToDir(const QModelIndex& index)
 {
-    // the expanding of the folders may not be done in the context
-    // of this slot
-    QMetaObject::invokeMethod(this, "expandToLeafDir", Qt::QueuedConnection);
-}
-
-void TreeViewSidebarPage::triggerLoadSubTree()
-{
-    // the loading of the sub tree may not be done in the context
-    // of this slot
-    QMetaObject::invokeMethod(this, "loadSubTree", Qt::QueuedConnection);
-}
-
-void TreeViewSidebarPage::expandToLeafDir()
-{
-    // expand all directories until the parent directory of m_leafDir
-    const KUrl parentUrl = m_leafDir.upUrl();
-    QModelIndex dirIndex = m_dolphinModel->indexForUrl(parentUrl);
-    QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-    m_treeView->setExpanded(proxyIndex, true);
+    m_treeView->setExpanded(index, true);
     selectLeafDirectory();
-}
-
-
-void TreeViewSidebarPage::loadSubTree()
-{
-    m_treeView->selectionModel()->clearSelection();
-
-    if (m_leafDir.isParentOf(m_dirLister->url())) {
-        // The leaf directory is not a child of the base URL, hence
-        // no sub directory must be loaded or selected.
-        return;
-    }
-
-    const QModelIndex index = m_dolphinModel->indexForUrl(m_leafDir);
-    if (index.isValid()) {
-        selectLeafDirectory();
-    } else {
-        // Load all sub directories that need to get expanded for making
-        // the leaf directory visible. The slot triggerExpanding() will
-        // get invoked if the expanding has been finished.
-        m_dolphinModel->expandToUrl(m_leafDir);
-    }
 }
 
 void TreeViewSidebarPage::scrollToLeaf()
@@ -294,9 +250,8 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
     if (m_dirLister->url() != baseUrl) {
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl, KDirLister::Reload);
-    } else {
-        loadSubTree();
     }
+    m_dolphinModel->expandToUrl(m_leafDir);
 }
 
 void TreeViewSidebarPage::selectLeafDirectory()
@@ -317,7 +272,7 @@ void TreeViewSidebarPage::selectLeafDirectory()
     }
 
     QItemSelectionModel* selModel = m_treeView->selectionModel();
-    selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::Select);
+    selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::ClearAndSelect);
 }
 
 #include "treeviewsidebarpage.moc"

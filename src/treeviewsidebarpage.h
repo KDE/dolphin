@@ -93,31 +93,12 @@ private slots:
      * to the index \a index.
      */
     void dropUrls(const QModelIndex& index, QDropEvent* event);
-
+    
     /**
-     * Invokes expandToLeafDir() asynchronously (the expanding
-     * may not be done in the context of this slot).
+     * Expands the treeview to show the directory
+     * specified by \a index.
      */
-    void triggerExpanding();
-
-    /**
-     * Invokes loadSubTree() asynchronously (the loading
-     * may not be done in the context of this slot).
-     */
-    void triggerLoadSubTree();
-
-    /**
-     * Expands all directories to make m_leafDir visible and
-     * adjusts the selection.
-     */
-    void expandToLeafDir();
-
-    /**
-     * Loads the sub tree to make m_leafDir visible. Is invoked
-     * indirectly by loadTree() after the directory lister has
-     * finished loading the root items.
-     */
-    void loadSubTree();
+    void expandToDir(const QModelIndex& index);
 
     /**
      * Assures that the leaf folder gets visible.
