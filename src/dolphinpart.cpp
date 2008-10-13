@@ -107,7 +107,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotRequestUrlChange(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SIGNAL(viewModeChanged())); // relay signal
-    
+
     // Watch for changes that should result in updates to the
     // status bar text.
     connect(m_dirLister, SIGNAL(deleteItem(const KFileItem&)),
@@ -393,6 +393,13 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
         if (addDel)
             editActions.append(actionCollection()->action("delete"));
         actionGroups.insert("editactions", editActions);
+
+        // Normally KonqPopupMenu only shows the "Create new" subdir in the current view
+        // since otherwise the created file would not be visible.
+        // But in treeview mode we should allow it.
+        if (m_view->itemsExpandable())
+            popupFlags |= KParts::BrowserExtension::ShowCreateDirectory;
+
     }
 
     // TODO: We should change the signature of the slots (and signals) for being able

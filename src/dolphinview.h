@@ -334,6 +334,12 @@ public:
     void setTabsForFilesEnabled(bool tabsForFiles);
     bool isTabsForFilesEnabled() const;
 
+    /**
+     * Returns true if the current view allows folders to be expanded,
+     * i.e. presents a hierarchical view to the user.
+     */
+    bool itemsExpandable() const;
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to

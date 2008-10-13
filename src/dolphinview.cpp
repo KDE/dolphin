@@ -1310,7 +1310,7 @@ void DolphinView::pasteToUrl(const KUrl& url)
 }
 
 void DolphinView::updateZoomLevel(int oldZoomLevel)
-{       
+{
     const int newZoomLevel = ZoomLevelInfo::zoomLevelForIconSize(itemView()->iconSize());
     if (oldZoomLevel != newZoomLevel) {
         m_controller->setZoomLevel(newZoomLevel);
@@ -1321,10 +1321,15 @@ void DolphinView::updateZoomLevel(int oldZoomLevel)
 KUrl::List DolphinView::simplifiedSelectedUrls() const
 {
     KUrl::List list = selectedUrls();
-    if ((m_detailsView != 0) && m_detailsView->itemsExpandable()) {
+    if (itemsExpandable() ) {
         list = KonqOperations::simplifiedUrlList(list);
     }
     return list;
+}
+
+bool DolphinView::itemsExpandable() const
+{
+    return (m_detailsView != 0) && m_detailsView->itemsExpandable();
 }
 
 #include "dolphinview.moc"
