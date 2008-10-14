@@ -957,7 +957,7 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
 {
     if (job->error() == 0) {
         emit operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
-    } else {
+    } else if (job->error() != KIO::ERR_USER_CANCELED) {
         emit errorMessage(job->errorString());
     }
 }
