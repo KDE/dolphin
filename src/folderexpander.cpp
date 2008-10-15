@@ -120,8 +120,9 @@ void FolderExpander::autoExpandTimeout()
     Q_ASSERT(m_dirModel != 0);
     KFileItem itemToExpand = m_dirModel->itemForIndex(indexToExpand );
 
-    if (itemToExpand.isNull())
+    if (itemToExpand.isNull()) {
         return;
+    }
     
     kDebug() << "Need to expand: " << itemToExpand.targetUrl() << " isDir? = " << itemToExpand.isDir();
 
