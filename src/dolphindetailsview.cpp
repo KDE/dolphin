@@ -49,6 +49,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 	m_autoResize(true),
     m_expandingTogglePressed(false),
     m_keyPressed(false),
+    m_useDefaultIndexAt(true),
     m_controller(controller),
     m_selectionManager(0),
     m_font(),
@@ -149,6 +150,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
+            
+    m_useDefaultIndexAt = false;
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -215,6 +218,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     }
 
     if (!index.isValid() || (index.column() != DolphinModel::Name)) {
+        // the mouse press is done somewhere outside the filename column
         if (QApplication::mouseButtons() & Qt::MidButton) {
             m_controller->replaceUrlByClipboard();
         }
@@ -230,12 +234,10 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 
     if ((event->button() == Qt::LeftButton) && !m_expandingTogglePressed) {
         m_showElasticBand = true;
-
-        const QPoint pos(contentsPos());
-        m_elasticBandOrigin = event->pos();
-        m_elasticBandOrigin.setX(m_elasticBandOrigin.x() + pos.x());
-        m_elasticBandOrigin.setY(m_elasticBandOrigin.y() + pos.y());
-        m_elasticBandDestination = event->pos();
+        const QPoint pos = contentsPos();
+        const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
+        m_elasticBandOrigin = event->pos() + pos + scrollPos;
+        m_elasticBandDestination = m_elasticBandOrigin;
     }
 }
 
@@ -249,13 +251,15 @@ void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
             // case QTreeView does no selection at all, which is not the wanted behavior
             // in Dolphin -> select all items within the elastic band rectangle
             clearSelection();
+            setState(DragSelectingState);
 
             const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
-            QRect selRect = QRect(m_elasticBandOrigin, m_elasticBandDestination).normalized();
+            QRect selRect = elasticBandRect();
             const QRect nameColumnsRect(0, 0, nameColumnWidth, viewport()->height());
             selRect = nameColumnsRect.intersected(selRect);
 
             setSelection(selRect, QItemSelectionModel::Select);
+
         }
 
         // TODO: enable QTreeView::mouseMoveEvent(event) again, as soon
@@ -295,6 +299,7 @@ void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 
     m_expandingTogglePressed = false;
     if (m_showElasticBand) {
+        setState(NoState);
         updateElasticBand();
         m_showElasticBand = false;
     }
@@ -441,6 +446,51 @@ bool DolphinDetailsView::eventFilter(QObject* watched, QEvent* event)
     return QTreeView::eventFilter(watched, event);
 }
 
+QModelIndex DolphinDetailsView::indexAt(const QPoint& point) const
+{
+    // the blank portion of the name column counts as empty space
+    const QModelIndex index = QTreeView::indexAt(point);
+    const bool isAboveEmptySpace  = !m_useDefaultIndexAt &&
+                                    (index.column() == KDirModel::Name) && !nameColumnRect(index).contains(point);
+    return isAboveEmptySpace ? QModelIndex() : index;
+}
+
+void DolphinDetailsView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command)
+{
+    // We must override setSelection() as Qt calls it internally and when this happens
+    // we must ensure that the default indexAt() is used.
+    if (!m_showElasticBand) {
+        m_useDefaultIndexAt = true;
+        QTreeView::setSelection(rect, command);
+        m_useDefaultIndexAt = false;
+    } else {
+        // Select the items contained within the elastic band.
+
+        // TODO - would this still work if the columns could be re-ordered
+        // (which I want to implement eventually :))?
+
+        // Very naive implementation - clears all selected, then walks a tree,
+        // selecting all items whose nameColumnRect(...) intersects rect.
+
+        // Choose a sensible startIndex - a parentless index in the 
+        // name column, as close to the top of the rect as we 
+        // can find.
+        QRect normalisedRect = rect.normalized();
+        QModelIndex startIndex = QTreeView::indexAt(normalisedRect.topLeft());
+        if (startIndex.isValid()) {
+            while (startIndex.parent().isValid()) {
+                startIndex = startIndex.parent();
+            }
+        } else {
+            // just pick the topmost row for safety
+            model()->index(0, KDirModel::Name);
+        }
+        startIndex = model()->index(startIndex.row(), KDirModel::Name);
+        clearSelection();
+        setSelectionRecursive(startIndex, normalisedRect, command);
+    }
+}
+
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
     QHeaderView* headerView = header();
@@ -475,8 +525,9 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
 void DolphinDetailsView::updateElasticBand()
 {
     if (m_showElasticBand) {
-        QRect dirtyRegion(elasticBandRect());
-        m_elasticBandDestination = viewport()->mapFromGlobal(QCursor::pos());
+        QRect dirtyRegion(elasticBandRect());        
+        const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
+        m_elasticBandDestination = viewport()->mapFromGlobal(QCursor::pos()) + scrollPos;
         dirtyRegion = dirtyRegion.united(elasticBandRect());
         setDirtyRegion(dirtyRegion);
     }
@@ -485,8 +536,11 @@ void DolphinDetailsView::updateElasticBand()
 QRect DolphinDetailsView::elasticBandRect() const
 {
     const QPoint pos(contentsPos());
-    const QPoint topLeft(m_elasticBandOrigin.x() - pos.x(), m_elasticBandOrigin.y() - pos.y());
-    return QRect(topLeft, m_elasticBandDestination).normalized();
+    const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
+
+    const QPoint topLeft = m_elasticBandOrigin - pos - scrollPos;
+    const QPoint bottomRight = m_elasticBandDestination - pos - scrollPos;
+    return QRect(topLeft, bottomRight).normalized();
 }
 
 void DolphinDetailsView::setZoomLevel(int level)
@@ -679,6 +733,61 @@ void DolphinDetailsView::resizeColumns()
         columnWidth[KDirModel::Name] = 120;
     }
     headerView->resizeSection(KDirModel::Name, columnWidth[KDirModel::Name]);
+}
+
+QRect DolphinDetailsView::nameColumnRect(const QModelIndex& index) const
+{
+    // TODO: The code guesses the width of the name, but it is defined
+    // by KFileItemDelegate. Find a way to tell the item delegate to
+    // use a specified width.
+    QRect guessedItemContentRect = visualRect(index);
+    const KFileItem fileItem = m_controller->itemForIndex(index);
+    if (!fileItem.isNull()) {
+        QStyleOptionViewItem itemStyle = viewOptions();        
+        QFontMetrics fontMetrics(itemStyle.font);
+        const int itemContentWidth = itemStyle.decorationSize.width() + fontMetrics.width(fileItem.name());
+        guessedItemContentRect.setWidth(itemContentWidth);
+    }
+
+    return guessedItemContentRect;
+}
+
+void DolphinDetailsView::setSelectionRecursive(const QModelIndex& startIndex,
+                                               const QRect& rect,
+                                               QItemSelectionModel::SelectionFlags command)
+{
+    if (!startIndex.isValid()) {
+        return;
+    }
+    
+    // rect is assumed to be in viewport coordinates and normalized.
+    // Move down through the siblings of startIndex, exploring the children
+    // of any expanded nodes.
+    Q_ASSERT(rect.width() >= 0 && rect.height() >= 0);
+    QModelIndex currIndex = startIndex;
+    do {
+        const QModelIndex belowIndex = indexBelow(currIndex);
+        if (isExpanded(currIndex)) {
+            // If belowIndex exists and is above the top of rect, then we need not explore
+            // the children of currIndex as they will always be above "below".  Otherwise,
+            // explore the children.
+            if (!belowIndex.isValid() || visualRect(belowIndex).bottom() >= rect.top()) {
+                setSelectionRecursive(currIndex.child(0, currIndex.column()), rect, command);
+            }
+        }
+
+        QRect itemContentRect = nameColumnRect(currIndex);
+        if (itemContentRect.top() > rect.bottom()) {
+            // All remaining items will be below itemContentRect, so we may cull.
+            return;
+        }
+
+        if (itemContentRect.intersects(rect)) {
+            selectionModel()->select(currIndex, QItemSelectionModel::Select);   
+        }
+
+        currIndex = belowIndex;
+    } while (currIndex.isValid());
 }
 
 #include "dolphindetailsview.moc"

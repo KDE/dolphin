@@ -63,6 +63,8 @@ protected:
     virtual void wheelEvent(QWheelEvent* event);
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
     virtual bool eventFilter(QObject* watched, QEvent* event);
+    virtual QModelIndex indexAt (const QPoint& point) const;
+    virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
 
 private slots:
     /**
@@ -160,10 +162,17 @@ private:
      */
     void resizeColumns();
 
+    QRect nameColumnRect(const QModelIndex& index) const;
+
+    void setSelectionRecursive(const QModelIndex& startIndex,
+                               const QRect& rect,
+                               QItemSelectionModel::SelectionFlags command);
+
 private:
-	bool m_autoResize;  // if true, the columns are resized automatically to the available width
-    bool m_expandingTogglePressed;
-    bool m_keyPressed;  // true if a key is pressed currently; info used by currentChanged()
+	bool m_autoResize : 1;        // if true, the columns are resized automatically to the available width
+    bool m_expandingTogglePressed : 1;
+    bool m_keyPressed : 1;        // true if a key is pressed currently; info used by currentChanged()
+    bool m_useDefaultIndexAt : 1; // true, if QTreeView::indexAt() should be used
 
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
@@ -173,9 +182,12 @@ private:
 
     QRect m_dropRect;
 
+    // Elastic band coordinates are relative to the origin of the
+    // view, not the viewport.
     bool m_showElasticBand;
     QPoint m_elasticBandOrigin;
     QPoint m_elasticBandDestination;
+
 };
 
 #endif
