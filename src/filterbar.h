@@ -39,7 +39,10 @@ class FilterBar : public QWidget
 public:
     FilterBar(QWidget* parent = 0);
     virtual ~FilterBar();
-
+    
+    /** Clears the the input field. */
+    void clear();
+    
 signals:
     /**
      * Signal that reports the name filter has been
@@ -53,7 +56,6 @@ signals:
     void closeRequest();
 
 protected:
-    virtual void hideEvent(QHideEvent* event);
     virtual void showEvent(QShowEvent* event);
     virtual void keyReleaseEvent(QKeyEvent* event);
 
