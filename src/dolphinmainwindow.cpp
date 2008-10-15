@@ -837,6 +837,7 @@ void DolphinMainWindow::init()
 
     setCentralWidget(centralWidget);
     setupDockWidgets();
+    emit urlChanged(homeUrl);
 
     setupGUI(Keys | Save | Create | ToolBar);
 
@@ -862,7 +863,6 @@ void DolphinMainWindow::init()
     }
 
     m_showMenuBar->setChecked(!menuBar()->isHidden());  // workaround for bug #171080
-    emit urlChanged(homeUrl);
 }
 
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
