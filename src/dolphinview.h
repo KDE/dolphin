@@ -41,6 +41,7 @@
 class DolphinController;
 class DolphinColumnView;
 class DolphinDetailsView;
+class DolphinFileItemDelegate;
 class DolphinIconsView;
 class DolphinMainWindow;
 class DolphinModel;
@@ -49,7 +50,6 @@ class KFilePreviewGenerator;
 class KAction;
 class KActionCollection;
 class KDirLister;
-class KFileItemDelegate;
 class KUrl;
 class KToggleAction;
 class ToolTipManager;
@@ -708,7 +708,7 @@ private:
     DolphinIconsView* m_iconsView;
     DolphinDetailsView* m_detailsView;
     DolphinColumnView* m_columnView;
-    KFileItemDelegate* m_fileItemDelegate;
+    DolphinFileItemDelegate* m_fileItemDelegate;
     QItemSelectionModel* m_selectionModel;
 
     DolphinModel* m_dolphinModel;

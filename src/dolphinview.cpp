@@ -31,7 +31,6 @@
 #include <kactioncollection.h>
 #include <kcolorscheme.h>
 #include <kdirlister.h>
-#include <kfileitemdelegate.h>
 #include <kfilepreviewgenerator.h>
 #include <kiconeffect.h>
 #include <klocale.h>
@@ -52,6 +51,7 @@
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
+#include "dolphinfileitemdelegate.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
 #include "dolphin_detailsmodesettings.h"
@@ -1209,8 +1209,9 @@ void DolphinView::createView()
 
     m_controller->setItemView(view);
 
-    m_fileItemDelegate = new KFileItemDelegate(view);
+    m_fileItemDelegate = new DolphinFileItemDelegate(view);
     m_fileItemDelegate->setShowToolTipWhenElided(false);
+    m_fileItemDelegate->setMinimizedNameColumn(m_mode == DetailsView);
     view->setItemDelegate(m_fileItemDelegate);
 
     view->setModel(m_proxyModel);

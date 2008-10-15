@@ -22,6 +22,7 @@
 
 #include "dolphinmodel.h"
 #include "dolphincontroller.h"
+#include "dolphinfileitemdelegate.h"
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "draganddrophelper.h"
@@ -737,19 +738,14 @@ void DolphinDetailsView::resizeColumns()
 
 QRect DolphinDetailsView::nameColumnRect(const QModelIndex& index) const
 {
-    // TODO: The code guesses the width of the name, but it is defined
-    // by KFileItemDelegate. Find a way to tell the item delegate to
-    // use a specified width.
-    QRect guessedItemContentRect = visualRect(index);
-    const KFileItem fileItem = m_controller->itemForIndex(index);
-    if (!fileItem.isNull()) {
-        QStyleOptionViewItem itemStyle = viewOptions();        
-        QFontMetrics fontMetrics(itemStyle.font);
-        const int itemContentWidth = itemStyle.decorationSize.width() + fontMetrics.width(fileItem.name());
-        guessedItemContentRect.setWidth(itemContentWidth);
+    QRect rect = visualRect(index);
+    const KFileItem item = m_controller->itemForIndex(index);
+    if (!item.isNull()) {
+        const int width = DolphinFileItemDelegate::nameColumnWidth(item.name(), viewOptions());
+        rect.setWidth(width);
     }
 
-    return guessedItemContentRect;
+    return rect;
 }
 
 void DolphinDetailsView::setSelectionRecursive(const QModelIndex& startIndex,

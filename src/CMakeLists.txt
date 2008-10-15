@@ -26,14 +26,15 @@ set(dolphinprivate_LIB_SRCS
     dolphincolumnview.cpp
     dolphincolumnwidget.cpp
     dolphindropcontroller.cpp
-    dolphinsortfilterproxymodel.cpp
-    draganddrophelper.cpp
+    dolphinfileitemdelegate.cpp
     dolphinmodel.cpp
     dolphinsettings.cpp
+    dolphinsortfilterproxymodel.cpp
     dolphintooltip.cpp
     dolphincategorydrawer.cpp
     dolphinview.cpp
     dolphinviewactionhandler.cpp
+    draganddrophelper.cpp
     folderexpander.cpp
     ktooltip.cpp
     kballoontipdelegate.cpp
