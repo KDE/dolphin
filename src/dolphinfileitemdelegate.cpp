@@ -60,7 +60,13 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
 int DolphinFileItemDelegate::nameColumnWidth(const QString& name, const QStyleOptionViewItem& option)
 {
     QFontMetrics fontMetrics(option.font);
-    return option.decorationSize.width() + fontMetrics.width(name) + 16;  
+    int width = option.decorationSize.width() + fontMetrics.width(name) + 16;
+    
+    const int defaultWidth = option.rect.width();
+    if ((defaultWidth > 0) && (defaultWidth < width)) {
+        width = defaultWidth;
+    }
+    return width;
 }
 
 #include "dolphinfileitemdelegate.moc"
