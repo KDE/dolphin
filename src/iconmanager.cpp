@@ -314,7 +314,10 @@ void IconManager::dispatchPreviewQueue()
 
             const QModelIndex idx = m_dolphinModel->indexForUrl(preview.url);
             if (idx.isValid() && (idx.column() == 0)) {
-                m_dolphinModel->setData(idx, QIcon(preview.pixmap), Qt::DecorationRole);
+                const QIcon icon(preview.pixmap);
+                if (!icon.isNull()) {
+                    m_dolphinModel->setData(idx, icon, Qt::DecorationRole);
+                }
             }
 
             m_previews.pop_front();
