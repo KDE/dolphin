@@ -832,7 +832,8 @@ void DolphinMainWindow::init()
 
     setCentralWidget(centralWidget);
     setupDockWidgets();
-
+    emit urlChanged(homeUrl);
+    
     setupGUI(Keys | Save | Create | ToolBar);
 
     stateChanged("new_file");
@@ -852,8 +853,6 @@ void DolphinMainWindow::init()
         // assure a proper default size if Dolphin runs the first time
         resize(750, 500);
     }
-
-    emit urlChanged(homeUrl);
 }
 
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
