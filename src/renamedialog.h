@@ -62,7 +62,7 @@ public:
      * is part of the returned string. If the returned string is empty,
      * then RenameDialog::errorString() should be used to show the reason
      * of having an empty string (e. g. if the # character has
-     * been deleted by the user, although more then one item should be
+     * been deleted by the user, although more than one item should be
      * renamed).
      */
     const QString& newName() const
