@@ -104,7 +104,7 @@ QPainterPath KFormattedBalloonTipDelegate::createPath(const KStyleOptionToolTip 
 {
     QPainterPath path;
     QRect rect = option->rect.adjusted(0, 0, -1, -1);
-    qreal radius = 10;
+    const qreal radius = 5;
 
     path.moveTo(rect.left(), rect.top() + radius);
     arc(path, rect.left() + radius, rect.top() + radius, radius, 180, -90);
@@ -114,7 +114,7 @@ QPainterPath KFormattedBalloonTipDelegate::createPath(const KStyleOptionToolTip 
     path.closeSubpath();
 
     if (contents)
-        *contents = rect.adjusted(10, 10, -10, -10);
+        *contents = rect.adjusted(radius, radius, -radius, -radius);
 
     return path;
 }
