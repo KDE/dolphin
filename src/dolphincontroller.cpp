@@ -153,6 +153,11 @@ void DolphinController::replaceUrlByClipboard()
     }
 }
 
+void DolphinController::emitHideToolTip()
+{
+    emit hideToolTip();
+}
+
 KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
 {
     Q_ASSERT(m_itemView != 0);

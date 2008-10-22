@@ -22,6 +22,7 @@
 
 #include <QtCore/Qt>
 
+class DolphinController;
 class QAbstractItemView;
 class QBrush;
 class QRect;
@@ -41,7 +42,9 @@ public:
     /**
      * Creates a drag object for the view \a itemView for all selected items.
      */
-    static void startDrag(QAbstractItemView* itemView, Qt::DropActions supportedActions);
+    static void startDrag(QAbstractItemView* itemView,
+                          Qt::DropActions supportedActions,
+                          DolphinController* controller = 0);
 };
 
 #endif

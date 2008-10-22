@@ -289,7 +289,7 @@ QStyleOptionViewItem DolphinColumnWidget::viewOptions() const
 
 void DolphinColumnWidget::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::startDrag(this, supportedActions);
+    DragAndDropHelper::startDrag(this, supportedActions, m_view->m_controller);
 }
 
 void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)

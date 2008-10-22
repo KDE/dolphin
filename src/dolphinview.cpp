@@ -1232,6 +1232,8 @@ void DolphinView::createView()
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         m_toolTipManager = new ToolTipManager(view, m_proxyModel);
+        connect(m_controller, SIGNAL(hideToolTip()),
+                m_toolTipManager, SLOT(hideTip()));
     }
 
     m_topLayout->insertWidget(1, view);

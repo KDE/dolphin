@@ -209,7 +209,7 @@ void DolphinIconsView::startDrag(Qt::DropActions supportedActions)
     // TODO: invoking KCategorizedView::startDrag() should not be necessary, we'll
     // fix this in KDE 4.1
     KCategorizedView::startDrag(supportedActions);
-    DragAndDropHelper::startDrag(this, supportedActions);
+    DragAndDropHelper::startDrag(this, supportedActions, m_controller);
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)

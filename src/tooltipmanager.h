@@ -48,6 +48,7 @@ public:
                             DolphinSortFilterProxyModel* model);
     virtual ~ToolTipManager();
 
+public slots:
     /**
      * Hides the currently shown tooltip. Invoking this method is
      * only needed when the tooltip should be hidden although

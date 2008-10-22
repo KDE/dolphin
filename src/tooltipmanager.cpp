@@ -182,6 +182,12 @@ void ToolTipManager::prepareToolTip()
 
 void ToolTipManager::showToolTip(KToolTipItem* tip)
 {
+    if (QApplication::mouseButtons() & Qt::LeftButton) {
+        delete tip;
+        tip = 0;
+        return;
+    }
+    
     KStyleOptionToolTip option;
     // TODO: get option content from KToolTip or add KToolTip::sizeHint() method
     option.direction      = QApplication::layoutDirection();

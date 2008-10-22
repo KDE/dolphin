@@ -19,6 +19,7 @@
 
 #include "draganddrophelper.h"
 #include "dolphiniconsview.h"
+#include "dolphincontroller.h"
 
 #include <kdirmodel.h>
 #include <kicon.h>
@@ -27,13 +28,19 @@
 #include <QAbstractProxyModel>
 #include <QDrag>
 
-void DragAndDropHelper::startDrag(QAbstractItemView* itemView, Qt::DropActions supportedActions)
+void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
+                                  Qt::DropActions supportedActions,
+                                  DolphinController* controller)
 {
     QModelIndexList indexes = itemView->selectionModel()->selectedIndexes();
     if (indexes.count() > 0) {
         QMimeData *data = itemView->model()->mimeData(indexes);
         if (data == 0) {
             return;
+        }
+        
+        if (controller != 0) {
+            controller->emitHideToolTip();
         }
 
         QDrag* drag = new QDrag(itemView);

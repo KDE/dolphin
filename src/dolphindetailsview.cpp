@@ -306,7 +306,7 @@ void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 
 void DolphinDetailsView::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::startDrag(this, supportedActions);
+    DragAndDropHelper::startDrag(this, supportedActions, m_controller);
     m_showElasticBand = false;
 }
 

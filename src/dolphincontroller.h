@@ -64,6 +64,7 @@ class QWidget;
  * - emitItemEntered()
  * - emitViewportEntered()
  * - replaceUrlByClipboard()
+ * - hideToolTip()
  *
  * The communication of the abstract view to the view implementations is done by:
  * - setUrl()
@@ -204,6 +205,9 @@ public:
      * nothing will be done.
      */
     void replaceUrlByClipboard();
+    
+    /** Emits the signal hideToolTip(). */
+    void emitHideToolTip();
 
     /**
      * Returns the file item for the proxy index \a index of the view \a view.
@@ -334,6 +338,11 @@ signals:
      * must connect to this signal if it supports zooming.
      */
     void zoomLevelChanged(int level);
+    
+    /**
+     * Is emitted if the abstract view should hide an open tooltip.
+     */
+    void hideToolTip();
 
 private slots:
     void updateOpenTabState();
