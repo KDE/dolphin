@@ -272,59 +272,15 @@ void ToolTipManager::setPreviewPix(const KFileItem& item,
         return;
     }
     
-    QPixmap icon = pixmap;
-    // only paint borders if the pixmap is opaque
-    if (!icon.hasAlphaChannel()) {
-        // TODO: Make code from IconManager for drawing a border accessible for
-        // other classes (the following code has been adapted from IconManager).        
-        // The frame is painted on top of the pixmap, this is needed to keep 
-        // the text preview visually nice (the previewer adds ugly borders).
-        QPainter painter;
-        // make a buffer pixmap, tends to crash when 'icon' is directly painted ...
-        QPixmap framedIcon(icon.size().width(), pixmap.size().height());
-        framedIcon.fill();
-        const int width = framedIcon.width() - 1;
-        const int height = framedIcon.height() - 1;
-
-        // draw the pixmap
-        painter.begin(&framedIcon);
-        painter.drawPixmap(0,0, icon);
-
-        // draw the frame
-        painter.setRenderHint(QPainter::Antialiasing, false);
-        painter.setPen(QColor(0, 0, 0));
-        painter.drawRect(0, 0, width - 0, height - 1);
-        painter.drawRect(1, 1, width - 2, height - 2);
-        painter.setPen(QColor(255, 255, 255));
-        painter.drawRect(2, 2, width - 4, height - 4);
-
-        painter.end();
-        icon = framedIcon;
-
-        // provide an alpha channel for the frame
-        QPixmap alphaChannel(icon.size());
-        alphaChannel.fill();
-
-        QPainter alphaPainter(&alphaChannel);
-        alphaPainter.setBrush(Qt::NoBrush);
-        alphaPainter.setRenderHint(QPainter::Antialiasing, false);
-        alphaPainter.setPen(QColor(32, 32, 32));
-        alphaPainter.drawRect(0, 0, width, height);
-        alphaPainter.setPen(QColor(64, 64, 64));
-        alphaPainter.drawRect(1, 1, width - 2, height - 2);
-
-        icon.setAlphaChannel(alphaChannel);
-    }
-
     if (m_previewIsLate) {
         // always use the maximal width
-        QPixmap paddedImage(QSize(PREVIEW_WIDTH, icon.height()));
+        QPixmap paddedImage(QSize(PREVIEW_WIDTH, pixmap.height()));
         paddedImage.fill(Qt::transparent);
         QPainter painter(&paddedImage);
-        painter.drawPixmap((PREVIEW_WIDTH - icon.width()) / 2, 0, icon);
+        painter.drawPixmap((PREVIEW_WIDTH - pixmap.width()) / 2, 0, pixmap);
         m_pix = paddedImage;
     } else {
-        m_pix = icon;
+        m_pix = pixmap;
     }
     m_preview = true;
     m_generatingPreview = false;
