@@ -37,7 +37,6 @@ set(dolphinprivate_LIB_SRCS
     draganddrophelper.cpp
     folderexpander.cpp
     ktooltip.cpp
-    kballoontipdelegate.cpp
     kformattedballoontipdelegate.cpp
     renamedialog.cpp
     selectiontoggle.cpp
