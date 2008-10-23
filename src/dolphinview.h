@@ -244,7 +244,7 @@ public:
     
     /**
      * Returns true, if zooming in is possible. If false is returned,
-     * the maximimum zooming level has been reached.
+     * the maximum zooming level has been reached.
      */
     bool isZoomInPossible() const;
 
