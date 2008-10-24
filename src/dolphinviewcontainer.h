@@ -212,6 +212,13 @@ private slots:
      * above the destination \a destination.
      */
     void dropUrls(const KUrl& destination, QDropEvent* event);
+    
+    /**
+     * Is invoked when a redirection is done and changes the
+     * URL of the URL navigator to \a newUrl without triggering
+     * a reloading of the directory.
+     */
+    void redirect(const KUrl& oldUrl, const KUrl& newUrl);
 
 private:
     bool m_showProgress;

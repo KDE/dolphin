@@ -126,7 +126,7 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(clearHoverInformation()));
 
     connect(m_dirLister, SIGNAL(redirection(KUrl, KUrl)),
-            this, SLOT(slotRedirection(KUrl, KUrl)));
+            this, SIGNAL(redirection(KUrl, KUrl)));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(restoreCurrentItem()));
 
@@ -1024,13 +1024,6 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
         emit operationCompletedMessage(i18nc("@info:status", "Delete operation completed."));
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
         emit errorMessage(job->errorString());
-    }
-}
-
-void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
-{
-    if (oldUrl == m_controller->url()) {
-        m_controller->setUrl(newUrl);
     }
 }
 

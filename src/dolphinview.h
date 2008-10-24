@@ -85,7 +85,8 @@ public:
     {
         /**
          * The directory items are shown as icons including an
-         * icon name. */
+         * icon name. 
+         */
         IconsView = 0,
 
         /**
@@ -525,6 +526,12 @@ signals:
      */
     void startedPathLoading(const KUrl& url);
 
+    /**
+     * Emitted when KDirLister emits redirection.
+     * Testcase: fish://localhost
+     */
+    void redirection(const KUrl& oldUrl, const KUrl& newUrl);
+
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
@@ -606,12 +613,6 @@ private slots:
      * of the job \a job has been finished.
      */
     void slotDeleteFileFinished(KJob* job);
-
-    /**
-     * Called when KDirLister emits redirection.
-     * Testcase: fish://localhost
-     */
-    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
      * Is emitted if the controller requests a changing of the current
