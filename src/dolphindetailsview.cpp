@@ -474,8 +474,8 @@ void DolphinDetailsView::setSelection(const QRect &rect, QItemSelectionModel::Se
         // Choose a sensible startIndex - a parentless index in the 
         // name column, as close to the top of the rect as we 
         // can find.
-        QRect normalisedRect = rect.normalized();
-        QModelIndex startIndex = QTreeView::indexAt(normalisedRect.topLeft());
+        const QRect normalizedRect = rect.normalized();
+        QModelIndex startIndex = QTreeView::indexAt(normalizedRect.topLeft());
         if (startIndex.isValid()) {
             while (startIndex.parent().isValid()) {
                 startIndex = startIndex.parent();
@@ -486,7 +486,7 @@ void DolphinDetailsView::setSelection(const QRect &rect, QItemSelectionModel::Se
         }
         startIndex = model()->index(startIndex.row(), KDirModel::Name);
         clearSelection();
-        setSelectionRecursive(startIndex, normalisedRect, command);
+        setSelectionRecursive(startIndex, normalizedRect, command);
     }
 }
 
@@ -754,6 +754,7 @@ void DolphinDetailsView::setSelectionRecursive(const QModelIndex& startIndex,
         return;
     }
     
+    QItemSelection selection;
     // rect is assumed to be in viewport coordinates and normalized.
     // Move down through the siblings of startIndex, exploring the children
     // of any expanded nodes.
@@ -770,18 +771,19 @@ void DolphinDetailsView::setSelectionRecursive(const QModelIndex& startIndex,
             }
         }
 
-        QRect itemContentRect = nameColumnRect(currIndex);
+        const QRect itemContentRect = nameColumnRect(currIndex);
         if (itemContentRect.top() > rect.bottom()) {
             // All remaining items will be below itemContentRect, so we may cull.
-            return;
+            break;
         }
 
         if (itemContentRect.intersects(rect)) {
-            selectionModel()->select(currIndex, QItemSelectionModel::Select);   
+            selection.select(currIndex, currIndex);
         }
 
         currIndex = belowIndex;
     } while (currIndex.isValid());
+    selectionModel()->select(selection,  QItemSelectionModel::Select);
 }
 
 #include "dolphindetailsview.moc"
