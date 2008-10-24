@@ -47,7 +47,6 @@
 #include <ktoggleaction.h>
 #include <kurl.h>
 
-#include "dolphindropcontroller.h"
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
@@ -58,6 +57,7 @@
 #include "dolphiniconsview.h"
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
+#include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "renamedialog.h"
 #include "tooltipmanager.h"
@@ -871,7 +871,7 @@ void DolphinView::dropUrls(const KFileItem& destItem,
                            const KUrl& destPath,
                            QDropEvent* event)
 {
-    DolphinDropController::dropUrls(destItem, destPath, event, this);
+    DragAndDropHelper::dropUrls(destItem, destPath, event, this);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)

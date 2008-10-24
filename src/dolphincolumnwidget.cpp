@@ -294,7 +294,7 @@ void DolphinColumnWidget::startDrag(Qt::DropActions supportedActions)
 
 void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (event->mimeData()->hasUrls()) {
+    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
         event->acceptProposedAction();
     }
 }
@@ -323,7 +323,7 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
     }
     setDirtyRegion(m_dropRect);
 
-    if (event->mimeData()->hasUrls()) {
+    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
         // accept url drops, independently from the destination item
         event->acceptProposedAction();
     }

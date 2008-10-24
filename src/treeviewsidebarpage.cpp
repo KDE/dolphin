@@ -19,13 +19,13 @@
 
 #include "treeviewsidebarpage.h"
 
-#include "dolphindropcontroller.h"
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinsettings.h"
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
+#include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "renamedialog.h"
 #include "sidebartreeview.h"
@@ -207,7 +207,7 @@ void TreeViewSidebarPage::dropUrls(const QModelIndex& index, QDropEvent* event)
         KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
         Q_ASSERT(!item.isNull());
         if (item.isDir()) {
-            DolphinDropController::dropUrls(item, item.url(), event, this);
+            DragAndDropHelper::dropUrls(item, item.url(), event, this);
         }
     }
 }

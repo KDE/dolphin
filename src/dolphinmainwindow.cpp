@@ -21,7 +21,6 @@
 
 #include "dolphinmainwindow.h"
 #include "dolphinviewactionhandler.h"
-#include "dolphindropcontroller.h"
 
 #include <config-nepomuk.h>
 

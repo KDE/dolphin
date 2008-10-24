@@ -46,7 +46,6 @@
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
-#include "dolphindropcontroller.h"
 #include "dolphinstatusbar.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
@@ -54,6 +53,7 @@
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
 #include "dolphincontextmenu.h"
+#include "draganddrophelper.h"
 #include "filterbar.h"
 #include "kurlnavigator.h"
 #include "viewproperties.h"
@@ -369,7 +369,7 @@ void DolphinViewContainer::saveRootUrl(const KUrl& url)
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
-    DolphinDropController::dropUrls(KFileItem(), destination, event, this);
+    DragAndDropHelper::dropUrls(KFileItem(), destination, event, this);
 }
 
 void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)

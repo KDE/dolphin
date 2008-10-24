@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "dolphinfileplacesview.h"
-#include "dolphindropcontroller.h"
+#include "draganddrophelper.h"
 #include <kfileitem.h>
 #include <konq_operations.h>
 
@@ -45,7 +45,7 @@ void DolphinFilePlacesView::mousePressEvent(QMouseEvent* event)
 
 void DolphinFilePlacesView::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
 {
-    DolphinDropController::dropUrls(KFileItem(), dest, event, parent);
+    DragAndDropHelper::dropUrls(KFileItem(), dest, event, parent);
 }
 
 void DolphinFilePlacesView::emitExtendedUrlChangedSignal(const KUrl& url)

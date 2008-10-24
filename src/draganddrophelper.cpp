@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
- *                                                                         *
+ *   Copyright (C) 2007 by David Faure <faure@kde.org>                     *                                                                      *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -22,11 +22,18 @@
 #include "dolphincontroller.h"
 
 #include <kdirmodel.h>
+#include <kfileitem.h>
 #include <kicon.h>
+#include <konq_operations.h>
 
 #include <QAbstractItemView>
 #include <QAbstractProxyModel>
 #include <QDrag>
+
+bool DragAndDropHelper::isMimeDataSupported(const QMimeData* mimeData)
+{
+    return mimeData->hasUrls() || mimeData->hasFormat("application/x-kde-dndextract");
+}
 
 void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
                                   Qt::DropActions supportedActions,
@@ -58,5 +65,24 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
         drag->setPixmap(pixmap);
         drag->setMimeData(data);
         drag->exec(supportedActions, Qt::IgnoreAction);
+    }
+}
+
+void DragAndDropHelper::dropUrls(const KFileItem& destItem,
+                                 const KUrl& destPath,
+                                 QDropEvent* event,
+                                 QWidget* widget)
+{
+    const bool dropToItem = !destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile());
+    const KUrl destination = dropToItem ? destItem.url() : destPath;
+                             
+    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    const KUrl sourceDir = KUrl(urls.first().directory());
+    if (sourceDir != destination) {
+        if (dropToItem) {
+            KonqOperations::doDrop(destItem, destination, event, widget);
+        } else {
+            KonqOperations::doDrop(KFileItem(), destination, event, widget);
+        }
     }
 }
