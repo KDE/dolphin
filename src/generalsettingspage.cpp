@@ -42,7 +42,8 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     m_showZoomSlider(0),
     m_showSpaceInfo(0),
     m_browseThroughArchives(0),
-    m_renameInline(0)
+    m_renameInline(0),
+    m_autoExpandFolders(0)
 {
     Q_UNUSED(mainWin);
 
@@ -95,6 +96,9 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
 
     m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), vBox);
     connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    
+    m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"), vBox);
+    connect(m_autoExpandFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -130,6 +134,7 @@ void GeneralSettingsPage::applySettings()
     settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
     settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
+    settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
 }
 
 void GeneralSettingsPage::restoreDefaults()
@@ -159,6 +164,7 @@ void GeneralSettingsPage::loadSettings()
     m_showSpaceInfo->setChecked(settings->showSpaceInfo());
     m_browseThroughArchives->setChecked(settings->browseThroughArchives());
     m_renameInline->setChecked(settings->renameInline());
+    m_autoExpandFolders->setChecked(settings->autoExpandFolders());
 }
 
 #include "generalsettingspage.moc"

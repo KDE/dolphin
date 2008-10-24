@@ -58,6 +58,7 @@ private:
     
     QCheckBox* m_browseThroughArchives;
     QCheckBox* m_renameInline;
+    QCheckBox* m_autoExpandFolders;
 };
 
 #endif
