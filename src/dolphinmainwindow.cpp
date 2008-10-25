@@ -565,7 +565,7 @@ void DolphinMainWindow::toggleEditLocation()
     urlNavigator->setUrlEditable(action->isChecked());
 }
 
-void DolphinMainWindow::editLocation()
+void DolphinMainWindow::replaceLocation()
 {
     KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
     navigator->setUrlEditable(true);
@@ -995,16 +995,15 @@ void DolphinMainWindow::setupActions()
     stop->setIcon(KIcon("process-stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
-    // TODO: the naming "Show full Location" is currently confusing...
     KToggleAction* showFullLocation = actionCollection()->add<KToggleAction>("editable_location");
-    showFullLocation->setText(i18nc("@action:inmenu Navigation Bar", "Show Full Location"));
+    showFullLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
     showFullLocation->setShortcut(Qt::CTRL | Qt::Key_L);
     connect(showFullLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
-    KAction* editLocation = actionCollection()->addAction("edit_location");
-    editLocation->setText(i18nc("@action:inmenu Navigation Bar", "Edit Location"));
-    editLocation->setShortcut(Qt::Key_F6);
-    connect(editLocation, SIGNAL(triggered()), this, SLOT(editLocation()));
+    KAction* replaceLocation = actionCollection()->addAction("replace_location");
+    replaceLocation->setText(i18nc("@action:inmenu Navigation Bar", "Replace Location"));
+    replaceLocation->setShortcut(Qt::Key_F6);
+    connect(replaceLocation, SIGNAL(triggered()), this, SLOT(replaceLocation()));
 
     // setup 'Go' menu
     KAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());

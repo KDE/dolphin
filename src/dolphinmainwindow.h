@@ -238,10 +238,11 @@ private slots:
     void toggleEditLocation();
 
     /**
-     * Switches to the edit mode of the navigation bar. If the edit mode is
+     * Switches to the edit mode of the navigation bar and selects
+     * the whole URL, so that it can be replaced by the user. If the edit mode is
      * already active, it is assured that the navigation bar get focused.
      */
-    void editLocation();
+    void replaceLocation();
 
     /** Goes back on step of the URL history. */
     void goBack();
