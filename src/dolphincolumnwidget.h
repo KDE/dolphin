@@ -32,7 +32,7 @@
 class DolphinColumnView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
-class KDirLister;
+class DolphinDirLister;
 class KFilePreviewGenerator;
 class KJob;
 class KFileItem;
@@ -149,7 +149,7 @@ private:
     QFont m_font;
     QSize m_decorationSize;
 
-    KDirLister* m_dirLister;
+    DolphinDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 

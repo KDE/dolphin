@@ -25,6 +25,7 @@ set(dolphinprivate_LIB_SRCS
     dolphiniconsview.cpp
     dolphincolumnview.cpp
     dolphincolumnwidget.cpp
+    dolphindirlister.cpp
     dolphinfileitemdelegate.cpp
     dolphinmodel.cpp
     dolphinsettings.cpp

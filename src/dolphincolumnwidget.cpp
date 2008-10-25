@@ -103,8 +103,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
 
-    //m_dirLister = new DolphinDirLister(); TODO
-    m_dirLister = new KDirLister();
+    m_dirLister = new DolphinDirLister();
     m_dirLister->setAutoUpdate(true);
     m_dirLister->setMainWindow(window());
     m_dirLister->setDelayedMimeTypes(true);
