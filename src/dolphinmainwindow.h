@@ -305,6 +305,10 @@ private slots:
      */
     void openNewTab(const KUrl& url);
 
+    void activateNextTab();
+
+    void activatePrevTab();
+
     /** Toggles the active view if two views are shown within the main window. */
     void toggleActiveView();
 

@@ -318,6 +318,29 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     actionCollection()->action("close_tab")->setEnabled(true);
 }
 
+void DolphinMainWindow::activateNextTab()
+{
+    if (m_viewTab.count() == 1 || m_tabBar->count() < 2) {
+        return;
+    }
+
+    int tabIndex = (m_tabBar->currentIndex() + 1) % m_tabBar->count();
+    m_tabBar->setCurrentIndex(tabIndex);
+}
+
+void DolphinMainWindow::activatePrevTab()
+{
+    if (m_viewTab.count() == 1 || m_tabBar->count() < 2) {
+        return;
+    }
+
+    int tabIndex = (m_tabBar->currentIndex() - 1);
+    if (tabIndex == -1) {
+        tabIndex = m_tabBar->count() - 1;
+    }
+    m_tabBar->setCurrentIndex(tabIndex);
+}
+
 void DolphinMainWindow::toggleActiveView()
 {
     if (m_viewTab[m_tabIndex].secondaryView == 0) {
@@ -1015,6 +1038,17 @@ void DolphinMainWindow::setupActions()
     // setup 'Settings' menu
     m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
     KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
+
+    // not in menu actions
+    KAction* activateNextTab = actionCollection()->addAction("activatenexttab");
+    activateNextTab->setText( i18n( "Activate Next Tab" ) );
+    connect(activateNextTab, SIGNAL(triggered()), SLOT( activateNextTab() ));
+    activateNextTab->setShortcuts(QApplication::isRightToLeft() ? KStandardShortcut::tabPrev() : KStandardShortcut::tabNext());
+
+    KAction* activatePrevTab = actionCollection()->addAction("activateprevtab");
+    activatePrevTab->setText( i18n( "Activate Previous Tab" ) );
+    connect(activatePrevTab, SIGNAL(triggered()), SLOT( activatePrevTab() ));
+    activatePrevTab->setShortcuts(QApplication::isRightToLeft() ? KStandardShortcut::tabNext() : KStandardShortcut::tabPrev());
 }
 
 void DolphinMainWindow::setupDockWidgets()
