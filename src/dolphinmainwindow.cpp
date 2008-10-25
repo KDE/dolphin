@@ -324,7 +324,7 @@ void DolphinMainWindow::activateNextTab()
         return;
     }
 
-    int tabIndex = (m_tabBar->currentIndex() + 1) % m_tabBar->count();
+    const int tabIndex = (m_tabBar->currentIndex() + 1) % m_tabBar->count();
     m_tabBar->setCurrentIndex(tabIndex);
 }
 
@@ -334,7 +334,7 @@ void DolphinMainWindow::activatePrevTab()
         return;
     }
 
-    int tabIndex = (m_tabBar->currentIndex() - 1);
+    int tabIndex = m_tabBar->currentIndex() - 1;
     if (tabIndex == -1) {
         tabIndex = m_tabBar->count() - 1;
     }
@@ -1041,14 +1041,16 @@ void DolphinMainWindow::setupActions()
 
     // not in menu actions
     KAction* activateNextTab = actionCollection()->addAction("activatenexttab");
-    activateNextTab->setText( i18n( "Activate Next Tab" ) );
-    connect(activateNextTab, SIGNAL(triggered()), SLOT( activateNextTab() ));
-    activateNextTab->setShortcuts(QApplication::isRightToLeft() ? KStandardShortcut::tabPrev() : KStandardShortcut::tabNext());
+    activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
+    connect(activateNextTab, SIGNAL(triggered()), SLOT(activateNextTab()));
+    activateNextTab->setShortcuts(QApplication::isRightToLeft() ? KStandardShortcut::tabPrev() :
+                                                                  KStandardShortcut::tabNext());
 
     KAction* activatePrevTab = actionCollection()->addAction("activateprevtab");
-    activatePrevTab->setText( i18n( "Activate Previous Tab" ) );
-    connect(activatePrevTab, SIGNAL(triggered()), SLOT( activatePrevTab() ));
-    activatePrevTab->setShortcuts(QApplication::isRightToLeft() ? KStandardShortcut::tabNext() : KStandardShortcut::tabPrev());
+    activatePrevTab->setText(i18nc("@action:inmenu", "Activate Previous Tab"));
+    connect(activatePrevTab, SIGNAL(triggered()), SLOT(activatePrevTab()));
+    activatePrevTab->setShortcuts(QApplication::isRightToLeft() ? KStandardShortcut::tabNext() :
+                                                                  KStandardShortcut::tabPrev());
 }
 
 void DolphinMainWindow::setupDockWidgets()
