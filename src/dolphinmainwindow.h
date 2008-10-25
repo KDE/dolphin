@@ -310,6 +310,16 @@ private slots:
 
     void activatePrevTab();
 
+    /**
+     * Opens the selected folder in a new tab.
+     */
+    void openInNewTab();
+
+    /**
+     * Opens the selected folder in a new window.
+     */
+    void openInNewWindow();
+
     /** Toggles the active view if two views are shown within the main window. */
     void toggleActiveView();
 

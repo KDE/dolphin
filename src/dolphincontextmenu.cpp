@@ -172,6 +172,11 @@ void DolphinContextMenu::openItemContextMenu()
     Q_ASSERT(!m_fileInfo.isNull());
 
     KMenu* popup = new KMenu(m_mainWindow);
+    if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
+      popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
+      popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
+      popup->addSeparator();
+    }
     addShowMenubarAction(popup);
     insertDefaultItemActions(popup);
 

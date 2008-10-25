@@ -341,6 +341,25 @@ void DolphinMainWindow::activatePrevTab()
     m_tabBar->setCurrentIndex(tabIndex);
 }
 
+void DolphinMainWindow::openInNewTab()
+{
+    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+    if ((list.count() == 1) && list[0].isDir()) {
+        openNewTab(m_activeViewContainer->view()->selectedUrls()[0]);
+        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+    }
+}
+
+void DolphinMainWindow::openInNewWindow()
+{
+    const KFileItemList list = m_activeViewContainer->view()->selectedItems();
+    if ((list.count() == 1) && list[0].isDir()) {
+        DolphinMainWindow* window = DolphinApplication::app()->createMainWindow();
+        window->changeUrl(m_activeViewContainer->view()->selectedUrls()[0]);
+        window->show();
+    }
+}
+
 void DolphinMainWindow::toggleActiveView()
 {
     if (m_viewTab[m_tabIndex].secondaryView == 0) {
@@ -1050,6 +1069,17 @@ void DolphinMainWindow::setupActions()
     connect(activatePrevTab, SIGNAL(triggered()), SLOT(activatePrevTab()));
     activatePrevTab->setShortcuts(QApplication::isRightToLeft() ? KStandardShortcut::tabNext() :
                                                                   KStandardShortcut::tabPrev());
+
+    // for context menu
+    KAction* openInNewTab = actionCollection()->addAction("open_in_new_tab");
+    openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
+    openInNewTab->setIcon(KIcon("tab-new"));
+    connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
+    
+    KAction* openInNewWindow = actionCollection()->addAction("open_in_new_window");
+    openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
+    openInNewWindow->setIcon(KIcon("window-new"));
+    connect(openInNewWindow, SIGNAL(triggered()), this, SLOT(openInNewWindow()));
 }
 
 void DolphinMainWindow::setupDockWidgets()
