@@ -161,7 +161,9 @@ void ToolTipManager::prepareToolTip()
         if (m_preview && m_previewIsLate) {
             // We got a preview, but it is late, the tooltip has already been shown.
             // So update the tooltip directly.
-            m_emptyRenderedKToolTipItem->setData(Qt::DecorationRole, KIcon(m_pix));
+            if (m_emptyRenderedKToolTipItem != 0) {
+                m_emptyRenderedKToolTipItem->setData(Qt::DecorationRole, KIcon(m_pix));
+            }
             return;
         }
 
@@ -185,6 +187,8 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
     if (QApplication::mouseButtons() & Qt::LeftButton) {
         delete tip;
         tip = 0;
+        // m_emptyRenderedKToolTipItem is an alias for tip.
+        m_emptyRenderedKToolTipItem = 0;
         return;
     }
     
