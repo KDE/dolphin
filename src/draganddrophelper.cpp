@@ -28,6 +28,7 @@
 
 #include <QAbstractItemView>
 #include <QAbstractProxyModel>
+#include <QtDBus>
 #include <QDrag>
 
 bool DragAndDropHelper::isMimeDataSupported(const QMimeData* mimeData)
@@ -75,14 +76,23 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
 {
     const bool dropToItem = !destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile());
     const KUrl destination = dropToItem ? destItem.url() : destPath;
-                             
-    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-    const KUrl sourceDir = KUrl(urls.first().directory());
-    if (sourceDir != destination) {
-        if (dropToItem) {
-            KonqOperations::doDrop(destItem, destination, event, widget);
-        } else {
-            KonqOperations::doDrop(KFileItem(), destination, event, widget);
+    
+    const QMimeData* mimeData = event->mimeData();
+    if (mimeData->hasFormat("application/x-kde-dndextract")) {
+        QString remoteDBusClient = mimeData->data("application/x-kde-dndextract");
+        QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, "/DndExtract",
+                                                              "org.kde.DndExtract", "extractFilesTo");
+        message.setArguments(QVariantList() << destination.path());
+        QDBusConnection::sessionBus().call(message);
+    } else {                                
+        const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+        const KUrl sourceDir = KUrl(urls.first().directory());
+        if (sourceDir != destination) {
+            if (dropToItem) {
+                KonqOperations::doDrop(destItem, destination, event, widget);
+            } else {
+                KonqOperations::doDrop(KFileItem(), destination, event, widget);
+            }
         }
     }
 }
