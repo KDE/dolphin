@@ -26,6 +26,7 @@
 #include "statusbarspaceinfo.h"
 #include "zoomlevelinfo.h"
 
+#include <QApplication>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QProgressBar>
@@ -34,6 +35,7 @@
 
 #include <kiconloader.h>
 #include <kicon.h>
+#include <klocale.h>
 #include <kvbox.h>
 
 DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
@@ -89,6 +91,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     zoomWidgetLayout->addWidget(m_zoomIn);
     
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setZoomLevel(int)));
+    connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(showZoomSliderToolTip(int)));
     connect(m_view, SIGNAL(zoomLevelChanged(int)), m_zoomSlider, SLOT(setValue(int)));
     connect(m_zoomOut, SIGNAL(clicked()), this, SLOT(zoomOut()));
     connect(m_zoomIn, SIGNAL(clicked()), this, SLOT(zoomIn()));
@@ -272,6 +275,16 @@ void DolphinStatusBar::zoomIn()
 {
     const int value = m_zoomSlider->value();
     m_zoomSlider->setValue(value + 1);
+}
+
+void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
+{
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel);
+    m_zoomSlider->setToolTip(i18nc("@info:tooltip", "Size: %1 pixels", size));
+    QPoint global = m_zoomSlider->rect().topLeft();
+    global.ry() += m_zoomSlider->height() / 2;
+    QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), m_zoomSlider->mapToGlobal(global));
+    QApplication::sendEvent(m_zoomSlider, &toolTipEvent);   
 }
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)

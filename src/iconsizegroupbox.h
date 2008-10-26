@@ -51,6 +51,13 @@ signals:
     void defaultSizeChanged(int value);
     void previewSizeChanged(int value);
     
+private slots:
+    void slotDefaultSliderMoved(int value);
+    void slotPreviewSliderMoved(int value);
+    
+private:
+    void showToolTip(QSlider* slider, int value);
+    
 private:
     QSlider* m_defaultSizeSlider;
     QSlider* m_previewSizeSlider;

@@ -150,6 +150,7 @@ private slots:
     
     void zoomOut();
     void zoomIn();
+    void showZoomSliderToolTip(int zoomLevel);
     
 private:
     /**

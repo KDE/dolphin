@@ -21,9 +21,15 @@
 
 #include <klocale.h>
 
+#include <QApplication>
 #include <QGridLayout>
+#include <QHelpEvent>
 #include <QLabel>
+#include <QPoint>
+#include <QRect>
 #include <QSlider>
+
+#include "zoomlevelinfo.h"
 
 IconSizeGroupBox::IconSizeGroupBox(QWidget* parent) :
     QGroupBox(i18nc("@title:group", "Icon Size"), parent),
@@ -35,14 +41,14 @@ IconSizeGroupBox::IconSizeGroupBox(QWidget* parent) :
     m_defaultSizeSlider->setPageStep(1);
     m_defaultSizeSlider->setTickPosition(QSlider::TicksBelow);
     connect(m_defaultSizeSlider, SIGNAL(sliderMoved(int)),
-            this, SIGNAL(defaultSizeChanged(int)));
+            this, SLOT(slotDefaultSliderMoved(int)));
     
     QLabel* previewLabel = new QLabel(i18nc("@label:listbox", "Preview:"), this);
     m_previewSizeSlider = new QSlider(Qt::Horizontal, this);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
     connect(m_previewSizeSlider, SIGNAL(sliderMoved(int)),
-            this, SIGNAL(defaultSizeChanged(int)));
+            this, SLOT(slotPreviewSliderMoved(int)));
     
     QGridLayout* layout = new QGridLayout(this);
     layout->addWidget(defaultLabel, 0, 0, Qt::AlignRight);
@@ -83,6 +89,28 @@ void IconSizeGroupBox::setPreviewSizeValue(int value)
 int IconSizeGroupBox::previewSizeValue() const
 {
     return m_previewSizeSlider->value();
+}
+
+void IconSizeGroupBox::slotDefaultSliderMoved(int value)
+{
+    showToolTip(m_defaultSizeSlider, value);
+    emit defaultSizeChanged(value);
+}
+
+void IconSizeGroupBox::slotPreviewSliderMoved(int value)
+{
+    showToolTip(m_previewSizeSlider, value);
+    emit previewSizeChanged(value);
+}
+
+void IconSizeGroupBox::showToolTip(QSlider* slider, int value)
+{
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(value);
+    slider->setToolTip(i18nc("@info:tooltip", "Size: %1 pixels", size));
+    QPoint global = slider->rect().topLeft();
+    global.ry() += slider->height() / 2;
+    QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), slider->mapToGlobal(global));
+    QApplication::sendEvent(slider, &toolTipEvent);    
 }
 
 #include "iconsizegroupbox.moc"
