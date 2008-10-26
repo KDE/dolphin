@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2008 by Simon St. James (kdedevel@etotheipiplusone.com) *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -96,7 +96,7 @@ private slots:
     void slotEntered(const QModelIndex& index);
 
     /**
-     * Updates the destination \a m_elasticBandDestination from
+     * Updates the destination \a destination from
      * the elastic band to the current mouse position and triggers
      * an update.
      */
@@ -104,8 +104,8 @@ private slots:
 
     /**
      * Returns the rectangle for the elastic band dependent from the
-     * origin \a m_elasticBandOrigin, the current destination
-     * \a m_elasticBandDestination and the viewport position.
+     * origin \a origin, the current destination
+     * \a destination and the viewport position.
      */
     QRect elasticBandRect() const;
 
@@ -143,6 +143,13 @@ private slots:
 
     void updateFont();
 
+    /**
+     * If the elastic band is currently shown, update the elastic band based on 
+     * the current mouse position and ensure that the selection is the set of items 
+     * intersecting it.
+     */
+    void updateElasticBandSelection();
+
 private:
     /**
      * Updates the size of the decoration dependent on the
@@ -164,12 +171,8 @@ private:
 
     QRect nameColumnRect(const QModelIndex& index) const;
 
-    void setSelectionRecursive(const QModelIndex& startIndex,
-                               const QRect& rect,
-                               QItemSelectionModel::SelectionFlags command);
-
 private:
-	bool m_autoResize : 1;        // if true, the columns are resized automatically to the available width
+    bool m_autoResize : 1;        // if true, the columns are resized automatically to the available width
     bool m_expandingTogglePressed : 1;
     bool m_keyPressed : 1;        // true if a key is pressed currently; info used by currentChanged()
     bool m_useDefaultIndexAt : 1; // true, if QTreeView::indexAt() should be used
@@ -182,12 +185,32 @@ private:
 
     QRect m_dropRect;
 
-    // Elastic band coordinates are relative to the origin of the
-    // view, not the viewport.
-    bool m_showElasticBand;
-    QPoint m_elasticBandOrigin;
-    QPoint m_elasticBandDestination;
+    struct ElasticBand
+    {
+        ElasticBand();
+        
+        // Elastic band coordinates are relative to the origin of the
+        // view, not the viewport.
+        bool show;
+        QPoint origin;
+        QPoint destination;
 
+        // Optimisation mechanisms for use with elastic band selection.
+        // Basically, allow "incremental" updates to the selection based
+        // on the last elastic band shape.
+        QRect oldSelectionRect;
+        
+        // If true, compute the set of selected elements from scratch (slower)
+        bool ignoreOldInfo;    
+        
+        // Edges of the filenames that are closest to the edges of oldSelectionRect.
+        // Used to decide whether horizontal changes in the elastic band are likely
+        // to require us to re-check which items are selected.
+        int outsideNearestLeftEdge;
+        int outsideNearestRightEdge;
+        int insideNearestLeftEdge;
+        int insideNearestRightEdge;
+    } m_band;
 };
 
 #endif
