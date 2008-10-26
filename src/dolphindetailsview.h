@@ -65,6 +65,7 @@ protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);
     virtual QModelIndex indexAt (const QPoint& point) const;
     virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
+    virtual void scrollTo (const QModelIndex & index, ScrollHint hint = EnsureVisible);
 
 private slots:
     /**
@@ -176,6 +177,7 @@ private:
     bool m_expandingTogglePressed : 1;
     bool m_keyPressed : 1;        // true if a key is pressed currently; info used by currentChanged()
     bool m_useDefaultIndexAt : 1; // true, if QTreeView::indexAt() should be used
+    bool m_ignoreScrollTo : 1;    // true if calls to scrollTo(...) should do nothing.
 
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;

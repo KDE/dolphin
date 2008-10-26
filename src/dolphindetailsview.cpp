@@ -55,7 +55,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_selectionManager(0),
     m_font(),
     m_decorationSize(),
-    m_band()   
+    m_band(),
+    m_ignoreScrollTo(false)
 {
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     Q_ASSERT(settings != 0);
@@ -228,9 +229,11 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
             clearSelection();
         }
 
-        // restore the current index, other columns are handled as viewport area
+        // restore the current index, other columns are handled as viewport area.
+        // setCurrentIndex(...) implicitly calls scrollTo(...), which we want to ignore.
+        m_ignoreScrollTo = true;
         selectionModel()->setCurrentIndex(current, QItemSelectionModel::Current);
-        
+        m_ignoreScrollTo = false;
 
         if ((event->button() == Qt::LeftButton) && !m_expandingTogglePressed) {
             // Inform Qt about what we are doing - otherwise it starts dragging items around!
@@ -464,6 +467,13 @@ void DolphinDetailsView::setSelection(const QRect &rect, QItemSelectionModel::Se
         // Use our own elastic band selection algorithm
         updateElasticBandSelection();
     }
+}
+
+void DolphinDetailsView::scrollTo(const QModelIndex & index, ScrollHint hint)
+{
+    if (m_ignoreScrollTo)
+        return;
+    QTreeView::scrollTo(index, hint);
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
