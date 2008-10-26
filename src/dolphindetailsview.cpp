@@ -728,7 +728,7 @@ void DolphinDetailsView::updateElasticBandSelection()
    QModelIndex toggleIndexRangeBegin = QModelIndex();
 
    do {
-       QRect currIndexRect = visualRect(currIndex);
+       QRect currIndexRect = visualRect(currIndex).intersect(nameColumnRect);
        const QString name = m_controller->itemForIndex(currIndex).name();
        currIndexRect.setWidth(DolphinFileItemDelegate::nameColumnWidth(name, viewOptions()));
 
@@ -776,7 +776,7 @@ void DolphinDetailsView::updateElasticBandSelection()
        lastIndex = currIndex;
        currIndex = nextIndex;
     } while (!allItemsInBoundDone);
-    
+
     selectionModel()->select(itemsToToggle, QItemSelectionModel::Toggle);
 
     m_band.oldSelectionRect = selRect;
