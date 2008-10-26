@@ -646,6 +646,7 @@ void DolphinDetailsView::updateElasticBandSelection()
 
     if (selRect.isNull()) {
         clearSelection();
+        m_band.ignoreOldInfo = true;
         return;
     }
 
@@ -677,7 +678,7 @@ void DolphinDetailsView::updateElasticBandSelection()
                 ((selRect.right() < oldSelRect.right()) &&
                  (selRect.left() >= m_band.insideNearestRightEdge)) ||
                 ((selRect.right() > oldSelRect.right()) &&
-                 (selRect.right() >= m_band.outsideNearestRightEdge)); 
+                 (selRect.right() >= m_band.outsideNearestRightEdge));
 
             if (!itemSelectionChanged) {
                 return;
@@ -686,7 +687,7 @@ void DolphinDetailsView::updateElasticBandSelection()
     }
 
     // Do the selection from scratch. Force a update of the horizontal distances info.
-    m_band.insideNearestLeftEdge   = nameColumnX + nameColumnWidth + 1;;
+    m_band.insideNearestLeftEdge   = nameColumnX + nameColumnWidth + 1;
     m_band.insideNearestRightEdge  = nameColumnX - 1;
     m_band.outsideNearestLeftEdge  = nameColumnX - 1;
     m_band.outsideNearestRightEdge = nameColumnX + nameColumnWidth + 1;
@@ -724,7 +725,7 @@ void DolphinDetailsView::updateElasticBandSelection()
    QModelIndex toggleIndexRangeBegin = QModelIndex();
 
    do {
-       QRect currIndexRect = visualRect(currIndex).intersect(nameColumnRect);
+       QRect currIndexRect = visualRect(currIndex);
        const QString name = m_controller->itemForIndex(currIndex).name();
        currIndexRect.setWidth(DolphinFileItemDelegate::nameColumnWidth(name, viewOptions()));
 
@@ -733,7 +734,7 @@ void DolphinDetailsView::updateElasticBandSelection()
        const int cl = currIndexRect.left();
        const int sl = selRect.left();
        const int sr = selRect.right();
-        // "The right edge of the name is outside of the rect but nearer than m_outsideNearestLeft", etc      
+       // "The right edge of the name is outside of the rect but nearer than m_outsideNearestLeft", etc      
        if ((cr < sl && cr > m_band.outsideNearestLeftEdge)) {
            m_band.outsideNearestLeftEdge = cr;
        }
@@ -746,7 +747,7 @@ void DolphinDetailsView::updateElasticBandSelection()
        if ((cr >= sl && cr <= sr && cr < m_band.insideNearestLeftEdge)) {
            m_band.insideNearestLeftEdge = cr;
        }
-  
+
        bool currentlySelected = selectionModel()->isSelected(currIndex);
        bool intersectsSelectedRect = currIndexRect.intersects(selRect);
        bool needToToggleItem = (currentlySelected && !intersectsSelectedRect) || (!currentlySelected && intersectsSelectedRect);
