@@ -439,6 +439,7 @@ void DolphinView::reload()
 void DolphinView::refresh()
 {
     const bool oldActivationState = m_active;
+    const int oldZoomLevel = m_controller->zoomLevel();
     m_active = true;
 
     createView();
@@ -446,6 +447,7 @@ void DolphinView::refresh()
     reload();
 
     setActive(oldActivationState);
+    updateZoomLevel(oldZoomLevel);
 }
 
 void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
