@@ -652,23 +652,19 @@ void DolphinDetailsView::updateElasticBandSelection()
     if (!m_band.ignoreOldInfo) {
         // Do some quick checks to see if we can rule out the need to
         // update the selection.
-        bool coveringSameRows = true; 
         Q_ASSERT(uniformRowHeights());
         QModelIndex dummyIndex = model()->index(0, 0);        
         if (!dummyIndex.isValid()) {
             // No items in the model presumably.
             return;
         }
-        const int rowHeight = QTreeView::rowHeight(dummyIndex);
         
         // If the elastic band does not cover the same rows as before, we'll
         // need to re-check, and also invalidate the old item distances.
-        if (selRect.top() / rowHeight != m_band.oldSelectionRect.top() / rowHeight) {
-            coveringSameRows = false;
-        } else if (selRect.bottom() / rowHeight != m_band.oldSelectionRect.bottom() / rowHeight) {
-            coveringSameRows = false;
-        }
-        
+        const int rowHeight = QTreeView::rowHeight(dummyIndex);
+        const bool coveringSameRows =
+            (selRect.top()    / rowHeight == m_band.oldSelectionRect.top()    / rowHeight) &&
+            (selRect.bottom() / rowHeight == m_band.oldSelectionRect.bottom() / rowHeight);
         if (coveringSameRows) {
             // Covering the same rows, but have we moved far enough horizontally 
             // that we might have (de)selected some other items?
