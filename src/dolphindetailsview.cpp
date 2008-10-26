@@ -776,7 +776,11 @@ void DolphinDetailsView::updateElasticBandSelection()
                                             currIndex.parent() != toggleIndexRangeBegin.parent());
        if (commitToggleIndexRange) {
            itemsToToggle.select(toggleIndexRangeBegin, lastIndex );
-           formingToggleIndexRange = false;
+           // Immediately start a new range with currIndex?
+           if (needToToggleItem) {
+               toggleIndexRangeBegin = currIndex;
+           }
+           formingToggleIndexRange = needToToggleItem;
        }
 
        // next item
