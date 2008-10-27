@@ -48,7 +48,7 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
         const KFileItem item = dirModel->itemForIndex(dirIndex);
         if (!item.isNull()) {
-            const int width = nameColumnWidth(item.name(), opt);
+            const int width = nameColumnWidth(item.text(), opt);
             opt.rect.setWidth(width);
         }
         KFileItemDelegate::paint(painter, opt, index);
