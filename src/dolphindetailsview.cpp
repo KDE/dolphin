@@ -717,6 +717,11 @@ void DolphinDetailsView::updateElasticBandSelection()
     } else {
         startIndex = model()->index(startIndex.row(), KDirModel::Name);
     }
+    if (!startIndex.isValid()) {
+        clearSelection();
+        m_band.ignoreOldInfo = true;
+        return;
+    }
 
    // Go through all indexes between the top and bottom of boundingRect, and
    // update the selection.
