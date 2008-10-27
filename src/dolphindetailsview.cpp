@@ -742,7 +742,7 @@ void DolphinDetailsView::updateElasticBandSelection()
 
    do {
        QRect currIndexRect = visualRect(currIndex);
-       const QString name = m_controller->itemForIndex(currIndex).name();
+       const QString name = m_controller->itemForIndex(currIndex).name();       
        currIndexRect.setWidth(DolphinFileItemDelegate::nameColumnWidth(name, viewOptions()));
 
         // Update some optimisation info as we go.
@@ -783,10 +783,20 @@ void DolphinDetailsView::updateElasticBandSelection()
                                             allItemsInBoundDone ||
                                             currIndex.parent() != toggleIndexRangeBegin.parent());
        if (commitToggleIndexRange) {
-           itemsToToggle.select(toggleIndexRangeBegin, lastIndex );
-           // Immediately start a new range with currIndex?
-           if (needToToggleItem) {
-               toggleIndexRangeBegin = currIndex;
+           if (!allItemsInBoundDone) {
+               itemsToToggle.select(toggleIndexRangeBegin, lastIndex);
+               // Need to start a new range immediately with currIndex?
+               if (needToToggleItem)
+                   toggleIndexRangeBegin = currIndex;
+           }
+           else  {
+                // Final item in the bounds.  Is it also the beginning of a range?
+               if (toggleIndexRangeBegin == currIndex) {
+                   itemsToToggle.select(currIndex, currIndex);
+               }
+               else {
+                   itemsToToggle.select(toggleIndexRangeBegin, lastIndex);
+               }
            }
            formingToggleIndexRange = needToToggleItem;
        }
