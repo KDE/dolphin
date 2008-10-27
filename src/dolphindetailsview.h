@@ -212,6 +212,9 @@ private:
         int outsideNearestRightEdge;
         int insideNearestLeftEdge;
         int insideNearestRightEdge;
+        // The set of items that were selected at the time this band was shown.
+        // NOTE: Unless CTRL was pressed when the band was created, this is always empty.
+        QItemSelection originalSelection;
     } m_band;
 };
 

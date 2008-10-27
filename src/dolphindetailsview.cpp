@@ -245,6 +245,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
             const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
             m_band.origin = event->pos() + pos + scrollPos;
             m_band.destination = m_band.origin;
+            m_band.originalSelection = selectionModel()->selection();
         }
     } 
 }
@@ -655,7 +656,7 @@ void DolphinDetailsView::updateElasticBandSelection()
     selRect = nameColumnRect.intersect(selRect).normalized();
 
     if (selRect.isNull()) {
-        clearSelection();
+        selectionModel()->select(m_band.originalSelection, QItemSelectionModel::ClearAndSelect);
         m_band.ignoreOldInfo = true;
         return;
     }
@@ -718,7 +719,7 @@ void DolphinDetailsView::updateElasticBandSelection()
         startIndex = model()->index(startIndex.row(), KDirModel::Name);
     }
     if (!startIndex.isValid()) {
-        clearSelection();
+        selectionModel()->select(m_band.originalSelection, QItemSelectionModel::ClearAndSelect);
         m_band.ignoreOldInfo = true;
         return;
     }
@@ -764,8 +765,10 @@ void DolphinDetailsView::updateElasticBandSelection()
        }
 
        bool currentlySelected = selectionModel()->isSelected(currIndex);
+       bool originallySelected = m_band.originalSelection.contains(currIndex);
        bool intersectsSelectedRect = currIndexRect.intersects(selRect);
-       bool needToToggleItem = (currentlySelected && !intersectsSelectedRect) || (!currentlySelected && intersectsSelectedRect);
+       bool shouldBeSelected = (intersectsSelectedRect && !originallySelected) || (!intersectsSelectedRect && originallySelected);
+       bool needToToggleItem = (currentlySelected && !shouldBeSelected) || (!currentlySelected && shouldBeSelected);
        if (needToToggleItem && !formingToggleIndexRange) {
             toggleIndexRangeBegin = currIndex;
             formingToggleIndexRange = true;
