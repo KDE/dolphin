@@ -786,22 +786,21 @@ void DolphinDetailsView::updateElasticBandSelection()
                                             allItemsInBoundDone ||
                                             currIndex.parent() != toggleIndexRangeBegin.parent());
        if (commitToggleIndexRange) {
-           if (!allItemsInBoundDone) {
+           formingToggleIndexRange = false;
+            // If this is the last item in the bounds and it is also the beginning of a range,
+            // don't toggle lastIndex - it will already have been dealt with.
+           if (!allItemsInBoundDone || toggleIndexRangeBegin != currIndex) { 
                itemsToToggle.select(toggleIndexRangeBegin, lastIndex);
-               // Need to start a new range immediately with currIndex?
-               if (needToToggleItem)
-                   toggleIndexRangeBegin = currIndex;
            }
-           else  {
-                // Final item in the bounds.  Is it also the beginning of a range?
-               if (toggleIndexRangeBegin == currIndex) {
-                   itemsToToggle.select(currIndex, currIndex);
-               }
-               else {
-                   itemsToToggle.select(toggleIndexRangeBegin, lastIndex);
-               }
+            // Need to start a new range immediately with currIndex?
+           if (needToToggleItem) {
+               toggleIndexRangeBegin = currIndex;
+               formingToggleIndexRange = true;
            }
-           formingToggleIndexRange = needToToggleItem;
+           if (allItemsInBoundDone && needToToggleItem) {
+                // Toggle the very last item in the bounds.
+               itemsToToggle.select(currIndex, currIndex);
+           }
        }
 
        // next item
