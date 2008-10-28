@@ -696,6 +696,11 @@ void DolphinDetailsView::updateElasticBandSelection()
             }
         }
     }
+    else {
+        // This is the only piece of optimisation data that needs to be explicitly
+        // discarded.
+        m_band.oldSelectionRect = selRect;
+    }
 
     // Do the selection from scratch. Force a update of the horizontal distances info.
     m_band.insideNearestLeftEdge   = nameColumnX + nameColumnWidth + 1;
