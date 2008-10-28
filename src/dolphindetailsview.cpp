@@ -652,8 +652,8 @@ void DolphinDetailsView::updateElasticBandSelection()
     const int nameColumnX = header()->sectionPosition(DolphinModel::Name);
     const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
     QRect selRect = elasticBandRect().normalized();
-    QRect nameColumnRect(nameColumnX, selRect.y(), nameColumnWidth, selRect.height());
-    selRect = nameColumnRect.intersect(selRect).normalized();
+    QRect nameColumnArea(nameColumnX, selRect.y(), nameColumnWidth, selRect.height());
+    selRect = nameColumnArea.intersect(selRect).normalized();
 
     if (selRect.isNull()) {
         selectionModel()->select(m_band.originalSelection, QItemSelectionModel::ClearAndSelect);
@@ -741,9 +741,7 @@ void DolphinDetailsView::updateElasticBandSelection()
    QModelIndex toggleIndexRangeBegin = QModelIndex();
 
    do {
-       QRect currIndexRect = visualRect(currIndex);
-       const QString name = m_controller->itemForIndex(currIndex).name();       
-       currIndexRect.setWidth(DolphinFileItemDelegate::nameColumnWidth(name, viewOptions()));
+       QRect currIndexRect = nameColumnRect(currIndex);
 
         // Update some optimisation info as we go.
        const int cr = currIndexRect.right();
@@ -902,7 +900,7 @@ QRect DolphinDetailsView::nameColumnRect(const QModelIndex& index) const
     QRect rect = visualRect(index);
     const KFileItem item = m_controller->itemForIndex(index);
     if (!item.isNull()) {
-        const int width = DolphinFileItemDelegate::nameColumnWidth(item.name(), viewOptions());
+        const int width = DolphinFileItemDelegate::nameColumnWidth(item.text(), viewOptions());
         rect.setWidth(width);
     }
 
