@@ -191,8 +191,8 @@ private:
     {
         ElasticBand();
         
-        // Elastic band coordinates are relative to the origin of the
-        // view, not the viewport.
+        // Elastic band origin and destination coordinates are relative to t
+        // he origin of the view, not the viewport.
         bool show;
         QPoint origin;
         QPoint destination;
@@ -200,10 +200,11 @@ private:
         // Optimisation mechanisms for use with elastic band selection.
         // Basically, allow "incremental" updates to the selection based
         // on the last elastic band shape.
-        QRect oldSelectionRect;
+        QPoint lastSelectionOrigin;
+        QPoint lastSelectionDestination;
         
         // If true, compute the set of selected elements from scratch (slower)
-        bool ignoreOldInfo;    
+        bool ignoreOldInfo;
         
         // Edges of the filenames that are closest to the edges of oldSelectionRect.
         // Used to decide whether horizontal changes in the elastic band are likely

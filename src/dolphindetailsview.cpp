@@ -654,6 +654,9 @@ void DolphinDetailsView::updateElasticBandSelection()
     QRect selRect = elasticBandRect().normalized();
     QRect nameColumnArea(nameColumnX, selRect.y(), nameColumnWidth, selRect.height());
     selRect = nameColumnArea.intersect(selRect).normalized();
+    // Get the last elastic band rectangle, expressed in viewpoint coordinates.
+    const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
+    QRect oldSelRect = QRect(m_band.lastSelectionOrigin - scrollPos, m_band.lastSelectionDestination - scrollPos).normalized();
 
     if (selRect.isNull()) {
         selectionModel()->select(m_band.originalSelection, QItemSelectionModel::ClearAndSelect);
@@ -670,17 +673,16 @@ void DolphinDetailsView::updateElasticBandSelection()
             // No items in the model presumably.
             return;
         }
-        
+
         // If the elastic band does not cover the same rows as before, we'll
         // need to re-check, and also invalidate the old item distances.
         const int rowHeight = QTreeView::rowHeight(dummyIndex);
         const bool coveringSameRows =
-            (selRect.top()    / rowHeight == m_band.oldSelectionRect.top()    / rowHeight) &&
-            (selRect.bottom() / rowHeight == m_band.oldSelectionRect.bottom() / rowHeight);
+            (selRect.top()    / rowHeight == oldSelRect.top()    / rowHeight) &&
+            (selRect.bottom() / rowHeight == oldSelRect.bottom() / rowHeight);
         if (coveringSameRows) {
             // Covering the same rows, but have we moved far enough horizontally 
             // that we might have (de)selected some other items?
-            const QRect oldSelRect = m_band.oldSelectionRect;
             const bool itemSelectionChanged =
                 ((selRect.left() > oldSelRect.left()) &&
                  (selRect.left() > m_band.insideNearestLeftEdge)) ||
@@ -699,7 +701,9 @@ void DolphinDetailsView::updateElasticBandSelection()
     else {
         // This is the only piece of optimisation data that needs to be explicitly
         // discarded.
-        m_band.oldSelectionRect = selRect;
+        m_band.lastSelectionOrigin = QPoint();
+        m_band.lastSelectionDestination = QPoint();
+        oldSelRect = selRect;
     }
 
     // Do the selection from scratch. Force a update of the horizontal distances info.
@@ -710,7 +714,7 @@ void DolphinDetailsView::updateElasticBandSelection()
 
     // Include the old selection rect as well, so we can deselect
     // items that were inside it but not in the new selRect.
-    const QRect boundingRect = selRect.united(m_band.oldSelectionRect).normalized();
+    const QRect boundingRect = selRect.united(oldSelRect).normalized();
     if (boundingRect.isNull()) {
         return;
     }
@@ -735,7 +739,7 @@ void DolphinDetailsView::updateElasticBandSelection()
    QModelIndex currIndex = startIndex;
    QModelIndex lastIndex;
    bool allItemsInBoundDone = false;
-   
+
    // Calling selectionModel()->select(...) for each item that needs to be 
    // toggled is slow as each call emits selectionChanged(...) so store them
    // and do the selection toggle in one batch.
@@ -810,7 +814,8 @@ void DolphinDetailsView::updateElasticBandSelection()
 
     selectionModel()->select(itemsToToggle, QItemSelectionModel::Toggle);
 
-    m_band.oldSelectionRect = selRect;
+    m_band.lastSelectionOrigin = m_band.origin;
+    m_band.lastSelectionDestination = m_band.destination;
     m_band.ignoreOldInfo = false;
 }
 
@@ -915,7 +920,8 @@ DolphinDetailsView::ElasticBand::ElasticBand() :
     show(false),
     origin(),
     destination(),
-    oldSelectionRect(),
+    lastSelectionOrigin(),
+    lastSelectionDestination(),
     ignoreOldInfo(true),
     outsideNearestLeftEdge(0),
     outsideNearestRightEdge(0),
