@@ -51,12 +51,12 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_expandingTogglePressed(false),
     m_keyPressed(false),
     m_useDefaultIndexAt(true),
+    m_ignoreScrollTo(false),
     m_controller(controller),
     m_selectionManager(0),
     m_font(),
     m_decorationSize(),
-    m_band(),
-    m_ignoreScrollTo(false)
+    m_band()
 {
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     Q_ASSERT(settings != 0);
