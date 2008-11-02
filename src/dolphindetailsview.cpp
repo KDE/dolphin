@@ -47,7 +47,7 @@
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
     QTreeView(parent),
-	m_autoResize(true),
+    m_autoResize(true),
     m_expandingTogglePressed(false),
     m_keyPressed(false),
     m_useDefaultIndexAt(true),
@@ -606,7 +606,10 @@ void DolphinDetailsView::slotHeaderSectionResized(int logicalIndex, int oldSize,
     Q_UNUSED(logicalIndex);
     Q_UNUSED(oldSize);
     Q_UNUSED(newSize);
-    if (QApplication::mouseButtons() & Qt::LeftButton) {
+    // If the user changes the size of the headers, the autoresize feature should be
+    // turned off. As there is no dedicated interface to find out whether the header
+    // section has been resized by the user or by a resize event, the following approach is used:
+    if ((QApplication::mouseButtons() & Qt::LeftButton) && isVisible()) {
         disableAutoResizing();
     }
 }
