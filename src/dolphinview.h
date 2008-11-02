@@ -625,6 +625,12 @@ private slots:
      * to m_currentItemUrl.
      */
     void restoreCurrentItem();
+    
+    /**
+     * Is connected to the enterDir() signal from the FolderExpander
+     * and triggers the entering of the directory indicated by \a index.
+     */
+    void enterDir(const QModelIndex& index, QAbstractItemView* view);
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
@@ -691,6 +697,12 @@ private:
      * this method has been introduced for convenience.
      */
     bool isColumnViewActive() const;
+    
+    /**
+     * Deletes all views from m_expandedViews except if the view
+     * is currently shown.
+     */
+    void deleteExpandedViews();
 
 private:
     bool m_active : 1;
@@ -721,6 +733,8 @@ private:
 
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
+    
+    QList<QAbstractItemView*> m_expandedViews;
 };
 
 inline bool DolphinView::isColumnViewActive() const

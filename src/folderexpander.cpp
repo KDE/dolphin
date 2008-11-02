@@ -133,8 +133,7 @@ void FolderExpander::autoExpandTimeout()
             viewAsTreeView->setExpanded(proxyIndexToExpand, !viewAsTreeView->isExpanded(proxyIndexToExpand));
         }
         else {
-            // Enter this directory.
-            emit enterDir(proxyIndexToExpand);
+            emit enterDir(proxyIndexToExpand, m_view);
         }
     }
 }

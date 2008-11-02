@@ -90,7 +90,8 @@ DolphinView::DolphinView(QWidget* parent,
     m_previewGenerator(0),
     m_toolTipManager(0),
     m_rootUrl(),
-    m_currentItemUrl()
+    m_currentItemUrl(),
+    m_expandedViews()
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -136,6 +137,7 @@ DolphinView::DolphinView(QWidget* parent,
 
 DolphinView::~DolphinView()
 {
+    deleteExpandedViews();
 }
 
 const KUrl& DolphinView::url() const
@@ -810,8 +812,25 @@ void DolphinView::wheelEvent(QWheelEvent* event)
 
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
-    if ((watched == itemView()) && (event->type() == QEvent::FocusIn)) {
-        m_controller->requestActivation();
+    switch (event->type()) {
+    case QEvent::FocusIn:
+        if (watched == itemView()) {
+            m_controller->requestActivation();
+        }
+        break;
+        
+    case QEvent::MouseButtonPress:
+        if ((watched == itemView()->viewport()) && (m_expandedViews.count() > 0)) {
+            // Listening to a mousebutton press event to delete expanded views is a
+            // workaround, as it seems impossible for the FolderExpander to know when
+            // a dragging outside a view has been finished. However it works quite well:
+            // A mousebutton press event indicates that a drag operation must be
+            // finished already.
+            deleteExpandedViews();
+        }
+        break;
+    default:
+        break;
     }
 
     return QWidget::eventFilter(watched, event);
@@ -1049,6 +1068,16 @@ void DolphinView::restoreCurrentItem()
     }
 }
 
+void DolphinView::enterDir(const QModelIndex& index, QAbstractItemView* view)
+{
+    // Deleting a view that is the root of a drag operation is not allowed, otherwise
+    // the dragging gets automatically cancelled by Qt. So before entering a new
+    // directory, the current view is remembered in m_expandedViews and deleted
+    // later when the drag operation has been finished (see DolphinView::eventFilter()).
+    m_expandedViews.append(view);
+    m_controller->triggerItem(index);
+}
+
 void DolphinView::loadDirectory(const KUrl& url, bool reload)
 {
     if (!url.isValid()) {
@@ -1187,6 +1216,7 @@ void DolphinView::createView()
 
     Q_ASSERT(view != 0);
     view->installEventFilter(this);
+    view->viewport()->installEventFilter(this);
 
     if (m_mode != ColumnView) {
         // Give the view the ability to auto-expand its directories on hovering
@@ -1198,8 +1228,8 @@ void DolphinView::createView()
 
         FolderExpander* folderExpander = new FolderExpander(view, m_proxyModel);
         folderExpander->setEnabled(enabled);
-        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&)),
-                m_controller, SLOT(triggerItem(const QModelIndex&)));
+        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&, QAbstractItemView*)),
+                this, SLOT(enterDir(const QModelIndex&, QAbstractItemView*)));
     }
 
     m_controller->setItemView(view);
@@ -1253,8 +1283,21 @@ void DolphinView::deleteView()
 
         m_topLayout->removeWidget(view);
         view->close();
-        view->deleteLater();
+        
+        bool deleteView = true;
+        foreach (const QAbstractItemView* expandedView, m_expandedViews) {
+            if (view == expandedView) {
+                // the current view got already expanded and must stay alive
+                // until the dragging has been completed
+                deleteView = false;
+                break;
+            }
+        }
+        if (deleteView) {
+            view->deleteLater();
+        }
         view = 0;
+        
         m_iconsView = 0;
         m_detailsView = 0;
         m_columnView = 0;
@@ -1323,6 +1366,17 @@ KUrl::List DolphinView::simplifiedSelectedUrls() const
         list = KonqOperations::simplifiedUrlList(list);
     }
     return list;
+}
+
+void DolphinView::deleteExpandedViews()
+{
+    const QAbstractItemView* view = itemView();
+    foreach (QAbstractItemView* expandedView, m_expandedViews) {
+        if (expandedView != view) {
+            expandedView->deleteLater();
+        }
+    }
+    m_expandedViews.clear();
 }
 
 bool DolphinView::itemsExpandable() const

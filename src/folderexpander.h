@@ -63,7 +63,8 @@ signals:
      * signal is not emitted when a QTreeView is used, as the entering of
      * the directory is already provided by expanding the tree node.
      */
-    void enterDir(const QModelIndex& dirModelIndex);
+    void enterDir(const QModelIndex& dirModelIndex, QAbstractItemView* view);
+    
     
 private slots:
     void viewScrolled();
