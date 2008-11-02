@@ -829,6 +829,13 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
             deleteExpandedViews();
         }
         break;
+        
+    case QEvent::DragEnter:
+        if (watched == itemView()->viewport()) {
+            setActive(true);
+        }
+        break;
+        
     default:
         break;
     }
