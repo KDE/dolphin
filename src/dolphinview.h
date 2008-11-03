@@ -302,11 +302,12 @@ public:
     /**
      * Calculates the number of currently shown files into
      * \a fileCount and the number of folders into \a folderCount.
+     * The size of all files is written into \a totalFileSize.
      * It is recommend using this method instead of asking the
      * directory lister or the model directly, as it takes
      * filtering and hierarchical previews into account.
      */
-    void calculateItemCount(int& fileCount, int& folderCount) const;
+    void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
     
     /**
      * Returns a textual representation of the state of the current

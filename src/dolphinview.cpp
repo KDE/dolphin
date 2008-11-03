@@ -487,32 +487,36 @@ void DolphinView::setNameFilter(const QString& nameFilter)
     }
 }
 
-void DolphinView::calculateItemCount(int& fileCount, int& folderCount) const
+void DolphinView::calculateItemCount(int& fileCount,
+                                     int& folderCount,
+                                     KIO::filesize_t& totalFileSize) const
 {
     foreach (const KFileItem& item, m_dirLister->items()) {
         if (item.isDir()) {
             ++folderCount;
         } else {
             ++fileCount;
+            totalFileSize += item.size();
         }
     }
 }
 
 QString DolphinView::statusBarText() const
-{    
+{
+    QString text;
+    int folderCount = 0;
+    int fileCount = 0;
+    KIO::filesize_t totalFileSize = 0;
+    
     if (hasSelection()) {
         // give a summary of the status of the selected files
-        QString text;
         const KFileItemList list = selectedItems();
         if (list.isEmpty()) {
             // when an item is triggered, it is temporary selected but selectedItems()
             // will return an empty list
-            return QString();
+            return text;
         }
 
-        int fileCount = 0;
-        int folderCount = 0;
-        KIO::filesize_t byteSize = 0;
         KFileItemList::const_iterator it = list.begin();
         const KFileItemList::const_iterator end = list.end();
         while (it != end) {
@@ -521,33 +525,31 @@ QString DolphinView::statusBarText() const
                 ++folderCount;
             } else {
                 ++fileCount;
-                byteSize += item.size();
+                totalFileSize += item.size();
             }
             ++it;
         }
-
-        if (folderCount > 0) {
-            text = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
-            if (fileCount > 0) {
-                text += ", ";
-            }
-        }
-
-        if (fileCount > 0) {
-            const QString sizeText(KIO::convertSize(byteSize));
-            text += i18ncp("@info:status", "1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText);
-        }
-        return text;
     } else {
-        // Give a summary of the status of the current folder.
-        int folderCount = 0;
-        int fileCount = 0;
-        calculateItemCount(fileCount, folderCount);
-        return KIO::itemsSummaryString(fileCount + folderCount,
-                                       fileCount,
-                                       folderCount,
-                                       0, false);
+        calculateItemCount(fileCount, folderCount, totalFileSize);
     }
+    
+    if (folderCount > 0) {
+        text = hasSelection() ?
+               i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount) :
+               i18ncp("@info:status", "1 Folder", "%1 Folders", folderCount);
+        if (fileCount > 0) {
+            text += i18nc("@info:status separator between 2 status infos", ", ");
+        }
+    }
+
+    if (fileCount > 0) {
+        const QString sizeText = KIO::convertSize(totalFileSize);
+        text += hasSelection() ?
+                i18ncp("@info:status", "1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText) :
+                i18ncp("@info:status", "1 File (%2)", "%1 Files (%2)", fileCount, sizeText);
+    }    
+
+    return text;
 }
 
 void DolphinView::setUrl(const KUrl& url)
