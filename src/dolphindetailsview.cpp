@@ -514,6 +514,13 @@ void DolphinDetailsView::updateElasticBand()
         QRect dirtyRegion(elasticBandRect());        
         const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
         m_band.destination = viewport()->mapFromGlobal(QCursor::pos()) + scrollPos;
+        // Going above the (logical) top-left of the view causes complications during selection;
+        // we may as well prevent it.
+        if (m_band.destination.y() < 0)
+            m_band.destination.setY(0);
+        if (m_band.destination.x() < 0)
+            m_band.destination.setX(0);
+            
         dirtyRegion = dirtyRegion.united(elasticBandRect());
         setDirtyRegion(dirtyRegion);
     }
