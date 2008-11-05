@@ -114,6 +114,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
 
     QLabel* gridSpacingLabel = new QLabel(i18nc("@label:listbox", "Grid spacing:"), gridGroup);
     m_gridSpacingBox = new QComboBox(gridGroup);
+    m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "None"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Small"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Medium"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Large"));
@@ -178,8 +179,13 @@ void IconsViewSettingsPage::applySettings()
 
     settings->setNumberOfTextlines(numberOfTextlines);
 
-    settings->setGridSpacing(GridSpacingBase +
-                             m_gridSpacingBox->currentIndex() * GridSpacingInc);
+    const int index = m_gridSpacingBox->currentIndex();
+    if (index == 0) {
+        // No grid spacing
+        settings->setGridSpacing(0);
+    } else {
+        settings->setGridSpacing(GridSpacingBase + (index - 1) * GridSpacingInc);
+    }
 }
 
 void IconsViewSettingsPage::restoreDefaults()
@@ -228,7 +234,10 @@ void IconsViewSettingsPage::loadSettings()
 
     m_textWidthBox->setCurrentIndex(textWidthIndex);
     m_arrangementBox->setCurrentIndex(leftToRightArrangement ? 0 : 1);
-    m_gridSpacingBox->setCurrentIndex((settings->gridSpacing() - GridSpacingBase) / GridSpacingInc);
+    
+    const int spacing = settings->gridSpacing();
+    const int index = (spacing <= 0) ? 0 : 1 + (spacing - GridSpacingBase) / GridSpacingInc;
+    m_gridSpacingBox->setCurrentIndex(index);
 }
 
 #include "iconsviewsettingspage.moc"
