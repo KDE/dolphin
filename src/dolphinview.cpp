@@ -529,25 +529,24 @@ QString DolphinView::statusBarText() const
             }
             ++it;
         }
+        
+        const QString foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
+        const QString filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
+        if ((folderCount > 0) && (fileCount > 0)) {
+            text = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
+                         foldersText, filesText, KIO::convertSize(totalFileSize));
+        } else if (fileCount > 0) {
+            text = i18nc("@info:status files (size)", "%1 (%2)", filesText, KIO::convertSize(totalFileSize));
+        } else {
+            Q_ASSERT(folderCount > 0);
+            text = foldersText;
+        }
     } else {
         calculateItemCount(fileCount, folderCount, totalFileSize);
+        text = KIO::itemsSummaryString(fileCount + folderCount,
+                                       fileCount, folderCount,
+                                       totalFileSize, true);
     }
-    
-    if (folderCount > 0) {
-        text = hasSelection() ?
-               i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount) :
-               i18ncp("@info:status", "1 Folder", "%1 Folders", folderCount);
-        if (fileCount > 0) {
-            text += i18nc("@info:status separator between 2 status infos", ", ");
-        }
-    }
-
-    if (fileCount > 0) {
-        const QString sizeText = KIO::convertSize(totalFileSize);
-        text += hasSelection() ?
-                i18ncp("@info:status", "1 File selected (%2)", "%1 Files selected (%2)", fileCount, sizeText) :
-                i18ncp("@info:status", "1 File (%2)", "%1 Files (%2)", fileCount, sizeText);
-    }    
 
     return text;
 }
