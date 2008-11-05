@@ -72,7 +72,7 @@ private:
         GridSpacingInc  =  12,
         LeftToRightBase = 128,
         LeftToRightInc  =  64,
-        TopToBottomBase =  64,
+        TopToBottomBase =  32,
         TopToBottomInc  =  32
     };
 

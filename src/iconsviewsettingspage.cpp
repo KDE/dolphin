@@ -91,6 +91,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
     connect(m_textWidthBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
