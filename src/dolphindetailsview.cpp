@@ -307,13 +307,13 @@ void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 
 void DolphinDetailsView::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::startDrag(this, supportedActions, m_controller);
+    DragAndDropHelper::instance().startDrag(this, supportedActions, m_controller);
     m_band.show = false;
 }
 
 void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
+    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         event->acceptProposedAction();
     }
 
@@ -346,7 +346,7 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
         setDirtyRegion(m_dropRect);
     }
 
-    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
+    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         // accept url drops, independently from the destination item
         event->acceptProposedAction();
     }

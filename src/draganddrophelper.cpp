@@ -24,6 +24,7 @@
 #include <kdirmodel.h>
 #include <kfileitem.h>
 #include <kicon.h>
+#include <klocale.h>
 #include <konq_operations.h>
 
 #include <QAbstractItemView>
@@ -31,7 +32,19 @@
 #include <QtDBus>
 #include <QDrag>
 
-bool DragAndDropHelper::isMimeDataSupported(const QMimeData* mimeData)
+class DragAndDropHelperSingleton
+{
+public:
+    DragAndDropHelper instance;
+};
+K_GLOBAL_STATIC(DragAndDropHelperSingleton, s_dragAndDropHelper)
+
+DragAndDropHelper& DragAndDropHelper::instance()
+{
+    return s_dragAndDropHelper->instance;
+}
+
+bool DragAndDropHelper::isMimeDataSupported(const QMimeData* mimeData) const
 {
     return mimeData->hasUrls() || mimeData->hasFormat("application/x-kde-dndextract");
 }
@@ -87,12 +100,22 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
     } else {                                
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         const KUrl sourceDir = KUrl(urls.first().directory());
-        if (sourceDir != destination) {
-            if (dropToItem) {
-                KonqOperations::doDrop(destItem, destination, event, widget);
-            } else {
-                KonqOperations::doDrop(KFileItem(), destination, event, widget);
-            }
+        if (sourceDir == destination) {
+            const QString msg = i18ncp("@info:status",
+                                       "The dropped item is already inside the folder %2",
+                                       "The dropped items are already inside the folder %2",
+                                       urls.count(), destination.fileName());
+            emit informationMessage(msg);
+        } else if (dropToItem) {
+            KonqOperations::doDrop(destItem, destination, event, widget);
+        } else {
+            KonqOperations::doDrop(KFileItem(), destination, event, widget);
         }
     }
 }
+
+DragAndDropHelper::DragAndDropHelper()
+{
+}
+
+#include "draganddrophelper.moc"

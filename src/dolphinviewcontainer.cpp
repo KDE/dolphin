@@ -369,7 +369,7 @@ void DolphinViewContainer::saveRootUrl(const KUrl& url)
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
-    DragAndDropHelper::dropUrls(KFileItem(), destination, event, this);
+    DragAndDropHelper::instance().dropUrls(KFileItem(), destination, event, this);
 }
 
 void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)

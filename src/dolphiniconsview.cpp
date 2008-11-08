@@ -209,12 +209,12 @@ void DolphinIconsView::startDrag(Qt::DropActions supportedActions)
     // TODO: invoking KCategorizedView::startDrag() should not be necessary, we'll
     // fix this in KDE 4.1
     KCategorizedView::startDrag(supportedActions);
-    DragAndDropHelper::startDrag(this, supportedActions, m_controller);
+    DragAndDropHelper::instance().startDrag(this, supportedActions, m_controller);
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
+    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         event->acceptProposedAction();
     }
 }
@@ -242,7 +242,7 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
             m_dropRect.setSize(QSize()); // set as invalid
         }
     }
-    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
+    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         // accept url drops, independently from the destination item
         event->acceptProposedAction();
     }

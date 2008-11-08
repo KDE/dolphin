@@ -43,6 +43,7 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
+#include "draganddrophelper.h"
 
 #include <kaction.h>
 #include <kactioncollection.h>
@@ -82,8 +83,6 @@
 #include <QSplitter>
 #include <QDockWidget>
 
-#include <kdebug.h>
-
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
     m_newMenu(0),
@@ -115,7 +114,9 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     connect(undoManager, SIGNAL(jobRecordingFinished(CommandType)),
             this, SLOT(showCommand(CommandType)));
     connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(const QString&)),
-            this, SLOT(slotHandlePlacesError(const QString&)));
+            this, SLOT(showErrorMessage(const QString&)));
+    connect(&DragAndDropHelper::instance(), SIGNAL(informationMessage(const QString&)),
+            this, SLOT(showInformationMessage(const QString&)));
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -441,11 +442,19 @@ void DolphinMainWindow::quit()
     close();
 }
 
-void DolphinMainWindow::slotHandlePlacesError(const QString &message)
+void DolphinMainWindow::showErrorMessage(const QString& message)
 {
     if (!message.isEmpty()) {
         DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
         statusBar->setMessage(message, DolphinStatusBar::Error);
+    }
+}
+
+void DolphinMainWindow::showInformationMessage(const QString& message)
+{
+    if (!message.isEmpty()) {
+        DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
+        statusBar->setMessage(message, DolphinStatusBar::Information);
     }
 }
 

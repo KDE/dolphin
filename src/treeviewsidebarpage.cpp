@@ -207,7 +207,7 @@ void TreeViewSidebarPage::dropUrls(const QModelIndex& index, QDropEvent* event)
         KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
         Q_ASSERT(!item.isNull());
         if (item.isDir()) {
-            DragAndDropHelper::dropUrls(item, item.url(), event, this);
+            DragAndDropHelper::instance().dropUrls(item, item.url(), event, this);
         }
     }
 }

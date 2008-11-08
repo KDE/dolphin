@@ -20,7 +20,7 @@
 #ifndef DRAGANDDROPHELPER_H
 #define DRAGANDDROPHELPER_H
 
-#include <QtCore/Qt>
+#include <QObject>
 
 class DolphinController;
 class KFileItem;
@@ -39,22 +39,25 @@ class QWidget;
  * DolphinColumnView and SidebarTreeView to have a consistent
  * drag and drop behavior between all views.
  */
-class DragAndDropHelper
+class DragAndDropHelper : public QObject
 {
+    Q_OBJECT
 
 public:
+    static DragAndDropHelper& instance();
+    
     /**
      * Returns true, if Dolphin supports the dragging of
      * the given mime data.
      */
-    static bool isMimeDataSupported(const QMimeData* mimeData);
+    bool isMimeDataSupported(const QMimeData* mimeData) const;
     
     /**
      * Creates a drag object for the view \a itemView for all selected items.
      */
-    static void startDrag(QAbstractItemView* itemView,
-                          Qt::DropActions supportedActions,
-                          DolphinController* controller = 0);
+    void startDrag(QAbstractItemView* itemView,
+                   Qt::DropActions supportedActions,
+                   DolphinController* controller = 0);
                           
     /**
      * Handles the dropping of URLs to the given
@@ -66,10 +69,17 @@ public:
      * @param event     Drop event.
      * @param widget    Source widget where the dragging has been started.
      */
-    static void dropUrls(const KFileItem& destItem,
-                         const KUrl& destPath,
-                         QDropEvent* event,
-                         QWidget* widget);
+    void dropUrls(const KFileItem& destItem,
+                  const KUrl& destPath,
+                  QDropEvent* event,
+                  QWidget* widget);
+signals:
+    void informationMessage(const QString& msg);
+    
+private:
+    DragAndDropHelper();
+    
+    friend class DragAndDropHelperSingleton;
 };
 
 #endif

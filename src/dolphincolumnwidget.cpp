@@ -288,12 +288,12 @@ QStyleOptionViewItem DolphinColumnWidget::viewOptions() const
 
 void DolphinColumnWidget::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::startDrag(this, supportedActions, m_view->m_controller);
+    DragAndDropHelper::instance().startDrag(this, supportedActions, m_view->m_controller);
 }
 
 void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
+    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         event->acceptProposedAction();
     }
 }
@@ -322,7 +322,7 @@ void DolphinColumnWidget::dragMoveEvent(QDragMoveEvent* event)
     }
     setDirtyRegion(m_dropRect);
 
-    if (DragAndDropHelper::isMimeDataSupported(event->mimeData())) {
+    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         // accept url drops, independently from the destination item
         event->acceptProposedAction();
     }

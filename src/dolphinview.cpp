@@ -900,7 +900,7 @@ void DolphinView::dropUrls(const KFileItem& destItem,
                            const KUrl& destPath,
                            QDropEvent* event)
 {
-    DragAndDropHelper::dropUrls(destItem, destPath, event, this);
+    DragAndDropHelper::instance().dropUrls(destItem, destPath, event, this);
 }
 
 void DolphinView::updateSorting(DolphinView::Sorting sorting)

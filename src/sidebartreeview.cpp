@@ -90,7 +90,7 @@ bool SidebarTreeView::event(QEvent* event)
 
 void SidebarTreeView::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::startDrag(this, supportedActions);
+    DragAndDropHelper::instance().startDrag(this, supportedActions);
 }
 
 void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)

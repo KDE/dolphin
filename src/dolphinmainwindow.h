@@ -168,11 +168,11 @@ private slots:
     /** Updates the 'Create New...' sub menu. */
     void updateNewMenu();
 
-    /**
-     * Shows the error information from the places model
-     * in the status bar.
-     */
-    void slotHandlePlacesError(const QString &message);
+    /** Shows the error message in the status bar of the active view. */
+    void showErrorMessage(const QString& message);
+
+    /** Shows the information message in the status bar of the active view. */
+    void showInformationMessage(const QString& message);
 
     /**
      * Updates the state of the 'Undo' menu action dependent
