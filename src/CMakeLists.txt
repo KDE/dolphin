@@ -103,7 +103,6 @@ set(dolphin_SRCS
     dolphincontextmenu.cpp
     dolphinfileplacesview.cpp
     dolphinsettingsdialog.cpp
-    draganddrophelper.cpp
     filterbar.cpp
     generalsettingspage.cpp
     generalviewsettingspage.cpp

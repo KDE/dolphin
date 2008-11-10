@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
- *   Copyright (C) 2007 by David Faure <faure@kde.org>                     *                                                                       *                                                                         *
+ *   Copyright (C) 2007 by David Faure <faure@kde.org>                     *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -20,6 +21,7 @@
 #ifndef DRAGANDDROPHELPER_H
 #define DRAGANDDROPHELPER_H
 
+#include "libdolphin_export.h"
 #include <QObject>
 
 class DolphinController;
@@ -39,7 +41,7 @@ class QWidget;
  * DolphinColumnView and SidebarTreeView to have a consistent
  * drag and drop behavior between all views.
  */
-class DragAndDropHelper : public QObject
+class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper : public QObject
 {
     Q_OBJECT
 
