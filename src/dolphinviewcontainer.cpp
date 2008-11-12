@@ -42,6 +42,7 @@
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <kurl.h>
+#include <krun.h>
 
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
@@ -357,7 +358,9 @@ void DolphinViewContainer::restoreView(const KUrl& url)
     } else {
         // The URL navigator only checks for validity, not
         // if the URL can be listed. 
-        showErrorMessage(i18nc("@info:status", "Protocol not supported"));        
+        showErrorMessage(i18nc("@info:status", "Protocol not supported by Dolphin, Konqueror has been launched"));        
+        QString command = "konqueror " + url.pathOrUrl();
+        KRun::runCommand(command, "konqueror", "konqueror", this);
     }
 }
 
