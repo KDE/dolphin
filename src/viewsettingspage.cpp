@@ -28,13 +28,14 @@
 #include "iconsviewsettingspage.h"
 
 #include <QtGui/QBoxLayout>
-#include <QtGui/QTabWidget>
 #include <QtGui/QLayout>
 #include <QtGui/QLabel>
 
 #include <kdialog.h>
 #include <klocale.h>
 #include <kiconloader.h>
+#include <ktabwidget.h>
+
 
 ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
                                    QWidget* parent) :
@@ -45,7 +46,7 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     topLayout->setMargin(0);
     topLayout->setSpacing(KDialog::spacingHint());
 
-    QTabWidget* tabWidget = new QTabWidget(this);
+    KTabWidget* tabWidget = new KTabWidget(this);
 
     // initialize 'General' tab
     const KUrl& url = mainWindow->activeViewContainer()->url();

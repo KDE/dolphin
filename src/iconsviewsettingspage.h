@@ -26,7 +26,7 @@
 class DolphinFontRequester;
 class IconSizeGroupBox;
 class QCheckBox;
-class QComboBox;
+class KComboBox;
 class QSpinBox;
 
 /**
@@ -77,12 +77,12 @@ private:
     };
 
     IconSizeGroupBox* m_iconSizeGroupBox;
-    QComboBox* m_textWidthBox;
+    KComboBox* m_textWidthBox;
     DolphinFontRequester* m_fontRequester;
     QSpinBox* m_textlinesCountBox;
 
-    QComboBox* m_arrangementBox;
-    QComboBox* m_gridSpacingBox;
+    KComboBox* m_arrangementBox;
+    KComboBox* m_gridSpacingBox;
 };
 
 #endif

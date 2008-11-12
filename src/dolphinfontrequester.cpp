@@ -22,8 +22,8 @@
 #include <kfontdialog.h>
 #include <kglobalsettings.h>
 #include <klocale.h>
+#include <kcombobox.h>
 
-#include <QComboBox>
 #include <QEvent>
 #include <QPushButton>
 
@@ -36,7 +36,7 @@ DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
 {
     setSpacing(KDialog::spacingHint());
 
-    m_modeCombo = new QComboBox(this);
+    m_modeCombo = new KComboBox(this);
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "System Font"));
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "Custom Font"));
     connect(m_modeCombo, SIGNAL(activated(int)),

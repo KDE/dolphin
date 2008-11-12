@@ -24,6 +24,7 @@
 #include "generalviewsettingspage.h"
 #include "iconsviewsettingspage.h"
 
+#include <ktabwidget.h>
 #include <kdialog.h>
 #include <klocale.h>
 #include <kpluginfactory.h>
@@ -52,7 +53,7 @@ DolphinConfigModule::DolphinConfigModule(QWidget* parent, const QVariantList& ar
     topLayout->setMargin(0);
     topLayout->setSpacing(KDialog::spacingHint());
 
-    QTabWidget* tabWidget = new QTabWidget(this);
+    KTabWidget* tabWidget = new KTabWidget(this);
 
     // initialize 'General' tab
     GeneralViewSettingsPage* generalPage = new GeneralViewSettingsPage(QDir::homePath(), tabWidget);

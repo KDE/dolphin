@@ -26,7 +26,7 @@
 #include <kdialog.h>
 
 class QCheckBox;
-class QComboBox;
+class KComboBox;
 class QPushButton;
 class QRadioButton;
 class ViewProperties;
@@ -68,9 +68,9 @@ private:
     DolphinView* m_dolphinView;
     ViewProperties* m_viewProps;
 
-    QComboBox* m_viewMode;
-    QComboBox* m_sortOrder;
-    QComboBox* m_sorting;
+    KComboBox* m_viewMode;
+    KComboBox* m_sortOrder;
+    KComboBox* m_sorting;
     QCheckBox* m_showPreview;
     QCheckBox* m_showInGroups;
     QCheckBox* m_showHiddenFiles;

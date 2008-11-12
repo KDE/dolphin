@@ -27,10 +27,10 @@
 
 #include <kdialog.h>
 #include <klocale.h>
+#include <kcombobox.h>
 
 #include <QButtonGroup>
 #include <QCheckBox>
-#include <QComboBox>
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QLabel>
@@ -73,7 +73,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
     QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
-    m_textWidthBox = new QComboBox(textGroup);
+    m_textWidthBox = new KComboBox(textGroup);
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));

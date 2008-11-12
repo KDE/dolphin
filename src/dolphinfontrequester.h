@@ -24,7 +24,7 @@
 
 #include <QFont>
 
-class QComboBox;
+class KComboBox;
 class QPushButton;
 
 /**
@@ -69,7 +69,7 @@ private slots:
     void changeMode(int index);
 
 private:
-    QComboBox* m_modeCombo;
+    KComboBox* m_modeCombo;
     QPushButton* m_chooseFontButton;
 
     Mode m_mode;

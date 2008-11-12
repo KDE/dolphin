@@ -30,9 +30,9 @@
 #include <kiconloader.h>
 #include <kglobalsettings.h>
 #include <klocale.h>
+#include <kcombobox.h>
 
 #include <QCheckBox>
-#include <QComboBox>
 #include <QGroupBox>
 #include <QLabel>
 #include <QListView>
@@ -87,7 +87,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     connect(m_textlinesCountBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
 
     QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
-    m_textWidthBox = new QComboBox(textGroup);
+    m_textWidthBox = new KComboBox(textGroup);
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
@@ -107,13 +107,13 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     gridGroup->setSizePolicy(sizePolicy);
 
     QLabel* arrangementLabel = new QLabel(i18nc("@label:listbox", "Arrangement:"), gridGroup);
-    m_arrangementBox = new QComboBox(gridGroup);
+    m_arrangementBox = new KComboBox(gridGroup);
     m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Columns"));
     m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Rows"));
     connect(m_arrangementBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
 
     QLabel* gridSpacingLabel = new QLabel(i18nc("@label:listbox", "Grid spacing:"), gridGroup);
-    m_gridSpacingBox = new QComboBox(gridGroup);
+    m_gridSpacingBox = new KComboBox(gridGroup);
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "None"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Small"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Medium"));

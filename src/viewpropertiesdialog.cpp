@@ -41,11 +41,11 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kurl.h>
+#include <kcombobox.h>
 
 #include <QAction>
 #include <QButtonGroup>
 #include <QCheckBox>
-#include <QComboBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
@@ -93,7 +93,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QWidget* propsGrid = new QWidget();
 
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
-    m_viewMode = new QComboBox(propsGrid);
+    m_viewMode = new KComboBox(propsGrid);
     m_viewMode->addItem(KIcon("view-list-icons"), i18nc("@item:inlistbox", "Icons"));
     m_viewMode->addItem(KIcon("view-list-details"), i18nc("@item:inlistbox", "Details"));
     m_viewMode->addItem(KIcon("view-file-columns"), i18nc("@item:inlistbox", "Column"));
@@ -101,11 +101,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsGrid);
     QWidget* sortingBox = new QWidget(propsGrid);
 
-    m_sortOrder = new QComboBox(sortingBox);
+    m_sortOrder = new KComboBox(sortingBox);
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
 
-    m_sorting = new QComboBox(sortingBox);
+    m_sorting = new KComboBox(sortingBox);
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Name"));
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Size"));
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Date"));
