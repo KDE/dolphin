@@ -197,7 +197,7 @@ private:
         QPoint origin;
         QPoint destination;
 
-        // Optimisation mechanisms for use with elastic band selection.
+        // Optimization mechanisms for use with elastic band selection.
         // Basically, allow "incremental" updates to the selection based
         // on the last elastic band shape.
         QPoint lastSelectionOrigin;

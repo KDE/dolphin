@@ -709,7 +709,7 @@ void DolphinDetailsView::updateElasticBandSelection()
         }
     }
     else {
-        // This is the only piece of optimisation data that needs to be explicitly
+        // This is the only piece of optimization data that needs to be explicitly
         // discarded.
         m_band.lastSelectionOrigin = QPoint();
         m_band.lastSelectionDestination = QPoint();
@@ -762,7 +762,7 @@ void DolphinDetailsView::updateElasticBandSelection()
    do {
        QRect currIndexRect = nameColumnRect(currIndex);
 
-        // Update some optimisation info as we go.
+        // Update some optimization info as we go.
        const int cr = currIndexRect.right();
        const int cl = currIndexRect.left();
        const int sl = selRect.left();
