@@ -57,11 +57,7 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter,
         painter->translate(.5, .5);
     }
 
-#if QT_VERSION >= 0x040400
     const QColor toColor = option->palette.brush(QPalette::ToolTipBase).color();
-#else
-    const QColor toColor = option->palette.brush(QPalette::Base).color();
-#endif
     const QColor fromColor = KColorScheme::shade(toColor, KColorScheme::LightShade, 0.2);
     
     QLinearGradient gradient(option->rect.topLeft(), option->rect.bottomLeft());
