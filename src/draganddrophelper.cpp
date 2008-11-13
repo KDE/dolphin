@@ -103,14 +103,21 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         const KUrl source = urls.first();
         const KUrl sourceDir = KUrl(source.directory());
+        const bool singleSelection = (urls.count() == 1);
 
-        if ((urls.count() == 1) && (source == destination)) {
+        if (singleSelection && (source == destination)) {
             emit errorMessage(i18nc("@info:status", "A folder cannot dropped on to itself"));
         } else if (sourceDir == destination) {
-            const QString msg = i18ncp("@info:status",
-                "The dropped item <filename>%2</filename> is already inside the folder <filename>%3</filename>",
-                "The dropped items are already inside the folder <filename>%3</filename>",
-                urls.count(), source.fileName(), destination.fileName());
+            QString msg;
+            if (singleSelection) {
+                msg = i18nc("@info:status",
+                            "The dropped item <filename>%1</filename> is already inside "
+                            "the folder <filename>%2</filename>", source.fileName(), destination.fileName());
+            } else {
+                msg = i18nc("@info:status",
+                            "The dropped items are already inside the folder <filename>%1</filename>",
+                            destination.fileName());
+            }
             emit errorMessage(msg);
         } else if (dropToItem) {
             KonqOperations::doDrop(destItem, destination, event, widget);
