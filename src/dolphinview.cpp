@@ -1292,6 +1292,10 @@ void DolphinView::deleteView()
         m_topLayout->removeWidget(view);
         view->close();
         
+        disconnect(view);
+        m_controller->disconnect(view);
+        view->disconnect();
+        
         bool deleteView = true;
         foreach (const QAbstractItemView* expandedView, m_expandedViews) {
             if (view == expandedView) {
