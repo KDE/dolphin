@@ -534,16 +534,25 @@ QString DolphinView::statusBarText() const
             ++it;
         }
         
-        const QString foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
-        const QString filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
-        if ((folderCount > 0) && (fileCount > 0)) {
-            text = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
-                         foldersText, filesText, KIO::convertSize(totalFileSize));
-        } else if (fileCount > 0) {
-            text = i18nc("@info:status files (size)", "%1 (%2)", filesText, KIO::convertSize(totalFileSize));
+        if (folderCount + fileCount == 1) {
+            // if only one item is selected, show the filename
+            const QString name = list.first().name();
+            text = (folderCount == 1) ? i18nc("@info:status", "<filename>%1</filename> selected", name) :
+                                        i18nc("@info:status", "<filename>%1</filename> selected (%2)",
+                                              name, KIO::convertSize(totalFileSize));                                            
         } else {
-            Q_ASSERT(folderCount > 0);
-            text = foldersText;
+            // at least 2 items are selected
+            const QString foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
+            const QString filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
+            if ((folderCount > 0) && (fileCount > 0)) {
+                text = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
+                             foldersText, filesText, KIO::convertSize(totalFileSize));
+            } else if (fileCount > 0) {
+                text = i18nc("@info:status files (size)", "%1 (%2)", filesText, KIO::convertSize(totalFileSize));
+            } else {
+                Q_ASSERT(folderCount > 0);
+                text = foldersText;
+            }
         }
     } else {
         calculateItemCount(fileCount, folderCount, totalFileSize);
