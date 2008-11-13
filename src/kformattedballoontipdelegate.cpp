@@ -20,7 +20,9 @@
 
 #include "kformattedballoontipdelegate.h"
 #include <QBitmap>
+#include <QLinearGradient>
 #include <QTextDocument>
+#include <kcolorscheme.h>
 #include <kdebug.h>
 
 QSize KFormattedBalloonTipDelegate::sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const
@@ -43,18 +45,24 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionTo
 {
     QRect contents;
     QPainterPath path = createPath(option, &contents);
-    bool alpha = haveAlphaChannel();
-
-    if (alpha) {
+    if (haveAlphaChannel()) {
         painter->setRenderHint(QPainter::Antialiasing);
         painter->translate(.5, .5);
     }
 
 #if QT_VERSION >= 0x040400
-    painter->setBrush(option->palette.brush(QPalette::ToolTipBase));
+    const QColor toColor = option->palette.brush(QPalette::ToolTipBase).color();
 #else
-    painter->setBrush(option->palette.brush(QPalette::Base));
+    const QColor toColor = option->palette.brush(QPalette::Base).color();
 #endif
+    const QColor fromColor = KColorScheme::shade(toColor, KColorScheme::LightShade, 0.2);
+    
+    QLinearGradient gradient(option->rect.topLeft(), option->rect.bottomLeft());
+    gradient.setColorAt(0.0, fromColor);
+    gradient.setColorAt(1.0, toColor);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(gradient);
+
     painter->drawPath(path);
 
     QIcon icon = item->icon();
