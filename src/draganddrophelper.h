@@ -76,7 +76,7 @@ public:
                   QDropEvent* event,
                   QWidget* widget);
 signals:
-    void informationMessage(const QString& msg);
+    void errorMessage(const QString& msg);
     
 private:
     DragAndDropHelper();

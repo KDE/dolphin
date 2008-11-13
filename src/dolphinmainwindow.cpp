@@ -115,8 +115,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
             this, SLOT(showCommand(CommandType)));
     connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(const QString&)),
             this, SLOT(showErrorMessage(const QString&)));
-    connect(&DragAndDropHelper::instance(), SIGNAL(informationMessage(const QString&)),
-            this, SLOT(showInformationMessage(const QString&)));
+    connect(&DragAndDropHelper::instance(), SIGNAL(errorMessage(const QString&)),
+            this, SLOT(showErrorMessage(const QString&)));
 }
 
 DolphinMainWindow::~DolphinMainWindow()
@@ -447,14 +447,6 @@ void DolphinMainWindow::showErrorMessage(const QString& message)
     if (!message.isEmpty()) {
         DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
         statusBar->setMessage(message, DolphinStatusBar::Error);
-    }
-}
-
-void DolphinMainWindow::showInformationMessage(const QString& message)
-{
-    if (!message.isEmpty()) {
-        DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
-        statusBar->setMessage(message, DolphinStatusBar::Information);
     }
 }
 

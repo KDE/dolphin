@@ -171,9 +171,6 @@ private slots:
     /** Shows the error message in the status bar of the active view. */
     void showErrorMessage(const QString& message);
 
-    /** Shows the information message in the status bar of the active view. */
-    void showInformationMessage(const QString& message);
-
     /**
      * Updates the state of the 'Undo' menu action dependent
      * from the parameter \a available.
