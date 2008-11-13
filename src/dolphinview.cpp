@@ -222,7 +222,11 @@ void DolphinView::setMode(Mode mode)
     }
 
     emit modeChanged();
+    
     updateZoomLevel(oldZoomLevel);
+    if (m_showPreview) {
+        loadDirectory(viewPropsUrl);
+    }
 }
 
 DolphinView::Mode DolphinView::mode() const
