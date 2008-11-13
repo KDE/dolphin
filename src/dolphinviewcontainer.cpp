@@ -355,12 +355,24 @@ void DolphinViewContainer::restoreView(const KUrl& url)
 {
     if (KProtocolManager::supportsListing(url)) {
         m_view->updateView(url, m_urlNavigator->savedRootUrl());
+    } else if (KProtocolManager::isSourceProtocol(url)) {
+        QString app = "konqueror";
+        if (url.protocol().startsWith(QLatin1String("http"))) {
+            showErrorMessage(i18nc("@info:status",
+                                   "Dolphin does not support web pages, the web browser has been launched"));
+            const KConfigGroup config(KSharedConfig::openConfig("kdeglobals"), "General");
+            const QString browser = config.readEntry("BrowserApplication");
+            if (!browser.isEmpty()) {
+                app = browser;
+            }
+        } else {
+            showErrorMessage(i18nc("@info:status",
+                                   "Protocol not supported by Dolphin, Konqueror has been launched"));        
+        }
+        const QString command = app + ' ' + url.pathOrUrl();
+        KRun::runCommand(command, app, app, this);
     } else {
-        // The URL navigator only checks for validity, not
-        // if the URL can be listed. 
-        showErrorMessage(i18nc("@info:status", "Protocol not supported by Dolphin, Konqueror has been launched"));        
-        QString command = "konqueror " + url.pathOrUrl();
-        KRun::runCommand(command, "konqueror", "konqueror", this);
+        showErrorMessage(i18nc("@info:status", "Invalid protocol"));
     }
 }
 
