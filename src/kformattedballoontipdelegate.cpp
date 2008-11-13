@@ -23,28 +23,35 @@
 #include <QLinearGradient>
 #include <QTextDocument>
 #include <kcolorscheme.h>
-#include <kdebug.h>
+
+KFormattedBalloonTipDelegate::KFormattedBalloonTipDelegate()
+{
+}
+
+KFormattedBalloonTipDelegate::~KFormattedBalloonTipDelegate()
+{
+}
 
 QSize KFormattedBalloonTipDelegate::sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const
 {
     QTextDocument doc;
     doc.setHtml(item->text());
-    QIcon icon = item->icon();
+    const QIcon icon = item->icon();
         
-    QSize iconSize = (icon.isNull()) ? QSize(0,0) : icon.actualSize(option->decorationSize);
-    QSize docSize = doc.size().toSize();
+    const QSize iconSize = icon.isNull() ? QSize(0, 0) : icon.actualSize(option->decorationSize);
+    const QSize docSize = doc.size().toSize();
     QSize contentSize = iconSize + docSize;
     
-    // Re-adjust contentSize's height so that it is the maximum of the icon
-    // and doc sizes.
-    contentSize.setHeight( iconSize.height() > doc.size().height() ? iconSize.height() : doc.size().height());
-    return contentSize + QSize(20+5,20+1);
+    // assure that the content height is large enough for the icon and the document
+    contentSize.setHeight(iconSize.height() > doc.size().height() ? iconSize.height() : doc.size().height());
+    return contentSize + QSize(Border * 3, Border * 2);
 }
 
-void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionToolTip *option, const KToolTipItem *item) const
+void KFormattedBalloonTipDelegate::paint(QPainter *painter,
+                                         const KStyleOptionToolTip *option,
+                                         const KToolTipItem *item) const
 {
-    QRect contents;
-    QPainterPath path = createPath(option, &contents);
+    QPainterPath path = createPath(*option);
     if (haveAlphaChannel()) {
         painter->setRenderHint(QPainter::Antialiasing);
         painter->translate(.5, .5);
@@ -65,11 +72,14 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionTo
 
     painter->drawPath(path);
 
-    QIcon icon = item->icon();
+    const QIcon icon = item->icon();
+    int x = Border;
+    const int y = Border;
     if (!icon.isNull()) {
         const QSize iconSize = icon.actualSize(option->decorationSize);
-        painter->drawPixmap(contents.topLeft(), icon.pixmap(iconSize));
-        contents.adjust(iconSize.width() + 4, 0, 0, 0);
+        const QPoint pos(x + option->rect.x(), y + option->rect.y());
+        painter->drawPixmap(pos, icon.pixmap(iconSize));
+        x += iconSize.width() + Border;
     }
 
     QTextDocument doc;
@@ -78,22 +88,20 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter, const KStyleOptionTo
     bitmap.fill(Qt::transparent);
     QPainter p(&bitmap);
     doc.drawContents(&p);
-    
-    // Ensure doc text is not stretched when icon is larger.
-    contents.setSize(doc.size().toSize());
-
-    painter->drawPixmap(contents, bitmap);
+ 
+    const QRect docRect(QPoint(x, y), doc.size().toSize());
+    painter->drawPixmap(docRect, bitmap);
 }
 
 QRegion KFormattedBalloonTipDelegate::inputShape(const KStyleOptionToolTip *option) const
 {
-    QBitmap bitmap(option->rect.size()+QSize(20,20));
+    QBitmap bitmap(option->rect.size());
     bitmap.fill(Qt::color0);
 
     QPainter p(&bitmap);
     p.setPen(QPen(Qt::color1, 1));
     p.setBrush(Qt::color1);
-    p.drawPath(createPath(option, 0));
+    p.drawPath(createPath(*option));
 
     return QRegion(bitmap);
 }
@@ -108,21 +116,18 @@ static inline void arc(QPainterPath &path, qreal cx, qreal cy, qreal radius, qre
     path.arcTo(cx-radius, cy-radius, radius * 2, radius * 2, angle, sweeplength);
 }
 
-QPainterPath KFormattedBalloonTipDelegate::createPath(const KStyleOptionToolTip *option, QRect *contents) const
+QPainterPath KFormattedBalloonTipDelegate::createPath(const KStyleOptionToolTip& option) const
 {
-    QPainterPath path;
-    QRect rect = option->rect;
+    const QRect rect = option.rect;
     const qreal radius = 5;
 
+    QPainterPath path;
     path.moveTo(rect.left(), rect.top() + radius);
-    arc(path, rect.left() + radius, rect.top() + radius, radius, 180, -90);
-    arc(path, rect.right() - radius, rect.top() + radius, radius, 90, -90);
-    arc(path, rect.right() - radius, rect.bottom() - radius, radius, 0, -90);
-    arc(path, rect.left() + radius, rect.bottom() - radius, radius, 270, -90);
+    arc(path, rect.left()  + radius, rect.top()    + radius, radius, 180, -90);
+    arc(path, rect.right() - radius, rect.top()    + radius, radius,  90, -90);
+    arc(path, rect.right() - radius, rect.bottom() - radius, radius,   0, -90);
+    arc(path, rect.left()  + radius, rect.bottom() - radius, radius, 270, -90);
     path.closeSubpath();
-
-    if (contents)
-        *contents = rect.adjusted(radius, radius, -radius, -radius);
 
     return path;
 }
