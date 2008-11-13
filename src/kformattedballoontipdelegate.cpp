@@ -111,7 +111,7 @@ static inline void arc(QPainterPath &path, qreal cx, qreal cy, qreal radius, qre
 QPainterPath KFormattedBalloonTipDelegate::createPath(const KStyleOptionToolTip *option, QRect *contents) const
 {
     QPainterPath path;
-    QRect rect = option->rect.adjusted(0, 0, -1, -1);
+    QRect rect = option->rect;
     const qreal radius = 5;
 
     path.moveTo(rect.left(), rect.top() + radius);
