@@ -21,6 +21,7 @@
 #include "dolphincontextmenu.h"
 
 #include "dolphinmainwindow.h"
+#include "dolphinnewmenu.h"
 #include "dolphinsettings.h"
 #include "dolphinview.h"
 #include "dolphinviewcontainer.h"
@@ -173,9 +174,21 @@ void DolphinContextMenu::openItemContextMenu()
 
     KMenu* popup = new KMenu(m_mainWindow);
     if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
-      popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
-      popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
-      popup->addSeparator();
+        // setup 'Create New' menu
+        DolphinNewMenu* newMenu = new DolphinNewMenu(popup, m_mainWindow);
+        newMenu->slotCheckUpToDate();
+        newMenu->setPopupFiles(m_fileInfo.url());
+        
+        KMenu* menu = newMenu->menu();
+        menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
+        menu->setIcon(KIcon("document-new"));
+        popup->addMenu(newMenu->menu());
+        popup->addSeparator();
+    
+        // insert 'Open in new window' and 'Open in new tab' entries
+        popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
+        popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
+        popup->addSeparator();
     }
     addShowMenubarAction(popup);
     insertDefaultItemActions(popup);

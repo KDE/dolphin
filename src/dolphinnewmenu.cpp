@@ -27,8 +27,8 @@
 #include <kactioncollection.h>
 #include <kio/job.h>
 
-DolphinNewMenu::DolphinNewMenu(DolphinMainWindow* mainWin) :
-    KNewMenu(mainWin->actionCollection(), mainWin, "create_new"),
+DolphinNewMenu::DolphinNewMenu(QWidget* parent, DolphinMainWindow* mainWin) :
+    KNewMenu(mainWin->actionCollection(), parent, "create_new"),
     m_mainWin(mainWin)
 {
 }

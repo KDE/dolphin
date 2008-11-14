@@ -945,7 +945,7 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
-    m_newMenu = new DolphinNewMenu(this);
+    m_newMenu = new DolphinNewMenu(this, this);
     KMenu* menu = m_newMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(KIcon("document-new"));
