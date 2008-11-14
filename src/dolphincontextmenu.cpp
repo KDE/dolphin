@@ -178,6 +178,7 @@ void DolphinContextMenu::openItemContextMenu()
         DolphinNewMenu* newMenu = new DolphinNewMenu(popup, m_mainWindow);
         newMenu->slotCheckUpToDate();
         newMenu->setPopupFiles(m_fileInfo.url());
+        newMenu->setEnabled(capabilities().supportsWriting());
         
         KMenu* menu = newMenu->menu();
         menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
