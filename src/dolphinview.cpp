@@ -33,6 +33,7 @@
 #include <kdirlister.h>
 #include <kfilepreviewgenerator.h>
 #include <kiconeffect.h>
+#include <kfileitem.h>
 #include <klocale.h>
 #include <kio/deletejob.h>
 #include <kio/netaccess.h>
@@ -44,6 +45,7 @@
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <konqmimedata.h>
+#include <kstringhandler.h>
 #include <ktoggleaction.h>
 #include <kurl.h>
 
@@ -63,6 +65,15 @@
 #include "tooltipmanager.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
+
+/**
+ * Helper function for sorting items with qSort() in
+ * DolphinView::renameSelectedItems().
+ */
+bool lessThan(const KFileItem& item1, const KFileItem& item2)
+{
+    return KStringHandler::naturalCompare(item1.name(), item2.name()) < 0;
+}
 
 DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
@@ -594,7 +605,7 @@ void DolphinView::changeSelection(const KFileItemList& selection)
 
 void DolphinView::renameSelectedItems()
 {
-    const KFileItemList items = selectedItems();
+    KFileItemList items = selectedItems();
     const int itemCount = items.count();
     if (itemCount < 1) {
         return;
@@ -615,10 +626,14 @@ void DolphinView::renameSelectedItems()
             // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
             // as one operation instead of n rename operations like it is done now...
             Q_ASSERT(newName.contains('#'));
+            
+            // currently the items are sorted by the selection order, resort
+            // them by the file name
+            qSort(items.begin(), items.end(), lessThan);
 
             // iterate through all selected items and rename them...
             int index = 1;
-            foreach (const KFileItem &item, items) {
+            foreach (const KFileItem& item, items) {
                 const KUrl& oldUrl = item.url();
                 QString number;
                 number.setNum(index++);
