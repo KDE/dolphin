@@ -417,21 +417,22 @@ void InfoSidebarPage::showMetaInfo()
 
 bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const
 {
-    // TODO: This code prevents that interesting meta information might be hidden
-    // and only bypasses the current problem that not all the meta information should
-    // be shown to the user. Check whether it's possible with Nepomuk to show
-    // all "user relevant" information in a readable way...
-
     struct MetaKey {
         const char* key;
-        const char* text;
+        QString text;
     };
 
     // sorted list of keys, where its data should be shown
     static const MetaKey keys[] = {
-        { "audio.album", "Album:" },
-        { "audio.artist", "Artist:" },
-        { "audio.title", "Title:" },
+        { "http://freedesktop.org/standards/xesam/1.0/core#album",       i18nc("@label", "Album:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#artist",      i18nc("@label", "Artist:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#genre",       i18nc("@label", "Genre:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#height",      i18nc("@label", "Height:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#lineCount",   i18nc("@label", "Lines:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#title",       i18nc("@label", "Title:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#type",        i18nc("@label", "Type:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#trackNumber", i18nc("@label", "Track:") },
+        { "http://freedesktop.org/standards/xesam/1.0/core#width",       i18nc("@label", "Width:") }
     };
 
     // do a binary search for the key...
