@@ -28,7 +28,7 @@
 NewTagDialog::NewTagDialog( QWidget* parent )
     : KDialog( parent )
 {
-    setCaption( i18nc( "@title:window", "Create new Tag" ) );
+    setCaption( i18nc( "@title:window", "Create New Tag" ) );
     setButtons( Ok|Cancel );
     enableButtonOk( false );
 

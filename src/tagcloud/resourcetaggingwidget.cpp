@@ -119,7 +119,7 @@ Nepomuk::ResourceTaggingWidget::ResourceTaggingWidget( QWidget* parent )
     layout->setMargin( 0 );
     d->resourceTagCloud = new TagCloud( this );
     layout->addWidget( d->resourceTagCloud );
-    QLabel* changeTagsLabel = new QLabel( "<p align=center><a style=\"font-size:small;\" href=\"dummy\">" + i18nc( "@label", "Change tags..." ) + "</a>", this );
+    QLabel* changeTagsLabel = new QLabel( "<p align=center><a style=\"font-size:small;\" href=\"dummy\">" + i18nc( "@label", "Change Tags..." ) + "</a>", this );
     connect( changeTagsLabel, SIGNAL( linkActivated( const QString ) ),
              this, SLOT( _k_slotShowTaggingPopup() ) );
     layout->addWidget( changeTagsLabel );

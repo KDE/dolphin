@@ -77,7 +77,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     textLayout->addWidget(m_fontRequester);
     
     // create "Expandable Folders" checkbox
-    m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable Folders"), this);
+    m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
     connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
