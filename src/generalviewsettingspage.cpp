@@ -98,7 +98,7 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const KUrl& url,
     previewBoxLayout->addWidget(vBox);
     previewBoxLayout->addWidget(m_useFileThumbnails);
 
-    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection toggle"), this);
+    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), this);
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
