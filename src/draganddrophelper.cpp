@@ -106,7 +106,7 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
         const bool singleSelection = (urls.count() == 1);
 
         if (singleSelection && (source == destination)) {
-            emit errorMessage(i18nc("@info:status", "A folder cannot dropped on to itself"));
+            emit errorMessage(i18nc("@info:status", "A folder cannot be dropped into itself"));
         } else if (sourceDir == destination) {
             QString msg;
             if (singleSelection) {
