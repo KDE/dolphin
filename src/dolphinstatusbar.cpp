@@ -280,7 +280,7 @@ void DolphinStatusBar::zoomIn()
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel);
-    m_zoomSlider->setToolTip(i18nc("@info:tooltip", "Size: %1 pixels", size));
+    m_zoomSlider->setToolTip(i18ncp("@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
     QPoint global = m_zoomSlider->rect().topLeft();
     global.ry() += m_zoomSlider->height() / 2;
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), m_zoomSlider->mapToGlobal(global));

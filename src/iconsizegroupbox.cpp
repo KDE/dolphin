@@ -106,7 +106,7 @@ void IconSizeGroupBox::slotPreviewSliderMoved(int value)
 void IconSizeGroupBox::showToolTip(QSlider* slider, int value)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(value);
-    slider->setToolTip(i18nc("@info:tooltip", "Size: %1 pixels", size));
+    slider->setToolTip(i18ncp(`"@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
     QPoint global = slider->rect().topLeft();
     global.ry() += slider->height() / 2;
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), slider->mapToGlobal(global));
