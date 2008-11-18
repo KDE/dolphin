@@ -138,7 +138,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(slotItemTriggered(KFileItem)));
     connect(m_view, SIGNAL(startedPathLoading(const KUrl&)),
             this, SLOT(saveRootUrl(const KUrl&)));
-
+    connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
+            this, SLOT(redirect(KUrl, KUrl)));
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(restoreView(const KUrl&)));
 
@@ -403,6 +404,15 @@ void DolphinViewContainer::saveRootUrl(const KUrl& url)
 {
     Q_UNUSED(url);
     m_urlNavigator->saveRootUrl(m_view->rootUrl());
+}
+
+void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    Q_UNUSED(oldUrl);
+    const bool block = m_urlNavigator->signalsBlocked();
+    m_urlNavigator->blockSignals(true);
+    m_urlNavigator->setUrl(newUrl);
+    m_urlNavigator->blockSignals(block);
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)

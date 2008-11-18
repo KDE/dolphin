@@ -507,6 +507,12 @@ signals:
      * Used for feedback in the mainwindow.
      */
     void doingOperation(KIO::FileUndoManager::CommandType type);
+    
+    /**
+     * Emitted when KDirLister emits redirection.
+     * Testcase: fish://localhost
+     */
+    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
 protected:
     /** @see QWidget::mouseReleaseEvent */
@@ -589,12 +595,6 @@ private slots:
      * of the job \a job has been finished.
      */
     void slotDeleteFileFinished(KJob* job);
-
-    /**
-     * Called when KDirLister emits redirection.
-     * Testcase: fish://localhost
-     */
-    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
      * Is emitted if the controller requests a changing of the current

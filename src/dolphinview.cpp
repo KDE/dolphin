@@ -123,7 +123,7 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(clearHoverInformation()));
 
     connect(m_dirLister, SIGNAL(redirection(KUrl, KUrl)),
-            this, SLOT(slotRedirection(KUrl, KUrl)));
+            this, SIGNAL(redirection(KUrl, KUrl)));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(restoreCurrentItem()));
 
@@ -1212,13 +1212,6 @@ void DolphinView::slotRequestUrlChange(const KUrl& url)
 {
     emit requestUrlChange(url);
     m_controller->setUrl(url);
-}
-
-void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
-{
-    if (oldUrl == m_controller->url()) {
-        m_controller->setUrl(newUrl);
-    }
 }
 
 #include "dolphinview.moc"

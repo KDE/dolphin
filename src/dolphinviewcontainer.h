@@ -202,6 +202,13 @@ private slots:
      */
     void saveRootUrl(const KUrl& url);
 
+    /**
+     * Is invoked when a redirection is done and changes the
+     * URL of the URL navigator to \a newUrl without triggering
+     * a reloading of the directory.
+     */
+    void redirect(const KUrl& oldUrl, const KUrl& newUrl);
+    
 private:
     /**
      * Returns the default text of the status bar, if no item is
