@@ -402,10 +402,10 @@ void DolphinDetailsView::keyReleaseEvent(QKeyEvent* event)
 
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 {
+    QTreeView::resizeEvent(event);
     if (m_autoResize) {
         resizeColumns();
     }
-    QTreeView::resizeEvent(event);
 }
 
 void DolphinDetailsView::wheelEvent(QWheelEvent* event)
@@ -591,6 +591,7 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
 
         m_controller->indicateAdditionalInfoChange(list);
         setColumnHidden(columnIndex, !show);
+        resizeColumns();
     }
 }
 
