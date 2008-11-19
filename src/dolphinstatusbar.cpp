@@ -108,7 +108,6 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     const int zoomWidgetHeight = m_zoomWidget->minimumSizeHint().height();
     const int contentHeight = (fontHeight < zoomWidgetHeight) ? zoomWidgetHeight : fontHeight;
 
-    m_messageLabel->setMinimumTextHeight(fontHeight);
     m_messageLabel->setMinimumTextHeight(contentHeight);
     m_spaceInfo->setFixedHeight(contentHeight);
     m_progressBar->setFixedSize(200, contentHeight);
