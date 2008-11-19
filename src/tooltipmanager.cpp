@@ -104,7 +104,9 @@ bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 
 void ToolTipManager::requestToolTip(const QModelIndex& index)
 {
-    if (index.column() == DolphinModel::Name) {
+    // only request a tooltip for the name column and when no selection or
+    // drag & drop operation is done (indicated by the left mouse button)
+    if ((index.column() == DolphinModel::Name) && !(QApplication::mouseButtons() & Qt::LeftButton)) {
         m_waitOnPreviewTimer->stop();
         KToolTip::hideTip();
 
@@ -115,10 +117,9 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
         const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
         m_item = m_dolphinModel->itemForIndex(dirIndex);
 
-        // Only start the previewJob when the mouse has been over this item for 200msec,
-        // this prevents a lot of useless previewJobs (when passing rapidly over a lot of items).
+        // only start the previewJob when the mouse has been over this item for 200 milliseconds,
+        // this prevents a lot of useless preview jobs when passing rapidly over a lot of items
         m_previewTimer->start(200);
-        // reset these variables
         m_preview = false;
         m_previewIsLate = false;
         m_previewPass = 0;
