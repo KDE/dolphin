@@ -104,11 +104,12 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_progressBar->hide();
 
     // initialize sizes
-    const int contentHeight = QFontMetrics(m_messageLabel->font()).height() + 4;
-    const int barHeight = contentHeight + 4;
+    const int fontHeight = QFontMetrics(m_messageLabel->font()).height();
+    const int zoomWidgetHeight = m_zoomWidget->minimumSizeHint().height();
+    const int contentHeight = (fontHeight < zoomWidgetHeight) ? zoomWidgetHeight : fontHeight;
 
-    setMinimumHeight(barHeight);
-    m_messageLabel->setMinimumTextHeight(barHeight);
+    m_messageLabel->setMinimumTextHeight(fontHeight);
+    m_messageLabel->setMinimumTextHeight(contentHeight);
     m_spaceInfo->setFixedHeight(contentHeight);
     m_progressBar->setFixedSize(200, contentHeight);
     m_zoomWidget->setFixedSize(150, contentHeight);
