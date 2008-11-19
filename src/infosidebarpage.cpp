@@ -80,7 +80,7 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 {
     SidebarPage::setUrl(url);
     if (url.isValid() && !isEqualToShownUrl(url)) {
-        if (m_initialized) {
+        if (isVisible()) {
             cancelRequest();
             m_shownUrl = url;
             showItemInfo();
@@ -92,7 +92,7 @@ void InfoSidebarPage::setUrl(const KUrl& url)
 
 void InfoSidebarPage::setSelection(const KFileItemList& selection)
 {
-    if (!m_initialized) {
+    if (!isVisible()) {
         return;
     }
 
@@ -122,7 +122,7 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
 
 void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
 {
-    if (!m_initialized) {
+    if (!isVisible()) {
         return;
     }
 
@@ -162,7 +162,7 @@ void InfoSidebarPage::showEvent(QShowEvent* event)
 
 void InfoSidebarPage::resizeEvent(QResizeEvent* event)
 {
-    if (m_initialized) {
+    if (isVisible()) {
         // If the text inside the name label or the info label cannot
         // get wrapped, then the maximum width of the label is increased
         // so that the width of the information sidebar gets increased.
