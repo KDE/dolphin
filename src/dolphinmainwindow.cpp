@@ -251,8 +251,10 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
         compareFilesAction->setEnabled(false);
     }
 
+#if defined(QUICK_VIEW)
     const bool activeViewHasSelection = (activeViewContainer()->view()->selectedItemsCount() > 0);
     actionCollection()->action("quick_view")->setEnabled(activeViewHasSelection);
+#endif
 
     m_activeViewContainer->updateStatusBar();
 
@@ -1047,12 +1049,15 @@ void DolphinMainWindow::setupActions()
     compareFiles->setEnabled(false);
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
 
+    // disabled Quick View
+#if defined(QUICK_VIEW)
     KAction* quickView = actionCollection()->addAction("quick_view");
     quickView->setText(i18nc("@action:inmenu Tools", "Quick View"));
     quickView->setIcon(KIcon("view-preview"));
     quickView->setShortcut(Qt::CTRL + Qt::Key_Return);
     quickView->setEnabled(false);
     connect(quickView, SIGNAL(triggered()), this, SLOT(quickView()));
+#endif
 
     // setup 'Settings' menu
     m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
