@@ -21,16 +21,18 @@
 
 #include <kglobalsettings.h>
 #include <klocale.h>
-#include <kvbox.h>
 
-#include <QHBoxLayout>
-#include <QLabel>
+#include <QPainter>
+#include <QTextLayout>
+#include <QTextLine>
+#include <kdebug.h>
 
 MetaTextLabel::MetaTextLabel(QWidget* parent) :
     QWidget(parent),
-    m_lines(0),
-    m_layout(0)
+    m_minimumHeight(0),
+    m_metaInfos()
 {
+    setFont(KGlobalSettings::smallestReadableFont());
 }
 
 MetaTextLabel::~MetaTextLabel()
@@ -39,53 +41,95 @@ MetaTextLabel::~MetaTextLabel()
 
 void MetaTextLabel::clear()
 {
-    if (m_layout != 0) {
-        m_layout->removeWidget(m_lines);
-    }
-
-    delete m_lines;
-    m_lines = 0;
-
-    delete m_layout;
-    m_layout = 0;
+    m_minimumHeight = 0;
+    m_metaInfos.clear();
+    update();
 }
 
 void MetaTextLabel::add(const QString& labelText, const QString& infoText)
 {
-    if (m_lines == 0) {
-        Q_ASSERT(m_layout == 0);
+    MetaInfo metaInfo;
+    metaInfo.label = labelText;
+    metaInfo.info = infoText;
+    
+    m_metaInfos.append(metaInfo);
+    
+    m_minimumHeight += requiredHeight(metaInfo);
+    setMinimumHeight(m_minimumHeight);
+    
+    update();
+}
 
-        m_lines = new KVBox(this);
-        m_layout = new QHBoxLayout();
-        m_layout->addWidget(m_lines);
-        setLayout(m_layout);
-
-        m_lines->show();
+void MetaTextLabel::paintEvent(QPaintEvent* event)
+{
+    QWidget::paintEvent(event);
+    
+    QPainter painter(this);
+    
+    const QColor infoColor = palette().color(QPalette::Foreground);
+    QColor labelColor = infoColor;
+    labelColor.setAlpha(128);
+    
+    int y = 0;
+    const int infoWidth = width() / 2;
+    const int labelWidth = infoWidth - 2 * Spacing;
+    const int infoX = infoWidth;
+    const int maxHeight = fontMetrics().height() * 5;
+    
+    QRect boundingRect;
+    foreach (const MetaInfo& metaInfo, m_metaInfos) {
+        // draw label (e. g. "Date:")
+        painter.setPen(labelColor);
+        painter.drawText(0, y, labelWidth, maxHeight,
+                         Qt::AlignTop | Qt::AlignRight | Qt::TextWordWrap,
+                         metaInfo.label);
+                         
+        // draw information (e. g. "2008-11-09 20:12")
+        painter.setPen(infoColor);
+        painter.drawText(infoX, y, infoWidth, maxHeight,
+                         Qt::AlignTop | Qt::AlignLeft | Qt::TextWordWrap,
+                         metaInfo.info,
+                         &boundingRect);
+                         
+        y += boundingRect.height() + Spacing;
     }
+}
 
-    QWidget* line = new QWidget(m_lines);
+void MetaTextLabel::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+    
+    m_minimumHeight = 0;
+    foreach (const MetaInfo& metaInfo, m_metaInfos) {
+        m_minimumHeight += requiredHeight(metaInfo);
+    }
+    setMinimumHeight(m_minimumHeight);
+}
 
-    QLabel* label = new QLabel(labelText, line);
-    label->setFont(KGlobalSettings::smallestReadableFont());
-    label->setAlignment(Qt::AlignRight | Qt::AlignTop);
-
-    QPalette palette = label->palette();
-    QColor foreground = palette.color(QPalette::Foreground);
-    foreground.setAlpha(128);
-    palette.setColor(QPalette::Foreground, foreground);
-    label->setPalette(palette);
-
-    QLabel* info = new QLabel(infoText, line);
-    info->setFont(KGlobalSettings::smallestReadableFont());
-    info->setAlignment(Qt::AlignLeft | Qt::AlignTop);
-    info->setWordWrap(true);
-
-    QHBoxLayout* layout = new QHBoxLayout(line);
-    layout->setMargin(2);
-    layout->addWidget(label, 50);
-    layout->addWidget(info, 50);
-
-    line->show();
+int MetaTextLabel::requiredHeight(const MetaInfo& metaInfo) const
+{
+    QTextOption textOption;
+    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    
+    qreal height = 0;
+    const int leading = fontMetrics().leading();
+    const int availableWidth = width() / 2;
+    
+    QTextLayout textLayout(metaInfo.info);
+    textLayout.setFont(font());
+    textLayout.setTextOption(textOption);
+    
+    textLayout.beginLayout();
+    QTextLine line = textLayout.createLine();
+    while (line.isValid()) {
+        line.setLineWidth(availableWidth);
+        height += leading;
+        height += line.height();
+        line = textLayout.createLine();
+    }    
+    textLayout.endLayout();
+    
+    return static_cast<int>(height) + Spacing;
 }
 
 #include "metatextlabel.moc"

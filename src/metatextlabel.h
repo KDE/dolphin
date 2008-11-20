@@ -22,9 +22,6 @@
 
 #include <QWidget>
 
-class KVBox;
-class QHBoxLayout;
-
 /**
  * @brief Displays general meta in several lines.
  *
@@ -35,15 +32,33 @@ class MetaTextLabel : public QWidget
     Q_OBJECT
 
 public:
-    MetaTextLabel(QWidget* parent = 0);
+    explicit MetaTextLabel(QWidget* parent = 0);
     virtual ~MetaTextLabel();
 
     void clear();
     void add(const QString& labelText, const QString& infoText);
+    
+protected:
+    virtual void paintEvent(QPaintEvent* event);
+    virtual void resizeEvent(QResizeEvent* event);
 
 private:
-    KVBox* m_lines;
-    QHBoxLayout* m_layout;
+    enum { Spacing = 2 };
+    
+    struct MetaInfo
+    {
+        QString label;
+        QString info;
+    };
+    
+    int m_minimumHeight;
+    QList<MetaInfo> m_metaInfos;
+    
+    /**
+     * Returns the required height in pixels for \a metaInfo to
+     * fit into the available width of the widget.
+     */
+    int requiredHeight(const MetaInfo& metaInfo) const;
 };
 
 #endif
