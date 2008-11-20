@@ -40,6 +40,8 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QResizeEvent>
+#include <QTextLayout>
+#include <QTextLine>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -194,7 +196,7 @@ void InfoSidebarPage::showItemInfo()
                                            KIconLoader::NoGroup,
                                            KIconLoader::SizeEnormous);
         m_preview->setPixmap(icon);
-        m_nameLabel->setText(i18ncp("@info", "%1 item selected", "%1 items selected",  m_selection.count()));
+        setNameLabelText(i18ncp("@info", "%1 item selected", "%1 items selected",  m_selection.count()));
         m_shownUrl = KUrl();
     } else {
         const KFileItem item = fileItem();
@@ -222,7 +224,7 @@ void InfoSidebarPage::showItemInfo()
             connect(job, SIGNAL(failed(const KFileItem&)),
                     this, SLOT(showIcon(const KFileItem&)));
 
-            m_nameLabel->setText(itemUrl.fileName());
+            setNameLabelText(itemUrl.fileName());
         }
     }
 
@@ -337,7 +339,7 @@ bool InfoSidebarPage::applyPlace(const KUrl& url)
         QModelIndex index = placesModel->index(i, 0);
 
         if (url.equals(placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
-            m_nameLabel->setText(placesModel->text(index));
+            setNameLabelText(placesModel->text(index));
             m_preview->setPixmap(placesModel->icon(index).pixmap(128, 128));
             return true;
         }
@@ -482,6 +484,35 @@ bool InfoSidebarPage::isEqualToShownUrl(const KUrl& url) const
     return m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash);
 }
 
+void InfoSidebarPage::setNameLabelText(const QString& text)
+{
+    QTextOption textOption;
+    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    
+    QTextLayout textLayout(text);
+    textLayout.setFont(m_nameLabel->font());
+    textLayout.setTextOption(textOption);
+    
+    QString wrappedText;
+    wrappedText.reserve(text.length());
+    
+    // wrap the text to fit into the width of m_nameLabel
+    textLayout.beginLayout();
+    QTextLine line = textLayout.createLine();
+    while (line.isValid()) {
+        line.setLineWidth(m_nameLabel->width());
+        wrappedText += text.mid(line.textStart(), line.textLength());
+        
+        line = textLayout.createLine();
+        if (line.isValid()) {
+            wrappedText += QChar::LineSeparator;
+        }
+    }    
+    textLayout.endLayout();
+
+    m_nameLabel->setText(wrappedText);
+}
+
 void InfoSidebarPage::init()
 {
     const int spacing = KDialog::spacingHint();
@@ -510,7 +541,6 @@ void InfoSidebarPage::init()
     font.setBold(true);
     m_nameLabel->setFont(font);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
-    m_nameLabel->setWordWrap(true);
     m_nameLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     // preview
