@@ -150,11 +150,7 @@ void KToolTipDelegate::paint(QPainter *painter, const KStyleOptionToolTip *optio
     else
         path.addRect(option->rect.adjusted(0, 0, -1, -1));
 
-#if QT_VERSION >= 0x040400
     QColor color = option->palette.color(QPalette::ToolTipBase);
-#else
-    QColor color = option->palette.color(QPalette::Base);
-#endif
     QColor from = color.lighter(105);
     QColor to   = color.darker(120);
 
