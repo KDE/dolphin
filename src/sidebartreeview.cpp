@@ -66,7 +66,8 @@ SidebarTreeView::~SidebarTreeView()
 
 bool SidebarTreeView::event(QEvent* event)
 {
-    if (event->type() == QEvent::Polish) {
+    switch (event->type()) {
+    case QEvent::Polish:
         // hide all columns except of the 'Name' column
         hideColumn(DolphinModel::Size);
         hideColumn(DolphinModel::ModifiedTime);
@@ -77,12 +78,23 @@ bool SidebarTreeView::event(QEvent* event)
         hideColumn(DolphinModel::Rating);
         hideColumn(DolphinModel::Tags);
         header()->hide();
-    }
-    else if (event->type() == QEvent::UpdateRequest) {
+        break;
+        
+    case QEvent::Show:
+        // TODO: The opening/closing animation of subtrees flickers in combination with the
+        // sidebar when using the Oxygen style. As workaround the animation is turned off:
+        setAnimated(false);
+        break;
+    
+    case QEvent::UpdateRequest:
         // a wheel movement will scroll 1 item
         if (model()->rowCount() > 0) {
             verticalScrollBar()->setSingleStep(sizeHintForRow(0) / 3);
         }
+        break;
+        
+    default:
+        break;
     }
 
     return KTreeView::event(event);
