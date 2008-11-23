@@ -60,6 +60,7 @@ class QWidget;
  * - indicateSortingChange()
  * - indicateSortOrderChanged()
  * - triggerItem()
+ * - openTab()
  * - handleKeyPressEvent()
  * - emitItemEntered()
  * - emitViewportEntered()
@@ -217,10 +218,19 @@ public:
 public slots:
     /**
      * Emits the signal itemTriggered() if the file item for the index \a index
-     * is not null. The method should be invoked by the
-     * controller parent whenever the user has triggered an item.
+     * is not null and the left mouse button has been pressed. If the item is
+     * null, the signal itemEntered() is emitted.
+     * The method should be invoked by the controller parent whenever the
+     * user has triggered an item.
      */
     void triggerItem(const QModelIndex& index);
+    
+    /**
+     * Emits the signal tabRequested(), if the file item for the index \a index
+     * represents a directory and when the middle mouse button has been pressed.
+     * The method should be invoked by the controller parent.
+     */
+    void requestTab(const QModelIndex& index);
 
     /**
      * Emits the signal itemEntered() if the file item for the index \a index

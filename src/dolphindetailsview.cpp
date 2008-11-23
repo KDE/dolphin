@@ -96,10 +96,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     connect(parent, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(setSortIndicatorOrder(Qt::SortOrder)));
 
-    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
-    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
-    // necessary connecting the signal 'singleClick()' or 'doubleClick' and to handle the
-    // RETURN-key in keyPressEvent().
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
+            controller, SLOT(requestTab(const QModelIndex&)));
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));

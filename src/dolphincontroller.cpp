@@ -170,26 +170,33 @@ KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
 
 void DolphinController::triggerItem(const QModelIndex& index)
 {
-    if (m_mouseButtons & Qt::RightButton) {
-        // a context menu is opened - assure that no triggering is done
-        return;
-    }
-    
-    const bool openTab = m_mouseButtons & Qt::MidButton;
-    m_mouseButtons = Qt::NoButton;
-
-    const KFileItem item = itemForIndex(index);
-    if (index.isValid() && (index.column() == KDirModel::Name)) {
-        if (openTab && (item.isDir() || m_dolphinView->isTabsForFilesEnabled())) {
-            emit tabRequested(item.url());
-        } else {
+    if (m_mouseButtons & Qt::LeftButton) {
+        const KFileItem item = itemForIndex(index);
+        if (index.isValid() && (index.column() == KDirModel::Name)) {
             emit itemTriggered(item);
-        }
-    } else {
-        m_itemView->clearSelection();
-        if (!openTab) {
+        } else {
+            m_itemView->clearSelection();
             emit itemEntered(KFileItem());
         }
+        m_mouseButtons = Qt::NoButton;
+    } else if (m_mouseButtons & Qt::RightButton) {
+        m_mouseButtons = Qt::NoButton;
+    }
+}
+
+void DolphinController::requestTab(const QModelIndex& index)
+{
+    if (m_mouseButtons & Qt::MidButton) {
+        const KFileItem item = itemForIndex(index);
+        const bool validRequest = index.isValid() &&
+                                  (index.column() == KDirModel::Name) &&
+                                  (item.isDir() || m_dolphinView->isTabsForFilesEnabled());
+        if (validRequest) {
+            emit tabRequested(item.url());
+        }
+        m_mouseButtons = Qt::NoButton;
+    } else if (m_mouseButtons & Qt::RightButton) {
+        m_mouseButtons = Qt::NoButton;
     }
 }
 
