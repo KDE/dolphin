@@ -79,7 +79,7 @@ set(dolphinpart_SRCS
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
 
-target_link_libraries(dolphinpart dolphinprivate konq ${KDE4_KPARTS_LIBS} ${KDE4_KDEUI_LIBS})
+target_link_libraries(dolphinpart dolphinprivate konq ${KDE4_KPARTS_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS})
 
 install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR} )
 
