@@ -345,11 +345,11 @@ signals:
     void hideToolTip();
 
 private slots:
-    void updateOpenTabState();
+    void updateMouseButtonState();
 
 private:
     int m_zoomLevel;
-    bool m_openTab; // TODO: this is a workaround until  Qt-issue 176832 has been fixed
+    Qt::MouseButtons m_mouseButtons; // TODO: this is a workaround until  Qt-issue 176832 has been fixed
     KUrl m_url;
     DolphinView* m_dolphinView;
     QAbstractItemView* m_itemView;

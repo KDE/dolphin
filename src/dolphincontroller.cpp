@@ -29,7 +29,7 @@
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
     m_zoomLevel(0),
-    m_openTab(false),
+    m_mouseButtons(Qt::NoButton),
     m_url(),
     m_dolphinView(dolphinView),
     m_itemView(0)
@@ -52,7 +52,7 @@ void DolphinController::setItemView(QAbstractItemView* view)
 {
     if (m_itemView != 0) {
         disconnect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
-                   this, SLOT(updateOpenTabState()));
+                   this, SLOT(updateMouseButtonState()));
     }
 
     m_itemView = view;
@@ -62,7 +62,7 @@ void DolphinController::setItemView(QAbstractItemView* view)
         
         // TODO: this is a workaround until  Qt-issue 176832 has been fixed
         connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
-                this, SLOT(updateOpenTabState()));
+                this, SLOT(updateMouseButtonState()));
     }
 }
 
@@ -170,8 +170,13 @@ KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
 
 void DolphinController::triggerItem(const QModelIndex& index)
 {
-    const bool openTab = m_openTab;
-    m_openTab = false;
+    if (m_mouseButtons & Qt::RightButton) {
+        // a context menu is opened - assure that no triggering is done
+        return;
+    }
+    
+    const bool openTab = m_mouseButtons & Qt::MidButton;
+    m_mouseButtons = Qt::NoButton;
 
     const KFileItem item = itemForIndex(index);
     if (index.isValid() && (index.column() == KDirModel::Name)) {
@@ -201,9 +206,9 @@ void DolphinController::emitViewportEntered()
     emit viewportEntered();
 }
 
-void DolphinController::updateOpenTabState()
+void DolphinController::updateMouseButtonState()
 {
-    m_openTab = QApplication::mouseButtons() & Qt::MidButton;
+    m_mouseButtons = QApplication::mouseButtons();
 }
 
 #include "dolphincontroller.moc"
