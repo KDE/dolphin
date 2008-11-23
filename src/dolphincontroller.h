@@ -60,7 +60,7 @@ class QWidget;
  * - indicateSortingChange()
  * - indicateSortOrderChanged()
  * - triggerItem()
- * - openTab()
+ * - requestTab()
  * - handleKeyPressEvent()
  * - emitItemEntered()
  * - emitViewportEntered()
