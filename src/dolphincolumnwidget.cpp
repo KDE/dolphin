@@ -295,6 +295,7 @@ void DolphinColumnWidget::dragEnterEvent(QDragEnterEvent* event)
 {
     if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         event->acceptProposedAction();
+        requestActivation();
     }
 }
 
