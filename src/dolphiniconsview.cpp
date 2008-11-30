@@ -152,7 +152,7 @@ void DolphinIconsView::dataChanged(const QModelIndex& topLeft, const QModelIndex
     KCategorizedView::dataChanged(topLeft, bottomRight);
 
     KCategorizedSortFilterProxyModel* proxyModel = dynamic_cast<KCategorizedSortFilterProxyModel*>(model());
-    if ((flow() == QListView::LeftToRight) && !proxyModel->isCategorizedModel()) {
+    if (!proxyModel->isCategorizedModel()) {
         // bypass a QListView issue that items are not layout correctly if the decoration size of
         // an index changes
         scheduleDelayedItemsLayout();
