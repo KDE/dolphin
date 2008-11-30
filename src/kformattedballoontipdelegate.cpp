@@ -78,8 +78,11 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter,
         x += iconSize.width() + Border;
     }
 
+    const QColor textColor = option->palette.color(QPalette::ToolTipText); 
+    QString text = "<font color=\"" + textColor.name() + "\">" + item->text() + "</font>";
+    
     QTextDocument doc;
-    doc.setHtml(item->text());
+    doc.setHtml(text);
     QPixmap bitmap(doc.size().toSize());
     bitmap.fill(Qt::transparent);
     QPainter p(&bitmap);
