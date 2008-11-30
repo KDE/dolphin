@@ -59,7 +59,7 @@ public:
      /**
       * Creates a KToolTipItem with @p text and no icon.
       */
-     KToolTipItem(const QString &text, int type = DefaultType);
+     explicit KToolTipItem(const QString &text, int type = DefaultType);
 
      /**
       * Creates a KToolTipItem with an @p icon and @p text.
@@ -109,6 +109,7 @@ public:
  */
 class KToolTipDelegate : public QObject
 {
+    Q_OBJECT
 public:
      KToolTipDelegate();
      virtual ~KToolTipDelegate();

@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINCONFIGMODULE_H
-#define DOLPHINCONFIGMODULE_H
+#ifndef KCMDOLPHIN_H
+#define KCMDOLPHIN_H
 
 #include <kcmodule.h>
 

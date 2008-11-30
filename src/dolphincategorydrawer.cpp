@@ -20,7 +20,7 @@
 
 #include "dolphincategorydrawer.h"
 
-#include "config-nepomuk.h"
+#include <config-nepomuk.h>
 
 #include <QPainter>
 #include <QFile>
