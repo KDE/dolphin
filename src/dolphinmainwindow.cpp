@@ -297,6 +297,13 @@ void DolphinMainWindow::openNewTab()
 {
     openNewTab(m_activeViewContainer->url());
     m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+    
+    KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
+    if (navigator->isUrlEditable()) {
+        // if a new tab is opened and the URL is editable, assure that
+        // the user can edit the URL without manually setting the focus
+        navigator->setFocus();
+    }
 }
 
 void DolphinMainWindow::openNewTab(const KUrl& url)
@@ -313,6 +320,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
     viewTab.primaryView = new DolphinViewContainer(this, viewTab.splitter, url);
+    viewTab.primaryView->setActive(false);
     connectViewSignals(viewTab.primaryView);
     viewTab.primaryView->view()->reload();
 
@@ -710,7 +718,12 @@ void DolphinMainWindow::setActiveTab(int index)
     }
 
     // hide current tab content
-    m_viewTab[m_tabIndex].isPrimaryViewActive = m_viewTab[m_tabIndex].primaryView->isActive();
+    ViewTab& hiddenTab = m_viewTab[m_tabIndex];
+    hiddenTab.isPrimaryViewActive = hiddenTab.primaryView->isActive();
+    hiddenTab.primaryView->setActive(false);
+    if (hiddenTab.secondaryView != 0) {
+        hiddenTab.secondaryView->setActive(false);
+    }
     QSplitter* splitter = m_viewTab[m_tabIndex].splitter;
     splitter->hide();
     m_centralWidgetLayout->removeWidget(splitter);
