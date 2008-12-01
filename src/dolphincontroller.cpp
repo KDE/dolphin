@@ -134,7 +134,7 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event)
     if (trigger) {
         const QModelIndexList indexList = selModel->selectedIndexes();
         foreach (const QModelIndex& index, indexList) {
-            triggerItem(index);
+            emit itemTriggered(itemForIndex(index));
         }
     }
 }
