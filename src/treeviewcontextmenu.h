@@ -78,6 +78,9 @@ private slots:
     void setShowHiddenFiles(bool show);
 
 private:
+    void populateMimeData(QMimeData* mimeData, bool cut);
+
+private:
     TreeViewSidebarPage* m_parent;
     KFileItem m_fileInfo;
 };

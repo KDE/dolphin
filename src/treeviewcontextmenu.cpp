@@ -85,7 +85,7 @@ void TreeViewContextMenu::open()
         KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
         KConfigGroup configGroup(globalConfig, "KDE");
         bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
-        
+
         const KUrl& url = m_fileInfo.url();
         if (url.isLocalFile()) {
             QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
@@ -126,21 +126,27 @@ void TreeViewContextMenu::open()
     popup->deleteLater();
 }
 
+void TreeViewContextMenu::populateMimeData(QMimeData* mimeData, bool cut)
+{
+    KUrl::List kdeUrls;
+    kdeUrls.append(m_fileInfo.url());
+    KUrl::List mostLocalUrls;
+    bool dummy;
+    mostLocalUrls.append(m_fileInfo.mostLocalUrl(dummy));
+    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, cut);
+}
+
 void TreeViewContextMenu::cut()
 {
     QMimeData* mimeData = new QMimeData();
-    KUrl::List kdeUrls;
-    kdeUrls.append(m_fileInfo.url());
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, KUrl::List(), true);
+    populateMimeData(mimeData, true);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void TreeViewContextMenu::copy()
 {
     QMimeData* mimeData = new QMimeData();
-    KUrl::List kdeUrls;
-    kdeUrls.append(m_fileInfo.url());
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, KUrl::List(), false);
+    populateMimeData(mimeData, false);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
