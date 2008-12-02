@@ -357,7 +357,6 @@ void DolphinMainWindow::openInNewTab()
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
     if ((list.count() == 1) && list[0].isDir()) {
         openNewTab(m_activeViewContainer->view()->selectedUrls()[0]);
-        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
     }
 }
 
