@@ -277,6 +277,12 @@ KFileItemList DolphinColumnWidget::selectedItems() const
     return itemList;
 }
 
+QMimeData* DolphinColumnWidget::selectionMimeData() const
+{
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource(selectionModel()->selection());
+    return m_dolphinModel->mimeData(selection.indexes());
+}
+
 QStyleOptionViewItem DolphinColumnWidget::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = QListView::viewOptions();

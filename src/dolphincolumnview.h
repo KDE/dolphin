@@ -112,6 +112,12 @@ public:
      * Returns the selected items of the active column.
      */
     KFileItemList selectedItems() const;
+    
+    /**
+     * Returns the MIME data for the selected items
+     * of the active column.
+     */
+    QMimeData* selectionMimeData() const;
 
 public slots:
     /** @see QAbstractItemView::selectAll() */

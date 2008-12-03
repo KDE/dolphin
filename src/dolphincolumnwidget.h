@@ -111,6 +111,11 @@ public:
     KFileItem itemAt(const QPoint& pos) const;
 
     KFileItemList selectedItems() const;
+    
+    /**
+     * Returns the MIME data for the selected items.
+     */
+    QMimeData* selectionMimeData() const;
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;

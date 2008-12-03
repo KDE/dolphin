@@ -701,7 +701,7 @@ void DolphinView::deleteSelectedItems()
 
 void DolphinView::cutSelectedItems()
 {
-    QMimeData* mimeData = new QMimeData();
+    QMimeData* mimeData = selectionMimeData();
     const KUrl::List kdeUrls = simplifiedSelectedUrls();
     const KUrl::List mostLocalUrls;
     KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
@@ -710,7 +710,7 @@ void DolphinView::cutSelectedItems()
 
 void DolphinView::copySelectedItems()
 {
-    QMimeData* mimeData = new QMimeData();
+    QMimeData* mimeData = selectionMimeData();
     const KUrl::List kdeUrls = selectedUrls();
     const KUrl::List mostLocalUrls;
     KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, false);
@@ -1422,6 +1422,18 @@ void DolphinView::deleteExpandedViews()
 bool DolphinView::itemsExpandable() const
 {
     return (m_detailsView != 0) && m_detailsView->itemsExpandable();
+}
+
+QMimeData* DolphinView::selectionMimeData() const
+{
+    if (isColumnViewActive()) {
+        return m_columnView->selectionMimeData();
+    }
+
+    const QAbstractItemView* view = itemView();
+    Q_ASSERT((view != 0) && (view->selectionModel() != 0));
+    const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
+    return m_dolphinModel->mimeData(selection.indexes());
 }
 
 #include "dolphinview.moc"

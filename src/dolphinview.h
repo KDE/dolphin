@@ -704,6 +704,11 @@ private:
      * is currently shown.
      */
     void deleteExpandedViews();
+    
+    /**
+     * Returns the MIME data for all selected items.
+     */
+    QMimeData* selectionMimeData() const;
 
 private:
     bool m_active : 1;

@@ -269,6 +269,11 @@ KFileItemList DolphinColumnView::selectedItems() const
     return activeColumn()->selectedItems();
 }
 
+QMimeData* DolphinColumnView::selectionMimeData() const
+{
+    return activeColumn()->selectionMimeData();
+}
+
 void DolphinColumnView::selectAll()
 {
     activeColumn()->selectAll();
