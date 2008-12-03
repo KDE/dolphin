@@ -702,18 +702,13 @@ void DolphinView::deleteSelectedItems()
 void DolphinView::cutSelectedItems()
 {
     QMimeData* mimeData = selectionMimeData();
-    const KUrl::List kdeUrls = simplifiedSelectedUrls();
-    const KUrl::List mostLocalUrls;
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, true);
+    KonqMimeData::addIsCutSelection(mimeData, true);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
 void DolphinView::copySelectedItems()
 {
     QMimeData* mimeData = selectionMimeData();
-    const KUrl::List kdeUrls = selectedUrls();
-    const KUrl::List mostLocalUrls;
-    KonqMimeData::populateMimeData(mimeData, kdeUrls, mostLocalUrls, false);
     QApplication::clipboard()->setMimeData(mimeData);
 }
 
