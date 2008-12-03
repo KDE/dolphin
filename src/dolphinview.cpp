@@ -1052,6 +1052,11 @@ bool DolphinView::isTabsForFilesEnabled() const
     return m_tabsForFiles;
 }
 
+bool DolphinView::itemsExpandable() const
+{
+    return (m_detailsView != 0) && m_detailsView->itemsExpandable();
+}
+
 void DolphinView::emitContentsMoved()
 {
     // only emit the contents moved signal if:
@@ -1417,11 +1422,6 @@ void DolphinView::deleteExpandedViews()
         }
     }
     m_expandedViews.clear();
-}
-
-bool DolphinView::itemsExpandable() const
-{
-    return (m_detailsView != 0) && m_detailsView->itemsExpandable();
 }
 
 QMimeData* DolphinView::selectionMimeData() const
