@@ -216,6 +216,7 @@ void TreeViewSidebarPage::expandToDir(const QModelIndex& index)
 {
     m_treeView->setExpanded(index, true);
     selectLeafDirectory();
+    m_treeView->resizeColumnToContents(DolphinModel::Name);
 }
 
 void TreeViewSidebarPage::scrollToLeaf()
