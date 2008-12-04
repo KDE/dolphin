@@ -29,6 +29,7 @@
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QScrollBar>
 #include <QTimer>
 #include <QToolTip>
 
@@ -80,6 +81,14 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_waitOnPreviewTimer->setSingleShot(true);
     connect(m_waitOnPreviewTimer, SIGNAL(timeout()),
             this, SLOT(prepareToolTip()));
+
+    // When the mousewheel is used, the items don't get a hovered indication
+    // (Qt-issue #200665). To assure that the tooltip still gets hidden,
+    // the scrollbars are observed.
+    connect(parent->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(hideTip()));
+    connect(parent->verticalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(hideTip()));
 
     m_view->viewport()->installEventFilter(this);
 }
