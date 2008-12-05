@@ -75,6 +75,7 @@ void DolphinViewActionHandler::createActions()
     KAction* newDirAction = m_actionCollection->addAction("create_dir");
     newDirAction->setText(i18nc("@action", "Create Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);
+    newDirAction->setIcon(KIcon("folder-new"));
     connect(newDirAction, SIGNAL(triggered()), SLOT(slotCreateDir()));
 
     // Edit menu
