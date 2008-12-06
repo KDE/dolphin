@@ -25,6 +25,7 @@
 #include "dolphinfileitemdelegate.h"
 #include "dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
+#include "dolphinviewautoscroller.h"
 #include "draganddrophelper.h"
 #include "selectionmanager.h"
 #include "viewproperties.h"
@@ -75,6 +76,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     setMouseTracking(true);
+    new DolphinViewAutoScroller(this);
 
     const ViewProperties props(controller->url());
     setSortIndicatorSection(props.sorting());

@@ -22,6 +22,7 @@
 #include "dolphincategorydrawer.h"
 #include "dolphincontroller.h"
 #include "dolphinsettings.h"
+#include "dolphinviewautoscroller.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
@@ -61,6 +62,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     viewport()->setAcceptDrops(true);
 
     setMouseTracking(true);
+    new DolphinViewAutoScroller(this);
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(requestTab(const QModelIndex&)));

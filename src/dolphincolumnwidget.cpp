@@ -25,6 +25,7 @@
 #include "dolphindirlister.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinsettings.h"
+#include "dolphinviewautoscroller.h"
 #include "dolphin_columnmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
@@ -75,6 +76,8 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     setVerticalScrollMode(QListView::ScrollPerPixel);
     setHorizontalScrollMode(QListView::ScrollPerPixel);
+    
+    new DolphinViewAutoScroller(this);
 
     // apply the column mode settings to the widget
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();

@@ -34,6 +34,7 @@ set(dolphinprivate_LIB_SRCS
     dolphincategorydrawer.cpp
     dolphinview.cpp
     dolphinviewactionhandler.cpp
+    dolphinviewautoscroller.cpp
     draganddrophelper.cpp
     folderexpander.cpp
     ktooltip.cpp
