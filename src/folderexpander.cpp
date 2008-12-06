@@ -34,7 +34,6 @@
 #include <QtGui/QSortFilterProxyModel>
 
 #include <kdirmodel.h>
-#include <kdebug.h>
 
 FolderExpander::FolderExpander(QAbstractItemView *view, QSortFilterProxyModel *proxyModel) :
     QObject(view),
@@ -94,13 +93,6 @@ FolderExpander::~FolderExpander()
 void FolderExpander::viewScrolled()
 {
     if (m_autoExpandTriggerTimer->isActive())  {
-        kDebug() << "Resetting time due to scrolling!"; 
-        // (Re-)set the timer while we're scrolling the view
-        // (or it's being scrolled by some external mechanism).
-        // TODO - experiment with this.  Cancelling the timer,
-        // or adding a "penalty" on top of AUTO_EXPAND_DELAY
-        // might work more nicely when drilling down through the sidebar
-        // tree.
         m_autoExpandTriggerTimer->start(AUTO_EXPAND_DELAY);
     }
 }
@@ -123,8 +115,6 @@ void FolderExpander::autoExpandTimeout()
     if (itemToExpand.isNull()) {
         return;
     }
-    
-    kDebug() << "Need to expand: " << itemToExpand.targetUrl() << " isDir? = " << itemToExpand.isDir();
 
     if (itemToExpand.isDir()) {
         QTreeView *viewAsTreeView = qobject_cast<QTreeView*>(m_view);
