@@ -72,6 +72,7 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
             triggerAutoScroll();
             break;
             
+        case QEvent::Drop:
         case QEvent::DragLeave:
             m_rubberBandSelection = false;
             stopAutoScroll();
