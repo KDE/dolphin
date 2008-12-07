@@ -47,6 +47,7 @@ DolphinViewAutoScroller::~DolphinViewAutoScroller()
 {
 }
 
+#include <kdebug.h>
 bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == m_itemView->viewport()) {
@@ -68,10 +69,12 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
             
         case QEvent::DragEnter:
         case QEvent::DragMove:
+            m_rubberBandSelection = false;
             triggerAutoScroll();
             break;
             
         case QEvent::DragLeave:
+            m_rubberBandSelection = false;
             stopAutoScroll();
             break;
             
