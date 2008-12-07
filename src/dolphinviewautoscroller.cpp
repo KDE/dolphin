@@ -47,7 +47,6 @@ DolphinViewAutoScroller::~DolphinViewAutoScroller()
 {
 }
 
-#include <kdebug.h>
 bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == m_itemView->viewport()) {
