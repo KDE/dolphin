@@ -87,51 +87,48 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
 
 void DolphinViewAutoScroller::scrollViewport()
 {
-    // TODO: implement horizontal scrolling
     QScrollBar* verticalScrollBar = m_itemView->verticalScrollBar();
     if (verticalScrollBar != 0) {
         const int value = verticalScrollBar->value();
         verticalScrollBar->setValue(value + m_scrollInc);
         
-        if (m_rubberBandSelection) {
-            // The scrolling does not lead to an update of the rubberband
-            // selection. Fake a mouse move event to let the QAbstractItemView
-            // update the rubberband.
-            QWidget* viewport = m_itemView->viewport();
-            const QPoint pos = viewport->mapFromGlobal(QCursor::pos());
-            QMouseEvent event(QEvent::MouseMove, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-            QCoreApplication::sendEvent(viewport, &event);
-        }
+    }
+    QScrollBar* horizontalScrollBar = m_itemView->horizontalScrollBar();
+    if (horizontalScrollBar != 0) {
+        const int value = horizontalScrollBar->value();
+        horizontalScrollBar->setValue(value + m_scrollInc);
+        
+    }
+    
+    if (m_rubberBandSelection) {
+        // The scrolling does not lead to an update of the rubberband
+        // selection. Fake a mouse move event to let the QAbstractItemView
+        // update the rubberband.
+        QWidget* viewport = m_itemView->viewport();
+        const QPoint pos = viewport->mapFromGlobal(QCursor::pos());
+        QMouseEvent event(QEvent::MouseMove, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+        QCoreApplication::sendEvent(viewport, &event);
     }
 }
 
 void DolphinViewAutoScroller::triggerAutoScroll()
 {
-    // TODO: implement horizontal scrolling
-    
-    const int startSpeed = 2;
-    const int speedLimiter = 8;
-    const int scrollIncMax = 32;
-    
-    const int autoScrollBorder = 32;
+    const bool verticalScrolling = (m_itemView->verticalScrollBar() != 0) &&
+                                    m_itemView->verticalScrollBar()->isVisible();
+    const bool horizontalScrolling = (m_itemView->horizontalScrollBar() != 0) &&
+                                     m_itemView->horizontalScrollBar()->isVisible();
+    if (!verticalScrolling && !horizontalScrolling) {
+        // no scrollbars are shown at all, so no autoscrolling is necessary
+        return;
+    }
     
     QWidget* viewport = m_itemView->viewport();
     const QPoint pos = viewport->mapFromGlobal(QCursor::pos());
-    if (pos.y() < autoScrollBorder) {
-        // scroll up
-        m_scrollInc = -startSpeed + (pos.y() - autoScrollBorder) / speedLimiter;
-        if (m_scrollInc < -scrollIncMax) {
-            m_scrollInc = -scrollIncMax;
-        }
-    } else if (pos.y() > viewport->height() - autoScrollBorder) {
-        // scroll down
-        m_scrollInc = startSpeed + (pos.y() - viewport->height() + autoScrollBorder) / speedLimiter;
-        if (m_scrollInc > scrollIncMax) {
-            m_scrollInc = scrollIncMax;
-        }
-    } else {
-        // no scrolling
-        m_scrollInc = 0;
+    if (verticalScrolling) {
+        calculateScrollIncrement(pos.y(), viewport->height());
+    }
+    if (horizontalScrolling) {
+        calculateScrollIncrement(pos.x(), viewport->width());
     }
     
     if (m_timer->isActive()) {
@@ -147,6 +144,28 @@ void DolphinViewAutoScroller::stopAutoScroll()
 {
     m_timer->stop();
     m_scrollInc = 0;
+}
+
+void DolphinViewAutoScroller::calculateScrollIncrement(int cursorPos, int rangeSize)
+{
+    const int minSpeed = 2;
+    const int maxSpeed = 32;
+    const int speedLimiter = 8;
+    const int autoScrollBorder = 32;
+    
+    if (cursorPos < autoScrollBorder) {
+        m_scrollInc = -minSpeed + (cursorPos - autoScrollBorder) / speedLimiter;
+        if (m_scrollInc < -maxSpeed) {
+            m_scrollInc = -maxSpeed;
+        }
+    } else if (cursorPos > rangeSize - autoScrollBorder) {
+        m_scrollInc = minSpeed + (cursorPos - rangeSize + autoScrollBorder) / speedLimiter;
+        if (m_scrollInc > maxSpeed) {
+            m_scrollInc = maxSpeed;
+        }
+    } else {
+        m_scrollInc = 0;
+    }
 }
 
 #include "dolphinviewautoscroller.moc"

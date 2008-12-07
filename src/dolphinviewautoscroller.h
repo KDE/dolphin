@@ -49,6 +49,12 @@ private:
     void triggerAutoScroll();
     void stopAutoScroll();
     
+    /**
+     * Calculates the scroll increment m_scrollInc dependent from
+     * the cursor position \a cursorPos and the range 0 - \a rangeSize - 1.
+     */
+    void calculateScrollIncrement(int cursorPos, int rangeSize);
+    
 private:
     bool m_rubberBandSelection;
     int m_scrollInc;
