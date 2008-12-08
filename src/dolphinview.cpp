@@ -389,7 +389,7 @@ void DolphinView::setZoomLevel(int level)
     } else if (level > ZoomLevelInfo::maximumLevel()) {
         level = ZoomLevelInfo::maximumLevel();
     }
-    
+
     if (level != zoomLevel()) {
         m_controller->setZoomLevel(level);
         m_previewGenerator->updatePreviews();
@@ -522,7 +522,7 @@ QString DolphinView::statusBarText() const
     int folderCount = 0;
     int fileCount = 0;
     KIO::filesize_t totalFileSize = 0;
-    
+
     if (hasSelection()) {
         // give a summary of the status of the selected files
         const KFileItemList list = selectedItems();
@@ -544,7 +544,7 @@ QString DolphinView::statusBarText() const
             }
             ++it;
         }
-        
+
         if (folderCount + fileCount == 1) {
             // if only one item is selected, show the filename
             const QString name = list.first().name();
@@ -610,7 +610,7 @@ void DolphinView::renameSelectedItems()
     if (itemCount < 1) {
         return;
     }
-    
+
     if (itemCount > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
@@ -650,7 +650,7 @@ void DolphinView::renameSelectedItems()
         }
     } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
         Q_ASSERT(itemCount == 1);
-        
+
         if (isColumnViewActive()) {
             m_columnView->editItem(items.first());
         } else {
@@ -660,7 +660,7 @@ void DolphinView::renameSelectedItems()
         }
     } else {
         Q_ASSERT(itemCount == 1);
-        
+
         RenameDialog dialog(this, items);
         if (dialog.exec() == QDialog::Rejected) {
             return;
@@ -737,10 +737,10 @@ void DolphinView::setShowPreview(bool show)
 
     m_showPreview = show;
     m_previewGenerator->setPreviewShown(show);
-    
+
     const int oldZoomLevel = m_controller->zoomLevel();
     emit showPreviewChanged();
-    
+
     // Enabling or disabling the preview might change the icon size of the view.
     // As the view does not emit a signal when the icon size has been changed,
     // the used zoom level of the controller must be adjusted manually:
@@ -842,7 +842,7 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
             m_controller->requestActivation();
         }
         break;
-        
+
     case QEvent::MouseButtonPress:
         if ((watched == itemView()->viewport()) && (m_expandedViews.count() > 0)) {
             // Listening to a mousebutton press event to delete expanded views is a
@@ -853,13 +853,13 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
             deleteExpandedViews();
         }
         break;
-        
+
     case QEvent::DragEnter:
         if (watched == itemView()->viewport()) {
             setActive(true);
         }
         break;
-        
+
     default:
         break;
     }
@@ -1165,11 +1165,11 @@ void DolphinView::applyViewProperties(const KUrl& url)
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
         const int oldZoomLevel = m_controller->zoomLevel();
-        
+
         m_mode = mode;
         createView();
         emit modeChanged();
-        
+
         updateZoomLevel(oldZoomLevel);
     }
     if (itemView() == 0) {
@@ -1213,10 +1213,10 @@ void DolphinView::applyViewProperties(const KUrl& url)
     if (showPreview != m_showPreview) {
         m_showPreview = showPreview;
         m_previewGenerator->setPreviewShown(showPreview);
-        
+
         const int oldZoomLevel = m_controller->zoomLevel();
         emit showPreviewChanged();
-        
+
         // Enabling or disabling the preview might change the icon size of the view.
         // As the view does not emit a signal when the icon size has been changed,
         // the used zoom level of the controller must be adjusted manually:
@@ -1319,7 +1319,7 @@ void DolphinView::deleteView()
 
         m_topLayout->removeWidget(view);
         view->close();
-        
+
         disconnect(view);
         m_controller->disconnect(view);
         view->disconnect();
@@ -1337,7 +1337,7 @@ void DolphinView::deleteView()
             view->deleteLater();
         }
         view = 0;
-        
+
         m_iconsView = 0;
         m_detailsView = 0;
         m_columnView = 0;
@@ -1403,7 +1403,7 @@ KUrl::List DolphinView::simplifiedSelectedUrls() const
 {
     KUrl::List list = selectedUrls();
     if (itemsExpandable() ) {
-        list = KonqOperations::simplifiedUrlList(list);
+        list = KDirModel::simplifiedUrlList(list);
     }
     return list;
 }
