@@ -145,7 +145,7 @@ public:
 
     // The resource whose tags we are showing
     // invalid if we show all tags or a selection
-    QUrl resource;
+    KUrl resource;
     bool showAllTags;
 
     // the actual nodes
