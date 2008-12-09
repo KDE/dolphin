@@ -52,7 +52,9 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
     if (watched == m_itemView->viewport()) {
         switch (event->type()) {
         case QEvent::MouseButtonPress:
-            m_rubberBandSelection = true;
+            if (static_cast<QMouseEvent*>(event)->button() == Qt::LeftButton) {
+                m_rubberBandSelection = true;
+            }
             break;
             
         case QEvent::MouseMove:
