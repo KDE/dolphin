@@ -36,6 +36,7 @@ DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
 {
     m_itemView->setAutoScroll(false);
     m_itemView->viewport()->installEventFilter(this);
+    m_itemView->installEventFilter(this);
     
     m_timer = new QTimer(this);
     m_timer->setSingleShot(false);
@@ -83,7 +84,15 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
         default:
             break;
         }
-    }
+    } else if ((watched == m_itemView) && (event->type() == QEvent::KeyPress)) {
+        const int key = static_cast<QKeyEvent*>(event)->key();
+        const bool arrowKeyPressed = (key == Qt::Key_Up)   || (key == Qt::Key_Down) ||
+                                     (key == Qt::Key_Left) || (key == Qt::Key_Right);
+        if (arrowKeyPressed) {
+            QMetaObject::invokeMethod(this, "scrollToCurrentIndex", Qt::QueuedConnection);
+        }
+    } 
+    
 
     return QObject::eventFilter(watched, event);
 }
@@ -112,6 +121,12 @@ void DolphinViewAutoScroller::scrollViewport()
         QMouseEvent event(QEvent::MouseMove, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
         QCoreApplication::sendEvent(viewport, &event);
     }
+}
+
+void DolphinViewAutoScroller::scrollToCurrentIndex()
+{
+     const QModelIndex index = m_itemView->currentIndex();
+     m_itemView->scrollTo(index);
 }
 
 void DolphinViewAutoScroller::triggerAutoScroll()
