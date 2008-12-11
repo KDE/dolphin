@@ -85,11 +85,19 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
             break;
         }
     } else if ((watched == m_itemView) && (event->type() == QEvent::KeyPress)) {
-        const int key = static_cast<QKeyEvent*>(event)->key();
-        const bool arrowKeyPressed = (key == Qt::Key_Up)   || (key == Qt::Key_Down) ||
-                                     (key == Qt::Key_Left) || (key == Qt::Key_Right);
-        if (arrowKeyPressed) {
+        switch (static_cast<QKeyEvent*>(event)->key()) {
+        case Qt::Key_Up:
+        case Qt::Key_Down:
+        case Qt::Key_Left:
+        case Qt::Key_Right:
+        case Qt::Key_PageUp:
+        case Qt::Key_PageDown:
+        case Qt::Key_Home:
+        case Qt::Key_End:
             QMetaObject::invokeMethod(this, "scrollToCurrentIndex", Qt::QueuedConnection);
+            break;
+        default:
+            break;
         }
     } 
     
