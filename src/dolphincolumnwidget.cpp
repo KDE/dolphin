@@ -46,6 +46,7 @@
 #include <QClipboard>
 #include <QPainter>
 #include <QPoint>
+#include <QScrollBar>
 
 DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                                          DolphinColumnView* columnView,
@@ -420,6 +421,10 @@ void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
         event->ignore();
         return;
     }
+    
+    const int height = m_decorationSize.height();
+    const int step = (height >= KIconLoader::SizeHuge) ? height / 10 : (KIconLoader::SizeHuge - height) / 2;
+    verticalScrollBar()->setSingleStep(step);
 
     QListView::wheelEvent(event);
 }

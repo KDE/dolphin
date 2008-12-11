@@ -169,11 +169,6 @@ bool DolphinDetailsView::event(QEvent* event)
 
         hideColumn(DolphinModel::Rating);
         hideColumn(DolphinModel::Tags);
-    } else if (event->type() == QEvent::UpdateRequest) {
-        // a wheel movement will scroll 4 items
-        if (model()->rowCount() > 0) {
-            verticalScrollBar()->setSingleStep((sizeHintForRow(0) / 3) * 4);
-        }
     }
 
     return QTreeView::event(event);
@@ -419,7 +414,10 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
         event->ignore();
         return;
     }
-
+    
+    const int height = m_decorationSize.height();
+    const int step = (height >= KIconLoader::SizeHuge) ? height / 10 : (KIconLoader::SizeHuge - height) / 2;
+    verticalScrollBar()->setSingleStep(step);
     QTreeView::wheelEvent(event);
 }
 
