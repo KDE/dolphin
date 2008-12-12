@@ -32,7 +32,11 @@ DolphinDirLister::~DolphinDirLister()
 
 void DolphinDirLister::handleError(KIO::Job* job)
 {
-    emit errorMessage(job->errorString());
+    if (job->error() == KIO::ERR_IS_FILE) {
+        emit urlIsFileError(url());
+    } else {
+        emit errorMessage(job->errorString());
+    }
 }
 
 #include "dolphindirlister.moc"

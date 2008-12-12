@@ -142,9 +142,18 @@ private slots:
     void slotDirListerCompleted();
 
     /**
-     * Handles clicking on an item
+     * Handles clicking on an item. If the item is a directory, the
+     * directory is opened in the view. If the item is a file, the file
+     * gets started by the corresponding application.
      */
     void slotItemTriggered(const KFileItem& item);
+
+    /**
+     * Opens a the file \a url by opening the corresponding application.
+     * Is connected with the signal urlIsFile() from DolphinDirLister and will
+     * get invoked if the user manually has entered a file into the URL navigator.
+     */
+    void openFile(const KUrl& url);
 
     /**
      * Shows the information for the item \a item inside the statusbar. If the

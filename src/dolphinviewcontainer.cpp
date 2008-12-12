@@ -117,6 +117,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(showInfoMessage(const QString&)));
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
             this, SLOT(showErrorMessage(const QString&)));
+    connect(m_dirLister, SIGNAL(urlIsFileError(const KUrl&)),
+            this, SLOT(openFile(const KUrl&)));
 
     m_view = new DolphinView(this,
                              url,
@@ -423,6 +425,15 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
     }
 
     item.run();
+}
+
+void DolphinViewContainer::openFile(const KUrl& url)
+{
+    // Using m_dolphinModel for getting the file item instance is not possible
+    // here: openFile() is triggered by an error of the directory lister
+    // job, so the file item must be received "manually".
+    const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+    slotItemTriggered(item);
 }
 
 #include "dolphinviewcontainer.moc"
