@@ -42,14 +42,14 @@ IconSizeGroupBox::IconSizeGroupBox(QWidget* parent) :
     m_defaultSizeSlider->setTickPosition(QSlider::TicksBelow);
     connect(m_defaultSizeSlider, SIGNAL(sliderMoved(int)),
             this, SLOT(slotDefaultSliderMoved(int)));
-    
+
     QLabel* previewLabel = new QLabel(i18nc("@label:listbox", "Preview:"), this);
     m_previewSizeSlider = new QSlider(Qt::Horizontal, this);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
     connect(m_previewSizeSlider, SIGNAL(sliderMoved(int)),
             this, SLOT(slotPreviewSliderMoved(int)));
-    
+
     QGridLayout* layout = new QGridLayout(this);
     layout->addWidget(defaultLabel, 0, 0, Qt::AlignRight);
     layout->addWidget(m_defaultSizeSlider, 0, 1);
@@ -110,7 +110,7 @@ void IconSizeGroupBox::showToolTip(QSlider* slider, int value)
     QPoint global = slider->rect().topLeft();
     global.ry() += slider->height() / 2;
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), slider->mapToGlobal(global));
-    QApplication::sendEvent(slider, &toolTipEvent);    
+    QApplication::sendEvent(slider, &toolTipEvent);
 }
 
 #include "iconsizegroupbox.moc"

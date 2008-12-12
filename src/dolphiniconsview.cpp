@@ -277,10 +277,10 @@ void DolphinIconsView::wheelEvent(QWheelEvent* event)
         event->ignore();
         return;
     }
-    
+
     horizontalScrollBar()->setSingleStep(m_itemSize.width() / 10);
     verticalScrollBar()->setSingleStep(m_itemSize.height() / 10);
-    
+
     KCategorizedView::wheelEvent(event);
     // if the icons are aligned left to right, the vertical wheel event should
     // be applied to the horizontal scrollbar

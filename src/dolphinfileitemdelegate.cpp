@@ -42,7 +42,7 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
 {
     if (m_hasMinimizedNameColumn && (index.column() == KDirModel::Name)) {
         QStyleOptionViewItemV4 opt(option);
-        
+
         const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(index.model());
         const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
@@ -61,7 +61,7 @@ int DolphinFileItemDelegate::nameColumnWidth(const QString& name, const QStyleOp
 {
     QFontMetrics fontMetrics(option.font);
     int width = option.decorationSize.width() + fontMetrics.width(name) + 16;
-    
+
     const int defaultWidth = option.rect.width();
     if ((defaultWidth > 0) && (defaultWidth < width)) {
         width = defaultWidth;

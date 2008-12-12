@@ -207,7 +207,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         // shown due to DolphinViewContainer::restoreView().
         return;
     }
-    
+
     DolphinViewContainer* view = activeViewContainer();
     if (view != 0) {
         view->setUrl(url);
@@ -297,7 +297,7 @@ void DolphinMainWindow::openNewTab()
 {
     openNewTab(m_activeViewContainer->url());
     m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
-    
+
     KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
     if (navigator->isUrlEditable()) {
         // if a new tab is opened and the URL is editable, assure that
@@ -1093,7 +1093,7 @@ void DolphinMainWindow::setupActions()
     openInNewTab->setText(i18nc("@action:inmenu", "Open in New Tab"));
     openInNewTab->setIcon(KIcon("tab-new"));
     connect(openInNewTab, SIGNAL(triggered()), this, SLOT(openInNewTab()));
-    
+
     KAction* openInNewWindow = actionCollection()->addAction("open_in_new_window");
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
     openInNewWindow->setIcon(KIcon("window-new"));

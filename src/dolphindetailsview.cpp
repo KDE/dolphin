@@ -138,7 +138,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 
     setVerticalScrollMode(QTreeView::ScrollPerPixel);
     setHorizontalScrollMode(QTreeView::ScrollPerPixel);
-    
+
     const DolphinView* view = controller->dolphinView();
     connect(view, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
@@ -150,7 +150,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
-            
+
     m_useDefaultIndexAt = false;
 }
 
@@ -242,7 +242,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
             m_band.destination = m_band.origin;
             m_band.originalSelection = selectionModel()->selection();
         }
-    } 
+    }
 }
 
 void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
@@ -414,7 +414,7 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
         event->ignore();
         return;
     }
-    
+
     const int height = m_decorationSize.height();
     const int step = (height >= KIconLoader::SizeHuge) ? height / 10 : (KIconLoader::SizeHuge - height) / 2;
     verticalScrollBar()->setSingleStep(step);
@@ -509,7 +509,7 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
 void DolphinDetailsView::updateElasticBand()
 {
     if (m_band.show) {
-        QRect dirtyRegion(elasticBandRect());        
+        QRect dirtyRegion(elasticBandRect());
         const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
         m_band.destination = viewport()->mapFromGlobal(QCursor::pos()) + scrollPos;
         // Going above the (logical) top-left of the view causes complications during selection;
@@ -518,7 +518,7 @@ void DolphinDetailsView::updateElasticBand()
             m_band.destination.setY(0);
         if (m_band.destination.x() < 0)
             m_band.destination.setX(0);
-            
+
         dirtyRegion = dirtyRegion.united(elasticBandRect());
         setDirtyRegion(dirtyRegion);
     }
@@ -538,14 +538,14 @@ void DolphinDetailsView::setZoomLevel(int level)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    
+
     const bool showPreview = m_controller->dolphinView()->showPreview();
     if (showPreview) {
         settings->setPreviewSize(size);
     } else {
         settings->setIconSize(size);
     }
-    
+
     updateDecorationSize(showPreview);
 }
 
@@ -677,7 +677,7 @@ void DolphinDetailsView::updateElasticBandSelection()
         // Do some quick checks to see if we can rule out the need to
         // update the selection.
         Q_ASSERT(uniformRowHeights());
-        QModelIndex dummyIndex = model()->index(0, 0);        
+        QModelIndex dummyIndex = model()->index(0, 0);
         if (!dummyIndex.isValid()) {
             // No items in the model presumably.
             return;
@@ -690,12 +690,12 @@ void DolphinDetailsView::updateElasticBandSelection()
             (selRect.top()    / rowHeight == oldSelRect.top()    / rowHeight) &&
             (selRect.bottom() / rowHeight == oldSelRect.bottom() / rowHeight);
         if (coveringSameRows) {
-            // Covering the same rows, but have we moved far enough horizontally 
+            // Covering the same rows, but have we moved far enough horizontally
             // that we might have (de)selected some other items?
             const bool itemSelectionChanged =
                 ((selRect.left() > oldSelRect.left()) &&
                  (selRect.left() > m_band.insideNearestLeftEdge)) ||
-                ((selRect.left() < oldSelRect.left()) &&                
+                ((selRect.left() < oldSelRect.left()) &&
                  (selRect.left() <= m_band.outsideNearestLeftEdge)) ||
                 ((selRect.right() < oldSelRect.right()) &&
                  (selRect.left() >= m_band.insideNearestRightEdge)) ||
@@ -744,16 +744,16 @@ void DolphinDetailsView::updateElasticBandSelection()
 
    // Go through all indexes between the top and bottom of boundingRect, and
    // update the selection.
-   const int verticalCutoff = boundingRect.bottom();   
+   const int verticalCutoff = boundingRect.bottom();
    QModelIndex currIndex = startIndex;
    QModelIndex lastIndex;
    bool allItemsInBoundDone = false;
 
-   // Calling selectionModel()->select(...) for each item that needs to be 
+   // Calling selectionModel()->select(...) for each item that needs to be
    // toggled is slow as each call emits selectionChanged(...) so store them
    // and do the selection toggle in one batch.
    QItemSelection itemsToToggle;
-   // QItemSelection's deal with continuous ranges of indexes better than 
+   // QItemSelection's deal with continuous ranges of indexes better than
    // single indexes, so try to portion items that need to be toggled into ranges.
    bool formingToggleIndexRange = false;
    QModelIndex toggleIndexRangeBegin = QModelIndex();
@@ -766,7 +766,7 @@ void DolphinDetailsView::updateElasticBandSelection()
        const int cl = currIndexRect.left();
        const int sl = selRect.left();
        const int sr = selRect.right();
-       // "The right edge of the name is outside of the rect but nearer than m_outsideNearestLeft", etc      
+       // "The right edge of the name is outside of the rect but nearer than m_outsideNearestLeft", etc
        if ((cr < sl && cr > m_band.outsideNearestLeftEdge)) {
            m_band.outsideNearestLeftEdge = cr;
        }
@@ -802,7 +802,7 @@ void DolphinDetailsView::updateElasticBandSelection()
            formingToggleIndexRange = false;
             // If this is the last item in the bounds and it is also the beginning of a range,
             // don't toggle lastIndex - it will already have been dealt with.
-           if (!allItemsInBoundDone || toggleIndexRangeBegin != currIndex) { 
+           if (!allItemsInBoundDone || toggleIndexRangeBegin != currIndex) {
                itemsToToggle.select(toggleIndexRangeBegin, lastIndex);
            }
             // Need to start a new range immediately with currIndex?

@@ -156,7 +156,7 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_treeView->setModel(m_proxyModel);
         m_proxyModel->setSorting(DolphinView::SortByName);
         m_proxyModel->setSortOrder(Qt::AscendingOrder);
-        
+
         new FolderExpander(m_treeView, m_proxyModel);
 
         connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),

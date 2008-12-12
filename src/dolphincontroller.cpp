@@ -59,7 +59,7 @@ void DolphinController::setItemView(QAbstractItemView* view)
 
     if (m_itemView != 0) {
         m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(m_itemView->iconSize());
-        
+
         // TODO: this is a workaround until  Qt-issue 176832 has been fixed
         connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
                 this, SLOT(updateMouseButtonState()));

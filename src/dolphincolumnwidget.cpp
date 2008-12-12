@@ -77,7 +77,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     setVerticalScrollMode(QListView::ScrollPerPixel);
     setHorizontalScrollMode(QListView::ScrollPerPixel);
-    
+
     new DolphinViewAutoScroller(this);
 
     // apply the column mode settings to the widget
@@ -146,7 +146,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
-     
+
     FolderExpander* folderExpander = new FolderExpander(this, m_proxyModel);
     folderExpander->setEnabled(DolphinSettings::instance().generalSettings()->autoExpandFolders());
     connect (folderExpander, SIGNAL(enterDir(const QModelIndex&)),
@@ -421,7 +421,7 @@ void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
         event->ignore();
         return;
     }
-    
+
     const int height = m_decorationSize.height();
     const int step = (height >= KIconLoader::SizeHuge) ? height / 10 : (KIconLoader::SizeHuge - height) / 2;
     verticalScrollBar()->setSingleStep(step);

@@ -37,27 +37,27 @@ class IconSizeGroupBox : public QGroupBox
 public:
     explicit IconSizeGroupBox(QWidget* parent);
     virtual ~IconSizeGroupBox();
-    
+
     void setDefaultSizeRange(int min, int max);
     void setPreviewSizeRange(int min, int max);
-    
+
     void setDefaultSizeValue(int value);
     int defaultSizeValue() const;
-    
+
     void setPreviewSizeValue(int value);
     int previewSizeValue() const;
-    
+
 signals:
     void defaultSizeChanged(int value);
     void previewSizeChanged(int value);
-    
+
 private slots:
     void slotDefaultSliderMoved(int value);
     void slotPreviewSliderMoved(int value);
-    
+
 private:
     void showToolTip(QSlider* slider, int value);
-    
+
 private:
     QSlider* m_defaultSizeSlider;
     QSlider* m_previewSizeSlider;

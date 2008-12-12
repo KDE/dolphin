@@ -37,7 +37,7 @@ DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
     m_itemView->setAutoScroll(false);
     m_itemView->viewport()->installEventFilter(this);
     m_itemView->installEventFilter(this);
-    
+
     m_timer = new QTimer(this);
     m_timer->setSingleShot(false);
     m_timer->setInterval(1000 / 25); // 25 frames per second
@@ -57,30 +57,30 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
                 m_rubberBandSelection = true;
             }
             break;
-            
+
         case QEvent::MouseMove:
             if (m_rubberBandSelection) {
                 triggerAutoScroll();
             }
             break;
-            
+
         case QEvent::MouseButtonRelease:
             m_rubberBandSelection = false;
             stopAutoScroll();
             break;
-            
+
         case QEvent::DragEnter:
         case QEvent::DragMove:
             m_rubberBandSelection = false;
             triggerAutoScroll();
             break;
-            
+
         case QEvent::Drop:
         case QEvent::DragLeave:
             m_rubberBandSelection = false;
             stopAutoScroll();
             break;
-            
+
         default:
             break;
         }
@@ -99,8 +99,8 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
         default:
             break;
         }
-    } 
-    
+    }
+
 
     return QObject::eventFilter(watched, event);
 }
@@ -111,15 +111,15 @@ void DolphinViewAutoScroller::scrollViewport()
     if (verticalScrollBar != 0) {
         const int value = verticalScrollBar->value();
         verticalScrollBar->setValue(value + m_scrollInc);
-        
+
     }
     QScrollBar* horizontalScrollBar = m_itemView->horizontalScrollBar();
     if (horizontalScrollBar != 0) {
         const int value = horizontalScrollBar->value();
         horizontalScrollBar->setValue(value + m_scrollInc);
-        
+
     }
-    
+
     if (m_rubberBandSelection) {
         // The scrolling does not lead to an update of the rubberband
         // selection. Fake a mouse move event to let the QAbstractItemView
@@ -147,7 +147,7 @@ void DolphinViewAutoScroller::triggerAutoScroll()
         // no scrollbars are shown at all, so no autoscrolling is necessary
         return;
     }
-    
+
     QWidget* viewport = m_itemView->viewport();
     const QPoint pos = viewport->mapFromGlobal(QCursor::pos());
     if (verticalScrolling) {
@@ -156,7 +156,7 @@ void DolphinViewAutoScroller::triggerAutoScroll()
     if (horizontalScrolling) {
         calculateScrollIncrement(pos.x(), viewport->width());
     }
-    
+
     if (m_timer->isActive()) {
         if (m_scrollInc == 0) {
             m_timer->stop();
@@ -178,7 +178,7 @@ void DolphinViewAutoScroller::calculateScrollIncrement(int cursorPos, int rangeS
     const int maxSpeed = 32;
     const int speedLimiter = 8;
     const int autoScrollBorder = 32;
-    
+
     if (cursorPos < autoScrollBorder) {
         m_scrollInc = -minSpeed + (cursorPos - autoScrollBorder) / speedLimiter;
         if (m_scrollInc < -maxSpeed) {

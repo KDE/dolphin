@@ -60,17 +60,17 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     // Create "Icon" properties
     m_iconSizeGroupBox = new IconSizeGroupBox(this);
     m_iconSizeGroupBox->setSizePolicy(sizePolicy);
-    
+
     const int min = ZoomLevelInfo::minimumLevel();
     const int max = ZoomLevelInfo::maximumLevel();
     m_iconSizeGroupBox->setDefaultSizeRange(min, max);
     m_iconSizeGroupBox->setPreviewSizeRange(min, max);
-    
+
     connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)),
             this, SIGNAL(changed()));
     connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)),
             this, SIGNAL(changed()));
-    
+
     // create 'Text' group for selecting the font, the number of lines
     // and the text width
     QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
@@ -202,7 +202,7 @@ void IconsViewSettingsPage::loadSettings()
     const QSize iconSize(settings->iconSize(), settings->iconSize());
     const int iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
     m_iconSizeGroupBox->setDefaultSizeValue(iconSizeValue);
-    
+
     const QSize previewSize(settings->previewSize(), settings->previewSize());
     const int previewSizeValue = ZoomLevelInfo::zoomLevelForIconSize(previewSize);
     m_iconSizeGroupBox->setPreviewSizeValue(previewSizeValue);
@@ -234,7 +234,7 @@ void IconsViewSettingsPage::loadSettings()
 
     m_textWidthBox->setCurrentIndex(textWidthIndex);
     m_arrangementBox->setCurrentIndex(leftToRightArrangement ? 0 : 1);
-    
+
     const int spacing = settings->gridSpacing();
     const int index = (spacing <= 0) ? 0 : 1 + (spacing - GridSpacingBase) / GridSpacingInc;
     m_gridSpacingBox->setCurrentIndex(index);

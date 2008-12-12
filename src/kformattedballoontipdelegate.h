@@ -37,7 +37,7 @@ public:
 
 private:
     QPainterPath createPath(const KStyleOptionToolTip& option) const;
-    
+
 private:
     enum { Border = 8 };
 };

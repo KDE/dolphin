@@ -49,16 +49,16 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
 
     setSpacing(spacing);
     setMargin(margin);
-    
+
     // Create "Icon" properties
     m_iconSizeGroupBox = new IconSizeGroupBox(this);
     m_iconSizeGroupBox->setSizePolicy(sizePolicy);
-    
+
     const int min = ZoomLevelInfo::minimumLevel();
     const int max = ZoomLevelInfo::maximumLevel();
     m_iconSizeGroupBox->setDefaultSizeRange(min, max);
     m_iconSizeGroupBox->setPreviewSizeRange(min, max);
-    
+
     connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)),
             this, SIGNAL(changed()));
     connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)),
@@ -132,7 +132,7 @@ void ColumnViewSettingsPage::loadSettings()
     const QSize iconSize(settings->iconSize(), settings->iconSize());
     const int iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
     m_iconSizeGroupBox->setDefaultSizeValue(iconSizeValue);
-    
+
     const QSize previewSize(settings->previewSize(), settings->previewSize());
     const int previewSizeValue = ZoomLevelInfo::zoomLevelForIconSize(previewSize);
     m_iconSizeGroupBox->setPreviewSizeValue(previewSizeValue);

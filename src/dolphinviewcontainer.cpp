@@ -367,7 +367,7 @@ void DolphinViewContainer::restoreView(const KUrl& url)
             }
         } else {
             showErrorMessage(i18nc("@info:status",
-                                   "Protocol not supported by Dolphin, Konqueror has been launched"));        
+                                   "Protocol not supported by Dolphin, Konqueror has been launched"));
         }
         const QString command = app + ' ' + url.pathOrUrl();
         KRun::runCommand(command, app, app, this);

@@ -144,7 +144,7 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
             m_urlCandidate = item.url();
             m_fileItem = item;
             m_infoTimer->start();
-        }    
+        }
     }
 }
 
@@ -488,26 +488,26 @@ void InfoSidebarPage::setNameLabelText(const QString& text)
 {
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-    
+
     QTextLayout textLayout(text);
     textLayout.setFont(m_nameLabel->font());
     textLayout.setTextOption(textOption);
-    
+
     QString wrappedText;
     wrappedText.reserve(text.length());
-    
+
     // wrap the text to fit into the width of m_nameLabel
     textLayout.beginLayout();
     QTextLine line = textLayout.createLine();
     while (line.isValid()) {
         line.setLineWidth(m_nameLabel->width());
         wrappedText += text.mid(line.textStart(), line.textLength());
-        
+
         line = textLayout.createLine();
         if (line.isValid()) {
             wrappedText += QChar::LineSeparator;
         }
-    }    
+    }
     textLayout.endLayout();
 
     m_nameLabel->setText(wrappedText);

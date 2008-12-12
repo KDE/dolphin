@@ -72,7 +72,7 @@ void StatusBarSpaceInfo::refresh()
     if (!isVisible()) {
         return;
     }
-    
+
     // KDiskFreeSpace is for local paths only
     if (!m_url.isLocalFile()) {
         setText(i18nc("@info:status", "Unknown size"));
@@ -101,7 +101,7 @@ void StatusBarSpaceInfo::refresh()
     if (valuesChanged) {
         setText(i18nc("@info:status Free disk space", "%1 free",
                 KIO::convertSize(job.available())));
-        
+
         setUpdatesEnabled(false);
         m_kBSize = kBSize;
         setValue(kBSize > 0 ? (kBUsed * 100) / kBSize : 0);

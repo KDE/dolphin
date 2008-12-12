@@ -104,7 +104,7 @@ public:
 
     const DolphinView* view() const;
     DolphinView* view();
-    
+
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
      */
@@ -206,13 +206,13 @@ private slots:
      * into the URL navigator.
      */
     void saveRootUrl(const KUrl& url);
-    
+
     /**
      * Is connected with the URL navigator and drops the URLs
      * above the destination \a destination.
      */
     void dropUrls(const KUrl& destination, QDropEvent* event);
-    
+
     /**
      * Is invoked when a redirection is done and changes the
      * URL of the URL navigator to \a newUrl without triggering

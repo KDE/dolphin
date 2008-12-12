@@ -85,7 +85,7 @@ public:
     {
         /**
          * The directory items are shown as icons including an
-         * icon name. 
+         * icon name.
          */
         IconsView = 0,
 
@@ -242,7 +242,7 @@ public:
      */
     void setZoomLevel(int level);
     int zoomLevel() const;
-    
+
     /**
      * Returns true, if zooming in is possible. If false is returned,
      * the maximum zooming level has been reached.
@@ -308,7 +308,7 @@ public:
      * filtering and hierarchical previews into account.
      */
     void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
-    
+
     /**
      * Returns a textual representation of the state of the current
      * folder or selected items, suitable for use in the status bar.
@@ -476,7 +476,7 @@ signals:
 
     /** Is emitted if the additional information shown for this view has been changed. */
     void additionalInfoChanged();
-    
+
     /** Is emitted if the zoom level has been changed by zooming in or out. */
     void zoomLevelChanged(int level);
 
@@ -626,7 +626,7 @@ private slots:
      * to m_currentItemUrl.
      */
     void restoreCurrentItem();
-    
+
     /**
      * Is connected to the enterDir() signal from the FolderExpander
      * and triggers the entering of the directory indicated by \a index.
@@ -676,7 +676,7 @@ private:
      * Pastes the clipboard data into the URL \a url.
      */
     void pasteToUrl(const KUrl& url);
-    
+
     /**
      * Checks whether the current item view has the same zoom level
      * as \a oldZoomLevel. If this is not the case, the zoom level
@@ -684,7 +684,7 @@ private:
      * is emitted.
      */
     void updateZoomLevel(int oldZoomLevel);
-    
+
     /**
      * Returns a list of URLs for all selected items. The list is
      * simplified, so that when the URLs are part of different tree
@@ -698,13 +698,13 @@ private:
      * this method has been introduced for convenience.
      */
     bool isColumnViewActive() const;
-    
+
     /**
      * Deletes all views from m_expandedViews except if the view
      * is currently shown.
      */
     void deleteExpandedViews();
-    
+
     /**
      * Returns the MIME data for all selected items.
      */
@@ -739,7 +739,7 @@ private:
 
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
-    
+
     QList<QAbstractItemView*> m_expandedViews;
 };
 

@@ -52,10 +52,10 @@ private:
 
     QCheckBox* m_showDeleteCommand;
     QCheckBox* m_showCopyMoveMenu;
-    
+
     QCheckBox* m_showZoomSlider;
     QCheckBox* m_showSpaceInfo;
-    
+
     QCheckBox* m_browseThroughArchives;
     QCheckBox* m_renameInline;
     QCheckBox* m_autoExpandFolders;

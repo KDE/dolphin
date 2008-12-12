@@ -352,9 +352,9 @@ private slots:
      * view is replaced by \a url.
      */
     void handlePlacesClick(const KUrl& url, Qt::MouseButtons buttons);
-    
+
     /**
-     * Is connected to the KTabBar signal testCanDecode() and adjusts 
+     * Is connected to the KTabBar signal testCanDecode() and adjusts
      * the output parameter \a accept.
      */
     void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);

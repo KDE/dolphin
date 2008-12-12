@@ -53,12 +53,12 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     // Create "Icon" properties
     m_iconSizeGroupBox = new IconSizeGroupBox(this);
     m_iconSizeGroupBox->setSizePolicy(sizePolicy);
-    
+
     const int min = ZoomLevelInfo::minimumLevel();
     const int max = ZoomLevelInfo::maximumLevel();
     m_iconSizeGroupBox->setDefaultSizeRange(min, max);
     m_iconSizeGroupBox->setPreviewSizeRange(min, max);
-    
+
     connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)),
             this, SIGNAL(changed()));
     connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)),
@@ -67,7 +67,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     // create "Text" properties
     QWidget* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
     textGroup->setSizePolicy(sizePolicy);
-    
+
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
     m_fontRequester = new DolphinFontRequester(textGroup);
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
@@ -75,7 +75,7 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     QHBoxLayout* textLayout = new QHBoxLayout(textGroup);
     textLayout->addWidget(fontLabel, 0, Qt::AlignRight);
     textLayout->addWidget(m_fontRequester);
-    
+
     // create "Expandable Folders" checkbox
     m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
     connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -125,11 +125,11 @@ void DetailsViewSettingsPage::loadSettings()
     const QSize iconSize(settings->iconSize(), settings->iconSize());
     const int iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
     m_iconSizeGroupBox->setDefaultSizeValue(iconSizeValue);
-    
+
     const QSize previewSize(settings->previewSize(), settings->previewSize());
     const int previewSizeValue = ZoomLevelInfo::zoomLevelForIconSize(previewSize);
     m_iconSizeGroupBox->setPreviewSizeValue(previewSizeValue);
-    
+
     if (settings->useSystemFont()) {
         m_fontRequester->setMode(DolphinFontRequester::SystemFont);
     } else {

@@ -53,7 +53,7 @@ FolderExpander::FolderExpander(QAbstractItemView *view, QSortFilterProxyModel *p
         kWarning() << "Need a proxyModel!";
         return; // Not valid.
     }
-    KDirModel *m_dirModel = qobject_cast< KDirModel* >( m_proxyModel->sourceModel() );  
+    KDirModel *m_dirModel = qobject_cast< KDirModel* >( m_proxyModel->sourceModel() );
     if (m_dirModel == 0) {
         kWarning() << "Expected m_proxyModel's sourceModel() to be a KDirModel!";
         return; // Not valid.
@@ -62,7 +62,7 @@ FolderExpander::FolderExpander(QAbstractItemView *view, QSortFilterProxyModel *p
     // Initialise auto-expand timer.
     m_autoExpandTriggerTimer = new QTimer(this);
     m_autoExpandTriggerTimer->setSingleShot(true);
-    connect(m_autoExpandTriggerTimer, SIGNAL(timeout()), 
+    connect(m_autoExpandTriggerTimer, SIGNAL(timeout()),
             this, SLOT(autoExpandTimeout()));
 
     // The view scrolling complicates matters, so we want to
@@ -108,7 +108,7 @@ void FolderExpander::autoExpandTimeout()
     // needing to pass in m_proxyModel that has a KDirModel as its sourceModel() ... ?
     QModelIndex proxyIndexToExpand = m_view->indexAt(m_autoExpandPos);
     QModelIndex indexToExpand = m_proxyModel->mapToSource(proxyIndexToExpand);
-    KDirModel* m_dirModel = qobject_cast< KDirModel* >(m_proxyModel->sourceModel()); 
+    KDirModel* m_dirModel = qobject_cast< KDirModel* >(m_proxyModel->sourceModel());
     Q_ASSERT(m_dirModel != 0);
     KFileItem itemToExpand = m_dirModel->itemForIndex(indexToExpand );
 

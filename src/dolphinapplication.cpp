@@ -70,7 +70,6 @@ void DolphinApplication::refreshMainWindows()
     }
 }
 
-
 int DolphinApplication::newInstance()
 {
     KCmdLineArgs::setCwd(QDir::currentPath().toUtf8());

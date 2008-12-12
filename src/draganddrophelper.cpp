@@ -61,7 +61,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
         if (data == 0) {
             return;
         }
-        
+
         if (controller != 0) {
             controller->emitHideToolTip();
         }
@@ -91,7 +91,7 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
 {
     const bool dropToItem = !destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile());
     const KUrl destination = dropToItem ? destItem.url() : destPath;
-    
+
     const QMimeData* mimeData = event->mimeData();
     if (mimeData->hasFormat("application/x-kde-dndextract")) {
         QString remoteDBusClient = mimeData->data("application/x-kde-dndextract");
@@ -99,7 +99,7 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
                                                               "org.kde.DndExtract", "extractFilesTo");
         message.setArguments(QVariantList() << destination.path());
         QDBusConnection::sessionBus().call(message);
-    } else {                                
+    } else {
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         if ((urls.count() == 1) && (urls.first() == destination)) {
             emit errorMessage(i18nc("@info:status", "A folder cannot be dropped into itself"));

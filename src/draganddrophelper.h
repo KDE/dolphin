@@ -47,20 +47,20 @@ class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper : public QObject
 
 public:
     static DragAndDropHelper& instance();
-    
+
     /**
      * Returns true, if Dolphin supports the dragging of
      * the given mime data.
      */
     bool isMimeDataSupported(const QMimeData* mimeData) const;
-    
+
     /**
      * Creates a drag object for the view \a itemView for all selected items.
      */
     void startDrag(QAbstractItemView* itemView,
                    Qt::DropActions supportedActions,
                    DolphinController* controller = 0);
-                          
+
     /**
      * Handles the dropping of URLs to the given
      * destination. A context menu with the options
@@ -77,10 +77,10 @@ public:
                   QWidget* widget);
 signals:
     void errorMessage(const QString& msg);
-    
+
 private:
     DragAndDropHelper();
-    
+
     friend class DragAndDropHelperSingleton;
 };
 

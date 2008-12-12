@@ -49,14 +49,14 @@ class KDirModel;
 class LIBDOLPHINPRIVATE_EXPORT FolderExpander : public QObject
 {
     Q_OBJECT
-    
+
 public:
     FolderExpander(QAbstractItemView* view, QSortFilterProxyModel* proxyModel);
     virtual ~FolderExpander();
-  
+
     void setEnabled(bool enabled);
     bool enabled() const;
-  
+
 signals:
     /**
      * Is emitted if the directory \a dirModelIndex should be entered. The
@@ -64,15 +64,15 @@ signals:
      * the directory is already provided by expanding the tree node.
      */
     void enterDir(const QModelIndex& dirModelIndex, QAbstractItemView* view);
-    
-    
+
+
 private slots:
     void viewScrolled();
     void autoExpandTimeout();
 
-private: 
+private:
     bool m_enabled;
-    
+
     QAbstractItemView* m_view;
     QSortFilterProxyModel* m_proxyModel;
 

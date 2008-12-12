@@ -111,7 +111,7 @@ private slots:
     QRect elasticBandRect() const;
 
     void setZoomLevel(int level);
-    
+
     void slotShowPreviewChanged();
 
     /**
@@ -127,7 +127,7 @@ private slots:
      * with the mouse.
      */
     void slotHeaderSectionResized(int logicalIndex, int oldSize, int newSize);
-    
+
     /**
      * Changes the alternating row colors setting depending from
      * the activation state \a active.
@@ -145,8 +145,8 @@ private slots:
     void updateFont();
 
     /**
-     * If the elastic band is currently shown, update the elastic band based on 
-     * the current mouse position and ensure that the selection is the set of items 
+     * If the elastic band is currently shown, update the elastic band based on
+     * the current mouse position and ensure that the selection is the set of items
      * intersecting it.
      */
     void updateElasticBandSelection();
@@ -190,7 +190,7 @@ private:
     struct ElasticBand
     {
         ElasticBand();
-        
+
         // Elastic band origin and destination coordinates are relative to t
         // he origin of the view, not the viewport.
         bool show;
@@ -202,10 +202,10 @@ private:
         // on the last elastic band shape.
         QPoint lastSelectionOrigin;
         QPoint lastSelectionDestination;
-        
+
         // If true, compute the set of selected elements from scratch (slower)
         bool ignoreOldInfo;
-        
+
         // Edges of the filenames that are closest to the edges of oldSelectionRect.
         // Used to decide whether horizontal changes in the elastic band are likely
         // to require us to re-check which items are selected.

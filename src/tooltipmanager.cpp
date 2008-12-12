@@ -163,7 +163,7 @@ void ToolTipManager::prepareToolTip()
             m_emptyRenderedKToolTipItem = toolTip; // make toolTip accessible everywhere
             showToolTip(toolTip);
         }
-        
+
         ++m_previewPass;
         m_waitOnPreviewTimer->start(250);
     } else {
@@ -201,7 +201,7 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
         m_emptyRenderedKToolTipItem = 0;
         return;
     }
-    
+
     KStyleOptionToolTip option;
     // TODO: get option content from KToolTip or add KToolTip::sizeHint() method
     option.direction      = QApplication::layoutDirection();
@@ -234,14 +234,14 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
     const bool hasRoomToLeft  = (m_itemRect.left()   - size.width()  >= desktop.left());
     const bool hasRoomToRight = (m_itemRect.right()  + size.width()  <= desktop.right());
     const bool hasRoomAbove   = (m_itemRect.top()    - size.height() >= desktop.top());
-    const bool hasRoomBelow   = (m_itemRect.bottom() + size.height() <= desktop.bottom());    
+    const bool hasRoomBelow   = (m_itemRect.bottom() + size.height() <= desktop.bottom());
     if (!hasRoomAbove && !hasRoomBelow && !hasRoomToLeft && !hasRoomToRight) {
         delete tip;
         tip = 0;
         return;
     }
 
-    int x = 0;   
+    int x = 0;
     int y = 0;
     if (hasRoomBelow || hasRoomAbove) {
         x = QCursor::pos().x() + 16; // TODO: use mouse pointer width instead of the magic value of 16
@@ -252,7 +252,7 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
     } else {
         Q_ASSERT(hasRoomToLeft || hasRoomToRight);
         x = hasRoomToRight ? m_itemRect.right() : m_itemRect.left() - size.width();
-        
+
         // Put the tooltip at the bottom of the screen. The x-coordinate has already
         // been adjusted, so that no overlapping with m_itemRect occurs.
         y = desktop.bottom() - size.height();
@@ -285,7 +285,7 @@ void ToolTipManager::setPreviewPix(const KFileItem& item,
         m_generatingPreview = false;
         return;
     }
-    
+
     if (m_previewIsLate) {
         // always use the maximal width
         QPixmap paddedImage(QSize(PREVIEW_WIDTH, pixmap.height()));

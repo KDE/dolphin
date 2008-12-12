@@ -16,7 +16,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
- 
+
 #include "dolphintooltip.h"
 
 #include <kicon.h>
@@ -46,7 +46,7 @@ QSize DolphinBalloonTooltipDelegate::sizeHint(const KStyleOptionToolTip* option,
 }
 
 void DolphinBalloonTooltipDelegate::paint(QPainter* painter, const KStyleOptionToolTip* option, const KToolTipItem* item) const
-{    
+{
     KStyleOptionToolTip updatedStyleOption = *option;
     updatedStyleOption.decorationSize = QSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
     return KFormattedBalloonTipDelegate::paint(painter, &updatedStyleOption, item);

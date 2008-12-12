@@ -35,7 +35,7 @@ int ZoomLevelInfo::iconSizeForZoomLevel(int level)
 {
     int size = KIconLoader::SizeMedium;
     switch (level) {
-    case 0:  size = KIconLoader::SizeSmall; break; 
+    case 0:  size = KIconLoader::SizeSmall; break;
     case 1:  size = KIconLoader::SizeSmallMedium; break;
     case 2:  size = KIconLoader::SizeMedium; break;
     case 3:  size = KIconLoader::SizeLarge; break;

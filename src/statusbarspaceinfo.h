@@ -50,7 +50,7 @@ public:
 protected:
     void showEvent(QShowEvent* event);
     void hideEvent(QHideEvent* event);
-    
+
 private slots:
     /** Refreshes the space information for the current set URL. */
     void refresh();

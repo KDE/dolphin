@@ -179,13 +179,13 @@ void DolphinContextMenu::openItemContextMenu()
         newMenu->slotCheckUpToDate();
         newMenu->setPopupFiles(m_fileInfo.url());
         newMenu->setEnabled(capabilities().supportsWriting());
-        
+
         KMenu* menu = newMenu->menu();
         menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
         menu->setIcon(KIcon("document-new"));
         popup->addMenu(newMenu->menu());
         popup->addSeparator();
-    
+
         // insert 'Open in new window' and 'Open in new tab' entries
         popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
         popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
@@ -283,7 +283,7 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* action = popup->exec(QCursor::pos());
     if (action == propertiesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
-                
+
         KPropertiesDialog* dialog = new KPropertiesDialog(url, m_mainWindow);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
@@ -322,7 +322,7 @@ void DolphinContextMenu::insertDefaultItemActions(KMenu* popup)
     KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
     KConfigGroup configGroup(globalConfig, "KDE");
     bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
-    
+
     const KUrl& url = m_mainWindow->activeViewContainer()->url();
     if (url.isLocalFile()) {
         QAction* moveToTrashAction = collection->action("move_to_trash");

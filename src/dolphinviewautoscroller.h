@@ -38,24 +38,24 @@ class DolphinViewAutoScroller : public QObject
 public:
     DolphinViewAutoScroller(QAbstractItemView* parent);
     virtual ~DolphinViewAutoScroller();
-    
+
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
 private slots:
     void scrollViewport();
     void scrollToCurrentIndex();
-    
+
 private:
     void triggerAutoScroll();
     void stopAutoScroll();
-    
+
     /**
      * Calculates the scroll increment m_scrollInc dependent from
      * the cursor position \a cursorPos and the range 0 - \a rangeSize - 1.
      */
     void calculateScrollIncrement(int cursorPos, int rangeSize);
-    
+
 private:
     bool m_rubberBandSelection;
     int m_scrollInc;

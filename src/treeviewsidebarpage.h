@@ -93,7 +93,7 @@ private slots:
      * to the index \a index.
      */
     void dropUrls(const QModelIndex& index, QDropEvent* event);
-    
+
     /**
      * Expands the treeview to show the directory
      * specified by \a index.

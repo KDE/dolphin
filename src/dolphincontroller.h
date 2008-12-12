@@ -179,14 +179,14 @@ public:
 
     /**
      * Sets the zoom level to \a level and emits the signal zoomLevelChanged().
-     * It must be assured that the used level is inside the range 
+     * It must be assured that the used level is inside the range
      * DolphinController::zoomLevelMinimum() and
      * DolphinController::zoomLevelMaximum().
      * Is invoked by the abstract Dolphin view.
      */
     void setZoomLevel(int level);
     int zoomLevel() const;
-    
+
     /**
      * Tells the view implementation to zoom out by emitting the signal zoomOut()
      * and is invoked by the abstract Dolphin view.
@@ -206,7 +206,7 @@ public:
      * nothing will be done.
      */
     void replaceUrlByClipboard();
-    
+
     /** Emits the signal hideToolTip(). */
     void emitHideToolTip();
 
@@ -224,7 +224,7 @@ public slots:
      * user has triggered an item.
      */
     void triggerItem(const QModelIndex& index);
-    
+
     /**
      * Emits the signal tabRequested(), if the file item for the index \a index
      * represents a directory and when the middle mouse button has been pressed.
@@ -348,7 +348,7 @@ signals:
      * must connect to this signal if it supports zooming.
      */
     void zoomLevelChanged(int level);
-    
+
     /**
      * Is emitted if the abstract view should hide an open tooltip.
      */

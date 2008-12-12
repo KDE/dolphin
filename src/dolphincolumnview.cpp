@@ -376,14 +376,14 @@ void DolphinColumnView::setZoomLevel(int level)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    
+
     const bool showPreview = m_controller->dolphinView()->showPreview();
     if (showPreview) {
         settings->setPreviewSize(size);
     } else {
         settings->setIconSize(size);
     }
-    
+
     updateDecorationSize(showPreview);
 }
 
@@ -596,7 +596,7 @@ void DolphinColumnView::deleteColumn(DolphinColumnWidget* column)
         }
         column->disconnect();
         column->deleteLater();
-    }   
+    }
 }
 
 #include "dolphincolumnview.moc"

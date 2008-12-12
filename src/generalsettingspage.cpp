@@ -78,9 +78,9 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
     QVBoxLayout* contextMenuBoxLayout = new QVBoxLayout(contextMenuBox);
     contextMenuBoxLayout->addWidget(m_showDeleteCommand);
     contextMenuBoxLayout->addWidget(m_showCopyMoveMenu);
-    
+
     QGroupBox* statusBarBox = new QGroupBox(i18nc("@title:group", "Status Bar"), vBox);
-    
+
     m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), statusBarBox);
     connect(m_showZoomSlider, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
@@ -96,7 +96,7 @@ GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* pa
 
     m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), vBox);
     connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    
+
     m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"), vBox);
     connect(m_autoExpandFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
@@ -157,7 +157,7 @@ void GeneralSettingsPage::loadSettings()
     KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
     KConfigGroup configGroup(globalConfig, "KDE");
     m_showDeleteCommand->setChecked(configGroup.readEntry("ShowDeleteCommand", false));
-    
+
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_showCopyMoveMenu->setChecked(settings->showCopyMoveMenu());
     m_showZoomSlider->setChecked(settings->showZoomSlider());

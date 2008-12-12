@@ -233,7 +233,7 @@ void DolphinView::setMode(Mode mode)
     }
 
     emit modeChanged();
-    
+
     updateZoomLevel(oldZoomLevel);
     if (m_showPreview) {
         loadDirectory(viewPropsUrl);
@@ -550,7 +550,7 @@ QString DolphinView::statusBarText() const
             const QString name = list.first().name();
             text = (folderCount == 1) ? i18nc("@info:status", "<filename>%1</filename> selected", name) :
                                         i18nc("@info:status", "<filename>%1</filename> selected (%2)",
-                                              name, KIO::convertSize(totalFileSize));                                            
+                                              name, KIO::convertSize(totalFileSize));
         } else {
             // at least 2 items are selected
             const QString foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
@@ -626,7 +626,7 @@ void DolphinView::renameSelectedItems()
             // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
             // as one operation instead of n rename operations like it is done now...
             Q_ASSERT(newName.contains('#'));
-            
+
             // currently the items are sorted by the selection order, resort
             // them by the file name
             qSort(items.begin(), items.end(), lessThan);
@@ -1323,7 +1323,7 @@ void DolphinView::deleteView()
         disconnect(view);
         m_controller->disconnect(view);
         view->disconnect();
-        
+
         bool deleteView = true;
         foreach (const QAbstractItemView* expandedView, m_expandedViews) {
             if (view == expandedView) {

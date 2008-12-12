@@ -46,17 +46,17 @@ public:
      */
     void setMinimizedNameColumn(bool minimized);
     bool hasMinimizedNameColumn() const;
-    
+
     virtual void paint(QPainter* painter,
                        const QStyleOptionViewItem& option,
                        const QModelIndex& index) const;
-                       
+
     /**
      * Returns the minimized width of the name column for the name \a name. This method
      * is also used in DolphinDetailsView to handle the selection of items correctly.
      */
     static int nameColumnWidth(const QString& name, const QStyleOptionViewItem& option);
-    
+
 private:
     bool m_hasMinimizedNameColumn;
 };
