@@ -176,11 +176,12 @@ DolphinViewContainer::~DolphinViewContainer()
 void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
     m_urlNavigator->setUrl(newUrl);
-
-    // Temporary disable the 'File'->'Create New...' menu until
-    // the write permissions can be checked in a fast way at
-    // DolphinViewContainer::slotDirListerCompleted().
-    m_mainWindow->newMenu()->menu()->setEnabled(false);
+    if (newUrl != m_urlNavigator->url()) {
+        // Temporary disable the 'File'->'Create New...' menu until
+        // the write permissions can be checked in a fast way at
+        // DolphinViewContainer::slotDirListerCompleted().
+        m_mainWindow->newMenu()->menu()->setEnabled(false);
+    }
 }
 
 const KUrl& DolphinViewContainer::url() const
