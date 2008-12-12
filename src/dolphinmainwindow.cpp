@@ -327,6 +327,15 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     m_viewTab.append(viewTab);
 
     actionCollection()->action("close_tab")->setEnabled(true);
+
+    // provide a split view, if the startup settings are set this way
+    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+    if (generalSettings->splitView()) {
+        const int tabIndex = m_viewTab.count() - 1;
+        createSecondaryView(tabIndex);
+        m_viewTab[tabIndex].secondaryView->setActive(true);
+        m_viewTab[tabIndex].isPrimaryViewActive = false;
+    }
 }
 
 void DolphinMainWindow::activateNextTab()
@@ -532,19 +541,7 @@ void DolphinMainWindow::invertSelection()
 void DolphinMainWindow::toggleSplitView()
 {
     if (m_viewTab[m_tabIndex].secondaryView == 0) {
-        // create a secondary view
-        QSplitter* splitter = m_viewTab[m_tabIndex].splitter;
-        const int newWidth = (m_viewTab[m_tabIndex].primaryView->width() - splitter->handleWidth()) / 2;
-
-        const DolphinView* view = m_viewTab[m_tabIndex].primaryView->view();
-        m_viewTab[m_tabIndex].secondaryView = new DolphinViewContainer(this, 0, view->rootUrl());
-        connectViewSignals(m_viewTab[m_tabIndex].secondaryView);
-        splitter->addWidget(m_viewTab[m_tabIndex].secondaryView);
-        splitter->setSizes(QList<int>() << newWidth << newWidth);
-        m_viewTab[m_tabIndex].secondaryView->view()->reload();
-        m_viewTab[m_tabIndex].secondaryView->setActive(false);
-        m_viewTab[m_tabIndex].secondaryView->show();
-
+        createSecondaryView(m_tabIndex);
         setActiveViewContainer(m_viewTab[m_tabIndex].secondaryView);
     } else if (m_activeViewContainer == m_viewTab[m_tabIndex].secondaryView) {
         // remove secondary view
@@ -1306,6 +1303,21 @@ bool DolphinMainWindow::isKompareInstalled() const
         initialized = true;
     }
     return installed;
+}
+
+void DolphinMainWindow::createSecondaryView(int tabIndex)
+{
+    QSplitter* splitter = m_viewTab[tabIndex].splitter;
+    const int newWidth = (m_viewTab[tabIndex].primaryView->width() - splitter->handleWidth()) / 2;
+
+    const DolphinView* view = m_viewTab[tabIndex].primaryView->view();
+    m_viewTab[tabIndex].secondaryView = new DolphinViewContainer(this, 0, view->rootUrl());
+    splitter->addWidget(m_viewTab[tabIndex].secondaryView);
+    splitter->setSizes(QList<int>() << newWidth << newWidth);
+    connectViewSignals(m_viewTab[tabIndex].secondaryView);
+    m_viewTab[tabIndex].secondaryView->view()->reload();
+    m_viewTab[tabIndex].secondaryView->setActive(false);
+    m_viewTab[tabIndex].secondaryView->show();
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :

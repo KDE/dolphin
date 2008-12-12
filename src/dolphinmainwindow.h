@@ -398,6 +398,8 @@ private:
 
     bool isKompareInstalled() const;
 
+    void createSecondaryView(int tabIndex);
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This
