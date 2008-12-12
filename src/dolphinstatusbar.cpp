@@ -59,10 +59,6 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     // initialize message label
     m_messageLabel = new StatusBarMessageLabel(this);
     m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    // initialize space information
-    m_spaceInfo = new StatusBarSpaceInfo(this);
-    m_spaceInfo->setUrl(m_view->url());
     
     // initialize zoom slider
     m_zoomWidget = new QWidget(this);
@@ -95,7 +91,11 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     connect(m_view, SIGNAL(zoomLevelChanged(int)), m_zoomSlider, SLOT(setValue(int)));
     connect(m_zoomOut, SIGNAL(clicked()), this, SLOT(zoomOut()));
     connect(m_zoomIn, SIGNAL(clicked()), this, SLOT(zoomIn()));
-            
+    
+    // initialize space information
+    m_spaceInfo = new StatusBarSpaceInfo(this);
+    m_spaceInfo->setUrl(m_view->url());
+        
     // initialize progress information
     m_progressText = new QLabel(this);
     m_progressText->hide();
