@@ -314,6 +314,14 @@ void DolphinIconsView::leaveEvent(QEvent* event)
     m_controller->emitViewportEntered();
 }
 
+void DolphinIconsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    KCategorizedView::currentChanged(current, previous);
+    if (current.isValid()) {
+        scrollTo(current);
+    }
+}
+
 void DolphinIconsView::slotShowPreviewChanged()
 {
     const DolphinView* view = m_controller->dolphinView();

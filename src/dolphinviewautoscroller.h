@@ -44,7 +44,6 @@ protected:
 
 private slots:
     void scrollViewport();
-    void scrollToCurrentIndex();
 
 private:
     void triggerAutoScroll();

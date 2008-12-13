@@ -131,6 +131,7 @@ protected:
     virtual void wheelEvent(QWheelEvent* event);
     virtual void leaveEvent(QEvent* event);
     virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+    virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private slots:
     void slotEntered(const QModelIndex& index);

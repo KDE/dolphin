@@ -447,6 +447,14 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
     selModel->select(deselected, QItemSelectionModel::Deselect);
 }
 
+void DolphinColumnWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
+{
+    QListView::currentChanged(current, previous);
+    if (current.isValid()) {
+        scrollTo(current);
+    }
+}
+
 void DolphinColumnWidget::slotEntered(const QModelIndex& index)
 {
     m_view->m_controller->setItemView(this);
