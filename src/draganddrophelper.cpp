@@ -101,7 +101,10 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
         QDBusConnection::sessionBus().call(message);
     } else {
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-        if ((urls.count() == 1) && (urls.first() == destination)) {
+        const int urlsCount = urls.count();
+        if (urlsCount == 0) {
+            // TODO: handle dropping of other data
+        } else if ((urlsCount == 1) && (urls.first() == destination)) {
             emit errorMessage(i18nc("@info:status", "A folder cannot be dropped into itself"));
         } else if (dropToItem) {
             KonqOperations::doDrop(destItem, destination, event, widget);
