@@ -27,6 +27,7 @@
 
 class DolphinController;
 class SelectionManager;
+class DolphinViewAutoScroller;
 
 /**
  * @brief Represents the details view which shows the name, size,
@@ -181,6 +182,7 @@ private:
 
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
+    DolphinViewAutoScroller* m_autoScroller;
 
     QFont m_font;
     QSize m_decorationSize;

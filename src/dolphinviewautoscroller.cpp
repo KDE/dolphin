@@ -48,6 +48,11 @@ DolphinViewAutoScroller::~DolphinViewAutoScroller()
 {
 }
 
+bool DolphinViewAutoScroller::isActive() const
+{
+    return m_timer->isActive();
+}
+
 bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == m_itemView->viewport()) {

@@ -34,6 +34,7 @@
 class DolphinController;
 class SelectionManager;
 class DolphinCategoryDrawer;
+class DolphinViewAutoScroller;
 
 /**
  * @brief Represents the view, where each item is shown as an icon.
@@ -92,6 +93,7 @@ private:
     bool m_enableScrollTo;
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
+    DolphinViewAutoScroller* m_autoScroller;
     DolphinCategoryDrawer* m_categoryDrawer;
 
     QFont m_font;

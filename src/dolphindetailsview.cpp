@@ -55,6 +55,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_ignoreScrollTo(false),
     m_controller(controller),
     m_selectionManager(0),
+    m_autoScroller(0),
     m_font(),
     m_decorationSize(),
     m_band()
@@ -76,7 +77,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setEditTriggers(QAbstractItemView::NoEditTriggers);
 
     setMouseTracking(true);
-    new DolphinViewAutoScroller(this);
+    m_autoScroller = new DolphinViewAutoScroller(this);
 
     const ViewProperties props(controller->url());
     setSortIndicatorSection(props.sorting());
@@ -424,7 +425,7 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QTreeView::currentChanged(current, previous);
-    if (current.isValid()) {
+    if (current.isValid() && !m_autoScroller->isActive()) {
         scrollTo(current);
     }
 

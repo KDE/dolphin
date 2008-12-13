@@ -43,6 +43,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_enableScrollTo(false),
     m_controller(controller),
     m_selectionManager(0),
+    m_autoScroller(0),
     m_categoryDrawer(0),
     m_font(),
     m_decorationSize(),
@@ -62,7 +63,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     viewport()->setAcceptDrops(true);
 
     setMouseTracking(true);
-    new DolphinViewAutoScroller(this);
+    m_autoScroller = new DolphinViewAutoScroller(this);
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(requestTab(const QModelIndex&)));
@@ -317,7 +318,7 @@ void DolphinIconsView::leaveEvent(QEvent* event)
 void DolphinIconsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     KCategorizedView::currentChanged(current, previous);
-    if (current.isValid()) {
+    if (current.isValid() && !m_autoScroller->isActive()) {
         scrollTo(current);
     }
 }

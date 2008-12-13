@@ -38,6 +38,7 @@ class DolphinViewAutoScroller : public QObject
 public:
     DolphinViewAutoScroller(QAbstractItemView* parent);
     virtual ~DolphinViewAutoScroller();
+    bool isActive() const;
 
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);

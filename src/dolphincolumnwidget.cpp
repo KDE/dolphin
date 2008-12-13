@@ -55,6 +55,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_active(true),
     m_view(columnView),
     m_selectionManager(0),
+    m_autoScroller(0),
     m_url(url),
     m_childUrl(),
     m_font(),
@@ -78,7 +79,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     setVerticalScrollMode(QListView::ScrollPerPixel);
     setHorizontalScrollMode(QListView::ScrollPerPixel);
 
-    new DolphinViewAutoScroller(this);
+    m_autoScroller = new DolphinViewAutoScroller(this);
 
     // apply the column mode settings to the widget
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
@@ -450,7 +451,7 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
 void DolphinColumnWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QListView::currentChanged(current, previous);
-    if (current.isValid()) {
+    if (current.isValid() && !m_autoScroller->isActive()) {
         scrollTo(current);
     }
 }

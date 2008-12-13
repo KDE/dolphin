@@ -33,6 +33,7 @@ class DolphinColumnView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
 class DolphinDirLister;
+class DolphinViewAutoScroller;
 class KFilePreviewGenerator;
 class KJob;
 class KFileItem;
@@ -149,6 +150,7 @@ private:
     bool m_active;
     DolphinColumnView* m_view;
     SelectionManager* m_selectionManager;
+    DolphinViewAutoScroller* m_autoScroller;
     KUrl m_url;      // URL of the directory that is shown
     KUrl m_childUrl; // URL of the next column that is shown
 
