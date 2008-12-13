@@ -50,14 +50,15 @@ private:
     void stopAutoScroll();
 
     /**
-     * Calculates the scroll increment m_scrollInc dependent from
+     * Calculates the scroll increment dependent from
      * the cursor position \a cursorPos and the range 0 - \a rangeSize - 1.
      */
-    void calculateScrollIncrement(int cursorPos, int rangeSize);
+    int calculateScrollIncrement(int cursorPos, int rangeSize) const;
 
 private:
     bool m_rubberBandSelection;
-    int m_scrollInc;
+    int m_horizontalScrollInc;
+    int m_verticalScrollInc;
     QAbstractItemView* m_itemView;
     QTimer* m_timer;
 };

@@ -30,7 +30,8 @@
 DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
     QObject(parent),
     m_rubberBandSelection(false),
-    m_scrollInc(0),
+    m_horizontalScrollInc(0),
+    m_verticalScrollInc(0),
     m_itemView(parent),
     m_timer()
 {
@@ -93,13 +94,13 @@ void DolphinViewAutoScroller::scrollViewport()
     QScrollBar* verticalScrollBar = m_itemView->verticalScrollBar();
     if (verticalScrollBar != 0) {
         const int value = verticalScrollBar->value();
-        verticalScrollBar->setValue(value + m_scrollInc);
+        verticalScrollBar->setValue(value + m_verticalScrollInc);
 
     }
     QScrollBar* horizontalScrollBar = m_itemView->horizontalScrollBar();
     if (horizontalScrollBar != 0) {
         const int value = horizontalScrollBar->value();
-        horizontalScrollBar->setValue(value + m_scrollInc);
+        horizontalScrollBar->setValue(value + m_horizontalScrollInc);
 
     }
 
@@ -117,7 +118,7 @@ void DolphinViewAutoScroller::scrollViewport()
 void DolphinViewAutoScroller::triggerAutoScroll()
 {
     const bool verticalScrolling = (m_itemView->verticalScrollBar() != 0) &&
-                                    m_itemView->verticalScrollBar()->isVisible();
+                                   m_itemView->verticalScrollBar()->isVisible();
     const bool horizontalScrolling = (m_itemView->horizontalScrollBar() != 0) &&
                                      m_itemView->horizontalScrollBar()->isVisible();
     if (!verticalScrolling && !horizontalScrolling) {
@@ -128,17 +129,17 @@ void DolphinViewAutoScroller::triggerAutoScroll()
     QWidget* viewport = m_itemView->viewport();
     const QPoint pos = viewport->mapFromGlobal(QCursor::pos());
     if (verticalScrolling) {
-        calculateScrollIncrement(pos.y(), viewport->height());
+        m_verticalScrollInc = calculateScrollIncrement(pos.y(), viewport->height());
     }
     if (horizontalScrolling) {
-        calculateScrollIncrement(pos.x(), viewport->width());
+        m_horizontalScrollInc = calculateScrollIncrement(pos.x(), viewport->width());
     }
 
     if (m_timer->isActive()) {
-        if (m_scrollInc == 0) {
+        if ((m_horizontalScrollInc == 0) && (m_verticalScrollInc == 0)) {
             m_timer->stop();
         }
-    } else if (m_scrollInc != 0) {
+    } else if ((m_horizontalScrollInc != 0) || (m_verticalScrollInc != 0)) {
         m_timer->start();
     }
 }
@@ -146,29 +147,32 @@ void DolphinViewAutoScroller::triggerAutoScroll()
 void DolphinViewAutoScroller::stopAutoScroll()
 {
     m_timer->stop();
-    m_scrollInc = 0;
+    m_horizontalScrollInc = 0;
+    m_verticalScrollInc = 0;
 }
 
-void DolphinViewAutoScroller::calculateScrollIncrement(int cursorPos, int rangeSize)
+int DolphinViewAutoScroller::calculateScrollIncrement(int cursorPos, int rangeSize) const
 {
+    int inc = 0;
+
     const int minSpeed = 2;
     const int maxSpeed = 32;
     const int speedLimiter = 8;
     const int autoScrollBorder = 32;
 
     if (cursorPos < autoScrollBorder) {
-        m_scrollInc = -minSpeed + (cursorPos - autoScrollBorder) / speedLimiter;
-        if (m_scrollInc < -maxSpeed) {
-            m_scrollInc = -maxSpeed;
+        inc = -minSpeed + (cursorPos - autoScrollBorder) / speedLimiter;
+        if (inc < -maxSpeed) {
+            inc = -maxSpeed;
         }
     } else if (cursorPos > rangeSize - autoScrollBorder) {
-        m_scrollInc = minSpeed + (cursorPos - rangeSize + autoScrollBorder) / speedLimiter;
-        if (m_scrollInc > maxSpeed) {
-            m_scrollInc = maxSpeed;
+        inc = minSpeed + (cursorPos - rangeSize + autoScrollBorder) / speedLimiter;
+        if (inc > maxSpeed) {
+            inc = maxSpeed;
         }
-    } else {
-        m_scrollInc = 0;
     }
+
+    return inc;
 }
 
 #include "dolphinviewautoscroller.moc"
