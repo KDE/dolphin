@@ -910,9 +910,26 @@ void DolphinDetailsView::resizeColumns()
 
     // resize the name column in a way that the whole available width is used
     columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
-    if (columnWidth[KDirModel::Name] < 120) {
-        columnWidth[KDirModel::Name] = 120;
+
+    const int minNameWidth = 300;
+    if (columnWidth[KDirModel::Name] < minNameWidth) {
+        columnWidth[KDirModel::Name] = minNameWidth;
+
+        // It might be possible that the name column width can be
+        // decreased without clipping any text. For performance
+        // reasons the exact necessary width for full visible names is
+        // only checked for up to 200 items:
+        const int rowCount = model()->rowCount();
+        if (rowCount < 200) {
+            const int nameWidth = sizeHintForColumn(DolphinModel::Name);
+            if (nameWidth + requiredWidth <= viewport()->width()) {
+                columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
+            } else if (nameWidth < minNameWidth) {
+                columnWidth[KDirModel::Name] = nameWidth;
+            }
+        }
     }
+
     headerView->resizeSection(KDirModel::Name, columnWidth[KDirModel::Name]);
 }
 
