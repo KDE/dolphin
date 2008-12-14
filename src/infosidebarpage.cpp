@@ -216,8 +216,7 @@ void InfoSidebarPage::showItemInfo()
                                                     0,
                                                     0,
                                                     true,
-                                                    false);
-            job->setIgnoreMaximumSize(true);
+                                                    true);
 
             connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
                     this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
