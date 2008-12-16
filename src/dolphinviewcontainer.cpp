@@ -261,6 +261,10 @@ void DolphinViewContainer::slotDirListerCompleted()
         KonqFileItemCapabilities capabilities(KFileItemList() << item);
         createNew->setEnabled(capabilities.supportsWriting());
     }
+
+    if (isActive()) {
+        m_view->setFocus();
+    }
 }
 
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
@@ -291,6 +295,7 @@ void DolphinViewContainer::closeFilterBar()
 {
     m_filterBar->hide();
     m_filterBar->clear();
+    m_view->setFocus();
     emit showFilterBarChanged(false);
 }
 

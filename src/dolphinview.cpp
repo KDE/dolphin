@@ -1253,6 +1253,7 @@ void DolphinView::createView()
     Q_ASSERT(view != 0);
     view->installEventFilter(this);
     view->viewport()->installEventFilter(this);
+    setFocusProxy(view);
 
     if (m_mode != ColumnView) {
         // Give the view the ability to auto-expand its directories on hovering
@@ -1315,6 +1316,7 @@ void DolphinView::deleteView()
         // before deleting the view: Otherwise when having a split
         // view the other view will get the focus and will request
         // an activation (see DolphinView::eventFilter()).
+        setFocusProxy(0);
         setFocus();
 
         m_topLayout->removeWidget(view);
