@@ -178,16 +178,18 @@ void DolphinColumnWidget::setDecorationSize(const QSize& size)
 
 void DolphinColumnWidget::setActive(bool active)
 {
-    if (m_active == active) {
-        return;
+    if (active && (m_view->focusProxy() != this)) {
+        m_view->setFocusProxy(this);
     }
 
-    m_active = active;
+    if (m_active != active) {
+        m_active = active;
 
-    if (active) {
-        activate();
-    } else {
-        deactivate();
+        if (active) {
+            activate();
+        } else {
+            deactivate();
+        }
     }
 }
 
