@@ -214,6 +214,16 @@ bool DolphinViewContainer::isFilterBarVisible() const
     return m_filterBar->isVisible();
 }
 
+void DolphinViewContainer::showFilterBar(bool show)
+{
+    Q_ASSERT(m_filterBar != 0);
+    if (show) {
+        m_filterBar->show();
+    } else {
+        closeFilterBar();
+    }
+}
+
 bool DolphinViewContainer::isUrlEditable() const
 {
     return m_urlNavigator->isUrlEditable();
@@ -297,12 +307,6 @@ void DolphinViewContainer::closeFilterBar()
     m_filterBar->clear();
     m_view->setFocus();
     emit showFilterBarChanged(false);
-}
-
-void DolphinViewContainer::showFilterBar(bool show)
-{
-    Q_ASSERT(m_filterBar != 0);
-    m_filterBar->setVisible(show);
 }
 
 void DolphinViewContainer::updateStatusBar()
