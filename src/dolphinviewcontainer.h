@@ -229,6 +229,9 @@ private slots:
      */
     void redirect(const KUrl& oldUrl, const KUrl& newUrl);
 
+    /** Requests the focus for the view \a m_view. */
+    void requestFocus();
+
 private:
     bool m_showProgress;
 

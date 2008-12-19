@@ -271,10 +271,6 @@ void DolphinViewContainer::slotDirListerCompleted()
         KonqFileItemCapabilities capabilities(KFileItemList() << item);
         createNew->setEnabled(capabilities.supportsWriting());
     }
-
-    if (isActive()) {
-        m_view->setFocus();
-    }
 }
 
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
@@ -386,6 +382,17 @@ void DolphinViewContainer::restoreView(const KUrl& url)
     } else {
         showErrorMessage(i18nc("@info:status", "Invalid protocol"));
     }
+
+    if (isActive()) {
+        // When an URL has been entered, the view should get the focus.
+        // The focus must be requested asynchronously, as changing the URL might create
+        // a new view widget. Using QTimer::singleShow() works reliable, however
+        // QMetaObject::invokeMethod() with a queued connection does not work, which might
+        // indicate that we should pass a hint to DolphinView::updateView()
+        // regarding the focus instead. To test: Enter an URL and press CTRL+Enter.
+        // Expected result: The view should get the focus.
+        QTimer::singleShot(0, this, SLOT(requestFocus()));
+    }
 }
 
 void DolphinViewContainer::saveRootUrl(const KUrl& url)
@@ -406,6 +413,11 @@ void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
     m_urlNavigator->blockSignals(true);
     m_urlNavigator->setUrl(newUrl);
     m_urlNavigator->blockSignals(block);
+}
+
+void DolphinViewContainer::requestFocus()
+{
+    m_view->setFocus();
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
