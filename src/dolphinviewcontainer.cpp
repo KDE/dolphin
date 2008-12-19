@@ -363,6 +363,16 @@ void DolphinViewContainer::restoreView(const KUrl& url)
 {
     if (KProtocolManager::supportsListing(url)) {
         m_view->updateView(url, m_urlNavigator->savedRootUrl());
+        if (isActive()) {
+            // When an URL has been entered, the view should get the focus.
+            // The focus must be requested asynchronously, as changing the URL might create
+            // a new view widget. Using QTimer::singleShow() works reliable, however
+            // QMetaObject::invokeMethod() with a queued connection does not work, which might
+            // indicate that we should pass a hint to DolphinView::updateView()
+            // regarding the focus instead. To test: Enter an URL and press CTRL+Enter.
+            // Expected result: The view should get the focus.
+            QTimer::singleShot(0, this, SLOT(requestFocus()));
+        }
     } else if (KProtocolManager::isSourceProtocol(url)) {
         QString app = "konqueror";
         if (url.protocol().startsWith(QLatin1String("http"))) {
@@ -381,17 +391,6 @@ void DolphinViewContainer::restoreView(const KUrl& url)
         KRun::runCommand(command, app, app, this);
     } else {
         showErrorMessage(i18nc("@info:status", "Invalid protocol"));
-    }
-
-    if (isActive()) {
-        // When an URL has been entered, the view should get the focus.
-        // The focus must be requested asynchronously, as changing the URL might create
-        // a new view widget. Using QTimer::singleShow() works reliable, however
-        // QMetaObject::invokeMethod() with a queued connection does not work, which might
-        // indicate that we should pass a hint to DolphinView::updateView()
-        // regarding the focus instead. To test: Enter an URL and press CTRL+Enter.
-        // Expected result: The view should get the focus.
-        QTimer::singleShot(0, this, SLOT(requestFocus()));
     }
 }
 
