@@ -87,6 +87,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_storedCategorizedSorting(false),
     m_tabsForFiles(false),
     m_isContextMenuOpen(false),
+    m_ignoreViewProperties(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
@@ -455,6 +456,8 @@ void DolphinView::reload()
 
 void DolphinView::refresh()
 {
+    m_ignoreViewProperties = false;
+
     const bool oldActivationState = m_active;
     const int oldZoomLevel = m_controller->zoomLevel();
     m_active = true;
@@ -1153,6 +1156,10 @@ KUrl DolphinView::viewPropertiesUrl() const
 
 void DolphinView::applyViewProperties(const KUrl& url)
 {
+    if (m_ignoreViewProperties) {
+        return;
+    }
+
     if (isColumnViewActive() && rootUrl().isParentOf(url)) {
         // The column view is active, hence don't apply the view properties
         // of sub directories (represented by columns) to the view. The
@@ -1221,6 +1228,13 @@ void DolphinView::applyViewProperties(const KUrl& url)
         // As the view does not emit a signal when the icon size has been changed,
         // the used zoom level of the controller must be adjusted manually:
         updateZoomLevel(oldZoomLevel);
+    }
+
+    if (DolphinSettings::instance().generalSettings()->globalViewProps()) {
+        // During the lifetime of a DolphinView instance the global view properties
+        // should not be changed. This allows e. g. to split a view and use different
+        // view properties for each view.
+        m_ignoreViewProperties = true;
     }
 }
 
