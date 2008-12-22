@@ -57,6 +57,9 @@ public:
 private:
     QVariant displayRoleData(const QModelIndex& index) const;
     QVariant sortRoleData(const QModelIndex& index) const;
+
+private:
+    static const char* m_others;
 };
 
 #endif // DOLPHINMODEL_H

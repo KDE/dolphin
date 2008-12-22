@@ -48,7 +48,7 @@
 #include <QDir>
 #include <QFileInfo>
 
-static const char* others = I18N_NOOP2("@title:group Name", "Others");
+const char* DolphinModel::m_others = I18N_NOOP2("@title:group Name", "Others");
 
 DolphinModel::DolphinModel(QObject* parent)
     : KDirModel(parent)
@@ -142,15 +142,12 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
     case KDirModel::Name: {
         // KDirModel checks columns to know to which role are
         // we talking about
-        QModelIndex theIndex = index.model()->index(index.row(),
-            KDirModel::Name,
-            index.parent());
-
-        if (!theIndex.isValid()) {
+        const QModelIndex nameIndex = index.model()->index(index.row(), KDirModel::Name, index.parent());
+        if (!nameIndex.isValid()) {
             return retString;
         }
-        QVariant data = theIndex.model()->data(theIndex, Qt::DisplayRole);
-        QString name = data.toString();
+        const QVariant data = nameIndex.model()->data(nameIndex, Qt::DisplayRole);
+        const QString name = data.toString();
         if (!name.isEmpty()) {
             if (!item.isHidden() && name.at(0).isLetter())
                 retString = name.at(0).toUpper();
@@ -159,7 +156,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                     if (name.size() > 1 && name.at(1).isLetter()) {
                         retString = name.at(1).toUpper();
                     } else {
-                        retString = i18nc("@title:group Name", others);
+                        retString = i18nc("@title:group Name", m_others);
                     }
                 } else {
                     retString = name.at(0).toUpper();
@@ -173,14 +170,14 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                     if (currA->isLetter()) {
                         validCategory = true;
                     } else if (currA->isDigit()) {
-                        return i18nc("@title:group Name", others);
+                        return i18nc("@title:group Name", m_others);
                     } else {
                         ++currA;
                     }
                 }
 
                 if (!validCategory) {
-                    retString = validCategory ? *currA : i18nc("@title:group Name", others);
+                    retString = validCategory ? *currA : i18nc("@title:group Name", m_others);
                 } else {
                     retString = *currA;
                 }
