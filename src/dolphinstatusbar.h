@@ -116,7 +116,7 @@ public:
      */
     void setDefaultText(const QString& text);
     const QString& defaultText() const;
-        
+
     /**
      * Refreshes the status bar to get synchronized with the (updated) Dolphin settings.
      */
@@ -135,7 +135,7 @@ private slots:
      * content is updated.
      */
     void updateSpaceInfoContent(const KUrl& url);
-    
+
     /**
      * Sets the zoom level of the item view to \a zoomLevel.
      */
@@ -147,11 +147,11 @@ private slots:
      * enough width is available.
      */
     void assureVisibleText();
-    
+
     void zoomOut();
     void zoomIn();
     void showZoomSliderToolTip(int zoomLevel);
-    
+
 private:
     /**
      * Makes the space information widget and zoom slider widget
@@ -161,11 +161,17 @@ private:
      */
     void setExtensionsVisible(bool visible);
 
+    /**
+     * Updates the text of the zoom slider tooltip to show
+     * the currently used size.
+     */
+    void updateZoomSliderToolTip();
+
 private:
     DolphinView* m_view;
     StatusBarMessageLabel* m_messageLabel;
     StatusBarSpaceInfo* m_spaceInfo;
-    
+
     QWidget* m_zoomWidget;
     QToolButton* m_zoomOut;
     QSlider* m_zoomSlider;
