@@ -238,14 +238,14 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
     Q_ASSERT(m_dirLister != 0);
     m_leafDir = url;
 
-    KUrl baseUrl = url;
+    KUrl baseUrl;
     if (url.isLocalFile()) {
-        // use the root directory as base for local URLs
+        // use the root directory as base for local URLs (#150941)
         baseUrl = QDir::rootPath();
     } else {
         // clear the path for non-local URLs and use it as base
         baseUrl = url;
-        baseUrl.setPath(QString());
+        baseUrl.setPath(QString('/'));
     }
 
     if (m_dirLister->url() != baseUrl) {
