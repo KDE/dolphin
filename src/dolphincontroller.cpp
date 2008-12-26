@@ -129,7 +129,8 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event)
     const QItemSelectionModel* selModel = m_itemView->selectionModel();
     const QModelIndex currentIndex = selModel->currentIndex();
     const bool trigger = currentIndex.isValid()
-                         && (event->key() == Qt::Key_Return)
+                         && ((event->key() == Qt::Key_Return)
+                            || (event->key() == Qt::Key_Enter))
                          && (selModel->selectedIndexes().count() > 0);
     if (trigger) {
         const QModelIndexList indexList = selModel->selectedIndexes();
