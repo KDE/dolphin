@@ -68,6 +68,7 @@ protected:
     virtual void showEvent(QShowEvent* event);
     virtual void leaveEvent(QEvent* event);
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+    virtual void resizeEvent(QResizeEvent* event);
 
 private slots:
     void slotShowPreviewChanged();
