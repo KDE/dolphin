@@ -210,7 +210,6 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
             setState(QAbstractItemView::DraggingState);
         } else {
             m_expandingTogglePressed = true;
-            kDebug() << "m_expandingTogglePressed " << m_expandingTogglePressed;
         }
     }
 
@@ -466,7 +465,6 @@ void DolphinDetailsView::setSelection(const QRect &rect, QItemSelectionModel::Se
         QTreeView::setSelection(rect, command);
         m_useDefaultIndexAt = false;
     } else {
-
         // Use our own elastic band selection algorithm
         updateElasticBandSelection();
     }
@@ -474,9 +472,9 @@ void DolphinDetailsView::setSelection(const QRect &rect, QItemSelectionModel::Se
 
 void DolphinDetailsView::scrollTo(const QModelIndex & index, ScrollHint hint)
 {
-    if (m_ignoreScrollTo)
-        return;
-    QTreeView::scrollTo(index, hint);
+    if (!m_ignoreScrollTo) {
+        QTreeView::scrollTo(index, hint);
+    }
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
@@ -518,10 +516,12 @@ void DolphinDetailsView::updateElasticBand()
         m_band.destination = viewport()->mapFromGlobal(QCursor::pos()) + scrollPos;
         // Going above the (logical) top-left of the view causes complications during selection;
         // we may as well prevent it.
-        if (m_band.destination.y() < 0)
+        if (m_band.destination.y() < 0) {
             m_band.destination.setY(0);
-        if (m_band.destination.x() < 0)
+        }
+        if (m_band.destination.x() < 0) {
             m_band.destination.setX(0);
+        }
 
         dirtyRegion = dirtyRegion.united(elasticBandRect());
         setDirtyRegion(dirtyRegion);
