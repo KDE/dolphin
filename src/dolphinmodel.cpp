@@ -208,8 +208,18 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
         const QDate modifiedDate = modifiedTime.date();
 
         const int daysDistance = modifiedDate.daysTo(currentDate);
-        const int currentWeek = currentDate.weekNumber();
-        const int modifiedWeek = modifiedDate.weekNumber();
+
+        int yearForCurrentWeek = 0;
+        int currentWeek = currentDate.weekNumber(&yearForCurrentWeek);
+        if (yearForCurrentWeek == currentDate.year() + 1) {
+            currentWeek = 53;
+        }
+
+        int yearForModifiedWeek = 0;
+        int modifiedWeek = modifiedDate.weekNumber(&yearForModifiedWeek);
+        if (yearForModifiedWeek == modifiedDate.year() + 1) {
+            modifiedWeek = 53;
+        }
 
         if (currentDate.year() == modifiedDate.year() &&
             currentDate.month() == modifiedDate.month()) {
@@ -231,6 +241,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                 retString = i18nc("@title:group Date", "Three Weeks Ago");
                 break;
             case 4:
+            case 5:
                 retString = i18nc("@title:group Date", "Earlier this Month");
                 break;
             default:
