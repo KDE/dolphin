@@ -402,41 +402,38 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     Q_ASSERT(additionalInfoCount >= 0);
     itemHeight += additionalInfoCount * m_font.pointSize() * 2;
 
-    const bool rowArrangement = (settings->arrangement() == QListView::TopToBottom);
-    if (rowArrangement) {
+    // optimize the item size of the grid in a way to prevent large gaps on the
+    // right border (= row arrangement) or the bottom border (= column arrangement)
+    const int spacing = settings->gridSpacing();
+    if (settings->arrangement() == QListView::TopToBottom) {
+        const int contentWidth = viewport()->width() - 1 -
+                                 style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, horizontalScrollBar());
+        const int gridWidth = itemWidth + spacing * 2;
+        const int horizItemCount = contentWidth / gridWidth;
+        if (horizItemCount > 0) {
+            itemWidth += (contentWidth - horizItemCount * gridWidth) / horizItemCount;
+        }
+
         // The decoration width indirectly defines the maximum
         // width for the text wrapping. To use the maximum item width
         // for text wrapping, it is used as decoration width.
         m_decorationSize = QSize(itemWidth, size);
         setIconSize(QSize(itemWidth, size));
     } else {
+        const int contentHeight = viewport()->height() - 1 -
+                                  style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
+        const int gridHeight = itemHeight + spacing;
+        const int vertItemCount = contentHeight / gridHeight;
+        if (vertItemCount > 0) {
+            itemHeight += (contentHeight - vertItemCount * gridHeight) / vertItemCount;
+        }
+
         m_decorationSize = QSize(size, size);
         setIconSize(QSize(size, size));
     }
 
     m_itemSize = QSize(itemWidth, itemHeight);
-
-    // optimize the spacing of the grid in a way to prevent large gaps on the
-    // right border (= row arrangement) or the bottom border (= column arrangement)
-    const int spacing = settings->gridSpacing();
-    int gridWidth = itemWidth + spacing * 2;
-    int gridHeight = itemHeight + spacing;
-    if (rowArrangement) {
-        const int contentWidth = viewport()->width() - 1 -
-                                 style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, horizontalScrollBar());
-        const int horizItemCount = contentWidth / gridWidth;
-        if (horizItemCount > 0) {
-            gridWidth += (contentWidth - horizItemCount * gridWidth) / horizItemCount;
-        }
-    } else {
-        const int contentHeight = viewport()->height() - 1 -
-                                  style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
-        const int vertItemCount = contentHeight / gridHeight;
-        if (vertItemCount > 0) {
-            gridHeight += (contentHeight - vertItemCount * gridHeight) / vertItemCount;
-        }
-    }
-    setGridSize(QSize(gridWidth, gridHeight));
+    setGridSize(QSize(itemWidth + spacing * 2, itemHeight + spacing));
 
     KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
     if (delegate != 0) {
