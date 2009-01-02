@@ -215,7 +215,7 @@ void InfoSidebarPage::showItemInfo()
                                                     m_preview->height(),
                                                     0,
                                                     0,
-                                                    true,
+                                                    false,
                                                     true);
 
             connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
