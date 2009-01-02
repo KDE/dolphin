@@ -69,4 +69,3 @@ int DolphinFileItemDelegate::nameColumnWidth(const QString& name, const QStyleOp
     return width;
 }
 
-#include "dolphinfileitemdelegate.moc"
