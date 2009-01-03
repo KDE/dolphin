@@ -161,9 +161,6 @@ private:
      */
     void updateDecorationSize(bool showPreview);
 
-    /** Return the upper left position in pixels of the viewport content. */
-    QPoint contentsPos() const;
-
     KFileItemDelegate::Information infoForColumn(int columnIndex) const;
 
     /**

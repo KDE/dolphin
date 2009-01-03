@@ -236,9 +236,8 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
             m_band.show = true;
             // Incremental update data will not be useful - start from scratch.
             m_band.ignoreOldInfo = true;
-            const QPoint pos = contentsPos();
             const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
-            m_band.origin = event->pos() + pos + scrollPos;
+            m_band.origin = event->pos()  + scrollPos;
             m_band.destination = m_band.origin;
             m_band.originalSelection = selectionModel()->selection();
         }
@@ -522,7 +521,6 @@ void DolphinDetailsView::updateElasticBand()
         if (m_band.destination.x() < 0) {
             m_band.destination.setX(0);
         }
-
         dirtyRegion = dirtyRegion.united(elasticBandRect());
         setDirtyRegion(dirtyRegion);
     }
@@ -530,11 +528,10 @@ void DolphinDetailsView::updateElasticBand()
 
 QRect DolphinDetailsView::elasticBandRect() const
 {
-    const QPoint pos(contentsPos());
     const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
 
-    const QPoint topLeft = m_band.origin - pos - scrollPos;
-    const QPoint bottomRight = m_band.destination - pos - scrollPos;
+    const QPoint topLeft = m_band.origin - scrollPos;
+    const QPoint bottomRight = m_band.destination - scrollPos;
     return QRect(topLeft, bottomRight).normalized();
 }
 
@@ -844,24 +841,6 @@ void DolphinDetailsView::updateDecorationSize(bool showPreview)
     }
 
     doItemsLayout();
-}
-
-QPoint DolphinDetailsView::contentsPos() const
-{
-    // implementation note: the horizonal position is ignored currently, as no
-    // horizontal scrolling is done anyway during a selection
-    const QScrollBar* scrollbar = verticalScrollBar();
-    Q_ASSERT(scrollbar != 0);
-
-    const int maxHeight = maximumViewportSize().height();
-    const int height = scrollbar->maximum() - scrollbar->minimum() + 1;
-    const int visibleHeight = model()->rowCount() + 1 - height;
-    if (visibleHeight <= 0) {
-        return QPoint(0, 0);
-    }
-
-    const int y = scrollbar->sliderPosition() * maxHeight / visibleHeight;
-    return QPoint(0, y);
 }
 
 KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex) const
