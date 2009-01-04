@@ -110,17 +110,17 @@ void FolderExpander::autoExpandTimeout()
     QModelIndex indexToExpand = m_proxyModel->mapToSource(proxyIndexToExpand);
     KDirModel* m_dirModel = qobject_cast< KDirModel* >(m_proxyModel->sourceModel());
     Q_ASSERT(m_dirModel != 0);
-    KFileItem itemToExpand = m_dirModel->itemForIndex(indexToExpand );
+    KFileItem itemToExpand = m_dirModel->itemForIndex(indexToExpand);
 
     if (itemToExpand.isNull()) {
         return;
     }
 
     if (itemToExpand.isDir()) {
-        QTreeView *viewAsTreeView = qobject_cast<QTreeView*>(m_view);
-        if (viewAsTreeView != 0) {
+        QTreeView* treeView = qobject_cast<QTreeView*>(m_view);
+        if (treeView != 0) {
             // Toggle expanded state of this directory.
-            viewAsTreeView->setExpanded(proxyIndexToExpand, !viewAsTreeView->isExpanded(proxyIndexToExpand));
+            treeView->setExpanded(proxyIndexToExpand, !treeView->isExpanded(proxyIndexToExpand));
         }
         else {
             emit enterDir(proxyIndexToExpand, m_view);
