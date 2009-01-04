@@ -613,8 +613,10 @@ void DolphinDetailsView::slotHeaderSectionResized(int logicalIndex, int oldSize,
     Q_UNUSED(newSize);
     // If the user changes the size of the headers, the autoresize feature should be
     // turned off. As there is no dedicated interface to find out whether the header
-    // section has been resized by the user or by a resize event, the following approach is used:
-    if ((QApplication::mouseButtons() & Qt::LeftButton) && isVisible()) {
+    // section has been resized by the user or by a resize event, another approach is used.
+    // Attention: Take care when changing the if-condition to verify that there is no
+    // regression in combination with bug 178630 (see fix in comment #8).
+    if ((QApplication::mouseButtons() & Qt::LeftButton) && header()->underMouse()) {
         disableAutoResizing();
     }
 }
