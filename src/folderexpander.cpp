@@ -118,7 +118,7 @@ void FolderExpander::autoExpandTimeout()
 
     if (itemToExpand.isDir()) {
         QTreeView* treeView = qobject_cast<QTreeView*>(m_view);
-        if (treeView != 0) {
+        if ((treeView != 0) && treeView->itemsExpandable()) {
             // Toggle expanded state of this directory.
             treeView->setExpanded(proxyIndexToExpand, !treeView->isExpanded(proxyIndexToExpand));
         }
