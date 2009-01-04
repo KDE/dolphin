@@ -179,9 +179,6 @@ void DolphinController::triggerItem(const QModelIndex& index)
             m_itemView->clearSelection();
             emit itemEntered(KFileItem());
         }
-        m_mouseButtons = Qt::NoButton;
-    } else if (m_mouseButtons & Qt::RightButton) {
-        m_mouseButtons = Qt::NoButton;
     }
 }
 
@@ -195,9 +192,6 @@ void DolphinController::requestTab(const QModelIndex& index)
         if (validRequest) {
             emit tabRequested(item.url());
         }
-        m_mouseButtons = Qt::NoButton;
-    } else if (m_mouseButtons & Qt::RightButton) {
-        m_mouseButtons = Qt::NoButton;
     }
 }
 
