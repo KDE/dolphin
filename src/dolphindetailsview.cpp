@@ -455,7 +455,7 @@ QModelIndex DolphinDetailsView::indexAt(const QPoint& point) const
     return isAboveEmptySpace ? QModelIndex() : index;
 }
 
-void DolphinDetailsView::setSelection(const QRect &rect, QItemSelectionModel::SelectionFlags command)
+void DolphinDetailsView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
 {
     // We must override setSelection() as Qt calls it internally and when this happens
     // we must ensure that the default indexAt() is used.
@@ -478,14 +478,12 @@ void DolphinDetailsView::scrollTo(const QModelIndex & index, ScrollHint hint)
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
-    QHeaderView* headerView = header();
-    headerView->setSortIndicator(sorting, headerView->sortIndicatorOrder());
+    header()->setSortIndicator(sorting, header()->sortIndicatorOrder());
 }
 
 void DolphinDetailsView::setSortIndicatorOrder(Qt::SortOrder sortOrder)
 {
-    QHeaderView* headerView = header();
-    headerView->setSortIndicator(headerView->sortIndicatorSection(), sortOrder);
+    header()->setSortIndicator(header()->sortIndicatorSection(), sortOrder);
 }
 
 void DolphinDetailsView::synchronizeSortingState(int column)
