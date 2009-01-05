@@ -74,7 +74,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     const int max = ZoomLevelInfo::maximumLevel();
     m_zoomSlider->setRange(min, max);
     m_zoomSlider->setValue(view->zoomLevel());
-    updateZoomSliderToolTip();
+    updateZoomSliderToolTip(view->zoomLevel());
 
     m_zoomIn = new QToolButton(m_zoomWidget);
     m_zoomIn->setIcon(KIcon("zoom-in"));
@@ -243,7 +243,7 @@ void DolphinStatusBar::setZoomLevel(int zoomLevel)
     m_zoomOut->setEnabled(zoomLevel > m_zoomSlider->minimum());
     m_zoomIn->setEnabled(zoomLevel < m_zoomSlider->maximum());
     m_view->setZoomLevel(zoomLevel);
-    updateZoomSliderToolTip();
+    updateZoomSliderToolTip(zoomLevel);
 }
 
 void DolphinStatusBar::assureVisibleText()
@@ -281,6 +281,8 @@ void DolphinStatusBar::zoomIn()
 
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
 {
+    updateZoomSliderToolTip(zoomLevel);
+
     QPoint global = m_zoomSlider->rect().topLeft();
     global.ry() += m_zoomSlider->height() / 2;
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), m_zoomSlider->mapToGlobal(global));
@@ -301,9 +303,9 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     m_zoomWidget->setVisible(zoomSliderVisible);
 }
 
-void DolphinStatusBar::updateZoomSliderToolTip()
+void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)
 {
-    const int size = ZoomLevelInfo::iconSizeForZoomLevel(m_view->zoomLevel());
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel);
     m_zoomSlider->setToolTip(i18ncp("@info:tooltip", "Size: 1 pixel", "Size: %1 pixels", size));
 }
 

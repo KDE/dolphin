@@ -165,7 +165,7 @@ private:
      * Updates the text of the zoom slider tooltip to show
      * the currently used size.
      */
-    void updateZoomSliderToolTip();
+    void updateZoomSliderToolTip(int zoomLevel);
 
 private:
     DolphinView* m_view;
