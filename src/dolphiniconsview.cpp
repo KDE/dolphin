@@ -261,9 +261,9 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
 
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
+    m_enableScrollTo = true; // see DolphinIconsView::scrollTo()
     KCategorizedView::keyPressEvent(event);
     m_controller->handleKeyPressEvent(event);
-    m_enableScrollTo = true; // see DolphinIconsView::scrollTo()
 }
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
