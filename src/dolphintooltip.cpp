@@ -25,9 +25,6 @@
 
 #include <QtGui/QPixmap>
 
-const int PREVIEW_WIDTH = 256;
-const int PREVIEW_HEIGHT = 256;
-
 DolphinBalloonTooltipDelegate::DolphinBalloonTooltipDelegate()
 {
 }

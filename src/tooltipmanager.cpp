@@ -33,8 +33,6 @@
 #include <QTimer>
 #include <QToolTip>
 
-const int PREVIEW_WIDTH = 256;
-const int PREVIEW_HEIGHT = 256;
 const int ICON_WIDTH = 128;
 const int ICON_HEIGHT = 128;
 const int PREVIEW_DELAY = 250;

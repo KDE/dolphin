@@ -16,9 +16,9 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
- 
+
 // NOTE: proper documentation will be added once the code is better developed.
- 
+
 #ifndef DOLPHINTOOLTIP_H
 #define DOLPHINTOOLTIP_H
 
@@ -30,6 +30,10 @@
 
 class KFileItem;
 class QPixmap;
+
+const int PREVIEW_WIDTH = 256;
+const int PREVIEW_HEIGHT = 256;
+
 
 class DolphinBalloonTooltipDelegate : public KFormattedBalloonTipDelegate
 {
