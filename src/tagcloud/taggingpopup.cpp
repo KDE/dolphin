@@ -145,4 +145,3 @@ bool Nepomuk::TaggingPopup::event( QEvent* e )
     return TagCloud::event( e );
 }
 
-#include "taggingpopup.moc"
