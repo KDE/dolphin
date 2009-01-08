@@ -210,7 +210,7 @@ void InfoSidebarPage::showItemInfo()
             // can be shown within a short timeframe.
             m_outdatedPreviewTimer->start();
 
-            KIO::PreviewJob* job = KIO::filePreview(KUrl::List() << itemUrl,
+            KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item,
                                                     m_preview->width(),
                                                     m_preview->height(),
                                                     0,
