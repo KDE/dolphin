@@ -264,7 +264,7 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
 void ToolTipManager::startPreviewJob()
 {
     m_generatingPreview = true;
-    KIO::PreviewJob* job = KIO::filePreview(KUrl::List() << m_item.url(),
+    KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item,
                                             PREVIEW_WIDTH,
                                             PREVIEW_HEIGHT);
     job->setIgnoreMaximumSize(true);
