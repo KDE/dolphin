@@ -106,15 +106,17 @@ void SelectionManager::setItemSelected(bool selected)
 {
     emit selectionChanged();
 
-    const QModelIndex index = indexForUrl(m_toggle->url());
-    if (index.isValid()) {
-        QItemSelectionModel* selModel = m_view->selectionModel();
-        if (selected) {
-            selModel->select(index, QItemSelectionModel::Select);
-        } else {
-            selModel->select(index, QItemSelectionModel::Deselect);
+    if (!m_toggle->url().isEmpty()) {
+        const QModelIndex index = indexForUrl(m_toggle->url());
+        if (index.isValid()) {
+            QItemSelectionModel* selModel = m_view->selectionModel();
+            if (selected) {
+                selModel->select(index, QItemSelectionModel::Select);
+            } else {
+                selModel->select(index, QItemSelectionModel::Deselect);
+            }
+            selModel->setCurrentIndex(index, QItemSelectionModel::Current);
         }
-        selModel->setCurrentIndex(index, QItemSelectionModel::Current);
     }
 }
 
@@ -132,14 +134,16 @@ void SelectionManager::slotSelectionChanged(const QItemSelection& selected,
     // The selection has been changed outside the scope of the selection manager
     // (e. g. by the rubberband or the "Select All" action). Take care updating
     // the state of the toggle button.
-    const QModelIndex index = indexForUrl(m_toggle->url());
-    if (index.isValid()) {
-        if (selected.contains(index)) {
-            m_toggle->setChecked(true);
-        }
+    if (!m_toggle->url().isEmpty()) {
+        const QModelIndex index = indexForUrl(m_toggle->url());
+        if (index.isValid()) {
+            if (selected.contains(index)) {
+                m_toggle->setChecked(true);
+            }
 
-        if (deselected.contains(index)) {
-            m_toggle->setChecked(false);
+            if (deselected.contains(index)) {
+                m_toggle->setChecked(false);
+            }
         }
     }
 }
