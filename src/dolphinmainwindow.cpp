@@ -701,8 +701,11 @@ void DolphinMainWindow::toggleShowMenuBar()
 
 void DolphinMainWindow::editSettings()
 {
-    DolphinSettingsDialog dialog(this);
-    dialog.exec();
+    DolphinSettingsDialog* dialog = new DolphinSettingsDialog(this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+    dialog->raise();
+    dialog->activateWindow();
 }
 
 void DolphinMainWindow::setActiveTab(int index)
