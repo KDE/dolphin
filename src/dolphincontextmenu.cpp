@@ -287,8 +287,6 @@ void DolphinContextMenu::openViewportContextMenu()
         KPropertiesDialog* dialog = new KPropertiesDialog(url, m_mainWindow);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
-        dialog->raise();
-        dialog->activateWindow();
     } else if (action == addToPlacesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
