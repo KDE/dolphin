@@ -1,128 +1,128 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
 <kpartgui name="dolphin" version="7">
- <MenuBar>
-  <Menu name="file">
-   <Action name="create_new" />
-   <Action name="new_window" />
-   <Action name="new_tab" />
-   <Action name="close_tab" />
-   <Separator/>
-   <Action name="rename" />
-   <Action name="move_to_trash" />
-   <Action name="delete" />
-   <Separator/>
-   <Action name="properties" />
-  </Menu>
-  <Menu name="edit">
-   <Action name="select_all" />
-   <Action name="invert_selection" />
-  </Menu>
-  <Menu name="view">
-   <Menu name="view_mode" >
-    <text context="@title:menu">View Mode</text>
-    <Action name="icons" />
-    <Action name="details" />
-    <Action name="columns" />
-   </Menu>
-   <Menu name="sort">
-    <text context="@title:menu">Sort By</text>
-    <Action name="sort_by_name" />
-    <Action name="sort_by_size" />
-    <Action name="sort_by_date" />
-    <Action name="sort_by_permissions" />
-    <Action name="sort_by_owner" />
-    <Action name="sort_by_group" />
-    <Action name="sort_by_type" />
-    <Action name="sort_by_rating" />
-    <Action name="sort_by_tags" />
-    <Separator/>
-    <Action name="descending" />
-   </Menu>
-   <Menu name="additional_info">
-       <text context="@title:menu">Additional Information</text>
-       <Action name="show_size_info" />
-       <Action name="show_date_info" />
-       <Action name="show_permissions_info" />
-       <Action name="show_owner_info" />
-       <Action name="show_group_info" />
-       <Action name="show_mime_info" />
-   </Menu>
-   <Action name="show_preview" />
-   <Action name="show_in_groups" />
-   <Action name="show_hidden_files" />
-   <Separator/>
-   <Action name="split_view" />
-   <Action name="reload" />
-   <Action name="stop" />
-   <Separator/>
-   <Menu name="panels">
-    <text context="@title:menu">Panels</text>
-    <Action name="show_places_panel" />
-    <Action name="show_info_panel" />
-    <Action name="show_folders_panel" />
-    <Action name="show_terminal_panel" />
-   </Menu>
-   <Menu name="navigation_bar">
-    <text context="@title:menu">Navigation Bar</text>
-    <Action name="editable_location" />
-    <Action name="replace_location" />
-   </Menu>
-   <Separator/>
-   <Action name="view_properties" />
-  </Menu>
-  <Menu name="tools">
-    <Action name="find_file" />
-    <Action name="show_filter_bar" />
-    <Action name="compare_files" />
-    <Action name="quick_view" />
-  </Menu>
-</MenuBar>
-<State name="new_file" >
-  <disable>
-   <Action name="edit_undo" />
-   <Action name="edit_redo" />
-   <Action name="edit_cut" />
-   <Action name="edit_copy" />
-   <Action name="rename" />
-   <Action name="move_to_trash" />
-   <Action name="delete" />
-   <Action name="invert_selection" />
-   <Separator/>
-   <Action name="go_back" />
-   <Action name="go_forward" />
-  </disable>
- </State>
- <State name="has_selection" >
-  <enable>
-   <Action name="edit_cut" />
-   <Action name="edit_copy" />
-   <Action name="rename" />
-   <Action name="move_to_trash" />
-   <Action name="delete" />
-   <Action name="invert_selection" />
-  </enable>
- </State>
- <State name="has_no_selection" >
-  <disable>
-   <Action name="edit_cut" />
-   <Action name="edit_copy" />
-   <Action name="rename" />
-   <Action name="move_to_trash" />
-   <Action name="delete" />
-   <Action name="delete_shortcut" />
-   <Action name="invert_selection" />
-  </disable>
- </State>
- <ToolBar noMerge="1" name="mainToolBar" >
-  <text context="@title:menu">Main Toolbar</text>
-  <Action name="go_back" />
-  <Action name="go_forward" />
-  <Separator name="separator_1" />
-  <Action name="icons" />
-  <Action name="details" />
-  <Action name="columns" />
-  <Separator name="separator_0" />
-  <Action name="show_preview" />
-  <Action name="split_view" />
- </ToolBar>
+    <MenuBar>
+        <Menu name="file">
+            <Action name="create_new" />
+            <Action name="new_window" />
+            <Action name="new_tab" />
+            <Action name="close_tab" />
+            <Separator/>
+            <Action name="rename" />
+            <Action name="move_to_trash" />
+            <Action name="delete" />
+            <Separator/>
+            <Action name="properties" />
+        </Menu>
+        <Menu name="edit">
+            <Action name="select_all" />
+            <Action name="invert_selection" />
+        </Menu>
+        <Menu name="view">
+            <Menu name="view_mode" >
+                <text context="@title:menu">View Mode</text>
+                <Action name="icons" />
+                <Action name="details" />
+                <Action name="columns" />
+            </Menu>
+            <Menu name="sort">
+                <text context="@title:menu">Sort By</text>
+                <Action name="sort_by_name" />
+                <Action name="sort_by_size" />
+                <Action name="sort_by_date" />
+                <Action name="sort_by_permissions" />
+                <Action name="sort_by_owner" />
+                <Action name="sort_by_group" />
+                <Action name="sort_by_type" />
+                <Action name="sort_by_rating" />
+                <Action name="sort_by_tags" />
+                <Separator/>
+                <Action name="descending" />
+            </Menu>
+            <Menu name="additional_info">
+                <text context="@title:menu">Additional Information</text>
+                <Action name="show_size_info" />
+                <Action name="show_date_info" />
+                <Action name="show_permissions_info" />
+                <Action name="show_owner_info" />
+                <Action name="show_group_info" />
+                <Action name="show_mime_info" />
+            </Menu>
+            <Action name="show_preview" />
+            <Action name="show_in_groups" />
+            <Action name="show_hidden_files" />
+            <Separator/>
+            <Action name="split_view" />
+            <Action name="reload" />
+            <Action name="stop" />
+            <Separator/>
+            <Menu name="panels">
+                <text context="@title:menu">Panels</text>
+                <Action name="show_places_panel" />
+                <Action name="show_info_panel" />
+                <Action name="show_folders_panel" />
+                <Action name="show_terminal_panel" />
+            </Menu>
+            <Menu name="navigation_bar">
+                <text context="@title:menu">Navigation Bar</text>
+                <Action name="editable_location" />
+                <Action name="replace_location" />
+            </Menu>
+            <Separator/>
+            <Action name="view_properties" />
+        </Menu>
+        <Menu name="tools">
+            <Action name="find_file" />
+            <Action name="show_filter_bar" />
+            <Action name="compare_files" />
+            <Action name="quick_view" />
+        </Menu>
+    </MenuBar>
+    <State name="new_file" >
+        <disable>
+            <Action name="edit_undo" />
+            <Action name="edit_redo" />
+            <Action name="edit_cut" />
+            <Action name="edit_copy" />
+            <Action name="rename" />
+            <Action name="move_to_trash" />
+            <Action name="delete" />
+            <Action name="invert_selection" />
+            <Separator/>
+            <Action name="go_back" />
+            <Action name="go_forward" />
+        </disable>
+    </State>
+    <State name="has_selection" >
+        <enable>
+            <Action name="edit_cut" />
+            <Action name="edit_copy" />
+            <Action name="rename" />
+            <Action name="move_to_trash" />
+            <Action name="delete" />
+            <Action name="invert_selection" />
+        </enable>
+    </State>
+    <State name="has_no_selection" >
+        <disable>
+            <Action name="edit_cut" />
+            <Action name="edit_copy" />
+            <Action name="rename" />
+            <Action name="move_to_trash" />
+            <Action name="delete" />
+            <Action name="delete_shortcut" />
+            <Action name="invert_selection" />
+        </disable>
+    </State>
+    <ToolBar noMerge="1" name="mainToolBar" >
+        <text context="@title:menu">Main Toolbar</text>
+        <Action name="go_back" />
+        <Action name="go_forward" />
+        <Separator name="separator_1" />
+        <Action name="icons" />
+        <Action name="details" />
+        <Action name="columns" />
+        <Separator name="separator_0" />
+        <Action name="show_preview" />
+        <Action name="split_view" />
+    </ToolBar>
 </kpartgui>
