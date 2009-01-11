@@ -1,10 +1,11 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="6">
+<kpartgui name="dolphin" version="7">
  <MenuBar>
   <Menu name="file">
    <Action name="create_new" />
    <Action name="new_window" />
    <Action name="new_tab" />
+   <Action name="close_tab" />
    <Separator/>
    <Action name="rename" />
    <Action name="move_to_trash" />
