@@ -61,6 +61,8 @@ int main(int argc, char **argv)
     about.addAuthor(ki18nc("@info:credit", "Michael Austin"),
                     ki18nc("@info:credit", "Documentation"),
                     "tuxedup@users.sourceforge.net");
+    // the .desktop file is not taken into account when launching manually, so
+    // set the icon precautionally:
     about.setProgramIconName("system-file-manager");
 
     KCmdLineArgs::init(argc, argv, &about);
@@ -74,8 +76,6 @@ int main(int argc, char **argv)
     }
 
     DolphinApplication app;
-    // the .desktop file is not taken into account when launching manually, so
-    // set the icon precautionally:
     KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
 
     if (app.isSessionRestored()) {
