@@ -93,7 +93,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_id(id),
     m_tabIndex(0),
     m_viewTab(),
-    m_actionHandler(0)
+    m_actionHandler(0),
+    m_settingsDialog(0)
 {
     setObjectName("Dolphin#");
 
@@ -701,9 +702,13 @@ void DolphinMainWindow::toggleShowMenuBar()
 
 void DolphinMainWindow::editSettings()
 {
-    DolphinSettingsDialog* dialog = new DolphinSettingsDialog(this);
-    dialog->setAttribute(Qt::WA_DeleteOnClose);
-    dialog->show();
+    if (m_settingsDialog == 0) {
+        m_settingsDialog = new DolphinSettingsDialog(this);
+        m_settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
+        m_settingsDialog->show();
+    } else {
+        m_settingsDialog->raise();
+    }
 }
 
 void DolphinMainWindow::setActiveTab(int index)
