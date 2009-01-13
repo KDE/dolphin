@@ -39,6 +39,7 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 class KAction;
 class DolphinViewActionHandler;
 class DolphinApplication;
+class DolphinSettingsDialog;
 class DolphinViewContainer;
 class KNewMenu;
 class KTabBar;
@@ -434,6 +435,7 @@ private:
     QList<ViewTab> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
+    QPointer<DolphinSettingsDialog> m_settingsDialog;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
