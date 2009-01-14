@@ -22,7 +22,7 @@
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"

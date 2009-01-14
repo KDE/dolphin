@@ -20,7 +20,7 @@
 
 #include "viewproperties.h"
 
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 

@@ -24,14 +24,14 @@
 #include "dolphincontroller.h"
 #include "dolphindirlister.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphinviewautoscroller.h"
 #include "dolphin_columnmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "selectionmanager.h"
-#include "tooltipmanager.h"
+#include "tooltips/tooltipmanager.h"
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>

@@ -24,7 +24,7 @@
 #include "dolphinsortfilterproxymodel.h"
 
 #include <kicon.h>
-#include <ktooltip.h>
+#include <tooltips/ktooltip.h>
 #include <kio/previewjob.h>
 
 #include <QApplication>

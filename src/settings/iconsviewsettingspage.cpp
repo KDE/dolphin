@@ -20,7 +20,7 @@
 #include "iconsviewsettingspage.h"
 
 #include "dolphinfontrequester.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "iconsizegroupbox.h"
 #include "zoomlevelinfo.h"
 

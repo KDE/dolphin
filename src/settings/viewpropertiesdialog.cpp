@@ -22,7 +22,7 @@
 
 #include "additionalinfodialog.h"
 #include "dolphinview.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"

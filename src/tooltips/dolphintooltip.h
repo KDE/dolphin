@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Simon St James <kdedevel@etotheipiplusone.com>  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,46 +17,31 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef TERMINALSIDEBARPAGE_H
-#define TERMINALSIDEBARPAGE_H
+// NOTE: proper documentation will be added once the code is better developed.
 
-#include <sidebarpage.h>
+#ifndef DOLPHINTOOLTIP_H
+#define DOLPHINTOOLTIP_H
 
-class TerminalInterface;
-class QVBoxLayout;
-class QWidget;
+#include <tooltips/ktooltip.h>
+#include <tooltips/kformattedballoontipdelegate.h>
 
-/**
- * @brief Shows the terminal which is synchronized with the URL of the
- *        active view.
- */
-class TerminalSidebarPage : public SidebarPage
+#include <kio/previewjob.h>
+#include <QtCore/QObject>
+
+class KFileItem;
+class QPixmap;
+
+const int PREVIEW_WIDTH = 256;
+const int PREVIEW_HEIGHT = 256;
+
+
+class DolphinBalloonTooltipDelegate : public KFormattedBalloonTipDelegate
 {
-    Q_OBJECT
-
 public:
-    TerminalSidebarPage(QWidget* parent = 0);
-    virtual ~TerminalSidebarPage();
+    DolphinBalloonTooltipDelegate();
+    virtual ~DolphinBalloonTooltipDelegate();
 
-    /** @see QWidget::sizeHint() */
-    virtual QSize sizeHint() const;
-
-public slots:
-    /** @see SidebarPage::setUrl(). */
-    virtual void setUrl(const KUrl& url);
-    void terminalExited();
-
-signals:
-    void hideTerminalSidebarPage();
-
-protected:
-    /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
-
-private:
-    QVBoxLayout* m_layout;
-    TerminalInterface* m_terminal;
-    QWidget* m_terminalWidget;
+    virtual QSize sizeHint(const KStyleOptionToolTip* option, const KToolTipItem* item) const;
+    virtual void paint(QPainter* painter, const KStyleOptionToolTip* option, const KToolTipItem* item) const;
 };
-
-#endif // TERMINALSIDEBARPAGE_H
+#endif

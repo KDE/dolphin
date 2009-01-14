@@ -21,7 +21,7 @@
 #define SIDEBARTREEVIEW_H
 
 #include <kurl.h>
-#include <ktreeview.h>
+#include <panels/folders/ktreeview.h>
 
 /**
  * @brief Tree view widget which is used for the sidebar panel.

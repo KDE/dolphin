@@ -20,12 +20,12 @@
 
 #include "viewsettingspage.h"
 
-#include "columnviewsettingspage.h"
-#include "detailsviewsettingspage.h"
+#include "settings/columnviewsettingspage.h"
+#include "settings/detailsviewsettingspage.h"
 #include "dolphinmainwindow.h"
 #include "dolphinviewcontainer.h"
-#include "generalviewsettingspage.h"
-#include "iconsviewsettingspage.h"
+#include "settings/generalviewsettingspage.h"
+#include "settings/iconsviewsettingspage.h"
 
 #include <QtGui/QBoxLayout>
 #include <QtGui/QLayout>

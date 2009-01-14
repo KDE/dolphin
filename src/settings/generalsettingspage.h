@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Peter Penz                                      *
+ *   peter.penz@gmx.at                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,45 +17,48 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+#ifndef GENERALSETTINGSPAGE_H
+#define GENERALSETTINGSPAGE_H
 
-#ifndef DETAILSVIEWSETTINGSPAGE_H
-#define DETAILSVIEWSETTINGSPAGE_H
+#include <settings/settingspagebase.h>
 
-#include <viewsettingspagebase.h>
-
-class DolphinFontRequester;
-class IconSizeGroupBox;
+class DolphinMainWindow;
+class QLineEdit;
 class QCheckBox;
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- *        to modify the settings for the details view.
+ * @brief Page for the 'General' settings of the Dolphin settings dialog.
  */
-class DetailsViewSettingsPage : public ViewSettingsPageBase
+class GeneralSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    DetailsViewSettingsPage(QWidget* parent);
-    virtual ~DetailsViewSettingsPage();
+    GeneralSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    virtual ~GeneralSettingsPage();
 
-    /**
-     * Applies the settings for the details view.
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
+    /** @see SettingsPageBase::applySettings() */
     virtual void applySettings();
 
-    /** Restores the settings to default values. */
+    /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
 private:
     void loadSettings();
 
 private:
-    IconSizeGroupBox* m_iconSizeGroupBox;
-    DolphinFontRequester* m_fontRequester;
-    QCheckBox* m_expandableFolders;
+    QCheckBox* m_confirmMoveToTrash;
+    QCheckBox* m_confirmDelete;
+
+    QCheckBox* m_showDeleteCommand;
+    QCheckBox* m_showCopyMoveMenu;
+
+    QCheckBox* m_showZoomSlider;
+    QCheckBox* m_showSpaceInfo;
+
+    QCheckBox* m_browseThroughArchives;
+    QCheckBox* m_renameInline;
+    QCheckBox* m_autoExpandFolders;
 };
 
 #endif

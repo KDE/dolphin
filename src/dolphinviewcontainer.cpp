@@ -58,7 +58,7 @@
 #include "filterbar.h"
 #include "kurlnavigator.h"
 #include "viewproperties.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 
 DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,

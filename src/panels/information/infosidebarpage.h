@@ -20,7 +20,7 @@
 #ifndef INFOSIDEBARPAGE_H
 #define INFOSIDEBARPAGE_H
 
-#include <sidebarpage.h>
+#include <panels/sidebarpage.h>
 
 #include <QtGui/QPushButton>
 #include <QtGui/QPixmap>

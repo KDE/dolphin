@@ -45,7 +45,7 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "metadatawidget.h"
 #include "metatextlabel.h"
 #include "pixmapviewer.h"

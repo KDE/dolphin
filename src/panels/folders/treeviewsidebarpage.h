@@ -21,7 +21,7 @@
 #define TREEVIEWSIDEBARPAGE_H
 
 #include <kurl.h>
-#include <sidebarpage.h>
+#include <panels/sidebarpage.h>
 
 class KDirLister;
 class DolphinModel;

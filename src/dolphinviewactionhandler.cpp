@@ -19,7 +19,7 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include "viewpropertiesdialog.h"
+#include "settings/viewpropertiesdialog.h"
 #include "dolphinview.h"
 #include "zoomlevelinfo.h"
 

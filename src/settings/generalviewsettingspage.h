@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,51 +16,58 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef STARTUPSETTINGSPAGE_H
-#define STARTUPSETTINGSPAGE_H
 
-#include <settingspagebase.h>
+#ifndef GENERALVIEWSETTINGSPAGE_H
+#define GENERALVIEWSETTINGSPAGE_H
+
+#include <kurl.h>
+#include <settings/viewsettingspagebase.h>
 
 class DolphinMainWindow;
-class KLineEdit;
 class QCheckBox;
+class QRadioButton;
+class QSlider;
+class QSpinBox;
 
 /**
- * @brief Page for the 'Startup' settings of the Dolphin settings dialog.
- *
- * The startup settings allow to set the home URL and to configure the
- * state of the view mode, split mode and the filter bar when starting Dolphin.
+ * @brief Represents the page from the Dolphin Settings which allows
+ * to modify general settings for the view modes.
  */
-class StartupSettingsPage : public SettingsPageBase
+class GeneralViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    StartupSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~StartupSettingsPage();
+    /**
+     * @param url     URL of the currently shown directory, which is used
+     *                to read the viewproperties.
+     * @param parent  Parent widget of the settings page.
+     */
+    GeneralViewSettingsPage(const KUrl& url, QWidget* parent);
+    virtual ~GeneralViewSettingsPage();
 
-    /** @see SettingsPageBase::applySettings() */
+    /**
+     * Applies the general settings for the view modes
+     * The settings are persisted automatically when
+     * closing Dolphin.
+     */
     virtual void applySettings();
 
-    /** @see SettingsPageBase::restoreDefaults() */
+    /** Restores the settings to default values. */
     virtual void restoreDefaults();
-
-private slots:
-    void selectHomeUrl();
-    void useCurrentLocation();
-    void useDefaultLocation();
 
 private:
     void loadSettings();
 
 private:
-    DolphinMainWindow* m_mainWindow;
-    KLineEdit* m_homeUrl;
-
-    QCheckBox* m_splitView;
-    QCheckBox* m_editableUrl;
-    QCheckBox* m_showFullPath;
-    QCheckBox* m_filterBar;
+    KUrl m_url;
+    QRadioButton* m_localProps;
+    QRadioButton* m_globalProps;
+    QSlider* m_maxPreviewSize;
+    QSpinBox* m_spinBox;
+    QCheckBox* m_useFileThumbnails;
+    QCheckBox* m_showSelectionToggle;
+    QCheckBox* m_showToolTips;
 };
 
 #endif

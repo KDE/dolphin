@@ -22,7 +22,7 @@
 
 #include "dolphinmainwindow.h"
 #include "dolphinnewmenu.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphinview.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"

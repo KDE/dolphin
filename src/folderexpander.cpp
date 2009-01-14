@@ -20,7 +20,7 @@
 #include "folderexpander.h"
 #include "dolphinview.h"
 
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 
 #include <QtCore/QTimer>

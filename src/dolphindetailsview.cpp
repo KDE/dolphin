@@ -23,7 +23,7 @@
 #include "dolphinmodel.h"
 #include "dolphincontroller.h"
 #include "dolphinfileitemdelegate.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinviewautoscroller.h"
 #include "draganddrophelper.h"

@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,48 +16,73 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef GENERALSETTINGSPAGE_H
-#define GENERALSETTINGSPAGE_H
 
-#include <settingspagebase.h>
+#ifndef ICONSVIEWSETTINGSPAGE_H
+#define ICONSVIEWSETTINGSPAGE_H
 
-class DolphinMainWindow;
-class QLineEdit;
+#include <dolphiniconsview.h>
+#include <settings/viewsettingspagebase.h>
+
+class DolphinFontRequester;
+class IconSizeGroupBox;
 class QCheckBox;
+class KComboBox;
+class QSpinBox;
 
 /**
- * @brief Page for the 'General' settings of the Dolphin settings dialog.
+ * @brief Tab page for the 'Icons Mode' and 'Previews Mode' settings
+ * of the Dolphin settings dialog.
+ *
+ * Allows to set:
+ * - icon size
+ * - preview size
+ * - text width
+ * - grid spacing
+ * - font
+ * - number of text lines
+ * - arrangement
+ *
+ * @see DolphinIconsViewSettings
  */
-class GeneralSettingsPage : public SettingsPageBase
+class IconsViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    GeneralSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~GeneralSettingsPage();
+    IconsViewSettingsPage(QWidget* parent);
+    virtual ~IconsViewSettingsPage();
 
-    /** @see SettingsPageBase::applySettings() */
+    /**
+     * Applies the settings for the icons view.
+     * The settings are persisted automatically when
+     * closing Dolphin.
+     */
     virtual void applySettings();
 
-    /** @see SettingsPageBase::restoreDefaults() */
+    /** Restores the settings to default values. */
     virtual void restoreDefaults();
 
 private:
     void loadSettings();
 
 private:
-    QCheckBox* m_confirmMoveToTrash;
-    QCheckBox* m_confirmDelete;
+    enum
+    {
+        GridSpacingBase =   8,
+        GridSpacingInc  =  12,
+        LeftToRightBase = 128,
+        LeftToRightInc  =  64,
+        TopToBottomBase =  32,
+        TopToBottomInc  =  32
+    };
 
-    QCheckBox* m_showDeleteCommand;
-    QCheckBox* m_showCopyMoveMenu;
+    IconSizeGroupBox* m_iconSizeGroupBox;
+    KComboBox* m_textWidthBox;
+    DolphinFontRequester* m_fontRequester;
+    QSpinBox* m_textlinesCountBox;
 
-    QCheckBox* m_showZoomSlider;
-    QCheckBox* m_showSpaceInfo;
-
-    QCheckBox* m_browseThroughArchives;
-    QCheckBox* m_renameInline;
-    QCheckBox* m_autoExpandFolders;
+    KComboBox* m_arrangementBox;
+    KComboBox* m_gridSpacingBox;
 };
 
 #endif

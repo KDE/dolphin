@@ -21,7 +21,7 @@
 
 #include "dolphincolumnwidget.h"
 #include "dolphincontroller.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "zoomlevelinfo.h"
 
 #include "dolphin_columnmodesettings.h"

@@ -20,7 +20,7 @@
 
 #include "generalsettingspage.h"
 
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 
 #include "dolphin_generalsettings.h"
 

@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Peter Penz                                      *
+ *   peter.penz@gmx.at                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,60 +15,39 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
+#ifndef VIEWSETTINGSPAGE_H
+#define VIEWSETTINGSPAGE_H
 
-#ifndef GENERALVIEWSETTINGSPAGE_H
-#define GENERALVIEWSETTINGSPAGE_H
+#include <QtGui/QWidget>
+#include <settings/settingspagebase.h>
 
-#include <kurl.h>
-#include <viewsettingspagebase.h>
-
+class ViewSettingsPageBase;
 class DolphinMainWindow;
-class QCheckBox;
-class QRadioButton;
-class QSlider;
-class QSpinBox;
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- * to modify general settings for the view modes.
+ * @brief Page for the 'View' settings of the Dolphin settings dialog.
+ *
+ * The views settings allow to set the properties for the icons mode,
+ * the details mode and the column mode.
  */
-class GeneralViewSettingsPage : public ViewSettingsPageBase
+class ViewSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    /**
-     * @param url     URL of the currently shown directory, which is used
-     *                to read the viewproperties.
-     * @param parent  Parent widget of the settings page.
-     */
-    GeneralViewSettingsPage(const KUrl& url, QWidget* parent);
-    virtual ~GeneralViewSettingsPage();
+    ViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    virtual ~ViewSettingsPage();
 
-    /**
-     * Applies the general settings for the view modes
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
+    /** @see SettingsPageBase::applySettings() */
     virtual void applySettings();
 
-    /** Restores the settings to default values. */
+    /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
 private:
-    void loadSettings();
-
-private:
-    KUrl m_url;
-    QRadioButton* m_localProps;
-    QRadioButton* m_globalProps;
-    QSlider* m_maxPreviewSize;
-    QSpinBox* m_spinBox;
-    QCheckBox* m_useFileThumbnails;
-    QCheckBox* m_showSelectionToggle;
-    QCheckBox* m_showToolTips;
+    QList<ViewSettingsPageBase*> m_pages;
 };
 
 #endif

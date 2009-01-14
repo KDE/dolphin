@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,30 +14,30 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef VIEWSETTINGSPAGE_H
-#define VIEWSETTINGSPAGE_H
+#ifndef STARTUPSETTINGSPAGE_H
+#define STARTUPSETTINGSPAGE_H
 
-#include <QtGui/QWidget>
-#include <settingspagebase.h>
+#include <settings/settingspagebase.h>
 
-class ViewSettingsPageBase;
 class DolphinMainWindow;
+class KLineEdit;
+class QCheckBox;
 
 /**
- * @brief Page for the 'View' settings of the Dolphin settings dialog.
+ * @brief Page for the 'Startup' settings of the Dolphin settings dialog.
  *
- * The views settings allow to set the properties for the icons mode,
- * the details mode and the column mode.
+ * The startup settings allow to set the home URL and to configure the
+ * state of the view mode, split mode and the filter bar when starting Dolphin.
  */
-class ViewSettingsPage : public SettingsPageBase
+class StartupSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    ViewSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
-    virtual ~ViewSettingsPage();
+    StartupSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    virtual ~StartupSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
     virtual void applySettings();
@@ -46,8 +45,22 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
+private slots:
+    void selectHomeUrl();
+    void useCurrentLocation();
+    void useDefaultLocation();
+
 private:
-    QList<ViewSettingsPageBase*> m_pages;
+    void loadSettings();
+
+private:
+    DolphinMainWindow* m_mainWindow;
+    KLineEdit* m_homeUrl;
+
+    QCheckBox* m_splitView;
+    QCheckBox* m_editableUrl;
+    QCheckBox* m_showFullPath;
+    QCheckBox* m_filterBar;
 };
 
 #endif

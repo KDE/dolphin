@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,45 +17,46 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef COLUMNVIEWSETTINGSPAGE_H
-#define COLUMNVIEWSETTINGSPAGE_H
+#ifndef TERMINALSIDEBARPAGE_H
+#define TERMINALSIDEBARPAGE_H
 
-#include <viewsettingspagebase.h>
+#include <panels/sidebarpage.h>
 
-class DolphinMainWindow;
-class DolphinFontRequester;
-class IconSizeGroupBox;
-class KComboBox;
+class TerminalInterface;
+class QVBoxLayout;
+class QWidget;
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- *        to modify the settings for the details view.
+ * @brief Shows the terminal which is synchronized with the URL of the
+ *        active view.
  */
-class ColumnViewSettingsPage : public ViewSettingsPageBase
+class TerminalSidebarPage : public SidebarPage
 {
     Q_OBJECT
 
 public:
-    ColumnViewSettingsPage(QWidget* parent);
-    virtual ~ColumnViewSettingsPage();
+    TerminalSidebarPage(QWidget* parent = 0);
+    virtual ~TerminalSidebarPage();
 
-    /**
-     * Applies the settings for the details view.
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
-    virtual void applySettings();
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
 
-    /** Restores the settings to default values. */
-    virtual void restoreDefaults();
+public slots:
+    /** @see SidebarPage::setUrl(). */
+    virtual void setUrl(const KUrl& url);
+    void terminalExited();
+
+signals:
+    void hideTerminalSidebarPage();
+
+protected:
+    /** @see QWidget::showEvent() */
+    virtual void showEvent(QShowEvent* event);
 
 private:
-    void loadSettings();
-
-private:
-    IconSizeGroupBox* m_iconSizeGroupBox;
-    DolphinFontRequester* m_fontRequester;
-    KComboBox* m_textWidthBox;
+    QVBoxLayout* m_layout;
+    TerminalInterface* m_terminal;
+    QWidget* m_terminalWidget;
 };
 
-#endif
+#endif // TERMINALSIDEBARPAGE_H

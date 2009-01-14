@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Simon St James <kdedevel@etotheipiplusone.com>  *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,31 +17,45 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-// NOTE: proper documentation will be added once the code is better developed.
+#ifndef COLUMNVIEWSETTINGSPAGE_H
+#define COLUMNVIEWSETTINGSPAGE_H
 
-#ifndef DOLPHINTOOLTIP_H
-#define DOLPHINTOOLTIP_H
+#include <settings/viewsettingspagebase.h>
 
-#include "ktooltip.h"
-#include "kformattedballoontipdelegate.h"
+class DolphinMainWindow;
+class DolphinFontRequester;
+class IconSizeGroupBox;
+class KComboBox;
 
-#include <kio/previewjob.h>
-#include <QtCore/QObject>
-
-class KFileItem;
-class QPixmap;
-
-const int PREVIEW_WIDTH = 256;
-const int PREVIEW_HEIGHT = 256;
-
-
-class DolphinBalloonTooltipDelegate : public KFormattedBalloonTipDelegate
+/**
+ * @brief Represents the page from the Dolphin Settings which allows
+ *        to modify the settings for the details view.
+ */
+class ColumnViewSettingsPage : public ViewSettingsPageBase
 {
-public:
-    DolphinBalloonTooltipDelegate();
-    virtual ~DolphinBalloonTooltipDelegate();
+    Q_OBJECT
 
-    virtual QSize sizeHint(const KStyleOptionToolTip* option, const KToolTipItem* item) const;
-    virtual void paint(QPainter* painter, const KStyleOptionToolTip* option, const KToolTipItem* item) const;
+public:
+    ColumnViewSettingsPage(QWidget* parent);
+    virtual ~ColumnViewSettingsPage();
+
+    /**
+     * Applies the settings for the details view.
+     * The settings are persisted automatically when
+     * closing Dolphin.
+     */
+    virtual void applySettings();
+
+    /** Restores the settings to default values. */
+    virtual void restoreDefaults();
+
+private:
+    void loadSettings();
+
+private:
+    IconSizeGroupBox* m_iconSizeGroupBox;
+    DolphinFontRequester* m_fontRequester;
+    KComboBox* m_textWidthBox;
 };
+
 #endif

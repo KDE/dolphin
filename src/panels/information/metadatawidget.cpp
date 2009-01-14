@@ -43,7 +43,7 @@
 #include <nepomuk/variant.h>
 #include <nepomuk/kratingwidget.h>
 #include <Soprano/Vocabulary/Xesam>
-#include "tagcloud/resourcetaggingwidget.h"
+#include "resourcetaggingwidget.h"
 #endif
 
 
@@ -66,7 +66,7 @@ public:
     CommentWidget* editComment;
     KRatingWidget* ratingWidget;
     Nepomuk::ResourceTaggingWidget* tagWidget;
-    
+
     // shared data between the GUI-thread and
     // the loader-thread (see LoadFilesThread):
     QMutex mutex;
@@ -77,7 +77,7 @@ public:
         QList<Nepomuk::Resource> fileRes;
         QMap<KUrl, Nepomuk::Resource> files;
     } sharedData;
-    
+
     /**
      * Loads the meta data of files and writes
      * the result into a shared data pool that
@@ -89,13 +89,13 @@ public:
         LoadFilesThread(SharedData* sharedData, QMutex* mutex);
         void setFiles(const KUrl::List& urls);
         virtual void run();
-        
+
     private:
         SharedData* m_sharedData;
         QMutex* m_mutex;
         KUrl::List m_urls;
     };
-    
+
     LoadFilesThread* loadFilesThread;
 #endif
 };
@@ -126,7 +126,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     QMutexLocker locker( m_mutex );
     const KUrl::List urls = m_urls;
     locker.unlock();
-    
+
     bool first = true;
     QList<Nepomuk::Resource> fileRes;
     QMap<KUrl, Nepomuk::Resource> files;
@@ -152,7 +152,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
         }
         first = false;
     }
-    
+
     locker.relock();
     m_sharedData->rating = rating;
     m_sharedData->comment = comment;
@@ -174,7 +174,7 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
     connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));
     connect(d->editComment, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
     connect( d->tagWidget, SIGNAL( tagClicked( const Nepomuk::Tag& ) ), this, SLOT( slotTagClicked( const Nepomuk::Tag& ) ) );
-    
+
     d->sharedData.rating = 0;
     d->loadFilesThread = new Private::LoadFilesThread(&d->sharedData, &d->mutex);
     connect(d->loadFilesThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));

@@ -20,12 +20,12 @@
 #include "detailsviewsettingspage.h"
 
 #include "iconsizegroupbox.h"
+#include "dolphinfontrequester.h"
 #include "dolphinsettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "zoomlevelinfo.h"
 
 #include <kdialog.h>
-#include <dolphinfontrequester.h>
 #include <klocale.h>
 
 #include <QButtonGroup>

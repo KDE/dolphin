@@ -17,43 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef ICONSVIEWSETTINGSPAGE_H
-#define ICONSVIEWSETTINGSPAGE_H
+#ifndef DETAILSVIEWSETTINGSPAGE_H
+#define DETAILSVIEWSETTINGSPAGE_H
 
-#include <dolphiniconsview.h>
-#include <viewsettingspagebase.h>
+#include <settings/viewsettingspagebase.h>
 
 class DolphinFontRequester;
 class IconSizeGroupBox;
 class QCheckBox;
-class KComboBox;
-class QSpinBox;
 
 /**
- * @brief Tab page for the 'Icons Mode' and 'Previews Mode' settings
- * of the Dolphin settings dialog.
- *
- * Allows to set:
- * - icon size
- * - preview size
- * - text width
- * - grid spacing
- * - font
- * - number of text lines
- * - arrangement
- *
- * @see DolphinIconsViewSettings
+ * @brief Represents the page from the Dolphin Settings which allows
+ *        to modify the settings for the details view.
  */
-class IconsViewSettingsPage : public ViewSettingsPageBase
+class DetailsViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    IconsViewSettingsPage(QWidget* parent);
-    virtual ~IconsViewSettingsPage();
+    DetailsViewSettingsPage(QWidget* parent);
+    virtual ~DetailsViewSettingsPage();
 
     /**
-     * Applies the settings for the icons view.
+     * Applies the settings for the details view.
      * The settings are persisted automatically when
      * closing Dolphin.
      */
@@ -66,23 +52,9 @@ private:
     void loadSettings();
 
 private:
-    enum
-    {
-        GridSpacingBase =   8,
-        GridSpacingInc  =  12,
-        LeftToRightBase = 128,
-        LeftToRightInc  =  64,
-        TopToBottomBase =  32,
-        TopToBottomInc  =  32
-    };
-
     IconSizeGroupBox* m_iconSizeGroupBox;
-    KComboBox* m_textWidthBox;
     DolphinFontRequester* m_fontRequester;
-    QSpinBox* m_textlinesCountBox;
-
-    KComboBox* m_arrangementBox;
-    KComboBox* m_gridSpacingBox;
+    QCheckBox* m_expandableFolders;
 };
 
 #endif

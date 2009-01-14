@@ -19,7 +19,7 @@
 
 #include "startupsettingspage.h"
 
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinview.h"
 #include "dolphinviewcontainer.h"

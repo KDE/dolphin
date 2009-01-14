@@ -21,7 +21,7 @@
 
 #include "dolphincategorydrawer.h"
 #include "dolphincontroller.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphinviewautoscroller.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_generalsettings.h"

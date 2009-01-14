@@ -19,10 +19,10 @@
 
 #include "kcmdolphin.h"
 
-#include "columnviewsettingspage.h"
-#include "detailsviewsettingspage.h"
-#include "generalviewsettingspage.h"
-#include "iconsviewsettingspage.h"
+#include "settings/columnviewsettingspage.h"
+#include "settings/detailsviewsettingspage.h"
+#include "settings/generalviewsettingspage.h"
+#include "settings/iconsviewsettingspage.h"
 
 #include <ktabwidget.h>
 #include <kdialog.h>

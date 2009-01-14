@@ -25,20 +25,20 @@
 #include <config-nepomuk.h>
 
 #include "dolphinapplication.h"
-#include "dolphinfileplacesview.h"
+#include "panels/places/dolphinfileplacesview.h"
 #include "dolphinnewmenu.h"
-#include "dolphinsettings.h"
-#include "dolphinsettingsdialog.h"
+#include "settings/dolphinsettings.h"
+#include "settings/dolphinsettingsdialog.h"
 #include "dolphinstatusbar.h"
 #include "dolphinviewcontainer.h"
-#include "infosidebarpage.h"
-#include "metadatawidget.h"
+#include "panels/information/infosidebarpage.h"
+#include "panels/information/metadatawidget.h"
 #include "mainwindowadaptor.h"
-#include "treeviewsidebarpage.h"
+#include "panels/folders/treeviewsidebarpage.h"
 #include "viewproperties.h"
 
 #ifndef Q_OS_WIN
-#include "terminalsidebarpage.h"
+#include "panels/terminal/terminalsidebarpage.h"
 #endif
 
 #include "dolphin_generalsettings.h"

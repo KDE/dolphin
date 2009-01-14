@@ -18,8 +18,8 @@ endif (Nepomuk_FOUND)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-    additionalinfodialog.cpp
-    applyviewpropsjob.cpp
+    settings/additionalinfodialog.cpp
+    settings/applyviewpropsjob.cpp
     dolphincontroller.cpp
     dolphindetailsview.cpp
     dolphiniconsview.cpp
@@ -28,33 +28,33 @@ set(dolphinprivate_LIB_SRCS
     dolphindirlister.cpp
     dolphinfileitemdelegate.cpp
     dolphinmodel.cpp
-    dolphinsettings.cpp
+    settings/dolphinsettings.cpp
     dolphinsortfilterproxymodel.cpp
-    dolphintooltip.cpp
+    tooltips/dolphintooltip.cpp
     dolphincategorydrawer.cpp
     dolphinview.cpp
     dolphinviewactionhandler.cpp
     dolphinviewautoscroller.cpp
     draganddrophelper.cpp
     folderexpander.cpp
-    ktooltip.cpp
-    kformattedballoontipdelegate.cpp
+    tooltips/ktooltip.cpp
+    tooltips/kformattedballoontipdelegate.cpp
     renamedialog.cpp
     selectiontoggle.cpp
     selectionmanager.cpp
-    tooltipmanager.cpp
+    tooltips/tooltipmanager.cpp
     viewproperties.cpp
-    viewpropertiesdialog.cpp
-    viewpropsprogressinfo.cpp
+    settings/viewpropertiesdialog.cpp
+    settings/viewpropsprogressinfo.cpp
     zoomlevelinfo.cpp
     )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
-    dolphin_columnmodesettings.kcfgc
-    dolphin_directoryviewpropertysettings.kcfgc
-    dolphin_detailsmodesettings.kcfgc
-    dolphin_iconsmodesettings.kcfgc
-    dolphin_generalsettings.kcfgc)
+    settings/dolphin_columnmodesettings.kcfgc
+    settings/dolphin_directoryviewpropertysettings.kcfgc
+    settings/dolphin_detailsmodesettings.kcfgc
+    settings/dolphin_iconsmodesettings.kcfgc
+    settings/dolphin_generalsettings.kcfgc)
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
@@ -90,62 +90,62 @@ install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 ##########################################
 
 set(dolphin_SRCS
-    columnviewsettingspage.cpp
-    commentwidget.cpp
-    commenteditwidget.cpp
-    detailsviewsettingspage.cpp
+    settings/columnviewsettingspage.cpp
+    panels/information/commentwidget.cpp
+    panels/information/commenteditwidget.cpp
+    settings/detailsviewsettingspage.cpp
     dolphinapplication.cpp
-    dolphinfontrequester.cpp
+    settings/dolphinfontrequester.cpp
     dolphinmainwindow.cpp
     dolphinnewmenu.cpp
     dolphinviewcontainer.cpp
     dolphinstatusbar.cpp
     dolphindirlister.cpp
     dolphincontextmenu.cpp
-    dolphinfileplacesview.cpp
-    dolphinsettingsdialog.cpp
+    panels/places/dolphinfileplacesview.cpp
+    settings/dolphinsettingsdialog.cpp
     filterbar.cpp
-    generalsettingspage.cpp
-    generalviewsettingspage.cpp
-    iconsizegroupbox.cpp
-    iconsviewsettingspage.cpp
-    infosidebarpage.cpp
-    ktreeview.cpp
+    settings/generalsettingspage.cpp
+    settings/generalviewsettingspage.cpp
+    settings/iconsizegroupbox.cpp
+    settings/iconsviewsettingspage.cpp
+    panels/information/infosidebarpage.cpp
+    panels/folders/ktreeview.cpp
     main.cpp
-    metadatawidget.cpp
-    metatextlabel.cpp
+    panels/information/metadatawidget.cpp
+    panels/information/metatextlabel.cpp
     pixmapviewer.cpp
-    settingspagebase.cpp
-    sidebarpage.cpp
-    startupsettingspage.cpp
+    settings/settingspagebase.cpp
+    panels/sidebarpage.cpp
+    settings/startupsettingspage.cpp
     statusbarspaceinfo.cpp
     statusbarmessagelabel.cpp
-    treeviewcontextmenu.cpp
-    treeviewsidebarpage.cpp
-    sidebartreeview.cpp
-    viewsettingspage.cpp
-    viewsettingspagebase.cpp
+    panels/folders/treeviewcontextmenu.cpp
+    panels/folders/treeviewsidebarpage.cpp
+    panels/folders/sidebartreeview.cpp
+    settings/viewsettingspage.cpp
+    settings/viewsettingspagebase.cpp
     zoomlevelinfo.cpp
     )
 
 kde4_add_kcfg_files(dolphin_SRCS
-    dolphin_folderspanelsettings.kcfgc)
+    panels/folders/dolphin_folderspanelsettings.kcfgc)
 
 if(Nepomuk_FOUND)
 set(dolphin_SRCS
   ${dolphin_SRCS}
-  nepomukmassupdatejob.cpp
-  tagcloud/tagcloud.cpp
-  tagcloud/resourcetaggingwidget.cpp
-  tagcloud/taggingpopup.cpp
-  tagcloud/newtagdialog.cpp
+  panels/information/nepomukmassupdatejob.cpp
+  panels/information/tagcloud.cpp
+  panels/information/resourcetaggingwidget.cpp
+  panels/information/taggingpopup.cpp
+  panels/information/newtagdialog.cpp
 )
-kde4_add_ui_files(dolphin_SRCS tagcloud/newtagdialog.ui)
+kde4_add_ui_files(dolphin_SRCS panels/information/newtagdialog.ui)
 
 endif(Nepomuk_FOUND)
 
 if(NOT WIN32)
-   set(dolphin_SRCS ${dolphin_SRCS} terminalsidebarpage.cpp)
+   set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalsidebarpage.cpp)
 endif(NOT WIN32)
 
 qt4_add_dbus_adaptor(dolphin_SRCS
@@ -171,25 +171,23 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(kcm_dolphin_PART_SRCS
     kcmdolphin.cpp
-    columnviewsettingspage.cpp
-    detailsviewsettingspage.cpp
-    dolphinfontrequester.cpp
-#    dolphinsettings.cpp
-    generalviewsettingspage.cpp
-    iconsizegroupbox.cpp
-    iconsviewsettingspage.cpp
+    settings/columnviewsettingspage.cpp
+    settings/detailsviewsettingspage.cpp
+    settings/dolphinfontrequester.cpp
+    settings/generalviewsettingspage.cpp
+    settings/iconsizegroupbox.cpp
+    settings/iconsviewsettingspage.cpp
     pixmapviewer.cpp
-    viewsettingspagebase.cpp
-#    viewproperties.cpp
+    settings/viewsettingspagebase.cpp
     zoomlevelinfo.cpp
 )
 
 kde4_add_kcfg_files(kcm_dolphin_PART_SRCS
-    dolphin_columnmodesettings.kcfgc
-    dolphin_directoryviewpropertysettings.kcfgc
-    dolphin_detailsmodesettings.kcfgc
-    dolphin_iconsmodesettings.kcfgc
-    dolphin_generalsettings.kcfgc)
+    settings/dolphin_columnmodesettings.kcfgc
+    settings/dolphin_directoryviewpropertysettings.kcfgc
+    settings/dolphin_detailsmodesettings.kcfgc
+    settings/dolphin_iconsmodesettings.kcfgc
+    settings/dolphin_generalsettings.kcfgc)
 
 kde4_add_plugin(kcm_dolphin ${kcm_dolphin_PART_SRCS})
 
@@ -203,6 +201,6 @@ install(TARGETS kcm_dolphin DESTINATION ${PLUGIN_INSTALL_DIR} )
 ########### install files ###############
 
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
-install( FILES  dolphin_directoryviewpropertysettings.kcfg dolphin_generalsettings.kcfg dolphin_columnmodesettings.kcfg dolphin_iconsmodesettings.kcfg dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
+install( FILES  settings/dolphin_directoryviewpropertysettings.kcfg settings/dolphin_generalsettings.kcfg settings/dolphin_columnmodesettings.kcfg settings/dolphin_iconsmodesettings.kcfg settings/dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 install( FILES kcmdolphin.desktop DESTINATION ${SERVICES_INSTALL_DIR} )

@@ -20,7 +20,7 @@
 #include "resourcetaggingwidget.h"
 #include "tagcloud.h"
 #include "taggingpopup.h"
-#include "../nepomukmassupdatejob.h"
+#include "nepomukmassupdatejob.h"
 
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QContextMenuEvent>

@@ -23,7 +23,7 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include "dolphinview.h"
-#include "sidebarpage.h"
+#include "panels/sidebarpage.h"
 
 #include <config-nepomuk.h>
 

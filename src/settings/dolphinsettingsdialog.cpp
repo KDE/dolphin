@@ -20,8 +20,8 @@
 
 #include "dolphinsettingsdialog.h"
 
-#include "dolphinapplication.h"
-#include "dolphinmainwindow.h"
+#include <dolphinapplication.h>
+#include <dolphinmainwindow.h>
 #include "generalsettingspage.h"
 #include "startupsettingspage.h"
 #include "viewsettingspage.h"

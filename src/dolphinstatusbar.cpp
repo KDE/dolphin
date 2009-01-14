@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "dolphinstatusbar.h"
-#include "dolphinsettings.h"
+#include "settings/dolphinsettings.h"
 #include "dolphinview.h"
 #include "dolphin_generalsettings.h"
 #include "statusbarmessagelabel.h"
