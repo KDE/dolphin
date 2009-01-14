@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef INFOSIDEBARPAGE_H
-#define INFOSIDEBARPAGE_H
+#ifndef INFORMATIONPANEL_H
+#define INFORMATIONPANEL_H
 
-#include <panels/sidebarpage.h>
+#include <panels/panel.h>
 
 #include <QtGui/QPushButton>
 #include <QtGui/QPixmap>
@@ -42,32 +42,32 @@ class MetaDataWidget;
 class MetaTextLabel;
 
 /**
- * @brief Sidebar for showing meta information of one ore more selected items.
+ * @brief Panel for showing meta information of one ore more selected items.
  */
-class InfoSidebarPage : public SidebarPage
+class InformationPanel : public Panel
 {
     Q_OBJECT
 
 public:
-    explicit InfoSidebarPage(QWidget* parent = 0);
-    virtual ~InfoSidebarPage();
+    explicit InformationPanel(QWidget* parent = 0);
+    virtual ~InformationPanel();
 
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
 public slots:
-    /** @see SidebarPage::setUrl() */
+    /** @see Panel::setUrl() */
     virtual void setUrl(const KUrl& url);
 
     /**
-     * This is invoked to inform the sidebar that the user has selected a new
+     * This is invoked to inform the panel that the user has selected a new
      * set of items.
      */
     void setSelection(const KFileItemList& selection);
 
     /**
      * Does a delayed request of information for the item \a item.
-     * If within this delay InfoSidebarPage::setUrl() or InfoSidebarPage::setSelection()
+     * If within this delay InformationPanel::setUrl() or InformationPanel::setSelection()
      * are invoked, then the request will be skipped. Requesting a delayed item information
      * makes sense when hovering items.
      */
@@ -83,13 +83,13 @@ protected:
 private slots:
     /**
      * Shows the information for the item of the URL which has been provided by
-     * InfoSidebarPage::requestItemInfo() and provides default actions.
+     * InformationPanel::requestItemInfo() and provides default actions.
      */
     void showItemInfo();
 
     /**
      * Triggered if the request for item information has timed out.
-     * @see InfoSidebarPage::requestDelayedItemInfo()
+     * @see InformationPanel::requestDelayedItemInfo()
      */
     void slotInfoTimeout();
 
@@ -145,7 +145,7 @@ private:
 
     /**
      * Returns the item for file where the preview and meta information
-     * should be received, if InfoSidebarPage::showMultipleSelectionInfo()
+     * should be received, if InformationPanel::showMultipleSelectionInfo()
      * returns false.
      */
     KFileItem fileItem() const;
@@ -156,7 +156,7 @@ private:
      * m_selection. If true is returned, it is assured that
      * m_selection.count() > 1. If false is returned, the meta
      * information should be shown for the file
-     * InfosidebarPage::fileUrl();
+     * InformationPanel::fileUrl();
      */
     bool showMultipleSelectionInfo() const;
 
@@ -191,4 +191,4 @@ private:
     MetaTextLabel* m_metaTextLabel;
 };
 
-#endif // INFOSIDEBARPAGE_H
+#endif // INFORMATIONPANEL_H

@@ -23,7 +23,7 @@
 #define DOLPHIN_MAINWINDOW_H
 
 #include "dolphinview.h"
-#include "panels/sidebarpage.h"
+#include "panels/panel.h"
 
 #include <config-nepomuk.h>
 
@@ -120,7 +120,7 @@ public slots:
     int getId() const;
 
     /**
-     * Inform all affected dolphin components (sidebars, views) of an URL
+     * Inform all affected dolphin components (panels, views) of an URL
      * change.
      */
     void changeUrl(const KUrl& url);
@@ -148,7 +148,7 @@ signals:
     void urlChanged(const KUrl& url);
 
     /**
-     * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
+     * Is emitted if information of an item is requested to be shown e. g. in the panel.
      * If item is null, no item information request is pending.
      */
     void requestItemInfo(const KFileItem& item);

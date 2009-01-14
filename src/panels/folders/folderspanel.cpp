@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "treeviewsidebarpage.h"
+#include "folderspanel.h"
 
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
@@ -28,7 +28,7 @@
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "renamedialog.h"
-#include "sidebartreeview.h"
+#include "paneltreeview.h"
 #include "treeviewcontextmenu.h"
 
 #include <kfileplacesmodel.h>
@@ -44,8 +44,8 @@
 #include <QScrollBar>
 #include <QTimer>
 
-TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
-    SidebarPage(parent),
+FoldersPanel::FoldersPanel(QWidget* parent) :
+    Panel(parent),
     m_setLeafVisible(false),
     m_mouseButtons(Qt::NoButton),
     m_dirLister(0),
@@ -57,7 +57,7 @@ TreeViewSidebarPage::TreeViewSidebarPage(QWidget* parent) :
     setLayoutDirection(Qt::LeftToRight);
 }
 
-TreeViewSidebarPage::~TreeViewSidebarPage()
+FoldersPanel::~FoldersPanel()
 {
     FoldersPanelSettings::self()->writeConfig();
 
@@ -68,12 +68,12 @@ TreeViewSidebarPage::~TreeViewSidebarPage()
     m_dirLister = 0; // deleted by m_dolphinModel
 }
 
-QSize TreeViewSidebarPage::sizeHint() const
+QSize FoldersPanel::sizeHint() const
 {
     return QSize(200, 400);
 }
 
-void TreeViewSidebarPage::setShowHiddenFiles(bool show)
+void FoldersPanel::setShowHiddenFiles(bool show)
 {
     FoldersPanelSettings::setShowHiddenFiles(show);
     if (m_dirLister != 0) {
@@ -82,12 +82,12 @@ void TreeViewSidebarPage::setShowHiddenFiles(bool show)
     }
 }
 
-bool TreeViewSidebarPage::showHiddenFiles() const
+bool FoldersPanel::showHiddenFiles() const
 {
     return FoldersPanelSettings::showHiddenFiles();
 }
 
-void TreeViewSidebarPage::rename(const KFileItem& item)
+void FoldersPanel::rename(const KFileItem& item)
 {
     if (DolphinSettings::instance().generalSettings()->renameInline()) {
         const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
@@ -108,30 +108,30 @@ void TreeViewSidebarPage::rename(const KFileItem& item)
     }
 }
 
-void TreeViewSidebarPage::setUrl(const KUrl& url)
+void FoldersPanel::setUrl(const KUrl& url)
 {
-    if (!url.isValid() || (url == SidebarPage::url())) {
+    if (!url.isValid() || (url == Panel::url())) {
         return;
     }
 
-    SidebarPage::setUrl(url);
+    Panel::setUrl(url);
     if (m_dirLister != 0) {
         m_setLeafVisible = true;
         loadTree(url);
     }
 }
 
-void TreeViewSidebarPage::showEvent(QShowEvent* event)
+void FoldersPanel::showEvent(QShowEvent* event)
 {
     if (event->spontaneous()) {
-        SidebarPage::showEvent(event);
+        Panel::showEvent(event);
         return;
     }
 
     if (m_dirLister == 0) {
         // Postpone the creating of the dir lister to the first show event.
         // This assures that no performance and memory overhead is given when the TreeView is not
-        // used at all (see TreeViewSidebarPage::setUrl()).
+        // used at all (see FoldersPanel::setUrl()).
         m_dirLister = new KDirLister();
         m_dirLister->setDirOnlyMode(true);
         m_dirLister->setAutoUpdate(true);
@@ -152,7 +152,7 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
         m_proxyModel->setSourceModel(m_dolphinModel);
 
         Q_ASSERT(m_treeView == 0);
-        m_treeView = new SidebarTreeView(this);
+        m_treeView = new PanelTreeView(this);
         m_treeView->setModel(m_proxyModel);
         m_proxyModel->setSorting(DolphinView::SortByName);
         m_proxyModel->setSortOrder(Qt::AscendingOrder);
@@ -172,12 +172,12 @@ void TreeViewSidebarPage::showEvent(QShowEvent* event)
     }
 
     loadTree(url());
-    SidebarPage::showEvent(event);
+    Panel::showEvent(event);
 }
 
-void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
+void FoldersPanel::contextMenuEvent(QContextMenuEvent* event)
 {
-    SidebarPage::contextMenuEvent(event);
+    Panel::contextMenuEvent(event);
 
     KFileItem item;
     const QModelIndex index = m_treeView->indexAt(event->pos());
@@ -191,7 +191,7 @@ void TreeViewSidebarPage::contextMenuEvent(QContextMenuEvent* event)
     contextMenu.open();
 }
 
-void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
+void FoldersPanel::updateActiveView(const QModelIndex& index)
 {
     const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
     const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
@@ -200,7 +200,7 @@ void TreeViewSidebarPage::updateActiveView(const QModelIndex& index)
     }
 }
 
-void TreeViewSidebarPage::dropUrls(const QModelIndex& index, QDropEvent* event)
+void FoldersPanel::dropUrls(const QModelIndex& index, QDropEvent* event)
 {
     if (index.isValid()) {
         const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
@@ -212,14 +212,14 @@ void TreeViewSidebarPage::dropUrls(const QModelIndex& index, QDropEvent* event)
     }
 }
 
-void TreeViewSidebarPage::expandToDir(const QModelIndex& index)
+void FoldersPanel::expandToDir(const QModelIndex& index)
 {
     m_treeView->setExpanded(index, true);
     selectLeafDirectory();
     m_treeView->resizeColumnToContents(DolphinModel::Name);
 }
 
-void TreeViewSidebarPage::scrollToLeaf()
+void FoldersPanel::scrollToLeaf()
 {
     const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
@@ -228,12 +228,12 @@ void TreeViewSidebarPage::scrollToLeaf()
     }
 }
 
-void TreeViewSidebarPage::updateMouseButtons()
+void FoldersPanel::updateMouseButtons()
 {
     m_mouseButtons = QApplication::mouseButtons();
 }
 
-void TreeViewSidebarPage::loadTree(const KUrl& url)
+void FoldersPanel::loadTree(const KUrl& url)
 {
     Q_ASSERT(m_dirLister != 0);
     m_leafDir = url;
@@ -255,7 +255,7 @@ void TreeViewSidebarPage::loadTree(const KUrl& url)
     m_dolphinModel->expandToUrl(m_leafDir);
 }
 
-void TreeViewSidebarPage::selectLeafDirectory()
+void FoldersPanel::selectLeafDirectory()
 {
     const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
@@ -276,4 +276,4 @@ void TreeViewSidebarPage::selectLeafDirectory()
     selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::ClearAndSelect);
 }
 
-#include "treeviewsidebarpage.moc"
+#include "folderspanel.moc"

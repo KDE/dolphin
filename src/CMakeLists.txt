@@ -102,27 +102,27 @@ set(dolphin_SRCS
     dolphinstatusbar.cpp
     dolphindirlister.cpp
     dolphincontextmenu.cpp
-    panels/places/dolphinfileplacesview.cpp
+    panels/places/placespanel.cpp
     settings/dolphinsettingsdialog.cpp
     filterbar.cpp
     settings/generalsettingspage.cpp
     settings/generalviewsettingspage.cpp
     settings/iconsizegroupbox.cpp
     settings/iconsviewsettingspage.cpp
-    panels/information/infosidebarpage.cpp
+    panels/information/informationpanel.cpp
     panels/folders/ktreeview.cpp
     main.cpp
     panels/information/metadatawidget.cpp
     panels/information/metatextlabel.cpp
     pixmapviewer.cpp
     settings/settingspagebase.cpp
-    panels/sidebarpage.cpp
+    panels/panel.cpp
     settings/startupsettingspage.cpp
     statusbarspaceinfo.cpp
     statusbarmessagelabel.cpp
     panels/folders/treeviewcontextmenu.cpp
-    panels/folders/treeviewsidebarpage.cpp
-    panels/folders/sidebartreeview.cpp
+    panels/folders/folderspanel.cpp
+    panels/folders/paneltreeview.cpp
     settings/viewsettingspage.cpp
     settings/viewsettingspagebase.cpp
     zoomlevelinfo.cpp
@@ -145,7 +145,7 @@ kde4_add_ui_files(dolphin_SRCS panels/information/newtagdialog.ui)
 endif(Nepomuk_FOUND)
 
 if(NOT WIN32)
-   set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalsidebarpage.cpp)
+   set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
 endif(NOT WIN32)
 
 qt4_add_dbus_adaptor(dolphin_SRCS

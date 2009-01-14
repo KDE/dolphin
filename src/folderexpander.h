@@ -20,7 +20,7 @@
 #ifndef FOLDEREXPANDER_H
 #define FOLDEREXPANDER_H
 
-// Needs to be exported as treesidebarpage uses it.
+// Needs to be exported as FoldersPanel uses it.
 #include "libdolphin_export.h"
 
 #include <QObject>

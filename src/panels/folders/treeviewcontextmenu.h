@@ -23,7 +23,7 @@
 #include <QtCore/QObject>
 #include <KFileItem>
 
-class TreeViewSidebarPage;
+class FoldersPanel;
 
 /**
  * @brief Represents the context menu which appears when doing a right
@@ -35,13 +35,13 @@ class TreeViewContextMenu : public QObject
 
 public:
     /**
-     * @parent        Pointer to the treeview sidebar page the context menu
+     * @parent        Pointer to the folders panel the context menu
      *                belongs to.
      * @fileInfo      Pointer to the file item the context menu
      *                is applied. If 0 is passed, the context menu
      *                is above the viewport.
      */
-    TreeViewContextMenu(TreeViewSidebarPage* parent,
+    TreeViewContextMenu(FoldersPanel* parent,
                         const KFileItem& fileInfo);
 
     virtual ~TreeViewContextMenu();
@@ -81,7 +81,7 @@ private:
     void populateMimeData(QMimeData* mimeData, bool cut);
 
 private:
-    TreeViewSidebarPage* m_parent;
+    FoldersPanel* m_parent;
     KFileItem m_fileInfo;
 };
 

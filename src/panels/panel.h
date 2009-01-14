@@ -18,29 +18,36 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-#include "sidebarpage.h"
+#ifndef PANEL_H
+#define PANEL_H
+
 #include <QtGui/QWidget>
-#include <kfileitem.h>
 #include <kurl.h>
+#include <kfileitem.h>
 
-SidebarPage::SidebarPage(QWidget* parent) :
-    QWidget(parent),
-    m_url(KUrl())
+/**
+ * @brief Base widget for all panels that can be docked on the window borders.
+ */
+class Panel : public QWidget
 {
-}
+    Q_OBJECT
 
-SidebarPage::~SidebarPage()
-{
-}
+public:
+    explicit Panel(QWidget* parent = 0);
+    virtual ~Panel();
 
-const KUrl& SidebarPage::url() const
-{
-    return m_url;
-}
+    /** Returns the current set URL of the active Dolphin view. */
+    const KUrl& url() const;
 
-void SidebarPage::setUrl(const KUrl& url)
-{
-    m_url = url;
-}
+public slots:
+    /**
+     * This is invoked every time the folder being displayed in the
+     * active Dolphin view changes.
+     */
+    virtual void setUrl(const KUrl& url);
 
-#include "sidebarpage.moc"
+private:
+    KUrl m_url;
+};
+
+#endif // PANEL_H

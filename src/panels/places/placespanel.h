@@ -17,22 +17,21 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINFILEPLACESVIEW_H
-#define DOLPHINFILEPLACESVIEW_H
+#ifndef PLACESPANEL_H
+#define PLACESPANEL_H
 
 #include <kfileplacesview.h>
 
 /**
- * @brief Combines bookmarks and mounted devices as list which is
- *        embedded as panel.
+ * @brief Combines bookmarks and mounted devices as list.
  */
-class DolphinFilePlacesView : public KFilePlacesView
+class PlacesPanel : public KFilePlacesView
 {
     Q_OBJECT
 
 public:
-    DolphinFilePlacesView(QWidget* parent);
-    virtual ~DolphinFilePlacesView();
+    PlacesPanel(QWidget* parent);
+    virtual ~PlacesPanel();
 
 signals:
     void urlChanged(const KUrl& url, Qt::MouseButtons buttons);
@@ -48,4 +47,4 @@ private:
     Qt::MouseButtons m_mouseButtons;
 };
 
-#endif // DOLPHINFILEPLACESVIEW_H
+#endif // PLACESPANEL_H

@@ -17,17 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef TREEVIEWSIDEBARPAGE_H
-#define TREEVIEWSIDEBARPAGE_H
+#ifndef FOLDERSPANEL_H
+#define FOLDERSPANEL_H
 
 #include <kurl.h>
-#include <panels/sidebarpage.h>
+#include <panels/panel.h>
 
 class KDirLister;
 class DolphinModel;
 
 class DolphinSortFilterProxyModel;
-class SidebarTreeView;
+class PanelTreeView;
 class QModelIndex;
 
 /**
@@ -37,13 +37,13 @@ class QModelIndex;
  * The tree view is always synchronized with the currently active view
  * from the main window.
  */
-class TreeViewSidebarPage : public SidebarPage
+class FoldersPanel : public Panel
 {
     Q_OBJECT
 
 public:
-    TreeViewSidebarPage(QWidget* parent = 0);
-    virtual ~TreeViewSidebarPage();
+    FoldersPanel(QWidget* parent = 0);
+    virtual ~FoldersPanel();
 
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
@@ -60,7 +60,7 @@ signals:
     void changeUrl(const KUrl& url, Qt::MouseButtons buttons);
 
     /**
-     * This signal is emitted when the sidebar requests a change in the
+     * This signal is emitted when the panel requests a change in the
      * current selection. The file-management view recieving this signal is
      * not required to select all listed files, limiting the selection to
      * e.g. the current folder. The new selection will be reported via the
@@ -118,7 +118,7 @@ private:
     /**
      * Selects the current leaf directory m_leafDir and assures
      * that the directory is visible if the leaf has been set by
-     * TreeViewSidebarPage::setUrl().
+     * FoldersPanel::setUrl().
      */
     void selectLeafDirectory();
 
@@ -128,8 +128,8 @@ private:
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
-    SidebarTreeView* m_treeView;
+    PanelTreeView* m_treeView;
     KUrl m_leafDir;
 };
 
-#endif // TREEVIEWSIDEBARPAGE_H
+#endif // FOLDERSPANEL_H

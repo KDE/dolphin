@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "sidebartreeview.h"
+#include "paneltreeview.h"
 
 #include "dolphincontroller.h"
 #include "dolphinmodel.h"
@@ -29,7 +29,7 @@
 #include <QHeaderView>
 #include <QScrollBar>
 
-SidebarTreeView::SidebarTreeView(QWidget* parent) :
+PanelTreeView::PanelTreeView(QWidget* parent) :
     KTreeView(parent)
 {
     setAcceptDrops(true);
@@ -60,11 +60,11 @@ SidebarTreeView::SidebarTreeView(QWidget* parent) :
     setItemDelegate(delegate);
 }
 
-SidebarTreeView::~SidebarTreeView()
+PanelTreeView::~PanelTreeView()
 {
 }
 
-bool SidebarTreeView::event(QEvent* event)
+bool PanelTreeView::event(QEvent* event)
 {
     switch (event->type()) {
     case QEvent::Polish:
@@ -79,20 +79,20 @@ bool SidebarTreeView::event(QEvent* event)
         hideColumn(DolphinModel::Tags);
         header()->hide();
         break;
-        
+
     case QEvent::Show:
         // TODO: The opening/closing animation of subtrees flickers in combination with the
-        // sidebar when using the Oxygen style. As workaround the animation is turned off:
+        // panel when using the Oxygen style. As workaround the animation is turned off:
         setAnimated(false);
         break;
-    
+
     case QEvent::UpdateRequest:
         // a wheel movement will scroll 1 item
         if (model()->rowCount() > 0) {
             verticalScrollBar()->setSingleStep(sizeHintForRow(0) / 3);
         }
         break;
-        
+
     default:
         break;
     }
@@ -100,12 +100,12 @@ bool SidebarTreeView::event(QEvent* event)
     return KTreeView::event(event);
 }
 
-void SidebarTreeView::startDrag(Qt::DropActions supportedActions)
+void PanelTreeView::startDrag(Qt::DropActions supportedActions)
 {
     DragAndDropHelper::instance().startDrag(this, supportedActions);
 }
 
-void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
+void PanelTreeView::dragEnterEvent(QDragEnterEvent* event)
 {
     KTreeView::dragEnterEvent(event);
     if (event->mimeData()->hasUrls()) {
@@ -113,13 +113,13 @@ void SidebarTreeView::dragEnterEvent(QDragEnterEvent* event)
     }
 }
 
-void SidebarTreeView::dragLeaveEvent(QDragLeaveEvent* event)
+void PanelTreeView::dragLeaveEvent(QDragLeaveEvent* event)
 {
     KTreeView::dragLeaveEvent(event);
     setDirtyRegion(m_dropRect);
 }
 
-void SidebarTreeView::dragMoveEvent(QDragMoveEvent* event)
+void PanelTreeView::dragMoveEvent(QDragMoveEvent* event)
 {
     KTreeView::dragMoveEvent(event);
 
@@ -135,7 +135,7 @@ void SidebarTreeView::dragMoveEvent(QDragMoveEvent* event)
     }
 }
 
-void SidebarTreeView::dropEvent(QDropEvent* event)
+void PanelTreeView::dropEvent(QDropEvent* event)
 {
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid()) {
@@ -144,4 +144,4 @@ void SidebarTreeView::dropEvent(QDropEvent* event)
     KTreeView::dropEvent(event);
 }
 
-#include "sidebartreeview.moc"
+#include "paneltreeview.moc"

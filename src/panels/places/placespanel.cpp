@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,42 +17,40 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef SIDEBARTREEVIEW_H
-#define SIDEBARTREEVIEW_H
+#include "placespanel.h"
+#include "draganddrophelper.h"
+#include <kfileitem.h>
+#include <konq_operations.h>
 
-#include <kurl.h>
-#include <panels/folders/ktreeview.h>
-
-/**
- * @brief Tree view widget which is used for the sidebar panel.
- *
- * @see TreeViewSidebarPage
- */
-class SidebarTreeView : public KTreeView
+PlacesPanel::PlacesPanel(QWidget* parent) :
+    KFilePlacesView(parent),
+    m_mouseButtons(Qt::NoButton)
 {
-    Q_OBJECT
+    setDropOnPlaceEnabled(true);
+    connect(this, SIGNAL(urlsDropped(const KUrl&, QDropEvent*, QWidget*)),
+            this, SLOT(slotUrlsDropped(const KUrl&, QDropEvent*, QWidget*)));
+    connect(this, SIGNAL(urlChanged(const KUrl&)),
+            this, SLOT(emitExtendedUrlChangedSignal(const KUrl&)));
+}
 
-public:
-    explicit SidebarTreeView(QWidget* parent = 0);
-    virtual ~SidebarTreeView();
+PlacesPanel::~PlacesPanel()
+{
+}
 
-signals:
-    /**
-      * Is emitted if the URL have been dropped to
-      * the index \a index.
-      */
-    void urlsDropped(const QModelIndex& index, QDropEvent* event);
+void PlacesPanel::mousePressEvent(QMouseEvent* event)
+{
+    m_mouseButtons = event->buttons();
+    KFilePlacesView::mousePressEvent(event);
+}
 
-protected:
-    virtual bool event(QEvent* event);
-    virtual void startDrag(Qt::DropActions supportedActions);
-    virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dragLeaveEvent(QDragLeaveEvent* event);
-    virtual void dragMoveEvent(QDragMoveEvent* event);
-    virtual void dropEvent(QDropEvent* event);
+void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
+{
+    DragAndDropHelper::instance().dropUrls(KFileItem(), dest, event, parent);
+}
 
-private:
-    QRect m_dropRect;
-};
+void PlacesPanel::emitExtendedUrlChangedSignal(const KUrl& url)
+{
+    emit urlChanged(url, m_mouseButtons);
+}
 
-#endif
+#include "placespanel.moc"

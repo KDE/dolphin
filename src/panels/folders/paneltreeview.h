@@ -1,5 +1,4 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Cvetoslav Ludmiloff <ludmiloff@gmail.com>       *
  *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,39 +14,45 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _SIDEBARPAGE_H_
-#define _SIDEBARPAGE_H_
+#ifndef PANELTREEVIEW_H
+#define PANELTREEVIEW_H
 
-#include <QtGui/QWidget>
 #include <kurl.h>
-#include <kfileitem.h>
+#include <panels/folders/ktreeview.h>
 
 /**
- * @brief Base widget for all pages that can be embedded into the Sidebar.
+ * @brief Tree view widget which is used for the folders panel.
+ *
+ * @see FoldersPanel
  */
-class SidebarPage : public QWidget
+class PanelTreeView : public KTreeView
 {
     Q_OBJECT
 
 public:
-    explicit SidebarPage(QWidget* parent = 0);
-    virtual ~SidebarPage();
+    explicit PanelTreeView(QWidget* parent = 0);
+    virtual ~PanelTreeView();
 
-    /** Returns the current set URL of the active Dolphin view. */
-    const KUrl& url() const;
-
-public slots:
+signals:
     /**
-     * This is invoked every time the folder being displayed in the
-     * active Dolphin view changes.
-     */
-    virtual void setUrl(const KUrl& url);
+      * Is emitted if the URL have been dropped to
+      * the index \a index.
+      */
+    void urlsDropped(const QModelIndex& index, QDropEvent* event);
+
+protected:
+    virtual bool event(QEvent* event);
+    virtual void startDrag(Qt::DropActions supportedActions);
+    virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dragLeaveEvent(QDragLeaveEvent* event);
+    virtual void dragMoveEvent(QDragMoveEvent* event);
+    virtual void dropEvent(QDropEvent* event);
 
 private:
-    KUrl m_url;
+    QRect m_dropRect;
 };
 
-#endif // _SIDEBARPAGE_H_
+#endif

@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "infosidebarpage.h"
+#include "informationpanel.h"
 
 #include <config-nepomuk.h>
 
@@ -50,8 +50,8 @@
 #include "metatextlabel.h"
 #include "pixmapviewer.h"
 
-InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
-    SidebarPage(parent),
+InformationPanel::InformationPanel(QWidget* parent) :
+    Panel(parent),
     m_initialized(false),
     m_pendingPreview(false),
     m_infoTimer(0),
@@ -67,20 +67,20 @@ InfoSidebarPage::InfoSidebarPage(QWidget* parent) :
 {
 }
 
-InfoSidebarPage::~InfoSidebarPage()
+InformationPanel::~InformationPanel()
 {
 }
 
-QSize InfoSidebarPage::sizeHint() const
+QSize InformationPanel::sizeHint() const
 {
-    QSize size = SidebarPage::sizeHint();
+    QSize size = Panel::sizeHint();
     size.setWidth(minimumSizeHint().width());
     return size;
 }
 
-void InfoSidebarPage::setUrl(const KUrl& url)
+void InformationPanel::setUrl(const KUrl& url)
 {
-    SidebarPage::setUrl(url);
+    Panel::setUrl(url);
     if (url.isValid() && !isEqualToShownUrl(url)) {
         if (isVisible()) {
             cancelRequest();
@@ -92,7 +92,7 @@ void InfoSidebarPage::setUrl(const KUrl& url)
     }
 }
 
-void InfoSidebarPage::setSelection(const KFileItemList& selection)
+void InformationPanel::setSelection(const KFileItemList& selection)
 {
     if (!isVisible()) {
         return;
@@ -122,7 +122,7 @@ void InfoSidebarPage::setSelection(const KFileItemList& selection)
     }
 }
 
-void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
+void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
 {
     if (!isVisible()) {
         return;
@@ -148,9 +148,9 @@ void InfoSidebarPage::requestDelayedItemInfo(const KFileItem& item)
     }
 }
 
-void InfoSidebarPage::showEvent(QShowEvent* event)
+void InformationPanel::showEvent(QShowEvent* event)
 {
-    SidebarPage::showEvent(event);
+    Panel::showEvent(event);
     if (!event->spontaneous()) {
         if (!m_initialized) {
             // do a delayed initialization so that no performance
@@ -162,14 +162,14 @@ void InfoSidebarPage::showEvent(QShowEvent* event)
     }
 }
 
-void InfoSidebarPage::resizeEvent(QResizeEvent* event)
+void InformationPanel::resizeEvent(QResizeEvent* event)
 {
     if (isVisible()) {
         // If the text inside the name label or the info label cannot
         // get wrapped, then the maximum width of the label is increased
-        // so that the width of the information sidebar gets increased.
+        // so that the width of the information panel gets increased.
         // To prevent this, the maximum width is adjusted to
-        // the current width of the sidebar.
+        // the current width of the panel.
         const int maxWidth = event->size().width() - KDialog::spacingHint() * 4;
         m_nameLabel->setMaximumWidth(maxWidth);
 
@@ -179,10 +179,10 @@ void InfoSidebarPage::resizeEvent(QResizeEvent* event)
         m_infoTimer->start();
     }
 
-    SidebarPage::resizeEvent(event);
+    Panel::resizeEvent(event);
 }
 
-void InfoSidebarPage::showItemInfo()
+void InformationPanel::showItemInfo()
 {
     if (!isVisible()) {
         return;
@@ -230,13 +230,13 @@ void InfoSidebarPage::showItemInfo()
     showMetaInfo();
 }
 
-void InfoSidebarPage::slotInfoTimeout()
+void InformationPanel::slotInfoTimeout()
 {
     m_shownUrl = m_urlCandidate;
     showItemInfo();
 }
 
-void InfoSidebarPage::markOutdatedPreview()
+void InformationPanel::markOutdatedPreview()
 {
     KIconEffect iconEffect;
     QPixmap disabledPixmap = iconEffect.apply(m_preview->pixmap(),
@@ -245,7 +245,7 @@ void InfoSidebarPage::markOutdatedPreview()
     m_preview->setPixmap(disabledPixmap);
 }
 
-void InfoSidebarPage::showIcon(const KFileItem& item)
+void InformationPanel::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
     m_pendingPreview = false;
@@ -254,7 +254,7 @@ void InfoSidebarPage::showIcon(const KFileItem& item)
     }
 }
 
-void InfoSidebarPage::showPreview(const KFileItem& item,
+void InformationPanel::showPreview(const KFileItem& item,
                                   const QPixmap& pixmap)
 {
     m_outdatedPreviewTimer->stop();
@@ -266,7 +266,7 @@ void InfoSidebarPage::showPreview(const KFileItem& item,
     }
 }
 
-void InfoSidebarPage::slotFileRenamed(const QString& source, const QString& dest)
+void InformationPanel::slotFileRenamed(const QString& source, const QString& dest)
 {
     if (m_shownUrl == KUrl(source)) {
         // the currently shown file has been renamed, hence update the item information
@@ -276,7 +276,7 @@ void InfoSidebarPage::slotFileRenamed(const QString& source, const QString& dest
     }
 }
 
-void InfoSidebarPage::slotFilesAdded(const QString& directory)
+void InformationPanel::slotFilesAdded(const QString& directory)
 {
     if (m_shownUrl == KUrl(directory)) {
         // If the 'trash' icon changes because the trash has been emptied or got filled,
@@ -286,7 +286,7 @@ void InfoSidebarPage::slotFilesAdded(const QString& directory)
     }
 }
 
-void InfoSidebarPage::slotFilesChanged(const QStringList& files)
+void InformationPanel::slotFilesChanged(const QStringList& files)
 {
     foreach (const QString& fileName, files) {
         if (m_shownUrl == KUrl(fileName)) {
@@ -296,7 +296,7 @@ void InfoSidebarPage::slotFilesChanged(const QStringList& files)
     }
 }
 
-void InfoSidebarPage::slotFilesRemoved(const QStringList& files)
+void InformationPanel::slotFilesRemoved(const QStringList& files)
 {
     foreach (const QString& fileName, files) {
         if (m_shownUrl == KUrl(fileName)) {
@@ -309,7 +309,7 @@ void InfoSidebarPage::slotFilesRemoved(const QStringList& files)
     }
 }
 
-void InfoSidebarPage::slotEnteredDirectory(const QString& directory)
+void InformationPanel::slotEnteredDirectory(const QString& directory)
 {
     if (m_shownUrl == KUrl(directory)) {
         KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(directory));
@@ -317,7 +317,7 @@ void InfoSidebarPage::slotEnteredDirectory(const QString& directory)
     }
 }
 
-void InfoSidebarPage::slotLeftDirectory(const QString& directory)
+void InformationPanel::slotLeftDirectory(const QString& directory)
 {
     if (m_shownUrl == KUrl(directory)) {
         // The signal 'leftDirectory' is also emitted when a media
@@ -329,7 +329,7 @@ void InfoSidebarPage::slotLeftDirectory(const QString& directory)
     }
 }
 
-bool InfoSidebarPage::applyPlace(const KUrl& url)
+bool InformationPanel::applyPlace(const KUrl& url)
 {
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
     int count = placesModel->rowCount();
@@ -347,12 +347,12 @@ bool InfoSidebarPage::applyPlace(const KUrl& url)
     return false;
 }
 
-void InfoSidebarPage::cancelRequest()
+void InformationPanel::cancelRequest()
 {
     m_infoTimer->stop();
 }
 
-void InfoSidebarPage::showMetaInfo()
+void InformationPanel::showMetaInfo()
 {
     m_metaTextLabel->clear();
 
@@ -416,7 +416,7 @@ void InfoSidebarPage::showMetaInfo()
     }
 }
 
-bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const
+bool InformationPanel::convertMetaInfo(const QString& key, QString& text) const
 {
     struct MetaKey {
         const char* key;
@@ -455,7 +455,7 @@ bool InfoSidebarPage::convertMetaInfo(const QString& key, QString& text) const
     return false;
 }
 
-KFileItem InfoSidebarPage::fileItem() const
+KFileItem InformationPanel::fileItem() const
 {
     if (!m_fileItem.isNull()) {
         return m_fileItem;
@@ -473,17 +473,17 @@ KFileItem InfoSidebarPage::fileItem() const
     return item;
 }
 
-bool InfoSidebarPage::showMultipleSelectionInfo() const
+bool InformationPanel::showMultipleSelectionInfo() const
 {
     return m_fileItem.isNull() && (m_selection.count() > 1);
 }
 
-bool InfoSidebarPage::isEqualToShownUrl(const KUrl& url) const
+bool InformationPanel::isEqualToShownUrl(const KUrl& url) const
 {
     return m_shownUrl.equals(url, KUrl::CompareWithoutTrailingSlash);
 }
 
-void InfoSidebarPage::setNameLabelText(const QString& text)
+void InformationPanel::setNameLabelText(const QString& text)
 {
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
@@ -512,7 +512,7 @@ void InfoSidebarPage::setNameLabelText(const QString& text)
     m_nameLabel->setText(wrappedText);
 }
 
-void InfoSidebarPage::init()
+void InformationPanel::init()
 {
     const int spacing = KDialog::spacingHint();
 
@@ -584,4 +584,4 @@ void InfoSidebarPage::init()
     m_initialized = true;
 }
 
-#include "infosidebarpage.moc"
+#include "informationpanel.moc"

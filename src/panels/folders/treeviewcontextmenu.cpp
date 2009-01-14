@@ -32,12 +32,12 @@
 #include <klocale.h>
 #include <kpropertiesdialog.h>
 
-#include "treeviewsidebarpage.h"
+#include "folderspanel.h"
 
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
 
-TreeViewContextMenu::TreeViewContextMenu(TreeViewSidebarPage* parent,
+TreeViewContextMenu::TreeViewContextMenu(FoldersPanel* parent,
                                          const KFileItem& fileInfo) :
     QObject(parent),
     m_parent(parent),

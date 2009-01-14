@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef TERMINALSIDEBARPAGE_H
-#define TERMINALSIDEBARPAGE_H
+#ifndef TERMINALPANEL_H
+#define TERMINALPANEL_H
 
-#include <panels/sidebarpage.h>
+#include <panels/panel.h>
 
 class TerminalInterface;
 class QVBoxLayout;
@@ -30,24 +30,24 @@ class QWidget;
  * @brief Shows the terminal which is synchronized with the URL of the
  *        active view.
  */
-class TerminalSidebarPage : public SidebarPage
+class TerminalPanel : public Panel
 {
     Q_OBJECT
 
 public:
-    TerminalSidebarPage(QWidget* parent = 0);
-    virtual ~TerminalSidebarPage();
+    TerminalPanel(QWidget* parent = 0);
+    virtual ~TerminalPanel();
 
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
 public slots:
-    /** @see SidebarPage::setUrl(). */
+    /** @see Panel::setUrl(). */
     virtual void setUrl(const KUrl& url);
     void terminalExited();
 
 signals:
-    void hideTerminalSidebarPage();
+    void hideTerminalPanel();
 
 protected:
     /** @see QWidget::showEvent() */
@@ -59,4 +59,4 @@ private:
     QWidget* m_terminalWidget;
 };
 
-#endif // TERMINALSIDEBARPAGE_H
+#endif // TERMINALPANEL_H

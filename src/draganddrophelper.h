@@ -38,7 +38,7 @@ class QWidget;
  * @brief Helper class for having a common drag and drop behavior.
  *
  * The class is used by DolphinIconsView, DolphinDetailsView,
- * DolphinColumnView and SidebarTreeView to have a consistent
+ * DolphinColumnView and PanelTreeView to have a consistent
  * drag and drop behavior between all views.
  */
 class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper : public QObject

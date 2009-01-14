@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "terminalsidebarpage.h"
+#include "terminalpanel.h"
 
 #include <klibloader.h>
 #include <kde_terminal_interface.h>
@@ -27,8 +27,8 @@
 #include <QBoxLayout>
 #include <QShowEvent>
 
-TerminalSidebarPage::TerminalSidebarPage(QWidget* parent) :
-    SidebarPage(parent),
+TerminalPanel::TerminalPanel(QWidget* parent) :
+    Panel(parent),
     m_layout(0),
     m_terminal(0),
     m_terminalWidget(0)
@@ -37,40 +37,39 @@ TerminalSidebarPage::TerminalSidebarPage(QWidget* parent) :
     m_layout->setMargin(0);
 }
 
-TerminalSidebarPage::~TerminalSidebarPage()
+TerminalPanel::~TerminalPanel()
 {
 }
 
-QSize TerminalSidebarPage::sizeHint() const
+QSize TerminalPanel::sizeHint() const
 {
-    QSize size = SidebarPage::sizeHint();
+    QSize size = Panel::sizeHint();
     size.setHeight(200);
     return size;
 }
 
-void TerminalSidebarPage::setUrl(const KUrl& url)
+void TerminalPanel::setUrl(const KUrl& url)
 {
-    if (!url.isValid() || (url == SidebarPage::url())) {
+    if (!url.isValid() || (url == Panel::url())) {
         return;
     }
 
-    SidebarPage::setUrl(url);
+    Panel::setUrl(url);
     if ((m_terminal != 0) && isVisible() && url.isLocalFile()) {
         m_terminal->sendInput("cd " + KShell::quoteArg(url.path()) + '\n');
     }
 }
 
-void TerminalSidebarPage::terminalExited()
+void TerminalPanel::terminalExited()
 {
-    emit hideTerminalSidebarPage();
-
+    emit hideTerminalPanel();
     m_terminal = 0;
 }
 
-void TerminalSidebarPage::showEvent(QShowEvent* event)
+void TerminalPanel::showEvent(QShowEvent* event)
 {
     if (event->spontaneous()) {
-        SidebarPage::showEvent(event);
+        Panel::showEvent(event);
         return;
     }
 
@@ -91,7 +90,7 @@ void TerminalSidebarPage::showEvent(QShowEvent* event)
         m_terminalWidget->setFocus();
     }
 
-    SidebarPage::showEvent(event);
+    Panel::showEvent(event);
 }
 
-#include "terminalsidebarpage.moc"
+#include "terminalpanel.moc"

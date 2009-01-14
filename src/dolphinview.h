@@ -481,7 +481,7 @@ signals:
     void zoomLevelChanged(int level);
 
     /**
-     * Is emitted if information of an item is requested to be shown e. g. in the sidebar.
+     * Is emitted if information of an item is requested to be shown e. g. in the panel.
      * If item is null, no item information request is pending.
      */
     void requestItemInfo(const KFileItem& item);
