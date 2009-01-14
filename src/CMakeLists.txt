@@ -18,8 +18,6 @@ endif (Nepomuk_FOUND)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-    settings/additionalinfodialog.cpp
-    settings/applyviewpropsjob.cpp
     dolphincontroller.cpp
     dolphindetailsview.cpp
     dolphiniconsview.cpp
@@ -28,24 +26,26 @@ set(dolphinprivate_LIB_SRCS
     dolphindirlister.cpp
     dolphinfileitemdelegate.cpp
     dolphinmodel.cpp
-    settings/dolphinsettings.cpp
     dolphinsortfilterproxymodel.cpp
-    tooltips/dolphintooltip.cpp
     dolphincategorydrawer.cpp
     dolphinview.cpp
     dolphinviewactionhandler.cpp
     dolphinviewautoscroller.cpp
     draganddrophelper.cpp
     folderexpander.cpp
-    tooltips/ktooltip.cpp
-    tooltips/kformattedballoontipdelegate.cpp
     renamedialog.cpp
     selectiontoggle.cpp
     selectionmanager.cpp
-    tooltips/tooltipmanager.cpp
-    viewproperties.cpp
+    settings/additionalinfodialog.cpp
+    settings/applyviewpropsjob.cpp
+    settings/dolphinsettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
+    tooltips/dolphintooltip.cpp
+    tooltips/ktooltip.cpp
+    tooltips/kformattedballoontipdelegate.cpp
+    tooltips/tooltipmanager.cpp
+    viewproperties.cpp
     zoomlevelinfo.cpp
     )
 
@@ -90,41 +90,41 @@ install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 ##########################################
 
 set(dolphin_SRCS
-    settings/columnviewsettingspage.cpp
-    panels/information/commentwidget.cpp
-    panels/information/commenteditwidget.cpp
-    settings/detailsviewsettingspage.cpp
     dolphinapplication.cpp
-    settings/dolphinfontrequester.cpp
     dolphinmainwindow.cpp
     dolphinnewmenu.cpp
     dolphinviewcontainer.cpp
     dolphinstatusbar.cpp
     dolphindirlister.cpp
     dolphincontextmenu.cpp
-    panels/places/placespanel.cpp
-    settings/dolphinsettingsdialog.cpp
     filterbar.cpp
+    main.cpp
+    pixmapviewer.cpp
+    panels/information/commentwidget.cpp
+    panels/information/commenteditwidget.cpp
+    panels/information/informationpanel.cpp
+    panels/information/metadatawidget.cpp
+    panels/information/metatextlabel.cpp
+    panels/folders/ktreeview.cpp
+    panels/places/placespanel.cpp
+    panels/panel.cpp
+    panels/folders/treeviewcontextmenu.cpp
+    panels/folders/folderspanel.cpp
+    panels/folders/paneltreeview.cpp
+    settings/settingspagebase.cpp
+    settings/startupsettingspage.cpp
+    settings/columnviewsettingspage.cpp
+    settings/dolphinfontrequester.cpp
+    settings/dolphinsettingsdialog.cpp
+    settings/detailsviewsettingspage.cpp
     settings/generalsettingspage.cpp
     settings/generalviewsettingspage.cpp
     settings/iconsizegroupbox.cpp
     settings/iconsviewsettingspage.cpp
-    panels/information/informationpanel.cpp
-    panels/folders/ktreeview.cpp
-    main.cpp
-    panels/information/metadatawidget.cpp
-    panels/information/metatextlabel.cpp
-    pixmapviewer.cpp
-    settings/settingspagebase.cpp
-    panels/panel.cpp
-    settings/startupsettingspage.cpp
-    statusbarspaceinfo.cpp
-    statusbarmessagelabel.cpp
-    panels/folders/treeviewcontextmenu.cpp
-    panels/folders/folderspanel.cpp
-    panels/folders/paneltreeview.cpp
     settings/viewsettingspage.cpp
     settings/viewsettingspagebase.cpp
+    statusbarspaceinfo.cpp
+    statusbarmessagelabel.cpp
     zoomlevelinfo.cpp
     )
 
@@ -177,8 +177,8 @@ set(kcm_dolphin_PART_SRCS
     settings/generalviewsettingspage.cpp
     settings/iconsizegroupbox.cpp
     settings/iconsviewsettingspage.cpp
-    pixmapviewer.cpp
     settings/viewsettingspagebase.cpp
+    pixmapviewer.cpp
     zoomlevelinfo.cpp
 )
 
