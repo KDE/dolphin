@@ -504,5 +504,5 @@ void DolphinViewActionHandler::slotAdjustViewProperties()
 
 void DolphinViewActionHandler::slotFindFile()
 {
-    KRun::run("kfind", m_currentView->url(), m_currentView->window());
+    KRun::run("kfind %u", m_currentView->url(), m_currentView->window());
 }
