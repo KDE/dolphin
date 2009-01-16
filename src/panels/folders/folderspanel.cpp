@@ -159,7 +159,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
 
         new FolderExpander(m_treeView, m_proxyModel);
 
-        connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
+        connect(m_treeView, SIGNAL(activated(const QModelIndex&)),
                 this, SLOT(updateActiveView(const QModelIndex&)));
         connect(m_treeView, SIGNAL(urlsDropped(const QModelIndex&, QDropEvent*)),
                 this, SLOT(dropUrls(const QModelIndex&, QDropEvent*)));
