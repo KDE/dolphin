@@ -1113,8 +1113,10 @@ void DolphinMainWindow::setupDockWidgets()
     Panel* infoPanel = new InformationPanel(infoDock);
     infoDock->setWidget(infoPanel);
 
-    infoDock->toggleViewAction()->setText(i18nc("@title:window", "Information"));
-    infoDock->toggleViewAction()->setShortcut(Qt::Key_F11);
+    QAction* infoAction = infoDock->toggleViewAction();
+    infoAction->setText(i18nc("@title:window", "Information"));
+    infoAction->setShortcut(Qt::Key_F11);
+    infoAction->setIcon(KIcon("dialog-information"));
     actionCollection()->addAction("show_info_panel", infoDock->toggleViewAction());
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
@@ -1125,15 +1127,17 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, SIGNAL(requestItemInfo(KFileItem)),
             infoPanel, SLOT(requestDelayedItemInfo(KFileItem)));
 
-    // setup "Tree View"
+    // setup "Folders"
     QDockWidget* foldersDock = new QDockWidget(i18nc("@title:window", "Folders"));
     foldersDock->setObjectName("foldersDock");
     foldersDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     FoldersPanel* foldersPanel = new FoldersPanel(foldersDock);
     foldersDock->setWidget(foldersPanel);
 
-    foldersDock->toggleViewAction()->setText(i18nc("@title:window", "Folders"));
-    foldersDock->toggleViewAction()->setShortcut(Qt::Key_F7);
+    QAction* foldersAction = foldersDock->toggleViewAction();
+    foldersAction->setText(i18nc("@title:window", "Folders"));
+    foldersAction->setShortcut(Qt::Key_F7);
+    foldersAction->setIcon(KIcon("folder"));
     actionCollection()->addAction("show_folders_panel", foldersDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
@@ -1154,8 +1158,10 @@ void DolphinMainWindow::setupDockWidgets()
 
     connect(terminalPanel, SIGNAL(hideTerminalPanel()), terminalDock, SLOT(hide()));
 
-    terminalDock->toggleViewAction()->setText(i18nc("@title:window Shell terminal", "Terminal"));
-    terminalDock->toggleViewAction()->setShortcut(Qt::Key_F4);
+    QAction* terminalAction = terminalDock->toggleViewAction();
+    terminalAction->setText(i18nc("@title:window Shell terminal", "Terminal"));
+    terminalAction->setShortcut(Qt::Key_F4);
+    terminalAction->setIcon(KIcon("terminal"));
     actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());
 
     addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
@@ -1180,8 +1186,10 @@ void DolphinMainWindow::setupDockWidgets()
     placesPanel->setModel(DolphinSettings::instance().placesModel());
     placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    placesDock->toggleViewAction()->setText(i18nc("@title:window", "Places"));
-    placesDock->toggleViewAction()->setShortcut(Qt::Key_F9);
+    QAction* placesAction = placesDock->toggleViewAction();
+    placesAction->setText(i18nc("@title:window", "Places"));
+    placesAction->setShortcut(Qt::Key_F9);
+    placesAction->setIcon(KIcon("bookmarks"));
     actionCollection()->addAction("show_places_panel", placesDock->toggleViewAction());
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
