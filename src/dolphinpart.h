@@ -143,8 +143,17 @@ private Q_SLOTS:
 
     /**
      * Informs the host that we are opening \a url (e.g. after a redirection).
+     * ########### not sure this is still called... seems not.
      */
     void slotUrlChanged(const KUrl& url);
+
+    /**
+     * Informs the host that we are opening \a url (e.g. after a redirection
+     * coming from KDirLister).
+     * Testcase 1: fish://localhost
+     * Testcase 2: showing a directory that is being renamed by another window (#180156)
+     */
+    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
      * Updates the state of the 'Edit' menu actions and emits

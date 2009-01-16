@@ -18,6 +18,7 @@
 */
 
 #include "dolphinpart.h"
+#include <kdebug.h>
 #include "dolphinviewactionhandler.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
@@ -107,6 +108,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotRequestUrlChange(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SIGNAL(viewModeChanged())); // relay signal
+    connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
+            this, SLOT(slotRedirection(KUrl, KUrl)));
 
     // Watch for changes that should result in updates to the
     // status bar text.
@@ -414,11 +417,20 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
                                 actionGroups);
 }
 
-void DolphinPart::slotUrlChanged(const KUrl& url)
+// ########### not sure this is still called... seems not.
+void DolphinPart::slotUrlChanged(const KUrl& newUrl)
 {
-    KParts::ReadOnlyPart::setUrl(url);
-    QString prettyUrl = url.pathOrUrl();
-    emit m_extension->setLocationBarUrl(prettyUrl);
+    slotRedirection(url(), newUrl);
+}
+
+void DolphinPart::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    //kDebug() << oldUrl << newUrl << "currentUrl=" << url();
+    if (oldUrl == url()) {
+        KParts::ReadOnlyPart::setUrl(newUrl);
+        const QString prettyUrl = newUrl.pathOrUrl();
+        emit m_extension->setLocationBarUrl(prettyUrl);
+    }
 }
 
 void DolphinPart::slotRequestUrlChange(const KUrl& url)
