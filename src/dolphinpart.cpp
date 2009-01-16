@@ -102,8 +102,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(urlChanged(KUrl)),
-            this, SLOT(slotUrlChanged(KUrl)));
     connect(m_view, SIGNAL(requestUrlChange(KUrl)),
             this, SLOT(slotRequestUrlChange(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
@@ -415,12 +413,6 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
                                 KParts::BrowserArguments(),
                                 popupFlags,
                                 actionGroups);
-}
-
-// ########### not sure this is still called... seems not.
-void DolphinPart::slotUrlChanged(const KUrl& newUrl)
-{
-    slotRedirection(url(), newUrl);
 }
 
 void DolphinPart::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
