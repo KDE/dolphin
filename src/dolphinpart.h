@@ -142,12 +142,6 @@ private Q_SLOTS:
     void slotRequestUrlChange(const KUrl& url);
 
     /**
-     * Informs the host that we are opening \a url (e.g. after a redirection).
-     * ########### not sure this is still called... seems not.
-     */
-    void slotUrlChanged(const KUrl& url);
-
-    /**
      * Informs the host that we are opening \a url (e.g. after a redirection
      * coming from KDirLister).
      * Testcase 1: fish://localhost
