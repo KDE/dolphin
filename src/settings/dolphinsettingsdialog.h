@@ -23,22 +23,21 @@
 
 #include <kpagedialog.h>
 
+class KUrl;
 class DolphinMainWindow;
 class SettingsPageBase;
 
 /**
  * @brief Settings dialog for Dolphin.
  *
- * Contains the pages for startup settings, general settings and view settings.
- *
- * @author Peter Penz <peter.penz@gmx.at>
+ * Contains the pages for Startup, View Modes, Navigation, Services and General.
  */
 class DolphinSettingsDialog : public KPageDialog
 {
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(DolphinMainWindow* mainWindow);
+    explicit DolphinSettingsDialog(const KUrl& url, QWidget* parent);
     virtual ~DolphinSettingsDialog();
 
 protected slots:

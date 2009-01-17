@@ -20,8 +20,8 @@
 #define STARTUPSETTINGSPAGE_H
 
 #include <settings/settingspagebase.h>
+#include <kurl.h>
 
-class DolphinMainWindow;
 class KLineEdit;
 class QCheckBox;
 
@@ -36,7 +36,7 @@ class StartupSettingsPage : public SettingsPageBase
     Q_OBJECT
 
 public:
-    StartupSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    StartupSettingsPage(const KUrl& url, QWidget* parent);
     virtual ~StartupSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
@@ -54,7 +54,7 @@ private:
     void loadSettings();
 
 private:
-    DolphinMainWindow* m_mainWindow;
+    KUrl m_url;
     KLineEdit* m_homeUrl;
 
     QCheckBox* m_splitView;

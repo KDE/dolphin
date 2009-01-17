@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,33 +16,39 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+#ifndef NAVIGATIONSETTINGSPAGE_H
+#define NAVIGATIONSETTINGSPAGE_H
 
-#ifndef KCMDOLPHIN_H
-#define KCMDOLPHIN_H
+#include <settings/settingspagebase.h>
 
-#include <kcmodule.h>
-
-class ViewSettingsPageBase;
+class QCheckBox;
+class QRadioButton;
 
 /**
- * @brief Allow to configure the Dolphin views.
+ * @brief Page for the 'Navigation' settings of the Dolphin settings dialog.
  */
-class DolphinConfigModule : public KCModule
+class NavigationSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    DolphinConfigModule(QWidget* parent, const QVariantList& args);
-    virtual ~DolphinConfigModule();
+    NavigationSettingsPage(QWidget* parent);
+    virtual ~NavigationSettingsPage();
 
-    virtual void save();
-    virtual void defaults();
+    /** @see SettingsPageBase::applySettings() */
+    virtual void applySettings();
+
+    /** @see SettingsPageBase::restoreDefaults() */
+    virtual void restoreDefaults();
 
 private:
-    void reparseConfiguration();
+    void loadSettings();
 
 private:
-    QList<ViewSettingsPageBase*> m_pages;
+    QRadioButton* m_singleClick;
+    QRadioButton* m_doubleClick;
+    QCheckBox* m_browseThroughArchives;
+    QCheckBox* m_autoExpandFolders;
 };
 
 #endif

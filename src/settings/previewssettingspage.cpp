@@ -17,11 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "generalviewsettingspage.h"
-#include "dolphinmainwindow.h"
-#include "settings/dolphinsettings.h"
-#include "dolphinviewcontainer.h"
-#include "viewproperties.h"
+#include "previewssettingspage.h"
+#include "dolphinsettings.h"
 
 #include "dolphin_generalsettings.h"
 
@@ -38,48 +35,27 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <khbox.h>
+#include <kvbox.h>
 
-GeneralViewSettingsPage::GeneralViewSettingsPage(const KUrl& url,
-                                                 QWidget* parent) :
-    ViewSettingsPageBase(parent),
-    m_url(url),
-    m_localProps(0),
-    m_globalProps(0),
+PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
+    SettingsPageBase(parent),
     m_maxPreviewSize(0),
     m_spinBox(0),
-    m_useFileThumbnails(0),
-    m_showSelectionToggle(0),
-    m_showToolTips(0)
+    m_useFileThumbnails(0)
 {
-    const int spacing = KDialog::spacingHint();
-    const int margin = KDialog::marginHint();
-    const QSizePolicy sizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    KVBox* vBox = new KVBox(this);
+    vBox->setSpacing(KDialog::spacingHint());
+    vBox->setMargin(KDialog::marginHint());
 
-    setSpacing(spacing);
-    setMargin(margin);
+    new QLabel("TODO: a major rewrite of this dialog will be done in 4.3", vBox);
 
-    QGroupBox* propsBox = new QGroupBox(i18nc("@title:group", "View Properties"), this);
+    KHBox* hBox = new KHBox(vBox);
+    hBox->setSpacing(KDialog::spacingHint());
 
-    m_localProps = new QRadioButton(i18nc("@option:radio", "Remember view properties for each folder"), propsBox);
-    connect(m_localProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    new QLabel(i18nc("@label:slider", "Maximum file size:"), hBox);
+    m_maxPreviewSize = new QSlider(Qt::Horizontal, hBox);
 
-    m_globalProps = new QRadioButton(i18nc("@option:radio", "Use common view properties for all folders"), propsBox);
-    connect(m_globalProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
-    propsBoxLayout->addWidget(m_localProps);
-    propsBoxLayout->addWidget(m_globalProps);
-
-    // create 'File Previews' box
-    QGroupBox* previewBox = new QGroupBox(i18nc("@title:group", "File Previews"), this);
-
-    KHBox* vBox = new KHBox(previewBox);
-    vBox->setSpacing(spacing);
-
-    new QLabel(i18nc("@label:slider", "Maximum file size:"), vBox);
-    m_maxPreviewSize = new QSlider(Qt::Horizontal, vBox);
-
-    m_spinBox = new QSpinBox(vBox);
+    m_spinBox = new QSpinBox(hBox);
 
     connect(m_maxPreviewSize, SIGNAL(valueChanged(int)),
             m_spinBox, SLOT(setValue(int)));
@@ -91,50 +67,24 @@ GeneralViewSettingsPage::GeneralViewSettingsPage(const KUrl& url,
     connect(m_spinBox, SIGNAL(valueChanged(int)),
             this, SIGNAL(changed()));
 
-    m_useFileThumbnails = new QCheckBox(i18nc("@option:check", "Use thumbnails embedded in files"), previewBox);
+    m_useFileThumbnails = new QCheckBox(i18nc("@option:check", "Use thumbnails embedded in files"), vBox);
     connect(m_useFileThumbnails, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    QVBoxLayout* previewBoxLayout = new QVBoxLayout(previewBox);
-    previewBoxLayout->addWidget(vBox);
-    previewBoxLayout->addWidget(m_useFileThumbnails);
-
-    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), this);
-    connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
-    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
-    new QWidget(this);
+    new QWidget(vBox);
 
     loadSettings();
 }
 
 
-GeneralViewSettingsPage::~GeneralViewSettingsPage()
+PreviewsSettingsPage::~PreviewsSettingsPage()
 {
 }
 
-void GeneralViewSettingsPage::applySettings()
+void PreviewsSettingsPage::applySettings()
 {
-    ViewProperties props(m_url);  // read current view properties
-
-    const bool useGlobalProps = m_globalProps->isChecked();
-
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setGlobalViewProps(useGlobalProps);
-
-    if (useGlobalProps) {
-        // Remember the global view properties by applying the current view properties.
-        // It is important that GeneralSettings::globalViewProps() is set before
-        // the class ViewProperties is used, as ViewProperties uses this setting
-        // to find the destination folder for storing the view properties.
-        ViewProperties globalProps(m_url);
-        globalProps.setDirProperties(props);
-    }
-
     KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
     const int byteCount = m_maxPreviewSize->value() * 1024 * 1024; // value() returns size in MB
     globalConfig.writeEntry("MaximumSize",
@@ -144,27 +94,17 @@ void GeneralViewSettingsPage::applySettings()
                             m_useFileThumbnails->isChecked(),
                             KConfigBase::Normal | KConfigBase::Global);
     globalConfig.sync();
-
-    settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
-    settings->setShowToolTips(m_showToolTips->isChecked());
 }
 
-void GeneralViewSettingsPage::restoreDefaults()
+void PreviewsSettingsPage::restoreDefaults()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     settings->setDefaults();
     loadSettings();
 }
 
-void GeneralViewSettingsPage::loadSettings()
+void PreviewsSettingsPage::loadSettings()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    if (settings->globalViewProps()) {
-        m_globalProps->setChecked(true);
-    } else {
-        m_localProps->setChecked(true);
-    }
-
     const int min = 1;   // MB
     const int max = 100; // MB
     m_maxPreviewSize->setRange(min, max);
@@ -193,9 +133,6 @@ void GeneralViewSettingsPage::loadSettings()
 
     const bool useFileThumbnails = globalConfig.readEntry("UseFileThumbnails", true);
     m_useFileThumbnails->setChecked(useFileThumbnails);
-
-    m_showSelectionToggle->setChecked(settings->showSelectionToggle());
-    m_showToolTips->setChecked(settings->showToolTips());
 }
 
-#include "generalviewsettingspage.moc"
+#include "previewssettingspage.moc"

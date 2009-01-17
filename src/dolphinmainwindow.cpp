@@ -703,7 +703,8 @@ void DolphinMainWindow::toggleShowMenuBar()
 void DolphinMainWindow::editSettings()
 {
     if (m_settingsDialog == 0) {
-        m_settingsDialog = new DolphinSettingsDialog(this);
+        const KUrl& url = activeViewContainer()->url();
+        m_settingsDialog = new DolphinSettingsDialog(url, this);
         m_settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
         m_settingsDialog->show();
     } else {

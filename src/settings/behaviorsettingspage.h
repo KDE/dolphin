@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Peter Penz                                      *
+ *   peter.penz@gmx.at                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,44 +17,31 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+#ifndef BEHAVIORSETTINGSPAGE_H
+#define BEHAVIORSETTINGSPAGE_H
 
-#ifndef GENERALVIEWSETTINGSPAGE_H
-#define GENERALVIEWSETTINGSPAGE_H
-
+#include <settings/settingspagebase.h>
 #include <kurl.h>
-#include <settings/viewsettingspagebase.h>
 
 class DolphinMainWindow;
 class QCheckBox;
 class QRadioButton;
-class QSlider;
-class QSpinBox;
 
 /**
- * @brief Represents the page from the Dolphin Settings which allows
- * to modify general settings for the view modes.
+ * @brief Tab page for the 'Behavior' settings of the Dolphin settings dialog.
  */
-class GeneralViewSettingsPage : public ViewSettingsPageBase
+class BehaviorSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    /**
-     * @param url     URL of the currently shown directory, which is used
-     *                to read the viewproperties.
-     * @param parent  Parent widget of the settings page.
-     */
-    GeneralViewSettingsPage(const KUrl& url, QWidget* parent);
-    virtual ~GeneralViewSettingsPage();
+    BehaviorSettingsPage(const KUrl& url, QWidget* parent);
+    virtual ~BehaviorSettingsPage();
 
-    /**
-     * Applies the general settings for the view modes
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
+    /** @see SettingsPageBase::applySettings() */
     virtual void applySettings();
 
-    /** Restores the settings to default values. */
+    /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
 private:
@@ -61,13 +49,16 @@ private:
 
 private:
     KUrl m_url;
+
     QRadioButton* m_localProps;
     QRadioButton* m_globalProps;
-    QSlider* m_maxPreviewSize;
-    QSpinBox* m_spinBox;
-    QCheckBox* m_useFileThumbnails;
-    QCheckBox* m_showSelectionToggle;
+
+    QCheckBox* m_confirmMoveToTrash;
+    QCheckBox* m_confirmDelete;
+
+    QCheckBox* m_renameInline;
     QCheckBox* m_showToolTips;
+    QCheckBox* m_showSelectionToggle;
 };
 
 #endif

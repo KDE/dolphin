@@ -20,25 +20,18 @@
 
 #include "viewsettingspage.h"
 
-#include "settings/columnviewsettingspage.h"
-#include "settings/detailsviewsettingspage.h"
-#include "dolphinmainwindow.h"
-#include "dolphinviewcontainer.h"
-#include "settings/generalviewsettingspage.h"
-#include "settings/iconsviewsettingspage.h"
+#include "columnviewsettingspage.h"
+#include "iconsviewsettingspage.h"
+#include "detailsviewsettingspage.h"
 
-#include <QtGui/QBoxLayout>
-#include <QtGui/QLayout>
-#include <QtGui/QLabel>
+#include <QVBoxLayout>
 
 #include <kdialog.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <ktabwidget.h>
 
-
-ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
-                                   QWidget* parent) :
+ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_pages()
 {
@@ -47,12 +40,6 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     topLayout->setSpacing(KDialog::spacingHint());
 
     KTabWidget* tabWidget = new KTabWidget(this);
-
-    // initialize 'General' tab
-    const KUrl& url = mainWindow->activeViewContainer()->url();
-    GeneralViewSettingsPage* generalPage = new GeneralViewSettingsPage(url, tabWidget);
-    tabWidget->addTab(generalPage, KIcon("view-choose"), i18nc("@title:tab General settings", "General"));
-    connect(generalPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
     // initialize 'Icons' tab
     IconsViewSettingsPage* iconsPage = new IconsViewSettingsPage(tabWidget);
@@ -69,7 +56,6 @@ ViewSettingsPage::ViewSettingsPage(DolphinMainWindow* mainWindow,
     tabWidget->addTab(columnPage, KIcon("view-file-columns"), i18nc("@title:tab", "Column"));
     connect(columnPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    m_pages.append(generalPage);
     m_pages.append(iconsPage);
     m_pages.append(detailsPage);
     m_pages.append(columnPage);

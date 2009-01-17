@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at) and              *
- *   and Patrice Tremblay                                                  *
+ *   Copyright (C) 2006 by Peter Penz                                      *
+ *   peter.penz@gmx.at                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,99 +15,60 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
 #include "generalsettingspage.h"
 
-#include "settings/dolphinsettings.h"
-
-#include "dolphin_generalsettings.h"
+#include "behaviorsettingspage.h"
+#include "contextmenusettingspage.h"
+#include "previewssettingspage.h"
+#include "settingspagebase.h"
+#include "statusbarsettingspage.h"
 
 #include <kdialog.h>
 #include <klocale.h>
-#include <kvbox.h>
+#include <kiconloader.h>
+#include <ktabwidget.h>
 
-#include <QCheckBox>
-#include <QGroupBox>
-#include <QLabel>
 #include <QVBoxLayout>
 
-GeneralSettingsPage::GeneralSettingsPage(DolphinMainWindow* mainWin, QWidget* parent) :
+GeneralSettingsPage::GeneralSettingsPage(const KUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
-    m_confirmMoveToTrash(0),
-    m_confirmDelete(0),
-    m_showDeleteCommand(0),
-    m_showCopyMoveMenu(0),
-    m_showZoomSlider(0),
-    m_showSpaceInfo(0),
-    m_browseThroughArchives(0),
-    m_renameInline(0),
-    m_autoExpandFolders(0)
+    m_pages()
 {
-    Q_UNUSED(mainWin);
-
-    const int spacing = KDialog::spacingHint();
-
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    KVBox* vBox = new KVBox(this);
-    vBox->setSpacing(spacing);
+    topLayout->setMargin(0);
+    topLayout->setSpacing(KDialog::spacingHint());
 
-    // create 'Ask Confirmation For' group
-    QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), vBox);
-    m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
-                                               "Moving files or folders to trash"), confirmBox);
-    connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
-                                          "Deleting files or folders"), confirmBox);
-    connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    KTabWidget* tabWidget = new KTabWidget(this);
 
-    QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
-    confirmBoxLayout->addWidget(m_confirmMoveToTrash);
-    confirmBoxLayout->addWidget(m_confirmDelete);
+    // initialize 'Behavior' tab
+    BehaviorSettingsPage* behaviorPage = new BehaviorSettingsPage(url, tabWidget);
+    tabWidget->addTab(behaviorPage, i18nc("@title:tab Behavior settings", "Behavior"));
+    connect(behaviorPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    QGroupBox* contextMenuBox = new QGroupBox(i18nc("@title:group", "Context Menu"), vBox);
+    // initialize 'Previews' tab
+    PreviewsSettingsPage* previewsPage = new PreviewsSettingsPage(tabWidget);
+    tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
+    connect(previewsPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    // create 'Show the command 'Delete' in context menu' checkbox
-    m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command"), contextMenuBox);
-    connect(m_showDeleteCommand, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    // initialize 'Context Menu' tab
+    ContextMenuSettingsPage* contextMenuPage = new ContextMenuSettingsPage(tabWidget);
+    tabWidget->addTab(contextMenuPage, i18nc("@title:tab Context Menu settings", "Context Menu"));
+    connect(contextMenuPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    m_showCopyMoveMenu = new QCheckBox(i18nc("@option:check", "Show 'Copy To' and 'Move To' commands"), contextMenuBox);
-    connect(m_showCopyMoveMenu, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    // initialize 'Status Bar' tab
+    StatusBarSettingsPage* statusBarPage = new StatusBarSettingsPage(tabWidget);
+    tabWidget->addTab(statusBarPage, i18nc("@title:tab Status Bar settings", "Status Bar"));
+    connect(statusBarPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    QVBoxLayout* contextMenuBoxLayout = new QVBoxLayout(contextMenuBox);
-    contextMenuBoxLayout->addWidget(m_showDeleteCommand);
-    contextMenuBoxLayout->addWidget(m_showCopyMoveMenu);
+    m_pages.append(behaviorPage);
+    m_pages.append(previewsPage);
+    m_pages.append(contextMenuPage);
+    m_pages.append(statusBarPage);
 
-    QGroupBox* statusBarBox = new QGroupBox(i18nc("@title:group", "Status Bar"), vBox);
-
-    m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), statusBarBox);
-    connect(m_showZoomSlider, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), statusBarBox);
-    connect(m_showSpaceInfo, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    QVBoxLayout* statusBarBoxLayout = new QVBoxLayout(statusBarBox);
-    statusBarBoxLayout->addWidget(m_showZoomSlider);
-    statusBarBoxLayout->addWidget(m_showSpaceInfo);
-
-    m_browseThroughArchives = new QCheckBox(i18nc("@option:check", "Browse through archives"), vBox);
-    connect(m_browseThroughArchives, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), vBox);
-    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"), vBox);
-    connect(m_autoExpandFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-
-    // Add a dummy widget with no restriction regarding
-    // a vertical resizing. This assures that the dialog layout
-    // is not stretched vertically.
-    new QWidget(vBox);
-
-    topLayout->addWidget(vBox);
-
-    loadSettings();
+    topLayout->addWidget(tabWidget, 0, 0);
 }
 
 GeneralSettingsPage::~GeneralSettingsPage()
@@ -116,55 +77,16 @@ GeneralSettingsPage::~GeneralSettingsPage()
 
 void GeneralSettingsPage::applySettings()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-
-    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig("kiorc", KConfig::NoGlobals);
-    KConfigGroup confirmationGroup(kioConfig, "Confirmations");
-    confirmationGroup.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
-    confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
-    confirmationGroup.sync();
-
-    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
-    KConfigGroup configGroup(globalConfig, "KDE");
-    configGroup.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
-    configGroup.sync();
-
-    settings->setShowCopyMoveMenu(m_showCopyMoveMenu->isChecked());
-    settings->setShowZoomSlider(m_showZoomSlider->isChecked());
-    settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
-    settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
-    settings->setRenameInline(m_renameInline->isChecked());
-    settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
+    foreach (SettingsPageBase* page, m_pages) {
+        page->applySettings();
+    }
 }
 
 void GeneralSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setDefaults();
-
-    // TODO: reset default settings for trash and show delete command...
-
-    loadSettings();
-}
-
-void GeneralSettingsPage::loadSettings()
-{
-    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig("kiorc", KConfig::IncludeGlobals);
-    const KConfigGroup confirmationGroup(kioConfig, "Confirmations");
-    m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", false));
-    m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", true));
-
-    KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
-    KConfigGroup configGroup(globalConfig, "KDE");
-    m_showDeleteCommand->setChecked(configGroup.readEntry("ShowDeleteCommand", false));
-
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    m_showCopyMoveMenu->setChecked(settings->showCopyMoveMenu());
-    m_showZoomSlider->setChecked(settings->showZoomSlider());
-    m_showSpaceInfo->setChecked(settings->showSpaceInfo());
-    m_browseThroughArchives->setChecked(settings->browseThroughArchives());
-    m_renameInline->setChecked(settings->renameInline());
-    m_autoExpandFolders->setChecked(settings->autoExpandFolders());
+    foreach (SettingsPageBase* page, m_pages) {
+        page->restoreDefaults();
+    }
 }
 
 #include "generalsettingspage.moc"

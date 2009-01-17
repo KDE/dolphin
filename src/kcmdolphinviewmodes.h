@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,35 +14,32 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef VIEWSETTINGSPAGE_H
-#define VIEWSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#ifndef KCMDOLPHIN_H
+#define KCMDOLPHIN_H
+
+#include <kcmodule.h>
 
 class ViewSettingsPageBase;
-class QWidget;
 
 /**
- * @brief Page for the 'View' settings of the Dolphin settings dialog.
- *
- * The views settings allow to set the properties for the icons mode,
- * the details mode and the column mode.
+ * @brief Allow to configure the Dolphin views.
  */
-class ViewSettingsPage : public SettingsPageBase
+class DolphinViewModesConfigModule : public KCModule
 {
     Q_OBJECT
 
 public:
-    ViewSettingsPage(QWidget* parent);
-    virtual ~ViewSettingsPage();
+    DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args);
+    virtual ~DolphinViewModesConfigModule();
 
-    /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
+    virtual void save();
+    virtual void defaults();
 
-    /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
+private:
+    void reparseConfiguration();
 
 private:
     QList<ViewSettingsPageBase*> m_pages;

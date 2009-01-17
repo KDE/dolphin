@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -15,38 +14,42 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef VIEWSETTINGSPAGE_H
-#define VIEWSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#include "servicessettingspage.h"
 
-class ViewSettingsPageBase;
-class QWidget;
+#include "dolphinsettings.h"
 
-/**
- * @brief Page for the 'View' settings of the Dolphin settings dialog.
- *
- * The views settings allow to set the properties for the icons mode,
- * the details mode and the column mode.
- */
-class ViewSettingsPage : public SettingsPageBase
+#include "dolphin_generalsettings.h"
+
+#include <kdialog.h>
+#include <klocale.h>
+#include <kvbox.h>
+
+ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
+    SettingsPageBase(parent)
 {
-    Q_OBJECT
+    loadSettings();
+}
 
-public:
-    ViewSettingsPage(QWidget* parent);
-    virtual ~ViewSettingsPage();
+ServicesSettingsPage::~ServicesSettingsPage()
+{
+}
 
-    /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
+void ServicesSettingsPage::applySettings()
+{
+}
 
-    /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
+void ServicesSettingsPage::restoreDefaults()
+{
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    settings->setDefaults();
+    loadSettings();
+}
 
-private:
-    QList<ViewSettingsPageBase*> m_pages;
-};
+void ServicesSettingsPage::loadSettings()
+{
+}
 
-#endif
+#include "servicessettingspage.moc"

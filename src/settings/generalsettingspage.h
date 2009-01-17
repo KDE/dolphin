@@ -15,26 +15,33 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 #ifndef GENERALSETTINGSPAGE_H
 #define GENERALSETTINGSPAGE_H
 
+#include <QWidget>
 #include <settings/settingspagebase.h>
 
+class KUrl;
+class SettingsPageBase;
 class DolphinMainWindow;
-class QLineEdit;
-class QCheckBox;
 
 /**
  * @brief Page for the 'General' settings of the Dolphin settings dialog.
+ *
+ * The general settings include:
+ * - Behavior
+ * - Previews
+ * - Context Menu
+ * - Status Bar
  */
 class GeneralSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    GeneralSettingsPage(DolphinMainWindow* mainWindow, QWidget* parent);
+    GeneralSettingsPage(const KUrl& url, QWidget* parent);
     virtual ~GeneralSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
@@ -44,21 +51,7 @@ public:
     virtual void restoreDefaults();
 
 private:
-    void loadSettings();
-
-private:
-    QCheckBox* m_confirmMoveToTrash;
-    QCheckBox* m_confirmDelete;
-
-    QCheckBox* m_showDeleteCommand;
-    QCheckBox* m_showCopyMoveMenu;
-
-    QCheckBox* m_showZoomSlider;
-    QCheckBox* m_showSpaceInfo;
-
-    QCheckBox* m_browseThroughArchives;
-    QCheckBox* m_renameInline;
-    QCheckBox* m_autoExpandFolders;
+    QList<SettingsPageBase*> m_pages;
 };
 
 #endif

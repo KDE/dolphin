@@ -39,9 +39,9 @@
 #include <QPushButton>
 #include <QRadioButton>
 
-StartupSettingsPage::StartupSettingsPage(DolphinMainWindow* mainWin, QWidget* parent) :
+StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
-    m_mainWindow(mainWin),
+    m_url(url),
     m_homeUrl(0),
     m_splitView(0),
     m_editableUrl(0),
@@ -147,8 +147,7 @@ void StartupSettingsPage::selectHomeUrl()
 
 void StartupSettingsPage::useCurrentLocation()
 {
-    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    m_homeUrl->setText(view->url().prettyUrl());
+    m_homeUrl->setText(m_url.prettyUrl());
 }
 
 void StartupSettingsPage::useDefaultLocation()

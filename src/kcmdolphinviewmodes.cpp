@@ -17,11 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kcmdolphin.h"
+#include "kcmdolphinviewmodes.h"
 
 #include "settings/columnviewsettingspage.h"
 #include "settings/detailsviewsettingspage.h"
-#include "settings/generalviewsettingspage.h"
 #include "settings/iconsviewsettingspage.h"
 
 #include <ktabwidget.h>
@@ -36,16 +35,16 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-K_PLUGIN_FACTORY(KCMDolphinConfigFactory, registerPlugin<DolphinConfigModule>("dolphin");)
-K_EXPORT_PLUGIN(KCMDolphinConfigFactory("kcmdolphin"))
+K_PLUGIN_FACTORY(KCMDolphinConfigFactory, registerPlugin<DolphinViewModesConfigModule>("dolphinviewmodes");)
+K_EXPORT_PLUGIN(KCMDolphinConfigFactory("kcmdolphinviewmodes"))
 
-DolphinConfigModule::DolphinConfigModule(QWidget* parent, const QVariantList& args) :
+DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args) :
     KCModule(KCMDolphinConfigFactory::componentData(), parent),
     m_pages()
 {
     Q_UNUSED(args);
 
-    KGlobal::locale()->insertCatalog("dolphin");
+    KGlobal::locale()->insertCatalog("dolphinviewmodes");
 
     setButtons(KCModule::Default | KCModule::Help);
 
@@ -54,11 +53,6 @@ DolphinConfigModule::DolphinConfigModule(QWidget* parent, const QVariantList& ar
     topLayout->setSpacing(KDialog::spacingHint());
 
     KTabWidget* tabWidget = new KTabWidget(this);
-
-    // initialize 'General' tab
-    GeneralViewSettingsPage* generalPage = new GeneralViewSettingsPage(QDir::homePath(), tabWidget);
-    tabWidget->addTab(generalPage, KIcon("view-choose"), i18nc("@title:tab General settings", "General"));
-    connect(generalPage, SIGNAL(changed()), this, SLOT(changed()));
 
     // initialize 'Icons' tab
     IconsViewSettingsPage* iconsPage = new IconsViewSettingsPage(tabWidget);
@@ -75,7 +69,6 @@ DolphinConfigModule::DolphinConfigModule(QWidget* parent, const QVariantList& ar
     tabWidget->addTab(columnPage, KIcon("view-file-columns"), i18nc("@title:tab", "Column"));
     connect(columnPage, SIGNAL(changed()), this, SLOT(changed()));
 
-    m_pages.append(generalPage);
     m_pages.append(iconsPage);
     m_pages.append(detailsPage);
     m_pages.append(columnPage);
@@ -83,11 +76,11 @@ DolphinConfigModule::DolphinConfigModule(QWidget* parent, const QVariantList& ar
     topLayout->addWidget(tabWidget, 0, 0);
 }
 
-DolphinConfigModule::~DolphinConfigModule()
+DolphinViewModesConfigModule::~DolphinViewModesConfigModule()
 {
 }
 
-void DolphinConfigModule::save()
+void DolphinViewModesConfigModule::save()
 {
     foreach (ViewSettingsPageBase* page, m_pages) {
         page->applySettings();
@@ -95,7 +88,7 @@ void DolphinConfigModule::save()
     reparseConfiguration();
 }
 
-void DolphinConfigModule::defaults()
+void DolphinViewModesConfigModule::defaults()
 {
     foreach (ViewSettingsPageBase* page, m_pages) {
         page->restoreDefaults();
@@ -103,10 +96,10 @@ void DolphinConfigModule::defaults()
     reparseConfiguration();
 }
 
-void DolphinConfigModule::reparseConfiguration()
+void DolphinViewModesConfigModule::reparseConfiguration()
 {
     QDBusMessage message = QDBusMessage::createSignal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration");
     QDBusConnection::sessionBus().send(message);
 }
 
-#include "kcmdolphin.moc"
+#include "kcmdolphinviewmodes.moc"

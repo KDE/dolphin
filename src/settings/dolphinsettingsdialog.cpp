@@ -23,6 +23,8 @@
 #include <dolphinapplication.h>
 #include <dolphinmainwindow.h>
 #include "generalsettingspage.h"
+#include "navigationsettingspage.h"
+#include "servicessettingspage.h"
 #include "startupsettingspage.h"
 #include "viewsettingspage.h"
 
@@ -30,8 +32,8 @@
 #include <kmessagebox.h>
 #include <kicon.h>
 
-DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
-    KPageDialog(mainWindow),
+DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
+    KPageDialog(parent),
     m_pages()
 
 {
@@ -44,19 +46,36 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
     enableButtonApply(false);
     setDefaultButton(Ok);
 
-    StartupSettingsPage* startupSettingsPage = new StartupSettingsPage(mainWindow, this);
+    // Startup
+    StartupSettingsPage* startupSettingsPage = new StartupSettingsPage(url, this);
     KPageWidgetItem* startupSettingsFrame = addPage(startupSettingsPage,
                                                     i18nc("@title:group", "Startup"));
     startupSettingsFrame->setIcon(KIcon("go-home"));
     connect(startupSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
 
-    ViewSettingsPage* viewSettingsPage = new ViewSettingsPage(mainWindow, this);
+    // View Modes
+    ViewSettingsPage* viewSettingsPage = new ViewSettingsPage(this);
     KPageWidgetItem* viewSettingsFrame = addPage(viewSettingsPage,
                                                  i18nc("@title:group", "View Modes"));
     viewSettingsFrame->setIcon(KIcon("view-choose"));
     connect(viewSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
 
-    GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(mainWindow, this);
+    // Navigation
+    NavigationSettingsPage* navigationSettingsPage = new NavigationSettingsPage(this);
+    KPageWidgetItem* navigationSettingsFrame = addPage(navigationSettingsPage,
+                                                       i18nc("@title:group", "Navigation"));
+    navigationSettingsFrame->setIcon(KIcon("input-mouse"));
+    connect(navigationSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+
+    // Services
+    ServicesSettingsPage* servicesSettingsPage = new ServicesSettingsPage(this);
+    KPageWidgetItem* servicesSettingsFrame = addPage(servicesSettingsPage,
+                                                       i18nc("@title:group", "Services"));
+    servicesSettingsFrame->setIcon(KIcon("services"));
+    connect(servicesSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+
+    // General
+    GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(url, this);
     KPageWidgetItem* generalSettingsFrame = addPage(generalSettingsPage,
                                                     i18nc("@title:group General settings", "General"));
     generalSettingsFrame->setIcon(KIcon("system-run"));
@@ -67,6 +86,8 @@ DolphinSettingsDialog::DolphinSettingsDialog(DolphinMainWindow* mainWindow) :
 
     m_pages.append(startupSettingsPage);
     m_pages.append(viewSettingsPage);
+    m_pages.append(navigationSettingsPage);
+    m_pages.append(servicesSettingsPage);
     m_pages.append(generalSettingsPage);
 }
 

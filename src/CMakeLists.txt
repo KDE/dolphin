@@ -111,16 +111,21 @@ set(dolphin_SRCS
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp
     panels/folders/paneltreeview.cpp
-    settings/settingspagebase.cpp
-    settings/startupsettingspage.cpp
+    settings/behaviorsettingspage.cpp
     settings/columnviewsettingspage.cpp
+    settings/contextmenusettingspage.cpp
     settings/dolphinfontrequester.cpp
     settings/dolphinsettingsdialog.cpp
     settings/detailsviewsettingspage.cpp
     settings/generalsettingspage.cpp
-    settings/generalviewsettingspage.cpp
     settings/iconsizegroupbox.cpp
     settings/iconsviewsettingspage.cpp
+    settings/navigationsettingspage.cpp
+    settings/previewssettingspage.cpp
+    settings/servicessettingspage.cpp
+    settings/settingspagebase.cpp
+    settings/startupsettingspage.cpp
+    settings/statusbarsettingspage.cpp
     settings/viewsettingspage.cpp
     settings/viewsettingspagebase.cpp
     statusbarspaceinfo.cpp
@@ -169,12 +174,11 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################
 
-set(kcm_dolphin_PART_SRCS
-    kcmdolphin.cpp
+set(kcm_dolphinviewmodes_PART_SRCS
+    kcmdolphinviewmodes.cpp
     settings/columnviewsettingspage.cpp
     settings/detailsviewsettingspage.cpp
     settings/dolphinfontrequester.cpp
-    settings/generalviewsettingspage.cpp
     settings/iconsizegroupbox.cpp
     settings/iconsviewsettingspage.cpp
     settings/viewsettingspagebase.cpp
@@ -182,25 +186,25 @@ set(kcm_dolphin_PART_SRCS
     zoomlevelinfo.cpp
 )
 
-kde4_add_kcfg_files(kcm_dolphin_PART_SRCS
+kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_columnmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
     settings/dolphin_generalsettings.kcfgc)
 
-kde4_add_plugin(kcm_dolphin ${kcm_dolphin_PART_SRCS})
+kde4_add_plugin(kcm_dolphinviewmodes ${kcm_dolphinviewmodes_PART_SRCS})
 
-target_link_libraries(kcm_dolphin  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
+target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 if (Nepomuk_FOUND)
-  target_link_libraries(kcm_dolphin ${NEPOMUK_LIBRARIES})
+  target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_LIBRARIES})
 endif (Nepomuk_FOUND)
 
-install(TARGETS kcm_dolphin DESTINATION ${PLUGIN_INSTALL_DIR} )
+install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES  settings/dolphin_directoryviewpropertysettings.kcfg settings/dolphin_generalsettings.kcfg settings/dolphin_columnmodesettings.kcfg settings/dolphin_iconsmodesettings.kcfg settings/dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
-install( FILES kcmdolphin.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
