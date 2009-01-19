@@ -39,9 +39,9 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 class KAction;
 class DolphinViewActionHandler;
 class DolphinApplication;
+class DolphinSearchBox;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
-class KLineEdit;
 class KNewMenu;
 class KTabBar;
 class KUrl;
@@ -362,9 +362,10 @@ private slots:
     void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
     /**
-     * Searchs items that match to the text entered in the search bar.
+     * Is connected with the Dolphin search box and searchs items that
+     * match to the text entered in the search bar.
      */
-    void searchItems();
+    void searchItems(const KUrl& url);
 
 private:
     DolphinMainWindow(int id);
@@ -426,7 +427,7 @@ private:
     KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
-    KLineEdit* m_searchBar;
+    DolphinSearchBox* m_searchBox;
     int m_id;
 
     struct ViewTab

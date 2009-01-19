@@ -94,6 +94,7 @@ set(dolphin_SRCS
     dolphinmainwindow.cpp
     dolphinnewmenu.cpp
     dolphinviewcontainer.cpp
+    dolphinsearchbox.cpp
     dolphinstatusbar.cpp
     dolphindirlister.cpp
     dolphincontextmenu.cpp

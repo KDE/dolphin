@@ -28,6 +28,7 @@
 #include "dolphinnewmenu.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
+#include "dolphinsearchbox.h"
 #include "dolphinstatusbar.h"
 #include "dolphinviewcontainer.h"
 #include "panels/folders/folderspanel.h"
@@ -92,7 +93,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_tabBar(0),
     m_activeViewContainer(0),
     m_centralWidgetLayout(0),
-    m_searchBar(0),
+    m_searchBox(0),
     m_id(id),
     m_tabIndex(0),
     m_viewTab(),
@@ -843,10 +844,9 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
     canDecode = KUrl::List::canDecode(event->mimeData());
 }
 
-void DolphinMainWindow::searchItems()
+void DolphinMainWindow::searchItems(const KUrl& url)
 {
-    const QString nepomukString = "nepomuksearch:/" + m_searchBar->text();
-    m_activeViewContainer->setUrl(KUrl(nepomukString));
+    m_activeViewContainer->setUrl(url);
 }
 
 
@@ -911,9 +911,8 @@ void DolphinMainWindow::init()
 
     setupGUI(Keys | Save | Create | ToolBar);
 
-    m_searchBar->setParent(toolBar("searchToolBar"));
-    m_searchBar->setFont(KGlobalSettings::generalFont());
-    m_searchBar->show();
+    m_searchBox->setParent(toolBar("searchToolBar"));
+    m_searchBox->show();
 
     stateChanged("new_file");
 
@@ -1124,15 +1123,13 @@ void DolphinMainWindow::setupActions()
     connect(openInNewWindow, SIGNAL(triggered()), this, SLOT(openInNewWindow()));
 
     // 'Search' toolbar
-    m_searchBar = new KLineEdit(this);
-    m_searchBar->setMinimumWidth(150);
-    m_searchBar->setClearButtonShown(true);
-    connect(m_searchBar, SIGNAL(returnPressed()), this, SLOT(searchItems()));
+    m_searchBox = new DolphinSearchBox(this);
+    connect(m_searchBox, SIGNAL(search(KUrl)), this, SLOT(searchItems(KUrl)));
 
     KAction* search = new KAction(this);
     actionCollection()->addAction("search_bar", search);
     search->setText(i18nc("@action:inmenu", "Search Bar"));
-    search->setDefaultWidget(m_searchBar);
+    search->setDefaultWidget(m_searchBox);
     search->setShortcutConfigurable(false);
 }
 
