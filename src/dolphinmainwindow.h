@@ -41,6 +41,7 @@ class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
+class KLineEdit;
 class KNewMenu;
 class KTabBar;
 class KUrl;
@@ -360,6 +361,11 @@ private slots:
      */
     void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
+    /**
+     * Searchs items that match to the text entered in the search bar.
+     */
+    void searchItems();
+
 private:
     DolphinMainWindow(int id);
     void init();
@@ -420,6 +426,7 @@ private:
     KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
+    KLineEdit* m_searchBar;
     int m_id;
 
     struct ViewTab

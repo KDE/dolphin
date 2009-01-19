@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="7">
+<kpartgui name="dolphin" version="8">
     <MenuBar>
         <Menu name="file">
             <Action name="create_new" />
@@ -124,5 +124,9 @@
         <Separator name="separator_0" />
         <Action name="show_preview" />
         <Action name="split_view" />
+    </ToolBar>
+    <ToolBar iconText="icononly" name="searchToolBar" newline="false">
+        <text context="@title:menu">Search Toolbar</text>
+        <Action name="search_bar" />
     </ToolBar>
 </kpartgui>

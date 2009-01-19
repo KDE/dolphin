@@ -53,6 +53,8 @@
 #include <kfiledialog.h>
 #include <kfileplacesmodel.h>
 #include <kglobal.h>
+#include <klineedit.h>
+#include <ktoolbar.h>
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
@@ -90,6 +92,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_tabBar(0),
     m_activeViewContainer(0),
     m_centralWidgetLayout(0),
+    m_searchBar(0),
     m_id(id),
     m_tabIndex(0),
     m_viewTab(),
@@ -840,6 +843,13 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
     canDecode = KUrl::List::canDecode(event->mimeData());
 }
 
+void DolphinMainWindow::searchItems()
+{
+    const QString nepomukString = "nepomuksearch:/" + m_searchBar->text();
+    m_activeViewContainer->setUrl(KUrl(nepomukString));
+}
+
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -900,6 +910,10 @@ void DolphinMainWindow::init()
     emit urlChanged(homeUrl);
 
     setupGUI(Keys | Save | Create | ToolBar);
+
+    m_searchBar->setParent(toolBar("searchToolBar"));
+    m_searchBar->setFont(KGlobalSettings::generalFont());
+    m_searchBar->show();
 
     stateChanged("new_file");
 
@@ -1055,6 +1069,11 @@ void DolphinMainWindow::setupActions()
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
+    KToggleAction* showSearchBar = actionCollection()->add<KToggleAction>("show_search_bar");
+    showSearchBar->setText(i18nc("@action:inmenu Tools", "Show Search Bar"));
+    showSearchBar->setShortcut(Qt::CTRL | Qt::Key_S);
+    connect(showSearchBar, SIGNAL(triggered(bool)), this, SLOT(toggleFilterBarVisibility(bool)));
+
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
@@ -1103,6 +1122,18 @@ void DolphinMainWindow::setupActions()
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
     openInNewWindow->setIcon(KIcon("window-new"));
     connect(openInNewWindow, SIGNAL(triggered()), this, SLOT(openInNewWindow()));
+
+    // 'Search' toolbar
+    m_searchBar = new KLineEdit(this);
+    m_searchBar->setMinimumWidth(150);
+    m_searchBar->setClearButtonShown(true);
+    connect(m_searchBar, SIGNAL(returnPressed()), this, SLOT(searchItems()));
+
+    KAction* search = new KAction(this);
+    actionCollection()->addAction("search_bar", search);
+    search->setText(i18nc("@action:inmenu", "Search Bar"));
+    search->setDefaultWidget(m_searchBar);
+    search->setShortcutConfigurable(false);
 }
 
 void DolphinMainWindow::setupDockWidgets()
