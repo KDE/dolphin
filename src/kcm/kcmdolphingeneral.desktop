@@ -1,0 +1,16 @@
+Name=Dolphin General
+Comment=This service allows configuration of general Dolphin settings.
+
+[Desktop Entry]
+Icon=input-mouse
+Type=Service
+X-KDE-ServiceTypes=KCModule
+Exec=kcmshell4 kcmdolphingeneral
+
+X-KDE-Library=kcm_dolphingeneral
+X-KDE-PluginKeyword=dolphingeneral
+X-KDE-ParentApp=kcontrol
+
+Name=General
+Comment=Configure general file manager settings
+X-KDE-Keywords=file manager

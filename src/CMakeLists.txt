@@ -190,6 +190,12 @@ set(kcm_dolphinnavigation_PART_SRCS
     settings/navigationsettingspage.cpp
     settings/settingspagebase.cpp)
 
+set(kcm_dolphingeneral_PART_SRCS
+    kcm/kcmdolphingeneral.cpp
+    settings/behaviorsettingspage.cpp
+    settings/previewssettingspage.cpp
+    settings/settingspagebase.cpp)
+
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_columnmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
@@ -200,18 +206,25 @@ kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
 kde4_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
 
+kde4_add_kcfg_files(kcm_dolphingeneral_PART_SRCS
+    settings/dolphin_generalsettings.kcfgc)
+
 kde4_add_plugin(kcm_dolphinviewmodes ${kcm_dolphinviewmodes_PART_SRCS})
 kde4_add_plugin(kcm_dolphinnavigation ${kcm_dolphinnavigation_PART_SRCS})
+kde4_add_plugin(kcm_dolphingeneral ${kcm_dolphingeneral_PART_SRCS})
 
 target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
+target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 if (Nepomuk_FOUND)
   target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_LIBRARIES})
   target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_LIBRARIES})
+  target_link_libraries(kcm_dolphingeneral ${NEPOMUK_LIBRARIES})
 endif (Nepomuk_FOUND)
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )
+install(TARGETS kcm_dolphingeneral DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
@@ -220,3 +233,4 @@ install( FILES  settings/dolphin_directoryviewpropertysettings.kcfg settings/dol
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES kcm/kcmdolphingeneral.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
