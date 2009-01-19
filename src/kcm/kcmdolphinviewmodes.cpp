@@ -35,11 +35,11 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 
-K_PLUGIN_FACTORY(KCMDolphinConfigFactory, registerPlugin<DolphinViewModesConfigModule>("dolphinviewmodes");)
-K_EXPORT_PLUGIN(KCMDolphinConfigFactory("kcmdolphinviewmodes"))
+K_PLUGIN_FACTORY(KCMDolphinViewModesConfigFactory, registerPlugin<DolphinViewModesConfigModule>("dolphinviewmodes");)
+K_EXPORT_PLUGIN(KCMDolphinViewModesConfigFactory("kcmdolphinviewmodes"))
 
 DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args) :
-    KCModule(KCMDolphinConfigFactory::componentData(), parent),
+    KCModule(KCMDolphinViewModesConfigFactory::componentData(), parent),
     m_pages()
 {
     Q_UNUSED(args);

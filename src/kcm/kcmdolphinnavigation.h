@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,32 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KCMDOLPHIN_H
-#define KCMDOLPHIN_H
+#ifndef KCMDOLPHINNAVIGATION_H
+#define KCMDOLPHINNAVIGATION_H
 
 #include <kcmodule.h>
 
-class ViewSettingsPageBase;
+class NavigationSettingsPage;
 
 /**
- * @brief Allow to configure the Dolphin views.
+ * @brief Allow to configure the Dolphin navigation.
  */
-class DolphinViewModesConfigModule : public KCModule
+class DolphinNavigationConfigModule : public KCModule
 {
     Q_OBJECT
 
 public:
-    DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args);
-    virtual ~DolphinViewModesConfigModule();
+    DolphinNavigationConfigModule(QWidget* parent, const QVariantList& args);
+    virtual ~DolphinNavigationConfigModule();
 
     virtual void save();
     virtual void defaults();
 
 private:
-    void reparseConfiguration();
-
-private:
-    QList<ViewSettingsPageBase*> m_pages;
+    NavigationSettingsPage* m_navigation;
 };
 
 #endif

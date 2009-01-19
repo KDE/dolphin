@@ -1,0 +1,16 @@
+Name=Dolphin Navigation
+Comment=This service allows configuration of the Dolphin navigation.
+
+[Desktop Entry]
+Icon=input-mouse
+Type=Service
+X-KDE-ServiceTypes=KCModule
+Exec=kcmshell4 kcmdolphinnavigation
+
+X-KDE-Library=kcm_dolphinnavigation
+X-KDE-PluginKeyword=dolphinnavigation
+X-KDE-ParentApp=kcontrol
+
+Name=Navigation
+Comment=Configure file manager navigation
+X-KDE-Keywords=file manager

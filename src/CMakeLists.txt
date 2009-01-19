@@ -175,7 +175,7 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 ##########################################
 
 set(kcm_dolphinviewmodes_PART_SRCS
-    kcmdolphinviewmodes.cpp
+    kcm/kcmdolphinviewmodes.cpp
     settings/columnviewsettingspage.cpp
     settings/detailsviewsettingspage.cpp
     settings/dolphinfontrequester.cpp
@@ -183,8 +183,12 @@ set(kcm_dolphinviewmodes_PART_SRCS
     settings/iconsviewsettingspage.cpp
     settings/viewsettingspagebase.cpp
     pixmapviewer.cpp
-    zoomlevelinfo.cpp
-)
+    zoomlevelinfo.cpp)
+
+set(kcm_dolphinnavigation_PART_SRCS
+    kcm/kcmdolphinnavigation.cpp
+    settings/navigationsettingspage.cpp
+    settings/settingspagebase.cpp)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_columnmodesettings.kcfgc
@@ -193,18 +197,26 @@ kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_iconsmodesettings.kcfgc
     settings/dolphin_generalsettings.kcfgc)
 
+kde4_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
+    settings/dolphin_generalsettings.kcfgc)
+
 kde4_add_plugin(kcm_dolphinviewmodes ${kcm_dolphinviewmodes_PART_SRCS})
+kde4_add_plugin(kcm_dolphinnavigation ${kcm_dolphinnavigation_PART_SRCS})
 
 target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
+target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 if (Nepomuk_FOUND)
   target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_LIBRARIES})
+  target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_LIBRARIES})
 endif (Nepomuk_FOUND)
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
+install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES  settings/dolphin_directoryviewpropertysettings.kcfg settings/dolphin_generalsettings.kcfg settings/dolphin_columnmodesettings.kcfg settings/dolphin_iconsmodesettings.kcfg settings/dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
-install( FILES kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )

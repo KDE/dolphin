@@ -1,0 +1,16 @@
+Name=Dolphin View Modes
+Comment=This service allows configuration of the Dolphin view modes.
+
+[Desktop Entry]
+Icon=view-choose
+Type=Service
+X-KDE-ServiceTypes=KCModule
+Exec=kcmshell4 kcmdolphinviewmodes
+
+X-KDE-Library=kcm_dolphinviewmodes
+X-KDE-PluginKeyword=dolphinviewmodes
+X-KDE-ParentApp=kcontrol
+
+Name=View Modes
+Comment=Configure file manager view modes
+X-KDE-Keywords=file manager
