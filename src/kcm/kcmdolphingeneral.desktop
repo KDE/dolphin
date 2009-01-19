@@ -2,7 +2,7 @@ Name=Dolphin General
 Comment=This service allows configuration of general Dolphin settings.
 
 [Desktop Entry]
-Icon=input-mouse
+Icon=system-run
 Type=Service
 X-KDE-ServiceTypes=KCModule
 Exec=kcmshell4 kcmdolphingeneral
