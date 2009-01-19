@@ -64,6 +64,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_dolphinModel(0),
     m_proxyModel(0),
     m_previewGenerator(0),
+    m_toolTipManager(0),
     m_dropRect()
 {
     setMouseTracking(true);
@@ -140,7 +141,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_previewGenerator->setPreviewShown(m_view->m_controller->dolphinView()->showPreview());
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
-        new ToolTipManager(this, m_proxyModel);
+        m_toolTipManager = new ToolTipManager(this, m_proxyModel);
     }
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);
@@ -390,6 +391,9 @@ void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
     QListView::keyPressEvent(event);
     requestActivation();
     m_view->m_controller->handleKeyPressEvent(event);
+    if (m_toolTipManager != 0) {
+        m_toolTipManager->hideTip();
+    }
 }
 
 void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)

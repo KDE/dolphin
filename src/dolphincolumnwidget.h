@@ -39,6 +39,7 @@ class KJob;
 class KFileItem;
 class KFileItemList;
 class SelectionManager;
+class ToolTipManager;
 class QPixmap;
 
 /**
@@ -162,6 +163,8 @@ private:
     DolphinSortFilterProxyModel* m_proxyModel;
 
     KFilePreviewGenerator* m_previewGenerator;
+
+    ToolTipManager* m_toolTipManager;
 
     QRect m_dropRect;
 

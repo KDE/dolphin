@@ -863,6 +863,12 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         }
         break;
 
+    case QEvent::KeyPress:
+        if ((watched == itemView()) && (m_toolTipManager != 0)) {
+            m_toolTipManager->hideTip();
+        }
+        break;
+
     default:
         break;
     }
