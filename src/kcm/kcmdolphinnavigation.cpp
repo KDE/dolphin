@@ -47,6 +47,7 @@ DolphinNavigationConfigModule::DolphinNavigationConfigModule(QWidget* parent, co
     topLayout->setSpacing(KDialog::spacingHint());
 
     m_navigation = new NavigationSettingsPage(this);
+    connect(m_navigation, SIGNAL(changed()), this, SLOT(changed()));
     topLayout->addWidget(m_navigation, 0, 0);
 }
 
@@ -61,7 +62,7 @@ void DolphinNavigationConfigModule::save()
 
 void DolphinNavigationConfigModule::defaults()
 {
-    m_navigation->applySettings();
+    m_navigation->restoreDefaults();
 }
 
 #include "kcmdolphinnavigation.moc"
