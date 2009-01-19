@@ -60,7 +60,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_capabilities(0),
     m_fileInfo(fileInfo),
     m_baseUrl(baseUrl),
-    m_context(NoContext)
+    m_context(NoContext),
+    m_copyToMenu(parent)
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
