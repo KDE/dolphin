@@ -36,6 +36,7 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
 {
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
+    hLayout->setSpacing(0);
 
     m_searchButton = new QToolButton(this);
     m_searchButton->setAutoRaise(true);
