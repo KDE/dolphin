@@ -115,7 +115,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(clear()),
             this, SLOT(updateStatusBar()));
-
+    connect(m_view,  SIGNAL(selectionChanged(const KFileItemList)),
+            this, SLOT(updateStatusBar()));
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);
