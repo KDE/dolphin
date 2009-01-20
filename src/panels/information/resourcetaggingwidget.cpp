@@ -48,6 +48,8 @@ public:
 
     QList<Tag> resourceTags;
 
+    bool tagsChanged;
+
     void showTaggingPopup( const QPoint& );
     void _k_slotShowTaggingPopup();
     void _k_metadataUpdateDone();
@@ -65,13 +67,16 @@ void Nepomuk::ResourceTaggingWidget::Private::showTaggingPopup( const QPoint& po
         popup->setTagSelected( tag, true );
     }
 
+    tagsChanged = false;
     popup->exec( pos );
 
-    MassUpdateJob* job = MassUpdateJob::tagResources( resources, resourceTags );
-    connect( job, SIGNAL( result( KJob* ) ),
-             q, SLOT( _k_metadataUpdateDone() ) );
-    q->setEnabled( false ); // no updates during execution
-    job->start();
+    if( tagsChanged ) {
+        MassUpdateJob* job = MassUpdateJob::tagResources( resources, resourceTags );
+        connect( job, SIGNAL( result( KJob* ) ),
+                 q, SLOT( _k_metadataUpdateDone() ) );
+        q->setEnabled( false ); // no updates during execution
+        job->start();
+    }
 
     resourceTagCloud->showTags( resourceTags );
 }
@@ -167,6 +172,7 @@ void Nepomuk::ResourceTaggingWidget::slotTagToggled( const Nepomuk::Tag& tag, bo
     else {
         d->resourceTags.removeAll( tag );
     }
+    d->tagsChanged = true;
     d->popup->hide();
 }
 
