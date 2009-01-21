@@ -1360,11 +1360,15 @@ void DolphinView::deleteView()
         }
         view = 0;
 
+        // m_previewGenerator's parent is not always destroyed, and we
+        // don't want two active at once - manually delete.
+        delete m_previewGenerator;
+        m_previewGenerator = 0;
+
         m_iconsView = 0;
         m_detailsView = 0;
         m_columnView = 0;
         m_fileItemDelegate = 0;
-        m_previewGenerator = 0;
         m_toolTipManager = 0;
     }
 }
