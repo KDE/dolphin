@@ -900,7 +900,7 @@ void DolphinDetailsView::resizeColumns()
         // reasons the exact necessary width for full visible names is
         // only checked for up to 200 items:
         const int rowCount = model()->rowCount();
-        if (rowCount < 200) {
+        if (rowCount > 0 && rowCount < 200) {
             const int nameWidth = sizeHintForColumn(DolphinModel::Name);
             if (nameWidth + requiredWidth <= viewport()->width()) {
                 columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
