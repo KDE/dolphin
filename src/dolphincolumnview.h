@@ -123,6 +123,13 @@ public slots:
     /** @see QAbstractItemView::selectAll() */
     virtual void selectAll();
 
+signals:
+    /**
+     * Requests that the given column be deleted at the discretion
+     * of the receiver of the signal.
+     */
+    void requestColumnDeletion(QAbstractItemView* column);
+
 protected:
     virtual bool isIndexHidden(const QModelIndex& index) const;
     virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);

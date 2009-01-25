@@ -26,10 +26,11 @@
 #include <QClipboard>
 #include <QDir>
 
+Qt::MouseButtons DolphinController::m_mouseButtons = Qt::NoButton;
+
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
     m_zoomLevel(0),
-    m_mouseButtons(Qt::NoButton),
     m_url(),
     m_dolphinView(dolphinView),
     m_itemView(0)

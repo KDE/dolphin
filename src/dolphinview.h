@@ -628,10 +628,11 @@ private slots:
     void restoreCurrentItem();
 
     /**
-     * Is connected to the enterDir() signal from the FolderExpander
-     * and triggers the entering of the directory indicated by \a index.
+     * If \a view can be positively identified as not being the source for the 
+     * current drag operation, deleteLater() it immediately.  Else stores 
+     * it for later deletion.
      */
-    void enterDir(const QModelIndex& index, QAbstractItemView* view);
+    void deleteWhenNotDragSource(QAbstractItemView* view);
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
@@ -700,12 +701,6 @@ private:
     bool isColumnViewActive() const;
 
     /**
-     * Deletes all views from m_expandedViews except if the view
-     * is currently shown.
-     */
-    void deleteExpandedViews();
-
-    /**
      * Returns the MIME data for all selected items.
      */
     QMimeData* selectionMimeData() const;
@@ -741,7 +736,7 @@ private:
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
 
-    QList<QAbstractItemView*> m_expandedViews;
+    QAbstractItemView*  m_expandedDragSource;
 };
 
 inline bool DolphinView::isColumnViewActive() const

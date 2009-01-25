@@ -26,6 +26,8 @@
 
 #include "dolphin_columnmodesettings.h"
 
+#include <kfilepreviewgenerator.h>
+
 #include <QPoint>
 #include <QScrollBar>
 #include <QTimeLine>
@@ -594,8 +596,16 @@ void DolphinColumnView::deleteColumn(DolphinColumnWidget* column)
         if (m_controller->itemView() == column) {
             m_controller->setItemView(0);
         }
+        // deleteWhenNotDragSource(column) does not necessarily delete column,
+        // and we want its preview generator destroyed immediately.
+        column->m_previewGenerator->deleteLater();
+        column->m_previewGenerator = 0;
+        column->hide();
+        // Prevent automatic destruction of column when this DolphinColumnView 
+        // is destroyed.
+        column->setParent(0); 
         column->disconnect();
-        column->deleteLater();
+        emit requestColumnDeletion(column);
     }
 }
 

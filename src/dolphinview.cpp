@@ -103,7 +103,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_toolTipManager(0),
     m_rootUrl(),
     m_currentItemUrl(),
-    m_expandedViews()
+    m_expandedDragSource(0)
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -149,7 +149,9 @@ DolphinView::DolphinView(QWidget* parent,
 
 DolphinView::~DolphinView()
 {
-    deleteExpandedViews();
+    kDebug() << "Deleted view " << m_expandedDragSource;
+    delete m_expandedDragSource;
+    m_expandedDragSource = 0;
 }
 
 const KUrl& DolphinView::url() const
@@ -847,13 +849,16 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         break;
 
     case QEvent::MouseButtonPress:
-        if ((watched == itemView()->viewport()) && (m_expandedViews.count() > 0)) {
+        kDebug() << "m_expandedDragSource = " << m_expandedDragSource;
+        if ((watched == itemView()->viewport()) && (m_expandedDragSource != 0)) {
             // Listening to a mousebutton press event to delete expanded views is a
             // workaround, as it seems impossible for the FolderExpander to know when
             // a dragging outside a view has been finished. However it works quite well:
             // A mousebutton press event indicates that a drag operation must be
             // finished already.
-            deleteExpandedViews();
+            kDebug() << "Deleted view " << m_expandedDragSource;
+            m_expandedDragSource->deleteLater();
+            m_expandedDragSource = 0;
         }
         break;
 
@@ -1061,6 +1066,29 @@ bool DolphinView::itemsExpandable() const
     return (m_detailsView != 0) && m_detailsView->itemsExpandable();
 }
 
+void DolphinView::deleteWhenNotDragSource(QAbstractItemView *view)
+{
+    if (view == 0)
+        return;
+
+    if (DragAndDropHelper::instance().isDragSource(view)) {
+        kDebug() << "Is current drag source";
+        // We must store for later deletion.
+        if (m_expandedDragSource != 0) {
+            // The old stored view is obviously not the drag source anymore.
+            kDebug() << "Deleted old view " << m_expandedDragSource;
+            m_expandedDragSource->deleteLater();
+            m_expandedDragSource = 0;
+        }
+        view->hide();
+        m_expandedDragSource = view;
+    }
+    else {
+        kDebug() << "Deleted new view " << view;
+        view->deleteLater();
+    }
+}
+
 void DolphinView::emitContentsMoved()
 {
     // only emit the contents moved signal if:
@@ -1111,16 +1139,6 @@ void DolphinView::restoreCurrentItem()
             view->clearSelection();
         }
     }
-}
-
-void DolphinView::enterDir(const QModelIndex& index, QAbstractItemView* view)
-{
-    // Deleting a view that is the root of a drag operation is not allowed, otherwise
-    // the dragging gets automatically cancelled by Qt. So before entering a new
-    // directory, the current view is remembered in m_expandedViews and deleted
-    // later when the drag operation has been finished (see DolphinView::eventFilter()).
-    m_expandedViews.append(view);
-    m_controller->triggerItem(index);
 }
 
 void DolphinView::loadDirectory(const KUrl& url, bool reload)
@@ -1285,8 +1303,13 @@ void DolphinView::createView()
 
         FolderExpander* folderExpander = new FolderExpander(view, m_proxyModel);
         folderExpander->setEnabled(enabled);
-        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&, QAbstractItemView*)),
-                this, SLOT(enterDir(const QModelIndex&, QAbstractItemView*)));
+        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&)),
+                m_controller, SLOT(triggerItem(const QModelIndex&)));
+    }
+    else {
+        // Listen out for requests to delete the current column.
+        connect(m_columnView, SIGNAL(requestColumnDeletion(QAbstractItemView*)),
+                this, SLOT(deleteWhenNotDragSource(QAbstractItemView*)));
     }
 
     m_controller->setItemView(view);
@@ -1342,28 +1365,17 @@ void DolphinView::deleteView()
         m_topLayout->removeWidget(view);
         view->close();
 
-        disconnect(view);
-        m_controller->disconnect(view);
-        view->disconnect();
-
-        bool deleteView = true;
-        foreach (const QAbstractItemView* expandedView, m_expandedViews) {
-            if (view == expandedView) {
-                // the current view got already expanded and must stay alive
-                // until the dragging has been completed
-                deleteView = false;
-                break;
-            }
-        }
-        if (deleteView) {
-            view->deleteLater();
-        }
-        view = 0;
-
         // m_previewGenerator's parent is not always destroyed, and we
         // don't want two active at once - manually delete.
         delete m_previewGenerator;
         m_previewGenerator = 0;
+
+        disconnect(view);
+        m_controller->disconnect(view);
+        view->disconnect();
+
+        deleteWhenNotDragSource(view);
+        view = 0;
 
         m_iconsView = 0;
         m_detailsView = 0;
@@ -1432,17 +1444,6 @@ KUrl::List DolphinView::simplifiedSelectedUrls() const
         list = KDirModel::simplifiedUrlList(list);
     }
     return list;
-}
-
-void DolphinView::deleteExpandedViews()
-{
-    const QAbstractItemView* view = itemView();
-    foreach (QAbstractItemView* expandedView, m_expandedViews) {
-        if (expandedView != view) {
-            expandedView->deleteLater();
-        }
-    }
-    m_expandedViews.clear();
 }
 
 QMimeData* DolphinView::selectionMimeData() const

@@ -62,6 +62,12 @@ public:
                    DolphinController* controller = 0);
 
     /**
+     * Returns true if and only if the view \a itemView was the last view to 
+     * be passed to startDrag(...), and that drag is still in progress.
+     */
+    bool isDragSource(QAbstractItemView* itemView);
+
+    /**
      * Handles the dropping of URLs to the given
      * destination. A context menu with the options
      * 'Move Here', 'Copy Here', 'Link Here' and
@@ -80,6 +86,9 @@ signals:
 
 private:
     DragAndDropHelper();
+    // The last view passed in startDrag(...), or 0 if
+    // no startDrag(...) initiated drag is in progress.
+    QAbstractItemView *m_dragSource;
 
     friend class DragAndDropHelperSingleton;
 };

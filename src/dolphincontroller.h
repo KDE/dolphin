@@ -359,7 +359,7 @@ private slots:
 
 private:
     int m_zoomLevel;
-    Qt::MouseButtons m_mouseButtons; // TODO: this is a workaround until  Qt-issue 176832 has been fixed
+    static Qt::MouseButtons m_mouseButtons; // TODO: this is a workaround until  Qt-issue 176832 has been fixed
     KUrl m_url;
     DolphinView* m_dolphinView;
     QAbstractItemView* m_itemView;

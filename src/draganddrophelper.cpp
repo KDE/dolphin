@@ -80,8 +80,16 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
         }
         drag->setPixmap(pixmap);
         drag->setMimeData(data);
+
+        m_dragSource = itemView;
         drag->exec(supportedActions, Qt::IgnoreAction);
+        m_dragSource = 0;
     }
+}
+
+bool DragAndDropHelper::isDragSource(QAbstractItemView* itemView)
+{
+    return (m_dragSource != 0) && (m_dragSource == itemView);
 }
 
 void DragAndDropHelper::dropUrls(const KFileItem& destItem,
@@ -115,6 +123,7 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
 }
 
 DragAndDropHelper::DragAndDropHelper()
+    : m_dragSource(0)
 {
 }
 

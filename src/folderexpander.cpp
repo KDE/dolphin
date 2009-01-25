@@ -123,7 +123,7 @@ void FolderExpander::autoExpandTimeout()
             treeView->setExpanded(proxyIndexToExpand, !treeView->isExpanded(proxyIndexToExpand));
         }
         else {
-            emit enterDir(proxyIndexToExpand, m_view);
+            emit enterDir(proxyIndexToExpand);
         }
     }
 }
