@@ -185,6 +185,9 @@ private:
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
     KFileItemList m_selection;
 
+    QLabel* m_infoLabel;
+    QWidget* m_phononWidget;
+
     QLabel* m_nameLabel;
     PixmapViewer* m_preview;
     MetaDataWidget* m_metaDataWidget;

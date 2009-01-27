@@ -35,6 +35,7 @@
 #include <kiconloader.h>
 
 #include <QEvent>
+#include <QtGui/QToolButton>
 #include <QInputDialog>
 #include <QLabel>
 #include <QPainter>
@@ -47,8 +48,12 @@
 
 #include "settings/dolphinsettings.h"
 #include "metadatawidget.h"
+#include "phononwidget.h"
 #include "metatextlabel.h"
 #include "pixmapviewer.h"
+#include <Phonon/BackendCapabilities>
+#include <Phonon/MediaObject>
+#include <Phonon/SeekSlider>
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -60,6 +65,8 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_urlCandidate(),
     m_fileItem(),
     m_selection(),
+    m_infoLabel(0),
+    m_phononWidget(0),
     m_nameLabel(0),
     m_preview(0),
     m_metaDataWidget(0),
@@ -354,6 +361,9 @@ void InformationPanel::cancelRequest()
 
 void InformationPanel::showMetaInfo()
 {
+    delete m_phononWidget;
+    m_phononWidget = 0;
+
     m_metaTextLabel->clear();
 
     if (showMultipleSelectionInfo()) {
@@ -412,6 +422,16 @@ void InformationPanel::showMetaInfo()
 
         if (m_metaDataWidget != 0) {
             m_metaDataWidget->setFile(item.targetUrl());
+        }
+
+        if (Phonon::BackendCapabilities::isMimeTypeAvailable(item.mimetype())) {
+            PhononWidget *p = new PhononWidget(this);
+            p->setUrl(item.url());
+            m_phononWidget = p;
+
+            QVBoxLayout *l = qobject_cast<QVBoxLayout *>(layout());
+            Q_ASSERT(l);
+            l->insertWidget(3, m_phononWidget);
         }
     }
 }
