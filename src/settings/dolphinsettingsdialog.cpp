@@ -122,6 +122,7 @@ void DolphinSettingsDialog::applySettings()
         page->applySettings();
     }
     DolphinApplication::app()->refreshMainWindows();
+    enableButtonApply(false);
 }
 
 void DolphinSettingsDialog::restoreDefaults()
