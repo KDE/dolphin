@@ -40,14 +40,14 @@ IconSizeGroupBox::IconSizeGroupBox(QWidget* parent) :
     m_defaultSizeSlider = new QSlider(Qt::Horizontal, this);
     m_defaultSizeSlider->setPageStep(1);
     m_defaultSizeSlider->setTickPosition(QSlider::TicksBelow);
-    connect(m_defaultSizeSlider, SIGNAL(sliderMoved(int)),
+    connect(m_defaultSizeSlider, SIGNAL(valueChanged(int)),
             this, SLOT(slotDefaultSliderMoved(int)));
 
     QLabel* previewLabel = new QLabel(i18nc("@label:listbox", "Preview:"), this);
     m_previewSizeSlider = new QSlider(Qt::Horizontal, this);
     m_previewSizeSlider->setPageStep(1);
     m_previewSizeSlider->setTickPosition(QSlider::TicksBelow);
-    connect(m_previewSizeSlider, SIGNAL(sliderMoved(int)),
+    connect(m_previewSizeSlider, SIGNAL(valueChanged(int)),
             this, SLOT(slotPreviewSliderMoved(int)));
 
     QGridLayout* layout = new QGridLayout(this);
