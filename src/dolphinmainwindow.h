@@ -282,6 +282,13 @@ private slots:
      */
     void slotSelectionChanged(const KFileItemList& selection);
 
+    /**
+     * Wheel event, receives it's degree of movement (int).
+     * we look to see if it's negative (backwards) or positive (forwards).
+     * Enables changing of tabs via mouse wheel.
+     */
+    void slotWheelMoved(int wheeldelta);
+
     /** Emits the signal requestItemInfo(). */
     void slotRequestItemInfo(const KFileItem&);
 
@@ -342,6 +349,7 @@ private slots:
      */
     void closeTab(int index);
 
+   
     /**
      * Opens a context menu for the tab with the index \a index
      * on the position \a pos.

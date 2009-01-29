@@ -266,6 +266,18 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
     emit selectionChanged(selection);
 }
 
+void DolphinMainWindow::slotWheelMoved(int wheeldelta) 
+{
+    if (wheeldelta > 0)
+    {	
+	//Non-negative, wheel is going forwards, so the tab goes backwards (focuses left)
+	activatePrevTab();
+    } else
+    {	
+	activateNextTab();
+    }
+}
+
 void DolphinMainWindow::slotRequestItemInfo(const KFileItem& item)
 {
     emit requestItemInfo(item);
@@ -896,6 +908,9 @@ void DolphinMainWindow::init()
             this, SLOT(openNewTab()));
     connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)),
             this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
+    connect(m_tabBar, SIGNAL(wheelDelta(int)), 
+	    this, SLOT(slotWheelMoved(int)));
+	    
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
     QWidget* centralWidget = new QWidget(this);
