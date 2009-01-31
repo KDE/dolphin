@@ -1,6 +1,13 @@
 Name=Dolphin General
 Name[ga]=Dolphin Ginearálta
+Name[gl]=Configuración xeral de Dolphin
+Name[tr]=Dolphin Genel
+Name[uk]=«Загальне» Dolphin
 Comment=This service allows configuration of general Dolphin settings.
+Comment[ga]=Leis an tseirbhís seo is féidir na socruithe ginearálta Dolphin a chumrú.
+Comment[gl]=Este servizo permite  modificar a configuración xeral de Dolphin.
+Comment[tr]=Bu servis genel Dolphin ayarlarını yapılandırmanızı sağlar.
+Comment[uk]=Ця служба надасть змогу налаштувати загальні параметри Dolphin.
 
 [Desktop Entry]
 Icon=system-run
@@ -87,4 +94,8 @@ Name[x-test]=xxGeneralxx
 Name[zh_CN]=常规
 Name[zh_TW]=一般
 Comment=Configure general file manager settings
+Comment[ga]=Cumraigh socruithe ginearálta bhainisteoir na gcomhad
+Comment[gl]=Configura as opcións xerais do xestor de ficheiros
+Comment[tr]=Genel dosya yöneticisi ayarlarını yapılandır
+Comment[uk]=Налаштувати загальні параметри менеджера файлів
 X-KDE-Keywords=file manager
