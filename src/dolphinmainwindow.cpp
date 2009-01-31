@@ -1301,6 +1301,10 @@ QString DolphinMainWindow::tabName(const KUrl& url) const
         name = url.fileName();
         if (name.isEmpty()) {
             name = url.protocol();
+        } else {
+            // Make sure that a '&' inside the directory name is displayed correctly
+            // and not misinterpreted as a keyboard shortcut in QTabBar::setTabText()
+            name.replace('&', "&&");
         }
     }
     return name;
