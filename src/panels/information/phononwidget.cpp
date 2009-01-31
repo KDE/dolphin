@@ -31,7 +31,11 @@
 
 PhononWidget::PhononWidget(QWidget *parent)
     : QWidget(parent),
-    m_media(0)
+    m_url(),
+    m_playButton(0),
+    m_stopButton(0),
+    m_media(0),
+    m_seekSlider(0)
 {
     QHBoxLayout *innerLayout = new QHBoxLayout(this);
     innerLayout->setMargin(0);
@@ -46,24 +50,22 @@ PhononWidget::PhononWidget(QWidget *parent)
     m_playButton->setToolTip(i18n("play"));
     m_playButton->setIconSize(QSize(16, 16));
     m_playButton->setIcon(KIcon("media-playback-start"));
+    connect(m_playButton, SIGNAL(clicked()), this, SLOT(play()));
+
     m_stopButton->setToolTip(i18n("stop"));
     m_stopButton->setIconSize(QSize(16, 16));
     m_stopButton->setIcon(KIcon("media-playback-stop"));
     m_stopButton->hide();
+    connect(m_stopButton, SIGNAL(clicked()), this, SLOT(stop()));
+
     m_seekSlider->setIconVisible(false);
 }
 
 void PhononWidget::setUrl(const KUrl &url)
 {
+    m_url = url;
     if (m_media) {
         m_media->setCurrentSource(url);
-    } else {
-        m_media = Phonon::createPlayer(Phonon::MusicCategory, url);
-        m_media->setParent(this);
-        connect(m_playButton, SIGNAL(clicked()), m_media, SLOT(play()));
-        connect(m_stopButton, SIGNAL(clicked()), m_media, SLOT(stop()));
-        connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(stateChanged(Phonon::State)));
-        m_seekSlider->setMediaObject(m_media);
     }
 }
 
@@ -83,3 +85,26 @@ void PhononWidget::stateChanged(Phonon::State newstate)
     }
     setUpdatesEnabled(true);
 }
+
+void PhononWidget::play()
+{
+    requestMedia();
+    m_media->play();
+}
+
+void PhononWidget::stop()
+{
+    requestMedia();
+    m_media->stop();
+}
+
+void PhononWidget::requestMedia()
+{
+    if (!m_media) {
+        m_media = Phonon::createPlayer(Phonon::MusicCategory, m_url);
+        m_media->setParent(this);
+        connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(stateChanged(Phonon::State)));
+        m_seekSlider->setMediaObject(m_media);
+    }
+}
+

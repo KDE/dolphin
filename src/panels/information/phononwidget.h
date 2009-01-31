@@ -21,6 +21,8 @@
 #ifndef PHONONWIDGET_H
 #define PHONONWIDGET_H
 
+#include <kurl.h>
+
 #include <QtGui/QWidget>
 
 #include <Phonon/Global>
@@ -32,7 +34,6 @@ namespace Phonon
 } // namespace Phonon
 
 class QToolButton;
-class KUrl;
 
 class PhononWidget : public QWidget
 {
@@ -43,8 +44,14 @@ class PhononWidget : public QWidget
 
     private slots:
         void stateChanged(Phonon::State);
+        void play();
+        void stop();
 
     private:
+        void requestMedia();
+
+    private:
+        KUrl m_url;
         QToolButton *m_playButton;
         QToolButton *m_stopButton;
         Phonon::MediaObject *m_media;
