@@ -31,29 +31,27 @@
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
-    m_searchButton(0),
-    m_searchInput(0)
+    m_searchInput(0),
+    m_searchButton(0)
 {
     QHBoxLayout* hLayout = new QHBoxLayout(this);
     hLayout->setMargin(0);
     hLayout->setSpacing(0);
-
-    m_searchButton = new QToolButton(this);
-    m_searchButton->setAutoRaise(true);
-    m_searchButton->setIcon(KIcon("nepomuk"));
-    m_searchButton->setToolTip(i18nc("@info:tooltip", "Search"));
-    hLayout->addWidget(m_searchButton);
-
-    connect(m_searchButton, SIGNAL(clicked()),
-            this, SLOT(emitSearchSignal()));
 
     m_searchInput = new KLineEdit(this);
     m_searchInput->setLayoutDirection(Qt::LeftToRight);
     m_searchInput->setClearButtonShown(true);
     m_searchInput->setMinimumWidth(150);
     hLayout->addWidget(m_searchInput);
-
     connect(m_searchInput, SIGNAL(returnPressed()),
+            this, SLOT(emitSearchSignal()));
+
+    m_searchButton = new QToolButton(this);
+    m_searchButton->setAutoRaise(true);
+    m_searchButton->setIcon(KIcon("edit-find"));
+    m_searchButton->setToolTip(i18nc("@info:tooltip", "Search"));
+    hLayout->addWidget(m_searchButton);
+    connect(m_searchButton, SIGNAL(clicked()),
             this, SLOT(emitSearchSignal()));
 }
 

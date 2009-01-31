@@ -51,8 +51,8 @@ private slots:
     void emitSearchSignal();
 
 private:
-    QToolButton* m_searchButton;
     KLineEdit* m_searchInput;
+    QToolButton* m_searchButton;
 };
 
 #endif
