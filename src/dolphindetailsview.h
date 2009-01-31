@@ -117,9 +117,10 @@ private slots:
 
     /**
      * Opens a context menu at the position \a pos and allows to
-     * configure the visibility of the header columns.
+     * configure the visibility of the header columns and whether
+     * expandable folders should be shown.
      */
-    void configureColumns(const QPoint& pos);
+    void configureSettings(const QPoint& pos);
 
     void updateColumnVisibility();
 

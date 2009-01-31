@@ -88,7 +88,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(synchronizeSortingState(int)));
     headerView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(headerView, SIGNAL(customContextMenuRequested(const QPoint&)),
-            this, SLOT(configureColumns(const QPoint&)));
+            this, SLOT(configureSettings(const QPoint&)));
     connect(headerView, SIGNAL(sectionResized(int, int, int)),
             this, SLOT(slotHeaderSectionResized(int, int, int)));
     connect(headerView, SIGNAL(sectionHandleDoubleClicked(int)),
@@ -555,11 +555,12 @@ void DolphinDetailsView::slotShowPreviewChanged()
     updateDecorationSize(view->showPreview());
 }
 
-void DolphinDetailsView::configureColumns(const QPoint& pos)
+void DolphinDetailsView::configureSettings(const QPoint& pos)
 {
     KMenu popup(this);
     popup.addTitle(i18nc("@title:menu", "Columns"));
 
+    // add checkbox items for each column
     QHeaderView* headerView = header();
     for (int i = DolphinModel::Size; i <= DolphinModel::Type; ++i) {
         const int logicalIndex = headerView->logicalIndex(i);
@@ -569,9 +570,29 @@ void DolphinDetailsView::configureColumns(const QPoint& pos)
         action->setChecked(!headerView->isSectionHidden(logicalIndex));
         action->setData(i);
     }
+    popup.addSeparator();
+
+    // add a checkbox item for the "Expandable Folders" setting
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    QAction* expandableFoldersAction = popup.addAction(i18nc("@option:check", "Expandable Folders"));
+    expandableFoldersAction->setCheckable(true);
+    expandableFoldersAction->setChecked(settings->expandableFolders());
 
     QAction* activatedAction = popup.exec(header()->mapToGlobal(pos));
-    if (activatedAction != 0) {
+    if (activatedAction == expandableFoldersAction) {
+        const bool expand = expandableFoldersAction->isChecked();
+        if (!expand) {
+            // collapse all expanded folders, as QTreeView::setItemsExpandable(false)
+            // does not do this task
+            const int rowCount = model()->rowCount();
+            for (int row = 0; row < rowCount; ++row) {
+                setExpanded(model()->index(row, 0), false);
+            }
+        }
+        settings->setExpandableFolders(expand);
+        setRootIsDecorated(expand);
+        setItemsExpandable(expand);
+    } else if (activatedAction != 0) {
         const bool show = activatedAction->isChecked();
         const int columnIndex = activatedAction->data().toInt();
 
