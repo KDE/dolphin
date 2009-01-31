@@ -34,8 +34,11 @@
 #include <kseparator.h>
 #include <kiconloader.h>
 
+#include <Phonon/BackendCapabilities>
+#include <Phonon/MediaObject>
+#include <Phonon/SeekSlider>
+
 #include <QEvent>
-#include <QtGui/QToolButton>
 #include <QInputDialog>
 #include <QLabel>
 #include <QPainter>
@@ -48,12 +51,9 @@
 
 #include "settings/dolphinsettings.h"
 #include "metadatawidget.h"
-#include "phononwidget.h"
 #include "metatextlabel.h"
+#include "phononwidget.h"
 #include "pixmapviewer.h"
-#include <Phonon/BackendCapabilities>
-#include <Phonon/MediaObject>
-#include <Phonon/SeekSlider>
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -65,10 +65,9 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_urlCandidate(),
     m_fileItem(),
     m_selection(),
-    m_infoLabel(0),
-    m_phononWidget(0),
     m_nameLabel(0),
     m_preview(0),
+    m_phononWidget(0),
     m_metaDataWidget(0),
     m_metaTextLabel(0)
 {
@@ -361,9 +360,6 @@ void InformationPanel::cancelRequest()
 
 void InformationPanel::showMetaInfo()
 {
-    delete m_phononWidget;
-    m_phononWidget = 0;
-
     m_metaTextLabel->clear();
 
     if (showMultipleSelectionInfo()) {
@@ -425,13 +421,17 @@ void InformationPanel::showMetaInfo()
         }
 
         if (Phonon::BackendCapabilities::isMimeTypeAvailable(item.mimetype())) {
-            PhononWidget *p = new PhononWidget(this);
-            p->setUrl(item.url());
-            m_phononWidget = p;
+            if (m_phononWidget == 0) {
+                m_phononWidget = new PhononWidget(this);
 
-            QVBoxLayout *l = qobject_cast<QVBoxLayout *>(layout());
-            Q_ASSERT(l);
-            l->insertWidget(3, m_phononWidget);
+                QVBoxLayout* vBoxLayout = qobject_cast<QVBoxLayout*>(layout());
+                Q_ASSERT(vBoxLayout != 0);
+                vBoxLayout->insertWidget(3, m_phononWidget);
+            }
+            m_phononWidget->setUrl(item.url());
+        } else {
+            delete m_phononWidget;
+            m_phononWidget = 0;
         }
     }
 }

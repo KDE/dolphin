@@ -37,6 +37,7 @@ class QPixmap;
 class QString;
 class KFileItem;
 class QLabel;
+class PhononWidget;
 class PixmapViewer;
 class MetaDataWidget;
 class MetaTextLabel;
@@ -185,11 +186,9 @@ private:
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
     KFileItemList m_selection;
 
-    QLabel* m_infoLabel;
-    QWidget* m_phononWidget;
-
     QLabel* m_nameLabel;
     PixmapViewer* m_preview;
+    PhononWidget* m_phononWidget;
     MetaDataWidget* m_metaDataWidget;
     MetaTextLabel* m_metaTextLabel;
 };
