@@ -131,8 +131,9 @@ void StartupSettingsPage::applySettings()
 void StartupSettingsPage::restoreDefaults()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setDefaults();
+    settings->useDefaults(true);
     loadSettings();
+    settings->useDefaults(false);
 }
 
 void StartupSettingsPage::selectHomeUrl()

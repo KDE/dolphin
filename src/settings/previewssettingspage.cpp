@@ -99,8 +99,9 @@ void PreviewsSettingsPage::applySettings()
 void PreviewsSettingsPage::restoreDefaults()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setDefaults();
+    settings->useDefaults(true);
     loadSettings();
+    settings->useDefaults(false);
 }
 
 void PreviewsSettingsPage::loadSettings()

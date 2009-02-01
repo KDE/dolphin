@@ -67,8 +67,9 @@ void StatusBarSettingsPage::applySettings()
 void StatusBarSettingsPage::restoreDefaults()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setDefaults();
+    settings->useDefaults(true);
     loadSettings();
+    settings->useDefaults(false);
 }
 
 void StatusBarSettingsPage::loadSettings()

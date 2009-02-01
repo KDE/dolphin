@@ -102,10 +102,7 @@ void DolphinSettingsDialog::slotButtonClicked(int button)
     if ((button == Ok) || (button == Apply)) {
         applySettings();
     } else if (button == Default) {
-        const QString text(i18nc("@info", "All settings will be reset to default values. Do you want to continue?"));
-        if (KMessageBox::questionYesNo(this, text) == KMessageBox::Yes) {
-            restoreDefaults();
-        }
+        restoreDefaults();
     }
 
     KPageDialog::slotButtonClicked(button);
@@ -130,7 +127,6 @@ void DolphinSettingsDialog::restoreDefaults()
     foreach (SettingsPageBase* page, m_pages) {
         page->restoreDefaults();
     }
-    DolphinApplication::app()->refreshMainWindows();
 }
 
 #include "dolphinsettingsdialog.moc"

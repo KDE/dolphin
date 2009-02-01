@@ -44,8 +44,9 @@ void ServicesSettingsPage::applySettings()
 void ServicesSettingsPage::restoreDefaults()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setDefaults();
+    settings->useDefaults(true);
     loadSettings();
+    settings->useDefaults(false);
 }
 
 void ServicesSettingsPage::loadSettings()
