@@ -112,7 +112,9 @@ void FolderExpander::autoExpandTimeout()
     Q_ASSERT(m_dirModel != 0);
     KFileItem itemToExpand = m_dirModel->itemForIndex(indexToExpand);
 
-    if (itemToExpand.isNull()) {
+    if (itemToExpand.isNull() || itemToExpand == m_dirModel->itemForIndex(QModelIndex())) {
+        // The second clause occurs when we are expanding the folder represented
+        // by the view, which is a case we should ignore (#182618).
         return;
     }
 
