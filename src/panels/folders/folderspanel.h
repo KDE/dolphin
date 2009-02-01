@@ -81,6 +81,9 @@ protected:
     /** @see QWidget::contextMenuEvent() */
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
+    /** @see QWidget::keyPressEvent() */
+    virtual void keyPressEvent(QKeyEvent* event);
+
 private slots:
     /**
      * Updates the active view to the URL

@@ -159,7 +159,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
 
         new FolderExpander(m_treeView, m_proxyModel);
 
-        connect(m_treeView, SIGNAL(activated(const QModelIndex&)),
+        connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
                 this, SLOT(updateActiveView(const QModelIndex&)));
         connect(m_treeView, SIGNAL(urlsDropped(const QModelIndex&, QDropEvent*)),
                 this, SLOT(dropUrls(const QModelIndex&, QDropEvent*)));
@@ -189,6 +189,17 @@ void FoldersPanel::contextMenuEvent(QContextMenuEvent* event)
 
     TreeViewContextMenu contextMenu(this, item);
     contextMenu.open();
+}
+
+void FoldersPanel::keyPressEvent(QKeyEvent* event)
+{
+    const int key = event->key();
+    if ((key == Qt::Key_Enter) || (key == Qt::Key_Return)) {
+        event->accept();
+        updateActiveView(m_treeView->currentIndex());
+    } else {
+        Panel::keyPressEvent(event);
+    }
 }
 
 void FoldersPanel::updateActiveView(const QModelIndex& index)
