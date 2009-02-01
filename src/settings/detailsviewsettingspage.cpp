@@ -114,8 +114,9 @@ void DetailsViewSettingsPage::applySettings()
 void DetailsViewSettingsPage::restoreDefaults()
 {
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    settings->setDefaults();
+    settings->useDefaults(true);
     loadSettings();
+    settings->useDefaults(false);
 }
 
 void DetailsViewSettingsPage::loadSettings()

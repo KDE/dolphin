@@ -121,8 +121,9 @@ void ColumnViewSettingsPage::applySettings()
 void ColumnViewSettingsPage::restoreDefaults()
 {
     ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    settings->setDefaults();
+    settings->useDefaults(true);
     loadSettings();
+    settings->useDefaults(false);
 }
 
 void ColumnViewSettingsPage::loadSettings()

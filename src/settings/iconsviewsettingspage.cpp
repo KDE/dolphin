@@ -191,8 +191,9 @@ void IconsViewSettingsPage::applySettings()
 void IconsViewSettingsPage::restoreDefaults()
 {
     IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    settings->setDefaults();
+    settings->useDefaults(true);
     loadSettings();
+    settings->useDefaults(false);
 }
 
 void IconsViewSettingsPage::loadSettings()
