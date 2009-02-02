@@ -1,4 +1,5 @@
 Name=Dolphin General
+Name[eu]=Dolphin orokorra
 Name[ga]=Dolphin Ginearálta
 Name[gl]=Configuración xeral de Dolphin
 Name[gu]=ડોલ્ફિન સામાન્ય
@@ -7,7 +8,9 @@ Name[pt_BR]=Geral do Dolphin
 Name[sv]=Dolphin allmänt
 Name[tr]=Dolphin Genel
 Name[uk]=«Загальне» Dolphin
+Name[zh_TW]=Dolphin 一般
 Comment=This service allows configuration of general Dolphin settings.
+Comment[eu]=Zerbitzu honen bitartez Dolphin-en ezarpen orokorrak konfiguratu daitezke.
 Comment[ga]=Leis an tseirbhís seo is féidir na socruithe ginearálta Dolphin a chumrú.
 Comment[gl]=Este servizo permite  modificar a configuración xeral de Dolphin.
 Comment[pt]=Este serviço permite-lhe configurar as opções gerais do Dolphin.
@@ -15,6 +18,7 @@ Comment[pt_BR]=Este serviço permite-lhe configurar as opções gerais do Dolphi
 Comment[sv]=Den här tjänsten låter dig anpassa allmänna inställningar i Dolphin.
 Comment[tr]=Bu servis genel Dolphin ayarlarını yapılandırmanızı sağlar.
 Comment[uk]=Ця служба надасть змогу налаштувати загальні параметри Dolphin.
+Comment[zh_TW]=此服務允許設定 Dolphin 的一般設定。
 
 [Desktop Entry]
 Icon=system-run
@@ -101,6 +105,7 @@ Name[x-test]=xxGeneralxx
 Name[zh_CN]=常规
 Name[zh_TW]=一般
 Comment=Configure general file manager settings
+Comment[eu]=Konfiguratu fitxategi kudeatzailearen ezarpen orokorrak
 Comment[ga]=Cumraigh socruithe ginearálta bhainisteoir na gcomhad
 Comment[gl]=Configura as opcións xerais do xestor de ficheiros
 Comment[pt]=Configurar as opções gerais do gestor de ficheiros
@@ -108,4 +113,5 @@ Comment[pt_BR]=Configurar as opções gerais do gestor de ficheiros
 Comment[sv]=Anpassa filhanterarens allmänna inställningar
 Comment[tr]=Genel dosya yöneticisi ayarlarını yapılandır
 Comment[uk]=Налаштувати загальні параметри менеджера файлів
+Comment[zh_TW]=設定一般檔案管理員
 X-KDE-Keywords=file manager

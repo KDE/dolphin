@@ -1,4 +1,5 @@
 Name=Dolphin View Modes
+Name[eu]=Dolphin-en ikuspegi moduak
 Name[ga]=Móid Amhairc Dolphin
 Name[gl]=Modos de vista de Dolphin
 Name[pt]=Modos de Visualização do Dolphin
@@ -6,7 +7,9 @@ Name[pt_BR]=Modos de Visualização do Dolphin
 Name[sv]=Dolphins visningslägen
 Name[tr]=Dolphin Görünüm Kipleri
 Name[uk]=Режими перегляду Dolphin
+Name[zh_TW]=Dolphin 檢視模式
 Comment=This service allows configuration of the Dolphin view modes.
+Comment[eu]=Zerbitzu honen bitartez Dolphin-en ikuspegi moduak aldatu daitezke.
 Comment[ga]=Leis an tseirbhís seo is féidir na hamhairc Dolphin a chumrú.
 Comment[gl]=Este servizo permite modificar a configuración das vistas de Dolphin.
 Comment[pt]=Este serviço permite-lhe configurar os modos de visualização do Dolphin.
@@ -14,6 +17,7 @@ Comment[pt_BR]=Este serviço permite-lhe configurar os modos de visualização d
 Comment[sv]=Den här tjänsten låter dig anpassa visningslägen i Dolphin.
 Comment[tr]=Bu servis Dolphin görünüm kiplerini yapılandırmanızı sağlar.
 Comment[uk]=Ця служба надасть змогу налаштувати режими перегляду Dolphin.
+Comment[zh_TW]=此服務允許設定 Dolphin 的檢視模式。
 
 [Desktop Entry]
 Icon=view-choose
@@ -26,6 +30,7 @@ X-KDE-PluginKeyword=dolphinviewmodes
 X-KDE-ParentApp=kcontrol
 
 Name=View Modes
+Name[eu]=Ikuspegi moduak
 Name[ga]=Móid Amhairc
 Name[gl]=Modos da vista
 Name[gu]=દેખાવ સ્થિતિઓ
@@ -34,7 +39,9 @@ Name[pt_BR]=Modos de Visualização
 Name[sv]=Visningslägen
 Name[tr]=Görünüm Kipleri
 Name[uk]=Режими перегляду
+Name[zh_TW]=檢視模式
 Comment=Configure file manager view modes
+Comment[eu]=Konfiguratu fitxategi kudeatzailearen ikuspegi moduak
 Comment[ga]=Cumraigh amhairc bhainisteoir na gcomhad
 Comment[gl]=Configura os modos de visualización do xestor de ficheiros
 Comment[pt]=Configurar os modos de visualização do gestor de ficheiros
@@ -42,4 +49,5 @@ Comment[pt_BR]=Configurar os modos de visualização do gestor de ficheiros
 Comment[sv]=Anpassa filhanterarens visninglägen
 Comment[tr]=Dosya yöneticisi görünüm ayarlarını yapılandır
 Comment[uk]=Налаштувати режими перегляду менеджера файлів
+Comment[zh_TW]=設定檔案管理員檢視模式
 X-KDE-Keywords=file manager
