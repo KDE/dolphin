@@ -97,6 +97,9 @@ void NavigationSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
+    //Default kde setting is to be single click navigation.
+    m_singleClick->setChecked(true);
+    m_doubleClick->setChecked(false);
 }
 
 void NavigationSettingsPage::loadSettings()
