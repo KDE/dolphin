@@ -54,8 +54,13 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     new QLabel(i18nc("@label:slider", "Maximum file size:"), hBox);
     m_maxPreviewSize = new QSlider(Qt::Horizontal, hBox);
+    m_maxPreviewSize->setPageStep(10);
+    m_maxPreviewSize->setSingleStep(1);
+    m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
 
     m_spinBox = new QSpinBox(hBox);
+    m_spinBox->setSingleStep(1);
+    m_spinBox->setSuffix(" MB");
 
     connect(m_maxPreviewSize, SIGNAL(valueChanged(int)),
             m_spinBox, SLOT(setValue(int)));
@@ -109,9 +114,6 @@ void PreviewsSettingsPage::loadSettings()
     const int min = 1;   // MB
     const int max = 100; // MB
     m_maxPreviewSize->setRange(min, max);
-    m_maxPreviewSize->setPageStep(10);
-    m_maxPreviewSize->setSingleStep(1);
-    m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
 
     KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
     // TODO: The default value of 5 MB must match with the default value inside
@@ -124,10 +126,7 @@ void PreviewsSettingsPage::loadSettings()
     } else if (maxMByteSize > max) {
         maxMByteSize = max;
     }
-
     m_spinBox->setRange(min, max);
-    m_spinBox->setSingleStep(1);
-    m_spinBox->setSuffix(" MB");
 
     m_maxPreviewSize->setValue(maxMByteSize);
     m_spinBox->setValue(m_maxPreviewSize->value());
