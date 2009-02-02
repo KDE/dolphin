@@ -1,5 +1,4 @@
-/**
-  * This file is part of the KDE project
+/* This file is part of the KDE project
   * Copyright (C) 2007 Rafael Fernández López <ereslibre@kde.org>
   *
   * This library is free software; you can redistribute it and/or
@@ -16,7 +15,7 @@
   * along with this library; see the file COPYING.LIB.  If not, write to
   * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
   * Boston, MA 02110-1301, USA.
-  */
+*/
 
 #ifndef DOLPHINCATEGORYDRAWER_H
 #define DOLPHINCATEGORYDRAWER_H
