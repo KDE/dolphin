@@ -57,10 +57,12 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_maxPreviewSize->setPageStep(10);
     m_maxPreviewSize->setSingleStep(1);
     m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
+    m_maxPreviewSize->setRange(1, 100); /* MB */
 
     m_spinBox = new QSpinBox(hBox);
     m_spinBox->setSingleStep(1);
     m_spinBox->setSuffix(" MB");
+    m_spinBox->setRange(1, 100); /* MB */
 
     connect(m_maxPreviewSize, SIGNAL(valueChanged(int)),
             m_spinBox, SLOT(setValue(int)));
@@ -113,7 +115,6 @@ void PreviewsSettingsPage::loadSettings()
 {
     const int min = 1;   // MB
     const int max = 100; // MB
-    m_maxPreviewSize->setRange(min, max);
 
     KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
     // TODO: The default value of 5 MB must match with the default value inside
@@ -121,15 +122,12 @@ void PreviewsSettingsPage::loadSettings()
     // should be added for getting the default size?
     const int maxByteSize = globalConfig.readEntry("MaximumSize", 5 * 1024 * 1024 /* 5 MB */);
     int maxMByteSize = maxByteSize / (1024 * 1024);
-    if (maxMByteSize < 1) {
-        maxMByteSize = 1;
+    if (maxMByteSize < min) {
+        maxMByteSize = min;
     } else if (maxMByteSize > max) {
         maxMByteSize = max;
     }
-    m_spinBox->setRange(min, max);
-
     m_maxPreviewSize->setValue(maxMByteSize);
-    m_spinBox->setValue(m_maxPreviewSize->value());
 
     const bool useFileThumbnails = globalConfig.readEntry("UseFileThumbnails", true);
     m_useFileThumbnails->setChecked(useFileThumbnails);
