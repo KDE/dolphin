@@ -81,7 +81,7 @@ NavigationSettingsPage::~NavigationSettingsPage()
 void NavigationSettingsPage::applySettings()
 {
     KConfig config("kcminputrc");
-    KConfigGroup group = config.group("Mouse");
+    KConfigGroup group = config.group("KDE");
     group.writeEntry("SingleClick", m_singleClick->isChecked(), KConfig::Persistent|KConfig::Global);
     config.sync();
     KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
