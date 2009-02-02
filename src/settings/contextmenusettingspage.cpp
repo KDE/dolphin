@@ -74,6 +74,7 @@ void ContextMenuSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
+    m_showDeleteCommand->setChecked(false);
 }
 
 void ContextMenuSettingsPage::loadSettings()
