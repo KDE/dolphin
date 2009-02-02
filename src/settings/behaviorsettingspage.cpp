@@ -133,10 +133,11 @@ void BehaviorSettingsPage::applySettings()
 void BehaviorSettingsPage::restoreDefaults()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    //TODO: Reset default settings for both trash and show delete commands (confirmations).
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
+    m_confirmMoveToTrash->setChecked(false);
+    m_confirmDelete->setChecked(true);
 }
 
 void BehaviorSettingsPage::loadSettings()
