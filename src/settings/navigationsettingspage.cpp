@@ -103,7 +103,7 @@ void NavigationSettingsPage::loadSettings()
 {
     const bool singleClick = KGlobalSettings::singleClick();
     m_singleClick->setChecked(singleClick);
-
+    m_doubleClick->setChecked(!singleClick);
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_browseThroughArchives->setChecked(settings->browseThroughArchives());
     m_autoExpandFolders->setChecked(settings->autoExpandFolders());
