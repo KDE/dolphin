@@ -97,7 +97,9 @@ void NavigationSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
-    //Default kde setting is to be single click navigation.
+
+    // The mouse settings stored in KGlobalSettings must be reset to
+    // the default values (= single click) manually.
     m_singleClick->setChecked(true);
     m_doubleClick->setChecked(false);
 }
