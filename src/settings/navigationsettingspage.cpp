@@ -36,7 +36,7 @@
 
 NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
-    m_browseThroughArchives(0),
+    m_openArchivesAsFolder(0),
     m_autoExpandFolders(0)
 {
     const int spacing = KDialog::spacingHint();
@@ -58,8 +58,8 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     mouseBoxLayout->addWidget(m_singleClick);
     mouseBoxLayout->addWidget(m_doubleClick);
 
-    m_browseThroughArchives = new QCheckBox(i18nc("@option:check", "Browse through archives"), vBox);
-    connect(m_browseThroughArchives, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Open archives as folder"), vBox);
+    connect(m_openArchivesAsFolder, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"), vBox);
     connect(m_autoExpandFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -87,7 +87,7 @@ void NavigationSettingsPage::applySettings()
     KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
+    settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
 }
 
@@ -110,7 +110,7 @@ void NavigationSettingsPage::loadSettings()
     m_singleClick->setChecked(singleClick);
     m_doubleClick->setChecked(!singleClick);
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    m_browseThroughArchives->setChecked(settings->browseThroughArchives());
+    m_openArchivesAsFolder->setChecked(settings->browseThroughArchives());
     m_autoExpandFolders->setChecked(settings->autoExpandFolders());
 }
 
