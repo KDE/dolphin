@@ -82,7 +82,7 @@ StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
     homeBoxLayout->addWidget(homeUrlBox);
     homeBoxLayout->addWidget(buttonBox);
 
-    // create 'Split view', 'Editable location' and 'Filter bar' checkboxes
+    // create 'Split view', 'Show full path', 'Editable location' and 'Filter bar' checkboxes
     m_splitView = new QCheckBox(i18nc("@option:check Startup Settings", "Split view mode"), vBox);
     m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), vBox);
     m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"), vBox);
