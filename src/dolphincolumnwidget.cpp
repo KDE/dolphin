@@ -495,13 +495,8 @@ void DolphinColumnWidget::activate()
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
-    if (KGlobalSettings::singleClick()) {
-        connect(this, SIGNAL(clicked(const QModelIndex&)),
-                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    } else {
-        connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    }
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
+            m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
 
     if (selectionModel() && selectionModel()->currentIndex().isValid())
         selectionModel()->setCurrentIndex(selectionModel()->currentIndex(), QItemSelectionModel::SelectCurrent);
@@ -513,16 +508,8 @@ void DolphinColumnWidget::deactivate()
 {
     clearFocus();
 
-    // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
-    // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
-    // necessary connecting the signal 'singleClick()' or 'doubleClick'.
-    if (KGlobalSettings::singleClick()) {
-        disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    } else {
-        disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    }
+    disconnect(this, SIGNAL(clicked(const QModelIndex&)),
+               m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
 
     const QModelIndex current = selectionModel()->currentIndex();
     selectionModel()->clear();
