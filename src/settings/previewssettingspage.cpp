@@ -109,6 +109,8 @@ void PreviewsSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
+    m_maxPreviewSize->setValue(5);
+    m_useFileThumbnails->setChecked(true);
 }
 
 void PreviewsSettingsPage::loadSettings()
