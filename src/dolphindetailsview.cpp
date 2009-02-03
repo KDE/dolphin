@@ -149,8 +149,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setFocus();
     viewport()->installEventFilter(this);
 
-    connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
-            this, SLOT(updateFont()));
+    connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
+            this, SLOT(slotGlobalSettingsChanged(int)));
 
     m_useDefaultIndexAt = false;
 }
@@ -657,13 +657,22 @@ void DolphinDetailsView::requestActivation()
     m_controller->requestActivation();
 }
 
-void DolphinDetailsView::updateFont()
+void DolphinDetailsView::slotGlobalSettingsChanged(int category)
 {
+    Q_UNUSED(category);
+
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     Q_ASSERT(settings != 0);
-
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
+    }
+
+    disconnect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    if (KGlobalSettings::singleClick()) {
+        connect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    } else {
+        connect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
     }
 }
 

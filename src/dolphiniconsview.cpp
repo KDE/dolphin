@@ -126,8 +126,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
 
     setFocus();
 
-    connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
-            this, SLOT(updateFont()));
+    connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
+            this, SLOT(slotGlobalSettingsChanged(int)));
 }
 
 DolphinIconsView::~DolphinIconsView()
@@ -371,13 +371,22 @@ void DolphinIconsView::requestActivation()
     m_controller->requestActivation();
 }
 
-void DolphinIconsView::updateFont()
+void DolphinIconsView::slotGlobalSettingsChanged(int category)
 {
+    Q_UNUSED(category);
+
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
     Q_ASSERT(settings != 0);
-
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
+    }
+
+    disconnect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    if (KGlobalSettings::singleClick()) {
+        connect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    } else {
+        connect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
     }
 }
 

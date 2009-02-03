@@ -66,7 +66,7 @@ protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);
     virtual QModelIndex indexAt (const QPoint& point) const;
     virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
-    virtual void scrollTo (const QModelIndex & index, ScrollHint hint = EnsureVisible);
+    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
 private slots:
     /**
@@ -144,7 +144,7 @@ private slots:
 
     void requestActivation();
 
-    void updateFont();
+    void slotGlobalSettingsChanged(int category);
 
     /**
      * If the elastic band is currently shown, update the elastic band based on

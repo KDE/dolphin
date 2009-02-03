@@ -75,7 +75,7 @@ private slots:
     void slotAdditionalInfoChanged();
     void setZoomLevel(int level);
     void requestActivation();
-    void updateFont();
+    void slotGlobalSettingsChanged(int category);
 
 private:
     /**
