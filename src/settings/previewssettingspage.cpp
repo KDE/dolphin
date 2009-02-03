@@ -37,6 +37,10 @@
 #include <khbox.h>
 #include <kvbox.h>
 
+// default settings
+const bool USE_THUMBNAILS = true;
+const int MAX_PREVIEW_SIZE = 5; // 5 MB
+
 PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_maxPreviewSize(0),
@@ -105,12 +109,8 @@ void PreviewsSettingsPage::applySettings()
 
 void PreviewsSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->useDefaults(true);
-    loadSettings();
-    settings->useDefaults(false);
-    m_maxPreviewSize->setValue(5);
-    m_useFileThumbnails->setChecked(true);
+    m_maxPreviewSize->setValue(MAX_PREVIEW_SIZE);
+    m_useFileThumbnails->setChecked(USE_THUMBNAILS);
 }
 
 void PreviewsSettingsPage::loadSettings()
@@ -122,7 +122,7 @@ void PreviewsSettingsPage::loadSettings()
     // TODO: The default value of 5 MB must match with the default value inside
     // kdelibs/kio/kio/previewjob.cpp. Maybe a static getter method in PreviewJob
     // should be added for getting the default size?
-    const int maxByteSize = globalConfig.readEntry("MaximumSize", 5 * 1024 * 1024 /* 5 MB */);
+    const int maxByteSize = globalConfig.readEntry("MaximumSize", MAX_PREVIEW_SIZE * 1024 * 1024);
     int maxMByteSize = maxByteSize / (1024 * 1024);
     if (maxMByteSize < min) {
         maxMByteSize = min;
@@ -131,7 +131,7 @@ void PreviewsSettingsPage::loadSettings()
     }
     m_maxPreviewSize->setValue(maxMByteSize);
 
-    const bool useFileThumbnails = globalConfig.readEntry("UseFileThumbnails", true);
+    const bool useFileThumbnails = globalConfig.readEntry("UseFileThumbnails", USE_THUMBNAILS);
     m_useFileThumbnails->setChecked(useFileThumbnails);
 }
 
