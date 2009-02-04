@@ -153,13 +153,15 @@ void StartupSettingsPage::useCurrentLocation()
 
 void StartupSettingsPage::useDefaultLocation()
 {
-    m_homeUrl->setText(QDir::homePath());
+   KUrl url(QDir::homePath());
+    m_homeUrl->setText(url.prettyUrl());
 }
 
 void StartupSettingsPage::loadSettings()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    m_homeUrl->setText(settings->homeUrl());
+    KUrl url(settings->homeUrl());
+    m_homeUrl->setText(url.prettyUrl());
     m_splitView->setChecked(settings->splitView());
     m_editableUrl->setChecked(settings->editableUrl());
     m_showFullPath->setChecked(settings->showFullPath());
