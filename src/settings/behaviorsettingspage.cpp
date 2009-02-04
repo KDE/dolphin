@@ -35,6 +35,9 @@
 #include <QRadioButton>
 #include <QVBoxLayout>
 
+const bool CONFIRM_TRASH = false;
+const bool CONFIRM_DELETE = true;
+
 BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
@@ -136,8 +139,8 @@ void BehaviorSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
-    m_confirmMoveToTrash->setChecked(false);
-    m_confirmDelete->setChecked(true);
+    m_confirmMoveToTrash->setChecked(CONFIRM_TRASH);
+    m_confirmDelete->setChecked(CONFIRM_DELETE);
 }
 
 void BehaviorSettingsPage::loadSettings()
@@ -151,8 +154,8 @@ void BehaviorSettingsPage::loadSettings()
 
     KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig("kiorc", KConfig::IncludeGlobals);
     const KConfigGroup confirmationGroup(kioConfig, "Confirmations");
-    m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", false));
-    m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", true));
+    m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", CONFIRM_TRASH));
+    m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", CONFIRM_DELETE));
 
     m_renameInline->setChecked(settings->renameInline());
     m_showToolTips->setChecked(settings->showToolTips());

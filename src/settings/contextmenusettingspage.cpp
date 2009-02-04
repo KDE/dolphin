@@ -28,6 +28,8 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 
+const bool SHOW_DELETE = false;
+
 ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_showDeleteCommand(0),
@@ -74,14 +76,14 @@ void ContextMenuSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
-    m_showDeleteCommand->setChecked(false);
+    m_showDeleteCommand->setChecked(SHOW_DELETE);
 }
 
 void ContextMenuSettingsPage::loadSettings()
 {
     KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
     KConfigGroup configGroup(globalConfig, "KDE");
-    m_showDeleteCommand->setChecked(configGroup.readEntry("ShowDeleteCommand", false));
+    m_showDeleteCommand->setChecked(configGroup.readEntry("ShowDeleteCommand", SHOW_DELETE));
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_showCopyMoveMenu->setChecked(settings->showCopyMoveMenu());
