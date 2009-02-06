@@ -414,7 +414,7 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
 
     const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
     Q_ASSERT(m_view->m_controller->itemView() == this);
-    m_view->m_controller->triggerContextMenuRequest(event->pos());
+    m_view->m_controller->triggerContextMenuRequest(pos);
 }
 
 void DolphinColumnWidget::wheelEvent(QWheelEvent* event)
@@ -493,17 +493,10 @@ void DolphinColumnWidget::activate()
 {
     setFocus(Qt::OtherFocusReason);
 
-    if (KGlobalSettings::singleClick()) {
-        connect(this, SIGNAL(clicked(const QModelIndex&)),
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
             m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
-        connect(this, SIGNAL(clicked(const QModelIndex&)),
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
             m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    } else {
-        connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
-        connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    }
 
     if (selectionModel() && selectionModel()->currentIndex().isValid())
         selectionModel()->setCurrentIndex(selectionModel()->currentIndex(), QItemSelectionModel::SelectCurrent);
@@ -514,17 +507,10 @@ void DolphinColumnWidget::activate()
 void DolphinColumnWidget::deactivate()
 {
     clearFocus();
-     if (KGlobalSettings::singleClick()) {
-        disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
-        disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    } else {
-        disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
-        disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
-    }
+
+    disconnect(this, SIGNAL(clicked(const QModelIndex&)),
+               m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+
     const QModelIndex current = selectionModel()->currentIndex();
     selectionModel()->clear();
     selectionModel()->setCurrentIndex(current, QItemSelectionModel::NoUpdate);
