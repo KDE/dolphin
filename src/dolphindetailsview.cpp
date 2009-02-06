@@ -666,7 +666,7 @@ void DolphinDetailsView::slotGlobalSettingsChanged(int category)
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
     }
-
+    //Disconnect then reconnect, since the settings have been changed, the connection requirements may have also.
     disconnect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
     disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
     if (KGlobalSettings::singleClick()) {
