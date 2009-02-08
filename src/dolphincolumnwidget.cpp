@@ -390,7 +390,19 @@ void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
 {
     QListView::keyPressEvent(event);
     requestActivation();
-    m_view->m_controller->handleKeyPressEvent(event);
+
+    DolphinController* controller = m_view->m_controller;
+    controller->handleKeyPressEvent(event);
+    if (event->key() == Qt::Key_Right) {
+        // Special key handling for the column: A Key_Right should
+        // open a new column for the currently selected folder.
+        const QModelIndex index = currentIndex();
+        const KFileItem item = controller->itemForIndex(index);
+        if (!item.isNull() && item.isDir()) {
+            controller->emitItemTriggered(item);
+        }
+    }
+
     if (m_toolTipManager != 0) {
         m_toolTipManager->hideTip();
     }
@@ -468,6 +480,28 @@ void DolphinColumnWidget::slotEntered(const QModelIndex& index)
     m_view->m_controller->emitItemEntered(index);
 }
 
+void DolphinColumnWidget::slotClicked(const QModelIndex& index)
+{
+    DolphinController* controller = m_view->m_controller;
+    if (KGlobalSettings::singleClick()) {
+        controller->triggerItem(index);
+    } else {
+        // even when using double click, a directory should be opened
+        // after the first click
+        const KFileItem item = controller->itemForIndex(index);
+        if (!item.isNull() && item.isDir()) {
+            controller->triggerItem(index);
+        }
+    }
+}
+
+void DolphinColumnWidget::slotDoubleClicked(const QModelIndex& index)
+{
+    if (!KGlobalSettings::singleClick()) {
+        m_view->m_controller->triggerItem(index);
+    }
+}
+
 void DolphinColumnWidget::requestActivation()
 {
     m_view->m_controller->setItemView(this);
@@ -496,10 +530,13 @@ void DolphinColumnWidget::activate()
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
     connect(this, SIGNAL(clicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+            this, SLOT(slotClicked(const QModelIndex&)));
+    connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+            this, SLOT(slotDoubleClicked(const QModelIndex&)));
 
-    if (selectionModel() && selectionModel()->currentIndex().isValid())
+    if (selectionModel() && selectionModel()->currentIndex().isValid()) {
         selectionModel()->setCurrentIndex(selectionModel()->currentIndex(), QItemSelectionModel::SelectCurrent);
+    }
 
     updateBackground();
 }
@@ -509,7 +546,9 @@ void DolphinColumnWidget::deactivate()
     clearFocus();
 
     disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-               m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+               this, SLOT(slotClicked(const QModelIndex&)));
+    disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+               this, SLOT(slotDoubleClicked(const QModelIndex&)));
 
     const QModelIndex current = selectionModel()->currentIndex();
     selectionModel()->clear();
