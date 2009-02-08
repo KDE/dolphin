@@ -129,36 +129,14 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event)
 
     const QItemSelectionModel* selModel = m_itemView->selectionModel();
     const QModelIndex currentIndex = selModel->currentIndex();
-
-    if (currentIndex.isValid() && selModel->selectedIndexes().count() > 0) {
-        const int key = event->key();
-
-        if ((key == Qt::Key_Return) || (key == Qt::Key_Enter) || (key == Qt::Key_Right)) {
-
-            const QModelIndexList indexList = selModel->selectedIndexes();
-            const bool isColumnView = m_dolphinView->mode() == m_dolphinView->ColumnView;
-
-            if (key == Qt::Key_Right) {
-                if (isColumnView) {
-                    // If it is the right arrow key and in the column view-only.
-                    KFileItem curFileItem;
-                    foreach(const QModelIndex& index, indexList) {
-                        curFileItem = itemForIndex(index);
-                        if (!curFileItem.isFile()) {
-                            /* We want
-                            *  to make sure that the selected item
-                            *  is only a folder. If we did not have this check, it would be possible to use
-                            *  the right arrow to open a file when in the column view */
-                            emit itemTriggered(curFileItem);
-                        }
-                    }
-                }
-            } else {
-                //Else it is Return or Enter keypress, so it is okay to perform the action of triggering, on files also.
-                foreach(const QModelIndex& index, indexList) {
-                    emit itemTriggered(itemForIndex(index));
-                }
-            }
+    const bool trigger = currentIndex.isValid()
+                         && ((event->key() == Qt::Key_Return)
+                            || (event->key() == Qt::Key_Enter))
+                         && (selModel->selectedIndexes().count() > 0);
+    if (trigger) {
+        const QModelIndexList indexList = selModel->selectedIndexes();
+        foreach (const QModelIndex& index, indexList) {
+            emit itemTriggered(itemForIndex(index));
         }
     }
 }
