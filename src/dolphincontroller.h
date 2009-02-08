@@ -211,6 +211,16 @@ public:
     void emitHideToolTip();
 
     /**
+     * Emits the signal itemTriggered() for the item \a item.
+     * The method can be used by the view implementations to
+     * trigger an item directly without mouse interaction.
+     * If the item triggering is done by the mouse, it is recommended
+     * to use QAbstractItemView::triggerItem(), as this will check
+     * the used mouse buttons to execute the correct action.
+     */
+    void emitItemTriggered(const KFileItem& item);
+
+    /**
      * Returns the file item for the proxy index \a index of the view \a view.
      */
     KFileItem itemForIndex(const QModelIndex& index) const;
@@ -220,8 +230,9 @@ public slots:
      * Emits the signal itemTriggered() if the file item for the index \a index
      * is not null and the left mouse button has been pressed. If the item is
      * null, the signal itemEntered() is emitted.
-     * The method should be invoked by the controller parent whenever the
-     * user has triggered an item.
+     * The method should be invoked by the view implementations whenever the
+     * user has triggered an item with the mouse (see
+     * QAbstractItemView::clicked() or QAbstractItemView::doubleClicked()).
      */
     void triggerItem(const QModelIndex& index);
 

@@ -160,6 +160,11 @@ void DolphinController::emitHideToolTip()
     emit hideToolTip();
 }
 
+void DolphinController::emitItemTriggered(const KFileItem& item)
+{
+    emit itemTriggered(item);
+}
+
 KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
 {
     Q_ASSERT(m_itemView != 0);
