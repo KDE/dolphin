@@ -544,7 +544,8 @@ void DolphinColumnWidget::activate()
 void DolphinColumnWidget::deactivate()
 {
     clearFocus();
-
+    disconnect(this, SIGNAL(clicked(const QModelIndex&)),
+               m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
     disconnect(this, SIGNAL(clicked(const QModelIndex&)),
                this, SLOT(slotClicked(const QModelIndex&)));
     disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
