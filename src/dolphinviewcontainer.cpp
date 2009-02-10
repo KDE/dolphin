@@ -66,6 +66,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                                            const KUrl& url) :
     QWidget(parent),
     m_showProgress(false),
+    m_isFolderWritable(false),
     m_mainWindow(mainWindow),
     m_topLayout(0),
     m_urlNavigator(0),
@@ -182,7 +183,10 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
         // Temporary disable the 'File'->'Create New...' menu until
         // the write permissions can be checked in a fast way at
         // DolphinViewContainer::slotDirListerCompleted().
-        m_mainWindow->newMenu()->menu()->setEnabled(false);
+        m_isFolderWritable = false;
+        if (isActive()) {
+            m_mainWindow->newMenu()->menu()->setEnabled(false);
+        }
     }
 }
 
@@ -195,6 +199,9 @@ void DolphinViewContainer::setActive(bool active)
 {
     m_urlNavigator->setActive(active);
     m_view->setActive(active);
+    if (active) {
+        m_mainWindow->newMenu()->menu()->setEnabled(m_isFolderWritable);
+    }
 }
 
 bool DolphinViewContainer::isActive() const
@@ -262,14 +269,17 @@ void DolphinViewContainer::slotDirListerCompleted()
 
     // Enable the 'File'->'Create New...' menu only if the directory
     // supports writing.
-    KMenu* createNew = m_mainWindow->newMenu()->menu();
     KFileItem item = m_dirLister->rootItem();
     if (item.isNull()) {
         // it is unclear whether writing is supported
-        createNew->setEnabled(true);
+        m_isFolderWritable = true;
     } else {
         KonqFileItemCapabilities capabilities(KFileItemList() << item);
-        createNew->setEnabled(capabilities.supportsWriting());
+        m_isFolderWritable = capabilities.supportsWriting();
+    }
+
+    if (isActive()) {
+        m_mainWindow->newMenu()->menu()->setEnabled(m_isFolderWritable);
     }
 }
 
