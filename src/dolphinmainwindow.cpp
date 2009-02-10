@@ -907,6 +907,8 @@ void DolphinMainWindow::init()
             this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
     connect(m_tabBar, SIGNAL(wheelDelta(int)),
 	    this, SLOT(slotWheelMoved(int)));
+    connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
+            this, SLOT(closeTab(int)));
 
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
