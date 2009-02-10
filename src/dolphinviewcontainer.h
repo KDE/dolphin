@@ -234,6 +234,7 @@ private slots:
 
 private:
     bool m_showProgress;
+    bool m_isFolderWritable;
 
     DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;
