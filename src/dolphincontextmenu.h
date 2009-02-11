@@ -68,6 +68,8 @@ public:
 
     virtual ~DolphinContextMenu();
 
+    void setCustomActions(const QList<QAction*>& actions);
+
     /** Opens the context menu model. */
     void open();
 
@@ -94,6 +96,7 @@ private:
 
 private:
     KonqFileItemCapabilities& capabilities();
+    void addCustomActions(KMenu* menu);
 
 private:
     struct Entry
@@ -121,6 +124,7 @@ private:
     KUrl::List m_selectedUrls;
     int m_context;
     KonqCopyToMenu m_copyToMenu;
+    QList<QAction*> m_customActions;
 };
 
 #endif

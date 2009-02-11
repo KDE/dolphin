@@ -74,10 +74,11 @@ void DolphinController::triggerUrlChangeRequest(const KUrl& url)
     }
 }
 
-void DolphinController::triggerContextMenuRequest(const QPoint& pos)
+void DolphinController::triggerContextMenuRequest(const QPoint& pos,
+                                                  const QList<QAction*>& customActions)
 {
     emit activated();
-    emit requestContextMenu(pos);
+    emit requestContextMenu(pos, customActions);
 }
 
 void DolphinController::requestActivation()

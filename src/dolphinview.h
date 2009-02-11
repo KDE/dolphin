@@ -496,10 +496,13 @@ signals:
 
     /**
      * Is emitted if a context menu is requested for the item \a item,
-     * which is part of \a url. If the item is 0, the context menu
-     * for the URL should be shown.
+     * which is part of \a url. If the item is null, the context menu
+     * for the URL should be shown and the custom actions \a customActions
+     * will be added.
      */
-    void requestContextMenu(const KFileItem& item, const KUrl& url);
+    void requestContextMenu(const KFileItem& item,
+                            const KUrl& url,
+                            const QList<QAction*>& customActions);
 
     /**
      * Is emitted if an information message with the content \a msg
@@ -560,7 +563,7 @@ private slots:
      * is used to check whether the context menu is related to an
      * item or to the viewport.
      */
-    void openContextMenu(const QPoint& pos);
+    void openContextMenu(const QPoint& pos, const QList<QAction*>& customActions);
 
     /**
      * Drops dragged URLs to the destination path \a destPath. If
@@ -628,8 +631,8 @@ private slots:
     void restoreCurrentItem();
 
     /**
-     * If \a view can be positively identified as not being the source for the 
-     * current drag operation, deleteLater() it immediately.  Else stores 
+     * If \a view can be positively identified as not being the source for the
+     * current drag operation, deleteLater() it immediately.  Else stores
      * it for later deletion.
      */
     void deleteWhenNotDragSource(QAbstractItemView* view);

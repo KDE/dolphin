@@ -61,7 +61,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_fileInfo(fileInfo),
     m_baseUrl(baseUrl),
     m_context(NoContext),
-    m_copyToMenu(parent)
+    m_copyToMenu(parent),
+    m_customActions()
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
@@ -74,6 +75,11 @@ DolphinContextMenu::~DolphinContextMenu()
 {
     delete m_capabilities;
     m_capabilities = 0;
+}
+
+void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
+{
+    m_customActions = actions;
 }
 
 void DolphinContextMenu::open()
@@ -118,6 +124,8 @@ void DolphinContextMenu::openTrashContextMenu()
 
     QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
+
+    addCustomActions(popup);
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     popup->addAction(propertiesAction);
@@ -210,15 +218,15 @@ void DolphinContextMenu::openItemContextMenu()
     KonqMenuActions menuActions;
     menuActions.setPopupMenuInfo(popupInfo);
 
-    // Insert 'Open With...' action or sub menu
+    // insert 'Open With...' action or sub menu
     menuActions.addOpenWithActionsTo(popup, "DesktopEntryName != 'dolphin'");
 
-    // Insert 'Actions' sub menu
+    // insert 'Actions' sub menu
     if (menuActions.addActionsTo(popup)) {
         popup->addSeparator();
     }
 
-    // Insert 'Copy To' and 'Move To' sub menus
+    // insert 'Copy To' and 'Move To' sub menus
     if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
         m_copyToMenu.setItems(m_selectedItems);
         m_copyToMenu.setReadOnly(!capabilities().supportsWriting());
@@ -277,7 +285,8 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
-    popup->addSeparator();
+
+    addCustomActions(popup);
 
     QAction* propertiesAction = popup->addAction(i18nc("@action:inmenu", "Properties"));
 
@@ -377,6 +386,13 @@ KonqFileItemCapabilities& DolphinContextMenu::capabilities()
         m_capabilities = new KonqFileItemCapabilities(m_selectedItems);
     }
     return *m_capabilities;
+}
+
+void DolphinContextMenu::addCustomActions(KMenu* menu)
+{
+    foreach (QAction* action, m_customActions) {
+        menu->addAction(action);
+    }
 }
 
 #include "dolphincontextmenu.moc"

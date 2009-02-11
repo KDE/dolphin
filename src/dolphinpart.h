@@ -129,11 +129,15 @@ private Q_SLOTS:
     void createNewWindow(const KUrl& url);
     /**
      * Opens the context menu on the current mouse position.
-     * @item  File item context. If item is 0, the context menu
-     *        should be applied to \a url.
-     * @url   URL which contains \a item.
+     * @item          File item context. If item is null, the context menu
+     *                should be applied to \a url.
+     * @url           URL which contains \a item.
+     * @customActions Actions that should be added to the context menu,
+     *                if the file item is null.
      */
-    void slotOpenContextMenu(const KFileItem& item, const KUrl& url);
+    void slotOpenContextMenu(const KFileItem& item,
+                             const KUrl& url,
+                             const QList<QAction*>& customActions);
 
     /**
      * Asks the host to open the URL \a url if the current view has

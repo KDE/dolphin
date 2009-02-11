@@ -128,8 +128,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                              m_proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
-    connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&)),
-            this, SLOT(openContextMenu(KFileItem, const KUrl&)));
+    connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)),
+            this, SLOT(openContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)));
     connect(m_view, SIGNAL(contentsMoved(int, int)),
             this, SLOT(saveContentsPos(int, int)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
@@ -345,9 +345,11 @@ void DolphinViewContainer::setNameFilter(const QString& nameFilter)
 }
 
 void DolphinViewContainer::openContextMenu(const KFileItem& item,
-                                           const KUrl& url)
+                                           const KUrl& url,
+                                           const QList<QAction*>& customActions)
 {
     DolphinContextMenu contextMenu(m_mainWindow, item, url);
+    contextMenu.setCustomActions(customActions);
     contextMenu.open();
 }
 

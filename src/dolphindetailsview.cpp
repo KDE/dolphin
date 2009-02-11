@@ -56,6 +56,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_controller(controller),
     m_selectionManager(0),
     m_autoScroller(0),
+    m_expandableFoldersAction(0),
     m_font(),
     m_decorationSize(),
     m_band()
@@ -153,6 +154,11 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(slotGlobalSettingsChanged(int)));
 
     m_useDefaultIndexAt = false;
+
+    m_expandableFoldersAction = new QAction(i18nc("@option:check", "Expandable Folders"), this);
+    m_expandableFoldersAction->setCheckable(true);
+    connect(m_expandableFoldersAction, SIGNAL(toggled(bool)),
+            this, SLOT(setFoldersExpandable(bool)));
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -187,7 +193,11 @@ QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 {
     QTreeView::contextMenuEvent(event);
-    m_controller->triggerContextMenuRequest(event->pos());
+
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    m_expandableFoldersAction->setChecked(settings->expandableFolders());
+    m_controller->triggerContextMenuRequest(event->pos(),
+                                            QList<QAction*>() << m_expandableFoldersAction);
 }
 
 void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
@@ -572,27 +582,8 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
     }
     popup.addSeparator();
 
-    // add a checkbox item for the "Expandable Folders" setting
-    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    QAction* expandableFoldersAction = popup.addAction(i18nc("@option:check", "Expandable Folders"));
-    expandableFoldersAction->setCheckable(true);
-    expandableFoldersAction->setChecked(settings->expandableFolders());
-
     QAction* activatedAction = popup.exec(header()->mapToGlobal(pos));
-    if (activatedAction == expandableFoldersAction) {
-        const bool expand = expandableFoldersAction->isChecked();
-        if (!expand) {
-            // collapse all expanded folders, as QTreeView::setItemsExpandable(false)
-            // does not do this task
-            const int rowCount = model()->rowCount();
-            for (int row = 0; row < rowCount; ++row) {
-                setExpanded(model()->index(row, 0), false);
-            }
-        }
-        settings->setExpandableFolders(expand);
-        setRootIsDecorated(expand);
-        setItemsExpandable(expand);
-    } else if (activatedAction != 0) {
+    if (activatedAction != 0) {
         const bool show = activatedAction->isChecked();
         const int columnIndex = activatedAction->data().toInt();
 
@@ -857,6 +848,22 @@ void DolphinDetailsView::updateElasticBandSelection()
     m_band.lastSelectionOrigin = m_band.origin;
     m_band.lastSelectionDestination = m_band.destination;
     m_band.ignoreOldInfo = false;
+}
+
+void DolphinDetailsView::setFoldersExpandable(bool expandable)
+{
+    if (!expandable) {
+        // collapse all expanded folders, as QTreeView::setItemsExpandable(false)
+        // does not do this task
+        const int rowCount = model()->rowCount();
+        for (int row = 0; row < rowCount; ++row) {
+            setExpanded(model()->index(row, 0), false);
+        }
+    }
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    settings->setExpandableFolders(expandable);
+    setRootIsDecorated(expandable);
+    setItemsExpandable(expandable);
 }
 
 void DolphinDetailsView::updateDecorationSize(bool showPreview)

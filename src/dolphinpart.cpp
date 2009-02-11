@@ -96,8 +96,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotItemTriggered(KFileItem)));
     connect(m_view, SIGNAL(tabRequested(KUrl)),
             this, SLOT(createNewWindow(KUrl)));
-    connect(m_view, SIGNAL(requestContextMenu(KFileItem,KUrl)),
-            this, SLOT(slotOpenContextMenu(KFileItem,KUrl)));
+    connect(m_view, SIGNAL(requestContextMenu(KFileItem,KUrl,QList<QAction*>)),
+            this, SLOT(slotOpenContextMenu(KFileItem,KUrl,QList<QAction*>)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
             m_extension, SIGNAL(selectionInfo(KFileItemList)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
@@ -335,8 +335,12 @@ void DolphinPart::createNewWindow(const KUrl& url)
     emit m_extension->createNewWindow(url, args);
 }
 
-void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
+void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
+                                      const KUrl&,
+                                      const QList<QAction*>& customActions)
 {
+    Q_UNUSED(customActions); // TODO: should be added to the context menu
+
     KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems
                                                       | KParts::BrowserExtension::ShowProperties
                                                       | KParts::BrowserExtension::ShowUrlOperations;

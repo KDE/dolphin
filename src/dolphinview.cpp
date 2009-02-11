@@ -117,8 +117,8 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_controller, SIGNAL(requestUrlChange(const KUrl&)),
             this, SLOT(slotRequestUrlChange(const KUrl&)));
 
-    connect(m_controller, SIGNAL(requestContextMenu(const QPoint&)),
-            this, SLOT(openContextMenu(const QPoint&)));
+    connect(m_controller, SIGNAL(requestContextMenu(const QPoint&, const QList<QAction*>&)),
+            this, SLOT(openContextMenu(const QPoint&, const QList<QAction*>&)));
     connect(m_controller, SIGNAL(urlsDropped(const KFileItem&, const KUrl&, QDropEvent*)),
             this, SLOT(dropUrls(const KFileItem&, const KUrl&, QDropEvent*)));
     connect(m_controller, SIGNAL(sortingChanged(DolphinView::Sorting)),
@@ -911,7 +911,8 @@ void DolphinView::emitSelectionChangedSignal()
     emit selectionChanged(DolphinView::selectedItems());
 }
 
-void DolphinView::openContextMenu(const QPoint& pos)
+void DolphinView::openContextMenu(const QPoint& pos,
+                                  const QList<QAction*>& customActions)
 {
     KFileItem item;
     if (isColumnViewActive()) {
@@ -929,7 +930,7 @@ void DolphinView::openContextMenu(const QPoint& pos)
     }
 
     m_isContextMenuOpen = true; // TODO: workaround for Qt-issue 207192
-    emit requestContextMenu(item, url());
+    emit requestContextMenu(item, url(), customActions);
     m_isContextMenuOpen = false;
 }
 

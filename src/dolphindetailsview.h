@@ -153,6 +153,12 @@ private slots:
      */
     void updateElasticBandSelection();
 
+    /**
+     * If \a expandable is true, the details view acts as tree view.
+     * The current expandable state is remembered in the settings.
+     */
+    void setFoldersExpandable(bool expandable);
+
 private:
     /**
      * Updates the size of the decoration dependent on the
@@ -181,6 +187,7 @@ private:
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
+    QAction* m_expandableFoldersAction;
 
     QFont m_font;
     QSize m_decorationSize;

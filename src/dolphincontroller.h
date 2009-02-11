@@ -121,9 +121,11 @@ public:
      * should be invoked by the view implementation when a context
      * menu should be opened. The abstract Dolphin view itself
      * takes care itself to get the selected items depending from
-     * \a pos.
+     * \a pos. It is possible to define a custom list of actions for
+     * the context menu by \a customActions.
      */
-    void triggerContextMenuRequest(const QPoint& pos);
+    void triggerContextMenuRequest(const QPoint& pos,
+                                   const QList<QAction*>& customActions = QList<QAction*>());
 
     /**
      * Requests an activation of the view and emits the signal
@@ -272,12 +274,14 @@ signals:
     /**
      * Is emitted if a context menu should be opened (see triggerContextMenuRequest()).
      * The abstract Dolphin view connects to this signal and will open the context menu.
-     * @param pos       Position relative to the view widget where the
-     *                  context menu should be opened. It is recommended
-     *                  to get the corresponding model index from
-     *                  this position.
+     * @param pos           Position relative to the view widget where the
+     *                      context menu should be opened. It is recommended
+     *                      to get the corresponding model index from
+     *                      this position.
+     * @param customActions List of actions that is added to the context menu when
+     *                      the menu is opened above the viewport.
      */
-    void requestContextMenu(const QPoint& pos);
+    void requestContextMenu(const QPoint& pos, QList<QAction*> customActions);
 
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
