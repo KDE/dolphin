@@ -424,6 +424,10 @@ void DolphinColumnWidget::contextMenuEvent(QContextMenuEvent* event)
         clearSelection();
     }
 
+    if (m_toolTipManager != 0) {
+        m_toolTipManager->hideTip();
+    }
+
     const QPoint pos = m_view->viewport()->mapFromGlobal(event->globalPos());
     Q_ASSERT(m_view->m_controller->itemView() == this);
     m_view->m_controller->triggerContextMenuRequest(pos);
