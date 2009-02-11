@@ -402,12 +402,20 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     Q_ASSERT(additionalInfoCount >= 0);
     itemHeight += additionalInfoCount * m_font.pointSize() * 2;
 
-    // optimize the item size of the grid in a way to prevent large gaps on the
-    // right border (= row arrangement) or the bottom border (= column arrangement)
+    // Optimize the item size of the grid in a way to prevent large gaps on the
+    // right border (= row arrangement) or the bottom border (= column arrangement).
+    // There is no public API in QListView to find out the used width of the viewport
+    // for the layout. The following calculation of 'contentWidth'/'contentHeight'
+    // is based on QListViewPrivate::prepareItemsLayout() (Copyright (C) 2009 Nokia Corporation).
+    int frameAroundContents = 0;
+    if (style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents)) {
+        frameAroundContents = style()->pixelMetric(QStyle::PM_DefaultFrameWidth) * 2;
+    }
     const int spacing = settings->gridSpacing();
     if (settings->arrangement() == QListView::TopToBottom) {
-        const int contentWidth = viewport()->width() - 1 -
-                                 style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, horizontalScrollBar());
+        const int contentWidth = viewport()->width() - 1
+                                 - frameAroundContents
+                                 - style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, horizontalScrollBar());
         const int gridWidth = itemWidth + spacing * 2;
         const int horizItemCount = contentWidth / gridWidth;
         if (horizItemCount > 0) {
@@ -420,8 +428,9 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
         m_decorationSize = QSize(itemWidth, size);
         setIconSize(QSize(itemWidth, size));
     } else {
-        const int contentHeight = viewport()->height() - 1 -
-                                  style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
+        const int contentHeight = viewport()->height() - 1
+                                  - frameAroundContents
+                                  - style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
         const int gridHeight = itemHeight + spacing;
         const int vertItemCount = contentHeight / gridHeight;
         if (vertItemCount > 0) {
