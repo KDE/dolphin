@@ -32,7 +32,7 @@ class QItemSelection;
 class SelectionToggle;
 
 /**
- * @brief Allows to select and deselect items for the single-click mode.
+ * @brief Allows to select and deselect items for item views.
  *
  * Whenever an item is hovered by the mouse, a toggle button is shown
  * which allows to select/deselect the current item.
