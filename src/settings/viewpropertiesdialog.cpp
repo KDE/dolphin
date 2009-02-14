@@ -149,11 +149,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     topLayout->addWidget(propsBox);
 
-    connect(m_viewMode, SIGNAL(activated(int)),
+    connect(m_viewMode, SIGNAL(currentIndexChanged(int)),
             this, SLOT(slotViewModeChanged(int)));
-    connect(m_sorting, SIGNAL(activated(int)),
+    connect(m_sorting, SIGNAL(currentIndexChanged(int)),
             this, SLOT(slotSortingChanged(int)));
-    connect(m_sortOrder, SIGNAL(activated(int)),
+    connect(m_sortOrder, SIGNAL(currentIndexChanged(int)),
             this, SLOT(slotSortOrderChanged(int)));
     connect(m_additionalInfo, SIGNAL(clicked()),
             this, SLOT(configureAdditionalInfo()));
