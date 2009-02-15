@@ -56,7 +56,7 @@ private slots:
     void slotCategorizedSortingChanged();
     void slotShowPreviewChanged();
     void slotShowHiddenFilesChanged();
-    void markAsDirty();
+    void markAsDirty(bool isDirty);
     void configureAdditionalInfo();
 
 private:

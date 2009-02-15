@@ -236,12 +236,13 @@ void ViewPropertiesDialog::slotOk()
 void ViewPropertiesDialog::slotApply()
 {
     applyViewProperties();
+    markAsDirty(false);
 }
 
 void ViewPropertiesDialog::slotViewModeChanged(int index)
 {
     m_viewProps->setViewMode(static_cast<DolphinView::Mode>(index));
-    m_isDirty = true;
+    markAsDirty(true);
 
     const DolphinView::Mode mode = m_viewProps->viewMode();
     m_showInGroups->setEnabled(mode == DolphinView::IconsView);
@@ -252,39 +253,40 @@ void ViewPropertiesDialog::slotSortingChanged(int index)
 {
     const DolphinView::Sorting sorting = DolphinSortFilterProxyModel::sortingForColumn(index);
     m_viewProps->setSorting(sorting);
-    m_isDirty = true;
+    markAsDirty(true);
 }
 
 void ViewPropertiesDialog::slotSortOrderChanged(int index)
 {
     const Qt::SortOrder sortOrder = (index == 0) ? Qt::AscendingOrder : Qt::DescendingOrder;
     m_viewProps->setSortOrder(sortOrder);
-    m_isDirty = true;
+    markAsDirty(true);
 }
 
 void ViewPropertiesDialog::slotCategorizedSortingChanged()
 {
     m_viewProps->setCategorizedSorting(m_showInGroups->isChecked());
-    m_isDirty = true;
+    markAsDirty(true);
 }
 
 void ViewPropertiesDialog::slotShowPreviewChanged()
 {
     const bool show = m_showPreview->isChecked();
     m_viewProps->setShowPreview(show);
-    m_isDirty = true;
+    markAsDirty(true);
 }
 
 void ViewPropertiesDialog::slotShowHiddenFilesChanged()
 {
     const bool show = m_showHiddenFiles->isChecked();
     m_viewProps->setShowHiddenFiles(show);
-    m_isDirty = true;
+    markAsDirty(true);
 }
 
-void ViewPropertiesDialog::markAsDirty()
+void ViewPropertiesDialog::markAsDirty(bool isDirty)
 {
-    m_isDirty = true;
+    m_isDirty = isDirty;
+    enableButtonApply(isDirty);
 }
 
 void ViewPropertiesDialog::configureAdditionalInfo()
@@ -305,7 +307,7 @@ void ViewPropertiesDialog::configureAdditionalInfo()
     AdditionalInfoDialog dialog(this, info);
     if (dialog.exec() == QDialog::Accepted) {
         m_viewProps->setAdditionalInfo(dialog.additionalInfo());
-        m_isDirty = true;
+        markAsDirty(true);
     }
 }
 
@@ -375,7 +377,7 @@ void ViewPropertiesDialog::applyViewProperties()
 
     m_viewProps->save();
 
-    m_isDirty = false;
+    markAsDirty(false);
 }
 
 void ViewPropertiesDialog::loadSettings()
@@ -400,6 +402,7 @@ void ViewPropertiesDialog::loadSettings()
     m_showInGroups->setEnabled(index == DolphinView::IconsView); // only the icons view supports categorized sorting
 
     m_showHiddenFiles->setChecked(m_viewProps->showHiddenFiles());
+    markAsDirty(false);
 }
 
 #include "viewpropertiesdialog.moc"
