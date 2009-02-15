@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2009 by Shaun Reich shaun.reich@kdemail.net             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,42 +17,56 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINSETTINGSDIALOG_H
-#define DOLPHINSETTINGSDIALOG_H
+//Own
+#include "trashsettingspage.h"
+#include "dolphinsettings.h"
+//KDE
+#include <KCModuleProxy>
+#include <kdialog.h>
+#include <kvbox.h>
+//Qt
+#include <QVBoxLayout>
 
-#include <kpagedialog.h>
 
-class KUrl;
-class DolphinMainWindow;
-class SettingsPageBase;
-
-/**
- * @brief Settings dialog for Dolphin.
- *
- * Contains the pages for Startup, View Modes, Navigation, Services, General, and Trash.
- */
-class DolphinSettingsDialog : public KPageDialog
+TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
+        SettingsPageBase(parent)
 {
-    Q_OBJECT
+    const int spacing = KDialog::spacingHint();
 
-public:
-    explicit DolphinSettingsDialog(const KUrl& url, QWidget* parent);
-    virtual ~DolphinSettingsDialog();
+    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    KVBox* vBox = new KVBox(this);
+    vBox->setSpacing(spacing);
 
-protected slots:
-    /** @see KDialog::slotButtonClicked() */
-    virtual void slotButtonClicked(int button);
+    m_proxy = new KCModuleProxy("kcmtrash");
+    connect(m_proxy, SIGNAL(changed(bool)), this, SIGNAL(changed()));
+    topLayout->addWidget(m_proxy);
 
-private slots:
-    /** Enables the Apply button. */
-    void enableApply();
+    // Add a dummy widget with no restriction regarding
+    // a vertical resizing. This assures that the dialog layout
+    // is not stretched vertically.
+    new QWidget(vBox);
+    topLayout->addWidget(vBox);
 
-private:
-    void applySettings();
-    void restoreDefaults();
+    loadSettings();
+}
 
-private:
-    QList<SettingsPageBase*> m_pages;
-};
+TrashSettingsPage::~TrashSettingsPage()
+{
+}
 
-#endif
+void TrashSettingsPage::applySettings()
+{
+    m_proxy->save();
+}
+
+void TrashSettingsPage::restoreDefaults()
+{
+    m_proxy->defaults();
+}
+
+void TrashSettingsPage::loadSettings()
+{
+    m_proxy->load();
+}
+
+#include "trashsettingspage.moc"

@@ -128,6 +128,7 @@ set(dolphin_SRCS
     settings/settingspagebase.cpp
     settings/startupsettingspage.cpp
     settings/statusbarsettingspage.cpp
+    settings/trashsettingspage.cpp
     settings/viewsettingspage.cpp
     settings/viewsettingspagebase.cpp
     statusbarspaceinfo.cpp
@@ -166,7 +167,7 @@ kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-fi
 
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
-target_link_libraries(dolphin ${KDE4_KIO_LIBS}  ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} konq dolphinprivate ${KDE4_PHONON_LIBS})
+target_link_libraries(dolphin ${KDE4_KIO_LIBS}  ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KUTILS_LIBRARY} konq dolphinprivate ${KDE4_PHONON_LIBS})
 
 if (Nepomuk_FOUND)
   target_link_libraries(dolphin ${NEPOMUK_LIBRARIES} ${SOPRANO_LIBRARIES})

@@ -27,6 +27,7 @@
 #include "servicessettingspage.h"
 #include "startupsettingspage.h"
 #include "viewsettingspage.h"
+#include "trashsettingspage.h"
 
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -74,6 +75,13 @@ DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     servicesSettingsFrame->setIcon(KIcon("services"));
     connect(servicesSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
 
+    // Trash
+    TrashSettingsPage* trashSettingsPage = new TrashSettingsPage(this);
+    KPageWidgetItem* trashSettingsFrame = addPage(trashSettingsPage,
+                                                   i18nc("@title:group", "Trash"));
+    trashSettingsFrame->setIcon(KIcon("user-trash"));
+    connect(trashSettingsPage, SIGNAL(changed()), this, SLOT(enableApply()));
+
     // General
     GeneralSettingsPage* generalSettingsPage = new GeneralSettingsPage(url, this);
     KPageWidgetItem* generalSettingsFrame = addPage(generalSettingsPage,
@@ -88,6 +96,7 @@ DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     m_pages.append(viewSettingsPage);
     m_pages.append(navigationSettingsPage);
     m_pages.append(servicesSettingsPage);
+    m_pages.append(trashSettingsPage);
     m_pages.append(generalSettingsPage);
 }
 

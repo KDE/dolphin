@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2009 by Shaun Reich shaun.reich@kdemail.net             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,43 +16,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+#ifndef TRASHSETTINGSPAGE_H
+#define TRASHSETTINGSPAGE_H
 
-#ifndef DOLPHINSETTINGSDIALOG_H
-#define DOLPHINSETTINGSDIALOG_H
-
-#include <kpagedialog.h>
-
-class KUrl;
-class DolphinMainWindow;
-class SettingsPageBase;
+#include "settings/settingspagebase.h"
+class KCModuleProxy;
 
 /**
- * @brief Settings dialog for Dolphin.
- *
- * Contains the pages for Startup, View Modes, Navigation, Services, General, and Trash.
+ * @brief Tab page for the 'Trash' settings of the Dolphin settings dialog, it uses the KCM.
  */
-class DolphinSettingsDialog : public KPageDialog
+class TrashSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(const KUrl& url, QWidget* parent);
-    virtual ~DolphinSettingsDialog();
+    TrashSettingsPage(QWidget* parent);
+    virtual ~TrashSettingsPage();
 
-protected slots:
-    /** @see KDialog::slotButtonClicked() */
-    virtual void slotButtonClicked(int button);
+    /** @see SettingsPageBase::applySettings() */
+    virtual void applySettings();
 
-private slots:
-    /** Enables the Apply button. */
-    void enableApply();
+    /** @see SettingsPageBase::restoreDefaults() */
+    virtual void restoreDefaults();
 
 private:
-    void applySettings();
-    void restoreDefaults();
-
-private:
-    QList<SettingsPageBase*> m_pages;
+    void loadSettings();
+    KCModuleProxy *m_proxy;
 };
 
 #endif
