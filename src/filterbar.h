@@ -39,10 +39,11 @@ class FilterBar : public QWidget
 public:
     FilterBar(QWidget* parent = 0);
     virtual ~FilterBar();
-    
+
+public slots:
     /** Clears the input field. */
     void clear();
-    
+
 signals:
     /**
      * Signal that reports the name filter has been

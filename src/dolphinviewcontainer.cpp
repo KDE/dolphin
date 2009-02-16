@@ -158,6 +158,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(setNameFilter(const QString&)));
     connect(m_filterBar, SIGNAL(closeRequest()),
             this, SLOT(closeFilterBar()));
+    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
+            m_filterBar, SLOT(clear()));
 
     m_topLayout->addWidget(m_urlNavigator);
     m_topLayout->addWidget(m_view);
