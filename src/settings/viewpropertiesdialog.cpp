@@ -196,14 +196,14 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         topLayout->addWidget(applyBox);
         topLayout->addWidget(m_useAsDefault);
 
-        connect(m_applyToCurrentFolder, SIGNAL(clicked()),
-                this, SLOT(markAsDirty()));
-        connect(m_applyToSubFolders, SIGNAL(clicked()),
-                this, SLOT(markAsDirty()));
-        connect(m_applyToAllFolders, SIGNAL(clicked()),
-                this, SLOT(markAsDirty()));
-        connect(m_useAsDefault, SIGNAL(clicked()),
-                this, SLOT(markAsDirty()));
+        connect(m_applyToCurrentFolder, SIGNAL(clicked(bool)),
+                this, SLOT(markAsDirty(bool)));
+        connect(m_applyToSubFolders, SIGNAL(clicked(bool)),
+                this, SLOT(markAsDirty(bool)));
+        connect(m_applyToAllFolders, SIGNAL(clicked(bool)),
+                this, SLOT(markAsDirty(bool)));
+        connect(m_useAsDefault, SIGNAL(clicked(bool)),
+                this, SLOT(markAsDirty(bool)));
     }
 
     main->setLayout(topLayout);
