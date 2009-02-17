@@ -34,6 +34,7 @@
 SelectionToggle::SelectionToggle(QWidget* parent) :
     QAbstractButton(parent),
     m_isHovered(false),
+    m_leftMouseButtonPressed(false),
     m_fadingValue(0),
     m_icon(),
     m_fadingTimeLine(0)
@@ -96,7 +97,7 @@ bool SelectionToggle::eventFilter(QObject* obj, QEvent* event)
             break;
 
         case QEvent::MouseMove:
-            if (m_isHovered) {
+            if (m_leftMouseButtonPressed) {
                 // Don't forward mouse move events to the viewport,
                 // otherwise a rubberband selection will be shown when
                 // clicking on the selection toggle and moving the mouse
@@ -134,6 +135,18 @@ void SelectionToggle::leaveEvent(QEvent* event)
     QAbstractButton::leaveEvent(event);
     m_isHovered = false;
     update();
+}
+
+void SelectionToggle::mousePressEvent(QMouseEvent* event)
+{
+    QAbstractButton::mousePressEvent(event);
+    m_leftMouseButtonPressed = (event->buttons() & Qt::LeftButton);
+}
+
+void SelectionToggle::mouseReleaseEvent(QMouseEvent* event)
+{
+    QAbstractButton::mouseReleaseEvent(event);
+    m_leftMouseButtonPressed = (event->buttons() & Qt::LeftButton);
 }
 
 void SelectionToggle::paintEvent(QPaintEvent* event)
