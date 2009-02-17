@@ -34,6 +34,12 @@
 #include <kseparator.h>
 #include <kiconloader.h>
 
+#ifdef HAVE_NEPOMUK
+#include <Nepomuk/Resource>
+#include <Nepomuk/Types/Property>
+#include <Nepomuk/Variant>
+#endif
+
 #include <Phonon/BackendCapabilities>
 #include <Phonon/MediaObject>
 #include <Phonon/SeekSlider>
@@ -44,9 +50,11 @@
 #include <QPainter>
 #include <QPixmap>
 #include <QResizeEvent>
+#include <QScrollArea>
 #include <QTextLayout>
 #include <QTextLine>
 #include <QTimer>
+#include <QScrollBar>
 #include <QVBoxLayout>
 
 #include "settings/dolphinsettings.h"
@@ -69,6 +77,7 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_preview(0),
     m_phononWidget(0),
     m_metaDataWidget(0),
+    m_metaTextArea(0),
     m_metaTextLabel(0)
 {
 }
@@ -184,8 +193,19 @@ void InformationPanel::resizeEvent(QResizeEvent* event)
         m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
         m_infoTimer->start();
     }
-
     Panel::resizeEvent(event);
+}
+
+#include <kdebug.h>
+bool InformationPanel::eventFilter(QObject* obj, QEvent* event)
+{
+    // Check whether the size of the meta text area has changed and adjust
+    // the fixed width in a way that no horizontal scrollbar needs to be shown.
+    if ((obj == m_metaTextArea->viewport()) && (event->type() == QEvent::Resize)) {
+        QResizeEvent* resizeEvent = static_cast<QResizeEvent*>(event);
+        m_metaTextLabel->setFixedWidth(resizeEvent->size().width());
+    }
+    return Panel::eventFilter(obj, event);
 }
 
 void InformationPanel::showItemInfo()
@@ -391,29 +411,19 @@ void InformationPanel::showMetaInfo()
             m_metaTextLabel->add(i18nc("@label", "Size:"), KIO::convertSize(item.size()));
             m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
 
-            if (item.isLocalFile()) {
-                // TODO: See convertMetaInfo below, find a way to display only interesting information
-                // in a readable way
-                const KFileMetaInfo::WhatFlags flags = KFileMetaInfo::Fastest |
-                                                       KFileMetaInfo::TechnicalInfo |
-                                                       KFileMetaInfo::ContentInfo;
-                const QString path = item.url().path();
-                const KFileMetaInfo fileMetaInfo(path, QString(), flags);
-                if (fileMetaInfo.isValid()) {
-                    const QHash<QString, KFileMetaInfoItem>& items = fileMetaInfo.items();
-                    QHash<QString, KFileMetaInfoItem>::const_iterator it = items.constBegin();
-                    const QHash<QString, KFileMetaInfoItem>::const_iterator end = items.constEnd();
-                    QString labelText;
-                    while (it != end) {
-                        const KFileMetaInfoItem& metaInfoItem = it.value();
-                        const QVariant& value = metaInfoItem.value();
-                        if (value.isValid() && convertMetaInfo(metaInfoItem.name(), labelText)) {
-                            m_metaTextLabel->add(labelText, value.toString());
-                        }
-                        ++it;
-                    }
-                }
+#ifdef HAVE_NEPOMUK
+            Nepomuk::Resource res(item.url());
+
+            QHash<QUrl, Nepomuk::Variant> properties = res.properties();
+            QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
+            while (it != properties.constEnd()) {
+                Nepomuk::Types::Property prop(it.key());
+                // TODO: use Nepomuk::formatValue(res, prop) if available
+                // instead of it.value().toString()
+                m_metaTextLabel->add(prop.label(), it.value().toString());
+                ++it;
             }
+#endif
         }
 
         if (m_metaDataWidget != 0) {
@@ -434,45 +444,6 @@ void InformationPanel::showMetaInfo()
             m_phononWidget = 0;
         }
     }
-}
-
-bool InformationPanel::convertMetaInfo(const QString& key, QString& text) const
-{
-    struct MetaKey {
-        const char* key;
-        QString text;
-    };
-
-    // sorted list of keys, where its data should be shown
-    static const MetaKey keys[] = {
-        { "http://freedesktop.org/standards/xesam/1.0/core#album",       i18nc("@label", "Album:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#artist",      i18nc("@label", "Artist:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#genre",       i18nc("@label", "Genre:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#height",      i18nc("@label", "Height:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#lineCount",   i18nc("@label", "Lines:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#title",       i18nc("@label", "Title:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#type",        i18nc("@label", "Type:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#trackNumber", i18nc("@label", "Track:") },
-        { "http://freedesktop.org/standards/xesam/1.0/core#width",       i18nc("@label", "Width:") }
-    };
-
-    // do a binary search for the key...
-    int top = 0;
-    int bottom = sizeof(keys) / sizeof(MetaKey) - 1;
-    while (top <= bottom) {
-        const int middle = (top + bottom) / 2;
-        const int result = key.compare(keys[middle].key);
-        if (result < 0) {
-            bottom = middle - 1;
-        } else if (result > 0) {
-            top = middle + 1;
-        } else {
-            text = keys[middle].text;
-            return true;
-        }
-    }
-
-    return false;
 }
 
 KFileItem InformationPanel::fileItem() const
@@ -575,8 +546,19 @@ void InformationPanel::init()
 
     // general meta text information
     m_metaTextLabel = new MetaTextLabel(this);
-    m_metaTextLabel->setMinimumWidth(spacing);
     m_metaTextLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    m_metaTextArea = new QScrollArea(this);
+    m_metaTextArea->setWidget(m_metaTextLabel);
+    m_metaTextArea->setWidgetResizable(true);
+    m_metaTextArea->setFrameShape(QFrame::NoFrame);
+
+    QWidget* viewport = m_metaTextArea->viewport();
+    viewport->installEventFilter(this);
+
+    QPalette palette = viewport->palette();
+    palette.setColor(viewport->backgroundRole(), QColor(Qt::transparent));
+    viewport->setPalette(palette);
 
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator(this));
@@ -586,10 +568,7 @@ void InformationPanel::init()
         layout->addWidget(m_metaDataWidget);
         layout->addWidget(new KSeparator(this));
     }
-    layout->addWidget(m_metaTextLabel);
-
-    // ensure that widgets in the information side bar are aligned towards the top
-    layout->addStretch(1);
+    layout->addWidget(m_metaTextArea);
     setLayout(layout);
 
     org::kde::KDirNotify* dirNotify = new org::kde::KDirNotify(QString(), QString(),

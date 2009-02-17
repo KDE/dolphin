@@ -37,6 +37,7 @@ class QPixmap;
 class QString;
 class KFileItem;
 class QLabel;
+class QScrollArea;
 class PhononWidget;
 class PixmapViewer;
 class MetaDataWidget;
@@ -80,6 +81,9 @@ protected:
 
     /** @see QWidget::resizeEvent() */
     virtual void resizeEvent(QResizeEvent* event);
+
+    /** @see QObject::eventFilter() */
+    virtual bool eventFilter(QObject* obj, QEvent* event);
 
 private slots:
     /**
@@ -138,13 +142,6 @@ private:
     void showMetaInfo();
 
     /**
-     * Converts the meta key \a key to a readable format into \a text.
-     * Returns true, if the string \a key represents a meta information
-     * that should be shown. If false is returned, \a text is not modified.
-     */
-    bool convertMetaInfo(const QString& key, QString& text) const;
-
-    /**
      * Returns the item for file where the preview and meta information
      * should be received, if InformationPanel::showMultipleSelectionInfo()
      * returns false.
@@ -190,6 +187,8 @@ private:
     PixmapViewer* m_preview;
     PhononWidget* m_phononWidget;
     MetaDataWidget* m_metaDataWidget;
+
+    QScrollArea* m_metaTextArea;
     MetaTextLabel* m_metaTextLabel;
 };
 
