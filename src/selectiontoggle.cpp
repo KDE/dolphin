@@ -89,9 +89,27 @@ void SelectionToggle::setVisible(bool visible)
 
 bool SelectionToggle::eventFilter(QObject* obj, QEvent* event)
 {
-    if ((obj == parent()) && (event->type() == QEvent::Leave)) {
-        hide();
+    if (obj == parent()) {
+        switch (event->type()) {
+        case QEvent::Leave:
+            hide();
+            break;
+
+        case QEvent::MouseMove:
+            if (m_isHovered) {
+                // Don't forward mouse move events to the viewport,
+                // otherwise a rubberband selection will be shown when
+                // clicking on the selection toggle and moving the mouse
+                // above the viewport.
+                return true;
+            }
+            break;
+
+        default:
+            break;
+        }
     }
+
     return QAbstractButton::eventFilter(obj, event);
 }
 
