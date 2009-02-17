@@ -37,23 +37,21 @@ public:
 
     void clear();
     void add(const QString& labelText, const QString& infoText);
-    
+
 protected:
     virtual void paintEvent(QPaintEvent* event);
-    virtual void resizeEvent(QResizeEvent* event);
 
 private:
     enum { Spacing = 2 };
-    
+
     struct MetaInfo
     {
         QString label;
         QString info;
     };
-    
-    int m_minimumHeight;
+
     QList<MetaInfo> m_metaInfos;
-    
+
     /**
      * Returns the required height in pixels for \a metaInfo to
      * fit into the available width of the widget.
