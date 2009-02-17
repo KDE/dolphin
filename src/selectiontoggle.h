@@ -60,6 +60,8 @@ protected:
     virtual bool eventFilter(QObject* obj, QEvent* event);
     virtual void enterEvent(QEvent* event);
     virtual void leaveEvent(QEvent* event);
+    virtual void mousePressEvent(QMouseEvent* event);
+    virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void paintEvent(QPaintEvent* event);
 
 private slots:
@@ -78,6 +80,7 @@ private:
 
 private:
     bool m_isHovered;
+    bool m_leftMouseButtonPressed;
     int m_fadingValue;
     QPixmap m_icon;
     QTimeLine* m_fadingTimeLine;
