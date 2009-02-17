@@ -196,7 +196,6 @@ void InformationPanel::resizeEvent(QResizeEvent* event)
     Panel::resizeEvent(event);
 }
 
-#include <kdebug.h>
 bool InformationPanel::eventFilter(QObject* obj, QEvent* event)
 {
     // Check whether the size of the meta text area has changed and adjust
