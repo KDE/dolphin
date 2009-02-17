@@ -40,6 +40,7 @@ public:
 
 protected:
     virtual void paintEvent(QPaintEvent* event);
+    virtual void resizeEvent(QResizeEvent* event);
 
 private:
     enum { Spacing = 2 };
@@ -57,6 +58,13 @@ private:
      * fit into the available width of the widget.
      */
     int requiredHeight(const MetaInfo& metaInfo) const;
+
+    /**
+     * Returns the maximum height in pixels for the text of
+     * one added line. The returned value does not contain
+     * any additional spacing between texts.
+     */
+    int maxHeightPerLine() const;
 };
 
 #endif

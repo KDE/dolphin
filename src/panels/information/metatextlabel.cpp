@@ -71,9 +71,8 @@ void MetaTextLabel::paintEvent(QPaintEvent* event)
     const int infoWidth = width() / 2;
     const int labelWidth = infoWidth - 2 * Spacing;
     const int infoX = infoWidth;
-    const int maxHeight = fontMetrics().height() * 5;
+    const int maxHeight = maxHeightPerLine();
 
-    QRect boundingRect;
     foreach (const MetaInfo& metaInfo, m_metaInfos) {
         // draw label (e. g. "Date:")
         painter.setPen(labelColor);
@@ -85,17 +84,27 @@ void MetaTextLabel::paintEvent(QPaintEvent* event)
         painter.setPen(infoColor);
         painter.drawText(infoX, y, infoWidth, maxHeight,
                          Qt::AlignTop | Qt::AlignLeft | Qt::TextWordWrap,
-                         metaInfo.info,
-                         &boundingRect);
+                         metaInfo.info);
 
-        y += boundingRect.height() + Spacing;
+        y += requiredHeight(metaInfo);
     }
+}
+
+void MetaTextLabel::resizeEvent(QResizeEvent* event)
+{
+    QWidget::resizeEvent(event);
+
+    int minimumHeight = 0;
+    foreach (const MetaInfo& metaInfo, m_metaInfos) {
+        minimumHeight += requiredHeight(metaInfo);
+    }
+    setMinimumHeight(minimumHeight);
 }
 
 int MetaTextLabel::requiredHeight(const MetaInfo& metaInfo) const
 {
     QTextOption textOption;
-    textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    textOption.setWrapMode(QTextOption::WordWrap);
 
     qreal height = 0;
     const int leading = fontMetrics().leading();
@@ -115,7 +124,17 @@ int MetaTextLabel::requiredHeight(const MetaInfo& metaInfo) const
     }
     textLayout.endLayout();
 
-    return static_cast<int>(height) + Spacing;
+    int adjustedHeight = static_cast<int>(height);
+    if (adjustedHeight > maxHeightPerLine()) {
+        adjustedHeight = maxHeightPerLine();
+    }
+
+    return adjustedHeight + Spacing;
+}
+
+int MetaTextLabel::maxHeightPerLine() const
+{
+    return fontMetrics().height() * 100;
 }
 
 #include "metatextlabel.moc"
