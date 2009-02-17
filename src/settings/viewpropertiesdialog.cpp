@@ -122,11 +122,11 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     //    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
     // }
 #endif
-    m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"), propsBox);
-    m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"), propsBox);
-    m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"), propsBox);
+    m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"));
+    m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"));
+    m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"));
 
-    m_additionalInfo = new QPushButton(i18nc("@action:button", "Additional Information"), propsBox);
+    m_additionalInfo = new QPushButton(i18nc("@action:button", "Additional Information"));
 
     QHBoxLayout* sortingLayout = new QHBoxLayout();
     sortingLayout->setMargin(0);
