@@ -339,8 +339,6 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
                                       const KUrl&,
                                       const QList<QAction*>& customActions)
 {
-    Q_UNUSED(customActions); // TODO: should be added to the context menu
-
     KParts::BrowserExtension::PopupFlags popupFlags = KParts::BrowserExtension::DefaultPopupItems
                                                       | KParts::BrowserExtension::ShowProperties
                                                       | KParts::BrowserExtension::ShowUrlOperations;
@@ -356,6 +354,8 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
 
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
+
+    editActions += customActions;
 
     if (!_item.isNull()) { // only for context menu on one or more items
         bool sDeleting = true;
@@ -400,7 +400,6 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
             editActions.append(actionCollection()->action("move_to_trash"));
         if (addDel)
             editActions.append(actionCollection()->action("delete"));
-        actionGroups.insert("editactions", editActions);
 
         // Normally KonqPopupMenu only shows the "Create new" subdir in the current view
         // since otherwise the created file would not be visible.
@@ -409,6 +408,8 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
             popupFlags |= KParts::BrowserExtension::ShowCreateDirectory;
 
     }
+
+    actionGroups.insert("editactions", editActions);
 
     // TODO: We should change the signature of the slots (and signals) for being able
     //       to tell for which items we want a popup.
