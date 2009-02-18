@@ -83,6 +83,7 @@ void DolphinViewActionHandler::createActions()
     KAction* rename = m_actionCollection->addAction("rename");
     rename->setText(i18nc("@action:inmenu File", "Rename..."));
     rename->setShortcut(Qt::Key_F2);
+    rename->setIcon(KIcon("edit-rename"));
     connect(rename, SIGNAL(triggered()), this, SLOT(slotRename()));
 
     KAction* moveToTrash = m_actionCollection->addAction("move_to_trash");
