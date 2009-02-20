@@ -1,6 +1,4 @@
 
-add_subdirectory( pics )
-
 find_package(QImageBlitz REQUIRED)
 
 macro_optional_find_package(Nepomuk)
