@@ -42,6 +42,7 @@
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <kurl.h>
+#include <kurlcombobox.h>
 #include <krun.h>
 
 #include "dolphinmodel.h"
@@ -87,11 +88,15 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(dropUrls(const KUrl&, QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
             this, SLOT(activate()));
+    connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
+            this, SLOT(saveUrlCompletionMode(KGlobalSettings::Completion)));
 
     const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
     m_urlNavigator->setShowFullPath(settings->showFullPath());
     m_urlNavigator->setHomeUrl(settings->homeUrl());
+    KUrlComboBox* editor = m_urlNavigator->editor();
+    editor->setCompletionMode(KGlobalSettings::Completion(settings->urlCompletionMode()));
 
     m_dirLister = new DolphinDirLister();
     m_dirLister->setAutoUpdate(true);
@@ -431,6 +436,13 @@ void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
 void DolphinViewContainer::requestFocus()
 {
     m_view->setFocus();
+}
+
+void DolphinViewContainer::saveUrlCompletionMode(KGlobalSettings::Completion completion)
+{
+    DolphinSettings& settings = DolphinSettings::instance();
+    settings.generalSettings()->setUrlCompletionMode(completion);
+    settings.save();
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)

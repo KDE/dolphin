@@ -36,6 +36,7 @@ class KFilePlacesModel;
  * - home URL
  * - default view mode
  * - URL navigator state (editable or not)
+ * - Text completion state
  * - split view
  * - properties for views
  */

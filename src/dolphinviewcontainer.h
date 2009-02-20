@@ -25,6 +25,7 @@
 
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
+#include <kglobalsettings.h>
 #include <kio/job.h>
 
 #include <kurlnavigator.h>
@@ -235,6 +236,12 @@ private slots:
 
     /** Requests the focus for the view \a m_view. */
     void requestFocus();
+
+    /**
+     * Saves the currently used URL completion mode of
+     * the URL navigator.
+     */
+    void saveUrlCompletionMode(KGlobalSettings::Completion completion);
 
 private:
     bool m_showProgress;

@@ -3,10 +3,15 @@
 <kcfg>
     <kcfgfile name="dolphinrc"/>
     <include>QDir</include>
+    <include>kglobalsettings.h</include>
     <group name="General">
         <entry name="EditableUrl" type="Bool">
             <label context="@label">Should the URL be editable for the user</label>
             <default>false</default>
+        </entry>
+        <entry name="UrlCompletionMode" type="Enum">
+            <label context="@label">Text completion mode of the URL Navigator</label>
+            <default code="true">KGlobalSettings::completionMode()</default>
         </entry>
         <entry name="ShowFullPath" type="Bool">
             <label context="@label">Should the full path be shown inside the location bar</label>
