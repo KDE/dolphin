@@ -393,7 +393,8 @@ void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
 
     DolphinController* controller = m_view->m_controller;
     controller->handleKeyPressEvent(event);
-    if (event->key() == Qt::Key_Right) {
+    switch (event->key()) {
+    case Qt::Key_Right: {
         // Special key handling for the column: A Key_Right should
         // open a new column for the currently selected folder.
         const QModelIndex index = currentIndex();
@@ -401,6 +402,17 @@ void DolphinColumnWidget::keyPressEvent(QKeyEvent* event)
         if (!item.isNull() && item.isDir()) {
             controller->emitItemTriggered(item);
         }
+        break;
+    }
+
+    case Qt::Key_Escape:
+        selectionModel()->setCurrentIndex(selectionModel()->currentIndex(),
+                                          QItemSelectionModel::Current |
+                                          QItemSelectionModel::Clear);
+        break;
+
+    default:
+        break;
     }
 
     if (m_toolTipManager != 0) {

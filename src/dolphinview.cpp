@@ -314,7 +314,10 @@ bool DolphinView::hasSelection() const
 
 void DolphinView::clearSelection()
 {
-    itemView()->selectionModel()->clear();
+    QItemSelectionModel* selModel = itemView()->selectionModel();
+    const QModelIndex currentIndex = selModel->currentIndex();
+    selModel->setCurrentIndex(currentIndex, QItemSelectionModel::Current |
+                                            QItemSelectionModel::Clear);
 }
 
 KFileItemList DolphinView::selectedItems() const
@@ -866,8 +869,16 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         break;
 
     case QEvent::KeyPress:
-        if ((watched == itemView()) && (m_toolTipManager != 0)) {
-            m_toolTipManager->hideTip();
+        if (watched == itemView()) {
+            if (m_toolTipManager != 0) {
+                m_toolTipManager->hideTip();
+            }
+
+            // clear the selection when Escape has been pressed
+            QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Escape) {
+                clearSelection();
+            }
         }
         break;
 
