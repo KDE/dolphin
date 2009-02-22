@@ -894,7 +894,8 @@ void DolphinMainWindow::init()
     m_actionHandler->setCurrentView(view);
 
     m_tabBar = new KTabBar(this);
-    m_tabBar->setCloseButtonEnabled(true);
+    m_tabBar->setMovable(true);
+    m_tabBar->setTabsClosable(true);
     connect(m_tabBar, SIGNAL(currentChanged(int)),
             this, SLOT(setActiveTab(int)));
     connect(m_tabBar, SIGNAL(closeRequest(int)),
