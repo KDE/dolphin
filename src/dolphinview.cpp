@@ -149,7 +149,6 @@ DolphinView::DolphinView(QWidget* parent,
 
 DolphinView::~DolphinView()
 {
-    kDebug() << "Deleted view " << m_expandedDragSource;
     delete m_expandedDragSource;
     m_expandedDragSource = 0;
 }
@@ -849,14 +848,12 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         break;
 
     case QEvent::MouseButtonPress:
-        kDebug() << "m_expandedDragSource = " << m_expandedDragSource;
         if ((watched == itemView()->viewport()) && (m_expandedDragSource != 0)) {
             // Listening to a mousebutton press event to delete expanded views is a
             // workaround, as it seems impossible for the FolderExpander to know when
             // a dragging outside a view has been finished. However it works quite well:
             // A mousebutton press event indicates that a drag operation must be
             // finished already.
-            kDebug() << "Deleted view " << m_expandedDragSource;
             m_expandedDragSource->deleteLater();
             m_expandedDragSource = 0;
         }
@@ -1073,11 +1070,9 @@ void DolphinView::deleteWhenNotDragSource(QAbstractItemView *view)
         return;
 
     if (DragAndDropHelper::instance().isDragSource(view)) {
-        kDebug() << "Is current drag source";
         // We must store for later deletion.
         if (m_expandedDragSource != 0) {
             // The old stored view is obviously not the drag source anymore.
-            kDebug() << "Deleted old view " << m_expandedDragSource;
             m_expandedDragSource->deleteLater();
             m_expandedDragSource = 0;
         }
@@ -1085,7 +1080,6 @@ void DolphinView::deleteWhenNotDragSource(QAbstractItemView *view)
         m_expandedDragSource = view;
     }
     else {
-        kDebug() << "Deleted new view " << view;
         view->deleteLater();
     }
 }
