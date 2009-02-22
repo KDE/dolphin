@@ -601,9 +601,9 @@ void DolphinColumnView::deleteColumn(DolphinColumnWidget* column)
         column->m_previewGenerator->deleteLater();
         column->m_previewGenerator = 0;
         column->hide();
-        // Prevent automatic destruction of column when this DolphinColumnView 
+        // Prevent automatic destruction of column when this DolphinColumnView
         // is destroyed.
-        column->setParent(0); 
+        column->setParent(0);
         column->disconnect();
         emit requestColumnDeletion(column);
     }
