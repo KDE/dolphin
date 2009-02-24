@@ -124,6 +124,11 @@ void DolphinController::setZoomLevel(int level)
     }
 }
 
+void DolphinController::triggerScrollToCurrentItem()
+{
+    emit scrollToCurrentItem();
+}
+
 void DolphinController::handleKeyPressEvent(QKeyEvent* event)
 {
     Q_ASSERT(m_itemView != 0);

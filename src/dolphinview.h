@@ -631,6 +631,11 @@ private slots:
     void restoreCurrentItem();
 
     /**
+     * Is invoked when the KDirLister indicates refreshed items.
+     */
+    void slotRefreshItems();
+
+    /**
      * If \a view can be positively identified as not being the source for the
      * current drag operation, deleteLater() it immediately.  Else stores
      * it for later deletion.
@@ -716,6 +721,7 @@ private:
     bool m_tabsForFiles : 1;
     bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192
     bool m_ignoreViewProperties : 1;
+    bool m_assureVisibleCurrentIndex : 1;
 
     Mode m_mode;
 
@@ -739,7 +745,7 @@ private:
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
 
-    QAbstractItemView*  m_expandedDragSource;
+    QAbstractItemView* m_expandedDragSource;
 };
 
 inline bool DolphinView::isColumnViewActive() const

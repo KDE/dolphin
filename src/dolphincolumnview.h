@@ -112,7 +112,7 @@ public:
      * Returns the selected items of the active column.
      */
     KFileItemList selectedItems() const;
-    
+
     /**
      * Returns the MIME data for the selected items
      * of the active column.
@@ -169,6 +169,7 @@ private slots:
     void slotSortOrderChanged(Qt::SortOrder order);
     void slotShowHiddenFilesChanged();
     void slotShowPreviewChanged();
+    void scrollToCurrentItem();
 
 private:
     DolphinColumnWidget* activeColumn() const;

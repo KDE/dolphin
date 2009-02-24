@@ -88,6 +88,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_tabsForFiles(false),
     m_isContextMenuOpen(false),
     m_ignoreViewProperties(false),
+    m_assureVisibleCurrentIndex(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
@@ -142,6 +143,8 @@ DolphinView::DolphinView(QWidget* parent,
             this, SIGNAL(redirection(KUrl, KUrl)));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(restoreCurrentItem()));
+    connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+            this, SLOT(slotRefreshItems()));
 
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
@@ -629,30 +632,31 @@ void DolphinView::renameSelectedItems()
         const QString newName = dialog.newName();
         if (newName.isEmpty()) {
             emit errorMessage(dialog.errorString());
-        } else {
-            // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
-            // as one operation instead of n rename operations like it is done now...
-            Q_ASSERT(newName.contains('#'));
+            return;
+        }
 
-            // currently the items are sorted by the selection order, resort
-            // them by the file name
-            qSort(items.begin(), items.end(), lessThan);
+        // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
+        // as one operation instead of n rename operations like it is done now...
+        Q_ASSERT(newName.contains('#'));
 
-            // iterate through all selected items and rename them...
-            int index = 1;
-            foreach (const KFileItem& item, items) {
-                const KUrl& oldUrl = item.url();
-                QString number;
-                number.setNum(index++);
+        // currently the items are sorted by the selection order, resort
+        // them by the file name
+        qSort(items.begin(), items.end(), lessThan);
 
-                QString name = newName;
-                name.replace('#', number);
+        // iterate through all selected items and rename them...
+        int index = 1;
+        foreach (const KFileItem& item, items) {
+            const KUrl& oldUrl = item.url();
+            QString number;
+            number.setNum(index++);
 
-                if (oldUrl.fileName() != name) {
-                    KUrl newUrl = oldUrl;
-                    newUrl.setFileName(name);
-                    KonqOperations::rename(this, oldUrl, newUrl);
-                }
+            QString name = newName;
+            name.replace('#', number);
+
+            if (oldUrl.fileName() != name) {
+                KUrl newUrl = oldUrl;
+                newUrl.setFileName(name);
+                KonqOperations::rename(this, oldUrl, newUrl);
             }
         }
     } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
@@ -676,13 +680,18 @@ void DolphinView::renameSelectedItems()
         const QString& newName = dialog.newName();
         if (newName.isEmpty()) {
             emit errorMessage(dialog.errorString());
-        } else {
-            const KUrl& oldUrl = items.first().url();
-            KUrl newUrl = oldUrl;
-            newUrl.setFileName(newName);
-            KonqOperations::rename(this, oldUrl, newUrl);
+            return;
         }
+
+        const KUrl& oldUrl = items.first().url();
+        KUrl newUrl = oldUrl;
+        newUrl.setFileName(newName);
+        KonqOperations::rename(this, oldUrl, newUrl);
     }
+
+    // assure that the current index remains visible when KDirLister
+    // will notify the view about changed items
+    m_assureVisibleCurrentIndex = true;
 }
 
 void DolphinView::trashSelectedItems()
@@ -1144,6 +1153,17 @@ void DolphinView::restoreCurrentItem()
         if (clearSelection) {
             view->clearSelection();
         }
+    }
+}
+
+void DolphinView::slotRefreshItems()
+{
+    if (m_assureVisibleCurrentIndex) {
+        m_assureVisibleCurrentIndex = false;
+        // Invoking itemView()->scrollTo(itemView()->currentIndex()) is
+        // not sufficient, as QListView and QTreeView have an inconsistent
+        // default behavior.
+        m_controller->triggerScrollToCurrentItem();
     }
 }
 

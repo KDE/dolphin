@@ -59,6 +59,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(setZoomLevel(int)));
     connect(controller, SIGNAL(activationChanged(bool)),
             this, SLOT(updateColumnsBackground(bool)));
+    connect(controller, SIGNAL(scrollToCurrentItem()),
+            this, SLOT(scrollToCurrentItem()));
 
     const DolphinView* view = controller->dolphinView();
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
@@ -463,6 +465,12 @@ void DolphinColumnView::slotShowPreviewChanged()
     foreach (DolphinColumnWidget* column, m_columns) {
         column->setShowPreview(show);
     }
+}
+
+void DolphinColumnView::scrollToCurrentItem()
+{
+    const QModelIndex activeIndex = activeColumn()->currentIndex();
+    activeColumn()->scrollTo(activeIndex);
 }
 
 void DolphinColumnView::setActiveColumnIndex(int index)

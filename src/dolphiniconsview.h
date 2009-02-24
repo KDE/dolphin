@@ -76,6 +76,7 @@ private slots:
     void setZoomLevel(int level);
     void requestActivation();
     void slotGlobalSettingsChanged(int category);
+    void scrollToCurrentItem();
 
 private:
     /**

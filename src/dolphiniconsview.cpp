@@ -88,6 +88,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
+    connect(controller, SIGNAL(scrollToCurrentItem()),
+            this, SLOT(scrollToCurrentItem()));
 
     const DolphinView* view = controller->dolphinView();
     connect(view, SIGNAL(showPreviewChanged()),
@@ -388,6 +390,13 @@ void DolphinIconsView::slotGlobalSettingsChanged(int category)
     } else {
         connect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
     }
+}
+
+void DolphinIconsView::scrollToCurrentItem()
+{
+    m_enableScrollTo = true;
+    scrollTo(currentIndex());
+    m_enableScrollTo = false;
 }
 
 void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)

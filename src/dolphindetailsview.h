@@ -159,6 +159,8 @@ private slots:
      */
     void setFoldersExpandable(bool expandable);
 
+    void scrollToCurrentItem();
+
 private:
     /**
      * Updates the size of the decoration dependent on the
