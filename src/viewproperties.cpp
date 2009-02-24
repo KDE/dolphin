@@ -56,9 +56,9 @@ ViewProperties::ViewProperties(const KUrl& url) :
 
     KUrl cleanUrl(url);
     cleanUrl.cleanPath();
-    m_filepath = cleanUrl.path();
+    m_filepath = cleanUrl.toLocalFile();
 
-    if ((m_filepath.length() < 1) || (m_filepath.at(0) != QChar('/'))) {
+    if ((m_filepath.length() < 1) || (!QDir::isAbsolutePath(m_filepath))) {
         const QString file = destinationDir("global") + FILE_NAME;
         m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
         return;
