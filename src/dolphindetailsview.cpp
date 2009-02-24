@@ -128,8 +128,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
             this, SLOT(updateColumnVisibility()));
     connect(controller, SIGNAL(activationChanged(bool)),
             this, SLOT(slotActivationChanged(bool)));
-    connect(controller, SIGNAL(scrollToCurrentItem()),
-            this, SLOT(scrollToCurrentItem()));
 
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
@@ -866,11 +864,6 @@ void DolphinDetailsView::setFoldersExpandable(bool expandable)
     settings->setExpandableFolders(expandable);
     setRootIsDecorated(expandable);
     setItemsExpandable(expandable);
-}
-
-void DolphinDetailsView::scrollToCurrentItem()
-{
-    scrollTo(currentIndex());
 }
 
 void DolphinDetailsView::updateDecorationSize(bool showPreview)

@@ -73,7 +73,6 @@ class QWidget;
  * - setShowPreview()
  * - indicateActivationChange()
  * - setZoomLevel()
- * - triggerScrollToCurrentItem()
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinController : public QObject
 {
@@ -189,12 +188,6 @@ public:
      */
     void setZoomLevel(int level);
     int zoomLevel() const;
-
-    /**
-     * Triggers the view implementation to assure having a fully visible
-     * current item. The signal scrollToCurrentItem() will be emitted.
-     */
-    void triggerScrollToCurrentItem();
 
     /**
      * Tells the view implementation to zoom out by emitting the signal zoomOut()
@@ -375,12 +368,6 @@ signals:
      * Is emitted if the abstract view should hide an open tooltip.
      */
     void hideToolTip();
-
-    /**
-     * Is emitted if the view implementation should scroll to the current item, so
-     * that it is fully visible.
-     */
-    void scrollToCurrentItem();
 
 private slots:
     void updateMouseButtonState();

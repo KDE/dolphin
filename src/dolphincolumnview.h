@@ -169,7 +169,6 @@ private slots:
     void slotSortOrderChanged(Qt::SortOrder order);
     void slotShowHiddenFilesChanged();
     void slotShowPreviewChanged();
-    void scrollToCurrentItem();
 
 private:
     DolphinColumnWidget* activeColumn() const;

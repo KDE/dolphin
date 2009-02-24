@@ -49,7 +49,6 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KCategorizedView
 public:
     explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinIconsView();
-    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
 protected slots:
     virtual void dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight);
@@ -76,7 +75,6 @@ private slots:
     void setZoomLevel(int level);
     void requestActivation();
     void slotGlobalSettingsChanged(int category);
-    void scrollToCurrentItem();
 
 private:
     /**
@@ -92,7 +90,6 @@ private:
     int additionalInfoCount() const;
 
 private:
-    bool m_enableScrollTo;
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;

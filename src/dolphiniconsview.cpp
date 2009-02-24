@@ -40,7 +40,6 @@
 
 DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
     KCategorizedView(parent),
-    m_enableScrollTo(false),
     m_controller(controller),
     m_selectionManager(0),
     m_autoScroller(0),
@@ -88,8 +87,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
-    connect(controller, SIGNAL(scrollToCurrentItem()),
-            this, SLOT(scrollToCurrentItem()));
 
     const DolphinView* view = controller->dolphinView();
     connect(view, SIGNAL(showPreviewChanged()),
@@ -136,19 +133,6 @@ DolphinIconsView::~DolphinIconsView()
 {
     delete m_categoryDrawer;
     m_categoryDrawer = 0;
-}
-
-void DolphinIconsView::scrollTo(const QModelIndex& index, ScrollHint hint)
-{
-    // Enable the QListView implementation of scrollTo() only if it has been
-    // triggered by a key press. Otherwise QAbstractItemView wants to scroll to the current
-    // index each time the layout has been changed. This becomes an issue when
-    // previews are loaded and the scrollbar is used: the scrollbar will always
-    // be reset to 0 on each new preview.
-    if (m_enableScrollTo || (state() != QAbstractItemView::NoState)) {
-        KCategorizedView::scrollTo(index, hint);
-        m_enableScrollTo = false;
-    }
 }
 
 void DolphinIconsView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
@@ -263,7 +247,6 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
 
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
-    m_enableScrollTo = true; // see DolphinIconsView::scrollTo()
     KCategorizedView::keyPressEvent(event);
     m_controller->handleKeyPressEvent(event);
 }
@@ -390,13 +373,6 @@ void DolphinIconsView::slotGlobalSettingsChanged(int category)
     } else {
         connect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
     }
-}
-
-void DolphinIconsView::scrollToCurrentItem()
-{
-    m_enableScrollTo = true;
-    scrollTo(currentIndex());
-    m_enableScrollTo = false;
 }
 
 void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)

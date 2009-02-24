@@ -1160,10 +1160,7 @@ void DolphinView::slotRefreshItems()
 {
     if (m_assureVisibleCurrentIndex) {
         m_assureVisibleCurrentIndex = false;
-        // Invoking itemView()->scrollTo(itemView()->currentIndex()) is
-        // not sufficient, as QListView and QTreeView have an inconsistent
-        // default behavior.
-        m_controller->triggerScrollToCurrentItem();
+        itemView()->scrollTo(itemView()->currentIndex());
     }
 }
 
