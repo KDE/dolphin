@@ -21,8 +21,7 @@
 
 #include <settings/settingspagebase.h>
 
-class QLineEdit;
-class QCheckBox;
+class QListWidget;
 
 /**
  * @brief Page for the 'Services' settings of the Dolphin settings dialog.
@@ -41,10 +40,15 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
-private:
-    void loadSettings();
+protected:
+    virtual bool event(QEvent* event);
+
+private slots:
+    void loadServices();
 
 private:
+    bool m_initialized;
+    QListWidget* m_servicesList;
 };
 
 #endif

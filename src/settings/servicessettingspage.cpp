@@ -19,18 +19,35 @@
 
 #include "servicessettingspage.h"
 
-#include "dolphinsettings.h"
-
-#include "dolphin_generalsettings.h"
-
-#include <kdialog.h>
+#include <kdesktopfileactions.h>
+#include <kicon.h>
 #include <klocale.h>
-#include <kvbox.h>
+#include <kservice.h>
+#include <kservicetypetrader.h>
+#include <kstandarddirs.h>
+
+#include <QEvent>
+#include <QLabel>
+#include <QListWidget>
+#include <QVBoxLayout>
 
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
-    SettingsPageBase(parent)
+    SettingsPageBase(parent),
+    m_initialized(false),
+    m_servicesList(0)
 {
-    loadSettings();
+    QVBoxLayout* topLayout = new QVBoxLayout(this);
+
+    QLabel* label = new QLabel(i18nc("@label:textbox",
+                                     "Configure which services should "
+                                     "be shown in the context menu."), this);
+
+    m_servicesList = new QListWidget(this);
+    m_servicesList->setSortingEnabled(true);
+    m_servicesList->setSelectionMode(QAbstractItemView::NoSelection);
+
+    topLayout->addWidget(label);
+    topLayout->addWidget(m_servicesList);
 }
 
 ServicesSettingsPage::~ServicesSettingsPage()
@@ -43,14 +60,39 @@ void ServicesSettingsPage::applySettings()
 
 void ServicesSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->useDefaults(true);
-    loadSettings();
-    settings->useDefaults(false);
+    const int count = m_servicesList->count();
+    for (int i = 0; i < count; ++i) {
+        QListWidgetItem* item = m_servicesList->item(i);
+        item->setCheckState(Qt::Checked);
+    }
 }
 
-void ServicesSettingsPage::loadSettings()
+bool ServicesSettingsPage::event(QEvent* event)
 {
+    if ((event->type() == QEvent::Polish) && !m_initialized) {
+        QMetaObject::invokeMethod(this, "loadServices", Qt::QueuedConnection);
+        m_initialized = true;
+    }
+    return SettingsPageBase::event(event);
+}
+
+void ServicesSettingsPage::loadServices()
+{
+    const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
+    foreach (const KSharedPtr<KService>& service, entries) {
+        const QString file = KStandardDirs::locate("services", service->entryPath());
+        const QList<KServiceAction> serviceActions =
+                                    KDesktopFileActions::userDefinedServices(file, true);
+
+        foreach (const KServiceAction& action, serviceActions) {
+            if (!action.noDisplay() && !action.isSeparator()) {
+                QListWidgetItem* item = new QListWidgetItem(KIcon(action.icon()),
+                                                            action.text(),
+                                                            m_servicesList);
+                item->setCheckState(Qt::Checked);
+            }
+        }
+    }
 }
 
 #include "servicessettingspage.moc"
