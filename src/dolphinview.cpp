@@ -1043,30 +1043,7 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
 
 QPair<bool, QString> DolphinView::pasteInfo() const
 {
-    QPair<bool, QString> ret;
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-
-    KUrl::List urls = KUrl::List::fromMimeData(mimeData);
-    if (!urls.isEmpty()) {
-        // disable the paste action if no writing is supported
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url());
-        ret.first = KonqFileItemCapabilities(KFileItemList() << item).supportsWriting();
-
-        if (urls.count() == 1) {
-            const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, urls.first(), true);
-            ret.second = item.isDir() ? i18nc("@action:inmenu", "Paste One Folder") :
-                                        i18nc("@action:inmenu", "Paste One File");
-
-        } else {
-            ret.second = i18ncp("@action:inmenu", "Paste One Item", "Paste %1 Items", urls.count());
-        }
-    } else {
-        ret.first = false;
-        ret.second = i18nc("@action:inmenu", "Paste");
-    }
-
-    return ret;
+    return KonqOperations::pasteInfo(url());
 }
 
 void DolphinView::setTabsForFilesEnabled(bool tabsForFiles)
@@ -1439,16 +1416,7 @@ bool DolphinView::isCutItem(const KFileItem& item) const
 
 void DolphinView::pasteToUrl(const KUrl& url)
 {
-    QClipboard* clipboard = QApplication::clipboard();
-    const QMimeData* mimeData = clipboard->mimeData();
-
-    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
-    if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url);
-        clipboard->clear();
-    } else {
-        KonqOperations::copy(this, KonqOperations::COPY, sourceUrls, url);
-    }
+    KonqOperations::doPaste(this, url);
 }
 
 void DolphinView::updateZoomLevel(int oldZoomLevel)
