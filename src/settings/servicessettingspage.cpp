@@ -61,14 +61,14 @@ ServicesSettingsPage::~ServicesSettingsPage()
 void ServicesSettingsPage::applySettings()
 {
     KConfig config("kservicemenurc", KConfig::NoGlobals);
-    KConfigGroup hiddenGroup = config.group("Show");
+    KConfigGroup showGroup = config.group("Show");
 
     const int count = m_servicesList->count();
     for (int i = 0; i < count; ++i) {
         QListWidgetItem* item = m_servicesList->item(i);
         const bool show = (item->checkState() == Qt::Checked);
         const QString service = item->data(Qt::UserRole).toString();
-        hiddenGroup.writeEntry(service, show);
+        showGroup.writeEntry(service, show);
     }
 }
 
@@ -93,7 +93,7 @@ bool ServicesSettingsPage::event(QEvent* event)
 void ServicesSettingsPage::loadServices()
 {
     const KConfig config("kservicemenurc", KConfig::NoGlobals);
-    const KConfigGroup hiddenGroup = config.group("Show");
+    const KConfigGroup showGroup = config.group("Show");
 
     const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
     foreach (const KSharedPtr<KService>& service, entries) {
@@ -108,7 +108,7 @@ void ServicesSettingsPage::loadServices()
                                                             m_servicesList);
                 const QString service = action.name();
                 item->setData(Qt::UserRole, service);
-                const bool show = hiddenGroup.readEntry(service, true);
+                const bool show = showGroup.readEntry(service, true);
                 item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
             }
         }
