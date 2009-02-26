@@ -19,6 +19,8 @@
 
 #include "servicessettingspage.h"
 
+#include <kconfig.h>
+#include <kconfiggroup.h>
 #include <kdesktopfileactions.h>
 #include <kicon.h>
 #include <klocale.h>
@@ -45,6 +47,8 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_servicesList = new QListWidget(this);
     m_servicesList->setSortingEnabled(true);
     m_servicesList->setSelectionMode(QAbstractItemView::NoSelection);
+    connect(m_servicesList, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SIGNAL(changed()));
 
     topLayout->addWidget(label);
     topLayout->addWidget(m_servicesList);
@@ -56,6 +60,16 @@ ServicesSettingsPage::~ServicesSettingsPage()
 
 void ServicesSettingsPage::applySettings()
 {
+    KConfig config("kservicemenurc", KConfig::NoGlobals);
+    KConfigGroup hiddenGroup = config.group("Show");
+
+    const int count = m_servicesList->count();
+    for (int i = 0; i < count; ++i) {
+        QListWidgetItem* item = m_servicesList->item(i);
+        const bool show = (item->checkState() == Qt::Checked);
+        const QString service = item->data(Qt::UserRole).toString();
+        hiddenGroup.writeEntry(service, show);
+    }
 }
 
 void ServicesSettingsPage::restoreDefaults()
@@ -78,6 +92,9 @@ bool ServicesSettingsPage::event(QEvent* event)
 
 void ServicesSettingsPage::loadServices()
 {
+    const KConfig config("kservicemenurc", KConfig::NoGlobals);
+    const KConfigGroup hiddenGroup = config.group("Show");
+
     const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
     foreach (const KSharedPtr<KService>& service, entries) {
         const QString file = KStandardDirs::locate("services", service->entryPath());
@@ -89,7 +106,10 @@ void ServicesSettingsPage::loadServices()
                 QListWidgetItem* item = new QListWidgetItem(KIcon(action.icon()),
                                                             action.text(),
                                                             m_servicesList);
-                item->setCheckState(Qt::Checked);
+                const QString service = action.name();
+                item->setData(Qt::UserRole, service);
+                const bool show = hiddenGroup.readEntry(service, true);
+                item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
             }
         }
     }
