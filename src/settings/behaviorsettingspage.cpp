@@ -57,6 +57,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     // 'View Properties' box
     QGroupBox* propsBox = new QGroupBox(i18nc("@title:group", "View Properties"), vBox);
+    propsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     m_localProps = new QRadioButton(i18nc("@option:radio", "Remember view properties for each folder"), propsBox);
     connect(m_localProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -70,6 +71,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     // 'Ask Confirmation For' box
     QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), vBox);
+    confirmBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                                "Moving files or folders to trash"), confirmBox);
     connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));

@@ -47,6 +47,7 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
 
     // create 'Mouse' group
     QGroupBox* mouseBox = new QGroupBox(i18nc("@title:group", "Mouse"), vBox);
+    mouseBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_singleClick = new QRadioButton(i18nc("@option:check Mouse Settings",
                                            "Single-click to open files and folders"), mouseBox);
     connect(m_singleClick, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
