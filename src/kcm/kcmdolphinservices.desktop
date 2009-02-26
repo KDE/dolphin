@@ -1,0 +1,15 @@
+Name=Dolphin Services
+
+[Desktop Entry]
+Icon=services
+Type=Service
+X-KDE-ServiceTypes=KCModule
+Exec=kcmshell4 kcmdolphinservices
+
+X-KDE-Library=kcm_dolphinservices
+X-KDE-PluginKeyword=dolphinservices
+X-KDE-ParentApp=kcontrol
+
+Name=Services
+Comment=Configure file manager services
+X-KDE-Keywords=file manager
