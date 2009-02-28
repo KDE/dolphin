@@ -1,4 +1,7 @@
 Name=Dolphin Services
+Name[nds]=Dolphin-Deensten
+Name[uk]=Служби Dolphin
+Name[zh_TW]=Dolphin 服務
 
 [Desktop Entry]
 Icon=services
@@ -93,4 +96,7 @@ Name[xh]=Iinkonzo
 Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
+Comment[nds]=Dateipleger-Deensten instellen
+Comment[uk]=Налаштувати служби менеджера файлів
+Comment[zh_TW]=設定檔案管理員服務
 X-KDE-Keywords=file manager
