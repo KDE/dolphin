@@ -362,7 +362,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
 
 void DolphinMainWindow::activateNextTab()
 {
-    if (m_viewTab.count() == 1 || m_tabBar->count() < 2) {
+    if ((m_viewTab.count() == 1) || (m_tabBar->count() < 2)) {
         return;
     }
 
@@ -372,7 +372,7 @@ void DolphinMainWindow::activateNextTab()
 
 void DolphinMainWindow::activatePrevTab()
 {
-    if (m_viewTab.count() == 1 || m_tabBar->count() < 2) {
+    if ((m_viewTab.count() == 1) || (m_tabBar->count() < 2)) {
         return;
     }
 
@@ -500,21 +500,21 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
 
 void DolphinMainWindow::restoreClosedTab(QAction* action)
 {
-    //The Clear Recently Closed Tabs List QAction, has it's data set to true, so we can detect it in here, as it's an exception.
-    if (action->data().toBool() == true) {
-        // Lets preserve the separator, and the clear action within this menu.
-        QList<QAction*> actionlist = m_recentTabsMenu->menu()->actions();
-        for (int i = 2; i < actionlist.size(); i++) {
-        m_recentTabsMenu->menu()->removeAction(actionlist.at(i));
+    if (action->data().toBool()) {
+        // clear all actions except the "Empty Recently Closed Tabs"
+        // action and the separator
+        QList<QAction*> actions = m_recentTabsMenu->menu()->actions();
+        const int count = actions.size();
+        for (int i = 2; i < count; i++) {
+            m_recentTabsMenu->menu()->removeAction(actions.at(i));
         }
     } else {
         const ClosedTab closedTab = action->data().value<ClosedTab>();
-
         openNewTab(closedTab.primaryUrl);
         m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
 
         if (closedTab.isSplit) {
-            //Create secondary view.
+            // create secondary view
             toggleSplitView();
             m_viewTab[m_tabIndex].secondaryView->setUrl(closedTab.secondaryUrl);
         }
@@ -794,7 +794,7 @@ void DolphinMainWindow::closeTab(int index)
     Q_ASSERT(index >= 0);
     Q_ASSERT(index < m_viewTab.count());
     if (m_viewTab.count() == 1) {
-          // the last tab may never get closed
+        // the last tab may never get closed
         return;
     }
 
@@ -804,7 +804,8 @@ void DolphinMainWindow::closeTab(int index)
         m_tabBar->setCurrentIndex((index > 0) ? index - 1 : 1);
     }
     rememberClosedTab(index);
-    //Delete this tab.
+
+    // delete tab
     m_viewTab[index].primaryView->deleteLater();
     if (m_viewTab[index].secondaryView != 0) {
         m_viewTab[index].secondaryView->deleteLater();
@@ -882,7 +883,6 @@ void DolphinMainWindow::searchItems(const KUrl& url)
 {
     m_activeViewContainer->setUrl(url);
 }
-
 
 void DolphinMainWindow::init()
 {
@@ -1341,11 +1341,11 @@ void DolphinMainWindow::rememberClosedTab(int index)
     action->setData(QVariant::fromValue(closedTab));
     action->setIcon(KIcon(iconName));
 
-    //Add our action after the separator and the clear list actions
+    // add the closed tab menu entry after the separator and
+    // "Empty Recently Closed Tabs" entry
     if (tabsMenu->actions().size() == 2) {
         tabsMenu->addAction(action);
     } else {
-
         tabsMenu->insertAction(tabsMenu->actions().at(2), action);
     }
     actionCollection()->action("closed_tabs")->setEnabled(true);

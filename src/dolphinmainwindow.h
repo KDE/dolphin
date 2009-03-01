@@ -454,7 +454,6 @@ private:
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 };
 
-
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
 {
     return m_activeViewContainer;
