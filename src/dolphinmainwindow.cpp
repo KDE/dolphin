@@ -269,11 +269,6 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
         compareFilesAction->setEnabled(false);
     }
 
-#if defined(QUICK_VIEW)
-    const bool activeViewHasSelection = (activeViewContainer()->view()->selectedItemsCount() > 0);
-    actionCollection()->action("quick_view")->setEnabled(activeViewHasSelection);
-#endif
-
     m_activeViewContainer->updateStatusBar();
 
     emit selectionChanged(selection);
@@ -737,18 +732,6 @@ void DolphinMainWindow::compareFiles()
     KRun::runCommand(command, "Kompare", "kompare", this);
 }
 
-void DolphinMainWindow::quickView()
-{
-    const KUrl::List urls = activeViewContainer()->view()->selectedUrls();
-    Q_ASSERT(urls.count() > 0);
-
-    QDBusMessage msg = QDBusMessage::createMethodCall("org.kde.plasma", "/Previewer", "", "openFile");
-    foreach (const KUrl& url, urls) {
-        msg.setArguments(QList<QVariant>() << url.prettyUrl());
-        QDBusConnection::sessionBus().send(msg);
-    }
-}
-
 void DolphinMainWindow::toggleShowMenuBar()
 {
     const bool visible = menuBar()->isVisible();
@@ -1153,16 +1136,6 @@ void DolphinMainWindow::setupActions()
     compareFiles->setIcon(KIcon("kompare"));
     compareFiles->setEnabled(false);
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
-
-    // disabled Quick View
-#if defined(QUICK_VIEW)
-    KAction* quickView = actionCollection()->addAction("quick_view");
-    quickView->setText(i18nc("@action:inmenu Tools", "Quick View"));
-    quickView->setIcon(KIcon("view-preview"));
-    quickView->setShortcut(Qt::CTRL + Qt::Key_Return);
-    quickView->setEnabled(false);
-    connect(quickView, SIGNAL(triggered()), this, SLOT(quickView()));
-#endif
 
     // setup 'Settings' menu
     m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());

@@ -263,12 +263,6 @@ private slots:
     void compareFiles();
 
     /**
-     * Initiates a preview of the selected files
-     * on the desktop by the Previewer plasmoid.
-     */
-    void quickView();
-
-    /**
      * Hides the menu bar if it is visible, makes the menu bar
      * visible if it is hidden.
      */
