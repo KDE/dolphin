@@ -86,6 +86,19 @@
 #include <QSplitter>
 #include <QDockWidget>
 
+/*
+ * Remembers the tab configuration if a tab has been closed.
+ * Each closed tab can be restored by the menu
+ * "Go -> Recently Closed Tabs".
+ */
+struct ClosedTab
+{
+    KUrl primaryUrl;
+    KUrl secondaryUrl;
+    bool isSplit;
+};
+Q_DECLARE_METATYPE(ClosedTab)
+
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
     m_newMenu(0),

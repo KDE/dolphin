@@ -63,14 +63,6 @@ class DolphinMainWindow: public KXmlGuiWindow
 
 public:
     virtual ~DolphinMainWindow();
-    //TODO: This struct should be private, but I couldn't figure out how to make it that way
-    //when using Q_DECLARE_METATYPE(), which is a needed macro.
-    struct ClosedTab
-    {
-        KUrl primaryUrl;
-        KUrl secondaryUrl;
-        bool isSplit;
-    };
 
     /**
      * Returns the currently active view.
@@ -468,7 +460,6 @@ private:
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 };
 
-Q_DECLARE_METATYPE(DolphinMainWindow::ClosedTab)
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
 {
