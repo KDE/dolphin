@@ -1355,11 +1355,12 @@ void DolphinMainWindow::rememberClosedTab(int index)
     action->setData(QVariant::fromValue(closedTab));
     action->setIcon(KIcon(iconName));
 
-    //Add our action at the first element, but only do that if it isn't empty, else just append
-    if (tabsMenu->actions().isEmpty()) {
+    //Add our action after the separator and the clear list actions
+    if (tabsMenu->actions().size() == 2) {
         tabsMenu->addAction(action);
     } else {
-        tabsMenu->insertAction(tabsMenu->actions().first() + 2, action);
+
+        tabsMenu->insertAction(tabsMenu->actions().at(2), action);
     }
     actionCollection()->action("closed_tabs")->setEnabled(true);
 }
