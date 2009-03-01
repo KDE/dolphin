@@ -1,5 +1,9 @@
 Name=Dolphin Services
+Name[ga]=Seirbhísí Dolphin
 Name[nds]=Dolphin-Deensten
+Name[pt]=Serviços do Dolphin
+Name[pt_BR]=Serviços do Dolphin
+Name[sv]=Dolphin-tjänster
 Name[uk]=Служби Dolphin
 Name[zh_TW]=Dolphin 服務
 
@@ -96,7 +100,11 @@ Name[xh]=Iinkonzo
 Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
+Comment[ga]=Cumraigh seirbhísí bhainisteoir na gcomhad
 Comment[nds]=Dateipleger-Deensten instellen
+Comment[pt]=Configurar os serviços do gestor de ficheiros
+Comment[pt_BR]=Configurar serviços do gerenciador de arquivos
+Comment[sv]=Anpassa filhanterarens tjänster
 Comment[uk]=Налаштувати служби менеджера файлів
 Comment[zh_TW]=設定檔案管理員服務
 X-KDE-Keywords=file manager
