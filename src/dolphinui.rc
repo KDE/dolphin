@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="8">
+<kpartgui name="dolphin" version="9">
     <MenuBar>
         <Menu name="file">
             <Action name="create_new" />
@@ -69,6 +69,9 @@
             </Menu>
             <Separator/>
             <Action name="view_properties" />
+        </Menu>
+        <Menu name="go">
+            <Action name="closed_tabs" />
         </Menu>
         <Menu name="tools">
             <Action name="find_file" />

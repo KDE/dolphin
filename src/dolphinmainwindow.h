@@ -31,6 +31,7 @@
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
+#include <kactionmenu.h>
 
 #include <QtCore/QList>
 
@@ -62,6 +63,14 @@ class DolphinMainWindow: public KXmlGuiWindow
 
 public:
     virtual ~DolphinMainWindow();
+    //TODO: This struct should be private, but I couldn't figure out how to make it that way
+    //when using Q_DECLARE_METATYPE(), which is a needed macro.
+    struct ClosedTab
+    {
+        KUrl primaryUrl;
+        KUrl secondaryUrl;
+        bool isSplit;
+    };
 
     /**
      * Returns the currently active view.
@@ -178,6 +187,9 @@ private slots:
      * from the parameter \a available.
      */
     void slotUndoAvailable(bool available);
+
+    /** Invoked when an action in the recent tabs menu is clicked. */
+    void restoreClosedTab(QAction* action);
 
     /** Sets the text of the 'Undo' menu action to \a text. */
     void slotUndoTextChanged(const QString& text);
@@ -390,6 +402,11 @@ private:
     void updateGoActions();
 
     /**
+     * Adds the tab[\a index] to the closed tab menu's list of actions.
+     */
+    void rememberClosedTab(int index);
+
+    /**
      * Connects the signals from the created DolphinView with
      * the DolphinViewContainer \a container with the corresponding slots of
      * the DolphinMainWindow. This method must be invoked each
@@ -427,6 +444,7 @@ private:
     };
 
     KNewMenu* m_newMenu;
+    KActionMenu* m_recentTabsMenu;
     KAction* m_showMenuBar;
     KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
@@ -449,6 +467,8 @@ private:
     DolphinViewActionHandler* m_actionHandler;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 };
+
+Q_DECLARE_METATYPE(DolphinMainWindow::ClosedTab)
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
 {

@@ -490,6 +490,35 @@ void DolphinMainWindow::slotUndoAvailable(bool available)
     }
 }
 
+void DolphinMainWindow::restoreClosedTab(QAction* action)
+{
+    //The Clear Recently Closed Tabs List QAction, has it's data set to true, so we can detect it in here, as it's an exception.
+    if (action->data().toBool() == true) {
+        // Lets preserve the separator, and the clear action within this menu.
+        QList<QAction*> actionlist = m_recentTabsMenu->menu()->actions();
+        for (int i = 2; i < actionlist.size(); i++) {
+        m_recentTabsMenu->menu()->removeAction(actionlist.at(i));
+        }
+    } else {
+        const ClosedTab closedTab = action->data().value<ClosedTab>();
+
+        openNewTab(closedTab.primaryUrl);
+        m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+
+        if (closedTab.isSplit) {
+            //Create secondary view.
+            toggleSplitView();
+            m_viewTab[m_tabIndex].secondaryView->setUrl(closedTab.secondaryUrl);
+        }
+
+        m_recentTabsMenu->removeAction(action);
+    }
+
+    if (m_recentTabsMenu->menu()->actions().count() == 2) {
+        m_recentTabsMenu->setEnabled(false);
+    }
+}
+
 void DolphinMainWindow::slotUndoTextChanged(const QString& text)
 {
     QAction* undoAction = actionCollection()->action(KStandardAction::name(KStandardAction::Undo));
@@ -778,8 +807,8 @@ void DolphinMainWindow::closeTab(int index)
         // previous tab before closing the tab.
         m_tabBar->setCurrentIndex((index > 0) ? index - 1 : 1);
     }
-
-    // delete tab
+    rememberClosedTab(index);
+    //Delete this tab.
     m_viewTab[index].primaryView->deleteLater();
     if (m_viewTab[index].secondaryView != 0) {
         m_viewTab[index].secondaryView->deleteLater();
@@ -1078,6 +1107,19 @@ void DolphinMainWindow::setupActions()
     backShortcut.setAlternate(Qt::Key_Backspace);
     backAction->setShortcut(backShortcut);
 
+    m_recentTabsMenu = new KActionMenu(i18n("&Recently Closed Tabs"), this);
+    m_recentTabsMenu->setIcon(KIcon("edit-undo"));
+    actionCollection()->addAction("closed_tabs", m_recentTabsMenu);
+    connect(m_recentTabsMenu->menu(), SIGNAL(triggered(QAction *)),
+            this, SLOT(restoreClosedTab(QAction *)));
+
+    QAction* action = new QAction("&Empty Recently Closed Tabs", m_recentTabsMenu);
+    action->setIcon(KIcon("edit-clear-list"));
+    action->setData(QVariant::fromValue(true));
+    m_recentTabsMenu->addAction(action);
+    m_recentTabsMenu->addSeparator();
+    m_recentTabsMenu->setEnabled(false);
+
     KStandardAction::forward(this, SLOT(goForward()), actionCollection());
     KStandardAction::up(this, SLOT(goUp()), actionCollection());
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
@@ -1289,6 +1331,37 @@ void DolphinMainWindow::updateGoActions()
     QAction* goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
     const KUrl& currentUrl = m_activeViewContainer->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
+}
+
+void DolphinMainWindow::rememberClosedTab(int index)
+{
+    KMenu* tabsMenu = m_recentTabsMenu->menu();
+
+    const QString primaryPath = m_viewTab[index].primaryView->url().path();
+    const QString iconName = KMimeType::iconNameForUrl(primaryPath);
+
+    QAction* action = new QAction(primaryPath, tabsMenu);
+
+    ClosedTab closedTab;
+    closedTab.primaryUrl = m_viewTab[index].primaryView->url();
+
+    if (m_viewTab[index].secondaryView != 0) {
+        closedTab.secondaryUrl = m_viewTab[index].secondaryView->url();
+        closedTab.isSplit = true;
+    } else {
+        closedTab.isSplit = false;
+    }
+
+    action->setData(QVariant::fromValue(closedTab));
+    action->setIcon(KIcon(iconName));
+
+    //Add our action at the first element, but only do that if it isn't empty, else just append
+    if (tabsMenu->actions().isEmpty()) {
+        tabsMenu->addAction(action);
+    } else {
+        tabsMenu->insertAction(tabsMenu->actions().first() + 2, action);
+    }
+    actionCollection()->action("closed_tabs")->setEnabled(true);
 }
 
 void DolphinMainWindow::clearStatusBar()
