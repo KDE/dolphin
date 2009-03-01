@@ -923,7 +923,7 @@ void DolphinMainWindow::init()
     m_tabBar->setTabsClosable(true);
     connect(m_tabBar, SIGNAL(currentChanged(int)),
             this, SLOT(setActiveTab(int)));
-    connect(m_tabBar, SIGNAL(closeRequest(int)),
+    connect(m_tabBar, SIGNAL(tabCloseRequested(int)),
             this, SLOT(closeTab(int)));
     connect(m_tabBar, SIGNAL(contextMenu(int, const QPoint&)),
             this, SLOT(openTabContextMenu(int, const QPoint&)));
