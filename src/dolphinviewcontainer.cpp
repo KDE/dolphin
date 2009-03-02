@@ -41,6 +41,7 @@
 #include <konqmimedata.h>
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
+#include <kshell.h>
 #include <kurl.h>
 #include <kurlcombobox.h>
 #include <krun.h>
@@ -406,7 +407,9 @@ void DolphinViewContainer::restoreView(const KUrl& url)
             showErrorMessage(i18nc("@info:status",
                                    "Protocol not supported by Dolphin, Konqueror has been launched"));
         }
-        const QString command = app + ' ' + url.pathOrUrl();
+
+        QString secureUrl = KShell::quoteArg(url.pathOrUrl());
+        const QString command = app + ' ' + secureUrl;
         KRun::runCommand(command, app, app, this);
     } else {
         showErrorMessage(i18nc("@info:status", "Invalid protocol"));
