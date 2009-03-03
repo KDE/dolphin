@@ -171,6 +171,12 @@ private:
      */
     void setNameLabelText(const QString& text);
 
+    /**
+     * Resets the information panel to show the current
+     * URL (InformationPanel::url()).
+     */
+    void reset();
+
     void init();
 
 private:

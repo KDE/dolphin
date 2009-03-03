@@ -327,8 +327,7 @@ void InformationPanel::slotFilesRemoved(const QStringList& files)
         if (m_shownUrl == KUrl(fileName)) {
             // the currently shown item has been removed, show
             // the parent directory as fallback
-            m_shownUrl = url();
-            showItemInfo();
+            reset();
             break;
         }
     }
@@ -349,8 +348,7 @@ void InformationPanel::slotLeftDirectory(const QString& directory)
         // has been unmounted. In this case no directory change will be
         // done in Dolphin, but the Information Panel must be updated to
         // indicate an invalid directory.
-        m_shownUrl = url();
-        showItemInfo();
+        reset();
     }
 }
 
@@ -500,6 +498,14 @@ void InformationPanel::setNameLabelText(const QString& text)
     textLayout.endLayout();
 
     m_nameLabel->setText(wrappedText);
+}
+
+void InformationPanel::reset()
+{
+    m_selection.clear();
+    m_shownUrl = url();
+    m_fileItem = KFileItem();
+    showItemInfo();
 }
 
 void InformationPanel::init()
