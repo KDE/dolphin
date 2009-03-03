@@ -102,17 +102,33 @@ void ServicesSettingsPage::loadServices()
                                     KDesktopFileActions::userDefinedServices(file, true);
 
         foreach (const KServiceAction& action, serviceActions) {
-            if (!action.noDisplay() && !action.isSeparator()) {
+            const QString service = action.name();
+            const bool addService = !action.noDisplay()
+                                    && !action.isSeparator()
+                                    && !isInServicesList(service);
+
+            if (addService) {
                 QListWidgetItem* item = new QListWidgetItem(KIcon(action.icon()),
                                                             action.text(),
                                                             m_servicesList);
-                const QString service = action.name();
                 item->setData(Qt::UserRole, service);
                 const bool show = showGroup.readEntry(service, true);
                 item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
             }
         }
     }
+}
+
+bool ServicesSettingsPage::isInServicesList(const QString& service) const
+{
+    const int count = m_servicesList->count();
+    for (int i = 0; i < count; ++i) {
+        QListWidgetItem* item = m_servicesList->item(i);
+        if (item->data(Qt::UserRole).toString() == service) {
+            return true;
+        }
+    }
+    return false;
 }
 
 #include "servicessettingspage.moc"

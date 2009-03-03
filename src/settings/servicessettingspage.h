@@ -45,6 +45,7 @@ protected:
 
 private slots:
     void loadServices();
+    bool isInServicesList(const QString& service) const;
 
 private:
     bool m_initialized;
