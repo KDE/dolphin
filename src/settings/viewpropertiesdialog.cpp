@@ -402,7 +402,7 @@ void ViewPropertiesDialog::loadSettings()
     m_showInGroups->setEnabled(index == DolphinView::IconsView); // only the icons view supports categorized sorting
 
     m_showHiddenFiles->setChecked(m_viewProps->showHiddenFiles());
-    markAsDirty(false);
+    markAsDirty = false;
 }
 
 #include "viewpropertiesdialog.moc"
