@@ -31,6 +31,7 @@
 #include <kglobalsettings.h>
 #include <kfilemetainfo.h>
 #include <kiconeffect.h>
+#include <kmenu.h>
 #include <kseparator.h>
 #include <kiconloader.h>
 
@@ -58,6 +59,7 @@
 #include <QVBoxLayout>
 
 #include "settings/dolphinsettings.h"
+#include "informationpaneldialog.h"
 #include "metadatawidget.h"
 #include "metatextlabel.h"
 #include "phononwidget.h"
@@ -78,7 +80,8 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_phononWidget(0),
     m_metaDataWidget(0),
     m_metaTextArea(0),
-    m_metaTextLabel(0)
+    m_metaTextLabel(0),
+    m_dialog(0)
 {
 }
 
@@ -205,6 +208,23 @@ bool InformationPanel::eventFilter(QObject* obj, QEvent* event)
         m_metaTextLabel->setFixedWidth(resizeEvent->size().width());
     }
     return Panel::eventFilter(obj, event);
+}
+
+void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
+{
+    Panel::contextMenuEvent(event);
+
+    KMenu popup(this);
+    popup.addAction(i18nc("@action:inmenu", "Configure..."));
+    if (popup.exec(QCursor::pos()) != 0) {
+        if (m_dialog == 0) {
+            m_dialog = new InformationPanelDialog(this);
+            m_dialog->setAttribute(Qt::WA_DeleteOnClose);
+            m_dialog->show();
+        } else {
+            m_dialog->raise();
+        }
+    }
 }
 
 void InformationPanel::showItemInfo()

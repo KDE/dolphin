@@ -21,27 +21,30 @@
 #define INFORMATIONPANEL_H
 
 #include <panels/panel.h>
+#include <panels/information/informationpaneldialog.h>
 
-#include <QtGui/QPushButton>
-#include <QtGui/QPixmap>
-#include <QtCore/QEvent>
-#include <QtGui/QLabel>
-#include <QtCore/QList>
+#include <QPushButton>
+#include <QPixmap>
+#include <QEvent>
+#include <QLabel>
+#include <QList>
+#include <QPointer>
 
 #include <kurl.h>
 #include <kmimetype.h>
 #include <kdesktopfileactions.h>
 #include <kvbox.h>
 
+class InformationPanelDialog;
+class PhononWidget;
+class PixmapViewer;
+class MetaDataWidget;
+class MetaTextLabel;
 class QPixmap;
 class QString;
 class KFileItem;
 class QLabel;
 class QScrollArea;
-class PhononWidget;
-class PixmapViewer;
-class MetaDataWidget;
-class MetaTextLabel;
 
 /**
  * @brief Panel for showing meta information of one ore more selected items.
@@ -84,6 +87,9 @@ protected:
 
     /** @see QObject::eventFilter() */
     virtual bool eventFilter(QObject* obj, QEvent* event);
+
+    /** @see QWidget::contextMenuEvent() */
+    virtual void contextMenuEvent(QContextMenuEvent* event);
 
 private slots:
     /**
@@ -196,6 +202,8 @@ private:
 
     QScrollArea* m_metaTextArea;
     MetaTextLabel* m_metaTextLabel;
+
+    QPointer<InformationPanelDialog> m_dialog;
 };
 
 #endif // INFORMATIONPANEL_H

@@ -102,6 +102,7 @@ set(dolphin_SRCS
     panels/information/commentwidget.cpp
     panels/information/commenteditwidget.cpp
     panels/information/informationpanel.cpp
+    panels/information/informationpaneldialog.cpp
     panels/information/metadatawidget.cpp
     panels/information/metatextlabel.cpp
     panels/information/phononwidget.cpp
