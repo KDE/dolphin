@@ -92,7 +92,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
-    connect(m_textWidthBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
+    connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
     textGroupLayout->addWidget(fontLabel, 0, 0, Qt::AlignRight);
@@ -110,7 +110,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     m_arrangementBox = new KComboBox(gridGroup);
     m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Columns"));
     m_arrangementBox->addItem(i18nc("@item:inlistbox Arrangement", "Rows"));
-    connect(m_arrangementBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
+    connect(m_arrangementBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
 
     QLabel* gridSpacingLabel = new QLabel(i18nc("@label:listbox", "Grid spacing:"), gridGroup);
     m_gridSpacingBox = new KComboBox(gridGroup);
@@ -118,7 +118,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Small"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Medium"));
     m_gridSpacingBox->addItem(i18nc("@item:inlistbox Grid spacing", "Large"));
-    connect(m_gridSpacingBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
+    connect(m_gridSpacingBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
 
     QGridLayout* gridGroupLayout = new QGridLayout(gridGroup);
     gridGroupLayout->addWidget(arrangementLabel, 0, 0, Qt::AlignRight);
