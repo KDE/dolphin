@@ -397,6 +397,9 @@ void InformationPanel::showMetaInfo()
             }
         }
         m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
+
+        delete m_phononWidget;
+        m_phononWidget = 0;
     } else {
         const KFileItem item = fileItem();
         if (item.isDir()) {
