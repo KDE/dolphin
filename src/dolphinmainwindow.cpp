@@ -85,6 +85,7 @@
 #include <QLineEdit>
 #include <QSplitter>
 #include <QDockWidget>
+#include <kacceleratormanager.h>
 
 /*
  * Remembers the tab configuration if a tab has been closed.
@@ -1326,7 +1327,10 @@ void DolphinMainWindow::rememberClosedTab(int index)
     const QString primaryPath = m_viewTab[index].primaryView->url().path();
     const QString iconName = KMimeType::iconNameForUrl(primaryPath);
 
-    QAction* action = new QAction(primaryPath, tabsMenu);
+    const QFontMetrics fm = fontMetrics();
+    const QString actionText = fm.elidedText(primaryPath, Qt::ElideMiddle, fm.maxWidth() * 20);
+
+    QAction* action = new QAction(actionText, tabsMenu);
 
     ClosedTab closedTab;
     closedTab.primaryUrl = m_viewTab[index].primaryView->url();
@@ -1354,6 +1358,7 @@ void DolphinMainWindow::rememberClosedTab(int index)
         tabsMenu->removeAction(tabsMenu->actions().last());
     }
     actionCollection()->action("closed_tabs")->setEnabled(true);
+    KAcceleratorManager::manage(tabsMenu);
 }
 
 void DolphinMainWindow::clearStatusBar()
