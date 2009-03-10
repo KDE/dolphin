@@ -1012,6 +1012,7 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     setCaption(url.fileName());
     if (m_viewTab.count() > 1 && m_viewTab[m_tabIndex].secondaryView != 0) {
         m_tabBar->setTabText(m_tabIndex, tabName(url));
+        m_tabBar->setTabIcon(m_tabIndex, KIcon(KMimeType::iconNameForUrl(url)));
     }
 
     emit urlChanged(url);
