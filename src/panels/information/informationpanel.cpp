@@ -229,11 +229,18 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
 
     KMenu popup(this);
 
+    QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
+    previewAction->setIcon(KIcon("view-preview"));
+    previewAction->setCheckable(true);
+    previewAction->setChecked(InformationPanelSettings::showPreview());
+
     QAction* ratingAction = popup.addAction(i18nc("@action:inmenu", "Rating"));
+    ratingAction->setIcon(KIcon("rating"));
     ratingAction->setCheckable(true);
     ratingAction->setChecked(InformationPanelSettings::showRating());
 
     QAction* commentAction = popup.addAction(i18nc("@action:inmenu", "Comment"));
+    commentAction->setIcon(KIcon("text-plain"));
     commentAction->setCheckable(true);
     commentAction->setChecked(InformationPanelSettings::showComment());
 
@@ -304,7 +311,9 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
         return;
     }
 
-    if (action == ratingAction) {
+    if (action == previewAction) {
+        // TODO
+    } else if (action == ratingAction) {
         // TODO
     } else if (action == commentAction) {
         // TODO

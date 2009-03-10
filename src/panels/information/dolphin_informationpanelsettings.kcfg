@@ -3,6 +3,10 @@
 <kcfg>
     <kcfgfile name="dolphinrc"/>
     <group name="InformationPanel">
+        <entry name="showPreview" type="Bool">
+            <label context="@label">Show preview</label>
+            <default>true</default>
+        </entry>
         <entry name="showRating" type="Bool">
             <label context="@label">Show rating</label>
             <default>true</default>
