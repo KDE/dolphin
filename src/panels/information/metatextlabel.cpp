@@ -51,7 +51,20 @@ void MetaTextLabel::add(const QString& labelText, const QString& infoText)
     MetaInfo metaInfo;
     metaInfo.label = labelText;
     metaInfo.info = infoText;
-    m_metaInfos.append(metaInfo);
+
+    // add the meta information alphabetically sorted
+    bool inserted = false;
+    const int count = m_metaInfos.size();
+    for (int i = 0; i < count; ++i) {
+        if (m_metaInfos[i].label > labelText) {
+            m_metaInfos.insert(i, metaInfo);
+            inserted = true;
+            break;
+        }
+    }
+    if (!inserted) {
+        m_metaInfos.append(metaInfo);
+    }
 
     setMinimumHeight(minimumHeight() + requiredHeight(metaInfo));
     update();
