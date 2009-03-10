@@ -21,15 +21,14 @@
 #define INFORMATIONPANEL_H
 
 #include <panels/panel.h>
-#include <panels/information/informationpaneldialog.h>
 
 #include <QPushButton>
 #include <QPixmap>
 #include <QEvent>
 #include <QLabel>
 #include <QList>
-#include <QPointer>
 
+#include <kconfig.h>
 #include <kurl.h>
 #include <kmimetype.h>
 #include <kdesktopfileactions.h>
@@ -183,6 +182,12 @@ private:
      */
     void reset();
 
+    /**
+     * Assures that the settings for the meta information
+     * are initialized with proper default values.
+     */
+    void initMetaInfoSettings(KConfigGroup& group);
+
     void init();
 
 private:
@@ -202,8 +207,6 @@ private:
 
     QScrollArea* m_metaTextArea;
     MetaTextLabel* m_metaTextLabel;
-
-    QPointer<InformationPanelDialog> m_dialog;
 };
 
 #endif // INFORMATIONPANEL_H

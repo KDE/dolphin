@@ -23,17 +23,16 @@
 
 #include <kdialog.h>
 #include <kdirnotify.h>
-#include <kfileplacesmodel.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <kio/previewjob.h>
 #include <kfileitem.h>
-#include <kglobalsettings.h>
 #include <kfilemetainfo.h>
+#include <kfileplacesmodel.h>
+#include <kglobalsettings.h>
+#include <kio/previewjob.h>
 #include <kiconeffect.h>
+#include <kiconloader.h>
+#include <klocale.h>
 #include <kmenu.h>
 #include <kseparator.h>
-#include <kiconloader.h>
 
 #ifdef HAVE_NEPOMUK
 #include <Nepomuk/Resource>
@@ -59,11 +58,20 @@
 #include <QVBoxLayout>
 
 #include "settings/dolphinsettings.h"
-#include "informationpaneldialog.h"
 #include "metadatawidget.h"
 #include "metatextlabel.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
+
+/**
+ * Helper function for sorting items with qSort() in
+ * InformationPanel::contextMenu().
+ */
+bool lessThan(const QAction* action1, const QAction* action2)
+{
+    return action1->text() < action2->text();
+}
+
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -80,8 +88,7 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_phononWidget(0),
     m_metaDataWidget(0),
     m_metaTextArea(0),
-    m_metaTextLabel(0),
-    m_dialog(0)
+    m_metaTextLabel(0)
 {
 }
 
@@ -214,17 +221,79 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
 {
     Panel::contextMenuEvent(event);
 
-    KMenu popup(this);
-    popup.addAction(i18nc("@action:inmenu", "Configure..."));
-    if (popup.exec(QCursor::pos()) != 0) {
-        if (m_dialog == 0) {
-            m_dialog = new InformationPanelDialog(this);
-            m_dialog->setAttribute(Qt::WA_DeleteOnClose);
-            m_dialog->show();
-        } else {
-            m_dialog->raise();
-        }
+#ifdef HAVE_NEPOMUK
+    if (showMultipleSelectionInfo()) {
+        return;
     }
+
+    KMenu popup(this);
+    popup.addTitle(i18nc("@title:menu", "Shown Information"));
+
+    KConfig config("kmetainformationrc", KConfig::NoGlobals);
+    KConfigGroup settings = config.group("Show");
+    initMetaInfoSettings(settings);
+
+    QList<QAction*> actions;
+
+    // Get all meta information labels that are available for
+    // the currently shown file item and add them to the popup.
+    Nepomuk::Resource res(fileItem().url());
+    QHash<QUrl, Nepomuk::Variant> properties = res.properties();
+    QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
+    while (it != properties.constEnd()) {
+        Nepomuk::Types::Property prop(it.key());
+        const QString key = prop.label();
+
+        // Meta information provided by Nepomuk that is already
+        // available from KFileItem should not be configurable.
+        bool skip = (key == "fileExtension") ||
+                    (key == "name") ||
+                    (key == "sourceModified") ||
+                    (key == "size") ||
+                    (key == "mime type");
+        if (!skip) {
+            // Check whether there is already a meta information
+            // having the same label. In this case don't show it
+            // twice in the menu.
+            foreach (const QAction* action, actions) {
+                if (action->data().toString() == key) {
+                    skip = true;
+                    break;
+                }
+            }
+        }
+
+        if (!skip) {
+            const QString label = key; // TODO
+            QAction* action = new QAction(label, &popup);
+            action->setCheckable(true);
+            action->setChecked(settings.readEntry(key, true));
+            action->setData(key);
+            actions.append(action);
+        }
+
+        ++it;
+    }
+
+    if (actions.count() == 0) {
+        return;
+    }
+
+    // add all items alphabetically sorted to the popup
+    qSort(actions.begin(), actions.end(), lessThan);
+    foreach (QAction* action, actions) {
+        popup.addAction(action);
+    }
+
+    // Open the popup and adjust the settings for the
+    // selected action.
+    QAction* action = popup.exec(QCursor::pos());
+    if (action != 0) {
+        settings.writeEntry(action->data().toString(), action->isChecked());
+        settings.sync();
+        showMetaInfo();
+    }
+#endif
 }
 
 void InformationPanel::showItemInfo()
@@ -447,15 +516,22 @@ void InformationPanel::showMetaInfo()
             m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
 
 #ifdef HAVE_NEPOMUK
+            KConfig config("kmetainformationrc", KConfig::NoGlobals);
+            KConfigGroup settings = config.group("Show");
+            initMetaInfoSettings(settings);
+
             Nepomuk::Resource res(item.url());
 
             QHash<QUrl, Nepomuk::Variant> properties = res.properties();
             QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
             while (it != properties.constEnd()) {
                 Nepomuk::Types::Property prop(it.key());
-                // TODO: use Nepomuk::formatValue(res, prop) if available
-                // instead of it.value().toString()
-                m_metaTextLabel->add(prop.label(), it.value().toString());
+                const QString label = prop.label();
+                if (settings.readEntry(label, true)) {
+                    // TODO: use Nepomuk::formatValue(res, prop) if available
+                    // instead of it.value().toString()
+                    m_metaTextLabel->add(label, it.value().toString());
+                }
                 ++it;
             }
 #endif
@@ -544,6 +620,25 @@ void InformationPanel::reset()
     m_shownUrl = url();
     m_fileItem = KFileItem();
     showItemInfo();
+}
+
+void InformationPanel::initMetaInfoSettings(KConfigGroup& group)
+{
+    if (!group.readEntry("initialized", false)) {
+        // The resource file is read the first time. Assure
+        // that some meta information is disabled per default.
+        group.writeEntry("fileExtension", false);
+        group.writeEntry("url", false);
+        group.writeEntry("sourceModified", false);
+        group.writeEntry("parentUrl", false);
+        group.writeEntry("size", false);
+        group.writeEntry("mime type", false);
+        group.writeEntry("depth", false);
+        group.writeEntry("name", false);
+
+        // mark the group as initialized
+        group.writeEntry("initialized", true);
+    }
 }
 
 void InformationPanel::init()
