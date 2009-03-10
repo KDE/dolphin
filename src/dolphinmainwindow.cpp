@@ -1356,8 +1356,8 @@ void DolphinMainWindow::rememberClosedTab(int index)
     } else {
         tabsMenu->insertAction(tabsMenu->actions().at(2), action);
     }
-    //10 is the limit, remove the oldest one to make room. It's actually 8, since
-    //the separator and the "Empty Recently Closed Tabs" entry count as one
+
+    // assure that only up to 8 closed tabs are shown in the menu
     if (tabsMenu->actions().size() > 8) {
         tabsMenu->removeAction(tabsMenu->actions().last());
     }
