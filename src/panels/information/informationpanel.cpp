@@ -313,11 +313,26 @@ void InformationPanel::showPreview(const KFileItem& item,
 
 void InformationPanel::slotFileRenamed(const QString& source, const QString& dest)
 {
-    if (m_shownUrl == KUrl(source)) {
-        // the currently shown file has been renamed, hence update the item information
-        // for the renamed file
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, KUrl(dest));
-        requestDelayedItemInfo(item);
+    const KUrl sourceUrl = KUrl(source);
+
+    // Verify whether the renamed item is selected. If this is the case, the
+    // selection must be updated with the renamed item.
+    bool isSelected = false;
+    for (int i = m_selection.size() - 1; i >= 0; --i) {
+        if (m_selection[i].url() == sourceUrl) {
+            m_selection.removeAt(i);
+            isSelected = true;
+            break;
+        }
+    }
+
+    if ((m_shownUrl == sourceUrl) || isSelected) {
+        m_shownUrl = KUrl(dest);
+        m_fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+        if (isSelected) {
+            m_selection.append(m_fileItem);
+        }
+        showItemInfo();
     }
 }
 
