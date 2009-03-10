@@ -276,6 +276,7 @@ bool DolphinPart::openUrl(const KUrl& url)
     emit started(0); // get the wheel to spin
     m_dirLister->setNameFilter(m_nameFilter);
     m_view->setUrl(url);
+    updatePasteAction();
     emit aboutToOpenURL();
     if (reload)
         m_view->reload();
