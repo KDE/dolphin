@@ -237,6 +237,8 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         if (m_viewTab.count() > 1) {
             m_tabBar->setTabText(m_tabIndex, tabName(url));
         }
+        const QString iconName = KMimeType::iconNameForUrl(url);
+        m_tabBar->setTabIcon(m_tabIndex, KIcon(iconName));
         emit urlChanged(url);
     }
 }
@@ -331,14 +333,15 @@ void DolphinMainWindow::openNewTab()
 
 void DolphinMainWindow::openNewTab(const KUrl& url)
 {
+    const KIcon icon = KIcon(KMimeType::iconNameForUrl(m_activeViewContainer->url()));
     if (m_viewTab.count() == 1) {
         // Only one view is open currently and hence no tab is shown at
         // all. Before creating a tab for 'url', provide a tab for the current URL.
-        m_tabBar->addTab(KIcon("folder"), tabName(m_activeViewContainer->url()));
+        m_tabBar->addTab(icon, tabName(m_activeViewContainer->url()));
         m_tabBar->blockSignals(false);
     }
 
-    m_tabBar->addTab(KIcon("folder"), tabName(url));
+    m_tabBar->addTab(icon, tabName(url));
 
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
