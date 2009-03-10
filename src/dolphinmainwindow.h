@@ -268,6 +268,9 @@ private slots:
      */
     void toggleShowMenuBar();
 
+    /** Opens a terminal window for the current location. */
+    void openTerminal();
+
     /** Opens the settings dialog for Dolphin. */
     void editSettings();
 

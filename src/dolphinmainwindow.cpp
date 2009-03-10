@@ -78,6 +78,7 @@
 #include <kurlnavigator.h>
 #include <kurl.h>
 #include <kurlcombobox.h>
+#include <ktoolinvocation.h>
 
 #include <QDBusMessage>
 #include <QKeyEvent>
@@ -742,6 +743,11 @@ void DolphinMainWindow::toggleShowMenuBar()
     menuBar()->setVisible(!visible);
 }
 
+void DolphinMainWindow::openTerminal()
+{
+    KToolInvocation::invokeTerminal(QString(), m_activeViewContainer->url().path());
+}
+
 void DolphinMainWindow::editSettings()
 {
     if (m_settingsDialog == 0) {
@@ -1141,6 +1147,12 @@ void DolphinMainWindow::setupActions()
     compareFiles->setIcon(KIcon("kompare"));
     compareFiles->setEnabled(false);
     connect(compareFiles, SIGNAL(triggered()), this, SLOT(compareFiles()));
+
+    KAction* openTerminal = actionCollection()->addAction("open_terminal");
+    openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
+    openTerminal->setIcon(KIcon("terminal"));
+    openTerminal->setShortcut(Qt::SHIFT | Qt::Key_F4);
+    connect(openTerminal, SIGNAL(triggered()), this, SLOT(openTerminal()));
 
     // setup 'Settings' menu
     m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
