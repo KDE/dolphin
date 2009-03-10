@@ -57,6 +57,7 @@
 #include <QScrollBar>
 #include <QVBoxLayout>
 
+#include "dolphin_informationpanelsettings.h"
 #include "settings/dolphinsettings.h"
 #include "metadatawidget.h"
 #include "metatextlabel.h"
@@ -227,7 +228,18 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
     }
 
     KMenu popup(this);
-    popup.addTitle(i18nc("@title:menu", "Shown Information"));
+
+    QAction* ratingAction = popup.addAction(i18nc("@action:inmenu", "Rating"));
+    ratingAction->setCheckable(true);
+    ratingAction->setChecked(InformationPanelSettings::showRating());
+
+    QAction* commentAction = popup.addAction(i18nc("@action:inmenu", "Comment"));
+    commentAction->setCheckable(true);
+    commentAction->setChecked(InformationPanelSettings::showComment());
+
+    QAction* tagsAction = popup.addAction(i18nc("@action:inmenu", "Tags"));
+    tagsAction->setCheckable(true);
+    tagsAction->setChecked(InformationPanelSettings::showTags());
 
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
@@ -275,20 +287,30 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
         ++it;
     }
 
-    if (actions.count() == 0) {
-        return;
-    }
+    if (actions.count() > 0) {
+        popup.addSeparator();
 
-    // add all items alphabetically sorted to the popup
-    qSort(actions.begin(), actions.end(), lessThan);
-    foreach (QAction* action, actions) {
-        popup.addAction(action);
+        // add all items alphabetically sorted to the popup
+        qSort(actions.begin(), actions.end(), lessThan);
+        foreach (QAction* action, actions) {
+            popup.addAction(action);
+        }
     }
 
     // Open the popup and adjust the settings for the
     // selected action.
     QAction* action = popup.exec(QCursor::pos());
-    if (action != 0) {
+    if (action == 0) {
+        return;
+    }
+
+    if (action == ratingAction) {
+        // TODO
+    } else if (action == commentAction) {
+        // TODO
+    } else if (action == tagsAction) {
+        // TODO
+    } else {
         settings.writeEntry(action->data().toString(), action->isChecked());
         settings.sync();
         showMetaInfo();

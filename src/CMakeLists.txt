@@ -135,7 +135,8 @@ set(dolphin_SRCS
     )
 
 kde4_add_kcfg_files(dolphin_SRCS
-    panels/folders/dolphin_folderspanelsettings.kcfgc)
+    panels/folders/dolphin_folderspanelsettings.kcfgc
+    panels/information/dolphin_informationpanelsettings.kcfgc)
 
 if(Nepomuk_FOUND)
 set(dolphin_SRCS

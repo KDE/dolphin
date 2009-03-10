@@ -1,0 +1,4 @@
+File=dolphin_informationpanelsettings.kcfg
+ClassName=InformationPanelSettings
+Singleton=true
+Mutators=true
