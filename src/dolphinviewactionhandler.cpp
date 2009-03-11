@@ -113,6 +113,7 @@ void DolphinViewActionHandler::createActions()
     KAction *propertiesAction = m_actionCollection->addAction( "properties" );
     // Well, it's the File menu in dolphinmainwindow and the Edit menu in dolphinpart... :)
     propertiesAction->setText( i18nc("@action:inmenu File", "Properties") );
+    propertiesAction->setIcon(KIcon("document-properties"));
     propertiesAction->setShortcut(Qt::ALT | Qt::Key_Return);
     connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
 
