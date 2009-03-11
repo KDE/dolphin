@@ -73,7 +73,7 @@ void DolphinViewActionHandler::createActions()
     // This action doesn't appear in the GUI, it's for the shortcut only.
     // KNewMenu takes care of the GUI stuff.
     KAction* newDirAction = m_actionCollection->addAction("create_dir");
-    newDirAction->setText(i18nc("@action", "Create Folder..."));
+    newDirAction->setText(i18nc("@action", "Create &Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);
     newDirAction->setIcon(KIcon("folder-new"));
     connect(newDirAction, SIGNAL(triggered()), SLOT(slotCreateDir()));
@@ -81,13 +81,13 @@ void DolphinViewActionHandler::createActions()
     // Edit menu
 
     KAction* rename = m_actionCollection->addAction("rename");
-    rename->setText(i18nc("@action:inmenu File", "Rename..."));
+    rename->setText(i18nc("@action:inmenu File", "&Rename..."));
     rename->setShortcut(Qt::Key_F2);
     rename->setIcon(KIcon("edit-rename"));
     connect(rename, SIGNAL(triggered()), this, SLOT(slotRename()));
 
     KAction* moveToTrash = m_actionCollection->addAction("move_to_trash");
-    moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
+    moveToTrash->setText(i18nc("@action:inmenu File", "&Move to Trash"));
     moveToTrash->setIcon(KIcon("user-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
     connect(moveToTrash, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)),
@@ -95,7 +95,7 @@ void DolphinViewActionHandler::createActions()
 
     KAction* deleteAction = m_actionCollection->addAction("delete");
     deleteAction->setIcon(KIcon("edit-delete"));
-    deleteAction->setText(i18nc("@action:inmenu File", "Delete"));
+    deleteAction->setText(i18nc("@action:inmenu File", "&Delete"));
     deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
     connect(deleteAction, SIGNAL(triggered()), this, SLOT(slotDeleteItems()));
 
@@ -112,7 +112,7 @@ void DolphinViewActionHandler::createActions()
 
     KAction *propertiesAction = m_actionCollection->addAction( "properties" );
     // Well, it's the File menu in dolphinmainwindow and the Edit menu in dolphinpart... :)
-    propertiesAction->setText( i18nc("@action:inmenu File", "Properties") );
+    propertiesAction->setText( i18nc("@action:inmenu File", "&Properties") );
     propertiesAction->setShortcut(Qt::ALT | Qt::Key_Return);
     connect(propertiesAction, SIGNAL(triggered()), SLOT(slotProperties()));
 
@@ -133,12 +133,12 @@ void DolphinViewActionHandler::createActions()
                              m_actionCollection);
 
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>("show_preview");
-    showPreview->setText(i18nc("@action:intoolbar", "Preview"));
+    showPreview->setText(i18nc("@action:intoolbar", "P&review"));
     showPreview->setIcon(KIcon("view-preview"));
     connect(showPreview, SIGNAL(triggered(bool)), this, SLOT(togglePreview(bool)));
 
     KToggleAction* sortDescending = m_actionCollection->add<KToggleAction>("descending");
-    sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
+    sortDescending->setText(i18nc("@action:inmenu Sort", "Des&cending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
 
     QActionGroup* sortByActionGroup = createSortByActionGroup();
@@ -148,22 +148,22 @@ void DolphinViewActionHandler::createActions()
     connect(showInformationActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
 
     KToggleAction* showInGroups = m_actionCollection->add<KToggleAction>("show_in_groups");
-    showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
+    showInGroups->setText(i18nc("@action:inmenu View", "Show in &Groups"));
     connect(showInGroups, SIGNAL(triggered(bool)), this, SLOT(toggleSortCategorization(bool)));
 
     KToggleAction* showHiddenFiles = m_actionCollection->add<KToggleAction>("show_hidden_files");
-    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
+    showHiddenFiles->setText(i18nc("@action:inmenu View", "Show &Hidden Files"));
     showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
     connect(showHiddenFiles, SIGNAL(triggered(bool)), this, SLOT(toggleShowHiddenFiles(bool)));
 
     KAction* adjustViewProps = m_actionCollection->addAction("view_properties");
-    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust View Properties..."));
+    adjustViewProps->setText(i18nc("@action:inmenu View", "Adjust &View Properties..."));
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(slotAdjustViewProperties()));
 
     // Tools menu
 
     KAction* findFile = m_actionCollection->addAction("find_file");
-    findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
+    findFile->setText(i18nc("@action:inmenu Tools", "&Find File..."));
     findFile->setShortcut(Qt::CTRL | Qt::Key_F);
     findFile->setIcon(KIcon("edit-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
@@ -175,32 +175,32 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
     showInformationGroup->setExclusive(false);
 
     KToggleAction* showSizeInfo = m_actionCollection->add<KToggleAction>("show_size_info");
-    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
+    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "&Size"));
     showSizeInfo->setData(KFileItemDelegate::Size);
     showSizeInfo->setActionGroup(showInformationGroup);
 
     KToggleAction* showDateInfo = m_actionCollection->add<KToggleAction>("show_date_info");
-    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
+    showDateInfo->setText(i18nc("@action:inmenu Additional information", "D&ate"));
     showDateInfo->setData(KFileItemDelegate::ModificationTime);
     showDateInfo->setActionGroup(showInformationGroup);
 
     KToggleAction* showPermissionsInfo = m_actionCollection->add<KToggleAction>("show_permissions_info");
-    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
+    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Pe&rmissions"));
     showPermissionsInfo->setData(KFileItemDelegate::Permissions);
     showPermissionsInfo->setActionGroup(showInformationGroup);
 
     KToggleAction* showOwnerInfo = m_actionCollection->add<KToggleAction>("show_owner_info");
-    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
+    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "&Owner"));
     showOwnerInfo->setData(KFileItemDelegate::Owner);
     showOwnerInfo->setActionGroup(showInformationGroup);
 
     KToggleAction* showGroupInfo = m_actionCollection->add<KToggleAction>("show_group_info");
-    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
+    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Gro&up"));
     showGroupInfo->setData(KFileItemDelegate::OwnerAndGroup);
     showGroupInfo->setActionGroup(showInformationGroup);
 
     KToggleAction* showMimeInfo = m_actionCollection->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
+    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "&Type"));
     showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);
     showMimeInfo->setActionGroup(showInformationGroup);
 
@@ -215,37 +215,37 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     sortByActionGroup->setExclusive(true);
 
     KToggleAction* sortByName = m_actionCollection->add<KToggleAction>("sort_by_name");
-    sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
+    sortByName->setText(i18nc("@action:inmenu Sort By", "&Name"));
     sortByName->setData(QVariant::fromValue(DolphinView::SortByName));
     sortByActionGroup->addAction(sortByName);
 
     KToggleAction* sortBySize = m_actionCollection->add<KToggleAction>("sort_by_size");
-    sortBySize->setText(i18nc("@action:inmenu Sort By", "Size"));
+    sortBySize->setText(i18nc("@action:inmenu Sort By", "&Size"));
     sortBySize->setData(QVariant::fromValue(DolphinView::SortBySize));
     sortByActionGroup->addAction(sortBySize);
 
     KToggleAction* sortByDate = m_actionCollection->add<KToggleAction>("sort_by_date");
-    sortByDate->setText(i18nc("@action:inmenu Sort By", "Date"));
+    sortByDate->setText(i18nc("@action:inmenu Sort By", "&Date"));
     sortByDate->setData(QVariant::fromValue(DolphinView::SortByDate));
     sortByActionGroup->addAction(sortByDate);
 
     KToggleAction* sortByPermissions = m_actionCollection->add<KToggleAction>("sort_by_permissions");
-    sortByPermissions->setText(i18nc("@action:inmenu Sort By", "Permissions"));
+    sortByPermissions->setText(i18nc("@action:inmenu Sort By", "Pe&rmissions"));
     sortByPermissions->setData(QVariant::fromValue(DolphinView::SortByPermissions));
     sortByActionGroup->addAction(sortByPermissions);
 
     KToggleAction* sortByOwner = m_actionCollection->add<KToggleAction>("sort_by_owner");
-    sortByOwner->setText(i18nc("@action:inmenu Sort By", "Owner"));
+    sortByOwner->setText(i18nc("@action:inmenu Sort By", "&Owner"));
     sortByOwner->setData(QVariant::fromValue(DolphinView::SortByOwner));
     sortByActionGroup->addAction(sortByOwner);
 
     KToggleAction* sortByGroup = m_actionCollection->add<KToggleAction>("sort_by_group");
-    sortByGroup->setText(i18nc("@action:inmenu Sort By", "Group"));
+    sortByGroup->setText(i18nc("@action:inmenu Sort By", "&Group"));
     sortByGroup->setData(QVariant::fromValue(DolphinView::SortByGroup));
     sortByActionGroup->addAction(sortByGroup);
 
     KToggleAction* sortByType = m_actionCollection->add<KToggleAction>("sort_by_type");
-    sortByType->setText(i18nc("@action:inmenu Sort By", "Type"));
+    sortByType->setText(i18nc("@action:inmenu Sort By", "&Type"));
     sortByType->setData(QVariant::fromValue(DolphinView::SortByType));
     sortByActionGroup->addAction(sortByType);
 
@@ -425,7 +425,7 @@ void DolphinViewActionHandler::slotShowHiddenFilesChanged()
 KToggleAction* DolphinViewActionHandler::iconsModeAction()
 {
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>("icons");
-    iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
+    iconsView->setText(i18nc("@action:inmenu View Mode", "&Icons"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
     iconsView->setIcon(KIcon("view-list-icons"));
     iconsView->setData(QVariant::fromValue(DolphinView::IconsView));
@@ -435,7 +435,7 @@ KToggleAction* DolphinViewActionHandler::iconsModeAction()
 KToggleAction* DolphinViewActionHandler::detailsModeAction()
 {
     KToggleAction* detailsView = m_actionCollection->add<KToggleAction>("details");
-    detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
+    detailsView->setText(i18nc("@action:inmenu View Mode", "Det&ails"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
     detailsView->setIcon(KIcon("view-list-details"));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
@@ -445,7 +445,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
 KToggleAction* DolphinViewActionHandler::columnsModeAction()
 {
     KToggleAction* columnView = m_actionCollection->add<KToggleAction>("columns");
-    columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
+    columnView->setText(i18nc("@action:inmenu View Mode", "Col&umns"));
     columnView->setShortcut(Qt::CTRL | Qt::Key_3);
     columnView->setIcon(KIcon("view-file-columns"));
     columnView->setData(QVariant::fromValue(DolphinView::ColumnView));
