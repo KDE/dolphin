@@ -510,7 +510,7 @@ void DolphinMainWindow::restoreClosedTab(QAction* action)
         // action and the separator
         QList<QAction*> actions = m_recentTabsMenu->menu()->actions();
         const int count = actions.size();
-        for (int i = 2; i < count; i++) {
+        for (int i = 2; i < count; ++i) {
             m_recentTabsMenu->menu()->removeAction(actions.at(i));
         }
     } else {
