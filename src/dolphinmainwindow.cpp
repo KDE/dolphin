@@ -843,17 +843,17 @@ void DolphinMainWindow::closeTab(int index)
 
 void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
 {
-    KMenu* menu = new KMenu(this);
+    KMenu menu(this);
 
-    QAction* newTabAction = menu->addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
+    QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
     newTabAction->setShortcut(actionCollection()->action("new_tab")->shortcut());
 
-    QAction* closeOtherTabsAction = menu->addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
+    QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
 
-    QAction* closeTabAction = menu->addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
+    QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
     closeTabAction->setShortcut(actionCollection()->action("close_tab")->shortcut());
-    KAcceleratorManager::manage(menu);
-    QAction* selectedAction = menu->exec(pos);
+    KAcceleratorManager::manage(&menu);
+    QAction* selectedAction = menu.exec(pos);
     if (selectedAction == newTabAction) {
         const ViewTab& tab = m_viewTab[index];
         Q_ASSERT(tab.primaryView != 0);
