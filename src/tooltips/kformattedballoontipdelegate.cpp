@@ -51,14 +51,17 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter,
                                          const KStyleOptionToolTip *option,
                                          const KToolTipItem *item) const
 {
+    QColor toColor = option->palette.brush(QPalette::ToolTipBase).color();
+    QColor fromColor = KColorScheme::shade(toColor, KColorScheme::LightShade, 0.2);
+
     QPainterPath path = createPath(*option);
     if (haveAlphaChannel()) {
         painter->setRenderHint(QPainter::Antialiasing);
         painter->translate(.5, .5);
+        toColor.setAlpha(220);
+        fromColor.setAlpha(220);
     }
 
-    const QColor toColor = option->palette.brush(QPalette::ToolTipBase).color();
-    const QColor fromColor = KColorScheme::shade(toColor, KColorScheme::LightShade, 0.2);
 
     QLinearGradient gradient(option->rect.topLeft(), option->rect.bottomLeft());
     gradient.setColorAt(0.0, fromColor);

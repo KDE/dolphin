@@ -242,7 +242,7 @@ KToolTipDelegate *KAbstractToolTipLabel::delegate() const
 class QWidgetLabel : public QWidget, public KAbstractToolTipLabel
 {
 public:
-    QWidgetLabel() : QWidget(0, Qt::ToolTip) {}
+    QWidgetLabel();
     void showTip(const QPoint &pos, const KToolTipItem *item);
     void moveTip(const QPoint &pos);
     void hideTip();
@@ -254,6 +254,13 @@ private:
 private:
     const KToolTipItem *currentItem;
 };
+
+QWidgetLabel::QWidgetLabel() : QWidget(0, Qt::ToolTip)
+{
+    if (KToolTipManager::instance()->haveAlphaChannel()) {
+        setAttribute(Qt::WA_TranslucentBackground);
+    }
+}
 
 void QWidgetLabel::showTip(const QPoint &pos, const KToolTipItem *item)
 {
