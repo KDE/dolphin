@@ -1113,13 +1113,13 @@ void DolphinMainWindow::setupActions()
     backShortcut.setAlternate(Qt::Key_Backspace);
     backAction->setShortcut(backShortcut);
 
-    m_recentTabsMenu = new KActionMenu(i18n("&Recently Closed Tabs"), this);
+    m_recentTabsMenu = new KActionMenu(i18n("Recently Closed Tabs"), this);
     m_recentTabsMenu->setIcon(KIcon("edit-undo"));
     actionCollection()->addAction("closed_tabs", m_recentTabsMenu);
     connect(m_recentTabsMenu->menu(), SIGNAL(triggered(QAction *)),
             this, SLOT(restoreClosedTab(QAction *)));
 
-    QAction* action = new QAction("&Empty Recently Closed Tabs", m_recentTabsMenu);
+    QAction* action = new QAction("Empty Recently Closed Tabs", m_recentTabsMenu);
     action->setIcon(KIcon("edit-clear-list"));
     action->setData(QVariant::fromValue(true));
     m_recentTabsMenu->addAction(action);
