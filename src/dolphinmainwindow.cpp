@@ -852,7 +852,6 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
 
     QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
     closeTabAction->setShortcut(actionCollection()->action("close_tab")->shortcut());
-    KAcceleratorManager::manage(&menu);
     QAction* selectedAction = menu.exec(pos);
     if (selectedAction == newTabAction) {
         const ViewTab& tab = m_viewTab[index];
