@@ -600,15 +600,15 @@ void DolphinView::changeSelection(const KFileItemList& selection)
     }
     const KUrl& baseUrl = url();
     KUrl url;
-    QItemSelection new_selection;
+    QItemSelection newSelection;
     foreach(const KFileItem& item, selection) {
         url = item.url().upUrl();
         if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
             QModelIndex index = m_proxyModel->mapFromSource(m_dolphinModel->indexForItem(item));
-            new_selection.select(index, index);
+            newSelection.select(index, index);
         }
     }
-    itemView()->selectionModel()->select(new_selection,
+    itemView()->selectionModel()->select(newSelection,
                                          QItemSelectionModel::ClearAndSelect
                                          | QItemSelectionModel::Current);
 }
