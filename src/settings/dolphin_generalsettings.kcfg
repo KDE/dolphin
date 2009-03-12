@@ -41,6 +41,10 @@
             <label context="@label">Browse through archives</label>
             <default>false</default>
         </entry>
+        <entry name="ConfirmClosingMultipleTabs" type="Bool">
+            <label context="@label">Ask for confirmation when closing windows with multiple tabs.</label>
+            <default>true</default>
+        </entry>
         <entry name="RenameInline" type="Bool">
             <label context="@label">Rename inline</label>
             <default>false</default>

@@ -78,10 +78,14 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                           "Deleting files or folders"), confirmBox);
     connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
+                                                       "Closing windows with multiple tabs"), confirmBox);
+    connect(m_confirmClosingMultipleTabs, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
     confirmBoxLayout->addWidget(m_confirmMoveToTrash);
     confirmBoxLayout->addWidget(m_confirmDelete);
+    confirmBoxLayout->addWidget(m_confirmClosingMultipleTabs);
 
     m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), vBox);
     connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -130,6 +134,7 @@ void BehaviorSettingsPage::applySettings()
     confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
     confirmationGroup.sync();
 
+    settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
@@ -159,6 +164,7 @@ void BehaviorSettingsPage::loadSettings()
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", CONFIRM_TRASH));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", CONFIRM_DELETE));
 
+    m_confirmClosingMultipleTabs->setChecked(settings->confirmClosingMultipleTabs());
     m_renameInline->setChecked(settings->renameInline());
     m_showToolTips->setChecked(settings->showToolTips());
     m_showSelectionToggle->setChecked(settings->showSelectionToggle());

@@ -425,6 +425,50 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
     DolphinSettings& settings = DolphinSettings::instance();
     GeneralSettings* generalSettings = settings.generalSettings();
+
+    if ((m_viewTab.count() > 1) && generalSettings->confirmClosingMultipleTabs()) {
+        // Ask the user if he really wants to quit and close all tabs.
+        // Open a confirmation dialog with 3 buttons:
+        // KDialog::Yes    -> Quit
+        // KDialog::No     -> Close only the current tab
+        // KDialog::Cancel -> do nothing
+        KDialog *dialog = new KDialog(this, Qt::Dialog);
+        dialog->setCaption(i18nc("@title:window", "Confirmation"));
+        dialog->setButtons(KDialog::Yes | KDialog::No | KDialog::Cancel);
+        dialog->setModal(true);
+        dialog->showButtonSeparator(true);
+        dialog->setButtonGuiItem(KDialog::Yes, KStandardGuiItem::quit());
+        dialog->setButtonGuiItem(KDialog::No, KGuiItem(i18n("C&lose Current Tab"), KIcon("tab-close")));
+        dialog->setButtonGuiItem(KDialog::Cancel, KStandardGuiItem::cancel());
+        dialog->setDefaultButton(KDialog::Yes);
+
+        bool doNotAskAgainCheckboxResult = false;
+
+        const int result = KMessageBox::createKMessageBox(dialog, 
+            QMessageBox::Warning,
+            i18n("You have multiple tabs open in this window, are you sure you want to quit?"),
+            QStringList(),
+            i18n("Do not ask again"),
+            &doNotAskAgainCheckboxResult,
+            KMessageBox::Notify);
+
+        if (doNotAskAgainCheckboxResult) {
+            generalSettings->setConfirmClosingMultipleTabs(false);
+        }
+
+        switch (result) {
+            case KDialog::Yes: 
+                // Quit
+                break;
+            case KDialog::No:
+                // Close only the current tab
+	      closeTab();
+            default:
+                event->ignore();
+                return;
+        }
+    }
+
     generalSettings->setFirstRun(false);
 
     settings.save();
