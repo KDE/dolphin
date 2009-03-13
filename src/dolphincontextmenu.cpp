@@ -289,7 +289,7 @@ void DolphinContextMenu::openViewportContextMenu()
     addCustomActions(popup);
 
     QAction* propertiesAction = popup->addAction(i18nc("@action:inmenu", "Properties"));
-
+    propertiesAction->setIcon(KIcon("document-properties"));
     QAction* action = popup->exec(QCursor::pos());
     if (action == propertiesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
