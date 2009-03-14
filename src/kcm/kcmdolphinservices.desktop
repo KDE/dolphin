@@ -1,6 +1,7 @@
 Name=Dolphin Services
 Name[et]=Dolphini teenused
 Name[ga]=Seirbhísí Dolphin
+Name[ja]=Dolphin サービス
 Name[nds]=Dolphin-Deensten
 Name[nl]=Dolphin-diensten
 Name[pt]=Serviços do Dolphin
@@ -106,6 +107,7 @@ Name[zh_TW]=服務
 Comment=Configure file manager services
 Comment[et]=Failihalduri teenuste seadistamine
 Comment[ga]=Cumraigh seirbhísí bhainisteoir na gcomhad
+Comment[ja]=ファイルマネージャのサービスを設定します
 Comment[nds]=Dateipleger-Deensten instellen
 Comment[nl]=Bestandsbeheerderdiensten instellen
 Comment[pt]=Configurar os serviços do gestor de ficheiros
