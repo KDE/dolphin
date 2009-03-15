@@ -508,7 +508,7 @@ void DolphinPart::slotOpenTerminal()
 
     //If the URL is local after the above conversion, set the directory.
     if (u.isLocalFile()) {
-        dir = u.path();
+        dir = u.toLocalFile();
     }
 
     KToolInvocation::invokeTerminal(QString(), dir);

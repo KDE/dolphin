@@ -81,7 +81,7 @@ void StatusBarSpaceInfo::refresh()
         return;
     }
 
-    KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath(m_url.path());
+    KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath(m_url.toLocalFile());
     if (!mp) {
         return;
     }

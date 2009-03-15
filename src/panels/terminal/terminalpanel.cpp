@@ -56,7 +56,7 @@ void TerminalPanel::setUrl(const KUrl& url)
 
     Panel::setUrl(url);
     if ((m_terminal != 0) && isVisible() && url.isLocalFile()) {
-        m_terminal->sendInput("cd " + KShell::quoteArg(url.path()) + '\n');
+        m_terminal->sendInput("cd " + KShell::quoteArg(url.toLocalFile()) + '\n');
     }
 }
 
