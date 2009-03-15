@@ -154,7 +154,7 @@ void DolphinViewActionHandler::createActions()
 
     KToggleAction* showHiddenFiles = m_actionCollection->add<KToggleAction>("show_hidden_files");
     showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
-    showHiddenFiles->setShortcut(Qt::ALT | Qt::Key_Period);
+    showHiddenFiles->setShortcuts(QList<QKeySequence>() << Qt::ALT + Qt::Key_Period << Qt::Key_F8);
     connect(showHiddenFiles, SIGNAL(triggered(bool)), this, SLOT(toggleShowHiddenFiles(bool)));
 
     KAction* adjustViewProps = m_actionCollection->addAction("view_properties");
