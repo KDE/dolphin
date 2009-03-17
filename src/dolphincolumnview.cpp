@@ -369,9 +369,9 @@ void DolphinColumnView::wheelEvent(QWheelEvent* event)
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
         event->ignore();
-	return;
+    } else {
+        QAbstractItemView::wheelEvent(event);
     }
-    QAbstractItemView::wheelEvent(event);
 }
 
 void DolphinColumnView::setZoomLevel(int level)
