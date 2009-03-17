@@ -23,6 +23,7 @@
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinmodel.h"
+#include "dolphinnewmenuobserver.h"
 
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
@@ -139,6 +140,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
 DolphinPart::~DolphinPart()
 {
+    DolphinNewMenuObserver::instance().detach(m_newMenu);
     delete m_dirLister;
 }
 
@@ -147,6 +149,7 @@ void DolphinPart::createActions()
     // Edit menu
 
     m_newMenu = new KNewMenu(actionCollection(), widget(), "new_menu");
+    DolphinNewMenuObserver::instance().attach(m_newMenu);
     connect(m_newMenu->menu(), SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
