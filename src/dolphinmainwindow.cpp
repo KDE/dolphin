@@ -444,7 +444,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
         bool doNotAskAgainCheckboxResult = false;
 
-        const int result = KMessageBox::createKMessageBox(dialog, 
+        const int result = KMessageBox::createKMessageBox(dialog,
             QMessageBox::Warning,
             i18n("You have multiple tabs open in this window, are you sure you want to quit?"),
             QStringList(),
@@ -457,7 +457,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         }
 
         switch (result) {
-            case KDialog::Yes: 
+            case KDialog::Yes:
                 // Quit
                 break;
             case KDialog::No:
