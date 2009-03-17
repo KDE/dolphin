@@ -239,10 +239,10 @@ KToolTipDelegate *KAbstractToolTipLabel::delegate() const
 
 
 
-class QWidgetLabel : public QWidget, public KAbstractToolTipLabel
+class KTipLabel : public QWidget, public KAbstractToolTipLabel
 {
 public:
-    QWidgetLabel();
+    KTipLabel(bool transparent);
     void showTip(const QPoint &pos, const KToolTipItem *item);
     void moveTip(const QPoint &pos);
     void hideTip();
@@ -255,32 +255,32 @@ private:
     const KToolTipItem *currentItem;
 };
 
-QWidgetLabel::QWidgetLabel() : QWidget(0, Qt::ToolTip)
+KTipLabel::KTipLabel(bool transparent) : QWidget(0, Qt::ToolTip)
 {
-    if (KToolTipManager::instance()->haveAlphaChannel()) {
+    if (transparent) {
         setAttribute(Qt::WA_TranslucentBackground);
     }
 }
 
-void QWidgetLabel::showTip(const QPoint &pos, const KToolTipItem *item)
+void KTipLabel::showTip(const QPoint &pos, const KToolTipItem *item)
 {
     currentItem = item;
     move(pos);
     show();
 }
 
-void QWidgetLabel::hideTip()
+void KTipLabel::hideTip()
 {
     hide();
     currentItem = 0;
 }
 
-void QWidgetLabel::moveTip(const QPoint &pos)
+void KTipLabel::moveTip(const QPoint &pos)
 {
     move(pos);
 }
 
-void QWidgetLabel::paintEvent(QPaintEvent*)
+void KTipLabel::paintEvent(QPaintEvent*)
 {
     KStyleOptionToolTip option = styleOption();
     option.rect = rect();
@@ -293,7 +293,7 @@ void QWidgetLabel::paintEvent(QPaintEvent*)
     delegate()->paint(&p, &option, currentItem);
 }
 
-QSize QWidgetLabel::sizeHint() const
+QSize KTipLabel::sizeHint() const
 {
     if (!currentItem)
         return QSize();
@@ -461,7 +461,7 @@ KToolTipManager::KToolTipManager()
         label = new ArgbLabel(visual, depth);
     else
 #endif
-        label = new QWidgetLabel();
+        label = new KTipLabel(haveAlphaChannel());
 }
 
 KToolTipManager::~KToolTipManager()
