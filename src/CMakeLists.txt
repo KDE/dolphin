@@ -24,6 +24,7 @@ set(dolphinprivate_LIB_SRCS
     dolphindirlister.cpp
     dolphinfileitemdelegate.cpp
     dolphinmodel.cpp
+    dolphinnewmenuobserver.cpp
     dolphinsortfilterproxymodel.cpp
     dolphincategorydrawer.cpp
     dolphinview.cpp

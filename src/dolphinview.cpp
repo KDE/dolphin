@@ -52,17 +52,18 @@
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
-#include "dolphinfileitemdelegate.h"
-#include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
+#include "dolphinfileitemdelegate.h"
+#include "dolphinnewmenuobserver.h"
+#include "dolphinsortfilterproxymodel.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphiniconsview.h"
-#include "settings/dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "renamedialog.h"
 #include "tooltips/tooltipmanager.h"
+#include "settings/dolphinsettings.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 
@@ -104,6 +105,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_toolTipManager(0),
     m_rootUrl(),
     m_currentItemUrl(),
+    m_createdItemUrl(),
     m_expandedDragSource(0)
 {
     m_topLayout = new QVBoxLayout(this);
@@ -145,6 +147,12 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(restoreCurrentItem()));
     connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
             this, SLOT(slotRefreshItems()));
+
+    // When a new item has been created by the "Create New..." menu, the item should
+    // get selected and it must be assured that the item will get visible. As the
+    // creation is done asynchronously, several signals must be checked:
+    connect(&DolphinNewMenuObserver::instance(), SIGNAL(itemCreated(const KUrl&)),
+            this, SLOT(observeCreatedItem(const KUrl&)));
 
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
@@ -1079,6 +1087,26 @@ void DolphinView::deleteWhenNotDragSource(QAbstractItemView *view)
     else {
         view->deleteLater();
     }
+}
+
+void DolphinView::observeCreatedItem(const KUrl& url)
+{
+    m_createdItemUrl = url;
+    connect(m_dolphinModel, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
+            this, SLOT(selectAndScrollToCreatedItem()));
+}
+
+void DolphinView::selectAndScrollToCreatedItem()
+{
+    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_createdItemUrl);
+    if (dirIndex.isValid()) {
+        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        itemView()->setCurrentIndex(proxyIndex);
+    }
+
+    disconnect(m_dolphinModel, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
+               this, SLOT(selectAndScrollToCreatedItem()));
+    m_createdItemUrl = KUrl();
 }
 
 void DolphinView::emitContentsMoved()

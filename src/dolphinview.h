@@ -642,6 +642,21 @@ private slots:
      */
     void deleteWhenNotDragSource(QAbstractItemView* view);
 
+    /**
+     * Observes the item with the URL \a url. As soon as the directory
+     * model indicates that the item is available, the item will
+     * get selected and it is assure that the item stays visible.
+     *
+     * @see selectAndScrollToCreatedItem()
+     */
+    void observeCreatedItem(const KUrl& url);
+
+    /**
+     * Selects and scrolls to the item that got observed
+     * by observeCreatedItem().
+     */
+    void selectAndScrollToCreatedItem();
+
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
 
@@ -744,6 +759,7 @@ private:
 
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
+    KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
 
     QAbstractItemView* m_expandedDragSource;
 };

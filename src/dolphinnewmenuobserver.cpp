@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,37 +17,42 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinnewmenu.h"
-
-#include "dolphinmainwindow.h"
 #include "dolphinnewmenuobserver.h"
-#include "dolphinstatusbar.h"
-#include "dolphinview.h"
-#include "dolphinviewcontainer.h"
 
-#include <kactioncollection.h>
-#include <kio/job.h>
+#include <kglobal.h>
+#include <knewmenu.h>
 
-DolphinNewMenu::DolphinNewMenu(QWidget* parent, DolphinMainWindow* mainWin) :
-    KNewMenu(mainWin->actionCollection(), parent, "create_new"),
-    m_mainWin(mainWin)
+class DolphinNewMenuObserverSingleton
 {
-    DolphinNewMenuObserver::instance().attach(this);
+public:
+    DolphinNewMenuObserver instance;
+};
+K_GLOBAL_STATIC(DolphinNewMenuObserverSingleton, s_dolphinNewMenuObserver)
+
+DolphinNewMenuObserver& DolphinNewMenuObserver::instance()
+{
+    return s_dolphinNewMenuObserver->instance;
 }
 
-DolphinNewMenu::~DolphinNewMenu()
+void DolphinNewMenuObserver::attach(const KNewMenu* menu)
 {
-    DolphinNewMenuObserver::instance().detach(this);
+    connect(menu, SIGNAL(itemCreated(const KUrl&)),
+            this, SIGNAL(itemCreated(const KUrl&)));
 }
 
-void DolphinNewMenu::slotResult(KJob* job)
+void DolphinNewMenuObserver::detach(const KNewMenu* menu)
 {
-    if (job->error()) {
-        DolphinStatusBar* statusBar = m_mainWin->activeViewContainer()->statusBar();
-        statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
-    } else {
-        KNewMenu::slotResult(job);
-    }
+    disconnect(menu, SIGNAL(itemCreated(const KUrl&)),
+               this, SIGNAL(itemCreated(const KUrl&)));
 }
 
-#include "dolphinnewmenu.moc"
+DolphinNewMenuObserver::DolphinNewMenuObserver() :
+    QObject(0)
+{
+}
+
+DolphinNewMenuObserver::~DolphinNewMenuObserver()
+{
+}
+
+#include "dolphinnewmenuobserver.moc"

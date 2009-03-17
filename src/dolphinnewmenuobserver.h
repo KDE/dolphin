@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,37 +17,40 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinnewmenu.h"
+#ifndef DOLPHINNEWMENUOBSERVER_H
+#define DOLPHINNEWMENUOBSERVER_H
 
-#include "dolphinmainwindow.h"
-#include "dolphinnewmenuobserver.h"
-#include "dolphinstatusbar.h"
-#include "dolphinview.h"
-#include "dolphinviewcontainer.h"
+#include <QObject>
 
-#include <kactioncollection.h>
-#include <kio/job.h>
+#include "libdolphin_export.h"
 
-DolphinNewMenu::DolphinNewMenu(QWidget* parent, DolphinMainWindow* mainWin) :
-    KNewMenu(mainWin->actionCollection(), parent, "create_new"),
-    m_mainWin(mainWin)
+class KNewMenu;
+class KUrl;
+
+/**
+ * @brief Allows to observe new file items that have been created
+ *        by a DolphinNewMenu instance.
+ *
+ * As soon as a DolphinNewMenu instance created a new item,
+ * the observer will emit the signal itemCreated().
+ */
+class LIBDOLPHINPRIVATE_EXPORT DolphinNewMenuObserver : public QObject
 {
-    DolphinNewMenuObserver::instance().attach(this);
-}
+    Q_OBJECT
 
-DolphinNewMenu::~DolphinNewMenu()
-{
-    DolphinNewMenuObserver::instance().detach(this);
-}
+public:
+    static DolphinNewMenuObserver& instance();
+    void attach(const KNewMenu* menu);
+    void detach(const KNewMenu* menu);
 
-void DolphinNewMenu::slotResult(KJob* job)
-{
-    if (job->error()) {
-        DolphinStatusBar* statusBar = m_mainWin->activeViewContainer()->statusBar();
-        statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
-    } else {
-        KNewMenu::slotResult(job);
-    }
-}
+signals:
+    void itemCreated(const KUrl& url);
 
-#include "dolphinnewmenu.moc"
+private:
+    DolphinNewMenuObserver();
+    virtual ~DolphinNewMenuObserver();
+
+    friend class DolphinNewMenuObserverSingleton;
+};
+
+#endif
