@@ -20,7 +20,7 @@
 #ifndef KTOOLTIP_P_H
 #define KTOOLTIP_P_H
 
-class KAbstractToolTipLabel;
+class KTipLabel;
 class KStyleOptionToolTip;
 class KToolTipDelegate;
 
@@ -40,7 +40,6 @@ public:
     void hideTip();
 
     void initStyleOption(KStyleOptionToolTip *option) const;
-    bool haveAlphaChannel() const;
 
     void setDelegate(KToolTipDelegate *delegate);
     KToolTipDelegate *delegate() const;
@@ -50,16 +49,11 @@ public:
 private:
     KToolTipManager();
 
-    KAbstractToolTipLabel *label;
+    KTipLabel *label;
     KToolTipItem *currentItem;
     KToolTipDelegate *m_delegate;
-    
-    QPoint m_tooltipPos;
 
-#ifdef Q_WS_X11
-    bool haveArgbVisual;
-    Atom net_wm_cm_s0;
-#endif
+    QPoint m_tooltipPos;
 
     static KToolTipManager *s_instance;
 };

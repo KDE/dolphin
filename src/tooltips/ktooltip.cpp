@@ -32,7 +32,6 @@
 #ifdef Q_WS_X11
 #  include <QX11Info>
 #  include <X11/Xlib.h>
-#  include <X11/extensions/Xrender.h>
 #  include <X11/extensions/shape.h>
 #endif
 
@@ -198,7 +197,7 @@ QRegion KToolTipDelegate::shapeMask(const KStyleOptionToolTip *option) const
 
 bool KToolTipDelegate::haveAlphaChannel() const
 {
-    return KToolTipManager::instance()->haveAlphaChannel();
+    return QX11Info::isCompositingManagerRunning();
 }
 
 
@@ -207,42 +206,10 @@ bool KToolTipDelegate::haveAlphaChannel() const
 
 
 
-class KAbstractToolTipLabel
+class KTipLabel : public QWidget
 {
 public:
-    KAbstractToolTipLabel() {}
-    virtual ~KAbstractToolTipLabel() {}
-
-    virtual void showTip(const QPoint &pos, const KToolTipItem *item) = 0;
-    virtual void moveTip(const QPoint &pos) = 0;
-    virtual void hideTip() = 0;
-
-protected:
-    KStyleOptionToolTip styleOption() const;
-    KToolTipDelegate *delegate() const;
-};
-
-KStyleOptionToolTip KAbstractToolTipLabel::styleOption() const
-{
-     KStyleOptionToolTip option;
-     KToolTipManager::instance()->initStyleOption(&option);
-     return option;
-}
-
-KToolTipDelegate *KAbstractToolTipLabel::delegate() const
-{
-    return KToolTipManager::instance()->delegate();
-}
-
-
-// ----------------------------------------------------------------------------
-
-
-
-class KTipLabel : public QWidget, public KAbstractToolTipLabel
-{
-public:
-    KTipLabel(bool transparent);
+    KTipLabel();
     void showTip(const QPoint &pos, const KToolTipItem *item);
     void moveTip(const QPoint &pos);
     void hideTip();
@@ -250,14 +217,16 @@ public:
 private:
     void paintEvent(QPaintEvent*);
     QSize sizeHint() const;
+    KStyleOptionToolTip styleOption() const;
+    KToolTipDelegate *delegate() const;
 
 private:
     const KToolTipItem *currentItem;
 };
 
-KTipLabel::KTipLabel(bool transparent) : QWidget(0, Qt::ToolTip)
+KTipLabel::KTipLabel() : QWidget(0, Qt::ToolTip)
 {
-    if (transparent) {
+    if (QX11Info::isCompositingManagerRunning()) {
         setAttribute(Qt::WA_TranslucentBackground);
     }
 }
@@ -285,7 +254,11 @@ void KTipLabel::paintEvent(QPaintEvent*)
     KStyleOptionToolTip option = styleOption();
     option.rect = rect();
 
-    setMask(delegate()->shapeMask(&option));
+    if (QX11Info::isCompositingManagerRunning())
+        XShapeCombineRegion(x11Info().display(), winId(), ShapeInput, 0, 0,
+                            delegate()->inputShape(&option).handle(), ShapeSet);
+    else
+        setMask(delegate()->shapeMask(&option));
 
     QPainter p(this);
     p.setFont(option.font);
@@ -302,119 +275,17 @@ QSize KTipLabel::sizeHint() const
     return delegate()->sizeHint(&option, currentItem);
 }
 
-
-
-// ----------------------------------------------------------------------------
-
-
-
-#ifdef Q_WS_X11
-
-// X11 specific label that displays the tip in an ARGB window.
-class ArgbLabel : public KAbstractToolTipLabel
+KStyleOptionToolTip KTipLabel::styleOption() const
 {
-public:
-    ArgbLabel(Visual *visual, int depth);
-    ~ArgbLabel();
-
-    void showTip(const QPoint &pos, const KToolTipItem *item);
-    void moveTip(const QPoint &pos);
-    void hideTip();
-
-private:
-    Window    window;
-    Colormap  colormap;
-    Picture   picture;
-    bool      mapped;
-};
-
-ArgbLabel::ArgbLabel(Visual *visual, int depth)
-{
-    Display *dpy = QX11Info::display();
-    Window root = QX11Info::appRootWindow();
-    colormap = XCreateColormap(dpy, QX11Info::appRootWindow(), visual, AllocNone);
-
-    XSetWindowAttributes attr;
-    attr.border_pixel      = 0;
-    attr.background_pixel  = 0;
-    attr.colormap          = colormap;
-    attr.override_redirect = True;
-
-    window = XCreateWindow(dpy, root, 0, 0, 1, 1, 0, depth, InputOutput, visual,
-                           CWBorderPixel | CWBackPixel | CWColormap |
-                           CWOverrideRedirect, &attr);
-
-    // ### TODO: Set the WM hints so KWin can identify this window as a
-    //           tooltip.
-
-    XRenderPictFormat *format = XRenderFindVisualFormat(dpy, visual);
-    picture = XRenderCreatePicture(dpy, window, format, 0, 0);
-
-    mapped = false;
+     KStyleOptionToolTip option;
+     KToolTipManager::instance()->initStyleOption(&option);
+     return option;
 }
 
-ArgbLabel::~ArgbLabel()
+KToolTipDelegate *KTipLabel::delegate() const
 {
-    Display *dpy = QX11Info::display();
-    XRenderFreePicture(dpy, picture);
-    XDestroyWindow(dpy, window);
-    XFreeColormap(dpy, colormap);
+    return KToolTipManager::instance()->delegate();
 }
-
-void ArgbLabel::showTip(const QPoint &pos, const KToolTipItem *item)
-{
-    Display *dpy = QX11Info::display();
-    KStyleOptionToolTip option = styleOption();
-    const QSize size = delegate()->sizeHint(&option, item);
-    option.rect = QRect(QPoint(), size);
-
-    QPixmap pixmap(size);
-    pixmap.fill(Qt::transparent);
-
-    QPainter p(&pixmap);
-    p.setFont(option.font);
-    p.setPen(QPen(option.palette.brush(QPalette::Text), 0));
-    delegate()->paint(&p, &option, item);
-
-    // Resize, position and show the window.
-    XMoveResizeWindow(dpy, window, pos.x(), pos.y(), size.width(), size.height());
-
-    if (KToolTipManager::instance()->haveAlphaChannel()) {
-        const QRegion region = delegate()->inputShape(&option);
-        XShapeCombineRegion(dpy, window, ShapeInput, 0, 0, region.handle(), ShapeSet);
-    } else {
-        const QRegion region = delegate()->shapeMask(&option);
-        XShapeCombineRegion(dpy, window, ShapeBounding, 0, 0, region.handle(), ShapeSet);
-    }
-
-    XMapWindow(dpy, window);
-
-    // Blit the pixmap with the tip contents to the window.
-    // Since the window is override-redirect and an ARGB32 window,
-    // which always has an offscreen pixmap, there's no need to
-    // wait for an Expose event, or to process those.
-    XRenderComposite(dpy, PictOpSrc, pixmap.x11PictureHandle(), None,
-                     picture, 0, 0, 0, 0, 0, 0, size.width(), size.height());
-
-    mapped = true;
-}
-
-void ArgbLabel::moveTip(const QPoint &pos)
-{
-    if (mapped)
-        XMoveWindow(QX11Info::display(), window, pos.x(), pos.y());
-}
-
-void ArgbLabel::hideTip()
-{
-    if (mapped) {
-        Display *dpy = QX11Info::display();
-        XUnmapWindow(dpy, window);
-	mapped = false;
-    }
-}
-
-#endif // Q_WS_X11
 
 
 
@@ -427,41 +298,8 @@ void ArgbLabel::hideTip()
 KToolTipManager *KToolTipManager::s_instance = 0;
 
 KToolTipManager::KToolTipManager()
-	: label(0), currentItem(0), m_delegate(0)
+    : label(new KTipLabel), currentItem(0), m_delegate(0)
 {
-#ifdef Q_WS_X11
-    Display *dpy      = QX11Info::display();
-    int screen        = DefaultScreen(dpy);
-    int depth         = DefaultDepth(dpy, screen);
-    Visual *visual    = DefaultVisual(dpy, screen);
-    net_wm_cm_s0      = XInternAtom(dpy, "_NET_WM_CM_S0", False);
-    haveArgbVisual    = false;
-
-    int nvi;
-    XVisualInfo templ;
-    templ.screen  = screen;
-    templ.depth   = 32;
-    templ.c_class = TrueColor;
-    XVisualInfo *xvi = XGetVisualInfo(dpy, VisualScreenMask | VisualDepthMask |
-                                      VisualClassMask, &templ, &nvi);
-
-    for (int i = 0; i < nvi; ++i)
-    {
-        XRenderPictFormat *format = XRenderFindVisualFormat(dpy, xvi[i].visual);
-        if (format->type == PictTypeDirect && format->direct.alphaMask)
-        {
-            visual   = xvi[i].visual;
-            depth    = xvi[i].depth;
-            haveArgbVisual = true;
-            break;
-        }
-    }
-
-    if (haveArgbVisual)
-        label = new ArgbLabel(visual, depth);
-    else
-#endif
-        label = new KTipLabel(haveAlphaChannel());
 }
 
 KToolTipManager::~KToolTipManager()
@@ -495,18 +333,6 @@ void KToolTipManager::initStyleOption(KStyleOptionToolTip *option) const
     option->rect           = QRect();
     option->state          = QStyle::State_None;
     option->decorationSize = QSize(32, 32);
-}
-
-bool KToolTipManager::haveAlphaChannel() const
-{
-#ifdef Q_WS_X11
-    // ### This is a synchronous call - ideally we'd use a selection
-    //     watcher to avoid it.
-    return haveArgbVisual &&
-        XGetSelectionOwner(QX11Info::display(), net_wm_cm_s0) != None;
-#else
-    return false;
-#endif
 }
 
 void KToolTipManager::setDelegate(KToolTipDelegate *delegate)
