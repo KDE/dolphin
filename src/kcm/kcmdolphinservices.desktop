@@ -10,6 +10,7 @@ Name[pt_BR]=Serviços do Dolphin
 Name[ro]=Servicii Dolphin
 Name[sv]=Dolphin-tjänster
 Name[uk]=Служби Dolphin
+Name[x-test]=xxDolphin Servicesxx
 Name[zh_TW]=Dolphin 服務
 
 [Desktop Entry]
@@ -117,5 +118,6 @@ Comment[pt_BR]=Configurar serviços do gerenciador de arquivos
 Comment[ro]=Configurează serviciile gestionarului de fișiere
 Comment[sv]=Anpassa filhanterarens tjänster
 Comment[uk]=Налаштувати служби менеджера файлів
+Comment[x-test]=xxConfigure file manager servicesxx
 Comment[zh_TW]=設定檔案管理員服務
 X-KDE-Keywords=file manager
