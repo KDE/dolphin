@@ -197,7 +197,11 @@ QRegion KToolTipDelegate::shapeMask(const KStyleOptionToolTip *option) const
 
 bool KToolTipDelegate::haveAlphaChannel() const
 {
+#ifdef Q_WS_X11
     return QX11Info::isCompositingManagerRunning();
+#else
+	return false;
+#endif
 }
 
 
@@ -226,9 +230,11 @@ private:
 
 KTipLabel::KTipLabel() : QWidget(0, Qt::ToolTip)
 {
+#ifdef Q_WS_X11
     if (QX11Info::isCompositingManagerRunning()) {
         setAttribute(Qt::WA_TranslucentBackground);
     }
+#endif
 }
 
 void KTipLabel::showTip(const QPoint &pos, const KToolTipItem *item)
@@ -254,11 +260,13 @@ void KTipLabel::paintEvent(QPaintEvent*)
     KStyleOptionToolTip option = styleOption();
     option.rect = rect();
 
+#ifdef Q_WS_X11
     if (QX11Info::isCompositingManagerRunning())
         XShapeCombineRegion(x11Info().display(), winId(), ShapeInput, 0, 0,
                             delegate()->inputShape(&option).handle(), ShapeSet);
     else
-        setMask(delegate()->shapeMask(&option));
+#endif
+		setMask(delegate()->shapeMask(&option));
 
     QPainter p(this);
     p.setFont(option.font);
