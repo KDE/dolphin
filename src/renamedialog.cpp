@@ -43,13 +43,12 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     setButtons(Ok | Cancel);
     setDefaultButton(Ok);
 
-    setButtonGuiItem(Ok, KGuiItem(i18nc("@action:button", "Rename"), "dialog-ok-apply"));
+    setButtonGuiItem(Ok, KGuiItem(i18nc("@action:button", "&Rename"), "dialog-ok-apply"));
 
     QWidget* page = new QWidget(this);
     setMainWidget(page);
 
     QVBoxLayout* topLayout = new QVBoxLayout(page);
-    topLayout->setMargin(KDialog::marginHint());
 
     QLabel* editLabel = 0;
     if (m_renameOneItem) {
