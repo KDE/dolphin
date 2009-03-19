@@ -478,46 +478,61 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
 void DolphinMainWindow::saveProperties(KConfigGroup& group)
 {
-    // TODO: remember tabs
-    DolphinViewContainer* cont = m_viewTab[m_tabIndex].primaryView;
-    group.writeEntry("Primary Url", cont->url().url());
-    group.writeEntry("Primary Editable Url", cont->isUrlEditable());
+    const int tabCount = m_viewTab.count();
+    group.writeEntry("Tab Count", tabCount);
+    group.writeEntry("Active Tab Index", m_tabBar->currentIndex());
 
-    cont = m_viewTab[m_tabIndex].secondaryView;
-    if (cont != 0) {
-        group.writeEntry("Secondary Url", cont->url().url());
-        group.writeEntry("Secondary Editable Url", cont->isUrlEditable());
+    for (int i = 0; i < tabCount; ++i) {
+        const DolphinViewContainer* cont = m_viewTab[i].primaryView;
+        group.writeEntry(tabProperty("Primary URL", i), cont->url().url());
+        group.writeEntry(tabProperty("Primary Editable", i), cont->isUrlEditable());
+
+        cont = m_viewTab[i].secondaryView;
+        if (cont != 0) {
+            group.writeEntry(tabProperty("Secondary URL", i), cont->url().url());
+            group.writeEntry(tabProperty("Secondary Editable", i), cont->isUrlEditable());
+        }
     }
 }
 
 void DolphinMainWindow::readProperties(const KConfigGroup& group)
 {
-    // TODO: read tabs
-    DolphinViewContainer* cont = m_viewTab[m_tabIndex].primaryView;
+    const int tabCount = group.readEntry("Tab Count", 1);
+    for (int i = 0; i < tabCount; ++i) {
+        DolphinViewContainer* cont = m_viewTab[i].primaryView;
 
-    cont->setUrl(group.readEntry("Primary Url"));
-    bool editable = group.readEntry("Primary Editable Url", false);
-    cont->urlNavigator()->setUrlEditable(editable);
+        cont->setUrl(group.readEntry(tabProperty("Primary URL", i)));
+        const bool editable = group.readEntry(tabProperty("Primary Editable", i), false);
+        cont->urlNavigator()->setUrlEditable(editable);
 
-    cont = m_viewTab[m_tabIndex].secondaryView;
-    const QString secondaryUrl = group.readEntry("Secondary Url");
-    if (!secondaryUrl.isEmpty()) {
-        if (cont == 0) {
-            // a secondary view should be shown, but no one is available
-            // currently -> create a new view
+        cont = m_viewTab[i].secondaryView;
+        const QString secondaryUrl = group.readEntry(tabProperty("Secondary URL", i));
+        if (!secondaryUrl.isEmpty()) {
+            if (cont == 0) {
+                // a secondary view should be shown, but no one is available
+                // currently -> create a new view
+                toggleSplitView();
+                cont = m_viewTab[i].secondaryView;
+                Q_ASSERT(cont != 0);
+            }
+
+            cont->setUrl(secondaryUrl);
+            const bool editable = group.readEntry(tabProperty("Secondary Editable", i), false);
+            cont->urlNavigator()->setUrlEditable(editable);
+        } else if (cont != 0) {
+            // no secondary view should be shown, but the default setting shows
+            // one already -> close the view
             toggleSplitView();
-            cont = m_viewTab[m_tabIndex].secondaryView;
-            Q_ASSERT(cont != 0);
         }
 
-        cont->setUrl(secondaryUrl);
-        bool editable = group.readEntry("Secondary Editable Url", false);
-        cont->urlNavigator()->setUrlEditable(editable);
-    } else if (cont != 0) {
-        // no secondary view should be shown, but the default setting shows
-        // one already -> close the view
-        toggleSplitView();
+        // openNewTab() needs to be called only tabCount - 1 times
+        if (i != tabCount - 1) {
+             openNewTab();
+        }
     }
+
+    const int index = group.readEntry("Active Tab Index", 0);
+    m_tabBar->setCurrentIndex(index);
 }
 
 void DolphinMainWindow::updateNewMenu()
@@ -1510,6 +1525,11 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
     m_viewTab[tabIndex].secondaryView->view()->reload();
     m_viewTab[tabIndex].secondaryView->setActive(false);
     m_viewTab[tabIndex].secondaryView->show();
+}
+
+QString DolphinMainWindow::tabProperty(const QString& property, int tabIndex) const
+{
+    return "Tab " + QString::number(tabIndex) + ' ' + property;
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :

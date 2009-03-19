@@ -418,6 +418,13 @@ private:
 
     void createSecondaryView(int tabIndex);
 
+    /**
+     * Helper method for saveProperties() and readProperties(): Returns
+     * the property string for a tab with the index \a tabIndex and
+     * the property \a property.
+     */
+    QString tabProperty(const QString& property, int tabIndex) const;
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This
