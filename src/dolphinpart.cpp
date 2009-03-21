@@ -43,6 +43,8 @@
 #include <knewmenu.h>
 #include <kmenu.h>
 
+#include "dolphinsettings.h"
+
 #include <QActionGroup>
 #include <QApplication>
 #include <QClipboard>
@@ -137,6 +139,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
 DolphinPart::~DolphinPart()
 {
+    DolphinSettings::instance().save();
     delete m_dirLister;
 }
 

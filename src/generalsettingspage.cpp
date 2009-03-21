@@ -135,6 +135,8 @@ void GeneralSettingsPage::applySettings()
     settings->setBrowseThroughArchives(m_browseThroughArchives->isChecked());
     settings->setRenameInline(m_renameInline->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
+    
+    settings->writeConfig();
 }
 
 void GeneralSettingsPage::restoreDefaults()

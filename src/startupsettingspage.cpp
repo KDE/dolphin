@@ -126,6 +126,8 @@ void StartupSettingsPage::applySettings()
     settings->setEditableUrl(m_editableUrl->isChecked());
     settings->setShowFullPath(m_showFullPath->isChecked());
     settings->setFilterBar(m_filterBar->isChecked());
+    
+    settings->writeConfig();
 }
 
 void StartupSettingsPage::restoreDefaults()
