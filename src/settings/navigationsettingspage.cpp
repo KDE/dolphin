@@ -90,6 +90,8 @@ void NavigationSettingsPage::applySettings()
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
+
+    settings->writeConfig();
 }
 
 void NavigationSettingsPage::restoreDefaults()

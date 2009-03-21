@@ -109,6 +109,8 @@ void DetailsViewSettingsPage::applySettings()
     settings->setFontWeight(font.weight());
 
     settings->setExpandableFolders(m_expandableFolders->isChecked());
+
+    settings->writeConfig();
 }
 
 void DetailsViewSettingsPage::restoreDefaults()

@@ -18,7 +18,6 @@
 */
 
 #include "dolphinpart.h"
-#include <kdebug.h>
 #include "dolphinviewactionhandler.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
@@ -43,6 +42,8 @@
 #include <kauthorized.h>
 #include <knewmenu.h>
 #include <kmenu.h>
+
+#include "settings/dolphinsettings.h"
 
 #include <QActionGroup>
 #include <QApplication>
@@ -140,6 +141,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
 DolphinPart::~DolphinPart()
 {
+    DolphinSettings::instance().save();
     DolphinNewMenuObserver::instance().detach(m_newMenu);
     delete m_dirLister;
 }

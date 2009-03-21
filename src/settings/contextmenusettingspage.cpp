@@ -68,6 +68,7 @@ void ContextMenuSettingsPage::applySettings()
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     settings->setShowCopyMoveMenu(m_showCopyMoveMenu->isChecked());
+    settings->writeConfig();
 }
 
 void ContextMenuSettingsPage::restoreDefaults()

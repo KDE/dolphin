@@ -186,6 +186,8 @@ void IconsViewSettingsPage::applySettings()
     } else {
         settings->setGridSpacing(GridSpacingBase + (index - 1) * GridSpacingInc);
     }
+
+    settings->writeConfig();
 }
 
 void IconsViewSettingsPage::restoreDefaults()

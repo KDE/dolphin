@@ -70,6 +70,8 @@ void ServicesSettingsPage::applySettings()
         const QString service = item->data(Qt::UserRole).toString();
         showGroup.writeEntry(service, show);
     }
+
+    showGroup.sync();
 }
 
 void ServicesSettingsPage::restoreDefaults()

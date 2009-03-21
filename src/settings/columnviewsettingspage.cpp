@@ -116,6 +116,8 @@ void ColumnViewSettingsPage::applySettings()
     // TODO:
     //const int columnWidth = 150 + (m_columnWidthSlider->value() * 50);
     //settings->setColumnWidth(columnWidth);
+
+    settings->writeConfig();
 }
 
 void ColumnViewSettingsPage::restoreDefaults()

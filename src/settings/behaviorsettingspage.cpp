@@ -138,6 +138,7 @@ void BehaviorSettingsPage::applySettings()
     settings->setRenameInline(m_renameInline->isChecked());
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
+    settings->writeConfig();
 }
 
 void BehaviorSettingsPage::restoreDefaults()

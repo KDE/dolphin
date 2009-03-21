@@ -62,6 +62,7 @@ void StatusBarSettingsPage::applySettings()
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     settings->setShowZoomSlider(m_showZoomSlider->isChecked());
     settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
+    settings->writeConfig();
 }
 
 void StatusBarSettingsPage::restoreDefaults()
