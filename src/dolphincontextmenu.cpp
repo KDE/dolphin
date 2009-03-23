@@ -28,6 +28,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <kactioncollection.h>
+#include <kfileitemlistproperties.h>
 #include <kfileplacesmodel.h>
 #include <kdesktopfile.h>
 #include <kglobal.h>
@@ -42,7 +43,6 @@
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <konq_menuactions.h>
-#include <konq_popupmenuinformation.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
 #include <krun.h>
@@ -212,11 +212,9 @@ void DolphinContextMenu::openItemContextMenu()
                                              i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
     }
 
-    KonqPopupMenuInformation popupInfo;
-    popupInfo.setItems(m_selectedItems);
-    popupInfo.setParentWidget(m_mainWindow);
     KonqMenuActions menuActions;
-    menuActions.setPopupMenuInfo(popupInfo);
+    menuActions.setParentWidget(m_mainWindow);
+    menuActions.setItemListProperties(m_selectedItems);
 
     // insert 'Open With...' action or sub menu
     menuActions.addOpenWithActionsTo(popup, "DesktopEntryName != 'dolphin'");
