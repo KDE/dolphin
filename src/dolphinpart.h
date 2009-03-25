@@ -30,6 +30,7 @@ class KFileItemList;
 class KFileItem;
 class DolphinPartBrowserExtension;
 class DolphinSortFilterProxyModel;
+class DolphinRemoteEncoding;
 class DolphinModel;
 class KDirLister;
 class DolphinView;
@@ -206,6 +207,7 @@ private:
 private:
     DolphinView* m_view;
     DolphinViewActionHandler* m_actionHandler;
+    DolphinRemoteEncoding* m_remoteEncoding;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;

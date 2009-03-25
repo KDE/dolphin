@@ -22,7 +22,6 @@
 #include "settings/viewpropertiesdialog.h"
 #include "dolphinview.h"
 #include "zoomlevelinfo.h"
-
 #include <konq_operations.h>
 
 #include <kaction.h>
@@ -31,6 +30,7 @@
 #include <ktoggleaction.h>
 #include <krun.h>
 #include <kpropertiesdialog.h>
+
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
     : QObject(parent),
@@ -66,6 +66,11 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(slotZoomLevelChanged(int)));
+}
+
+DolphinView* DolphinViewActionHandler::currentView()
+{
+    return m_currentView;
 }
 
 void DolphinViewActionHandler::createActions()
@@ -338,6 +343,11 @@ QString DolphinViewActionHandler::currentViewModeActionName() const
         return "columns";
     }
     return QString(); // can't happen
+}
+
+KActionCollection* DolphinViewActionHandler::actionCollection()
+{
+    return m_actionCollection;
 }
 
 void DolphinViewActionHandler::updateViewActions()

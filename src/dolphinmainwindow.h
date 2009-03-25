@@ -43,6 +43,7 @@ class DolphinApplication;
 class DolphinSearchBox;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
+class DolphinRemoteEncoding;
 class KNewMenu;
 class KTabBar;
 class KUrl;
@@ -461,6 +462,7 @@ private:
     QList<ViewTab> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
+    DolphinRemoteEncoding* m_remoteEncoding;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 };
 

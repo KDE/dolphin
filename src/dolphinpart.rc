@@ -56,6 +56,7 @@
     <Action name="find_file" />
     <Action name="show_filter_bar" />
     <Action name="compare_files" />
+    <Action name="change_remote_encoding" />
   </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text context="@title:menu">Dolphin Toolbar</text>

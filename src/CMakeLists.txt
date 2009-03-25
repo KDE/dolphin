@@ -29,7 +29,7 @@ set(dolphinprivate_LIB_SRCS
     dolphincategorydrawer.cpp
     dolphinview.cpp
     dolphinviewactionhandler.cpp
-    dolphinviewautoscroller.cpp
+    dolphinviewautoscroller.cpp    
     draganddrophelper.cpp
     folderexpander.cpp
     renamedialog.cpp
@@ -74,6 +74,7 @@ install(TARGETS dolphinprivate  ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(dolphinpart_SRCS
    dolphinpart.cpp
+   dolphinremoteencoding.cpp
 )
 
 
@@ -89,6 +90,7 @@ install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 ##########################################
 
 set(dolphin_SRCS
+    dolphinremoteencoding.cpp
     dolphinapplication.cpp
     dolphinmainwindow.cpp
     dolphinnewmenu.cpp

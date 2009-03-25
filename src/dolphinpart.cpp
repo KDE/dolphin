@@ -23,6 +23,7 @@
 #include "dolphinview.h"
 #include "dolphinmodel.h"
 #include "dolphinnewmenuobserver.h"
+#include "dolphinremoteencoding.h"
 
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
@@ -125,6 +126,10 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);
 
+    m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
+    connect(this, SIGNAL(aboutToOpenURL()),
+            m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
+
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updatePasteAction()));
@@ -137,6 +142,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // (sort of spacial navigation)
 
     loadPlugins(this, this, componentData());
+
 }
 
 DolphinPart::~DolphinPart()

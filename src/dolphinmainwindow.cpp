@@ -21,6 +21,7 @@
 
 #include "dolphinmainwindow.h"
 #include "dolphinviewactionhandler.h"
+#include "dolphinremoteencoding.h"
 
 #include <config-nepomuk.h>
 
@@ -113,6 +114,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_tabIndex(0),
     m_viewTab(),
     m_actionHandler(0),
+    m_remoteEncoding(0),
     m_settingsDialog(0)
 {
     setObjectName("Dolphin#");
@@ -985,6 +987,10 @@ void DolphinMainWindow::init()
     view->reload();
     m_activeViewContainer->show();
     m_actionHandler->setCurrentView(view);
+    
+    m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
+    connect(this, SIGNAL(urlChanged(const KUrl&)), 
+            m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
 
     m_tabBar = new KTabBar(this);
     m_tabBar->setMovable(true);

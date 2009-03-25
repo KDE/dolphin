@@ -55,11 +55,21 @@ public:
      * Sets the view that this action handler should work on.
      */
     void setCurrentView(DolphinView* view);
+    
+    /**
+     * Returns the view that this action handler should work on.
+     */
+    DolphinView* currentView();
 
     /**
      * Returns the name of the action for the current viewmode
      */
     QString currentViewModeActionName() const;
+    
+    /**
+     * Returns m_actionCollection
+     */
+    KActionCollection* actionCollection(); 
 
 public Q_SLOTS:
     /**
