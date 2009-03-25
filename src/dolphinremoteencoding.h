@@ -23,6 +23,7 @@
 #include <QStringList>
 #include <QtGui/QAction>
 #include <kurl.h>
+#include "libdolphin_export.h"
 
 
 class KActionMenu;
@@ -34,7 +35,7 @@ class DolphinViewActionHandler;
  * When browsing remote url, its possible to change encoding from Tools Menu.
  */
 
-class DolphinRemoteEncoding: public QObject
+class LIBDOLPHINPRIVATE_EXPORT DolphinRemoteEncoding: public QObject
 {
   Q_OBJECT
 public:
