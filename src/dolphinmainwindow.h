@@ -172,6 +172,8 @@ private slots:
     /** Updates the 'Create New...' sub menu. */
     void updateNewMenu();
 
+    void createDirectory();
+
     /** Shows the error message in the status bar of the active view. */
     void showErrorMessage(const QString& message);
 

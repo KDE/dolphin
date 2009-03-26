@@ -27,6 +27,7 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <klocale.h>
+#include <knewmenu.h>
 #include <ktoggleaction.h>
 #include <krun.h>
 #include <kpropertiesdialog.h>
@@ -81,7 +82,7 @@ void DolphinViewActionHandler::createActions()
     newDirAction->setText(i18nc("@action", "Create Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);
     newDirAction->setIcon(KIcon("folder-new"));
-    connect(newDirAction, SIGNAL(triggered()), SLOT(slotCreateDir()));
+    connect(newDirAction, SIGNAL(triggered()), this, SIGNAL(createDirectory()));
 
     // Edit menu
 
@@ -281,12 +282,6 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
 
 
     return sortByActionGroup;
-}
-
-void DolphinViewActionHandler::slotCreateDir()
-{
-    Q_ASSERT(m_currentView);
-    KonqOperations::newDir(m_currentView, m_currentView->url());
 }
 
 void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)

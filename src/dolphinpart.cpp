@@ -125,6 +125,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);
+    connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
     connect(this, SIGNAL(aboutToOpenURL()),
@@ -541,6 +542,12 @@ void DolphinPart::updateStatusBar()
 void DolphinPart::updateProgress(int percent)
 {
     m_extension->loadingProgress(percent);
+}
+
+void DolphinPart::createDirectory()
+{
+    m_newMenu->setPopupFiles(url());
+    m_newMenu->createDirectory();
 }
 
 #include "dolphinpart.moc"

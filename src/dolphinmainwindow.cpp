@@ -543,6 +543,12 @@ void DolphinMainWindow::updateNewMenu()
     m_newMenu->setPopupFiles(activeViewContainer()->url());
 }
 
+void DolphinMainWindow::createDirectory()
+{
+    m_newMenu->setPopupFiles(activeViewContainer()->url());
+    m_newMenu->createDirectory();
+}
+
 void DolphinMainWindow::quit()
 {
     close();
@@ -976,6 +982,7 @@ void DolphinMainWindow::init()
     setCaption(homeUrl.fileName());
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
+    connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
     ViewProperties props(homeUrl);
     m_viewTab[m_tabIndex].primaryView = new DolphinViewContainer(this,
                                                                  m_viewTab[m_tabIndex].splitter,
@@ -987,9 +994,9 @@ void DolphinMainWindow::init()
     view->reload();
     m_activeViewContainer->show();
     m_actionHandler->setCurrentView(view);
-    
+
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
-    connect(this, SIGNAL(urlChanged(const KUrl&)), 
+    connect(this, SIGNAL(urlChanged(const KUrl&)),
             m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
 
     m_tabBar = new KTabBar(this);

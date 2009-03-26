@@ -55,7 +55,7 @@ public:
      * Sets the view that this action handler should work on.
      */
     void setCurrentView(DolphinView* view);
-    
+
     /**
      * Returns the view that this action handler should work on.
      */
@@ -65,11 +65,11 @@ public:
      * Returns the name of the action for the current viewmode
      */
     QString currentViewModeActionName() const;
-    
+
     /**
      * Returns m_actionCollection
      */
-    KActionCollection* actionCollection(); 
+    KActionCollection* actionCollection();
 
 public Q_SLOTS:
     /**
@@ -85,13 +85,14 @@ Q_SIGNALS:
      */
     void actionBeingHandled();
 
-private Q_SLOTS:
     /**
-     * Opens the dialog for creating a directory. Is connected
-     * with the key shortcut for "new directory" (F10).
+     * Emitted if the user requested creating a new directory by the F10 key.
+     * The receiver of the signal (DolphinMainWindow or DolphinPart) invokes
+     * the method createDirectory of their KNewMenu instance.
      */
-    void slotCreateDir();
+    void createDirectory();
 
+private Q_SLOTS:
     /**
      * Emitted when the user requested a change of view mode
      */

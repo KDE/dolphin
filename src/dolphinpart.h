@@ -198,6 +198,8 @@ private Q_SLOTS:
     */
     void updateProgress(int percent);
 
+    void createDirectory();
+
 private:
     void createActions();
     void createGoAction(const char* name, const char* iconName,
