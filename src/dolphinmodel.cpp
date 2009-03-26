@@ -248,7 +248,8 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                 Q_ASSERT(false);
             }
         } else {
-            if (daysDistance <= (currentDate.day() + modifiedDate.daysInMonth())) {
+            const QDate lastMonthDate = currentDate.addMonths(-1);
+            if  (lastMonthDate.year() == modifiedDate.year() && lastMonthDate.month() == modifiedDate.month()) {
                 if (daysDistance == 1) {
                     retString = i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Yesterday (%B, %Y)");
                 } else if (daysDistance <= 7) {
