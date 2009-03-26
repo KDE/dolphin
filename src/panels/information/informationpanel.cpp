@@ -234,19 +234,24 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
     previewAction->setCheckable(true);
     previewAction->setChecked(InformationPanelSettings::showPreview());
 
+    const bool metaDataAvailable = MetaDataWidget::metaDataAvailable();
+
     QAction* ratingAction = popup.addAction(i18nc("@action:inmenu", "Rating"));
     ratingAction->setIcon(KIcon("rating"));
     ratingAction->setCheckable(true);
     ratingAction->setChecked(InformationPanelSettings::showRating());
+    ratingAction->setEnabled(metaDataAvailable);
 
     QAction* commentAction = popup.addAction(i18nc("@action:inmenu", "Comment"));
     commentAction->setIcon(KIcon("text-plain"));
     commentAction->setCheckable(true);
     commentAction->setChecked(InformationPanelSettings::showComment());
+    commentAction->setEnabled(metaDataAvailable);
 
     QAction* tagsAction = popup.addAction(i18nc("@action:inmenu", "Tags"));
     tagsAction->setCheckable(true);
     tagsAction->setChecked(InformationPanelSettings::showTags());
+    tagsAction->setEnabled(metaDataAvailable);
 
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
