@@ -55,6 +55,12 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
                                   Qt::DropActions supportedActions,
                                   DolphinController* controller)
 {
+	//do not start a new drag until the previous one has been finished
+	//This is a (possibly temporary) fix for bug #187884
+	static bool isDragging = false;
+	if (isDragging) return;
+	isDragging = true;
+
     QModelIndexList indexes = itemView->selectionModel()->selectedIndexes();
     if (indexes.count() > 0) {
         QMimeData *data = itemView->model()->mimeData(indexes);
@@ -82,6 +88,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
         drag->setMimeData(data);
         drag->exec(supportedActions, Qt::IgnoreAction);
     }
+	isDragging = false;
 }
 
 void DragAndDropHelper::dropUrls(const KFileItem& destItem,
