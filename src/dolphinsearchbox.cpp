@@ -39,9 +39,9 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     hLayout->setSpacing(0);
 
     m_searchInput = new KLineEdit(this);
-    m_searchInput->setLayoutDirection(Qt::LeftToRight);
     m_searchInput->setClearButtonShown(true);
     m_searchInput->setMinimumWidth(150);
+    m_searchInput->setClickMessage(i18nc("@label:textbox", "Search..."));
     hLayout->addWidget(m_searchInput);
     connect(m_searchInput, SIGNAL(returnPressed()),
             this, SLOT(emitSearchSignal()));
@@ -49,7 +49,7 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_searchButton = new QToolButton(this);
     m_searchButton->setAutoRaise(true);
     m_searchButton->setIcon(KIcon("edit-find"));
-    m_searchButton->setToolTip(i18nc("@info:tooltip", "Search"));
+    m_searchButton->setToolTip(i18nc("@info:tooltip", "Click to begin the search"));
     hLayout->addWidget(m_searchButton);
     connect(m_searchButton, SIGNAL(clicked()),
             this, SLOT(emitSearchSignal()));
