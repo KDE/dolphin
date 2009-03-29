@@ -20,12 +20,14 @@
 #include "terminalpanel.h"
 
 #include <klibloader.h>
-#include <kde_terminal_interface.h>
+#include <kde_terminal_interface_v2.h>
 #include <kparts/part.h>
 #include <kshell.h>
 
 #include <QBoxLayout>
 #include <QShowEvent>
+
+#include <kdebug.h>
 
 TerminalPanel::TerminalPanel(QWidget* parent) :
     Panel(parent),
@@ -55,9 +57,14 @@ void TerminalPanel::setUrl(const KUrl& url)
     }
 
     Panel::setUrl(url);
-    if ((m_terminal != 0) && isVisible() && url.isLocalFile()) {
+    const bool sendInput = (m_terminal != 0)
+                           && (m_terminal->foregroundProcessId() == -1)
+                           && isVisible()
+                           && url.isLocalFile();
+    if (sendInput) {
         m_terminal->sendInput("cd " + KShell::quoteArg(url.toLocalFile()) + '\n');
     }
+
 }
 
 void TerminalPanel::terminalExited()
@@ -80,9 +87,10 @@ void TerminalPanel::showEvent(QShowEvent* event)
             connect(part, SIGNAL(destroyed(QObject*)), this, SLOT(terminalExited()));
             m_terminalWidget = part->widget();
             m_layout->addWidget(m_terminalWidget);
-            m_terminal = qobject_cast<TerminalInterface *>(part);
+            m_terminal = qobject_cast<TerminalInterfaceV2 *>(part);
             m_terminal->showShellInDir(url().path());
-        }
+
+        }        
     }
     if (m_terminal != 0) {
         m_terminal->sendInput("cd " + KShell::quoteArg(url().path()) + '\n');

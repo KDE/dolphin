@@ -22,7 +22,7 @@
 
 #include <panels/panel.h>
 
-class TerminalInterface;
+class TerminalInterfaceV2;
 class QVBoxLayout;
 class QWidget;
 
@@ -55,7 +55,7 @@ protected:
 
 private:
     QVBoxLayout* m_layout;
-    TerminalInterface* m_terminal;
+    TerminalInterfaceV2* m_terminal;
     QWidget* m_terminalWidget;
 };
 
