@@ -517,6 +517,8 @@ void DolphinColumnWidget::activate()
 void DolphinColumnWidget::deactivate()
 {
     clearFocus();
+    disconnect(this, SIGNAL(clicked(const QModelIndex&)),
+               m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
 
     // TODO: Connecting to the signal 'activated()' is not possible, as kstyle
     // does not forward the single vs. doubleclick to it yet (KDE 4.1?). Hence it is
