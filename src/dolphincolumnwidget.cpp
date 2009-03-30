@@ -170,7 +170,7 @@ void DolphinColumnWidget::setDecorationSize(const QSize& size)
     m_decorationSize = size;
     doItemsLayout();
     if (m_previewGenerator != 0) {
-        m_previewGenerator->updatePreviews();
+        m_previewGenerator->updateIcons();
     }
     if (m_selectionManager != 0) {
         m_selectionManager->reset();

@@ -408,7 +408,7 @@ void DolphinView::setZoomLevel(int level)
 
     if (level != zoomLevel()) {
         m_controller->setZoomLevel(level);
-        m_previewGenerator->updatePreviews();
+        m_previewGenerator->updateIcons();
         emit zoomLevelChanged(level);
     }
 }
