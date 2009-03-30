@@ -106,6 +106,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_rootUrl(),
     m_currentItemUrl(),
     m_createdItemUrl(),
+    m_selectedItems(),
     m_expandedDragSource(0)
 {
     m_topLayout = new QVBoxLayout(this);
@@ -1109,6 +1110,12 @@ void DolphinView::selectAndScrollToCreatedItem()
     m_createdItemUrl = KUrl();
 }
 
+void DolphinView::restoreSelection()
+{
+    disconnect(m_dirLister, SIGNAL(completed()), this, SLOT(restoreSelection()));
+    changeSelection(m_selectedItems);
+}
+
 void DolphinView::emitContentsMoved()
 {
     // only emit the contents moved signal if:
@@ -1182,6 +1189,11 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
     }
 
     m_loadingDirectory = true;
+
+    if (reload) {
+        m_selectedItems = selectedItems();
+        connect(m_dirLister, SIGNAL(completed()), this, SLOT(restoreSelection()));
+    }
 
     m_dirLister->stop();
     m_dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
@@ -1476,5 +1488,6 @@ QMimeData* DolphinView::selectionMimeData() const
     const QItemSelection selection = m_proxyModel->mapSelectionToSource(view->selectionModel()->selection());
     return m_dolphinModel->mimeData(selection.indexes());
 }
+
 
 #include "dolphinview.moc"

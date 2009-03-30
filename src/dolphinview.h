@@ -657,6 +657,11 @@ private slots:
      */
     void selectAndScrollToCreatedItem();
 
+    /**
+     * Restore selection after view refresh.
+     */
+    void restoreSelection();
+
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
 
@@ -760,6 +765,7 @@ private:
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
+    KFileItemList m_selectedItems; //this is used for making the View to remember selections after F5
 
     QAbstractItemView* m_expandedDragSource;
 };
