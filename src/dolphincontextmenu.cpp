@@ -40,7 +40,7 @@
 #include <kmimetypetrader.h>
 #include <knewmenu.h>
 #include <konqmimedata.h>
-#include <konq_fileitemcapabilities.h>
+#include <kfileitemlistproperties.h>
 #include <konq_operations.h>
 #include <konq_menuactions.h>
 #include <klocale.h>
@@ -378,10 +378,10 @@ QAction* DolphinContextMenu::createPasteAction()
     return action;
 }
 
-KonqFileItemCapabilities& DolphinContextMenu::capabilities()
+KFileItemListProperties& DolphinContextMenu::capabilities()
 {
     if (m_capabilities == 0) {
-        m_capabilities = new KonqFileItemCapabilities(m_selectedItems);
+        m_capabilities = new KFileItemListProperties(m_selectedItems);
     }
     return *m_capabilities;
 }

@@ -66,7 +66,7 @@
 #include <kmenu.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
-#include <konq_fileitemcapabilities.h>
+#include <kfileitemlistproperties.h>
 #include <konqmimedata.h>
 #include <kprotocolinfo.h>
 #include <krun.h>
@@ -1374,7 +1374,7 @@ void DolphinMainWindow::updateEditActions()
         QAction* cutAction         = col->action(KStandardAction::name(KStandardAction::Cut));
         QAction* deleteWithTrashShortcut = col->action("delete_shortcut"); // see DolphinViewActionHandler
 
-        KonqFileItemCapabilities capabilities(list);
+        KFileItemListProperties capabilities(list);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
 
         renameAction->setEnabled(capabilities.supportsMoving());

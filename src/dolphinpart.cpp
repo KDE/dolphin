@@ -25,7 +25,7 @@
 #include "dolphinnewmenuobserver.h"
 #include "dolphinremoteencoding.h"
 
-#include <konq_fileitemcapabilities.h>
+#include <kfileitemlistproperties.h>
 #include <konq_operations.h>
 
 #include <kaboutdata.h>
@@ -241,7 +241,7 @@ void DolphinPart::slotSelectionChanged(const KFileItemList& selection)
 
         // TODO share this code with DolphinMainWindow::updateEditActions (and the desktop code)
         // in libkonq
-        KonqFileItemCapabilities capabilities(selection);
+        KFileItemListProperties capabilities(selection);
         const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
 
         renameAction->setEnabled(capabilities.supportsMoving());

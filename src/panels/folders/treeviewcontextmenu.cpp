@@ -27,7 +27,7 @@
 #include <kio/deletejob.h>
 #include <kmenu.h>
 #include <konqmimedata.h>
-#include <konq_fileitemcapabilities.h>
+#include <kfileitemlistproperties.h>
 #include <konq_operations.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
@@ -54,7 +54,7 @@ void TreeViewContextMenu::open()
     KMenu* popup = new KMenu(m_parent);
 
     if (!m_fileInfo.isNull()) {
-        KonqFileItemCapabilities capabilities(KFileItemList() << m_fileInfo);
+        KFileItemListProperties capabilities(KFileItemList() << m_fileInfo);
 
         // insert 'Cut', 'Copy' and 'Paste'
         QAction* cutAction = new QAction(KIcon("edit-cut"), i18nc("@action:inmenu", "Cut"), this);

@@ -39,7 +39,7 @@
 #include <kmimetyperesolver.h>
 #include <knewmenu.h>
 #include <konqmimedata.h>
-#include <konq_fileitemcapabilities.h>
+#include <kfileitemlistproperties.h>
 #include <konq_operations.h>
 #include <kshell.h>
 #include <kurl.h>
@@ -282,7 +282,7 @@ void DolphinViewContainer::slotDirListerCompleted()
         // it is unclear whether writing is supported
         m_isFolderWritable = true;
     } else {
-        KonqFileItemCapabilities capabilities(KFileItemList() << item);
+        KFileItemListProperties capabilities(KFileItemList() << item);
         m_isFolderWritable = capabilities.supportsWriting();
     }
 
