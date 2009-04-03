@@ -1,4 +1,5 @@
 Name=Dolphin Services
+Name[el]=Υπηρεσίες Dolphin
 Name[et]=Dolphini teenused
 Name[ga]=Seirbhísí Dolphin
 Name[gu]=ડોલ્ફિન સેવાઓ
@@ -111,6 +112,7 @@ Name[xh]=Iinkonzo
 Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
+Comment[el]=Ρύθμιση υπηρεσιών διαχείρισης αρχείων
 Comment[et]=Failihalduri teenuste seadistamine
 Comment[ga]=Cumraigh seirbhísí bhainisteoir na gcomhad
 Comment[ja]=ファイルマネージャのサービスを設定します
