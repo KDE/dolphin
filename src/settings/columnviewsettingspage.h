@@ -53,6 +53,12 @@ private:
     void loadSettings();
 
 private:
+    enum
+    {
+        BaseTextWidth = 200,
+        TextInc = 50
+    };
+
     IconSizeGroupBox* m_iconSizeGroupBox;
     DolphinFontRequester* m_fontRequester;
     KComboBox* m_textWidthBox;

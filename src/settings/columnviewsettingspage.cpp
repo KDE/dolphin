@@ -77,6 +77,7 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
+    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
     connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
@@ -113,9 +114,8 @@ void ColumnViewSettingsPage::applySettings()
     settings->setItalicFont(font.italic());
     settings->setFontWeight(font.weight());
 
-    // TODO:
-    //const int columnWidth = 150 + (m_columnWidthSlider->value() * 50);
-    //settings->setColumnWidth(columnWidth);
+    const int columnWidth = BaseTextWidth + (m_textWidthBox->currentIndex() * TextInc);
+    settings->setColumnWidth(columnWidth);
 
     settings->writeConfig();
 }
@@ -151,8 +151,7 @@ void ColumnViewSettingsPage::loadSettings()
         m_fontRequester->setCustomFont(font);
     }
 
-    // TODO:
-    //m_columnWidthSlider->setValue((settings->columnWidth() - 150) / 50);
+    m_textWidthBox->setCurrentIndex((settings->columnWidth() - BaseTextWidth) / TextInc);
 }
 
 #include "columnviewsettingspage.moc"
