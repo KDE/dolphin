@@ -113,9 +113,8 @@ void ColumnViewSettingsPage::applySettings()
     settings->setItalicFont(font.italic());
     settings->setFontWeight(font.weight());
 
-    // TODO:
-    //const int columnWidth = 150 + (m_columnWidthSlider->value() * 50);
-    //settings->setColumnWidth(columnWidth);
+    const int columnWidth = BaseTextWidth + (m_textWidthBox->currentIndex() * TextInc);
+    settings->setColumnWidth(columnWidth);
     
     settings->writeConfig();
 }
@@ -150,8 +149,7 @@ void ColumnViewSettingsPage::loadSettings()
         m_fontRequester->setCustomFont(font);
     }
 
-    // TODO:
-    //m_columnWidthSlider->setValue((settings->columnWidth() - 150) / 50);
+    m_textWidthBox->setCurrentIndex((settings->columnWidth() - BaseTextWidth) / TextInc);
 }
 
 #include "columnviewsettingspage.moc"
