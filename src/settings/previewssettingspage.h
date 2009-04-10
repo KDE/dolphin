@@ -25,6 +25,7 @@
 
 class DolphinMainWindow;
 class QCheckBox;
+class QListWidget;
 class QRadioButton;
 class QSlider;
 class QSpinBox;
@@ -50,10 +51,16 @@ public:
     /** Restores the settings to default values. */
     virtual void restoreDefaults();
 
+protected:
+    virtual bool event(QEvent* event);
+
 private:
     void loadSettings();
 
 private:
+    bool m_initialized;
+    QListWidget* m_previewPluginsList;
+    QStringList m_enabledPreviewPlugins;
     QSlider* m_maxPreviewSize;
     QSpinBox* m_spinBox;
     QCheckBox* m_useFileThumbnails;
