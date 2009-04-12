@@ -42,6 +42,7 @@ class MetaTextLabel;
 class QPixmap;
 class QString;
 class KFileItem;
+class KSeparator;
 class QLabel;
 class QScrollArea;
 
@@ -202,8 +203,10 @@ private:
 
     QLabel* m_nameLabel;
     PixmapViewer* m_preview;
+    KSeparator* m_previewSeparator;
     PhononWidget* m_phononWidget;
     MetaDataWidget* m_metaDataWidget;
+    KSeparator* m_metaDataSeparator;
 
     QScrollArea* m_metaTextArea;
     MetaTextLabel* m_metaTextLabel;

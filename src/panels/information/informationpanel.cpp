@@ -86,8 +86,10 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_selection(),
     m_nameLabel(0),
     m_preview(0),
+    m_previewSeparator(0),
     m_phononWidget(0),
     m_metaDataWidget(0),
+    m_metaDataSeparator(0),
     m_metaTextArea(0),
     m_metaTextLabel(0)
 {
@@ -95,6 +97,7 @@ InformationPanel::InformationPanel(QWidget* parent) :
 
 InformationPanel::~InformationPanel()
 {
+    InformationPanelSettings::self()->writeConfig();
 }
 
 QSize InformationPanel::sizeHint() const
@@ -316,19 +319,30 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
         return;
     }
 
+    const bool isChecked = action->isChecked();
     if (action == previewAction) {
-        // TODO
+        m_preview->setVisible(isChecked);
+        m_previewSeparator->setVisible(isChecked);
+        InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == ratingAction) {
-        // TODO
+        m_metaDataWidget->setRatingVisible(isChecked);
+        InformationPanelSettings::setShowRating(isChecked);
     } else if (action == commentAction) {
-        // TODO
+        m_metaDataWidget->setCommentVisible(isChecked);
+        InformationPanelSettings::setShowComment(isChecked);
     } else if (action == tagsAction) {
-        // TODO
+        m_metaDataWidget->setTagsVisible(isChecked);
+        InformationPanelSettings::setShowTags(isChecked);
     } else {
         settings.writeEntry(action->data().toString(), action->isChecked());
         settings.sync();
         showMetaInfo();
     }
+
+    const bool visible = m_metaDataWidget->isRatingVisible() ||
+                         m_metaDataWidget->isCommentVisible() ||
+                         m_metaDataWidget->areTagsVisible();
+    m_metaDataSeparator->setVisible(visible);
 #endif
 }
 
@@ -712,10 +726,27 @@ void InformationPanel::init()
     m_preview->setMinimumWidth(KIconLoader::SizeEnormous + KIconLoader::SizeMedium);
     m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
 
+    m_previewSeparator = new KSeparator(this);
+
+    const bool showPreview = InformationPanelSettings::showPreview();
+    m_preview->setVisible(showPreview);
+    m_previewSeparator->setVisible(showPreview);
+
     if (MetaDataWidget::metaDataAvailable()) {
         // rating, comment and tags
         m_metaDataWidget = new MetaDataWidget(this);
         m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+        const bool showRating  = InformationPanelSettings::showRating();
+        const bool showComment = InformationPanelSettings::showComment();
+        const bool showTags    = InformationPanelSettings::showTags();
+
+        m_metaDataWidget->setRatingVisible(showRating);
+        m_metaDataWidget->setCommentVisible(showComment);
+        m_metaDataWidget->setTagsVisible(showTags);
+
+        m_metaDataSeparator = new KSeparator(this);
+        m_metaDataSeparator->setVisible(showRating || showComment || showTags);
     }
 
     // general meta text information
@@ -737,10 +768,10 @@ void InformationPanel::init()
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator(this));
     layout->addWidget(m_preview);
-    layout->addWidget(new KSeparator(this));
+    layout->addWidget(m_previewSeparator);
     if (m_metaDataWidget != 0) {
         layout->addWidget(m_metaDataWidget);
-        layout->addWidget(new KSeparator(this));
+        layout->addWidget(m_metaDataSeparator);
     }
     layout->addWidget(m_metaTextArea);
     setLayout(layout);

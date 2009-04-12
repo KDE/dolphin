@@ -43,6 +43,15 @@ public:
      */
     static bool metaDataAvailable();
 
+    void setRatingVisible(bool visible);
+    bool isRatingVisible() const;
+
+    void setCommentVisible(bool visible);
+    bool isCommentVisible() const;
+
+    void setTagsVisible(bool visible);
+    bool areTagsVisible() const;
+
 public Q_SLOTS:
     void setFile(const KUrl& url);
     void setFiles(const KUrl::List& urls);

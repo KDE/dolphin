@@ -198,6 +198,41 @@ MetaDataWidget::~MetaDataWidget()
     delete d;
 }
 
+void MetaDataWidget::setRatingVisible(bool visible)
+{
+    d->ratingWidget->setVisible(visible);
+}
+
+
+bool MetaDataWidget::isRatingVisible() const
+{
+    return d->ratingWidget->isVisible();
+}
+
+
+void MetaDataWidget::setCommentVisible(bool visible)
+{
+    d->editComment->setVisible(visible);
+}
+
+
+bool MetaDataWidget::isCommentVisible() const
+{
+    return d->editComment->isVisible();
+}
+
+
+void MetaDataWidget::setTagsVisible(bool visible)
+{
+    d->tagWidget->setVisible(visible);
+}
+
+
+bool MetaDataWidget::areTagsVisible() const
+{
+    return d->tagWidget->isVisible();
+}
+
 
 void MetaDataWidget::setFile(const KUrl& url)
 {
