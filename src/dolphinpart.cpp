@@ -331,10 +331,7 @@ void DolphinPart::createNewWindow(const KUrl& url)
 {
     // TODO: Check issue N176832 for the missing QAIV signal; task 177399 - maybe this code
     // should be moved into DolphinPart::slotItemTriggered()
-    KFileItem item(S_IFDIR, (mode_t)-1, url);
-    KParts::OpenUrlArguments args;
-    args.setMimeType(item.mimetype());
-    emit m_extension->createNewWindow(url, args);
+    emit m_extension->createNewWindow(url);
 }
 
 void DolphinPart::slotOpenContextMenu(const KFileItem& _item, const KUrl&)
