@@ -64,14 +64,17 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     }
 
     m_lineEdit = new KLineEdit(page);
-    QString extension = KMimeType::extractKnownExtension(items[0].url().prettyUrl());
-    if (extension.length() > 0) {
+
+    QString fileName = items[0].url().prettyUrl();
+    QString extension = KMimeType::extractKnownExtension(fileName.toLower());
+    if (!extension.isEmpty()) {
         extension.insert(0, '.');
         // The first item seems to have a extension (e. g. '.jpg' or '.txt'). Now
         // check whether all other URLs have the same extension. If this is the
         // case, add this extension to the name suggestion.
         for (int i = 1; i < itemCount; ++i) {
-            if (!items[i].url().prettyUrl().contains(extension)) {
+            fileName = items[i].url().prettyUrl().toLower();
+            if (!fileName.endsWith(extension)) {
                 // at least one item does not have the same extension
                 extension.truncate(0);
                 break;
