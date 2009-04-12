@@ -129,6 +129,9 @@ private slots:
     void slotEnteredDirectory(const QString& directory);
     void slotLeftDirectory(const QString& directory);
 
+    void slotPlayingStarted();
+    void slotPlayingStopped();
+
 private:
     /**
      * Checks whether the an URL is repesented by a place. If yes,
@@ -188,6 +191,8 @@ private:
      * are initialized with proper default values.
      */
     void initMetaInfoSettings(KConfigGroup& group);
+
+    void updatePhononWidget();
 
     void init();
 

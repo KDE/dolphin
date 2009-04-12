@@ -31,6 +31,7 @@ namespace Phonon
 {
     class MediaObject;
     class SeekSlider;
+    class VideoPlayer;
 } // namespace Phonon
 
 class QToolButton;
@@ -39,8 +40,27 @@ class PhononWidget : public QWidget
 {
     Q_OBJECT
     public:
+        enum Mode
+        {
+            Audio,
+            Video
+        };
+
         PhononWidget(QWidget *parent = 0);
+
         void setUrl(const KUrl &url);
+        KUrl url() const;
+
+        void setMode(Mode mode);
+        Mode mode() const;
+
+    signals:
+        void playingStarted();
+        void playingStopped();
+
+    protected:
+        virtual void showEvent(QShowEvent *event);
+        virtual void hideEvent(QHideEvent *event);
 
     private slots:
         void stateChanged(Phonon::State);
@@ -48,14 +68,13 @@ class PhononWidget : public QWidget
         void stop();
 
     private:
-        void requestMedia();
-
-    private:
+        Mode m_mode;
         KUrl m_url;
         QToolButton *m_playButton;
         QToolButton *m_stopButton;
         Phonon::MediaObject *m_media;
         Phonon::SeekSlider *m_seekSlider;
+        Phonon::VideoPlayer *m_videoPlayer;
 };
 
 #endif // PHONONWIDGET_H

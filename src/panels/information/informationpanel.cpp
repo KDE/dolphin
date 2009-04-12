@@ -324,6 +324,7 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
         m_preview->setVisible(isChecked);
         m_previewSeparator->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
+        updatePhononWidget();
     } else if (action == ratingAction) {
         m_metaDataWidget->setRatingVisible(isChecked);
         InformationPanelSettings::setShowRating(isChecked);
@@ -506,6 +507,16 @@ void InformationPanel::slotLeftDirectory(const QString& directory)
     }
 }
 
+void InformationPanel::slotPlayingStarted()
+{
+    m_preview->setVisible(m_phononWidget->mode() != PhononWidget::Video);
+}
+
+void InformationPanel::slotPlayingStopped()
+{
+    m_preview->setVisible(true);
+}
+
 bool InformationPanel::applyPlace(const KUrl& url)
 {
     KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
@@ -551,9 +562,6 @@ void InformationPanel::showMetaInfo()
             }
         }
         m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
-
-        delete m_phononWidget;
-        m_phononWidget = 0;
     } else {
         const KFileItem item = fileItem();
         if (item.isDir()) {
@@ -590,21 +598,9 @@ void InformationPanel::showMetaInfo()
         if (m_metaDataWidget != 0) {
             m_metaDataWidget->setFile(item.targetUrl());
         }
-
-        if (Phonon::BackendCapabilities::isMimeTypeAvailable(item.mimetype())) {
-            if (m_phononWidget == 0) {
-                m_phononWidget = new PhononWidget(this);
-
-                QVBoxLayout* vBoxLayout = qobject_cast<QVBoxLayout*>(layout());
-                Q_ASSERT(vBoxLayout != 0);
-                vBoxLayout->insertWidget(3, m_phononWidget);
-            }
-            m_phononWidget->setUrl(item.url());
-        } else {
-            delete m_phononWidget;
-            m_phononWidget = 0;
-        }
     }
+
+    updatePhononWidget();
 }
 
 KFileItem InformationPanel::fileItem() const
@@ -691,6 +687,30 @@ void InformationPanel::initMetaInfoSettings(KConfigGroup& group)
     }
 }
 
+void InformationPanel::updatePhononWidget()
+{
+    const bool multipleSelections = showMultipleSelectionInfo();
+    const bool showPreview = InformationPanelSettings::showPreview();
+
+    if (multipleSelections || !showPreview) {
+        m_phononWidget->hide();
+    } else if (!multipleSelections && showPreview) {
+        const KFileItem item = fileItem();
+        const QString mimeType = item.mimetype();
+        if (Phonon::BackendCapabilities::isMimeTypeAvailable(mimeType)) {
+            m_phononWidget->show();
+            PhononWidget::Mode mode = mimeType.startsWith("video")
+                                      ? PhononWidget::Video
+                                      : PhononWidget::Audio;
+            m_phononWidget->setMode(mode);
+            m_phononWidget->setUrl(item.url());
+        } else {
+            m_phononWidget->hide();
+            m_preview->setVisible(true);
+        }
+    }
+}
+
 void InformationPanel::init()
 {
     const int spacing = KDialog::spacingHint();
@@ -725,6 +745,12 @@ void InformationPanel::init()
     m_preview = new PixmapViewer(this);
     m_preview->setMinimumWidth(KIconLoader::SizeEnormous + KIconLoader::SizeMedium);
     m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
+
+    m_phononWidget = new PhononWidget(this);
+    connect(m_phononWidget, SIGNAL(playingStarted()),
+            this, SLOT(slotPlayingStarted()));
+    connect(m_phononWidget, SIGNAL(playingStopped()),
+            this, SLOT(slotPlayingStopped()));
 
     m_previewSeparator = new KSeparator(this);
 
@@ -768,6 +794,7 @@ void InformationPanel::init()
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator(this));
     layout->addWidget(m_preview);
+    layout->addWidget(m_phononWidget);
     layout->addWidget(m_previewSeparator);
     if (m_metaDataWidget != 0) {
         layout->addWidget(m_metaDataWidget);
