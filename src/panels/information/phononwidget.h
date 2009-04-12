@@ -72,6 +72,7 @@ class PhononWidget : public QWidget
         KUrl m_url;
         QToolButton *m_playButton;
         QToolButton *m_stopButton;
+        Phonon::MediaObject *m_audioMedia;
         Phonon::MediaObject *m_media;
         Phonon::SeekSlider *m_seekSlider;
         Phonon::VideoPlayer *m_videoPlayer;

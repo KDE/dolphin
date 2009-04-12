@@ -38,6 +38,7 @@ PhononWidget::PhononWidget(QWidget *parent)
     m_url(),
     m_playButton(0),
     m_stopButton(0),
+    m_audioMedia(0),
     m_media(0),
     m_seekSlider(0),
     m_videoPlayer(0)
@@ -49,7 +50,6 @@ void PhononWidget::setUrl(const KUrl &url)
     if (m_url != url) {
         stop(); // emits playingStopped() signal
         m_url = url;
-        m_videoPlayer->hide();
     }
 }
 
@@ -62,12 +62,7 @@ void PhononWidget::setMode(Mode mode)
 {
     if (m_mode != mode) {
         stop(); // emits playingStopped() signal
-
         m_mode = mode;
-        if (m_mode == Audio) {
-            m_videoPlayer->hide();
-            m_media = 0;
-        }
     }
 }
 
@@ -124,9 +119,6 @@ void PhononWidget::hideEvent(QHideEvent *event)
     QWidget::hideEvent(event);
     if (!event->spontaneous()) {
         stop();
-        if (m_videoPlayer != 0) {
-            m_videoPlayer->hide();
-        }
     }
 }
 
@@ -151,10 +143,15 @@ void PhononWidget::play()
 {
     switch (m_mode) {
     case Audio:
-        if (m_media == 0) {
-            m_media = Phonon::createPlayer(Phonon::MusicCategory, m_url);
-            m_media->setParent(this);
+        if (m_audioMedia == 0) {
+            // Creating an audio player might take up to 2 seconds when doing
+            // it the first time. To prevent that the user interface gets
+            // noticable blocked, the creation is delayed until the play button
+            // has been pressed.
+            m_audioMedia = Phonon::createPlayer(Phonon::MusicCategory, m_url);
+            m_audioMedia->setParent(this);
         }
+        m_media = m_audioMedia;
         m_media->setCurrentSource(m_url);
         break;
 
@@ -186,5 +183,9 @@ void PhononWidget::stop()
 
         m_stopButton->hide();
         m_playButton->show();
+    }
+
+    if (m_videoPlayer != 0) {
+        m_videoPlayer->hide();
     }
 }
