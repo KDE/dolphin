@@ -402,6 +402,10 @@ void DolphinViewContainer::restoreView(const KUrl& url)
             const QString browser = config.readEntry("BrowserApplication");
             if (!browser.isEmpty()) {
                 app = browser;
+                if (app.startsWith('!')) {
+                    // a literal command has been configured, remove the '!' prefix
+                    app = app.mid(1);
+                }
             }
         } else {
             showErrorMessage(i18nc("@info:status",
