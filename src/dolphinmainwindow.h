@@ -375,6 +375,13 @@ private slots:
      */
     void searchItems(const KUrl& url);
 
+    /**
+     * Is connected to the QTabBar signal tabMoved(int from, int to).
+     * Reorders the list of tabs after a tab was moved in the tab bar
+     * and sets m_tabIndex to the new index of the current tab.
+     */
+    void slotTabMoved(int from, int to);
+
 private:
     DolphinMainWindow(int id);
     void init();

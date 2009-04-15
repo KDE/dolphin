@@ -960,6 +960,12 @@ void DolphinMainWindow::searchItems(const KUrl& url)
     m_activeViewContainer->setUrl(url);
 }
 
+void DolphinMainWindow::slotTabMoved(int from, int to)
+{
+    m_viewTab.move(from, to);
+    m_tabIndex = m_tabBar->currentIndex();
+}
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -1016,6 +1022,8 @@ void DolphinMainWindow::init()
 	    this, SLOT(slotWheelMoved(int)));
     connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
             this, SLOT(closeTab(int)));
+    connect(m_tabBar, SIGNAL(tabMoved(int, int)),
+            this, SLOT(slotTabMoved(int, int)));
 
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
