@@ -697,7 +697,10 @@ void InformationPanel::updatePhononWidget()
     } else if (!multipleSelections && showPreview) {
         const KFileItem item = fileItem();
         const QString mimeType = item.mimetype();
-        if (Phonon::BackendCapabilities::isMimeTypeAvailable(mimeType)) {
+        const bool usePhonon = Phonon::BackendCapabilities::isMimeTypeAvailable(mimeType) &&
+                               (mimeType != "image/png"); // TODO: workaround, as Phonon
+                                                           // thinks it supports PNG images
+        if (usePhonon) {
             m_phononWidget->show();
             PhononWidget::Mode mode = mimeType.startsWith("video")
                                       ? PhononWidget::Video
