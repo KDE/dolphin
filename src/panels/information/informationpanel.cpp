@@ -740,6 +740,7 @@ void InformationPanel::init()
     m_nameLabel->setFont(font);
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    m_nameLabel->setMaximumWidth(KIconLoader::SizeEnormous);
 
     // preview
     m_preview = new PixmapViewer(this);
