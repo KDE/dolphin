@@ -1095,18 +1095,20 @@ void DolphinView::slotRequestUrlChange(const KUrl& url)
 
 void DolphinView::restoreCurrentItem()
 {
-    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_currentItemUrl);
-    if (dirIndex.isValid()) {
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        QAbstractItemView* view = itemView();
-        const bool clearSelection = !hasSelection();
-        view->setCurrentIndex(proxyIndex);
-        if (clearSelection) {
-            view->clearSelection();
+    if (!m_currentItemUrl.isEmpty()) {
+        const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_currentItemUrl);
+        if (dirIndex.isValid()) {
+            const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+            QAbstractItemView* view = itemView();
+            const bool clearSelection = !hasSelection();
+            view->setCurrentIndex(proxyIndex);
+            if (clearSelection) {
+                view->clearSelection();
+            }
         }
+        m_currentItemUrl.clear();
     }
 }
-
 void DolphinView::enterDir(const QModelIndex& index, QAbstractItemView* view)
 {
     // Deleting a view that is the root of a drag operation is not allowed, otherwise
