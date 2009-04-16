@@ -21,6 +21,7 @@
 
 #include "settings/behaviorsettingspage.h"
 #include "settings/previewssettingspage.h"
+#include "settings/contextmenusettingspage.h"
 
 #include <ktabwidget.h>
 #include <kdialog.h>
@@ -60,8 +61,14 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
     connect(previewsPage, SIGNAL(changed()), this, SLOT(changed()));
 
+    // initialize 'Context Menu' tab
+    ContextMenuSettingsPage *contextMenuPage = new ContextMenuSettingsPage(tabWidget);
+    tabWidget->addTab(contextMenuPage,  i18nc("@title:tab Context Menu settings", "Context Menu"));
+    connect(contextMenuPage, SIGNAL(changed()), this, SLOT(changed()));
+
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);
+    m_pages.append(contextMenuPage);
 
     topLayout->addWidget(tabWidget, 0, 0);
 }

@@ -203,6 +203,7 @@ set(kcm_dolphingeneral_PART_SRCS
     kcm/kcmdolphingeneral.cpp
     settings/behaviorsettingspage.cpp
     settings/previewssettingspage.cpp
+    settings/contextmenusettingspage.cpp
     settings/settingspagebase.cpp)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
