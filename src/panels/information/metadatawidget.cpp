@@ -200,37 +200,61 @@ MetaDataWidget::~MetaDataWidget()
 
 void MetaDataWidget::setRatingVisible(bool visible)
 {
+#ifdef HAVE_NEPOMUK
     d->ratingWidget->setVisible(visible);
+#else
+    Q_UNUSED(visible);
+#endif
 }
 
 
 bool MetaDataWidget::isRatingVisible() const
 {
+#ifdef HAVE_NEPOMUK
     return d->ratingWidget->isVisible();
+#else
+    return false;
+#endif
 }
 
 
 void MetaDataWidget::setCommentVisible(bool visible)
 {
+#ifdef HAVE_NEPOMUK
     d->editComment->setVisible(visible);
+#else
+    Q_UNUSED(visible);
+#endif
 }
 
 
 bool MetaDataWidget::isCommentVisible() const
 {
+#ifdef HAVE_NEPOMUK
     return d->editComment->isVisible();
+#else
+    return false;
+#endif
 }
 
 
 void MetaDataWidget::setTagsVisible(bool visible)
 {
+#ifdef HAVE_NEPOMUK
     d->tagWidget->setVisible(visible);
+#else
+    Q_UNUSED(visible);
+#endif
 }
 
 
 bool MetaDataWidget::areTagsVisible() const
 {
+#ifdef HAVE_NEPOMUK
     return d->tagWidget->isVisible();
+#else
+    return false;
+#endif
 }
 
 
