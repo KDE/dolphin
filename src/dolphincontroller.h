@@ -59,6 +59,7 @@ class QWidget;
  * - indicateDroppedUrls()
  * - indicateSortingChange()
  * - indicateSortOrderChanged()
+ * - indicateSortFoldersFirstChanged()
  * - triggerItem()
  * - requestTab()
  * - handleKeyPressEvent()
@@ -163,6 +164,15 @@ public:
      * with the details header).
      */
     void indicateSortOrderChange(Qt::SortOrder order);
+
+    /**
+     * Informs the abstract Dolphin view about a change between separate sorting 
+     * (with folders first) and mixed sorting of files and folders done inside
+     * the view implementation. This method should be invoked by the view
+     * implementation (e. g. the details view uses this method in combination
+     * with the details header).
+     */
+    void indicateSortFoldersFirstChange(bool foldersFirst);
 
     /**
      * Informs the abstract Dolphin view about an additional information change
@@ -315,6 +325,14 @@ signals:
      * to this signal to update its menu actions.
      */
     void sortOrderChanged(Qt::SortOrder order);
+
+    /**
+     * Is emitted if 'sort folders first' has been changed to \a foldersFirst
+     * by the view implementation (see indicateSortOrderChanged().
+     * The abstract Dolphin view connects
+     * to this signal to update its menu actions.
+     */
+    void sortFoldersFirstChanged(bool foldersFirst);
 
     /**
      * Is emitted if the additional info has been changed to \a info

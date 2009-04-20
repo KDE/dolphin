@@ -104,6 +104,11 @@ void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
     emit sortOrderChanged(order);
 }
 
+void DolphinController::indicateSortFoldersFirstChange(bool foldersFirst)
+{
+    emit sortFoldersFirstChanged(foldersFirst);
+}
+
 void DolphinController::indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info)
 {
     emit additionalInfoChanged(info);

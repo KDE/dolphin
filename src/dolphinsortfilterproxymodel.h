@@ -56,6 +56,8 @@ public:
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
 
+    void setSortFoldersFirst(bool foldersFirst);
+
     /**
      * @reimplemented, @internal
      *

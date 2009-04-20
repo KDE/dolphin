@@ -267,6 +267,12 @@ public:
     /** Returns the current used sort order (Qt::Ascending or Qt::Descending). */
     Qt::SortOrder sortOrder() const;
 
+    /** Sets a separate sorting with folders first (true) or a mixed sorting of files and folders (false). */
+    void setSortFoldersFirst(bool foldersFirst);
+
+    /** Returns if files and folders are sorted separately or not. */
+    bool sortFoldersFirst() const;
+
     /** Sets the additional information which should be shown for the items. */
     void setAdditionalInfo(KFileItemDelegate::InformationList info);
 
@@ -422,6 +428,9 @@ public slots:
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();
 
+    /** Switches between a separate sorting (with folders first) and a mixed sorting of files and folders. */
+    void toggleSortFoldersFirst();
+
     /**
      * Switches on or off the displaying of additional information
      * as specified by \a action.
@@ -473,6 +482,9 @@ signals:
 
     /** Is emitted if the sort order (ascending or descending) has been changed. */
     void sortOrderChanged(Qt::SortOrder order);
+
+    /** Is emitted if the sorting of files and folders (separate with folders first or mixed) has been changed. */
+    void sortFoldersFirstChanged(bool foldersFirst);
 
     /** Is emitted if the additional information shown for this view has been changed. */
     void additionalInfoChanged();
@@ -585,6 +597,12 @@ private slots:
      * sort order given by \a order.
      */
     void updateSortOrder(Qt::SortOrder order);
+
+    /**
+     * Updates the view properties of the current URL to the
+     * sorting of files and folders (separate with folders first or mixed) given by \a foldersFirst.
+     */
+    void updateSortFoldersFirst(bool foldersFirst);
 
     /**
      * Updates the view properties of the current URL to the

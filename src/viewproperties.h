@@ -71,6 +71,9 @@ public:
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
 
+    void setSortFoldersFirst(bool foldersFirst);
+    bool sortFoldersFirst() const;
+
     /**
      * Sets the additional information for the current set view-mode.
      * Note that the additional-info property is the only property where

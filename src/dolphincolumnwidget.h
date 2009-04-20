@@ -86,6 +86,7 @@ public:
 
     void setSorting(DolphinView::Sorting sorting);
     void setSortOrder(Qt::SortOrder order);
+    void setSortFoldersFirst(bool foldersFirst);
     void setShowHiddenFiles(bool show);
     void setShowPreview(bool show);
 

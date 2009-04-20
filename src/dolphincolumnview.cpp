@@ -65,6 +65,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent, DolphinController* control
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
+    connect(view, SIGNAL(sortFoldersFirstChanged(bool)),
+            this, SLOT(slotSortFoldersFirstChanged(bool)));
     connect(view, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
     connect(view, SIGNAL(showPreviewChanged()),
@@ -445,6 +447,13 @@ void DolphinColumnView::slotSortOrderChanged(Qt::SortOrder order)
 {
     foreach (DolphinColumnWidget* column, m_columns) {
         column->setSortOrder(order);
+    }
+}
+
+void DolphinColumnView::slotSortFoldersFirstChanged(bool foldersFirst)
+{
+    foreach (DolphinColumnWidget* column, m_columns) {
+        column->setSortFoldersFirst(foldersFirst);
     }
 }
 

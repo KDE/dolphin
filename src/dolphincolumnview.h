@@ -167,6 +167,7 @@ private slots:
 
     void slotSortingChanged(DolphinView::Sorting sorting);
     void slotSortOrderChanged(Qt::SortOrder order);
+    void slotSortFoldersFirstChanged(bool foldersFirst);
     void slotShowHiddenFilesChanged();
     void slotShowPreviewChanged();
 

@@ -132,10 +132,18 @@ private Q_SLOTS:
     /** Switches between an ascending and descending sorting order. */
     void toggleSortOrder();
 
+    /** Switches between a separate sorting and a mixed sorting of files and folders. */
+    void toggleSortFoldersFirst();
+
     /**
      * Updates the state of the 'Sort Ascending/Descending' action.
      */
     void slotSortOrderChanged(Qt::SortOrder order);
+
+    /**
+     * Updates the state of the 'Sort Folders First' action.
+     */
+    void slotSortFoldersFirstChanged(bool foldersFirst);
 
     /**
      * Updates the state of the 'Sort by' actions.

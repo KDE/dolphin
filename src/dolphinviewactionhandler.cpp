@@ -57,6 +57,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotShowPreviewChanged()));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
+    connect(view, SIGNAL(sortFoldersFirstChanged(bool)),
+            this, SLOT(slotSortFoldersFirstChanged(bool)));
     connect(view, SIGNAL(additionalInfoChanged()),
             this, SLOT(slotAdditionalInfoChanged()));
     connect(view, SIGNAL(categorizedSortingChanged()),
@@ -147,6 +149,10 @@ void DolphinViewActionHandler::createActions()
     KToggleAction* sortDescending = m_actionCollection->add<KToggleAction>("descending");
     sortDescending->setText(i18nc("@action:inmenu Sort", "Descending"));
     connect(sortDescending, SIGNAL(triggered()), this, SLOT(toggleSortOrder()));
+
+    KToggleAction* sortFoldersFirst = m_actionCollection->add<KToggleAction>("folders_first");
+    sortFoldersFirst->setText(i18nc("@action:inmenu Sort", "Folders First"));
+    connect(sortFoldersFirst, SIGNAL(triggered()), this, SLOT(toggleSortFoldersFirst()));
 
     QActionGroup* sortByActionGroup = createSortByActionGroup();
     connect(sortByActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotSortTriggered(QAction*)));
@@ -356,6 +362,7 @@ void DolphinViewActionHandler::updateViewActions()
     showPreviewAction->setChecked(m_currentView->showPreview());
 
     slotSortOrderChanged(m_currentView->sortOrder());
+    slotSortFoldersFirstChanged(m_currentView->sortFoldersFirst());
     slotAdditionalInfoChanged();
     slotCategorizedSortingChanged();
     slotSortingChanged(m_currentView->sorting());
@@ -385,11 +392,21 @@ void DolphinViewActionHandler::toggleSortOrder()
     m_currentView->toggleSortOrder();
 }
 
+void DolphinViewActionHandler::toggleSortFoldersFirst()
+{
+    m_currentView->toggleSortFoldersFirst();
+}
+
 void DolphinViewActionHandler::slotSortOrderChanged(Qt::SortOrder order)
 {
     QAction* descending = m_actionCollection->action("descending");
     const bool sortDescending = (order == Qt::DescendingOrder);
     descending->setChecked(sortDescending);
+}
+
+void DolphinViewActionHandler::slotSortFoldersFirstChanged(bool foldersFirst)
+{
+    m_actionCollection->action("folders_first")->setChecked(foldersFirst);
 }
 
 void DolphinViewActionHandler::toggleAdditionalInfo(QAction* action)

@@ -54,6 +54,7 @@ private slots:
     void slotSortingChanged(int index);
     void slotSortOrderChanged(int index);
     void slotCategorizedSortingChanged();
+    void slotSortFoldersFirstChanged();
     void slotShowPreviewChanged();
     void slotShowHiddenFilesChanged();
     void markAsDirty(bool isDirty);
@@ -71,6 +72,7 @@ private:
     KComboBox* m_viewMode;
     KComboBox* m_sortOrder;
     KComboBox* m_sorting;
+    QCheckBox* m_sortFoldersFirst;
     QCheckBox* m_showPreview;
     QCheckBox* m_showInGroups;
     QCheckBox* m_showHiddenFiles;

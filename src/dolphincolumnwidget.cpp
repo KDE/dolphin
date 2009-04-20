@@ -126,6 +126,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     const DolphinView* dolphinView = m_view->m_controller->dolphinView();
     m_proxyModel->setSorting(dolphinView->sorting());
     m_proxyModel->setSortOrder(dolphinView->sortOrder());
+    m_proxyModel->setSortFoldersFirst(dolphinView->sortFoldersFirst());
 
     setModel(m_proxyModel);
 
@@ -208,6 +209,11 @@ void DolphinColumnWidget::setSorting(DolphinView::Sorting sorting)
 void DolphinColumnWidget::setSortOrder(Qt::SortOrder order)
 {
     m_proxyModel->setSortOrder(order);
+}
+
+void DolphinColumnWidget::setSortFoldersFirst(bool foldersFirst)
+{
+    m_proxyModel->setSortFoldersFirst(foldersFirst);
 }
 
 void DolphinColumnWidget::setShowHiddenFiles(bool show)

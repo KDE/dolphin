@@ -129,6 +129,8 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_controller, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(updateSortOrder(Qt::SortOrder)));
+    connect(m_controller, SIGNAL(sortFoldersFirstChanged(bool)),
+            this, SLOT(updateSortFoldersFirst(bool)));
     connect(m_controller, SIGNAL(additionalInfoChanged(const KFileItemDelegate::InformationList&)),
             this, SLOT(updateAdditionalInfo(const KFileItemDelegate::InformationList&)));
     connect(m_controller, SIGNAL(itemTriggered(const KFileItem&)),
@@ -441,6 +443,18 @@ void DolphinView::setSortOrder(Qt::SortOrder order)
 Qt::SortOrder DolphinView::sortOrder() const
 {
     return m_proxyModel->sortOrder();
+}
+
+void DolphinView::setSortFoldersFirst(bool foldersFirst)
+{
+    if (sortFoldersFirst() != foldersFirst) {
+        updateSortFoldersFirst(foldersFirst);
+    }
+}
+
+bool DolphinView::sortFoldersFirst() const
+{
+    return m_proxyModel->sortFoldersFirst();
 }
 
 void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
@@ -818,6 +832,11 @@ void DolphinView::toggleSortOrder()
     setSortOrder(order);
 }
 
+void DolphinView::toggleSortFoldersFirst()
+{
+    setSortFoldersFirst(!sortFoldersFirst());
+}
+
 void DolphinView::toggleAdditionalInfo(QAction* action)
 {
     const KFileItemDelegate::Information info =
@@ -985,6 +1004,16 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
     m_proxyModel->setSortOrder(order);
 
     emit sortOrderChanged(order);
+}
+
+void DolphinView::updateSortFoldersFirst(bool foldersFirst)
+{
+    ViewProperties props(viewPropertiesUrl());
+    props.setSortFoldersFirst(foldersFirst);
+
+    m_proxyModel->setSortFoldersFirst(foldersFirst);
+
+    emit sortFoldersFirstChanged(foldersFirst);
 }
 
 void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList& info)
@@ -1275,6 +1304,12 @@ void DolphinView::applyViewProperties(const KUrl& url)
     if (sortOrder != m_proxyModel->sortOrder()) {
         m_proxyModel->setSortOrder(sortOrder);
         emit sortOrderChanged(sortOrder);
+    }
+
+    const bool sortFoldersFirst = props.sortFoldersFirst();
+    if (sortFoldersFirst != m_proxyModel->sortFoldersFirst()) {
+        m_proxyModel->setSortFoldersFirst(sortFoldersFirst);
+        emit sortFoldersFirstChanged(sortFoldersFirst);
     }
 
     KFileItemDelegate::InformationList info = props.additionalInfo();

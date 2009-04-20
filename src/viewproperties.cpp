@@ -198,6 +198,19 @@ Qt::SortOrder ViewProperties::sortOrder() const
     return static_cast<Qt::SortOrder>(m_node->sortOrder());
 }
 
+void ViewProperties::setSortFoldersFirst(bool foldersFirst)
+{
+    if (m_node->sortFoldersFirst() != foldersFirst) {
+        m_node->setSortFoldersFirst(foldersFirst);
+        updateTimeStamp();
+    }
+}
+
+bool ViewProperties::sortFoldersFirst() const
+{
+    return m_node->sortFoldersFirst();
+}
+
 void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
 {
     int info = NoInfo;

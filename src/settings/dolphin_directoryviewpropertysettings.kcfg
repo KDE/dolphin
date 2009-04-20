@@ -50,6 +50,11 @@
             <max code="true">Qt::DescendingOrder</max>
         </entry>
 
+        <entry name="SortFoldersFirst" type="Bool" >
+            <label context="@label">Show folders first when sorting files and folders</label>
+            <default>true</default>
+        </entry>
+
         <entry name="AdditionalInfo" type="Int">
             <label context="@label">Additional information</label>
             <default>0</default>

@@ -27,6 +27,7 @@
     <Action name="sort_by_tags" />
     <Separator/>
     <Action name="descending" />
+    <Action name="folders_first" />
    </Menu>
    <Menu name="additional_info">
     <text context="@title:menu">Additional Information</text>

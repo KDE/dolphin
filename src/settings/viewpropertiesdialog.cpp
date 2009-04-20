@@ -62,6 +62,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_viewMode(0),
     m_sortOrder(0),
     m_sorting(0),
+    m_sortFoldersFirst(0),
     m_showPreview(0),
     m_showInGroups(0),
     m_showHiddenFiles(0),
@@ -122,6 +123,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     //    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
     // }
 #endif
+    m_sortFoldersFirst = new QCheckBox(i18nc("@option:check", "Show folders first"));
     m_showPreview = new QCheckBox(i18nc("@option:check", "Show preview"));
     m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"));
     m_showHiddenFiles = new QCheckBox(i18nc("@option:check", "Show hidden files"));
@@ -142,6 +144,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
     propsBoxLayout->addWidget(propsGrid);
+    propsBoxLayout->addWidget(m_sortFoldersFirst);
     propsBoxLayout->addWidget(m_showPreview);
     propsBoxLayout->addWidget(m_showInGroups);
     propsBoxLayout->addWidget(m_showHiddenFiles);
@@ -157,6 +160,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
             this, SLOT(slotSortOrderChanged(int)));
     connect(m_additionalInfo, SIGNAL(clicked()),
             this, SLOT(configureAdditionalInfo()));
+    connect(m_sortFoldersFirst, SIGNAL(clicked()),
+            this, SLOT(slotSortFoldersFirstChanged()));
     connect(m_showPreview, SIGNAL(clicked()),
             this, SLOT(slotShowPreviewChanged()));
     connect(m_showInGroups, SIGNAL(clicked()),
@@ -269,6 +274,13 @@ void ViewPropertiesDialog::slotCategorizedSortingChanged()
     markAsDirty(true);
 }
 
+void ViewPropertiesDialog::slotSortFoldersFirstChanged()
+{
+    const bool foldersFirst = m_sortFoldersFirst->isChecked();
+    m_viewProps->setSortFoldersFirst(foldersFirst);
+    markAsDirty(true);
+}
+
 void ViewPropertiesDialog::slotShowPreviewChanged()
 {
     const bool show = m_showPreview->isChecked();
@@ -370,6 +382,7 @@ void ViewPropertiesDialog::applyViewProperties()
     m_dolphinView->setMode(m_viewProps->viewMode());
     m_dolphinView->setSorting(m_viewProps->sorting());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
+    m_dolphinView->setSortFoldersFirst(m_viewProps->sortFoldersFirst());
     m_dolphinView->setCategorizedSorting(m_viewProps->categorizedSorting());
     m_dolphinView->setAdditionalInfo(m_viewProps->additionalInfo());
     m_dolphinView->setShowPreview(m_viewProps->showPreview());
@@ -395,6 +408,7 @@ void ViewPropertiesDialog::loadSettings()
                          (index == DolphinView::IconsView);
     m_additionalInfo->setEnabled(enabled);
 
+    m_sortFoldersFirst->setChecked(m_viewProps->sortFoldersFirst());
     // load show preview, show in groups and show hidden files settings
     m_showPreview->setChecked(m_viewProps->showPreview());
 

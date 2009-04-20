@@ -73,6 +73,23 @@ void DolphinSortFilterProxyModel::setSortOrder(Qt::SortOrder sortOrder)
     KDirSortFilterProxyModel::sort((int) m_sorting, m_sortOrder);
 }
 
+void DolphinSortFilterProxyModel::setSortFoldersFirst(bool foldersFirst)
+{
+    if (foldersFirst != sortFoldersFirst()) {
+        KDirSortFilterProxyModel::setSortFoldersFirst(foldersFirst);
+
+        // We need to make sure that the files and folders are really resorted.
+        // Without the following two lines, QSortFilterProxyModel::sort(int column, Qt::SortOrder order)
+        // would do nothing because neither the column nor the sort order have changed.
+        // TODO: remove this hack if we find a better way to force the ProxyModel to re-sort the data.
+        Qt::SortOrder tmpSortOrder = (m_sortOrder == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder);
+        KDirSortFilterProxyModel::sort((int) m_sorting, tmpSortOrder);
+
+        // Now comes the real sorting with the old column and sort order
+        KDirSortFilterProxyModel::sort((int) m_sorting, m_sortOrder);
+    } 
+}
+
 void DolphinSortFilterProxyModel::sort(int column, Qt::SortOrder sortOrder)
 {
     m_sorting = sortingForColumn(column);
