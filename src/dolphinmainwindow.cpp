@@ -348,6 +348,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
 
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
+    viewTab.splitter->setChildrenCollapsible(false);
     viewTab.primaryView = new DolphinViewContainer(this, viewTab.splitter, url);
     viewTab.primaryView->setActive(false);
     connectViewSignals(viewTab.primaryView);
@@ -981,6 +982,7 @@ void DolphinMainWindow::init()
     setAcceptDrops(true);
 
     m_viewTab[m_tabIndex].splitter = new QSplitter(this);
+    m_viewTab[m_tabIndex].splitter->setChildrenCollapsible(false);
 
     setupActions();
 
