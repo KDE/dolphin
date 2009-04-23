@@ -56,6 +56,7 @@ X-KDE-Library=kcm_dolphingeneral
 X-KDE-PluginKeyword=dolphingeneral
 X-KDE-ParentApp=kcontrol
 
+# ctxt: Random file browsing settings.
 Name=General
 Name[af]=Algemeen
 Name[ar]=عام
