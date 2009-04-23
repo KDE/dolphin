@@ -155,13 +155,18 @@ void TreeViewContextMenu::paste()
     QClipboard* clipboard = QApplication::clipboard();
     const QMimeData* mimeData = clipboard->mimeData();
 
-    const KUrl::List source = KUrl::List::fromMimeData(mimeData);
+#ifdef KURL_HAS_DECODEOPTIONS
+    // Prefer local urls if possible, to avoid problems with desktop:/ urls from other users (#184403)
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData, KUrl::List::PreferLocalUrls);
+#else
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
+#endif
     const KUrl& dest = m_fileInfo.url();
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
-        KonqOperations::copy(m_parent, KonqOperations::MOVE, source, dest);
+        KonqOperations::copy(m_parent, KonqOperations::MOVE, sourceUrls, dest);
         clipboard->clear();
     } else {
-        KonqOperations::copy(m_parent, KonqOperations::COPY, source, dest);
+        KonqOperations::copy(m_parent, KonqOperations::COPY, sourceUrls, dest);
     }
 }
 

@@ -1399,7 +1399,12 @@ void DolphinView::pasteToUrl(const KUrl& url)
     QClipboard* clipboard = QApplication::clipboard();
     const QMimeData* mimeData = clipboard->mimeData();
 
+#ifdef KURL_HAS_DECODEOPTIONS
+    // Prefer local urls if possible, to avoid problems with desktop:/ urls from other users (#184403)
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData, KUrl::List::PreferLocalUrls);
+#else
     const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
+#endif
     if (KonqMimeData::decodeIsCutSelection(mimeData)) {
         KonqOperations::copy(this, KonqOperations::MOVE, sourceUrls, url);
         clipboard->clear();
