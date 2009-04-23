@@ -23,6 +23,7 @@
 
 #include <kurl.h>
 
+#include <QtCore/QSize>
 #include <QtGui/QWidget>
 
 #include <Phonon/Global>
@@ -34,7 +35,9 @@ namespace Phonon
     class VideoPlayer;
 } // namespace Phonon
 
+class EmbeddedVideoPlayer;
 class QToolButton;
+class QVBoxLayout;
 
 class PhononWidget : public QWidget
 {
@@ -54,6 +57,9 @@ class PhononWidget : public QWidget
         void setMode(Mode mode);
         Mode mode() const;
 
+        void setVideoSize(const QSize& size);
+        QSize videoSize() const;
+
     signals:
         void playingStarted();
         void playingStopped();
@@ -68,14 +74,21 @@ class PhononWidget : public QWidget
         void stop();
 
     private:
+        void applyVideoSize();
+
+    private:
         Mode m_mode;
         KUrl m_url;
+        QSize m_videoSize;
+
         QToolButton *m_playButton;
         QToolButton *m_stopButton;
+
+        QVBoxLayout *m_topLayout;
         Phonon::MediaObject *m_audioMedia;
         Phonon::MediaObject *m_media;
         Phonon::SeekSlider *m_seekSlider;
-        Phonon::VideoPlayer *m_videoPlayer;
+        EmbeddedVideoPlayer *m_videoPlayer;
 };
 
 #endif // PHONONWIDGET_H

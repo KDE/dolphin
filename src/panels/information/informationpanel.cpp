@@ -206,6 +206,11 @@ void InformationPanel::resizeEvent(QResizeEvent* event)
         m_preview->setSizeHint(QSize(maxWidth, maxWidth));
         m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
         m_infoTimer->start();
+
+        if (m_phononWidget->isVisible() && (m_phononWidget->mode() == PhononWidget::Video)) {
+            // assure that the size of the video player is the same as the preview size
+            m_phononWidget->setVideoSize(QSize(maxWidth, maxWidth));
+        }
     }
     Panel::resizeEvent(event);
 }
@@ -698,7 +703,7 @@ void InformationPanel::updatePhononWidget()
         const KFileItem item = fileItem();
         const QString mimeType = item.mimetype();
         const bool usePhonon = Phonon::BackendCapabilities::isMimeTypeAvailable(mimeType) &&
-                               (mimeType != "image/png"); // TODO: workaround, as Phonon
+                               (mimeType != "image/png");  // TODO: workaround, as Phonon
                                                            // thinks it supports PNG images
         if (usePhonon) {
             m_phononWidget->show();
@@ -707,6 +712,9 @@ void InformationPanel::updatePhononWidget()
                                       : PhononWidget::Audio;
             m_phononWidget->setMode(mode);
             m_phononWidget->setUrl(item.url());
+            if (mode == PhononWidget::Video) {
+                m_phononWidget->setVideoSize(m_preview->size());
+            }
         } else {
             m_phononWidget->hide();
             m_preview->setVisible(true);
@@ -716,8 +724,6 @@ void InformationPanel::updatePhononWidget()
 
 void InformationPanel::init()
 {
-    const int spacing = KDialog::spacingHint();
-
     m_infoTimer = new QTimer(this);
     m_infoTimer->setInterval(300);
     m_infoTimer->setSingleShot(true);
@@ -734,7 +740,7 @@ void InformationPanel::init()
             this, SLOT(markOutdatedPreview()));
 
     QVBoxLayout* layout = new QVBoxLayout;
-    layout->setSpacing(spacing);
+    layout->setSpacing(KDialog::spacingHint());
 
     // name
     m_nameLabel = new QLabel(this);
@@ -746,11 +752,14 @@ void InformationPanel::init()
     m_nameLabel->setMaximumWidth(KIconLoader::SizeEnormous);
 
     // preview
+    const int minPreviewWidth = KIconLoader::SizeEnormous + KIconLoader::SizeMedium;
+
     m_preview = new PixmapViewer(this);
-    m_preview->setMinimumWidth(KIconLoader::SizeEnormous + KIconLoader::SizeMedium);
+    m_preview->setMinimumWidth(minPreviewWidth);
     m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
 
     m_phononWidget = new PhononWidget(this);
+    m_phononWidget->setMinimumWidth(minPreviewWidth);
     connect(m_phononWidget, SIGNAL(playingStarted()),
             this, SLOT(slotPlayingStarted()));
     connect(m_phononWidget, SIGNAL(playingStopped()),

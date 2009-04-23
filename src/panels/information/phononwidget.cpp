@@ -24,13 +24,41 @@
 #include <Phonon/MediaObject>
 #include <Phonon/SeekSlider>
 #include <Phonon/VideoPlayer>
+
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QHBoxLayout>
 #include <QtGui/QShowEvent>
 #include <QtGui/QToolButton>
+
+#include <kdialog.h>
 #include <kicon.h>
 #include <kurl.h>
 #include <klocale.h>
+
+class EmbeddedVideoPlayer : public Phonon::VideoPlayer
+{
+    public:
+        EmbeddedVideoPlayer(Phonon::Category category, QWidget *parent = 0) :
+            Phonon::VideoPlayer(category, parent)
+        {
+            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        }
+
+        void setSizeHint(const QSize& size)
+        {
+            m_sizeHint = size;
+            setFixedHeight(size.height());
+            updateGeometry();
+        }
+
+        virtual QSize sizeHint() const
+        {
+            return m_sizeHint.isValid() ? m_sizeHint : Phonon::VideoPlayer::sizeHint();
+        }
+
+    private:
+        QSize m_sizeHint;
+};
 
 PhononWidget::PhononWidget(QWidget *parent)
     : QWidget(parent),
@@ -38,6 +66,7 @@ PhononWidget::PhononWidget(QWidget *parent)
     m_url(),
     m_playButton(0),
     m_stopButton(0),
+    m_topLayout(0),
     m_audioMedia(0),
     m_media(0),
     m_seekSlider(0),
@@ -71,6 +100,19 @@ PhononWidget::Mode PhononWidget::mode() const
     return m_mode;
 }
 
+void PhononWidget::setVideoSize(const QSize& size)
+{
+    if (m_videoSize != size) {
+        m_videoSize = size;
+        applyVideoSize();
+    }
+}
+
+QSize PhononWidget::videoSize() const
+{
+    return m_videoSize;
+}
+
 void PhononWidget::showEvent(QShowEvent *event)
 {
     if (event->spontaneous()) {
@@ -78,10 +120,10 @@ void PhononWidget::showEvent(QShowEvent *event)
         return;
     }
 
-    if (m_playButton == 0) {
-        QVBoxLayout *topLayout = new QVBoxLayout(this);
-        topLayout->setMargin(0);
-        topLayout->setSpacing(0);
+    if (m_topLayout == 0) {
+        m_topLayout = new QVBoxLayout(this);
+        m_topLayout->setMargin(0);
+        m_topLayout->setSpacing(KDialog::spacingHint());
         QHBoxLayout *controlsLayout = new QHBoxLayout(this);
         controlsLayout->setMargin(0);
         controlsLayout->setSpacing(0);
@@ -89,15 +131,12 @@ void PhononWidget::showEvent(QShowEvent *event)
         m_playButton = new QToolButton(this);
         m_stopButton = new QToolButton(this);
         m_seekSlider = new Phonon::SeekSlider(this);
-        m_videoPlayer = new Phonon::VideoPlayer(Phonon::VideoCategory, this);
-        m_videoPlayer->hide();
 
         controlsLayout->addWidget(m_playButton);
         controlsLayout->addWidget(m_stopButton);
         controlsLayout->addWidget(m_seekSlider);
 
-        topLayout->addWidget(m_videoPlayer);
-        topLayout->addLayout(controlsLayout);
+        m_topLayout->addLayout(controlsLayout);
 
         m_playButton->setToolTip(i18n("play"));
         m_playButton->setIconSize(QSize(16, 16));
@@ -111,6 +150,11 @@ void PhononWidget::showEvent(QShowEvent *event)
         connect(m_stopButton, SIGNAL(clicked()), this, SLOT(stop()));
 
         m_seekSlider->setIconVisible(false);
+
+        // Creating an audio player or video player instance might take up to
+        // 2 seconds when doing it the first time. To prevent that the user
+        // interface gets noticable blocked, the creation is delayed until
+        // the play button has been pressed (see PhononWidget::play()).
     }
 }
 
@@ -144,10 +188,6 @@ void PhononWidget::play()
     switch (m_mode) {
     case Audio:
         if (m_audioMedia == 0) {
-            // Creating an audio player might take up to 2 seconds when doing
-            // it the first time. To prevent that the user interface gets
-            // noticable blocked, the creation is delayed until the play button
-            // has been pressed.
             m_audioMedia = Phonon::createPlayer(Phonon::MusicCategory, m_url);
             m_audioMedia->setParent(this);
         }
@@ -156,6 +196,11 @@ void PhononWidget::play()
         break;
 
     case Video:
+        if (m_videoPlayer == 0) {
+            m_videoPlayer = new EmbeddedVideoPlayer(Phonon::VideoCategory, this);
+            m_topLayout->insertWidget(0, m_videoPlayer);
+        }
+        applyVideoSize();
         m_videoPlayer->show();
         m_videoPlayer->play(m_url);
         m_media = m_videoPlayer->mediaObject();
@@ -187,5 +232,12 @@ void PhononWidget::stop()
 
     if (m_videoPlayer != 0) {
         m_videoPlayer->hide();
+    }
+}
+
+void PhononWidget::applyVideoSize()
+{
+    if ((m_videoPlayer != 0) && m_videoSize.isValid()) {
+        m_videoPlayer->setSizeHint(m_videoSize);
     }
 }
