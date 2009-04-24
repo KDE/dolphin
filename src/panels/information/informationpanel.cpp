@@ -712,7 +712,7 @@ void InformationPanel::updatePhononWidget()
                                       : PhononWidget::Audio;
             m_phononWidget->setMode(mode);
             m_phononWidget->setUrl(item.url());
-            if (mode == PhononWidget::Video) {
+            if ((mode == PhononWidget::Video) && m_preview->isVisible()) {
                 m_phononWidget->setVideoSize(m_preview->size());
             }
         } else {

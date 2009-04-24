@@ -41,13 +41,11 @@ class EmbeddedVideoPlayer : public Phonon::VideoPlayer
         EmbeddedVideoPlayer(Phonon::Category category, QWidget *parent = 0) :
             Phonon::VideoPlayer(category, parent)
         {
-            setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
         }
 
         void setSizeHint(const QSize& size)
         {
             m_sizeHint = size;
-            setFixedHeight(size.height());
             updateGeometry();
         }
 
