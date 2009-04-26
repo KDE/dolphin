@@ -89,7 +89,7 @@ void TreeViewContextMenu::open()
         const KUrl& url = m_fileInfo.url();
         if (url.isLocalFile()) {
             QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
-                                                    i18nc("@action:inmenu", "Move To Trash"), this);
+                                                    i18nc("@action:inmenu", "Move to Trash"), this);
             const bool enableMoveToTrash = capabilities.isLocal() && capabilities.supportsMoving();
             moveToTrashAction->setEnabled(enableMoveToTrash);
             connect(moveToTrashAction, SIGNAL(triggered()), this, SLOT(moveToTrash()));
