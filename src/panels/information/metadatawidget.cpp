@@ -87,6 +87,7 @@ public:
     {
     public:
         LoadFilesThread(SharedData* sharedData, QMutex* mutex);
+        ~LoadFilesThread();
         void setFiles(const KUrl::List& urls);
         virtual void run();
 
@@ -94,6 +95,7 @@ public:
         SharedData* m_sharedData;
         QMutex* m_mutex;
         KUrl::List m_urls;
+        bool m_canceled;
     };
 
     LoadFilesThread* loadFilesThread;
@@ -115,6 +117,14 @@ MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
 {
 }
 
+MetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
+{
+    // this thread may very well be deleted during execution. We need
+    // to protect it from crashes here
+    m_canceled = true;
+    wait();
+}
+
 void MetaDataWidget::Private::LoadFilesThread::setFiles(const KUrl::List& urls)
 {
     QMutexLocker locker( m_mutex );
@@ -133,6 +143,8 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     unsigned int rating = 0;
     QString comment;
     Q_FOREACH( const KUrl &url, urls ) {
+        if ( m_canceled )
+            return;
         Nepomuk::Resource file( url, Soprano::Vocabulary::Xesam::File() );
         files.insert( url, file );
         fileRes.append( file );
