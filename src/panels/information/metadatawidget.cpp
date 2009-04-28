@@ -88,7 +88,7 @@ public:
     public:
         LoadFilesThread(SharedData* sharedData, QMutex* mutex);
         ~LoadFilesThread();
-        void setFiles(const KUrl::List& urls);
+        void loadFiles(const KUrl::List& urls);
         virtual void run();
 
     private:
@@ -125,10 +125,12 @@ MetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
     wait();
 }
 
-void MetaDataWidget::Private::LoadFilesThread::setFiles(const KUrl::List& urls)
+void MetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
 {
     QMutexLocker locker( m_mutex );
     m_urls = urls;
+    m_canceled = false;
+    start();
 }
 
 void MetaDataWidget::Private::LoadFilesThread::run()
@@ -281,8 +283,7 @@ void MetaDataWidget::setFile(const KUrl& url)
 void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
 #ifdef HAVE_NEPOMUK
-    d->loadFilesThread->setFiles( urls );
-    d->loadFilesThread->start();
+    d->loadFilesThread->loadFiles( urls );
 #else
     Q_UNUSED( urls );
 #endif
