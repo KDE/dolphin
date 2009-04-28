@@ -35,7 +35,7 @@ namespace Nepomuk {
         void popup( const QPoint& pos );
         void exec( const QPoint& pos );
 
-	bool event( QEvent* e );
+        bool event( QEvent* e );
 
     protected:
         void mousePressEvent( QMouseEvent* e );

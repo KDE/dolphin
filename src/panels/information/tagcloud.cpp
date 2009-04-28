@@ -36,6 +36,9 @@
 #include <KLocale>
 #include <KColorScheme>
 #include <KDebug>
+#include <KMenu>
+#include <KIcon>
+#include <KMessageBox>
 
 #include <Soprano/Client/DBusModel>
 #include <Soprano/QueryResultIterator>
@@ -56,6 +59,10 @@ namespace {
         TagNode()
             : weight( 0 ),
               selected( false ) {
+        }
+
+        bool operator==( const TagNode& other ) const {
+            return tag == other.tag;
         }
 
         // fixed info
@@ -126,6 +133,7 @@ public:
           alignment( Qt::AlignCenter ),
           sorting( SortAlpabetically ),
           zoomEnabled( true ),
+          contextMenuEnabled( true ),
           showAllTags( false ),
           customNewTagAction( 0 ),
           hoverTag( 0 ),
@@ -142,6 +150,7 @@ public:
     Qt::Alignment alignment;
     Sorting sorting;
     bool zoomEnabled;
+    bool contextMenuEnabled;
 
     // The resource whose tags we are showing
     // invalid if we show all tags or a selection
@@ -612,7 +621,7 @@ void Nepomuk::TagCloud::setZoomEnabled( bool zoom )
 
 void Nepomuk::TagCloud::setContextMenuEnabled( bool enabled )
 {
-    Q_UNUSED(enabled);
+    d->contextMenuEnabled = enabled;
 }
 
 
@@ -641,7 +650,7 @@ void Nepomuk::TagCloud::showAllTags()
 void Nepomuk::TagCloud::showResourceTags( const Resource& resource )
 {
     showTags( resource.tags() );
-    d->resource = resource.uri();
+    d->resource = resource.resourceUri();
 }
 
 
@@ -900,6 +909,24 @@ void Nepomuk::TagCloud::mousePressEvent( QMouseEvent* e )
                     emit tagToggled( node->tag, node->selected );
                     update( node->zoomedRect );
                 }
+            }
+        }
+    }
+    else if ( d->contextMenuEnabled &&
+              e->button() == Qt::RightButton ) {
+        if ( TagNode* node = d->tagAt( e->pos() ) ) {
+            KMenu menu;
+            QAction* a = menu.addAction( KIcon( "edit-delete" ), i18nc( "@action:menu", "Delete tag '%1'", node->text ) );
+            if ( menu.exec( e->globalPos() ) == a &&
+                 KMessageBox::questionYesNo( this, i18n( "Do you really want to delete tag '%1'", node->text ) ) == KMessageBox::Yes ) {
+                if ( d->selectionEnabled &&
+                     node->selected ) {
+                    node->selected = false;
+                    emit tagToggled( node->tag, false );
+                }
+                node->tag.remove();
+                d->nodes.removeAll( *node );
+                d->rebuildCloud();
             }
         }
     }

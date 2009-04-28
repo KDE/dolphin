@@ -51,6 +51,7 @@ public:
     bool tagsChanged;
 
     void showTaggingPopup( const QPoint& );
+    void updateResources();
     void _k_slotShowTaggingPopup();
     void _k_metadataUpdateDone();
     static QList<Tag> intersectTags( const QList<Resource>& );
@@ -71,14 +72,20 @@ void Nepomuk::ResourceTaggingWidget::Private::showTaggingPopup( const QPoint& po
     popup->exec( pos );
 
     if( tagsChanged ) {
-        MassUpdateJob* job = MassUpdateJob::tagResources( resources, resourceTags );
-        connect( job, SIGNAL( result( KJob* ) ),
-                 q, SLOT( _k_metadataUpdateDone() ) );
-        q->setEnabled( false ); // no updates during execution
-        job->start();
+        updateResources();
     }
 
     resourceTagCloud->showTags( resourceTags );
+}
+
+
+void Nepomuk::ResourceTaggingWidget::Private::updateResources()
+{
+    MassUpdateJob* job = MassUpdateJob::tagResources( resources, resourceTags );
+    connect( job, SIGNAL( result( KJob* ) ),
+             q, SLOT( _k_metadataUpdateDone() ) );
+    q->setEnabled( false ); // no updates during execution
+    job->start();
 }
 
 
@@ -181,7 +188,7 @@ void Nepomuk::ResourceTaggingWidget::slotTagAdded( const Nepomuk::Tag& tag )
 {
     // assign it right away
     d->resourceTags.append( tag );
-//    d->resource.addTag( tag );
+    d->updateResources();
 }
 
 
