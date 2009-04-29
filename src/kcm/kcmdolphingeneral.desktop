@@ -59,6 +59,10 @@ X-KDE-ParentApp=kcontrol
 
 # ctxt: Random file browsing settings.
 Name=General
+Name[de]=Allgemein
+Name[el]=Γενικά
+Name[et]=Üldine
+Name[km]=ទូទៅ
 Name[nds]=Allmeen
 Name[pt]=Geral
 Name[pt_BR]=Geral
@@ -67,6 +71,7 @@ Name[sr@latin]=Opšte
 Name[sv]=Allmänt
 Name[tr]=Genel
 Name[uk]=Загальне
+Name[zh_TW]=一般
 Comment=Configure general file manager settings
 Comment[ca]=Configura les opcions generals del gestor de fitxers
 Comment[ca@valencia]=Configura les opcions generals del gestor de fitxers
