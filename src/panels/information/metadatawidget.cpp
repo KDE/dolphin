@@ -113,7 +113,8 @@ MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
     QMutex* mutex) :
     m_sharedData(sharedData),
     m_mutex(mutex),
-    m_urls()
+    m_urls(),
+    m_canceled(false)
 {
 }
 
