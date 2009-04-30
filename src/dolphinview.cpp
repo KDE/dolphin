@@ -187,10 +187,6 @@ void DolphinView::setActive(bool active)
 
     QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     if (active) {
-        // TODO: emitting urlChanged() is a hack, as the URL hasn't really changed. It
-        // bypasses the problem when having a split view and changing the active view to
-        // update the some URL dependent states. A nicer approach should be no big deal...
-        emit urlChanged(url());
         emit selectionChanged(selectedItems());
     } else {
         color.setAlpha(150);
