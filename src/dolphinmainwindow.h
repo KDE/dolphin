@@ -435,6 +435,12 @@ private:
      */
     QString tabProperty(const QString& property, int tabIndex) const;
 
+    /**
+     * Sets the window caption to url.fileName() if this is non-empty, 
+     * "/" if the URL is "file:///", and url.protocol() otherwise.
+     */
+    void setUrlAsCaption(const KUrl& url);
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This

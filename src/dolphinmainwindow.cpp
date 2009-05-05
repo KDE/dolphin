@@ -236,7 +236,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         updateEditActions();
         updateViewActions();
         updateGoActions();
-        setCaption(url.fileName());
+        setUrlAsCaption(url);
         if (m_viewTab.count() > 1) {
             m_tabBar->setTabText(m_tabIndex, tabName(url));
         }
@@ -987,7 +987,7 @@ void DolphinMainWindow::init()
     setupActions();
 
     const KUrl& homeUrl = generalSettings->homeUrl();
-    setCaption(homeUrl.fileName());
+    setUrlAsCaption(homeUrl);
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
     connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
@@ -1096,7 +1096,7 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     updateGoActions();
 
     const KUrl& url = m_activeViewContainer->url();
-    setCaption(url.fileName());
+    setUrlAsCaption(url);
     if (m_viewTab.count() > 1 && m_viewTab[m_tabIndex].secondaryView != 0) {
         m_tabBar->setTabText(m_tabIndex, tabName(url));
         m_tabBar->setTabIcon(m_tabIndex, KIcon(KMimeType::iconNameForUrl(url)));
@@ -1553,6 +1553,21 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
 QString DolphinMainWindow::tabProperty(const QString& property, int tabIndex) const
 {
     return "Tab " + QString::number(tabIndex) + ' ' + property;
+}
+
+void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
+{
+    QString caption;
+    if (url.equals(KUrl("file:///"))) {
+        caption = '/';
+    } else {
+        caption = url.fileName();
+        if (caption.isEmpty()) {
+            caption = url.protocol();
+	}
+    }
+    
+    setCaption(caption);
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
