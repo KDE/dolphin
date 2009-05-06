@@ -114,6 +114,7 @@ Name[xh]=Iinkonzo
 Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
+Comment[de]=Dateimanager-Dienste einrichten
 Comment[el]=Ρύθμιση υπηρεσιών διαχείρισης αρχείων
 Comment[et]=Failihalduri teenuste seadistamine
 Comment[ga]=Cumraigh seirbhísí bhainisteoir na gcomhad
