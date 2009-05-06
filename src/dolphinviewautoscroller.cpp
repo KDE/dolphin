@@ -33,7 +33,7 @@ DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
     m_horizontalScrollInc(0),
     m_verticalScrollInc(0),
     m_itemView(parent),
-    m_timer()
+    m_timer(0)
 {
     m_itemView->setAutoScroll(false);
     m_itemView->viewport()->installEventFilter(this);
