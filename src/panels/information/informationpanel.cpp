@@ -345,10 +345,12 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
         showMetaInfo();
     }
 
-    const bool visible = m_metaDataWidget->isRatingVisible() ||
-                         m_metaDataWidget->isCommentVisible() ||
-                         m_metaDataWidget->areTagsVisible();
-    m_metaDataSeparator->setVisible(visible);
+    if (m_metaDataWidget != 0) {
+        const bool visible = m_metaDataWidget->isRatingVisible() ||
+                             m_metaDataWidget->isCommentVisible() ||
+                             m_metaDataWidget->areTagsVisible();
+        m_metaDataSeparator->setVisible(visible);
+    }
 #endif
 }
 
