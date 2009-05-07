@@ -27,6 +27,7 @@
 #include <QAbstractButton>
 #include <QAbstractItemView>
 #include <QAbstractProxyModel>
+#include <QApplication>
 #include <QModelIndex>
 #include <QPainter>
 #include <QPaintEvent>
@@ -62,7 +63,10 @@ void SelectionManager::reset()
 void SelectionManager::slotEntered(const QModelIndex& index)
 {
     m_toggle->hide();
-    if (index.isValid() && (index.column() == DolphinModel::Name)) {
+    const bool showToggle = index.isValid() &&
+                            (index.column() == DolphinModel::Name) &&
+                            (QApplication::mouseButtons() == Qt::NoButton);
+    if (showToggle) {
         m_toggle->setUrl(urlForIndex(index));
 
         if (!m_connected) {
