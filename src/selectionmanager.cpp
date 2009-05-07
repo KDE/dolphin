@@ -88,9 +88,10 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         m_toggle->move(QPoint(x, y));
 
         // increase the size of the toggle for large items
-        if (rect.height() >= KIconLoader::SizeEnormous) {
+        const int height = m_view->iconSize().height();
+        if (height >= KIconLoader::SizeEnormous) {
             m_toggle->resize(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
-        } else if (rect.height() >= KIconLoader::SizeHuge) {
+        } else if (height >= KIconLoader::SizeLarge) {
             m_toggle->resize(KIconLoader::SizeSmallMedium, KIconLoader::SizeSmallMedium);
         } else {
             m_toggle->resize(KIconLoader::SizeSmall, KIconLoader::SizeSmall);
