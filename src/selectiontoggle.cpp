@@ -149,6 +149,12 @@ void SelectionToggle::mouseReleaseEvent(QMouseEvent* event)
     m_leftMouseButtonPressed = (event->buttons() & Qt::LeftButton);
 }
 
+void SelectionToggle::resizeEvent(QResizeEvent* event)
+{
+    QAbstractButton::resizeEvent(event);
+    setIconOverlay(isChecked());
+}
+
 void SelectionToggle::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
@@ -206,7 +212,7 @@ void SelectionToggle::setIconOverlay(bool checked)
     const char* icon = checked ? "list-remove" : "list-add";
     m_icon = KIconLoader::global()->loadIcon(icon,
                                              KIconLoader::NoGroup,
-                                             KIconLoader::SizeSmall);
+                                             qMin(width(), height()));
     update();
 }
 

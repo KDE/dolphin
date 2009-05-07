@@ -81,10 +81,20 @@ void SelectionManager::slotEntered(const QModelIndex& index)
 
         const QRect rect = m_view->visualRect(index);
 
+        // align the toggle on the bottom left of the item
         const int gap = 2;
         const int x = rect.left() + gap;
         const int y = rect.top() + gap;
         m_toggle->move(QPoint(x, y));
+
+        // increase the size of the toggle for large items
+        if (rect.height() >= KIconLoader::SizeEnormous) {
+            m_toggle->resize(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
+        } else if (rect.height() >= KIconLoader::SizeHuge) {
+            m_toggle->resize(KIconLoader::SizeSmallMedium, KIconLoader::SizeSmallMedium);
+        } else {
+            m_toggle->resize(KIconLoader::SizeSmall, KIconLoader::SizeSmall);
+        }
 
         QItemSelectionModel* selModel = m_view->selectionModel();
         m_toggle->setChecked(selModel->isSelected(index));
