@@ -159,22 +159,6 @@ void SelectionToggle::paintEvent(QPaintEvent* event)
 {
     QPainter painter(this);
     painter.setClipRect(event->rect());
-    painter.setRenderHint(QPainter::Antialiasing);
-
-    // draw an alpha blended circle as background
-    const QPalette& palette = parentWidget()->palette();
-
-    const QBrush& backgroundBrush = palette.brush(QPalette::Normal, QPalette::Window);
-    QColor background = backgroundBrush.color();
-    background.setAlpha(m_fadingValue / 2);
-    painter.setBrush(background);
-
-    const QBrush& foregroundBrush = palette.brush(QPalette::Normal, QPalette::WindowText);
-    QColor foreground = foregroundBrush.color();
-    foreground.setAlpha(m_fadingValue / 4);
-    painter.setPen(foreground);
-
-    painter.drawEllipse(0, 0, width(), height());
 
     // draw the icon overlay
     if (m_isHovered) {

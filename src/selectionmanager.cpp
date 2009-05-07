@@ -80,12 +80,7 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         }
 
         const QRect rect = m_view->visualRect(index);
-
-        // align the toggle on the bottom left of the item
-        const int gap = 2;
-        const int x = rect.left() + gap;
-        const int y = rect.top() + gap;
-        m_toggle->move(QPoint(x, y));
+        m_toggle->move(QPoint(rect.left(), rect.top()));
 
         // increase the size of the toggle for large items
         const int height = m_view->iconSize().height();
