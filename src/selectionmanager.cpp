@@ -79,9 +79,6 @@ void SelectionManager::slotEntered(const QModelIndex& index)
             m_connected = true;
         }
 
-        const QRect rect = m_view->visualRect(index);
-        m_toggle->move(QPoint(rect.left(), rect.top()));
-
         // increase the size of the toggle for large items
         const int height = m_view->iconSize().height();
         if (height >= KIconLoader::SizeEnormous) {
@@ -91,6 +88,18 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         } else {
             m_toggle->resize(KIconLoader::SizeSmall, KIconLoader::SizeSmall);
         }
+
+        const QRect rect = m_view->visualRect(index);
+        int x = rect.left();
+        int y = rect.top();
+        if (height < KIconLoader::SizeSmallMedium) {
+            // The height is nearly equal to the smallest toggle height.
+            // Assure that the toggle is vertically centered instead
+            // of aligned on the top and gets more horizontal gap.
+            x += 2;
+            y += (rect.height() - m_toggle->height()) / 2;
+        }
+        m_toggle->move(QPoint(x, y));
 
         QItemSelectionModel* selModel = m_view->selectionModel();
         m_toggle->setChecked(selModel->isSelected(index));
