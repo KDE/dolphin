@@ -612,6 +612,7 @@ QString DolphinView::statusBarText() const
 void DolphinView::setUrl(const KUrl& url)
 {
     // remember current item candidate (see slotDirListerCompleted())
+    m_selectClipboardItems = false;
     m_currentItemUrl = url;
     updateView(url, KUrl());
 }
