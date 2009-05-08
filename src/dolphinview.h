@@ -713,12 +713,6 @@ private:
     QAbstractItemView* itemView() const;
 
     /**
-     * Returns true, if the item \a item has been cut into
-     * the clipboard.
-     */
-    bool isCutItem(const KFileItem& item) const;
-
-    /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
      * Pastes the clipboard data into the URL \a url.
      */

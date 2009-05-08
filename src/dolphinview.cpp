@@ -1470,24 +1470,6 @@ QAbstractItemView* DolphinView::itemView() const
     return m_iconsView;
 }
 
-bool DolphinView::isCutItem(const KFileItem& item) const
-{
-    const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-    const KUrl::List cutUrls = KUrl::List::fromMimeData(mimeData);
-
-    const KUrl& itemUrl = item.url();
-    KUrl::List::const_iterator it = cutUrls.begin();
-    const KUrl::List::const_iterator end = cutUrls.end();
-    while (it != end) {
-        if (*it == itemUrl) {
-            return true;
-        }
-        ++it;
-    }
-
-    return false;
-}
-
 void DolphinView::pasteToUrl(const KUrl& url)
 {
     KonqOperations::doPaste(this, url);
