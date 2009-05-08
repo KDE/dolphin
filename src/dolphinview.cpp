@@ -90,6 +90,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_isContextMenuOpen(false),
     m_ignoreViewProperties(false),
     m_assureVisibleCurrentIndex(false),
+    m_selectClipboardItems(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
@@ -147,7 +148,7 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_dirLister, SIGNAL(redirection(KUrl, KUrl)),
             this, SIGNAL(redirection(KUrl, KUrl)));
     connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(restoreCurrentItem()));
+            this, SLOT(slotDirListerCompleted()));
     connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
             this, SLOT(slotRefreshItems()));
 
@@ -156,6 +157,10 @@ DolphinView::DolphinView(QWidget* parent,
     // creation is done asynchronously, several signals must be checked:
     connect(&DolphinNewMenuObserver::instance(), SIGNAL(itemCreated(const KUrl&)),
             this, SLOT(observeCreatedItem(const KUrl&)));
+
+    // when a copy/move-operation has been finished, the pasted items should get selected
+    connect(KIO::FileUndoManager::self(), SIGNAL(jobRecordingFinished(CommandType)),
+           this, SLOT(slotJobRecordingFinished(CommandType)));
 
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
@@ -606,7 +611,7 @@ QString DolphinView::statusBarText() const
 
 void DolphinView::setUrl(const KUrl& url)
 {
-    // remember current item candidate (see restoreCurrentItem())
+    // remember current item candidate (see slotDirListerCompleted())
     m_currentItemUrl = url;
     updateView(url, KUrl());
 }
@@ -1141,6 +1146,15 @@ void DolphinView::restoreSelection()
     changeSelection(m_selectedItems);
 }
 
+void DolphinView::slotJobRecordingFinished(CommandType command)
+{
+    // Assure that the pasted items get selected. This must be done
+    // asynchronously in slotDirListerCompleted().
+    m_selectClipboardItems = ((command == KIO::FileUndoManager::Copy) ||
+                              (command == KIO::FileUndoManager::Move)) &&
+                             !hasSelection();
+}
+
 void DolphinView::emitContentsMoved()
 {
     // only emit the contents moved signal if:
@@ -1179,9 +1193,10 @@ void DolphinView::slotRequestUrlChange(const KUrl& url)
     m_controller->setUrl(url);
 }
 
-void DolphinView::restoreCurrentItem()
+void DolphinView::slotDirListerCompleted()
 {
     if (!m_currentItemUrl.isEmpty()) {
+        // assure that the current item remains visible
         const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_currentItemUrl);
         if (dirIndex.isValid()) {
             const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
@@ -1193,6 +1208,31 @@ void DolphinView::restoreCurrentItem()
             }
         }
         m_currentItemUrl.clear();
+    }
+
+    if (m_selectClipboardItems) {
+        m_selectClipboardItems = false;
+
+        // select all items that have been pasted from the clipboard to
+        // the current directory
+        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
+        const KUrl::List copiedUrls = KUrl::List::fromMimeData(mimeData);
+
+        QSet<QString> fileNames;
+        foreach (const KUrl& url, copiedUrls) {
+            fileNames.insert(url.fileName());
+        }
+
+        QItemSelectionModel* selectionModel = itemView()->selectionModel();
+        const int rowCount = m_proxyModel->rowCount();
+        for (int row = 0; row < rowCount; ++row) {
+            const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
+            const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
+            const KUrl url = m_dolphinModel->itemForIndex(dirIndex).url();
+            if (fileNames.contains(url.fileName())) {
+                selectionModel->select(proxyIndex, QItemSelectionModel::Select);
+            }
+        }
     }
 }
 

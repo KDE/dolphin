@@ -38,6 +38,8 @@
 #include <QListView>
 #include <QWidget>
 
+typedef KIO::FileUndoManager::CommandType CommandType;
+
 class DolphinController;
 class DolphinColumnView;
 class DolphinDetailsView;
@@ -643,10 +645,10 @@ private slots:
     void slotRequestUrlChange(const KUrl& url);
 
     /**
-     * Restores the current item (= item that has the keyboard focus)
-     * to m_currentItemUrl.
+     * Invoked when the directory lister has completed the loading of
+     * items. Assures that pasted items and renamed items get seleced.
      */
-    void restoreCurrentItem();
+    void slotDirListerCompleted();
 
     /**
      * Is invoked when the KDirLister indicates refreshed items.
@@ -679,6 +681,12 @@ private slots:
      * Restore selection after view refresh.
      */
     void restoreSelection();
+
+    /**
+     * Invoked when the undo manager indicates a finished operation.
+     * If a copy/move-operation has been done, the pasted items get selected.
+     */
+    void slotJobRecordingFinished(CommandType command);
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
@@ -754,6 +762,7 @@ private:
     bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192
     bool m_ignoreViewProperties : 1;
     bool m_assureVisibleCurrentIndex : 1;
+    bool m_selectClipboardItems : 1;
 
     Mode m_mode;
 
