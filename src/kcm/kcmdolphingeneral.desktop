@@ -1,7 +1,7 @@
 Name=Dolphin General
 Name[ca]=General del Dolphin
 Name[ca@valencia]=General del Dolphin
-Name[cs]=Obecné
+Name[csb]=Spòldowi nastôw Dolphina
 Name[de]=Dolphin allgemein
 Name[el]=Γενικά Dolphin
 Name[et]=Dolphini üldine
@@ -27,7 +27,7 @@ Name[zh_TW]=Dolphin 一般
 Comment=This service allows configuration of general Dolphin settings.
 Comment[ca]=Aquest servei permet la configuració de l'arranjament general del Dolphin.
 Comment[ca@valencia]=Aquest servei permet la configuració de l'arranjament general del Dolphin.
-Comment[cs]=Tato služba umožňuje obecné nastavení Dolphinu.
+Comment[csb]=Na ùsłëżnota pòzwôlô na spòdlową kònfigùracëjã nastôwów Dolphina.
 Comment[de]=Mit diesem Dienst können allgemein Einstellungen zu Dolphin eingerichtet werden.
 Comment[el]=Αυτή η υπηρεσία επιτρέπει τη ρύθμιση των γενικών επιλογών του Dolphin.
 Comment[et]=See teenus võimaldab seadistada Dolphini üldisi seadistusi.
@@ -63,6 +63,7 @@ X-KDE-ParentApp=kcontrol
 
 # ctxt: Random file browsing settings.
 Name=General
+Name[csb]=Spòdlowò
 Name[de]=Allgemein
 Name[el]=Γενικά
 Name[et]=Üldine
@@ -81,7 +82,7 @@ Name[zh_TW]=一般
 Comment=Configure general file manager settings
 Comment[ca]=Configura les opcions generals del gestor de fitxers
 Comment[ca@valencia]=Configura les opcions generals del gestor de fitxers
-Comment[cs]=Obecná nastavení správce souborů
+Comment[csb]=Kònfigùracëjô spòdlowégò nastôwù menadżera lopków
 Comment[de]=Allgemeine Einstellungen am Dateimanager vornehmen
 Comment[el]=Ρύθμιση γενικών επιλογών διαχείρισης αρχείων
 Comment[et]=Failihalduri üldiste seadistuste seadistamine
