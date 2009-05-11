@@ -158,10 +158,6 @@ DolphinView::DolphinView(QWidget* parent,
     connect(&DolphinNewMenuObserver::instance(), SIGNAL(itemCreated(const KUrl&)),
             this, SLOT(observeCreatedItem(const KUrl&)));
 
-    // when a copy/move-operation has been finished, the pasted items should get selected
-    connect(KIO::FileUndoManager::self(), SIGNAL(jobRecordingFinished(CommandType)),
-           this, SLOT(slotJobRecordingFinished(CommandType)));
-
     applyViewProperties(url);
     m_topLayout->addWidget(itemView());
 }
@@ -1147,15 +1143,6 @@ void DolphinView::restoreSelection()
     changeSelection(m_selectedItems);
 }
 
-void DolphinView::slotJobRecordingFinished(CommandType command)
-{
-    // Assure that the pasted items get selected. This must be done
-    // asynchronously in slotDirListerCompleted().
-    m_selectClipboardItems = ((command == KIO::FileUndoManager::Copy) ||
-                              (command == KIO::FileUndoManager::Move)) &&
-                             !hasSelection();
-}
-
 void DolphinView::emitContentsMoved()
 {
     // only emit the contents moved signal if:
@@ -1513,6 +1500,7 @@ QAbstractItemView* DolphinView::itemView() const
 
 void DolphinView::pasteToUrl(const KUrl& url)
 {
+    m_selectClipboardItems = true;
     KonqOperations::doPaste(this, url);
 }
 

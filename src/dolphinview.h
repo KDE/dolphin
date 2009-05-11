@@ -682,12 +682,6 @@ private slots:
      */
     void restoreSelection();
 
-    /**
-     * Invoked when the undo manager indicates a finished operation.
-     * If a copy/move-operation has been done, the pasted items get selected.
-     */
-    void slotJobRecordingFinished(CommandType command);
-
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
 
