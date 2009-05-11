@@ -67,6 +67,8 @@
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 
+#include <kdebug.h>
+
 /**
  * Helper function for sorting items with qSort() in
  * DolphinView::renameSelectedItems().
@@ -90,7 +92,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_isContextMenuOpen(false),
     m_ignoreViewProperties(false),
     m_assureVisibleCurrentIndex(false),
-    m_selectClipboardItems(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
@@ -108,6 +109,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_currentItemUrl(),
     m_createdItemUrl(),
     m_selectedItems(),
+    m_newFileNames(),
     m_expandedDragSource(0)
 {
     m_topLayout = new QVBoxLayout(this);
@@ -607,8 +609,9 @@ QString DolphinView::statusBarText() const
 
 void DolphinView::setUrl(const KUrl& url)
 {
+    m_newFileNames.clear();
+
     // remember current item candidate (see slotDirListerCompleted())
-    m_selectClipboardItems = false;
     m_currentItemUrl = url;
     updateView(url, KUrl());
 }
@@ -981,6 +984,7 @@ void DolphinView::dropUrls(const KFileItem& destItem,
                            const KUrl& destPath,
                            QDropEvent* event)
 {
+    addNewFileNames(event->mimeData());
     DragAndDropHelper::instance().dropUrls(destItem, destPath, event, this);
 }
 
@@ -1198,29 +1202,21 @@ void DolphinView::slotDirListerCompleted()
         m_currentItemUrl.clear();
     }
 
-    if (m_selectClipboardItems) {
-        m_selectClipboardItems = false;
-
-        // select all items that have been pasted from the clipboard to
-        // the current directory
-        const QMimeData* mimeData = QApplication::clipboard()->mimeData();
-        const KUrl::List copiedUrls = KUrl::List::fromMimeData(mimeData);
-
-        QSet<QString> fileNames;
-        foreach (const KUrl& url, copiedUrls) {
-            fileNames.insert(url.fileName());
-        }
-
+    if (!m_newFileNames.isEmpty()) {
+        // select all newly added items created by a paste operation or
+        // a drag & drop operation
         QItemSelectionModel* selectionModel = itemView()->selectionModel();
         const int rowCount = m_proxyModel->rowCount();
         for (int row = 0; row < rowCount; ++row) {
             const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
             const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
             const KUrl url = m_dolphinModel->itemForIndex(dirIndex).url();
-            if (fileNames.contains(url.fileName())) {
+            if (m_newFileNames.contains(url.fileName())) {
                 selectionModel->select(proxyIndex, QItemSelectionModel::Select);
             }
         }
+
+        m_newFileNames.clear();
     }
 }
 
@@ -1500,7 +1496,7 @@ QAbstractItemView* DolphinView::itemView() const
 
 void DolphinView::pasteToUrl(const KUrl& url)
 {
-    m_selectClipboardItems = true;
+    addNewFileNames(QApplication::clipboard()->mimeData());
     KonqOperations::doPaste(this, url);
 }
 
@@ -1534,5 +1530,12 @@ QMimeData* DolphinView::selectionMimeData() const
     return m_dolphinModel->mimeData(selection.indexes());
 }
 
+void DolphinView::addNewFileNames(const QMimeData* mimeData)
+{
+    const KUrl::List urls = KUrl::List::fromMimeData(mimeData);
+    foreach (const KUrl& url, urls) {
+        m_newFileNames.insert(url.fileName());
+    }
+}
 
 #include "dolphinview.moc"

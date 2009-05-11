@@ -36,6 +36,7 @@
 #include <QKeyEvent>
 #include <QLinkedList>
 #include <QListView>
+#include <QSet>
 #include <QWidget>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
@@ -747,6 +748,14 @@ private:
      */
     QMimeData* selectionMimeData() const;
 
+    /**
+     * Is invoked after a paste operation or a drag & drop
+     * operation and adds the filenames of all URLs from \a mimeData to
+     * m_newFileNames. This allows to select all newly added
+     * items in slotDirListerCompleted().
+     */
+    void addNewFileNames(const QMimeData* mimeData);
+
 private:
     bool m_active : 1;
     bool m_showPreview : 1;
@@ -756,7 +765,6 @@ private:
     bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192
     bool m_ignoreViewProperties : 1;
     bool m_assureVisibleCurrentIndex : 1;
-    bool m_selectClipboardItems : 1;
 
     Mode m_mode;
 
@@ -780,7 +788,14 @@ private:
     KUrl m_rootUrl;
     KUrl m_currentItemUrl;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
-    KFileItemList m_selectedItems; //this is used for making the View to remember selections after F5
+    KFileItemList m_selectedItems; // this is used for making the View to remember selections after F5
+
+    /**
+     * Remembers the filenames that have been added by a paste operation
+     * or a drag & drop operation. Allows to select the items in
+     * slotDirListerCompleted().
+     */
+    QSet<QString> m_newFileNames;
 
     QAbstractItemView* m_expandedDragSource;
 };
