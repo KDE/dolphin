@@ -1,5 +1,6 @@
 Name=Dolphin Services
 Name[csb]=Ùsłëżnotë Dolphina
+Name[da]=Dolphin-tjenester
 Name[de]=Dolphin-Dienste
 Name[el]=Υπηρεσίες Dolphin
 Name[et]=Dolphini teenused
@@ -117,6 +118,7 @@ Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
 Comment[csb]=Kònfigùracëjô ùsłëżnotów menadżera lopków
+Comment[da]=Indstil filhåndteringstjenester
 Comment[de]=Dateimanager-Dienste einrichten
 Comment[el]=Ρύθμιση υπηρεσιών διαχείρισης αρχείων
 Comment[et]=Failihalduri teenuste seadistamine
