@@ -48,6 +48,10 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
         const KFileItem item = dirModel->itemForIndex(dirIndex);
         if (!item.isNull()) {
+            // Symbolic links are displayed in an italic font
+            if (item.isLink())
+                opt.font.setItalic(true);
+
             const int width = nameColumnWidth(item.text(), opt);
             opt.rect.setWidth(width);
         }
