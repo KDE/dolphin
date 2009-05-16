@@ -20,6 +20,7 @@ Name[sv]=Dolphin-tjänster
 Name[tr]=Dolphin Servisleri
 Name[uk]=Служби Dolphin
 Name[x-test]=xxDolphin Servicesxx
+Name[zh_CN]=Dolphin 服务
 Name[zh_TW]=Dolphin 服務
 
 [Desktop Entry]
@@ -137,5 +138,6 @@ Comment[sv]=Anpassa filhanterarens tjänster
 Comment[tr]=Dosya yöneticisi servislerini yapılandır
 Comment[uk]=Налаштувати служби менеджера файлів
 Comment[x-test]=xxConfigure file manager servicesxx
+Comment[zh_CN]=配置文件管理器服务
 Comment[zh_TW]=設定檔案管理員服務
 X-KDE-Keywords=file manager
