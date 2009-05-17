@@ -23,6 +23,7 @@
 #include <kde_terminal_interface.h>
 #include <kparts/part.h>
 #include <kshell.h>
+#include <kio/netaccess.h>
 
 #include <QBoxLayout>
 #include <QShowEvent>
@@ -55,8 +56,9 @@ void TerminalSidebarPage::setUrl(const KUrl& url)
     }
 
     SidebarPage::setUrl(url);
-    if ((m_terminal != 0) && isVisible() && url.isLocalFile()) {
-        m_terminal->sendInput("cd " + KShell::quoteArg(url.path()) + '\n');
+    KUrl mostLocalUrl = KIO::NetAccess::mostLocalUrl(url, 0);
+    if ((m_terminal != 0) && isVisible() && mostLocalUrl.isLocalFile()) {
+        m_terminal->sendInput("cd " + KShell::quoteArg(mostLocalUrl.path()) + '\n');
     }
 }
 
