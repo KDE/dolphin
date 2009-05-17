@@ -23,6 +23,7 @@
 #include <kde_terminal_interface_v2.h>
 #include <kparts/part.h>
 #include <kshell.h>
+#include <kio/netaccess.h>
 
 #include <QBoxLayout>
 #include <QShowEvent>
@@ -57,12 +58,13 @@ void TerminalPanel::setUrl(const KUrl& url)
     }
 
     Panel::setUrl(url);
+    KUrl mostLocalUrl = KIO::NetAccess::mostLocalUrl(url, 0);
     const bool sendInput = (m_terminal != 0)
                            && (m_terminal->foregroundProcessId() == -1)
                            && isVisible()
-                           && url.isLocalFile();
+                           && mostLocalUrl.isLocalFile();
     if (sendInput) {
-        m_terminal->sendInput("cd " + KShell::quoteArg(url.toLocalFile()) + '\n');
+        m_terminal->sendInput("cd " + KShell::quoteArg(mostLocalUrl.toLocalFile()) + '\n');
     }
 
 }

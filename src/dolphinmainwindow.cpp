@@ -813,7 +813,18 @@ void DolphinMainWindow::toggleShowMenuBar()
 
 void DolphinMainWindow::openTerminal()
 {
-    KToolInvocation::invokeTerminal(QString(), m_activeViewContainer->url().path());
+    QString dir(QDir::homePath());
+
+    // If the given directory is not local, it can still be the URL of an
+    // ioslave using UDS_LOCAL_PATH which to be converted first.
+    KUrl url = KIO::NetAccess::mostLocalUrl(m_activeViewContainer->url(), this);
+
+    //If the URL is local after the above conversion, set the directory.
+    if (url.isLocalFile()) {
+        dir = url.toLocalFile();
+    }
+
+    KToolInvocation::invokeTerminal(QString(), dir);
 }
 
 void DolphinMainWindow::editSettings()
