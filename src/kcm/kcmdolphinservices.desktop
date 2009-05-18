@@ -1,4 +1,6 @@
 Name=Dolphin Services
+Name[ca]=Serveis del Dolphin
+Name[ca@valencia]=Serveis del Dolphin
 Name[csb]=Ùsłëżnotë Dolphina
 Name[da]=Dolphin-tjenester
 Name[de]=Dolphin-Dienste
@@ -117,6 +119,8 @@ Name[x-test]=xxServicesxx
 Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
+Comment[ca]=Configura els serveis del gestor de fitxers
+Comment[ca@valencia]=Configura els serveis del gestor de fitxers
 Comment[csb]=Kònfigùracëjô ùsłëżnotów menadżera lopków
 Comment[da]=Indstil filhåndteringstjenester
 Comment[de]=Dateimanager-Dienste einrichten
