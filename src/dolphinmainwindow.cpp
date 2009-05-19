@@ -84,7 +84,6 @@
 #include <QDBusMessage>
 #include <QKeyEvent>
 #include <QClipboard>
-#include <QLineEdit>
 #include <QSplitter>
 #include <QDockWidget>
 #include <kacceleratormanager.h>
@@ -1519,7 +1518,7 @@ QString DolphinMainWindow::tabName(const KUrl& url) const
 {
     QString name;
     if (url.equals(KUrl("file:///"))) {
-        name = "/";
+        name = '/';
     } else {
         name = url.fileName();
         if (name.isEmpty()) {
