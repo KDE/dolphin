@@ -151,7 +151,7 @@ void PhononWidget::showEvent(QShowEvent *event)
 
         // Creating an audio player or video player instance might take up to
         // 2 seconds when doing it the first time. To prevent that the user
-        // interface gets notizable blocked, the creation is delayed until
+        // interface gets noticeable blocked, the creation is delayed until
         // the play button has been pressed (see PhononWidget::play()).
     }
 }
