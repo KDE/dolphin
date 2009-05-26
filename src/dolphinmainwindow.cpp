@@ -1241,7 +1241,7 @@ void DolphinMainWindow::setupActions()
 
     KAction* openTerminal = actionCollection()->addAction("open_terminal");
     openTerminal->setText(i18nc("@action:inmenu Tools", "Open Terminal"));
-    openTerminal->setIcon(KIcon("terminal"));
+    openTerminal->setIcon(KIcon("utilities-terminal"));
     openTerminal->setShortcut(Qt::SHIFT | Qt::Key_F4);
     connect(openTerminal, SIGNAL(triggered()), this, SLOT(openTerminal()));
 
@@ -1341,7 +1341,7 @@ void DolphinMainWindow::setupDockWidgets()
     QAction* terminalAction = terminalDock->toggleViewAction();
     terminalAction->setText(i18nc("@title:window Shell terminal", "Terminal"));
     terminalAction->setShortcut(Qt::Key_F4);
-    terminalAction->setIcon(KIcon("terminal"));
+    terminalAction->setIcon(KIcon("utilities-terminal"));
     actionCollection()->addAction("show_terminal_panel", terminalDock->toggleViewAction());
 
     addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
