@@ -709,7 +709,7 @@ void InformationPanel::updatePhononWidget()
                                                            // thinks it supports PNG images
         if (usePhonon) {
             m_phononWidget->show();
-            PhononWidget::Mode mode = mimeType.startsWith("video")
+            PhononWidget::Mode mode = mimeType.startsWith(QLatin1String("video"))
                                       ? PhononWidget::Video
                                       : PhononWidget::Audio;
             m_phononWidget->setMode(mode);
