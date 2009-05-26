@@ -4,7 +4,7 @@
     <kcfgfile name="dolphinrc"/>
     <group name="FoldersPanel">
         <entry name="ShowHiddenFiles" type="Bool">
-            <label context="@label">Show hidden files</label>
+            <label>Show hidden files</label>
             <default>false</default>
         </entry>
     </group>

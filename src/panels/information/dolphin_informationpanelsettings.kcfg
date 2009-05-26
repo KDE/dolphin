@@ -4,19 +4,19 @@
     <kcfgfile name="dolphinrc"/>
     <group name="InformationPanel">
         <entry name="showPreview" type="Bool">
-            <label context="@label">Show preview</label>
+            <label>Show preview</label>
             <default>true</default>
         </entry>
         <entry name="showRating" type="Bool">
-            <label context="@label">Show rating</label>
+            <label>Show rating</label>
             <default>true</default>
         </entry>
         <entry name="showComment" type="Bool">
-            <label context="@label">Show comment</label>
+            <label>Show comment</label>
             <default>true</default>
         </entry>
         <entry name="showTags" type="Bool">
-            <label context="@label">Show tags</label>
+            <label>Show tags</label>
             <default>true</default>
         </entry>
     </group>

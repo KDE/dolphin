@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
 <kcfg>
-    <kcfgfile name="dolphinrc"/>
     <include>kiconloader.h</include>
     <include>kglobalsettings.h</include>
+    <kcfgfile name="dolphinrc"/>
     <group name="ColumnMode">
         <entry name="FontFamily" type="String">
-            <label context="@label">Font family</label>
+            <label>Font family</label>
             <default code="true">KGlobalSettings::generalFont().family()</default>
         </entry>
         <entry name="UseSystemFont" type="Bool">
-            <label context="@label">Use system font</label>
+            <label>Use system font</label>
             <default>true</default>
         </entry>
         <entry name="FontSize" type="Int">
-            <label context="@label">Font size</label>
+            <label>Font size</label>
             <default code="true">KGlobalSettings::generalFont().pointSize()</default>
         </entry>
         <entry name="ItalicFont" type="Bool">
-            <label context="@label Font style">Italic</label>
+            <label>Italic</label>
             <default>false</default>
         </entry>
         <entry name="FontWeight" type="Int">
-            <label context="@label">Font weight</label>
+            <label>Font weight</label>
             <default>0</default>
         </entry>
         <entry name="IconSize" type="Int">
-            <label context="@label">Icon size</label>
+            <label>Icon size</label>
             <default code="true">KIconLoader::SizeSmall</default>
         </entry>
         <entry name="PreviewSize" type="Int">
-            <label context="@label">Preview size</label>
+            <label>Preview size</label>
             <default code="true">KIconLoader::SizeLarge</default>
         </entry>
         <entry name="ColumnWidth" type="Int">
-            <label context="@label">Column width</label>
+            <label>Column width</label>
             <default>250</default>
         </entry>
     </group>
