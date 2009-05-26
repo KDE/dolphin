@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include "ktooltip.h"
+#include "ktooltip_p.h"
 
 #include <QApplication>
 #include <QMap>
@@ -34,9 +35,6 @@
 #  include <X11/Xlib.h>
 #  include <X11/extensions/shape.h>
 #endif
-
-#include "ktooltip_p.h"
-
 
 // compile with XShape older than 1.0
 #ifndef ShapeInput

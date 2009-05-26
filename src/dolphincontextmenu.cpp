@@ -28,9 +28,9 @@
 #include "dolphin_generalsettings.h"
 
 #include <kactioncollection.h>
+#include <kdesktopfile.h>
 #include <kfileitemlistproperties.h>
 #include <kfileplacesmodel.h>
-#include <kdesktopfile.h>
 #include <kglobal.h>
 #include <kiconloader.h>
 #include <kio/netaccess.h>
@@ -40,7 +40,6 @@
 #include <kmimetypetrader.h>
 #include <knewmenu.h>
 #include <konqmimedata.h>
-#include <kfileitemlistproperties.h>
 #include <konq_operations.h>
 #include <konq_menuactions.h>
 #include <klocale.h>
