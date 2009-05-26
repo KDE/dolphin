@@ -656,7 +656,7 @@ void Nepomuk::TagCloud::showResourceTags( const Resource& resource )
 
 void Nepomuk::TagCloud::showTags( const QList<Tag>& tags )
 {
-    d->resource = QUrl();
+    d->resource = KUrl();
     d->showAllTags = false;
     d->invalidateCachedValues();
     d->nodes.clear();
