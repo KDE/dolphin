@@ -98,7 +98,7 @@ void ServicesSettingsPage::loadServices()
     const KConfigGroup showGroup = config.group("Show");
 
     const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
-    foreach (const KSharedPtr<KService>& service, entries) {
+    foreach (const KSharedPtr<KService>& service, entries) { // krazy:exclude=foreach
         const QString file = KStandardDirs::locate("services", service->entryPath());
         const QList<KServiceAction> serviceActions =
                                     KDesktopFileActions::userDefinedServices(file, true);

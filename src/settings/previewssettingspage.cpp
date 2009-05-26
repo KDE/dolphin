@@ -143,7 +143,7 @@ bool PreviewsSettingsPage::event(QEvent* event)
     if ((event->type() == QEvent::Polish) && !m_initialized) {
         // load all available plugins for previews
         const KService::List plugins = KServiceTypeTrader::self()->query("ThumbCreator");
-        foreach (const KSharedPtr<KService>& service, plugins) {
+        foreach (const KSharedPtr<KService>& service, plugins) { // krazy:exclude=foreach
             QListWidgetItem* item = new QListWidgetItem(service->name(),
                                                         m_previewPluginsList);
             item->setData(Qt::UserRole, service->desktopEntryName());
