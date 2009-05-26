@@ -96,15 +96,16 @@ void FoldersPanel::rename(const KFileItem& item)
     } else {
         KFileItemList items;
         items.append(item);
-        RenameDialog dialog(this, items);
-        if (dialog.exec() == QDialog::Accepted) {
-            const QString& newName = dialog.newName();
+        QPointer<RenameDialog> dialog = new RenameDialog(this, items);
+        if (dialog->exec() == QDialog::Accepted) {
+            const QString newName = dialog->newName();
             if (!newName.isEmpty()) {
                 KUrl newUrl = item.url();
                 newUrl.setFileName(newName);
                 KonqOperations::rename(this, item.url(), newUrl);
             }
         }
+        delete dialog;
     }
 }
 

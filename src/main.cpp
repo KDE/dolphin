@@ -91,7 +91,7 @@ int main(int argc, char **argv)
             ++n;
         }
     }
-    app.exec();
+    app.exec(); // krazy:exclude=crashy
 
     return 0;
 }

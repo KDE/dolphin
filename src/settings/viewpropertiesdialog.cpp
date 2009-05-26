@@ -316,11 +316,12 @@ void ViewPropertiesDialog::configureAdditionalInfo()
         m_viewProps->setAdditionalInfo(info);
     }
 
-    AdditionalInfoDialog dialog(this, info);
-    if (dialog.exec() == QDialog::Accepted) {
-        m_viewProps->setAdditionalInfo(dialog.additionalInfo());
+    QPointer<AdditionalInfoDialog> dialog = new AdditionalInfoDialog(this, info);
+    if (dialog->exec() == QDialog::Accepted) {
+        m_viewProps->setAdditionalInfo(dialog->additionalInfo());
         markAsDirty(true);
     }
+    delete dialog;
 }
 
 void ViewPropertiesDialog::applyViewProperties()

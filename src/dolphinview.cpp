@@ -648,16 +648,19 @@ void DolphinView::renameSelectedItems()
     if (itemCount > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
-        RenameDialog dialog(this, items);
-        if (dialog.exec() == QDialog::Rejected) {
+        QPointer<RenameDialog> dialog = new RenameDialog(this, items);
+        if (dialog->exec() == QDialog::Rejected) {
+            delete dialog;
             return;
         }
 
-        const QString newName = dialog.newName();
+        const QString newName = dialog->newName();
         if (newName.isEmpty()) {
-            emit errorMessage(dialog.errorString());
+            emit errorMessage(dialog->errorString());
+            delete dialog;
             return;
         }
+        delete dialog;
 
         // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
         // as one operation instead of n rename operations like it is done now...
@@ -696,16 +699,19 @@ void DolphinView::renameSelectedItems()
     } else {
         Q_ASSERT(itemCount == 1);
 
-        RenameDialog dialog(this, items);
-        if (dialog.exec() == QDialog::Rejected) {
+        QPointer<RenameDialog> dialog = new RenameDialog(this, items);
+        if (dialog->exec() == QDialog::Rejected) {
+            delete dialog;
             return;
         }
 
-        const QString& newName = dialog.newName();
+        const QString newName = dialog->newName();
         if (newName.isEmpty()) {
-            emit errorMessage(dialog.errorString());
+            emit errorMessage(dialog->errorString());
+            delete dialog;
             return;
         }
+        delete dialog;
 
         const KUrl& oldUrl = items.first().url();
         KUrl newUrl = oldUrl;

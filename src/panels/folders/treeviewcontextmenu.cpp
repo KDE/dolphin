@@ -34,8 +34,9 @@
 
 #include "folderspanel.h"
 
-#include <QtGui/QApplication>
-#include <QtGui/QClipboard>
+#include <QApplication>
+#include <QClipboard>
+#include <QPointer>
 
 TreeViewContextMenu::TreeViewContextMenu(FoldersPanel* parent,
                                          const KFileItem& fileInfo) :
@@ -182,8 +183,9 @@ void TreeViewContextMenu::deleteItem()
 
 void TreeViewContextMenu::showProperties()
 {
-    KPropertiesDialog dialog(m_fileInfo.url(), m_parent);
-    dialog.exec();
+    QPointer<KPropertiesDialog> dialog = new KPropertiesDialog(m_fileInfo.url(), m_parent);
+    dialog->exec();
+    delete dialog;
 }
 
 void TreeViewContextMenu::setShowHiddenFiles(bool show)

@@ -539,8 +539,9 @@ void DolphinViewActionHandler::slotSortTriggered(QAction* action)
 void DolphinViewActionHandler::slotAdjustViewProperties()
 {
     emit actionBeingHandled();
-    ViewPropertiesDialog dlg(m_currentView);
-    dlg.exec();
+    QPointer<ViewPropertiesDialog> dialog = new ViewPropertiesDialog(m_currentView);
+    dialog->exec();
+    delete dialog;
 }
 
 void DolphinViewActionHandler::slotFindFile()

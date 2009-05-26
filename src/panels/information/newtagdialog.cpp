@@ -64,17 +64,18 @@ void NewTagDialog::slotLabelChanged( const QString& text )
 
 Nepomuk::Tag NewTagDialog::createTag( QWidget* parent )
 {
-    NewTagDialog dlg( parent );
-    dlg.m_labelTitle->setText( i18nc( "@title:window", "Create New Tag" ) );
-    dlg.m_labelTitle->setComment( i18nc( "@title:window subtitle to previous message", "with optional icon and description" ) );
-    dlg.m_labelTitle->setPixmap( KIcon( "nepomuk" ).pixmap( 32, 32 ) );
+    QPointer<NewTagDialog> dlg = new NewTagDialog( parent );
+    dlg->m_labelTitle->setText( i18nc( "@title:window", "Create New Tag" ) );
+    dlg->m_labelTitle->setComment( i18nc( "@title:window subtitle to previous message", "with optional icon and description" ) );
+    dlg->m_labelTitle->setPixmap( KIcon( "nepomuk" ).pixmap( 32, 32 ) );
 
-    dlg.m_editTagLabel->setFocus();
+    dlg->m_editTagLabel->setFocus();
 
-    if ( dlg.exec() ) {
-        QString name = dlg.m_editTagLabel->text();
-        QString comment = dlg.m_editTagComment->text();
-        QString icon = dlg.m_buttonTagIcon->icon();
+    if ( dlg->exec() ) {
+        QString name = dlg->m_editTagLabel->text();
+        QString comment = dlg->m_editTagComment->text();
+        QString icon = dlg->m_buttonTagIcon->icon();
+        delete dlg;
 
         Nepomuk::Tag newTag( name );
         newTag.setLabel( name );
@@ -88,6 +89,7 @@ Nepomuk::Tag NewTagDialog::createTag( QWidget* parent )
         return newTag;
     }
     else {
+        delete dlg;
         return Nepomuk::Tag();
     }
 }

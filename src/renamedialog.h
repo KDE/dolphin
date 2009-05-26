@@ -24,10 +24,11 @@
 #include <kdialog.h>
 #include <kurl.h>
 
-
 class KFileItem;
 class KFileItemList;
 class KLineEdit;
+
+#include <QString>
 
 /**
  * @brief Dialog for renaming a variable number of files.
@@ -65,18 +66,12 @@ public:
      * been deleted by the user, although more than one item should be
      * renamed).
      */
-    const QString& newName() const
-    {
-        return m_newName;
-    }
+    QString newName() const;
 
     /**
      * Returns the error string, if Dialog::newName() returned an empty string.
      */
-    const QString& errorString() const
-    {
-        return m_errorString;
-    }
+    QString errorString() const;
 
 protected slots:
     virtual void slotButtonClicked(int button);
@@ -89,5 +84,15 @@ private:
 
     friend class RenameDialogTest; // allow access for unit testing
 };
+
+inline QString RenameDialog::newName() const
+{
+    return m_newName;
+}
+
+inline QString RenameDialog::errorString() const
+{
+    return m_errorString;
+}
 
 #endif
