@@ -1,4 +1,5 @@
 Name=Dolphin General
+Name[bg]=Общо за програмата
 Name[ca]=General del Dolphin
 Name[ca@valencia]=General del Dolphin
 Name[csb]=Spòldowi nastôw Dolphina
@@ -33,6 +34,7 @@ Name[x-test]=xxDolphin Generalxx
 Name[zh_CN]=Dolphin 常规
 Name[zh_TW]=Dolphin 一般
 Comment=This service allows configuration of general Dolphin settings.
+Comment[bg]=Това ви позволява да зададете общите настройки на програмата.
 Comment[ca]=Aquest servei permet la configuració de l'arranjament general del Dolphin.
 Comment[ca@valencia]=Aquest servei permet la configuració de l'arranjament general del Dolphin.
 Comment[csb]=Na ùsłëżnota pòzwôlô na spòdlową kònfigùracëjã nastôwów Dolphina.
@@ -76,6 +78,7 @@ X-KDE-ParentApp=kcontrol
 
 # ctxt: Random file browsing settings.
 Name=General
+Name[bg]=Общи
 Name[cs]=Obecné
 Name[csb]=Spòdlowò
 Name[da]=Generelt
@@ -104,6 +107,7 @@ Name[wa]=Djenerå
 Name[zh_CN]=常规
 Name[zh_TW]=一般
 Comment=Configure general file manager settings
+Comment[bg]=Общи настройки на файловия мениджър
 Comment[ca]=Configura les opcions generals del gestor de fitxers
 Comment[ca@valencia]=Configura les opcions generals del gestor de fitxers
 Comment[csb]=Kònfigùracëjô spòdlowégò nastôwù menadżera lopków
