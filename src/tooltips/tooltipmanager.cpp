@@ -267,7 +267,6 @@ void ToolTipManager::startPreviewJob()
     KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item,
                                             PREVIEW_WIDTH,
                                             PREVIEW_HEIGHT);
-    job->setIgnoreMaximumSize(true);
 
     connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
             this, SLOT(setPreviewPix(const KFileItem&, const QPixmap&)));
