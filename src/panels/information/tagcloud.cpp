@@ -918,7 +918,7 @@ void Nepomuk::TagCloud::mousePressEvent( QMouseEvent* e )
             KMenu menu;
             QAction* a = menu.addAction( KIcon( "edit-delete" ), i18nc( "@action:menu", "Delete tag '%1'", node->text ) );
             if ( menu.exec( e->globalPos() ) == a &&
-                 KMessageBox::questionYesNo( this, i18n( "Do you really want to delete tag '%1'", node->text ) ) == KMessageBox::Yes ) {
+                 KMessageBox::questionYesNo( this, i18n( "Do you really want to delete tag '%1'?", node->text ) ) == KMessageBox::Yes ) {
                 if ( d->selectionEnabled &&
                      node->selected ) {
                     node->selected = false;
