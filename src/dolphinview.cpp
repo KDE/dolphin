@@ -67,8 +67,6 @@
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 
-#include <kdebug.h>
-
 /**
  * Helper function for sorting items with qSort() in
  * DolphinView::renameSelectedItems().
@@ -1204,8 +1202,8 @@ void DolphinView::slotDirListerCompleted()
             if (clearSelection) {
                 view->clearSelection();
             }
+            m_currentItemUrl.clear();
         }
-        m_currentItemUrl.clear();
     }
 
     if (!m_newFileNames.isEmpty()) {
