@@ -26,6 +26,7 @@
 #include <QMouseEvent>
 #include <QScrollBar>
 #include <QTimer>
+#include <math.h>
 
 DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
     QObject(parent),
@@ -161,17 +162,17 @@ int DolphinViewAutoScroller::calculateScrollIncrement(int cursorPos, int rangeSi
     int inc = 0;
 
     const int minSpeed = 4;
-    const int maxSpeed = 64;
-    const int speedLimiter = 4;
-    const int autoScrollBorder = 32;
+    const int maxSpeed = 768;
+    const int speedLimiter = 48;
+    const int autoScrollBorder = 64;
 
     if (cursorPos < autoScrollBorder) {
-        inc = -minSpeed + (cursorPos - autoScrollBorder) / speedLimiter;
+        inc = -minSpeed + fabs(cursorPos - autoScrollBorder) * (cursorPos - autoScrollBorder) / speedLimiter;
         if (inc < -maxSpeed) {
             inc = -maxSpeed;
         }
     } else if (cursorPos > rangeSize - autoScrollBorder) {
-        inc = minSpeed + (cursorPos - rangeSize + autoScrollBorder) / speedLimiter;
+        inc = minSpeed + fabs(cursorPos - rangeSize + autoScrollBorder) * (cursorPos - rangeSize + autoScrollBorder) / speedLimiter;
         if (inc > maxSpeed) {
             inc = maxSpeed;
         }
