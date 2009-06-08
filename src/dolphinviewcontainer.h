@@ -243,6 +243,8 @@ private slots:
      */
     void saveUrlCompletionMode(KGlobalSettings::Completion completion);
 
+    void slotHistoryChanged();
+
 private:
     bool m_showProgress;
     bool m_isFolderWritable;

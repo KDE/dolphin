@@ -104,7 +104,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_previewGenerator(0),
     m_toolTipManager(0),
     m_rootUrl(),
-    m_currentItemUrl(),
+    m_activeItemUrl(),
     m_createdItemUrl(),
     m_selectedItems(),
     m_newFileNames(),
@@ -608,9 +608,6 @@ QString DolphinView::statusBarText() const
 void DolphinView::setUrl(const KUrl& url)
 {
     m_newFileNames.clear();
-
-    // remember current item candidate (see slotDirListerCompleted())
-    m_currentItemUrl = url;
     updateView(url, KUrl());
 }
 
@@ -1100,6 +1097,11 @@ bool DolphinView::isTabsForFilesEnabled() const
     return m_tabsForFiles;
 }
 
+void DolphinView::activateItem(const KUrl& url)
+{
+    m_activeItemUrl = url;
+}
+
 bool DolphinView::itemsExpandable() const
 {
     return (m_detailsView != 0) && m_detailsView->itemsExpandable();
@@ -1191,9 +1193,9 @@ void DolphinView::slotRequestUrlChange(const KUrl& url)
 
 void DolphinView::slotDirListerCompleted()
 {
-    if (!m_currentItemUrl.isEmpty()) {
+    if (!m_activeItemUrl.isEmpty()) {
         // assure that the current item remains visible
-        const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_currentItemUrl);
+        const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_activeItemUrl);
         if (dirIndex.isValid()) {
             const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
             QAbstractItemView* view = itemView();
@@ -1202,7 +1204,7 @@ void DolphinView::slotDirListerCompleted()
             if (clearSelection) {
                 view->clearSelection();
             }
-            m_currentItemUrl.clear();
+            m_activeItemUrl.clear();
         }
     }
 

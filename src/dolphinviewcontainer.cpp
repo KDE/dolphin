@@ -155,6 +155,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(restoreView(const KUrl&)));
+    connect(m_urlNavigator, SIGNAL(historyChanged()),
+            this, SLOT(slotHistoryChanged()));
 
     m_statusBar = new DolphinStatusBar(this, m_view);
 
@@ -450,6 +452,17 @@ void DolphinViewContainer::saveUrlCompletionMode(KGlobalSettings::Completion com
     DolphinSettings& settings = DolphinSettings::instance();
     settings.generalSettings()->setUrlCompletionMode(completion);
     settings.save();
+}
+
+void DolphinViewContainer::slotHistoryChanged()
+{
+    const int index = m_urlNavigator->historyIndex();
+    if (index > 0) {
+        // The "Go Forward" action is enabled. Try to mark
+        // the previous directory as active item:
+        const KUrl url = m_urlNavigator->historyUrl(index - 1);
+        m_view->activateItem(url);
+    }
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)

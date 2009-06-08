@@ -346,6 +346,15 @@ public:
     bool isTabsForFilesEnabled() const;
 
     /**
+     * Marks the item \a url as active item as soon as it has
+     * been loaded by the directory lister. This is useful mark
+     * the previously visited directory as active when going
+     * back in history (the URL is known, but the item is not
+     * loaded yet).
+     */
+    void activateItem(const KUrl& url);
+
+    /**
      * Returns true if the current view allows folders to be expanded,
      * i.e. presents a hierarchical view to the user.
      */
@@ -786,7 +795,7 @@ private:
     ToolTipManager* m_toolTipManager;
 
     KUrl m_rootUrl;
-    KUrl m_currentItemUrl;
+    KUrl m_activeItemUrl;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
     KFileItemList m_selectedItems; // this is used for making the View to remember selections after F5
 
