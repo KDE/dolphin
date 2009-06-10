@@ -207,20 +207,14 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     const QModelIndex current = currentIndex();
     QTreeView::mousePressEvent(event);
 
-    m_expandingTogglePressed = false;
+    m_expandingTogglePressed = isAboveExpandingToggle(event->pos());
+
     const QModelIndex index = indexAt(event->pos());
     const bool updateState = index.isValid() &&
                              (index.column() == DolphinModel::Name) &&
                              (event->button() == Qt::LeftButton);
     if (updateState) {
-        // TODO: See comment in DolphinIconsView::mousePressEvent(). Only update
-        // the state if no expanding/collapsing area has been hit:
-        const QRect rect = visualRect(index);
-        if (event->pos().x() >= rect.x() + indentation()) {
-            setState(QAbstractItemView::DraggingState);
-        } else {
-            m_expandingTogglePressed = true;
-        }
+        setState(QAbstractItemView::DraggingState);
     }
 
     if (!index.isValid() || (index.column() != DolphinModel::Name)) {
@@ -229,8 +223,8 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
             m_controller->replaceUrlByClipboard();
         }
 
-        const Qt::KeyboardModifiers modifier = QApplication::keyboardModifiers();
-        if (!(modifier & Qt::ShiftModifier) && !(modifier & Qt::ControlModifier)) {
+        const Qt::KeyboardModifiers mod = QApplication::keyboardModifiers();
+        if (!m_expandingTogglePressed && !(mod & Qt::ShiftModifier) && !(mod & Qt::ControlModifier)) {
             clearSelection();
         }
 
@@ -256,6 +250,14 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 
 void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
 {
+    if (m_expandingTogglePressed) {
+        // Per default QTreeView starts either a selection or a drag operation when dragging
+        // the expanding toggle button (Qt-issue - see TODO comment in DolphinIconsView::mousePressEvent()).
+        // Turn off this behavior in Dolphin to stay predictable:
+        setState(QAbstractItemView::NoState);
+        return;
+    }
+
     if (m_band.show) {
         const QPoint mousePos = event->pos();
         const QModelIndex index = indexAt(mousePos);
@@ -277,31 +279,25 @@ void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
         // QTreeView::mouseMoveEvent(event);
         QAbstractItemView::mouseMoveEvent(event);
     }
-
-    if (m_expandingTogglePressed) {
-        // Per default QTreeView starts either a selection or a drag operation when dragging
-        // the expanding toggle button (Qt-issue - see TODO comment in DolphinIconsView::mousePressEvent()).
-        // Turn off this behavior in Dolphin to stay predictable:
-        clearSelection();
-        setState(QAbstractItemView::NoState);
-    }
 }
 
 void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 {
-    const QModelIndex index = indexAt(event->pos());
-    if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        QTreeView::mouseReleaseEvent(event);
-    } else {
-        // don't change the current index if the cursor is released
-        // above any other column than the name column, as the other
-        // columns act as viewport
-        const QModelIndex current = currentIndex();
-        QTreeView::mouseReleaseEvent(event);
-        selectionModel()->setCurrentIndex(current, QItemSelectionModel::Current);
+    if (!m_expandingTogglePressed) {
+        const QModelIndex index = indexAt(event->pos());
+        if (index.isValid() && (index.column() == DolphinModel::Name)) {
+            QTreeView::mouseReleaseEvent(event);
+        } else {
+            // don't change the current index if the cursor is released
+            // above any other column than the name column, as the other
+            // columns act as viewport
+            const QModelIndex current = currentIndex();
+            QTreeView::mouseReleaseEvent(event);
+            selectionModel()->setCurrentIndex(current, QItemSelectionModel::Current);
+        }
     }
-
     m_expandingTogglePressed = false;
+
     if (m_band.show) {
         setState(NoState);
         updateElasticBand();
@@ -960,6 +956,34 @@ QRect DolphinDetailsView::nameColumnRect(const QModelIndex& index) const
     }
 
     return rect;
+}
+
+bool DolphinDetailsView::isAboveExpandingToggle(const QPoint& pos) const
+{
+    // QTreeView offers no public API to get the information whether an index has an
+    // expanding toggle and what boundaries the toggle has. The following approach
+    // also assumes a toggle for file items.
+    if (itemsExpandable()) {
+        const QModelIndex index = QTreeView::indexAt(pos);
+        if (index.isValid() && (index.column() == KDirModel::Name)) {
+            QRect rect = nameColumnRect(index);
+            const int toggleSize = rect.height();
+            if (isRightToLeft()) {
+                rect.moveRight(rect.right());
+            } else {
+                rect.moveLeft(rect.x() - toggleSize);
+            }
+            rect.setWidth(toggleSize);
+
+            QStyleOption opt;
+            opt.initFrom(this);
+            opt.rect = rect;
+            rect = style()->subElementRect(QStyle::SE_TreeViewDisclosureItem, &opt, this);
+
+            return rect.contains(pos);
+        }
+    }
+    return false;
 }
 
 DolphinDetailsView::ElasticBand::ElasticBand() :

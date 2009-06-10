@@ -177,6 +177,11 @@ private:
 
     QRect nameColumnRect(const QModelIndex& index) const;
 
+    /**
+     * Returns true, if \a pos is within the expanding toggle of a tree.
+     */
+    bool isAboveExpandingToggle(const QPoint& pos) const;
+
 private:
     bool m_autoResize : 1;        // if true, the columns are resized automatically to the available width
     bool m_expandingTogglePressed : 1;
