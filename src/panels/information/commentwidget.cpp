@@ -24,6 +24,7 @@
 #include <QtGui/QTextEdit>
 #include <QtGui/QLayout>
 #include <QtGui/QCursor>
+#include <QtGui/QScrollArea>
 #include <QtCore/QEvent>
 
 #include <KLocale>
@@ -39,7 +40,9 @@ public:
     void update();
     void _k_slotEnableEditing();
 
-    QLabel* label;
+    QLabel* commentLabel;
+    QScrollArea* scrollArea;
+    QLabel* commentLink;
     CommentEditWidget* edit;
 
     QString comment;
@@ -51,11 +54,14 @@ private:
 
 void CommentWidget::Private::update()
 {
+    commentLabel->setText( comment );
     if ( comment.isEmpty() ) {
-        label->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Add Comment..." ) + "</a>" );
+        scrollArea->hide();
+        commentLink->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Add Comment..." ) + "</a>" );
     }
     else {
-        label->setText( "<p>" + comment + "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Change Comment..." ) + "</a>" );
+        scrollArea->show();
+        commentLink->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Change Comment..." ) + "</a>" );
     }
 }
 
@@ -77,13 +83,22 @@ CommentWidget::CommentWidget( QWidget* parent )
     : QWidget( parent ),
       d( new Private( this ) )
 {
-    d->label = new QLabel( this );
-    d->label->setWordWrap( true );
+    d->commentLabel = new QLabel( this );
+    d->commentLabel->setWordWrap( true );
+
+    d->scrollArea = new QScrollArea( this );
+    d->scrollArea->setWidget( d->commentLabel );
+    d->scrollArea->setWidgetResizable( true );
+    d->scrollArea->setFrameShape( QFrame::StyledPanel );
+
+    d->commentLink = new QLabel( this );
+
     QVBoxLayout* layout = new QVBoxLayout( this );
     layout->setMargin( 0 );
-    layout->addWidget( d->label );
+    layout->addWidget( d->scrollArea );
+    layout->addWidget( d->commentLink );
     d->update();
-    connect( d->label, SIGNAL( linkActivated( const QString& ) ), this, SLOT( _k_slotEnableEditing() ) );
+    connect( d->commentLink, SIGNAL( linkActivated( const QString& ) ), this, SLOT( _k_slotEnableEditing() ) );
 }
 
 

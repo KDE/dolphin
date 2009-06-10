@@ -202,6 +202,12 @@ void InformationPanel::resizeEvent(QResizeEvent* event)
         const int maxWidth = event->size().width() - KDialog::spacingHint() * 4;
         m_nameLabel->setMaximumWidth(maxWidth);
 
+        // The metadata widget also contains a text widget which may return
+        // a large preferred width.
+        if (m_metaDataWidget != 0) {
+            m_metaDataWidget->setMaximumWidth(maxWidth);
+        }
+
         // try to increase the preview as large as possible
         m_preview->setSizeHint(QSize(maxWidth, maxWidth));
         m_urlCandidate = m_shownUrl; // reset the URL candidate if a resizing is done
@@ -777,6 +783,7 @@ void InformationPanel::init()
         // rating, comment and tags
         m_metaDataWidget = new MetaDataWidget(this);
         m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+        m_metaDataWidget->setMaximumWidth(KIconLoader::SizeEnormous);
 
         const bool showRating  = InformationPanelSettings::showRating();
         const bool showComment = InformationPanelSettings::showComment();
