@@ -167,12 +167,12 @@ int DolphinViewAutoScroller::calculateScrollIncrement(int cursorPos, int rangeSi
     const int autoScrollBorder = 64;
 
     if (cursorPos < autoScrollBorder) {
-        inc = -minSpeed + fabs(cursorPos - autoScrollBorder) * (cursorPos - autoScrollBorder) / speedLimiter;
+        inc = -minSpeed + qAbs(cursorPos - autoScrollBorder) * (cursorPos - autoScrollBorder) / speedLimiter;
         if (inc < -maxSpeed) {
             inc = -maxSpeed;
         }
     } else if (cursorPos > rangeSize - autoScrollBorder) {
-        inc = minSpeed + fabs(cursorPos - rangeSize + autoScrollBorder) * (cursorPos - rangeSize + autoScrollBorder) / speedLimiter;
+        inc = minSpeed + qAbs(cursorPos - rangeSize + autoScrollBorder) * (cursorPos - rangeSize + autoScrollBorder) / speedLimiter;
         if (inc > maxSpeed) {
             inc = maxSpeed;
         }
