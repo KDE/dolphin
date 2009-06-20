@@ -672,14 +672,20 @@ void InformationPanel::initMetaInfoSettings(KConfigGroup& group)
     if (!group.readEntry("initialized", false)) {
         // The resource file is read the first time. Assure
         // that some meta information is disabled per default.
-        group.writeEntry("fileExtension", false);
-        group.writeEntry("url", false);
-        group.writeEntry("sourceModified", false);
-        group.writeEntry("parentUrl", false);
-        group.writeEntry("size", false);
-        group.writeEntry("mime type", false);
-        group.writeEntry("depth", false);
-        group.writeEntry("name", false);
+
+        static const char* disabledProperties[] = {
+            "asText", "contentSize", "depth", "fileExtension",
+            "fileName", "fileSize", "isPartOf", "mimetype", "name",
+            "parentUrl", "plainTextContent", "sourceModified",
+            "size", "url",
+            0 // mandatory last entry
+        };
+
+        int i = 0;
+        while (disabledProperties[i] != 0) {
+            group.writeEntry(disabledProperties[i], false);
+            ++i;
+        }
 
         // mark the group as initialized
         group.writeEntry("initialized", true);
