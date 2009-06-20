@@ -329,6 +329,7 @@ void DolphinView::clearSelection()
     const QModelIndex currentIndex = selModel->currentIndex();
     selModel->setCurrentIndex(currentIndex, QItemSelectionModel::Current |
                                             QItemSelectionModel::Clear);
+    m_selectedItems.clear();
 }
 
 KFileItemList DolphinView::selectedItems() const
@@ -656,6 +657,10 @@ void DolphinView::renameSelectedItems()
             return;
         }
         delete dialog;
+        
+        // the selection would be invalid after renaming the items, so just clear
+        // it before
+        clearSelection();
 
         // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
         // as one operation instead of n rename operations like it is done now...
