@@ -81,7 +81,6 @@ private:
     QRect m_itemRect;
     bool m_preview;
     bool m_generatingPreview;
-    bool m_previewIsLate;
     int m_previewPass;
     QPixmap m_pix;
 };

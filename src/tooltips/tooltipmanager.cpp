@@ -52,7 +52,6 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_itemRect(),
     m_preview(false),
     m_generatingPreview(false),
-    m_previewIsLate(false),
     m_previewPass(0),
     m_pix()
 {
@@ -127,7 +126,6 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
         // this prevents a lot of useless preview jobs when passing rapidly over a lot of items
         m_previewTimer->start(200);
         m_preview = false;
-        m_previewIsLate = false;
         m_previewPass = 0;
 
         m_timer->start(500);
@@ -141,7 +139,6 @@ void ToolTipManager::hideToolTip()
     m_timer->stop();
     m_previewTimer->stop();
     m_waitOnPreviewTimer->stop();
-    m_previewIsLate = false;
     KToolTip::hideTip();
 }
 
@@ -150,24 +147,14 @@ void ToolTipManager::prepareToolTip()
     if (m_generatingPreview) {
         if (m_previewPass == 1) {
             // We waited 250msec and the preview is still not finished,
-            // so show the toolTip with a transparent image of maximal width.
-            QPixmap paddedImage(QSize(PREVIEW_WIDTH, 32));
-            m_previewIsLate = true;
-            paddedImage.fill(Qt::transparent);
-            showToolTip(paddedImage, m_item.getToolTipText());
+            // so show default icon as fallback.
+            QPixmap image(KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT));
+            showToolTip(image, m_item.getToolTipText());
         }
 
         ++m_previewPass;
         m_waitOnPreviewTimer->start(250);
     } else {
-        // The preview generation has finished, find out under which circumstances.
-        if (m_preview && m_previewIsLate) {
-            // We got a preview, but it is late, the tooltip has already been shown.
-            // So update the tooltip directly.
-            showToolTip(m_pix, m_item.getToolTipText());
-            return;
-        }
-
         KIcon icon;
         if (m_preview) {
             // We got a preview.
@@ -175,7 +162,8 @@ void ToolTipManager::prepareToolTip()
         } else {
             // No preview, so use an icon.
             // Force a 128x128 icon, a 256x256 one is far too big.
-            icon = KIcon(KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT));
+            const QPixmap pixmap = KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT);
+            icon = KIcon(pixmap);
         }
 
         showToolTip(icon, m_item.getToolTipText());
@@ -188,7 +176,7 @@ void ToolTipManager::showToolTip(const QIcon& icon, const QString& text)
         return;
     }
 
-    KToolTipItem* tip = new KToolTipItem(icon, m_item.getToolTipText());
+    KToolTipItem* tip = new KToolTipItem(icon, text);
 
     KStyleOptionToolTip option;
     // TODO: get option content from KToolTip or add KToolTip::sizeHint() method
@@ -201,15 +189,7 @@ void ToolTipManager::showToolTip(const QIcon& icon, const QString& text)
     option.state          = QStyle::State_None;
     option.decorationSize = QSize(32, 32);
 
-    QSize size;
-    if (m_previewIsLate) {
-        QPixmap paddedImage(QSize(PREVIEW_WIDTH, PREVIEW_HEIGHT));
-        KToolTipItem maxiTip(paddedImage, m_item.getToolTipText());
-        size = g_delegate->sizeHint(option, maxiTip);
-    }
-    else if (tip != 0) {
-        size = g_delegate->sizeHint(option, *tip);
-    }
+    const QSize size = g_delegate->sizeHint(option, *tip);
     const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
 
     // m_itemRect defines the area of the item, where the tooltip should be
@@ -268,20 +248,12 @@ void ToolTipManager::setPreviewPix(const KFileItem& item,
                                    const QPixmap& pixmap)
 {
     if ((m_item.url() != item.url()) || pixmap.isNull()) {
+        // an old preview or an invalid preview has been received
         m_generatingPreview = false;
         return;
     }
 
-    if (m_previewIsLate) {
-        // always use the maximal width
-        QPixmap paddedImage(QSize(PREVIEW_WIDTH, pixmap.height()));
-        paddedImage.fill(Qt::transparent);
-        QPainter painter(&paddedImage);
-        painter.drawPixmap((PREVIEW_WIDTH - pixmap.width()) / 2, 0, pixmap);
-        m_pix = paddedImage;
-    } else {
-        m_pix = pixmap;
-    }
+    m_pix = pixmap;
     m_preview = true;
     m_generatingPreview = false;
 }
