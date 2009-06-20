@@ -68,7 +68,7 @@ private slots:
     void previewFailed(const KFileItem& item);
 
 private:
-    void showToolTip(KToolTipItem* tip);
+    void showToolTip(const QIcon& icon, const QString& text);
 
     QAbstractItemView* m_view;
     DolphinModel* m_dolphinModel;
@@ -83,9 +83,7 @@ private:
     bool m_generatingPreview;
     bool m_previewIsLate;
     int m_previewPass;
-    KToolTipItem* m_emptyRenderedKToolTipItem;
     QPixmap m_pix;
-
 };
 
 #endif

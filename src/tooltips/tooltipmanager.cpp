@@ -54,7 +54,6 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_generatingPreview(false),
     m_previewIsLate(false),
     m_previewPass(0),
-    m_emptyRenderedKToolTipItem(0),
     m_pix()
 {
     KToolTip::setToolTipDelegate(g_delegate);
@@ -152,14 +151,10 @@ void ToolTipManager::prepareToolTip()
         if (m_previewPass == 1) {
             // We waited 250msec and the preview is still not finished,
             // so show the toolTip with a transparent image of maximal width.
-            // When the preview finishes, m_previewIsLate will cause
-            // a direct update of the tooltip, via m_emptyRenderedKToolTipItem.
             QPixmap paddedImage(QSize(PREVIEW_WIDTH, 32));
             m_previewIsLate = true;
             paddedImage.fill(Qt::transparent);
-            KToolTipItem* toolTip = new KToolTipItem(paddedImage, m_item.getToolTipText());
-            m_emptyRenderedKToolTipItem = toolTip; // make toolTip accessible everywhere
-            showToolTip(toolTip);
+            showToolTip(paddedImage, m_item.getToolTipText());
         }
 
         ++m_previewPass;
@@ -169,9 +164,7 @@ void ToolTipManager::prepareToolTip()
         if (m_preview && m_previewIsLate) {
             // We got a preview, but it is late, the tooltip has already been shown.
             // So update the tooltip directly.
-            if (m_emptyRenderedKToolTipItem != 0) {
-                m_emptyRenderedKToolTipItem->setData(Qt::DecorationRole, KIcon(m_pix));
-            }
+            showToolTip(m_pix, m_item.getToolTipText());
             return;
         }
 
@@ -185,20 +178,17 @@ void ToolTipManager::prepareToolTip()
             icon = KIcon(KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT));
         }
 
-        KToolTipItem* toolTip = new KToolTipItem(icon, m_item.getToolTipText());
-        showToolTip(toolTip);
+        showToolTip(icon, m_item.getToolTipText());
     }
 }
 
-void ToolTipManager::showToolTip(KToolTipItem* tip)
+void ToolTipManager::showToolTip(const QIcon& icon, const QString& text)
 {
     if (QApplication::mouseButtons() & Qt::LeftButton) {
-        delete tip;
-        tip = 0;
-        // m_emptyRenderedKToolTipItem is an alias for tip.
-        m_emptyRenderedKToolTipItem = 0;
         return;
     }
+
+    KToolTipItem* tip = new KToolTipItem(icon, m_item.getToolTipText());
 
     KStyleOptionToolTip option;
     // TODO: get option content from KToolTip or add KToolTip::sizeHint() method
@@ -254,6 +244,7 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
         y = desktop.bottom() - size.height();
     }
 
+    // the ownership of tip is transferred to KToolTip
     KToolTip::showTip(QPoint(x, y), tip);
 }
 
