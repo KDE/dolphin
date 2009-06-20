@@ -314,7 +314,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
 
         retString = i18nc("@title:group Files and folders by permissions", "(User: %1) (Group: %2) (Others: %3)", user, group, others);
         break;
-                                 }
+    }
 
     case KDirModel::Owner:
         retString = item.user();
@@ -333,7 +333,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
         const quint32 rating = ratingForIndex(index);
         retString = QString::number(rating);
         break;
-                               }
+    }
 
     case DolphinModel::Tags: {
         retString = tagsForIndex(index);
@@ -410,10 +410,11 @@ QVariant DolphinModel::sortRoleData(const QModelIndex& index) const
         break;
 
     case KDirModel::Type:
-        if (item.isDir())
+        if (item.isDir()) {
             retVariant.clear(); // when sorting we want folders to be placed first
-        else
+        } else {
             retVariant = item.mimeComment();
+        }
         break;
 
 #ifdef HAVE_NEPOMUK
