@@ -276,7 +276,7 @@ void ToolTipManager::startPreviewJob()
 void ToolTipManager::setPreviewPix(const KFileItem& item,
                                    const QPixmap& pixmap)
 {
-    if (m_item.url() != item.url()) {
+    if ((m_item.url() != item.url()) || pixmap.isNull()) {
         m_generatingPreview = false;
         return;
     }
