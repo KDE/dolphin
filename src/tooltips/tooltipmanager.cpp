@@ -214,13 +214,11 @@ void ToolTipManager::showToolTip(KToolTipItem* tip)
     QSize size;
     if (m_previewIsLate) {
         QPixmap paddedImage(QSize(PREVIEW_WIDTH, PREVIEW_HEIGHT));
-        KToolTipItem* maxiTip = new KToolTipItem(paddedImage, m_item.getToolTipText());
-        size = g_delegate->sizeHint(&option, maxiTip);
-        delete maxiTip;
-        maxiTip = 0;
+        KToolTipItem maxiTip(paddedImage, m_item.getToolTipText());
+        size = g_delegate->sizeHint(option, maxiTip);
     }
-    else {
-        size = g_delegate->sizeHint(&option, tip);
+    else if (tip != 0) {
+        size = g_delegate->sizeHint(option, *tip);
     }
     const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
 

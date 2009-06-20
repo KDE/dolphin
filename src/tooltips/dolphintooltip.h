@@ -41,7 +41,7 @@ public:
     DolphinBalloonTooltipDelegate();
     virtual ~DolphinBalloonTooltipDelegate();
 
-    virtual QSize sizeHint(const KStyleOptionToolTip* option, const KToolTipItem* item) const;
-    virtual void paint(QPainter* painter, const KStyleOptionToolTip* option, const KToolTipItem* item) const;
+    virtual QSize sizeHint(const KStyleOptionToolTip& option, const KToolTipItem& item) const;
+    virtual void paint(QPainter* painter, const KStyleOptionToolTip& option, const KToolTipItem& item) const;
 };
 #endif

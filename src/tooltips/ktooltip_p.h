@@ -49,8 +49,8 @@ public:
 private:
     KToolTipManager();
 
-    KTipLabel *label;
-    KToolTipItem *currentItem;
+    KTipLabel *m_label;
+    KToolTipItem *m_currentItem;
     KToolTipDelegate *m_delegate;
 
     QPoint m_tooltipPos;

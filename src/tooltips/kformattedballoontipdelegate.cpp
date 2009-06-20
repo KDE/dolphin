@@ -32,13 +32,13 @@ KFormattedBalloonTipDelegate::~KFormattedBalloonTipDelegate()
 {
 }
 
-QSize KFormattedBalloonTipDelegate::sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const
+QSize KFormattedBalloonTipDelegate::sizeHint(const KStyleOptionToolTip &option, const KToolTipItem &item) const
 {
     QTextDocument doc;
-    doc.setHtml(item->text());
-    const QIcon icon = item->icon();
+    doc.setHtml(item.text());
+    const QIcon icon = item.icon();
 
-    const QSize iconSize = icon.isNull() ? QSize(0, 0) : icon.actualSize(option->decorationSize);
+    const QSize iconSize = icon.isNull() ? QSize(0, 0) : icon.actualSize(option.decorationSize);
     const QSize docSize = doc.size().toSize();
     QSize contentSize = iconSize + docSize;
 
@@ -48,13 +48,13 @@ QSize KFormattedBalloonTipDelegate::sizeHint(const KStyleOptionToolTip *option, 
 }
 
 void KFormattedBalloonTipDelegate::paint(QPainter *painter,
-                                         const KStyleOptionToolTip *option,
-                                         const KToolTipItem *item) const
+                                         const KStyleOptionToolTip &option,
+                                         const KToolTipItem &item) const
 {
-    QColor toColor = option->palette.brush(QPalette::ToolTipBase).color();
+    QColor toColor = option.palette.brush(QPalette::ToolTipBase).color();
     QColor fromColor = KColorScheme::shade(toColor, KColorScheme::LightShade, 0.2);
 
-    QPainterPath path = createPath(*option);
+    QPainterPath path = createPath(option);
     if (haveAlphaChannel()) {
         painter->setRenderHint(QPainter::Antialiasing);
         painter->translate(.5, .5);
@@ -62,8 +62,7 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter,
         fromColor.setAlpha(220);
     }
 
-
-    QLinearGradient gradient(option->rect.topLeft(), option->rect.bottomLeft());
+    QLinearGradient gradient(option.rect.topLeft(), option.rect.bottomLeft());
     gradient.setColorAt(0.0, fromColor);
     gradient.setColorAt(1.0, toColor);
     painter->setPen(Qt::NoPen);
@@ -71,18 +70,18 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter,
 
     painter->drawPath(path);
 
-    const QIcon icon = item->icon();
+    const QIcon icon = item.icon();
     int x = Border;
     const int y = Border;
     if (!icon.isNull()) {
-        const QSize iconSize = icon.actualSize(option->decorationSize);
-        const QPoint pos(x + option->rect.x(), y + option->rect.y());
+        const QSize iconSize = icon.actualSize(option.decorationSize);
+        const QPoint pos(x + option.rect.x(), y + option.rect.y());
         painter->drawPixmap(pos, icon.pixmap(iconSize));
         x += iconSize.width() + Border;
     }
 
     QTextDocument doc;
-    doc.setHtml(item->text());
+    doc.setHtml(item.text());
     QPixmap bitmap(doc.size().toSize());
     bitmap.fill(Qt::transparent);
     QPainter p(&bitmap);
@@ -92,20 +91,20 @@ void KFormattedBalloonTipDelegate::paint(QPainter *painter,
     painter->drawPixmap(docRect, bitmap);
 }
 
-QRegion KFormattedBalloonTipDelegate::inputShape(const KStyleOptionToolTip *option) const
+QRegion KFormattedBalloonTipDelegate::inputShape(const KStyleOptionToolTip &option) const
 {
-    QBitmap bitmap(option->rect.size());
+    QBitmap bitmap(option.rect.size());
     bitmap.fill(Qt::color0);
 
     QPainter p(&bitmap);
     p.setPen(QPen(Qt::color1, 1));
     p.setBrush(Qt::color1);
-    p.drawPath(createPath(*option));
+    p.drawPath(createPath(option));
 
     return QRegion(bitmap);
 }
 
-QRegion KFormattedBalloonTipDelegate::shapeMask(const KStyleOptionToolTip *option) const
+QRegion KFormattedBalloonTipDelegate::shapeMask(const KStyleOptionToolTip &option) const
 {
     return inputShape(option);
 }

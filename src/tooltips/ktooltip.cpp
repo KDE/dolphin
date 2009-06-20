@@ -118,15 +118,15 @@ KToolTipDelegate::~KToolTipDelegate()
 {
 }
 
-QSize KToolTipDelegate::sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const
+QSize KToolTipDelegate::sizeHint(const KStyleOptionToolTip &option, const KToolTipItem &item) const
 {
     QSize size;
-    size.rwidth() = option->fontMetrics.width(item->text());
-    size.rheight() = option->fontMetrics.lineSpacing();
+    size.rwidth() = option.fontMetrics.width(item.text());
+    size.rheight() = option.fontMetrics.lineSpacing();
 
-    QIcon icon = item->icon();
+    QIcon icon = item.icon();
     if (!icon.isNull()) {
-        const QSize iconSize = icon.actualSize(option->decorationSize);
+        const QSize iconSize = icon.actualSize(option.decorationSize);
         size.rwidth() += iconSize.width() + 4;
         size.rheight() = qMax(size.height(), iconSize.height());
     }
@@ -135,19 +135,20 @@ QSize KToolTipDelegate::sizeHint(const KStyleOptionToolTip *option, const KToolT
 
 }
 
-void KToolTipDelegate::paint(QPainter *painter, const KStyleOptionToolTip *option,
-                             const KToolTipItem *item) const
+void KToolTipDelegate::paint(QPainter *painter,
+                             const KStyleOptionToolTip &option,
+                             const KToolTipItem &item) const
 {
     bool haveAlpha = haveAlphaChannel();
     painter->setRenderHint(QPainter::Antialiasing);
 
     QPainterPath path;
     if (haveAlpha)
-        path.addRoundRect(option->rect.adjusted(0, 0, -1, -1), 25);
+        path.addRoundRect(option.rect.adjusted(0, 0, -1, -1), 25);
     else
-        path.addRect(option->rect.adjusted(0, 0, -1, -1));
+        path.addRect(option.rect.adjusted(0, 0, -1, -1));
 
-    QColor color = option->palette.color(QPalette::ToolTipBase);
+    QColor color = option.palette.color(QPalette::ToolTipBase);
     QColor from = color.lighter(105);
     QColor to   = color.darker(120);
 
@@ -168,29 +169,29 @@ void KToolTipDelegate::paint(QPainter *painter, const KStyleOptionToolTip *optio
         gradient.setColorAt(0, QColor(0, 0, 0, 192));
         gradient.setColorAt(1, QColor(0, 0, 0, 72));
         painter->setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        painter->fillRect(option->rect, gradient);
+        painter->fillRect(option.rect, gradient);
         painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
     }
 
-    QRect textRect = option->rect.adjusted(10, 10, -10, -10);
+    QRect textRect = option.rect.adjusted(10, 10, -10, -10);
 
-    QIcon icon = item->icon();
+    QIcon icon = item.icon();
     if (!icon.isNull()) {
-        const QSize iconSize = icon.actualSize(option->decorationSize);
+        const QSize iconSize = icon.actualSize(option.decorationSize);
         painter->drawPixmap(textRect.topLeft(), icon.pixmap(iconSize));
         textRect.adjust(iconSize.width() + 4, 0, 0, 0);
     }
-    painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, item->text());
+    painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, item.text());
 }
 
-QRegion KToolTipDelegate::inputShape(const KStyleOptionToolTip *option) const
+QRegion KToolTipDelegate::inputShape(const KStyleOptionToolTip &option) const
 {
-    return QRegion(option->rect);
+    return QRegion(option.rect);
 }
 
-QRegion KToolTipDelegate::shapeMask(const KStyleOptionToolTip *option) const
+QRegion KToolTipDelegate::shapeMask(const KStyleOptionToolTip &option) const
 {
-    return QRegion(option->rect);
+    return QRegion(option.rect);
 }
 
 bool KToolTipDelegate::haveAlphaChannel() const
@@ -223,7 +224,7 @@ private:
     KToolTipDelegate *delegate() const;
 
 private:
-    const KToolTipItem *currentItem;
+    const KToolTipItem *m_currentItem;
 };
 
 KTipLabel::KTipLabel() : QWidget(0, Qt::ToolTip)
@@ -237,7 +238,7 @@ KTipLabel::KTipLabel() : QWidget(0, Qt::ToolTip)
 
 void KTipLabel::showTip(const QPoint &pos, const KToolTipItem *item)
 {
-    currentItem = item;
+    m_currentItem = item;
     move(pos);
     show();
 }
@@ -245,7 +246,7 @@ void KTipLabel::showTip(const QPoint &pos, const KToolTipItem *item)
 void KTipLabel::hideTip()
 {
     hide();
-    currentItem = 0;
+    m_currentItem = 0;
 }
 
 void KTipLabel::moveTip(const QPoint &pos)
@@ -261,24 +262,24 @@ void KTipLabel::paintEvent(QPaintEvent*)
 #ifdef Q_WS_X11
     if (QX11Info::isCompositingManagerRunning())
         XShapeCombineRegion(x11Info().display(), winId(), ShapeInput, 0, 0,
-                            delegate()->inputShape(&option).handle(), ShapeSet);
+                            delegate()->inputShape(option).handle(), ShapeSet);
     else
 #endif
-		setMask(delegate()->shapeMask(&option));
+    setMask(delegate()->shapeMask(option));
 
     QPainter p(this);
     p.setFont(option.font);
     p.setPen(QPen(option.palette.brush(QPalette::Text), 0));
-    delegate()->paint(&p, &option, currentItem);
+    delegate()->paint(&p, option, *m_currentItem);
 }
 
 QSize KTipLabel::sizeHint() const
 {
-    if (!currentItem)
+    if (!m_currentItem)
         return QSize();
 
     KStyleOptionToolTip option = styleOption();
-    return delegate()->sizeHint(&option, currentItem);
+    return delegate()->sizeHint(option, *m_currentItem);
 }
 
 KStyleOptionToolTip KTipLabel::styleOption() const
@@ -304,29 +305,29 @@ KToolTipDelegate *KTipLabel::delegate() const
 KToolTipManager *KToolTipManager::s_instance = 0;
 
 KToolTipManager::KToolTipManager()
-    : label(new KTipLabel), currentItem(0), m_delegate(0)
+    : m_label(new KTipLabel), m_currentItem(0), m_delegate(0)
 {
 }
 
 KToolTipManager::~KToolTipManager()
 {
-    delete label;
-    delete currentItem;
+    delete m_label;
+    delete m_currentItem;
 }
 
 void KToolTipManager::showTip(const QPoint &pos, KToolTipItem *item)
 {
     hideTip();
-    label->showTip(pos, item);
-    currentItem = item;
+    m_label->showTip(pos, item);
+    m_currentItem = item;
     m_tooltipPos = pos;
 }
 
 void KToolTipManager::hideTip()
 {
-    label->hideTip();
-    delete currentItem;
-    currentItem = 0;
+    m_label->hideTip();
+    delete m_currentItem;
+    m_currentItem = 0;
 }
 
 void KToolTipManager::initStyleOption(KStyleOptionToolTip *option) const
@@ -348,9 +349,9 @@ void KToolTipManager::setDelegate(KToolTipDelegate *delegate)
 
 void KToolTipManager::update()
 {
-    if (currentItem == 0)
+    if (m_currentItem == 0)
         return;
-    label->showTip(m_tooltipPos, currentItem);
+    m_label->showTip(m_tooltipPos, m_currentItem);
 }
 
 KToolTipDelegate *KToolTipManager::delegate() const

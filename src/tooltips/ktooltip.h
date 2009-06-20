@@ -114,15 +114,16 @@ public:
      KToolTipDelegate();
      virtual ~KToolTipDelegate();
 
-     virtual QSize sizeHint(const KStyleOptionToolTip *option, const KToolTipItem *item) const;
+     virtual QSize sizeHint(const KStyleOptionToolTip &option, const KToolTipItem &item) const;
 
      /**
       * If haveAlphaChannel() returns true, the paint device will be filled with
       * Qt::transparent when this function is called, otherwise the content is
       * undefined.
       */
-     virtual void paint(QPainter *painter, const KStyleOptionToolTip *option,
-                        const KToolTipItem *item) const;
+     virtual void paint(QPainter *painter,
+                        const KStyleOptionToolTip &option,
+                        const KToolTipItem &item) const;
 
      /**
       * Reimplement this function to specify the region of the tooltip
@@ -135,7 +136,7 @@ public:
       * This function will only be called if haveAlphaChannel()
       * returns true.
       */
-     virtual QRegion inputShape(const KStyleOptionToolTip *option) const;
+     virtual QRegion inputShape(const KStyleOptionToolTip &option) const;
 
      /**
       * Reimplement this function to specify a shape mask for the tooltip.
@@ -146,7 +147,7 @@ public:
       * This function will only be called if haveAlphaChannel()
       * returns false.
       */
-     virtual QRegion shapeMask(const KStyleOptionToolTip *option) const;
+     virtual QRegion shapeMask(const KStyleOptionToolTip &option) const;
 
 protected:
      /**

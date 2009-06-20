@@ -35,16 +35,18 @@ DolphinBalloonTooltipDelegate::~DolphinBalloonTooltipDelegate()
 
 // Delegate everything to the base class, after re-setting the decorationSize
 // to the preview size.
-QSize DolphinBalloonTooltipDelegate::sizeHint(const KStyleOptionToolTip* option, const KToolTipItem* item) const
+QSize DolphinBalloonTooltipDelegate::sizeHint(const KStyleOptionToolTip& option, const KToolTipItem& item) const
 {
-    KStyleOptionToolTip updatedStyleOption = *option;
+    KStyleOptionToolTip updatedStyleOption = option;
     updatedStyleOption.decorationSize = QSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
-    return KFormattedBalloonTipDelegate::sizeHint(&updatedStyleOption, item);
+    return KFormattedBalloonTipDelegate::sizeHint(updatedStyleOption, item);
 }
 
-void DolphinBalloonTooltipDelegate::paint(QPainter* painter, const KStyleOptionToolTip* option, const KToolTipItem* item) const
+void DolphinBalloonTooltipDelegate::paint(QPainter* painter,
+                                          const KStyleOptionToolTip& option,
+                                          const KToolTipItem& item) const
 {
-    KStyleOptionToolTip updatedStyleOption = *option;
+    KStyleOptionToolTip updatedStyleOption = option;
     updatedStyleOption.decorationSize = QSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
-    return KFormattedBalloonTipDelegate::paint(painter, &updatedStyleOption, item);
+    return KFormattedBalloonTipDelegate::paint(painter, updatedStyleOption, item);
 }
