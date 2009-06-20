@@ -50,10 +50,9 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_waitOnPreviewTimer(0),
     m_item(),
     m_itemRect(),
-    m_preview(false),
     m_generatingPreview(false),
-    m_previewPass(0),
-    m_pix()
+    m_hasDefaultIcon(false),
+    m_previewPixmap()
 {
     KToolTip::setToolTipDelegate(g_delegate);
 
@@ -125,8 +124,8 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
         // only start the previewJob when the mouse has been over this item for 200 milliseconds,
         // this prevents a lot of useless preview jobs when passing rapidly over a lot of items
         m_previewTimer->start(200);
-        m_preview = false;
-        m_previewPass = 0;
+        m_previewPixmap = QPixmap();
+        m_hasDefaultIcon = false;
 
         m_timer->start(500);
     } else {
@@ -145,28 +144,16 @@ void ToolTipManager::hideToolTip()
 void ToolTipManager::prepareToolTip()
 {
     if (m_generatingPreview) {
-        if (m_previewPass == 1) {
-            // We waited 250msec and the preview is still not finished,
-            // so show default icon as fallback.
-            QPixmap image(KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT));
-            showToolTip(image, m_item.getToolTipText());
-        }
-
-        ++m_previewPass;
         m_waitOnPreviewTimer->start(250);
-    } else {
-        KIcon icon;
-        if (m_preview) {
-            // We got a preview.
-            icon = KIcon(m_pix);
-        } else {
-            // No preview, so use an icon.
-            // Force a 128x128 icon, a 256x256 one is far too big.
-            const QPixmap pixmap = KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT);
-            icon = KIcon(pixmap);
-        }
+    }
 
-        showToolTip(icon, m_item.getToolTipText());
+    const QString text = m_item.getToolTipText();
+    if (!m_previewPixmap.isNull()) {
+        showToolTip(KIcon(m_previewPixmap), text);
+    } else if (!m_hasDefaultIcon) {
+        const QPixmap image(KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT));
+        showToolTip(image, text);
+        m_hasDefaultIcon = true;
     }
 }
 
@@ -240,7 +227,7 @@ void ToolTipManager::startPreviewJob()
     connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
             this, SLOT(setPreviewPix(const KFileItem&, const QPixmap&)));
     connect(job, SIGNAL(failed(const KFileItem&)),
-            this, SLOT(previewFailed(const KFileItem&)));
+            this, SLOT(previewFailed()));
 }
 
 
@@ -249,18 +236,15 @@ void ToolTipManager::setPreviewPix(const KFileItem& item,
 {
     if ((m_item.url() != item.url()) || pixmap.isNull()) {
         // an old preview or an invalid preview has been received
+        previewFailed();
+    } else {
+        m_previewPixmap = pixmap;
         m_generatingPreview = false;
-        return;
     }
-
-    m_pix = pixmap;
-    m_preview = true;
-    m_generatingPreview = false;
 }
 
-void ToolTipManager::previewFailed(const KFileItem& item)
+void ToolTipManager::previewFailed()
 {
-    Q_UNUSED(item);
     m_generatingPreview = false;
 }
 

@@ -65,7 +65,7 @@ private slots:
     void prepareToolTip();
     void startPreviewJob();
     void setPreviewPix(const KFileItem& item, const QPixmap& pix);
-    void previewFailed(const KFileItem& item);
+    void previewFailed();
 
 private:
     void showToolTip(const QIcon& icon, const QString& text);
@@ -79,10 +79,9 @@ private:
     QTimer* m_waitOnPreviewTimer;
     KFileItem m_item;
     QRect m_itemRect;
-    bool m_preview;
     bool m_generatingPreview;
-    int m_previewPass;
-    QPixmap m_pix;
+    bool m_hasDefaultIcon;
+    QPixmap m_previewPixmap;
 };
 
 #endif
