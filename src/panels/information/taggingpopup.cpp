@@ -80,7 +80,7 @@ Nepomuk::TaggingPopup::TaggingPopup( QWidget* parent )
     : TagCloud( parent ),
       d( new Private( this ) )
 {
-    setFrameStyle( QFrame::Box|QFrame::Plain );
+    setFrameStyle( QFrame::StyledPanel );
     setWindowFlags( Qt::Popup );
 }
 

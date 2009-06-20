@@ -109,7 +109,7 @@ CommentEditWidget::CommentEditWidget( QWidget* parent )
     : QFrame( parent ),
       d( new Private( this ) )
 {
-    setFrameStyle( QFrame::Box|QFrame::Plain );
+    setFrameStyle( QFrame::StyledPanel );
     setWindowFlags( Qt::Popup );
 
     d->textEdit = new KTextEdit( this );
