@@ -194,6 +194,13 @@ private:
 
     void updatePhononWidget();
 
+    /**
+     * Temporary helper method for KDE 4.3 as we currently don't get
+     * translated labels for Nepmok literals: Replaces camelcase labels
+     * like "fileLocation" by "File Location:".
+     */
+    QString tunedLabel(const QString& label) const;
+
     void init();
 
 private:

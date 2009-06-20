@@ -583,9 +583,11 @@ void InformationPanel::showMetaInfo()
                 Nepomuk::Types::Property prop(it.key());
                 const QString label = prop.label();
                 if (settings.readEntry(label, true)) {
-                    // TODO: use Nepomuk::formatValue(res, prop) if available
+                    // TODO #1: use Nepomuk::formatValue(res, prop) if available
                     // instead of it.value().toString()
-                    m_metaTextLabel->add(label, it.value().toString());
+                    // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
+                    // we get translated labels
+                    m_metaTextLabel->add(tunedLabel(label), it.value().toString());
                 }
                 ++it;
             }
@@ -712,6 +714,25 @@ void InformationPanel::updatePhononWidget()
             m_preview->setVisible(true);
         }
     }
+}
+
+QString InformationPanel::tunedLabel(const QString& label) const
+{
+    QString tunedLabel;
+    const int labelLength = label.length();
+    if (labelLength > 0) {
+        tunedLabel.reserve(labelLength);
+        tunedLabel = label[0].toUpper();
+        for (int i = 1; i < labelLength; ++i) {
+            if (label[i].isUpper() && !label[i - 1].isSpace() && !label[i - 1].isUpper()) {
+                tunedLabel += ' ';
+                tunedLabel += label[i].toLower();
+            } else {
+                tunedLabel += label[i];
+            }
+        }
+    }
+    return tunedLabel;
 }
 
 void InformationPanel::init()
