@@ -283,7 +283,7 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
     QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
     while (it != properties.constEnd()) {
         Nepomuk::Types::Property prop(it.key());
-        const QString key = prop.label();
+        const QString key = prop.name();
 
         // Meta information provided by Nepomuk that is already
         // available from KFileItem should not be configurable.
@@ -305,7 +305,7 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
         }
 
         if (!skip) {
-            const QString label = tunedLabel(key); // TODO
+            const QString label = tunedLabel(prop.label());
             QAction* action = new QAction(label, &popup);
             action->setCheckable(true);
             action->setChecked(settings.readEntry(key, true));
@@ -584,13 +584,12 @@ void InformationPanel::showMetaInfo()
             QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
             while (it != properties.constEnd()) {
                 Nepomuk::Types::Property prop(it.key());
-                const QString label = prop.label();
-                if (settings.readEntry(label, true)) {
+                if (settings.readEntry(prop.name(), true)) {
                     // TODO #1: use Nepomuk::formatValue(res, prop) if available
                     // instead of it.value().toString()
                     // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
                     // we get translated labels
-                    m_metaTextLabel->add(tunedLabel(label) + ':', it.value().toString());
+                    m_metaTextLabel->add(tunedLabel(prop.label()) + ':', it.value().toString());
                 }
                 ++it;
             }
