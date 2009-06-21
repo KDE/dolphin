@@ -54,10 +54,15 @@ private:
     QList<MetaInfo> m_metaInfos;
 
     /**
-     * Returns the required height in pixels for \a metaInfo to
-     * fit into the available width of the widget.
+     * Returns the required height in pixels for the
+     * label text and information text provided by \a info.
      */
-    int requiredHeight(const MetaInfo& metaInfo) const;
+    int requiredHeight(const MetaInfo& info) const;
+
+    /** Helper method for requiredHeight(const MetaInfo& info). */
+    int requiredHeight(const QString& text, int width) const;
+    int labelTextWidth() const;
+    int infoTextWidth() const;
 
     /**
      * Returns the maximum height in pixels for the text of
@@ -66,5 +71,15 @@ private:
      */
     int maxHeightPerLine() const;
 };
+
+inline int MetaTextLabel::labelTextWidth() const
+{
+    return width() / 2 - 2 * Spacing;
+}
+
+inline int MetaTextLabel::infoTextWidth() const
+{
+    return width() / 2;
+}
 
 #endif

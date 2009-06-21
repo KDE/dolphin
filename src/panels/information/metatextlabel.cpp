@@ -81,8 +81,8 @@ void MetaTextLabel::paintEvent(QPaintEvent* event)
     labelColor.setAlpha(128);
 
     int y = 0;
-    const int infoWidth = width() / 2;
-    const int labelWidth = infoWidth - 2 * Spacing;
+    const int infoWidth = infoTextWidth();
+    const int labelWidth = labelTextWidth();
     const int infoX = infoWidth;
     const int maxHeight = maxHeightPerLine();
 
@@ -114,23 +114,29 @@ void MetaTextLabel::resizeEvent(QResizeEvent* event)
     setMinimumHeight(minimumHeight);
 }
 
-int MetaTextLabel::requiredHeight(const MetaInfo& metaInfo) const
+int MetaTextLabel::requiredHeight(const MetaInfo& info) const
+{
+    const int labelTextHeight = requiredHeight(info.label, labelTextWidth());
+    const int infoTextHeight  = requiredHeight(info.info, infoTextWidth());
+    return qMax(labelTextHeight, infoTextHeight);
+}
+
+int MetaTextLabel::requiredHeight(const QString& text, int width) const
 {
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WordWrap);
 
     qreal height = 0;
     const int leading = fontMetrics().leading();
-    const int availableWidth = width() / 2;
 
-    QTextLayout textLayout(metaInfo.info);
+    QTextLayout textLayout(text);
     textLayout.setFont(font());
     textLayout.setTextOption(textOption);
 
     textLayout.beginLayout();
     QTextLine line = textLayout.createLine();
     while (line.isValid()) {
-        line.setLineWidth(availableWidth);
+        line.setLineWidth(width);
         height += leading;
         height += line.height();
         line = textLayout.createLine();
