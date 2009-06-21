@@ -24,7 +24,6 @@
 #include <config-nepomuk.h>
 
 #include <klocale.h>
-#include <KDebug>
 #include <KMessageBox>
 
 #include <QtCore/QEvent>
@@ -61,9 +60,7 @@ class MetaDataWidget::Private
 {
 public:
 #ifdef HAVE_NEPOMUK
-    void loadComment(const QString& comment);
-
-    CommentWidget* editComment;
+    CommentWidget* commentWidget;
     KRatingWidget* ratingWidget;
     Nepomuk::ResourceTaggingWidget* tagWidget;
 
@@ -103,10 +100,6 @@ public:
 };
 
 #ifdef HAVE_NEPOMUK
-void MetaDataWidget::Private::loadComment(const QString& comment)
-{
-    editComment->setComment( comment );
-}
 
 MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
     MetaDataWidget::Private::SharedData* sharedData,
@@ -181,14 +174,14 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
 {
 #ifdef HAVE_NEPOMUK
     d = new Private;
-    d->editComment = new CommentWidget(this);
-    d->editComment->setFocusPolicy(Qt::ClickFocus);
+    d->commentWidget = new CommentWidget(this);
+    d->commentWidget->setFocusPolicy(Qt::ClickFocus);
     d->ratingWidget = new KRatingWidget(this);
     d->ratingWidget->setAlignment( Qt::AlignCenter );
     d->tagWidget = new Nepomuk::ResourceTaggingWidget(this);
     connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));
-    connect(d->editComment, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
-    connect( d->tagWidget, SIGNAL( tagClicked( const Nepomuk::Tag& ) ), this, SLOT( slotTagClicked( const Nepomuk::Tag& ) ) );
+    connect(d->commentWidget, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
+    connect(d->tagWidget, SIGNAL(tagClicked(const Nepomuk::Tag&)), this, SLOT(slotTagClicked( const Nepomuk::Tag&)));
 
     d->sharedData.rating = 0;
     d->loadFilesThread = new Private::LoadFilesThread(&d->sharedData, &d->mutex);
@@ -197,7 +190,7 @@ MetaDataWidget::MetaDataWidget(QWidget* parent) :
     QVBoxLayout* lay = new QVBoxLayout(this);
     lay->setMargin(0);
     lay->addWidget(d->ratingWidget);
-    lay->addWidget(d->editComment);
+    lay->addWidget(d->commentWidget);
     lay->addWidget( d->tagWidget );
 #else
     d = 0;
@@ -236,7 +229,7 @@ bool MetaDataWidget::isRatingVisible() const
 void MetaDataWidget::setCommentVisible(bool visible)
 {
 #ifdef HAVE_NEPOMUK
-    d->editComment->setVisible(visible);
+    d->commentWidget->setVisible(visible);
 #else
     Q_UNUSED(visible);
 #endif
@@ -246,7 +239,7 @@ void MetaDataWidget::setCommentVisible(bool visible)
 bool MetaDataWidget::isCommentVisible() const
 {
 #ifdef HAVE_NEPOMUK
-    return d->editComment->isVisible();
+    return d->commentWidget->isVisible();
 #else
     return false;
 #endif
@@ -275,7 +268,6 @@ bool MetaDataWidget::areTagsVisible() const
 
 void MetaDataWidget::setFile(const KUrl& url)
 {
-    kDebug() << url;
     KUrl::List urls;
     urls.append( url );
     setFiles( urls );
@@ -284,6 +276,13 @@ void MetaDataWidget::setFile(const KUrl& url)
 void MetaDataWidget::setFiles(const KUrl::List& urls)
 {
 #ifdef HAVE_NEPOMUK
+    // Assure that the currently edited text is stored before
+    // loading the meta data for new files.
+    const QString currentComment = d->commentWidget->editorText();
+    if ( currentComment != d->commentWidget->comment() ) {
+        slotCommentChanged( currentComment );
+    }
+
     d->loadFilesThread->loadFiles( urls );
 #else
     Q_UNUSED( urls );
@@ -294,12 +293,16 @@ void MetaDataWidget::setFiles(const KUrl::List& urls)
 void MetaDataWidget::slotCommentChanged( const QString& s )
 {
 #ifdef HAVE_NEPOMUK
+    disconnect(d->commentWidget, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
+
     QMutexLocker locker( &d->mutex );
     Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::commentResources( d->sharedData.files.values(), s );
     connect( job, SIGNAL( result( KJob* ) ),
              this, SLOT( metadataUpdateDone() ) );
     setEnabled( false ); // no updates during execution
     job->start();
+
+    connect(d->commentWidget, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
 #else
     Q_UNUSED( s );
 #endif
@@ -346,7 +349,7 @@ void MetaDataWidget::slotLoadingFinished()
 #ifdef HAVE_NEPOMUK
     QMutexLocker locker( &d->mutex );
     d->ratingWidget->setRating( d->sharedData.rating );
-    d->loadComment( d->sharedData.comment );
+    d->commentWidget->setComment( d->sharedData.comment );
     d->tagWidget->setResources( d->sharedData.fileRes );
 #endif
 }

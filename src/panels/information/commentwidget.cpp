@@ -18,13 +18,11 @@
  ***************************************************************************/
 
 #include "commentwidget.h"
-#include "commenteditwidget.h"
 
 #include <QtGui/QLabel>
 #include <QtGui/QTextEdit>
 #include <QtGui/QLayout>
 #include <QtGui/QCursor>
-#include <QtGui/QScrollArea>
 #include <QtCore/QEvent>
 
 #include <KLocale>
@@ -40,10 +38,8 @@ public:
     void update();
     void _k_slotEnableEditing();
 
-    QLabel* commentLabel;
-    QScrollArea* scrollArea;
-    QLabel* commentLink;
-    CommentEditWidget* edit;
+    QTextEdit* textEdit;
+    QLabel* addComment;
 
     QString comment;
 
@@ -54,27 +50,18 @@ private:
 
 void CommentWidget::Private::update()
 {
-    commentLabel->setText( comment );
-    if ( comment.isEmpty() ) {
-        scrollArea->hide();
-        commentLink->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Add Comment..." ) + "</a>" );
-    }
-    else {
-        scrollArea->show();
-        commentLink->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Change Comment..." ) + "</a>" );
-    }
+    textEdit->setText( comment );
+    const bool hasComment = !comment.isEmpty();
+    textEdit->setVisible(hasComment);
+    addComment->setVisible(!hasComment);
 }
 
 
 void CommentWidget::Private::_k_slotEnableEditing()
 {
-    CommentEditWidget w;
-    w.setComment( comment );
-    if ( w.exec( QCursor::pos() ) ) {
-        comment = w.comment();
-        update();
-        emit q->commentChanged( comment );
-    }
+    textEdit->show();
+    textEdit->setFocus();
+    addComment->hide();
 }
 
 
@@ -83,22 +70,20 @@ CommentWidget::CommentWidget( QWidget* parent )
     : QWidget( parent ),
       d( new Private( this ) )
 {
-    d->commentLabel = new QLabel( this );
-    d->commentLabel->setWordWrap( true );
+    d->textEdit = new QTextEdit( this );
+    d->textEdit->installEventFilter( this );
+    d->textEdit->setMinimumHeight( 100 );
+    d->textEdit->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Ignored);
 
-    d->scrollArea = new QScrollArea( this );
-    d->scrollArea->setWidget( d->commentLabel );
-    d->scrollArea->setWidgetResizable( true );
-    d->scrollArea->setFrameShape( QFrame::StyledPanel );
-
-    d->commentLink = new QLabel( this );
+    d->addComment = new QLabel( this );
+    d->addComment->setText( "<p align=center><a style=\"font-size:small;\" href=\"addComment\">" + i18nc( "@label", "Add Comment..." ) + "</a>" );
 
     QVBoxLayout* layout = new QVBoxLayout( this );
     layout->setMargin( 0 );
-    layout->addWidget( d->scrollArea );
-    layout->addWidget( d->commentLink );
+    layout->addWidget( d->textEdit );
+    layout->addWidget( d->addComment );
     d->update();
-    connect( d->commentLink, SIGNAL( linkActivated( const QString& ) ), this, SLOT( _k_slotEnableEditing() ) );
+    connect( d->addComment, SIGNAL( linkActivated( const QString& ) ), this, SLOT( _k_slotEnableEditing() ) );
 }
 
 
@@ -121,8 +106,21 @@ QString CommentWidget::comment() const
 }
 
 
+QString CommentWidget::editorText() const
+{
+    return d->textEdit->toPlainText();
+}
+
 bool CommentWidget::eventFilter( QObject* watched, QEvent* event )
 {
+    if ( watched == d->textEdit && event->type() == QEvent::FocusOut ) {
+        const QString currentComment = editorText();
+        if ( currentComment != d->comment ) {
+            d->comment = currentComment;
+            emit commentChanged( currentComment );
+        }
+        d->update();
+    }
     return QWidget::eventFilter( watched, event );
 }
 

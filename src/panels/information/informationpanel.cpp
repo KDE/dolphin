@@ -302,7 +302,7 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
         }
 
         if (!skip) {
-            const QString label = key; // TODO
+            const QString label = tunedLabel(key); // TODO
             QAction* action = new QAction(label, &popup);
             action->setCheckable(true);
             action->setChecked(settings.readEntry(key, true));
@@ -587,7 +587,7 @@ void InformationPanel::showMetaInfo()
                     // instead of it.value().toString()
                     // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
                     // we get translated labels
-                    m_metaTextLabel->add(tunedLabel(label), it.value().toString());
+                    m_metaTextLabel->add(tunedLabel(label) + ':', it.value().toString());
                 }
                 ++it;
             }

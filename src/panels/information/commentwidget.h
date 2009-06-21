@@ -28,17 +28,19 @@ class CommentWidget : public QWidget
 
 public:
     CommentWidget( QWidget* parent = 0 );
-    ~CommentWidget();
+    virtual ~CommentWidget();
 
     void setComment( const QString& comment );
     QString comment() const;
+
+    QString editorText() const;
+
+    virtual bool eventFilter( QObject* watched, QEvent* event );
 
 Q_SIGNALS:
     void commentChanged( const QString& );
 
 private:
-    bool eventFilter( QObject* watched, QEvent* event );
-
     class Private;
     Private* const d;
 

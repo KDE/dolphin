@@ -102,7 +102,6 @@ set(dolphin_SRCS
     main.cpp
     pixmapviewer.cpp
     panels/information/commentwidget.cpp
-    panels/information/commenteditwidget.cpp
     panels/information/informationpanel.cpp
     panels/information/metadatawidget.cpp
     panels/information/metatextlabel.cpp
