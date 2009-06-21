@@ -43,6 +43,8 @@ set(dolphinprivate_LIB_SRCS
     settings/viewpropsprogressinfo.cpp
     tooltips/dolphintooltip.cpp
     tooltips/ktooltip.cpp
+    tooltips/ktooltipdelegate.cpp
+    tooltips/ktooltipitem.cpp
     tooltips/kformattedballoontipdelegate.cpp
     tooltips/tooltipmanager.cpp
     viewproperties.cpp

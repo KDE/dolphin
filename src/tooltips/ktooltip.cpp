@@ -19,16 +19,12 @@
 
 #include "ktooltip.h"
 #include "ktooltip_p.h"
+#include "ktooltipdelegate.h"
 
 #include <QApplication>
-#include <QMap>
-#include <QPixmap>
 #include <QPainter>
-#include <QVariant>
-#include <QIcon>
 #include <QWidget>
 #include <QToolTip>
-#include <QDebug>
 
 #ifdef Q_WS_X11
 #  include <QX11Info>
@@ -42,171 +38,7 @@ const int ShapeInput = 2;
 #endif
 
 
-class KToolTipItemPrivate
-{
-public:
-    QMap<int, QVariant> map;
-    int type;
-};
-
-KToolTipItem::KToolTipItem(const QString &text, int type)
-    : d(new KToolTipItemPrivate)
-{
-    d->map[Qt::DisplayRole] = text;
-    d->type = type;
-}
-
-KToolTipItem::KToolTipItem(const QIcon &icon, const QString &text, int type)
-    : d(new KToolTipItemPrivate)
-{
-    d->map[Qt::DecorationRole] = icon;
-    d->map[Qt::DisplayRole]    = text;
-    d->type = type;
-}
-
-KToolTipItem::~KToolTipItem()
-{
-    delete d;
-}
-
-int KToolTipItem::type() const
-{
-    return d->type;
-}
-
-QString KToolTipItem::text() const
-{
-    return data(Qt::DisplayRole).toString();
-}
-
-QIcon KToolTipItem::icon() const
-{
-    return qvariant_cast<QIcon>(data(Qt::DecorationRole));
-}
-
-QVariant KToolTipItem::data(int role) const
-{
-    return d->map.value(role);
-}
-
-void KToolTipItem::setData(int role, const QVariant &data)
-{
-    d->map[role] = data;
-    KToolTipManager::instance()->update();
-}
-
-
-
 // ----------------------------------------------------------------------------
-
-
-KStyleOptionToolTip::KStyleOptionToolTip()
-    : fontMetrics(QApplication::font())
-{
-}
-
-
-// ----------------------------------------------------------------------------
-
-
-
-KToolTipDelegate::KToolTipDelegate() : QObject()
-{
-}
-
-KToolTipDelegate::~KToolTipDelegate()
-{
-}
-
-QSize KToolTipDelegate::sizeHint(const KStyleOptionToolTip &option, const KToolTipItem &item) const
-{
-    QSize size;
-    size.rwidth() = option.fontMetrics.width(item.text());
-    size.rheight() = option.fontMetrics.lineSpacing();
-
-    QIcon icon = item.icon();
-    if (!icon.isNull()) {
-        const QSize iconSize = icon.actualSize(option.decorationSize);
-        size.rwidth() += iconSize.width() + 4;
-        size.rheight() = qMax(size.height(), iconSize.height());
-    }
-
-    return size + QSize(20, 20);
-
-}
-
-void KToolTipDelegate::paint(QPainter *painter,
-                             const KStyleOptionToolTip &option,
-                             const KToolTipItem &item) const
-{
-    bool haveAlpha = haveAlphaChannel();
-    painter->setRenderHint(QPainter::Antialiasing);
-
-    QPainterPath path;
-    if (haveAlpha)
-        path.addRoundRect(option.rect.adjusted(0, 0, -1, -1), 25);
-    else
-        path.addRect(option.rect.adjusted(0, 0, -1, -1));
-
-    QColor color = option.palette.color(QPalette::ToolTipBase);
-    QColor from = color.lighter(105);
-    QColor to   = color.darker(120);
-
-    QLinearGradient gradient(0, 0, 0, 1);
-    gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
-    gradient.setColorAt(0, from);
-    gradient.setColorAt(1, to);
-
-    painter->translate(.5, .5);
-    painter->setPen(QPen(Qt::black, 1));
-    painter->setBrush(gradient);
-    painter->drawPath(path);
-    painter->translate(-.5, -.5);
-
-    if (haveAlpha) {
-        QLinearGradient mask(0, 0, 0, 1);
-        gradient.setCoordinateMode(QGradient::ObjectBoundingMode);
-        gradient.setColorAt(0, QColor(0, 0, 0, 192));
-        gradient.setColorAt(1, QColor(0, 0, 0, 72));
-        painter->setCompositionMode(QPainter::CompositionMode_DestinationIn);
-        painter->fillRect(option.rect, gradient);
-        painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
-    }
-
-    QRect textRect = option.rect.adjusted(10, 10, -10, -10);
-
-    QIcon icon = item.icon();
-    if (!icon.isNull()) {
-        const QSize iconSize = icon.actualSize(option.decorationSize);
-        painter->drawPixmap(textRect.topLeft(), icon.pixmap(iconSize));
-        textRect.adjust(iconSize.width() + 4, 0, 0, 0);
-    }
-    painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, item.text());
-}
-
-QRegion KToolTipDelegate::inputShape(const KStyleOptionToolTip &option) const
-{
-    return QRegion(option.rect);
-}
-
-QRegion KToolTipDelegate::shapeMask(const KStyleOptionToolTip &option) const
-{
-    return QRegion(option.rect);
-}
-
-bool KToolTipDelegate::haveAlphaChannel() const
-{
-#ifdef Q_WS_X11
-    return QX11Info::isCompositingManagerRunning();
-#else
-	return false;
-#endif
-}
-
-
-
-// ----------------------------------------------------------------------------
-
 
 
 class KTipLabel : public QWidget
@@ -295,11 +127,7 @@ KToolTipDelegate *KTipLabel::delegate() const
 }
 
 
-
-
 // ----------------------------------------------------------------------------
-
-
 
 
 KToolTipManager *KToolTipManager::s_instance = 0;
@@ -360,9 +188,7 @@ KToolTipDelegate *KToolTipManager::delegate() const
 }
 
 
-
 // ----------------------------------------------------------------------------
-
 
 
 namespace KToolTip

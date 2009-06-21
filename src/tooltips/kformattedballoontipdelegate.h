@@ -21,7 +21,7 @@
 #ifndef KFORMATTEDBALLOONTIPDELEGATE_H
 #define KFORMATTEDBALLOONTIPDELEGATE_H
 
-#include <tooltips/ktooltip.h>
+#include <tooltips/ktooltipdelegate.h>
 #include <QPainter>
 
 class KFormattedBalloonTipDelegate : public KToolTipDelegate

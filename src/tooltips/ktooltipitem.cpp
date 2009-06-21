@@ -17,47 +17,60 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KTOOLTIP_P_H
-#define KTOOLTIP_P_H
+#include "ktooltipitem.h"
+#include "ktooltip_p.h"
 
-#include <QPoint>
+#include <QIcon>
 
-class KTipLabel;
-class KStyleOptionToolTip;
-class KToolTipDelegate;
-
-class KToolTipManager
+class KToolTipItemPrivate
 {
 public:
-    ~KToolTipManager();
-
-    static KToolTipManager *instance() {
-        if (!s_instance)
-            s_instance = new KToolTipManager();
-
-        return s_instance;
-    }
-
-    void showTip(const QPoint &pos, KToolTipItem *item);
-    void hideTip();
-
-    void initStyleOption(KStyleOptionToolTip *option) const;
-
-    void setDelegate(KToolTipDelegate *delegate);
-    KToolTipDelegate *delegate() const;
-    
-    void update();
-
-private:
-    KToolTipManager();
-
-    KTipLabel *m_label;
-    KToolTipItem *m_currentItem;
-    KToolTipDelegate *m_delegate;
-
-    QPoint m_tooltipPos;
-
-    static KToolTipManager *s_instance;
+    QMap<int, QVariant> map;
+    int type;
 };
 
-#endif
+KToolTipItem::KToolTipItem(const QString &text, int type)
+    : d(new KToolTipItemPrivate)
+{
+    d->map[Qt::DisplayRole] = text;
+    d->type = type;
+}
+
+KToolTipItem::KToolTipItem(const QIcon &icon, const QString &text, int type)
+    : d(new KToolTipItemPrivate)
+{
+    d->map[Qt::DecorationRole] = icon;
+    d->map[Qt::DisplayRole]    = text;
+    d->type = type;
+}
+
+KToolTipItem::~KToolTipItem()
+{
+    delete d;
+}
+
+int KToolTipItem::type() const
+{
+    return d->type;
+}
+
+QString KToolTipItem::text() const
+{
+    return data(Qt::DisplayRole).toString();
+}
+
+QIcon KToolTipItem::icon() const
+{
+    return qvariant_cast<QIcon>(data(Qt::DecorationRole));
+}
+
+QVariant KToolTipItem::data(int role) const
+{
+    return d->map.value(role);
+}
+
+void KToolTipItem::setData(int role, const QVariant &data)
+{
+    d->map[role] = data;
+    KToolTipManager::instance()->update();
+}

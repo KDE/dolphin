@@ -19,7 +19,10 @@
  *******************************************************************************/
 
 #include "kformattedballoontipdelegate.h"
+#include "ktooltipitem.h"
+#include "ktooltip.h"
 #include <QBitmap>
+#include <QIcon>
 #include <QLinearGradient>
 #include <QTextDocument>
 #include <kcolorscheme.h>
