@@ -35,6 +35,9 @@
 #include <kseparator.h>
 
 #ifdef HAVE_NEPOMUK
+
+#define DISABLE_NEPOMUK_LEGACY
+
 #include <Nepomuk/Resource>
 #include <Nepomuk/Types/Property>
 #include <Nepomuk/Variant>
