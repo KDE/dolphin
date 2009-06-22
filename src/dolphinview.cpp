@@ -376,7 +376,7 @@ int DolphinView::selectedItemsCount() const
         return m_columnView->selectedItems().count();
     }
 
-    return itemView()->selectionModel()->selection().count();
+    return itemView()->selectionModel()->selectedIndexes().count();
 }
 
 void DolphinView::setContentsPosition(int x, int y)
