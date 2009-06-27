@@ -188,8 +188,8 @@ DolphinViewContainer::~DolphinViewContainer()
 
 void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
-    m_urlNavigator->setUrl(newUrl);
     if (newUrl != m_urlNavigator->url()) {
+        m_urlNavigator->setUrl(newUrl);
         // Temporary disable the 'File'->'Create New...' menu until
         // the write permissions can be checked in a fast way at
         // DolphinViewContainer::slotDirListerCompleted().
