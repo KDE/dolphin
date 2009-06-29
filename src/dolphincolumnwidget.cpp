@@ -491,9 +491,7 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
 void DolphinColumnWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QListView::currentChanged(current, previous);
-    if (current.isValid() && !m_autoScroller->isActive()) {
-        scrollTo(current);
-    }
+    m_autoScroller->handleCurrentIndexChange(current, previous);
 }
 
 void DolphinColumnWidget::slotEntered(const QModelIndex& index)

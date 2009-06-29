@@ -23,6 +23,7 @@
 #include <QObject>
 
 class QAbstractItemView;
+class QModelIndex;
 class QTimer;
 
 /**
@@ -39,6 +40,13 @@ public:
     DolphinViewAutoScroller(QAbstractItemView* parent);
     virtual ~DolphinViewAutoScroller();
     bool isActive() const;
+
+    /**
+     * Must be invoked by the parent item view, when QAbstractItemView::currentChanged()
+     * has been called. Assures that the current item stays visible when it has been
+     * changed by the keyboard.
+     */
+    void handleCurrentIndexChange(const QModelIndex& current, const QModelIndex& previous);
 
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);

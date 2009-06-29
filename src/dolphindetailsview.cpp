@@ -429,9 +429,7 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QTreeView::currentChanged(current, previous);
-    if (current.isValid() && !m_autoScroller->isActive()) {
-        scrollTo(current);
-    }
+    m_autoScroller->handleCurrentIndexChange(current, previous);
 
     // Stay consistent with QListView: When changing the current index by key presses,
     // also change the selection.
