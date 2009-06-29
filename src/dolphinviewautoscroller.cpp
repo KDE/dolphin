@@ -54,6 +54,17 @@ bool DolphinViewAutoScroller::isActive() const
     return m_timer->isActive();
 }
 
+void DolphinViewAutoScroller::handleCurrentIndexChange(const QModelIndex& current,
+                                                       const QModelIndex& previous)
+{
+    // When the autoscroller is inactive and a key has been pressed, it must be
+    // assured that the current item stays visible. The check whether the previous
+    // item is valid is important because of #197951.
+    if (current.isValid() && previous.isValid() && !isActive()) {
+        m_itemView->scrollTo(current);
+    }
+}
+
 bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == m_itemView->viewport()) {

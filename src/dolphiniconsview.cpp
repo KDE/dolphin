@@ -302,9 +302,7 @@ void DolphinIconsView::leaveEvent(QEvent* event)
 void DolphinIconsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     KCategorizedView::currentChanged(current, previous);
-    if (current.isValid() && !m_autoScroller->isActive()) {
-        scrollTo(current);
-    }
+    m_autoScroller->handleCurrentIndexChange(current, previous);
 }
 
 void DolphinIconsView::resizeEvent(QResizeEvent* event)
