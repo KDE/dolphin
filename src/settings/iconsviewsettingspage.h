@@ -27,7 +27,7 @@ class DolphinFontRequester;
 class IconSizeGroupBox;
 class QCheckBox;
 class KComboBox;
-class QSpinBox;
+class KIntSpinBox;
 
 /**
  * @brief Tab page for the 'Icons Mode' and 'Previews Mode' settings
@@ -79,7 +79,7 @@ private:
     IconSizeGroupBox* m_iconSizeGroupBox;
     KComboBox* m_textWidthBox;
     DolphinFontRequester* m_fontRequester;
-    QSpinBox* m_textlinesCountBox;
+    KIntSpinBox* m_textlinesCountBox;
 
     KComboBox* m_arrangementBox;
     KComboBox* m_gridSpacingBox;

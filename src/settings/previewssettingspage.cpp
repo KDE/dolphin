@@ -29,14 +29,14 @@
 #include <QListWidget>
 #include <QRadioButton>
 #include <QSlider>
-#include <QSpinBox>
 #include <QBoxLayout>
 
 #include <kconfiggroup.h>
 #include <kdialog.h>
 #include <kglobal.h>
-#include <klocale.h>
 #include <khbox.h>
+#include <klocale.h>
+#include <KNumInput>
 #include <kservicetypetrader.h>
 #include <kservice.h>
 #include <kvbox.h>
@@ -76,7 +76,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
     m_maxPreviewSize->setRange(1, 100); /* MB */
 
-    m_spinBox = new QSpinBox(hBox);
+    m_spinBox = new KIntSpinBox(hBox);
     m_spinBox->setSingleStep(1);
     m_spinBox->setSuffix(" MB");
     m_spinBox->setRange(1, 100); /* MB */

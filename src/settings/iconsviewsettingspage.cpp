@@ -31,13 +31,13 @@
 #include <kglobalsettings.h>
 #include <klocale.h>
 #include <kcombobox.h>
+#include <KNumInput>
 
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
 #include <QListView>
 #include <QPushButton>
-#include <QSpinBox>
 #include <QGridLayout>
 #include <QVBoxLayout>
 
@@ -81,7 +81,7 @@ IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
     QLabel* textlinesCountLabel = new QLabel(i18nc("@label:textbox", "Number of lines:"), textGroup);
-    m_textlinesCountBox = new QSpinBox(textGroup);
+    m_textlinesCountBox = new KIntSpinBox(textGroup);
     m_textlinesCountBox->setMinimum(1);
     m_textlinesCountBox->setMaximum(5);
     connect(m_textlinesCountBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));

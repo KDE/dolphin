@@ -28,7 +28,7 @@ class QCheckBox;
 class QListWidget;
 class QRadioButton;
 class QSlider;
-class QSpinBox;
+class KIntSpinBox;
 
 /**
  * @brief Allows the configuration of file previews.
@@ -62,7 +62,7 @@ private:
     QListWidget* m_previewPluginsList;
     QStringList m_enabledPreviewPlugins;
     QSlider* m_maxPreviewSize;
-    QSpinBox* m_spinBox;
+    KIntSpinBox* m_spinBox;
     QCheckBox* m_useFileThumbnails;
 };
 
