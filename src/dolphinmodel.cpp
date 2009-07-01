@@ -250,7 +250,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
             const QDate lastMonthDate = currentDate.addMonths(-1);
             if  (lastMonthDate.year() == modifiedDate.year() && lastMonthDate.month() == modifiedDate.month()) {
                 if (daysDistance == 1) {
-                    retString = i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Yesterday (%B, %Y)");
+                    retString = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Yesterday (%B, %Y)"));
                 } else if (daysDistance <= 7) {
                     retString = modifiedTime.toString(i18nc("@title:group The week day name: %A, %B is full month name in current locale, and %Y is full year number", "%A (%B, %Y)"));
                 } else if (daysDistance <= 7 * 2) {
