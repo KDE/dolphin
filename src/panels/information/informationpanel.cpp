@@ -83,8 +83,11 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_pendingPreview(false),
     m_infoTimer(0),
     m_outdatedPreviewTimer(0),
+    m_urlChangedTimer(0),
+    m_resetUrlTimer(0),
     m_shownUrl(),
     m_urlCandidate(),
+    m_invalidUrlCandidate(),
     m_fileItem(),
     m_selection(),
     m_nameLabel(0),
@@ -117,7 +120,11 @@ void InformationPanel::setUrl(const KUrl& url)
         if (isVisible()) {
             cancelRequest();
             m_shownUrl = url;
-            showItemInfo();
+            // Update the content with a delay. This gives
+            // the directory lister the chance to show the content
+            // before expensive operations are done to show
+            // meta information.
+            m_urlChangedTimer->start();
         } else {
             m_shownUrl = url;
         }
@@ -278,7 +285,7 @@ void InformationPanel::contextMenuEvent(QContextMenuEvent* event)
 
     // Get all meta information labels that are available for
     // the currently shown file item and add them to the popup.
-    Nepomuk::Resource res(fileItem().url());
+    Nepomuk::Resource res(updateFileItem().url());
     QHash<QUrl, Nepomuk::Variant> properties = res.properties();
     QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
     while (it != properties.constEnd()) {
@@ -380,7 +387,7 @@ void InformationPanel::showItemInfo()
         setNameLabelText(i18ncp("@info", "%1 item selected", "%1 items selected",  m_selection.count()));
         m_shownUrl = KUrl();
     } else {
-        const KFileItem item = fileItem();
+        const KFileItem item = updateFileItem();
         const KUrl itemUrl = item.url();
         if (!applyPlace(itemUrl)) {
             // try to get a preview pixmap from the item...
@@ -388,8 +395,12 @@ void InformationPanel::showItemInfo()
 
             // Mark the currently shown preview as outdated. This is done
             // with a small delay to prevent a flickering when the next preview
-            // can be shown within a short timeframe.
-            m_outdatedPreviewTimer->start();
+            // can be shown within a short timeframe. This timer is not started
+            // for directories, as directory previews might fail and return the
+            // same icon.
+            if (!item.isDir()) {
+                m_outdatedPreviewTimer->start();
+            }
 
             KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item,
                                                     m_preview->width(),
@@ -447,6 +458,20 @@ void InformationPanel::showPreview(const KFileItem& item,
     }
 }
 
+void InformationPanel::reset()
+{
+    if (m_invalidUrlCandidate == m_shownUrl) {
+        m_invalidUrlCandidate = KUrl();
+
+        // The current URL is still invalid. Reset
+        // the content to show the directory URL.
+        m_selection.clear();
+        m_shownUrl = url();
+        m_fileItem = KFileItem();
+        showItemInfo();
+    }
+}
+
 void InformationPanel::slotFileRenamed(const QString& source, const QString& dest)
 {
     if (m_shownUrl == KUrl(source)) {
@@ -482,7 +507,7 @@ void InformationPanel::slotFilesRemoved(const QStringList& files)
         if (m_shownUrl == KUrl(fileName)) {
             // the currently shown item has been removed, show
             // the parent directory as fallback
-            reset();
+            markUrlAsInvalid();
             break;
         }
     }
@@ -502,8 +527,8 @@ void InformationPanel::slotLeftDirectory(const QString& directory)
         // The signal 'leftDirectory' is also emitted when a media
         // has been unmounted. In this case no directory change will be
         // done in Dolphin, but the Information Panel must be updated to
-        // indicate an invalid directory.
-        reset();
+        // indicate an invalid directory.       
+        markUrlAsInvalid();
     }
 }
 
@@ -563,7 +588,7 @@ void InformationPanel::showMetaInfo()
         }
         m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
     } else {
-        const KFileItem item = fileItem();
+        const KFileItem item = updateFileItem();
         if (item.isDir()) {
             m_metaTextLabel->add(i18nc("@label", "Type:"), i18nc("@label", "Folder"));
             m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
@@ -604,7 +629,7 @@ void InformationPanel::showMetaInfo()
     updatePhononWidget();
 }
 
-KFileItem InformationPanel::fileItem() const
+KFileItem InformationPanel::updateFileItem()
 {
     if (!m_fileItem.isNull()) {
         return m_fileItem;
@@ -617,9 +642,9 @@ KFileItem InformationPanel::fileItem() const
 
     // no item is hovered and no selection has been done: provide
     // an item for the directory represented by m_shownUrl
-    KFileItem item(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
-    item.refresh();
-    return item;
+    m_fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+    m_fileItem.refresh();
+    return m_fileItem;
 }
 
 bool InformationPanel::showMultipleSelectionInfo() const
@@ -661,12 +686,10 @@ void InformationPanel::setNameLabelText(const QString& text)
     m_nameLabel->setText(wrappedText);
 }
 
-void InformationPanel::reset()
+void InformationPanel::markUrlAsInvalid()
 {
-    m_selection.clear();
-    m_shownUrl = url();
-    m_fileItem = KFileItem();
-    showItemInfo();
+    m_invalidUrlCandidate = m_shownUrl;
+    m_resetUrlTimer->start();
 }
 
 void InformationPanel::initMetaInfoSettings(KConfigGroup& group)
@@ -702,7 +725,7 @@ void InformationPanel::updatePhononWidget()
     if (multipleSelections || !showPreview) {
         m_phononWidget->hide();
     } else if (!multipleSelections && showPreview) {
-        const KFileItem item = fileItem();
+        const KFileItem item = updateFileItem();
         const QString mimeType = item.mimetype();
         const bool usePhonon = Phonon::BackendCapabilities::isMimeTypeAvailable(mimeType) &&
                                (mimeType != "image/png");  // TODO: workaround, as Phonon
@@ -745,8 +768,10 @@ QString InformationPanel::tunedLabel(const QString& label) const
 
 void InformationPanel::init()
 {
+    const int defaultDelay = 300;
+
     m_infoTimer = new QTimer(this);
-    m_infoTimer->setInterval(300);
+    m_infoTimer->setInterval(defaultDelay);
     m_infoTimer->setSingleShot(true);
     connect(m_infoTimer, SIGNAL(timeout()),
             this, SLOT(slotInfoTimeout()));
@@ -755,10 +780,22 @@ void InformationPanel::init()
     // delay. This prevents flickering if the new preview can be generated
     // within a very small timeframe.
     m_outdatedPreviewTimer = new QTimer(this);
-    m_outdatedPreviewTimer->setInterval(300);
+    m_outdatedPreviewTimer->setInterval(defaultDelay);
     m_outdatedPreviewTimer->setSingleShot(true);
     connect(m_outdatedPreviewTimer, SIGNAL(timeout()),
             this, SLOT(markOutdatedPreview()));
+
+    m_urlChangedTimer = new QTimer(this);
+    m_urlChangedTimer->setInterval(defaultDelay);
+    m_urlChangedTimer->setSingleShot(true);
+    connect(m_urlChangedTimer, SIGNAL(timeout()),
+            this, SLOT(showItemInfo()));
+
+    m_resetUrlTimer = new QTimer(this);
+    m_resetUrlTimer->setInterval(defaultDelay * 3);
+    m_resetUrlTimer->setSingleShot(true);
+    connect(m_resetUrlTimer, SIGNAL(timeout()),
+            this, SLOT(reset()));
 
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setSpacing(KDialog::spacingHint());
