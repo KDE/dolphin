@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2009 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,29 +22,7 @@
 
 #include <panels/panel.h>
 
-#include <QPushButton>
-#include <QPixmap>
-#include <QEvent>
-#include <QLabel>
-#include <QList>
-
-#include <kconfig.h>
-#include <kurl.h>
-#include <kmimetype.h>
-#include <kdesktopfileactions.h>
-#include <kvbox.h>
-
-class InformationPanelDialog;
-class PhononWidget;
-class PixmapViewer;
-class MetaDataWidget;
-class MetaTextLabel;
-class QPixmap;
-class QString;
-class KFileItem;
-class KSeparator;
-class QLabel;
-class QScrollArea;
+class InformationPanelContent;
 
 /**
  * @brief Panel for showing meta information of one ore more selected items.
@@ -85,9 +63,6 @@ protected:
     /** @see QWidget::resizeEvent() */
     virtual void resizeEvent(QResizeEvent* event);
 
-    /** @see QObject::eventFilter() */
-    virtual bool eventFilter(QObject* obj, QEvent* event);
-
     /** @see QWidget::contextMenuEvent() */
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
@@ -105,24 +80,6 @@ private slots:
     void slotInfoTimeout();
 
     /**
-     * Marks the currently shown preview as outdated
-     * by greying the content.
-     */
-    void markOutdatedPreview();
-
-    /**
-     * Is invoked if no preview is available for the item. In this
-     * case the icon will be shown.
-     */
-    void showIcon(const KFileItem& item);
-
-    /**
-     * Is invoked if a preview is available for the item. The preview
-     * \a pixmap is shown inside the info page.
-     */
-    void showPreview(const KFileItem& item, const QPixmap& pixmap);
-
-    /**
      * Resets the information panel to show the current
      * URL (InformationPanel::url()). Is called by
      * DolphinInformationPanel::markUrlAsInvalid().
@@ -136,18 +93,7 @@ private slots:
     void slotEnteredDirectory(const QString& directory);
     void slotLeftDirectory(const QString& directory);
 
-    void slotPlayingStarted();
-    void slotPlayingStopped();
-
 private:
-    /**
-     * Checks whether the an URL is repesented by a place. If yes,
-     * then the place icon and name are shown instead of a preview.
-     * @return True, if the URL represents exactly a place.
-     * @param url The url to check.
-     */
-    bool applyPlace(const KUrl& url);
-
     /** Assures that any pending item information request is cancelled. */
     void cancelRequest();
 
@@ -156,14 +102,6 @@ private:
      * a label.
      */
     void showMetaInfo();
-
-    /**
-     * Updates the file item m_fileItem if necessary and returns
-     * the file item which should be used to show the meta information.
-     * The returned item is different from m_fileItem if a selection
-     * is given.
-     */
-    KFileItem updateFileItem();
 
     /**
      * Returns true, if the meta information should be shown for
@@ -181,14 +119,6 @@ private:
     bool isEqualToShownUrl(const KUrl& url) const;
 
     /**
-     * Sets the text for the label \a m_nameLabel and assures that the
-     * text is split in a way that it can be wrapped within the
-     * label width (QLabel::setWordWrap() does not work if the
-     * text represents one extremely long word).
-     */
-    void setNameLabelText(const QString& text);
-
-    /**
      * Marks the URL as invalid and will reset the Information Panel
      * after a short delay. The reset is not done synchronously to
      * prevent expensive updates during temporary invalid URLs by
@@ -196,28 +126,12 @@ private:
      */
     void markUrlAsInvalid();
 
-    /**
-     * Assures that the settings for the meta information
-     * are initialized with proper default values.
-     */
-    void initMetaInfoSettings(KConfigGroup& group);
-
-    void updatePhononWidget();
-
-    /**
-     * Temporary helper method for KDE 4.3 as we currently don't get
-     * translated labels for Nepmok literals: Replaces camelcase labels
-     * like "fileLocation" by "File Location:".
-     */
-    QString tunedLabel(const QString& label) const;
-
     void init();
 
 private:
     bool m_initialized;
     bool m_pendingPreview;
     QTimer* m_infoTimer;
-    QTimer* m_outdatedPreviewTimer;
     QTimer* m_urlChangedTimer;
     QTimer* m_resetUrlTimer;
 
@@ -237,15 +151,7 @@ private:
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
     KFileItemList m_selection;
 
-    QLabel* m_nameLabel;
-    PixmapViewer* m_preview;
-    KSeparator* m_previewSeparator;
-    PhononWidget* m_phononWidget;
-    MetaDataWidget* m_metaDataWidget;
-    KSeparator* m_metaDataSeparator;
-
-    QScrollArea* m_metaTextArea;
-    MetaTextLabel* m_metaTextLabel;
+    InformationPanelContent* m_content;
 };
 
 #endif // INFORMATIONPANEL_H
