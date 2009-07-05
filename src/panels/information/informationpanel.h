@@ -122,6 +122,13 @@ private slots:
      */
     void showPreview(const KFileItem& item, const QPixmap& pixmap);
 
+    /**
+     * Resets the information panel to show the current
+     * URL (InformationPanel::url()). Is called by
+     * DolphinInformationPanel::markUrlAsInvalid().
+     */
+    void reset();
+
     void slotFileRenamed(const QString& source, const QString& dest);
     void slotFilesAdded(const QString& directory);
     void slotFilesChanged(const QStringList& files);
@@ -151,11 +158,12 @@ private:
     void showMetaInfo();
 
     /**
-     * Returns the item for file where the preview and meta information
-     * should be received, if InformationPanel::showMultipleSelectionInfo()
-     * returns false.
+     * Updates the file item m_fileItem if necessary and returns
+     * the file item which should be used to show the meta information.
+     * The returned item is different from m_fileItem if a selection
+     * is given.
      */
-    KFileItem fileItem() const;
+    KFileItem updateFileItem();
 
     /**
      * Returns true, if the meta information should be shown for
@@ -181,10 +189,12 @@ private:
     void setNameLabelText(const QString& text);
 
     /**
-     * Resets the information panel to show the current
-     * URL (InformationPanel::url()).
+     * Marks the URL as invalid and will reset the Information Panel
+     * after a short delay. The reset is not done synchronously to
+     * prevent expensive updates during temporary invalid URLs by
+     * e. g. changing the directory.
      */
-    void reset();
+    void markUrlAsInvalid();
 
     /**
      * Assures that the settings for the meta information
@@ -208,8 +218,22 @@ private:
     bool m_pendingPreview;
     QTimer* m_infoTimer;
     QTimer* m_outdatedPreviewTimer;
-    KUrl m_shownUrl;      // URL that is shown as info
-    KUrl m_urlCandidate;  // URL candidate that will replace m_shownURL after a delay
+    QTimer* m_urlChangedTimer;
+    QTimer* m_resetUrlTimer;
+
+    // URL that is currently shown in the Information Panel.
+    KUrl m_shownUrl;
+
+    // URL candidate that will replace m_shownURL after a delay.
+    // Used to remember URLs when hovering items.
+    KUrl m_urlCandidate;
+
+    // URL candidate that is marked as invalid (e. g. because the directory
+    // has been deleted or the shown item has been renamed). The Information
+    // Panel will be reset asynchronously to prevent unnecessary resets when
+    // a directory has been changed.
+    KUrl m_invalidUrlCandidate;
+
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
     KFileItemList m_selection;
 
