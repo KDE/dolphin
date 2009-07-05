@@ -245,6 +245,85 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
     KCategorizedView::dropEvent(event);
 }
 
+QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
+{
+    QModelIndex current = currentIndex();
+
+    QModelIndex newCurrent = QListView::moveCursor(cursorAction, modifiers);
+    if (newCurrent != current) {
+        return newCurrent;
+    }
+
+    // The cursor has not been moved by the base implementation. Provide a
+    // wrap behavior, so that the cursor will go to the next item when reaching
+    // the border.
+    const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
+    if (settings->arrangement() == QListView::LeftToRight) {
+        switch (cursorAction) {
+        case MoveUp:
+            if (newCurrent.row() == 0) {
+                return newCurrent;
+            }
+            newCurrent = QListView::moveCursor(MoveLeft, modifiers);
+            selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
+            newCurrent = QListView::moveCursor(MovePageDown, modifiers);
+            break;
+
+        case MoveDown:
+            if (newCurrent.row() == (model()->rowCount() - 1)) {
+                return newCurrent;
+            }
+            newCurrent = QListView::moveCursor(MovePageUp, modifiers);
+            selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::Clear);
+            newCurrent = QListView::moveCursor(MoveRight, modifiers);
+            break;
+
+        default:
+            break;
+        }
+    } else {
+        switch (cursorAction) {
+        case MoveLeft:
+            if (newCurrent.row() == 0) {
+                return newCurrent;
+            }
+            newCurrent = QListView::moveCursor(MoveUp, modifiers);
+            do {
+                selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
+                current = newCurrent;
+                newCurrent = QListView::moveCursor(MoveRight, modifiers);
+            } while (newCurrent != current);
+
+            if (!(modifiers & Qt::ControlModifier)) {
+                // Ctrl is not pressed -> selection is updated
+                if (!(modifiers & Qt::ShiftModifier)) {
+                    // Shift is not pressed -> previous selection is lost
+                    selectionModel()->clearSelection();
+                }
+                selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::Select);
+            }
+            break;
+
+        case MoveRight:
+            if (newCurrent.row() == (model()->rowCount() - 1)) {
+                return newCurrent;
+            }
+            do {
+                selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
+                current = newCurrent;
+                newCurrent = QListView::moveCursor(MoveLeft, modifiers);
+            } while (newCurrent != current);
+            newCurrent = QListView::moveCursor(MoveDown, modifiers);
+            break;
+
+        default:
+            break;
+        }
+    }
+
+    return newCurrent;
+}
+
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
     KCategorizedView::keyPressEvent(event);
