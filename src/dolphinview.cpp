@@ -1216,16 +1216,17 @@ void DolphinView::slotDirListerCompleted()
     if (!m_newFileNames.isEmpty()) {
         // select all newly added items created by a paste operation or
         // a drag & drop operation
-        QItemSelectionModel* selectionModel = itemView()->selectionModel();
         const int rowCount = m_proxyModel->rowCount();
+        QItemSelection selection;
         for (int row = 0; row < rowCount; ++row) {
             const QModelIndex proxyIndex = m_proxyModel->index(row, 0);
             const QModelIndex dirIndex = m_proxyModel->mapToSource(proxyIndex);
             const KUrl url = m_dolphinModel->itemForIndex(dirIndex).url();
             if (m_newFileNames.contains(url.fileName())) {
-                selectionModel->select(proxyIndex, QItemSelectionModel::Select);
+                selection.merge(QItemSelection(proxyIndex, proxyIndex), QItemSelectionModel::Select);
             }
         }
+        itemView()->selectionModel()->select(selection, QItemSelectionModel::Select);
 
         m_newFileNames.clear();
     }
