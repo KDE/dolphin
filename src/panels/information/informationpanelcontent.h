@@ -84,6 +84,12 @@ private slots:
      */
     void showPreview(const KFileItem& item, const QPixmap& pixmap);
 
+    /**
+     * Marks the currently shown preview as outdated
+     * by greying the content.
+     */
+    void markOutdatedPreview();
+
     void slotPlayingStarted();
     void slotPlayingStopped();
 
