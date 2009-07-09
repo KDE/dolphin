@@ -237,7 +237,7 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         updateGoActions();
         setUrlAsCaption(url);
         if (m_viewTab.count() > 1) {
-            m_tabBar->setTabText(m_tabIndex, tabName(url));
+            m_tabBar->setTabText(m_tabIndex, squeezeText(tabName(m_activeViewContainer->url())));
         }
         const QString iconName = KMimeType::iconNameForUrl(url);
         m_tabBar->setTabIcon(m_tabIndex, KIcon(iconName));
@@ -339,11 +339,11 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     if (m_viewTab.count() == 1) {
         // Only one view is open currently and hence no tab is shown at
         // all. Before creating a tab for 'url', provide a tab for the current URL.
-        m_tabBar->addTab(icon, tabName(m_activeViewContainer->url()));
+        m_tabBar->addTab(icon, squeezeText(tabName(m_activeViewContainer->url())));
         m_tabBar->blockSignals(false);
     }
 
-    m_tabBar->addTab(icon, tabName(url));
+    m_tabBar->addTab(icon, squeezeText(tabName(url)));
 
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
@@ -1434,10 +1434,7 @@ void DolphinMainWindow::rememberClosedTab(int index)
     const QString primaryPath = m_viewTab[index].primaryView->url().path();
     const QString iconName = KMimeType::iconNameForUrl(primaryPath);
 
-    const QFontMetrics fm = fontMetrics();
-    const QString actionText = fm.elidedText(primaryPath, Qt::ElideMiddle, fm.maxWidth() * 20);
-
-    QAction* action = new QAction(actionText, tabsMenu);
+    QAction* action = new QAction(squeezeText(primaryPath), tabsMenu);
 
     ClosedTab closedTab;
     closedTab.primaryUrl = m_viewTab[index].primaryView->url();
@@ -1578,6 +1575,13 @@ void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
     }
     
     setCaption(caption);
+}
+
+QString DolphinMainWindow::squeezeText(const QString& text)
+{
+    const QFontMetrics fm = fontMetrics();
+    QString result = fm.elidedText(text, Qt::ElideMiddle, fm.maxWidth() * 10);
+    return result;
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :

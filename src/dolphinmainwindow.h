@@ -455,6 +455,8 @@ private:
         virtual void jobError(KIO::Job* job);
     };
 
+    QString squeezeText(const QString& text);
+
     KNewMenu* m_newMenu;
     KActionMenu* m_recentTabsMenu;
     KAction* m_showMenuBar;
