@@ -441,6 +441,8 @@ private:
      */
     void setUrlAsCaption(const KUrl& url);
 
+    QString squeezedText(const QString& text) const;
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This
@@ -454,8 +456,6 @@ private:
         virtual ~UndoUiInterface();
         virtual void jobError(KIO::Job* job);
     };
-
-    QString squeezeText(const QString& text);
 
     KNewMenu* m_newMenu;
     KActionMenu* m_recentTabsMenu;
