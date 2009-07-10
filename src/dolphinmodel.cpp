@@ -411,7 +411,8 @@ QVariant DolphinModel::sortRoleData(const QModelIndex& index) const
 
     case KDirModel::Type:
         if (item.isDir()) {
-            retVariant.clear(); // when sorting we want folders to be placed first
+            // when sorting we want folders to be placed first
+            retVariant = QString(); // krazy:exclude=nullstrassign
         } else {
             retVariant = item.mimeComment();
         }
