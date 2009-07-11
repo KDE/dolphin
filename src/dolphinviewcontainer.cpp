@@ -313,7 +313,7 @@ void DolphinViewContainer::slotDirListerCompleted()
         m_showProgress = false;
     }
 
-    delayedStatusBarUpdate();
+    updateStatusBar();
     QMetaObject::invokeMethod(this, "restoreContentsPos", Qt::QueuedConnection);
 
     // Enable the 'File'->'Create New...' menu only if the directory
