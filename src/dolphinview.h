@@ -580,6 +580,19 @@ private slots:
      */
     void triggerItem(const KFileItem& index);
 
+    /**
+     * Emits the signal \a selectionChanged() with a small delay. This is
+     * because getting all file items for the signal can be an expensive
+     * operation. Fast selection changes are collected in this case and
+     * the signal is emitted only after no selection change has been done
+     * within a small delay.
+     */
+    void emitDelayedSelectionChangedSignal();
+
+    /**
+     * Is called by emitDelayedSelectionChangedSignal() and emits the
+     * signal \a selectionChanged() with all selected file items as parameter.
+     */
     void emitSelectionChangedSignal();
 
     /**
@@ -785,7 +798,9 @@ private:
     DolphinDetailsView* m_detailsView;
     DolphinColumnView* m_columnView;
     DolphinFileItemDelegate* m_fileItemDelegate;
+
     QItemSelectionModel* m_selectionModel;
+    QTimer* m_selectionChangedTimer;
 
     DolphinModel* m_dolphinModel;
     KDirLister* m_dirLister;

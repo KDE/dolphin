@@ -75,6 +75,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_view(0),
     m_filterBar(0),
     m_statusBar(0),
+    m_statusBarTimer(0),
     m_dirLister(0),
     m_proxyModel(0)
 {
@@ -113,11 +114,11 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     connect(m_dirLister, SIGNAL(clear()),
-            this, SLOT(updateStatusBar()));
+            this, SLOT(delayedStatusBarUpdate()));
     connect(m_dirLister, SIGNAL(percent(int)),
             this, SLOT(updateProgress(int)));
-    connect(m_dirLister, SIGNAL(deleteItem(const KFileItem&)),
-            this, SLOT(updateStatusBar()));
+    connect(m_dirLister, SIGNAL(itemsDeleted(const KFileItemList&)),
+            this, SLOT(delayedStatusBarUpdate()));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(slotDirListerCompleted()));
     connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
@@ -152,6 +153,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(saveRootUrl(const KUrl&)));
     connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
             this, SLOT(redirect(KUrl, KUrl)));
+    connect(m_view, SIGNAL(selectionChanged(const KFileItemList&)),
+            this, SLOT(delayedStatusBarUpdate()));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(restoreView(const KUrl&)));
@@ -159,6 +162,11 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(slotHistoryChanged()));
 
     m_statusBar = new DolphinStatusBar(this, m_view);
+    m_statusBarTimer = new QTimer(this);
+    m_statusBarTimer->setSingleShot(true);
+    m_statusBarTimer->setInterval(300);
+    connect(m_statusBarTimer, SIGNAL(timeout()),
+            this, SLOT(updateStatusBar()));
 
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());
@@ -246,6 +254,37 @@ bool DolphinViewContainer::isUrlEditable() const
     return m_urlNavigator->isUrlEditable();
 }
 
+void DolphinViewContainer::delayedStatusBarUpdate()
+{
+    // Invoke updateStatusBar() with a small delay. This assures that
+    // when a lot of delayedStatusBarUpdates() are done in a short time,
+    // no bottleneck is given.
+    m_statusBarTimer->start();
+}
+
+void DolphinViewContainer::updateStatusBar()
+{
+    // As the item count information is less important
+    // in comparison with other messages, it should only
+    // be shown if:
+    // - the status bar is empty or
+    // - shows already the item count information or
+    // - shows only a not very important information
+    // - if any progress is given don't show the item count info at all
+    const QString msg(m_statusBar->message());
+    const bool updateStatusBarMsg = (msg.isEmpty()
+                                     || (msg == m_statusBar->defaultText())
+                                     || (m_statusBar->type() == DolphinStatusBar::Information))
+                                    && (m_statusBar->progress() == 100);
+
+    const QString text(m_view->statusBarText());
+    m_statusBar->setDefaultText(text);
+
+    if (updateStatusBarMsg) {
+        m_statusBar->setMessage(text, DolphinStatusBar::Default);
+    }
+}
+
 void DolphinViewContainer::updateProgress(int percent)
 {
     if (!m_showProgress) {
@@ -274,7 +313,7 @@ void DolphinViewContainer::slotDirListerCompleted()
         m_showProgress = false;
     }
 
-    updateStatusBar();
+    delayedStatusBarUpdate();
     QMetaObject::invokeMethod(this, "restoreContentsPos", Qt::QueuedConnection);
 
     // Enable the 'File'->'Create New...' menu only if the directory
@@ -325,33 +364,10 @@ void DolphinViewContainer::closeFilterBar()
     emit showFilterBarChanged(false);
 }
 
-void DolphinViewContainer::updateStatusBar()
-{
-    // As the item count information is less important
-    // in comparison with other messages, it should only
-    // be shown if:
-    // - the status bar is empty or
-    // - shows already the item count information or
-    // - shows only a not very important information
-    // - if any progress is given don't show the item count info at all
-    const QString msg(m_statusBar->message());
-    const bool updateStatusBarMsg = (msg.isEmpty() ||
-                                     (msg == m_statusBar->defaultText()) ||
-                                     (m_statusBar->type() == DolphinStatusBar::Information)) &&
-                                    (m_statusBar->progress() == 100);
-
-    const QString text(m_view->statusBarText());
-    m_statusBar->setDefaultText(text);
-
-    if (updateStatusBarMsg) {
-        m_statusBar->setMessage(text, DolphinStatusBar::Default);
-    }
-}
-
 void DolphinViewContainer::setNameFilter(const QString& nameFilter)
 {
     m_view->setNameFilter(nameFilter);
-    updateStatusBar();
+    delayedStatusBarUpdate();
 }
 
 void DolphinViewContainer::openContextMenu(const KFileItem& item,
