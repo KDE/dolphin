@@ -138,8 +138,6 @@ protected:
 
 private slots:
     void slotEntered(const QModelIndex& index);
-    void slotClicked(const QModelIndex& index);
-    void slotDoubleClicked(const QModelIndex& index);
     void requestActivation();
     void updateFont();
 

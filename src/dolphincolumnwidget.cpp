@@ -500,28 +500,6 @@ void DolphinColumnWidget::slotEntered(const QModelIndex& index)
     m_view->m_controller->emitItemEntered(index);
 }
 
-void DolphinColumnWidget::slotClicked(const QModelIndex& index)
-{
-    DolphinController* controller = m_view->m_controller;
-    if (KGlobalSettings::singleClick()) {
-        controller->triggerItem(index);
-    } else {
-        // even when using double click, a directory should be opened
-        // after the first click
-        const KFileItem item = controller->itemForIndex(index);
-        if (!item.isNull() && item.isDir()) {
-            controller->triggerItem(index);
-        }
-    }
-}
-
-void DolphinColumnWidget::slotDoubleClicked(const QModelIndex& index)
-{
-    if (!KGlobalSettings::singleClick()) {
-        m_view->m_controller->triggerItem(index);
-    }
-}
-
 void DolphinColumnWidget::requestActivation()
 {
     m_view->m_controller->setItemView(this);
@@ -547,12 +525,13 @@ void DolphinColumnWidget::activate()
 {
     setFocus(Qt::OtherFocusReason);
 
-    connect(this, SIGNAL(clicked(const QModelIndex&)),
-            m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
-    connect(this, SIGNAL(clicked(const QModelIndex&)),
-            this, SLOT(slotClicked(const QModelIndex&)));
-    connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-            this, SLOT(slotDoubleClicked(const QModelIndex&)));
+    if (KGlobalSettings::singleClick()) {
+        connect(this, SIGNAL(clicked(const QModelIndex&)),
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+    } else {
+        connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+                m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+    }
 
     if (selectionModel() && selectionModel()->currentIndex().isValid()) {
         selectionModel()->setCurrentIndex(selectionModel()->currentIndex(), QItemSelectionModel::SelectCurrent);
@@ -564,12 +543,13 @@ void DolphinColumnWidget::activate()
 void DolphinColumnWidget::deactivate()
 {
     clearFocus();
-    disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-               m_view->m_controller, SLOT(requestTab(const QModelIndex&)));
-    disconnect(this, SIGNAL(clicked(const QModelIndex&)),
-               this, SLOT(slotClicked(const QModelIndex&)));
-    disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-               this, SLOT(slotDoubleClicked(const QModelIndex&)));
+    if (KGlobalSettings::singleClick()) {
+        disconnect(this, SIGNAL(clicked(const QModelIndex&)),
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+    } else {
+        disconnect(this, SIGNAL(doubleClicked(const QModelIndex&)),
+                   m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+    }
 
     const QModelIndex current = selectionModel()->currentIndex();
     selectionModel()->clear();
