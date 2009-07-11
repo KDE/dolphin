@@ -98,6 +98,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_columnView(0),
     m_fileItemDelegate(0),
     m_selectionModel(0),
+    m_selectionChangedTimer(0),
     m_dolphinModel(dolphinModel),
     m_dirLister(dirLister),
     m_proxyModel(proxyModel),
@@ -188,7 +189,7 @@ void DolphinView::setActive(bool active)
 
     QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
     if (active) {
-        emit selectionChanged(selectedItems());
+        emitSelectionChangedSignal();
     } else {
         color.setAlpha(150);
     }
@@ -958,6 +959,14 @@ void DolphinView::triggerItem(const KFileItem& item)
     emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
 }
 
+void DolphinView::emitDelayedSelectionChangedSignal()
+{
+    // Invoke emitSelectionChangedSignal() with a delay of 300 ms. This assures
+    // that fast selection changes don't result in expensive operations to
+    // collect all file items for the signal (see DolphinView::selectedItems()).
+    m_selectionChangedTimer->start();
+}
+
 void DolphinView::emitSelectionChangedSignal()
 {
     emit selectionChanged(DolphinView::selectedItems());
@@ -1436,6 +1445,12 @@ void DolphinView::createView()
         m_selectionModel = view->selectionModel();
     }
 
+    m_selectionChangedTimer = new QTimer(this);
+    m_selectionChangedTimer->setSingleShot(true);
+    m_selectionChangedTimer->setInterval(300);
+    connect(m_selectionChangedTimer, SIGNAL(timeout()),
+            this, SLOT(emitSelectionChangedSignal()));
+
     // reparent the selection model, as it should not be deleted
     // when deleting the model
     m_selectionModel->setParent(this);
@@ -1454,7 +1469,7 @@ void DolphinView::createView()
     m_topLayout->insertWidget(1, view);
 
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(emitSelectionChangedSignal()));
+            this, SLOT(emitDelayedSelectionChangedSignal()));
     connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),

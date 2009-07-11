@@ -274,8 +274,6 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
         compareFilesAction->setEnabled(false);
     }
 
-    m_activeViewContainer->updateStatusBar();
-
     emit selectionChanged(selection);
 }
 

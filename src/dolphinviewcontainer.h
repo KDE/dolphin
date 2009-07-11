@@ -120,20 +120,28 @@ public slots:
      */
     void showFilterBar(bool show);
 
-    /**
-     * Updates the number of items (= number of files + number of
-     * directories) in the statusbar. If files are selected, the number
-     * of selected files and the sum of the filesize is shown.
-     */
-    void updateStatusBar();
-
 signals:
     /**
      * Is emitted whenever the filter bar has changed its visibility state.
      */
     void showFilterBarChanged(bool shown);
 
-private slots:
+private slots: 
+    /**
+     * Updates the number of items (= number of files + number of
+     * directories) in the statusbar. If files are selected, the number
+     * of selected files and the sum of the filesize is shown. The update
+     * is done asynchronously, as getting the sum of the
+     * filesizes can be an expensive operation.
+     */
+    void delayedStatusBarUpdate();
+
+    /**
+     * Is invoked by DolphinViewContainer::delayedStatusBarUpdate() and
+     * updates the status bar synchronously.
+     */
+    void updateStatusBar();
+
     void updateProgress(int percent);
 
     /**
@@ -256,7 +264,9 @@ private:
     DolphinView* m_view;
 
     FilterBar* m_filterBar;
+
     DolphinStatusBar* m_statusBar;
+    QTimer* m_statusBarTimer;
 
     DolphinModel* m_dolphinModel;
     DolphinDirLister* m_dirLister;
