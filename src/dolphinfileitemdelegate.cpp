@@ -19,12 +19,13 @@
 
 #include "dolphinfileitemdelegate.h"
 
+#include <dolphinmodel.h>
+#include <kfileitem.h>
+
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
 #include <QFontMetrics>
-
-#include <kdirmodel.h>
-#include <kfileitem.h>
+#include <QPainter>
 
 DolphinFileItemDelegate::DolphinFileItemDelegate(QObject* parent) :
     KFileItemDelegate(parent),
@@ -40,17 +41,19 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
                                     const QStyleOptionViewItem& option,
                                     const QModelIndex& index) const
 {
+    const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(index.model());
+    const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(proxyModel->sourceModel());
+
     if (m_hasMinimizedNameColumn && (index.column() == KDirModel::Name)) {
         QStyleOptionViewItemV4 opt(option);
 
-        const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(index.model());
-        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel->sourceModel());
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
-        const KFileItem item = dirModel->itemForIndex(dirIndex);
+        const KFileItem item = dolphinModel->itemForIndex(dirIndex);
         if (!item.isNull()) {
-            // Symbolic links are displayed in an italic font
-            if (item.isLink())
+            // symbolic links are displayed in an italic font
+            if (item.isLink()) {
                 opt.font.setItalic(true);
+            }
 
             const int width = nameColumnWidth(item.text(), opt);
             opt.rect.setWidth(width);
@@ -58,6 +61,26 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         KFileItemDelegate::paint(painter, opt, index);
     } else {
         KFileItemDelegate::paint(painter, option, index);
+    }
+
+    if (dolphinModel->hasRevisionData()) {
+        // The currently shown items are under revision control. Show the current revision
+        // state above the decoration.
+        const QModelIndex dirIndex = proxyModel->mapToSource(index);
+        const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Revision);
+        const QVariant data = dolphinModel->data(revisionIndex, Qt::DecorationRole);
+        const DolphinModel::RevisionState state = static_cast<DolphinModel::RevisionState>(data.toInt());
+
+        if (state != DolphinModel::LocalRevision) {
+            // TODO: The following code is just a proof of concept. Icons will be used later...
+            QColor color(200, 0, 0, 32);
+            switch (state) {
+            case DolphinModel::LatestRevision: color = QColor(0, 180, 0, 32); break;
+            // ...
+            default: break;
+            }
+            painter->fillRect(option.rect, color);
+        }
     }
 }
 

@@ -75,8 +75,7 @@ bool PanelTreeView::event(QEvent* event)
         hideColumn(DolphinModel::Owner);
         hideColumn(DolphinModel::Group);
         hideColumn(DolphinModel::Type);
-        hideColumn(DolphinModel::Rating);
-        hideColumn(DolphinModel::Tags);
+        hideColumn(DolphinModel::Revision);
         header()->hide();
         break;
 

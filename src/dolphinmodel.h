@@ -22,43 +22,45 @@
 #define DOLPHINMODEL_H
 
 #include <kdirmodel.h>
-
 #include <libdolphin_export.h>
 
-class LIBDOLPHINPRIVATE_EXPORT DolphinModel
-    : public KDirModel
+#include <QHash>
+#include <QPersistentModelIndex>
+
+class LIBDOLPHINPRIVATE_EXPORT DolphinModel : public KDirModel
 {
+    Q_OBJECT
+
 public:
     enum AdditionalColumns {
-        Rating = ColumnCount, // ColumnCount defined at KDirModel
-        Tags,
+        Revision = KDirModel::ColumnCount,
         ExtraColumnCount
+    };
+
+    enum RevisionState {
+        LocalRevision,
+        LatestRevision
+        // TODO...
     };
 
     DolphinModel(QObject* parent = 0);
     virtual ~DolphinModel();
 
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
-
+    virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;    
+    virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
 
-    /**
-     * Returns the rating for the item with the index \a index. 0 is
-     * returned if no item could be found.
-     */
-    static quint32 ratingForIndex(const QModelIndex& index);
-
-    /**
-     * Returns the tags for the item with the index \a index. If no
-     * tag is applied, a predefined string will be returned.
-     */
-    static QString tagsForIndex(const QModelIndex& index);
+    bool hasRevisionData() const;
 
 private:
     QVariant displayRoleData(const QModelIndex& index) const;
     QVariant sortRoleData(const QModelIndex& index) const;
 
 private:
+    bool m_hasRevisionData;
+    QHash<QPersistentModelIndex, RevisionState> m_revisionHash;
+
     static const char* m_others;
 };
 

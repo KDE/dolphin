@@ -30,6 +30,7 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "folderexpander.h"
+#include "revisioncontrolobserver.h"
 #include "selectionmanager.h"
 #include "tooltips/tooltipmanager.h"
 
@@ -154,6 +155,8 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     folderExpander->setEnabled(DolphinSettings::instance().generalSettings()->autoExpandFolders());
     connect (folderExpander, SIGNAL(enterDir(const QModelIndex&)),
              m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
+
+    new RevisionControlObserver(this);
 }
 
 DolphinColumnWidget::~DolphinColumnWidget()

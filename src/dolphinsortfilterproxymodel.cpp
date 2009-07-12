@@ -109,50 +109,10 @@ DolphinView::Sorting DolphinSortFilterProxyModel::sortingForColumn(int column)
 bool DolphinSortFilterProxyModel::subSortLessThan(const QModelIndex& left,
                                                   const QModelIndex& right) const
 {
-#ifdef HAVE_NEPOMUK
-    switch (left.column()) {
-    case DolphinView::SortByRating: {
-        const quint32 leftRating  = DolphinModel::ratingForIndex(left);
-        const quint32 rightRating = DolphinModel::ratingForIndex(right);
-
-        if (leftRating == rightRating) {
-            DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
-            const KFileItem leftFileItem = dolphinModel->itemForIndex(left);
-            const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
-            bool result;
-            if (isDirectoryOrHidden(leftFileItem, rightFileItem, result)) {
-                return result;
-            }
-
-            return KStringHandler::naturalCompare(leftFileItem.name(), rightFileItem.name(), sortCaseSensitivity()) < 0;
-        }
-
-        return leftRating > rightRating;
-    }
-
-    case DolphinView::SortByTags: {
-        const QString leftTags = DolphinModel::tagsForIndex(left);
-        const QString rightTags = DolphinModel::tagsForIndex(right);
-
-        if (leftTags == rightTags) {
-            DolphinModel* dolphinModel = static_cast<DolphinModel*>(sourceModel());
-            const KFileItem leftFileItem = dolphinModel->itemForIndex(left);
-            const KFileItem rightFileItem = dolphinModel->itemForIndex(right);
-            bool result;
-            if (isDirectoryOrHidden(leftFileItem, rightFileItem, result)) {
-                return result;
-            }
-
-            return KStringHandler::naturalCompare(leftFileItem.name(), rightFileItem.name(), sortCaseSensitivity()) < 0;
-        }
-
-        return KStringHandler::naturalCompare(leftTags, rightTags) < 0;
-    }
-
-    default:
-        break;
-    }
-#endif
+    // switch (left.column()) {
+    // case DolphinView::Revision:
+    //    return left > right;
+    // ...
     return KDirSortFilterProxyModel::subSortLessThan(left, right);
 }
 

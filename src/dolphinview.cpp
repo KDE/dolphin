@@ -62,6 +62,7 @@
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "renamedialog.h"
+#include "revisioncontrolobserver.h"
 #include "tooltips/tooltipmanager.h"
 #include "settings/dolphinsettings.h"
 #include "viewproperties.h"
@@ -1459,6 +1460,8 @@ void DolphinView::createView()
 
     m_previewGenerator = new KFilePreviewGenerator(view);
     m_previewGenerator->setPreviewShown(m_showPreview);
+
+    new RevisionControlObserver(view);
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         m_toolTipManager = new ToolTipManager(view, m_proxyModel);

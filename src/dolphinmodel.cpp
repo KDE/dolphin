@@ -45,13 +45,16 @@
 #include <QList>
 #include <QSortFilterProxyModel>
 #include <QPainter>
+#include <QPersistentModelIndex>
 #include <QDir>
 #include <QFileInfo>
 
 const char* DolphinModel::m_others = I18N_NOOP2("@title:group Name", "Others");
 
-DolphinModel::DolphinModel(QObject* parent)
-    : KDirModel(parent)
+DolphinModel::DolphinModel(QObject* parent) :
+    KDirModel(parent),
+    m_hasRevisionData(false),
+    m_revisionHash()
 {
 }
 
@@ -59,72 +62,80 @@ DolphinModel::~DolphinModel()
 {
 }
 
+bool DolphinModel::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    if ((index.column() == DolphinModel::Revision) && (role == Qt::DecorationRole)) {
+        // TODO: remove data again when items are deleted...
+
+        const QPersistentModelIndex key = index;
+        const RevisionState state = static_cast<RevisionState>(value.toInt());
+        if (m_revisionHash.value(key, LocalRevision) != state) {
+            m_hasRevisionData = true;
+            m_revisionHash.insert(key, state);
+            emit dataChanged(index, index);
+            return true;
+        }
+    }
+
+    return KDirModel::setData(index, value, role);
+}
+
 QVariant DolphinModel::data(const QModelIndex& index, int role) const
 {
     switch (role) {
     case KCategorizedSortFilterProxyModel::CategoryDisplayRole:
         return displayRoleData(index);
+
     case KCategorizedSortFilterProxyModel::CategorySortRole:
         return sortRoleData(index);
+
+    case Qt::DecorationRole:
+        if (index.column() == DolphinModel::Revision) {
+            return m_revisionHash.value(index, LocalRevision);
+        }
+        break;
+
+    case Qt::DisplayRole:
+        if (index.column() == DolphinModel::Revision) {
+            switch (m_revisionHash.value(index, LocalRevision)) {
+            case LatestRevision:
+                return i18nc("@item::intable", "Latest");
+
+            case LocalRevision:
+            default:
+                return i18nc("@item::intable", "Local");
+            }
+        }
+        break;
+
     default:
-        return KDirModel::data(index, role);
+        break;
     }
+
+    return KDirModel::data(index, role);
 }
 
-int DolphinModel::columnCount(const QModelIndex &parent) const
+QVariant DolphinModel::headerData(int section, Qt::Orientation orientation, int role) const
+{
+    if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
+        if (section < KDirModel::ColumnCount) {
+            return KDirModel::headerData(section, orientation, role);
+        }
+
+        Q_ASSERT(section == DolphinModel::Revision);
+        return i18nc("@title::column", "Revision");
+    }
+    return QVariant();
+}
+
+int DolphinModel::columnCount(const QModelIndex& parent) const
 {
     return KDirModel::columnCount(parent) + (ExtraColumnCount - ColumnCount);
 }
 
-quint32 DolphinModel::ratingForIndex(const QModelIndex& index)
+bool DolphinModel::hasRevisionData() const
 {
-#ifdef HAVE_NEPOMUK
-    quint32 rating = 0;
-
-    const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(index.model());
-    KFileItem item = dolphinModel->itemForIndex(index);
-    if (!item.isNull()) {
-        const Nepomuk::Resource resource(item.url().url(), Soprano::Vocabulary::Xesam::File());
-        rating = resource.rating();
-    }
-    return rating;
-#else
-    Q_UNUSED(index);
-    return 0;
-#endif
-}
-
-QString DolphinModel::tagsForIndex(const QModelIndex& index)
-{
-#ifdef HAVE_NEPOMUK
-    QString tagsString;
-
-    const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(index.model());
-    KFileItem item = dolphinModel->itemForIndex(index);
-    if (!item.isNull()) {
-        const Nepomuk::Resource resource(item.url().url(), Soprano::Vocabulary::Xesam::File());
-        const QList<Nepomuk::Tag> tags = resource.tags();
-        QStringList stringList;
-        foreach (const Nepomuk::Tag& tag, tags) {
-            stringList.append(tag.label());
-        }
-        stringList.sort();
-
-        foreach (const QString& str, stringList) {
-            tagsString += str;
-            tagsString += ", ";
-        }
-
-        if (!tagsString.isEmpty()) {
-            tagsString.resize(tagsString.size() - 2);
-        }
-    }
-
-    return tagsString;
-#else
-    Q_UNUSED(index);
-    return QString();
-#endif
+    return m_hasRevisionData;
 }
 
 QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
@@ -328,21 +339,9 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
         retString = item.mimeComment();
         break;
 
-#ifdef HAVE_NEPOMUK
-    case DolphinModel::Rating: {
-        const quint32 rating = ratingForIndex(index);
-        retString = QString::number(rating);
+    case DolphinModel::Revision:
+        retString = "test";
         break;
-    }
-
-    case DolphinModel::Tags: {
-        retString = tagsForIndex(index);
-        if (retString.isEmpty()) {
-            retString = i18nc("@title:group Tags", "Not yet tagged");
-        }
-        break;
-    }
-#endif
     }
 
     return retString;
@@ -417,18 +416,6 @@ QVariant DolphinModel::sortRoleData(const QModelIndex& index) const
             retVariant = item.mimeComment();
         }
         break;
-
-#ifdef HAVE_NEPOMUK
-    case DolphinModel::Rating: {
-        retVariant = ratingForIndex(index);
-        break;
-    }
-
-    case DolphinModel::Tags: {
-        retVariant = tagsForIndex(index).count();
-        break;
-    }
-#endif
 
     default:
         break;

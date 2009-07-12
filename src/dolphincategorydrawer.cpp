@@ -193,35 +193,18 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
             break;
         }
 
-#ifdef HAVE_NEPOMUK
-        case DolphinModel::Rating: {
-            paintText = false;
-            paintIcon = false;
-
-            painter->setLayoutDirection( option.direction );
-            QRect ratingRect( option.rect );
-            ratingRect.setTop(option.rect.top() + (option.rect.height() / 2) - (iconSize / 2));
-            ratingRect.setHeight( iconSize );
-            KRatingPainter::paintRating( painter, ratingRect, Qt::AlignLeft, category.toInt() );
-            break;
-        }
-
-        case DolphinModel::Tags:
+        case DolphinModel::Revision:
             paintIcon = false;
             break;
-#endif
     }
 
     if (paintIcon) {
         painter->drawPixmap(QRect(option.direction == Qt::LeftToRight ? opt.rect.left()
                                                                       : opt.rect.right() - icon.width() + (iconSize / 4), opt.rect.top(), icon.width(), icon.height()), icon);
 
-        if (option.direction == Qt::LeftToRight)
-        {
+        if (option.direction == Qt::LeftToRight) {
             opt.rect.setLeft(opt.rect.left() + icon.width() + (iconSize / 4));
-        }
-        else
-        {
+        } else {
             opt.rect.setRight(opt.rect.right() + (iconSize / 4));
         }
     }
@@ -232,9 +215,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
         painter->setPen(color);
 
         QRect textRect = opt.rect;
-
-        if (option.direction == Qt::RightToLeft)
-        {
+        if (option.direction == Qt::RightToLeft) {
             textRect.setWidth(textRect.width() - (paintIcon ? icon.width() + (iconSize / 4)
                                                             : -(iconSize / 4)));
         }

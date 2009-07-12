@@ -34,6 +34,8 @@ set(dolphinprivate_LIB_SRCS
     draganddrophelper.cpp
     folderexpander.cpp
     renamedialog.cpp
+    revisioncontrolobserver.cpp
+    revisioncontrolplugin.cpp
     selectiontoggle.cpp
     selectionmanager.cpp
     settings/additionalinfodialog.cpp
