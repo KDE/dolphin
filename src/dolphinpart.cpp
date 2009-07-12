@@ -116,7 +116,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
     // Watch for changes that should result in updates to the
     // status bar text.
-    connect(m_dirLister, SIGNAL(deleteItem(const KFileItem&)),
+    connect(m_dirLister, SIGNAL(itemsDeleted(const KFileItemList&)),
             this, SLOT(updateStatusBar()));
     connect(m_dirLister, SIGNAL(clear()),
             this, SLOT(updateStatusBar()));
