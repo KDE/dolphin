@@ -25,7 +25,9 @@
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
 #include <QFontMetrics>
+#include <QPalette>
 #include <QPainter>
+#include <QStyleOptionViewItemV4>
 
 DolphinFileItemDelegate::DolphinFileItemDelegate(QObject* parent) :
     KFileItemDelegate(parent),
@@ -43,45 +45,34 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
 {
     const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(index.model());
     const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(proxyModel->sourceModel());
-
-    if (m_hasMinimizedNameColumn && (index.column() == KDirModel::Name)) {
-        QStyleOptionViewItemV4 opt(option);
-
-        const QModelIndex dirIndex = proxyModel->mapToSource(index);
-        const KFileItem item = dolphinModel->itemForIndex(dirIndex);
-        if (!item.isNull()) {
-            // symbolic links are displayed in an italic font
-            if (item.isLink()) {
-                opt.font.setItalic(true);
-            }
-
-            const int width = nameColumnWidth(item.text(), opt);
-            opt.rect.setWidth(width);
-        }
-        KFileItemDelegate::paint(painter, opt, index);
-    } else {
-        KFileItemDelegate::paint(painter, option, index);
-    }
+    const bool useMinimizedNameColumn = m_hasMinimizedNameColumn && (index.column() == KDirModel::Name);
 
     if (dolphinModel->hasRevisionData()) {
         // The currently shown items are under revision control. Show the current revision
-        // state above the decoration.
+        // state by adjusting the text color.
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
         const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Revision);
         const QVariant data = dolphinModel->data(revisionIndex, Qt::DecorationRole);
         const DolphinModel::RevisionState state = static_cast<DolphinModel::RevisionState>(data.toInt());
 
         if (state != DolphinModel::LocalRevision) {
-            // TODO: The following code is just a proof of concept. Icons will be used later...
-            QColor color(200, 0, 0, 32);
-            switch (state) {
-            case DolphinModel::LatestRevision: color = QColor(0, 180, 0, 32); break;
-            // ...
-            default: break;
+            QStyleOptionViewItemV4 opt(option);
+            // TODO: use different colors for different states
+            opt.palette.setColor(QPalette::Text, QColor(40, 150, 40));
+            if (useMinimizedNameColumn) {
+                adjustOptionWidth(opt, proxyModel, dolphinModel, index);
             }
-            painter->fillRect(option.rect, color);
+            KFileItemDelegate::paint(painter, opt, index);
+            return;
         }
+    } else if (useMinimizedNameColumn) {
+        QStyleOptionViewItemV4 opt(option);
+        adjustOptionWidth(opt, proxyModel, dolphinModel, index);
+        KFileItemDelegate::paint(painter, opt, index);
+        return;
     }
+
+    KFileItemDelegate::paint(painter, option, index);
 }
 
 int DolphinFileItemDelegate::nameColumnWidth(const QString& name, const QStyleOptionViewItem& option)
@@ -94,5 +85,23 @@ int DolphinFileItemDelegate::nameColumnWidth(const QString& name, const QStyleOp
         width = defaultWidth;
     }
     return width;
+}
+
+void DolphinFileItemDelegate::adjustOptionWidth(QStyleOptionViewItemV4& option,
+                                                const QAbstractProxyModel* proxyModel,
+                                                const DolphinModel* dolphinModel,
+                                                const QModelIndex& index)
+{
+    const QModelIndex dirIndex = proxyModel->mapToSource(index);
+    const KFileItem item = dolphinModel->itemForIndex(dirIndex);
+    if (!item.isNull()) {
+        // symbolic links are displayed in an italic font
+        if (item.isLink()) {
+            option.font.setItalic(true);
+        }
+
+        const int width = nameColumnWidth(item.text(), option);
+        option.rect.setWidth(width);
+    }
 }
 

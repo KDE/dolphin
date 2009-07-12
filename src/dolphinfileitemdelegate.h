@@ -22,6 +22,9 @@
 
 #include <kfileitemdelegate.h>
 
+class DolphinModel;
+class QAbstractProxyModel;
+
 /**
  * Extends KFileItemDelegate by the ability to show the hover effect
  * and the selection in a minimized way for the name column of
@@ -56,6 +59,12 @@ public:
      * is also used in DolphinDetailsView to handle the selection of items correctly.
      */
     static int nameColumnWidth(const QString& name, const QStyleOptionViewItem& option);
+
+private:
+    static void adjustOptionWidth(QStyleOptionViewItemV4& option,
+                                  const QAbstractProxyModel* proxyModel,
+                                  const DolphinModel* dolphinModel,
+                                  const QModelIndex& index);
 
 private:
     bool m_hasMinimizedNameColumn;
