@@ -40,6 +40,12 @@ public:
         // TODO...
     };
 
+    enum ItemType
+    {
+        Directory,
+        File
+    };
+
     RevisionControlPlugin();
     virtual ~RevisionControlPlugin();
 
@@ -72,7 +78,7 @@ public:
      * invoked before and that the file is part of the directory specified
      * in beginInfoRetrieval().
      */
-    virtual RevisionState revisionState(const QString& fileName) = 0;
+    virtual RevisionState revisionState(const QString& name, ItemType type) = 0;
 
 };
 
@@ -93,7 +99,7 @@ public:
     virtual QString fileName() const;
     virtual bool beginRetrieval(const QString& directory);
     virtual void endRetrieval();
-    virtual RevisionControlPlugin::RevisionState revisionState(const QString& fileName);
+    virtual RevisionControlPlugin::RevisionState revisionState(const QString& name, ItemType type);
 
 private:
     QString m_directory;

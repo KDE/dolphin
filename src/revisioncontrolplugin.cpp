@@ -49,6 +49,7 @@ QString SubversionPlugin::fileName() const
 bool SubversionPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
+    m_directory = directory;
     const QString path = directory + ".svn/text-base/";
 
     QDir dir(path);
@@ -71,11 +72,18 @@ void SubversionPlugin::endRetrieval()
 {
 }
 
-RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const QString& fileName)
+RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const QString& name, ItemType type)
 {
-    if (m_fileInfoHash.contains(fileName)) {
+    if (m_fileInfoHash.contains(name)) {
         // TODO...
         return RevisionControlPlugin::LatestRevision;
+    } else if (type == Directory) {
+        QFile file(m_directory + name + "/.svn");
+        if (file.open(QIODevice::ReadOnly)) {
+            file.close();
+            // TODO...
+            return RevisionControlPlugin::LatestRevision;
+        }
     }
 
     return RevisionControlPlugin::LocalRevision;
