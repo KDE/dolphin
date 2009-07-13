@@ -20,9 +20,9 @@
 #ifndef DOLPHINFILEITEMDELEGATE_H
 #define DOLPHINFILEITEMDELEGATE_H
 
+#include <dolphinmodel.h>
 #include <kfileitemdelegate.h>
 
-class DolphinModel;
 class QAbstractProxyModel;
 
 /**
@@ -65,6 +65,8 @@ private:
                                   const QAbstractProxyModel* proxyModel,
                                   const DolphinModel* dolphinModel,
                                   const QModelIndex& index);
+
+    static QPixmap emblemForState(DolphinModel::RevisionState state, const QSize& size);
 
 private:
     bool m_hasMinimizedNameColumn;

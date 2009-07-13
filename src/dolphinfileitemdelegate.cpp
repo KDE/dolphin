@@ -21,6 +21,8 @@
 
 #include <dolphinmodel.h>
 #include <kfileitem.h>
+#include <kicon.h>
+#include <kiconloader.h>
 
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>
@@ -45,34 +47,32 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
 {
     const QAbstractProxyModel* proxyModel = static_cast<const QAbstractProxyModel*>(index.model());
     const DolphinModel* dolphinModel = static_cast<const DolphinModel*>(proxyModel->sourceModel());
-    const bool useMinimizedNameColumn = m_hasMinimizedNameColumn && (index.column() == KDirModel::Name);
+    const bool isNameColumn = (index.column() == KDirModel::Name);
 
-    if (dolphinModel->hasRevisionData()) {
+    if (m_hasMinimizedNameColumn && isNameColumn) {
+        QStyleOptionViewItemV4 opt(option);
+        adjustOptionWidth(opt, proxyModel, dolphinModel, index);
+        KFileItemDelegate::paint(painter, opt, index);
+    } else {
+        KFileItemDelegate::paint(painter, option, index);
+    }
+
+    if (dolphinModel->hasRevisionData() && isNameColumn) {
         // The currently shown items are under revision control. Show the current revision
-        // state by adjusting the text color.
+        // state by adding an emblem.
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
         const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Revision);
         const QVariant data = dolphinModel->data(revisionIndex, Qt::DecorationRole);
         const DolphinModel::RevisionState state = static_cast<DolphinModel::RevisionState>(data.toInt());
 
         if (state != DolphinModel::LocalRevision) {
-            QStyleOptionViewItemV4 opt(option);
-            // TODO: use different colors for different states
-            opt.palette.setColor(QPalette::Text, QColor(40, 150, 40));
-            if (useMinimizedNameColumn) {
-                adjustOptionWidth(opt, proxyModel, dolphinModel, index);
-            }
-            KFileItemDelegate::paint(painter, opt, index);
-            return;
+            // TODO: extend KFileItemDelegate to be able to get the icon boundaries
+            const QRect iconRect(option.rect.x(), option.rect.y(),
+                                 KIconLoader::SizeSmall, KIconLoader::SizeSmall);
+            const QPixmap emblem = emblemForState(state, iconRect.size());
+            painter->drawPixmap(iconRect.x(), iconRect.y(), emblem);
         }
-    } else if (useMinimizedNameColumn) {
-        QStyleOptionViewItemV4 opt(option);
-        adjustOptionWidth(opt, proxyModel, dolphinModel, index);
-        KFileItemDelegate::paint(painter, opt, index);
-        return;
     }
-
-    KFileItemDelegate::paint(painter, option, index);
 }
 
 int DolphinFileItemDelegate::nameColumnWidth(const QString& name, const QStyleOptionViewItem& option)
@@ -103,5 +103,27 @@ void DolphinFileItemDelegate::adjustOptionWidth(QStyleOptionViewItemV4& option,
         const int width = nameColumnWidth(item.text(), option);
         option.rect.setWidth(width);
     }
+}
+
+QPixmap DolphinFileItemDelegate::emblemForState(DolphinModel::RevisionState state, const QSize& size)
+{
+    // TODO #1: all icons that are use here will be replaced by revision control emblems provided by the
+    // Oxygen team before KDE 4.4
+    // TODO #2: cache the icons
+    switch (state) {
+    case DolphinModel::LatestRevision:
+        return KIcon("dialog-ok-apply").pixmap(size);
+        break;
+
+    case DolphinModel::ConflictingRevision:
+        return KIcon("emblem-important").pixmap(size);
+        break;
+
+    // ...
+
+    default:
+        break;
+    }
+    return QPixmap();
 }
 

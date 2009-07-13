@@ -36,7 +36,8 @@ public:
     enum RevisionState
     {
         LocalRevision,
-        LatestRevision
+        LatestRevision,
+        ConflictingRevision
         // TODO...
     };
 
