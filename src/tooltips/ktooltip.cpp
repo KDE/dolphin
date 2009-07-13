@@ -88,6 +88,9 @@ void KTipLabel::moveTip(const QPoint &pos)
 
 void KTipLabel::paintEvent(QPaintEvent*)
 {
+    if (!m_currentItem)
+        return;
+    
     KStyleOptionToolTip option = styleOption();
     option.rect = rect();
 
