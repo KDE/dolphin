@@ -247,10 +247,10 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
 
 QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
 {
-    QModelIndex current = currentIndex();
+    const QModelIndex oldCurrent = currentIndex();
 
     QModelIndex newCurrent = QListView::moveCursor(cursorAction, modifiers);
-    if (newCurrent != current) {
+    if (newCurrent != oldCurrent) {
         return newCurrent;
     }
 
@@ -274,7 +274,7 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
                 return newCurrent;
             }
             newCurrent = QListView::moveCursor(MovePageUp, modifiers);
-            selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::Clear);
+            selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
             newCurrent = QListView::moveCursor(MoveRight, modifiers);
             break;
 
@@ -282,6 +282,7 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
             break;
         }
     } else {
+        QModelIndex current = oldCurrent;
         switch (cursorAction) {
         case MoveLeft:
             if (newCurrent.row() == 0) {
@@ -293,15 +294,6 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
                 current = newCurrent;
                 newCurrent = QListView::moveCursor(MoveRight, modifiers);
             } while (newCurrent != current);
-
-            if (!(modifiers & Qt::ControlModifier)) {
-                // Ctrl is not pressed -> selection is updated
-                if (!(modifiers & Qt::ShiftModifier)) {
-                    // Shift is not pressed -> previous selection is lost
-                    selectionModel()->clearSelection();
-                }
-                selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::Select);
-            }
             break;
 
         case MoveRight:
@@ -321,6 +313,8 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
         }
     }
 
+    // Revert all changes of the current item to make sure that item selection works correctly
+    selectionModel()->setCurrentIndex(oldCurrent, QItemSelectionModel::NoUpdate);
     return newCurrent;
 }
 
