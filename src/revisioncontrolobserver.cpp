@@ -113,11 +113,7 @@ void RevisionControlObserver::updateItemStates()
     for (int row = 0; row < rowCount; ++row) {
         const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Revision);
         const KFileItem item = m_dolphinModel->itemForIndex(index);
-        const RevisionControlPlugin::ItemType type = item.isDir() ?
-                                                     RevisionControlPlugin::Directory :
-                                                     RevisionControlPlugin::File;
-
-        const RevisionControlPlugin::RevisionState revision = m_plugin->revisionState(item.name(), type);
+        const RevisionControlPlugin::RevisionState revision = m_plugin->revisionState(item);
         m_dolphinModel->setData(index, QVariant(static_cast<int>(revision)), Qt::DecorationRole);
     }
     m_view->viewport()->repaint(); // TODO: this should not be necessary, as DolphinModel::setData() calls dataChanged()

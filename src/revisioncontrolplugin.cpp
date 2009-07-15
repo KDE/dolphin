@@ -19,7 +19,10 @@
 
 #include "revisioncontrolplugin.h"
 
+#include <kfileitem.h>
 #include <QDir>
+#include <QString>
+#include <QTextStream>
 
 RevisionControlPlugin::RevisionControlPlugin()
 {
@@ -33,7 +36,7 @@ RevisionControlPlugin::~RevisionControlPlugin()
 
 SubversionPlugin::SubversionPlugin() :
     m_directory(),
-    m_fileInfoHash()
+    m_revisionInfoHash()
 {
 }
 
@@ -50,40 +53,39 @@ bool SubversionPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
     m_directory = directory;
-    const QString path = directory + ".svn/text-base/";
 
-    QDir dir(path);
-    const QFileInfoList fileInfoList = dir.entryInfoList();
-    const int size = fileInfoList.size();
+    QFile file(directory + ".svn/entries");
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return false;
+    }
+
+    QTextStream in(&file);
     QString fileName;
-    for (int i = 0; i < size; ++i) {
-        fileName = fileInfoList.at(i).fileName();
-        // Remove the ".svn-base" postfix to be able to compare the filenames
-        // in a fast way in SubversionPlugin::revisionState().
-        fileName.chop(sizeof(".svn-base") / sizeof(char) - 1);
-        if (!fileName.isEmpty()) {
-            m_fileInfoHash.insert(fileName, fileInfoList.at(i));
+    QString line;
+    while (!in.atEnd()) {
+        fileName = line;
+        line = in.readLine();
+        const bool isRevisioned = !line.isEmpty() &&
+                                  ((line == QLatin1String("dir")) ||
+                                   (line == QLatin1String("file")));
+        if (isRevisioned) {
+            RevisionInfo info; // TODO
+            m_revisionInfoHash.insert(fileName, info);
         }
     }
-    return size > 0;
+    return true;
 }
 
 void SubversionPlugin::endRetrieval()
 {
 }
 
-RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const QString& name, ItemType type)
+RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const KFileItem& item)
 {
-    if (m_fileInfoHash.contains(name)) {
+    const QString name = item.name();
+    if (m_revisionInfoHash.contains(name)) {
         // TODO...
         return RevisionControlPlugin::LatestRevision;
-    } else if (type == Directory) {
-        QFile file(m_directory + name + "/.svn");
-        if (file.open(QIODevice::ReadOnly)) {
-            file.close();
-            // TODO...
-            return RevisionControlPlugin::LatestRevision;
-        }
     }
 
     return RevisionControlPlugin::LocalRevision;

@@ -22,7 +22,10 @@
 
 #include <libdolphin_export.h>
 
+#include <QDateTime>
 #include <QString>
+
+class KFileItem;
 
 /**
  * @brief Base class for revision control plugins.
@@ -39,12 +42,6 @@ public:
         LatestRevision,
         ConflictingRevision
         // TODO...
-    };
-
-    enum ItemType
-    {
-        Directory,
-        File
     };
 
     RevisionControlPlugin();
@@ -74,12 +71,12 @@ public:
     virtual void endRetrieval() = 0;
 
     /**
-     * Returns the revision state for the file with the name \p fileName.
+     * Returns the revision state for the file \p item.
      * It is assured that RevisionControlPlugin::beginInfoRetrieval() has been
      * invoked before and that the file is part of the directory specified
      * in beginInfoRetrieval().
      */
-    virtual RevisionState revisionState(const QString& name, ItemType type) = 0;
+    virtual RevisionState revisionState(const KFileItem& item) = 0;
 
 };
 
@@ -100,11 +97,17 @@ public:
     virtual QString fileName() const;
     virtual bool beginRetrieval(const QString& directory);
     virtual void endRetrieval();
-    virtual RevisionControlPlugin::RevisionState revisionState(const QString& name, ItemType type);
+    virtual RevisionControlPlugin::RevisionState revisionState(const KFileItem& item);
 
 private:
+    struct RevisionInfo
+    {
+        // TODO...
+        QDateTime timeStamp;
+    };
+
     QString m_directory;
-    QHash<QString, QFileInfo> m_fileInfoHash;
+    QHash<QString, RevisionInfo> m_revisionInfoHash;
 };
 #endif // REVISIONCONTROLPLUGIN_H
 
