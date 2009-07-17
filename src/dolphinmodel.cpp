@@ -70,7 +70,12 @@ bool DolphinModel::setData(const QModelIndex& index, const QVariant& value, int 
         const QPersistentModelIndex key = index;
         const RevisionState state = static_cast<RevisionState>(value.toInt());
         if (m_revisionHash.value(key, LocalRevision) != state) {
-            m_hasRevisionData = true;
+            if (!m_hasRevisionData) {
+                connect(this, SIGNAL(rowsRemoved (const QModelIndex&, int, int)),
+                        this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
+                m_hasRevisionData = true;
+            }
+
             m_revisionHash.insert(key, state);
             emit dataChanged(index, index);
             return true;
@@ -136,6 +141,16 @@ int DolphinModel::columnCount(const QModelIndex& parent) const
 bool DolphinModel::hasRevisionData() const
 {
     return m_hasRevisionData;
+}
+
+void DolphinModel::slotRowsRemoved(const QModelIndex& parent, int start, int end)
+{
+    Q_ASSERT(hasRevisionData());
+
+    const int column = parent.column();
+    for (int row = start; row <= end; ++row) {
+        m_revisionHash.remove(parent.child(row, column));
+    }
 }
 
 QVariant DolphinModel::displayRoleData(const QModelIndex& index) const

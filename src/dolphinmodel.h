@@ -54,6 +54,9 @@ public:
 
     bool hasRevisionData() const;
 
+private slots:
+    void slotRowsRemoved(const QModelIndex& parent, int start, int end);
+
 private:
     QVariant displayRoleData(const QModelIndex& index) const;
     QVariant sortRoleData(const QModelIndex& index) const;
