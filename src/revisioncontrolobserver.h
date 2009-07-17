@@ -22,14 +22,18 @@
 
 #include <libdolphin_export.h>
 
+#include <kfileitem.h>
+#include <revisioncontrolplugin.h>
 #include <QObject>
+#include <QPersistentModelIndex>
 #include <QString>
 
 class DolphinModel;
 class KDirLister;
 class QAbstractItemView;
+class QThread;
 class QTimer;
-class RevisionControlPlugin;
+class UpdateItemStatesThread;
 
 /**
  * @brief Observes all revision control plugins.
@@ -50,16 +54,31 @@ public:
 private slots:
     void delayedDirectoryVerification();
     void verifyDirectory();
-
+    void applyUpdatedItemStates();
+    
 private:
     void updateItemStates();
 
 private:
+    struct ItemState
+    {
+        QPersistentModelIndex index;
+        KFileItem item;
+        RevisionControlPlugin::RevisionState revision;
+    };
+    
+    bool m_pendingItemStatesUpdate;
+    
     QAbstractItemView* m_view;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
+    
     QTimer* m_dirVerificationTimer;
+    
     RevisionControlPlugin* m_plugin;
+    UpdateItemStatesThread* m_updateItemStatesThread;
+
+    friend class UpdateItemStatesThread;
 };
 
 #endif // REVISIONCONTROLOBSERVER_H
