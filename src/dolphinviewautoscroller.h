@@ -66,6 +66,7 @@ private:
 
 private:
     bool m_rubberBandSelection;
+    bool m_keyPressed;
     int m_horizontalScrollInc;
     int m_verticalScrollInc;
     QAbstractItemView* m_itemView;

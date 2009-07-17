@@ -31,6 +31,7 @@
 DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
     QObject(parent),
     m_rubberBandSelection(false),
+    m_keyPressed(false),
     m_horizontalScrollInc(0),
     m_verticalScrollInc(0),
     m_itemView(parent),
@@ -38,6 +39,7 @@ DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
 {
     m_itemView->setAutoScroll(false);
     m_itemView->viewport()->installEventFilter(this);
+    m_itemView->installEventFilter(this);
 
     m_timer = new QTimer(this);
     m_timer->setSingleShot(false);
@@ -59,8 +61,9 @@ void DolphinViewAutoScroller::handleCurrentIndexChange(const QModelIndex& curren
 {
     // When the autoscroller is inactive and a key has been pressed, it must be
     // assured that the current item stays visible. The check whether the previous
-    // item is valid is important because of #197951.
-    if (current.isValid() && previous.isValid() && !isActive()) {
+    // item is valid is important because of #197951. The keypress check is done
+    // because of #199833.
+    if (current.isValid() && (previous.isValid() || m_keyPressed) && !isActive()) {
         m_itemView->scrollTo(current);
     }
 }
@@ -96,6 +99,19 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
         case QEvent::DragLeave:
             m_rubberBandSelection = false;
             stopAutoScroll();
+            break;
+
+        default:
+            break;
+        }
+    } else if (watched == m_itemView) {
+        switch (event->type()) {
+        case QEvent::KeyPress:
+            m_keyPressed = true;
+            break;
+
+        case QEvent::KeyRelease:
+            m_keyPressed = false;
             break;
 
         default:
