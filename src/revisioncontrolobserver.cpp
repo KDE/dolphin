@@ -34,7 +34,7 @@
  * on the used plugin. To prevent that Dolphin gets blocked by a
  * slow plugin, the updating is delegated to a thread.
  */
-class LIBDOLPHINPRIVATE_EXPORT UpdateItemStatesThread : public QThread
+class UpdateItemStatesThread : public QThread
 {
 public:
     UpdateItemStatesThread(QObject* parent);
