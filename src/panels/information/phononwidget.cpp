@@ -191,6 +191,7 @@ void PhononWidget::play()
         }
         m_media = m_audioMedia;
         m_media->setCurrentSource(m_url);
+        m_media->play();
         break;
 
     case Video:
