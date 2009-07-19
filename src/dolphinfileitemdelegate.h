@@ -66,7 +66,7 @@ private:
                                   const DolphinModel* dolphinModel,
                                   const QModelIndex& index);
 
-    static QPixmap emblemForState(DolphinModel::RevisionState state, const QSize& size);
+    static QPixmap emblemForState(RevisionControlPlugin::RevisionState state, const QSize& size);
 
 private:
     bool m_hasMinimizedNameColumn;

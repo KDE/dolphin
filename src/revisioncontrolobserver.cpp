@@ -26,7 +26,6 @@
 
 #include <QAbstractProxyModel>
 #include <QAbstractItemView>
-#include <QListView>
 #include <QTimer>
 
 /**
@@ -163,14 +162,12 @@ void RevisionControlObserver::verifyDirectory()
 
 void RevisionControlObserver::applyUpdatedItemStates()
 {
-    // Updating items with non-uniform item sizes is a serious bottleneck
-    // in QListView. Temporary disable the non-uniform item sizes.
-    QListView* listView = qobject_cast<QListView*>(m_view);
-    bool uniformSizes = true;
-    if (listView != 0) {
-        uniformSizes = listView->uniformItemSizes();
-        //listView->setUniformItemSizes(true); TODO: does not work as well as in KFilePreviewGenerator
-    }
+    // QAbstractItemModel::setData() triggers a bottleneck in combination with QListView
+    // (a detailed description of the root cause is given in the class KFilePreviewGenerator
+    // from kdelibs). To bypass this bottleneck, the signals of the model are temporary blocked.
+    // This works as the update of the data does not require a relayout of the views used in Dolphin.
+    const bool signalsBlocked = m_dolphinModel->signalsBlocked();
+    m_dolphinModel->blockSignals(true);
 
     const QList<ItemState> itemStates = m_updateItemStatesThread->itemStates();
     foreach (const ItemState& itemState, itemStates) {
@@ -179,11 +176,8 @@ void RevisionControlObserver::applyUpdatedItemStates()
                                 Qt::DecorationRole);
     }
 
-    if (listView != 0) {
-        listView->setUniformItemSizes(uniformSizes);
-    }
-
-    m_view->viewport()->repaint(); // TODO: this should not be necessary, as DolphinModel::setData() calls dataChanged()
+    m_dolphinModel->blockSignals(signalsBlocked);
+    m_view->viewport()->repaint();
     
     if (m_pendingItemStatesUpdate) {
         m_pendingItemStatesUpdate = false;

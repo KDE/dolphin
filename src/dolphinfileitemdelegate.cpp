@@ -63,9 +63,9 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
         const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Revision);
         const QVariant data = dolphinModel->data(revisionIndex, Qt::DecorationRole);
-        const DolphinModel::RevisionState state = static_cast<DolphinModel::RevisionState>(data.toInt());
+        const RevisionControlPlugin::RevisionState state = static_cast<RevisionControlPlugin::RevisionState>(data.toInt());
 
-        if (state != DolphinModel::LocalRevision) {
+        if (state != RevisionControlPlugin::LocalRevision) {
             // TODO: extend KFileItemDelegate to be able to get the icon boundaries
             const QRect iconRect(option.rect.x(), option.rect.y(),
                                  KIconLoader::SizeSmall, KIconLoader::SizeSmall);
@@ -105,22 +105,20 @@ void DolphinFileItemDelegate::adjustOptionWidth(QStyleOptionViewItemV4& option,
     }
 }
 
-QPixmap DolphinFileItemDelegate::emblemForState(DolphinModel::RevisionState state, const QSize& size)
+QPixmap DolphinFileItemDelegate::emblemForState(RevisionControlPlugin::RevisionState state, const QSize& size)
 {
     // TODO #1: all icons that are use here will be replaced by revision control emblems provided by the
     // Oxygen team before KDE 4.4
     // TODO #2: cache the icons
     switch (state) {
-    case DolphinModel::LatestRevision:
+    case RevisionControlPlugin::LatestRevision:
         return KIcon("dialog-ok-apply").pixmap(size);
-        break;
-
-    case DolphinModel::ConflictingRevision:
+    case RevisionControlPlugin::ConflictingRevision:
+        return KIcon("application-exit").pixmap(size);
+    case RevisionControlPlugin::UpdateRequiredRevision:
+        return KIcon("rating").pixmap(size);
+    case RevisionControlPlugin::EditingRevision:
         return KIcon("emblem-important").pixmap(size);
-        break;
-
-    // ...
-
     default:
         break;
     }

@@ -68,8 +68,8 @@ bool DolphinModel::setData(const QModelIndex& index, const QVariant& value, int 
         // TODO: remove data again when items are deleted...
 
         const QPersistentModelIndex key = index;
-        const RevisionState state = static_cast<RevisionState>(value.toInt());
-        if (m_revisionHash.value(key, LocalRevision) != state) {
+        const RevisionControlPlugin::RevisionState state = static_cast<RevisionControlPlugin::RevisionState>(value.toInt());
+        if (m_revisionHash.value(key, RevisionControlPlugin::LocalRevision) != state) {
             if (!m_hasRevisionData) {
                 connect(this, SIGNAL(rowsRemoved (const QModelIndex&, int, int)),
                         this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
@@ -96,17 +96,20 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
 
     case Qt::DecorationRole:
         if (index.column() == DolphinModel::Revision) {
-            return m_revisionHash.value(index, LocalRevision);
+            return m_revisionHash.value(index, RevisionControlPlugin::LocalRevision);
         }
         break;
 
     case Qt::DisplayRole:
         if (index.column() == DolphinModel::Revision) {
-            switch (m_revisionHash.value(index, LocalRevision)) {
-            case LatestRevision:
+            switch (m_revisionHash.value(index, RevisionControlPlugin::LocalRevision)) {
+            case RevisionControlPlugin::LatestRevision:
                 return i18nc("@item::intable", "Latest");
-
-            case LocalRevision:
+            case RevisionControlPlugin::EditingRevision:
+                return i18nc("@item::intable", "Editing");
+            case RevisionControlPlugin::UpdateRequiredRevision:
+                return i18nc("@item::intable", "Update required");
+            case RevisionControlPlugin::LocalRevision:
             default:
                 return i18nc("@item::intable", "Local");
             }

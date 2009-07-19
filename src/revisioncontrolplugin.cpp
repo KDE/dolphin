@@ -53,27 +53,25 @@ bool SubversionPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
     m_directory = directory;
+    const QString path = directory + ".svn/text-base/";
 
-    QFile file(directory + ".svn/entries");
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return false;
-    }
-
-    QTextStream in(&file);
+    QDir dir(path);
+    const QFileInfoList fileInfoList = dir.entryInfoList();
+    const int size = fileInfoList.size();
     QString fileName;
-    QString line;
-    while (!in.atEnd()) {
-        fileName = line;
-        line = in.readLine();
-        const bool isRevisioned = !line.isEmpty() &&
-                                  ((line == QLatin1String("dir")) ||
-                                   (line == QLatin1String("file")));
-        if (isRevisioned) {
-            RevisionInfo info; // TODO
+    for (int i = 0; i < size; ++i) {
+        fileName = fileInfoList.at(i).fileName();
+        // Remove the ".svn-base" postfix to be able to compare the filenames
+        // in a fast way in SubversionPlugin::revisionState().
+        fileName.chop(sizeof(".svn-base") / sizeof(char) - 1);
+        if (!fileName.isEmpty()) {
+            RevisionInfo info;
+            info.size = fileInfoList.at(i).size();
+            info.timeStamp = fileInfoList.at(i).lastModified();            
             m_revisionInfoHash.insert(fileName, info);
         }
     }
-    return true;
+    return size > 0;
 }
 
 void SubversionPlugin::endRetrieval()
@@ -83,9 +81,30 @@ void SubversionPlugin::endRetrieval()
 RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const KFileItem& item)
 {
     const QString name = item.name();
-    if (m_revisionInfoHash.contains(name)) {
-        // TODO...
-        return RevisionControlPlugin::LatestRevision;
+    if (item.isDir()) {
+        QFile file(m_directory + name + "/.svn");
+        if (file.open(QIODevice::ReadOnly)) {
+            file.close();
+            // TODO...
+            return RevisionControlPlugin::LatestRevision;
+        }
+    } else if (m_revisionInfoHash.contains(name)) {
+        const RevisionInfo info = m_revisionInfoHash.value(item.name());
+        const QDateTime localTimeStamp = item.time(KFileItem::ModificationTime).dateTime();
+        const QDateTime versionedTimeStamp = info.timeStamp;
+
+        if (localTimeStamp > versionedTimeStamp) {
+            if (info.size != item.size()) {
+                return RevisionControlPlugin::EditingRevision;
+            }
+            // TODO: a comparison of the content is required
+        } else if (localTimeStamp < versionedTimeStamp) {
+            if (info.size != item.size()) {
+                return RevisionControlPlugin::UpdateRequiredRevision;
+            }
+            // TODO: a comparison of the content is required
+        }
+        return  RevisionControlPlugin::LatestRevision;
     }
 
     return RevisionControlPlugin::LocalRevision;

@@ -22,6 +22,7 @@
 #define DOLPHINMODEL_H
 
 #include <kdirmodel.h>
+#include <revisioncontrolplugin.h>
 #include <libdolphin_export.h>
 
 #include <QHash>
@@ -35,13 +36,6 @@ public:
     enum AdditionalColumns {
         Revision = KDirModel::ColumnCount,
         ExtraColumnCount
-    };
-
-    enum RevisionState {
-        LocalRevision,
-        LatestRevision,
-        ConflictingRevision
-        // TODO...
     };
 
     DolphinModel(QObject* parent = 0);
@@ -63,7 +57,7 @@ private:
 
 private:
     bool m_hasRevisionData;
-    QHash<QPersistentModelIndex, RevisionState> m_revisionHash;
+    QHash<QPersistentModelIndex, RevisionControlPlugin::RevisionState> m_revisionHash;
 
     static const char* m_others;
 };

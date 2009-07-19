@@ -40,6 +40,8 @@ public:
     {
         LocalRevision,
         LatestRevision,
+        UpdateRequiredRevision,
+        EditingRevision,
         ConflictingRevision
         // TODO...
     };
@@ -102,7 +104,7 @@ public:
 private:
     struct RevisionInfo
     {
-        // TODO...
+        quint64 size;
         QDateTime timeStamp;
     };
 
