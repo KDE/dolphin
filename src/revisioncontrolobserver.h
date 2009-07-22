@@ -68,6 +68,7 @@ private:
     };
     
     bool m_pendingItemStatesUpdate;
+    bool m_revisionedDirectory;
     
     QAbstractItemView* m_view;
     KDirLister* m_dirLister;

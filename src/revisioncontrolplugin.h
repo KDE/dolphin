@@ -24,17 +24,28 @@
 
 #include <QDateTime>
 #include <QString>
+#include <QObject>
 
 class KFileItem;
+class KFileItemList;
+class QAction;
 
 /**
  * @brief Base class for revision control plugins.
  *
  * Enables the file manager to show the revision state
- * of a revisioned file.
+ * of a revisioned file. The methods
+ * RevisionControlPlugin::beginRetrieval(),
+ * RevisionControlPlugin::endRetrieval() and
+ * RevisionControlPlugin::revisionState() are invoked
+ * from a separate thread to assure that the GUI thread
+ * won't be blocked. All other methods are invoked in the
+ * scope of the GUI thread.
  */
-class LIBDOLPHINPRIVATE_EXPORT RevisionControlPlugin
+class LIBDOLPHINPRIVATE_EXPORT RevisionControlPlugin : public QObject
 {
+    Q_OBJECT
+
 public:
     enum RevisionState
     {
@@ -79,7 +90,26 @@ public:
      * in beginInfoRetrieval().
      */
     virtual RevisionState revisionState(const KFileItem& item) = 0;
+    
+    /**
+     * Returns the list of actions that should be shown in the context menu
+     * for the files \p items. If an action cannot be applied to the list
+     * of files, it is recommended to disable the action instead of removing it
+     * from the returned list. If an action triggers a change of the revisions,
+     * the signal RevisionControlPlugin::revisionStatesChanged() must be emitted.
+     */
+    virtual QList<QAction*> contextMenuActions(const KFileItemList& items) const = 0;
 
+signals:
+    /**
+     * Should be emitted when the revision state of files has been changed
+     * after the last retrieval. The file manager will be triggered to
+     * update the revision states of the directory \p directory by invoking
+     * RevisionControlPlugin::beginRetrieval(),
+     * RevisionControlPlugin::revisionState() and
+     * RevisionControlPlugin::endRetrieval().
+     */
+    void revisionStatesChanged(const QString& directory);
 };
 
 
@@ -100,6 +130,14 @@ public:
     virtual bool beginRetrieval(const QString& directory);
     virtual void endRetrieval();
     virtual RevisionControlPlugin::RevisionState revisionState(const KFileItem& item);
+    virtual QList<QAction*> contextMenuActions(const KFileItemList& items) const;
+
+private:
+    /**
+     * Returns true, if the content of the local file \p name is equal to the
+     * content of the revisioned file.
+     */
+    bool equalRevisionContent(const QString& name) const;
 
 private:
     struct RevisionInfo

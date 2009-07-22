@@ -32,6 +32,8 @@ RevisionControlPlugin::~RevisionControlPlugin()
 {
 }
 
+#include "revisioncontrolplugin.moc"
+
 // ----------------------------------------------------------------------------
 
 SubversionPlugin::SubversionPlugin() :
@@ -94,18 +96,47 @@ RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const KFile
         const QDateTime versionedTimeStamp = info.timeStamp;
 
         if (localTimeStamp > versionedTimeStamp) {
-            if (info.size != item.size()) {
+            if ((info.size != item.size()) || !equalRevisionContent(item.name())) {
                 return RevisionControlPlugin::EditingRevision;
             }
-            // TODO: a comparison of the content is required
         } else if (localTimeStamp < versionedTimeStamp) {
-            if (info.size != item.size()) {
+            if ((info.size != item.size()) || !equalRevisionContent(item.name())) {
                 return RevisionControlPlugin::UpdateRequiredRevision;
             }
-            // TODO: a comparison of the content is required
         }
         return  RevisionControlPlugin::LatestRevision;
     }
 
     return RevisionControlPlugin::LocalRevision;
 }
+
+QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items) const
+{
+    Q_UNUSED(items);
+    // TODO...
+    return QList<QAction*>();
+}
+
+bool SubversionPlugin::equalRevisionContent(const QString& name) const
+{
+    QFile localFile(m_directory + '/' + name);
+    if (!localFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return false;
+    }
+
+    QFile revisionedFile(m_directory + "/.svn/text-base/" + name + ".svn-base");
+    if (!revisionedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return false;
+    }
+
+     QTextStream localText(&localFile);
+     QTextStream revisionedText(&revisionedFile);
+     while (!localText.atEnd() && !revisionedText.atEnd()) {
+         if (localText.readLine() != revisionedText.readLine()) {
+             return false;
+         }
+     }
+
+     return localText.atEnd() && revisionedText.atEnd();
+}
+

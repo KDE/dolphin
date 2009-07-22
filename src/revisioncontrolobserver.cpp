@@ -88,6 +88,7 @@ QList<RevisionControlObserver::ItemState> UpdateItemStatesThread::itemStates() c
 RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
     QObject(view),
     m_pendingItemStatesUpdate(false),
+    m_revisionedDirectory(false),
     m_view(view),
     m_dirLister(0),
     m_dolphinModel(0),
@@ -105,10 +106,7 @@ RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
         m_dirLister = m_dolphinModel->dirLister();
         connect(m_dirLister, SIGNAL(completed()),
                 this, SLOT(delayedDirectoryVerification()));
-        // TODO:
-        // connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
-        //        this, SLOT(refreshItems()));
-
+ 
         // The verification timer specifies the timeout until the shown directory
         // is checked whether it is versioned. Per default it is assumed that users
         // don't iterate through versioned directories and a high timeout is used
@@ -146,16 +144,28 @@ void RevisionControlObserver::verifyDirectory()
     }
 
     revisionControlUrl.addPath(m_plugin->fileName());
-    KFileItem item = m_dirLister->findByUrl(revisionControlUrl);
-    if (item.isNull()) {
+    const KFileItem item = m_dirLister->findByUrl(revisionControlUrl);
+    if (item.isNull() && m_revisionedDirectory) {
         // The directory is not versioned. Reset the verification timer to a higher
         // value, so that browsing through non-versioned directories is not slown down
         // by an immediate verification.
         m_dirVerificationTimer->setInterval(500);
-    } else {
-        // The directory is versioned. Assume that the user will further browse through
-        // versioned directories and decrease the verification timer.
-        m_dirVerificationTimer->setInterval(100);
+        m_revisionedDirectory = false;
+        disconnect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+                   this, SLOT(delayedDirectoryVerification()));
+        disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
+                   this, SLOT(delayedDirectoryVerification()));
+    } else if (!item.isNull()) {
+        if (!m_revisionedDirectory) {
+            // The directory is versioned. Assume that the user will further browse through
+            // versioned directories and decrease the verification timer.
+            m_dirVerificationTimer->setInterval(100);
+            m_revisionedDirectory = true;
+            connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+                    this, SLOT(delayedDirectoryVerification()));
+            connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
+                    this, SLOT(delayedDirectoryVerification()));
+        }
         updateItemStates();
     }
 }
