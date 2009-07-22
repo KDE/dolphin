@@ -223,6 +223,16 @@ void DolphinContextMenu::openItemContextMenu()
         popup->addSeparator();
     }
 
+    // insert revision control actions
+    DolphinView* view = m_mainWindow->activeViewContainer()->view();
+    const QList<QAction*> revControlActions = view->revisionControlActions(m_selectedItems);
+    if (revControlActions.count() > 0) {
+        foreach (QAction* action, revControlActions) {
+            popup->addAction(action);
+        }
+        popup->addSeparator();
+    }
+
     // insert 'Copy To' and 'Move To' sub menus
     if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
         m_copyToMenu.setItems(m_selectedItems);

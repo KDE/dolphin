@@ -126,6 +126,15 @@ RevisionControlObserver::~RevisionControlObserver()
     m_plugin = 0;
 }
 
+QList<QAction*> RevisionControlObserver::contextMenuActions(const KFileItemList& items) const
+{
+    if (m_dolphinModel->hasRevisionData() && (m_plugin != 0)) {
+        return m_plugin->contextMenuActions(items);
+    }
+
+    return QList<QAction*>();
+}
+
 void RevisionControlObserver::delayedDirectoryVerification()
 {
     m_dirVerificationTimer->start();

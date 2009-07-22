@@ -148,6 +148,11 @@ private:
 
     QString m_directory;
     QHash<QString, RevisionInfo> m_revisionInfoHash;
+
+    QAction* m_updateAction;
+    QAction* m_commitAction;
+    QAction* m_addAction;
+    QAction* m_removeAction;
 };
 #endif // REVISIONCONTROLPLUGIN_H
 

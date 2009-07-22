@@ -24,13 +24,16 @@
 
 #include <kfileitem.h>
 #include <revisioncontrolplugin.h>
+#include <QList>
 #include <QObject>
 #include <QPersistentModelIndex>
 #include <QString>
 
 class DolphinModel;
 class KDirLister;
+class KFileItemList;
 class QAbstractItemView;
+class QAction;
 class QThread;
 class QTimer;
 class UpdateItemStatesThread;
@@ -50,6 +53,8 @@ class LIBDOLPHINPRIVATE_EXPORT RevisionControlObserver : public QObject
 public:
     RevisionControlObserver(QAbstractItemView* view);
     virtual ~RevisionControlObserver();
+
+    QList<QAction*> contextMenuActions(const KFileItemList& items) const;
 
 private slots:
     void delayedDirectoryVerification();

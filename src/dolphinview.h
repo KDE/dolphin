@@ -55,6 +55,7 @@ class KActionCollection;
 class KDirLister;
 class KUrl;
 class KToggleAction;
+class RevisionControlObserver;
 class ToolTipManager;
 class QModelIndex;
 class ViewProperties;
@@ -323,6 +324,12 @@ public:
      * folder or selected items, suitable for use in the status bar.
      */
     QString statusBarText() const;
+
+    /**
+     * Returns the revision control actions that are provided for the items \p items.
+     * Usually the actions are presented in the context menu.
+     */
+    QList<QAction*> revisionControlActions(const KFileItemList& items) const;
 
     /**
      * Updates the state of the 'Additional Information' actions in \a collection.
@@ -808,6 +815,8 @@ private:
 
     KFilePreviewGenerator* m_previewGenerator;
     ToolTipManager* m_toolTipManager;
+
+    RevisionControlObserver* m_revisionControlObserver;
 
     KUrl m_rootUrl;
     KUrl m_activeItemUrl;

@@ -19,6 +19,9 @@
 
 #include "revisioncontrolplugin.h"
 
+#include <kaction.h>
+#include <kicon.h>
+#include <klocale.h>
 #include <kfileitem.h>
 #include <QDir>
 #include <QString>
@@ -38,8 +41,26 @@ RevisionControlPlugin::~RevisionControlPlugin()
 
 SubversionPlugin::SubversionPlugin() :
     m_directory(),
-    m_revisionInfoHash()
+    m_revisionInfoHash(),
+    m_updateAction(0),
+    m_commitAction(0),
+    m_addAction(0),
+    m_removeAction(0)
 {
+    m_updateAction = new KAction(this);
+    m_updateAction->setIcon(KIcon("view-refresh"));
+    m_updateAction->setText(i18nc("@item:inmenu", "SVN Update"));
+
+    m_commitAction = new KAction(this);
+    m_commitAction->setText(i18nc("@item:inmenu", "SVN Commit..."));
+
+    m_addAction = new KAction(this);
+    m_addAction->setIcon(KIcon("list-add"));
+    m_addAction->setText(i18nc("@item:inmenu", "SVN Add"));
+
+    m_removeAction = new KAction(this);
+    m_removeAction->setIcon(KIcon("list-remove"));
+    m_removeAction->setText(i18nc("@item:inmenu", "SVN Delete"));
 }
 
 SubversionPlugin::~SubversionPlugin()
@@ -114,7 +135,12 @@ QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
 {
     Q_UNUSED(items);
     // TODO...
-    return QList<QAction*>();
+    QList<QAction*> actions;
+    actions.append(m_updateAction);
+    actions.append(m_commitAction);
+    actions.append(m_addAction);
+    actions.append(m_removeAction);
+    return actions;
 }
 
 bool SubversionPlugin::equalRevisionContent(const QString& name) const

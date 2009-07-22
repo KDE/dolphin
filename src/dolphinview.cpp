@@ -105,6 +105,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_proxyModel(proxyModel),
     m_previewGenerator(0),
     m_toolTipManager(0),
+    m_revisionControlObserver(0),
     m_rootUrl(),
     m_activeItemUrl(),
     m_createdItemUrl(),
@@ -606,6 +607,11 @@ QString DolphinView::statusBarText() const
     }
 
     return text;
+}
+
+QList<QAction*> DolphinView::revisionControlActions(const KFileItemList& items) const
+{
+    return m_revisionControlObserver->contextMenuActions(items);
 }
 
 void DolphinView::setUrl(const KUrl& url)
@@ -1461,7 +1467,7 @@ void DolphinView::createView()
     m_previewGenerator = new KFilePreviewGenerator(view);
     m_previewGenerator->setPreviewShown(m_showPreview);
 
-    new RevisionControlObserver(view);
+    m_revisionControlObserver = new RevisionControlObserver(view);
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         m_toolTipManager = new ToolTipManager(view, m_proxyModel);
