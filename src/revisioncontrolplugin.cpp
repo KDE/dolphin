@@ -133,13 +133,13 @@ RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const KFile
 
 QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items) const
 {
-    Q_UNUSED(items);
-    // TODO...
     QList<QAction*> actions;
     actions.append(m_updateAction);
     actions.append(m_commitAction);
-    actions.append(m_addAction);
-    actions.append(m_removeAction);
+    if (!items.isEmpty()) {
+        actions.append(m_addAction);
+        actions.append(m_removeAction);
+    }
     return actions;
 }
 

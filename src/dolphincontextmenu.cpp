@@ -65,7 +65,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
-    DolphinView* view = m_mainWindow->activeViewContainer()->view();
+    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedUrls = view->selectedUrls();
     m_selectedItems = view->selectedItems();
 }
@@ -224,14 +224,7 @@ void DolphinContextMenu::openItemContextMenu()
     }
 
     // insert revision control actions
-    DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    const QList<QAction*> revControlActions = view->revisionControlActions(m_selectedItems);
-    if (revControlActions.count() > 0) {
-        foreach (QAction* action, revControlActions) {
-            popup->addAction(action);
-        }
-        popup->addSeparator();
-    }
+    addRevisionControlActions(popup);
 
     // insert 'Copy To' and 'Move To' sub menus
     if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
@@ -289,6 +282,8 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->addMenu(viewModeMenu);
 
     popup->addSeparator();
+
+    addRevisionControlActions(popup);
 
     QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
@@ -393,6 +388,18 @@ KFileItemListProperties& DolphinContextMenu::capabilities()
         m_capabilities = new KFileItemListProperties(m_selectedItems);
     }
     return *m_capabilities;
+}
+
+void DolphinContextMenu::addRevisionControlActions(KMenu* menu)
+{
+    const DolphinView* view = m_mainWindow->activeViewContainer()->view();
+    const QList<QAction*> revControlActions = view->revisionControlActions(m_selectedItems);
+    if (revControlActions.count() > 0) {
+        foreach (QAction* action, revControlActions) {
+            menu->addAction(action);
+        }
+        menu->addSeparator();
+    }
 }
 
 void DolphinContextMenu::addCustomActions(KMenu* menu)

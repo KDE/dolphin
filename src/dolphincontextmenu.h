@@ -96,6 +96,7 @@ private:
 
 private:
     KFileItemListProperties& capabilities();
+    void addRevisionControlActions(KMenu* menu);
     void addCustomActions(KMenu* menu);
 
 private:

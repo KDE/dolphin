@@ -93,10 +93,10 @@ public:
     
     /**
      * Returns the list of actions that should be shown in the context menu
-     * for the files \p items. If an action cannot be applied to the list
-     * of files, it is recommended to disable the action instead of removing it
-     * from the returned list. If an action triggers a change of the revisions,
-     * the signal RevisionControlPlugin::revisionStatesChanged() must be emitted.
+     * for the files \p items. If no files are provided by \p items, the context
+     * menu is valid for the current directory (see RevisionControlPlugin::beginRetrieval()).
+     * If an action triggers a change of the revisions, the signal
+     * RevisionControlPlugin::revisionStatesChanged() must be emitted.
      */
     virtual QList<QAction*> contextMenuActions(const KFileItemList& items) const = 0;
 
