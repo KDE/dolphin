@@ -93,12 +93,18 @@ public:
     
     /**
      * Returns the list of actions that should be shown in the context menu
-     * for the files \p items. If no files are provided by \p items, the context
-     * menu is valid for the current directory (see RevisionControlPlugin::beginRetrieval()).
+     * for the files \p items. It is assured that the passed list is not empty.
      * If an action triggers a change of the revisions, the signal
      * RevisionControlPlugin::revisionStatesChanged() must be emitted.
      */
     virtual QList<QAction*> contextMenuActions(const KFileItemList& items) const = 0;
+
+    /**
+     * Returns the list of actions that should be shown in the context menu
+     * for the directory \p directory. If an action triggers a change of the revisions,
+     * the signal RevisionControlPlugin::revisionStatesChanged() must be emitted.
+     */
+    virtual QList<QAction*> contextMenuActions(const QString& directory) const = 0;
 
 signals:
     /**
@@ -131,6 +137,7 @@ public:
     virtual void endRetrieval();
     virtual RevisionControlPlugin::RevisionState revisionState(const KFileItem& item);
     virtual QList<QAction*> contextMenuActions(const KFileItemList& items) const;
+    virtual QList<QAction*> contextMenuActions(const QString& directory) const;
 
 private:
     /**

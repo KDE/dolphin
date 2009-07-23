@@ -55,6 +55,7 @@ public:
     virtual ~RevisionControlObserver();
 
     QList<QAction*> contextMenuActions(const KFileItemList& items) const;
+    QList<QAction*> contextMenuActions(const QString& directory) const;
 
 private slots:
     void delayedDirectoryVerification();

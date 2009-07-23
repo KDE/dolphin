@@ -131,6 +131,14 @@ QList<QAction*> RevisionControlObserver::contextMenuActions(const KFileItemList&
     if (m_dolphinModel->hasRevisionData() && (m_plugin != 0)) {
         return m_plugin->contextMenuActions(items);
     }
+    return QList<QAction*>();
+}
+
+QList<QAction*> RevisionControlObserver::contextMenuActions(const QString& directory) const
+{
+    if (m_dolphinModel->hasRevisionData() && (m_plugin != 0)) {
+        return m_plugin->contextMenuActions(directory);
+    }
 
     return QList<QAction*>();
 }

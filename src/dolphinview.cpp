@@ -611,7 +611,9 @@ QString DolphinView::statusBarText() const
 
 QList<QAction*> DolphinView::revisionControlActions(const KFileItemList& items) const
 {
-    return m_revisionControlObserver->contextMenuActions(items);
+    return items.isEmpty()
+           ? m_revisionControlObserver->contextMenuActions(url().path(KUrl::AddTrailingSlash))
+           : m_revisionControlObserver->contextMenuActions(items);
 }
 
 void DolphinView::setUrl(const KUrl& url)
