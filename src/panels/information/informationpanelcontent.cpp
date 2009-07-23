@@ -424,7 +424,7 @@ void InformationPanelContent::configureSettings()
         ++it;
     }
 
-    if (actions.count() > 0) {
+    if (!actions.isEmpty()) {
         popup.addSeparator();
 
         // add all items alphabetically sorted to the popup

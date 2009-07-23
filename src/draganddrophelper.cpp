@@ -64,7 +64,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
     isDragging = true;
 
     QModelIndexList indexes = itemView->selectionModel()->selectedIndexes();
-    if (indexes.count() > 0) {
+    if (!indexes.isEmpty()) {
         QMimeData *data = itemView->model()->mimeData(indexes);
         if (data == 0) {
             return;

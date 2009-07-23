@@ -63,7 +63,7 @@ void UpdateItemStatesThread::setData(RevisionControlPlugin* plugin,
 
 void UpdateItemStatesThread::run()
 {
-    Q_ASSERT(m_itemStates.count() > 0);
+    Q_ASSERT(!m_itemStates.isEmpty());
     Q_ASSERT(m_plugin != 0);
     
     // it is assumed that all items have the same parent directory

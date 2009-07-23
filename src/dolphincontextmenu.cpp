@@ -88,7 +88,7 @@ void DolphinContextMenu::open()
         m_context |= TrashContext;
     }
 
-    if (!m_fileInfo.isNull() && (m_selectedItems.count() > 0)) {
+    if (!m_fileInfo.isNull() && !m_selectedItems.isEmpty()) {
         m_context |= ItemContext;
         // TODO: handle other use cases like devices + desktop files
     }
@@ -394,7 +394,7 @@ void DolphinContextMenu::addRevisionControlActions(KMenu* menu)
 {
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     const QList<QAction*> revControlActions = view->revisionControlActions(m_selectedItems);
-    if (revControlActions.count() > 0) {
+    if (!revControlActions.isEmpty()) {
         foreach (QAction* action, revControlActions) {
             menu->addAction(action);
         }
