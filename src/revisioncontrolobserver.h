@@ -25,6 +25,7 @@
 #include <kfileitem.h>
 #include <revisioncontrolplugin.h>
 #include <QList>
+#include <QMutex>
 #include <QObject>
 #include <QPersistentModelIndex>
 #include <QString>
@@ -82,6 +83,7 @@ private:
     
     QTimer* m_dirVerificationTimer;
     
+    mutable QMutex m_pluginMutex;
     RevisionControlPlugin* m_plugin;
     UpdateItemStatesThread* m_updateItemStatesThread;
 

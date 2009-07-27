@@ -69,7 +69,7 @@ bool DolphinModel::setData(const QModelIndex& index, const QVariant& value, int 
 
         const QPersistentModelIndex key = index;
         const RevisionControlPlugin::RevisionState state = static_cast<RevisionControlPlugin::RevisionState>(value.toInt());
-        if (m_revisionHash.value(key, RevisionControlPlugin::LocalRevision) != state) {
+        if (m_revisionHash.value(key, RevisionControlPlugin::UnversionedRevision) != state) {
             if (!m_hasRevisionData) {
                 connect(this, SIGNAL(rowsRemoved (const QModelIndex&, int, int)),
                         this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
@@ -96,22 +96,22 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
 
     case Qt::DecorationRole:
         if (index.column() == DolphinModel::Revision) {
-            return m_revisionHash.value(index, RevisionControlPlugin::LocalRevision);
+            return m_revisionHash.value(index, RevisionControlPlugin::UnversionedRevision);
         }
         break;
 
     case Qt::DisplayRole:
         if (index.column() == DolphinModel::Revision) {
-            switch (m_revisionHash.value(index, RevisionControlPlugin::LocalRevision)) {
-            case RevisionControlPlugin::LatestRevision:
-                return i18nc("@item::intable", "Latest");
-            case RevisionControlPlugin::EditingRevision:
-                return i18nc("@item::intable", "Editing");
+            switch (m_revisionHash.value(index, RevisionControlPlugin::UnversionedRevision)) {
+            case RevisionControlPlugin::NormalRevision:
+                return i18nc("@item::intable", "Normal");
+            case RevisionControlPlugin::LocallyModifiedRevision:
+                return i18nc("@item::intable", "Locally modified");
             case RevisionControlPlugin::UpdateRequiredRevision:
                 return i18nc("@item::intable", "Update required");
-            case RevisionControlPlugin::LocalRevision:
+            case RevisionControlPlugin::UnversionedRevision:
             default:
-                return i18nc("@item::intable", "Local");
+                return i18nc("@item::intable", "Unversioned");
             }
         }
         break;
@@ -141,6 +141,12 @@ int DolphinModel::columnCount(const QModelIndex& parent) const
     return KDirModel::columnCount(parent) + (ExtraColumnCount - ColumnCount);
 }
 
+void DolphinModel::clearRevisionData()
+{
+    m_revisionHash.clear();
+    m_hasRevisionData = false;
+}
+
 bool DolphinModel::hasRevisionData() const
 {
     return m_hasRevisionData;
@@ -148,11 +154,11 @@ bool DolphinModel::hasRevisionData() const
 
 void DolphinModel::slotRowsRemoved(const QModelIndex& parent, int start, int end)
 {
-    Q_ASSERT(hasRevisionData());
-
-    const int column = parent.column();
-    for (int row = start; row <= end; ++row) {
-        m_revisionHash.remove(parent.child(row, column));
+    if (m_hasRevisionData) {
+        const int column = parent.column();
+        for (int row = start; row <= end; ++row) {
+            m_revisionHash.remove(parent.child(row, column));
+        }
     }
 }
 

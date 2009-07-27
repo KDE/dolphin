@@ -46,6 +46,7 @@ public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
 
+    void clearRevisionData();
     bool hasRevisionData() const;
 
 private slots:

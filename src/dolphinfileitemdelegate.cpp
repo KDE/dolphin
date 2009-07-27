@@ -33,7 +33,9 @@
 
 DolphinFileItemDelegate::DolphinFileItemDelegate(QObject* parent) :
     KFileItemDelegate(parent),
-    m_hasMinimizedNameColumn(false)
+    m_hasMinimizedNameColumn(false),
+    m_cachedSize(),
+    m_cachedEmblems()
 {
 }
 
@@ -65,12 +67,10 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         const QVariant data = dolphinModel->data(revisionIndex, Qt::DecorationRole);
         const RevisionControlPlugin::RevisionState state = static_cast<RevisionControlPlugin::RevisionState>(data.toInt());
 
-        if (state != RevisionControlPlugin::LocalRevision) {
-            // TODO: extend KFileItemDelegate to be able to get the icon boundaries
-            const QRect iconRect(option.rect.x(), option.rect.y(),
-                                 KIconLoader::SizeSmall, KIconLoader::SizeSmall);
-            const QPixmap emblem = emblemForState(state, iconRect.size());
-            painter->drawPixmap(iconRect.x(), iconRect.y(), emblem);
+        if (state != RevisionControlPlugin::UnversionedRevision) {
+            const QRect rect = iconRect(option, index);
+            const QPixmap emblem = emblemForState(state, rect.size());
+            painter->drawPixmap(rect.x(), rect.y() + rect.height() - emblem.height(), emblem);
         }
     }
 }
@@ -105,23 +105,42 @@ void DolphinFileItemDelegate::adjustOptionWidth(QStyleOptionViewItemV4& option,
     }
 }
 
-QPixmap DolphinFileItemDelegate::emblemForState(RevisionControlPlugin::RevisionState state, const QSize& size)
+QPixmap DolphinFileItemDelegate::emblemForState(RevisionControlPlugin::RevisionState state, const QSize& size) const
 {
-    // TODO #1: all icons that are use here will be replaced by revision control emblems provided by the
+    // TODO: all icons that are use here will be replaced by revision control emblems provided by the
     // Oxygen team before KDE 4.4
-    // TODO #2: cache the icons
-    switch (state) {
-    case RevisionControlPlugin::LatestRevision:
-        return KIcon("dialog-ok-apply").pixmap(size);
-    case RevisionControlPlugin::ConflictingRevision:
-        return KIcon("application-exit").pixmap(size);
-    case RevisionControlPlugin::UpdateRequiredRevision:
-        return KIcon("rating").pixmap(size);
-    case RevisionControlPlugin::EditingRevision:
-        return KIcon("emblem-important").pixmap(size);
-    default:
-        break;
+    Q_ASSERT(state <= RevisionControlPlugin::ConflictingRevision);
+    if ((m_cachedSize != size) || !m_cachedEmblems[state].isNull()) {
+        m_cachedSize = size;
+
+        const int iconHeight = size.height();
+        int emblemHeight = KIconLoader::SizeSmall;
+        if (iconHeight >= KIconLoader::SizeEnormous) {
+            emblemHeight = KIconLoader::SizeMedium;
+        } else if (iconHeight >= KIconLoader::SizeLarge) {
+            emblemHeight = KIconLoader::SizeSmallMedium;
+        } else if (iconHeight >= KIconLoader::SizeMedium) {
+            emblemHeight = KIconLoader::SizeSmall;
+        } else {
+            // TODO: it depends on the final icons whether a smaller size works
+            emblemHeight = KIconLoader::SizeSmall /* / 2 */;
+        }
+
+        const QSize emblemSize(emblemHeight, emblemHeight);
+        for (int i = 0; i <= RevisionControlPlugin::ConflictingRevision; ++i) {
+            QString iconName;
+            switch (state) {
+            case RevisionControlPlugin::NormalRevision:          iconName = "dialog-ok-apply"; break;
+            case RevisionControlPlugin::UpdateRequiredRevision:  iconName = "rating"; break;
+            case RevisionControlPlugin::LocallyModifiedRevision: iconName = "emblem-important"; break;
+            case RevisionControlPlugin::AddedRevision:           iconName = "list-add"; break;
+            case RevisionControlPlugin::ConflictingRevision:     iconName = "application-exit"; break;
+            default: Q_ASSERT(false); break;
+            }
+
+            m_cachedEmblems[i] = KIcon(iconName).pixmap(emblemSize);
+        }
     }
-    return QPixmap();
+    return m_cachedEmblems[state];
 }
 

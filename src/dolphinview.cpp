@@ -522,6 +522,10 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         loadDirectory(url);
     }
 
+    // When changing the URL there is no need to keep the revision
+    // data of the previous URL.
+    m_dolphinModel->clearRevisionData();
+
     emit startedPathLoading(url);
 }
 

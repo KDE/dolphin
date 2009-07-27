@@ -26,6 +26,7 @@
 
 #include <QAbstractProxyModel>
 #include <QAbstractItemView>
+#include <QMutexLocker>
 #include <QTimer>
 
 /**
@@ -36,7 +37,7 @@
 class UpdateItemStatesThread : public QThread
 {
 public:
-    UpdateItemStatesThread(QObject* parent);
+    UpdateItemStatesThread(QObject* parent, QMutex* pluginMutex);
     void setData(RevisionControlPlugin* plugin,
                  const QList<RevisionControlObserver::ItemState>& itemStates);
     QList<RevisionControlObserver::ItemState> itemStates() const;
@@ -46,11 +47,13 @@ protected:
     
 private:
     RevisionControlPlugin* m_plugin;
+    QMutex* m_pluginMutex;
     QList<RevisionControlObserver::ItemState> m_itemStates;
 };
 
-UpdateItemStatesThread::UpdateItemStatesThread(QObject* parent) :
-    QThread(parent)
+UpdateItemStatesThread::UpdateItemStatesThread(QObject* parent, QMutex* pluginMutex) :
+    QThread(parent),
+    m_pluginMutex(pluginMutex)
 {
 }
 
@@ -68,7 +71,8 @@ void UpdateItemStatesThread::run()
     
     // it is assumed that all items have the same parent directory
     const QString directory = m_itemStates.first().item.url().directory(KUrl::AppendTrailingSlash);
-    
+
+    QMutexLocker locker(m_pluginMutex);
     if (m_plugin->beginRetrieval(directory)) {
         const int count = m_itemStates.count();
         for (int i = 0; i < count; ++i) {
@@ -83,7 +87,7 @@ QList<RevisionControlObserver::ItemState> UpdateItemStatesThread::itemStates() c
     return m_itemStates;
 }
 
-// ---
+// ------------------------------------------------------------------------------------------------
 
 RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
     QObject(view),
@@ -93,6 +97,7 @@ RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
     m_dirLister(0),
     m_dolphinModel(0),
     m_dirVerificationTimer(0),
+    m_pluginMutex(QMutex::Recursive),
     m_plugin(0),
     m_updateItemStatesThread(0)
 {
@@ -100,8 +105,8 @@ RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
 
     QAbstractProxyModel* proxyModel = qobject_cast<QAbstractProxyModel*>(view->model());
     m_dolphinModel = (proxyModel == 0) ?
-                 qobject_cast<DolphinModel*>(view->model()) :
-                 qobject_cast<DolphinModel*>(proxyModel->sourceModel());
+                     qobject_cast<DolphinModel*>(view->model()) :
+                     qobject_cast<DolphinModel*>(proxyModel->sourceModel());
     if (m_dolphinModel != 0) {
         m_dirLister = m_dolphinModel->dirLister();
         connect(m_dirLister, SIGNAL(completed()),
@@ -129,6 +134,7 @@ RevisionControlObserver::~RevisionControlObserver()
 QList<QAction*> RevisionControlObserver::contextMenuActions(const KFileItemList& items) const
 {
     if (m_dolphinModel->hasRevisionData() && (m_plugin != 0)) {
+        QMutexLocker locker(&m_pluginMutex);
         return m_plugin->contextMenuActions(items);
     }
     return QList<QAction*>();
@@ -137,6 +143,7 @@ QList<QAction*> RevisionControlObserver::contextMenuActions(const KFileItemList&
 QList<QAction*> RevisionControlObserver::contextMenuActions(const QString& directory) const
 {
     if (m_dolphinModel->hasRevisionData() && (m_plugin != 0)) {
+        QMutexLocker locker(&m_pluginMutex);
         return m_plugin->contextMenuActions(directory);
     }
 
@@ -162,28 +169,44 @@ void RevisionControlObserver::verifyDirectory()
 
     revisionControlUrl.addPath(m_plugin->fileName());
     const KFileItem item = m_dirLister->findByUrl(revisionControlUrl);
-    if (item.isNull() && m_revisionedDirectory) {
-        // The directory is not versioned. Reset the verification timer to a higher
-        // value, so that browsing through non-versioned directories is not slown down
-        // by an immediate verification.
-        m_dirVerificationTimer->setInterval(500);
-        m_revisionedDirectory = false;
-        disconnect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
-                   this, SLOT(delayedDirectoryVerification()));
-        disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
-                   this, SLOT(delayedDirectoryVerification()));
-    } else if (!item.isNull()) {
+
+    bool foundRevisionInfo = !item.isNull();
+    if (!foundRevisionInfo && m_revisionedDirectory) {
+        // Revision control systems like Git provide the revision information
+        // file only in the root directory. Check whether the revision information file can
+        // be found in one of the parent directories.
+
+        // TODO...
+    }
+
+    if (foundRevisionInfo) {
         if (!m_revisionedDirectory) {
+            m_revisionedDirectory = true;
+
             // The directory is versioned. Assume that the user will further browse through
             // versioned directories and decrease the verification timer.
             m_dirVerificationTimer->setInterval(100);
-            m_revisionedDirectory = true;
             connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
                     this, SLOT(delayedDirectoryVerification()));
             connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                     this, SLOT(delayedDirectoryVerification()));
+            connect(m_plugin, SIGNAL(revisionStatesChanged(const QString&)),
+                    this, SLOT(delayedDirectoryVerification()));
         }
         updateItemStates();
+    } else if (m_revisionedDirectory) {
+        m_revisionedDirectory = false;
+
+        // The directory is not versioned. Reset the verification timer to a higher
+        // value, so that browsing through non-versioned directories is not slown down
+        // by an immediate verification.
+        m_dirVerificationTimer->setInterval(500);
+        disconnect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+                   this, SLOT(delayedDirectoryVerification()));
+        disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
+                   this, SLOT(delayedDirectoryVerification()));
+        disconnect(m_plugin, SIGNAL(revisionStatesChanged(const QString&)),
+                   this, SLOT(delayedDirectoryVerification()));
     }
 }
 
@@ -216,7 +239,7 @@ void RevisionControlObserver::updateItemStates()
 {
     Q_ASSERT(m_plugin != 0);
     if (m_updateItemStatesThread == 0) {
-        m_updateItemStatesThread = new UpdateItemStatesThread(this);
+        m_updateItemStatesThread = new UpdateItemStatesThread(this, &m_pluginMutex);
         connect(m_updateItemStatesThread, SIGNAL(finished()),
                 this, SLOT(applyUpdatedItemStates()));
     }
@@ -238,8 +261,8 @@ void RevisionControlObserver::updateItemStates()
             ItemState itemState;
             itemState.index = index;
             itemState.item = m_dolphinModel->itemForIndex(index);
-            itemState.revision = RevisionControlPlugin::LocalRevision;
-            
+            itemState.revision = RevisionControlPlugin::UnversionedRevision;
+
             itemStates.append(itemState);
         }
         

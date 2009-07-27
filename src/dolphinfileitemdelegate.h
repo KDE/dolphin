@@ -66,10 +66,12 @@ private:
                                   const DolphinModel* dolphinModel,
                                   const QModelIndex& index);
 
-    static QPixmap emblemForState(RevisionControlPlugin::RevisionState state, const QSize& size);
+    QPixmap emblemForState(RevisionControlPlugin::RevisionState state, const QSize& size) const;
 
 private:
     bool m_hasMinimizedNameColumn;
+    mutable QSize m_cachedSize;
+    mutable QPixmap m_cachedEmblems[RevisionControlPlugin::ConflictingRevision + 1];
 };
 
 inline void DolphinFileItemDelegate::setMinimizedNameColumn(bool minimized)

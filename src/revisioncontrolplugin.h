@@ -34,13 +34,7 @@ class QAction;
  * @brief Base class for revision control plugins.
  *
  * Enables the file manager to show the revision state
- * of a revisioned file. The methods
- * RevisionControlPlugin::beginRetrieval(),
- * RevisionControlPlugin::endRetrieval() and
- * RevisionControlPlugin::revisionState() are invoked
- * from a separate thread to assure that the GUI thread
- * won't be blocked. All other methods are invoked in the
- * scope of the GUI thread.
+ * of a revisioned file.
  */
 class LIBDOLPHINPRIVATE_EXPORT RevisionControlPlugin : public QObject
 {
@@ -49,12 +43,34 @@ class LIBDOLPHINPRIVATE_EXPORT RevisionControlPlugin : public QObject
 public:
     enum RevisionState
     {
-        LocalRevision,
-        LatestRevision,
+        /** The file is not under revision control. */
+        UnversionedRevision,
+        /**
+         * The file is under revision control and represents
+         * the latest version.
+         */
+        NormalRevision,
+        /**
+         * The file is under revision control and a newer
+         * version exists on the main branch.
+         */
         UpdateRequiredRevision,
-        EditingRevision,
+        /**
+         * The file is under revision control and has been
+         * modified locally.
+         */
+        LocallyModifiedRevision,
+        /**
+         * The file has not been under revision control but
+         * has been marked to get added with the next commit.
+         */
+        AddedRevision,
+        /**
+         * The file is under revision control and has been locally
+         * modified. A modification has also been done on the main
+         * branch.
+         */
         ConflictingRevision
-        // TODO...
     };
 
     RevisionControlPlugin();
@@ -97,14 +113,14 @@ public:
      * If an action triggers a change of the revisions, the signal
      * RevisionControlPlugin::revisionStatesChanged() must be emitted.
      */
-    virtual QList<QAction*> contextMenuActions(const KFileItemList& items) const = 0;
+    virtual QList<QAction*> contextMenuActions(const KFileItemList& items) = 0;
 
     /**
      * Returns the list of actions that should be shown in the context menu
      * for the directory \p directory. If an action triggers a change of the revisions,
      * the signal RevisionControlPlugin::revisionStatesChanged() must be emitted.
      */
-    virtual QList<QAction*> contextMenuActions(const QString& directory) const = 0;
+    virtual QList<QAction*> contextMenuActions(const QString& directory) = 0;
 
 signals:
     /**
@@ -124,11 +140,13 @@ signals:
 // TODO: This is just a temporary test class. It will be made available as
 // plugin outside Dolphin later.
 
-#include <QFileInfoList>
+#include <kfileitem.h>
 #include <QHash>
 
 class LIBDOLPHINPRIVATE_EXPORT SubversionPlugin : public RevisionControlPlugin
 {
+    Q_OBJECT
+
 public:
     SubversionPlugin();
     virtual ~SubversionPlugin();
@@ -136,10 +154,23 @@ public:
     virtual bool beginRetrieval(const QString& directory);
     virtual void endRetrieval();
     virtual RevisionControlPlugin::RevisionState revisionState(const KFileItem& item);
-    virtual QList<QAction*> contextMenuActions(const KFileItemList& items) const;
-    virtual QList<QAction*> contextMenuActions(const QString& directory) const;
+    virtual QList<QAction*> contextMenuActions(const KFileItemList& items);
+    virtual QList<QAction*> contextMenuActions(const QString& directory);
+
+private slots:
+    void updateFiles();
+    void showLocalChanges();
+    void commitFiles();
+    void addFiles();
+    void removeFiles();
 
 private:
+    /**
+     * Executes the command "svn {svnCommand}" for the files that have been
+     * set by getting the context menu actions (see contextMenuActions()).
+     */
+    void execSvnCommand(const QString& svnCommand);
+
     /**
      * Returns true, if the content of the local file \p name is equal to the
      * content of the revisioned file.
@@ -153,13 +184,16 @@ private:
         QDateTime timeStamp;
     };
 
-    QString m_directory;
+    QString m_retrievalDir;
     QHash<QString, RevisionInfo> m_revisionInfoHash;
 
     QAction* m_updateAction;
+    QAction* m_showLocalChangesAction;
     QAction* m_commitAction;
     QAction* m_addAction;
     QAction* m_removeAction;
+    mutable QString m_contextDir;
+    mutable KFileItemList m_contextItems;
 };
 #endif // REVISIONCONTROLPLUGIN_H
 
