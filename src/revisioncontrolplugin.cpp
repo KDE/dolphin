@@ -49,6 +49,7 @@ RevisionControlPlugin::~RevisionControlPlugin()
 
 SubversionPlugin::SubversionPlugin() :
     m_revisionInfoHash(),
+    m_revisionInfoKeys(),
     m_updateAction(0),
     m_showLocalChangesAction(0),
     m_commitAction(0),
