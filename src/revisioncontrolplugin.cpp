@@ -19,6 +19,8 @@
 
 #include "revisioncontrolplugin.h"
 
+#include <stdio.h>
+
 RevisionControlPlugin::RevisionControlPlugin()
 {
 }
@@ -46,7 +48,6 @@ RevisionControlPlugin::~RevisionControlPlugin()
 #include <QTextStream>
 
 SubversionPlugin::SubversionPlugin() :
-    m_retrievalDir(),
     m_revisionInfoHash(),
     m_updateAction(0),
     m_showLocalChangesAction(0),
@@ -98,27 +99,36 @@ QString SubversionPlugin::fileName() const
 bool SubversionPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
-    m_retrievalDir = directory;
-    const QString path = directory + ".svn/text-base/";
 
-    QDir dir(path);
-    const QFileInfoList fileInfoList = dir.entryInfoList();
-    const int size = fileInfoList.size();
-    QString fileName;
-    for (int i = 0; i < size; ++i) {
-        const QFileInfo fileInfo = fileInfoList.at(i);
-        fileName = fileInfo.fileName();
-        // Remove the ".svn-base" postfix to be able to compare the filenames
-        // in a fast way in SubversionPlugin::revisionState().
-        fileName.chop(sizeof(".svn-base") / sizeof(char) - 1);
-        if (!fileName.isEmpty()) {
-            RevisionInfo info;
-            info.size = fileInfo.size();
-            info.timeStamp = fileInfo.lastModified();
-            m_revisionInfoHash.insert(directory + fileName, info);
+    const QString statusCommand = "svn status " + directory;
+    FILE* in = popen(statusCommand.toAscii().data(), "r");
+    if (in == 0) {
+        return false;
+    }
+
+    char buffer[1024];
+    while (fgets(buffer, sizeof(buffer), in) != 0) {
+        RevisionState state = NormalRevision;
+
+        switch (buffer[0]) {
+        case '?': state = UnversionedRevision; break;
+        case 'M': state = LocallyModifiedRevision; break;
+        case 'A': state = AddedRevision; break;
+        case 'D': state = RemovedRevision; break;
+        case 'C': state = ConflictingRevision; break;
+        default: break;
+        }
+
+        QString filePath(buffer);
+        int pos = filePath.indexOf('/');
+        const int length = filePath.length() - pos - 1;
+        filePath = filePath.mid(pos, length);
+        if (!filePath.isEmpty()) {
+            m_revisionInfoHash.insert(filePath, state);
         }
     }
-    return size > 0;
+    m_revisionInfoKeys = m_revisionInfoHash.keys();
+    return true;
 }
 
 void SubversionPlugin::endRetrieval()
@@ -128,30 +138,29 @@ void SubversionPlugin::endRetrieval()
 RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const KFileItem& item)
 {
     const QString itemUrl = item.localPath();
-    if (item.isDir()) {
-        QFile file(itemUrl + "/.svn");
-        if (file.open(QIODevice::ReadOnly)) {
-            file.close();
-            return RevisionControlPlugin::NormalRevision;
-        }
-    } else if (m_revisionInfoHash.contains(itemUrl)) {
-        const RevisionInfo info = m_revisionInfoHash.value(itemUrl);
-        const QDateTime localTimeStamp = item.time(KFileItem::ModificationTime).dateTime();
-        const QDateTime versionedTimeStamp = info.timeStamp;
-
-        if (localTimeStamp > versionedTimeStamp) {
-            if ((info.size != item.size()) || !equalRevisionContent(item.name())) {
-                return RevisionControlPlugin::LocallyModifiedRevision;
-            }
-        } else if (localTimeStamp < versionedTimeStamp) {
-            if ((info.size != item.size()) || !equalRevisionContent(item.name())) {
-                return RevisionControlPlugin::UpdateRequiredRevision;
-            }
-        }
-        return  RevisionControlPlugin::NormalRevision;
+    if (m_revisionInfoHash.contains(itemUrl)) {
+        return m_revisionInfoHash.value(itemUrl);
     }
 
-    return RevisionControlPlugin::UnversionedRevision;
+    if (!item.isDir()) {
+        // files that have not been listed by 'svn status' (= m_revisionInfoHash)
+        // are under revision control per definition
+        return NormalRevision;
+    }
+
+    // The item is a directory. Check whether an item listed by 'svn status' (= m_revisionInfoHash)
+    // is part of this directory. In this case a local modification should be indicated in the
+    // directory already.
+    foreach (const QString& key, m_revisionInfoKeys) {
+        if (key.startsWith(itemUrl)) {
+            const RevisionState state = m_revisionInfoHash.value(key);
+            if (state == LocallyModifiedRevision) {
+                return LocallyModifiedRevision;
+            }
+        }
+    }
+
+    return NormalRevision;
 }
 
 QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
@@ -267,27 +276,4 @@ void SubversionPlugin::execSvnCommand(const QString& svnCommand)
             KRun::runCommand(command + KShell::quoteArg(item.localPath()), 0);
         }
     }
-}
-
-bool SubversionPlugin::equalRevisionContent(const QString& name) const
-{
-    QFile localFile(m_retrievalDir + '/' + name);
-    if (!localFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return false;
-    }
-
-    QFile revisionedFile(m_retrievalDir + "/.svn/text-base/" + name + ".svn-base");
-    if (!revisionedFile.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return false;
-    }
-
-     QTextStream localText(&localFile);
-     QTextStream revisionedText(&revisionedFile);
-     while (!localText.atEnd() && !revisionedText.atEnd()) {
-         if (localText.readLine() != revisionedText.readLine()) {
-             return false;
-         }
-     }
-
-     return localText.atEnd() && revisionedText.atEnd();
 }

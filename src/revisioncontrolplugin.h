@@ -66,6 +66,11 @@ public:
          */
         AddedRevision,
         /**
+         * The file is under revision control but has been marked
+         * for getting removed with the next commit.
+         */
+        RemovedRevision,
+        /**
          * The file is under revision control and has been locally
          * modified. A modification has also been done on the main
          * branch.
@@ -171,21 +176,9 @@ private:
      */
     void execSvnCommand(const QString& svnCommand);
 
-    /**
-     * Returns true, if the content of the local file \p name is equal to the
-     * content of the revisioned file.
-     */
-    bool equalRevisionContent(const QString& name) const;
-
 private:
-    struct RevisionInfo
-    {
-        quint64 size;
-        QDateTime timeStamp;
-    };
-
-    QString m_retrievalDir;
-    QHash<QString, RevisionInfo> m_revisionInfoHash;
+    QHash<QString, RevisionState> m_revisionInfoHash;
+    QList<QString> m_revisionInfoKeys; // cache for accessing the keys of the hash
 
     QAction* m_updateAction;
     QAction* m_showLocalChangesAction;
