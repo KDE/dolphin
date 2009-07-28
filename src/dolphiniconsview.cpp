@@ -192,9 +192,6 @@ void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 
 void DolphinIconsView::startDrag(Qt::DropActions supportedActions)
 {
-    // TODO: invoking KCategorizedView::startDrag() should not be necessary, we'll
-    // fix this in KDE 4.1
-    KCategorizedView::startDrag(supportedActions);
     DragAndDropHelper::instance().startDrag(this, supportedActions, m_controller);
 }
 
@@ -207,14 +204,11 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    KCategorizedView::dragLeaveEvent(event);
     setDirtyRegion(m_dropRect);
 }
 
 void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 {
-    KCategorizedView::dragMoveEvent(event);
-
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
     setDirtyRegion(m_dropRect);
@@ -241,15 +235,13 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
     const QModelIndex index = indexAt(event->pos());
     const KFileItem item = m_controller->itemForIndex(index);
     m_controller->indicateDroppedUrls(item, m_controller->url(), event);
-
-    KCategorizedView::dropEvent(event);
 }
 
 QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
 {
     const QModelIndex oldCurrent = currentIndex();
 
-    QModelIndex newCurrent = QListView::moveCursor(cursorAction, modifiers);
+    QModelIndex newCurrent = KCategorizedView::moveCursor(cursorAction, modifiers);
     if (newCurrent != oldCurrent) {
         return newCurrent;
     }
@@ -264,18 +256,18 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
             if (newCurrent.row() == 0) {
                 return newCurrent;
             }
-            newCurrent = QListView::moveCursor(MoveLeft, modifiers);
+            newCurrent = KCategorizedView::moveCursor(MoveLeft, modifiers);
             selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
-            newCurrent = QListView::moveCursor(MovePageDown, modifiers);
+            newCurrent = KCategorizedView::moveCursor(MovePageDown, modifiers);
             break;
 
         case MoveDown:
             if (newCurrent.row() == (model()->rowCount() - 1)) {
                 return newCurrent;
             }
-            newCurrent = QListView::moveCursor(MovePageUp, modifiers);
+            newCurrent = KCategorizedView::moveCursor(MovePageUp, modifiers);
             selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
-            newCurrent = QListView::moveCursor(MoveRight, modifiers);
+            newCurrent = KCategorizedView::moveCursor(MoveRight, modifiers);
             break;
 
         default:
@@ -288,11 +280,11 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
             if (newCurrent.row() == 0) {
                 return newCurrent;
             }
-            newCurrent = QListView::moveCursor(MoveUp, modifiers);
+            newCurrent = KCategorizedView::moveCursor(MoveUp, modifiers);
             do {
                 selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
                 current = newCurrent;
-                newCurrent = QListView::moveCursor(MoveRight, modifiers);
+                newCurrent = KCategorizedView::moveCursor(MoveRight, modifiers);
             } while (newCurrent != current);
             break;
 
@@ -303,9 +295,9 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
             do {
                 selectionModel()->setCurrentIndex(newCurrent, QItemSelectionModel::NoUpdate);
                 current = newCurrent;
-                newCurrent = QListView::moveCursor(MoveLeft, modifiers);
+                newCurrent = KCategorizedView::moveCursor(MoveLeft, modifiers);
             } while (newCurrent != current);
-            newCurrent = QListView::moveCursor(MoveDown, modifiers);
+            newCurrent = KCategorizedView::moveCursor(MoveDown, modifiers);
             break;
 
         default:
@@ -507,7 +499,7 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     }
 
     m_itemSize = QSize(itemWidth, itemHeight);
-    setGridSize(QSize(itemWidth + spacing * 2, itemHeight + spacing));
+    setGridSizeOwn(QSize(itemWidth + spacing * 2, itemHeight + spacing));
 
     KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
     if (delegate != 0) {

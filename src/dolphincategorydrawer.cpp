@@ -43,6 +43,7 @@
 #define HORIZONTAL_HINT 3
 
 DolphinCategoryDrawer::DolphinCategoryDrawer()
+    : KCategoryDrawer()
 {
 }
 
@@ -53,178 +54,142 @@ DolphinCategoryDrawer::~DolphinCategoryDrawer()
 void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
                                          const QStyleOption &option, QPainter *painter) const
 {
-    Q_UNUSED(sortRole);
+     painter->setRenderHint(QPainter::Antialiasing);
 
-    QRect starRect = option.rect;
+     const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
+     const QRect optRect = option.rect;
+     QFont font(QApplication::font());
+     font.setBold(true);
+     const QFontMetrics fontMetrics = QFontMetrics(font);
+     const int height = categoryHeight(index, option);
 
-    int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
-    QVariant categoryVariant = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
+     QColor outlineColor = option.palette.text().color();
+     outlineColor.setAlphaF(0.35);
 
-    if (!categoryVariant.isValid())
-    {
-        return;
-    }
+     //BEGIN: top left corner
+     {
+         painter->save();
+         painter->setPen(outlineColor);
+         const QPointF topLeft(optRect.topLeft());
+         QRectF arc(topLeft, QSizeF(4, 4));
+         arc.translate(0.5, 0.5);
+         painter->drawArc(arc, 1440, 1440);
+         painter->restore();
+     }
+     //END: top left corner
 
-    const QString category = categoryVariant.toString();
+     //BEGIN: left vertical line
+     {
+         QPoint start(optRect.topLeft());
+         start.ry() += 3;
+         QPoint verticalGradBottom(optRect.topLeft());
+         verticalGradBottom.ry() += fontMetrics.height() + 5;
+         QLinearGradient gradient(start, verticalGradBottom);
+         gradient.setColorAt(0, outlineColor);
+         gradient.setColorAt(1, Qt::transparent);
+         painter->fillRect(QRect(start, QSize(1, fontMetrics.height() + 5)), gradient);
+     }
+     //END: left vertical line
 
-    QColor color;
+     //BEGIN: horizontal line
+     {
+         QPoint start(optRect.topLeft());
+         start.rx() += 3;
+         QPoint horizontalGradTop(optRect.topLeft());
+         horizontalGradTop.rx() += optRect.width() - 6;
+         painter->fillRect(QRect(start, QSize(optRect.width() - 6, 1)), outlineColor);
+     }
+     //END: horizontal line
 
-    if (option.state & QStyle::State_Selected)
-    {
-        color = option.palette.color(QPalette::HighlightedText);
-    }
-    else
-    {
-        color = option.palette.color(QPalette::Text);
-    }
+     //BEGIN: top right corner
+     {
+         painter->save();
+         painter->setPen(outlineColor);
+         QPointF topRight(optRect.topRight());
+         topRight.rx() -= 4;
+         QRectF arc(topRight, QSizeF(4, 4));
+         arc.translate(0.5, 0.5);
+         painter->drawArc(arc, 0, 1440);
+         painter->restore();
+     }
+     //END: top right corner
 
-    painter->save();
-    painter->setRenderHint(QPainter::Antialiasing);
+     //BEGIN: right vertical line
+     {
+         QPoint start(optRect.topRight());
+         start.ry() += 3;
+         QPoint verticalGradBottom(optRect.topRight());
+         verticalGradBottom.ry() += fontMetrics.height() + 5;
+         QLinearGradient gradient(start, verticalGradBottom);
+         gradient.setColorAt(0, outlineColor);
+         gradient.setColorAt(1, Qt::transparent);
+         painter->fillRect(QRect(start, QSize(1, fontMetrics.height() + 5)), gradient);
+     }
+     //END: right vertical line
 
-    QStyleOptionButton opt;
+     //BEGIN: category information
+     {
+         const int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
 
-    opt.rect = option.rect;
-    opt.rect.setLeft(opt.rect.left() + HORIZONTAL_HINT);
-    opt.rect.setRight(opt.rect.right() - HORIZONTAL_HINT);
-    opt.palette = option.palette;
-    opt.direction = option.direction;
-    opt.text = category;
+         bool paintIcon;
+         QPixmap icon;
+         switch (index.column()) {
+             case KDirModel::Owner: {
+                     paintIcon = true;
+                     KUser user(category);
+                     const QString faceIconPath = user.faceIconPath();
+                     if (faceIconPath.isEmpty()) {
+                         icon = KIconLoader::global()->loadIcon("user-identity", KIconLoader::NoGroup, iconSize);
+                     } else {
+                         icon = QPixmap::fromImage(QImage(faceIconPath).scaledToHeight(iconSize, Qt::SmoothTransformation));
+                     }
+                 }
+                 break;
+             case KDirModel::Type: {
+                     paintIcon = true;
+                     const KCategorizedSortFilterProxyModel *proxyModel = static_cast<const KCategorizedSortFilterProxyModel*>(index.model());
+                     const DolphinModel *model = static_cast<const DolphinModel*>(proxyModel->sourceModel());
+                     KFileItem item = model->itemForIndex(proxyModel->mapToSource(index));
+                     // This is the only way of getting the icon right. Others will fail on corner
+                     // cases like the item representing this group has been set a different icon,
+                     // so the group icon drawn is that one particularly. This way assures the drawn
+                     // icon is the one of the mimetype of the group itself. (ereslibre)
+                     icon = KIconLoader::global()->loadMimeTypeIcon(item.mimeTypePtr()->iconName(), KIconLoader::NoGroup, iconSize);
+                 }
+                 break;
+             default:
+                 paintIcon = false;
+         }
 
-    QStyleOptionViewItemV4 viewOptions;
-    viewOptions.rect = option.rect;
-    viewOptions.palette = option.palette;
-    viewOptions.direction = option.direction;
-    viewOptions.state = option.state;
-    viewOptions.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
-    QApplication::style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewOptions, painter, 0);
+         if (paintIcon) {
+             QRect iconRect(option.rect);
+             iconRect.setTop(iconRect.top() + 4);
+             iconRect.setLeft(iconRect.left() + 7);
+             iconRect.setSize(QSize(iconSize, iconSize));
 
-    QFont painterFont = painter->font();
-    painterFont.setWeight(QFont::Bold);
-    QFontMetrics metrics(painterFont);
-    painter->setFont(painterFont);
+             painter->drawPixmap(iconRect, icon);
+         }
 
-    QPainterPath path;
-    path.addRect(option.rect.left(),
-                 option.rect.bottom() - 1,
-                 option.rect.width(),
-                 1);
+         //BEGIN: text
+         {
+             QRect textRect(option.rect);
+             textRect.setTop(textRect.top() + 7);
+             textRect.setLeft(textRect.left() + 7 + (paintIcon ? (iconSize + 6) : 0));
+             textRect.setHeight(qMax(fontMetrics.height(), iconSize));
+             textRect.setRight(textRect.right() - 7);
+             textRect.setBottom(textRect.bottom() - 5); // only one pixel separation here (no gradient)
 
-    QLinearGradient gradient(option.rect.topLeft(),
-                             option.rect.bottomRight());
-    gradient.setColorAt(option.direction == Qt::LeftToRight ? 0
-                                                            : 1, color);
-    gradient.setColorAt(option.direction == Qt::LeftToRight ? 1
-                                                            : 0, Qt::transparent);
-
-    painter->setBrush(gradient);
-    painter->fillPath(path, gradient);
-
-    if (option.direction == Qt::LeftToRight)
-    {
-        opt.rect.setLeft(opt.rect.left());
-        starRect.setLeft(starRect.left());
-        starRect.setRight(starRect.right());
-    }
-    else
-    {
-        opt.rect.setRight(opt.rect.width());
-        starRect.setLeft(starRect.width());
-        starRect.setRight(starRect.width());
-    }
-
-    bool paintIcon = true;
-    bool paintText = true;
-
-    QPixmap icon;
-    switch (index.column()) {
-        case KDirModel::Name:
-            paintIcon = false;
-            break;
-
-        case KDirModel::Size:
-            paintIcon = false;
-            break;
-
-        case KDirModel::ModifiedTime:
-            paintIcon = false;
-            break;
-
-        case KDirModel::Permissions:
-            paintIcon = false; // TODO: let's think about how to represent permissions
-            break;
-
-        case KDirModel::Owner: {
-            opt.rect.setTop(option.rect.bottom() - (iconSize / 4));
-            KUser user(category);
-            QString faceIconPath = user.faceIconPath();
-
-            if (!faceIconPath.isEmpty())
-            {
-                icon = QPixmap::fromImage(QImage(faceIconPath).scaledToHeight(option.fontMetrics.height(), Qt::SmoothTransformation));
-            }
-            else
-            {
-                icon = KIconLoader::global()->loadIcon("user-identity", KIconLoader::NoGroup, option.fontMetrics.height());
-            }
-
-            opt.rect.setTop(opt.rect.top() - icon.height());
-
-            break;
-        }
-
-        case KDirModel::Group:
-            paintIcon = false;
-            break;
-
-        case KDirModel::Type: {
-            opt.rect.setTop(option.rect.bottom() - (iconSize / 4));
-            const KCategorizedSortFilterProxyModel *proxyModel = static_cast<const KCategorizedSortFilterProxyModel*>(index.model());
-            const DolphinModel *model = static_cast<const DolphinModel*>(proxyModel->sourceModel());
-            KFileItem item = model->itemForIndex(proxyModel->mapToSource(index));
-            // This is the only way of getting the icon right. Others will fail on corner
-            // cases like the item representing this group has been set a different icon,
-            // so the group icon drawn is that one particularly. This way assures the drawn
-            // icon is the one of the mimetype of the group itself. (ereslibre)
-            icon = KIconLoader::global()->loadMimeTypeIcon(item.mimeTypePtr()->iconName(),
-                                                           KIconLoader::NoGroup, option.fontMetrics.height());
-
-            opt.rect.setTop(opt.rect.top() - icon.height());
-
-            break;
-        }
-
-        case DolphinModel::Revision:
-            paintIcon = false;
-            break;
-    }
-
-    if (paintIcon) {
-        painter->drawPixmap(QRect(option.direction == Qt::LeftToRight ? opt.rect.left()
-                                                                      : opt.rect.right() - icon.width() + (iconSize / 4), opt.rect.top(), icon.width(), icon.height()), icon);
-
-        if (option.direction == Qt::LeftToRight) {
-            opt.rect.setLeft(opt.rect.left() + icon.width() + (iconSize / 4));
-        } else {
-            opt.rect.setRight(opt.rect.right() + (iconSize / 4));
-        }
-    }
-
-    if (paintText) {
-        opt.rect.setTop(option.rect.top() + (iconSize / 4));
-        opt.rect.setBottom(opt.rect.bottom() - 1);
-        painter->setPen(color);
-
-        QRect textRect = opt.rect;
-        if (option.direction == Qt::RightToLeft) {
-            textRect.setWidth(textRect.width() - (paintIcon ? icon.width() + (iconSize / 4)
-                                                            : -(iconSize / 4)));
-        }
-
-        painter->drawText(textRect, Qt::AlignVCenter | Qt::AlignLeft,
-        metrics.elidedText(category, Qt::ElideRight, textRect.width()));
-    }
-
-    painter->restore();
+             painter->save();
+             painter->setFont(font);
+             QColor penColor(option.palette.text().color());
+             penColor.setAlphaF(0.6);
+             painter->setPen(penColor);
+             painter->drawText(textRect, Qt::AlignLeft | Qt::AlignVCenter, category);
+             painter->restore();
+          }
+         //END: text
+     }
+     //BEGIN: category information
 }
 
 int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyleOption &option) const
@@ -242,8 +207,10 @@ int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyle
             paintIcon = false;
     }
 
-    if (paintIcon)
-        return qMax(heightWithoutIcon, iconSize + (iconSize / 4) * 2 + 1) /* 1 pixel-width gradient */;
+    if (paintIcon) {
+        return qMax(heightWithoutIcon + 5, iconSize + 1 /* 1 pixel-width gradient */
+                                                    + 5 /* top and bottom separation */);
+    }
 
-    return heightWithoutIcon;
+    return heightWithoutIcon + 5;
 }
