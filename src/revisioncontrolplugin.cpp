@@ -102,35 +102,38 @@ bool SubversionPlugin::beginRetrieval(const QString& directory)
     Q_ASSERT(directory.endsWith('/'));
 
     QStringList arguments;
-    arguments << "status" << directory;
+    arguments << "status" << "--show-updates" << directory;
 
     QProcess process;
     process.start("svn", arguments);
-    if (!process.waitForReadyRead()) {
-        return false;
+    while (process.waitForReadyRead()) {
+        char buffer[1024];
+        while (process.readLine(buffer, sizeof(buffer)) > 0)  {
+            RevisionState state = NormalRevision;
+            QString filePath(buffer);
+
+            switch (buffer[0]) {
+            case '?': state = UnversionedRevision; break;
+            case 'M': state = LocallyModifiedRevision; break;
+            case 'A': state = AddedRevision; break;
+            case 'D': state = RemovedRevision; break;
+            case 'C': state = ConflictingRevision; break;
+            default:
+                if (filePath.contains('*')) {
+                    state = UpdateRequiredRevision;
+                }
+                break;
+            }
+
+            int pos = filePath.indexOf('/');
+            const int length = filePath.length() - pos - 1;
+            filePath = filePath.mid(pos, length);
+            if (!filePath.isEmpty()) {
+                m_revisionInfoHash.insert(filePath, state);
+            }
+        }
     }
 
-    char buffer[1024];
-    while (process.readLine(buffer, sizeof(buffer)) > 0)  {
-        RevisionState state = NormalRevision;
-
-        switch (buffer[0]) {
-        case '?': state = UnversionedRevision; break;
-        case 'M': state = LocallyModifiedRevision; break;
-        case 'A': state = AddedRevision; break;
-        case 'D': state = RemovedRevision; break;
-        case 'C': state = ConflictingRevision; break;
-        default: break;
-        }
-
-        QString filePath(buffer);
-        int pos = filePath.indexOf('/');
-        const int length = filePath.length() - pos - 1;
-        filePath = filePath.mid(pos, length);
-        if (!filePath.isEmpty()) {
-            m_revisionInfoHash.insert(filePath, state);
-        }
-    }
     m_revisionInfoKeys = m_revisionInfoHash.keys();
     return true;
 }
