@@ -268,7 +268,7 @@ void DolphinContextMenu::openViewportContextMenu()
     popup->addAction(pasteAction);
 
     // setup 'View Mode' menu
-    KMenu* viewModeMenu = new KMenu(i18nc("@title:menu", "View Mode"));
+    KMenu* viewModeMenu = new KMenu(i18nc("@title:menu", "View Mode"), popup);
 
     QAction* iconsMode = m_mainWindow->actionCollection()->action("icons");
     viewModeMenu->addAction(iconsMode);
