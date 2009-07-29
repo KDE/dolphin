@@ -92,7 +92,9 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     setXMLFile("dolphinpart.rc");
 
     connect(m_view, SIGNAL(infoMessage(QString)),
-            this, SLOT(slotInfoMessage(QString)));
+            this, SLOT(slotMessage(QString)));
+    connect(m_view, SIGNAL(operationCompletedMessage(QString)),
+            this, SLOT(slotMessage(QString)));
     connect(m_view, SIGNAL(errorMessage(QString)),
             this, SLOT(slotErrorMessage(QString)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
@@ -306,7 +308,7 @@ void DolphinPart::slotCanceled(const KUrl& url)
     slotCompleted(url);
 }
 
-void DolphinPart::slotInfoMessage(const QString& msg)
+void DolphinPart::slotMessage(const QString& msg)
 {
     emit setStatusBarText(msg);
 }

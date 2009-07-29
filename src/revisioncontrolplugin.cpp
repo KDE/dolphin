@@ -55,6 +55,9 @@ SubversionPlugin::SubversionPlugin() :
     m_commitAction(0),
     m_addAction(0),
     m_removeAction(0),
+    m_command(),
+    m_errorMsg(),
+    m_operationCompletedMsg(),
     m_contextDir(),
     m_contextItems()
 {
@@ -173,8 +176,9 @@ RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const KFile
 QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
 {
     Q_ASSERT(!items.isEmpty());
-
-    m_contextItems = items;
+    foreach (const KFileItem& item, items) {
+        m_contextItems.append(item);
+    }
     m_contextDir.clear();
 
     // iterate all items and check the revision state to know which
@@ -211,8 +215,17 @@ QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
 
 QList<QAction*> SubversionPlugin::contextMenuActions(const QString& directory)
 {
-    m_contextDir = directory;
-    m_contextItems.clear();
+    const bool enabled = m_contextItems.isEmpty();
+    if (enabled) {
+        m_contextDir = directory;
+    }
+
+    // Only enable the SVN actions if no SVN commands are
+    // executed currently (see slotOperationCompleted() and
+    // startSvnCommandProcess()).
+    m_updateAction->setEnabled(enabled);
+    m_showLocalChangesAction->setEnabled(enabled);
+    m_commitAction->setEnabled(enabled);
 
     QList<QAction*> actions;
     actions.append(m_updateAction);
@@ -223,7 +236,10 @@ QList<QAction*> SubversionPlugin::contextMenuActions(const QString& directory)
 
 void SubversionPlugin::updateFiles()
 {
-    execSvnCommand("update");
+    execSvnCommand("update",
+                   i18nc("@info:status", "Updating SVN repository..."),
+                   i18nc("@info:status", "Update of SVN repository failed."),
+                   i18nc("@info:status", "Updated SVN repository."));
 }
 
 void SubversionPlugin::showLocalChanges()
@@ -257,7 +273,10 @@ void SubversionPlugin::commitFiles()
 
     if (dialog.exec() == QDialog::Accepted) {
         const QString description = editor->toPlainText();
-        execSvnCommand("commit -m " + KShell::quoteArg(description));
+        execSvnCommand("commit -m " + KShell::quoteArg(description),
+                       i18nc("@info:status", "Committing SVN changes..."),
+                       i18nc("@info:status", "Commit of SVN changes failed."),
+                       i18nc("@info:status", "Committed SVN changes."));
     }
 
     dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
@@ -265,22 +284,68 @@ void SubversionPlugin::commitFiles()
 
 void SubversionPlugin::addFiles()
 {
-    execSvnCommand("add");
+    execSvnCommand("add",
+                   i18nc("@info:status", "Adding files to SVN repository..."),
+                   i18nc("@info:status", "Adding of files to SVN repository failed."),
+                   i18nc("@info:status", "Added files to SVN repository."));
 }
 
 void SubversionPlugin::removeFiles()
 {
-    execSvnCommand("remove");
+    execSvnCommand("remove",
+                   i18nc("@info:status", "Removing files from SVN repository..."),
+                   i18nc("@info:status", "Removing of files from SVN repository failed."),
+                   i18nc("@info:status", "Removed files from SVN repository."));
 }
 
-void SubversionPlugin::execSvnCommand(const QString& svnCommand)
+void SubversionPlugin::slotOperationCompleted()
 {
-    const QString command = "svn " + svnCommand + ' ';
-    if (!m_contextDir.isEmpty()) {
-        KRun::runCommand(command + KShell::quoteArg(m_contextDir), 0);
+    if (m_contextItems.isEmpty()) {
+        emit operationCompletedMessage(m_operationCompletedMsg);
     } else {
-        foreach (const KFileItem& item, m_contextItems) {
-            KRun::runCommand(command + KShell::quoteArg(item.localPath()), 0);
-        }
+        startSvnCommandProcess();
+    }
+}
+
+void SubversionPlugin::slotOperationError()
+{
+    emit errorMessage(m_errorMsg);
+
+    // don't do any operation on other items anymore
+    m_contextItems.clear();
+}
+
+void SubversionPlugin::execSvnCommand(const QString& svnCommand,
+                                      const QString& infoMsg,
+                                      const QString& errorMsg,
+                                      const QString& operationCompletedMsg)
+{
+    emit infoMessage(infoMsg);
+
+    m_command = svnCommand;
+    m_errorMsg = errorMsg;
+    m_operationCompletedMsg = operationCompletedMsg;
+
+    startSvnCommandProcess();
+}
+
+void SubversionPlugin::startSvnCommandProcess()
+{
+    QProcess* process = new QProcess(this);
+    connect(process, SIGNAL(finished(int)),
+            this, SLOT(slotOperationCompleted()));
+    connect(process, SIGNAL(error(QProcess::ProcessError)),
+            this, SLOT(slotOperationError()));
+
+    QStringList arguments;
+    arguments << m_command;
+    if (!m_contextDir.isEmpty()) {
+        process->start("svn", arguments << KShell::quoteArg(m_contextDir));
+        m_contextDir.clear();
+    } else {
+        const KFileItem item = m_contextItems.takeLast();
+        process->start("svn", arguments << KShell::quoteArg(item.localPath()));
+        // the remaining items of m_contextItems will be executed
+        // after the process has finished (see slotOperationFinished())
     }
 }

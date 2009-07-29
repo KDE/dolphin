@@ -335,7 +335,13 @@ void DolphinViewContainer::slotDirListerCompleted()
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
 {
     if (item.isNull()) {
-        m_statusBar->clear();
+        // Only clear the status bar if unimportant messages are shown.
+        // This prevents that information- or error-messages get hidden
+        // by moving the mouse above the viewport or when closing the
+        // context menu.
+        if (m_statusBar->type() == DolphinStatusBar::Default) {
+            m_statusBar->clear();
+        }
     } else {
         m_statusBar->setMessage(item.getStatusBarInfo(), DolphinStatusBar::Default);
     }

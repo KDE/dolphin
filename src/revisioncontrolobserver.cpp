@@ -23,6 +23,7 @@
 #include "revisioncontrolplugin.h"
 
 #include <kdirlister.h>
+#include <klocale.h>
 
 #include <QAbstractProxyModel>
 #include <QAbstractItemView>
@@ -41,11 +42,13 @@ public:
     void setData(RevisionControlPlugin* plugin,
                  const QList<RevisionControlObserver::ItemState>& itemStates);
     QList<RevisionControlObserver::ItemState> itemStates() const;
-    
+    bool retrievedItems() const;
+
 protected:
     virtual void run();
     
 private:
+    bool m_retrievedItems;
     RevisionControlPlugin* m_plugin;
     QMutex* m_pluginMutex;
     QList<RevisionControlObserver::ItemState> m_itemStates;
@@ -53,7 +56,9 @@ private:
 
 UpdateItemStatesThread::UpdateItemStatesThread(QObject* parent, QMutex* pluginMutex) :
     QThread(parent),
-    m_pluginMutex(pluginMutex)
+    m_retrievedItems(false),
+    m_pluginMutex(pluginMutex),
+    m_itemStates()
 {
 }
 
@@ -73,18 +78,25 @@ void UpdateItemStatesThread::run()
     const QString directory = m_itemStates.first().item.url().directory(KUrl::AppendTrailingSlash);
 
     QMutexLocker locker(m_pluginMutex);
+    m_retrievedItems = false;
     if (m_plugin->beginRetrieval(directory)) {
         const int count = m_itemStates.count();
         for (int i = 0; i < count; ++i) {
             m_itemStates[i].revision = m_plugin->revisionState(m_itemStates[i].item);
         }
         m_plugin->endRetrieval();
+        m_retrievedItems = true;
     }
 }
 
 QList<RevisionControlObserver::ItemState> UpdateItemStatesThread::itemStates() const
 {
     return m_itemStates;
+}
+
+bool UpdateItemStatesThread::retrievedItems() const
+{
+    return m_retrievedItems;
 }
 
 // ------------------------------------------------------------------------------------------------
@@ -165,6 +177,12 @@ void RevisionControlObserver::verifyDirectory()
     if (m_plugin == 0) {
         // TODO: just for testing purposes. A plugin approach will be used later.
         m_plugin = new SubversionPlugin();
+        connect(m_plugin, SIGNAL(infoMessage(const QString&)),
+                this, SIGNAL(infoMessage(const QString&)));
+        connect(m_plugin, SIGNAL(errorMessage(const QString&)),
+                this, SIGNAL(errorMessage(const QString&)));
+        connect(m_plugin, SIGNAL(operationCompletedMessage(const QString&)),
+                this, SIGNAL(operationCompletedMessage(const QString&)));
     }
 
     revisionControlUrl.addPath(m_plugin->fileName());
@@ -212,6 +230,11 @@ void RevisionControlObserver::verifyDirectory()
 
 void RevisionControlObserver::applyUpdatedItemStates()
 {
+    if (!m_updateItemStatesThread->retrievedItems()) {
+        emit errorMessage(i18nc("@info:status", "Update of revision information failed."));
+        return;
+    }
+
     // QAbstractItemModel::setData() triggers a bottleneck in combination with QListView
     // (a detailed description of the root cause is given in the class KFilePreviewGenerator
     // from kdelibs). To bypass this bottleneck, the signals of the model are temporary blocked.
@@ -228,6 +251,11 @@ void RevisionControlObserver::applyUpdatedItemStates()
 
     m_dolphinModel->blockSignals(signalsBlocked);
     m_view->viewport()->repaint();
+
+    // Using an empty message results in clearing the previously shown information message and showing
+    // the default status bar information. This is useful as the user already gets feedback that the
+    // operation has been completed because of the icon emblems.
+    emit operationCompletedMessage(QString());
     
     if (m_pendingItemStatesUpdate) {
         m_pendingItemStatesUpdate = false;
@@ -266,6 +294,7 @@ void RevisionControlObserver::updateItemStates()
             itemStates.append(itemState);
         }
         
+        emit infoMessage(i18nc("@info:status", "Updating revision information..."));
         m_updateItemStatesThread->setData(m_plugin, itemStates);
         m_updateItemStatesThread->start(); // applyUpdatedItemStates() is called when finished
     }

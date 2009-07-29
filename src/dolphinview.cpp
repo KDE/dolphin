@@ -1474,6 +1474,12 @@ void DolphinView::createView()
     m_previewGenerator->setPreviewShown(m_showPreview);
 
     m_revisionControlObserver = new RevisionControlObserver(view);
+    connect(m_revisionControlObserver, SIGNAL(infoMessage(const QString&)),
+            this, SIGNAL(infoMessage(const QString&)));
+    connect(m_revisionControlObserver, SIGNAL(errorMessage(const QString&)),
+            this, SIGNAL(errorMessage(const QString&)));
+    connect(m_revisionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
+            this, SIGNAL(operationCompletedMessage(const QString&)));
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {
         m_toolTipManager = new ToolTipManager(view, m_proxyModel);

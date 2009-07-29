@@ -137,6 +137,24 @@ signals:
      * RevisionControlPlugin::endRetrieval().
      */
     void revisionStatesChanged(const QString& directory);
+
+    /**
+     * Is emitted if an information message with the content \a msg
+     * should be shown.
+     */
+    void infoMessage(const QString& msg);
+
+    /**
+     * Is emitted if an error message with the content \a msg
+     * should be shown.
+     */
+    void errorMessage(const QString& msg);
+
+    /**
+     * Is emitted if an "operation completed" message with the content \a msg
+     * should be shown.
+     */
+    void operationCompletedMessage(const QString& msg);
 };
 
 
@@ -169,12 +187,26 @@ private slots:
     void addFiles();
     void removeFiles();
 
+    void slotOperationCompleted();
+    void slotOperationError();
+
 private:
     /**
      * Executes the command "svn {svnCommand}" for the files that have been
      * set by getting the context menu actions (see contextMenuActions()).
+     * @param infoMsg     Message that should be shown before the command is executed.
+     * @param errorMsg    Message that should be shown if the execution of the command
+     *                    has been failed.
+     * @param operationCompletedMsg
+     *                    Message that should be shown if the execution of the command
+     *                    has been completed successfully.
      */
-    void execSvnCommand(const QString& svnCommand);
+    void execSvnCommand(const QString& svnCommand,
+                        const QString& infoMsg,
+                        const QString& errorMsg,
+                        const QString& operationCompletedMsg);
+
+    void startSvnCommandProcess();
 
 private:
     QHash<QString, RevisionState> m_revisionInfoHash;
@@ -185,8 +217,13 @@ private:
     QAction* m_commitAction;
     QAction* m_addAction;
     QAction* m_removeAction;
-    mutable QString m_contextDir;
-    mutable KFileItemList m_contextItems;
+
+    QString m_command;
+    QString m_errorMsg;
+    QString m_operationCompletedMsg;
+
+    QString m_contextDir;
+    KFileItemList m_contextItems;
 };
 #endif // REVISIONCONTROLPLUGIN_H
 

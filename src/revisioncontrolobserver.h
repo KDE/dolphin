@@ -57,7 +57,26 @@ public:
 
     QList<QAction*> contextMenuActions(const KFileItemList& items) const;
     QList<QAction*> contextMenuActions(const QString& directory) const;
+    
+signals:
+    /**
+     * Is emitted if an information message with the content \a msg
+     * should be shown.
+     */
+    void infoMessage(const QString& msg);
 
+    /**
+     * Is emitted if an error message with the content \a msg
+     * should be shown.
+     */
+    void errorMessage(const QString& msg);
+
+    /**
+     * Is emitted if an "operation completed" message with the content \a msg
+     * should be shown.
+     */
+    void operationCompletedMessage(const QString& msg);
+    
 private slots:
     void delayedDirectoryVerification();
     void verifyDirectory();

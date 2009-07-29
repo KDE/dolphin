@@ -113,7 +113,7 @@ Q_SIGNALS:
 private Q_SLOTS:
     void slotCompleted(const KUrl& url);
     void slotCanceled(const KUrl& url);
-    void slotInfoMessage(const QString& msg);
+    void slotMessage(const QString& msg);
     void slotErrorMessage(const QString& msg);
     /**
      * Shows the information for the item \a item inside the statusbar. If the

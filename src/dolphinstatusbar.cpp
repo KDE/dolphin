@@ -124,7 +124,14 @@ DolphinStatusBar::~DolphinStatusBar()
 void DolphinStatusBar::setMessage(const QString& msg,
                                   Type type)
 {
+    if (msg.isEmpty()) {
+        // show the default text as fallback
+        clear();
+        return;
+    }
+
     if ((msg == m_messageLabel->text()) && (type == m_messageLabel->type())) {
+        // the message is already shown
         return;
     }
 
