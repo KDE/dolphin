@@ -302,6 +302,7 @@ void SubversionPlugin::slotOperationCompleted()
 {
     if (m_contextItems.isEmpty()) {
         emit operationCompletedMessage(m_operationCompletedMsg);
+        emit revisionStatesChanged();
     } else {
         startSvnCommandProcess();
     }

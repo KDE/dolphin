@@ -129,14 +129,15 @@ public:
 
 signals:
     /**
-     * Should be emitted when the revision state of files has been changed
-     * after the last retrieval. The file manager will be triggered to
+     * Should be emitted when the revision state of files might have been changed
+     * after the last retrieval (e. g. by executing a context menu action
+     * of the revision control plugin). The file manager will be triggered to
      * update the revision states of the directory \p directory by invoking
      * RevisionControlPlugin::beginRetrieval(),
      * RevisionControlPlugin::revisionState() and
      * RevisionControlPlugin::endRetrieval().
      */
-    void revisionStatesChanged(const QString& directory);
+    void revisionStatesChanged();
 
     /**
      * Is emitted if an information message with the content \a msg

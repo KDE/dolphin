@@ -208,7 +208,7 @@ void RevisionControlObserver::verifyDirectory()
                     this, SLOT(delayedDirectoryVerification()));
             connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                     this, SLOT(delayedDirectoryVerification()));
-            connect(m_plugin, SIGNAL(revisionStatesChanged(const QString&)),
+            connect(m_plugin, SIGNAL(revisionStatesChanged()),
                     this, SLOT(delayedDirectoryVerification()));
         }
         updateItemStates();
@@ -223,7 +223,7 @@ void RevisionControlObserver::verifyDirectory()
                    this, SLOT(delayedDirectoryVerification()));
         disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                    this, SLOT(delayedDirectoryVerification()));
-        disconnect(m_plugin, SIGNAL(revisionStatesChanged(const QString&)),
+        disconnect(m_plugin, SIGNAL(revisionStatesChanged()),
                    this, SLOT(delayedDirectoryVerification()));
     }
 }
