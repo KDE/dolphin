@@ -19,8 +19,6 @@
 
 #include "revisioncontrolplugin.h"
 
-#include <stdio.h>
-
 RevisionControlPlugin::RevisionControlPlugin()
 {
 }
@@ -35,15 +33,17 @@ RevisionControlPlugin::~RevisionControlPlugin()
 
 #include <kaction.h>
 #include <kdialog.h>
+#include <kfileitem.h>
 #include <kicon.h>
 #include <klocale.h>
 #include <krun.h>
 #include <kshell.h>
-#include <kfileitem.h>
 #include <kvbox.h>
 #include <QDir>
 #include <QLabel>
+#include <QProcess>
 #include <QString>
+#include <QStringList>
 #include <QTextEdit>
 #include <QTextStream>
 
@@ -101,14 +101,17 @@ bool SubversionPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
 
-    const QString statusCommand = "svn status " + directory;
-    FILE* in = popen(statusCommand.toAscii().data(), "r");
-    if (in == 0) {
+    QStringList arguments;
+    arguments << "status" << directory;
+
+    QProcess process;
+    process.start("svn", arguments);
+    if (!process.waitForReadyRead()) {
         return false;
     }
 
     char buffer[1024];
-    while (fgets(buffer, sizeof(buffer), in) != 0) {
+    while (process.readLine(buffer, sizeof(buffer)) > 0)  {
         RevisionState state = NormalRevision;
 
         switch (buffer[0]) {
