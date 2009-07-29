@@ -139,6 +139,10 @@ RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
 
 RevisionControlObserver::~RevisionControlObserver()
 {
+    if (m_updateItemStatesThread != 0) {
+        m_updateItemStatesThread->terminate();
+        m_updateItemStatesThread->wait();
+    }
     delete m_plugin;
     m_plugin = 0;
 }
