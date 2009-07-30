@@ -338,14 +338,13 @@ void SubversionPlugin::startSvnCommandProcess()
     connect(process, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(slotOperationError()));
 
-    QStringList arguments;
-    arguments << m_command;
+    const QString program = "svn " + m_command + ' ';
     if (!m_contextDir.isEmpty()) {
-        process->start("svn", arguments << KShell::quoteArg(m_contextDir));
+        process->start(program + KShell::quoteArg(m_contextDir));
         m_contextDir.clear();
     } else {
         const KFileItem item = m_contextItems.takeLast();
-        process->start("svn", arguments << KShell::quoteArg(item.localPath()));
+        process->start(program + KShell::quoteArg(item.localPath()));
         // the remaining items of m_contextItems will be executed
         // after the process has finished (see slotOperationFinished())
     }
