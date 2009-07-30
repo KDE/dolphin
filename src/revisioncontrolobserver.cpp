@@ -105,6 +105,7 @@ RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
     QObject(view),
     m_pendingItemStatesUpdate(false),
     m_revisionedDirectory(false),
+    m_silentUpdate(false),
     m_view(view),
     m_dirLister(0),
     m_dolphinModel(0),
@@ -168,6 +169,13 @@ QList<QAction*> RevisionControlObserver::contextMenuActions(const QString& direc
 
 void RevisionControlObserver::delayedDirectoryVerification()
 {
+    m_silentUpdate = false;
+    m_dirVerificationTimer->start();
+}
+
+void RevisionControlObserver::silentDirectoryVerification()
+{
+    m_silentUpdate = true;
     m_dirVerificationTimer->start();
 }
 
@@ -213,7 +221,7 @@ void RevisionControlObserver::verifyDirectory()
             connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                     this, SLOT(delayedDirectoryVerification()));
             connect(m_plugin, SIGNAL(revisionStatesChanged()),
-                    this, SLOT(delayedDirectoryVerification()));
+                    this, SLOT(silentDirectoryVerification()));
         }
         updateItemStates();
     } else if (m_revisionedDirectory) {
@@ -228,13 +236,14 @@ void RevisionControlObserver::verifyDirectory()
         disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                    this, SLOT(delayedDirectoryVerification()));
         disconnect(m_plugin, SIGNAL(revisionStatesChanged()),
-                   this, SLOT(delayedDirectoryVerification()));
+                   this, SLOT(silentDirectoryVerification()));
     }
 }
 
 void RevisionControlObserver::applyUpdatedItemStates()
 {
     if (!m_updateItemStatesThread->retrievedItems()) {
+        // ignore m_silentUpdate for an error message
         emit errorMessage(i18nc("@info:status", "Update of revision information failed."));
         return;
     }
@@ -256,10 +265,12 @@ void RevisionControlObserver::applyUpdatedItemStates()
     m_dolphinModel->blockSignals(signalsBlocked);
     m_view->viewport()->repaint();
 
-    // Using an empty message results in clearing the previously shown information message and showing
-    // the default status bar information. This is useful as the user already gets feedback that the
-    // operation has been completed because of the icon emblems.
-    emit operationCompletedMessage(QString());
+    if (!m_silentUpdate) {
+        // Using an empty message results in clearing the previously shown information message and showing
+        // the default status bar information. This is useful as the user already gets feedback that the
+        // operation has been completed because of the icon emblems.
+        emit operationCompletedMessage(QString());
+    }
     
     if (m_pendingItemStatesUpdate) {
         m_pendingItemStatesUpdate = false;
@@ -298,7 +309,9 @@ void RevisionControlObserver::updateItemStates()
             itemStates.append(itemState);
         }
         
-        emit infoMessage(i18nc("@info:status", "Updating revision information..."));
+        if (!m_silentUpdate) {
+            emit infoMessage(i18nc("@info:status", "Updating revision information..."));
+        }
         m_updateItemStatesThread->setData(m_plugin, itemStates);
         m_updateItemStatesThread->start(); // applyUpdatedItemStates() is called when finished
     }

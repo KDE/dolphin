@@ -78,7 +78,21 @@ signals:
     void operationCompletedMessage(const QString& msg);
     
 private slots:
+    /**
+     * Invokes verifyDirectory() with a small delay. If delayedDirectoryVerification()
+     * is invoked before the delay has been exceeded, the delay will be reset. This
+     * assures that a lot of short requests for directory verification only result
+     * in one (expensive) call.
+     */
     void delayedDirectoryVerification();
+
+    /**
+     * Invokes verifyDirectory() with a small delay. In opposite to
+     * delayedDirectoryVerification() it and assures that the verification of
+     * the directory is done silently without information messages.
+     */
+    void silentDirectoryVerification();    
+
     void verifyDirectory();
     void applyUpdatedItemStates();
     
@@ -95,6 +109,8 @@ private:
     
     bool m_pendingItemStatesUpdate;
     bool m_revisionedDirectory;
+    bool m_silentUpdate; // if true, no messages will be send during the update
+                         // of revision states
     
     QAbstractItemView* m_view;
     KDirLister* m_dirLister;
