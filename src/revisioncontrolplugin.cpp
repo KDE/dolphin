@@ -40,6 +40,7 @@ RevisionControlPlugin::~RevisionControlPlugin()
 #include <kshell.h>
 #include <kvbox.h>
 #include <QDir>
+#include <QFile>
 #include <QLabel>
 #include <QProcess>
 #include <QString>
@@ -272,8 +273,19 @@ void SubversionPlugin::commitFiles()
     dialog.restoreDialogSize(dialogConfig);
 
     if (dialog.exec() == QDialog::Accepted) {
-        const QString description = editor->toPlainText();
-        execSvnCommand("commit -m " + KShell::quoteArg(description),
+        // write the commit description into a temporary file, so
+        // that it can be read by the command "svn commit -F"
+        QFile file(QDir::tempPath() + "/svn_commit_descr.txt");
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))  {
+            emit errorMessage(i18nc("@info:status", "Commit of SVN changes failed."));
+            return;
+        }
+
+        QTextStream out(&file);
+        out << editor->toPlainText();
+        file.close();
+
+        execSvnCommand("commit -F " + KShell::quoteArg(file.fileName()),
                        i18nc("@info:status", "Committing SVN changes..."),
                        i18nc("@info:status", "Commit of SVN changes failed."),
                        i18nc("@info:status", "Committed SVN changes."));
