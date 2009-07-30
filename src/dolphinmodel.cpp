@@ -105,10 +105,16 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
             switch (m_revisionHash.value(index, RevisionControlPlugin::UnversionedRevision)) {
             case RevisionControlPlugin::NormalRevision:
                 return i18nc("@item::intable", "Normal");
-            case RevisionControlPlugin::LocallyModifiedRevision:
-                return i18nc("@item::intable", "Locally modified");
             case RevisionControlPlugin::UpdateRequiredRevision:
                 return i18nc("@item::intable", "Update required");
+            case RevisionControlPlugin::LocallyModifiedRevision:
+                return i18nc("@item::intable", "Locally modified");
+            case RevisionControlPlugin::AddedRevision:
+                return i18nc("@item::intable", "Added");
+            case RevisionControlPlugin::RemovedRevision:
+                return i18nc("@item::intable", "Removed");
+            case RevisionControlPlugin::ConflictingRevision:
+                return i18nc("@item::intable", "Conflicting");
             case RevisionControlPlugin::UnversionedRevision:
             default:
                 return i18nc("@item::intable", "Unversioned");
