@@ -204,6 +204,7 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 {
+    Q_UNUSED(event);
     setDirtyRegion(m_dropRect);
 }
 
