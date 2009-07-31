@@ -44,7 +44,6 @@ class DolphinDirLister;
 class DolphinMainWindow;
 class DolphinSortFilterProxyModel;
 class DolphinStatusBar;
-class QModelIndex;
 
 /**
  * @short Represents a view for the directory content

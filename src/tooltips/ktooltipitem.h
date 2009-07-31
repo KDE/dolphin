@@ -24,9 +24,6 @@
 
 class QString;
 class QIcon;
-class QSize;
-class QPainter;
-class QRegion;
 
 class KToolTipItemPrivate;
 

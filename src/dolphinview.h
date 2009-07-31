@@ -54,10 +54,8 @@ class KAction;
 class KActionCollection;
 class KDirLister;
 class KUrl;
-class KToggleAction;
 class RevisionControlObserver;
 class ToolTipManager;
-class QModelIndex;
 class ViewProperties;
 
 /**

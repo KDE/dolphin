@@ -35,12 +35,10 @@ class DolphinSortFilterProxyModel;
 class DolphinDirLister;
 class DolphinViewAutoScroller;
 class KFilePreviewGenerator;
-class KJob;
 class KFileItem;
 class KFileItemList;
 class SelectionManager;
 class ToolTipManager;
-class QPixmap;
 
 /**
  * Represents one column inside the DolphinColumnView and has been

@@ -28,8 +28,6 @@
 #include <kio/previewjob.h>
 #include <QtCore/QObject>
 
-class KFileItem;
-class QPixmap;
 
 const int PREVIEW_WIDTH = 256;
 const int PREVIEW_HEIGHT = 256;

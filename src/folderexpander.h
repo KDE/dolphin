@@ -31,7 +31,6 @@ class QTreeView;
 class QTimer;
 class QSortFilterProxyModel;
 class QModelIndex;
-class KDirModel;
 
 /**
  * Grants auto expanding functionality to the provided item view.

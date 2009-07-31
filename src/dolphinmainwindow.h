@@ -47,7 +47,6 @@ class DolphinRemoteEncoding;
 class KNewMenu;
 class KTabBar;
 class KUrl;
-class QDropEvent;
 class QSplitter;
 
 /**

@@ -23,10 +23,8 @@
 #include <kurl.h>
 #include <settings/settingspagebase.h>
 
-class DolphinMainWindow;
 class QCheckBox;
 class QListWidget;
-class QRadioButton;
 class QSlider;
 class KIntSpinBox;
 

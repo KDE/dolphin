@@ -23,7 +23,6 @@
 #include <settings/settingspagebase.h>
 #include <kurl.h>
 
-class DolphinMainWindow;
 class QCheckBox;
 class QRadioButton;
 

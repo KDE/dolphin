@@ -34,7 +34,6 @@ class DolphinRemoteEncoding;
 class DolphinModel;
 class KDirLister;
 class DolphinView;
-class QLineEdit;
 class KAboutData;
 
 class DolphinPart : public KParts::ReadOnlyPart

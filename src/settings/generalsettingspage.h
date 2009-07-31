@@ -25,7 +25,6 @@
 
 class KUrl;
 class SettingsPageBase;
-class DolphinMainWindow;
 
 /**
  * @brief Page for the 'General' settings of the Dolphin settings dialog.

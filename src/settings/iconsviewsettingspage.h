@@ -25,7 +25,6 @@
 
 class DolphinFontRequester;
 class IconSizeGroupBox;
-class QCheckBox;
 class KComboBox;
 class KIntSpinBox;
 

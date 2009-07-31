@@ -24,7 +24,6 @@
 #include <kpagedialog.h>
 
 class KUrl;
-class DolphinMainWindow;
 class SettingsPageBase;
 
 /**

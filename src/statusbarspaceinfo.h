@@ -28,7 +28,6 @@
 
 #include <kcapacitybar.h>
 
-class KDiskFreeSp;
 class QHideEvent;
 class QShowEvent;
 

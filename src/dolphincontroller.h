@@ -28,10 +28,7 @@
 class QAbstractItemView;
 class DolphinView;
 class KUrl;
-class QBrush;
 class QPoint;
-class QRect;
-class QWidget;
 
 // TODO: get rid of all the state duplications in the controller and allow read access
 // to the Dolphin view for all view implementations

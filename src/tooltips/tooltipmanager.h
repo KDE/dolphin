@@ -30,7 +30,6 @@ class DolphinSortFilterProxyModel;
 class QAbstractItemView;
 class QModelIndex;
 class QTimer;
-class KToolTipItem;
 
 /**
  * @brief Manages the tooltips for an item view.

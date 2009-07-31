@@ -22,7 +22,6 @@
 
 #include <settings/viewsettingspagebase.h>
 
-class DolphinMainWindow;
 class DolphinFontRequester;
 class IconSizeGroupBox;
 class KComboBox;

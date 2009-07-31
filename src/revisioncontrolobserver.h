@@ -35,7 +35,6 @@ class KDirLister;
 class KFileItemList;
 class QAbstractItemView;
 class QAction;
-class QThread;
 class QTimer;
 class UpdateItemStatesThread;
 

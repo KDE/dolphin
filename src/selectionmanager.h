@@ -24,10 +24,8 @@
 
 #include <QObject>
 
-class DolphinSortFilterProxyModel;
 class QAbstractItemView;
 class QModelIndex;
-class QAbstractButton;
 class QItemSelection;
 class SelectionToggle;
 

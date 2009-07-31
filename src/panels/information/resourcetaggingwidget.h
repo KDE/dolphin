@@ -24,7 +24,6 @@
 
 #include <nepomuk/tag.h>
 
-class QEvent;
 class QContextMenuEvent;
 
 namespace Nepomuk {

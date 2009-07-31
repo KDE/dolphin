@@ -31,7 +31,6 @@ class QLabel;
 class QProgressBar;
 class QToolButton;
 class QSlider;
-class QTimer;
 
 /**
  * @brief Represents the statusbar of a Dolphin view.

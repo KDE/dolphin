@@ -31,8 +31,6 @@
 
 class DolphinColumnWidget;
 class DolphinController;
-class DolphinModel;
-class QAbstractProxyModel;
 class QFrame;
 class QTimeLine;
 

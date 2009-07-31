@@ -30,8 +30,6 @@ class KUrl;
 class QDropEvent;
 class QMimeData;
 class QAbstractItemView;
-class QBrush;
-class QRect;
 class QWidget;
 
 /**
