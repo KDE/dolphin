@@ -166,6 +166,7 @@ signals:
 
 #include <kfileitem.h>
 #include <QHash>
+#include <QTemporaryFile>
 
 class LIBDOLPHINPRIVATE_EXPORT SubversionPlugin : public RevisionControlPlugin
 {
@@ -225,6 +226,8 @@ private:
 
     QString m_contextDir;
     KFileItemList m_contextItems;
+
+    QTemporaryFile m_tempFile;
 };
 #endif // REVISIONCONTROLPLUGIN_H
 
