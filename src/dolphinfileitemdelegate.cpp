@@ -63,7 +63,7 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         // The currently shown items are under revision control. Show the current revision
         // state by adding an emblem.
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
-        const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Revision);
+        const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Revision, dirIndex.parent());
         const QVariant data = dolphinModel->data(revisionIndex, Qt::DecorationRole);
         const RevisionControlPlugin::RevisionState state = static_cast<RevisionControlPlugin::RevisionState>(data.toInt());
 

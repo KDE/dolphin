@@ -96,16 +96,22 @@ private slots:
     void applyUpdatedItemStates();
     
 private:
-    void updateItemStates();
-
-private:
     struct ItemState
     {
         QPersistentModelIndex index;
         KFileItem item;
         RevisionControlPlugin::RevisionState revision;
     };
-    
+
+    void updateItemStates();
+
+    /**
+     * Adds recursively all items from the directory \p parentIndex into
+     * the list \p itemStates.
+     */
+    void addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates);
+
+private:
     bool m_pendingItemStatesUpdate;
     bool m_revisionedDirectory;
     bool m_silentUpdate; // if true, no messages will be send during the update

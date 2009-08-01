@@ -73,9 +73,12 @@ void UpdateItemStatesThread::run()
 {
     Q_ASSERT(!m_itemStates.isEmpty());
     Q_ASSERT(m_plugin != 0);
-    
-    // it is assumed that all items have the same parent directory
-    const QString directory = m_itemStates.first().item.url().directory(KUrl::AppendTrailingSlash);
+
+    // The items from m_itemStates may be located in different directory levels. The revision
+    // plugin requires the root directory for RevisionControlPlugin::beginRetrieval(). Instead
+    // of doing an expensive search, we utilize the knowledge of the implementation of
+    // RevisionControlObserver::addDirectory() to be sure that the last item contains the root.
+    const QString directory = m_itemStates.last().item.url().directory(KUrl::AppendTrailingSlash);
 
     QMutexLocker locker(m_pluginMutex);
     m_retrievedItems = false;
@@ -293,27 +296,30 @@ void RevisionControlObserver::updateItemStates()
         return;
     }
     
-    const int rowCount = m_dolphinModel->rowCount();
-    if (rowCount > 0) {
-        // Build a list of all items in the current directory and delegate
-        // this list to the thread, which adjusts the revision states.
-        QList<ItemState> itemStates;
-        for (int row = 0; row < rowCount; ++row) {
-            const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Revision);
-            
-            ItemState itemState;
-            itemState.index = index;
-            itemState.item = m_dolphinModel->itemForIndex(index);
-            itemState.revision = RevisionControlPlugin::UnversionedRevision;
-
-            itemStates.append(itemState);
-        }
-        
+    QList<ItemState> itemStates;
+    addDirectory(QModelIndex(), itemStates);
+    if (!itemStates.isEmpty()) {
         if (!m_silentUpdate) {
             emit infoMessage(i18nc("@info:status", "Updating revision information..."));
         }
         m_updateItemStatesThread->setData(m_plugin, itemStates);
         m_updateItemStatesThread->start(); // applyUpdatedItemStates() is called when finished
+    }
+}
+
+void RevisionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates)
+{
+    const int rowCount = m_dolphinModel->rowCount(parentIndex);
+    for (int row = 0; row < rowCount; ++row) {
+        const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Revision, parentIndex);
+        addDirectory(index, itemStates);
+        
+        ItemState itemState;
+        itemState.index = index;
+        itemState.item = m_dolphinModel->itemForIndex(index);
+        itemState.revision = RevisionControlPlugin::UnversionedRevision;
+
+        itemStates.append(itemState);
     }
 }
 
