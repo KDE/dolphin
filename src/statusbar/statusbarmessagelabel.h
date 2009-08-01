@@ -21,7 +21,7 @@
 #ifndef STATUSBARMESSAGELABEL_H
 #define STATUSBARMESSAGELABEL_H
 
-#include <dolphinstatusbar.h>
+#include <statusbar/dolphinstatusbar.h>
 
 #include <QtCore/QList>
 #include <QtGui/QPixmap>

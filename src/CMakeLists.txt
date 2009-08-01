@@ -99,7 +99,6 @@ set(dolphin_SRCS
     dolphinnewmenu.cpp
     dolphinviewcontainer.cpp
     dolphinsearchbox.cpp
-    dolphinstatusbar.cpp
     dolphindirlister.cpp
     dolphincontextmenu.cpp
     filterbar.cpp
@@ -135,8 +134,9 @@ set(dolphin_SRCS
     settings/trashsettingspage.cpp
     settings/viewsettingspage.cpp
     settings/viewsettingspagebase.cpp
-    statusbarspaceinfo.cpp
-    statusbarmessagelabel.cpp
+    statusbar/dolphinstatusbar.cpp
+    statusbar/statusbarspaceinfo.cpp
+    statusbar/statusbarmessagelabel.cpp
     zoomlevelinfo.cpp
     )
 

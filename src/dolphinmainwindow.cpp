@@ -30,13 +30,13 @@
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "dolphinsearchbox.h"
-#include "dolphinstatusbar.h"
 #include "dolphinviewcontainer.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
 #include "panels/information/metadatawidget.h"
 #include "mainwindowadaptor.h"
+#include "statusbar/dolphinstatusbar.h"
 #include "viewproperties.h"
 
 #ifndef Q_OS_WIN

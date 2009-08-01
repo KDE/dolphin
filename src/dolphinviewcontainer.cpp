@@ -44,12 +44,12 @@
 #include <kshell.h>
 #include <kurl.h>
 #include <kurlcombobox.h>
+#include <kurlnavigator.h>
 #include <krun.h>
 
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
-#include "dolphinstatusbar.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
 #include "dolphinsortfilterproxymodel.h"
@@ -58,7 +58,7 @@
 #include "dolphincontextmenu.h"
 #include "draganddrophelper.h"
 #include "filterbar.h"
-#include "kurlnavigator.h"
+#include "statusbar/dolphinstatusbar.h"
 #include "viewproperties.h"
 #include "settings/dolphinsettings.h"
 #include "dolphin_generalsettings.h"
