@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006-2009 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -24,10 +23,8 @@
 #include <kdirlister.h>
 
 /**
- * @brief Extends the class KDirLister by emitting an error
- *        signal containing text.
- *
- * @author Peter Penz
+ * @brief Extends the class KDirLister by emitting a signal when an
+ *        error occured instead of showing an error dialog.
  */
 class DolphinDirLister : public KDirLister
 {

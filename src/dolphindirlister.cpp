@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2006-2009 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,6 +18,7 @@
  ***************************************************************************/
 
 #include "dolphindirlister.h"
+#include "klocale.h"
 #include <kio/jobclasses.h>
 
 DolphinDirLister::DolphinDirLister() :
@@ -35,7 +35,12 @@ void DolphinDirLister::handleError(KIO::Job* job)
     if (job->error() == KIO::ERR_IS_FILE) {
         emit urlIsFileError(url());
     } else {
-        emit errorMessage(job->errorString());
+        const QString errorString = job->errorString();
+        if (errorString.isEmpty()) {
+            emit errorMessage(i18nc("@info:status", "Unknown error."));
+        } else {
+            emit errorMessage(job->errorString());
+        }
     }
 }
 
