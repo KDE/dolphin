@@ -22,6 +22,7 @@
 #define DOLPHINSTATUSBAR_H
 
 #include <khbox.h>
+#include <QTime>
 
 class DolphinView;
 class KUrl;
@@ -179,6 +180,11 @@ private:
     QLabel* m_progressText;
     QProgressBar* m_progressBar;
     int m_progress;
+
+    // Timestamp when the last message has been set that has not the type
+    // 'Default'. The timestamp is used to prevent that default messages
+    // hide more important messages after a very short delay.
+    QTime m_messageTimeStamp;
 };
 
 #endif

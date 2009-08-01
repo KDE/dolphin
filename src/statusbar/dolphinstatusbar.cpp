@@ -48,7 +48,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_zoomSlider(0),
     m_zoomIn(0),
     m_progressBar(0),
-    m_progress(100)
+    m_progress(100),
+    m_messageTimeStamp()
 {
     setMargin(0);
     setSpacing(4);
@@ -135,7 +136,21 @@ void DolphinStatusBar::setMessage(const QString& msg,
         return;
     }
 
+    const QTime currentTime = QTime::currentTime();
+    const bool skipMessage = (type == Default) &&
+                             m_messageTimeStamp.isValid() &&
+                             (m_messageTimeStamp.msecsTo(currentTime) < 1000);
+    if (skipMessage) {
+        // A non-default message is shown just for a very short time. Don't hide
+        // the message by a default message, so that the user gets the chance to
+        // read the information.
+        return;
+    }
+
     m_messageLabel->setMessage(msg, type);
+    if (type != Default) {
+        m_messageTimeStamp = currentTime;
+    }
 
     const int widthGap = m_messageLabel->widthGap();
     if (widthGap > 0) {
