@@ -217,6 +217,13 @@ void DolphinStatusBar::refresh()
 
 void DolphinStatusBar::resizeEvent(QResizeEvent* event)
 {
+    // It is important to hide the widgets before invoking
+    // QWidget::resizeEvent(), otherwise it is possible that
+    // the dock widgets are shrinked when having a small
+    // statusbar width (bug #202147).
+    m_zoomWidget->hide();
+    m_spaceInfo->hide();
+
     QWidget::resizeEvent(event);
     QMetaObject::invokeMethod(this, "assureVisibleText", Qt::QueuedConnection);
 }
