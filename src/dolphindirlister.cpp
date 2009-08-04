@@ -39,7 +39,7 @@ void DolphinDirLister::handleError(KIO::Job* job)
         if (errorString.isEmpty()) {
             emit errorMessage(i18nc("@info:status", "Unknown error."));
         } else {
-            emit errorMessage(job->errorString());
+            emit errorMessage(errorString);
         }
     }
 }
