@@ -28,7 +28,7 @@
 #include <QtDBus/QDBusConnection>
 
 DolphinApplication::DolphinApplication() :
-    m_lastId(0)
+    m_lastId(0), m_closedBySessionManager(false)
 {
     new ApplicationAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/dolphin/Application", this);
@@ -98,6 +98,17 @@ int DolphinApplication::newInstance()
     first = false;
     args->clear();
     return 0;
+}
+
+bool DolphinApplication::closedBySessionManager() const
+{
+    return m_closedBySessionManager;
+}
+
+void DolphinApplication::commitData(QSessionManager& sessionManager) {
+    m_closedBySessionManager = true;
+    KUniqueApplication::commitData(sessionManager);
+    m_closedBySessionManager = false;
 }
 
 int DolphinApplication::openWindow(const KUrl& url)

@@ -56,6 +56,20 @@ public:
     /** @see KUniqueApplication::newInstance(). */
     virtual int newInstance();
 
+    /**
+     * Find out if Dolphin is closed directly by the user or
+     * by the session manager because the session is closed
+     */
+    bool closedBySessionManager() const;
+
+    /**
+     * This virtual function is called by the session manager when
+     * it closes Dolphin. It is reimplemented to make the information
+     * if Dolphin is closed by the session manager or not accessible in
+     * DolphinMainWindow (via the function closedBySessionManager()).
+     */
+    virtual void commitData(QSessionManager& sessionManager);
+
 public slots:
     int openWindow(const KUrl& url);
     int openSplitWindow(const KUrl& leftUrl,const KUrl& rightUrl);
@@ -67,6 +81,9 @@ protected:
 private:
     QList<DolphinMainWindow*> m_mainWindows;
     int m_lastId;
+
+    /** Is true if Dolphin is closed by the session manager **/
+    bool m_closedBySessionManager;
 };
 
 #endif
