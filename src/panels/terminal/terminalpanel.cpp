@@ -90,11 +90,10 @@ void TerminalPanel::showEvent(QShowEvent* event)
             m_terminalWidget = part->widget();
             m_layout->addWidget(m_terminalWidget);
             m_terminal = qobject_cast<TerminalInterfaceV2 *>(part);
-            m_terminal->showShellInDir(url().path());
-
         }        
     }
     if (m_terminal != 0) {
+        m_terminal->showShellInDir(url().path());
         m_terminal->sendInput("cd " + KShell::quoteArg(url().path()) + '\n');
         m_terminal->sendInput("clear\n");
         m_terminalWidget->setFocus();
