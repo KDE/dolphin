@@ -17,17 +17,17 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "revisioncontrolplugin.h"
+#include "kversioncontrolplugin.h"
 
-RevisionControlPlugin::RevisionControlPlugin()
+KVersionControlPlugin::KVersionControlPlugin()
 {
 }
 
-RevisionControlPlugin::~RevisionControlPlugin()
+KVersionControlPlugin::~KVersionControlPlugin()
 {
 }
 
-#include "revisioncontrolplugin.moc"
+#include "kversioncontrolplugin.moc"
 
 // ----------------------------------------------------------------------------
 
@@ -48,8 +48,8 @@ RevisionControlPlugin::~RevisionControlPlugin()
 #include <QTextStream>
 
 SubversionPlugin::SubversionPlugin() :
-    m_revisionInfoHash(),
-    m_revisionInfoKeys(),
+    m_versionInfoHash(),
+    m_versionInfoKeys(),
     m_updateAction(0),
     m_showLocalChangesAction(0),
     m_commitAction(0),
@@ -113,18 +113,18 @@ bool SubversionPlugin::beginRetrieval(const QString& directory)
     while (process.waitForReadyRead()) {
         char buffer[1024];
         while (process.readLine(buffer, sizeof(buffer)) > 0)  {
-            RevisionState state = NormalRevision;
+            VersionState state = NormalVersion;
             QString filePath(buffer);
 
             switch (buffer[0]) {
-            case '?': state = UnversionedRevision; break;
-            case 'M': state = LocallyModifiedRevision; break;
-            case 'A': state = AddedRevision; break;
-            case 'D': state = RemovedRevision; break;
-            case 'C': state = ConflictingRevision; break;
+            case '?': state = UnversionedVersion; break;
+            case 'M': state = LocallyModifiedVersion; break;
+            case 'A': state = AddedVersion; break;
+            case 'D': state = RemovedVersion; break;
+            case 'C': state = ConflictingVersion; break;
             default:
                 if (filePath.contains('*')) {
-                    state = UpdateRequiredRevision;
+                    state = UpdateRequiredVersion;
                 }
                 break;
             }
@@ -133,12 +133,12 @@ bool SubversionPlugin::beginRetrieval(const QString& directory)
             const int length = filePath.length() - pos - 1;
             filePath = filePath.mid(pos, length);
             if (!filePath.isEmpty()) {
-                m_revisionInfoHash.insert(filePath, state);
+                m_versionInfoHash.insert(filePath, state);
             }
         }
     }
 
-    m_revisionInfoKeys = m_revisionInfoHash.keys();
+    m_versionInfoKeys = m_versionInfoHash.keys();
     return true;
 }
 
@@ -146,32 +146,32 @@ void SubversionPlugin::endRetrieval()
 {
 }
 
-RevisionControlPlugin::RevisionState SubversionPlugin::revisionState(const KFileItem& item)
+KVersionControlPlugin::VersionState SubversionPlugin::versionState(const KFileItem& item)
 {
     const QString itemUrl = item.localPath();
-    if (m_revisionInfoHash.contains(itemUrl)) {
-        return m_revisionInfoHash.value(itemUrl);
+    if (m_versionInfoHash.contains(itemUrl)) {
+        return m_versionInfoHash.value(itemUrl);
     }
 
     if (!item.isDir()) {
-        // files that have not been listed by 'svn status' (= m_revisionInfoHash)
-        // are under revision control per definition
-        return NormalRevision;
+        // files that have not been listed by 'svn status' (= m_versionInfoHash)
+        // are under version control per definition
+        return NormalVersion;
     }
 
-    // The item is a directory. Check whether an item listed by 'svn status' (= m_revisionInfoHash)
+    // The item is a directory. Check whether an item listed by 'svn status' (= m_versionInfoHash)
     // is part of this directory. In this case a local modification should be indicated in the
     // directory already.
-    foreach (const QString& key, m_revisionInfoKeys) {
+    foreach (const QString& key, m_versionInfoKeys) {
         if (key.startsWith(itemUrl)) {
-            const RevisionState state = m_revisionInfoHash.value(key);
-            if (state == LocallyModifiedRevision) {
-                return LocallyModifiedRevision;
+            const VersionState state = m_versionInfoHash.value(key);
+            if (state == LocallyModifiedVersion) {
+                return LocallyModifiedVersion;
             }
         }
     }
 
-    return NormalRevision;
+    return NormalVersion;
 }
 
 QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
@@ -182,20 +182,20 @@ QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
     }
     m_contextDir.clear();
 
-    // iterate all items and check the revision state to know which
+    // iterate all items and check the version state to know which
     // actions can be enabled
     const int itemsCount = items.count();
-    int revisionedCount = 0;
+    int versionedCount = 0;
     int editingCount = 0;
     foreach (const KFileItem& item, items) {
-        const RevisionState state = revisionState(item);
-        if (state != UnversionedRevision) {
-            ++revisionedCount;
+        const VersionState state = versionState(item);
+        if (state != UnversionedVersion) {
+            ++versionedCount;
         }
 
         switch (state) {
-        case LocallyModifiedRevision:
-        case ConflictingRevision:
+        case LocallyModifiedVersion:
+        case ConflictingVersion:
             ++editingCount;
             break;
         default:
@@ -203,8 +203,8 @@ QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
         }
     }
     m_commitAction->setEnabled(editingCount > 0);
-    m_addAction->setEnabled(revisionedCount == 0);
-    m_removeAction->setEnabled(revisionedCount == itemsCount);
+    m_addAction->setEnabled(versionedCount == 0);
+    m_removeAction->setEnabled(versionedCount == itemsCount);
 
     QList<QAction*> actions;
     actions.append(m_updateAction);
@@ -276,7 +276,7 @@ void SubversionPlugin::commitFiles()
         // Write the commit description into a temporary file, so
         // that it can be read by the command "svn commit -F". The temporary
         // file must stay alive until slotOperationCompleted() is invoked and will
-        // be destroyed when the revision plugin is destructed.
+        // be destroyed when the version plugin is destructed.
         if (!m_tempFile.open())  {
             emit errorMessage(i18nc("@info:status", "Commit of SVN changes failed."));
             return;
@@ -316,7 +316,7 @@ void SubversionPlugin::slotOperationCompleted()
 {
     if (m_contextItems.isEmpty()) {
         emit operationCompletedMessage(m_operationCompletedMsg);
-        emit revisionStatesChanged();
+        emit versionStatesChanged();
     } else {
         startSvnCommandProcess();
     }

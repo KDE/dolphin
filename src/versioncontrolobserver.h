@@ -23,7 +23,7 @@
 #include <libdolphin_export.h>
 
 #include <kfileitem.h>
-#include <revisioncontrolplugin.h>
+#include <kversioncontrolplugin.h>
 #include <QList>
 #include <QMutex>
 #include <QObject>
@@ -39,20 +39,20 @@ class QTimer;
 class UpdateItemStatesThread;
 
 /**
- * @brief Observes all revision control plugins.
+ * @brief Observes all version control plugins.
  *
  * The item view gets updated automatically if the currently shown
- * directory is under revision control.
+ * directory is under version control.
  *
- * @see RevisionControlPlugin
+ * @see VersionControlPlugin
  */
-class LIBDOLPHINPRIVATE_EXPORT RevisionControlObserver : public QObject
+class LIBDOLPHINPRIVATE_EXPORT VersionControlObserver : public QObject
 {
     Q_OBJECT
 
 public:
-    RevisionControlObserver(QAbstractItemView* view);
-    virtual ~RevisionControlObserver();
+    VersionControlObserver(QAbstractItemView* view);
+    virtual ~VersionControlObserver();
 
     QList<QAction*> contextMenuActions(const KFileItemList& items) const;
     QList<QAction*> contextMenuActions(const QString& directory) const;
@@ -100,7 +100,7 @@ private:
     {
         QPersistentModelIndex index;
         KFileItem item;
-        RevisionControlPlugin::RevisionState revision;
+        KVersionControlPlugin::VersionState version;
     };
 
     void updateItemStates();
@@ -113,9 +113,9 @@ private:
 
 private:
     bool m_pendingItemStatesUpdate;
-    bool m_revisionedDirectory;
+    bool m_versionedDirectory;
     bool m_silentUpdate; // if true, no messages will be send during the update
-                         // of revision states
+                         // of version states
     
     QAbstractItemView* m_view;
     KDirLister* m_dirLister;
@@ -124,7 +124,7 @@ private:
     QTimer* m_dirVerificationTimer;
     
     mutable QMutex m_pluginMutex;
-    RevisionControlPlugin* m_plugin;
+    KVersionControlPlugin* m_plugin;
     UpdateItemStatesThread* m_updateItemStatesThread;
 
     friend class UpdateItemStatesThread;

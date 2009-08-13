@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "revisioncontrolobserver.h"
+#include "versioncontrolobserver.h"
 
 #include "dolphinmodel.h"
-#include "revisioncontrolplugin.h"
+#include "kversioncontrolplugin.h"
 
 #include <kdirlister.h>
 #include <klocale.h>
@@ -31,7 +31,7 @@
 #include <QTimer>
 
 /**
- * The performance of updating the revision state of items depends
+ * The performance of updating the version state of items depends
  * on the used plugin. To prevent that Dolphin gets blocked by a
  * slow plugin, the updating is delegated to a thread.
  */
@@ -39,9 +39,9 @@ class UpdateItemStatesThread : public QThread
 {
 public:
     UpdateItemStatesThread(QObject* parent, QMutex* pluginMutex);
-    void setData(RevisionControlPlugin* plugin,
-                 const QList<RevisionControlObserver::ItemState>& itemStates);
-    QList<RevisionControlObserver::ItemState> itemStates() const;
+    void setData(KVersionControlPlugin* plugin,
+                 const QList<VersionControlObserver::ItemState>& itemStates);
+    QList<VersionControlObserver::ItemState> itemStates() const;
     bool retrievedItems() const;
 
 protected:
@@ -49,9 +49,9 @@ protected:
     
 private:
     bool m_retrievedItems;
-    RevisionControlPlugin* m_plugin;
+    KVersionControlPlugin* m_plugin;
     QMutex* m_pluginMutex;
-    QList<RevisionControlObserver::ItemState> m_itemStates;
+    QList<VersionControlObserver::ItemState> m_itemStates;
 };
 
 UpdateItemStatesThread::UpdateItemStatesThread(QObject* parent, QMutex* pluginMutex) :
@@ -62,8 +62,8 @@ UpdateItemStatesThread::UpdateItemStatesThread(QObject* parent, QMutex* pluginMu
 {
 }
 
-void UpdateItemStatesThread::setData(RevisionControlPlugin* plugin,
-                                     const QList<RevisionControlObserver::ItemState>& itemStates)
+void UpdateItemStatesThread::setData(KVersionControlPlugin* plugin,
+                                     const QList<VersionControlObserver::ItemState>& itemStates)
 {
     m_plugin = plugin;
     m_itemStates = itemStates;
@@ -74,10 +74,10 @@ void UpdateItemStatesThread::run()
     Q_ASSERT(!m_itemStates.isEmpty());
     Q_ASSERT(m_plugin != 0);
 
-    // The items from m_itemStates may be located in different directory levels. The revision
-    // plugin requires the root directory for RevisionControlPlugin::beginRetrieval(). Instead
+    // The items from m_itemStates may be located in different directory levels. The version
+    // plugin requires the root directory for KVersionControlPlugin::beginRetrieval(). Instead
     // of doing an expensive search, we utilize the knowledge of the implementation of
-    // RevisionControlObserver::addDirectory() to be sure that the last item contains the root.
+    // VersionControlObserver::addDirectory() to be sure that the last item contains the root.
     const QString directory = m_itemStates.last().item.url().directory(KUrl::AppendTrailingSlash);
 
     QMutexLocker locker(m_pluginMutex);
@@ -85,14 +85,14 @@ void UpdateItemStatesThread::run()
     if (m_plugin->beginRetrieval(directory)) {
         const int count = m_itemStates.count();
         for (int i = 0; i < count; ++i) {
-            m_itemStates[i].revision = m_plugin->revisionState(m_itemStates[i].item);
+            m_itemStates[i].version = m_plugin->versionState(m_itemStates[i].item);
         }
         m_plugin->endRetrieval();
         m_retrievedItems = true;
     }
 }
 
-QList<RevisionControlObserver::ItemState> UpdateItemStatesThread::itemStates() const
+QList<VersionControlObserver::ItemState> UpdateItemStatesThread::itemStates() const
 {
     return m_itemStates;
 }
@@ -104,10 +104,10 @@ bool UpdateItemStatesThread::retrievedItems() const
 
 // ------------------------------------------------------------------------------------------------
 
-RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
+VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
     QObject(view),
     m_pendingItemStatesUpdate(false),
-    m_revisionedDirectory(false),
+    m_versionedDirectory(false),
     m_silentUpdate(false),
     m_view(view),
     m_dirLister(0),
@@ -141,7 +141,7 @@ RevisionControlObserver::RevisionControlObserver(QAbstractItemView* view) :
     }
 }
 
-RevisionControlObserver::~RevisionControlObserver()
+VersionControlObserver::~VersionControlObserver()
 {
     if (m_updateItemStatesThread != 0) {
         m_updateItemStatesThread->terminate();
@@ -151,18 +151,18 @@ RevisionControlObserver::~RevisionControlObserver()
     m_plugin = 0;
 }
 
-QList<QAction*> RevisionControlObserver::contextMenuActions(const KFileItemList& items) const
+QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& items) const
 {
-    if (m_dolphinModel->hasRevisionData() && (m_plugin != 0)) {
+    if (m_dolphinModel->hasVersionData() && (m_plugin != 0)) {
         QMutexLocker locker(&m_pluginMutex);
         return m_plugin->contextMenuActions(items);
     }
     return QList<QAction*>();
 }
 
-QList<QAction*> RevisionControlObserver::contextMenuActions(const QString& directory) const
+QList<QAction*> VersionControlObserver::contextMenuActions(const QString& directory) const
 {
-    if (m_dolphinModel->hasRevisionData() && (m_plugin != 0)) {
+    if (m_dolphinModel->hasVersionData() && (m_plugin != 0)) {
         QMutexLocker locker(&m_pluginMutex);
         return m_plugin->contextMenuActions(directory);
     }
@@ -170,22 +170,22 @@ QList<QAction*> RevisionControlObserver::contextMenuActions(const QString& direc
     return QList<QAction*>();
 }
 
-void RevisionControlObserver::delayedDirectoryVerification()
+void VersionControlObserver::delayedDirectoryVerification()
 {
     m_silentUpdate = false;
     m_dirVerificationTimer->start();
 }
 
-void RevisionControlObserver::silentDirectoryVerification()
+void VersionControlObserver::silentDirectoryVerification()
 {
     m_silentUpdate = true;
     m_dirVerificationTimer->start();
 }
 
-void RevisionControlObserver::verifyDirectory()
+void VersionControlObserver::verifyDirectory()
 {
-    KUrl revisionControlUrl = m_dirLister->url();
-    if (!revisionControlUrl.isLocalFile()) {
+    KUrl versionControlUrl = m_dirLister->url();
+    if (!versionControlUrl.isLocalFile()) {
         return;
     }
 
@@ -200,21 +200,21 @@ void RevisionControlObserver::verifyDirectory()
                 this, SIGNAL(operationCompletedMessage(const QString&)));
     }
 
-    revisionControlUrl.addPath(m_plugin->fileName());
-    const KFileItem item = m_dirLister->findByUrl(revisionControlUrl);
+    versionControlUrl.addPath(m_plugin->fileName());
+    const KFileItem item = m_dirLister->findByUrl(versionControlUrl);
 
-    bool foundRevisionInfo = !item.isNull();
-    if (!foundRevisionInfo && m_revisionedDirectory) {
-        // Revision control systems like Git provide the revision information
-        // file only in the root directory. Check whether the revision information file can
+    bool foundVersionInfo = !item.isNull();
+    if (!foundVersionInfo && m_versionedDirectory) {
+        // Version control systems like Git provide the version information
+        // file only in the root directory. Check whether the version information file can
         // be found in one of the parent directories.
 
         // TODO...
     }
 
-    if (foundRevisionInfo) {
-        if (!m_revisionedDirectory) {
-            m_revisionedDirectory = true;
+    if (foundVersionInfo) {
+        if (!m_versionedDirectory) {
+            m_versionedDirectory = true;
 
             // The directory is versioned. Assume that the user will further browse through
             // versioned directories and decrease the verification timer.
@@ -223,12 +223,12 @@ void RevisionControlObserver::verifyDirectory()
                     this, SLOT(delayedDirectoryVerification()));
             connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                     this, SLOT(delayedDirectoryVerification()));
-            connect(m_plugin, SIGNAL(revisionStatesChanged()),
+            connect(m_plugin, SIGNAL(versionStatesChanged()),
                     this, SLOT(silentDirectoryVerification()));
         }
         updateItemStates();
-    } else if (m_revisionedDirectory) {
-        m_revisionedDirectory = false;
+    } else if (m_versionedDirectory) {
+        m_versionedDirectory = false;
 
         // The directory is not versioned. Reset the verification timer to a higher
         // value, so that browsing through non-versioned directories is not slown down
@@ -238,16 +238,16 @@ void RevisionControlObserver::verifyDirectory()
                    this, SLOT(delayedDirectoryVerification()));
         disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                    this, SLOT(delayedDirectoryVerification()));
-        disconnect(m_plugin, SIGNAL(revisionStatesChanged()),
+        disconnect(m_plugin, SIGNAL(versionStatesChanged()),
                    this, SLOT(silentDirectoryVerification()));
     }
 }
 
-void RevisionControlObserver::applyUpdatedItemStates()
+void VersionControlObserver::applyUpdatedItemStates()
 {
     if (!m_updateItemStatesThread->retrievedItems()) {
         // ignore m_silentUpdate for an error message
-        emit errorMessage(i18nc("@info:status", "Update of revision information failed."));
+        emit errorMessage(i18nc("@info:status", "Update of version information failed."));
         return;
     }
 
@@ -261,7 +261,7 @@ void RevisionControlObserver::applyUpdatedItemStates()
     const QList<ItemState> itemStates = m_updateItemStatesThread->itemStates();
     foreach (const ItemState& itemState, itemStates) {
         m_dolphinModel->setData(itemState.index,
-                                QVariant(static_cast<int>(itemState.revision)),
+                                QVariant(static_cast<int>(itemState.version)),
                                 Qt::DecorationRole);
     }
 
@@ -281,7 +281,7 @@ void RevisionControlObserver::applyUpdatedItemStates()
     }
 }
 
-void RevisionControlObserver::updateItemStates()
+void VersionControlObserver::updateItemStates()
 {
     Q_ASSERT(m_plugin != 0);
     if (m_updateItemStatesThread == 0) {
@@ -300,27 +300,27 @@ void RevisionControlObserver::updateItemStates()
     addDirectory(QModelIndex(), itemStates);
     if (!itemStates.isEmpty()) {
         if (!m_silentUpdate) {
-            emit infoMessage(i18nc("@info:status", "Updating revision information..."));
+            emit infoMessage(i18nc("@info:status", "Updating version information..."));
         }
         m_updateItemStatesThread->setData(m_plugin, itemStates);
         m_updateItemStatesThread->start(); // applyUpdatedItemStates() is called when finished
     }
 }
 
-void RevisionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates)
+void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates)
 {
     const int rowCount = m_dolphinModel->rowCount(parentIndex);
     for (int row = 0; row < rowCount; ++row) {
-        const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Revision, parentIndex);
+        const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Version, parentIndex);
         addDirectory(index, itemStates);
         
         ItemState itemState;
         itemState.index = index;
         itemState.item = m_dolphinModel->itemForIndex(index);
-        itemState.revision = RevisionControlPlugin::UnversionedRevision;
+        itemState.version = KVersionControlPlugin::UnversionedVersion;
 
         itemStates.append(itemState);
     }
 }
 
-#include "revisioncontrolobserver.moc"
+#include "versioncontrolobserver.moc"

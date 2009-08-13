@@ -33,9 +33,8 @@ set(dolphinprivate_LIB_SRCS
     dolphinremoteencoding.cpp
     draganddrophelper.cpp
     folderexpander.cpp
+    kversioncontrolplugin.cpp
     renamedialog.cpp
-    revisioncontrolobserver.cpp
-    revisioncontrolplugin.cpp
     selectiontoggle.cpp
     selectionmanager.cpp
     settings/additionalinfodialog.cpp
@@ -49,6 +48,7 @@ set(dolphinprivate_LIB_SRCS
     tooltips/ktooltipitem.cpp
     tooltips/kformattedballoontipdelegate.cpp
     tooltips/tooltipmanager.cpp
+    versioncontrolobserver.cpp
     viewproperties.cpp
     zoomlevelinfo.cpp
     )

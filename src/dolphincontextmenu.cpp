@@ -223,7 +223,7 @@ void DolphinContextMenu::openItemContextMenu()
         popup->addSeparator();
     }
 
-    // insert revision control actions
+    // insert version control actions
     addRevisionControlActions(popup);
 
     // insert 'Copy To' and 'Move To' sub menus
@@ -393,9 +393,9 @@ KFileItemListProperties& DolphinContextMenu::capabilities()
 void DolphinContextMenu::addRevisionControlActions(KMenu* menu)
 {
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    const QList<QAction*> revControlActions = view->revisionControlActions(m_selectedItems);
-    if (!revControlActions.isEmpty()) {
-        foreach (QAction* action, revControlActions) {
+    const QList<QAction*> versionControlActions = view->versionControlActions(m_selectedItems);
+    if (!versionControlActions.isEmpty()) {
+        foreach (QAction* action, versionControlActions) {
             menu->addAction(action);
         }
         menu->addSeparator();

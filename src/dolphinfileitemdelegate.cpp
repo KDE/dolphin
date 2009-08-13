@@ -59,15 +59,15 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         KFileItemDelegate::paint(painter, option, index);
     }
 
-    if (dolphinModel->hasRevisionData() && isNameColumn) {
+    if (dolphinModel->hasVersionData() && isNameColumn) {
         // The currently shown items are under revision control. Show the current revision
         // state by adding an emblem.
         const QModelIndex dirIndex = proxyModel->mapToSource(index);
-        const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Revision, dirIndex.parent());
+        const QModelIndex revisionIndex = dolphinModel->index(dirIndex.row(), DolphinModel::Version, dirIndex.parent());
         const QVariant data = dolphinModel->data(revisionIndex, Qt::DecorationRole);
-        const RevisionControlPlugin::RevisionState state = static_cast<RevisionControlPlugin::RevisionState>(data.toInt());
+        const KVersionControlPlugin::VersionState state = static_cast<KVersionControlPlugin::VersionState>(data.toInt());
 
-        if (state != RevisionControlPlugin::UnversionedRevision) {
+        if (state != KVersionControlPlugin::UnversionedVersion) {
             const QRect rect = iconRect(option, index);
             const QPixmap emblem = emblemForState(state, rect.size());
             painter->drawPixmap(rect.x(), rect.y() + rect.height() - emblem.height(), emblem);
@@ -105,11 +105,11 @@ void DolphinFileItemDelegate::adjustOptionWidth(QStyleOptionViewItemV4& option,
     }
 }
 
-QPixmap DolphinFileItemDelegate::emblemForState(RevisionControlPlugin::RevisionState state, const QSize& size) const
+QPixmap DolphinFileItemDelegate::emblemForState(KVersionControlPlugin::VersionState state, const QSize& size) const
 {
     // TODO: all icons that are use here will be replaced by revision control emblems provided by the
     // Oxygen team before KDE 4.4
-    Q_ASSERT(state <= RevisionControlPlugin::ConflictingRevision);
+    Q_ASSERT(state <= KVersionControlPlugin::ConflictingVersion);
     if ((m_cachedSize != size) || !m_cachedEmblems[state].isNull()) {
         m_cachedSize = size;
 
@@ -127,14 +127,14 @@ QPixmap DolphinFileItemDelegate::emblemForState(RevisionControlPlugin::RevisionS
         }
 
         const QSize emblemSize(emblemHeight, emblemHeight);
-        for (int i = 0; i <= RevisionControlPlugin::ConflictingRevision; ++i) {
+        for (int i = 0; i <= KVersionControlPlugin::ConflictingVersion; ++i) {
             QString iconName;
             switch (state) {
-            case RevisionControlPlugin::NormalRevision:          iconName = "dialog-ok-apply"; break;
-            case RevisionControlPlugin::UpdateRequiredRevision:  iconName = "rating"; break;
-            case RevisionControlPlugin::LocallyModifiedRevision: iconName = "emblem-important"; break;
-            case RevisionControlPlugin::AddedRevision:           iconName = "list-add"; break;
-            case RevisionControlPlugin::ConflictingRevision:     iconName = "application-exit"; break;
+            case KVersionControlPlugin::NormalVersion:          iconName = "dialog-ok-apply"; break;
+            case KVersionControlPlugin::UpdateRequiredVersion:  iconName = "rating"; break;
+            case KVersionControlPlugin::LocallyModifiedVersion: iconName = "emblem-important"; break;
+            case KVersionControlPlugin::AddedVersion:           iconName = "list-add"; break;
+            case KVersionControlPlugin::ConflictingVersion:     iconName = "application-exit"; break;
             default: Q_ASSERT(false); break;
             }
 

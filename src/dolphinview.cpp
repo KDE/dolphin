@@ -62,9 +62,9 @@
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "renamedialog.h"
-#include "revisioncontrolobserver.h"
 #include "tooltips/tooltipmanager.h"
 #include "settings/dolphinsettings.h"
+#include "versioncontrolobserver.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 
@@ -105,7 +105,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_proxyModel(proxyModel),
     m_previewGenerator(0),
     m_toolTipManager(0),
-    m_revisionControlObserver(0),
+    m_versionControlObserver(0),
     m_rootUrl(),
     m_activeItemUrl(),
     m_createdItemUrl(),
@@ -522,9 +522,9 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         loadDirectory(url);
     }
 
-    // When changing the URL there is no need to keep the revision
+    // When changing the URL there is no need to keep the version
     // data of the previous URL.
-    m_dolphinModel->clearRevisionData();
+    m_dolphinModel->clearVersionData();
 
     emit startedPathLoading(url);
 }
@@ -613,11 +613,11 @@ QString DolphinView::statusBarText() const
     return text;
 }
 
-QList<QAction*> DolphinView::revisionControlActions(const KFileItemList& items) const
+QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) const
 {
     return items.isEmpty()
-           ? m_revisionControlObserver->contextMenuActions(url().path(KUrl::AddTrailingSlash))
-           : m_revisionControlObserver->contextMenuActions(items);
+           ? m_versionControlObserver->contextMenuActions(url().path(KUrl::AddTrailingSlash))
+           : m_versionControlObserver->contextMenuActions(items);
 }
 
 void DolphinView::setUrl(const KUrl& url)
@@ -1473,12 +1473,12 @@ void DolphinView::createView()
     m_previewGenerator = new KFilePreviewGenerator(view);
     m_previewGenerator->setPreviewShown(m_showPreview);
 
-    m_revisionControlObserver = new RevisionControlObserver(view);
-    connect(m_revisionControlObserver, SIGNAL(infoMessage(const QString&)),
+    m_versionControlObserver = new VersionControlObserver(view);
+    connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),
             this, SIGNAL(infoMessage(const QString&)));
-    connect(m_revisionControlObserver, SIGNAL(errorMessage(const QString&)),
+    connect(m_versionControlObserver, SIGNAL(errorMessage(const QString&)),
             this, SIGNAL(errorMessage(const QString&)));
-    connect(m_revisionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
+    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
             this, SIGNAL(operationCompletedMessage(const QString&)));
 
     if (DolphinSettings::instance().generalSettings()->showToolTips()) {

@@ -54,8 +54,8 @@ class KAction;
 class KActionCollection;
 class KDirLister;
 class KUrl;
-class RevisionControlObserver;
 class ToolTipManager;
+class VersionControlObserver;
 class ViewProperties;
 
 /**
@@ -324,10 +324,10 @@ public:
     QString statusBarText() const;
 
     /**
-     * Returns the revision control actions that are provided for the items \p items.
+     * Returns the version control actions that are provided for the items \p items.
      * Usually the actions are presented in the context menu.
      */
-    QList<QAction*> revisionControlActions(const KFileItemList& items) const;
+    QList<QAction*> versionControlActions(const KFileItemList& items) const;
 
     /**
      * Updates the state of the 'Additional Information' actions in \a collection.
@@ -814,7 +814,7 @@ private:
     KFilePreviewGenerator* m_previewGenerator;
     ToolTipManager* m_toolTipManager;
 
-    RevisionControlObserver* m_revisionControlObserver;
+    VersionControlObserver* m_versionControlObserver;
 
     KUrl m_rootUrl;
     KUrl m_activeItemUrl;

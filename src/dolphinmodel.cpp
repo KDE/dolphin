@@ -53,7 +53,7 @@ const char* DolphinModel::m_others = I18N_NOOP2("@title:group Name", "Others");
 
 DolphinModel::DolphinModel(QObject* parent) :
     KDirModel(parent),
-    m_hasRevisionData(false),
+    m_hasVersionData(false),
     m_revisionHash()
 {
 }
@@ -64,16 +64,16 @@ DolphinModel::~DolphinModel()
 
 bool DolphinModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    if ((index.column() == DolphinModel::Revision) && (role == Qt::DecorationRole)) {
+    if ((index.column() == DolphinModel::Version) && (role == Qt::DecorationRole)) {
         // TODO: remove data again when items are deleted...
 
         const QPersistentModelIndex key = index;
-        const RevisionControlPlugin::RevisionState state = static_cast<RevisionControlPlugin::RevisionState>(value.toInt());
-        if (m_revisionHash.value(key, RevisionControlPlugin::UnversionedRevision) != state) {
-            if (!m_hasRevisionData) {
+        const KVersionControlPlugin::VersionState state = static_cast<KVersionControlPlugin::VersionState>(value.toInt());
+        if (m_revisionHash.value(key, KVersionControlPlugin::UnversionedVersion) != state) {
+            if (!m_hasVersionData) {
                 connect(this, SIGNAL(rowsRemoved (const QModelIndex&, int, int)),
                         this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
-                m_hasRevisionData = true;
+                m_hasVersionData = true;
             }
 
             m_revisionHash.insert(key, state);
@@ -95,27 +95,27 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
         return sortRoleData(index);
 
     case Qt::DecorationRole:
-        if (index.column() == DolphinModel::Revision) {
-            return m_revisionHash.value(index, RevisionControlPlugin::UnversionedRevision);
+        if (index.column() == DolphinModel::Version) {
+            return m_revisionHash.value(index, KVersionControlPlugin::UnversionedVersion);
         }
         break;
 
     case Qt::DisplayRole:
-        if (index.column() == DolphinModel::Revision) {
-            switch (m_revisionHash.value(index, RevisionControlPlugin::UnversionedRevision)) {
-            case RevisionControlPlugin::NormalRevision:
+        if (index.column() == DolphinModel::Version) {
+            switch (m_revisionHash.value(index, KVersionControlPlugin::UnversionedVersion)) {
+            case KVersionControlPlugin::NormalVersion:
                 return i18nc("@item::intable", "Normal");
-            case RevisionControlPlugin::UpdateRequiredRevision:
+            case KVersionControlPlugin::UpdateRequiredVersion:
                 return i18nc("@item::intable", "Update required");
-            case RevisionControlPlugin::LocallyModifiedRevision:
+            case KVersionControlPlugin::LocallyModifiedVersion:
                 return i18nc("@item::intable", "Locally modified");
-            case RevisionControlPlugin::AddedRevision:
+            case KVersionControlPlugin::AddedVersion:
                 return i18nc("@item::intable", "Added");
-            case RevisionControlPlugin::RemovedRevision:
+            case KVersionControlPlugin::RemovedVersion:
                 return i18nc("@item::intable", "Removed");
-            case RevisionControlPlugin::ConflictingRevision:
+            case KVersionControlPlugin::ConflictingVersion:
                 return i18nc("@item::intable", "Conflicting");
-            case RevisionControlPlugin::UnversionedRevision:
+            case KVersionControlPlugin::UnversionedVersion:
             default:
                 return i18nc("@item::intable", "Unversioned");
             }
@@ -136,8 +136,8 @@ QVariant DolphinModel::headerData(int section, Qt::Orientation orientation, int 
             return KDirModel::headerData(section, orientation, role);
         }
 
-        Q_ASSERT(section == DolphinModel::Revision);
-        return i18nc("@title::column", "Revision");
+        Q_ASSERT(section == DolphinModel::Version);
+        return i18nc("@title::column", "Version");
     }
     return QVariant();
 }
@@ -147,20 +147,20 @@ int DolphinModel::columnCount(const QModelIndex& parent) const
     return KDirModel::columnCount(parent) + (ExtraColumnCount - ColumnCount);
 }
 
-void DolphinModel::clearRevisionData()
+void DolphinModel::clearVersionData()
 {
     m_revisionHash.clear();
-    m_hasRevisionData = false;
+    m_hasVersionData = false;
 }
 
-bool DolphinModel::hasRevisionData() const
+bool DolphinModel::hasVersionData() const
 {
-    return m_hasRevisionData;
+    return m_hasVersionData;
 }
 
 void DolphinModel::slotRowsRemoved(const QModelIndex& parent, int start, int end)
 {
-    if (m_hasRevisionData) {
+    if (m_hasVersionData) {
         const int column = parent.column();
         for (int row = start; row <= end; ++row) {
             m_revisionHash.remove(parent.child(row, column));
@@ -369,7 +369,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
         retString = item.mimeComment();
         break;
 
-    case DolphinModel::Revision:
+    case DolphinModel::Version:
         retString = "test";
         break;
     }

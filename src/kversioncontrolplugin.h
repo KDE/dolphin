@@ -31,65 +31,65 @@ class KFileItemList;
 class QAction;
 
 /**
- * @brief Base class for revision control plugins.
+ * @brief Base class for version control plugins.
  *
- * Enables the file manager to show the revision state
- * of a revisioned file.
+ * Enables the file manager to show the version state
+ * of a versioned file.
  */
-class LIBDOLPHINPRIVATE_EXPORT RevisionControlPlugin : public QObject
+class LIBDOLPHINPRIVATE_EXPORT KVersionControlPlugin : public QObject
 {
     Q_OBJECT
 
 public:
-    enum RevisionState
+    enum VersionState
     {
-        /** The file is not under revision control. */
-        UnversionedRevision,
+        /** The file is not under version control. */
+        UnversionedVersion,
         /**
-         * The file is under revision control and represents
+         * The file is under version control and represents
          * the latest version.
          */
-        NormalRevision,
+        NormalVersion,
         /**
-         * The file is under revision control and a newer
+         * The file is under version control and a newer
          * version exists on the main branch.
          */
-        UpdateRequiredRevision,
+        UpdateRequiredVersion,
         /**
-         * The file is under revision control and has been
+         * The file is under version control and has been
          * modified locally.
          */
-        LocallyModifiedRevision,
+        LocallyModifiedVersion,
         /**
-         * The file has not been under revision control but
+         * The file has not been under version control but
          * has been marked to get added with the next commit.
          */
-        AddedRevision,
+        AddedVersion,
         /**
-         * The file is under revision control but has been marked
+         * The file is under version control but has been marked
          * for getting removed with the next commit.
          */
-        RemovedRevision,
+        RemovedVersion,
         /**
-         * The file is under revision control and has been locally
+         * The file is under version control and has been locally
          * modified. A modification has also been done on the main
          * branch.
          */
-        ConflictingRevision
+        ConflictingVersion
     };
 
-    RevisionControlPlugin();
-    virtual ~RevisionControlPlugin();
+    KVersionControlPlugin();
+    virtual ~KVersionControlPlugin();
 
     /**
      * Returns the name of the file which stores
-     * the revision control informations.
+     * the version control informations.
      * (e. g. .svn, .cvs, .git).
      */
     virtual QString fileName() const = 0;
 
     /**
-     * Is invoked whenever the revision control
+     * Is invoked whenever the version control
      * information will get retrieved for the directory
      * \p directory. It is assured that the directory
      * contains a trailing slash.
@@ -97,47 +97,47 @@ public:
     virtual bool beginRetrieval(const QString& directory) = 0;
 
     /**
-     * Is invoked after the revision control information has been
+     * Is invoked after the version control information has been
      * received. It is assured that
-     * RevisionControlPlugin::beginInfoRetrieval() has been
+     * KVersionControlPlugin::beginInfoRetrieval() has been
      * invoked before.
      */
     virtual void endRetrieval() = 0;
 
     /**
-     * Returns the revision state for the file \p item.
-     * It is assured that RevisionControlPlugin::beginInfoRetrieval() has been
+     * Returns the version state for the file \p item.
+     * It is assured that KVersionControlPlugin::beginInfoRetrieval() has been
      * invoked before and that the file is part of the directory specified
      * in beginInfoRetrieval().
      */
-    virtual RevisionState revisionState(const KFileItem& item) = 0;
+    virtual VersionState versionState(const KFileItem& item) = 0;
     
     /**
      * Returns the list of actions that should be shown in the context menu
      * for the files \p items. It is assured that the passed list is not empty.
-     * If an action triggers a change of the revisions, the signal
-     * RevisionControlPlugin::revisionStatesChanged() must be emitted.
+     * If an action triggers a change of the versions, the signal
+     * KVersionControlPlugin::versionStatesChanged() must be emitted.
      */
     virtual QList<QAction*> contextMenuActions(const KFileItemList& items) = 0;
 
     /**
      * Returns the list of actions that should be shown in the context menu
-     * for the directory \p directory. If an action triggers a change of the revisions,
-     * the signal RevisionControlPlugin::revisionStatesChanged() must be emitted.
+     * for the directory \p directory. If an action triggers a change of the versions,
+     * the signal KVersionControlPlugin::versionStatesChanged() must be emitted.
      */
     virtual QList<QAction*> contextMenuActions(const QString& directory) = 0;
 
 signals:
     /**
-     * Should be emitted when the revision state of files might have been changed
+     * Should be emitted when the version state of files might have been changed
      * after the last retrieval (e. g. by executing a context menu action
-     * of the revision control plugin). The file manager will be triggered to
-     * update the revision states of the directory \p directory by invoking
-     * RevisionControlPlugin::beginRetrieval(),
-     * RevisionControlPlugin::revisionState() and
-     * RevisionControlPlugin::endRetrieval().
+     * of the version control plugin). The file manager will be triggered to
+     * update the version states of the directory \p directory by invoking
+     * KVersionControlPlugin::beginRetrieval(),
+     * KVersionControlPlugin::versionState() and
+     * KVersionControlPlugin::endRetrieval().
      */
-    void revisionStatesChanged();
+    void versionStatesChanged();
 
     /**
      * Is emitted if an information message with the content \a msg
@@ -168,7 +168,7 @@ signals:
 #include <QHash>
 #include <QTemporaryFile>
 
-class LIBDOLPHINPRIVATE_EXPORT SubversionPlugin : public RevisionControlPlugin
+class LIBDOLPHINPRIVATE_EXPORT SubversionPlugin : public KVersionControlPlugin
 {
     Q_OBJECT
 
@@ -178,7 +178,7 @@ public:
     virtual QString fileName() const;
     virtual bool beginRetrieval(const QString& directory);
     virtual void endRetrieval();
-    virtual RevisionControlPlugin::RevisionState revisionState(const KFileItem& item);
+    virtual KVersionControlPlugin::VersionState versionState(const KFileItem& item);
     virtual QList<QAction*> contextMenuActions(const KFileItemList& items);
     virtual QList<QAction*> contextMenuActions(const QString& directory);
 
@@ -211,8 +211,8 @@ private:
     void startSvnCommandProcess();
 
 private:
-    QHash<QString, RevisionState> m_revisionInfoHash;
-    QList<QString> m_revisionInfoKeys; // cache for accessing the keys of the hash
+    QHash<QString, VersionState> m_versionInfoHash;
+    QList<QString> m_versionInfoKeys; // cache for accessing the keys of the hash
 
     QAction* m_updateAction;
     QAction* m_showLocalChangesAction;

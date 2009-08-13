@@ -30,9 +30,9 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "folderexpander.h"
-#include "revisioncontrolobserver.h"
 #include "selectionmanager.h"
 #include "tooltips/tooltipmanager.h"
+#include "versioncontrolobserver.h"
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
@@ -156,7 +156,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     connect (folderExpander, SIGNAL(enterDir(const QModelIndex&)),
              m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
 
-    new RevisionControlObserver(this);
+    new VersionControlObserver(this);
 }
 
 DolphinColumnWidget::~DolphinColumnWidget()

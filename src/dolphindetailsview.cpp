@@ -563,7 +563,7 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
 
     // add checkbox items for each column
     QHeaderView* headerView = header();
-    for (int i = DolphinModel::Size; i <= DolphinModel::Revision; ++i) {
+    for (int i = DolphinModel::Size; i <= DolphinModel::Version; ++i) {
         const int logicalIndex = headerView->logicalIndex(i);
         const QString text = model()->headerData(i, Qt::Horizontal).toString();
         QAction* action = popup.addAction(text);
@@ -598,7 +598,7 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
 void DolphinDetailsView::updateColumnVisibility()
 {
     const KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
-    for (int i = DolphinModel::Size; i <= DolphinModel::Revision; ++i) {
+    for (int i = DolphinModel::Size; i <= DolphinModel::Version; ++i) {
         const KFileItemDelegate::Information info = infoForColumn(i);
         const bool hide = !list.contains(info);
         if (isColumnHidden(i) != hide) {
@@ -899,14 +899,14 @@ void DolphinDetailsView::resizeColumns()
     QHeaderView* headerView = header();
     QFontMetrics fontMetrics(viewport()->font());
 
-    int columnWidth[DolphinModel::Revision + 1];
+    int columnWidth[DolphinModel::Version + 1];
     columnWidth[DolphinModel::Size] = fontMetrics.width("00000 Items");
     columnWidth[DolphinModel::ModifiedTime] = fontMetrics.width("0000-00-00 00:00");
     columnWidth[DolphinModel::Permissions] = fontMetrics.width("xxxxxxxxxx");
     columnWidth[DolphinModel::Owner] = fontMetrics.width("xxxxxxxxxx");
     columnWidth[DolphinModel::Group] = fontMetrics.width("xxxxxxxxxx");
     columnWidth[DolphinModel::Type] = fontMetrics.width("XXXX Xxxxxxx");
-    columnWidth[DolphinModel::Revision] = fontMetrics.width("xxxxxxxx");
+    columnWidth[DolphinModel::Version] = fontMetrics.width("xxxxxxxx");
 
     int requiredWidth = 0;
     for (int i = KDirModel::Size; i <= KDirModel::Type; ++i) {

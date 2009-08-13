@@ -22,7 +22,7 @@
 #define DOLPHINMODEL_H
 
 #include <kdirmodel.h>
-#include <revisioncontrolplugin.h>
+#include <kversioncontrolplugin.h>
 #include <libdolphin_export.h>
 
 #include <QHash>
@@ -34,7 +34,7 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinModel : public KDirModel
 
 public:
     enum AdditionalColumns {
-        Revision = KDirModel::ColumnCount,
+        Version = KDirModel::ColumnCount,
         ExtraColumnCount
     };
 
@@ -46,8 +46,8 @@ public:
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
 
-    void clearRevisionData();
-    bool hasRevisionData() const;
+    void clearVersionData();
+    bool hasVersionData() const;
 
 private slots:
     void slotRowsRemoved(const QModelIndex& parent, int start, int end);
@@ -57,8 +57,8 @@ private:
     QVariant sortRoleData(const QModelIndex& index) const;
 
 private:
-    bool m_hasRevisionData;
-    QHash<QPersistentModelIndex, RevisionControlPlugin::RevisionState> m_revisionHash;
+    bool m_hasVersionData;
+    QHash<QPersistentModelIndex, KVersionControlPlugin::VersionState> m_revisionHash;
 
     static const char* m_others;
 };
