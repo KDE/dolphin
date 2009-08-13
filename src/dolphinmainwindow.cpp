@@ -426,7 +426,15 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     DolphinSettings& settings = DolphinSettings::instance();
     GeneralSettings* generalSettings = settings.generalSettings();
 
-    if ((m_viewTab.count() > 1) && generalSettings->confirmClosingMultipleTabs()) {
+    // Find out if Dolphin is closed directly by the user or
+    // by the session manager because the session is closed
+    bool closedByUser = true;
+    DolphinApplication *application = qobject_cast<DolphinApplication*>(qApp);
+    if (application && application->closedBySessionManager()) {
+        closedByUser = false;
+    }
+
+    if ((m_viewTab.count() > 1) && generalSettings->confirmClosingMultipleTabs() && closedByUser) {
         // Ask the user if he really wants to quit and close all tabs.
         // Open a confirmation dialog with 3 buttons:
         // KDialog::Yes    -> Quit
