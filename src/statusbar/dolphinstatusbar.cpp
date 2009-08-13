@@ -125,13 +125,22 @@ DolphinStatusBar::~DolphinStatusBar()
 void DolphinStatusBar::setMessage(const QString& msg,
                                   Type type)
 {
-    if (msg.isEmpty()) {
-        // show the default text as fallback
-        clear();
-        return;
+    int timeout = 1000; // Timeout in milliseconds until default
+                        // messages may overwrite other messages.
+
+    QString message = msg;
+    if (message.isEmpty()) {
+        // Show the default text as fallback. An empty text indicates
+        // a clearing of the information message.
+        if (m_messageLabel->defaultText().isEmpty()) {
+            return;
+        }
+        message = m_messageLabel->defaultText();
+        type = Default;
+        timeout = 0;
     }
 
-    if ((msg == m_messageLabel->text()) && (type == m_messageLabel->type())) {
+    if ((message == m_messageLabel->text()) && (type == m_messageLabel->type())) {
         // the message is already shown
         return;
     }
@@ -139,7 +148,7 @@ void DolphinStatusBar::setMessage(const QString& msg,
     const QTime currentTime = QTime::currentTime();
     const bool skipMessage = (type == Default) &&
                              m_messageTimeStamp.isValid() &&
-                             (m_messageTimeStamp.msecsTo(currentTime) < 1000);
+                             (m_messageTimeStamp.msecsTo(currentTime) < timeout);
     if (skipMessage) {
         // A non-default message is shown just for a very short time. Don't hide
         // the message by a default message, so that the user gets the chance to
@@ -147,7 +156,7 @@ void DolphinStatusBar::setMessage(const QString& msg,
         return;
     }
 
-    m_messageLabel->setMessage(msg, type);
+    m_messageLabel->setMessage(message, type);
     if (type != Default) {
         m_messageTimeStamp = currentTime;
     }
