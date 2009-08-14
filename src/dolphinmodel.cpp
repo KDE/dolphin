@@ -217,11 +217,7 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
                     }
                 }
 
-                if (!validCategory) {
-                    retString = validCategory ? *currA : i18nc("@title:group Name", m_others);
-                } else {
-                    retString = *currA;
-                }
+                retString = validCategory ? *currA : i18nc("@title:group Name", m_others);
             }
         }
         break;
@@ -393,7 +389,7 @@ QVariant DolphinModel::sortRoleData(const QModelIndex& index) const
         retVariant = data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole);
         if (retVariant == i18nc("@title:group Name", m_others)) {
             // assure that the "Others" group is always the last categorization
-            retVariant = QString(QChar(QChar::ReplacementCharacter));
+            retVariant = QString('Z').append(QChar::ReplacementCharacter);
         }
         break;
     }
