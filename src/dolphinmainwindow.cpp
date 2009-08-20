@@ -430,7 +430,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     // by the session manager because the session is closed
     bool closedByUser = true;
     DolphinApplication *application = qobject_cast<DolphinApplication*>(qApp);
-    if (application && application->closedBySessionManager()) {
+    if (application && application->sessionSaving()) {
         closedByUser = false;
     }
 
