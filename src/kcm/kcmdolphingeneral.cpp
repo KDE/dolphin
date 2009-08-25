@@ -41,7 +41,7 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
 {
     Q_UNUSED(args);
 
-    KGlobal::locale()->insertCatalog("dolphingeneral");
+    KGlobal::locale()->insertCatalog("dolphin");
 
     setButtons(KCModule::Default | KCModule::Help);
 
