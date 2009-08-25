@@ -38,7 +38,7 @@ DolphinServicesConfigModule::DolphinServicesConfigModule(QWidget* parent, const 
 {
     Q_UNUSED(args);
 
-    KGlobal::locale()->insertCatalog("dolphinservices");
+    KGlobal::locale()->insertCatalog("dolphin");
 
     setButtons(KCModule::Default | KCModule::Help);
 

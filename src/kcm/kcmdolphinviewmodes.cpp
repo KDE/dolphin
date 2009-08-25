@@ -44,7 +44,7 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
 {
     Q_UNUSED(args);
 
-    KGlobal::locale()->insertCatalog("dolphinviewmodes");
+    KGlobal::locale()->insertCatalog("dolphin");
 
     setButtons(KCModule::Default | KCModule::Help);
 
