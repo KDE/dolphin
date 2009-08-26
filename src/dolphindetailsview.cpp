@@ -168,10 +168,7 @@ DolphinDetailsView::~DolphinDetailsView()
 bool DolphinDetailsView::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
-        QHeaderView* headerView = header();
-        headerView->setResizeMode(QHeaderView::Interactive);
-        headerView->setMovable(false);
-
+        header()->setResizeMode(QHeaderView::Interactive);
         updateColumnVisibility();
     }
 
@@ -563,13 +560,15 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
 
     // add checkbox items for each column
     QHeaderView* headerView = header();
-    for (int i = DolphinModel::Size; i <= DolphinModel::Version; ++i) {
+    const int columns = model()->columnCount();
+    for (int i = 0; i < columns; ++i) {
         const int logicalIndex = headerView->logicalIndex(i);
-        const QString text = model()->headerData(i, Qt::Horizontal).toString();
+        const QString text = model()->headerData(logicalIndex, Qt::Horizontal).toString();
         QAction* action = popup.addAction(text);
         action->setCheckable(true);
         action->setChecked(!headerView->isSectionHidden(logicalIndex));
-        action->setData(i);
+        action->setData(logicalIndex);
+        action->setEnabled(logicalIndex != DolphinModel::Name);
     }
     popup.addSeparator();
 
@@ -597,16 +596,41 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
 
 void DolphinDetailsView::updateColumnVisibility()
 {
+    QHeaderView* headerView = header();
+    disconnect(headerView, SIGNAL(sectionMoved(int, int, int)),
+               this, SLOT(saveColumnPositions()));
+
+    const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    const QList<int> columnPositions = settings->columnPositions();
+    
     const KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
-    for (int i = DolphinModel::Size; i <= DolphinModel::Version; ++i) {
+    for (int i = DolphinModel::Name; i <= DolphinModel::Version; ++i) {
         const KFileItemDelegate::Information info = infoForColumn(i);
-        const bool hide = !list.contains(info);
+        const bool hide = !list.contains(info) && (i != DolphinModel::Name);
         if (isColumnHidden(i) != hide) {
             setColumnHidden(i, hide);
         }
+        
+        const int from = headerView->visualIndex(i);
+        headerView->moveSection(from, columnPositions[i]);
+    }
+    
+    resizeColumns();
+
+    connect(headerView, SIGNAL(sectionMoved(int, int, int)),
+            this, SLOT(saveColumnPositions()));
+
+}
+
+void DolphinDetailsView::saveColumnPositions()
+{
+    QList<int> columnPositions;
+    for (int i = DolphinModel::Name; i <= DolphinModel::Version; ++i) {
+        columnPositions.append(header()->visualIndex(i));
     }
 
-    resizeColumns();
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
+    settings->setColumnPositions(columnPositions);
 }
 
 void DolphinDetailsView::slotHeaderSectionResized(int logicalIndex, int oldSize, int newSize)

@@ -122,7 +122,15 @@ private slots:
      */
     void configureSettings(const QPoint& pos);
 
+    /**
+     * Updates the visibilty state of columns and their order.
+     */
     void updateColumnVisibility();
+
+    /**
+     * Saves order of the columns as global setting.
+     */
+    void saveColumnPositions();
 
     /**
      * Disables the automatical resizing of columns, if the user has resized the columns
