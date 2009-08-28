@@ -546,7 +546,6 @@ void DolphinDetailsView::setZoomLevel(int level)
     updateDecorationSize(showPreview);
 }
 
-
 void DolphinDetailsView::slotShowPreviewChanged()
 {
     const DolphinView* view = m_controller->dolphinView();

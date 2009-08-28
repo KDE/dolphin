@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2007-2009 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,211 +22,153 @@
 
 #include "dolphinview.h"
 
-#include <kurl.h>
-
-#include <QAbstractItemView>
-#include <QList>
-#include <QString>
+#include <QFont>
+#include <QListView>
+#include <QSize>
 #include <QStyleOption>
 
-class DolphinColumnWidget;
-class DolphinController;
-class QFrame;
-class QTimeLine;
+#include <kurl.h>
+
+class DolphinColumnViewContainer;
+class DolphinModel;
+class DolphinSortFilterProxyModel;
+class DolphinDirLister;
+class DolphinViewAutoScroller;
+class KFilePreviewGenerator;
+class KFileItem;
+class KFileItemList;
+class SelectionManager;
+class ToolTipManager;
 
 /**
- * @brief Represents the view, where each directory is show as separate column.
- *
- * @see DolphinIconsView
- * @see DolphinDetailsView
+ * Represents one column inside the DolphinColumnViewContainer.
  */
-class DolphinColumnView : public QAbstractItemView
+class DolphinColumnView : public QListView
 {
     Q_OBJECT
 
 public:
-    explicit DolphinColumnView(QWidget* parent, DolphinController* controller);
+    DolphinColumnView(QWidget* parent,
+                      DolphinColumnViewContainer* container,
+                      const KUrl& url);
     virtual ~DolphinColumnView();
 
-    /** @see QAbstractItemView::indexAt() */
-    virtual QModelIndex indexAt(const QPoint& point) const;
+    /**
+     * An active column is defined as column, which shows the same URL
+     * as indicated by the URL navigator. The active column is usually
+     * drawn in a lighter color. All operations are applied to this column.
+     */
+    void setActive(bool active);
+    bool isActive() const;
+
+    /**
+     * Sets the directory URL of the child column that is shown next to
+     * this column. This property is only used for a visual indication
+     * of the shown directory, it does not trigger a loading of the model.
+     */
+    void setChildUrl(const KUrl& url);
+    const KUrl& childUrl() const;
+
+    /** Sets the directory URL that is shown inside the column widget. */
+    void setUrl(const KUrl& url);
+
+    /** Returns the directory URL that is shown inside the column widget. */
+    const KUrl& url() const;
+
+    /**
+     * Updates the background color dependent from the activation state
+     * \a isViewActive of the column view.
+     */
+    void updateBackground();
 
     /**
      * Returns the item on the position \a pos. The KFileItem instance
      * is null if no item is below the position.
      */
-    KFileItem itemAt(const QPoint& point) const;
-
-    /** @see QAbstractItemView::scrollTo() */
-    virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
-
-    /** @see QAbstractItemView::visualRect() */
-    virtual QRect visualRect(const QModelIndex& index) const;
-
-    /** Inverts the selection of the currently active column. */
-    void invertSelection();
-
-    /**
-     * Reloads the content of all columns. In opposite to non-hierarchical views
-     * it is not enough to reload the KDirLister, instead this method must be explicitly
-     * invoked.
-     */
-    void reload();
-
-    /**
-     * Adjusts the root URL of the first column and removes all
-     * other columns.
-     */
-    void setRootUrl(const KUrl& url);
-
-    /** Returns the URL of the first column. */
-    KUrl rootUrl() const;
-
-    /**
-     * Filters the currently shown items by \a nameFilter. All items
-     * which contain the given filter string will be shown.
-     */
-    void setNameFilter(const QString& nameFilter);
-
-    /**
-     * Returns the currently used name filter. All items
-     * which contain the name filter will be shown.
-     */
-    QString nameFilter() const;
-
-    /**
-     * Shows the column which represents the URL \a url. If the column
-     * is already shown, it gets activated, otherwise it will be created.
-     */
-    void showColumn(const KUrl& url);
-
-    /**
-     * Does an inline editing for the item \a item
-     * inside the active column.
-     */
-    void editItem(const KFileItem& item);
-
-    /**
-     * Returns the selected items of the active column.
-     */
-    KFileItemList selectedItems() const;
-
-    /**
-     * Returns the MIME data for the selected items
-     * of the active column.
-     */
-    QMimeData* selectionMimeData() const;
-
-public slots:
-    /** @see QAbstractItemView::selectAll() */
-    virtual void selectAll();
-
-signals:
-    /**
-     * Requests that the given column be deleted at the discretion
-     * of the receiver of the signal.
-     */
-    void requestColumnDeletion(QAbstractItemView* column);
+    KFileItem itemAt(const QPoint& pos) const;
 
 protected:
-    virtual bool isIndexHidden(const QModelIndex& index) const;
-    virtual QModelIndex moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers);
-    virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags flags);
-    virtual QRegion visualRegionForSelection(const QItemSelection& selection) const;
-    virtual int horizontalOffset() const;
-    virtual int verticalOffset() const;
-
+    virtual QStyleOptionViewItem viewOptions() const;
+    virtual void startDrag(Qt::DropActions supportedActions);
+    virtual void dragEnterEvent(QDragEnterEvent* event);
+    virtual void dragLeaveEvent(QDragLeaveEvent* event);
+    virtual void dragMoveEvent(QDragMoveEvent* event);
+    virtual void dropEvent(QDropEvent* event);
+    virtual void paintEvent(QPaintEvent* event);
     virtual void mousePressEvent(QMouseEvent* event);
-    virtual void resizeEvent(QResizeEvent* event);
+    virtual void keyPressEvent(QKeyEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
+    virtual void leaveEvent(QEvent* event);
+    virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+    virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private slots:
-    void setZoomLevel(int level);
+    void slotEntered(const QModelIndex& index);
+    void requestActivation();
+    void updateFont();
 
-    /**
-     * Moves the content of the columns view to represent
-     * the scrollbar position \a x.
-     */
-    void moveContentHorizontally(int x);
-
-    /**
-     * Updates the size of the decoration dependent on the
-     * icon size of the ColumnModeSettings. The controller
-     * will get informed about possible zoom in/zoom out
-     * operations.
-     */
-    void updateDecorationSize(bool showPreview);
-
-    /**
-     * Updates the background color of the columns to respect
-     * the current activation state \a active.
-     */
-    void updateColumnsBackground(bool active);
-
-    void slotSortingChanged(DolphinView::Sorting sorting);
-    void slotSortOrderChanged(Qt::SortOrder order);
-    void slotSortFoldersFirstChanged(bool foldersFirst);
-    void slotShowHiddenFilesChanged();
     void slotShowPreviewChanged();
 
 private:
-    DolphinColumnWidget* activeColumn() const;
+    /** Used by DolphinColumnView::setActive(). */
+    void activate();
 
-    /**
-     * Deactivates the currently active column and activates
-     * the new column indicated by \a index. m_index represents
-     * the active column afterwards. Also the URL of the navigator
-     * will be adjusted to reflect the column URL.
-     */
-    void setActiveColumnIndex(int index);
+    /** Used by DolphinColumnView::setActive(). */
+    void deactivate();
 
-    void layoutColumns();
-    void updateScrollBar();
-
-    /**
-     * Assures that the currently active column is fully visible
-     * by adjusting the horizontal position of the content.
-     */
-    void assureVisibleActiveColumn();
-
-    /**
-     * Request the activation for the column \a column. It is assured
-     * that the columns gets fully visible by adjusting the horizontal
-     * position of the content.
-     */
-    void requestActivation(DolphinColumnWidget* column);
-
-    /** Removes all columns except of the root column. */
-    void removeAllColumns();
-
-    /**
-     * Returns the position of the point \a point relative to the column
-     * \a column.
-     */
-    QPoint columnPosition(DolphinColumnWidget* column, const QPoint& point) const;
-
-    /**
-     * Deletes the column. If the itemview of the controller is set to the column,
-     * the controllers itemview is set to 0.
-     */
-    void deleteColumn(DolphinColumnWidget* column);
+    void updateDecorationSize(bool showPreview);
 
 private:
-    DolphinController* m_controller;
     bool m_active;
-    int m_index;
-    int m_contentX;
-    QList<DolphinColumnWidget*> m_columns;
-    QFrame* m_emptyViewport;
-    QTimeLine* m_animation;
-    QString m_nameFilter;
+    DolphinColumnViewContainer* m_container;
+    SelectionManager* m_selectionManager;
+    DolphinViewAutoScroller* m_autoScroller;
+    KUrl m_url;      // URL of the directory that is shown
+    KUrl m_childUrl; // URL of the next column that is shown
 
-    friend class DolphinColumnWidget;
+    QFont m_font;
+    QSize m_decorationSize;
+
+    DolphinDirLister* m_dirLister;
+    DolphinModel* m_dolphinModel;
+    DolphinSortFilterProxyModel* m_proxyModel;
+
+    KFilePreviewGenerator* m_previewGenerator;
+
+    ToolTipManager* m_toolTipManager;
+
+    QRect m_dropRect;
+
+    friend class DolphinColumnViewContainer;
 };
 
-inline DolphinColumnWidget* DolphinColumnView::activeColumn() const
+inline bool DolphinColumnView::isActive() const
 {
-    return m_columns[m_index];
+    return m_active;
+}
+
+inline void DolphinColumnView::setChildUrl(const KUrl& url)
+{
+    m_childUrl = url;
+}
+
+inline const KUrl& DolphinColumnView::childUrl() const
+{
+    return m_childUrl;
+}
+
+inline void DolphinColumnView::setUrl(const KUrl& url)
+{
+    if (url != m_url) {
+        m_url = url;
+        //reload();
+    }
+}
+
+inline const KUrl& DolphinColumnView::url() const
+{
+    return m_url;
 }
 
 #endif

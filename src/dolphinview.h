@@ -42,7 +42,7 @@
 typedef KIO::FileUndoManager::CommandType CommandType;
 
 class DolphinController;
-class DolphinColumnView;
+class DolphinColumnViewContainer;
 class DolphinDetailsView;
 class DolphinFileItemDelegate;
 class DolphinIconsView;
@@ -123,18 +123,12 @@ public:
     /**
      * @param parent           Parent widget of the view.
      * @param url              Specifies the content which should be shown.
-     * @param dirLister        Used directory lister. The lister is not owned
-     *                         by the view and won't get deleted.
-     * @param dolphinModel     Used directory model. The model is not owned
-     *                         by the view and won't get deleted.
      * @param proxyModel       Used proxy model which specifies the sorting. The
      *                         model is not owned by the view and won't get
      *                         deleted.
      */
     DolphinView(QWidget* parent,
                 const KUrl& url,
-                KDirLister* dirLister,
-                DolphinModel* dolphinModel,
                 DolphinSortFilterProxyModel* proxyModel);
 
     virtual ~DolphinView();
@@ -714,19 +708,10 @@ private:
     void loadDirectory(const KUrl& url, bool reload = false);
 
     /**
-     * Returns the URL where the view properties should be stored. Usually
-     * DolphinView::url() is returned, but in the case of a Column View the
-     * view properties are always stored in the directory represented by the
-     * first column. It is recommendend whenever using the ViewProperties class
-     * to use DolphinView::viewPropertiesUrl() as URL.
-     */
-    KUrl viewPropertiesUrl() const;
-
-    /**
      * Applies the view properties which are defined by the current URL
-     * m_url to the DolphinView properties.
+     * to the DolphinView properties.
      */
-    void applyViewProperties(const KUrl& url);
+    void applyViewProperties();
 
     /**
      * Creates a new view representing the given view mode (DolphinView::mode()).
@@ -736,11 +721,7 @@ private:
 
     void deleteView();
 
-    /**
-     * Returns a pointer to the currently used item view, which is either
-     * a ListView or a TreeView.
-     */
-    QAbstractItemView* itemView() const;
+    void initializeView();
 
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
@@ -764,13 +745,6 @@ private:
     KUrl::List simplifiedSelectedUrls() const;
 
     /**
-     * Returns true, if the ColumnView is activated. As the column view
-     * requires some special handling for iterating through directories,
-     * this method has been introduced for convenience.
-     */
-    bool isColumnViewActive() const;
-
-    /**
      * Returns the MIME data for all selected items.
      */
     QMimeData* selectionMimeData() const;
@@ -784,6 +758,53 @@ private:
     void addNewFileNames(const QMimeData* mimeData);
 
 private:
+    /**
+     * Abstracts the access to the different view implementations
+     * for icons-, details- and column-view.
+     */
+    class ViewAccessor
+    {
+    public:
+        ViewAccessor(DolphinSortFilterProxyModel* proxyModel);
+
+        void createView(QWidget* parent, DolphinController* controller, Mode mode);
+        void deleteView();
+        bool prepareUrlChange(const KUrl& url);
+        QAbstractItemView* itemView() const;
+
+        /**
+         * Returns the widget that should be added to the layout as target. Usually
+         * the item view itself is returned, but in the case of the column view
+         * a container widget is returned.
+         */
+        QWidget* layoutTarget() const;
+
+        void setNameFilter(const QString& nameFilter);
+
+        KUrl rootUrl() const;
+
+        bool supportsCategorizedSorting() const;
+        bool hasExpandableFolders() const;
+        bool itemsExpandable() const;
+
+        /**
+         * Returns true, if a reloading of the items is required
+         * when the additional information properties have been changed
+         * by the user.
+         */
+        bool reloadOnAdditionalInfoChange() const;
+
+        DolphinModel* dirModel() const;
+        DolphinSortFilterProxyModel* proxyModel() const;
+        KDirLister* dirLister() const;
+
+    private:
+        DolphinIconsView* m_iconsView;
+        DolphinDetailsView* m_detailsView;
+        DolphinColumnViewContainer* m_columnsContainer;
+        DolphinSortFilterProxyModel* m_proxyModel;
+    };
+
     bool m_active : 1;
     bool m_showPreview : 1;
     bool m_loadingDirectory : 1;
@@ -799,17 +820,11 @@ private:
     QVBoxLayout* m_topLayout;
 
     DolphinController* m_controller;
-    DolphinIconsView* m_iconsView;
-    DolphinDetailsView* m_detailsView;
-    DolphinColumnView* m_columnView;
     DolphinFileItemDelegate* m_fileItemDelegate;
+    ViewAccessor m_viewAccessor;
 
     QItemSelectionModel* m_selectionModel;
     QTimer* m_selectionChangedTimer;
-
-    DolphinModel* m_dolphinModel;
-    KDirLister* m_dirLister;
-    DolphinSortFilterProxyModel* m_proxyModel;
 
     KFilePreviewGenerator* m_previewGenerator;
     ToolTipManager* m_toolTipManager;
@@ -828,13 +843,8 @@ private:
      */
     QSet<QString> m_newFileNames;
 
-    QAbstractItemView* m_expandedDragSource;
+    QAbstractItemView* m_expandedDragSource; // TODO: move to ViewAccessor
 };
-
-inline bool DolphinView::isColumnViewActive() const
-{
-    return m_columnView != 0;
-}
 
 /// Allow using DolphinView::Mode in QVariant
 Q_DECLARE_METATYPE(DolphinView::Mode)

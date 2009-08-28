@@ -128,11 +128,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     connect(m_dirLister, SIGNAL(urlIsFileError(const KUrl&)),
             this, SLOT(openFile(const KUrl&)));
 
-    m_view = new DolphinView(this,
-                             url,
-                             m_dirLister,
-                             m_dolphinModel,
-                             m_proxyModel);
+    m_view = new DolphinView(this, url, m_proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
     connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)),

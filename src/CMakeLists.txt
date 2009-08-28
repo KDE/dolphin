@@ -20,7 +20,7 @@ set(dolphinprivate_LIB_SRCS
     dolphindetailsview.cpp
     dolphiniconsview.cpp
     dolphincolumnview.cpp
-    dolphincolumnwidget.cpp
+    dolphincolumnviewcontainer.cpp
     dolphindirlister.cpp
     dolphinfileitemdelegate.cpp
     dolphinmodel.cpp

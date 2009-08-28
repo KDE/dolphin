@@ -1,3 +1,5 @@
+Don't compile
+
 /***************************************************************************
  *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
@@ -49,6 +51,8 @@
 #include <QPoint>
 #include <QScrollBar>
 
+#include <kdebug.h>
+
 DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                                          DolphinColumnView* columnView,
                                          const KUrl& url) :
@@ -96,9 +100,6 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                        settings->italicFont());
     }
 
-    const int iconSize = settings->iconSize();
-    setDecorationSize(QSize(iconSize, iconSize));
-
     KFileItemDelegate* delegate = new KFileItemDelegate(this);
     delegate->setShowToolTipWhenElided(false);
     setItemDelegate(delegate);
@@ -109,6 +110,18 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
             m_view->m_controller, SLOT(emitViewportEntered()));
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
+
+    const DolphinView* dolphinView = m_view->m_controller->dolphinView();
+    connect(dolphinView, SIGNAL(sortingChanged(DolphinView::Sorting)),
+            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
+    connect(dolphinView, SIGNAL(sortOrderChanged(Qt::SortOrder)),
+            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
+    connect(dolphinView, SIGNAL(sortFoldersFirstChanged(bool)),
+            this, SLOT(slotSortFoldersFirstChanged(bool)));
+    connect(dolphinView, SIGNAL(showHiddenFilesChanged()),
+            this, SLOT(slotShowHiddenFilesChanged()));
+    connect(dolphinView, SIGNAL(showPreviewChanged()),
+            this, SLOT(slotShowPreviewChanged()));
 
     m_dirLister = new DolphinDirLister();
     m_dirLister->setAutoUpdate(true);
@@ -124,7 +137,7 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dolphinModel);
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    const DolphinView* dolphinView = m_view->m_controller->dolphinView();
+
     m_proxyModel->setSorting(dolphinView->sorting());
     m_proxyModel->setSortOrder(dolphinView->sortOrder());
     m_proxyModel->setSortFoldersFirst(dolphinView->sortFoldersFirst());
@@ -139,24 +152,26 @@ DolphinColumnWidget::DolphinColumnWidget(QWidget* parent,
                 m_selectionManager, SLOT(reset()));
     }
 
-    m_previewGenerator = new KFilePreviewGenerator(this);
-    m_previewGenerator->setPreviewShown(m_view->m_controller->dolphinView()->showPreview());
+    //m_previewGenerator = new KFilePreviewGenerator(this);
+    //m_previewGenerator->setPreviewShown(m_view->m_controller->dolphinView()->showPreview());
 
-    if (DolphinSettings::instance().generalSettings()->showToolTips()) {
-        m_toolTipManager = new ToolTipManager(this, m_proxyModel);
-    }
+    //if (DolphinSettings::instance().generalSettings()->showToolTips()) {
+    //    m_toolTipManager = new ToolTipManager(this, m_proxyModel);
+    //}
 
-    m_dirLister->openUrl(url, KDirLister::NoFlags);
+    //m_dirLister->openUrl(url, KDirLister::NoFlags);
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
 
-    FolderExpander* folderExpander = new FolderExpander(this, m_proxyModel);
+    /*FolderExpander* folderExpander = new FolderExpander(this, m_proxyModel);
     folderExpander->setEnabled(DolphinSettings::instance().generalSettings()->autoExpandFolders());
     connect (folderExpander, SIGNAL(enterDir(const QModelIndex&)),
              m_view->m_controller, SLOT(triggerItem(const QModelIndex&)));
 
-    new VersionControlObserver(this);
+    new VersionControlObserver(this);*/
+
+    updateDecorationSize(m_view->m_controller->dolphinView()->showPreview());
 }
 
 DolphinColumnWidget::~DolphinColumnWidget()
@@ -166,19 +181,6 @@ DolphinColumnWidget::~DolphinColumnWidget()
     delete m_dolphinModel;
     m_dolphinModel = 0;
     m_dirLister = 0; // deleted by m_dolphinModel
-}
-
-void DolphinColumnWidget::setDecorationSize(const QSize& size)
-{
-    setIconSize(size);
-    m_decorationSize = size;
-    doItemsLayout();
-    if (m_previewGenerator != 0) {
-        m_previewGenerator->updateIcons();
-    }
-    if (m_selectionManager != 0) {
-        m_selectionManager->reset();
-    }
 }
 
 void DolphinColumnWidget::setActive(bool active)
@@ -198,13 +200,13 @@ void DolphinColumnWidget::setActive(bool active)
     }
 }
 
-void DolphinColumnWidget::reload()
+/*void DolphinColumnWidget::reload()
 {
     m_dirLister->stop();
     m_dirLister->openUrl(m_url, KDirLister::Reload);
-}
+}*/
 
-void DolphinColumnWidget::setSorting(DolphinView::Sorting sorting)
+/*void DolphinColumnWidget::setSorting(DolphinView::Sorting sorting)
 {
     m_proxyModel->setSorting(sorting);
 }
@@ -234,7 +236,7 @@ void DolphinColumnWidget::setShowPreview(bool show)
 
     m_dirLister->stop();
     m_dirLister->openUrl(m_url, KDirLister::Reload);
-}
+}*/
 
 void DolphinColumnWidget::updateBackground()
 {
@@ -487,8 +489,8 @@ void DolphinColumnWidget::selectionChanged(const QItemSelection& selected, const
     QListView::selectionChanged(selected, deselected);
 
     QItemSelectionModel* selModel = m_view->selectionModel();
-    selModel->select(selected, QItemSelectionModel::Select);
-    selModel->select(deselected, QItemSelectionModel::Deselect);
+    //selModel->select(selected, QItemSelectionModel::Select);
+    //selModel->select(deselected, QItemSelectionModel::Deselect);
 }
 
 void DolphinColumnWidget::currentChanged(const QModelIndex& current, const QModelIndex& previous)
@@ -522,6 +524,13 @@ void DolphinColumnWidget::updateFont()
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
     }
+}
+
+void DolphinColumnWidget::slotShowPreviewChanged()
+{
+    kDebug() << "--- slotpreviewchanged";
+    const DolphinView* view = m_view->m_controller->dolphinView();
+    updateDecorationSize(view->showPreview());
 }
 
 void DolphinColumnWidget::activate()
@@ -558,6 +567,22 @@ void DolphinColumnWidget::deactivate()
     selectionModel()->clear();
     selectionModel()->setCurrentIndex(current, QItemSelectionModel::NoUpdate);
     updateBackground();
+}
+
+void DolphinColumnWidget::updateDecorationSize(bool showPreview)
+{
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    const int iconSize = showPreview ? settings->previewSize() : settings->iconSize();
+    const QSize size(iconSize, iconSize);
+    setIconSize(size);
+
+    m_decorationSize = size;
+
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
+    }
+
+    doItemsLayout();
 }
 
 #include "dolphincolumnwidget.moc"

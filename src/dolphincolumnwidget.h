@@ -1,3 +1,5 @@
+Don't compile
+
 /***************************************************************************
  *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
@@ -54,9 +56,6 @@ public:
                         const KUrl& url);
     virtual ~DolphinColumnWidget();
 
-    /** Sets the size of the icons. */
-    void setDecorationSize(const QSize& size);
-
     /**
      * An active column is defined as column, which shows the same URL
      * as indicated by the URL navigator. The active column is usually
@@ -80,25 +79,19 @@ public:
     const KUrl& url() const;
 
     /** Reloads the directory DolphinColumnWidget::url(). */
-    void reload();
+    //void reload();
 
-    void setSorting(DolphinView::Sorting sorting);
+    /*void setSorting(DolphinView::Sorting sorting);
     void setSortOrder(Qt::SortOrder order);
     void setSortFoldersFirst(bool foldersFirst);
     void setShowHiddenFiles(bool show);
-    void setShowPreview(bool show);
+    void setShowPreview(bool show);*/
 
     /**
      * Updates the background color dependent from the activation state
      * \a isViewActive of the column view.
      */
     void updateBackground();
-
-    /**
-     * Filters the currently shown items by \a nameFilter. All items
-     * which contain the given filter string will be shown.
-     */
-    void setNameFilter(const QString& nameFilter);
 
     /**
      * Does an inline editing for the item \a item.
@@ -139,12 +132,16 @@ private slots:
     void requestActivation();
     void updateFont();
 
+    void slotShowPreviewChanged();
+
 private:
     /** Used by DolphinColumnWidget::setActive(). */
     void activate();
 
     /** Used by DolphinColumnWidget::setActive(). */
     void deactivate();
+
+    void updateDecorationSize(bool showPreview);
 
 private:
     bool m_active;
@@ -189,7 +186,7 @@ inline void DolphinColumnWidget::setUrl(const KUrl& url)
 {
     if (url != m_url) {
         m_url = url;
-        reload();
+        //reload();
     }
 }
 

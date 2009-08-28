@@ -70,7 +70,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     }
     m_dirLister->setDelayedMimeTypes(true);
 
-    //connect(m_dirLister, SIGNAL(started(KUrl)), this, SLOT(slotStarted()));
     connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted(KUrl)));
     connect(m_dirLister, SIGNAL(canceled(KUrl)), this, SLOT(slotCanceled(KUrl)));
     connect(m_dirLister, SIGNAL(percent(int)), this, SLOT(updateProgress(int)));
@@ -81,11 +80,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dolphinModel);
 
-    m_view = new DolphinView(parentWidget,
-                             KUrl(),
-                             m_dirLister,
-                             m_dolphinModel,
-                             m_proxyModel);
+    m_view = new DolphinView(parentWidget, KUrl(), m_proxyModel);
     m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
 
