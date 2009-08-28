@@ -23,7 +23,6 @@
 #include "dolphincontroller.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "settings/dolphinsettings.h"
-#include "zoomlevelinfo.h"
 
 #include "dolphin_columnmodesettings.h"
 
@@ -53,8 +52,6 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent, DolphinC
 
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(zoomLevelChanged(int)),
-            this, SLOT(setZoomLevel(int)));
     connect(controller, SIGNAL(activationChanged(bool)),
             this, SLOT(updateColumnsBackground(bool)));
 
@@ -218,19 +215,6 @@ void DolphinColumnViewContainer::wheelEvent(QWheelEvent* event)
         event->ignore();
     } else {
         QScrollArea::wheelEvent(event);
-    }
-}
-
-void DolphinColumnViewContainer::setZoomLevel(int level)
-{
-    const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-
-    const bool showPreview = m_controller->dolphinView()->showPreview();
-    if (showPreview) {
-        settings->setPreviewSize(size);
-    } else {
-        settings->setIconSize(size);
     }
 }
 

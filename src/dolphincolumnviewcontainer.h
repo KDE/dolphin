@@ -82,8 +82,6 @@ protected:
     virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
-    void setZoomLevel(int level);
-
     /**
      * Moves the content of the columns view to represent
      * the scrollbar position \a x.

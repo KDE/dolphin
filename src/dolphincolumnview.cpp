@@ -33,6 +33,7 @@
 #include "selectionmanager.h"
 #include "tooltips/tooltipmanager.h"
 #include "versioncontrolobserver.h"
+#include "zoomlevelinfo.h"
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
@@ -167,7 +168,11 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     new VersionControlObserver(this);*/
 
-    updateDecorationSize(m_container->m_controller->dolphinView()->showPreview());
+    DolphinController* controller = m_container->m_controller;
+    connect(controller, SIGNAL(zoomLevelChanged(int)),
+            this, SLOT(setZoomLevel(int)));
+
+    updateDecorationSize(dolphinView->showPreview());
 }
 
 DolphinColumnView::~DolphinColumnView()
@@ -451,6 +456,22 @@ void DolphinColumnView::currentChanged(const QModelIndex& current, const QModelI
 {
     QListView::currentChanged(current, previous);
     m_autoScroller->handleCurrentIndexChange(current, previous);
+}
+
+
+void DolphinColumnView::setZoomLevel(int level)
+{
+    const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
+    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+
+    const bool showPreview = m_container->m_controller->dolphinView()->showPreview();
+    if (showPreview) {
+        settings->setPreviewSize(size);
+    } else {
+        settings->setIconSize(size);
+    }
+
+    updateDecorationSize(showPreview);
 }
 
 void DolphinColumnView::slotEntered(const QModelIndex& index)

@@ -104,6 +104,8 @@ protected:
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private slots:
+    void setZoomLevel(int level);
+
     void slotEntered(const QModelIndex& index);
     void requestActivation();
     void updateFont();
