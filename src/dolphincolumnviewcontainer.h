@@ -47,18 +47,6 @@ public:
     explicit DolphinColumnViewContainer(QWidget* parent, DolphinController* controller);
     virtual ~DolphinColumnViewContainer();
 
-    /**
-     * Filters the currently shown items by \a nameFilter. All items
-     * which contain the given filter string will be shown.
-     */
-    void setNameFilter(const QString& nameFilter);
-
-    /**
-     * Returns the currently used name filter. All items
-     * which contain the name filter will be shown.
-     */
-    QString nameFilter() const;
-
     KUrl rootUrl() const;
 
     QAbstractItemView* activeColumn() const;
@@ -142,7 +130,6 @@ private:
     QList<DolphinColumnView*> m_columns;
     QFrame* m_emptyViewport;
     QTimeLine* m_animation;
-    QString m_nameFilter;
 
     friend class DolphinColumnView;
 };

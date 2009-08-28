@@ -172,6 +172,13 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     connect(controller, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
 
+    const QString nameFilter = controller->nameFilter();
+    if (!nameFilter.isEmpty()) {
+        m_proxyModel->setFilterRegExp(nameFilter);
+    }
+    connect(controller, SIGNAL(nameFilterChanged(const QString&)),
+            this, SLOT(setNameFilter(const QString&)));
+
     updateDecorationSize(dolphinView->showPreview());
 }
 
@@ -458,6 +465,10 @@ void DolphinColumnView::currentChanged(const QModelIndex& current, const QModelI
     m_autoScroller->handleCurrentIndexChange(current, previous);
 }
 
+void DolphinColumnView::setNameFilter(const QString& nameFilter)
+{
+    m_proxyModel->setFilterRegExp(nameFilter);
+}
 
 void DolphinColumnView::setZoomLevel(int level)
 {

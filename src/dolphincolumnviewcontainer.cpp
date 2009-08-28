@@ -40,8 +40,7 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent, DolphinC
     m_contentX(0),
     m_columns(),
     m_emptyViewport(0),
-    m_animation(0),
-    m_nameFilter()
+    m_animation(0)
 {
     Q_ASSERT(controller != 0);
 
@@ -73,22 +72,6 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent, DolphinC
 
 DolphinColumnViewContainer::~DolphinColumnViewContainer()
 {
-}
-
-void DolphinColumnViewContainer::setNameFilter(const QString& nameFilter)
-{
-    if (nameFilter != m_nameFilter) {
-        m_nameFilter = nameFilter;
-        foreach (DolphinColumnView* column, m_columns) {
-            DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(column->model());
-            proxyModel->setFilterRegExp(nameFilter);
-        }
-    }
-}
-
-QString DolphinColumnViewContainer::nameFilter() const
-{
-    return m_nameFilter;
 }
 
 KUrl DolphinColumnViewContainer::rootUrl() const
@@ -167,10 +150,6 @@ bool DolphinColumnViewContainer::showColumn(const KUrl& url)
             columnIndex++;
 
             DolphinColumnView* column = new DolphinColumnView(viewport(), this, childUrl);
-            if (!m_nameFilter.isEmpty()) {
-                DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(column->model());
-                proxyModel->setFilterRegExp(m_nameFilter);
-            }
             column->setActive(false);
 
             m_columns.append(column);

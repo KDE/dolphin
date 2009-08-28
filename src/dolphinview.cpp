@@ -500,7 +500,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
 
 void DolphinView::setNameFilter(const QString& nameFilter)
 {
-    m_viewAccessor.setNameFilter(nameFilter);
+    m_controller->setNameFilter(nameFilter);
 }
 
 void DolphinView::calculateItemCount(int& fileCount,
@@ -1553,15 +1553,6 @@ QWidget* DolphinView::ViewAccessor::layoutTarget() const
         return m_columnsContainer;
     }
     return itemView();
-}
-
-void DolphinView::ViewAccessor::setNameFilter(const QString& nameFilter)
-{
-    if (m_columnsContainer == 0) {
-        m_columnsContainer->setNameFilter(nameFilter);
-    } else {
-        proxyModel()->setFilterRegExp(nameFilter);
-    }
 }
 
 KUrl DolphinView::ViewAccessor::rootUrl() const

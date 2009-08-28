@@ -104,6 +104,7 @@ protected:
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
 
 private slots:
+    void setNameFilter(const QString& nameFilter);
     void setZoomLevel(int level);
 
     void slotEntered(const QModelIndex& index);

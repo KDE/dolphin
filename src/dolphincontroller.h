@@ -70,6 +70,7 @@ class QPoint;
  * - setShowHiddenFiles()
  * - setShowPreview()
  * - indicateActivationChange()
+ * - setNameFilter()
  * - setZoomLevel()
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinController : public QObject
@@ -195,6 +196,12 @@ public:
      */
     void setZoomLevel(int level);
     int zoomLevel() const;
+
+    /**
+     * Sets the name filter to \a and emits the signal nameFilterChanged().
+     */
+    void setNameFilter(const QString& nameFilter);
+    QString nameFilter() const;
 
     /**
      * Tells the view implementation to zoom out by emitting the signal zoomOut()
@@ -374,6 +381,12 @@ signals:
     void viewportEntered();
 
     /**
+     * Is emitted if the view should respect the name filter \a nameFilter. The view
+     * implementation must connect to this signal if it supports name filters.
+     */
+    void nameFilterChanged(const QString& nameFilter);
+
+    /**
      * Is emitted if the view should change the zoom to \a level. The view implementation
      * must connect to this signal if it supports zooming.
      */
@@ -389,6 +402,7 @@ private slots:
 
 private:
     int m_zoomLevel;
+    QString m_nameFilter;
     static Qt::MouseButtons m_mouseButtons; // TODO: this is a workaround until  Qt-issue 176832 has been fixed
     KUrl m_url;
     DolphinView* m_dolphinView;

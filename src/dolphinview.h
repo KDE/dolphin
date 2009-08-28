@@ -779,8 +779,6 @@ private:
          */
         QWidget* layoutTarget() const;
 
-        void setNameFilter(const QString& nameFilter);
-
         KUrl rootUrl() const;
 
         bool supportsCategorizedSorting() const;

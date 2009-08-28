@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2006-2009 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 #include "dolphincategorydrawer.h"
 #include "dolphincontroller.h"
 #include "settings/dolphinsettings.h"
+#include "dolphinsortfilterproxymodel.h"
 #include "dolphinviewautoscroller.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_generalsettings.h"
@@ -85,6 +86,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
             controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
+    connect(controller, SIGNAL(nameFilterChanged(const QString&)),
+            this, SLOT(setNameFilter(const QString&)));
     connect(controller, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
 
@@ -389,6 +392,12 @@ void DolphinIconsView::slotAdditionalInfoChanged()
     const DolphinView* view = m_controller->dolphinView();
     const bool showPreview = view->showPreview();
     updateGridSize(showPreview, view->additionalInfo().count());
+}
+
+void DolphinIconsView::setNameFilter(const QString& nameFilter)
+{
+    DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(model());
+    proxyModel->setFilterRegExp(nameFilter);
 }
 
 void DolphinIconsView::setZoomLevel(int level)

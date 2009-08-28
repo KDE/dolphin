@@ -31,6 +31,7 @@ Qt::MouseButtons DolphinController::m_mouseButtons = Qt::NoButton;
 DolphinController::DolphinController(DolphinView* dolphinView) :
     QObject(dolphinView),
     m_zoomLevel(0),
+    m_nameFilter(),
     m_url(),
     m_dolphinView(dolphinView),
     m_itemView(0)
@@ -117,6 +118,19 @@ void DolphinController::indicateAdditionalInfoChange(const KFileItemDelegate::In
 void DolphinController::indicateActivationChange(bool active)
 {
     emit activationChanged(active);
+}
+
+void DolphinController::setNameFilter(const QString& nameFilter)
+{
+    if (nameFilter != m_nameFilter) {
+        m_nameFilter = nameFilter;
+        emit nameFilterChanged(nameFilter);
+    }
+}
+
+QString DolphinController::nameFilter() const
+{
+    return m_nameFilter;
 }
 
 void DolphinController::setZoomLevel(int level)
