@@ -49,6 +49,7 @@ set(dolphinprivate_LIB_SRCS
     tooltips/kformattedballoontipdelegate.cpp
     tooltips/tooltipmanager.cpp
     versioncontrolobserver.cpp
+    viewextensionsfactory.cpp
     viewproperties.cpp
     zoomlevelinfo.cpp
     )

@@ -28,6 +28,7 @@
 #include "dolphinviewautoscroller.h"
 #include "draganddrophelper.h"
 #include "selectionmanager.h"
+#include "viewextensionsfactory.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 
@@ -45,7 +46,9 @@
 #include <QPainter>
 #include <QScrollBar>
 
-DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* controller) :
+DolphinDetailsView::DolphinDetailsView(QWidget* parent,
+                                       DolphinController* controller,
+                                       DolphinSortFilterProxyModel* proxyModel) :
     QTreeView(parent),
     m_autoResize(true),
     m_expandingTogglePressed(false),
@@ -55,6 +58,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_controller(controller),
     m_selectionManager(0),
     m_autoScroller(0),
+    m_extensionsFactory(0),
     m_expandableFoldersAction(0),
     m_font(),
     m_decorationSize(),
@@ -75,6 +79,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     setRootIsDecorated(settings->expandableFolders());
     setItemsExpandable(settings->expandableFolders());
     setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setModel(proxyModel);
 
     setMouseTracking(true);
     m_autoScroller = new DolphinViewAutoScroller(this);
@@ -160,6 +165,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent, DolphinController* contr
     m_expandableFoldersAction->setCheckable(true);
     connect(m_expandableFoldersAction, SIGNAL(toggled(bool)),
             this, SLOT(setFoldersExpandable(bool)));
+
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinDetailsView::~DolphinDetailsView()

@@ -26,13 +26,12 @@
 
 #include "dolphin_columnmodesettings.h"
 
-#include <kfilepreviewgenerator.h>
-
 #include <QPoint>
 #include <QScrollBar>
 #include <QTimeLine>
 
-DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent, DolphinController* controller) :
+DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
+                                                       DolphinController* controller) :
     QScrollArea(parent),
     m_controller(controller),
     m_active(false),
@@ -358,8 +357,6 @@ void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
         }
         // deleteWhenNotDragSource(column) does not necessarily delete column,
         // and we want its preview generator destroyed immediately.
-        column->m_previewGenerator->deleteLater();
-        column->m_previewGenerator = 0;
         column->hide();
         // Prevent automatic destruction of column when this DolphinColumnViewContainer
         // is destroyed.

@@ -27,7 +27,9 @@
 
 class DolphinController;
 class SelectionManager;
+class DolphinSortFilterProxyModel;
 class DolphinViewAutoScroller;
+class ViewExtensionsFactory;
 
 /**
  * @brief Represents the details view which shows the name, size,
@@ -42,7 +44,9 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinDetailsView : public QTreeView
     Q_OBJECT
 
 public:
-    explicit DolphinDetailsView(QWidget* parent, DolphinController* controller);
+    explicit DolphinDetailsView(QWidget* parent,
+                                DolphinController* controller,
+                                DolphinSortFilterProxyModel* model);
     virtual ~DolphinDetailsView();
 
 protected:
@@ -202,6 +206,7 @@ private:
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
+    ViewExtensionsFactory* m_extensionsFactory;
     QAction* m_expandableFoldersAction;
 
     QFont m_font;

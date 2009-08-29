@@ -34,11 +34,10 @@ class DolphinModel;
 class DolphinSortFilterProxyModel;
 class DolphinDirLister;
 class DolphinViewAutoScroller;
-class KFilePreviewGenerator;
 class KFileItem;
 class KFileItemList;
 class SelectionManager;
-class ToolTipManager;
+class ViewExtensionsFactory;
 
 /**
  * Represents one column inside the DolphinColumnViewContainer.
@@ -127,6 +126,7 @@ private:
     DolphinColumnViewContainer* m_container;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
+    ViewExtensionsFactory* m_extensionsFactory;
     KUrl m_url;      // URL of the directory that is shown
     KUrl m_childUrl; // URL of the next column that is shown
 
@@ -136,10 +136,6 @@ private:
     DolphinDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
-
-    KFilePreviewGenerator* m_previewGenerator;
-
-    ToolTipManager* m_toolTipManager;
 
     QRect m_dropRect;
 

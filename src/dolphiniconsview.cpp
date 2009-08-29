@@ -28,6 +28,7 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "selectionmanager.h"
+#include "viewextensionsfactory.h"
 #include "zoomlevelinfo.h"
 
 #include <kcategorizedsortfilterproxymodel.h>
@@ -39,12 +40,15 @@
 #include <QApplication>
 #include <QScrollBar>
 
-DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controller) :
+DolphinIconsView::DolphinIconsView(QWidget* parent,
+                                   DolphinController* controller,
+                                   DolphinSortFilterProxyModel* proxyModel) :
     KCategorizedView(parent),
     m_controller(controller),
     m_selectionManager(0),
     m_autoScroller(0),
     m_categoryDrawer(0),
+    m_extensionsFactory(0),
     m_font(),
     m_decorationSize(),
     m_decorationPosition(QStyleOptionViewItem::Top),
@@ -53,6 +57,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
     m_dropRect()
 {
     Q_ASSERT(controller != 0);
+    setModel(proxyModel);
     setLayoutDirection(Qt::LeftToRight);
     setViewMode(QListView::IconMode);
     setResizeMode(QListView::Adjust);
@@ -130,6 +135,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent, DolphinController* controlle
 
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
             this, SLOT(slotGlobalSettingsChanged(int)));
+
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinIconsView::~DolphinIconsView()

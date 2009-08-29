@@ -46,6 +46,7 @@ void DolphinController::setUrl(const KUrl& url)
 {
     if (m_url != url) {
         m_url = url;
+        emit cancelPreviews();
         emit urlChanged(url);
     }
 }

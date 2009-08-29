@@ -67,8 +67,6 @@ class QPoint;
  *
  * The communication of the abstract view to the view implementations is done by:
  * - setUrl()
- * - setShowHiddenFiles()
- * - setShowPreview()
  * - indicateActivationChange()
  * - setNameFilter()
  * - setZoomLevel()
@@ -396,6 +394,11 @@ signals:
      * Is emitted if the abstract view should hide an open tooltip.
      */
     void hideToolTip();
+
+    /**
+     * Is emitted if pending previews should be canceled (e. g. because of an URL change).
+     */
+    void cancelPreviews();
 
 private slots:
     void updateMouseButtonState();

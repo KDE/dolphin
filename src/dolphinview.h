@@ -54,7 +54,6 @@ class KAction;
 class KActionCollection;
 class KDirLister;
 class KUrl;
-class ToolTipManager;
 class VersionControlObserver;
 class ViewProperties;
 
@@ -823,9 +822,6 @@ private:
 
     QItemSelectionModel* m_selectionModel;
     QTimer* m_selectionChangedTimer;
-
-    KFilePreviewGenerator* m_previewGenerator;
-    ToolTipManager* m_toolTipManager;
 
     VersionControlObserver* m_versionControlObserver;
 

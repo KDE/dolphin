@@ -44,7 +44,8 @@ class DolphinColumnViewContainer : public QScrollArea
     Q_OBJECT
 
 public:
-    explicit DolphinColumnViewContainer(QWidget* parent, DolphinController* controller);
+    explicit DolphinColumnViewContainer(QWidget* parent,
+                                        DolphinController* controller);
     virtual ~DolphinColumnViewContainer();
 
     KUrl rootUrl() const;

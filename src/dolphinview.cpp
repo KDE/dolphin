@@ -31,7 +31,6 @@
 #include <kactioncollection.h>
 #include <kcolorscheme.h>
 #include <kdirlister.h>
-#include <kfilepreviewgenerator.h>
 #include <kiconeffect.h>
 #include <kfileitem.h>
 #include <klocale.h>
@@ -62,7 +61,6 @@
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "renamedialog.h"
-#include "tooltips/tooltipmanager.h"
 #include "settings/dolphinsettings.h"
 #include "versioncontrolobserver.h"
 #include "viewproperties.h"
@@ -96,8 +94,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_viewAccessor(proxyModel),
     m_selectionModel(0),
     m_selectionChangedTimer(0),
-    m_previewGenerator(0),
-    m_toolTipManager(0),
     m_versionControlObserver(0),
     m_rootUrl(),
     m_activeItemUrl(),
@@ -388,7 +384,6 @@ void DolphinView::setZoomLevel(int level)
 
     if (level != zoomLevel()) {
         m_controller->setZoomLevel(level);
-        m_previewGenerator->updateIcons();
         emit zoomLevelChanged(level);
     }
 }
@@ -483,7 +478,6 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
         return;
     }
 
-    m_previewGenerator->cancelPreviews();
     m_controller->setUrl(url); // emits urlChanged, which we forward
     if (m_viewAccessor.prepareUrlChange(url)) {
         initializeView();
@@ -754,8 +748,6 @@ void DolphinView::setShowPreview(bool show)
     props.setShowPreview(show);
 
     m_showPreview = show;
-    m_previewGenerator->setPreviewShown(show);
-
     const int oldZoomLevel = m_controller->zoomLevel();
     emit showPreviewChanged();
 
@@ -886,10 +878,6 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 
     case QEvent::KeyPress:
         if (watched == m_viewAccessor.itemView()) {
-            if (m_toolTipManager != 0) {
-                m_toolTipManager->hideTip();
-            }
-
             // clear the selection when Escape has been pressed
             QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
             if (keyEvent->key() == Qt::Key_Escape) {
@@ -924,9 +912,6 @@ void DolphinView::triggerItem(const KFileItem& item)
         return;
     }
 
-    if (m_toolTipManager != 0) {
-        m_toolTipManager->hideTip();
-    }
     emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
 }
 
@@ -951,10 +936,6 @@ void DolphinView::openContextMenu(const QPoint& pos,
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
         const QModelIndex dolphinModelIndex = m_viewAccessor.proxyModel()->mapToSource(index);
         item = m_viewAccessor.dirModel()->itemForIndex(dolphinModelIndex);
-    }
-
-    if (m_toolTipManager != 0) {
-        m_toolTipManager->hideTip();
     }
 
     m_isContextMenuOpen = true; // TODO: workaround for Qt-issue 207192
@@ -1300,8 +1281,6 @@ void DolphinView::applyViewProperties()
     const bool showPreview = props.showPreview();
     if (showPreview != m_showPreview) {
         m_showPreview = showPreview;
-        m_previewGenerator->setPreviewShown(showPreview);
-
         const int oldZoomLevel = m_controller->zoomLevel();
         emit showPreviewChanged();
 
@@ -1342,11 +1321,6 @@ void DolphinView::deleteView()
         m_topLayout->removeWidget(view);
         view->close();
 
-        // m_previewGenerator's parent is not always destroyed, and we
-        // don't want two active at once - manually delete.
-        delete m_previewGenerator;
-        m_previewGenerator = 0;
-
         disconnect(view);
         m_controller->disconnect(view);
         view->disconnect();
@@ -1357,7 +1331,6 @@ void DolphinView::deleteView()
 
         m_viewAccessor.deleteView();
         m_fileItemDelegate = 0;
-        m_toolTipManager = 0;
     }
 }
 
@@ -1412,9 +1385,6 @@ void DolphinView::initializeView()
 
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    m_previewGenerator = new KFilePreviewGenerator(view);
-    m_previewGenerator->setPreviewShown(m_showPreview);
-
     m_versionControlObserver = new VersionControlObserver(view);
     connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),
             this, SIGNAL(infoMessage(const QString&)));
@@ -1422,12 +1392,6 @@ void DolphinView::initializeView()
             this, SIGNAL(errorMessage(const QString&)));
     connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
             this, SIGNAL(operationCompletedMessage(const QString&)));
-
-    if (DolphinSettings::instance().generalSettings()->showToolTips()) {
-        m_toolTipManager = new ToolTipManager(view, m_viewAccessor.proxyModel());
-        connect(m_controller, SIGNAL(hideToolTip()),
-                m_toolTipManager, SLOT(hideTip()));
-    }
 
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
             this, SLOT(emitDelayedSelectionChangedSignal()));
@@ -1493,11 +1457,11 @@ void DolphinView::ViewAccessor::createView(QWidget* parent,
 
     switch (mode) {
     case IconsView:
-        m_iconsView = new DolphinIconsView(parent, controller);
+        m_iconsView = new DolphinIconsView(parent, controller, m_proxyModel);
         break;
 
     case DetailsView:
-        m_detailsView = new DolphinDetailsView(parent, controller);
+        m_detailsView = new DolphinDetailsView(parent, controller, m_proxyModel);
         break;
 
     case ColumnView:

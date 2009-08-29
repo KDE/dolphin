@@ -33,12 +33,12 @@
 #include "selectionmanager.h"
 #include "tooltips/tooltipmanager.h"
 #include "versioncontrolobserver.h"
+#include "viewextensionsfactory.h"
 #include "zoomlevelinfo.h"
 
 #include <kcolorscheme.h>
 #include <kdirlister.h>
 #include <kfileitem.h>
-#include <kfilepreviewgenerator.h>
 #include <kio/previewjob.h>
 #include <kiconeffect.h>
 #include <kjob.h>
@@ -58,6 +58,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_container(container),
     m_selectionManager(0),
     m_autoScroller(0),
+    m_extensionsFactory(0),
     m_url(url),
     m_childUrl(),
     m_font(),
@@ -65,8 +66,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_dirLister(0),
     m_dolphinModel(0),
     m_proxyModel(0),
-    m_previewGenerator(0),
-    m_toolTipManager(0),
     m_dropRect()
 {
     setMouseTracking(true);
@@ -149,13 +148,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
                 m_selectionManager, SLOT(reset()));
     }
 
-    //m_previewGenerator = new KFilePreviewGenerator(this);
-    //m_previewGenerator->setPreviewShown(m_container->m_controller->dolphinView()->showPreview());
-
-    //if (DolphinSettings::instance().generalSettings()->showToolTips()) {
-    //    m_toolTipManager = new ToolTipManager(this, m_proxyModel);
-    //}
-
     //m_dirLister->openUrl(url, KDirLister::NoFlags);
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
@@ -180,6 +172,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
             this, SLOT(setNameFilter(const QString&)));
 
     updateDecorationSize(dolphinView->showPreview());
+
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinColumnView::~DolphinColumnView()
@@ -391,10 +385,6 @@ void DolphinColumnView::keyPressEvent(QKeyEvent* event)
     default:
         break;
     }
-
-    if (m_toolTipManager != 0) {
-        m_toolTipManager->hideTip();
-    }
 }
 
 void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
@@ -411,10 +401,6 @@ void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
     const QModelIndex index = indexAt(event->pos());
     if (!index.isValid()) {
         clearSelection();
-    }
-
-    if (m_toolTipManager != 0) {
-        m_toolTipManager->hideTip();
     }
 
     const QPoint pos = m_container->viewport()->mapFromGlobal(event->globalPos());

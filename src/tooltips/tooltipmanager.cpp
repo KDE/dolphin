@@ -86,6 +86,7 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
             this, SLOT(hideTip()));
 
     m_view->viewport()->installEventFilter(this);
+    m_view->installEventFilter(this);
 }
 
 ToolTipManager::~ToolTipManager()
@@ -99,7 +100,16 @@ void ToolTipManager::hideTip()
 
 bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 {
-    if ((watched == m_view->viewport()) && (event->type() == QEvent::Leave)) {
+    if (watched == m_view->viewport()) {
+        switch (event->type()) {
+        case QEvent::Leave:
+        case QEvent::MouseButtonPress:
+            hideToolTip();
+            break;
+        default:
+            break;
+        }
+    } else if ((watched == m_view) && (event->type() == QEvent::KeyPress)) {
         hideToolTip();
     }
 

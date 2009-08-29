@@ -34,7 +34,9 @@
 class DolphinController;
 class SelectionManager;
 class DolphinCategoryDrawer;
+class DolphinSortFilterProxyModel;
 class DolphinViewAutoScroller;
+class ViewExtensionsFactory;
 
 /**
  * @brief Represents the view, where each item is shown as an icon.
@@ -47,7 +49,9 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KCategorizedView
     Q_OBJECT
 
 public:
-    explicit DolphinIconsView(QWidget* parent, DolphinController* controller);
+    explicit DolphinIconsView(QWidget* parent,
+                              DolphinController* controller,
+                              DolphinSortFilterProxyModel* proxyModel);
     virtual ~DolphinIconsView();
 
 protected slots:
@@ -96,6 +100,7 @@ private:
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
     DolphinCategoryDrawer* m_categoryDrawer;
+    ViewExtensionsFactory* m_extensionsFactory;
 
     QFont m_font;
     QSize m_decorationSize;
