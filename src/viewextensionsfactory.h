@@ -27,6 +27,15 @@ class KFilePreviewGenerator;
 class ToolTipManager;
 class QAbstractItemView;
 
+/**
+ * @brief Responsible for creating extensions like tooltips and previews
+ *        that are available in all view implementations.
+ *
+ * Each view implementation (iconsview, detailsview, columnview) must
+ * instantiate an instance of this class to assure having
+ * a common behavior that is independent from the custom functionality of
+ * a view implementation.
+ */
 class ViewExtensionsFactory : public QObject
 {
     Q_OBJECT

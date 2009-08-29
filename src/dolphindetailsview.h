@@ -29,7 +29,6 @@ class DolphinController;
 class SelectionManager;
 class DolphinSortFilterProxyModel;
 class DolphinViewAutoScroller;
-class ViewExtensionsFactory;
 
 /**
  * @brief Represents the details view which shows the name, size,
@@ -206,7 +205,6 @@ private:
     DolphinController* m_controller;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
-    ViewExtensionsFactory* m_extensionsFactory;
     QAction* m_expandableFoldersAction;
 
     QFont m_font;

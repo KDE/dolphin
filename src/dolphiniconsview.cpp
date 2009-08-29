@@ -48,7 +48,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     m_selectionManager(0),
     m_autoScroller(0),
     m_categoryDrawer(0),
-    m_extensionsFactory(0),
     m_font(),
     m_decorationSize(),
     m_decorationPosition(QStyleOptionViewItem::Top),
@@ -136,7 +135,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
             this, SLOT(slotGlobalSettingsChanged(int)));
 
-    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+    new ViewExtensionsFactory(this, controller);
 }
 
 DolphinIconsView::~DolphinIconsView()

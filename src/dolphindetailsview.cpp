@@ -58,7 +58,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     m_controller(controller),
     m_selectionManager(0),
     m_autoScroller(0),
-    m_extensionsFactory(0),
     m_expandableFoldersAction(0),
     m_font(),
     m_decorationSize(),
@@ -166,7 +165,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     connect(m_expandableFoldersAction, SIGNAL(toggled(bool)),
             this, SLOT(setFoldersExpandable(bool)));
 
-    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+    new ViewExtensionsFactory(this, controller);
 }
 
 DolphinDetailsView::~DolphinDetailsView()

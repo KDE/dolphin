@@ -58,7 +58,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_container(container),
     m_selectionManager(0),
     m_autoScroller(0),
-    m_extensionsFactory(0),
     m_url(url),
     m_childUrl(),
     m_font(),
@@ -173,7 +172,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     updateDecorationSize(dolphinView->showPreview());
 
-    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+    new ViewExtensionsFactory(this, controller);
 }
 
 DolphinColumnView::~DolphinColumnView()

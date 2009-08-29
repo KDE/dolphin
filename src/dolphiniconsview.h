@@ -36,7 +36,6 @@ class SelectionManager;
 class DolphinCategoryDrawer;
 class DolphinSortFilterProxyModel;
 class DolphinViewAutoScroller;
-class ViewExtensionsFactory;
 
 /**
  * @brief Represents the view, where each item is shown as an icon.
@@ -100,7 +99,6 @@ private:
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
     DolphinCategoryDrawer* m_categoryDrawer;
-    ViewExtensionsFactory* m_extensionsFactory;
 
     QFont m_font;
     QSize m_decorationSize;

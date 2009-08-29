@@ -37,7 +37,6 @@ class DolphinViewAutoScroller;
 class KFileItem;
 class KFileItemList;
 class SelectionManager;
-class ViewExtensionsFactory;
 
 /**
  * Represents one column inside the DolphinColumnViewContainer.
@@ -126,7 +125,6 @@ private:
     DolphinColumnViewContainer* m_container;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
-    ViewExtensionsFactory* m_extensionsFactory;
     KUrl m_url;      // URL of the directory that is shown
     KUrl m_childUrl; // URL of the next column that is shown
 
