@@ -65,9 +65,11 @@ private slots:
     void slotZoomLevelChanged();
     void cancelPreviews();
     void slotShowPreviewChanged();
+    void slotShowHiddenFilesChanged();
     void requestActivation();
 
 private:
+    QAbstractItemView* m_view;
     DolphinController* m_controller;
     ToolTipManager* m_toolTipManager;
     KFilePreviewGenerator* m_previewGenerator;

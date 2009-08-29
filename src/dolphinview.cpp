@@ -767,8 +767,6 @@ void DolphinView::setShowHiddenFiles(bool show)
 
     m_viewAccessor.dirLister()->setShowingDotFiles(show);
     emit showHiddenFilesChanged();
-
-    loadDirectory(viewPropsUrl);
 }
 
 void DolphinView::setCategorizedSorting(bool categorized)

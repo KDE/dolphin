@@ -30,12 +30,15 @@
 
 #include "dolphin_generalsettings.h"
 
+#include <kdirlister.h>
+#include <kdirmodel.h>
 #include <kfilepreviewgenerator.h>
 #include <QAbstractItemView>
 
 ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
                                              DolphinController* controller) :
     QObject(view),
+    m_view(view),
     m_controller(controller),
     m_toolTipManager(0),
     m_previewGenerator(0),
@@ -81,6 +84,9 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     m_fileItemDelegate->setShowToolTipWhenElided(false);
     view->setItemDelegate(m_fileItemDelegate);
 
+    // react on view property changes
+    connect(controller->dolphinView(), SIGNAL(showHiddenFilesChanged()),
+            this, SLOT(slotShowHiddenFilesChanged()));
     view->viewport()->installEventFilter(this);
 }
 
@@ -124,6 +130,23 @@ void ViewExtensionsFactory::slotShowPreviewChanged()
 {
     const bool show = m_controller->dolphinView()->showPreview();
     m_previewGenerator->setPreviewShown(show);
+}
+
+void ViewExtensionsFactory::slotShowHiddenFilesChanged()
+{
+    DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(m_view->model());
+    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+    KDirLister* dirLister = dirModel->dirLister();
+
+    dirLister->stop();
+
+    const bool show = m_controller->dolphinView()->showHiddenFiles();
+    dirLister->setShowingDotFiles(show);
+
+    const KUrl url = dirLister->url();
+    if (url.isValid()) {
+        dirLister->openUrl(url, KDirLister::NoFlags);
+    }
 }
 
 void ViewExtensionsFactory::requestActivation()
