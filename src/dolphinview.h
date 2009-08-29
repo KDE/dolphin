@@ -719,8 +719,6 @@ private:
 
     void deleteView();
 
-    void initializeView();
-
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
      * Pastes the clipboard data into the URL \a url.
@@ -825,7 +823,7 @@ private:
     DolphinController* m_controller;
     ViewAccessor m_viewAccessor;
 
-    QItemSelectionModel* m_selectionModel;
+    QItemSelectionModel* m_selectionModel; // allow to switch views without losing the selection
     QTimer* m_selectionChangedTimer;
 
     VersionControlObserver* m_versionControlObserver;

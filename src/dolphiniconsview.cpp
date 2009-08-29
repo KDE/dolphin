@@ -104,7 +104,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     }
 
     setWordWrap(settings->numberOfTextlines() > 1);
-    updateGridSize(view->showPreview(), 0);
 
     if (settings->arrangement() == QListView::TopToBottom) {
         setFlow(QListView::LeftToRight);
@@ -125,6 +124,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
             this, SLOT(slotGlobalSettingsChanged(int)));
 
     m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+    updateGridSize(view->showPreview(), 0);
 }
 
 DolphinIconsView::~DolphinIconsView()

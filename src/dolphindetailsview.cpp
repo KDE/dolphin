@@ -139,7 +139,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     connect(view, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
 
-    updateDecorationSize(view->showPreview());
 
     setFocus();
     viewport()->installEventFilter(this);
@@ -156,6 +155,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 
     m_extensionsFactory = new ViewExtensionsFactory(this, controller);
     m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
+
+    updateDecorationSize(view->showPreview());
 }
 
 DolphinDetailsView::~DolphinDetailsView()

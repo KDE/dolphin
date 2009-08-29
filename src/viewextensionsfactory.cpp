@@ -75,8 +75,6 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
 
     // initialize auto scroller
     m_autoScroller = new DolphinViewAutoScroller(view);
-    connect(controller, SIGNAL(currentIndexChanged(QModelIndex, QModelIndex)),
-            m_autoScroller, SLOT(handleCurrentIndexChanged(QModelIndex, QModelIndex)));
 
     // initialize file item delegate
     m_fileItemDelegate = new DolphinFileItemDelegate(view);

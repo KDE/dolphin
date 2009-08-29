@@ -92,6 +92,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_topLayout(0),
     m_controller(0),
     m_viewAccessor(proxyModel),
+    m_selectionModel(0),
     m_selectionChangedTimer(0),
     m_versionControlObserver(0),
     m_rootUrl(),
@@ -1300,7 +1301,66 @@ void DolphinView::createView()
     deleteView();
     Q_ASSERT(m_viewAccessor.itemView() == 0);
     m_viewAccessor.createView(this, m_controller, m_mode);
-    initializeView();
+
+    QAbstractItemView* view = m_viewAccessor.itemView();
+    Q_ASSERT(view != 0);
+    view->installEventFilter(this);
+    view->viewport()->installEventFilter(this);
+    setFocusProxy(view);
+
+    /* TODO: enable folder expanding again later
+
+    if (m_mode != ColumnView) {
+        // Give the view the ability to auto-expand its directories on hovering
+        // (the column view takes care about this itself). If the details view
+        // uses expandable folders, the auto-expanding should be used always.
+        FolderExpander* folderExpander = new FolderExpander(view, m_viewAccessor.proxyModel());
+        folderExpander->setEnabled(m_viewAccessor.hasExpandableFolders());
+        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&)),
+                m_controller, SLOT(triggerItem(const QModelIndex&)));
+
+    }
+    else {
+        // Listen out for requests to delete the current column.
+        connect(m_viewAccessor.columnsContainer(), SIGNAL(requestColumnDeletion(QAbstractItemView*)),
+                this, SLOT(deleteWhenNotDragSource(QAbstractItemView*)));
+    }*/
+
+    m_controller->setItemView(view);
+
+    m_selectionChangedTimer = new QTimer(this);
+    m_selectionChangedTimer->setSingleShot(true);
+    m_selectionChangedTimer->setInterval(300);
+    connect(m_selectionChangedTimer, SIGNAL(timeout()),
+            this, SLOT(emitSelectionChangedSignal()));
+
+    // When changing the view mode, the selection is lost due to reinstantiating
+    // a new item view with a custom selection model. Pass the ownership of the
+    // selection model to DolphinView, so that it can be shared by all item views.
+    if (m_selectionModel != 0) {
+        view->setSelectionModel(m_selectionModel);
+    } else {
+        m_selectionModel = view->selectionModel();
+    }
+    m_selectionModel->setParent(this);
+
+    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
+    m_versionControlObserver = new VersionControlObserver(view);
+    connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),
+            this, SIGNAL(infoMessage(const QString&)));
+    connect(m_versionControlObserver, SIGNAL(errorMessage(const QString&)),
+            this, SIGNAL(errorMessage(const QString&)));
+    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
+            this, SIGNAL(operationCompletedMessage(const QString&)));
+
+    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            this, SLOT(emitDelayedSelectionChangedSignal()));
+    connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(emitContentsMoved()));
+    connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+            this, SLOT(emitContentsMoved()));
+
     m_topLayout->insertWidget(1, m_viewAccessor.layoutTarget());
 }
 
@@ -1328,69 +1388,6 @@ void DolphinView::deleteView()
 
         m_viewAccessor.deleteView();
     }
-}
-
-void DolphinView::initializeView()
-{
-    QAbstractItemView* view = m_viewAccessor.itemView();
-    Q_ASSERT(view != 0);
-    view->installEventFilter(this);
-    view->viewport()->installEventFilter(this);
-    setFocusProxy(view);
-
-    //if (m_mode != ColumnView) {
-        // Give the view the ability to auto-expand its directories on hovering
-        // (the column view takes care about this itself). If the details view
-        // uses expandable folders, the auto-expanding should be used always.
-        FolderExpander* folderExpander = new FolderExpander(view, m_viewAccessor.proxyModel());
-        folderExpander->setEnabled(m_viewAccessor.hasExpandableFolders());
-        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&)),
-                m_controller, SLOT(triggerItem(const QModelIndex&)));
-
-    // TODO: enable again later
-    /*}
-    else {
-        // Listen out for requests to delete the current column.
-        connect(m_viewAccessor.columnsContainer(), SIGNAL(requestColumnDeletion(QAbstractItemView*)),
-                this, SLOT(deleteWhenNotDragSource(QAbstractItemView*)));
-    }*/
-
-    m_controller->setItemView(view);
-
-    // TODO: reactivate selection model
-    /*view->setModel(m_viewAccessor.proxyModel());
-    if (m_selectionModel != 0) {
-        view->setSelectionModel(m_selectionModel);
-    } else {
-        m_selectionModel = view->selectionModel();
-    }*/
-
-    m_selectionChangedTimer = new QTimer(this);
-    m_selectionChangedTimer->setSingleShot(true);
-    m_selectionChangedTimer->setInterval(300);
-    connect(m_selectionChangedTimer, SIGNAL(timeout()),
-            this, SLOT(emitSelectionChangedSignal()));
-
-    // reparent the selection model, as it should not be deleted
-    // when deleting the model
-    //m_selectionModel->setParent(this);
-
-    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
-
-    m_versionControlObserver = new VersionControlObserver(view);
-    connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),
-            this, SIGNAL(infoMessage(const QString&)));
-    connect(m_versionControlObserver, SIGNAL(errorMessage(const QString&)),
-            this, SIGNAL(errorMessage(const QString&)));
-    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
-            this, SIGNAL(operationCompletedMessage(const QString&)));
-
-    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(emitDelayedSelectionChangedSignal()));
-    connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SLOT(emitContentsMoved()));
-    connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SLOT(emitContentsMoved()));
 }
 
 void DolphinView::pasteToUrl(const KUrl& url)
