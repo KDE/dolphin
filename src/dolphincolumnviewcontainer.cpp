@@ -362,7 +362,9 @@ void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
         // is destroyed.
         column->setParent(0);
         column->disconnect();
-        emit requestColumnDeletion(column);
+
+        //emit requestColumnDeletion(column);
+        column->deleteLater();
     }
 }
 

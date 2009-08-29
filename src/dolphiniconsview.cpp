@@ -32,7 +32,6 @@
 
 #include <kcategorizedsortfilterproxymodel.h>
 #include <kdialog.h>
-#include <kdirmodel.h>
 #include <kfileitemdelegate.h>
 
 #include <QAbstractProxyModel>

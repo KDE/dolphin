@@ -154,9 +154,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     connect(controller, SIGNAL(nameFilterChanged(const QString&)),
             this, SLOT(setNameFilter(const QString&)));
 
-    updateDecorationSize(dolphinView->showPreview());
-
     m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+    updateDecorationSize(dolphinView->showPreview());
 }
 
 DolphinColumnView::~DolphinColumnView()

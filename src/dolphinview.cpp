@@ -753,8 +753,6 @@ void DolphinView::setShowPreview(bool show)
     // As the view does not emit a signal when the icon size has been changed,
     // the used zoom level of the controller must be adjusted manually:
     updateZoomLevel(oldZoomLevel);
-
-    loadDirectory(viewPropsUrl);
 }
 
 void DolphinView::setShowHiddenFiles(bool show)
