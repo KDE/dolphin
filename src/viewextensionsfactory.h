@@ -22,8 +22,11 @@
 
 #include <QObject>
 
+#include "dolphinview.h"
+
 class DolphinController;
 class DolphinFileItemDelegate;
+class DolphinSortFilterProxyModel;
 class DolphinViewAutoScroller;
 class KFilePreviewGenerator;
 class QModelIndex;
@@ -66,7 +69,13 @@ private slots:
     void cancelPreviews();
     void slotShowPreviewChanged();
     void slotShowHiddenFilesChanged();
+    void slotSortingChanged(DolphinView::Sorting sorting);
+    void slotSortOrderChanged(Qt::SortOrder order);
+    void slotSortFoldersFirstChanged(bool foldersFirst);
     void requestActivation();
+
+private:
+    DolphinSortFilterProxyModel* proxyModel() const;
 
 private:
     QAbstractItemView* m_view;

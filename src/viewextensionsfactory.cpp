@@ -85,8 +85,15 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     view->setItemDelegate(m_fileItemDelegate);
 
     // react on view property changes
-    connect(controller->dolphinView(), SIGNAL(showHiddenFilesChanged()),
+    const DolphinView* dolphinView = controller->dolphinView();
+    connect(dolphinView, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
+    connect(dolphinView, SIGNAL(sortingChanged(DolphinView::Sorting)),
+            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
+    connect(dolphinView, SIGNAL(sortOrderChanged(Qt::SortOrder)),
+            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
+    connect(dolphinView, SIGNAL(sortFoldersFirstChanged(bool)),
+            this, SLOT(slotSortFoldersFirstChanged(bool)));
     view->viewport()->installEventFilter(this);
 }
 
@@ -134,8 +141,7 @@ void ViewExtensionsFactory::slotShowPreviewChanged()
 
 void ViewExtensionsFactory::slotShowHiddenFilesChanged()
 {
-    DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(m_view->model());
-    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel()->sourceModel());
     KDirLister* dirLister = dirModel->dirLister();
 
     dirLister->stop();
@@ -149,9 +155,29 @@ void ViewExtensionsFactory::slotShowHiddenFilesChanged()
     }
 }
 
+void ViewExtensionsFactory::slotSortingChanged(DolphinView::Sorting sorting)
+{
+    proxyModel()->setSorting(sorting);
+}
+
+void ViewExtensionsFactory::slotSortOrderChanged(Qt::SortOrder order)
+{
+    proxyModel()->setSortOrder(order);
+}
+
+void ViewExtensionsFactory::slotSortFoldersFirstChanged(bool foldersFirst)
+{
+    proxyModel()->setSortFoldersFirst(foldersFirst);
+}
+
 void ViewExtensionsFactory::requestActivation()
 {
     m_controller->requestActivation();
+}
+
+DolphinSortFilterProxyModel* ViewExtensionsFactory::proxyModel() const
+{
+    return static_cast<DolphinSortFilterProxyModel*>(m_view->model());
 }
 
 #include "viewextensionsfactory.moc"

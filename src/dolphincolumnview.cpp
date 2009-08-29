@@ -99,14 +99,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
             this, SLOT(slotEntered(const QModelIndex&)));
 
     const DolphinView* dolphinView = m_container->m_controller->dolphinView();
-    connect(dolphinView, SIGNAL(sortingChanged(DolphinView::Sorting)),
-            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
-    connect(dolphinView, SIGNAL(sortOrderChanged(Qt::SortOrder)),
-            this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
-    connect(dolphinView, SIGNAL(sortFoldersFirstChanged(bool)),
-            this, SLOT(slotSortFoldersFirstChanged(bool)));
-    connect(dolphinView, SIGNAL(showHiddenFilesChanged()),
-            this, SLOT(slotShowHiddenFilesChanged()));
     connect(dolphinView, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
 
@@ -130,8 +122,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_proxyModel->setSortFoldersFirst(dolphinView->sortFoldersFirst());
 
     setModel(m_proxyModel);
-
-    //m_dirLister->openUrl(url, KDirLister::NoFlags);
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
@@ -183,38 +173,6 @@ void DolphinColumnView::setActive(bool active)
         }
     }
 }
-
-/*void DolphinColumnView::setSorting(DolphinView::Sorting sorting)
-{
-    m_proxyModel->setSorting(sorting);
-}
-
-void DolphinColumnView::setSortOrder(Qt::SortOrder order)
-{
-    m_proxyModel->setSortOrder(order);
-}
-
-void DolphinColumnView::setSortFoldersFirst(bool foldersFirst)
-{
-    m_proxyModel->setSortFoldersFirst(foldersFirst);
-}
-
-void DolphinColumnView::setShowHiddenFiles(bool show)
-{
-    if (show != m_dirLister->showingDotFiles()) {
-        m_dirLister->setShowingDotFiles(show);
-        m_dirLister->stop();
-        m_dirLister->openUrl(m_url, KDirLister::Reload);
-    }
-}
-
-void DolphinColumnView::setShowPreview(bool show)
-{
-    m_previewGenerator->setPreviewShown(show);
-
-    m_dirLister->stop();
-    m_dirLister->openUrl(m_url, KDirLister::Reload);
-}*/
 
 void DolphinColumnView::updateBackground()
 {
