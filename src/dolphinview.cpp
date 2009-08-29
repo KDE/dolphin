@@ -1237,7 +1237,7 @@ void DolphinView::applyViewProperties()
         createView();
     }
     Q_ASSERT(m_viewAccessor.itemView() != 0);
-    Q_ASSERT(m_fileItemDelegate != 0);
+    Q_ASSERT(m_viewAccessor.itemDelegate() != 0);
 
     const bool showHiddenFiles = props.showHiddenFiles();
     if (showHiddenFiles != m_viewAccessor.dirLister()->showingDotFiles()) {
