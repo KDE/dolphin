@@ -141,8 +141,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     if (!nameFilter.isEmpty()) {
         m_proxyModel->setFilterRegExp(nameFilter);
     }
-    connect(controller, SIGNAL(nameFilterChanged(const QString&)),
-            this, SLOT(setNameFilter(const QString&)));
 
     m_extensionsFactory = new ViewExtensionsFactory(this, controller);
     updateDecorationSize(dolphinView->showPreview());
@@ -385,11 +383,6 @@ void DolphinColumnView::currentChanged(const QModelIndex& current, const QModelI
 {
     QListView::currentChanged(current, previous);
     m_extensionsFactory->handleCurrentIndexChange(current, previous);
-}
-
-void DolphinColumnView::setNameFilter(const QString& nameFilter)
-{
-    m_proxyModel->setFilterRegExp(nameFilter);
 }
 
 void DolphinColumnView::setZoomLevel(int level)

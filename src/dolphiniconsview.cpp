@@ -78,8 +78,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
             controller, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(nameFilterChanged(const QString&)),
-            this, SLOT(setNameFilter(const QString&)));
     connect(controller, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
 
@@ -382,12 +380,6 @@ void DolphinIconsView::slotAdditionalInfoChanged()
     const DolphinView* view = m_controller->dolphinView();
     const bool showPreview = view->showPreview();
     updateGridSize(showPreview, view->additionalInfo().count());
-}
-
-void DolphinIconsView::setNameFilter(const QString& nameFilter)
-{
-    DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(model());
-    proxyModel->setFilterRegExp(nameFilter);
 }
 
 void DolphinIconsView::setZoomLevel(int level)

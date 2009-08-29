@@ -114,8 +114,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
             this, SLOT(slotEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
             controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(nameFilterChanged(const QString&)),
-            this, SLOT(setNameFilter(const QString&)));
     connect(controller, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
     connect(controller->dolphinView(), SIGNAL(additionalInfoChanged()),
@@ -523,12 +521,6 @@ QRect DolphinDetailsView::elasticBandRect() const
     const QPoint topLeft = m_band.origin - scrollPos;
     const QPoint bottomRight = m_band.destination - scrollPos;
     return QRect(topLeft, bottomRight).normalized();
-}
-
-void DolphinDetailsView::setNameFilter(const QString& nameFilter)
-{
-    DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(model());
-    proxyModel->setFilterRegExp(nameFilter);
 }
 
 void DolphinDetailsView::setZoomLevel(int level)

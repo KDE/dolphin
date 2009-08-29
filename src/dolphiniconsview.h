@@ -75,7 +75,6 @@ protected:
 private slots:
     void slotShowPreviewChanged();
     void slotAdditionalInfoChanged();
-    void setNameFilter(const QString& nameFilter);
     void setZoomLevel(int level);
     void requestActivation();
     void slotGlobalSettingsChanged(int category);

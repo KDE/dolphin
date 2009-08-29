@@ -113,8 +113,6 @@ private slots:
      */
     QRect elasticBandRect() const;
 
-    void setNameFilter(const QString& nameFilter);
-
     void setZoomLevel(int level);
 
     void slotShowPreviewChanged();

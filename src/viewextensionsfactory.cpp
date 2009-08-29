@@ -94,6 +94,10 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(dolphinView, SIGNAL(sortFoldersFirstChanged(bool)),
             this, SLOT(slotSortFoldersFirstChanged(bool)));
+
+    connect(controller, SIGNAL(nameFilterChanged(const QString&)),
+            this, SLOT(slotNameFilterChanged(const QString&)));
+
     view->viewport()->installEventFilter(this);
 }
 
@@ -168,6 +172,11 @@ void ViewExtensionsFactory::slotSortOrderChanged(Qt::SortOrder order)
 void ViewExtensionsFactory::slotSortFoldersFirstChanged(bool foldersFirst)
 {
     proxyModel()->setSortFoldersFirst(foldersFirst);
+}
+
+void ViewExtensionsFactory::slotNameFilterChanged(const QString& nameFilter)
+{
+    proxyModel()->setFilterRegExp(nameFilter);
 }
 
 void ViewExtensionsFactory::requestActivation()
