@@ -56,7 +56,7 @@ public:
      * Shows the column which represents the URL \a url. If the column
      * is already shown, it gets activated, otherwise it will be created.
      */
-    bool showColumn(const KUrl& url);
+    void showColumn(const KUrl& url);
 
 signals:
     /**

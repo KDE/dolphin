@@ -65,13 +65,13 @@ public:
      * of the shown directory, it does not trigger a loading of the model.
      */
     void setChildUrl(const KUrl& url);
-    const KUrl& childUrl() const;
+    KUrl childUrl() const;
 
     /** Sets the directory URL that is shown inside the column widget. */
     void setUrl(const KUrl& url);
 
     /** Returns the directory URL that is shown inside the column widget. */
-    const KUrl& url() const;
+    KUrl url() const;
 
     /**
      * Updates the background color dependent from the activation state
@@ -149,7 +149,7 @@ inline void DolphinColumnView::setChildUrl(const KUrl& url)
     m_childUrl = url;
 }
 
-inline const KUrl& DolphinColumnView::childUrl() const
+inline KUrl DolphinColumnView::childUrl() const
 {
     return m_childUrl;
 }
@@ -162,7 +162,7 @@ inline void DolphinColumnView::setUrl(const KUrl& url)
     }
 }
 
-inline const KUrl& DolphinColumnView::url() const
+inline KUrl DolphinColumnView::url() const
 {
     return m_url;
 }

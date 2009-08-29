@@ -1302,7 +1302,7 @@ void DolphinView::createView()
     Q_ASSERT(view != 0);
     view->installEventFilter(this);
     view->viewport()->installEventFilter(this);
-    setFocusProxy(view);
+
 
     /* TODO: enable folder expanding again later
 
@@ -1357,6 +1357,7 @@ void DolphinView::createView()
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
 
+    setFocusProxy(m_viewAccessor.layoutTarget());
     m_topLayout->insertWidget(1, m_viewAccessor.layoutTarget());
 }
 

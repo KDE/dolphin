@@ -48,8 +48,8 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     setFrameShape(QFrame::NoFrame);
     setLayoutDirection(Qt::LeftToRight);
 
-    connect(this, SIGNAL(viewportEntered()),
-            controller, SLOT(emitViewportEntered()));
+    //connect(this, SIGNAL(viewportEntered()),
+    //        controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(activationChanged(bool)),
             this, SLOT(updateColumnsBackground(bool)));
 
@@ -83,12 +83,12 @@ QAbstractItemView* DolphinColumnViewContainer::activeColumn() const
     return m_columns[m_index];
 }
 
-bool DolphinColumnViewContainer::showColumn(const KUrl& url)
+void DolphinColumnViewContainer::showColumn(const KUrl& url)
 {
     if (!rootUrl().isParentOf(url)) {
         removeAllColumns();
         m_columns[0]->setUrl(url);
-        return false;
+        return;
     }
 
     int columnIndex = 0;
@@ -97,7 +97,7 @@ bool DolphinColumnViewContainer::showColumn(const KUrl& url)
             // the column represents already the requested URL, hence activate it
             requestActivation(column);
             layoutColumns();
-            return false;
+            return;
         } else if (!column->url().isParentOf(url)) {
             // the column is no parent of the requested URL, hence
             // just delete all remaining columns
@@ -168,8 +168,6 @@ bool DolphinColumnViewContainer::showColumn(const KUrl& url)
     m_index = columnIndex;
     m_columns[m_index]->setActive(true);
     assureVisibleActiveColumn();
-
-    return true;
 }
 
 void DolphinColumnViewContainer::mousePressEvent(QMouseEvent* event)
