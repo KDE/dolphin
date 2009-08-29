@@ -23,6 +23,7 @@
 #include <QObject>
 
 class DolphinController;
+class DolphinFileItemDelegate;
 class DolphinViewAutoScroller;
 class KFilePreviewGenerator;
 class QModelIndex;
@@ -55,6 +56,8 @@ public:
      */
     void handleCurrentIndexChange(const QModelIndex& current, const QModelIndex& previous);
 
+    DolphinFileItemDelegate* fileItemDelegate() const;
+
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
@@ -70,6 +73,7 @@ private:
     KFilePreviewGenerator* m_previewGenerator;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
+    DolphinFileItemDelegate* m_fileItemDelegate;
 };
 
 #endif

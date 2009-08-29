@@ -20,6 +20,7 @@
 
 #include "dolphinview.h"
 
+#include <QAbstractItemView>
 #include <QApplication>
 #include <QClipboard>
 #include <QKeyEvent>
@@ -90,7 +91,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_controller(0),
-    m_fileItemDelegate(0),
     m_viewAccessor(proxyModel),
     m_selectionChangedTimer(0),
     m_versionControlObserver(0),
@@ -229,7 +229,7 @@ void DolphinView::setMode(Mode mode)
     // the file item delegate has been recreated, apply the current
     // additional information manually
     const KFileItemDelegate::InformationList infoList = props.additionalInfo();
-    m_fileItemDelegate->setShowInformation(infoList);
+    m_viewAccessor.itemDelegate()->setShowInformation(infoList);
     emit additionalInfoChanged();
 
     // Not all view modes support categorized sorting. Adjust the sorting model
@@ -433,7 +433,7 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
     const KUrl viewPropsUrl = rootUrl();
     ViewProperties props(viewPropsUrl);
     props.setAdditionalInfo(info);
-    m_fileItemDelegate->setShowInformation(info);
+    m_viewAccessor.itemDelegate()->setShowInformation(info);
 
     emit additionalInfoChanged();
 
@@ -444,7 +444,7 @@ void DolphinView::setAdditionalInfo(KFileItemDelegate::InformationList info)
 
 KFileItemDelegate::InformationList DolphinView::additionalInfo() const
 {
-    return m_fileItemDelegate->showInformation();
+    return m_viewAccessor.itemDelegate()->showInformation();
 }
 
 void DolphinView::reload()
@@ -478,9 +478,7 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
     }
 
     m_controller->setUrl(url); // emits urlChanged, which we forward
-    if (m_viewAccessor.prepareUrlChange(url)) {
-        initializeView();
-    }
+    m_viewAccessor.prepareUrlChange(url);
     applyViewProperties();
     loadDirectory(url);
 
@@ -986,7 +984,7 @@ void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList&
     props.setAdditionalInfo(info);
     props.save();
 
-    m_fileItemDelegate->setShowInformation(info);
+    m_viewAccessor.itemDelegate()->setShowInformation(info);
 
     emit additionalInfoChanged();
 }
@@ -1017,7 +1015,7 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
     showGroupInfo->setEnabled(enable);
     showMimeInfo->setEnabled(enable);
 
-    foreach (KFileItemDelegate::Information info, m_fileItemDelegate->showInformation()) {
+    foreach (KFileItemDelegate::Information info, m_viewAccessor.itemDelegate()->showInformation()) {
         switch (info) {
         case KFileItemDelegate::Size:
             showSizeInfo->setChecked(true);
@@ -1272,8 +1270,8 @@ void DolphinView::applyViewProperties()
     }
 
     KFileItemDelegate::InformationList info = props.additionalInfo();
-    if (info != m_fileItemDelegate->showInformation()) {
-        m_fileItemDelegate->setShowInformation(info);
+    if (info != m_viewAccessor.itemDelegate()->showInformation()) {
+        m_viewAccessor.itemDelegate()->setShowInformation(info);
         emit additionalInfoChanged();
     }
 
@@ -1329,7 +1327,6 @@ void DolphinView::deleteView()
         view = 0;
 
         m_viewAccessor.deleteView();
-        m_fileItemDelegate = 0;
     }
 }
 
@@ -1359,11 +1356,6 @@ void DolphinView::initializeView()
     }*/
 
     m_controller->setItemView(view);
-
-    m_fileItemDelegate = new DolphinFileItemDelegate(view);
-    m_fileItemDelegate->setShowToolTipWhenElided(false);
-    m_fileItemDelegate->setMinimizedNameColumn(m_mode == DetailsView);
-    view->setItemDelegate(m_fileItemDelegate);
 
     // TODO: reactivate selection model
     /*view->setModel(m_viewAccessor.proxyModel());
@@ -1486,12 +1478,11 @@ void DolphinView::ViewAccessor::deleteView()
 }
 
 
-bool DolphinView::ViewAccessor::prepareUrlChange(const KUrl& url)
+void DolphinView::ViewAccessor::prepareUrlChange(const KUrl& url)
 {
     if (m_columnsContainer != 0) {
-        return m_columnsContainer->showColumn(url);
+        m_columnsContainer->showColumn(url);
     }
-    return false;
 }
 
 QAbstractItemView* DolphinView::ViewAccessor::itemView() const
@@ -1509,6 +1500,11 @@ QAbstractItemView* DolphinView::ViewAccessor::itemView() const
     }
 
     return 0;
+}
+
+KFileItemDelegate* DolphinView::ViewAccessor::itemDelegate() const
+{
+    return static_cast<KFileItemDelegate*>(itemView()->itemDelegate());
 }
 
 QWidget* DolphinView::ViewAccessor::layoutTarget() const

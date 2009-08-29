@@ -20,6 +20,7 @@
 #include "viewextensionsfactory.h"
 
 #include "dolphincontroller.h"
+#include "dolphinfileitemdelegate.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinviewautoscroller.h"
@@ -39,7 +40,8 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     m_toolTipManager(0),
     m_previewGenerator(0),
     m_selectionManager(0),
-    m_autoScroller(0)
+    m_autoScroller(0),
+    m_fileItemDelegate(0)
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
@@ -76,6 +78,11 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     connect(controller, SIGNAL(currentIndexChanged(QModelIndex, QModelIndex)),
             m_autoScroller, SLOT(handleCurrentIndexChanged(QModelIndex, QModelIndex)));
 
+    // initialize file item delegate
+    m_fileItemDelegate = new DolphinFileItemDelegate(view);
+    m_fileItemDelegate->setShowToolTipWhenElided(false);
+    view->setItemDelegate(m_fileItemDelegate);
+
     view->viewport()->installEventFilter(this);
 }
 
@@ -86,6 +93,11 @@ ViewExtensionsFactory::~ViewExtensionsFactory()
 void ViewExtensionsFactory::handleCurrentIndexChange(const QModelIndex& current, const QModelIndex& previous)
 {
     m_autoScroller->handleCurrentIndexChange(current, previous);
+}
+
+DolphinFileItemDelegate* ViewExtensionsFactory::fileItemDelegate() const
+{
+    return m_fileItemDelegate;
 }
 
 bool ViewExtensionsFactory::eventFilter(QObject* watched, QEvent* event)

@@ -91,10 +91,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
                        settings->italicFont());
     }
 
-   // KFileItemDelegate* delegate = new KFileItemDelegate(this);
-   // delegate->setShowToolTipWhenElided(false);
-   // setItemDelegate(delegate);
-
     activate();
 
     connect(this, SIGNAL(viewportEntered()),

@@ -44,7 +44,6 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 class DolphinController;
 class DolphinColumnViewContainer;
 class DolphinDetailsView;
-class DolphinFileItemDelegate;
 class DolphinIconsView;
 class DolphinMainWindow;
 class DolphinModel;
@@ -768,8 +767,15 @@ private:
 
         void createView(QWidget* parent, DolphinController* controller, Mode mode);
         void deleteView();
-        bool prepareUrlChange(const KUrl& url);
+
+        /**
+         * Must be invoked before the URL has been changed and allows view implementations
+         * like the column view to create a new column.
+         */
+        void prepareUrlChange(const KUrl& url);
+
         QAbstractItemView* itemView() const;
+        KFileItemDelegate* itemDelegate() const;
 
         /**
          * Returns the widget that should be added to the layout as target. Usually
@@ -817,7 +823,6 @@ private:
     QVBoxLayout* m_topLayout;
 
     DolphinController* m_controller;
-    DolphinFileItemDelegate* m_fileItemDelegate;
     ViewAccessor m_viewAccessor;
 
     QItemSelectionModel* m_selectionModel;
