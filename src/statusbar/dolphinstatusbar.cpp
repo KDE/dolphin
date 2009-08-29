@@ -108,10 +108,10 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     // initialize sizes
     const int fontHeight = QFontMetrics(m_messageLabel->font()).height();
     const int zoomWidgetHeight = m_zoomWidget->minimumSizeHint().height();
-    const int contentHeight = (fontHeight < zoomWidgetHeight) ? zoomWidgetHeight : fontHeight;
+    const int contentHeight = qMax(fontHeight, zoomWidgetHeight);
 
     m_messageLabel->setMinimumTextHeight(contentHeight);
-    m_spaceInfo->setFixedHeight(contentHeight);
+    m_spaceInfo->setFixedHeight(contentHeight - 5);
     m_progressBar->setFixedSize(200, contentHeight);
     m_zoomWidget->setFixedSize(150, contentHeight);
 
@@ -290,18 +290,13 @@ void DolphinStatusBar::assureVisibleText()
     if (m_spaceInfo->isVisible() || m_zoomWidget->isVisible()) {
         // At least the space information or the zoom slider is shown.
         // Hide them if the status bar text does not fit into the available width.
-        if (widthGap > 0) {
-            setExtensionsVisible(false);
-        }
+        setExtensionsVisible(widthGap <= 0);
     } else if (!m_progressBar->isVisible()) {
         const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
         const int spaceInfoWidth  = settings->showSpaceInfo()  ? m_spaceInfo->minimumWidth()  : 0;
         const int zoomWidgetWidth = settings->showZoomSlider() ? m_zoomWidget->minimumWidth() : 0;
         const int widgetsWidth = spaceInfoWidth + zoomWidgetWidth;
-
-        if (widthGap + widgetsWidth <= 0) {
-            setExtensionsVisible(true);
-        }
+        setExtensionsVisible(widthGap + widgetsWidth <= 0);
     }
 }
 
