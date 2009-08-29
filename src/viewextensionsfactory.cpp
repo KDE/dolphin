@@ -22,6 +22,8 @@
 #include "dolphincontroller.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
+#include "dolphinviewautoscroller.h"
+#include "selectionmanager.h"
 #include "settings/dolphinsettings.h"
 #include "tooltips/tooltipmanager.h"
 
@@ -35,9 +37,14 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     QObject(view),
     m_controller(controller),
     m_toolTipManager(0),
-    m_previewGenerator(0)
+    m_previewGenerator(0),
+    m_selectionManager(0),
+    m_autoScroller(0)
 {
-    if (DolphinSettings::instance().generalSettings()->showToolTips()) {
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+
+    // initialize tooltips
+    if (settings->showToolTips()) {
         DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(view->model());
         m_toolTipManager = new ToolTipManager(view, proxyModel);
 
@@ -45,23 +52,57 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
                 m_toolTipManager, SLOT(hideTip()));
     }
 
+    // initialize preview generator
     m_previewGenerator = new KFilePreviewGenerator(view);
     m_previewGenerator->setPreviewShown(controller->dolphinView()->showPreview());
     connect(controller, SIGNAL(zoomLevelChanged(int)),
-            this, SLOT(updateIcons()));
+            this, SLOT(slotZoomLevelChanged()));
     connect(controller, SIGNAL(cancelPreviews()),
             this, SLOT(cancelPreviews()));
     connect(controller->dolphinView(), SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
+
+    // initialize selection manager
+    if (settings->showSelectionToggle()) {
+        m_selectionManager = new SelectionManager(view);
+        connect(m_selectionManager, SIGNAL(selectionChanged()),
+                this, SLOT(requestActivation()));
+        connect(controller, SIGNAL(urlChanged(const KUrl&)),
+                m_selectionManager, SLOT(reset()));
+    }
+
+    // initialize auto scroller
+    m_autoScroller = new DolphinViewAutoScroller(view);
+    connect(controller, SIGNAL(currentIndexChanged(QModelIndex, QModelIndex)),
+            m_autoScroller, SLOT(handleCurrentIndexChanged(QModelIndex, QModelIndex)));
+
+    view->viewport()->installEventFilter(this);
 }
 
 ViewExtensionsFactory::~ViewExtensionsFactory()
 {
 }
 
-void ViewExtensionsFactory::updateIcons()
+void ViewExtensionsFactory::handleCurrentIndexChange(const QModelIndex& current, const QModelIndex& previous)
+{
+    m_autoScroller->handleCurrentIndexChange(current, previous);
+}
+
+bool ViewExtensionsFactory::eventFilter(QObject* watched, QEvent* event)
+{
+    Q_UNUSED(watched);
+    if ((event->type() == QEvent::Wheel) && (m_selectionManager != 0)) {
+        m_selectionManager->reset();
+    }
+    return false;
+}
+
+void ViewExtensionsFactory::slotZoomLevelChanged()
 {
     m_previewGenerator->updateIcons();
+    if (m_selectionManager != 0) {
+        m_selectionManager->reset();
+    }
 }
 
 void ViewExtensionsFactory::cancelPreviews()
@@ -73,6 +114,11 @@ void ViewExtensionsFactory::slotShowPreviewChanged()
 {
     const bool show = m_controller->dolphinView()->showPreview();
     m_previewGenerator->setPreviewShown(show);
+}
+
+void ViewExtensionsFactory::requestActivation()
+{
+    m_controller->requestActivation();
 }
 
 #include "viewextensionsfactory.moc"

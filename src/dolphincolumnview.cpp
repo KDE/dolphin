@@ -30,7 +30,6 @@
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include "folderexpander.h"
-#include "selectionmanager.h"
 #include "tooltips/tooltipmanager.h"
 #include "versioncontrolobserver.h"
 #include "viewextensionsfactory.h"
@@ -56,8 +55,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     QListView(parent),
     m_active(false),
     m_container(container),
-    m_selectionManager(0),
-    m_autoScroller(0),
+    m_extensionsFactory(0),
     m_url(url),
     m_childUrl(),
     m_font(),
@@ -79,8 +77,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     setVerticalScrollMode(QListView::ScrollPerPixel);
     setHorizontalScrollMode(QListView::ScrollPerPixel);
-
-    m_autoScroller = new DolphinViewAutoScroller(this);
 
     // apply the column mode settings to the widget
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
@@ -139,14 +135,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     setModel(m_proxyModel);
 
-    if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
-        m_selectionManager = new SelectionManager(this);
-        connect(m_selectionManager, SIGNAL(selectionChanged()),
-                this, SLOT(requestActivation()));
-        connect(m_container->m_controller, SIGNAL(urlChanged(const KUrl&)),
-                m_selectionManager, SLOT(reset()));
-    }
-
     //m_dirLister->openUrl(url, KDirLister::NoFlags);
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
@@ -172,7 +160,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     updateDecorationSize(dolphinView->showPreview());
 
-    new ViewExtensionsFactory(this, controller);
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinColumnView::~DolphinColumnView()
@@ -409,10 +397,6 @@ void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinColumnView::wheelEvent(QWheelEvent* event)
 {
-    if (m_selectionManager != 0) {
-        m_selectionManager->reset();
-    }
-
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
@@ -447,7 +431,7 @@ void DolphinColumnView::selectionChanged(const QItemSelection& selected, const Q
 void DolphinColumnView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QListView::currentChanged(current, previous);
-    m_autoScroller->handleCurrentIndexChange(current, previous);
+    m_extensionsFactory->handleCurrentIndexChange(current, previous);
 }
 
 void DolphinColumnView::setNameFilter(const QString& nameFilter)
@@ -547,10 +531,6 @@ void DolphinColumnView::updateDecorationSize(bool showPreview)
     setIconSize(size);
 
     m_decorationSize = size;
-
-    if (m_selectionManager != 0) {
-        m_selectionManager->reset();
-    }
 
     doItemsLayout();
 }

@@ -23,7 +23,10 @@
 #include <QObject>
 
 class DolphinController;
+class DolphinViewAutoScroller;
 class KFilePreviewGenerator;
+class QModelIndex;
+class SelectionManager;
 class ToolTipManager;
 class QAbstractItemView;
 
@@ -40,28 +43,33 @@ class ViewExtensionsFactory : public QObject
 {
     Q_OBJECT
 
-    public:
-        explicit ViewExtensionsFactory(QAbstractItemView* view,
-                                       DolphinController* controller);
-        virtual ~ViewExtensionsFactory();
+public:
+    explicit ViewExtensionsFactory(QAbstractItemView* view,
+                                   DolphinController* controller);
+    virtual ~ViewExtensionsFactory();
 
-    private slots:
-        /**
-         * Tells the preview generator to update all icons.
-         */
-        void updateIcons();
+    /**
+     * Must be invoked by the item view, when QAbstractItemView::currentChanged()
+     * has been called. Assures that the current item stays visible when it has been
+     * changed by the keyboard.
+     */
+    void handleCurrentIndexChange(const QModelIndex& current, const QModelIndex& previous);
 
-        /**
-         * Tells the preview generator to cancel all pending previews.
-         */
-        void cancelPreviews();
+protected:
+    virtual bool eventFilter(QObject* watched, QEvent* event);
 
-        void slotShowPreviewChanged();
+private slots:
+    void slotZoomLevelChanged();
+    void cancelPreviews();
+    void slotShowPreviewChanged();
+    void requestActivation();
 
-    private:
-        DolphinController* m_controller;
-        ToolTipManager* m_toolTipManager;        
-        KFilePreviewGenerator* m_previewGenerator;
+private:
+    DolphinController* m_controller;
+    ToolTipManager* m_toolTipManager;
+    KFilePreviewGenerator* m_previewGenerator;
+    SelectionManager* m_selectionManager;
+    DolphinViewAutoScroller* m_autoScroller;
 };
 
 #endif

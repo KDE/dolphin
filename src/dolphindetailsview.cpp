@@ -27,7 +27,6 @@
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinviewautoscroller.h"
 #include "draganddrophelper.h"
-#include "selectionmanager.h"
 #include "viewextensionsfactory.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
@@ -56,8 +55,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     m_useDefaultIndexAt(true),
     m_ignoreScrollTo(false),
     m_controller(controller),
-    m_selectionManager(0),
-    m_autoScroller(0),
+    m_extensionsFactory(0),
     m_expandableFoldersAction(0),
     m_font(),
     m_decorationSize(),
@@ -81,7 +79,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     setModel(proxyModel);
 
     setMouseTracking(true);
-    m_autoScroller = new DolphinViewAutoScroller(this);
 
     const ViewProperties props(controller->url());
     setSortIndicatorSection(props.sorting());
@@ -111,14 +108,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
-    }
-
-    if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
-        m_selectionManager = new SelectionManager(this);
-        connect(m_selectionManager, SIGNAL(selectionChanged()),
-                this, SLOT(requestActivation()));
-        connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
-                m_selectionManager, SLOT(reset()));
     }
 
     connect(this, SIGNAL(entered(const QModelIndex&)),
@@ -165,7 +154,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     connect(m_expandableFoldersAction, SIGNAL(toggled(bool)),
             this, SLOT(setFoldersExpandable(bool)));
 
-    new ViewExtensionsFactory(this, controller);
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -411,10 +400,6 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 
 void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 {
-    if (m_selectionManager != 0) {
-        m_selectionManager->reset();
-    }
-
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
@@ -430,7 +415,7 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QTreeView::currentChanged(current, previous);
-    m_autoScroller->handleCurrentIndexChange(current, previous);
+    m_extensionsFactory->handleCurrentIndexChange(current, previous);
 
     // Stay consistent with QListView: When changing the current index by key presses,
     // also change the selection.
@@ -899,10 +884,6 @@ void DolphinDetailsView::updateDecorationSize(bool showPreview)
     const int iconSize = showPreview ? settings->previewSize() : settings->iconSize();
     setIconSize(QSize(iconSize, iconSize));
     m_decorationSize = QSize(iconSize, iconSize);
-
-    if (m_selectionManager != 0) {
-        m_selectionManager->reset();
-    }
 
     doItemsLayout();
 }

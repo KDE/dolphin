@@ -23,7 +23,6 @@
 #include "dolphincontroller.h"
 #include "settings/dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "dolphinviewautoscroller.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
@@ -45,9 +44,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
                                    DolphinSortFilterProxyModel* proxyModel) :
     KCategorizedView(parent),
     m_controller(controller),
-    m_selectionManager(0),
-    m_autoScroller(0),
     m_categoryDrawer(0),
+    m_extensionsFactory(0),
     m_font(),
     m_decorationSize(),
     m_decorationPosition(QStyleOptionViewItem::Top),
@@ -66,7 +64,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     viewport()->setAcceptDrops(true);
 
     setMouseTracking(true);
-    m_autoScroller = new DolphinViewAutoScroller(this);
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
             controller, SLOT(requestTab(const QModelIndex&)));
@@ -76,14 +73,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
                 controller, SLOT(triggerItem(const QModelIndex&)));
-    }
-
-    if (DolphinSettings::instance().generalSettings()->showSelectionToggle()) {
-        m_selectionManager = new SelectionManager(this);
-        connect(m_selectionManager, SIGNAL(selectionChanged()),
-                this, SLOT(requestActivation()));
-        connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
-                m_selectionManager, SLOT(reset()));
     }
 
     connect(this, SIGNAL(entered(const QModelIndex&)),
@@ -135,7 +124,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
             this, SLOT(slotGlobalSettingsChanged(int)));
 
-    new ViewExtensionsFactory(this, controller);
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinIconsView::~DolphinIconsView()
@@ -328,10 +317,6 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
 {
-    if (m_selectionManager != 0) {
-        m_selectionManager->reset();
-    }
-
     // let Ctrl+wheel events propagate to the DolphinView for icon zooming
     if (event->modifiers() & Qt::ControlModifier) {
         event->ignore();
@@ -377,7 +362,7 @@ void DolphinIconsView::leaveEvent(QEvent* event)
 void DolphinIconsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     KCategorizedView::currentChanged(current, previous);
-    m_autoScroller->handleCurrentIndexChange(current, previous);
+    m_extensionsFactory->handleCurrentIndexChange(current, previous);
 }
 
 void DolphinIconsView::resizeEvent(QResizeEvent* event)
@@ -520,10 +505,6 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
     if (delegate != 0) {
         delegate->setMaximumSize(m_itemSize);
-    }
-
-    if (m_selectionManager != 0) {
-        m_selectionManager->reset();
     }
 }
 

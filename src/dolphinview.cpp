@@ -92,7 +92,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_controller(0),
     m_fileItemDelegate(0),
     m_viewAccessor(proxyModel),
-    m_selectionModel(0),
     m_selectionChangedTimer(0),
     m_versionControlObserver(0),
     m_rootUrl(),
@@ -1366,12 +1365,13 @@ void DolphinView::initializeView()
     m_fileItemDelegate->setMinimizedNameColumn(m_mode == DetailsView);
     view->setItemDelegate(m_fileItemDelegate);
 
-    view->setModel(m_viewAccessor.proxyModel());
+    // TODO: reactivate selection model
+    /*view->setModel(m_viewAccessor.proxyModel());
     if (m_selectionModel != 0) {
         view->setSelectionModel(m_selectionModel);
     } else {
         m_selectionModel = view->selectionModel();
-    }
+    }*/
 
     m_selectionChangedTimer = new QTimer(this);
     m_selectionChangedTimer->setSingleShot(true);
@@ -1381,7 +1381,7 @@ void DolphinView::initializeView()
 
     // reparent the selection model, as it should not be deleted
     // when deleting the model
-    m_selectionModel->setParent(this);
+    //m_selectionModel->setParent(this);
 
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
