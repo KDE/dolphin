@@ -335,15 +335,7 @@ void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
     Q_ASSERT(m_active);
 
     QListView::contextMenuEvent(event);
-
-    const QModelIndex index = indexAt(event->pos());
-    if (!index.isValid()) {
-        clearSelection();
-    }
-
-    const QPoint pos = m_container->viewport()->mapFromGlobal(event->globalPos());
-    Q_ASSERT(m_container->m_controller->itemView() == this);
-    m_container->m_controller->triggerContextMenuRequest(pos);
+    m_container->m_controller->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinColumnView::wheelEvent(QWheelEvent* event)
