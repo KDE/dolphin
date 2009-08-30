@@ -151,6 +151,12 @@ DolphinView::DolphinView(QWidget* parent,
     connect(&DolphinNewMenuObserver::instance(), SIGNAL(itemCreated(const KUrl&)),
             this, SLOT(observeCreatedItem(const KUrl&)));
 
+    m_selectionChangedTimer = new QTimer(this);
+    m_selectionChangedTimer->setSingleShot(true);
+    m_selectionChangedTimer->setInterval(300);
+    connect(m_selectionChangedTimer, SIGNAL(timeout()),
+            this, SLOT(emitSelectionChangedSignal()));
+
     applyViewProperties();
     m_topLayout->addWidget(m_viewAccessor.itemView());
 }
@@ -1324,12 +1330,6 @@ void DolphinView::createView()
 
     m_controller->setItemView(view);
 
-    m_selectionChangedTimer = new QTimer(this);
-    m_selectionChangedTimer->setSingleShot(true);
-    m_selectionChangedTimer->setInterval(300);
-    connect(m_selectionChangedTimer, SIGNAL(timeout()),
-            this, SLOT(emitSelectionChangedSignal()));
-
     // When changing the view mode, the selection is lost due to reinstantiating
     // a new item view with a custom selection model. Pass the ownership of the
     // selection model to DolphinView, so that it can be shared by all item views.
@@ -1339,8 +1339,6 @@ void DolphinView::createView()
         m_selectionModel = view->selectionModel();
     }
     m_selectionModel->setParent(this);
-
-    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_versionControlObserver = new VersionControlObserver(view);
     connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),

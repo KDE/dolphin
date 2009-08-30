@@ -45,7 +45,9 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     m_selectionManager(0),
     m_autoScroller(0),
     m_fileItemDelegate(0)
-{
+{   
+    view->setSelectionMode(QAbstractItemView::ExtendedSelection);
+
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
 
     // initialize tooltips
