@@ -22,6 +22,7 @@
 #include "dolphincolumnview.h"
 #include "dolphincontroller.h"
 #include "dolphinsortfilterproxymodel.h"
+#include "draganddrophelper.h"
 #include "settings/dolphinsettings.h"
 
 #include "dolphin_columnmodesettings.h"
@@ -39,7 +40,8 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_contentX(0),
     m_columns(),
     m_emptyViewport(0),
-    m_animation(0)
+    m_animation(0),
+    m_dragSource(0)
 {
     Q_ASSERT(controller != 0);
 
@@ -48,8 +50,6 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     setFrameShape(QFrame::NoFrame);
     setLayoutDirection(Qt::LeftToRight);
 
-    //connect(this, SIGNAL(viewportEntered()),
-    //        controller, SLOT(emitViewportEntered()));
     connect(controller, SIGNAL(activationChanged(bool)),
             this, SLOT(updateColumnsBackground(bool)));
 
@@ -71,6 +71,8 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
 
 DolphinColumnViewContainer::~DolphinColumnViewContainer()
 {
+    delete m_dragSource;
+    m_dragSource = 0;
 }
 
 KUrl DolphinColumnViewContainer::rootUrl() const
@@ -358,19 +360,37 @@ QPoint DolphinColumnViewContainer::columnPosition(DolphinColumnView* column, con
 
 void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
 {
-    if (column != 0) {
-        if (m_controller->itemView() == column) {
-            m_controller->setItemView(0);
+    if (column == 0) {
+        return;
+    }
+
+    if (m_controller->itemView() == column) {
+        m_controller->setItemView(0);
+    }
+    // deleteWhenNotDragSource(column) does not necessarily delete column,
+    // and we want its preview generator destroyed immediately.
+    column->hide();
+    // Prevent automatic destruction of column when this DolphinColumnViewContainer
+    // is destroyed.
+    column->setParent(0);
+    column->disconnect();
+
+    if (DragAndDropHelper::instance().isDragSource(column)) {
+        // The column is a drag source (the feature "Open folders
+        // during drag operations" is used). Deleting the view
+        // during an ongoing drag operation is not allowed, so
+        // this will postponed.
+        if (m_dragSource != 0) {
+            // the old stored view is obviously not the drag source anymore
+            m_dragSource->deleteLater();
+            m_dragSource = 0;
         }
-        // deleteWhenNotDragSource(column) does not necessarily delete column,
-        // and we want its preview generator destroyed immediately.
         column->hide();
-        // Prevent automatic destruction of column when this DolphinColumnViewContainer
-        // is destroyed.
         column->setParent(0);
         column->disconnect();
 
-        //emit requestColumnDeletion(column);
+        m_dragSource = column;
+    } else {
         column->deleteLater();
     }
 }

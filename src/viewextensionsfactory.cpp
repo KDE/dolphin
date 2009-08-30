@@ -24,6 +24,7 @@
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
 #include "dolphinviewautoscroller.h"
+#include "folderexpander.h"
 #include "selectionmanager.h"
 #include "settings/dolphinsettings.h"
 #include "tooltips/tooltipmanager.h"
@@ -114,6 +115,15 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
             controller, SLOT(emitSelectionChanged()));
 
+    // Give the view the ability to auto-expand its directories on hovering
+    // (the column view takes care about this itself). If the details view
+    // uses expandable folders, the auto-expanding should be used always.
+    m_folderExpander = new FolderExpander(view, proxyModel());
+    m_folderExpander->setEnabled(settings->autoExpandFolders());
+    connect(m_folderExpander, SIGNAL(enterDir(const QModelIndex&)),
+            controller, SLOT(triggerItem(const QModelIndex&)));
+
+    // react on namefilter changes
     connect(controller, SIGNAL(nameFilterChanged(const QString&)),
             this, SLOT(slotNameFilterChanged(const QString&)));
 
@@ -132,6 +142,16 @@ void ViewExtensionsFactory::handleCurrentIndexChange(const QModelIndex& current,
 DolphinFileItemDelegate* ViewExtensionsFactory::fileItemDelegate() const
 {
     return m_fileItemDelegate;
+}
+
+void ViewExtensionsFactory::setAutoFolderExpandingEnabled(bool enabled)
+{
+    m_folderExpander->setEnabled(enabled);
+}
+
+bool ViewExtensionsFactory::autoFolderExpandingEnabled() const
+{
+    return m_folderExpander->enabled();
 }
 
 bool ViewExtensionsFactory::eventFilter(QObject* watched, QEvent* event)

@@ -18,10 +18,6 @@
  ***************************************************************************/
 
 #include "folderexpander.h"
-#include "dolphinview.h"
-
-#include "settings/dolphinsettings.h"
-#include "dolphin_generalsettings.h"
 
 #include <QtCore/QTimer>
 #include <QtGui/QAbstractItemView>
@@ -43,20 +39,15 @@ FolderExpander::FolderExpander(QAbstractItemView *view, QSortFilterProxyModel *p
     m_autoExpandTriggerTimer(0),
     m_autoExpandPos()
 {
-    // Validation.  If these fail, the event filter is never
-    // installed on the view and the FolderExpander is inactive.
     if (m_view == 0)  {
-        kWarning() << "Need a view!";
-        return; // Not valid.
+        return;
     }
     if (m_proxyModel == 0)  {
-        kWarning() << "Need a proxyModel!";
-        return; // Not valid.
+        return;
     }
-    KDirModel *m_dirModel = qobject_cast< KDirModel* >( m_proxyModel->sourceModel() );
+    KDirModel *m_dirModel = qobject_cast<KDirModel*>(m_proxyModel->sourceModel());
     if (m_dirModel == 0) {
-        kWarning() << "Expected m_proxyModel's sourceModel() to be a KDirModel!";
-        return; // Not valid.
+        return;
     }
 
     // Initialise auto-expand timer.

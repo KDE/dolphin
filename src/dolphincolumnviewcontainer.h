@@ -58,13 +58,6 @@ public:
      */
     void showColumn(const KUrl& url);
 
-signals:
-    /**
-     * Requests that the given column be deleted at the discretion
-     * of the receiver of the signal.
-     */
-    void requestColumnDeletion(QAbstractItemView* column);
-
 protected:
     virtual void mousePressEvent(QMouseEvent* event);
     virtual void keyPressEvent(QKeyEvent* event);
@@ -132,6 +125,7 @@ private:
     QList<DolphinColumnView*> m_columns;
     QFrame* m_emptyViewport;
     QTimeLine* m_animation;
+    QAbstractItemView* m_dragSource;
 
     friend class DolphinColumnView;
 };

@@ -29,6 +29,7 @@ class DolphinFileItemDelegate;
 class DolphinSortFilterProxyModel;
 class DolphinViewAutoScroller;
 class KFilePreviewGenerator;
+class FolderExpander;
 class QModelIndex;
 class SelectionManager;
 class ToolTipManager;
@@ -62,6 +63,13 @@ public:
 
     DolphinFileItemDelegate* fileItemDelegate() const;
 
+    /**
+     * Enables the automatically expanding of a folder when dragging
+     * items above the folder.
+     */
+    void setAutoFolderExpandingEnabled(bool enabled);
+    bool autoFolderExpandingEnabled() const;
+
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
@@ -89,6 +97,7 @@ private:
     DolphinViewAutoScroller* m_autoScroller;
     DolphinFileItemDelegate* m_fileItemDelegate;   
     VersionControlObserver* m_versionControlObserver;
+    FolderExpander* m_folderExpander;
 };
 
 #endif

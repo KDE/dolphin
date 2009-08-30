@@ -675,13 +675,6 @@ private slots:
     void slotRefreshItems();
 
     /**
-     * If \a view can be positively identified as not being the source for the
-     * current drag operation, deleteLater() it immediately.  Else stores
-     * it for later deletion.
-     */
-    void deleteWhenNotDragSource(QAbstractItemView* view);
-
-    /**
      * Observes the item with the URL \a url. As soon as the directory
      * model indicates that the item is available, the item will
      * get selected and it is assure that the item stays visible.
@@ -761,6 +754,7 @@ private:
     {
     public:
         ViewAccessor(DolphinSortFilterProxyModel* proxyModel);
+        ~ViewAccessor();
 
         void createView(QWidget* parent, DolphinController* controller, Mode mode);
         void deleteView();
@@ -784,7 +778,6 @@ private:
         KUrl rootUrl() const;
 
         bool supportsCategorizedSorting() const;
-        bool hasExpandableFolders() const;
         bool itemsExpandable() const;
 
         /**
@@ -803,6 +796,7 @@ private:
         DolphinDetailsView* m_detailsView;
         DolphinColumnViewContainer* m_columnsContainer;
         DolphinSortFilterProxyModel* m_proxyModel;
+        QAbstractItemView* m_dragSource;
     };
 
     bool m_active : 1;
@@ -836,8 +830,6 @@ private:
      * slotDirListerCompleted().
      */
     QSet<QString> m_newFileNames;
-
-    QAbstractItemView* m_expandedDragSource; // TODO: move to ViewAccessor
 };
 
 /// Allow using DolphinView::Mode in QVariant

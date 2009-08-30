@@ -60,7 +60,6 @@
 #include "dolphiniconsview.h"
 #include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
-#include "folderexpander.h"
 #include "renamedialog.h"
 #include "settings/dolphinsettings.h"
 #include "viewproperties.h"
@@ -97,8 +96,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_activeItemUrl(),
     m_createdItemUrl(),
     m_selectedItems(),
-    m_newFileNames(),
-    m_expandedDragSource(0)
+    m_newFileNames()
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -161,8 +159,6 @@ DolphinView::DolphinView(QWidget* parent,
 
 DolphinView::~DolphinView()
 {
-    delete m_expandedDragSource;
-    m_expandedDragSource = 0;
 }
 
 const KUrl& DolphinView::url() const
@@ -854,18 +850,6 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         }
         break;
 
-    case QEvent::MouseButtonPress:
-        if ((watched == m_viewAccessor.itemView()->viewport()) && (m_expandedDragSource != 0)) {
-            // Listening to a mousebutton press event to delete expanded views is a
-            // workaround, as it seems impossible for the FolderExpander to know when
-            // a dragging outside a view has been finished. However it works quite well:
-            // A mousebutton press event indicates that a drag operation must be
-            // finished already.
-            m_expandedDragSource->deleteLater();
-            m_expandedDragSource = 0;
-        }
-        break;
-
     case QEvent::DragEnter:
         if (watched == m_viewAccessor.itemView()->viewport()) {
             setActive(true);
@@ -1063,26 +1047,6 @@ void DolphinView::activateItem(const KUrl& url)
 bool DolphinView::itemsExpandable() const
 {
     return m_viewAccessor.itemsExpandable();
-}
-
-void DolphinView::deleteWhenNotDragSource(QAbstractItemView *view)
-{
-    if (view == 0)
-        return;
-
-    if (DragAndDropHelper::instance().isDragSource(view)) {
-        // We must store for later deletion.
-        if (m_expandedDragSource != 0) {
-            // The old stored view is obviously not the drag source anymore.
-            m_expandedDragSource->deleteLater();
-            m_expandedDragSource = 0;
-        }
-        view->hide();
-        m_expandedDragSource = view;
-    }
-    else {
-        view->deleteLater();
-    }
 }
 
 void DolphinView::observeCreatedItem(const KUrl& url)
@@ -1305,26 +1269,9 @@ void DolphinView::createView()
     view->installEventFilter(this);
     view->viewport()->installEventFilter(this);
 
-
-    /* TODO: enable folder expanding again later
-
-    if (m_mode != ColumnView) {
-        // Give the view the ability to auto-expand its directories on hovering
-        // (the column view takes care about this itself). If the details view
-        // uses expandable folders, the auto-expanding should be used always.
-        FolderExpander* folderExpander = new FolderExpander(view, m_viewAccessor.proxyModel());
-        folderExpander->setEnabled(m_viewAccessor.hasExpandableFolders());
-        connect(folderExpander, SIGNAL(enterDir(const QModelIndex&)),
-                m_controller, SLOT(triggerItem(const QModelIndex&)));
-
-    }
-    else {
-        // Listen out for requests to delete the current column.
-        connect(m_viewAccessor.columnsContainer(), SIGNAL(requestColumnDeletion(QAbstractItemView*)),
-                this, SLOT(deleteWhenNotDragSource(QAbstractItemView*)));
-    }*/
-
     m_controller->setItemView(view);
+    connect(m_controller, SIGNAL(selectionChanged()),
+            this, SLOT(emitDelayedSelectionChangedSignal()));
 
     // When changing the view mode, the selection is lost due to reinstantiating
     // a new item view with a custom selection model. Pass the ownership of the
@@ -1336,8 +1283,6 @@ void DolphinView::createView()
     }
     m_selectionModel->setParent(this);
 
-    connect(m_controller, SIGNAL(selectionChanged()),
-            this, SLOT(emitDelayedSelectionChangedSignal()));
     connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
     connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
@@ -1364,10 +1309,6 @@ void DolphinView::deleteView()
         disconnect(view);
         m_controller->disconnect(view);
         view->disconnect();
-
-        // TODO: move this code into ViewAccessor::deleteView()
-        deleteWhenNotDragSource(view);
-        view = 0;
 
         m_viewAccessor.deleteView();
     }
@@ -1417,8 +1358,15 @@ DolphinView::ViewAccessor::ViewAccessor(DolphinSortFilterProxyModel* proxyModel)
     m_iconsView(0),
     m_detailsView(0),
     m_columnsContainer(0),
-    m_proxyModel(proxyModel)
+    m_proxyModel(proxyModel),
+    m_dragSource(0)
 {
+}
+
+DolphinView::ViewAccessor::~ViewAccessor()
+{
+    delete m_dragSource;
+    m_dragSource = 0;
 }
 
 void DolphinView::ViewAccessor::createView(QWidget* parent,
@@ -1447,9 +1395,25 @@ void DolphinView::ViewAccessor::createView(QWidget* parent,
 
 void DolphinView::ViewAccessor::deleteView()
 {
-    // TODO: Move the deleteWhenNotDragSource() code into the view
-    // accessor, so that creating and deleting is fully done by
-    // the view accessor.
+    QAbstractItemView* view = itemView();
+    if (view != 0) {
+        if (DragAndDropHelper::instance().isDragSource(view)) {
+            // The view is a drag source (the feature "Open folders
+            // during drag operations" is used). Deleting the view
+            // during an ongoing drag operation is not allowed, so
+            // this will postponed.
+            if (m_dragSource != 0) {
+                // the old stored view is obviously not the drag source anymore
+                m_dragSource->deleteLater();
+                m_dragSource = 0;
+            }
+            view->hide();
+            m_dragSource = view;
+        } else {
+            view->deleteLater();
+        }
+    }
+
     m_iconsView = 0;
     m_detailsView = 0;
 
@@ -1505,13 +1469,6 @@ bool DolphinView::ViewAccessor::supportsCategorizedSorting() const
     return m_iconsView != 0;
 }
 
-bool DolphinView::ViewAccessor::hasExpandableFolders() const
-{
-    const DolphinSettings& settings = DolphinSettings::instance();
-    return settings.generalSettings()->autoExpandFolders() ||
-           ((m_detailsView != 0) && settings.detailsModeSettings()->expandableFolders());
-}
-
 bool DolphinView::ViewAccessor::itemsExpandable() const
 {
     return (m_detailsView != 0) && m_detailsView->itemsExpandable();
@@ -1523,7 +1480,6 @@ bool DolphinView::ViewAccessor::reloadOnAdditionalInfoChange() const
     // the file item delegate info to its columns internally
     return m_detailsView != 0;
 }
-
 
 DolphinModel* DolphinView::ViewAccessor::dirModel() const
 {
