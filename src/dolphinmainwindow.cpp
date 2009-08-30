@@ -1236,6 +1236,7 @@ void DolphinMainWindow::setupActions()
 
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
+    showFilterBar->setIcon(KIcon("view-filter"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
     connect(showFilterBar, SIGNAL(triggered(bool)), this, SLOT(toggleFilterBarVisibility(bool)));
 
