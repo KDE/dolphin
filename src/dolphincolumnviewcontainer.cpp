@@ -176,6 +176,15 @@ void DolphinColumnViewContainer::mousePressEvent(QMouseEvent* event)
     QScrollArea::mousePressEvent(event);
 }
 
+void DolphinColumnViewContainer::keyPressEvent(QKeyEvent* event)
+{
+    if (event->key() == Qt::Key_Left) {
+        setActiveColumnIndex(m_index - 1);
+    } else {
+        QScrollArea::keyPressEvent(event);
+    }
+}
+
 void DolphinColumnViewContainer::resizeEvent(QResizeEvent* event)
 {
     QScrollArea::resizeEvent(event);
@@ -224,7 +233,7 @@ void DolphinColumnViewContainer::updateColumnsBackground(bool active)
 
 void DolphinColumnViewContainer::setActiveColumnIndex(int index)
 {
-    if (m_index == index) {
+    if ((m_index == index) || (index < 0) || (index >= m_columns.count())) {
         return;
     }
 
