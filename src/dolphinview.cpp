@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2009 by Peter Penz <peter.penz@gmx.at>             *
  *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -63,7 +63,6 @@
 #include "folderexpander.h"
 #include "renamedialog.h"
 #include "settings/dolphinsettings.h"
-#include "versioncontrolobserver.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 
@@ -94,7 +93,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_viewAccessor(proxyModel),
     m_selectionModel(0),
     m_selectionChangedTimer(0),
-    m_versionControlObserver(0),
     m_rootUrl(),
     m_activeItemUrl(),
     m_createdItemUrl(),
@@ -576,9 +574,7 @@ QString DolphinView::statusBarText() const
 
 QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) const
 {
-    return items.isEmpty()
-           ? m_versionControlObserver->contextMenuActions(url().path(KUrl::AddTrailingSlash))
-           : m_versionControlObserver->contextMenuActions(items);
+    return m_controller->versionControlActions(items);
 }
 
 void DolphinView::setUrl(const KUrl& url)
@@ -1339,14 +1335,6 @@ void DolphinView::createView()
         m_selectionModel = view->selectionModel();
     }
     m_selectionModel->setParent(this);
-
-    m_versionControlObserver = new VersionControlObserver(view);
-    connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),
-            this, SIGNAL(infoMessage(const QString&)));
-    connect(m_versionControlObserver, SIGNAL(errorMessage(const QString&)),
-            this, SIGNAL(errorMessage(const QString&)));
-    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
-            this, SIGNAL(operationCompletedMessage(const QString&)));
 
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
             this, SLOT(emitDelayedSelectionChangedSignal()));

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2009 by Peter Penz <peter.penz@gmx.at>             *
  *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,7 +53,6 @@ class KAction;
 class KActionCollection;
 class KDirLister;
 class KUrl;
-class VersionControlObserver;
 class ViewProperties;
 
 /**
@@ -825,8 +824,6 @@ private:
 
     QItemSelectionModel* m_selectionModel; // allow to switch views without losing the selection
     QTimer* m_selectionChangedTimer;
-
-    VersionControlObserver* m_versionControlObserver;
 
     KUrl m_rootUrl;
     KUrl m_activeItemUrl;

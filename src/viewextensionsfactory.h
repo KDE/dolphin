@@ -33,6 +33,7 @@ class QModelIndex;
 class SelectionManager;
 class ToolTipManager;
 class QAbstractItemView;
+class VersionControlObserver;
 
 /**
  * @brief Responsible for creating extensions like tooltips and previews
@@ -73,6 +74,7 @@ private slots:
     void slotSortOrderChanged(Qt::SortOrder order);
     void slotSortFoldersFirstChanged(bool foldersFirst);
     void slotNameFilterChanged(const QString& nameFilter);
+    void slotRequestVersionControlActions(const KFileItemList& items);
     void requestActivation();
 
 private:
@@ -85,7 +87,8 @@ private:
     KFilePreviewGenerator* m_previewGenerator;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
-    DolphinFileItemDelegate* m_fileItemDelegate;
+    DolphinFileItemDelegate* m_fileItemDelegate;   
+    VersionControlObserver* m_versionControlObserver;
 };
 
 #endif

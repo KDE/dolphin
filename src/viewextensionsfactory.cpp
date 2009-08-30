@@ -27,6 +27,7 @@
 #include "selectionmanager.h"
 #include "settings/dolphinsettings.h"
 #include "tooltips/tooltipmanager.h"
+#include "versioncontrolobserver.h"
 
 #include "dolphin_generalsettings.h"
 
@@ -44,7 +45,8 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     m_previewGenerator(0),
     m_selectionManager(0),
     m_autoScroller(0),
-    m_fileItemDelegate(0)
+    m_fileItemDelegate(0),
+    m_versionControlObserver(0)
 {   
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
@@ -86,8 +88,19 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     m_fileItemDelegate->setShowToolTipWhenElided(false);
     view->setItemDelegate(m_fileItemDelegate);
 
-    // react on view property changes
+    // initialize version control observer
     const DolphinView* dolphinView = controller->dolphinView();
+    m_versionControlObserver = new VersionControlObserver(view);
+    connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),
+            dolphinView, SIGNAL(infoMessage(const QString&)));
+    connect(m_versionControlObserver, SIGNAL(errorMessage(const QString&)),
+            dolphinView, SIGNAL(errorMessage(const QString&)));
+    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
+            dolphinView, SIGNAL(operationCompletedMessage(const QString&)));
+    connect(controller, SIGNAL(requestVersionControlActions(const KFileItemList&)),
+            this, SLOT(slotRequestVersionControlActions(const KFileItemList&)));
+
+    // react on view property changes
     connect(dolphinView, SIGNAL(showHiddenFilesChanged()),
             this, SLOT(slotShowHiddenFilesChanged()));
     connect(dolphinView, SIGNAL(sortingChanged(DolphinView::Sorting)),
@@ -179,6 +192,19 @@ void ViewExtensionsFactory::slotSortFoldersFirstChanged(bool foldersFirst)
 void ViewExtensionsFactory::slotNameFilterChanged(const QString& nameFilter)
 {
     proxyModel()->setFilterRegExp(nameFilter);
+}
+
+void ViewExtensionsFactory::slotRequestVersionControlActions(const KFileItemList& items)
+{
+    QList<QAction*> actions;
+    if (items.isEmpty()) {
+        const KDirModel* dirModel = static_cast<const KDirModel*>(proxyModel()->sourceModel());
+        const KUrl url = dirModel->dirLister()->url();
+        actions = m_versionControlObserver->contextMenuActions(url.path(KUrl::AddTrailingSlash));
+    } else {
+        actions = m_versionControlObserver->contextMenuActions(items);
+    }
+    m_controller->setVersionControlActions(actions);
 }
 
 void ViewExtensionsFactory::requestActivation()

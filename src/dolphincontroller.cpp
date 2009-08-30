@@ -34,7 +34,8 @@ DolphinController::DolphinController(DolphinView* dolphinView) :
     m_nameFilter(),
     m_url(),
     m_dolphinView(dolphinView),
-    m_itemView(0)
+    m_itemView(0),
+    m_versionControlActions()
 {
 }
 
@@ -142,6 +143,20 @@ void DolphinController::setZoomLevel(int level)
         m_zoomLevel = level;
         emit zoomLevelChanged(m_zoomLevel);
     }
+}
+
+void DolphinController::setVersionControlActions(QList<QAction*> actions)
+{
+    m_versionControlActions = actions;
+}
+
+QList<QAction*> DolphinController::versionControlActions(const KFileItemList& items)
+{
+    emit requestVersionControlActions(items);
+    // All view implementations are connected with the signal requestVersionControlActions()
+    // (see ViewExtensionFactory) and will invoke DolphinController::setVersionControlActions(),
+    // so that the context dependent actions can be returned.
+    return m_versionControlActions;
 }
 
 void DolphinController::handleKeyPressEvent(QKeyEvent* event)

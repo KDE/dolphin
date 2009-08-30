@@ -64,12 +64,14 @@ class QPoint;
  * - emitViewportEntered()
  * - replaceUrlByClipboard()
  * - hideToolTip()
+ * - setVersionControlActions()
  *
  * The communication of the abstract view to the view implementations is done by:
  * - setUrl()
  * - indicateActivationChange()
  * - setNameFilter()
  * - setZoomLevel()
+ * - versionControlActions()
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinController : public QObject
 {
@@ -194,6 +196,20 @@ public:
      */
     void setZoomLevel(int level);
     int zoomLevel() const;
+
+    /**
+     * Sets the available version control actions. Is called by the view
+     * implementation as soon as the controller has send the signal
+     * requestVersionControlActions().
+     */
+    void setVersionControlActions(QList<QAction*> actions);
+
+    /**
+     * Returns the version control actions that are provided for the items \p items.
+     * Is called by the abstract Dolphin view to show the version control actions
+     * inside the context menu.
+     */
+    QList<QAction*> versionControlActions(const KFileItemList& items);
 
     /**
      * Sets the name filter to \a and emits the signal nameFilterChanged().
@@ -400,6 +416,13 @@ signals:
      */
     void cancelPreviews();
 
+    /**
+     * Requests the view implementation to invoke DolphinController::setVersionControlActions(),
+     * so that they can be returned with DolphinController::versionControlActions() for
+     * the abstract Dolphin view.
+     */
+    void requestVersionControlActions(const KFileItemList& items);
+
 private slots:
     void updateMouseButtonState();
 
@@ -410,6 +433,7 @@ private:
     KUrl m_url;
     DolphinView* m_dolphinView;
     QAbstractItemView* m_itemView;
+    QList<QAction*> m_versionControlActions;
 };
 
 inline const DolphinView* DolphinController::dolphinView() const
