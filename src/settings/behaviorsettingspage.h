@@ -59,6 +59,7 @@ private:
     QCheckBox* m_renameInline;
     QCheckBox* m_showToolTips;
     QCheckBox* m_showSelectionToggle;
+    QCheckBox* m_naturalSorting;
 };
 
 #endif

@@ -47,7 +47,8 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     m_confirmDelete(0),
     m_renameInline(0),
     m_showToolTips(0),
-    m_showSelectionToggle(0)
+    m_showSelectionToggle(0),
+    m_naturalSorting(0)
 {
     const int spacing = KDialog::spacingHint();
 
@@ -96,6 +97,9 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), vBox);
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
+    m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), vBox);
+    connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
@@ -139,6 +143,13 @@ void BehaviorSettingsPage::applySettings()
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     settings->writeConfig();
+
+    const bool naturalSorting = m_naturalSorting->isChecked();
+    if (KGlobalSettings::naturalSorting() != naturalSorting) {
+        KConfigGroup group(KGlobal::config(), "KDE");
+        group.writeEntry("NaturalSorting", naturalSorting, KConfig::Persistent | KConfig::Global);
+        KGlobalSettings::emitChange(KGlobalSettings::NaturalSortingChanged);
+    }
 }
 
 void BehaviorSettingsPage::restoreDefaults()
@@ -169,6 +180,7 @@ void BehaviorSettingsPage::loadSettings()
     m_renameInline->setChecked(settings->renameInline());
     m_showToolTips->setChecked(settings->showToolTips());
     m_showSelectionToggle->setChecked(settings->showSelectionToggle());
+    m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());
 }
 
 #include "behaviorsettingspage.moc"
