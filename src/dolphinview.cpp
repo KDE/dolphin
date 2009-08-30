@@ -1336,7 +1336,7 @@ void DolphinView::createView()
     }
     m_selectionModel->setParent(this);
 
-    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+    connect(m_controller, SIGNAL(selectionChanged()),
             this, SLOT(emitDelayedSelectionChangedSignal()));
     connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));

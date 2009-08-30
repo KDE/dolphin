@@ -110,6 +110,10 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     connect(dolphinView, SIGNAL(sortFoldersFirstChanged(bool)),
             this, SLOT(slotSortFoldersFirstChanged(bool)));
 
+    // inform the controller about selection changes
+    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            controller, SLOT(emitSelectionChanged()));
+
     connect(controller, SIGNAL(nameFilterChanged(const QString&)),
             this, SLOT(slotNameFilterChanged(const QString&)));
 

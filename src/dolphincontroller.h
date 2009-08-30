@@ -62,6 +62,7 @@ class QPoint;
  * - handleKeyPressEvent()
  * - emitItemEntered()
  * - emitViewportEntered()
+ * - emitSelectionChanged()
  * - replaceUrlByClipboard()
  * - hideToolTip()
  * - setVersionControlActions()
@@ -269,22 +270,28 @@ public slots:
     /**
      * Emits the signal tabRequested(), if the file item for the index \a index
      * represents a directory and when the middle mouse button has been pressed.
-     * The method should be invoked by the controller parent.
+     * The method should be invoked by the view implementation.
      */
     void requestTab(const QModelIndex& index);
 
     /**
      * Emits the signal itemEntered() if the file item for the index \a index
-     * is not null. The method should be invoked by the controller parent
+     * is not null. The method should be invoked by the view implementation
      * whenever the mouse cursor is above an item.
      */
     void emitItemEntered(const QModelIndex& index);
 
     /**
      * Emits the signal viewportEntered(). The method should be invoked by
-     * the controller parent whenever the mouse cursor is above the viewport.
+     * the view implementation whenever the mouse cursor is above the viewport.
      */
     void emitViewportEntered();
+
+    /**
+     * Emits the signal selectionChanged(). The method should be invoked by
+     * the view implementation whenever the selection has been changed.
+     */
+    void emitSelectionChanged();
 
 signals:
     /**
@@ -389,10 +396,17 @@ signals:
 
     /**
      * Is emitted if the mouse cursor has entered
-     * the viewport (see emitViewportEntered().
+     * the viewport (see emitViewportEntered()).
      * The abstract Dolphin view connects to this signal.
      */
     void viewportEntered();
+
+    /**
+     * Is emitted whenever the selection of the view implementation
+     * has been changed (see emitSelectionChanged()). The abstract
+     * Dolphin view connects to this signal.
+     */
+    void selectionChanged();
 
     /**
      * Is emitted if the view should respect the name filter \a nameFilter. The view
