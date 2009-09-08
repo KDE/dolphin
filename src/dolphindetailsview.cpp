@@ -434,7 +434,7 @@ void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModel
     // Stay consistent with QListView: When changing the current index by key presses,
     // also change the selection.
     if (m_keyPressed) {
-        selectionModel()->select(current, QItemSelectionModel::ClearAndSelect);
+        setCurrentIndex(current);
     }
 }
 
