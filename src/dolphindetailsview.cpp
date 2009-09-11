@@ -151,11 +151,11 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     connect(m_expandableFoldersAction, SIGNAL(toggled(bool)),
             this, SLOT(setFoldersExpandable(bool)));
 
+    updateDecorationSize(view->showPreview());
+
     m_extensionsFactory = new ViewExtensionsFactory(this, controller);
     m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
     m_extensionsFactory->setAutoFolderExpandingEnabled(settings->expandableFolders());
-
-    updateDecorationSize(view->showPreview());
 }
 
 DolphinDetailsView::~DolphinDetailsView()

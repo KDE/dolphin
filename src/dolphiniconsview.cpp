@@ -120,8 +120,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
             this, SLOT(slotGlobalSettingsChanged(int)));
 
-    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
     updateGridSize(view->showPreview(), 0);
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinIconsView::~DolphinIconsView()

@@ -142,8 +142,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
         m_proxyModel->setFilterRegExp(nameFilter);
     }
 
-    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
     updateDecorationSize(dolphinView->showPreview());
+    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
 }
 
 DolphinColumnView::~DolphinColumnView()

@@ -246,7 +246,7 @@ void DolphinView::setMode(Mode mode)
     emit modeChanged();
 
     updateZoomLevel(oldZoomLevel);
-    if (m_showPreview) {
+    if (m_showPreview) {   
         loadDirectory(viewPropsUrl);
     }
 }
@@ -1173,7 +1173,6 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
         connect(m_viewAccessor.dirLister(), SIGNAL(completed()), this, SLOT(restoreSelection()));
     }
 
-    m_viewAccessor.dirLister()->stop();
     m_viewAccessor.dirLister()->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
 }
 

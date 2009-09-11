@@ -63,6 +63,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     }
 
     // initialize preview generator
+    Q_ASSERT(view->iconSize().isValid());
     m_previewGenerator = new KFilePreviewGenerator(view);
     m_previewGenerator->setPreviewShown(controller->dolphinView()->showPreview());
     connect(controller, SIGNAL(zoomLevelChanged(int)),
