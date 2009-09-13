@@ -33,7 +33,6 @@ set(dolphinprivate_LIB_SRCS
     dolphinremoteencoding.cpp
     draganddrophelper.cpp
     folderexpander.cpp
-    kversioncontrolplugin.cpp
     renamedialog.cpp
     selectiontoggle.cpp
     selectionmanager.cpp
@@ -82,15 +81,22 @@ set(dolphinpart_SRCS
    dolphinpart.cpp
 )
 
+set(fileviewsvnplugin_SRCS
+    fileviewsvnplugin.cpp
+)
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
+kde4_add_plugin(fileviewsvnplugin ${fileviewsvnplugin_SRCS})
 
 target_link_libraries(dolphinpart dolphinprivate konq ${KDE4_KPARTS_LIBS} ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS})
+target_link_libraries(fileviewsvnplugin ${KDE4_KDECORE_LIBS} ${QT_QTGUI_LIBRARY} ${KDE4_KIO_LIBS} konq)
 
-install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR} )
+install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
+install(TARGETS fileviewsvnplugin DESTINATION ${PLUGIN_INSTALL_DIR})
 
 install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install(FILES fileviewsvnplugin.desktop DESTINATION ${SERVICES_INSTALL_DIR})
 
 ##########################################
 

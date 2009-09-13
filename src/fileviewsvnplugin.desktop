@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Service
+Name=Subversion
+X-KDE-ServiceTypes=FileViewVersionControlPlugin
+MimeType=text/plain;
+X-KDE-Library=fileviewsvnplugin

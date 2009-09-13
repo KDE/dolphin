@@ -17,19 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kversioncontrolplugin.h"
-
-KVersionControlPlugin::KVersionControlPlugin()
-{
-}
-
-KVersionControlPlugin::~KVersionControlPlugin()
-{
-}
-
-#include "kversioncontrolplugin.moc"
-
-// ----------------------------------------------------------------------------
+#include "fileviewsvnplugin.h"
 
 #include <kaction.h>
 #include <kdialog.h>
@@ -47,7 +35,7 @@ KVersionControlPlugin::~KVersionControlPlugin()
 #include <QTextEdit>
 #include <QTextStream>
 
-SubversionPlugin::SubversionPlugin() :
+FileViewSvnPlugin::FileViewSvnPlugin() :
     m_versionInfoHash(),
     m_versionInfoKeys(),
     m_updateAction(0),
@@ -92,16 +80,16 @@ SubversionPlugin::SubversionPlugin() :
             this, SLOT(removeFiles()));
 }
 
-SubversionPlugin::~SubversionPlugin()
+FileViewSvnPlugin::~FileViewSvnPlugin()
 {
 }
 
-QString SubversionPlugin::fileName() const
+QString FileViewSvnPlugin::fileName() const
 {
     return ".svn";
 }
 
-bool SubversionPlugin::beginRetrieval(const QString& directory)
+bool FileViewSvnPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
 
@@ -142,11 +130,11 @@ bool SubversionPlugin::beginRetrieval(const QString& directory)
     return true;
 }
 
-void SubversionPlugin::endRetrieval()
+void FileViewSvnPlugin::endRetrieval()
 {
 }
 
-KVersionControlPlugin::VersionState SubversionPlugin::versionState(const KFileItem& item)
+KVersionControlPlugin::VersionState FileViewSvnPlugin::versionState(const KFileItem& item)
 {
     const QString itemUrl = item.localPath();
     if (m_versionInfoHash.contains(itemUrl)) {
@@ -174,7 +162,7 @@ KVersionControlPlugin::VersionState SubversionPlugin::versionState(const KFileIt
     return NormalVersion;
 }
 
-QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
+QList<QAction*> FileViewSvnPlugin::contextMenuActions(const KFileItemList& items)
 {
     Q_ASSERT(!items.isEmpty());
     foreach (const KFileItem& item, items) {
@@ -214,7 +202,7 @@ QList<QAction*> SubversionPlugin::contextMenuActions(const KFileItemList& items)
     return actions;
 }
 
-QList<QAction*> SubversionPlugin::contextMenuActions(const QString& directory)
+QList<QAction*> FileViewSvnPlugin::contextMenuActions(const QString& directory)
 {
     const bool enabled = m_contextItems.isEmpty();
     if (enabled) {
@@ -235,7 +223,7 @@ QList<QAction*> SubversionPlugin::contextMenuActions(const QString& directory)
     return actions;
 }
 
-void SubversionPlugin::updateFiles()
+void FileViewSvnPlugin::updateFiles()
 {
     execSvnCommand("update",
                    i18nc("@info:status", "Updating SVN repository..."),
@@ -243,7 +231,7 @@ void SubversionPlugin::updateFiles()
                    i18nc("@info:status", "Updated SVN repository."));
 }
 
-void SubversionPlugin::showLocalChanges()
+void FileViewSvnPlugin::showLocalChanges()
 {
     Q_ASSERT(!m_contextDir.isEmpty());
     Q_ASSERT(m_contextItems.isEmpty());
@@ -254,7 +242,7 @@ void SubversionPlugin::showLocalChanges()
     KRun::runCommand(command, 0);
 }
 
-void SubversionPlugin::commitFiles()
+void FileViewSvnPlugin::commitFiles()
 {
     KDialog dialog(0, Qt::Dialog);
 
@@ -296,7 +284,7 @@ void SubversionPlugin::commitFiles()
     dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
-void SubversionPlugin::addFiles()
+void FileViewSvnPlugin::addFiles()
 {
     execSvnCommand("add",
                    i18nc("@info:status", "Adding files to SVN repository..."),
@@ -304,7 +292,7 @@ void SubversionPlugin::addFiles()
                    i18nc("@info:status", "Added files to SVN repository."));
 }
 
-void SubversionPlugin::removeFiles()
+void FileViewSvnPlugin::removeFiles()
 {
     execSvnCommand("remove",
                    i18nc("@info:status", "Removing files from SVN repository..."),
@@ -312,7 +300,7 @@ void SubversionPlugin::removeFiles()
                    i18nc("@info:status", "Removed files from SVN repository."));
 }
 
-void SubversionPlugin::slotOperationCompleted()
+void FileViewSvnPlugin::slotOperationCompleted()
 {
     if (m_contextItems.isEmpty()) {
         emit operationCompletedMessage(m_operationCompletedMsg);
@@ -322,7 +310,7 @@ void SubversionPlugin::slotOperationCompleted()
     }
 }
 
-void SubversionPlugin::slotOperationError()
+void FileViewSvnPlugin::slotOperationError()
 {
     emit errorMessage(m_errorMsg);
 
@@ -330,10 +318,10 @@ void SubversionPlugin::slotOperationError()
     m_contextItems.clear();
 }
 
-void SubversionPlugin::execSvnCommand(const QString& svnCommand,
-                                      const QString& infoMsg,
-                                      const QString& errorMsg,
-                                      const QString& operationCompletedMsg)
+void FileViewSvnPlugin::execSvnCommand(const QString& svnCommand,
+                                       const QString& infoMsg,
+                                       const QString& errorMsg,
+                                       const QString& operationCompletedMsg)
 {
     emit infoMessage(infoMsg);
 
@@ -344,7 +332,7 @@ void SubversionPlugin::execSvnCommand(const QString& svnCommand,
     startSvnCommandProcess();
 }
 
-void SubversionPlugin::startSvnCommandProcess()
+void FileViewSvnPlugin::startSvnCommandProcess()
 {
     QProcess* process = new QProcess(this);
     connect(process, SIGNAL(finished(int)),

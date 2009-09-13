@@ -20,10 +20,12 @@
 #include "versioncontrolobserver.h"
 
 #include "dolphinmodel.h"
-#include "kversioncontrolplugin.h"
 
 #include <kdirlister.h>
 #include <klocale.h>
+#include <kservice.h>
+#include <kservicetypetrader.h>
+#include <kversioncontrolplugin.h>
 
 #include <QAbstractProxyModel>
 #include <QAbstractItemView>
@@ -189,9 +191,14 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-    if (m_plugin == 0) {
-        // TODO: just for testing purposes. A plugin approach will be used later.
-        m_plugin = new SubversionPlugin();
+     if (m_plugin == 0) {
+        // TODO: does not work yet
+        const KService::List plugins = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
+        for (KService::List::ConstIterator it = plugins.begin(); it != plugins.end(); ++it) {
+            // kDebug() << "plugin: " << (*it)->desktopEntryName();
+        }
+        return;
+
         connect(m_plugin, SIGNAL(infoMessage(const QString&)),
                 this, SIGNAL(infoMessage(const QString&)));
         connect(m_plugin, SIGNAL(errorMessage(const QString&)),
