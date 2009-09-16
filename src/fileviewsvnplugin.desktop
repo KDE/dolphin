@@ -1,6 +1,12 @@
 [Desktop Entry]
 Type=Service
 Name=Subversion
+Name[nds]=Subversion
+Name[pt]=Subversion
+Name[pt_BR]=Subversion
+Name[sv]=Subversion
+Name[tr]=Subversion
+Name[uk]=Subversion
 Name[x-test]=xxSubversionxx
 X-KDE-ServiceTypes=FileViewVersionControlPlugin
 MimeType=text/plain;
