@@ -309,7 +309,8 @@ void DolphinView::invertSelection()
 
 bool DolphinView::hasSelection() const
 {
-    return m_viewAccessor.itemView()->selectionModel()->hasSelection();
+    const QAbstractItemView* view = m_viewAccessor.itemView();
+    return view && view->selectionModel()->hasSelection();
 }
 
 void DolphinView::clearSelection()
