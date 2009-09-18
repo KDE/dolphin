@@ -1416,7 +1416,8 @@ void DolphinView::ViewAccessor::deleteView()
     m_iconsView = 0;
     m_detailsView = 0;
 
-    m_columnsContainer->deleteLater();
+    if (m_columnsContainer)
+        m_columnsContainer->deleteLater();
     m_columnsContainer = 0;
 }
 
