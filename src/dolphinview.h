@@ -694,6 +694,12 @@ private slots:
      */
     void restoreSelection();
 
+    /**
+     * Called when a redirection happens.
+     * Testcase: fish://localhost
+     */
+    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
 

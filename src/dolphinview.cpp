@@ -134,8 +134,8 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(clearHoverInformation()));
 
     KDirLister* dirLister = m_viewAccessor.dirLister();
-    connect(dirLister, SIGNAL(redirection(KUrl, KUrl)),
-            this, SIGNAL(redirection(KUrl, KUrl)));
+    connect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
+            this, SLOT(slotRedirection(KUrl,KUrl)));
     connect(dirLister, SIGNAL(completed()),
             this, SLOT(slotDirListerCompleted()));
     connect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
@@ -246,7 +246,7 @@ void DolphinView::setMode(Mode mode)
     emit modeChanged();
 
     updateZoomLevel(oldZoomLevel);
-    if (m_showPreview) {   
+    if (m_showPreview) {
         loadDirectory(viewPropsUrl);
     }
 }
@@ -625,7 +625,7 @@ void DolphinView::renameSelectedItems()
             return;
         }
         delete dialog;
-        
+
         // the selection would be invalid after renaming the items, so just clear
         // it before
         clearSelection();
@@ -1498,6 +1498,12 @@ DolphinSortFilterProxyModel* DolphinView::ViewAccessor::proxyModel() const
 KDirLister* DolphinView::ViewAccessor::dirLister() const
 {
     return dirModel()->dirLister();
+}
+
+void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    emit redirection(oldUrl, newUrl);
+    m_controller->redirectToUrl(newUrl); // #186947
 }
 
 #include "dolphinview.moc"

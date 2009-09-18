@@ -52,6 +52,11 @@ void DolphinController::setUrl(const KUrl& url)
     }
 }
 
+void DolphinController::redirectToUrl(const KUrl& url)
+{
+    m_url = url;
+}
+
 void DolphinController::setItemView(QAbstractItemView* view)
 {
     if (m_itemView != 0) {
