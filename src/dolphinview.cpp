@@ -147,7 +147,7 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(clearHoverInformation()));
 
     connect(m_dirLister, SIGNAL(redirection(KUrl, KUrl)),
-            this, SIGNAL(redirection(KUrl, KUrl)));
+            this, SLOT(slotRedirection(KUrl,KUrl)));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(slotDirListerCompleted()));
     connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
@@ -658,7 +658,7 @@ void DolphinView::renameSelectedItems()
             return;
         }
         delete dialog;
-        
+
         // the selection would be invalid after renaming the items, so just clear
         // it before
         clearSelection();
@@ -1563,6 +1563,12 @@ void DolphinView::addNewFileNames(const QMimeData* mimeData)
     foreach (const KUrl& url, urls) {
         m_newFileNames.insert(url.fileName());
     }
+}
+
+void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    emit redirection(oldUrl, newUrl);
+    m_controller->redirectToUrl(newUrl); // #186947
 }
 
 #include "dolphinview.moc"

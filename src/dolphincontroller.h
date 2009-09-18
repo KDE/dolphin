@@ -99,6 +99,12 @@ public:
     const KUrl& url() const;
 
     /**
+     * Sets the URL to \a url and does nothing else. Called when
+     * a redirection happens.
+     */
+    void redirectToUrl(const KUrl& url);
+
+    /**
      * Changes the current item view where the controller is working. This
      * is only necessary for views like the tree view, where internally
      * several QAbstractItemView instances are used.
@@ -166,7 +172,7 @@ public:
     void indicateSortOrderChange(Qt::SortOrder order);
 
     /**
-     * Informs the abstract Dolphin view about a change between separate sorting 
+     * Informs the abstract Dolphin view about a change between separate sorting
      * (with folders first) and mixed sorting of files and folders done inside
      * the view implementation. This method should be invoked by the view
      * implementation (e. g. the details view uses this method in combination
