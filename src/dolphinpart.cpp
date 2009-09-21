@@ -31,6 +31,7 @@
 #include <kaboutdata.h>
 #include <kactioncollection.h>
 #include <kconfiggroup.h>
+#include <kdebug.h>
 #include <kdirlister.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
@@ -433,7 +434,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
 void DolphinPart::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
     //kDebug() << oldUrl << newUrl << "currentUrl=" << url();
-    if (oldUrl == url()) {
+    if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash /* #207572 */)) {
         KParts::ReadOnlyPart::setUrl(newUrl);
         const QString prettyUrl = newUrl.pathOrUrl();
         emit m_extension->setLocationBarUrl(prettyUrl);
