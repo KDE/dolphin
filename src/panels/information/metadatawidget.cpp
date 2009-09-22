@@ -297,6 +297,7 @@ void MetaDataWidget::slotCommentChanged( const QString& s )
 
     QMutexLocker locker( &d->mutex );
     Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::commentResources( d->sharedData.files.values(), s );
+    locker.unlock();
     connect( job, SIGNAL( result( KJob* ) ),
              this, SLOT( metadataUpdateDone() ) );
     setEnabled( false ); // no updates during execution
@@ -314,6 +315,7 @@ void MetaDataWidget::slotRatingChanged(unsigned int rating)
 #ifdef HAVE_NEPOMUK
     QMutexLocker locker( &d->mutex );
     Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::rateResources( d->sharedData.files.values(), rating );
+    locker.unlock();
     connect( job, SIGNAL( result( KJob* ) ),
              this, SLOT( metadataUpdateDone() ) );
     setEnabled( false ); // no updates during execution
