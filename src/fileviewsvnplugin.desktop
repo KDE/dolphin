@@ -2,6 +2,7 @@
 Type=Service
 Name=Subversion
 Name[bg]=Subversion
+Name[id]=Subversion
 Name[nb]=Subversion
 Name[nds]=Subversion
 Name[pt]=Subversion
