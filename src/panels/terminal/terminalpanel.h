@@ -53,6 +53,13 @@ protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 
+private slots:
+    void slotMostLocalUrlResult(KJob* job);
+
+private:
+    void cdUrl(const KUrl& url);
+    void cdDirectory(const QString& path);
+
 private:
     QVBoxLayout* m_layout;
     TerminalInterfaceV2* m_terminal;

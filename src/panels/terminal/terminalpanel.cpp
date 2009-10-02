@@ -23,7 +23,8 @@
 #include <kde_terminal_interface_v2.h>
 #include <kparts/part.h>
 #include <kshell.h>
-#include <kio/netaccess.h>
+#include <kio/job.h>
+#include <KIO/JobUiDelegate>
 
 #include <QBoxLayout>
 #include <QShowEvent>
@@ -58,15 +59,13 @@ void TerminalPanel::setUrl(const KUrl& url)
     }
 
     Panel::setUrl(url);
-    KUrl mostLocalUrl = KIO::NetAccess::mostLocalUrl(url, 0);
+
     const bool sendInput = (m_terminal != 0)
                            && (m_terminal->foregroundProcessId() == -1)
-                           && isVisible()
-                           && mostLocalUrl.isLocalFile();
+                           && isVisible();
     if (sendInput) {
-        m_terminal->sendInput("cd " + KShell::quoteArg(mostLocalUrl.toLocalFile()) + '\n');
+        cdUrl(url);
     }
-
 }
 
 void TerminalPanel::terminalExited()
@@ -90,16 +89,41 @@ void TerminalPanel::showEvent(QShowEvent* event)
             m_terminalWidget = part->widget();
             m_layout->addWidget(m_terminalWidget);
             m_terminal = qobject_cast<TerminalInterfaceV2 *>(part);
-        }        
+        }
     }
     if (m_terminal != 0) {
-        m_terminal->showShellInDir(url().path());
-        m_terminal->sendInput("cd " + KShell::quoteArg(url().path()) + '\n');
-        m_terminal->sendInput("clear\n");
+        m_terminal->showShellInDir(url().toLocalFile());
+        cdUrl(url());
+        m_terminal->sendInput("clear\n"); // TODO do clear after slotMostLocalUrlResult is called, for remote dirs?
         m_terminalWidget->setFocus();
     }
 
     Panel::showEvent(event);
+}
+
+void TerminalPanel::cdUrl(const KUrl& url)
+{
+    if (url.isLocalFile()) {
+        cdDirectory(url.toLocalFile());
+    } else {
+        KIO::StatJob* job = KIO::mostLocalUrl(url, KIO::HideProgressInfo);
+        job->ui()->setWindow(this);
+        connect(job, SIGNAL(result(KJob*)), this, SLOT(slotMostLocalUrlResult(KJob*)));
+    }
+}
+
+void TerminalPanel::cdDirectory(const QString& dir)
+{
+    m_terminal->sendInput("cd " + KShell::quoteArg(dir) + '\n');
+}
+
+void TerminalPanel::slotMostLocalUrlResult(KJob* job)
+{
+    KIO::StatJob* statJob = static_cast<KIO::StatJob *>(job);
+    const KUrl url = statJob->mostLocalUrl();
+    if (url.isLocalFile()) {
+        cdDirectory(url.toLocalFile());
+    }
 }
 
 #include "terminalpanel.moc"
