@@ -21,9 +21,44 @@
 
 #include <QWidget>
 
+#include <KIcon>
+
 class KLineEdit;
 class KUrl;
+class QCompleter;
+class QModelIndex;
+class QStandardItemModel;
 class QToolButton;
+
+/**
+ * @brief used for completition for the DolphinSearchBox
+ */
+class DolphinSearchCompleter : public QObject
+{
+    Q_OBJECT
+    public:
+        DolphinSearchCompleter(KLineEdit *linedit);
+
+        void init();
+
+    public slots:
+        void highlighted(const QModelIndex& index);
+        void activated(const QModelIndex& index);
+        void slotTextEdited(const QString &text);
+
+    private:
+        void addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description = QString(), const KIcon& icon = KIcon());
+
+        void findText(int* wordStart, int* wordEnd, QString* newWord, int cursorPos, const QString &input);
+
+    private:
+        KLineEdit* q;
+        QCompleter* m_completer;
+        QStandardItemModel* m_completionModel;
+        QString m_userText;
+        int m_wordStart;
+        int m_wordEnd;
+};
 
 /**
  * @brief Input box for searching files with Nepomuk.
@@ -50,9 +85,14 @@ signals:
 private slots:
     void emitSearchSignal();
 
+
+
+
 private:
     KLineEdit* m_searchInput;
     QToolButton* m_searchButton;
+
+    DolphinSearchCompleter* m_completer;
 };
 
 #endif
