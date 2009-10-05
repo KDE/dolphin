@@ -223,30 +223,38 @@ void InformationPanelContent::showItem(const KFileItem& item)
         m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
 
 #ifdef HAVE_NEPOMUK
-        KConfig config("kmetainformationrc", KConfig::NoGlobals);
-        KConfigGroup settings = config.group("Show");
-        initMetaInfoSettings(settings);
+        if ( item.nepomukUri().isValid() ) {
+            KConfig config("kmetainformationrc", KConfig::NoGlobals);
+            KConfigGroup settings = config.group("Show");
+            initMetaInfoSettings(settings);
 
-        Nepomuk::Resource res(item.url());
+            Nepomuk::Resource res(item.url());
 
-        QHash<QUrl, Nepomuk::Variant> properties = res.properties();
-        QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
-        while (it != properties.constEnd()) {
-            Nepomuk::Types::Property prop(it.key());
-            if (settings.readEntry(prop.name(), true)) {
-                // TODO #1: use Nepomuk::formatValue(res, prop) if available
-                // instead of it.value().toString()
-                // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
-                // we get translated labels
-                m_metaTextLabel->add(tunedLabel(prop.label()) + ':', it.value().toString());
+            QHash<QUrl, Nepomuk::Variant> properties = res.properties();
+            QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
+            while (it != properties.constEnd()) {
+                Nepomuk::Types::Property prop(it.key());
+                if (settings.readEntry(prop.name(), true)) {
+                    // TODO #1: use Nepomuk::formatValue(res, prop) if available
+                    // instead of it.value().toString()
+                    // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
+                    // we get translated labels
+                    m_metaTextLabel->add(tunedLabel(prop.label()) + ':', it.value().toString());
+                }
+                ++it;
             }
-            ++it;
         }
 #endif
     }
 
     if (m_metaDataWidget != 0) {
-        m_metaDataWidget->setFile(item.targetUrl());
+        if ( item.nepomukUri().isValid() ) {
+            m_metaDataWidget->setFile(item.nepomukUri());
+            m_metaDataWidget->show();
+        }
+        else {
+            m_metaDataWidget->hide();
+        }
     }
 
     if (InformationPanelSettings::showPreview()) {
@@ -289,9 +297,11 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     if (m_metaDataWidget != 0) {
         KUrl::List urls;
         foreach (const KFileItem& item, items) {
-            urls.append(item.targetUrl());
+            if ( item.nepomukUri().isValid() )
+                urls.append(item.nepomukUri());
         }
         m_metaDataWidget->setFiles(urls);
+        m_metaDataWidget->setVisible(!urls.isEmpty());
     }
 
     quint64 totalSize = 0;
@@ -348,7 +358,8 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
 void InformationPanelContent::configureSettings()
 {
 #ifdef HAVE_NEPOMUK
-    if (m_item.isNull()) {
+    if (m_item.isNull() ||
+        !m_item.nepomukUri().isValid()) {
         return;
     }
 
