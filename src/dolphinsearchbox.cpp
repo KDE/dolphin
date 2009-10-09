@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009 by Matthias Fuchs <mat69@gmx.net>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,11 +21,13 @@
 
 #include <config-nepomuk.h>
 
-#include <kdialog.h>
+#include <KConfigGroup>
+#include <KDesktopFile>
 #include <kglobalsettings.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kiconloader.h>
+#include <KStandardDirs>
 
 #include <QEvent>
 #include <QKeyEvent>
@@ -62,23 +65,30 @@ void DolphinSearchCompleter::init()
         foreach (const Nepomuk::Tag& tag, tags) {
             const QString tagText = tag.label();
             addCompletionItem(tagText,
-                                "tag:\"" + tagText + '\"',
-                                i18nc("Tag as in Nepomuk::Tag", "Tag"),
-                                KIcon("mail-tagged"));
+                              "tag:\"" + tagText + '\"',
+                              i18nc("Tag as in Nepomuk::Tag", "Tag"),
+                              QString(),
+                              KIcon("mail-tagged"));
         }
     }
 #endif //HAVE_NEPOMUK
 
-    //add "and", "or" and "-" (not) logic operators
-    addCompletionItem(i18nc("and ss in a logic operator to connect search terms", "and"),
-                        "and",
-                        "logic operator and");
-    addCompletionItem(i18nc("or as in a logic operator to connect search terms", "or"),
-                        "or",
-                        "logic operator or");
-    addCompletionItem(i18nc("not as in a logic operator to connect search terms", "not"),
-                        "-",
-                        "logic operator not");
+    //load the completions stored in the desktop file
+    KDesktopFile file(KStandardDirs::locate("data", "dolphin/dolphinsearchcommands.desktop"));
+    foreach (const QString &group, file.groupList()) {
+        KConfigGroup cg(&file, group);
+        const QString displayed = cg.readEntry("Name", QString());
+        const QString usedForCompletition = cg.readEntry("Completion", QString());
+        const QString description = cg.readEntry("Comment", QString());
+        const QString toolTip = cg.readEntry("GenericName", QString());
+        const QString icon = cg.readEntry("Icon", QString());
+
+        if (icon.isEmpty()) {
+            addCompletionItem(displayed, usedForCompletition, description, toolTip);
+        } else {
+            addCompletionItem(displayed, usedForCompletition, description, toolTip, KIcon(icon));
+        }
+    }
 
     m_completionModel->sort(0, Qt::AscendingOrder);
 
@@ -95,16 +105,24 @@ void DolphinSearchCompleter::init()
     connect(m_completer, SIGNAL(highlighted(QModelIndex)), this, SLOT(highlighted(QModelIndex)));
 }
 
-void DolphinSearchCompleter::addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description, const KIcon& icon)
+void DolphinSearchCompleter::addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description, const QString& toolTip, const KIcon& icon)
 {
+    if (displayed.isEmpty() || usedForCompletition.isEmpty()) {
+        return;
+    }
+
     QList<QStandardItem*> items;
     QStandardItem *item = new QStandardItem();
     item->setData(QVariant(displayed), Qt::DisplayRole);
     item->setData(QVariant(usedForCompletition), Qt::UserRole);
+    item->setData(QVariant(toolTip), Qt::ToolTipRole);
     items << item;
 
     item = new QStandardItem(description);
-    item->setIcon(icon);
+    if (!icon.isNull()) {
+        item->setIcon(icon);
+    }
+    item->setData(QVariant(toolTip), Qt::ToolTipRole);
     items << item;
 
     m_completionModel->insertRow(m_completionModel->rowCount(), items);

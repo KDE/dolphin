@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009 by Matthias Fuchs <mat69@gmx.net>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -47,7 +48,7 @@ class DolphinSearchCompleter : public QObject
         void slotTextEdited(const QString &text);
 
     private:
-        void addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description = QString(), const KIcon& icon = KIcon());
+        void addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description = QString(), const QString& toolTip = QString(), const KIcon& icon = KIcon());
 
         void findText(int* wordStart, int* wordEnd, QString* newWord, int cursorPos, const QString &input);
 
