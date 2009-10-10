@@ -51,13 +51,6 @@
 #include "phononwidget.h"
 #include "pixmapviewer.h"
 
-#ifdef HAVE_NEPOMUK
-#define DISABLE_NEPOMUK_LEGACY
-#include <Nepomuk/Resource>
-#include <Nepomuk/Types/Property>
-#include <Nepomuk/Variant>
-#endif
-
 /**
  * Helper function for sorting items with qSort() in
  * InformationPanelContent::contextMenu().
@@ -188,30 +181,6 @@ void InformationPanelContent::showItem(const KFileItem& item)
         setNameLabelText(itemUrl.fileName());
     }
 
-/* TODO: move to MetaDataWidget
-    if (!item.isDir() && item.nepomukUri().isValid()) {
-        KConfig config("kmetainformationrc", KConfig::NoGlobals);
-        KConfigGroup settings = config.group("Show");
-        initMetaInfoSettings(settings);
-
-        Nepomuk::Resource res(item.url());
-
-        QHash<QUrl, Nepomuk::Variant> properties = res.properties();
-        QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
-        while (it != properties.constEnd()) {
-            Nepomuk::Types::Property prop(it.key());
-            if (settings.readEntry(prop.name(), true)) {
-                // TODO #1: use Nepomuk::formatValue(res, prop) if available
-                // instead of it.value().toString()
-                // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
-                // we get translated labels
-                m_metaTextLabel->add(tunedLabel(prop.label()) + ':', it.value().toString());
-            }
-            ++it;
-        }
-    }
-*/
-
     if (m_metaDataWidget != 0) {
         m_metaDataWidget->setItem(item);
     }
@@ -299,7 +268,6 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
 
 void InformationPanelContent::configureSettings()
 {
-#ifdef HAVE_NEPOMUK
     if (m_item.isNull() ||
         !m_item.nepomukUri().isValid()) {
         return;
@@ -333,13 +301,12 @@ void InformationPanelContent::configureSettings()
 
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
-    initMetaInfoSettings(settings);
 
     QList<QAction*> actions;
 
     // Get all meta information labels that are available for
     // the currently shown file item and add them to the popup.
-    Nepomuk::Resource res(m_item.url());
+    /*Nepomuk::Resource res(m_item.url());
     QHash<QUrl, Nepomuk::Variant> properties = res.properties();
     QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
     while (it != properties.constEnd()) {
@@ -375,7 +342,7 @@ void InformationPanelContent::configureSettings()
         }
 
         ++it;
-    }
+    }*/
 
     if (!actions.isEmpty()) {
         popup.addSeparator();
@@ -421,7 +388,6 @@ void InformationPanelContent::configureSettings()
     }*/
 
     showItem(m_item);
-#endif
 }
 
 void InformationPanelContent::showIcon(const KFileItem& item)
@@ -509,54 +475,6 @@ void InformationPanelContent::setNameLabelText(const QString& text)
     textLayout.endLayout();
 
     m_nameLabel->setText(wrappedText);
-}
-
-void InformationPanelContent::initMetaInfoSettings(KConfigGroup& group)
-{
-    if (!group.readEntry("initialized", false)) {
-        // The resource file is read the first time. Assure
-        // that some meta information is disabled per default.
-
-        static const char* disabledProperties[] = {
-            "asText", "contentSize", "depth", "fileExtension",
-            "fileName", "fileSize", "isPartOf", "mimetype", "name",
-            "parentUrl", "plainTextContent", "sourceModified",
-            "size", "url",
-            0 // mandatory last entry
-        };
-
-        int i = 0;
-        while (disabledProperties[i] != 0) {
-            group.writeEntry(disabledProperties[i], false);
-            ++i;
-        }
-
-        // mark the group as initialized
-        group.writeEntry("initialized", true);
-    }
-}
-
-QString InformationPanelContent::tunedLabel(const QString& label) const
-{
-    QString tunedLabel;
-    const int labelLength = label.length();
-    if (labelLength > 0) {
-        tunedLabel.reserve(labelLength);
-        tunedLabel = label[0].toUpper();
-        for (int i = 1; i < labelLength; ++i) {
-            if (label[i].isUpper() && !label[i - 1].isSpace() && !label[i - 1].isUpper()) {
-                tunedLabel += ' ';
-                tunedLabel += label[i].toLower();
-            } else {
-                tunedLabel += label[i];
-            }
-        }
-    }
-    return tunedLabel;
-}
-
-void InformationPanelContent::init()
-{
 }
 
 #include "informationpanelcontent.moc"
