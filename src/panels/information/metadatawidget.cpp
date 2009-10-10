@@ -24,6 +24,7 @@
 #include <kglobalsettings.h>
 #include <klocale.h>
 
+#include <QFontMetrics>
 #include <QGridLayout>
 #include <QLabel>
 #include <QList>
@@ -48,6 +49,7 @@
 
     #include <Soprano/Vocabulary/Xesam>
     #include <QMutex>
+    #include <QSpacerItem>
     #include <QThread>
 #endif
 
@@ -156,8 +158,7 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     q(parent)
 {
     m_gridLayout = new QGridLayout(parent);
-    m_gridLayout->setContentsMargins(0, 0, 0, 0);
-    m_gridLayout->setSpacing(0);
+    m_gridLayout->setMargin(0);
 
     m_typeInfo = new QLabel(parent);
     m_sizeLabel = new QLabel(parent);
@@ -166,8 +167,12 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     m_ownerInfo = new QLabel(parent);
     m_permissionsInfo = new QLabel(parent);
 #ifdef HAVE_NEPOMUK
+    const QFontMetrics fontMetrics(KGlobalSettings::smallestReadableFont());
     m_ratingWidget = new KRatingWidget(parent);
+    m_ratingWidget->setFixedHeight(fontMetrics.height());
+
     m_taggingWidget = new TaggingWidget(parent);
+
     m_commentWidget = new CommentWidget(parent);
 #endif
 
@@ -201,26 +206,30 @@ void MetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
     row.infoWidget = infoWidget;
     m_rows.append(row);
 
+    const QFont smallFont = KGlobalSettings::smallestReadableFont();
     // use a brighter color for the label and a small font size
     QPalette palette = label->palette();
     QColor textColor = palette.color(QPalette::Text);
     textColor.setAlpha(128);
     palette.setColor(QPalette::WindowText, textColor);
     label->setPalette(palette);
-    label->setFont(KGlobalSettings::smallestReadableFont());
-    label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    label->setFont(smallFont);
+    label->setWordWrap(true);
+    label->setAlignment(Qt::AlignTop | Qt::AlignRight);
 
     QLabel* infoLabel = qobject_cast<QLabel*>(infoWidget);
     if (infoLabel != 0) {
-        infoLabel->setFont(KGlobalSettings::smallestReadableFont());
+        infoLabel->setFont(smallFont);
         infoLabel->setWordWrap(true);
-        infoLabel->setAlignment(Qt::AlignTop | Qt::AlignRight);
+        infoLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
     }
 
     // add the row to grid layout
     const int rowIndex = m_rows.count();
-    m_gridLayout->addWidget(label, rowIndex, 0, Qt::AlignLeft);
-    m_gridLayout->addWidget(infoWidget, rowIndex, 1, Qt::AlignRight);
+    m_gridLayout->addWidget(label, rowIndex, 0, Qt::AlignRight);
+    const int spacerWidth = QFontMetrics(smallFont).size(Qt::TextSingleLine, " ").width();
+    m_gridLayout->addItem(new QSpacerItem(spacerWidth, 1), rowIndex, 1);
+    m_gridLayout->addWidget(infoWidget, rowIndex, 2, Qt::AlignLeft);
 }
 
 void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)

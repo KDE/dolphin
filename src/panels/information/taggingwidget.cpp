@@ -33,9 +33,12 @@ TaggingWidget::TaggingWidget(QWidget* parent) :
 {
     m_label = new QLabel(this);
     m_label->setFont(KGlobalSettings::smallestReadableFont());
+    m_label->setWordWrap(true);
+    m_label->setAlignment(Qt::AlignTop);
     connect(m_label, SIGNAL(linkActivated(const QString&)), this, SLOT(slotLinkActivated(const QString&)));
 
     QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->setMargin(0);
     layout->addWidget(m_label);
 
     setTags(QList<Nepomuk::Tag>());
