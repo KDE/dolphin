@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,19 +23,24 @@
 #include <kfileitem.h>
 #include <klocale.h>
 
-#include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-#include "commentwidget_p.h"
-#include "nepomukmassupdatejob_p.h"
-#include "taggingwidget_p.h"
-#endif
-
-#include <nepomuk/kratingwidget.h>
-
 #include <QGridLayout>
 #include <QLabel>
 #include <QList>
 #include <QString>
+
+#include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
+    #include "commentwidget_p.h"
+    #include "nepomukmassupdatejob_p.h"
+    #include "taggingwidget_p.h"
+
+    #include <nepomuk/kratingwidget.h>
+    #include <nepomuk/resource.h>
+    #include <nepomuk/tag.h>
+    #include <Soprano/Vocabulary/Xesam>
+    #include <QMutex>
+    #include <QThread>
+#endif
 
 class MetaDataWidget::Private
 {
@@ -51,20 +57,55 @@ public:
     void addRow(QLabel* label, QWidget* infoWidget);
     void setRowVisible(QWidget* infoWidget, bool visible);
 
-    QList<Row> m_rows;
+    void slotLoadingFinished();
 
-    QGridLayout* m_gridLayout;
+    QList<Row> rows;
 
-    QLabel* m_typeInfo;
-    QLabel* m_sizeLabel;
-    QLabel* m_sizeInfo;
-    QLabel* m_modifiedInfo;
-    QLabel* m_ownerInfo;
-    QLabel* m_permissionsInfo;
+    QGridLayout* gridLayout;
+
+    QLabel* typeInfo;
+    QLabel* sizeLabel;
+    QLabel* sizeInfo;
+    QLabel* modifiedInfo;
+    QLabel* ownerInfo;
+    QLabel* permissionsInfo;
+
 #ifdef HAVE_NEPOMUK
-    KRatingWidget* m_ratingWidget;
-    TaggingWidget* m_taggingWidget;
-    CommentWidget* m_commentWidget;
+    KRatingWidget* ratingWidget;
+    TaggingWidget* taggingWidget;
+    CommentWidget* commentWidget;
+
+    // shared data between the GUI-thread and
+    // the loader-thread (see LoadFilesThread):
+    QMutex mutex;
+    struct SharedData
+    {
+        int rating;
+        QString comment;
+        QList<Nepomuk::Tag> tags;
+    } sharedData;
+
+    /**
+     * Loads the meta data of files and writes
+     * the result into a shared data pool that
+     * can be used by the widgets in the GUI thread.
+     */
+    class LoadFilesThread : public QThread
+    {
+    public:
+        LoadFilesThread(SharedData* sharedData, QMutex* mutex);
+        virtual ~LoadFilesThread();
+        void loadFiles(const KUrl::List& urls);
+        virtual void run();
+
+    private:
+        SharedData* m_sharedData;
+        QMutex* m_mutex;
+        KUrl::List m_urls;
+        bool m_canceled;
+    };
+
+    LoadFilesThread* loadFilesThread;
 #endif
 
 private:
@@ -72,49 +113,57 @@ private:
 };
 
 MetaDataWidget::Private::Private(MetaDataWidget* parent) :
-    m_rows(),
-    m_gridLayout(0),
-    m_typeInfo(0),
-    m_sizeLabel(0),
-    m_sizeInfo(0),
-    m_modifiedInfo(0),
-    m_ownerInfo(0),
-    m_permissionsInfo(0),
+    rows(),
+    gridLayout(0),
+    typeInfo(0),
+    sizeLabel(0),
+    sizeInfo(0),
+    modifiedInfo(0),
+    ownerInfo(0),
+    permissionsInfo(0),
 #ifdef HAVE_NEPOMUK
-    m_ratingWidget(0),
-    m_taggingWidget(0),
-    m_commentWidget(0),
+    ratingWidget(0),
+    taggingWidget(0),
+    commentWidget(0),
+    loadFilesThread(0),
 #endif
     q(parent)
 {
-    m_gridLayout = new QGridLayout(parent);
+    gridLayout = new QGridLayout(parent);
 
-    m_typeInfo = new QLabel(parent);
-    m_sizeLabel = new QLabel(parent);
-    m_sizeInfo = new QLabel(parent);
-    m_modifiedInfo = new QLabel(parent);
-    m_ownerInfo = new QLabel(parent);
-    m_permissionsInfo = new QLabel(parent);
+    typeInfo = new QLabel(parent);
+    sizeLabel = new QLabel(parent);
+    sizeInfo = new QLabel(parent);
+    modifiedInfo = new QLabel(parent);
+    ownerInfo = new QLabel(parent);
+    permissionsInfo = new QLabel(parent);
 #ifdef HAVE_NEPOMUK
-    m_ratingWidget = new KRatingWidget(parent);
-    m_taggingWidget = new TaggingWidget(parent);
-    m_commentWidget = new CommentWidget(parent);
+    ratingWidget = new KRatingWidget(parent);
+    taggingWidget = new TaggingWidget(parent);
+    commentWidget = new CommentWidget(parent);
 #endif
 
-    addRow(new QLabel(i18nc("@label", "Type:"), parent), m_typeInfo);
-    addRow(m_sizeLabel, m_sizeInfo);
-    addRow(new QLabel(i18nc("@label", "Modified:"), parent), m_modifiedInfo);
-    addRow(new QLabel(i18nc("@label", "Owner:"), parent), m_ownerInfo);
-    addRow(new QLabel(i18nc("@label", "Permissions:"), parent), m_permissionsInfo);
+    addRow(new QLabel(i18nc("@label", "Type:"), parent), typeInfo);
+    addRow(sizeLabel, sizeInfo);
+    addRow(new QLabel(i18nc("@label", "Modified:"), parent), modifiedInfo);
+    addRow(new QLabel(i18nc("@label", "Owner:"), parent), ownerInfo);
+    addRow(new QLabel(i18nc("@label", "Permissions:"), parent), permissionsInfo);
 #ifdef HAVE_NEPOMUK
-    addRow(new QLabel(i18nc("@label", "Rating:"), parent), m_ratingWidget);
-    addRow(new QLabel(i18nc("@label", "Tags:"), parent), m_taggingWidget);
-    addRow(new QLabel(i18nc("@label", "Comment:"), parent), m_commentWidget);
+    addRow(new QLabel(i18nc("@label", "Rating:"), parent), ratingWidget);
+    addRow(new QLabel(i18nc("@label", "Tags:"), parent), taggingWidget);
+    addRow(new QLabel(i18nc("@label", "Comment:"), parent), commentWidget);
+
+    sharedData.rating = 0;
+    loadFilesThread = new LoadFilesThread(&sharedData, &mutex);
+    connect(loadFilesThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
 #endif
 }
 
 MetaDataWidget::Private::~Private()
 {
+#ifdef HAVE_NEPOMUK
+    delete loadFilesThread;
+#endif
 }
 
 void MetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
@@ -122,22 +171,24 @@ void MetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
     Row row;
     row.label = label;
     row.infoWidget = infoWidget;
-    m_rows.append(row);
+    rows.append(row);
 
+    // use a brighter color for the label
     QPalette palette = label->palette();
     QColor textColor = palette.color(QPalette::Text);
     textColor.setAlpha(128);
     palette.setColor(QPalette::WindowText, textColor);
     label->setPalette(palette);
 
-    const int rowIndex = m_rows.count();
-    m_gridLayout->addWidget(label, rowIndex, 0, Qt::AlignLeft);
-    m_gridLayout->addWidget(infoWidget, rowIndex, 1, Qt::AlignRight);
+    // add the row to grid layout
+    const int rowIndex = rows.count();
+    gridLayout->addWidget(label, rowIndex, 0, Qt::AlignLeft);
+    gridLayout->addWidget(infoWidget, rowIndex, 1, Qt::AlignRight);
 }
 
 void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
 {
-    foreach (const Row& row, m_rows) {
+    foreach (const Row& row, rows) {
         if (row.infoWidget == infoWidget) {
             row.label->setVisible(visible);
             row.infoWidget->setVisible(visible);
@@ -146,6 +197,87 @@ void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
     }
 }
 
+void MetaDataWidget::Private::slotLoadingFinished()
+{
+#ifdef HAVE_NEPOMUK
+    QMutexLocker locker(&mutex);
+    ratingWidget->setRating(sharedData.rating);
+    commentWidget->setText(sharedData.comment);
+    taggingWidget->setTags(sharedData.tags);
+#endif
+}
+
+#ifdef HAVE_NEPOMUK
+MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
+                            MetaDataWidget::Private::SharedData* sharedData,
+                            QMutex* mutex) :
+    m_sharedData(sharedData),
+    m_mutex(mutex),
+    m_urls(),
+    m_canceled(false)
+{
+}
+
+MetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
+{
+    // This thread may very well be deleted during execution. We need
+    // to protect it from crashes here.
+    m_canceled = true;
+    wait();
+}
+
+void MetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
+{
+    QMutexLocker locker(m_mutex);
+    m_urls = urls;
+    m_canceled = false;
+    start();
+}
+
+void MetaDataWidget::Private::LoadFilesThread::run()
+{
+    QMutexLocker locker(m_mutex);
+    const KUrl::List urls = m_urls;
+    locker.unlock();
+
+    bool first = true;
+    unsigned int rating = 0;
+    QString comment;
+    QList<Nepomuk::Tag> tags;
+    foreach (const KUrl& url, urls) {
+        if (m_canceled) {
+            return;
+        }
+
+        Nepomuk::Resource file(url, Soprano::Vocabulary::Xesam::File());
+
+        if (!first && (rating != file.rating())) {
+            rating = 0; // reset rating
+        } else if (first) {
+            rating = file.rating();
+        }
+
+        if (!first && (comment != file.description())) {
+            comment.clear(); // reset comment
+        } else if (first) {
+            comment = file.description();
+        }
+
+        if (!first && (tags != file.tags())) {
+            tags.clear(); // reset tags
+        } else if (first) {
+            tags = file.tags();
+        }
+
+        first = false;
+    }
+
+    locker.relock();
+    m_sharedData->rating = rating;
+    m_sharedData->comment = comment;
+    m_sharedData->tags = tags;
+}
+#endif
 
 MetaDataWidget::MetaDataWidget(QWidget* parent) :
     QWidget(parent),
@@ -162,18 +294,18 @@ void MetaDataWidget::setItem(const KFileItem& item)
 {
     // update values for "type", "size", "modified",
     // "owner" and "permissions" synchronously
-    d->m_sizeLabel->setText(i18nc("@label", "Size:"));
+    d->sizeLabel->setText(i18nc("@label", "Size:"));
     if (item.isDir()) {
-        d->m_typeInfo->setText(i18nc("@label", "Folder"));
-        d->setRowVisible(d->m_sizeInfo, false);
+        d->typeInfo->setText(i18nc("@label", "Folder"));
+        d->setRowVisible(d->sizeInfo, false);
     } else {
-        d->m_typeInfo->setText(item.mimeComment());
-        d->m_sizeInfo->setText(KIO::convertSize(item.size()));
-        d->setRowVisible(d->m_sizeInfo, true);
+        d->typeInfo->setText(item.mimeComment());
+        d->sizeInfo->setText(KIO::convertSize(item.size()));
+        d->setRowVisible(d->sizeInfo, true);
     }
-    d->m_modifiedInfo->setText(item.timeString());
-    d->m_ownerInfo->setText(item.user());
-    d->m_permissionsInfo->setText(item.permissionsString());
+    d->modifiedInfo->setText(item.timeString());
+    d->ownerInfo->setText(item.user());
+    d->permissionsInfo->setText(item.permissionsString());
 
     setItems(KFileItemList() << item);
 }
@@ -183,8 +315,8 @@ void MetaDataWidget::setItems(const KFileItemList& items)
     if (items.count() > 1) {
         // calculate the size of all items and show this
         // information to the user
-        d->m_sizeLabel->setText(i18nc("@label", "Total Size:"));
-        d->setRowVisible(d->m_sizeInfo, true);
+        d->sizeLabel->setText(i18nc("@label", "Total Size:"));
+        d->setRowVisible(d->sizeInfo, true);
 
         quint64 totalSize = 0;
         foreach (const KFileItem& item, items) {
@@ -192,8 +324,19 @@ void MetaDataWidget::setItems(const KFileItemList& items)
                 totalSize += item.size();
             }
         }
-        d->m_sizeInfo->setText(KIO::convertSize(totalSize));
+        d->sizeInfo->setText(KIO::convertSize(totalSize));
     }
+
+#ifdef HAVE_NEPOMUK
+    QList<KUrl> urls;
+    foreach (const KFileItem& item, items) {
+        const KUrl url = item.nepomukUri();
+        if (url.isValid()) {
+            urls.append(url);
+        }
+    }
+    d->loadFilesThread->loadFiles(urls);
+#endif
 }
 
 #include "metadatawidget.moc"

@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,6 +43,8 @@ public:
 private:
     class Private;
     Private* d;
+
+    Q_PRIVATE_SLOT(d, void slotLoadingFinished())
 };
 
 #endif

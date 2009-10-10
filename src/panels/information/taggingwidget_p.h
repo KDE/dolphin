@@ -20,7 +20,11 @@
 #ifndef TAGGING_WIDGET
 #define TAGGING_WIDGET
 
+#include <nepomuk/tag.h>
+#include <QString>
 #include <QWidget>
+
+class QLabel;
 
 class TaggingWidget : public QWidget
 {
@@ -29,6 +33,17 @@ class TaggingWidget : public QWidget
 public:
     TaggingWidget(QWidget* parent);
     virtual ~TaggingWidget();
+
+    void setTags(const QList<Nepomuk::Tag>& tags);
+    QList<Nepomuk::Tag> tags() const;
+
+private slots:
+    void slotLinkActivated(const QString& link);
+
+private:
+    QLabel* m_label;
+    QList<Nepomuk::Tag> m_tags;
+    QString m_tagsText;
 };
 
 #endif

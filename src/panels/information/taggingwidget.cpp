@@ -19,13 +19,61 @@
 
 #include "taggingwidget_p.h"
 
+#include <klocale.h>
+
+#include <QLabel>
+#include <QVBoxLayout>
+
 TaggingWidget::TaggingWidget(QWidget* parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_label(0),
+    m_tags(),
+    m_tagsText()
 {
+    m_label = new QLabel(this);
+    connect(m_label, SIGNAL(linkActivated(const QString&)), this, SLOT(slotLinkActivated(const QString&)));
+
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(m_label);
+
+    setTags(QList<Nepomuk::Tag>());
 }
 
 TaggingWidget::~TaggingWidget()
 {
+}
+
+void TaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
+{
+    m_tags = tags;
+
+    m_tagsText.clear();
+    bool first = true;
+    foreach (const Nepomuk::Tag& tag, m_tags) {
+        if (!first) {
+            m_tagsText += ", ";
+        }
+        m_tagsText += tag.genericLabel();
+        first = false;
+    }
+
+    if (m_tagsText.isEmpty()) {
+        m_label->setText("<a href=\"addTags\">" + i18nc("@label", "Add Tags...") + "</a>");
+    } else {
+        m_label->setText("<p>" + m_tagsText + " <a href=\"changeTags\">" + i18nc("@label", "Change...") + "</a></p>");
+    }
+
+}
+
+QList<Nepomuk::Tag> TaggingWidget::tags() const
+{
+    return m_tags;
+}
+
+void TaggingWidget::slotLinkActivated(const QString& link)
+{
+    Q_UNUSED(link);
+    // TODO
 }
 
 #include "taggingwidget_p.moc"

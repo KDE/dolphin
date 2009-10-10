@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +21,10 @@
 #ifndef COMMENT_WIDGET
 #define COMMENT_WIDGET
 
+#include <QString>
 #include <QWidget>
+
+class QLabel;
 
 class CommentWidget : public QWidget
 {
@@ -29,6 +33,16 @@ class CommentWidget : public QWidget
 public:
     CommentWidget(QWidget* parent);
     virtual ~CommentWidget();
+
+    void setText(const QString& comment);
+    QString text() const;
+
+private slots:
+    void slotLinkActivated(const QString& link);
+
+private:
+    QLabel* m_label;
+    QString m_comment;
 };
 
 #endif

@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,13 +20,71 @@
 
 #include "commentwidget_p.h"
 
+#include <kdialog.h>
+#include <klocale.h>
+
+#include <QLabel>
+#include <QTextEdit>
+#include <QVBoxLayout>
+
 CommentWidget::CommentWidget(QWidget* parent) :
-    QWidget(parent)
+    QWidget(parent),
+    m_label(0),
+    m_comment()
 {
+    m_label = new QLabel(this);
+    connect(m_label, SIGNAL(linkActivated(const QString&)), this, SLOT(slotLinkActivated(const QString&)));
+
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(m_label);
+
+    setText(m_comment);
 }
 
 CommentWidget::~CommentWidget()
 {
+}
+
+void CommentWidget::setText(const QString& comment)
+{
+    if (comment.isEmpty()) {
+        m_label->setText("<a href=\"addComment\">" + i18nc("@label", "Add Comment...") + "</a>");
+    } else {
+        m_label->setText("<p>" + comment + " <a href=\"changeComment\">" + i18nc("@label", "Change...") + "</a></p>");
+    }
+    m_comment = comment;
+}
+
+QString CommentWidget::text() const
+{
+    return m_comment;
+}
+
+void CommentWidget::slotLinkActivated(const QString& link)
+{
+    KDialog dialog(0, Qt::Dialog);
+
+    QTextEdit* editor = new QTextEdit(&dialog);
+    editor->setText(m_comment);
+
+    dialog.setMainWidget(editor);
+
+    const QString caption = (link == "changeComment") ?
+                            i18nc("@title:window", "Change Comment") :
+                            i18nc("@title:window", "Add Comment");
+    dialog.setCaption(caption);
+    dialog.setButtons(KDialog::Ok | KDialog::Cancel);
+    dialog.setDefaultButton(KDialog::Ok);
+
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+                              "EditCommitDialog");
+    dialog.restoreDialogSize(dialogConfig);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        setText(editor->toPlainText());
+    }
+
+    dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 #include "commentwidget_p.moc"
