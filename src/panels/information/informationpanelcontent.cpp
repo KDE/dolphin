@@ -117,9 +117,20 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_previewSeparator->setVisible(showPreview);
 
     m_metaDataWidget = new MetaDataWidget(parent);
+    m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+
+    // Encapsulate the MetaDataWidget inside a container that has a dummy widget
+    // at the bottom. This prevents that the meta data widget gets vertically stretched
+    // in the case where the height of m_metaDataArea > m_metaDataWidget.
+    QWidget* metaDataWidgetContainer = new QWidget(parent);
+    QVBoxLayout* containerLayout = new QVBoxLayout(metaDataWidgetContainer);
+    containerLayout->setContentsMargins(0, 0, 0, 0);
+    containerLayout->setSpacing(0);
+    containerLayout->addWidget(m_metaDataWidget);
+    containerLayout->addWidget(new QWidget(metaDataWidgetContainer));
 
     m_metaDataArea = new QScrollArea(parent);
-    //m_metaDataArea->setWidget(m_metaDataArea);
+    m_metaDataArea->setWidget(metaDataWidgetContainer);
     m_metaDataArea->setWidgetResizable(true);
     m_metaDataArea->setFrameShape(QFrame::NoFrame);
 
@@ -135,9 +146,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(m_preview);
     layout->addWidget(m_phononWidget);
     layout->addWidget(m_previewSeparator);
-    if (m_metaDataWidget != 0) {
-        layout->addWidget(m_metaDataWidget);
-    }
     layout->addWidget(m_metaDataArea);
     parent->setLayout(layout);
 }
@@ -238,7 +246,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
         if (obj == m_metaDataArea->viewport()) {
             // The size of the meta text area has changed. Adjust the fixed
             // width in a way that no horizontal scrollbar needs to be shown.
-            //m_metaDataWidget->setFixedWidth(resizeEvent->size().width());
+            m_metaDataWidget->setFixedWidth(resizeEvent->size().width());
         } else if (obj == parent()) {
             // If the text inside the name label or the info label cannot
             // get wrapped, then the maximum width of the label is increased
@@ -251,7 +259,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
             // The metadata widget also contains a text widget which may return
             // a large preferred width.
             if (m_metaDataWidget != 0) {
-                //m_metaDataWidget->setMaximumWidth(maxWidth);
+                m_metaDataWidget->setMaximumWidth(maxWidth);
             }
 
             // try to increase the preview as large as possible

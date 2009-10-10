@@ -21,6 +21,7 @@
 #include "commentwidget_p.h"
 
 #include <kdialog.h>
+#include <kglobalsettings.h>
 #include <klocale.h>
 
 #include <QLabel>
@@ -33,6 +34,7 @@ CommentWidget::CommentWidget(QWidget* parent) :
     m_comment()
 {
     m_label = new QLabel(this);
+    m_label->setFont(KGlobalSettings::smallestReadableFont());
     connect(m_label, SIGNAL(linkActivated(const QString&)), this, SLOT(slotLinkActivated(const QString&)));
 
     QVBoxLayout* layout = new QVBoxLayout(this);

@@ -21,6 +21,7 @@
 #include "metadatawidget.h"
 
 #include <kfileitem.h>
+#include <kglobalsettings.h>
 #include <klocale.h>
 
 #include <QGridLayout>
@@ -155,6 +156,8 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     q(parent)
 {
     m_gridLayout = new QGridLayout(parent);
+    m_gridLayout->setContentsMargins(0, 0, 0, 0);
+    m_gridLayout->setSpacing(0);
 
     m_typeInfo = new QLabel(parent);
     m_sizeLabel = new QLabel(parent);
@@ -198,12 +201,21 @@ void MetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
     row.infoWidget = infoWidget;
     m_rows.append(row);
 
-    // use a brighter color for the label
+    // use a brighter color for the label and a small font size
     QPalette palette = label->palette();
     QColor textColor = palette.color(QPalette::Text);
     textColor.setAlpha(128);
     palette.setColor(QPalette::WindowText, textColor);
     label->setPalette(palette);
+    label->setFont(KGlobalSettings::smallestReadableFont());
+    label->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+
+    QLabel* infoLabel = qobject_cast<QLabel*>(infoWidget);
+    if (infoLabel != 0) {
+        infoLabel->setFont(KGlobalSettings::smallestReadableFont());
+        infoLabel->setWordWrap(true);
+        infoLabel->setAlignment(Qt::AlignTop | Qt::AlignRight);
+    }
 
     // add the row to grid layout
     const int rowIndex = m_rows.count();
@@ -253,6 +265,9 @@ void MetaDataWidget::Private::slotLoadingFinished()
             addRow(infoLabel, infoValue);
         }
         ++index;
+    }
+    if (metaInfoCount > 0) {
+        --index;
     }
 
     // remove rows that are not needed anymore

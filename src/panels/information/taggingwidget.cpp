@@ -19,6 +19,7 @@
 
 #include "taggingwidget_p.h"
 
+#include <kglobalsettings.h>
 #include <klocale.h>
 
 #include <QLabel>
@@ -31,6 +32,7 @@ TaggingWidget::TaggingWidget(QWidget* parent) :
     m_tagsText()
 {
     m_label = new QLabel(this);
+    m_label->setFont(KGlobalSettings::smallestReadableFont());
     connect(m_label, SIGNAL(linkActivated(const QString&)), this, SLOT(slotLinkActivated(const QString&)));
 
     QVBoxLayout* layout = new QVBoxLayout(this);
