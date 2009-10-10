@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "nepomukmassupdatejob.h"
+#include "nepomukmassupdatejob_p.h"
 
 #include <klocale.h>
 #include <kdebug.h>
@@ -160,4 +160,4 @@ Nepomuk::MassUpdateJob* Nepomuk::MassUpdateJob::commentResources( const QList<Ne
     return job;
 }
 
-#include "nepomukmassupdatejob.moc"
+#include "nepomukmassupdatejob_p.moc"

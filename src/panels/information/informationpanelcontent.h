@@ -136,10 +136,7 @@ private:
     KSeparator* m_previewSeparator;
     PhononWidget* m_phononWidget;
     MetaDataWidget* m_metaDataWidget;
-    KSeparator* m_metaDataSeparator;
-
-    QScrollArea* m_metaTextArea;
-    MetaTextLabel* m_metaTextLabel;
+    QScrollArea* m_metaDataArea;
 };
 
 #endif // INFORMATIONPANELCONTENT_H

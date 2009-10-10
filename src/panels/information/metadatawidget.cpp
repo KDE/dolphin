@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Sebastian Trueg <trueg@kde.org>                 *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,341 +19,181 @@
 
 #include "metadatawidget.h"
 
-#include "commentwidget.h"
+#include <kfileitem.h>
+#include <klocale.h>
 
 #include <config-nepomuk.h>
-
-#include <klocale.h>
-#include <KMessageBox>
-
-#include <QtCore/QEvent>
-#include <QtCore/QMutex>
-#include <QtCore/QMutexLocker>
-#include <QtCore/QThread>
-#include <QtGui/QLabel>
-#include <QtGui/QGridLayout>
-#include <QtGui/QTextEdit>
-
 #ifdef HAVE_NEPOMUK
-#include "nepomukmassupdatejob.h"
-#include <nepomuk/kmetadatatagwidget.h>
-#include <nepomuk/resourcemanager.h>
-#include <nepomuk/resource.h>
-#include <nepomuk/variant.h>
+#include "commentwidget_p.h"
+#include "nepomukmassupdatejob_p.h"
+#include "taggingwidget_p.h"
+#endif
+
 #include <nepomuk/kratingwidget.h>
-#include <Soprano/Vocabulary/Xesam>
-#include "resourcetaggingwidget.h"
-#endif
 
-
-bool MetaDataWidget::metaDataAvailable()
-{
-#ifdef HAVE_NEPOMUK
-    return !Nepomuk::ResourceManager::instance()->init();
-#else
-    return false;
-#endif
-}
-
+#include <QGridLayout>
+#include <QLabel>
+#include <QList>
+#include <QString>
 
 class MetaDataWidget::Private
 {
 public:
-#ifdef HAVE_NEPOMUK
-    CommentWidget* commentWidget;
-    KRatingWidget* ratingWidget;
-    Nepomuk::ResourceTaggingWidget* tagWidget;
-
-    // shared data between the GUI-thread and
-    // the loader-thread (see LoadFilesThread):
-    QMutex mutex;
-    struct SharedData
+    struct Row
     {
-        int rating;
-        QString comment;
-        QList<Nepomuk::Resource> fileRes;
-        QMap<KUrl, Nepomuk::Resource> files;
-    } sharedData;
-
-    /**
-     * Loads the meta data of files and writes
-     * the result into a shared data pool that
-     * can be used by the widgets in the GUI thread.
-     */
-    class LoadFilesThread : public QThread
-    {
-    public:
-        LoadFilesThread(SharedData* sharedData, QMutex* mutex);
-        ~LoadFilesThread();
-        void loadFiles(const KUrl::List& urls);
-        virtual void run();
-
-    private:
-        SharedData* m_sharedData;
-        QMutex* m_mutex;
-        KUrl::List m_urls;
-        bool m_canceled;
+        QLabel* label;
+        QWidget* infoWidget;
     };
 
-    LoadFilesThread* loadFilesThread;
+    Private(MetaDataWidget* parent);
+    ~Private();
+
+    void addRow(QLabel* label, QWidget* infoWidget);
+    void setRowVisible(QWidget* infoWidget, bool visible);
+
+    QList<Row> m_rows;
+
+    QGridLayout* m_gridLayout;
+
+    QLabel* m_typeInfo;
+    QLabel* m_sizeLabel;
+    QLabel* m_sizeInfo;
+    QLabel* m_modifiedInfo;
+    QLabel* m_ownerInfo;
+    QLabel* m_permissionsInfo;
+#ifdef HAVE_NEPOMUK
+    KRatingWidget* m_ratingWidget;
+    TaggingWidget* m_taggingWidget;
+    CommentWidget* m_commentWidget;
 #endif
+
+private:
+    MetaDataWidget* const q;
 };
 
+MetaDataWidget::Private::Private(MetaDataWidget* parent) :
+    m_rows(),
+    m_gridLayout(0),
+    m_typeInfo(0),
+    m_sizeLabel(0),
+    m_sizeInfo(0),
+    m_modifiedInfo(0),
+    m_ownerInfo(0),
+    m_permissionsInfo(0),
 #ifdef HAVE_NEPOMUK
-
-MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
-    MetaDataWidget::Private::SharedData* sharedData,
-    QMutex* mutex) :
-    m_sharedData(sharedData),
-    m_mutex(mutex),
-    m_urls(),
-    m_canceled(false)
-{
-}
-
-MetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
-{
-    // this thread may very well be deleted during execution. We need
-    // to protect it from crashes here
-    m_canceled = true;
-    wait();
-}
-
-void MetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
-{
-    QMutexLocker locker( m_mutex );
-    m_urls = urls;
-    m_canceled = false;
-    start();
-}
-
-void MetaDataWidget::Private::LoadFilesThread::run()
-{
-    QMutexLocker locker( m_mutex );
-    const KUrl::List urls = m_urls;
-    locker.unlock();
-
-    bool first = true;
-    QList<Nepomuk::Resource> fileRes;
-    QMap<KUrl, Nepomuk::Resource> files;
-    unsigned int rating = 0;
-    QString comment;
-    Q_FOREACH( const KUrl &url, urls ) {
-        if ( m_canceled )
-            return;
-        Nepomuk::Resource file( url, Soprano::Vocabulary::Xesam::File() );
-        files.insert( url, file );
-        fileRes.append( file );
-
-        if ( !first && rating != file.rating() ) {
-            rating = 0; // reset rating
-        }
-        else if ( first ) {
-            rating = file.rating();
-        }
-
-        if ( !first && comment != file.description() ) {
-            comment.clear();
-        }
-        else if ( first ) {
-            comment = file.description();
-        }
-        first = false;
-    }
-
-    locker.relock();
-    m_sharedData->rating = rating;
-    m_sharedData->comment = comment;
-    m_sharedData->fileRes = fileRes;
-    m_sharedData->files = files;
-}
+    m_ratingWidget(0),
+    m_taggingWidget(0),
+    m_commentWidget(0),
 #endif
+    q(parent)
+{
+    m_gridLayout = new QGridLayout(parent);
+
+    m_typeInfo = new QLabel(parent);
+    m_sizeLabel = new QLabel(parent);
+    m_sizeInfo = new QLabel(parent);
+    m_modifiedInfo = new QLabel(parent);
+    m_ownerInfo = new QLabel(parent);
+    m_permissionsInfo = new QLabel(parent);
+#ifdef HAVE_NEPOMUK
+    m_ratingWidget = new KRatingWidget(parent);
+    m_taggingWidget = new TaggingWidget(parent);
+    m_commentWidget = new CommentWidget(parent);
+#endif
+
+    addRow(new QLabel(i18nc("@label", "Type:"), parent), m_typeInfo);
+    addRow(m_sizeLabel, m_sizeInfo);
+    addRow(new QLabel(i18nc("@label", "Modified:"), parent), m_modifiedInfo);
+    addRow(new QLabel(i18nc("@label", "Owner:"), parent), m_ownerInfo);
+    addRow(new QLabel(i18nc("@label", "Permissions:"), parent), m_permissionsInfo);
+#ifdef HAVE_NEPOMUK
+    addRow(new QLabel(i18nc("@label", "Rating:"), parent), m_ratingWidget);
+    addRow(new QLabel(i18nc("@label", "Tags:"), parent), m_taggingWidget);
+    addRow(new QLabel(i18nc("@label", "Comment:"), parent), m_commentWidget);
+#endif
+}
+
+MetaDataWidget::Private::~Private()
+{
+}
+
+void MetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
+{
+    Row row;
+    row.label = label;
+    row.infoWidget = infoWidget;
+    m_rows.append(row);
+
+    QPalette palette = label->palette();
+    QColor textColor = palette.color(QPalette::Text);
+    textColor.setAlpha(128);
+    palette.setColor(QPalette::WindowText, textColor);
+    label->setPalette(palette);
+
+    const int rowIndex = m_rows.count();
+    m_gridLayout->addWidget(label, rowIndex, 0, Qt::AlignLeft);
+    m_gridLayout->addWidget(infoWidget, rowIndex, 1, Qt::AlignRight);
+}
+
+void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
+{
+    foreach (const Row& row, m_rows) {
+        if (row.infoWidget == infoWidget) {
+            row.label->setVisible(visible);
+            row.infoWidget->setVisible(visible);
+            return;
+        }
+    }
+}
+
 
 MetaDataWidget::MetaDataWidget(QWidget* parent) :
-    QWidget(parent)
+    QWidget(parent),
+    d(new Private(this))
 {
-#ifdef HAVE_NEPOMUK
-    d = new Private;
-    d->commentWidget = new CommentWidget(this);
-    d->commentWidget->setFocusPolicy(Qt::ClickFocus);
-    d->ratingWidget = new KRatingWidget(this);
-    d->ratingWidget->setAlignment( Qt::AlignCenter );
-    d->tagWidget = new Nepomuk::ResourceTaggingWidget(this);
-    connect(d->ratingWidget, SIGNAL(ratingChanged(unsigned int)), this, SLOT(slotRatingChanged(unsigned int)));
-    connect(d->commentWidget, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
-    connect(d->tagWidget, SIGNAL(tagClicked(const Nepomuk::Tag&)), this, SLOT(slotTagClicked( const Nepomuk::Tag&)));
-
-    d->sharedData.rating = 0;
-    d->loadFilesThread = new Private::LoadFilesThread(&d->sharedData, &d->mutex);
-    connect(d->loadFilesThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
-
-    QVBoxLayout* lay = new QVBoxLayout(this);
-    lay->setMargin(0);
-    lay->addWidget(d->ratingWidget);
-    lay->addWidget(d->commentWidget);
-    lay->addWidget( d->tagWidget );
-#else
-    d = 0;
-#endif
 }
-
 
 MetaDataWidget::~MetaDataWidget()
 {
-#ifdef HAVE_NEPOMUK
-    delete d->loadFilesThread;
-#endif
     delete d;
 }
 
-void MetaDataWidget::setRatingVisible(bool visible)
+void MetaDataWidget::setItem(const KFileItem& item)
 {
-#ifdef HAVE_NEPOMUK
-    d->ratingWidget->setVisible(visible);
-#else
-    Q_UNUSED(visible);
-#endif
-}
-
-
-bool MetaDataWidget::isRatingVisible() const
-{
-#ifdef HAVE_NEPOMUK
-    return d->ratingWidget->isVisible();
-#else
-    return false;
-#endif
-}
-
-
-void MetaDataWidget::setCommentVisible(bool visible)
-{
-#ifdef HAVE_NEPOMUK
-    d->commentWidget->setVisible(visible);
-#else
-    Q_UNUSED(visible);
-#endif
-}
-
-
-bool MetaDataWidget::isCommentVisible() const
-{
-#ifdef HAVE_NEPOMUK
-    return d->commentWidget->isVisible();
-#else
-    return false;
-#endif
-}
-
-
-void MetaDataWidget::setTagsVisible(bool visible)
-{
-#ifdef HAVE_NEPOMUK
-    d->tagWidget->setVisible(visible);
-#else
-    Q_UNUSED(visible);
-#endif
-}
-
-
-bool MetaDataWidget::areTagsVisible() const
-{
-#ifdef HAVE_NEPOMUK
-    return d->tagWidget->isVisible();
-#else
-    return false;
-#endif
-}
-
-
-void MetaDataWidget::setFile(const KUrl& url)
-{
-    KUrl::List urls;
-    urls.append( url );
-    setFiles( urls );
-}
-
-void MetaDataWidget::setFiles(const KUrl::List& urls)
-{
-#ifdef HAVE_NEPOMUK
-    // Assure that the currently edited text is stored before
-    // loading the meta data for new files.
-    const QString currentComment = d->commentWidget->editorText();
-    if ( currentComment != d->commentWidget->comment() ) {
-        slotCommentChanged( currentComment );
+    // update values for "type", "size", "modified",
+    // "owner" and "permissions" synchronously
+    d->m_sizeLabel->setText(i18nc("@label", "Size:"));
+    if (item.isDir()) {
+        d->m_typeInfo->setText(i18nc("@label", "Folder"));
+        d->setRowVisible(d->m_sizeInfo, false);
+    } else {
+        d->m_typeInfo->setText(item.mimeComment());
+        d->m_sizeInfo->setText(KIO::convertSize(item.size()));
+        d->setRowVisible(d->m_sizeInfo, true);
     }
+    d->m_modifiedInfo->setText(item.timeString());
+    d->m_ownerInfo->setText(item.user());
+    d->m_permissionsInfo->setText(item.permissionsString());
 
-    d->loadFilesThread->loadFiles( urls );
-#else
-    Q_UNUSED( urls );
-#endif
+    setItems(KFileItemList() << item);
 }
 
-
-void MetaDataWidget::slotCommentChanged( const QString& s )
+void MetaDataWidget::setItems(const KFileItemList& items)
 {
-#ifdef HAVE_NEPOMUK
-    disconnect(d->commentWidget, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
+    if (items.count() > 1) {
+        // calculate the size of all items and show this
+        // information to the user
+        d->m_sizeLabel->setText(i18nc("@label", "Total Size:"));
+        d->setRowVisible(d->m_sizeInfo, true);
 
-    QMutexLocker locker( &d->mutex );
-    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::commentResources( d->sharedData.files.values(), s );
-    locker.unlock();
-    connect( job, SIGNAL( result( KJob* ) ),
-             this, SLOT( metadataUpdateDone() ) );
-    setEnabled( false ); // no updates during execution
-    job->start();
-
-    connect(d->commentWidget, SIGNAL(commentChanged(const QString&)), this, SLOT(slotCommentChanged(const QString&)));
-#else
-    Q_UNUSED( s );
-#endif
-}
-
-
-void MetaDataWidget::slotRatingChanged(unsigned int rating)
-{
-#ifdef HAVE_NEPOMUK
-    QMutexLocker locker( &d->mutex );
-    Nepomuk::MassUpdateJob* job = Nepomuk::MassUpdateJob::rateResources( d->sharedData.files.values(), rating );
-    locker.unlock();
-    connect( job, SIGNAL( result( KJob* ) ),
-             this, SLOT( metadataUpdateDone() ) );
-    setEnabled( false ); // no updates during execution
-    job->start();
-#else
-    Q_UNUSED( rating );
-#endif
-}
-
-
-void MetaDataWidget::metadataUpdateDone()
-{
-    setEnabled( true );
-}
-
-
-bool MetaDataWidget::eventFilter(QObject* obj, QEvent* event)
-{
-    return QWidget::eventFilter(obj, event);
-}
-
-
-void MetaDataWidget::slotTagClicked( const Nepomuk::Tag& tag )
-{
-    Q_UNUSED( tag );
-#ifdef HAVE_NEPOMUK
-    d->tagWidget->showTagPopup( QCursor::pos() );
-#endif
-}
-
-void MetaDataWidget::slotLoadingFinished()
-{
-#ifdef HAVE_NEPOMUK
-    QMutexLocker locker( &d->mutex );
-    d->ratingWidget->setRating( d->sharedData.rating );
-    d->commentWidget->setComment( d->sharedData.comment );
-    d->tagWidget->setResources( d->sharedData.fileRes );
-#endif
+        quint64 totalSize = 0;
+        foreach (const KFileItem& item, items) {
+            if (!item.isDir() && !item.isLink()) {
+                totalSize += item.size();
+            }
+        }
+        d->m_sizeInfo->setText(KIO::convertSize(totalSize));
+    }
 }
 
 #include "metadatawidget.moc"

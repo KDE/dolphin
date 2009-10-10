@@ -17,31 +17,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef METADATAWIDGET_H
-#define METADATAWIDGET_H
+#ifndef COMMENT_WIDGET
+#define COMMENT_WIDGET
 
 #include <QWidget>
 
-class KFileItem;
-class KFileItemList;
-
-/**
- * @brief
- */
-class MetaDataWidget : public QWidget
+class CommentWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MetaDataWidget(QWidget* parent = 0);
-    virtual ~MetaDataWidget();
-
-    void setItem(const KFileItem& item);
-    void setItems(const KFileItemList& items);
-
-private:
-    class Private;
-    Private* d;
+    CommentWidget(QWidget* parent);
+    virtual ~CommentWidget();
 };
 
 #endif

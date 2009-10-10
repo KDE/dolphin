@@ -48,7 +48,6 @@
 #include "dolphin_informationpanelsettings.h"
 #include "settings/dolphinsettings.h"
 #include "metadatawidget.h"
-#include "metatextlabel.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
 
@@ -79,9 +78,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_previewSeparator(0),
     m_phononWidget(0),
     m_metaDataWidget(0),
-    m_metaDataSeparator(0),
-    m_metaTextArea(0),
-    m_metaTextLabel(0)
+    m_metaDataArea(0)
 {
     parent->installEventFilter(this);
 
@@ -126,34 +123,14 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_preview->setVisible(showPreview);
     m_previewSeparator->setVisible(showPreview);
 
-    if (MetaDataWidget::metaDataAvailable()) {
-        // rating, comment and tags
-        m_metaDataWidget = new MetaDataWidget(parent);
-        m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-        m_metaDataWidget->setMaximumWidth(KIconLoader::SizeEnormous);
+    m_metaDataWidget = new MetaDataWidget(parent);
 
-        const bool showRating  = InformationPanelSettings::showRating();
-        const bool showComment = InformationPanelSettings::showComment();
-        const bool showTags    = InformationPanelSettings::showTags();
+    m_metaDataArea = new QScrollArea(parent);
+    //m_metaDataArea->setWidget(m_metaDataArea);
+    m_metaDataArea->setWidgetResizable(true);
+    m_metaDataArea->setFrameShape(QFrame::NoFrame);
 
-        m_metaDataWidget->setRatingVisible(showRating);
-        m_metaDataWidget->setCommentVisible(showComment);
-        m_metaDataWidget->setTagsVisible(showTags);
-
-        m_metaDataSeparator = new KSeparator(this);
-        m_metaDataSeparator->setVisible(showRating || showComment || showTags);
-    }
-
-    // general meta text information
-    m_metaTextLabel = new MetaTextLabel(parent);
-    m_metaTextLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-
-    m_metaTextArea = new QScrollArea(parent);
-    m_metaTextArea->setWidget(m_metaTextLabel);
-    m_metaTextArea->setWidgetResizable(true);
-    m_metaTextArea->setFrameShape(QFrame::NoFrame);
-
-    QWidget* viewport = m_metaTextArea->viewport();
+    QWidget* viewport = m_metaDataArea->viewport();
     viewport->installEventFilter(this);
 
     QPalette palette = viewport->palette();
@@ -167,9 +144,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(m_previewSeparator);
     if (m_metaDataWidget != 0) {
         layout->addWidget(m_metaDataWidget);
-        layout->addWidget(m_metaDataSeparator);
     }
-    layout->addWidget(m_metaTextArea);
+    layout->addWidget(m_metaDataArea);
     parent->setLayout(layout);
 }
 
@@ -212,49 +188,32 @@ void InformationPanelContent::showItem(const KFileItem& item)
         setNameLabelText(itemUrl.fileName());
     }
 
-    m_metaTextLabel->clear();
-    if (item.isDir()) {
-        m_metaTextLabel->add(i18nc("@label", "Type:"), i18nc("@label", "Folder"));
-        m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
-    } else {
-        m_metaTextLabel->add(i18nc("@label", "Type:"), item.mimeComment());
+/* TODO: move to MetaDataWidget
+    if (!item.isDir() && item.nepomukUri().isValid()) {
+        KConfig config("kmetainformationrc", KConfig::NoGlobals);
+        KConfigGroup settings = config.group("Show");
+        initMetaInfoSettings(settings);
 
-        m_metaTextLabel->add(i18nc("@label", "Size:"), KIO::convertSize(item.size()));
-        m_metaTextLabel->add(i18nc("@label", "Modified:"), item.timeString());
+        Nepomuk::Resource res(item.url());
 
-#ifdef HAVE_NEPOMUK
-        if ( item.nepomukUri().isValid() ) {
-            KConfig config("kmetainformationrc", KConfig::NoGlobals);
-            KConfigGroup settings = config.group("Show");
-            initMetaInfoSettings(settings);
-
-            Nepomuk::Resource res(item.url());
-
-            QHash<QUrl, Nepomuk::Variant> properties = res.properties();
-            QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
-            while (it != properties.constEnd()) {
-                Nepomuk::Types::Property prop(it.key());
-                if (settings.readEntry(prop.name(), true)) {
-                    // TODO #1: use Nepomuk::formatValue(res, prop) if available
-                    // instead of it.value().toString()
-                    // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
-                    // we get translated labels
-                    m_metaTextLabel->add(tunedLabel(prop.label()) + ':', it.value().toString());
-                }
-                ++it;
+        QHash<QUrl, Nepomuk::Variant> properties = res.properties();
+        QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
+        while (it != properties.constEnd()) {
+            Nepomuk::Types::Property prop(it.key());
+            if (settings.readEntry(prop.name(), true)) {
+                // TODO #1: use Nepomuk::formatValue(res, prop) if available
+                // instead of it.value().toString()
+                // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
+                // we get translated labels
+                m_metaTextLabel->add(tunedLabel(prop.label()) + ':', it.value().toString());
             }
+            ++it;
         }
-#endif
     }
+*/
 
     if (m_metaDataWidget != 0) {
-        if ( item.nepomukUri().isValid() ) {
-            m_metaDataWidget->setFile(item.nepomukUri());
-            m_metaDataWidget->show();
-        }
-        else {
-            m_metaDataWidget->hide();
-        }
+        m_metaDataWidget->setItem(item);
     }
 
     if (InformationPanelSettings::showPreview()) {
@@ -295,25 +254,8 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     setNameLabelText(i18ncp("@info", "%1 item selected", "%1 items selected", items.count()));
 
     if (m_metaDataWidget != 0) {
-        KUrl::List urls;
-        foreach (const KFileItem& item, items) {
-            if ( item.nepomukUri().isValid() )
-                urls.append(item.nepomukUri());
-        }
-        m_metaDataWidget->setFiles(urls);
-        m_metaDataWidget->setVisible(!urls.isEmpty());
+        m_metaDataWidget->setItems(items);
     }
-
-    quint64 totalSize = 0;
-    foreach (const KFileItem& item, items) {
-        // Only count the size of files, not dirs to match what
-        // DolphinViewContainer::selectionStatusBarText() does.
-        if (!item.isDir() && !item.isLink()) {
-            totalSize += item.size();
-        }
-    }
-    m_metaTextLabel->clear();
-    m_metaTextLabel->add(i18nc("@label", "Total size:"), KIO::convertSize(totalSize));
 
     m_phononWidget->hide();
 
@@ -324,10 +266,10 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
 {
     if (event->type() == QEvent::Resize) {
         QResizeEvent* resizeEvent = static_cast<QResizeEvent*>(event);
-        if (obj == m_metaTextArea->viewport()) {
+        if (obj == m_metaDataArea->viewport()) {
             // The size of the meta text area has changed. Adjust the fixed
             // width in a way that no horizontal scrollbar needs to be shown.
-            m_metaTextLabel->setFixedWidth(resizeEvent->size().width());
+            //m_metaDataWidget->setFixedWidth(resizeEvent->size().width());
         } else if (obj == parent()) {
             // If the text inside the name label or the info label cannot
             // get wrapped, then the maximum width of the label is increased
@@ -340,7 +282,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
             // The metadata widget also contains a text widget which may return
             // a large preferred width.
             if (m_metaDataWidget != 0) {
-                m_metaDataWidget->setMaximumWidth(maxWidth);
+                //m_metaDataWidget->setMaximumWidth(maxWidth);
             }
 
             // try to increase the preview as large as possible
@@ -370,7 +312,7 @@ void InformationPanelContent::configureSettings()
     previewAction->setCheckable(true);
     previewAction->setChecked(InformationPanelSettings::showPreview());
 
-    const bool metaDataAvailable = MetaDataWidget::metaDataAvailable();
+    const bool metaDataAvailable = true; // MetaDataWidget::metaDataAvailable(); TODO
 
     QAction* ratingAction = popup.addAction(i18nc("@action:inmenu", "Rating"));
     ratingAction->setIcon(KIcon("rating"));
@@ -458,25 +400,25 @@ void InformationPanelContent::configureSettings()
         m_previewSeparator->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == ratingAction) {
-        m_metaDataWidget->setRatingVisible(isChecked);
+        //m_metaDataWidget->setRatingVisible(isChecked);
         InformationPanelSettings::setShowRating(isChecked);
     } else if (action == commentAction) {
-        m_metaDataWidget->setCommentVisible(isChecked);
+        //m_metaDataWidget->setCommentVisible(isChecked);
         InformationPanelSettings::setShowComment(isChecked);
     } else if (action == tagsAction) {
-        m_metaDataWidget->setTagsVisible(isChecked);
+        //m_metaDataWidget->setTagsVisible(isChecked);
         InformationPanelSettings::setShowTags(isChecked);
     } else {
         settings.writeEntry(action->data().toString(), action->isChecked());
         settings.sync();
     }
 
-    if (m_metaDataWidget != 0) {
+    /*if (m_metaDataWidget != 0) {
         const bool visible = m_metaDataWidget->isRatingVisible() ||
                              m_metaDataWidget->isCommentVisible() ||
                              m_metaDataWidget->areTagsVisible();
         m_metaDataSeparator->setVisible(visible);
-    }
+    }*/
 
     showItem(m_item);
 #endif

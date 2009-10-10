@@ -24,14 +24,6 @@
 
 #include "kcategorizedview.h"
 
-#include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-#include <nepomuk/global.h>
-#include <nepomuk/resource.h>
-#include <nepomuk/tag.h>
-#include <Soprano/Vocabulary/Xesam>
-#endif
-
 #include <kdatetime.h>
 #include <kdirmodel.h>
 #include <kfileitem.h>

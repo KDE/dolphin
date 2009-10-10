@@ -29,10 +29,6 @@
 #include <kstandarddirs.h>
 #include <kurl.h>
 
-#ifdef HAVE_NEPOMUK
-    #include <nepomuk/resourcemanager.h>
-#endif
-
 #include <QDate>
 #include <QFile>
 #include <QFileInfo>
@@ -46,14 +42,6 @@ ViewProperties::ViewProperties(const KUrl& url) :
     m_autoSave(true),
     m_node(0)
 {
-#ifdef HAVE_NEPOMUK
-    static bool checkedNepomukSupport = false;
-    if (!checkedNepomukSupport) {
-        m_nepomukSupport = !Nepomuk::ResourceManager::instance()->init();
-        checkedNepomukSupport = true;
-    }
-#endif
-
     KUrl cleanUrl(url);
     cleanUrl.cleanPath();
     m_filepath = cleanUrl.toLocalFile();

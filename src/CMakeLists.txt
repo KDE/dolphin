@@ -111,11 +111,9 @@ set(dolphin_SRCS
     filterbar.cpp
     main.cpp
     pixmapviewer.cpp
-    panels/information/commentwidget.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
     panels/information/metadatawidget.cpp
-    panels/information/metatextlabel.cpp
     panels/information/phononwidget.cpp
     panels/folders/ktreeview.cpp
     panels/places/placespanel.cpp
@@ -154,13 +152,10 @@ kde4_add_kcfg_files(dolphin_SRCS
 if(Nepomuk_FOUND)
 set(dolphin_SRCS
   ${dolphin_SRCS}
+  panels/information/commentwidget.cpp
   panels/information/nepomukmassupdatejob.cpp
-  panels/information/tagcloud.cpp
-  panels/information/resourcetaggingwidget.cpp
-  panels/information/taggingpopup.cpp
-  panels/information/newtagdialog.cpp
+  panels/information/taggingwidget.cpp
 )
-kde4_add_ui_files(dolphin_SRCS panels/information/newtagdialog.ui)
 
 endif(Nepomuk_FOUND)
 

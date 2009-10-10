@@ -40,10 +40,6 @@ static DolphinView::Sorting sortingTypeTable[] =
     DolphinView::SortByOwner,       // DolphinModel::Owner
     DolphinView::SortByGroup,       // DolphinModel::Group
     DolphinView::SortByType         // DolphinModel::Type
-#ifdef HAVE_NEPOMUK
-    , DolphinView::SortByRating
-    , DolphinView::SortByTags
-#endif
 };
 
 DolphinSortFilterProxyModel::DolphinSortFilterProxyModel(QObject* parent) :

@@ -17,31 +17,15 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef METADATAWIDGET_H
-#define METADATAWIDGET_H
+#include "taggingwidget_p.h"
 
-#include <QWidget>
-
-class KFileItem;
-class KFileItemList;
-
-/**
- * @brief
- */
-class MetaDataWidget : public QWidget
+TaggingWidget::TaggingWidget(QWidget* parent) :
+    QWidget(parent)
 {
-    Q_OBJECT
+}
 
-public:
-    explicit MetaDataWidget(QWidget* parent = 0);
-    virtual ~MetaDataWidget();
+TaggingWidget::~TaggingWidget()
+{
+}
 
-    void setItem(const KFileItem& item);
-    void setItems(const KFileItemList& items);
-
-private:
-    class Private;
-    Private* d;
-};
-
-#endif
+#include "taggingwidget_p.moc"

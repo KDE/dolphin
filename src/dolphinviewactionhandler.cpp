@@ -262,31 +262,6 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     sortByType->setData(QVariant::fromValue(DolphinView::SortByType));
     sortByActionGroup->addAction(sortByType);
 
-    // TODO: Hid "sort by rating" and "sort by tags" as without caching the performance
-    // is too slow currently (Nepomuk will support caching in future releases).
-    //
-    // KToggleAction* sortByRating = m_actionCollection->add<KToggleAction>("sort_by_rating");
-    // sortByRating->setData(QVariant::fromValue(DolphinView::SortByRating));
-    // sortByRating->setText(i18nc("@action:inmenu Sort By", "Rating"));
-    // sortByActionGroup->addAction(sortByRating);
-    //
-    // KToggleAction* sortByTags = m_actionCollection->add<KToggleAction>("sort_by_tags");
-    // sortByTags->setData(QVariant::fromValue(DolphinView::SortByTags));
-    // sortByTags->setText(i18nc("@action:inmenu Sort By", "Tags"));
-    // sortByActionGroup->addAction(sortByTags);
-    //
-#ifdef HAVE_NEPOMUK
-    // if (!MetaDataWidget::metaDataAvailable()) {
-    //     sortByRating->setEnabled(false);
-    //     sortByTags->setEnabled(false);
-    // }
-#else
-    // sortByRating->setEnabled(false);
-    // sortByTags->setEnabled(false);
-#endif
-
-
-
     return sortByActionGroup;
 }
 
@@ -500,14 +475,6 @@ void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
     case DolphinView::SortByType:
         action = m_actionCollection->action("sort_by_type");
         break;
-#ifdef HAVE_NEPOMUK
-    case DolphinView::SortByRating:
-        action = m_actionCollection->action("sort_by_rating");
-        break;
-    case DolphinView::SortByTags:
-        action = m_actionCollection->action("sort_by_tags");
-        break;
-#endif
     default:
         break;
     }
