@@ -20,7 +20,7 @@
 #include "dolphinviewautoscroller.h"
 
 #include <QAbstractItemView>
-#include <QCoreApplication>
+#include <QApplication>
 #include <QCursor>
 #include <QEvent>
 #include <QMouseEvent>
@@ -143,7 +143,7 @@ void DolphinViewAutoScroller::scrollViewport()
         // update the rubberband.
         QWidget* viewport = m_itemView->viewport();
         const QPoint pos = viewport->mapFromGlobal(QCursor::pos());
-        QMouseEvent event(QEvent::MouseMove, pos, Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+        QMouseEvent event(QEvent::MouseMove, pos, Qt::LeftButton, Qt::LeftButton, QApplication::keyboardModifiers());
         QCoreApplication::sendEvent(viewport, &event);
     }
 }
