@@ -1164,7 +1164,11 @@ void DolphinMainWindow::setupActions()
     cutShortcut.remove(Qt::SHIFT + Qt::Key_Delete, KShortcut::KeepEmpty);
     cut->setShortcut(cutShortcut);
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
-    KStandardAction::paste(this, SLOT(paste()), actionCollection());
+    KAction* paste = KStandardAction::paste(this, SLOT(paste()), actionCollection());
+    // The text of the paste-action is modified dynamically by Dolphin
+    // (e. g. to "Paste One Folder"). To prevent that the size of the toolbar changes
+    // due to the long text, the text "Paste" is used:
+    paste->setIconText(i18nc("@action:inmenu Edit", "Paste"));
 
     KAction* selectAll = actionCollection()->addAction("select_all");
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
