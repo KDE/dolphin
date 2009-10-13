@@ -7,9 +7,11 @@
 Name=and
 Comment=logic operator and
 Comment[en_GB]=logic operator and
+Comment[et]=Loogiline JA
 Comment[pt]=operador lógico 'e'
 Comment[pt_BR]=operador lógico 'e'
 Comment[sv]=logisk operator och
+Comment[tr]=mantıksal işleç olarak ve
 Comment[uk]=булівська дія «ТА»
 Comment[x-test]=xxlogic operator andxx
 Completion=and
@@ -19,9 +21,11 @@ Completion=and
 Name=or
 Comment=logic operator or
 Comment[en_GB]=logic operator or
+Comment[et]=Loogiline VÕI
 Comment[pt]=operador lógico 'ou'
 Comment[pt_BR]=operador lógico 'ou'
 Comment[sv]=logisk operator eller
+Comment[tr]=mantıksal işleç olarak veya
 Comment[uk]=булівська дія «АБО»
 Comment[x-test]=xxlogic operator orxx
 Completion=or
@@ -31,9 +35,11 @@ Completion=or
 Name=not
 Comment=logic operator not
 Comment[en_GB]=logic operator not
+Comment[et]=Loogiline EI
 Comment[pt]=operador lógico 'não'
 Comment[pt_BR]=operador lógico 'não'
 Comment[sv]=logisk operator inte
+Comment[tr]=mantıksal işleç olarak değil
 Comment[uk]=булівська дія «НЕ»
 Comment[x-test]=xxlogic operator notxx
 Completion=-
@@ -41,16 +47,20 @@ Completion=-
 [dolphin fileExtension]
 Name=File extension
 Name[en_GB]=File extension
+Name[et]=Faililaiend
 Name[pt]=Extensão do ficheiro
 Name[pt_BR]=Extensão do arquivo
 Name[sv]=Filändelse
+Name[tr]=Dosya uzantısı
 Name[uk]=Суфікс назви файла
 Name[x-test]=xxFile extensionxx
 Comment=for example txt
 Comment[en_GB]=for example txt
+Comment[et]=näiteks txt
 Comment[pt]=por exemplo 'txt'
 Comment[pt_BR]=por exemplo, 'txt'
 Comment[sv]=till exempel txt
+Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
 Comment[x-test]=xxfor example txtxx
 Completion=fileExtension:
@@ -62,16 +72,20 @@ Name=Rating
 #NOTE "=" does not work here, ":" does
 Comment=1 to 10, for example >=7
 Comment[en_GB]=1 to 10, for example >=7
+Comment[et]=1 kuni 10, näiteks 7
 Comment[pt]=1 a 10, por exemplo >=7
 Comment[pt_BR]=1 a 10, por exemplo, >=7
 Comment[sv]=1 till 10, till exempel: >=7
+Comment[tr]=1'den 10'a kadar, örnek >=7
 Comment[uk]=Від 1 до 10, наприклад, >=7
 Comment[x-test]=xx1 to 10, for example >=7xx
 GenericName=Use <, <=, :, >= and >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 Completion=rating
@@ -82,9 +96,11 @@ Icon=favorites
 Name=Tag
 Comment=Tag
 Comment[en_GB]=Tag
+Comment[et]=Silt
 Comment[pt]=Marca
 Comment[pt_BR]=Etiqueta
 Comment[sv]=Etikett
+Comment[tr]=Etiket
 Comment[uk]=Мітка
 Comment[x-test]=xxTagxx
 Completion=tag:
@@ -98,23 +114,29 @@ Completion=title:
 [dolphin filesize]
 Name=File size
 Name[en_GB]=File size
+Name[et]=Faili suurus
 Name[pt]=Tamanho do ficheiro
 Name[pt_BR]=Tamanho do arquivo
 Name[sv]=Filstorlek
+Name[tr]=Dosya boyutu
 Name[uk]=Розмір файла
 Name[x-test]=xxFile sizexx
 Comment=in bytes, for example >1000
 Comment[en_GB]=in bytes, for example >1000
+Comment[et]=baitides, näiteks >1000
 Comment[pt]=em 'bytes', por exemplo > 1000
 Comment[pt_BR]=em bytes, por exemplo, > 1000
 Comment[sv]=i byte, till exempel > 1000
+Comment[tr]=bayt olarak, örnek >1000
 Comment[uk]=у байтах, наприклад, >1000
 Comment[x-test]=xxin bytes, for example >1000xx
 GenericName=Use <, <=, :, >= and >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 Completion=contentSize
@@ -122,23 +144,29 @@ Completion=contentSize
 [dolphin contentsize]
 Name=Content size
 Name[en_GB]=Content size
+Name[et]=Sisu suurus
 Name[pt]=Tamanho do conteúdo
 Name[pt_BR]=Tamanho do conteúdo
 Name[sv]=Innehållets storlek
+Name[tr]=İçerik boyutu
 Name[uk]=Розмір вмісту
 Name[x-test]=xxContent sizexx
 Comment=in bytes
 Comment[en_GB]=in bytes
+Comment[et]=baitides
 Comment[pt]=em 'bytes'
 Comment[pt_BR]=em bytes
 Comment[sv]=i byte
+Comment[tr]=bayt olarak
 Comment[uk]=у байтах
 Comment[x-test]=xxin bytesxx
 GenericName=Use <, <=, :, >= and >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 Completion=contentSize
@@ -148,16 +176,20 @@ Completion=contentSize
 Name=Last modified
 Comment=for example >1999-10-10
 Comment[en_GB]=for example >1999-10-10
+Comment[et]=näiteks >1999-10-10
 Comment[pt]=por exemplo > 1999-10-10
 Comment[pt_BR]=por exemplo, > 1999-10-10
 Comment[sv]=till exempel > 1999-10-10
+Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
 Comment[x-test]=xxfor example >1999-10-10xx
 GenericName=Use <, <=, :, >= and >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 Completion=lastModified
