@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _NEPOMUK_MASS_UPDATE_JOB_H_
-#define _NEPOMUK_MASS_UPDATE_JOB_H_
+#ifndef NEPOMUK_MASS_UPDATE_JOB_H
+#define NEPOMUK_MASS_UPDATE_JOB_H
 
 #include <kjob.h>
 #include <kurl.h>
@@ -37,34 +37,34 @@ namespace Nepomuk {
         Q_OBJECT
 
     public:
-        MassUpdateJob( QObject* parent = 0 );
-        ~MassUpdateJob();
+        MassUpdateJob(QObject* parent = 0);
+        virtual ~MassUpdateJob();
 
         /**
          * Set a list of files to change
          * This has the same effect as using setResources
          * with a list of manually created resources.
          */
-        void setFiles( const KUrl::List& urls );
+        void setFiles(const KUrl::List& urls);
 
         /**
          * Set a list of resources to change.
          */
-        void setResources( const QList<Nepomuk::Resource>& );
+        void setResources(const QList<Nepomuk::Resource>&);
 
         /**
          * Set the properties to change in the mass update.
          */
-        void setProperties( const QList<QPair<QUrl,Nepomuk::Variant> >& props );
+        void setProperties(const QList<QPair<QUrl,Nepomuk::Variant> >& props);
 
         /**
          * Actually start the job.
          */
         void start();
 
-        static MassUpdateJob* tagResources( const QList<Nepomuk::Resource>&, const QList<Nepomuk::Tag>& tags );
-        static MassUpdateJob* commentResources( const QList<Nepomuk::Resource>&, const QString& comment );
-        static MassUpdateJob* rateResources( const QList<Nepomuk::Resource>&, int rating );
+        static MassUpdateJob* tagResources(const QList<Nepomuk::Resource>&, const QList<Nepomuk::Tag>& tags);
+        static MassUpdateJob* commentResources(const QList<Nepomuk::Resource>&, const QString& comment);
+        static MassUpdateJob* rateResources(const QList<Nepomuk::Resource>&, unsigned int rating);
 
     protected:
         bool doKill();

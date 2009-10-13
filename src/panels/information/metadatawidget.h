@@ -21,6 +21,19 @@
 #ifndef METADATAWIDGET_H
 #define METADATAWIDGET_H
 
+#include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
+    #include <Nepomuk/Tag>
+#else
+    // The HAVE_NEPOMUK macro cannot be used in combination with
+    // Q_PRIVATE_SLOT, hence a workaround is used for environments
+    // where Nepomuk is not available:
+    namespace Nepomuk {
+        typedef int Tag;
+    }
+#endif
+
+#include <QList>
 #include <QWidget>
 
 class KFileItem;
@@ -45,6 +58,10 @@ private:
     Private* d;
 
     Q_PRIVATE_SLOT(d, void slotLoadingFinished())
+    Q_PRIVATE_SLOT(d, void slotRatingChanged(unsigned int rating))
+    Q_PRIVATE_SLOT(d, void slotTagsChanged(const QList<Nepomuk::Tag>& tags))
+    Q_PRIVATE_SLOT(d, void slotCommentChanged(const QString& comment))
+    Q_PRIVATE_SLOT(d, void slotMetaDataUpdateDone())
 };
 
 #endif

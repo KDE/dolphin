@@ -1,5 +1,4 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,34 +17,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef COMMENT_WIDGET
-#define COMMENT_WIDGET
+#include "edittagsdialog_p.h"
 
-#include <QString>
-#include <QWidget>
+#include <klocale.h>
 
-class QLabel;
-
-class CommentWidget : public QWidget
+EditTagsDialog::EditTagsDialog(const QList<Nepomuk::Tag>& tags,
+                               QWidget* parent,
+                               Qt::WFlags flags) :
+    KDialog(parent, flags),
+    m_tags(tags)
 {
-    Q_OBJECT
 
-public:
-    CommentWidget(QWidget* parent);
-    virtual ~CommentWidget();
+    const QString caption = (tags.count() > 0) ?
+                            i18nc("@title:window", "Change Tags") :
+                            i18nc("@title:window", "Add Tags");
+    setCaption(caption);
+    setButtons(KDialog::Ok | KDialog::Cancel);
+    setDefaultButton(KDialog::Ok);
+}
 
-    void setText(const QString& comment);
-    QString text() const;
+EditTagsDialog::~EditTagsDialog()
+{
+}
 
-signals:
-    void commentChanged(const QString& comment);
+QList<Nepomuk::Tag> EditTagsDialog::tags() const
+{
+    return m_tags;
+}
 
-private slots:
-    void slotLinkActivated(const QString& link);
-
-private:
-    QLabel* m_label;
-    QString m_comment;
-};
-
-#endif
+#include "edittagsdialog_p.moc"

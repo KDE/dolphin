@@ -20,79 +20,64 @@
 #include "nepomukmassupdatejob_p.h"
 
 #include <klocale.h>
-#include <kdebug.h>
 
 #include <nepomuk/tag.h>
 #include <nepomuk/tools.h>
 
 
-Nepomuk::MassUpdateJob::MassUpdateJob( QObject* parent )
-    : KJob( parent ),
-      m_index( -1 )
+Nepomuk::MassUpdateJob::MassUpdateJob(QObject* parent)
+    : KJob(parent),
+      m_index(-1)
 {
-    kDebug();
-    setCapabilities( Killable|Suspendable );
-    connect( &m_processTimer, SIGNAL( timeout() ),
-             this, SLOT( slotNext() ) );
+    setCapabilities(Killable|Suspendable);
+    connect(&m_processTimer, SIGNAL(timeout()),
+             this, SLOT(slotNext()));
 }
-
 
 Nepomuk::MassUpdateJob::~MassUpdateJob()
 {
-    kDebug();
 }
 
-
-void Nepomuk::MassUpdateJob::setFiles( const KUrl::List& urls )
+void Nepomuk::MassUpdateJob::setFiles(const KUrl::List& urls)
 {
     m_resources.clear();
-    foreach( const KUrl &url, urls ) {
-        m_resources.append( Resource( url ) );
+    foreach(const KUrl &url, urls){
+        m_resources.append(Resource(url));
     }
-    setTotalAmount( KJob::Files, m_resources.count() );
+    setTotalAmount(KJob::Files, m_resources.count());
 }
 
-
-void Nepomuk::MassUpdateJob::setResources( const QList<Nepomuk::Resource>& rl )
+void Nepomuk::MassUpdateJob::setResources(const QList<Nepomuk::Resource>& rl)
 {
     m_resources = rl;
-    setTotalAmount( KJob::Files, m_resources.count() );
+    setTotalAmount(KJob::Files, m_resources.count());
 }
 
-
-void Nepomuk::MassUpdateJob::setProperties( const QList<QPair<QUrl,Nepomuk::Variant> >& props )
+void Nepomuk::MassUpdateJob::setProperties(const QList<QPair<QUrl,Nepomuk::Variant> >& props)
 {
     m_properties = props;
 }
 
-
 void Nepomuk::MassUpdateJob::start()
 {
-    if ( m_index < 0 ) {
-        kDebug();
-        emit description( this,
-                          i18nc("@info:progress", "Changing annotations") );
+    if (m_index < 0){
+        emit description(this, i18nc("@info:progress", "Changing annotations"));
         m_index = 0;
         m_processTimer.start();
-    }
-    else {
-        kDebug() << "Job has already been started";
     }
 }
 
 
 bool Nepomuk::MassUpdateJob::doKill()
 {
-    if ( m_index > 0 ) {
+    if (m_index > 0){
         m_processTimer.stop();
         m_index = -1;
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
-
 
 bool Nepomuk::MassUpdateJob::doSuspend()
 {
@@ -100,32 +85,27 @@ bool Nepomuk::MassUpdateJob::doSuspend()
     return true;
 }
 
-
 bool Nepomuk::MassUpdateJob::doResume()
 {
-    if ( m_index > 0 ) {
+    if (m_index > 0){
         m_processTimer.start();
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
 
-
 void Nepomuk::MassUpdateJob::slotNext()
 {
-    if ( !isSuspended() ) {
-        if ( m_index < m_resources.count() ) {
+    if (!isSuspended()) {
+        if (m_index < m_resources.count()){
             Nepomuk::Resource& res = m_resources[m_index];
-            for ( int i = 0; i < m_properties.count(); ++i ) {
-                res.setProperty( m_properties[i].first, m_properties[i].second );
+            for (int i = 0; i < m_properties.count(); ++i){
+                res.setProperty(m_properties[i].first, m_properties[i].second);
             }
             ++m_index;
-            setProcessedAmount( KJob::Files, m_index );
-        }
-        else if ( m_index >= m_resources.count() ) {
-            kDebug() << "done";
+            setProcessedAmount(KJob::Files, m_index);
+        } else if (m_index >= m_resources.count()) {
             m_index = -1;
             m_processTimer.stop();
             emitResult();
@@ -133,30 +113,36 @@ void Nepomuk::MassUpdateJob::slotNext()
     }
 }
 
-
-Nepomuk::MassUpdateJob* Nepomuk::MassUpdateJob::tagResources( const QList<Nepomuk::Resource>& rl, const QList<Nepomuk::Tag>& tags )
+Nepomuk::MassUpdateJob* Nepomuk::MassUpdateJob::tagResources(const QList<Nepomuk::Resource>& rl,
+                                                             const QList<Nepomuk::Tag>& tags)
 {
     Nepomuk::MassUpdateJob* job = new Nepomuk::MassUpdateJob();
-    job->setResources( rl );
-    job->setProperties( QList<QPair<QUrl,Nepomuk::Variant> >() << qMakePair( QUrl( Nepomuk::Resource::tagUri() ), Nepomuk::Variant( convertResourceList<Tag>( tags ) ) ) );
+    job->setResources(rl);
+    job->setProperties(QList<QPair<QUrl,Nepomuk::Variant> >() <<
+                       qMakePair(QUrl(Nepomuk::Resource::tagUri()),
+                       Nepomuk::Variant(convertResourceList<Tag>(tags))));
     return job;
 }
 
-
-Nepomuk::MassUpdateJob* Nepomuk::MassUpdateJob::rateResources( const QList<Nepomuk::Resource>& rl, int rating )
+Nepomuk::MassUpdateJob* Nepomuk::MassUpdateJob::rateResources(const QList<Nepomuk::Resource>& rl,
+                                                              unsigned int rating)
 {
     Nepomuk::MassUpdateJob* job = new Nepomuk::MassUpdateJob();
-    job->setResources( rl );
-    job->setProperties( QList<QPair<QUrl,Nepomuk::Variant> >() << qMakePair( QUrl( Nepomuk::Resource::ratingUri() ), Nepomuk::Variant( rating ) ) );
+    job->setResources(rl);
+    job->setProperties(QList<QPair<QUrl,Nepomuk::Variant> >() <<
+                       qMakePair(QUrl(Nepomuk::Resource::ratingUri()),
+                       Nepomuk::Variant(rating)));
     return job;
 }
 
-
-Nepomuk::MassUpdateJob* Nepomuk::MassUpdateJob::commentResources( const QList<Nepomuk::Resource>& rl, const QString& comment )
+Nepomuk::MassUpdateJob* Nepomuk::MassUpdateJob::commentResources(const QList<Nepomuk::Resource>& rl,
+                                                                 const QString& comment)
 {
     Nepomuk::MassUpdateJob* job = new Nepomuk::MassUpdateJob();
-    job->setResources( rl );
-    job->setProperties( QList<QPair<QUrl,Nepomuk::Variant> >() << qMakePair( QUrl( Nepomuk::Resource::descriptionUri() ), Nepomuk::Variant( comment ) ) );
+    job->setResources(rl);
+    job->setProperties(QList<QPair<QUrl,Nepomuk::Variant> >() <<
+                       qMakePair(QUrl(Nepomuk::Resource::descriptionUri()),
+                       Nepomuk::Variant(comment)));
     return job;
 }
 

@@ -67,7 +67,7 @@ QString CommentWidget::text() const
 
 void CommentWidget::slotLinkActivated(const QString& link)
 {
-    KDialog dialog(0, Qt::Dialog);
+    KDialog dialog(this, Qt::Dialog);
 
     QTextEdit* editor = new QTextEdit(&dialog);
     editor->setText(m_comment);
@@ -82,11 +82,15 @@ void CommentWidget::slotLinkActivated(const QString& link)
     dialog.setDefaultButton(KDialog::Ok);
 
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                              "EditCommitDialog");
+                              "EditCommentDialog");
     dialog.restoreDialogSize(dialogConfig);
 
     if (dialog.exec() == QDialog::Accepted) {
+        const QString oldText = m_comment;
         setText(editor->toPlainText());
+        if (oldText != m_comment) {
+            emit commentChanged(m_comment);
+        }
     }
 
     dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);

@@ -1,5 +1,4 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,34 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef COMMENT_WIDGET
-#define COMMENT_WIDGET
+#ifndef EDIT_TAGS_DIALOG_H
+#define EDIT_TAGS_DIALOG_H
 
-#include <QString>
-#include <QWidget>
+#include <kdialog.h>
 
-class QLabel;
+#include <Nepomuk/Tag>
 
-class CommentWidget : public QWidget
+/**
+ * @brief Dialog to edit a list of Nepomuk tags.
+ *
+ * It is possible for the user to add existing tags,
+ * create new tags or to remove tags.
+ */
+class EditTagsDialog : public KDialog
 {
     Q_OBJECT
 
 public:
-    CommentWidget(QWidget* parent);
-    virtual ~CommentWidget();
+    EditTagsDialog(const QList<Nepomuk::Tag>& tags,
+                   QWidget* parent = 0,
+                   Qt::WFlags flags = 0);
 
-    void setText(const QString& comment);
-    QString text() const;
+    virtual ~EditTagsDialog();
 
-signals:
-    void commentChanged(const QString& comment);
-
-private slots:
-    void slotLinkActivated(const QString& link);
+    QList<Nepomuk::Tag> tags() const;
 
 private:
-    QLabel* m_label;
-    QString m_comment;
+    QList<Nepomuk::Tag> m_tags;
 };
 
 #endif

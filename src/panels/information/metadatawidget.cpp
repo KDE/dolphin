@@ -43,7 +43,6 @@
 
     #include <Nepomuk/KRatingWidget>
     #include <Nepomuk/Resource>
-    #include <Nepomuk/Tag>
     #include <Nepomuk/Types/Property>
     #include <Nepomuk/Variant>
 
@@ -70,6 +69,17 @@ public:
     void setRowVisible(QWidget* infoWidget, bool visible);
 
     void slotLoadingFinished();
+    void slotRatingChanged(unsigned int rating);
+    void slotTagsChanged(const QList<Nepomuk::Tag>& tags);
+    void slotCommentChanged(const QString& comment);
+    void slotMetaDataUpdateDone();
+
+    /**
+     * Disables the metadata widget and starts the job that
+     * changes the meta data asynchronously. After the job
+     * has been finished, the metadata widget gets enabled again.
+     */
+    void startChangeDataJob(KJob* job);
 
     QList<Row> m_rows;
 
@@ -97,6 +107,7 @@ public:
         QList<Nepomuk::Tag> tags;
         QList<QString> metaInfoLabels;
         QList<QString> metaInfoValues;
+        QMap<KUrl, Nepomuk::Resource> files;
     } m_sharedData;
 
     /**
@@ -127,8 +138,8 @@ public:
         QString tunedLabel(const QString& label) const;
 
     private:
-        SharedData* m_m_sharedData;
-        QMutex* m_m_mutex;
+        SharedData* m_sharedData;
+        QMutex* m_mutex;
         KUrl::List m_urls;
         bool m_canceled;
     };
@@ -170,10 +181,16 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     const QFontMetrics fontMetrics(KGlobalSettings::smallestReadableFont());
     m_ratingWidget = new KRatingWidget(parent);
     m_ratingWidget->setFixedHeight(fontMetrics.height());
+    connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
+            q, SLOT(slotRatingChanged(unsigned int)));
 
     m_taggingWidget = new TaggingWidget(parent);
+    connect(m_taggingWidget, SIGNAL(tagsChanged(const QList<Nepomuk::Tag>&)),
+            q, SLOT(slotTagsChanged(const QList<Nepomuk::Tag>&)));
 
     m_commentWidget = new CommentWidget(parent);
+    connect(m_commentWidget, SIGNAL(commentChanged(const QString&)),
+            q, SLOT(slotCommentChanged(const QString&)));
 #endif
 
     addRow(new QLabel(i18nc("@label", "Type:"), parent), m_typeInfo);
@@ -288,12 +305,64 @@ void MetaDataWidget::Private::slotLoadingFinished()
 #endif
 }
 
+void MetaDataWidget::Private::slotRatingChanged(unsigned int rating)
+{
+#ifdef HAVE_NEPOMUK
+    QMutexLocker locker(&m_mutex);
+    Nepomuk::MassUpdateJob* job =
+            Nepomuk::MassUpdateJob::rateResources(m_sharedData.files.values(), rating);
+    locker.unlock();
+    startChangeDataJob(job);
+#else
+    Q_UNUSED(rating);
+#endif
+}
+
+void MetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
+{
+#ifdef HAVE_NEPOMUK
+    QMutexLocker locker(&m_mutex);
+    Nepomuk::MassUpdateJob* job =
+            Nepomuk::MassUpdateJob::tagResources(m_sharedData.files.values(), tags);
+    locker.unlock();
+    startChangeDataJob(job);
+#else
+    Q_UNUSED(tags);
+#endif
+}
+
+void MetaDataWidget::Private::slotCommentChanged(const QString& comment)
+{
+#ifdef HAVE_NEPOMUK
+    QMutexLocker locker(&m_mutex);
+    Nepomuk::MassUpdateJob* job =
+            Nepomuk::MassUpdateJob::commentResources(m_sharedData.files.values(), comment);
+    locker.unlock();
+    startChangeDataJob(job);
+#else
+    Q_UNUSED(comment);
+#endif
+}
+
+void MetaDataWidget::Private::slotMetaDataUpdateDone()
+{
+    q->setEnabled(true);
+}
+
+void MetaDataWidget::Private::startChangeDataJob(KJob* job)
+{
+    connect(job, SIGNAL(result(KJob*)),
+            q, SLOT(slotMetaDataUpdateDone()));
+    q->setEnabled(false); // no updates during execution
+    job->start();
+}
+
 #ifdef HAVE_NEPOMUK
 MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
                             MetaDataWidget::Private::SharedData* m_sharedData,
                             QMutex* m_mutex) :
-    m_m_sharedData(m_sharedData),
-    m_m_mutex(m_mutex),
+    m_sharedData(m_sharedData),
+    m_mutex(m_mutex),
     m_urls(),
     m_canceled(false)
 {
@@ -309,7 +378,7 @@ MetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
 
 void MetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
 {
-    QMutexLocker locker(m_m_mutex);
+    QMutexLocker locker(m_mutex);
     m_urls = urls;
     m_canceled = false;
     start();
@@ -317,7 +386,7 @@ void MetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
 
 void MetaDataWidget::Private::LoadFilesThread::run()
 {
-    QMutexLocker locker(m_m_mutex);
+    QMutexLocker locker(m_mutex);
     const KUrl::List urls = m_urls;
     locker.unlock();
 
@@ -331,12 +400,14 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     QList<Nepomuk::Tag> tags;
     QList<QString> metaInfoLabels;
     QList<QString> metaInfoValues;
+    QMap<KUrl, Nepomuk::Resource> files;
     foreach (const KUrl& url, urls) {
         if (m_canceled) {
             return;
         }
 
         Nepomuk::Resource file(url, Soprano::Vocabulary::Xesam::File());
+        files.insert(url, file);
 
         if (!first && (rating != file.rating())) {
             rating = 0; // reset rating
@@ -379,11 +450,12 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     }
 
     locker.relock();
-    m_m_sharedData->rating = rating;
-    m_m_sharedData->comment = comment;
-    m_m_sharedData->tags = tags;
-    m_m_sharedData->metaInfoLabels = metaInfoLabels;
-    m_m_sharedData->metaInfoValues = metaInfoValues;
+    m_sharedData->rating = rating;
+    m_sharedData->comment = comment;
+    m_sharedData->tags = tags;
+    m_sharedData->metaInfoLabels = metaInfoLabels;
+    m_sharedData->metaInfoValues = metaInfoValues;
+    m_sharedData->files = files;
 }
 
 void MetaDataWidget::Private::LoadFilesThread::initMetaInfoSettings(KConfigGroup& group)
@@ -430,7 +502,7 @@ QString MetaDataWidget::Private::LoadFilesThread::tunedLabel(const QString& labe
     return tunedLabel + ':';
 }
 
-#endif
+#endif // HAVE_NEPOMUK
 
 MetaDataWidget::MetaDataWidget(QWidget* parent) :
     QWidget(parent),

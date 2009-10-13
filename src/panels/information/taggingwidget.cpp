@@ -19,6 +19,8 @@
 
 #include "taggingwidget_p.h"
 
+#include "edittagsdialog_p.h"
+
 #include <kglobalsettings.h>
 #include <klocale.h>
 
@@ -78,7 +80,33 @@ QList<Nepomuk::Tag> TaggingWidget::tags() const
 void TaggingWidget::slotLinkActivated(const QString& link)
 {
     Q_UNUSED(link);
-    // TODO
+
+    EditTagsDialog dialog(m_tags, this, Qt::Dialog);
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+                              "EditTagsDialog");
+    dialog.restoreDialogSize(dialogConfig);
+
+    if (dialog.exec() == QDialog::Accepted) {
+        const QList<Nepomuk::Tag> oldTags = m_tags;
+        m_tags = dialog.tags();
+
+        if (oldTags.count() != m_tags.count()) {
+            emit tagsChanged(m_tags);
+        } else {
+            // The number of tags is equal. Check whether the
+            // content of the tags are also equal:
+            const int tagsCount = m_tags.count();
+            for (int i = 0; i < tagsCount; ++i) {
+                if (oldTags[i].genericLabel() != m_tags[i].genericLabel()) {
+                    // at least one tag has been changed
+                    emit tagsChanged(m_tags);
+                    break;
+                }
+            }
+        }
+    }
+
+    dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 #include "taggingwidget_p.moc"

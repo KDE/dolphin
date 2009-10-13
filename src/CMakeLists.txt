@@ -153,6 +153,7 @@ if(Nepomuk_FOUND)
 set(dolphin_SRCS
   ${dolphin_SRCS}
   panels/information/commentwidget.cpp
+  panels/information/edittagsdialog.cpp
   panels/information/nepomukmassupdatejob.cpp
   panels/information/taggingwidget.cpp
 )

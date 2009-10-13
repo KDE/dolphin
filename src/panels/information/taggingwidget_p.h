@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef TAGGING_WIDGET
-#define TAGGING_WIDGET
+#ifndef TAGGING_WIDGET_H
+#define TAGGING_WIDGET_H
 
 #include <nepomuk/tag.h>
 #include <QString>
@@ -36,6 +36,9 @@ public:
 
     void setTags(const QList<Nepomuk::Tag>& tags);
     QList<Nepomuk::Tag> tags() const;
+
+signals:
+    void tagsChanged(const QList<Nepomuk::Tag>& tags);
 
 private slots:
     void slotLinkActivated(const QString& link);
