@@ -7,17 +7,5 @@
             <label>Show preview</label>
             <default>true</default>
         </entry>
-        <entry name="showRating" type="Bool">
-            <label>Show rating</label>
-            <default>true</default>
-        </entry>
-        <entry name="showComment" type="Bool">
-            <label>Show comment</label>
-            <default>true</default>
-        </entry>
-        <entry name="showTags" type="Bool">
-            <label>Show tags</label>
-            <default>true</default>
-        </entry>
     </group>
 </kcfg>

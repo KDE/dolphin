@@ -154,6 +154,7 @@ set(dolphin_SRCS
   ${dolphin_SRCS}
   panels/information/commentwidget.cpp
   panels/information/edittagsdialog.cpp
+  panels/information/metadataconfigurationdialog.cpp
   panels/information/nepomukmassupdatejob.cpp
   panels/information/taggingwidget.cpp
 )

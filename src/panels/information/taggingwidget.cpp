@@ -82,8 +82,7 @@ void TaggingWidget::slotLinkActivated(const QString& link)
     Q_UNUSED(link);
 
     EditTagsDialog dialog(m_tags, this, Qt::Dialog);
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                              "EditTagsDialog");
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk EditTagsDialog");
     dialog.restoreDialogSize(dialogConfig);
 
     if (dialog.exec() == QDialog::Accepted) {

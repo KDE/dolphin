@@ -35,6 +35,7 @@
     #define DISABLE_NEPOMUK_LEGACY
 
     #include "commentwidget_p.h"
+    #include "metadataconfigurationdialog_p.h"
     #include "nepomukmassupdatejob_p.h"
     #include "taggingwidget_p.h"
 
@@ -68,6 +69,12 @@ public:
     void removeMetaInfoRows();
     void setRowVisible(QWidget* infoWidget, bool visible);
 
+    /**
+     * Parses the configuration file "kmetainformationrc" and
+     * updates the visibility of all rows.
+     */
+    void updateRowsVisibility();
+
     void slotLoadingFinished();
     void slotRatingChanged(unsigned int rating);
     void slotTagsChanged(const QList<Nepomuk::Tag>& tags);
@@ -81,6 +88,7 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
+    QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
 
     QGridLayout* m_gridLayout;
@@ -152,6 +160,7 @@ private:
 };
 
 MetaDataWidget::Private::Private(MetaDataWidget* parent) :
+    m_fileItems(),
     m_rows(),
     m_gridLayout(0),
     m_typeInfo(0),
@@ -207,6 +216,8 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     m_loadFilesThread = new LoadFilesThread(&m_sharedData, &m_mutex);
     connect(m_loadFilesThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
 #endif
+
+    updateRowsVisibility();
 }
 
 MetaDataWidget::Private::~Private()
@@ -260,6 +271,22 @@ void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
     }
 }
 
+void MetaDataWidget::Private::updateRowsVisibility()
+{   
+    KConfig config("kmetainformationrc", KConfig::NoGlobals);
+    KConfigGroup settings = config.group("Show");
+    setRowVisible(m_typeInfo, settings.readEntry("type", true));
+    setRowVisible(m_sizeInfo, settings.readEntry("size", true));
+    setRowVisible(m_modifiedInfo, settings.readEntry("modified", true));
+    setRowVisible(m_ownerInfo, settings.readEntry("owner", true));
+    setRowVisible(m_permissionsInfo, settings.readEntry("permissions", true));
+#ifdef HAVE_NEPOMUK
+    setRowVisible(m_ratingWidget, settings.readEntry("rating", true));
+    setRowVisible(m_taggingWidget, settings.readEntry("tagging", true));
+    setRowVisible(m_commentWidget, settings.readEntry("comment", true));
+#endif
+}
+
 void MetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
@@ -302,6 +329,8 @@ void MetaDataWidget::Private::slotLoadingFinished()
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
     }
+
+    emit q->loadingFinished();
 #endif
 }
 
@@ -313,9 +342,8 @@ void MetaDataWidget::Private::slotRatingChanged(unsigned int rating)
             Nepomuk::MassUpdateJob::rateResources(m_sharedData.files.values(), rating);
     locker.unlock();
     startChangeDataJob(job);
-#else
-    Q_UNUSED(rating);
 #endif
+    emit q->ratingChanged(rating);
 }
 
 void MetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
@@ -326,9 +354,8 @@ void MetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
             Nepomuk::MassUpdateJob::tagResources(m_sharedData.files.values(), tags);
     locker.unlock();
     startChangeDataJob(job);
-#else
-    Q_UNUSED(tags);
 #endif
+    emit q->tagsChanged(tags);
 }
 
 void MetaDataWidget::Private::slotCommentChanged(const QString& comment)
@@ -339,9 +366,8 @@ void MetaDataWidget::Private::slotCommentChanged(const QString& comment)
             Nepomuk::MassUpdateJob::commentResources(m_sharedData.files.values(), comment);
     locker.unlock();
     startChangeDataJob(job);
-#else
-    Q_UNUSED(comment);
 #endif
+    emit q->commentChanged(comment);
 }
 
 void MetaDataWidget::Private::slotMetaDataUpdateDone()
@@ -434,7 +460,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
             QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
             while (it != properties.constEnd()) {
                 Nepomuk::Types::Property prop(it.key());
-                if (true /*settings.readEntry(prop.name(), true)*/) {
+                if (settings.readEntry(prop.name(), true)) {
                     // TODO #1: use Nepomuk::formatValue(res, prop) if available
                     // instead of it.value().toString()
                     // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
@@ -468,7 +494,7 @@ void MetaDataWidget::Private::LoadFilesThread::initMetaInfoSettings(KConfigGroup
             "asText", "contentSize", "depth", "fileExtension",
             "fileName", "fileSize", "isPartOf", "mimetype", "name",
             "parentUrl", "plainTextContent", "sourceModified",
-            "size", "url",
+            "url",
             0 // mandatory last entry
         };
 
@@ -537,6 +563,8 @@ void MetaDataWidget::setItem(const KFileItem& item)
 
 void MetaDataWidget::setItems(const KFileItemList& items)
 {
+    d->m_fileItems = items;
+
     if (items.count() > 1) {
         // calculate the size of all items and show this
         // information to the user
@@ -561,6 +589,57 @@ void MetaDataWidget::setItems(const KFileItemList& items)
         }
     }
     d->m_loadFilesThread->loadFiles(urls);
+#endif
+}
+
+void MetaDataWidget::openConfigurationDialog()
+{
+#ifdef HAVE_NEPOMUK
+    if (d->m_fileItems.count() > 1) {
+        return;
+    }
+    const KUrl url = d->m_fileItems[0].nepomukUri();
+    if (!url.isValid()) {
+        return;
+    }
+
+    MetaDataConfigurationDialog dialog(url, this, Qt::Dialog);
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
+    dialog.restoreDialogSize(dialogConfig);
+    if (dialog.exec() == KDialog::Accepted) {
+        d->updateRowsVisibility();
+    }
+    dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
+#endif
+}
+
+unsigned int MetaDataWidget::rating() const
+{
+#ifdef HAVE_NEPOMUK
+    QMutexLocker locker(&d->m_mutex);
+    return d->m_sharedData.rating;
+#else
+    return 0;
+#endif
+}
+
+const QList<Nepomuk::Tag> MetaDataWidget::tags() const
+{
+#ifdef HAVE_NEPOMUK
+    QMutexLocker locker(&d->m_mutex);
+    return d->m_sharedData.tags;
+#else
+    return QList<Nepomuk::Tag>();
+#endif
+}
+
+QString MetaDataWidget::comment() const
+{
+#ifdef HAVE_NEPOMUK
+    QMutexLocker locker(&d->m_mutex);
+    return d->m_sharedData.comment;
+#else
+    return QString();
 #endif
 }
 

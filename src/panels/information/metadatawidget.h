@@ -40,7 +40,13 @@ class KFileItem;
 class KFileItemList;
 
 /**
- * @brief
+ * @brief Shows the meta data of one or more file items.
+ *
+ * Meta data like name, size, rating, comment, ... are
+ * shown as several rows containing a description and
+ * the meta data value. It is possible for the user
+ * to change specific meta data like rating, tags and
+ * comment.
  */
 class MetaDataWidget : public QWidget
 {
@@ -50,8 +56,82 @@ public:
     explicit MetaDataWidget(QWidget* parent = 0);
     virtual ~MetaDataWidget();
 
+    /**
+     * Triggers the asynchronous loading of the meta data
+     * for the file item \p item. Connect to the signal
+     * loadingFinished() to be able to read the meta
+     * data.
+     */
     void setItem(const KFileItem& item);
+
+    /**
+     * Triggers the asynchronous loading of the meta data
+     * for the file items \p items. Connect to the signal
+     * loadingFinished() to be able to read the meta
+     * data.
+     */
     void setItems(const KFileItemList& items);
+
+    /**
+     * Opens a dialog which allows to configure the visibility
+     * of meta data.
+     */
+    void openConfigurationDialog();
+
+    /**
+     * Returns the rating for the currently set item(s). It is required
+     * to wait for the signal loadingFinished() or ratingChanged()
+     * to get a valid result.
+     */
+    unsigned int rating() const;
+
+    /**
+     * Returns the tags for the currently set item(s). It is required
+     * to wait for the signal loadingFinished() or tagsChanged()
+     * to get a valid result.
+     */
+    const QList<Nepomuk::Tag> tags() const;
+
+    /**
+     * Returns the comment for the currently set item(s). It is required
+     * to wait for the signal loadingFinished() or commentChanged()
+     * to get a valid result.
+     */
+    QString comment() const;
+
+signals:
+    /**
+     * Is emitted if the loading of the meta data has been finished
+     * after invoking MetaDataWidget::setItem() or MetaDataWidget::setItems().
+     */
+    void loadingFinished();
+
+    /**
+     * Is emitted after the user has changed the rating.
+     * Note that the signal is not emitted if the rating has
+     * indirectly been changed by MetaDataWidget::setItem() or
+     * MetaDataWidget::setItems(). In this case connect to
+     * the signal loadingFinished() instead.
+     */
+    void ratingChanged(const int rating);
+
+    /**
+     * Is emitted after the user has changed the tags.
+     * Note that the signal is not emitted if the rating has
+     * indirectly been changed by MetaDataWidget::setItem() or
+     * MetaDataWidget::setItems(). In this case connect to
+     * the signal loadingFinished() instead.
+     */
+    void tagsChanged(const QList<Nepomuk::Tag>& tags);
+
+    /**
+     * Is emitted after the user has changed the comment.
+     * Note that the signal is not emitted if the rating has
+     * indirectly been changed by MetaDataWidget::setItem() or
+     * MetaDataWidget::setItems(). In this case connect to
+     * the signal loadingFinished() instead.
+     */
+    void commentChanged(const QString& comment);
 
 private:
     class Private;

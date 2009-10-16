@@ -81,8 +81,7 @@ void CommentWidget::slotLinkActivated(const QString& link)
     dialog.setButtons(KDialog::Ok | KDialog::Cancel);
     dialog.setDefaultButton(KDialog::Ok);
 
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                              "EditCommentDialog");
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk EditCommentDialog");
     dialog.restoreDialogSize(dialogConfig);
 
     if (dialog.exec() == QDialog::Accepted) {

@@ -290,79 +290,8 @@ void InformationPanelContent::configureSettings()
     previewAction->setCheckable(true);
     previewAction->setChecked(InformationPanelSettings::showPreview());
 
-    const bool metaDataAvailable = true; // MetaDataWidget::metaDataAvailable(); TODO
-
-    QAction* ratingAction = popup.addAction(i18nc("@action:inmenu", "Rating"));
-    ratingAction->setIcon(KIcon("rating"));
-    ratingAction->setCheckable(true);
-    ratingAction->setChecked(InformationPanelSettings::showRating());
-    ratingAction->setEnabled(metaDataAvailable);
-
-    QAction* commentAction = popup.addAction(i18nc("@action:inmenu", "Comment"));
-    commentAction->setIcon(KIcon("text-plain"));
-    commentAction->setCheckable(true);
-    commentAction->setChecked(InformationPanelSettings::showComment());
-    commentAction->setEnabled(metaDataAvailable);
-
-    QAction* tagsAction = popup.addAction(i18nc("@action:inmenu", "Tags"));
-    tagsAction->setCheckable(true);
-    tagsAction->setChecked(InformationPanelSettings::showTags());
-    tagsAction->setEnabled(metaDataAvailable);
-
-    KConfig config("kmetainformationrc", KConfig::NoGlobals);
-    KConfigGroup settings = config.group("Show");
-
-    QList<QAction*> actions;
-
-    // Get all meta information labels that are available for
-    // the currently shown file item and add them to the popup.
-    /*Nepomuk::Resource res(m_item.url());
-    QHash<QUrl, Nepomuk::Variant> properties = res.properties();
-    QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
-    while (it != properties.constEnd()) {
-        Nepomuk::Types::Property prop(it.key());
-        const QString key = prop.name();
-
-        // Meta information provided by Nepomuk that is already
-        // available from KFileItem should not be configurable.
-        bool skip = (key == "fileExtension") ||
-                    (key == "name") ||
-                    (key == "sourceModified") ||
-                    (key == "size") ||
-                    (key == "mime type");
-        if (!skip) {
-            // Check whether there is already a meta information
-            // having the same label. In this case don't show it
-            // twice in the menu.
-            foreach (const QAction* action, actions) {
-                if (action->data().toString() == key) {
-                    skip = true;
-                    break;
-                }
-            }
-        }
-
-        if (!skip) {
-            const QString label = tunedLabel(prop.label());
-            QAction* action = new QAction(label, &popup);
-            action->setCheckable(true);
-            action->setChecked(settings.readEntry(key, true));
-            action->setData(key);
-            actions.append(action);
-        }
-
-        ++it;
-    }*/
-
-    if (!actions.isEmpty()) {
-        popup.addSeparator();
-
-        // add all items alphabetically sorted to the popup
-        qSort(actions.begin(), actions.end(), lessThan);
-        foreach (QAction* action, actions) {
-            popup.addAction(action);
-        }
-    }
+    QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
+    configureAction->setIcon(KIcon("configure"));
 
     // Open the popup and adjust the settings for the
     // selected action.
@@ -376,26 +305,9 @@ void InformationPanelContent::configureSettings()
         m_preview->setVisible(isChecked);
         m_previewSeparator->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
-    } else if (action == ratingAction) {
-        //m_metaDataWidget->setRatingVisible(isChecked);
-        InformationPanelSettings::setShowRating(isChecked);
-    } else if (action == commentAction) {
-        //m_metaDataWidget->setCommentVisible(isChecked);
-        InformationPanelSettings::setShowComment(isChecked);
-    } else if (action == tagsAction) {
-        //m_metaDataWidget->setTagsVisible(isChecked);
-        InformationPanelSettings::setShowTags(isChecked);
-    } else {
-        settings.writeEntry(action->data().toString(), action->isChecked());
-        settings.sync();
+    } else if (action == configureAction) {
+        m_metaDataWidget->openConfigurationDialog();
     }
-
-    /*if (m_metaDataWidget != 0) {
-        const bool visible = m_metaDataWidget->isRatingVisible() ||
-                             m_metaDataWidget->isCommentVisible() ||
-                             m_metaDataWidget->areTagsVisible();
-        m_metaDataSeparator->setVisible(visible);
-    }*/
 
     showItem(m_item);
 }
