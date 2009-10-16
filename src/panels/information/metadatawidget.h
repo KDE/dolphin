@@ -90,7 +90,7 @@ public:
      * to wait for the signal loadingFinished() or tagsChanged()
      * to get a valid result.
      */
-    const QList<Nepomuk::Tag> tags() const;
+    QList<Nepomuk::Tag> tags() const;
 
     /**
      * Returns the comment for the currently set item(s). It is required

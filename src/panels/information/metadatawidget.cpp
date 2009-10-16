@@ -625,7 +625,7 @@ unsigned int MetaDataWidget::rating() const
 #endif
 }
 
-const QList<Nepomuk::Tag> MetaDataWidget::tags() const
+QList<Nepomuk::Tag> MetaDataWidget::tags() const
 {
 #ifdef HAVE_NEPOMUK
     QMutexLocker locker(&d->m_mutex);
