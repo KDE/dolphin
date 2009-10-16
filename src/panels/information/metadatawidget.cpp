@@ -20,7 +20,7 @@
 
 #include "metadatawidget.h"
 
-#include "metadataconfigurationdialog_p.h"
+#include "metadataconfigurationdialog.h"
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
@@ -604,21 +604,15 @@ void MetaDataWidget::setItems(const KFileItemList& items)
 
 void MetaDataWidget::openConfigurationDialog()
 {
-    if (d->m_fileItems.count() > 1) {
-        return;
-    }
     const KUrl url = d->m_fileItems[0].nepomukUri();
     if (!url.isValid()) {
         return;
     }
 
     MetaDataConfigurationDialog dialog(url, this, Qt::Dialog);
-    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
-    dialog.restoreDialogSize(dialogConfig);
     if (dialog.exec() == KDialog::Accepted) {
         d->updateRowsVisibility();
     }
-    dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 unsigned int MetaDataWidget::rating() const

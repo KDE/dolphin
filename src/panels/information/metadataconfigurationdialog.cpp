@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "metadataconfigurationdialog_p.h"
+#include "metadataconfigurationdialog.h"
 
 #include "metadatawidget.h"
 
@@ -35,62 +35,31 @@
 #include <QListWidget>
 #include <QVBoxLayout>
 
-MetaDataConfigurationDialog::MetaDataConfigurationDialog(const KUrl& url,
-                                                         QWidget* parent,
-                                                         Qt::WFlags flags) :
-    KDialog(parent, flags),
-    m_url(url),
-    m_metaDataList(0)
+class MetaDataConfigurationDialog::Private
 {
-    setCaption(i18nc("@title:window", "Configure Shown Data"));
-    setButtons(KDialog::Ok | KDialog::Cancel);
-    setDefaultButton(KDialog::Ok);
+public:
+    Private(MetaDataConfigurationDialog* parent);
+    ~Private();
 
-    QWidget* mainWidget = new QWidget(this);
-    QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
+    void loadMetaData();
 
-    QLabel* label = new QLabel(i18nc("@label:textbox",
-                                     "Configure which data should "
-                                     "be shown."), this);
+    KUrl m_url;
+    QListWidget* m_metaDataList;
 
-    m_metaDataList = new QListWidget(this);
-    m_metaDataList->setSelectionMode(QAbstractItemView::NoSelection);
+private:
+    MetaDataConfigurationDialog* const q;
+};
 
-    topLayout->addWidget(label);
-    topLayout->addWidget(m_metaDataList);
-
-    setMainWidget(mainWidget);
-
-    loadMetaData();
-}
-
-MetaDataConfigurationDialog::~MetaDataConfigurationDialog()
+MetaDataConfigurationDialog::Private::Private(MetaDataConfigurationDialog* parent) :
+    q(parent)
 {
 }
 
-void MetaDataConfigurationDialog::slotButtonClicked(int button)
+MetaDataConfigurationDialog::Private::~Private()
 {
-    if (button == KDialog::Ok) {
-        KConfig config("kmetainformationrc", KConfig::NoGlobals);
-        KConfigGroup showGroup = config.group("Show");
-    
-        const int count = m_metaDataList->count();
-        for (int i = 0; i < count; ++i) {
-            QListWidgetItem* item = m_metaDataList->item(i);
-            const bool show = (item->checkState() == Qt::Checked);
-            const QString key = item->data(Qt::UserRole).toString();
-            showGroup.writeEntry(key, show);
-        }
-    
-        showGroup.sync();
-
-        accept();
-    } else {
-        KDialog::slotButtonClicked(button);
-    }
 }
 
-void MetaDataConfigurationDialog::loadMetaData()
+void MetaDataConfigurationDialog::Private::loadMetaData()
 {
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
@@ -152,4 +121,66 @@ void MetaDataConfigurationDialog::loadMetaData()
 #endif
 }
 
-#include "metadataconfigurationdialog_p.moc"
+MetaDataConfigurationDialog::MetaDataConfigurationDialog(const KUrl& url,
+                                                         QWidget* parent,
+                                                         Qt::WFlags flags) :
+    KDialog(parent, flags),
+    d(new Private(this))
+{
+    d->m_url = url;
+
+    setCaption(i18nc("@title:window", "Configure Shown Data"));
+    setButtons(KDialog::Ok | KDialog::Cancel);
+    setDefaultButton(KDialog::Ok);
+
+    QWidget* mainWidget = new QWidget(this);
+    QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
+
+    QLabel* label = new QLabel(i18nc("@label:textbox",
+                                     "Configure which data should "
+                                     "be shown."), this);
+
+    d->m_metaDataList = new QListWidget(this);
+    d->m_metaDataList->setSelectionMode(QAbstractItemView::NoSelection);
+
+    topLayout->addWidget(label);
+    topLayout->addWidget(d->m_metaDataList);
+
+    setMainWidget(mainWidget);
+
+    d->loadMetaData();
+
+    const KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
+    restoreDialogSize(dialogConfig);
+}
+
+MetaDataConfigurationDialog::~MetaDataConfigurationDialog()
+{
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
+    saveDialogSize(dialogConfig, KConfigBase::Persistent);
+}
+
+void MetaDataConfigurationDialog::slotButtonClicked(int button)
+{
+    if (button == KDialog::Ok) {
+        KConfig config("kmetainformationrc", KConfig::NoGlobals);
+        KConfigGroup showGroup = config.group("Show");
+    
+        const int count = d->m_metaDataList->count();
+        for (int i = 0; i < count; ++i) {
+            QListWidgetItem* item = d->m_metaDataList->item(i);
+            const bool show = (item->checkState() == Qt::Checked);
+            const QString key = item->data(Qt::UserRole).toString();
+            showGroup.writeEntry(key, show);
+        }
+    
+        showGroup.sync();
+
+        accept();
+    } else {
+        KDialog::slotButtonClicked(button);
+    }
+}
+
+
+#include "metadataconfigurationdialog.moc"

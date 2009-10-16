@@ -21,9 +21,6 @@
 #define META_DATA_CONFIGURATION_DIALOG_H
 
 #include <kdialog.h>
-#include <kurl.h>
-
-class QListWidget;
 
 /**
  * @brief Dialog which allows to configure which meta data should be shown.
@@ -42,11 +39,8 @@ protected slots:
     virtual void slotButtonClicked(int button);
 
 private:
-    void loadMetaData();
-
-private:
-    KUrl m_url;
-    QListWidget* m_metaDataList;
+    class Private;
+    Private* d;
 };
 
 #endif

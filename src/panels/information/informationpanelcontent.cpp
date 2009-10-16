@@ -48,6 +48,7 @@
 #include "dolphin_informationpanelsettings.h"
 #include "settings/dolphinsettings.h"
 #include "metadatawidget.h"
+#include "metadataconfigurationdialog.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
 
