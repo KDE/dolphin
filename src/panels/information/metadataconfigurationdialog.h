@@ -30,9 +30,17 @@ class MetaDataConfigurationDialog : public KDialog
     Q_OBJECT
 
 public:
+    /**
+     * @param url    URL for which should be configured what kind of meta data is
+     *               shown. If the URL is empty, the configuration dialog will contain
+     *               all available meta data from the system.
+     * @param parent Parent widget which opens the dialog.
+     * @param flags  Window flags for the dialog.
+     */
     MetaDataConfigurationDialog(const KUrl& url,
                                 QWidget* parent = 0,
                                 Qt::WFlags flags = 0);
+
     virtual ~MetaDataConfigurationDialog();
 
 protected slots:

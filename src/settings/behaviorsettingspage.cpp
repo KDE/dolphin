@@ -23,6 +23,9 @@
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 
+// TODO:
+// #include "nepomuk/metadataconfigurationdialog.h"
+
 #include <viewproperties.h>
 
 #include <kdialog.h>
@@ -31,6 +34,7 @@
 
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
@@ -47,6 +51,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     m_confirmDelete(0),
     m_renameInline(0),
     m_showToolTips(0),
+    m_configureToolTips(0),
     m_showSelectionToggle(0),
     m_naturalSorting(0)
 {
@@ -88,15 +93,30 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     confirmBoxLayout->addWidget(m_confirmDelete);
     confirmBoxLayout->addWidget(m_confirmClosingMultipleTabs);
 
+    // 'Rename inline'
     m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), vBox);
     connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
-    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), vBox);
+    // 'Show tooltips'
+    QWidget* toolTipContainer = new QWidget(vBox);
+    QHBoxLayout* toolTipsLayout = new QHBoxLayout(toolTipContainer);
+    toolTipsLayout->setMargin(0);
+    m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), toolTipContainer);
     connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SLOT(updateConfigureButton()));
 
+    m_configureToolTips = new QLabel(toolTipContainer);
+    connect(m_configureToolTips, SIGNAL(linkActivated(const QString&)),
+            this, SLOT(configureToolTips(const QString&)));
+
+    toolTipsLayout->addWidget(m_showToolTips);
+    toolTipsLayout->addWidget(m_configureToolTips, 1, Qt::AlignLeft);
+
+    // 'Show selection marker'
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), vBox);
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
+    // 'Natural sorting of items'
     m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), vBox);
     connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
@@ -162,6 +182,24 @@ void BehaviorSettingsPage::restoreDefaults()
     m_confirmDelete->setChecked(CONFIRM_DELETE);
 }
 
+void BehaviorSettingsPage::updateConfigureButton()
+{
+    if (m_showToolTips->isChecked()) {
+        m_configureToolTips->setText("<a href=\"configure\">" +
+                                     i18nc("@action:button", "Configure...") +
+                                     "</a>");
+    } else {
+        m_configureToolTips->setText(QString());
+    }
+}
+
+void BehaviorSettingsPage::configureToolTips()
+{
+    // TODO:
+    //MetaDataConfigurationDialog dialog(KUrl(), this, Qt::Dialog);
+    //dialog.exec();
+}
+
 void BehaviorSettingsPage::loadSettings()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
@@ -181,6 +219,8 @@ void BehaviorSettingsPage::loadSettings()
     m_showToolTips->setChecked(settings->showToolTips());
     m_showSelectionToggle->setChecked(settings->showSelectionToggle());
     m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());
+
+    updateConfigureButton();
 }
 
 #include "behaviorsettingspage.moc"

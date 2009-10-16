@@ -92,6 +92,11 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
 #ifdef HAVE_NEPOMUK
     // Get all meta information labels that are available for
     // the currently shown file item and add them to the list.
+    if (m_url.isEmpty()) {
+        // TODO: in this case all available meta data from the system
+        // should be added.
+        return;
+    }
     Nepomuk::Resource res(m_url);
     QHash<QUrl, Nepomuk::Variant> properties = res.properties();
     QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();

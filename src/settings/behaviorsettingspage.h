@@ -24,6 +24,7 @@
 #include <kurl.h>
 
 class QCheckBox;
+class QLabel;
 class QRadioButton;
 
 /**
@@ -43,6 +44,19 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
+private slots:
+    /**
+     * Updates the visibility state of the configure
+     * button m_configureToolTips.
+     */
+    void updateConfigureButton();
+
+    /**
+     * Opens a dialog which allows the user to specify which
+     * meta data should be shown in the tooltip.
+     */
+    void configureToolTips();
+
 private:
     void loadSettings();
 
@@ -58,6 +72,7 @@ private:
 
     QCheckBox* m_renameInline;
     QCheckBox* m_showToolTips;
+    QLabel* m_configureToolTips;
     QCheckBox* m_showSelectionToggle;
     QCheckBox* m_naturalSorting;
 };
