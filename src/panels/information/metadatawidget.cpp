@@ -290,9 +290,9 @@ void MetaDataWidget::Private::initMetaInfoSettings()
 
         static const char* disabledProperties[] = {
             "asText", "contentSize", "created", "depth", "description", "fileExtension",
-            "fileName", "fileSize", "isPartOf", "lastModified", "mimeType", "name",
-            "parentUrl", "permissions", "plainTextContent", "owner", "sourceModified",
-            "url",
+            "fileName", "fileSize", "hasTag", "isPartOf", "lastModified", "mimeType", "name",
+            "numericRating", "parentUrl", "permissions", "plainTextContent", "owner",
+            "sourceModified", "url",
             0 // mandatory last entry
         };
 
@@ -385,6 +385,8 @@ void MetaDataWidget::Private::slotRatingChanged(unsigned int rating)
 void MetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
 {
 #ifdef HAVE_NEPOMUK
+    m_taggingWidget->setTags(tags);
+
     QMutexLocker locker(&m_mutex);
     Nepomuk::MassUpdateJob* job =
             Nepomuk::MassUpdateJob::tagResources(m_sharedData.files.values(), tags);

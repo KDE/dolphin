@@ -24,6 +24,10 @@
 
 #include <Nepomuk/Tag>
 
+class KLineEdit;
+class QListWidget;
+class QListWidgetItem;
+
 /**
  * @brief Dialog to edit a list of Nepomuk tags.
  *
@@ -43,8 +47,21 @@ public:
 
     QList<Nepomuk::Tag> tags() const;
 
+protected slots:
+    virtual void slotButtonClicked(int button);
+
+private slots:
+    void slotTextEdited(const QString& text);
+
+private:
+    void loadTags();
+    void removeNewTagItem();
+
 private:
     QList<Nepomuk::Tag> m_tags;
+    QListWidget* m_tagsList;
+    QListWidgetItem* m_newTagItem;
+    KLineEdit* m_newTagEdit;
 };
 
 #endif

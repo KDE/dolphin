@@ -86,7 +86,6 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
         item->setData(Qt::UserRole, key);
         const bool show = settings.readEntry(key, true);
         item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
-
     }
 
 #ifdef HAVE_NEPOMUK
@@ -105,13 +104,29 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
         const QString key = prop.name();
 
         // Meta information provided by Nepomuk that is already
-        // available from KFileItem should not be configurable.
-        bool skip = (key == "contentSize") ||
-                    (key == "fileExtension") ||
-                    (key == "name") ||
-                    (key == "lastModified") ||
-                    (key == "size") ||
-                    (key == "mimeType");
+        // available from KFileItem as "fixed item" (see above)
+        // should not be shown as second entry.
+        static const char* hiddenProperties[] = {
+            "contentSize",   // = fixed item "size"
+            "fileExtension", // ~ fixed item "type"
+            "hasTag",        // = fixed item "tags"
+            "name",          // not shown as part of the meta data widget
+            "lastModified",  // = fixed item "modified"
+            "size",          // = fixed item "size"
+            "mimeType",      // = fixed item "type"
+            "numericRating", // = fixed item "rating"
+            0 // mandatory last entry
+        };
+        bool skip = false;
+        int i = 0;
+        while (hiddenProperties[i] != 0) {
+            if (key == hiddenProperties[i]) {
+                skip = true;
+                break;
+            }
+            ++i;
+        }
+
         if (!skip) {
             // const QString label = tunedLabel(prop.label());
             const QString label = prop.label() + " --- " + key;
@@ -186,6 +201,5 @@ void MetaDataConfigurationDialog::slotButtonClicked(int button)
         KDialog::slotButtonClicked(button);
     }
 }
-
 
 #include "metadataconfigurationdialog.moc"

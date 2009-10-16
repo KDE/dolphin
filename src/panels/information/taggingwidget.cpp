@@ -69,7 +69,6 @@ void TaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
     } else {
         m_label->setText("<p>" + m_tagsText + " <a href=\"changeTags\">" + i18nc("@label", "Change...") + "</a></p>");
     }
-
 }
 
 QList<Nepomuk::Tag> TaggingWidget::tags() const
