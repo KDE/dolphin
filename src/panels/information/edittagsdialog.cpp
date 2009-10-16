@@ -96,8 +96,9 @@ void EditTagsDialog::slotButtonClicked(int button)
         for (int i = 0; i < count; ++i) {
             QListWidgetItem* item = m_tagsList->item(i);
             if (item->checkState() == Qt::Checked) {
-                Nepomuk::Tag tag;
-                tag.setLabel(item->data(Qt::UserRole).toString());
+                const QString label = item->data(Qt::UserRole).toString();
+                Nepomuk::Tag tag(label);
+                tag.setLabel(label);
                 m_tags.append(tag);
             }
         }
