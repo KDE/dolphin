@@ -114,6 +114,7 @@ set(dolphin_SRCS
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
     panels/information/metadatawidget.cpp
+    panels/information/metadataconfigurationdialog.cpp
     panels/information/phononwidget.cpp
     panels/folders/ktreeview.cpp
     panels/places/placespanel.cpp
@@ -154,7 +155,6 @@ set(dolphin_SRCS
   ${dolphin_SRCS}
   panels/information/commentwidget.cpp
   panels/information/edittagsdialog.cpp
-  panels/information/metadataconfigurationdialog.cpp
   panels/information/nepomukmassupdatejob.cpp
   panels/information/taggingwidget.cpp
 )

@@ -23,10 +23,13 @@
 
 #include <klocale.h>
 
-#define DISABLE_NEPOMUK_LEGACY
-#include <Nepomuk/Resource>
-#include <Nepomuk/Types/Property>
-#include <Nepomuk/Variant>
+#include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
+    #define DISABLE_NEPOMUK_LEGACY
+    #include <Nepomuk/Resource>
+    #include <Nepomuk/Types/Property>
+    #include <Nepomuk/Variant>
+#endif
 
 #include <QLabel>
 #include <QListWidget>
@@ -100,10 +103,12 @@ void MetaDataConfigurationDialog::loadMetaData()
     fixedItems.append(FixedItem("size",        i18nc("@item::inlistbox", "Size")));
     fixedItems.append(FixedItem("modified",    i18nc("@item::inlistbox", "Modified")));
     fixedItems.append(FixedItem("owner",       i18nc("@item::inlistbox", "Owner")));
-    fixedItems.append(FixedItem("permissions", i18nc("@item::inlistbox", "Permission")));
+    fixedItems.append(FixedItem("permissions", i18nc("@item::inlistbox", "Permissions")));
+#ifdef HAVE_NEPOMUK
     fixedItems.append(FixedItem("rating",      i18nc("@item::inlistbox", "Rating")));
     fixedItems.append(FixedItem("tags",        i18nc("@item::inlistbox", "Tags")));
     fixedItems.append(FixedItem("comment",     i18nc("@item::inlistbox", "Comment")));
+#endif
 
     foreach (const FixedItem& fixedItem, fixedItems) {
         const QString key = fixedItem.first;
@@ -115,6 +120,7 @@ void MetaDataConfigurationDialog::loadMetaData()
 
     }
 
+#ifdef HAVE_NEPOMUK
     // Get all meta information labels that are available for
     // the currently shown file item and add them to the list.
     Nepomuk::Resource res(m_url);
@@ -126,14 +132,15 @@ void MetaDataConfigurationDialog::loadMetaData()
 
         // Meta information provided by Nepomuk that is already
         // available from KFileItem should not be configurable.
-        bool skip = (key == "fileExtension") ||
+        bool skip = (key == "contentSize") ||
+                    (key == "fileExtension") ||
                     (key == "name") ||
-                    (key == "sourceModified") ||
+                    (key == "lastModified") ||
                     (key == "size") ||
-                    (key == "mime type");
+                    (key == "mimeType");
         if (!skip) {
             // const QString label = tunedLabel(prop.label());
-            const QString label = prop.label();
+            const QString label = prop.label() + " --- " + key;
             QListWidgetItem* item = new QListWidgetItem(label, m_metaDataList);
             item->setData(Qt::UserRole, key);
             const bool show = settings.readEntry(key, true);
@@ -142,6 +149,7 @@ void MetaDataConfigurationDialog::loadMetaData()
 
         ++it;
     }
+#endif
 }
 
 #include "metadataconfigurationdialog_p.moc"

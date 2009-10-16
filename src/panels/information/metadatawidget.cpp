@@ -20,6 +20,10 @@
 
 #include "metadatawidget.h"
 
+#include "metadataconfigurationdialog_p.h"
+
+#include <kconfig.h>
+#include <kconfiggroup.h>
 #include <kfileitem.h>
 #include <kglobalsettings.h>
 #include <klocale.h>
@@ -35,12 +39,8 @@
     #define DISABLE_NEPOMUK_LEGACY
 
     #include "commentwidget_p.h"
-    #include "metadataconfigurationdialog_p.h"
     #include "nepomukmassupdatejob_p.h"
     #include "taggingwidget_p.h"
-
-    #include <kconfig.h>
-    #include <kconfiggroup.h>
 
     #include <Nepomuk/KRatingWidget>
     #include <Nepomuk/Resource>
@@ -68,6 +68,13 @@ public:
     void addRow(QLabel* label, QWidget* infoWidget);
     void removeMetaInfoRows();
     void setRowVisible(QWidget* infoWidget, bool visible);
+
+    /**
+     * Initializes the configuration file "kmetainformationrc"
+     * with proper default settings for the first start in
+     * an uninitialized environment.
+     */
+    void initMetaInfoSettings();
 
     /**
      * Parses the configuration file "kmetainformationrc" and
@@ -217,6 +224,7 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     connect(m_loadFilesThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
 #endif
 
+    initMetaInfoSettings();
     updateRowsVisibility();
 }
 
@@ -268,6 +276,34 @@ void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
             row.infoWidget->setVisible(visible);
             return;
         }
+    }
+}
+
+
+void MetaDataWidget::Private::initMetaInfoSettings()
+{
+    KConfig config("kmetainformationrc", KConfig::NoGlobals);
+    KConfigGroup settings = config.group("Show");
+    if (!settings.readEntry("initialized", false)) {
+        // The resource file is read the first time. Assure
+        // that some meta information is disabled per default.
+
+        static const char* disabledProperties[] = {
+            "asText", "contentSize", "created", "depth", "description", "fileExtension",
+            "fileName", "fileSize", "isPartOf", "lastModified", "mimeType", "name",
+            "parentUrl", "permissions", "plainTextContent", "owner", "sourceModified",
+            "url",
+            0 // mandatory last entry
+        };
+
+        int i = 0;
+        while (disabledProperties[i] != 0) {
+            settings.writeEntry(disabledProperties[i], false);
+            ++i;
+        }
+
+        // mark the group as initialized
+        settings.writeEntry("initialized", true);
     }
 }
 
@@ -418,7 +454,6 @@ void MetaDataWidget::Private::LoadFilesThread::run()
 
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
-    initMetaInfoSettings(settings);
 
     bool first = true;
     unsigned int rating = 0;
@@ -482,31 +517,6 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     m_sharedData->metaInfoLabels = metaInfoLabels;
     m_sharedData->metaInfoValues = metaInfoValues;
     m_sharedData->files = files;
-}
-
-void MetaDataWidget::Private::LoadFilesThread::initMetaInfoSettings(KConfigGroup& group)
-{
-    if (!group.readEntry("initialized", false)) {
-        // The resource file is read the first time. Assure
-        // that some meta information is disabled per default.
-
-        static const char* disabledProperties[] = {
-            "asText", "contentSize", "depth", "fileExtension",
-            "fileName", "fileSize", "isPartOf", "mimetype", "name",
-            "parentUrl", "plainTextContent", "sourceModified",
-            "url",
-            0 // mandatory last entry
-        };
-
-        int i = 0;
-        while (disabledProperties[i] != 0) {
-            group.writeEntry(disabledProperties[i], false);
-            ++i;
-        }
-
-        // mark the group as initialized
-        group.writeEntry("initialized", true);
-    }
 }
 
 QString MetaDataWidget::Private::LoadFilesThread::tunedLabel(const QString& label) const
@@ -594,7 +604,6 @@ void MetaDataWidget::setItems(const KFileItemList& items)
 
 void MetaDataWidget::openConfigurationDialog()
 {
-#ifdef HAVE_NEPOMUK
     if (d->m_fileItems.count() > 1) {
         return;
     }
@@ -610,7 +619,6 @@ void MetaDataWidget::openConfigurationDialog()
         d->updateRowsVisibility();
     }
     dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
-#endif
 }
 
 unsigned int MetaDataWidget::rating() const
