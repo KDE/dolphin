@@ -869,7 +869,7 @@ void DolphinMainWindow::setActiveTab(int index)
     m_tabIndex = index;
 
     ViewTab& viewTab = m_viewTab[index];
-    m_centralWidgetLayout->addWidget(viewTab.splitter);
+    m_centralWidgetLayout->addWidget(viewTab.splitter, 1);
     viewTab.primaryView->show();
     if (viewTab.secondaryView != 0) {
         viewTab.secondaryView->show();
