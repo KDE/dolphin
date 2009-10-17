@@ -28,6 +28,7 @@
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
 #include "search/dolphinsearchbox.h"
+#include "search/dolphinsearchoptionsconfigurator.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "dolphinviewcontainer.h"
@@ -109,6 +110,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_activeViewContainer(0),
     m_centralWidgetLayout(0),
     m_searchBox(0),
+    m_searchOptionsConfigurator(0),
     m_id(id),
     m_tabIndex(0),
     m_viewTab(),
@@ -983,6 +985,11 @@ void DolphinMainWindow::slotTabMoved(int from, int to)
     m_tabIndex = m_tabBar->currentIndex();
 }
 
+void DolphinMainWindow::slotSearchBoxTextChanged(const QString& text)
+{
+    m_searchOptionsConfigurator->setVisible(!text.isEmpty());
+}
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -1023,6 +1030,9 @@ void DolphinMainWindow::init()
     connect(this, SIGNAL(urlChanged(const KUrl&)),
             m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
 
+    m_searchOptionsConfigurator = new DolphinSearchOptionsConfigurator(this);
+    m_searchOptionsConfigurator->hide();
+
     m_tabBar = new KTabBar(this);
     m_tabBar->setMovable(true);
     m_tabBar->setTabsClosable(true);
@@ -1049,8 +1059,9 @@ void DolphinMainWindow::init()
     m_centralWidgetLayout = new QVBoxLayout(centralWidget);
     m_centralWidgetLayout->setSpacing(0);
     m_centralWidgetLayout->setMargin(0);
+    m_centralWidgetLayout->addWidget(m_searchOptionsConfigurator);
     m_centralWidgetLayout->addWidget(m_tabBar);
-    m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter);
+    m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter, 1);
 
     setCentralWidget(centralWidget);
     setupDockWidgets();
@@ -1060,6 +1071,8 @@ void DolphinMainWindow::init()
 
     m_searchBox->setParent(toolBar("searchToolBar"));
     m_searchBox->show();
+    connect(m_searchBox, SIGNAL(textChanged(const QString&)),
+            this, SLOT(slotSearchBoxTextChanged(const QString&)));
 
     stateChanged("new_file");
 

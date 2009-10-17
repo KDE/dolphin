@@ -37,26 +37,27 @@ class QToolButton;
 class DolphinSearchCompleter : public QObject
 {
     Q_OBJECT
-    public:
-        DolphinSearchCompleter(KLineEdit *linedit);
 
-    public slots:
-        void highlighted(const QModelIndex& index);
-        void activated(const QModelIndex& index);
-        void slotTextEdited(const QString &text);
+public:
+    DolphinSearchCompleter(KLineEdit *linedit);
 
-    private:
-        void addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description = QString(), const QString& toolTip = QString(), const KIcon& icon = KIcon());
+public slots:
+    void highlighted(const QModelIndex& index);
+    void activated(const QModelIndex& index);
+    void slotTextEdited(const QString &text);
 
-        void findText(int* wordStart, int* wordEnd, QString* newWord, int cursorPos, const QString &input);
+private:
+    void addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description = QString(), const QString& toolTip = QString(), const KIcon& icon = KIcon());
 
-    private:
-        KLineEdit* q;
-        QCompleter* m_completer;
-        QStandardItemModel* m_completionModel;
-        QString m_userText;
-        int m_wordStart;
-        int m_wordEnd;
+    void findText(int* wordStart, int* wordEnd, QString* newWord, int cursorPos, const QString &input);
+
+private:
+    KLineEdit* q;
+    QCompleter* m_completer;
+    QStandardItemModel* m_completionModel;
+    QString m_userText;
+    int m_wordStart;
+    int m_wordEnd;
 };
 
 /**
@@ -82,9 +83,13 @@ signals:
      */
     void search(const KUrl& url);
 
+    /**
+     * Is emitted if the text of the searchbox has been changed.
+     */
+    void textChanged(const QString& text);
+
 private slots:
     void emitSearchSignal();
-    void slotTextEdited(const QString& text);
 
 private:
     KLineEdit* m_searchInput;

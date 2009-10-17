@@ -41,6 +41,7 @@ class KAction;
 class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinSearchBox;
+class DolphinSearchOptionsConfigurator;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
@@ -381,6 +382,13 @@ private slots:
      */
     void slotTabMoved(int from, int to);
 
+    /**
+     * Is connected to the searchbox signal 'textEdited' and
+     * takes care to make the search options configurator visible
+     * if a search text has been entered.
+     */
+    void slotSearchBoxTextChanged(const QString& text);
+
 private:
     DolphinMainWindow(int id);
     void init();
@@ -463,6 +471,7 @@ private:
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
     DolphinSearchBox* m_searchBox;
+    DolphinSearchOptionsConfigurator* m_searchOptionsConfigurator;
     int m_id;
 
     struct ViewTab

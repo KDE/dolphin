@@ -261,8 +261,8 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_searchInput->setClickMessage(i18nc("@label:textbox", "Search..."));
     m_searchInput->installEventFilter(this);
     hLayout->addWidget(m_searchInput);
-    connect(m_searchInput, SIGNAL(textEdited(const QString&)),
-            this, SLOT(slotTextEdited(const QString&)));
+    connect(m_searchInput, SIGNAL(textChanged(const QString&)),
+            this, SIGNAL(textChanged(const QString&)));
     connect(m_searchInput, SIGNAL(returnPressed()),
             this, SLOT(emitSearchSignal()));
 
@@ -309,10 +309,6 @@ bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
 void DolphinSearchBox::emitSearchSignal()
 {
     emit search(KUrl("nepomuksearch:/" + m_searchInput->text()));
-}
-
-void DolphinSearchBox::slotTextEdited(const QString& text)
-{
 }
 
 #include "dolphinsearchbox.moc"
