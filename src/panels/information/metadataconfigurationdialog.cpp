@@ -44,6 +44,7 @@ public:
 
     void init();
     void loadMetaData();
+    QString tunedLabel(const QString& label) const;
 
     int m_hiddenData;
     MetaDataWidget* m_metaDataWidget;
@@ -194,8 +195,11 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
         }
 
         if (!skip) {
-            // const QString label = tunedLabel(prop.label());
-            const QString label = prop.label() + " --- " + key;
+            // TODO #1: use Nepomuk::formatValue(res, prop) if available
+            // instead of it.value().toString()
+            // TODO #2: using tunedLabel() is a workaround for KDE 4.3 (4.4?) until
+            // we get translated labels
+            const QString label = tunedLabel(prop.label());
             QListWidgetItem* item = new QListWidgetItem(label, m_metaDataList);
             item->setData(Qt::UserRole, key);
             const bool show = settings.readEntry(key, true);
@@ -205,6 +209,25 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
         ++it;
     }
 #endif
+}
+
+QString MetaDataConfigurationDialog::Private::tunedLabel(const QString& label) const
+{
+    QString tunedLabel;
+    const int labelLength = label.length();
+    if (labelLength > 0) {
+        tunedLabel.reserve(labelLength);
+        tunedLabel = label[0].toUpper();
+        for (int i = 1; i < labelLength; ++i) {
+            if (label[i].isUpper() && !label[i - 1].isSpace() && !label[i - 1].isUpper()) {
+                tunedLabel += ' ';
+                tunedLabel += label[i].toLower();
+            } else {
+                tunedLabel += label[i];
+            }
+        }
+    }
+    return tunedLabel;
 }
 
 MetaDataConfigurationDialog::MetaDataConfigurationDialog(QWidget* parent,

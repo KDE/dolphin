@@ -524,7 +524,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
                 if (settings.readEntry(prop.name(), true)) {
                     // TODO #1: use Nepomuk::formatValue(res, prop) if available
                     // instead of it.value().toString()
-                    // TODO #2: using tunedLabel() is a workaround for KDE 4.3 until
+                    // TODO #2: using tunedLabel() is a workaround for KDE 4.3 (4.4?) until
                     // we get translated labels
                     metaInfoLabels.append(tunedLabel(prop.label()));
                     metaInfoValues.append(it.value().toString());
