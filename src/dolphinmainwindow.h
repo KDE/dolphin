@@ -383,7 +383,7 @@ private slots:
     void slotTabMoved(int from, int to);
 
     /**
-     * Is connected to the searchbox signal 'textEdited' and
+     * Is connected to the searchbox signal 'textChanged' and
      * takes care to make the search options configurator visible
      * if a search text has been entered.
      */
