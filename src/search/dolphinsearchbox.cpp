@@ -40,8 +40,7 @@
 #ifdef HAVE_NEPOMUK
 #include <Nepomuk/ResourceManager>
 #include <Nepomuk/Tag>
-#endif //HAVE_NEPOMUK
-
+#endif
 
 DolphinSearchCompleter::DolphinSearchCompleter(KLineEdit* linedit) :
     QObject(0),
@@ -50,10 +49,6 @@ DolphinSearchCompleter::DolphinSearchCompleter(KLineEdit* linedit) :
     m_completionModel(0),
     m_wordStart(-1),
     m_wordEnd(-1)
-{
-}
-
-void DolphinSearchCompleter::init()
 {
     m_completionModel = new QStandardItemModel(this);
 
@@ -73,7 +68,7 @@ void DolphinSearchCompleter::init()
     }
 #endif //HAVE_NEPOMUK
 
-    //load the completions stored in the desktop file
+    // load the completions stored in the desktop file
     KDesktopFile file(KStandardDirs::locate("data", "dolphin/dolphinsearchcommands.desktop"));
     foreach (const QString &group, file.groupList()) {
         KConfigGroup cg(&file, group);
@@ -139,7 +134,7 @@ void DolphinSearchCompleter::findText(int* wordStart, int* wordEnd, QString* new
     *wordStart = -1;
     *wordEnd = -1;
 
-    //the word might contain "" and thus maybe spaces
+    // the word might contain "" and thus maybe spaces
     if (input.contains('\"')) {
         int tempStart = -1;
         int tempEnd = -1;
@@ -264,12 +259,12 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_searchInput->setClearButtonShown(true);
     m_searchInput->setMinimumWidth(150);
     m_searchInput->setClickMessage(i18nc("@label:textbox", "Search..."));
+    m_searchInput->installEventFilter(this);
     hLayout->addWidget(m_searchInput);
+    connect(m_searchInput, SIGNAL(textEdited(const QString&)),
+            this, SLOT(slotTextEdited(const QString&)));
     connect(m_searchInput, SIGNAL(returnPressed()),
             this, SLOT(emitSearchSignal()));
-
-    m_completer = new DolphinSearchCompleter(m_searchInput);
-    m_completer->init();
 
     m_searchButton = new QToolButton(this);
     m_searchButton->setAutoRaise(true);
@@ -282,7 +277,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
 
 DolphinSearchBox::~DolphinSearchBox()
 {
-    delete m_completer;
 }
 
 bool DolphinSearchBox::event(QEvent* event)
@@ -297,9 +291,28 @@ bool DolphinSearchBox::event(QEvent* event)
     return QWidget::event(event);
 }
 
+bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
+{
+    if ((watched == m_searchInput) && (event->type() == QEvent::FocusIn)) {
+        // Postpone the creation of the search completer until
+        // the search box is used. This decreases the startup time
+        // of Dolphin.
+        Q_ASSERT(m_completer == 0);
+        m_completer = new DolphinSearchCompleter(m_searchInput);
+        m_searchInput->removeEventFilter(this);
+    }
+
+    return QWidget::eventFilter(watched, event);
+}
+
+
 void DolphinSearchBox::emitSearchSignal()
 {
     emit search(KUrl("nepomuksearch:/" + m_searchInput->text()));
+}
+
+void DolphinSearchBox::slotTextEdited(const QString& text)
+{
 }
 
 #include "dolphinsearchbox.moc"

@@ -40,8 +40,6 @@ class DolphinSearchCompleter : public QObject
     public:
         DolphinSearchCompleter(KLineEdit *linedit);
 
-        void init();
-
     public slots:
         void highlighted(const QModelIndex& index);
         void activated(const QModelIndex& index);
@@ -74,6 +72,7 @@ public:
 
 protected:
     virtual bool event(QEvent* event);
+    virtual bool eventFilter(QObject* watched, QEvent* event);
 
 signals:
     /**
@@ -85,9 +84,7 @@ signals:
 
 private slots:
     void emitSearchSignal();
-
-
-
+    void slotTextEdited(const QString& text);
 
 private:
     KLineEdit* m_searchInput;

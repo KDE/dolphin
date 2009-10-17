@@ -27,9 +27,9 @@
 
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
+#include "search/dolphinsearchbox.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
-#include "dolphinsearchbox.h"
 #include "dolphinviewcontainer.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"

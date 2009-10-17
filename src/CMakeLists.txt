@@ -105,7 +105,6 @@ set(dolphin_SRCS
     dolphinmainwindow.cpp
     dolphinnewmenu.cpp
     dolphinviewcontainer.cpp
-    dolphinsearchbox.cpp
     dolphindirlister.cpp
     dolphincontextmenu.cpp
     filterbar.cpp
@@ -122,6 +121,7 @@ set(dolphin_SRCS
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp
     panels/folders/paneltreeview.cpp
+    search/dolphinsearchbox.cpp
     settings/behaviorsettingspage.cpp
     settings/columnviewsettingspage.cpp
     settings/contextmenusettingspage.cpp
@@ -256,7 +256,7 @@ install(TARGETS kcm_dolphingeneral DESTINATION ${PLUGIN_INSTALL_DIR} )
 install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES  settings/dolphin_directoryviewpropertysettings.kcfg settings/dolphin_generalsettings.kcfg settings/dolphin_columnmodesettings.kcfg settings/dolphin_iconsmodesettings.kcfg settings/dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
-install( FILES  dolphinsearchcommands.desktop DESTINATION ${DATA_INSTALL_DIR}/dolphin )
+install( FILES  search/dolphinsearchcommands.desktop DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinservices.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
