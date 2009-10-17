@@ -8,6 +8,7 @@ Name=and
 Comment=logic operator and
 Comment[csb]=logiczny òperatora ë
 Comment[en_GB]=logic operator and
+Comment[eo]=logika operatoro "kaj"
 Comment[et]=Loogiline JA
 Comment[is]=rökaðgerðin og
 Comment[nl]=logische operator en
@@ -26,6 +27,7 @@ Name=or
 Comment=logic operator or
 Comment[csb]=logiczny òperatora abò
 Comment[en_GB]=logic operator or
+Comment[eo]=logika operatoro "aŭ"
 Comment[et]=Loogiline VÕI
 Comment[is]=rökaðgerðin eða
 Comment[nl]=logische operator of
@@ -44,6 +46,7 @@ Name=not
 Comment=logic operator not
 Comment[csb]=logiczny òperatora nié
 Comment[en_GB]=logic operator not
+Comment[eo]=logika operatoro "ne"
 Comment[et]=Loogiline EI
 Comment[is]=rökaðgerðin ekki
 Comment[nl]=logische operator niet
@@ -60,6 +63,7 @@ Completion=-
 Name=File extension
 Name[csb]=Rozszérzenié lopka
 Name[en_GB]=File extension
+Name[eo]=Dosier-sufikso
 Name[et]=Faililaiend
 Name[is]=Skráarending
 Name[nl]=Bestandsextensie
@@ -73,6 +77,7 @@ Name[zh_TW]=副檔名
 Comment=for example txt
 Comment[csb]=na przëmiôr txt
 Comment[en_GB]=for example txt
+Comment[eo]=ekzemple "txt"
 Comment[et]=näiteks txt
 Comment[is]=til dæmis txt
 Comment[nl]=bijvoorbeeld txt
@@ -93,6 +98,7 @@ Name=Rating
 Comment=1 to 10, for example >=7
 Comment[csb]=1 do 10, na przëmiôr >=7
 Comment[en_GB]=1 to 10, for example >=7
+Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[et]=1 kuni 10, näiteks 7
 Comment[is]=1 til 10, til dæmis >=7
 Comment[nl]=1 tot 10, bijvoorbeeld >=7
@@ -106,6 +112,7 @@ Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
@@ -125,6 +132,7 @@ Name=Tag
 Comment=Tag
 Comment[csb]=Znakòwnik
 Comment[en_GB]=Tag
+Comment[eo]=Marko
 Comment[et]=Silt
 Comment[gu]=ટેગ
 Comment[is]=Merki
@@ -148,6 +156,7 @@ Completion=title:
 Name=File size
 Name[csb]=Miara lopka
 Name[en_GB]=File size
+Name[eo]=Dosiergrandeco
 Name[et]=Faili suurus
 Name[gu]=ફાઇલ કદ
 Name[is]=Skráarstærð
@@ -175,6 +184,7 @@ Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
@@ -219,6 +229,7 @@ Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
@@ -237,6 +248,7 @@ Name=Last modified
 Comment=for example >1999-10-10
 Comment[csb]=na przëmiôr >1999-10-10
 Comment[en_GB]=for example >1999-10-10
+Comment[eo]=Ekzemple >1999-10-10
 Comment[et]=näiteks >1999-10-10
 Comment[is]=til dæmis >1999-10-10
 Comment[nl]=bijvoorbeeld >2009-10-10
@@ -250,6 +262,7 @@ Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
+GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
