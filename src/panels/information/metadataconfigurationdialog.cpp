@@ -27,6 +27,7 @@
 #ifdef HAVE_NEPOMUK
     #define DISABLE_NEPOMUK_LEGACY
     #include <Nepomuk/Resource>
+    #include <Nepomuk/ResourceManager>
     #include <Nepomuk/Types/Property>
     #include <Nepomuk/Variant>
 #endif
@@ -38,25 +39,56 @@
 class MetaDataConfigurationDialog::Private
 {
 public:
-    Private(MetaDataConfigurationDialog* parent);
+    Private(MetaDataConfigurationDialog* parent, MetaDataWidget* metaDataWidget);
     ~Private();
 
+    void init();
     void loadMetaData();
 
-    KUrl m_url;
+    int m_hiddenData;
+    MetaDataWidget* m_metaDataWidget;
     QListWidget* m_metaDataList;
 
 private:
     MetaDataConfigurationDialog* const q;
 };
 
-MetaDataConfigurationDialog::Private::Private(MetaDataConfigurationDialog* parent) :
+MetaDataConfigurationDialog::Private::Private(MetaDataConfigurationDialog* parent,
+                                              MetaDataWidget* metaDataWidget) :
     q(parent)
 {
+    m_hiddenData = 0;
+    m_metaDataWidget = metaDataWidget;
+
+    q->setCaption(i18nc("@title:window", "Configure Shown Data"));
+    q->setButtons(KDialog::Ok | KDialog::Cancel);
+    q->setDefaultButton(KDialog::Ok);
+
+    QWidget* mainWidget = new QWidget(q);
+    QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
+
+    QLabel* label = new QLabel(i18nc("@label:textbox",
+                                     "Configure which data should "
+                                     "be shown."), q);
+
+    m_metaDataList = new QListWidget(q);
+    m_metaDataList->setSelectionMode(QAbstractItemView::NoSelection);
+
+    topLayout->addWidget(label);
+    topLayout->addWidget(m_metaDataList);
+
+    q->setMainWidget(mainWidget);
+
+    loadMetaData();
+
+    const KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
+    q->restoreDialogSize(dialogConfig);
 }
 
 MetaDataConfigurationDialog::Private::~Private()
 {
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
+    q->saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 void MetaDataConfigurationDialog::Private::loadMetaData()
@@ -66,17 +98,40 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
 
     // Add fixed meta data items where the visibility does not
     // depend on the currently used URL.
+    int hiddenData = 0;
+    if (m_metaDataWidget != 0) {
+        hiddenData = m_metaDataWidget->hiddenData();
+    }
+
     typedef QPair<QString, QString> FixedItem;
     QList<FixedItem> fixedItems;
-    fixedItems.append(FixedItem("type",        i18nc("@item::inlistbox", "Type")));
-    fixedItems.append(FixedItem("size",        i18nc("@item::inlistbox", "Size")));
-    fixedItems.append(FixedItem("modified",    i18nc("@item::inlistbox", "Modified")));
-    fixedItems.append(FixedItem("owner",       i18nc("@item::inlistbox", "Owner")));
-    fixedItems.append(FixedItem("permissions", i18nc("@item::inlistbox", "Permissions")));
+    if (!(hiddenData & MetaDataWidget::TypeData)) {
+        fixedItems.append(FixedItem("type", i18nc("@item::inlistbox", "Type")));
+    }
+    if (!(hiddenData & MetaDataWidget::SizeData)) {
+        fixedItems.append(FixedItem("size", i18nc("@item::inlistbox", "Size")));
+    }
+    if (!(hiddenData & MetaDataWidget::ModifiedData)) {
+        fixedItems.append(FixedItem("modified", i18nc("@item::inlistbox", "Modified")));
+    }
+    if (!(hiddenData & MetaDataWidget::OwnerData)) {
+        fixedItems.append(FixedItem("owner", i18nc("@item::inlistbox", "Owner")));
+    }
+    if (!(hiddenData & MetaDataWidget::PermissionsData)) {
+        fixedItems.append(FixedItem("permissions", i18nc("@item::inlistbox", "Permissions")));
+    }
 #ifdef HAVE_NEPOMUK
-    fixedItems.append(FixedItem("rating",      i18nc("@item::inlistbox", "Rating")));
-    fixedItems.append(FixedItem("tags",        i18nc("@item::inlistbox", "Tags")));
-    fixedItems.append(FixedItem("comment",     i18nc("@item::inlistbox", "Comment")));
+    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+        if (!(hiddenData & MetaDataWidget::RatingData)) {
+            fixedItems.append(FixedItem("rating", i18nc("@item::inlistbox", "Rating")));
+         }
+        if (!(hiddenData & MetaDataWidget::TagsData)) {
+            fixedItems.append(FixedItem("tags", i18nc("@item::inlistbox", "Tags")));
+        }
+        if (!(hiddenData & MetaDataWidget::CommentData)) {
+            fixedItems.append(FixedItem("comment", i18nc("@item::inlistbox", "Comment")));
+        }
+    }
 #endif
 
     foreach (const FixedItem& fixedItem, fixedItems) {
@@ -89,14 +144,25 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
     }
 
 #ifdef HAVE_NEPOMUK
+    if (Nepomuk::ResourceManager::instance()->init() != 0) {
+        return;
+    }
+
     // Get all meta information labels that are available for
     // the currently shown file item and add them to the list.
-    if (m_url.isEmpty()) {
+    if (m_metaDataWidget == 0) {
         // TODO: in this case all available meta data from the system
         // should be added.
         return;
     }
-    Nepomuk::Resource res(m_url);
+
+    const KFileItemList items = m_metaDataWidget->items();
+    if (items.count() != 1) {
+        // TODO: handle als usecases for more than one item:
+        return;
+    }
+    Nepomuk::Resource res(items.first().nepomukUri());
+
     QHash<QUrl, Nepomuk::Variant> properties = res.properties();
     QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
     while (it != properties.constEnd()) {
@@ -141,43 +207,23 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
 #endif
 }
 
-MetaDataConfigurationDialog::MetaDataConfigurationDialog(const KUrl& url,
+MetaDataConfigurationDialog::MetaDataConfigurationDialog(QWidget* parent,
+                                                         Qt::WFlags flags) :
+    KDialog(parent, flags),
+    d(new Private(this, 0))
+{
+}
+
+MetaDataConfigurationDialog::MetaDataConfigurationDialog(MetaDataWidget* metaDataWidget,
                                                          QWidget* parent,
                                                          Qt::WFlags flags) :
     KDialog(parent, flags),
-    d(new Private(this))
+    d(new Private(this, metaDataWidget))
 {
-    d->m_url = url;
-
-    setCaption(i18nc("@title:window", "Configure Shown Data"));
-    setButtons(KDialog::Ok | KDialog::Cancel);
-    setDefaultButton(KDialog::Ok);
-
-    QWidget* mainWidget = new QWidget(this);
-    QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
-
-    QLabel* label = new QLabel(i18nc("@label:textbox",
-                                     "Configure which data should "
-                                     "be shown."), this);
-
-    d->m_metaDataList = new QListWidget(this);
-    d->m_metaDataList->setSelectionMode(QAbstractItemView::NoSelection);
-
-    topLayout->addWidget(label);
-    topLayout->addWidget(d->m_metaDataList);
-
-    setMainWidget(mainWidget);
-
-    d->loadMetaData();
-
-    const KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
-    restoreDialogSize(dialogConfig);
 }
 
 MetaDataConfigurationDialog::~MetaDataConfigurationDialog()
 {
-    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
-    saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 void MetaDataConfigurationDialog::slotButtonClicked(int button)
@@ -196,6 +242,11 @@ void MetaDataConfigurationDialog::slotButtonClicked(int button)
     
         showGroup.sync();
 
+        if (d->m_metaDataWidget != 0) {
+            // trigger an update
+            const int data = d->m_metaDataWidget->hiddenData();
+            d->m_metaDataWidget->setHiddenData(data);
+        }
         accept();
     } else {
         KDialog::slotButtonClicked(button);

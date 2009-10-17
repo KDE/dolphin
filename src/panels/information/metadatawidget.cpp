@@ -20,8 +20,6 @@
 
 #include "metadatawidget.h"
 
-#include "metadataconfigurationdialog.h"
-
 #include <kconfig.h>
 #include <kconfiggroup.h>
 #include <kfileitem.h>
@@ -44,6 +42,7 @@
 
     #include <Nepomuk/KRatingWidget>
     #include <Nepomuk/Resource>
+    #include <Nepomuk/ResourceManager>
     #include <Nepomuk/Types/Property>
     #include <Nepomuk/Variant>
 
@@ -52,6 +51,8 @@
     #include <QSpacerItem>
     #include <QThread>
 #endif
+
+#include <kdebug.h>
 
 class MetaDataWidget::Private
 {
@@ -95,6 +96,7 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
+    int m_hiddenData;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
 
@@ -167,6 +169,7 @@ private:
 };
 
 MetaDataWidget::Private::Private(MetaDataWidget* parent) :
+    m_hiddenData(0),
     m_fileItems(),
     m_rows(),
     m_gridLayout(0),
@@ -193,35 +196,38 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     m_modifiedInfo = new QLabel(parent);
     m_ownerInfo = new QLabel(parent);
     m_permissionsInfo = new QLabel(parent);
-#ifdef HAVE_NEPOMUK
-    const QFontMetrics fontMetrics(KGlobalSettings::smallestReadableFont());
-    m_ratingWidget = new KRatingWidget(parent);
-    m_ratingWidget->setFixedHeight(fontMetrics.height());
-    connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
-            q, SLOT(slotRatingChanged(unsigned int)));
-
-    m_taggingWidget = new TaggingWidget(parent);
-    connect(m_taggingWidget, SIGNAL(tagsChanged(const QList<Nepomuk::Tag>&)),
-            q, SLOT(slotTagsChanged(const QList<Nepomuk::Tag>&)));
-
-    m_commentWidget = new CommentWidget(parent);
-    connect(m_commentWidget, SIGNAL(commentChanged(const QString&)),
-            q, SLOT(slotCommentChanged(const QString&)));
-#endif
 
     addRow(new QLabel(i18nc("@label", "Type:"), parent), m_typeInfo);
     addRow(m_sizeLabel, m_sizeInfo);
     addRow(new QLabel(i18nc("@label", "Modified:"), parent), m_modifiedInfo);
     addRow(new QLabel(i18nc("@label", "Owner:"), parent), m_ownerInfo);
     addRow(new QLabel(i18nc("@label", "Permissions:"), parent), m_permissionsInfo);
+
 #ifdef HAVE_NEPOMUK
-    addRow(new QLabel(i18nc("@label", "Rating:"), parent), m_ratingWidget);
-    addRow(new QLabel(i18nc("@label", "Tags:"), parent), m_taggingWidget);
-    addRow(new QLabel(i18nc("@label", "Comment:"), parent), m_commentWidget);
+    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+        const QFontMetrics fontMetrics(KGlobalSettings::smallestReadableFont());
+        m_ratingWidget = new KRatingWidget(parent);
+        m_ratingWidget->setFixedHeight(fontMetrics.height());
+        connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
+                q, SLOT(slotRatingChanged(unsigned int)));
+
+        m_taggingWidget = new TaggingWidget(parent);
+        connect(m_taggingWidget, SIGNAL(tagsChanged(const QList<Nepomuk::Tag>&)),
+                q, SLOT(slotTagsChanged(const QList<Nepomuk::Tag>&)));
+
+        m_commentWidget = new CommentWidget(parent);
+        connect(m_commentWidget, SIGNAL(commentChanged(const QString&)),
+                q, SLOT(slotCommentChanged(const QString&)));
+
+        addRow(new QLabel(i18nc("@label", "Rating:"), parent), m_ratingWidget);
+        addRow(new QLabel(i18nc("@label", "Tags:"), parent), m_taggingWidget);
+        addRow(new QLabel(i18nc("@label", "Comment:"), parent), m_commentWidget);
+
+        m_loadFilesThread = new LoadFilesThread(&m_sharedData, &m_mutex);
+        connect(m_loadFilesThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
+    }
 
     m_sharedData.rating = 0;
-    m_loadFilesThread = new LoadFilesThread(&m_sharedData, &m_mutex);
-    connect(m_loadFilesThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
 #endif
 
     initMetaInfoSettings();
@@ -311,15 +317,33 @@ void MetaDataWidget::Private::updateRowsVisibility()
 {   
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
-    setRowVisible(m_typeInfo, settings.readEntry("type", true));
-    setRowVisible(m_sizeInfo, settings.readEntry("size", true));
-    setRowVisible(m_modifiedInfo, settings.readEntry("modified", true));
-    setRowVisible(m_ownerInfo, settings.readEntry("owner", true));
-    setRowVisible(m_permissionsInfo, settings.readEntry("permissions", true));
+    setRowVisible(m_typeInfo,
+                  !(m_hiddenData & MetaDataWidget::TypeData) &&
+                  settings.readEntry("type", true));
+    setRowVisible(m_sizeInfo,
+                  !(m_hiddenData & MetaDataWidget::SizeData) &&
+                  settings.readEntry("size", true));
+    setRowVisible(m_modifiedInfo,
+                  !(m_hiddenData & MetaDataWidget::ModifiedData) &&
+                  settings.readEntry("modified", true));
+    setRowVisible(m_ownerInfo,
+                  !(m_hiddenData & MetaDataWidget::OwnerData) &&
+                  settings.readEntry("owner", true));
+    setRowVisible(m_permissionsInfo,
+                  !(m_hiddenData & MetaDataWidget::PermissionsData) &&
+                  settings.readEntry("permissions", true));
 #ifdef HAVE_NEPOMUK
-    setRowVisible(m_ratingWidget, settings.readEntry("rating", true));
-    setRowVisible(m_taggingWidget, settings.readEntry("tagging", true));
-    setRowVisible(m_commentWidget, settings.readEntry("comment", true));
+    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+        setRowVisible(m_ratingWidget,
+                      !(m_hiddenData & MetaDataWidget::RatingData) &&
+                      settings.readEntry("rating", true));
+        setRowVisible(m_taggingWidget,
+                      !(m_hiddenData & MetaDataWidget::TagsData) &&
+                      settings.readEntry("tagging", true));
+        setRowVisible(m_commentWidget,
+                      !(m_hiddenData & MetaDataWidget::CommentData) &&
+                      settings.readEntry("comment", true));
+    }
 #endif
 }
 
@@ -593,28 +617,51 @@ void MetaDataWidget::setItems(const KFileItemList& items)
     }
 
 #ifdef HAVE_NEPOMUK
-    QList<KUrl> urls;
-    foreach (const KFileItem& item, items) {
-        const KUrl url = item.nepomukUri();
-        if (url.isValid()) {
-            urls.append(url);
+    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+        QList<KUrl> urls;
+        foreach (const KFileItem& item, items) {
+            const KUrl url = item.nepomukUri();
+            if (url.isValid()) {
+                urls.append(url);
+            }
         }
+        d->m_loadFilesThread->loadFiles(urls);
     }
-    d->m_loadFilesThread->loadFiles(urls);
 #endif
 }
 
-void MetaDataWidget::openConfigurationDialog()
+void MetaDataWidget::setItem(const KUrl& url)
 {
-    const KUrl url = d->m_fileItems[0].nepomukUri();
-    if (!url.isValid()) {
-        return;
-    }
+    KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+    item.refresh();
+    setItem(item);
+}
 
-    MetaDataConfigurationDialog dialog(url, this, Qt::Dialog);
-    if (dialog.exec() == KDialog::Accepted) {
-        d->updateRowsVisibility();
+void MetaDataWidget::setItems(const QList<KUrl>& urls)
+{
+    KFileItemList items;
+    foreach (const KUrl& url, urls) {
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+        item.refresh();
+        items.append(item);
     }
+    setItems(items);
+}
+
+KFileItemList MetaDataWidget::items() const
+{
+    return d->m_fileItems;
+}
+
+void MetaDataWidget::setHiddenData(int data)
+{
+    d->m_hiddenData = data;
+    d->updateRowsVisibility();
+}
+
+int MetaDataWidget::hiddenData() const
+{
+    return d->m_hiddenData;
 }
 
 unsigned int MetaDataWidget::rating() const

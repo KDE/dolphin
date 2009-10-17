@@ -307,7 +307,8 @@ void InformationPanelContent::configureSettings()
         m_previewSeparator->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == configureAction) {
-        m_metaDataWidget->openConfigurationDialog();
+        MetaDataConfigurationDialog dialog(m_metaDataWidget, this, Qt::Dialog);
+        dialog.exec();
     }
 
     showItem(m_item);

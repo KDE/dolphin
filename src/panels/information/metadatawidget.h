@@ -33,11 +33,12 @@
     }
 #endif
 
+#include <kfileitem.h>
+
 #include <QList>
 #include <QWidget>
 
-class KFileItem;
-class KFileItemList;
+class KUrl;
 
 /**
  * @brief Shows the meta data of one or more file items.
@@ -46,13 +47,32 @@ class KFileItemList;
  * shown as several rows containing a description and
  * the meta data value. It is possible for the user
  * to change specific meta data like rating, tags and
- * comment.
+ * comment. The changes are stored automatically by the
+ * meta data widget.
  */
 class MetaDataWidget : public QWidget
 {
     Q_OBJECT
 
 public:
+    /**
+     * Allows to specifiy which general data should be hidden
+     * by the meta data widget.
+     * @see MetaDataWidget::setHiddenData()
+     * @see MetaDataWidget::hiddenData()
+     */
+    enum Data
+    {
+        TypeData = 1,
+        SizeData= 2,
+        ModifiedData = 4,
+        OwnerData =  8,
+        PermissionsData = 16,
+        RatingData = 32,
+        TagsData = 64,
+        CommentData = 128
+    };
+
     explicit MetaDataWidget(QWidget* parent = 0);
     virtual ~MetaDataWidget();
 
@@ -73,10 +93,35 @@ public:
     void setItems(const KFileItemList& items);
 
     /**
-     * Opens a dialog which allows to configure the visibility
-     * of meta data.
+     * Convenience method for MetaDataWidget::setItem(const KFileItem&),
+     * if the application has only an URL and no file item.
+     * For performance reason it is recommended to use this convenience
+     * method only if the application does not have a file item already.
      */
-    void openConfigurationDialog();
+    void setItem(const KUrl& url);
+
+    /**
+     * Convenience method for MetaDataWidget::setItems(const KFileItemList&),
+     * if the application has only URLs and no file items.
+     * For performance reason it is recommended to use this convenience
+     * method only if the application does not have a file items already.
+     */
+    void setItems(const QList<KUrl>& urls);
+
+    KFileItemList items() const;
+
+    /**
+     * Specifies which kind of data should be hidden (@see MetaDataWidget::Data).
+     * Example: metaDataWidget->setHiddenData(MetaDataWidget::TypeData | ModifiedData);
+     * Per default no data is hidden.
+     */
+    void setHiddenData(int data);
+
+    /**
+     * Returns which kind of data is hidden (@see MetaDataWidget::Data).
+     * Example: if (metaDataWidget->hiddenData() & MetaDataWidget::TypeData) ...
+     */
+    int hiddenData() const;
 
     /**
      * Returns the rating for the currently set item(s). It is required
@@ -108,6 +153,8 @@ signals:
 
     /**
      * Is emitted after the user has changed the rating.
+     * The changed rating is automatically stored already by
+     * the meta data widget.
      * Note that the signal is not emitted if the rating has
      * indirectly been changed by MetaDataWidget::setItem() or
      * MetaDataWidget::setItems(). In this case connect to
@@ -117,7 +164,9 @@ signals:
 
     /**
      * Is emitted after the user has changed the tags.
-     * Note that the signal is not emitted if the rating has
+     * The changed tags are automatically stored already by
+     * the meta data widget.
+     * Note that the signal is not emitted if the tags have
      * indirectly been changed by MetaDataWidget::setItem() or
      * MetaDataWidget::setItems(). In this case connect to
      * the signal loadingFinished() instead.
@@ -126,7 +175,9 @@ signals:
 
     /**
      * Is emitted after the user has changed the comment.
-     * Note that the signal is not emitted if the rating has
+     * The changed comment is automatically stored already by
+     * the meta data widget.
+     * Note that the signal is not emitted if the comment has
      * indirectly been changed by MetaDataWidget::setItem() or
      * MetaDataWidget::setItems(). In this case connect to
      * the signal loadingFinished() instead.
