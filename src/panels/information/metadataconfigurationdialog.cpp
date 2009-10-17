@@ -254,7 +254,7 @@ void MetaDataConfigurationDialog::slotButtonClicked(int button)
     if (button == KDialog::Ok) {
         KConfig config("kmetainformationrc", KConfig::NoGlobals);
         KConfigGroup showGroup = config.group("Show");
-    
+
         const int count = d->m_metaDataList->count();
         for (int i = 0; i < count; ++i) {
             QListWidgetItem* item = d->m_metaDataList->item(i);
@@ -262,13 +262,12 @@ void MetaDataConfigurationDialog::slotButtonClicked(int button)
             const QString key = item->data(Qt::UserRole).toString();
             showGroup.writeEntry(key, show);
         }
-    
+
         showGroup.sync();
 
         if (d->m_metaDataWidget != 0) {
             // trigger an update
-            const int data = d->m_metaDataWidget->hiddenData();
-            d->m_metaDataWidget->setHiddenData(data);
+            d->m_metaDataWidget->setHiddenData(d->m_metaDataWidget->hiddenData());
         }
         accept();
     } else {

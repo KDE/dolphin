@@ -61,8 +61,9 @@ public:
      * @see MetaDataWidget::setHiddenData()
      * @see MetaDataWidget::hiddenData()
      */
-    enum Data
+    enum MetaDataType
     {
+        None = 0,
         TypeData = 1,
         SizeData= 2,
         ModifiedData = 4,
@@ -72,6 +73,7 @@ public:
         TagsData = 64,
         CommentData = 128
     };
+    Q_DECLARE_FLAGS( MetaDataTypes, MetaDataType )
 
     explicit MetaDataWidget(QWidget* parent = 0);
     virtual ~MetaDataWidget();
@@ -115,13 +117,13 @@ public:
      * Example: metaDataWidget->setHiddenData(MetaDataWidget::TypeData | ModifiedData);
      * Per default no data is hidden.
      */
-    void setHiddenData(int data);
+    void setHiddenData(MetaDataTypes data);
 
     /**
      * Returns which kind of data is hidden (@see MetaDataWidget::Data).
      * Example: if (metaDataWidget->hiddenData() & MetaDataWidget::TypeData) ...
      */
-    int hiddenData() const;
+    MetaDataTypes hiddenData() const;
 
     /**
      * Returns the rating for the currently set item(s). It is required
@@ -194,5 +196,7 @@ private:
     Q_PRIVATE_SLOT(d, void slotCommentChanged(const QString& comment))
     Q_PRIVATE_SLOT(d, void slotMetaDataUpdateDone())
 };
+
+Q_DECLARE_OPERATORS_FOR_FLAGS(MetaDataWidget::MetaDataTypes)
 
 #endif

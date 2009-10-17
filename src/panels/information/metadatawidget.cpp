@@ -96,7 +96,7 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
-    int m_hiddenData;
+    MetaDataTypes m_hiddenData;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
 
@@ -169,7 +169,7 @@ private:
 };
 
 MetaDataWidget::Private::Private(MetaDataWidget* parent) :
-    m_hiddenData(0),
+    m_hiddenData(None),
     m_fileItems(),
     m_rows(),
     m_gridLayout(0),
@@ -314,7 +314,7 @@ void MetaDataWidget::Private::initMetaInfoSettings()
 }
 
 void MetaDataWidget::Private::updateRowsVisibility()
-{   
+{
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
     setRowVisible(m_typeInfo,
@@ -653,13 +653,13 @@ KFileItemList MetaDataWidget::items() const
     return d->m_fileItems;
 }
 
-void MetaDataWidget::setHiddenData(int data)
+void MetaDataWidget::setHiddenData(MetaDataTypes data)
 {
     d->m_hiddenData = data;
     d->updateRowsVisibility();
 }
 
-int MetaDataWidget::hiddenData() const
+MetaDataWidget::MetaDataTypes MetaDataWidget::hiddenData() const
 {
     return d->m_hiddenData;
 }
