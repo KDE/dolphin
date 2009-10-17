@@ -46,7 +46,6 @@
     #include <Nepomuk/Types/Property>
     #include <Nepomuk/Variant>
 
-    #include <Soprano/Vocabulary/Xesam>
     #include <QMutex>
     #include <QSpacerItem>
     #include <QThread>
@@ -493,7 +492,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
             return;
         }
 
-        Nepomuk::Resource file(url, Soprano::Vocabulary::Xesam::File());
+        Nepomuk::Resource file(url);
         files.insert(url, file);
 
         if (!first && (rating != file.rating())) {
