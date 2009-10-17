@@ -41,7 +41,6 @@
 #include <nepomuk/resource.h>
 #include <nepomuk/variant.h>
 #include <nepomuk/kratingwidget.h>
-#include <Soprano/Vocabulary/Xesam>
 #include "resourcetaggingwidget.h"
 #endif
 
@@ -141,7 +140,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     Q_FOREACH( const KUrl &url, urls ) {
         if ( m_canceled )
             return;
-        Nepomuk::Resource file( url, Soprano::Vocabulary::Xesam::File() );
+        Nepomuk::Resource file( url );
         files.insert( url, file );
         fileRes.append( file );
 
