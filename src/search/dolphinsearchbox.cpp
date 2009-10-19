@@ -96,7 +96,7 @@ DolphinSearchCompleter::DolphinSearchCompleter(KLineEdit* linedit) :
     view->setHeaderHidden(true);
 
     connect(q, SIGNAL(textEdited(QString)), this, SLOT(slotTextEdited(QString)));
-    connect(m_completer, SIGNAL(activated(QModelIndex)), this, SLOT(completionActivated(QModelIndex)));
+    connect(m_completer, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
     connect(m_completer, SIGNAL(highlighted(QModelIndex)), this, SLOT(highlighted(QModelIndex)));
 }
 
