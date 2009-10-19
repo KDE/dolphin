@@ -52,7 +52,7 @@ public:
     /**
      * Shows the meta information for the item \p item.
      * The preview of the item is generated asynchronously,
-     * the other meta informations are fetched synchronously.
+     * the other meta information are fetched synchronously.
      */
     void showItem(const KFileItem& item);
 

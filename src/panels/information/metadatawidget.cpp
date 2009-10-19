@@ -514,7 +514,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
         }
 
         if (first && (urls.count() == 1)) {
-            // TODO: show shared meta informations instead
+            // TODO: show shared meta information instead
             // of not showing anything on multiple selections
             QHash<QUrl, Nepomuk::Variant> properties = file.properties();
             QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();

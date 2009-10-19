@@ -56,7 +56,7 @@ class MetaDataWidget : public QWidget
 
 public:
     /**
-     * Allows to specifiy which general data should be hidden
+     * Allows to specify which general data should be hidden
      * by the meta data widget.
      * @see MetaDataWidget::setHiddenData()
      * @see MetaDataWidget::hiddenData()

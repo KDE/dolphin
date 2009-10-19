@@ -24,7 +24,7 @@
 
 /**
  * @brief Extends the class KDirLister by emitting a signal when an
- *        error occured instead of showing an error dialog.
+ *        error occurred instead of showing an error dialog.
  */
 class DolphinDirLister : public KDirLister
 {

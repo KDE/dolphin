@@ -389,7 +389,7 @@ public slots:
 
     /**
      * Copies all selected items to the clipboard and marks
-     * the items as cutted.
+     * the items as cut.
      */
     void cutSelectedItems();
 
