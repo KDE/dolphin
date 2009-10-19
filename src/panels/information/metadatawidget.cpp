@@ -338,7 +338,7 @@ void MetaDataWidget::Private::updateRowsVisibility()
                       settings.readEntry("rating", true));
         setRowVisible(m_taggingWidget,
                       !(m_hiddenData & MetaDataWidget::TagsData) &&
-                      settings.readEntry("tagging", true));
+                      settings.readEntry("tags", true));
         setRowVisible(m_commentWidget,
                       !(m_hiddenData & MetaDataWidget::CommentData) &&
                       settings.readEntry("comment", true));
