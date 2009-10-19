@@ -11,6 +11,7 @@ Comment[en_GB]=logic operator and
 Comment[eo]=logika operatoro "kaj"
 Comment[et]=Loogiline JA
 Comment[is]=rökaðgerðin og
+Comment[lt]=loginis operatorius „ir“ (and)
 Comment[nl]=logische operator en
 Comment[pt]=operador lógico 'e'
 Comment[pt_BR]=operador lógico 'e'
@@ -30,6 +31,7 @@ Comment[en_GB]=logic operator or
 Comment[eo]=logika operatoro "aŭ"
 Comment[et]=Loogiline VÕI
 Comment[is]=rökaðgerðin eða
+Comment[lt]=loginis operatorius „arba“ (or)
 Comment[nl]=logische operator of
 Comment[pt]=operador lógico 'ou'
 Comment[pt_BR]=operador lógico 'ou'
@@ -49,6 +51,7 @@ Comment[en_GB]=logic operator not
 Comment[eo]=logika operatoro "ne"
 Comment[et]=Loogiline EI
 Comment[is]=rökaðgerðin ekki
+Comment[lt]=loginis operatorius „ne“ (not)
 Comment[nl]=logische operator niet
 Comment[pt]=operador lógico 'não'
 Comment[pt_BR]=operador lógico 'não'
@@ -66,6 +69,7 @@ Name[en_GB]=File extension
 Name[eo]=Dosier-sufikso
 Name[et]=Faililaiend
 Name[is]=Skráarending
+Name[lt]=Failo priesaga
 Name[nl]=Bestandsextensie
 Name[pt]=Extensão do ficheiro
 Name[pt_BR]=Extensão do arquivo
@@ -80,6 +84,7 @@ Comment[en_GB]=for example txt
 Comment[eo]=ekzemple "txt"
 Comment[et]=näiteks txt
 Comment[is]=til dæmis txt
+Comment[lt]=pavyzdžiui, txt
 Comment[nl]=bijvoorbeeld txt
 Comment[pt]=por exemplo 'txt'
 Comment[pt_BR]=por exemplo, 'txt'
@@ -101,6 +106,7 @@ Comment[en_GB]=1 to 10, for example >=7
 Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[et]=1 kuni 10, näiteks 7
 Comment[is]=1 til 10, til dæmis >=7
+Comment[lt]=Nuo 1 iki 10, pvz., >=7
 Comment[nl]=1 tot 10, bijvoorbeeld >=7
 Comment[pt]=1 a 10, por exemplo >=7
 Comment[pt_BR]=1 a 10, por exemplo, >=7
@@ -115,6 +121,7 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
@@ -136,6 +143,7 @@ Comment[eo]=Marko
 Comment[et]=Silt
 Comment[gu]=ટેગ
 Comment[is]=Merki
+Comment[lt]=Žyma
 Comment[nl]=Tag
 Comment[pt]=Marca
 Comment[pt_BR]=Etiqueta
@@ -160,6 +168,7 @@ Name[eo]=Dosiergrandeco
 Name[et]=Faili suurus
 Name[gu]=ફાઇલ કદ
 Name[is]=Skráarstærð
+Name[lt]=Failo dydis
 Name[nl]=Bestandsgrootte
 Name[pt]=Tamanho do ficheiro
 Name[pt_BR]=Tamanho do arquivo
@@ -173,6 +182,7 @@ Comment[csb]=w bajtach, na przëmiôr >1000
 Comment[en_GB]=in bytes, for example >1000
 Comment[et]=baitides, näiteks >1000
 Comment[is]=í bætum, til dæmis >1000
+Comment[lt]=baitais, pvz., > 1000
 Comment[nl]=in bytes, bijvoorbeeld >1000
 Comment[pt]=em 'bytes', por exemplo > 1000
 Comment[pt_BR]=em bytes, por exemplo, > 1000
@@ -187,6 +197,7 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
@@ -204,6 +215,7 @@ Name[en_GB]=Content size
 Name[et]=Sisu suurus
 Name[gu]=વિગત કદ
 Name[is]=Stærð innihalds
+Name[lt]=Turinio dydis
 Name[nl]=Grootte van de inhoud
 Name[pt]=Tamanho do conteúdo
 Name[pt_BR]=Tamanho do conteúdo
@@ -218,6 +230,7 @@ Comment[en_GB]=in bytes
 Comment[et]=baitides
 Comment[gu]=બાઈટ્સ માં
 Comment[is]=í bætum
+Comment[lt]=baitais
 Comment[nl]=in bytes
 Comment[pt]=em 'bytes'
 Comment[pt_BR]=em bytes
@@ -232,6 +245,7 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
@@ -251,6 +265,7 @@ Comment[en_GB]=for example >1999-10-10
 Comment[eo]=Ekzemple >1999-10-10
 Comment[et]=näiteks >1999-10-10
 Comment[is]=til dæmis >1999-10-10
+Comment[lt]=pavyzdžiui >1999-10-10
 Comment[nl]=bijvoorbeeld >2009-10-10
 Comment[pt]=por exemplo > 1999-10-10
 Comment[pt_BR]=por exemplo, > 1999-10-10
@@ -265,6 +280,7 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
