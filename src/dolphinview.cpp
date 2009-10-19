@@ -362,6 +362,7 @@ int DolphinView::selectedItemsCount() const
 void DolphinView::setContentsPosition(int x, int y)
 {
     QAbstractItemView* view = m_viewAccessor.itemView();
+    Q_ASSERT(view != 0);
     view->horizontalScrollBar()->setValue(x);
     view->verticalScrollBar()->setValue(y);
 
@@ -370,8 +371,10 @@ void DolphinView::setContentsPosition(int x, int y)
 
 QPoint DolphinView::contentsPosition() const
 {
-    const int x = m_viewAccessor.itemView()->horizontalScrollBar()->value();
-    const int y = m_viewAccessor.itemView()->verticalScrollBar()->value();
+    QAbstractItemView* view = m_viewAccessor.itemView();
+    Q_ASSERT(view != 0);
+    const int x = view->horizontalScrollBar()->value();
+    const int y = view->verticalScrollBar()->value();
     return QPoint(x, y);
 }
 
@@ -1261,6 +1264,7 @@ void DolphinView::applyViewProperties()
 void DolphinView::createView()
 {
     deleteView();
+
     Q_ASSERT(m_viewAccessor.itemView() == 0);
     m_viewAccessor.createView(this, m_controller, m_mode);
 
@@ -1306,9 +1310,14 @@ void DolphinView::deleteView()
         m_topLayout->removeWidget(view);
         view->close();
 
+        // disconnect all signal/slots
         disconnect(view);
         m_controller->disconnect(view);
         view->disconnect();
+        disconnect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
+                   this, SLOT(emitContentsMoved()));
+        disconnect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+                   this, SLOT(emitContentsMoved()));
 
         m_viewAccessor.deleteView();
     }
@@ -1417,8 +1426,9 @@ void DolphinView::ViewAccessor::deleteView()
     m_iconsView = 0;
     m_detailsView = 0;
 
-    if (m_columnsContainer)
+    if (m_columnsContainer != 0) {
         m_columnsContainer->deleteLater();
+    }
     m_columnsContainer = 0;
 }
 
