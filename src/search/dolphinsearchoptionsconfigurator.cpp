@@ -46,8 +46,8 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     KComboBox* searchWhatBox = new KComboBox();
     searchWhatBox->addItem(i18nc("label", "All"));
     searchWhatBox->addItem(i18nc("label", "Images"));
-    searchWhatBox->addItem(i18nc("label", "Texts"));
-    searchWhatBox->addItem(i18nc("label", "File Names"));
+    searchWhatBox->addItem(i18nc("label", "Text"));
+    searchWhatBox->addItem(i18nc("label", "Filenames"));
 
     QWidget* filler = new QWidget();
 
