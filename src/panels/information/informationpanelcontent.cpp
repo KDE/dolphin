@@ -279,11 +279,6 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
 
 void InformationPanelContent::configureSettings()
 {
-    if (m_item.isNull() ||
-        !m_item.nepomukUri().isValid()) {
-        return;
-    }
-
     KMenu popup(this);
 
     QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
@@ -311,7 +306,9 @@ void InformationPanelContent::configureSettings()
         dialog.exec();
     }
 
-    showItem(m_item);
+    if (!m_item.isNull() && m_item.nepomukUri().isValid()) {
+        showItem(m_item);
+    }
 }
 
 void InformationPanelContent::showIcon(const KFileItem& item)
