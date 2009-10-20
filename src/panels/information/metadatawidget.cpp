@@ -95,6 +95,7 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
+    bool m_isSizeVisible;
     MetaDataTypes m_hiddenData;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
@@ -168,6 +169,7 @@ private:
 };
 
 MetaDataWidget::Private::Private(MetaDataWidget* parent) :
+    m_isSizeVisible(true),
     m_hiddenData(None),
     m_fileItems(),
     m_rows(),
@@ -316,29 +318,40 @@ void MetaDataWidget::Private::updateRowsVisibility()
 {
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
+
     setRowVisible(m_typeInfo,
                   !(m_hiddenData & MetaDataWidget::TypeData) &&
                   settings.readEntry("type", true));
-    setRowVisible(m_sizeInfo,
-                  !(m_hiddenData & MetaDataWidget::SizeData) &&
-                  settings.readEntry("size", true));
+
+    // Cache in m_isSizeVisible whether the size should be shown. This
+    // is necessary as the size is temporary hidden when the target
+    // file item is a directory.
+    m_isSizeVisible = !(m_hiddenData & MetaDataWidget::SizeData) &&
+                      settings.readEntry("size", true);
+    setRowVisible(m_sizeInfo, m_isSizeVisible);
+
     setRowVisible(m_modifiedInfo,
                   !(m_hiddenData & MetaDataWidget::ModifiedData) &&
                   settings.readEntry("modified", true));
+
     setRowVisible(m_ownerInfo,
                   !(m_hiddenData & MetaDataWidget::OwnerData) &&
                   settings.readEntry("owner", true));
+
     setRowVisible(m_permissionsInfo,
                   !(m_hiddenData & MetaDataWidget::PermissionsData) &&
                   settings.readEntry("permissions", true));
+
 #ifdef HAVE_NEPOMUK
     if (Nepomuk::ResourceManager::instance()->init() == 0) {
         setRowVisible(m_ratingWidget,
                       !(m_hiddenData & MetaDataWidget::RatingData) &&
                       settings.readEntry("rating", true));
+
         setRowVisible(m_taggingWidget,
                       !(m_hiddenData & MetaDataWidget::TagsData) &&
                       settings.readEntry("tags", true));
+
         setRowVisible(m_commentWidget,
                       !(m_hiddenData & MetaDataWidget::CommentData) &&
                       settings.readEntry("comment", true));
@@ -587,7 +600,7 @@ void MetaDataWidget::setItem(const KFileItem& item)
     } else {
         d->m_typeInfo->setText(item.mimeComment());
         d->m_sizeInfo->setText(KIO::convertSize(item.size()));
-        d->setRowVisible(d->m_sizeInfo, true);
+        d->setRowVisible(d->m_sizeInfo, d->m_isSizeVisible);
     }
     d->m_modifiedInfo->setText(item.timeString());
     d->m_ownerInfo->setText(item.user());
@@ -604,7 +617,7 @@ void MetaDataWidget::setItems(const KFileItemList& items)
         // calculate the size of all items and show this
         // information to the user
         d->m_sizeLabel->setText(i18nc("@label", "Total Size:"));
-        d->setRowVisible(d->m_sizeInfo, true);
+        d->setRowVisible(d->m_sizeInfo, d->m_isSizeVisible);
 
         quint64 totalSize = 0;
         foreach (const KFileItem& item, items) {
