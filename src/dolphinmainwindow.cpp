@@ -167,23 +167,23 @@ void DolphinMainWindow::showCommand(CommandType command)
     DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
     switch (command) {
     case KIO::FileUndoManager::Copy:
-        statusBar->setMessage(i18nc("@info:status", "Copy operation completed."),
+        statusBar->setMessage(i18nc("@info:status", "Successfully copied."),
                               DolphinStatusBar::OperationCompleted);
         break;
     case KIO::FileUndoManager::Move:
-        statusBar->setMessage(i18nc("@info:status", "Move operation completed."),
+        statusBar->setMessage(i18nc("@info:status", "Successfully moved."),
                               DolphinStatusBar::OperationCompleted);
         break;
     case KIO::FileUndoManager::Link:
-        statusBar->setMessage(i18nc("@info:status", "Link operation completed."),
+        statusBar->setMessage(i18nc("@info:status", "Successfully lined."),
                               DolphinStatusBar::OperationCompleted);
         break;
     case KIO::FileUndoManager::Trash:
-        statusBar->setMessage(i18nc("@info:status", "Move to trash operation completed."),
+        statusBar->setMessage(i18nc("@info:status", "Successfully moved to trash."),
                               DolphinStatusBar::OperationCompleted);
         break;
     case KIO::FileUndoManager::Rename:
-        statusBar->setMessage(i18nc("@info:status", "Renaming operation completed."),
+        statusBar->setMessage(i18nc("@info:status", "Successfully renamed."),
                               DolphinStatusBar::OperationCompleted);
         break;
 
