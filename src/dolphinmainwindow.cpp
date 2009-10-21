@@ -175,7 +175,7 @@ void DolphinMainWindow::showCommand(CommandType command)
                               DolphinStatusBar::OperationCompleted);
         break;
     case KIO::FileUndoManager::Link:
-        statusBar->setMessage(i18nc("@info:status", "Successfully lined."),
+        statusBar->setMessage(i18nc("@info:status", "Successfully linked."),
                               DolphinStatusBar::OperationCompleted);
         break;
     case KIO::FileUndoManager::Trash:
