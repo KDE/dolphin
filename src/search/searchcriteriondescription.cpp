@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009 by Adam Kidder <thekidder@gmail.com>               *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,46 +18,39 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINSEARCHOPTIONSCONFIGURATOR_H
-#define DOLPHINSEARCHOPTIONSCONFIGURATOR_H
+#include "searchcriteriondescription.h"
 
-#include <QWidget>
-
-class KComboBox;
-class QPushButton;
-class QVBoxLayout;
-
-/**
- * @brief Allows the user to configure a search query for Nepomuk.
- */
-class DolphinSearchOptionsConfigurator : public QWidget
+SearchCriterionDescription::SearchCriterionDescription(const QString& name,
+                                                       const QString& identifier,
+                                                       const QList<Comparator>& comparators,
+                                                       SearchCriterionValue* valueWidget) :
+    m_name(name),
+    m_identifier(identifier),
+    m_comparators(comparators),
+    m_valueWidget(valueWidget)
 {
-    Q_OBJECT
+}
 
-public:
-    DolphinSearchOptionsConfigurator(QWidget* parent = 0);
-    virtual ~DolphinSearchOptionsConfigurator();
+SearchCriterionDescription::~SearchCriterionDescription()
+{
+}
 
-private slots:
-    /**
-     * Adds a new search description selector to the bottom
-     * of the layout.
-     */
-    void addSelector();
+QString SearchCriterionDescription::name() const
+{
+    return m_name;
+}
 
-    void removeCriterion();
+QString SearchCriterionDescription::identifier() const
+{
+    return m_identifier;
+}
 
-    /**
-     * Updates the 'enabled' property of the selector button
-     * dependent from the number of existing selectors.
-     */
-    void updateSelectorButton();
+const QList<SearchCriterionDescription::Comparator>& SearchCriterionDescription::comparators() const
+{
+    return m_comparators;
+}
 
-private:
-    KComboBox* m_searchFromBox;
-    KComboBox* m_searchWhatBox;
-    QPushButton* m_addSelectorButton;
-    QVBoxLayout* m_vBoxLayout;
-};
-
-#endif
+SearchCriterionValue* SearchCriterionDescription::valueWidget() const
+{
+    return m_valueWidget;
+}

@@ -32,7 +32,7 @@ class QStandardItemModel;
 class QToolButton;
 
 /**
- * @brief used for completition for the DolphinSearchBox
+ * @brief Helper class used for completition for the DolphinSearchBox.
  */
 class DolphinSearchCompleter : public QObject
 {

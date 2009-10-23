@@ -123,6 +123,9 @@ set(dolphin_SRCS
     panels/folders/paneltreeview.cpp
     search/dolphinsearchbox.cpp
     search/dolphinsearchoptionsconfigurator.cpp
+    search/searchcriteriondescription.cpp
+    search/searchcriterionselector.cpp
+    search/searchcriterionvalue.cpp
     settings/behaviorsettingspage.cpp
     settings/columnviewsettingspage.cpp
     settings/contextmenusettingspage.cpp

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009 by Adam Kidder <thekidder@gmail.com>               *
  *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,46 +18,64 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINSEARCHOPTIONSCONFIGURATOR_H
-#define DOLPHINSEARCHOPTIONSCONFIGURATOR_H
+#ifndef SEARCHCRITERIONVALUE_H
+#define SEARCHCRITERIONVALUE_H
 
 #include <QWidget>
 
-class KComboBox;
-class QPushButton;
-class QVBoxLayout;
+class QComboBox;
+class QDateEdit;
+class KLineEdit;
 
 /**
- * @brief Allows the user to configure a search query for Nepomuk.
+ * @brief Helper class for SearchCriterionSelector.
+ * Represents an input widget for the value of a search criterion.
  */
-class DolphinSearchOptionsConfigurator : public QWidget
+class SearchCriterionValue : public QWidget
 {
     Q_OBJECT
 
 public:
-    DolphinSearchOptionsConfigurator(QWidget* parent = 0);
-    virtual ~DolphinSearchOptionsConfigurator();
+    SearchCriterionValue(QWidget* parent = 0);
+    virtual ~SearchCriterionValue();
 
-private slots:
-    /**
-     * Adds a new search description selector to the bottom
-     * of the layout.
-     */
-    void addSelector();
+    virtual QString value() const = 0;
 
-    void removeCriterion();
-
-    /**
-     * Updates the 'enabled' property of the selector button
-     * dependent from the number of existing selectors.
-     */
-    void updateSelectorButton();
-
-private:
-    KComboBox* m_searchFromBox;
-    KComboBox* m_searchWhatBox;
-    QPushButton* m_addSelectorButton;
-    QVBoxLayout* m_vBoxLayout;
+signals:
+    void valueChanged(const QString& value);
 };
 
-#endif
+
+
+/** @brief Allows to input a date value as search criterion. */
+class DateValue : public SearchCriterionValue
+{
+    Q_OBJECT
+
+public:
+    DateValue(QWidget* parent = 0);
+    virtual ~DateValue();
+    virtual QString value() const;
+    
+private:
+    QDateEdit* m_dateEdit;
+};
+
+
+
+/** @brief Allows to input a file size value as search criterion. */
+class FileSizeValue : public SearchCriterionValue
+{
+    Q_OBJECT
+
+public:
+    FileSizeValue(QWidget* parent = 0);
+    virtual ~FileSizeValue();
+    virtual QString value() const;
+
+ private:
+    KLineEdit* m_lineEdit;
+    QComboBox* m_units;
+};
+
+#endif // SEARCHCRITERIONVALUE_H
