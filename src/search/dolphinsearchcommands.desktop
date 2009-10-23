@@ -89,6 +89,7 @@ Comment[eo]=ekzemple "txt"
 Comment[et]=näiteks txt
 Comment[is]=til dæmis txt
 Comment[lt]=pavyzdžiui, txt
+Comment[ms]=sebagai contoh txt
 Comment[nb]=for eksempel txt
 Comment[nl]=bijvoorbeeld txt
 Comment[pt]=por exemplo 'txt'
@@ -128,6 +129,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
@@ -151,6 +153,7 @@ Comment[et]=Silt
 Comment[gu]=ટેગ
 Comment[is]=Merki
 Comment[lt]=Žyma
+Comment[ms]=Tag
 Comment[nb]=Merke
 Comment[nl]=Tag
 Comment[pt]=Marca
@@ -177,6 +180,7 @@ Name[et]=Faili suurus
 Name[gu]=ફાઇલ કદ
 Name[is]=Skráarstærð
 Name[lt]=Failo dydis
+Name[ms]=Saiz fail
 Name[nb]=Filstørrelse
 Name[nl]=Bestandsgrootte
 Name[pt]=Tamanho do ficheiro
@@ -209,6 +213,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
@@ -229,6 +234,7 @@ Name[et]=Sisu suurus
 Name[gu]=વિગત કદ
 Name[is]=Stærð innihalds
 Name[lt]=Turinio dydis
+Name[ms]=Saiz isi
 Name[nb]=Innholdsstørrelse
 Name[nl]=Grootte van de inhoud
 Name[pt]=Tamanho do conteúdo
@@ -246,6 +252,7 @@ Comment[et]=baitides
 Comment[gu]=બાઈટ્સ માં
 Comment[is]=í bætum
 Comment[lt]=baitais
+Comment[ms]=dalam bait
 Comment[nb]=i byte
 Comment[nl]=in bytes
 Comment[pt]=em 'bytes'
@@ -262,6 +269,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
@@ -299,6 +307,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
