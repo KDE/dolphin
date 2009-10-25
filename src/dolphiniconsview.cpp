@@ -314,12 +314,6 @@ void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
 {
-    // let Ctrl+wheel events propagate to the DolphinView for icon zooming
-    if (event->modifiers() & Qt::ControlModifier) {
-        event->ignore();
-        return;
-    }
-
     horizontalScrollBar()->setSingleStep(m_itemSize.width() / 10);
     verticalScrollBar()->setSingleStep(m_itemSize.height() / 10);
 

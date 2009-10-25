@@ -340,12 +340,6 @@ void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinColumnView::wheelEvent(QWheelEvent* event)
 {
-    // let Ctrl+wheel events propagate to the DolphinView for icon zooming
-    if (event->modifiers() & Qt::ControlModifier) {
-        event->ignore();
-        return;
-    }
-
     const int height = m_decorationSize.height();
     const int step = (height >= KIconLoader::SizeHuge) ? height / 10 : (KIconLoader::SizeHuge - height) / 2;
     verticalScrollBar()->setSingleStep(step);

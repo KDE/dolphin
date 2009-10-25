@@ -559,7 +559,6 @@ signals:
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
-    virtual void wheelEvent(QWheelEvent* event);
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
 private slots:

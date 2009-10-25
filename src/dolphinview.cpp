@@ -831,20 +831,6 @@ void DolphinView::mouseReleaseEvent(QMouseEvent* event)
     setActive(true);
 }
 
-void DolphinView::wheelEvent(QWheelEvent* event)
-{
-    if (event->modifiers() & Qt::ControlModifier) {
-        const int delta = event->delta();
-        const int level = zoomLevel();
-        if (delta > 0) {
-            setZoomLevel(level + 1);
-        } else if (delta < 0) {
-            setZoomLevel(level - 1);
-        }
-        event->accept();
-    }
-}
-
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
     switch (event->type()) {
@@ -870,6 +856,24 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         }
         break;
 
+    case QEvent::Wheel:
+        if (watched == m_viewAccessor.itemView()->viewport()) {
+            // Ctrl+wheel events should cause icon zooming, but not if the left mouse button is pressed
+            // (the user is probably trying to scroll during a selection in that case)
+            QWheelEvent* wheelEvent = static_cast<QWheelEvent*>(event);
+            if (wheelEvent->modifiers() & Qt::ControlModifier && !(wheelEvent->buttons() & Qt::LeftButton)) {
+                const int delta = wheelEvent->delta();
+                const int level = zoomLevel();
+                if (delta > 0) {
+                    setZoomLevel(level + 1);
+                } else if (delta < 0) {
+                    setZoomLevel(level - 1);
+                }
+                return true;
+            }
+        }
+        break;
+        
     default:
         break;
     }
