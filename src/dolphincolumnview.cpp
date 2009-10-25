@@ -368,8 +368,9 @@ void DolphinColumnView::resizeEvent(QResizeEvent* event)
 
 void DolphinColumnView::wheelEvent(QWheelEvent* event)
 {
-    // let Ctrl+wheel events propagate to the DolphinView for icon zooming
-    if ((event->modifiers() & Qt::ControlModifier) == Qt::ControlModifier) {
+    // let Ctrl+wheel events propagate to the DolphinView for icon zooming, but not if the left
+    // mouse button is pressed (the user is probably trying to scroll during a selection in that case)
+    if (event->modifiers() & Qt::ControlModifier && !(event->buttons() & Qt::LeftButton)) {
         event->ignore();
     } else {
         QAbstractItemView::wheelEvent(event);

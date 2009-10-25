@@ -874,7 +874,9 @@ void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 
 void DolphinView::wheelEvent(QWheelEvent* event)
 {
-    if (event->modifiers() & Qt::ControlModifier) {
+    // Do not zoom if the left mouse button is pressed. The user is probably trying to
+    // scroll the view during a selection in that case.
+    if (event->modifiers() & Qt::ControlModifier && !(event->buttons() & Qt::LeftButton)) {
         const int delta = event->delta();
         const int level = zoomLevel();
         if (delta > 0) {
