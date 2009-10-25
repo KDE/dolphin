@@ -10,6 +10,7 @@ Comment[csb]=logiczny òperatora ë
 Comment[en_GB]=logic operator and
 Comment[eo]=logika operatoro "kaj"
 Comment[et]=Loogiline JA
+Comment[gl]=o operador lóxico «e»
 Comment[is]=rökaðgerðin og
 Comment[lt]=loginis operatorius „ir“ (and)
 Comment[nb]=logisk og-operator
@@ -31,6 +32,7 @@ Comment[csb]=logiczny òperatora abò
 Comment[en_GB]=logic operator or
 Comment[eo]=logika operatoro "aŭ"
 Comment[et]=Loogiline VÕI
+Comment[gl]=o operador lóxico «ou»
 Comment[is]=rökaðgerðin eða
 Comment[lt]=loginis operatorius „arba“ (or)
 Comment[nb]=logisk eller-operator
@@ -52,6 +54,7 @@ Comment[csb]=logiczny òperatora nié
 Comment[en_GB]=logic operator not
 Comment[eo]=logika operatoro "ne"
 Comment[et]=Loogiline EI
+Comment[gl]=o operador lóxico «non»
 Comment[is]=rökaðgerðin ekki
 Comment[lt]=loginis operatorius „ne“ (not)
 Comment[nb]=logisk ikke-operator
@@ -71,6 +74,7 @@ Name[csb]=Rozszérzenié lopka
 Name[en_GB]=File extension
 Name[eo]=Dosier-sufikso
 Name[et]=Faililaiend
+Name[gl]=Extensión do ficheiro
 Name[is]=Skráarending
 Name[lt]=Failo priesaga
 Name[nb]=Filetternavn
@@ -87,6 +91,7 @@ Comment[csb]=na przëmiôr txt
 Comment[en_GB]=for example txt
 Comment[eo]=ekzemple "txt"
 Comment[et]=näiteks txt
+Comment[gl]=por exemplo txt
 Comment[is]=til dæmis txt
 Comment[lt]=pavyzdžiui, txt
 Comment[ms]=sebagai contoh txt
@@ -111,6 +116,7 @@ Comment[csb]=1 do 10, na przëmiôr >=7
 Comment[en_GB]=1 to 10, for example >=7
 Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[et]=1 kuni 10, näiteks 7
+Comment[gl]=do 1 ao 10, por exemplo >=7
 Comment[is]=1 til 10, til dæmis >=7
 Comment[lt]=Nuo 1 iki 10, pvz., >=7
 Comment[nb]=1 til 10, for eksempel >=7
@@ -127,6 +133,7 @@ GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
@@ -150,6 +157,7 @@ Comment[csb]=Znakòwnik
 Comment[en_GB]=Tag
 Comment[eo]=Marko
 Comment[et]=Silt
+Comment[gl]=Etiqueta
 Comment[gu]=ટેગ
 Comment[is]=Merki
 Comment[lt]=Žyma
@@ -177,6 +185,7 @@ Name[csb]=Miara lopka
 Name[en_GB]=File size
 Name[eo]=Dosiergrandeco
 Name[et]=Faili suurus
+Name[gl]=Tamaño do ficheiro
 Name[gu]=ફાઇલ કદ
 Name[is]=Skráarstærð
 Name[lt]=Failo dydis
@@ -195,6 +204,7 @@ Comment[csb]=w bajtach, na przëmiôr >1000
 Comment[en_GB]=in bytes, for example >1000
 Comment[eo]=bajte, ekz. >1000
 Comment[et]=baitides, näiteks >1000
+Comment[gl]=en bytes, por exemplo >1000
 Comment[is]=í bætum, til dæmis >1000
 Comment[lt]=baitais, pvz., > 1000
 Comment[nb]=i byte, for eksempel >1000
@@ -211,6 +221,7 @@ GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
@@ -231,6 +242,7 @@ Name[csb]=Miara zamkłoscë
 Name[en_GB]=Content size
 Name[eo]=Grandeco de la enhavo
 Name[et]=Sisu suurus
+Name[gl]=Tamaño do contido
 Name[gu]=વિગત કદ
 Name[is]=Stærð innihalds
 Name[lt]=Turinio dydis
@@ -249,6 +261,7 @@ Comment[csb]=w bajtach
 Comment[en_GB]=in bytes
 Comment[eo]=bitoke
 Comment[et]=baitides
+Comment[gl]=en bytes
 Comment[gu]=બાઈટ્સ માં
 Comment[is]=í bætum
 Comment[lt]=baitais
@@ -267,6 +280,7 @@ GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
@@ -289,6 +303,7 @@ Comment[csb]=na przëmiôr >1999-10-10
 Comment[en_GB]=for example >1999-10-10
 Comment[eo]=Ekzemple >1999-10-10
 Comment[et]=näiteks >1999-10-10
+Comment[gl]=por exemplo >1999-10-10
 Comment[is]=til dæmis >1999-10-10
 Comment[lt]=pavyzdžiui >1999-10-10
 Comment[nb]=for eksempel >1999-10-10
@@ -305,6 +320,7 @@ GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
