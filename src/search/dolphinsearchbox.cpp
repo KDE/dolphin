@@ -96,7 +96,6 @@ DolphinSearchCompleter::DolphinSearchCompleter(KLineEdit* linedit) :
     view->setHeaderHidden(true);
 
     connect(q, SIGNAL(textEdited(QString)), this, SLOT(slotTextEdited(QString)));
-    connect(m_completer, SIGNAL(activated(QModelIndex)), this, SLOT(activated(QModelIndex)));
     connect(m_completer, SIGNAL(highlighted(QModelIndex)), this, SLOT(highlighted(QModelIndex)));
 }
 
@@ -231,18 +230,6 @@ void DolphinSearchCompleter::highlighted(const QModelIndex& index)
     text.replace(wordStart, wordEnd - wordStart + 1, replace);
     q->setText(text);
     q->setCursorPosition(wordStart + replace.length());
-}
-
-void DolphinSearchCompleter::activated(const QModelIndex& index)
-{
-    if ((m_wordStart == -1) || (m_wordStart == -1)) {
-        return;
-    }
-
-    const QString replace = index.sibling(index.row(), 0).data(Qt::UserRole).toString();
-    QString newText = q->text();
-    newText.replace(m_wordStart, m_wordEnd - m_wordStart + 1, replace);
-    q->setText(newText);
 }
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :

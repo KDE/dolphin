@@ -43,7 +43,6 @@ public:
 
 public slots:
     void highlighted(const QModelIndex& index);
-    void activated(const QModelIndex& index);
     void slotTextEdited(const QString &text);
 
 private:
