@@ -35,7 +35,6 @@
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
-#include "panels/information/metadatawidget.h"
 #include "mainwindowadaptor.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "viewproperties.h"

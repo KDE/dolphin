@@ -1,25 +1,24 @@
-/***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
- ***************************************************************************/
+/*****************************************************************************
+ * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or             *
+ * modify it under the terms of the GNU Library General Public               *
+ * License version 2 as published by the Free Software Foundation.           *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful,           *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public License *
+ * along with this library; see the file COPYING.LIB.  If not, write to      *
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,      *
+ * Boston, MA 02110-1301, USA.                                               *
+ *****************************************************************************/
 
-#include "taggingwidget_p.h"
+#include "ktaggingwidget_p.h"
 
-#include "edittagsdialog_p.h"
+#include "kedittagsdialog_p.h"
 
 #include <kglobalsettings.h>
 #include <klocale.h>
@@ -27,7 +26,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-TaggingWidget::TaggingWidget(QWidget* parent) :
+KTaggingWidget::KTaggingWidget(QWidget* parent) :
     QWidget(parent),
     m_label(0),
     m_tags(),
@@ -46,11 +45,11 @@ TaggingWidget::TaggingWidget(QWidget* parent) :
     setTags(QList<Nepomuk::Tag>());
 }
 
-TaggingWidget::~TaggingWidget()
+KTaggingWidget::~KTaggingWidget()
 {
 }
 
-void TaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
+void KTaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
 {
     m_tags = tags;
 
@@ -71,17 +70,17 @@ void TaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
     }
 }
 
-QList<Nepomuk::Tag> TaggingWidget::tags() const
+QList<Nepomuk::Tag> KTaggingWidget::tags() const
 {
     return m_tags;
 }
 
-void TaggingWidget::slotLinkActivated(const QString& link)
+void KTaggingWidget::slotLinkActivated(const QString& link)
 {
     Q_UNUSED(link);
 
-    EditTagsDialog dialog(m_tags, this, Qt::Dialog);
-    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk EditTagsDialog");
+    KEditTagsDialog dialog(m_tags, this, Qt::Dialog);
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk KEditTagsDialog");
     dialog.restoreDialogSize(dialogConfig);
 
     if (dialog.exec() == QDialog::Accepted) {
@@ -107,4 +106,4 @@ void TaggingWidget::slotLinkActivated(const QString& link)
     dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
-#include "taggingwidget_p.moc"
+#include "ktaggingwidget_p.moc"

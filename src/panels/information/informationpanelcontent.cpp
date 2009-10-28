@@ -47,20 +47,10 @@
 
 #include "dolphin_informationpanelsettings.h"
 #include "settings/dolphinsettings.h"
-#include "metadatawidget.h"
-#include "metadataconfigurationdialog.h"
+#include "kmetadatawidget.h"
+#include "kmetadataconfigurationdialog.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
-
-/**
- * Helper function for sorting items with qSort() in
- * InformationPanelContent::contextMenu().
- */
-bool lessThan(const QAction* action1, const QAction* action2)
-{
-    return action1->text() < action2->text();
-}
-
 
 InformationPanelContent::InformationPanelContent(QWidget* parent) :
     Panel(parent),
@@ -117,7 +107,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_preview->setVisible(showPreview);
     m_previewSeparator->setVisible(showPreview);
 
-    m_metaDataWidget = new MetaDataWidget(parent);
+    m_metaDataWidget = new KMetaDataWidget(parent);
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
 
     // Encapsulate the MetaDataWidget inside a container that has a dummy widget
@@ -302,7 +292,7 @@ void InformationPanelContent::configureSettings()
         m_previewSeparator->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == configureAction) {
-        MetaDataConfigurationDialog dialog(m_metaDataWidget, this, Qt::Dialog);
+        KMetaDataConfigurationDialog dialog(m_metaDataWidget, this, Qt::Dialog);
         dialog.exec();
     }
 

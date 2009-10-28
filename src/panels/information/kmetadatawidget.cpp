@@ -1,24 +1,23 @@
-/***************************************************************************
- *   Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                 *
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
- ***************************************************************************/
+/*****************************************************************************
+ * Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                     *
+ * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or             *
+ * modify it under the terms of the GNU Library General Public               *
+ * License version 2 as published by the Free Software Foundation.           *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful,           *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public License *
+ * along with this library; see the file COPYING.LIB.  If not, write to      *
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,      *
+ * Boston, MA 02110-1301, USA.                                               *
+ *****************************************************************************/
 
-#include "metadatawidget.h"
+#include "kmetadatawidget.h"
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
@@ -36,24 +35,22 @@
 #ifdef HAVE_NEPOMUK
     #define DISABLE_NEPOMUK_LEGACY
 
-    #include "commentwidget_p.h"
-    #include "nepomukmassupdatejob_p.h"
-    #include "taggingwidget_p.h"
+    #include "kcommentwidget_p.h"
+    #include "ktaggingwidget_p.h"
 
-    #include <Nepomuk/KRatingWidget>
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Types/Property>
-    #include <Nepomuk/Variant>
+    #include <nepomuk/kratingwidget.h>
+    #include <nepomuk/resource.h>
+    #include <nepomuk/resourcemanager.h>
+    #include <nepomuk/property.h>
+    #include <nepomuk/variant.h>
+    #include "nepomukmassupdatejob_p.h"
 
     #include <QMutex>
     #include <QSpacerItem>
     #include <QThread>
 #endif
 
-#include <kdebug.h>
-
-class MetaDataWidget::Private
+class KMetaDataWidget::Private
 {
 public:
     struct Row
@@ -62,7 +59,7 @@ public:
         QWidget* infoWidget;
     };
 
-    Private(MetaDataWidget* parent);
+    Private(KMetaDataWidget* parent);
     ~Private();
 
     void addRow(QLabel* label, QWidget* infoWidget);
@@ -96,7 +93,7 @@ public:
     void startChangeDataJob(KJob* job);
 
     bool m_isSizeVisible;
-    MetaDataTypes m_hiddenData;
+    MetaDataTypes m_visibleDataTypes;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
 
@@ -111,8 +108,8 @@ public:
 
 #ifdef HAVE_NEPOMUK
     KRatingWidget* m_ratingWidget;
-    TaggingWidget* m_taggingWidget;
-    CommentWidget* m_commentWidget;
+    KTaggingWidget* m_taggingWidget;
+    KCommentWidget* m_commentWidget;
 
     // shared data between the GUI-thread and
     // the loader-thread (see LoadFilesThread):
@@ -165,12 +162,13 @@ public:
 #endif
 
 private:
-    MetaDataWidget* const q;
+    KMetaDataWidget* const q;
 };
 
-MetaDataWidget::Private::Private(MetaDataWidget* parent) :
+KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     m_isSizeVisible(true),
-    m_hiddenData(None),
+    m_visibleDataTypes(TypeData | SizeData | ModifiedData | OwnerData |
+                PermissionsData | RatingData | TagsData | CommentData),
     m_fileItems(),
     m_rows(),
     m_gridLayout(0),
@@ -212,11 +210,11 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
         connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
                 q, SLOT(slotRatingChanged(unsigned int)));
 
-        m_taggingWidget = new TaggingWidget(parent);
+        m_taggingWidget = new KTaggingWidget(parent);
         connect(m_taggingWidget, SIGNAL(tagsChanged(const QList<Nepomuk::Tag>&)),
                 q, SLOT(slotTagsChanged(const QList<Nepomuk::Tag>&)));
 
-        m_commentWidget = new CommentWidget(parent);
+        m_commentWidget = new KCommentWidget(parent);
         connect(m_commentWidget, SIGNAL(commentChanged(const QString&)),
                 q, SLOT(slotCommentChanged(const QString&)));
 
@@ -235,14 +233,14 @@ MetaDataWidget::Private::Private(MetaDataWidget* parent) :
     updateRowsVisibility();
 }
 
-MetaDataWidget::Private::~Private()
+KMetaDataWidget::Private::~Private()
 {
 #ifdef HAVE_NEPOMUK
     delete m_loadFilesThread;
 #endif
 }
 
-void MetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
+void KMetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
 {
     Row row;
     row.label = label;
@@ -275,7 +273,7 @@ void MetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
     m_gridLayout->addWidget(infoWidget, rowIndex, 2, Qt::AlignLeft);
 }
 
-void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
+void KMetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
 {
     foreach (const Row& row, m_rows) {
         if (row.infoWidget == infoWidget) {
@@ -287,7 +285,7 @@ void MetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
 }
 
 
-void MetaDataWidget::Private::initMetaInfoSettings()
+void KMetaDataWidget::Private::initMetaInfoSettings()
 {
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
@@ -314,52 +312,52 @@ void MetaDataWidget::Private::initMetaInfoSettings()
     }
 }
 
-void MetaDataWidget::Private::updateRowsVisibility()
+void KMetaDataWidget::Private::updateRowsVisibility()
 {
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
 
     setRowVisible(m_typeInfo,
-                  !(m_hiddenData & MetaDataWidget::TypeData) &&
+                  (m_visibleDataTypes & KMetaDataWidget::TypeData) &&
                   settings.readEntry("type", true));
 
     // Cache in m_isSizeVisible whether the size should be shown. This
     // is necessary as the size is temporary hidden when the target
     // file item is a directory.
-    m_isSizeVisible = !(m_hiddenData & MetaDataWidget::SizeData) &&
+    m_isSizeVisible = (m_visibleDataTypes & KMetaDataWidget::SizeData) &&
                       settings.readEntry("size", true);
     setRowVisible(m_sizeInfo, m_isSizeVisible);
 
     setRowVisible(m_modifiedInfo,
-                  !(m_hiddenData & MetaDataWidget::ModifiedData) &&
+                  (m_visibleDataTypes & KMetaDataWidget::ModifiedData) &&
                   settings.readEntry("modified", true));
 
     setRowVisible(m_ownerInfo,
-                  !(m_hiddenData & MetaDataWidget::OwnerData) &&
+                  (m_visibleDataTypes & KMetaDataWidget::OwnerData) &&
                   settings.readEntry("owner", true));
 
     setRowVisible(m_permissionsInfo,
-                  !(m_hiddenData & MetaDataWidget::PermissionsData) &&
+                  (m_visibleDataTypes & KMetaDataWidget::PermissionsData) &&
                   settings.readEntry("permissions", true));
 
 #ifdef HAVE_NEPOMUK
     if (Nepomuk::ResourceManager::instance()->init() == 0) {
         setRowVisible(m_ratingWidget,
-                      !(m_hiddenData & MetaDataWidget::RatingData) &&
+                      (m_visibleDataTypes & KMetaDataWidget::RatingData) &&
                       settings.readEntry("rating", true));
 
         setRowVisible(m_taggingWidget,
-                      !(m_hiddenData & MetaDataWidget::TagsData) &&
+                      (m_visibleDataTypes & KMetaDataWidget::TagsData) &&
                       settings.readEntry("tags", true));
 
         setRowVisible(m_commentWidget,
-                      !(m_hiddenData & MetaDataWidget::CommentData) &&
+                      (m_visibleDataTypes & KMetaDataWidget::CommentData) &&
                       settings.readEntry("comment", true));
     }
 #endif
 }
 
-void MetaDataWidget::Private::slotLoadingFinished()
+void KMetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
     QMutexLocker locker(&m_mutex);
@@ -401,12 +399,10 @@ void MetaDataWidget::Private::slotLoadingFinished()
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
     }
-
-    emit q->loadingFinished();
 #endif
 }
 
-void MetaDataWidget::Private::slotRatingChanged(unsigned int rating)
+void KMetaDataWidget::Private::slotRatingChanged(unsigned int rating)
 {
 #ifdef HAVE_NEPOMUK
     QMutexLocker locker(&m_mutex);
@@ -415,10 +411,9 @@ void MetaDataWidget::Private::slotRatingChanged(unsigned int rating)
     locker.unlock();
     startChangeDataJob(job);
 #endif
-    emit q->ratingChanged(rating);
 }
 
-void MetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
+void KMetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
 {
 #ifdef HAVE_NEPOMUK
     m_taggingWidget->setTags(tags);
@@ -429,10 +424,9 @@ void MetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
     locker.unlock();
     startChangeDataJob(job);
 #endif
-    emit q->tagsChanged(tags);
 }
 
-void MetaDataWidget::Private::slotCommentChanged(const QString& comment)
+void KMetaDataWidget::Private::slotCommentChanged(const QString& comment)
 {
 #ifdef HAVE_NEPOMUK
     QMutexLocker locker(&m_mutex);
@@ -441,15 +435,14 @@ void MetaDataWidget::Private::slotCommentChanged(const QString& comment)
     locker.unlock();
     startChangeDataJob(job);
 #endif
-    emit q->commentChanged(comment);
 }
 
-void MetaDataWidget::Private::slotMetaDataUpdateDone()
+void KMetaDataWidget::Private::slotMetaDataUpdateDone()
 {
     q->setEnabled(true);
 }
 
-void MetaDataWidget::Private::startChangeDataJob(KJob* job)
+void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
 {
     connect(job, SIGNAL(result(KJob*)),
             q, SLOT(slotMetaDataUpdateDone()));
@@ -458,8 +451,8 @@ void MetaDataWidget::Private::startChangeDataJob(KJob* job)
 }
 
 #ifdef HAVE_NEPOMUK
-MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
-                            MetaDataWidget::Private::SharedData* m_sharedData,
+KMetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
+                            KMetaDataWidget::Private::SharedData* m_sharedData,
                             QMutex* m_mutex) :
     m_sharedData(m_sharedData),
     m_mutex(m_mutex),
@@ -468,7 +461,7 @@ MetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
 {
 }
 
-MetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
+KMetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
 {
     // This thread may very well be deleted during execution. We need
     // to protect it from crashes here.
@@ -476,7 +469,7 @@ MetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
     wait();
 }
 
-void MetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
+void KMetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
 {
     QMutexLocker locker(m_mutex);
     m_urls = urls;
@@ -484,7 +477,7 @@ void MetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
     start();
 }
 
-void MetaDataWidget::Private::LoadFilesThread::run()
+void KMetaDataWidget::Private::LoadFilesThread::run()
 {
     QMutexLocker locker(m_mutex);
     const KUrl::List urls = m_urls;
@@ -557,7 +550,7 @@ void MetaDataWidget::Private::LoadFilesThread::run()
     m_sharedData->files = files;
 }
 
-QString MetaDataWidget::Private::LoadFilesThread::tunedLabel(const QString& label) const
+QString KMetaDataWidget::Private::LoadFilesThread::tunedLabel(const QString& label) const
 {
     QString tunedLabel;
     const int labelLength = label.length();
@@ -578,18 +571,18 @@ QString MetaDataWidget::Private::LoadFilesThread::tunedLabel(const QString& labe
 
 #endif // HAVE_NEPOMUK
 
-MetaDataWidget::MetaDataWidget(QWidget* parent) :
+KMetaDataWidget::KMetaDataWidget(QWidget* parent) :
     QWidget(parent),
     d(new Private(this))
 {
 }
 
-MetaDataWidget::~MetaDataWidget()
+KMetaDataWidget::~KMetaDataWidget()
 {
     delete d;
 }
 
-void MetaDataWidget::setItem(const KFileItem& item)
+void KMetaDataWidget::setItem(const KFileItem& item)
 {
     // update values for "type", "size", "modified",
     // "owner" and "permissions" synchronously
@@ -609,7 +602,7 @@ void MetaDataWidget::setItem(const KFileItem& item)
     setItems(KFileItemList() << item);
 }
 
-void MetaDataWidget::setItems(const KFileItemList& items)
+void KMetaDataWidget::setItems(const KFileItemList& items)
 {
     d->m_fileItems = items;
 
@@ -642,14 +635,14 @@ void MetaDataWidget::setItems(const KFileItemList& items)
 #endif
 }
 
-void MetaDataWidget::setItem(const KUrl& url)
+void KMetaDataWidget::setItem(const KUrl& url)
 {
     KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
     item.refresh();
     setItem(item);
 }
 
-void MetaDataWidget::setItems(const QList<KUrl>& urls)
+void KMetaDataWidget::setItems(const QList<KUrl>& urls)
 {
     KFileItemList items;
     foreach (const KUrl& url, urls) {
@@ -660,50 +653,20 @@ void MetaDataWidget::setItems(const QList<KUrl>& urls)
     setItems(items);
 }
 
-KFileItemList MetaDataWidget::items() const
+KFileItemList KMetaDataWidget::items() const
 {
     return d->m_fileItems;
 }
 
-void MetaDataWidget::setHiddenData(MetaDataTypes data)
+void KMetaDataWidget::setVisibleDataTypes(MetaDataTypes data)
 {
-    d->m_hiddenData = data;
+    d->m_visibleDataTypes = data;
     d->updateRowsVisibility();
 }
 
-MetaDataWidget::MetaDataTypes MetaDataWidget::hiddenData() const
+KMetaDataWidget::MetaDataTypes KMetaDataWidget::visibleDataTypes() const
 {
-    return d->m_hiddenData;
+    return d->m_visibleDataTypes;
 }
 
-unsigned int MetaDataWidget::rating() const
-{
-#ifdef HAVE_NEPOMUK
-    QMutexLocker locker(&d->m_mutex);
-    return d->m_sharedData.rating;
-#else
-    return 0;
-#endif
-}
-
-QList<Nepomuk::Tag> MetaDataWidget::tags() const
-{
-#ifdef HAVE_NEPOMUK
-    QMutexLocker locker(&d->m_mutex);
-    return d->m_sharedData.tags;
-#else
-    return QList<Nepomuk::Tag>();
-#endif
-}
-
-QString MetaDataWidget::comment() const
-{
-#ifdef HAVE_NEPOMUK
-    QMutexLocker locker(&d->m_mutex);
-    return d->m_sharedData.comment;
-#else
-    return QString();
-#endif
-}
-
-#include "metadatawidget.moc"
+#include "kmetadatawidget.moc"

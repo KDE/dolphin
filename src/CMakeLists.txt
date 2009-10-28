@@ -112,8 +112,8 @@ set(dolphin_SRCS
     pixmapviewer.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
-    panels/information/metadatawidget.cpp
-    panels/information/metadataconfigurationdialog.cpp
+    panels/information/kmetadatawidget.cpp
+    panels/information/kmetadataconfigurationdialog.cpp
     panels/information/phononwidget.cpp
     panels/folders/ktreeview.cpp
     panels/places/placespanel.cpp
@@ -157,10 +157,10 @@ kde4_add_kcfg_files(dolphin_SRCS
 if(Nepomuk_FOUND)
 set(dolphin_SRCS
   ${dolphin_SRCS}
-  panels/information/commentwidget.cpp
-  panels/information/edittagsdialog.cpp
+  panels/information/kcommentwidget.cpp
+  panels/information/kedittagsdialog.cpp
   panels/information/nepomukmassupdatejob.cpp
-  panels/information/taggingwidget.cpp
+  panels/information/ktaggingwidget.cpp
 )
 
 endif(Nepomuk_FOUND)

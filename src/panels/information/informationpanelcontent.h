@@ -26,14 +26,14 @@
 #include <kurl.h>
 #include <kvbox.h>
 
+class KFileItem;
+class KMetaDataWidget;
+class KSeparator;
+class MetaTextLabel;
 class PhononWidget;
 class PixmapViewer;
-class MetaDataWidget;
-class MetaTextLabel;
 class QPixmap;
 class QString;
-class KFileItem;
-class KSeparator;
 class QLabel;
 class QScrollArea;
 
@@ -120,7 +120,7 @@ private:
     PixmapViewer* m_preview;
     KSeparator* m_previewSeparator;
     PhononWidget* m_phononWidget;
-    MetaDataWidget* m_metaDataWidget;
+    KMetaDataWidget* m_metaDataWidget;
     QScrollArea* m_metaDataArea;
 };
 

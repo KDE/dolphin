@@ -1,64 +1,61 @@
-/***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
- ***************************************************************************/
+/*****************************************************************************
+ * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ *                                                                           *
+ * This library is free software; you can redistribute it and/or             *
+ * modify it under the terms of the GNU Library General Public               *
+ * License version 2 as published by the Free Software Foundation.           *
+ *                                                                           *
+ * This library is distributed in the hope that it will be useful,           *
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of            *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU         *
+ * Library General Public License for more details.                          *
+ *                                                                           *
+ * You should have received a copy of the GNU Library General Public License *
+ * along with this library; see the file COPYING.LIB.  If not, write to      *
+ * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,      *
+ * Boston, MA 02110-1301, USA.                                               *
+ *****************************************************************************/
 
-#include "metadataconfigurationdialog.h"
-
-#include "metadatawidget.h"
-
+#include "kmetadataconfigurationdialog.h"
+#include "kmetadatawidget.h"
 #include <klocale.h>
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
     #define DISABLE_NEPOMUK_LEGACY
-    #include <Nepomuk/Resource>
-    #include <Nepomuk/ResourceManager>
-    #include <Nepomuk/Types/Property>
-    #include <Nepomuk/Variant>
+    #include <nepomuk/resource.h>
+    #include <nepomuk/resourcemanager.h>
+    #include <nepomuk/property.h>
+    #include <nepomuk/variant.h>
 #endif
 
 #include <QLabel>
 #include <QListWidget>
 #include <QVBoxLayout>
 
-class MetaDataConfigurationDialog::Private
+class KMetaDataConfigurationDialog::Private
 {
 public:
-    Private(MetaDataConfigurationDialog* parent, MetaDataWidget* metaDataWidget);
+    Private(KMetaDataConfigurationDialog* parent, KMetaDataWidget* metaDataWidget);
     ~Private();
 
     void init();
     void loadMetaData();
     QString tunedLabel(const QString& label) const;
 
-    int m_hiddenData;
-    MetaDataWidget* m_metaDataWidget;
+    int m_visibleDataTypes;
+    KMetaDataWidget* m_metaDataWidget;
     QListWidget* m_metaDataList;
 
 private:
-    MetaDataConfigurationDialog* const q;
+    KMetaDataConfigurationDialog* const q;
 };
 
-MetaDataConfigurationDialog::Private::Private(MetaDataConfigurationDialog* parent,
-                                              MetaDataWidget* metaDataWidget) :
+KMetaDataConfigurationDialog::Private::Private(KMetaDataConfigurationDialog* parent,
+                                               KMetaDataWidget* metaDataWidget) :
     q(parent)
 {
-    m_hiddenData = 0;
+    m_visibleDataTypes = 0;
     m_metaDataWidget = metaDataWidget;
 
     q->setCaption(i18nc("@title:window", "Configure Shown Data"));
@@ -82,54 +79,61 @@ MetaDataConfigurationDialog::Private::Private(MetaDataConfigurationDialog* paren
 
     loadMetaData();
 
-    const KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
+    const KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk KMetaDataConfigurationDialog");
     q->restoreDialogSize(dialogConfig);
 }
 
-MetaDataConfigurationDialog::Private::~Private()
+KMetaDataConfigurationDialog::Private::~Private()
 {
-    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk MetaDataConfigurationDialog");
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk KMetaDataConfigurationDialog");
     q->saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
-void MetaDataConfigurationDialog::Private::loadMetaData()
+void KMetaDataConfigurationDialog::Private::loadMetaData()
 {
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
 
     // Add fixed meta data items where the visibility does not
     // depend on the currently used URL.
-    int hiddenData = 0;
+    KMetaDataWidget::MetaDataTypes visibleDataTypes = KMetaDataWidget::TypeData |
+                                               KMetaDataWidget::SizeData |
+                                               KMetaDataWidget::ModifiedData |
+                                               KMetaDataWidget::OwnerData |
+                                               KMetaDataWidget::PermissionsData |
+                                               KMetaDataWidget::RatingData |
+                                               KMetaDataWidget::TagsData |
+                                               KMetaDataWidget::CommentData;
     if (m_metaDataWidget != 0) {
-        hiddenData = m_metaDataWidget->hiddenData();
+        visibleDataTypes = m_metaDataWidget->visibleDataTypes();
     }
 
     typedef QPair<QString, QString> FixedItem;
     QList<FixedItem> fixedItems;
-    if (!(hiddenData & MetaDataWidget::TypeData)) {
+    if (visibleDataTypes & KMetaDataWidget::TypeData) {
         fixedItems.append(FixedItem("type", i18nc("@item::inlistbox", "Type")));
     }
-    if (!(hiddenData & MetaDataWidget::SizeData)) {
+    if (visibleDataTypes & KMetaDataWidget::SizeData) {
         fixedItems.append(FixedItem("size", i18nc("@item::inlistbox", "Size")));
     }
-    if (!(hiddenData & MetaDataWidget::ModifiedData)) {
+    if (visibleDataTypes & KMetaDataWidget::ModifiedData) {
         fixedItems.append(FixedItem("modified", i18nc("@item::inlistbox", "Modified")));
     }
-    if (!(hiddenData & MetaDataWidget::OwnerData)) {
+    if (visibleDataTypes & KMetaDataWidget::OwnerData) {
         fixedItems.append(FixedItem("owner", i18nc("@item::inlistbox", "Owner")));
     }
-    if (!(hiddenData & MetaDataWidget::PermissionsData)) {
+    if (visibleDataTypes & KMetaDataWidget::PermissionsData) {
         fixedItems.append(FixedItem("permissions", i18nc("@item::inlistbox", "Permissions")));
     }
 #ifdef HAVE_NEPOMUK
     if (Nepomuk::ResourceManager::instance()->init() == 0) {
-        if (!(hiddenData & MetaDataWidget::RatingData)) {
+        if (visibleDataTypes & KMetaDataWidget::RatingData) {
             fixedItems.append(FixedItem("rating", i18nc("@item::inlistbox", "Rating")));
-         }
-        if (!(hiddenData & MetaDataWidget::TagsData)) {
+        }
+        if (visibleDataTypes & KMetaDataWidget::TagsData) {
             fixedItems.append(FixedItem("tags", i18nc("@item::inlistbox", "Tags")));
         }
-        if (!(hiddenData & MetaDataWidget::CommentData)) {
+        if (visibleDataTypes & KMetaDataWidget::CommentData) {
             fixedItems.append(FixedItem("comment", i18nc("@item::inlistbox", "Comment")));
         }
     }
@@ -175,6 +179,7 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
         // should not be shown as second entry.
         static const char* hiddenProperties[] = {
             "contentSize",   // = fixed item "size"
+            "description",   // = fixed item "comment"
             "fileExtension", // ~ fixed item "type"
             "hasTag",        // = fixed item "tags"
             "name",          // not shown as part of the meta data widget
@@ -211,7 +216,7 @@ void MetaDataConfigurationDialog::Private::loadMetaData()
 #endif
 }
 
-QString MetaDataConfigurationDialog::Private::tunedLabel(const QString& label) const
+QString KMetaDataConfigurationDialog::Private::tunedLabel(const QString& label) const
 {
     QString tunedLabel;
     const int labelLength = label.length();
@@ -230,14 +235,14 @@ QString MetaDataConfigurationDialog::Private::tunedLabel(const QString& label) c
     return tunedLabel;
 }
 
-MetaDataConfigurationDialog::MetaDataConfigurationDialog(QWidget* parent,
+KMetaDataConfigurationDialog::KMetaDataConfigurationDialog(QWidget* parent,
                                                          Qt::WFlags flags) :
     KDialog(parent, flags),
     d(new Private(this, 0))
 {
 }
 
-MetaDataConfigurationDialog::MetaDataConfigurationDialog(MetaDataWidget* metaDataWidget,
+KMetaDataConfigurationDialog::KMetaDataConfigurationDialog(KMetaDataWidget* metaDataWidget,
                                                          QWidget* parent,
                                                          Qt::WFlags flags) :
     KDialog(parent, flags),
@@ -245,11 +250,11 @@ MetaDataConfigurationDialog::MetaDataConfigurationDialog(MetaDataWidget* metaDat
 {
 }
 
-MetaDataConfigurationDialog::~MetaDataConfigurationDialog()
+KMetaDataConfigurationDialog::~KMetaDataConfigurationDialog()
 {
 }
 
-void MetaDataConfigurationDialog::slotButtonClicked(int button)
+void KMetaDataConfigurationDialog::slotButtonClicked(int button)
 {
     if (button == KDialog::Ok) {
         KConfig config("kmetainformationrc", KConfig::NoGlobals);
@@ -267,7 +272,7 @@ void MetaDataConfigurationDialog::slotButtonClicked(int button)
 
         if (d->m_metaDataWidget != 0) {
             // trigger an update
-            d->m_metaDataWidget->setHiddenData(d->m_metaDataWidget->hiddenData());
+            d->m_metaDataWidget->setVisibleDataTypes(d->m_metaDataWidget->visibleDataTypes());
         }
         accept();
     } else {
@@ -275,4 +280,4 @@ void MetaDataConfigurationDialog::slotButtonClicked(int button)
     }
 }
 
-#include "metadataconfigurationdialog.moc"
+#include "kmetadataconfigurationdialog.moc"
