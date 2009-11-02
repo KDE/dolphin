@@ -20,7 +20,6 @@
 #ifndef KMETADATAWIDGET_H
 #define KMETADATAWIDGET_H
 
-#include <kfile_export.h>
 #include <kfileitem.h>
 
 #include <QList>

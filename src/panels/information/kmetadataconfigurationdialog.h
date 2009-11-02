@@ -20,7 +20,6 @@
 #define KMETA_DATA_CONFIGURATION_DIALOG_H
 
 #include <kdialog.h>
-#include <kfile_export.h>
 
 class KMetaDataWidget;
 
@@ -28,7 +27,7 @@ class KMetaDataWidget;
  * @brief Dialog which allows to configure which meta data should be shown.
  * @see KMetaDataWidget
  */
-class KFILE_EXPORT KMetaDataConfigurationDialog : public KDialog
+class KMetaDataConfigurationDialog : public KDialog
 {
     Q_OBJECT
 
