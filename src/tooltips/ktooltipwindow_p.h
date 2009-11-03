@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008 by Simon St James <kdedevel@etotheipiplusone.com>  *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,36 +17,29 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphintooltip.h"
+#ifndef KTOOLTIPWINDOW_H
+#define KTOOLTIPWINDOW_H
 
-#include <kicon.h>
-#include <kio/previewjob.h>
-#include <kfileitem.h>
+#include <QWidget>
+class QPaintEvent;
 
-#include <QtGui/QPixmap>
-
-DolphinBalloonTooltipDelegate::DolphinBalloonTooltipDelegate()
+class KToolTipWindow : public QWidget
 {
-}
+    Q_OBJECT
 
-DolphinBalloonTooltipDelegate::~DolphinBalloonTooltipDelegate()
-{
-}
+public:
+    explicit KToolTipWindow(QWidget* content);
+    virtual ~KToolTipWindow();
 
-// Delegate everything to the base class, after re-setting the decorationSize
-// to the preview size.
-QSize DolphinBalloonTooltipDelegate::sizeHint(const KStyleOptionToolTip& option, const KToolTipItem& item) const
-{
-    KStyleOptionToolTip updatedStyleOption = option;
-    updatedStyleOption.decorationSize = QSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
-    return KFormattedBalloonTipDelegate::sizeHint(updatedStyleOption, item);
-}
+protected:
+    virtual void paintEvent(QPaintEvent* event);
 
-void DolphinBalloonTooltipDelegate::paint(QPainter* painter,
-                                          const KStyleOptionToolTip& option,
-                                          const KToolTipItem& item) const
-{
-    KStyleOptionToolTip updatedStyleOption = option;
-    updatedStyleOption.decorationSize = QSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
-    return KFormattedBalloonTipDelegate::paint(painter, updatedStyleOption, item);
-}
+private:
+    /**
+     * Helper method for KToolTipWindow::paintEvent() to adjust the painter path \p path
+     * by rounded corners.
+     */
+    static void arc(QPainterPath& path, qreal cx, qreal cy, qreal radius, qreal angle, qreal sweeplength);
+};
+
+#endif

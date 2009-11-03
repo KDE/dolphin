@@ -67,7 +67,13 @@ private slots:
     void previewFailed();
 
 private:
-    void showToolTip(const QIcon& icon, const QString& text);
+    void showToolTip(const QPixmap& pixmap);
+
+    /**
+     * Creates widget that represents the tip content having
+     * an icon and the meta data information.
+     */
+    QWidget* createTipContent(const QPixmap& pixmap) const;
 
     QAbstractItemView* m_view;
     DolphinModel* m_dolphinModel;

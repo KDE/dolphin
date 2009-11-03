@@ -18,210 +18,84 @@
  ***************************************************************************/
 
 #include "ktooltip.h"
-#include "ktooltip_p.h"
-#include "ktooltipdelegate.h"
-
-#include <QApplication>
-#include <QPainter>
+#include "ktooltipwindow_p.h"
+#include <QLabel>
+#include <QPoint>
 #include <QWidget>
-#include <QToolTip>
 
-#ifdef Q_WS_X11
-#  include <QX11Info>
-#  include <X11/Xlib.h>
-#  include <X11/extensions/shape.h>
-#endif
-
-// compile with XShape older than 1.0
-#ifndef ShapeInput
-const int ShapeInput = 2;
-#endif
-
-
-// ----------------------------------------------------------------------------
-
-
-class KTipLabel : public QWidget
+class KToolTipManager
 {
 public:
-    KTipLabel();
-    void showTip(const QPoint &pos, const KToolTipItem *item);
-    void moveTip(const QPoint &pos);
+    ~KToolTipManager();
+
+    static KToolTipManager* instance();
+
+    void showTip(const QPoint& pos, QWidget* content);
     void hideTip();
 
 private:
-    void paintEvent(QPaintEvent*);
-    QSize sizeHint() const;
-    KStyleOptionToolTip styleOption() const;
-    KToolTipDelegate *delegate() const;
+    KToolTipManager();
 
-private:
-    const KToolTipItem *m_currentItem;
+    KToolTipWindow* m_window;
+    static KToolTipManager *s_instance;
 };
-
-KTipLabel::KTipLabel() : QWidget(0, Qt::ToolTip)
-{
-#ifdef Q_WS_X11
-    if (QX11Info::isCompositingManagerRunning()) {
-        setAttribute(Qt::WA_TranslucentBackground);
-    }
-#endif
-}
-
-void KTipLabel::showTip(const QPoint &pos, const KToolTipItem *item)
-{
-    m_currentItem = item;
-    move(pos);
-    show();
-}
-
-void KTipLabel::hideTip()
-{
-    hide();
-    m_currentItem = 0;
-}
-
-void KTipLabel::moveTip(const QPoint &pos)
-{
-    move(pos);
-}
-
-void KTipLabel::paintEvent(QPaintEvent*)
-{
-    if (!m_currentItem)
-        return;
-    
-    KStyleOptionToolTip option = styleOption();
-    option.rect = rect();
-
-#ifdef Q_WS_X11
-    if (QX11Info::isCompositingManagerRunning())
-        XShapeCombineRegion(x11Info().display(), winId(), ShapeInput, 0, 0,
-                            delegate()->inputShape(option).handle(), ShapeSet);
-    else
-#endif
-    setMask(delegate()->shapeMask(option));
-
-    QPainter p(this);
-    p.setFont(option.font);
-    p.setPen(QPen(option.palette.brush(QPalette::Text), 0));
-    delegate()->paint(&p, option, *m_currentItem);
-}
-
-QSize KTipLabel::sizeHint() const
-{
-    if (!m_currentItem)
-        return QSize();
-
-    KStyleOptionToolTip option = styleOption();
-    return delegate()->sizeHint(option, *m_currentItem);
-}
-
-KStyleOptionToolTip KTipLabel::styleOption() const
-{
-     KStyleOptionToolTip option;
-     KToolTipManager::instance()->initStyleOption(&option);
-     return option;
-}
-
-KToolTipDelegate *KTipLabel::delegate() const
-{
-    return KToolTipManager::instance()->delegate();
-}
-
-
-// ----------------------------------------------------------------------------
-
 
 KToolTipManager *KToolTipManager::s_instance = 0;
 
-KToolTipManager::KToolTipManager()
-    : m_label(new KTipLabel), m_currentItem(0), m_delegate(0)
+KToolTipManager::KToolTipManager() :
+    m_window(0)
 {
 }
 
 KToolTipManager::~KToolTipManager()
 {
-    delete m_label;
-    delete m_currentItem;
+    delete m_window;
+    m_window = 0;
 }
 
-void KToolTipManager::showTip(const QPoint &pos, KToolTipItem *item)
+KToolTipManager* KToolTipManager::instance()
+{
+    if (s_instance == 0) {
+        s_instance = new KToolTipManager();
+    }
+
+    return s_instance;
+}
+
+void KToolTipManager::showTip(const QPoint& pos, QWidget* content)
 {
     hideTip();
-    m_label->showTip(pos, item);
-    m_currentItem = item;
-    m_tooltipPos = pos;
+    Q_ASSERT(m_window == 0);
+    m_window = new KToolTipWindow(content);
+    m_window->move(pos);
+    m_window->show();
 }
 
 void KToolTipManager::hideTip()
 {
-    m_label->hideTip();
-    delete m_currentItem;
-    m_currentItem = 0;
+    if (m_window != 0) {
+        m_window->hide();
+        delete m_window;
+        m_window = 0;
+    }
 }
-
-void KToolTipManager::initStyleOption(KStyleOptionToolTip *option) const
-{
-    option->direction      = QApplication::layoutDirection();
-    option->fontMetrics    = QFontMetrics(QToolTip::font());
-    option->activeCorner   = KStyleOptionToolTip::TopLeftCorner;
-    option->palette        = QToolTip::palette();
-    option->font           = QToolTip::font();
-    option->rect           = QRect();
-    option->state          = QStyle::State_None;
-    option->decorationSize = QSize(32, 32);
-}
-
-void KToolTipManager::setDelegate(KToolTipDelegate *delegate)
-{
-    m_delegate = delegate;
-}
-
-void KToolTipManager::update()
-{
-    if (m_currentItem == 0)
-        return;
-    m_label->showTip(m_tooltipPos, m_currentItem);
-}
-
-KToolTipDelegate *KToolTipManager::delegate() const
-{
-    return m_delegate;
-}
-
-
-// ----------------------------------------------------------------------------
-
 
 namespace KToolTip
 {
-    void showText(const QPoint &pos, const QString &text, QWidget *widget, const QRect &rect)
+    void showText(const QPoint& pos, const QString& text)
     {
-        Q_UNUSED(widget)
-        Q_UNUSED(rect)
-        KToolTipItem *item = new KToolTipItem(text);
-        KToolTipManager::instance()->showTip(pos, item);
+        QLabel* label = new QLabel(text);
+        showTip(pos, label);
     }
 
-    void showText(const QPoint &pos, const QString &text, QWidget *widget)
+    void showTip(const QPoint& pos, QWidget* content)
     {
-        showText(pos, text, widget, QRect());
-    }
-
-    void showTip(const QPoint &pos, KToolTipItem *item)
-    {
-        KToolTipManager::instance()->showTip(pos, item);
+        KToolTipManager::instance()->showTip(pos, content);
     }
 
     void hideTip()
     {
         KToolTipManager::instance()->hideTip();
-    }
-
-    void setToolTipDelegate(KToolTipDelegate *delegate)
-    {
-        KToolTipManager::instance()->setDelegate(delegate);
     }
 }
 

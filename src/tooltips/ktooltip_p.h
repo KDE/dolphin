@@ -31,30 +31,15 @@ class KToolTipManager
 public:
     ~KToolTipManager();
 
-    static KToolTipManager *instance() {
-        if (!s_instance)
-            s_instance = new KToolTipManager();
+    static KToolTipManager* instance();
 
-        return s_instance;
-    }
-
-    void showTip(const QPoint &pos, KToolTipItem *item);
+    void showTip(const QPoint &pos, QWidget *tip);
     void hideTip();
-
-    void initStyleOption(KStyleOptionToolTip *option) const;
-
-    void setDelegate(KToolTipDelegate *delegate);
-    KToolTipDelegate *delegate() const;
-    
-    void update();
 
 private:
     KToolTipManager();
 
-    KTipLabel *m_label;
-    KToolTipItem *m_currentItem;
-    KToolTipDelegate *m_delegate;
-
+    QWidget *m_widget;
     QPoint m_tooltipPos;
 
     static KToolTipManager *s_instance;

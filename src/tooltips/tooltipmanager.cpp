@@ -19,25 +19,22 @@
 
 #include "tooltipmanager.h"
 
-#include "dolphintooltip.h"
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 
 #include <kicon.h>
-#include <tooltips/ktooltip.h>
 #include <kio/previewjob.h>
+
+#include "panels/information/kmetadatawidget.h"
+#include "tooltips/ktooltip.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QHBoxLayout>
+#include <QLabel>
+#include <QScrollArea>
 #include <QScrollBar>
 #include <QTimer>
-#include <QToolTip>
-
-const int ICON_WIDTH = 128;
-const int ICON_HEIGHT = 128;
-const int PREVIEW_DELAY = 250;
-
-K_GLOBAL_STATIC(DolphinBalloonTooltipDelegate, g_delegate)
 
 ToolTipManager::ToolTipManager(QAbstractItemView* parent,
                                DolphinSortFilterProxyModel* model) :
@@ -54,8 +51,6 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_hasDefaultIcon(false),
     m_previewPixmap()
 {
-    KToolTip::setToolTipDelegate(g_delegate);
-
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
     connect(parent, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(requestToolTip(const QModelIndex&)));
@@ -157,36 +152,55 @@ void ToolTipManager::prepareToolTip()
         m_waitOnPreviewTimer->start(250);
     }
 
-    const QString text = m_item.getToolTipText();
     if (!m_previewPixmap.isNull()) {
-        showToolTip(KIcon(m_previewPixmap), text);
+        showToolTip(m_previewPixmap);
     } else if (!m_hasDefaultIcon) {
-        const QPixmap image(KIcon(m_item.iconName()).pixmap(ICON_WIDTH, ICON_HEIGHT));
-        showToolTip(image, text);
+        const QPixmap image(KIcon(m_item.iconName()).pixmap(128, 128));
+        showToolTip(image);
         m_hasDefaultIcon = true;
     }
 }
 
-void ToolTipManager::showToolTip(const QIcon& icon, const QString& text)
+void ToolTipManager::startPreviewJob()
+{
+    m_generatingPreview = true;
+    KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item, 256, 256);
+
+    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+            this, SLOT(setPreviewPix(const KFileItem&, const QPixmap&)));
+    connect(job, SIGNAL(failed(const KFileItem&)),
+            this, SLOT(previewFailed()));
+}
+
+
+void ToolTipManager::setPreviewPix(const KFileItem& item,
+                                   const QPixmap& pixmap)
+{
+    if ((m_item.url() != item.url()) || pixmap.isNull()) {
+        // an old preview or an invalid preview has been received
+        previewFailed();
+    } else {
+        m_previewPixmap = pixmap;
+        m_generatingPreview = false;
+    }
+}
+
+void ToolTipManager::previewFailed()
+{
+    m_generatingPreview = false;
+}
+
+
+void ToolTipManager::showToolTip(const QPixmap& pixmap)
 {
     if (QApplication::mouseButtons() & Qt::LeftButton) {
         return;
     }
 
-    KToolTipItem* tip = new KToolTipItem(icon, text);
+    QWidget* tip = createTipContent(pixmap);
 
-    KStyleOptionToolTip option;
-    // TODO: get option content from KToolTip or add KToolTip::sizeHint() method
-    option.direction      = QApplication::layoutDirection();
-    option.fontMetrics    = QFontMetrics(QToolTip::font());
-    option.activeCorner   = KStyleOptionToolTip::TopLeftCorner;
-    option.palette        = QToolTip::palette();
-    option.font           = QToolTip::font();
-    option.rect           = QRect();
-    option.state          = QStyle::State_None;
-    option.decorationSize = QSize(32, 32);
-
-    const QSize size = g_delegate->sizeHint(option, *tip);
+    // calculate the x- and y-position of the tooltip
+    const QSize size = tip->sizeHint();
     const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
 
     // m_itemRect defines the area of the item, where the tooltip should be
@@ -225,37 +239,24 @@ void ToolTipManager::showToolTip(const QIcon& icon, const QString& text)
     KToolTip::showTip(QPoint(x, y), tip);
 }
 
-
-
-void ToolTipManager::startPreviewJob()
+QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
 {
-    m_generatingPreview = true;
-    KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item,
-                                            PREVIEW_WIDTH,
-                                            PREVIEW_HEIGHT);
+    QWidget* tipContent = new QWidget();
 
-    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-            this, SLOT(setPreviewPix(const KFileItem&, const QPixmap&)));
-    connect(job, SIGNAL(failed(const KFileItem&)),
-            this, SLOT(previewFailed()));
-}
+    QLabel* pixmapLabel = new QLabel(tipContent);
+    pixmapLabel->setPixmap(pixmap);
+    pixmapLabel->setFixedSize(pixmap.size());
 
+    KMetaDataWidget* metaDataWidget = new KMetaDataWidget(tipContent);
+    metaDataWidget->setItem(m_item);
+    metaDataWidget->setFixedSize(metaDataWidget->sizeHint());
 
-void ToolTipManager::setPreviewPix(const KFileItem& item,
-                                   const QPixmap& pixmap)
-{
-    if ((m_item.url() != item.url()) || pixmap.isNull()) {
-        // an old preview or an invalid preview has been received
-        previewFailed();
-    } else {
-        m_previewPixmap = pixmap;
-        m_generatingPreview = false;
-    }
-}
+    QHBoxLayout* tipLayout = new QHBoxLayout(tipContent);
+    tipLayout->setMargin(0);
+    tipLayout->addWidget(pixmapLabel);
+    tipLayout->addWidget(metaDataWidget);
 
-void ToolTipManager::previewFailed()
-{
-    m_generatingPreview = false;
+    return tipContent;
 }
 
 #include "tooltipmanager.moc"

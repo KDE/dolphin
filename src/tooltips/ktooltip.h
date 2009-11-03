@@ -20,35 +20,27 @@
 #ifndef KTOOLTIP_H
 #define KTOOLTIP_H
 
-#include <tooltips/ktooltipitem.h>
-
-#include <QStyle>
-#include <QFontMetrics>
-class KToolTipDelegate;
+class QPoint;
+class QString;
+class QWidget;
 
 /**
- * KToolTip provides customizable tooltips that can have animations as well as an alpha
- * channel, allowing for dynamic transparency effects.
- *
- * ARGB tooltips work on X11 even when the application isn't using the ARGB visual.
+ * Allows to show tooltips having a widget as content.
  */
 namespace KToolTip
 {
-    void showText(const QPoint &pos, const QString &text, QWidget *widget, const QRect &rect);
-    void showText(const QPoint &pos, const QString &text, QWidget *widget = 0);
-
+    void showText(const QPoint& pos, const QString& text);
+    
     /**
-     * Shows the tip @p item at the global position indicated by @p pos.
+     * Shows the tip @p content at the global position indicated by @p pos.
      *
-     * Ownership of the item is transferred to KToolTip. The item will be deleted
+     * Ownership of the content widget is transferred to KToolTip. The widget will be deleted
      * automatically when it is hidden.
      *
      * The tip is shown immediately when this function is called.
      */
-    void showTip(const QPoint &pos, KToolTipItem *item);
+    void showTip(const QPoint& pos, QWidget* content);
     void hideTip();
-
-    void setToolTipDelegate(KToolTipDelegate *delegate);
 }
 
 #endif

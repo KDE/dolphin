@@ -64,7 +64,7 @@ public:
 
     virtual ~PixmapViewer();
     void setPixmap(const QPixmap& pixmap);
-    const QPixmap& pixmap() const;
+    QPixmap pixmap() const;
 
     /**
      * Sets the size hint to \a size and triggers a relayout
@@ -89,7 +89,7 @@ private:
     QSize m_sizeHint;
 };
 
-inline const QPixmap& PixmapViewer::pixmap() const
+inline QPixmap PixmapViewer::pixmap() const
 {
     return m_pixmap;
 }
