@@ -57,6 +57,7 @@ set(dolphinprivate_LIB_SRCS
   ${dolphinprivate_LIB_SRCS}
   panels/information/kcommentwidget.cpp
   panels/information/kedittagsdialog.cpp
+  panels/information/kloadmetadatathread.cpp
   panels/information/nepomukmassupdatejob.cpp
   panels/information/ktaggingwidget.cpp
 )
@@ -168,6 +169,7 @@ set(dolphin_SRCS
   ${dolphin_SRCS}
   panels/information/kcommentwidget.cpp
   panels/information/kedittagsdialog.cpp
+  panels/information/kloadmetadatathread.cpp
   panels/information/nepomukmassupdatejob.cpp
   panels/information/ktaggingwidget.cpp
 )

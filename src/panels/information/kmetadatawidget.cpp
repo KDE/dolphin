@@ -36,18 +36,25 @@
     #define DISABLE_NEPOMUK_LEGACY
 
     #include "kcommentwidget_p.h"
+    #include "kloadmetadatathread_p.h"
     #include "ktaggingwidget_p.h"
 
     #include <nepomuk/kratingwidget.h>
     #include <nepomuk/resource.h>
     #include <nepomuk/resourcemanager.h>
     #include <nepomuk/property.h>
+    #include <nepomuk/tag.h>
     #include <nepomuk/variant.h>
     #include "nepomukmassupdatejob_p.h"
 
     #include <QMutex>
     #include <QSpacerItem>
     #include <QThread>
+#else
+    namespace Nepomuk
+    {
+        typedef int Tag;
+    }
 #endif
 
 class KMetaDataWidget::Private
@@ -80,9 +87,11 @@ public:
     void updateRowsVisibility();
 
     void slotLoadingFinished();
+
     void slotRatingChanged(unsigned int rating);
     void slotTagsChanged(const QList<Nepomuk::Tag>& tags);
     void slotCommentChanged(const QString& comment);
+
     void slotMetaDataUpdateDone();
 
     /**
@@ -111,54 +120,9 @@ public:
     KTaggingWidget* m_taggingWidget;
     KCommentWidget* m_commentWidget;
 
-    // shared data between the GUI-thread and
-    // the loader-thread (see LoadFilesThread):
-    QMutex m_mutex;
-    struct SharedData
-    {
-        int rating;
-        QString comment;
-        QList<Nepomuk::Tag> tags;
-        QList<QString> metaInfoLabels;
-        QList<QString> metaInfoValues;
-        QMap<KUrl, Nepomuk::Resource> files;
-    } m_sharedData;
+    QMap<KUrl, Nepomuk::Resource> m_files;
 
-    /**
-     * Loads the meta data of files and writes
-     * the result into a shared data pool that
-     * can be used by the widgets in the GUI thread.
-     */
-    class LoadFilesThread : public QThread
-    {
-    public:
-        LoadFilesThread(SharedData* m_sharedData, QMutex* m_mutex);
-        virtual ~LoadFilesThread();
-        void loadFiles(const KUrl::List& urls);
-        virtual void run();
-
-    private:
-        /**
-         * Assures that the settings for the meta information
-         * are initialized with proper default values.
-         */
-        void initMetaInfoSettings(KConfigGroup& group);
-
-        /**
-         * Temporary helper method for KDE 4.3 as we currently don't get
-         * translated labels for Nepmok literals: Replaces camelcase labels
-         * like "fileLocation" by "File Location:".
-         */
-        QString tunedLabel(const QString& label) const;
-
-    private:
-        SharedData* m_sharedData;
-        QMutex* m_mutex;
-        KUrl::List m_urls;
-        bool m_canceled;
-    };
-
-    LoadFilesThread* m_loadFilesThread;
+    KLoadMetaDataThread* m_loadMetaDataThread;
 #endif
 
 private:
@@ -182,7 +146,8 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     m_ratingWidget(0),
     m_taggingWidget(0),
     m_commentWidget(0),
-    m_loadFilesThread(0),
+    m_files(),
+    m_loadMetaDataThread(0),
 #endif
     q(parent)
 {
@@ -221,12 +186,7 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
         addRow(new QLabel(i18nc("@label", "Rating:"), parent), m_ratingWidget);
         addRow(new QLabel(i18nc("@label", "Tags:"), parent), m_taggingWidget);
         addRow(new QLabel(i18nc("@label", "Comment:"), parent), m_commentWidget);
-
-        m_loadFilesThread = new LoadFilesThread(&m_sharedData, &m_mutex);
-        connect(m_loadFilesThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
     }
-
-    m_sharedData.rating = 0;
 #endif
 
     initMetaInfoSettings();
@@ -236,7 +196,11 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
 KMetaDataWidget::Private::~Private()
 {
 #ifdef HAVE_NEPOMUK
-    delete m_loadFilesThread;
+    if (m_loadMetaDataThread != 0) {
+        disconnect(m_loadMetaDataThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
+        m_loadMetaDataThread->cancelAndDelete();
+        m_loadMetaDataThread = 0;
+    }
 #endif
 }
 
@@ -360,10 +324,10 @@ void KMetaDataWidget::Private::updateRowsVisibility()
 void KMetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
-    QMutexLocker locker(&m_mutex);
-    m_ratingWidget->setRating(m_sharedData.rating);
-    m_commentWidget->setText(m_sharedData.comment);
-    m_taggingWidget->setTags(m_sharedData.tags);
+    Q_ASSERT(m_loadMetaDataThread != 0);
+    m_ratingWidget->setRating(m_loadMetaDataThread->rating());
+    m_commentWidget->setText(m_loadMetaDataThread->comment());
+    m_taggingWidget->setTags(m_loadMetaDataThread->tags());
 
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
@@ -372,19 +336,21 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     const int rowCount = m_rows.count();
     Q_ASSERT(rowCount >= index);
 
-    Q_ASSERT(m_sharedData.metaInfoLabels.count() == m_sharedData.metaInfoValues.count());
-    const int metaInfoCount = m_sharedData.metaInfoLabels.count();
+    Q_ASSERT(m_loadMetaDataThread->metaInfoLabels().count() == m_loadMetaDataThread->metaInfoValues().count());
+    const int metaInfoCount = m_loadMetaDataThread->metaInfoLabels().count();
     for (int i = 0; i < metaInfoCount; ++i) {
+        const QList<QString> metaInfoLabels = m_loadMetaDataThread->metaInfoLabels();
+        const QList<QString> metaInfoValues = m_loadMetaDataThread->metaInfoValues();
         if (index < rowCount) {
             // adjust texts of the current row
-            m_rows[index].label->setText(m_sharedData.metaInfoLabels[i]);
+            m_rows[index].label->setText(metaInfoLabels[i]);
             QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[index].infoWidget);
             Q_ASSERT(infoValueLabel != 0);
-            infoValueLabel->setText(m_sharedData.metaInfoValues[i]);
+            infoValueLabel->setText(metaInfoValues[i]);
         } else {
             // create new row
-            QLabel* infoLabel = new QLabel(m_sharedData.metaInfoLabels[i], q);
-            QLabel* infoValue = new QLabel(m_sharedData.metaInfoValues[i], q);
+            QLabel* infoLabel = new QLabel(metaInfoLabels[i], q);
+            QLabel* infoValue = new QLabel(metaInfoValues[i], q);
             addRow(infoLabel, infoValue);
         }
         ++index;
@@ -399,18 +365,24 @@ void KMetaDataWidget::Private::slotLoadingFinished()
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
     }
+
+    m_files = m_loadMetaDataThread->files();
+
+    delete m_loadMetaDataThread;
+    m_loadMetaDataThread = 0;
 #endif
+
     q->updateGeometry();
 }
 
 void KMetaDataWidget::Private::slotRatingChanged(unsigned int rating)
 {
 #ifdef HAVE_NEPOMUK
-    QMutexLocker locker(&m_mutex);
     Nepomuk::MassUpdateJob* job =
-            Nepomuk::MassUpdateJob::rateResources(m_sharedData.files.values(), rating);
-    locker.unlock();
+        Nepomuk::MassUpdateJob::rateResources(m_files.values(), rating);
     startChangeDataJob(job);
+#else
+    Q_UNUSED(rating);
 #endif
 }
 
@@ -419,30 +391,33 @@ void KMetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
 #ifdef HAVE_NEPOMUK
     m_taggingWidget->setTags(tags);
 
-    QMutexLocker locker(&m_mutex);
     Nepomuk::MassUpdateJob* job =
-            Nepomuk::MassUpdateJob::tagResources(m_sharedData.files.values(), tags);
-    locker.unlock();
+        Nepomuk::MassUpdateJob::tagResources(m_files.values(), tags);
     startChangeDataJob(job);
+#else
+    Q_UNUSED(tags);
 #endif
 }
 
 void KMetaDataWidget::Private::slotCommentChanged(const QString& comment)
 {
 #ifdef HAVE_NEPOMUK
-    QMutexLocker locker(&m_mutex);
     Nepomuk::MassUpdateJob* job =
-            Nepomuk::MassUpdateJob::commentResources(m_sharedData.files.values(), comment);
-    locker.unlock();
+        Nepomuk::MassUpdateJob::commentResources(m_files.values(), comment);
     startChangeDataJob(job);
+#else
+    Q_UNUSED(comment);
 #endif
 }
 
 void KMetaDataWidget::Private::slotMetaDataUpdateDone()
 {
+#ifdef HAVE_NEPOMUK
     q->setEnabled(true);
+#endif
 }
 
+#ifdef HAVE_NEPOMUK
 void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
 {
     connect(job, SIGNAL(result(KJob*)),
@@ -450,127 +425,7 @@ void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
     q->setEnabled(false); // no updates during execution
     job->start();
 }
-
-#ifdef HAVE_NEPOMUK
-KMetaDataWidget::Private::LoadFilesThread::LoadFilesThread(
-                            KMetaDataWidget::Private::SharedData* m_sharedData,
-                            QMutex* m_mutex) :
-    m_sharedData(m_sharedData),
-    m_mutex(m_mutex),
-    m_urls(),
-    m_canceled(false)
-{
-}
-
-KMetaDataWidget::Private::LoadFilesThread::~LoadFilesThread()
-{
-    // This thread may very well be deleted during execution. We need
-    // to protect it from crashes here.
-    m_canceled = true;
-    wait();
-}
-
-void KMetaDataWidget::Private::LoadFilesThread::loadFiles(const KUrl::List& urls)
-{
-    QMutexLocker locker(m_mutex);
-    m_urls = urls;
-    m_canceled = false;
-    start();
-}
-
-void KMetaDataWidget::Private::LoadFilesThread::run()
-{
-    QMutexLocker locker(m_mutex);
-    const KUrl::List urls = m_urls;
-    locker.unlock();
-
-    KConfig config("kmetainformationrc", KConfig::NoGlobals);
-    KConfigGroup settings = config.group("Show");
-
-    bool first = true;
-    unsigned int rating = 0;
-    QString comment;
-    QList<Nepomuk::Tag> tags;
-    QList<QString> metaInfoLabels;
-    QList<QString> metaInfoValues;
-    QMap<KUrl, Nepomuk::Resource> files;
-    foreach (const KUrl& url, urls) {
-        if (m_canceled) {
-            return;
-        }
-
-        Nepomuk::Resource file(url);
-        files.insert(url, file);
-
-        if (!first && (rating != file.rating())) {
-            rating = 0; // reset rating
-        } else if (first) {
-            rating = file.rating();
-        }
-
-        if (!first && (comment != file.description())) {
-            comment.clear(); // reset comment
-        } else if (first) {
-            comment = file.description();
-        }
-
-        if (!first && (tags != file.tags())) {
-            tags.clear(); // reset tags
-        } else if (first) {
-            tags = file.tags();
-        }
-
-        if (first && (urls.count() == 1)) {
-            // TODO: show shared meta information instead
-            // of not showing anything on multiple selections
-            QHash<QUrl, Nepomuk::Variant> properties = file.properties();
-            QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
-            while (it != properties.constEnd()) {
-                Nepomuk::Types::Property prop(it.key());
-                if (settings.readEntry(prop.name(), true)) {
-                    // TODO #1: use Nepomuk::formatValue(res, prop) if available
-                    // instead of it.value().toString()
-                    // TODO #2: using tunedLabel() is a workaround for KDE 4.3 (4.4?) until
-                    // we get translated labels
-                    metaInfoLabels.append(tunedLabel(prop.label()));
-                    metaInfoValues.append(it.value().toString());
-                }
-                ++it;
-            }
-        }
-
-        first = false;
-    }
-
-    locker.relock();
-    m_sharedData->rating = rating;
-    m_sharedData->comment = comment;
-    m_sharedData->tags = tags;
-    m_sharedData->metaInfoLabels = metaInfoLabels;
-    m_sharedData->metaInfoValues = metaInfoValues;
-    m_sharedData->files = files;
-}
-
-QString KMetaDataWidget::Private::LoadFilesThread::tunedLabel(const QString& label) const
-{
-    QString tunedLabel;
-    const int labelLength = label.length();
-    if (labelLength > 0) {
-        tunedLabel.reserve(labelLength);
-        tunedLabel = label[0].toUpper();
-        for (int i = 1; i < labelLength; ++i) {
-            if (label[i].isUpper() && !label[i - 1].isSpace() && !label[i - 1].isUpper()) {
-                tunedLabel += ' ';
-                tunedLabel += label[i].toLower();
-            } else {
-                tunedLabel += label[i];
-            }
-        }
-    }
-    return tunedLabel + ':';
-}
-
-#endif // HAVE_NEPOMUK
+#endif
 
 KMetaDataWidget::KMetaDataWidget(QWidget* parent) :
     QWidget(parent),
@@ -631,7 +486,15 @@ void KMetaDataWidget::setItems(const KFileItemList& items)
                 urls.append(url);
             }
         }
-        d->m_loadFilesThread->loadFiles(urls);
+
+        if (d->m_loadMetaDataThread != 0) {
+            disconnect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
+            d->m_loadMetaDataThread->cancelAndDelete();
+        }
+
+        d->m_loadMetaDataThread = new KLoadMetaDataThread();
+        connect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
+        d->m_loadMetaDataThread->load(urls);
     }
 #endif
 }
@@ -668,6 +531,22 @@ void KMetaDataWidget::setVisibleDataTypes(MetaDataTypes data)
 KMetaDataWidget::MetaDataTypes KMetaDataWidget::visibleDataTypes() const
 {
     return d->m_visibleDataTypes;
+}
+
+QSize KMetaDataWidget::sizeHint() const
+{
+    const int fixedWidth = 200;
+    int height = 0;
+    foreach (const Private::Row& row, d->m_rows) {
+        if (row.infoWidget != 0) {
+            int rowHeight = row.infoWidget->heightForWidth(fixedWidth / 2);
+            if (rowHeight <= 0) {
+                rowHeight = row.infoWidget->sizeHint().height();
+            }
+            height += rowHeight;
+        }
+    }
+    return QSize(fixedWidth, height);
 }
 
 #include "kmetadatawidget.moc"

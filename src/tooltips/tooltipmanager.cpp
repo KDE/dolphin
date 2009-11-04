@@ -249,7 +249,7 @@ QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
 
     KMetaDataWidget* metaDataWidget = new KMetaDataWidget(tipContent);
     metaDataWidget->setItem(m_item);
-    metaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Maximum);
+    metaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
     QHBoxLayout* tipLayout = new QHBoxLayout(tipContent);
     tipLayout->setMargin(0);

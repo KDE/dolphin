@@ -112,6 +112,9 @@ public:
      */
     MetaDataTypes visibleDataTypes() const;
 
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
+
 private:
     class Private;
     Private* d;
