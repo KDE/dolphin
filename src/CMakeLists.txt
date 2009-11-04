@@ -107,6 +107,7 @@ install(TARGETS fileviewsvnplugin DESTINATION ${PLUGIN_INSTALL_DIR})
 install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install(FILES fileviewsvnplugin.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+install(FILES fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 
 ##########################################
 

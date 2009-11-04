@@ -1,0 +1,4 @@
+[Desktop Entry]
+Type=ServiceType
+X-KDE-ServiceType=FileViewVersionControlPlugin
+Comment=Version Control Plugin for File Views

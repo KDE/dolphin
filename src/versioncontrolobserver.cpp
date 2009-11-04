@@ -184,6 +184,7 @@ void VersionControlObserver::silentDirectoryVerification()
     m_dirVerificationTimer->start();
 }
 
+#include <kdebug.h>
 void VersionControlObserver::verifyDirectory()
 {
     KUrl versionControlUrl = m_dirLister->url();
@@ -191,13 +192,15 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-     if (m_plugin == 0) {
-        // TODO: does not work yet
+    if (m_plugin == 0) {
+        return; // TODO: does not work yet, m_plugin will always be 0
+
+        kDebug() << "Searching FileViewVersionControlPlugins...";
         const KService::List plugins = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
-        for (KService::List::ConstIterator it = plugins.begin(); it != plugins.end(); ++it) {
-            // kDebug() << "plugin: " << (*it)->desktopEntryName();
+        for (KService::List::ConstIterator it = plugins.constBegin(); it != plugins.constEnd(); ++it) {
+            kDebug() << "found plugin" << (*it)->desktopEntryName();           
+            m_plugin = (*it)->createInstance<KVersionControlPlugin>();
         }
-        return;
 
         connect(m_plugin, SIGNAL(infoMessage(const QString&)),
                 this, SIGNAL(infoMessage(const QString&)));
