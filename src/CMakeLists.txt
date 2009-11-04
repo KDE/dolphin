@@ -41,6 +41,8 @@ set(dolphinprivate_LIB_SRCS
     settings/dolphinsettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
+    panels/information/kmetadatawidget.cpp
+    panels/information/kmetadataconfigurationdialog.cpp
     tooltips/ktooltip.cpp
     tooltips/ktooltipwindow.cpp
     tooltips/tooltipmanager.cpp
@@ -49,6 +51,16 @@ set(dolphinprivate_LIB_SRCS
     viewproperties.cpp
     zoomlevelinfo.cpp
     )
+    
+if(Nepomuk_FOUND)
+set(dolphinprivate_LIB_SRCS
+  ${dolphinprivate_LIB_SRCS}
+  panels/information/kcommentwidget.cpp
+  panels/information/kedittagsdialog.cpp
+  panels/information/nepomukmassupdatejob.cpp
+  panels/information/ktaggingwidget.cpp
+)
+endif(Nepomuk_FOUND)
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_columnmodesettings.kcfgc
@@ -159,7 +171,6 @@ set(dolphin_SRCS
   panels/information/nepomukmassupdatejob.cpp
   panels/information/ktaggingwidget.cpp
 )
-
 endif(Nepomuk_FOUND)
 
 if(NOT WIN32)

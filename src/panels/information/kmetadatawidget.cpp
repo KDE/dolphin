@@ -400,6 +400,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
         m_rows.pop_back();
     }
 #endif
+    q->updateGeometry();
 }
 
 void KMetaDataWidget::Private::slotRatingChanged(unsigned int rating)
