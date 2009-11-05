@@ -174,7 +174,7 @@ QString KLoadMetaDataThread::tunedLabel(const QString& label) const
 QString KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
 {
     if (value.isDateTime()) {
-        return KGlobal::locale()->formatDateTime( value.toDateTime(), KLocale::FancyShortDate );
+        return KGlobal::locale()->formatDateTime( value.toDateTime(), KLocale::FancyLongDate );
     }
     else if (value.isResource()) {
         return value.toResource().genericLabel();

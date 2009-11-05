@@ -23,6 +23,7 @@
 #include <kconfiggroup.h>
 #include <kfileitem.h>
 #include <kglobalsettings.h>
+#include <kglobal.h>
 #include <klocale.h>
 
 #include <QFontMetrics>
@@ -451,7 +452,7 @@ void KMetaDataWidget::setItem(const KFileItem& item)
         d->m_sizeInfo->setText(KIO::convertSize(item.size()));
         d->setRowVisible(d->m_sizeInfo, d->m_isSizeVisible);
     }
-    d->m_modifiedInfo->setText(item.timeString());
+    d->m_modifiedInfo->setText(KGlobal::locale()->formatDateTime(item.time(KFileItem::ModificationTime), KLocale::FancyLongDate));
     d->m_ownerInfo->setText(item.user());
     d->m_permissionsInfo->setText(item.permissionsString());
 
