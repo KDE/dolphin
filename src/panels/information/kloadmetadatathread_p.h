@@ -83,6 +83,12 @@ private:
      */
     QString tunedLabel(const QString& label) const;
 
+    /**
+     * Temporary helper method which tries to pretty print
+     * values.
+     */
+    QString formatValue(const Nepomuk::Variant& value);
+
 private:
     int m_rating;
     QString m_comment;

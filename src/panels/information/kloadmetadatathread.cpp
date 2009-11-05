@@ -1,5 +1,6 @@
 /*****************************************************************************
  * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ * Copyright (C) 2009 by Sebastian Trueg <trueg@kde.org>                     *
  *                                                                           *
  * This library is free software; you can redistribute it and/or             *
  * modify it under the terms of the GNU Library General Public               *
@@ -20,8 +21,11 @@
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
+#include <kglobal.h>
+#include <klocale.h>
 
 #include <nepomuk/variant.h>
+#include <nepomuk/resource.h>
 
 KLoadMetaDataThread::KLoadMetaDataThread() :
     m_rating(0),
@@ -101,7 +105,7 @@ void KLoadMetaDataThread::run()
                     // TODO #2: using tunedLabel() is a workaround for KDE 4.3 (4.4?) until
                     // we get translated labels
                     m_metaInfoLabels.append(tunedLabel(prop.label()));
-                    m_metaInfoValues.append(it.value().toString());
+                    m_metaInfoValues.append(formatValue(it.value()));
                 }
                 ++it;
             }
@@ -163,6 +167,21 @@ QString KLoadMetaDataThread::tunedLabel(const QString& label) const
         }
     }
     return tunedLabel + ':';
+}
+
+
+// This is a short hack until we have a proper formatting facility in Nepomuk
+QString KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
+{
+    if (value.isDateTime()) {
+        return KGlobal::locale()->formatDateTime( value.toDateTime(), KLocale::FancyShortDate );
+    }
+    else if (value.isResource()) {
+        return value.toResource().genericLabel();
+    }
+    else {
+        return value.toString();
+    }
 }
 
 #include "kloadmetadatathread_p.moc"
