@@ -171,6 +171,8 @@ QString KLoadMetaDataThread::tunedLabel(const QString& label) const
 
 
 // This is a short hack until we have a proper formatting facility in Nepomuk
+// here we simply handle the most common formatting situations that do not look nice
+// when using Nepomuk::Variant::toString()
 QString KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
 {
     if (value.isDateTime()) {
@@ -178,6 +180,13 @@ QString KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
     }
     else if (value.isResource()) {
         return value.toResource().genericLabel();
+    }
+    else if (value.isResourceList()) {
+        QStringList ll;
+        foreach(const Nepomuk::Resource& res, value.toResourceList()) {
+            ll << res.genericLabel();
+        }
+        return ll.join(QLatin1String(";\n"));
     }
     else {
         return value.toString();
