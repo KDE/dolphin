@@ -1,6 +1,7 @@
 Name=Dolphin Services
 Name[bg]=Услуги в Dolphin
 Name[ca]=Serveis del Dolphin
+Name[cs]=Služby Dolphinu
 Name[csb]=Ùsłëżnotë Dolphina
 Name[da]=Dolphin-tjenester
 Name[de]=Dolphin-Dienste
@@ -150,6 +151,7 @@ Name[zh_TW]=服務
 Comment=Configure file manager services
 Comment[bg]=Настройване услугите на файловия мениджър
 Comment[ca]=Configura els serveis del gestor de fitxers
+Comment[cs]=Nastavení služeb správce souborů
 Comment[csb]=Kònfigùracëjô ùsłëżnotów menadżera lopków
 Comment[da]=Indstil filhåndteringstjenester
 Comment[de]=Dateimanager-Dienste einrichten
