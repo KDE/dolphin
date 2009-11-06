@@ -75,9 +75,16 @@ VersionControlObserver::~VersionControlObserver()
     if (m_updateItemStatesThread != 0) {
         disconnect(m_updateItemStatesThread, SIGNAL(finished()),
                    this, SLOT(applyUpdatedItemStates()));
-        m_updateItemStatesThread->deleteWhenFinished();
+        if (m_updateItemStatesThread->isFinished()) {
+            delete m_updateItemStatesThread;
+        } else {
+            m_updateItemStatesThread->deleteWhenFinished();
+        }
         m_updateItemStatesThread = 0;
     }
+
+    m_plugin->disconnect();
+    m_plugin = 0;
 }
 
 QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& items) const
@@ -211,7 +218,7 @@ void VersionControlObserver::updateItemStates()
 {
     Q_ASSERT(m_plugin != 0);
     if (m_updateItemStatesThread == 0) {
-        m_updateItemStatesThread = new UpdateItemStatesThread(this);
+        m_updateItemStatesThread = new UpdateItemStatesThread();
         connect(m_updateItemStatesThread, SIGNAL(finished()),
                 this, SLOT(applyUpdatedItemStates()));
     }

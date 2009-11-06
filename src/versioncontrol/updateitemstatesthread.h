@@ -38,7 +38,7 @@ class LIBDOLPHINPRIVATE_EXPORT UpdateItemStatesThread : public QThread
     Q_OBJECT
 
 public:
-    UpdateItemStatesThread(QObject* parent);
+    UpdateItemStatesThread();
     virtual ~UpdateItemStatesThread();
 
     void setData(KVersionControlPlugin* plugin,
@@ -61,7 +61,7 @@ private slots:
 private:
     bool m_retrievedItems;
     KVersionControlPlugin* m_plugin;
-    QMutex m_mutex;
+    QMutex* m_mutex;
     QList<VersionControlObserver::ItemState> m_itemStates;
 };
 

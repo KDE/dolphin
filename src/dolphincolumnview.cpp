@@ -31,7 +31,6 @@
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "tooltips/tooltipmanager.h"
-#include "versioncontrol/versioncontrolobserver.h"
 #include "viewextensionsfactory.h"
 #include "zoomlevelinfo.h"
 
@@ -125,13 +124,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
-
-    /*FolderExpander* folderExpander = new FolderExpander(this, m_proxyModel);
-    folderExpander->setEnabled(DolphinSettings::instance().generalSettings()->autoExpandFolders());
-    connect (folderExpander, SIGNAL(enterDir(const QModelIndex&)),
-             m_container->m_controller, SLOT(triggerItem(const QModelIndex&)));
-
-    new VersionControlObserver(this);*/
 
     DolphinController* controller = m_container->m_controller;
     connect(controller, SIGNAL(zoomLevelChanged(int)),

@@ -19,12 +19,14 @@
 
 #include "updateitemstatesthread.h"
 
-UpdateItemStatesThread::UpdateItemStatesThread(QObject* parent) :
-    QThread(parent),
+UpdateItemStatesThread::UpdateItemStatesThread() :
+    QThread(),
     m_retrievedItems(false),  
-    m_mutex(QMutex::Recursive),
+    m_mutex(0),
     m_itemStates()
 {
+    static QMutex globalMutex;
+    m_mutex = &globalMutex;
 }
 
 UpdateItemStatesThread::~UpdateItemStatesThread()
@@ -49,7 +51,7 @@ void UpdateItemStatesThread::run()
     // VersionControlObserver::addDirectory() to be sure that the last item contains the root.
     const QString directory = m_itemStates.last().item.url().directory(KUrl::AppendTrailingSlash);
 
-    QMutexLocker locker(&m_mutex);
+    QMutexLocker locker(m_mutex);
     m_retrievedItems = false;
     if (m_plugin->beginRetrieval(directory)) {
         const int count = m_itemStates.count();
@@ -63,12 +65,12 @@ void UpdateItemStatesThread::run()
 
 bool UpdateItemStatesThread::beginReadItemStates()
 {
-    return m_mutex.tryLock(300);
+    return m_mutex->tryLock(300);
 }
 
 void UpdateItemStatesThread::endReadItemStates()
 {
-    m_mutex.unlock();
+    m_mutex->unlock();
 }
 
 QList<VersionControlObserver::ItemState> UpdateItemStatesThread::itemStates() const
