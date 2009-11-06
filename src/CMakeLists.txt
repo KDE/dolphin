@@ -46,7 +46,8 @@ set(dolphinprivate_LIB_SRCS
     tooltips/ktooltip.cpp
     tooltips/ktooltipwindow.cpp
     tooltips/tooltipmanager.cpp
-    versioncontrolobserver.cpp
+    versioncontrol/updateitemstatesthread.cpp
+    versioncontrol/versioncontrolobserver.cpp
     viewextensionsfactory.cpp
     viewproperties.cpp
     zoomlevelinfo.cpp
@@ -92,7 +93,7 @@ set(dolphinpart_SRCS
 )
 
 set(fileviewsvnplugin_SRCS
-    fileviewsvnplugin.cpp
+    versioncontrol/fileviewsvnplugin.cpp
 )
 
 kde4_add_plugin(dolphinpart ${dolphinpart_SRCS})
@@ -106,8 +107,8 @@ install(TARGETS fileviewsvnplugin DESTINATION ${PLUGIN_INSTALL_DIR})
 
 install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install(FILES fileviewsvnplugin.desktop DESTINATION ${SERVICES_INSTALL_DIR})
-install(FILES fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
+install(FILES versioncontrol/fileviewsvnplugin.desktop DESTINATION ${SERVICES_INSTALL_DIR})
+install(FILES versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 
 ##########################################
 

@@ -28,7 +28,7 @@
 #include "selectionmanager.h"
 #include "settings/dolphinsettings.h"
 #include "tooltips/tooltipmanager.h"
-#include "versioncontrolobserver.h"
+#include "versioncontrol/versioncontrolobserver.h"
 
 #include "dolphin_generalsettings.h"
 

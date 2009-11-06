@@ -31,7 +31,7 @@
 #include "draganddrophelper.h"
 #include "folderexpander.h"
 #include "tooltips/tooltipmanager.h"
-#include "versioncontrolobserver.h"
+#include "versioncontrol/versioncontrolobserver.h"
 #include "viewextensionsfactory.h"
 #include "zoomlevelinfo.h"
 

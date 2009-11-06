@@ -20,6 +20,7 @@
 #include "fileviewsvnplugin.h"
 
 #include <kaction.h>
+#include <kdemacros.h>
 #include <kdialog.h>
 #include <kfileitem.h>
 #include <kicon.h>
@@ -35,7 +36,13 @@
 #include <QTextEdit>
 #include <QTextStream>
 
-FileViewSvnPlugin::FileViewSvnPlugin() :
+#include <KPluginFactory>
+#include <KPluginLoader>
+K_PLUGIN_FACTORY(FileViewSvnPluginFactory, registerPlugin<FileViewSvnPlugin>();)
+K_EXPORT_PLUGIN(FileViewSvnPluginFactory("fileviewsvnplugin"))
+
+FileViewSvnPlugin::FileViewSvnPlugin(QObject* parent, const QList<QVariant>& args) :
+    KVersionControlPlugin(parent),
     m_versionInfoHash(),
     m_versionInfoKeys(),
     m_updateAction(0),
@@ -50,6 +57,8 @@ FileViewSvnPlugin::FileViewSvnPlugin() :
     m_contextItems(),
     m_tempFile()
 {
+    Q_UNUSED(args);
+
     m_updateAction = new KAction(this);
     m_updateAction->setIcon(KIcon("view-refresh"));
     m_updateAction->setText(i18nc("@item:inmenu", "SVN Update"));

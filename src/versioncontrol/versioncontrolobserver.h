@@ -111,6 +111,17 @@ private:
      */
     void addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates);
 
+    /**
+     * Returns a matching plugin for the given directory.
+     * 0 is returned, if no matching plugin has been found.
+     */
+    KVersionControlPlugin* searchPlugin(const KUrl& directory) const;
+
+    /**
+     * Returns true, if the directory contains a version control information.
+     */
+    bool isVersioned() const;
+
 private:
     bool m_pendingItemStatesUpdate;
     bool m_versionedDirectory;
@@ -122,8 +133,7 @@ private:
     DolphinModel* m_dolphinModel;
     
     QTimer* m_dirVerificationTimer;
-    
-    mutable QMutex m_pluginMutex;
+
     KVersionControlPlugin* m_plugin;
     UpdateItemStatesThread* m_updateItemStatesThread;
 

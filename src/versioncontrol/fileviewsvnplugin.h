@@ -33,7 +33,7 @@ class FileViewSvnPlugin : public KVersionControlPlugin
     Q_OBJECT
 
 public:
-    FileViewSvnPlugin();
+    FileViewSvnPlugin(QObject* parent, const QList<QVariant>& args);
     virtual ~FileViewSvnPlugin();
     virtual QString fileName() const;
     virtual bool beginRetrieval(const QString& directory);
