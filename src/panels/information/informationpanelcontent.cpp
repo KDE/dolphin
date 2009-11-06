@@ -58,10 +58,9 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_item(),
     m_pendingPreview(false),
     m_outdatedPreviewTimer(0),
-    m_nameLabel(0),
     m_preview(0),
-    m_previewSeparator(0),
     m_phononWidget(0),
+    m_nameLabel(0),
     m_metaDataWidget(0),
     m_metaDataArea(0)
 {
@@ -79,15 +78,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QVBoxLayout* layout = new QVBoxLayout;
     layout->setSpacing(KDialog::spacingHint());
 
-    // name
-    m_nameLabel = new QLabel(parent);
-    QFont font = m_nameLabel->font();
-    font.setBold(true);
-    m_nameLabel->setFont(font);
-    m_nameLabel->setAlignment(Qt::AlignHCenter);
-    m_nameLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    m_nameLabel->setMaximumWidth(KIconLoader::SizeEnormous);
-
     // preview
     const int minPreviewWidth = KIconLoader::SizeEnormous + KIconLoader::SizeMedium;
 
@@ -102,11 +92,16 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     connect(m_phononWidget, SIGNAL(playingStopped()),
             this, SLOT(slotPlayingStopped()));
 
-    m_previewSeparator = new KSeparator(parent);
+    // name
+    m_nameLabel = new QLabel(parent);
+    QFont font = m_nameLabel->font();
+    font.setBold(true);
+    m_nameLabel->setFont(font);
+    m_nameLabel->setAlignment(Qt::AlignHCenter);
+    m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     const bool showPreview = InformationPanelSettings::showPreview();
     m_preview->setVisible(showPreview);
-    m_previewSeparator->setVisible(showPreview);
 
     m_metaDataWidget = new KMetaDataWidget(parent);
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
@@ -135,11 +130,10 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     palette.setColor(viewport->backgroundRole(), QColor(Qt::transparent));
     viewport->setPalette(palette);
 
-    layout->addWidget(m_nameLabel);
-    layout->addWidget(new KSeparator(this));
     layout->addWidget(m_preview);
     layout->addWidget(m_phononWidget);
-    layout->addWidget(m_previewSeparator);
+    layout->addWidget(m_nameLabel);
+    layout->addWidget(new KSeparator());
     layout->addWidget(m_metaDataArea);
     parent->setLayout(layout);
 }
@@ -290,7 +284,6 @@ void InformationPanelContent::configureSettings()
     const bool isChecked = action->isChecked();
     if (action == previewAction) {
         m_preview->setVisible(isChecked);
-        m_previewSeparator->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == configureAction) {
         QPointer<KMetaDataConfigurationDialog> dialog = new KMetaDataConfigurationDialog(m_metaDataWidget, this, Qt::Dialog);

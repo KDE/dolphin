@@ -115,11 +115,10 @@ private:
 
     bool m_pendingPreview;
     QTimer* m_outdatedPreviewTimer;
-    QLabel* m_nameLabel;
 
     PixmapViewer* m_preview;
-    KSeparator* m_previewSeparator;
     PhononWidget* m_phononWidget;
+    QLabel* m_nameLabel;
     KMetaDataWidget* m_metaDataWidget;
     QScrollArea* m_metaDataArea;
 };
