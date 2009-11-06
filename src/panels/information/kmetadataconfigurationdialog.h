@@ -49,6 +49,14 @@ public:
                                  QWidget* parent = 0,
                                  Qt::WFlags flags = 0);
 
+    /**
+     * Sets the description that is shown above the list
+     * of meta data. Per default the translated text for
+     * "Configure which data should be shown." is set.
+     */
+    void setDescription(const QString& description);
+    QString description() const;
+
     virtual ~KMetaDataConfigurationDialog();
 
 protected slots:

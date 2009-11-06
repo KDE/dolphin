@@ -38,6 +38,7 @@
 #include <QEvent>
 #include <QLabel>
 #include <QPixmap>
+#include <QPointer>
 #include <QResizeEvent>
 #include <QScrollArea>
 #include <QTextLayout>
@@ -292,8 +293,11 @@ void InformationPanelContent::configureSettings()
         m_previewSeparator->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == configureAction) {
-        KMetaDataConfigurationDialog dialog(m_metaDataWidget, this, Qt::Dialog);
-        dialog.exec();
+        QPointer<KMetaDataConfigurationDialog> dialog = new KMetaDataConfigurationDialog(m_metaDataWidget, this, Qt::Dialog);
+        dialog->setDescription(i18nc("@label::textbox",
+                               "Configure which data should be shown in the Information Panel."));
+        dialog->exec();
+        delete dialog;
     }
 
     if (!m_item.isNull() && m_item.nepomukUri().isValid()) {

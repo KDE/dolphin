@@ -44,6 +44,7 @@ public:
     QString tunedLabel(const QString& label) const;
 
     int m_visibleDataTypes;
+    QLabel* m_descriptionLabel;
     KMetaDataWidget* m_metaDataWidget;
     QListWidget* m_metaDataList;
 
@@ -65,14 +66,15 @@ KMetaDataConfigurationDialog::Private::Private(KMetaDataConfigurationDialog* par
     QWidget* mainWidget = new QWidget(q);
     QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
 
-    QLabel* label = new QLabel(i18nc("@label:textbox",
-                                     "Configure which data should "
-                                     "be shown."), q);
+    m_descriptionLabel = new QLabel(i18nc("@label::textbox",
+                                          "Configure which data should"
+                                          "be shown"), q);
+    m_descriptionLabel->setWordWrap(true);
 
     m_metaDataList = new QListWidget(q);
     m_metaDataList->setSelectionMode(QAbstractItemView::NoSelection);
 
-    topLayout->addWidget(label);
+    topLayout->addWidget(m_descriptionLabel);
     topLayout->addWidget(m_metaDataList);
 
     q->setMainWidget(mainWidget);
@@ -278,6 +280,16 @@ void KMetaDataConfigurationDialog::slotButtonClicked(int button)
     } else {
         KDialog::slotButtonClicked(button);
     }
+}
+
+void KMetaDataConfigurationDialog::setDescription(const QString& description)
+{
+    d->m_descriptionLabel->setText(description);
+}
+
+QString KMetaDataConfigurationDialog::description() const
+{
+    return d->m_descriptionLabel->text();
 }
 
 #include "kmetadataconfigurationdialog.moc"

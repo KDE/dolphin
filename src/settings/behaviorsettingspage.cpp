@@ -195,6 +195,8 @@ void BehaviorSettingsPage::updateConfigureButton()
 void BehaviorSettingsPage::configureToolTips()
 {
     KMetaDataConfigurationDialog* dialog = new KMetaDataConfigurationDialog();
+    dialog->setDescription(i18nc("@label::textbox",
+                                 "Configure which data should be shown in the tooltip."));
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
     dialog->raise();
