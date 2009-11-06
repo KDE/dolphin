@@ -65,7 +65,7 @@ void KToolTipWindow::paintEvent(QPaintEvent* event)
         fromColor.setAlpha(220);
     }
 
-    QLinearGradient gradient(QPointF(0.0, 0.0), QPointF(width(), height()));
+    QLinearGradient gradient(QPointF(0.0, 0.0), QPointF(0.0, height()));
     gradient.setColorAt(0.0, fromColor);
     gradient.setColorAt(1.0, toColor);
     painter.setPen(Qt::NoPen);
