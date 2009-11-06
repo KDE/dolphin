@@ -23,8 +23,7 @@
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 
-// TODO:
-// #include "nepomuk/metadataconfigurationdialog.h"
+#include "panels/information/kmetadataconfigurationdialog.h"
 
 #include <viewproperties.h>
 
@@ -107,7 +106,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     m_configureToolTips = new QLabel(toolTipContainer);
     connect(m_configureToolTips, SIGNAL(linkActivated(const QString&)),
-            this, SLOT(configureToolTips(const QString&)));
+            this, SLOT(configureToolTips()));
 
     toolTipsLayout->addWidget(m_showToolTips);
     toolTipsLayout->addWidget(m_configureToolTips, 1, Qt::AlignLeft);
@@ -195,9 +194,11 @@ void BehaviorSettingsPage::updateConfigureButton()
 
 void BehaviorSettingsPage::configureToolTips()
 {
-    // TODO:
-    //MetaDataConfigurationDialog dialog(KUrl(), this, Qt::Dialog);
-    //dialog.exec();
+    KMetaDataConfigurationDialog* dialog = new KMetaDataConfigurationDialog();
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+    dialog->raise();
+    dialog->activateWindow();
 }
 
 void BehaviorSettingsPage::loadSettings()

@@ -167,14 +167,14 @@ kde4_add_kcfg_files(dolphin_SRCS
     panels/information/dolphin_informationpanelsettings.kcfgc)
 
 if(Nepomuk_FOUND)
-set(dolphin_SRCS
-  ${dolphin_SRCS}
-  panels/information/kcommentwidget.cpp
-  panels/information/kedittagsdialog.cpp
-  panels/information/kloadmetadatathread.cpp
-  panels/information/nepomukmassupdatejob.cpp
-  panels/information/ktaggingwidget.cpp
-)
+    set(dolphin_SRCS
+        ${dolphin_SRCS}
+        panels/information/kcommentwidget.cpp
+        panels/information/kedittagsdialog.cpp
+        panels/information/kloadmetadatathread.cpp
+        panels/information/nepomukmassupdatejob.cpp
+        panels/information/ktaggingwidget.cpp
+    )
 endif(Nepomuk_FOUND)
 
 if(NOT WIN32)
@@ -204,13 +204,13 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(kcm_dolphinviewmodes_PART_SRCS
     kcm/kcmdolphinviewmodes.cpp
+    pixmapviewer.cpp
     settings/columnviewsettingspage.cpp
     settings/detailsviewsettingspage.cpp
     settings/dolphinfontrequester.cpp
     settings/iconsizegroupbox.cpp
     settings/iconsviewsettingspage.cpp
     settings/viewsettingspagebase.cpp
-    pixmapviewer.cpp
     zoomlevelinfo.cpp)
 
 set(kcm_dolphinnavigation_PART_SRCS
@@ -225,10 +225,22 @@ set(kcm_dolphinservices_PART_SRCS
 
 set(kcm_dolphingeneral_PART_SRCS
     kcm/kcmdolphingeneral.cpp
+    panels/information/kmetadataconfigurationdialog.cpp
+    panels/information/kmetadatawidget.cpp
     settings/behaviorsettingspage.cpp
     settings/previewssettingspage.cpp
     settings/contextmenusettingspage.cpp
     settings/settingspagebase.cpp)
+if (Nepomuk_FOUND)
+    set(kcm_dolphingeneral_PART_SRCS
+        ${kcm_dolphingeneral_PART_SRCS}
+        panels/information/kcommentwidget.cpp
+        panels/information/kedittagsdialog.cpp
+        panels/information/kloadmetadatathread.cpp
+        panels/information/nepomukmassupdatejob.cpp
+        panels/information/ktaggingwidget.cpp
+    )
+endif (Nepomuk_FOUND)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_columnmodesettings.kcfgc
@@ -254,7 +266,7 @@ kde4_add_plugin(kcm_dolphingeneral ${kcm_dolphingeneral_PART_SRCS})
 target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
-target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
+target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
 if (Nepomuk_FOUND)
   target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_LIBRARIES})
   target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_LIBRARIES})
