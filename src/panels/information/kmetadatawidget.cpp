@@ -152,8 +152,11 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
 #endif
     q(parent)
 {
+    const QFontMetrics fontMetrics(KGlobalSettings::smallestReadableFont());
+
     m_gridLayout = new QGridLayout(parent);
     m_gridLayout->setMargin(0);
+    m_gridLayout->setSpacing(fontMetrics.height() / 4);
 
     m_typeInfo = new QLabel(parent);
     m_sizeLabel = new QLabel(parent);
@@ -170,7 +173,6 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
 
 #ifdef HAVE_NEPOMUK
     if (Nepomuk::ResourceManager::instance()->init() == 0) {
-        const QFontMetrics fontMetrics(KGlobalSettings::smallestReadableFont());
         m_ratingWidget = new KRatingWidget(parent);
         m_ratingWidget->setFixedHeight(fontMetrics.height());
         connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
@@ -537,7 +539,10 @@ KMetaDataWidget::MetaDataTypes KMetaDataWidget::visibleDataTypes() const
 QSize KMetaDataWidget::sizeHint() const
 {
     const int fixedWidth = 200;
-    int height = 0;
+
+    int height = d->m_gridLayout->margin() * 2 +
+                 d->m_gridLayout->spacing() * (d->m_rows.count() - 1);
+
     foreach (const Private::Row& row, d->m_rows) {
         if (row.infoWidget != 0) {
             int rowHeight = row.infoWidget->heightForWidth(fixedWidth / 2);
@@ -547,6 +552,7 @@ QSize KMetaDataWidget::sizeHint() const
             height += rowHeight;
         }
     }
+
     return QSize(fixedWidth, height);
 }
 
