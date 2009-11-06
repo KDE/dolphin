@@ -72,7 +72,7 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
-target_link_libraries(dolphinprivate ${KDE4_KIO_LIBS} ${KDE4_KFILE_LIBS} konq ${QIMAGEBLITZ_LIBRARIES} ${X11_LIBRARIES})
+target_link_libraries(dolphinprivate ${KDE4_KIO_LIBS} ${KDE4_KFILE_LIBS} konq knewstuff2 ${QIMAGEBLITZ_LIBRARIES} ${X11_LIBRARIES})
 if(X11_Xrender_FOUND)
   target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
@@ -276,3 +276,6 @@ install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DI
 install( FILES kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinservices.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphingeneral.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES khns/servicemenu.knsrc DESTINATION ${CONFIG_INSTALL_DIR} )
+install( PROGRAMS khns/servicemenuinstallation DESTINATION ${BIN_INSTALL_DIR} )
+install( PROGRAMS khns/servicemenudeinstallation DESTINATION ${BIN_INSTALL_DIR} )

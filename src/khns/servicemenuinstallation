@@ -1,0 +1,72 @@
+#!/usr/bin/env ruby
+require 'pathname'
+require 'fileutils'
+archive = ARGV[0]
+def mimeType(filename)
+    IO.popen("file --mime-type -b " + filename).gets().strip!()
+end
+$archivetypes = { "application/x-tar" => :"tar -xf %s -C %s",
+        "application/tar" => :"tar -xf %s -C %s",
+        "application/x-gzip" => :"tar -zxf %s -C %s",
+        "application/gzip" => :"tar -zxf %s -C %s",
+        "application/x-gzip-compressed-tar" => :"tar -zxf %s -C %s",
+        "application/gzip-compressed-tar" => :"tar -zxf %s -C %s",
+        "application/x-gzip-compressed" => :"tar -zxf %s -C %s",
+        "application/gzip-compressed" => :"tar -zxf %s -C %s",
+        "application/bzip" => :"tar -jxf %s -C %s",
+        "application/bzip2" => :"tar -jxf %s -C %s",
+        "application/x-bzip" => :"tar -jxf %s -C %s",
+        "application/x-bzip2" => :"tar -jxf %s -C %s",
+        "application/bzip-compressed" => :"tar -jxf %s -C %s",
+        "application/bzip2-compressed" => :"tar -jxf %s -C %s",
+        "application/x-bzip-compressed" => :"tar -jxf %s -C %s",
+        "application/x-bzip2-compressed" => :"tar -jxf %s -C %s",
+        "application/bzip-compressed-tar" => :"tar -jxf %s -C %s",
+        "application/bzip2-compressed-tar" => :"tar -jxf %s -C %s",
+        "application/x-bzip-compressed-tar" => :"tar -jxf %s -C %s",
+        "application/x-bzip2-compressed-tar" => :"tar -jxf %s -C %s",
+        "application/zip" => :"unzip %s -d %s",
+        "application/x-zip" => :"unzip %s -d %s",
+        "application/x-zip-compressed" => :"unzip %s -d %s",
+        "multipart/x-zip" => :"unzip %s -d %s",
+        "application/tgz" => :"tar -zxf %s -C %s",
+        "application/x-compressed-gtar" => :"tar -zxf %s -C %s",
+        "application/x-gtar" => :"tar -zxf %s -C %s",
+        "file/tgz" => :"tar -zxf %s -C %s",
+        "multipart/x-tar-gz" => :"tar -zxf %s -C %s",
+        "application/x-gunzip" => :"tar -zxf %s -C %s",
+        "application/gzipped" => :"tar -zxf %s -C %s",
+        "gzip/document" => :"tar -zxf %s -C %s",
+        "application/x-bz2 " => :"tar -jxf %s -C %s",
+        "application/x-gtar" => :"tar -xf %s -C %s",
+        "multipart/x-tar" => :"tar -xf %s -C %s"
+}
+def uncompress(filename, output)
+    system(sprintf($archivetypes[mimeType(filename)].to_s, filename, output))
+end
+dir = archive + "-dir"
+if File.exist?(dir)
+    FileleUtils.rm_r(dir)
+end
+FileUtils.mkdir(dir)
+exit(-1) if !uncompress(archive, dir)
+# try: install-it.sh
+# try: install-it
+# try: installKDE4.sh
+# try: installKDE4
+# try: install.sh
+# try: install
+dd = Dir.new(dir)
+dd.read
+dd.read
+dir += "/" + dd.read
+dd = nil
+def fail()
+    system("kdialog --passivepopup \"Installation failed\" 15")
+    exit(-1)
+end
+if !((File.exist?(file = dir + "/install-it.sh") || File.exist?(file = dir + "/install-it")) && system(file))
+    fail() if !File.exist?(file = dir + "/installKDE4.sh") && !File.exist?(file = dir + "/installKDE4") && !File.exist?(file = dir + "/install.sh") && !File.exist?(file = dir + "/install")
+    File.new(file).chmod(0700)
+    fail() if !system(file + " --local") && !system(file + "--local-install") && !system(file + " --install")
+end

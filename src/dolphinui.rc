@@ -81,6 +81,9 @@
             <Action name="compare_files" />
             <Action name="change_remote_encoding" />
         </Menu>
+		<Menu name="settings">
+			<Action name="get_servicemenu" />
+		</Menu>
     </MenuBar>
     <State name="new_file" >
         <disable>

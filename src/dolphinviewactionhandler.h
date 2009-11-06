@@ -209,6 +209,11 @@ private Q_SLOTS:
      * like name, size and permissions.
      */
     void slotProperties();
+	
+	/**
+	 * Starts KHotNewStuff to download servicemenus.
+	 */
+	void slotGetServiceMenu();
 
 private:
     /**

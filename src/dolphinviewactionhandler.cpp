@@ -31,6 +31,7 @@
 #include <ktoggleaction.h>
 #include <krun.h>
 #include <kpropertiesdialog.h>
+#include <knewstuff2/engine.h>
 
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
@@ -180,6 +181,13 @@ void DolphinViewActionHandler::createActions()
     findFile->setShortcut(Qt::CTRL | Qt::Key_F);
     findFile->setIcon(KIcon("edit-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
+	
+	// Settings menu
+	
+	KAction* getServiceMenu = m_actionCollection->addAction("get_servicemenu");
+	getServiceMenu->setText(i18nc("@action:inmenu Settings", "Get Servicemenu..."));
+	getServiceMenu->setIcon(KIcon ("get-hot-new-stuff"));
+	connect(getServiceMenu, SIGNAL(triggered()), this, SLOT(slotGetServiceMenu()));
 }
 
 QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
@@ -531,4 +539,11 @@ void DolphinViewActionHandler::slotProperties()
     dialog->show();
     dialog->raise();
     dialog->activateWindow();
+}
+
+void DolphinViewActionHandler::slotGetServiceMenu()
+{
+	KNS::Engine khns(m_currentView);
+	khns.init("servicemenu.knsrc");
+	khns.downloadDialogModal(m_currentView);
 }

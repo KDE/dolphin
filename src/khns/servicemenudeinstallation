@@ -1,0 +1,23 @@
+#!/usr/bin/env ruby
+require 'fileutils'
+topdir = ARGV[0] + "-dir"
+# try: deinstall.sh
+# try: deinstall
+# try: installKDE4.sh
+# try: installKDE4
+# try: install.sh
+# try: install
+dd = Dir.new(topdir)
+dd.read
+dd.read
+dir = dd.read
+def fail()
+    system("kdialog --passivepopup \"Deinstallation failed\" 15")
+    exit(-1)
+end
+if !((File.exist?(file = dir + "/deinstall.sh") || File.exist?(file = dir + "/deinstall")) && system(file))
+    fail() if !File.exist?(file = dir + "/installKDE4.sh") && !File.exist?(file = dir + "/installKDE4") && !File.exist?(file = dir + "/install.sh") && !File.exist?(file = dir + "/install")
+File.new(file).chmod(0700)
+    fail() if !system(file + " --remove") && !system(file + " --delete") && !system(file + " --uninstall") && !system(file + " --deinstall")
+end
+FileUtils.rm_r(topdir)
