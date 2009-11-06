@@ -210,10 +210,10 @@ private Q_SLOTS:
      */
     void slotProperties();
 	
-	/**
-	 * Starts KHotNewStuff to download servicemenus.
-	 */
-	void slotGetServiceMenu();
+    /**
+     * Starts KHotNewStuff to download servicemenus.
+     */
+    void slotGetServiceMenu();
 
 private:
     /**
@@ -250,7 +250,6 @@ private:
      * Helper method for createActions();
      */
     KToggleAction* columnsModeAction();
-
 
     KActionCollection* m_actionCollection;
     DolphinView* m_currentView;

@@ -298,11 +298,13 @@ void DolphinMainWindow::updateHistory()
     const int index = urlNavigator->historyIndex();
 
     QAction* backAction = actionCollection()->action("go_back");
+    backAction->setToolTip(i18nc("@info", "Go back"));
     if (backAction != 0) {
         backAction->setEnabled(index < urlNavigator->historySize() - 1);
     }
 
     QAction* forwardAction = actionCollection()->action("go_forward");
+    forwardAction->setToolTip(i18nc("@info", "Go forward"));
     if (forwardAction != 0) {
         forwardAction->setEnabled(index > 0);
     }
@@ -1208,6 +1210,7 @@ void DolphinMainWindow::setupActions()
 
     KAction* stop = actionCollection()->addAction("stop");
     stop->setText(i18nc("@action:inmenu View", "Stop"));
+    stop->setToolTip(i18nc("@info", "Stop loading"));
     stop->setIcon(KIcon("process-stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
@@ -1523,13 +1526,16 @@ void DolphinMainWindow::updateSplitAction()
     if (m_viewTab[m_tabIndex].secondaryView != 0) {
         if (m_activeViewContainer == m_viewTab[m_tabIndex].secondaryView) {
             splitAction->setText(i18nc("@action:intoolbar Close right view", "Close"));
+            splitAction->setToolTip(i18nc("@info", "Close right view"));
             splitAction->setIcon(KIcon("view-right-close"));
         } else {
             splitAction->setText(i18nc("@action:intoolbar Close left view", "Close"));
+            splitAction->setToolTip(i18nc("@info", "Close left view"));
             splitAction->setIcon(KIcon("view-left-close"));
         }
     } else {
         splitAction->setText(i18nc("@action:intoolbar Split view", "Split"));
+        splitAction->setToolTip(i18nc("@info", "Split view"));
         splitAction->setIcon(KIcon("view-right-new"));
     }
 }

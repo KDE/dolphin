@@ -144,6 +144,7 @@ void DolphinViewActionHandler::createActions()
 
     KToggleAction* showPreview = m_actionCollection->add<KToggleAction>("show_preview");
     showPreview->setText(i18nc("@action:intoolbar", "Preview"));
+    showPreview->setToolTip(i18nc("@info", "Show preview of files and folders"));
     showPreview->setIcon(KIcon("view-preview"));
     connect(showPreview, SIGNAL(triggered(bool)), this, SLOT(togglePreview(bool)));
 
@@ -182,12 +183,12 @@ void DolphinViewActionHandler::createActions()
     findFile->setIcon(KIcon("edit-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
 	
-	// Settings menu
-	
-	KAction* getServiceMenu = m_actionCollection->addAction("get_servicemenu");
-	getServiceMenu->setText(i18nc("@action:inmenu Settings", "Get Servicemenu..."));
-	getServiceMenu->setIcon(KIcon ("get-hot-new-stuff"));
-	connect(getServiceMenu, SIGNAL(triggered()), this, SLOT(slotGetServiceMenu()));
+    // Settings menu
+
+    KAction* getServiceMenu = m_actionCollection->addAction("get_servicemenu");
+    getServiceMenu->setText(i18nc("@action:inmenu Settings", "Get Servicemenu..."));
+    getServiceMenu->setIcon(KIcon("get-hot-new-stuff"));
+    connect(getServiceMenu, SIGNAL(triggered()), this, SLOT(slotGetServiceMenu()));
 }
 
 QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
@@ -432,6 +433,7 @@ KToggleAction* DolphinViewActionHandler::iconsModeAction()
 {
     KToggleAction* iconsView = m_actionCollection->add<KToggleAction>("icons");
     iconsView->setText(i18nc("@action:inmenu View Mode", "Icons"));
+    iconsView->setToolTip(i18nc("@info", "Icons view mode"));
     iconsView->setShortcut(Qt::CTRL | Qt::Key_1);
     iconsView->setIcon(KIcon("view-list-icons"));
     iconsView->setData(QVariant::fromValue(DolphinView::IconsView));
@@ -442,6 +444,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
 {
     KToggleAction* detailsView = m_actionCollection->add<KToggleAction>("details");
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
+    detailsView->setToolTip(i18nc("@info", "Details view mode"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
     detailsView->setIcon(KIcon("view-list-details"));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
@@ -452,6 +455,7 @@ KToggleAction* DolphinViewActionHandler::columnsModeAction()
 {
     KToggleAction* columnView = m_actionCollection->add<KToggleAction>("columns");
     columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
+    columnView->setToolTip(i18nc("@info", "Columns view mode"));
     columnView->setShortcut(Qt::CTRL | Qt::Key_3);
     columnView->setIcon(KIcon("view-file-columns"));
     columnView->setData(QVariant::fromValue(DolphinView::ColumnView));
@@ -543,7 +547,7 @@ void DolphinViewActionHandler::slotProperties()
 
 void DolphinViewActionHandler::slotGetServiceMenu()
 {
-	KNS::Engine khns(m_currentView);
-	khns.init("servicemenu.knsrc");
-	khns.downloadDialogModal(m_currentView);
+    KNS::Engine khns(m_currentView);
+    khns.init("servicemenu.knsrc");
+    khns.downloadDialogModal(m_currentView);
 }
