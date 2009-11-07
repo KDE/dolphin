@@ -2,6 +2,15 @@
 require 'pathname'
 require 'fileutils'
 archive = ARGV[0]
+$servicedir = `kde4-config --localprefix`.strip! + "share/kde4/services/ServiceMenus/"
+FileUtils.mkdir_p($servicedir) if !File.exist?($servicedir)
+if archive[(archive.length - 8)..(archive.length - 1)] == ".desktop"
+    puts "Single-File Service-Menu"
+    puts archive
+    puts $servicedir
+    FileUtils.cp(archive, $servicedir);
+    exit(0)
+end
 def mimeType(filename)
     IO.popen("file --mime-type -b " + filename).gets().strip!()
 end

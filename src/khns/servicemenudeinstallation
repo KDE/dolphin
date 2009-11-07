@@ -1,6 +1,11 @@
 #!/usr/bin/env ruby
 require 'fileutils'
-topdir = ARGV[0] + "-dir"
+archive = ARGV[0]
+if archive[(archive.length - 8)..(archive.length)] == ".desktop"
+    FileUtils.rm(`kde4-config --localprefix`.strip! + "share/kde4/services/ServiceMenus/" + File.basename(archive))
+    exit(0)
+end
+topdir = archive + "-dir"
 # try: deinstall.sh
 # try: deinstall
 # try: installKDE4.sh
