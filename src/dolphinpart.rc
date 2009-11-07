@@ -59,6 +59,9 @@
     <Action name="compare_files" />
     <Action name="change_remote_encoding" />
   </Menu>
+  <Menu name="settings">
+    <Action name="get_servicemenu"/>
+  </Menu>
 </MenuBar>
 <ToolBar name="mainToolBar"><text context="@title:menu">Dolphin Toolbar</text>
   <Action name="icons" />
