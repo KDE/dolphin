@@ -186,7 +186,7 @@ void DolphinViewActionHandler::createActions()
     // Settings menu
 
     KAction* getServiceMenu = m_actionCollection->addAction("get_servicemenu");
-    getServiceMenu->setText(i18nc("@action:inmenu Settings", "Get Servicemenu..."));
+    getServiceMenu->setText(i18nc("@action:inmenu Settings", "Get Service Menu..."));
     getServiceMenu->setIcon(KIcon("get-hot-new-stuff"));
     connect(getServiceMenu, SIGNAL(triggered()), this, SLOT(slotGetServiceMenu()));
 }

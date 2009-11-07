@@ -67,7 +67,7 @@ KMetaDataConfigurationDialog::Private::Private(KMetaDataConfigurationDialog* par
     QVBoxLayout* topLayout = new QVBoxLayout(mainWidget);
 
     m_descriptionLabel = new QLabel(i18nc("@label::textbox",
-                                          "Configure which data should"
+                                          "Configure which data should "
                                           "be shown"), q);
     m_descriptionLabel->setWordWrap(true);
 
