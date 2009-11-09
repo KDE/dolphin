@@ -259,6 +259,24 @@ private slots:
     /** Goes up one hierarchy of the current URL. */
     void goUp();
 
+    /**
+     * Open the previous URL in the URL history in a new tab
+     * if the middle mouse button is clicked.
+     */
+    void goBack(Qt::MouseButtons buttons);
+
+    /**
+     * Open the next URL in the URL history in a new tab
+     * if the middle mouse button is clicked.
+     */
+    void goForward(Qt::MouseButtons buttons);
+
+    /**
+     * Open the URL one hierarchy above the current URL in a new tab
+     * if the middle mouse button is clicked.
+     */
+    void goUp(Qt::MouseButtons buttons);
+
     /** Goes to the home URL. */
     void goHome();
 

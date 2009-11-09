@@ -753,6 +753,32 @@ void DolphinMainWindow::goUp()
     m_activeViewContainer->urlNavigator()->goUp();
 }
 
+void DolphinMainWindow::goBack(Qt::MouseButtons buttons)
+{
+    // The default case (left button pressed) is handled in goBack().
+    if(buttons == Qt::MidButton) {
+        KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+        openNewTab(urlNavigator->historyUrl(urlNavigator->historyIndex() + 1));
+    }
+}
+
+void DolphinMainWindow::goForward(Qt::MouseButtons buttons)
+{
+    // The default case (left button pressed) is handled in goForward().
+    if(buttons == Qt::MidButton) {
+        KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
+        openNewTab(urlNavigator->historyUrl(urlNavigator->historyIndex() - 1));
+    }
+}
+
+void DolphinMainWindow::goUp(Qt::MouseButtons buttons)
+{
+    // The default case (left button pressed) is handled in goUp().
+    if(buttons == Qt::MidButton) {
+        openNewTab(activeViewContainer()->url().upUrl());
+    }
+}
+
 void DolphinMainWindow::goHome()
 {
     clearStatusBar();
@@ -1226,6 +1252,7 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Go' menu
     KAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
+    connect(backAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goBack(Qt::MouseButtons)));
     KShortcut backShortcut = backAction->shortcut();
     backShortcut.setAlternate(Qt::Key_Backspace);
     backAction->setShortcut(backShortcut);
@@ -1243,8 +1270,12 @@ void DolphinMainWindow::setupActions()
     m_recentTabsMenu->addSeparator();
     m_recentTabsMenu->setEnabled(false);
 
-    KStandardAction::forward(this, SLOT(goForward()), actionCollection());
-    KStandardAction::up(this, SLOT(goUp()), actionCollection());
+    KAction* forwardAction = KStandardAction::forward(this, SLOT(goForward()), actionCollection());
+    connect(forwardAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goForward(Qt::MouseButtons)));
+
+    KAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
+    connect(upAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goUp(Qt::MouseButtons)));
+
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
