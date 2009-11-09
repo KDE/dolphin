@@ -544,10 +544,3 @@ void DolphinViewActionHandler::slotProperties()
     dialog->raise();
     dialog->activateWindow();
 }
-
-void DolphinViewActionHandler::slotGetServiceMenu()
-{
-    KNS::Engine khns(m_currentView);
-    khns.init("servicemenu.knsrc");
-    khns.downloadDialogModal(m_currentView);
-}
