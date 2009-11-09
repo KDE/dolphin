@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="11">
+<kpartgui name="dolphin" version="12">
     <MenuBar>
         <Menu name="file">
             <Action name="create_new" />
@@ -80,9 +80,6 @@
             <Action name="open_terminal" />
             <Action name="compare_files" />
             <Action name="change_remote_encoding" />
-        </Menu>
-        <Menu name="settings">
-            <Action name="get_servicemenu" />
         </Menu>
     </MenuBar>
     <State name="new_file" >

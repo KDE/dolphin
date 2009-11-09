@@ -44,7 +44,16 @@ protected:
     virtual bool event(QEvent* event);
 
 private slots:
+    /**
+     * Loads locally installed services.
+     */
     void loadServices();
+
+    /**
+     * Opens KHotNewStuff to download new services.
+     */
+    void downloadNewServices();
+
     bool isInServicesList(const QString& service) const;
 
 private:

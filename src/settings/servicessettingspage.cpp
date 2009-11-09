@@ -24,6 +24,7 @@
 #include <kdesktopfileactions.h>
 #include <kicon.h>
 #include <klocale.h>
+#include <knewstuff2/engine.h>
 #include <kservice.h>
 #include <kservicetypetrader.h>
 #include <kstandarddirs.h>
@@ -31,6 +32,7 @@
 #include <QEvent>
 #include <QLabel>
 #include <QListWidget>
+#include <QPushButton>
 #include <QVBoxLayout>
 
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
@@ -43,6 +45,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     QLabel* label = new QLabel(i18nc("@label:textbox",
                                      "Configure which services should "
                                      "be shown in the context menu."), this);
+    label->setWordWrap(true);
 
     m_servicesList = new QListWidget(this);
     m_servicesList->setSortingEnabled(true);
@@ -50,8 +53,13 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     connect(m_servicesList, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SIGNAL(changed()));
 
+    QPushButton* downloadButton = new QPushButton(i18nc("@action:button", "Download New Services..."));
+    downloadButton->setIcon(KIcon("get-hot-new-stuff"));
+    connect(downloadButton, SIGNAL(clicked()), this, SLOT(downloadNewServices()));
+
     topLayout->addWidget(label);
     topLayout->addWidget(m_servicesList);
+    topLayout->addWidget(downloadButton);
 }
 
 ServicesSettingsPage::~ServicesSettingsPage()
@@ -119,6 +127,14 @@ void ServicesSettingsPage::loadServices()
             }
         }
     }
+}
+
+void ServicesSettingsPage::downloadNewServices()
+{
+    KNS::Engine khns(this);
+    khns.init("servicemenu.knsrc");
+    khns.downloadDialogModal(this);
+    loadServices();
 }
 
 bool ServicesSettingsPage::isInServicesList(const QString& service) const
