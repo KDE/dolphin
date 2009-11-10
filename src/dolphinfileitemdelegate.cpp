@@ -122,19 +122,18 @@ QPixmap DolphinFileItemDelegate::emblemForState(KVersionControlPlugin::VersionSt
         } else if (iconHeight >= KIconLoader::SizeMedium) {
             emblemHeight = KIconLoader::SizeSmall;
         } else {
-            // TODO: it depends on the final icons whether a smaller size works
-            emblemHeight = KIconLoader::SizeSmall /* / 2 */;
+            emblemHeight = KIconLoader::SizeSmall / 2;
         }
 
         const QSize emblemSize(emblemHeight, emblemHeight);
         for (int i = 0; i <= KVersionControlPlugin::ConflictingVersion; ++i) {
             QString iconName;
             switch (state) {
-            case KVersionControlPlugin::NormalVersion:          iconName = "dialog-ok-apply"; break;
-            case KVersionControlPlugin::UpdateRequiredVersion:  iconName = "rating"; break;
-            case KVersionControlPlugin::LocallyModifiedVersion: iconName = "emblem-important"; break;
-            case KVersionControlPlugin::AddedVersion:           iconName = "list-add"; break;
-            case KVersionControlPlugin::ConflictingVersion:     iconName = "application-exit"; break;
+            case KVersionControlPlugin::NormalVersion:          iconName = "vcs-normal"; break;
+            case KVersionControlPlugin::UpdateRequiredVersion:  iconName = "vcs-update-required"; break;
+            case KVersionControlPlugin::LocallyModifiedVersion: iconName = "vcs-locally-modified"; break;
+            case KVersionControlPlugin::AddedVersion:           iconName = "vcs-added"; break;
+            case KVersionControlPlugin::ConflictingVersion:     iconName = "vcs-conflicting"; break;
             default: Q_ASSERT(false); break;
             }
 
