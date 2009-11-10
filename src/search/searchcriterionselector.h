@@ -45,7 +45,14 @@ class SearchCriterionSelector : public QWidget
     Q_OBJECT
 
 public:
-    SearchCriterionSelector(QWidget* parent = 0);
+    enum Type
+    {
+        Undefined,
+        Date,
+        FileSize
+    };
+
+    SearchCriterionSelector(Type type, QWidget* parent = 0);
     virtual ~SearchCriterionSelector();
 
 signals:

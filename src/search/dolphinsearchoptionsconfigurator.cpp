@@ -92,8 +92,17 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     hBoxLayout->addWidget(closeButton);
     hBoxLayout->addWidget(m_addSelectorButton);
 
+    // add default search criterions
+    SearchCriterionSelector* dateCriterion = new SearchCriterionSelector(SearchCriterionSelector::Date, this);
+    connect(dateCriterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
+
+    SearchCriterionSelector* fileSizeCriterion = new SearchCriterionSelector(SearchCriterionSelector::FileSize, this);
+    connect(fileSizeCriterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
+
     m_vBoxLayout->addWidget(new KSeparator(this));
     m_vBoxLayout->addLayout(hBoxLayout);
+    m_vBoxLayout->addWidget(dateCriterion);
+    m_vBoxLayout->addWidget(fileSizeCriterion);
     m_vBoxLayout->addWidget(new KSeparator(this));
 }
 
@@ -103,7 +112,7 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
 
 void DolphinSearchOptionsConfigurator::addSelector()
 {
-    SearchCriterionSelector* selector = new SearchCriterionSelector(this);
+    SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Undefined, this);
     connect(selector, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
 
     // insert the new selector before the KSeparator at the bottom

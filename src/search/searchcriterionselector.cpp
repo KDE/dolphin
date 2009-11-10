@@ -30,7 +30,7 @@
 #include <kicon.h>
 #include <klocale.h>
 
-SearchCriterionSelector::SearchCriterionSelector(QWidget* parent) :
+SearchCriterionSelector::SearchCriterionSelector(Type type, QWidget* parent) :
     QWidget(parent),
     m_layout(0),
     m_descriptionsBox(0),
@@ -64,6 +64,20 @@ SearchCriterionSelector::SearchCriterionSelector(QWidget* parent) :
     m_layout->addWidget(m_removeButton);
 
     setLayout(m_layout);
+
+    // preselect the used criterion dependent on the type
+    switch (type) {
+    case Date:
+        m_descriptionsBox->setCurrentIndex(1);
+        m_comparatorBox->setCurrentIndex(1);
+        break;
+    case FileSize:
+        m_descriptionsBox->setCurrentIndex(2);
+        break;
+    case Undefined:
+    default:
+        break;
+    }
 }
 
 SearchCriterionSelector::~SearchCriterionSelector()
@@ -74,19 +88,27 @@ void SearchCriterionSelector::createDescriptions()
 {
     // TODO: maybe this creation should be forwarded to a factory if
     // the number of items increases in future
-
-    QList<SearchCriterionDescription::Comparator> comparators;
-    comparators.append(SearchCriterionDescription::Comparator(i18nc("@label", "greater than"), ">", "+"));
-    comparators.append(SearchCriterionDescription::Comparator(i18nc("@label", "greater than or equal to"), ">=", "+"));
-    comparators.append(SearchCriterionDescription::Comparator(i18nc("@label", "less than"), "<", "+"));
-    comparators.append(SearchCriterionDescription::Comparator(i18nc("@label", "less than or equal to"), "<=", "+"));
+    QList<SearchCriterionDescription::Comparator> comperators;
+    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than"), ">", "+"));
+    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than or Equal to"), ">=", "+"));
+    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than"), "<", "+"));
+    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than or Equal to"), "<=", "+"));
 
     // add "Date" description
+    QList<SearchCriterionDescription::Comparator> dateComps;
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Anytime"), "", "")); // TODO
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"), ">", "+")); // TODO
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This week"), ">", "+")); // TODO
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This month"), ">", "+")); // TODO
+    foreach (const SearchCriterionDescription::Comparator& comp, comperators) {
+        dateComps.append(comp);
+    }
+
     DateValue* dateValue = new DateValue(this);
     dateValue->hide();
     SearchCriterionDescription date(i18nc("@label", "Date Modified"),
                                     "sourceModified",
-                                    comparators,
+                                    dateComps,
                                     dateValue);
 
     // add "File Size" description
@@ -94,7 +116,7 @@ void SearchCriterionSelector::createDescriptions()
     fileSizeValue->hide();
     SearchCriterionDescription size(i18nc("@label", "File Size"),
                                     "contentSize",
-                                    comparators,
+                                    comperators,
                                     fileSizeValue);
 
     m_descriptions.append(date);
