@@ -229,6 +229,7 @@ public Q_SLOTS:
     void cut();
     void copy();
     void paste();
+    void pasteTo(const KUrl&);
     void reparseConfiguration();
 
 private:

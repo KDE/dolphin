@@ -459,6 +459,11 @@ void DolphinPartBrowserExtension::paste()
     m_part->view()->paste();
 }
 
+void DolphinPartBrowserExtension::pasteTo(const KUrl&)
+{
+    m_part->view()->pasteIntoFolder();
+}
+
 void DolphinPartBrowserExtension::reparseConfiguration()
 {
     m_part->view()->refresh();
