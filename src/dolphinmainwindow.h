@@ -401,11 +401,10 @@ private slots:
     void slotTabMoved(int from, int to);
 
     /**
-     * Is connected to the searchbox signal 'textChanged' and
-     * takes care to make the search options configurator visible
-     * if a search text has been entered.
+     * Is connected to the searchbox signal 'requestSearchOptions' and
+     * takes care to show the search options.
      */
-    void slotSearchBoxTextChanged(const QString& text);
+    void showSearchOptions();
 
 private:
     DolphinMainWindow(int id);

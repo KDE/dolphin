@@ -1012,9 +1012,9 @@ void DolphinMainWindow::slotTabMoved(int from, int to)
     m_tabIndex = m_tabBar->currentIndex();
 }
 
-void DolphinMainWindow::slotSearchBoxTextChanged(const QString& text)
+void DolphinMainWindow::showSearchOptions()
 {
-    m_searchOptionsConfigurator->setVisible(!text.isEmpty());
+    m_searchOptionsConfigurator->show();
 }
 
 void DolphinMainWindow::init()
@@ -1098,8 +1098,8 @@ void DolphinMainWindow::init()
 
     m_searchBox->setParent(toolBar("searchToolBar"));
     m_searchBox->show();
-    connect(m_searchBox, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotSearchBoxTextChanged(const QString&)));
+    connect(m_searchBox, SIGNAL(requestSearchOptions()),
+            this, SLOT(showSearchOptions()));
 
     stateChanged("new_file");
 

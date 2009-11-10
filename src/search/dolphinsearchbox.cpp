@@ -284,9 +284,10 @@ bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
         // Postpone the creation of the search completer until
         // the search box is used. This decreases the startup time
         // of Dolphin.
-        Q_ASSERT(m_completer == 0);
-        m_completer = new DolphinSearchCompleter(m_searchInput);
-        m_searchInput->removeEventFilter(this);
+        if (m_completer == 0) {
+            m_completer = new DolphinSearchCompleter(m_searchInput);
+        }
+        emit requestSearchOptions();
     }
 
     return QWidget::eventFilter(watched, event);

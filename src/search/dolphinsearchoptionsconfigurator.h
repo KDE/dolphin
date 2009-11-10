@@ -52,6 +52,11 @@ private slots:
      */
     void updateSelectorButton();
 
+    /**
+     * Saves the current query by adding it as Places entry.
+     */
+    void saveQuery();
+
 private:
     KComboBox* m_searchFromBox;
     KComboBox* m_searchWhatBox;

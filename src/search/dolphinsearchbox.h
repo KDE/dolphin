@@ -82,10 +82,7 @@ signals:
      */
     void search(const KUrl& url);
 
-    /**
-     * Is emitted if the text of the searchbox has been changed.
-     */
-    void textChanged(const QString& text);
+    void requestSearchOptions();
 
 private slots:
     void emitSearchSignal();

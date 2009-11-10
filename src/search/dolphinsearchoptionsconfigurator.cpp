@@ -22,7 +22,9 @@
 #include "searchcriterionselector.h"
 
 #include <kcombobox.h>
+#include <kdialog.h>
 #include <kicon.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kseparator.h>
 
@@ -61,11 +63,22 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
 
     // add button "Save"
     QPushButton* saveButton = new QPushButton(this);
+    saveButton->setIcon(KIcon("document-save"));
     saveButton->setText(i18nc("@action:button", "Save"));
+    saveButton->setToolTip(i18nc("@info", "Save search options"));
+    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveQuery()));
+
+    // add button "Close"
+    QPushButton* closeButton = new QPushButton(this);
+    closeButton->setIcon(KIcon("dialog-close"));
+    closeButton->setText(i18nc("@action:button", "Close"));
+    closeButton->setToolTip(i18nc("@info", "Close search options"));
+    connect(closeButton, SIGNAL(clicked()), this, SLOT(hide()));
 
     // add "Add selector" button
     m_addSelectorButton = new QPushButton(this);
     m_addSelectorButton->setIcon(KIcon("list-add"));
+    m_addSelectorButton->setToolTip(i18nc("@info", "Add search option"));
     m_addSelectorButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(m_addSelectorButton, SIGNAL(clicked()), this, SLOT(addSelector()));
 
@@ -76,6 +89,7 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     hBoxLayout->addWidget(m_searchWhatBox);
     hBoxLayout->addWidget(filler, 1);
     hBoxLayout->addWidget(saveButton);
+    hBoxLayout->addWidget(closeButton);
     hBoxLayout->addWidget(m_addSelectorButton);
 
     m_vBoxLayout->addWidget(new KSeparator(this));
@@ -112,6 +126,32 @@ void DolphinSearchOptionsConfigurator::updateSelectorButton()
 {
     const int selectors = m_vBoxLayout->count() - 1;
     m_addSelectorButton->setEnabled(selectors < 10);
+}
+
+void DolphinSearchOptionsConfigurator::saveQuery()
+{
+    KDialog dialog(0, Qt::Dialog);
+
+    QWidget* container = new QWidget(&dialog);
+
+    QLabel* label = new QLabel(i18nc("@label", "Name:"), container);
+    KLineEdit* lineEdit = new KLineEdit(container);
+    lineEdit->setMinimumWidth(250);
+
+    QHBoxLayout* layout = new QHBoxLayout(container);
+    layout->addWidget(label, Qt::AlignRight);
+    layout->addWidget(lineEdit);
+
+    dialog.setMainWidget(container);
+    dialog.setCaption(i18nc("@title:window", "Save Search Options"));
+    dialog.setButtons(KDialog::Ok | KDialog::Cancel);
+    dialog.setDefaultButton(KDialog::Ok);
+    dialog.setButtonText(KDialog::Ok, i18nc("@action:button", "Save"));
+
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
+                              "SaveSearchOptionsDialog");
+    dialog.restoreDialogSize(dialogConfig);
+    dialog.exec(); // TODO...
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"
