@@ -23,6 +23,7 @@
 #include <kfileitem.h>
 #include <kversioncontrolplugin.h>
 #include <QHash>
+#include <QProcess>
 #include <QTemporaryFile>
 
 // TODO: This class will be moved to kdevplatform as soon as kdevplatform will
@@ -49,7 +50,7 @@ private slots:
     void addFiles();
     void removeFiles();
 
-    void slotOperationCompleted();
+    void slotOperationCompleted(int exitCode, QProcess::ExitStatus exitStatus);
     void slotOperationError();
 
 private:

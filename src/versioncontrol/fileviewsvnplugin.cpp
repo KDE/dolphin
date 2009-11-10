@@ -309,9 +309,11 @@ void FileViewSvnPlugin::removeFiles()
                    i18nc("@info:status", "Removed files from SVN repository."));
 }
 
-void FileViewSvnPlugin::slotOperationCompleted()
+void FileViewSvnPlugin::slotOperationCompleted(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    if (m_contextItems.isEmpty()) {
+    if ((exitStatus != QProcess::NormalExit) || (exitCode != 0)) {
+        emit errorMessage(m_errorMsg);
+    } else if (m_contextItems.isEmpty()) {
         emit operationCompletedMessage(m_operationCompletedMsg);
         emit versionStatesChanged();
     } else {
@@ -344,8 +346,8 @@ void FileViewSvnPlugin::execSvnCommand(const QString& svnCommand,
 void FileViewSvnPlugin::startSvnCommandProcess()
 {
     QProcess* process = new QProcess(this);
-    connect(process, SIGNAL(finished(int)),
-            this, SLOT(slotOperationCompleted()));
+    connect(process, SIGNAL(finished(int, QProcess::ExitStatus)),
+            this, SLOT(slotOperationCompleted(int, QProcess::ExitStatus)));
     connect(process, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(slotOperationError()));
 
