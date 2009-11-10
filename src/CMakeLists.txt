@@ -51,7 +51,7 @@ set(dolphinprivate_LIB_SRCS
     viewextensionsfactory.cpp
     viewproperties.cpp
     zoomlevelinfo.cpp
-    )
+)
     
 if(Nepomuk_FOUND)
     set(dolphinprivate_LIB_SRCS
