@@ -360,36 +360,32 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
             item = KFileItem( S_IFDIR, (mode_t)-1, url() );
     }
 
+    // TODO: We should change the signature of the slots (and signals) for being able
+    //       to tell for which items we want a popup.
+    const KFileItemList items = (m_view->selectedItems().count() ? m_view->selectedItems()
+                                 : KFileItemList() << item);
+    KFileItemListProperties capabilities(items);
+
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
 
     editActions += customActions;
 
     if (!_item.isNull()) { // only for context menu on one or more items
-        bool sDeleting = true;
-        bool sMoving = true;
+        bool supportsDeleting = capabilities.supportsDeleting();
+        bool supportsMoving = capabilities.supportsMoving();
 
-        // If the parent directory of the selected item is writable, moving
-        // and deleting are possible.
-        KFileItem parentDir = m_dirLister->rootItem();
-        if (!parentDir.isNull() && !parentDir.isWritable()) {
+        if (!supportsDeleting) {
             popupFlags |= KParts::BrowserExtension::NoDeletion;
-            sDeleting = false;
-            sMoving = false;
         }
 
-        if ( sMoving )
+        if (supportsMoving) {
             editActions.append(actionCollection()->action("rename"));
+        }
 
-        bool addTrash = false;
+        bool addTrash = capabilities.isLocal() && supportsMoving;
         bool addDel = false;
-
-        bool isIntoTrash = _item.url().protocol() == "trash";
-
-        if ( sMoving && !isIntoTrash && item.isLocalFile() )
-            addTrash = true;
-
-        if ( sDeleting ) {
+        if (supportsDeleting) {
             if ( !item.isLocalFile() )
                 addDel = true;
             else if (QApplication::keyboardModifiers() & Qt::ShiftModifier) {
@@ -399,8 +395,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
             else {
                 KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
                 KConfigGroup configGroup(globalConfig, "KDE");
-                if ( configGroup.readEntry("ShowDeleteCommand", false) )
-                    addDel = true;
+                addDel = configGroup.readEntry("ShowDeleteCommand", false);
             }
         }
 
@@ -409,7 +404,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
         if (addDel)
             editActions.append(actionCollection()->action("delete"));
 
-        // Normally KonqPopupMenu only shows the "Create new" subdir in the current view
+        // Normally KonqPopupMenu only shows the "Create new" submenu in the current view
         // since otherwise the created file would not be visible.
         // But in treeview mode we should allow it.
         if (m_view->itemsExpandable())
@@ -419,10 +414,6 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
 
     actionGroups.insert("editactions", editActions);
 
-    // TODO: We should change the signature of the slots (and signals) for being able
-    //       to tell for which items we want a popup.
-    KFileItemList items = (m_view->selectedItems().count() ? m_view->selectedItems()
-                           : KFileItemList() << item);
     emit m_extension->popupMenu(QCursor::pos(),
                                 items,
                                 KParts::OpenUrlArguments(),
