@@ -22,6 +22,7 @@
 #define DISABLE_NEPOMUK_LEGACY
 #include <nepomuk/property.h>
 #include <nepomuk/tag.h>
+#include <nepomuk/variant.h>
 
 #include <kurl.h>
 #include <QList>
@@ -36,6 +37,13 @@ class KLoadMetaDataThread : public QThread
     Q_OBJECT
 
 public:
+    struct Item
+    {
+        QString name;
+        QString label;
+        QString value;
+    };
+
     KLoadMetaDataThread();
     virtual ~KLoadMetaDataThread();
 
@@ -62,8 +70,7 @@ public:
     int rating() const;
     QString comment() const;
     QList<Nepomuk::Tag> tags() const;
-    QList<QString> metaInfoLabels() const;
-    QList<QString> metaInfoValues() const;
+    QList<Item> items() const;
     QMap<KUrl, Nepomuk::Resource> files() const;
 
 private slots:
@@ -71,21 +78,16 @@ private slots:
 
 private:
     /**
-     * Assures that the settings for the meta information
-     * are initialized with proper default values.
-     */
-    void initMetaInfoSettings(KConfigGroup& group);
-
-    /**
-     * Temporary helper method for KDE 4.3 as we currently don't get
-     * translated labels for Nepmok literals: Replaces camelcase labels
+     * Temporary helper method there is a way to get translated
+     * labels for Nepmok literals: Replaces camelcase labels
      * like "fileLocation" by "File Location:".
      */
     QString tunedLabel(const QString& label) const;
 
     /**
-     * Temporary helper method which tries to pretty print
-     * values.
+     * Temporary helper method until there is a proper formatting facility in Nepomuk.
+     * Here we simply handle the most common formatting situations that do not look nice
+     * when using Nepomuk::Variant::toString().
      */
     QString formatValue(const Nepomuk::Variant& value);
 
@@ -93,8 +95,7 @@ private:
     int m_rating;
     QString m_comment;
     QList<Nepomuk::Tag> m_tags;
-    QList<QString> m_metaInfoLabels;
-    QList<QString> m_metaInfoValues;
+    QList<Item> m_items;
     QMap<KUrl, Nepomuk::Resource> m_files;
 
     KUrl::List m_urls;

@@ -100,6 +100,13 @@ public:
     KFileItemList items() const;
 
     /**
+     * If set to true, data like comment, tag or rating cannot be changed by the user.
+     * Per default read-only is disabled.
+     */
+    void setReadOnly(bool readOnly);
+    bool isReadOnly() const;
+
+    /**
      * Specifies which kind of data types should be shown (@see KMetaDataWidget::Data).
      * Example: metaDataWidget->setVisibleDataTypes(KMetaDataWidget::TypeData | KMetaDataWidget::ModifiedData);
      * Per default all data types are shown.

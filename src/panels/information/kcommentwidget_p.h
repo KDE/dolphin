@@ -39,6 +39,14 @@ public:
     void setText(const QString& comment);
     QString text() const;
 
+    /**
+     * If set to true, the comment cannot be changed by the user.
+     * Per default read-only is disabled.
+     */
+    // TODO: provide common interface class for metadatawidgets
+    void setReadOnly(bool readOnly);
+    bool isReadOnly() const;
+
 signals:
     void commentChanged(const QString& comment);
 
@@ -46,6 +54,7 @@ private slots:
     void slotLinkActivated(const QString& link);
 
 private:
+    bool m_readOnly;
     QLabel* m_label;
     QString m_comment;
 };

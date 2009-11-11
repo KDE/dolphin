@@ -28,6 +28,7 @@
 
 KTaggingWidget::KTaggingWidget(QWidget* parent) :
     QWidget(parent),
+    m_readOnly(false),
     m_label(0),
     m_tags(),
     m_tagsText()
@@ -63,16 +64,37 @@ void KTaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
         first = false;
     }
 
+    QString text;
     if (m_tagsText.isEmpty()) {
-        m_label->setText("<a href=\"addTags\">" + i18nc("@label", "Add Tags...") + "</a>");
+        if (m_readOnly) {
+            text = "-";
+        } else {
+            text = "<a href=\"addTags\">" + i18nc("@label", "Add Tags...") + "</a>";
+        }
     } else {
-        m_label->setText("<p>" + m_tagsText + " <a href=\"changeTags\">" + i18nc("@label", "Change...") + "</a></p>");
+        if (m_readOnly) {
+            text = m_tagsText;
+        } else {
+            text = "<p>" + m_tagsText + " <a href=\"changeTags\">" + i18nc("@label", "Change...") + "</a></p>";
+        }
     }
+    m_label->setText(text);
 }
 
 QList<Nepomuk::Tag> KTaggingWidget::tags() const
 {
     return m_tags;
+}
+
+void KTaggingWidget::setReadOnly(bool readOnly)
+{
+    m_readOnly = readOnly;
+    setTags(m_tags);
+}
+
+bool KTaggingWidget::isReadOnly() const
+{
+    return m_readOnly;
 }
 
 void KTaggingWidget::slotLinkActivated(const QString& link)

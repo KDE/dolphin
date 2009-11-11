@@ -102,7 +102,8 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
-    bool m_isSizeVisible;
+    bool m_sizeVisible;
+    bool m_readOnly;
     MetaDataTypes m_visibleDataTypes;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
@@ -131,7 +132,8 @@ private:
 };
 
 KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
-    m_isSizeVisible(true),
+    m_sizeVisible(true),
+    m_readOnly(false),
     m_visibleDataTypes(TypeData | SizeData | ModifiedData | OwnerData |
                 PermissionsData | RatingData | TagsData | CommentData),
     m_fileItems(),
@@ -288,12 +290,12 @@ void KMetaDataWidget::Private::updateRowsVisibility()
                   (m_visibleDataTypes & KMetaDataWidget::TypeData) &&
                   settings.readEntry("type", true));
 
-    // Cache in m_isSizeVisible whether the size should be shown. This
+    // Cache in m_sizeVisible whether the size should be shown. This
     // is necessary as the size is temporary hidden when the target
     // file item is a directory.
-    m_isSizeVisible = (m_visibleDataTypes & KMetaDataWidget::SizeData) &&
+    m_sizeVisible = (m_visibleDataTypes & KMetaDataWidget::SizeData) &&
                       settings.readEntry("size", true);
-    setRowVisible(m_sizeInfo, m_isSizeVisible);
+    setRowVisible(m_sizeInfo, m_sizeVisible);
 
     setRowVisible(m_modifiedInfo,
                   (m_visibleDataTypes & KMetaDataWidget::ModifiedData) &&
@@ -339,31 +341,28 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     const int rowCount = m_rows.count();
     Q_ASSERT(rowCount >= index);
 
-    Q_ASSERT(m_loadMetaDataThread->metaInfoLabels().count() == m_loadMetaDataThread->metaInfoValues().count());
-    const int metaInfoCount = m_loadMetaDataThread->metaInfoLabels().count();
-    for (int i = 0; i < metaInfoCount; ++i) {
-        const QList<QString> metaInfoLabels = m_loadMetaDataThread->metaInfoLabels();
-        const QList<QString> metaInfoValues = m_loadMetaDataThread->metaInfoValues();
+    const QList<KLoadMetaDataThread::Item> items = m_loadMetaDataThread->items();
+    foreach (const KLoadMetaDataThread::Item& item, items) {
         if (index < rowCount) {
             // adjust texts of the current row
-            m_rows[index].label->setText(metaInfoLabels[i]);
+            m_rows[index].label->setText(item.label);
             QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[index].infoWidget);
             Q_ASSERT(infoValueLabel != 0);
-            infoValueLabel->setText(metaInfoValues[i]);
+            infoValueLabel->setText(item.value);
         } else {
             // create new row
-            QLabel* infoLabel = new QLabel(metaInfoLabels[i], q);
-            QLabel* infoValue = new QLabel(metaInfoValues[i], q);
+            QLabel* infoLabel = new QLabel(item.label, q);
+            QLabel* infoValue = new QLabel(item.value, q);
             addRow(infoLabel, infoValue);
         }
         ++index;
     }
-    if (metaInfoCount > 0) {
+    if (items.count() > 0) {
         --index;
     }
 
     // remove rows that are not needed anymore
-    for (int i = rowCount - 1; i > index; --i) {
+    for (int i = m_rows.count() - 1; i > index; --i) {
         delete m_rows[i].label;
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
@@ -452,7 +451,7 @@ void KMetaDataWidget::setItem(const KFileItem& item)
     } else {
         d->m_typeInfo->setText(item.mimeComment());
         d->m_sizeInfo->setText(KIO::convertSize(item.size()));
-        d->setRowVisible(d->m_sizeInfo, d->m_isSizeVisible);
+        d->setRowVisible(d->m_sizeInfo, d->m_sizeVisible);
     }
     d->m_modifiedInfo->setText(KGlobal::locale()->formatDateTime(item.time(KFileItem::ModificationTime), KLocale::FancyLongDate));
     d->m_ownerInfo->setText(item.user());
@@ -469,7 +468,7 @@ void KMetaDataWidget::setItems(const KFileItemList& items)
         // calculate the size of all items and show this
         // information to the user
         d->m_sizeLabel->setText(i18nc("@label", "Total Size:"));
-        d->setRowVisible(d->m_sizeInfo, d->m_isSizeVisible);
+        d->setRowVisible(d->m_sizeInfo, d->m_sizeVisible);
 
         quint64 totalSize = 0;
         foreach (const KFileItem& item, items) {
@@ -523,6 +522,21 @@ void KMetaDataWidget::setItems(const QList<KUrl>& urls)
 KFileItemList KMetaDataWidget::items() const
 {
     return d->m_fileItems;
+}
+
+void KMetaDataWidget::setReadOnly(bool readOnly)
+{
+    d->m_readOnly = readOnly;
+#ifdef HAVE_NEPOMUK
+    // TODO: encapsulate this code as part of a metadata-model for KDE 4.5
+    d->m_taggingWidget->setReadOnly(readOnly);
+    d->m_commentWidget->setReadOnly(readOnly);
+#endif
+}
+
+bool KMetaDataWidget::isReadOnly() const
+{
+    return d->m_readOnly;
 }
 
 void KMetaDataWidget::setVisibleDataTypes(MetaDataTypes data)

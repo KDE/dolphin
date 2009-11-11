@@ -24,15 +24,13 @@
 #include <kglobal.h>
 #include <klocale.h>
 
-#include <nepomuk/variant.h>
 #include <nepomuk/resource.h>
 
 KLoadMetaDataThread::KLoadMetaDataThread() :
     m_rating(0),
     m_comment(),
     m_tags(),
-    m_metaInfoLabels(),
-    m_metaInfoValues(),
+    m_items(),
     m_files(),
     m_urls(),
     m_canceled(false)
@@ -95,17 +93,16 @@ void KLoadMetaDataThread::run()
         if (first && (m_urls.count() == 1)) {
             // TODO: show shared meta information instead
             // of not showing anything on multiple selections
-            QHash<QUrl, Nepomuk::Variant> properties = file.properties();
-            QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
-            while (it != properties.constEnd()) {
+            QHash<QUrl, Nepomuk::Variant> variants = file.properties();
+            QHash<QUrl, Nepomuk::Variant>::const_iterator it = variants.constBegin();
+            while (it != variants.constEnd()) {
                 Nepomuk::Types::Property prop(it.key());
                 if (settings.readEntry(prop.name(), true)) {
-                    // TODO #1: use Nepomuk::formatValue(res, prop) if available
-                    // instead of it.value().toString()
-                    // TODO #2: using tunedLabel() is a workaround for KDE 4.3 (4.4?) until
-                    // we get translated labels
-                    m_metaInfoLabels.append(tunedLabel(prop.label()));
-                    m_metaInfoValues.append(formatValue(it.value()));
+                    Item item;
+                    item.name = prop.name();
+                    item.label = tunedLabel(prop.label());
+                    item.value = formatValue(it.value());
+                    m_items.append(item);
                 }
                 ++it;
             }
@@ -130,14 +127,9 @@ QList<Nepomuk::Tag> KLoadMetaDataThread::tags() const
     return m_tags;
 }
 
-QList<QString> KLoadMetaDataThread::metaInfoLabels() const
+QList<KLoadMetaDataThread::Item> KLoadMetaDataThread::items() const
 {
-    return m_metaInfoLabels;
-}
-
-QList<QString> KLoadMetaDataThread::metaInfoValues() const
-{
-    return m_metaInfoValues;
+    return m_items;
 }
 
 QMap<KUrl, Nepomuk::Resource> KLoadMetaDataThread::files() const
@@ -150,7 +142,7 @@ void KLoadMetaDataThread::slotFinished()
     deleteLater();
 }
 
-QString KLoadMetaDataThread::tunedLabel(const QString& label) const
+QString  KLoadMetaDataThread::tunedLabel(const QString& label) const
 {
     QString tunedLabel;
     const int labelLength = label.length();
@@ -169,26 +161,19 @@ QString KLoadMetaDataThread::tunedLabel(const QString& label) const
     return tunedLabel + ':';
 }
 
-
-// This is a short hack until we have a proper formatting facility in Nepomuk
-// here we simply handle the most common formatting situations that do not look nice
-// when using Nepomuk::Variant::toString()
-QString KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
+QString  KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
 {
     if (value.isDateTime()) {
-        return KGlobal::locale()->formatDateTime( value.toDateTime(), KLocale::FancyLongDate );
-    }
-    else if (value.isResource()) {
+        return KGlobal::locale()->formatDateTime(value.toDateTime(), KLocale::FancyLongDate);
+    } else if (value.isResource()) {
         return value.toResource().genericLabel();
-    }
-    else if (value.isResourceList()) {
-        QStringList ll;
+    } else if (value.isResourceList()) {
+        QStringList list;
         foreach(const Nepomuk::Resource& res, value.toResourceList()) {
-            ll << res.genericLabel();
+            list << res.genericLabel();
         }
-        return ll.join(QLatin1String(";\n"));
-    }
-    else {
+        return list.join(QLatin1String(";\n"));
+    } else {
         return value.toString();
     }
 }

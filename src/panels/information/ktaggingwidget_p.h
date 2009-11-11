@@ -39,6 +39,14 @@ public:
     void setTags(const QList<Nepomuk::Tag>& tags);
     QList<Nepomuk::Tag> tags() const;
 
+    /**
+     * If set to true, the tags cannot be changed by the user.
+     * Per default read-only is disabled.
+     */
+    // TODO: provide common interface class for metadatawidgets
+    void setReadOnly(bool readOnly);
+    bool isReadOnly() const;
+
 signals:
     void tagsChanged(const QList<Nepomuk::Tag>& tags);
 
@@ -46,6 +54,7 @@ private slots:
     void slotLinkActivated(const QString& link);
 
 private:
+    bool m_readOnly;
     QLabel* m_label;
     QList<Nepomuk::Tag> m_tags;
     QString m_tagsText;
