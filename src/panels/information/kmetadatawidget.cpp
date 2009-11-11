@@ -102,6 +102,11 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
+    /**
+     * Merges items like 'width' and 'height' as one item.
+     */
+    QList<KLoadMetaDataThread::Item> mergedItems(const QList<KLoadMetaDataThread::Item>& items);
+
     bool m_sizeVisible;
     bool m_readOnly;
     MetaDataTypes m_visibleDataTypes;
@@ -341,7 +346,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     const int rowCount = m_rows.count();
     Q_ASSERT(rowCount >= index);
 
-    const QList<KLoadMetaDataThread::Item> items = m_loadMetaDataThread->items();
+    const QList<KLoadMetaDataThread::Item> items = mergedItems(m_loadMetaDataThread->items());
     foreach (const KLoadMetaDataThread::Item& item, items) {
         if (index < rowCount) {
             // adjust texts of the current row
@@ -362,7 +367,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     }
 
     // remove rows that are not needed anymore
-    for (int i = m_rows.count() - 1; i > index; --i) {
+    for (int i = m_rows.count() - 1; i >= index; --i) {
         delete m_rows[i].label;
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
@@ -428,6 +433,55 @@ void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
     job->start();
 }
 #endif
+
+QList<KLoadMetaDataThread::Item>
+    KMetaDataWidget::Private::mergedItems(const QList<KLoadMetaDataThread::Item>& items)
+{
+    // TODO: Currently only "width" and "height" are merged as "width x height". If
+    // other kind of merges should be done too, a more general approach is required.
+    QList<KLoadMetaDataThread::Item> mergedItems;
+
+    KLoadMetaDataThread::Item width;
+    KLoadMetaDataThread::Item height;
+
+    foreach (const KLoadMetaDataThread::Item& item, items) {
+        if (item.name == "width") {
+            width = item;
+        } else if (item.name == "height") {
+            height = item;
+        } else {
+            // insert the item sorted by the label
+            bool inserted = false;
+            int i = 0;
+            const int count = mergedItems.count();
+            while (!inserted && (i < count)) {
+                if (item.label < mergedItems[i].label) {
+                    mergedItems.insert(i, item);
+                    inserted = true;
+                }
+                ++i;
+            }
+            if (!inserted) {
+                mergedItems.append(item);
+            }
+        }
+    }
+
+    const bool foundWidth = !width.name.isEmpty();
+    const bool foundHeight = !height.name.isEmpty();
+    if (foundWidth && !foundHeight) {
+        mergedItems.insert(0, width);
+    } else if (foundHeight && !foundWidth) {
+        mergedItems.insert(0, height);
+    } else if (foundWidth && foundHeight) {
+        KLoadMetaDataThread::Item size;
+        size.label = i18nc("@label", "Width x Height:");
+        size.value = width.value + " x " + height.value;
+        mergedItems.insert(0, size);
+    }
+
+    return mergedItems;
+}
 
 KMetaDataWidget::KMetaDataWidget(QWidget* parent) :
     QWidget(parent),
