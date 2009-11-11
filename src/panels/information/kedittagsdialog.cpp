@@ -18,12 +18,17 @@
 
 #include "kedittagsdialog_p.h"
 
+#include <kicon.h>
 #include <klineedit.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 
+#include <QEvent>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QListWidget>
+#include <QPushButton>
+#include <QTimer>
 #include <QVBoxLayout>
 #include <QWidget>
 
@@ -34,7 +39,9 @@ KEditTagsDialog::KEditTagsDialog(const QList<Nepomuk::Tag>& tags,
     m_tags(tags),
     m_tagsList(0),
     m_newTagItem(0),
-    m_newTagEdit(0)
+    m_deleteCandidate(0),
+    m_newTagEdit(0),
+    m_deleteButtonTimer(0)
 {
 
     const QString caption = (tags.count() > 0) ?
@@ -52,8 +59,14 @@ KEditTagsDialog::KEditTagsDialog(const QList<Nepomuk::Tag>& tags,
                                      "be applied."), this);
 
     m_tagsList = new QListWidget(this);
+    m_tagsList->setMouseTracking(true);
     m_tagsList->setSortingEnabled(true);
     m_tagsList->setSelectionMode(QAbstractItemView::NoSelection);
+    m_tagsList->installEventFilter(this);
+    connect(m_tagsList, SIGNAL(itemEntered(QListWidgetItem*)),
+            this, SLOT(slotItemEntered(QListWidgetItem*)));
+    connect(m_tagsList, SIGNAL(itemEntered(QListWidgetItem*)),
+            this, SLOT(slotItemEntered(QListWidgetItem*)));
 
     QLabel* newTagLabel = new QLabel(i18nc("@label", "Create new tag:"));
     m_newTagEdit = new KLineEdit(this);
@@ -72,6 +85,19 @@ KEditTagsDialog::KEditTagsDialog(const QList<Nepomuk::Tag>& tags,
     setMainWidget(mainWidget);
 
     loadTags();
+
+    // create the delete button, which is shown when
+    // hovering the items
+    m_deleteButton = new QPushButton(m_tagsList->viewport());
+    m_deleteButton->setIcon(KIcon("edit-delete"));
+    m_deleteButton->setToolTip(i18nc("@info", "Delete tag"));
+    m_deleteButton->hide();
+    connect(m_deleteButton, SIGNAL(clicked()), this, SLOT(deleteTag()));
+
+    m_deleteButtonTimer = new QTimer(this);
+    m_deleteButtonTimer->setSingleShot(true);
+    m_deleteButtonTimer->setInterval(500);
+    connect(m_deleteButtonTimer, SIGNAL(timeout()), this, SLOT(showDeleteButton()));
 }
 
 KEditTagsDialog::~KEditTagsDialog()
@@ -81,6 +107,15 @@ KEditTagsDialog::~KEditTagsDialog()
 QList<Nepomuk::Tag> KEditTagsDialog::tags() const
 {
     return m_tags;
+}
+
+bool KEditTagsDialog::eventFilter(QObject* watched, QEvent* event)
+{
+    if ((watched == m_tagsList) && (event->type() == QEvent::Leave)) {
+        m_deleteButtonTimer->stop();
+        m_deleteButton->hide();
+    }
+    return KDialog::eventFilter(watched, event);
 }
 
 void KEditTagsDialog::slotButtonClicked(int button)
@@ -142,6 +177,49 @@ void KEditTagsDialog::slotTextEdited(const QString& text)
     m_newTagItem->setData(Qt::UserRole, tagText);
     m_newTagItem->setCheckState(Qt::Checked);
     m_tagsList->scrollToItem(m_newTagItem);
+}
+
+void KEditTagsDialog::slotItemEntered(QListWidgetItem* item)
+{
+    // align the delete-button to stay on the right border
+    // of the item
+    const QRect rect = m_tagsList->visualItemRect(item);
+    const int size = rect.height();
+    const int x = rect.right() - size;
+    const int y = rect.top();
+    m_deleteButton->move(x, y);
+    m_deleteButton->resize(size, size);
+
+    m_deleteCandidate = item;
+    m_deleteButtonTimer->start();
+}
+
+void KEditTagsDialog::showDeleteButton()
+{
+    m_deleteButton->show();
+}
+
+void KEditTagsDialog::deleteTag()
+{
+    Q_ASSERT(m_deleteCandidate != 0);
+    const QString text = i18nc("@info",
+                               "Should the tag <resource>%1</resource> really be deleted for all files?",
+                               m_deleteCandidate->text());
+    const QString caption = i18nc("@title", "Delete tag");
+    const KGuiItem deleteItem(i18nc("@action:button", "Delete"), KIcon("edit-delete"));
+    const KGuiItem cancelItem(i18nc("@action:button", "Cancel"), KIcon("dialog-cancel"));
+    if (KMessageBox::warningYesNo(this, text, caption, deleteItem, cancelItem) == KMessageBox::Yes) {
+        const QString label = m_deleteCandidate->data(Qt::UserRole).toString();
+        Nepomuk::Tag tag(label);
+        tag.remove();
+
+        // clear list and reload it
+        for (int i = m_tagsList->count() - 1; i >= 0; --i) {
+            QListWidgetItem* item = m_tagsList->takeItem(i);
+            delete item;
+        }
+        loadTags();
+    }
 }
 
 void KEditTagsDialog::loadTags()

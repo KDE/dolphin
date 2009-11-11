@@ -25,6 +25,8 @@
 class KLineEdit;
 class QListWidget;
 class QListWidgetItem;
+class QPushButton;
+class QTimer;
 
 /**
  * @brief Dialog to edit a list of Nepomuk tags.
@@ -47,11 +49,16 @@ public:
 
     QList<Nepomuk::Tag> tags() const;
 
+    virtual bool eventFilter(QObject* watched, QEvent* event);
+
 protected slots:
     virtual void slotButtonClicked(int button);
 
 private slots:
     void slotTextEdited(const QString& text);
+    void slotItemEntered(QListWidgetItem* item);
+    void showDeleteButton();
+    void deleteTag();
 
 private:
     void loadTags();
@@ -61,7 +68,11 @@ private:
     QList<Nepomuk::Tag> m_tags;
     QListWidget* m_tagsList;
     QListWidgetItem* m_newTagItem;
+    QListWidgetItem* m_deleteCandidate;
     KLineEdit* m_newTagEdit;
+
+    QPushButton* m_deleteButton;
+    QTimer* m_deleteButtonTimer;
 };
 
 #endif
