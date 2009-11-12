@@ -134,10 +134,6 @@ set(dolphin_SRCS
     panels/folders/folderspanel.cpp
     panels/folders/paneltreeview.cpp
     search/dolphinsearchbox.cpp
-    search/dolphinsearchoptionsconfigurator.cpp
-    search/searchcriteriondescription.cpp
-    search/searchcriterionselector.cpp
-    search/searchcriterionvalue.cpp
     settings/behaviorsettingspage.cpp
     settings/columnviewsettingspage.cpp
     settings/contextmenusettingspage.cpp
@@ -174,6 +170,10 @@ if(Nepomuk_FOUND)
         panels/information/kloadmetadatathread.cpp
         panels/information/nepomukmassupdatejob.cpp
         panels/information/ktaggingwidget.cpp
+        search/dolphinsearchoptionsconfigurator.cpp
+        search/searchcriteriondescription.cpp
+        search/searchcriterionselector.cpp
+        search/searchcriterionvalue.cpp
     )
 endif(Nepomuk_FOUND)
 

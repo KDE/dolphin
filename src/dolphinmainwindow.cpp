@@ -24,11 +24,13 @@
 #include "dolphinremoteencoding.h"
 
 #include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
+    #include "search/dolphinsearchoptionsconfigurator.h"
+#endif
 
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
 #include "search/dolphinsearchbox.h"
-#include "search/dolphinsearchoptionsconfigurator.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "dolphinviewcontainer.h"
@@ -1014,7 +1016,9 @@ void DolphinMainWindow::slotTabMoved(int from, int to)
 
 void DolphinMainWindow::showSearchOptions()
 {
+#ifdef HAVE_NEPOMUK
     m_searchOptionsConfigurator->show();
+#endif
 }
 
 void DolphinMainWindow::init()
@@ -1057,8 +1061,10 @@ void DolphinMainWindow::init()
     connect(this, SIGNAL(urlChanged(const KUrl&)),
             m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
 
+#ifdef HAVE_NEPOMUK
     m_searchOptionsConfigurator = new DolphinSearchOptionsConfigurator(this);
     m_searchOptionsConfigurator->hide();
+#endif
 
     m_tabBar = new KTabBar(this);
     m_tabBar->setMovable(true);
@@ -1086,7 +1092,9 @@ void DolphinMainWindow::init()
     m_centralWidgetLayout = new QVBoxLayout(centralWidget);
     m_centralWidgetLayout->setSpacing(0);
     m_centralWidgetLayout->setMargin(0);
+#ifdef HAVE_NEPOMUK
     m_centralWidgetLayout->addWidget(m_searchOptionsConfigurator);
+#endif
     m_centralWidgetLayout->addWidget(m_tabBar);
     m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter, 1);
 

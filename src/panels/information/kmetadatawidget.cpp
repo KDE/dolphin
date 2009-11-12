@@ -95,6 +95,7 @@ public:
 
     void slotMetaDataUpdateDone();
 
+#ifdef HAVE_NEPOMUK
     /**
      * Disables the metadata widget and starts the job that
      * changes the meta data asynchronously. After the job
@@ -106,6 +107,7 @@ public:
      * Merges items like 'width' and 'height' as one item.
      */
     QList<KLoadMetaDataThread::Item> mergedItems(const QList<KLoadMetaDataThread::Item>& items);
+#endif
 
     bool m_sizeVisible;
     bool m_readOnly;
@@ -432,7 +434,6 @@ void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
     q->setEnabled(false); // no updates during execution
     job->start();
 }
-#endif
 
 QList<KLoadMetaDataThread::Item>
     KMetaDataWidget::Private::mergedItems(const QList<KLoadMetaDataThread::Item>& items)
@@ -482,6 +483,7 @@ QList<KLoadMetaDataThread::Item>
 
     return mergedItems;
 }
+#endif
 
 KMetaDataWidget::KMetaDataWidget(QWidget* parent) :
     QWidget(parent),
