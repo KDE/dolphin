@@ -40,13 +40,13 @@ SearchCriterionSelector::SearchCriterionSelector(Type type, QWidget* parent) :
     m_descriptions()
 {
     m_descriptionsBox = new QComboBox(this);
-    m_descriptionsBox->addItem(i18nc("@label", "Select..."), -1);
-    createDescriptions();
-    connect(m_descriptionsBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotDescriptionChanged(int)));
 
     m_comparatorBox = new QComboBox(this);
-    m_comparatorBox->hide();
-    connect(m_comparatorBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateQuery()));
+    m_comparatorBox->setSizeAdjustPolicy(QComboBox::AdjustToContents);
+
+    createDescriptions();
+    const int index = static_cast<int>(type);
+    m_descriptionsBox->setCurrentIndex(index);
 
     QWidget* filler = new QWidget(this);
     filler->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -65,19 +65,8 @@ SearchCriterionSelector::SearchCriterionSelector(Type type, QWidget* parent) :
 
     setLayout(m_layout);
 
-    // preselect the used criterion dependent on the type
-    switch (type) {
-    case Date:
-        m_descriptionsBox->setCurrentIndex(1);
-        m_comparatorBox->setCurrentIndex(1);
-        break;
-    case FileSize:
-        m_descriptionsBox->setCurrentIndex(2);
-        break;
-    case Undefined:
-    default:
-        break;
-    }
+    slotDescriptionChanged(index);
+    connect(m_descriptionsBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotDescriptionChanged(int)));
 }
 
 SearchCriterionSelector::~SearchCriterionSelector()
@@ -86,40 +75,59 @@ SearchCriterionSelector::~SearchCriterionSelector()
 
 void SearchCriterionSelector::createDescriptions()
 {
+    Q_ASSERT(m_descriptionsBox != 0);
+    Q_ASSERT(m_comparatorBox != 0);
+
     // TODO: maybe this creation should be forwarded to a factory if
     // the number of items increases in future
-    QList<SearchCriterionDescription::Comparator> comperators;
-    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than"), ">", "+"));
-    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than or Equal to"), ">=", "+"));
-    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than"), "<", "+"));
-    comperators.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than or Equal to"), "<=", "+"));
+    QList<SearchCriterionDescription::Comparator> defaultComps;
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than"), ">", "+"));
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than or Equal to"), ">=", "+"));
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than"), "<", "+"));
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than or Equal to"), "<=", "+"));
 
     // add "Date" description
     QList<SearchCriterionDescription::Comparator> dateComps;
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Anytime"), "", "")); // TODO
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"), ">", "+")); // TODO
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This week"), ">", "+")); // TODO
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This month"), ">", "+")); // TODO
-    foreach (const SearchCriterionDescription::Comparator& comp, comperators) {
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Anytime"))); // TODO
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"))); // TODO
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This week"))); // TODO
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This month"))); // TODO
+    foreach (const SearchCriterionDescription::Comparator& comp, defaultComps) {
         dateComps.append(comp);
     }
 
     DateValue* dateValue = new DateValue(this);
     dateValue->hide();
-    SearchCriterionDescription date(i18nc("@label", "Date Modified"),
+    SearchCriterionDescription date(i18nc("@label", "Date"),
                                     "sourceModified",
                                     dateComps,
                                     dateValue);
 
-    // add "File Size" description
-    FileSizeValue* fileSizeValue = new FileSizeValue(this);
-    fileSizeValue->hide();
-    SearchCriterionDescription size(i18nc("@label", "File Size"),
+    // add "Tag" description
+    QList<SearchCriterionDescription::Comparator> tagComps;
+    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label All (tags)", "All")));
+    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Equal to"), "=="));
+
+    TagValue* tagValue = new TagValue(this);
+    tagValue->hide();
+    SearchCriterionDescription tag(i18nc("@label", "Tag"),
+                                   "tag",
+                                   tagComps,
+                                   tagValue);
+
+    // add "Size" description
+    QList<SearchCriterionDescription::Comparator> sizeComps = defaultComps;
+    sizeComps.insert(0, SearchCriterionDescription::Comparator(i18nc("@label Any (file size)", "Any")));
+
+    SizeValue* sizeValue = new SizeValue(this);
+    sizeValue->hide();
+    SearchCriterionDescription size(i18nc("@label", "Size"),
                                     "contentSize",
-                                    comperators,
-                                    fileSizeValue);
+                                    sizeComps,
+                                    sizeValue);
 
     m_descriptions.append(date);
+    m_descriptions.append(tag);
     m_descriptions.append(size);
 
     // add all descriptions to the combo box
@@ -131,59 +139,45 @@ void SearchCriterionSelector::createDescriptions()
 
 void SearchCriterionSelector::slotDescriptionChanged(int index)
 {
-    m_comparatorBox->clear();
-    m_comparatorBox->show();
     if (m_valueWidget != 0) {
+        m_valueWidget->hide();
         m_layout->removeWidget(m_valueWidget);
+        m_valueWidget = 0;
         // the value widget is obtained by the Search Criterion
         // Selector instance and may not get deleted
     }
 
-    // adjust the comparator box and the value widget dependent from the selected description
-    m_comparatorBox->addItem(i18nc("@label", "Select..."), -1);
-    const int descrIndex = m_descriptionsBox->itemData(index).toInt();
-    if (descrIndex >= 0) {
-        // add comparator items
-        const SearchCriterionDescription& description = m_descriptions[descrIndex];
-        foreach (const SearchCriterionDescription::Comparator& comp, description.comparators()) {
-            m_comparatorBox->addItem(comp.name);
-        }
+    // add comparator items
+    disconnect(m_comparatorBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComparatorChanged(int)));
+    m_comparatorBox->clear();
 
-        // add value widget
-        m_valueWidget = description.valueWidget();
-        const int layoutIndex = m_layout->count() - 2;
-        m_layout->insertWidget(layoutIndex, m_valueWidget);
-        m_valueWidget->show();
+    const SearchCriterionDescription& description = m_descriptions[index];
+    foreach (const SearchCriterionDescription::Comparator& comp, description.comparators()) {
+        m_comparatorBox->addItem(comp.name);
     }
+
+    // add value widget
+    m_valueWidget = description.valueWidget();
+    m_layout->insertWidget(2, m_valueWidget);
+
+    m_comparatorBox->setCurrentIndex(0);
+    slotComparatorChanged(0);
+    connect(m_comparatorBox, SIGNAL(currentIndexChanged(int)), this, SLOT(slotComparatorChanged(int)));
 }
 
-void SearchCriterionSelector::updateQuery()
+void SearchCriterionSelector::slotComparatorChanged(int index)
 {
-    const SearchCriterionDescription* descr = description();
-    if (descr == 0) {
-        // no description has been selected
-        return;
-    }
+    Q_ASSERT(index >= 0);
 
-    // get selected comparator related to the description
-    const int compBoxIndex = m_comparatorBox->currentIndex();
-    const int compIndex = m_comparatorBox->itemData(compBoxIndex).toInt();
-    if (compIndex < 0) {
-        // no comparator has been selected
-        return;
-    }
+    // only show the value widget if an operation is defined by the comparator
+    const int descIndex = m_descriptionsBox->currentIndex();
+    const SearchCriterionDescription& descr = m_descriptions[descIndex];
+    const SearchCriterionDescription::Comparator& comp = descr.comparators()[index];
+    m_valueWidget->setVisible(!comp.operation.isEmpty());
 
     // create query string
-    const SearchCriterionDescription::Comparator& comp = descr->comparators()[compIndex];
-    const QString queryString = comp.prefix + descr->identifier() + comp.operation + m_valueWidget->value();
+    const QString queryString = comp.prefix + descr.identifier() + comp.operation + m_valueWidget->value();
     emit criterionChanged(queryString);
-}
-
-const SearchCriterionDescription* SearchCriterionSelector::description() const
-{
-    const int descrBoxIndex = m_descriptionsBox->currentIndex();
-    const int descrIndex = m_descriptionsBox->itemData(descrBoxIndex).toInt();
-    return (descrIndex < 0) ? 0 : &m_descriptions[descrIndex];
 }
 
 #include "searchcriterionselector.moc"

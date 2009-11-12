@@ -63,14 +63,30 @@ private:
 
 
 
-/** @brief Allows to input a file size value as search criterion. */
-class FileSizeValue : public SearchCriterionValue
+/** @brief Allows to input a tag  as search criterion. */
+class TagValue : public SearchCriterionValue
 {
     Q_OBJECT
 
 public:
-    FileSizeValue(QWidget* parent = 0);
-    virtual ~FileSizeValue();
+    TagValue(QWidget* parent = 0);
+    virtual ~TagValue();
+    virtual QString value() const;
+
+private:
+    QComboBox* m_tags;
+};
+
+
+
+/** @brief Allows to input a file size value as search criterion. */
+class SizeValue : public SearchCriterionValue
+{
+    Q_OBJECT
+
+public:
+    SizeValue(QWidget* parent = 0);
+    virtual ~SizeValue();
     virtual QString value() const;
 
  private:

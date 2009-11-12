@@ -38,7 +38,7 @@ class SearchCriterionDescription
 public:
     struct Comparator
     {
-        Comparator(const QString& n, const QString& o, const QString& p) :
+        Comparator(const QString& n, const QString& o = QString(), const QString& p = QString()) :
             name(n), operation(o), prefix(p) {}
         QString name;        // user visible and translated name
         QString operation;   // Nepomuk operation that represents the comparator

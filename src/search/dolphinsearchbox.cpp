@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+
 #include "dolphinsearchbox.h"
 
 #include <config-nepomuk.h>
@@ -248,8 +249,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_searchInput->setClickMessage(i18nc("@label:textbox", "Search..."));
     m_searchInput->installEventFilter(this);
     hLayout->addWidget(m_searchInput);
-    connect(m_searchInput, SIGNAL(textChanged(const QString&)),
-            this, SIGNAL(textChanged(const QString&)));
     connect(m_searchInput, SIGNAL(returnPressed()),
             this, SLOT(emitSearchSignal()));
 
@@ -278,6 +277,7 @@ bool DolphinSearchBox::event(QEvent* event)
     return QWidget::event(event);
 }
 
+#include <kdebug.h>
 bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
 {
     if ((watched == m_searchInput) && (event->type() == QEvent::FocusIn)) {
@@ -287,6 +287,7 @@ bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
         if (m_completer == 0) {
             m_completer = new DolphinSearchCompleter(m_searchInput);
         }
+        kDebug() << "---- got focus! is visible? " << isVisible();
         emit requestSearchOptions();
     }
 

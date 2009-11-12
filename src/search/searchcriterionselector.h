@@ -45,12 +45,7 @@ class SearchCriterionSelector : public QWidget
     Q_OBJECT
 
 public:
-    enum Type
-    {
-        Undefined,
-        Date,
-        FileSize
-    };
+    enum Type { Date, Tag, Size };
 
     SearchCriterionSelector(Type type, QWidget* parent = 0);
     virtual ~SearchCriterionSelector();
@@ -70,11 +65,7 @@ signals:
 
 private slots:
     void slotDescriptionChanged(int index);
-
-    /**
-     * Updates the query string and emits the signal criterionChanged().
-     */
-    void updateQuery();
+    void slotComparatorChanged(int index);
 
 private:
     /**
@@ -82,12 +73,6 @@ private:
      * and adds them into the combobox m_descriptionsBox.
      */
     void createDescriptions();
-
-    /**
-     * Returns the currently selected searc criterion description. If nothing
-     * is selected, 0 is returned.
-     */
-    const SearchCriterionDescription* description() const;
 
 private:
     QHBoxLayout* m_layout;

@@ -37,7 +37,7 @@ SearchCriterionValue::~SearchCriterionValue()
 {
 }
 
-
+// -------------------------------------------------------------------------
 
 DateValue::DateValue(QWidget* parent) :
     SearchCriterionValue(parent),
@@ -59,9 +59,32 @@ QString DateValue::value() const
     return QString();
 }
 
+// -------------------------------------------------------------------------
 
+TagValue::TagValue(QWidget* parent) :
+    SearchCriterionValue(parent),
+    m_tags(0)
+{
+    m_tags = new QComboBox(this);
+    m_tags->addItem("feffi");
 
-FileSizeValue::FileSizeValue(QWidget* parent) :
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->addWidget(m_tags);
+}
+
+TagValue::~TagValue()
+{
+}
+
+QString TagValue::value() const
+{
+    return QString();
+}
+
+// -------------------------------------------------------------------------
+
+SizeValue::SizeValue(QWidget* parent) :
     SearchCriterionValue(parent),
     m_lineEdit(0),
     m_units(0)
@@ -82,11 +105,11 @@ FileSizeValue::FileSizeValue(QWidget* parent) :
     layout->addWidget(m_units);
 }
 
-FileSizeValue::~FileSizeValue()
+SizeValue::~SizeValue()
 {
 }
 
-QString FileSizeValue::value() const
+QString SizeValue::value() const
 {
     return QString();
 }

@@ -32,10 +32,12 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QShowEvent>
 #include <QVBoxLayout>
 
 DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* parent) :
     QWidget(parent),
+    m_initialized(false),
     m_searchFromBox(0),
     m_searchWhatBox(0),
     m_addSelectorButton(0),
@@ -59,8 +61,6 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     m_searchWhatBox->addItem(i18nc("@label", "Text"));
     m_searchWhatBox->addItem(i18nc("@label", "Filenames"));
 
-    QWidget* filler = new QWidget(this);
-
     // add button "Save"
     QPushButton* saveButton = new QPushButton(this);
     saveButton->setIcon(KIcon("document-save"));
@@ -80,29 +80,24 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     m_addSelectorButton->setIcon(KIcon("list-add"));
     m_addSelectorButton->setToolTip(i18nc("@info", "Add search option"));
     m_addSelectorButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    connect(m_addSelectorButton, SIGNAL(clicked()), this, SLOT(addSelector()));
+    connect(m_addSelectorButton, SIGNAL(clicked()), this, SLOT(slotAddSelectorButtonClicked()));
 
-    QHBoxLayout* hBoxLayout = new QHBoxLayout(this);
-    hBoxLayout->addWidget(searchLabel);
-    hBoxLayout->addWidget(m_searchFromBox);
-    hBoxLayout->addWidget(whatLabel);
-    hBoxLayout->addWidget(m_searchWhatBox);
-    hBoxLayout->addWidget(filler, 1);
-    hBoxLayout->addWidget(saveButton);
-    hBoxLayout->addWidget(closeButton);
-    hBoxLayout->addWidget(m_addSelectorButton);
+    QHBoxLayout* firstLineLayout = new QHBoxLayout();
+    firstLineLayout->addWidget(searchLabel);
+    firstLineLayout->addWidget(m_searchFromBox);
+    firstLineLayout->addWidget(whatLabel);
+    firstLineLayout->addWidget(m_searchWhatBox);
+    firstLineLayout->addWidget(new QWidget(this), 1); // filler
+    firstLineLayout->addWidget(m_addSelectorButton);
 
-    // add default search criterions
-    SearchCriterionSelector* dateCriterion = new SearchCriterionSelector(SearchCriterionSelector::Date, this);
-    connect(dateCriterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
-
-    SearchCriterionSelector* fileSizeCriterion = new SearchCriterionSelector(SearchCriterionSelector::FileSize, this);
-    connect(fileSizeCriterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
+    QHBoxLayout* lastLineLayout = new QHBoxLayout();
+    lastLineLayout->addWidget(new QWidget(this), 1); // filler
+    lastLineLayout->addWidget(saveButton);
+    lastLineLayout->addWidget(closeButton);
 
     m_vBoxLayout->addWidget(new KSeparator(this));
-    m_vBoxLayout->addLayout(hBoxLayout);
-    m_vBoxLayout->addWidget(dateCriterion);
-    m_vBoxLayout->addWidget(fileSizeCriterion);
+    m_vBoxLayout->addLayout(firstLineLayout);
+    m_vBoxLayout->addLayout(lastLineLayout);
     m_vBoxLayout->addWidget(new KSeparator(this));
 }
 
@@ -110,15 +105,27 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
 {
 }
 
-void DolphinSearchOptionsConfigurator::addSelector()
+void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
 {
-    SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Undefined, this);
-    connect(selector, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
+    if (!event->spontaneous() && !m_initialized) {
+        // add default search criterions
+        SearchCriterionSelector* dateCriterion = new SearchCriterionSelector(SearchCriterionSelector::Date, this);
+        SearchCriterionSelector* tagCriterion = new SearchCriterionSelector(SearchCriterionSelector::Tag, this);
+        SearchCriterionSelector* sizeCriterion = new SearchCriterionSelector(SearchCriterionSelector::Size, this);
 
-    // insert the new selector before the KSeparator at the bottom
-    const int index = m_vBoxLayout->count() - 1;
-    m_vBoxLayout->insertWidget(index, selector);
-    updateSelectorButton();
+        addSelector(dateCriterion);
+        addSelector(tagCriterion);
+        addSelector(sizeCriterion);
+
+        m_initialized = true;
+    }
+    QWidget::showEvent(event);
+}
+
+void DolphinSearchOptionsConfigurator::slotAddSelectorButtonClicked()
+{
+    SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Size, this);
+    addSelector(selector);
 }
 
 void DolphinSearchOptionsConfigurator::removeCriterion()
@@ -161,6 +168,16 @@ void DolphinSearchOptionsConfigurator::saveQuery()
                               "SaveSearchOptionsDialog");
     dialog.restoreDialogSize(dialogConfig);
     dialog.exec(); // TODO...
+}
+
+void DolphinSearchOptionsConfigurator::addSelector(SearchCriterionSelector* selector)
+{
+    connect(selector, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
+
+    // insert the new selector before the lastLineLayout and the KSeparator at the bottom
+    const int index = m_vBoxLayout->count() - 2;
+    m_vBoxLayout->insertWidget(index, selector);
+    updateSelectorButton();
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"
