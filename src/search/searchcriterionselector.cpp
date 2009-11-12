@@ -53,6 +53,7 @@ SearchCriterionSelector::SearchCriterionSelector(Type type, QWidget* parent) :
 
     m_removeButton = new QPushButton(this);
     m_removeButton->setIcon(KIcon("list-remove"));
+    m_removeButton->setToolTip(i18nc("@info", "Remove search option"));
     m_removeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     connect(m_removeButton, SIGNAL(clicked()), this, SIGNAL(removeCriterion()));
 

@@ -29,7 +29,6 @@ class KUrl;
 class QCompleter;
 class QModelIndex;
 class QStandardItemModel;
-class QToolButton;
 
 /**
  * @brief Helper class used for completition for the DolphinSearchBox.
@@ -89,7 +88,6 @@ private slots:
 
 private:
     KLineEdit* m_searchInput;
-    QToolButton* m_searchButton;
 
     DolphinSearchCompleter* m_completer;
 };

@@ -236,7 +236,6 @@ void DolphinSearchCompleter::highlighted(const QModelIndex& index)
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
     m_searchInput(0),
-    m_searchButton(0),
     m_completer(0)
 {
     QHBoxLayout* hLayout = new QHBoxLayout(this);
@@ -250,14 +249,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_searchInput->installEventFilter(this);
     hLayout->addWidget(m_searchInput);
     connect(m_searchInput, SIGNAL(returnPressed()),
-            this, SLOT(emitSearchSignal()));
-
-    m_searchButton = new QToolButton(this);
-    m_searchButton->setAutoRaise(true);
-    m_searchButton->setIcon(KIcon("edit-find"));
-    m_searchButton->setToolTip(i18nc("@info:tooltip", "Click to begin the search"));
-    hLayout->addWidget(m_searchButton);
-    connect(m_searchButton, SIGNAL(clicked()),
             this, SLOT(emitSearchSignal()));
 }
 

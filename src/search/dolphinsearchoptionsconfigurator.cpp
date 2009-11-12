@@ -64,6 +64,12 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     m_searchWhatBox->addItem(i18nc("@label", "Text"));
     m_searchWhatBox->addItem(i18nc("@label", "Filenames"));
 
+    // add button "Search"
+    QPushButton* searchButton = new QPushButton(this);
+    searchButton->setIcon(KIcon("edit-find"));
+    searchButton->setText(i18nc("@action:button", "Search"));
+    searchButton->setToolTip(i18nc("@info", "Start searching"));
+
     // add button "Save"
     QPushButton* saveButton = new QPushButton(this);
     saveButton->setIcon(KIcon("document-save"));
@@ -95,6 +101,7 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
 
     QHBoxLayout* lastLineLayout = new QHBoxLayout();
     lastLineLayout->addWidget(new QWidget(this), 1); // filler
+    lastLineLayout->addWidget(searchButton);
     lastLineLayout->addWidget(saveButton);
     lastLineLayout->addWidget(closeButton);
 
