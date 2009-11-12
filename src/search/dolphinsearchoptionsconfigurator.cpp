@@ -110,12 +110,17 @@ void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
     if (!event->spontaneous() && !m_initialized) {
         // add default search criterions
         SearchCriterionSelector* dateCriterion = new SearchCriterionSelector(SearchCriterionSelector::Date, this);
-        SearchCriterionSelector* tagCriterion = new SearchCriterionSelector(SearchCriterionSelector::Tag, this);
         SearchCriterionSelector* sizeCriterion = new SearchCriterionSelector(SearchCriterionSelector::Size, this);
+        SearchCriterionSelector* tagCriterion = new SearchCriterionSelector(SearchCriterionSelector::Tag, this);
 
+        // Add the items in the same order as available in the description combo (verified by Q_ASSERTs). This
+        // is not mandatory from an implementation point of view, but preferable from a usability point of view.
+        Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
+        Q_ASSERT(static_cast<int>(SearchCriterionSelector::Size) == 1);
+        Q_ASSERT(static_cast<int>(SearchCriterionSelector::Tag) == 2);
         addSelector(dateCriterion);
-        addSelector(tagCriterion);
         addSelector(sizeCriterion);
+        addSelector(tagCriterion);
 
         m_initialized = true;
     }
@@ -124,7 +129,7 @@ void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
 
 void DolphinSearchOptionsConfigurator::slotAddSelectorButtonClicked()
 {
-    SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Size, this);
+    SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Tag, this);
     addSelector(selector);
 }
 

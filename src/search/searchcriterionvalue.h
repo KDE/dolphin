@@ -73,6 +73,9 @@ public:
     virtual ~TagValue();
     virtual QString value() const;
 
+protected:
+    virtual void showEvent(QShowEvent* event);
+
 private:
     QComboBox* m_tags;
 };

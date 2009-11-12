@@ -23,10 +23,13 @@
 #include <klineedit.h>
 #include <klocale.h>
 
+#include <nepomuk/tag.h>
+
 #include <QComboBox>
 #include <QDateEdit>
 #include <QLabel>
 #include <QHBoxLayout>
+#include <QShowEvent>
 
 SearchCriterionValue::SearchCriterionValue(QWidget* parent) :
     QWidget(parent)
@@ -66,7 +69,7 @@ TagValue::TagValue(QWidget* parent) :
     m_tags(0)
 {
     m_tags = new QComboBox(this);
-    m_tags->addItem("feffi");
+    m_tags->setInsertPolicy(QComboBox::InsertAlphabetically);
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
@@ -80,6 +83,21 @@ TagValue::~TagValue()
 QString TagValue::value() const
 {
     return QString();
+}
+
+void TagValue::showEvent(QShowEvent* event)
+{
+    if (!event->spontaneous() && (m_tags->count() == 0)) {
+        const QList<Nepomuk::Tag> tags = Nepomuk::Tag::allTags();
+        foreach (const Nepomuk::Tag& tag, tags) {
+            m_tags->addItem(tag.label());
+        }
+
+        if (tags.count() == 0) {
+            m_tags->addItem(i18nc("@label", "No Tags Available"));
+        }
+    }
+    SearchCriterionValue::showEvent(event);
 }
 
 // -------------------------------------------------------------------------

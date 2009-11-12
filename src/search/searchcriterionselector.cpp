@@ -103,6 +103,17 @@ void SearchCriterionSelector::createDescriptions()
                                     dateComps,
                                     dateValue);
 
+    // add "Size" description
+    QList<SearchCriterionDescription::Comparator> sizeComps = defaultComps;
+    sizeComps.insert(0, SearchCriterionDescription::Comparator(i18nc("@label Any (file size)", "Any")));
+
+    SizeValue* sizeValue = new SizeValue(this);
+    sizeValue->hide();
+    SearchCriterionDescription size(i18nc("@label", "Size"),
+                                    "contentSize",
+                                    sizeComps,
+                                    sizeValue);
+
     // add "Tag" description
     QList<SearchCriterionDescription::Comparator> tagComps;
     tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label All (tags)", "All")));
@@ -115,20 +126,12 @@ void SearchCriterionSelector::createDescriptions()
                                    tagComps,
                                    tagValue);
 
-    // add "Size" description
-    QList<SearchCriterionDescription::Comparator> sizeComps = defaultComps;
-    sizeComps.insert(0, SearchCriterionDescription::Comparator(i18nc("@label Any (file size)", "Any")));
-
-    SizeValue* sizeValue = new SizeValue(this);
-    sizeValue->hide();
-    SearchCriterionDescription size(i18nc("@label", "Size"),
-                                    "contentSize",
-                                    sizeComps,
-                                    sizeValue);
-
+    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
+    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Size) == 1);
+    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Tag) == 2);
     m_descriptions.append(date);
-    m_descriptions.append(tag);
     m_descriptions.append(size);
+    m_descriptions.append(tag);
 
     // add all descriptions to the combo box
     const int count = m_descriptions.count();

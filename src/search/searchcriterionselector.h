@@ -45,7 +45,7 @@ class SearchCriterionSelector : public QWidget
     Q_OBJECT
 
 public:
-    enum Type { Date, Tag, Size };
+    enum Type { Date, Size, Tag };
 
     SearchCriterionSelector(Type type, QWidget* parent = 0);
     virtual ~SearchCriterionSelector();
