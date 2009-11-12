@@ -124,6 +124,11 @@ void DolphinContextMenu::openTrashContextMenu()
     QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
 
+    // Don't show if url is already in places
+    if (placeExists(m_mainWindow->activeViewContainer()->url())) {
+        addToPlacesAction->setVisible(false);
+    }
+
     addCustomActions(popup);
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
@@ -209,6 +214,10 @@ void DolphinContextMenu::openItemContextMenu()
     if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
         addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
                                              i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
+        // Don't show if url is already in places
+        if (placeExists(m_fileInfo.url())) {
+            addToPlacesAction->setVisible(false);
+        }
     }
 
     KonqMenuActions menuActions;
@@ -288,6 +297,11 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
 
+    // Don't show if url is already in places
+    if (placeExists(m_mainWindow->activeViewContainer()->url())) {
+        addToPlacesAction->setVisible(false);
+    }
+
     addCustomActions(popup);
 
     QAction* propertiesAction = popup->addAction(i18nc("@action:inmenu", "Properties"));
@@ -363,6 +377,21 @@ QString DolphinContextMenu::placesName(const KUrl& url) const
         name = url.host();
     }
     return name;
+}
+
+bool DolphinContextMenu::placeExists(const KUrl& url) const
+{
+    const KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
+    const int count = placesModel->rowCount();
+
+    for (int i = 0; i < count; ++i) {
+        const QModelIndex index = placesModel->index(i, 0);
+
+        if (url.equals(placesModel->url(index), KUrl::CompareWithoutTrailingSlash)) {
+            return true;
+        }
+    }
+    return false;
 }
 
 QAction* DolphinContextMenu::createPasteAction()

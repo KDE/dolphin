@@ -92,6 +92,8 @@ private:
      */
     QString placesName(const KUrl& url) const;
 
+    bool placeExists(const KUrl& url) const;
+
     QAction* createPasteAction();
 
 private:
