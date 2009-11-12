@@ -226,7 +226,7 @@ void KEditTagsDialog::loadTags()
 {
     // load all available tags and mark those tags as checked
     // that have been passed to the KEditTagsDialog
-    QList<Nepomuk::Tag> tags = Nepomuk::Tag::allTags();
+    const QList<Nepomuk::Tag> tags = Nepomuk::Tag::allTags();
     foreach (const Nepomuk::Tag& tag, tags) {
         const QString label = tag.label();
 
