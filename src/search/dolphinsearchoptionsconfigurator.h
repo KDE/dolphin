@@ -20,6 +20,7 @@
 #ifndef DOLPHINSEARCHOPTIONSCONFIGURATOR_H
 #define DOLPHINSEARCHOPTIONSCONFIGURATOR_H
 
+#include <QList>
 #include <QWidget>
 
 class KComboBox;
@@ -38,11 +39,16 @@ public:
     DolphinSearchOptionsConfigurator(QWidget* parent = 0);
     virtual ~DolphinSearchOptionsConfigurator();
 
+signals:
+    void searchOptionsChanged(const QString& options);
+
 protected:
     virtual void showEvent(QShowEvent* event);
 
 private slots:
     void slotAddSelectorButtonClicked();
+
+    void slotCriterionChanged();
 
     void removeCriterion();
 
@@ -62,7 +68,7 @@ private:
      * Adds the new search description selector to the bottom
      * of the layout.
      */
-    void addSelector(SearchCriterionSelector* selector);
+    void addCriterion(SearchCriterionSelector* selector);
 
 private:
     bool m_initialized;
@@ -70,6 +76,7 @@ private:
     KComboBox* m_searchWhatBox;
     QPushButton* m_addSelectorButton;
     QVBoxLayout* m_vBoxLayout;
+    QList<SearchCriterionSelector*> m_criterions;
 };
 
 #endif

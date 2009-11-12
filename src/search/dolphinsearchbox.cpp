@@ -277,7 +277,6 @@ bool DolphinSearchBox::event(QEvent* event)
     return QWidget::event(event);
 }
 
-#include <kdebug.h>
 bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
 {
     if ((watched == m_searchInput) && (event->type() == QEvent::FocusIn)) {
@@ -287,7 +286,6 @@ bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
         if (m_completer == 0) {
             m_completer = new DolphinSearchCompleter(m_searchInput);
         }
-        kDebug() << "---- got focus! is visible? " << isVisible();
         emit requestSearchOptions();
     }
 

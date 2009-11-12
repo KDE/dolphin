@@ -20,13 +20,15 @@
 
 #include "searchcriterionvalue.h"
 
+#include <kdatewidget.h>
 #include <klineedit.h>
 #include <klocale.h>
 
 #include <nepomuk/tag.h>
 
 #include <QComboBox>
-#include <QDateEdit>
+#include <QDate>
+#include <QIntValidator>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QShowEvent>
@@ -44,13 +46,13 @@ SearchCriterionValue::~SearchCriterionValue()
 
 DateValue::DateValue(QWidget* parent) :
     SearchCriterionValue(parent),
-    m_dateEdit(0)
+    m_dateWidget(0)
 {
-    m_dateEdit = new QDateEdit(this);
+    m_dateWidget = new KDateWidget(QDate::currentDate(), this);
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
-    layout->addWidget(m_dateEdit);
+    layout->addWidget(m_dateWidget);
 }
 
 DateValue::~DateValue()
@@ -59,7 +61,7 @@ DateValue::~DateValue()
 
 QString DateValue::value() const
 {
-    return QString();
+    return m_dateWidget->date().toString(Qt::ISODate);
 }
 
 // -------------------------------------------------------------------------
@@ -74,6 +76,9 @@ TagValue::TagValue(QWidget* parent) :
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);
     layout->addWidget(m_tags);
+
+    connect(m_tags, SIGNAL(activated(QString)),
+            this, SIGNAL(valueChanged(QString)));
 }
 
 TagValue::~TagValue()
@@ -82,7 +87,7 @@ TagValue::~TagValue()
 
 QString TagValue::value() const
 {
-    return QString();
+    return m_tags->currentText();
 }
 
 void TagValue::showEvent(QShowEvent* event)
@@ -109,6 +114,8 @@ SizeValue::SizeValue(QWidget* parent) :
 {
     m_lineEdit = new KLineEdit(this);
     m_lineEdit->setClearButtonShown(true);
+    m_lineEdit->setValidator(new QIntValidator(this));
+    m_lineEdit->setAlignment(Qt::AlignRight);
 
     m_units = new QComboBox(this);
     // TODO: check the KByte vs. KiByte dilemma :-/
@@ -116,6 +123,10 @@ SizeValue::SizeValue(QWidget* parent) :
     m_units->addItem(i18nc("@label", "KByte"));
     m_units->addItem(i18nc("@label", "MByte"));
     m_units->addItem(i18nc("@label", "GByte"));
+
+    // set 1 MByte as default
+    m_lineEdit->setText("1");
+    m_units->setCurrentIndex(2);
 
     QHBoxLayout* layout = new QHBoxLayout(this);
     layout->setMargin(0);

@@ -50,6 +50,8 @@ public:
     SearchCriterionSelector(Type type, QWidget* parent = 0);
     virtual ~SearchCriterionSelector();
 
+    QString queryString() const;
+
 signals:
     /**
      * Is emitted if the criterion selector should be removed
@@ -57,11 +59,8 @@ signals:
      */
     void removeCriterion();
 
-    /**
-     * Is emitted if the user changed the search criterion.
-     * \p queryString represents a Nepomuk conform query string.
-     */
-    void criterionChanged(const QString& queryString);
+    /** Is emitted if the user has changed the search criterion. */
+    void criterionChanged();
 
 private slots:
     void slotDescriptionChanged(int index);

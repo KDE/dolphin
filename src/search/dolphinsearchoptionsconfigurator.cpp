@@ -35,13 +35,16 @@
 #include <QShowEvent>
 #include <QVBoxLayout>
 
+#include <kdebug.h>
+
 DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* parent) :
     QWidget(parent),
     m_initialized(false),
     m_searchFromBox(0),
     m_searchWhatBox(0),
     m_addSelectorButton(0),
-    m_vBoxLayout(0)
+    m_vBoxLayout(0),
+    m_criterions()
 {
     m_vBoxLayout = new QVBoxLayout(this);
 
@@ -118,9 +121,9 @@ void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
         Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
         Q_ASSERT(static_cast<int>(SearchCriterionSelector::Size) == 1);
         Q_ASSERT(static_cast<int>(SearchCriterionSelector::Tag) == 2);
-        addSelector(dateCriterion);
-        addSelector(sizeCriterion);
-        addSelector(tagCriterion);
+        addCriterion(dateCriterion);
+        addCriterion(sizeCriterion);
+        addCriterion(tagCriterion);
 
         m_initialized = true;
     }
@@ -130,14 +133,28 @@ void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
 void DolphinSearchOptionsConfigurator::slotAddSelectorButtonClicked()
 {
     SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Tag, this);
-    addSelector(selector);
+    addCriterion(selector);
+}
+
+void DolphinSearchOptionsConfigurator::slotCriterionChanged()
+{
+    QString searchOptions;
+    foreach (const SearchCriterionSelector* criterion, m_criterions) {
+        searchOptions += criterion->queryString() + ' ';
+    }
+    kDebug() << "Search option string:" << searchOptions;
+    emit searchOptionsChanged(searchOptions);
 }
 
 void DolphinSearchOptionsConfigurator::removeCriterion()
 {
-    QWidget* criterion = qobject_cast<QWidget*>(sender());
+    SearchCriterionSelector* criterion = qobject_cast<SearchCriterionSelector*>(sender());
     Q_ASSERT(criterion != 0);
     m_vBoxLayout->removeWidget(criterion);
+
+    const int index = m_criterions.indexOf(criterion);
+    m_criterions.removeAt(index);
+
     criterion->deleteLater();
 
     updateSelectorButton();
@@ -175,14 +192,17 @@ void DolphinSearchOptionsConfigurator::saveQuery()
     dialog.exec(); // TODO...
 }
 
-void DolphinSearchOptionsConfigurator::addSelector(SearchCriterionSelector* selector)
+void DolphinSearchOptionsConfigurator::addCriterion(SearchCriterionSelector* criterion)
 {
-    connect(selector, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
+    connect(criterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
+    connect(criterion, SIGNAL(criterionChanged()), this, SLOT(slotCriterionChanged()));
 
     // insert the new selector before the lastLineLayout and the KSeparator at the bottom
     const int index = m_vBoxLayout->count() - 2;
-    m_vBoxLayout->insertWidget(index, selector);
+    m_vBoxLayout->insertWidget(index, criterion);
     updateSelectorButton();
+
+    m_criterions.append(criterion);
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"
