@@ -19,8 +19,6 @@
 
 #include "informationpanelcontent.h"
 
-#include <config-nepomuk.h>
-
 #include <kdialog.h>
 #include <kfileitem.h>
 #include <kfileplacesmodel.h>
