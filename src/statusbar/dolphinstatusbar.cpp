@@ -191,6 +191,9 @@ QString DolphinStatusBar::progressText() const
 
 void DolphinStatusBar::setProgress(int percent)
 {
+    // show a busy indicator if a value < 0 is provided:
+    m_progressBar->setMaximum((percent < 0) ? 0 : 100);
+
     if (percent < 0) {
         percent = 0;
     } else if (percent > 100) {
@@ -206,7 +209,7 @@ void DolphinStatusBar::setProgress(int percent)
 
     m_progressBar->setValue(m_progress);
     if (!m_progressBar->isVisible() || (percent == 100)) {
-        QTimer::singleShot(300, this, SLOT(updateProgressInfo()));
+        updateProgressInfo();
     }
 
     const QString& defaultText = m_messageLabel->defaultText();
@@ -250,24 +253,6 @@ void DolphinStatusBar::resizeEvent(QResizeEvent* event)
 
     QWidget::resizeEvent(event);
     QMetaObject::invokeMethod(this, "assureVisibleText", Qt::QueuedConnection);
-}
-
-void DolphinStatusBar::updateProgressInfo()
-{
-    const bool isErrorShown = (m_messageLabel->type() == Error);
-    if (m_progress < 100) {
-        // show the progress information and hide the extensions
-        setExtensionsVisible(false);
-        if (!isErrorShown) {
-            m_progressText->show();
-            m_progressBar->show();
-        }
-    } else {
-        // hide the progress information and show the extensions
-        m_progressText->hide();
-        m_progressBar->hide();
-        assureVisibleText();
-    }
 }
 
 void DolphinStatusBar::updateSpaceInfoContent(const KUrl& url)
@@ -320,6 +305,24 @@ void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
     global.ry() += m_zoomSlider->height() / 2;
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), m_zoomSlider->mapToGlobal(global));
     QApplication::sendEvent(m_zoomSlider, &toolTipEvent);
+}
+
+void DolphinStatusBar::updateProgressInfo()
+{
+    const bool isErrorShown = (m_messageLabel->type() == Error);
+    if (m_progress < 100) {
+        // show the progress information and hide the extensions
+        setExtensionsVisible(false);
+        if (!isErrorShown) {
+            m_progressText->show();
+            m_progressBar->show();
+        }
+    } else {
+        // hide the progress information and show the extensions
+        m_progressText->hide();
+        m_progressBar->hide();
+        assureVisibleText();
+    }
 }
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)

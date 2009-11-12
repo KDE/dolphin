@@ -127,8 +127,6 @@ protected:
     virtual void resizeEvent(QResizeEvent* event);
 
 private slots:
-    void updateProgressInfo();
-
     /**
      * Is invoked, when the URL of the DolphinView, where the
      * statusbar belongs too, has been changed. The space information
@@ -153,6 +151,8 @@ private slots:
     void showZoomSliderToolTip(int zoomLevel);
 
 private:
+    void updateProgressInfo();
+
     /**
      * Makes the space information widget and zoom slider widget
      * visible, if \a visible is true and the settings allow to show

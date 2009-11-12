@@ -67,7 +67,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
                                            QWidget* parent,
                                            const KUrl& url) :
     QWidget(parent),
-    m_showProgress(false),
     m_isFolderWritable(false),
     m_mainWindow(mainWindow),
     m_topLayout(0),
@@ -283,30 +282,17 @@ void DolphinViewContainer::updateStatusBar()
 
 void DolphinViewContainer::updateProgress(int percent)
 {
-    if (!m_showProgress) {
-        // Only show the directory loading progress if the status bar does
-        // not contain another progress information. This means that
-        // the directory loading progress information has the lowest priority.
-        const QString progressText(m_statusBar->progressText());
-        const QString loadingText(i18nc("@info:progress", "Loading folder..."));
-        m_showProgress = progressText.isEmpty() || (progressText == loadingText);
-        if (m_showProgress) {
-            m_statusBar->setProgressText(loadingText);
-            m_statusBar->setProgress(0);
-        }
+    if (m_statusBar->progressText().isEmpty()) {
+        m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder..."));
     }
-
-    if (m_showProgress) {
-        m_statusBar->setProgress(percent);
-    }
+    m_statusBar->setProgress(percent);
 }
 
 void DolphinViewContainer::slotDirListerCompleted()
 {
-    if (m_showProgress) {
+    if (!m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(QString());
         m_statusBar->setProgress(100);
-        m_showProgress = false;
     }
 
     updateStatusBar();

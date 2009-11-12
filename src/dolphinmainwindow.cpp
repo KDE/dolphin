@@ -1006,6 +1006,12 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
 void DolphinMainWindow::searchItems(const KUrl& url)
 {
     m_activeViewContainer->setUrl(url);
+
+    // The Nepomuk IO-slave does not provide any progress information. Give
+    // an immediate hint to the user that a searching is done:
+    DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
+    statusBar->setProgressText(i18nc("@info", "Searching..."));
+    statusBar->setProgress(-1);
 }
 
 void DolphinMainWindow::slotTabMoved(int from, int to)

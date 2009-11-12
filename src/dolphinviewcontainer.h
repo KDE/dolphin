@@ -253,7 +253,6 @@ private slots:
     void slotHistoryChanged();
 
 private:
-    bool m_showProgress;
     bool m_isFolderWritable;
 
     DolphinMainWindow* m_mainWindow;
