@@ -42,6 +42,11 @@ SearchCriterionValue::~SearchCriterionValue()
 {
 }
 
+void SearchCriterionValue::initializeValue(const QString& valueType)
+{
+    Q_UNUSED(valueType);
+}
+
 // -------------------------------------------------------------------------
 
 DateValue::DateValue(QWidget* parent) :
@@ -62,6 +67,31 @@ DateValue::~DateValue()
 QString DateValue::value() const
 {
     return m_dateWidget->date().toString(Qt::ISODate);
+}
+
+void DateValue::initializeValue(const QString& valueType)
+{
+    if (valueType.isEmpty()) {
+        return;
+    }
+
+    QDate date;
+    if (valueType == "today") {
+        date = QDate::currentDate();
+    } else if (valueType == "thisWeek") {
+        const QDate today = QDate::currentDate();
+        const int dayOfWeek = today.dayOfWeek();
+        date = today.addDays(-dayOfWeek);
+    } else if (valueType == "thisMonth") {
+        const QDate today = QDate::currentDate();
+        date = QDate(today.year(), today.month(), 1);
+    } else if (valueType == "thisYear") {
+        date = QDate(QDate::currentDate().year(), 1, 1);
+    } else {
+        // unknown value-type
+        Q_ASSERT(false);
+    }
+    m_dateWidget->setDate(date);
 }
 
 // -------------------------------------------------------------------------

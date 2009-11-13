@@ -38,11 +38,13 @@ class SearchCriterionDescription
 public:
     struct Comparator
     {
-        Comparator(const QString& n, const QString& o = QString(), const QString& p = QString()) :
-            name(n), operation(o), prefix(p) {}
-        QString name;        // user visible and translated name
-        QString operation;   // Nepomuk operation that represents the comparator
-        QString prefix;      // prefix like "+" or "-" that is part of the Nepomuk query
+        Comparator(const QString& n, const QString& o = QString(),
+                   const QString& p = QString(), const QString& a = QString()) :
+            name(n), operation(o), prefix(p), autoValueType(a) {}
+        QString name;          // user visible and translated name
+        QString operation;     // Nepomuk operation that represents the comparator
+        QString prefix;        // prefix like "+" or "-" that is part of the Nepomuk query
+        QString autoValueType; // type for an automatically calculated value of the value widget
     };
 
     SearchCriterionDescription(const QString& name,

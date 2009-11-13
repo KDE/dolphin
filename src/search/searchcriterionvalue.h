@@ -39,7 +39,20 @@ public:
     SearchCriterionValue(QWidget* parent = 0);
     virtual ~SearchCriterionValue();
 
+    /**
+     * Must be overwritten by derived classes and returns
+     * the string representation of the search criterion value.
+     */
     virtual QString value() const = 0;
+
+    /**
+     * Initializes the widget on the base of the given value-type.
+     * It is in the hand of the derived classes to interprete
+     * the value-type string and create a corresponding value for
+     * the widget (@see SearchCriterionSelector::Comparator).
+     * The default implementation is empty.
+     */
+    virtual void initializeValue(const QString& valueType);
 
 signals:
     void valueChanged(const QString& value);
@@ -56,7 +69,8 @@ public:
     DateValue(QWidget* parent = 0);
     virtual ~DateValue();
     virtual QString value() const;
-    
+    virtual void initializeValue(const QString& valueType);
+
 private:
     KDateWidget* m_dateWidget;
 };

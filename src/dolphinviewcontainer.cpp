@@ -284,7 +284,7 @@ void DolphinViewContainer::updateStatusBar()
 
 void DolphinViewContainer::initializeProgress()
 {
-    if (m_view->url().protocol() == "nepomuksearch") {
+    if (url().protocol() == "nepomuksearch") {
         // The Nepomuk IO-slave does not provide any progress information. Give
         // an immediate hint to the user that a searching is done:
         m_statusBar->setProgressText(i18nc("@info", "Searching..."));
@@ -307,7 +307,13 @@ void DolphinViewContainer::slotDirListerCompleted()
         m_statusBar->setProgress(100);
     }
 
-    updateStatusBar();
+    if ((url().protocol() == "nepomuksearch") && (m_dirLister->items().count() == 0)) {
+        // The dir lister has been completed on a Nepomuk-URI and no items have been found. Instead
+        // of showing the default status bar information ("0 items") a more helpful information is given:
+        m_statusBar->setMessage(i18nc("@info:status", "No items found."), DolphinStatusBar::Information);
+    } else {
+        updateStatusBar();
+    }
     QMetaObject::invokeMethod(this, "restoreContentsPos", Qt::QueuedConnection);
 
     // Enable the 'File'->'Create New...' menu only if the directory

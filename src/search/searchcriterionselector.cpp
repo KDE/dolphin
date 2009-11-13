@@ -132,7 +132,13 @@ void SearchCriterionSelector::slotComparatorChanged(int index)
     const int descIndex = m_descriptionsBox->currentIndex();
     const SearchCriterionDescription& descr = m_descriptions[descIndex];
     const SearchCriterionDescription::Comparator& comp = descr.comparators()[index];
-    m_valueWidget->setVisible(!comp.operation.isEmpty());
+
+    m_valueWidget->initializeValue(comp.autoValueType);
+    if (!comp.operation.isEmpty() && comp.autoValueType.isEmpty()) {
+        // only show the value widget, if an operation is defined
+        // and no automatic calculation is provided
+        m_valueWidget->show();
+    }
 
     emit criterionChanged();
 }
@@ -152,10 +158,11 @@ void SearchCriterionSelector::createDescriptions()
 
     // add "Date" description
     QList<SearchCriterionDescription::Comparator> dateComps;
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Anytime"))); // TODO
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"))); // TODO
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This week"))); // TODO
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This month"))); // TODO
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Anytime")));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"), ":", "+", "today"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Week"), ">=", "+", "thisWeek"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Month"), ">=", "+", "thisMonth"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Year"), ">=", "+", "thisYear"));
     foreach (const SearchCriterionDescription::Comparator& comp, defaultComps) {
         dateComps.append(comp);
     }
