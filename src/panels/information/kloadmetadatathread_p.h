@@ -92,7 +92,7 @@ private:
     QString formatValue(const Nepomuk::Variant& value);
 
 private:
-    int m_rating;
+    unsigned int m_rating;
     QString m_comment;
     QList<Nepomuk::Tag> m_tags;
     QList<Item> m_items;

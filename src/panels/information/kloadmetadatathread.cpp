@@ -63,7 +63,6 @@ void KLoadMetaDataThread::run()
     KConfigGroup settings = config.group("Show");
 
     bool first = true;
-    unsigned int rating = 0;
     foreach (const KUrl& url, m_urls) {
         if (m_canceled) {
             return;
@@ -72,10 +71,10 @@ void KLoadMetaDataThread::run()
         Nepomuk::Resource file(url);
         m_files.insert(url, file);
 
-        if (!first && (rating != file.rating())) {
-            rating = 0; // reset rating
+        if (!first && (m_rating != file.rating())) {
+            m_rating = 0; // reset rating
         } else if (first) {
-            rating = file.rating();
+            m_rating = file.rating();
         }
 
         if (!first && (m_comment != file.description())) {
