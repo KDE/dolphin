@@ -1003,15 +1003,20 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
     canDecode = KUrl::List::canDecode(event->mimeData());
 }
 
-void DolphinMainWindow::searchItems(const KUrl& url)
+void DolphinMainWindow::searchItems()
 {
-    m_activeViewContainer->setUrl(url);
+    const QString searchOptions = m_searchOptionsConfigurator->options();
 
-    // The Nepomuk IO-slave does not provide any progress information. Give
-    // an immediate hint to the user that a searching is done:
-    DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
-    statusBar->setProgressText(i18nc("@info", "Searching..."));
-    statusBar->setProgress(-1);
+    QString searchString = m_searchBox->text();
+    if (!searchString.isEmpty() && !searchOptions.isEmpty()) {
+        searchString += ' ' + searchOptions;
+    } else if (!searchOptions.isEmpty()) {
+        searchString += searchOptions;
+    }
+
+    if (!searchString.isEmpty()) {
+        m_activeViewContainer->setUrl(KUrl("nepomuksearch:/" + searchString));
+    }
 }
 
 void DolphinMainWindow::slotTabMoved(int from, int to)
@@ -1070,6 +1075,8 @@ void DolphinMainWindow::init()
 #ifdef HAVE_NEPOMUK
     m_searchOptionsConfigurator = new DolphinSearchOptionsConfigurator(this);
     m_searchOptionsConfigurator->hide();
+    connect(m_searchOptionsConfigurator, SIGNAL(searchOptionsChanged(QString)),
+            this, SLOT(searchItems()));
 #endif
 
     m_tabBar = new KTabBar(this);
@@ -1346,7 +1353,7 @@ void DolphinMainWindow::setupActions()
 
     // 'Search' toolbar
     m_searchBox = new DolphinSearchBox(this);
-    connect(m_searchBox, SIGNAL(search(KUrl)), this, SLOT(searchItems(KUrl)));
+    connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(searchItems()));
 
     KAction* search = new KAction(this);
     actionCollection()->addAction("search_bar", search);

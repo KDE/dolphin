@@ -256,6 +256,11 @@ DolphinSearchBox::~DolphinSearchBox()
 {
 }
 
+QString DolphinSearchBox::text() const
+{
+    return m_searchInput->text();
+}
+
 bool DolphinSearchBox::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
@@ -286,7 +291,7 @@ bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
 
 void DolphinSearchBox::emitSearchSignal()
 {
-    emit search(KUrl("nepomuksearch:/" + m_searchInput->text()));
+    emit search(m_searchInput->text());
 }
 
 #include "dolphinsearchbox.moc"

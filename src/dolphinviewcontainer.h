@@ -141,6 +141,8 @@ private slots:
      */
     void updateStatusBar();
 
+    void initializeProgress();
+
     void updateProgress(int percent);
 
     /**

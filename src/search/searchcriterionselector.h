@@ -50,7 +50,11 @@ public:
     SearchCriterionSelector(Type type, QWidget* parent = 0);
     virtual ~SearchCriterionSelector();
 
-    QString queryString() const;
+    /**
+     * Converts the string representation of the criterion.
+     * The string is conform to get added to a nepomuk:/-URI.
+     */
+    QString toString() const;
 
 signals:
     /**

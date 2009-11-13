@@ -112,6 +112,8 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_proxyModel->setSourceModel(m_dolphinModel);
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
+    connect(m_dirLister, SIGNAL(started(KUrl)),
+            this, SLOT(initializeProgress()));
     connect(m_dirLister, SIGNAL(clear()),
             this, SLOT(delayedStatusBarUpdate()));
     connect(m_dirLister, SIGNAL(percent(int)),
@@ -266,7 +268,7 @@ void DolphinViewContainer::updateStatusBar()
     // - shows already the item count information or
     // - shows only a not very important information
     // - if any progress is given don't show the item count info at all
-    const QString msg(m_statusBar->message());
+    const QString msg = m_statusBar->message();
     const bool updateStatusBarMsg = (msg.isEmpty()
                                      || (msg == m_statusBar->defaultText())
                                      || (m_statusBar->type() == DolphinStatusBar::Information))
@@ -279,6 +281,16 @@ void DolphinViewContainer::updateStatusBar()
         m_statusBar->setMessage(text, DolphinStatusBar::Default);
     }
 }
+
+void DolphinViewContainer::initializeProgress()
+{
+    if (m_view->url().protocol() == "nepomuksearch") {
+        // The Nepomuk IO-slave does not provide any progress information. Give
+        // an immediate hint to the user that a searching is done:
+        m_statusBar->setProgressText(i18nc("@info", "Searching..."));
+        m_statusBar->setProgress(-1);
+    }
+ }
 
 void DolphinViewContainer::updateProgress(int percent)
 {
@@ -418,7 +430,7 @@ void DolphinViewContainer::restoreView(const KUrl& url)
                                    "Protocol not supported by Dolphin, Konqueror has been launched"));
         }
 
-        QString secureUrl = KShell::quoteArg(url.pathOrUrl());
+        const QString secureUrl = KShell::quoteArg(url.pathOrUrl());
         const QString command = app + ' ' + secureUrl;
         KRun::runCommand(command, app, app, this);
     } else {

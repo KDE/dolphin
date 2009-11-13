@@ -388,10 +388,10 @@ private slots:
     void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
     /**
-     * Is connected with the Dolphin search box and searchs items that
-     * match to the text entered in the search bar.
+     * Is connected with the Dolphin search box and the search configurator
+     * and triggers a Nepomuk search.
      */
-    void searchItems(const KUrl& url);
+    void searchItems();
 
     /**
      * Is connected to the QTabBar signal tabMoved(int from, int to).

@@ -74,7 +74,7 @@ SearchCriterionSelector::~SearchCriterionSelector()
 {
 }
 
-QString SearchCriterionSelector::queryString() const
+QString SearchCriterionSelector::toString() const
 {
     if (m_valueWidget == 0) {
         return QString();
@@ -85,9 +85,15 @@ QString SearchCriterionSelector::queryString() const
 
     const int compIndex = m_comparatorBox->currentIndex();
     const SearchCriterionDescription::Comparator& comp = descr.comparators()[compIndex];
+    if (comp.operation.isEmpty()) {
+        return QString();
+    }
 
-    return comp.prefix + descr.identifier() + comp.operation +
-           '"' + m_valueWidget->value() + '"';
+    QString criterion = comp.prefix + descr.identifier() + comp.operation;
+    if (!m_valueWidget->value().isEmpty()) {
+        criterion += '"' + m_valueWidget->value() + '"';
+    }
+    return criterion;
 }
 
 void SearchCriterionSelector::slotDescriptionChanged(int index)

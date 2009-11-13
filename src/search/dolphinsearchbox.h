@@ -69,6 +69,12 @@ public:
     DolphinSearchBox(QWidget* parent = 0);
     virtual ~DolphinSearchBox();
 
+    /**
+     * Returns the text that should be used as input
+     * for searching.
+     */
+    QString text() const;
+
 protected:
     virtual bool event(QEvent* event);
     virtual bool eventFilter(QObject* watched, QEvent* event);
@@ -76,11 +82,17 @@ protected:
 signals:
     /**
      * Is emitted when the user pressed Return or Enter
-     * and provides the Nepomuk URL that should be used
+     * and provides the text that should be used as input
      * for searching.
      */
-    void search(const KUrl& url);
+    void search(const QString& text);
 
+    /**
+     * Is emitted if the search box gets the focus and
+     * requests the need for a UI that allows to adjust
+     * search options. It is up to the application to ignore
+     * this request.
+     */
     void requestSearchOptions();
 
 private slots:
@@ -88,7 +100,6 @@ private slots:
 
 private:
     KLineEdit* m_searchInput;
-
     DolphinSearchCompleter* m_completer;
 };
 

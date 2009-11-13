@@ -35,8 +35,6 @@
 #include <QShowEvent>
 #include <QVBoxLayout>
 
-#include <kdebug.h>
-
 DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* parent) :
     QWidget(parent),
     m_initialized(false),
@@ -69,6 +67,7 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     searchButton->setIcon(KIcon("edit-find"));
     searchButton->setText(i18nc("@action:button", "Search"));
     searchButton->setToolTip(i18nc("@info", "Start searching"));
+    connect(searchButton, SIGNAL(clicked()), this, SLOT(emitSearchOptionsChanged()));
 
     // add button "Save"
     QPushButton* saveButton = new QPushButton(this);
@@ -115,6 +114,21 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
 {
 }
 
+QString DolphinSearchOptionsConfigurator::options() const
+{
+    QString searchOptions;
+    foreach (const SearchCriterionSelector* criterion, m_criterions) {
+        const QString criterionString = criterion->toString();
+        if (!criterionString.isEmpty()) {
+            if (!searchOptions.isEmpty()) {
+                searchOptions += ' ';
+            }
+            searchOptions += criterionString;
+        }
+    }
+    return searchOptions;
+}
+
 void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous() && !m_initialized) {
@@ -143,14 +157,9 @@ void DolphinSearchOptionsConfigurator::slotAddSelectorButtonClicked()
     addCriterion(selector);
 }
 
-void DolphinSearchOptionsConfigurator::slotCriterionChanged()
+void DolphinSearchOptionsConfigurator::emitSearchOptionsChanged()
 {
-    QString searchOptions;
-    foreach (const SearchCriterionSelector* criterion, m_criterions) {
-        searchOptions += criterion->queryString() + ' ';
-    }
-    kDebug() << "Search option string:" << searchOptions;
-    emit searchOptionsChanged(searchOptions);
+    emit searchOptionsChanged(options());
 }
 
 void DolphinSearchOptionsConfigurator::removeCriterion()
@@ -201,8 +210,12 @@ void DolphinSearchOptionsConfigurator::saveQuery()
 
 void DolphinSearchOptionsConfigurator::addCriterion(SearchCriterionSelector* criterion)
 {
-    connect(criterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
-    connect(criterion, SIGNAL(criterionChanged()), this, SLOT(slotCriterionChanged()));
+    connect(criterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));    
+    // TODO: It is unclear yet whether changing a criterion should also result in triggering
+    // a searchOptionsChanged() signal. This mainly depends on the performance achievable with
+    // Nepomuk. Currently the searchOptionsChanged() signal is only emitted when the search-button
+    // has been triggered by the user.
+    // connect(criterion, SIGNAL(criterionChanged()), this, SLOT(emitSearchOptionsChanged()));
 
     // insert the new selector before the lastLineLayout and the KSeparator at the bottom
     const int index = m_vBoxLayout->count() - 2;

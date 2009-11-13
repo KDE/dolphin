@@ -39,6 +39,12 @@ public:
     DolphinSearchOptionsConfigurator(QWidget* parent = 0);
     virtual ~DolphinSearchOptionsConfigurator();
 
+    /**
+     * Returns the configured options as compliant
+     * string that may be used as input for a nepomuk:/-URI.
+     */
+    QString options() const;
+
 signals:
     void searchOptionsChanged(const QString& options);
 
@@ -48,7 +54,7 @@ protected:
 private slots:
     void slotAddSelectorButtonClicked();
 
-    void slotCriterionChanged();
+    void emitSearchOptionsChanged();
 
     void removeCriterion();
 

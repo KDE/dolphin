@@ -146,37 +146,54 @@ void InformationPanelContent::showItem(const KFileItem& item)
     m_pendingPreview = false;
 
     const KUrl itemUrl = item.url();
+    const bool isNepomukSearchUrl = (itemUrl.protocol() == "nepomuksearch") && item.nepomukUri().isEmpty();
     if (!applyPlace(itemUrl)) {
-        // try to get a preview pixmap from the item...
-        m_pendingPreview = true;
+        if (isNepomukSearchUrl) {
+            // in the case of a Nepomuk query-URL the URL is not readable for humans
+            // (at least not useful to show in the Information Panel)
+            KIconLoader iconLoader;
+            QPixmap icon = iconLoader.loadIcon("nepomuk",
+                                               KIconLoader::NoGroup,
+                                               KIconLoader::SizeEnormous);
+            m_preview->setPixmap(icon);
+            setNameLabelText(QString());
+        } else {
+            // try to get a preview pixmap from the item...
+            m_pendingPreview = true;
 
-        // Mark the currently shown preview as outdated. This is done
-        // with a small delay to prevent a flickering when the next preview
-        // can be shown within a short timeframe. This timer is not started
-        // for directories, as directory previews might fail and return the
-        // same icon.
-        if (!item.isDir()) {
-            m_outdatedPreviewTimer->start();
+            // Mark the currently shown preview as outdated. This is done
+            // with a small delay to prevent a flickering when the next preview
+            // can be shown within a short timeframe. This timer is not started
+            // for directories, as directory previews might fail and return the
+            // same icon.
+            if (!item.isDir()) {
+                m_outdatedPreviewTimer->start();
+            }
+
+            KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item,
+                                                    m_preview->width(),
+                                                    m_preview->height(),
+                                                    0,
+                                                    0,
+                                                    false,
+                                                    true);
+
+            connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
+                    this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
+            connect(job, SIGNAL(failed(const KFileItem&)),
+                    this, SLOT(showIcon(const KFileItem&)));
+
+            setNameLabelText(itemUrl.fileName());
         }
-
-        KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item,
-                                                m_preview->width(),
-                                                m_preview->height(),
-                                                0,
-                                                0,
-                                                false,
-                                                true);
-
-        connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
-        connect(job, SIGNAL(failed(const KFileItem&)),
-                this, SLOT(showIcon(const KFileItem&)));
-
-        setNameLabelText(itemUrl.fileName());
     }
 
     if (m_metaDataWidget != 0) {
-        m_metaDataWidget->setItem(item);
+        if (isNepomukSearchUrl) {
+            m_metaDataWidget->hide();
+        } else {
+            m_metaDataWidget->show();
+            m_metaDataWidget->setItem(item);
+        }
     }
 
     if (InformationPanelSettings::showPreview()) {
