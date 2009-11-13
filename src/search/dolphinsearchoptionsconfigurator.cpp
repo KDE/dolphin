@@ -62,6 +62,13 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     m_searchWhatBox->addItem(i18nc("@label", "Text"));
     m_searchWhatBox->addItem(i18nc("@label", "Filenames"));
 
+    // add "Add selector" button
+    m_addSelectorButton = new QPushButton(this);
+    m_addSelectorButton->setIcon(KIcon("list-add"));
+    m_addSelectorButton->setToolTip(i18nc("@info", "Add search option"));
+    m_addSelectorButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+    connect(m_addSelectorButton, SIGNAL(clicked()), this, SLOT(slotAddSelectorButtonClicked()));
+
     // add button "Search"
     QPushButton* searchButton = new QPushButton(this);
     searchButton->setIcon(KIcon("edit-find"));
@@ -83,22 +90,15 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     closeButton->setToolTip(i18nc("@info", "Close search options"));
     connect(closeButton, SIGNAL(clicked()), this, SLOT(hide()));
 
-    // add "Add selector" button
-    m_addSelectorButton = new QPushButton(this);
-    m_addSelectorButton->setIcon(KIcon("list-add"));
-    m_addSelectorButton->setToolTip(i18nc("@info", "Add search option"));
-    m_addSelectorButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    connect(m_addSelectorButton, SIGNAL(clicked()), this, SLOT(slotAddSelectorButtonClicked()));
-
     QHBoxLayout* firstLineLayout = new QHBoxLayout();
     firstLineLayout->addWidget(searchLabel);
     firstLineLayout->addWidget(m_searchFromBox);
     firstLineLayout->addWidget(whatLabel);
     firstLineLayout->addWidget(m_searchWhatBox);
     firstLineLayout->addWidget(new QWidget(this), 1); // filler
-    firstLineLayout->addWidget(m_addSelectorButton);
 
     QHBoxLayout* lastLineLayout = new QHBoxLayout();
+    lastLineLayout->addWidget(m_addSelectorButton);
     lastLineLayout->addWidget(new QWidget(this), 1); // filler
     lastLineLayout->addWidget(searchButton);
     lastLineLayout->addWidget(saveButton);

@@ -59,10 +59,10 @@ SearchCriterionSelector::SearchCriterionSelector(Type type, QWidget* parent) :
 
     m_layout = new QHBoxLayout(this);
     m_layout->setMargin(0);
+    m_layout->addWidget(m_removeButton);
     m_layout->addWidget(m_descriptionsBox);
     m_layout->addWidget(m_comparatorBox);
     m_layout->addWidget(filler);
-    m_layout->addWidget(m_removeButton);
 
     setLayout(m_layout);
 
@@ -124,7 +124,7 @@ void SearchCriterionSelector::slotDescriptionChanged(int index)
 
     // add value widget
     m_valueWidget = description.valueWidget();
-    m_layout->insertWidget(2, m_valueWidget);
+    m_layout->insertWidget(3, m_valueWidget);
 
     m_comparatorBox->setCurrentIndex(0);
     slotComparatorChanged(0);
