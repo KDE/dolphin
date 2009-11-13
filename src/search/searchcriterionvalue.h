@@ -25,6 +25,7 @@
 
 class QComboBox;
 class KDateWidget;
+class KRatingWidget;
 class KLineEdit;
 
 /**
@@ -109,6 +110,20 @@ public:
  private:
     KLineEdit* m_lineEdit;
     QComboBox* m_units;
+};
+
+/** @brief Allows to input a rating value as search criterion. */
+class RatingValue : public SearchCriterionValue
+{
+    Q_OBJECT
+
+public:
+    RatingValue(QWidget* parent = 0);
+    virtual ~RatingValue();
+    virtual QString value() const;
+
+ private:
+    KRatingWidget* m_ratingWidget;
 };
 
 #endif // SEARCHCRITERIONVALUE_H

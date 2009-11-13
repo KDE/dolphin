@@ -91,7 +91,14 @@ QString SearchCriterionSelector::toString() const
 
     QString criterion = comp.prefix + descr.identifier() + comp.operation;
     if (!m_valueWidget->value().isEmpty()) {
-        criterion += '"' + m_valueWidget->value() + '"';
+        const QString value = m_valueWidget->value();
+        if (value.contains(' ')) {
+            criterion += '"' + value + '"';
+        } else {
+            // Don't surround the value by " if no space is part of the value.
+            // This increases the readability of the search-URL.
+            criterion += value;
+        }
     }
     return criterion;
 }
@@ -173,6 +180,8 @@ void SearchCriterionSelector::createDescriptions()
                                     "lastModified",
                                     dateComps,
                                     dateValue);
+    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
+    m_descriptions.append(date);
 
     // add "Size" description
     QList<SearchCriterionDescription::Comparator> sizeComps = defaultComps;
@@ -184,11 +193,14 @@ void SearchCriterionSelector::createDescriptions()
                                     "contentSize",
                                     sizeComps,
                                     sizeValue);
+    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Size) == 1);
+    m_descriptions.append(size);
 
     // add "Tag" description
     QList<SearchCriterionDescription::Comparator> tagComps;
     tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label All (tags)", "All")));
-    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Equal to"), ":"));
+    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Equal to"), ":", "+"));
+    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Not Equal to"), ":", "-"));
 
     TagValue* tagValue = new TagValue(this);
     tagValue->hide();
@@ -196,13 +208,21 @@ void SearchCriterionSelector::createDescriptions()
                                    "tag",
                                    tagComps,
                                    tagValue);
-
-    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
-    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Size) == 1);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Tag) == 2);
-    m_descriptions.append(date);
-    m_descriptions.append(size);
     m_descriptions.append(tag);
+
+    // add "Rating" description
+    QList<SearchCriterionDescription::Comparator> ratingComps = defaultComps;
+    ratingComps.insert(0, SearchCriterionDescription::Comparator(i18nc("@label Any (rating)", "Any")));
+
+    RatingValue* ratingValue = new RatingValue(this);
+    ratingValue->hide();
+    SearchCriterionDescription rating(i18nc("@label", "Rating:"),
+                                      "rating",
+                                      ratingComps,
+                                      ratingValue);
+    Q_ASSERT(static_cast<int>(SearchCriterionSelector::Rating) == 3);
+    m_descriptions.append(rating);
 
     // add all descriptions to the combo box and connect the value widgets
     int i = 0;

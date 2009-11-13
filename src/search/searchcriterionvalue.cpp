@@ -24,6 +24,7 @@
 #include <klineedit.h>
 #include <klocale.h>
 
+#include <nepomuk/kratingwidget.h>
 #include <nepomuk/tag.h>
 
 #include <QComboBox>
@@ -71,12 +72,8 @@ QString DateValue::value() const
 
 void DateValue::initializeValue(const QString& valueType)
 {
-    if (valueType.isEmpty()) {
-        return;
-    }
-
-    QDate date;
-    if (valueType == "today") {
+    QDate date;    
+    if (valueType.isEmpty() || (valueType == "today")) {
         date = QDate::currentDate();
     } else if (valueType == "thisWeek") {
         const QDate today = QDate::currentDate();
@@ -171,6 +168,28 @@ SizeValue::~SizeValue()
 QString SizeValue::value() const
 {
     return QString();
+}
+
+// -------------------------------------------------------------------------
+
+RatingValue::RatingValue(QWidget* parent) :
+    SearchCriterionValue(parent),
+    m_ratingWidget(0)
+{
+    m_ratingWidget = new KRatingWidget(this);
+
+    QHBoxLayout* layout = new QHBoxLayout(this);
+    layout->setMargin(0);
+    layout->addWidget(m_ratingWidget);
+}
+
+RatingValue::~RatingValue()
+{
+}
+
+QString RatingValue::value() const
+{
+    return QString::number(m_ratingWidget->rating());
 }
 
 #include "searchcriterionvalue.moc"
