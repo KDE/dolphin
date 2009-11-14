@@ -373,7 +373,6 @@ public:
      * Saves the view state (current item, contents position, details view expansion state)
      */
     void saveState(QDataStream &stream);
-    
 
 public slots:
     /**

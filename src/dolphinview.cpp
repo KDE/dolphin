@@ -1108,7 +1108,7 @@ void DolphinView::saveState(QDataStream &stream)
     KUrl currentUrl;
     if (!currentItem.isNull())
         currentUrl = currentItem.url();
-    
+
     stream << currentUrl;
 
     // view position
@@ -1213,7 +1213,7 @@ void DolphinView::slotLoadingCompleted()
 {
     m_expanderActive = false;
     m_loadingDirectory = false; 
-    
+
     if (!m_activeItemUrl.isEmpty()) {
         // assure that the current item remains visible
         const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForUrl(m_activeItemUrl);
