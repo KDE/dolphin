@@ -207,12 +207,6 @@ private slots:
     void saveContentsPos(int x, int y);
 
     /**
-     * Restores the contents position of the view, if the view
-     * is part of the history.
-     */
-    void restoreContentsPos();
-
-    /**
      * Marks the view container as active
      * (see DolphinViewContainer::setActive()).
      */

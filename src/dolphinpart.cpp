@@ -446,6 +446,18 @@ void DolphinPart::slotRequestUrlChange(const KUrl& url)
 
 ////
 
+void DolphinPartBrowserExtension::restoreState(QDataStream &stream)
+{
+    KParts::BrowserExtension::restoreState(stream);
+    m_part->view()->restoreState(stream);
+}
+
+void DolphinPartBrowserExtension::saveState(QDataStream &stream)
+{
+    KParts::BrowserExtension::saveState(stream);
+    m_part->view()->saveState(stream);
+}
+
 void DolphinPartBrowserExtension::cut()
 {
     m_part->view()->cutSelectedItems();

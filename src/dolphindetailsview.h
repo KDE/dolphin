@@ -47,6 +47,11 @@ public:
                                 DolphinSortFilterProxyModel* model);
     virtual ~DolphinDetailsView();
 
+    /**
+     * Returns a set containing the URLs of all expanded items.
+     */
+    QSet<KUrl> expandedUrls() const;
+
 protected:
     virtual bool event(QEvent* event);
     virtual QStyleOptionViewItem viewOptions() const;
@@ -169,7 +174,23 @@ private slots:
      */
     void setFoldersExpandable(bool expandable);
 
+    /**
+     * These slots update the list of expanded items.
+     */
+    void slotExpanded(const QModelIndex& index);
+    void slotCollapsed(const QModelIndex& index);
+
+protected slots:
+
+    virtual void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
+
 private:
+    /**
+     * Removes the URLs corresponding to the children of \a index in the rows
+     * between \a start and \a end inclusive from the set of expanded URLs.
+     */
+    void removeExpandedIndexes(const QModelIndex& parent, int start, int end);
+
     /**
      * Updates the size of the decoration dependent on the
      * icon size of the DetailsModeSettings. The controller
@@ -202,6 +223,12 @@ private:
     DolphinController* m_controller;
     ViewExtensionsFactory* m_extensionsFactory;
     QAction* m_expandableFoldersAction;
+
+    // A set containing the URLs of all currently expanded folders.
+    // We cannot use a QSet<QModelIndex> because a QModelIndex is not guaranteed to remain valid over time.
+    // Also a QSet<QPersistentModelIndex> does not work as expected because it is not guaranteed that
+    // subsequent expand/collapse events of the same file item will yield the same QPersistentModelIndex.
+    QSet<KUrl> m_expandedUrls;
 
     QFont m_font;
     QSize m_decorationSize;

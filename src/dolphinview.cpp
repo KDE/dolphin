@@ -64,6 +64,7 @@
 #include "settings/dolphinsettings.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
+#include "dolphindetailsviewexpander.h"
 
 /**
  * Helper function for sorting items with qSort() in
@@ -94,6 +95,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_selectionChangedTimer(0),
     m_rootUrl(),
     m_activeItemUrl(),
+    m_restoredContentsPosition(),
     m_createdItemUrl(),
     m_selectedItems(),
     m_newFileNames()
@@ -369,8 +371,18 @@ void DolphinView::setContentsPosition(int x, int y)
     m_loadingDirectory = false;
 }
 
+void DolphinView::setRestoredContentsPosition(const QPoint& pos)
+{
+    // TODO: This function is called by DolphinViewContainer.
+    // If it makes use of DolphinView::restoreState(...) to restore the
+    // view state in KDE 4.5, this function can be removed.
+    m_restoredContentsPosition = pos;
+}
+
 QPoint DolphinView::contentsPosition() const
 {
+    // TODO: If DolphinViewContainer uses DolphinView::saveState(...) to save the
+    // view state in KDE 4.5, this code can be moved to DolphinView::saveState.
     QAbstractItemView* view = m_viewAccessor.itemView();
     Q_ASSERT(view != 0);
     const int x = view->horizontalScrollBar()->value();
@@ -1049,12 +1061,61 @@ bool DolphinView::isTabsForFilesEnabled() const
 
 void DolphinView::activateItem(const KUrl& url)
 {
+    // TODO: If DolphinViewContainer uses DolphinView::restoreState(...) to restore the
+    // view state in KDE 4.5, this function can be removed.
     m_activeItemUrl = url;
 }
 
 bool DolphinView::itemsExpandable() const
 {
     return m_viewAccessor.itemsExpandable();
+}
+
+void DolphinView::restoreState(QDataStream &stream)
+{
+     // current item
+    stream >> m_activeItemUrl;
+
+    // view position
+    stream >> m_restoredContentsPosition;
+
+    // expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
+    QSet<KUrl> urlsToExpand;
+    stream >> urlsToExpand;
+    const DolphinDetailsViewExpander* expander = m_viewAccessor.setExpandedUrls(urlsToExpand);
+
+    if (expander) {
+        m_expanderActive = true;
+        connect (expander, SIGNAL(completed()), this, SLOT(slotLoadingCompleted()));
+    }
+    else {
+        m_expanderActive = false;
+    }
+}
+
+void DolphinView::saveState(QDataStream &stream)
+{
+    // current item
+    KFileItem currentItem;
+    const QAbstractItemView* view = m_viewAccessor.itemView();
+
+    if(view) {
+        const QModelIndex proxyIndex = view->currentIndex();
+        const QModelIndex dirModelIndex = m_viewAccessor.proxyModel()->mapToSource(proxyIndex);
+        currentItem = m_viewAccessor.dirModel()->itemForIndex(dirModelIndex);
+    }
+
+    KUrl currentUrl;
+    if (!currentItem.isNull())
+        currentUrl = currentItem.url();
+    
+    stream << currentUrl;
+
+    // view position
+    stream << contentsPosition();
+
+    // expanded folders (only relevant for the details view - the set will be empty in other view modes)
+    stream << m_viewAccessor.expandedUrls();
 }
 
 void DolphinView::observeCreatedItem(const KUrl& url)
@@ -1085,6 +1146,11 @@ void DolphinView::restoreSelection()
 
 void DolphinView::emitContentsMoved()
 {
+    // TODO: If DolphinViewContainer uses DolphinView::saveState(...) to save the
+    // view state in KDE 4.5, the contentsMoved signal might not be needed anymore,
+    // depending on how the implementation is done.
+    // In that case, the code in contentsPosition() can be moved to saveState().
+
     // only emit the contents moved signal if no directory loading is ongoing
     // (this would reset the contents position always to (0, 0))
     if (!m_loadingDirectory) {
@@ -1120,19 +1186,8 @@ void DolphinView::slotRequestUrlChange(const KUrl& url)
 
 void DolphinView::slotDirListerCompleted()
 {
-    if (!m_activeItemUrl.isEmpty()) {
-        // assure that the current item remains visible
-        const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForUrl(m_activeItemUrl);
-        if (dirIndex.isValid()) {
-            const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->mapFromSource(dirIndex);
-            QAbstractItemView* view = m_viewAccessor.itemView();
-            const bool clearSelection = !hasSelection();
-            view->setCurrentIndex(proxyIndex);
-            if (clearSelection) {
-                view->clearSelection();
-            }
-            m_activeItemUrl.clear();
-        }
+    if (!m_expanderActive) {
+        slotLoadingCompleted();
     }
 
     if (!m_newFileNames.isEmpty()) {
@@ -1152,6 +1207,31 @@ void DolphinView::slotDirListerCompleted()
 
         m_newFileNames.clear();
     }
+}
+
+void DolphinView::slotLoadingCompleted()
+{
+    m_expanderActive = false;
+    m_loadingDirectory = false; 
+    
+    if (!m_activeItemUrl.isEmpty()) {
+        // assure that the current item remains visible
+        const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForUrl(m_activeItemUrl);
+        if (dirIndex.isValid()) {
+            const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->mapFromSource(dirIndex);
+            QAbstractItemView* view = m_viewAccessor.itemView();
+            const bool clearSelection = !hasSelection();
+            view->setCurrentIndex(proxyIndex);
+            if (clearSelection) {
+                view->clearSelection();
+            }
+            m_activeItemUrl.clear();
+        }
+    }
+
+    // Restore the contents position. This has to be done using a Qt::QueuedConnection
+    // because the view might not be in its final state yet.
+    QMetaObject::invokeMethod(this, "restoreContentsPosition", Qt::QueuedConnection);
 }
 
 void DolphinView::slotRefreshItems()
@@ -1175,6 +1255,7 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
     }
 
     m_loadingDirectory = true;
+    m_expanderActive = false;
 
     if (reload) {
         m_selectedItems = selectedItems();
@@ -1442,6 +1523,11 @@ void DolphinView::ViewAccessor::prepareUrlChange(const KUrl& url)
     if (m_columnsContainer != 0) {
         m_columnsContainer->showColumn(url);
     }
+
+    if(!m_detailsViewExpander.isNull()) {
+        // Stop expanding items in the current folder
+        m_detailsViewExpander->stop();
+    }
 }
 
 QAbstractItemView* DolphinView::ViewAccessor::itemView() const
@@ -1489,6 +1575,28 @@ bool DolphinView::ViewAccessor::itemsExpandable() const
     return (m_detailsView != 0) && m_detailsView->itemsExpandable();
 }
 
+
+QSet<KUrl> DolphinView::ViewAccessor::expandedUrls() const
+{
+    if(m_detailsView != 0) {
+        return m_detailsView->expandedUrls();
+    }
+    else {
+        return QSet<KUrl>();
+    }
+}
+
+const DolphinDetailsViewExpander* DolphinView::ViewAccessor::setExpandedUrls(const QSet<KUrl>& urlsToExpand)
+{
+    if((m_detailsView != 0) && m_detailsView->itemsExpandable() && !urlsToExpand.isEmpty()) {
+        m_detailsViewExpander = new DolphinDetailsViewExpander(m_detailsView, urlsToExpand);
+        return m_detailsViewExpander;
+    }
+    else {
+        return 0;
+    }
+}
+
 bool DolphinView::ViewAccessor::reloadOnAdditionalInfoChange() const
 {
     // the details view requires no reloading of the directory, as it maps
@@ -1518,6 +1626,14 @@ void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
     emit redirection(oldUrl, newUrl);
     m_controller->redirectToUrl(newUrl); // #186947
+}
+
+void DolphinView::restoreContentsPosition()
+{
+    if (!m_restoredContentsPosition.isNull()) {
+        setContentsPosition(m_restoredContentsPosition.x(), m_restoredContentsPosition.y());
+        m_restoredContentsPosition = QPoint();
+    }
 }
 
 #include "dolphinview.moc"

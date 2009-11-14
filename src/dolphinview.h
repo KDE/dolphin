@@ -54,6 +54,7 @@ class KActionCollection;
 class KDirLister;
 class KUrl;
 class ViewProperties;
+class DolphinDetailsViewExpander;
 
 /**
  * @short Represents a view for the directory content.
@@ -225,6 +226,13 @@ public:
      */
     void setContentsPosition(int x, int y);
 
+    /**
+     * Sets the upper left position of the view content
+     * to (x,y) after the directory loading is finished.
+     * This is useful when going back or forward in history.
+     */
+    void setRestoredContentsPosition(const QPoint& pos);
+
     /** Returns the upper left position of the view content. */
     QPoint contentsPosition() const;
 
@@ -355,6 +363,17 @@ public:
      * i.e. presents a hierarchical view to the user.
      */
     bool itemsExpandable() const;
+
+    /**
+     * Restores the view state (current item, contents position, details view expansion state)
+     */
+    void restoreState(QDataStream &stream);
+
+    /**
+     * Saves the view state (current item, contents position, details view expansion state)
+     */
+    void saveState(QDataStream &stream);
+    
 
 public slots:
     /**
@@ -669,6 +688,12 @@ private slots:
     void slotDirListerCompleted();
 
     /**
+     * Invoked when the loading of the directory is finished.
+     * Restores the active item and the scroll position if possible.
+     */
+    void slotLoadingCompleted();
+
+    /**
      * Is invoked when the KDirLister indicates refreshed items.
      */
     void slotRefreshItems();
@@ -698,6 +723,11 @@ private slots:
      * Testcase: fish://localhost
      */
     void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+
+    /**
+     * Restores the contents position, if history information about the old position is available.
+     */
+    void restoreContentsPosition();
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
@@ -784,6 +814,8 @@ private:
 
         bool supportsCategorizedSorting() const;
         bool itemsExpandable() const;
+        QSet<KUrl> expandedUrls() const;
+        const DolphinDetailsViewExpander* setExpandedUrls(const QSet<KUrl>& urlsToExpand);
 
         /**
          * Returns true, if a reloading of the items is required
@@ -802,6 +834,7 @@ private:
         DolphinColumnViewContainer* m_columnsContainer;
         DolphinSortFilterProxyModel* m_proxyModel;
         QAbstractItemView* m_dragSource;
+        QPointer<DolphinDetailsViewExpander> m_detailsViewExpander;
     };
 
     bool m_active : 1;
@@ -812,6 +845,7 @@ private:
     bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192
     bool m_ignoreViewProperties : 1;
     bool m_assureVisibleCurrentIndex : 1;
+    bool m_expanderActive : 1;
 
     Mode m_mode;
 
@@ -826,6 +860,7 @@ private:
 
     KUrl m_rootUrl;
     KUrl m_activeItemUrl;
+    QPoint m_restoredContentsPosition;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
     KFileItemList m_selectedItems; // this is used for making the View to remember selections after F5
 

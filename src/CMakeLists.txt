@@ -31,6 +31,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinviewactionhandler.cpp
     dolphinviewautoscroller.cpp
     dolphinremoteencoding.cpp
+    dolphindetailsviewexpander.cpp
     draganddrophelper.cpp
     folderexpander.cpp
     renamedialog.cpp

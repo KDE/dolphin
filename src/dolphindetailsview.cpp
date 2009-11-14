@@ -57,6 +57,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     m_controller(controller),
     m_extensionsFactory(0),
     m_expandableFoldersAction(0),
+    m_expandedUrls(),
     m_font(),
     m_decorationSize(),
     m_band()
@@ -151,6 +152,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     connect(m_expandableFoldersAction, SIGNAL(toggled(bool)),
             this, SLOT(setFoldersExpandable(bool)));
 
+    connect(this, SIGNAL(expanded(const QModelIndex&)), this, SLOT(slotExpanded(const QModelIndex&)));
+    connect(this, SIGNAL(collapsed(const QModelIndex&)), this, SLOT(slotCollapsed(const QModelIndex&)));
+
     updateDecorationSize(view->showPreview());
 
     m_extensionsFactory = new ViewExtensionsFactory(this, controller);
@@ -160,6 +164,11 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 
 DolphinDetailsView::~DolphinDetailsView()
 {
+}
+
+QSet<KUrl> DolphinDetailsView::expandedUrls() const
+{
+    return m_expandedUrls;
 }
 
 bool DolphinDetailsView::event(QEvent* event)
@@ -865,6 +874,43 @@ void DolphinDetailsView::setFoldersExpandable(bool expandable)
     settings->setExpandableFolders(expandable);
     setRootIsDecorated(expandable);
     setItemsExpandable(expandable);
+}
+
+void DolphinDetailsView::slotExpanded(const QModelIndex& index)
+{
+    KFileItem item = m_controller->itemForIndex(index);
+    if (!item.isNull()) {
+        m_expandedUrls.insert(item.url());
+    }
+}
+
+void DolphinDetailsView::slotCollapsed(const QModelIndex& index)
+{
+    KFileItem item = m_controller->itemForIndex(index);
+    if (!item.isNull()) {
+        m_expandedUrls.remove(item.url());
+    }
+}
+
+void DolphinDetailsView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
+{
+    removeExpandedIndexes(parent, start, end);
+    QTreeView::rowsAboutToBeRemoved(parent, start, end);
+}
+
+void DolphinDetailsView::removeExpandedIndexes(const QModelIndex& parent, int start, int end)
+{
+    if (m_expandedUrls.isEmpty()) {
+        return;
+    }
+
+    for (int row = start; row <= end; row++) {
+        const QModelIndex index = model()->index(row, 0, parent);
+        if (isExpanded(index)) {
+            slotCollapsed(index);
+            removeExpandedIndexes(index, 0, model()->rowCount(index) - 1);
+        }
+    }
 }
 
 void DolphinDetailsView::updateDecorationSize(bool showPreview)

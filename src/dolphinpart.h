@@ -225,6 +225,9 @@ public:
     DolphinPartBrowserExtension( DolphinPart* part )
         : KParts::BrowserExtension( part ), m_part(part) {}
 
+    virtual void restoreState(QDataStream &stream);
+    virtual void saveState(QDataStream &stream);
+    
 public Q_SLOTS:
     void cut();
     void copy();
