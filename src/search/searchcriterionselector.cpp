@@ -141,11 +141,9 @@ void SearchCriterionSelector::slotComparatorChanged(int index)
     const SearchCriterionDescription::Comparator& comp = descr.comparators()[index];
 
     m_valueWidget->initializeValue(comp.autoValueType);
-    if (!comp.operation.isEmpty() && comp.autoValueType.isEmpty()) {
-        // only show the value widget, if an operation is defined
-        // and no automatic calculation is provided
-        m_valueWidget->show();
-    }
+    // only show the value widget, if an operation is defined
+    // and no automatic calculation is provided
+    m_valueWidget->setVisible(!comp.operation.isEmpty() && comp.autoValueType.isEmpty());
 
     emit criterionChanged();
 }
