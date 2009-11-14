@@ -3,6 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=FileViewVersionControlPlugin
 Comment=Version Control Plugin for File Views
 Comment[en_GB]=Version Control Plugin for File Views
+Comment[eo]=Kromprogramo de versia kontrolo por dosiervidilo
 Comment[et]=Failivaadete versioonikontrolli plugin
 Comment[hr]=Priključak datotečnog prikaza za upravljanje inačicama
 Comment[nl]=Plugin voor versiecontrole op bestandoverzichten

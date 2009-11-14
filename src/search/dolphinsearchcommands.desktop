@@ -80,6 +80,7 @@ Completion=-
 [dolphin fileExtension]
 Name=File extension
 Name[csb]=Rozszérzenié lopka
+Name[de]=Dateierweiterung
 Name[en_GB]=File extension
 Name[eo]=Dosier-sufikso
 Name[et]=Faililaiend
@@ -206,6 +207,7 @@ Completion=title:
 [dolphin filesize]
 Name=File size
 Name[csb]=Miara lopka
+Name[de]=Dateigröße
 Name[en_GB]=File size
 Name[eo]=Dosiergrandeco
 Name[et]=Faili suurus
@@ -295,6 +297,7 @@ Name[x-test]=xxContent sizexx
 Name[zh_TW]=內容大小
 Comment=in bytes
 Comment[csb]=w bajtach
+Comment[de]=in Byte
 Comment[en_GB]=in bytes
 Comment[eo]=bitoke
 Comment[et]=baitides
