@@ -358,6 +358,8 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
         item = m_dirLister->rootItem();
         if (item.isNull())
             item = KFileItem( S_IFDIR, (mode_t)-1, url() );
+        else
+            item.setUrl(url()); // ensure we use the view url, not the canonical path (#213799)
     }
 
     // TODO: We should change the signature of the slots (and signals) for being able
