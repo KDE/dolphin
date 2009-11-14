@@ -585,8 +585,10 @@ void KMetaDataWidget::setReadOnly(bool readOnly)
     d->m_readOnly = readOnly;
 #ifdef HAVE_NEPOMUK
     // TODO: encapsulate this code as part of a metadata-model for KDE 4.5
-    d->m_taggingWidget->setReadOnly(readOnly);
-    d->m_commentWidget->setReadOnly(readOnly);
+    if (d->m_taggingWidget)
+        d->m_taggingWidget->setReadOnly(readOnly);
+    if (d->m_commentWidget)
+        d->m_commentWidget->setReadOnly(readOnly);
 #endif
 }
 
