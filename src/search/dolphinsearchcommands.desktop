@@ -11,6 +11,8 @@ Comment[en_GB]=logic operator and
 Comment[eo]=logika operatoro "kaj"
 Comment[et]=Loogiline JA
 Comment[gl]=o operador lóxico «e»
+Comment[gu]=તાર્કિક ઓપરેટર એન્ડ
+Comment[he]=אופרטור לוגי וגם
 Comment[hr]=logički operator i
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin og
@@ -36,6 +38,8 @@ Comment[en_GB]=logic operator or
 Comment[eo]=logika operatoro "aŭ"
 Comment[et]=Loogiline VÕI
 Comment[gl]=o operador lóxico «ou»
+Comment[gu]=તાર્કિક ઓપરેટર ઓર
+Comment[he]=אופרטור לוגי או
 Comment[hr]=logički operator ili
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin eða
@@ -61,6 +65,8 @@ Comment[en_GB]=logic operator not
 Comment[eo]=logika operatoro "ne"
 Comment[et]=Loogiline EI
 Comment[gl]=o operador lóxico «non»
+Comment[gu]=તાર્કિક ઓપરેટર નોટ
+Comment[he]=אופרטור לוגי שלילה
 Comment[hr]=logički operator ne
 Comment[id]=operator logika tidak
 Comment[is]=rökaðgerðin ekki
@@ -85,6 +91,8 @@ Name[en_GB]=File extension
 Name[eo]=Dosier-sufikso
 Name[et]=Faililaiend
 Name[gl]=Extensión do ficheiro
+Name[gu]=ફાઈલ એક્સટેન્શન
+Name[he]=סיומת קובץ
 Name[hr]=Nastavak datoteke
 Name[id]=Ekstensi berkas
 Name[is]=Skráarending
@@ -105,6 +113,8 @@ Comment[en_GB]=for example txt
 Comment[eo]=ekzemple "txt"
 Comment[et]=näiteks txt
 Comment[gl]=por exemplo txt
+Comment[gu]=દાખલા તરીકે txt
+Comment[he]=לדוגמא txt
 Comment[hr]=na primjer txt
 Comment[id]=sebagai contoh txt
 Comment[is]=til dæmis txt
@@ -133,6 +143,8 @@ Comment[en_GB]=1 to 10, for example >=7
 Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[et]=1 kuni 10, näiteks 7
 Comment[gl]=do 1 ao 10, por exemplo >=7
+Comment[gu]=1 થી 10, દાખલા તરીકે >=7
+Comment[he]=עד 10, לדוגמא >= 7 1
 Comment[hr]=1 do 10, na primjer >=7
 Comment[id]=1 sampai 10, misalnya >=7
 Comment[is]=1 til 10, til dæmis >=7
@@ -153,6 +165,8 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
+GenericName[gu]=<, <=, :, >= અને > વાપરો.
+GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
@@ -181,6 +195,7 @@ Comment[eo]=Marko
 Comment[et]=Silt
 Comment[gl]=Etiqueta
 Comment[gu]=ટેગ
+Comment[he]=תגית
 Comment[hr]=Oznaka
 Comment[id]=Tag
 Comment[is]=Merki
@@ -213,7 +228,7 @@ Name[eo]=Dosiergrandeco
 Name[et]=Faili suurus
 Name[gl]=Tamaño do ficheiro
 Name[gu]=ફાઇલ કદ
-Name[he]=גודל הקובץ
+Name[he]=גודל קובץ
 Name[hr]=Veličina datoteke
 Name[id]=Ukuran berkas
 Name[is]=Skráarstærð
@@ -235,6 +250,7 @@ Comment[en_GB]=in bytes, for example >1000
 Comment[eo]=bajte, ekz. >1000
 Comment[et]=baitides, näiteks >1000
 Comment[gl]=en bytes, por exemplo >1000
+Comment[he]=בבתים, לדוגמא > 1000
 Comment[hr]=u bajtovima, na primjer >1000
 Comment[id]=dalam bita, misalnya >1000
 Comment[is]=í bætum, til dæmis >1000
@@ -255,6 +271,8 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
+GenericName[gu]=<, <=, :, >= અને > વાપરો.
+GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
@@ -280,6 +298,7 @@ Name[eo]=Grandeco de la enhavo
 Name[et]=Sisu suurus
 Name[gl]=Tamaño do contido
 Name[gu]=વિગત કદ
+Name[he]=גודל התוכן
 Name[hr]=Veličina sadržaja
 Name[id]=Ukuran isi
 Name[is]=Stærð innihalds
@@ -303,7 +322,7 @@ Comment[eo]=bitoke
 Comment[et]=baitides
 Comment[gl]=en bytes
 Comment[gu]=બાઈટ્સ માં
-Comment[he]=בבייטים
+Comment[he]=בבתים
 Comment[hr]=u bajtovima
 Comment[id]=dalam bita
 Comment[is]=í bætum
@@ -325,6 +344,8 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
+GenericName[gu]=<, <=, :, >= અને > વાપરો.
+GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
@@ -351,6 +372,8 @@ Comment[en_GB]=for example >1999-10-10
 Comment[eo]=Ekzemple >1999-10-10
 Comment[et]=näiteks >1999-10-10
 Comment[gl]=por exemplo >1999-10-10
+Comment[gu]=દાખલા તરીકે >1999-10-10
+Comment[he]=לדוגמא > 1999-10-10
 Comment[hr]=na primjer >1999-10-10
 Comment[id]=misalnya >1999-10-10
 Comment[is]=til dæmis >1999-10-10
@@ -371,6 +394,8 @@ GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
+GenericName[gu]=<, <=, :, >= અને > વાપરો.
+GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
