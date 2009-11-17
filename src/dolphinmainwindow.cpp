@@ -24,9 +24,7 @@
 #include "dolphinremoteencoding.h"
 
 #include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-    #include "search/dolphinsearchoptionsconfigurator.h"
-#endif
+#include "search/dolphinsearchoptionsconfigurator.h"
 
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
