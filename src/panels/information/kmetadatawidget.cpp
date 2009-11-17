@@ -337,9 +337,12 @@ void KMetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
     Q_ASSERT(m_loadMetaDataThread != 0);
-    m_ratingWidget->setRating(m_loadMetaDataThread->rating());
-    m_commentWidget->setText(m_loadMetaDataThread->comment());
-    m_taggingWidget->setTags(m_loadMetaDataThread->tags());
+    if (m_ratingWidget)
+	    m_ratingWidget->setRating(m_loadMetaDataThread->rating());
+    if (m_commentWidget)
+	    m_commentWidget->setText(m_loadMetaDataThread->comment());
+    if (m_taggingWidget)
+	    m_taggingWidget->setTags(m_loadMetaDataThread->tags());
 
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
