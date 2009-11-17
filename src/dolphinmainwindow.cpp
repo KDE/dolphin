@@ -24,7 +24,9 @@
 #include "dolphinremoteencoding.h"
 
 #include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
 #include "search/dolphinsearchoptionsconfigurator.h"
+#endif
 
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
@@ -109,7 +111,9 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_activeViewContainer(0),
     m_centralWidgetLayout(0),
     m_searchBox(0),
+#ifdef HAVE_NEPOMUK
     m_searchOptionsConfigurator(0),
+#endif
     m_id(id),
     m_tabIndex(0),
     m_viewTab(),
@@ -1003,6 +1007,7 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
 
 void DolphinMainWindow::searchItems()
 {
+#ifdef HAVE_NEPOMUK
     const QString searchOptions = m_searchOptionsConfigurator->options();
 
     QString searchString = m_searchBox->text();
@@ -1015,6 +1020,7 @@ void DolphinMainWindow::searchItems()
     if (!searchString.isEmpty()) {
         m_activeViewContainer->setUrl(KUrl("nepomuksearch:/" + searchString));
     }
+#endif
 }
 
 void DolphinMainWindow::slotTabMoved(int from, int to)
