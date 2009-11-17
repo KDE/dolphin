@@ -111,6 +111,7 @@ public:
 
     bool m_sizeVisible;
     bool m_readOnly;
+    bool m_nepomukActivated;
     MetaDataTypes m_visibleDataTypes;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
@@ -141,6 +142,7 @@ private:
 KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     m_sizeVisible(true),
     m_readOnly(false),
+    m_nepomukActivated(false),
     m_visibleDataTypes(TypeData | SizeData | ModifiedData | OwnerData |
                 PermissionsData | RatingData | TagsData | CommentData),
     m_fileItems(),
@@ -181,7 +183,8 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     addRow(new QLabel(i18nc("@label", "Permissions:"), parent), m_permissionsInfo);
 
 #ifdef HAVE_NEPOMUK
-    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+    m_nepomukActivated = (Nepomuk::ResourceManager::instance()->init() == 0);
+    if (m_nepomukActivated) {
         m_ratingWidget = new KRatingWidget(parent);
         m_ratingWidget->setFixedHeight(fontMetrics.height());
         connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
@@ -317,7 +320,7 @@ void KMetaDataWidget::Private::updateRowsVisibility()
                   settings.readEntry("permissions", true));
 
 #ifdef HAVE_NEPOMUK
-    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+    if (m_nepomukActivated) {
         setRowVisible(m_ratingWidget,
                       (m_visibleDataTypes & KMetaDataWidget::RatingData) &&
                       settings.readEntry("rating", true));
@@ -337,12 +340,12 @@ void KMetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
     Q_ASSERT(m_loadMetaDataThread != 0);
-    if (m_ratingWidget)
-	    m_ratingWidget->setRating(m_loadMetaDataThread->rating());
-    if (m_commentWidget)
-	    m_commentWidget->setText(m_loadMetaDataThread->comment());
-    if (m_taggingWidget)
-	    m_taggingWidget->setTags(m_loadMetaDataThread->tags());
+    Q_ASSERT(m_ratingWidget != 0);
+    Q_ASSERT(m_commentWidget != 0);
+    Q_ASSERT(m_taggingWidget != 0);
+    m_ratingWidget->setRating(m_loadMetaDataThread->rating());
+    m_commentWidget->setText(m_loadMetaDataThread->comment());
+    m_taggingWidget->setTags(m_loadMetaDataThread->tags());
 
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
@@ -539,7 +542,7 @@ void KMetaDataWidget::setItems(const KFileItemList& items)
     }
 
 #ifdef HAVE_NEPOMUK
-    if (Nepomuk::ResourceManager::instance()->init() == 0) {
+    if (d->m_nepomukActivated) {
         QList<KUrl> urls;
         foreach (const KFileItem& item, items) {
             const KUrl url = item.nepomukUri();
