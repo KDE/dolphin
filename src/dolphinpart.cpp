@@ -535,6 +535,7 @@ void DolphinPart::updateNewMenu()
 {
     // As requested by KNewMenu :
     m_newMenu->slotCheckUpToDate();
+    m_newMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
     // And set the files that the menu apply on :
     m_newMenu->setPopupFiles(url());
 }
@@ -551,6 +552,7 @@ void DolphinPart::updateProgress(int percent)
 
 void DolphinPart::createDirectory()
 {
+    m_newMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
     m_newMenu->setPopupFiles(url());
     m_newMenu->createDirectory();
 }

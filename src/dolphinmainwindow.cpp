@@ -552,12 +552,14 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
 
 void DolphinMainWindow::updateNewMenu()
 {
+    m_newMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
     m_newMenu->slotCheckUpToDate();
     m_newMenu->setPopupFiles(activeViewContainer()->url());
 }
 
 void DolphinMainWindow::createDirectory()
 {
+    m_newMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
     m_newMenu->setPopupFiles(activeViewContainer()->url());
     m_newMenu->createDirectory();
 }
@@ -1658,7 +1660,7 @@ void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
             caption = url.protocol();
 	}
     }
-    
+
     setCaption(caption);
 }
 
