@@ -42,6 +42,7 @@ public:
         QString name;
         QString label;
         QString value;
+        QList<Nepomuk::Resource> resources;
     };
 
     KLoadMetaDataThread();

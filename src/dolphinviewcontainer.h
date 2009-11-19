@@ -69,15 +69,6 @@ public:
     virtual ~DolphinViewContainer();
 
     /**
-     * Sets the current active URL, where all actions are applied. The
-     * URL navigator is synchronized with this URL. The signals
-     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
-     * are emitted.
-     * @see DolphinViewContainer::urlNavigator()
-     */
-    void setUrl(const KUrl& url);
-
-    /**
      * Returns the current active URL, where all actions are applied.
      * The URL navigator is synchronized with this URL.
      */
@@ -115,6 +106,15 @@ public:
 
 public slots:
     /**
+     * Sets the current active URL, where all actions are applied. The
+     * URL navigator is synchronized with this URL. The signals
+     * KUrlNavigator::urlChanged() and KUrlNavigator::historyChanged()
+     * are emitted.
+     * @see DolphinViewContainer::urlNavigator()
+     */
+    void setUrl(const KUrl& url);
+
+    /**
      * Popups the filter bar above the status bar if \a show is true.
      */
     void showFilterBar(bool show);
@@ -125,7 +125,7 @@ signals:
      */
     void showFilterBarChanged(bool shown);
 
-private slots: 
+private slots:
     /**
      * Updates the number of items (= number of files + number of
      * directories) in the statusbar. If files are selected, the number

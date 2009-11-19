@@ -122,6 +122,9 @@ public:
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
+Q_SIGNALS:
+    void urlActivated(const KUrl& url);
+
 private:
     class Private;
     Private* d;
@@ -131,6 +134,7 @@ private:
     Q_PRIVATE_SLOT(d, void slotTagsChanged(const QList<Nepomuk::Tag>& tags))
     Q_PRIVATE_SLOT(d, void slotCommentChanged(const QString& comment))
     Q_PRIVATE_SLOT(d, void slotMetaDataUpdateDone())
+    Q_PRIVATE_SLOT(d, void slotLinkActivated(const QString& link))
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KMetaDataWidget::MetaDataTypes)

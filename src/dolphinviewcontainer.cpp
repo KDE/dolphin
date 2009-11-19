@@ -191,20 +191,6 @@ DolphinViewContainer::~DolphinViewContainer()
     m_dirLister = 0; // deleted by m_dolphinModel
 }
 
-void DolphinViewContainer::setUrl(const KUrl& newUrl)
-{
-    if (newUrl != m_urlNavigator->url()) {
-        m_urlNavigator->setUrl(newUrl);
-        // Temporary disable the 'File'->'Create New...' menu until
-        // the write permissions can be checked in a fast way at
-        // DolphinViewContainer::slotDirListerCompleted().
-        m_isFolderWritable = false;
-        if (isActive()) {
-            m_mainWindow->newMenu()->menu()->setEnabled(false);
-        }
-    }
-}
-
 const KUrl& DolphinViewContainer::url() const
 {
     return m_urlNavigator->url();
@@ -234,6 +220,20 @@ void DolphinViewContainer::refresh()
 bool DolphinViewContainer::isFilterBarVisible() const
 {
     return m_filterBar->isVisible();
+}
+
+void DolphinViewContainer::setUrl(const KUrl& newUrl)
+{
+    if (newUrl != m_urlNavigator->url()) {
+        m_urlNavigator->setUrl(newUrl);
+        // Temporary disable the 'File'->'Create New...' menu until
+        // the write permissions can be checked in a fast way at
+        // DolphinViewContainer::slotDirListerCompleted().
+        m_isFolderWritable = false;
+        if (isActive()) {
+            m_mainWindow->newMenu()->menu()->setEnabled(false);
+        }
+    }
 }
 
 void DolphinViewContainer::showFilterBar(bool show)

@@ -1375,6 +1375,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     Panel* infoPanel = new InformationPanel(infoDock);
+    connect(infoPanel, SIGNAL(urlActivated(KUrl)), activeViewContainer(), SLOT(setUrl(KUrl)));
     infoDock->setWidget(infoPanel);
 
     QAction* infoAction = infoDock->toggleViewAction();

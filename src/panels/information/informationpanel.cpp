@@ -255,7 +255,7 @@ void InformationPanel::slotLeftDirectory(const QString& directory)
         // The signal 'leftDirectory' is also emitted when a media
         // has been unmounted. In this case no directory change will be
         // done in Dolphin, but the Information Panel must be updated to
-        // indicate an invalid directory.       
+        // indicate an invalid directory.
         markUrlAsInvalid();
     }
 }
@@ -313,6 +313,7 @@ void InformationPanel::init()
     connect(dirNotify, SIGNAL(leftDirectory(QString)), SLOT(slotLeftDirectory(QString)));
 
     m_content = new InformationPanelContent(this);
+    connect(m_content, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
 
     m_initialized = true;
 }

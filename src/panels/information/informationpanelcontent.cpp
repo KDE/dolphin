@@ -103,6 +103,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
 
     m_metaDataWidget = new KMetaDataWidget(parent);
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    connect(m_metaDataWidget, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
 
     // Encapsulate the MetaDataWidget inside a container that has a dummy widget
     // at the bottom. This prevents that the meta data widget gets vertically stretched

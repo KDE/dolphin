@@ -100,7 +100,11 @@ void KLoadMetaDataThread::run()
                     Item item;
                     item.name = prop.name();
                     item.label = tunedLabel(prop.label());
-                    item.value = formatValue(it.value());
+                    if (it.value().isResource() || it.value().isResourceList()) {
+                        item.resources = it.value().toResourceList();
+                    } else {
+                        item.value = formatValue(it.value());
+                    }
                     m_items.append(item);
                 }
                 ++it;

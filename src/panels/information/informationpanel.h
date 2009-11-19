@@ -38,6 +38,9 @@ public:
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
+signals:
+    void urlActivated(const KUrl& url);
+
 public slots:
     /** @see Panel::setUrl() */
     virtual void setUrl(const KUrl& url);
