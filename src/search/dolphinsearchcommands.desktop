@@ -8,6 +8,7 @@ Name=and
 Comment=logic operator and
 Comment[cs]=logický operátor and
 Comment[csb]=logiczny òperatora ë
+Comment[de]=Logischer Und-Operator
 Comment[en_GB]=logic operator and
 Comment[eo]=logika operatoro "kaj"
 Comment[et]=Loogiline JA
@@ -36,6 +37,7 @@ Name=or
 Comment=logic operator or
 Comment[cs]=logický operátor or
 Comment[csb]=logiczny òperatora abò
+Comment[de]=Logischer Oder-Operator
 Comment[en_GB]=logic operator or
 Comment[eo]=logika operatoro "aŭ"
 Comment[et]=Loogiline VÕI
@@ -64,6 +66,7 @@ Name=not
 Comment=logic operator not
 Comment[cs]=logický operátor negace
 Comment[csb]=logiczny òperatora nié
+Comment[de]=Logischer Nicht-Operator
 Comment[en_GB]=logic operator not
 Comment[eo]=logika operatoro "ne"
 Comment[et]=Loogiline EI
@@ -145,6 +148,7 @@ Name=Rating
 Comment=1 to 10, for example >=7
 Comment[cs]=1 až 10, např. >=7
 Comment[csb]=1 do 10, na przëmiôr >=7
+Comment[de]=1 bis 10, zum Beispiel >=7
 Comment[en_GB]=1 to 10, for example >=7
 Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[et]=1 kuni 10, näiteks 7
@@ -168,6 +172,7 @@ Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
@@ -198,6 +203,7 @@ Name=Tag
 Comment=Tag
 Comment[cs]=Značka
 Comment[csb]=Znakòwnik
+Comment[de]=Schlagwort
 Comment[en_GB]=Tag
 Comment[eo]=Marko
 Comment[et]=Silt
@@ -255,6 +261,7 @@ Name[zh_TW]=檔案大小
 Comment=in bytes, for example >1000
 Comment[cs]=v bytech, například >1000
 Comment[csb]=w bajtach, na przëmiôr >1000
+Comment[de]=In Byte, zum Beispiel >1000
 Comment[en_GB]=in bytes, for example >1000
 Comment[eo]=bajte, ekz. >1000
 Comment[et]=baitides, näiteks >1000
@@ -277,6 +284,7 @@ Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
@@ -352,6 +360,7 @@ Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
@@ -381,6 +390,7 @@ Name=Last modified
 Comment=for example >1999-10-10
 Comment[cs]=například >1999-10-10
 Comment[csb]=na przëmiôr >1999-10-10
+Comment[de]=zum Beispiel >1999-10-10
 Comment[en_GB]=for example >1999-10-10
 Comment[eo]=Ekzemple >1999-10-10
 Comment[et]=näiteks >1999-10-10
@@ -404,6 +414,7 @@ Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
