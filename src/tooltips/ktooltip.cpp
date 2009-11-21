@@ -85,6 +85,7 @@ namespace KToolTip
     void showText(const QPoint& pos, const QString& text)
     {
         QLabel* label = new QLabel(text);
+        label->setForegroundRole(QPalette::ToolTipText);
         showTip(pos, label);
     }
 

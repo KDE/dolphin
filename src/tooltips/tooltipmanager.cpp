@@ -248,6 +248,7 @@ QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
     pixmapLabel->setFixedSize(pixmap.size());
 
     KMetaDataWidget* metaDataWidget = new KMetaDataWidget(tipContent);
+    metaDataWidget->setForegroundRole(QPalette::ToolTipText);
     metaDataWidget->setItem(m_item);
     metaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     metaDataWidget->setReadOnly(true);
