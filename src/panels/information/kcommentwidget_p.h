@@ -50,6 +50,9 @@ public:
 signals:
     void commentChanged(const QString& comment);
 
+protected:
+    virtual bool event(QEvent* event);
+
 private slots:
     void slotLinkActivated(const QString& link);
 

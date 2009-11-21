@@ -50,6 +50,9 @@ public:
 signals:
     void tagsChanged(const QList<Nepomuk::Tag>& tags);
 
+protected:
+    virtual bool event(QEvent* event);
+
 private slots:
     void slotLinkActivated(const QString& link);
 

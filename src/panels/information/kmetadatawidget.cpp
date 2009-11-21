@@ -26,6 +26,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 
+#include <QEvent>
 #include <QFontMetrics>
 #include <QGridLayout>
 #include <QLabel>
@@ -177,12 +178,6 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     m_ownerInfo = new QLabel(parent);
     m_permissionsInfo = new QLabel(parent);
 
-    addRow(new QLabel(i18nc("@label", "Type:"), parent), m_typeInfo);
-    addRow(m_sizeLabel, m_sizeInfo);
-    addRow(new QLabel(i18nc("@label", "Modified:"), parent), m_modifiedInfo);
-    addRow(new QLabel(i18nc("@label", "Owner:"), parent), m_ownerInfo);
-    addRow(new QLabel(i18nc("@label", "Permissions:"), parent), m_permissionsInfo);
-
 #ifdef HAVE_NEPOMUK
     m_nepomukActivated = (Nepomuk::ResourceManager::instance()->init() == 0);
     if (m_nepomukActivated) {
@@ -198,15 +193,10 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
         m_commentWidget = new KCommentWidget(parent);
         connect(m_commentWidget, SIGNAL(commentChanged(const QString&)),
                 q, SLOT(slotCommentChanged(const QString&)));
-
-        addRow(new QLabel(i18nc("@label", "Rating:"), parent), m_ratingWidget);
-        addRow(new QLabel(i18nc("@label", "Tags:"), parent), m_taggingWidget);
-        addRow(new QLabel(i18nc("@label", "Comment:"), parent), m_commentWidget);
     }
 #endif
 
     initMetaInfoSettings();
-    updateRowsVisibility();
 }
 
 KMetaDataWidget::Private::~Private()
@@ -230,14 +220,17 @@ void KMetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
     const QFont smallFont = KGlobalSettings::smallestReadableFont();
     // use a brighter color for the label and a small font size
     QPalette palette = label->palette();
-    QColor textColor = palette.color(QPalette::Text);
+    const QPalette::ColorRole role = q->foregroundRole();
+    QColor textColor = palette.color(role);
     textColor.setAlpha(128);
-    palette.setColor(QPalette::WindowText, textColor);
+    palette.setColor(role, textColor);
     label->setPalette(palette);
+    label->setForegroundRole(role);
     label->setFont(smallFont);
     label->setWordWrap(true);
     label->setAlignment(Qt::AlignTop | Qt::AlignRight);
 
+    infoWidget->setForegroundRole(role);
     QLabel* infoLabel = qobject_cast<QLabel*>(infoWidget);
     if (infoLabel != 0) {
         infoLabel->setFont(smallFont);
@@ -640,6 +633,33 @@ QSize KMetaDataWidget::sizeHint() const
     }
 
     return QSize(fixedWidth, height);
+}
+
+bool KMetaDataWidget::event(QEvent* event)
+{
+    if (event->type() == QEvent::Polish) {
+        // The adding of rows is not done in the constructor. This allows the
+        // client of KMetaDataWidget to set a proper foreground role which
+        // will be respected by the rows.
+
+        d->addRow(new QLabel(i18nc("@label", "Type:"), this), d->m_typeInfo);
+        d->addRow(d->m_sizeLabel, d->m_sizeInfo);
+        d->addRow(new QLabel(i18nc("@label", "Modified:"), this), d->m_modifiedInfo);
+        d->addRow(new QLabel(i18nc("@label", "Owner:"), this), d->m_ownerInfo);
+        d->addRow(new QLabel(i18nc("@label", "Permissions:"), this), d->m_permissionsInfo);
+
+    #ifdef HAVE_NEPOMUK
+        if (d->m_nepomukActivated) {
+            d->addRow(new QLabel(i18nc("@label", "Rating:"), this), d->m_ratingWidget);
+            d->addRow(new QLabel(i18nc("@label", "Tags:"), this), d->m_taggingWidget);
+            d->addRow(new QLabel(i18nc("@label", "Comment:"), this), d->m_commentWidget);
+        }
+    #endif
+
+        d->updateRowsVisibility();
+    }
+
+    return QWidget::event(event);
 }
 
 #include "kmetadatawidget.moc"

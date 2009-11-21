@@ -125,6 +125,9 @@ public:
 Q_SIGNALS:
     void urlActivated(const KUrl& url);
 
+protected:
+    virtual bool event(QEvent* event);
+
 private:
     class Private;
     Private* d;

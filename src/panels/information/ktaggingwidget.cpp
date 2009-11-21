@@ -23,6 +23,7 @@
 #include <kglobalsettings.h>
 #include <klocale.h>
 
+#include <QEvent>
 #include <QLabel>
 #include <QVBoxLayout>
 
@@ -95,6 +96,14 @@ void KTaggingWidget::setReadOnly(bool readOnly)
 bool KTaggingWidget::isReadOnly() const
 {
     return m_readOnly;
+}
+
+bool KTaggingWidget::event(QEvent* event)
+{
+    if (event->type() == QEvent::Polish) {
+        m_label->setForegroundRole(foregroundRole());
+    }
+    return QWidget::event(event);
 }
 
 void KTaggingWidget::slotLinkActivated(const QString& link)

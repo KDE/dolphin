@@ -23,6 +23,7 @@
 #include <kglobalsettings.h>
 #include <klocale.h>
 
+#include <QEvent>
 #include <QLabel>
 #include <QTextEdit>
 #include <QVBoxLayout>
@@ -85,6 +86,14 @@ void KCommentWidget::setReadOnly(bool readOnly)
 bool KCommentWidget::isReadOnly() const
 {
     return m_readOnly;
+}
+
+bool KCommentWidget::event(QEvent* event)
+{
+    if (event->type() == QEvent::Polish) {
+        m_label->setForegroundRole(foregroundRole());
+    }
+    return QWidget::event(event);
 }
 
 void KCommentWidget::slotLinkActivated(const QString& link)
