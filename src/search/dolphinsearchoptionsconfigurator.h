@@ -20,7 +20,9 @@
 #ifndef DOLPHINSEARCHOPTIONSCONFIGURATOR_H
 #define DOLPHINSEARCHOPTIONSCONFIGURATOR_H
 
+#include <kurl.h>
 #include <QList>
+#include <QString>
 #include <QWidget>
 
 class KComboBox;
@@ -40,22 +42,30 @@ public:
     virtual ~DolphinSearchOptionsConfigurator();
 
     /**
-     * Returns the configured options as compliant
-     * string that may be used as input for a nepomuk:/-URI.
+     * Returns the sum of the configured options and the
+     * custom search query as Nepomuk URL.
+     * @see DolphinSearchOptionsConfigurator::setCustomSearchQuery()
      */
-    QString options() const;
+    KUrl nepomukUrl() const;
+
+public slots:
+    /**
+     * Sets a custom search query that is added to the
+     * search query defined by the search options configurator.
+     * This is useful if a custom search user interface is
+     * offered outside the search options configurator.
+     */
+    void setCustomSearchQuery(const QString& searchQuery);
 
 signals:
-    void searchOptionsChanged(const QString& options);
+    void searchOptionsChanged();
 
 protected:
     virtual void showEvent(QShowEvent* event);
 
 private slots:
     void slotAddSelectorButtonClicked();
-
-    void emitSearchOptionsChanged();
-
+    void slotCriterionChanged();
     void removeCriterion();
 
     /**
@@ -76,13 +86,22 @@ private:
      */
     void addCriterion(SearchCriterionSelector* selector);
 
+    /**
+     * Returns true, DolphinSearchOptionsConfigurator::nepomukUrl()
+     * contains at least 1 search parameter.
+     */
+    bool hasSearchParameters() const;
+
 private:
     bool m_initialized;
-    KComboBox* m_searchFromBox;
-    KComboBox* m_searchWhatBox;
+    KComboBox* m_locationBox;
+    KComboBox* m_whatBox;
     QPushButton* m_addSelectorButton;
+    QPushButton* m_searchButton;
+    QPushButton* m_saveButton;
     QVBoxLayout* m_vBoxLayout;
     QList<SearchCriterionSelector*> m_criterions;
+    QString m_customSearchQuery;
 };
 
 #endif

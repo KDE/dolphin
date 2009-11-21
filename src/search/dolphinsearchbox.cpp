@@ -250,6 +250,8 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     hLayout->addWidget(m_searchInput);
     connect(m_searchInput, SIGNAL(returnPressed()),
             this, SLOT(emitSearchSignal()));
+    connect(m_searchInput, SIGNAL(textChanged(QString)),
+            this, SIGNAL(searchTextChanged(QString)));
 }
 
 DolphinSearchBox::~DolphinSearchBox()

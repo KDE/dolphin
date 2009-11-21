@@ -88,6 +88,12 @@ signals:
     void search(const QString& text);
 
     /**
+     * Is emitted when the user has changed a character of
+     * the text that should be used as input for searching.
+     */
+    void searchTextChanged(const QString& text);
+
+    /**
      * Is emitted if the search box gets the focus and
      * requests the need for a UI that allows to adjust
      * search options. It is up to the application to ignore

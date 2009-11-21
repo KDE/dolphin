@@ -1010,18 +1010,8 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
 void DolphinMainWindow::searchItems()
 {
 #ifdef HAVE_NEPOMUK
-    const QString searchOptions = m_searchOptionsConfigurator->options();
-
-    QString searchString = m_searchBox->text();
-    if (!searchString.isEmpty() && !searchOptions.isEmpty()) {
-        searchString += ' ' + searchOptions;
-    } else if (!searchOptions.isEmpty()) {
-        searchString += searchOptions;
-    }
-
-    if (!searchString.isEmpty()) {
-        m_activeViewContainer->setUrl(KUrl("nepomuksearch:/" + searchString));
-    }
+    const KUrl nepomukUrl = m_searchOptionsConfigurator->nepomukUrl();
+    m_activeViewContainer->setUrl(nepomukUrl);
 #endif
 }
 
@@ -1081,7 +1071,7 @@ void DolphinMainWindow::init()
 #ifdef HAVE_NEPOMUK
     m_searchOptionsConfigurator = new DolphinSearchOptionsConfigurator(this);
     m_searchOptionsConfigurator->hide();
-    connect(m_searchOptionsConfigurator, SIGNAL(searchOptionsChanged(QString)),
+    connect(m_searchOptionsConfigurator, SIGNAL(searchOptionsChanged()),
             this, SLOT(searchItems()));
 #endif
 
@@ -1127,6 +1117,8 @@ void DolphinMainWindow::init()
     m_searchBox->show();
     connect(m_searchBox, SIGNAL(requestSearchOptions()),
             this, SLOT(showSearchOptions()));
+    connect(m_searchBox, SIGNAL(searchTextChanged(QString)),
+            m_searchOptionsConfigurator, SLOT(setCustomSearchQuery(QString)));
 
     stateChanged("new_file");
 

@@ -56,6 +56,8 @@ public:
      */
     QString toString() const;
 
+    Type type() const;
+
 signals:
     /**
      * Is emitted if the criterion selector should be removed

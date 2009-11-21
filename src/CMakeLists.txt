@@ -157,11 +157,13 @@ set(dolphin_SRCS
     statusbar/statusbarspaceinfo.cpp
     statusbar/statusbarmessagelabel.cpp
     zoomlevelinfo.cpp
-    )
+)
 
 kde4_add_kcfg_files(dolphin_SRCS
     panels/folders/dolphin_folderspanelsettings.kcfgc
-    panels/information/dolphin_informationpanelsettings.kcfgc)
+    panels/information/dolphin_informationpanelsettings.kcfgc
+    search/dolphin_searchsettings.kcfgc
+)
 
 if(Nepomuk_FOUND)
     set(dolphin_SRCS

@@ -103,6 +103,11 @@ QString SearchCriterionSelector::toString() const
     return criterion;
 }
 
+SearchCriterionSelector::Type SearchCriterionSelector::type() const
+{
+    return static_cast<Type>(m_descriptionsBox->currentIndex());
+}
+
 void SearchCriterionSelector::slotDescriptionChanged(int index)
 {
     if (m_valueWidget != 0) {

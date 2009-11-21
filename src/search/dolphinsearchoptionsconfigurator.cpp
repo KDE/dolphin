@@ -19,6 +19,7 @@
 
 #include "dolphinsearchoptionsconfigurator.h"
 
+#include "dolphin_searchsettings.h"
 #include "searchcriterionselector.h"
 
 #include <kcombobox.h>
@@ -35,32 +36,72 @@
 #include <QShowEvent>
 #include <QVBoxLayout>
 
+struct SettingsItem
+{
+    const char* settingsName;
+    const char* text;
+};
+
+// Contains the settings names and translated texts
+// for each item of the location-combo-box.
+static const SettingsItem g_locationItems[] = {
+    {"Everywhere", I18N_NOOP2("@label", "Everywhere")},
+    {"From Here",  I18N_NOOP2("@label", "From Here")}
+};
+
+// Contains the settings names and translated texts
+// for each item of the what-combobox.
+static const SettingsItem g_whatItems[] = {
+    {"All",       I18N_NOOP2("@label", "All")},
+    {"Images",    I18N_NOOP2("@label", "Images")},
+    {"Text",      I18N_NOOP2("@label", "Text")},
+    {"Filenames", I18N_NOOP2("@label", "Filenames")}
+};
+
+struct CriterionItem
+{
+    const char* settingsName;
+    SearchCriterionSelector::Type type;
+};
+
+// Contains the settings names for type
+// of availabe search criterion.
+static const CriterionItem g_criterionItems[] = {
+    {"Date", SearchCriterionSelector::Date},
+    {"Size", SearchCriterionSelector::Size},
+    {"Tag", SearchCriterionSelector::Tag},
+    {"Raging", SearchCriterionSelector::Rating}
+};
+
 DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* parent) :
     QWidget(parent),
     m_initialized(false),
-    m_searchFromBox(0),
-    m_searchWhatBox(0),
+    m_locationBox(0),
+    m_whatBox(0),
     m_addSelectorButton(0),
+    m_searchButton(0),
+    m_saveButton(0),
     m_vBoxLayout(0),
-    m_criterions()
+    m_criterions(),
+    m_customSearchQuery()
 {
     m_vBoxLayout = new QVBoxLayout(this);
 
     // add "search" configuration
     QLabel* searchLabel = new QLabel(i18nc("@label", "Search:"));
 
-    m_searchFromBox = new KComboBox(this);
-    m_searchFromBox->addItem(i18nc("@label", "Everywhere"));
-    m_searchFromBox->addItem(i18nc("@label", "From Here"));
+    m_locationBox = new KComboBox(this);
+    for (unsigned int i = 0; i < sizeof(g_locationItems) / sizeof(SettingsItem); ++i) {
+        m_locationBox->addItem(g_locationItems[i].text);
+    }
 
     // add "what" configuration
     QLabel* whatLabel = new QLabel(i18nc("@label", "What:"));
 
-    m_searchWhatBox = new KComboBox(this);
-    m_searchWhatBox->addItem(i18nc("@label", "All"));
-    m_searchWhatBox->addItem(i18nc("@label", "Images"));
-    m_searchWhatBox->addItem(i18nc("@label", "Text"));
-    m_searchWhatBox->addItem(i18nc("@label", "Filenames"));
+    m_whatBox = new KComboBox(this);
+    for (unsigned int i = 0; i < sizeof(g_whatItems) / sizeof(SettingsItem); ++i) {
+        m_whatBox->addItem(g_whatItems[i].text);
+    }
 
     // add "Add selector" button
     m_addSelectorButton = new QPushButton(this);
@@ -70,18 +111,20 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     connect(m_addSelectorButton, SIGNAL(clicked()), this, SLOT(slotAddSelectorButtonClicked()));
 
     // add button "Search"
-    QPushButton* searchButton = new QPushButton(this);
-    searchButton->setIcon(KIcon("edit-find"));
-    searchButton->setText(i18nc("@action:button", "Search"));
-    searchButton->setToolTip(i18nc("@info", "Start searching"));
-    connect(searchButton, SIGNAL(clicked()), this, SLOT(emitSearchOptionsChanged()));
+    m_searchButton = new QPushButton(this);
+    m_searchButton->setIcon(KIcon("edit-find"));
+    m_searchButton->setText(i18nc("@action:button", "Search"));
+    m_searchButton->setToolTip(i18nc("@info", "Start searching"));
+    m_searchButton->setEnabled(false);
+    connect(m_searchButton, SIGNAL(clicked()), this, SIGNAL(searchOptionsChanged()));
 
     // add button "Save"
-    QPushButton* saveButton = new QPushButton(this);
-    saveButton->setIcon(KIcon("document-save"));
-    saveButton->setText(i18nc("@action:button", "Save"));
-    saveButton->setToolTip(i18nc("@info", "Save search options"));
-    connect(saveButton, SIGNAL(clicked()), this, SLOT(saveQuery()));
+    m_saveButton = new QPushButton(this);
+    m_saveButton->setIcon(KIcon("document-save"));
+    m_saveButton->setText(i18nc("@action:button", "Save"));
+    m_saveButton->setToolTip(i18nc("@info", "Save search options"));
+    m_saveButton->setEnabled(false);
+    connect(m_saveButton, SIGNAL(clicked()), this, SLOT(saveQuery()));
 
     // add button "Close"
     QPushButton* closeButton = new QPushButton(this);
@@ -90,31 +133,45 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     closeButton->setToolTip(i18nc("@info", "Close search options"));
     connect(closeButton, SIGNAL(clicked()), this, SLOT(hide()));
 
-    QHBoxLayout* firstLineLayout = new QHBoxLayout();
-    firstLineLayout->addWidget(searchLabel);
-    firstLineLayout->addWidget(m_searchFromBox);
-    firstLineLayout->addWidget(whatLabel);
-    firstLineLayout->addWidget(m_searchWhatBox);
-    firstLineLayout->addWidget(new QWidget(this), 1); // filler
-
-    QHBoxLayout* lastLineLayout = new QHBoxLayout();
-    lastLineLayout->addWidget(m_addSelectorButton);
-    lastLineLayout->addWidget(new QWidget(this), 1); // filler
-    lastLineLayout->addWidget(searchButton);
-    lastLineLayout->addWidget(saveButton);
-    lastLineLayout->addWidget(closeButton);
+    QHBoxLayout* topLineLayout = new QHBoxLayout();
+    topLineLayout->addWidget(m_addSelectorButton);
+    topLineLayout->addWidget(searchLabel);
+    topLineLayout->addWidget(m_locationBox);
+    topLineLayout->addWidget(whatLabel);
+    topLineLayout->addWidget(m_whatBox);
+    topLineLayout->addWidget(new QWidget(this), 1); // filler
+    topLineLayout->addWidget(m_searchButton);
+    topLineLayout->addWidget(m_saveButton);
+    topLineLayout->addWidget(closeButton);
 
     m_vBoxLayout->addWidget(new KSeparator(this));
-    m_vBoxLayout->addLayout(firstLineLayout);
-    m_vBoxLayout->addLayout(lastLineLayout);
+    m_vBoxLayout->addLayout(topLineLayout);
     m_vBoxLayout->addWidget(new KSeparator(this));
 }
 
 DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
 {
+    // store the UI configuration
+    const int locationIndex = m_locationBox->currentIndex();
+    SearchSettings::setLocation(g_locationItems[locationIndex].settingsName);
+
+    const int whatIndex = m_whatBox->currentIndex();
+    SearchSettings::setWhat(g_whatItems[whatIndex].settingsName);
+
+    QString criterionsString;
+    foreach(const SearchCriterionSelector* criterion, m_criterions) {
+        if (!criterionsString.isEmpty()) {
+            criterionsString += ',';
+        }
+        const int index = static_cast<int>(criterion->type());
+        criterionsString += g_criterionItems[index].settingsName;
+    }
+    SearchSettings::setCriterions(criterionsString);
+
+    SearchSettings::self()->writeConfig();
 }
 
-QString DolphinSearchOptionsConfigurator::options() const
+KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
 {
     QString searchOptions;
     foreach (const SearchCriterionSelector* criterion, m_criterions) {
@@ -126,25 +183,58 @@ QString DolphinSearchOptionsConfigurator::options() const
             searchOptions += criterionString;
         }
     }
-    return searchOptions;
+
+    QString searchString = m_customSearchQuery;
+    if (!searchString.isEmpty() && !searchOptions.isEmpty()) {
+        searchString += ' ' + searchOptions;
+    } else if (!searchOptions.isEmpty()) {
+        searchString += searchOptions;
+    }
+
+    searchString.insert(0, QLatin1String("nepomuksearch:/"));
+    return KUrl(searchString);
+}
+
+void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searchQuery)
+{
+    m_customSearchQuery = searchQuery.simplified();
+
+    const bool enabled = hasSearchParameters();
+    m_searchButton->setEnabled(enabled);
+    m_saveButton->setEnabled(enabled);
 }
 
 void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous() && !m_initialized) {
-        // add default search criterions
-        SearchCriterionSelector* dateCriterion = new SearchCriterionSelector(SearchCriterionSelector::Date, this);
-        SearchCriterionSelector* sizeCriterion = new SearchCriterionSelector(SearchCriterionSelector::Size, this);
-        SearchCriterionSelector* tagCriterion = new SearchCriterionSelector(SearchCriterionSelector::Tag, this);
+        // restore the UI layout of the last session
+        const QString location = SearchSettings::location();
+        for (unsigned int i = 0; i < sizeof(g_locationItems) / sizeof(SettingsItem); ++i) {
+            if (g_locationItems[i].settingsName == location) {
+                m_locationBox->setCurrentIndex(i);
+                break;
+            }
+        }
 
-        // Add the items in the same order as available in the description combo (verified by Q_ASSERTs). This
-        // is not mandatory from an implementation point of view, but preferable from a usability point of view.
-        Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
-        Q_ASSERT(static_cast<int>(SearchCriterionSelector::Size) == 1);
-        Q_ASSERT(static_cast<int>(SearchCriterionSelector::Tag) == 2);
-        addCriterion(dateCriterion);
-        addCriterion(sizeCriterion);
-        addCriterion(tagCriterion);
+        const QString what = SearchSettings::what();
+        for (unsigned int i = 0; i < sizeof(g_whatItems) / sizeof(SettingsItem); ++i) {
+            if (g_whatItems[i].settingsName == what) {
+                m_whatBox->setCurrentIndex(i);
+                break;
+            }
+        }
+
+        const QString criterions = SearchSettings::criterions();
+        QStringList criterionsList = criterions.split(',');
+        foreach (const QString& criterionName, criterionsList) {
+            for (unsigned int i = 0; i < sizeof(g_criterionItems) / sizeof(CriterionItem); ++i) {
+                if (g_criterionItems[i].settingsName == criterionName) {
+                    const SearchCriterionSelector::Type type = g_criterionItems[i].type;
+                    addCriterion(new SearchCriterionSelector(type, this));
+                    break;
+                }
+            }
+        }
 
         m_initialized = true;
     }
@@ -153,13 +243,15 @@ void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
 
 void DolphinSearchOptionsConfigurator::slotAddSelectorButtonClicked()
 {
-    SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Tag, this);
+    SearchCriterionSelector* selector = new SearchCriterionSelector(SearchCriterionSelector::Date, this);
     addCriterion(selector);
 }
 
-void DolphinSearchOptionsConfigurator::emitSearchOptionsChanged()
+void DolphinSearchOptionsConfigurator::slotCriterionChanged()
 {
-    emit searchOptionsChanged(options());
+    const bool enabled = hasSearchParameters();
+    m_searchButton->setEnabled(enabled);
+    m_saveButton->setEnabled(enabled);
 }
 
 void DolphinSearchOptionsConfigurator::removeCriterion()
@@ -211,18 +303,24 @@ void DolphinSearchOptionsConfigurator::saveQuery()
 void DolphinSearchOptionsConfigurator::addCriterion(SearchCriterionSelector* criterion)
 {
     connect(criterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));    
-    // TODO: It is unclear yet whether changing a criterion should also result in triggering
-    // a searchOptionsChanged() signal. This mainly depends on the performance achievable with
-    // Nepomuk. Currently the searchOptionsChanged() signal is only emitted when the search-button
-    // has been triggered by the user.
-    // connect(criterion, SIGNAL(criterionChanged()), this, SLOT(emitSearchOptionsChanged()));
+    connect(criterion, SIGNAL(criterionChanged()), this, SLOT(slotCriterionChanged()));
 
-    // insert the new selector before the lastLineLayout and the KSeparator at the bottom
-    const int index = m_vBoxLayout->count() - 2;
+    // insert the new selector before the KSeparator at the bottom
+    const int index = m_vBoxLayout->count() - 1;
     m_vBoxLayout->insertWidget(index, criterion);
     updateSelectorButton();
 
     m_criterions.append(criterion);
+}
+
+bool DolphinSearchOptionsConfigurator::hasSearchParameters() const
+{
+    if (!m_customSearchQuery.isEmpty()) {
+        // performance optimization: if a custom search query is defined,
+        // there is no need to call the (quite expensive) method nepomukUrl()
+        return true;
+    }
+    return nepomukUrl().path() != QLatin1String("/");
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"
