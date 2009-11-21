@@ -23,6 +23,7 @@
 #include <kconfiggroup.h>
 #include <kglobal.h>
 #include <klocale.h>
+#include <kdebug.h>
 
 #include <nepomuk/resource.h>
 
@@ -100,11 +101,7 @@ void KLoadMetaDataThread::run()
                     Item item;
                     item.name = prop.name();
                     item.label = tunedLabel(prop.label());
-                    if (it.value().isResource() || it.value().isResourceList()) {
-                        item.resources = it.value().toResourceList();
-                    } else {
-                        item.value = formatValue(it.value());
-                    }
+                    item.value = formatValue(it.value());
                     m_items.append(item);
                 }
                 ++it;
@@ -168,14 +165,14 @@ QString  KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
 {
     if (value.isDateTime()) {
         return KGlobal::locale()->formatDateTime(value.toDateTime(), KLocale::FancyLongDate);
-    } else if (value.isResource()) {
-        return value.toResource().genericLabel();
-    } else if (value.isResourceList()) {
-        QStringList list;
+    } else if (value.isResource() || value.isResourceList()) {
+        QStringList links;
         foreach(const Nepomuk::Resource& res, value.toResourceList()) {
-            list << res.genericLabel();
+            links << QString::fromLatin1("<a href=\"%1\">%2</a>")
+                .arg(KUrl(res.resourceUri()).url())
+                .arg(res.genericLabel());
         }
-        return list.join(QLatin1String(";\n"));
+        return QLatin1String("<p>") + links.join(QLatin1String(";\n"));
     } else {
         return value.toString();
     }

@@ -108,12 +108,6 @@ public:
      * Merges items like 'width' and 'height' as one item.
      */
     QList<KLoadMetaDataThread::Item> mergedItems(const QList<KLoadMetaDataThread::Item>& items);
-
-    /**
-     * Returns a (clickable) text for the given item, that can be used for
-     * the information value widget.
-     */
-    QString labelText(const KLoadMetaDataThread::Item& item) const;
 #endif
 
     bool m_sizeVisible;
@@ -372,7 +366,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
         } else {
             // create new row
             QLabel* infoLabel = new QLabel(item.label, q);
-            QLabel* infoValue = new QLabel(labelText(item), q);
+            QLabel* infoValue = new QLabel(item.value, q);
             connect(infoValue, SIGNAL(linkActivated(QString)),
                     q, SLOT(slotLinkActivated(QString)));
             addRow(infoLabel, infoValue);
@@ -502,21 +496,6 @@ QList<KLoadMetaDataThread::Item>
     }
 
     return mergedItems;
-}
-
-QString KMetaDataWidget::Private::labelText(const KLoadMetaDataThread::Item& item) const
-{
-    if (item.resources.isEmpty()) {
-        return item.value;
-    }
-
-    QStringList links;
-    foreach(const Nepomuk::Resource& res, item.resources) {
-        links << QString::fromLatin1("<a href=\"%1\">%2</a>")
-            .arg(KUrl(res.resourceUri()).url())
-            .arg(res.genericLabel());
-    }
-    return QLatin1String("<p>") + links.join(QLatin1String(";\n"));
 }
 #endif
 
