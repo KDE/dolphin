@@ -1,0 +1,4 @@
+File=dolphin_searchsettings.kcfg
+ClassName=SearchSettings
+Singleton=yes
+Mutators=true

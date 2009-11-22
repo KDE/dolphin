@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+    <kcfgfile name="dolphinrc"/>
+    <group name="Search">
+        <entry name="Location" type="String">
+            <label>Location</label>
+            <default>Everywhere</default>
+        </entry>
+        <entry name="What" type="String">
+            <label>What</label>
+            <default>All</default>
+        </entry>
+        <entry name="Criterions" type="String">
+            <label>Criterions</label>
+            <default></default>
+        </entry>
+    </group>
+</kcfg>
