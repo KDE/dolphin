@@ -18,6 +18,7 @@ Comment[he]=אופרטור לוגי וגם
 Comment[hr]=logički operator i
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin og
+Comment[kk]=логикалық 'және' операторы
 Comment[lt]=loginis operatorius „ir“ (and)
 Comment[nb]=logisk og-operator
 Comment[nds]=Logisch Operator »Un«
@@ -47,6 +48,7 @@ Comment[he]=אופרטור לוגי או
 Comment[hr]=logički operator ili
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin eða
+Comment[kk]=логикалық 'немесе' операторы
 Comment[lt]=loginis operatorius „arba“ (or)
 Comment[nb]=logisk eller-operator
 Comment[nds]=Logisch Operator »Oder«
@@ -76,6 +78,7 @@ Comment[he]=אופרטור לוגי שלילה
 Comment[hr]=logički operator ne
 Comment[id]=operator logika tidak
 Comment[is]=rökaðgerðin ekki
+Comment[kk]=логикалық 'теріс' операторы
 Comment[lt]=loginis operatorius „ne“ (not)
 Comment[nb]=logisk ikke-operator
 Comment[nds]=Logisch Operator »Nich«
@@ -103,6 +106,7 @@ Name[he]=סיומת קובץ
 Name[hr]=Nastavak datoteke
 Name[id]=Ekstensi berkas
 Name[is]=Skráarending
+Name[kk]=Файл атау жұрнағы
 Name[lt]=Failo priesaga
 Name[nb]=Filetternavn
 Name[nds]=Dateiverwiedern
@@ -126,6 +130,7 @@ Comment[he]=לדוגמא txt
 Comment[hr]=na primjer txt
 Comment[id]=sebagai contoh txt
 Comment[is]=til dæmis txt
+Comment[kk]=мысалы txt
 Comment[lt]=pavyzdžiui, txt
 Comment[ms]=sebagai contoh txt
 Comment[nb]=for eksempel txt
@@ -158,6 +163,7 @@ Comment[he]=עד 10, לדוגמא >= 7 1
 Comment[hr]=1 do 10, na primjer >=7
 Comment[id]=1 sampai 10, misalnya >=7
 Comment[is]=1 til 10, til dæmis >=7
+Comment[kk]=1-ден 10 дейін, мысалы >=7
 Comment[lt]=Nuo 1 iki 10, pvz., >=7
 Comment[nb]=1 til 10, for eksempel >=7
 Comment[nds]=1 to 10, as Bispill >=7
@@ -182,6 +188,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
@@ -213,6 +220,7 @@ Comment[he]=תגית
 Comment[hr]=Oznaka
 Comment[id]=Tag
 Comment[is]=Merki
+Comment[kk]=Тег
 Comment[lt]=Žyma
 Comment[ms]=Tag
 Comment[nb]=Merke
@@ -246,6 +254,7 @@ Name[he]=גודל קובץ
 Name[hr]=Veličina datoteke
 Name[id]=Ukuran berkas
 Name[is]=Skráarstærð
+Name[kk]=Файл өлшемі
 Name[lt]=Failo dydis
 Name[ms]=Saiz fail
 Name[nb]=Filstørrelse
@@ -270,6 +279,7 @@ Comment[he]=בבתים, לדוגמא > 1000
 Comment[hr]=u bajtovima, na primjer >1000
 Comment[id]=dalam bita, misalnya >1000
 Comment[is]=í bætum, til dæmis >1000
+Comment[kk]=байт, мысалы >1000
 Comment[lt]=baitais, pvz., > 1000
 Comment[nb]=i byte, for eksempel >1000
 Comment[nds]=in Bytes, as Bispill >1000
@@ -294,6 +304,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
@@ -321,6 +332,7 @@ Name[he]=גודל התוכן
 Name[hr]=Veličina sadržaja
 Name[id]=Ukuran isi
 Name[is]=Stærð innihalds
+Name[kk]=Мазмұнның өлшемі
 Name[lt]=Turinio dydis
 Name[ms]=Saiz isi
 Name[nb]=Innholdsstørrelse
@@ -345,6 +357,7 @@ Comment[he]=בבתים
 Comment[hr]=u bajtovima
 Comment[id]=dalam bita
 Comment[is]=í bætum
+Comment[kk]=байт
 Comment[lt]=baitais
 Comment[ms]=dalam bait
 Comment[nb]=i byte
@@ -370,6 +383,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
@@ -400,6 +414,7 @@ Comment[he]=לדוגמא > 1999-10-10
 Comment[hr]=na primjer >1999-10-10
 Comment[id]=misalnya >1999-10-10
 Comment[is]=til dæmis >1999-10-10
+Comment[kk]=мысалы >1999-10-10
 Comment[lt]=pavyzdžiui >1999-10-10
 Comment[nb]=for eksempel >1999-10-10
 Comment[nds]=as Bispill >23.10.1999
@@ -424,6 +439,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
