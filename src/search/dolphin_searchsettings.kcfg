@@ -12,7 +12,7 @@
             <default>All</default>
         </entry>
         <entry name="Criterions" type="String">
-            <label>Criterions</label>
+            <label>Criteria</label>
             <default></default>
         </entry>
     </group>
