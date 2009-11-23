@@ -31,6 +31,7 @@
 #include "dolphinapplication.h"
 #include "dolphinnewmenu.h"
 #include "search/dolphinsearchbox.h"
+#include "search/dolphinsearchoptionsconfigurator.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "dolphinviewcontainer.h"
