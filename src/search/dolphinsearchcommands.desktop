@@ -25,6 +25,7 @@ Comment[nds]=Logisch Operator »Un«
 Comment[nl]=logische operator en
 Comment[pt]=operador lógico 'e'
 Comment[pt_BR]=operador lógico 'e'
+Comment[ro]=operatorul logic și
 Comment[sv]=logisk operator och
 Comment[tr]=mantıksal işleç olarak ve
 Comment[uk]=булівська дія «ТА»
@@ -55,6 +56,7 @@ Comment[nds]=Logisch Operator »Oder«
 Comment[nl]=logische operator of
 Comment[pt]=operador lógico 'ou'
 Comment[pt_BR]=operador lógico 'ou'
+Comment[ro]=operatorul logic sau
 Comment[sv]=logisk operator eller
 Comment[tr]=mantıksal işleç olarak veya
 Comment[uk]=булівська дія «АБО»
@@ -85,6 +87,7 @@ Comment[nds]=Logisch Operator »Nich«
 Comment[nl]=logische operator niet
 Comment[pt]=operador lógico 'não'
 Comment[pt_BR]=operador lógico 'não'
+Comment[ro]=operatorul logic nu
 Comment[sv]=logisk operator inte
 Comment[tr]=mantıksal işleç olarak değil
 Comment[uk]=булівська дія «НЕ»
@@ -113,6 +116,7 @@ Name[nds]=Dateiverwiedern
 Name[nl]=Bestandsextensie
 Name[pt]=Extensão do ficheiro
 Name[pt_BR]=Extensão do arquivo
+Name[ro]=Extensie fișier
 Name[sv]=Filändelse
 Name[tr]=Dosya uzantısı
 Name[uk]=Суфікс назви файла
@@ -138,6 +142,7 @@ Comment[nds]=as Bispill »txt«
 Comment[nl]=bijvoorbeeld txt
 Comment[pt]=por exemplo 'txt'
 Comment[pt_BR]=por exemplo, 'txt'
+Comment[ro]=de exemplu txt
 Comment[sv]=till exempel txt
 Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
@@ -170,6 +175,7 @@ Comment[nds]=1 to 10, as Bispill >=7
 Comment[nl]=1 tot 10, bijvoorbeeld >=7
 Comment[pt]=1 a 10, por exemplo >=7
 Comment[pt_BR]=1 a 10, por exemplo, >=7
+Comment[ro]=de la 1 la 10, de exemplu >=7
 Comment[sv]=1 till 10, till exempel: >=7
 Comment[tr]=1'den 10'a kadar, örnek >=7
 Comment[uk]=Від 1 до 10, наприклад, >=7
@@ -196,6 +202,7 @@ GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
+GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
@@ -228,6 +235,7 @@ Comment[nds]=Slötelwoort
 Comment[nl]=Tag
 Comment[pt]=Marca
 Comment[pt_BR]=Etiqueta
+Comment[ro]=Marcaj
 Comment[sv]=Etikett
 Comment[tr]=Etiket
 Comment[uk]=Мітка
@@ -262,6 +270,7 @@ Name[nds]=Dateigrött
 Name[nl]=Bestandsgrootte
 Name[pt]=Tamanho do ficheiro
 Name[pt_BR]=Tamanho do arquivo
+Name[ro]=Dimensiune fișier
 Name[sv]=Filstorlek
 Name[tr]=Dosya boyutu
 Name[uk]=Розмір файла
@@ -286,6 +295,7 @@ Comment[nds]=in Bytes, as Bispill >1000
 Comment[nl]=in bytes, bijvoorbeeld >1000
 Comment[pt]=em 'bytes', por exemplo > 1000
 Comment[pt_BR]=em bytes, por exemplo, > 1000
+Comment[ro]=în octeți, de exemplu >1000
 Comment[sv]=i byte, till exempel > 1000
 Comment[tr]=bayt olarak, örnek >1000
 Comment[uk]=у байтах, наприклад, >1000
@@ -312,6 +322,7 @@ GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
+GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
@@ -340,6 +351,7 @@ Name[nds]=Inholtgrött
 Name[nl]=Grootte van de inhoud
 Name[pt]=Tamanho do conteúdo
 Name[pt_BR]=Tamanho do conteúdo
+Name[ro]=Dimensiune conținut
 Name[sv]=Innehållets storlek
 Name[tr]=İçerik boyutu
 Name[uk]=Розмір вмісту
@@ -365,6 +377,7 @@ Comment[nds]=in Bytes
 Comment[nl]=in bytes
 Comment[pt]=em 'bytes'
 Comment[pt_BR]=em bytes
+Comment[ro]=în octeți
 Comment[sv]=i byte
 Comment[tr]=bayt olarak
 Comment[uk]=у байтах
@@ -391,6 +404,7 @@ GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
+GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
@@ -421,6 +435,7 @@ Comment[nds]=as Bispill >23.10.1999
 Comment[nl]=bijvoorbeeld >2009-10-10
 Comment[pt]=por exemplo > 1999-10-10
 Comment[pt_BR]=por exemplo, > 1999-10-10
+Comment[ro]=de exemplu >1999-10-10
 Comment[sv]=till exempel > 1999-10-10
 Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
@@ -447,6 +462,7 @@ GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
+GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
