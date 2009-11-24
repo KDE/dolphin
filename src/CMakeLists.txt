@@ -210,7 +210,6 @@ if (Nepomuk_FOUND)
         ${NEPOMUK_LIBRARIES}
         ${SOPRANO_LIBRARIES}
         ${NEPOMUK_QUERY_LIBRARIES}
-        nepomukannotation
     )
 endif (Nepomuk_FOUND)
 

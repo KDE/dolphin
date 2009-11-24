@@ -22,13 +22,13 @@
 
 #define DISABLE_NEPOMUK_LEGACY
 #include <nepomuk/comparisonterm.h>
-#include <nepomuk/nie.h>
 #include <nepomuk/literalterm.h>
 #include <nepomuk/query.h>
 
 #include "searchcriterionvalue.h"
 
 #include <Soprano/LiteralValue>
+#include <Soprano/Vocabulary/NAO>
 
 #include <QComboBox>
 #include <QHBoxLayout>
@@ -98,7 +98,7 @@ Nepomuk::Query::Term SearchCriterionSelector::queryTerm() const
     }
 
     Nepomuk::Query::LiteralTerm literalTerm(Soprano::LiteralValue("dummy"));
-    Nepomuk::Query::ComparisonTerm term(Nepomuk::Vocabulary::NIE::lastModified(),
+    Nepomuk::Query::ComparisonTerm term(Soprano::Vocabulary::NAO::lastModified(),
                                         literalTerm,
                                         Nepomuk::Query::ComparisonTerm::Smaller);
     return term;
