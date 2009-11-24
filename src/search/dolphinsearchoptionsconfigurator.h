@@ -100,7 +100,7 @@ private:
     QPushButton* m_searchButton;
     QPushButton* m_saveButton;
     QVBoxLayout* m_vBoxLayout;
-    QList<SearchCriterionSelector*> m_criterions;
+    QList<SearchCriterionSelector*> m_criteria;
     QString m_customSearchQuery;
 };
 

@@ -86,7 +86,7 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     m_searchButton(0),
     m_saveButton(0),
     m_vBoxLayout(0),
-    m_criterions(),
+    m_criteria(),
     m_customSearchQuery()
 {
     m_vBoxLayout = new QVBoxLayout(this);
@@ -162,15 +162,15 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
     const int whatIndex = m_whatBox->currentIndex();
     SearchSettings::setWhat(g_whatItems[whatIndex].settingsName);
 
-    QString criterionsString;
-    foreach(const SearchCriterionSelector* criterion, m_criterions) {
-        if (!criterionsString.isEmpty()) {
-            criterionsString += ',';
+    QString criteriaString;
+    foreach(const SearchCriterionSelector* criterion, m_criteria) {
+        if (!criteriaString.isEmpty()) {
+            criteriaString += ',';
         }
         const int index = static_cast<int>(criterion->type());
-        criterionsString += g_criterionItems[index].settingsName;
+        criteriaString += g_criterionItems[index].settingsName;
     }
-    SearchSettings::setCriterions(criterionsString);
+    SearchSettings::setCriteria(criteriaString);
 
     SearchSettings::self()->writeConfig();
 }
@@ -178,7 +178,7 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
 KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
 {
     Nepomuk::Query::AndTerm andTerm;
-    foreach (const SearchCriterionSelector* criterion, m_criterions) {
+    foreach (const SearchCriterionSelector* criterion, m_criteria) {
         const Nepomuk::Query::Term term = criterion->queryTerm();
         andTerm.addSubTerm(term);
     }
@@ -230,9 +230,9 @@ void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
             }
         }
 
-        const QString criterions = SearchSettings::criterions();
-        QStringList criterionsList = criterions.split(',');
-        foreach (const QString& criterionName, criterionsList) {
+        const QString criteria = SearchSettings::criteria();
+        QStringList criteriaList = criteria.split(',');
+        foreach (const QString& criterionName, criteriaList) {
             for (unsigned int i = 0; i < sizeof(g_criterionItems) / sizeof(CriterionItem); ++i) {
                 if (g_criterionItems[i].settingsName == criterionName) {
                     const SearchCriterionSelector::Type type = g_criterionItems[i].type;
@@ -266,8 +266,8 @@ void DolphinSearchOptionsConfigurator::removeCriterion()
     Q_ASSERT(criterion != 0);
     m_vBoxLayout->removeWidget(criterion);
 
-    const int index = m_criterions.indexOf(criterion);
-    m_criterions.removeAt(index);
+    const int index = m_criteria.indexOf(criterion);
+    m_criteria.removeAt(index);
 
     criterion->deleteLater();
 
@@ -316,7 +316,7 @@ void DolphinSearchOptionsConfigurator::addCriterion(SearchCriterionSelector* cri
     m_vBoxLayout->insertWidget(index, criterion);
     updateSelectorButton();
 
-    m_criterions.append(criterion);
+    m_criteria.append(criterion);
 }
 
 bool DolphinSearchOptionsConfigurator::hasSearchParameters() const
