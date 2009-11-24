@@ -20,7 +20,15 @@
 
 #include "searchcriterionselector.h"
 
+#define DISABLE_NEPOMUK_LEGACY
+#include <nepomuk/comparisonterm.h>
+#include <nepomuk/nie.h>
+#include <nepomuk/literalterm.h>
+#include <nepomuk/query.h>
+
 #include "searchcriterionvalue.h"
+
+#include <Soprano/LiteralValue>
 
 #include <QComboBox>
 #include <QHBoxLayout>
@@ -74,10 +82,10 @@ SearchCriterionSelector::~SearchCriterionSelector()
 {
 }
 
-QString SearchCriterionSelector::toString() const
+Nepomuk::Query::Term SearchCriterionSelector::queryTerm() const
 {
     if (m_valueWidget == 0) {
-        return QString();
+        return Nepomuk::Query::Term();
     }
 
     const int descIndex = m_descriptionsBox->currentIndex();
@@ -86,9 +94,15 @@ QString SearchCriterionSelector::toString() const
     const int compIndex = m_comparatorBox->currentIndex();
     const SearchCriterionDescription::Comparator& comp = descr.comparators()[compIndex];
     if (comp.operation.isEmpty()) {
-        return QString();
+        return Nepomuk::Query::Term();
     }
 
+    Nepomuk::Query::LiteralTerm literalTerm(Soprano::LiteralValue("dummy"));
+    Nepomuk::Query::ComparisonTerm term(Nepomuk::Vocabulary::NIE::lastModified(),
+                                        literalTerm,
+                                        Nepomuk::Query::ComparisonTerm::Smaller);
+    return term;
+/*
     QString criterion = comp.prefix + descr.identifier() + comp.operation;
     if (!m_valueWidget->value().isEmpty()) {
         const QString value = m_valueWidget->value();
@@ -100,7 +114,7 @@ QString SearchCriterionSelector::toString() const
             criterion += value;
         }
     }
-    return criterion;
+    return criterion;*/
 }
 
 SearchCriterionSelector::Type SearchCriterionSelector::type() const

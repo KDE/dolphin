@@ -195,10 +195,23 @@ kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-fi
 
 kde4_add_executable(dolphin ${dolphin_SRCS})
 
-target_link_libraries(dolphin ${KDE4_KDEPRINT_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KUTILS_LIBRARY} konq dolphinprivate knewstuff2 ${KDE4_PHONON_LIBS})
+target_link_libraries(dolphin
+    ${KDE4_KDEPRINT_LIBS}
+    ${KDE4_KFILE_LIBS}
+    ${KDE4_KUTILS_LIBRARY}
+    konq
+    dolphinprivate
+    knewstuff2
+    ${KDE4_PHONON_LIBS}
+)
 
 if (Nepomuk_FOUND)
-  target_link_libraries(dolphin ${NEPOMUK_LIBRARIES} ${SOPRANO_LIBRARIES})
+    target_link_libraries(dolphin
+        ${NEPOMUK_LIBRARIES}
+        ${SOPRANO_LIBRARIES}
+        ${NEPOMUK_QUERY_LIBRARIES}
+        nepomukannotation
+    )
 endif (Nepomuk_FOUND)
 
 install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})

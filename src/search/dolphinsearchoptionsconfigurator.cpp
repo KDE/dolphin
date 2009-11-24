@@ -22,6 +22,10 @@
 #include "dolphin_searchsettings.h"
 #include "searchcriterionselector.h"
 
+#include <nepomuk/andterm.h>
+#include <nepomuk/query.h>
+#include <nepomuk/term.h>
+
 #include <kcombobox.h>
 #include <kdialog.h>
 #include <kicon.h>
@@ -173,17 +177,19 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
 
 KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
 {
-    QString searchOptions;
+    Nepomuk::Query::AndTerm andTerm;
     foreach (const SearchCriterionSelector* criterion, m_criterions) {
-        const QString criterionString = criterion->toString();
-        if (!criterionString.isEmpty()) {
-            if (!searchOptions.isEmpty()) {
-                searchOptions += ' ';
-            }
-            searchOptions += criterionString;
-        }
+        const Nepomuk::Query::Term term = criterion->queryTerm();
+        andTerm.addSubTerm(term);
     }
 
+    // TODO: respect m_customSearchQuery
+
+    Nepomuk::Query::Query query;
+    query.setTerm(andTerm);
+    return query.toSearchUrl();
+
+    /*QString searchOptions;
     QString searchString = m_customSearchQuery;
     if (!searchString.isEmpty() && !searchOptions.isEmpty()) {
         searchString += ' ' + searchOptions;
@@ -192,7 +198,7 @@ KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
     }
 
     searchString.insert(0, QLatin1String("nepomuksearch:/"));
-    return KUrl(searchString);
+    return KUrl(searchString);*/
 }
 
 void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searchQuery)

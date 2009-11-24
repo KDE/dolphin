@@ -25,6 +25,8 @@
 #include <QString>
 #include <QWidget>
 
+#define DISABLE_NEPOMUK_LEGACY
+#include <nepomuk/term.h>
 #include <search/searchcriteriondescription.h>
 
 class SearchCriterionValue;
@@ -50,11 +52,8 @@ public:
     SearchCriterionSelector(Type type, QWidget* parent = 0);
     virtual ~SearchCriterionSelector();
 
-    /**
-     * Converts the string representation of the criterion.
-     * The string is conform to get added to a nepomuk:/-URI.
-     */
-    QString toString() const;
+    /** Returns the query-term for the criterion. */
+    Nepomuk::Query::Term queryTerm() const;
 
     Type type() const;
 
