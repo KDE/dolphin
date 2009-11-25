@@ -79,7 +79,7 @@ if(X11_Xrender_FOUND)
   target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
 if (Nepomuk_FOUND)
-  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${SOPRANO_LIBRARIES})
+  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} ${SOPRANO_LIBRARIES})
 endif (Nepomuk_FOUND)
 
 
