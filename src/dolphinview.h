@@ -182,24 +182,6 @@ public:
     bool supportsCategorizedSorting() const;
 
     /**
-     * Selects all items.
-     * @see DolphinView::selectedItems()
-     */
-    void selectAll();
-
-    /**
-     * Inverts the current selection: selected items get unselected,
-     * unselected items get selected.
-     * @see DolphinView::selectedItems()
-     */
-    void invertSelection();
-
-    /** Returns true, if at least one item is selected. */
-    bool hasSelection() const;
-
-    void clearSelection();
-
-    /**
      * Returns the selected items. The list is empty if no item has been
      * selected.
      * @see DolphinView::selectedUrls()
@@ -218,6 +200,8 @@ public:
      * invoking selectedItems().count()).
      */
     int selectedItemsCount() const;
+
+    QItemSelectionModel* selectionModel() const;
 
     /**
      * Sets the upper left position of the view content
@@ -380,6 +364,24 @@ public slots:
      * \a url, nothing will be done (use DolphinView::reload() instead).
      */
     void setUrl(const KUrl& url);
+
+    /**
+     * Selects all items.
+     * @see DolphinView::selectedItems()
+     */
+    void selectAll();
+
+    /**
+     * Inverts the current selection: selected items get unselected,
+     * unselected items get selected.
+     * @see DolphinView::selectedItems()
+     */
+    void invertSelection();
+
+    /** Returns true, if at least one item is selected. */
+    bool hasSelection() const;
+
+    void clearSelection();
 
     /**
      * Request of a selection change. The view will do its best to accommodate

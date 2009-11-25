@@ -285,43 +285,10 @@ bool DolphinView::supportsCategorizedSorting() const
     return m_viewAccessor.supportsCategorizedSorting();
 }
 
-void DolphinView::selectAll()
-{
-    QAbstractItemView* view = m_viewAccessor.itemView();
-    // TODO: there seems to be a bug in QAbstractItemView::selectAll(); if
-    // the Ctrl-key is pressed (e. g. for Ctrl+A), selectAll() inverts the
-    // selection instead of selecting all items. This is bypassed for KDE 4.0
-    // by invoking clearSelection() first.
-    view->clearSelection();
-    view->selectAll();
-}
-
-void DolphinView::invertSelection()
-{
-    QItemSelectionModel* selectionModel = m_viewAccessor.itemView()->selectionModel();
-    const QAbstractItemModel* itemModel = selectionModel->model();
-
-    const QModelIndex topLeft = itemModel->index(0, 0);
-    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
-                                                     itemModel->columnCount() - 1);
-
-    const QItemSelection selection(topLeft, bottomRight);
-    selectionModel->select(selection, QItemSelectionModel::Toggle);
-}
-
 bool DolphinView::hasSelection() const
 {
     const QAbstractItemView* view = m_viewAccessor.itemView();
     return view && view->selectionModel()->hasSelection();
-}
-
-void DolphinView::clearSelection()
-{
-    QItemSelectionModel* selModel = m_viewAccessor.itemView()->selectionModel();
-    const QModelIndex currentIndex = selModel->currentIndex();
-    selModel->setCurrentIndex(currentIndex, QItemSelectionModel::Current |
-                                            QItemSelectionModel::Clear);
-    m_selectedItems.clear();
 }
 
 KFileItemList DolphinView::selectedItems() const
@@ -359,6 +326,11 @@ KUrl::List DolphinView::selectedUrls() const
 int DolphinView::selectedItemsCount() const
 {
     return m_viewAccessor.itemView()->selectionModel()->selectedIndexes().count();
+}
+
+QItemSelectionModel* DolphinView::selectionModel() const
+{
+    return m_viewAccessor.itemView()->selectionModel();
 }
 
 void DolphinView::setContentsPosition(int x, int y)
@@ -593,6 +565,39 @@ void DolphinView::setUrl(const KUrl& url)
 {
     m_newFileNames.clear();
     updateView(url, KUrl());
+}
+
+void DolphinView::selectAll()
+{
+    QAbstractItemView* view = m_viewAccessor.itemView();
+    // TODO: there seems to be a bug in QAbstractItemView::selectAll(); if
+    // the Ctrl-key is pressed (e. g. for Ctrl+A), selectAll() inverts the
+    // selection instead of selecting all items. This is bypassed for KDE 4.0
+    // by invoking clearSelection() first.
+    view->clearSelection();
+    view->selectAll();
+}
+
+void DolphinView::invertSelection()
+{
+    QItemSelectionModel* selectionModel = m_viewAccessor.itemView()->selectionModel();
+    const QAbstractItemModel* itemModel = selectionModel->model();
+
+    const QModelIndex topLeft = itemModel->index(0, 0);
+    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
+                                                     itemModel->columnCount() - 1);
+
+    const QItemSelection selection(topLeft, bottomRight);
+    selectionModel->select(selection, QItemSelectionModel::Toggle);
+}
+
+void DolphinView::clearSelection()
+{
+    QItemSelectionModel* selModel = m_viewAccessor.itemView()->selectionModel();
+    const QModelIndex currentIndex = selModel->currentIndex();
+    selModel->setCurrentIndex(currentIndex, QItemSelectionModel::Current |
+                                            QItemSelectionModel::Clear);
+    m_selectedItems.clear();
 }
 
 void DolphinView::changeSelection(const KFileItemList& selection)

@@ -87,7 +87,7 @@ void DolphinViewActionHandler::createActions()
     newDirAction->setIcon(KIcon("folder-new"));
     connect(newDirAction, SIGNAL(triggered()), this, SIGNAL(createDirectory()));
 
-    // Edit menu
+    // File menu
 
     KAction* rename = m_actionCollection->addAction("rename");
     rename->setText(i18nc("@action:inmenu File", "Rename..."));

@@ -22,6 +22,9 @@
 
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+
+#include <QItemSelectionModel>
+
 class KNewMenu;
 class DolphinViewActionHandler;
 class QActionGroup;
@@ -176,6 +179,18 @@ private Q_SLOTS:
     void slotEditMimeType();
 
     /**
+     * Connected to the "select_items_matching" action.
+     * Opens a dialog which permits to select all items matching a pattern like "*.jpg".
+     */
+    void slotSelectItemsMatchingPattern();
+
+    /**
+     * Connected to the "unselect_items_matching" action.
+     * Opens a dialog which permits to unselect all items matching a pattern like "*.jpg".
+     */
+    void slotUnselectItemsMatchingPattern();
+
+    /**
      * Open a terminal window, starting with the current directory.
      */
     void slotOpenTerminal();
@@ -204,6 +219,11 @@ private:
     void createGoAction(const char* name, const char* iconName,
                         const QString& text, const QString& url,
                         QActionGroup* actionGroup);
+
+    void openSelectionDialog(const QString& title, const QString& text,
+                             QItemSelectionModel::SelectionFlags command);
+
+    QItemSelection childrenMatchingPattern(const QModelIndex& parent, const QRegExp& patternRegExp);
 
 private:
     DolphinView* m_view;

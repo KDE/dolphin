@@ -44,6 +44,7 @@
 #include <kauthorized.h>
 #include <knewmenu.h>
 #include <kmenu.h>
+#include <kinputdialog.h>
 
 #include "settings/dolphinsettings.h"
 
@@ -163,6 +164,26 @@ void DolphinPart::createActions()
     KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
     editMimeTypeAction->setText( i18nc("@action:inmenu Edit", "&Edit File Type..." ) );
     connect(editMimeTypeAction, SIGNAL(triggered()), SLOT(slotEditMimeType()));
+
+    KAction* selectItemsMatching = actionCollection()->addAction("select_items_matching");
+    selectItemsMatching->setText(i18nc("@action:inmenu Edit", "Select Items Matching..."));
+    selectItemsMatching->setShortcut(Qt::CTRL | Qt::Key_S);
+    connect(selectItemsMatching, SIGNAL(triggered()), this, SLOT(slotSelectItemsMatchingPattern()));
+
+    KAction* unselectItemsMatching = actionCollection()->addAction("unselect_items_matching");
+    unselectItemsMatching->setText(i18nc("@action:inmenu Edit", "Unselect Items Matching..."));
+    connect(unselectItemsMatching, SIGNAL(triggered()), this, SLOT(slotUnselectItemsMatchingPattern()));
+
+    actionCollection()->addAction(KStandardAction::SelectAll, "select_all", m_view, SLOT(selectAll()));
+
+    KAction* unselectAll = actionCollection()->addAction("unselect_all");
+    unselectAll->setText(i18nc("@action:inmenu Edit", "Unselect All"));
+    connect(unselectAll, SIGNAL(triggered()), m_view, SLOT(clearSelection()));
+
+    KAction* invertSelection = actionCollection()->addAction("invert_selection");
+    invertSelection->setText(i18nc("@action:inmenu Edit", "Invert Selection"));
+    invertSelection->setShortcut(Qt::CTRL | Qt::SHIFT | Qt::Key_A);
+    connect(invertSelection, SIGNAL(triggered()), m_view, SLOT(invertSelection()));
 
     // View menu: all done by DolphinViewActionHandler
 
@@ -491,6 +512,53 @@ void DolphinPart::slotEditMimeType()
     if (!items.isEmpty()) {
         KonqOperations::editMimeType(items.first().mimetype(), m_view);
     }
+}
+
+void DolphinPart::slotSelectItemsMatchingPattern()
+{
+    openSelectionDialog(i18nc("@title:window", "Select"),
+                        i18n("Select all items matching this pattern:"),
+                        QItemSelectionModel::Select);
+}
+
+void DolphinPart::slotUnselectItemsMatchingPattern()
+{
+    openSelectionDialog(i18nc("@title:window", "Unselect"),
+                        i18n("Unselect all items matching this pattern:"),
+                        QItemSelectionModel::Deselect);
+}
+
+void DolphinPart::openSelectionDialog(const QString& title, const QString& text, QItemSelectionModel::SelectionFlags command)
+{
+    bool okClicked;
+    QString pattern = KInputDialog::getText(title, text, "*", &okClicked, m_view);
+
+    if (okClicked && !pattern.isEmpty()) {
+        QRegExp patternRegExp(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
+        QItemSelection matchingIndexes = childrenMatchingPattern(QModelIndex(), patternRegExp);
+        m_view->selectionModel()->select(matchingIndexes, command);
+    }
+}
+
+QItemSelection DolphinPart::childrenMatchingPattern(const QModelIndex& parent, const QRegExp& patternRegExp)
+{
+    QItemSelection matchingIndexes;
+    int numRows = m_proxyModel->rowCount(parent);
+
+    for (int row = 0; row < numRows; row++) {
+        QModelIndex index = m_proxyModel->index(row, 0, parent);
+        QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
+
+        if (sourceIndex.isValid() && patternRegExp.exactMatch(m_dolphinModel->data(sourceIndex).toString())) {
+            matchingIndexes += QItemSelectionRange(index);
+        }
+
+        if (m_proxyModel->hasChildren(index)) {
+            matchingIndexes += childrenMatchingPattern(index, patternRegExp);
+        }
+    }
+
+    return matchingIndexes;
 }
 
 void DolphinPart::setCurrentViewMode(const QString& viewModeName)
