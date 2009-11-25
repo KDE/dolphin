@@ -67,6 +67,9 @@ public:
      */
     void configureSettings();
 
+signals:
+    void urlActivated( const KUrl& url );
+
 protected:
     /** @see QObject::eventFilter() */
     virtual bool eventFilter(QObject* obj, QEvent* event);

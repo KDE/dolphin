@@ -1370,7 +1370,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     Panel* infoPanel = new InformationPanel(infoDock);
-    connect(infoPanel, SIGNAL(urlActivated(KUrl)), activeViewContainer(), SLOT(setUrl(KUrl)));
+    connect(infoPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
     infoDock->setWidget(infoPanel);
 
     QAction* infoAction = infoDock->toggleViewAction();
@@ -1658,6 +1658,16 @@ void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
     }
 
     setCaption(caption);
+}
+
+void DolphinMainWindow::handleUrl(const KUrl& url)
+{
+    if (KProtocolManager::supportsListing(url)) {
+        activeViewContainer()->setUrl(url);
+    }
+    else {
+        new KRun(url, this);
+    }
 }
 
 QString DolphinMainWindow::squeezedText(const QString& text) const
