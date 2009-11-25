@@ -21,8 +21,12 @@
 #ifndef SEARCHCRITERIONDESCRIPTION_H
 #define SEARCHCRITERIONDESCRIPTION_H
 
+#define DISABLE_NEPOMUK_LEGACY
+#include <nepomuk/comparisonterm.h>
+
 #include <QList>
 #include <QString>
+#include <QUrl>
 
 class SearchCriterionValue;
 class QWidget;
@@ -38,30 +42,44 @@ class SearchCriterionDescription
 public:
     struct Comparator
     {
-        Comparator(const QString& n, const QString& o = QString(),
-                   const QString& p = QString(), const QString& a = QString()) :
-            name(n), operation(o), prefix(p), autoValueType(a) {}
+        Comparator(const QString& n) :
+            name(n),
+            isActive(false),
+            value(Nepomuk::Query::ComparisonTerm::Smaller),
+            autoValueType()
+        {
+        }
+
+        Comparator(const QString& n, Nepomuk::Query::ComparisonTerm::Comparator c,
+                   const QString& a = QString()) :
+            name(n),
+            isActive(true),
+            value(c),
+            autoValueType(a)
+        {
+        }
+
         QString name;          // user visible and translated name
-        QString operation;     // Nepomuk operation that represents the comparator
-        QString prefix;        // prefix like "+" or "-" that is part of the Nepomuk query
+        bool isActive;
+        Nepomuk::Query::ComparisonTerm::Comparator value;
         QString autoValueType; // type for an automatically calculated value of the value widget
     };
 
     SearchCriterionDescription(const QString& name,
-                               const QString& identifier,
+                               const QUrl& identifier,
                                const QList<Comparator>& comparators,
                                SearchCriterionValue* valueWidget);
 
     virtual ~SearchCriterionDescription();
 
     QString name() const;
-    QString identifier() const;
+    QUrl identifier() const;
     const QList<Comparator>& comparators() const;
     SearchCriterionValue* valueWidget() const;
 
 private:
     QString m_name;       // user visible name that gets translated
-    QString m_identifier; // internal Nepomuk identifier
+    QUrl m_identifier;    // internal Nepomuk identifier URL
     QList<Comparator> m_comparators;
     SearchCriterionValue* m_valueWidget;
 };

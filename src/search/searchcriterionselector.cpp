@@ -93,28 +93,14 @@ Nepomuk::Query::Term SearchCriterionSelector::queryTerm() const
 
     const int compIndex = m_comparatorBox->currentIndex();
     const SearchCriterionDescription::Comparator& comp = descr.comparators()[compIndex];
-    if (comp.operation.isEmpty()) {
+    if (!comp.isActive) {
         return Nepomuk::Query::Term();
     }
 
-    Nepomuk::Query::LiteralTerm literalTerm(Soprano::LiteralValue("dummy"));
-    Nepomuk::Query::ComparisonTerm term(Soprano::Vocabulary::NAO::lastModified(),
-                                        literalTerm,
-                                        Nepomuk::Query::ComparisonTerm::Smaller);
+    const Nepomuk::Query::ComparisonTerm term(descr.identifier(),
+                                              m_valueWidget->value(),
+                                              comp.value);
     return term;
-/*
-    QString criterion = comp.prefix + descr.identifier() + comp.operation;
-    if (!m_valueWidget->value().isEmpty()) {
-        const QString value = m_valueWidget->value();
-        if (value.contains(' ')) {
-            criterion += '"' + value + '"';
-        } else {
-            // Don't surround the value by " if no space is part of the value.
-            // This increases the readability of the search-URL.
-            criterion += value;
-        }
-    }
-    return criterion;*/
 }
 
 SearchCriterionSelector::Type SearchCriterionSelector::type() const
@@ -162,7 +148,7 @@ void SearchCriterionSelector::slotComparatorChanged(int index)
     m_valueWidget->initializeValue(comp.autoValueType);
     // only show the value widget, if an operation is defined
     // and no automatic calculation is provided
-    m_valueWidget->setVisible(!comp.operation.isEmpty() && comp.autoValueType.isEmpty());
+    m_valueWidget->setVisible(comp.isActive && comp.autoValueType.isEmpty());
 
     emit criterionChanged();
 }
@@ -175,18 +161,18 @@ void SearchCriterionSelector::createDescriptions()
     // TODO: maybe this creation should be forwarded to a factory if
     // the number of items increases in future
     QList<SearchCriterionDescription::Comparator> defaultComps;
-    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than"), ">", "+"));
-    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than or Equal to"), ">=", "+"));
-    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than"), "<", "+"));
-    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than or Equal to"), "<=", "+"));
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than"), Nepomuk::Query::ComparisonTerm::Greater));
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Greater Than or Equal to"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual));
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than"), Nepomuk::Query::ComparisonTerm::Smaller));
+    defaultComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Less Than or Equal to"), Nepomuk::Query::ComparisonTerm::SmallerOrEqual));
 
     // add "Date" description
     QList<SearchCriterionDescription::Comparator> dateComps;
     dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Anytime")));
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"), ":", "+", "today"));
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Week"), ">=", "+", "thisWeek"));
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Month"), ">=", "+", "thisMonth"));
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Year"), ">=", "+", "thisYear"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"), Nepomuk::Query::ComparisonTerm::Equal, "today"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Week"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual, "thisWeek"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Month"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual, "thisMonth"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Year"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual, "thisYear"));
     foreach (const SearchCriterionDescription::Comparator& comp, defaultComps) {
         dateComps.append(comp);
     }
@@ -194,7 +180,7 @@ void SearchCriterionSelector::createDescriptions()
     DateValue* dateValue = new DateValue(this);
     dateValue->hide();
     SearchCriterionDescription date(i18nc("@label", "Date:"),
-                                    "lastModified",
+                                    Soprano::Vocabulary::NAO::lastModified(),
                                     dateComps,
                                     dateValue);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
@@ -207,7 +193,7 @@ void SearchCriterionSelector::createDescriptions()
     SizeValue* sizeValue = new SizeValue(this);
     sizeValue->hide();
     SearchCriterionDescription size(i18nc("@label", "Size:"),
-                                    "contentSize",
+                                    Soprano::Vocabulary::NAO::lastModified(), // TODO
                                     sizeComps,
                                     sizeValue);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Size) == 1);
@@ -216,13 +202,13 @@ void SearchCriterionSelector::createDescriptions()
     // add "Tag" description
     QList<SearchCriterionDescription::Comparator> tagComps;
     tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label All (tags)", "All")));
-    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Equal to"), ":", "+"));
-    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Not Equal to"), ":", "-"));
+    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Equal to"), Nepomuk::Query::ComparisonTerm::Equal));
+    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Not Equal to"), Nepomuk::Query::ComparisonTerm::Equal)); // TODO
 
     TagValue* tagValue = new TagValue(this);
     tagValue->hide();
     SearchCriterionDescription tag(i18nc("@label", "Tag:"),
-                                   "tag",
+                                   Soprano::Vocabulary::NAO::Tag(),
                                    tagComps,
                                    tagValue);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Tag) == 2);
@@ -235,7 +221,7 @@ void SearchCriterionSelector::createDescriptions()
     RatingValue* ratingValue = new RatingValue(this);
     ratingValue->hide();
     SearchCriterionDescription rating(i18nc("@label", "Rating:"),
-                                      "rating",
+                                      Soprano::Vocabulary::NAO::rating(),
                                       ratingComps,
                                       ratingValue);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Rating) == 3);

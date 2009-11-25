@@ -65,9 +65,9 @@ DateValue::~DateValue()
 {
 }
 
-QString DateValue::value() const
+Nepomuk::Query::LiteralTerm DateValue::value() const
 {
-    return m_dateWidget->date().toString(Qt::ISODate);
+    return Nepomuk::Query::LiteralTerm(m_dateWidget->date());
 }
 
 void DateValue::initializeValue(const QString& valueType)
@@ -112,9 +112,9 @@ TagValue::~TagValue()
 {
 }
 
-QString TagValue::value() const
+Nepomuk::Query::LiteralTerm TagValue::value() const
 {
-    return m_tags->currentText();
+    return Nepomuk::Query::LiteralTerm(m_tags->currentText());
 }
 
 void TagValue::showEvent(QShowEvent* event)
@@ -165,9 +165,9 @@ SizeValue::~SizeValue()
 {
 }
 
-QString SizeValue::value() const
+Nepomuk::Query::LiteralTerm SizeValue::value() const
 {
-    return QString();
+    return Nepomuk::Query::LiteralTerm(); // TODO
 }
 
 // -------------------------------------------------------------------------
@@ -187,9 +187,9 @@ RatingValue::~RatingValue()
 {
 }
 
-QString RatingValue::value() const
+Nepomuk::Query::LiteralTerm RatingValue::value() const
 {
-    return QString::number(m_ratingWidget->rating());
+    return Nepomuk::Query::LiteralTerm(m_ratingWidget->rating());
 }
 
 #include "searchcriterionvalue.moc"

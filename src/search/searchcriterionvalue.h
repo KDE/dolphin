@@ -21,6 +21,9 @@
 #ifndef SEARCHCRITERIONVALUE_H
 #define SEARCHCRITERIONVALUE_H
 
+#define DISABLE_NEPOMUK_LEGACY
+#include <nepomuk/literalterm.h>
+
 #include <QWidget>
 
 class QComboBox;
@@ -42,9 +45,9 @@ public:
 
     /**
      * Must be overwritten by derived classes and returns
-     * the string representation of the search criterion value.
+     * the literal term of the search criterion value.
      */
-    virtual QString value() const = 0;
+    virtual Nepomuk::Query::LiteralTerm value() const = 0;
 
     /**
      * Initializes the widget on the base of the given value-type.
@@ -56,7 +59,7 @@ public:
     virtual void initializeValue(const QString& valueType);
 
 signals:
-    void valueChanged(const QString& value);
+    void valueChanged(const Nepomuk::Query::LiteralTerm& value);
 };
 
 
@@ -69,7 +72,7 @@ class DateValue : public SearchCriterionValue
 public:
     DateValue(QWidget* parent = 0);
     virtual ~DateValue();
-    virtual QString value() const;
+    virtual Nepomuk::Query::LiteralTerm value() const;
     virtual void initializeValue(const QString& valueType);
 
 private:
@@ -86,7 +89,7 @@ class TagValue : public SearchCriterionValue
 public:
     TagValue(QWidget* parent = 0);
     virtual ~TagValue();
-    virtual QString value() const;
+    virtual Nepomuk::Query::LiteralTerm value() const;
 
 protected:
     virtual void showEvent(QShowEvent* event);
@@ -105,7 +108,7 @@ class SizeValue : public SearchCriterionValue
 public:
     SizeValue(QWidget* parent = 0);
     virtual ~SizeValue();
-    virtual QString value() const;
+    virtual Nepomuk::Query::LiteralTerm value() const;
 
  private:
     KLineEdit* m_lineEdit;
@@ -120,7 +123,7 @@ class RatingValue : public SearchCriterionValue
 public:
     RatingValue(QWidget* parent = 0);
     virtual ~RatingValue();
-    virtual QString value() const;
+    virtual Nepomuk::Query::LiteralTerm value() const;
 
  private:
     KRatingWidget* m_ratingWidget;

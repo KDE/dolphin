@@ -177,28 +177,21 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
 
 KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
 {
-    Nepomuk::Query::AndTerm andTerm;
-    foreach (const SearchCriterionSelector* criterion, m_criteria) {
-        const Nepomuk::Query::Term term = criterion->queryTerm();
-        andTerm.addSubTerm(term);
+    Nepomuk::Query::Query query;
+    if (m_criteria.size() == 1) {
+        query.setTerm(m_criteria.first()->queryTerm());
+    } else {
+        Nepomuk::Query::AndTerm andTerm;
+        foreach (const SearchCriterionSelector* criterion, m_criteria) {
+            const Nepomuk::Query::Term term = criterion->queryTerm();
+            andTerm.addSubTerm(term);
+        }
+        query.setTerm(andTerm);
     }
 
     // TODO: respect m_customSearchQuery
 
-    Nepomuk::Query::Query query;
-    query.setTerm(andTerm);
     return query.toSearchUrl();
-
-    /*QString searchOptions;
-    QString searchString = m_customSearchQuery;
-    if (!searchString.isEmpty() && !searchOptions.isEmpty()) {
-        searchString += ' ' + searchOptions;
-    } else if (!searchOptions.isEmpty()) {
-        searchString += searchOptions;
-    }
-
-    searchString.insert(0, QLatin1String("nepomuksearch:/"));
-    return KUrl(searchString);*/
 }
 
 void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searchQuery)
@@ -326,7 +319,7 @@ bool DolphinSearchOptionsConfigurator::hasSearchParameters() const
         // there is no need to call the (quite expensive) method nepomukUrl()
         return true;
     }
-    return nepomukUrl().path() != QLatin1String("/");
+    return true; //nepomukUrl().path() != QLatin1String("/");
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"

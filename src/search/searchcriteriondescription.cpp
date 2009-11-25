@@ -21,7 +21,7 @@
 #include "searchcriteriondescription.h"
 
 SearchCriterionDescription::SearchCriterionDescription(const QString& name,
-                                                       const QString& identifier,
+                                                       const QUrl& identifier,
                                                        const QList<Comparator>& comparators,
                                                        SearchCriterionValue* valueWidget) :
     m_name(name),
@@ -40,7 +40,7 @@ QString SearchCriterionDescription::name() const
     return m_name;
 }
 
-QString SearchCriterionDescription::identifier() const
+QUrl SearchCriterionDescription::identifier() const
 {
     return m_identifier;
 }
