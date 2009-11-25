@@ -1118,8 +1118,10 @@ void DolphinMainWindow::init()
     m_searchBox->show();
     connect(m_searchBox, SIGNAL(requestSearchOptions()),
             this, SLOT(showSearchOptions()));
+#ifdef HAVE_NEPOMUK
     connect(m_searchBox, SIGNAL(searchTextChanged(QString)),
             m_searchOptionsConfigurator, SLOT(setCustomSearchQuery(QString)));
+#endif
 
     stateChanged("new_file");
 
