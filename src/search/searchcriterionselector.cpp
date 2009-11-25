@@ -38,6 +38,8 @@
 #include <kicon.h>
 #include <klocale.h>
 
+#include <kdebug.h>
+
 SearchCriterionSelector::SearchCriterionSelector(Type type, QWidget* parent) :
     QWidget(parent),
     m_layout(0),
@@ -97,9 +99,14 @@ Nepomuk::Query::Term SearchCriterionSelector::queryTerm() const
         return Nepomuk::Query::Term();
     }
 
+    kDebug() << "identifier:" << descr.identifier();
+    kDebug() << "value:" << m_valueWidget->value();
+    kDebug() << "comp:" << comp.value;
+
     const Nepomuk::Query::ComparisonTerm term(descr.identifier(),
                                               m_valueWidget->value(),
                                               comp.value);
+    kDebug() << "term: " << term;
     return term;
 }
 
@@ -231,7 +238,7 @@ void SearchCriterionSelector::createDescriptions()
     int i = 0;
     foreach (const SearchCriterionDescription& desc, m_descriptions) {
         m_descriptionsBox->addItem(desc.name(), i);
-        connect(desc.valueWidget(), SIGNAL(valueChanged(QString)), this, SIGNAL(criterionChanged()));
+        connect(desc.valueWidget(), SIGNAL(valueChanged(Nepomuk::Query::LiteralTerm)), this, SIGNAL(criterionChanged()));
         ++i;
     }
 }
