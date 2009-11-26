@@ -74,7 +74,7 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
-target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq knewstuff2 ${QIMAGEBLITZ_LIBRARIES} ${X11_LIBRARIES})
+target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF2_LIBS} ${QIMAGEBLITZ_LIBRARIES} ${X11_LIBRARIES})
 if(X11_Xrender_FOUND)
   target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
