@@ -9,6 +9,7 @@ Comment=logic operator and
 Comment[cs]=logický operátor and
 Comment[csb]=logiczny òperatora ë
 Comment[de]=Logischer Und-Operator
+Comment[el]=τελεστής λογικής και
 Comment[en_GB]=logic operator and
 Comment[eo]=logika operatoro "kaj"
 Comment[et]=Loogiline JA
@@ -40,6 +41,7 @@ Comment=logic operator or
 Comment[cs]=logický operátor or
 Comment[csb]=logiczny òperatora abò
 Comment[de]=Logischer Oder-Operator
+Comment[el]=τελεστής λογικής ή
 Comment[en_GB]=logic operator or
 Comment[eo]=logika operatoro "aŭ"
 Comment[et]=Loogiline VÕI
@@ -71,6 +73,7 @@ Comment=logic operator not
 Comment[cs]=logický operátor negace
 Comment[csb]=logiczny òperatora nié
 Comment[de]=Logischer Nicht-Operator
+Comment[el]=τελεστής λογικής δεν
 Comment[en_GB]=logic operator not
 Comment[eo]=logika operatoro "ne"
 Comment[et]=Loogiline EI
@@ -100,6 +103,7 @@ Name=File extension
 Name[cs]=Přípona souboru
 Name[csb]=Rozszérzenié lopka
 Name[de]=Dateierweiterung
+Name[el]=Κατάληξη αρχείου
 Name[en_GB]=File extension
 Name[eo]=Dosier-sufikso
 Name[et]=Faililaiend
@@ -125,6 +129,7 @@ Name[zh_TW]=副檔名
 Comment=for example txt
 Comment[cs]=např. txt
 Comment[csb]=na przëmiôr txt
+Comment[el]=για παράδειγμα txt
 Comment[en_GB]=for example txt
 Comment[eo]=ekzemple "txt"
 Comment[et]=näiteks txt
@@ -159,6 +164,7 @@ Comment=1 to 10, for example >=7
 Comment[cs]=1 až 10, např. >=7
 Comment[csb]=1 do 10, na przëmiôr >=7
 Comment[de]=1 bis 10, zum Beispiel >=7
+Comment[el]=1 ως 10, για παράδειγμα >=7
 Comment[en_GB]=1 to 10, for example >=7
 Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[et]=1 kuni 10, näiteks 7
@@ -185,6 +191,7 @@ GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
+GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
@@ -218,6 +225,7 @@ Comment=Tag
 Comment[cs]=Značka
 Comment[csb]=Znakòwnik
 Comment[de]=Schlagwort
+Comment[el]=Ετικέτα
 Comment[en_GB]=Tag
 Comment[eo]=Marko
 Comment[et]=Silt
@@ -253,6 +261,7 @@ Completion=title:
 Name=File size
 Name[csb]=Miara lopka
 Name[de]=Dateigröße
+Name[el]=Μέγεθος αρχείου
 Name[en_GB]=File size
 Name[eo]=Dosiergrandeco
 Name[et]=Faili suurus
@@ -280,6 +289,7 @@ Comment=in bytes, for example >1000
 Comment[cs]=v bytech, například >1000
 Comment[csb]=w bajtach, na przëmiôr >1000
 Comment[de]=In Byte, zum Beispiel >1000
+Comment[el]=σε bytes, για παράδειγμα >1000
 Comment[en_GB]=in bytes, for example >1000
 Comment[eo]=bajte, ekz. >1000
 Comment[et]=baitides, näiteks >1000
@@ -305,6 +315,7 @@ GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
+GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
@@ -334,6 +345,7 @@ Completion=contentSize
 Name=Content size
 Name[cs]=Velikost obsahu
 Name[csb]=Miara zamkłoscë
+Name[el]=Μέγεθος περιεχόμενου
 Name[en_GB]=Content size
 Name[eo]=Grandeco de la enhavo
 Name[et]=Sisu suurus
@@ -360,6 +372,7 @@ Name[zh_TW]=內容大小
 Comment=in bytes
 Comment[csb]=w bajtach
 Comment[de]=in Byte
+Comment[el]=σε bytes
 Comment[en_GB]=in bytes
 Comment[eo]=bitoke
 Comment[et]=baitides
@@ -387,6 +400,7 @@ GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
+GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
@@ -419,6 +433,7 @@ Comment=for example >1999-10-10
 Comment[cs]=například >1999-10-10
 Comment[csb]=na przëmiôr >1999-10-10
 Comment[de]=zum Beispiel >1999-10-10
+Comment[el]=για παράδειγμα >1999-10-10
 Comment[en_GB]=for example >1999-10-10
 Comment[eo]=Ekzemple >1999-10-10
 Comment[et]=näiteks >1999-10-10
@@ -445,6 +460,7 @@ GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
+GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
