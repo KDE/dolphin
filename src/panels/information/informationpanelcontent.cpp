@@ -184,7 +184,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
             connect(job, SIGNAL(failed(const KFileItem&)),
                     this, SLOT(showIcon(const KFileItem&)));
 
-            setNameLabelText(itemUrl.fileName());
+            setNameLabelText(item.text());
         }
     }
 
