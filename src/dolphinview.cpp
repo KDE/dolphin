@@ -438,8 +438,16 @@ KFileItemDelegate::InformationList DolphinView::additionalInfo() const
 
 void DolphinView::reload()
 {
+    QByteArray viewState;
+    QDataStream saveStream(&viewState, QIODevice::WriteOnly);
+    saveState(saveStream);
+    m_selectedItems = selectedItems();
+
     setUrl(url());
     loadDirectory(url(), true);
+
+    QDataStream restoreStream(viewState);
+    restoreState(restoreStream);
 }
 
 void DolphinView::refresh()
@@ -593,11 +601,7 @@ void DolphinView::invertSelection()
 
 void DolphinView::clearSelection()
 {
-    QItemSelectionModel* selModel = m_viewAccessor.itemView()->selectionModel();
-    const QModelIndex currentIndex = selModel->currentIndex();
-    selModel->setCurrentIndex(currentIndex, QItemSelectionModel::Current |
-                                            QItemSelectionModel::Clear);
-    m_selectedItems.clear();
+    m_viewAccessor.itemView()->clearSelection();
 }
 
 void DolphinView::changeSelection(const KFileItemList& selection)
@@ -1143,12 +1147,6 @@ void DolphinView::selectAndScrollToCreatedItem()
     m_createdItemUrl = KUrl();
 }
 
-void DolphinView::restoreSelection()
-{
-    disconnect(m_viewAccessor.dirLister(), SIGNAL(completed()), this, SLOT(restoreSelection()));
-    changeSelection(m_selectedItems);
-}
-
 void DolphinView::emitContentsMoved()
 {
     // TODO: If DolphinViewContainer uses DolphinView::saveState(...) to save the
@@ -1234,6 +1232,11 @@ void DolphinView::slotLoadingCompleted()
         }
     }
 
+    if (!m_selectedItems.isEmpty()) {
+        changeSelection(m_selectedItems);
+        m_selectedItems.clear();
+    }
+
     // Restore the contents position. This has to be done using a Qt::QueuedConnection
     // because the view might not be in its final state yet.
     QMetaObject::invokeMethod(this, "restoreContentsPosition", Qt::QueuedConnection);
@@ -1261,11 +1264,6 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
 
     m_loadingDirectory = true;
     m_expanderActive = false;
-
-    if (reload) {
-        m_selectedItems = selectedItems();
-        connect(m_viewAccessor.dirLister(), SIGNAL(completed()), this, SLOT(restoreSelection()));
-    }
 
     m_viewAccessor.dirLister()->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
 }

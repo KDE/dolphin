@@ -715,11 +715,6 @@ private slots:
     void selectAndScrollToCreatedItem();
 
     /**
-     * Restore selection after view refresh.
-     */
-    void restoreSelection();
-
-    /**
      * Called when a redirection happens.
      * Testcase: fish://localhost
      */
