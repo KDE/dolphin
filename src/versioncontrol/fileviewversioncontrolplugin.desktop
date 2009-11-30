@@ -2,14 +2,17 @@
 Type=ServiceType
 X-KDE-ServiceType=FileViewVersionControlPlugin
 Comment=Version Control Plugin for File Views
+Comment[da]=versionsstyring-plugin til filvisninger
 Comment[de]=Versionskontroll-Modul für Dateiansichten
 Comment[el]=Έλεγχος εκδόσεων πρόσθετων για την προβολή των αρχείων
 Comment[en_GB]=Version Control Plugin for File Views
 Comment[eo]=Kromprogramo de versia kontrolo por dosiervidilo
 Comment[et]=Failivaadete versioonikontrolli plugin
+Comment[eu]=Bertsio kontrol plugina fitxategi ikuspegietarako
 Comment[hr]=Priključak datotečnog prikaza za upravljanje inačicama
 Comment[kk]=Файл көрнісіне арналған Нұсқаларды басқару плагины
 Comment[nb]=Versjonskontrollmodul for filvisninger
+Comment[nds]=Verschoonkuntrull-Moduul för Dateiansichten
 Comment[nl]=Plugin voor versiecontrole op bestandoverzichten
 Comment[pt]='Plugin' de Controlo de Versões para as Áreas de Ficheiros
 Comment[pt_BR]=Plug-in de controle de versões para as visualizações de arquivos

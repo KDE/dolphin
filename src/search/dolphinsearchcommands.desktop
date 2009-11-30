@@ -8,11 +8,14 @@ Name=and
 Comment=logic operator and
 Comment[cs]=logický operátor and
 Comment[csb]=logiczny òperatora ë
+Comment[da]=den logiske operatør og
 Comment[de]=Logischer Und-Operator
 Comment[el]=τελεστής λογικής και
 Comment[en_GB]=logic operator and
 Comment[eo]=logika operatoro "kaj"
+Comment[es]=operador lógico y
 Comment[et]=Loogiline JA
+Comment[eu]=eta eragile logikoa
 Comment[gl]=o operador lóxico «e»
 Comment[gu]=તાર્કિક ઓપરેટર એન્ડ
 Comment[he]=אופרטור לוגי וגם
@@ -40,11 +43,14 @@ Name=or
 Comment=logic operator or
 Comment[cs]=logický operátor or
 Comment[csb]=logiczny òperatora abò
+Comment[da]=den logiske operatør eller
 Comment[de]=Logischer Oder-Operator
 Comment[el]=τελεστής λογικής ή
 Comment[en_GB]=logic operator or
 Comment[eo]=logika operatoro "aŭ"
+Comment[es]=operador lógico o
 Comment[et]=Loogiline VÕI
+Comment[eu]=edo eragile logikoa
 Comment[gl]=o operador lóxico «ou»
 Comment[gu]=તાર્કિક ઓપરેટર ઓર
 Comment[he]=אופרטור לוגי או
@@ -72,11 +78,14 @@ Name=not
 Comment=logic operator not
 Comment[cs]=logický operátor negace
 Comment[csb]=logiczny òperatora nié
+Comment[da]=den logiske operatør ikke
 Comment[de]=Logischer Nicht-Operator
 Comment[el]=τελεστής λογικής δεν
 Comment[en_GB]=logic operator not
 Comment[eo]=logika operatoro "ne"
+Comment[es]=operador lógico no
 Comment[et]=Loogiline EI
+Comment[eu]=ez eragile logikoa
 Comment[gl]=o operador lóxico «non»
 Comment[gu]=તાર્કિક ઓપરેટર નોટ
 Comment[he]=אופרטור לוגי שלילה
@@ -102,11 +111,14 @@ Completion=-
 Name=File extension
 Name[cs]=Přípona souboru
 Name[csb]=Rozszérzenié lopka
+Name[da]=Filendelse
 Name[de]=Dateierweiterung
 Name[el]=Κατάληξη αρχείου
 Name[en_GB]=File extension
 Name[eo]=Dosier-sufikso
+Name[es]=Extensión de archivo
 Name[et]=Faililaiend
+Name[eu]=Fitxategi luzapena
 Name[gl]=Extensión do ficheiro
 Name[gu]=ફાઈલ એક્સટેન્શન
 Name[he]=סיומת קובץ
@@ -129,10 +141,14 @@ Name[zh_TW]=副檔名
 Comment=for example txt
 Comment[cs]=např. txt
 Comment[csb]=na przëmiôr txt
+Comment[da]=for eksempel txt
+Comment[de]=zum Beispiel txt
 Comment[el]=για παράδειγμα txt
 Comment[en_GB]=for example txt
 Comment[eo]=ekzemple "txt"
+Comment[es]=por ejemplo txt
 Comment[et]=näiteks txt
+Comment[eu]=adibidez txt
 Comment[gl]=por exemplo txt
 Comment[gu]=દાખલા તરીકે txt
 Comment[he]=לדוגמא txt
@@ -163,11 +179,14 @@ Name=Rating
 Comment=1 to 10, for example >=7
 Comment[cs]=1 až 10, např. >=7
 Comment[csb]=1 do 10, na przëmiôr >=7
+Comment[da]=1 til 10, f.eks. >=7
 Comment[de]=1 bis 10, zum Beispiel >=7
 Comment[el]=1 ως 10, για παράδειγμα >=7
 Comment[en_GB]=1 to 10, for example >=7
 Comment[eo]=1 ĝis 10, ekzemple >=7
+Comment[es]=1 a 10, por ejemplo >=7
 Comment[et]=1 kuni 10, näiteks 7
+Comment[eu]=1etik 10ra, adibidez >=7
 Comment[gl]=do 1 ao 10, por exemplo >=7
 Comment[gu]=1 થી 10, દાખલા તરીકે >=7
 Comment[he]=עד 10, לדוגמא >= 7 1
@@ -190,11 +209,14 @@ Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[da]=Brug <, <=, :, >= og >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
+GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
@@ -224,11 +246,14 @@ Name=Tag
 Comment=Tag
 Comment[cs]=Značka
 Comment[csb]=Znakòwnik
+Comment[da]=Mærke
 Comment[de]=Schlagwort
 Comment[el]=Ετικέτα
 Comment[en_GB]=Tag
 Comment[eo]=Marko
+Comment[es]=Etiqueta
 Comment[et]=Silt
+Comment[eu]=Etiketa
 Comment[gl]=Etiqueta
 Comment[gu]=ટેગ
 Comment[he]=תגית
@@ -260,11 +285,14 @@ Completion=title:
 [dolphin filesize]
 Name=File size
 Name[csb]=Miara lopka
+Name[da]=Filstørrelse
 Name[de]=Dateigröße
 Name[el]=Μέγεθος αρχείου
 Name[en_GB]=File size
 Name[eo]=Dosiergrandeco
+Name[es]=Tamaño de archivo
 Name[et]=Faili suurus
+Name[eu]=Fitxategi neurria
 Name[gl]=Tamaño do ficheiro
 Name[gu]=ફાઇલ કદ
 Name[he]=גודל קובץ
@@ -288,11 +316,14 @@ Name[zh_TW]=檔案大小
 Comment=in bytes, for example >1000
 Comment[cs]=v bytech, například >1000
 Comment[csb]=w bajtach, na przëmiôr >1000
+Comment[da]=i bytes, f.eks. >1000
 Comment[de]=In Byte, zum Beispiel >1000
 Comment[el]=σε bytes, για παράδειγμα >1000
 Comment[en_GB]=in bytes, for example >1000
 Comment[eo]=bajte, ekz. >1000
+Comment[es]=en bytes, por ejemplo >1000
 Comment[et]=baitides, näiteks >1000
+Comment[eu]=bytetan, adibidez >1000
 Comment[gl]=en bytes, por exemplo >1000
 Comment[he]=בבתים, לדוגמא > 1000
 Comment[hr]=u bajtovima, na primjer >1000
@@ -314,11 +345,14 @@ Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[da]=Brug <, <=, :, >= og >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
+GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
@@ -345,9 +379,12 @@ Completion=contentSize
 Name=Content size
 Name[cs]=Velikost obsahu
 Name[csb]=Miara zamkłoscë
+Name[da]=Indholdsstørrelse
+Name[de]=Größe des Inhalts
 Name[el]=Μέγεθος περιεχόμενου
 Name[en_GB]=Content size
 Name[eo]=Grandeco de la enhavo
+Name[es]=Tamaño del contenido
 Name[et]=Sisu suurus
 Name[gl]=Tamaño do contido
 Name[gu]=વિગત કદ
@@ -371,11 +408,14 @@ Name[x-test]=xxContent sizexx
 Name[zh_TW]=內容大小
 Comment=in bytes
 Comment[csb]=w bajtach
+Comment[da]=i bytes
 Comment[de]=in Byte
 Comment[el]=σε bytes
 Comment[en_GB]=in bytes
 Comment[eo]=bitoke
+Comment[es]=en bytes
 Comment[et]=baitides
+Comment[eu]=bytetan
 Comment[gl]=en bytes
 Comment[gu]=બાઈટ્સ માં
 Comment[he]=בבתים
@@ -399,11 +439,14 @@ Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[da]=Brug <, <=, :, >= og >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
+GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
@@ -432,11 +475,14 @@ Name=Last modified
 Comment=for example >1999-10-10
 Comment[cs]=například >1999-10-10
 Comment[csb]=na przëmiôr >1999-10-10
+Comment[da]=for eksempel >1999-10-10
 Comment[de]=zum Beispiel >1999-10-10
 Comment[el]=για παράδειγμα >1999-10-10
 Comment[en_GB]=for example >1999-10-10
 Comment[eo]=Ekzemple >1999-10-10
+Comment[es]= por ejemplo >1999-10-10
 Comment[et]=näiteks >1999-10-10
+Comment[eu]=adibidez >1999-10-10
 Comment[gl]=por exemplo >1999-10-10
 Comment[gu]=દાખલા તરીકે >1999-10-10
 Comment[he]=לדוגמא > 1999-10-10
@@ -459,11 +505,14 @@ Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
 GenericName[csb]=Brëkùjë <, <=, :, >= ë >.
+GenericName[da]=Brug <, <=, :, >= og >.
 GenericName[de]=Verwenden Sie <, <=, :, >= und >.
 GenericName[el]=Χρήση <, <=, :, >= και >.
 GenericName[en_GB]=Use <, <=, :, >= and >.
 GenericName[eo]=Uzu <, <=, :, >= kaj >.
+GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
+GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
