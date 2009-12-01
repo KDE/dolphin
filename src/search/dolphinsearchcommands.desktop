@@ -24,6 +24,7 @@ Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin og
 Comment[kk]=логикалық 'және' операторы
 Comment[lt]=loginis operatorius „ir“ (and)
+Comment[lv]=loģiskā operācija un
 Comment[nb]=logisk og-operator
 Comment[nds]=Logisch Operator »Un«
 Comment[nl]=logische operator en
@@ -33,6 +34,7 @@ Comment[ro]=operatorul logic și
 Comment[sv]=logisk operator och
 Comment[tr]=mantıksal işleç olarak ve
 Comment[uk]=булівська дія «ТА»
+Comment[wa]=operateur lodjike eyet
 Comment[x-test]=xxlogic operator andxx
 Comment[zh_TW]=邏輯運算上的「且」（and）
 Completion=and
@@ -59,6 +61,7 @@ Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin eða
 Comment[kk]=логикалық 'немесе' операторы
 Comment[lt]=loginis operatorius „arba“ (or)
+Comment[lv]=loģiskā operācija vai
 Comment[nb]=logisk eller-operator
 Comment[nds]=Logisch Operator »Oder«
 Comment[nl]=logische operator of
@@ -68,6 +71,7 @@ Comment[ro]=operatorul logic sau
 Comment[sv]=logisk operator eller
 Comment[tr]=mantıksal işleç olarak veya
 Comment[uk]=булівська дія «АБО»
+Comment[wa]=operateur lodjike ou
 Comment[x-test]=xxlogic operator orxx
 Comment[zh_TW]=邏輯運算上的「或」（or）
 Completion=or
@@ -94,6 +98,7 @@ Comment[id]=operator logika tidak
 Comment[is]=rökaðgerðin ekki
 Comment[kk]=логикалық 'теріс' операторы
 Comment[lt]=loginis operatorius „ne“ (not)
+Comment[lv]=loģiskā operācija ne
 Comment[nb]=logisk ikke-operator
 Comment[nds]=Logisch Operator »Nich«
 Comment[nl]=logische operator niet
@@ -103,6 +108,7 @@ Comment[ro]=operatorul logic nu
 Comment[sv]=logisk operator inte
 Comment[tr]=mantıksal işleç olarak değil
 Comment[uk]=булівська дія «НЕ»
+Comment[wa]=operateur lodjike n' est nén
 Comment[x-test]=xxlogic operator notxx
 Comment[zh_TW]=邏輯運算上的「否」（not）
 Completion=-
@@ -127,6 +133,7 @@ Name[id]=Ekstensi berkas
 Name[is]=Skráarending
 Name[kk]=Файл атау жұрнағы
 Name[lt]=Failo priesaga
+Name[lv]=Faila paplašinājums
 Name[nb]=Filetternavn
 Name[nds]=Dateiverwiedern
 Name[nl]=Bestandsextensie
@@ -136,6 +143,7 @@ Name[ro]=Extensie fișier
 Name[sv]=Filändelse
 Name[tr]=Dosya uzantısı
 Name[uk]=Суфікс назви файла
+Name[wa]=Cawete do fitchî
 Name[x-test]=xxFile extensionxx
 Name[zh_TW]=副檔名
 Comment=for example txt
@@ -157,6 +165,7 @@ Comment[id]=sebagai contoh txt
 Comment[is]=til dæmis txt
 Comment[kk]=мысалы txt
 Comment[lt]=pavyzdžiui, txt
+Comment[lv]=piemēram, txt
 Comment[ms]=sebagai contoh txt
 Comment[nb]=for eksempel txt
 Comment[nds]=as Bispill »txt«
@@ -167,6 +176,7 @@ Comment[ro]=de exemplu txt
 Comment[sv]=till exempel txt
 Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
+Comment[wa]=txt, metans
 Comment[x-test]=xxfor example txtxx
 Comment[zh_TW]=例如 txt
 Completion=fileExtension:
@@ -195,6 +205,7 @@ Comment[id]=1 sampai 10, misalnya >=7
 Comment[is]=1 til 10, til dæmis >=7
 Comment[kk]=1-ден 10 дейін, мысалы >=7
 Comment[lt]=Nuo 1 iki 10, pvz., >=7
+Comment[lv]=1 līdz 10, piemēram >=7
 Comment[nb]=1 til 10, for eksempel >=7
 Comment[nds]=1 to 10, as Bispill >=7
 Comment[nl]=1 tot 10, bijvoorbeeld >=7
@@ -204,6 +215,7 @@ Comment[ro]=de la 1 la 10, de exemplu >=7
 Comment[sv]=1 till 10, till exempel: >=7
 Comment[tr]=1'den 10'a kadar, örnek >=7
 Comment[uk]=Від 1 до 10, наприклад, >=7
+Comment[wa]=1 a 10, >=7, metans
 Comment[x-test]=xx1 to 10, for example >=7xx
 Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
@@ -225,6 +237,7 @@ GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
@@ -235,6 +248,7 @@ GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
+GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=rating
@@ -262,6 +276,7 @@ Comment[id]=Tag
 Comment[is]=Merki
 Comment[kk]=Тег
 Comment[lt]=Žyma
+Comment[lv]=Tags
 Comment[ms]=Tag
 Comment[nb]=Merke
 Comment[nds]=Slötelwoort
@@ -272,6 +287,7 @@ Comment[ro]=Marcaj
 Comment[sv]=Etikett
 Comment[tr]=Etiket
 Comment[uk]=Мітка
+Comment[wa]=Etikete
 Comment[x-test]=xxTagxx
 Comment[zh_TW]=標籤
 Completion=tag:
@@ -301,6 +317,7 @@ Name[id]=Ukuran berkas
 Name[is]=Skráarstærð
 Name[kk]=Файл өлшемі
 Name[lt]=Failo dydis
+Name[lv]=Faila nosaukums
 Name[ms]=Saiz fail
 Name[nb]=Filstørrelse
 Name[nds]=Dateigrött
@@ -311,6 +328,7 @@ Name[ro]=Dimensiune fișier
 Name[sv]=Filstorlek
 Name[tr]=Dosya boyutu
 Name[uk]=Розмір файла
+Name[wa]=Grandeu do fitchî
 Name[x-test]=xxFile sizexx
 Name[zh_TW]=檔案大小
 Comment=in bytes, for example >1000
@@ -331,6 +349,7 @@ Comment[id]=dalam bita, misalnya >1000
 Comment[is]=í bætum, til dæmis >1000
 Comment[kk]=байт, мысалы >1000
 Comment[lt]=baitais, pvz., > 1000
+Comment[lv]=baitos, piemēram >1000
 Comment[nb]=i byte, for eksempel >1000
 Comment[nds]=in Bytes, as Bispill >1000
 Comment[nl]=in bytes, bijvoorbeeld >1000
@@ -340,6 +359,7 @@ Comment[ro]=în octeți, de exemplu >1000
 Comment[sv]=i byte, till exempel > 1000
 Comment[tr]=bayt olarak, örnek >1000
 Comment[uk]=у байтах, наприклад, >1000
+Comment[wa]=e bites, >1000, metans
 Comment[x-test]=xxin bytes, for example >1000xx
 Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
@@ -361,6 +381,7 @@ GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
@@ -371,6 +392,7 @@ GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
+GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=contentSize
@@ -394,6 +416,7 @@ Name[id]=Ukuran isi
 Name[is]=Stærð innihalds
 Name[kk]=Мазмұнның өлшемі
 Name[lt]=Turinio dydis
+Name[lv]=Satura izmērs
 Name[ms]=Saiz isi
 Name[nb]=Innholdsstørrelse
 Name[nds]=Inholtgrött
@@ -404,6 +427,7 @@ Name[ro]=Dimensiune conținut
 Name[sv]=Innehållets storlek
 Name[tr]=İçerik boyutu
 Name[uk]=Розмір вмісту
+Name[wa]=Grandeu di l' ådvins
 Name[x-test]=xxContent sizexx
 Name[zh_TW]=內容大小
 Comment=in bytes
@@ -424,6 +448,7 @@ Comment[id]=dalam bita
 Comment[is]=í bætum
 Comment[kk]=байт
 Comment[lt]=baitais
+Comment[lv]=baitos
 Comment[ms]=dalam bait
 Comment[nb]=i byte
 Comment[nds]=in Bytes
@@ -434,6 +459,7 @@ Comment[ro]=în octeți
 Comment[sv]=i byte
 Comment[tr]=bayt olarak
 Comment[uk]=у байтах
+Comment[wa]=e bites
 Comment[x-test]=xxin bytesxx
 Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
@@ -455,6 +481,7 @@ GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
@@ -465,6 +492,7 @@ GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
+GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=contentSize
@@ -491,6 +519,7 @@ Comment[id]=misalnya >1999-10-10
 Comment[is]=til dæmis >1999-10-10
 Comment[kk]=мысалы >1999-10-10
 Comment[lt]=pavyzdžiui >1999-10-10
+Comment[lv]=piemēram >1999-10-10
 Comment[nb]=for eksempel >1999-10-10
 Comment[nds]=as Bispill >23.10.1999
 Comment[nl]=bijvoorbeeld >2009-10-10
@@ -500,6 +529,7 @@ Comment[ro]=de exemplu >1999-10-10
 Comment[sv]=till exempel > 1999-10-10
 Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
+Comment[wa]=>1999-10-10, metans
 Comment[x-test]=xxfor example >1999-10-10xx
 Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
@@ -521,6 +551,7 @@ GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
+GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
@@ -531,6 +562,7 @@ GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
+GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=lastModified
