@@ -254,6 +254,7 @@ KMetaDataConfigurationDialog::KMetaDataConfigurationDialog(KMetaDataWidget* meta
 
 KMetaDataConfigurationDialog::~KMetaDataConfigurationDialog()
 {
+    delete d;
 }
 
 void KMetaDataConfigurationDialog::slotButtonClicked(int button)
