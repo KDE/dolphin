@@ -31,7 +31,6 @@
 #include <ktoggleaction.h>
 #include <krun.h>
 #include <kpropertiesdialog.h>
-#include <knewstuff2/engine.h>
 
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
