@@ -191,7 +191,10 @@ KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
 
     // TODO: respect m_customSearchQuery
 
-    return query.toSearchUrl();
+    //XXX: wont compile
+    //return query.toSearchUrl();
+    KUrl obj;
+    return obj;
 }
 
 void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searchQuery)
@@ -301,7 +304,7 @@ void DolphinSearchOptionsConfigurator::saveQuery()
 
 void DolphinSearchOptionsConfigurator::addCriterion(SearchCriterionSelector* criterion)
 {
-    connect(criterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));    
+    connect(criterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
     connect(criterion, SIGNAL(criterionChanged()), this, SLOT(slotCriterionChanged()));
 
     // insert the new selector before the KSeparator at the bottom
