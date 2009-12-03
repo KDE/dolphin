@@ -6,6 +6,7 @@
 #ctx: and as in a logic operator to connect search terms
 Name=and
 Comment=logic operator and
+Comment[bg]=логически оператор "и"
 Comment[cs]=logický operátor and
 Comment[csb]=logiczny òperatora ë
 Comment[da]=den logiske operatør og
@@ -43,6 +44,7 @@ Completion=and
 #ctx: or as in a logic operator to connect search terms
 Name=or
 Comment=logic operator or
+Comment[bg]=логически операгор "или"
 Comment[cs]=logický operátor or
 Comment[csb]=logiczny òperatora abò
 Comment[da]=den logiske operatør eller
@@ -80,6 +82,7 @@ Completion=or
 #ctx: not as in a logic operator to connect search terms
 Name=not
 Comment=logic operator not
+Comment[bg]=логически оператор "не"
 Comment[cs]=logický operátor negace
 Comment[csb]=logiczny òperatora nié
 Comment[da]=den logiske operatør ikke
@@ -431,6 +434,7 @@ Name[wa]=Grandeu di l' ådvins
 Name[x-test]=xxContent sizexx
 Name[zh_TW]=內容大小
 Comment=in bytes
+Comment[bg]=в байтове
 Comment[csb]=w bajtach
 Comment[da]=i bytes
 Comment[de]=in Byte
@@ -501,6 +505,7 @@ Completion=contentSize
 #ctx: When the resource was last modified
 Name=Last modified
 Comment=for example >1999-10-10
+Comment[bg]=например 1999-10-10
 Comment[cs]=například >1999-10-10
 Comment[csb]=na przëmiôr >1999-10-10
 Comment[da]=for eksempel >1999-10-10
