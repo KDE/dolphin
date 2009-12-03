@@ -191,10 +191,7 @@ KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
 
     // TODO: respect m_customSearchQuery
 
-    //XXX: wont compile
-    //return query.toSearchUrl();
-    KUrl obj;
-    return obj;
+    return query.toSearchUrl();
 }
 
 void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searchQuery)
