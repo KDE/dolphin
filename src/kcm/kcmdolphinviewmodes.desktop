@@ -120,7 +120,7 @@ Exec=kcmshell4 kcmdolphinviewmodes
 X-KDE-Library=kcm_dolphinviewmodes
 X-KDE-PluginKeyword=dolphinviewmodes
 X-KDE-ParentApp=kcontrol
-
+X-DocPath=dolphin/index.html#preferences-dialog-viewmodes
 Name=View Modes
 Name[bg]=Режими на преглед
 Name[ca]=Modes de vista

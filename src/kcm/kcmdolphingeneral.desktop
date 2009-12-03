@@ -119,7 +119,7 @@ Exec=kcmshell4 kcmdolphingeneral
 X-KDE-Library=kcm_dolphingeneral
 X-KDE-PluginKeyword=dolphingeneral
 X-KDE-ParentApp=kcontrol
-
+X-DocPath=dolphin/index.html#preferences-dialog-general
 # ctxt: Random file browsing settings.
 Name=General
 Name[bg]=Общи
