@@ -577,13 +577,7 @@ void DolphinView::setUrl(const KUrl& url)
 
 void DolphinView::selectAll()
 {
-    QAbstractItemView* view = m_viewAccessor.itemView();
-    // TODO: there seems to be a bug in QAbstractItemView::selectAll(); if
-    // the Ctrl-key is pressed (e. g. for Ctrl+A), selectAll() inverts the
-    // selection instead of selecting all items. This is bypassed for KDE 4.0
-    // by invoking clearSelection() first.
-    view->clearSelection();
-    view->selectAll();
+    m_viewAccessor.itemView()->selectAll();
 }
 
 void DolphinView::invertSelection()
