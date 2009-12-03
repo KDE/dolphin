@@ -20,18 +20,22 @@
 #include "dolphinsearchoptionsconfigurator.h"
 
 #include "dolphin_searchsettings.h"
-#include "searchcriterionselector.h"
+#include <settings/dolphinsettings.h>
 
+#define DISABLE_NEPOMUK_LEGACY
 #include <nepomuk/andterm.h>
 #include <nepomuk/query.h>
 #include <nepomuk/term.h>
 
 #include <kcombobox.h>
 #include <kdialog.h>
+#include <kfileplacesmodel.h>
 #include <kicon.h>
 #include <klineedit.h>
 #include <klocale.h>
 #include <kseparator.h>
+
+#include "searchcriterionselector.h"
 
 #include <QButtonGroup>
 #include <QHBoxLayout>
@@ -275,9 +279,12 @@ void DolphinSearchOptionsConfigurator::updateSelectorButton()
 
 void DolphinSearchOptionsConfigurator::saveQuery()
 {
-    KDialog dialog(0, Qt::Dialog);
+    // TODO: provide a custom dialog class for KDE 4.5, which
+    // enables/disables the OK button depend on whether a text
+    // has been entered.
+    QPointer<KDialog> dialog = new KDialog(0, Qt::Dialog);
 
-    QWidget* container = new QWidget(&dialog);
+    QWidget* container = new QWidget(dialog);
 
     QLabel* label = new QLabel(i18nc("@label", "Name:"), container);
     KLineEdit* lineEdit = new KLineEdit(container);
@@ -287,16 +294,20 @@ void DolphinSearchOptionsConfigurator::saveQuery()
     layout->addWidget(label, Qt::AlignRight);
     layout->addWidget(lineEdit);
 
-    dialog.setMainWidget(container);
-    dialog.setCaption(i18nc("@title:window", "Save Search Options"));
-    dialog.setButtons(KDialog::Ok | KDialog::Cancel);
-    dialog.setDefaultButton(KDialog::Ok);
-    dialog.setButtonText(KDialog::Ok, i18nc("@action:button", "Save"));
+    dialog->setMainWidget(container);
+    dialog->setCaption(i18nc("@title:window", "Save Search Options"));
+    dialog->setButtons(KDialog::Ok | KDialog::Cancel);
+    dialog->setDefaultButton(KDialog::Ok);
+    dialog->setButtonText(KDialog::Ok, i18nc("@action:button", "Save"));
 
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                               "SaveSearchOptionsDialog");
-    dialog.restoreDialogSize(dialogConfig);
-    dialog.exec(); // TODO...
+    dialog->restoreDialogSize(dialogConfig);
+    if ((dialog->exec() == QDialog::Accepted) && !lineEdit->text().isEmpty()) {
+        KFilePlacesModel* model = DolphinSettings::instance().placesModel();
+        model->addPlace(lineEdit->text(), nepomukUrl());
+    }
+    delete dialog;
 }
 
 void DolphinSearchOptionsConfigurator::addCriterion(SearchCriterionSelector* criterion)
