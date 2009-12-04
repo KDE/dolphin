@@ -67,7 +67,8 @@ DateValue::~DateValue()
 
 Nepomuk::Query::LiteralTerm DateValue::value() const
 {
-    return Nepomuk::Query::LiteralTerm(m_dateWidget->date());
+    const QDateTime dateTime(m_dateWidget->date());
+    return Nepomuk::Query::LiteralTerm(dateTime);
 }
 
 void DateValue::initializeValue(const QString& valueType)

@@ -210,12 +210,16 @@ void SearchCriterionSelector::createDescriptions()
     QList<SearchCriterionDescription::Comparator> tagComps;
     tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label All (tags)", "All")));
     tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Equal to"), Nepomuk::Query::ComparisonTerm::Equal));
-    tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Not Equal to"), Nepomuk::Query::ComparisonTerm::Equal)); // TODO
+    // It is unclear yet how to express != for tags with the new Nepomuk query API. Disable it for KDE 4.4,
+    // but leave the translation string there to be able to enable this functionality for KDE 4.4.x:
+    const QString dummy = i18nc("@label", "Not Equal to");
+    Q_UNUSED(dummy);
+    //tagComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Not Equal to"), Nepomuk::Query::ComparisonTerm::Equal)); // TODO
 
     TagValue* tagValue = new TagValue(this);
     tagValue->hide();
     SearchCriterionDescription tag(i18nc("@label", "Tag:"),
-                                   Soprano::Vocabulary::NAO::Tag(),
+                                   Soprano::Vocabulary::NAO::hasTag(),
                                    tagComps,
                                    tagValue);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Tag) == 2);

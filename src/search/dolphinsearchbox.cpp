@@ -61,8 +61,8 @@ DolphinSearchCompleter::DolphinSearchCompleter(KLineEdit* linedit) :
         foreach (const Nepomuk::Tag& tag, tags) {
             const QString tagText = tag.label();
             addCompletionItem(tagText,
-                              "tag:\"" + tagText + '\"',
-                              i18nc("Tag as in Nepomuk::Tag", "Tag"),
+                              "hasTag:\"" + tagText + '\"',
+                              i18nc("Tag as in Nepomuk::Tag", "Tag"), // TODO: change to "hasTag" after msg freeze
                               QString(),
                               KIcon("mail-tagged"));
         }
