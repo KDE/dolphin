@@ -118,6 +118,7 @@ Completion=-
 
 [dolphin fileExtension]
 Name=File extension
+Name[bg]=Файлово разширение
 Name[cs]=Přípona souboru
 Name[csb]=Rozszérzenié lopka
 Name[da]=Filendelse
@@ -150,6 +151,7 @@ Name[wa]=Cawete do fitchî
 Name[x-test]=xxFile extensionxx
 Name[zh_TW]=副檔名
 Comment=for example txt
+Comment[bg]=например txt
 Comment[cs]=např. txt
 Comment[csb]=na przëmiôr txt
 Comment[da]=for eksempel txt
@@ -190,6 +192,7 @@ Icon=preferences-desktop-filetype-association
 Name=Rating
 #NOTE "=" does not work here, ":" does
 Comment=1 to 10, for example >=7
+Comment[bg]=от 1 до 10, например 7
 Comment[cs]=1 až 10, např. >=7
 Comment[csb]=1 do 10, na przëmiôr >=7
 Comment[da]=1 til 10, f.eks. >=7
@@ -261,6 +264,7 @@ Icon=favorites
 #ctx: Tag as in Nepomuk::Tag", "Tag"
 Name=Tag
 Comment=Tag
+Comment[bg]=Етикет
 Comment[cs]=Značka
 Comment[csb]=Znakòwnik
 Comment[da]=Mærke
@@ -335,6 +339,7 @@ Name[wa]=Grandeu do fitchî
 Name[x-test]=xxFile sizexx
 Name[zh_TW]=檔案大小
 Comment=in bytes, for example >1000
+Comment[bg]=в байтове, например 1000
 Comment[cs]=v bytech, například >1000
 Comment[csb]=w bajtach, na przëmiôr >1000
 Comment[da]=i bytes, f.eks. >1000
