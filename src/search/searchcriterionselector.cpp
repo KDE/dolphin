@@ -232,7 +232,7 @@ void SearchCriterionSelector::createDescriptions()
     RatingValue* ratingValue = new RatingValue(this);
     ratingValue->hide();
     SearchCriterionDescription rating(i18nc("@label", "Rating:"),
-                                      Soprano::Vocabulary::NAO::rating(),
+                                      Soprano::Vocabulary::NAO::numericRating(),
                                       ratingComps,
                                       ratingValue);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Rating) == 3);
