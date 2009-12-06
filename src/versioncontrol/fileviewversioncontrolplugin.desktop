@@ -2,6 +2,7 @@
 Type=ServiceType
 X-KDE-ServiceType=FileViewVersionControlPlugin
 Comment=Version Control Plugin for File Views
+Comment[csb]=Wtëkôcz kòntrolë wersëji dlô pòdzerków lopków
 Comment[da]=versionsstyring-plugin til filvisninger
 Comment[de]=Versionskontroll-Modul für Dateiansichten
 Comment[el]=Έλεγχος εκδόσεων πρόσθετων για την προβολή των αρχείων
