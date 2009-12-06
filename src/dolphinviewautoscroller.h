@@ -20,6 +20,7 @@
 #ifndef DOLPHINVIEWAUTOSCROLLER_H
 #define DOLPHINVIEWAUTOSCROLLER_H
 
+#include <QTime>
 #include <QObject>
 
 class QAbstractItemView;
@@ -67,10 +68,12 @@ private:
 private:
     bool m_rubberBandSelection;
     bool m_keyPressed;
+    bool m_initializedTimestamp;
     int m_horizontalScrollInc;
     int m_verticalScrollInc;
     QAbstractItemView* m_itemView;
     QTimer* m_timer;
+    QTime m_timestamp;
 };
 
 #endif

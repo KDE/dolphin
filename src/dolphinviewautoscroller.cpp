@@ -32,10 +32,12 @@ DolphinViewAutoScroller::DolphinViewAutoScroller(QAbstractItemView* parent) :
     QObject(parent),
     m_rubberBandSelection(false),
     m_keyPressed(false),
+    m_initializedTimestamp(false),
     m_horizontalScrollInc(0),
     m_verticalScrollInc(0),
     m_itemView(parent),
-    m_timer(0)
+    m_timer(0),
+    m_timestamp()
 {
     m_itemView->setAutoScroll(false);
     m_itemView->viewport()->installEventFilter(this);
@@ -124,6 +126,10 @@ bool DolphinViewAutoScroller::eventFilter(QObject* watched, QEvent* event)
 
 void DolphinViewAutoScroller::scrollViewport()
 {
+    if (m_timestamp.elapsed() < QApplication::startDragTime()) {
+        return;
+    }
+
     QScrollBar* verticalScrollBar = m_itemView->verticalScrollBar();
     if (verticalScrollBar != 0) {
         const int value = verticalScrollBar->value();
@@ -156,6 +162,7 @@ void DolphinViewAutoScroller::triggerAutoScroll()
                                      m_itemView->horizontalScrollBar()->isVisible();
     if (!verticalScrolling && !horizontalScrolling) {
         // no scrollbars are shown at all, so no autoscrolling is necessary
+        stopAutoScroll();
         return;
     }
 
@@ -170,9 +177,13 @@ void DolphinViewAutoScroller::triggerAutoScroll()
 
     if (m_timer->isActive()) {
         if ((m_horizontalScrollInc == 0) && (m_verticalScrollInc == 0)) {
-            m_timer->stop();
+            stopAutoScroll();
         }
     } else if ((m_horizontalScrollInc != 0) || (m_verticalScrollInc != 0)) {
+        if (!m_initializedTimestamp) {
+            m_initializedTimestamp = true;
+            m_timestamp.start();
+        }
         m_timer->start();
     }
 }
@@ -182,6 +193,7 @@ void DolphinViewAutoScroller::stopAutoScroll()
     m_timer->stop();
     m_horizontalScrollInc = 0;
     m_verticalScrollInc = 0;
+    m_initializedTimestamp = false;
 }
 
 int DolphinViewAutoScroller::calculateScrollIncrement(int cursorPos, int rangeSize) const
