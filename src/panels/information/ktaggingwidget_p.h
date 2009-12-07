@@ -49,6 +49,7 @@ public:
 
 signals:
     void tagsChanged(const QList<Nepomuk::Tag>& tags);
+    void tagActivated(const Nepomuk::Tag& tag);
 
 protected:
     virtual bool event(QEvent* event);

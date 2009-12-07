@@ -98,6 +98,8 @@ public:
     void slotLinkActivated(const QString& link);
 
 #ifdef HAVE_NEPOMUK
+    void slotTagActivated(const Nepomuk::Tag& tag);
+
     /**
      * Disables the metadata widget and starts the job that
      * changes the meta data asynchronously. After the job
@@ -189,6 +191,8 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
         m_taggingWidget = new KTaggingWidget(parent);
         connect(m_taggingWidget, SIGNAL(tagsChanged(const QList<Nepomuk::Tag>&)),
                 q, SLOT(slotTagsChanged(const QList<Nepomuk::Tag>&)));
+        connect(m_taggingWidget, SIGNAL(tagActivated(const Nepomuk::Tag&)),
+                q, SLOT(slotTagActivated(const Nepomuk::Tag&)));
 
         m_commentWidget = new KCommentWidget(parent);
         connect(m_commentWidget, SIGNAL(commentChanged(const QString&)),
@@ -424,6 +428,13 @@ void KMetaDataWidget::Private::slotCommentChanged(const QString& comment)
     Q_UNUSED(comment);
 #endif
 }
+
+#ifdef HAVE_NEPOMUK
+void KMetaDataWidget::Private::slotTagActivated(const Nepomuk::Tag& tag)
+{
+    emit q->urlActivated(tag.resourceUri());
+}
+#endif
 
 void KMetaDataWidget::Private::slotMetaDataUpdateDone()
 {

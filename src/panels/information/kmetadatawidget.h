@@ -25,6 +25,8 @@
 #include <QList>
 #include <QWidget>
 
+#include <config-nepomuk.h>
+
 class KUrl;
 
 /**
@@ -138,6 +140,9 @@ private:
     Q_PRIVATE_SLOT(d, void slotCommentChanged(const QString& comment))
     Q_PRIVATE_SLOT(d, void slotMetaDataUpdateDone())
     Q_PRIVATE_SLOT(d, void slotLinkActivated(const QString& link))
+#ifdef HAVE_NEPOMUK
+    Q_PRIVATE_SLOT(d, void slotTagActivated(const Nepomuk::Tag& tag))
+#endif
 };
 
 Q_DECLARE_OPERATORS_FOR_FLAGS(KMetaDataWidget::MetaDataTypes)
