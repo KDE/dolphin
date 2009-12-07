@@ -62,15 +62,17 @@ void KTaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
         if (!first) {
             m_tagsText += ", ";
         }
-#ifdef DOLPHIN_ENABLE_CLICKABLE_TAGS
         if (m_readOnly) {
-#endif
             m_tagsText += tag.genericLabel();
-#ifdef DOLPHIN_ENABLE_CLICKABLE_TAGS
         } else {
-            m_tagsText += QString::fromLatin1( "<a href=\"%1\">%2</a>" ).arg( KUrl(tag.resourceUri()).url(), tag.genericLabel() );
+            // use the text color for the tag-links, to create a visual difference
+            // to the semantically different "Change..." link
+            const QColor linkColor =palette().text().color();
+            const char* link = "<a style=\"color:%1;\" href=\"%2\">%3</a>";
+            m_tagsText += QString::fromLatin1(link).arg(linkColor.name(),
+                                                        KUrl(tag.resourceUri()).url(),
+                                                        tag.genericLabel());
         }
-#endif
         first = false;
     }
 
@@ -85,7 +87,7 @@ void KTaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
         if (m_readOnly) {
             text = m_tagsText;
         } else {
-            text = "<p>" + m_tagsText + " <a href=\"changeTags\">" + i18nc("@label", "Change...") + "</a></p>";
+            text += m_tagsText + " <a href=\"changeTags\">" + i18nc("@label", "Change...") + "</a>";
         }
     }
     m_label->setText(text);
@@ -117,36 +119,35 @@ bool KTaggingWidget::event(QEvent* event)
 
 void KTaggingWidget::slotLinkActivated(const QString& link)
 {
-    if ( link == QLatin1String( "changeTags" ) ) {
-        KEditTagsDialog dialog(m_tags, this, Qt::Dialog);
-        KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk KEditTagsDialog");
-        dialog.restoreDialogSize(dialogConfig);
+    if (link != QLatin1String("changeTags")) {
+        emit tagActivated(Nepomuk::Tag(KUrl(link)));
+        return;
+    }
 
-        if (dialog.exec() == QDialog::Accepted) {
-            const QList<Nepomuk::Tag> oldTags = m_tags;
-            m_tags = dialog.tags();
+    KEditTagsDialog dialog(m_tags, this, Qt::Dialog);
+    KConfigGroup dialogConfig(KGlobal::config(), "Nepomuk KEditTagsDialog");
+    dialog.restoreDialogSize(dialogConfig);
 
-            if (oldTags.count() != m_tags.count()) {
-                emit tagsChanged(m_tags);
-            } else {
-                // The number of tags is equal. Check whether the
-                // content of the tags are also equal:
-                const int tagsCount = m_tags.count();
-                for (int i = 0; i < tagsCount; ++i) {
-                    if (oldTags[i].genericLabel() != m_tags[i].genericLabel()) {
-                        // at least one tag has been changed
-                        emit tagsChanged(m_tags);
-                        break;
-                    }
+    if (dialog.exec() == QDialog::Accepted) {
+        const QList<Nepomuk::Tag> oldTags = m_tags;
+        m_tags = dialog.tags();
+
+        if (oldTags.count() != m_tags.count()) {
+            emit tagsChanged(m_tags);
+        } else {
+            // The number of tags is equal. Check whether the
+            // content of the tags are also equal:
+            const int tagsCount = m_tags.count();
+            for (int i = 0; i < tagsCount; ++i) {
+                if (oldTags[i].genericLabel() != m_tags[i].genericLabel()) {
+                    // at least one tag has been changed
+                    emit tagsChanged(m_tags);
+                    break;
                 }
             }
         }
-
-        dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
     }
-    else {
-        emit tagActivated(Nepomuk::Tag(KUrl(link)));
-    }
+    dialog.saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
 #include "ktaggingwidget_p.moc"

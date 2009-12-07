@@ -97,9 +97,9 @@ public:
     void slotMetaDataUpdateDone();
     void slotLinkActivated(const QString& link);
 
-#ifdef HAVE_NEPOMUK
     void slotTagActivated(const Nepomuk::Tag& tag);
 
+#ifdef HAVE_NEPOMUK
     /**
      * Disables the metadata widget and starts the job that
      * changes the meta data asynchronously. After the job
@@ -264,9 +264,11 @@ void KMetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
 
 void KMetaDataWidget::Private::initMetaInfoSettings()
 {
-    static const int s_metainformationrcVersion = 1;
+    const int currentVersion = 1; // increase version, if the blacklist of disabled
+                                  // properties should be updated
+
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
-    if (config.group( "Misc" ).readEntry("version", 0) < s_metainformationrcVersion) {
+    if (config.group("Misc").readEntry("version", 0) < currentVersion) {
         // The resource file is read the first time. Assure
         // that some meta information is disabled per default.
 
@@ -289,7 +291,7 @@ void KMetaDataWidget::Private::initMetaInfoSettings()
         }
 
         // mark the group as initialized
-        config.group( "Misc" ).writeEntry("version", s_metainformationrcVersion);
+        config.group("Misc").writeEntry("version", currentVersion);
     }
 }
 
@@ -429,12 +431,14 @@ void KMetaDataWidget::Private::slotCommentChanged(const QString& comment)
 #endif
 }
 
-#ifdef HAVE_NEPOMUK
 void KMetaDataWidget::Private::slotTagActivated(const Nepomuk::Tag& tag)
 {
+#ifdef HAVE_NEPOMUK
     emit q->urlActivated(tag.resourceUri());
-}
+#else
+    Q_UNUSED(tag);
 #endif
+}
 
 void KMetaDataWidget::Private::slotMetaDataUpdateDone()
 {
