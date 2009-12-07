@@ -178,6 +178,12 @@ void VersionControlObserver::verifyDirectory()
 
 void VersionControlObserver::applyUpdatedItemStates()
 {
+    if (m_plugin == 0) {
+        // The signal finished() has been emitted, but the thread has been marked
+        // as invalid in the meantime. Just ignore the signal in this case.
+        return;
+    }
+
     if (!m_updateItemStatesThread->retrievedItems()) {
         // ignore m_silentUpdate for an error message
         emit errorMessage(i18nc("@info:status", "Update of version information failed."));
