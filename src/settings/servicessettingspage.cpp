@@ -24,7 +24,7 @@
 #include <kdesktopfileactions.h>
 #include <kicon.h>
 #include <klocale.h>
-#include <knewstuff2/engine.h>
+#include <knewstuff3/knewstuffbutton.h>
 #include <kservice.h>
 #include <kservicetypetrader.h>
 #include <kstandarddirs.h>
@@ -53,9 +53,10 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     connect(m_servicesList, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SIGNAL(changed()));
 
-    QPushButton* downloadButton = new QPushButton(i18nc("@action:button", "Download New Services..."));
-    downloadButton->setIcon(KIcon("get-hot-new-stuff"));
-    connect(downloadButton, SIGNAL(clicked()), this, SLOT(downloadNewServices()));
+    KNS3::Button* downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
+                                                    "servicemenu.knsrc",
+                                                    this);
+    connect(downloadButton, SIGNAL(dialogFinished(const Entry::List&)), this, SLOT(loadServices()));
 
     topLayout->addWidget(label);
     topLayout->addWidget(m_servicesList);
@@ -127,14 +128,6 @@ void ServicesSettingsPage::loadServices()
             }
         }
     }
-}
-
-void ServicesSettingsPage::downloadNewServices()
-{
-    KNS::Engine khns(this);
-    khns.init("servicemenu.knsrc");
-    khns.downloadDialogModal(this);
-    loadServices();
 }
 
 bool ServicesSettingsPage::isInServicesList(const QString& service) const

@@ -74,7 +74,7 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
-target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF2_LIBS} ${QIMAGEBLITZ_LIBRARIES} ${X11_LIBRARIES})
+target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF3_LIBS} ${QIMAGEBLITZ_LIBRARIES} ${X11_LIBRARIES})
 if(X11_Xrender_FOUND)
   target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
@@ -201,7 +201,7 @@ target_link_libraries(dolphin
     ${KDE4_KUTILS_LIBRARY}
     konq
     dolphinprivate
-    knewstuff2
+    knewstuff3
     ${KDE4_PHONON_LIBS}
 )
 
@@ -280,7 +280,7 @@ kde4_add_plugin(kcm_dolphingeneral ${kcm_dolphingeneral_PART_SRCS})
 
 target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
-target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNEWSTUFF2_LIBRARY} dolphinprivate)
+target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNEWSTUFF3_LIBRARY} dolphinprivate)
 target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
 if (Nepomuk_FOUND)
   target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_LIBRARIES})

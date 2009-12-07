@@ -49,11 +49,6 @@ private slots:
      */
     void loadServices();
 
-    /**
-     * Opens KHotNewStuff to download new services.
-     */
-    void downloadNewServices();
-
     bool isInServicesList(const QString& service) const;
 
 private:
