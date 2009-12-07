@@ -194,9 +194,9 @@ KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
         query.setTerm(andTerm);
     }
 
-    Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery( m_customSearchQuery );
-    if ( customQuery.isValid() ) {
-        query.setTerm( Nepomuk::Query::AndTerm( query.term(), customQuery.term() ) );
+    Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(m_customSearchQuery);
+    if (customQuery.isValid()) {
+        query.setTerm(Nepomuk::Query::AndTerm(query.term(), customQuery.term()));
     }
 
     return query.toSearchUrl();
