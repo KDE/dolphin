@@ -25,6 +25,7 @@
 #define DISABLE_NEPOMUK_LEGACY
 #include <nepomuk/andterm.h>
 #include <nepomuk/query.h>
+#include <nepomuk/queryparser.h>
 #include <nepomuk/term.h>
 
 #include <kcombobox.h>
@@ -193,7 +194,10 @@ KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
         query.setTerm(andTerm);
     }
 
-    // TODO: respect m_customSearchQuery
+    Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery( m_customSearchQuery );
+    if ( customQuery.isValid() ) {
+        query.setTerm( Nepomuk::Query::AndTerm( query.term(), customQuery.term() ) );
+    }
 
     return query.toSearchUrl();
 }
