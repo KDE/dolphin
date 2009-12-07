@@ -343,7 +343,12 @@ void KMetaDataWidget::Private::updateRowsVisibility()
 void KMetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
-    Q_ASSERT(m_loadMetaDataThread != 0);
+    if (m_loadMetaDataThread == 0) {
+        // The signal finished() has been emitted, but the thread has been marked
+        // as invalid in the meantime. Just ignore the signal in this case.
+        return;
+    }
+
     Q_ASSERT(m_ratingWidget != 0);
     Q_ASSERT(m_commentWidget != 0);
     Q_ASSERT(m_taggingWidget != 0);
