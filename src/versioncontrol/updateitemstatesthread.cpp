@@ -25,6 +25,9 @@ UpdateItemStatesThread::UpdateItemStatesThread() :
     m_mutex(0),
     m_itemStates()
 {
+    // Several threads may share one instance of a plugin. A global
+    // mutex is required to serialize the retrieval of version control
+    // states inside run().
     static QMutex globalMutex;
     m_mutex = &globalMutex;
 }
