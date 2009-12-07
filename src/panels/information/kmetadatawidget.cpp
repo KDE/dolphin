@@ -260,11 +260,17 @@ void KMetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
 
 void KMetaDataWidget::Private::initMetaInfoSettings()
 {
+    static const int s_metainformationrcVersion = 1;
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
-    KConfigGroup settings = config.group("Show");
-    if (!settings.readEntry("initialized", false)) {
+    if (config.group( "Misc" ).readEntry("version", 0) < s_metainformationrcVersion) {
         // The resource file is read the first time. Assure
         // that some meta information is disabled per default.
+
+        // clear old info
+        config.deleteGroup( "Show" );
+        KConfigGroup settings = config.group("Show");
+
+        // trueg: KDE 4.5: use a blacklist of actual rdf properties
 
         static const char* disabledProperties[] = {
             "asText", "contentSize", "created", "depth", "description", "fileExtension",
@@ -274,14 +280,12 @@ void KMetaDataWidget::Private::initMetaInfoSettings()
             0 // mandatory last entry
         };
 
-        int i = 0;
-        while (disabledProperties[i] != 0) {
+        for (int i = 0; disabledProperties[i] != 0; ++i) {
             settings.writeEntry(disabledProperties[i], false);
-            ++i;
         }
 
         // mark the group as initialized
-        settings.writeEntry("initialized", true);
+        config.group( "Misc" ).writeEntry("version", s_metainformationrcVersion);
     }
 }
 
