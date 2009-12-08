@@ -24,6 +24,7 @@
 #include <kglobal.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kprotocolinfo.h>
 
 #include <nepomuk/resource.h>
 
@@ -168,9 +169,12 @@ QString  KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
     } else if (value.isResource() || value.isResourceList()) {
         QStringList links;
         foreach(const Nepomuk::Resource& res, value.toResourceList()) {
-            links << QString::fromLatin1("<a href=\"%1\">%2</a>")
-                .arg(KUrl(res.resourceUri()).url())
-                .arg(res.genericLabel());
+            if (KProtocolInfo::isKnownProtocol(res.resourceUri()))
+                links << QString::fromLatin1("<a href=\"%1\">%2</a>")
+                    .arg(KUrl(res.resourceUri()).url())
+                    .arg(res.genericLabel());
+            else
+                links << res.genericLabel();
         }
         return QLatin1String("<p>") + links.join(QLatin1String(";\n"));
     } else {
