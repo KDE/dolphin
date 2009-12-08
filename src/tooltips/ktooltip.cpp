@@ -75,7 +75,7 @@ void KToolTipManager::hideTip()
 {
     if (m_window != 0) {
         m_window->hide();
-        delete m_window;
+        m_window->deleteLater();
         m_window = 0;
     }
 }
