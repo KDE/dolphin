@@ -2,7 +2,7 @@
 Type=Service
 Name=Dolphin View
 Name[af]=Dolphin Deel
-Name[ar]=عرض الدولفين
+Name[ar]=عرض دولفين
 Name[as]=Dolphin প্ৰদৰ্শন
 Name[be@latin]=Vyhlad „Dolphin”
 Name[bg]=Преглед в Dolphin
@@ -267,7 +267,7 @@ Exec=dolphin
 [Desktop Action columns]
 Name=Columns
 Name[af]=Kolomme
-Name[ar]=الاعمدة
+Name[ar]=الأعمدة
 Name[as]=কলাম
 Name[be@latin]=Słupki
 Name[bg]=Колони

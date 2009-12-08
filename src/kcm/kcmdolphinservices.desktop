@@ -1,4 +1,5 @@
 Name=Dolphin Services
+Name[ar]=خدمات دولفين
 Name[bg]=Услуги в Dolphin
 Name[ca]=Serveis del Dolphin
 Name[cs]=Služby Dolphinu
@@ -152,6 +153,7 @@ Name[x-test]=xxServicesxx
 Name[zh_CN]=服务
 Name[zh_TW]=服務
 Comment=Configure file manager services
+Comment[ar]=اضبط خدمات مدير الملفات
 Comment[bg]=Настройване услугите на файловия мениджър
 Comment[ca]=Configura els serveis del gestor de fitxers
 Comment[cs]=Nastavení služeb správce souborů
