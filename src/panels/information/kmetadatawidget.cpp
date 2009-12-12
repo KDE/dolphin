@@ -185,6 +185,9 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     if (m_nepomukActivated) {
         m_ratingWidget = new KRatingWidget(parent);
         m_ratingWidget->setFixedHeight(fontMetrics.height());
+        const Qt::Alignment align = (parent->layoutDirection() == Qt::LeftToRight) ?
+                                    Qt::AlignLeft : Qt::AlignRight;
+        m_ratingWidget->setAlignment(align);
         connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
                 q, SLOT(slotRatingChanged(unsigned int)));
 
