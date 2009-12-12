@@ -102,6 +102,15 @@ bool FileViewSvnPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
 
+    // clear all entries for this directory
+    QMutableHashIterator<QString, VersionState> it(m_versionInfoHash);
+    while (it.hasNext()) {
+        it.next();
+        if (it.key().startsWith(directory)) {
+            it.remove();
+        }
+    }
+
     QStringList arguments;
     arguments << "status" << "--show-updates" << directory;
 
