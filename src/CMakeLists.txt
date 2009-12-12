@@ -180,6 +180,8 @@ if(Nepomuk_FOUND)
     )
 endif(Nepomuk_FOUND)
 
+soprano_add_ontology(dolphin_SRCS "${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nfo.trig" "NFO" "Nepomuk::Vocabulary" "trig")
+
 if(NOT WIN32)
    set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
 endif(NOT WIN32)

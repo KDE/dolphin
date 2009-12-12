@@ -21,6 +21,8 @@
 #define DOLPHINSEARCHOPTIONSCONFIGURATOR_H
 
 #include <kurl.h>
+#define DISABLE_NEPOMUK_LEGACY
+#include <nepomuk/query.h>
 #include <QList>
 #include <QString>
 #include <QWidget>
@@ -43,10 +45,11 @@ public:
 
     /**
      * Returns the sum of the configured options and the
-     * custom search query as Nepomuk URL.
+     * custom search query as Nepomuk conform search URL. If the
+     * query is invalid, an empty URL is returned.
      * @see DolphinSearchOptionsConfigurator::setCustomSearchQuery()
      */
-    KUrl nepomukUrl() const;
+    KUrl nepomukSearchUrl() const;
 
 public slots:
     /**
@@ -65,19 +68,18 @@ protected:
 
 private slots:
     void slotAddSelectorButtonClicked();
-    void slotCriterionChanged();
     void removeCriterion();
-
-    /**
-     * Updates the 'enabled' property of the selector button
-     * dependent from the number of existing selectors.
-     */
-    void updateSelectorButton();
 
     /**
      * Saves the current query by adding it as Places entry.
      */
     void saveQuery();
+
+    /**
+     * Enables the enabled property of the search-, save-button and the
+     * add-selector button.
+     */
+    void updateButtons();
 
 private:
     /**
@@ -87,10 +89,11 @@ private:
     void addCriterion(SearchCriterionSelector* selector);
 
     /**
-     * Returns true, DolphinSearchOptionsConfigurator::nepomukUrl()
-     * contains at least 1 search parameter.
+     * Returns the sum of the configured options and the
+     * custom search query as Nepomuk confrom query.
+     * @see DolphinSearchOptionsConfigurator::setCustomSearchQuery()
      */
-    bool hasSearchParameters() const;
+    Nepomuk::Query::Query nepomukQuery() const;
 
 private:
     bool m_initialized;

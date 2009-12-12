@@ -24,9 +24,12 @@
 
 #define DISABLE_NEPOMUK_LEGACY
 #include <nepomuk/andterm.h>
-#include <nepomuk/query.h>
+#include <nepomuk/orterm.h>
 #include <nepomuk/queryparser.h>
+#include <nepomuk/resourcetypeterm.h>
 #include <nepomuk/term.h>
+
+#include "nfo.h"
 
 #include <kcombobox.h>
 #include <kdialog.h>
@@ -111,6 +114,7 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
     for (unsigned int i = 0; i < sizeof(g_whatItems) / sizeof(SettingsItem); ++i) {
         m_whatBox->addItem(g_whatItems[i].text);
     }
+    connect(m_whatBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateButtons()));
 
     // add "Add selector" button
     m_addSelectorButton = new QPushButton(this);
@@ -180,35 +184,16 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
     SearchSettings::self()->writeConfig();
 }
 
-KUrl DolphinSearchOptionsConfigurator::nepomukUrl() const
+KUrl DolphinSearchOptionsConfigurator::nepomukSearchUrl() const
 {
-    Nepomuk::Query::Query query;
-    if (m_criteria.size() == 1) {
-        query.setTerm(m_criteria.first()->queryTerm());
-    } else {
-        Nepomuk::Query::AndTerm andTerm;
-        foreach (const SearchCriterionSelector* criterion, m_criteria) {
-            const Nepomuk::Query::Term term = criterion->queryTerm();
-            andTerm.addSubTerm(term);
-        }
-        query.setTerm(andTerm);
-    }
-
-    Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(m_customSearchQuery);
-    if (customQuery.isValid()) {
-        query.setTerm(Nepomuk::Query::AndTerm(query.term(), customQuery.term()));
-    }
-
-    return query.toSearchUrl();
+    const Nepomuk::Query::Query query = nepomukQuery();
+    return query.isValid() ? query.toSearchUrl() : KUrl();
 }
 
 void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searchQuery)
 {
     m_customSearchQuery = searchQuery.simplified();
-
-    const bool enabled = hasSearchParameters();
-    m_searchButton->setEnabled(enabled);
-    m_saveButton->setEnabled(enabled);
+    updateButtons();
 }
 
 void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
@@ -254,13 +239,6 @@ void DolphinSearchOptionsConfigurator::slotAddSelectorButtonClicked()
     addCriterion(selector);
 }
 
-void DolphinSearchOptionsConfigurator::slotCriterionChanged()
-{
-    const bool enabled = hasSearchParameters();
-    m_searchButton->setEnabled(enabled);
-    m_saveButton->setEnabled(enabled);
-}
-
 void DolphinSearchOptionsConfigurator::removeCriterion()
 {
     SearchCriterionSelector* criterion = qobject_cast<SearchCriterionSelector*>(sender());
@@ -272,13 +250,7 @@ void DolphinSearchOptionsConfigurator::removeCriterion()
 
     criterion->deleteLater();
 
-    updateSelectorButton();
-}
-
-void DolphinSearchOptionsConfigurator::updateSelectorButton()
-{
-    const int selectors = m_vBoxLayout->count() - 1;
-    m_addSelectorButton->setEnabled(selectors < 10);
+    updateButtons();
 }
 
 void DolphinSearchOptionsConfigurator::saveQuery()
@@ -309,32 +281,70 @@ void DolphinSearchOptionsConfigurator::saveQuery()
     dialog->restoreDialogSize(dialogConfig);
     if ((dialog->exec() == QDialog::Accepted) && !lineEdit->text().isEmpty()) {
         KFilePlacesModel* model = DolphinSettings::instance().placesModel();
-        model->addPlace(lineEdit->text(), nepomukUrl());
+        model->addPlace(lineEdit->text(), nepomukSearchUrl());
     }
     delete dialog;
+}
+
+void DolphinSearchOptionsConfigurator::updateButtons()
+{
+    const bool enable = nepomukQuery().isValid();
+    m_searchButton->setEnabled(enable);
+    m_saveButton->setEnabled(enable);
+
+    const int selectors = m_vBoxLayout->count() - 1;
+    m_addSelectorButton->setEnabled(selectors < 10);
 }
 
 void DolphinSearchOptionsConfigurator::addCriterion(SearchCriterionSelector* criterion)
 {
     connect(criterion, SIGNAL(removeCriterion()), this, SLOT(removeCriterion()));
-    connect(criterion, SIGNAL(criterionChanged()), this, SLOT(slotCriterionChanged()));
+    connect(criterion, SIGNAL(criterionChanged()), this, SLOT(updateButtons()));
 
     // insert the new selector before the KSeparator at the bottom
     const int index = m_vBoxLayout->count() - 1;
     m_vBoxLayout->insertWidget(index, criterion);
-    updateSelectorButton();
+    updateButtons();
 
     m_criteria.append(criterion);
 }
 
-bool DolphinSearchOptionsConfigurator::hasSearchParameters() const
+Nepomuk::Query::Query DolphinSearchOptionsConfigurator::nepomukQuery() const
 {
-    if (!m_customSearchQuery.isEmpty()) {
-        // performance optimization: if a custom search query is defined,
-        // there is no need to call the (quite expensive) method nepomukUrl()
-        return true;
+    Nepomuk::Query::AndTerm andTerm;
+
+    // add search criterion terms
+    foreach (const SearchCriterionSelector* criterion, m_criteria) {
+        const Nepomuk::Query::Term term = criterion->queryTerm();
+        andTerm.addSubTerm(term);
     }
-    return true; //nepomukUrl().path() != QLatin1String("/");
+
+    // add custom query term from the searchbar
+    const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(m_customSearchQuery);
+    if (customQuery.isValid()) {
+        andTerm.addSubTerm(customQuery.term());
+    }
+
+    // filter result by the "What" filter
+    switch (m_whatBox->currentIndex()) {
+    case 1: {
+        // Image
+        const Nepomuk::Query::ResourceTypeTerm image(Nepomuk::Vocabulary::NFO::Image());
+        andTerm.addSubTerm(image);
+        break;
+    }
+    case 2: {
+        // Text
+        const Nepomuk::Query::ResourceTypeTerm textDocument(Nepomuk::Vocabulary::NFO::TextDocument());
+        andTerm.addSubTerm(textDocument);
+        break;
+    }
+    default: break;
+    }
+
+    Nepomuk::Query::Query query;
+    query.setTerm(andTerm);
+    return query;
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"

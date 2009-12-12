@@ -1011,8 +1011,8 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
 void DolphinMainWindow::searchItems()
 {
 #ifdef HAVE_NEPOMUK
-    const KUrl nepomukUrl = m_searchOptionsConfigurator->nepomukUrl();
-    m_activeViewContainer->setUrl(nepomukUrl);
+    const KUrl nepomukSearchUrl = m_searchOptionsConfigurator->nepomukSearchUrl();
+    m_activeViewContainer->setUrl(nepomukSearchUrl);
 #endif
 }
 
