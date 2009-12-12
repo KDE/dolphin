@@ -110,7 +110,7 @@ QPixmap DolphinFileItemDelegate::emblemForState(KVersionControlPlugin::VersionSt
     // TODO: all icons that are use here will be replaced by revision control emblems provided by the
     // Oxygen team before KDE 4.4
     Q_ASSERT(state <= KVersionControlPlugin::ConflictingVersion);
-    if ((m_cachedSize != size) || !m_cachedEmblems[state].isNull()) {
+    if ((m_cachedSize != size) || m_cachedEmblems[state].isNull()) {
         m_cachedSize = size;
 
         const int iconHeight = size.height();
