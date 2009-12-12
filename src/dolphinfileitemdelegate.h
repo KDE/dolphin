@@ -66,6 +66,9 @@ private:
                                   const DolphinModel* dolphinModel,
                                   const QModelIndex& index);
 
+    static void adjustOptionTextColor(QStyleOptionViewItemV4& option,
+                                      KVersionControlPlugin::VersionState state);
+
     QPixmap emblemForState(KVersionControlPlugin::VersionState state, const QSize& size) const;
 
 private:
