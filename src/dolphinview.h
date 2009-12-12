@@ -113,9 +113,7 @@ public:
         SortByOwner,
         SortByGroup,
         SortByType,
-        SortByRating,
-        SortByTags,
-        MaxSortEnum = SortByTags
+        MaxSortEnum = SortByType
     };
 
     /**

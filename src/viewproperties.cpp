@@ -33,8 +33,6 @@
 #include <QFile>
 #include <QFileInfo>
 
-bool ViewProperties::m_nepomukSupport = false;
-
 #define FILE_NAME "/.directory"
 
 ViewProperties::ViewProperties(const KUrl& url) :
@@ -162,15 +160,7 @@ void ViewProperties::setSorting(DolphinView::Sorting sorting)
 
 DolphinView::Sorting ViewProperties::sorting() const
 {
-    // If Nepomuk is not available, return SortByName as fallback if SortByRating
-    // or SortByTags is stored.
-    DolphinView::Sorting sorting = static_cast<DolphinView::Sorting>(m_node->sorting());
-    const bool sortByName = !m_nepomukSupport &&
-                            ((sorting == DolphinView::SortByRating) || (sorting == DolphinView::SortByTags));
-    if (sortByName) {
-        sorting = DolphinView::SortByName;
-    }
-    return sorting;
+    return static_cast<DolphinView::Sorting>(m_node->sorting());
 }
 
 void ViewProperties::setSortOrder(Qt::SortOrder sortOrder)
