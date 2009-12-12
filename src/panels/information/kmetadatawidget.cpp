@@ -368,16 +368,31 @@ void KMetaDataWidget::Private::slotLoadingFinished()
 
     const QList<KLoadMetaDataThread::Item> items = mergedItems(m_loadMetaDataThread->items());
     foreach (const KLoadMetaDataThread::Item& item, items) {
+        const QString itemLabel = item.label;
+        QString itemValue = item.value;
+        if (item.value.startsWith("<a href=")) {
+           // use the text color for the value-links, to create a visual difference
+           // to the semantically different links like "Change..."
+           const QColor linkColor = q->palette().text().color();
+           QString decoration;
+           if (m_readOnly) {
+               decoration = QString::fromLatin1("text-decoration:none;");
+           }
+           const QString styleText = QString::fromLatin1("style=\"color:%1;%2\" ")
+                                                         .arg(linkColor.name())
+                                                         .arg(decoration);
+           itemValue.insert(3 /* after "<a "*/, styleText);
+        }
         if (index < rowCount) {
             // adjust texts of the current row
-            m_rows[index].label->setText(item.label);
+            m_rows[index].label->setText(itemLabel);
             QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[index].infoWidget);
             Q_ASSERT(infoValueLabel != 0);
-            infoValueLabel->setText(item.value);
+            infoValueLabel->setText(itemValue);
         } else {
             // create new row
-            QLabel* infoLabel = new QLabel(item.label, q);
-            QLabel* infoValue = new QLabel(item.value, q);
+            QLabel* infoLabel = new QLabel(itemLabel, q);
+            QLabel* infoValue = new QLabel(itemValue, q);
             connect(infoValue, SIGNAL(linkActivated(QString)),
                     q, SLOT(slotLinkActivated(QString)));
             addRow(infoLabel, infoValue);

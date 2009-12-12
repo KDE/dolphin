@@ -67,7 +67,7 @@ void KTaggingWidget::setTags(const QList<Nepomuk::Tag>& tags)
         } else {
             // use the text color for the tag-links, to create a visual difference
             // to the semantically different "Change..." link
-            const QColor linkColor =palette().text().color();
+            const QColor linkColor = palette().text().color();
             const char* link = "<a style=\"color:%1;\" href=\"%2\">%3</a>";
             m_tagsText += QString::fromLatin1(link).arg(linkColor.name(),
                                                         KUrl(tag.resourceUri()).url(),
