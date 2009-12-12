@@ -20,6 +20,7 @@
 #include "versioncontrolobserver.h"
 
 #include <dolphinmodel.h>
+#include "dolphin_versioncontrolsettings.h"
 
 #include <kdirlister.h>
 #include <klocale.h>
@@ -276,11 +277,16 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
     if (plugins.isEmpty()) {
         // No searching for plugins has been done yet. Query the KServiceTypeTrader for
         // all fileview version control plugins and remember them in 'plugins'.
+        const QString disabledPlugins = VersionControlSettings::disabledPlugins();
+        const QStringList disabledPluginsList = disabledPlugins.split(',');
+
         const KService::List pluginServices = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
         for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
-            KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>();
-            Q_ASSERT(plugin != 0);
-            plugins.append(plugin);
+            if (!disabledPluginsList.contains((*it)->name())) {
+                KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>();
+                Q_ASSERT(plugin != 0);
+                plugins.append(plugin);
+            }
         }
         if (plugins.isEmpty()) {
             pluginsAvailable = false;

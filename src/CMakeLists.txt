@@ -70,7 +70,9 @@ kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
-    settings/dolphin_generalsettings.kcfgc)
+    settings/dolphin_generalsettings.kcfgc
+    settings/dolphin_versioncontrolsettings.kcfgc
+)
 
 kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
@@ -264,7 +266,9 @@ kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
-    settings/dolphin_generalsettings.kcfgc)
+    settings/dolphin_generalsettings.kcfgc
+    settings/dolphin_versioncontrolsettings.kcfgc
+)
 
 kde4_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
@@ -298,10 +302,16 @@ install(TARGETS kcm_dolphingeneral DESTINATION ${PLUGIN_INSTALL_DIR} )
 
 ########### install files ###############
 
-install( FILES  dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
-install( FILES  settings/dolphin_directoryviewpropertysettings.kcfg settings/dolphin_generalsettings.kcfg settings/dolphin_columnmodesettings.kcfg settings/dolphin_iconsmodesettings.kcfg settings/dolphin_detailsmodesettings.kcfg DESTINATION ${KCFG_INSTALL_DIR} )
-install( FILES  dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
-install( FILES  search/dolphinsearchcommands.desktop DESTINATION ${DATA_INSTALL_DIR}/dolphin )
+install( FILES dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
+install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
+               settings/dolphin_generalsettings.kcfg
+               settings/dolphin_columnmodesettings.kcfg
+               settings/dolphin_iconsmodesettings.kcfg
+               settings/dolphin_detailsmodesettings.kcfg
+               settings/dolphin_versioncontrolsettings.kcfg
+         DESTINATION ${KCFG_INSTALL_DIR} )
+install( FILES dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
+install( FILES search/dolphinsearchcommands.desktop DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinservices.desktop DESTINATION ${SERVICES_INSTALL_DIR} )

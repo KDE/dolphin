@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg>
+    <kcfgfile name="dolphinrc"/>
+    <group name="VersionControl">
+        <entry name="disabledPlugins" type="String">
+            <label>Disabled plugins</label>
+            <default></default>
+        </entry>
+    </group>
+</kcfg>
