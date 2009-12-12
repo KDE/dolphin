@@ -24,6 +24,7 @@
 
 #define DISABLE_NEPOMUK_LEGACY
 #include <nepomuk/andterm.h>
+#include <nepomuk/filequery.h>
 #include <nepomuk/orterm.h>
 #include <nepomuk/queryparser.h>
 #include <nepomuk/resourcetypeterm.h>
@@ -88,6 +89,7 @@ static const CriterionItem g_criterionItems[] = {
 DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* parent) :
     QWidget(parent),
     m_initialized(false),
+    m_directory(),
     m_locationBox(0),
     m_whatBox(0),
     m_addSelectorButton(0),
@@ -184,6 +186,17 @@ DolphinSearchOptionsConfigurator::~DolphinSearchOptionsConfigurator()
     SearchSettings::self()->writeConfig();
 }
 
+QString DolphinSearchOptionsConfigurator::customSearchQuery() const
+{
+    return m_customSearchQuery;
+}
+
+
+KUrl DolphinSearchOptionsConfigurator::directory() const
+{
+    return m_directory;
+}
+
 KUrl DolphinSearchOptionsConfigurator::nepomukSearchUrl() const
 {
     const Nepomuk::Query::Query query = nepomukQuery();
@@ -194,6 +207,13 @@ void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searc
 {
     m_customSearchQuery = searchQuery.simplified();
     updateButtons();
+}
+
+void DolphinSearchOptionsConfigurator::setDirectory(const KUrl& dir)
+{
+    if (dir.protocol() != QString::fromLatin1("nepomuksearch")) {
+        m_directory = dir;
+    }
 }
 
 void DolphinSearchOptionsConfigurator::showEvent(QShowEvent* event)
@@ -342,9 +362,13 @@ Nepomuk::Query::Query DolphinSearchOptionsConfigurator::nepomukQuery() const
     default: break;
     }
 
-    Nepomuk::Query::Query query;
-    query.setTerm(andTerm);
-    return query;
+    Nepomuk::Query::FileQuery fileQuery;
+    if ((m_locationBox->currentIndex() == 1) && m_directory.isValid()) {
+        // "From Here" is selected as location filter
+        fileQuery.addIncludeFolder(m_directory);
+    }
+    fileQuery.setTerm(andTerm);
+    return fileQuery;
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"

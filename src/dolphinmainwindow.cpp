@@ -1074,6 +1074,7 @@ void DolphinMainWindow::init()
     m_searchOptionsConfigurator->hide();
     connect(m_searchOptionsConfigurator, SIGNAL(searchOptionsChanged()),
             this, SLOT(searchItems()));
+    connect(this, SIGNAL(urlChanged(KUrl)), m_searchOptionsConfigurator, SLOT(setDirectory(KUrl)));
 #endif
 
     m_tabBar = new KTabBar(this);

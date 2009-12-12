@@ -43,6 +43,9 @@ public:
     DolphinSearchOptionsConfigurator(QWidget* parent = 0);
     virtual ~DolphinSearchOptionsConfigurator();
 
+    QString customSearchQuery() const;
+    KUrl directory() const;
+
     /**
      * Returns the sum of the configured options and the
      * custom search query as Nepomuk conform search URL. If the
@@ -59,6 +62,13 @@ public slots:
      * offered outside the search options configurator.
      */
     void setCustomSearchQuery(const QString& searchQuery);
+
+    /**
+     * Sets the directory that is used when the
+     * "From Here"-location-filter is used. URLs that represent
+     * already a Nepomuk search URL will be ignored.
+     */
+    void setDirectory(const KUrl& dir);
 
 signals:
     void searchOptionsChanged();
@@ -97,6 +107,7 @@ private:
 
 private:
     bool m_initialized;
+    KUrl m_directory;
     KComboBox* m_locationBox;
     KComboBox* m_whatBox;
     QPushButton* m_addSelectorButton;
