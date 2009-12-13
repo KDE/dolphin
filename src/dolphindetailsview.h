@@ -52,6 +52,8 @@ public:
      */
     QSet<KUrl> expandedUrls() const;
 
+    virtual QRegion visualRegionForSelection(const QItemSelection & selection) const;
+
 protected:
     virtual bool event(QEvent* event);
     virtual QStyleOptionViewItem viewOptions() const;

@@ -1,4 +1,4 @@
-/***************************************************************************
+    /***************************************************************************
  *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
  *   Copyright (C) 2008 by Simon St. James (kdedevel@etotheipiplusone.com) *
  *                                                                         *
@@ -169,6 +169,21 @@ DolphinDetailsView::~DolphinDetailsView()
 QSet<KUrl> DolphinDetailsView::expandedUrls() const
 {
     return m_expandedUrls;
+}
+
+QRegion DolphinDetailsView::visualRegionForSelection(const QItemSelection &selection) const
+{
+    // We have to make sure that the visualRect of each model index is inside the region.
+    // QTreeView::visualRegionForSelection does not do it right because it assumes implicitly
+    // that all visualRects have the same width, which is in general not the case here.
+    QRegion selectionRegion;
+    const QModelIndexList indexes = selection.indexes();
+
+    foreach(const QModelIndex& index, indexes) {
+        selectionRegion += visualRect(index);
+    }
+
+    return selectionRegion;
 }
 
 bool DolphinDetailsView::event(QEvent* event)
