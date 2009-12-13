@@ -1,4 +1,4 @@
-    /***************************************************************************
+/***************************************************************************
  *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
  *   Copyright (C) 2008 by Simon St. James (kdedevel@etotheipiplusone.com) *
  *                                                                         *
