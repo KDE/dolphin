@@ -199,12 +199,14 @@ void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 
 void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
 {
-    Q_UNUSED(event);
+    KCategorizedView::dragLeaveEvent(event);
     setDirtyRegion(m_dropRect);
 }
 
 void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 {
+    KCategorizedView::dragMoveEvent(event);
+
     // TODO: remove this code when the issue #160611 is solved in Qt 4.4
     const QModelIndex index = indexAt(event->pos());
     setDirtyRegion(m_dropRect);
@@ -231,6 +233,8 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
     const QModelIndex index = indexAt(event->pos());
     const KFileItem item = m_controller->itemForIndex(index);
     m_controller->indicateDroppedUrls(item, m_controller->url(), event);
+    // don't call KCategorizedView::dropEvent(event), as it moves
+    // the items which is not wanted
 }
 
 QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::KeyboardModifiers modifiers)
