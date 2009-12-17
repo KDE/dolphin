@@ -184,6 +184,10 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
 
 void DolphinMainWindow::openFiles(const QList<KUrl>& files)
 {
+    if (files.isEmpty()) {
+        return;
+    }
+
     // Get all distinct directories from 'files' and open a tab
     // for each directory. If the "split view" option is enabled, two
     // directories are shown inside one tab (see openDirectories()).
