@@ -291,6 +291,14 @@ bool DolphinView::hasSelection() const
     return view && view->selectionModel()->hasSelection();
 }
 
+void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
+{
+    foreach (const KUrl& url, urls) {
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+        m_selectedItems.append(item);
+    }
+}
+
 KFileItemList DolphinView::selectedItems() const
 {
     const QAbstractItemView* view = m_viewAccessor.itemView();
@@ -441,7 +449,7 @@ void DolphinView::reload()
     QByteArray viewState;
     QDataStream saveStream(&viewState, QIODevice::WriteOnly);
     saveState(saveStream);
-    m_selectedItems = selectedItems();
+    m_selectedItems= selectedItems();
 
     setUrl(url());
     loadDirectory(url(), true);
@@ -596,27 +604,6 @@ void DolphinView::invertSelection()
 void DolphinView::clearSelection()
 {
     m_viewAccessor.itemView()->clearSelection();
-}
-
-void DolphinView::changeSelection(const KFileItemList& selection)
-{
-    clearSelection();
-    if (selection.isEmpty()) {
-        return;
-    }
-    const KUrl& baseUrl = url();
-    KUrl url;
-    QItemSelection newSelection;
-    foreach(const KFileItem& item, selection) {
-        url = item.url().upUrl();
-        if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
-            QModelIndex index = m_viewAccessor.proxyModel()->mapFromSource(m_viewAccessor.dirModel()->indexForItem(item));
-            newSelection.select(index, index);
-        }
-    }
-    m_viewAccessor.itemView()->selectionModel()->select(newSelection,
-                                         QItemSelectionModel::ClearAndSelect
-                                         | QItemSelectionModel::Current);
 }
 
 void DolphinView::renameSelectedItems()
@@ -1227,7 +1214,19 @@ void DolphinView::slotLoadingCompleted()
     }
 
     if (!m_selectedItems.isEmpty()) {
-        changeSelection(m_selectedItems);
+        const KUrl& baseUrl = url();
+        KUrl url;
+        QItemSelection newSelection;
+        foreach(const KFileItem& item, m_selectedItems) {
+            url = item.url().upUrl();
+            if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
+                QModelIndex index = m_viewAccessor.proxyModel()->mapFromSource(m_viewAccessor.dirModel()->indexForItem(item));
+                newSelection.select(index, index);
+            }
+        }
+        m_viewAccessor.itemView()->selectionModel()->select(newSelection,
+                                                            QItemSelectionModel::ClearAndSelect
+                                                            | QItemSelectionModel::Current);
         m_selectedItems.clear();
     }
 

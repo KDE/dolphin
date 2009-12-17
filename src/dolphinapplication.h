@@ -23,7 +23,6 @@
 #define _DOLPHIN_APPLICATION_H
 
 #include <kuniqueapplication.h>
-#include <kurl.h>
 
 class DolphinMainWindow;
 class KUrl;
@@ -56,11 +55,10 @@ public:
     /** @see KUniqueApplication::newInstance(). */
     virtual int newInstance();
 
-public slots:
-    int openWindow(const KUrl& url);
-    int openSplitWindow(const KUrl& leftUrl,const KUrl& rightUrl);
+    /** Interface implementation for D-Bus Interface. */
+    int openWindow(const QString& urlString);
 
-protected:
+private:
     /** Called by the DolphinMainWindow to deregister. */
     void removeMainWindow(DolphinMainWindow* mainWindow);
 

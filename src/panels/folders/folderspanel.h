@@ -59,15 +59,6 @@ signals:
      */
     void changeUrl(const KUrl& url, Qt::MouseButtons buttons);
 
-    /**
-     * This signal is emitted when the panel requests a change in the
-     * current selection. The file-management view recieving this signal is
-     * not required to select all listed files, limiting the selection to
-     * e.g. the current folder. The new selection will be reported via the
-     * setSelection slot.
-     */
-    void changeSelection(const KFileItemList& selection);
-
 public slots:
     /**
      * Changes the current selection inside the tree to \a url.

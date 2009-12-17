@@ -151,6 +151,64 @@ DolphinMainWindow::~DolphinMainWindow()
     DolphinApplication::app()->removeMainWindow(this);
 }
 
+void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
+{
+    if (dirs.isEmpty()) {
+        return;
+    }
+
+    const int oldOpenTabsCount = m_viewTab.count();
+
+    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+    const bool hasSplitView = generalSettings->splitView();
+
+    // Open each directory inside a new tab. If the "split view" option has been enabled,
+    // always show two directories within one tab.
+    QList<KUrl>::const_iterator it = dirs.begin();
+    while (it != dirs.end()) {
+        openNewTab(*it);
+        ++it;
+
+        if (hasSplitView && (it != dirs.end())) {
+            const int tabIndex = m_viewTab.count() - 1;
+            m_viewTab[tabIndex].secondaryView->setUrl(*it);
+            ++it;
+        }
+    }
+
+    // remove the previously opened tabs
+    for (int i = 0; i < oldOpenTabsCount; ++i) {
+        closeTab(0);
+    }
+}
+
+void DolphinMainWindow::openFiles(const QList<KUrl>& files)
+{
+    // Get all distinct directories from 'files' and open a tab
+    // for each directory. If the "split view" option is enabled, two
+    // directories are shown inside one tab (see openDirectories()).
+    QList<KUrl> dirs;
+    foreach (const KUrl& url, files) {
+        const KUrl dir(url.directory());
+        if (!dirs.contains(dir)) {
+            dirs.append(dir);
+        }
+    }
+
+    openDirectories(dirs);
+
+    // Select the files. Although the files can be split between several
+    // tabs, there is no need to split 'files' accordingly, as
+    // the DolphinView will just ignore invalid selections.
+    const int tabCount = m_viewTab.count();
+    for (int i = 0; i < tabCount; ++i) {
+        m_viewTab[i].primaryView->view()->markUrlsAsSelected(files);
+        if (m_viewTab[i].secondaryView != 0) {
+            m_viewTab[i].secondaryView->view()->markUrlsAsSelected(files);
+        }
+    }
+}
+
 void DolphinMainWindow::toggleViews()
 {
     if (m_viewTab[m_tabIndex].primaryView == 0) {
@@ -249,11 +307,6 @@ void DolphinMainWindow::changeUrl(const KUrl& url)
         m_tabBar->setTabIcon(m_tabIndex, KIcon(iconName));
         emit urlChanged(url);
     }
-}
-
-void DolphinMainWindow::changeSelection(const KFileItemList& selection)
-{
-    activeViewContainer()->view()->changeSelection(selection);
 }
 
 void DolphinMainWindow::slotEditableStateChanged(bool editable)
@@ -1406,8 +1459,6 @@ void DolphinMainWindow::setupDockWidgets()
             foldersPanel, SLOT(setUrl(KUrl)));
     connect(foldersPanel, SIGNAL(changeUrl(KUrl, Qt::MouseButtons)),
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
-    connect(foldersPanel, SIGNAL(changeSelection(KFileItemList)),
-            this, SLOT(changeSelection(KFileItemList)));
 
     // setup "Terminal"
 #ifndef Q_OS_WIN

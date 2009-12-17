@@ -72,57 +72,36 @@ void DolphinApplication::refreshMainWindows()
 int DolphinApplication::newInstance()
 {
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
-    static bool first = true;
 
-    switch (args->count()) {
-    case 0:
-        if( !first || !isSessionRestored()) {
-            openWindow(KUrl());
-        }
-        break;
-
-    case 1:
-        openWindow(args->url(0));
-        break;
-
-    case 2:
-        openSplitWindow(args->url(0),args->url(1));
-        break;
-
-    default:
-        for (int i = 0; i < args->count(); ++i) {
-            openWindow(args->url(i));
-        }
+    QList<KUrl> urls;
+    const int argsCount = args->count();
+    for (int i = 0; i < argsCount; ++i) {
+        urls.append(args->url(i));
     }
 
-    first = false;
+    DolphinMainWindow* win = createMainWindow();
+    if (urls.count() > 0) {
+        if (args->isSet("select")) {
+            win->openFiles(urls);
+        } else {
+            win->openDirectories(urls);
+        }
+    }
+    win->show();
+
     args->clear();
     return 0;
 }
 
-int DolphinApplication::openWindow(const KUrl& url)
+int DolphinApplication::openWindow(const QString& urlString)
 {
     DolphinMainWindow* win = createMainWindow();
-    if ((win->activeViewContainer() != 0) && url.isValid()) {
-        win->activeViewContainer()->setUrl(url);
+    const KUrl url(urlString);
+    if (!url.isEmpty()) {
+        win->openDirectories(QList<KUrl>() << url);
     }
     win->show();
     return win->getId();
 }
-
-int DolphinApplication::openSplitWindow(const KUrl& leftUrl, const KUrl& rightUrl)
-{
-    DolphinMainWindow* win = createMainWindow();
-    if ((win->activeViewContainer() != 0) && leftUrl.isValid()) {
-        win->activeViewContainer()->setUrl(leftUrl);
-    }
-    win->toggleSplitView();
-    if ((win->activeViewContainer() != 0) && rightUrl.isValid()){
-      win->activeViewContainer()->setUrl(rightUrl);
-    }
-    win->show();
-    return win->getId();
-}
-
 
 #include "dolphinapplication.moc"

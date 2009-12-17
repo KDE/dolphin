@@ -68,7 +68,14 @@ int main(int argc, char **argv)
     KCmdLineArgs::init(argc, argv, &about);
 
     KCmdLineOptions options;
-    options.add("+[Url]", ki18nc("@info:shell", "Document to open"));
+
+    // TODO KDE SC 4.5: The string freeze is valid and no new localized strings are allowed.
+    // To get in the --select option that was available in Konqueror 3, an already existing
+    // string ("Document to open") is used as workaround (the --select option will most probably
+    // anyhow used by applications and not by users).
+    const KLocalizedString& documentToOpen = ki18nc("@info:shell", "Document to open");
+    options.add("select", documentToOpen);
+    options.add("+[Url]", documentToOpen);
     KCmdLineArgs::addCmdLineOptions(options);
 
     if (!DolphinApplication::start()) {

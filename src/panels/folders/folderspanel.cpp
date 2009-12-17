@@ -185,7 +185,6 @@ void FoldersPanel::contextMenuEvent(QContextMenuEvent* event)
     if (index.isValid()) {
         const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
         item = m_dolphinModel->itemForIndex(dolphinModelIndex);
-        emit changeSelection(KFileItemList());
     }
 
     TreeViewContextMenu contextMenu(this, item);

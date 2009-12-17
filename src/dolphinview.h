@@ -180,6 +180,14 @@ public:
     bool supportsCategorizedSorting() const;
 
     /**
+     * Marks the items indicated by \p urls to get selected after the
+     * directory DolphinView::url() has been loaded. Note that nothing
+     * gets selected if no loading of a directory has been triggered
+     * by DolphinView::setUrl() or DolphinView::reload().
+     */
+    void markUrlsAsSelected(const QList<KUrl>& urls);
+
+    /**
      * Returns the selected items. The list is empty if no item has been
      * selected.
      * @see DolphinView::selectedUrls()
@@ -380,14 +388,6 @@ public slots:
     bool hasSelection() const;
 
     void clearSelection();
-
-    /**
-     * Request of a selection change. The view will do its best to accommodate
-     * the request, but it is not guaranteed that all items in \a selection
-     * will actually get selected. The view will e.g. not select items which
-     * are not in the currently displayed folder.
-     */
-    void changeSelection(const KFileItemList& selection);
 
     /**
      * Triggers the renaming of the currently selected items, where

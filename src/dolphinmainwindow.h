@@ -74,6 +74,19 @@ public:
     DolphinViewContainer* activeViewContainer() const;
 
     /**
+     * Opens each directory \p in a separate tab. If the "split view"
+     * option is enabled, 2 directories are collected within one tab.
+     */
+    void openDirectories(const QList<KUrl>& dirs);
+    
+    /**
+     * Opens the directory which contains the files \p files
+     * and selects all files (implements the --select option
+     * of Dolphin).
+     */
+    void openFiles(const QList<KUrl>& files);
+
+    /**
      * Returns true, if the main window contains two instances
      * of a view container. The active view constainer can be
      * accessed by DolphinMainWindow::activeViewContainer().
@@ -123,16 +136,11 @@ public slots:
     int getId() const;
 
     /**
+     * Implementation of the MainWindowAdaptor/QDBusAbstractAdaptor interface.
      * Inform all affected dolphin components (panels, views) of an URL
      * change.
      */
     void changeUrl(const KUrl& url);
-
-    /**
-     * Inform all affected dolphin components that a selection change is
-     * requested.
-     */
-    void changeSelection(const KFileItemList& selection);
 
     /** Stores all settings and quits Dolphin. */
     void quit();
