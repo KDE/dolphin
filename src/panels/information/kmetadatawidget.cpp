@@ -312,7 +312,13 @@ void KMetaDataWidget::Private::updateRowsVisibility()
     // file item is a directory.
     m_sizeVisible = (m_visibleDataTypes & KMetaDataWidget::SizeData) &&
                       settings.readEntry("size", true);
-    setRowVisible(m_sizeInfo, m_sizeVisible);
+    bool visible = m_sizeVisible;
+    if (visible && (m_fileItems.count() == 1)) {
+        // don't show the size information, if one directory is shown
+        const KFileItem item = m_fileItems.first();
+        visible = !item.isNull() && !item.isDir();
+    }
+    setRowVisible(m_sizeInfo, visible);
 
     setRowVisible(m_modifiedInfo,
                   (m_visibleDataTypes & KMetaDataWidget::ModifiedData) &&
