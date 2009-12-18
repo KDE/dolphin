@@ -24,6 +24,7 @@
 
 #include <kicon.h>
 #include <kio/previewjob.h>
+#include <kseparator.h>
 
 #include "panels/information/kmetadatawidget.h"
 #include "tooltips/ktooltip.h"
@@ -35,6 +36,7 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QTimer>
+#include <QVBoxLayout>
 
 ToolTipManager::ToolTipManager(QAbstractItemView* parent,
                                DolphinSortFilterProxyModel* model) :
@@ -243,20 +245,44 @@ QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
 {
     QWidget* tipContent = new QWidget();
 
+    // add pixmap
     QLabel* pixmapLabel = new QLabel(tipContent);
     pixmapLabel->setPixmap(pixmap);
     pixmapLabel->setFixedSize(pixmap.size());
 
+    // add item name
+    QLabel* nameLabel = new QLabel(tipContent);
+    nameLabel->setText(m_item.name());
+    nameLabel->setWordWrap(true);
+    QFont font = nameLabel->font();
+    font.setBold(true);
+    nameLabel->setFont(font);
+    nameLabel->setAlignment(Qt::AlignHCenter);
+    nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    // add meta data
     KMetaDataWidget* metaDataWidget = new KMetaDataWidget(tipContent);
     metaDataWidget->setForegroundRole(QPalette::ToolTipText);
     metaDataWidget->setItem(m_item);
     metaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     metaDataWidget->setReadOnly(true);
 
+    // the stretchwidget allows the metadata widget to be top aligned and fills
+    // the remaining vertical space
+    QWidget* stretchWidget = new QWidget(tipContent);
+    stretchWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
+
+    QWidget* textContainer = new QWidget(tipContent);
+    QVBoxLayout* textLayout = new QVBoxLayout(textContainer);
+    textLayout->addWidget(nameLabel);
+    textLayout->addWidget(new KSeparator());
+    textLayout->addWidget(metaDataWidget);
+    textLayout->addWidget(stretchWidget);
+
     QHBoxLayout* tipLayout = new QHBoxLayout(tipContent);
     tipLayout->setMargin(0);
     tipLayout->addWidget(pixmapLabel);
-    tipLayout->addWidget(metaDataWidget);
+    tipLayout->addWidget(textContainer);
 
     return tipContent;
 }
