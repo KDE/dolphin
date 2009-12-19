@@ -222,6 +222,10 @@ void DolphinView::setMode(Mode mode)
     const int oldZoomLevel = m_controller->zoomLevel();
     m_mode = mode;
 
+    // remember the currently selected items, so that they will
+    // be restored after reloading the directory
+    m_selectedItems = selectedItems();
+
     deleteView();
 
     const KUrl viewPropsUrl = rootUrl();
@@ -248,9 +252,7 @@ void DolphinView::setMode(Mode mode)
     emit modeChanged();
 
     updateZoomLevel(oldZoomLevel);
-    if (m_showPreview) {
-        loadDirectory(viewPropsUrl);
-    }
+    loadDirectory(viewPropsUrl);
 }
 
 DolphinView::Mode DolphinView::mode() const
