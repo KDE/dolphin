@@ -182,6 +182,7 @@ if(Nepomuk_FOUND)
     )
 endif(Nepomuk_FOUND)
 
+include(SopranoAddOntology)
 soprano_add_ontology(dolphin_SRCS "${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nfo.trig" "NFO" "Nepomuk::Vocabulary" "trig")
 
 if(NOT WIN32)
