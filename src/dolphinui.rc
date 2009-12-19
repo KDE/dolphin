@@ -64,7 +64,7 @@
                 <Action name="show_terminal_panel" />
             </Menu>
             <Menu name="navigation_bar">
-                <text context="@title:menu">Navigation Bar</text>
+                <text context="@title:menu">Location Bar</text>
                 <Action name="editable_location" />
                 <Action name="replace_location" />
             </Menu>
