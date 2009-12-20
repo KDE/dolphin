@@ -1,24 +1,17 @@
 
 find_package(QImageBlitz REQUIRED)
 
-macro_optional_find_package(SharedDesktopOntologies)
-macro_log_feature(SHAREDDESKTOPONTOLOGIES_FOUND "Shared desktop ontologies" "Desktop ontologies" "http://oscaf.sourceforge.net" FALSE "" "Ontologies necessary for the Nepomuk semantic desktop.")
-
 macro_optional_find_package(Nepomuk)
 macro_log_feature(Nepomuk_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
-
-if(SHAREDDESKTOPONTOLOGIES_FOUND AND Nepomuk_FOUND)
-    set(HAVE_NEPOMUK TRUE)
-endif(SHAREDDESKTOPONTOLOGIES_FOUND AND Nepomuk_FOUND)
-
+macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${QIMAGEBLITZ_INCLUDES} )
 
-if (HAVE_NEPOMUK)
+if (Nepomuk_FOUND)
   # Yes, Soprano includes is what we need here
   include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_INCLUDE_DIR} )
-endif (HAVE_NEPOMUK)
+endif (Nepomuk_FOUND)
 
 ########### next target ###############
 
@@ -61,7 +54,7 @@ set(dolphinprivate_LIB_SRCS
     zoomlevelinfo.cpp
 )
 
-if(HAVE_NEPOMUK)
+if(Nepomuk_FOUND)
     set(dolphinprivate_LIB_SRCS
         ${dolphinprivate_LIB_SRCS}
         panels/information/kcommentwidget.cpp
@@ -70,7 +63,7 @@ if(HAVE_NEPOMUK)
         panels/information/nepomukmassupdatejob.cpp
         panels/information/ktaggingwidget.cpp
     )
-endif(HAVE_NEPOMUK)
+endif(Nepomuk_FOUND)
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_columnmodesettings.kcfgc
@@ -87,9 +80,9 @@ target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF3_L
 if(X11_Xrender_FOUND)
   target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
-if (HAVE_NEPOMUK)
+if (Nepomuk_FOUND)
   target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} ${SOPRANO_LIBRARIES})
-endif (HAVE_NEPOMUK)
+endif (Nepomuk_FOUND)
 
 
 set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
@@ -174,7 +167,7 @@ kde4_add_kcfg_files(dolphin_SRCS
     search/dolphin_searchsettings.kcfgc
 )
 
-if(HAVE_NEPOMUK)
+if(Nepomuk_FOUND)
     set(dolphin_SRCS
         ${dolphin_SRCS}
         panels/information/kcommentwidget.cpp
@@ -187,12 +180,12 @@ if(HAVE_NEPOMUK)
         search/searchcriterionselector.cpp
         search/searchcriterionvalue.cpp
     )
-endif(HAVE_NEPOMUK)
+endif(Nepomuk_FOUND)
 
-if(HAVE_NEPOMUK)
+if(Nepomuk_FOUND)
     include(SopranoAddOntology)
     soprano_add_ontology(dolphin_SRCS "${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nfo.trig" "NFO" "Nepomuk::Vocabulary" "trig")
-endif(HAVE_NEPOMUK)
+endif(Nepomuk_FOUND)
 
 if(NOT WIN32)
    set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
@@ -219,13 +212,13 @@ target_link_libraries(dolphin
     ${KDE4_PHONON_LIBS}
 )
 
-if (HAVE_NEPOMUK)
+if (Nepomuk_FOUND)
     target_link_libraries(dolphin
         ${NEPOMUK_LIBRARIES}
         ${SOPRANO_LIBRARIES}
         ${NEPOMUK_QUERY_LIBRARIES}
     )
-endif (HAVE_NEPOMUK)
+endif (Nepomuk_FOUND)
 
 install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
@@ -260,7 +253,7 @@ set(kcm_dolphingeneral_PART_SRCS
     settings/previewssettingspage.cpp
     settings/contextmenusettingspage.cpp
     settings/settingspagebase.cpp)
-if (HAVE_NEPOMUK)
+if (Nepomuk_FOUND)
     set(kcm_dolphingeneral_PART_SRCS
         ${kcm_dolphingeneral_PART_SRCS}
         panels/information/kcommentwidget.cpp
@@ -269,7 +262,7 @@ if (HAVE_NEPOMUK)
         panels/information/nepomukmassupdatejob.cpp
         panels/information/ktaggingwidget.cpp
     )
-endif (HAVE_NEPOMUK)
+endif (Nepomuk_FOUND)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_columnmodesettings.kcfgc
@@ -298,12 +291,12 @@ target_link_libraries(kcm_dolphinviewmodes  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS
 target_link_libraries(kcm_dolphinnavigation  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} dolphinprivate)
 target_link_libraries(kcm_dolphinservices  ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} ${KDE4_KNEWSTUFF3_LIBRARY} dolphinprivate)
 target_link_libraries(kcm_dolphingeneral ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS} dolphinprivate)
-if (HAVE_NEPOMUK)
+if (Nepomuk_FOUND)
   target_link_libraries(kcm_dolphinviewmodes ${NEPOMUK_LIBRARIES})
   target_link_libraries(kcm_dolphinnavigation ${NEPOMUK_LIBRARIES})
   target_link_libraries(kcm_dolphinservices ${NEPOMUK_LIBRARIES})
   target_link_libraries(kcm_dolphingeneral ${NEPOMUK_LIBRARIES})
-endif (HAVE_NEPOMUK)
+endif (Nepomuk_FOUND)
 
 install(TARGETS kcm_dolphinviewmodes DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )
