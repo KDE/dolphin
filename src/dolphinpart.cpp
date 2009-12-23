@@ -391,7 +391,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
 
     KParts::BrowserExtension::ActionGroupMap actionGroups;
     QList<QAction *> editActions;
-
+    editActions += m_view->versionControlActions(m_view->selectedItems());
     editActions += customActions;
 
     if (!_item.isNull()) { // only for context menu on one or more items
