@@ -235,7 +235,7 @@ void DolphinContextMenu::openItemContextMenu()
     }
 
     // insert version control actions
-    addRevisionControlActions(popup);
+    addVersionControlActions(popup);
 
     // insert 'Copy To' and 'Move To' sub menus
     if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
@@ -296,7 +296,7 @@ void DolphinContextMenu::openViewportContextMenu()
 
     popup->addSeparator();
 
-    addRevisionControlActions(popup);
+    addVersionControlActions(popup);
 
     QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
                                                   i18nc("@action:inmenu Add current folder to places", "Add to Places"));
@@ -423,7 +423,7 @@ KFileItemListProperties& DolphinContextMenu::capabilities()
     return *m_capabilities;
 }
 
-void DolphinContextMenu::addRevisionControlActions(KMenu* menu)
+void DolphinContextMenu::addVersionControlActions(KMenu* menu)
 {
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     const QList<QAction*> versionControlActions = view->versionControlActions(m_selectedItems);
