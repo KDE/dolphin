@@ -42,6 +42,7 @@ Comment[tr]=mantıksal işleç olarak ve
 Comment[uk]=булівська дія «ТА»
 Comment[wa]=operateur lodjike eyet
 Comment[x-test]=xxlogic operator andxx
+Comment[zh_CN]=逻辑与操作符
 Comment[zh_TW]=邏輯運算上的「且」（and）
 Completion=and
 
@@ -86,6 +87,7 @@ Comment[tr]=mantıksal işleç olarak veya
 Comment[uk]=булівська дія «АБО»
 Comment[wa]=operateur lodjike ou
 Comment[x-test]=xxlogic operator orxx
+Comment[zh_CN]=逻辑或操作符
 Comment[zh_TW]=邏輯運算上的「或」（or）
 Completion=or
 
@@ -129,6 +131,7 @@ Comment[tr]=mantıksal işleç olarak değil
 Comment[uk]=булівська дія «НЕ»
 Comment[wa]=operateur lodjike n' est nén
 Comment[x-test]=xxlogic operator notxx
+Comment[zh_CN]=逻辑非操作符
 Comment[zh_TW]=邏輯運算上的「否」（not）
 Completion=-
 
@@ -170,6 +173,7 @@ Name[tr]=Dosya uzantısı
 Name[uk]=Суфікс назви файла
 Name[wa]=Cawete do fitchî
 Name[x-test]=xxFile extensionxx
+Name[zh_CN]=文件扩展名
 Name[zh_TW]=副檔名
 Comment=for example txt
 Comment[bg]=например txt
@@ -209,6 +213,7 @@ Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
 Comment[wa]=txt, metans
 Comment[x-test]=xxfor example txtxx
+Comment[zh_CN]=样例文本
 Comment[zh_TW]=例如 txt
 Completion=fileExtension:
 Icon=preferences-desktop-filetype-association
@@ -254,6 +259,7 @@ Comment[tr]=1'den 10'a kadar, örnek >=7
 Comment[uk]=Від 1 до 10, наприклад, >=7
 Comment[wa]=1 a 10, >=7, metans
 Comment[x-test]=xx1 to 10, for example >=7xx
+Comment[zh_CN]=1 到 10，比如 >=7
 Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
@@ -292,6 +298,7 @@ GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
+GenericName[zh_CN]=使用 <、<=、:、>= 以及 > 符号。
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=rating
 Icon=favorites
@@ -337,6 +344,7 @@ Comment[tr]=Etiket
 Comment[uk]=Мітка
 Comment[wa]=Etikete
 Comment[x-test]=xxTagxx
+Comment[zh_CN]=标记
 Comment[zh_TW]=標籤
 Completion=tag:
 Icon=mail-tagged
@@ -420,6 +428,7 @@ Comment[tr]=bayt olarak, örnek >1000
 Comment[uk]=у байтах, наприклад, >1000
 Comment[wa]=e bites, >1000, metans
 Comment[x-test]=xxin bytes, for example >1000xx
+Comment[zh_CN]=按字节数，比如 >1000
 Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
@@ -458,6 +467,7 @@ GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
+GenericName[zh_CN]=使用 <、<=、:、>= 以及 > 符号。
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=contentSize
 
@@ -499,6 +509,7 @@ Name[tr]=İçerik boyutu
 Name[uk]=Розмір вмісту
 Name[wa]=Grandeu di l' ådvins
 Name[x-test]=xxContent sizexx
+Name[zh_CN]=内容大小
 Name[zh_TW]=內容大小
 Comment=in bytes
 Comment[bg]=в байтове
@@ -575,6 +586,7 @@ GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
+GenericName[zh_CN]=使用 <、<=、:、>= 以及 > 符号。
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=contentSize
 
@@ -618,6 +630,7 @@ Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
 Comment[wa]=>1999-10-10, metans
 Comment[x-test]=xxfor example >1999-10-10xx
+Comment[zh_CN]=比如 >1999-10-10
 Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
@@ -656,5 +669,6 @@ GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
 GenericName[x-test]=xxUse <, <=, :, >= and >.xx
+GenericName[zh_CN]=使用 <、<=、:、>= 以及 > 符号。
 GenericName[zh_TW]=請使用 <, <=, :, >= 與 >。
 Completion=lastModified
