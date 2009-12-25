@@ -391,6 +391,7 @@ Name[tr]=Dosya boyutu
 Name[uk]=Розмір файла
 Name[wa]=Grandeu do fitchî
 Name[x-test]=xxFile sizexx
+Name[zh_CN]=文件大小
 Name[zh_TW]=檔案大小
 Comment=in bytes, for example >1000
 Comment[bg]=в байтове, например 1000
@@ -548,6 +549,7 @@ Comment[tr]=bayt olarak
 Comment[uk]=у байтах
 Comment[wa]=e bites
 Comment[x-test]=xxin bytesxx
+Comment[zh_CN]=按字节
 Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
