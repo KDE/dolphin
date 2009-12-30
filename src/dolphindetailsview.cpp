@@ -200,6 +200,7 @@ QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = QTreeView::viewOptions();
     viewOptions.font = m_font;
+    viewOptions.fontMetrics = QFontMetrics(m_font);
     viewOptions.showDecorationSelected = true;
     viewOptions.decorationSize = m_decorationSize;
     return viewOptions;

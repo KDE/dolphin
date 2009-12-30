@@ -196,6 +196,7 @@ QStyleOptionViewItem DolphinColumnView::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = QListView::viewOptions();
     viewOptions.font = m_font;
+    viewOptions.fontMetrics = QFontMetrics(m_font);
     viewOptions.decorationSize = m_decorationSize;
     viewOptions.showDecorationSelected = true;
     return viewOptions;

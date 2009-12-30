@@ -146,6 +146,7 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = KCategorizedView::viewOptions();
     viewOptions.font = m_font;
+    viewOptions.fontMetrics = QFontMetrics(m_font);
     viewOptions.decorationPosition = m_decorationPosition;
     viewOptions.decorationSize = m_decorationSize;
     viewOptions.displayAlignment = m_displayAlignment;
