@@ -28,6 +28,7 @@ Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin og
 Comment[ja]=論理演算子 AND
 Comment[kk]=логикалық 'және' операторы
+Comment[ko]=논리 연산자 'and'
 Comment[lt]=loginis operatorius „ir“ (and)
 Comment[lv]=loģiskā operācija un
 Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ ആന്‍ഡ്
@@ -39,6 +40,10 @@ Comment[pt]=operador lógico 'e'
 Comment[pt_BR]=operador lógico 'e'
 Comment[ro]=operatorul logic și
 Comment[sl]=logični operator in
+Comment[sr]=Логички оператор И
+Comment[sr@ijekavian]=Логички оператор И
+Comment[sr@ijekavianlatin]=Logički operator I
+Comment[sr@latin]=Logički operator I
 Comment[sv]=logisk operator och
 Comment[tr]=mantıksal işleç olarak ve
 Comment[uk]=булівська дія «ТА»
@@ -75,6 +80,7 @@ Comment[is]=rökaðgerðin eða
 Comment[ja]=論理演算子 OR
 Comment[kk]=логикалық 'немесе' операторы
 Comment[km]=សញ្ញាប្រមាណវិធី​ឡូសីក or
+Comment[ko]=논리 연산자 'or'
 Comment[lt]=loginis operatorius „arba“ (or)
 Comment[lv]=loģiskā operācija vai
 Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ ഓര്‍
@@ -86,6 +92,10 @@ Comment[pt]=operador lógico 'ou'
 Comment[pt_BR]=operador lógico 'ou'
 Comment[ro]=operatorul logic sau
 Comment[sl]=logični operator ali
+Comment[sr]=Логички оператор ИЛИ
+Comment[sr@ijekavian]=Логички оператор ИЛИ
+Comment[sr@ijekavianlatin]=Logički operator ILI
+Comment[sr@latin]=Logički operator ILI
 Comment[sv]=logisk operator eller
 Comment[tr]=mantıksal işleç olarak veya
 Comment[uk]=булівська дія «АБО»
@@ -121,6 +131,7 @@ Comment[id]=operator logika tidak
 Comment[is]=rökaðgerðin ekki
 Comment[ja]=論理演算子 NOT
 Comment[kk]=логикалық 'теріс' операторы
+Comment[ko]=논리 연산자 'not'
 Comment[lt]=loginis operatorius „ne“ (not)
 Comment[lv]=loģiskā operācija ne
 Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ നോട്ട്
@@ -132,6 +143,10 @@ Comment[pt]=operador lógico 'não'
 Comment[pt_BR]=operador lógico 'não'
 Comment[ro]=operatorul logic nu
 Comment[sl]=logični operator ne
+Comment[sr]=Логички оператор НЕ
+Comment[sr@ijekavian]=Логички оператор НЕ
+Comment[sr@ijekavianlatin]=Logički operator NE
+Comment[sr@latin]=Logički operator NE
 Comment[sv]=logisk operator inte
 Comment[tr]=mantıksal işleç olarak değil
 Comment[uk]=булівська дія «НЕ»
@@ -166,6 +181,7 @@ Name[is]=Skráarending
 Name[ja]=ファイルの拡張子
 Name[kk]=Файл атау жұрнағы
 Name[kn]=ಕಡತ ವಿಸ್ತರಣೆ
+Name[ko]=파일 확장자
 Name[lt]=Failo priesaga
 Name[lv]=Faila paplašinājums
 Name[ml]=ഫയല്‍ എക്സ്റ്റെന്‍ഷന്‍
@@ -177,6 +193,10 @@ Name[pt]=Extensão do ficheiro
 Name[pt_BR]=Extensão do arquivo
 Name[ro]=Extensie fișier
 Name[sl]=Končnica datoteke
+Name[sr]=наставак фајла
+Name[sr@ijekavian]=наставак фајла
+Name[sr@ijekavianlatin]=nastavak fajla
+Name[sr@latin]=nastavak fajla
 Name[sv]=Filändelse
 Name[tr]=Dosya uzantısı
 Name[uk]=Суфікс назви файла
@@ -208,6 +228,7 @@ Comment[is]=til dæmis txt
 Comment[ja]=例えば txt
 Comment[kk]=мысалы txt
 Comment[kn]=ಉದಾಹರಣೆಗೆ txt
+Comment[ko]=예를 들어 txt
 Comment[lt]=pavyzdžiui, txt
 Comment[lv]=piemēram, txt
 Comment[ml]=ഉദാഹരണമായി ടിഎക്സ്‌ടി ഫയലുകള്‍
@@ -220,6 +241,10 @@ Comment[pt]=por exemplo 'txt'
 Comment[pt_BR]=por exemplo, 'txt'
 Comment[ro]=de exemplu txt
 Comment[sl]=na primer odt
+Comment[sr]=На пример txt
+Comment[sr@ijekavian]=На примјер txt
+Comment[sr@ijekavianlatin]=Na primjer txt
+Comment[sr@latin]=Na primer txt
 Comment[sv]=till exempel txt
 Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
@@ -258,6 +283,7 @@ Comment[is]=1 til 10, til dæmis >=7
 Comment[ja]=1 から 10、例えば >=7
 Comment[kk]=1-ден 10 дейін, мысалы >=7
 Comment[kn]=೧ ರಿಂದ ೧೦, ಉದಾಹರಣೆಗೆ >= ೭
+Comment[ko]=1에서 10 사이, 예를 들어 >=7
 Comment[lt]=Nuo 1 iki 10, pvz., >=7
 Comment[lv]=1 līdz 10, piemēram >=7
 Comment[ml]=1 മുതല്‍ 10 വരെ, ഉദാഹരണതിനു് >= 7
@@ -269,6 +295,10 @@ Comment[pt]=1 a 10, por exemplo >=7
 Comment[pt_BR]=1 a 10, por exemplo, >=7
 Comment[ro]=de la 1 la 10, de exemplu >=7
 Comment[sl]=od 1 do 10, na primer >= 7
+Comment[sr]=1 до 10, на пример >=7
+Comment[sr@ijekavian]=1 до 10, на примјер >=7
+Comment[sr@ijekavianlatin]=1 do 10, na primjer >=7
+Comment[sr@latin]=1 do 10, na primer >=7
 Comment[sv]=1 till 10, till exempel: >=7
 Comment[tr]=1'den 10'a kadar, örnek >=7
 Comment[uk]=Від 1 до 10, наприклад, >=7
@@ -299,6 +329,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
+GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
@@ -311,6 +342,10 @@ GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
+GenericName[sr]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
+GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
@@ -348,6 +383,7 @@ Comment[is]=Merki
 Comment[ja]=タグ
 Comment[kk]=Тег
 Comment[kn]=ಟ್ಯಾಗ್
+Comment[ko]=태그
 Comment[lt]=Žyma
 Comment[lv]=Tags
 Comment[ml]=മുദ്ര
@@ -360,6 +396,10 @@ Comment[pt]=Marca
 Comment[pt_BR]=Etiqueta
 Comment[ro]=Marcaj
 Comment[sl]=Oznaka
+Comment[sr]=Ознака
+Comment[sr@ijekavian]=Ознака
+Comment[sr@ijekavianlatin]=Oznaka
+Comment[sr@latin]=Oznaka
 Comment[sv]=Etikett
 Comment[tr]=Etiket
 Comment[uk]=Мітка
@@ -398,6 +438,7 @@ Name[is]=Skráarstærð
 Name[ja]=ファイルサイズ
 Name[kk]=Файл өлшемі
 Name[kn]=ಕಡತದ ಗಾತ್ರ
+Name[ko]=파일 크기
 Name[lt]=Failo dydis
 Name[lv]=Faila nosaukums
 Name[ml]=ഫയലിന്റെ വലിപ്പം
@@ -410,6 +451,10 @@ Name[pt]=Tamanho do ficheiro
 Name[pt_BR]=Tamanho do arquivo
 Name[ro]=Dimensiune fișier
 Name[sl]=Velikost datoteke
+Name[sr]=величина фајла
+Name[sr@ijekavian]=величина фајла
+Name[sr@ijekavianlatin]=veličina fajla
+Name[sr@latin]=veličina fajla
 Name[sv]=Filstorlek
 Name[tr]=Dosya boyutu
 Name[uk]=Розмір файла
@@ -440,6 +485,7 @@ Comment[is]=í bætum, til dæmis >1000
 Comment[ja]=バイト単位、例えば >1000
 Comment[kk]=байт, мысалы >1000
 Comment[kn]=ಬೈಟ್‌ಗಳಲ್ಲಿ, ಉದಾಹರಣೆಗೆ >೧೦೦೦
+Comment[ko]=바이트 단위, 예를 들어 >1000
 Comment[lt]=baitais, pvz., > 1000
 Comment[lv]=baitos, piemēram >1000
 Comment[ml]=ബൈറ്റുകളില്‍, ഉദാഹരണത്തിനു് >1000
@@ -451,6 +497,10 @@ Comment[pt]=em 'bytes', por exemplo > 1000
 Comment[pt_BR]=em bytes, por exemplo, > 1000
 Comment[ro]=în octeți, de exemplu >1000
 Comment[sl]=v bajtih, na primer >1000
+Comment[sr]=У бајтовима, на пример >1000
+Comment[sr@ijekavian]=У бајтовима, на примјер >1000
+Comment[sr@ijekavianlatin]=U bajtovima, na primjer >1000
+Comment[sr@latin]=U bajtovima, na primer >1000
 Comment[sv]=i byte, till exempel > 1000
 Comment[tr]=bayt olarak, örnek >1000
 Comment[uk]=у байтах, наприклад, >1000
@@ -481,6 +531,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
+GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
@@ -493,6 +544,10 @@ GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
+GenericName[sr]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
+GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
@@ -526,6 +581,7 @@ Name[is]=Stærð innihalds
 Name[ja]=コンテンツのサイズ
 Name[kk]=Мазмұнның өлшемі
 Name[kn]=ವಿಷಯದ ಗಾತ್ರ
+Name[ko]=내용 크기
 Name[lt]=Turinio dydis
 Name[lv]=Satura izmērs
 Name[ml]=ഉള്ളടക്കത്തിന്റെ വലിപ്പം
@@ -538,6 +594,10 @@ Name[pt]=Tamanho do conteúdo
 Name[pt_BR]=Tamanho do conteúdo
 Name[ro]=Dimensiune conținut
 Name[sl]=Velikost vsebine
+Name[sr]=величина садржаја
+Name[sr@ijekavian]=величина садржаја
+Name[sr@ijekavianlatin]=veličina sadržaja
+Name[sr@latin]=veličina sadržaja
 Name[sv]=Innehållets storlek
 Name[tr]=İçerik boyutu
 Name[uk]=Розмір вмісту
@@ -568,6 +628,7 @@ Comment[is]=í bætum
 Comment[ja]=バイト単位
 Comment[kk]=байт
 Comment[kn]=ಬೈಟ್‌ಗಳಲ್ಲಿ
+Comment[ko]=바이트 단위
 Comment[lt]=baitais
 Comment[lv]=baitos
 Comment[ml]=ബൈറ്റുകളില്‍
@@ -580,6 +641,10 @@ Comment[pt]=em 'bytes'
 Comment[pt_BR]=em bytes
 Comment[ro]=în octeți
 Comment[sl]=v bajtih
+Comment[sr]=У бајтовима
+Comment[sr@ijekavian]=У бајтовима
+Comment[sr@ijekavianlatin]=U bajtovima
+Comment[sr@latin]=U bajtovima
 Comment[sv]=i byte
 Comment[tr]=bayt olarak
 Comment[uk]=у байтах
@@ -610,6 +675,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
+GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
@@ -622,6 +688,10 @@ GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
+GenericName[sr]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
+GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
@@ -658,6 +728,7 @@ Comment[is]=til dæmis >1999-10-10
 Comment[ja]=例えば >1999-10-10
 Comment[kk]=мысалы >1999-10-10
 Comment[kn]=ಉದಾಹರಣೆಗೆ >೧೯೯೯-೧೦-೧೦
+Comment[ko]=예를 들어 >1999-10-10
 Comment[lt]=pavyzdžiui >1999-10-10
 Comment[lv]=piemēram >1999-10-10
 Comment[ml]=ഉദാഹരണത്തിനു് >1990-10-10
@@ -669,6 +740,10 @@ Comment[pt]=por exemplo > 1999-10-10
 Comment[pt_BR]=por exemplo, > 1999-10-10
 Comment[ro]=de exemplu >1999-10-10
 Comment[sl]=na primer >1990-12-26
+Comment[sr]=На пример >1999-10-10
+Comment[sr@ijekavian]=На примјер >1999-10-10
+Comment[sr@ijekavianlatin]=Na primjer >1999-10-10
+Comment[sr@latin]=Na primer >1999-10-10
 Comment[sv]=till exempel > 1999-10-10
 Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
@@ -699,6 +774,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
+GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
@@ -711,6 +787,10 @@ GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
+GenericName[sr]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
+GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
+GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
