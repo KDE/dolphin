@@ -35,6 +35,7 @@ Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ 
 Comment[nb]=logisk og-operator
 Comment[nds]=Logisch Operator »Un«
 Comment[nl]=logische operator en
+Comment[pa]=ਲਾਜ਼ੀਕਲ ਓਪਰੇਟਰ ਅਤੇ
 Comment[pl]=operator logiczny "i" (and)
 Comment[pt]=operador lógico 'e'
 Comment[pt_BR]=operador lógico 'e'
@@ -88,6 +89,7 @@ Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ 
 Comment[nb]=logisk eller-operator
 Comment[nds]=Logisch Operator »Oder«
 Comment[nl]=logische operator of
+Comment[pa]=ਲਾਜ਼ੀਕਲ ਓਪਰੇਟਰ ਜਾਂ
 Comment[pl]=operator logiczny "lub" (or)
 Comment[pt]=operador lógico 'ou'
 Comment[pt_BR]=operador lógico 'ou'
@@ -140,6 +142,7 @@ Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ 
 Comment[nb]=logisk ikke-operator
 Comment[nds]=Logisch Operator »Nich«
 Comment[nl]=logische operator niet
+Comment[pa]=ਲਾਜ਼ੀਕਲ ਓਪਰੇਟਰ ਨਹੀਂ
 Comment[pl]=operator logiczny "nie" (not)
 Comment[pt]=operador lógico 'não'
 Comment[pt_BR]=operador lógico 'não'
@@ -191,6 +194,7 @@ Name[ml]=ഫയല്‍ എക്സ്റ്റെന്‍ഷന്‍
 Name[nb]=Filetternavn
 Name[nds]=Dateiverwiedern
 Name[nl]=Bestandsextensie
+Name[pa]=ਫਾਇਲ ਇਕਸਟੈਨਸ਼ਨ
 Name[pl]=Rozszerzenie pliku
 Name[pt]=Extensão do ficheiro
 Name[pt_BR]=Extensão do arquivo
@@ -343,6 +347,7 @@ GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
+GenericName[pa]=<, <=, :, >= ਤੇ > ਵਰਤੋਂ।
 GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
@@ -398,6 +403,7 @@ Comment[ms]=Tag
 Comment[nb]=Merke
 Comment[nds]=Slötelwoort
 Comment[nl]=Tag
+Comment[pa]=ਟੈਗ
 Comment[pl]=Znacznik
 Comment[pt]=Marca
 Comment[pt_BR]=Etiqueta
@@ -454,6 +460,7 @@ Name[ms]=Saiz fail
 Name[nb]=Filstørrelse
 Name[nds]=Dateigrött
 Name[nl]=Bestandsgrootte
+Name[pa]=ਫਾਇਲ ਸਾਈਜ਼
 Name[pl]=Rozmiar pliku
 Name[pt]=Tamanho do ficheiro
 Name[pt_BR]=Tamanho do arquivo
@@ -548,6 +555,7 @@ GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
+GenericName[pa]=<, <=, :, >= ਤੇ > ਵਰਤੋਂ।
 GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
@@ -599,6 +607,7 @@ Name[ms]=Saiz isi
 Name[nb]=Innholdsstørrelse
 Name[nds]=Inholtgrött
 Name[nl]=Grootte van de inhoud
+Name[pa]=ਸਮੱਗਰੀ ਸਾਈਜ਼
 Name[pl]=Rozmiar treści
 Name[pt]=Tamanho do conteúdo
 Name[pt_BR]=Tamanho do conteúdo
@@ -646,6 +655,7 @@ Comment[ms]=dalam bait
 Comment[nb]=i byte
 Comment[nds]=in Bytes
 Comment[nl]=in bytes
+Comment[pa]=ਬਾਈਟ ਵਿੱਚ
 Comment[pl]=w bajtach
 Comment[pt]=em 'bytes'
 Comment[pt_BR]=em bytes
@@ -693,6 +703,7 @@ GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
+GenericName[pa]=<, <=, :, >= ਤੇ > ਵਰਤੋਂ।
 GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
@@ -794,6 +805,7 @@ GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
 GenericName[nds]=<, <=, :, >= un > bruken
 GenericName[nl]=Gebruik <, <=, :, >= en >.
+GenericName[pa]=<, <=, :, >= ਤੇ > ਵਰਤੋਂ।
 GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
