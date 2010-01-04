@@ -103,7 +103,7 @@ private:
      * custom search query as Nepomuk confrom query.
      * @see DolphinSearchOptionsConfigurator::setCustomSearchQuery()
      */
-    Nepomuk::Query nepomukQuery() const;
+    Nepomuk::Query::Query nepomukQuery() const;
 
 private:
     bool m_initialized;
