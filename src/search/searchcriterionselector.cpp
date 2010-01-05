@@ -25,6 +25,7 @@
 #include <nepomuk/literalterm.h>
 #include <nepomuk/query.h>
 
+#include "nie.h"
 #include "searchcriterionvalue.h"
 
 #include <Soprano/LiteralValue>
@@ -169,7 +170,7 @@ void SearchCriterionSelector::createDescriptions()
     // add "Date" description
     QList<SearchCriterionDescription::Comparator> dateComps;
     dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Anytime")));
-    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"), Nepomuk::Query::ComparisonTerm::Equal, "today"));
+    dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "Today"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual, "today"));
     dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Week"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual, "thisWeek"));
     dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Month"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual, "thisMonth"));
     dateComps.append(SearchCriterionDescription::Comparator(i18nc("@label", "This Year"), Nepomuk::Query::ComparisonTerm::GreaterOrEqual, "thisYear"));
@@ -180,7 +181,7 @@ void SearchCriterionSelector::createDescriptions()
     DateValue* dateValue = new DateValue(this);
     dateValue->hide();
     SearchCriterionDescription date(i18nc("@label", "Date:"),
-                                    Soprano::Vocabulary::NAO::lastModified(),
+                                    Nepomuk::Vocabulary::NIE::lastModified(),
                                     dateComps,
                                     dateValue);
     Q_ASSERT(static_cast<int>(SearchCriterionSelector::Date) == 0);
