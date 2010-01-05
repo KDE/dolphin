@@ -333,10 +333,8 @@ void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
 
 void DolphinColumnView::wheelEvent(QWheelEvent* event)
 {
-    const int height = m_decorationSize.height();
-    const int step = (height >= KIconLoader::SizeHuge) ? height / 10 : (KIconLoader::SizeHuge - height) / 2;
+    const int step = m_decorationSize.height();
     verticalScrollBar()->setSingleStep(step);
-
     QListView::wheelEvent(event);
 }
 

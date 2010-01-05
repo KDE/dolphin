@@ -426,8 +426,7 @@ void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 
 void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 {
-    const int height = m_decorationSize.height();
-    const int step = (height >= KIconLoader::SizeHuge) ? height / 10 : (KIconLoader::SizeHuge - height) / 2;
+    const int step = m_decorationSize.height();
     verticalScrollBar()->setSingleStep(step);
     QTreeView::wheelEvent(event);
 }
