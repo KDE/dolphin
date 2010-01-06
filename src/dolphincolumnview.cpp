@@ -347,15 +347,6 @@ void DolphinColumnView::leaveEvent(QEvent* event)
     m_container->m_controller->emitViewportEntered();
 }
 
-void DolphinColumnView::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
-{
-    QListView::selectionChanged(selected, deselected);
-
-    //QItemSelectionModel* selModel = m_container->selectionModel();
-    //selModel->select(selected, QItemSelectionModel::Select);
-    //selModel->select(deselected, QItemSelectionModel::Deselect);
-}
-
 void DolphinColumnView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QListView::currentChanged(current, previous);
