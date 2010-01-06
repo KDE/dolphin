@@ -921,7 +921,6 @@ void DolphinView::slotSelectionChanged(const QItemSelection& selected, const QIt
     // was selected before and now nothing is selected) the selectionChangedSignal must
     // be emitted asynchronously as fast as possible to update the edit-actions.
     m_selectionChangedTimer->setInterval(selectionStateChanged ? 0 : 300);
-    const int foo = selectionStateChanged ? 0 : 300;
     m_selectionChangedTimer->start();
 }
 
