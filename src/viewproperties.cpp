@@ -260,6 +260,7 @@ void ViewProperties::setDirProperties(const ViewProperties& props)
     setCategorizedSorting(props.categorizedSorting());
     setSorting(props.sorting());
     setSortOrder(props.sortOrder());
+    setSortFoldersFirst(props.sortFoldersFirst());
     setAdditionalInfo(props.additionalInfo());
 }
 
