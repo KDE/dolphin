@@ -156,7 +156,7 @@ DolphinView::DolphinView(QWidget* parent,
             this, SLOT(emitSelectionChangedSignal()));
 
     applyViewProperties();
-    m_topLayout->addWidget(m_viewAccessor.itemView());
+    m_topLayout->addWidget(m_viewAccessor.layoutTarget());
 }
 
 DolphinView::~DolphinView()
