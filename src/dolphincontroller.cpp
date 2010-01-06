@@ -255,11 +255,6 @@ void DolphinController::emitViewportEntered()
     emit viewportEntered();
 }
 
-void DolphinController::emitSelectionChanged()
-{
-    emit selectionChanged();
-}
-
 void DolphinController::updateMouseButtonState()
 {
     m_mouseButtons = QApplication::mouseButtons();

@@ -112,10 +112,6 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     connect(dolphinView, SIGNAL(sortFoldersFirstChanged(bool)),
             this, SLOT(slotSortFoldersFirstChanged(bool)));
 
-    // inform the controller about selection changes
-    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            controller, SLOT(emitSelectionChanged()));
-
     // Give the view the ability to auto-expand its directories on hovering
     // (the column view takes care about this itself). If the details view
     // uses expandable folders, the auto-expanding should be used always.

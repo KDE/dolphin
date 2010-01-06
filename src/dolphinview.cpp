@@ -1357,8 +1357,6 @@ void DolphinView::createView()
     view->viewport()->installEventFilter(this);
 
     m_controller->setItemView(view);
-    connect(m_controller, SIGNAL(selectionChanged()),
-            this, SLOT(emitDelayedSelectionChangedSignal()));
 
     // When changing the view mode, the selection is lost due to reinstantiating
     // a new item view with a custom selection model. Pass the ownership of the
@@ -1369,6 +1367,8 @@ void DolphinView::createView()
         m_selectionModel = view->selectionModel();
     }
     m_selectionModel->setParent(this);
+    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+            this, SLOT(emitDelayedSelectionChangedSignal()));
 
     connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));

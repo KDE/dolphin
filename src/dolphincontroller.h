@@ -62,7 +62,6 @@ class QPoint;
  * - handleKeyPressEvent()
  * - emitItemEntered()
  * - emitViewportEntered()
- * - emitSelectionChanged()
  * - replaceUrlByClipboard()
  * - hideToolTip()
  * - setVersionControlActions()
@@ -293,12 +292,6 @@ public slots:
      */
     void emitViewportEntered();
 
-    /**
-     * Emits the signal selectionChanged(). The method should be invoked by
-     * the view implementation whenever the selection has been changed.
-     */
-    void emitSelectionChanged();
-
 signals:
     /**
      * Is emitted if the URL for the Dolphin controller has been changed
@@ -406,13 +399,6 @@ signals:
      * The abstract Dolphin view connects to this signal.
      */
     void viewportEntered();
-
-    /**
-     * Is emitted whenever the selection of the view implementation
-     * has been changed (see emitSelectionChanged()). The abstract
-     * Dolphin view connects to this signal.
-     */
-    void selectionChanged();
 
     /**
      * Is emitted if the view should respect the name filter \a nameFilter. The view

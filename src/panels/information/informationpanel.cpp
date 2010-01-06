@@ -171,9 +171,8 @@ void InformationPanel::showItemInfo()
         } else {
             // no item is hovered and no selection has been done: provide
             // an item for the directory represented by m_shownUrl
-            m_fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
-            m_fileItem.refresh();
-            item = m_fileItem;
+            item = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+            item.refresh();
         }
 
         m_content->showItem(item);
