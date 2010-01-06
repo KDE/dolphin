@@ -397,15 +397,17 @@ void DolphinMainWindow::openNewTab()
 
 void DolphinMainWindow::openNewTab(const KUrl& url)
 {
-    const KIcon icon = KIcon(KMimeType::iconNameForUrl(m_activeViewContainer->url()));
     if (m_viewTab.count() == 1) {
         // Only one view is open currently and hence no tab is shown at
         // all. Before creating a tab for 'url', provide a tab for the current URL.
-        m_tabBar->addTab(icon, squeezedText(tabName(m_activeViewContainer->url())));
+        const KUrl currentUrl = m_activeViewContainer->url();
+        m_tabBar->addTab(KIcon(KMimeType::iconNameForUrl(currentUrl)),
+                         squeezedText(tabName(currentUrl)));
         m_tabBar->blockSignals(false);
     }
 
-    m_tabBar->addTab(icon, squeezedText(tabName(url)));
+    m_tabBar->addTab(KIcon(KMimeType::iconNameForUrl(url)),
+                     squeezedText(tabName(url)));
 
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
