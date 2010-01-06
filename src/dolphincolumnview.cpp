@@ -192,6 +192,22 @@ KFileItem DolphinColumnView::itemAt(const QPoint& pos) const
     return item;
 }
 
+void DolphinColumnView::setSelectionModel(QItemSelectionModel* model)
+{
+    // If a change of the selection is done although the view is not active
+    // (e. g. by the selection markers), the column must be activated. This
+    // is done by listening to the current selectionChanged() signal.
+    if (selectionModel() != 0) {
+        disconnect(selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+                   this, SLOT(requestActivation()));
+    }
+
+    QListView::setSelectionModel(model);
+
+    connect(selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(requestActivation()));
+}
+
 QStyleOptionViewItem DolphinColumnView::viewOptions() const
 {
     QStyleOptionViewItem viewOptions = QListView::viewOptions();

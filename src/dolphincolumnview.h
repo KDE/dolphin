@@ -85,6 +85,8 @@ public:
      */
     KFileItem itemAt(const QPoint& pos) const;
 
+    virtual void setSelectionModel(QItemSelectionModel* model);
+
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
     virtual void startDrag(Qt::DropActions supportedActions);
