@@ -158,6 +158,7 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     connect(m_urlNavigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
 
+    // initialize status bar
     m_statusBar = new DolphinStatusBar(this, m_view);
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
@@ -165,6 +166,11 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     connect(m_statusBarTimer, SIGNAL(timeout()),
             this, SLOT(updateStatusBar()));
 
+    KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
+    connect(undoManager, SIGNAL(jobRecordingFinished(CommandType)),
+            this, SLOT(delayedStatusBarUpdate()));
+
+    // initialize filter bar
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());
     connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
@@ -274,7 +280,7 @@ void DolphinViewContainer::updateStatusBar()
                                      || (m_statusBar->type() == DolphinStatusBar::Information))
                                     && (m_statusBar->progress() == 100);
 
-    const QString text(m_view->statusBarText());
+    const QString text = m_view->statusBarText();
     m_statusBar->setDefaultText(text);
 
     if (updateStatusBarMsg) {
