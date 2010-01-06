@@ -81,6 +81,7 @@ void InformationPanel::setSelection(const KFileItemList& selection)
     }
 
     m_selection = selection;
+    m_fileItem = KFileItem();
 
     const int count = selection.count();
     if (count == 0) {
