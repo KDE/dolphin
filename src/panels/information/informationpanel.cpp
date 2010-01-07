@@ -205,6 +205,15 @@ void InformationPanel::slotFileRenamed(const QString& source, const QString& des
     if (m_shownUrl == KUrl(source)) {
         m_shownUrl = KUrl(dest);
         m_fileItem = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
+
+        if ((m_selection.count() == 1) && (m_selection[0].url() == KUrl(source))) {
+            m_selection[0] = m_fileItem;
+            // Implementation note: Updating the selection is only required if exactly one
+            // item is selected, as the name of the item is shown. If this should change
+            // in future: Before parsing the whole selection take care to test possible
+            // performance bottlenecks when renaming several hundreds of files.
+        }
+
         showItemInfo();
     }
 }
