@@ -290,7 +290,7 @@ bool DolphinView::supportsCategorizedSorting() const
 bool DolphinView::hasSelection() const
 {
     const QAbstractItemView* view = m_viewAccessor.itemView();
-    return view && view->selectionModel()->hasSelection();
+    return (view != 0) && view->selectionModel()->hasSelection();
 }
 
 void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
@@ -303,14 +303,13 @@ void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
 
 KFileItemList DolphinView::selectedItems() const
 {
+    KFileItemList itemList;
     const QAbstractItemView* view = m_viewAccessor.itemView();
-
-    // Our view has a selection, we will map them back to the DolphinModel
-    // and then fill the KFileItemList.
-    Q_ASSERT((view != 0) && (view->selectionModel() != 0));
+    if (view == 0) {
+        return itemList;
+    }
 
     const QItemSelection selection = m_viewAccessor.proxyModel()->mapSelectionToSource(view->selectionModel()->selection());
-    KFileItemList itemList;
 
     const QModelIndexList indexList = selection.indexes();
     foreach (const QModelIndex &index, indexList) {
@@ -335,7 +334,12 @@ KUrl::List DolphinView::selectedUrls() const
 
 int DolphinView::selectedItemsCount() const
 {
-    return m_viewAccessor.itemView()->selectionModel()->selectedIndexes().count();
+    const QAbstractItemView* view = m_viewAccessor.itemView();
+    if (view == 0) {
+        return 0;
+    }
+
+    return view->selectionModel()->selectedIndexes().count();
 }
 
 QItemSelectionModel* DolphinView::selectionModel() const
@@ -907,11 +911,16 @@ void DolphinView::triggerItem(const KFileItem& item)
     emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
 }
 
-void DolphinView::emitDelayedSelectionChangedSignal()
+void DolphinView::slotSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
-    // Invoke emitSelectionChangedSignal() with a delay of 300 ms. This assures
-    // that fast selection changes don't result in expensive operations to
-    // collect all file items for the signal (see DolphinView::selectedItems()).
+    const int count = selectedItemsCount();
+    const bool selectionStateChanged = ((count >  0) && (selected.count() == count)) ||
+                                       ((count == 0) && !deselected.isEmpty());
+
+    // If nothing has been selected before and something got selected (or if something
+    // was selected before and now nothing is selected) the selectionChangedSignal must
+    // be emitted asynchronously as fast as possible to update the edit-actions.
+    m_selectionChangedTimer->setInterval(selectionStateChanged ? 0 : 300);
     m_selectionChangedTimer->start();
 }
 
@@ -1368,7 +1377,7 @@ void DolphinView::createView()
     }
     m_selectionModel->setParent(this);
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(emitDelayedSelectionChangedSignal()));
+            this, SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
 
     connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));

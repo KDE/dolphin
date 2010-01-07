@@ -600,7 +600,7 @@ private slots:
      * the signal is emitted only after no selection change has been done
      * within a small delay.
      */
-    void emitDelayedSelectionChangedSignal();
+    void slotSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
 
     /**
      * Is called by emitDelayedSelectionChangedSignal() and emits the
