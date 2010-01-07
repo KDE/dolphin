@@ -212,7 +212,7 @@ void ViewExtensionsFactory::slotSortFoldersFirstChanged(bool foldersFirst)
 
 void ViewExtensionsFactory::slotNameFilterChanged(const QString& nameFilter)
 {
-    proxyModel()->setFilterRegExp(nameFilter);
+    proxyModel()->setFilterFixedString(nameFilter);
 }
 
 void ViewExtensionsFactory::slotRequestVersionControlActions(const KFileItemList& items)

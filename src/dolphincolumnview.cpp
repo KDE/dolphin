@@ -131,7 +131,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     const QString nameFilter = controller->nameFilter();
     if (!nameFilter.isEmpty()) {
-        m_proxyModel->setFilterRegExp(nameFilter);
+        m_proxyModel->setFilterFixedString(nameFilter);
     }
 
     updateDecorationSize(dolphinView->showPreview());
