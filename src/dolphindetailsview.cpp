@@ -171,7 +171,7 @@ QSet<KUrl> DolphinDetailsView::expandedUrls() const
     return m_expandedUrls;
 }
 
-QRegion DolphinDetailsView::visualRegionForSelection(const QItemSelection &selection) const
+QRegion DolphinDetailsView::visualRegionForSelection(const QItemSelection& selection) const
 {
     // We have to make sure that the visualRect of each model index is inside the region.
     // QTreeView::visualRegionForSelection does not do it right because it assumes implicitly
@@ -188,9 +188,21 @@ QRegion DolphinDetailsView::visualRegionForSelection(const QItemSelection &selec
 
 bool DolphinDetailsView::event(QEvent* event)
 {
-    if (event->type() == QEvent::Polish) {
+    switch (event->type()) {
+    case QEvent::Polish:
         header()->setResizeMode(QHeaderView::Interactive);
         updateColumnVisibility();
+        break;
+
+    case QEvent::FocusOut:
+        // If a key-press triggers an action that e. g. opens a dialog, the
+        // widget gets no key-release event. Assure that the pressed state
+        // is reset to prevent accidently setting the current index during a selection.
+        m_keyPressed = false;
+        break;
+
+    default:
+        break;
     }
 
     return QTreeView::event(event);
@@ -765,8 +777,7 @@ void DolphinDetailsView::updateElasticBandSelection()
                 return;
             }
         }
-    }
-    else {
+    } else {
         // This is the only piece of optimization data that needs to be explicitly
         // discarded.
         m_band.lastSelectionOrigin = QPoint();
@@ -879,6 +890,7 @@ void DolphinDetailsView::updateElasticBandSelection()
        lastIndex = currIndex;
        currIndex = nextIndex;
     } while (!allItemsInBoundDone);
+
 
     selectionModel()->select(itemsToToggle, QItemSelectionModel::Toggle);
 
