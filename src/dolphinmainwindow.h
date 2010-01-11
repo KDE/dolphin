@@ -165,6 +165,9 @@ signals:
     void requestItemInfo(const KFileItem& item);
 
 protected:
+    /** @see QWidget::showEvent() */
+    virtual void showEvent(QShowEvent* event);
+
     /** @see QMainWindow::closeEvent() */
     virtual void closeEvent(QCloseEvent* event);
 
