@@ -175,9 +175,28 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event)
                             || (event->key() == Qt::Key_Enter))
                          && !selModel->selectedIndexes().isEmpty();
     if (trigger) {
+        QModelIndexList dirQueue;
         const QModelIndexList indexList = selModel->selectedIndexes();
         foreach (const QModelIndex& index, indexList) {
-            emit itemTriggered(itemForIndex(index));
+            // Trigger non-directories immediately.
+            if (!itemForIndex(index).isDir()) {
+                emit itemTriggered(itemForIndex(index));
+            } else {
+                // Keep storing the directory indexes for trigger later.
+                dirQueue << index;
+            }
+        }
+        // Trigger directories - Tabs if multiple, else normal.
+        if (!dirQueue.isEmpty()) {
+            if (dirQueue.length() == 1) {
+                // For single directory selection, open normally.
+                emit itemTriggered(itemForIndex(dirQueue[0]));
+            } else {
+                foreach(const QModelIndex& dir, dirQueue) {
+                    // Since its a valid directory - open a tab.
+                    emit tabRequested(itemForIndex(dir).url());
+                }
+            }
         }
     }
 }
