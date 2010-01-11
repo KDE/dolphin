@@ -171,13 +171,32 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event)
     const QItemSelectionModel* selModel = m_itemView->selectionModel();
     const QModelIndex currentIndex = selModel->currentIndex();
     const bool trigger = currentIndex.isValid()
-                         && ((event->key() == Qt::Key_Return)
-                            || (event->key() == Qt::Key_Enter))
+                         && ((event->key() == Qt::Key_Return) || (event->key() == Qt::Key_Enter))
                          && !selModel->selectedIndexes().isEmpty();
-    if (trigger) {
-        const QModelIndexList indexList = selModel->selectedIndexes();
-        foreach (const QModelIndex& index, indexList) {
+    if (!trigger) {
+        return;
+    }
+
+    // Emit the signal itemTriggered() for all selected files.
+    // Several selected directories are opened in separate tabs,
+    // one selected directory will get opened in the view.
+    QModelIndexList dirQueue;
+    const QModelIndexList indexList = selModel->selectedIndexes();
+    foreach (const QModelIndex& index, indexList) {
+        if (itemForIndex(index).isDir()) {
+            dirQueue << index;
+        } else {
             emit itemTriggered(itemForIndex(index));
+        }
+    }
+
+    if (dirQueue.length() == 1) {
+        // open directory in the view
+        emit itemTriggered(itemForIndex(dirQueue[0]));
+    } else {
+        // open directories in separate tabs
+        foreach(const QModelIndex& dir, dirQueue) {
+            emit tabRequested(itemForIndex(dir).url());
         }
     }
 }
