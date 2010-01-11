@@ -397,6 +397,8 @@ void DolphinMainWindow::openNewTab()
 
 void DolphinMainWindow::openNewTab(const KUrl& url)
 {
+    QWidget* focusWidget = QApplication::focusWidget();
+
     if (m_viewTab.count() == 1) {
         // Only one view is open currently and hence no tab is shown at
         // all. Before creating a tab for 'url', provide a tab for the current URL.
@@ -428,6 +430,12 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
         createSecondaryView(tabIndex);
         m_viewTab[tabIndex].secondaryView->setActive(true);
         m_viewTab[tabIndex].isPrimaryViewActive = false;
+    }
+
+    if (focusWidget != 0) {
+        // The DolphinViewContainer grabbed the keyboard focus. As the tab is opened
+        // in background, assure that the previous focused widget gets the focus back.
+        focusWidget->setFocus();
     }
 }
 
@@ -485,6 +493,14 @@ void DolphinMainWindow::toggleActiveView()
     DolphinViewContainer* left  = m_viewTab[m_tabIndex].primaryView;
     DolphinViewContainer* right = m_viewTab[m_tabIndex].secondaryView;
     setActiveViewContainer(m_activeViewContainer == right ? left : right);
+}
+
+void DolphinMainWindow::showEvent(QShowEvent* event)
+{
+    KXmlGuiWindow::showEvent(event);
+    if (!event->spontaneous()) {
+        m_activeViewContainer->view()->setFocus();
+    }
 }
 
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
