@@ -181,13 +181,6 @@ void DolphinViewActionHandler::createActions()
     findFile->setShortcut(Qt::CTRL | Qt::Key_F);
     findFile->setIcon(KIcon("edit-find"));
     connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
-	
-    // Settings menu
-
-    KAction* getServiceMenu = m_actionCollection->addAction("get_servicemenu");
-    getServiceMenu->setText(i18nc("@action:inmenu Settings", "Get Service Menu..."));
-    getServiceMenu->setIcon(KIcon("get-hot-new-stuff"));
-    connect(getServiceMenu, SIGNAL(triggered()), this, SLOT(slotGetServiceMenu()));
 }
 
 QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
