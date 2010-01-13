@@ -45,7 +45,6 @@ class DolphinController;
 class DolphinColumnViewContainer;
 class DolphinDetailsView;
 class DolphinIconsView;
-class DolphinMainWindow;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
 class KFilePreviewGenerator;
@@ -843,7 +842,6 @@ private:
 
     Mode m_mode;
 
-    DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;
 
     DolphinController* m_controller;
