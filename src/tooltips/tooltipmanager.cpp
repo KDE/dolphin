@@ -252,7 +252,7 @@ QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
 
     // add item name
     QLabel* nameLabel = new QLabel(tipContent);
-    nameLabel->setText(m_item.name());
+    nameLabel->setText(m_item.text());
     nameLabel->setWordWrap(true);
     QFont font = nameLabel->font();
     font.setBold(true);

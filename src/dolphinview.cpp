@@ -550,7 +550,7 @@ QString DolphinView::statusBarText() const
 
         if (folderCount + fileCount == 1) {
             // if only one item is selected, show the filename
-            const QString name = list.first().name();
+            const QString name = list.first().text();
             text = (folderCount == 1) ? i18nc("@info:status", "<filename>%1</filename> selected", name) :
                                         i18nc("@info:status", "<filename>%1</filename> selected (%2)",
                                               name, KIO::convertSize(totalFileSize));
@@ -881,7 +881,7 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
             }
         }
         break;
-        
+
     default:
         break;
     }
@@ -1207,7 +1207,7 @@ void DolphinView::slotDirListerCompleted()
 void DolphinView::slotLoadingCompleted()
 {
     m_expanderActive = false;
-    m_loadingDirectory = false; 
+    m_loadingDirectory = false;
 
     if (!m_activeItemUrl.isEmpty()) {
         // assure that the current item remains visible
