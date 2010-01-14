@@ -1269,7 +1269,16 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
     m_loadingDirectory = true;
     m_expanderActive = false;
 
-    m_viewAccessor.dirLister()->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
+    KDirLister* dirLister = m_viewAccessor.dirLister();
+    dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
+
+    KDirLister* rootDirLister = m_viewAccessor.rootDirLister();
+    if (dirLister != rootDirLister) {
+        // In the case of the column view the root directory lister can be different. Assure
+        // that it gets synchronized (clients from DolphinView are not aware that internally
+        // different directory listers are used).
+        rootDirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
+    }
 }
 
 void DolphinView::applyViewProperties()
@@ -1532,7 +1541,7 @@ void DolphinView::ViewAccessor::prepareUrlChange(const KUrl& url)
     }
 
     if(!m_detailsViewExpander.isNull()) {
-        // Stop expanding items in the current folder
+        // stop expanding items in the current folder
         m_detailsViewExpander->stop();
     }
 }
@@ -1572,6 +1581,11 @@ KUrl DolphinView::ViewAccessor::rootUrl() const
     return (m_columnsContainer != 0) ? m_columnsContainer->rootUrl() : KUrl();
 }
 
+KDirLister* DolphinView::ViewAccessor::rootDirLister() const
+{
+    return static_cast<DolphinModel*>(m_proxyModel->sourceModel())->dirLister();
+}
+
 bool DolphinView::ViewAccessor::supportsCategorizedSorting() const
 {
     return m_iconsView != 0;
@@ -1585,17 +1599,16 @@ bool DolphinView::ViewAccessor::itemsExpandable() const
 
 QSet<KUrl> DolphinView::ViewAccessor::expandedUrls() const
 {
-    if(m_detailsView != 0) {
+    if (m_detailsView != 0) {
         return m_detailsView->expandedUrls();
     }
-    else {
-        return QSet<KUrl>();
-    }
+
+    return QSet<KUrl>();
 }
 
 const DolphinDetailsViewExpander* DolphinView::ViewAccessor::setExpandedUrls(const QSet<KUrl>& urlsToExpand)
 {
-    if((m_detailsView != 0) && m_detailsView->itemsExpandable() && !urlsToExpand.isEmpty()) {
+    if ((m_detailsView != 0) && m_detailsView->itemsExpandable() && !urlsToExpand.isEmpty()) {
         m_detailsViewExpander = new DolphinDetailsViewExpander(m_detailsView, urlsToExpand);
         return m_detailsViewExpander;
     }
