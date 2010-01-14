@@ -804,6 +804,7 @@ private:
         QWidget* layoutTarget() const;
 
         KUrl rootUrl() const;
+        KDirLister* rootDirLister() const;
 
         bool supportsCategorizedSorting() const;
         bool itemsExpandable() const;
