@@ -71,6 +71,10 @@ void KLoadMetaDataThread::run()
         }
 
         Nepomuk::Resource file(url);
+        if (!file.isValid()) {
+            continue;
+        }
+
         m_files.insert(url, file);
 
         if (!first && (m_rating != file.rating())) {
