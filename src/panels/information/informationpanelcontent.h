@@ -113,6 +113,12 @@ private:
      */
     void setNameLabelText(const QString& text);
 
+    /**
+     * Adjusts the sizes of the widgets dependent on the available
+     * width given by \p width.
+     */
+    void adjustWidgetSizes(int width);
+
 private:
     KFileItem m_item;
 
