@@ -147,7 +147,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     m_pendingPreview = false;
 
     const KUrl itemUrl = item.url();
-    const bool isNepomukSearchUrl = (itemUrl.protocol() == "nepomuksearch") && item.nepomukUri().isEmpty();
+    const bool isNepomukSearchUrl = itemUrl.protocol().startsWith("nepomuk") && item.nepomukUri().isEmpty();
     if (!applyPlace(itemUrl)) {
         if (isNepomukSearchUrl) {
             // in the case of a Nepomuk query-URL the URL is not readable for humans
