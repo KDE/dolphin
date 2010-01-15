@@ -245,36 +245,27 @@ void InformationPanelContent::showItems(const KFileItemList& items)
 
 bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
 {
-    if (event->type() == QEvent::Resize) {
+    switch (event->type()) {
+    case QEvent::Resize: {
         QResizeEvent* resizeEvent = static_cast<QResizeEvent*>(event);
         if (obj == m_metaDataArea->viewport()) {
             // The size of the meta text area has changed. Adjust the fixed
             // width in a way that no horizontal scrollbar needs to be shown.
             m_metaDataWidget->setFixedWidth(resizeEvent->size().width());
         } else if (obj == parent()) {
-            // If the text inside the name label or the info label cannot
-            // get wrapped, then the maximum width of the label is increased
-            // so that the width of the information panel gets increased.
-            // To prevent this, the maximum width is adjusted to
-            // the current width of the panel.
-            const int maxWidth = resizeEvent->size().width() - KDialog::spacingHint() * 4;
-            m_nameLabel->setMaximumWidth(maxWidth);
-
-            // The metadata widget also contains a text widget which may return
-            // a large preferred width.
-            if (m_metaDataWidget != 0) {
-                m_metaDataWidget->setMaximumWidth(maxWidth);
-            }
-
-            // try to increase the preview as large as possible
-            m_preview->setSizeHint(QSize(maxWidth, maxWidth));
-
-            if (m_phononWidget->isVisible() && (m_phononWidget->mode() == PhononWidget::Video)) {
-                // assure that the size of the video player is the same as the preview size
-                m_phononWidget->setVideoSize(QSize(maxWidth, maxWidth));
-            }
+            adjustWidgetSizes(resizeEvent->size().width());
         }
+        break;
     }
+
+    case QEvent::Polish:
+        adjustWidgetSizes(parentWidget()->width());
+        break;
+
+    default:
+        break;
+    }
+
     return Panel::eventFilter(obj, event);
 }
 
@@ -399,6 +390,31 @@ void InformationPanelContent::setNameLabelText(const QString& text)
     textLayout.endLayout();
 
     m_nameLabel->setText(wrappedText);
+}
+
+void InformationPanelContent::adjustWidgetSizes(int width)
+{
+    // If the text inside the name label or the info label cannot
+    // get wrapped, then the maximum width of the label is increased
+    // so that the width of the information panel gets increased.
+    // To prevent this, the maximum width is adjusted to
+    // the current width of the panel.
+    const int maxWidth = width - KDialog::spacingHint() * 4;
+    m_nameLabel->setMaximumWidth(maxWidth);
+
+    // The metadata widget also contains a text widget which may return
+    // a large preferred width.
+    if (m_metaDataWidget != 0) {
+        m_metaDataWidget->setMaximumWidth(maxWidth);
+    }
+
+    // try to increase the preview as large as possible
+    m_preview->setSizeHint(QSize(maxWidth, maxWidth));
+
+    if (m_phononWidget->isVisible() && (m_phononWidget->mode() == PhononWidget::Video)) {
+        // assure that the size of the video player is the same as the preview size
+        m_phononWidget->setVideoSize(QSize(maxWidth, maxWidth));
+    }
 }
 
 #include "informationpanelcontent.moc"
