@@ -1448,7 +1448,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(infoPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
     infoDock->setWidget(infoPanel);
 
-    QAction* infoAction = new KAction(this);
+    KAction* infoAction = new KAction(this);
     infoAction->setText(i18nc("@title:window", "Information"));
     infoAction->setShortcut(Qt::Key_F11);
     infoAction->setIcon(KIcon("dialog-information"));
@@ -1470,7 +1470,7 @@ void DolphinMainWindow::setupDockWidgets()
     FoldersPanel* foldersPanel = new FoldersPanel(foldersDock);
     foldersDock->setWidget(foldersPanel);
 
-    QAction* foldersAction = new KAction(this);
+    KAction* foldersAction = new KAction(this);
     foldersAction->setText(i18nc("@title:window", "Folders"));
     foldersAction->setShortcut(Qt::Key_F7);
     foldersAction->setIcon(KIcon("folder"));
@@ -1493,7 +1493,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     connect(terminalPanel, SIGNAL(hideTerminalPanel()), terminalDock, SLOT(hide()));
 
-    QAction* terminalAction = new KAction(this);
+    KAction* terminalAction = new KAction(this);
     terminalAction->setText(i18nc("@title:window Shell terminal", "Terminal"));
     terminalAction->setShortcut(Qt::Key_F4);
     terminalAction->setIcon(KIcon("utilities-terminal"));
@@ -1523,7 +1523,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesPanel->setModel(DolphinSettings::instance().placesModel());
     placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
-    QAction* placesAction = new KAction(this);
+    KAction* placesAction = new KAction(this);
     placesAction->setText(i18nc("@title:window", "Places"));
     placesAction->setShortcut(Qt::Key_F9);
     placesAction->setIcon(KIcon("bookmarks"));
