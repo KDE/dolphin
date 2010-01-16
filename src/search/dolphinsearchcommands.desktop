@@ -19,6 +19,7 @@ Comment[eo]=logika operatoro "kaj"
 Comment[es]=operador lógico y
 Comment[et]=Loogiline JA
 Comment[eu]=eta eragile logikoa
+Comment[fr]=opérateur logique et
 Comment[fy]=logyske operator
 Comment[gl]=o operador lóxico «e»
 Comment[gu]=તાર્કિક ઓપરેટર એન્ડ
@@ -74,6 +75,7 @@ Comment[eo]=logika operatoro "aŭ"
 Comment[es]=operador lógico o
 Comment[et]=Loogiline VÕI
 Comment[eu]=edo eragile logikoa
+Comment[fr]=opérateur logique ou
 Comment[fy]=logyske operator of
 Comment[gl]=o operador lóxico «ou»
 Comment[gu]=તાર્કિક ઓપરેટર ઓર
@@ -130,6 +132,7 @@ Comment[eo]=logika operatoro "ne"
 Comment[es]=operador lógico no
 Comment[et]=Loogiline EI
 Comment[eu]=ez eragile logikoa
+Comment[fr]=opérateur logique non
 Comment[fy]=logyske operator net
 Comment[gl]=o operador lóxico «non»
 Comment[gu]=તાર્કિક ઓપરેટર નોટ
@@ -183,6 +186,7 @@ Name[eo]=Dosier-sufikso
 Name[es]=Extensión de archivo
 Name[et]=Faililaiend
 Name[eu]=Fitxategi luzapena
+Name[fr]=Extension de fichier
 Name[fy]=Triem taheaksel
 Name[gl]=Extensión do ficheiro
 Name[gu]=ફાઈલ એક્સટેન્શન
@@ -235,6 +239,7 @@ Comment[eo]=ekzemple "txt"
 Comment[es]=por ejemplo txt
 Comment[et]=näiteks txt
 Comment[eu]=adibidez txt
+Comment[fr]=par exemple txt
 Comment[fy]=bygelyks txt
 Comment[gl]=por exemplo txt
 Comment[gu]=દાખલા તરીકે txt
@@ -266,6 +271,7 @@ Comment[sr@ijekavian]=На примјер txt
 Comment[sr@ijekavianlatin]=Na primjer txt
 Comment[sr@latin]=Na primer txt
 Comment[sv]=till exempel txt
+Comment[tg]=масалан txt
 Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
 Comment[wa]=txt, metans
@@ -293,6 +299,7 @@ Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[es]=1 a 10, por ejemplo >=7
 Comment[et]=1 kuni 10, näiteks 7
 Comment[eu]=1etik 10ra, adibidez >=7
+Comment[fr]=De 1 à 10, par exemple >=7
 Comment[fy]=1 oant 10, lykas bygelyks >=7
 Comment[gl]=do 1 ao 10, por exemplo >=7
 Comment[gu]=1 થી 10, દાખલા તરીકે >=7
@@ -342,6 +349,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
@@ -400,6 +408,7 @@ Comment[eo]=Marko
 Comment[es]=Etiqueta
 Comment[et]=Silt
 Comment[eu]=Etiketa
+Comment[fr]=Étiquette
 Comment[fy]=Lebel
 Comment[gl]=Etiqueta
 Comment[gu]=ટેગ
@@ -460,6 +469,7 @@ Name[eo]=Dosiergrandeco
 Name[es]=Tamaño de archivo
 Name[et]=Faili suurus
 Name[eu]=Fitxategi neurria
+Name[fr]=Taille du fichier
 Name[fy]=Triemgrutte:
 Name[gl]=Tamaño do ficheiro
 Name[gu]=ફાઇલ કદ
@@ -492,6 +502,7 @@ Name[sr@ijekavian]=величина фајла
 Name[sr@ijekavianlatin]=veličina fajla
 Name[sr@latin]=veličina fajla
 Name[sv]=Filstorlek
+Name[tg]=Андозаи файл
 Name[tr]=Dosya boyutu
 Name[uk]=Розмір файла
 Name[wa]=Grandeu do fitchî
@@ -512,6 +523,7 @@ Comment[eo]=bajte, ekz. >1000
 Comment[es]=en bytes, por ejemplo >1000
 Comment[et]=baitides, näiteks >1000
 Comment[eu]=bytetan, adibidez >1000
+Comment[fr]=en octets, par exemple >1000
 Comment[fy]=Yn bytes, lykas bygelyks > 1000
 Comment[gl]=en bytes, por exemplo >1000
 Comment[he]=בבתים, לדוגמא > 1000
@@ -560,6 +572,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
@@ -614,6 +627,7 @@ Name[eo]=Grandeco de la enhavo
 Name[es]=Tamaño del contenido
 Name[et]=Sisu suurus
 Name[eu]=Edukiaren neurria
+Name[fr]=Taille du contenu
 Name[fy]=Ynhâld grutte
 Name[gl]=Tamaño do contido
 Name[gu]=વિગત કદ
@@ -645,6 +659,7 @@ Name[sr@ijekavian]=величина садржаја
 Name[sr@ijekavianlatin]=veličina sadržaja
 Name[sr@latin]=veličina sadržaja
 Name[sv]=Innehållets storlek
+Name[tg]=Андозаи мазмун
 Name[tr]=İçerik boyutu
 Name[uk]=Розмір вмісту
 Name[wa]=Grandeu di l' ådvins
@@ -664,6 +679,7 @@ Comment[eo]=bitoke
 Comment[es]=en bytes
 Comment[et]=baitides
 Comment[eu]=bytetan
+Comment[fr]=en octets
 Comment[fy]=yn bytes
 Comment[gl]=en bytes
 Comment[gu]=બાઈટ્સ માં
@@ -715,6 +731,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
@@ -772,6 +789,7 @@ Comment[eo]=Ekzemple >1999-10-10
 Comment[es]= por ejemplo >1999-10-10
 Comment[et]=näiteks >1999-10-10
 Comment[eu]=adibidez >1999-10-10
+Comment[fr]=par exemple >1999-10-10
 Comment[fy]=lykas bygelyks > 1999-10-10
 Comment[gl]=por exemplo >1999-10-10
 Comment[gu]=દાખલા તરીકે >1999-10-10
@@ -821,6 +839,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
