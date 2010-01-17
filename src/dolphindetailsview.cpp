@@ -165,6 +165,21 @@ DolphinDetailsView::~DolphinDetailsView()
 {
 }
 
+QRegion DolphinDetailsView::visualRegionForSelection(const QItemSelection& selection) const
+{
+    // We have to make sure that the visualRect of each model index is inside the region.
+    // QTreeView::visualRegionForSelection does not do it right because it assumes implicitly
+    // that all visualRects have the same width, which is in general not the case here.
+    QRegion selectionRegion;
+    const QModelIndexList indexes = selection.indexes();
+
+    foreach(const QModelIndex& index, indexes) {
+        selectionRegion += visualRect(index);
+    }
+
+    return selectionRegion;
+}
+
 bool DolphinDetailsView::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
@@ -456,8 +471,20 @@ QModelIndex DolphinDetailsView::indexAt(const QPoint& point) const
     // the blank portion of the name column counts as empty space
     const QModelIndex index = QTreeView::indexAt(point);
     const bool isAboveEmptySpace  = !m_useDefaultIndexAt &&
-                                    (index.column() == KDirModel::Name) && !nameColumnRect(index).contains(point);
+                                    (index.column() == KDirModel::Name) && !visualRect(index).contains(point);
     return isAboveEmptySpace ? QModelIndex() : index;
+}
+
+QRect DolphinDetailsView::visualRect(const QModelIndex& index) const
+{
+    QRect rect = QTreeView::visualRect(index);
+    const KFileItem item = m_controller->itemForIndex(index);
+    if (!item.isNull()) {
+        const int width = DolphinFileItemDelegate::nameColumnWidth(item.text(), viewOptions());
+        rect.setWidth(width);
+    }
+
+    return rect;
 }
 
 void DolphinDetailsView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
@@ -776,7 +803,7 @@ void DolphinDetailsView::updateElasticBandSelection()
    QModelIndex toggleIndexRangeBegin = QModelIndex();
 
    do {
-       QRect currIndexRect = nameColumnRect(currIndex);
+       QRect currIndexRect = visualRect(currIndex);
 
         // Update some optimization info as we go.
        const int cr = currIndexRect.right();
@@ -945,18 +972,6 @@ void DolphinDetailsView::resizeColumns()
     headerView->resizeSection(KDirModel::Name, columnWidth[KDirModel::Name]);
 }
 
-QRect DolphinDetailsView::nameColumnRect(const QModelIndex& index) const
-{
-    QRect rect = visualRect(index);
-    const KFileItem item = m_controller->itemForIndex(index);
-    if (!item.isNull()) {
-        const int width = DolphinFileItemDelegate::nameColumnWidth(item.text(), viewOptions());
-        rect.setWidth(width);
-    }
-
-    return rect;
-}
-
 bool DolphinDetailsView::isAboveExpandingToggle(const QPoint& pos) const
 {
     // QTreeView offers no public API to get the information whether an index has an
@@ -965,7 +980,7 @@ bool DolphinDetailsView::isAboveExpandingToggle(const QPoint& pos) const
     if (itemsExpandable()) {
         const QModelIndex index = QTreeView::indexAt(pos);
         if (index.isValid() && (index.column() == KDirModel::Name)) {
-            QRect rect = nameColumnRect(index);
+            QRect rect = visualRect(index);
             const int toggleSize = rect.height();
             if (isRightToLeft()) {
                 rect.moveRight(rect.right());

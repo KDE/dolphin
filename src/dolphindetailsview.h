@@ -45,6 +45,8 @@ public:
     explicit DolphinDetailsView(QWidget* parent, DolphinController* controller);
     virtual ~DolphinDetailsView();
 
+    virtual QRegion visualRegionForSelection(const QItemSelection& selection) const;
+
 protected:
     virtual bool event(QEvent* event);
     virtual QStyleOptionViewItem viewOptions() const;
@@ -65,6 +67,7 @@ protected:
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
     virtual bool eventFilter(QObject* watched, QEvent* event);
     virtual QModelIndex indexAt (const QPoint& point) const;
+    virtual QRect visualRect(const QModelIndex& index) const;
     virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
     virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
@@ -174,8 +177,6 @@ private:
      * Resizes all columns in a way to use the whole available width of the view.
      */
     void resizeColumns();
-
-    QRect nameColumnRect(const QModelIndex& index) const;
 
     /**
      * Returns true, if \a pos is within the expanding toggle of a tree.
