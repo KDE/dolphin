@@ -43,6 +43,7 @@ K_EXPORT_PLUGIN(FileViewSvnPluginFactory("fileviewsvnplugin"))
 
 FileViewSvnPlugin::FileViewSvnPlugin(QObject* parent, const QList<QVariant>& args) :
     KVersionControlPlugin(parent),
+    m_pendingOperation(false),
     m_versionInfoHash(),
     m_versionInfoKeys(),
     m_updateAction(0),
@@ -222,7 +223,7 @@ QList<QAction*> FileViewSvnPlugin::contextMenuActions(const KFileItemList& items
 
 QList<QAction*> FileViewSvnPlugin::contextMenuActions(const QString& directory)
 {
-    const bool enabled = m_contextItems.isEmpty();
+    const bool enabled = !m_pendingOperation;
     if (enabled) {
         m_contextDir = directory;
     }
@@ -320,6 +321,8 @@ void FileViewSvnPlugin::removeFiles()
 
 void FileViewSvnPlugin::slotOperationCompleted(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    m_pendingOperation = false;
+
     if ((exitStatus != QProcess::NormalExit) || (exitCode != 0)) {
         emit errorMessage(m_errorMsg);
     } else if (m_contextItems.isEmpty()) {
@@ -332,10 +335,11 @@ void FileViewSvnPlugin::slotOperationCompleted(int exitCode, QProcess::ExitStatu
 
 void FileViewSvnPlugin::slotOperationError()
 {
-    emit errorMessage(m_errorMsg);
-
     // don't do any operation on other items anymore
     m_contextItems.clear();
+    m_pendingOperation = false;
+
+    emit errorMessage(m_errorMsg);
 }
 
 void FileViewSvnPlugin::execSvnCommand(const QString& svnCommand,
@@ -354,6 +358,8 @@ void FileViewSvnPlugin::execSvnCommand(const QString& svnCommand,
 
 void FileViewSvnPlugin::startSvnCommandProcess()
 {
+    m_pendingOperation = true;
+
     QProcess* process = new QProcess(this);
     connect(process, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(slotOperationCompleted(int, QProcess::ExitStatus)));
