@@ -19,6 +19,7 @@ Comment[eo]=logika operatoro "kaj"
 Comment[es]=operador lógico y
 Comment[et]=Loogiline JA
 Comment[eu]=eta eragile logikoa
+Comment[fi]=logiikkaoperaattori and
 Comment[fr]=opérateur logique et
 Comment[fy]=logyske operator
 Comment[gl]=o operador lóxico «e»
@@ -43,6 +44,7 @@ Comment[pl]=operator logiczny "i" (and)
 Comment[pt]=operador lógico 'e'
 Comment[pt_BR]=operador lógico 'e'
 Comment[ro]=operatorul logic și
+Comment[ru]=логический оператор «И»
 Comment[si]=and තර්‍ක ක්‍රියාව
 Comment[sl]=logični operator in
 Comment[sr]=Логички оператор И
@@ -75,6 +77,7 @@ Comment[eo]=logika operatoro "aŭ"
 Comment[es]=operador lógico o
 Comment[et]=Loogiline VÕI
 Comment[eu]=edo eragile logikoa
+Comment[fi]=loogiikkaoperaattori or
 Comment[fr]=opérateur logique ou
 Comment[fy]=logyske operator of
 Comment[gl]=o operador lóxico «ou»
@@ -100,6 +103,7 @@ Comment[pl]=operator logiczny "lub" (or)
 Comment[pt]=operador lógico 'ou'
 Comment[pt_BR]=operador lógico 'ou'
 Comment[ro]=operatorul logic sau
+Comment[ru]=логический оператор «ИЛИ»
 Comment[si]=or තර්‍ක ක්‍රියාව
 Comment[sl]=logični operator ali
 Comment[sr]=Логички оператор ИЛИ
@@ -132,6 +136,7 @@ Comment[eo]=logika operatoro "ne"
 Comment[es]=operador lógico no
 Comment[et]=Loogiline EI
 Comment[eu]=ez eragile logikoa
+Comment[fi]=logiikkaoperaattori not
 Comment[fr]=opérateur logique non
 Comment[fy]=logyske operator net
 Comment[gl]=o operador lóxico «non»
@@ -156,6 +161,7 @@ Comment[pl]=operator logiczny "nie" (not)
 Comment[pt]=operador lógico 'não'
 Comment[pt_BR]=operador lógico 'não'
 Comment[ro]=operatorul logic nu
+Comment[ru]=логический оператор «НЕ»
 Comment[si]=not තර්‍ක ක්‍රියාව
 Comment[sl]=logični operator ne
 Comment[sr]=Логички оператор НЕ
@@ -186,6 +192,7 @@ Name[eo]=Dosier-sufikso
 Name[es]=Extensión de archivo
 Name[et]=Faililaiend
 Name[eu]=Fitxategi luzapena
+Name[fi]=Tiedostotarkennin
 Name[fr]=Extension de fichier
 Name[fy]=Triem taheaksel
 Name[gl]=Extensión do ficheiro
@@ -239,6 +246,7 @@ Comment[eo]=ekzemple "txt"
 Comment[es]=por ejemplo txt
 Comment[et]=näiteks txt
 Comment[eu]=adibidez txt
+Comment[fi]=esimerkiksi txt
 Comment[fr]=par exemple txt
 Comment[fy]=bygelyks txt
 Comment[gl]=por exemplo txt
@@ -299,6 +307,7 @@ Comment[eo]=1 ĝis 10, ekzemple >=7
 Comment[es]=1 a 10, por ejemplo >=7
 Comment[et]=1 kuni 10, näiteks 7
 Comment[eu]=1etik 10ra, adibidez >=7
+Comment[fi]=1 ... 10, esimerkiksi >=7
 Comment[fr]=De 1 à 10, par exemple >=7
 Comment[fy]=1 oant 10, lykas bygelyks >=7
 Comment[gl]=do 1 ao 10, por exemplo >=7
@@ -349,6 +358,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
@@ -408,6 +418,7 @@ Comment[eo]=Marko
 Comment[es]=Etiqueta
 Comment[et]=Silt
 Comment[eu]=Etiketa
+Comment[fi]=Tunniste
 Comment[fr]=Étiquette
 Comment[fy]=Lebel
 Comment[gl]=Etiqueta
@@ -469,6 +480,7 @@ Name[eo]=Dosiergrandeco
 Name[es]=Tamaño de archivo
 Name[et]=Faili suurus
 Name[eu]=Fitxategi neurria
+Name[fi]=Tiedostokoko
 Name[fr]=Taille du fichier
 Name[fy]=Triemgrutte:
 Name[gl]=Tamaño do ficheiro
@@ -523,6 +535,7 @@ Comment[eo]=bajte, ekz. >1000
 Comment[es]=en bytes, por ejemplo >1000
 Comment[et]=baitides, näiteks >1000
 Comment[eu]=bytetan, adibidez >1000
+Comment[fi]=tavuissa, esimerkiksi >1000
 Comment[fr]=en octets, par exemple >1000
 Comment[fy]=Yn bytes, lykas bygelyks > 1000
 Comment[gl]=en bytes, por exemplo >1000
@@ -572,6 +585,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
@@ -627,6 +641,7 @@ Name[eo]=Grandeco de la enhavo
 Name[es]=Tamaño del contenido
 Name[et]=Sisu suurus
 Name[eu]=Edukiaren neurria
+Name[fi]=Sisältökoko
 Name[fr]=Taille du contenu
 Name[fy]=Ynhâld grutte
 Name[gl]=Tamaño do contido
@@ -679,6 +694,7 @@ Comment[eo]=bitoke
 Comment[es]=en bytes
 Comment[et]=baitides
 Comment[eu]=bytetan
+Comment[fi]=tavuissa
 Comment[fr]=en octets
 Comment[fy]=yn bytes
 Comment[gl]=en bytes
@@ -731,6 +747,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
@@ -789,6 +806,7 @@ Comment[eo]=Ekzemple >1999-10-10
 Comment[es]= por ejemplo >1999-10-10
 Comment[et]=näiteks >1999-10-10
 Comment[eu]=adibidez >1999-10-10
+Comment[fi]=esimerkiksi >1999-10-10
 Comment[fr]=par exemple >1999-10-10
 Comment[fy]=lykas bygelyks > 1999-10-10
 Comment[gl]=por exemplo >1999-10-10
@@ -839,6 +857,7 @@ GenericName[eo]=Uzu <, <=, :, >= kaj >.
 GenericName[es]=Use <, <=, :, >= y >.
 GenericName[et]=Kasuta <, <=, :, >= ja >.
 GenericName[eu]=Erabili <, <=, :, >= eta >.
+GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
