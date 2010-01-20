@@ -219,6 +219,7 @@ Name[pl]=Rozszerzenie pliku
 Name[pt]=Extensão do ficheiro
 Name[pt_BR]=Extensão do arquivo
 Name[ro]=Extensie fișier
+Name[ru]=Расширение файла
 Name[si]=ගොනු දිගුව
 Name[sl]=Končnica datoteke
 Name[sr]=наставак фајла
@@ -272,6 +273,7 @@ Comment[pl]=na przykład "txt"
 Comment[pt]=por exemplo 'txt'
 Comment[pt_BR]=por exemplo, 'txt'
 Comment[ro]=de exemplu txt
+Comment[ru]=например, txt
 Comment[si]=උදාහරණ පෙළ
 Comment[sl]=na primer odt
 Comment[sr]=На пример txt
@@ -332,6 +334,7 @@ Comment[pl]=1 do 10, na przykład >= 7
 Comment[pt]=1 a 10, por exemplo >=7
 Comment[pt_BR]=1 a 10, por exemplo, >=7
 Comment[ro]=de la 1 la 10, de exemplu >=7
+Comment[ru]=от 1 до 10, например, >=7
 Comment[si]=1 සිට 10, උදාහරණය >=7
 Comment[sl]=od 1 do 10, na primer >= 7
 Comment[sr]=1 до 10, на пример >=7
@@ -508,6 +511,7 @@ Name[pl]=Rozmiar pliku
 Name[pt]=Tamanho do ficheiro
 Name[pt_BR]=Tamanho do arquivo
 Name[ro]=Dimensiune fișier
+Name[ru]=Размер файла
 Name[sl]=Velikost datoteke
 Name[sr]=величина фајла
 Name[sr@ijekavian]=величина фајла
@@ -559,6 +563,7 @@ Comment[pl]=w bajtach, na przykład > 1000
 Comment[pt]=em 'bytes', por exemplo > 1000
 Comment[pt_BR]=em bytes, por exemplo, > 1000
 Comment[ro]=în octeți, de exemplu >1000
+Comment[ru]=в байтах, например, >1000
 Comment[si]=බයිට් මඟින්, උදා >1000
 Comment[sl]=v bajtih, na primer >1000
 Comment[sr]=У бајтовима, на пример >1000
@@ -668,6 +673,7 @@ Name[pl]=Rozmiar treści
 Name[pt]=Tamanho do conteúdo
 Name[pt_BR]=Tamanho do conteúdo
 Name[ro]=Dimensiune conținut
+Name[ru]=Размер содержимого
 Name[sl]=Velikost vsebine
 Name[sr]=величина садржаја
 Name[sr@ijekavian]=величина садржаја
@@ -722,6 +728,7 @@ Comment[pl]=w bajtach
 Comment[pt]=em 'bytes'
 Comment[pt_BR]=em bytes
 Comment[ro]=în octeți
+Comment[ru]=в байтах
 Comment[sl]=v bajtih
 Comment[sr]=У бајтовима
 Comment[sr@ijekavian]=У бајтовима
