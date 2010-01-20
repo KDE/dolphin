@@ -49,6 +49,7 @@ class KNewMenu;
 class KTabBar;
 class KUrl;
 class QSplitter;
+class KJob;
 
 /**
  * @short Main window for Dolphin.
@@ -78,7 +79,7 @@ public:
      * option is enabled, 2 directories are collected within one tab.
      */
     void openDirectories(const QList<KUrl>& dirs);
-    
+
     /**
      * Opens the directory which contains the files \p files
      * and selects all files (implements the --select option
@@ -423,6 +424,12 @@ private slots:
      */
     void handleUrl(const KUrl& url);
 
+    /**
+     * setUrlAsCaption will trigger a stat job which reports its result in
+     * this slot.
+     */
+    void slotCaptionStatFinished( KJob* job );
+
 private:
     DolphinMainWindow(int id);
     void init();
@@ -523,6 +530,8 @@ private:
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
+
+    KJob* m_captionStatJob;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
