@@ -119,7 +119,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_viewTab(),
     m_actionHandler(0),
     m_remoteEncoding(0),
-    m_settingsDialog(0)
+    m_settingsDialog(0),
+    m_captionStatJob(0)
 {
     setObjectName("Dolphin#");
 
@@ -1725,6 +1726,9 @@ QString DolphinMainWindow::tabProperty(const QString& property, int tabIndex) co
 
 void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
 {
+    delete m_captionStatJob;
+    m_captionStatJob = 0;
+
     QString caption;
     if (url.equals(KUrl("file:///"))) {
         caption = '/';
@@ -1732,10 +1736,16 @@ void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
         caption = url.fileName();
         if (caption.isEmpty()) {
             caption = url.protocol();
-	}
+        }
     }
 
     setCaption(caption);
+
+    if ( url.protocol() != QLatin1String( "file" ) ) {
+        m_captionStatJob = KIO::stat(url, KIO::HideProgressInfo);
+        connect(m_captionStatJob, SIGNAL(result(KJob*)),
+                this, SLOT(slotCaptionStatFinished(KJob*)));
+    }
 }
 
 void DolphinMainWindow::handleUrl(const KUrl& url)
@@ -1745,6 +1755,16 @@ void DolphinMainWindow::handleUrl(const KUrl& url)
     }
     else {
         new KRun(url, this);
+    }
+}
+
+void DolphinMainWindow::slotCaptionStatFinished( KJob* job )
+{
+    m_captionStatJob = 0;
+    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
+    QString name = entry.stringValue(KIO::UDSEntry::UDS_DISPLAY_NAME);
+    if (!name.isEmpty()) {
+        setCaption(name);
     }
 }
 
