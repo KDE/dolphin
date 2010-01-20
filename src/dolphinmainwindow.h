@@ -425,10 +425,10 @@ private slots:
     void handleUrl(const KUrl& url);
 
     /**
-     * setUrlAsCaption will trigger a stat job which reports its result in
+     * setUrlAsCaption() will trigger a stat job which reports its result in
      * this slot.
      */
-    void slotCaptionStatFinished( KJob* job );
+    void slotCaptionStatFinished(KJob* job);
 
 private:
     DolphinMainWindow(int id);
