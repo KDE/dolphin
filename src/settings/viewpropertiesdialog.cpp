@@ -182,7 +182,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
                                                         "Current folder"), applyBox);
         m_applyToCurrentFolder->setChecked(true);
         m_applyToSubFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
-                                                     "Current folder including all sub folders"), applyBox);
+                                                     "Current folder including all sub-folders"), applyBox);
         m_applyToAllFolders = new QRadioButton(i18nc("@option:radio Apply View Properties To",
                                                      "All folders"), applyBox);
 
@@ -334,7 +334,7 @@ void ViewPropertiesDialog::applyViewProperties()
     const bool applyToSubFolders = (m_applyToSubFolders != 0) &&
                                    m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
-        const QString text(i18nc("@info", "The view properties of all sub folders will be changed. Do you want to continue?"));
+        const QString text(i18nc("@info", "The view properties of all sub-folders will be changed. Do you want to continue?"));
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
             return;
         }
