@@ -1729,19 +1729,19 @@ void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
     delete m_captionStatJob;
     m_captionStatJob = 0;
 
-    QString caption;
-    if (url.equals(KUrl("file:///"))) {
-        caption = '/';
-    } else {
-        caption = url.fileName();
-        if (caption.isEmpty()) {
-            caption = url.protocol();
+    if (url.protocol() == QLatin1String("file")) {
+        QString caption;
+        if (url.equals(KUrl("file:///"))) {
+            caption = '/';
+        } else {
+            caption = url.fileName();
+            if (caption.isEmpty()) {
+                caption = url.protocol();
+            }
         }
-    }
 
-    setCaption(caption);
-
-    if ( url.protocol() != QLatin1String( "file" ) ) {
+        setCaption(caption);
+    } else {
         m_captionStatJob = KIO::stat(url, KIO::HideProgressInfo);
         connect(m_captionStatJob, SIGNAL(result(KJob*)),
                 this, SLOT(slotCaptionStatFinished(KJob*)));
@@ -1752,20 +1752,17 @@ void DolphinMainWindow::handleUrl(const KUrl& url)
 {
     if (KProtocolManager::supportsListing(url)) {
         activeViewContainer()->setUrl(url);
-    }
-    else {
+    } else {
         new KRun(url, this);
     }
 }
 
-void DolphinMainWindow::slotCaptionStatFinished( KJob* job )
-{
+void DolphinMainWindow::slotCaptionStatFinished(KJob* job)
+{  
     m_captionStatJob = 0;
     const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
-    QString name = entry.stringValue(KIO::UDSEntry::UDS_DISPLAY_NAME);
-    if (!name.isEmpty()) {
-        setCaption(name);
-    }
+    const QString name = entry.stringValue(KIO::UDSEntry::UDS_DISPLAY_NAME);
+    setCaption(name);
 }
 
 QString DolphinMainWindow::squeezedText(const QString& text) const
