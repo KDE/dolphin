@@ -320,6 +320,7 @@ void DolphinViewContainer::slotDirListerCompleted()
     } else {
         updateStatusBar();
     }
+    QMetaObject::invokeMethod(this, "restoreContentsPos", Qt::QueuedConnection);
 
     // Enable the 'File'->'Create New...' menu only if the directory
     // supports writing.
@@ -395,6 +396,14 @@ void DolphinViewContainer::saveContentsPos(int x, int y)
     // TODO: If DolphinViewContainer uses DolphinView::saveState(...) to save the
     // view state in KDE 4.5, this funciton can be removed.
     m_urlNavigator->savePosition(x, y);
+}
+
+void DolphinViewContainer::restoreContentsPos()
+{
+    if (!url().isEmpty()) {
+        const QPoint pos = m_urlNavigator->savedPosition();
+        m_view->setContentsPosition(pos.x(), pos.y());
+    }
 }
 
 void DolphinViewContainer::activate()
@@ -483,8 +492,6 @@ void DolphinViewContainer::slotHistoryChanged()
         // the previous directory as active item:
         const KUrl url = m_urlNavigator->historyUrl(index - 1);
         m_view->activateItem(url);
-        QPoint pos = m_urlNavigator->savedPosition();
-        m_view->setRestoredContentsPosition(pos);
     }
 }
 

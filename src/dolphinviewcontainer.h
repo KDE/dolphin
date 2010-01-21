@@ -1,3 +1,4 @@
+
 /***************************************************************************
  *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
@@ -205,6 +206,8 @@ private slots:
      * current history element.
      */
     void saveContentsPos(int x, int y);
+
+    void restoreContentsPos();
 
     /**
      * Marks the view container as active
