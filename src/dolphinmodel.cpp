@@ -251,6 +251,11 @@ QVariant DolphinModel::displayRoleData(const QModelIndex& index) const
         }
 
         if (currentDate.year() == modifiedDate.year() && currentDate.month() == modifiedDate.month()) {
+            if (modifiedWeek > currentWeek) {
+                // use case: modified date = 2010-01-01, current date = 2010-01-22
+                //           modified week = 53,         current week = 3
+                modifiedWeek = 0;
+            }
             switch (currentWeek - modifiedWeek) {
             case 0:
                 switch (daysDistance) {
