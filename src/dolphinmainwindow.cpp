@@ -1711,6 +1711,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(updateHistory()));
     connect(navigator, SIGNAL(editableStateChanged(bool)),
             this, SLOT(slotEditableStateChanged(bool)));
+    connect(navigator, SIGNAL(tabRequested(const KUrl&)),
+            this, SLOT(openNewTab(KUrl)));
 }
 
 void DolphinMainWindow::updateSplitAction()
