@@ -26,15 +26,17 @@ class KLineEdit;
 class SearchOptionDialogBox : public KDialog
 {
     Q_OBJECT
+
 public:
-    SearchOptionDialogBox( QWidget *widget);
-    ~SearchOptionDialogBox();
+    SearchOptionDialogBox(QWidget* parent);
+    virtual ~SearchOptionDialogBox();
 
     QString text() const;
 
 protected slots:
-    void slotTextChanged( const QString & );
+    void slotTextChanged(const QString& text);
+
 private:
-    KLineEdit *mLineEdit;
+    KLineEdit* mLineEdit;
 };
 #endif

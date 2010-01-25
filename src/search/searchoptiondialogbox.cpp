@@ -15,6 +15,7 @@
  * the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,      *
  * Boston, MA 02110-1301, USA.                                               *
  *****************************************************************************/
+
 #include "searchoptiondialogbox.h"
 
 #include <KConfigGroup>
@@ -23,16 +24,17 @@
 #include <QLabel>
 #include <QHBoxLayout>
 
-SearchOptionDialogBox::SearchOptionDialogBox( QWidget *parent )
-    :KDialog( parent, Qt::Dialog )
+SearchOptionDialogBox::SearchOptionDialogBox(QWidget* parent) :
+    KDialog(parent, Qt::Dialog)
 {
     QWidget* container = new QWidget(this);
 
     QLabel* label = new QLabel(i18nc("@label", "Name:"), container);
     KLineEdit* lineEdit = new KLineEdit(container);
     lineEdit->setMinimumWidth(250);
+    lineEdit->setClearButtonShown(true);
 
-    connect( lineEdit, SIGNAL( textChanged ( const QString &) ), SLOT( slotTextChanged( const QString& ) ) );
+    connect(lineEdit, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
     QHBoxLayout* layout = new QHBoxLayout(container);
     layout->addWidget(label, Qt::AlignRight);
     layout->addWidget(lineEdit);
@@ -46,7 +48,7 @@ SearchOptionDialogBox::SearchOptionDialogBox( QWidget *parent )
     KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                               "SaveSearchOptionsDialog");
     restoreDialogSize(dialogConfig);
-    enableButtonOk( false );
+    enableButtonOk(false);
 }
 
 SearchOptionDialogBox::~SearchOptionDialogBox()
@@ -61,9 +63,9 @@ QString SearchOptionDialogBox::text() const
     return mLineEdit->text();
 }
 
-void SearchOptionDialogBox::slotTextChanged( const QString & text )
+void SearchOptionDialogBox::slotTextChanged(const QString& text)
 {
-    enableButtonOk( !text.isEmpty() );
+    enableButtonOk(!text.isEmpty());
 }
 
 #include "searchoptiondialogbox.moc"
