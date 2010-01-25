@@ -90,8 +90,6 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
                        settings->italicFont());
     }
 
-    activate();
-
     connect(this, SIGNAL(viewportEntered()),
             m_container->m_controller, SLOT(emitViewportEntered()));
     connect(this, SIGNAL(entered(const QModelIndex&)),
