@@ -55,7 +55,6 @@
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphindetailsview.h"
 #include "dolphiniconsview.h"
-#include "dolphincontextmenu.h"
 #include "draganddrophelper.h"
 #include "filterbar.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -63,12 +62,9 @@
 #include "settings/dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 
-DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
-                                           QWidget* parent,
-                                           const KUrl& url) :
+DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     QWidget(parent),
     m_isFolderWritable(false),
-    m_mainWindow(mainWindow),
     m_topLayout(0),
     m_urlNavigator(0),
     m_view(0),
@@ -89,13 +85,15 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(dropUrls(const KUrl&, QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
             this, SLOT(activate()));
+    //connect(m_urlNavigator, SIGNAL(tabRequested(const KUrl&)),
+    //        this,
     connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
             this, SLOT(saveUrlCompletionMode(KGlobalSettings::Completion)));
 
     const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
     m_urlNavigator->setShowFullPath(settings->showFullPath());
-    m_urlNavigator->setHomeUrl(settings->homeUrl());
+    m_urlNavigator->setHomeUrl(KUrl(settings->homeUrl()));
     KUrlComboBox* editor = m_urlNavigator->editor();
     editor->setCompletionMode(KGlobalSettings::Completion(settings->urlCompletionMode()));
 
@@ -132,10 +130,6 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
     m_view = new DolphinView(this, url, m_proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
-    connect(m_view, SIGNAL(requestContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)),
-            this, SLOT(openContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)));
-    connect(m_view, SIGNAL(contentsMoved(int, int)),
-            this, SLOT(saveContentsPos(int, int)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(showItemInfo(KFileItem)));
     connect(m_view, SIGNAL(errorMessage(const QString&)),
@@ -146,15 +140,15 @@ DolphinViewContainer::DolphinViewContainer(DolphinMainWindow* mainWindow,
             this, SLOT(showOperationCompletedMessage(const QString&)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),
             this, SLOT(slotItemTriggered(KFileItem)));
-    connect(m_view, SIGNAL(startedPathLoading(const KUrl&)),
-            this, SLOT(saveRootUrl(const KUrl&)));
     connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
             this, SLOT(redirect(KUrl, KUrl)));
     connect(m_view, SIGNAL(selectionChanged(const KFileItemList&)),
             this, SLOT(delayedStatusBarUpdate()));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(restoreView(const KUrl&)));
+            this, SLOT(slotUrlNavigatorLocationChanged(const KUrl&)));
+    connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(const KUrl&)),
+            this, SLOT(saveViewState()));
     connect(m_urlNavigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
 
@@ -197,9 +191,9 @@ DolphinViewContainer::~DolphinViewContainer()
     m_dirLister = 0; // deleted by m_dolphinModel
 }
 
-const KUrl& DolphinViewContainer::url() const
+KUrl DolphinViewContainer::url() const
 {
-    return m_urlNavigator->url();
+    return m_urlNavigator->locationUrl();
 }
 
 void DolphinViewContainer::setActive(bool active)
@@ -207,7 +201,7 @@ void DolphinViewContainer::setActive(bool active)
     m_urlNavigator->setActive(active);
     m_view->setActive(active);
     if (active) {
-        m_mainWindow->newMenu()->menu()->setEnabled(m_isFolderWritable);
+        emit writeStateChanged(m_isFolderWritable);
     }
 }
 
@@ -230,14 +224,14 @@ bool DolphinViewContainer::isFilterBarVisible() const
 
 void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
-    if (newUrl != m_urlNavigator->url()) {
-        m_urlNavigator->setUrl(newUrl);
+    if (newUrl != m_urlNavigator->locationUrl()) {
+        m_urlNavigator->setLocationUrl(newUrl);
         // Temporary disable the 'File'->'Create New...' menu until
         // the write permissions can be checked in a fast way at
         // DolphinViewContainer::slotDirListerCompleted().
         m_isFolderWritable = false;
         if (isActive()) {
-            m_mainWindow->newMenu()->menu()->setEnabled(false);
+            emit writeStateChanged(false);
         }
     }
 }
@@ -250,11 +244,6 @@ void DolphinViewContainer::showFilterBar(bool show)
     } else {
         closeFilterBar();
     }
-}
-
-bool DolphinViewContainer::isUrlEditable() const
-{
-    return m_urlNavigator->isUrlEditable();
 }
 
 void DolphinViewContainer::delayedStatusBarUpdate()
@@ -320,6 +309,7 @@ void DolphinViewContainer::slotDirListerCompleted()
     } else {
         updateStatusBar();
     }
+    QMetaObject::invokeMethod(this, "restoreViewState", Qt::QueuedConnection);
 
     // Enable the 'File'->'Create New...' menu only if the directory
     // supports writing.
@@ -333,7 +323,7 @@ void DolphinViewContainer::slotDirListerCompleted()
     }
 
     if (isActive()) {
-        m_mainWindow->newMenu()->menu()->setEnabled(m_isFolderWritable);
+        emit writeStateChanged(m_isFolderWritable);
     }
 }
 
@@ -381,20 +371,11 @@ void DolphinViewContainer::setNameFilter(const QString& nameFilter)
     delayedStatusBarUpdate();
 }
 
-void DolphinViewContainer::openContextMenu(const KFileItem& item,
-                                           const KUrl& url,
-                                           const QList<QAction*>& customActions)
+void DolphinViewContainer::restoreViewState()
 {
-    DolphinContextMenu contextMenu(m_mainWindow, item, url);
-    contextMenu.setCustomActions(customActions);
-    contextMenu.open();
-}
-
-void DolphinViewContainer::saveContentsPos(int x, int y)
-{
-    // TODO: If DolphinViewContainer uses DolphinView::saveState(...) to save the
-    // view state in KDE 4.5, this funciton can be removed.
-    m_urlNavigator->savePosition(x, y);
+    QByteArray locationState = m_urlNavigator->locationState();
+    QDataStream stream(&locationState, QIODevice::ReadOnly);
+    m_view->restoreState(stream);
 }
 
 void DolphinViewContainer::activate()
@@ -402,10 +383,18 @@ void DolphinViewContainer::activate()
     setActive(true);
 }
 
-void DolphinViewContainer::restoreView(const KUrl& url)
+void DolphinViewContainer::saveViewState()
+{
+    QByteArray locationState;
+    QDataStream stream(&locationState, QIODevice::WriteOnly);
+    m_view->saveState(stream);
+    m_urlNavigator->saveLocationState(locationState);
+}
+
+void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 {
     if (KProtocolManager::supportsListing(url)) {
-        m_view->updateView(url, m_urlNavigator->savedRootUrl());
+        m_view->setUrl(url);
         if (isActive()) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
@@ -443,12 +432,6 @@ void DolphinViewContainer::restoreView(const KUrl& url)
     }
 }
 
-void DolphinViewContainer::saveRootUrl(const KUrl& url)
-{
-    Q_UNUSED(url);
-    m_urlNavigator->saveRootUrl(m_view->rootUrl());
-}
-
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
     DragAndDropHelper::instance().dropUrls(KFileItem(), destination, event, this);
@@ -459,7 +442,7 @@ void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
     Q_UNUSED(oldUrl);
     const bool block = m_urlNavigator->signalsBlocked();
     m_urlNavigator->blockSignals(true);
-    m_urlNavigator->setUrl(newUrl);
+    m_urlNavigator->setLocationUrl(newUrl);
     m_urlNavigator->blockSignals(block);
 }
 
@@ -478,13 +461,11 @@ void DolphinViewContainer::saveUrlCompletionMode(KGlobalSettings::Completion com
 void DolphinViewContainer::slotHistoryChanged()
 {
     const int index = m_urlNavigator->historyIndex();
-    if (index > 0) {
+    if (index > 0) {       
         // The "Go Forward" action is enabled. Try to mark
         // the previous directory as active item:
-        const KUrl url = m_urlNavigator->historyUrl(index - 1);
+        const KUrl url = m_urlNavigator->locationUrl(index - 1);
         m_view->activateItem(url);
-        QPoint pos = m_urlNavigator->savedPosition();
-        m_view->setRestoredContentsPosition(pos);
     }
 }
 

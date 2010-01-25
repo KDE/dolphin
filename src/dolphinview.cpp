@@ -347,35 +347,6 @@ QItemSelectionModel* DolphinView::selectionModel() const
     return m_viewAccessor.itemView()->selectionModel();
 }
 
-void DolphinView::setContentsPosition(int x, int y)
-{
-    QAbstractItemView* view = m_viewAccessor.itemView();
-    Q_ASSERT(view != 0);
-    view->horizontalScrollBar()->setValue(x);
-    view->verticalScrollBar()->setValue(y);
-
-    m_loadingDirectory = false;
-}
-
-void DolphinView::setRestoredContentsPosition(const QPoint& pos)
-{
-    // TODO: This function is called by DolphinViewContainer.
-    // If it makes use of DolphinView::restoreState(...) to restore the
-    // view state in KDE 4.5, this function can be removed.
-    m_restoredContentsPosition = pos;
-}
-
-QPoint DolphinView::contentsPosition() const
-{
-    // TODO: If DolphinViewContainer uses DolphinView::saveState(...) to save the
-    // view state in KDE 4.5, this code can be moved to DolphinView::saveState.
-    QAbstractItemView* view = m_viewAccessor.itemView();
-    Q_ASSERT(view != 0);
-    const int x = view->horizontalScrollBar()->value();
-    const int y = view->verticalScrollBar()->value();
-    return QPoint(x, y);
-}
-
 void DolphinView::setZoomLevel(int level)
 {
     if (level < ZoomLevelInfo::minimumLevel()) {
@@ -480,26 +451,6 @@ void DolphinView::refresh()
     updateZoomLevel(oldZoomLevel);
 }
 
-void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
-{
-    Q_UNUSED(rootUrl); // TODO: remove after columnview-cleanup has been finished
-
-    if (m_controller->url() == url) {
-        return;
-    }
-
-    m_controller->setUrl(url); // emits urlChanged, which we forward
-    m_viewAccessor.prepareUrlChange(url);
-    applyViewProperties();
-    loadDirectory(url);
-
-    // When changing the URL there is no need to keep the version
-    // data of the previous URL.
-    m_viewAccessor.dirModel()->clearVersionData();
-
-    emit startedPathLoading(url);
-}
-
 void DolphinView::setNameFilter(const QString& nameFilter)
 {
     m_controller->setNameFilter(nameFilter);
@@ -585,8 +536,22 @@ QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) c
 
 void DolphinView::setUrl(const KUrl& url)
 {
+    if (m_controller->url() == url) {
+        return;
+    }
+
     m_newFileNames.clear();
-    updateView(url, KUrl());
+
+    m_controller->setUrl(url); // emits urlChanged, which we forward
+    m_viewAccessor.prepareUrlChange(url);
+    applyViewProperties();
+    loadDirectory(url);
+
+    // When changing the URL there is no need to keep the version
+    // data of the previous URL.
+    m_viewAccessor.dirModel()->clearVersionData();
+
+    emit startedPathLoading(url);
 }
 
 void DolphinView::selectAll()
@@ -1072,9 +1037,9 @@ bool DolphinView::itemsExpandable() const
     return m_viewAccessor.itemsExpandable();
 }
 
-void DolphinView::restoreState(QDataStream &stream)
+void DolphinView::restoreState(QDataStream& stream)
 {
-     // current item
+    // current item
     stream >> m_activeItemUrl;
 
     // view position
@@ -1084,8 +1049,7 @@ void DolphinView::restoreState(QDataStream &stream)
     QSet<KUrl> urlsToExpand;
     stream >> urlsToExpand;
     const DolphinDetailsViewExpander* expander = m_viewAccessor.setExpandedUrls(urlsToExpand);
-
-    if (expander) {
+    if (expander != 0) {
         m_expanderActive = true;
         connect (expander, SIGNAL(completed()), this, SLOT(slotLoadingCompleted()));
     }
@@ -1094,26 +1058,29 @@ void DolphinView::restoreState(QDataStream &stream)
     }
 }
 
-void DolphinView::saveState(QDataStream &stream)
+void DolphinView::saveState(QDataStream& stream)
 {
     // current item
     KFileItem currentItem;
     const QAbstractItemView* view = m_viewAccessor.itemView();
 
-    if(view) {
+    if (view != 0) {
         const QModelIndex proxyIndex = view->currentIndex();
         const QModelIndex dirModelIndex = m_viewAccessor.proxyModel()->mapToSource(proxyIndex);
         currentItem = m_viewAccessor.dirModel()->itemForIndex(dirModelIndex);
     }
 
     KUrl currentUrl;
-    if (!currentItem.isNull())
+    if (!currentItem.isNull()) {
         currentUrl = currentItem.url();
+    }
 
     stream << currentUrl;
 
     // view position
-    stream << contentsPosition();
+    const int x = view->horizontalScrollBar()->value();
+    const int y = view->verticalScrollBar()->value();
+    stream << QPoint(x, y);
 
     // expanded folders (only relevant for the details view - the set will be empty in other view modes)
     stream << m_viewAccessor.expandedUrls();
@@ -1137,21 +1104,6 @@ void DolphinView::selectAndScrollToCreatedItem()
     disconnect(m_viewAccessor.dirModel(), SIGNAL(rowsInserted(const QModelIndex&, int, int)),
                this, SLOT(selectAndScrollToCreatedItem()));
     m_createdItemUrl = KUrl();
-}
-
-void DolphinView::emitContentsMoved()
-{
-    // TODO: If DolphinViewContainer uses DolphinView::saveState(...) to save the
-    // view state in KDE 4.5, the contentsMoved signal might not be needed anymore,
-    // depending on how the implementation is done.
-    // In that case, the code in contentsPosition() can be moved to saveState().
-
-    // only emit the contents moved signal if no directory loading is ongoing
-    // (this would reset the contents position always to (0, 0))
-    if (!m_loadingDirectory) {
-        const QPoint pos(contentsPosition());
-        emit contentsMoved(pos.x(), pos.y());
-    }
 }
 
 void DolphinView::showHoverInformation(const KFileItem& item)
@@ -1388,11 +1340,6 @@ void DolphinView::createView()
     connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
             this, SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
 
-    connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SLOT(emitContentsMoved()));
-    connect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SLOT(emitContentsMoved()));
-
     setFocusProxy(m_viewAccessor.layoutTarget());
     m_topLayout->insertWidget(1, m_viewAccessor.layoutTarget());
 }
@@ -1415,10 +1362,6 @@ void DolphinView::deleteView()
         disconnect(view);
         m_controller->disconnect(view);
         view->disconnect();
-        disconnect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                   this, SLOT(emitContentsMoved()));
-        disconnect(view->horizontalScrollBar(), SIGNAL(valueChanged(int)),
-                   this, SLOT(emitContentsMoved()));
 
         m_viewAccessor.deleteView();
     }
@@ -1651,8 +1594,16 @@ void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 void DolphinView::restoreContentsPosition()
 {
     if (!m_restoredContentsPosition.isNull()) {
-        setContentsPosition(m_restoredContentsPosition.x(), m_restoredContentsPosition.y());
+        const int x = m_restoredContentsPosition.x();
+        const int y = m_restoredContentsPosition.y();
         m_restoredContentsPosition = QPoint();
+
+        QAbstractItemView* view = m_viewAccessor.itemView();
+        Q_ASSERT(view != 0);
+        view->horizontalScrollBar()->setValue(x);
+        view->verticalScrollBar()->setValue(y);
+
+        m_loadingDirectory = false;
     }
 }
 

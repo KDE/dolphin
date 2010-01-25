@@ -379,12 +379,18 @@ private slots:
      */
     void closeTab(int index);
 
-
     /**
      * Opens a context menu for the tab with the index \a index
      * on the position \a pos.
      */
     void openTabContextMenu(int index, const QPoint& pos);
+
+    /**
+     * Is connected to the QTabBar signal tabMoved(int from, int to).
+     * Reorders the list of tabs after a tab was moved in the tab bar
+     * and sets m_tabIndex to the new index of the current tab.
+     */
+    void slotTabMoved(int from, int to);
 
     /**
      * Handles a click on a places item: if the middle mouse button is
@@ -406,13 +412,6 @@ private slots:
     void searchItems();
 
     /**
-     * Is connected to the QTabBar signal tabMoved(int from, int to).
-     * Reorders the list of tabs after a tab was moved in the tab bar
-     * and sets m_tabIndex to the new index of the current tab.
-     */
-    void slotTabMoved(int from, int to);
-
-    /**
      * Is connected to the searchbox signal 'requestSearchOptions' and
      * takes care to show the search options.
      */
@@ -429,6 +428,24 @@ private slots:
      * this slot.
      */
     void slotCaptionStatFinished(KJob* job);
+
+    /**
+     * Is invoked when the write state of a folder has been changed and
+     * enables/disables the "Create New..." menu entry.
+     */
+    void slotWriteStateChanged(bool isFolderWritable);
+
+    /**
+     * Opens the context menu on the current mouse position.
+     * @item          File item context. If item is null, the context menu
+     *                should be applied to \a url.
+     * @url           URL which contains \a item.
+     * @customActions Actions that should be added to the context menu,
+     *                if the file item is null.
+     */
+    void openContextMenu(const KFileItem& item,
+                         const KUrl& url,
+                         const QList<QAction*>& customActions);
 
 private:
     DolphinMainWindow(int id);

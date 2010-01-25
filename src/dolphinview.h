@@ -209,23 +209,6 @@ public:
     QItemSelectionModel* selectionModel() const;
 
     /**
-     * Sets the upper left position of the view content
-     * to (x,y). The content of the view might be larger than the visible area
-     * and hence a scrolling must be done.
-     */
-    void setContentsPosition(int x, int y);
-
-    /**
-     * Sets the upper left position of the view content
-     * to (x,y) after the directory loading is finished.
-     * This is useful when going back or forward in history.
-     */
-    void setRestoredContentsPosition(const QPoint& pos);
-
-    /** Returns the upper left position of the view content. */
-    QPoint contentsPosition() const;
-
-    /**
      * Sets the zoom level to \a level. It is assured that the used
      * level is adjusted to be inside the range ZoomLevelInfo::minimumLevel() and
      * ZoomLevelInfo::maximumLevel().
@@ -278,16 +261,6 @@ public:
      * Details View or Columns View have been changed.
      */
     void refresh();
-
-    /**
-     * Changes the directory of the view to \a url. If \a rootUrl is empty, the view
-     * properties from \a url are used for adjusting the view mode and the other properties.
-     * If \a rootUrl is not empty, the view properties from the root URL are considered
-     * instead. Specifying a root URL is only required if a view having a different root URL
-     * (e. g. the column view) should be restored. Usually using DolphinView::setUrl()
-     * is enough for changing the current URL.
-     */
-    void updateView(const KUrl& url, const KUrl& rootUrl);
 
     /**
      * Filters the currently shown items by \a nameFilter. All items
@@ -356,12 +329,12 @@ public:
     /**
      * Restores the view state (current item, contents position, details view expansion state)
      */
-    void restoreState(QDataStream &stream);
+    void restoreState(QDataStream& stream);
 
     /**
      * Saves the view state (current item, contents position, details view expansion state)
      */
-    void saveState(QDataStream &stream);
+    void saveState(QDataStream& stream);
 
 public slots:
     /**
@@ -523,9 +496,6 @@ signals:
      */
     void requestItemInfo(const KFileItem& item);
 
-    /** Is emitted if the contents has been moved to \a x, \a y. */
-    void contentsMoved(int x, int y);
-
     /**
      * Is emitted whenever the selection has been changed.
      */
@@ -646,12 +616,6 @@ private slots:
      * additional information given by \a info.
      */
     void updateAdditionalInfo(const KFileItemDelegate::InformationList& info);
-
-    /**
-     * Emits the signal contentsMoved with the current coordinates
-     * of the viewport as parameters.
-     */
-    void emitContentsMoved();
 
     /**
      * Updates the status bar to show hover information for the

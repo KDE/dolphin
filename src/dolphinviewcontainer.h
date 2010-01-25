@@ -41,7 +41,6 @@ class KUrl;
 class DolphinModel;
 class KUrlNavigator;
 class DolphinDirLister;
-class DolphinMainWindow;
 class DolphinSortFilterProxyModel;
 class DolphinStatusBar;
 
@@ -62,17 +61,14 @@ class DolphinViewContainer : public QWidget
     Q_OBJECT
 
 public:
-    DolphinViewContainer(DolphinMainWindow* mainwindow,
-                         QWidget *parent,
-                         const KUrl& url);
-
+    DolphinViewContainer(const KUrl& url, QWidget* parent);
     virtual ~DolphinViewContainer();
 
     /**
      * Returns the current active URL, where all actions are applied.
      * The URL navigator is synchronized with this URL.
      */
-    const KUrl& url() const;
+    KUrl url() const;
 
     /**
      * If \a active is true, the view container will marked as active. The active
@@ -83,12 +79,6 @@ public:
 
     const DolphinStatusBar* statusBar() const;
     DolphinStatusBar* statusBar();
-
-    /**
-     * Returns true, if the URL shown by the navigation bar is editable.
-     * @see KUrlNavigator
-     */
-    bool isUrlEditable() const;
 
     const KUrlNavigator* urlNavigator() const;
     KUrlNavigator* urlNavigator();
@@ -124,6 +114,13 @@ signals:
      * Is emitted whenever the filter bar has changed its visibility state.
      */
     void showFilterBarChanged(bool shown);
+
+    /**
+     * Is emitted when the write state of the folder has been changed. The application
+     * should disable all actions like "Create New..." that depend on the write
+     * state.
+     */
+    void writeStateChanged(bool isFolderWritable);
 
 private slots:
     /**
@@ -188,23 +185,7 @@ private slots:
      */
     void setNameFilter(const QString& nameFilter);
 
-    /**
-     * Opens the context menu on the current mouse position.
-     * @item          File item context. If item is null, the context menu
-     *                should be applied to \a url.
-     * @url           URL which contains \a item.
-     * @customActions Actions that should be added to the context menu,
-     *                if the file item is null.
-     */
-    void openContextMenu(const KFileItem& item,
-                         const KUrl& url,
-                         const QList<QAction*>& customActions);
-
-    /**
-     * Saves the position of the contents to the
-     * current history element.
-     */
-    void saveContentsPos(int x, int y);
+    void restoreViewState();
 
     /**
      * Marks the view container as active
@@ -213,16 +194,16 @@ private slots:
     void activate();
 
     /**
+     * Saves the state of the current view: contents position,
+     * root URL, ...
+     */
+    void saveViewState();
+
+    /**
      * Restores the current view to show \a url and assures
      * that the root URL of the view is respected.
      */
-    void restoreView(const KUrl& url);
-
-    /**
-     * Saves the root URL of the current URL \a url
-     * into the URL navigator.
-     */
-    void saveRootUrl(const KUrl& url);
+    void slotUrlNavigatorLocationChanged(const KUrl& url);
 
     /**
      * Is connected with the URL navigator and drops the URLs
@@ -251,7 +232,6 @@ private slots:
 private:
     bool m_isFolderWritable;
 
-    DolphinMainWindow* m_mainWindow;
     QVBoxLayout* m_topLayout;
     KUrlNavigator* m_urlNavigator;
 

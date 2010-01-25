@@ -29,6 +29,7 @@
 #endif
 
 #include "dolphinapplication.h"
+#include "dolphincontextmenu.h"
 #include "dolphinnewmenu.h"
 #include "search/dolphinsearchbox.h"
 #include "settings/dolphinsettings.h"
@@ -415,7 +416,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
     viewTab.splitter->setChildrenCollapsible(false);
-    viewTab.primaryView = new DolphinViewContainer(this, viewTab.splitter, url);
+    viewTab.primaryView = new DolphinViewContainer(url, viewTab.splitter);
     viewTab.primaryView->setActive(false);
     connectViewSignals(viewTab.primaryView);
     viewTab.primaryView->view()->reload();
@@ -553,7 +554,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
                 break;
             case KDialog::No:
                 // Close only the current tab
-	      closeTab();
+              closeTab();
             default:
                 event->ignore();
                 return;
@@ -576,12 +577,14 @@ void DolphinMainWindow::saveProperties(KConfigGroup& group)
     for (int i = 0; i < tabCount; ++i) {
         const DolphinViewContainer* cont = m_viewTab[i].primaryView;
         group.writeEntry(tabProperty("Primary URL", i), cont->url().url());
-        group.writeEntry(tabProperty("Primary Editable", i), cont->isUrlEditable());
+        group.writeEntry(tabProperty("Primary Editable", i),
+                         cont->urlNavigator()->isUrlEditable());
 
         cont = m_viewTab[i].secondaryView;
         if (cont != 0) {
             group.writeEntry(tabProperty("Secondary URL", i), cont->url().url());
-            group.writeEntry(tabProperty("Secondary Editable", i), cont->isUrlEditable());
+            group.writeEntry(tabProperty("Secondary Editable", i),
+                             cont->urlNavigator()->isUrlEditable());
         }
     }
 }
@@ -840,7 +843,8 @@ void DolphinMainWindow::goBack(Qt::MouseButtons buttons)
     // The default case (left button pressed) is handled in goBack().
     if (buttons == Qt::MidButton) {
         KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
-        openNewTab(urlNavigator->historyUrl(urlNavigator->historyIndex() + 1));
+        const int index = urlNavigator->historyIndex() + 1;
+        openNewTab(urlNavigator->locationUrl(index));
     }
 }
 
@@ -849,7 +853,8 @@ void DolphinMainWindow::goForward(Qt::MouseButtons buttons)
     // The default case (left button pressed) is handled in goForward().
     if (buttons == Qt::MidButton) {
         KUrlNavigator* urlNavigator = activeViewContainer()->urlNavigator();
-        openNewTab(urlNavigator->historyUrl(urlNavigator->historyIndex() - 1));
+        const int index = urlNavigator->historyIndex() - 1;
+        openNewTab(urlNavigator->locationUrl(index));
     }
 }
 
@@ -1043,6 +1048,8 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
     QAction* newTabAction = menu.addAction(KIcon("tab-new"), i18nc("@action:inmenu", "New Tab"));
     newTabAction->setShortcut(actionCollection()->action("new_tab")->shortcut());
 
+    QAction* detachTabAction = menu.addAction(KIcon("tab-detach"), i18nc("@action:inmenu", "Detach Tab"));
+
     QAction* closeOtherTabsAction = menu.addAction(KIcon("tab-close-other"), i18nc("@action:inmenu", "Close Other Tabs"));
 
     QAction* closeTabAction = menu.addAction(KIcon("tab-close"), i18nc("@action:inmenu", "Close Tab"));
@@ -1055,6 +1062,25 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
                          tab.secondaryView->url() : tab.primaryView->url();
         openNewTab(url);
         m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
+    } else if (selectedAction == detachTabAction) {
+        const ViewTab& tab = m_viewTab[index];
+        Q_ASSERT(tab.primaryView != 0);
+        const KUrl primaryUrl = tab.primaryView->url();
+        DolphinMainWindow* window = DolphinApplication::app()->createMainWindow();
+        window->changeUrl(primaryUrl);
+
+        if (tab.secondaryView != 0) {
+            const KUrl secondaryUrl = tab.secondaryView->url();
+            window->toggleSplitView();
+            window->m_viewTab[0].secondaryView->setUrl(secondaryUrl);
+            if (tab.primaryView->isActive()) {
+                window->m_viewTab[0].primaryView->setActive(true);
+            } else {
+                window->m_viewTab[0].secondaryView->setActive(true);
+            }
+        }
+        window->show();
+        closeTab(index);
     } else if (selectedAction == closeOtherTabsAction) {
         const int count = m_tabBar->count();
         for (int i = 0; i < index; ++i) {
@@ -1066,6 +1092,12 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
     } else if (selectedAction == closeTabAction) {
         closeTab(index);
     }
+}
+
+void DolphinMainWindow::slotTabMoved(int from, int to)
+{
+    m_viewTab.move(from, to);
+    m_tabIndex = m_tabBar->currentIndex();
 }
 
 void DolphinMainWindow::handlePlacesClick(const KUrl& url, Qt::MouseButtons buttons)
@@ -1091,17 +1123,42 @@ void DolphinMainWindow::searchItems()
 #endif
 }
 
-void DolphinMainWindow::slotTabMoved(int from, int to)
-{
-    m_viewTab.move(from, to);
-    m_tabIndex = m_tabBar->currentIndex();
-}
-
 void DolphinMainWindow::showSearchOptions()
 {
 #ifdef HAVE_NEPOMUK
     m_searchOptionsConfigurator->show();
 #endif
+}
+
+void DolphinMainWindow::handleUrl(const KUrl& url)
+{
+    if (KProtocolManager::supportsListing(url)) {
+        activeViewContainer()->setUrl(url);
+    } else {
+        new KRun(url, this);
+    }
+}
+
+void DolphinMainWindow::slotCaptionStatFinished(KJob* job)
+{
+    m_captionStatJob = 0;
+    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
+    const QString name = entry.stringValue(KIO::UDSEntry::UDS_DISPLAY_NAME);
+    setCaption(name);
+}
+
+void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
+{
+    newMenu()->setEnabled(isFolderWritable);
+}
+
+void DolphinMainWindow::openContextMenu(const KFileItem& item,
+                                        const KUrl& url,
+                                        const QList<QAction*>& customActions)
+{
+    DolphinContextMenu contextMenu(this, item, url);
+    contextMenu.setCustomActions(customActions);
+    contextMenu.open();
 }
 
 void DolphinMainWindow::init()
@@ -1129,9 +1186,8 @@ void DolphinMainWindow::init()
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
     connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
     ViewProperties props(homeUrl);
-    m_viewTab[m_tabIndex].primaryView = new DolphinViewContainer(this,
-                                                                 m_viewTab[m_tabIndex].splitter,
-                                                                 homeUrl);
+    m_viewTab[m_tabIndex].primaryView = new DolphinViewContainer(homeUrl,
+                                                                 m_viewTab[m_tabIndex].splitter);
 
     m_activeViewContainer = m_viewTab[m_tabIndex].primaryView;
     connectViewSignals(m_activeViewContainer);
@@ -1166,7 +1222,7 @@ void DolphinMainWindow::init()
     connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)),
             this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
     connect(m_tabBar, SIGNAL(wheelDelta(int)),
-	    this, SLOT(slotWheelMoved(int)));
+            this, SLOT(slotWheelMoved(int)));
     connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
             this, SLOT(closeTab(int)));
     connect(m_tabBar, SIGNAL(tabMoved(int, int)),
@@ -1633,6 +1689,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
 {
     connect(container, SIGNAL(showFilterBarChanged(bool)),
             this, SLOT(updateFilterBarAction(bool)));
+    connect(container, SIGNAL(writeStateChanged(bool)),
+            this, SLOT(slotWriteStateChanged(bool)));
 
     DolphinView* view = container->view();
     connect(view, SIGNAL(selectionChanged(KFileItemList)),
@@ -1643,6 +1701,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(toggleActiveView()));
     connect(view, SIGNAL(tabRequested(const KUrl&)),
             this, SLOT(openNewTab(const KUrl&)));
+    connect(view, SIGNAL(requestContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)),
+            this, SLOT(openContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)));
 
     const KUrlNavigator* navigator = container->urlNavigator();
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),
@@ -1710,7 +1770,7 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
     const int newWidth = (m_viewTab[tabIndex].primaryView->width() - splitter->handleWidth()) / 2;
 
     const DolphinView* view = m_viewTab[tabIndex].primaryView->view();
-    m_viewTab[tabIndex].secondaryView = new DolphinViewContainer(this, 0, view->rootUrl());
+    m_viewTab[tabIndex].secondaryView = new DolphinViewContainer(view->rootUrl(), 0);
     splitter->addWidget(m_viewTab[tabIndex].secondaryView);
     splitter->setSizes(QList<int>() << newWidth << newWidth);
     connectViewSignals(m_viewTab[tabIndex].secondaryView);
@@ -1746,23 +1806,6 @@ void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
         connect(m_captionStatJob, SIGNAL(result(KJob*)),
                 this, SLOT(slotCaptionStatFinished(KJob*)));
     }
-}
-
-void DolphinMainWindow::handleUrl(const KUrl& url)
-{
-    if (KProtocolManager::supportsListing(url)) {
-        activeViewContainer()->setUrl(url);
-    } else {
-        new KRun(url, this);
-    }
-}
-
-void DolphinMainWindow::slotCaptionStatFinished(KJob* job)
-{  
-    m_captionStatJob = 0;
-    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
-    const QString name = entry.stringValue(KIO::UDSEntry::UDS_DISPLAY_NAME);
-    setCaption(name);
 }
 
 QString DolphinMainWindow::squeezedText(const QString& text) const
