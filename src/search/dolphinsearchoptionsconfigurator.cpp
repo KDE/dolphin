@@ -41,6 +41,7 @@
 #include <kseparator.h>
 
 #include "searchcriterionselector.h"
+#include "searchoptiondialogbox.h"
 
 #include <QButtonGroup>
 #include <QHBoxLayout>
@@ -275,33 +276,11 @@ void DolphinSearchOptionsConfigurator::removeCriterion()
 
 void DolphinSearchOptionsConfigurator::saveQuery()
 {
-    // TODO: provide a custom dialog class for KDE 4.5, which
-    // enables/disables the OK button depend on whether a text
-    // has been entered.
-    QPointer<KDialog> dialog = new KDialog(0, Qt::Dialog);
+    QPointer<SearchOptionDialogBox> dialog = new SearchOptionDialogBox( 0 );
 
-    QWidget* container = new QWidget(dialog);
-
-    QLabel* label = new QLabel(i18nc("@label", "Name:"), container);
-    KLineEdit* lineEdit = new KLineEdit(container);
-    lineEdit->setMinimumWidth(250);
-
-    QHBoxLayout* layout = new QHBoxLayout(container);
-    layout->addWidget(label, Qt::AlignRight);
-    layout->addWidget(lineEdit);
-
-    dialog->setMainWidget(container);
-    dialog->setCaption(i18nc("@title:window", "Save Search Options"));
-    dialog->setButtons(KDialog::Ok | KDialog::Cancel);
-    dialog->setDefaultButton(KDialog::Ok);
-    dialog->setButtonText(KDialog::Ok, i18nc("@action:button", "Save"));
-
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                              "SaveSearchOptionsDialog");
-    dialog->restoreDialogSize(dialogConfig);
-    if ((dialog->exec() == QDialog::Accepted) && !lineEdit->text().isEmpty()) {
+    if (dialog->exec() == QDialog::Accepted) {
         KFilePlacesModel* model = DolphinSettings::instance().placesModel();
-        model->addPlace(lineEdit->text(), nepomukSearchUrl());
+        model->addPlace(dialog->text(), nepomukSearchUrl());
     }
     delete dialog;
 }
