@@ -179,7 +179,7 @@ void KMetaDataConfigurationDialog::Private::loadMetaData()
         // Meta information provided by Nepomuk that is already
         // available from KFileItem as "fixed item" (see above)
         // should not be shown as second entry.
-        static const char* hiddenProperties[] = {
+        static const char* const hiddenProperties[] = {
             "contentSize",   // = fixed item "size"
             "description",   // = fixed item "comment"
             "fileExtension", // ~ fixed item "type"

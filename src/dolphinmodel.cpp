@@ -41,7 +41,7 @@
 #include <QDir>
 #include <QFileInfo>
 
-const char* DolphinModel::m_others = I18N_NOOP2("@title:group Name", "Others");
+const char* const DolphinModel::m_others = I18N_NOOP2("@title:group Name", "Others");
 
 DolphinModel::DolphinModel(QObject* parent) :
     KDirModel(parent),

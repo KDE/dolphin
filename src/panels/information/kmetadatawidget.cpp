@@ -281,7 +281,7 @@ void KMetaDataWidget::Private::initMetaInfoSettings()
 
         // trueg: KDE 4.5: use a blacklist of actual rdf properties
 
-        static const char* disabledProperties[] = {
+        static const char* const disabledProperties[] = {
             "asText", "contentSize", "created", "depth", "description", "fileExtension",
             "fileName", "fileSize", "hasTag", "isPartOf", "lastModified", "mimeType", "name",
             "numericRating", "parentUrl", "permissions", "plainTextContent", "owner",

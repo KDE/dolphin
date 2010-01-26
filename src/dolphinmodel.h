@@ -60,7 +60,7 @@ private:
     bool m_hasVersionData;
     QHash<QPersistentModelIndex, KVersionControlPlugin::VersionState> m_revisionHash;
 
-    static const char* m_others;
+    static const char* const m_others;
 };
 
 #endif // DOLPHINMODEL_H
