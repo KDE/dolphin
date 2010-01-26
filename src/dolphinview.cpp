@@ -81,7 +81,6 @@ DolphinView::DolphinView(QWidget* parent,
     QWidget(parent),
     m_active(true),
     m_showPreview(false),
-    m_loadingDirectory(false),
     m_storedCategorizedSorting(false),
     m_tabsForFiles(false),
     m_isContextMenuOpen(false),
@@ -1025,13 +1024,6 @@ bool DolphinView::isTabsForFilesEnabled() const
     return m_tabsForFiles;
 }
 
-void DolphinView::activateItem(const KUrl& url)
-{
-    // TODO: If DolphinViewContainer uses DolphinView::restoreState(...) to restore the
-    // view state in KDE 4.5, this function can be removed.
-    m_activeItemUrl = url;
-}
-
 bool DolphinView::itemsExpandable() const
 {
     return m_viewAccessor.itemsExpandable();
@@ -1159,7 +1151,6 @@ void DolphinView::slotDirListerCompleted()
 void DolphinView::slotLoadingCompleted()
 {
     m_expanderActive = false;
-    m_loadingDirectory = false;
 
     if (!m_activeItemUrl.isEmpty()) {
         // assure that the current item remains visible
@@ -1218,7 +1209,6 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
         return;
     }
 
-    m_loadingDirectory = true;
     m_expanderActive = false;
 
     KDirLister* dirLister = m_viewAccessor.dirLister();
@@ -1482,11 +1472,6 @@ void DolphinView::ViewAccessor::prepareUrlChange(const KUrl& url)
     if (m_columnsContainer != 0) {
         m_columnsContainer->showColumn(url);
     }
-
-    if(!m_detailsViewExpander.isNull()) {
-        // stop expanding items in the current folder
-        m_detailsViewExpander->stop();
-    }
 }
 
 QAbstractItemView* DolphinView::ViewAccessor::itemView() const
@@ -1552,6 +1537,11 @@ QSet<KUrl> DolphinView::ViewAccessor::expandedUrls() const
 const DolphinDetailsViewExpander* DolphinView::ViewAccessor::setExpandedUrls(const QSet<KUrl>& urlsToExpand)
 {
     if ((m_detailsView != 0) && m_detailsView->itemsExpandable() && !urlsToExpand.isEmpty()) {
+        // Check if another expander is already active and stop it if necessary.
+        if(!m_detailsViewExpander.isNull()) {
+            m_detailsViewExpander->stop();
+        }
+
         m_detailsViewExpander = new DolphinDetailsViewExpander(m_detailsView, urlsToExpand);
         return m_detailsViewExpander;
     }
@@ -1602,8 +1592,6 @@ void DolphinView::restoreContentsPosition()
         Q_ASSERT(view != 0);
         view->horizontalScrollBar()->setValue(x);
         view->verticalScrollBar()->setValue(y);
-
-        m_loadingDirectory = false;
     }
 }
 

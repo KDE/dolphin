@@ -185,8 +185,6 @@ private slots:
      */
     void setNameFilter(const QString& nameFilter);
 
-    void restoreViewState();
-
     /**
      * Marks the view container as active
      * (see DolphinViewContainer::setActive()).

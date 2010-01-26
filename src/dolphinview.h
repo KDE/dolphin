@@ -312,15 +312,6 @@ public:
     bool isTabsForFilesEnabled() const;
 
     /**
-     * Marks the item \a url as active item as soon as it has
-     * been loaded by the directory lister. This is useful mark
-     * the previously visited directory as active when going
-     * back in history (the URL is known, but the item is not
-     * loaded yet).
-     */
-    void activateItem(const KUrl& url);
-
-    /**
      * Returns true if the current view allows folders to be expanded,
      * i.e. presents a hierarchical view to the user.
      */
@@ -797,7 +788,6 @@ private:
 
     bool m_active : 1;
     bool m_showPreview : 1;
-    bool m_loadingDirectory : 1;
     bool m_storedCategorizedSorting : 1;
     bool m_tabsForFiles : 1;
     bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192

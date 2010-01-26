@@ -307,7 +307,6 @@ void DolphinViewContainer::slotDirListerCompleted()
     } else {
         updateStatusBar();
     }
-    QMetaObject::invokeMethod(this, "restoreViewState", Qt::QueuedConnection);
 
     // Enable the 'File'->'Create New...' menu only if the directory
     // supports writing.
@@ -367,13 +366,6 @@ void DolphinViewContainer::setNameFilter(const QString& nameFilter)
 {
     m_view->setNameFilter(nameFilter);
     delayedStatusBarUpdate();
-}
-
-void DolphinViewContainer::restoreViewState()
-{
-    QByteArray locationState = m_urlNavigator->locationState();
-    QDataStream stream(&locationState, QIODevice::ReadOnly);
-    m_view->restoreState(stream);
 }
 
 void DolphinViewContainer::activate()
@@ -458,12 +450,11 @@ void DolphinViewContainer::saveUrlCompletionMode(KGlobalSettings::Completion com
 
 void DolphinViewContainer::slotHistoryChanged()
 {
-    const int index = m_urlNavigator->historyIndex();
-    if (index > 0) {       
-        // The "Go Forward" action is enabled. Try to mark
-        // the previous directory as active item:
-        const KUrl url = m_urlNavigator->locationUrl(index - 1);
-        m_view->activateItem(url);
+    QByteArray locationState = m_urlNavigator->locationState();
+
+    if (!locationState.isEmpty()) {
+        QDataStream stream(&locationState, QIODevice::ReadOnly);
+        m_view->restoreState(stream);
     }
 }
 
