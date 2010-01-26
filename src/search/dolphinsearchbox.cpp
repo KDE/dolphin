@@ -251,7 +251,9 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     connect(m_searchInput, SIGNAL(returnPressed()),
             this, SLOT(emitSearchSignal()));
     connect(m_searchInput, SIGNAL(textChanged(QString)),
-            this, SIGNAL(searchTextChanged(QString)));
+            this, SLOT(slotTextChanged(QString)));
+    connect(m_searchInput, SIGNAL(clearButtonClicked()),
+            this, SLOT(slotClearButtonClicked()));
 }
 
 DolphinSearchBox::~DolphinSearchBox()
@@ -284,7 +286,9 @@ bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
         if (m_completer == 0) {
             m_completer = new DolphinSearchCompleter(m_searchInput);
         }
-        emit requestSearchOptions();
+        if (m_searchInput->text().isEmpty()) {
+            emit requestSearchOptions();
+        }
     }
 
     return QWidget::eventFilter(watched, event);
@@ -294,6 +298,14 @@ bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
 void DolphinSearchBox::emitSearchSignal()
 {
     emit search(m_searchInput->text());
+}
+
+void DolphinSearchBox::slotTextChanged(const QString& text)
+{
+    if (!text.isEmpty()) {
+        emit requestSearchOptions();
+    }
+    emit searchTextChanged(text);
 }
 
 #include "dolphinsearchbox.moc"

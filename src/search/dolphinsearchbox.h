@@ -94,15 +94,16 @@ signals:
     void searchTextChanged(const QString& text);
 
     /**
-     * Is emitted if the search box gets the focus and
-     * requests the need for a UI that allows to adjust
-     * search options. It is up to the application to ignore
+     * Is emitted if the search box gets the focus or the text
+     * has been changed. It requests the need for an UI that allows to
+     * adjust search options. It is up to the application to ignore
      * this request.
      */
     void requestSearchOptions();
 
 private slots:
     void emitSearchSignal();
+    void slotTextChanged(const QString& text);
 
 private:
     KLineEdit* m_searchInput;
