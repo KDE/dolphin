@@ -11,7 +11,7 @@ Comment[ca]=operador lògic i
 Comment[ca@valencia]=operador lògic i
 Comment[cs]=logický operátor and
 Comment[csb]=logiczny òperatora ë
-Comment[da]=den logiske operatør og
+Comment[da]=den logiske operator og
 Comment[de]=Logischer Und-Operator
 Comment[el]=τελεστής λογικής και
 Comment[en_GB]=logic operator and
@@ -29,6 +29,7 @@ Comment[hr]=logički operator i
 Comment[hu]=logikai ÉS művelet
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin og
+Comment[it]=operatore logico «e»
 Comment[ja]=論理演算子 AND
 Comment[kk]=логикалық 'және' операторы
 Comment[ko]=논리 연산자 'and'
@@ -69,7 +70,7 @@ Comment[ca]=operador lògic o
 Comment[ca@valencia]=operador lògic o
 Comment[cs]=logický operátor or
 Comment[csb]=logiczny òperatora abò
-Comment[da]=den logiske operatør eller
+Comment[da]=den logiske operator eller
 Comment[de]=Logischer Oder-Operator
 Comment[el]=τελεστής λογικής ή
 Comment[en_GB]=logic operator or
@@ -87,6 +88,7 @@ Comment[hr]=logički operator ili
 Comment[hu]=logikai VAGY művelet
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin eða
+Comment[it]=operatore logico «o»
 Comment[ja]=論理演算子 OR
 Comment[kk]=логикалық 'немесе' операторы
 Comment[km]=សញ្ញាប្រមាណវិធី​ឡូសីក or
@@ -128,7 +130,7 @@ Comment[ca]=operador lògic no
 Comment[ca@valencia]=operador lògic no
 Comment[cs]=logický operátor negace
 Comment[csb]=logiczny òperatora nié
-Comment[da]=den logiske operatør ikke
+Comment[da]=den logiske operator ikke
 Comment[de]=Logischer Nicht-Operator
 Comment[el]=τελεστής λογικής δεν
 Comment[en_GB]=logic operator not
@@ -146,6 +148,7 @@ Comment[hr]=logički operator ne
 Comment[hu]=logikai NEM művelet
 Comment[id]=operator logika tidak
 Comment[is]=rökaðgerðin ekki
+Comment[it]=operatore logico «non»
 Comment[ja]=論理演算子 NOT
 Comment[kk]=логикалық 'теріс' операторы
 Comment[ko]=논리 연산자 'not'
@@ -202,6 +205,7 @@ Name[hr]=Nastavak datoteke
 Name[hu]=Fájlkiterjesztés
 Name[id]=Ekstensi berkas
 Name[is]=Skráarending
+Name[it]=Estensione di file
 Name[ja]=ファイルの拡張子
 Name[kk]=Файл атау жұрнағы
 Name[kn]=ಕಡತ ವಿಸ್ತರಣೆ
@@ -258,6 +262,7 @@ Comment[hr]=na primjer txt
 Comment[hu]=például txt
 Comment[id]=sebagai contoh txt
 Comment[is]=til dæmis txt
+Comment[it]=per esempio «txt»
 Comment[ja]=例えば txt
 Comment[kk]=мысалы txt
 Comment[kn]=ಉದಾಹರಣೆಗೆ txt
@@ -320,6 +325,7 @@ Comment[hr]=1 do 10, na primjer >=7
 Comment[hu]=1-től 10-ig terjedhet, például >=7
 Comment[id]=1 sampai 10, misalnya >=7
 Comment[is]=1 til 10, til dæmis >=7
+Comment[it]=da 1 a 10, per esempio >=7
 Comment[ja]=1 から 10、例えば >=7
 Comment[kk]=1-ден 10 дейін, мысалы >=7
 Comment[kn]=೧ ರಿಂದ ೧೦, ಉದಾಹರಣೆಗೆ >= ೭
@@ -372,6 +378,7 @@ GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
@@ -389,6 +396,7 @@ GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
+GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
@@ -432,6 +440,7 @@ Comment[hr]=Oznaka
 Comment[hu]=Címke
 Comment[id]=Tag
 Comment[is]=Merki
+Comment[it]=Etichetta
 Comment[ja]=タグ
 Comment[kk]=Тег
 Comment[kn]=ಟ್ಯಾಗ್
@@ -450,6 +459,7 @@ Comment[pl]=Znacznik
 Comment[pt]=Marca
 Comment[pt_BR]=Etiqueta
 Comment[ro]=Marcaj
+Comment[ru]=Метка
 Comment[si]=ටැග
 Comment[sl]=Oznaka
 Comment[sr]=Ознака
@@ -494,6 +504,7 @@ Name[hr]=Veličina datoteke
 Name[hu]=Fájlméret
 Name[id]=Ukuran berkas
 Name[is]=Skráarstærð
+Name[it]=Dimensione dei file
 Name[ja]=ファイルサイズ
 Name[kk]=Файл өлшемі
 Name[kn]=ಕಡತದ ಗಾತ್ರ
@@ -549,6 +560,7 @@ Comment[hr]=u bajtovima, na primjer >1000
 Comment[hu]=bájtban számolva, például >1000
 Comment[id]=dalam bita, misalnya >1000
 Comment[is]=í bætum, til dæmis >1000
+Comment[it]=in byte, per esempio >1000
 Comment[ja]=バイト単位、例えば >1000
 Comment[kk]=байт, мысалы >1000
 Comment[kn]=ಬೈಟ್‌ಗಳಲ್ಲಿ, ಉದಾಹರಣೆಗೆ >೧೦೦೦
@@ -601,6 +613,7 @@ GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
@@ -618,6 +631,7 @@ GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
+GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
@@ -657,6 +671,7 @@ Name[hr]=Veličina sadržaja
 Name[hu]=Tartalomméret
 Name[id]=Ukuran isi
 Name[is]=Stærð innihalds
+Name[it]=Dimensioni del contenuto
 Name[ja]=コンテンツのサイズ
 Name[kk]=Мазмұнның өлшемі
 Name[kn]=ವಿಷಯದ ಗಾತ್ರ
@@ -711,6 +726,7 @@ Comment[hr]=u bajtovima
 Comment[hu]=bájtban
 Comment[id]=dalam bita
 Comment[is]=í bætum
+Comment[it]=in byte
 Comment[ja]=バイト単位
 Comment[kk]=байт
 Comment[km]=គិត​ជា​បៃ
@@ -736,6 +752,7 @@ Comment[sr@ijekavian]=У бајтовима
 Comment[sr@ijekavianlatin]=U bajtovima
 Comment[sr@latin]=U bajtovima
 Comment[sv]=i byte
+Comment[tg]=дар байтҳо
 Comment[tr]=bayt olarak
 Comment[uk]=у байтах
 Comment[wa]=e bites
@@ -765,6 +782,7 @@ GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
@@ -782,6 +800,7 @@ GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
+GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
@@ -824,6 +843,7 @@ Comment[hr]=na primjer >1999-10-10
 Comment[hu]=például >1999-10-10
 Comment[id]=misalnya >1999-10-10
 Comment[is]=til dæmis >1999-10-10
+Comment[it]=per esempio >1999-10-10
 Comment[ja]=例えば >1999-10-10
 Comment[kk]=мысалы >1999-10-10
 Comment[kn]=ಉದಾಹರಣೆಗೆ >೧೯೯೯-೧೦-೧೦
@@ -839,6 +859,7 @@ Comment[pl]=na przykład: > 1999-10-10
 Comment[pt]=por exemplo > 1999-10-10
 Comment[pt_BR]=por exemplo, > 1999-10-10
 Comment[ro]=de exemplu >1999-10-10
+Comment[ru]=например, >
 Comment[si]=උදා >1999-10-10
 Comment[sl]=na primer >1990-12-26
 Comment[sr]=На пример >1999-10-10
@@ -875,6 +896,7 @@ GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
+GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
@@ -892,6 +914,7 @@ GenericName[pl]=Można używać <,<=,:,>= oraz >.
 GenericName[pt]=Use o <, <=, :, >= e o >.
 GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
+GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
