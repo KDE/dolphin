@@ -88,7 +88,7 @@ Q_SIGNALS:
     /**
      * Emitted if the user requested creating a new directory by the F10 key.
      * The receiver of the signal (DolphinMainWindow or DolphinPart) invokes
-     * the method createDirectory of their KNewMenu instance.
+     * the method createDirectory of their KNewFileMenu instance.
      */
     void createDirectory();
 

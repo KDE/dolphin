@@ -632,7 +632,7 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
 void DolphinMainWindow::updateNewMenu()
 {
     m_newMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
-    m_newMenu->slotCheckUpToDate();
+    m_newMenu->checkUpToDate();
     m_newMenu->setPopupFiles(activeViewContainer()->url());
 }
 

@@ -79,7 +79,7 @@ DolphinView* DolphinViewActionHandler::currentView()
 void DolphinViewActionHandler::createActions()
 {
     // This action doesn't appear in the GUI, it's for the shortcut only.
-    // KNewMenu takes care of the GUI stuff.
+    // KNewFileMenu takes care of the GUI stuff.
     KAction* newDirAction = m_actionCollection->addAction("create_dir");
     newDirAction->setText(i18nc("@action", "Create Folder..."));
     newDirAction->setShortcut(Qt::Key_F10);

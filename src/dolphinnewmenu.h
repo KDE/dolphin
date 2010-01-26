@@ -30,11 +30,11 @@ class KJob;
  * @brief Represents the 'Create New...' sub menu for the File menu
  *        and the context menu.
  *
- * The only difference to KNewMenu is the custom error handling.
+ * The only difference to KNewFileMenu is the custom error handling.
  * All errors are shown in the status bar of Dolphin
  * instead as modal error dialog with an OK button.
  */
-class DolphinNewMenu : public KNewMenu
+class DolphinNewMenu : public KNewFileMenu
 {
     Q_OBJECT
 
@@ -43,7 +43,7 @@ public:
     virtual ~DolphinNewMenu();
 
 protected slots:
-    /** @see KNewMenu::slotResult() */
+    /** @see KNewFileMenu::slotResult() */
     virtual void slotResult(KJob* job);
 
 private:

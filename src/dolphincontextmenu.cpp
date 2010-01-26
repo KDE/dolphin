@@ -41,7 +41,7 @@
 #include <knewmenu.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
-#include <konq_menuactions.h>
+#include <kfileitemactions.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
 #include <krun.h>
@@ -191,7 +191,7 @@ void DolphinContextMenu::openItemContextMenu()
         DolphinNewMenu* newMenu = new DolphinNewMenu(popup, m_mainWindow);
         const DolphinView* view = m_mainWindow->activeViewContainer()->view();
         newMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
-        newMenu->slotCheckUpToDate();
+        newMenu->checkUpToDate();
         newMenu->setPopupFiles(m_fileInfo.url());
         newMenu->setEnabled(capabilities().supportsWriting());
 
@@ -222,7 +222,7 @@ void DolphinContextMenu::openItemContextMenu()
         }
     }
 
-    KonqMenuActions menuActions;
+    KFileItemActions menuActions;
     menuActions.setParentWidget(m_mainWindow);
     menuActions.setItemListProperties(m_selectedItems);
 
@@ -230,7 +230,7 @@ void DolphinContextMenu::openItemContextMenu()
     menuActions.addOpenWithActionsTo(popup, "DesktopEntryName != 'dolphin'");
 
     // insert 'Actions' sub menu
-    if (menuActions.addActionsTo(popup)) {
+    if (menuActions.addServiceActionsTo(popup)) {
         popup->addSeparator();
     }
 
@@ -269,10 +269,10 @@ void DolphinContextMenu::openViewportContextMenu()
     addShowMenubarAction(popup);
 
     // setup 'Create New' menu
-    KNewMenu* newMenu = m_mainWindow->newMenu();
+    KNewFileMenu* newMenu = m_mainWindow->newMenu();
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     newMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
-    newMenu->slotCheckUpToDate();
+    newMenu->checkUpToDate();
     newMenu->setPopupFiles(m_baseUrl);
     popup->addMenu(newMenu->menu());
     popup->addSeparator();

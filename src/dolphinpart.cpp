@@ -42,7 +42,7 @@
 #include <kio/netaccess.h>
 #include <ktoolinvocation.h>
 #include <kauthorized.h>
-#include <knewmenu.h>
+#include <knewfilemenu.h>
 #include <kmenu.h>
 #include <kinputdialog.h>
 
@@ -156,7 +156,7 @@ void DolphinPart::createActions()
 {
     // Edit menu
 
-    m_newMenu = new KNewMenu(actionCollection(), widget(), "new_menu");
+    m_newMenu = new KNewFileMenu(actionCollection(), "new_menu", widget());
     DolphinNewMenuObserver::instance().attach(m_newMenu);
     connect(m_newMenu->menu(), SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
@@ -601,8 +601,8 @@ void DolphinPart::slotOpenTerminal()
 
 void DolphinPart::updateNewMenu()
 {
-    // As requested by KNewMenu :
-    m_newMenu->slotCheckUpToDate();
+    // As requested by KNewFileMenu :
+    m_newMenu->checkUpToDate();
     m_newMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
     // And set the files that the menu apply on :
     m_newMenu->setPopupFiles(url());

@@ -30,7 +30,7 @@
 #include <kio/job.h>
 
 DolphinNewMenu::DolphinNewMenu(QWidget* parent, DolphinMainWindow* mainWin) :
-    KNewMenu(mainWin->actionCollection(), parent, "create_new"),
+    KNewFileMenu(mainWin->actionCollection(), "create_new", parent),
     m_mainWin(mainWin)
 {
     DolphinNewMenuObserver::instance().attach(this);
@@ -47,7 +47,7 @@ void DolphinNewMenu::slotResult(KJob* job)
         DolphinStatusBar* statusBar = m_mainWin->activeViewContainer()->statusBar();
         statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
     } else {
-        KNewMenu::slotResult(job);
+        KNewFileMenu::slotResult(job);
     }
 }
 

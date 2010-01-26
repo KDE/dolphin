@@ -34,13 +34,13 @@ DolphinNewMenuObserver& DolphinNewMenuObserver::instance()
     return s_dolphinNewMenuObserver->instance;
 }
 
-void DolphinNewMenuObserver::attach(const KNewMenu* menu)
+void DolphinNewMenuObserver::attach(const KNewFileMenu* menu)
 {
     connect(menu, SIGNAL(itemCreated(const KUrl&)),
             this, SIGNAL(itemCreated(const KUrl&)));
 }
 
-void DolphinNewMenuObserver::detach(const KNewMenu* menu)
+void DolphinNewMenuObserver::detach(const KNewFileMenu* menu)
 {
     disconnect(menu, SIGNAL(itemCreated(const KUrl&)),
                this, SIGNAL(itemCreated(const KUrl&)));

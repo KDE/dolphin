@@ -25,7 +25,7 @@
 
 #include <QItemSelectionModel>
 
-class KNewMenu;
+class KNewFileMenu;
 class DolphinViewActionHandler;
 class QActionGroup;
 class KAction;
@@ -233,7 +233,7 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinPartBrowserExtension* m_extension;
-    KNewMenu* m_newMenu;
+    KNewFileMenu* m_newMenu;
     QString m_nameFilter;
     Q_DISABLE_COPY(DolphinPart)
 };

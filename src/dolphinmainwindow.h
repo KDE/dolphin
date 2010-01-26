@@ -45,7 +45,7 @@ class DolphinSearchOptionsConfigurator;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
-class KNewMenu;
+class KNewFileMenu;
 class KTabBar;
 class KUrl;
 class QSplitter;
@@ -115,7 +115,7 @@ public:
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
-    KNewMenu* newMenu() const;
+    KNewFileMenu* newMenu() const;
 
     /**
      * Returns the 'Show Menubar' action which can be shared with
@@ -522,7 +522,7 @@ private:
         virtual void jobError(KIO::Job* job);
     };
 
-    KNewMenu* m_newMenu;
+    KNewFileMenu* m_newMenu;
     KActionMenu* m_recentTabsMenu;
     KAction* m_showMenuBar;
     KTabBar* m_tabBar;
@@ -561,7 +561,7 @@ inline bool DolphinMainWindow::isSplit() const
     return m_viewTab[m_tabIndex].secondaryView != 0;
 }
 
-inline KNewMenu* DolphinMainWindow::newMenu() const
+inline KNewFileMenu* DolphinMainWindow::newMenu() const
 {
     return m_newMenu;
 }

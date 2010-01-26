@@ -24,7 +24,7 @@
 
 #include "libdolphin_export.h"
 
-class KNewMenu;
+class KNewFileMenu;
 class KUrl;
 
 /**
@@ -40,8 +40,8 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinNewMenuObserver : public QObject
 
 public:
     static DolphinNewMenuObserver& instance();
-    void attach(const KNewMenu* menu);
-    void detach(const KNewMenu* menu);
+    void attach(const KNewFileMenu* menu);
+    void detach(const KNewFileMenu* menu);
 
 signals:
     void itemCreated(const KUrl& url);
