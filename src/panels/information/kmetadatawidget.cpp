@@ -267,7 +267,7 @@ void KMetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
 
 void KMetaDataWidget::Private::initMetaInfoSettings()
 {
-    const int currentVersion = 1; // increase version, if the blacklist of disabled
+    const int currentVersion = 2; // increase version, if the blacklist of disabled
                                   // properties should be updated
 
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
@@ -283,7 +283,7 @@ void KMetaDataWidget::Private::initMetaInfoSettings()
 
         static const char* disabledProperties[] = {
             "asText", "contentSize", "created", "depth", "description", "fileExtension",
-            "fileName", "fileSize", "hasTag", "isPartOf", "lastModified", "mimeType", "name",
+            "fileName", "fileSize", "hasTag", "lastModified", "mimeType", "name",
             "numericRating", "parentUrl", "permissions", "plainTextContent", "owner",
             "sourceModified", "url",
             0 // mandatory last entry
@@ -410,7 +410,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     }
 
     // remove rows that are not needed anymore
-    for (int i = m_rows.count() - 1; i >= index; --i) {
+    for (int i = m_rows.count() - 1; i > index; --i) {
         delete m_rows[i].label;
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
@@ -507,19 +507,12 @@ QList<KLoadMetaDataThread::Item>
             height = item;
         } else {
             // insert the item sorted by the label
-            bool inserted = false;
-            int i = 0;
-            const int count = mergedItems.count();
-            while (!inserted && (i < count)) {
-                if (item.label < mergedItems[i].label) {
-                    mergedItems.insert(i, item);
-                    inserted = true;
-                }
-                ++i;
+            int pos = 0;
+            while ( mergedItems.count() > pos &&
+                    mergedItems[pos].label < item.label ) {
+                ++pos;
             }
-            if (!inserted) {
-                mergedItems.append(item);
-            }
+            mergedItems.insert( pos, item );
         }
     }
 
