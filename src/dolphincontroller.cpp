@@ -75,13 +75,6 @@ void DolphinController::setItemView(QAbstractItemView* view)
     }
 }
 
-void DolphinController::triggerUrlChangeRequest(const KUrl& url)
-{
-    if (m_url != url) {
-        emit requestUrlChange(url);
-    }
-}
-
 void DolphinController::triggerContextMenuRequest(const QPoint& pos,
                                                   const QList<QAction*>& customActions)
 {

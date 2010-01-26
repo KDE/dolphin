@@ -85,8 +85,6 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             this, SLOT(dropUrls(const KUrl&, QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
             this, SLOT(activate()));
-    //connect(m_urlNavigator, SIGNAL(tabRequested(const KUrl&)),
-    //        this,
     connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
             this, SLOT(saveUrlCompletionMode(KGlobalSettings::Completion)));
 
