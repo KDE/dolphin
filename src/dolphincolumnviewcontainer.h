@@ -32,6 +32,7 @@ class DolphinColumnView;
 class DolphinController;
 class QFrame;
 class QTimeLine;
+class QTimer;
 
 /**
  * @brief Represents a container for columns represented as instances
@@ -76,6 +77,14 @@ private slots:
      * the current activation state \a active.
      */
     void updateColumnsBackground(bool active);
+
+    /**
+     * Tells the Dolphin controller to update the active URL
+     * to m_activeUrl. The slot is called asynchronously with a
+     * small delay, as this prevents a flickering when a directory
+     * from an inactive column gets selected.
+     */
+    void updateActiveUrl();
 
 private:
     /**
@@ -126,6 +135,8 @@ private:
     QFrame* m_emptyViewport;
     QTimeLine* m_animation;
     QAbstractItemView* m_dragSource;
+
+    QTimer* m_activeUrlTimer;
 
     friend class DolphinColumnView;
 };

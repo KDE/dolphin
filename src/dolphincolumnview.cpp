@@ -334,13 +334,7 @@ void DolphinColumnView::keyPressEvent(QKeyEvent* event)
 
 void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
 {
-    if (!m_active) {
-        m_container->requestActivation(this);
-        Q_ASSERT(m_container->m_controller->itemView() == this);
-        m_container->m_controller->triggerUrlChangeRequest(m_url);
-    }
-    Q_ASSERT(m_active);
-
+    requestActivation();
     QListView::contextMenuEvent(event);
     m_container->m_controller->triggerContextMenuRequest(event->pos());
 }
@@ -390,11 +384,8 @@ void DolphinColumnView::slotEntered(const QModelIndex& index)
 
 void DolphinColumnView::requestActivation()
 {
-    m_container->m_controller->setItemView(this);
-    m_container->m_controller->requestActivation();
     if (!m_active) {
         m_container->requestActivation(this);
-        m_container->m_controller->triggerUrlChangeRequest(m_url);
         selectionModel()->clear();
     }
 }

@@ -30,6 +30,7 @@
 #include <QPoint>
 #include <QScrollBar>
 #include <QTimeLine>
+#include <QTimer>
 
 DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
                                                        DolphinController* controller) :
@@ -41,7 +42,8 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_columns(),
     m_emptyViewport(0),
     m_animation(0),
-    m_dragSource(0)
+    m_dragSource(0),
+    m_activeUrlTimer(0)
 {
     Q_ASSERT(controller != 0);
 
@@ -59,6 +61,12 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_animation = new QTimeLine(500, this);
     connect(m_animation, SIGNAL(frameChanged(int)), horizontalScrollBar(), SLOT(setValue(int)));
 
+    m_activeUrlTimer = new QTimer(this);
+    m_activeUrlTimer->setSingleShot(true);
+    m_activeUrlTimer->setInterval(200);
+    connect(m_activeUrlTimer, SIGNAL(timeout()),
+            this, SLOT(updateActiveUrl()));
+
     DolphinColumnView* column = new DolphinColumnView(viewport(), this, m_controller->url());
     m_columns.append(column);
     setActiveColumnIndex(0);
@@ -67,6 +75,7 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_emptyViewport->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
 
     updateColumnsBackground(true);
+
 }
 
 DolphinColumnViewContainer::~DolphinColumnViewContainer()
@@ -233,6 +242,12 @@ void DolphinColumnViewContainer::updateColumnsBackground(bool active)
     }
 }
 
+void DolphinColumnViewContainer::updateActiveUrl()
+{
+    const KUrl activeUrl = m_columns[m_index]->url();
+    m_controller->setUrl(activeUrl);
+}
+
 void DolphinColumnViewContainer::setActiveColumnIndex(int index)
 {
     if ((m_index == index) || (index < 0) || (index >= m_columns.count())) {
@@ -248,6 +263,7 @@ void DolphinColumnViewContainer::setActiveColumnIndex(int index)
     m_columns[m_index]->setActive(true);
 
     assureVisibleActiveColumn();
+    m_activeUrlTimer->start(); // calls slot updateActiveUrl()
 }
 
 void DolphinColumnViewContainer::layoutColumns()
