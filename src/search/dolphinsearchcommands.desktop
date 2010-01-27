@@ -321,6 +321,7 @@ Comment[fy]=1 oant 10, lykas bygelyks >=7
 Comment[gl]=do 1 ao 10, por exemplo >=7
 Comment[gu]=1 થી 10, દાખલા તરીકે >=7
 Comment[he]=עד 10, לדוגמא >= 7 1
+Comment[hi]=1 से 10, जैसे >=7
 Comment[hr]=1 do 10, na primjer >=7
 Comment[hu]=1-től 10-ig terjedhet, például >=7
 Comment[id]=1 sampai 10, misalnya >=7
@@ -374,6 +375,7 @@ GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
+GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
@@ -436,6 +438,7 @@ Comment[fy]=Lebel
 Comment[gl]=Etiqueta
 Comment[gu]=ટેગ
 Comment[he]=תגית
+Comment[hi]=टैग
 Comment[hr]=Oznaka
 Comment[hu]=Címke
 Comment[id]=Tag
@@ -500,6 +503,7 @@ Name[fy]=Triemgrutte:
 Name[gl]=Tamaño do ficheiro
 Name[gu]=ફાઇલ કદ
 Name[he]=גודל קובץ
+Name[hi]=फ़ाईल आकार
 Name[hr]=Veličina datoteke
 Name[hu]=Fájlméret
 Name[id]=Ukuran berkas
@@ -609,6 +613,7 @@ GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
+GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
@@ -722,6 +727,7 @@ Comment[fy]=yn bytes
 Comment[gl]=en bytes
 Comment[gu]=બાઈટ્સ માં
 Comment[he]=בבתים
+Comment[hi]=बायटों में
 Comment[hr]=u bajtovima
 Comment[hu]=bájtban
 Comment[id]=dalam bita
@@ -778,6 +784,7 @@ GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
+GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
@@ -892,6 +899,7 @@ GenericName[fy]=Brûk <, <=, :, >= en >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
+GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
 GenericName[id]=Gunakan <, <=, :, >= dan >.
