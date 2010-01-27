@@ -52,6 +52,9 @@ class DolphinPart : public KParts::ReadOnlyPart
     // Used by konqueror when typing something like /home/dfaure/*.diff in the location bar
     Q_PROPERTY( QString nameFilter READ nameFilter WRITE setNameFilter )
 
+    // Used by konqueror to implement the --select command-line option
+    Q_PROPERTY( KUrl::List filesToSelect READ filesToSelect WRITE setFilesToSelect )
+
 public:
     explicit DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantList& args);
     ~DolphinPart();
@@ -213,6 +216,12 @@ private Q_SLOTS:
     void updateProgress(int percent);
 
     void createDirectory();
+
+    /**
+     * Called by konqueror --select
+     */
+    void setFilesToSelect(const KUrl::List& files);
+    KUrl::List filesToSelect() const { return KUrl::List(); } // silence moc
 
 private:
     void createActions();

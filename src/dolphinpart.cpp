@@ -625,4 +625,9 @@ void DolphinPart::createDirectory()
     m_newMenu->createDirectory();
 }
 
+void DolphinPart::setFilesToSelect(const KUrl::List& files)
+{
+    m_view->markUrlsAsSelected(files);
+}
+
 #include "dolphinpart.moc"
