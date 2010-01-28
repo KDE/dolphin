@@ -368,9 +368,9 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
     // prevent flickering.
-    int index = 8;  // TODO: don't hardcode this value here
+    int usedRowCnt = 8;  // TODO: don't hardcode this value here
     const int rowCount = m_rows.count();
-    Q_ASSERT(rowCount >= index);
+    Q_ASSERT(rowCount >= usedRowCnt);
 
     const QList<KLoadMetaDataThread::Item> items = mergedItems(m_loadMetaDataThread->items());
     foreach (const KLoadMetaDataThread::Item& item, items) {
@@ -389,10 +389,10 @@ void KMetaDataWidget::Private::slotLoadingFinished()
                                                          .arg(decoration);
            itemValue.insert(3 /* after "<a "*/, styleText);
         }
-        if (index < rowCount) {
+        if (usedRowCnt < rowCount) {
             // adjust texts of the current row
-            m_rows[index].label->setText(itemLabel);
-            QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[index].infoWidget);
+            m_rows[usedRowCnt].label->setText(itemLabel);
+            QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[usedRowCnt].infoWidget);
             Q_ASSERT(infoValueLabel != 0);
             infoValueLabel->setText(itemValue);
         } else {
@@ -403,14 +403,11 @@ void KMetaDataWidget::Private::slotLoadingFinished()
                     q, SLOT(slotLinkActivated(QString)));
             addRow(infoLabel, infoValue);
         }
-        ++index;
-    }
-    if (items.count() > 0) {
-        --index;
+        ++usedRowCnt;
     }
 
     // remove rows that are not needed anymore
-    for (int i = m_rows.count() - 1; i > index; --i) {
+    for (int i = m_rows.count() - 1; i >= usedRowCnt; --i) {
         delete m_rows[i].label;
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
