@@ -405,12 +405,9 @@ void KMetaDataWidget::Private::slotLoadingFinished()
         }
         ++index;
     }
-    if (items.count() > 0) {
-        --index;
-    }
 
     // remove rows that are not needed anymore
-    for (int i = m_rows.count() - 1; i > index; --i) {
+    for (int i = m_rows.count() - 1; i >= index; --i) {
         delete m_rows[i].label;
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
