@@ -47,6 +47,7 @@ Comment[pt_BR]=operador lógico 'e'
 Comment[ro]=operatorul logic și
 Comment[ru]=логический оператор «И»
 Comment[si]=and තර්‍ක ක්‍රියාව
+Comment[sk]=logický operátor AND
 Comment[sl]=logični operator in
 Comment[sr]=Логички оператор И
 Comment[sr@ijekavian]=Логички оператор И
@@ -107,6 +108,7 @@ Comment[pt_BR]=operador lógico 'ou'
 Comment[ro]=operatorul logic sau
 Comment[ru]=логический оператор «ИЛИ»
 Comment[si]=or තර්‍ක ක්‍රියාව
+Comment[sk]=logický operátor OR
 Comment[sl]=logični operator ali
 Comment[sr]=Логички оператор ИЛИ
 Comment[sr@ijekavian]=Логички оператор ИЛИ
@@ -166,6 +168,7 @@ Comment[pt_BR]=operador lógico 'não'
 Comment[ro]=operatorul logic nu
 Comment[ru]=логический оператор «НЕ»
 Comment[si]=not තර්‍ක ක්‍රියාව
+Comment[sk]=logický operátor NOT
 Comment[sl]=logični operator ne
 Comment[sr]=Логички оператор НЕ
 Comment[sr@ijekavian]=Логички оператор НЕ
@@ -226,6 +229,7 @@ Name[pt_BR]=Extensão do arquivo
 Name[ro]=Extensie fișier
 Name[ru]=Расширение файла
 Name[si]=ගොනු දිගුව
+Name[sk]=Prípona súboru
 Name[sl]=Končnica datoteke
 Name[sr]=наставак фајла
 Name[sr@ijekavian]=наставак фајла
@@ -281,6 +285,7 @@ Comment[pt_BR]=por exemplo, 'txt'
 Comment[ro]=de exemplu txt
 Comment[ru]=например, txt
 Comment[si]=උදාහරණ පෙළ
+Comment[sk]=napríklad txt
 Comment[sl]=na primer odt
 Comment[sr]=На пример txt
 Comment[sr@ijekavian]=На примјер txt
@@ -344,6 +349,7 @@ Comment[pt_BR]=1 a 10, por exemplo, >=7
 Comment[ro]=de la 1 la 10, de exemplu >=7
 Comment[ru]=от 1 до 10, например, >=7
 Comment[si]=1 සිට 10, උදාහරණය >=7
+Comment[sk]=Od 1 do 10, napríklad >=7
 Comment[sl]=od 1 do 10, na primer >= 7
 Comment[sr]=1 до 10, на пример >=7
 Comment[sr@ijekavian]=1 до 10, на примјер >=7
@@ -400,6 +406,7 @@ GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
+GenericName[sk]=Použite <, <=, :, >= a >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
@@ -464,6 +471,7 @@ Comment[pt_BR]=Etiqueta
 Comment[ro]=Marcaj
 Comment[ru]=Метка
 Comment[si]=ටැග
+Comment[sk]=Značka
 Comment[sl]=Oznaka
 Comment[sr]=Ознака
 Comment[sr@ijekavian]=Ознака
@@ -528,6 +536,7 @@ Name[pt]=Tamanho do ficheiro
 Name[pt_BR]=Tamanho do arquivo
 Name[ro]=Dimensiune fișier
 Name[ru]=Размер файла
+Name[sk]=Veľkosť súboru
 Name[sl]=Velikost datoteke
 Name[sr]=величина фајла
 Name[sr@ijekavian]=величина фајла
@@ -582,6 +591,7 @@ Comment[pt_BR]=em bytes, por exemplo, > 1000
 Comment[ro]=în octeți, de exemplu >1000
 Comment[ru]=в байтах, например, >1000
 Comment[si]=බයිට් මඟින්, උදා >1000
+Comment[sk]=v bajtoch, napríklad >1000
 Comment[sl]=v bajtih, na primer >1000
 Comment[sr]=У бајтовима, на пример >1000
 Comment[sr@ijekavian]=У бајтовима, на примјер >1000
@@ -638,6 +648,7 @@ GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
+GenericName[sk]=Použite <, <=, :, >= a >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
@@ -695,6 +706,7 @@ Name[pt]=Tamanho do conteúdo
 Name[pt_BR]=Tamanho do conteúdo
 Name[ro]=Dimensiune conținut
 Name[ru]=Размер содержимого
+Name[sk]=Veľkosť obsahu
 Name[sl]=Velikost vsebine
 Name[sr]=величина садржаја
 Name[sr@ijekavian]=величина садржаја
@@ -752,6 +764,7 @@ Comment[pt]=em 'bytes'
 Comment[pt_BR]=em bytes
 Comment[ro]=în octeți
 Comment[ru]=в байтах
+Comment[sk]=v bajtoch
 Comment[sl]=v bajtih
 Comment[sr]=У бајтовима
 Comment[sr@ijekavian]=У бајтовима
@@ -809,6 +822,7 @@ GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
+GenericName[sk]=Použite <, <=, :, >= a >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
@@ -868,12 +882,14 @@ Comment[pt_BR]=por exemplo, > 1999-10-10
 Comment[ro]=de exemplu >1999-10-10
 Comment[ru]=например, >
 Comment[si]=උදා >1999-10-10
+Comment[sk]=napríklad >1999-10-10
 Comment[sl]=na primer >1990-12-26
 Comment[sr]=На пример >1999-10-10
 Comment[sr@ijekavian]=На примјер >1999-10-10
 Comment[sr@ijekavianlatin]=Na primjer >1999-10-10
 Comment[sr@latin]=Na primer >1999-10-10
 Comment[sv]=till exempel > 1999-10-10
+Comment[tg]=масалан >1999-10-10
 Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
 Comment[wa]=>1999-10-10, metans
@@ -924,6 +940,7 @@ GenericName[pt_BR]=Use o <, <=, :, >= e o >.
 GenericName[ro]=Utilizați <, <=, :, >= și >.
 GenericName[ru]=Используйте <, <=, :, >= и >.
 GenericName[si]= <, <=, :, >= හා > භාවිත කරන්න.
+GenericName[sk]=Použite <, <=, :, >= a >.
 GenericName[sl]=Uporabite <, <=, :, >= in >.
 GenericName[sr]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
