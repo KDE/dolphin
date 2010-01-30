@@ -35,6 +35,7 @@ Comment[kk]=логикалық 'және' операторы
 Comment[ko]=논리 연산자 'and'
 Comment[lt]=loginis operatorius „ir“ (and)
 Comment[lv]=loģiskā operācija un
+Comment[mk]=логичкиот оператор „и“
 Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ ആന്‍ഡ്
 Comment[nb]=logisk og-operator
 Comment[nds]=Logisch Operator »Un«
@@ -96,6 +97,7 @@ Comment[km]=សញ្ញាប្រមាណវិធី​ឡូសីក or
 Comment[ko]=논리 연산자 'or'
 Comment[lt]=loginis operatorius „arba“ (or)
 Comment[lv]=loģiskā operācija vai
+Comment[mk]=логичкиот оператор „или“
 Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ ഓര്‍
 Comment[nb]=logisk eller-operator
 Comment[nds]=Logisch Operator »Oder«
@@ -156,6 +158,7 @@ Comment[kk]=логикалық 'теріс' операторы
 Comment[ko]=논리 연산자 'not'
 Comment[lt]=loginis operatorius „ne“ (not)
 Comment[lv]=loģiskā operācija ne
+Comment[mk]=логичкиот оператор „не“
 Comment[ml]=ലോജിക്കല്‍ ഓപ്പറേറ്ററായ നോട്ട്
 Comment[nb]=logisk ikke-operator
 Comment[nds]=Logisch Operator »Nich«
@@ -216,6 +219,7 @@ Name[ko]=파일 확장자
 Name[lt]=Failo priesaga
 Name[lv]=Faila paplašinājums
 Name[mai]=फाइल विस्तार
+Name[mk]=Наставка на датотека
 Name[ml]=ഫയല്‍ എക്സ്റ്റെന്‍ഷന്‍
 Name[ms]=Sambungan fail
 Name[nb]=Filetternavn
@@ -273,6 +277,7 @@ Comment[kn]=ಉದಾಹರಣೆಗೆ txt
 Comment[ko]=예를 들어 txt
 Comment[lt]=pavyzdžiui, txt
 Comment[lv]=piemēram, txt
+Comment[mk]=на пример „txt“
 Comment[ml]=ഉദാഹരണമായി ടിഎക്സ്‌ടി ഫയലുകള്‍
 Comment[ms]=sebagai contoh txt
 Comment[nb]=for eksempel txt
@@ -338,6 +343,7 @@ Comment[kn]=೧ ರಿಂದ ೧೦, ಉದಾಹರಣೆಗೆ >= ೭
 Comment[ko]=1에서 10 사이, 예를 들어 >=7
 Comment[lt]=Nuo 1 iki 10, pvz., >=7
 Comment[lv]=1 līdz 10, piemēram >=7
+Comment[mk]=1 до 10, на пример >=7
 Comment[ml]=1 മുതല്‍ 10 വരെ, ഉദാഹരണതിനു് >= 7
 Comment[nb]=1 til 10, for eksempel >=7
 Comment[nds]=1 to 10, as Bispill >=7
@@ -393,6 +399,7 @@ GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
+GenericName[mk]=Корисетет <, <=, :, >= и >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
@@ -458,6 +465,7 @@ Comment[ko]=태그
 Comment[lt]=Žyma
 Comment[lv]=Tags
 Comment[mai]=टैग
+Comment[mk]=Ознака
 Comment[ml]=മുദ്ര
 Comment[ms]=Tag
 Comment[nb]=Merke
@@ -524,6 +532,7 @@ Name[ko]=파일 크기
 Name[lt]=Failo dydis
 Name[lv]=Faila nosaukums
 Name[mai]=फाइल पूर्वावलोकन
+Name[mk]=Големина на датотека
 Name[ml]=ഫയലിന്റെ വലിപ്പം
 Name[ms]=Saiz fail
 Name[nb]=Filstørrelse
@@ -580,6 +589,7 @@ Comment[kn]=ಬೈಟ್‌ಗಳಲ್ಲಿ, ಉದಾಹರಣೆಗೆ >೧�
 Comment[ko]=바이트 단위, 예를 들어 >1000
 Comment[lt]=baitais, pvz., > 1000
 Comment[lv]=baitos, piemēram >1000
+Comment[mk]=во бајти, на пример >1000
 Comment[ml]=ബൈറ്റുകളില്‍, ഉദാഹരണത്തിനു് >1000
 Comment[nb]=i byte, for eksempel >1000
 Comment[nds]=in Bytes, as Bispill >1000
@@ -635,6 +645,7 @@ GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
+GenericName[mk]=Корисетет <, <=, :, >= и >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
@@ -694,6 +705,7 @@ Name[kn]=ವಿಷಯದ ಗಾತ್ರ
 Name[ko]=내용 크기
 Name[lt]=Turinio dydis
 Name[lv]=Satura izmērs
+Name[mk]=Големина на содржина
 Name[ml]=ഉള്ളടക്കത്തിന്റെ വലിപ്പം
 Name[ms]=Saiz isi
 Name[nb]=Innholdsstørrelse
@@ -752,6 +764,7 @@ Comment[kn]=ಬೈಟ್‌ಗಳಲ್ಲಿ
 Comment[ko]=바이트 단위
 Comment[lt]=baitais
 Comment[lv]=baitos
+Comment[mk]=во бајти
 Comment[ml]=ബൈറ്റുകളില്‍
 Comment[ms]=dalam bait
 Comment[nb]=i byte
@@ -809,6 +822,7 @@ GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
+GenericName[mk]=Корисетет <, <=, :, >= и >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
@@ -871,6 +885,7 @@ Comment[kn]=ಉದಾಹರಣೆಗೆ >೧೯೯೯-೧೦-೧೦
 Comment[ko]=예를 들어 >1999-10-10
 Comment[lt]=pavyzdžiui >1999-10-10
 Comment[lv]=piemēram >1999-10-10
+Comment[mk]=на пример >1999-10-10
 Comment[ml]=ഉദാഹരണത്തിനു് >1990-10-10
 Comment[nb]=for eksempel >1999-10-10
 Comment[nds]=as Bispill >23.10.1999
@@ -927,6 +942,7 @@ GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
 GenericName[lv]=Lietojiet <, <=, :, >= un >.
+GenericName[mk]=Корисетет <, <=, :, >= и >.
 GenericName[ml]=<, <=, :, >=, > ഉം ഉപയോഗിയ്ക്കുക
 GenericName[ms]=Guna <, <=, :, >= dan >.
 GenericName[nb]=Bruk <, <=, :, >= and >.
