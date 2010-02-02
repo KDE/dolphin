@@ -32,6 +32,7 @@ Comment[is]=rökaðgerðin og
 Comment[it]=operatore logico «e»
 Comment[ja]=論理演算子 AND
 Comment[kk]=логикалық 'және' операторы
+Comment[km]=សញ្ញា​ប្រមាណ​វិធី logic and
 Comment[ko]=논리 연산자 'and'
 Comment[lt]=loginis operatorius „ir“ (and)
 Comment[lv]=loģiskā operācija un
@@ -155,6 +156,7 @@ Comment[is]=rökaðgerðin ekki
 Comment[it]=operatore logico «non»
 Comment[ja]=論理演算子 NOT
 Comment[kk]=логикалық 'теріс' операторы
+Comment[km]=សញ្ញា​ប្រមាណវិធី logic not
 Comment[ko]=논리 연산자 'not'
 Comment[lt]=loginis operatorius „ne“ (not)
 Comment[lv]=loģiskā operācija ne
@@ -214,6 +216,7 @@ Name[is]=Skráarending
 Name[it]=Estensione di file
 Name[ja]=ファイルの拡張子
 Name[kk]=Файл атау жұрнағы
+Name[km]=ផ្នែកបន្ថែម​ឯកសារ
 Name[kn]=ಕಡತ ವಿಸ್ತರಣೆ
 Name[ko]=파일 확장자
 Name[lt]=Failo priesaga
@@ -273,6 +276,7 @@ Comment[is]=til dæmis txt
 Comment[it]=per esempio «txt»
 Comment[ja]=例えば txt
 Comment[kk]=мысалы txt
+Comment[km]=ឧទាហរណ៍ txt
 Comment[kn]=ಉದಾಹರಣೆಗೆ txt
 Comment[ko]=예를 들어 txt
 Comment[lt]=pavyzdžiui, txt
@@ -339,6 +343,7 @@ Comment[is]=1 til 10, til dæmis >=7
 Comment[it]=da 1 a 10, per esempio >=7
 Comment[ja]=1 から 10、例えば >=7
 Comment[kk]=1-ден 10 дейін, мысалы >=7
+Comment[km]=១ ដល់ ១០ ឧទាហរណ៍ >=7
 Comment[kn]=೧ ರಿಂದ ೧೦, ಉದಾಹರಣೆಗೆ >= ೭
 Comment[ko]=1에서 10 사이, 예를 들어 >=7
 Comment[lt]=Nuo 1 iki 10, pvz., >=7
@@ -395,6 +400,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
+GenericName[km]=ប្រើ <, <=, :, >= និង >.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
@@ -460,6 +466,7 @@ Comment[is]=Merki
 Comment[it]=Etichetta
 Comment[ja]=タグ
 Comment[kk]=Тег
+Comment[km]=ស្លាក
 Comment[kn]=ಟ್ಯಾಗ್
 Comment[ko]=태그
 Comment[lt]=Žyma
@@ -527,6 +534,7 @@ Name[is]=Skráarstærð
 Name[it]=Dimensione dei file
 Name[ja]=ファイルサイズ
 Name[kk]=Файл өлшемі
+Name[km]=ទំហំ​ឯកសារ
 Name[kn]=ಕಡತದ ಗಾತ್ರ
 Name[ko]=파일 크기
 Name[lt]=Failo dydis
@@ -585,6 +593,7 @@ Comment[is]=í bætum, til dæmis >1000
 Comment[it]=in byte, per esempio >1000
 Comment[ja]=バイト単位、例えば >1000
 Comment[kk]=байт, мысалы >1000
+Comment[km]=គិតជា​បៃ ឧទាហរណ៍ >1000
 Comment[kn]=ಬೈಟ್‌ಗಳಲ್ಲಿ, ಉದಾಹರಣೆಗೆ >೧೦೦೦
 Comment[ko]=바이트 단위, 예를 들어 >1000
 Comment[lt]=baitais, pvz., > 1000
@@ -641,6 +650,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
+GenericName[km]=ប្រើ <, <=, :, >= និង >.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
@@ -701,6 +711,7 @@ Name[is]=Stærð innihalds
 Name[it]=Dimensioni del contenuto
 Name[ja]=コンテンツのサイズ
 Name[kk]=Мазмұнның өлшемі
+Name[km]=ទំហំ​មាតិកា
 Name[kn]=ವಿಷಯದ ಗಾತ್ರ
 Name[ko]=내용 크기
 Name[lt]=Turinio dydis
@@ -818,6 +829,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
+GenericName[km]=ប្រើ <, <=, :, >= និង >.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
@@ -881,6 +893,7 @@ Comment[is]=til dæmis >1999-10-10
 Comment[it]=per esempio >1999-10-10
 Comment[ja]=例えば >1999-10-10
 Comment[kk]=мысалы >1999-10-10
+Comment[km]=ឧទាហរណ៍ >1999-10-10
 Comment[kn]=ಉದಾಹರಣೆಗೆ >೧೯೯೯-೧೦-೧೦
 Comment[ko]=예를 들어 >1999-10-10
 Comment[lt]=pavyzdžiui >1999-10-10
@@ -938,6 +951,7 @@ GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
 GenericName[ja]=<, <=, :, >=, > を使用
 GenericName[kk]= <, <=, :, >=, > дегенді пайдаланыңыз.
+GenericName[km]=ប្រើ <, <=, :, >= និង >.
 GenericName[kn]=<, <=, :, >= ಹಾಗು > ಗಳನ್ನು ಬಳಸಿ.
 GenericName[ko]=사용 가능한 연산자: <, <=, :, >=, >
 GenericName[lt]=Naudoti <, <=, :, >= ir >.
