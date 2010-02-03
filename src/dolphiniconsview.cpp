@@ -443,7 +443,7 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     }
 
     Q_ASSERT(additionalInfoCount >= 0);
-    itemHeight += additionalInfoCount * m_font.pointSize() * 2;
+    itemHeight += additionalInfoCount * QFontMetrics(m_font).height();
 
     // Optimize the item size of the grid in a way to prevent large gaps on the
     // right border (= row arrangement) or the bottom border (= column arrangement).
