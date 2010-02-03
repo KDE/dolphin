@@ -95,9 +95,10 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
         m_font = KGlobalSettings::generalFont();
     } else {
         m_font = QFont(settings->fontFamily(),
-                       settings->fontSize(),
+                       qRound(settings->fontSize()),
                        settings->fontWeight(),
                        settings->italicFont());
+        m_font.setPointSizeF(settings->fontSize());
     }
 
     setWordWrap(settings->numberOfTextlines() > 1);

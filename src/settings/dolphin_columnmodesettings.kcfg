@@ -13,9 +13,9 @@
             <label>Use system font</label>
             <default>true</default>
         </entry>
-        <entry name="FontSize" type="Int">
+        <entry name="FontSize" type="Double">
             <label>Font size</label>
-            <default code="true">KGlobalSettings::generalFont().pointSize()</default>
+            <default code="true">KGlobalSettings::generalFont().pointSizeF()</default>
         </entry>
         <entry name="ItalicFont" type="Bool">
             <label>Italic</label>

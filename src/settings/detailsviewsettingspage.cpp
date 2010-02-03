@@ -104,7 +104,7 @@ void DetailsViewSettingsPage::applySettings()
     const QFont font = m_fontRequester->font();
     settings->setUseSystemFont(m_fontRequester->mode() == DolphinFontRequester::SystemFont);
     settings->setFontFamily(font.family());
-    settings->setFontSize(font.pointSize());
+    settings->setFontSize(font.pointSizeF());
     settings->setItalicFont(font.italic());
     settings->setFontWeight(font.weight());
 
