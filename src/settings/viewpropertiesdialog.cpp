@@ -196,7 +196,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
         applyBoxLayout->addWidget(m_applyToSubFolders);
         applyBoxLayout->addWidget(m_applyToAllFolders);
 
-        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use as default for new folders"), main);
+        m_useAsDefault = new QCheckBox(i18nc("@option:check", "Use these view properties as default"), main);
 
         topLayout->addWidget(applyBox);
         topLayout->addWidget(m_useAsDefault);
