@@ -72,23 +72,27 @@ void DolphinApplication::refreshMainWindows()
 int DolphinApplication::newInstance()
 {
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
+    static bool first = true;
 
-    QList<KUrl> urls;
     const int argsCount = args->count();
-    for (int i = 0; i < argsCount; ++i) {
-        urls.append(args->url(i));
-    }
-
-    DolphinMainWindow* win = createMainWindow();
-    if (urls.count() > 0) {
-        if (args->isSet("select")) {
-            win->openFiles(urls);
-        } else {
-            win->openDirectories(urls);
+    if ((argsCount > 0) || !first || !isSessionRestored()) {
+        QList<KUrl> urls;
+        for (int i = 0; i < argsCount; ++i) {
+            urls.append(args->url(i));
         }
-    }
-    win->show();
 
+        DolphinMainWindow* win = createMainWindow();
+        if (urls.count() > 0) {
+            if (args->isSet("select")) {
+                win->openFiles(urls);
+            } else {
+                win->openDirectories(urls);
+            }
+        }
+        win->show();
+    }
+
+    first = false;
     args->clear();
     return 0;
 }
