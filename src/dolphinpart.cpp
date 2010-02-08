@@ -156,7 +156,8 @@ void DolphinPart::createActions()
 {
     // Edit menu
 
-    m_newMenu = new KNewFileMenu(actionCollection(), "new_menu", widget());
+    m_newMenu = new KNewFileMenu(actionCollection(), "new_menu", this);
+    m_newMenu->setParentWidget(widget());
     DolphinNewMenuObserver::instance().attach(m_newMenu);
     connect(m_newMenu->menu(), SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
