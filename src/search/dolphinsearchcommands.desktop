@@ -56,6 +56,7 @@ Comment[sr@ijekavian]=Логички оператор И
 Comment[sr@ijekavianlatin]=Logički operator I
 Comment[sr@latin]=Logički operator I
 Comment[sv]=logisk operator och
+Comment[th]=ตัวดำเนินการทางตรรกะ 'และ'
 Comment[tr]=mantıksal işleç olarak ve
 Comment[uk]=булівська дія «ТА»
 Comment[wa]=operateur lodjike eyet
@@ -118,6 +119,7 @@ Comment[sr@ijekavian]=Логички оператор ИЛИ
 Comment[sr@ijekavianlatin]=Logički operator ILI
 Comment[sr@latin]=Logički operator ILI
 Comment[sv]=logisk operator eller
+Comment[th]=ตัวดำเนินการทางตรรกะ 'หรือ'
 Comment[tr]=mantıksal işleç olarak veya
 Comment[uk]=булівська дія «АБО»
 Comment[wa]=operateur lodjike ou
@@ -180,6 +182,7 @@ Comment[sr@ijekavian]=Логички оператор НЕ
 Comment[sr@ijekavianlatin]=Logički operator NE
 Comment[sr@latin]=Logički operator NE
 Comment[sv]=logisk operator inte
+Comment[th]=ตัวดำเนินการทางตรรกะ 'ไม่ใช่'
 Comment[tr]=mantıksal işleç olarak değil
 Comment[uk]=булівська дія «НЕ»
 Comment[wa]=operateur lodjike n' est nén
@@ -243,6 +246,7 @@ Name[sr@ijekavian]=наставак фајла
 Name[sr@ijekavianlatin]=nastavak fajla
 Name[sr@latin]=nastavak fajla
 Name[sv]=Filändelse
+Name[th]=ส่วนขยายแฟ้ม
 Name[tr]=Dosya uzantısı
 Name[uk]=Суфікс назви файла
 Name[wa]=Cawete do fitchî
@@ -302,6 +306,7 @@ Comment[sr@ijekavianlatin]=Na primjer txt
 Comment[sr@latin]=Na primer txt
 Comment[sv]=till exempel txt
 Comment[tg]=масалан txt
+Comment[th]=ตัวอย่างเช่น txt
 Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
 Comment[wa]=txt, metans
@@ -367,6 +372,7 @@ Comment[sr@ijekavian]=1 до 10, на примјер >=7
 Comment[sr@ijekavianlatin]=1 do 10, na primjer >=7
 Comment[sr@latin]=1 do 10, na primer >=7
 Comment[sv]=1 till 10, till exempel: >=7
+Comment[th]=ค่า 1 ถึง 10, ตัวอย่างเช่น >=7
 Comment[tr]=1'den 10'a kadar, örnek >=7
 Comment[uk]=Від 1 до 10, наприклад, >=7
 Comment[wa]=1 a 10, >=7, metans
@@ -426,6 +432,7 @@ GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
 GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[th]=ใช้เครื่องหมาย <, <=, :, >= และ >
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
@@ -493,6 +500,7 @@ Comment[sr@ijekavian]=Ознака
 Comment[sr@ijekavianlatin]=Oznaka
 Comment[sr@latin]=Oznaka
 Comment[sv]=Etikett
+Comment[th]=ป้ายกำกับ
 Comment[tr]=Etiket
 Comment[uk]=Мітка
 Comment[wa]=Etikete
@@ -561,6 +569,7 @@ Name[sr@ijekavianlatin]=veličina fajla
 Name[sr@latin]=veličina fajla
 Name[sv]=Filstorlek
 Name[tg]=Андозаи файл
+Name[th]=ขนาดแฟ้ม
 Name[tr]=Dosya boyutu
 Name[uk]=Розмір файла
 Name[wa]=Grandeu do fitchî
@@ -617,6 +626,7 @@ Comment[sr@ijekavian]=У бајтовима, на примјер >1000
 Comment[sr@ijekavianlatin]=U bajtovima, na primjer >1000
 Comment[sr@latin]=U bajtovima, na primer >1000
 Comment[sv]=i byte, till exempel > 1000
+Comment[th]=หน่วยเป็นไบต์ ตัวอย่างเช่น >1000
 Comment[tr]=bayt olarak, örnek >1000
 Comment[uk]=у байтах, наприклад, >1000
 Comment[wa]=e bites, >1000, metans
@@ -676,6 +686,7 @@ GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
 GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[th]=ใช้เครื่องหมาย <, <=, :, >= และ >
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
@@ -737,6 +748,7 @@ Name[sr@ijekavianlatin]=veličina sadržaja
 Name[sr@latin]=veličina sadržaja
 Name[sv]=Innehållets storlek
 Name[tg]=Андозаи мазмун
+Name[th]=ขนาดเนื้อหา
 Name[tr]=İçerik boyutu
 Name[uk]=Розмір вмісту
 Name[wa]=Grandeu di l' ådvins
@@ -796,6 +808,7 @@ Comment[sr@ijekavianlatin]=U bajtovima
 Comment[sr@latin]=U bajtovima
 Comment[sv]=i byte
 Comment[tg]=дар байтҳо
+Comment[th]=หน่วยเป็นไบต์
 Comment[tr]=bayt olarak
 Comment[uk]=у байтах
 Comment[wa]=e bites
@@ -855,6 +868,7 @@ GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
 GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[th]=ใช้เครื่องหมาย <, <=, :, >= และ >
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
@@ -918,6 +932,7 @@ Comment[sr@ijekavianlatin]=Na primjer >1999-10-10
 Comment[sr@latin]=Na primer >1999-10-10
 Comment[sv]=till exempel > 1999-10-10
 Comment[tg]=масалан >1999-10-10
+Comment[th]=ตัวอย่างเช่น >1999-10-10
 Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
 Comment[wa]=>1999-10-10, metans
@@ -977,6 +992,7 @@ GenericName[sr@ijekavian]=једно од <, <=, :, >= и >
 GenericName[sr@ijekavianlatin]=jedno od <, <=, :, >= i >
 GenericName[sr@latin]=jedno od <, <=, :, >= i >
 GenericName[sv]=Använd <, <=, :, >= och >.
+GenericName[th]=ใช้เครื่องหมาย <, <=, :, >= และ >
 GenericName[tr]=<, <=, :, >= ve > kullanın.
 GenericName[uk]=Використовуйте <, <=, :, >= і >.
 GenericName[wa]=Eployîz <, <=, :, >= eyet >.
