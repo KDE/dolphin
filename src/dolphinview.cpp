@@ -1209,8 +1209,6 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
         return;
     }
 
-    m_expanderActive = false;
-
     KDirLister* dirLister = m_viewAccessor.dirLister();
     dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
 

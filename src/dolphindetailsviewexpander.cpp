@@ -45,19 +45,13 @@ DolphinDetailsViewExpander::DolphinDetailsViewExpander(DolphinDetailsView* paren
     m_dirLister = m_dolphinModel->dirLister();
     Q_ASSERT(m_dirLister != 0);
 
-    if(!urlsToExpand.isEmpty()) {
-        // The URLs must be sorted. E.g. /home/user/ cannot be expanded before /home/
-        // because it is not known to the dir model before.
-        m_urlsToExpand = urlsToExpand.toList();
-        qSort(m_urlsToExpand);
+    // The URLs must be sorted. E.g. /home/user/ cannot be expanded before /home/
+    // because it is not known to the dir model before.
+    m_urlsToExpand = urlsToExpand.toList();
+    qSort(m_urlsToExpand);
 
-        // The dir lister must have completed the folder listing before a subfolder can be expanded.
-        connect(m_dirLister, SIGNAL(completed()), this, SLOT(slotDirListerCompleted()));
-    }
-    else {
-        // There is nothing to expand - destroy this object
-        deleteLater();
-    }
+    // The dir lister must have completed the folder listing before a subfolder can be expanded.
+    connect(m_dirLister, SIGNAL(completed()), this, SLOT(slotDirListerCompleted()));
 }
 
 DolphinDetailsViewExpander::~DolphinDetailsViewExpander()
@@ -86,8 +80,7 @@ void DolphinDetailsViewExpander::slotDirListerCompleted()
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         m_detailsView->expand(proxyIndex);
     }
-
-    if(m_urlsToExpand.isEmpty()) {
+    else {
         emit completed();
         stop();
     }
