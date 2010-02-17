@@ -28,7 +28,7 @@
 #include <nepomuk/orterm.h>
 #include <nepomuk/queryparser.h>
 #include <nepomuk/resourcetypeterm.h>
-#include <nepomuk/term.h>
+#include <nepomuk/literalterm.h>
 
 #include "nfo.h"
 
@@ -318,11 +318,7 @@ Nepomuk::Query::Query DolphinSearchOptionsConfigurator::nepomukQuery() const
         andTerm.addSubTerm(term);
     }
 
-    // add custom query term from the searchbar
-    const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(m_customSearchQuery);
-    if (customQuery.isValid()) {
-        andTerm.addSubTerm(customQuery.term());
-    }
+    bool addCustomQuery = true;
 
     // filter result by the "What" filter
     switch (m_whatBox->currentIndex()) {
@@ -338,7 +334,25 @@ Nepomuk::Query::Query DolphinSearchOptionsConfigurator::nepomukQuery() const
         andTerm.addSubTerm(textDocument);
         break;
     }
+    case 3: {
+        // Filenames
+        // trueg: Restriction to filename differs a bit from restriction to a type of file since it does not add a condition
+        // on the query but influences the text edited in the search bar directly.
+        // This is a bit tricky as we need to use the search bar text as plain text value for filename searches
+        // We do it the ugly way assuming the user only entered a literal value.
+        Nepomuk::Query::ComparisonTerm filenameTerm(Nepomuk::Vocabulary::NFO::fileName(), Nepomuk::Query::LiteralTerm(m_customSearchQuery));
+        andTerm.addSubTerm(filenameTerm);
+        addCustomQuery = false;
+    }
     default: break;
+    }
+
+    if (addCustomQuery) {
+        // add custom query term from the searchbar
+        const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(m_customSearchQuery);
+        if (customQuery.isValid()) {
+            andTerm.addSubTerm(customQuery.term());
+        }
     }
 
     Nepomuk::Query::FileQuery fileQuery;
