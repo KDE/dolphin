@@ -22,13 +22,10 @@
 #include "ktooltipwindow_p.h"
 
 #include <kcolorscheme.h>
+#include <kwindowsystem.h>
 
 #include <QPainter>
 #include <QVBoxLayout>
-
-#ifdef Q_WS_X11
-    #include <QX11Info>
-#endif
 
 KToolTipWindow::KToolTipWindow(QWidget* content) :
     QWidget(0)
@@ -53,11 +50,7 @@ void KToolTipWindow::paintEvent(QPaintEvent* event)
     QColor toColor = palette().brush(QPalette::ToolTipBase).color();
     QColor fromColor = KColorScheme::shade(toColor, KColorScheme::LightShade, 0.2);
 
-#ifdef Q_WS_X11
-    const bool haveAlphaChannel = QX11Info::isCompositingManagerRunning();
-#else
-    const bool haveAlphaChannel = false;
-#endif
+    const bool haveAlphaChannel = KWindowSystem::compositingActive();
     if (haveAlphaChannel) {
         painter.setRenderHint(QPainter::Antialiasing);
         painter.translate(0.5, 0.5);
