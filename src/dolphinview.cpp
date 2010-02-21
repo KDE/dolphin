@@ -535,22 +535,30 @@ QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) c
 
 void DolphinView::setUrl(const KUrl& url)
 {
-    if (m_controller->url() == url) {
-        return;
+    if (m_controller->url() != url) {
+        m_newFileNames.clear();
+
+        m_controller->setUrl(url); // emits urlChanged, which we forward
+        m_viewAccessor.prepareUrlChange(url);
+        applyViewProperties();
+        loadDirectory(url);
+
+        // When changing the URL there is no need to keep the version
+        // data of the previous URL.
+        m_viewAccessor.dirModel()->clearVersionData();
+
+        emit startedPathLoading(url);
     }
 
-    m_newFileNames.clear();
-
-    m_controller->setUrl(url); // emits urlChanged, which we forward
-    m_viewAccessor.prepareUrlChange(url);
-    applyViewProperties();
-    loadDirectory(url);
-
-    // When changing the URL there is no need to keep the version
-    // data of the previous URL.
-    m_viewAccessor.dirModel()->clearVersionData();
-
-    emit startedPathLoading(url);
+    // the selection model might have changed in the case of a column view
+    QItemSelectionModel* selectionModel = m_viewAccessor.itemView()->selectionModel();
+    if (m_selectionModel != selectionModel) {
+        disconnect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+                   this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+        m_selectionModel = selectionModel;
+        connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+                this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+    }
 }
 
 void DolphinView::selectAll()
@@ -1325,8 +1333,8 @@ void DolphinView::createView()
         m_selectionModel = view->selectionModel();
     }
     m_selectionModel->setParent(this);
-    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
+    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
 
     setFocusProxy(m_viewAccessor.layoutTarget());
     m_topLayout->insertWidget(1, m_viewAccessor.layoutTarget());
