@@ -484,20 +484,28 @@ void DolphinView::updateView(const KUrl& url, const KUrl& rootUrl)
 {
     Q_UNUSED(rootUrl); // TODO: remove after columnview-cleanup has been finished
 
-    if (m_controller->url() == url) {
-        return;
+    if (m_controller->url() != url) {
+        m_controller->setUrl(url); // emits urlChanged, which we forward
+        m_viewAccessor.prepareUrlChange(url);
+        applyViewProperties();
+        loadDirectory(url);
+
+        // When changing the URL there is no need to keep the version
+        // data of the previous URL.
+        m_viewAccessor.dirModel()->clearVersionData();
+
+        emit startedPathLoading(url);
     }
 
-    m_controller->setUrl(url); // emits urlChanged, which we forward
-    m_viewAccessor.prepareUrlChange(url);
-    applyViewProperties();
-    loadDirectory(url);
-
-    // When changing the URL there is no need to keep the version
-    // data of the previous URL.
-    m_viewAccessor.dirModel()->clearVersionData();
-
-    emit startedPathLoading(url);
+    // the selection model might have changed in the case of a column view
+    QItemSelectionModel* selectionModel = m_viewAccessor.itemView()->selectionModel();
+    if (m_selectionModel != selectionModel) {
+        disconnect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+                   this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+        m_selectionModel = selectionModel;
+        connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+                this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+    }
 }
 
 void DolphinView::setNameFilter(const QString& nameFilter)
@@ -1385,8 +1393,8 @@ void DolphinView::createView()
         m_selectionModel = view->selectionModel();
     }
     m_selectionModel->setParent(this);
-    connect(view->selectionModel(), SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
+    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
 
     connect(view->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(emitContentsMoved()));
@@ -1540,7 +1548,7 @@ void DolphinView::ViewAccessor::prepareUrlChange(const KUrl& url)
         m_columnsContainer->showColumn(url);
     }
 
-    if(!m_detailsViewExpander.isNull()) {
+    if (!m_detailsViewExpander.isNull()) {
         // stop expanding items in the current folder
         m_detailsViewExpander->stop();
     }
