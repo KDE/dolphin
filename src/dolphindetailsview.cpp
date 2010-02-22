@@ -454,6 +454,10 @@ void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModel
     if (m_keyPressed) {
         setCurrentIndex(current);
     }
+
+    // If folders are expanded, the width which is available for editing may have changed
+    // because it depends on the level of the current item in the folder hierarchy.
+    adjustMaximumSizeForEditing(current);
 }
 
 bool DolphinDetailsView::eventFilter(QObject* watched, QEvent* event)
@@ -681,6 +685,8 @@ void DolphinDetailsView::slotHeaderSectionResized(int logicalIndex, int oldSize,
     if ((QApplication::mouseButtons() & Qt::LeftButton) && header()->underMouse()) {
         disableAutoResizing();
     }
+
+    adjustMaximumSizeForEditing(currentIndex());
 }
 
 void DolphinDetailsView::slotActivationChanged(bool active)
@@ -914,6 +920,10 @@ void DolphinDetailsView::setFoldersExpandable(bool expandable)
     settings->setExpandableFolders(expandable);
     setRootIsDecorated(expandable);
     setItemsExpandable(expandable);
+
+    // The width of the space which is available for editing has changed
+    // because of the (dis)appearance of the expanding toggles
+    adjustMaximumSizeForEditing(currentIndex());
 }
 
 void DolphinDetailsView::slotExpanded(const QModelIndex& index)
@@ -1060,6 +1070,12 @@ bool DolphinDetailsView::isAboveExpandingToggle(const QPoint& pos) const
         }
     }
     return false;
+}
+
+void DolphinDetailsView::adjustMaximumSizeForEditing(const QModelIndex& index)
+{
+    // Make sure that the full width of the "Name" column is available for "Rename Inline"
+    m_extensionsFactory->fileItemDelegate()->setMaximumSize(QTreeView::visualRect(index).size());
 }
 
 DolphinDetailsView::ElasticBand::ElasticBand() :
