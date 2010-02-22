@@ -214,6 +214,11 @@ private:
      */
     bool isAboveExpandingToggle(const QPoint& pos) const;
 
+    /**
+     * Sets the maximum size available for editing in the delegate.
+     */
+    void adjustMaximumSizeForEditing(const QModelIndex& index);
+
 private:
     bool m_autoResize : 1;        // if true, the columns are resized automatically to the available width
     bool m_expandingTogglePressed : 1;
