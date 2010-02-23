@@ -359,6 +359,7 @@ Nepomuk::Query::Query DolphinSearchOptionsConfigurator::nepomukQuery() const
         // "From Here" is selected as location filter
         Nepomuk::Query::FileQuery fileQuery;
         fileQuery.addIncludeFolder(m_directory);
+        fileQuery.setTerm(andTerm);
         return fileQuery;
     }
 
