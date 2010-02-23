@@ -1139,6 +1139,16 @@ void DolphinMainWindow::handleUrl(const KUrl& url)
     }
 }
 
+void DolphinMainWindow::tabDropEvent(int tab, QDropEvent* event)
+{
+    const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
+    if (!urls.isEmpty() && tab != -1) {
+        const ViewTab& viewTab = m_viewTab[tab];
+        const KUrl destPath = viewTab.isPrimaryViewActive ? viewTab.primaryView->url() : viewTab.secondaryView->url();
+        DragAndDropHelper::instance().dropUrls(KFileItem(), destPath, event, m_tabBar);
+    }
+}
+
 void DolphinMainWindow::slotCaptionStatFinished(KJob* job)
 {
     m_captionStatJob = 0;
@@ -1227,6 +1237,8 @@ void DolphinMainWindow::init()
             this, SLOT(closeTab(int)));
     connect(m_tabBar, SIGNAL(tabMoved(int, int)),
             this, SLOT(slotTabMoved(int, int)));
+    connect(m_tabBar, SIGNAL(receivedDropEvent(int, QDropEvent*)),
+            this, SLOT(tabDropEvent(int, QDropEvent*)));
 
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 

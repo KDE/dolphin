@@ -430,6 +430,12 @@ private slots:
     void slotCaptionStatFinished(KJob* job);
 
     /**
+     * Is connected to the KTabBar signal receivedDropEvent.
+     * Allows dragging and dropping files onto tabs.
+     */
+    void tabDropEvent(int tab, QDropEvent* event);
+
+    /**
      * Is invoked when the write state of a folder has been changed and
      * enables/disables the "Create New..." menu entry.
      */
