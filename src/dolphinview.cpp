@@ -108,8 +108,6 @@ DolphinView::DolphinView(QWidget* parent,
 
     connect(m_controller, SIGNAL(urlChanged(const KUrl&)),
             this, SIGNAL(urlChanged(const KUrl&)));
-    connect(m_controller, SIGNAL(requestUrlChange(const KUrl&)),
-            this, SLOT(slotRequestUrlChange(const KUrl&)));
 
     connect(m_controller, SIGNAL(requestContextMenu(const QPoint&, const QList<QAction*>&)),
             this, SLOT(openContextMenu(const QPoint&, const QList<QAction*>&)));
@@ -1123,12 +1121,6 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
         emit errorMessage(job->errorString());
     }
-}
-
-void DolphinView::slotRequestUrlChange(const KUrl& url)
-{
-    emit requestUrlChange(url);
-    m_controller->setUrl(url);
 }
 
 void DolphinView::slotDirListerCompleted()

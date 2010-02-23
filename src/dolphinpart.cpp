@@ -106,8 +106,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(requestUrlChange(KUrl)),
-            this, SLOT(slotRequestUrlChange(KUrl)));
     connect(m_view, SIGNAL(modeChanged()),
             this, SIGNAL(viewModeChanged())); // relay signal
     connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
@@ -453,16 +451,6 @@ void DolphinPart::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
         KParts::ReadOnlyPart::setUrl(newUrl);
         const QString prettyUrl = newUrl.pathOrUrl();
         emit m_extension->setLocationBarUrl(prettyUrl);
-    }
-}
-
-void DolphinPart::slotRequestUrlChange(const KUrl& url)
-{
-    if (m_view->url() != url) {
-        // If the view URL is not equal to 'url', then an inner URL change has
-        // been done (e. g. by activating an existing column in the column view).
-        openUrl(url);
-        emit m_extension->openUrlNotify();
     }
 }
 

@@ -146,12 +146,6 @@ private Q_SLOTS:
                              const QList<QAction*>& customActions);
 
     /**
-     * Asks the host to open the URL \a url if the current view has
-     * a different URL.
-     */
-    void slotRequestUrlChange(const KUrl& url);
-
-    /**
      * Informs the host that we are opening \a url (e.g. after a redirection
      * coming from KDirLister).
      * Testcase 1: fish://localhost
