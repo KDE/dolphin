@@ -1211,14 +1211,6 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
 
     KDirLister* dirLister = m_viewAccessor.dirLister();
     dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
-
-    KDirLister* rootDirLister = m_viewAccessor.rootDirLister();
-    if (dirLister != rootDirLister) {
-        // In the case of the column view the root directory lister can be different. Assure
-        // that it gets synchronized (clients from DolphinView are not aware that internally
-        // different directory listers are used).
-        rootDirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
-    }
 }
 
 void DolphinView::applyViewProperties()
@@ -1505,11 +1497,6 @@ QWidget* DolphinView::ViewAccessor::layoutTarget() const
 KUrl DolphinView::ViewAccessor::rootUrl() const
 {
     return (m_columnsContainer != 0) ? m_columnsContainer->rootUrl() : KUrl();
-}
-
-KDirLister* DolphinView::ViewAccessor::rootDirLister() const
-{
-    return static_cast<DolphinModel*>(m_proxyModel->sourceModel())->dirLister();
 }
 
 bool DolphinView::ViewAccessor::supportsCategorizedSorting() const
