@@ -133,7 +133,10 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     }
 
     updateDecorationSize(dolphinView->showPreview());
+    updateBackground();
     m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+
+    m_dirLister->openUrl(url, KDirLister::NoFlags);
 }
 
 DolphinColumnView::~DolphinColumnView()

@@ -160,8 +160,6 @@ void DolphinColumnViewContainer::showColumn(const KUrl& url)
             columnIndex++;
 
             DolphinColumnView* column = new DolphinColumnView(viewport(), this, childUrl);
-            column->setActive(false);
-
             m_columns.append(column);
 
             // Before invoking layoutColumns() the column must be set visible temporary.
