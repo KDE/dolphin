@@ -358,12 +358,14 @@ void KMetaDataWidget::Private::slotLoadingFinished()
         return;
     }
 
-    Q_ASSERT(m_ratingWidget != 0);
-    Q_ASSERT(m_commentWidget != 0);
-    Q_ASSERT(m_taggingWidget != 0);
-    m_ratingWidget->setRating(m_loadMetaDataThread->rating());
-    m_commentWidget->setText(m_loadMetaDataThread->comment());
-    m_taggingWidget->setTags(m_loadMetaDataThread->tags());
+    if (m_nepomukActivated) {
+        Q_ASSERT(m_ratingWidget != 0);
+        Q_ASSERT(m_commentWidget != 0);
+        Q_ASSERT(m_taggingWidget != 0);
+        m_ratingWidget->setRating(m_loadMetaDataThread->rating());
+        m_commentWidget->setText(m_loadMetaDataThread->comment());
+        m_taggingWidget->setTags(m_loadMetaDataThread->tags());
+    }
 
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
@@ -415,7 +417,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
 
     m_files = m_loadMetaDataThread->files();
 
-    delete m_loadMetaDataThread;
+    m_loadMetaDataThread->deleteLater();
     m_loadMetaDataThread = 0;
 #endif
 
@@ -581,24 +583,22 @@ void KMetaDataWidget::setItems(const KFileItemList& items)
     }
 
 #ifdef HAVE_NEPOMUK
-    if (d->m_nepomukActivated) {
-        QList<KUrl> urls;
-        foreach (const KFileItem& item, items) {
-            const KUrl url = item.nepomukUri();
-            if (url.isValid()) {
-                urls.append(url);
-            }
+    QList<KUrl> urls;
+    foreach (const KFileItem& item, items) {
+        const KUrl url = item.nepomukUri();
+        if (url.isValid()) {
+            urls.append(url);
         }
-
-        if (d->m_loadMetaDataThread != 0) {
-            disconnect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
-            d->m_loadMetaDataThread->cancelAndDelete();
-        }
-
-        d->m_loadMetaDataThread = new KLoadMetaDataThread();
-        connect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
-        d->m_loadMetaDataThread->load(urls);
     }
+
+    if (d->m_loadMetaDataThread != 0) {
+        disconnect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
+        d->m_loadMetaDataThread->cancelAndDelete();
+    }
+
+    d->m_loadMetaDataThread = new KLoadMetaDataThread();
+    connect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
+    d->m_loadMetaDataThread->load(urls);
 #endif
 }
 

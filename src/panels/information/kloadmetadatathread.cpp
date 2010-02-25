@@ -21,9 +21,10 @@
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
+#include <kfilemetainfo.h>
+#include <kfilemetainfoitem.h>
 #include <kglobal.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <kprotocolinfo.h>
 
 #include <nepomuk/resource.h>
@@ -110,6 +111,20 @@ void KLoadMetaDataThread::run()
                     m_items.append(item);
                 }
                 ++it;
+            }
+
+            if (variants.isEmpty()) {
+                // TODO: The following code is just meant as temporary fallback to show
+                // non-indexed meta data.
+                KFileMetaInfo metaInfo(m_urls.first());
+                const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
+                foreach (const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
+                    Item item;
+                    item.name = metaInfoItem.name();
+                    item.label = metaInfoItem.name() + metaInfoItem.prefix() + metaInfoItem.suffix();
+                    item.value = metaInfoItem.value().toString();
+                    m_items.append(item);
+                }
             }
         }
 
