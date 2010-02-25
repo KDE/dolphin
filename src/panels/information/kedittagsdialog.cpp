@@ -213,12 +213,8 @@ void KEditTagsDialog::deleteTag()
         Nepomuk::Tag tag(label);
         tag.remove();
 
-        // clear list and reload it
-        for (int i = m_tagsList->count() - 1; i >= 0; --i) {
-            QListWidgetItem* item = m_tagsList->takeItem(i);
-            delete item;
-        }
-        loadTags();
+        delete m_deleteCandidate;
+        m_deleteCandidate = 0;
     }
 }
 
@@ -228,7 +224,7 @@ void KEditTagsDialog::loadTags()
     // that have been passed to the KEditTagsDialog
     const QList<Nepomuk::Tag> tags = Nepomuk::Tag::allTags();
     foreach (const Nepomuk::Tag& tag, tags) {
-        const QString label = tag.label();
+        const QString label = tag.genericLabel();
 
         QListWidgetItem* item = new QListWidgetItem(label, m_tagsList);
         item->setData(Qt::UserRole, label);
