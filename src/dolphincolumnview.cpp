@@ -387,6 +387,7 @@ void DolphinColumnView::slotEntered(const QModelIndex& index)
 
 void DolphinColumnView::requestActivation()
 {
+    m_container->m_controller->requestActivation();
     if (!m_active) {
         m_container->requestActivation(this);
         selectionModel()->clear();
