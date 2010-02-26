@@ -499,18 +499,18 @@ QList<KLoadMetaDataThread::Item>
     KLoadMetaDataThread::Item height;
 
     foreach (const KLoadMetaDataThread::Item& item, items) {
-        if (item.name == "width") {
+        if (item.name == QLatin1String("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#width")) {
             width = item;
-        } else if (item.name == "height") {
+        } else if (item.name == QLatin1String("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height")) {
             height = item;
         } else {
             // insert the item sorted by the label
             int pos = 0;
-            while ( mergedItems.count() > pos &&
-                    mergedItems[pos].label < item.label ) {
+            while ((mergedItems.count() > pos) &&
+                   (mergedItems[pos].label < item.label)) {
                 ++pos;
             }
-            mergedItems.insert( pos, item );
+            mergedItems.insert(pos, item);
         }
     }
 

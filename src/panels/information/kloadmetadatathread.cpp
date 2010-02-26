@@ -107,7 +107,7 @@ void KLoadMetaDataThread::run()
                 Nepomuk::Types::Property prop(it.key());
                 if (settings.readEntry(prop.name(), true)) {
                     Item item;
-                    item.name = prop.name();
+                    item.name = prop.uri().toString();
                     item.label = nfo.translation(prop.uri());
                     item.value = formatValue(it.value());
                     m_items.append(item);
