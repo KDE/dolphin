@@ -522,7 +522,7 @@ QList<KLoadMetaDataThread::Item>
         mergedItems.insert(0, height);
     } else if (foundWidth && foundHeight) {
         KLoadMetaDataThread::Item size;
-        size.label = i18nc("@label", "Width x Height:");
+        size.label = i18nc("@label image width and height", "Width x Height");
         size.value = width.value + " x " + height.value;
         mergedItems.insert(0, size);
     }
@@ -546,7 +546,7 @@ void KMetaDataWidget::setItem(const KFileItem& item)
 {
     // update values for "type", "size", "modified",
     // "owner" and "permissions" synchronously
-    d->m_sizeLabel->setText(i18nc("@label", "Size:"));
+    d->m_sizeLabel->setText(i18nc("@label", "Size"));
     if (item.isDir()) {
         d->m_typeInfo->setText(i18nc("@label", "Folder"));
         d->setRowVisible(d->m_sizeInfo, false);
@@ -679,17 +679,17 @@ bool KMetaDataWidget::event(QEvent* event)
         // client of KMetaDataWidget to set a proper foreground role which
         // will be respected by the rows.
 
-        d->addRow(new QLabel(i18nc("@label", "Type:"), this), d->m_typeInfo);
+        d->addRow(new QLabel(i18nc("@label file type", "Type"), this), d->m_typeInfo);
         d->addRow(d->m_sizeLabel, d->m_sizeInfo);
-        d->addRow(new QLabel(i18nc("@label", "Modified:"), this), d->m_modifiedInfo);
-        d->addRow(new QLabel(i18nc("@label", "Owner:"), this), d->m_ownerInfo);
-        d->addRow(new QLabel(i18nc("@label", "Permissions:"), this), d->m_permissionsInfo);
+        d->addRow(new QLabel(i18nc("@label", "Modified"), this), d->m_modifiedInfo);
+        d->addRow(new QLabel(i18nc("@label", "Owner"), this), d->m_ownerInfo);
+        d->addRow(new QLabel(i18nc("@label", "Permissions"), this), d->m_permissionsInfo);
 
     #ifdef HAVE_NEPOMUK
         if (d->m_nepomukActivated) {
-            d->addRow(new QLabel(i18nc("@label", "Rating:"), this), d->m_ratingWidget);
-            d->addRow(new QLabel(i18nc("@label", "Tags:"), this), d->m_taggingWidget);
-            d->addRow(new QLabel(i18nc("@label", "Comment:"), this), d->m_commentWidget);
+            d->addRow(new QLabel(i18nc("@label", "Rating"), this), d->m_ratingWidget);
+            d->addRow(new QLabel(i18nc("@label", "Tags"), this), d->m_taggingWidget);
+            d->addRow(new QLabel(i18nc("@label", "Comment"), this), d->m_commentWidget);
         }
     #endif
 

@@ -78,13 +78,6 @@ private slots:
 
 private:
     /**
-     * Temporary helper method there is a way to get translated
-     * labels for Nepmok literals: Replaces camelcase labels
-     * like "fileLocation" by "File Location:".
-     */
-    QString tunedLabel(const QString& label) const;
-
-    /**
      * Temporary helper method until there is a proper formatting facility in Nepomuk.
      * Here we simply handle the most common formatting situations that do not look nice
      * when using Nepomuk::Variant::toString().

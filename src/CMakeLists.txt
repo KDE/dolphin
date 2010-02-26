@@ -57,6 +57,7 @@ set(dolphinprivate_LIB_SRCS
 if(Nepomuk_FOUND)
     set(dolphinprivate_LIB_SRCS
         ${dolphinprivate_LIB_SRCS}
+	panels/information/nfotranslator.cpp
         panels/information/kcommentwidget.cpp
         panels/information/kedittagsdialog.cpp
         panels/information/kloadmetadatathread.cpp
@@ -168,6 +169,7 @@ kde4_add_kcfg_files(dolphin_SRCS
 if(Nepomuk_FOUND)
     set(dolphin_SRCS
         ${dolphin_SRCS}
+	panels/information/nfotranslator.cpp
         panels/information/kcommentwidget.cpp
         panels/information/kedittagsdialog.cpp
         panels/information/kloadmetadatathread.cpp
@@ -255,6 +257,7 @@ set(kcm_dolphingeneral_PART_SRCS
 if (Nepomuk_FOUND)
     set(kcm_dolphingeneral_PART_SRCS
         ${kcm_dolphingeneral_PART_SRCS}
+	panels/information/nfotranslator.cpp
         panels/information/kcommentwidget.cpp
         panels/information/kedittagsdialog.cpp
         panels/information/kloadmetadatathread.cpp

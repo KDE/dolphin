@@ -19,6 +19,8 @@
 
 #include "kloadmetadatathread_p.h"
 
+#include "nfotranslator.h"
+
 #include <kconfig.h>
 #include <kconfiggroup.h>
 #include <kfilemetainfo.h>
@@ -96,9 +98,9 @@ void KLoadMetaDataThread::run()
             m_tags = file.tags();
         }
 
+        NfoTranslator& nfo = NfoTranslator::instance();
         if (first && (m_urls.count() == 1)) {
-            // TODO: show shared meta information instead
-            // of not showing anything on multiple selections
+            // get cached meta data by checking the indexed files
             QHash<QUrl, Nepomuk::Variant> variants = file.properties();
             QHash<QUrl, Nepomuk::Variant>::const_iterator it = variants.constBegin();
             while (it != variants.constEnd()) {
@@ -106,7 +108,7 @@ void KLoadMetaDataThread::run()
                 if (settings.readEntry(prop.name(), true)) {
                     Item item;
                     item.name = prop.name();
-                    item.label = tunedLabel(prop.label());
+                    item.label = nfo.translation(prop.uri());
                     item.value = formatValue(it.value());
                     m_items.append(item);
                 }
@@ -114,14 +116,14 @@ void KLoadMetaDataThread::run()
             }
 
             if (variants.isEmpty()) {
-                // TODO: The following code is just meant as temporary fallback to show
-                // non-indexed meta data.
+                // the file has not been indexed, query the meta data
+                // directly from the file
                 KFileMetaInfo metaInfo(m_urls.first());
                 const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
                 foreach (const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
                     Item item;
                     item.name = metaInfoItem.name();
-                    item.label = metaInfoItem.name() + metaInfoItem.prefix() + metaInfoItem.suffix();
+                    item.label = nfo.translation(metaInfoItem.name());
                     item.value = metaInfoItem.value().toString();
                     m_items.append(item);
                 }
@@ -160,25 +162,6 @@ QMap<KUrl, Nepomuk::Resource> KLoadMetaDataThread::files() const
 void KLoadMetaDataThread::slotFinished()
 {
     deleteLater();
-}
-
-QString  KLoadMetaDataThread::tunedLabel(const QString& label) const
-{
-    QString tunedLabel;
-    const int labelLength = label.length();
-    if (labelLength > 0) {
-        tunedLabel.reserve(labelLength);
-        tunedLabel = label[0].toUpper();
-        for (int i = 1; i < labelLength; ++i) {
-            if (label[i].isUpper() && !label[i - 1].isSpace() && !label[i - 1].isUpper()) {
-                tunedLabel += ' ';
-                tunedLabel += label[i].toLower();
-            } else {
-                tunedLabel += label[i];
-            }
-        }
-    }
-    return tunedLabel + ':';
 }
 
 QString  KLoadMetaDataThread::formatValue(const Nepomuk::Variant& value)
