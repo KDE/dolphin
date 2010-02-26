@@ -98,16 +98,17 @@ void KLoadMetaDataThread::run()
             m_tags = file.tags();
         }
 
-        NfoTranslator& nfo = NfoTranslator::instance();
+        const NfoTranslator& nfo = NfoTranslator::instance();
         if (first && (m_urls.count() == 1)) {
             // get cached meta data by checking the indexed files
             QHash<QUrl, Nepomuk::Variant> variants = file.properties();
             QHash<QUrl, Nepomuk::Variant>::const_iterator it = variants.constBegin();
             while (it != variants.constEnd()) {
                 Nepomuk::Types::Property prop(it.key());
-                if (settings.readEntry(prop.name(), true)) {
+                const QString uriString = prop.uri().toString();
+                if (settings.readEntry(uriString, true)) {
                     Item item;
-                    item.name = prop.uri().toString();
+                    item.name = uriString;
                     item.label = nfo.translation(prop.uri());
                     item.value = formatValue(it.value());
                     m_items.append(item);
@@ -121,11 +122,14 @@ void KLoadMetaDataThread::run()
                 KFileMetaInfo metaInfo(m_urls.first());
                 const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
                 foreach (const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
-                    Item item;
-                    item.name = metaInfoItem.name();
-                    item.label = nfo.translation(metaInfoItem.name());
-                    item.value = metaInfoItem.value().toString();
-                    m_items.append(item);
+                    const QString uriString = metaInfoItem.name();
+                    if (settings.readEntry(uriString, true)) {
+                        Item item;
+                        item.name = uriString;
+                        item.label = nfo.translation(metaInfoItem.name());
+                        item.value = metaInfoItem.value().toString();
+                        m_items.append(item);
+                    }
                 }
             }
         }

@@ -269,7 +269,7 @@ void KMetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
 
 void KMetaDataWidget::Private::initMetaInfoSettings()
 {
-    const int currentVersion = 2; // increase version, if the blacklist of disabled
+    const int currentVersion = 3; // increase version, if the blacklist of disabled
                                   // properties should be updated
 
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
@@ -278,16 +278,36 @@ void KMetaDataWidget::Private::initMetaInfoSettings()
         // that some meta information is disabled per default.
 
         // clear old info
-        config.deleteGroup( "Show" );
+        config.deleteGroup("Show");
         KConfigGroup settings = config.group("Show");
 
-        // trueg: KDE 4.5: use a blacklist of actual rdf properties
-
         static const char* const disabledProperties[] = {
-            "asText", "contentSize", "created", "depth", "description", "fileExtension",
-            "fileName", "fileSize", "hasTag", "lastModified", "mimeType", "name",
-            "numericRating", "parentUrl", "permissions", "plainTextContent", "owner",
-            "sourceModified", "url",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#comment",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#contentSize",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#depends",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#isPartOf",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#lastModified",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#mimeType",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#plainTextContent",
+            "http://www.semanticdesktop.org/ontologies/2007/01/19/nie#url",
+            "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#averageBitrate",
+            "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#channels",
+            "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#apertureValue",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#exposureBiasValue",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#exposureTime",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#flash",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#focalLength",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#focalLengthIn35mmFilm",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#isoSpeedRatings",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#make",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#meteringMode",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#model",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#orientation",
+            "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#whiteBalance",
+            "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+            "kfileitem#owner",
+            "kfileitem#permissions",
             0 // mandatory last entry
         };
 
@@ -307,13 +327,13 @@ void KMetaDataWidget::Private::updateRowsVisibility()
 
     setRowVisible(m_typeInfo,
                   (m_visibleDataTypes & KMetaDataWidget::TypeData) &&
-                  settings.readEntry("type", true));
+                  settings.readEntry("kfileitem#type", true));
 
     // Cache in m_sizeVisible whether the size should be shown. This
     // is necessary as the size is temporary hidden when the target
     // file item is a directory.
     m_sizeVisible = (m_visibleDataTypes & KMetaDataWidget::SizeData) &&
-                      settings.readEntry("size", true);
+                      settings.readEntry("kfileitem#size", true);
     bool visible = m_sizeVisible;
     if (visible && (m_fileItems.count() == 1)) {
         // don't show the size information, if one directory is shown
@@ -324,29 +344,29 @@ void KMetaDataWidget::Private::updateRowsVisibility()
 
     setRowVisible(m_modifiedInfo,
                   (m_visibleDataTypes & KMetaDataWidget::ModifiedData) &&
-                  settings.readEntry("modified", true));
+                  settings.readEntry("kfileitem#modified", true));
 
     setRowVisible(m_ownerInfo,
                   (m_visibleDataTypes & KMetaDataWidget::OwnerData) &&
-                  settings.readEntry("owner", true));
+                  settings.readEntry("kfileitem#owner", true));
 
     setRowVisible(m_permissionsInfo,
                   (m_visibleDataTypes & KMetaDataWidget::PermissionsData) &&
-                  settings.readEntry("permissions", true));
+                  settings.readEntry("kfileitem#permissions", true));
 
 #ifdef HAVE_NEPOMUK
     if (m_nepomukActivated) {
         setRowVisible(m_ratingWidget,
                       (m_visibleDataTypes & KMetaDataWidget::RatingData) &&
-                      settings.readEntry("rating", true));
+                      settings.readEntry("kfileitem#rating", true));
 
         setRowVisible(m_taggingWidget,
                       (m_visibleDataTypes & KMetaDataWidget::TagsData) &&
-                      settings.readEntry("tags", true));
+                      settings.readEntry("kfileitem#tags", true));
 
         setRowVisible(m_commentWidget,
                       (m_visibleDataTypes & KMetaDataWidget::CommentData) &&
-                      settings.readEntry("comment", true));
+                      settings.readEntry("kfileitem#comment", true));
     }
 #endif
 }
