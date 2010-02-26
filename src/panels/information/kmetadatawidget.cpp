@@ -116,6 +116,7 @@ public:
     bool m_sizeVisible;
     bool m_readOnly;
     bool m_nepomukActivated;
+    int m_fixedRowCount;
     MetaDataTypes m_visibleDataTypes;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
@@ -147,6 +148,7 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     m_sizeVisible(true),
     m_readOnly(false),
     m_nepomukActivated(false),
+    m_fixedRowCount(0),
     m_visibleDataTypes(TypeData | SizeData | ModifiedData | OwnerData |
                 PermissionsData | RatingData | TagsData | CommentData),
     m_fileItems(),
@@ -370,10 +372,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
     // prevent flickering.
-    int usedRowCnt = 8;  // TODO: don't hardcode this value here
-    const int rowCount = m_rows.count();
-    Q_ASSERT(rowCount >= usedRowCnt);
-
+    int rowIndex = m_fixedRowCount;
     const QList<KLoadMetaDataThread::Item> items = mergedItems(m_loadMetaDataThread->items());
     foreach (const KLoadMetaDataThread::Item& item, items) {
         const QString itemLabel = item.label;
@@ -391,10 +390,10 @@ void KMetaDataWidget::Private::slotLoadingFinished()
                                                          .arg(decoration);
            itemValue.insert(3 /* after "<a "*/, styleText);
         }
-        if (usedRowCnt < rowCount) {
+        if (rowIndex < m_rows.count()) {
             // adjust texts of the current row
-            m_rows[usedRowCnt].label->setText(itemLabel);
-            QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[usedRowCnt].infoWidget);
+            m_rows[rowIndex].label->setText(itemLabel);
+            QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[rowIndex].infoWidget);
             Q_ASSERT(infoValueLabel != 0);
             infoValueLabel->setText(itemValue);
         } else {
@@ -405,11 +404,11 @@ void KMetaDataWidget::Private::slotLoadingFinished()
                     q, SLOT(slotLinkActivated(QString)));
             addRow(infoLabel, infoValue);
         }
-        ++usedRowCnt;
+        ++rowIndex;
     }
 
     // remove rows that are not needed anymore
-    for (int i = m_rows.count() - 1; i >= usedRowCnt; --i) {
+    for (int i = m_rows.count() - 1; i >= rowIndex; --i) {
         delete m_rows[i].label;
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
@@ -693,6 +692,11 @@ bool KMetaDataWidget::event(QEvent* event)
             d->addRow(new QLabel(i18nc("@label", "Comment:"), this), d->m_commentWidget);
         }
     #endif
+
+        // The current number of rows represents meta data, that will be shown for
+        // all files. Dynamic meta data will be appended after those rows (see
+        // slotLoadingFinished()).
+        d->m_fixedRowCount = d->m_rows.count();
 
         d->updateRowsVisibility();
     }
