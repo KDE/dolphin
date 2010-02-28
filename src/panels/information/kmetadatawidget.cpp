@@ -136,7 +136,8 @@ public:
 
     QMap<KUrl, Nepomuk::Resource> m_files;
 
-    KLoadMetaDataThread* m_loadMetaDataThread;
+    QList<KLoadMetaDataThread*> m_metaDataThreads;
+    KLoadMetaDataThread* m_latestMetaDataThread;
 #endif
 
 private:
@@ -163,7 +164,8 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     m_taggingWidget(0),
     m_commentWidget(0),
     m_files(),
-    m_loadMetaDataThread(0),
+    m_metaDataThreads(),
+    m_latestMetaDataThread(0),
 #endif
     q(parent)
 {
@@ -209,11 +211,15 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
 KMetaDataWidget::Private::~Private()
 {
 #ifdef HAVE_NEPOMUK
-    if (m_loadMetaDataThread != 0) {
-        disconnect(m_loadMetaDataThread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
-        m_loadMetaDataThread->cancelAndDelete();
-        m_loadMetaDataThread = 0;
+    // If there are still threads that receive meta data, tell them
+    // that they should cancel as soon as possible. No waiting is done
+    // here, the threads delete themselves after finishing.
+    foreach (KLoadMetaDataThread* thread, m_metaDataThreads) {
+        disconnect(thread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
+        thread->cancelAndDelete();
     }
+    m_metaDataThreads.clear();
+    m_latestMetaDataThread = 0;
 #endif
 }
 
@@ -352,18 +358,28 @@ void KMetaDataWidget::Private::updateRowsVisibility()
 void KMetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
-    if (m_loadMetaDataThread == 0) {
-        // The signal finished() has been emitted, but the thread has been marked
-        // as invalid in the meantime. Just ignore the signal in this case.
-        return;
+    // The thread that has emitted the finished() signal
+    // will get deleted and removed from m_metaDataThreads.
+    const int threadsCount = m_metaDataThreads.count();
+    for (int i = 0; i < threadsCount; ++i) {
+        KLoadMetaDataThread* thread = m_metaDataThreads[i];
+        if (thread == q->sender()) {
+            m_metaDataThreads.removeAt(i);
+            if (thread != m_latestMetaDataThread) {
+                // Ignore data of older threads, as the data got
+                // obsolete by m_latestMetaDataThread.
+                thread->deleteLater();
+                return;
+            }
+        }
     }
-
+     
     Q_ASSERT(m_ratingWidget != 0);
     Q_ASSERT(m_commentWidget != 0);
     Q_ASSERT(m_taggingWidget != 0);
-    m_ratingWidget->setRating(m_loadMetaDataThread->rating());
-    m_commentWidget->setText(m_loadMetaDataThread->comment());
-    m_taggingWidget->setTags(m_loadMetaDataThread->tags());
+    m_ratingWidget->setRating(m_latestMetaDataThread->rating());
+    m_commentWidget->setText(m_latestMetaDataThread->comment());
+    m_taggingWidget->setTags(m_latestMetaDataThread->tags());
 
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
@@ -372,7 +388,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     const int rowCount = m_rows.count();
     Q_ASSERT(rowCount >= index);
 
-    const QList<KLoadMetaDataThread::Item> items = mergedItems(m_loadMetaDataThread->items());
+    const QList<KLoadMetaDataThread::Item> items = mergedItems(m_latestMetaDataThread->items());
     foreach (const KLoadMetaDataThread::Item& item, items) {
         const QString itemLabel = item.label;
         QString itemValue = item.value;
@@ -413,12 +429,8 @@ void KMetaDataWidget::Private::slotLoadingFinished()
         m_rows.pop_back();
     }
 
-    m_files = m_loadMetaDataThread->files();
-
-    Q_ASSERT(!m_loadMetaDataThread->isRunning());
-    Q_ASSERT(m_loadMetaDataThread->isFinished());
-    m_loadMetaDataThread->deleteLater();
-    m_loadMetaDataThread = 0;
+    m_files = m_latestMetaDataThread->files();
+    m_latestMetaDataThread->deleteLater();
 #endif
 
     q->updateGeometry();
@@ -592,14 +604,17 @@ void KMetaDataWidget::setItems(const KFileItemList& items)
             }
         }
 
-        if (d->m_loadMetaDataThread != 0) {
-            disconnect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
-            d->m_loadMetaDataThread->cancelAndDelete();
+        // Cancel all threads that have not emitted a finished() signal.
+        // The deleting of those threads is done in slotLoadingFinished().
+        foreach (KLoadMetaDataThread* thread, d->m_metaDataThreads) {
+            thread->cancel();
         }
-
-        d->m_loadMetaDataThread = new KLoadMetaDataThread();
-        connect(d->m_loadMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
-        d->m_loadMetaDataThread->load(urls);
+    
+        // create a new thread that will provide the meeta data for the items
+        d->m_latestMetaDataThread = new KLoadMetaDataThread();
+        connect(d->m_latestMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
+        d->m_latestMetaDataThread->load(urls);
+        d->m_metaDataThreads.append(d->m_latestMetaDataThread);
     }
 #endif
 }

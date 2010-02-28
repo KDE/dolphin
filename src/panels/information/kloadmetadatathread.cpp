@@ -50,6 +50,13 @@ void KLoadMetaDataThread::load(const KUrl::List& urls)
     start();
 }
 
+void KLoadMetaDataThread::cancel()
+{
+    // Setting m_canceled to true will cancel KLoadMetaDataThread::run()
+    // as soon as run() gets the chance to check m_cancel.
+    m_canceled = true;
+}
+
 void KLoadMetaDataThread::cancelAndDelete()
 {
     if (isFinished()) {
@@ -57,13 +64,13 @@ void KLoadMetaDataThread::cancelAndDelete()
         deleteLater();
     } else {
         connect(this, SIGNAL(finished()), this, SLOT(slotFinished()));
-        m_canceled = true;
         // Setting m_canceled to true will cancel KLoadMetaDataThread::run()
-        // as soon as possible. Afterwards the thread will delete itself
+        // as soon as run() gets the chance to check m_cancel.
+        m_canceled = true;
+        // Afterwards the thread will delete itself
         // asynchronously inside slotFinished().
     }
 }
-
 void KLoadMetaDataThread::run()
 {
     KConfig config("kmetainformationrc", KConfig::NoGlobals);

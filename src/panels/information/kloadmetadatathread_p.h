@@ -55,7 +55,15 @@ public:
      * metaInfoValues() and files() return valid data.
      */
     void load(const KUrl::List& urls);
-
+    
+    /**
+     * Tells the thread that it should cancel as soon
+     * as possible. It is undefined when the thread
+     * gets cancelled. The signal finished() will emitted
+     * after the cancelling has been done.
+     */
+    void cancel();
+    
     /**
      * Cancels the thread and assures that the thread deletes
      * itself as soon as the cancelling has been successful. In
