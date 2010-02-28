@@ -415,6 +415,8 @@ void KMetaDataWidget::Private::slotLoadingFinished()
 
     m_files = m_loadMetaDataThread->files();
 
+    Q_ASSERT(!m_loadMetaDataThread->isRunning());
+    Q_ASSERT(m_loadMetaDataThread->isFinished());
     m_loadMetaDataThread->deleteLater();
     m_loadMetaDataThread = 0;
 #endif

@@ -52,11 +52,16 @@ void KLoadMetaDataThread::load(const KUrl::List& urls)
 
 void KLoadMetaDataThread::cancelAndDelete()
 {
-    connect(this, SIGNAL(finished()), this, SLOT(slotFinished()));
-    m_canceled = true;
-    // Setting m_canceled to true will cancel KLoadMetaDataThread::run()
-    // as soon as possible. Afterwards the thread will delete itself
-    // asynchronously inside slotFinished().
+    if (isFinished()) {
+        Q_ASSERT(!isRunning());
+        deleteLater();
+    } else {
+        connect(this, SIGNAL(finished()), this, SLOT(slotFinished()));
+        m_canceled = true;
+        // Setting m_canceled to true will cancel KLoadMetaDataThread::run()
+        // as soon as possible. Afterwards the thread will delete itself
+        // asynchronously inside slotFinished().
+    }
 }
 
 void KLoadMetaDataThread::run()
