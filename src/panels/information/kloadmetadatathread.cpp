@@ -19,14 +19,13 @@
 
 #include "kloadmetadatathread_p.h"
 
-#include "nfotranslator.h"
-
 #include <kconfig.h>
 #include <kconfiggroup.h>
 #include <kfilemetainfo.h>
 #include <kfilemetainfoitem.h>
 #include <kglobal.h>
 #include <klocale.h>
+#include "knfotranslator_p.h"
 #include <kprotocolinfo.h>
 
 #include <nepomuk/resource.h>
@@ -111,7 +110,7 @@ void KLoadMetaDataThread::run()
             m_tags = file.tags();
         }
 
-        const NfoTranslator& nfo = NfoTranslator::instance();
+        const KNfoTranslator& nfo = KNfoTranslator::instance();
         if (first && (m_urls.count() == 1)) {
             // get cached meta data by checking the indexed files
             QHash<QUrl, Nepomuk::Variant> variants = file.properties();

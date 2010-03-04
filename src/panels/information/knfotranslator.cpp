@@ -16,7 +16,7 @@
  * Boston, MA 02110-1301, USA.                                               *
  *****************************************************************************/
 
-#include "nfotranslator.h"
+#include "knfotranslator_p.h"
 #include <klocale.h>
 #include <kstandarddirs.h>
 
@@ -72,19 +72,19 @@ static const TranslationTuple g_translations[] = {
     { 0, 0 } // mandatory last entry
 };
 
-class NfoTranslatorSingleton
+class KNfoTranslatorSingleton
 {
 public:
-    NfoTranslator instance;
+    KNfoTranslator instance;
 };
-K_GLOBAL_STATIC(NfoTranslatorSingleton, s_nfoTranslator)
+K_GLOBAL_STATIC(KNfoTranslatorSingleton, s_nfoTranslator)
 
-NfoTranslator& NfoTranslator::instance()
+KNfoTranslator& KNfoTranslator::instance()
 {
     return s_nfoTranslator->instance;
 }
 
-QString NfoTranslator::translation(const QUrl& uri) const
+QString KNfoTranslator::translation(const QUrl& uri) const
 {
     const QString key = uri.toString();
     if (m_hash.contains(key)) {
@@ -100,7 +100,7 @@ QString NfoTranslator::translation(const QUrl& uri) const
     return translation;
 }
 
-NfoTranslator::NfoTranslator() :
+KNfoTranslator::KNfoTranslator() :
     m_hash()
 {
     const TranslationTuple* tuple = &g_translations[0];
@@ -110,6 +110,6 @@ NfoTranslator::NfoTranslator() :
     }
 }
 
-NfoTranslator::~NfoTranslator()
+KNfoTranslator::~KNfoTranslator()
 {
 }

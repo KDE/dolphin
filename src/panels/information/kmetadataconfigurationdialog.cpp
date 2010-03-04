@@ -18,11 +18,11 @@
 
 #include "kmetadataconfigurationdialog.h"
 
-#include "nfotranslator.h"
 
 #include <kfilemetainfo.h>
 #include <kfilemetainfoitem.h>
 #include "kmetadatawidget.h"
+#include "knfotranslator_p.h"
 #include <klocale.h>
 
 #include <config-nepomuk.h>
@@ -222,7 +222,7 @@ void KMetaDataConfigurationDialog::Private::addItem(const QUrl& uri)
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
 
-    const QString label = NfoTranslator::instance().translation(uri);
+    const QString label = KNfoTranslator::instance().translation(uri);
     QListWidgetItem* item = new QListWidgetItem(label, m_metaDataList);
     item->setData(Qt::UserRole, key);
     const bool show = settings.readEntry(key, true);

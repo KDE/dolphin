@@ -16,8 +16,8 @@
  * Boston, MA 02110-1301, USA.                                               *
  *****************************************************************************/
 
-#ifndef NFOTRANSLATOR_H
-#define NFOTRANSLATOR_H
+#ifndef KNFOTRANSLATOR_H
+#define KNFOTRANSLATOR_H
 
 #include <QHash>
 #include <QString>
@@ -29,19 +29,19 @@ class QUrl;
  *
  * See http://www.semanticdesktop.org/ontologies/nfo/.
  */
-class NfoTranslator
+class KNfoTranslator
 {
 public:
-    static NfoTranslator& instance();
+    static KNfoTranslator& instance();
     QString translation(const QUrl& uri) const;
 
 protected:
-    NfoTranslator();
-    virtual ~NfoTranslator();
-    friend class NfoTranslatorSingleton;
+    KNfoTranslator();
+    virtual ~KNfoTranslator();
+    friend class KNfoTranslatorSingleton;
 
 private:
     QHash<QString, QString> m_hash;
 };
 
-#endif // NFO_TRANSLATOR_H
+#endif // KNFO_TRANSLATOR_H
