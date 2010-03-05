@@ -42,8 +42,9 @@ set(dolphinprivate_LIB_SRCS
     settings/dolphinsettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
-    panels/information/kmetadatawidget.cpp
     panels/information/kmetadataconfigurationdialog.cpp
+    panels/information/kmetadatawidget.cpp
+    panels/information/knfotranslator.cpp
     tooltips/ktooltip.cpp
     tooltips/ktooltipwindow.cpp
     tooltips/tooltipmanager.cpp
@@ -60,7 +61,6 @@ if(Nepomuk_FOUND)
         panels/information/kcommentwidget.cpp
         panels/information/kedittagsdialog.cpp
         panels/information/kloadmetadatathread.cpp
-        panels/information/knfotranslator.cpp
         panels/information/nepomukmassupdatejob.cpp
         panels/information/ktaggingwidget.cpp
     )
@@ -125,8 +125,9 @@ set(dolphin_SRCS
     pixmapviewer.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
-    panels/information/kmetadatawidget.cpp
     panels/information/kmetadataconfigurationdialog.cpp
+    panels/information/kmetadatawidget.cpp
+    panels/information/knfotranslator.cpp
     panels/information/phononwidget.cpp
     panels/folders/ktreeview.cpp
     panels/places/placespanel.cpp
@@ -172,7 +173,6 @@ if(Nepomuk_FOUND)
         panels/information/kcommentwidget.cpp
         panels/information/kedittagsdialog.cpp
         panels/information/kloadmetadatathread.cpp
-        panels/information/knfotranslator.cpp
         panels/information/nepomukmassupdatejob.cpp
         panels/information/ktaggingwidget.cpp
         search/dolphinsearchoptionsconfigurator.cpp
@@ -250,6 +250,7 @@ set(kcm_dolphingeneral_PART_SRCS
     kcm/kcmdolphingeneral.cpp
     panels/information/kmetadataconfigurationdialog.cpp
     panels/information/kmetadatawidget.cpp
+    panels/information/knfotranslator.cpp
     settings/behaviorsettingspage.cpp
     settings/previewssettingspage.cpp
     settings/contextmenusettingspage.cpp
@@ -260,7 +261,6 @@ if (Nepomuk_FOUND)
         panels/information/kcommentwidget.cpp
         panels/information/kedittagsdialog.cpp
         panels/information/kloadmetadatathread.cpp
-        panels/information/knfotranslator.cpp
         panels/information/nepomukmassupdatejob.cpp
         panels/information/ktaggingwidget.cpp
     )
