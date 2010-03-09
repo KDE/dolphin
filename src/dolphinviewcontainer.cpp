@@ -28,6 +28,7 @@
 #include <QtCore/QTimer>
 #include <QtGui/QScrollBar>
 
+#include <kdesktopfile.h>
 #include <kfileitemdelegate.h>
 #include <kfileplacesmodel.h>
 #include <kglobalsettings.h>
@@ -478,6 +479,16 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
         const QString protocol = KProtocolManager::protocolForArchiveMimetype(item.mimetype());
         if (!protocol.isEmpty()) {
             url.setProtocol(protocol);
+            m_view->setUrl(url);
+            return;
+        }
+    }
+
+    if (item.mimetype() == "application/x-desktop") {
+        // redirect to the url in Type=Link desktop files
+        KDesktopFile desktopFile(url.toLocalFile());
+        if (desktopFile.hasLinkType()) {
+            url = desktopFile.readUrl();
             m_view->setUrl(url);
             return;
         }
