@@ -45,7 +45,7 @@ static const TranslationTuple g_translations[] = {
     { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#characterCount", I18N_NOOP2("@label number of characters", "Characters") },
     { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#codec",  I18N_NOOP2("@label", "Codec") },
     { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#colorDepth", I18N_NOOP2("@label", "Color Depth") },
-    { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName", I18N_NOOP2("@label", "File Name") },
+    { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#fileName", I18N_NOOP2("@label", "Filename") },
     { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height", I18N_NOOP2("@label", "Height") },
     { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#interlaceMode", I18N_NOOP2("@label", "Interlace Mode") },
     { "http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#lineCount", I18N_NOOP2("@label number of lines", "Lines") },
