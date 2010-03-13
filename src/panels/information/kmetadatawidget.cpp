@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                     *
- * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ * Copyright (C) 2009-2010 by Peter Penz <peter.penz@gmx.at>                 *
  *                                                                           *
  * This library is free software; you can redistribute it and/or             *
  * modify it under the terms of the GNU Library General Public               *
@@ -25,6 +25,8 @@
 #include <kglobalsettings.h>
 #include <kglobal.h>
 #include <klocale.h>
+#include "kmetadatamodel.h"
+#include "knfotranslator_p.h"
 
 #include <QEvent>
 #include <QFontMetrics>
@@ -38,7 +40,6 @@
     #define DISABLE_NEPOMUK_LEGACY
 
     #include "kcommentwidget_p.h"
-    #include "kloadmetadatathread_p.h"
     #include "ktaggingwidget_p.h"
 
     #include <nepomuk/kratingwidget.h>
@@ -107,10 +108,7 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
-    /**
-     * Merges items like 'width' and 'height' as one item.
-     */
-    QList<KLoadMetaDataThread::Item> mergedItems(const QList<KLoadMetaDataThread::Item>& items);
+    QList<Nepomuk::Resource> resourceList() const;
 #endif
 
     bool m_sizeVisible;
@@ -120,6 +118,8 @@ public:
     MetaDataTypes m_visibleDataTypes;
     QList<KFileItem> m_fileItems;
     QList<Row> m_rows;
+
+    KMetaDataModel* m_model;
 
     QGridLayout* m_gridLayout;
 
@@ -134,11 +134,6 @@ public:
     KRatingWidget* m_ratingWidget;
     KTaggingWidget* m_taggingWidget;
     KCommentWidget* m_commentWidget;
-
-    QMap<KUrl, Nepomuk::Resource> m_files;
-
-    QList<KLoadMetaDataThread*> m_metaDataThreads;
-    KLoadMetaDataThread* m_latestMetaDataThread;
 #endif
 
 private:
@@ -154,6 +149,7 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
                 PermissionsData | RatingData | TagsData | CommentData),
     m_fileItems(),
     m_rows(),
+    m_model(0),
     m_gridLayout(0),
     m_typeInfo(0),
     m_sizeLabel(0),
@@ -165,9 +161,6 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
     m_ratingWidget(0),
     m_taggingWidget(0),
     m_commentWidget(0),
-    m_files(),
-    m_metaDataThreads(),
-    m_latestMetaDataThread(0),
 #endif
     q(parent)
 {
@@ -212,17 +205,6 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
 
 KMetaDataWidget::Private::~Private()
 {
-#ifdef HAVE_NEPOMUK
-    // If there are still threads that receive meta data, tell them
-    // that they should cancel as soon as possible. No waiting is done
-    // here, the threads delete themselves after finishing.
-    foreach (KLoadMetaDataThread* thread, m_metaDataThreads) {
-        disconnect(thread, SIGNAL(finished()), q, SLOT(slotLoadingFinished()));
-        thread->cancelAndDelete();
-    }
-    m_metaDataThreads.clear();
-    m_latestMetaDataThread = 0;
-#endif
 }
 
 void KMetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
@@ -311,6 +293,10 @@ void KMetaDataWidget::Private::initMetaInfoSettings()
             "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#model",
             "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#orientation",
             "http://www.semanticdesktop.org/ontologies/2007/05/10/nexif#whiteBalance",
+            "http://www.semanticdesktop.org/ontologies/2007/08/15/nao#description",
+            "http://www.semanticdesktop.org/ontologies/2007/08/15/nao#hasTag",
+            "http://www.semanticdesktop.org/ontologies/2007/08/15/nao#lastModified",
+            "http://www.semanticdesktop.org/ontologies/2007/08/15/nao#numericRating",
             "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
             "kfileitem#owner",
             "kfileitem#permissions",
@@ -380,67 +366,65 @@ void KMetaDataWidget::Private::updateRowsVisibility()
 void KMetaDataWidget::Private::slotLoadingFinished()
 {
 #ifdef HAVE_NEPOMUK
-    // The thread that has emitted the finished() signal
-    // will get deleted and removed from m_metaDataThreads.
-    const int threadsCount = m_metaDataThreads.count();
-    for (int i = 0; i < threadsCount; ++i) {
-        KLoadMetaDataThread* thread = m_metaDataThreads[i];
-        if (thread == q->sender()) {
-            m_metaDataThreads.removeAt(i);
-            if (thread != m_latestMetaDataThread) {
-                // Ignore data of older threads, as the data got
-                // obsolete by m_latestMetaDataThread.
-                thread->deleteLater();
-                return;
-            }
-        }
-    }
-
-    if (m_nepomukActivated) {
-        Q_ASSERT(m_ratingWidget != 0);
-        Q_ASSERT(m_commentWidget != 0);
-        Q_ASSERT(m_taggingWidget != 0);
-        m_ratingWidget->setRating(m_latestMetaDataThread->rating());
-        m_commentWidget->setText(m_latestMetaDataThread->comment());
-        m_taggingWidget->setTags(m_latestMetaDataThread->tags());
-    }
-
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
     // prevent flickering.
+
+    const KNfoTranslator& nfo = KNfoTranslator::instance();
     int rowIndex = m_fixedRowCount;
-    const QList<KLoadMetaDataThread::Item> items = mergedItems(m_latestMetaDataThread->items());
-    foreach (const KLoadMetaDataThread::Item& item, items) {
-        const QString itemLabel = item.label;
-        QString itemValue = item.value;
-        if (item.value.startsWith("<a href=")) {
-           // use the text color for the value-links, to create a visual difference
-           // to the semantically different links like "Change..."
-           const QColor linkColor = q->palette().text().color();
-           QString decoration;
-           if (m_readOnly) {
-               decoration = QString::fromLatin1("text-decoration:none;");
-           }
-           const QString styleText = QString::fromLatin1("style=\"color:%1;%2\" ")
-                                                         .arg(linkColor.name())
-                                                         .arg(decoration);
-           itemValue.insert(3 /* after "<a "*/, styleText);
+
+    QMap<KUrl, Nepomuk::Variant> data = m_model->data();
+    QMap<KUrl, Nepomuk::Variant>::const_iterator it = data.constBegin();
+    while (it != data.constEnd()) {
+        const KUrl key = it.key();
+        const Nepomuk::Variant value = it.value();
+        const QString itemLabel = nfo.translation(it.key());
+
+        bool appliedData = false;
+        if (m_nepomukActivated) {
+            const QString key = it.key().url();
+            if (key == QLatin1String("kfileitem#rating")) {
+                m_ratingWidget->setRating(value.toInt());
+                appliedData = true;
+            } else if (key == QLatin1String("kfileitem#comment")) {
+                m_commentWidget->setText(value.toString());
+                appliedData = true;
+            } else if (key == QLatin1String("kfileitem#tags")) {
+                QList<Nepomuk::Variant> variants = value.toVariantList();
+                QList<Nepomuk::Tag> tags;
+                foreach (const Nepomuk::Variant& variant, variants) {
+                    const Nepomuk::Resource resource = variant.toResource();
+                    tags.append(static_cast<Nepomuk::Tag>(resource));
+                }
+                m_taggingWidget->setTags(tags);
+                appliedData = true;
+            }
         }
-        if (rowIndex < m_rows.count()) {
-            // adjust texts of the current row
-            m_rows[rowIndex].label->setText(itemLabel);
-            QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[rowIndex].infoWidget);
-            Q_ASSERT(infoValueLabel != 0);
-            infoValueLabel->setText(itemValue);
-        } else {
-            // create new row
-            QLabel* infoLabel = new QLabel(itemLabel, q);
-            QLabel* infoValue = new QLabel(itemValue, q);
-            connect(infoValue, SIGNAL(linkActivated(QString)),
-                    q, SLOT(slotLinkActivated(QString)));
-            addRow(infoLabel, infoValue);
+
+        if (!appliedData) {
+            QString itemValue;
+            if (value.isString()) {
+                itemValue = value.toString();
+            }
+
+            if (rowIndex < m_rows.count()) {
+                // adjust texts of the current row
+                m_rows[rowIndex].label->setText(itemLabel);
+                QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[rowIndex].infoWidget);
+                Q_ASSERT(infoValueLabel != 0);
+                infoValueLabel->setText(itemValue);
+            } else {
+                // create new row
+                QLabel* infoLabel = new QLabel(itemLabel, q);
+                QLabel* infoValue = new QLabel(itemValue, q);
+                connect(infoValue, SIGNAL(linkActivated(QString)),
+                        q, SLOT(slotLinkActivated(QString)));
+                addRow(infoLabel, infoValue);
+            }
+            ++rowIndex;
         }
-        ++rowIndex;
+
+        ++it;
     }
 
     // remove rows that are not needed anymore
@@ -449,9 +433,6 @@ void KMetaDataWidget::Private::slotLoadingFinished()
         delete m_rows[i].infoWidget;
         m_rows.pop_back();
     }
-
-    m_files = m_latestMetaDataThread->files();
-    m_latestMetaDataThread->deleteLater();
 #endif
 
     q->updateGeometry();
@@ -461,7 +442,7 @@ void KMetaDataWidget::Private::slotRatingChanged(unsigned int rating)
 {
 #ifdef HAVE_NEPOMUK
     Nepomuk::MassUpdateJob* job =
-        Nepomuk::MassUpdateJob::rateResources(m_files.values(), rating);
+        Nepomuk::MassUpdateJob::rateResources(resourceList(), rating);
     startChangeDataJob(job);
 #else
     Q_UNUSED(rating);
@@ -474,7 +455,7 @@ void KMetaDataWidget::Private::slotTagsChanged(const QList<Nepomuk::Tag>& tags)
     m_taggingWidget->setTags(tags);
 
     Nepomuk::MassUpdateJob* job =
-        Nepomuk::MassUpdateJob::tagResources(m_files.values(), tags);
+        Nepomuk::MassUpdateJob::tagResources(resourceList(), tags);
     startChangeDataJob(job);
 #else
     Q_UNUSED(tags);
@@ -485,7 +466,7 @@ void KMetaDataWidget::Private::slotCommentChanged(const QString& comment)
 {
 #ifdef HAVE_NEPOMUK
     Nepomuk::MassUpdateJob* job =
-        Nepomuk::MassUpdateJob::commentResources(m_files.values(), comment);
+        Nepomuk::MassUpdateJob::commentResources(resourceList(), comment);
     startChangeDataJob(job);
 #else
     Q_UNUSED(comment);
@@ -522,46 +503,14 @@ void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
     job->start();
 }
 
-QList<KLoadMetaDataThread::Item>
-    KMetaDataWidget::Private::mergedItems(const QList<KLoadMetaDataThread::Item>& items)
+QList<Nepomuk::Resource> KMetaDataWidget::Private::resourceList() const
 {
-    // TODO: Currently only "width" and "height" are merged as "width x height". If
-    // other kind of merges should be done too, a more general approach is required.
-    QList<KLoadMetaDataThread::Item> mergedItems;
-
-    KLoadMetaDataThread::Item width;
-    KLoadMetaDataThread::Item height;
-
-    foreach (const KLoadMetaDataThread::Item& item, items) {
-        if (item.name == QLatin1String("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#width")) {
-            width = item;
-        } else if (item.name == QLatin1String("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height")) {
-            height = item;
-        } else {
-            // insert the item sorted by the label
-            int pos = 0;
-            while ((mergedItems.count() > pos) &&
-                   (mergedItems[pos].label < item.label)) {
-                ++pos;
-            }
-            mergedItems.insert(pos, item);
-        }
+    QList<Nepomuk::Resource> list;
+    foreach (const KFileItem& item, m_fileItems) {
+        const KUrl url = item.url();
+        list.append(Nepomuk::Resource(url));
     }
-
-    const bool foundWidth = !width.name.isEmpty();
-    const bool foundHeight = !height.name.isEmpty();
-    if (foundWidth && !foundHeight) {
-        mergedItems.insert(0, width);
-    } else if (foundHeight && !foundWidth) {
-        mergedItems.insert(0, height);
-    } else if (foundWidth && foundHeight) {
-        KLoadMetaDataThread::Item size;
-        size.label = i18nc("@label image width and height", "Width x Height");
-        size.value = width.value + " x " + height.value;
-        mergedItems.insert(0, size);
-    }
-
-    return mergedItems;
+    return list;
 }
 #endif
 
@@ -599,6 +548,9 @@ void KMetaDataWidget::setItem(const KFileItem& item)
 void KMetaDataWidget::setItems(const KFileItemList& items)
 {
     d->m_fileItems = items;
+    if (d->m_model != 0) {
+        d->m_model->setItems(items);
+    }
 
     if (items.count() > 1) {
         // calculate the size of all items and show this
@@ -614,28 +566,6 @@ void KMetaDataWidget::setItems(const KFileItemList& items)
         }
         d->m_sizeInfo->setText(KIO::convertSize(totalSize));
     }
-
-#ifdef HAVE_NEPOMUK
-    QList<KUrl> urls;
-    foreach (const KFileItem& item, items) {
-        const KUrl url = item.nepomukUri();
-        if (url.isValid()) {
-            urls.append(url);
-        }
-    }
-
-    // Cancel all threads that have not emitted a finished() signal.
-    // The deleting of those threads is done in slotLoadingFinished().
-    foreach (KLoadMetaDataThread* thread, d->m_metaDataThreads) {
-        thread->cancel();
-    }
-
-    // create a new thread that will provide the meeta data for the items
-    d->m_latestMetaDataThread = new KLoadMetaDataThread();
-    connect(d->m_latestMetaDataThread, SIGNAL(finished()), this, SLOT(slotLoadingFinished()));
-    d->m_latestMetaDataThread->load(urls);
-    d->m_metaDataThreads.append(d->m_latestMetaDataThread);
-#endif
 }
 
 void KMetaDataWidget::setItem(const KUrl& url)
@@ -659,6 +589,20 @@ void KMetaDataWidget::setItems(const QList<KUrl>& urls)
 KFileItemList KMetaDataWidget::items() const
 {
     return d->m_fileItems;
+}
+
+void KMetaDataWidget::setModel(KMetaDataModel* model)
+{
+    if (d->m_model != 0) {
+        disconnect(d->m_model, SIGNAL(loadingFinished()));
+    }
+    d->m_model = model;
+    connect(d->m_model, SIGNAL(loadingFinished()), this, SLOT(slotLoadingFinished()));
+}
+
+KMetaDataModel* KMetaDataWidget::model() const
+{
+    return d->m_model;
 }
 
 void KMetaDataWidget::setReadOnly(bool readOnly)

@@ -46,6 +46,7 @@
 
 #include "dolphin_informationpanelsettings.h"
 #include "settings/dolphinsettings.h"
+#include "kmetadatamodel.h"
 #include "kmetadatawidget.h"
 #include "kmetadataconfigurationdialog.h"
 #include "phononwidget.h"
@@ -102,6 +103,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_preview->setVisible(showPreview);
 
     m_metaDataWidget = new KMetaDataWidget(parent);
+    m_metaDataWidget->setModel(new KMetaDataModel(this));
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     connect(m_metaDataWidget, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
 

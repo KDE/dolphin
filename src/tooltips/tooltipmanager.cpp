@@ -26,6 +26,7 @@
 #include <kio/previewjob.h>
 #include <kseparator.h>
 
+#include "panels/information/kmetadatamodel.h"
 #include "panels/information/kmetadatawidget.h"
 #include "tooltips/ktooltip.h"
 
@@ -262,6 +263,7 @@ QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
 
     // add meta data
     KMetaDataWidget* metaDataWidget = new KMetaDataWidget(tipContent);
+    metaDataWidget->setModel(new KMetaDataModel(tipContent));
     metaDataWidget->setForegroundRole(QPalette::ToolTipText);
     metaDataWidget->setItem(m_item);
     metaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

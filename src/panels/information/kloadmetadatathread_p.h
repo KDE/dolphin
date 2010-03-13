@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ * Copyright (C) 2009-2010 by Peter Penz <peter.penz@gmx.at>                 *
  *                                                                           *
  * This library is free software; you can redistribute it and/or             *
  * modify it under the terms of the GNU Library General Public               *
@@ -28,6 +28,8 @@
 #include <QList>
 #include <QThread>
 
+class KMetaDataModel;
+
 /**
  * Loads the meta data of files that are
  * required by the widget KMetaDataWidget.
@@ -37,30 +39,30 @@ class KLoadMetaDataThread : public QThread
     Q_OBJECT
 
 public:
-    struct Item
-    {
-        QString name;
-        QString label;
-        QString value;
-    };
-
-    KLoadMetaDataThread();
+    KLoadMetaDataThread(KMetaDataModel* model);
     virtual ~KLoadMetaDataThread();
 
     /**
      * Starts the thread and loads the meta data for
      * the files given by \p urls. After receiving
-     * the signal finished(), the methods
-     * rating(), comment(), tags(), metaInfoLabels(),
-     * metaInfoValues() and files() return valid data.
+     * the signal finished(), the method KLoadMetaDataThread::data()
+     * provides the loaded meta data.
      */
     void load(const KUrl::List& urls);
+
+    /**
+     * Returns the meta data for the URLs given
+     * by KLoadMetaDataThread::load(). The method only provides
+     * valid results after the signal finished() has been
+     * emitted.
+     */
+    QMap<KUrl, Nepomuk::Variant> data() const;
 
     /**
      * Tells the thread that it should cancel as soon
      * as possible. It is undefined when the thread
      * gets cancelled. The signal finished() will emitted
-     * after the cancelling has been done.
+     * after the cancelling has been done.mergedIt
      */
     void cancel();
 
@@ -75,12 +77,6 @@ public:
     /** @see QThread::run() */
     virtual void run();
 
-    int rating() const;
-    QString comment() const;
-    QList<Nepomuk::Tag> tags() const;
-    QList<Item> items() const;
-    QMap<KUrl, Nepomuk::Resource> files() const;
-
 private slots:
     void slotFinished();
 
@@ -93,12 +89,8 @@ private:
     QString formatValue(const Nepomuk::Variant& value);
 
 private:
-    unsigned int m_rating;
-    QString m_comment;
-    QList<Nepomuk::Tag> m_tags;
-    QList<Item> m_items;
-    QMap<KUrl, Nepomuk::Resource> m_files;
-
+    KMetaDataModel* m_model;
+    QMap<KUrl, Nepomuk::Variant> m_data;
     KUrl::List m_urls;
     bool m_canceled;
 };

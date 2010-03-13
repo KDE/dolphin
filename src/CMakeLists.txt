@@ -43,6 +43,7 @@ set(dolphinprivate_LIB_SRCS
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     panels/information/kmetadataconfigurationdialog.cpp
+    panels/information/kmetadatamodel.cpp
     panels/information/kmetadatawidget.cpp
     panels/information/knfotranslator.cpp
     tooltips/ktooltip.cpp
@@ -126,6 +127,7 @@ set(dolphin_SRCS
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
     panels/information/kmetadataconfigurationdialog.cpp
+    panels/information/kmetadatamodel.cpp
     panels/information/kmetadatawidget.cpp
     panels/information/knfotranslator.cpp
     panels/information/phononwidget.cpp
@@ -249,6 +251,7 @@ set(kcm_dolphinservices_PART_SRCS
 set(kcm_dolphingeneral_PART_SRCS
     kcm/kcmdolphingeneral.cpp
     panels/information/kmetadataconfigurationdialog.cpp
+    panels/information/kmetadatamodel.cpp
     panels/information/kmetadatawidget.cpp
     panels/information/knfotranslator.cpp
     settings/behaviorsettingspage.cpp

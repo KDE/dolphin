@@ -1,5 +1,5 @@
 /*****************************************************************************
- * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ * Copyright (C) 2009-2010 by Peter Penz <peter.penz@gmx.at>                 *
  * Copyright (C) 2009 by Sebastian Trueg <trueg@kde.org>                     *
  *                                                                           *
  * This library is free software; you can redistribute it and/or             *
@@ -25,20 +25,19 @@
 #include <kfilemetainfoitem.h>
 #include <kglobal.h>
 #include <klocale.h>
-#include "knfotranslator_p.h"
+#include "kmetadatamodel.h"
 #include <kprotocolinfo.h>
 
 #include <nepomuk/resource.h>
+#include <nepomuk/resourcemanager.h>
 
-KLoadMetaDataThread::KLoadMetaDataThread() :
-    m_rating(0),
-    m_comment(),
-    m_tags(),
-    m_items(),
-    m_files(),
+KLoadMetaDataThread::KLoadMetaDataThread(KMetaDataModel* model) :
+    m_model(model),
+    m_data(),
     m_urls(),
     m_canceled(false)
 {
+    Q_ASSERT(model != 0);
 }
 
 KLoadMetaDataThread::~KLoadMetaDataThread()
@@ -50,6 +49,11 @@ void KLoadMetaDataThread::load(const KUrl::List& urls)
     m_urls = urls;
     m_canceled = false;
     start();
+}
+
+QMap<KUrl, Nepomuk::Variant> KLoadMetaDataThread::data() const
+{
+    return m_data;
 }
 
 void KLoadMetaDataThread::cancel()
@@ -79,6 +83,10 @@ void KLoadMetaDataThread::run()
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
 
+    unsigned int rating = 0;
+    QString comment;
+    QList<Nepomuk::Tag> tags;
+
     bool first = true;
     foreach (const KUrl& url, m_urls) {
         if (m_canceled) {
@@ -90,27 +98,24 @@ void KLoadMetaDataThread::run()
             continue;
         }
 
-        m_files.insert(url, file);
-
-        if (!first && (m_rating != file.rating())) {
-            m_rating = 0; // reset rating
+        if (!first && (rating != file.rating())) {
+            rating = 0; // reset rating
         } else if (first) {
-            m_rating = file.rating();
+            rating = file.rating();
         }
 
-        if (!first && (m_comment != file.description())) {
-            m_comment.clear(); // reset comment
+        if (!first && (comment != file.description())) {
+            comment.clear(); // reset comment
         } else if (first) {
-            m_comment = file.description();
+            comment = file.description();
         }
 
-        if (!first && (m_tags != file.tags())) {
-            m_tags.clear(); // reset tags
+        if (!first && (tags != file.tags())) {
+            tags.clear(); // reset tags
         } else if (first) {
-            m_tags = file.tags();
+            tags = file.tags();
         }
 
-        const KNfoTranslator& nfo = KNfoTranslator::instance();
         if (first && (m_urls.count() == 1)) {
             // get cached meta data by checking the indexed files
             QHash<QUrl, Nepomuk::Variant> variants = file.properties();
@@ -119,11 +124,7 @@ void KLoadMetaDataThread::run()
                 Nepomuk::Types::Property prop(it.key());
                 const QString uriString = prop.uri().toString();
                 if (settings.readEntry(uriString, true)) {
-                    Item item;
-                    item.name = uriString;
-                    item.label = nfo.translation(prop.uri());
-                    item.value = formatValue(it.value());
-                    m_items.append(item);
+                    m_data.insert(uriString, formatValue(it.value()));
                 }
                 ++it;
             }
@@ -136,11 +137,8 @@ void KLoadMetaDataThread::run()
                 foreach (const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
                     const QString uriString = metaInfoItem.name();
                     if (settings.readEntry(uriString, true)) {
-                        Item item;
-                        item.name = uriString;
-                        item.label = nfo.translation(metaInfoItem.name());
-                        item.value = metaInfoItem.value().toString();
-                        m_items.append(item);
+                        const Nepomuk::Variant value(metaInfoItem.value());
+                        m_data.insert(uriString, formatValue(value));
                     }
                 }
             }
@@ -148,31 +146,20 @@ void KLoadMetaDataThread::run()
 
         first = false;
     }
-}
 
-int KLoadMetaDataThread::rating() const
-{
-    return m_rating;
-}
+    const bool isNepomukActivated = (Nepomuk::ResourceManager::instance()->init() == 0);
+    if (isNepomukActivated) {
+        m_data.insert(KUrl("kfileitem#rating"), rating);
+        m_data.insert(KUrl("kfileitem#comment"), comment);
 
-QString KLoadMetaDataThread::comment() const
-{
-    return m_comment;
-}
+        QList<Nepomuk::Variant> tagVariants;
+        foreach (const Nepomuk::Tag& tag, tags) {
+            tagVariants.append(Nepomuk::Variant(tag));
+        }
+        m_data.insert(KUrl("kfileitem#tags"), tagVariants);
+    }
 
-QList<Nepomuk::Tag> KLoadMetaDataThread::tags() const
-{
-    return m_tags;
-}
-
-QList<KLoadMetaDataThread::Item> KLoadMetaDataThread::items() const
-{
-    return m_items;
-}
-
-QMap<KUrl, Nepomuk::Resource> KLoadMetaDataThread::files() const
-{
-    return m_files;
+    m_data.unite(m_model->loadData());
 }
 
 void KLoadMetaDataThread::slotFinished()

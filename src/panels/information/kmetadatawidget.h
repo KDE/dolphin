@@ -1,6 +1,6 @@
 /*****************************************************************************
  * Copyright (C) 2008 by Sebastian Trueg <trueg@kde.org>                     *
- * Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                      *
+ * Copyright (C) 2009-2010 by Peter Penz <peter.penz@gmx.at>                 *
  *                                                                           *
  * This library is free software; you can redistribute it and/or             *
  * modify it under the terms of the GNU Library General Public               *
@@ -27,6 +27,7 @@
 
 #include <config-nepomuk.h>
 
+class KMetaDataModel;
 class KUrl;
 
 /**
@@ -38,6 +39,10 @@ class KUrl;
  * to change specific meta data like rating, tags and
  * comment. The changes are stored automatically by the
  * meta data widget.
+ *
+ * To show more than basic meta data, the meta data widget
+ * must be provided with a meta data model
+ * (see KMetaDataWidget::setModel()).
  */
 class KMetaDataWidget : public QWidget
 {
@@ -100,6 +105,13 @@ public:
     void setItems(const QList<KUrl>& urls);
 
     KFileItemList items() const;
+
+    /**
+     * Sets the used model which provides the data for the widget.
+     * One model can be shared by several meta data widgets.
+     */
+    void setModel(KMetaDataModel* model);
+    KMetaDataModel* model() const;
 
     /**
      * If set to true, data like comment, tag or rating cannot be changed by the user.

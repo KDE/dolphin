@@ -20,7 +20,7 @@
 #include <klocale.h>
 #include <kstandarddirs.h>
 
-#include <QUrl>
+#include <kurl.h>
 
 struct TranslationTuple {
     const char* const key;
@@ -84,9 +84,9 @@ KNfoTranslator& KNfoTranslator::instance()
     return s_nfoTranslator->instance;
 }
 
-QString KNfoTranslator::translation(const QUrl& uri) const
+QString KNfoTranslator::translation(const KUrl& uri) const
 {
-    const QString key = uri.toString();
+    const QString key = uri.url();
     if (m_hash.contains(key)) {
         return m_hash.value(key);
     }
