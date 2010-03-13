@@ -188,16 +188,19 @@ KMetaDataWidget::Private::Private(KMetaDataWidget* parent) :
         m_ratingWidget->setAlignment(align);
         connect(m_ratingWidget, SIGNAL(ratingChanged(unsigned int)),
                 q, SLOT(slotRatingChanged(unsigned int)));
+        m_ratingWidget->setVisible(false);
 
         m_taggingWidget = new KTaggingWidget(parent);
         connect(m_taggingWidget, SIGNAL(tagsChanged(const QList<Nepomuk::Tag>&)),
                 q, SLOT(slotTagsChanged(const QList<Nepomuk::Tag>&)));
         connect(m_taggingWidget, SIGNAL(tagActivated(const Nepomuk::Tag&)),
                 q, SLOT(slotTagActivated(const Nepomuk::Tag&)));
+        m_taggingWidget->setVisible(false);
 
         m_commentWidget = new KCommentWidget(parent);
         connect(m_commentWidget, SIGNAL(commentChanged(const QString&)),
                 q, SLOT(slotCommentChanged(const QString&)));
+        m_commentWidget->setVisible(false);
     }
 #endif
 
@@ -398,7 +401,7 @@ void KMetaDataWidget::Private::slotLoadingFinished()
 #ifdef HAVE_NEPOMUK
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
-    // prevent flickering.
+    // prevent flickering and to increase the performance.
     int rowIndex = m_fixedRowCount;
 
     const QHash<KUrl, Nepomuk::Variant> data = m_model->data();

@@ -54,7 +54,8 @@ class KUrl;
  * like done already for the rating, tags or comments). The
  * following steps are necessary:
  * - Derive a custom widget from KMetaDataWidget.
- * - Create the custom widgets in the constructor.
+ * - Create the custom widgets in the constructor and
+ *   make them invisible per default.
  * - Implement the methods valueWidget(), setValue() and
  *   (optionally) label() by accessing the custom widgets.
  */
