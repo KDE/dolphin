@@ -21,6 +21,7 @@
 
 #include <kfilemetainfo.h>
 #include <kfilemetainfoitem.h>
+#include "kmetadatamodel.h"
 #include "kmetadatawidget.h"
 #include "knfotranslator_p.h"
 #include <klocale.h>
@@ -46,7 +47,9 @@ public:
 
     void init();
     void loadMetaData();
-    void addItem(const QUrl& uri);
+    void addItem(const KUrl& uri);
+
+    void slotLoadingFinished();
 
     int m_visibleDataTypes;
     QLabel* m_descriptionLabel;
@@ -78,6 +81,7 @@ KMetaDataConfigurationDialog::Private::Private(KMetaDataConfigurationDialog* par
 
     m_metaDataList = new QListWidget(q);
     m_metaDataList->setSelectionMode(QAbstractItemView::NoSelection);
+    m_metaDataList->setSortingEnabled(true);
 
     topLayout->addWidget(m_descriptionLabel);
     topLayout->addWidget(m_metaDataList);
@@ -132,19 +136,6 @@ void KMetaDataConfigurationDialog::Private::loadMetaData()
     if (visibleDataTypes & KMetaDataWidget::PermissionsData) {
         fixedItems.append(FixedItem("kfileitem#permissions", i18nc("@item::inlistbox", "Permissions")));
     }
-#ifdef HAVE_NEPOMUK
-    if (Nepomuk::ResourceManager::instance()->init() == 0) {
-        if (visibleDataTypes & KMetaDataWidget::RatingData) {
-            fixedItems.append(FixedItem("kfileitem#rating", i18nc("@item::inlistbox", "Rating")));
-        }
-        if (visibleDataTypes & KMetaDataWidget::TagsData) {
-            fixedItems.append(FixedItem("kfileitem#tags", i18nc("@item::inlistbox", "Tags")));
-        }
-        if (visibleDataTypes & KMetaDataWidget::CommentData) {
-            fixedItems.append(FixedItem("kfileitem#comment", i18nc("@item::inlistbox", "Comment")));
-        }
-    }
-#endif
 
     foreach (const FixedItem& fixedItem, fixedItems) {
         const QString key = fixedItem.first;
@@ -156,43 +147,25 @@ void KMetaDataConfigurationDialog::Private::loadMetaData()
     }
 
 #ifdef HAVE_NEPOMUK
+    if ((m_metaDataWidget == 0) || (m_metaDataWidget->items().count() != 1)) {
+        return;
+    }
+
     // Get all meta information labels that are available for
     // the currently shown file item and add them to the list.
-    if (m_metaDataWidget == 0) {
-        // TODO: in this case all available meta data from the system
-        // should be added.
-        return;
-    }
-
-    const KFileItemList items = m_metaDataWidget->items();
-    if (items.count() != 1) {
-        // TODO: handle als usecases for more than one item:
-        return;
-    }
-
-    Nepomuk::Resource res(items.first().nepomukUri());
-    QHash<QUrl, Nepomuk::Variant> properties = res.properties();
-    if (properties.isEmpty()) {
-        // the file is not indexed or Nepomuk is disabled
-        KFileMetaInfo metaInfo(items.first().url());
-        const QHash<QString, KFileMetaInfoItem> metaInfoItems = metaInfo.items();
-        foreach (const KFileMetaInfoItem& metaInfoItem, metaInfoItems) {
-            addItem(metaInfoItem.name());
-        }
-
-    } else {
-        // show meta information provided by Nepomuk
-        QHash<QUrl, Nepomuk::Variant>::const_iterator it = properties.constBegin();
-        while (it != properties.constEnd()) {
-            Nepomuk::Types::Property prop(it.key());
-            addItem(prop.uri());
+    KMetaDataModel* model = m_metaDataWidget->model();
+    if (model != 0) {
+        const QHash<KUrl, Nepomuk::Variant> data = model->data();
+        QHash<KUrl, Nepomuk::Variant>::const_iterator it = data.constBegin();
+        while (it != data.constEnd()) {
+            addItem(it.key());
             ++it;
         }
     }
 #endif
 }
 
-void KMetaDataConfigurationDialog::Private::addItem(const QUrl& uri)
+void KMetaDataConfigurationDialog::Private::addItem(const KUrl& uri)
 {
     // Meta information provided by Nepomuk that is already
     // available from KFileItem as "fixed item" (see above)
@@ -209,7 +182,7 @@ void KMetaDataConfigurationDialog::Private::addItem(const QUrl& uri)
     };
 
     int i = 0;
-    const QString key = uri.toString();
+    const QString key = uri.url();
     while (hiddenProperties[i] != 0) {
         if (key == QLatin1String(hiddenProperties[i])) {
             // the item is hidden
@@ -222,7 +195,10 @@ void KMetaDataConfigurationDialog::Private::addItem(const QUrl& uri)
     KConfig config("kmetainformationrc", KConfig::NoGlobals);
     KConfigGroup settings = config.group("Show");
 
-    const QString label = KNfoTranslator::instance().translation(uri);
+    const QString label = (m_metaDataWidget == 0)
+                          ? KNfoTranslator::instance().translation(uri)
+                          : m_metaDataWidget->label(uri);
+
     QListWidgetItem* item = new QListWidgetItem(label, m_metaDataList);
     item->setData(Qt::UserRole, key);
     const bool show = settings.readEntry(key, true);
@@ -230,15 +206,15 @@ void KMetaDataConfigurationDialog::Private::addItem(const QUrl& uri)
 }
 
 KMetaDataConfigurationDialog::KMetaDataConfigurationDialog(QWidget* parent,
-                                                         Qt::WFlags flags) :
+                                                           Qt::WFlags flags) :
     KDialog(parent, flags),
     d(new Private(this, 0))
 {
 }
 
 KMetaDataConfigurationDialog::KMetaDataConfigurationDialog(KMetaDataWidget* metaDataWidget,
-                                                         QWidget* parent,
-                                                         Qt::WFlags flags) :
+                                                           QWidget* parent,
+                                                           Qt::WFlags flags) :
     KDialog(parent, flags),
     d(new Private(this, metaDataWidget))
 {
