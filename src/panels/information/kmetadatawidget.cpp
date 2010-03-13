@@ -699,7 +699,6 @@ QSize KMetaDataWidget::sizeHint() const
     return QSize(fixedWidth, height);
 }
 
-#ifdef HAVE_NEPOMUK
 QString KMetaDataWidget::label(const KUrl& metaDataUri) const
 {
     QString label;
@@ -717,6 +716,7 @@ QString KMetaDataWidget::label(const KUrl& metaDataUri) const
     return label;
 }
 
+#ifdef HAVE_NEPOMUK
 QWidget* KMetaDataWidget::valueWidget(const KUrl& metaDataUri) const
 {
     QWidget* widget = 0;

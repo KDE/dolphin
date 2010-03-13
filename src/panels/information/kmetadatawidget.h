@@ -151,14 +151,12 @@ public:
     /** @see QWidget::sizeHint() */
     virtual QSize sizeHint() const;
 
-#ifdef HAVE_NEPOMUK
     /**
      * @return Translated string for the label of the meta data represented
      *         by \p metaDataUri. If no custom translation is provided, the
      *         base implementation must be invoked.
      */
     virtual QString label(const KUrl& metaDataUri) const;
-#endif
 
 Q_SIGNALS:
     void urlActivated(const KUrl& url);
