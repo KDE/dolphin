@@ -25,6 +25,12 @@
 #include <QList>
 #include <QWidget>
 
+#include <config-nepomuk.h>
+#ifdef HAVE_NEPOMUK
+    #define DISABLE_NEPOMUK_LEGACY
+    #include <nepomuk/variant.h>
+#endif
+
 class KMetaDataModel;
 class KUrl;
 
@@ -41,6 +47,16 @@ class KUrl;
  * To show more than basic meta data, the meta data widget
  * must be provided with a meta data model
  * (see KMetaDataWidget::setModel()).
+ *
+ * Per default most meta data values are shown as labels.
+ * However it is possible to adjust KMetaDataWidget to use
+ * custom widgets for showing and modifying meta data (e. g.
+ * like done already for the rating, tags or comments). The
+ * following steps are necessary:
+ * - Derive a custom widget from KMetaDataWidget.
+ * - Create the custom widgets in the constructor.
+ * - Implement the methods valueWidget(), setValue() and
+ *   (optionally) label() by accessing the custom widgets.
  */
 class KMetaDataWidget : public QWidget
 {
@@ -138,6 +154,33 @@ Q_SIGNALS:
     void urlActivated(const KUrl& url);
 
 protected:
+#ifdef HAVE_NEPOMUK
+    /**
+     * @return Translated string for the label of the meta data represented
+     *         by \p metaDataUri. If no custom translation is provided, the
+     *         base implementation must be invoked.
+     */
+    virtual QString label(const KUrl& metaDataUri) const;
+
+    /**
+     * @return Pointer to the custom value-widget that should be used
+     *         to show the meta data represented by \p metaDataUri. If 0
+     *         is returned, the meta data will be shown inside a label
+     *         as fallback. If no custom value widget is used for the
+     *         given URI, the base implementation must be invoked.
+     */
+    virtual QWidget* valueWidget(const KUrl& metaDataUri) const;
+
+    /**
+     * Sets the value of a custom value-widget to \p value. If the meta data
+     * represented by \p metaDataUri is not shown by a custom value-widget (see
+     * KMetaDataWidget::valueWidget()), then the base implementation must be
+     * invoked.
+     * @return True, if a custom value-widget is available, where the value got applied.
+     */
+    virtual bool setValue(const KUrl& metaDataUri, const Nepomuk::Variant& value);
+#endif
+
     virtual bool event(QEvent* event);
 
 private:

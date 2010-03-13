@@ -65,15 +65,16 @@ public:
     struct Row
     {
         QLabel* label;
-        QWidget* infoWidget;
+        QLabel* defaultValueWidget;
+        QWidget* customValueWidget;
     };
 
     Private(KMetaDataWidget* parent);
     ~Private();
 
-    void addRow(QLabel* label, QWidget* infoWidget);
-    void removeMetaInfoRows();
-    void setRowVisible(QWidget* infoWidget, bool visible);
+    void addRow(QLabel* label, QLabel* valueWidget);
+    void setCustomValueWidget(int rowIndex, QWidget* valueWidget);
+    void setRowVisible(QWidget* valueWidget, bool visible);
 
     /**
      * Initializes the configuration file "kmetainformationrc"
@@ -207,11 +208,12 @@ KMetaDataWidget::Private::~Private()
 {
 }
 
-void KMetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
+void KMetaDataWidget::Private::addRow(QLabel* label, QLabel* valueWidget)
 {
     Row row;
     row.label = label;
-    row.infoWidget = infoWidget;
+    row.defaultValueWidget = valueWidget;
+    row.customValueWidget = 0;
     m_rows.append(row);
 
     const QFont smallFont = KGlobalSettings::smallestReadableFont();
@@ -227,33 +229,61 @@ void KMetaDataWidget::Private::addRow(QLabel* label, QWidget* infoWidget)
     label->setWordWrap(true);
     label->setAlignment(Qt::AlignTop | Qt::AlignRight);
 
-    infoWidget->setForegroundRole(role);
-    QLabel* infoLabel = qobject_cast<QLabel*>(infoWidget);
-    if (infoLabel != 0) {
-        infoLabel->setFont(smallFont);
-        infoLabel->setWordWrap(true);
-        infoLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-    }
+    valueWidget->setForegroundRole(role);
+    valueWidget->setFont(smallFont);
+    valueWidget->setWordWrap(true);
+    valueWidget->setAlignment(Qt::AlignTop | Qt::AlignLeft);
 
     // add the row to grid layout
-    const int rowIndex = m_rows.count();
+    const int rowIndex = m_rows.count() - 1;
     m_gridLayout->addWidget(label, rowIndex, 0, Qt::AlignRight);
     const int spacerWidth = QFontMetrics(smallFont).size(Qt::TextSingleLine, " ").width();
     m_gridLayout->addItem(new QSpacerItem(spacerWidth, 1), rowIndex, 1);
-    m_gridLayout->addWidget(infoWidget, rowIndex, 2, Qt::AlignLeft);
+    m_gridLayout->addWidget(valueWidget, rowIndex, 2, Qt::AlignLeft);
 }
 
-void KMetaDataWidget::Private::setRowVisible(QWidget* infoWidget, bool visible)
+void KMetaDataWidget::Private::setCustomValueWidget(int rowIndex, QWidget* valueWidget)
+{
+    Row& row = m_rows[rowIndex];
+
+    if (valueWidget == 0) {
+        // remove current custom value widget from the grid and replace it
+        // by the default value widget
+        if (row.customValueWidget != 0) {
+            row.customValueWidget->setVisible(false);
+            m_gridLayout->removeWidget(row.customValueWidget);
+        }
+        m_gridLayout->addWidget(row.defaultValueWidget, rowIndex, 2, Qt::AlignLeft);
+        row.defaultValueWidget->setVisible(true);
+    } else {
+        // remove the default value widget from the grid and replace it
+        // by the custom value widget
+        row.defaultValueWidget->setVisible(false);
+        m_gridLayout->removeWidget(row.defaultValueWidget);
+        m_gridLayout->addWidget(valueWidget, rowIndex, 2, Qt::AlignLeft);
+        valueWidget->setVisible(true);
+    }
+
+    row.customValueWidget = valueWidget;
+}
+
+void KMetaDataWidget::Private::setRowVisible(QWidget* valueWidget, bool visible)
 {
     foreach (const Row& row, m_rows) {
-        if (row.infoWidget == infoWidget) {
+        const bool found = (row.defaultValueWidget == valueWidget) ||
+                           (row.customValueWidget == valueWidget);
+        if (found) {
             row.label->setVisible(visible);
-            row.infoWidget->setVisible(visible);
+            if (row.customValueWidget != 0) {
+                row.customValueWidget->setVisible(visible);
+                row.defaultValueWidget->setVisible(false);
+            } else {
+                row.defaultValueWidget->setVisible(visible);
+            }
             return;
         }
     }
 }
-
 
 void KMetaDataWidget::Private::initMetaInfoSettings()
 {
@@ -369,7 +399,6 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
     // prevent flickering.
-    const KNfoTranslator& nfo = KNfoTranslator::instance();
     int rowIndex = m_fixedRowCount;
 
     const QHash<KUrl, Nepomuk::Variant> data = m_model->data();
@@ -377,57 +406,39 @@ void KMetaDataWidget::Private::slotLoadingFinished()
 
     foreach (const KUrl& key, keys) {
         const Nepomuk::Variant value = data[key];
-        const QString itemLabel = nfo.translation(key);
+        const QString itemLabel = q->label(key);
 
-        bool appliedData = false;
-        if (m_nepomukActivated) {
-            const QString keyString = key.url();
-            if (keyString == QLatin1String("kfileitem#rating")) {
-                m_ratingWidget->setRating(value.toInt());
-                appliedData = true;
-            } else if (keyString == QLatin1String("kfileitem#comment")) {
-                m_commentWidget->setText(value.toString());
-                appliedData = true;
-            } else if (keyString == QLatin1String("kfileitem#tags")) {
-                QList<Nepomuk::Variant> variants = value.toVariantList();
-                QList<Nepomuk::Tag> tags;
-                foreach (const Nepomuk::Variant& variant, variants) {
-                    const Nepomuk::Resource resource = variant.toResource();
-                    tags.append(static_cast<Nepomuk::Tag>(resource));
-                }
-                m_taggingWidget->setTags(tags);
-                appliedData = true;
-            }
+        const bool valueApplied = q->setValue(key, value);
+        if (rowIndex >= m_rows.count()) {
+            // a new row must get created
+            QLabel* label = new QLabel(itemLabel, q);
+            QLabel* valueWidget = new QLabel(q);
+            connect(valueWidget, SIGNAL(linkActivated(QString)),
+                    q, SLOT(slotLinkActivated(QString)));
+            addRow(label, valueWidget);
         }
 
-        if (!appliedData) {
-            QString itemValue;
-            if (value.isString()) {
-                itemValue = value.toString();
-            }
+        Q_ASSERT(m_rows[rowIndex].label != 0);
+        Q_ASSERT(m_rows[rowIndex].defaultValueWidget != 0);
 
-            if (rowIndex < m_rows.count()) {
-                // adjust texts of the current row
-                m_rows[rowIndex].label->setText(itemLabel);
-                QLabel* infoValueLabel = qobject_cast<QLabel*>(m_rows[rowIndex].infoWidget);
-                Q_ASSERT(infoValueLabel != 0);
-                infoValueLabel->setText(itemValue);
-            } else {
-                // create new row
-                QLabel* infoLabel = new QLabel(itemLabel, q);
-                QLabel* infoValue = new QLabel(itemValue, q);
-                connect(infoValue, SIGNAL(linkActivated(QString)),
-                        q, SLOT(slotLinkActivated(QString)));
-                addRow(infoLabel, infoValue);
-            }
-            ++rowIndex;
+        // set label
+        m_rows[rowIndex].label->setText(itemLabel);
+
+        // set value
+        if (valueApplied) {
+            setCustomValueWidget(rowIndex, q->valueWidget(key));
+        } else {
+            QLabel* valueWidget = m_rows[rowIndex].defaultValueWidget;
+            valueWidget->setText(value.toString());
+            setCustomValueWidget(rowIndex, 0);
         }
+        ++rowIndex;
     }
 
     // remove rows that are not needed anymore
     for (int i = m_rows.count() - 1; i >= rowIndex; --i) {
         delete m_rows[i].label;
-        delete m_rows[i].infoWidget;
+        delete m_rows[i].defaultValueWidget;
         m_rows.pop_back();
     }
 #endif
@@ -502,8 +513,6 @@ void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
 
 QList<KUrl> KMetaDataWidget::Private::sortedKeys(const QHash<KUrl, Nepomuk::Variant>& data) const
 {
-    const KNfoTranslator& nfo = KNfoTranslator::instance();
-
     // Create a map, where the translated label prefixed with the
     // sort priority acts as key. The data of each entry is the URI
     // of the data. By this the all URIs are sorted by the sort priority
@@ -514,7 +523,7 @@ QList<KUrl> KMetaDataWidget::Private::sortedKeys(const QHash<KUrl, Nepomuk::Vari
         const KUrl uri = hashIt.key();
 
         QString key = q->model()->group(uri);
-        key += nfo.translation(uri);
+        key += q->label(uri);
 
         map.insert(key, uri);
         ++hashIt;
@@ -670,10 +679,15 @@ QSize KMetaDataWidget::sizeHint() const
                  d->m_gridLayout->spacing() * (d->m_rows.count() - 1);
 
     foreach (const Private::Row& row, d->m_rows) {
-        if (row.infoWidget != 0) {
-            int rowHeight = row.infoWidget->heightForWidth(fixedWidth / 2);
+        QWidget* valueWidget = row.defaultValueWidget;
+        if (valueWidget != 0) {
+            if (row.customValueWidget != 0) {
+                valueWidget = row.customValueWidget;
+            }
+
+            int rowHeight = valueWidget->heightForWidth(fixedWidth / 2);
             if (rowHeight <= 0) {
-                rowHeight = row.infoWidget->sizeHint().height();
+                rowHeight = valueWidget->sizeHint().height();
             }
             height += rowHeight;
         }
@@ -681,6 +695,71 @@ QSize KMetaDataWidget::sizeHint() const
 
     return QSize(fixedWidth, height);
 }
+
+#ifdef HAVE_NEPOMUK
+QString KMetaDataWidget::label(const KUrl& metaDataUri) const
+{
+    QString label;
+    const QString uri = metaDataUri.url();
+    if (uri == QLatin1String("kfileitem#rating")) {
+        label = i18nc("@label", "Rating");
+    } else if (uri == QLatin1String("kfileitem#tags")) {
+        label = i18nc("@label", "Tags");
+    } else if (uri == QLatin1String("kfileitem#comment")) {
+        label = i18nc("@label", "Comment");
+    } else {
+        label = KNfoTranslator::instance().translation(metaDataUri);
+    }
+
+    return label;
+}
+
+QWidget* KMetaDataWidget::valueWidget(const KUrl& metaDataUri) const
+{
+    QWidget* widget = 0;
+
+    if (d->m_nepomukActivated) {
+        const QString uri = metaDataUri.url();
+        if (uri == QLatin1String("kfileitem#rating")) {
+            widget = d->m_ratingWidget;
+        } else if (uri == QLatin1String("kfileitem#tags")) {
+            widget = d->m_taggingWidget;
+        } else if (uri == QLatin1String("kfileitem#comment")) {
+            widget = d->m_commentWidget;
+        }
+    }
+
+    return widget;
+}
+
+bool KMetaDataWidget::setValue(const KUrl& metaDataUri, const Nepomuk::Variant& value)
+{
+    if (d->m_nepomukActivated) {
+        QWidget* widget = valueWidget(metaDataUri);
+        if (widget == d->m_ratingWidget) {
+            d->m_ratingWidget->setRating(value.toInt());
+            return true;
+        }
+
+        if (widget == d->m_taggingWidget) {
+            QList<Nepomuk::Variant> variants = value.toVariantList();
+            QList<Nepomuk::Tag> tags;
+            foreach (const Nepomuk::Variant& variant, variants) {
+                const Nepomuk::Resource resource = variant.toResource();
+                tags.append(static_cast<Nepomuk::Tag>(resource));
+            }
+            d->m_taggingWidget->setTags(tags);
+            return true;
+        }
+
+        if (widget == d->m_commentWidget) {
+            d->m_commentWidget->setText(value.toString());
+            return true;
+        }
+    }
+    return false;
+}
+#endif
 
 bool KMetaDataWidget::event(QEvent* event)
 {
@@ -694,14 +773,6 @@ bool KMetaDataWidget::event(QEvent* event)
         d->addRow(new QLabel(i18nc("@label", "Modified"), this), d->m_modifiedInfo);
         d->addRow(new QLabel(i18nc("@label", "Owner"), this), d->m_ownerInfo);
         d->addRow(new QLabel(i18nc("@label", "Permissions"), this), d->m_permissionsInfo);
-
-    #ifdef HAVE_NEPOMUK
-        if (d->m_nepomukActivated) {
-            d->addRow(new QLabel(i18nc("@label", "Rating"), this), d->m_ratingWidget);
-            d->addRow(new QLabel(i18nc("@label", "Tags"), this), d->m_taggingWidget);
-            d->addRow(new QLabel(i18nc("@label", "Comment"), this), d->m_commentWidget);
-        }
-    #endif
 
         // The current number of rows represents meta data, that will be shown for
         // all files. Dynamic meta data will be appended after those rows (see
