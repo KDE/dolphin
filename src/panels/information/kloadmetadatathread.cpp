@@ -51,7 +51,7 @@ void KLoadMetaDataThread::load(const KUrl::List& urls)
     start();
 }
 
-QMap<KUrl, Nepomuk::Variant> KLoadMetaDataThread::data() const
+QHash<KUrl, Nepomuk::Variant> KLoadMetaDataThread::data() const
 {
     return m_data;
 }

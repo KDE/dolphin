@@ -21,10 +21,9 @@
 
 #include <kurl.h>
 
+#include <QHash>
 #include <QObject>
-#include <QMap>
 #include <QString>
-
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
@@ -64,6 +63,15 @@ public:
     void setItems(const KFileItemList& items);
     KFileItemList items() const;
 
+    /**
+     * @return Returns the name of the group the meta data indicated
+     *         by \p metaDataUri belongs to. All meta data items are
+     *         sorted by the group. Items within the group are sorted
+     *         by their translated labels. The group name is not shown
+     *         to the user interface and does not need to get translated.
+     */
+    virtual QString group(const KUrl& metaDataUri) const;
+
 #ifdef HAVE_NEPOMUK
     /**
      * @return Meta data for the items that have been set by
@@ -71,7 +79,7 @@ public:
      *         be invoked after the signal loadingFinished() has
      *         been received (otherwise no data will be returned).
      */
-    QMap<KUrl, Nepomuk::Variant> data() const;
+    QHash<KUrl, Nepomuk::Variant> data() const;
 
 protected:
     /**
@@ -83,7 +91,7 @@ protected:
      * blocked if the operation takes longer. The default implementation
      * returns an empty list.
      */
-    virtual QMap<KUrl, Nepomuk::Variant> loadData() const;
+    virtual QHash<KUrl, Nepomuk::Variant> loadData() const;
 #endif
 
 signals:

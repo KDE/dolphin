@@ -25,8 +25,6 @@
 #include <QList>
 #include <QWidget>
 
-#include <config-nepomuk.h>
-
 class KMetaDataModel;
 class KUrl;
 

@@ -33,7 +33,7 @@ public:
 
     QList<KFileItem> m_fileItems;
 #ifdef HAVE_NEPOMUK
-    QMap<KUrl, Nepomuk::Variant> m_data;
+    QHash<KUrl, Nepomuk::Variant> m_data;
 
     QList<KLoadMetaDataThread*> m_metaDataThreads;
     KLoadMetaDataThread* m_latestMetaDataThread;
@@ -122,20 +122,34 @@ void KMetaDataModel::setItems(const KFileItemList& items)
 #endif
 }
 
+QString KMetaDataModel::group(const KUrl& metaDataUri) const
+{
+    QString group; // return value
+
+    const QString uri = metaDataUri.url();
+    if (uri == QLatin1String("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#width")) {
+        group = QLatin1String("0sizeA");
+    } else if (uri == QLatin1String("http://www.semanticdesktop.org/ontologies/2007/03/22/nfo#height")) {
+        group = QLatin1String("0sizeB");
+    }
+
+    return group;
+}
+
 KFileItemList KMetaDataModel::items() const
 {
     return d->m_fileItems;
 }
 
 #ifdef HAVE_NEPOMUK
-QMap<KUrl, Nepomuk::Variant> KMetaDataModel::data() const
+QHash<KUrl, Nepomuk::Variant> KMetaDataModel::data() const
 {
     return d->m_data;
 }
 
-QMap<KUrl, Nepomuk::Variant> KMetaDataModel::loadData() const
+QHash<KUrl, Nepomuk::Variant> KMetaDataModel::loadData() const
 {
-    return QMap<KUrl, Nepomuk::Variant>();
+    return QHash<KUrl, Nepomuk::Variant>();
 }
 #endif
 

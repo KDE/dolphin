@@ -56,7 +56,7 @@ public:
      * valid results after the signal finished() has been
      * emitted.
      */
-    QMap<KUrl, Nepomuk::Variant> data() const;
+    QHash<KUrl, Nepomuk::Variant> data() const;
 
     /**
      * Tells the thread that it should cancel as soon
@@ -90,7 +90,7 @@ private:
 
 private:
     KMetaDataModel* m_model;
-    QMap<KUrl, Nepomuk::Variant> m_data;
+    QHash<KUrl, Nepomuk::Variant> m_data;
     KUrl::List m_urls;
     bool m_canceled;
 };

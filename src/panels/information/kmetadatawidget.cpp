@@ -47,7 +47,6 @@
     #include <nepomuk/resourcemanager.h>
     #include <nepomuk/property.h>
     #include <nepomuk/tag.h>
-    #include <nepomuk/variant.h>
     #include "nepomukmassupdatejob_p.h"
 
     #include <QMutex>
@@ -108,6 +107,7 @@ public:
      */
     void startChangeDataJob(KJob* job);
 
+    QList<KUrl> sortedKeys(const QHash<KUrl, Nepomuk::Variant>& data) const;
     QList<Nepomuk::Resource> resourceList() const;
 #endif
 
@@ -369,27 +369,26 @@ void KMetaDataWidget::Private::slotLoadingFinished()
     // Show the remaining meta information as text. The number
     // of required rows may very. Existing rows are reused to
     // prevent flickering.
-
     const KNfoTranslator& nfo = KNfoTranslator::instance();
     int rowIndex = m_fixedRowCount;
 
-    QMap<KUrl, Nepomuk::Variant> data = m_model->data();
-    QMap<KUrl, Nepomuk::Variant>::const_iterator it = data.constBegin();
-    while (it != data.constEnd()) {
-        const KUrl key = it.key();
-        const Nepomuk::Variant value = it.value();
-        const QString itemLabel = nfo.translation(it.key());
+    const QHash<KUrl, Nepomuk::Variant> data = m_model->data();
+    const QList<KUrl> keys = sortedKeys(data);
+
+    foreach (const KUrl& key, keys) {
+        const Nepomuk::Variant value = data[key];
+        const QString itemLabel = nfo.translation(key);
 
         bool appliedData = false;
         if (m_nepomukActivated) {
-            const QString key = it.key().url();
-            if (key == QLatin1String("kfileitem#rating")) {
+            const QString keyString = key.url();
+            if (keyString == QLatin1String("kfileitem#rating")) {
                 m_ratingWidget->setRating(value.toInt());
                 appliedData = true;
-            } else if (key == QLatin1String("kfileitem#comment")) {
+            } else if (keyString == QLatin1String("kfileitem#comment")) {
                 m_commentWidget->setText(value.toString());
                 appliedData = true;
-            } else if (key == QLatin1String("kfileitem#tags")) {
+            } else if (keyString == QLatin1String("kfileitem#tags")) {
                 QList<Nepomuk::Variant> variants = value.toVariantList();
                 QList<Nepomuk::Tag> tags;
                 foreach (const Nepomuk::Variant& variant, variants) {
@@ -423,8 +422,6 @@ void KMetaDataWidget::Private::slotLoadingFinished()
             }
             ++rowIndex;
         }
-
-        ++it;
     }
 
     // remove rows that are not needed anymore
@@ -501,6 +498,38 @@ void KMetaDataWidget::Private::startChangeDataJob(KJob* job)
             q, SLOT(slotMetaDataUpdateDone()));
     q->setEnabled(false); // no updates during execution
     job->start();
+}
+
+QList<KUrl> KMetaDataWidget::Private::sortedKeys(const QHash<KUrl, Nepomuk::Variant>& data) const
+{
+    const KNfoTranslator& nfo = KNfoTranslator::instance();
+
+    // Create a map, where the translated label prefixed with the
+    // sort priority acts as key. The data of each entry is the URI
+    // of the data. By this the all URIs are sorted by the sort priority
+    // and sub sorted by the translated labels.
+    QMap<QString, KUrl> map;
+    QHash<KUrl, Nepomuk::Variant>::const_iterator hashIt = data.constBegin();
+    while (hashIt != data.constEnd()) {
+        const KUrl uri = hashIt.key();
+
+        QString key = q->model()->group(uri);
+        key += nfo.translation(uri);
+
+        map.insert(key, uri);
+        ++hashIt;
+    }
+
+    // Apply the URIs from the map to the list that will get returned.
+    // The list will then be alphabetically ordered by the translated labels of the URIs.
+    QList<KUrl> list;
+    QMap<QString, KUrl>::const_iterator mapIt = map.constBegin();
+    while (mapIt != map.constEnd()) {
+        list.append(mapIt.value());
+        ++mapIt;
+    }
+
+    return list;
 }
 
 QList<Nepomuk::Resource> KMetaDataWidget::Private::resourceList() const
