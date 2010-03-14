@@ -384,8 +384,13 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
 
     // TODO: We should change the signature of the slots (and signals) for being able
     //       to tell for which items we want a popup.
-    const KFileItemList items = (m_view->selectedItems().count() ? m_view->selectedItems()
-                                 : KFileItemList() << item);
+    KFileItemList items;
+    if (m_view->selectedItems().isEmpty()) {
+        items.append(item);
+    } else {
+        items = m_view->selectedItems();
+    }
+
     KFileItemListProperties capabilities(items);
 
     KParts::BrowserExtension::ActionGroupMap actionGroups;
