@@ -43,7 +43,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
                                    DolphinSortFilterProxyModel* proxyModel) :
     KCategorizedView(parent),
     m_controller(controller),
-    m_categoryDrawer(0),
+    m_categoryDrawer(new DolphinCategoryDrawer(this)),
     m_extensionsFactory(0),
     m_font(),
     m_decorationSize(),
@@ -113,7 +113,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
         m_displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
     }
 
-    m_categoryDrawer = new DolphinCategoryDrawer();
+    connect(m_categoryDrawer, SIGNAL(actionRequested(int,QModelIndex)), this, SLOT(categoryDrawerActionRequested(int,QModelIndex)));
     setCategoryDrawer(m_categoryDrawer);
 
     setFocus();
@@ -127,8 +127,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
 
 DolphinIconsView::~DolphinIconsView()
 {
-    delete m_categoryDrawer;
-    m_categoryDrawer = 0;
 }
 
 void DolphinIconsView::dataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight)
@@ -421,6 +419,33 @@ void DolphinIconsView::slotGlobalSettingsChanged(int category)
         connect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
     } else {
         connect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    }
+}
+
+void DolphinIconsView::categoryDrawerActionRequested(int action, const QModelIndex &index)
+{
+    const QSortFilterProxyModel *model = dynamic_cast<const QSortFilterProxyModel*>(index.model());
+    const QModelIndex topLeft = model->index(index.row(), modelColumn());
+    QModelIndex bottomRight = topLeft;
+    const QString category = model->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
+    QModelIndex current = topLeft;
+    while (true) {
+        current = model->index(current.row() + 1, modelColumn());
+        const QString curCategory = model->data(model->index(current.row(), index.column()), KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
+        if (!current.isValid() || category != curCategory) {
+            break;
+        }
+        bottomRight = current;
+    }
+    switch (action) {
+        case DolphinCategoryDrawer::SelectAll:
+            selectionModel()->select(QItemSelection(topLeft, bottomRight), QItemSelectionModel::Select);
+            break;
+        case DolphinCategoryDrawer::UnselectAll:
+            selectionModel()->select(QItemSelection(topLeft, bottomRight), QItemSelectionModel::Deselect);
+            break;
+        default:
+            break;
     }
 }
 

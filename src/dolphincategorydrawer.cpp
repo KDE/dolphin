@@ -33,17 +33,26 @@
 #endif
 
 #include <kiconloader.h>
+#include <kiconeffect.h>
 #include <kcategorizedsortfilterproxymodel.h>
 #include <qimageblitz.h>
 #include <kuser.h>
+#include <kcategorizedview.h>
 
 #include "dolphinview.h"
 #include "dolphinmodel.h"
 
 #define HORIZONTAL_HINT 3
 
-DolphinCategoryDrawer::DolphinCategoryDrawer()
-        : KCategoryDrawer()
+DolphinCategoryDrawer::DolphinCategoryDrawer(KCategorizedView *view)
+        : KCategoryDrawerV3(view)
+        , hotSpotPressed(NoneHotSpot)
+        , selectAll(KIconLoader::global()->loadIcon("list-add", KIconLoader::Desktop, 16))
+        , selectAllHovered(KIconLoader::global()->iconEffect()->apply(selectAll, KIconLoader::Desktop, KIconLoader::ActiveState))
+        , selectAllDisabled(KIconLoader::global()->iconEffect()->apply(selectAll, KIconLoader::Desktop, KIconLoader::DisabledState))
+        , unselectAll(KIconLoader::global()->loadIcon("list-remove", KIconLoader::Desktop, 16))
+        , unselectAllHovered(KIconLoader::global()->iconEffect()->apply(unselectAll, KIconLoader::Desktop, KIconLoader::ActiveState))
+        , unselectAllDisabled(KIconLoader::global()->iconEffect()->apply(unselectAll, KIconLoader::Desktop, KIconLoader::DisabledState))
 {
 }
 
@@ -51,11 +60,37 @@ DolphinCategoryDrawer::~DolphinCategoryDrawer()
 {
 }
 
+bool DolphinCategoryDrawer::allCategorySelected(const QString &category) const
+{
+    const QModelIndexList list = view()->block(category);
+    foreach (const QModelIndex &index, list) {
+        if (!view()->selectionModel()->isSelected(index)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool DolphinCategoryDrawer::someCategorySelected(const QString &category) const
+{
+    const QModelIndexList list = view()->block(category);
+    foreach (const QModelIndex &index, list) {
+        if (view()->selectionModel()->isSelected(index)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
                                          const QStyleOption &option, QPainter *painter) const
 {
     Q_UNUSED(sortRole);
     painter->setRenderHint(QPainter::Antialiasing);
+
+    if (!index.isValid()) {
+        return;
+    }
 
     const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
     const QRect optRect = option.rect;
@@ -127,10 +162,43 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
     }
     //END: right vertical line
 
+    const int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
+
+    //BEGIN: select/unselect all
+    {
+        if (this->category == category) {
+            QRect iconAllRect(option.rect);
+            iconAllRect.setTop(iconAllRect.top() + 4);
+            iconAllRect.setLeft(iconAllRect.right() - 16 - 7);
+            iconAllRect.setSize(QSize(iconSize, iconSize));
+            if (!allCategorySelected(category)) {
+                if (iconAllRect.contains(pos)) {
+                    painter->drawPixmap(iconAllRect, selectAllHovered);
+                } else {
+                    painter->drawPixmap(iconAllRect, selectAll);
+                }
+            } else {
+                painter->drawPixmap(iconAllRect, selectAllDisabled);
+            }
+            QRect iconNoneRect(option.rect);
+            iconNoneRect.setTop(iconNoneRect.top() + 4);
+            iconNoneRect.setLeft(iconNoneRect.right() - 16 * 2 - 7 * 2);
+            iconNoneRect.setSize(QSize(iconSize, iconSize));
+            if (someCategorySelected(category)) {
+                if (iconNoneRect.contains(pos)) {
+                    painter->drawPixmap(iconNoneRect, unselectAllHovered);
+                } else {
+                    painter->drawPixmap(iconNoneRect, unselectAll);
+                }
+            } else {
+                painter->drawPixmap(iconNoneRect, unselectAllDisabled);
+            }
+        }
+    }
+    //END: select/unselect all
+
     //BEGIN: category information
     {
-        const int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
-
         bool paintIcon;
         QPixmap icon;
         switch (index.column()) {
@@ -195,7 +263,10 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
 int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyleOption &option) const
 {
     int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
-    int heightWithoutIcon = option.fontMetrics.height() + (iconSize / 4) * 2 + 1; /* 1 pixel-width gradient */
+    QFont font(QApplication::font());
+    font.setBold(true);
+    const QFontMetrics fontMetrics = QFontMetrics(font);
+    int heightWithoutIcon = fontMetrics.height() + (iconSize / 4) * 2 + 1; /* 1 pixel-width gradient */
     bool paintIcon;
 
     switch (index.column()) {
@@ -213,4 +284,95 @@ int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyle
     }
 
     return heightWithoutIcon + 5;
+}
+
+void DolphinCategoryDrawer::mouseButtonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+{
+    if (!index.isValid()) {
+        event->ignore();
+        return;
+    }
+    const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
+    int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
+    if (this->category == category) {
+        QRect iconAllRect(blockRect);
+        iconAllRect.setTop(iconAllRect.top() + 4);
+        iconAllRect.setLeft(iconAllRect.right() - 16 - 7);
+        iconAllRect.setSize(QSize(iconSize, iconSize));
+        if (iconAllRect.contains(pos)) {
+            event->accept();
+            hotSpotPressed = SelectAllHotSpot;
+            categoryPressed = index;
+            return;
+        }
+        QRect iconNoneRect(blockRect);
+        iconNoneRect.setTop(iconNoneRect.top() + 4);
+        iconNoneRect.setLeft(iconNoneRect.right() - 16 * 2 - 7 * 2);
+        iconNoneRect.setSize(QSize(iconSize, iconSize));
+        if (iconNoneRect.contains(pos)) {
+            event->accept();
+            hotSpotPressed = UnselectAllHotSpot;
+            categoryPressed = index;
+            return;
+        }
+    }
+    event->ignore();
+}
+
+void DolphinCategoryDrawer::mouseButtonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+{
+    if (!index.isValid() || hotSpotPressed == NoneHotSpot || categoryPressed != index) {
+        event->ignore();
+        return;
+    }
+    categoryPressed = QModelIndex();
+    const QString category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
+    int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
+    if (this->category == category) {
+        QRect iconAllRect(blockRect);
+        iconAllRect.setTop(iconAllRect.top() + 4);
+        iconAllRect.setLeft(iconAllRect.right() - 16 - 7);
+        iconAllRect.setSize(QSize(iconSize, iconSize));
+        if (iconAllRect.contains(pos)) {
+            if (hotSpotPressed == SelectAllHotSpot) {
+                event->accept();
+                emit actionRequested(SelectAll, index);
+            } else {
+                event->ignore();
+                hotSpotPressed = NoneHotSpot;
+            }
+            return;
+        }
+        QRect iconNoneRect(blockRect);
+        iconNoneRect.setTop(iconNoneRect.top() + 4);
+        iconNoneRect.setLeft(iconNoneRect.right() - 16 * 2 - 7 * 2);
+        iconNoneRect.setSize(QSize(iconSize, iconSize));
+        if (iconNoneRect.contains(pos)) {
+            if (hotSpotPressed == UnselectAllHotSpot) {
+                event->accept();
+                emit actionRequested(UnselectAll, index);
+            } else {
+                event->ignore();
+                hotSpotPressed = NoneHotSpot;
+            }
+            return;
+        }
+    }
+    event->ignore();
+}
+
+void DolphinCategoryDrawer::mouseMoved(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+{
+    event->ignore();
+    if (!index.isValid()) {
+        return;
+    }
+    pos = event->pos();
+    category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
+}
+
+void DolphinCategoryDrawer::mouseLeft(const QModelIndex &index, const QRect &blockRect)
+{
+    pos = QPoint();
+    category = QString();
 }

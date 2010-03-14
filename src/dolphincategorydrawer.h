@@ -28,17 +28,64 @@
 #include <libdolphin_export.h>
 
 class LIBDOLPHINPRIVATE_EXPORT DolphinCategoryDrawer
-    : public KCategoryDrawer
+    : public KCategoryDrawerV3
 {
 public:
-    DolphinCategoryDrawer();
+    enum Action {
+        SelectAll = 0,
+        UnselectAll
+    };
+
+    DolphinCategoryDrawer(KCategorizedView *view);
 
     virtual ~DolphinCategoryDrawer();
+
+    bool allCategorySelected(const QString &category) const;
+    
+    bool someCategorySelected(const QString &category) const;
 
     virtual void drawCategory(const QModelIndex &index, int sortRole,
                               const QStyleOption &option, QPainter *painter) const;
 
     virtual int categoryHeight(const QModelIndex &index, const QStyleOption &option) const;
+
+    /**
+      * @warning You explicitly have to determine whether the event has been accepted or not. You
+      *          have to call event->accept() or event->ignore() at all possible case branches in
+      *          your code.
+      */
+    virtual void mouseButtonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
+
+    /**
+      * @warning You explicitly have to determine whether the event has been accepted or not. You
+      *          have to call event->accept() or event->ignore() at all possible case branches in
+      *          your code.
+      */
+    virtual void mouseButtonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
+
+    virtual void mouseMoved(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
+
+    virtual void mouseLeft(const QModelIndex &index,const QRect &blockRect);
+
+private:
+    enum HotSpot {
+        NoneHotSpot = 0,
+        SelectAllHotSpot,
+        UnselectAllHotSpot
+    };
+
+    HotSpot hotSpotPressed;
+    QModelIndex categoryPressed;
+
+    QPixmap selectAll;
+    QPixmap selectAllHovered;
+    QPixmap selectAllDisabled;
+    QPixmap unselectAll;
+    QPixmap unselectAllHovered;
+    QPixmap unselectAllDisabled;
+
+    QPoint pos;
+    QString category;
 };
 
 #endif // DOLPHINCATEGORYDRAWER_H
