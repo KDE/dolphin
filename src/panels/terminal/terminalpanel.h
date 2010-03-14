@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2007-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -25,6 +25,10 @@
 class TerminalInterfaceV2;
 class QVBoxLayout;
 class QWidget;
+
+namespace KIO {
+    class StatJob;
+};
 
 /**
  * @brief Shows the terminal which is synchronized with the URL of the
@@ -57,10 +61,13 @@ private slots:
     void slotMostLocalUrlResult(KJob* job);
 
 private:
-    void cdUrl(const KUrl& url);
-    void cdDirectory(const QString& path);
+    void changeDir(const KUrl& url);
+    void sendCdToTerminal(const QString& path);
 
 private:
+    bool m_clearTerminal;
+    KIO::StatJob* m_mostLocalUrlJob;
+
     QVBoxLayout* m_layout;
     TerminalInterfaceV2* m_terminal;
     QWidget* m_terminalWidget;
