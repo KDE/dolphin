@@ -260,7 +260,7 @@ void DolphinCategoryDrawer::drawCategory(const QModelIndex &index, int sortRole,
     //BEGIN: category information
 }
 
-int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyleOption &option) const
+int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyleOption &) const
 {
     int iconSize = KIconLoader::global()->currentSize(KIconLoader::Small);
     QFont font(QApplication::font());
@@ -286,7 +286,7 @@ int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyle
     return heightWithoutIcon + 5;
 }
 
-void DolphinCategoryDrawer::mouseButtonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+void DolphinCategoryDrawer::buttonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
 {
     if (!index.isValid()) {
         event->ignore();
@@ -319,7 +319,7 @@ void DolphinCategoryDrawer::mouseButtonPressed(const QModelIndex &index, const Q
     event->ignore();
 }
 
-void DolphinCategoryDrawer::mouseButtonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+void DolphinCategoryDrawer::buttonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
 {
     if (!index.isValid() || hotSpotPressed == NoneHotSpot || categoryPressed != index) {
         event->ignore();
@@ -361,7 +361,7 @@ void DolphinCategoryDrawer::mouseButtonReleased(const QModelIndex &index, const 
     event->ignore();
 }
 
-void DolphinCategoryDrawer::mouseMoved(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+void DolphinCategoryDrawer::mouseMoved(const QModelIndex &index, const QRect &, QMouseEvent *event)
 {
     event->ignore();
     if (!index.isValid()) {
@@ -371,7 +371,7 @@ void DolphinCategoryDrawer::mouseMoved(const QModelIndex &index, const QRect &bl
     category = index.model()->data(index, KCategorizedSortFilterProxyModel::CategoryDisplayRole).toString();
 }
 
-void DolphinCategoryDrawer::mouseLeft(const QModelIndex &index, const QRect &blockRect)
+void DolphinCategoryDrawer::mouseLeft(const QModelIndex &, const QRect &)
 {
     pos = QPoint();
     category = QString();
