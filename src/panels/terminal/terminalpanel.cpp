@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2007-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -29,10 +29,10 @@
 #include <QBoxLayout>
 #include <QShowEvent>
 
-#include <kdebug.h>
-
 TerminalPanel::TerminalPanel(QWidget* parent) :
     Panel(parent),
+    m_clearTerminal(true),
+    m_mostLocalUrlJob(0),
     m_layout(0),
     m_terminal(0),
     m_terminalWidget(0)
@@ -64,7 +64,7 @@ void TerminalPanel::setUrl(const KUrl& url)
                            && (m_terminal->foregroundProcessId() == -1)
                            && isVisible();
     if (sendInput) {
-        cdUrl(url);
+        changeDir(url);
     }
 }
 
@@ -82,6 +82,7 @@ void TerminalPanel::showEvent(QShowEvent* event)
     }
 
     if (m_terminal == 0) {
+        m_clearTerminal = true;
         KPluginFactory* factory = KPluginLoader("libkonsolepart").factory();
         KParts::ReadOnlyPart* part = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
         if (part != 0) {
@@ -93,28 +94,47 @@ void TerminalPanel::showEvent(QShowEvent* event)
     }
     if (m_terminal != 0) {
         m_terminal->showShellInDir(url().toLocalFile());
-        cdUrl(url());
-        m_terminal->sendInput("clear\n"); // TODO do clear after slotMostLocalUrlResult is called, for remote dirs?
+        changeDir(url());
         m_terminalWidget->setFocus();
     }
 
     Panel::showEvent(event);
 }
 
-void TerminalPanel::cdUrl(const KUrl& url)
+void TerminalPanel::changeDir(const KUrl& url)
 {
+    delete m_mostLocalUrlJob;
+    m_mostLocalUrlJob = 0;
+
     if (url.isLocalFile()) {
-        cdDirectory(url.toLocalFile());
+        sendCdToTerminal(url.toLocalFile());
     } else {
-        KIO::StatJob* job = KIO::mostLocalUrl(url, KIO::HideProgressInfo);
-        job->ui()->setWindow(this);
-        connect(job, SIGNAL(result(KJob*)), this, SLOT(slotMostLocalUrlResult(KJob*)));
+        m_mostLocalUrlJob = KIO::mostLocalUrl(url, KIO::HideProgressInfo);
+        m_mostLocalUrlJob->ui()->setWindow(this);
+        connect(m_mostLocalUrlJob, SIGNAL(result(KJob*)), this, SLOT(slotMostLocalUrlResult(KJob*)));
     }
 }
 
-void TerminalPanel::cdDirectory(const QString& dir)
+void TerminalPanel::sendCdToTerminal(const QString& dir)
 {
+    if (!m_clearTerminal) {
+        // The TerminalV2 interface does not provide a way to delete the
+        // current line before sending a new input. This is mandatory,
+        // otherwise sending a 'cd x' to a existing 'rm -rf *' might
+        // result in data loss. As workaround backspaces are send...
+        QString clearLine;
+        for (int i = 0; i < 256; ++i) {
+            clearLine.append(QChar(8));
+        }
+        m_terminal->sendInput(clearLine);
+    }
+
     m_terminal->sendInput("cd " + KShell::quoteArg(dir) + '\n');
+
+    if (m_clearTerminal) {
+        m_terminal->sendInput("clear\n");
+        m_clearTerminal = false;
+    }
 }
 
 void TerminalPanel::slotMostLocalUrlResult(KJob* job)
@@ -122,8 +142,10 @@ void TerminalPanel::slotMostLocalUrlResult(KJob* job)
     KIO::StatJob* statJob = static_cast<KIO::StatJob *>(job);
     const KUrl url = statJob->mostLocalUrl();
     if (url.isLocalFile()) {
-        cdDirectory(url.toLocalFile());
+        sendCdToTerminal(url.toLocalFile());
     }
+
+    m_mostLocalUrlJob = 0;
 }
 
 #include "terminalpanel.moc"
