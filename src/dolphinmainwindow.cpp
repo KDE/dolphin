@@ -121,7 +121,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_actionHandler(0),
     m_remoteEncoding(0),
     m_settingsDialog(0),
-    m_captionStatJob(0)
+    m_captionStatJob(0),
+    m_lastHandleUrlStatJob(0)
 {
     setObjectName("Dolphin#");
 
@@ -1132,7 +1133,28 @@ void DolphinMainWindow::showSearchOptions()
 
 void DolphinMainWindow::handleUrl(const KUrl& url)
 {
-    if (KProtocolManager::supportsListing(url)) {
+    delete m_lastHandleUrlStatJob;
+    m_lastHandleUrlStatJob = 0;
+
+    if (url.isLocalFile() && QFileInfo(url.toLocalFile()).isDir()) {
+        activeViewContainer()->setUrl(url);
+    } else if (KProtocolManager::supportsListing(url)) {
+        // stat the URL to see if it is a dir or not
+        m_lastHandleUrlStatJob = KIO::stat(url, KIO::HideProgressInfo);
+        connect(m_lastHandleUrlStatJob, SIGNAL(result(KJob*)),
+                this, SLOT(slotHandleUrlStatFinished(KJob*)));
+
+    } else {
+        new KRun(url, this);
+    }
+}
+
+void DolphinMainWindow::slotHandleUrlStatFinished(KJob* job)
+{
+    m_lastHandleUrlStatJob = 0;
+    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
+    const KUrl url = static_cast<KIO::StatJob*>(job)->url();
+    if ( entry.isDir() ) {
         activeViewContainer()->setUrl(url);
     } else {
         new KRun(url, this);
