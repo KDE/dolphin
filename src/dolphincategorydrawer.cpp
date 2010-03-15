@@ -286,7 +286,7 @@ int DolphinCategoryDrawer::categoryHeight(const QModelIndex &index, const QStyle
     return heightWithoutIcon + 5;
 }
 
-void DolphinCategoryDrawer::buttonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+void DolphinCategoryDrawer::mouseButtonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
 {
     if (!index.isValid()) {
         event->ignore();
@@ -319,7 +319,7 @@ void DolphinCategoryDrawer::buttonPressed(const QModelIndex &index, const QRect 
     event->ignore();
 }
 
-void DolphinCategoryDrawer::buttonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
+void DolphinCategoryDrawer::mouseButtonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event)
 {
     if (!index.isValid() || hotSpotPressed == NoneHotSpot || categoryPressed != index) {
         event->ignore();

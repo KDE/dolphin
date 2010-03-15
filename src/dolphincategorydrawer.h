@@ -31,6 +31,9 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinCategoryDrawer
     : public KCategoryDrawerV3
 {
 public:
+    using KCategoryDrawerV2::mouseButtonPressed;
+    using KCategoryDrawerV2::mouseButtonReleased;
+
     enum Action {
         SelectAll = 0,
         UnselectAll
@@ -49,19 +52,10 @@ public:
 
     virtual int categoryHeight(const QModelIndex &index, const QStyleOption &option) const;
 
-    /**
-      * @warning You explicitly have to determine whether the event has been accepted or not. You
-      *          have to call event->accept() or event->ignore() at all possible case branches in
-      *          your code.
-      */
-    virtual void buttonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
+protected:
+    virtual void mouseButtonPressed(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
 
-    /**
-      * @warning You explicitly have to determine whether the event has been accepted or not. You
-      *          have to call event->accept() or event->ignore() at all possible case branches in
-      *          your code.
-      */
-    virtual void buttonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
+    virtual void mouseButtonReleased(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
 
     virtual void mouseMoved(const QModelIndex &index, const QRect &blockRect, QMouseEvent *event);
 
