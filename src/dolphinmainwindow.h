@@ -425,6 +425,12 @@ private slots:
     void handleUrl(const KUrl& url);
 
     /**
+     * handleUrl() can trigger a stat job to see if the url can actually
+     * be listed.
+     */
+    void slotHandleUrlStatFinished(KJob* job);
+
+    /**
      * setUrlAsCaption() will trigger a stat job which reports its result in
      * this slot.
      */
@@ -532,6 +538,7 @@ private:
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 
     KJob* m_captionStatJob;
+    KJob* m_lastHandleUrlStatJob;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
