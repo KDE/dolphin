@@ -203,9 +203,9 @@ qt4_add_dbus_adaptor(dolphin_SRCS
 
 kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-file-manager.png")
 
-kde4_add_executable(dolphin ${dolphin_SRCS})
+kde4_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 
-target_link_libraries(dolphin
+target_link_libraries(kdeinit_dolphin
     ${KDE4_KDEPRINT_LIBS}
     ${KDE4_KFILE_LIBS}
     ${KDE4_KUTILS_LIBRARY}
@@ -216,13 +216,14 @@ target_link_libraries(dolphin
 )
 
 if (Nepomuk_FOUND)
-    target_link_libraries(dolphin
+    target_link_libraries(kdeinit_dolphin
         ${NEPOMUK_LIBRARIES}
         ${SOPRANO_LIBRARIES}
         ${NEPOMUK_QUERY_LIBRARIES}
     )
 endif (Nepomuk_FOUND)
 
+install(TARGETS kdeinit_dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 ##########################################

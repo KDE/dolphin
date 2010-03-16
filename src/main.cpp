@@ -28,7 +28,8 @@
 #include <kmainwindow.h>
 #include <kdebug.h>
 
-int main(int argc, char **argv)
+extern "C"
+KDE_EXPORT int kdemain(int argc, char **argv)
 {
     KAboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),
