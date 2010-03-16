@@ -28,7 +28,7 @@ class QWidget;
 
 namespace KIO {
     class StatJob;
-};
+}
 
 /**
  * @brief Shows the terminal which is synchronized with the URL of the
