@@ -121,12 +121,11 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
         // The TerminalV2 interface does not provide a way to delete the
         // current line before sending a new input. This is mandatory,
         // otherwise sending a 'cd x' to a existing 'rm -rf *' might
-        // result in data loss. As workaround backspaces are send...
-        QString clearLine;
-        for (int i = 0; i < 256; ++i) {
-            clearLine.append(QChar(8));
-        }
-        m_terminal->sendInput(clearLine);
+        // result in data loss. As workaround Ctrl+C is send.
+        QString cancel;
+        cancel.append(QChar(3));
+        cancel.append(QChar('c'));
+        m_terminal->sendInput(cancel);
     }
 
     m_terminal->sendInput("cd " + KShell::quoteArg(dir) + '\n');
