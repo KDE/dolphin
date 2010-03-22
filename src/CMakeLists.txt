@@ -42,10 +42,6 @@ set(dolphinprivate_LIB_SRCS
     settings/dolphinsettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
-    panels/information/kmetadataconfigurationdialog.cpp
-    panels/information/kmetadatamodel.cpp
-    panels/information/kmetadatawidget.cpp
-    panels/information/knfotranslator.cpp
     tooltips/ktooltip.cpp
     tooltips/ktooltipwindow.cpp
     tooltips/tooltipmanager.cpp
@@ -55,17 +51,6 @@ set(dolphinprivate_LIB_SRCS
     viewproperties.cpp
     zoomlevelinfo.cpp
 )
-
-if(Nepomuk_FOUND)
-    set(dolphinprivate_LIB_SRCS
-        ${dolphinprivate_LIB_SRCS}
-        panels/information/kcommentwidget.cpp
-        panels/information/kedittagsdialog.cpp
-        panels/information/kloadmetadatathread.cpp
-        panels/information/nepomukmassupdatejob.cpp
-        panels/information/ktaggingwidget.cpp
-    )
-endif(Nepomuk_FOUND)
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_columnmodesettings.kcfgc
@@ -126,10 +111,6 @@ set(dolphin_SRCS
     pixmapviewer.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
-    panels/information/kmetadataconfigurationdialog.cpp
-    panels/information/kmetadatamodel.cpp
-    panels/information/kmetadatawidget.cpp
-    panels/information/knfotranslator.cpp
     panels/information/phononwidget.cpp
     panels/folders/ktreeview.cpp
     panels/places/placespanel.cpp
@@ -172,11 +153,6 @@ kde4_add_kcfg_files(dolphin_SRCS
 if(Nepomuk_FOUND)
     set(dolphin_SRCS
         ${dolphin_SRCS}
-        panels/information/kcommentwidget.cpp
-        panels/information/kedittagsdialog.cpp
-        panels/information/kloadmetadatathread.cpp
-        panels/information/nepomukmassupdatejob.cpp
-        panels/information/ktaggingwidget.cpp
         search/dolphinsearchoptionsconfigurator.cpp
         search/searchcriteriondescription.cpp
         search/searchcriterionselector.cpp
@@ -251,24 +227,10 @@ set(kcm_dolphinservices_PART_SRCS
 
 set(kcm_dolphingeneral_PART_SRCS
     kcm/kcmdolphingeneral.cpp
-    panels/information/kmetadataconfigurationdialog.cpp
-    panels/information/kmetadatamodel.cpp
-    panels/information/kmetadatawidget.cpp
-    panels/information/knfotranslator.cpp
     settings/behaviorsettingspage.cpp
     settings/previewssettingspage.cpp
     settings/contextmenusettingspage.cpp
     settings/settingspagebase.cpp)
-if (Nepomuk_FOUND)
-    set(kcm_dolphingeneral_PART_SRCS
-        ${kcm_dolphingeneral_PART_SRCS}
-        panels/information/kcommentwidget.cpp
-        panels/information/kedittagsdialog.cpp
-        panels/information/kloadmetadatathread.cpp
-        panels/information/nepomukmassupdatejob.cpp
-        panels/information/ktaggingwidget.cpp
-    )
-endif (Nepomuk_FOUND)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_columnmodesettings.kcfgc

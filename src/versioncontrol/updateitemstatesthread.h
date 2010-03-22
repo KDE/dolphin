@@ -50,13 +50,8 @@ public:
 
     bool retrievedItems() const;
 
-    void deleteWhenFinished();
-
 protected:
     virtual void run();
-
-private slots:
-    void slotFinished();
 
 private:
     bool m_retrievedItems;

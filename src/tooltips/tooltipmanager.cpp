@@ -22,12 +22,11 @@
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 
+#include <kfilemetadatawidget.h>
 #include <kicon.h>
 #include <kio/previewjob.h>
 #include <kseparator.h>
 
-#include "panels/information/kmetadatamodel.h"
-#include "panels/information/kmetadatawidget.h"
 #include "tooltips/ktooltip.h"
 
 #include <QApplication>
@@ -262,10 +261,9 @@ QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
     nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // add meta data
-    KMetaDataWidget* metaDataWidget = new KMetaDataWidget(tipContent);
-    metaDataWidget->setModel(new KMetaDataModel(tipContent));
+    KFileMetaDataWidget* metaDataWidget = new KFileMetaDataWidget(tipContent);
     metaDataWidget->setForegroundRole(QPalette::ToolTipText);
-    metaDataWidget->setItem(m_item);
+    metaDataWidget->setItems(KFileItemList() << m_item);
     metaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     metaDataWidget->setReadOnly(true);
 

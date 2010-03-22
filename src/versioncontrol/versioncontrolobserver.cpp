@@ -35,6 +35,18 @@
 #include <QMutexLocker>
 #include <QTimer>
 
+/*
+ * Maintains a list of pending threads, that get regulary checked
+ * whether they are finished and hence can get deleted. QThread::wait()
+ * is never used to prevent any blocking of the user interface.
+ */
+struct PendingThreadsSingleton
+{
+    QList<UpdateItemStatesThread*> list;
+};
+K_GLOBAL_STATIC(PendingThreadsSingleton, s_pendingThreads)
+
+
 VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
     QObject(view),
     m_pendingItemStatesUpdate(false),
@@ -74,14 +86,22 @@ VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
 VersionControlObserver::~VersionControlObserver()
 {
     if (m_updateItemStatesThread != 0) {
-        disconnect(m_updateItemStatesThread, SIGNAL(finished()),
-                   this, SLOT(applyUpdatedItemStates()));
         if (m_updateItemStatesThread->isFinished()) {
             delete m_updateItemStatesThread;
+            m_updateItemStatesThread = 0;
         } else {
-            m_updateItemStatesThread->deleteWhenFinished();
+            // The version controller gets deleted, while a thread still
+            // is working to get the version information. To avoid a blocking
+            // user interface, no waiting for the finished() signal of the thread is
+            // done. Instead the thread will be remembered inside the global
+            // list s_pendingThreads, which will checked regulary. The thread does
+            // not work on shared data that is part of the VersionController instance,
+            // so skipping the waiting is save.
+            disconnect(m_updateItemStatesThread, SIGNAL(finished()),
+                       this, SLOT(slotThreadFinished()));
+            s_pendingThreads->list.append(m_updateItemStatesThread);
+            m_updateItemStatesThread = 0;
         }
-        m_updateItemStatesThread = 0;
     }
 
     m_plugin->disconnect();
@@ -123,6 +143,19 @@ void VersionControlObserver::silentDirectoryVerification()
 
 void VersionControlObserver::verifyDirectory()
 {
+    if (!s_pendingThreads->list.isEmpty()) {
+        // Try to cleanup pending threads (see explanation in destructor)
+        QList<UpdateItemStatesThread*>::iterator it = s_pendingThreads->list.begin();
+        while (it != s_pendingThreads->list.end()) {
+            if ((*it)->isFinished()) {
+                (*it)->deleteLater();
+                it = s_pendingThreads->list.erase(it);
+            } else {
+                ++it;
+            }
+        }
+    }
+
     KUrl versionControlUrl = m_dirLister->url();
     if (!versionControlUrl.isLocalFile()) {
         return;
@@ -177,11 +210,9 @@ void VersionControlObserver::verifyDirectory()
     }
 }
 
-void VersionControlObserver::applyUpdatedItemStates()
+void VersionControlObserver::slotThreadFinished()
 {
     if (m_plugin == 0) {
-        // The signal finished() has been emitted, but the thread has been marked
-        // as invalid in the meantime. Just ignore the signal in this case.
         return;
     }
 
@@ -214,7 +245,7 @@ void VersionControlObserver::applyUpdatedItemStates()
         // operation has been completed because of the icon emblems.
         emit operationCompletedMessage(QString());
     }
-    
+
     if (m_pendingItemStatesUpdate) {
         m_pendingItemStatesUpdate = false;
         updateItemStates();
@@ -227,11 +258,11 @@ void VersionControlObserver::updateItemStates()
     if (m_updateItemStatesThread == 0) {
         m_updateItemStatesThread = new UpdateItemStatesThread();
         connect(m_updateItemStatesThread, SIGNAL(finished()),
-                this, SLOT(applyUpdatedItemStates()));
+                this, SLOT(slotThreadFinished()));
     }
     if (m_updateItemStatesThread->isRunning()) {
         // An update is currently ongoing. Wait until the thread has finished
-        // the update (see applyUpdatedItemStates()).
+        // the update (see slotThreadFinished()).
         m_pendingItemStatesUpdate = true;
         return;
     }
@@ -243,7 +274,7 @@ void VersionControlObserver::updateItemStates()
             emit infoMessage(i18nc("@info:status", "Updating version information..."));
         }
         m_updateItemStatesThread->setData(m_plugin, itemStates);
-        m_updateItemStatesThread->start(); // applyUpdatedItemStates() is called when finished
+        m_updateItemStatesThread->start(); // slotThreadFinished() is called when finished
     }
 }
 

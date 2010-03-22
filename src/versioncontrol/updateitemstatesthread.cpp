@@ -86,14 +86,4 @@ bool UpdateItemStatesThread::retrievedItems() const
     return m_retrievedItems;
 }
 
-void UpdateItemStatesThread::deleteWhenFinished()
-{
-    connect(this, SIGNAL(finished()), this, SLOT(slotFinished()));
-}
-
-void UpdateItemStatesThread::slotFinished()
-{
-    deleteLater();
-}
-
 #include "updateitemstatesthread.moc"

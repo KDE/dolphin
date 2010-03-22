@@ -21,6 +21,7 @@
 
 #include <kdialog.h>
 #include <kfileitem.h>
+#include <kfilemetadatawidget.h>
 #include <kfileplacesmodel.h>
 #include <kio/previewjob.h>
 #include <kiconeffect.h>
@@ -46,9 +47,6 @@
 
 #include "dolphin_informationpanelsettings.h"
 #include "settings/dolphinsettings.h"
-#include "kmetadatamodel.h"
-#include "kmetadatawidget.h"
-#include "kmetadataconfigurationdialog.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
 
@@ -102,8 +100,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     const bool showPreview = InformationPanelSettings::showPreview();
     m_preview->setVisible(showPreview);
 
-    m_metaDataWidget = new KMetaDataWidget(parent);
-    m_metaDataWidget->setModel(new KMetaDataModel(this));
+    m_metaDataWidget = new KFileMetaDataWidget(parent);
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     connect(m_metaDataWidget, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
 
@@ -195,7 +192,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
             m_metaDataWidget->hide();
         } else {
             m_metaDataWidget->show();
-            m_metaDataWidget->setItem(item);
+            m_metaDataWidget->setItems(KFileItemList() << item);
         }
     }
 
@@ -295,11 +292,14 @@ void InformationPanelContent::configureSettings()
         m_preview->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == configureAction) {
-        QPointer<KMetaDataConfigurationDialog> dialog = new KMetaDataConfigurationDialog(m_metaDataWidget, this, Qt::Dialog);
-        dialog->setDescription(i18nc("@label::textbox",
-                               "Configure which data should be shown in the Information Panel."));
-        dialog->exec();
-        delete dialog;
+        // TODO:
+        //QPointer<KFileMetaDataConfigurationDialog> dialog =
+        //        new KFileMetaDataConfigurationDialog(this);
+        //dialog->setDescription(i18nc("@label::textbox",
+        //                       "Configure which data should be shown in the Information Panel."));
+        //dialog->setItems(m_metaDataWidget->items());
+        //dialog->exec();
+        //delete dialog;
     }
 
     if (!m_item.isNull() && m_item.nepomukUri().isValid()) {
@@ -317,7 +317,7 @@ void InformationPanelContent::showIcon(const KFileItem& item)
 }
 
 void InformationPanelContent::showPreview(const KFileItem& item,
-                                  const QPixmap& pixmap)
+                                          const QPixmap& pixmap)
 {
     m_outdatedPreviewTimer->stop();
 

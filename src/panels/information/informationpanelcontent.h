@@ -27,7 +27,7 @@
 #include <kvbox.h>
 
 class KFileItem;
-class KMetaDataWidget;
+class KFileMetaDataWidget;
 class KSeparator;
 class MetaTextLabel;
 class PhononWidget;
@@ -128,7 +128,7 @@ private:
     PixmapViewer* m_preview;
     PhononWidget* m_phononWidget;
     QLabel* m_nameLabel;
-    KMetaDataWidget* m_metaDataWidget;
+    KFileMetaDataWidget* m_metaDataWidget;
     QScrollArea* m_metaDataArea;
 };
 

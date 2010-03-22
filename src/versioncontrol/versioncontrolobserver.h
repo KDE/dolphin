@@ -93,7 +93,12 @@ private slots:
     void silentDirectoryVerification();    
 
     void verifyDirectory();
-    void applyUpdatedItemStates();
+
+    /**
+     * Is invoked if the thread m_updateItemStatesThread has been finished
+     * and applys the item states.
+     */
+    void slotThreadFinished();
     
 private:
     struct ItemState
