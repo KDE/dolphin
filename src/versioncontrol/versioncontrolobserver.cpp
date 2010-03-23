@@ -104,8 +104,10 @@ VersionControlObserver::~VersionControlObserver()
         }
     }
 
-    m_plugin->disconnect();
-    m_plugin = 0;
+    if (m_plugin != 0) {
+        m_plugin->disconnect();
+        m_plugin = 0;
+    }
 }
 
 QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& items) const
