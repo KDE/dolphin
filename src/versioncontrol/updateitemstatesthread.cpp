@@ -76,14 +76,14 @@ void UpdateItemStatesThread::run()
     }
 }
 
-bool UpdateItemStatesThread::beginReadItemStates()
+bool UpdateItemStatesThread::lockPlugin()
 {
-    return m_itemMutex.tryLock(300);
+    return m_globalPluginMutex->tryLock(300);
 }
 
-void UpdateItemStatesThread::endReadItemStates()
+void UpdateItemStatesThread::unlockPlugin()
 {
-    m_itemMutex.unlock();
+    m_globalPluginMutex->unlock();
 }
 
 QList<VersionControlObserver::ItemState> UpdateItemStatesThread::itemStates() const

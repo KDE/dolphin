@@ -99,9 +99,9 @@ VersionControlObserver::~VersionControlObserver()
 QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& items) const
 {
     QList<QAction*> actions;
-    if (isVersioned() && m_updateItemStatesThread->beginReadItemStates()) {
+    if (isVersioned() && m_updateItemStatesThread->lockPlugin()) {
         actions = m_plugin->contextMenuActions(items);
-        m_updateItemStatesThread->endReadItemStates();
+        m_updateItemStatesThread->unlockPlugin();
     }
     return actions;
 }
@@ -109,9 +109,9 @@ QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& 
 QList<QAction*> VersionControlObserver::contextMenuActions(const QString& directory) const
 {
     QList<QAction*> actions;
-    if (isVersioned() && m_updateItemStatesThread->beginReadItemStates()) {
+    if (isVersioned() && m_updateItemStatesThread->lockPlugin()) {
         actions = m_plugin->contextMenuActions(directory);
-        m_updateItemStatesThread->endReadItemStates();
+        m_updateItemStatesThread->unlockPlugin();
     }
 
     return actions;

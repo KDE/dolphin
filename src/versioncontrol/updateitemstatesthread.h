@@ -41,11 +41,30 @@ public:
     UpdateItemStatesThread();
     virtual ~UpdateItemStatesThread();
 
+    /**
+     * @param plugin     Version control plugin that is used to update the
+     *                   state of the items. Whenever the plugin is accessed
+     *                   from the thread creator after starting the thread,
+     *                   UpdateItemStatesThread::lockPlugin() and
+     *                   UpdateItemStatesThread::unlockPlugin() must be used.
+     * @param itemStates List of items, where the states get updated.
+     */
     void setData(KVersionControlPlugin* plugin,
                  const QList<VersionControlObserver::ItemState>& itemStates);
 
-    bool beginReadItemStates();
-    void endReadItemStates();
+    /**
+     * Whenever the plugin is accessed by the thread creator, lockPlugin() must
+     * be invoked. True is returned, if the plugin could be locked within 300
+     * milliseconds.
+     */
+    bool lockPlugin();
+
+    /**
+     * Must be invoked if lockPlugin() returned true and plugin has been accessed
+     * by the thread creator.
+     */
+    void unlockPlugin();
+
     QList<VersionControlObserver::ItemState> itemStates() const;
 
     bool retrievedItems() const;
