@@ -28,24 +28,13 @@
 #include <kservicetypetrader.h>
 #include <kversioncontrolplugin.h>
 
+#include "pendingthreadsmaintainer.h"
 #include "updateitemstatesthread.h"
 
 #include <QAbstractProxyModel>
 #include <QAbstractItemView>
 #include <QMutexLocker>
 #include <QTimer>
-
-/*
- * Maintains a list of pending threads, that get regulary checked
- * whether they are finished and hence can get deleted. QThread::wait()
- * is never used to prevent any blocking of the user interface.
- */
-struct PendingThreadsSingleton
-{
-    QList<UpdateItemStatesThread*> list;
-};
-K_GLOBAL_STATIC(PendingThreadsSingleton, s_pendingThreads)
-
 
 VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
     QObject(view),
@@ -92,14 +81,11 @@ VersionControlObserver::~VersionControlObserver()
         } else {
             // The version controller gets deleted, while a thread still
             // is working to get the version information. To avoid a blocking
-            // user interface, no waiting for the finished() signal of the thread is
-            // done. Instead the thread will be remembered inside the global
-            // list s_pendingThreads, which will checked regulary. The thread does
-            // not work on shared data that is part of the VersionController instance,
-            // so skipping the waiting is save.
+            // user interface, the thread will be forwarded to the
+            // PendingThreadsMaintainer, which will delete the thread later.
             disconnect(m_updateItemStatesThread, SIGNAL(finished()),
                        this, SLOT(slotThreadFinished()));
-            s_pendingThreads->list.append(m_updateItemStatesThread);
+            PendingThreadsMaintainer::instance().append(m_updateItemStatesThread);
             m_updateItemStatesThread = 0;
         }
     }
@@ -145,19 +131,6 @@ void VersionControlObserver::silentDirectoryVerification()
 
 void VersionControlObserver::verifyDirectory()
 {
-    if (!s_pendingThreads->list.isEmpty()) {
-        // Try to cleanup pending threads (see explanation in destructor)
-        QList<UpdateItemStatesThread*>::iterator it = s_pendingThreads->list.begin();
-        while (it != s_pendingThreads->list.end()) {
-            if ((*it)->isFinished()) {
-                (*it)->deleteLater();
-                it = s_pendingThreads->list.erase(it);
-            } else {
-                ++it;
-            }
-        }
-    }
-
     KUrl versionControlUrl = m_dirLister->url();
     if (!versionControlUrl.isLocalFile()) {
         return;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,49 +17,61 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef UPDATEITEMSTATESTHREAD_H
-#define UPDATEITEMSTATESTHREAD_H
+#include "pendingthreadsmaintainer.h"
 
-#include <libdolphin_export.h>
-#include <versioncontrol/versioncontrolobserver.h>
-
-#include <QMutex>
+#include <kglobal.h>
 #include <QThread>
+#include <QTimer>
 
-class KVersionControlPlugin;
-
-/**
- * The performance of updating the version state of items depends
- * on the used plugin. To prevent that Dolphin gets blocked by a
- * slow plugin, the updating is delegated to a thread.
- */
-class LIBDOLPHINPRIVATE_EXPORT UpdateItemStatesThread : public QThread
+struct PendingThreadsMaintainerSingleton
 {
-    Q_OBJECT
-
-public:
-    UpdateItemStatesThread();
-    virtual ~UpdateItemStatesThread();
-
-    void setData(KVersionControlPlugin* plugin,
-                 const QList<VersionControlObserver::ItemState>& itemStates);
-
-    bool beginReadItemStates();
-    void endReadItemStates();
-    QList<VersionControlObserver::ItemState> itemStates() const;
-
-    bool retrievedItems() const;
-
-protected:
-    virtual void run();
-
-private:
-    QMutex* m_globalPluginMutex; // Protects the m_plugin globally
-    KVersionControlPlugin* m_plugin;
-
-    mutable QMutex m_itemMutex; // Protects m_retrievedItems and m_itemStates
-    bool m_retrievedItems;
-    QList<VersionControlObserver::ItemState> m_itemStates;
+    PendingThreadsMaintainer instance;
 };
+K_GLOBAL_STATIC(PendingThreadsMaintainerSingleton, s_pendingThreadsMaintainer)
 
-#endif // UPDATEITEMSTATESTHREAD_H
+
+PendingThreadsMaintainer& PendingThreadsMaintainer::instance()
+{
+    return s_pendingThreadsMaintainer->instance;
+}
+
+PendingThreadsMaintainer::~PendingThreadsMaintainer()
+{
+}
+
+void PendingThreadsMaintainer::append(QThread* thread)
+{
+    Q_ASSERT(thread != 0);
+    m_threads.append(thread);
+    m_timer->start();
+}
+
+PendingThreadsMaintainer::PendingThreadsMaintainer() :
+    QObject(),
+    m_threads(),
+    m_timer(0)
+{
+    m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(5000); // 5 seconds
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(cleanup()));
+}
+
+void PendingThreadsMaintainer::cleanup()
+{
+    QList<QThread*>::iterator it = m_threads.begin();
+    while (it != m_threads.end()) {
+        if ((*it)->isFinished()) {
+            (*it)->deleteLater();
+            it = m_threads.erase(it);
+        } else {
+            ++it;
+        }
+    }
+
+    if (!m_threads.isEmpty()) {
+        m_timer->start();
+    }
+}
+
+#include "pendingthreadsmaintainer.moc"

@@ -45,6 +45,7 @@ set(dolphinprivate_LIB_SRCS
     tooltips/ktooltip.cpp
     tooltips/ktooltipwindow.cpp
     tooltips/tooltipmanager.cpp
+    versioncontrol/pendingthreadsmaintainer.cpp
     versioncontrol/updateitemstatesthread.cpp
     versioncontrol/versioncontrolobserver.cpp
     viewextensionsfactory.cpp
