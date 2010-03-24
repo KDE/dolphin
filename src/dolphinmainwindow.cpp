@@ -392,9 +392,12 @@ void DolphinMainWindow::openNewTab()
     openNewTab(m_activeViewContainer->url());
     m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
 
+    // The URL navigator of the new tab should have the same editable state
+    // as the current tab
+    KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
+    navigator->setUrlEditable(isUrlEditable);
+
     if (isUrlEditable) {
-        KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
-        navigator->setUrlEditable(true);
         // If a new tab is opened and the URL is editable, assure that
         // the user can edit the URL without manually setting the focus
         navigator->setFocus();
