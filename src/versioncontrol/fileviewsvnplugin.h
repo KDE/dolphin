@@ -74,7 +74,6 @@ private:
 private:
     bool m_pendingOperation;
     QHash<QString, VersionState> m_versionInfoHash;
-    QList<QString> m_versionInfoKeys; // cache for accessing the keys of the hash
 
     QAction* m_updateAction;
     QAction* m_showLocalChangesAction;

@@ -45,7 +45,6 @@ FileViewSvnPlugin::FileViewSvnPlugin(QObject* parent, const QList<QVariant>& arg
     KVersionControlPlugin(parent),
     m_pendingOperation(false),
     m_versionInfoHash(),
-    m_versionInfoKeys(),
     m_updateAction(0),
     m_showLocalChangesAction(0),
     m_commitAction(0),
@@ -103,7 +102,8 @@ bool FileViewSvnPlugin::beginRetrieval(const QString& directory)
 {
     Q_ASSERT(directory.endsWith('/'));
 
-    // clear all entries for this directory
+    // Clear all entries for this directory including the entries
+    // for sub directories
     QMutableHashIterator<QString, VersionState> it(m_versionInfoHash);
     while (it.hasNext()) {
         it.next();
@@ -136,16 +136,21 @@ bool FileViewSvnPlugin::beginRetrieval(const QString& directory)
                 break;
             }
 
-            int pos = filePath.indexOf('/');
-            const int length = filePath.length() - pos - 1;
-            filePath = filePath.mid(pos, length);
-            if (!filePath.isEmpty()) {
-                m_versionInfoHash.insert(filePath, state);
+            // Only values with a different state as 'NormalVersion'
+            // are added to the hash table. If a value is not in the
+            // hash table, it is automatically defined as 'NormalVersion'
+            // (see FileViewSvnPlugin::versionState()).
+            if (state != NormalVersion) {
+                int pos = filePath.indexOf('/');
+                const int length = filePath.length() - pos - 1;
+                filePath = filePath.mid(pos, length);
+                if (!filePath.isEmpty()) {
+                    m_versionInfoHash.insert(filePath, state);
+                }
             }
         }
     }
 
-    m_versionInfoKeys = m_versionInfoHash.keys();
     return true;
 }
 
@@ -169,13 +174,15 @@ KVersionControlPlugin::VersionState FileViewSvnPlugin::versionState(const KFileI
     // The item is a directory. Check whether an item listed by 'svn status' (= m_versionInfoHash)
     // is part of this directory. In this case a local modification should be indicated in the
     // directory already.
-    foreach (const QString& key, m_versionInfoKeys) {
-        if (key.startsWith(itemUrl)) {
-            const VersionState state = m_versionInfoHash.value(key);
+    QHash<QString, VersionState>::const_iterator it = m_versionInfoHash.constBegin();
+    while (it != m_versionInfoHash.constEnd()) {
+        if (it.key().startsWith(itemUrl)) {
+            const VersionState state = m_versionInfoHash.value(it.key());
             if (state == LocallyModifiedVersion) {
                 return LocallyModifiedVersion;
             }
         }
+        ++it;
     }
 
     return NormalVersion;
