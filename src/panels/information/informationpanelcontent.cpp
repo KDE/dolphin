@@ -293,17 +293,15 @@ void InformationPanelContent::configureSettings()
         m_preview->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == configureAction) {
-        QPointer<FileMetaDataConfigurationDialog> dialog =
-                new FileMetaDataConfigurationDialog(this);
+        FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog();
         dialog->setDescription(i18nc("@label::textbox",
-                               "Configure which data should be shown in the Information Panel."));
+                                     "Configure which data should be shown in the tooltip."));
         dialog->setItems(m_metaDataWidget->items());
-        dialog->exec();
-        delete dialog;
-    }
-
-    if (!m_item.isNull() && m_item.nepomukUri().isValid()) {
-        showItem(m_item);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+        dialog->raise();
+        dialog->activateWindow();
+        connect(dialog, SIGNAL(destroyed()), this, SLOT(refreshMetaData()));
     }
 }
 
@@ -345,6 +343,13 @@ void InformationPanelContent::slotPlayingStarted()
 void InformationPanelContent::slotPlayingStopped()
 {
     m_preview->setVisible(true);
+}
+
+void InformationPanelContent::refreshMetaData()
+{
+    if (!m_item.isNull() && m_item.nepomukUri().isValid()) {
+        showItem(m_item);
+    }
 }
 
 bool InformationPanelContent::applyPlace(const KUrl& url)

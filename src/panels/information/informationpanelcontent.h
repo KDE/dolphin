@@ -96,6 +96,12 @@ private slots:
     void slotPlayingStarted();
     void slotPlayingStopped();
 
+    /**
+     * Is invoked after the file meta data configuration dialog has been
+     * closed and refreshs the visibility of the meta data.
+     */
+    void refreshMetaData();
+
 private:
     /**
      * Checks whether the an URL is repesented by a place. If yes,
