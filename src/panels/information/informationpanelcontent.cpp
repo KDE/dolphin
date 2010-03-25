@@ -47,6 +47,7 @@
 
 #include "dolphin_informationpanelsettings.h"
 #include "settings/dolphinsettings.h"
+#include "settings/filemetadataconfigurationdialog.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
 
@@ -292,14 +293,13 @@ void InformationPanelContent::configureSettings()
         m_preview->setVisible(isChecked);
         InformationPanelSettings::setShowPreview(isChecked);
     } else if (action == configureAction) {
-        // TODO:
-        //QPointer<KFileMetaDataConfigurationDialog> dialog =
-        //        new KFileMetaDataConfigurationDialog(this);
-        //dialog->setDescription(i18nc("@label::textbox",
-        //                       "Configure which data should be shown in the Information Panel."));
-        //dialog->setItems(m_metaDataWidget->items());
-        //dialog->exec();
-        //delete dialog;
+        QPointer<FileMetaDataConfigurationDialog> dialog =
+                new FileMetaDataConfigurationDialog(this);
+        dialog->setDescription(i18nc("@label::textbox",
+                               "Configure which data should be shown in the Information Panel."));
+        dialog->setItems(m_metaDataWidget->items());
+        dialog->exec();
+        delete dialog;
     }
 
     if (!m_item.isNull() && m_item.nepomukUri().isValid()) {

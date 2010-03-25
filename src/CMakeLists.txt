@@ -40,6 +40,7 @@ set(dolphinprivate_LIB_SRCS
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
     settings/dolphinsettings.cpp
+    settings/filemetadataconfigurationdialog.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     tooltips/ktooltip.cpp

@@ -22,6 +22,7 @@
 
 #include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
+#include "filemetadataconfigurationdialog.h"
 
 #include <viewproperties.h>
 
@@ -192,14 +193,13 @@ void BehaviorSettingsPage::updateConfigureButton()
 
 void BehaviorSettingsPage::configureToolTips()
 {
-    // TODO:
-    //KFileMetaDataConfigurationDialog* dialog = new KFileMetaDataConfigurationDialog();
-    //dialog->setDescription(i18nc("@label::textbox",
-    //                             "Configure which data should be shown in the tooltip."));
-    //dialog->setAttribute(Qt::WA_DeleteOnClose);
-    //dialog->show();
-    //dialog->raise();
-    //dialog->activateWindow();
+    FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog();
+    dialog->setDescription(i18nc("@label::textbox",
+                                 "Configure which data should be shown in the tooltip."));
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+    dialog->raise();
+    dialog->activateWindow();
 }
 
 void BehaviorSettingsPage::loadSettings()
