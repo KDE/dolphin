@@ -80,7 +80,14 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_view->viewport()->installEventFilter(this);
     m_view->installEventFilter(this);
 
-    m_fileMetaDataToolTip = new FileMetaDataToolTip(parent);
+    static FileMetaDataToolTip* sharedToolTip = 0;
+    if (sharedToolTip == 0) {
+        sharedToolTip = new FileMetaDataToolTip();
+        // TODO: Using K_GLOBAL_STATIC would be preferable to maintain the
+        // instance, but the cleanup of KMetaDataWidget at this stage does
+        // not work.
+    }
+    m_fileMetaDataToolTip = sharedToolTip;
 }
 
 ToolTipManager::~ToolTipManager()
