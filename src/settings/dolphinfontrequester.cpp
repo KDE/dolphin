@@ -91,7 +91,7 @@ bool DolphinFontRequester::event(QEvent* event)
 
 void DolphinFontRequester::openFontDialog()
 {
-    QFont font;
+    QFont font = m_customFont;
     const int result = KFontDialog::getFont(font,
                                             KFontChooser::NoDisplayFlags,
                                             this);
