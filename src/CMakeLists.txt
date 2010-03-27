@@ -43,8 +43,7 @@ set(dolphinprivate_LIB_SRCS
     settings/filemetadataconfigurationdialog.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
-    tooltips/ktooltip.cpp
-    tooltips/ktooltipwindow.cpp
+    tooltips/filemetadatatooltip.cpp
     tooltips/tooltipmanager.cpp
     versioncontrol/pendingthreadsmaintainer.cpp
     versioncontrol/updateitemstatesthread.cpp

@@ -27,6 +27,7 @@
 
 class DolphinModel;
 class DolphinSortFilterProxyModel;
+class FileMetaDataToolTip;
 class QAbstractItemView;
 class QModelIndex;
 class QTimer;
@@ -69,12 +70,7 @@ private slots:
 private:
     void showToolTip(const QPixmap& pixmap);
 
-    /**
-     * Creates widget that represents the tip content having
-     * an icon and the meta data information.
-     */
-    QWidget* createTipContent(const QPixmap& pixmap) const;
-
+private:
     QAbstractItemView* m_view;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
@@ -82,6 +78,9 @@ private:
     QTimer* m_timer;
     QTimer* m_previewTimer;
     QTimer* m_waitOnPreviewTimer;
+
+    FileMetaDataToolTip* m_fileMetaDataToolTip;
+
     KFileItem m_item;
     QRect m_itemRect;
     bool m_generatingPreview;

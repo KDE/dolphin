@@ -22,21 +22,15 @@
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 
-#include <kfilemetadatawidget.h>
+#include "filemetadatatooltip.h"
 #include <kicon.h>
 #include <kio/previewjob.h>
-#include <kseparator.h>
-
-#include "tooltips/ktooltip.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QHBoxLayout>
-#include <QLabel>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QTimer>
-#include <QVBoxLayout>
 
 ToolTipManager::ToolTipManager(QAbstractItemView* parent,
                                DolphinSortFilterProxyModel* model) :
@@ -47,6 +41,7 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_timer(0),
     m_previewTimer(0),
     m_waitOnPreviewTimer(0),
+    m_fileMetaDataToolTip(0),
     m_item(),
     m_itemRect(),
     m_generatingPreview(false),
@@ -84,6 +79,8 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
 
     m_view->viewport()->installEventFilter(this);
     m_view->installEventFilter(this);
+
+    m_fileMetaDataToolTip = new FileMetaDataToolTip(parent);
 }
 
 ToolTipManager::~ToolTipManager()
@@ -115,11 +112,11 @@ bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 
 void ToolTipManager::requestToolTip(const QModelIndex& index)
 {
-    // only request a tooltip for the name column and when no selection or
+    // Only request a tooltip for the name column and when no selection or
     // drag & drop operation is done (indicated by the left mouse button)
     if ((index.column() == DolphinModel::Name) && !(QApplication::mouseButtons() & Qt::LeftButton)) {
         m_waitOnPreviewTimer->stop();
-        KToolTip::hideTip();
+        m_fileMetaDataToolTip->hide();
 
         m_itemRect = m_view->visualRect(index);
         const QPoint pos = m_view->viewport()->mapToGlobal(m_itemRect.topLeft());
@@ -128,8 +125,8 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
         const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
         m_item = m_dolphinModel->itemForIndex(dirIndex);
 
-        // only start the previewJob when the mouse has been over this item for 200 milliseconds,
-        // this prevents a lot of useless preview jobs when passing rapidly over a lot of items
+        // Only start the previewJob when the mouse has been over this item for 200 milliseconds.
+        // This prevents a lot of useless preview jobs when passing rapidly over a lot of items.
         m_previewTimer->start(200);
         m_previewPixmap = QPixmap();
         m_hasDefaultIcon = false;
@@ -145,7 +142,8 @@ void ToolTipManager::hideToolTip()
     m_timer->stop();
     m_previewTimer->stop();
     m_waitOnPreviewTimer->stop();
-    KToolTip::hideTip();
+
+    m_fileMetaDataToolTip->hide();
 }
 
 void ToolTipManager::prepareToolTip()
@@ -179,7 +177,7 @@ void ToolTipManager::setPreviewPix(const KFileItem& item,
                                    const QPixmap& pixmap)
 {
     if ((m_item.url() != item.url()) || pixmap.isNull()) {
-        // an old preview or an invalid preview has been received
+        // An old preview or an invalid preview has been received
         previewFailed();
     } else {
         m_previewPixmap = pixmap;
@@ -199,10 +197,12 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
         return;
     }
 
-    QWidget* tip = createTipContent(pixmap);
+    m_fileMetaDataToolTip->setPreview(pixmap);
+    m_fileMetaDataToolTip->setName(m_item.text());
+    m_fileMetaDataToolTip->setItems(KFileItemList() << m_item);
 
-    // calculate the x- and y-position of the tooltip
-    const QSize size = tip->sizeHint();
+    // Calculate the x- and y-position of the tooltip
+    const QSize size = m_fileMetaDataToolTip->sizeHint();
     const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
 
     // m_itemRect defines the area of the item, where the tooltip should be
@@ -215,8 +215,6 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
     const bool hasRoomAbove   = (m_itemRect.top()    - size.height() >= desktop.top());
     const bool hasRoomBelow   = (m_itemRect.bottom() + size.height() <= desktop.bottom());
     if (!hasRoomAbove && !hasRoomBelow && !hasRoomToLeft && !hasRoomToRight) {
-        delete tip;
-        tip = 0;
         return;
     }
 
@@ -237,54 +235,8 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
         y = desktop.bottom() - size.height();
     }
 
-    // the ownership of tip is transferred to KToolTip
-    KToolTip::showTip(QPoint(x, y), tip);
-}
-
-QWidget* ToolTipManager::createTipContent(const QPixmap& pixmap) const
-{
-    QWidget* tipContent = new QWidget();
-
-    // add pixmap
-    QLabel* pixmapLabel = new QLabel(tipContent);
-    pixmapLabel->setPixmap(pixmap);
-    pixmapLabel->setFixedSize(pixmap.size());
-
-    // add item name
-    QLabel* nameLabel = new QLabel(tipContent);
-    nameLabel->setText(m_item.text());
-    nameLabel->setWordWrap(true);
-    QFont font = nameLabel->font();
-    font.setBold(true);
-    nameLabel->setFont(font);
-    nameLabel->setAlignment(Qt::AlignHCenter);
-    nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    // add meta data
-    KFileMetaDataWidget* metaDataWidget = new KFileMetaDataWidget(tipContent);
-    metaDataWidget->setForegroundRole(QPalette::ToolTipText);
-    metaDataWidget->setItems(KFileItemList() << m_item);
-    metaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    metaDataWidget->setReadOnly(true);
-
-    // the stretchwidget allows the metadata widget to be top aligned and fills
-    // the remaining vertical space
-    QWidget* stretchWidget = new QWidget(tipContent);
-    stretchWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-
-    QWidget* textContainer = new QWidget(tipContent);
-    QVBoxLayout* textLayout = new QVBoxLayout(textContainer);
-    textLayout->addWidget(nameLabel);
-    textLayout->addWidget(new KSeparator());
-    textLayout->addWidget(metaDataWidget);
-    textLayout->addWidget(stretchWidget);
-
-    QHBoxLayout* tipLayout = new QHBoxLayout(tipContent);
-    tipLayout->setMargin(0);
-    tipLayout->addWidget(pixmapLabel);
-    tipLayout->addWidget(textContainer);
-
-    return tipContent;
+    m_fileMetaDataToolTip->move(x, y);
+    m_fileMetaDataToolTip->show();
 }
 
 #include "tooltipmanager.moc"

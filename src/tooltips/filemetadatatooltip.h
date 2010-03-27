@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2008 by Fredrik Höglund <fredrik@kde.org>               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,29 +18,53 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KTOOLTIPWINDOW_H
-#define KTOOLTIPWINDOW_H
+#ifndef DOLPHINCONTROLLER_H
+#define DOLPHINCONTROLLER_H
 
 #include <QWidget>
-class QPaintEvent;
 
-class KToolTipWindow : public QWidget
+class KFileItemList;
+class KFileMetaDataWidget;
+class QLabel;
+
+/**
+ * @brief Tooltip, that shows the meta information and a preview of one
+ *        or more files.
+ */
+class FileMetaDataToolTip : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit KToolTipWindow(QWidget* content);
-    virtual ~KToolTipWindow();
+    FileMetaDataToolTip(QWidget* parent = 0);
+    virtual ~FileMetaDataToolTip();
+
+    void setPreview(const QPixmap& pixmap);
+    const QPixmap* preview() const;
+
+    void setName(const QString& name);
+    QString name() const;
+
+    void setItems(const KFileItemList& items);
+    KFileItemList items() const;
 
 protected:
     virtual void paintEvent(QPaintEvent* event);
 
 private:
     /**
-     * Helper method for KToolTipWindow::paintEvent() to adjust the painter path \p path
+     * Helper method for FileMetaDataToolTip::paintEvent() to adjust the painter path \p path
      * by rounded corners.
      */
-    static void arc(QPainterPath& path, qreal cx, qreal cy, qreal radius, qreal angle, qreal sweeplength);
+    static void arc(QPainterPath& path,
+                    qreal cx, qreal cy,
+                    qreal radius, qreal angle,
+                    qreal sweepLength);
+
+private:
+    QLabel* m_preview;
+    QLabel* m_name;
+    KFileMetaDataWidget* m_fileMetaDataWidget;
 };
 
 #endif
