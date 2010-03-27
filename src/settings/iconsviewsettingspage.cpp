@@ -214,9 +214,10 @@ void IconsViewSettingsPage::loadSettings()
         m_fontRequester->setMode(DolphinFontRequester::SystemFont);
     } else {
         QFont font(settings->fontFamily(),
-                   settings->fontSize());
+                   qRound(settings->fontSize()));
         font.setItalic(settings->italicFont());
         font.setWeight(settings->fontWeight());
+        font.setPointSizeF(settings->fontSize());
         m_fontRequester->setMode(DolphinFontRequester::CustomFont);
         m_fontRequester->setCustomFont(font);
     }
