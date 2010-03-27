@@ -48,6 +48,7 @@ DolphinModel::DolphinModel(QObject* parent) :
     m_hasVersionData(false),
     m_revisionHash()
 {
+    setJobTransfersVisible(true);
 }
 
 DolphinModel::~DolphinModel()

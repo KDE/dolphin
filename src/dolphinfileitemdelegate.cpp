@@ -37,6 +37,7 @@ DolphinFileItemDelegate::DolphinFileItemDelegate(QObject* parent) :
     m_cachedSize(),
     m_cachedEmblems()
 {
+    setJobTransfersVisible(true);
 }
 
 DolphinFileItemDelegate::~DolphinFileItemDelegate()
