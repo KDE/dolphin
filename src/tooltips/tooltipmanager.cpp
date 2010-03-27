@@ -123,7 +123,7 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
     // drag & drop operation is done (indicated by the left mouse button)
     if ((index.column() == DolphinModel::Name) && !(QApplication::mouseButtons() & Qt::LeftButton)) {
         m_waitOnPreviewTimer->stop();
-        m_fileMetaDataToolTip->hide();
+        hideToolTip();
 
         m_itemRect = m_view->visualRect(index);
         const QPoint pos = m_view->viewport()->mapToGlobal(m_itemRect.topLeft());
@@ -151,6 +151,7 @@ void ToolTipManager::hideToolTip()
     m_waitOnPreviewTimer->stop();
 
     m_fileMetaDataToolTip->hide();
+    m_fileMetaDataToolTip->setItems(KFileItemList());
 }
 
 void ToolTipManager::prepareToolTip()
