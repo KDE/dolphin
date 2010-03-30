@@ -25,7 +25,7 @@
 #include <QTreeView>
 #include <libdolphin_export.h>
 
-class DolphinController;
+class DolphinViewController;
 class DolphinSortFilterProxyModel;
 class ViewExtensionsFactory;
 
@@ -42,8 +42,18 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinDetailsView : public QTreeView
     Q_OBJECT
 
 public:
+    /**
+     * @param parent                Parent widget.
+     * @param dolphinViewController Allows the DolphinDetailsView to control the
+     *                              DolphinView in a limited way.
+     * @param viewModeController    Controller that is used by the DolphinView
+     *                              to control the DolphinDetailsView. The DolphinDetailsView
+     *                              only has read access to the controller.
+     * @param model                 Directory that is shown.
+     */
     explicit DolphinDetailsView(QWidget* parent,
-                                DolphinController* controller,
+                                DolphinViewController* dolphinViewController,
+                                const ViewModeController* viewModeController,
                                 DolphinSortFilterProxyModel* model);
     virtual ~DolphinDetailsView();
 
@@ -226,7 +236,8 @@ private:
     bool m_useDefaultIndexAt : 1; // true, if QTreeView::indexAt() should be used
     bool m_ignoreScrollTo : 1;    // true if calls to scrollTo(...) should do nothing.
 
-    DolphinController* m_controller;
+    DolphinViewController* m_dolphinViewController;
+    const ViewModeController* m_viewModeController;
     ViewExtensionsFactory* m_extensionsFactory;
     QAction* m_expandableFoldersAction;
 

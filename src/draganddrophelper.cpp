@@ -20,7 +20,7 @@
 
 #include "draganddrophelper.h"
 #include "dolphiniconsview.h"
-#include "dolphincontroller.h"
+#include "dolphinviewcontroller.h"
 
 #include <kdirmodel.h>
 #include <kfileitem.h>
@@ -53,7 +53,7 @@ bool DragAndDropHelper::isMimeDataSupported(const QMimeData* mimeData) const
 
 void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
                                   Qt::DropActions supportedActions,
-                                  DolphinController* controller)
+                                  DolphinViewController* dolphinViewController)
 {
     // Do not start a new drag until the previous one has been finished.
     // This is a (possibly temporary) fix for bug #187884.
@@ -70,8 +70,8 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
             return;
         }
 
-        if (controller != 0) {
-            controller->emitHideToolTip();
+        if (dolphinViewController != 0) {
+            dolphinViewController->requestToolTipHiding();
         }
 
         QDrag* drag = new QDrag(itemView);

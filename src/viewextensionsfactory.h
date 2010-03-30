@@ -24,7 +24,6 @@
 
 #include "dolphinview.h"
 
-class DolphinController;
 class DolphinFileItemDelegate;
 class DolphinSortFilterProxyModel;
 class DolphinViewAutoScroller;
@@ -35,6 +34,7 @@ class SelectionManager;
 class ToolTipManager;
 class QAbstractItemView;
 class VersionControlObserver;
+class ViewModeController;
 
 /**
  * @brief Responsible for creating extensions like tooltips and previews
@@ -51,7 +51,8 @@ class ViewExtensionsFactory : public QObject
 
 public:
     explicit ViewExtensionsFactory(QAbstractItemView* view,
-                                   DolphinController* controller);
+                                   DolphinViewController* dolphinViewController,
+                                   const ViewModeController* viewModeController);
     virtual ~ViewExtensionsFactory();
 
     /**
@@ -90,7 +91,7 @@ private:
 
 private:
     QAbstractItemView* m_view;
-    DolphinController* m_controller;
+    DolphinViewController* m_dolphinViewController;
     ToolTipManager* m_toolTipManager;
     KFilePreviewGenerator* m_previewGenerator;
     SelectionManager* m_selectionManager;

@@ -24,7 +24,7 @@
 #include "libdolphin_export.h"
 #include <QObject>
 
-class DolphinController;
+class DolphinViewController;
 class KFileItem;
 class KUrl;
 class QDropEvent;
@@ -57,7 +57,7 @@ public:
      */
     void startDrag(QAbstractItemView* itemView,
                    Qt::DropActions supportedActions,
-                   DolphinController* controller = 0);
+                   DolphinViewController* dolphinViewController = 0);
 
     /**
      * Returns true if and only if the view \a itemView was the last view to 

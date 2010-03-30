@@ -21,13 +21,14 @@
 #include "dolphindetailsview.h"
 
 #include "dolphinmodel.h"
-#include "dolphincontroller.h"
+#include "dolphinviewcontroller.h"
 #include "dolphinfileitemdelegate.h"
 #include "settings/dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinviewautoscroller.h"
 #include "draganddrophelper.h"
 #include "viewextensionsfactory.h"
+#include "viewmodecontroller.h"
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 
@@ -46,7 +47,8 @@
 #include <QScrollBar>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent,
-                                       DolphinController* controller,
+                                       DolphinViewController* dolphinViewController,
+                                       const ViewModeController* viewModeController,
                                        DolphinSortFilterProxyModel* proxyModel) :
     QTreeView(parent),
     m_autoResize(true),
@@ -54,7 +56,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     m_keyPressed(false),
     m_useDefaultIndexAt(true),
     m_ignoreScrollTo(false),
-    m_controller(controller),
+    m_dolphinViewController(dolphinViewController),
+    m_viewModeController(viewModeController),
     m_extensionsFactory(0),
     m_expandableFoldersAction(0),
     m_expandedUrls(),
@@ -64,7 +67,8 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 {
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     Q_ASSERT(settings != 0);
-    Q_ASSERT(controller != 0);
+    Q_ASSERT(dolphinViewController != 0);
+    Q_ASSERT(viewModeController != 0);
 
     setLayoutDirection(Qt::LeftToRight);
     setAcceptDrops(true);
@@ -81,7 +85,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 
     setMouseTracking(true);
 
-    const ViewProperties props(controller->url());
+    const ViewProperties props(viewModeController->url());
     setSortIndicatorSection(props.sorting());
     setSortIndicatorOrder(props.sortOrder());
 
@@ -102,24 +106,24 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
             this, SLOT(setSortIndicatorOrder(Qt::SortOrder)));
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
-            controller, SLOT(requestTab(const QModelIndex&)));
+            dolphinViewController, SLOT(requestTab(const QModelIndex&)));
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
     }
 
     connect(this, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
-            controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(zoomLevelChanged(int)),
+            dolphinViewController, SLOT(emitViewportEntered()));
+    connect(viewModeController, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
-    connect(controller->dolphinView(), SIGNAL(additionalInfoChanged()),
+    connect(dolphinViewController->view(), SIGNAL(additionalInfoChanged()),
             this, SLOT(updateColumnVisibility()));
-    connect(controller, SIGNAL(activationChanged(bool)),
+    connect(viewModeController, SIGNAL(activationChanged(bool)),
             this, SLOT(slotActivationChanged(bool)));
 
     if (settings->useSystemFont()) {
@@ -135,7 +139,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     setVerticalScrollMode(QTreeView::ScrollPerPixel);
     setHorizontalScrollMode(QTreeView::ScrollPerPixel);
 
-    const DolphinView* view = controller->dolphinView();
+    const DolphinView* view = dolphinViewController->view();
     connect(view, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
 
@@ -158,7 +162,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 
     updateDecorationSize(view->showPreview());
 
-    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+    m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
     m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
     m_extensionsFactory->setAutoFolderExpandingEnabled(settings->expandableFolders());
 }
@@ -225,13 +229,13 @@ void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     m_expandableFoldersAction->setChecked(settings->expandableFolders());
-    m_controller->triggerContextMenuRequest(event->pos(),
+    m_dolphinViewController->triggerContextMenuRequest(event->pos(),
                                             QList<QAction*>() << m_expandableFoldersAction);
 }
 
 void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 {
-    m_controller->requestActivation();
+    m_dolphinViewController->requestActivation();
 
     const QModelIndex current = currentIndex();
     QTreeView::mousePressEvent(event);
@@ -249,7 +253,7 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
     if (!index.isValid() || (index.column() != DolphinModel::Name)) {
         // the mouse press is done somewhere outside the filename column
         if (QApplication::mouseButtons() & Qt::MidButton) {
-            m_controller->replaceUrlByClipboard();
+            m_dolphinViewController->replaceUrlByClipboard();
         }
 
         const Qt::KeyboardModifiers mod = QApplication::keyboardModifiers();
@@ -336,7 +340,7 @@ void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
 
 void DolphinDetailsView::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::instance().startDrag(this, supportedActions, m_controller);
+    DragAndDropHelper::instance().startDrag(this, supportedActions, m_dolphinViewController);
     m_band.show = false;
 }
 
@@ -366,7 +370,7 @@ void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
     setDirtyRegion(m_dropRect);
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        const KFileItem item = m_controller->itemForIndex(index);
+        const KFileItem item = m_dolphinViewController->itemForIndex(index);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         } else {
@@ -386,9 +390,9 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
     const QModelIndex index = indexAt(event->pos());
     KFileItem item;
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        item = m_controller->itemForIndex(index);
+        item = m_dolphinViewController->itemForIndex(index);
     }
-    m_controller->indicateDroppedUrls(item, m_controller->url(), event);
+    m_dolphinViewController->indicateDroppedUrls(item, m_viewModeController->url(), event);
     QTreeView::dropEvent(event);
 }
 
@@ -420,7 +424,7 @@ void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
     m_keyPressed = !(event->modifiers() & Qt::ControlModifier);
 
     QTreeView::keyPressEvent(event);
-    m_controller->handleKeyPressEvent(event);
+    m_dolphinViewController->handleKeyPressEvent(event);
 }
 
 void DolphinDetailsView::keyReleaseEvent(QKeyEvent* event)
@@ -466,7 +470,7 @@ bool DolphinDetailsView::eventFilter(QObject* watched, QEvent* event)
         // if the mouse is above an item and moved very fast outside the widget,
         // no viewportEntered() signal might be emitted although the mouse has been moved
         // above the viewport
-        m_controller->emitViewportEntered();
+        m_dolphinViewController->emitViewportEntered();
     }
 
     return QTreeView::eventFilter(watched, event);
@@ -484,7 +488,7 @@ QModelIndex DolphinDetailsView::indexAt(const QPoint& point) const
 QRect DolphinDetailsView::visualRect(const QModelIndex& index) const
 {
     QRect rect = QTreeView::visualRect(index);
-    const KFileItem item = m_controller->itemForIndex(index);
+    const KFileItem item = m_dolphinViewController->itemForIndex(index);
     if (!item.isNull()) {
         const int width = DolphinFileItemDelegate::nameColumnWidth(item.text(), viewOptions());
         rect.setWidth(width);
@@ -530,16 +534,16 @@ void DolphinDetailsView::synchronizeSortingState(int column)
     // invoked, but Dolphin is not informed about this.
     DolphinView::Sorting sorting = DolphinSortFilterProxyModel::sortingForColumn(column);
     const Qt::SortOrder sortOrder = header()->sortIndicatorOrder();
-    m_controller->indicateSortingChange(sorting);
-    m_controller->indicateSortOrderChange(sortOrder);
+    m_dolphinViewController->indicateSortingChange(sorting);
+    m_dolphinViewController->indicateSortOrderChange(sortOrder);
 }
 
 void DolphinDetailsView::slotEntered(const QModelIndex& index)
 {
     if (index.column() == DolphinModel::Name) {
-        m_controller->emitItemEntered(index);
+        m_dolphinViewController->emitItemEntered(index);
     } else {
-        m_controller->emitViewportEntered();
+        m_dolphinViewController->emitViewportEntered();
     }
 }
 
@@ -576,7 +580,7 @@ void DolphinDetailsView::setZoomLevel(int level)
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
 
-    const bool showPreview = m_controller->dolphinView()->showPreview();
+    const bool showPreview = m_dolphinViewController->view()->showPreview();
     if (showPreview) {
         settings->setPreviewSize(size);
     } else {
@@ -588,7 +592,7 @@ void DolphinDetailsView::setZoomLevel(int level)
 
 void DolphinDetailsView::slotShowPreviewChanged()
 {
-    const DolphinView* view = m_controller->dolphinView();
+    const DolphinView* view = m_dolphinViewController->view();
     updateDecorationSize(view->showPreview());
 }
 
@@ -616,7 +620,7 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
         const bool show = activatedAction->isChecked();
         const int columnIndex = activatedAction->data().toInt();
 
-        KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
+        KFileItemDelegate::InformationList list = m_dolphinViewController->view()->additionalInfo();
         const KFileItemDelegate::Information info = infoForColumn(columnIndex);
         if (show) {
             Q_ASSERT(!list.contains(info));
@@ -627,7 +631,7 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
             list.removeAt(index);
         }
 
-        m_controller->indicateAdditionalInfoChange(list);
+        m_dolphinViewController->indicateAdditionalInfoChange(list);
         setColumnHidden(columnIndex, !show);
         resizeColumns();
     }
@@ -642,7 +646,7 @@ void DolphinDetailsView::updateColumnVisibility()
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     const QList<int> columnPositions = settings->columnPositions();
     
-    const KFileItemDelegate::InformationList list = m_controller->dolphinView()->additionalInfo();
+    const KFileItemDelegate::InformationList list = m_dolphinViewController->view()->additionalInfo();
     for (int i = DolphinModel::Name; i <= DolphinModel::Version; ++i) {
         const KFileItemDelegate::Information info = infoForColumn(i);
         const bool hide = !list.contains(info) && (i != DolphinModel::Name);
@@ -701,7 +705,7 @@ void DolphinDetailsView::disableAutoResizing()
 
 void DolphinDetailsView::requestActivation()
 {
-    m_controller->requestActivation();
+    m_dolphinViewController->requestActivation();
 }
 
 void DolphinDetailsView::slotGlobalSettingsChanged(int category)
@@ -714,12 +718,12 @@ void DolphinDetailsView::slotGlobalSettingsChanged(int category)
         m_font = KGlobalSettings::generalFont();
     }
     //Disconnect then reconnect, since the settings have been changed, the connection requirements may have also.
-    disconnect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
-    disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    disconnect(this, SIGNAL(clicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
+    disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     if (KGlobalSettings::singleClick()) {
-        connect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+        connect(this, SIGNAL(clicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     } else {
-        connect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+        connect(this, SIGNAL(doubleClicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     }
 }
 
@@ -928,7 +932,7 @@ void DolphinDetailsView::setFoldersExpandable(bool expandable)
 
 void DolphinDetailsView::slotExpanded(const QModelIndex& index)
 {
-    KFileItem item = m_controller->itemForIndex(index);
+    KFileItem item = m_dolphinViewController->itemForIndex(index);
     if (!item.isNull()) {
         m_expandedUrls.insert(item.url());
     }
@@ -936,7 +940,7 @@ void DolphinDetailsView::slotExpanded(const QModelIndex& index)
 
 void DolphinDetailsView::slotCollapsed(const QModelIndex& index)
 {
-    KFileItem item = m_controller->itemForIndex(index);
+    KFileItem item = m_dolphinViewController->itemForIndex(index);
     if (!item.isNull()) {
         m_expandedUrls.remove(item.url());
     }

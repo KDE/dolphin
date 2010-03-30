@@ -31,10 +31,11 @@
 
 #include <libdolphin_export.h>
 
-class DolphinController;
+class DolphinViewController;
 class DolphinCategoryDrawer;
 class DolphinSortFilterProxyModel;
 class ViewExtensionsFactory;
+class ViewModeController;
 
 /**
  * @brief Represents the view, where each item is shown as an icon.
@@ -47,8 +48,18 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinIconsView : public KCategorizedView
     Q_OBJECT
 
 public:
+    /**
+     * @param parent                Parent widget.
+     * @param dolphinViewController Allows the DolphinIconsView to control the
+     *                              DolphinView in a limited way.
+     * @param viewModeController    Controller that is used by the DolphinView
+     *                              to control the DolphinIconsView. The DolphinIconsView
+     *                              only has read access to the controller.
+     * @param model                 Directory that is shown.
+     */
     explicit DolphinIconsView(QWidget* parent,
-                              DolphinController* controller,
+                              DolphinViewController* dolphinViewController,
+                              const ViewModeController* viewModeController,
                               DolphinSortFilterProxyModel* proxyModel);
     virtual ~DolphinIconsView();
 
@@ -94,7 +105,8 @@ private:
     int additionalInfoCount() const;
 
 private:
-    DolphinController* m_controller;
+    DolphinViewController* m_dolphinViewController;
+    const ViewModeController* m_viewModeController;
     DolphinCategoryDrawer* m_categoryDrawer;
     ViewExtensionsFactory* m_extensionsFactory;
 

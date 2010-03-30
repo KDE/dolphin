@@ -41,17 +41,18 @@
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
-class DolphinController;
 class DolphinColumnViewContainer;
 class DolphinDetailsView;
 class DolphinIconsView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
+class DolphinViewController;
 class KFilePreviewGenerator;
 class KAction;
 class KActionCollection;
 class KDirLister;
 class KUrl;
+class ViewModeController;
 class ViewProperties;
 class DolphinDetailsViewExpander;
 
@@ -132,7 +133,7 @@ public:
      * Returns the current active URL, where all actions are applied.
      * The URL navigator is synchronized with this URL.
      */
-    const KUrl& url() const;
+    KUrl url() const;
 
     /**
      * Returns the root URL of the view, which is defined as the first
@@ -727,7 +728,10 @@ private:
         ViewAccessor(DolphinSortFilterProxyModel* proxyModel);
         ~ViewAccessor();
 
-        void createView(QWidget* parent, DolphinController* controller, Mode mode);
+        void createView(QWidget* parent,
+                        DolphinViewController* dolphinViewController,
+                        const ViewModeController* viewModeController,
+                        Mode mode);
         void deleteView();
 
         /**
@@ -786,7 +790,8 @@ private:
 
     QVBoxLayout* m_topLayout;
 
-    DolphinController* m_controller;
+    DolphinViewController* m_dolphinViewController;
+    ViewModeController* m_viewModeController;
     ViewAccessor m_viewAccessor;
 
     QItemSelectionModel* m_selectionModel; // allow to switch views without losing the selection

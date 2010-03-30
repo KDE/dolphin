@@ -20,7 +20,7 @@
 #include "dolphiniconsview.h"
 
 #include "dolphincategorydrawer.h"
-#include "dolphincontroller.h"
+#include "dolphinviewcontroller.h"
 #include "settings/dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphin_iconsmodesettings.h"
@@ -28,6 +28,7 @@
 #include "draganddrophelper.h"
 #include "selectionmanager.h"
 #include "viewextensionsfactory.h"
+#include "viewmodecontroller.h"
 #include "zoomlevelinfo.h"
 
 #include <kcategorizedsortfilterproxymodel.h>
@@ -39,10 +40,12 @@
 #include <QScrollBar>
 
 DolphinIconsView::DolphinIconsView(QWidget* parent,
-                                   DolphinController* controller,
+                                   DolphinViewController* dolphinViewController,
+                                   const ViewModeController* viewModeController,
                                    DolphinSortFilterProxyModel* proxyModel) :
     KCategorizedView(parent),
-    m_controller(controller),
+    m_dolphinViewController(dolphinViewController),
+    m_viewModeController(viewModeController),
     m_categoryDrawer(new DolphinCategoryDrawer(this)),
     m_extensionsFactory(0),
     m_font(),
@@ -52,7 +55,9 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     m_itemSize(),
     m_dropRect()
 {
-    Q_ASSERT(controller != 0);
+    Q_ASSERT(dolphinViewController != 0);
+    Q_ASSERT(viewModeController != 0);
+
     setModel(proxyModel);
     setLayoutDirection(Qt::LeftToRight);
     setViewMode(QListView::IconMode);
@@ -65,23 +70,23 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     setMouseTracking(true);
 
     connect(this, SIGNAL(clicked(const QModelIndex&)),
-            controller, SLOT(requestTab(const QModelIndex&)));
+            dolphinViewController, SLOT(requestTab(const QModelIndex&)));
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
     } else {
         connect(this, SIGNAL(doubleClicked(const QModelIndex&)),
-                controller, SLOT(triggerItem(const QModelIndex&)));
+                dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
     }
 
     connect(this, SIGNAL(entered(const QModelIndex&)),
-            controller, SLOT(emitItemEntered(const QModelIndex&)));
+            dolphinViewController, SLOT(emitItemEntered(const QModelIndex&)));
     connect(this, SIGNAL(viewportEntered()),
-            controller, SLOT(emitViewportEntered()));
-    connect(controller, SIGNAL(zoomLevelChanged(int)),
+            dolphinViewController, SLOT(emitViewportEntered()));
+    connect(viewModeController, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(setZoomLevel(int)));
 
-    const DolphinView* view = controller->dolphinView();
+    const DolphinView* view = dolphinViewController->view();
     connect(view, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
     connect(view, SIGNAL(additionalInfoChanged()),
@@ -122,7 +127,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
             this, SLOT(slotGlobalSettingsChanged(int)));
 
     updateGridSize(view->showPreview(), 0);
-    m_extensionsFactory = new ViewExtensionsFactory(this, controller);
+    m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
 }
 
 DolphinIconsView::~DolphinIconsView()
@@ -156,12 +161,12 @@ QStyleOptionViewItem DolphinIconsView::viewOptions() const
 void DolphinIconsView::contextMenuEvent(QContextMenuEvent* event)
 {
     KCategorizedView::contextMenuEvent(event);
-    m_controller->triggerContextMenuRequest(event->pos());
+    m_dolphinViewController->triggerContextMenuRequest(event->pos());
 }
 
 void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 {
-    m_controller->requestActivation();
+    m_dolphinViewController->requestActivation();
     const QModelIndex index = indexAt(event->pos());
     if (index.isValid() && (event->button() == Qt::LeftButton)) {
         // TODO: It should not be necessary to manually set the dragging state, but I could
@@ -173,7 +178,7 @@ void DolphinIconsView::mousePressEvent(QMouseEvent* event)
     }
 
     if (!index.isValid() && (QApplication::mouseButtons() & Qt::MidButton)) {
-         m_controller->replaceUrlByClipboard();
+         m_dolphinViewController->replaceUrlByClipboard();
     }
 
     KCategorizedView::mousePressEvent(event);
@@ -181,7 +186,7 @@ void DolphinIconsView::mousePressEvent(QMouseEvent* event)
 
 void DolphinIconsView::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::instance().startDrag(this, supportedActions, m_controller);
+    DragAndDropHelper::instance().startDrag(this, supportedActions, m_dolphinViewController);
 }
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
@@ -207,7 +212,7 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 
     m_dropRect.setSize(QSize()); // set as invalid
     if (index.isValid()) {
-        const KFileItem item = m_controller->itemForIndex(index);
+        const KFileItem item = m_dolphinViewController->itemForIndex(index);
         if (!item.isNull() && item.isDir()) {
             m_dropRect = visualRect(index);
         } else {
@@ -225,8 +230,8 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
 void DolphinIconsView::dropEvent(QDropEvent* event)
 {
     const QModelIndex index = indexAt(event->pos());
-    const KFileItem item = m_controller->itemForIndex(index);
-    m_controller->indicateDroppedUrls(item, m_controller->url(), event);
+    const KFileItem item = m_dolphinViewController->itemForIndex(index);
+    m_dolphinViewController->indicateDroppedUrls(item, m_viewModeController->url(), event);
     // don't call KCategorizedView::dropEvent(event), as it moves
     // the items which is not wanted
 }
@@ -307,7 +312,7 @@ QModelIndex DolphinIconsView::moveCursor(CursorAction cursorAction, Qt::Keyboard
 void DolphinIconsView::keyPressEvent(QKeyEvent* event)
 {
     KCategorizedView::keyPressEvent(event);
-    m_controller->handleKeyPressEvent(event);
+    m_dolphinViewController->handleKeyPressEvent(event);
 }
 
 void DolphinIconsView::wheelEvent(QWheelEvent* event)
@@ -345,7 +350,7 @@ void DolphinIconsView::leaveEvent(QEvent* event)
     // if the mouse is above an item and moved very fast outside the widget,
     // no viewportEntered() signal might be emitted although the mouse has been moved
     // above the viewport
-    m_controller->emitViewportEntered();
+    m_dolphinViewController->emitViewportEntered();
 }
 
 void DolphinIconsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
@@ -357,19 +362,19 @@ void DolphinIconsView::currentChanged(const QModelIndex& current, const QModelIn
 void DolphinIconsView::resizeEvent(QResizeEvent* event)
 {
     KCategorizedView::resizeEvent(event);
-    const DolphinView* view = m_controller->dolphinView();
+    const DolphinView* view = m_dolphinViewController->view();
     updateGridSize(view->showPreview(), view->additionalInfo().count());
 }
 
 void DolphinIconsView::slotShowPreviewChanged()
 {
-    const DolphinView* view = m_controller->dolphinView();
+    const DolphinView* view = m_dolphinViewController->view();
     updateGridSize(view->showPreview(), additionalInfoCount());
 }
 
 void DolphinIconsView::slotAdditionalInfoChanged()
 {
-    const DolphinView* view = m_controller->dolphinView();
+    const DolphinView* view = m_dolphinViewController->view();
     const bool showPreview = view->showPreview();
     updateGridSize(showPreview, view->additionalInfo().count());
 }
@@ -381,7 +386,7 @@ void DolphinIconsView::setZoomLevel(int level)
     const int oldIconSize = settings->iconSize();
     int newIconSize = oldIconSize;
 
-    const bool showPreview = m_controller->dolphinView()->showPreview();
+    const bool showPreview = m_dolphinViewController->view()->showPreview();
     if (showPreview) {
         const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
         settings->setPreviewSize(previewSize);
@@ -400,7 +405,7 @@ void DolphinIconsView::setZoomLevel(int level)
 
 void DolphinIconsView::requestActivation()
 {
-    m_controller->requestActivation();
+    m_dolphinViewController->requestActivation();
 }
 
 void DolphinIconsView::slotGlobalSettingsChanged(int category)
@@ -413,12 +418,12 @@ void DolphinIconsView::slotGlobalSettingsChanged(int category)
         m_font = KGlobalSettings::generalFont();
     }
 
-    disconnect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
-    disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+    disconnect(this, SIGNAL(clicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
+    disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     if (KGlobalSettings::singleClick()) {
-        connect(this, SIGNAL(clicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+        connect(this, SIGNAL(clicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     } else {
-        connect(this, SIGNAL(doubleClicked(QModelIndex)), m_controller, SLOT(triggerItem(QModelIndex)));
+        connect(this, SIGNAL(doubleClicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     }
 }
 
@@ -520,7 +525,7 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 
 int DolphinIconsView::additionalInfoCount() const
 {
-    const DolphinView* view = m_controller->dolphinView();
+    const DolphinView* view = m_dolphinViewController->view();
     return view->additionalInfo().count();
 }
 

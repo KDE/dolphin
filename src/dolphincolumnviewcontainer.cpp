@@ -19,13 +19,14 @@
 
 #include "dolphincolumnviewcontainer.h"
 
+#include "dolphin_columnmodesettings.h"
+
 #include "dolphincolumnview.h"
-#include "dolphincontroller.h"
+#include "dolphinviewcontroller.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "draganddrophelper.h"
 #include "settings/dolphinsettings.h"
-
-#include "dolphin_columnmodesettings.h"
+#include "viewmodecontroller.h"
 
 #include <QPoint>
 #include <QScrollBar>
@@ -33,9 +34,11 @@
 #include <QTimer>
 
 DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
-                                                       DolphinController* controller) :
+                                                       DolphinViewController* dolphinViewController,
+                                                       const ViewModeController* viewModeController) :
     QScrollArea(parent),
-    m_controller(controller),
+    m_dolphinViewController(dolphinViewController),
+    m_viewModeController(viewModeController),
     m_active(false),
     m_index(-1),
     m_contentX(0),
@@ -45,14 +48,15 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_dragSource(0),
     m_activeUrlTimer(0)
 {
-    Q_ASSERT(controller != 0);
+    Q_ASSERT(dolphinViewController != 0);
+    Q_ASSERT(viewModeController != 0);
 
     setAcceptDrops(true);
     setFocusPolicy(Qt::NoFocus);
     setFrameShape(QFrame::NoFrame);
     setLayoutDirection(Qt::LeftToRight);
 
-    connect(controller, SIGNAL(activationChanged(bool)),
+    connect(viewModeController, SIGNAL(activationChanged(bool)),
             this, SLOT(updateColumnsBackground(bool)));
 
     connect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
@@ -67,7 +71,7 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     connect(m_activeUrlTimer, SIGNAL(timeout()),
             this, SLOT(updateActiveUrl()));
 
-    DolphinColumnView* column = new DolphinColumnView(viewport(), this, m_controller->url());
+    DolphinColumnView* column = new DolphinColumnView(viewport(), this, viewModeController->url());
     m_columns.append(column);
     setActiveColumnIndex(0);
 
@@ -181,7 +185,7 @@ void DolphinColumnViewContainer::showColumn(const KUrl& url)
 
 void DolphinColumnViewContainer::mousePressEvent(QMouseEvent* event)
 {
-    m_controller->requestActivation();
+    m_dolphinViewController->requestActivation();
     QScrollArea::mousePressEvent(event);
 }
 
@@ -243,7 +247,7 @@ void DolphinColumnViewContainer::updateColumnsBackground(bool active)
 void DolphinColumnViewContainer::updateActiveUrl()
 {
     const KUrl activeUrl = m_columns[m_index]->url();
-    m_controller->setUrl(activeUrl);
+    m_dolphinViewController->requestUrlChange(activeUrl);
 }
 
 void DolphinColumnViewContainer::setActiveColumnIndex(int index)
@@ -338,7 +342,7 @@ void DolphinColumnViewContainer::assureVisibleActiveColumn()
 
 void DolphinColumnViewContainer::requestActivation(DolphinColumnView* column)
 {
-    m_controller->setItemView(column);
+    m_dolphinViewController->setItemView(column);
     if (column->isActive()) {
         assureVisibleActiveColumn();
     } else {
@@ -378,8 +382,8 @@ void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
         return;
     }
 
-    if (m_controller->itemView() == column) {
-        m_controller->setItemView(0);
+    if (m_dolphinViewController->itemView() == column) {
+        m_dolphinViewController->setItemView(0);
     }
     // deleteWhenNotDragSource(column) does not necessarily delete column,
     // and we want its preview generator destroyed immediately.

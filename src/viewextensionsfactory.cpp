@@ -19,16 +19,17 @@
 
 #include "viewextensionsfactory.h"
 
-#include "dolphincontroller.h"
 #include "dolphinfileitemdelegate.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphinview.h"
+#include "dolphinviewcontroller.h"
 #include "dolphinviewautoscroller.h"
 #include "folderexpander.h"
 #include "selectionmanager.h"
 #include "settings/dolphinsettings.h"
 #include "tooltips/tooltipmanager.h"
 #include "versioncontrol/versioncontrolobserver.h"
+#include "viewmodecontroller.h"
 
 #include "dolphin_generalsettings.h"
 
@@ -38,10 +39,11 @@
 #include <QAbstractItemView>
 
 ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
-                                             DolphinController* controller) :
+                                             DolphinViewController* dolphinViewController,
+                                             const ViewModeController* viewModeController) :
     QObject(view),
     m_view(view),
-    m_controller(controller),
+    m_dolphinViewController(dolphinViewController),
     m_toolTipManager(0),
     m_previewGenerator(0),
     m_selectionManager(0),
@@ -58,19 +60,19 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
         DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(view->model());
         m_toolTipManager = new ToolTipManager(view, proxyModel);
 
-        connect(controller, SIGNAL(hideToolTip()),
+        connect(viewModeController, SIGNAL(hideToolTip()),
                 m_toolTipManager, SLOT(hideTip()));
     }
 
     // initialize preview generator
     Q_ASSERT(view->iconSize().isValid());
     m_previewGenerator = new KFilePreviewGenerator(view);
-    m_previewGenerator->setPreviewShown(controller->dolphinView()->showPreview());
-    connect(controller, SIGNAL(zoomLevelChanged(int)),
+    m_previewGenerator->setPreviewShown(dolphinViewController->view()->showPreview());
+    connect(viewModeController, SIGNAL(zoomLevelChanged(int)),
             this, SLOT(slotZoomLevelChanged()));
-    connect(controller, SIGNAL(cancelPreviews()),
+    connect(viewModeController, SIGNAL(cancelPreviews()),
             this, SLOT(cancelPreviews()));
-    connect(controller->dolphinView(), SIGNAL(showPreviewChanged()),
+    connect(dolphinViewController->view(), SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
 
     // initialize selection manager
@@ -78,7 +80,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
         m_selectionManager = new SelectionManager(view);
         connect(m_selectionManager, SIGNAL(selectionChanged()),
                 this, SLOT(requestActivation()));
-        connect(controller, SIGNAL(urlChanged(const KUrl&)),
+        connect(viewModeController, SIGNAL(urlChanged(const KUrl&)),
                 m_selectionManager, SLOT(reset()));
     }
 
@@ -91,7 +93,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     view->setItemDelegate(m_fileItemDelegate);
 
     // initialize version control observer
-    const DolphinView* dolphinView = controller->dolphinView();
+    const DolphinView* dolphinView = dolphinViewController->view();
     m_versionControlObserver = new VersionControlObserver(view);
     connect(m_versionControlObserver, SIGNAL(infoMessage(const QString&)),
             dolphinView, SIGNAL(infoMessage(const QString&)));
@@ -99,7 +101,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
             dolphinView, SIGNAL(errorMessage(const QString&)));
     connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(const QString&)),
             dolphinView, SIGNAL(operationCompletedMessage(const QString&)));
-    connect(controller, SIGNAL(requestVersionControlActions(const KFileItemList&)),
+    connect(dolphinViewController, SIGNAL(requestVersionControlActions(const KFileItemList&)),
             this, SLOT(slotRequestVersionControlActions(const KFileItemList&)));
 
     // react on view property changes
@@ -118,10 +120,10 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     m_folderExpander = new FolderExpander(view, proxyModel());
     m_folderExpander->setEnabled(settings->autoExpandFolders());
     connect(m_folderExpander, SIGNAL(enterDir(const QModelIndex&)),
-            controller, SLOT(triggerItem(const QModelIndex&)));
+            dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
 
     // react on namefilter changes
-    connect(controller, SIGNAL(nameFilterChanged(const QString&)),
+    connect(viewModeController, SIGNAL(nameFilterChanged(const QString&)),
             this, SLOT(slotNameFilterChanged(const QString&)));
 
     view->viewport()->installEventFilter(this);
@@ -175,7 +177,7 @@ void ViewExtensionsFactory::cancelPreviews()
 
 void ViewExtensionsFactory::slotShowPreviewChanged()
 {
-    const bool show = m_controller->dolphinView()->showPreview();
+    const bool show = m_dolphinViewController->view()->showPreview();
     m_previewGenerator->setPreviewShown(show);
 }
 
@@ -186,7 +188,7 @@ void ViewExtensionsFactory::slotShowHiddenFilesChanged()
 
     dirLister->stop();
 
-    const bool show = m_controller->dolphinView()->showHiddenFiles();
+    const bool show = m_dolphinViewController->view()->showHiddenFiles();
     dirLister->setShowingDotFiles(show);
 
     const KUrl url = dirLister->url();
@@ -225,12 +227,12 @@ void ViewExtensionsFactory::slotRequestVersionControlActions(const KFileItemList
     } else {
         actions = m_versionControlObserver->contextMenuActions(items);
     }
-    m_controller->setVersionControlActions(actions);
+    m_dolphinViewController->setVersionControlActions(actions);
 }
 
 void ViewExtensionsFactory::requestActivation()
 {
-    m_controller->requestActivation();
+    m_dolphinViewController->requestActivation();
 }
 
 DolphinSortFilterProxyModel* ViewExtensionsFactory::proxyModel() const

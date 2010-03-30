@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,10 +14,10 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphincontroller.h"
+#include "dolphinviewcontroller.h"
 #include "zoomlevelinfo.h"
 
 #include <kdirmodel.h>
@@ -26,38 +26,31 @@
 #include <QClipboard>
 #include <QDir>
 
-Qt::MouseButtons DolphinController::m_mouseButtons = Qt::NoButton;
+Qt::MouseButtons DolphinViewController::m_mouseButtons = Qt::NoButton;
 
-DolphinController::DolphinController(DolphinView* dolphinView) :
+DolphinViewController::DolphinViewController(DolphinView* dolphinView) :
     QObject(dolphinView),
-    m_zoomLevel(0),
-    m_nameFilter(),
-    m_url(),
     m_dolphinView(dolphinView),
     m_itemView(0),
     m_versionControlActions()
 {
 }
 
-DolphinController::~DolphinController()
+DolphinViewController::~DolphinViewController()
 {
 }
 
-void DolphinController::setUrl(const KUrl& url)
+const DolphinView* DolphinViewController::view() const
 {
-    if (m_url != url) {
-        m_url = url;
-        emit cancelPreviews();
-        emit urlChanged(url);
-    }
+    return m_dolphinView;
 }
 
-void DolphinController::redirectToUrl(const KUrl& url)
+void DolphinViewController::requestUrlChange(const KUrl& url)
 {
-    m_url = url;
+    emit urlChangeRequested(url);
 }
 
-void DolphinController::setItemView(QAbstractItemView* view)
+void DolphinViewController::setItemView(QAbstractItemView* view)
 {
     if (m_itemView != 0) {
         disconnect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
@@ -67,27 +60,30 @@ void DolphinController::setItemView(QAbstractItemView* view)
     m_itemView = view;
 
     if (m_itemView != 0) {
-        m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(m_itemView->iconSize());
-
         // TODO: this is a workaround until  Qt-issue 176832 has been fixed
         connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
                 this, SLOT(updateMouseButtonState()));
     }
 }
 
-void DolphinController::triggerContextMenuRequest(const QPoint& pos,
+QAbstractItemView* DolphinViewController::itemView() const
+{
+    return m_itemView;
+}
+
+void DolphinViewController::triggerContextMenuRequest(const QPoint& pos,
                                                   const QList<QAction*>& customActions)
 {
     emit activated();
     emit requestContextMenu(pos, customActions);
 }
 
-void DolphinController::requestActivation()
+void DolphinViewController::requestActivation()
 {
     emit activated();
 }
 
-void DolphinController::indicateDroppedUrls(const KFileItem& destItem,
+void DolphinViewController::indicateDroppedUrls(const KFileItem& destItem,
                                             const KUrl& destPath,
                                             QDropEvent* event)
 {
@@ -95,69 +91,41 @@ void DolphinController::indicateDroppedUrls(const KFileItem& destItem,
 }
 
 
-void DolphinController::indicateSortingChange(DolphinView::Sorting sorting)
+void DolphinViewController::indicateSortingChange(DolphinView::Sorting sorting)
 {
     emit sortingChanged(sorting);
 }
 
-void DolphinController::indicateSortOrderChange(Qt::SortOrder order)
+void DolphinViewController::indicateSortOrderChange(Qt::SortOrder order)
 {
     emit sortOrderChanged(order);
 }
 
-void DolphinController::indicateSortFoldersFirstChange(bool foldersFirst)
+void DolphinViewController::indicateSortFoldersFirstChange(bool foldersFirst)
 {
     emit sortFoldersFirstChanged(foldersFirst);
 }
 
-void DolphinController::indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info)
+void DolphinViewController::indicateAdditionalInfoChange(const KFileItemDelegate::InformationList& info)
 {
     emit additionalInfoChanged(info);
 }
 
-void DolphinController::indicateActivationChange(bool active)
-{
-    emit activationChanged(active);
-}
-
-void DolphinController::setNameFilter(const QString& nameFilter)
-{
-    if (nameFilter != m_nameFilter) {
-        m_nameFilter = nameFilter;
-        emit nameFilterChanged(nameFilter);
-    }
-}
-
-QString DolphinController::nameFilter() const
-{
-    return m_nameFilter;
-}
-
-void DolphinController::setZoomLevel(int level)
-{
-    Q_ASSERT(level >= ZoomLevelInfo::minimumLevel());
-    Q_ASSERT(level <= ZoomLevelInfo::maximumLevel());
-    if (level != m_zoomLevel) {
-        m_zoomLevel = level;
-        emit zoomLevelChanged(m_zoomLevel);
-    }
-}
-
-void DolphinController::setVersionControlActions(QList<QAction*> actions)
+void DolphinViewController::setVersionControlActions(QList<QAction*> actions)
 {
     m_versionControlActions = actions;
 }
 
-QList<QAction*> DolphinController::versionControlActions(const KFileItemList& items)
+QList<QAction*> DolphinViewController::versionControlActions(const KFileItemList& items)
 {
     emit requestVersionControlActions(items);
     // All view implementations are connected with the signal requestVersionControlActions()
-    // (see ViewExtensionFactory) and will invoke DolphinController::setVersionControlActions(),
+    // (see ViewExtensionFactory) and will invoke DolphinViewController::setVersionControlActions(),
     // so that the context dependent actions can be returned.
     return m_versionControlActions;
 }
 
-void DolphinController::handleKeyPressEvent(QKeyEvent* event)
+void DolphinViewController::handleKeyPressEvent(QKeyEvent* event)
 {
     Q_ASSERT(m_itemView != 0);
 
@@ -194,7 +162,7 @@ void DolphinController::handleKeyPressEvent(QKeyEvent* event)
     }
 }
 
-void DolphinController::replaceUrlByClipboard()
+void DolphinViewController::replaceUrlByClipboard()
 {
     const QClipboard* clipboard = QApplication::clipboard();
     QString text;
@@ -208,17 +176,17 @@ void DolphinController::replaceUrlByClipboard()
     }
 }
 
-void DolphinController::emitHideToolTip()
+void DolphinViewController::requestToolTipHiding()
 {
     emit hideToolTip();
 }
 
-void DolphinController::emitItemTriggered(const KFileItem& item)
+void DolphinViewController::emitItemTriggered(const KFileItem& item)
 {
     emit itemTriggered(item);
 }
 
-KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
+KFileItem DolphinViewController::itemForIndex(const QModelIndex& index) const
 {
     Q_ASSERT(m_itemView != 0);
 
@@ -228,7 +196,7 @@ KFileItem DolphinController::itemForIndex(const QModelIndex& index) const
     return dirModel->itemForIndex(dirIndex);
 }
 
-void DolphinController::triggerItem(const QModelIndex& index)
+void DolphinViewController::triggerItem(const QModelIndex& index)
 {
     if (m_mouseButtons & Qt::LeftButton) {
         const KFileItem item = itemForIndex(index);
@@ -241,7 +209,7 @@ void DolphinController::triggerItem(const QModelIndex& index)
     }
 }
 
-void DolphinController::requestTab(const QModelIndex& index)
+void DolphinViewController::requestTab(const QModelIndex& index)
 {
     if (m_mouseButtons & Qt::MidButton) {
         const KFileItem item = itemForIndex(index);
@@ -254,7 +222,7 @@ void DolphinController::requestTab(const QModelIndex& index)
     }
 }
 
-void DolphinController::emitItemEntered(const QModelIndex& index)
+void DolphinViewController::emitItemEntered(const QModelIndex& index)
 {
     KFileItem item = itemForIndex(index);
     if (!item.isNull()) {
@@ -262,14 +230,14 @@ void DolphinController::emitItemEntered(const QModelIndex& index)
     }
 }
 
-void DolphinController::emitViewportEntered()
+void DolphinViewController::emitViewportEntered()
 {
     emit viewportEntered();
 }
 
-void DolphinController::updateMouseButtonState()
+void DolphinViewController::updateMouseButtonState()
 {
     m_mouseButtons = QApplication::mouseButtons();
 }
 
-#include "dolphincontroller.moc"
+#include "dolphinviewcontroller.moc"

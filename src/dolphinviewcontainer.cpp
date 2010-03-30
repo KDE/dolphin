@@ -48,9 +48,10 @@
 #include <kurlnavigator.h>
 #include <krun.h>
 
+#include "dolphin_generalsettings.h"
 #include "dolphinmodel.h"
 #include "dolphincolumnview.h"
-#include "dolphincontroller.h"
+#include "dolphinviewcontroller.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
 #include "dolphinsortfilterproxymodel.h"
@@ -58,10 +59,10 @@
 #include "dolphiniconsview.h"
 #include "draganddrophelper.h"
 #include "filterbar.h"
-#include "statusbar/dolphinstatusbar.h"
-#include "viewproperties.h"
 #include "settings/dolphinsettings.h"
-#include "dolphin_generalsettings.h"
+#include "statusbar/dolphinstatusbar.h"
+#include "viewmodecontroller.h"
+#include "viewproperties.h"
 
 DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     QWidget(parent),

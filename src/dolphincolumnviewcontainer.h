@@ -29,7 +29,7 @@
 #include <QString>
 
 class DolphinColumnView;
-class DolphinController;
+class DolphinViewController;
 class QFrame;
 class QTimeLine;
 class QTimer;
@@ -45,8 +45,18 @@ class DolphinColumnViewContainer : public QScrollArea
     Q_OBJECT
 
 public:
+    /**
+     * @param parent                Parent widget.
+     * @param dolphinViewController Allows the DolphinColumnView to control the
+     *                              DolphinView in a limited way.
+     * @param viewModeController    Controller that is used by the DolphinView
+     *                              to control the DolphinColumnView. The DolphinColumnView
+     *                              only has read access to the controller.
+     * @param model                 Directory that is shown.
+     */
     explicit DolphinColumnViewContainer(QWidget* parent,
-                                        DolphinController* controller);
+                                        DolphinViewController* dolphinViewController,
+                                        const ViewModeController* viewModeController);
     virtual ~DolphinColumnViewContainer();
 
     KUrl rootUrl() const;
@@ -127,7 +137,8 @@ private:
     void deleteColumn(DolphinColumnView* column);
 
 private:
-    DolphinController* m_controller;
+    DolphinViewController* m_dolphinViewController;
+    const ViewModeController* m_viewModeController;
     bool m_active;
     int m_index;
     int m_contentX;

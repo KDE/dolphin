@@ -16,7 +16,6 @@ endif (Nepomuk_FOUND)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-    dolphincontroller.cpp
     dolphindetailsview.cpp
     dolphiniconsview.cpp
     dolphincolumnview.cpp
@@ -30,6 +29,7 @@ set(dolphinprivate_LIB_SRCS
     dolphinview.cpp
     dolphinviewactionhandler.cpp
     dolphinviewautoscroller.cpp
+    dolphinviewcontroller.cpp
     dolphinremoteencoding.cpp
     dolphindetailsviewexpander.cpp
     draganddrophelper.cpp
@@ -49,6 +49,7 @@ set(dolphinprivate_LIB_SRCS
     versioncontrol/updateitemstatesthread.cpp
     versioncontrol/versioncontrolobserver.cpp
     viewextensionsfactory.cpp
+    viewmodecontroller.cpp
     viewproperties.cpp
     zoomlevelinfo.cpp
 )
