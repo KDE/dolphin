@@ -28,8 +28,8 @@
 #include <QFontMetrics>
 #include <QPainter>
 #include <QKeyEvent>
-#include <QPushButton>
 #include <QPixmap>
+#include <QToolButton>
 #include <QTimer>
 
 StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
@@ -47,7 +47,10 @@ StatusBarMessageLabel::StatusBarMessageLabel(QWidget* parent) :
     connect(m_timer, SIGNAL(timeout()),
             this, SLOT(timerDone()));
 
-    m_closeButton = new QPushButton(i18nc("@action:button", "Close"), this);
+    m_closeButton = new QToolButton(this);
+    m_closeButton->setAutoRaise(true);
+    m_closeButton->setIcon(KIcon("dialog-close"));
+    m_closeButton->setToolTip(i18nc("@info", "Close"));
     m_closeButton->hide();
     connect(m_closeButton, SIGNAL(clicked()),
             this, SLOT(closeErrorMessage()));
@@ -114,6 +117,26 @@ void StatusBarMessageLabel::setMessage(const QString& text,
     update();
 }
 
+DolphinStatusBar::Type StatusBarMessageLabel::type() const
+{
+    return m_type;
+}
+
+QString StatusBarMessageLabel::text() const
+{
+    return m_text;
+}
+
+void StatusBarMessageLabel::setDefaultText(const QString& text)
+{
+    m_defaultText = text;
+}
+
+QString StatusBarMessageLabel::defaultText() const
+{
+    return m_defaultText;
+}
+
 void StatusBarMessageLabel::setMinimumTextHeight(int min)
 {
     if (min != m_minTextHeight) {
@@ -123,6 +146,11 @@ void StatusBarMessageLabel::setMinimumTextHeight(int min)
             m_closeButton->setFixedHeight(min);
         }
     }
+}
+
+int StatusBarMessageLabel::minimumTextHeight() const
+{
+    return m_minTextHeight;
 }
 
 int StatusBarMessageLabel::widthGap() const
@@ -274,8 +302,7 @@ int StatusBarMessageLabel::availableTextWidth() const
 void StatusBarMessageLabel::updateCloseButtonPosition()
 {
     const int x = width() - m_closeButton->width() - BorderGap;
-    const int y = (height() - m_closeButton->height()) / 2;
-    m_closeButton->move(x, y);
+    m_closeButton->move(x, 0);
 }
 
 void StatusBarMessageLabel::closeErrorMessage()

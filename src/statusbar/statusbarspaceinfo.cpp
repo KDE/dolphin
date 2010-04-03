@@ -33,9 +33,6 @@ StatusBarSpaceInfo::StatusBarSpaceInfo(QWidget* parent) :
     m_kBSize(0),
     m_timer(0)
 {
-    setMaximumWidth(200);
-    setMinimumWidth(200); // something to fix on kcapacitybar (ereslibre)
-
     // Use a timer to update the space information. Polling is useful
     // here, as files can be deleted/added outside the scope of Dolphin.
     m_timer = new QTimer(this);
@@ -50,6 +47,11 @@ void StatusBarSpaceInfo::setUrl(const KUrl& url)
 {
     m_url = url;
     refresh();
+}
+
+KUrl StatusBarSpaceInfo::url() const
+{
+    return m_url;
 }
 
 void StatusBarSpaceInfo::showEvent(QShowEvent* event)

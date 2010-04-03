@@ -44,7 +44,7 @@ public:
     virtual ~StatusBarSpaceInfo();
 
     void setUrl(const KUrl& url);
-    const KUrl& url() const;
+    KUrl url() const;
 
 protected:
     void showEvent(QShowEvent* event);
@@ -59,10 +59,5 @@ private:
     KUrl m_url;
     QTimer* m_timer;
 };
-
-inline const KUrl& StatusBarSpaceInfo::url() const
-{
-    return m_url;
-}
 
 #endif

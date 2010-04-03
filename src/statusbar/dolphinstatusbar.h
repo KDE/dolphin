@@ -21,8 +21,8 @@
 #ifndef DOLPHINSTATUSBAR_H
 #define DOLPHINSTATUSBAR_H
 
-#include <khbox.h>
 #include <QTime>
+#include <QWidget>
 
 class DolphinView;
 class KUrl;
@@ -39,7 +39,7 @@ class QSlider;
  * The statusbar allows to show messages and progress
  * information.
  */
-class DolphinStatusBar : public KHBox
+class DolphinStatusBar : public QWidget
 {
     Q_OBJECT
 
@@ -56,7 +56,7 @@ public:
         Error
     };
 
-    DolphinStatusBar(QWidget* parent, DolphinView* view);
+    explicit DolphinStatusBar(QWidget* parent, DolphinView* view);
 
     virtual ~DolphinStatusBar();
 
@@ -97,10 +97,7 @@ public:
      * operations.
      */
     void setProgress(int percent);
-    int progress() const
-    {
-        return m_progress;
-    }
+    int progress() const;
 
     /**
      * Clears the message text of the status bar by replacing
@@ -115,7 +112,7 @@ public:
      * is cleared by DolphinStatusBar::clear().
      */
     void setDefaultText(const QString& text);
-    const QString& defaultText() const;
+    QString defaultText() const;
 
     /**
      * Refreshes the status bar to get synchronized with the (updated) Dolphin settings.
@@ -123,8 +120,8 @@ public:
     void refresh();
 
 protected:
-    /** @see QWidget::resizeEvent() */
-    virtual void resizeEvent(QResizeEvent* event);
+    /** @see QWidget::contextMenuEvent() */
+    virtual void contextMenuEvent(QContextMenuEvent* event);
 
 private slots:
     /**
@@ -138,13 +135,6 @@ private slots:
      * Sets the zoom level of the item view to \a zoomLevel.
      */
     void setZoomLevel(int zoomLevel);
-
-    /**
-     * Assures that the text of the statusbar stays visible by hiding
-     * the space information widget or the zoom slider widget if not
-     * enough width is available.
-     */
-    void assureVisibleText();
 
     void zoomOut();
     void zoomIn();

@@ -30,7 +30,7 @@
 
 class QPaintEvent;
 class QResizeEvent;
-class QPushButton;
+class QToolButton;
 class QTimer;
 
 /**
@@ -53,10 +53,10 @@ public:
 
     DolphinStatusBar::Type type() const;
 
-    const QString& text() const;
+    QString text() const;
 
     void setDefaultText(const QString& text);
-    const QString& defaultText() const;
+    QString defaultText() const;
 
     // TODO: maybe a better approach is possible with the size hint
     void setMinimumTextHeight(int min);
@@ -137,32 +137,7 @@ private:
     QString m_defaultText;
     QList<QString> m_pendingMessages;
     QPixmap m_pixmap;
-    QPushButton* m_closeButton;
+    QToolButton* m_closeButton;
 };
-
-inline DolphinStatusBar::Type StatusBarMessageLabel::type() const
-{
-    return m_type;
-}
-
-inline const QString& StatusBarMessageLabel::text() const
-{
-    return m_text;
-}
-
-inline void StatusBarMessageLabel::setDefaultText(const QString& text)
-{
-    m_defaultText = text;
-}
-
-inline const QString& StatusBarMessageLabel::defaultText() const
-{
-    return m_defaultText;
-}
-
-inline int StatusBarMessageLabel::minimumTextHeight() const
-{
-    return m_minTextHeight;
-}
 
 #endif
