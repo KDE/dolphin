@@ -227,9 +227,9 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
     }
 
     // The size hint provided by the tooltip is not necessarily equal to the
-    // size of the tooltip after showing it. As long as the tooltip is aligned
-    // on the upper-left edge, this is no problem. If the tooltip is aligned on
-    // another edge, the size after showing must be respected and the position
+    // real size of the tooltip after showing it. As long as the tooltip is aligned
+    // on the upper-left edge, this is no problem. If the tooltip is aligned at
+    // another edge, the real size must be respected and the position
     // corrected. Whether a correction must be done, is indicated by the variables
     // updateWidth and updateHeight:
     bool updateWidth = false;
@@ -264,16 +264,16 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
     }
 
     if (!updateWidth && !updateHeight) {
-        // Default case: There is enough room below and right from the mouse
+        // Default case: There is enough room below and right of the mouse
         // pointer and the tooltip can be positioned there.
         m_fileMetaDataToolTip->move(x, y);
         m_fileMetaDataToolTip->show();
     } else {
-        // There is not enough room to show the tooltip at the mouse pointer and
+        // There is not enough room to show the tooltip at the default position and
         // it must be moved left or upwards. In this case the size hint of the
-        // tooltip is not sufficient and the size after opening must be respected.
+        // tooltip is not sufficient and the real size must be respected.
         // To prevent a flickering, the tooltip is first opened outside the visible
-        // desktop are and moved afterwards.
+        // desktop area and moved afterwards.
         m_fileMetaDataToolTip->move(desktop.right() + 1, desktop.bottom() + 1);
         m_fileMetaDataToolTip->show();
 
