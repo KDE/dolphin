@@ -226,6 +226,15 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
         return;
     }
 
+    // The size hint provided by the tooltip is not necessarily equal to the
+    // size of the tooltip after showing it. As long as the tooltip is aligned
+    // on the upper-left edge, this is no problem. If the tooltip is aligned on
+    // another edge, the size after showing must be respected and the position
+    // corrected. Whether a correction must be done, is indicated by the variables
+    // updateWidth and updateHeight:
+    bool updateWidth = false;
+    bool updateHeight = false;
+    
     int x = 0;
     int y = 0;
     if (hasRoomBelow || hasRoomAbove) {
@@ -233,18 +242,46 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
         if (x + size.width() >= desktop.right()) {
             x = desktop.right() - size.width();
         }
-        y = hasRoomBelow ? m_itemRect.bottom() : m_itemRect.top() - size.height();
+        if (hasRoomBelow) {
+            y = m_itemRect.bottom();
+        } else {
+            y = m_itemRect.top() - size.height();
+            updateHeight = true;
+        }
     } else {
         Q_ASSERT(hasRoomToLeft || hasRoomToRight);
-        x = hasRoomToRight ? m_itemRect.right() : m_itemRect.left() - size.width();
+        if (hasRoomToRight) {
+            x = m_itemRect.right();
+        } else {
+            x = m_itemRect.left() - size.width();
+            updateWidth = true;
+        }
 
         // Put the tooltip at the bottom of the screen. The x-coordinate has already
         // been adjusted, so that no overlapping with m_itemRect occurs.
         y = desktop.bottom() - size.height();
+        updateHeight = true;
     }
 
-    m_fileMetaDataToolTip->move(x, y);
-    m_fileMetaDataToolTip->show();
+    if (!updateWidth && !updateHeight) {
+        // Default case: There is enough room below and right from the mouse
+        // pointer and the tooltip can be positioned there.
+        m_fileMetaDataToolTip->move(x, y);
+        m_fileMetaDataToolTip->show();
+    } else {
+        // There is not enough room to show the tooltip at the mouse pointer and
+        // it must be moved left or upwards. In this case the size hint of the
+        // tooltip is not sufficient and the size after opening must be respected.
+        // To prevent a flickering, the tooltip is first opened outside the visible
+        // desktop are and moved afterwards.
+        m_fileMetaDataToolTip->move(desktop.right() + 1, desktop.bottom() + 1);
+        m_fileMetaDataToolTip->show();
+
+        const QSize shownSize = m_fileMetaDataToolTip->size();
+        const int xDiff = updateWidth ? shownSize.width() - size.width() : 0;
+        const int yDiff = updateHeight ? shownSize.height() - size.height() : 0;
+        m_fileMetaDataToolTip->move(x - xDiff, y - yDiff);
+    }
 }
 
 #include "tooltipmanager.moc"
