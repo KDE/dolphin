@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,26 +19,34 @@
 
 #include "servicessettingspage.h"
 
+#include "dolphin_versioncontrolsettings.h"
+
 #include <kconfig.h>
 #include <kconfiggroup.h>
 #include <kdesktopfileactions.h>
 #include <kicon.h>
 #include <klocale.h>
+#include <kmessagebox.h>
 #include <knewstuff3/knewstuffbutton.h>
 #include <kservice.h>
 #include <kservicetypetrader.h>
 #include <kstandarddirs.h>
 
+#include <QCheckBox>
 #include <QEvent>
+#include <QGridLayout>
+#include <QGroupBox>
 #include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
-#include <QVBoxLayout>
 
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
-    m_servicesList(0)
+    m_servicesList(0),
+    m_vcsGroupBox(0),
+    m_vcsPluginsMap(),
+    m_enabledVcsPlugins()
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
@@ -56,11 +64,19 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     KNS3::Button* downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
                                                     "servicemenu.knsrc",
                                                     this);
-    connect(downloadButton, SIGNAL(dialogFinished(const Entry::List&)), this, SLOT(loadServices()));
+    connect(downloadButton, SIGNAL(dialogFinished(KNS3::Entry::List)), this, SLOT(loadServices()));
+
+    m_vcsGroupBox = new QGroupBox(i18nc("@title:group", "Version Control Systems"), this);
+    // Only show the version control group box, if a version
+    // control system could be found (see loadVersionControlSystems())
+    m_vcsGroupBox->hide();
 
     topLayout->addWidget(label);
     topLayout->addWidget(m_servicesList);
     topLayout->addWidget(downloadButton);
+    topLayout->addWidget(m_vcsGroupBox);
+
+    m_enabledVcsPlugins = VersionControlSettings::enabledPlugins();
 }
 
 ServicesSettingsPage::~ServicesSettingsPage()
@@ -69,6 +85,7 @@ ServicesSettingsPage::~ServicesSettingsPage()
 
 void ServicesSettingsPage::applySettings()
 {
+    // Apply service menu settings
     KConfig config("kservicemenurc", KConfig::NoGlobals);
     KConfigGroup showGroup = config.group("Show");
 
@@ -81,6 +98,27 @@ void ServicesSettingsPage::applySettings()
     }
 
     showGroup.sync();
+
+    // Apply version control settings
+    QStringList enabledPlugins;
+    QMap<QString, QCheckBox*>::const_iterator it = m_vcsPluginsMap.constBegin();
+    while (it != m_vcsPluginsMap.constEnd()) {
+        if (it.value()->isChecked()) {
+            enabledPlugins.append(it.key());
+        }
+        ++it;
+    }
+
+    if (m_enabledVcsPlugins != enabledPlugins) {
+        VersionControlSettings::setEnabledPlugins(enabledPlugins);
+        VersionControlSettings::self()->writeConfig();
+
+        KMessageBox::information(window(),
+                                 i18nc("@info", "Dolphin must be restarted to apply the "
+                                                "updated version control systems settings."),
+                                 QString(), // default title
+                                 QLatin1String("ShowVcsRestartInformation"));
+    }
 }
 
 void ServicesSettingsPage::restoreDefaults()
@@ -96,6 +134,7 @@ bool ServicesSettingsPage::event(QEvent* event)
 {
     if ((event->type() == QEvent::Polish) && !m_initialized) {
         QMetaObject::invokeMethod(this, "loadServices", Qt::QueuedConnection);
+        QMetaObject::invokeMethod(this, "loadVersionControlSystems", Qt::QueuedConnection);
         m_initialized = true;
     }
     return SettingsPageBase::event(event);
@@ -128,6 +167,38 @@ void ServicesSettingsPage::loadServices()
             }
         }
     }
+}
+
+void ServicesSettingsPage::loadVersionControlSystems()
+{
+    const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
+
+    // Create a checkbox for each available version control plugin
+    const KService::List pluginServices = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
+    for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
+        const QString pluginName = (*it)->name();
+        QCheckBox* checkBox = new QCheckBox(pluginName, m_vcsGroupBox);
+        checkBox->setChecked(enabledPlugins.contains(pluginName));
+        connect(checkBox, SIGNAL(clicked()), this, SIGNAL(changed()));
+        connect(checkBox, SIGNAL(clicked()), this, SLOT(feffi()));
+        m_vcsPluginsMap.insert(pluginName, checkBox);
+    }
+
+    // Add the checkboxes into a grid layout of 2 columns
+    QGridLayout* layout = new QGridLayout(m_vcsGroupBox);
+    const int maxRows = (m_vcsPluginsMap.count() + 1) / 2;
+
+    int index = 0;
+    QMap<QString, QCheckBox*>::const_iterator it = m_vcsPluginsMap.constBegin();
+    while (it != m_vcsPluginsMap.constEnd()) {
+        const int column = index / maxRows;
+        const int row = index % maxRows;
+        layout->addWidget(it.value(), row, column);
+        ++it;
+        ++index;
+    }
+
+    m_vcsGroupBox->setVisible(!m_vcsPluginsMap.isEmpty());
 }
 
 bool ServicesSettingsPage::isInServicesList(const QString& service) const

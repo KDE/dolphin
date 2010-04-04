@@ -141,16 +141,7 @@ void VersionControlObserver::verifyDirectory()
     }
 
     m_plugin = searchPlugin(versionControlUrl);
-    const bool foundVersionInfo = (m_plugin != 0);
-    if (!foundVersionInfo && m_versionedDirectory) {
-        // Version control systems like Git provide the version information
-        // file only in the root directory. Check whether the version information file can
-        // be found in one of the parent directories.
-
-        // TODO...
-    }
-
-    if (foundVersionInfo) {
+    if (m_plugin != 0) {
         if (!m_versionedDirectory) {
             m_versionedDirectory = true;
 
@@ -275,7 +266,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
     static QList<KVersionControlPlugin*> plugins;
 
     if (!pluginsAvailable) {
-        // a searching for plugins has already been done, but no
+        // A searching for plugins has already been done, but no
         // plugins are installed
         return 0;
     }
@@ -283,12 +274,11 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
     if (plugins.isEmpty()) {
         // No searching for plugins has been done yet. Query the KServiceTypeTrader for
         // all fileview version control plugins and remember them in 'plugins'.
-        const QString disabledPlugins = VersionControlSettings::disabledPlugins();
-        const QStringList disabledPluginsList = disabledPlugins.split(',');
+        const QStringList enabledPlugins = VersionControlSettings::enabledPlugins();
 
         const KService::List pluginServices = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
         for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
-            if (!disabledPluginsList.contains((*it)->name())) {
+            if (enabledPlugins.contains((*it)->name())) {
                 KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>();
                 Q_ASSERT(plugin != 0);
                 plugins.append(plugin);
@@ -300,14 +290,35 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
         }
     }
 
-    // verify whether the current directory contains revision information
+    // Verify whether the current directory contains revision information
     // like .svn, .git, ...
     foreach (KVersionControlPlugin* plugin, plugins) {
-        KUrl fileUrl = directory;
+        // Use the KDirLister cache to check for .svn, .git, ... files
+        KUrl dirUrl(directory);
+        KUrl fileUrl = dirUrl;
         fileUrl.addPath(plugin->fileName());
         const KFileItem item = m_dirLister->findByUrl(fileUrl);
         if (!item.isNull()) {
             return plugin;
+        }
+
+        // Version control systems like Git provide the version information
+        // file only in the root directory. Check whether the version information file can
+        // be found in one of the parent directories. For performance reasons this
+        // step is only done, if the previous directory was marked as versioned by
+        // m_versionedDirectory. Drawback: Until e. g. Git is recognized, the root directory
+        // must be shown at least once.
+        if (m_versionedDirectory) {
+            KUrl upUrl = dirUrl.upUrl();
+            while (upUrl != dirUrl) {
+                const QString filePath = dirUrl.pathOrUrl(KUrl::AddTrailingSlash) + plugin->fileName();
+                QFileInfo file(filePath);
+                if (file.exists()) {
+                    return plugin;
+                }
+                dirUrl = upUrl;
+                upUrl = dirUrl.upUrl();
+            }
         }
     }
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,6 +21,11 @@
 
 #include <settings/settingspagebase.h>
 
+#include <QMap>
+#include <QString>
+
+class QCheckBox;
+class QGroupBox;
 class QListWidget;
 
 /**
@@ -49,11 +54,19 @@ private slots:
      */
     void loadServices();
 
+    /**
+     * Loads installed version control systems.
+     */
+    void loadVersionControlSystems();
+
     bool isInServicesList(const QString& service) const;
 
 private:
     bool m_initialized;
     QListWidget* m_servicesList;
+    QGroupBox* m_vcsGroupBox;
+    QMap<QString, QCheckBox*> m_vcsPluginsMap;
+    QStringList m_enabledVcsPlugins;
 };
 
 #endif

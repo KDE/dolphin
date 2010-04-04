@@ -60,7 +60,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
         DolphinSortFilterProxyModel* proxyModel = static_cast<DolphinSortFilterProxyModel*>(view->model());
         m_toolTipManager = new ToolTipManager(view, proxyModel);
 
-        connect(viewModeController, SIGNAL(hideToolTip()),
+        connect(dolphinViewController, SIGNAL(hideToolTip()),
                 m_toolTipManager, SLOT(hideTip()));
     }
 

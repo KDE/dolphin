@@ -3,8 +3,8 @@
 <kcfg>
     <kcfgfile name="dolphinrc"/>
     <group name="VersionControl">
-        <entry name="disabledPlugins" type="String">
-            <label>Disabled plugins</label>
+        <entry name="enabledPlugins" type="StringList">
+            <label>Enabled plugins</label>
             <default></default>
         </entry>
     </group>

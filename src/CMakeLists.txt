@@ -142,6 +142,7 @@ kde4_add_kcfg_files(dolphin_SRCS
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
     search/dolphin_searchsettings.kcfgc
+    settings/dolphin_versioncontrolsettings.kcfgc
 )
 
 if(Nepomuk_FOUND)
@@ -239,7 +240,8 @@ kde4_add_kcfg_files(kcm_dolphinnavigation_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
 
 kde4_add_kcfg_files(kcm_dolphinservices_PART_SRCS
-    settings/dolphin_generalsettings.kcfgc)
+    settings/dolphin_generalsettings.kcfgc
+    settings/dolphin_versioncontrolsettings.kcfgc)
 
 kde4_add_kcfg_files(kcm_dolphingeneral_PART_SRCS
     settings/dolphin_generalsettings.kcfgc)
