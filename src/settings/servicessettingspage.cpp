@@ -23,6 +23,7 @@
 
 #include <kconfig.h>
 #include <kconfiggroup.h>
+#include <kdesktopfile.h>
 #include <kdesktopfileactions.h>
 #include <kicon.h>
 #include <klocale.h>
@@ -151,6 +152,9 @@ void ServicesSettingsPage::loadServices()
         const QList<KServiceAction> serviceActions =
                                     KDesktopFileActions::userDefinedServices(file, true);
 
+        KDesktopFile desktopFile(file);
+        const QString subMenuName = desktopFile.desktopGroup().readEntry("X-KDE-Submenu");
+
         foreach (const KServiceAction& action, serviceActions) {
             const QString service = action.name();
             const bool addService = !action.noDisplay()
@@ -158,8 +162,11 @@ void ServicesSettingsPage::loadServices()
                                     && !isInServicesList(service);
 
             if (addService) {
+                const QString itemName = subMenuName.isEmpty()
+                                         ? action.text()
+                                         : i18nc("@item:inmenu", "%1: %2", subMenuName, action.text());
                 QListWidgetItem* item = new QListWidgetItem(KIcon(action.icon()),
-                                                            action.text(),
+                                                            itemName,
                                                             m_servicesList);
                 item->setData(Qt::UserRole, service);
                 const bool show = showGroup.readEntry(service, true);
@@ -180,7 +187,6 @@ void ServicesSettingsPage::loadVersionControlSystems()
         QCheckBox* checkBox = new QCheckBox(pluginName, m_vcsGroupBox);
         checkBox->setChecked(enabledPlugins.contains(pluginName));
         connect(checkBox, SIGNAL(clicked()), this, SIGNAL(changed()));
-        connect(checkBox, SIGNAL(clicked()), this, SLOT(feffi()));
         m_vcsPluginsMap.insert(pluginName, checkBox);
     }
 
