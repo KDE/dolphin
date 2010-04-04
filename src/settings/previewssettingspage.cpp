@@ -22,15 +22,6 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <QCheckBox>
-#include <QEvent>
-#include <QGroupBox>
-#include <QLabel>
-#include <QListWidget>
-#include <QRadioButton>
-#include <QSlider>
-#include <QBoxLayout>
-
 #include <kconfiggroup.h>
 #include <kdialog.h>
 #include <kglobal.h>
@@ -39,7 +30,15 @@
 #include <KNumInput>
 #include <kservicetypetrader.h>
 #include <kservice.h>
-#include <kvbox.h>
+
+#include <QCheckBox>
+#include <QGroupBox>
+#include <QLabel>
+#include <QListWidget>
+#include <QRadioButton>
+#include <QShowEvent>
+#include <QSlider>
+#include <QBoxLayout>
 
 // default settings
 const bool USE_THUMBNAILS = true;
@@ -138,22 +137,25 @@ void PreviewsSettingsPage::restoreDefaults()
     m_useFileThumbnails->setChecked(USE_THUMBNAILS);
 }
 
-bool PreviewsSettingsPage::event(QEvent* event)
+void PreviewsSettingsPage::showEvent(QShowEvent* event)
 {
-    if ((event->type() == QEvent::Polish) && !m_initialized) {
-        // load all available plugins for previews
-        const KService::List plugins = KServiceTypeTrader::self()->query("ThumbCreator");
-        foreach (const KSharedPtr<KService>& service, plugins) {
-            QListWidgetItem* item = new QListWidgetItem(service->name(),
-                                                        m_previewPluginsList);
-            item->setData(Qt::UserRole, service->desktopEntryName());
-            const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
-            item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
-        }
-
+    if (!event->spontaneous() && !m_initialized) {
+        QMetaObject::invokeMethod(this, "loadPreviewPlugins", Qt::QueuedConnection);
         m_initialized = true;
     }
-    return SettingsPageBase::event(event);
+    SettingsPageBase::showEvent(event);
+}
+
+void PreviewsSettingsPage::loadPreviewPlugins()
+{
+    const KService::List plugins = KServiceTypeTrader::self()->query("ThumbCreator");
+    foreach (const KSharedPtr<KService>& service, plugins) {
+        QListWidgetItem* item = new QListWidgetItem(service->name(),
+                                                    m_previewPluginsList);
+        item->setData(Qt::UserRole, service->desktopEntryName());
+        const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
+        item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
+    }
 }
 
 void PreviewsSettingsPage::loadSettings()

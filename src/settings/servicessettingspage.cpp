@@ -34,12 +34,12 @@
 #include <kstandarddirs.h>
 
 #include <QCheckBox>
-#include <QEvent>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
+#include <QShowEvent>
 
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
@@ -131,14 +131,14 @@ void ServicesSettingsPage::restoreDefaults()
     }
 }
 
-bool ServicesSettingsPage::event(QEvent* event)
+void ServicesSettingsPage::showEvent(QShowEvent* event)
 {
-    if ((event->type() == QEvent::Polish) && !m_initialized) {
+    if (!event->spontaneous() && !m_initialized) {
         QMetaObject::invokeMethod(this, "loadServices", Qt::QueuedConnection);
         QMetaObject::invokeMethod(this, "loadVersionControlSystems", Qt::QueuedConnection);
         m_initialized = true;
     }
-    return SettingsPageBase::event(event);
+    SettingsPageBase::showEvent(event);
 }
 
 void ServicesSettingsPage::loadServices()
