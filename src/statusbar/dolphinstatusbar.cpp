@@ -129,6 +129,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     topLayout->addWidget(m_messageLabel);
     topLayout->addWidget(m_zoomWidget);
     topLayout->addWidget(m_spaceInfo);
+    topLayout->addWidget(m_progressText);
     topLayout->addWidget(m_progressBar);
 
     setExtensionsVisible(true);
@@ -291,7 +292,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
         QApplication::clipboard()->setMimeData(mimeData);
     } else if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
-        settings->setShowZoomSlider(visible);       
+        settings->setShowZoomSlider(visible);
         m_zoomWidget->setVisible(visible);
     } else if (action == showSpaceInfoAction) {
         const bool visible = showSpaceInfoAction->isChecked();
