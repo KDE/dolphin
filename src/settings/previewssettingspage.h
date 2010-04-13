@@ -20,12 +20,10 @@
 #ifndef PREVIEWSSETTINGSPAGE_H
 #define PREVIEWSSETTINGSPAGE_H
 
-#include <kurl.h>
 #include <settings/settingspagebase.h>
 
 class QCheckBox;
 class QListWidget;
-class QSlider;
 class KIntSpinBox;
 
 /**
@@ -62,9 +60,8 @@ private:
     bool m_initialized;
     QListWidget* m_previewPluginsList;
     QStringList m_enabledPreviewPlugins;
-    QSlider* m_maxPreviewSize;
-    KIntSpinBox* m_spinBox;
-    QCheckBox* m_useFileThumbnails;
+    KIntSpinBox* m_localFileSizeBox;
+    KIntSpinBox* m_remoteFileSizeBox;
 };
 
 #endif

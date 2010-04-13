@@ -25,7 +25,6 @@
 #include <kconfiggroup.h>
 #include <kdialog.h>
 #include <kglobal.h>
-#include <khbox.h>
 #include <klocale.h>
 #include <KNumInput>
 #include <kservicetypetrader.h>
@@ -38,21 +37,26 @@
 #include <QRadioButton>
 #include <QShowEvent>
 #include <QSlider>
-#include <QBoxLayout>
+#include <QGridLayout>
+
+#include <kdebug.h>
 
 // default settings
-const bool USE_THUMBNAILS = true;
-const int MAX_PREVIEW_SIZE = 5; // 5 MB
+namespace {
+    const bool UseThumbnails = true;
+    const int MaxLocalPreviewSize = 5;  // 5 MB
+    const int MaxRemotePreviewSize = 0; // 0 MB
+}
 
 PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
     m_previewPluginsList(0),
     m_enabledPreviewPlugins(),
-    m_maxPreviewSize(0),
-    m_spinBox(0),
-    m_useFileThumbnails(0)
+    m_localFileSizeBox(0),
+    m_remoteFileSizeBox(0)
 {
+    kDebug() << "--------- constructing!";
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(KDialog::spacingHint());
     topLayout->setMargin(KDialog::marginHint());
@@ -65,38 +69,32 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     connect(m_previewPluginsList, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SIGNAL(changed()));
 
-    KHBox* hBox = new KHBox(this);
-    hBox->setSpacing(KDialog::spacingHint());
+    QLabel* localFileSizeLabel = new QLabel(i18nc("@label", "Local file size maximum:"), this);
 
-    new QLabel(i18nc("@label:slider", "Maximum file size:"), hBox);
-    m_maxPreviewSize = new QSlider(Qt::Horizontal, hBox);
-    m_maxPreviewSize->setPageStep(10);
-    m_maxPreviewSize->setSingleStep(1);
-    m_maxPreviewSize->setTickPosition(QSlider::TicksBelow);
-    m_maxPreviewSize->setRange(1, 100); /* MB */
-
-    m_spinBox = new KIntSpinBox(hBox);
-    m_spinBox->setSingleStep(1);
-    m_spinBox->setSuffix(" MB");
-    m_spinBox->setRange(1, 100); /* MB */
-
-    connect(m_maxPreviewSize, SIGNAL(valueChanged(int)),
-            m_spinBox, SLOT(setValue(int)));
-    connect(m_spinBox, SIGNAL(valueChanged(int)),
-            m_maxPreviewSize, SLOT(setValue(int)));
-
-    connect(m_maxPreviewSize, SIGNAL(valueChanged(int)),
-            this, SIGNAL(changed()));
-    connect(m_spinBox, SIGNAL(valueChanged(int)),
+    m_localFileSizeBox = new KIntSpinBox(this);
+    m_localFileSizeBox->setSingleStep(1);
+    m_localFileSizeBox->setSuffix(QLatin1String(" MB"));
+    m_localFileSizeBox->setRange(0, 9999); /* MB */
+    connect(m_localFileSizeBox, SIGNAL(valueChanged(int)),
             this, SIGNAL(changed()));
 
-    m_useFileThumbnails = new QCheckBox(i18nc("@option:check", "Use thumbnails embedded in files"), this);
-    connect(m_useFileThumbnails, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label", "Remote file size maximum:"), this);
+    m_remoteFileSizeBox = new KIntSpinBox(this);
+    m_remoteFileSizeBox->setSingleStep(1);
+    m_remoteFileSizeBox->setSuffix(QLatin1String(" MB"));
+    m_remoteFileSizeBox->setRange(0, 9999); /* MB */
+    connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)),
+            this, SIGNAL(changed()));
+
+    QGridLayout* gridLayout = new QGridLayout();
+    gridLayout->addWidget(localFileSizeLabel, 0, 0);
+    gridLayout->addWidget(m_localFileSizeBox, 0, 1);
+    gridLayout->addWidget(remoteFileSizeLabel, 1, 0);
+    gridLayout->addWidget(m_remoteFileSizeBox, 1, 1);
 
     topLayout->addWidget(listDescription);
     topLayout->addWidget(m_previewPluginsList);
-    topLayout->addWidget(hBox);
-    topLayout->addWidget(m_useFileThumbnails);
+    topLayout->addLayout(gridLayout);
 
     loadSettings();
 }
@@ -118,23 +116,22 @@ void PreviewsSettingsPage::applySettings()
         }
     }
 
-    KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    KConfigGroup globalConfig(KGlobal::config(), QLatin1String("PreviewSettings"));
     globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
 
-    const int byteCount = m_maxPreviewSize->value() * 1024 * 1024; // value() returns size in MB
     globalConfig.writeEntry("MaximumSize",
-                            byteCount,
+                            m_localFileSizeBox->value() * 1024 * 1024,
                             KConfigBase::Normal | KConfigBase::Global);
-    globalConfig.writeEntry("UseFileThumbnails",
-                            m_useFileThumbnails->isChecked(),
+    globalConfig.writeEntry("RemoteMaximumSize",
+                            m_remoteFileSizeBox->value() * 1024 * 1024,
                             KConfigBase::Normal | KConfigBase::Global);
     globalConfig.sync();
 }
 
 void PreviewsSettingsPage::restoreDefaults()
 {
-    m_maxPreviewSize->setValue(MAX_PREVIEW_SIZE);
-    m_useFileThumbnails->setChecked(USE_THUMBNAILS);
+    m_localFileSizeBox->setValue(MaxLocalPreviewSize);
+    m_remoteFileSizeBox->setValue(MaxRemotePreviewSize);
 }
 
 void PreviewsSettingsPage::showEvent(QShowEvent* event)
@@ -148,7 +145,7 @@ void PreviewsSettingsPage::showEvent(QShowEvent* event)
 
 void PreviewsSettingsPage::loadPreviewPlugins()
 {
-    const KService::List plugins = KServiceTypeTrader::self()->query("ThumbCreator");
+    const KService::List plugins = KServiceTypeTrader::self()->query(QLatin1String("ThumbCreator"));
     foreach (const KSharedPtr<KService>& service, plugins) {
         QListWidgetItem* item = new QListWidgetItem(service->name(),
                                                     m_previewPluginsList);
@@ -162,27 +159,24 @@ void PreviewsSettingsPage::loadSettings()
 {
     KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
     m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
-                                                                << "directorythumbnail"
-                                                                << "imagethumbnail"
-                                                                << "jpegthumbnail");
+                                                     << QLatin1String("directorythumbnail")
+                                                     << QLatin1String("imagethumbnail")
+                                                     << QLatin1String("jpegthumbnail"));
+    kDebug() << "----------------- enabled plugins:";
+    foreach (const QString& plugin, m_enabledPreviewPlugins) {
+        kDebug() << plugin;
+    }
 
     // TODO: The default value of 5 MB must match with the default value inside
     // kdelibs/kio/kio/previewjob.cpp. Maybe a static getter method in PreviewJob
     // should be added for getting the default size?
-    const int min = 1;   // MB
-    const int max = 100; // MB
+    const int maxLocalByteSize = globalConfig.readEntry("MaximumSize", MaxLocalPreviewSize * 1024 * 1024);
+    const int maxLocalMByteSize = maxLocalByteSize / (1024 * 1024);
+    m_localFileSizeBox->setValue(maxLocalMByteSize);
 
-    const int maxByteSize = globalConfig.readEntry("MaximumSize", MAX_PREVIEW_SIZE * 1024 * 1024);
-    int maxMByteSize = maxByteSize / (1024 * 1024);
-    if (maxMByteSize < min) {
-        maxMByteSize = min;
-    } else if (maxMByteSize > max) {
-        maxMByteSize = max;
-    }
-    m_maxPreviewSize->setValue(maxMByteSize);
-
-    const bool useFileThumbnails = globalConfig.readEntry("UseFileThumbnails", USE_THUMBNAILS);
-    m_useFileThumbnails->setChecked(useFileThumbnails);
+    const int maxRemoteByteSize = globalConfig.readEntry("MaximumSize", MaxRemotePreviewSize * 1024 * 1024);
+    const int maxRemoteMByteSize = maxRemoteByteSize / (1024 * 1024);
+    m_localFileSizeBox->setValue(maxRemoteMByteSize);
 }
 
 #include "previewssettingspage.moc"
