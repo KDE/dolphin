@@ -39,8 +39,6 @@
 #include <QSlider>
 #include <QGridLayout>
 
-#include <kdebug.h>
-
 // default settings
 namespace {
     const bool UseThumbnails = true;
@@ -56,7 +54,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_localFileSizeBox(0),
     m_remoteFileSizeBox(0)
 {
-    kDebug() << "--------- constructing!";
     QVBoxLayout* topLayout = new QVBoxLayout(this);
     topLayout->setSpacing(KDialog::spacingHint());
     topLayout->setMargin(KDialog::marginHint());
@@ -162,10 +159,6 @@ void PreviewsSettingsPage::loadSettings()
                                                      << QLatin1String("directorythumbnail")
                                                      << QLatin1String("imagethumbnail")
                                                      << QLatin1String("jpegthumbnail"));
-    kDebug() << "----------------- enabled plugins:";
-    foreach (const QString& plugin, m_enabledPreviewPlugins) {
-        kDebug() << plugin;
-    }
 
     // TODO: The default value of 5 MB must match with the default value inside
     // kdelibs/kio/kio/previewjob.cpp. Maybe a static getter method in PreviewJob
