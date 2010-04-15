@@ -27,6 +27,7 @@ Comment[gu]=તાર્કિક ઓપરેટર એન્ડ
 Comment[he]=אופרטור לוגי וגם
 Comment[hr]=logički operator i
 Comment[hu]=logikai ÉS művelet
+Comment[ia]=operator logic e
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin og
 Comment[it]=operatore logico «e»
@@ -91,6 +92,7 @@ Comment[gu]=તાર્કિક ઓપરેટર ઓર
 Comment[he]=אופרטור לוגי או
 Comment[hr]=logički operator ili
 Comment[hu]=logikai VAGY művelet
+Comment[ia]=operator logic or
 Comment[id]=operator logika dan
 Comment[is]=rökaðgerðin eða
 Comment[it]=operatore logico «o»
@@ -155,6 +157,7 @@ Comment[gu]=તાર્કિક ઓપરેટર નોટ
 Comment[he]=אופרטור לוגי שלילה
 Comment[hr]=logički operator ne
 Comment[hu]=logikai NEM művelet
+Comment[ia]=operator logic not
 Comment[id]=operator logika tidak
 Comment[is]=rökaðgerðin ekki
 Comment[it]=operatore logico «non»
@@ -217,6 +220,7 @@ Name[gu]=ફાઈલ એક્સટેન્શન
 Name[he]=סיומת קובץ
 Name[hr]=Nastavak datoteke
 Name[hu]=Fájlkiterjesztés
+Name[ia]=extension de File
 Name[id]=Ekstensi berkas
 Name[is]=Skráarending
 Name[it]=Estensione di file
@@ -279,6 +283,7 @@ Comment[gu]=દાખલા તરીકે txt
 Comment[he]=לדוגמא txt
 Comment[hr]=na primjer txt
 Comment[hu]=például txt
+Comment[ia]=pro exemplo txt
 Comment[id]=sebagai contoh txt
 Comment[is]=til dæmis txt
 Comment[it]=per esempio «txt»
@@ -347,6 +352,7 @@ Comment[he]=עד 10, לדוגמא >= 7 1
 Comment[hi]=1 से 10, जैसे >=7
 Comment[hr]=1 do 10, na primjer >=7
 Comment[hu]=1-től 10-ig terjedhet, például >=7
+Comment[ia]=1 a 10, pro exemplo >=7
 Comment[id]=1 sampai 10, misalnya >=7
 Comment[is]=1 til 10, til dæmis >=7
 Comment[it]=da 1 a 10, per esempio >=7
@@ -406,6 +412,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
+GenericName[ia]=Vos usa <,<=,:,>=and>.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
@@ -474,6 +481,7 @@ Comment[he]=תגית
 Comment[hi]=टैग
 Comment[hr]=Oznaka
 Comment[hu]=Címke
+Comment[ia]=Scheda (Tag)
 Comment[id]=Tag
 Comment[is]=Merki
 Comment[it]=Etichetta
@@ -545,6 +553,7 @@ Name[he]=גודל קובץ
 Name[hi]=फ़ाईल आकार
 Name[hr]=Veličina datoteke
 Name[hu]=Fájlméret
+Name[ia]=Dimension de file
 Name[id]=Ukuran berkas
 Name[is]=Skráarstærð
 Name[it]=Dimensione dei file
@@ -605,6 +614,7 @@ Comment[gl]=en bytes, por exemplo >1000
 Comment[he]=בבתים, לדוגמא > 1000
 Comment[hr]=u bajtovima, na primjer >1000
 Comment[hu]=bájtban számolva, például >1000
+Comment[ia]=in bytes, pro exemplo > 1000
 Comment[id]=dalam bita, misalnya >1000
 Comment[is]=í bætum, til dæmis >1000
 Comment[it]=in byte, per esempio >1000
@@ -664,6 +674,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
+GenericName[ia]=Vos usa <,<=,:,>=and>.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
@@ -727,6 +738,7 @@ Name[gu]=વિગત કદ
 Name[he]=גודל התוכן
 Name[hr]=Veličina sadržaja
 Name[hu]=Tartalomméret
+Name[ia]=Dimension de contento
 Name[id]=Ukuran isi
 Name[is]=Stærð innihalds
 Name[it]=Dimensioni del contenuto
@@ -788,6 +800,7 @@ Comment[he]=בבתים
 Comment[hi]=बायटों में
 Comment[hr]=u bajtovima
 Comment[hu]=bájtban
+Comment[ia]=in bytes
 Comment[id]=dalam bita
 Comment[is]=í bætum
 Comment[it]=in byte
@@ -848,6 +861,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
+GenericName[ia]=Vos usa <,<=,:,>=and>.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
@@ -914,6 +928,7 @@ Comment[gu]=દાખલા તરીકે >1999-10-10
 Comment[he]=לדוגמא > 1999-10-10
 Comment[hr]=na primjer >1999-10-10
 Comment[hu]=például >1999-10-10
+Comment[ia]=pro exemplo > 1999-10-10
 Comment[id]=misalnya >1999-10-10
 Comment[is]=til dæmis >1999-10-10
 Comment[it]=per esempio >1999-10-10
@@ -973,6 +988,7 @@ GenericName[he]=השתמש ב: <, <=, :, >= and >.
 GenericName[hi]=प्रयोग करें <, <=, :, >= और >.
 GenericName[hr]=Koristite <, <=, :, >= i >.
 GenericName[hu]=<, <=, :, >= és > műveletei jelek használhatók
+GenericName[ia]=Vos usa <,<=,:,>=and>.
 GenericName[id]=Gunakan <, <=, :, >= dan >.
 GenericName[is]=Notaðu <, <=, :, >= og >.
 GenericName[it]=Usa <, <=, :, >= e >.
