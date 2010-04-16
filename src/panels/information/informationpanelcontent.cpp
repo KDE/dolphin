@@ -23,6 +23,7 @@
 #include <kfileitem.h>
 #include <kfilemetadatawidget.h>
 #include <kfileplacesmodel.h>
+#include <kglobalsettings.h>
 #include <kio/previewjob.h>
 #include <kiconeffect.h>
 #include <kiconloader.h>
@@ -102,6 +103,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_preview->setVisible(showPreview);
 
     m_metaDataWidget = new KFileMetaDataWidget(parent);
+    m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
     m_metaDataWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
     connect(m_metaDataWidget, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
 
