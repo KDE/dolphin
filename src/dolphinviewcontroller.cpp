@@ -21,6 +21,7 @@
 #include "zoomlevelinfo.h"
 
 #include <kdirmodel.h>
+#include <kfileitemactions.h>
 #include <QAbstractProxyModel>
 #include <QApplication>
 #include <QClipboard>
@@ -138,18 +139,23 @@ void DolphinViewController::handleKeyPressEvent(QKeyEvent* event)
         return;
     }
 
-    // Emit the signal itemTriggered() for all selected files.
+    // Collect the non-directory files into a list and
+    // call runPreferredApplications for that list.
     // Several selected directories are opened in separate tabs,
     // one selected directory will get opened in the view.
     QModelIndexList dirQueue;
     const QModelIndexList indexList = selModel->selectedIndexes();
+    KFileItemList fileOpenList;
     foreach (const QModelIndex& index, indexList) {
         if (itemForIndex(index).isDir()) {
             dirQueue << index;
         } else {
-            emit itemTriggered(itemForIndex(index));
+            fileOpenList << itemForIndex(index);
         }
     }
+
+    KFileItemActions fileItemActions;
+    fileItemActions.runPreferredApplications(fileOpenList, "DesktopEntryName != 'dolphin'");
 
     if (dirQueue.length() == 1) {
         // open directory in the view
