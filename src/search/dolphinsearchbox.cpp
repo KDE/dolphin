@@ -252,8 +252,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
             this, SLOT(emitSearchSignal()));
     connect(m_searchInput, SIGNAL(textChanged(QString)),
             this, SLOT(slotTextChanged(QString)));
-    connect(m_searchInput, SIGNAL(clearButtonClicked()),
-            this, SLOT(slotClearButtonClicked()));
 }
 
 DolphinSearchBox::~DolphinSearchBox()
