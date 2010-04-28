@@ -674,12 +674,6 @@ private slots:
     void slotDeleteFileFinished(KJob* job);
 
     /**
-     * Is emitted if the controller requests a changing of the current
-     * URL to \a url
-     */
-    void slotRequestUrlChange(const KUrl& url);
-
-    /**
      * Invoked when the directory lister has completed the loading of
      * items. Assures that pasted items and renamed items get seleced.
      */
