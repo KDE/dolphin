@@ -58,7 +58,7 @@ VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
         m_dirLister = m_dolphinModel->dirLister();
         connect(m_dirLister, SIGNAL(completed()),
                 this, SLOT(delayedDirectoryVerification()));
- 
+
         // The verification timer specifies the timeout until the shown directory
         // is checked whether it is versioned. Per default it is assumed that users
         // don't iterate through versioned directories and a high timeout is used
@@ -131,7 +131,7 @@ void VersionControlObserver::silentDirectoryVerification()
 
 void VersionControlObserver::verifyDirectory()
 {
-    KUrl versionControlUrl = m_dirLister->url();
+    const KUrl versionControlUrl = m_dirLister->url();
     if (!versionControlUrl.isLocalFile()) {
         return;
     }
@@ -142,6 +142,15 @@ void VersionControlObserver::verifyDirectory()
 
     m_plugin = searchPlugin(versionControlUrl);
     if (m_plugin != 0) {
+        connect(m_plugin, SIGNAL(versionStatesChanged()),
+                this, SLOT(silentDirectoryVerification()));
+        connect(m_plugin, SIGNAL(infoMessage(QString)),
+                this, SIGNAL(infoMessage(QString)));
+        connect(m_plugin, SIGNAL(errorMessage(QString)),
+                this, SIGNAL(errorMessage(QString)));
+        connect(m_plugin, SIGNAL(operationCompletedMessage(QString)),
+                this, SIGNAL(operationCompletedMessage(QString)));
+
         if (!m_versionedDirectory) {
             m_versionedDirectory = true;
 
@@ -152,14 +161,6 @@ void VersionControlObserver::verifyDirectory()
                     this, SLOT(delayedDirectoryVerification()));
             connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                     this, SLOT(delayedDirectoryVerification()));
-            connect(m_plugin, SIGNAL(versionStatesChanged()),
-                    this, SLOT(silentDirectoryVerification()));
-            connect(m_plugin, SIGNAL(infoMessage(const QString&)),
-                    this, SIGNAL(infoMessage(const QString&)));
-            connect(m_plugin, SIGNAL(errorMessage(const QString&)),
-                    this, SIGNAL(errorMessage(const QString&)));
-            connect(m_plugin, SIGNAL(operationCompletedMessage(const QString&)),
-                    this, SIGNAL(operationCompletedMessage(const QString&)));
         }
         updateItemStates();
     } else if (m_versionedDirectory) {
@@ -232,7 +233,7 @@ void VersionControlObserver::updateItemStates()
         m_pendingItemStatesUpdate = true;
         return;
     }
-    
+
     QList<ItemState> itemStates;
     addDirectory(QModelIndex(), itemStates);
     if (!itemStates.isEmpty()) {
@@ -250,7 +251,7 @@ void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<
     for (int row = 0; row < rowCount; ++row) {
         const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Version, parentIndex);
         addDirectory(index, itemStates);
-        
+
         ItemState itemState;
         itemState.index = index;
         itemState.item = m_dolphinModel->itemForIndex(index);
