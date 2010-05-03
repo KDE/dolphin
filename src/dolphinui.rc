@@ -18,36 +18,9 @@
             <Action name="invert_selection" />
         </Menu>
         <Menu name="view">
-            <Menu name="view_mode" >
-                <text context="@title:menu">View Mode</text>
-                <Action name="icons" />
-                <Action name="details" />
-                <Action name="columns" />
-            </Menu>
-            <Menu name="sort">
-                <text context="@title:menu">Sort By</text>
-                <Action name="sort_by_name" />
-                <Action name="sort_by_size" />
-                <Action name="sort_by_date" />
-                <Action name="sort_by_permissions" />
-                <Action name="sort_by_owner" />
-                <Action name="sort_by_group" />
-                <Action name="sort_by_type" />
-                <Action name="sort_by_rating" />
-                <Action name="sort_by_tags" />
-                <Separator/>
-                <Action name="descending" />
-                <Action name="folders_first" />
-            </Menu>
-            <Menu name="additional_info">
-                <text context="@title:menu">Additional Information</text>
-                <Action name="show_size_info" />
-                <Action name="show_date_info" />
-                <Action name="show_permissions_info" />
-                <Action name="show_owner_info" />
-                <Action name="show_group_info" />
-                <Action name="show_mime_info" />
-            </Menu>
+            <Action name="view_mode" />
+            <Action name="sort" />
+            <Action name="additional_info" />
             <Action name="show_preview" />
             <Action name="show_in_groups" />
             <Action name="show_hidden_files" />
@@ -56,13 +29,7 @@
             <Action name="reload" />
             <Action name="stop" />
             <Separator/>
-            <Menu name="panels">
-                <text context="@title:menu">Panels</text>
-                <Action name="show_places_panel" />
-                <Action name="show_info_panel" />
-                <Action name="show_folders_panel" />
-                <Action name="show_terminal_panel" />
-            </Menu>
+            <Action name="panels" />
             <Menu name="navigation_bar">
                 <text context="@title:menu">Location Bar</text>
                 <Action name="editable_location" />

@@ -21,30 +21,8 @@
    </Menu>
   </Menu>
   <Menu name="view"><text>&amp;View</text>
-   <Menu name="sort">
-    <text context="@title:menu">Sort By</text>
-    <Action name="sort_by_name" />
-    <Action name="sort_by_size" />
-    <Action name="sort_by_date" />
-    <Action name="sort_by_permissions" />
-    <Action name="sort_by_owner" />
-    <Action name="sort_by_group" />
-    <Action name="sort_by_type" />
-    <Action name="sort_by_rating" />
-    <Action name="sort_by_tags" />
-    <Separator/>
-    <Action name="descending" />
-    <Action name="folders_first" />
-   </Menu>
-   <Menu name="additional_info">
-    <text context="@title:menu">Additional Information</text>
-    <Action name="show_size_info" />
-    <Action name="show_date_info" />
-    <Action name="show_permissions_info" />
-    <Action name="show_owner_info" />
-    <Action name="show_group_info" />
-    <Action name="show_mime_info" />
-   </Menu>
+   <Action name="sort" />
+   <Action name="additional_info" />
    <Action name="show_preview" />
    <Action name="show_in_groups" />
    <Action name="show_hidden_files" />

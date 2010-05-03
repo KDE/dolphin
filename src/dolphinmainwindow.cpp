@@ -52,6 +52,7 @@
 
 #include <kaction.h>
 #include <kactioncollection.h>
+#include <kactionmenu.h>
 #include <kconfig.h>
 #include <kdesktopfile.h>
 #include <kdeversion.h>
@@ -1638,6 +1639,14 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
+
+    KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu File", "Panels"), this);
+    actionCollection()->addAction("panels", panelsMenu);
+    panelsMenu->setDelayed(false);
+    panelsMenu->addAction(placesAction);
+    panelsMenu->addAction(infoAction);
+    panelsMenu->addAction(foldersAction);
+    panelsMenu->addAction(terminalAction);
 }
 
 void DolphinMainWindow::updateEditActions()

@@ -23,7 +23,10 @@
 
 #include "dolphinview.h"
 #include "libdolphin_export.h"
+#include <kactionmenu.h>
+#include <kselectaction.h>
 #include <QtCore/QObject>
+
 class KToggleAction;
 class QAction;
 class QActionGroup;
@@ -217,10 +220,10 @@ private:
      */
     void createActions();
     /**
-     * Creates an action group with all the "show additional information" actions in it.
+     * Creates an action menu with all the "show additional information" actions in it.
      * Helper method for createActions();
      */
-    QActionGroup* createAdditionalInformationActionGroup();
+    KActionMenu* createAdditionalInformationActionMenu();
 
     /**
      * Creates an action group with all the "sort by" actions in it.
