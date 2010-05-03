@@ -219,11 +219,12 @@ private:
      * This is called only once (by the constructor)
      */
     void createActions();
+
     /**
-     * Creates an action menu with all the "show additional information" actions in it.
+     * Creates an action group with all the "show additional information" actions in it.
      * Helper method for createActions();
      */
-    KActionMenu* createAdditionalInformationActionMenu();
+    QActionGroup* createAdditionalInformationActionGroup();
 
     /**
      * Creates an action group with all the "sort by" actions in it.

@@ -162,22 +162,31 @@ void DolphinViewActionHandler::createActions()
     sortFoldersFirst->setText(i18nc("@action:inmenu Sort", "Folders First"));
     connect(sortFoldersFirst, SIGNAL(triggered()), this, SLOT(toggleSortFoldersFirst()));
 
+    // View -> Sort By
     QActionGroup* sortByActionGroup = createSortByActionGroup();
     connect(sortByActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotSortTriggered(QAction*)));
 
-    KActionMenu* sortActionMenu = m_actionCollection->add<KActionMenu>("sort");
-    sortActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
-    sortActionMenu->setDelayed(false);
+    KActionMenu* sortByActionMenu = m_actionCollection->add<KActionMenu>("sort");
+    sortByActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
+    sortByActionMenu->setDelayed(false);
 
-    foreach(QAction* actionItem, sortByActionGroup->actions()) {
-        sortActionMenu->addAction(actionItem);
+    foreach (QAction* action, sortByActionGroup->actions()) {
+        sortByActionMenu->addAction(action);
     }
-    sortActionMenu->addSeparator();
-    sortActionMenu->addAction(sortDescending);
-    sortActionMenu->addAction(sortFoldersFirst);
+    sortByActionMenu->addSeparator();
+    sortByActionMenu->addAction(sortDescending);
+    sortByActionMenu->addAction(sortFoldersFirst);
 
-    KActionMenu* showInformationActionMenu = createAdditionalInformationActionMenu();
-    connect(showInformationActionMenu, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
+    // View -> Additional Information
+    QActionGroup* additionalInfoGroup = createAdditionalInformationActionGroup();
+    connect(additionalInfoGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
+
+    KActionMenu* additionalInfoMenu = m_actionCollection->add<KActionMenu>("additional_info");
+    additionalInfoMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
+    additionalInfoMenu->setDelayed(false);
+    foreach (QAction* action, additionalInfoGroup->actions()) {
+        additionalInfoMenu->addAction(action);
+    }
 
     KToggleAction* showInGroups = m_actionCollection->add<KToggleAction>("show_in_groups");
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
@@ -201,8 +210,11 @@ void DolphinViewActionHandler::createActions()
     connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
 }
 
-KActionMenu* DolphinViewActionHandler::createAdditionalInformationActionMenu()
+QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
 {
+    QActionGroup* additionalInfoGroup = new QActionGroup(m_actionCollection);
+    additionalInfoGroup->setExclusive(false);
+
     KActionMenu* showInformationMenu = m_actionCollection->add<KActionMenu>("additional_info");
     showInformationMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
     showInformationMenu->setDelayed(false);
@@ -210,34 +222,34 @@ KActionMenu* DolphinViewActionHandler::createAdditionalInformationActionMenu()
     KToggleAction* showSizeInfo = m_actionCollection->add<KToggleAction>("show_size_info");
     showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
     showSizeInfo->setData(KFileItemDelegate::Size);
-    showInformationMenu->addAction(showSizeInfo);
+    showSizeInfo->setActionGroup(additionalInfoGroup);
 
     KToggleAction* showDateInfo = m_actionCollection->add<KToggleAction>("show_date_info");
     showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
     showDateInfo->setData(KFileItemDelegate::ModificationTime);
-    showInformationMenu->addAction(showDateInfo);
+    showDateInfo->setActionGroup(additionalInfoGroup);
 
     KToggleAction* showPermissionsInfo = m_actionCollection->add<KToggleAction>("show_permissions_info");
     showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
     showPermissionsInfo->setData(KFileItemDelegate::Permissions);
-    showInformationMenu->addAction(showPermissionsInfo);
+    showPermissionsInfo->setActionGroup(additionalInfoGroup);
 
     KToggleAction* showOwnerInfo = m_actionCollection->add<KToggleAction>("show_owner_info");
     showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
     showOwnerInfo->setData(KFileItemDelegate::Owner);
-    showInformationMenu->addAction(showOwnerInfo);
+    showOwnerInfo->setActionGroup(additionalInfoGroup);
 
     KToggleAction* showGroupInfo = m_actionCollection->add<KToggleAction>("show_group_info");
     showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
     showGroupInfo->setData(KFileItemDelegate::OwnerAndGroup);
-    showInformationMenu->addAction(showGroupInfo);
+    showGroupInfo->setActionGroup(additionalInfoGroup);
 
     KToggleAction* showMimeInfo = m_actionCollection->add<KToggleAction>("show_mime_info");
     showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
-    showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);;
-    showInformationMenu->addAction(showMimeInfo);
+    showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);
+    showMimeInfo->setActionGroup(additionalInfoGroup);
 
-    return showInformationMenu;
+    return additionalInfoGroup;
 }
 
 Q_DECLARE_METATYPE(DolphinView::Sorting)
