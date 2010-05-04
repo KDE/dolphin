@@ -59,7 +59,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     topLayout->setMargin(KDialog::marginHint());
 
     // Create group box "Show previews for:"
-    QGroupBox* listBox = new QGroupBox(i18nc("@title:group", "Show previews for:"), this);
+    QGroupBox* listBox = new QGroupBox(i18nc("@title:group", "Show previews for"), this);
 
     m_previewPluginsList = new QListWidget(this);
     m_previewPluginsList->setSortingEnabled(true);
@@ -71,7 +71,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     listBoxLayout->addWidget(m_previewPluginsList);
 
     // Create group box "Don't create previews for"
-    QGroupBox* fileSizeBox = new QGroupBox(i18nc("@title:group", "Don't create previews for:"), this);
+    QGroupBox* fileSizeBox = new QGroupBox(i18nc("@title:group", "Don't create previews for"), this);
 
     QLabel* localFileSizeLabel = new QLabel(i18nc("@label Don't create previews for: <Local files above:> XX MByte",
                                                   "Local files above:"), this);
