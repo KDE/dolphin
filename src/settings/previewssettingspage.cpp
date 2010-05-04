@@ -58,7 +58,8 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     topLayout->setSpacing(KDialog::spacingHint());
     topLayout->setMargin(KDialog::marginHint());
 
-    QLabel* listDescription = new QLabel(i18nc("@label", "Show previews for:"), this);
+    // Create group box "Show previews for:"
+    QGroupBox* listBox = new QGroupBox(i18nc("@title:group", "Show previews for:"), this);
 
     m_previewPluginsList = new QListWidget(this);
     m_previewPluginsList->setSortingEnabled(true);
@@ -66,7 +67,14 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     connect(m_previewPluginsList, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SIGNAL(changed()));
 
-    QLabel* localFileSizeLabel = new QLabel(i18nc("@label", "Local file size maximum:"), this);
+    QVBoxLayout* listBoxLayout = new QVBoxLayout(listBox);
+    listBoxLayout->addWidget(m_previewPluginsList);
+
+    // Create group box "Don't create previews for"
+    QGroupBox* fileSizeBox = new QGroupBox(i18nc("@title:group", "Don't create previews for:"), this);
+
+    QLabel* localFileSizeLabel = new QLabel(i18nc("@label Don't create previews for: <Local files above:> XX MByte",
+                                                  "Local files above:"), this);
 
     m_localFileSizeBox = new KIntSpinBox(this);
     m_localFileSizeBox->setSingleStep(1);
@@ -75,7 +83,9 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     connect(m_localFileSizeBox, SIGNAL(valueChanged(int)),
             this, SIGNAL(changed()));
 
-    QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label", "Remote file size maximum:"), this);
+    QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label Don't create previews for: <Remote files above:> XX MByte",
+                                                   "Remote files above:"), this);
+
     m_remoteFileSizeBox = new KIntSpinBox(this);
     m_remoteFileSizeBox->setSingleStep(1);
     m_remoteFileSizeBox->setSuffix(QLatin1String(" MB"));
@@ -83,15 +93,14 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)),
             this, SIGNAL(changed()));
 
-    QGridLayout* gridLayout = new QGridLayout();
-    gridLayout->addWidget(localFileSizeLabel, 0, 0);
-    gridLayout->addWidget(m_localFileSizeBox, 0, 1);
-    gridLayout->addWidget(remoteFileSizeLabel, 1, 0);
-    gridLayout->addWidget(m_remoteFileSizeBox, 1, 1);
+    QGridLayout* fileSizeBoxLayout = new QGridLayout(fileSizeBox);
+    fileSizeBoxLayout->addWidget(localFileSizeLabel, 0, 0, Qt::AlignRight);
+    fileSizeBoxLayout->addWidget(m_localFileSizeBox, 0, 1);
+    fileSizeBoxLayout->addWidget(remoteFileSizeLabel, 1, 0, Qt::AlignRight);
+    fileSizeBoxLayout->addWidget(m_remoteFileSizeBox, 1, 1);
 
-    topLayout->addWidget(listDescription);
-    topLayout->addWidget(m_previewPluginsList);
-    topLayout->addLayout(gridLayout);
+    topLayout->addWidget(listBox);
+    topLayout->addWidget(fileSizeBox);
 
     loadSettings();
 }
