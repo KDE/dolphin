@@ -71,7 +71,7 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     listBoxLayout->addWidget(m_previewPluginsList);
 
     // Create group box "Don't create previews for"
-    QGroupBox* fileSizeBox = new QGroupBox(i18nc("@title:group", "Don't create previews for"), this);
+    QGroupBox* fileSizeBox = new QGroupBox(i18nc("@title:group", "Do not create previews for"), this);
 
     QLabel* localFileSizeLabel = new QLabel(i18nc("@label Don't create previews for: <Local files above:> XX MByte",
                                                   "Local files above:"), this);
