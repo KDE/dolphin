@@ -1634,7 +1634,9 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(placesAction);
     panelsMenu->addAction(infoAction);
     panelsMenu->addAction(foldersAction);
+#ifndef Q_OS_WIN
     panelsMenu->addAction(terminalAction);
+#endif
 }
 
 void DolphinMainWindow::updateEditActions()
