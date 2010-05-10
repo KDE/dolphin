@@ -113,6 +113,12 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
                 return i18nc("@item::intable", "Unversioned");
             }
         }
+	else if (index.column() == DolphinModel::LinkDestination) {
+	    const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
+	    KFileItem item = dirModel->itemForIndex(index);            
+	    return item.linkDest();
+	}
+	
         break;
 
     default:
@@ -125,12 +131,14 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
 QVariant DolphinModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
-        if (section < KDirModel::ColumnCount) {
+        switch (section) {
+        case DolphinModel::Version:
+            return i18nc("@title::column", "Version");
+        case DolphinModel::LinkDestination:
+            return i18nc("@title::column", "Link Destination");
+        default:
             return KDirModel::headerData(section, orientation, role);
         }
-
-        Q_ASSERT(section == DolphinModel::Version);
-        return i18nc("@title::column", "Version");
     }
     return QVariant();
 }

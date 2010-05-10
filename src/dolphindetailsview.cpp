@@ -645,30 +645,40 @@ void DolphinDetailsView::updateColumnVisibility()
 
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     const QList<int> columnPositions = settings->columnPositions();
-    
+
     const KFileItemDelegate::InformationList list = m_dolphinViewController->view()->additionalInfo();
-    for (int i = DolphinModel::Name; i <= DolphinModel::Version; ++i) {
+    for (int i = DolphinModel::Name; i < DolphinModel::ExtraColumnCount; ++i) {
         const KFileItemDelegate::Information info = infoForColumn(i);
         const bool hide = !list.contains(info) && (i != DolphinModel::Name);
         if (isColumnHidden(i) != hide) {
             setColumnHidden(i, hide);
         }
-        
-        const int from = headerView->visualIndex(i);
-        headerView->moveSection(from, columnPositions[i]);
+
+        // If the list columnPositions has been written by an older Dolphin version,
+        // its length might be smaller than DolphinModel::ExtraColumnCount. Therefore,
+        // we have to check if item number i exists before accessing it.
+        if (i < columnPositions.length()) {
+            const int position = columnPositions[i];
+
+            // The position might be outside the correct range if the list columnPositions
+            // has been written by a newer Dolphin version with more columns.
+            if (position < DolphinModel::ExtraColumnCount) {
+                const int from = headerView->visualIndex(i);
+                headerView->moveSection(from, position);
+            }
+        }
     }
-    
+
     resizeColumns();
 
     connect(headerView, SIGNAL(sectionMoved(int, int, int)),
             this, SLOT(saveColumnPositions()));
-
 }
 
 void DolphinDetailsView::saveColumnPositions()
 {
     QList<int> columnPositions;
-    for (int i = DolphinModel::Name; i <= DolphinModel::Version; ++i) {
+    for (int i = DolphinModel::Name; i < DolphinModel::ExtraColumnCount; ++i) {
         columnPositions.append(header()->visualIndex(i));
     }
 
@@ -988,6 +998,7 @@ KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex
     case DolphinModel::Owner:        info = KFileItemDelegate::Owner; break;
     case DolphinModel::Group:        info = KFileItemDelegate::OwnerAndGroup; break;
     case DolphinModel::Type:         info = KFileItemDelegate::FriendlyMimeType; break;
+    case DolphinModel::LinkDestination:  info = KFileItemDelegate::LinkDest; break;
     default: break;
     }
 
@@ -1005,7 +1016,7 @@ void DolphinDetailsView::resizeColumns()
     QHeaderView* headerView = header();
     QFontMetrics fontMetrics(viewport()->font());
 
-    int columnWidth[DolphinModel::Version + 1];
+    int columnWidth[DolphinModel::ExtraColumnCount];
     columnWidth[DolphinModel::Size] = fontMetrics.width("00000 Items");
     columnWidth[DolphinModel::ModifiedTime] = fontMetrics.width("0000-00-00 00:00");
     columnWidth[DolphinModel::Permissions] = fontMetrics.width("xxxxxxxxxx");
@@ -1013,6 +1024,7 @@ void DolphinDetailsView::resizeColumns()
     columnWidth[DolphinModel::Group] = fontMetrics.width("xxxxxxxxxx");
     columnWidth[DolphinModel::Type] = fontMetrics.width("XXXX Xxxxxxx");
     columnWidth[DolphinModel::Version] = fontMetrics.width("xxxxxxxx");
+    columnWidth[DolphinModel::LinkDestination] = fontMetrics.width("xxxxxxxx");
 
     int requiredWidth = 0;
     for (int i = KDirModel::Size; i <= KDirModel::Type; ++i) {

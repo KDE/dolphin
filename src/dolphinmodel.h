@@ -35,6 +35,7 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinModel : public KDirModel
 public:
     enum AdditionalColumns {
         Version = KDirModel::ColumnCount,
+        LinkDestination,
         ExtraColumnCount
     };
 
