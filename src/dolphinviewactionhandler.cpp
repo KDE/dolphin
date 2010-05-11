@@ -249,6 +249,11 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
     showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);
     showMimeInfo->setActionGroup(additionalInfoGroup);
 
+    KToggleAction* showPathOrUrlInfo = m_actionCollection->add<KToggleAction>("show_path_or_url_info");
+    showPathOrUrlInfo->setText(i18nc("@action:inmenu Additional information", "Path"));
+    showPathOrUrlInfo->setData(KFileItemDelegate::LocalPathOrUrl);
+    showPathOrUrlInfo->setActionGroup(additionalInfoGroup);
+
     return additionalInfoGroup;
 }
 

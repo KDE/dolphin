@@ -80,7 +80,7 @@ public:
      * the value is dependent from another property (in this case the view-mode).
      */
     void setAdditionalInfo(KFileItemDelegate::InformationList info);
-    
+
     /**
      * Returns the additional information for the current set view-mode.
      * Note that the additional-info property is the only property where
@@ -162,7 +162,8 @@ private:
         PermissionsInfo = 4,
         OwnerInfo = 8,
         GroupInfo = 16,
-        TypeInfo = 32
+        TypeInfo = 32,
+        PathOrUrlInfo = 64
     };
 
     bool m_changedProps;

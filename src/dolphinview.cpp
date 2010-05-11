@@ -980,6 +980,7 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
     QAction* showOwnerInfo = collection->action("show_owner_info");
     QAction* showGroupInfo = collection->action("show_group_info");
     QAction* showMimeInfo = collection->action("show_mime_info");
+    QAction* showPathOrUrlInfo = collection->action("show_path_or_url_info");
 
     showSizeInfo->setChecked(false);
     showDateInfo->setChecked(false);
@@ -987,6 +988,7 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
     showOwnerInfo->setChecked(false);
     showGroupInfo->setChecked(false);
     showMimeInfo->setChecked(false);
+    showPathOrUrlInfo->setChecked(false);
 
     showSizeInfo->setEnabled(enable);
     showDateInfo->setEnabled(enable);
@@ -994,6 +996,7 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
     showOwnerInfo->setEnabled(enable);
     showGroupInfo->setEnabled(enable);
     showMimeInfo->setEnabled(enable);
+    showPathOrUrlInfo->setEnabled(enable);
 
     foreach (KFileItemDelegate::Information info, m_viewAccessor.itemDelegate()->showInformation()) {
         switch (info) {
@@ -1014,6 +1017,9 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
             break;
         case KFileItemDelegate::FriendlyMimeType:
             showMimeInfo->setChecked(true);
+            break;
+        case KFileItemDelegate::LocalPathOrUrl:
+            showPathOrUrlInfo->setChecked(true);
             break;
         default:
             break;

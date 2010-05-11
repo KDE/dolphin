@@ -212,6 +212,9 @@ void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
         case KFileItemDelegate::FriendlyMimeType:
             info = info | TypeInfo;
             break;
+        case KFileItemDelegate::LocalPathOrUrl:
+            info = info | PathOrUrlInfo;
+            break;
         default:
             break;
         }
@@ -246,6 +249,9 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
     }
     if (info & TypeInfo) {
         list.append(KFileItemDelegate::FriendlyMimeType);
+    }
+    if (info & PathOrUrlInfo) {
+        list.append(KFileItemDelegate::LocalPathOrUrl);
     }
 
     return list;
