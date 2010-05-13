@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2010 by Christian Muehlhaeuser <muesli@gmail.com>       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,9 +19,12 @@
  ***************************************************************************/
 
 #include "placespanel.h"
+
+#include "dolphin_generalsettings.h"
 #include "draganddrophelper.h"
 #include <kfileitem.h>
 #include <konq_operations.h>
+#include "settings/dolphinsettings.h"
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     KFilePlacesView(parent),
@@ -41,6 +45,22 @@ void PlacesPanel::mousePressEvent(QMouseEvent* event)
 {
     m_mouseButtons = event->buttons();
     KFilePlacesView::mousePressEvent(event);
+}
+
+void PlacesPanel::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
+{
+    Q_UNUSED(parent);
+
+    const QModelIndexList indexes = selectedIndexes();
+    if (!indexes.isEmpty()) {
+        const int selectedRow = indexes.first().row();
+        if ((start >= selectedRow) && (end <= selectedRow)) {
+            // The currently selected item is about to be removed, reset view to home URL
+            const KUrl homeUrl = DolphinSettings::instance().generalSettings()->homeUrl();
+            setUrl(homeUrl);
+            emit urlChanged(homeUrl, Qt::NoButton);
+        }
+    }
 }
 
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)

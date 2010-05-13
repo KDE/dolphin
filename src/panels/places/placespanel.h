@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2010 by Christian Muehlhaeuser <muesli@gmail.com>       *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -38,6 +39,7 @@ signals:
 
 protected:
     virtual void mousePressEvent(QMouseEvent* event);
+    virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
 
 private slots:
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);
