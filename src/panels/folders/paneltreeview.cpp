@@ -69,15 +69,10 @@ bool PanelTreeView::event(QEvent* event)
 {
     switch (event->type()) {
     case QEvent::Polish:
-        // hide all columns except of the 'Name' column
-        hideColumn(DolphinModel::Size);
-        hideColumn(DolphinModel::ModifiedTime);
-        hideColumn(DolphinModel::Permissions);
-        hideColumn(DolphinModel::Owner);
-        hideColumn(DolphinModel::Group);
-        hideColumn(DolphinModel::Type);
-        hideColumn(DolphinModel::Version);
-        hideColumn(DolphinModel::LinkDestination);
+        // Hide all columns except of the 'Name' column
+        for (int i = DolphinModel::Name + 1; i < DolphinModel::ExtraColumnCount; ++i) {
+            hideColumn(i);
+        }
         header()->hide();
         break;
 

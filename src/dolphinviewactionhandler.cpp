@@ -19,6 +19,7 @@
 
 #include "dolphinviewactionhandler.h"
 
+#include "additionalinfomanager.h"
 #include "settings/viewpropertiesdialog.h"
 #include "dolphinview.h"
 #include "zoomlevelinfo.h"
@@ -27,9 +28,10 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
-#include <kselectaction.h>
+#include <kfileitemdelegate.h>
 #include <klocale.h>
 #include <knewmenu.h>
+#include <kselectaction.h>
 #include <ktoggleaction.h>
 #include <krun.h>
 #include <kpropertiesdialog.h>
@@ -219,40 +221,16 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
     showInformationMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
     showInformationMenu->setDelayed(false);
 
-    KToggleAction* showSizeInfo = m_actionCollection->add<KToggleAction>("show_size_info");
-    showSizeInfo->setText(i18nc("@action:inmenu Additional information", "Size"));
-    showSizeInfo->setData(KFileItemDelegate::Size);
-    showSizeInfo->setActionGroup(additionalInfoGroup);
+    const AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
 
-    KToggleAction* showDateInfo = m_actionCollection->add<KToggleAction>("show_date_info");
-    showDateInfo->setText(i18nc("@action:inmenu Additional information", "Date"));
-    showDateInfo->setData(KFileItemDelegate::ModificationTime);
-    showDateInfo->setActionGroup(additionalInfoGroup);
-
-    KToggleAction* showPermissionsInfo = m_actionCollection->add<KToggleAction>("show_permissions_info");
-    showPermissionsInfo->setText(i18nc("@action:inmenu Additional information", "Permissions"));
-    showPermissionsInfo->setData(KFileItemDelegate::Permissions);
-    showPermissionsInfo->setActionGroup(additionalInfoGroup);
-
-    KToggleAction* showOwnerInfo = m_actionCollection->add<KToggleAction>("show_owner_info");
-    showOwnerInfo->setText(i18nc("@action:inmenu Additional information", "Owner"));
-    showOwnerInfo->setData(KFileItemDelegate::Owner);
-    showOwnerInfo->setActionGroup(additionalInfoGroup);
-
-    KToggleAction* showGroupInfo = m_actionCollection->add<KToggleAction>("show_group_info");
-    showGroupInfo->setText(i18nc("@action:inmenu Additional information", "Group"));
-    showGroupInfo->setData(KFileItemDelegate::OwnerAndGroup);
-    showGroupInfo->setActionGroup(additionalInfoGroup);
-
-    KToggleAction* showMimeInfo = m_actionCollection->add<KToggleAction>("show_mime_info");
-    showMimeInfo->setText(i18nc("@action:inmenu Additional information", "Type"));
-    showMimeInfo->setData(KFileItemDelegate::FriendlyMimeType);
-    showMimeInfo->setActionGroup(additionalInfoGroup);
-
-    KToggleAction* showPathOrUrlInfo = m_actionCollection->add<KToggleAction>("show_path_or_url_info");
-    showPathOrUrlInfo->setText(i18nc("@action:inmenu Additional information", "Path"));
-    showPathOrUrlInfo->setData(KFileItemDelegate::LocalPathOrUrl);
-    showPathOrUrlInfo->setActionGroup(additionalInfoGroup);
+    const KFileItemDelegate::InformationList infos = infoManager.keys();
+    foreach (KFileItemDelegate::Information info, infos) {
+        const QString name = infoManager.actionCollectionName(info);
+        KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
+        action->setText(infoManager.translation(info));
+        action->setData(info);
+        action->setActionGroup(additionalInfoGroup);
+    }
 
     return additionalInfoGroup;
 }
@@ -264,40 +242,21 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     QActionGroup* sortByActionGroup = new QActionGroup(m_actionCollection);
     sortByActionGroup->setExclusive(true);
 
-    KToggleAction* sortByName = m_actionCollection->add<KToggleAction>("sort_by_name");
+    KToggleAction* sortByName = m_actionCollection->add<KToggleAction>("name");
     sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
     sortByName->setData(QVariant::fromValue(DolphinView::SortByName));
     sortByActionGroup->addAction(sortByName);
 
-    KToggleAction* sortBySize = m_actionCollection->add<KToggleAction>("sort_by_size");
-    sortBySize->setText(i18nc("@action:inmenu Sort By", "Size"));
-    sortBySize->setData(QVariant::fromValue(DolphinView::SortBySize));
-    sortByActionGroup->addAction(sortBySize);
-
-    KToggleAction* sortByDate = m_actionCollection->add<KToggleAction>("sort_by_date");
-    sortByDate->setText(i18nc("@action:inmenu Sort By", "Date"));
-    sortByDate->setData(QVariant::fromValue(DolphinView::SortByDate));
-    sortByActionGroup->addAction(sortByDate);
-
-    KToggleAction* sortByPermissions = m_actionCollection->add<KToggleAction>("sort_by_permissions");
-    sortByPermissions->setText(i18nc("@action:inmenu Sort By", "Permissions"));
-    sortByPermissions->setData(QVariant::fromValue(DolphinView::SortByPermissions));
-    sortByActionGroup->addAction(sortByPermissions);
-
-    KToggleAction* sortByOwner = m_actionCollection->add<KToggleAction>("sort_by_owner");
-    sortByOwner->setText(i18nc("@action:inmenu Sort By", "Owner"));
-    sortByOwner->setData(QVariant::fromValue(DolphinView::SortByOwner));
-    sortByActionGroup->addAction(sortByOwner);
-
-    KToggleAction* sortByGroup = m_actionCollection->add<KToggleAction>("sort_by_group");
-    sortByGroup->setText(i18nc("@action:inmenu Sort By", "Group"));
-    sortByGroup->setData(QVariant::fromValue(DolphinView::SortByGroup));
-    sortByActionGroup->addAction(sortByGroup);
-
-    KToggleAction* sortByType = m_actionCollection->add<KToggleAction>("sort_by_type");
-    sortByType->setText(i18nc("@action:inmenu Sort By", "Type"));
-    sortByType->setData(QVariant::fromValue(DolphinView::SortByType));
-    sortByActionGroup->addAction(sortByType);
+    const AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+    const KFileItemDelegate::InformationList infos = infoManager.keys();
+    foreach (KFileItemDelegate::Information info, infos) {
+        const QString name = infoManager.actionCollectionName(info);
+        KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
+        action->setText(infoManager.translation(info));
+        // TODO: replace DolphinView::Sorting by KFileItemDelegate::Information!
+        action->setData(QVariant::fromValue(DolphinView::SortByName));
+        sortByActionGroup->addAction(action);
+    }
 
     return sortByActionGroup;
 }

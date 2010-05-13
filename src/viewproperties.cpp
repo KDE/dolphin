@@ -20,6 +20,7 @@
 
 #include "viewproperties.h"
 
+#include "additionalinfomanager.h"
 #include "settings/dolphinsettings.h"
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
@@ -33,8 +34,6 @@
 #include <QFile>
 #include <QFileInfo>
 
-#define FILE_NAME "/.directory"
-
 ViewProperties::ViewProperties(const KUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
@@ -44,8 +43,10 @@ ViewProperties::ViewProperties(const KUrl& url) :
     cleanUrl.cleanPath();
     m_filepath = cleanUrl.toLocalFile();
 
+    const QLatin1String fileName("/.directory");
+
     if ((m_filepath.length() < 1) || (!QDir::isAbsolutePath(m_filepath))) {
-        const QString file = destinationDir("global") + FILE_NAME;
+        const QString file = destinationDir("global") + fileName;
         m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
         return;
     }
@@ -66,7 +67,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
         m_filepath = destinationDir("remote") + m_filepath;
     }
 
-    const QString file = m_filepath + FILE_NAME;
+    const QString file = m_filepath + fileName;
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
     const bool useDefaultProps = !useGlobalViewProps &&
@@ -189,38 +190,16 @@ bool ViewProperties::sortFoldersFirst() const
     return m_node->sortFoldersFirst();
 }
 
-void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
+void ViewProperties::setAdditionalInfo(const KFileItemDelegate::InformationList& list)
 {
-    int info = NoInfo;
+    AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+
+    int infoMask = 0;
     foreach (KFileItemDelegate::Information currentInfo, list) {
-        switch (currentInfo) {
-        case KFileItemDelegate::Size:
-            info = info | SizeInfo;
-            break;
-        case KFileItemDelegate::ModificationTime:
-            info = info | DateInfo;
-            break;
-        case KFileItemDelegate::Permissions:
-            info = info | PermissionsInfo;
-            break;
-        case KFileItemDelegate::Owner:
-            info = info | OwnerInfo;
-            break;
-        case KFileItemDelegate::OwnerAndGroup:
-            info = info | GroupInfo;
-            break;
-        case KFileItemDelegate::FriendlyMimeType:
-            info = info | TypeInfo;
-            break;
-        case KFileItemDelegate::LocalPathOrUrl:
-            info = info | PathOrUrlInfo;
-            break;
-        default:
-            break;
-        }
+        infoMask = infoMask | infoManager.bitValue(currentInfo);
     }
 
-    const int encodedInfo = encodedAdditionalInfo(info);
+    const int encodedInfo = encodedAdditionalInfo(infoMask);
     if (m_node->additionalInfo() != encodedInfo) {
         m_node->setAdditionalInfo(encodedInfo);
         updateTimeStamp();
@@ -229,32 +208,20 @@ void ViewProperties::setAdditionalInfo(KFileItemDelegate::InformationList list)
 
 KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 {
-    const int info = decodedAdditionalInfo();
+    KFileItemDelegate::InformationList usedInfos;
 
-    KFileItemDelegate::InformationList list;
-    if (info & SizeInfo) {
-        list.append(KFileItemDelegate::Size);
-    }
-    if (info & DateInfo) {
-        list.append(KFileItemDelegate::ModificationTime);
-    }
-    if (info & PermissionsInfo) {
-        list.append(KFileItemDelegate::Permissions);
-    }
-    if (info & OwnerInfo) {
-        list.append(KFileItemDelegate::Owner);
-    }
-    if (info & GroupInfo) {
-        list.append(KFileItemDelegate::OwnerAndGroup);
-    }
-    if (info & TypeInfo) {
-        list.append(KFileItemDelegate::FriendlyMimeType);
-    }
-    if (info & PathOrUrlInfo) {
-        list.append(KFileItemDelegate::LocalPathOrUrl);
+    const int decodedInfo = decodedAdditionalInfo();
+
+    AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+    const KFileItemDelegate::InformationList infos = infoManager.keys();
+
+    foreach (const KFileItemDelegate::Information info, infos) {
+        if (decodedInfo & infoManager.bitValue(info)) {
+            usedInfos.append(info);
+        }
     }
 
-    return list;
+    return usedInfos;
 }
 
 
@@ -334,10 +301,12 @@ int ViewProperties::decodedAdditionalInfo() const
     switch (viewMode()) {
     case DolphinView::DetailsView:
         decodedInfo = decodedInfo & 0xFF;
-        if (decodedInfo == NoInfo) {
-            // a details view without any additional info makes no sense, hence
+        if (decodedInfo == 0) {
+            // A details view without any additional info makes no sense, hence
             // provide at least a size-info and date-info as fallback
-            decodedInfo = SizeInfo | DateInfo;
+            AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+            decodedInfo = infoManager.bitValue(KFileItemDelegate::Size) |
+                          infoManager.bitValue(KFileItemDelegate::ModificationTime);
         }
         break;
     case DolphinView::IconsView:

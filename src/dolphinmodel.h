@@ -35,15 +35,16 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinModel : public KDirModel
 public:
     enum AdditionalColumns {
         Version = KDirModel::ColumnCount,
-        LinkDestination,
-        ExtraColumnCount
+        LinkDest,
+        LocalPathOrUrl,
+        ExtraColumnCount // Mandatory last entry
     };
 
     DolphinModel(QObject* parent = 0);
     virtual ~DolphinModel();
 
     virtual bool setData(const QModelIndex& index, const QVariant& value, int role = Qt::EditRole);
-    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;    
+    virtual QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const;
     virtual QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const;
     virtual int columnCount(const QModelIndex& parent = QModelIndex()) const;
 

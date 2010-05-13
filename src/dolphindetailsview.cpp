@@ -20,6 +20,7 @@
 
 #include "dolphindetailsview.h"
 
+#include "additionalinfomanager.h"
 #include "dolphinmodel.h"
 #include "dolphinviewcontroller.h"
 #include "dolphinfileitemdelegate.h"
@@ -607,11 +608,13 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
     for (int i = 0; i < columns; ++i) {
         const int logicalIndex = headerView->logicalIndex(i);
         const QString text = model()->headerData(logicalIndex, Qt::Horizontal).toString();
-        QAction* action = popup.addAction(text);
-        action->setCheckable(true);
-        action->setChecked(!headerView->isSectionHidden(logicalIndex));
-        action->setData(logicalIndex);
-        action->setEnabled(logicalIndex != DolphinModel::Name);
+        if (!text.isEmpty()) {
+            QAction* action = popup.addAction(text);
+            action->setCheckable(true);
+            action->setChecked(!headerView->isSectionHidden(logicalIndex));
+            action->setData(logicalIndex);
+            action->setEnabled(logicalIndex != DolphinModel::Name);
+        }
     }
     popup.addSeparator();
 
@@ -989,20 +992,7 @@ void DolphinDetailsView::updateDecorationSize(bool showPreview)
 
 KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex) const
 {
-    KFileItemDelegate::Information info = KFileItemDelegate::NoInformation;
-
-    switch (columnIndex) {
-    case DolphinModel::Size:         info = KFileItemDelegate::Size; break;
-    case DolphinModel::ModifiedTime: info = KFileItemDelegate::ModificationTime; break;
-    case DolphinModel::Permissions:  info = KFileItemDelegate::Permissions; break;
-    case DolphinModel::Owner:        info = KFileItemDelegate::Owner; break;
-    case DolphinModel::Group:        info = KFileItemDelegate::OwnerAndGroup; break;
-    case DolphinModel::Type:         info = KFileItemDelegate::FriendlyMimeType; break;
-    case DolphinModel::LinkDestination:  info = KFileItemDelegate::LinkDest; break;
-    default: break;
-    }
-
-    return info;
+    return AdditionalInfoManager::instance().keyForColumn(columnIndex);
 }
 
 void DolphinDetailsView::resizeColumns()
@@ -1017,14 +1007,12 @@ void DolphinDetailsView::resizeColumns()
     QFontMetrics fontMetrics(viewport()->font());
 
     int columnWidth[DolphinModel::ExtraColumnCount];
+    const int defaultWidth = fontMetrics.width("xxxxxxxxxx");
+    for (int i = 0; i < DolphinModel::ExtraColumnCount; ++i) {
+        columnWidth[i] = defaultWidth;
+    }
     columnWidth[DolphinModel::Size] = fontMetrics.width("00000 Items");
     columnWidth[DolphinModel::ModifiedTime] = fontMetrics.width("0000-00-00 00:00");
-    columnWidth[DolphinModel::Permissions] = fontMetrics.width("xxxxxxxxxx");
-    columnWidth[DolphinModel::Owner] = fontMetrics.width("xxxxxxxxxx");
-    columnWidth[DolphinModel::Group] = fontMetrics.width("xxxxxxxxxx");
-    columnWidth[DolphinModel::Type] = fontMetrics.width("XXXX Xxxxxxx");
-    columnWidth[DolphinModel::Version] = fontMetrics.width("xxxxxxxx");
-    columnWidth[DolphinModel::LinkDestination] = fontMetrics.width("xxxxxxxx");
 
     int requiredWidth = 0;
     for (int i = KDirModel::Size; i <= KDirModel::Type; ++i) {

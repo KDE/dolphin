@@ -94,31 +94,17 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
         break;
 
     case Qt::DisplayRole:
-        if (index.column() == DolphinModel::Version) {
-            switch (m_revisionHash.value(index, KVersionControlPlugin::UnversionedVersion)) {
-            case KVersionControlPlugin::NormalVersion:
-                return i18nc("@item::intable", "Normal");
-            case KVersionControlPlugin::UpdateRequiredVersion:
-                return i18nc("@item::intable", "Update required");
-            case KVersionControlPlugin::LocallyModifiedVersion:
-                return i18nc("@item::intable", "Locally modified");
-            case KVersionControlPlugin::AddedVersion:
-                return i18nc("@item::intable", "Added");
-            case KVersionControlPlugin::RemovedVersion:
-                return i18nc("@item::intable", "Removed");
-            case KVersionControlPlugin::ConflictingVersion:
-                return i18nc("@item::intable", "Conflicting");
-            case KVersionControlPlugin::UnversionedVersion:
-            default:
-                return i18nc("@item::intable", "Unversioned");
-            }
+        switch (index.column()) {
+        case DolphinModel::LinkDest: {
+            const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
+            const KFileItem item = dirModel->itemForIndex(index);
+            return item.linkDest();
         }
-	else if (index.column() == DolphinModel::LinkDestination) {
-	    const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
-	    KFileItem item = dirModel->itemForIndex(index);            
-	    return item.linkDest();
-	}
-	
+
+        case DolphinModel::LocalPathOrUrl:
+            // TODO:
+            break;
+        }
         break;
 
     default:
@@ -132,10 +118,10 @@ QVariant DolphinModel::headerData(int section, Qt::Orientation orientation, int 
 {
     if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
         switch (section) {
-        case DolphinModel::Version:
-            return i18nc("@title::column", "Version");
-        case DolphinModel::LinkDestination:
-            return i18nc("@title::column", "Link Destination");
+        case DolphinModel::LinkDest:
+            return i18nc("@title::column", "Destination");
+        case DolphinModel::LocalPathOrUrl:
+            return i18nc("@title::column", "Path");
         default:
             return KDirModel::headerData(section, orientation, role);
         }

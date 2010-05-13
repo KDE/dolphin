@@ -79,7 +79,7 @@ public:
      * Note that the additional-info property is the only property where
      * the value is dependent from another property (in this case the view-mode).
      */
-    void setAdditionalInfo(KFileItemDelegate::InformationList info);
+    void setAdditionalInfo(const KFileItemDelegate::InformationList& info);
 
     /**
      * Returns the additional information for the current set view-mode.
@@ -154,18 +154,6 @@ private:
     Q_DISABLE_COPY(ViewProperties)
 
 private:
-    enum AdditionalInfoValues
-    {
-        NoInfo   = 0,
-        SizeInfo = 1,
-        DateInfo = 2,
-        PermissionsInfo = 4,
-        OwnerInfo = 8,
-        GroupInfo = 16,
-        TypeInfo = 32,
-        PathOrUrlInfo = 64
-    };
-
     bool m_changedProps;
     bool m_autoSave;
     QString m_filepath;

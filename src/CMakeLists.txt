@@ -16,7 +16,9 @@ endif (Nepomuk_FOUND)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
+    additionalinfomanager.cpp
     dolphindetailsview.cpp
+    dolphindetailsviewexpander.cpp
     dolphiniconsview.cpp
     dolphincolumnview.cpp
     dolphincolumnviewcontainer.cpp
@@ -31,7 +33,6 @@ set(dolphinprivate_LIB_SRCS
     dolphinviewautoscroller.cpp
     dolphinviewcontroller.cpp
     dolphinremoteencoding.cpp
-    dolphindetailsviewexpander.cpp
     draganddrophelper.cpp
     folderexpander.cpp
     renamedialog.cpp

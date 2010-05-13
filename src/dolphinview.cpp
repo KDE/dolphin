@@ -49,6 +49,7 @@
 #include <ktoggleaction.h>
 #include <kurl.h>
 
+#include "additionalinfomanager.h"
 #include "dolphinmodel.h"
 #include "dolphincolumnviewcontainer.h"
 #include "dolphinviewcontroller.h"
@@ -971,59 +972,19 @@ void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList&
 
 void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
 {
+    const AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+
+    const KFileItemDelegate::InformationList checkedInfos = m_viewAccessor.itemDelegate()->showInformation();
+    const KFileItemDelegate::InformationList infos = infoManager.keys();
+
     const bool enable = (m_mode == DolphinView::DetailsView) ||
                         (m_mode == DolphinView::IconsView);
 
-    QAction* showSizeInfo = collection->action("show_size_info");
-    QAction* showDateInfo = collection->action("show_date_info");
-    QAction* showPermissionsInfo = collection->action("show_permissions_info");
-    QAction* showOwnerInfo = collection->action("show_owner_info");
-    QAction* showGroupInfo = collection->action("show_group_info");
-    QAction* showMimeInfo = collection->action("show_mime_info");
-    QAction* showPathOrUrlInfo = collection->action("show_path_or_url_info");
-
-    showSizeInfo->setChecked(false);
-    showDateInfo->setChecked(false);
-    showPermissionsInfo->setChecked(false);
-    showOwnerInfo->setChecked(false);
-    showGroupInfo->setChecked(false);
-    showMimeInfo->setChecked(false);
-    showPathOrUrlInfo->setChecked(false);
-
-    showSizeInfo->setEnabled(enable);
-    showDateInfo->setEnabled(enable);
-    showPermissionsInfo->setEnabled(enable);
-    showOwnerInfo->setEnabled(enable);
-    showGroupInfo->setEnabled(enable);
-    showMimeInfo->setEnabled(enable);
-    showPathOrUrlInfo->setEnabled(enable);
-
-    foreach (KFileItemDelegate::Information info, m_viewAccessor.itemDelegate()->showInformation()) {
-        switch (info) {
-        case KFileItemDelegate::Size:
-            showSizeInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::ModificationTime:
-            showDateInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::Permissions:
-            showPermissionsInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::Owner:
-            showOwnerInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::OwnerAndGroup:
-            showGroupInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::FriendlyMimeType:
-            showMimeInfo->setChecked(true);
-            break;
-        case KFileItemDelegate::LocalPathOrUrl:
-            showPathOrUrlInfo->setChecked(true);
-            break;
-        default:
-            break;
-        }
+    foreach (const KFileItemDelegate::Information& info, infos) {
+        QAction* action = collection->action(infoManager.actionCollectionName(info));
+        Q_ASSERT(action != 0);
+        action->setEnabled(enable);
+        action->setChecked(checkedInfos.contains(info));
     }
 }
 
