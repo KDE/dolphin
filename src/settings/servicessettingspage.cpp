@@ -52,7 +52,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
     QLabel* label = new QLabel(i18nc("@label:textbox",
-                                     "Configure which services should "
+                                     "Select which services should "
                                      "be shown in the context menu."), this);
     label->setWordWrap(true);
 

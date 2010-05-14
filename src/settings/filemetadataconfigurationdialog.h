@@ -54,7 +54,7 @@ public:
     /**
      * Sets the description that is shown above the list
      * of meta data. Per default the translated text for
-     * "Configure which data should be shown." is set.
+     * "Select which data should be shown." is set.
      */
     void setDescription(const QString& description);
     QString description() const;

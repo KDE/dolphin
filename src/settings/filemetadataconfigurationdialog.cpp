@@ -36,7 +36,7 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
 
 
     m_descriptionLabel = new QLabel(i18nc("@label::textbox",
-                                          "Configure which data should "
+                                          "Select which data should "
                                           "be shown"), this);
     m_descriptionLabel->setWordWrap(true);
 

@@ -42,7 +42,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
 
     // Add header
     QLabel* header = new QLabel(mainWidget);
-    header->setText(i18nc("@label", "Configure which additional information should be shown."));
+    header->setText(i18nc("@label", "Select which additional information should be shown."));
     header->setWordWrap(true);
     layout->addWidget(header);
 
