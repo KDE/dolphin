@@ -40,7 +40,7 @@
             <whatsthis context="@info:whatsthis">This option defines which attribute (name, size, date, etc.) sorting is performed on.</whatsthis>
             <default code="true">DolphinView::SortByName</default>
             <min>0</min>
-            <max code="true">DolphinView::MaxSortEnum</max>
+            <max code="true">DolphinView::MaxSortingEnum</max>
         </entry>
 
         <entry name="SortOrder" type="Int" >

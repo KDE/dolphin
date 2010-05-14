@@ -20,6 +20,7 @@
 #ifndef ADDITIONALINFOACCESSOR_H
 #define ADDITIONALINFOACCESSOR_H
 
+#include <dolphinview.h>
 #include <libdolphin_export.h>
 #include <kfileitemdelegate.h>
 
@@ -45,6 +46,13 @@
 class LIBDOLPHINPRIVATE_EXPORT AdditionalInfoAccessor
 {
 public:
+    enum ActionCollectionType {
+        /// Action collection from "View -> Sort By"
+        SortByType,
+        /// Action collection from "View -> Additional Information"
+        AdditionalInfoType
+    };
+
     static AdditionalInfoAccessor& instance();
 
     /**
@@ -59,9 +67,11 @@ public:
      */
     KFileItemDelegate::Information keyForColumn(int columnIndex) const;
 
-    QString actionCollectionName(KFileItemDelegate::Information info) const;
+    QString actionCollectionName(KFileItemDelegate::Information info, ActionCollectionType type) const;
 
     QString translation(KFileItemDelegate::Information info) const;
+
+    DolphinView::Sorting sorting(KFileItemDelegate::Information info) const;
 
     /**
      * @return Bitvalue for \p info that is stored in a ViewProperties instance.
@@ -77,6 +87,7 @@ private:
     struct AdditionalInfo {
         const char* const actionCollectionName;
         const char* const translation;
+        const DolphinView::Sorting sorting;
         const int bitValue;
     };
 

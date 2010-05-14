@@ -59,14 +59,31 @@ KFileItemDelegate::Information AdditionalInfoAccessor::keyForColumn(int columnIn
     return info;
 }
 
-QString AdditionalInfoAccessor::actionCollectionName(KFileItemDelegate::Information info) const
+QString AdditionalInfoAccessor::actionCollectionName(KFileItemDelegate::Information info,
+                                                     ActionCollectionType type) const
 {
-    return QLatin1String(m_map[info]->actionCollectionName);
+    QString name;
+    switch (type) {
+    case SortByType:
+        name = QLatin1String("sort_by_") + QLatin1String(m_map[info]->actionCollectionName);
+        break;
+
+    case AdditionalInfoType:
+        name = QLatin1String("show_") + QLatin1String(m_map[info]->actionCollectionName);
+        break;
+    }
+
+    return name;
 }
 
 QString AdditionalInfoAccessor::translation(KFileItemDelegate::Information info) const
 {
     return i18n(m_map[info]->translation);
+}
+
+DolphinView::Sorting AdditionalInfoAccessor::sorting(KFileItemDelegate::Information info) const
+{
+    return m_map[info]->sorting;
 }
 
 int AdditionalInfoAccessor::bitValue(KFileItemDelegate::Information info) const
@@ -79,14 +96,14 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
     m_map()
 {
     static const AdditionalInfoAccessor::AdditionalInfo additionalInfos[] = {
-        { "size",        I18N_NOOP2("@label", "Size"),          1 },
-        { "date",        I18N_NOOP2("@label", "Date"),          2 },
-        { "permissions", I18N_NOOP2("@label", "Permissions"),   4 },
-        { "owner",       I18N_NOOP2("@label", "Owner"),         8 },
-        { "group",       I18N_NOOP2("@label", "Group"),        16 },
-        { "type",        I18N_NOOP2("@label", "Type"),         32 },
-        { "destination", I18N_NOOP2("@label", "Destination"),  64 },
-        { "path",        I18N_NOOP2("@label", "Path"),        128 }
+        { "size",        I18N_NOOP2("@label", "Size"),        DolphinView::SortBySize,          1 },
+        { "date",        I18N_NOOP2("@label", "Date"),        DolphinView::SortByDate,          2 },
+        { "permissions", I18N_NOOP2("@label", "Permissions"), DolphinView::SortByPermissions,   4 },
+        { "owner",       I18N_NOOP2("@label", "Owner"),       DolphinView::SortByOwner,         8 },
+        { "group",       I18N_NOOP2("@label", "Group"),       DolphinView::SortByGroup,        16 },
+        { "type",        I18N_NOOP2("@label", "Type"),        DolphinView::SortByType,         32 },
+        { "destination", I18N_NOOP2("@label", "Destination"), DolphinView::SortByDestination,  64 },
+        { "path",        I18N_NOOP2("@label", "Path"),        DolphinView::SortByPath,        128 }
     };
 
     m_map.insert(KFileItemDelegate::Size, &additionalInfos[0]);
@@ -98,7 +115,16 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
     m_map.insert(KFileItemDelegate::LinkDest, &additionalInfos[6]);
     m_map.insert(KFileItemDelegate::LocalPathOrUrl, &additionalInfos[7]);
 
-    m_informations = m_map.keys();
+    // The m_informations list defines all available keys and the sort order
+    // (don't use m_informations = m_map.keys(), as the order is undefined).
+    m_informations.append(KFileItemDelegate::Size);
+    m_informations.append(KFileItemDelegate::ModificationTime);
+    m_informations.append(KFileItemDelegate::Permissions);
+    m_informations.append(KFileItemDelegate::Owner);
+    m_informations.append(KFileItemDelegate::OwnerAndGroup);
+    m_informations.append(KFileItemDelegate::FriendlyMimeType);
+    m_informations.append(KFileItemDelegate::LinkDest);
+    m_informations.append(KFileItemDelegate::LocalPathOrUrl);
 }
 
 AdditionalInfoAccessor::~AdditionalInfoAccessor()

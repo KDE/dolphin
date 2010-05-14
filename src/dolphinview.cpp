@@ -981,7 +981,8 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
                         (m_mode == DolphinView::IconsView);
 
     foreach (const KFileItemDelegate::Information& info, infos) {
-        QAction* action = collection->action(infoAccessor.actionCollectionName(info));
+        const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
+        QAction* action = collection->action(name);
         Q_ASSERT(action != 0);
         action->setEnabled(enable);
         action->setChecked(checkedInfos.contains(info));

@@ -204,7 +204,6 @@ void DolphinViewActionHandler::createActions()
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(slotAdjustViewProperties()));
 
     // Tools menu
-
     KAction* findFile = m_actionCollection->addAction("find_file");
     findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
     findFile->setShortcut(Qt::CTRL | Qt::Key_F);
@@ -225,7 +224,7 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
 
     const KFileItemDelegate::InformationList infos = infoAccessor.keys();
     foreach (KFileItemDelegate::Information info, infos) {
-        const QString name = infoAccessor.actionCollectionName(info);
+        const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
         action->setText(infoAccessor.translation(info));
         action->setData(info);
@@ -242,7 +241,7 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     QActionGroup* sortByActionGroup = new QActionGroup(m_actionCollection);
     sortByActionGroup->setExclusive(true);
 
-    KToggleAction* sortByName = m_actionCollection->add<KToggleAction>("name");
+    KToggleAction* sortByName = m_actionCollection->add<KToggleAction>("sort_by_name");
     sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
     sortByName->setData(QVariant::fromValue(DolphinView::SortByName));
     sortByActionGroup->addAction(sortByName);
@@ -250,11 +249,11 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
     const KFileItemDelegate::InformationList infos = infoAccessor.keys();
     foreach (KFileItemDelegate::Information info, infos) {
-        const QString name = infoAccessor.actionCollectionName(info);
+        const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
         action->setText(infoAccessor.translation(info));
-        // TODO: replace DolphinView::Sorting by KFileItemDelegate::Information!
-        action->setData(QVariant::fromValue(DolphinView::SortByName));
+        const DolphinView::Sorting sorting = infoAccessor.sorting(info);
+        action->setData(QVariant::fromValue(sorting));
         sortByActionGroup->addAction(action);
     }
 
@@ -282,10 +281,11 @@ void DolphinViewActionHandler::slotTrashActivated(Qt::MouseButtons, Qt::Keyboard
     // Note: kde3's konq_mainwindow.cpp used to check
     // reason == KAction::PopupMenuActivation && ...
     // but this isn't supported anymore
-    if (modifiers & Qt::ShiftModifier)
+    if (modifiers & Qt::ShiftModifier) {
         m_currentView->deleteSelectedItems();
-    else
+    } else {
         m_currentView->trashSelectedItems();
+    }
 }
 
 void DolphinViewActionHandler::slotDeleteItems()
@@ -456,31 +456,20 @@ KToggleAction* DolphinViewActionHandler::columnsModeAction()
 
 void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
 {
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
+
     QAction* action = 0;
-    switch (sorting) {
-    case DolphinView::SortByName:
+    if (sorting == DolphinView::SortByName) {
         action = m_actionCollection->action("sort_by_name");
-        break;
-    case DolphinView::SortBySize:
-        action = m_actionCollection->action("sort_by_size");
-        break;
-    case DolphinView::SortByDate:
-        action = m_actionCollection->action("sort_by_date");
-        break;
-    case DolphinView::SortByPermissions:
-        action = m_actionCollection->action("sort_by_permissions");
-        break;
-    case DolphinView::SortByOwner:
-        action = m_actionCollection->action("sort_by_owner");
-        break;
-    case DolphinView::SortByGroup:
-        action = m_actionCollection->action("sort_by_group");
-        break;
-    case DolphinView::SortByType:
-        action = m_actionCollection->action("sort_by_type");
-        break;
-    default:
-        break;
+    } else {
+        foreach (const KFileItemDelegate::Information info, infos) {
+            if (sorting == infoAccessor.sorting(info)) {
+                const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
+                action = m_actionCollection->action(name);
+                break;
+            }
+        }
     }
 
     if (action != 0) {

@@ -113,7 +113,9 @@ public:
         SortByOwner,
         SortByGroup,
         SortByType,
-        MaxSortEnum = SortByType
+        SortByDestination,
+        SortByPath,
+        MaxSortingEnum = SortByPath
     };
 
     /**
