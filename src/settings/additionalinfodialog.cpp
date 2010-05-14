@@ -19,48 +19,52 @@
 
 #include "additionalinfodialog.h"
 
+#include "additionalinfoaccessor.h"
 #include <klocale.h>
-#include <kvbox.h>
 
 #include <QCheckBox>
+#include <QLabel>
+#include <QVBoxLayout>
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
-                                           KFileItemDelegate::InformationList info) :
+                                           KFileItemDelegate::InformationList infoList) :
     KDialog(parent),
-    m_info(info),
-    m_size(0),
-    m_date(0),
-    m_permissions(0),
-    m_owner(0),
-    m_group(0),
-    m_type(0)
+    m_infoList(infoList),
+    m_checkBoxes()
 {
     setCaption(i18nc("@title:window", "Additional Information"));
     setButtons(Ok | Cancel);
     setDefaultButton(Ok);
 
-    KVBox* box = new KVBox(this);
+    QWidget* mainWidget = new QWidget(this);
+    mainWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
+    QVBoxLayout* layout = new QVBoxLayout(mainWidget);
 
-    m_size = new QCheckBox(i18nc("@option:check Additional Information", "Size"), box);
-    m_date = new QCheckBox(i18nc("@option:check Additional Information", "Date"), box);
-    m_permissions = new QCheckBox(i18nc("@option:check Additional Information", "Permissions"), box);
-    m_owner = new QCheckBox(i18nc("@option:check Additional Information", "Owner"), box);
-    m_group = new QCheckBox(i18nc("@option:check Additional Information", "Group"), box);
-    m_type = new QCheckBox(i18nc("@option:check Additional Information", "Type"), box);
-    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
+    // Add header
+    QLabel* header = new QLabel(mainWidget);
+    header->setText(i18nc("@label", "Configure which additional information should be shown."));
+    header->setWordWrap(true);
+    layout->addWidget(header);
 
-    m_size->setChecked(info.contains(KFileItemDelegate::Size));
-    m_date->setChecked(info.contains(KFileItemDelegate::ModificationTime));
-    m_permissions->setChecked(info.contains(KFileItemDelegate::Permissions));
-    m_owner->setChecked(info.contains(KFileItemDelegate::Owner));
-    m_group->setChecked(info.contains(KFileItemDelegate::OwnerAndGroup));
-    m_type->setChecked(info.contains(KFileItemDelegate::FriendlyMimeType));
+    // Add checkboxes
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const KFileItemDelegate::InformationList keys = infoAccessor.keys();
+    foreach (const KFileItemDelegate::Information info, keys) {
+        QCheckBox* checkBox = new QCheckBox(infoAccessor.translation(info), mainWidget);
+        checkBox->setChecked(infoList.contains(info));
+        layout->addWidget(checkBox);
+        m_checkBoxes.append(checkBox);
+    }
 
-    setMainWidget(box);
+    layout->addStretch(1);
+
+    setMainWidget(mainWidget);
 
     const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
                                     "AdditionalInfoDialog");
     restoreDialogSize(dialogConfig);
+
+    connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
 }
 
 AdditionalInfoDialog::~AdditionalInfoDialog()
@@ -70,32 +74,22 @@ AdditionalInfoDialog::~AdditionalInfoDialog()
     saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
-KFileItemDelegate::InformationList AdditionalInfoDialog::additionalInfo() const
+KFileItemDelegate::InformationList AdditionalInfoDialog::informationList() const
 {
-    return m_info;
+    return m_infoList;
 }
 
 void AdditionalInfoDialog::slotOk()
 {
-    m_info.clear();
+    m_infoList.clear();
 
-    if (m_size->isChecked()) {
-        m_info.append(KFileItemDelegate::Size);
-    }
-    if (m_date->isChecked()) {
-        m_info.append(KFileItemDelegate::ModificationTime);
-    }
-    if (m_permissions->isChecked()) {
-        m_info.append(KFileItemDelegate::Permissions);
-    }
-    if (m_owner->isChecked()) {
-        m_info.append(KFileItemDelegate::Owner);
-    }
-    if (m_group->isChecked()) {
-        m_info.append(KFileItemDelegate::OwnerAndGroup);
-    }
-    if (m_type->isChecked()) {
-        m_info.append(KFileItemDelegate::FriendlyMimeType);
+    const KFileItemDelegate::InformationList keys = AdditionalInfoAccessor::instance().keys();
+    int index = 0;
+    foreach (const KFileItemDelegate::Information info, keys) {
+        if (m_checkBoxes[index]->isChecked()) {
+            m_infoList.append(info);
+        }
+        ++index;
     }
 }
 

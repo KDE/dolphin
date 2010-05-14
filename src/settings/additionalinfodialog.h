@@ -22,6 +22,7 @@
 
 #include <kdialog.h>
 #include <kfileitemdelegate.h>
+#include <QList>
 
 class QCheckBox;
 
@@ -33,21 +34,16 @@ class AdditionalInfoDialog : public KDialog
     Q_OBJECT
 
 public:
-    explicit AdditionalInfoDialog(QWidget* parent, KFileItemDelegate::InformationList info);
+    AdditionalInfoDialog(QWidget* parent, KFileItemDelegate::InformationList infoList);
     virtual ~AdditionalInfoDialog();
-    KFileItemDelegate::InformationList additionalInfo() const;
+    KFileItemDelegate::InformationList informationList() const;
 
 private slots:
     void slotOk();
 
 private:
-    KFileItemDelegate::InformationList m_info;
-    QCheckBox* m_size;
-    QCheckBox* m_date;
-    QCheckBox* m_permissions;
-    QCheckBox* m_owner;
-    QCheckBox* m_group;
-    QCheckBox* m_type;
+    KFileItemDelegate::InformationList m_infoList;
+    QList<QCheckBox*> m_checkBoxes;
 };
 
 #endif

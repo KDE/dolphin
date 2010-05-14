@@ -318,7 +318,7 @@ void ViewPropertiesDialog::configureAdditionalInfo()
 
     QPointer<AdditionalInfoDialog> dialog = new AdditionalInfoDialog(this, info);
     if (dialog->exec() == QDialog::Accepted) {
-        m_viewProps->setAdditionalInfo(dialog->additionalInfo());
+        m_viewProps->setAdditionalInfo(dialog->informationList());
         markAsDirty(true);
     }
     delete dialog;
