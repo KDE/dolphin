@@ -49,7 +49,7 @@
 #include <ktoggleaction.h>
 #include <kurl.h>
 
-#include "additionalinfomanager.h"
+#include "additionalinfoaccessor.h"
 #include "dolphinmodel.h"
 #include "dolphincolumnviewcontainer.h"
 #include "dolphinviewcontroller.h"
@@ -972,16 +972,16 @@ void DolphinView::updateAdditionalInfo(const KFileItemDelegate::InformationList&
 
 void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
 {
-    const AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
 
     const KFileItemDelegate::InformationList checkedInfos = m_viewAccessor.itemDelegate()->showInformation();
-    const KFileItemDelegate::InformationList infos = infoManager.keys();
+    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
 
     const bool enable = (m_mode == DolphinView::DetailsView) ||
                         (m_mode == DolphinView::IconsView);
 
     foreach (const KFileItemDelegate::Information& info, infos) {
-        QAction* action = collection->action(infoManager.actionCollectionName(info));
+        QAction* action = collection->action(infoAccessor.actionCollectionName(info));
         Q_ASSERT(action != 0);
         action->setEnabled(enable);
         action->setChecked(checkedInfos.contains(info));

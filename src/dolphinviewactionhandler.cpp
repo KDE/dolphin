@@ -19,7 +19,7 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include "additionalinfomanager.h"
+#include "additionalinfoaccessor.h"
 #include "settings/viewpropertiesdialog.h"
 #include "dolphinview.h"
 #include "zoomlevelinfo.h"
@@ -221,13 +221,13 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
     showInformationMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
     showInformationMenu->setDelayed(false);
 
-    const AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
 
-    const KFileItemDelegate::InformationList infos = infoManager.keys();
+    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
     foreach (KFileItemDelegate::Information info, infos) {
-        const QString name = infoManager.actionCollectionName(info);
+        const QString name = infoAccessor.actionCollectionName(info);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
-        action->setText(infoManager.translation(info));
+        action->setText(infoAccessor.translation(info));
         action->setData(info);
         action->setActionGroup(additionalInfoGroup);
     }
@@ -247,12 +247,12 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     sortByName->setData(QVariant::fromValue(DolphinView::SortByName));
     sortByActionGroup->addAction(sortByName);
 
-    const AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
-    const KFileItemDelegate::InformationList infos = infoManager.keys();
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
     foreach (KFileItemDelegate::Information info, infos) {
-        const QString name = infoManager.actionCollectionName(info);
+        const QString name = infoAccessor.actionCollectionName(info);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
-        action->setText(infoManager.translation(info));
+        action->setText(infoAccessor.translation(info));
         // TODO: replace DolphinView::Sorting by KFileItemDelegate::Information!
         action->setData(QVariant::fromValue(DolphinView::SortByName));
         sortByActionGroup->addAction(action);

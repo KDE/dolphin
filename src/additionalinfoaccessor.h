@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef ADDITIONALINFOMANAGER_H
-#define ADDITIONALINFOMANAGER_H
+#ifndef ADDITIONALINFOACCESSOR_H
+#define ADDITIONALINFOACCESSOR_H
 
 #include <libdolphin_export.h>
 #include <kfileitemdelegate.h>
@@ -27,7 +27,7 @@
 #include <QMap>
 
 /**
- * @brief Manages the information that is available by KFileItemDelegate::Information.
+ * @brief Allows to access the information that is available by KFileItemDelegate::Information.
  *
  * The information that is available by KFileItemDelegate::Information will be shown
  * in Dolphin the following way:
@@ -37,15 +37,15 @@
  * - As popup menu entries in the details view header popup
  * - As checkable entries in the View Properties dialog
  *
- * The AdditionalInfoManager provides a central place to get all available keys,
+ * The AdditionalInfoAccessor provides a central place to get all available keys,
  * the corresponding translations, action names, etc., so that modifications or
  * extensions in KFileItemDelegate only require adjustments in the implementation
  * of this class.
  */
-class LIBDOLPHINPRIVATE_EXPORT AdditionalInfoManager
+class LIBDOLPHINPRIVATE_EXPORT AdditionalInfoAccessor
 {
 public:
-    static AdditionalInfoManager& instance();
+    static AdditionalInfoAccessor& instance();
 
     /**
      * @return List of all available information entries of KFileItemDelegate.
@@ -69,9 +69,9 @@ public:
     int bitValue(KFileItemDelegate::Information info) const;
 
 protected:
-    AdditionalInfoManager();
-    virtual ~AdditionalInfoManager();
-    friend class AdditionalInfoManagerSingleton;
+    AdditionalInfoAccessor();
+    virtual ~AdditionalInfoAccessor();
+    friend class AdditionalInfoAccessorSingleton;
 
 private:
     struct AdditionalInfo {

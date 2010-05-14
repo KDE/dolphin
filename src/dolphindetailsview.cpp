@@ -20,7 +20,7 @@
 
 #include "dolphindetailsview.h"
 
-#include "additionalinfomanager.h"
+#include "additionalinfoaccessor.h"
 #include "dolphinmodel.h"
 #include "dolphinviewcontroller.h"
 #include "dolphinfileitemdelegate.h"
@@ -992,7 +992,7 @@ void DolphinDetailsView::updateDecorationSize(bool showPreview)
 
 KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex) const
 {
-    return AdditionalInfoManager::instance().keyForColumn(columnIndex);
+    return AdditionalInfoAccessor::instance().keyForColumn(columnIndex);
 }
 
 void DolphinDetailsView::resizeColumns()

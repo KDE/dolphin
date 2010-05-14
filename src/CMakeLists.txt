@@ -16,7 +16,7 @@ endif (Nepomuk_FOUND)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-    additionalinfomanager.cpp
+    additionalinfoaccessor.cpp
     dolphindetailsview.cpp
     dolphindetailsviewexpander.cpp
     dolphiniconsview.cpp

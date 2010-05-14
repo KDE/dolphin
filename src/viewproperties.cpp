@@ -20,7 +20,7 @@
 
 #include "viewproperties.h"
 
-#include "additionalinfomanager.h"
+#include "additionalinfoaccessor.h"
 #include "settings/dolphinsettings.h"
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
@@ -192,11 +192,11 @@ bool ViewProperties::sortFoldersFirst() const
 
 void ViewProperties::setAdditionalInfo(const KFileItemDelegate::InformationList& list)
 {
-    AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
+    AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
 
     int infoMask = 0;
     foreach (KFileItemDelegate::Information currentInfo, list) {
-        infoMask = infoMask | infoManager.bitValue(currentInfo);
+        infoMask = infoMask | infoAccessor.bitValue(currentInfo);
     }
 
     const int encodedInfo = encodedAdditionalInfo(infoMask);
@@ -212,11 +212,11 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 
     const int decodedInfo = decodedAdditionalInfo();
 
-    AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
-    const KFileItemDelegate::InformationList infos = infoManager.keys();
+    AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
 
     foreach (const KFileItemDelegate::Information info, infos) {
-        if (decodedInfo & infoManager.bitValue(info)) {
+        if (decodedInfo & infoAccessor.bitValue(info)) {
             usedInfos.append(info);
         }
     }
@@ -304,9 +304,9 @@ int ViewProperties::decodedAdditionalInfo() const
         if (decodedInfo == 0) {
             // A details view without any additional info makes no sense, hence
             // provide at least a size-info and date-info as fallback
-            AdditionalInfoManager& infoManager = AdditionalInfoManager::instance();
-            decodedInfo = infoManager.bitValue(KFileItemDelegate::Size) |
-                          infoManager.bitValue(KFileItemDelegate::ModificationTime);
+            AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+            decodedInfo = infoAccessor.bitValue(KFileItemDelegate::Size) |
+                          infoAccessor.bitValue(KFileItemDelegate::ModificationTime);
         }
         break;
     case DolphinView::IconsView:

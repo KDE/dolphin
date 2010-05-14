@@ -17,30 +17,30 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "additionalinfomanager.h"
+#include "additionalinfoaccessor.h"
 
 #include "dolphinmodel.h"
 #include <kglobal.h>
 #include <klocale.h>
 
-class AdditionalInfoManagerSingleton
+class AdditionalInfoAccessorSingleton
 {
 public:
-    AdditionalInfoManager instance;
+    AdditionalInfoAccessor instance;
 };
-K_GLOBAL_STATIC(AdditionalInfoManagerSingleton, s_additionalInfoManager)
+K_GLOBAL_STATIC(AdditionalInfoAccessorSingleton, s_additionalInfoManager)
 
-AdditionalInfoManager& AdditionalInfoManager::instance()
+AdditionalInfoAccessor& AdditionalInfoAccessor::instance()
 {
     return s_additionalInfoManager->instance;
 }
 
-KFileItemDelegate::InformationList AdditionalInfoManager::keys() const
+KFileItemDelegate::InformationList AdditionalInfoAccessor::keys() const
 {
     return m_informations;
 }
 
-KFileItemDelegate::Information AdditionalInfoManager::keyForColumn(int columnIndex) const
+KFileItemDelegate::Information AdditionalInfoAccessor::keyForColumn(int columnIndex) const
 {
     KFileItemDelegate::Information info = KFileItemDelegate::NoInformation;
 
@@ -59,26 +59,26 @@ KFileItemDelegate::Information AdditionalInfoManager::keyForColumn(int columnInd
     return info;
 }
 
-QString AdditionalInfoManager::actionCollectionName(KFileItemDelegate::Information info) const
+QString AdditionalInfoAccessor::actionCollectionName(KFileItemDelegate::Information info) const
 {
     return QLatin1String(m_map[info]->actionCollectionName);
 }
 
-QString AdditionalInfoManager::translation(KFileItemDelegate::Information info) const
+QString AdditionalInfoAccessor::translation(KFileItemDelegate::Information info) const
 {
     return i18n(m_map[info]->translation);
 }
 
-int AdditionalInfoManager::bitValue(KFileItemDelegate::Information info) const
+int AdditionalInfoAccessor::bitValue(KFileItemDelegate::Information info) const
 {
     return m_map[info]->bitValue;
 }
 
-AdditionalInfoManager::AdditionalInfoManager() :
+AdditionalInfoAccessor::AdditionalInfoAccessor() :
     m_informations(),
     m_map()
 {
-    static const AdditionalInfoManager::AdditionalInfo additionalInfos[] = {
+    static const AdditionalInfoAccessor::AdditionalInfo additionalInfos[] = {
         { "size",        I18N_NOOP2("@label", "Size"),          1 },
         { "date",        I18N_NOOP2("@label", "Date"),          2 },
         { "permissions", I18N_NOOP2("@label", "Permissions"),   4 },
@@ -101,7 +101,7 @@ AdditionalInfoManager::AdditionalInfoManager() :
     m_informations = m_map.keys();
 }
 
-AdditionalInfoManager::~AdditionalInfoManager()
+AdditionalInfoAccessor::~AdditionalInfoAccessor()
 {
 }
 
