@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -28,7 +28,7 @@
  * @brief Acts as proxy model for DolphinModel to sort and filter
  *        KFileItems.
  *
- * A natural sorting is done. This means that items like:
+ * Per default a natural sorting is done. This means that items like:
  * - item_10.png
  * - item_1.png
  * - item_2.png
@@ -36,11 +36,6 @@
  * - item_1.png
  * - item_2.png
  * - item_10.png
- *
- * @note It is NOT assured that directories are always sorted before files.
- *       For example, on a Nepomuk based sorting, it is possible to have a file
- *       rated with 10 stars, and a directory rated with 5 stars. The file will
- *       be shown before the directory.
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinSortFilterProxyModel : public KDirSortFilterProxyModel
 {
@@ -58,12 +53,7 @@ public:
 
     void setSortFoldersFirst(bool foldersFirst);
 
-    /**
-     * @reimplemented, @internal
-     *
-     * If the view 'forces' sorting order to change we will
-     * notice now.
-     */
+    /** @reimplemented */
     virtual void sort(int column,
                       Qt::SortOrder order = Qt::AscendingOrder);
 
@@ -76,21 +66,6 @@ public:
 
 signals:
     void sortingRoleChanged();
-
-protected:
-    virtual bool subSortLessThan(const QModelIndex& left,
-                                 const QModelIndex& right) const;
-
-private:
-    /**
-     * Returns true, if the left or right file item is a directory
-     * or a hidden file. In this case \a result provides the information
-     * whether \a left is less than \a right. If false is returned,
-     * the value of \a result is undefined.
-     */
-    bool isDirectoryOrHidden(const KFileItem& left,
-                             const KFileItem& right,
-                             bool& result) const;
 
 private:
     DolphinView::Sorting m_sorting:16;
