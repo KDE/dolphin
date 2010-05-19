@@ -297,7 +297,7 @@ void InformationPanelContent::configureSettings()
     } else if (action == configureAction) {
         FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog();
         dialog->setDescription(i18nc("@label::textbox",
-                                     "Select which data should be shown in the tooltip."));
+                                     "Select which data should be shown in the information panel."));
         dialog->setItems(m_metaDataWidget->items());
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
