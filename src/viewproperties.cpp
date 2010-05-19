@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006-2010 by Peter Penz (<peter.penz@gmx.at>)           *
- *   Copyright (C) 2006 by Aaron J. Seigo (<aseigo@kde.org>)               *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz@gmx.at>             *
+ *   Copyright (C) 2006 by Aaron J. Seigo <aseigo@kde.org>                 *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -21,7 +21,6 @@
 #include "viewproperties.h"
 
 #include "additionalinfoaccessor.h"
-#include "settings/dolphinsettings.h"
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
@@ -34,29 +33,31 @@
 #include <QFile>
 #include <QFileInfo>
 
+#include "settings/dolphinsettings.h"
+
 ViewProperties::ViewProperties(const KUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
     m_node(0)
 {
-    // We try and save it to a file in the directory being viewed.
+    // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     const bool useGlobalViewProps = settings->globalViewProps();
     if (useGlobalViewProps) {
-        m_filepath = destinationDir("global");
+        m_filePath = destinationDir("global");
     } else if (url.isLocalFile()) {
-        m_filepath = url.toLocalFile();
-        const QFileInfo info(m_filepath);
+        m_filePath = url.toLocalFile();
+        const QFileInfo info(m_filePath);
         if (!info.isWritable()) {
-            m_filepath = destinationDir("local") + m_filepath;
+            m_filePath = destinationDir("local") + m_filePath;
         }
     } else {
-        m_filepath = destinationDir("remote") + m_filepath;
+        m_filePath = destinationDir("remote") + m_filePath;
     }
 
-    const QString file = m_filepath + QDir::separator() + QLatin1String(".directory");
+    const QString file = m_filePath + QDir::separator() + QLatin1String(".directory");
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
     const bool useDefaultProps = !useGlobalViewProps &&
@@ -112,7 +113,6 @@ bool ViewProperties::showPreview() const
     return m_node->showPreview();
 }
 
-
 void ViewProperties::setShowHiddenFiles(bool show)
 {
     if (m_node->showHiddenFiles() != show) {
@@ -133,7 +133,6 @@ bool ViewProperties::categorizedSorting() const
 {
     return m_node->categorizedSorting();
 }
-
 
 bool ViewProperties::showHiddenFiles() const
 {
@@ -244,7 +243,7 @@ void ViewProperties::updateTimeStamp()
 
 void ViewProperties::save()
 {
-    KStandardDirs::makeDir(m_filepath);
+    KStandardDirs::makeDir(m_filePath);
     m_node->writeConfig();
     m_changedProps = false;
 }
