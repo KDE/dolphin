@@ -33,23 +33,11 @@
 #include <QFile>
 #include <QFileInfo>
 
-#define FILE_NAME "/.directory"
-
 ViewProperties::ViewProperties(const KUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
     m_node(0)
 {
-    KUrl cleanUrl(url);
-    cleanUrl.cleanPath();
-    m_filepath = cleanUrl.toLocalFile();
-
-    if ((m_filepath.length() < 1) || (!QDir::isAbsolutePath(m_filepath))) {
-        const QString file = destinationDir("global") + FILE_NAME;
-        m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
-        return;
-    }
-
     // We try and save it to a file in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
@@ -57,7 +45,8 @@ ViewProperties::ViewProperties(const KUrl& url) :
     const bool useGlobalViewProps = settings->globalViewProps();
     if (useGlobalViewProps) {
         m_filepath = destinationDir("global");
-    } else if (cleanUrl.isLocalFile()) {
+    } else if (url.isLocalFile()) {
+        m_filepath = url.toLocalFile();
         const QFileInfo info(m_filepath);
         if (!info.isWritable()) {
             m_filepath = destinationDir("local") + m_filepath;
@@ -66,7 +55,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
         m_filepath = destinationDir("remote") + m_filepath;
     }
 
-    const QString file = m_filepath + FILE_NAME;
+    const QString file = m_filepath + QDir::separator() + QLatin1String(".directory");
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
     const bool useDefaultProps = !useGlobalViewProps &&
