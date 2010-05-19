@@ -201,7 +201,14 @@ KUrl DolphinSearchOptionsConfigurator::directory() const
 KUrl DolphinSearchOptionsConfigurator::nepomukSearchUrl() const
 {
     const Nepomuk::Query::Query query = nepomukQuery();
-    return query.isValid() ? query.toSearchUrl() : KUrl();
+    if ( query.isValid() ) {
+        KUrl url = query.toSearchUrl();
+        url.addQueryItem( QLatin1String( "userquery" ), customSearchQuery() );
+        return url;
+    }
+    else {
+        return KUrl();
+    }
 }
 
 void DolphinSearchOptionsConfigurator::setCustomSearchQuery(const QString& searchQuery)
