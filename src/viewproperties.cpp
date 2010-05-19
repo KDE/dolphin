@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (<peter.penz@gmx.at>)                *
+ *   Copyright (C) 2006-2010 by Peter Penz (<peter.penz@gmx.at>)           *
  *   Copyright (C) 2006 by Aaron J. Seigo (<aseigo@kde.org>)               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,18 +39,6 @@ ViewProperties::ViewProperties(const KUrl& url) :
     m_autoSave(true),
     m_node(0)
 {
-    KUrl cleanUrl(url);
-    cleanUrl.cleanPath();
-    m_filepath = cleanUrl.toLocalFile();
-
-    const QLatin1String fileName("/.directory");
-
-    if ((m_filepath.length() < 1) || !QDir::isAbsolutePath(m_filepath)) {
-        const QString file = destinationDir("global") + fileName;
-        m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
-        return;
-    }
-
     // We try and save it to a file in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
@@ -58,7 +46,8 @@ ViewProperties::ViewProperties(const KUrl& url) :
     const bool useGlobalViewProps = settings->globalViewProps();
     if (useGlobalViewProps) {
         m_filepath = destinationDir("global");
-    } else if (cleanUrl.isLocalFile()) {
+    } else if (url.isLocalFile()) {
+        m_filepath = url.toLocalFile();
         const QFileInfo info(m_filepath);
         if (!info.isWritable()) {
             m_filepath = destinationDir("local") + m_filepath;
@@ -67,7 +56,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
         m_filepath = destinationDir("remote") + m_filepath;
     }
 
-    const QString file = m_filepath + fileName;
+    const QString file = m_filepath + QDir::separator() + QLatin1String(".directory");
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
     const bool useDefaultProps = !useGlobalViewProps &&
