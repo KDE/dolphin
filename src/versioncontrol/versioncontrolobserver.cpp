@@ -84,7 +84,9 @@ VersionControlObserver::~VersionControlObserver()
         m_updateItemStatesThread = 0;
     }
 
-    m_plugin->disconnect();
+    if (m_plugin != 0) {
+        m_plugin->disconnect();
+    }
     m_plugin = 0;
 }
 
