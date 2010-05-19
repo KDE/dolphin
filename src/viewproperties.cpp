@@ -34,8 +34,6 @@
 #include <QFile>
 #include <QFileInfo>
 
-#include <kdebug.h>
-
 ViewProperties::ViewProperties(const KUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
@@ -48,7 +46,6 @@ ViewProperties::ViewProperties(const KUrl& url) :
     const QLatin1String fileName("/.directory");
 
     if ((m_filepath.length() < 1) || !QDir::isAbsolutePath(m_filepath)) {
-        kDebug() << "---- using global path: global/.directory";
         const QString file = destinationDir("global") + fileName;
         m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
         return;
