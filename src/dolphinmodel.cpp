@@ -119,7 +119,7 @@ QVariant DolphinModel::headerData(int section, Qt::Orientation orientation, int 
     if ((orientation == Qt::Horizontal) && (role == Qt::DisplayRole)) {
         switch (section) {
         case DolphinModel::LinkDest:
-            return i18nc("@title::column", "Destination");
+            return i18nc("@title::column", "Link Destination");
         case DolphinModel::LocalPathOrUrl:
             return i18nc("@title::column", "Path");
         default:

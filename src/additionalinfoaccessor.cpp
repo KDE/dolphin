@@ -102,7 +102,7 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
         { "owner",       I18N_NOOP2("@label", "Owner"),       DolphinView::SortByOwner,         8 },
         { "group",       I18N_NOOP2("@label", "Group"),       DolphinView::SortByGroup,        16 },
         { "type",        I18N_NOOP2("@label", "Type"),        DolphinView::SortByType,         32 },
-        { "destination", I18N_NOOP2("@label", "Destination"), DolphinView::SortByDestination,  64 },
+        { "destination", I18N_NOOP2("@label", "Link Destination"), DolphinView::SortByDestination,  64 },
         { "path",        I18N_NOOP2("@label", "Path"),        DolphinView::SortByPath,        128 }
     };
 
