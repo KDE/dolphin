@@ -96,14 +96,14 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
     m_map()
 {
     static const AdditionalInfoAccessor::AdditionalInfo additionalInfos[] = {
-        { "size",        I18N_NOOP2("@label", "Size"),        DolphinView::SortBySize,          1 },
-        { "date",        I18N_NOOP2("@label", "Date"),        DolphinView::SortByDate,          2 },
-        { "permissions", I18N_NOOP2("@label", "Permissions"), DolphinView::SortByPermissions,   4 },
-        { "owner",       I18N_NOOP2("@label", "Owner"),       DolphinView::SortByOwner,         8 },
-        { "group",       I18N_NOOP2("@label", "Group"),       DolphinView::SortByGroup,        16 },
-        { "type",        I18N_NOOP2("@label", "Type"),        DolphinView::SortByType,         32 },
+        { "size",        I18N_NOOP2("@label", "Size"),             DolphinView::SortBySize,          1 },
+        { "date",        I18N_NOOP2("@label", "Date"),             DolphinView::SortByDate,          2 },
+        { "permissions", I18N_NOOP2("@label", "Permissions"),      DolphinView::SortByPermissions,   4 },
+        { "owner",       I18N_NOOP2("@label", "Owner"),            DolphinView::SortByOwner,         8 },
+        { "group",       I18N_NOOP2("@label", "Group"),            DolphinView::SortByGroup,        16 },
+        { "type",        I18N_NOOP2("@label", "Type"),             DolphinView::SortByType,         32 },
         { "destination", I18N_NOOP2("@label", "Link Destination"), DolphinView::SortByDestination,  64 },
-        { "path",        I18N_NOOP2("@label", "Path"),        DolphinView::SortByPath,        128 }
+        { "path",        I18N_NOOP2("@label", "Path"),             DolphinView::SortByPath,        128 }
     };
 
     m_map.insert(KFileItemDelegate::Size, &additionalInfos[0]);
@@ -130,4 +130,3 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
 AdditionalInfoAccessor::~AdditionalInfoAccessor()
 {
 }
-
