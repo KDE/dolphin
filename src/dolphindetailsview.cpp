@@ -1006,16 +1006,30 @@ void DolphinDetailsView::resizeColumns()
     QHeaderView* headerView = header();
     QFontMetrics fontMetrics(viewport()->font());
 
+    // Calculate the required with for each column and store it in columnWidth[]
     int columnWidth[DolphinModel::ExtraColumnCount];
     const int defaultWidth = fontMetrics.width("xxxxxxxxxx");
+
     for (int i = 0; i < DolphinModel::ExtraColumnCount; ++i) {
-        columnWidth[i] = defaultWidth;
+        const int logicalIndex = headerView->logicalIndex(i);
+        const QString headline = model()->headerData(logicalIndex, Qt::Horizontal).toString();
+        const int headlineWidth = fontMetrics.width(headline);
+
+        columnWidth[i] = qMax(defaultWidth, headlineWidth);
     }
-    columnWidth[DolphinModel::Size] = fontMetrics.width("00000 Items");
-    columnWidth[DolphinModel::ModifiedTime] = fontMetrics.width("0000-00-00 00:00");
+
+    const int defaultSizeWidth = fontMetrics.width("00000 Items");
+    if (defaultSizeWidth > columnWidth[DolphinModel::Size]) {
+        columnWidth[DolphinModel::Size] = defaultSizeWidth;
+    }
+
+    const int defaultTimeWidth = fontMetrics.width("0000-00-00 00:00");
+    if (defaultTimeWidth > columnWidth[DolphinModel::ModifiedTime]) {
+        columnWidth[DolphinModel::ModifiedTime] = defaultTimeWidth;
+    }
 
     int requiredWidth = 0;
-    for (int i = KDirModel::Size; i <= KDirModel::Type; ++i) {
+    for (int i = KDirModel::Size; i < DolphinModel::ExtraColumnCount; ++i) {
         if (!isColumnHidden(i)) {
             columnWidth[i] += 20; // provide a default gap
             requiredWidth += columnWidth[i];
@@ -1023,7 +1037,7 @@ void DolphinDetailsView::resizeColumns()
         }
     }
 
-    // resize the name column in a way that the whole available width is used
+    // Resize the name column in a way that the whole available width is used
     columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
 
     const int minNameWidth = 300;
