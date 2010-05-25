@@ -1301,13 +1301,13 @@ void DolphinMainWindow::init()
     QClipboard* clipboard = QApplication::clipboard();
     connect(clipboard, SIGNAL(dataChanged()),
             this, SLOT(updatePasteAction()));
-    updatePasteAction();
-    updateGoActions();
 
     if (generalSettings->splitView()) {
         toggleSplitView();
     }
+    updateEditActions();
     updateViewActions();
+    updateGoActions();
 
     QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
     showFilterBarAction->setChecked(generalSettings->filterBar());
