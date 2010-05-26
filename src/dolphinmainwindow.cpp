@@ -536,7 +536,6 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         dialog->setCaption(i18nc("@title:window", "Confirmation"));
         dialog->setButtons(KDialog::Yes | KDialog::No | KDialog::Cancel);
         dialog->setModal(true);
-        dialog->showButtonSeparator(true);
         dialog->setButtonGuiItem(KDialog::Yes, KStandardGuiItem::quit());
         dialog->setButtonGuiItem(KDialog::No, KGuiItem(i18n("C&lose Current Tab"), KIcon("tab-close")));
         dialog->setButtonGuiItem(KDialog::Cancel, KStandardGuiItem::cancel());
