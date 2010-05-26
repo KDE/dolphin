@@ -649,8 +649,19 @@ void DolphinDetailsView::updateColumnVisibility()
             setColumnHidden(i, hide);
         }
         
-        const int from = headerView->visualIndex(i);
-        headerView->moveSection(from, columnPositions[i]);
+        // If the list columnPositions has been written by an older Dolphin version,
+        // its length might be smaller than DolphinModel::ExtraColumnCount. Therefore,
+        // we have to check if item number i exists before accessing it.
+        if (i < columnPositions.length()) {
+            const int position = columnPositions[i];
+
+            // The position might be outside the correct range if the list columnPositions
+            // has been written by a newer Dolphin version with more columns.
+            if (position < DolphinModel::ExtraColumnCount) {
+                const int from = headerView->visualIndex(i);
+                headerView->moveSection(from, position);
+            }
+        }
     }
     
     resizeColumns();
