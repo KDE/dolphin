@@ -1105,7 +1105,8 @@ void DolphinView::slotDirListerCompleted()
 
     if (!m_newFileNames.isEmpty()) {
         // select all newly added items created by a paste operation or
-        // a drag & drop operation
+        // a drag & drop operation, and clear the previous selection
+        m_viewAccessor.itemView()->clearSelection();
         const int rowCount = m_viewAccessor.proxyModel()->rowCount();
         QItemSelection selection;
         for (int row = 0; row < rowCount; ++row) {
