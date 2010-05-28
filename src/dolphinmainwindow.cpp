@@ -1627,7 +1627,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
 
-    KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu File", "Panels"), this);
+    KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
     actionCollection()->addAction("panels", panelsMenu);
     panelsMenu->setDelayed(false);
     panelsMenu->addAction(placesAction);
