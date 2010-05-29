@@ -74,7 +74,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     connect(m_outdatedPreviewTimer, SIGNAL(timeout()),
             this, SLOT(markOutdatedPreview()));
 
-    QVBoxLayout* layout = new QVBoxLayout;
+    QVBoxLayout* layout = new QVBoxLayout(this);
     layout->setSpacing(KDialog::spacingHint());
 
     // preview
@@ -136,7 +136,6 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     layout->addWidget(m_nameLabel);
     layout->addWidget(new KSeparator());
     layout->addWidget(m_metaDataArea);
-    parent->setLayout(layout);
 }
 
 InformationPanelContent::~InformationPanelContent()

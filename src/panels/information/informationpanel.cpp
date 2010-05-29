@@ -20,6 +20,7 @@
 #include "informationpanel.h"
 #include <kdirnotify.h>
 #include <QShowEvent>
+#include <QVBoxLayout>
 #include "informationpanelcontent.h"
 
 InformationPanel::InformationPanel(QWidget* parent) :
@@ -323,6 +324,9 @@ void InformationPanel::init()
 
     m_content = new InformationPanelContent(this);
     connect(m_content, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
+    
+    QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->addWidget(m_content);
 
     m_initialized = true;
 }
