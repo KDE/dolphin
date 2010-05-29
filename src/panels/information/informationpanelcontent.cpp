@@ -115,9 +115,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     containerLayout->setContentsMargins(0, 0, 0, 0);
     containerLayout->setSpacing(0);
     containerLayout->addWidget(m_metaDataWidget);
-    QWidget* stretchWidget = new QWidget(metaDataWidgetContainer);
-    stretchWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-    containerLayout->addWidget(stretchWidget);
+    containerLayout->addStretch();
 
     m_metaDataArea = new QScrollArea(parent);
     m_metaDataArea->setWidget(metaDataWidgetContainer);
