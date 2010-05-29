@@ -97,14 +97,6 @@ private slots:
     void updateActiveUrl();
 
 private:
-    /**
-     * Deactivates the currently active column and activates
-     * the new column indicated by \a index. m_index represents
-     * the active column afterwards. Also the URL of the navigator
-     * will be adjusted to reflect the column URL.
-     */
-    void setActiveColumnIndex(int index);
-
     void layoutColumns();
     void updateScrollBar();
 

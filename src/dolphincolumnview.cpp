@@ -153,10 +153,6 @@ DolphinColumnView::~DolphinColumnView()
 
 void DolphinColumnView::setActive(bool active)
 {
-    if (active && (m_container->focusProxy() != this)) {
-        m_container->setFocusProxy(this);
-    }
-
     if (m_active != active) {
         m_active = active;
 
@@ -309,9 +305,8 @@ void DolphinColumnView::mousePressEvent(QMouseEvent* event)
 }
 
 void DolphinColumnView::keyPressEvent(QKeyEvent* event)
-{
+{   
     QListView::keyPressEvent(event);
-    requestActivation();
 
     DolphinViewController* controller = m_container->m_dolphinViewController;
     controller->handleKeyPressEvent(event);
@@ -443,9 +438,16 @@ void DolphinColumnView::deactivate()
                    m_container->m_dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
     }
 
+    // It is important to disconnect the connection to requestActivation() temporary, otherwise the internal
+    // clearing of the selection would result in activating the column again.
+    disconnect(selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+               this, SLOT(requestActivation()));
     const QModelIndex current = selectionModel()->currentIndex();
     selectionModel()->clear();
     selectionModel()->setCurrentIndex(current, QItemSelectionModel::NoUpdate);
+    connect(selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(requestActivation()));
+    
     updateBackground();
 }
 

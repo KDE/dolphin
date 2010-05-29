@@ -73,7 +73,7 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
 
     DolphinColumnView* column = new DolphinColumnView(viewport(), this, viewModeController->url());
     m_columns.append(column);
-    setActiveColumnIndex(0);
+    requestActivation(column);
 
     m_emptyViewport = new QFrame(viewport());
     m_emptyViewport->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
@@ -175,12 +175,7 @@ void DolphinColumnViewContainer::showColumn(const KUrl& url)
         }
     }
 
-    // set the last column as active column without modifying the controller
-    // and hence the history
-    m_columns[m_index]->setActive(false);
-    m_index = columnIndex;
-    m_columns[m_index]->setActive(true);
-    assureVisibleActiveColumn();
+    requestActivation(m_columns[columnIndex]);
 }
 
 void DolphinColumnViewContainer::mousePressEvent(QMouseEvent* event)
@@ -192,7 +187,9 @@ void DolphinColumnViewContainer::mousePressEvent(QMouseEvent* event)
 void DolphinColumnViewContainer::keyPressEvent(QKeyEvent* event)
 {
     if (event->key() == Qt::Key_Left) {
-        setActiveColumnIndex(m_index - 1);
+        if (m_index > 0) {
+            requestActivation(m_columns[m_index - 1]);
+        }
     } else {
         QScrollArea::keyPressEvent(event);
     }
@@ -248,24 +245,6 @@ void DolphinColumnViewContainer::updateActiveUrl()
 {
     const KUrl activeUrl = m_columns[m_index]->url();
     m_dolphinViewController->requestUrlChange(activeUrl);
-}
-
-void DolphinColumnViewContainer::setActiveColumnIndex(int index)
-{
-    if ((m_index == index) || (index < 0) || (index >= m_columns.count())) {
-        return;
-    }
-
-    const bool hasActiveColumn = (m_index >= 0);
-    if (hasActiveColumn) {
-        m_columns[m_index]->setActive(false);
-    }
-
-    m_index = index;
-    m_columns[m_index]->setActive(true);
-
-    assureVisibleActiveColumn();
-    m_activeUrlTimer->start(); // calls slot updateActiveUrl()
 }
 
 void DolphinColumnViewContainer::layoutColumns()
@@ -342,18 +321,39 @@ void DolphinColumnViewContainer::assureVisibleActiveColumn()
 
 void DolphinColumnViewContainer::requestActivation(DolphinColumnView* column)
 {
-    m_dolphinViewController->setItemView(column);
+    if (m_dolphinViewController->itemView() != column) {
+        m_dolphinViewController->setItemView(column);
+    }
+    if (focusProxy() != column) {
+        setFocusProxy(column);
+    }
+    
     if (column->isActive()) {
         assureVisibleActiveColumn();
     } else {
+        // Deactivate the currently active column
+        if (m_index >= 0) {
+            m_columns[m_index]->setActive(false);
+        }
+        
+        // Get the index of the column that should get activated
         int index = 0;
         foreach (DolphinColumnView* currColumn, m_columns) {
             if (currColumn == column) {
-                setActiveColumnIndex(index);
-                return;
+                break;
             }
             ++index;
         }
+
+        Q_ASSERT(index != m_index);
+        Q_ASSERT(index < m_columns.count());
+
+        // Activate the requested column
+        m_index = index;
+        m_columns[m_index]->setActive(true);
+
+        assureVisibleActiveColumn();
+        m_activeUrlTimer->start(); // calls slot updateActiveUrl()
     }
 }
 
