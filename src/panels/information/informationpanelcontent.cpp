@@ -30,6 +30,7 @@
 #include <klocale.h>
 #include <kmenu.h>
 #include <kseparator.h>
+#include <kstringhandler.h>
 
 #include <Phonon/BackendCapabilities>
 #include <Phonon/MediaObject>
@@ -374,19 +375,21 @@ void InformationPanelContent::setNameLabelText(const QString& text)
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
-    QTextLayout textLayout(text);
+    const QString processedText = KStringHandler::preProcessWrap(text);
+    
+    QTextLayout textLayout(processedText);
     textLayout.setFont(m_nameLabel->font());
     textLayout.setTextOption(textOption);
 
     QString wrappedText;
-    wrappedText.reserve(text.length());
+    wrappedText.reserve(processedText.length());
 
     // wrap the text to fit into the width of m_nameLabel
     textLayout.beginLayout();
     QTextLine line = textLayout.createLine();
     while (line.isValid()) {
         line.setLineWidth(m_nameLabel->width());
-        wrappedText += text.mid(line.textStart(), line.textLength());
+        wrappedText += processedText.mid(line.textStart(), line.textLength());
 
         line = textLayout.createLine();
         if (line.isValid()) {
