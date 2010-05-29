@@ -22,6 +22,7 @@ Comment[eu]=eta eragile logikoa
 Comment[fi]=logiikkaoperaattori and
 Comment[fr]=opérateur logique et
 Comment[fy]=logyske operator
+Comment[ga]=oibreoir loighciúil 'agus'
 Comment[gl]=o operador lóxico «e»
 Comment[gu]=તાર્કિક ઓપરેટર એન્ડ
 Comment[he]=אופרטור לוגי וגם
@@ -87,6 +88,7 @@ Comment[eu]=edo eragile logikoa
 Comment[fi]=loogiikkaoperaattori or
 Comment[fr]=opérateur logique ou
 Comment[fy]=logyske operator of
+Comment[ga]=oibreoir loighciúil 'nó'
 Comment[gl]=o operador lóxico «ou»
 Comment[gu]=તાર્કિક ઓપરેટર ઓર
 Comment[he]=אופרטור לוגי או
@@ -152,6 +154,7 @@ Comment[eu]=ez eragile logikoa
 Comment[fi]=logiikkaoperaattori not
 Comment[fr]=opérateur logique non
 Comment[fy]=logyske operator net
+Comment[ga]=oibreoir loighciúil 'níl'
 Comment[gl]=o operador lóxico «non»
 Comment[gu]=તાર્કિક ઓપરેટર નોટ
 Comment[he]=אופרטור לוגי שלילה
@@ -215,6 +218,7 @@ Name[eu]=Fitxategi luzapena
 Name[fi]=Tiedostotarkennin
 Name[fr]=Extension de fichier
 Name[fy]=Triem taheaksel
+Name[ga]=Iarmhír chomhaid
 Name[gl]=Extensión do ficheiro
 Name[gu]=ફાઈલ એક્સટેન્શન
 Name[he]=סיומת קובץ
@@ -278,6 +282,7 @@ Comment[eu]=adibidez txt
 Comment[fi]=esimerkiksi txt
 Comment[fr]=par exemple txt
 Comment[fy]=bygelyks txt
+Comment[ga]=mar shampla .txt
 Comment[gl]=por exemplo txt
 Comment[gu]=દાખલા તરીકે txt
 Comment[he]=לדוגמא txt
@@ -346,6 +351,7 @@ Comment[eu]=1etik 10ra, adibidez >=7
 Comment[fi]=1 ... 10, esimerkiksi >=7
 Comment[fr]=De 1 à 10, par exemple >=7
 Comment[fy]=1 oant 10, lykas bygelyks >=7
+Comment[ga]=1 go dtí 10, mar shampla >=7
 Comment[gl]=do 1 ao 10, por exemplo >=7
 Comment[gu]=1 થી 10, દાખલા તરીકે >=7
 Comment[he]=עד 10, לדוגמא >= 7 1
@@ -407,6 +413,7 @@ GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
+GenericName[ga]=Úsáid <, <=, :, >= agus >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
@@ -476,6 +483,7 @@ Comment[eu]=Etiketa
 Comment[fi]=Tunniste
 Comment[fr]=Étiquette
 Comment[fy]=Lebel
+Comment[ga]=Clib
 Comment[gl]=Etiqueta
 Comment[gu]=ટેગ
 Comment[he]=תגית
@@ -549,6 +557,7 @@ Name[eu]=Fitxategi neurria
 Name[fi]=Tiedostokoko
 Name[fr]=Taille du fichier
 Name[fy]=Triemgrutte:
+Name[ga]=Méid an chomhaid
 Name[gl]=Tamaño do ficheiro
 Name[gu]=ફાઇલ કદ
 Name[he]=גודל קובץ
@@ -612,6 +621,7 @@ Comment[eu]=bytetan, adibidez >1000
 Comment[fi]=tavuissa, esimerkiksi >1000
 Comment[fr]=en octets, par exemple >1000
 Comment[fy]=Yn bytes, lykas bygelyks > 1000
+Comment[ga]=bearta, mar shampla >1000
 Comment[gl]=en bytes, por exemplo >1000
 Comment[he]=בבתים, לדוגמא > 1000
 Comment[hr]=u bajtovima, na primjer >1000
@@ -671,6 +681,7 @@ GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
+GenericName[ga]=Úsáid <, <=, :, >= agus >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
@@ -737,6 +748,7 @@ Name[eu]=Edukiaren neurria
 Name[fi]=Sisältökoko
 Name[fr]=Taille du contenu
 Name[fy]=Ynhâld grutte
+Name[ga]=Méid an inneachair
 Name[gl]=Tamaño do contido
 Name[gu]=વિગત કદ
 Name[he]=גודל התוכן
@@ -798,6 +810,7 @@ Comment[eu]=bytetan
 Comment[fi]=tavuissa
 Comment[fr]=en octets
 Comment[fy]=yn bytes
+Comment[ga]=bearta
 Comment[gl]=en bytes
 Comment[gu]=બાઈટ્સ માં
 Comment[he]=בבתים
@@ -860,6 +873,7 @@ GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
+GenericName[ga]=Úsáid <, <=, :, >= agus >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
@@ -928,6 +942,7 @@ Comment[eu]=adibidez >1999-10-10
 Comment[fi]=esimerkiksi >1999-10-10
 Comment[fr]=par exemple >1999-10-10
 Comment[fy]=lykas bygelyks > 1999-10-10
+Comment[ga]=mar shampla >1999-10-10
 Comment[gl]=por exemplo >1999-10-10
 Comment[gu]=દાખલા તરીકે >1999-10-10
 Comment[he]=לדוגמא > 1999-10-10
@@ -988,6 +1003,7 @@ GenericName[eu]=Erabili <, <=, :, >= eta >.
 GenericName[fi]=Käytä <, <=, :, >= ja >.
 GenericName[fr]=Utilisez <, <=, :, >= et >.
 GenericName[fy]=Brûk <, <=, :, >= en >.
+GenericName[ga]=Úsáid <, <=, :, >= agus >.
 GenericName[gl]=Empregue <, <=, :, >= e >.
 GenericName[gu]=<, <=, :, >= અને > વાપરો.
 GenericName[he]=השתמש ב: <, <=, :, >= and >.
