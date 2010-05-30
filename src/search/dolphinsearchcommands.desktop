@@ -203,6 +203,7 @@ Completion=-
 [dolphin fileExtension]
 Name=File extension
 Name[bg]=Файлово разширение
+Name[bn]=ফাইল এক্সটেনশন
 Name[ca]=Extensió del fitxer
 Name[ca@valencia]=Extensió del fitxer
 Name[cs]=Přípona souboru
@@ -267,6 +268,7 @@ Name[zh_CN]=文件扩展名
 Name[zh_TW]=副檔名
 Comment=for example txt
 Comment[bg]=например txt
+Comment[bn]=উদাহরণস্বরূপ txt
 Comment[ca]=per exemple txt
 Comment[ca@valencia]=per exemple txt
 Comment[cs]=např. txt
@@ -336,6 +338,7 @@ Name=Rating
 #NOTE "=" does not work here, ":" does
 Comment=1 to 10, for example >=7
 Comment[bg]=от 1 до 10, например >=7
+Comment[bn]=1 থেকে 10, যেমন >=7
 Comment[ca]=1 a 10, per exemple >=7
 Comment[ca@valencia]=1 a 10, per exemple >=7
 Comment[cs]=1 až 10, např. >=7
@@ -398,6 +401,7 @@ Comment[zh_CN]=1 到 10，比如 >=7
 Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
+GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
 GenericName[ca@valencia]=Utilitzeu <, <=, :, >= i >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
@@ -468,6 +472,7 @@ Icon=favorites
 Name=Tag
 Comment=Tag
 Comment[bg]=Етикет
+Comment[bn]=ট্যাগ 
 Comment[ca]=Etiqueta
 Comment[ca@valencia]=Etiqueta
 Comment[cs]=Značka
@@ -542,6 +547,7 @@ Completion=title:
 [dolphin filesize]
 Name=File size
 Name[bg]=Големина на файла
+Name[bn]=ফাইল-এর মাপ
 Name[ca]=Mida del fitxer
 Name[ca@valencia]=Mida del fitxer
 Name[cs]=Velikost souboru
@@ -606,6 +612,7 @@ Name[zh_CN]=文件大小
 Name[zh_TW]=檔案大小
 Comment=in bytes, for example >1000
 Comment[bg]=в байтове, например >1000
+Comment[bn]=বাইট-এ, যেমন >1000
 Comment[ca]=en bytes, per exemple >1000
 Comment[ca@valencia]=en bytes, per exemple >1000
 Comment[cs]=v bytech, například >1000
@@ -666,6 +673,7 @@ Comment[zh_CN]=按字节数，比如 >1000
 Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
+GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
 GenericName[ca@valencia]=Utilitzeu <, <=, :, >= i >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
@@ -733,6 +741,7 @@ Completion=contentSize
 [dolphin contentsize]
 Name=Content size
 Name[bg]=Големина на съдържанието
+Name[bn]=বিষয়বস্তুর মাপ
 Name[ca]=Mida del contingut
 Name[ca@valencia]=Mida del contingut
 Name[cs]=Velikost obsahu
@@ -795,6 +804,7 @@ Name[zh_CN]=内容大小
 Name[zh_TW]=內容大小
 Comment=in bytes
 Comment[bg]=в байтове
+Comment[bn]=বাইট-এ
 Comment[ca]=en bytes
 Comment[ca@valencia]=en bytes
 Comment[cs]=v bajtech
@@ -858,6 +868,7 @@ Comment[zh_CN]=按字节
 Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
+GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
 GenericName[ca@valencia]=Utilitzeu <, <=, :, >= i >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
@@ -927,6 +938,7 @@ Completion=contentSize
 Name=Last modified
 Comment=for example >1999-10-10
 Comment[bg]=например >1999-10-10
+Comment[bn]=যেমন >1999-10-10
 Comment[ca]=per exemple >1999-10-10
 Comment[ca@valencia]=per exemple >1999-10-10
 Comment[cs]=například >1999-10-10
@@ -988,6 +1000,7 @@ Comment[zh_CN]=比如 >1999-10-10
 Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
+GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
 GenericName[ca@valencia]=Utilitzeu <, <=, :, >= i >.
 GenericName[cs]=Použijte <, <=, :, >= a >.
