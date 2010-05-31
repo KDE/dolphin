@@ -84,7 +84,7 @@ static const CriterionItem g_criterionItems[] = {
     {"Date", SearchCriterionSelector::Date},
     {"Size", SearchCriterionSelector::Size},
     {"Tag", SearchCriterionSelector::Tag},
-    {"Raging", SearchCriterionSelector::Rating}
+    {"Rating", SearchCriterionSelector::Rating}
 };
 
 DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* parent) :
