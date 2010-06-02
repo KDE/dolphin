@@ -107,7 +107,7 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
 
     m_locationBox = new KComboBox(this);
     for (unsigned int i = 0; i < sizeof(g_locationItems) / sizeof(SettingsItem); ++i) {
-        m_locationBox->addItem(g_locationItems[i].text);
+        m_locationBox->addItem(i18nc("@label", g_locationItems[i].text));
     }
 
     // add "what" configuration
@@ -115,7 +115,7 @@ DolphinSearchOptionsConfigurator::DolphinSearchOptionsConfigurator(QWidget* pare
 
     m_whatBox = new KComboBox(this);
     for (unsigned int i = 0; i < sizeof(g_whatItems) / sizeof(SettingsItem); ++i) {
-        m_whatBox->addItem(g_whatItems[i].text);
+        m_whatBox->addItem(i18nc("@label", g_whatItems[i].text));
     }
     connect(m_whatBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updateButtons()));
 
