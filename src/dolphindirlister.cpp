@@ -24,6 +24,7 @@
 DolphinDirLister::DolphinDirLister() :
     KDirLister()
 {
+    setAutoErrorHandlingEnabled(false, 0);
 }
 
 DolphinDirLister::~DolphinDirLister()
