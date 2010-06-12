@@ -42,6 +42,7 @@
 #include <QPointer>
 #include <QResizeEvent>
 #include <QScrollArea>
+#include <QTextDocument>
 #include <QTextLayout>
 #include <QTextLine>
 #include <QTimer>
@@ -375,7 +376,7 @@ void InformationPanelContent::setNameLabelText(const QString& text)
     QTextOption textOption;
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
-    const QString processedText = KStringHandler::preProcessWrap(text);
+    const QString processedText = Qt::mightBeRichText(text) ? text : KStringHandler::preProcessWrap(text);
     
     QTextLayout textLayout(processedText);
     textLayout.setFont(m_nameLabel->font());
