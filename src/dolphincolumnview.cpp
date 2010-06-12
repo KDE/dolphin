@@ -125,11 +125,9 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     connect(KGlobalSettings::self(), SIGNAL(kdisplayFontChanged()),
             this, SLOT(updateFont()));
 
-    DolphinViewController* dolphinViewController = m_container->m_dolphinViewController;
-    connect(dolphinViewController, SIGNAL(zoomLevelChanged(int)),
-            this, SLOT(setZoomLevel(int)));
-
     const ViewModeController* viewModeController = m_container->m_viewModeController;
+    connect(viewModeController, SIGNAL(zoomLevelChanged(int)),
+            this, SLOT(setZoomLevel(int)));
     const QString nameFilter = viewModeController->nameFilter();
     if (!nameFilter.isEmpty()) {
         m_proxyModel->setFilterFixedString(nameFilter);
@@ -137,6 +135,8 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     updateDecorationSize(dolphinView->showPreview());
     updateBackground();
+    
+    DolphinViewController* dolphinViewController = m_container->m_dolphinViewController;
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);
