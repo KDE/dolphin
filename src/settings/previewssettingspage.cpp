@@ -128,7 +128,7 @@ void PreviewsSettingsPage::applySettings()
     globalConfig.writeEntry("MaximumSize",
                             m_localFileSizeBox->value() * 1024 * 1024,
                             KConfigBase::Normal | KConfigBase::Global);
-    globalConfig.writeEntry("RemoteMaximumSize",
+    globalConfig.writeEntry("MaximumRemoteSize",
                             m_remoteFileSizeBox->value() * 1024 * 1024,
                             KConfigBase::Normal | KConfigBase::Global);
     globalConfig.sync();
@@ -169,16 +169,13 @@ void PreviewsSettingsPage::loadSettings()
                                                      << QLatin1String("imagethumbnail")
                                                      << QLatin1String("jpegthumbnail"));
 
-    // TODO: The default value of 5 MB must match with the default value inside
-    // kdelibs/kio/kio/previewjob.cpp. Maybe a static getter method in PreviewJob
-    // should be added for getting the default size?
     const int maxLocalByteSize = globalConfig.readEntry("MaximumSize", MaxLocalPreviewSize * 1024 * 1024);
     const int maxLocalMByteSize = maxLocalByteSize / (1024 * 1024);
     m_localFileSizeBox->setValue(maxLocalMByteSize);
 
-    const int maxRemoteByteSize = globalConfig.readEntry("MaximumSize", MaxRemotePreviewSize * 1024 * 1024);
+    const int maxRemoteByteSize = globalConfig.readEntry("MaximumRemoteSize", MaxRemotePreviewSize * 1024 * 1024);
     const int maxRemoteMByteSize = maxRemoteByteSize / (1024 * 1024);
-    m_localFileSizeBox->setValue(maxRemoteMByteSize);
+    m_remoteFileSizeBox->setValue(maxRemoteMByteSize);
 }
 
 #include "previewssettingspage.moc"
