@@ -21,7 +21,6 @@
 #include <kprotocolmanager.h>
 
 #include <QtGui/QApplication>
-#include <QtGui/QClipboard>
 #include <QtGui/QKeyEvent>
 #include <QtGui/QItemSelection>
 #include <QtGui/QBoxLayout>
