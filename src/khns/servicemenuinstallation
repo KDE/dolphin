@@ -55,7 +55,7 @@ def uncompress(filename, output)
 end
 dir = archive + "-dir"
 if File.exist?(dir)
-    FileleUtils.rm_r(dir)
+    FileUtils.rm_r(dir)
 end
 FileUtils.mkdir(dir)
 exit(-1) if !uncompress(archive, dir)
@@ -70,12 +70,13 @@ dd.read
 dd.read
 dir += "/" + dd.read
 dd = nil
+Dir.chdir(dir)
 def fail()
     system("kdialog --passivepopup \"Installation failed\" 15")
     exit(-1)
 end
-if !((File.exist?(file = dir + "/install-it.sh") || File.exist?(file = dir + "/install-it")) && system(file))
-    fail() if !File.exist?(file = dir + "/installKDE4.sh") && !File.exist?(file = dir + "/installKDE4") && !File.exist?(file = dir + "/install.sh") && !File.exist?(file = dir + "/install")
+if !((File.exist?(file = "./install-it.sh") || File.exist?(file = "./install-it")) && system(file))
+    fail() if !File.exist?(file = "./installKDE4.sh") && !File.exist?(file = "./installKDE4") && !File.exist?(file = "./install.sh") && !File.exist?(file = "./install")
     File.new(file).chmod(0700)
     fail() if !system(file + " --local") && !system(file + "--local-install") && !system(file + " --install")
 end
