@@ -1601,6 +1601,7 @@ void DolphinMainWindow::setupDockWidgets()
 
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
+        infoDock->hide();
         foldersDock->hide();
 #ifndef Q_OS_WIN
         terminalDock->hide();
