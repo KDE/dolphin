@@ -330,7 +330,7 @@ Comment[tr]=örneğin txt
 Comment[uk]=наприклад, txt
 Comment[wa]=txt, metans
 Comment[x-test]=xxfor example txtxx
-Comment[zh_CN]=样例文本
+Comment[zh_CN]=例如 txt
 Comment[zh_TW]=例如 txt
 Completion=fileExtension:
 Icon=preferences-desktop-filetype-association
@@ -400,7 +400,7 @@ Comment[tr]=1'den 10'a kadar, örnek >=7
 Comment[uk]=Від 1 до 10, наприклад, >=7
 Comment[wa]=1 a 10, >=7, metans
 Comment[x-test]=xx1 to 10, for example >=7xx
-Comment[zh_CN]=1 到 10，比如 >=7
+Comment[zh_CN]=1 到 10，例如 >=7
 Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
@@ -537,7 +537,7 @@ Comment[tr]=Etiket
 Comment[uk]=Мітка
 Comment[wa]=Etikete
 Comment[x-test]=xxTagxx
-Comment[zh_CN]=标记
+Comment[zh_CN]=标签
 Comment[zh_TW]=標籤
 Completion=tag:
 Icon=mail-tagged
@@ -672,7 +672,7 @@ Comment[tr]=bayt olarak, örnek >1000
 Comment[uk]=у байтах, наприклад, >1000
 Comment[wa]=e bites, >1000, metans
 Comment[x-test]=xxin bytes, for example >1000xx
-Comment[zh_CN]=按字节数，比如 >1000
+Comment[zh_CN]=单位为字节，例如 >1000
 Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
@@ -867,7 +867,7 @@ Comment[tr]=bayt olarak
 Comment[uk]=у байтах
 Comment[wa]=e bites
 Comment[x-test]=xxin bytesxx
-Comment[zh_CN]=按字节
+Comment[zh_CN]=单位为字节
 Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
@@ -999,7 +999,7 @@ Comment[tr]=örnek >1999-10-10
 Comment[uk]=наприклад, >1999-10-10
 Comment[wa]=>1999-10-10, metans
 Comment[x-test]=xxfor example >1999-10-10xx
-Comment[zh_CN]=比如 >1999-10-10
+Comment[zh_CN]=例如 >1999-10-10
 Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
 GenericName[bg]=Използвайте <, <=, :, >= и >.
