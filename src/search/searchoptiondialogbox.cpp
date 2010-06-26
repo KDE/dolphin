@@ -30,14 +30,14 @@ SearchOptionDialogBox::SearchOptionDialogBox(QWidget* parent) :
     QWidget* container = new QWidget(this);
 
     QLabel* label = new QLabel(i18nc("@label", "Name:"), container);
-    KLineEdit* lineEdit = new KLineEdit(container);
-    lineEdit->setMinimumWidth(250);
-    lineEdit->setClearButtonShown(true);
+    mLineEdit = new KLineEdit(container);
+    mLineEdit->setMinimumWidth(250);
+    mLineEdit->setClearButtonShown(true);
 
-    connect(lineEdit, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
+    connect(mLineEdit, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
     QHBoxLayout* layout = new QHBoxLayout(container);
     layout->addWidget(label, Qt::AlignRight);
-    layout->addWidget(lineEdit);
+    layout->addWidget(mLineEdit);
 
     setMainWidget(container);
     setCaption(i18nc("@title:window", "Save Search Options"));
