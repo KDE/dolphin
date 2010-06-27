@@ -30,14 +30,14 @@ SearchOptionDialogBox::SearchOptionDialogBox(QWidget* parent) :
     QWidget* container = new QWidget(this);
 
     QLabel* label = new QLabel(i18nc("@label", "Name:"), container);
-    mLineEdit = new KLineEdit(container);
-    mLineEdit->setMinimumWidth(250);
-    mLineEdit->setClearButtonShown(true);
+    m_lineEdit = new KLineEdit(container);
+    m_lineEdit->setMinimumWidth(250);
+    m_lineEdit->setClearButtonShown(true);
 
-    connect(mLineEdit, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
+    connect(m_lineEdit, SIGNAL(textChanged(const QString&)), SLOT(slotTextChanged(const QString&)));
     QHBoxLayout* layout = new QHBoxLayout(container);
     layout->addWidget(label, Qt::AlignRight);
-    layout->addWidget(mLineEdit);
+    layout->addWidget(m_lineEdit);
 
     setMainWidget(container);
     setCaption(i18nc("@title:window", "Save Search Options"));
@@ -60,7 +60,7 @@ SearchOptionDialogBox::~SearchOptionDialogBox()
 
 QString SearchOptionDialogBox::text() const
 {
-    return mLineEdit->text();
+    return m_lineEdit->text();
 }
 
 void SearchOptionDialogBox::slotTextChanged(const QString& text)

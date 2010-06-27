@@ -37,6 +37,6 @@ protected slots:
     void slotTextChanged(const QString& text);
 
 private:
-    KLineEdit* mLineEdit;
+    KLineEdit* m_lineEdit;
 };
 #endif
