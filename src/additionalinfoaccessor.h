@@ -86,6 +86,7 @@ protected:
 private:
     struct AdditionalInfo {
         const char* const actionCollectionName;
+        const char* const context;
         const char* const translation;
         const DolphinView::Sorting sorting;
         const int bitValue;
