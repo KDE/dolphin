@@ -1632,8 +1632,10 @@ KDirLister* DolphinView::ViewAccessor::dirLister() const
 
 void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
-    emit redirection(oldUrl, newUrl);
-    m_controller->redirectToUrl(newUrl); // #186947
+    if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
+        emit redirection(oldUrl, newUrl);
+        m_controller->redirectToUrl(newUrl); // #186947
+    }
 }
 
 void DolphinView::restoreContentsPosition()
