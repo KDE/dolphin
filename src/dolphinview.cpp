@@ -1548,7 +1548,7 @@ void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
     if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
         emit redirection(oldUrl, newUrl);
-        m_controller->redirectToUrl(newUrl); // #186947
+        m_viewModeController->redirectToUrl(newUrl); // #186947
     }
 }
 
