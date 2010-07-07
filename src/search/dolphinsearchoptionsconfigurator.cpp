@@ -362,17 +362,16 @@ Nepomuk::Query::Query DolphinSearchOptionsConfigurator::nepomukQuery() const
         }
     }
 
+    Nepomuk::Query::FileQuery fileQuery;
+    fileQuery.setFileMode( Nepomuk::Query::FileQuery::QueryFiles );
+    fileQuery.setTerm(andTerm);
+
     if ((m_locationBox->currentIndex() == 1) && m_directory.isValid()) {
         // "From Here" is selected as location filter
-        Nepomuk::Query::FileQuery fileQuery;
         fileQuery.addIncludeFolder(m_directory);
-        fileQuery.setTerm(andTerm);
-        return fileQuery;
     }
 
-    Nepomuk::Query::Query query;
-    query.setTerm(andTerm);
-    return query;
+    return fileQuery;
 }
 
 #include "dolphinsearchoptionsconfigurator.moc"
