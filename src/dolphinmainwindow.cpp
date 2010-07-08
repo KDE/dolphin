@@ -830,7 +830,15 @@ void DolphinMainWindow::replaceLocation()
 void DolphinMainWindow::goBack()
 {
     clearStatusBar();
-    m_activeViewContainer->urlNavigator()->goBack();
+    
+    KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
+    urlNavigator->goBack();
+    
+    if (urlNavigator->locationState().isEmpty()) {
+        // An empty location state indicates a redirection URL,
+        // which must be skipped too
+        urlNavigator->goBack();       
+    }
 }
 
 void DolphinMainWindow::goForward()

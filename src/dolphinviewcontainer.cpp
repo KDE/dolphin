@@ -433,7 +433,13 @@ void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
     Q_UNUSED(oldUrl);
     const bool block = m_urlNavigator->signalsBlocked();
     m_urlNavigator->blockSignals(true);
+    
+    // Assure that the location state is reset for redirection URLs. This
+    // allows to skip redirection URLs when going back or forward in the
+    // URL history.
+    m_urlNavigator->saveLocationState(QByteArray());
     m_urlNavigator->setLocationUrl(newUrl);
+    
     m_urlNavigator->blockSignals(block);
 }
 
