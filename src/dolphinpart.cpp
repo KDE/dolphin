@@ -347,7 +347,11 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
 void DolphinPart::slotItemTriggered(const KFileItem& item)
 {
     KParts::OpenUrlArguments args;
-    args.setMimeType(item.mimetype());
+    // Forget about the known mimetype if a target URL is used.
+    // Testcase: network:/ with a item (mimetype "inode/some-foo-service") pointing to a http URL (html)
+    if (item.targetUrl() == item.url()) {
+        args.setMimeType(item.mimetype());
+    }
 
     // Ideally, konqueror should be changed to not require trustedSource for directory views,
     // since the idea was not to need BrowserArguments for non-browser stuff...
