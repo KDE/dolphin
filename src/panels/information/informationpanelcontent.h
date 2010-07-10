@@ -28,8 +28,6 @@
 
 class KFileItem;
 class KFileMetaDataWidget;
-class KSeparator;
-class MetaTextLabel;
 class PhononWidget;
 class PixmapViewer;
 class QPixmap;

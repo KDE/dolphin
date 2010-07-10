@@ -34,7 +34,6 @@ class DolphinModel;
 class DolphinSortFilterProxyModel;
 class DolphinDirLister;
 class KFileItem;
-class KFileItemList;
 class SelectionManager;
 class ViewExtensionsFactory;
 

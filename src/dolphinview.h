@@ -47,7 +47,6 @@ class DolphinIconsView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
 class DolphinViewController;
-class KFilePreviewGenerator;
 class KAction;
 class KActionCollection;
 class KDirLister;

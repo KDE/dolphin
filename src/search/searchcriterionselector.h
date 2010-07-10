@@ -33,7 +33,6 @@ class SearchCriterionValue;
 class QComboBox;
 class QHBoxLayout;
 class QPushButton;
-class ValueWidget;
 
 /**
  * @brief Allows the user to select a search criterion.

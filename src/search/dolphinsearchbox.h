@@ -25,7 +25,6 @@
 #include <KIcon>
 
 class KLineEdit;
-class KUrl;
 class QCompleter;
 class QModelIndex;
 class QStandardItemModel;

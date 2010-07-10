@@ -22,7 +22,6 @@
 
 #include <settings/settingspagebase.h>
 
-class QCheckBox;
 class QListWidget;
 class KIntSpinBox;
 

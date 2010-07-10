@@ -29,7 +29,6 @@
 #include <QUrl>
 
 class SearchCriterionValue;
-class QWidget;
 
 /**
  * @brief Helper class for SearchCriterionSelector.

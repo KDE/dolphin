@@ -25,7 +25,6 @@
 #include <kuniqueapplication.h>
 
 class DolphinMainWindow;
-class KUrl;
 
 /**
  * @brief Holds the application data which can be accessed.
