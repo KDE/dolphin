@@ -44,17 +44,14 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
 
     // Create widget for file name
     m_name = new QLabel(this);
-    m_name->setWordWrap(true);
     QFont font = m_name->font();
     font.setBold(true);
     m_name->setFont(font);
     m_name->setAlignment(Qt::AlignHCenter);
-    m_name->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     // Create widget for the meta data
     m_fileMetaDataWidget = new KFileMetaDataWidget();
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
-    m_fileMetaDataWidget->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     m_fileMetaDataWidget->setReadOnly(true);
 
     // The stretchwidget allows the metadata widget to be top aligned and fills
@@ -72,6 +69,8 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     QHBoxLayout* tipLayout = new QHBoxLayout(this);
     tipLayout->addWidget(m_preview);
     tipLayout->addWidget(textContainer);
+    
+    tipLayout->setSizeConstraint(QLayout::SetFixedSize);
 }
 
 FileMetaDataToolTip::~FileMetaDataToolTip()
@@ -81,7 +80,6 @@ FileMetaDataToolTip::~FileMetaDataToolTip()
 void FileMetaDataToolTip::setPreview(const QPixmap& pixmap)
 {
     m_preview->setPixmap(pixmap);
-    m_preview->setFixedSize(pixmap.size());
 }
 
 const QPixmap* FileMetaDataToolTip::preview() const

@@ -66,18 +66,33 @@ private slots:
     void startPreviewJob();
     void setPreviewPix(const KFileItem& item, const QPixmap& pix);
     void previewFailed();
-
+    void showToolTip();
+    
 private:
-    void showToolTip(const QPixmap& pixmap);
+    void showToolTipDelayed(const QPixmap& pixmap);
 
 private:
     QAbstractItemView* m_view;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 
-    QTimer* m_timer;
-    QTimer* m_previewTimer;
+    /// Timeout from requesting a tooltip until the tooltip is shown
+    QTimer* m_prepareToolTipTimer;
+    
+    /// Timeout from requesting a tooltip until starting a job to
+    /// create a preview pixmap. The preview job is started before
+    /// m_prepareToolTipTimer has been exceeded, to have the preview
+    /// pixmap ideally before the tooltip will be shown.
+    QTimer* m_startPreviewJobTimer;
+    
+    /// Don't show the tooltip, before the preview has been received. The
+    /// time indicates the interval, when the check for a received
+    /// is done.
     QTimer* m_waitOnPreviewTimer;
+    
+    /// The tooltip is shown slightly delayed to prevent a flickering
+    /// because of layouting the content.
+    QTimer* m_showToolTipDelayedTimer;
 
     FileMetaDataToolTip* m_fileMetaDataToolTip;
 
