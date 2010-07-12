@@ -38,9 +38,10 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_view(parent),
     m_dolphinModel(0),
     m_proxyModel(model),
-    m_timer(0),
-    m_previewTimer(0),
+    m_prepareToolTipTimer(0),
+    m_startPreviewJobTimer(0),
     m_waitOnPreviewTimer(0),
+    m_showToolTipDelayedTimer(0),
     m_fileMetaDataToolTip(0),
     m_item(),
     m_itemRect(),
@@ -48,27 +49,42 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_hasDefaultIcon(false),
     m_previewPixmap()
 {
+    static FileMetaDataToolTip* sharedToolTip = 0;
+    if (sharedToolTip == 0) {
+        sharedToolTip = new FileMetaDataToolTip();
+        // TODO: Using K_GLOBAL_STATIC would be preferable to maintain the
+        // instance, but the cleanup of KFileMetaDataWidget at this stage does
+        // not work.
+    }
+    m_fileMetaDataToolTip = sharedToolTip;
+    
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
     connect(parent, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(requestToolTip(const QModelIndex&)));
     connect(parent, SIGNAL(viewportEntered()),
             this, SLOT(hideToolTip()));
 
-    m_timer = new QTimer(this);
-    m_timer->setSingleShot(true);
-    connect(m_timer, SIGNAL(timeout()),
-            this, SLOT(prepareToolTip()));
-
-    m_previewTimer = new QTimer(this);
-    m_previewTimer->setSingleShot(true);
-    connect(m_previewTimer, SIGNAL(timeout()),
-            this, SLOT(startPreviewJob()));
-
+    // Initialize timers
+    m_prepareToolTipTimer = new QTimer(this);
+    m_prepareToolTipTimer->setSingleShot(true);
+    m_prepareToolTipTimer->setInterval(500);
+    connect(m_prepareToolTipTimer, SIGNAL(timeout()), this, SLOT(prepareToolTip()));   
+    
+    m_startPreviewJobTimer = new QTimer(this);
+    m_startPreviewJobTimer->setSingleShot(true);
+    m_startPreviewJobTimer->setInterval(200);
+    connect(m_startPreviewJobTimer, SIGNAL(timeout()), this, SLOT(startPreviewJob()));
+    
     m_waitOnPreviewTimer = new QTimer(this);
     m_waitOnPreviewTimer->setSingleShot(true);
-    connect(m_waitOnPreviewTimer, SIGNAL(timeout()),
-            this, SLOT(prepareToolTip()));
+    m_waitOnPreviewTimer->setInterval(250);     
+    connect(m_waitOnPreviewTimer, SIGNAL(timeout()), this, SLOT(prepareToolTip()));
 
+    m_showToolTipDelayedTimer = new QTimer(this);
+    m_showToolTipDelayedTimer->setSingleShot(true);
+    m_showToolTipDelayedTimer->setInterval(100);     
+    connect(m_showToolTipDelayedTimer, SIGNAL(timeout()), this, SLOT(showToolTip()));
+    
     // When the mousewheel is used, the items don't get a hovered indication
     // (Qt-issue #200665). To assure that the tooltip still gets hidden,
     // the scrollbars are observed.
@@ -79,15 +95,6 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
 
     m_view->viewport()->installEventFilter(this);
     m_view->installEventFilter(this);
-
-    static FileMetaDataToolTip* sharedToolTip = 0;
-    if (sharedToolTip == 0) {
-        sharedToolTip = new FileMetaDataToolTip();
-        // TODO: Using K_GLOBAL_STATIC would be preferable to maintain the
-        // instance, but the cleanup of KMetaDataWidget at this stage does
-        // not work.
-    }
-    m_fileMetaDataToolTip = sharedToolTip;
 }
 
 ToolTipManager::~ToolTipManager()
@@ -119,12 +126,11 @@ bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 
 void ToolTipManager::requestToolTip(const QModelIndex& index)
 {
+    hideToolTip();
+    
     // Only request a tooltip for the name column and when no selection or
     // drag & drop operation is done (indicated by the left mouse button)
     if ((index.column() == DolphinModel::Name) && !(QApplication::mouseButtons() & Qt::LeftButton)) {
-        m_waitOnPreviewTimer->stop();
-        hideToolTip();
-
         m_itemRect = m_view->visualRect(index);
         const QPoint pos = m_view->viewport()->mapToGlobal(m_itemRect.topLeft());
         m_itemRect.moveTo(pos);
@@ -134,37 +140,35 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
 
         // Only start the previewJob when the mouse has been over this item for 200 milliseconds.
         // This prevents a lot of useless preview jobs when passing rapidly over a lot of items.
-        m_previewTimer->start(200);
+        m_startPreviewJobTimer->start();
         m_previewPixmap = QPixmap();
         m_hasDefaultIcon = false;
 
-        m_timer->start(500);
-    } else {
-        hideToolTip();
+        m_prepareToolTipTimer->start();
     }
 }
 
 void ToolTipManager::hideToolTip()
 {
-    m_timer->stop();
-    m_previewTimer->stop();
+    m_prepareToolTipTimer->stop();
+    m_startPreviewJobTimer->stop();
     m_waitOnPreviewTimer->stop();
+    m_showToolTipDelayedTimer->stop();
 
     m_fileMetaDataToolTip->hide();
-    m_fileMetaDataToolTip->setItems(KFileItemList());
 }
 
 void ToolTipManager::prepareToolTip()
 {
     if (m_generatingPreview) {
-        m_waitOnPreviewTimer->start(250);
+        m_waitOnPreviewTimer->start();
     }
 
     if (!m_previewPixmap.isNull()) {
-        showToolTip(m_previewPixmap);
+        showToolTipDelayed(m_previewPixmap);
     } else if (!m_hasDefaultIcon) {
         const QPixmap image(KIcon(m_item.iconName()).pixmap(128, 128));
-        showToolTip(image);
+        showToolTipDelayed(image);
         m_hasDefaultIcon = true;
     }
 }
@@ -198,21 +202,11 @@ void ToolTipManager::previewFailed()
     m_generatingPreview = false;
 }
 
-
-void ToolTipManager::showToolTip(const QPixmap& pixmap)
+void ToolTipManager::showToolTip()
 {
-    if (QApplication::mouseButtons() & Qt::LeftButton) {
-        return;
-    }
-
-    m_fileMetaDataToolTip->setPreview(pixmap);
-    m_fileMetaDataToolTip->setName(m_item.text());
-    m_fileMetaDataToolTip->setItems(KFileItemList() << m_item);
-
-    // Calculate the x- and y-position of the tooltip
-    const QSize size = m_fileMetaDataToolTip->sizeHint();
     const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
-
+    const QSize size = m_fileMetaDataToolTip->sizeHint();
+    
     // m_itemRect defines the area of the item, where the tooltip should be
     // shown. Per default the tooltip is shown in the bottom right corner.
     // If the tooltip content exceeds the desktop borders, it must be assured that:
@@ -225,15 +219,6 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
     if (!hasRoomAbove && !hasRoomBelow && !hasRoomToLeft && !hasRoomToRight) {
         return;
     }
-
-    // The size hint provided by the tooltip is not necessarily equal to the
-    // real size of the tooltip after showing it. As long as the tooltip is aligned
-    // on the upper-left edge, this is no problem. If the tooltip is aligned at
-    // another edge, the real size must be respected and the position
-    // corrected. Whether a correction must be done, is indicated by the variables
-    // updateWidth and updateHeight:
-    bool updateWidth = false;
-    bool updateHeight = false;
     
     int x = 0;
     int y = 0;
@@ -246,7 +231,6 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
             y = m_itemRect.bottom();
         } else {
             y = m_itemRect.top() - size.height();
-            updateHeight = true;
         }
     } else {
         Q_ASSERT(hasRoomToLeft || hasRoomToRight);
@@ -254,34 +238,37 @@ void ToolTipManager::showToolTip(const QPixmap& pixmap)
             x = m_itemRect.right();
         } else {
             x = m_itemRect.left() - size.width();
-            updateWidth = true;
         }
 
         // Put the tooltip at the bottom of the screen. The x-coordinate has already
         // been adjusted, so that no overlapping with m_itemRect occurs.
         y = desktop.bottom() - size.height();
-        updateHeight = true;
     }
+    
+    m_fileMetaDataToolTip->move(qMax(x, 0), qMax(y, 0));
+    m_fileMetaDataToolTip->show();
+}
 
-    if (!updateWidth && !updateHeight) {
-        // Default case: There is enough room below and right of the mouse
-        // pointer and the tooltip can be positioned there.
-        m_fileMetaDataToolTip->move(x, y);
-        m_fileMetaDataToolTip->show();
-    } else {
-        // There is not enough room to show the tooltip at the default position and
-        // it must be moved left or upwards. In this case the size hint of the
-        // tooltip is not sufficient and the real size must be respected.
-        // To prevent a flickering, the tooltip is first opened outside the visible
-        // desktop area and moved afterwards.
-        m_fileMetaDataToolTip->move(desktop.right() + 1, desktop.bottom() + 1);
-        m_fileMetaDataToolTip->show();
-
-        const QSize shownSize = m_fileMetaDataToolTip->size();
-        const int xDiff = updateWidth ? shownSize.width() - size.width() : 0;
-        const int yDiff = updateHeight ? shownSize.height() - size.height() : 0;
-        m_fileMetaDataToolTip->move(x - xDiff, y - yDiff);
+void ToolTipManager::showToolTipDelayed(const QPixmap& pixmap)
+{
+    if (QApplication::mouseButtons() & Qt::LeftButton) {
+        return;
     }
+    
+    m_fileMetaDataToolTip->setPreview(pixmap);
+    m_fileMetaDataToolTip->setName(m_item.text());
+    m_fileMetaDataToolTip->setItems(KFileItemList() << m_item);
+
+    // Because one tooltip instance is reused, the size hint always depends on the previous
+    // content (QWidgets don't update their layout geometry if they are invisible). To
+    // assure having a consistent size without relayout flickering, the tooltip is opened
+    // on an invisible position first. This gives the layout system some time to asynchronously
+    // update the content.
+    const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
+    m_fileMetaDataToolTip->move(desktop.bottomRight());
+    m_fileMetaDataToolTip->show();
+    
+    m_showToolTipDelayedTimer->start(); // Calls ToolTipManager::showToolTip()
 }
 
 #include "tooltipmanager.moc"
