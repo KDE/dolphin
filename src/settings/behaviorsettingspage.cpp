@@ -28,7 +28,6 @@
 
 #include <kdialog.h>
 #include <klocale.h>
-#include <kvbox.h>
 
 #include <QCheckBox>
 #include <QGroupBox>
@@ -53,14 +52,10 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     m_showSelectionToggle(0),
     m_naturalSorting(0)
 {
-    const int spacing = KDialog::spacingHint();
-
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    KVBox* vBox = new KVBox(this);
-    vBox->setSpacing(spacing);
 
     // 'View Properties' box
-    QGroupBox* propsBox = new QGroupBox(i18nc("@title:group", "View Properties"), vBox);
+    QGroupBox* propsBox = new QGroupBox(i18nc("@title:group", "View Properties"), this);
     propsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     m_localProps = new QRadioButton(i18nc("@option:radio", "Remember view properties for each folder"), propsBox);
@@ -74,7 +69,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     propsBoxLayout->addWidget(m_globalProps);
 
     // 'Ask Confirmation For' box
-    QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), vBox);
+    QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), this);
     confirmBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                                "Moving files or folders to trash"), confirmBox);
@@ -92,11 +87,11 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     confirmBoxLayout->addWidget(m_confirmClosingMultipleTabs);
 
     // 'Rename inline'
-    m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), vBox);
+    m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), this);
     connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // 'Show tooltips'
-    QWidget* toolTipContainer = new QWidget(vBox);
+    QWidget* toolTipContainer = new QWidget(this);
     QHBoxLayout* toolTipsLayout = new QHBoxLayout(toolTipContainer);
     toolTipsLayout->setMargin(0);
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), toolTipContainer);
@@ -111,19 +106,20 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     toolTipsLayout->addWidget(m_configureToolTips, 1, Qt::AlignLeft);
 
     // 'Show selection marker'
-    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), vBox);
+    m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), this);
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // 'Natural sorting of items'
-    m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), vBox);
+    m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), this);
     connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
-    // Add a dummy widget with no restriction regarding
-    // a vertical resizing. This assures that the dialog layout
-    // is not stretched vertically.
-    new QWidget(vBox);
-
-    topLayout->addWidget(vBox);
+    topLayout->addWidget(propsBox);
+    topLayout->addWidget(confirmBox);
+    topLayout->addWidget(m_renameInline);
+    topLayout->addWidget(toolTipContainer);
+    topLayout->addWidget(m_showSelectionToggle);
+    topLayout->addWidget(m_naturalSorting);
+    topLayout->addStretch();
 
     loadSettings();
 }
