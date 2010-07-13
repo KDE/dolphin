@@ -33,6 +33,7 @@
 #include <QAbstractProxyModel>
 #include <QtDBus>
 #include <QDrag>
+#include <QPainter>
 
 class DragAndDropHelperSingleton
 {
@@ -63,7 +64,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
     }
     isDragging = true;
 
-    QModelIndexList indexes = itemView->selectionModel()->selectedIndexes();
+    const QModelIndexList indexes = itemView->selectionModel()->selectedIndexes();
     if (!indexes.isEmpty()) {
         QMimeData *data = itemView->model()->mimeData(indexes);
         if (data == 0) {
@@ -75,18 +76,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
         }
 
         QDrag* drag = new QDrag(itemView);
-        QPixmap pixmap;
-        if (indexes.count() == 1) {
-            QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(itemView->model());
-            KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-            const QModelIndex index = proxyModel->mapToSource(indexes.first());
-
-            const KFileItem item = dirModel->itemForIndex(index);
-            pixmap = item.pixmap(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
-        } else {
-            pixmap = KIcon("document-multiple").pixmap(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
-        }
-        drag->setPixmap(pixmap);
+        drag->setPixmap(createDragPixmap(itemView));
         drag->setMimeData(data);
 
         m_dragSource = itemView;
@@ -96,7 +86,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
     isDragging = false;
 }
 
-bool DragAndDropHelper::isDragSource(QAbstractItemView* itemView)
+bool DragAndDropHelper::isDragSource(QAbstractItemView* itemView) const
 {
     return (m_dragSource != 0) && (m_dragSource == itemView);
 }
@@ -134,6 +124,66 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
 DragAndDropHelper::DragAndDropHelper()
     : m_dragSource(0)
 {
+}
+
+QPixmap DragAndDropHelper::createDragPixmap(QAbstractItemView* itemView) const
+{
+    const QModelIndexList selectedIndexes = itemView->selectionModel()->selectedIndexes();    
+    Q_ASSERT(!selectedIndexes.isEmpty());
+    
+    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(itemView->model());
+    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+    
+    const int itemCount = selectedIndexes.count();
+    
+    // If more than one item is dragged, align the items inside a
+    // rectangular grid. The maximum grid size is limited to 5 x 5 items.
+    int xCount = 3;
+    int size = KIconLoader::SizeMedium;
+    if (itemCount > 16) {
+        xCount = 5;
+        size = KIconLoader::SizeSmall;
+    } else if (itemCount > 9) {
+        xCount = 4;
+        size = KIconLoader::SizeSmallMedium;
+    }
+    
+    if (itemCount < xCount) {
+        xCount = itemCount;
+    }
+    
+    int yCount = itemCount / xCount;
+    if (itemCount % xCount != 0) {
+        ++yCount;
+    }
+    if (yCount > xCount) {
+        yCount = xCount;
+    }
+
+    // Draw the selected items into the grid cells    
+    QPixmap dragPixmap(xCount * size + xCount - 1, yCount * size + yCount - 1);
+    dragPixmap.fill(Qt::transparent);
+    
+    QPainter painter(&dragPixmap);
+    int x = 0;
+    int y = 0;
+    foreach (const QModelIndex& selectedIndex, selectedIndexes) {
+        const QModelIndex index = proxyModel->mapToSource(selectedIndex);
+        const KFileItem item = dirModel->itemForIndex(index);
+        const QPixmap pixmap = item.pixmap(size, size);
+        painter.drawPixmap(x, y, pixmap);
+        
+        x += size + 1;
+        if (x >= dragPixmap.width()) {
+            x = 0;
+            y += size + 1;
+        }
+        if (y >= dragPixmap.height()) {
+            break;
+        }
+    }
+    
+    return dragPixmap;
 }
 
 #include "draganddrophelper.moc"

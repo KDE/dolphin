@@ -23,13 +23,14 @@
 
 #include "libdolphin_export.h"
 #include <QObject>
+#include <QPixmap>
 
 class DolphinViewController;
 class KFileItem;
 class KUrl;
 class QDropEvent;
-class QMimeData;
 class QAbstractItemView;
+class QMimeData;
 class QWidget;
 
 /**
@@ -63,7 +64,7 @@ public:
      * Returns true if and only if the view \a itemView was the last view to 
      * be passed to startDrag(...), and that drag is still in progress.
      */
-    bool isDragSource(QAbstractItemView* itemView);
+    bool isDragSource(QAbstractItemView* itemView) const;
 
     /**
      * Handles the dropping of URLs to the given
@@ -84,6 +85,13 @@ signals:
 
 private:
     DragAndDropHelper();
+    
+    /**
+     * Creates a pixmap the contains the all icons of the items
+     * that are dragged.
+     */
+    QPixmap createDragPixmap(QAbstractItemView* itemView) const;
+    
     // The last view passed in startDrag(...), or 0 if
     // no startDrag(...) initiated drag is in progress.
     QAbstractItemView *m_dragSource;
