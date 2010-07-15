@@ -382,6 +382,7 @@ Comment[nb]=1 til 10, for eksempel >=7
 Comment[nds]=1 to 10, as Bispill >=7
 Comment[nl]=1 tot 10, bijvoorbeeld >=7
 Comment[nn]=1 til 10 – for eksempel >=7
+Comment[pa]=1 ਤੋਂ 10, ਜਿਵੇਂ >=7
 Comment[pl]=1 do 10, na przykład >= 7
 Comment[pt]=1 a 10, por exemplo >=7
 Comment[pt_BR]=1 a 10, por exemplo, >=7
@@ -654,6 +655,7 @@ Comment[nb]=i byte, for eksempel >1000
 Comment[nds]=in Bytes, as Bispill >1000
 Comment[nl]=in bytes, bijvoorbeeld >1000
 Comment[nn]=i byte – for eksempel >1000
+Comment[pa]=ਬਾਈਟ 'ਚ, ਜਿਵੇਂ >1000
 Comment[pl]=w bajtach, na przykład > 1000
 Comment[pt]=em 'bytes', por exemplo > 1000
 Comment[pt_BR]=em bytes, por exemplo, > 1000
@@ -981,6 +983,7 @@ Comment[nb]=for eksempel >1999-10-10
 Comment[nds]=as Bispill >23.10.1999
 Comment[nl]=bijvoorbeeld >2009-10-10
 Comment[nn]=for eksempel >1999-10-10
+Comment[pa]=ਜਿਵੇਂ ਕਿ >1999-10-10
 Comment[pl]=na przykład: > 1999-10-10
 Comment[pt]=por exemplo > 1999-10-10
 Comment[pt_BR]=por exemplo, > 1999-10-10
