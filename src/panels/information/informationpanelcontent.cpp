@@ -150,6 +150,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
     const KUrl itemUrl = item.url();
     const bool isNepomukSearchUrl = itemUrl.protocol().startsWith("nepomuk") && item.nepomukUri().isEmpty();
     if (!applyPlace(itemUrl)) {
+        setNameLabelText(item.text());
         if (isNepomukSearchUrl) {
             // in the case of a Nepomuk query-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
@@ -158,7 +159,6 @@ void InformationPanelContent::showItem(const KFileItem& item)
                                                KIconLoader::NoGroup,
                                                KIconLoader::SizeEnormous);
             m_preview->setPixmap(icon);
-            setNameLabelText(QString());
         } else {
             // try to get a preview pixmap from the item...
             m_pendingPreview = true;
@@ -184,18 +184,12 @@ void InformationPanelContent::showItem(const KFileItem& item)
                     this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
             connect(job, SIGNAL(failed(const KFileItem&)),
                     this, SLOT(showIcon(const KFileItem&)));
-
-            setNameLabelText(item.text());
         }
     }
 
     if (m_metaDataWidget != 0) {
-        if (isNepomukSearchUrl) {
-            m_metaDataWidget->hide();
-        } else {
-            m_metaDataWidget->show();
-            m_metaDataWidget->setItems(KFileItemList() << item);
-        }
+        m_metaDataWidget->show();
+        m_metaDataWidget->setItems(KFileItemList() << item);
     }
 
     if (InformationPanelSettings::showPreview()) {
@@ -377,7 +371,7 @@ void InformationPanelContent::setNameLabelText(const QString& text)
     textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
     const QString processedText = Qt::mightBeRichText(text) ? text : KStringHandler::preProcessWrap(text);
-    
+
     QTextLayout textLayout(processedText);
     textLayout.setFont(m_nameLabel->font());
     textLayout.setTextOption(textOption);

@@ -279,7 +279,7 @@ void DolphinViewContainer::updateStatusBar()
 void DolphinViewContainer::initializeProgress()
 {
     if (url().protocol() == "nepomuksearch") {
-        // The Nepomuk IO-slave does not provide any progress information. Give
+        // The Nepomuk IO-slave does not provide progress information right away. Give
         // an immediate hint to the user that a searching is done:
         m_statusBar->setProgressText(i18nc("@info", "Searching..."));
         m_statusBar->setProgress(-1);
@@ -433,13 +433,13 @@ void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
     Q_UNUSED(oldUrl);
     const bool block = m_urlNavigator->signalsBlocked();
     m_urlNavigator->blockSignals(true);
-    
+
     // Assure that the location state is reset for redirection URLs. This
     // allows to skip redirection URLs when going back or forward in the
     // URL history.
     m_urlNavigator->saveLocationState(QByteArray());
     m_urlNavigator->setLocationUrl(newUrl);
-    
+
     m_urlNavigator->blockSignals(block);
 }
 

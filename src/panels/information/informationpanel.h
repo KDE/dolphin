@@ -77,6 +77,12 @@ private slots:
     void showItemInfo();
 
     /**
+     * Shows the information for the currently displayed folder as a result from
+     * a stat job issued in showItemInfo().
+     */
+    void slotFolderStatFinished(KJob* job);
+
+    /**
      * Triggered if the request for item information has timed out.
      * @see InformationPanel::requestDelayedItemInfo()
      */
@@ -153,6 +159,8 @@ private:
 
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
     KFileItemList m_selection;
+
+    KJob* m_folderStatJob;
 
     InformationPanelContent* m_content;
 };

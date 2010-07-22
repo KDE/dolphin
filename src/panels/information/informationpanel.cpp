@@ -23,6 +23,8 @@
 #include <QVBoxLayout>
 #include "informationpanelcontent.h"
 
+#include <kio/job.h>
+
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
     m_initialized(false),
@@ -34,6 +36,7 @@ InformationPanel::InformationPanel(QWidget* parent) :
     m_invalidUrlCandidate(),
     m_fileItem(),
     m_selection(),
+    m_folderStatJob(0),
     m_content(0)
 {
 }
@@ -170,15 +173,26 @@ void InformationPanel::showItemInfo()
         } else if (!m_selection.isEmpty()) {
             Q_ASSERT(m_selection.count() == 1);
             item = m_selection.first();
-        } else {
-            // no item is hovered and no selection has been done: provide
-            // an item for the directory represented by m_shownUrl
-            item = KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_shownUrl);
-            item.refresh();
         }
 
-        m_content->showItem(item);
+        if ( item.isNull() ) {
+            // no item is hovered and no selection has been done: provide
+            // an item for the directory represented by m_shownUrl
+            m_folderStatJob = KIO::stat(m_shownUrl, KIO::HideProgressInfo);
+            connect(m_folderStatJob, SIGNAL(result(KJob*)),
+                    this, SLOT(slotFolderStatFinished(KJob*)));
+        }
+        else {
+            m_content->showItem(item);
+        }
     }
+}
+
+void InformationPanel::slotFolderStatFinished(KJob* job)
+{
+    m_folderStatJob = 0;
+    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
+    m_content->showItem(KFileItem(entry, m_shownUrl));
 }
 
 void InformationPanel::slotInfoTimeout()
@@ -272,6 +286,8 @@ void InformationPanel::slotLeftDirectory(const QString& directory)
 
 void InformationPanel::cancelRequest()
 {
+    delete m_folderStatJob;
+    m_folderStatJob = 0;
     m_infoTimer->stop();
 }
 
@@ -324,7 +340,7 @@ void InformationPanel::init()
 
     m_content = new InformationPanelContent(this);
     connect(m_content, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
-    
+
     QVBoxLayout* layout = new QVBoxLayout(this);
     layout->addWidget(m_content);
 
