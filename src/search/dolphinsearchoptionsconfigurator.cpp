@@ -202,9 +202,9 @@ KUrl DolphinSearchOptionsConfigurator::nepomukSearchUrl() const
 {
     const Nepomuk::Query::Query query = nepomukQuery();
     if ( query.isValid() ) {
-        KUrl url = query.toSearchUrl();
-        url.addQueryItem( QLatin1String( "userquery" ), customSearchQuery() );
-        return url;
+        return query.toSearchUrl( i18nc( "@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
+                                         "Query Results from '%1'",
+                                         customSearchQuery() ) );
     }
     else {
         return KUrl();
