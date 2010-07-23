@@ -25,6 +25,7 @@
 #include "filemetadatatooltip.h"
 #include <kicon.h>
 #include <kio/previewjob.h>
+#include <kwindowsystem.h>
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -228,14 +229,14 @@ void ToolTipManager::showToolTip()
             x = desktop.right() - size.width();
         }
         if (hasRoomBelow) {
-            y = m_itemRect.bottom();
+            y = m_itemRect.bottom() + 1;
         } else {
             y = m_itemRect.top() - size.height();
         }
     } else {
         Q_ASSERT(hasRoomToLeft || hasRoomToRight);
         if (hasRoomToRight) {
-            x = m_itemRect.right();
+            x = m_itemRect.right() + 1;
         } else {
             x = m_itemRect.left() - size.width();
         }
@@ -263,10 +264,12 @@ void ToolTipManager::showToolTipDelayed(const QPixmap& pixmap)
     // content (QWidgets don't update their layout geometry if they are invisible). To
     // assure having a consistent size without relayout flickering, the tooltip is opened
     // on an invisible position first. This gives the layout system some time to asynchronously
-    // update the content.
-    const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
-    m_fileMetaDataToolTip->move(desktop.bottomRight());
-    m_fileMetaDataToolTip->show();
+    // update the content. Sadly this only works with compositing enabled.
+    if (KWindowSystem::compositingActive()) {
+        const QRect desktop = QApplication::desktop()->screenGeometry(m_itemRect.bottomRight());
+        m_fileMetaDataToolTip->move(desktop.bottomRight());
+        m_fileMetaDataToolTip->show();
+    }
     
     m_showToolTipDelayedTimer->start(); // Calls ToolTipManager::showToolTip()
 }
