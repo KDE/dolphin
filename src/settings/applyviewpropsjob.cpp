@@ -21,7 +21,7 @@
  ***************************************************************************/
 
 #include "applyviewpropsjob.h"
-#include "viewproperties.h"
+#include <views/viewproperties.h>
 
 ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
                                      const ViewProperties& viewProps) :

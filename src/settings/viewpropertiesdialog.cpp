@@ -23,10 +23,8 @@
 #include "additionalinfodialog.h"
 #include "views/dolphinview.h"
 #include "settings/dolphinsettings.h"
-#include "dolphinsortfilterproxymodel.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
-#include "viewproperties.h"
 #include "viewpropsprogressinfo.h"
 
 #include <config-nepomuk.h>
@@ -53,6 +51,9 @@
 #include <QPushButton>
 #include <QRadioButton>
 #include <QBoxLayout>
+
+#include <views/dolphinsortfilterproxymodel.h>
+#include <views/viewproperties.h>
 
 ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     KDialog(dolphinView),

@@ -19,15 +19,15 @@
 
 #include "paneltreeview.h"
 
-#include "dolphinmodel.h"
-#include "draganddrophelper.h"
-
 #include <kfileitemdelegate.h>
 #include <QListView>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QHeaderView>
 #include <QScrollBar>
+
+#include <views/dolphinmodel.h>
+#include <views/draganddrophelper.h>
 
 PanelTreeView::PanelTreeView(QWidget* parent) :
     KTreeView(parent)

@@ -16,16 +16,6 @@ endif (Nepomuk_FOUND)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-    additionalinfoaccessor.cpp
-    dolphindirlister.cpp
-    dolphinmodel.cpp
-    dolphinnewmenuobserver.cpp
-    dolphinsortfilterproxymodel.cpp
-    dolphinviewactionhandler.cpp
-    dolphinremoteencoding.cpp
-    draganddrophelper.cpp
-    folderexpander.cpp
-    renamedialog.cpp
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
     settings/dolphinsettings.cpp
@@ -37,8 +27,9 @@ set(dolphinprivate_LIB_SRCS
     versioncontrol/pendingthreadsmaintainer.cpp
     versioncontrol/updateitemstatesthread.cpp
     versioncontrol/versioncontrolobserver.cpp
-    viewproperties.cpp
+    views/additionalinfoaccessor.cpp
     views/dolphincategorydrawer.cpp
+    views/dolphindirlister.cpp
     views/dolphinview.cpp
     views/dolphindetailsview.cpp
     views/dolphindetailsviewexpander.cpp
@@ -46,12 +37,21 @@ set(dolphinprivate_LIB_SRCS
     views/dolphiniconsview.cpp
     views/dolphincolumnview.cpp
     views/dolphincolumnviewcontainer.cpp
+    views/dolphinmodel.cpp
+    views/dolphinnewmenuobserver.cpp
+    views/dolphinremoteencoding.cpp
+    views/dolphinsortfilterproxymodel.cpp
+    views/dolphinviewactionhandler.cpp
     views/dolphinviewautoscroller.cpp
     views/dolphinviewcontroller.cpp
+    views/draganddrophelper.cpp
+    views/folderexpander.cpp
     views/selectiontoggle.cpp
     views/selectionmanager.cpp
+    views/renamedialog.cpp
     views/viewextensionsfactory.cpp
     views/viewmodecontroller.cpp
+    views/viewproperties.cpp
     views/zoomlevelinfo.cpp
 )
 
@@ -99,7 +99,6 @@ set(dolphin_SRCS
     dolphinmainwindow.cpp
     dolphinnewmenu.cpp
     dolphinviewcontainer.cpp
-    dolphindirlister.cpp
     dolphincontextmenu.cpp
     filterbar/filterbar.cpp
     main.cpp
@@ -135,6 +134,7 @@ set(dolphin_SRCS
     statusbar/dolphinstatusbar.cpp
     statusbar/statusbarspaceinfo.cpp
     statusbar/statusbarmessagelabel.cpp
+    views/dolphindirlister.cpp
     views/zoomlevelinfo.cpp
 )
 

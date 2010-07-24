@@ -19,7 +19,6 @@
 
 #include "versioncontrolobserver.h"
 
-#include <dolphinmodel.h>
 #include "dolphin_versioncontrolsettings.h"
 
 #include <kdirlister.h>
@@ -35,6 +34,8 @@
 #include <QAbstractItemView>
 #include <QMutexLocker>
 #include <QTimer>
+
+#include <views/dolphinmodel.h>
 
 VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
     QObject(view),

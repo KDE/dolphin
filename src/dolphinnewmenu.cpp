@@ -21,9 +21,9 @@
 #include "dolphinnewmenu.h"
 
 #include "dolphinmainwindow.h"
-#include "dolphinnewmenuobserver.h"
 #include "dolphinviewcontainer.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "views/dolphinnewmenuobserver.h"
 #include "views/dolphinview.h"
 
 #include <kactioncollection.h>

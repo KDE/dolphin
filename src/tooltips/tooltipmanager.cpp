@@ -19,9 +19,6 @@
 
 #include "tooltipmanager.h"
 
-#include "dolphinmodel.h"
-#include "dolphinsortfilterproxymodel.h"
-
 #include "filemetadatatooltip.h"
 #include <kicon.h>
 #include <kio/previewjob.h>
@@ -32,6 +29,9 @@
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QTimer>
+
+#include <views/dolphinmodel.h>
+#include <views/dolphinsortfilterproxymodel.h>
 
 ToolTipManager::ToolTipManager(QAbstractItemView* parent,
                                DolphinSortFilterProxyModel* model) :

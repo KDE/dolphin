@@ -21,10 +21,10 @@
 #include "placespanel.h"
 
 #include "dolphin_generalsettings.h"
-#include "draganddrophelper.h"
 #include <kfileitem.h>
 #include <konq_operations.h>
 #include "settings/dolphinsettings.h"
+#include "views/draganddrophelper.h"
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     KFilePlacesView(parent),

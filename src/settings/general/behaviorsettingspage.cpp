@@ -23,7 +23,6 @@
 #include "dolphin_generalsettings.h"
 #include <settings/filemetadataconfigurationdialog.h>
 #include <settings/dolphinsettings.h>
-#include <viewproperties.h>
 
 #include <kdialog.h>
 #include <klocale.h>
@@ -34,6 +33,8 @@
 #include <QLabel>
 #include <QRadioButton>
 #include <QVBoxLayout>
+
+#include <views/viewproperties.h>
 
 const bool CONFIRM_TRASH = false;
 const bool CONFIRM_DELETE = true;

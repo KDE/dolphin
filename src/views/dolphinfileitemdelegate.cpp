@@ -19,7 +19,7 @@
 
 #include "dolphinfileitemdelegate.h"
 
-#include <dolphinmodel.h>
+#include "dolphinmodel.h"
 #include <kfileitem.h>
 #include <kicon.h>
 #include <kiconloader.h>

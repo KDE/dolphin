@@ -18,11 +18,6 @@
 */
 
 #include "dolphinpart.h"
-#include "dolphinviewactionhandler.h"
-#include "dolphinsortfilterproxymodel.h"
-#include "dolphinmodel.h"
-#include "dolphinnewmenuobserver.h"
-#include "dolphinremoteencoding.h"
 
 #include <kfileitemlistproperties.h>
 #include <konq_operations.h>
@@ -47,6 +42,11 @@
 
 #include "settings/dolphinsettings.h"
 #include "views/dolphinview.h"
+#include "views/dolphinviewactionhandler.h"
+#include "views/dolphinsortfilterproxymodel.h"
+#include "views/dolphinmodel.h"
+#include "views/dolphinnewmenuobserver.h"
+#include "views/dolphinremoteencoding.h"
 
 #include <QActionGroup>
 #include <QApplication>

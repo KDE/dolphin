@@ -20,23 +20,24 @@
  ***************************************************************************/
 
 #include "dolphinmainwindow.h"
-#include "dolphinviewactionhandler.h"
-#include "dolphinremoteencoding.h"
 
 #include <config-nepomuk.h>
 
 #include "dolphinapplication.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewmenu.h"
-#include "settings/dolphinsettings.h"
-#include "settings/dolphinsettingsdialog.h"
 #include "dolphinviewcontainer.h"
+#include "mainwindowadaptor.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
-#include "mainwindowadaptor.h"
+#include "settings/dolphinsettings.h"
+#include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "viewproperties.h"
+#include "views/dolphinviewactionhandler.h"
+#include "views/dolphinremoteencoding.h"
+#include "views/draganddrophelper.h"
+#include "views/viewproperties.h"
 
 #ifndef Q_OS_WIN
 #include "panels/terminal/terminalpanel.h"
@@ -44,7 +45,6 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
-#include "draganddrophelper.h"
 
 #include <kaction.h>
 #include <kactioncollection.h>

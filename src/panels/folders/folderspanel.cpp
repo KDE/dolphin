@@ -19,14 +19,9 @@
 
 #include "folderspanel.h"
 
-#include "dolphinmodel.h"
-#include "dolphinsortfilterproxymodel.h"
 #include "settings/dolphinsettings.h"
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
-#include "draganddrophelper.h"
-#include "folderexpander.h"
-#include "renamedialog.h"
 #include "paneltreeview.h"
 #include "treeviewcontextmenu.h"
 
@@ -43,7 +38,12 @@
 #include <QScrollBar>
 #include <QTimer>
 
-#include "views/dolphinview.h"
+#include <views/draganddrophelper.h>
+#include <views/dolphinmodel.h>
+#include <views/dolphinsortfilterproxymodel.h>
+#include <views/dolphinview.h>
+#include <views/folderexpander.h>
+#include <views/renamedialog.h>
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),

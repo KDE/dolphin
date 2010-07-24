@@ -20,16 +20,16 @@
 
 #include "viewpropsprogressinfo.h"
 #include "applyviewpropsjob.h"
-#include "viewproperties.h"
 
 #include <QtGui/QLabel>
 #include <QtGui/QProgressBar>
 #include <QtCore/QTimer>
 #include <QtGui/QBoxLayout>
 
-#include <assert.h>
 #include <klocale.h>
 #include <kio/jobclasses.h>
+
+#include <views/viewproperties.h>
 
 ViewPropsProgressInfo::ViewPropsProgressInfo(QWidget* parent,
                                              const KUrl& dir,

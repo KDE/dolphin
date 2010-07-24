@@ -19,12 +19,13 @@
 
 #include "additionalinfodialog.h"
 
-#include "additionalinfoaccessor.h"
 #include <klocale.h>
 
 #include <QCheckBox>
 #include <QLabel>
 #include <QVBoxLayout>
+
+#include "views/additionalinfoaccessor.h"
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
                                            KFileItemDelegate::InformationList infoList) :
