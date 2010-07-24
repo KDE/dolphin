@@ -22,7 +22,6 @@
 #include "dolphinfontrequester.h"
 #include <dolphin_columnmodesettings.h>
 #include "iconsizegroupbox.h"
-#include "zoomlevelinfo.h"
 
 #include <kdialog.h>
 #include <klocale.h>
@@ -37,6 +36,8 @@
 #include <QLabel>
 #include <QSlider>
 #include <QRadioButton>
+
+#include <views/zoomlevelinfo.h>
 
 ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),

@@ -19,14 +19,15 @@
  ***************************************************************************/
 
 #include "draganddrophelper.h"
-#include "dolphiniconsview.h"
-#include "dolphinviewcontroller.h"
 
 #include <kdirmodel.h>
 #include <kfileitem.h>
 #include <kicon.h>
 #include <klocale.h>
 #include <konq_operations.h>
+
+#include "views/dolphiniconsview.h"
+#include "views/dolphinviewcontroller.h"
 
 #include <QAbstractItemView>
 #include <QAbstractProxyModel>

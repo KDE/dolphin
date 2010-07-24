@@ -23,7 +23,6 @@
 #include "dolphinmainwindow.h"
 #include "dolphinnewmenu.h"
 #include "settings/dolphinsettings.h"
-#include "dolphinview.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
 
@@ -51,6 +50,9 @@
 #include <QtGui/QApplication>
 #include <QtGui/QClipboard>
 #include <QtCore/QDir>
+
+#include "views/dolphinview.h"
+#include "views/viewmodecontroller.h"
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const KFileItem& fileInfo,

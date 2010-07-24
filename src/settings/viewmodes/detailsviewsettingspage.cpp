@@ -22,7 +22,6 @@
 #include "iconsizegroupbox.h"
 #include "dolphinfontrequester.h"
 #include "dolphin_detailsmodesettings.h"
-#include "zoomlevelinfo.h"
 
 #include <kdialog.h>
 #include <klocale.h>
@@ -36,7 +35,9 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QRadioButton>
-#include <QtGui/QSpinBox>
+#include <QSpinBox>
+
+#include <views/zoomlevelinfo.h>
 
 DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),

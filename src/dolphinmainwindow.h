@@ -22,7 +22,6 @@
 #ifndef DOLPHIN_MAINWINDOW_H
 #define DOLPHIN_MAINWINDOW_H
 
-#include "dolphinview.h"
 #include "panels/panel.h"
 
 #include <config-nepomuk.h>
@@ -33,7 +32,9 @@
 #include <kxmlguiwindow.h>
 #include <kactionmenu.h>
 
-#include <QtCore/QList>
+#include "views/dolphinview.h"
+
+#include <QList>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 

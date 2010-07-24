@@ -21,8 +21,6 @@
 #ifndef DOLPHINVIEWCONTAINER_H
 #define DOLPHINVIEWCONTAINER_H
 
-#include "dolphinview.h"
-
 #include <kfileitem.h>
 #include <kfileitemdelegate.h>
 #include <kglobalsettings.h>
@@ -35,6 +33,8 @@
 #include <QtGui/QListView>
 #include <QtGui/QBoxLayout>
 #include <QtGui/QWidget>
+
+#include <views/dolphinview.h>
 
 class FilterBar;
 class KUrl;

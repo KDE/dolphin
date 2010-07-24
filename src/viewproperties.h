@@ -21,7 +21,7 @@
 #ifndef VIEWPROPERTIES_H
 #define VIEWPROPERTIES_H
 
-#include <dolphinview.h>
+#include <views/dolphinview.h>
 #include <kurl.h>
 #include <libdolphin_export.h>
 

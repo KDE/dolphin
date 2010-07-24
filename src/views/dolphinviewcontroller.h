@@ -20,7 +20,7 @@
 #ifndef DOLPHINVIEWCONTROLLER_H
 #define DOLPHINVIEWCONTROLLER_H
 
-#include <dolphinview.h>
+#include <views/dolphinview.h>
 #include <kurl.h>
 #include <QtCore/QObject>
 #include <libdolphin_export.h>

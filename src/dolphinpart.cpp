@@ -20,7 +20,6 @@
 #include "dolphinpart.h"
 #include "dolphinviewactionhandler.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "dolphinview.h"
 #include "dolphinmodel.h"
 #include "dolphinnewmenuobserver.h"
 #include "dolphinremoteencoding.h"
@@ -47,6 +46,7 @@
 #include <kinputdialog.h>
 
 #include "settings/dolphinsettings.h"
+#include "views/dolphinview.h"
 
 #include <QActionGroup>
 #include <QApplication>

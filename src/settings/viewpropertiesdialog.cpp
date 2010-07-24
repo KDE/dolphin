@@ -21,7 +21,7 @@
 #include "viewpropertiesdialog.h"
 
 #include "additionalinfodialog.h"
-#include "dolphinview.h"
+#include "views/dolphinview.h"
 #include "settings/dolphinsettings.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphin_generalsettings.h"

@@ -21,10 +21,10 @@
 #ifndef DOLPHINVIEWACTIONHANDLER_H
 #define DOLPHINVIEWACTIONHANDLER_H
 
-#include "dolphinview.h"
 #include "libdolphin_export.h"
 #include <kactionmenu.h>
 #include <kselectaction.h>
+#include "views/dolphinview.h"
 #include <QtCore/QObject>
 
 class KToggleAction;

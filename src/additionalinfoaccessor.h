@@ -20,9 +20,9 @@
 #ifndef ADDITIONALINFOACCESSOR_H
 #define ADDITIONALINFOACCESSOR_H
 
-#include <dolphinview.h>
 #include <libdolphin_export.h>
 #include <kfileitemdelegate.h>
+#include <views/dolphinview.h>
 
 #include <QList>
 #include <QMap>

@@ -20,7 +20,7 @@
 #ifndef DOLPHINSORTFILTERPROXYMODEL_H
 #define DOLPHINSORTFILTERPROXYMODEL_H
 
-#include <dolphinview.h>
+#include <views/dolphinview.h>
 #include <kdirsortfilterproxymodel.h>
 #include <libdolphin_export.h>
 

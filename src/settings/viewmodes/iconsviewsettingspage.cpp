@@ -22,7 +22,6 @@
 #include "dolphinfontrequester.h"
 #include "settings/dolphinsettings.h"
 #include "iconsizegroupbox.h"
-#include "zoomlevelinfo.h"
 
 #include "dolphin_iconsmodesettings.h"
 
@@ -40,6 +39,8 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <QVBoxLayout>
+
+#include <views/zoomlevelinfo.h>
 
 IconsViewSettingsPage::IconsViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),

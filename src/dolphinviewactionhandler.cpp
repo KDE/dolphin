@@ -21,8 +21,8 @@
 
 #include "additionalinfoaccessor.h"
 #include "settings/viewpropertiesdialog.h"
-#include "dolphinview.h"
-#include "zoomlevelinfo.h"
+#include "views/dolphinview.h"
+#include "views/zoomlevelinfo.h"
 #include <konq_operations.h>
 
 #include <kaction.h>

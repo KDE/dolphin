@@ -29,7 +29,7 @@
 #include <QRect>
 #include <QSlider>
 
-#include "zoomlevelinfo.h"
+#include <views/zoomlevelinfo.h>
 
 IconSizeGroupBox::IconSizeGroupBox(QWidget* parent) :
     QGroupBox(i18nc("@title:group", "Icon Size"), parent),

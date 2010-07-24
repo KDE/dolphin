@@ -49,20 +49,20 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphinmodel.h"
-#include "dolphincolumnview.h"
-#include "dolphinviewcontroller.h"
 #include "dolphinmainwindow.h"
 #include "dolphindirlister.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "dolphindetailsview.h"
-#include "dolphiniconsview.h"
 #include "draganddrophelper.h"
-#include "filterbar.h"
+#include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
 #include "settings/dolphinsettings.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "viewmodecontroller.h"
 #include "viewproperties.h"
+#include "views/dolphincolumnview.h"
+#include "views/dolphindetailsview.h"
+#include "views/dolphiniconsview.h"
+#include "views/dolphinviewcontroller.h"
+#include "views/viewmodecontroller.h"
 
 DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     QWidget(parent),

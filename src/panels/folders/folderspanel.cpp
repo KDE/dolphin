@@ -21,7 +21,6 @@
 
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
-#include "dolphinview.h"
 #include "settings/dolphinsettings.h"
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
@@ -43,6 +42,8 @@
 #include <QModelIndex>
 #include <QScrollBar>
 #include <QTimer>
+
+#include "views/dolphinview.h"
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),

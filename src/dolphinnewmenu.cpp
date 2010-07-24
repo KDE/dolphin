@@ -22,9 +22,9 @@
 
 #include "dolphinmainwindow.h"
 #include "dolphinnewmenuobserver.h"
-#include "dolphinview.h"
 #include "dolphinviewcontainer.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "views/dolphinview.h"
 
 #include <kactioncollection.h>
 #include <kio/job.h>

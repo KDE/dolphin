@@ -17,27 +17,15 @@ endif (Nepomuk_FOUND)
 
 set(dolphinprivate_LIB_SRCS
     additionalinfoaccessor.cpp
-    dolphindetailsview.cpp
-    dolphindetailsviewexpander.cpp
-    dolphiniconsview.cpp
-    dolphincolumnview.cpp
-    dolphincolumnviewcontainer.cpp
     dolphindirlister.cpp
-    dolphinfileitemdelegate.cpp
     dolphinmodel.cpp
     dolphinnewmenuobserver.cpp
     dolphinsortfilterproxymodel.cpp
-    dolphincategorydrawer.cpp
-    dolphinview.cpp
     dolphinviewactionhandler.cpp
-    dolphinviewautoscroller.cpp
-    dolphinviewcontroller.cpp
     dolphinremoteencoding.cpp
     draganddrophelper.cpp
     folderexpander.cpp
     renamedialog.cpp
-    selectiontoggle.cpp
-    selectionmanager.cpp
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
     settings/dolphinsettings.cpp
@@ -49,10 +37,22 @@ set(dolphinprivate_LIB_SRCS
     versioncontrol/pendingthreadsmaintainer.cpp
     versioncontrol/updateitemstatesthread.cpp
     versioncontrol/versioncontrolobserver.cpp
-    viewextensionsfactory.cpp
-    viewmodecontroller.cpp
     viewproperties.cpp
-    zoomlevelinfo.cpp
+    views/dolphincategorydrawer.cpp
+    views/dolphinview.cpp
+    views/dolphindetailsview.cpp
+    views/dolphindetailsviewexpander.cpp
+    views/dolphinfileitemdelegate.cpp
+    views/dolphiniconsview.cpp
+    views/dolphincolumnview.cpp
+    views/dolphincolumnviewcontainer.cpp
+    views/dolphinviewautoscroller.cpp
+    views/dolphinviewcontroller.cpp
+    views/selectiontoggle.cpp
+    views/selectionmanager.cpp
+    views/viewextensionsfactory.cpp
+    views/viewmodecontroller.cpp
+    views/zoomlevelinfo.cpp
 )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
@@ -101,7 +101,7 @@ set(dolphin_SRCS
     dolphinviewcontainer.cpp
     dolphindirlister.cpp
     dolphincontextmenu.cpp
-    filterbar.cpp
+    filterbar/filterbar.cpp
     main.cpp
     pixmapviewer.cpp
     panels/information/informationpanel.cpp
@@ -135,7 +135,7 @@ set(dolphin_SRCS
     statusbar/dolphinstatusbar.cpp
     statusbar/statusbarspaceinfo.cpp
     statusbar/statusbarmessagelabel.cpp
-    zoomlevelinfo.cpp
+    views/zoomlevelinfo.cpp
 )
 
 kde4_add_kcfg_files(dolphin_SRCS
@@ -205,7 +205,7 @@ set(kcm_dolphinviewmodes_PART_SRCS
     settings/viewmodes/iconsizegroupbox.cpp
     settings/viewmodes/iconsviewsettingspage.cpp
     settings/viewmodes/viewsettingspagebase.cpp
-    zoomlevelinfo.cpp)
+    views/zoomlevelinfo.cpp)
 
 set(kcm_dolphinnavigation_PART_SRCS
     settings/kcm/kcmdolphinnavigation.cpp

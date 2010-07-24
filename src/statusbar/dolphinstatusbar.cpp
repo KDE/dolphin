@@ -20,7 +20,6 @@
 
 #include "dolphinstatusbar.h"
 
-#include "dolphinview.h"
 #include "dolphin_generalsettings.h"
 
 #include <kiconloader.h>
@@ -41,7 +40,8 @@
 #include <QToolButton>
 #include <QTimer>
 
-#include "zoomlevelinfo.h"
+#include <views/dolphinview.h>
+#include <views/zoomlevelinfo.h>
 
 DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     QWidget(parent),

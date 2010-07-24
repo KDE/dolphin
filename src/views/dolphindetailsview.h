@@ -21,9 +21,9 @@
 #ifndef DOLPHINDETAILSVIEW_H
 #define DOLPHINDETAILSVIEW_H
 
-#include <dolphinview.h>
 #include <QTreeView>
 #include <libdolphin_export.h>
+#include <views/dolphinview.h>
 
 class DolphinViewController;
 class DolphinSortFilterProxyModel;

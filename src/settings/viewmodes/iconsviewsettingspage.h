@@ -20,7 +20,7 @@
 #ifndef ICONSVIEWSETTINGSPAGE_H
 #define ICONSVIEWSETTINGSPAGE_H
 
-#include <dolphiniconsview.h>
+#include <views/dolphiniconsview.h>
 #include "viewsettingspagebase.h"
 
 class DolphinFontRequester;

@@ -21,7 +21,6 @@
 
 #include "settings/dolphinsettings.h"
 #include "dolphinmainwindow.h"
-#include "dolphinview.h"
 #include "dolphinviewcontainer.h"
 
 #include "dolphin_generalsettings.h"
@@ -38,6 +37,8 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QRadioButton>
+
+#include "views/dolphinview.h"
 
 StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
     SettingsPageBase(parent),

@@ -19,12 +19,11 @@
 
 #include "paneltreeview.h"
 
-#include "dolphinviewcontroller.h"
 #include "dolphinmodel.h"
 #include "draganddrophelper.h"
-#include "viewmodecontroller.h"
 
 #include <kfileitemdelegate.h>
+#include <QListView>
 #include <QKeyEvent>
 #include <QPainter>
 #include <QHeaderView>
