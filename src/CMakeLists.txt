@@ -197,8 +197,8 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 ##########################################
 
 set(kcm_dolphinviewmodes_PART_SRCS
-    kcm/kcmdolphinviewmodes.cpp
     pixmapviewer.cpp
+    settings/kcm/kcmdolphinviewmodes.cpp
     settings/viewmodes/columnviewsettingspage.cpp
     settings/viewmodes/detailsviewsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
@@ -208,17 +208,17 @@ set(kcm_dolphinviewmodes_PART_SRCS
     zoomlevelinfo.cpp)
 
 set(kcm_dolphinnavigation_PART_SRCS
-    kcm/kcmdolphinnavigation.cpp
+    settings/kcm/kcmdolphinnavigation.cpp
     settings/navigation/navigationsettingspage.cpp
     settings/settingspagebase.cpp)
 
 set(kcm_dolphinservices_PART_SRCS
-    kcm/kcmdolphinservices.cpp
+    settings/kcm/kcmdolphinservices.cpp
     settings/services/servicessettingspage.cpp
     settings/settingspagebase.cpp)
 
 set(kcm_dolphingeneral_PART_SRCS
-    kcm/kcmdolphingeneral.cpp
+    settings/kcm/kcmdolphingeneral.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/previewssettingspage.cpp
     settings/general/contextmenusettingspage.cpp
@@ -284,11 +284,11 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
          DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
 install( FILES search/filenamesearch.protocol DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION
+install( FILES settings/kcm/kcmdolphinviewmodes.desktop DESTINATION
 ${SERVICES_INSTALL_DIR} )
-install( FILES kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES kcm/kcmdolphinservices.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install( FILES kcm/kcmdolphingeneral.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES settings/kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES settings/kcm/kcmdolphinservices.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES settings/kcm/kcmdolphingeneral.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES khns/servicemenu.knsrc DESTINATION ${CONFIG_INSTALL_DIR} )
 install( PROGRAMS khns/servicemenuinstallation DESTINATION ${BIN_INSTALL_DIR} )
 install( PROGRAMS khns/servicemenudeinstallation DESTINATION ${BIN_INSTALL_DIR} )
