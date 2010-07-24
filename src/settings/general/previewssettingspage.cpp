@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 #include "previewssettingspage.h"
-#include "dolphinsettings.h"
 
 #include "dolphin_generalsettings.h"
 
@@ -29,6 +28,8 @@
 #include <KNumInput>
 #include <kservicetypetrader.h>
 #include <kservice.h>
+
+#include <settings/dolphinsettings.h>
 
 #include <QCheckBox>
 #include <QGroupBox>

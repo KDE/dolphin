@@ -23,7 +23,7 @@
 #include "behaviorsettingspage.h"
 #include "contextmenusettingspage.h"
 #include "previewssettingspage.h"
-#include "settingspagebase.h"
+#include <settings/settingspagebase.h>
 #include "statusbarsettingspage.h"
 
 #include <kdialog.h>

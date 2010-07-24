@@ -17,26 +17,26 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DETAILSVIEWSETTINGSPAGE_H
-#define DETAILSVIEWSETTINGSPAGE_H
+#ifndef COLUMNVIEWSETTINGSPAGE_H
+#define COLUMNVIEWSETTINGSPAGE_H
 
-#include <settings/viewsettingspagebase.h>
+#include "viewsettingspagebase.h"
 
 class DolphinFontRequester;
 class IconSizeGroupBox;
-class QCheckBox;
+class KComboBox;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
  *        to modify the settings for the details view.
  */
-class DetailsViewSettingsPage : public ViewSettingsPageBase
+class ColumnViewSettingsPage : public ViewSettingsPageBase
 {
     Q_OBJECT
 
 public:
-    DetailsViewSettingsPage(QWidget* parent);
-    virtual ~DetailsViewSettingsPage();
+    ColumnViewSettingsPage(QWidget* parent);
+    virtual ~ColumnViewSettingsPage();
 
     /**
      * Applies the settings for the details view.
@@ -52,9 +52,15 @@ private:
     void loadSettings();
 
 private:
+    enum
+    {
+        BaseTextWidth = 200,
+        TextInc = 50
+    };
+
     IconSizeGroupBox* m_iconSizeGroupBox;
     DolphinFontRequester* m_fontRequester;
-    QCheckBox* m_expandableFolders;
+    KComboBox* m_textWidthBox;
 };
 
 #endif

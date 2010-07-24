@@ -20,10 +20,9 @@
 
 #include "behaviorsettingspage.h"
 
-#include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
-#include "filemetadataconfigurationdialog.h"
-
+#include <settings/filemetadataconfigurationdialog.h>
+#include <settings/dolphinsettings.h>
 #include <viewproperties.h>
 
 #include <kdialog.h>

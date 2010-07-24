@@ -22,12 +22,12 @@
 
 #include <dolphinapplication.h>
 #include <dolphinmainwindow.h>
-#include "generalsettingspage.h"
-#include "navigationsettingspage.h"
-#include "servicessettingspage.h"
-#include "startupsettingspage.h"
-#include "viewsettingspage.h"
-#include "trashsettingspage.h"
+#include "general/generalsettingspage.h"
+#include "navigation/navigationsettingspage.h"
+#include "services/servicessettingspage.h"
+#include "startup/startupsettingspage.h"
+#include "viewmodes/viewsettingspage.h"
+#include "trash/trashsettingspage.h"
 
 #include <klocale.h>
 #include <kmessagebox.h>

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009 by Shaun Reich shaun.reich@kdemail.net             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,50 +17,55 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef COLUMNVIEWSETTINGSPAGE_H
-#define COLUMNVIEWSETTINGSPAGE_H
+#include "trashsettingspage.h"
 
-#include <settings/viewsettingspagebase.h>
+#include <KCModuleProxy>
+#include <kdialog.h>
+#include <kvbox.h>
 
-class DolphinFontRequester;
-class IconSizeGroupBox;
-class KComboBox;
+#include <settings/dolphinsettings.h>
 
-/**
- * @brief Represents the page from the Dolphin Settings which allows
- *        to modify the settings for the details view.
- */
-class ColumnViewSettingsPage : public ViewSettingsPageBase
+#include <QVBoxLayout>
+
+TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
+        SettingsPageBase(parent)
 {
-    Q_OBJECT
+    const int spacing = KDialog::spacingHint();
 
-public:
-    ColumnViewSettingsPage(QWidget* parent);
-    virtual ~ColumnViewSettingsPage();
+    QVBoxLayout* topLayout = new QVBoxLayout(this);
+    KVBox* vBox = new KVBox(this);
+    vBox->setSpacing(spacing);
 
-    /**
-     * Applies the settings for the details view.
-     * The settings are persisted automatically when
-     * closing Dolphin.
-     */
-    virtual void applySettings();
+    m_proxy = new KCModuleProxy("kcmtrash");
+    connect(m_proxy, SIGNAL(changed(bool)), this, SIGNAL(changed()));
+    topLayout->addWidget(m_proxy);
 
-    /** Restores the settings to default values. */
-    virtual void restoreDefaults();
+    // Add a dummy widget with no restriction regarding
+    // a vertical resizing. This assures that the dialog layout
+    // is not stretched vertically.
+    new QWidget(vBox);
+    topLayout->addWidget(vBox);
 
-private:
-    void loadSettings();
+    loadSettings();
+}
 
-private:
-    enum
-    {
-        BaseTextWidth = 200,
-        TextInc = 50
-    };
+TrashSettingsPage::~TrashSettingsPage()
+{
+}
 
-    IconSizeGroupBox* m_iconSizeGroupBox;
-    DolphinFontRequester* m_fontRequester;
-    KComboBox* m_textWidthBox;
-};
+void TrashSettingsPage::applySettings()
+{
+    m_proxy->save();
+}
 
-#endif
+void TrashSettingsPage::restoreDefaults()
+{
+    m_proxy->defaults();
+}
+
+void TrashSettingsPage::loadSettings()
+{
+    m_proxy->load();
+}
+
+#include "trashsettingspage.moc"

@@ -18,8 +18,9 @@
  ***************************************************************************/
 
 #include "contextmenusettingspage.h"
-#include "dolphinsettings.h"
-#include "dolphin_generalsettings.h"
+
+#include <settings/dolphinsettings.h>
+#include <dolphin_generalsettings.h>
 
 #include <kdialog.h>
 #include <klocale.h>

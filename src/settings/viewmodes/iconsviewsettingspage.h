@@ -21,7 +21,7 @@
 #define ICONSVIEWSETTINGSPAGE_H
 
 #include <dolphiniconsview.h>
-#include <settings/viewsettingspagebase.h>
+#include "viewsettingspagebase.h"
 
 class DolphinFontRequester;
 class IconSizeGroupBox;
@@ -29,7 +29,7 @@ class KComboBox;
 class KIntSpinBox;
 
 /**
- * @brief Tab page for the 'Icons Mode' and 'Previews Mode' settings
+ * @brief Tab page for the 'Icons Mode' settings
  * of the Dolphin settings dialog.
  *
  * Allows to set:

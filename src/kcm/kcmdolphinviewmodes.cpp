@@ -19,15 +19,15 @@
 
 #include "kcmdolphinviewmodes.h"
 
-#include "settings/columnviewsettingspage.h"
-#include "settings/detailsviewsettingspage.h"
-#include "settings/iconsviewsettingspage.h"
-
 #include <ktabwidget.h>
 #include <kdialog.h>
 #include <klocale.h>
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
+
+#include <settings/viewmodes/columnviewsettingspage.h>
+#include <settings/viewmodes/detailsviewsettingspage.h>
+#include <settings/viewmodes/iconsviewsettingspage.h>
 
 #include <QDBusConnection>
 #include <QDBusMessage>

@@ -19,13 +19,13 @@
 
 #include "kcmdolphinnavigation.h"
 
-#include "settings/navigationsettingspage.h"
-
 #include <ktabwidget.h>
 #include <kdialog.h>
 #include <klocale.h>
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
+
+#include <settings/navigation/navigationsettingspage.h>
 
 #include <QVBoxLayout>
 

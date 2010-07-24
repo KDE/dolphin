@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Shaun Reich shaun.reich@kdemail.net             *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,56 +17,44 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-//Own
-#include "trashsettingspage.h"
-#include "dolphinsettings.h"
-//KDE
-#include <KCModuleProxy>
-#include <kdialog.h>
-#include <kvbox.h>
-//Qt
-#include <QVBoxLayout>
+#ifndef DETAILSVIEWSETTINGSPAGE_H
+#define DETAILSVIEWSETTINGSPAGE_H
 
+#include "viewsettingspagebase.h"
 
-TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
-        SettingsPageBase(parent)
+class DolphinFontRequester;
+class IconSizeGroupBox;
+class QCheckBox;
+
+/**
+ * @brief Represents the page from the Dolphin Settings which allows
+ *        to modify the settings for the details view.
+ */
+class DetailsViewSettingsPage : public ViewSettingsPageBase
 {
-    const int spacing = KDialog::spacingHint();
+    Q_OBJECT
 
-    QVBoxLayout* topLayout = new QVBoxLayout(this);
-    KVBox* vBox = new KVBox(this);
-    vBox->setSpacing(spacing);
+public:
+    DetailsViewSettingsPage(QWidget* parent);
+    virtual ~DetailsViewSettingsPage();
 
-    m_proxy = new KCModuleProxy("kcmtrash");
-    connect(m_proxy, SIGNAL(changed(bool)), this, SIGNAL(changed()));
-    topLayout->addWidget(m_proxy);
+    /**
+     * Applies the settings for the details view.
+     * The settings are persisted automatically when
+     * closing Dolphin.
+     */
+    virtual void applySettings();
 
-    // Add a dummy widget with no restriction regarding
-    // a vertical resizing. This assures that the dialog layout
-    // is not stretched vertically.
-    new QWidget(vBox);
-    topLayout->addWidget(vBox);
+    /** Restores the settings to default values. */
+    virtual void restoreDefaults();
 
-    loadSettings();
-}
+private:
+    void loadSettings();
 
-TrashSettingsPage::~TrashSettingsPage()
-{
-}
+private:
+    IconSizeGroupBox* m_iconSizeGroupBox;
+    DolphinFontRequester* m_fontRequester;
+    QCheckBox* m_expandableFolders;
+};
 
-void TrashSettingsPage::applySettings()
-{
-    m_proxy->save();
-}
-
-void TrashSettingsPage::restoreDefaults()
-{
-    m_proxy->defaults();
-}
-
-void TrashSettingsPage::loadSettings()
-{
-    m_proxy->load();
-}
-
-#include "trashsettingspage.moc"
+#endif

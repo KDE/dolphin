@@ -114,24 +114,24 @@ set(dolphin_SRCS
     panels/folders/folderspanel.cpp
     panels/folders/paneltreeview.cpp
     search/dolphinsearchbox.cpp
-    settings/behaviorsettingspage.cpp
-    settings/columnviewsettingspage.cpp
-    settings/contextmenusettingspage.cpp
-    settings/dolphinfontrequester.cpp
+    settings/general/behaviorsettingspage.cpp
+    settings/general/contextmenusettingspage.cpp
+    settings/general/generalsettingspage.cpp
+    settings/general/previewssettingspage.cpp
+    settings/general/statusbarsettingspage.cpp
     settings/dolphinsettingsdialog.cpp
-    settings/detailsviewsettingspage.cpp
-    settings/generalsettingspage.cpp
-    settings/iconsizegroupbox.cpp
-    settings/iconsviewsettingspage.cpp
-    settings/navigationsettingspage.cpp
-    settings/previewssettingspage.cpp
-    settings/servicessettingspage.cpp
+    settings/navigation/navigationsettingspage.cpp
+    settings/services/servicessettingspage.cpp
     settings/settingspagebase.cpp
-    settings/startupsettingspage.cpp
-    settings/statusbarsettingspage.cpp
-    settings/trashsettingspage.cpp
-    settings/viewsettingspage.cpp
-    settings/viewsettingspagebase.cpp
+    settings/startup/startupsettingspage.cpp
+    settings/trash/trashsettingspage.cpp
+    settings/viewmodes/columnviewsettingspage.cpp
+    settings/viewmodes/detailsviewsettingspage.cpp
+    settings/viewmodes/dolphinfontrequester.cpp
+    settings/viewmodes/iconsizegroupbox.cpp
+    settings/viewmodes/iconsviewsettingspage.cpp
+    settings/viewmodes/viewsettingspage.cpp
+    settings/viewmodes/viewsettingspagebase.cpp
     statusbar/dolphinstatusbar.cpp
     statusbar/statusbarspaceinfo.cpp
     statusbar/statusbarmessagelabel.cpp
@@ -199,29 +199,29 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 set(kcm_dolphinviewmodes_PART_SRCS
     kcm/kcmdolphinviewmodes.cpp
     pixmapviewer.cpp
-    settings/columnviewsettingspage.cpp
-    settings/detailsviewsettingspage.cpp
-    settings/dolphinfontrequester.cpp
-    settings/iconsizegroupbox.cpp
-    settings/iconsviewsettingspage.cpp
-    settings/viewsettingspagebase.cpp
+    settings/viewmodes/columnviewsettingspage.cpp
+    settings/viewmodes/detailsviewsettingspage.cpp
+    settings/viewmodes/dolphinfontrequester.cpp
+    settings/viewmodes/iconsizegroupbox.cpp
+    settings/viewmodes/iconsviewsettingspage.cpp
+    settings/viewmodes/viewsettingspagebase.cpp
     zoomlevelinfo.cpp)
 
 set(kcm_dolphinnavigation_PART_SRCS
     kcm/kcmdolphinnavigation.cpp
-    settings/navigationsettingspage.cpp
+    settings/navigation/navigationsettingspage.cpp
     settings/settingspagebase.cpp)
 
 set(kcm_dolphinservices_PART_SRCS
     kcm/kcmdolphinservices.cpp
-    settings/servicessettingspage.cpp
+    settings/services/servicessettingspage.cpp
     settings/settingspagebase.cpp)
 
 set(kcm_dolphingeneral_PART_SRCS
     kcm/kcmdolphingeneral.cpp
-    settings/behaviorsettingspage.cpp
-    settings/previewssettingspage.cpp
-    settings/contextmenusettingspage.cpp
+    settings/general/behaviorsettingspage.cpp
+    settings/general/previewssettingspage.cpp
+    settings/general/contextmenusettingspage.cpp
     settings/settingspagebase.cpp)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS

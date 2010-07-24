@@ -17,31 +17,32 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "columnviewsettingspage.h"
+#include "detailsviewsettingspage.h"
 
-#include "dolphinfontrequester.h"
-#include "dolphinsettings.h"
-#include "dolphin_columnmodesettings.h"
 #include "iconsizegroupbox.h"
+#include "dolphinfontrequester.h"
+#include "dolphin_detailsmodesettings.h"
 #include "zoomlevelinfo.h"
 
 #include <kdialog.h>
 #include <klocale.h>
-#include <kcombobox.h>
+
+#include <settings/dolphinsettings.h>
 
 #include <QButtonGroup>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QGroupBox>
-#include <QHBoxLayout>
+#include <QGridLayout>
 #include <QLabel>
-#include <QSlider>
 #include <QRadioButton>
+#include <QtGui/QSpinBox>
 
-ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
+DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),
     m_iconSizeGroupBox(0),
     m_fontRequester(0),
-    m_textWidthBox(0)
+    m_expandableFolders(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -65,26 +66,20 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
             this, SIGNAL(changed()));
 
     // create "Text" properties
-    QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
+    QWidget* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
     textGroup->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
     m_fontRequester = new DolphinFontRequester(textGroup);
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
-    m_textWidthBox = new KComboBox(textGroup);
-    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
-    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
-    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
-    m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
-    connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+    QHBoxLayout* textLayout = new QHBoxLayout(textGroup);
+    textLayout->addWidget(fontLabel, 0, Qt::AlignRight);
+    textLayout->addWidget(m_fontRequester);
 
-    QGridLayout* textGroupLayout = new QGridLayout(textGroup);
-    textGroupLayout->addWidget(fontLabel, 0, 0, Qt::AlignRight);
-    textGroupLayout->addWidget(m_fontRequester, 0, 1);
-    textGroupLayout->addWidget(textWidthLabel, 1, 0, Qt::AlignRight);
-    textGroupLayout->addWidget(m_textWidthBox, 1, 1);
+    // create "Expandable Folders" checkbox
+    m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
+    connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -94,13 +89,13 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     loadSettings();
 }
 
-ColumnViewSettingsPage::~ColumnViewSettingsPage()
+DetailsViewSettingsPage::~DetailsViewSettingsPage()
 {
 }
 
-void ColumnViewSettingsPage::applySettings()
+void DetailsViewSettingsPage::applySettings()
 {
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
 
     const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->defaultSizeValue());
     const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->previewSizeValue());
@@ -114,23 +109,22 @@ void ColumnViewSettingsPage::applySettings()
     settings->setItalicFont(font.italic());
     settings->setFontWeight(font.weight());
 
-    const int columnWidth = BaseTextWidth + (m_textWidthBox->currentIndex() * TextInc);
-    settings->setColumnWidth(columnWidth);
+    settings->setExpandableFolders(m_expandableFolders->isChecked());
 
     settings->writeConfig();
 }
 
-void ColumnViewSettingsPage::restoreDefaults()
+void DetailsViewSettingsPage::restoreDefaults()
 {
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
 }
 
-void ColumnViewSettingsPage::loadSettings()
+void DetailsViewSettingsPage::loadSettings()
 {
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
 
     const QSize iconSize(settings->iconSize(), settings->iconSize());
     const int iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
@@ -152,7 +146,7 @@ void ColumnViewSettingsPage::loadSettings()
         m_fontRequester->setCustomFont(font);
     }
 
-    m_textWidthBox->setCurrentIndex((settings->columnWidth() - BaseTextWidth) / TextInc);
+    m_expandableFolders->setChecked(settings->expandableFolders());
 }
 
-#include "columnviewsettingspage.moc"
+#include "detailsviewsettingspage.moc"

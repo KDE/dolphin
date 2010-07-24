@@ -19,15 +19,15 @@
 
 #include "kcmdolphingeneral.h"
 
-#include "settings/behaviorsettingspage.h"
-#include "settings/previewssettingspage.h"
-#include "settings/contextmenusettingspage.h"
-
 #include <ktabwidget.h>
 #include <kdialog.h>
 #include <klocale.h>
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
+
+#include <settings/general/behaviorsettingspage.h>
+#include <settings/general/previewssettingspage.h>
+#include <settings/general/contextmenusettingspage.h>
 
 #include <QDir>
 #include <QVBoxLayout>

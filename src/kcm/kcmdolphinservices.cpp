@@ -19,13 +19,13 @@
 
 #include "kcmdolphinservices.h"
 
-#include "settings/servicessettingspage.h"
-
 #include <ktabwidget.h>
 #include <kdialog.h>
 #include <klocale.h>
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
+
+#include <settings/services/servicessettingspage.h>
 
 #include <QVBoxLayout>
 
