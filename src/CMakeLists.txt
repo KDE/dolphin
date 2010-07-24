@@ -22,11 +22,6 @@ set(dolphinprivate_LIB_SRCS
     settings/filemetadataconfigurationdialog.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
-    tooltips/filemetadatatooltip.cpp
-    tooltips/tooltipmanager.cpp
-    versioncontrol/pendingthreadsmaintainer.cpp
-    versioncontrol/updateitemstatesthread.cpp
-    versioncontrol/versioncontrolobserver.cpp
     views/additionalinfoaccessor.cpp
     views/dolphincategorydrawer.cpp
     views/dolphindirlister.cpp
@@ -46,9 +41,14 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinviewcontroller.cpp
     views/draganddrophelper.cpp
     views/folderexpander.cpp
+    views/renamedialog.cpp
     views/selectiontoggle.cpp
     views/selectionmanager.cpp
-    views/renamedialog.cpp
+    views/tooltips/filemetadatatooltip.cpp
+    views/tooltips/tooltipmanager.cpp
+    views/versioncontrol/pendingthreadsmaintainer.cpp
+    views/versioncontrol/updateitemstatesthread.cpp
+    views/versioncontrol/versioncontrolobserver.cpp
     views/viewextensionsfactory.cpp
     views/viewmodecontroller.cpp
     views/viewproperties.cpp
@@ -90,7 +90,7 @@ install(TARGETS dolphinpart DESTINATION ${PLUGIN_INSTALL_DIR})
 
 install(FILES dolphinpart.rc DESTINATION ${DATA_INSTALL_DIR}/dolphinpart)
 install(FILES dolphinpart.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
-install(FILES versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
+install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINATION ${SERVICETYPES_INSTALL_DIR})
 
 ##########################################
 
