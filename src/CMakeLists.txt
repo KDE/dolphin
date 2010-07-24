@@ -102,9 +102,9 @@ set(dolphin_SRCS
     dolphincontextmenu.cpp
     filterbar/filterbar.cpp
     main.cpp
-    pixmapviewer.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
+    panels/information/pixmapviewer.cpp
     panels/information/phononwidget.cpp
     panels/folders/ktreeview.cpp
     panels/places/placespanel.cpp
@@ -197,7 +197,6 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 ##########################################
 
 set(kcm_dolphinviewmodes_PART_SRCS
-    pixmapviewer.cpp
     settings/kcm/kcmdolphinviewmodes.cpp
     settings/viewmodes/columnviewsettingspage.cpp
     settings/viewmodes/detailsviewsettingspage.cpp
