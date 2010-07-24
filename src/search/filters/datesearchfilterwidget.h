@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
- *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,49 +16,38 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef FILTERBAR_H
-#define FILTERBAR_H
 
-#include <QtGui/QWidget>
+#ifndef DATESEARCHFILTERWIDGET_H
+#define DATESEARCHFILTERWIDGET_H
 
-class KLineEdit;
+#include <search/filters/abstractsearchfilterwidget.h>
+#include <QList>
+
+class QPushButton;
 
 /**
- * @brief Provides an input field for filtering the currently shown items.
- *
- * @author Gregor Kališnik <gregor@podnapisi.net>
- * @author Peter Penz <peter.penz@gmx.at>
+ * @brief Allows to filter the search by defined date values like
+ *        today, yesterday, ...
  */
-class FilterBar : public QWidget
-{
+class DateSearchFilterWidget : public AbstractSearchFilterWidget {
     Q_OBJECT
 
 public:
-    FilterBar(QWidget* parent = 0);
-    virtual ~FilterBar();
-
-public slots:
-    /** Clears the input field. */
-    void clear();
-
-signals:
-    /**
-     * Signal that reports the name filter has been
-     * changed to \a nameFilter.
-     */
-    void filterChanged(const QString& nameFilter);
-
-    /**
-     * Emitted as soon as the filterbar should get closed.
-     */
-    void closeRequest();
-
-protected:
-    virtual void showEvent(QShowEvent* event);
-    virtual void keyReleaseEvent(QKeyEvent* event);
+    DateSearchFilterWidget(QWidget* parent = 0);
+    virtual ~DateSearchFilterWidget();
+    virtual QString filterLabel() const;
+    virtual Nepomuk::Query::Term queryTerm() const;
 
 private:
-    KLineEdit* m_filterInput;
+    enum DateFilterType {
+        Today,
+        Yesterday,
+        ThisWeek,
+        ThisMonth,
+        ThisYear
+    };
+
+    QList<QPushButton*> m_dateButtons;
 };
 
 #endif

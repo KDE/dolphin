@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui SYSTEM "kpartgui.dtd">
-<kpartgui name="dolphin" version="12">
+<kpartgui name="dolphin" version="13">
     <MenuBar>
         <Menu name="file">
             <Action name="create_new" />
@@ -42,7 +42,6 @@
             <Action name="closed_tabs" />
         </Menu>
         <Menu name="tools">
-            <Action name="find_file" />
             <Action name="show_filter_bar" />
             <Action name="open_terminal" />
             <Action name="compare_files" />
@@ -96,9 +95,5 @@
         <Separator name="separator_0" />
         <Action name="show_preview" />
         <Action name="split_view" />
-    </ToolBar>
-    <ToolBar iconText="icononly" name="searchToolBar" newline="false">
-        <text context="@title:menu">Search Toolbar</text>
-        <Action name="search_bar" />
     </ToolBar>
 </kpartgui>

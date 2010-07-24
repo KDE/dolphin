@@ -58,6 +58,7 @@
 #include "dolphiniconsview.h"
 #include "draganddrophelper.h"
 #include "filterbar.h"
+#include "search/dolphinsearchbox.h"
 #include "settings/dolphinsettings.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "viewmodecontroller.h"
@@ -68,6 +69,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_isFolderWritable(false),
     m_topLayout(0),
     m_urlNavigator(0),
+    m_searchBox(0),
     m_view(0),
     m_filterBar(0),
     m_statusBar(0),
@@ -95,6 +97,11 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_urlNavigator->setHomeUrl(KUrl(settings->homeUrl()));
     KUrlComboBox* editor = m_urlNavigator->editor();
     editor->setCompletionMode(KGlobalSettings::Completion(settings->urlCompletionMode()));
+
+    m_searchBox = new DolphinSearchBox(this);
+    m_searchBox->hide();
+    connect(m_searchBox, SIGNAL(closeRequest()), this, SLOT(closeSearchBox()));
+    connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(startSearching(QString)));
 
     m_dirLister = new DolphinDirLister();
     m_dirLister->setAutoUpdate(true);
@@ -174,9 +181,12 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             m_filterBar, SLOT(clear()));
 
     m_topLayout->addWidget(m_urlNavigator);
+    m_topLayout->addWidget(m_searchBox);
     m_topLayout->addWidget(m_view);
     m_topLayout->addWidget(m_filterBar);
     m_topLayout->addWidget(m_statusBar);
+
+    setSearchModeEnabled(isSearchUrl(url));
 }
 
 DolphinViewContainer::~DolphinViewContainer()
@@ -219,6 +229,33 @@ void DolphinViewContainer::refresh()
 bool DolphinViewContainer::isFilterBarVisible() const
 {
     return m_filterBar->isVisible();
+}
+
+void DolphinViewContainer::setSearchModeEnabled(bool enabled)
+{
+    m_searchBox->setVisible(enabled);
+    m_urlNavigator->setVisible(!enabled);
+
+    if (enabled) {
+        // Remember the current URL, so that it can be restored
+        // when switching back to the URL navigator
+        const KUrl url = m_urlNavigator->locationUrl();
+        m_searchBox->setSearchPath(url);
+    } else {
+        // Restore the URL for the URL navigator. If Dolphin has been
+        // started with a search-URL, the home URL is used as fallback.
+        const KUrl url = m_searchBox->searchPath();
+        if (url.isValid() && !url.isEmpty() && !isSearchUrl(url)) {
+            m_urlNavigator->setLocationUrl(url);
+        } else {
+            m_urlNavigator->goHome();
+        }
+    }
+}
+
+bool DolphinViewContainer::isSearchModeEnabled() const
+{
+    return m_searchBox->isVisible();
 }
 
 void DolphinViewContainer::setUrl(const KUrl& newUrl)
@@ -278,9 +315,10 @@ void DolphinViewContainer::updateStatusBar()
 
 void DolphinViewContainer::initializeProgress()
 {
-    if (url().protocol() == "nepomuksearch") {
-        // The Nepomuk IO-slave does not provide progress information right away. Give
+    if (isSearchUrl(url())) {
+        // Search KIO-slaves usually don't provide any progress information. Give
         // an immediate hint to the user that a searching is done:
+        updateStatusBar();
         m_statusBar->setProgressText(i18nc("@info", "Searching..."));
         m_statusBar->setProgress(-1);
     }
@@ -301,7 +339,7 @@ void DolphinViewContainer::slotDirListerCompleted()
         m_statusBar->setProgress(100);
     }
 
-    if ((url().protocol() == "nepomuksearch") && (m_dirLister->items().count() == 0)) {
+    if (isSearchUrl(url()) && (m_dirLister->items().count() == 0)) {
         // The dir lister has been completed on a Nepomuk-URI and no items have been found. Instead
         // of showing the default status bar information ("0 items") a more helpful information is given:
         m_statusBar->setMessage(i18nc("@info:status", "No items found."), DolphinStatusBar::Information);
@@ -385,15 +423,23 @@ void DolphinViewContainer::saveViewState()
 void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 {
     if (KProtocolManager::supportsListing(url)) {
+         // Assure that the search box is shown instead of the URL navigator in case
+         // that the URL \p url is a search URL (e. g. nepomuksearch:// or filenamesearch://).
+        if (isSearchUrl(url)) {
+            if (!m_searchBox->isVisible()) {
+                m_searchBox->setVisible(true);
+                m_urlNavigator->setVisible(false);
+            }
+        } else if (!m_urlNavigator->isVisible()) {
+            m_urlNavigator->setVisible(true);
+            m_searchBox->setVisible(false);
+        }
+
         m_view->setUrl(url);
         if (isActive()) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
-            // a new view widget. Using QTimer::singleShow() works reliable, however
-            // QMetaObject::invokeMethod() with a queued connection does not work, which might
-            // indicate that we should pass a hint to DolphinView::updateView()
-            // regarding the focus instead. To test: Enter an URL and press CTRL+Enter.
-            // Expected result: The view should get the focus.
+            // a new view widget.
             QTimer::singleShot(0, this, SLOT(requestFocus()));
         }
     } else if (KProtocolManager::isSourceProtocol(url)) {
@@ -463,6 +509,25 @@ void DolphinViewContainer::slotHistoryChanged()
         QDataStream stream(&locationState, QIODevice::ReadOnly);
         m_view->restoreState(stream);
     }
+}
+
+void DolphinViewContainer::startSearching(const QString &text)
+{
+    Q_UNUSED(text);
+    const KUrl url = m_searchBox->urlForSearching();
+    if (url.isValid() && !url.isEmpty()) {
+        m_urlNavigator->setLocationUrl(url);
+    }
+}
+
+void DolphinViewContainer::closeSearchBox()
+{
+    setSearchModeEnabled(false);
+}
+
+bool DolphinViewContainer::isSearchUrl(const KUrl& url) const
+{
+    return url.protocol().contains("search");
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)

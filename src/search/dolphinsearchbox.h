@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
- *   Copyright (C) 2009 by Matthias Fuchs <mat69@gmx.net>                  *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,51 +16,32 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+
 #ifndef DOLPHINSEARCHBOX_H
 #define DOLPHINSEARCHBOX_H
 
+#include <kurl.h>
+#include <QList>
 #include <QWidget>
 
-#include <KIcon>
-
+class AbstractSearchFilterWidget;
 class KLineEdit;
-class QCompleter;
-class QModelIndex;
-class QStandardItemModel;
+class QFormLayout;
+class QPushButton;
+class QToolButton;
+class QVBoxLayout;
 
 /**
- * @brief Helper class used for completition for the DolphinSearchBox.
+ * @brief Input box for searching files with or without Nepomuk.
+ *
+ * The widget allows to specify:
+ * - Where to search: Everywhere or below the current directory
+ * - What to search: Filenames or content
+ *
+ * If Nepomuk is available and the current folder is indexed, further
+ * options are offered.
  */
-class DolphinSearchCompleter : public QObject
-{
-    Q_OBJECT
-
-public:
-    DolphinSearchCompleter(KLineEdit *linedit);
-
-public slots:
-    void highlighted(const QModelIndex& index);
-    void slotTextEdited(const QString &text);
-
-private:
-    void addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description = QString(), const QString& toolTip = QString(), const KIcon& icon = KIcon());
-
-    void findText(int* wordStart, int* wordEnd, QString* newWord, int cursorPos, const QString &input);
-
-private:
-    KLineEdit* q;
-    QCompleter* m_completer;
-    QStandardItemModel* m_completionModel;
-    QString m_userText;
-    int m_wordStart;
-    int m_wordEnd;
-};
-
-/**
- * @brief Input box for searching files with Nepomuk.
- */
-class DolphinSearchBox : public QWidget
-{
+class DolphinSearchBox : public QWidget {
     Q_OBJECT
 
 public:
@@ -74,9 +54,20 @@ public:
      */
     QString text() const;
 
+    /**
+     * Sets the current path that is used as root for
+     * searching files, if "From Here" has been selected.
+     */
+    void setSearchPath(const KUrl& url);
+    KUrl searchPath() const;
+
+    /** @return URL that will start the searching of files. */
+    KUrl urlForSearching() const;
+
 protected:
     virtual bool event(QEvent* event);
-    virtual bool eventFilter(QObject* watched, QEvent* event);
+    virtual void showEvent(QShowEvent* event);
+    virtual void keyReleaseEvent(QKeyEvent* event);
 
 signals:
     /**
@@ -93,20 +84,49 @@ signals:
     void searchTextChanged(const QString& text);
 
     /**
-     * Is emitted if the search box gets the focus or the text
-     * has been changed. It requests the need for an UI that allows to
-     * adjust search options. It is up to the application to ignore
-     * this request.
+     * Emitted as soon as the search box should get closed.
      */
-    void requestSearchOptions();
+    void closeRequest();
 
 private slots:
     void emitSearchSignal();
-    void slotTextChanged(const QString& text);
+    void slotConfigurationChanged();
+    void setFilterWidgetsVisible(bool visible);
 
 private:
+    void initButton(QPushButton* button);
+    void loadSettings();
+    void saveSettings();
+    void init();
+
+    /**
+     * @return True, if the complete directory tree specified by m_searchPath
+     *         is indexed by Strigi.
+     */
+    bool isSearchPathIndexed() const;
+
+    /**
+     * @return URL that represents the Nepomuk query for starting the search.
+     */
+    KUrl nepomukUrlForSearching() const;
+
+private:
+    bool m_startedSearching;
+    bool m_nepomukActivated;
+
+    QVBoxLayout* m_topLayout;
+
     KLineEdit* m_searchInput;
-    DolphinSearchCompleter* m_completer;
+    QPushButton* m_fromHereButton;
+    QPushButton* m_everywhereButton;
+    QPushButton* m_fileNameButton;
+    QPushButton* m_contentButton;
+
+    QToolButton* m_filterButton;
+    QFormLayout* m_filterWidgetsLayout;
+    QList<AbstractSearchFilterWidget*> m_filterWidgets;
+
+    KUrl m_searchPath;
 };
 
 #endif

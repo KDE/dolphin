@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
- *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,49 +16,40 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef FILTERBAR_H
-#define FILTERBAR_H
 
-#include <QtGui/QWidget>
+#ifndef FILENAMESEARCHPROTOCOL_H
+#define FILENAMESEARCHPROTOCOL_H
+ 
+#include <kio/slavebase.h>
 
-class KLineEdit;
-
+class KUrl;
+ 
 /**
- * @brief Provides an input field for filtering the currently shown items.
+ * @brief Lists files where the filename matches do a given query.
  *
- * @author Gregor Kališnik <gregor@podnapisi.net>
- * @author Peter Penz <peter.penz@gmx.at>
+ * The query is defined as part of the "search" query item of the URL.
+ * Example: The URL filenamesearch:///home/peter?search=hello lists
+ * recursively all files inside the directory home/peter, that contain
+ * the "hello" as part of their filename.
  */
-class FilterBar : public QWidget
-{
-    Q_OBJECT
-
+class FileNameSearchProtocol : public KIO::SlaveBase {
 public:
-    FilterBar(QWidget* parent = 0);
-    virtual ~FilterBar();
-
-public slots:
-    /** Clears the input field. */
-    void clear();
-
-signals:
-    /**
-     * Signal that reports the name filter has been
-     * changed to \a nameFilter.
-     */
-    void filterChanged(const QString& nameFilter);
-
-    /**
-     * Emitted as soon as the filterbar should get closed.
-     */
-    void closeRequest();
-
-protected:
-    virtual void showEvent(QShowEvent* event);
-    virtual void keyReleaseEvent(QKeyEvent* event);
+    FileNameSearchProtocol(const QByteArray& pool, const QByteArray& app);
+    virtual ~FileNameSearchProtocol();
+    
+    virtual void listDir(const KUrl& url);
 
 private:
-    KLineEdit* m_filterInput;
-};
+    void searchDirectory(const KUrl& directory);
 
+    /**
+     * @return True, if the pattern m_searchPattern is part of
+     *         the file \a fileName.
+     */
+    bool containsPattern(const KUrl& fileName) const;
+
+    bool m_checkContent;
+    QString m_searchPattern;
+};
+ 
 #endif

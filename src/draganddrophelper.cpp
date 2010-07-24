@@ -26,7 +26,6 @@
 #include <kfileitem.h>
 #include <kicon.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <konq_operations.h>
 
 #include <QAbstractItemView>

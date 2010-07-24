@@ -41,6 +41,7 @@ class KUrl;
 class DolphinModel;
 class KUrlNavigator;
 class DolphinDirLister;
+class DolphinSearchBox;
 class DolphinSortFilterProxyModel;
 class DolphinStatusBar;
 
@@ -93,6 +94,13 @@ public:
 
     /** Returns true, if the filter bar is visible. */
     bool isFilterBarVisible() const;
+
+    /**
+     * Enables the search mode, if \p enabled is true. In the search mode the URL navigator
+     * will be hidden and replaced by a line editor that allows to enter a search term.
+     */
+    void setSearchModeEnabled(bool enabled);
+    bool isSearchModeEnabled() const;
 
 public slots:
     /**
@@ -227,11 +235,22 @@ private slots:
 
     void slotHistoryChanged();
 
+    /**
+     * Gets the search URL from the searchbox and starts searching.
+     * @param text Text the user has entered into the searchbox.
+     */
+    void startSearching(const QString& text);
+    void closeSearchBox();
+
+private:
+    bool isSearchUrl(const KUrl& url) const;
+
 private:
     bool m_isFolderWritable;
 
     QVBoxLayout* m_topLayout;
     KUrlNavigator* m_urlNavigator;
+    DolphinSearchBox* m_searchBox;
 
     DolphinView* m_view;
 

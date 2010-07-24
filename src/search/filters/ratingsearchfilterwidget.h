@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Adam Kidder <thekidder@gmail.com>               *
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,39 +17,28 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "searchcriteriondescription.h"
+#ifndef RATINGSEARCHFILTERWIDGET_H
+#define RATINGSEARCHFILTERWIDGET_H
 
-SearchCriterionDescription::SearchCriterionDescription(const QString& name,
-                                                       const QUrl& identifier,
-                                                       const QList<Comparator>& comparators,
-                                                       SearchCriterionValue* valueWidget) :
-    m_name(name),
-    m_identifier(identifier),
-    m_comparators(comparators),
-    m_valueWidget(valueWidget)
-{
-}
+#include <search/filters/abstractsearchfilterwidget.h>
+#include <QList>
 
-SearchCriterionDescription::~SearchCriterionDescription()
-{
-}
+class QPushButton;
 
-QString SearchCriterionDescription::name() const
-{
-    return m_name;
-}
+/**
+ * @brief Allows to filter the search by rating.
+ */
+class RatingSearchFilterWidget : public AbstractSearchFilterWidget {
+    Q_OBJECT
 
-QUrl SearchCriterionDescription::identifier() const
-{
-    return m_identifier;
-}
+public:
+    RatingSearchFilterWidget(QWidget* parent = 0);
+    virtual ~RatingSearchFilterWidget();
+    virtual QString filterLabel() const;
+    virtual Nepomuk::Query::Term queryTerm() const;
 
-const QList<SearchCriterionDescription::Comparator>& SearchCriterionDescription::comparators() const
-{
-    return m_comparators;
-}
+private:
+    QList<QPushButton*> m_ratingButtons;
+};
 
-SearchCriterionValue* SearchCriterionDescription::valueWidget() const
-{
-    return m_valueWidget;
-}
+#endif

@@ -148,11 +148,11 @@ void InformationPanelContent::showItem(const KFileItem& item)
     m_pendingPreview = false;
 
     const KUrl itemUrl = item.url();
-    const bool isNepomukSearchUrl = itemUrl.protocol().startsWith("nepomuk") && item.nepomukUri().isEmpty();
+    const bool isSearchUrl = itemUrl.protocol().contains("search") && item.nepomukUri().isEmpty();
     if (!applyPlace(itemUrl)) {
         setNameLabelText(item.text());
-        if (isNepomukSearchUrl) {
-            // in the case of a Nepomuk query-URL the URL is not readable for humans
+        if (isSearchUrl) {
+            // in the case of a search-URL the URL is not readable for humans
             // (at least not useful to show in the Information Panel)
             KIconLoader iconLoader;
             QPixmap icon = iconLoader.loadIcon("nepomuk",

@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
- *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,49 +16,52 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef FILTERBAR_H
-#define FILTERBAR_H
 
-#include <QtGui/QWidget>
+#ifndef ABSTRACTSEARCHFILTERWIDGET_H
+#define ABSTRACTSEARCHFILTERWIDGET_H
 
-class KLineEdit;
+#include <nepomuk/term.h>
+#include <QWidget>
+
+class QPushButton;
 
 /**
- * @brief Provides an input field for filtering the currently shown items.
+ * @brief Base class for widgets that act as filter for searching.
  *
- * @author Gregor Kališnik <gregor@podnapisi.net>
- * @author Peter Penz <peter.penz@gmx.at>
+ * Derived classes need to implement the methods filterLabel() and
+ * queryTerm(). It is recommended to use createButton() for a filter-switch.
+ * The created button will automatically emit the signal filterChanged().
  */
-class FilterBar : public QWidget
-{
+class AbstractSearchFilterWidget : public QWidget {
     Q_OBJECT
 
 public:
-    FilterBar(QWidget* parent = 0);
-    virtual ~FilterBar();
+    AbstractSearchFilterWidget(QWidget* parent = 0);
+    virtual ~AbstractSearchFilterWidget();
 
-public slots:
-    /** Clears the input field. */
-    void clear();
+    /**
+     * @return Label that describes the kind of filter.
+     */
+    virtual QString filterLabel() const = 0;
+
+    /**
+     * @return Query-term for this filter, that respects the currently
+     *         selected filter-switches.
+     */
+    virtual Nepomuk::Query::Term queryTerm() const = 0;
+
+protected:
+    /**
+     * @return A checkable button, that automatically emits the signal
+     *         filterChanged() when being pressed.
+     */
+    QPushButton* createButton();
 
 signals:
     /**
-     * Signal that reports the name filter has been
-     * changed to \a nameFilter.
+     * Is emitted, if a filter-switch has been changed by the user.
      */
-    void filterChanged(const QString& nameFilter);
-
-    /**
-     * Emitted as soon as the filterbar should get closed.
-     */
-    void closeRequest();
-
-protected:
-    virtual void showEvent(QShowEvent* event);
-    virtual void keyReleaseEvent(QKeyEvent* event);
-
-private:
-    KLineEdit* m_filterInput;
+    void filterChanged();
 };
 
 #endif

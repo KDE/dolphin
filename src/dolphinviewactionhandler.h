@@ -201,11 +201,6 @@ private Q_SLOTS:
     void slotAdjustViewProperties();
 
     /**
-     * Opens the Find File dialog for the currently shown directory.
-     */
-    void slotFindFile();
-
-    /**
      * Connected to the "properties" action.
      * Opens the properties dialog for the selected items of the
      * active view. The properties dialog shows information

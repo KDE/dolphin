@@ -114,7 +114,6 @@ set(dolphin_SRCS
     panels/folders/folderspanel.cpp
     panels/folders/paneltreeview.cpp
     search/dolphinsearchbox.cpp
-    search/searchoptiondialogbox.cpp
     settings/behaviorsettingspage.cpp
     settings/columnviewsettingspage.cpp
     settings/contextmenusettingspage.cpp
@@ -149,14 +148,11 @@ kde4_add_kcfg_files(dolphin_SRCS
 if(Nepomuk_FOUND)
     set(dolphin_SRCS
         ${dolphin_SRCS}
-        search/dolphinsearchoptionsconfigurator.cpp
-        search/searchcriteriondescription.cpp
-        search/searchcriterionselector.cpp
-        search/searchcriterionvalue.cpp
+        search/filters/abstractsearchfilterwidget.cpp
+        search/filters/datesearchfilterwidget.cpp
+        search/filters/ratingsearchfilterwidget.cpp
+        search/filters/tagsearchfilterwidget.cpp
     )
-endif(Nepomuk_FOUND)
-
-if(Nepomuk_FOUND)
     include(SopranoAddOntology)
     soprano_add_ontology(dolphin_SRCS ${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nfo.trig "NFO" "Nepomuk::Vocabulary" "trig")
     soprano_add_ontology(dolphin_SRCS ${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nie.trig "NIE" "Nepomuk::Vocabulary" "trig")
@@ -268,6 +264,14 @@ install(TARGETS kcm_dolphinnavigation DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphinservices DESTINATION ${PLUGIN_INSTALL_DIR} )
 install(TARGETS kcm_dolphingeneral DESTINATION ${PLUGIN_INSTALL_DIR} )
 
+#########################################
+
+set(kio_search_PART_SRCS
+    search/filenamesearchprotocol.cpp)
+kde4_add_plugin(kio_filenamesearch ${kio_search_PART_SRCS})
+target_link_libraries(kio_filenamesearch ${KDE4_KIO_LIBS})
+install(TARGETS kio_filenamesearch DESTINATION ${PLUGIN_INSTALL_DIR})
+
 ########### install files ###############
 
 install( FILES dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
@@ -279,11 +283,13 @@ install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg
          DESTINATION ${KCFG_INSTALL_DIR} )
 install( FILES dolphinui.rc DESTINATION ${DATA_INSTALL_DIR}/dolphin )
-install( FILES search/dolphinsearchcommands.desktop DESTINATION ${DATA_INSTALL_DIR}/dolphin )
-install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES search/filenamesearch.protocol DESTINATION ${SERVICES_INSTALL_DIR} )
+install( FILES kcm/kcmdolphinviewmodes.desktop DESTINATION
+${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinnavigation.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphinservices.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES kcm/kcmdolphingeneral.desktop DESTINATION ${SERVICES_INSTALL_DIR} )
 install( FILES khns/servicemenu.knsrc DESTINATION ${CONFIG_INSTALL_DIR} )
 install( PROGRAMS khns/servicemenuinstallation DESTINATION ${BIN_INSTALL_DIR} )
 install( PROGRAMS khns/servicemenudeinstallation DESTINATION ${BIN_INSTALL_DIR} )
+

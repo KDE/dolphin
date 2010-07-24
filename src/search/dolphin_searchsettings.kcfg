@@ -5,15 +5,11 @@
     <group name="Search">
         <entry name="Location" type="String">
             <label>Location</label>
-            <default>Everywhere</default>
+            <default>FromHere</default>
         </entry>
         <entry name="What" type="String">
             <label>What</label>
-            <default>All</default>
-        </entry>
-        <entry name="Criteria" type="String">
-            <label>Criteria</label>
-            <default></default>
+            <default>FileName</default>
         </entry>
     </group>
 </kcfg>

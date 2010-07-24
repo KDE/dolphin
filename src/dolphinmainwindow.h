@@ -40,8 +40,6 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 class KAction;
 class DolphinViewActionHandler;
 class DolphinApplication;
-class DolphinSearchBox;
-class DolphinSearchOptionsConfigurator;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
@@ -215,6 +213,9 @@ private slots:
 
     /** Pastes the clipboard data to the active view. */
     void paste();
+
+    /** Replaces the URL navigator by a search box to find files. */
+    void find();
 
     /**
      * Updates the text of the paste action dependent from
@@ -406,18 +407,6 @@ private slots:
     void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
     /**
-     * Is connected with the Dolphin search box and the search configurator
-     * and triggers a Nepomuk search.
-     */
-    void searchItems();
-
-    /**
-     * Is connected to the searchbox signal 'requestSearchOptions' and
-     * takes care to show the search options.
-     */
-    void showSearchOptions();
-
-    /**
      * If the URL can be listed open it in the current view, otherwise
      * run it through KRun.
      */
@@ -540,8 +529,6 @@ private:
     KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
-    DolphinSearchBox* m_searchBox;
-    DolphinSearchOptionsConfigurator* m_searchOptionsConfigurator;
     int m_id;
 
     struct ViewTab

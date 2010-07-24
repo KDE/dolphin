@@ -19,12 +19,12 @@
  ***************************************************************************/
 #include "filterbar.h"
 
-#include <QtGui/QBoxLayout>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QLabel>
-#include <QtGui/QToolButton>
+#include <QBoxLayout>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QToolButton>
 
-#include <kdialog.h>
+#include <kicon.h>
 #include <klocale.h>
 #include <klineedit.h>
 #include <kiconloader.h>
@@ -32,28 +32,31 @@
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)
 {
-    QHBoxLayout* hLayout = new QHBoxLayout(this);
-    hLayout->setMargin(0);
+    // Create close button
+    QToolButton *closeButton = new QToolButton(this);
+    closeButton->setAutoRaise(true);
+    closeButton->setIcon(KIcon("dialog-close"));
+    closeButton->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
+    connect(closeButton, SIGNAL(clicked()), this, SIGNAL(closeRequest()));
 
-    m_close = new QToolButton(this);
-    m_close->setAutoRaise(true);
-    m_close->setIcon(KIcon("dialog-close"));
-    m_close->setToolTip(i18nc("@info:tooltip", "Hide Filter Bar"));
-    hLayout->addWidget(m_close);
-    hLayout->addSpacing(KDialog::spacingHint());
+    // Create label
+    QLabel* filterLabel = new QLabel(i18nc("@label:textbox", "Filter:"), this);
 
-    m_filter = new QLabel(i18nc("@label:textbox", "Filter:"), this);
-    hLayout->addWidget(m_filter);
-
+    // Create filter editor
     m_filterInput = new KLineEdit(this);
     m_filterInput->setLayoutDirection(Qt::LeftToRight);
     m_filterInput->setClearButtonShown(true);
-    m_filter->setBuddy(m_filterInput);
-    hLayout->addWidget(m_filterInput);
-
     connect(m_filterInput, SIGNAL(textChanged(const QString&)),
             this, SIGNAL(filterChanged(const QString&)));
-    connect(m_close, SIGNAL(clicked()), this, SIGNAL(closeRequest()));
+
+    // Apply layout
+    QHBoxLayout* hLayout = new QHBoxLayout(this);
+    hLayout->setMargin(0);
+    hLayout->addWidget(closeButton);
+    hLayout->addWidget(filterLabel);
+    hLayout->addWidget(m_filterInput);
+
+    filterLabel->setBuddy(m_filterInput);
 }
 
 FilterBar::~FilterBar()

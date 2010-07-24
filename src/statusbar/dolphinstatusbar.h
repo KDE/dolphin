@@ -78,12 +78,8 @@ public:
 
     /**
      * Sets the text for the progress information.
-     * The text is shown with a delay of 300 milliseconds:
-     * if the progress set by DolphinStatusBar::setProgress()
-     * does reach 100 % within 300 milliseconds,
-     * the progress text is not shown at all. This assures that
-     * no flickering occurs for showing a progress of fast
-     * operations.
+     * DolphinStatusBar::setProgress() should be invoked
+     * afterwards each time the progress changes.
      */
     void setProgressText(const QString& text);
     QString progressText() const;
@@ -137,7 +133,7 @@ private slots:
     void setZoomLevel(int zoomLevel);
 
     void zoomOut();
-    void zoomIn();
+    void zoomIn();    
     void showZoomSliderToolTip(int zoomLevel);
 
 private:
@@ -146,7 +142,7 @@ private:
     /**
      * Makes the space information widget and zoom slider widget
      * visible, if \a visible is true and the settings allow to show
-     * the widgets. If \a visible is false, it is assured that both
+     * the widgets. showUnknownProgressIf \a visible is false, it is assured that both
      * widgets are hidden.
      */
     void setExtensionsVisible(bool visible);

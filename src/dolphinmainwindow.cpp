@@ -24,14 +24,10 @@
 #include "dolphinremoteencoding.h"
 
 #include <config-nepomuk.h>
-#ifdef HAVE_NEPOMUK
-#include "search/dolphinsearchoptionsconfigurator.h"
-#endif
 
 #include "dolphinapplication.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewmenu.h"
-#include "search/dolphinsearchbox.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "dolphinviewcontainer.h"
@@ -112,10 +108,6 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_tabBar(0),
     m_activeViewContainer(0),
     m_centralWidgetLayout(0),
-    m_searchBox(0),
-#ifdef HAVE_NEPOMUK
-    m_searchOptionsConfigurator(0),
-#endif
     m_id(id),
     m_tabIndex(0),
     m_viewTab(),
@@ -730,6 +722,11 @@ void DolphinMainWindow::paste()
     m_activeViewContainer->view()->paste();
 }
 
+void DolphinMainWindow::find()
+{
+    m_activeViewContainer->setSearchModeEnabled(true);
+}
+
 void DolphinMainWindow::updatePasteAction()
 {
     QAction* pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
@@ -1130,21 +1127,6 @@ void DolphinMainWindow::slotTestCanDecode(const QDragMoveEvent* event, bool& can
     canDecode = KUrl::List::canDecode(event->mimeData());
 }
 
-void DolphinMainWindow::searchItems()
-{
-#ifdef HAVE_NEPOMUK
-    const KUrl nepomukSearchUrl = m_searchOptionsConfigurator->nepomukSearchUrl();
-    m_activeViewContainer->setUrl(nepomukSearchUrl);
-#endif
-}
-
-void DolphinMainWindow::showSearchOptions()
-{
-#ifdef HAVE_NEPOMUK
-    m_searchOptionsConfigurator->show();
-#endif
-}
-
 void DolphinMainWindow::handleUrl(const KUrl& url)
 {
     delete m_lastHandleUrlStatJob;
@@ -1246,14 +1228,6 @@ void DolphinMainWindow::init()
     connect(this, SIGNAL(urlChanged(const KUrl&)),
             m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
 
-#ifdef HAVE_NEPOMUK
-    m_searchOptionsConfigurator = new DolphinSearchOptionsConfigurator(this);
-    m_searchOptionsConfigurator->hide();
-    connect(m_searchOptionsConfigurator, SIGNAL(searchOptionsChanged()),
-            this, SLOT(searchItems()));
-    connect(this, SIGNAL(urlChanged(KUrl)), m_searchOptionsConfigurator, SLOT(setDirectory(KUrl)));
-#endif
-
     m_tabBar = new KTabBar(this);
     m_tabBar->setMovable(true);
     m_tabBar->setTabsClosable(true);
@@ -1282,9 +1256,6 @@ void DolphinMainWindow::init()
     m_centralWidgetLayout = new QVBoxLayout(centralWidget);
     m_centralWidgetLayout->setSpacing(0);
     m_centralWidgetLayout->setMargin(0);
-#ifdef HAVE_NEPOMUK
-    m_centralWidgetLayout->addWidget(m_searchOptionsConfigurator);
-#endif
     m_centralWidgetLayout->addWidget(m_tabBar);
     m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter, 1);
 
@@ -1293,16 +1264,6 @@ void DolphinMainWindow::init()
     emit urlChanged(homeUrl);
 
     setupGUI(Keys | Save | Create | ToolBar);
-
-    m_searchBox->setParent(toolBar("searchToolBar"));
-    m_searchBox->show();
-    connect(m_searchBox, SIGNAL(requestSearchOptions()),
-            this, SLOT(showSearchOptions()));
-#ifdef HAVE_NEPOMUK
-    connect(m_searchBox, SIGNAL(searchTextChanged(QString)),
-            m_searchOptionsConfigurator, SLOT(setCustomSearchQuery(QString)));
-#endif
-
     stateChanged("new_file");
 
     QClipboard* clipboard = QApplication::clipboard();
@@ -1412,6 +1373,8 @@ void DolphinMainWindow::setupActions()
     // due to the long text, the text "Paste" is used:
     paste->setIconText(i18nc("@action:inmenu Edit", "Paste"));
 
+    KStandardAction::find(this, SLOT(find()), actionCollection());
+
     KAction* selectAll = actionCollection()->addAction("select_all");
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
     selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
@@ -1481,11 +1444,6 @@ void DolphinMainWindow::setupActions()
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
-    KToggleAction* showSearchBar = actionCollection()->add<KToggleAction>("show_search_bar");
-    showSearchBar->setText(i18nc("@action:inmenu Tools", "Show Search Bar"));
-    showSearchBar->setShortcut(Qt::CTRL | Qt::Key_S);
-    connect(showSearchBar, SIGNAL(triggered(bool)), this, SLOT(toggleFilterBarVisibility(bool)));
-
     KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setIcon(KIcon("view-filter"));
@@ -1537,16 +1495,6 @@ void DolphinMainWindow::setupActions()
     openInNewWindow->setText(i18nc("@action:inmenu", "Open in New Window"));
     openInNewWindow->setIcon(KIcon("window-new"));
     connect(openInNewWindow, SIGNAL(triggered()), this, SLOT(openInNewWindow()));
-
-    // 'Search' toolbar
-    m_searchBox = new DolphinSearchBox(this);
-    connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(searchItems()));
-
-    KAction* search = new KAction(this);
-    actionCollection()->addAction("search_bar", search);
-    search->setText(i18nc("@action:inmenu", "Search Bar"));
-    search->setDefaultWidget(m_searchBox);
-    search->setShortcutConfigurable(false);
 }
 
 void DolphinMainWindow::setupDockWidgets()

@@ -1,261 +1,79 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
- *   Copyright (C) 2009 by Matthias Fuchs <mat69@gmx.net>                  *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
- ***************************************************************************/
+*    Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>            *
+*                                                                         *
+*    This program is free software; you can redistribute it and/or modify *
+*    it under the terms of the GNU General Public License as published by *
+*    the Free Software Foundation; either version 2 of the License, or    *
+*    (at your option) any later version.                                  *
+*                                                                         *
+*    This program is distributed in the hope that it will be useful,      *
+*    but WITHOUT ANY WARRANTY; without even the implied warranty of       *
+*    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the        *
+*    GNU General Public License for more details.                         *
+*                                                                         *
+*    You should have received a copy of the GNU General Public License    *
+*    along with this program; if not, write to the                        *
+*    Free Software Foundation, Inc.,                                      *
+*    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA           *
+* **************************************************************************/
 
 #include "dolphinsearchbox.h"
 
-#include <config-nepomuk.h>
+#include "dolphin_searchsettings.h"
 
-#include <KConfigGroup>
-#include <KDesktopFile>
-#include <kglobalsettings.h>
+#include <kicon.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <kiconloader.h>
-#include <KStandardDirs>
+#include <kseparator.h>
 
+#include <QButtonGroup>
+#include <QDir>
 #include <QEvent>
-#include <QKeyEvent>
+#include <QFormLayout>
 #include <QHBoxLayout>
-#include <QStandardItemModel>
-#include <QtGui/QCompleter>
-#include <QtGui/QTreeView>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QPushButton>
 #include <QToolButton>
+#include <QVBoxLayout>
 
+#include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
-#include <Nepomuk/ResourceManager>
-#include <Nepomuk/Tag>
+    #define DISABLE_NEPOMUK_LEGACY
+    #include <nepomuk/andterm.h>
+    #include <nepomuk/filequery.h>
+    #include <nepomuk/literalterm.h>
+    #include <nepomuk/query.h>
+    #include <nepomuk/queryparser.h>
+    #include <nepomuk/resourcemanager.h>
+    #include <nepomuk/resourcetypeterm.h>
+    #include "nfo.h"
+
+    #include "filters/datesearchfilterwidget.h"
+    #include "filters/ratingsearchfilterwidget.h"
+    #include "filters/tagsearchfilterwidget.h"
 #endif
-
-DolphinSearchCompleter::DolphinSearchCompleter(KLineEdit* linedit) :
-    QObject(0),
-    q(linedit),
-    m_completer(0),
-    m_completionModel(0),
-    m_wordStart(-1),
-    m_wordEnd(-1)
-{
-    m_completionModel = new QStandardItemModel(this);
-
-#ifdef HAVE_NEPOMUK
-    if (!Nepomuk::ResourceManager::instance()->init()) {
-        //read all currently set tags
-        //NOTE if the user changes tags elsewhere they won't get updated here
-        QList<Nepomuk::Tag> tags = Nepomuk::Tag::allTags();
-        foreach (const Nepomuk::Tag& tag, tags) {
-            const QString tagText = tag.label();
-            addCompletionItem(tagText,
-                              "hasTag:\"" + tagText + '\"',
-                              i18nc("Tag as in Nepomuk::Tag", "Tag"), // TODO: change to "hasTag" after msg freeze
-                              QString(),
-                              KIcon("mail-tagged"));
-        }
-    }
-#endif //HAVE_NEPOMUK
-
-    // load the completions stored in the desktop file
-    KDesktopFile file(KStandardDirs::locate("data", "dolphin/dolphinsearchcommands.desktop"));
-    foreach (const QString &group, file.groupList()) {
-        KConfigGroup cg(&file, group);
-        const QString displayed = cg.readEntry("Name", QString());
-        const QString usedForCompletition = cg.readEntry("Completion", QString());
-        const QString description = cg.readEntry("Comment", QString());
-        const QString toolTip = cg.readEntry("GenericName", QString());
-        const QString icon = cg.readEntry("Icon", QString());
-
-        if (icon.isEmpty()) {
-            addCompletionItem(displayed, usedForCompletition, description, toolTip);
-        } else {
-            addCompletionItem(displayed, usedForCompletition, description, toolTip, KIcon(icon));
-        }
-    }
-
-    m_completionModel->sort(0, Qt::AscendingOrder);
-
-    m_completer = new QCompleter(m_completionModel, this);
-    m_completer->setWidget(q);
-    m_completer->setCaseSensitivity(Qt::CaseInsensitive);
-    QTreeView *view = new QTreeView;
-    m_completer->setPopup(view);
-    view->setRootIsDecorated(false);
-    view->setHeaderHidden(true);
-
-    connect(q, SIGNAL(textEdited(QString)), this, SLOT(slotTextEdited(QString)));
-    connect(m_completer, SIGNAL(highlighted(QModelIndex)), this, SLOT(highlighted(QModelIndex)));
-}
-
-void DolphinSearchCompleter::addCompletionItem(const QString& displayed, const QString& usedForCompletition, const QString& description, const QString& toolTip, const KIcon& icon)
-{
-    if (displayed.isEmpty() || usedForCompletition.isEmpty()) {
-        return;
-    }
-
-    QList<QStandardItem*> items;
-    QStandardItem *item = new QStandardItem();
-    item->setData(QVariant(displayed), Qt::DisplayRole);
-    item->setData(QVariant(usedForCompletition), Qt::UserRole);
-    item->setData(QVariant(toolTip), Qt::ToolTipRole);
-    items << item;
-
-    item = new QStandardItem(description);
-    if (!icon.isNull()) {
-        item->setIcon(icon);
-    }
-    item->setData(QVariant(toolTip), Qt::ToolTipRole);
-    items << item;
-
-    m_completionModel->insertRow(m_completionModel->rowCount(), items);
-}
-
-void DolphinSearchCompleter::findText(int* wordStart, int* wordEnd, QString* newWord, int cursorPos, const QString &input)
-{
-    --cursorPos;//decrease to get a useful position (not the end of the word e.g.)
-
-    if (!wordStart || !wordEnd) {
-        return;
-    }
-
-    *wordStart = -1;
-    *wordEnd = -1;
-
-    // the word might contain "" and thus maybe spaces
-    if (input.contains('\"')) {
-        int tempStart = -1;
-        int tempEnd = -1;
-
-        do {
-            tempStart = input.indexOf('\"', tempEnd + 1);
-            tempEnd = input.indexOf('\"', tempStart + 1);
-            if ((cursorPos >= tempStart) && (cursorPos <= tempEnd)) {
-                *wordStart = tempStart;
-                *wordEnd = tempEnd;
-                break;
-            } else if ((tempEnd == -1) && (cursorPos >= tempStart)) {
-                //one " found, so probably the beginning of the new word
-                *wordStart = tempStart;
-                break;
-            }
-        } while ((tempStart != -1) && (tempEnd != -1));
-    }
-
-    if (*wordEnd > -1) {
-        *wordEnd = input.indexOf(' ', *wordEnd) - 1;
-    } else {
-        *wordEnd = input.indexOf(' ', cursorPos) - 1;
-    }
-    if (*wordEnd < 0) {
-        *wordEnd = input.length() - 1;
-    }
-
-    if (*wordStart > -1) {
-        *wordStart = input.lastIndexOf(' ', *wordStart + 1) + 1;
-    } else {
-        *wordStart = input.lastIndexOf(' ', cursorPos) + 1;
-    }
-    if (*wordStart < 0) {
-        *wordStart = 0;
-    }
-
-
-    QString word = input.mid(*wordStart, *wordEnd - *wordStart + 1);
-
-    //remove opening braces or negations ('-' = not) at the beginning
-    while (word.count() && ((word[0] == '(') || (word[0] == '-'))) {
-        word.remove(0, 1);
-        ++(*wordStart);
-    }
-
-    //remove ending braces at the end
-    while (word.count() && (word[word.count() - 1] == ')')) {
-        word.remove(word.count() - 1, 1);
-        --(*wordEnd);
-    }
-
-    if (newWord) {
-        *newWord = word;
-    }
-}
-
-void DolphinSearchCompleter::slotTextEdited(const QString& text)
-{
-    findText(&m_wordStart, &m_wordEnd, &m_userText, q->cursorPosition(), text);
-
-    if (!m_userText.isEmpty()) {
-        const int role = m_completer->completionRole();
-
-        //change the role used for comparison depending on what the user entered
-        if (m_userText.contains(':') || m_userText.contains('\"')) {
-            //assume that m_userText contains searchinformation like 'tag:"..."'
-            if (role != Qt::UserRole) {
-                m_completer->setCompletionRole(Qt::UserRole);
-            }
-        } else if (role != Qt::EditRole) {
-            m_completer->setCompletionRole(Qt::EditRole);
-        }
-
-        m_completer->setCompletionPrefix(m_userText);
-        m_completer->complete();
-    }
-}
-
-void DolphinSearchCompleter::highlighted(const QModelIndex& index)
-{
-    QString text = q->text();
-    int wordStart;
-    int wordEnd;
-
-    findText(&wordStart, &wordEnd, 0, q->cursorPosition(), text);
-
-    QString replace = index.sibling(index.row(), 0).data(Qt::UserRole).toString();
-    //show the originally entered text
-    if (replace.isEmpty()) {
-        replace = m_userText;
-    }
-
-    text.replace(wordStart, wordEnd - wordStart + 1, replace);
-    q->setText(text);
-    q->setCursorPosition(wordStart + replace.length());
-}
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
+    m_startedSearching(false),
+    m_nepomukActivated(false),
+    m_topLayout(0),
     m_searchInput(0),
-    m_completer(0)
+    m_fromHereButton(0),
+    m_everywhereButton(0),
+    m_fileNameButton(0),
+    m_contentButton(0),
+    m_filterButton(0),
+    m_filterWidgetsLayout(0),
+    m_filterWidgets(),
+    m_searchPath()
 {
-    QHBoxLayout* hLayout = new QHBoxLayout(this);
-    hLayout->setMargin(0);
-    hLayout->setSpacing(0);
-
-    m_searchInput = new KLineEdit(this);
-    m_searchInput->setClearButtonShown(true);
-    m_searchInput->setMinimumWidth(150);
-    m_searchInput->setClickMessage(i18nc("@label:textbox", "Search..."));
-    m_searchInput->installEventFilter(this);
-    hLayout->addWidget(m_searchInput);
-    connect(m_searchInput, SIGNAL(returnPressed()),
-            this, SLOT(emitSearchSignal()));
-    connect(m_searchInput, SIGNAL(textChanged(QString)),
-            this, SLOT(slotTextChanged(QString)));
 }
 
 DolphinSearchBox::~DolphinSearchBox()
 {
+    saveSettings();
 }
 
 QString DolphinSearchBox::text() const
@@ -263,47 +81,300 @@ QString DolphinSearchBox::text() const
     return m_searchInput->text();
 }
 
+void DolphinSearchBox::setSearchPath(const KUrl& url)
+{
+    m_searchPath = url;
+    m_filterButton->setVisible(isSearchPathIndexed());
+}
+
+KUrl DolphinSearchBox::searchPath() const
+{
+    return m_searchPath;
+}
+
+KUrl DolphinSearchBox::urlForSearching() const
+{
+    KUrl url;
+    if (isSearchPathIndexed() && !m_fileNameButton->isChecked()) {
+        // TODO: Currently Nepomuk is not used for searching filenames. Nepomuk
+        // is capable to provide this, but further investigations are necessary to
+        // also support regular expressions.
+        url = nepomukUrlForSearching();
+    } else {
+        url = m_searchPath;
+        url.setProtocol("filenamesearch");
+        url.addQueryItem("search", m_searchInput->text());
+        if (m_contentButton->isChecked()) {
+            url.addQueryItem("checkContent", "yes");
+        }
+        if (m_everywhereButton->isChecked()) {
+            // It is very unlikely, that the majority of Dolphins target users
+            // mean "the whole harddisk" instead of "my home folder" when
+            // selecting the "Everywhere" button.
+            url.setPath(QDir::homePath());
+        }
+    }
+
+    return url;
+}
+
 bool DolphinSearchBox::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
-        m_searchInput->setFont(KGlobalSettings::generalFont());
+        init();
     } else if (event->type() == QEvent::KeyPress) {
-        if (static_cast<QKeyEvent *>(event)->key() == Qt::Key_Escape) {
+        if (static_cast<QKeyEvent* >(event)->key() == Qt::Key_Escape) {
             m_searchInput->clear();
         }
     }
     return QWidget::event(event);
 }
 
-bool DolphinSearchBox::eventFilter(QObject* watched, QEvent* event)
+void DolphinSearchBox::showEvent(QShowEvent* event)
 {
-    if ((watched == m_searchInput) && (event->type() == QEvent::FocusIn)) {
-        // Postpone the creation of the search completer until
-        // the search box is used. This decreases the startup time
-        // of Dolphin.
-        if (m_completer == 0) {
-            m_completer = new DolphinSearchCompleter(m_searchInput);
-        }
-        if (m_searchInput->text().isEmpty()) {
-            emit requestSearchOptions();
-        }
-    }
+    if (!event->spontaneous()) {
+#ifdef HAVE_NEPOMUK
+        m_nepomukActivated = (Nepomuk::ResourceManager::instance()->init() == 0);
+#endif
 
-    return QWidget::eventFilter(watched, event);
+        m_searchInput->clear();
+        m_searchInput->setFocus();
+        m_startedSearching = false;
+    }
 }
 
+void DolphinSearchBox::keyReleaseEvent(QKeyEvent* event)
+{
+    QWidget::keyReleaseEvent(event);
+    if ((event->key() == Qt::Key_Escape)) {
+        if (m_searchInput->text().isEmpty()) {
+            emit closeRequest();
+        } else {
+            m_searchInput->clear();
+        }
+    }
+}
 
 void DolphinSearchBox::emitSearchSignal()
 {
+    m_startedSearching = true;
     emit search(m_searchInput->text());
 }
 
-void DolphinSearchBox::slotTextChanged(const QString& text)
+void DolphinSearchBox::slotConfigurationChanged()
 {
-    if (!text.isEmpty()) {
-        emit requestSearchOptions();
+    if (m_startedSearching) {
+        emitSearchSignal();
     }
-    emit searchTextChanged(text);
+}
+
+void DolphinSearchBox::setFilterWidgetsVisible(bool visible)
+{
+#ifdef HAVE_NEPOMUK
+    if (visible) {
+        if (m_filterWidgetsLayout == 0) {
+            m_filterWidgetsLayout = new QFormLayout(this);
+            m_filterWidgetsLayout->setSpacing(0);
+
+            m_filterWidgets.append(new DateSearchFilterWidget(this));
+            m_filterWidgets.append(new RatingSearchFilterWidget(this));
+            m_filterWidgets.append(new TagSearchFilterWidget(this));
+
+            foreach (AbstractSearchFilterWidget* filterWidget, m_filterWidgets) {
+                const QString labelText = filterWidget->filterLabel() + QLatin1Char(':');
+                QLabel* label = new QLabel(labelText, this);
+                m_filterWidgetsLayout->addRow(label, filterWidget);
+                connect(filterWidget, SIGNAL(filterChanged()), this, SLOT(emitSearchSignal()));
+            }
+        }
+        m_topLayout->addLayout(m_filterWidgetsLayout);
+    } else {
+        m_topLayout->removeItem(m_filterWidgetsLayout);
+    }
+#else
+    Q_UNUSED(visible);
+#endif
+}
+
+void DolphinSearchBox::initButton(QPushButton* button)
+{
+    button->setAutoExclusive(true);
+    button->setFlat(true);
+    button->setCheckable(true);
+    connect(button, SIGNAL(toggled(bool)), this, SLOT(slotConfigurationChanged()));
+}
+
+void DolphinSearchBox::loadSettings()
+{
+    if (SearchSettings::location() == QLatin1String("Everywhere")) {
+        m_everywhereButton->setChecked(true);
+    } else {
+        m_fromHereButton->setChecked(true);
+    }
+
+    if (SearchSettings::what() == QLatin1String("Content")) {
+        m_contentButton->setChecked(true);
+    } else {
+        m_fileNameButton->setChecked(true);
+    }
+}
+
+void DolphinSearchBox::saveSettings()
+{
+    SearchSettings::setLocation(m_fromHereButton->isChecked() ? "FromHere" : "Everywhere");
+    SearchSettings::setWhat(m_fileNameButton->isChecked() ? "FileName" : "Content");
+    SearchSettings::self()->writeConfig();
+}
+
+void DolphinSearchBox::init()
+{
+    // Create close button
+    QToolButton* closeButton = new QToolButton(this);
+    closeButton->setAutoRaise(true);
+    closeButton->setIcon(KIcon("dialog-close"));
+    closeButton->setToolTip(i18nc("@info:tooltip", "Quit searching"));
+    connect(closeButton, SIGNAL(clicked()), SIGNAL(closeRequest()));
+
+    // Create search label
+    QLabel* searchLabel = new QLabel(i18nc("@label:textbox", "Find:"), this);
+
+    // Create search box
+    m_searchInput = new KLineEdit(this);
+    m_searchInput->setClearButtonShown(true);
+    m_searchInput->setFont(KGlobalSettings::generalFont());
+    connect(m_searchInput, SIGNAL(returnPressed()),
+            this, SLOT(emitSearchSignal()));
+    connect(m_searchInput, SIGNAL(textChanged(QString)),
+            this, SIGNAL(searchTextChanged(QString)));
+
+    // Apply layout for the search input
+    QHBoxLayout* searchInputLayout = new QHBoxLayout();
+    searchInputLayout->setMargin(0);
+    searchInputLayout->addWidget(closeButton);
+    searchInputLayout->addWidget(searchLabel);
+    searchInputLayout->addWidget(m_searchInput);
+
+    // Create "From Here" and "Everywhere"button
+    m_fromHereButton = new QPushButton();
+    m_fromHereButton->setText(i18nc("action:button", "From Here"));
+    initButton(m_fromHereButton);
+
+    m_everywhereButton = new QPushButton(this);
+    m_everywhereButton->setText(i18nc("action:button", "Everywhere"));
+    initButton(m_everywhereButton);
+
+    QButtonGroup* searchLocationGroup = new QButtonGroup(this);
+    searchLocationGroup->addButton(m_fromHereButton);
+    searchLocationGroup->addButton(m_everywhereButton);
+
+    // Create "Filename" and "Content" button
+    m_fileNameButton = new QPushButton(this);
+    m_fileNameButton->setText(i18nc("action:button", "Filename"));
+    initButton(m_fileNameButton);
+
+    m_contentButton = new QPushButton();
+    m_contentButton->setText(i18nc("action:button", "Content"));
+    initButton(m_contentButton);;
+
+    QButtonGroup* searchWhatGroup = new QButtonGroup(this);
+    searchWhatGroup->addButton(m_fileNameButton);
+    searchWhatGroup->addButton(m_contentButton);
+
+    // Create "Filter" button
+    m_filterButton = new QToolButton(this);
+    m_filterButton->setIcon(KIcon("view-filter"));
+    m_filterButton->setAutoRaise(true);
+    m_filterButton->setCheckable(true);
+    m_filterButton->hide();
+    connect(m_filterButton, SIGNAL(toggled(bool)), this, SLOT(setFilterWidgetsVisible(bool)));
+
+    // Apply layout for the options
+    QHBoxLayout* optionsLayout = new QHBoxLayout();
+    optionsLayout->setMargin(0);
+    optionsLayout->addWidget(m_fromHereButton);
+    optionsLayout->addWidget(m_everywhereButton);
+    optionsLayout->addWidget(new KSeparator(Qt::Vertical));
+    optionsLayout->addWidget(m_fileNameButton);
+    optionsLayout->addWidget(m_contentButton);
+    optionsLayout->addStretch(1);
+    optionsLayout->addWidget(m_filterButton);
+
+    m_topLayout = new QVBoxLayout(this);
+    m_topLayout->addLayout(searchInputLayout);
+    m_topLayout->addLayout(optionsLayout);
+
+    searchLabel->setBuddy(m_searchInput);
+    loadSettings();
+}
+
+bool DolphinSearchBox::isSearchPathIndexed() const
+{
+#ifdef HAVE_NEPOMUK
+    const QString path = m_searchPath.path();
+
+    const KConfig strigiConfig("nepomukstrigirc");
+    const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders", QStringList());
+
+    // Check whether the current search path is part of an indexed folder
+    bool isIndexed = false;
+    foreach (const QString& indexedFolder, indexedFolders) {
+        if (path.startsWith(indexedFolder)) {
+            isIndexed = true;
+            break;
+        }
+    }
+
+    if (isIndexed) {
+        // The current search path is part of an indexed folder. Check whether no
+        // excluded folder is part of the search path.
+        const QStringList excludedFolders = strigiConfig.group("General").readPathEntry("exclude folders", QStringList());
+        foreach (const QString& excludedFolder, excludedFolders) {
+            if (excludedFolder.startsWith(path)) {
+                isIndexed = false;
+                break;
+            }
+        }
+    }
+
+    return isIndexed;
+#else
+    return false;
+#endif
+}
+
+KUrl DolphinSearchBox::nepomukUrlForSearching() const
+{
+#ifdef HAVE_NEPOMUK
+    Nepomuk::Query::AndTerm andTerm;
+
+    // Add filter terms
+    foreach (const AbstractSearchFilterWidget* filterWidget, m_filterWidgets) {
+        const Nepomuk::Query::Term term = filterWidget->queryTerm();
+        if (term.isValid()) {
+            andTerm.addSubTerm(term);
+        }
+    }
+
+    // Add input from search filter
+    const QString text = m_searchInput->text();
+    if (!text.isEmpty()) {
+        const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text);
+        if (customQuery.isValid()) {
+            andTerm.addSubTerm(customQuery.term());
+        }
+    }
+
+    Nepomuk::Query::FileQuery fileQuery;
+    fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
+    fileQuery.setTerm(andTerm);
+
+    if (fileQuery.isValid()) {
+        return fileQuery.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
+                                           "Query Results from '%1'",
+                                           text));
+    }
+#endif
+    return KUrl();
 }
 
 #include "dolphinsearchbox.moc"
