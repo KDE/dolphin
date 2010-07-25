@@ -36,10 +36,10 @@ KDE_EXPORT int kdemain(int argc, char **argv)
                      "1.5",
                      ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
-                     ki18nc("@info:credit", "(C) 2006-2010 Peter Penz"));
+                     ki18nc("@info:credit", "Copyright © 2006–2011 Dolphin authors"));
     about.setHomepage("http://dolphin.kde.org");
     about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
-                    ki18nc("@info:credit", "Maintainer and developer"),
+                    ki18nc("@info:credit", "Maintainer and lead developer"),
                     "peter.penz@gmx.at");
     about.addAuthor(ki18nc("@info:credit", "David Faure"),
                     ki18nc("@info:credit", "Developer"),
