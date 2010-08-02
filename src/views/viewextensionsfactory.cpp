@@ -50,7 +50,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     m_autoScroller(0),
     m_fileItemDelegate(0),
     m_versionControlObserver(0)
-{   
+{
     view->setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
@@ -61,7 +61,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
         m_toolTipManager = new ToolTipManager(view, proxyModel);
 
         connect(dolphinViewController, SIGNAL(hideToolTip()),
-                m_toolTipManager, SLOT(hideTip()));
+                m_toolTipManager, SLOT(hideToolTip()));
     }
 
     // initialize preview generator

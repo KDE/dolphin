@@ -20,10 +20,10 @@
 
 #include "filemetadatatooltip.h"
 
-#include <kcolorscheme.h>
+#include <KColorScheme>
 #include <kfilemetadatawidget.h>
-#include <kseparator.h>
-#include <kwindowsystem.h>
+#include <KSeparator>
+#include <KWindowSystem>
 
 #include <QLabel>
 #include <QPainter>
@@ -34,7 +34,6 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_preview(0),
     m_name(0),
     m_fileMetaDataWidget(0)
-
 {
     setAttribute(Qt::WA_TranslucentBackground);
     setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint);
@@ -47,30 +46,25 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     QFont font = m_name->font();
     font.setBold(true);
     m_name->setFont(font);
-    m_name->setAlignment(Qt::AlignHCenter);
 
     // Create widget for the meta data
     m_fileMetaDataWidget = new KFileMetaDataWidget();
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
+    connect(m_fileMetaDataWidget, SIGNAL(metaDataRequestFinished()),
+            this, SIGNAL(metaDataRequestFinished()));
 
-    // The stretchwidget allows the metadata widget to be top aligned and fills
-    // the remaining vertical space
-    QWidget* stretchWidget = new QWidget(this);
-    stretchWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::MinimumExpanding);
-
-    QWidget* textContainer = new QWidget(this);
-    QVBoxLayout* textLayout = new QVBoxLayout(textContainer);
+    QVBoxLayout* textLayout = new QVBoxLayout();
+    textLayout->setAlignment(Qt::AlignTop);
     textLayout->addWidget(m_name);
     textLayout->addWidget(new KSeparator());
     textLayout->addWidget(m_fileMetaDataWidget);
-    textLayout->addWidget(stretchWidget);
+    textLayout->setAlignment(m_name, Qt::AlignCenter);
+    textLayout->setAlignment(m_fileMetaDataWidget, Qt::AlignLeft);
 
     QHBoxLayout* tipLayout = new QHBoxLayout(this);
     tipLayout->addWidget(m_preview);
-    tipLayout->addWidget(textContainer);
-    
-    tipLayout->setSizeConstraint(QLayout::SetFixedSize);
+    tipLayout->addLayout(textLayout);
 }
 
 FileMetaDataToolTip::~FileMetaDataToolTip()
@@ -82,9 +76,12 @@ void FileMetaDataToolTip::setPreview(const QPixmap& pixmap)
     m_preview->setPixmap(pixmap);
 }
 
-const QPixmap* FileMetaDataToolTip::preview() const
+QPixmap FileMetaDataToolTip::preview() const
 {
-    return m_preview->pixmap();
+    if (m_preview->pixmap() != 0) {
+        return *m_preview->pixmap();
+    }
+    return QPixmap();
 }
 
 void FileMetaDataToolTip::setName(const QString& name)

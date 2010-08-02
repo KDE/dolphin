@@ -40,13 +40,25 @@ public:
     virtual ~FileMetaDataToolTip();
 
     void setPreview(const QPixmap& pixmap);
-    const QPixmap* preview() const;
+    QPixmap preview() const;
 
     void setName(const QString& name);
     QString name() const;
 
+    /**
+     * Sets the items for which the meta data should be shown.
+     * The signal metaDataRequestFinished() will be emitted,
+     * as soon as the meta data for the items has been received.
+     */
     void setItems(const KFileItemList& items);
     KFileItemList items() const;
+
+signals:
+    /**
+     * Is emitted after the meta data has been received for the items
+     * set by FileMetaDataToolTip::setItems().
+     */
+    void metaDataRequestFinished();
 
 protected:
     virtual void paintEvent(QPaintEvent* event);
