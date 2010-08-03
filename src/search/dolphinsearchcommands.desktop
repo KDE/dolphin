@@ -6,6 +6,7 @@
 #ctx: and as in a logic operator to connect search terms
 Name=and
 Comment=logic operator and
+Comment[ar]=المعامل المنطقي و
 Comment[bg]=логически оператор "и"
 Comment[ca]=operador lògic i
 Comment[ca@valencia]=operador lògic i
@@ -74,6 +75,7 @@ Completion=and
 #ctx: or as in a logic operator to connect search terms
 Name=or
 Comment=logic operator or
+Comment[ar]=المعامل المنطقي أو
 Comment[bg]=логически операгор "или"
 Comment[ca]=operador lògic o
 Comment[ca@valencia]=operador lògic o
@@ -142,6 +144,7 @@ Completion=or
 #ctx: not as in a logic operator to connect search terms
 Name=not
 Comment=logic operator not
+Comment[ar]=المعامل المنطقي ليس
 Comment[bg]=логически оператор "не"
 Comment[ca]=operador lògic no
 Comment[ca@valencia]=operador lògic no
@@ -208,6 +211,7 @@ Completion=-
 
 [dolphin fileExtension]
 Name=File extension
+Name[ar]=امتداد الملف
 Name[bg]=Файлово разширение
 Name[bn]=ফাইল এক্সটেনশন
 Name[ca]=Extensió del fitxer
@@ -274,6 +278,7 @@ Name[x-test]=xxFile extensionxx
 Name[zh_CN]=文件扩展名
 Name[zh_TW]=副檔名
 Comment=for example txt
+Comment[ar]=على سبيل المثال txt
 Comment[bg]=например txt
 Comment[bn]=উদাহরণস্বরূপ txt
 Comment[ca]=per exemple txt
@@ -346,6 +351,7 @@ Icon=preferences-desktop-filetype-association
 Name=Rating
 #NOTE "=" does not work here, ":" does
 Comment=1 to 10, for example >=7
+Comment[ar]=1 إلى 10 ؛ على سبيل المثال >=7
 Comment[bg]=от 1 до 10, например >=7
 Comment[bn]=1 থেকে 10, যেমন >=7
 Comment[ca]=1 a 10, per exemple >=7
@@ -410,6 +416,7 @@ Comment[x-test]=xx1 to 10, for example >=7xx
 Comment[zh_CN]=1 到 10，例如 >=7
 Comment[zh_TW]=1 到 10，例如 >=7
 GenericName=Use <, <=, :, >= and >.
+GenericName[ar]=استخدم < و <= و : و >= و  > .
 GenericName[bg]=Използвайте <, <=, :, >= и >.
 GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
@@ -481,6 +488,7 @@ Icon=favorites
 #ctx: Tag as in Nepomuk::Tag", "Tag"
 Name=Tag
 Comment=Tag
+Comment[ar]=وسم
 Comment[bg]=Етикет
 Comment[bn]=ট্যাগ 
 Comment[ca]=Etiqueta
@@ -556,6 +564,7 @@ Completion=title:
 
 [dolphin filesize]
 Name=File size
+Name[ar]=حجم الملف
 Name[bg]=Големина на файла
 Name[bn]=ফাইল-এর মাপ
 Name[ca]=Mida del fitxer
@@ -621,6 +630,7 @@ Name[x-test]=xxFile sizexx
 Name[zh_CN]=文件大小
 Name[zh_TW]=檔案大小
 Comment=in bytes, for example >1000
+Comment[ar]=بالبايت ؛ على سبيل المثال >1000
 Comment[bg]=в байтове, например >1000
 Comment[bn]=বাইট-এ, যেমন >1000
 Comment[ca]=en bytes, per exemple >1000
@@ -684,6 +694,7 @@ Comment[x-test]=xxin bytes, for example >1000xx
 Comment[zh_CN]=单位为字节，例如 >1000
 Comment[zh_TW]=單位為位元，例如 >1000
 GenericName=Use <, <=, :, >= and >.
+GenericName[ar]=استخدم < و <= و : و >= و  > .
 GenericName[bg]=Използвайте <, <=, :, >= и >.
 GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
@@ -752,6 +763,7 @@ Completion=contentSize
 
 [dolphin contentsize]
 Name=Content size
+Name[ar]=حجم المحتوى
 Name[bg]=Големина на съдържанието
 Name[bn]=বিষয়বস্তুর মাপ
 Name[ca]=Mida del contingut
@@ -816,6 +828,7 @@ Name[x-test]=xxContent sizexx
 Name[zh_CN]=内容大小
 Name[zh_TW]=內容大小
 Comment=in bytes
+Comment[ar]=البايت
 Comment[bg]=в байтове
 Comment[bn]=বাইট-এ
 Comment[ca]=en bytes
@@ -880,6 +893,7 @@ Comment[x-test]=xxin bytesxx
 Comment[zh_CN]=单位为字节
 Comment[zh_TW]=單位為位元
 GenericName=Use <, <=, :, >= and >.
+GenericName[ar]=استخدم < و <= و : و >= و  > .
 GenericName[bg]=Използвайте <, <=, :, >= и >.
 GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
@@ -950,6 +964,7 @@ Completion=contentSize
 #ctx: When the resource was last modified
 Name=Last modified
 Comment=for example >1999-10-10
+Comment[ar]=على سبيل المثال >1999-10-10
 Comment[bg]=например >1999-10-10
 Comment[bn]=যেমন >1999-10-10
 Comment[ca]=per exemple >1999-10-10
@@ -1014,6 +1029,7 @@ Comment[x-test]=xxfor example >1999-10-10xx
 Comment[zh_CN]=例如 >1999-10-10
 Comment[zh_TW]=例如 >1999-10-10
 GenericName=Use <, <=, :, >= and >.
+GenericName[ar]=استخدم < و <= و : و >= و  > .
 GenericName[bg]=Използвайте <, <=, :, >= и >.
 GenericName[bn]=<, <=, :, >= এবং > ব্যবহার করুন।
 GenericName[ca]=Utilitzeu <, <=, :, >= i >.
