@@ -96,7 +96,7 @@ private slots:
 
     /**
      * Is invoked after the file meta data configuration dialog has been
-     * closed and refreshs the visibility of the meta data.
+     * closed and refreshes the visibility of the meta data.
      */
     void refreshMetaData();
 

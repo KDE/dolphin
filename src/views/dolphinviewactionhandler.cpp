@@ -215,8 +215,8 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
 
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
 
-    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
-    foreach (KFileItemDelegate::Information info, infos) {
+    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
+    foreach (KFileItemDelegate::Information info, infoKeys) {
         const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
         action->setText(infoAccessor.translation(info));
@@ -240,8 +240,8 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     sortByActionGroup->addAction(sortByName);
 
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
-    foreach (KFileItemDelegate::Information info, infos) {
+    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
+    foreach (KFileItemDelegate::Information info, infoKeys) {
         const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
         action->setText(infoAccessor.translation(info));
@@ -449,14 +449,13 @@ KToggleAction* DolphinViewActionHandler::columnsModeAction()
 
 void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
 {
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
-
     QAction* action = 0;
     if (sorting == DolphinView::SortByName) {
         action = m_actionCollection->action("sort_by_name");
     } else {
-        foreach (const KFileItemDelegate::Information info, infos) {
+        const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+        const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
+        foreach (const KFileItemDelegate::Information info, infoKeys) {
             if (sorting == infoAccessor.sorting(info)) {
                 const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
                 action = m_actionCollection->action(name);

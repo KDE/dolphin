@@ -201,9 +201,9 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
     const int decodedInfo = decodedAdditionalInfo();
 
     AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
+    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
 
-    foreach (const KFileItemDelegate::Information info, infos) {
+    foreach (const KFileItemDelegate::Information info, infoKeys) {
         if (decodedInfo & infoAccessor.bitValue(info)) {
             usedInfos.append(info);
         }

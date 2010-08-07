@@ -974,18 +974,18 @@ void DolphinView::updateAdditionalInfoActions(KActionCollection* collection)
 {
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
 
-    const KFileItemDelegate::InformationList checkedInfos = m_viewAccessor.itemDelegate()->showInformation();
-    const KFileItemDelegate::InformationList infos = infoAccessor.keys();
+    const KFileItemDelegate::InformationList checkedInfo = m_viewAccessor.itemDelegate()->showInformation();
+    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
 
     const bool enable = (m_mode == DolphinView::DetailsView) ||
                         (m_mode == DolphinView::IconsView);
 
-    foreach (const KFileItemDelegate::Information& info, infos) {
+    foreach (const KFileItemDelegate::Information& info, infoKeys) {
         const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
         QAction* action = collection->action(name);
         Q_ASSERT(action != 0);
         action->setEnabled(enable);
-        action->setChecked(checkedInfos.contains(info));
+        action->setChecked(checkedInfo.contains(info));
     }
 }
 
