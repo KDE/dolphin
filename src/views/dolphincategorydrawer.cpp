@@ -374,5 +374,5 @@ void DolphinCategoryDrawer::mouseMoved(const QModelIndex &index, const QRect &, 
 void DolphinCategoryDrawer::mouseLeft(const QModelIndex &, const QRect &)
 {
     pos = QPoint();
-    category = QString();
+    category.clear();
 }
