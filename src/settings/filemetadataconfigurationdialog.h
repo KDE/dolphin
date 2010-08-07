@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KMETA_DATA_CONFIGURATION_DIALOG_H
-#define KMETA_DATA_CONFIGURATION_DIALOG_H
+#ifndef FILEMETADATACONFIGURATIONDIALOG_H
+#define FILEMETADATACONFIGURATIONDIALOG_H
 
 #include <kdialog.h>
 #include <kfileitem.h>

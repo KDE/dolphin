@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef REVISIONCONTROLOBSERVER_H
-#define REVISIONCONTROLOBSERVER_H
+#ifndef VERSIONCONTROLOBSERVER_H
+#define VERSIONCONTROLOBSERVER_H
 
 #include <libdolphin_export.h>
 

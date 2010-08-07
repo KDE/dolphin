@@ -18,8 +18,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINCONTROLLER_H
-#define DOLPHINCONTROLLER_H
+#ifndef FILEMETADATATOOLTIP_H
+#define FILEMETADATATOOLTIP_H
 
 #include <QWidget>
 
