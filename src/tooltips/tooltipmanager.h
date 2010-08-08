@@ -23,7 +23,7 @@
 #include <QObject>
 #include <QRect>
 
-#include <kfileitem.h>
+#include <KFileItem>
 
 class DolphinModel;
 class DolphinSortFilterProxyModel;
@@ -54,53 +54,38 @@ public slots:
      * only needed when the tooltip should be hidden although
      * an item is hovered.
      */
-    void hideTip();
+    void hideToolTip();
 
 protected:
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
 private slots:
     void requestToolTip(const QModelIndex& index);
-    void hideToolTip();
-    void prepareToolTip();
-    void startPreviewJob();
+    void startContentRetrieval();
     void setPreviewPix(const KFileItem& item, const QPixmap& pix);
     void previewFailed();
+    void slotMetaDataRequestFinished();
     void showToolTip();
-    
-private:
-    void showToolTipDelayed(const QPixmap& pixmap);
 
 private:
     QAbstractItemView* m_view;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 
-    /// Timeout from requesting a tooltip until the tooltip is shown
-    QTimer* m_prepareToolTipTimer;
-    
-    /// Timeout from requesting a tooltip until starting a job to
-    /// create a preview pixmap. The preview job is started before
-    /// m_prepareToolTipTimer has been exceeded, to have the preview
-    /// pixmap ideally before the tooltip will be shown.
-    QTimer* m_startPreviewJobTimer;
-    
-    /// Don't show the tooltip, before the preview has been received. The
-    /// time indicates the interval, when the check for a received
-    /// is done.
-    QTimer* m_waitOnPreviewTimer;
-    
-    /// The tooltip is shown slightly delayed to prevent a flickering
-    /// because of layouting the content.
-    QTimer* m_showToolTipDelayedTimer;
+    /// Timeout from requesting a tooltip until the tooltip
+    /// should be shown
+    QTimer* m_showToolTipTimer;
+
+    /// Timeout from requesting a tooltip until the retrieving of
+    /// the tooltip content like preview and meta data gets started.
+    QTimer* m_contentRetrievalTimer;
 
     FileMetaDataToolTip* m_fileMetaDataToolTip;
 
+    bool m_toolTipRequested;
+    bool m_metaDataRequested;
     KFileItem m_item;
     QRect m_itemRect;
-    bool m_generatingPreview;
-    bool m_hasDefaultIcon;
-    QPixmap m_previewPixmap;
 };
 
 #endif
