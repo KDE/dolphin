@@ -58,7 +58,7 @@ signals:
      * Is emitted after the meta data has been received for the items
      * set by FileMetaDataToolTip::setItems().
      */
-    void metaDataRequestFinished();
+    void metaDataRequestFinished(const KFileItemList& items);
 
 protected:
     virtual void paintEvent(QPaintEvent* event);

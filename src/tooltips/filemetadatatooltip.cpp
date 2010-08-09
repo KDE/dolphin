@@ -51,8 +51,8 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
     m_fileMetaDataWidget = new KFileMetaDataWidget();
     m_fileMetaDataWidget->setForegroundRole(QPalette::ToolTipText);
     m_fileMetaDataWidget->setReadOnly(true);
-    connect(m_fileMetaDataWidget, SIGNAL(metaDataRequestFinished()),
-            this, SIGNAL(metaDataRequestFinished()));
+    connect(m_fileMetaDataWidget, SIGNAL(metaDataRequestFinished(KFileItemList)),
+            this, SIGNAL(metaDataRequestFinished(KFileItemList)));
 
     QVBoxLayout* textLayout = new QVBoxLayout();
     textLayout->setAlignment(Qt::AlignTop);

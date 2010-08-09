@@ -54,7 +54,7 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
         // not work.
     }
     m_fileMetaDataToolTip = sharedToolTip;
-    connect(m_fileMetaDataToolTip, SIGNAL(metaDataRequestFinished()),
+    connect(m_fileMetaDataToolTip, SIGNAL(metaDataRequestFinished(KFileItemList)),
             this, SLOT(slotMetaDataRequestFinished()));
 
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
