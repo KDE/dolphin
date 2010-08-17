@@ -87,6 +87,7 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_preview->setMinimumHeight(KIconLoader::SizeEnormous);
 
     m_phononWidget = new PhononWidget(parent);
+    m_phononWidget->hide();
     m_phononWidget->setMinimumWidth(minPreviewWidth);
     connect(m_phononWidget, SIGNAL(playingStarted()),
             this, SLOT(slotPlayingStarted()));
