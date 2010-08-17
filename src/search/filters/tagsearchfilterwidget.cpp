@@ -19,7 +19,6 @@
 
 #include "tagsearchfilterwidget.h"
 
-#define DISABLE_NEPOMUK_LEGACY
 #include <nepomuk/tag.h>
 #include <nepomuk/comparisonterm.h>
 #include <nepomuk/literalterm.h>

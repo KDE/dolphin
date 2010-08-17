@@ -19,8 +19,6 @@
 
 #include "datesearchfilterwidget.h"
 
-#define DISABLE_NEPOMUK_LEGACY
-
 #include <klocale.h>
 #include <nepomuk/comparisonterm.h>
 #include <nepomuk/literalterm.h>

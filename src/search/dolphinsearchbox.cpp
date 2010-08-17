@@ -39,7 +39,6 @@
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
-    #define DISABLE_NEPOMUK_LEGACY
     #include <nepomuk/andterm.h>
     #include <nepomuk/filequery.h>
     #include <nepomuk/literalterm.h>
