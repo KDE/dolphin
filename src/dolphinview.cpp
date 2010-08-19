@@ -93,7 +93,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_dolphinViewController(0),
     m_viewModeController(0),
     m_viewAccessor(proxyModel),
-    m_selectionModel(0),
     m_selectionChangedTimer(0),
     m_rootUrl(),
     m_activeItemUrl(),
@@ -540,30 +539,33 @@ QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) c
 
 void DolphinView::setUrl(const KUrl& url)
 {
-    if (m_viewModeController->url() != url) {
-        m_newFileNames.clear();
-
-        m_viewModeController->setUrl(url); // emits urlChanged, which we forward
-        m_viewAccessor.prepareUrlChange(url);
-        applyViewProperties();
-        loadDirectory(url);
-
-        // When changing the URL there is no need to keep the version
-        // data of the previous URL.
-        m_viewAccessor.dirModel()->clearVersionData();
-
-        emit startedPathLoading(url);
+    if (m_viewModeController->url() == url) {
+        return;
     }
 
-    // the selection model might have changed in the case of a column view
-    QItemSelectionModel* selectionModel = m_viewAccessor.itemView()->selectionModel();
-    if (m_selectionModel != selectionModel) {
-        disconnect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-                   this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
-        m_selectionModel = selectionModel;
-        connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-                this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
-    }
+    // The selection model might change in the case of the column view. Disconnect
+    // from the current selection model and reconnect later after the URL switch.
+    QAbstractItemView* view = m_viewAccessor.itemView();
+    disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+               this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+
+    m_newFileNames.clear();
+
+    m_viewModeController->setUrl(url); // emits urlChanged, which we forward
+    m_viewAccessor.prepareUrlChange(url);
+    applyViewProperties();
+    loadDirectory(url);
+
+    // When changing the URL there is no need to keep the version
+    // data of the previous URL.
+    m_viewAccessor.dirModel()->clearVersionData();
+
+    emit startedPathLoading(url);
+
+    // Reconnect to the (probably) new selection model
+    view = m_viewAccessor.itemView();
+    connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
 }
 
 void DolphinView::selectAll()
@@ -1271,28 +1273,25 @@ void DolphinView::applyViewProperties()
 
 void DolphinView::createView()
 {
+    QAbstractItemView* view = m_viewAccessor.itemView();
+    if ((view != 0) && (view->selectionModel() != 0)) {
+        disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+                   this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+    }
+
     deleteView();
 
     Q_ASSERT(m_viewAccessor.itemView() == 0);
     m_viewAccessor.createView(this, m_dolphinViewController, m_viewModeController, m_mode);
 
-    QAbstractItemView* view = m_viewAccessor.itemView();
+    view = m_viewAccessor.itemView();
     Q_ASSERT(view != 0);
     view->installEventFilter(this);
     view->viewport()->installEventFilter(this);
 
     m_dolphinViewController->setItemView(view);
 
-    // When changing the view mode, the selection is lost due to reinstantiating
-    // a new item view with a custom selection model. Pass the ownership of the
-    // selection model to DolphinView, so that it can be shared by all item views.
-    if (m_selectionModel != 0) {
-        view->setSelectionModel(m_selectionModel);
-    } else {
-        m_selectionModel = view->selectionModel();
-    }
-    m_selectionModel->setParent(this);
-    connect(m_selectionModel, SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+    connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
 
     setFocusProxy(m_viewAccessor.layoutTarget());
