@@ -108,7 +108,7 @@ void DolphinColumnViewContainer::showColumn(const KUrl& url)
 
     int columnIndex = 0;
     foreach (DolphinColumnView* column, m_columns) {
-        if (column->url() == url) {
+        if (column->url().equals(url, KUrl::CompareWithoutTrailingSlash)) {
             // the column represents already the requested URL, hence activate it
             requestActivation(column);
             layoutColumns();
@@ -411,6 +411,8 @@ void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
     } else {
         column->deleteLater();
     }
+
+    layoutColumns();
 }
 
 #include "dolphincolumnviewcontainer.moc"
