@@ -49,10 +49,25 @@ SelectionManager::SelectionManager(QAbstractItemView* parent) :
     m_toggle->hide();
     connect(m_toggle, SIGNAL(clicked(bool)),
             this, SLOT(setItemSelected(bool)));
+
+    m_view->viewport()->installEventFilter(this);
 }
 
 SelectionManager::~SelectionManager()
 {
+}
+
+bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
+{
+    Q_ASSERT(watched == m_view->viewport());
+    if (event->type() == QEvent::MouseButtonPress) {
+        // Set the toggle invisible, if a mouse button has been pressed
+        // outside the toggle boundaries. This e.g. assures, that the toggle
+        // gets invisible during dragging items.
+        const QRect toggleBounds(m_toggle->mapToGlobal(QPoint(0, 0)), m_toggle->size());
+        m_toggle->setVisible(toggleBounds.contains(QCursor::pos()));
+    }
+    return QObject::eventFilter(watched, event);
 }
 
 void SelectionManager::reset()

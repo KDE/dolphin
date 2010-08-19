@@ -42,6 +42,7 @@ class SelectionManager : public QObject
 public:
     SelectionManager(QAbstractItemView* parent);
     virtual ~SelectionManager();
+    virtual bool eventFilter(QObject* watched, QEvent* event);
 
 public slots:
     /**
