@@ -1291,6 +1291,9 @@ void DolphinView::createView()
 
     m_dolphinViewController->setItemView(view);
 
+    const int zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(view->iconSize());
+    m_viewModeController->setZoomLevel(zoomLevel);
+
     connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
 
