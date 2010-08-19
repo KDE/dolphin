@@ -795,7 +795,6 @@ private:
     ViewModeController* m_viewModeController;
     ViewAccessor m_viewAccessor;
 
-    QItemSelectionModel* m_selectionModel; // allow to switch views without losing the selection
     QTimer* m_selectionChangedTimer;
 
     KUrl m_rootUrl;
