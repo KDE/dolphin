@@ -43,7 +43,6 @@
 #include <kfileitemactions.h>
 #include <klocale.h>
 #include <kpropertiesdialog.h>
-#include <krun.h>
 #include <kstandardaction.h>
 #include <kstandarddirs.h>
 
