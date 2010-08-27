@@ -176,6 +176,7 @@ kde4_add_kdeinit_executable(dolphin ${dolphin_SRCS})
 target_link_libraries(kdeinit_dolphin
     ${KDE4_KDEPRINT_LIBS}
     ${KDE4_KFILE_LIBS}
+    ${KDE4_KPARTS_LIBS}
     ${KDE4_KCMUTILS_LIBRARY}
     konq
     dolphinprivate
