@@ -21,7 +21,7 @@
 #include "dolphincontextmenu.h"
 
 #include "dolphinmainwindow.h"
-#include "dolphinnewmenu.h"
+#include "dolphinnewfilemenu.h"
 #include "settings/dolphinsettings.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
@@ -37,7 +37,7 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
-#include <knewmenu.h>
+#include <knewfilemenu.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
 #include <kfileitemactions.h>
@@ -189,17 +189,17 @@ void DolphinContextMenu::openItemContextMenu()
     KMenu* popup = new KMenu(m_mainWindow);
     if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
         // setup 'Create New' menu
-        DolphinNewMenu* newMenu = new DolphinNewMenu(popup, m_mainWindow);
+        DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(popup, m_mainWindow);
         const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-        newMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
-        newMenu->checkUpToDate();
-        newMenu->setPopupFiles(m_fileInfo.url());
-        newMenu->setEnabled(capabilities().supportsWriting());
+        newFileMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
+        newFileMenu->checkUpToDate();
+        newFileMenu->setPopupFiles(m_fileInfo.url());
+        newFileMenu->setEnabled(capabilities().supportsWriting());
 
-        KMenu* menu = newMenu->menu();
+        KMenu* menu = newFileMenu->menu();
         menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
         menu->setIcon(KIcon("document-new"));
-        popup->addMenu(newMenu->menu());
+        popup->addMenu(menu);
         popup->addSeparator();
 
         // insert 'Open in new window' and 'Open in new tab' entries
@@ -212,30 +212,10 @@ void DolphinContextMenu::openItemContextMenu()
 
     popup->addSeparator();
 
-    // insert 'Bookmark This Folder' entry if exactly one item is selected
-    QAction* addToPlacesAction = 0;
-    if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
-        addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
-                                             i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
-        // Don't show if url is already in places
-        if (placeExists(m_fileInfo.url())) {
-            addToPlacesAction->setVisible(false);
-        }
-    }
+    KFileItemActions fileItemActions;
+    fileItemActions.setItemListProperties(capabilities());
+    addServiceActions(popup, fileItemActions);
 
-    KFileItemActions menuActions;
-    menuActions.setParentWidget(m_mainWindow);
-    menuActions.setItemListProperties(m_selectedItems);
-
-    // insert 'Open With...' action or sub menu
-    menuActions.addOpenWithActionsTo(popup, "DesktopEntryName != 'dolphin'");
-
-    // insert 'Actions' sub menu
-    if (menuActions.addServiceActionsTo(popup)) {
-        popup->addSeparator();
-    }
-
-    // insert version control actions
     addVersionControlActions(popup);
 
     // insert 'Copy To' and 'Move To' sub menus
@@ -244,6 +224,13 @@ void DolphinContextMenu::openItemContextMenu()
         m_copyToMenu.setReadOnly(!capabilities().supportsWriting());
         m_copyToMenu.addActionsTo(popup);
         popup->addSeparator();
+    }
+
+    // insert 'Add to Places' entry if exactly one item is selected
+    QAction* addToPlacesAction = 0;
+    if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1) && !placeExists(m_fileInfo.url())) {
+        addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
+                                             i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
     }
 
     // insert 'Properties...' entry
@@ -270,41 +257,37 @@ void DolphinContextMenu::openViewportContextMenu()
     addShowMenubarAction(popup);
 
     // setup 'Create New' menu
-    KNewFileMenu* newMenu = m_mainWindow->newMenu();
+    KNewFileMenu* newFileMenu = m_mainWindow->newFileMenu();
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    newMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
-    newMenu->checkUpToDate();
-    newMenu->setPopupFiles(m_baseUrl);
-    popup->addMenu(newMenu->menu());
+    newFileMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
+    newFileMenu->checkUpToDate();
+    newFileMenu->setPopupFiles(m_baseUrl);
+    popup->addMenu(newFileMenu->menu());
+    popup->addSeparator();
+
+    // insert 'Open in new window' and 'Open in new tab' entries
+    popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
+    popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
     popup->addSeparator();
 
     QAction* pasteAction = createPasteAction();
     popup->addAction(pasteAction);
-
-    // setup 'View Mode' menu
-    KMenu* viewModeMenu = new KMenu(i18nc("@title:menu", "View Mode"), popup);
-
-    QAction* iconsMode = m_mainWindow->actionCollection()->action("icons");
-    viewModeMenu->addAction(iconsMode);
-
-    QAction* detailsMode = m_mainWindow->actionCollection()->action("details");
-    viewModeMenu->addAction(detailsMode);
-
-    QAction* columnsMode = m_mainWindow->actionCollection()->action("columns");
-    viewModeMenu->addAction(columnsMode);
-
-    popup->addMenu(viewModeMenu);
-
     popup->addSeparator();
+
+    // insert service actions
+    const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, m_baseUrl);
+    const KFileItemListProperties baseUrlProperties(KFileItemList() << item);
+    KFileItemActions fileItemActions;
+    fileItemActions.setItemListProperties(baseUrlProperties);
+    addServiceActions(popup, fileItemActions);
 
     addVersionControlActions(popup);
 
-    QAction* addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
-                                                  i18nc("@action:inmenu Add current folder to places", "Add to Places"));
-
-    // Don't show if url is already in places
-    if (placeExists(m_mainWindow->activeViewContainer()->url())) {
-        addToPlacesAction->setVisible(false);
+    // insert 'Add to Places' entry if exactly one item is selected
+    QAction* addToPlacesAction = 0;
+    if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
+        addToPlacesAction = popup->addAction(KIcon("bookmark-new"),
+                                             i18nc("@action:inmenu Add current folder to places", "Add to Places"));
     }
 
     addCustomActions(popup);
@@ -318,7 +301,7 @@ void DolphinContextMenu::openViewportContextMenu()
         KPropertiesDialog* dialog = new KPropertiesDialog(url, m_mainWindow);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
-    } else if (action == addToPlacesAction) {
+    } else if ((addToPlacesAction != 0) && (action == addToPlacesAction)) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(placesName(url), url);
@@ -422,6 +405,19 @@ KFileItemListProperties& DolphinContextMenu::capabilities()
         m_capabilities = new KFileItemListProperties(m_selectedItems);
     }
     return *m_capabilities;
+}
+
+void DolphinContextMenu::addServiceActions(KMenu* menu, KFileItemActions& fileItemActions)
+{
+    fileItemActions.setParentWidget(m_mainWindow);
+
+    // insert 'Open With...' action or sub menu
+    fileItemActions.addOpenWithActionsTo(menu, "DesktopEntryName != 'dolphin'");
+
+    // insert 'Actions' sub menu
+    if (fileItemActions.addServiceActionsTo(menu)) {
+        menu->addSeparator();
+    }
 }
 
 void DolphinContextMenu::addVersionControlActions(KMenu* menu)

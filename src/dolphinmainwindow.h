@@ -114,7 +114,7 @@ public:
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
-    KNewFileMenu* newMenu() const;
+    KNewFileMenu* newFileMenu() const;
 
     /**
      * Returns the 'Show Menubar' action which can be shared with
@@ -524,7 +524,7 @@ private:
         virtual void jobError(KIO::Job* job);
     };
 
-    KNewFileMenu* m_newMenu;
+    KNewFileMenu* m_newFileMenu;
     KActionMenu* m_recentTabsMenu;
     KAction* m_showMenuBar;
     KTabBar* m_tabBar;
@@ -562,9 +562,9 @@ inline bool DolphinMainWindow::isSplit() const
     return m_viewTab[m_tabIndex].secondaryView != 0;
 }
 
-inline KNewFileMenu* DolphinMainWindow::newMenu() const
+inline KNewFileMenu* DolphinMainWindow::newFileMenu() const
 {
-    return m_newMenu;
+    return m_newFileMenu;
 }
 
 inline KAction* DolphinMainWindow::showMenuBarAction() const

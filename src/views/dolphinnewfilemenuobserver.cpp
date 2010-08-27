@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,37 +17,46 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinnewmenu.h"
+#include "dolphinnewfilemenuobserver.h"
 
-#include "dolphinmainwindow.h"
-#include "dolphinviewcontainer.h"
-#include "statusbar/dolphinstatusbar.h"
-#include "views/dolphinnewmenuobserver.h"
-#include "views/dolphinview.h"
+#include <kglobal.h>
+#include <knewmenu.h>
 
-#include <kactioncollection.h>
-#include <kio/job.h>
-
-DolphinNewMenu::DolphinNewMenu(QWidget* parent, DolphinMainWindow* mainWin) :
-    KNewFileMenu(mainWin->actionCollection(), "create_new", parent),
-    m_mainWin(mainWin)
+class DolphinNewFileMenuObserverSingleton
 {
-    DolphinNewMenuObserver::instance().attach(this);
+public:
+    DolphinNewFileMenuObserver instance;
+};
+K_GLOBAL_STATIC(DolphinNewFileMenuObserverSingleton, s_DolphinNewFileMenuObserver)
+
+DolphinNewFileMenuObserver& DolphinNewFileMenuObserver::instance()
+{
+    return s_DolphinNewFileMenuObserver->instance;
 }
 
-DolphinNewMenu::~DolphinNewMenu()
+void DolphinNewFileMenuObserver::attach(const KNewFileMenu* menu)
 {
-    DolphinNewMenuObserver::instance().detach(this);
+    connect(menu, SIGNAL(fileCreated(const KUrl&)),
+            this, SIGNAL(itemCreated(const KUrl&)));
+    connect(menu, SIGNAL(directoryCreated(const KUrl&)),
+            this, SIGNAL(itemCreated(const KUrl&)));
 }
 
-void DolphinNewMenu::slotResult(KJob* job)
+void DolphinNewFileMenuObserver::detach(const KNewFileMenu* menu)
 {
-    if (job->error()) {
-        DolphinStatusBar* statusBar = m_mainWin->activeViewContainer()->statusBar();
-        statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
-    } else {
-        KNewFileMenu::slotResult(job);
-    }
+    disconnect(menu, SIGNAL(fileCreated(const KUrl&)),
+               this, SIGNAL(itemCreated(const KUrl&)));
+    disconnect(menu, SIGNAL(directoryCreated(const KUrl&)),
+               this, SIGNAL(itemCreated(const KUrl&)));
 }
 
-#include "dolphinnewmenu.moc"
+DolphinNewFileMenuObserver::DolphinNewFileMenuObserver() :
+    QObject(0)
+{
+}
+
+DolphinNewFileMenuObserver::~DolphinNewFileMenuObserver()
+{
+}
+
+#include "dolphinnewfilemenuobserver.moc"

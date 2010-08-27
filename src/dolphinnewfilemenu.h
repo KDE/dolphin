@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Peter Penz                                      *
+ *   peter.penz@gmx.at                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,46 +18,36 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinnewmenuobserver.h"
+#ifndef DOLPHINNEWFILEMENU_H
+#define DOLPHINNEWFILEMENU_H
 
-#include <kglobal.h>
-#include <knewmenu.h>
+#include <knewfilemenu.h>
 
-class DolphinNewMenuObserverSingleton
+class DolphinMainWindow;
+class KJob;
+
+/**
+ * @brief Represents the 'Create New...' sub menu for the File menu
+ *        and the context menu.
+ *
+ * The only difference to KNewFileMenu is the custom error handling.
+ * All errors are shown in the status bar of Dolphin
+ * instead as modal error dialog with an OK button.
+ */
+class DolphinNewFileMenu : public KNewFileMenu
 {
+    Q_OBJECT
+
 public:
-    DolphinNewMenuObserver instance;
+    DolphinNewFileMenu(QWidget* parent, DolphinMainWindow* mainWin);
+    virtual ~DolphinNewFileMenu();
+
+protected slots:
+    /** @see KNewFileMenu::slotResult() */
+    virtual void slotResult(KJob* job);
+
+private:
+    DolphinMainWindow* m_mainWin;
 };
-K_GLOBAL_STATIC(DolphinNewMenuObserverSingleton, s_dolphinNewMenuObserver)
 
-DolphinNewMenuObserver& DolphinNewMenuObserver::instance()
-{
-    return s_dolphinNewMenuObserver->instance;
-}
-
-void DolphinNewMenuObserver::attach(const KNewFileMenu* menu)
-{
-    connect(menu, SIGNAL(fileCreated(const KUrl&)),
-            this, SIGNAL(itemCreated(const KUrl&)));
-    connect(menu, SIGNAL(directoryCreated(const KUrl&)),
-            this, SIGNAL(itemCreated(const KUrl&)));
-}
-
-void DolphinNewMenuObserver::detach(const KNewFileMenu* menu)
-{
-    disconnect(menu, SIGNAL(fileCreated(const KUrl&)),
-               this, SIGNAL(itemCreated(const KUrl&)));
-    disconnect(menu, SIGNAL(directoryCreated(const KUrl&)),
-               this, SIGNAL(itemCreated(const KUrl&)));
-}
-
-DolphinNewMenuObserver::DolphinNewMenuObserver() :
-    QObject(0)
-{
-}
-
-DolphinNewMenuObserver::~DolphinNewMenuObserver()
-{
-}
-
-#include "dolphinnewmenuobserver.moc"
+#endif

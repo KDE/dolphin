@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,36 +17,40 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINNEWMENU_H
-#define DOLPHINNEWMENU_H
+#ifndef DOLPHINNEWFILEMENUOBSERVER_H
+#define DOLPHINNEWFILEMENUOBSERVER_H
 
-#include <knewmenu.h>
+#include <QObject>
 
-class DolphinMainWindow;
-class KJob;
+#include "libdolphin_export.h"
+
+class KNewFileMenu;
+class KUrl;
 
 /**
- * @brief Represents the 'Create New...' sub menu for the File menu
- *        and the context menu.
+ * @brief Allows to observe new file items that have been created
+ *        by a DolphinNewFileMenu instance.
  *
- * The only difference to KNewFileMenu is the custom error handling.
- * All errors are shown in the status bar of Dolphin
- * instead as modal error dialog with an OK button.
+ * As soon as a DolphinNewFileMenu instance created a new item,
+ * the observer will emit the signal itemCreated().
  */
-class DolphinNewMenu : public KNewFileMenu
+class LIBDOLPHINPRIVATE_EXPORT DolphinNewFileMenuObserver : public QObject
 {
     Q_OBJECT
 
 public:
-    DolphinNewMenu(QWidget* parent, DolphinMainWindow* mainWin);
-    virtual ~DolphinNewMenu();
+    static DolphinNewFileMenuObserver& instance();
+    void attach(const KNewFileMenu* menu);
+    void detach(const KNewFileMenu* menu);
 
-protected slots:
-    /** @see KNewFileMenu::slotResult() */
-    virtual void slotResult(KJob* job);
+signals:
+    void itemCreated(const KUrl& url);
 
 private:
-    DolphinMainWindow* m_mainWin;
+    DolphinNewFileMenuObserver();
+    virtual ~DolphinNewFileMenuObserver();
+
+    friend class DolphinNewFileMenuObserverSingleton;
 };
 
 #endif

@@ -25,7 +25,7 @@
 
 #include "dolphinapplication.h"
 #include "dolphincontextmenu.h"
-#include "dolphinnewmenu.h"
+#include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
 #include "mainwindowadaptor.h"
 #include "panels/folders/folderspanel.h"
@@ -103,7 +103,7 @@ Q_DECLARE_METATYPE(ClosedTab)
 
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
-    m_newMenu(0),
+    m_newFileMenu(0),
     m_showMenuBar(0),
     m_tabBar(0),
     m_activeViewContainer(0),
@@ -630,16 +630,16 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
 
 void DolphinMainWindow::updateNewMenu()
 {
-    m_newMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
-    m_newMenu->checkUpToDate();
-    m_newMenu->setPopupFiles(activeViewContainer()->url());
+    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
+    m_newFileMenu->checkUpToDate();
+    m_newFileMenu->setPopupFiles(activeViewContainer()->url());
 }
 
 void DolphinMainWindow::createDirectory()
 {
-    m_newMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
-    m_newMenu->setPopupFiles(activeViewContainer()->url());
-    m_newMenu->createDirectory();
+    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
+    m_newFileMenu->setPopupFiles(activeViewContainer()->url());
+    m_newFileMenu->createDirectory();
 }
 
 void DolphinMainWindow::quit()
@@ -1177,7 +1177,7 @@ void DolphinMainWindow::slotCaptionStatFinished(KJob* job)
 
 void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 {
-    newMenu()->setEnabled(isFolderWritable);
+    newFileMenu()->setEnabled(isFolderWritable);
 }
 
 void DolphinMainWindow::openContextMenu(const KFileItem& item,
@@ -1327,8 +1327,8 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
 void DolphinMainWindow::setupActions()
 {
     // setup 'File' menu
-    m_newMenu = new DolphinNewMenu(this, this);
-    KMenu* menu = m_newMenu->menu();
+    m_newFileMenu = new DolphinNewFileMenu(this, this);
+    KMenu* menu = m_newFileMenu->menu();
     menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
     menu->setIcon(KIcon("document-new"));
     connect(menu, SIGNAL(aboutToShow()),

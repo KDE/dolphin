@@ -34,6 +34,7 @@ class KMenu;
 class KFileItem;
 class QAction;
 class DolphinMainWindow;
+class KFileItemActions;
 class KFileItemListProperties;
 
 /**
@@ -98,6 +99,7 @@ private:
 
 private:
     KFileItemListProperties& capabilities();
+    void addServiceActions(KMenu* menu, KFileItemActions& fileItemActions);
     void addVersionControlActions(KMenu* menu);
     void addCustomActions(KMenu* menu);
 

@@ -33,7 +33,7 @@ set(dolphinprivate_LIB_SRCS
     views/dolphincolumnview.cpp
     views/dolphincolumnviewcontainer.cpp
     views/dolphinmodel.cpp
-    views/dolphinnewmenuobserver.cpp
+    views/dolphinnewfilemenuobserver.cpp
     views/dolphinremoteencoding.cpp
     views/dolphinsortfilterproxymodel.cpp
     views/dolphinviewactionhandler.cpp
@@ -97,7 +97,7 @@ install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINAT
 set(dolphin_SRCS
     dolphinapplication.cpp
     dolphinmainwindow.cpp
-    dolphinnewmenu.cpp
+    dolphinnewfilemenu.cpp
     dolphinviewcontainer.cpp
     dolphincontextmenu.cpp
     filterbar/filterbar.cpp

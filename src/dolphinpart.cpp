@@ -45,7 +45,7 @@
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinsortfilterproxymodel.h"
 #include "views/dolphinmodel.h"
-#include "views/dolphinnewmenuobserver.h"
+#include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
 
 #include <QActionGroup>
@@ -146,7 +146,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 DolphinPart::~DolphinPart()
 {
     DolphinSettings::instance().save();
-    DolphinNewMenuObserver::instance().detach(m_newMenu);
+    DolphinNewFileMenuObserver::instance().detach(m_newFileMenu);
     delete m_dirLister;
 }
 
@@ -154,10 +154,10 @@ void DolphinPart::createActions()
 {
     // Edit menu
 
-    m_newMenu = new KNewFileMenu(actionCollection(), "new_menu", this);
-    m_newMenu->setParentWidget(widget());
-    DolphinNewMenuObserver::instance().attach(m_newMenu);
-    connect(m_newMenu->menu(), SIGNAL(aboutToShow()),
+    m_newFileMenu = new KNewFileMenu(actionCollection(), "new_menu", this);
+    m_newFileMenu->setParentWidget(widget());
+    DolphinNewFileMenuObserver::instance().attach(m_newFileMenu);
+    connect(m_newFileMenu->menu(), SIGNAL(aboutToShow()),
             this, SLOT(updateNewMenu()));
 
     KAction *editMimeTypeAction = actionCollection()->addAction( "editMimeType" );
@@ -600,10 +600,10 @@ void DolphinPart::slotOpenTerminal()
 void DolphinPart::updateNewMenu()
 {
     // As requested by KNewFileMenu :
-    m_newMenu->checkUpToDate();
-    m_newMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
+    m_newFileMenu->checkUpToDate();
+    m_newFileMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
     // And set the files that the menu apply on :
-    m_newMenu->setPopupFiles(url());
+    m_newFileMenu->setPopupFiles(url());
 }
 
 void DolphinPart::updateStatusBar()
@@ -618,9 +618,9 @@ void DolphinPart::updateProgress(int percent)
 
 void DolphinPart::createDirectory()
 {
-    m_newMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
-    m_newMenu->setPopupFiles(url());
-    m_newMenu->createDirectory();
+    m_newFileMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
+    m_newFileMenu->setPopupFiles(url());
+    m_newFileMenu->createDirectory();
 }
 
 void DolphinPart::setFilesToSelect(const KUrl::List& files)

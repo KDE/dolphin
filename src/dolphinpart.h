@@ -236,7 +236,7 @@ private:
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinPartBrowserExtension* m_extension;
-    KNewFileMenu* m_newMenu;
+    KNewFileMenu* m_newFileMenu;
     QString m_nameFilter;
     Q_DISABLE_COPY(DolphinPart)
 };

@@ -55,7 +55,7 @@
 #include "dolphinviewcontroller.h"
 #include "dolphindetailsview.h"
 #include "dolphinfileitemdelegate.h"
-#include "dolphinnewmenuobserver.h"
+#include "dolphinnewfilemenuobserver.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphiniconsview.h"
@@ -149,7 +149,7 @@ DolphinView::DolphinView(QWidget* parent,
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the
     // creation is done asynchronously, several signals must be checked:
-    connect(&DolphinNewMenuObserver::instance(), SIGNAL(itemCreated(const KUrl&)),
+    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(itemCreated(const KUrl&)),
             this, SLOT(observeCreatedItem(const KUrl&)));
 
     m_selectionChangedTimer = new QTimer(this);
