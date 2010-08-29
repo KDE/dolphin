@@ -162,8 +162,8 @@ void SelectionToggle::paintEvent(QPaintEvent* event)
 
     // draw the icon overlay
     if (m_isHovered) {
-        KIconEffect iconEffect;
-        QPixmap activeIcon = iconEffect.apply(m_icon, KIconLoader::Desktop, KIconLoader::ActiveState);
+        KIconEffect *iconEffect = KIconLoader::global()->iconEffect();
+        QPixmap activeIcon = iconEffect->apply(m_icon, KIconLoader::Desktop, KIconLoader::ActiveState);
         painter.drawPixmap(0, 0, activeIcon);
     } else {
         if (m_fadingValue < 255) {
