@@ -324,10 +324,10 @@ void InformationPanelContent::showPreview(const KFileItem& item,
 
 void InformationPanelContent::markOutdatedPreview()
 {
-    KIconEffect iconEffect;
-    QPixmap disabledPixmap = iconEffect.apply(m_preview->pixmap(),
-                                              KIconLoader::Desktop,
-                                              KIconLoader::DisabledState);
+    KIconEffect *iconEffect = KIconLoader::global()->iconEffect();
+    QPixmap disabledPixmap = iconEffect->apply(m_preview->pixmap(),
+                                               KIconLoader::Desktop,
+                                               KIconLoader::DisabledState);
     m_preview->setPixmap(disabledPixmap);
 }
 
