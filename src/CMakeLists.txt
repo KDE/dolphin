@@ -133,8 +133,6 @@ set(dolphin_SRCS
     settings/viewmodes/viewsettingspagebase.cpp
     statusbar/dolphinstatusbar.cpp
     statusbar/statusbarspaceinfo.cpp
-    statusbar/statusbarmessagelabel.cpp
-    views/dolphindirlister.cpp
     views/zoomlevelinfo.cpp
 )
 

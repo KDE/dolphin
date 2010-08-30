@@ -26,7 +26,6 @@
 #include <kactioncollection.h>
 #include <kconfiggroup.h>
 #include <kdebug.h>
-#include <kdirlister.h>
 #include <kglobalsettings.h>
 #include <kiconloader.h>
 #include <klocale.h>
@@ -47,6 +46,7 @@
 #include "views/dolphinmodel.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
+#include "views/dolphindirlister.h"
 
 #include <QActionGroup>
 #include <QApplication>
@@ -65,7 +65,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // make sure that other apps using this part find Dolphin's view-file-columns icons
     KIconLoader::global()->addAppDir("dolphin");
 
-    m_dirLister = new KDirLister;
+    m_dirLister = new DolphinDirLister;
     m_dirLister->setAutoUpdate(true);
     if (parentWidget) {
         m_dirLister->setMainWindow(parentWidget->window());
@@ -75,6 +75,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted(KUrl)));
     connect(m_dirLister, SIGNAL(canceled(KUrl)), this, SLOT(slotCanceled(KUrl)));
     connect(m_dirLister, SIGNAL(percent(int)), this, SLOT(updateProgress(int)));
+    connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
 
     m_dolphinModel = new DolphinModel(this);
     m_dolphinModel->setDirLister(m_dirLister);
@@ -331,7 +332,9 @@ void DolphinPart::slotMessage(const QString& msg)
 
 void DolphinPart::slotErrorMessage(const QString& msg)
 {
-    KMessageBox::error(m_view, msg);
+    kDebug() << msg;
+    emit canceled(msg);
+    //KMessageBox::error(m_view, msg);
 }
 
 void DolphinPart::slotRequestItemInfo(const KFileItem& item)

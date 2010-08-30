@@ -29,7 +29,6 @@
 #include <kvbox.h>
 
 #include "settings/dolphinsettings.h"
-#include "statusbarmessagelabel.h"
 #include "statusbarspaceinfo.h"
 
 #include <QApplication>
@@ -60,7 +59,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
             this, SLOT(updateSpaceInfoContent(const KUrl&)));
 
     // Initialize message label
-    m_messageLabel = new StatusBarMessageLabel(this);
+    m_messageLabel = new KonqStatusBarMessageLabel(this);
 
     // Initialize zoom slider
     m_zoomWidget = new QWidget(this);
@@ -112,9 +111,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     const int zoomWidgetHeight = m_zoomWidget->minimumSizeHint().height();
     const int contentHeight = qMax(fontHeight, zoomWidgetHeight);
 
-    m_messageLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     m_messageLabel->setMinimumTextHeight(contentHeight);
-    m_messageLabel->setMinimumWidth(100);
 
     m_spaceInfo->setMaximumSize(200, contentHeight - 5);
     m_spaceInfo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
@@ -157,7 +154,8 @@ void DolphinStatusBar::setMessage(const QString& msg,
         timeout = 0;
     }
 
-    if ((message == m_messageLabel->text()) && (type == m_messageLabel->type())) {
+    KonqStatusBarMessageLabel::Type konqType = static_cast<KonqStatusBarMessageLabel::Type>(type);
+    if ((message == m_messageLabel->text()) && (konqType == m_messageLabel->type())) {
         // the message is already shown
         return;
     }
@@ -173,7 +171,7 @@ void DolphinStatusBar::setMessage(const QString& msg,
         return;
     }
 
-    m_messageLabel->setMessage(message, type);
+    m_messageLabel->setMessage(message, konqType);
     if (type != Default) {
         m_messageTimeStamp = currentTime;
     }
@@ -181,7 +179,7 @@ void DolphinStatusBar::setMessage(const QString& msg,
 
 DolphinStatusBar::Type DolphinStatusBar::type() const
 {
-    return m_messageLabel->type();
+    return static_cast<Type>(m_messageLabel->type());
 }
 
 QString DolphinStatusBar::message() const
@@ -216,7 +214,7 @@ void DolphinStatusBar::setProgress(int percent)
     }
 
     m_progress = percent;
-    if (m_messageLabel->type() == Error) {
+    if (m_messageLabel->type() == KonqStatusBarMessageLabel::Error) {
         // Don't update any widget or status bar text if an
         // error message is shown
         return;
@@ -338,7 +336,7 @@ void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
 
 void DolphinStatusBar::updateProgressInfo()
 {
-    const bool isErrorShown = (m_messageLabel->type() == Error);
+    const bool isErrorShown = (m_messageLabel->type() == KonqStatusBarMessageLabel::Error);
     if (m_progress < 100) {
         // Show the progress information and hide the extensions
         setExtensionsVisible(false);

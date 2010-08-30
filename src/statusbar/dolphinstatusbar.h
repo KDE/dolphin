@@ -21,12 +21,12 @@
 #ifndef DOLPHINSTATUSBAR_H
 #define DOLPHINSTATUSBAR_H
 
+#include "konq_statusbarmessagelabel.h"
 #include <QTime>
 #include <QWidget>
 
 class DolphinView;
 class KUrl;
-class StatusBarMessageLabel;
 class StatusBarSpaceInfo;
 class QLabel;
 class QProgressBar;
@@ -50,10 +50,10 @@ public:
      * used for the message text.
      */
     enum Type {
-        Default,
-        OperationCompleted,
-        Information,
-        Error
+        Default = KonqStatusBarMessageLabel::Default,
+        OperationCompleted = KonqStatusBarMessageLabel::OperationCompleted,
+        Information = KonqStatusBarMessageLabel::Information,
+        Error = KonqStatusBarMessageLabel::Error
     };
 
     explicit DolphinStatusBar(QWidget* parent, DolphinView* view);
@@ -133,7 +133,7 @@ private slots:
     void setZoomLevel(int zoomLevel);
 
     void zoomOut();
-    void zoomIn();    
+    void zoomIn();
     void showZoomSliderToolTip(int zoomLevel);
 
 private:
@@ -155,7 +155,7 @@ private:
 
 private:
     DolphinView* m_view;
-    StatusBarMessageLabel* m_messageLabel;
+    KonqStatusBarMessageLabel* m_messageLabel;
     StatusBarSpaceInfo* m_spaceInfo;
 
     QWidget* m_zoomWidget;

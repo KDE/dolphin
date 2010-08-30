@@ -20,13 +20,14 @@
 #ifndef DOLPHINDIRLISTER_H
 #define DOLPHINDIRLISTER_H
 
+#include <libdolphin_export.h>
 #include <kdirlister.h>
 
 /**
  * @brief Extends the class KDirLister by emitting a signal when an
  *        error occurred instead of showing an error dialog.
  */
-class DolphinDirLister : public KDirLister
+class LIBDOLPHINPRIVATE_EXPORT DolphinDirLister : public KDirLister
 {
     Q_OBJECT
 
