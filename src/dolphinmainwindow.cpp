@@ -335,15 +335,6 @@ void DolphinMainWindow::slotSelectionChanged(const KFileItemList& selection)
     emit selectionChanged(selection);
 }
 
-void DolphinMainWindow::slotWheelMoved(int wheelDelta)
-{
-    if (wheelDelta > 0) {
-        activatePrevTab();
-    } else {
-        activateNextTab();
-    }
-}
-
 void DolphinMainWindow::slotRequestItemInfo(const KFileItem& item)
 {
     emit requestItemInfo(item);
@@ -1241,8 +1232,6 @@ void DolphinMainWindow::init()
             this, SLOT(openNewTab()));
     connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)),
             this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
-    connect(m_tabBar, SIGNAL(wheelDelta(int)),
-            this, SLOT(slotWheelMoved(int)));
     connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
             this, SLOT(closeTab(int)));
     connect(m_tabBar, SIGNAL(tabMoved(int, int)),

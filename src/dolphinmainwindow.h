@@ -318,9 +318,6 @@ private slots:
      */
     void slotSelectionChanged(const KFileItemList& selection);
 
-    /** Enables changing of tabs via mouse wheel. */
-    void slotWheelMoved(int wheelDelta);
-
     /** Emits the signal requestItemInfo(). */
     void slotRequestItemInfo(const KFileItem&);
 
