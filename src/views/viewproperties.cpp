@@ -40,12 +40,16 @@ ViewProperties::ViewProperties(const KUrl& url) :
     m_autoSave(true),
     m_node(0)
 {
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    const bool useGlobalViewProps = settings->globalViewProps();
+
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    const bool useGlobalViewProps = settings->globalViewProps();
-    if (useGlobalViewProps) {
+    const bool isSearchUrl = url.protocol().contains("search");
+    if (isSearchUrl) {
+        m_filePath = destinationDir("search");
+    } else if (useGlobalViewProps) {
         m_filePath = destinationDir("global");
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
@@ -60,20 +64,26 @@ ViewProperties::ViewProperties(const KUrl& url) :
     const QString file = m_filePath + QDir::separator() + QLatin1String(".directory");
     m_node = new ViewPropertySettings(KSharedConfig::openConfig(file));
 
-    const bool useDefaultProps = !useGlobalViewProps &&
+    // If the .directory file does not exist or the timestamp is too old,
+    // use default values instead.
+    const bool useDefaultProps = (!useGlobalViewProps || isSearchUrl) &&
                                  (!QFileInfo(file).exists() ||
                                   (m_node->timestamp() < settings->viewPropsTimestamp()));
     if (useDefaultProps) {
-        // If the .directory file does not exist or the timestamp is too old,
-        // use the values from the global .directory file instead, which acts
-        // as default view for new folders in this case.
-        settings->setGlobalViewProps(true);
+        if (isSearchUrl) {
+            setViewMode(DolphinView::DetailsView);
+            setAdditionalInfo(KFileItemDelegate::InformationList() << KFileItemDelegate::LocalPathOrUrl);
+        } else {
+            // The global view-properties act as default for directories without
+            // any view-property configuration
+            settings->setGlobalViewProps(true);
 
-        ViewProperties defaultProps(url);
-        setDirProperties(defaultProps);
+            ViewProperties defaultProps(url);
+            setDirProperties(defaultProps);
 
-        settings->setGlobalViewProps(false);
-        m_changedProps = false;
+            settings->setGlobalViewProps(false);
+            m_changedProps = false;
+        }
     }
 }
 
