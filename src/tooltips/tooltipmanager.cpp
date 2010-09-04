@@ -155,8 +155,14 @@ void ToolTipManager::startContentRetrieval()
 
     m_fileMetaDataToolTip->setName(m_item.text());
 
+    // Request the retrieval of meta-data. The slot
+    // slotMetaDataRequestFinished() is invoked after the
+    // meta-data have been received.
     m_metaDataRequested = true;
     m_fileMetaDataToolTip->setItems(KFileItemList() << m_item);
+
+    // Request a preview of the item
+    m_fileMetaDataToolTip->setPreview(QPixmap());
 
     KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item, 256, 256);
 
