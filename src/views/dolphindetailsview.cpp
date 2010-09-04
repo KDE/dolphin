@@ -37,6 +37,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <kdirmodel.h>
+#include <kdirlister.h>
 #include <klocale.h>
 #include <kmenu.h>
 
@@ -166,6 +167,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
     m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
     m_extensionsFactory->setAutoFolderExpandingEnabled(settings->expandableFolders());
+
+    KDirLister *dirLister = qobject_cast<KDirModel*>(proxyModel->sourceModel())->dirLister();
+    connect(dirLister, SIGNAL(completed()), this, SLOT(resizeColumns()));
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -519,6 +523,12 @@ void DolphinDetailsView::scrollTo(const QModelIndex & index, ScrollHint hint)
     }
 }
 
+void DolphinDetailsView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
+{
+    removeExpandedIndexes(parent, start, end);
+    QTreeView::rowsAboutToBeRemoved(parent, start, end);
+}
+
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
 {
     header()->setSortIndicator(sorting, header()->sortIndicatorOrder());
@@ -676,6 +686,86 @@ void DolphinDetailsView::updateColumnVisibility()
 
     connect(headerView, SIGNAL(sectionMoved(int, int, int)),
             this, SLOT(saveColumnPositions()));
+}
+
+void DolphinDetailsView::resizeColumns()
+{
+    QHeaderView* headerView = header();
+    const int rowCount = model()->rowCount();
+    if (rowCount <= 0) {
+        headerView->resizeSection(KDirModel::Name, viewport()->width());
+        return;
+    }
+
+    // Using the resize mode QHeaderView::ResizeToContents is too slow (it takes
+    // around 3 seconds for each (!) resize operation when having > 10000 items).
+    // This gets a problem especially when opening large directories, where several
+    // resize operations are received for showing the currently available items during
+    // loading (the application hangs around 20 seconds when loading > 10000 items).
+
+    QFontMetrics fontMetrics(viewport()->font());
+
+    // Define the maximum number of rows, where an exact (but expensive) calculation
+    // of the widths is done.
+    const int maxRowCount = 200;
+
+    // Calculate the required with for each column and store it in columnWidth[]
+    int columnWidth[DolphinModel::ExtraColumnCount];
+
+    const QAbstractProxyModel* proxyModel = qobject_cast<const QAbstractProxyModel*>(model());
+    const KDirModel* dirModel = qobject_cast<const KDirModel*>(proxyModel->sourceModel());
+    for (int column = 0; column < DolphinModel::ExtraColumnCount; ++column) {
+        columnWidth[column] = 0;
+        if (!isColumnHidden(column)) {
+            // Calculate the required width for the current column and consider only
+            // up to maxRowCount columns for performance reasons
+            const int count = qMin(rowCount, maxRowCount);
+            const QStyleOptionViewItem option = viewOptions();
+            for (int row = 0; row < count; ++row) {
+                const QModelIndex index = dirModel->index(row, column);
+                const int width = itemDelegate()->sizeHint(option, index).width();
+                if (width > columnWidth[column]) {
+                    columnWidth[column] = width;
+                }
+            }
+
+            // Assure that the required width is sufficient for the header too
+            const int logicalIndex = headerView->logicalIndex(column);
+            const QString headline = model()->headerData(logicalIndex, Qt::Horizontal).toString();
+            const int headlineWidth = fontMetrics.width(headline);
+
+            columnWidth[column] = qMax(columnWidth[column], headlineWidth);
+        }
+    }
+
+    // Resize all columns except of the name column
+    int requiredWidth = 0;
+    for (int column = KDirModel::Size; column < DolphinModel::ExtraColumnCount; ++column) {
+        if (!isColumnHidden(column)) {
+            requiredWidth += columnWidth[column];
+            headerView->resizeSection(column, columnWidth[column]);
+        }
+    }
+
+    // Resize the name column in a way that the whole available width is used
+    columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
+
+    const int minNameWidth = 300;
+    if (columnWidth[KDirModel::Name] < minNameWidth) {
+        columnWidth[KDirModel::Name] = minNameWidth;
+
+        if ((rowCount > 0) && (rowCount < maxRowCount)) {
+            // Try to decrease the name column width without clipping any text
+            const int nameWidth = sizeHintForColumn(DolphinModel::Name);
+            if (nameWidth + requiredWidth <= viewport()->width()) {
+                columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
+            } else if (nameWidth < minNameWidth) {
+                columnWidth[KDirModel::Name] = nameWidth;
+            }
+        }
+    }
+
+    headerView->resizeSection(KDirModel::Name, columnWidth[KDirModel::Name]);
 }
 
 void DolphinDetailsView::saveColumnPositions()
@@ -959,12 +1049,6 @@ void DolphinDetailsView::slotCollapsed(const QModelIndex& index)
     }
 }
 
-void DolphinDetailsView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
-{
-    removeExpandedIndexes(parent, start, end);
-    QTreeView::rowsAboutToBeRemoved(parent, start, end);
-}
-
 void DolphinDetailsView::removeExpandedIndexes(const QModelIndex& parent, int start, int end)
 {
     if (m_expandedUrls.isEmpty()) {
@@ -993,73 +1077,6 @@ void DolphinDetailsView::updateDecorationSize(bool showPreview)
 KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex) const
 {
     return AdditionalInfoAccessor::instance().keyForColumn(columnIndex);
-}
-
-void DolphinDetailsView::resizeColumns()
-{
-    // Using the resize mode QHeaderView::ResizeToContents is too slow (it takes
-    // around 3 seconds for each (!) resize operation when having > 10000 items).
-    // This gets a problem especially when opening large directories, where several
-    // resize operations are received for showing the currently available items during
-    // loading (the application hangs around 20 seconds when loading > 10000 items).
-
-    QHeaderView* headerView = header();
-    QFontMetrics fontMetrics(viewport()->font());
-
-    // Calculate the required with for each column and store it in columnWidth[]
-    int columnWidth[DolphinModel::ExtraColumnCount];
-    const int defaultWidth = fontMetrics.width("xxxxxxxxxx");
-
-    for (int i = 0; i < DolphinModel::ExtraColumnCount; ++i) {
-        const int logicalIndex = headerView->logicalIndex(i);
-        const QString headline = model()->headerData(logicalIndex, Qt::Horizontal).toString();
-        const int headlineWidth = fontMetrics.width(headline);
-
-        columnWidth[i] = qMax(defaultWidth, headlineWidth);
-    }
-
-    const int defaultSizeWidth = fontMetrics.width("00000 Items");
-    if (defaultSizeWidth > columnWidth[DolphinModel::Size]) {
-        columnWidth[DolphinModel::Size] = defaultSizeWidth;
-    }
-
-    const int defaultTimeWidth = fontMetrics.width("0000-00-00 00:00");
-    if (defaultTimeWidth > columnWidth[DolphinModel::ModifiedTime]) {
-        columnWidth[DolphinModel::ModifiedTime] = defaultTimeWidth;
-    }
-
-    int requiredWidth = 0;
-    for (int i = KDirModel::Size; i < DolphinModel::ExtraColumnCount; ++i) {
-        if (!isColumnHidden(i)) {
-            columnWidth[i] += 20; // provide a default gap
-            requiredWidth += columnWidth[i];
-            headerView->resizeSection(i, columnWidth[i]);
-        }
-    }
-
-    // Resize the name column in a way that the whole available width is used
-    columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
-
-    const int minNameWidth = 300;
-    if (columnWidth[KDirModel::Name] < minNameWidth) {
-        columnWidth[KDirModel::Name] = minNameWidth;
-
-        // It might be possible that the name column width can be
-        // decreased without clipping any text. For performance
-        // reasons the exact necessary width for full visible names is
-        // only checked for up to 200 items:
-        const int rowCount = model()->rowCount();
-        if (rowCount > 0 && rowCount < 200) {
-            const int nameWidth = sizeHintForColumn(DolphinModel::Name);
-            if (nameWidth + requiredWidth <= viewport()->width()) {
-                columnWidth[KDirModel::Name] = viewport()->width() - requiredWidth;
-            } else if (nameWidth < minNameWidth) {
-                columnWidth[KDirModel::Name] = nameWidth;
-            }
-        }
-    }
-
-    headerView->resizeSection(KDirModel::Name, columnWidth[KDirModel::Name]);
 }
 
 bool DolphinDetailsView::isAboveExpandingToggle(const QPoint& pos) const

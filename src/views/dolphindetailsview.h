@@ -88,6 +88,10 @@ protected:
     virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
     virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
+
+protected slots:
+    virtual void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
+
 private slots:
     /**
      * Sets the sort indicator section of the header view
@@ -148,6 +152,11 @@ private slots:
     void updateColumnVisibility();
 
     /**
+     * Resizes all columns in a way to use the whole available width of the view.
+     */
+    void resizeColumns();
+
+    /**
      * Saves order of the columns as global setting.
      */
     void saveColumnPositions();
@@ -193,10 +202,6 @@ private slots:
     void slotExpanded(const QModelIndex& index);
     void slotCollapsed(const QModelIndex& index);
 
-protected slots:
-
-    virtual void rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end);
-
 private:
     /**
      * Removes the URLs corresponding to the children of \a index in the rows
@@ -213,11 +218,6 @@ private:
     void updateDecorationSize(bool showPreview);
 
     KFileItemDelegate::Information infoForColumn(int columnIndex) const;
-
-    /**
-     * Resizes all columns in a way to use the whole available width of the view.
-     */
-    void resizeColumns();
 
     /**
      * Returns true, if \a pos is within the expanding toggle of a tree.
