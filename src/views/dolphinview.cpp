@@ -86,7 +86,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_storedCategorizedSorting(false),
     m_tabsForFiles(false),
     m_isContextMenuOpen(false),
-    m_ignoreViewProperties(false),
     m_assureVisibleCurrentIndex(false),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
@@ -440,8 +439,6 @@ void DolphinView::reload()
 
 void DolphinView::refresh()
 {
-    m_ignoreViewProperties = false;
-
     const bool oldActivationState = m_active;
     const int oldZoomLevel = m_viewModeController->zoomLevel();
     m_active = true;
@@ -1192,10 +1189,6 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
 
 void DolphinView::applyViewProperties()
 {
-    if (m_ignoreViewProperties) {
-        return;
-    }
-
     const ViewProperties props(rootUrl());
 
     const Mode mode = props.viewMode();
@@ -1261,13 +1254,6 @@ void DolphinView::applyViewProperties()
         // As the view does not emit a signal when the icon size has been changed,
         // the used zoom level of the controller must be adjusted manually:
         updateZoomLevel(oldZoomLevel);
-    }
-
-    if (DolphinSettings::instance().generalSettings()->globalViewProps()) {
-        // During the lifetime of a DolphinView instance the global view properties
-        // should not be changed. This allows e. g. to split a view and use different
-        // view properties for each view.
-        m_ignoreViewProperties = true;
     }
 }
 

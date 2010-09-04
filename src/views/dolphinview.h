@@ -783,7 +783,6 @@ private:
     bool m_storedCategorizedSorting : 1;
     bool m_tabsForFiles : 1;
     bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192
-    bool m_ignoreViewProperties : 1;
     bool m_assureVisibleCurrentIndex : 1;
     bool m_expanderActive : 1;
 
