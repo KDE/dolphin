@@ -169,7 +169,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     m_extensionsFactory->setAutoFolderExpandingEnabled(settings->expandableFolders());
 
     KDirLister *dirLister = qobject_cast<KDirModel*>(proxyModel->sourceModel())->dirLister();
-    connect(dirLister, SIGNAL(completed()), this, SLOT(resizeColumns()));
+    connect(dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(resizeColumns()));
 }
 
 DolphinDetailsView::~DolphinDetailsView()
@@ -690,19 +690,14 @@ void DolphinDetailsView::updateColumnVisibility()
 
 void DolphinDetailsView::resizeColumns()
 {
-    QHeaderView* headerView = header();
-    const int rowCount = model()->rowCount();
-    if (rowCount <= 0) {
-        headerView->resizeSection(KDirModel::Name, viewport()->width());
-        return;
-    }
-
     // Using the resize mode QHeaderView::ResizeToContents is too slow (it takes
     // around 3 seconds for each (!) resize operation when having > 10000 items).
     // This gets a problem especially when opening large directories, where several
     // resize operations are received for showing the currently available items during
     // loading (the application hangs around 20 seconds when loading > 10000 items).
 
+    QHeaderView* headerView = header();
+    const int rowCount = model()->rowCount();
     QFontMetrics fontMetrics(viewport()->font());
 
     // Define the maximum number of rows, where an exact (but expensive) calculation
@@ -712,27 +707,31 @@ void DolphinDetailsView::resizeColumns()
     // Calculate the required with for each column and store it in columnWidth[]
     int columnWidth[DolphinModel::ExtraColumnCount];
 
-    const QAbstractProxyModel* proxyModel = qobject_cast<const QAbstractProxyModel*>(model());
-    const KDirModel* dirModel = qobject_cast<const KDirModel*>(proxyModel->sourceModel());
     for (int column = 0; column < DolphinModel::ExtraColumnCount; ++column) {
         columnWidth[column] = 0;
         if (!isColumnHidden(column)) {
             // Calculate the required width for the current column and consider only
             // up to maxRowCount columns for performance reasons
-            const int count = qMin(rowCount, maxRowCount);
-            const QStyleOptionViewItem option = viewOptions();
-            for (int row = 0; row < count; ++row) {
-                const QModelIndex index = dirModel->index(row, column);
-                const int width = itemDelegate()->sizeHint(option, index).width();
-                if (width > columnWidth[column]) {
-                    columnWidth[column] = width;
+            if (rowCount > 0) {
+                const QAbstractProxyModel* proxyModel = qobject_cast<const QAbstractProxyModel*>(model());
+                const KDirModel* dirModel = qobject_cast<const KDirModel*>(proxyModel->sourceModel());
+
+                const int count = qMin(rowCount, maxRowCount);
+                const QStyleOptionViewItem option = viewOptions();
+                for (int row = 0; row < count; ++row) {
+                    const QModelIndex index = dirModel->index(row, column);
+                    const int width = itemDelegate()->sizeHint(option, index).width();
+                    if (width > columnWidth[column]) {
+                        columnWidth[column] = width;
+                    }
                 }
             }
 
             // Assure that the required width is sufficient for the header too
             const int logicalIndex = headerView->logicalIndex(column);
             const QString headline = model()->headerData(logicalIndex, Qt::Horizontal).toString();
-            const int headlineWidth = fontMetrics.width(headline);
+            // TODO: check Qt-sources which left/right-gap is used for the headlines
+            const int headlineWidth = fontMetrics.width(headline) + 20;
 
             columnWidth[column] = qMax(columnWidth[column], headlineWidth);
         }
@@ -754,7 +753,7 @@ void DolphinDetailsView::resizeColumns()
     if (columnWidth[KDirModel::Name] < minNameWidth) {
         columnWidth[KDirModel::Name] = minNameWidth;
 
-        if (rowCount < maxRowCount) {
+        if ((rowCount > 0) && (rowCount < maxRowCount)) {
             // Try to decrease the name column width without clipping any text
             const int nameWidth = sizeHintForColumn(DolphinModel::Name);
             if (nameWidth + requiredWidth <= viewport()->width()) {
