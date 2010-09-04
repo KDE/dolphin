@@ -754,7 +754,7 @@ void DolphinDetailsView::resizeColumns()
     if (columnWidth[KDirModel::Name] < minNameWidth) {
         columnWidth[KDirModel::Name] = minNameWidth;
 
-        if ((rowCount > 0) && (rowCount < maxRowCount)) {
+        if (rowCount < maxRowCount) {
             // Try to decrease the name column width without clipping any text
             const int nameWidth = sizeHintForColumn(DolphinModel::Name);
             if (nameWidth + requiredWidth <= viewport()->width()) {
