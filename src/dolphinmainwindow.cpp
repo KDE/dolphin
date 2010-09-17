@@ -114,7 +114,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_actionHandler(0),
     m_remoteEncoding(0),
     m_settingsDialog(0),
-    m_lastHandleUrlStatJob(0)
+    m_lastHandleUrlStatJob(0),
+    m_keyInfo(new KModifierKeyInfo)
 {
     setObjectName("Dolphin#");
 
@@ -1167,6 +1168,12 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
                                         const QList<QAction*>& customActions)
 {
     DolphinContextMenu contextMenu(this, item, url);
+
+    if(m_keyInfo.isKeyPressed(Qt::Key_Shift) || m_keyInfo.isKeyLatched(Qt::Key_Shift)) {
+        contextMenu.setShiftIsPressed(true);
+    }
+
+    connect(&m_keyInfo, SIGNAL(keyPressed(Qt::Key, bool)), &contextMenu, SLOT(deleteOrTrashMenuEntry(Qt::Key, bool)));
     contextMenu.setCustomActions(customActions);
     contextMenu.open();
 }

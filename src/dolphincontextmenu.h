@@ -25,10 +25,13 @@
 #include <kservice.h>
 #include <kurl.h>
 #include <konq_copytomenu.h>
+#include <kmodifierkeyinfo.h>
 
 #include <QtCore/QObject>
 
 #include <QtCore/QVector>
+
+#include <QScopedPointer>
 
 class KMenu;
 class KFileItem;
@@ -70,9 +73,13 @@ public:
     virtual ~DolphinContextMenu();
 
     void setCustomActions(const QList<QAction*>& actions);
+    void setShiftIsPressed(bool pressed);
 
     /** Opens the context menu model. */
     void open();
+
+public slots:
+    void deleteOrTrashMenuEntry(Qt::Key key, bool pressed);
 
 private:
     void openTrashContextMenu();
@@ -80,13 +87,13 @@ private:
     void openItemContextMenu();
     void openViewportContextMenu();
 
-    void insertDefaultItemActions(KMenu* popup);
+    void insertDefaultItemActions();
 
     /**
      * Adds the "Show menubar" action to the menu if the
      * menubar is hidden.
      */
-    void addShowMenubarAction(KMenu* menu);
+    void addShowMenubarAction();
 
     /**
      * Returns a name for adding the URL \a url to the Places panel.
@@ -99,9 +106,9 @@ private:
 
 private:
     KFileItemListProperties& capabilities();
-    void addServiceActions(KMenu* menu, KFileItemActions& fileItemActions);
-    void addVersionControlActions(KMenu* menu);
-    void addCustomActions(KMenu* menu);
+    void addServiceActions(KFileItemActions& fileItemActions);
+    void addVersionControlActions();
+    void addCustomActions();
 
 private:
     struct Entry
@@ -130,6 +137,9 @@ private:
     int m_context;
     KonqCopyToMenu m_copyToMenu;
     QList<QAction*> m_customActions;
+    QScopedPointer<KMenu> m_popup;
+    bool m_showDeleteCommand;
+    bool m_shiftIsPressed;
 };
 
 #endif

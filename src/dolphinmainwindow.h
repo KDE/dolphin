@@ -31,8 +31,11 @@
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
 #include <kactionmenu.h>
+#include <kmodifierkeyinfo.h>
 
 #include "views/dolphinview.h"
+
+#include "dolphincontextmenu.h"
 
 #include <QList>
 
@@ -540,6 +543,8 @@ private:
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 
     KJob* m_lastHandleUrlStatJob;
+
+    KModifierKeyInfo m_keyInfo;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
