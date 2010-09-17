@@ -78,7 +78,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
 
     m_dolphinModel = new DolphinModel(this);
-    m_dolphinModel->setDirLister(m_dirLister);
+    m_dolphinModel->setDirLister(m_dirLister); // m_dolphinModel takes ownership of m_dirLister
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
     m_proxyModel->setSourceModel(m_dolphinModel);
@@ -148,7 +148,6 @@ DolphinPart::~DolphinPart()
 {
     DolphinSettings::instance().save();
     DolphinNewFileMenuObserver::instance().detach(m_newFileMenu);
-    delete m_dirLister;
 }
 
 void DolphinPart::createActions()

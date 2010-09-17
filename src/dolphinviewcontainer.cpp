@@ -109,7 +109,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_dirLister->setDelayedMimeTypes(true);
 
     m_dolphinModel = new DolphinModel(this);
-    m_dolphinModel->setDirLister(m_dirLister);
+    m_dolphinModel->setDirLister(m_dirLister);  // m_dolphinModel takes ownership of m_dirLister
     m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
 
     m_proxyModel = new DolphinSortFilterProxyModel(this);
@@ -191,13 +191,6 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
 
 DolphinViewContainer::~DolphinViewContainer()
 {
-    m_dirLister->disconnect();
-
-    delete m_proxyModel;
-    m_proxyModel = 0;
-    delete m_dolphinModel;
-    m_dolphinModel = 0;
-    m_dirLister = 0; // deleted by m_dolphinModel
 }
 
 KUrl DolphinViewContainer::url() const
