@@ -443,20 +443,12 @@ void DolphinContextMenu::addCustomActions()
 
 void DolphinContextMenu::updateRemoveAction()
 {
-    // Set the current size as fixed size so that the menu isn't flickering when pressing shift.
-    m_popup->setFixedSize(m_popup->size());
-
     const KActionCollection* collection = m_mainWindow->actionCollection();
     const bool moveToTrash = capabilities().isLocal() && !m_shiftPressed;
     const QAction* action = moveToTrash ? collection->action("move_to_trash") : collection->action("delete");
     m_removeAction->setText(action->text());
     m_removeAction->setIcon(action->icon());
     m_removeAction->setShortcuts(action->shortcuts());
-
-    // This sets the menu back to a dynamic size followed by a forced resize in case the
-    // newly made visible action has bigger text.
-    m_popup->setFixedSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
-    m_popup->resize(m_popup->sizeHint());
 }
 
 #include "dolphincontextmenu.moc"
