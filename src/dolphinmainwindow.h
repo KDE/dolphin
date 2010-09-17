@@ -417,12 +417,6 @@ private slots:
     void slotHandleUrlStatFinished(KJob* job);
 
     /**
-     * setUrlAsCaption() will trigger a stat job which reports its result in
-     * this slot.
-     */
-    void slotCaptionStatFinished(KJob* job);
-
-    /**
      * Is connected to the KTabBar signal receivedDropEvent.
      * Allows dragging and dropping files onto tabs.
      */
@@ -545,7 +539,6 @@ private:
     DolphinRemoteEncoding* m_remoteEncoding;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 
-    KJob* m_captionStatJob;
     KJob* m_lastHandleUrlStatJob;
 };
 

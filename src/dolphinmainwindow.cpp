@@ -114,7 +114,6 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_actionHandler(0),
     m_remoteEncoding(0),
     m_settingsDialog(0),
-    m_captionStatJob(0),
     m_lastHandleUrlStatJob(0)
 {
     setObjectName("Dolphin#");
@@ -1158,14 +1157,6 @@ void DolphinMainWindow::tabDropEvent(int tab, QDropEvent* event)
     }
 }
 
-void DolphinMainWindow::slotCaptionStatFinished(KJob* job)
-{
-    m_captionStatJob = 0;
-    const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
-    const QString name = entry.stringValue(KIO::UDSEntry::UDS_DISPLAY_NAME);
-    setCaption(name);
-}
-
 void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 {
     newFileMenu()->setEnabled(isFolderWritable);
@@ -1778,26 +1769,18 @@ QString DolphinMainWindow::tabProperty(const QString& property, int tabIndex) co
 
 void DolphinMainWindow::setUrlAsCaption(const KUrl& url)
 {
-    delete m_captionStatJob;
-    m_captionStatJob = 0;
-
-    if (url.protocol() == QLatin1String("file")) {
-        QString caption;
-        if (url.equals(KUrl("file:///"))) {
-            caption = '/';
-        } else {
-            caption = url.fileName();
-            if (caption.isEmpty()) {
-                caption = url.protocol();
-            }
+    QString caption;
+    if (!url.isLocalFile()) {
+        caption.append(url.protocol() + " - ");
+        if (url.hasHost()) {
+            caption.append(url.host() + " - ");
         }
-
-        setCaption(caption);
-    } else {
-        m_captionStatJob = KIO::stat(url, KIO::HideProgressInfo);
-        connect(m_captionStatJob, SIGNAL(result(KJob*)),
-                this, SLOT(slotCaptionStatFinished(KJob*)));
     }
+
+    const QString fileName = url.fileName().isEmpty() ? "/" : url.fileName();
+    caption.append(fileName);
+
+    setCaption(caption);
 }
 
 QString DolphinMainWindow::squeezedText(const QString& text) const
