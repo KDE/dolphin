@@ -78,7 +78,18 @@ public:
     void open();
 
 private slots:
-    void deleteOrTrashMenuEntry(Qt::Key key, bool pressed);
+    /**
+     * Is invoked if a key modifier has been pressed and updates the context
+     * menu to show the 'Delete' action instead of the 'Move To Trash' action
+     * if the shift-key has been pressed.
+     */
+    void slotKeyModifierPressed(Qt::Key key, bool pressed);
+
+    /**
+     * Triggers the 'Delete'-action if the shift-key has been pressed, otherwise
+     * the 'Move to Trash'-action gets triggered.
+     */
+    void slotRemoveActionTriggered();
 
 private:
     void openTrashContextMenu();
@@ -108,6 +119,12 @@ private:
     void addVersionControlActions();
     void addCustomActions();
 
+    /**
+     * Updates m_removeAction to represent the 'Delete'-action if the shift-key
+     * has been pressed. Otherwise it represents the 'Move to Trash'-action.
+     */
+    void updateRemoveAction();
+
 private:
     struct Entry
     {
@@ -136,10 +153,10 @@ private:
     KonqCopyToMenu m_copyToMenu;
     QList<QAction*> m_customActions;
     QScopedPointer<KMenu> m_popup;
-    bool m_showDeleteCommand;
-    bool m_shiftPressed;
 
+    bool m_shiftPressed;
     KModifierKeyInfo m_keyInfo;
+    QAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
 };
 
 #endif

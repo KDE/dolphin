@@ -64,9 +64,9 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_copyToMenu(parent),
     m_customActions(),
     m_popup(new KMenu(m_mainWindow)),
-    m_showDeleteCommand(false),
     m_shiftPressed(false),
-    m_keyInfo()
+    m_keyInfo(),
+    m_removeAction(0)
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
@@ -74,13 +74,15 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_selectedUrls = view->selectedUrls();
     m_selectedItems = view->selectedItems();
 
-    m_showDeleteCommand = KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false);
-
     if (m_keyInfo.isKeyPressed(Qt::Key_Shift) || m_keyInfo.isKeyLatched(Qt::Key_Shift)) {
         m_shiftPressed = true;
     }
 
-    connect(&m_keyInfo, SIGNAL(keyPressed(Qt::Key, bool)), this, SLOT(deleteOrTrashMenuEntry(Qt::Key, bool)));
+    connect(&m_keyInfo, SIGNAL(keyPressed(Qt::Key, bool)),
+            this, SLOT(slotKeyModifierPressed(Qt::Key, bool)));
+
+    m_removeAction = new QAction(this);
+    connect(m_removeAction, SIGNAL(triggered()), this, SLOT(slotRemoveActionTriggered()));
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -118,6 +120,22 @@ void DolphinContextMenu::open()
     } else {
         Q_ASSERT(m_context == NoContext);
         openViewportContextMenu();
+    }
+}
+
+void DolphinContextMenu::slotKeyModifierPressed(Qt::Key key, bool pressed)
+{
+    m_shiftPressed = (key == Qt::Key_Shift) && pressed;
+    updateRemoveAction();
+}
+
+void DolphinContextMenu::slotRemoveActionTriggered()
+{
+    const KActionCollection* collection = m_mainWindow->actionCollection();
+    if (m_shiftPressed) {
+        collection->action("delete")->trigger();
+    } else {
+        collection->action("move_to_trash")->trigger();
     }
 }
 
@@ -312,13 +330,9 @@ void DolphinContextMenu::insertDefaultItemActions()
 {
     const KActionCollection* collection = m_mainWindow->actionCollection();
 
-    // Cut action
+    // Insert 'Cut', 'Copy' and 'Paste'
     m_popup->addAction(collection->action(KStandardAction::name(KStandardAction::Cut)));
-
-    // Copy action
     m_popup->addAction(collection->action(KStandardAction::name(KStandardAction::Copy)));
-
-    // Paste action
     m_popup->addAction(createPasteAction());
 
     m_popup->addSeparator();
@@ -327,26 +341,14 @@ void DolphinContextMenu::insertDefaultItemActions()
     QAction* renameAction = collection->action("rename");
     m_popup->addAction(renameAction);
 
-    // Insert move to trash and delete. We need to insert both because both can be visible.
-    m_popup->addAction(collection->action("move_to_trash"));
-    m_popup->addAction(collection->action("delete"));
-
-    const KUrl& url = m_mainWindow->activeViewContainer()->url();
-    if (url.isLocalFile()) {
-        collection->action("move_to_trash")->setVisible(true);
-        collection->action("delete")->setVisible(false);
+    // Insert 'Move to Trash' and/or 'Delete'
+    if (KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false)) {
+        m_popup->addAction(collection->action("move_to_trash"));
+        m_popup->addAction(collection->action("delete"));
     } else {
-        collection->action("delete")->setVisible(true);
+        m_popup->addAction(m_removeAction);
+        updateRemoveAction();
     }
-
-    if(m_showDeleteCommand) {
-        collection->action("delete")->setVisible(true);
-    }
-
-    if(m_shiftPressed) {
-        deleteOrTrashMenuEntry(Qt::Key_Shift, m_shiftPressed);
-    }
-
 }
 
 void DolphinContextMenu::addShowMenubarAction()
@@ -439,25 +441,22 @@ void DolphinContextMenu::addCustomActions()
     }
 }
 
-void DolphinContextMenu::deleteOrTrashMenuEntry(Qt::Key key, bool pressed)
+void DolphinContextMenu::updateRemoveAction()
 {
-    if(m_mainWindow->activeViewContainer()->url().isLocalFile() && !m_showDeleteCommand && key == Qt::Key_Shift) {
+    // Set the current size as fixed size so that the menu isn't flickering when pressing shift.
+    m_popup->setFixedSize(m_popup->size());
 
-        // Set the current size as fixed size so that the menu isn't flickering when pressing shift.
-        m_popup->setFixedSize(m_popup->size());
-        if(pressed) {
-            m_mainWindow->actionCollection()->action("delete")->setVisible(true);
-            m_mainWindow->actionCollection()->action("move_to_trash")->setVisible(false);
-        }
-        else {
-            m_mainWindow->actionCollection()->action("delete")->setVisible(false);
-            m_mainWindow->actionCollection()->action("move_to_trash")->setVisible(true);
-        }
+    const KActionCollection* collection = m_mainWindow->actionCollection();
+    const bool moveToTrash = capabilities().isLocal() && !m_shiftPressed;
+    const QAction* action = moveToTrash ? collection->action("move_to_trash") : collection->action("delete");
+    m_removeAction->setText(action->text());
+    m_removeAction->setIcon(action->icon());
+    m_removeAction->setShortcuts(action->shortcuts());
 
-        // This sets the menu back to a dynamic size followed by a forced resize incase the newly made visible action has bigger text.
-        m_popup->setFixedSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
-        m_popup->resize(m_popup->sizeHint());
-    }
+    // This sets the menu back to a dynamic size followed by a forced resize in case the
+    // newly made visible action has bigger text.
+    m_popup->setFixedSize(QSize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX));
+    m_popup->resize(m_popup->sizeHint());
 }
 
 #include "dolphincontextmenu.moc"
