@@ -65,7 +65,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_customActions(),
     m_popup(new KMenu(m_mainWindow)),
     m_showDeleteCommand(false),
-    m_shiftIsPressed(false)
+    m_shiftPressed(false),
+    m_keyInfo()
 {
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
@@ -74,6 +75,12 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_selectedItems = view->selectedItems();
 
     m_showDeleteCommand = KGlobal::config()->group("KDE").readEntry("ShowDeleteCommand", false);
+
+    if (m_keyInfo.isKeyPressed(Qt::Key_Shift) || m_keyInfo.isKeyLatched(Qt::Key_Shift)) {
+        m_shiftPressed = true;
+    }
+
+    connect(&m_keyInfo, SIGNAL(keyPressed(Qt::Key, bool)), this, SLOT(deleteOrTrashMenuEntry(Qt::Key, bool)));
 }
 
 DolphinContextMenu::~DolphinContextMenu()
@@ -336,8 +343,8 @@ void DolphinContextMenu::insertDefaultItemActions()
         collection->action("delete")->setVisible(true);
     }
 
-    if(m_shiftIsPressed) {
-        deleteOrTrashMenuEntry(Qt::Key_Shift, m_shiftIsPressed);
+    if(m_shiftPressed) {
+        deleteOrTrashMenuEntry(Qt::Key_Shift, m_shiftPressed);
     }
 
 }
@@ -430,11 +437,6 @@ void DolphinContextMenu::addCustomActions()
     foreach (QAction* action, m_customActions) {
         m_popup->addAction(action);
     }
-}
-
-void DolphinContextMenu::setShiftIsPressed(bool pressed)
-{
-    m_shiftIsPressed = pressed;
 }
 
 void DolphinContextMenu::deleteOrTrashMenuEntry(Qt::Key key, bool pressed)

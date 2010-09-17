@@ -73,12 +73,11 @@ public:
     virtual ~DolphinContextMenu();
 
     void setCustomActions(const QList<QAction*>& actions);
-    void setShiftIsPressed(bool pressed);
 
     /** Opens the context menu model. */
     void open();
 
-public slots:
+private slots:
     void deleteOrTrashMenuEntry(Qt::Key key, bool pressed);
 
 private:
@@ -104,7 +103,6 @@ private:
 
     QAction* createPasteAction();
 
-private:
     KFileItemListProperties& capabilities();
     void addServiceActions(KFileItemActions& fileItemActions);
     void addVersionControlActions();
@@ -139,7 +137,9 @@ private:
     QList<QAction*> m_customActions;
     QScopedPointer<KMenu> m_popup;
     bool m_showDeleteCommand;
-    bool m_shiftIsPressed;
+    bool m_shiftPressed;
+
+    KModifierKeyInfo m_keyInfo;
 };
 
 #endif
