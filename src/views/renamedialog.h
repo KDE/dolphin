@@ -76,6 +76,9 @@ public:
 protected slots:
     virtual void slotButtonClicked(int button);
 
+private slots:
+    void slotTextChanged(const QString &newName);
+
 private:
     bool m_renameOneItem;
     KLineEdit* m_lineEdit;

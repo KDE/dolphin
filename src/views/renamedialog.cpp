@@ -64,6 +64,7 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     }
 
     m_lineEdit = new KLineEdit(page);
+    connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
 
     QString fileName = items[0].url().prettyUrl();
     QString extension = KMimeType::extractKnownExtension(fileName.toLower());
@@ -128,5 +129,13 @@ void RenameDialog::slotButtonClicked(int button)
 
     KDialog::slotButtonClicked(button);
 }
+
+void RenameDialog::slotTextChanged(const QString &newName)
+{
+    bool enable = !newName.isEmpty();
+    enable &= (m_renameOneItem ? (newName != m_newName) : newName.contains('#'));
+    enableButtonOk(enable);
+}
+
 
 #include "renamedialog.moc"
