@@ -116,6 +116,11 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_settingsDialog(0),
     m_lastHandleUrlStatJob(0)
 {
+    // Workaround for a X11-issue in combination with KModifierInfo
+    // (see DolphinContextMenu::initializeModifierKeyInfo() for
+    // more information):
+    DolphinContextMenu::initializeModifierKeyInfo();
+
     setObjectName("Dolphin#");
 
     m_viewTab.append(ViewTab());

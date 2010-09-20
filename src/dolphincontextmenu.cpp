@@ -53,6 +53,8 @@
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
 
+KModifierKeyInfo* DolphinContextMenu::m_keyInfo = 0;
+
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const KFileItem& fileInfo,
                                        const KUrl& baseUrl) :
@@ -65,7 +67,6 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_customActions(),
     m_popup(new KMenu(m_mainWindow)),
     m_shiftPressed(false),
-    m_keyInfo(),
     m_removeAction(0)
 {
     // The context menu either accesses the URLs of the selected items
@@ -74,12 +75,13 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_selectedUrls = view->selectedUrls();
     m_selectedItems = view->selectedItems();
 
-    if (m_keyInfo.isKeyPressed(Qt::Key_Shift) || m_keyInfo.isKeyLatched(Qt::Key_Shift)) {
-        m_shiftPressed = true;
+    if (m_keyInfo != 0) {
+        if (m_keyInfo->isKeyPressed(Qt::Key_Shift) || m_keyInfo->isKeyLatched(Qt::Key_Shift)) {
+            m_shiftPressed = true;
+        }
+        connect(m_keyInfo, SIGNAL(keyPressed(Qt::Key, bool)),
+                this, SLOT(slotKeyModifierPressed(Qt::Key, bool)));
     }
-
-    connect(&m_keyInfo, SIGNAL(keyPressed(Qt::Key, bool)),
-            this, SLOT(slotKeyModifierPressed(Qt::Key, bool)));
 
     m_removeAction = new QAction(this);
     connect(m_removeAction, SIGNAL(triggered()), this, SLOT(slotRemoveActionTriggered()));
@@ -120,6 +122,13 @@ void DolphinContextMenu::open()
     } else {
         Q_ASSERT(m_context == NoContext);
         openViewportContextMenu();
+    }
+}
+
+void DolphinContextMenu::initializeModifierKeyInfo()
+{
+    if (m_keyInfo == 0) {
+        m_keyInfo = new KModifierKeyInfo();
     }
 }
 

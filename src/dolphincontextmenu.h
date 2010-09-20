@@ -77,6 +77,17 @@ public:
     /** Opens the context menu model. */
     void open();
 
+    /**
+     * TODO: This method is a workaround for a X11-issue in combination
+     * with KModifierKeyInfo: When constructing KModifierKeyInfo in the
+     * constructor of the context menu, the user interface might freeze.
+     * To bypass this, the KModifierKeyInfo is constructed in DolphinMainWindow
+     * directly after starting the application. Remove this method, if
+     * the X11-issue got fixed (contact the maintainer of KModifierKeyInfo for
+     * more details).
+     */
+    static void initializeModifierKeyInfo();
+
 private slots:
     /**
      * Is invoked if a key modifier has been pressed and updates the context
@@ -155,8 +166,9 @@ private:
     QScopedPointer<KMenu> m_popup;
 
     bool m_shiftPressed;
-    KModifierKeyInfo m_keyInfo;
     QAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
+
+    static KModifierKeyInfo* m_keyInfo;
 };
 
 #endif
