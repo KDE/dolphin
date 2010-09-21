@@ -958,7 +958,7 @@ void DolphinMainWindow::openTerminal()
 void DolphinMainWindow::editSettings()
 {
     if (m_settingsDialog == 0) {
-        const KUrl& url = activeViewContainer()->url();
+        const KUrl url = activeViewContainer()->url();
         m_settingsDialog = new DolphinSettingsDialog(url, this);
         m_settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
         m_settingsDialog->show();
@@ -1195,7 +1195,7 @@ void DolphinMainWindow::init()
 
     setupActions();
 
-    const KUrl& homeUrl = generalSettings->homeUrl();
+    const KUrl homeUrl(generalSettings->homeUrl());
     setUrlAsCaption(homeUrl);
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
@@ -1299,7 +1299,7 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     updateViewActions();
     updateGoActions();
 
-    const KUrl& url = m_activeViewContainer->url();
+    const KUrl url = m_activeViewContainer->url();
     setUrlAsCaption(url);
     if (m_viewTab.count() > 1) {
         m_tabBar->setTabText(m_tabIndex, tabName(url));
@@ -1624,7 +1624,7 @@ void DolphinMainWindow::updateViewActions()
 void DolphinMainWindow::updateGoActions()
 {
     QAction* goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
-    const KUrl& currentUrl = m_activeViewContainer->url();
+    const KUrl currentUrl = m_activeViewContainer->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
 }
 
