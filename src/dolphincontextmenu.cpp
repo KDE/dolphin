@@ -102,7 +102,7 @@ void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
 void DolphinContextMenu::open()
 {
     // get the context information
-    if (m_baseUrl.protocol() == "trash") {
+    if (m_baseUrl.protocol() == QLatin1String("trash")) {
         m_context |= TrashContext;
     }
 
@@ -219,6 +219,7 @@ void DolphinContextMenu::openItemContextMenu()
 {
     Q_ASSERT(!m_fileInfo.isNull());
 
+    QAction* addToPlacesAction = 0;
     if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
         // setup 'Create New' menu
         DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_popup.data(), m_mainWindow);
@@ -237,6 +238,14 @@ void DolphinContextMenu::openItemContextMenu()
         // insert 'Open in new window' and 'Open in new tab' entries
         m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
         m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
+
+        // insert 'Add to Places' entry
+        if (!placeExists(m_fileInfo.url())) {
+            addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
+                                                   i18nc("@action:inmenu Add selected folder to places",
+                                                         "Add to Places"));
+        }
+
         m_popup->addSeparator();
     }
     addShowMenubarAction();
@@ -255,14 +264,6 @@ void DolphinContextMenu::openItemContextMenu()
         m_copyToMenu.setItems(m_selectedItems);
         m_copyToMenu.setReadOnly(!capabilities().supportsWriting());
         m_copyToMenu.addActionsTo(m_popup.data());
-        m_popup->addSeparator();
-    }
-
-    // insert 'Add to Places' entry if exactly one item is selected
-    QAction* addToPlacesAction = 0;
-    if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1) && !placeExists(m_fileInfo.url())) {
-        addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
-                                             i18nc("@action:inmenu Add selected folder to places", "Add to Places"));
     }
 
     // insert 'Properties...' entry
@@ -428,9 +429,7 @@ void DolphinContextMenu::addServiceActions(KFileItemActions& fileItemActions)
     fileItemActions.addOpenWithActionsTo(m_popup.data(), "DesktopEntryName != 'dolphin'");
 
     // insert 'Actions' sub menu
-    if (fileItemActions.addServiceActionsTo(m_popup.data())) {
-        m_popup->addSeparator();
-    }
+    fileItemActions.addServiceActionsTo(m_popup.data());
 }
 
 void DolphinContextMenu::addVersionControlActions()
