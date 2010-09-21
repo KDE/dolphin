@@ -25,7 +25,6 @@
 #include <kservice.h>
 #include <kurl.h>
 #include <konq_copytomenu.h>
-#include <kmodifierkeyinfo.h>
 
 #include <QtCore/QObject>
 
@@ -167,8 +166,6 @@ private:
 
     bool m_shiftPressed;
     QAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'
-
-    static KModifierKeyInfo* m_keyInfo;
 };
 
 #endif

@@ -37,6 +37,7 @@
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
+#include <kmodifierkeyinfo.h>
 #include <knewfilemenu.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -53,7 +54,7 @@
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
 
-KModifierKeyInfo* DolphinContextMenu::m_keyInfo = 0;
+K_GLOBAL_STATIC(KModifierKeyInfo, m_keyInfo)
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
                                        const KFileItem& fileInfo,
@@ -127,9 +128,10 @@ void DolphinContextMenu::open()
 
 void DolphinContextMenu::initializeModifierKeyInfo()
 {
-    if (m_keyInfo == 0) {
-        m_keyInfo = new KModifierKeyInfo();
-    }
+    // Access m_keyInfo, so that it gets instantiated by
+    // K_GLOBAL_STATIC
+    KModifierKeyInfo* keyInfo = m_keyInfo;
+    Q_UNUSED(keyInfo);
 }
 
 void DolphinContextMenu::slotKeyModifierPressed(Qt::Key key, bool pressed)
