@@ -103,7 +103,7 @@ public:
     void setAutoSaveEnabled(bool autoSave);
     bool isAutoSaveEnabled() const;
 
-    void updateTimeStamp();
+    void update();
 
     /**
      * Saves the view properties for the directory specified
@@ -132,24 +132,22 @@ private:
     QString destinationDir(const QString& subDir) const;
 
     /**
-     * Returns the encoded additional information that can be stored
-     * in the .directory file. See ViewProperties::decodedAdditionalInfo()
-     * for the coding format.
-     * @param info   Additional information for the current view mode.
+     * Helper method for ViewProperties::additionalInfo(): Returns
+     * the additional info for the outdated version 1 of the view-properties.
      */
-    int encodedAdditionalInfo(int info) const;
+    KFileItemDelegate::InformationList additionalInfoV1() const;
 
     /**
-     * Returns the decoded additional information from the .directory
-     * file by respecting the current set view mode. The additional
-     * information from the .directory file is an integer value, where:
-     * - Byte 0 stores the additional info for the details view
-     * - Byte 1 stores the additional info for the icons view
-     * - Byte 2 stores the additional info for the column view
-     * The additional information property is the only property that is
-     * dependent from another property (in this case the view-mode).
+     * Helper method for ViewProperties::additionalInfo(): Returns
+     * the additional info for the current version 2 of the view-properties.
      */
-    int decodedAdditionalInfo() const;
+    KFileItemDelegate::InformationList additionalInfoV2() const;
+
+    /**
+     * Returns the view-mode prefix when storing additional properties for
+     * a view-mode.
+     */
+    QString viewModePrefix() const;
 
     Q_DISABLE_COPY(ViewProperties)
 

@@ -81,6 +81,11 @@ QString AdditionalInfoAccessor::translation(KFileItemDelegate::Information info)
     return i18nc(m_map[info]->context, m_map[info]->translation);
 }
 
+QString AdditionalInfoAccessor::value(KFileItemDelegate::Information info) const
+{
+    return m_map[info]->value;
+}
+
 DolphinView::Sorting AdditionalInfoAccessor::sorting(KFileItemDelegate::Information info) const
 {
     return m_map[info]->sorting;
@@ -96,14 +101,16 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
     m_map()
 {
     static const AdditionalInfoAccessor::AdditionalInfo additionalInfos[] = {
-        { "size",        I18N_NOOP2_NOSTRIP("@label", "Size"),             DolphinView::SortBySize,          1 },
-        { "date",        I18N_NOOP2_NOSTRIP("@label", "Date"),             DolphinView::SortByDate,          2 },
-        { "permissions", I18N_NOOP2_NOSTRIP("@label", "Permissions"),      DolphinView::SortByPermissions,   4 },
-        { "owner",       I18N_NOOP2_NOSTRIP("@label", "Owner"),            DolphinView::SortByOwner,         8 },
-        { "group",       I18N_NOOP2_NOSTRIP("@label", "Group"),            DolphinView::SortByGroup,        16 },
-        { "type",        I18N_NOOP2_NOSTRIP("@label", "Type"),             DolphinView::SortByType,         32 },
-        { "destination", I18N_NOOP2_NOSTRIP("@label", "Link Destination"), DolphinView::SortByDestination,  64 },
-        { "path",        I18N_NOOP2_NOSTRIP("@label", "Path"),             DolphinView::SortByPath,        128 }
+        // Entries for view-properties version 1:
+        { "size",        I18N_NOOP2_NOSTRIP("@label", "Size"),             "Size",            DolphinView::SortBySize,          1 },
+        { "date",        I18N_NOOP2_NOSTRIP("@label", "Date"),             "Date",            DolphinView::SortByDate,          2 },
+        { "permissions", I18N_NOOP2_NOSTRIP("@label", "Permissions"),      "Permissions",     DolphinView::SortByPermissions,   4 },
+        { "owner",       I18N_NOOP2_NOSTRIP("@label", "Owner"),            "Owner",           DolphinView::SortByOwner,         8 },
+        { "group",       I18N_NOOP2_NOSTRIP("@label", "Group"),            "Group",           DolphinView::SortByGroup,        16 },
+        { "type",        I18N_NOOP2_NOSTRIP("@label", "Type"),             "Type",            DolphinView::SortByType,         32 },
+        { "destination", I18N_NOOP2_NOSTRIP("@label", "Link Destination"), "LinkDestination", DolphinView::SortByDestination,  64 },
+        { "path",        I18N_NOOP2_NOSTRIP("@label", "Path"),             "Path",            DolphinView::SortByPath,        128 }
+        // Entries for view-properties version >= 2 (the last column can be set to 0):
     };
 
     m_map.insert(KFileItemDelegate::Size, &additionalInfos[0]);

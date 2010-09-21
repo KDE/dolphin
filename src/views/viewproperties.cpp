@@ -101,7 +101,7 @@ void ViewProperties::setViewMode(DolphinView::Mode mode)
 {
     if (m_node->viewMode() != mode) {
         m_node->setViewMode(mode);
-        updateTimeStamp();
+        update();
     }
 }
 
@@ -114,7 +114,7 @@ void ViewProperties::setShowPreview(bool show)
 {
     if (m_node->showPreview() != show) {
         m_node->setShowPreview(show);
-        updateTimeStamp();
+        update();
     }
 }
 
@@ -127,7 +127,7 @@ void ViewProperties::setShowHiddenFiles(bool show)
 {
     if (m_node->showHiddenFiles() != show) {
         m_node->setShowHiddenFiles(show);
-        updateTimeStamp();
+        update();
     }
 }
 
@@ -135,7 +135,7 @@ void ViewProperties::setCategorizedSorting(bool categorized)
 {
     if (m_node->categorizedSorting() != categorized) {
         m_node->setCategorizedSorting(categorized);
-        updateTimeStamp();
+        update();
     }
 }
 
@@ -153,7 +153,7 @@ void ViewProperties::setSorting(DolphinView::Sorting sorting)
 {
     if (m_node->sorting() != sorting) {
         m_node->setSorting(sorting);
-        updateTimeStamp();
+        update();
     }
 }
 
@@ -166,7 +166,7 @@ void ViewProperties::setSortOrder(Qt::SortOrder sortOrder)
 {
     if (m_node->sortOrder() != sortOrder) {
         m_node->setSortOrder(sortOrder);
-        updateTimeStamp();
+        update();
     }
 }
 
@@ -179,7 +179,7 @@ void ViewProperties::setSortFoldersFirst(bool foldersFirst)
 {
     if (m_node->sortFoldersFirst() != foldersFirst) {
         m_node->setSortFoldersFirst(foldersFirst);
-        updateTimeStamp();
+        update();
     }
 }
 
@@ -190,17 +190,42 @@ bool ViewProperties::sortFoldersFirst() const
 
 void ViewProperties::setAdditionalInfo(const KFileItemDelegate::InformationList& list)
 {
-    AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    // See ViewProperties::additionalInfoV2() for the storage format
+    // of the additional information.
 
-    int infoMask = 0;
-    foreach (KFileItemDelegate::Information currentInfo, list) {
-        infoMask = infoMask | infoAccessor.bitValue(currentInfo);
+    // Remove the old values stored for the current view-mode
+    const QStringList oldInfoStringList = m_node->additionalInfoV2();
+    const QString prefix = viewModePrefix();
+    QStringList newInfoStringList = oldInfoStringList;
+    for (int i = newInfoStringList.count() - 1; i >= 0; --i) {
+        if (newInfoStringList.at(i).startsWith(prefix)) {
+            newInfoStringList.removeAt(i);
+        }
     }
 
-    const int encodedInfo = encodedAdditionalInfo(infoMask);
-    if (m_node->additionalInfo() != encodedInfo) {
-        m_node->setAdditionalInfo(encodedInfo);
-        updateTimeStamp();
+    // Add the updated values for the current view-mode
+    AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    foreach (KFileItemDelegate::Information info, list) {
+        newInfoStringList.append(prefix + infoAccessor.value(info));
+    }
+
+    // Only update the information if it has been changed
+    bool changed = oldInfoStringList.count() != newInfoStringList.count();
+    if (!changed) {
+        foreach (const QString& oldInfoString, oldInfoStringList) {
+            if (!newInfoStringList.contains(oldInfoString)) {
+                changed = true;
+                break;
+            }
+        }
+    }
+
+    if (changed) {
+        if (m_node->version() < 2) {
+            m_node->setVersion(2);
+        }
+        m_node->setAdditionalInfoV2(newInfoStringList);
+        update();
     }
 }
 
@@ -208,15 +233,10 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 {
     KFileItemDelegate::InformationList usedInfos;
 
-    const int decodedInfo = decodedAdditionalInfo();
-
-    AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
-
-    foreach (const KFileItemDelegate::Information info, infoKeys) {
-        if (decodedInfo & infoAccessor.bitValue(info)) {
-            usedInfos.append(info);
-        }
+    switch (m_node->version()) {
+    case 1: usedInfos = additionalInfoV1(); break;
+    case 2: usedInfos = additionalInfoV2(); break;
+    default: kWarning() << "Unknown version of the view properties";
     }
 
     return usedInfos;
@@ -245,10 +265,26 @@ bool ViewProperties::isAutoSaveEnabled() const
     return m_autoSave;
 }
 
-void ViewProperties::updateTimeStamp()
+void ViewProperties::update()
 {
     m_changedProps = true;
     m_node->setTimestamp(QDateTime::currentDateTime());
+
+    // If the view-properties are stored in an older format, take
+    // care to update them to the current format.
+    switch (m_node->version()) {
+    case 1: {
+        const KFileItemDelegate::InformationList infoList = additionalInfoV1();
+        m_node->setVersion(2);
+        setAdditionalInfo(infoList);
+        break;
+    }
+    case 2:
+        // Current version. Nothing needs to get converted.
+        break;
+    default:
+        kWarning() << "Unknown version of the view properties";
+    }
 }
 
 void ViewProperties::save()
@@ -272,28 +308,10 @@ QString ViewProperties::destinationDir(const QString& subDir) const
     return KStandardDirs::locateLocal("data", basePath);
 }
 
-int ViewProperties::encodedAdditionalInfo(int info) const
+KFileItemDelegate::InformationList ViewProperties::additionalInfoV1() const
 {
-    int encodedInfo = m_node->additionalInfo();
+    KFileItemDelegate::InformationList usedInfos;
 
-    switch (viewMode()) {
-    case DolphinView::DetailsView:
-        encodedInfo = (encodedInfo & 0xFFFF00) | info;
-        break;
-    case DolphinView::IconsView:
-        encodedInfo = (encodedInfo & 0xFF00FF) | (info << 8);
-        break;
-    case DolphinView::ColumnView:
-        encodedInfo = (encodedInfo & 0x00FFFF) | (info << 16);
-        break;
-    default: break;
-    }
-
-    return encodedInfo;
-}
-
-int ViewProperties::decodedAdditionalInfo() const
-{
     int decodedInfo = m_node->additionalInfo();
 
     switch (viewMode()) {
@@ -316,5 +334,67 @@ int ViewProperties::decodedAdditionalInfo() const
     default: break;
     }
 
-    return decodedInfo;
+    AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
+
+    foreach (const KFileItemDelegate::Information info, infoKeys) {
+        if (decodedInfo & infoAccessor.bitValue(info)) {
+            usedInfos.append(info);
+        }
+    }
+
+    return usedInfos;
+}
+
+KFileItemDelegate::InformationList ViewProperties::additionalInfoV2() const
+{
+    // The shown additional information is stored for each view-mode separately as
+    // string with the view-mode as prefix. Example:
+    //
+    // AdditionalInfoV2=Details_Size,Details_Date,Details_Owner,Icon_Size
+    //
+    // To get the representation as KFileItemDelegate::InformationList, the current
+    // view-mode must be checked and the values of this mode added to the list.
+
+    KFileItemDelegate::InformationList usedInfos;
+
+    // infoHash allows to get the mapped KFileItemDelegate::Information value
+    // for a stored string-value in a fast way
+    static QHash<QString, KFileItemDelegate::Information> infoHash;
+    if (infoHash.isEmpty()) {
+        AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+        const KFileItemDelegate::InformationList keys = infoAccessor.keys();
+        foreach (const KFileItemDelegate::Information key, keys) {
+            infoHash.insert(infoAccessor.value(key), key);
+        }
+    }
+
+    // Iterate through all stored keys stored as strings and map them to
+    // the corresponding KFileItemDelegate::Information values.
+    const QString prefix = viewModePrefix();
+    const int prefixLength = prefix.length();
+    const QStringList infoStringList = m_node->additionalInfoV2();
+    foreach (const QString& infoString, infoStringList) {
+        if (infoString.startsWith(prefix)) {
+            const QString key = infoString.right(infoString.length() - prefixLength);
+            Q_ASSERT(infoHash.contains(key));
+            usedInfos.append(infoHash.value(key));
+        }
+    }
+
+    return usedInfos;
+}
+
+QString ViewProperties::viewModePrefix() const
+{
+    QString prefix;
+
+    switch (m_node->viewMode()) {
+    case DolphinView::DetailsView: prefix = "Details_"; break;
+    case DolphinView::IconsView:   prefix = "Icons_"; break;
+    case DolphinView::ColumnView:  prefix = "Column_"; break;
+    default: kWarning() << "Unknown view-mode of the view properties";
+    }
+
+    return prefix;
 }

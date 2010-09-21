@@ -71,10 +71,18 @@ public:
 
     QString translation(KFileItemDelegate::Information info) const;
 
+    /**
+     * @return String representation of the value that is stored in the .directory
+     *         by ViewProperties.
+     */
+    QString value(KFileItemDelegate::Information info) const;
+
     DolphinView::Sorting sorting(KFileItemDelegate::Information info) const;
 
     /**
      * @return Bitvalue for \p info that is stored in a ViewProperties instance.
+     *         Is required only for backward compatibility with the version 1 of
+     *         the view-properties.
      */
     int bitValue(KFileItemDelegate::Information info) const;
 
@@ -88,8 +96,9 @@ private:
         const char* const actionCollectionName;
         const char* const context;
         const char* const translation;
+        const char* const value;
         const DolphinView::Sorting sorting;
-        const int bitValue;
+        const int bitValue; // for backward compatibility with version 1 of view-properties
     };
 
     KFileItemDelegate::InformationList m_informations;
