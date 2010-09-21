@@ -37,7 +37,7 @@ AdditionalInfoAccessor& AdditionalInfoAccessor::instance()
 
 KFileItemDelegate::InformationList AdditionalInfoAccessor::keys() const
 {
-    return m_informations;
+    return m_information;
 }
 
 KFileItemDelegate::Information AdditionalInfoAccessor::keyForColumn(int columnIndex) const
@@ -97,10 +97,10 @@ int AdditionalInfoAccessor::bitValue(KFileItemDelegate::Information info) const
 }
 
 AdditionalInfoAccessor::AdditionalInfoAccessor() :
-    m_informations(),
+    m_information(),
     m_map()
 {
-    static const AdditionalInfoAccessor::AdditionalInfo additionalInfos[] = {
+    static const AdditionalInfoAccessor::AdditionalInfo additionalInfo[] = {
         // Entries for view-properties version 1:
         { "size",        I18N_NOOP2_NOSTRIP("@label", "Size"),             "Size",            DolphinView::SortBySize,          1 },
         { "date",        I18N_NOOP2_NOSTRIP("@label", "Date"),             "Date",            DolphinView::SortByDate,          2 },
@@ -113,25 +113,25 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
         // Entries for view-properties version >= 2 (the last column can be set to 0):
     };
 
-    m_map.insert(KFileItemDelegate::Size, &additionalInfos[0]);
-    m_map.insert(KFileItemDelegate::ModificationTime, &additionalInfos[1]);
-    m_map.insert(KFileItemDelegate::Permissions, &additionalInfos[2]);
-    m_map.insert(KFileItemDelegate::Owner, &additionalInfos[3]);
-    m_map.insert(KFileItemDelegate::OwnerAndGroup, &additionalInfos[4]);
-    m_map.insert(KFileItemDelegate::FriendlyMimeType, &additionalInfos[5]);
-    m_map.insert(KFileItemDelegate::LinkDest, &additionalInfos[6]);
-    m_map.insert(KFileItemDelegate::LocalPathOrUrl, &additionalInfos[7]);
+    m_map.insert(KFileItemDelegate::Size, &additionalInfo[0]);
+    m_map.insert(KFileItemDelegate::ModificationTime, &additionalInfo[1]);
+    m_map.insert(KFileItemDelegate::Permissions, &additionalInfo[2]);
+    m_map.insert(KFileItemDelegate::Owner, &additionalInfo[3]);
+    m_map.insert(KFileItemDelegate::OwnerAndGroup, &additionalInfo[4]);
+    m_map.insert(KFileItemDelegate::FriendlyMimeType, &additionalInfo[5]);
+    m_map.insert(KFileItemDelegate::LinkDest, &additionalInfo[6]);
+    m_map.insert(KFileItemDelegate::LocalPathOrUrl, &additionalInfo[7]);
 
-    // The m_informations list defines all available keys and the sort order
-    // (don't use m_informations = m_map.keys(), as the order is undefined).
-    m_informations.append(KFileItemDelegate::Size);
-    m_informations.append(KFileItemDelegate::ModificationTime);
-    m_informations.append(KFileItemDelegate::Permissions);
-    m_informations.append(KFileItemDelegate::Owner);
-    m_informations.append(KFileItemDelegate::OwnerAndGroup);
-    m_informations.append(KFileItemDelegate::FriendlyMimeType);
-    m_informations.append(KFileItemDelegate::LinkDest);
-    m_informations.append(KFileItemDelegate::LocalPathOrUrl);
+    // The m_information list defines all available keys and the sort order
+    // (don't use m_information = m_map.keys(), as the order is undefined).
+    m_information.append(KFileItemDelegate::Size);
+    m_information.append(KFileItemDelegate::ModificationTime);
+    m_information.append(KFileItemDelegate::Permissions);
+    m_information.append(KFileItemDelegate::Owner);
+    m_information.append(KFileItemDelegate::OwnerAndGroup);
+    m_information.append(KFileItemDelegate::FriendlyMimeType);
+    m_information.append(KFileItemDelegate::LinkDest);
+    m_information.append(KFileItemDelegate::LocalPathOrUrl);
 }
 
 AdditionalInfoAccessor::~AdditionalInfoAccessor()

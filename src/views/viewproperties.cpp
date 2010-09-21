@@ -231,15 +231,15 @@ void ViewProperties::setAdditionalInfo(const KFileItemDelegate::InformationList&
 
 KFileItemDelegate::InformationList ViewProperties::additionalInfo() const
 {
-    KFileItemDelegate::InformationList usedInfos;
+    KFileItemDelegate::InformationList usedInfo;
 
     switch (m_node->version()) {
-    case 1: usedInfos = additionalInfoV1(); break;
-    case 2: usedInfos = additionalInfoV2(); break;
+    case 1: usedInfo = additionalInfoV1(); break;
+    case 2: usedInfo = additionalInfoV2(); break;
     default: kWarning() << "Unknown version of the view properties";
     }
 
-    return usedInfos;
+    return usedInfo;
 }
 
 
@@ -310,7 +310,7 @@ QString ViewProperties::destinationDir(const QString& subDir) const
 
 KFileItemDelegate::InformationList ViewProperties::additionalInfoV1() const
 {
-    KFileItemDelegate::InformationList usedInfos;
+    KFileItemDelegate::InformationList usedInfo;
 
     int decodedInfo = m_node->additionalInfo();
 
@@ -339,11 +339,11 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfoV1() const
 
     foreach (const KFileItemDelegate::Information info, infoKeys) {
         if (decodedInfo & infoAccessor.bitValue(info)) {
-            usedInfos.append(info);
+            usedInfo.append(info);
         }
     }
 
-    return usedInfos;
+    return usedInfo;
 }
 
 KFileItemDelegate::InformationList ViewProperties::additionalInfoV2() const
@@ -356,7 +356,7 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfoV2() const
     // To get the representation as KFileItemDelegate::InformationList, the current
     // view-mode must be checked and the values of this mode added to the list.
 
-    KFileItemDelegate::InformationList usedInfos;
+    KFileItemDelegate::InformationList usedInfo;
 
     // infoHash allows to get the mapped KFileItemDelegate::Information value
     // for a stored string-value in a fast way
@@ -378,11 +378,11 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfoV2() const
         if (infoString.startsWith(prefix)) {
             const QString key = infoString.right(infoString.length() - prefixLength);
             Q_ASSERT(infoHash.contains(key));
-            usedInfos.append(infoHash.value(key));
+            usedInfo.append(infoHash.value(key));
         }
     }
 
-    return usedInfos;
+    return usedInfo;
 }
 
 QString ViewProperties::viewModePrefix() const

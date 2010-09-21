@@ -101,7 +101,7 @@ private:
         const int bitValue; // for backward compatibility with version 1 of view-properties
     };
 
-    KFileItemDelegate::InformationList m_informations;
+    KFileItemDelegate::InformationList m_information;
     QMap<KFileItemDelegate::Information, const AdditionalInfo*> m_map;
 };
 
