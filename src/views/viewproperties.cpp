@@ -35,6 +35,13 @@
 
 #include "settings/dolphinsettings.h"
 
+namespace {
+    // String representation to mark the additional properties of
+    // the details view as customized by the user. See
+    // ViewProperties::additionalInfoV2() for more information.
+    const char* CustomizedDetailsString = "CustomizedDetails";
+}
+
 ViewProperties::ViewProperties(const KUrl& url) :
     m_changedProps(false),
     m_autoSave(true),
@@ -224,6 +231,17 @@ void ViewProperties::setAdditionalInfo(const KFileItemDelegate::InformationList&
         if (m_node->version() < 2) {
             m_node->setVersion(2);
         }
+
+        const bool markCustomizedDetails = (m_node->viewMode() == DolphinView::DetailsView)
+                                           && !newInfoStringList.contains(CustomizedDetailsString);
+        if (markCustomizedDetails) {
+            // The additional information of the details-view has been modified. Set a marker,
+            // so that it is allowed to also show no additional information
+            // (see fallback in ViewProperties::additionalInfoV2, if no additional information is
+            // available).
+            newInfoStringList.append(CustomizedDetailsString);
+        }
+
         m_node->setAdditionalInfoV2(newInfoStringList);
         update();
     }
@@ -355,6 +373,12 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfoV2() const
     //
     // To get the representation as KFileItemDelegate::InformationList, the current
     // view-mode must be checked and the values of this mode added to the list.
+    //
+    // For the details-view a special case must be respected: Per default the size
+    // and date should be shown without creating a .directory file. Only if
+    // the user explictly has modified the properties of the details view (marked
+    // by "CustomizedDetails"), also a details-view with no additional information
+    // is accepted.
 
     KFileItemDelegate::InformationList usedInfo;
 
@@ -380,6 +404,16 @@ KFileItemDelegate::InformationList ViewProperties::additionalInfoV2() const
             Q_ASSERT(infoHash.contains(key));
             usedInfo.append(infoHash.value(key));
         }
+    }
+
+    // For the details view the size and date should be shown per default
+    // until the additional information has been explicitly changed by the user
+    const bool useDefaultValues = usedInfo.isEmpty()
+                                  && (m_node->viewMode() == DolphinView::DetailsView)
+                                  && !infoStringList.contains(CustomizedDetailsString);
+    if (useDefaultValues) {
+        usedInfo.append(KFileItemDelegate::Size);
+        usedInfo.append(KFileItemDelegate::ModificationTime);
     }
 
     return usedInfo;
