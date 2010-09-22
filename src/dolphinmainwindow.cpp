@@ -1184,7 +1184,24 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
 {
     DolphinContextMenu contextMenu(this, item, url);
     contextMenu.setCustomActions(customActions);
-    contextMenu.open();
+    const DolphinContextMenu::Command command = contextMenu.open();
+
+    switch (command) {
+    case DolphinContextMenu::OpenParentFolderInNewWindow: {
+        DolphinMainWindow* window = DolphinApplication::app()->createMainWindow();
+        window->changeUrl(item.url().upUrl());
+        window->show();
+        break;
+    }
+
+    case DolphinContextMenu::OpenParentFolderInNewTab:
+        openNewTab(item.url().upUrl());
+        break;
+
+    case DolphinContextMenu::None:
+    default:
+        break;
+    }
 }
 
 void DolphinMainWindow::init()

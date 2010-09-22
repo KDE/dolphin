@@ -56,6 +56,13 @@ class DolphinContextMenu : public QObject
     Q_OBJECT
 
 public:
+    enum Command
+    {
+        None,
+        OpenParentFolderInNewWindow,
+        OpenParentFolderInNewTab
+    };
+
     /**
      * @parent        Pointer to the main window the context menu
      *                belongs to.
@@ -73,8 +80,15 @@ public:
 
     void setCustomActions(const QList<QAction*>& actions);
 
-    /** Opens the context menu model. */
-    void open();
+    /**
+     * Opens the context menu model and returns the requested
+     * command, that should be triggered by the caller. If
+     * Command::None has been returned, either the context-menu
+     * had been closed without executing an action or an
+     * already available action from the main-window has been
+     * executed.
+     */
+    Command open();
 
     /**
      * TODO: This method is a workaround for a X11-issue in combination
@@ -163,6 +177,8 @@ private:
     KonqCopyToMenu m_copyToMenu;
     QList<QAction*> m_customActions;
     QScopedPointer<KMenu> m_popup;
+
+    Command m_command;
 
     bool m_shiftPressed;
     QAction* m_removeAction; // Action that represents either 'Move To Trash' or 'Delete'

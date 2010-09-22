@@ -67,6 +67,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     m_copyToMenu(parent),
     m_customActions(),
     m_popup(new KMenu(m_mainWindow)),
+    m_command(None),
     m_shiftPressed(false),
     m_removeAction(0)
 {
@@ -99,7 +100,7 @@ void DolphinContextMenu::setCustomActions(const QList<QAction*>& actions)
     m_customActions = actions;
 }
 
-void DolphinContextMenu::open()
+DolphinContextMenu::Command DolphinContextMenu::open()
 {
     // get the context information
     if (m_baseUrl.protocol() == QLatin1String("trash")) {
@@ -124,6 +125,8 @@ void DolphinContextMenu::open()
         Q_ASSERT(m_context == NoContext);
         openViewportContextMenu();
     }
+
+    return m_command;
 }
 
 void DolphinContextMenu::initializeModifierKeyInfo()
@@ -219,35 +222,54 @@ void DolphinContextMenu::openItemContextMenu()
 {
     Q_ASSERT(!m_fileInfo.isNull());
 
+    QAction* openParentInNewWindowAction = 0;
+    QAction* openParentInNewTabAction = 0;
     QAction* addToPlacesAction = 0;
-    if (m_fileInfo.isDir() && (m_selectedUrls.count() == 1)) {
-        // setup 'Create New' menu
-        DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_popup.data(), m_mainWindow);
-        const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-        newFileMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
-        newFileMenu->checkUpToDate();
-        newFileMenu->setPopupFiles(m_fileInfo.url());
-        newFileMenu->setEnabled(capabilities().supportsWriting());
+    if (m_selectedUrls.count() == 1) {
+        if (m_fileInfo.isDir()) {
+            // setup 'Create New' menu
+            DolphinNewFileMenu* newFileMenu = new DolphinNewFileMenu(m_popup.data(), m_mainWindow);
+            const DolphinView* view = m_mainWindow->activeViewContainer()->view();
+            newFileMenu->setViewShowsHiddenFiles(view->showHiddenFiles());
+            newFileMenu->checkUpToDate();
+            newFileMenu->setPopupFiles(m_fileInfo.url());
+            newFileMenu->setEnabled(capabilities().supportsWriting());
 
-        KMenu* menu = newFileMenu->menu();
-        menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
-        menu->setIcon(KIcon("document-new"));
-        m_popup->addMenu(menu);
-        m_popup->addSeparator();
+            KMenu* menu = newFileMenu->menu();
+            menu->setTitle(i18nc("@title:menu Create new folder, file, link, etc.", "Create New"));
+            menu->setIcon(KIcon("document-new"));
+            m_popup->addMenu(menu);
+            m_popup->addSeparator();
 
-        // insert 'Open in new window' and 'Open in new tab' entries
-        m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
-        m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
+            // insert 'Open in new window' and 'Open in new tab' entries
+            m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
+            m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
 
-        // insert 'Add to Places' entry
-        if (!placeExists(m_fileInfo.url())) {
-            addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
-                                                   i18nc("@action:inmenu Add selected folder to places",
-                                                         "Add to Places"));
+            // insert 'Add to Places' entry
+            if (!placeExists(m_fileInfo.url())) {
+                addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
+                                                       i18nc("@action:inmenu Add selected folder to places",
+                                                             "Add to Places"));
+            }
+
+            m_popup->addSeparator();
+        } else if (m_baseUrl.protocol().contains("search")) {
+            openParentInNewWindowAction = new QAction(KIcon("window-new"),
+                                                    i18nc("@action:inmenu",
+                                                          "Open Parent Folder in New Window"),
+                                                    this);
+            m_popup->addAction(openParentInNewWindowAction);
+
+            openParentInNewTabAction = new QAction(KIcon("tab-new"),
+                                                   i18nc("@action:inmenu",
+                                                         "Open Parent Folder in New Tab"),
+                                                   this);
+            m_popup->addAction(openParentInNewTabAction);
+
+            m_popup->addSeparator();
         }
-
-        m_popup->addSeparator();
     }
+
     addShowMenubarAction();
     insertDefaultItemActions();
 
@@ -271,12 +293,17 @@ void DolphinContextMenu::openItemContextMenu()
     m_popup->addAction(propertiesAction);
 
     QAction* activatedAction = m_popup->exec(QCursor::pos());
-
-    if ((addToPlacesAction != 0) && (activatedAction == addToPlacesAction)) {
-        const KUrl selectedUrl(m_fileInfo.url());
-        if (selectedUrl.isValid()) {
-            DolphinSettings::instance().placesModel()->addPlace(placesName(selectedUrl),
-                                                                selectedUrl);
+    if (activatedAction != 0) {
+        if (activatedAction == addToPlacesAction) {
+            const KUrl selectedUrl(m_fileInfo.url());
+            if (selectedUrl.isValid()) {
+                DolphinSettings::instance().placesModel()->addPlace(placesName(selectedUrl),
+                                                                    selectedUrl);
+            }
+        } else if (activatedAction == openParentInNewWindowAction) {
+            m_command = OpenParentFolderInNewWindow;
+        } else if (activatedAction == openParentInNewTabAction) {
+            m_command = OpenParentFolderInNewTab;
         }
     }
 }
