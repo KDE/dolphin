@@ -257,6 +257,8 @@ public:
     /** Reloads the current directory. */
     void reload();
 
+    void stopLoading();
+
     /**
      * Refreshes the view to get synchronized with the (updated) Dolphin settings.
      * This method only needs to get invoked if the view settings for the Icons View,
@@ -523,6 +525,12 @@ signals:
      * URL and property settings.
      */
     void startedPathLoading(const KUrl& url);
+
+    /**
+     * Is emitted after the path triggered by DolphinView::setUrl()
+     * has been loaded.
+     */
+    void finishedPathLoading(const KUrl& url);
 
     /**
      * Emitted when KDirLister emits redirection.

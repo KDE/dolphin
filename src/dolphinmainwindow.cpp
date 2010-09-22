@@ -791,6 +791,17 @@ void DolphinMainWindow::reloadView()
 
 void DolphinMainWindow::stopLoading()
 {
+    m_activeViewContainer->view()->stopLoading();
+}
+
+void DolphinMainWindow::enableStopAction()
+{
+    actionCollection()->action("stop")->setEnabled(true);
+}
+
+void DolphinMainWindow::disableStopAction()
+{
+    actionCollection()->action("stop")->setEnabled(false);
 }
 
 void DolphinMainWindow::toggleFilterBarVisibility(bool show)
@@ -1689,6 +1700,10 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(openNewTab(const KUrl&)));
     connect(view, SIGNAL(requestContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)),
             this, SLOT(openContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)));
+    connect(view, SIGNAL(startedPathLoading(KUrl)),
+            this, SLOT(enableStopAction()));
+    connect(view, SIGNAL(finishedPathLoading(KUrl)),
+            this, SLOT(disableStopAction()));
 
     const KUrlNavigator* navigator = container->urlNavigator();
     connect(navigator, SIGNAL(urlChanged(const KUrl&)),

@@ -247,6 +247,9 @@ private slots:
     /** Stops the loading process for the current active view. */
     void stopLoading();
 
+    void enableStopAction();
+    void disableStopAction();
+
     /**
      * Toggles between showing and hiding of the filter bar
      */

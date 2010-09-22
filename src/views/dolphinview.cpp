@@ -437,6 +437,11 @@ void DolphinView::reload()
     restoreState(restoreStream);
 }
 
+void DolphinView::stopLoading()
+{
+    m_viewAccessor.dirLister()->stop();
+}
+
 void DolphinView::refresh()
 {
     const bool oldActivationState = m_active;
@@ -1161,6 +1166,8 @@ void DolphinView::slotLoadingCompleted()
     // Restore the contents position. This has to be done using a Qt::QueuedConnection
     // because the view might not be in its final state yet.
     QMetaObject::invokeMethod(this, "restoreContentsPosition", Qt::QueuedConnection);
+
+    emit finishedPathLoading(url());
 }
 
 void DolphinView::slotRefreshItems()
