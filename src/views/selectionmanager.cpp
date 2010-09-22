@@ -94,27 +94,27 @@ void SelectionManager::slotEntered(const QModelIndex& index)
             m_connected = true;
         }
 
-        // increase the size of the toggle for large items
-        const int height = m_view->iconSize().height();
-        if (height >= KIconLoader::SizeEnormous) {
-            m_toggle->resize(KIconLoader::SizeMedium, KIconLoader::SizeMedium);
-        } else if (height >= KIconLoader::SizeLarge) {
-            m_toggle->resize(KIconLoader::SizeSmallMedium, KIconLoader::SizeSmallMedium);
-        } else {
-            m_toggle->resize(KIconLoader::SizeSmall, KIconLoader::SizeSmall);
+        // Increase the size of the toggle for large items
+        const int iconHeight = m_view->iconSize().height();
+
+        int toggleSize = KIconLoader::SizeSmall;
+        if (iconHeight >= KIconLoader::SizeEnormous) {
+            toggleSize = KIconLoader::SizeMedium;
+        } else if (iconHeight >= KIconLoader::SizeLarge) {
+            toggleSize = KIconLoader::SizeSmallMedium;
         }
 
+        // Add a small invisible margin, if the item-height is nearly
+        // equal to the toggleSize (#169494).
         const QRect rect = m_view->visualRect(index);
-        int x = rect.left();
-        int y = rect.top();
-        if (height < KIconLoader::SizeSmallMedium) {
-            // The height is nearly equal to the smallest toggle height.
-            // Assure that the toggle is vertically centered instead
-            // of aligned on the top and gets more horizontal gap.
-            x += 2;
-            y += (rect.height() - m_toggle->height()) / 2;
+        int margin = (rect.height() - toggleSize) / 2;
+        if (margin > 4) {
+            margin = 0;
         }
-        m_toggle->move(QPoint(x, y));
+        toggleSize += 2 * margin;
+        m_toggle->setMargin(margin);
+        m_toggle->resize(toggleSize, toggleSize);
+        m_toggle->move(rect.topLeft());
 
         QItemSelectionModel* selModel = m_view->selectionModel();
         m_toggle->setChecked(selModel->isSelected(index));

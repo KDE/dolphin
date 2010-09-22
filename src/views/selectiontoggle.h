@@ -53,6 +53,13 @@ public:
     void setUrl(const KUrl& url);
     KUrl url() const;
 
+    /**
+     * Sets the margin around the selection-icon in pixels. Per default
+     * the value is 0.
+     */
+    void setMargin(int margin);
+    int margin() const;
+
 public slots:
     virtual void setVisible(bool visible);
 
@@ -83,6 +90,7 @@ private:
     bool m_isHovered;
     bool m_leftMouseButtonPressed;
     int m_fadingValue;
+    int m_margin;
     QPixmap m_icon;
     QTimeLine* m_fadingTimeLine;
     KUrl m_url;

@@ -36,6 +36,7 @@ SelectionToggle::SelectionToggle(QWidget* parent) :
     m_isHovered(false),
     m_leftMouseButtonPressed(false),
     m_fadingValue(0),
+    m_margin(0),
     m_icon(),
     m_fadingTimeLine(0)
 {
@@ -70,6 +71,19 @@ void SelectionToggle::setUrl(const KUrl& url)
     if (!url.isEmpty()) {
         startFading();
     }
+}
+
+void SelectionToggle::setMargin(int margin)
+{
+    if (margin != m_margin) {
+        m_margin = margin;
+        update();
+    }
+}
+
+int SelectionToggle::margin() const
+{
+    return m_margin;
 }
 
 KUrl SelectionToggle::url() const
@@ -161,10 +175,11 @@ void SelectionToggle::paintEvent(QPaintEvent* event)
     painter.setClipRect(event->rect());
 
     // draw the icon overlay
+    const QPoint pos(m_margin, m_margin);
     if (m_isHovered) {
         KIconEffect *iconEffect = KIconLoader::global()->iconEffect();
         QPixmap activeIcon = iconEffect->apply(m_icon, KIconLoader::Desktop, KIconLoader::ActiveState);
-        painter.drawPixmap(0, 0, activeIcon);
+        painter.drawPixmap(pos, activeIcon);
     } else {
         if (m_fadingValue < 255) {
             // apply an alpha mask respecting the fading value to the icon
@@ -173,12 +188,13 @@ void SelectionToggle::paintEvent(QPaintEvent* event)
             const QColor color(m_fadingValue, m_fadingValue, m_fadingValue);
             alphaMask.fill(color);
             icon.setAlphaChannel(alphaMask);
-            painter.drawPixmap(0, 0, icon);
+            painter.drawPixmap(pos, icon);
         } else {
             // no fading is required
-            painter.drawPixmap(0, 0, m_icon);
+            painter.drawPixmap(pos, m_icon);
         }
     }
+
 }
 
 void SelectionToggle::setFadingValue(int value)
@@ -194,9 +210,10 @@ void SelectionToggle::setFadingValue(int value)
 void SelectionToggle::setIconOverlay(bool checked)
 {
     const char* icon = checked ? "list-remove" : "list-add";
+    const int size = qMin(width() - 2 * m_margin, height() - 2 * m_margin);
     m_icon = KIconLoader::global()->loadIcon(icon,
                                              KIconLoader::NoGroup,
-                                             qMin(width(), height()));
+                                             size);
     update();
 }
 
