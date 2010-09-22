@@ -149,6 +149,11 @@ private:
      */
     QString viewModePrefix() const;
 
+    /**
+     * Returns true, if \a filePath is part of the home-path (see QDir::homePath()).
+     */
+    static bool isPartOfHome(const QString& filePath);
+
     Q_DISABLE_COPY(ViewProperties)
 
 private:

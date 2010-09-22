@@ -61,7 +61,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
         const QFileInfo info(m_filePath);
-        if (!info.isWritable()) {
+        if (!info.isWritable() || !isPartOfHome(m_filePath)) {
             m_filePath = destinationDir("local") + m_filePath;
         }
     } else {
@@ -431,4 +431,17 @@ QString ViewProperties::viewModePrefix() const
     }
 
     return prefix;
+}
+
+bool ViewProperties::isPartOfHome(const QString& filePath)
+{
+    // For performance reasons cache the path in a static QString
+    // (see QDir::homePath() for more details)
+    static QString homePath;
+    if (homePath.isEmpty()) {
+        homePath = QDir::homePath();
+        Q_ASSERT(!homePath.isEmpty());
+    }
+
+    return filePath.startsWith(homePath);
 }
