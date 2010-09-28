@@ -55,18 +55,18 @@ QSize InformationPanel::sizeHint() const
 void InformationPanel::setUrl(const KUrl& url)
 {
     Panel::setUrl(url);
-    if (url.isValid() && !isEqualToShownUrl(url)) {
-        if (isVisible()) {
-            cancelRequest();
-            m_shownUrl = url;
-            // Update the content with a delay. This gives
-            // the directory lister the chance to show the content
-            // before expensive operations are done to show
-            // meta information.
-            m_urlChangedTimer->start();
-        } else {
-            m_shownUrl = url;
-        }
+    if (!url.isValid() || isEqualToShownUrl(url)) {
+        return;
+    }
+
+    m_shownUrl = url;
+    if (isVisible()) {
+        cancelRequest();
+        // Update the content with a delay. This gives
+        // the directory lister the chance to show the content
+        // before expensive operations are done to show
+        // meta information.
+        m_urlChangedTimer->start();
     }
 }
 
@@ -103,7 +103,7 @@ void InformationPanel::setSelection(const KFileItemList& selection)
 
 void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
 {
-    if (!isVisible()) {
+    if (!isVisible() || (item.isNull() && m_fileItem.isNull())) {
         return;
     }
 
@@ -175,14 +175,13 @@ void InformationPanel::showItemInfo()
             item = m_selection.first();
         }
 
-        if ( item.isNull() ) {
+        if (item.isNull()) {
             // no item is hovered and no selection has been done: provide
             // an item for the directory represented by m_shownUrl
             m_folderStatJob = KIO::stat(m_shownUrl, KIO::HideProgressInfo);
             connect(m_folderStatJob, SIGNAL(result(KJob*)),
                     this, SLOT(slotFolderStatFinished(KJob*)));
-        }
-        else {
+        } else {
             m_content->showItem(item);
         }
     }
