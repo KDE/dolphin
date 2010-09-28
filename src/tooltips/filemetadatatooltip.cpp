@@ -40,6 +40,7 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
 
     // Create widget for file preview
     m_preview = new QLabel(this);
+    m_preview->setAlignment(Qt::AlignTop);
 
     // Create widget for file name
     m_name = new QLabel(this);
@@ -55,15 +56,20 @@ FileMetaDataToolTip::FileMetaDataToolTip(QWidget* parent) :
             this, SIGNAL(metaDataRequestFinished(KFileItemList)));
 
     QVBoxLayout* textLayout = new QVBoxLayout();
-    textLayout->setAlignment(Qt::AlignTop);
     textLayout->addWidget(m_name);
     textLayout->addWidget(new KSeparator());
     textLayout->addWidget(m_fileMetaDataWidget);
     textLayout->setAlignment(m_name, Qt::AlignCenter);
     textLayout->setAlignment(m_fileMetaDataWidget, Qt::AlignLeft);
+    // Assure that the text-layout gets top-aligned by adding a stretch.
+    // Don't use textLayout->setAlignment(Qt::AlignTop) instead, as this does
+    // not work with the heightForWidth()-size-hint of m_fileMetaDataWidget
+    // (see bug #241608)
+    textLayout->addStretch();
 
     QHBoxLayout* tipLayout = new QHBoxLayout(this);
     tipLayout->addWidget(m_preview);
+    tipLayout->addSpacing(tipLayout->margin());
     tipLayout->addLayout(textLayout);
 }
 
