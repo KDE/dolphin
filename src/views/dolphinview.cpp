@@ -590,53 +590,6 @@ void DolphinView::renameSelectedItems()
     if (itemCount < 1) {
         return;
     }
-/*
-    if (itemCount > 1) {
-        // More than one item has been selected for renaming. Open
-        // a rename dialog and rename all items afterwards.
-        QPointer<RenameDialog> dialog = new RenameDialog(this, items);
-        if (dialog->exec() == QDialog::Rejected) {
-            delete dialog;
-            return;
-        }
-
-        const QString newName = dialog->newName();
-        if (newName.isEmpty()) {
-            emit errorMessage(dialog->errorString());
-            delete dialog;
-            return;
-        }
-        delete dialog;
-
-        // the selection would be invalid after renaming the items, so just clear
-        // it before
-        clearSelection();
-
-        // TODO: check how this can be integrated into KIO::FileUndoManager/KonqOperations
-        // as one operation instead of n rename operations like it is done now...
-        Q_ASSERT(newName.contains('#'));
-
-        // currently the items are sorted by the selection order, resort
-        // them by the file name
-        qSort(items.begin(), items.end(), lessThan);
-
-        // iterate through all selected items and rename them...
-        int index = 1;
-        foreach (const KFileItem& item, items) {
-            const KUrl& oldUrl = item.url();
-            QString number;
-            number.setNum(index++);
-
-            QString name = newName;
-            name.replace('#', number);
-
-            if (oldUrl.fileName() != name) {
-                KUrl newUrl = oldUrl;
-                newUrl.setFileName(name);
-                KonqOperations::rename(this, oldUrl, newUrl);
-            }
-        }
-    } else*/
 
     if ((itemCount == 1) && DolphinSettings::instance().generalSettings()->renameInline()) {
         const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForItem(items.first());
@@ -648,30 +601,7 @@ void DolphinView::renameSelectedItems()
         dialog->show();
         dialog->raise();
         dialog->activateWindow();
-
-        // XXX
-      /*  if (dialog->exec() == QDialog::Rejected) {
-            delete dialog;
-            return;
-        }
-
-        const QString newName = dialog->newName();
-        if (newName.isEmpty()) {
-            emit errorMessage(dialog->errorString());
-            delete dialog;
-            return;
-        }
-        delete dialog;
-
-        const KUrl& oldUrl = items.first().url();
-        KUrl newUrl = oldUrl;
-        newUrl.setFileName(newName);
-        KonqOperations::rename(this, oldUrl, newUrl);*/
     }
-
-    // assure that the current index remains visible when KDirLister
-    // will notify the view about changed items
-    m_assureVisibleCurrentIndex = true;
 }
 
 void DolphinView::trashSelectedItems()
