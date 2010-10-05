@@ -1070,7 +1070,19 @@ void DolphinDetailsView::updateDecorationSize(bool showPreview)
     setIconSize(QSize(iconSize, iconSize));
     m_decorationSize = QSize(iconSize, iconSize);
 
+    if (m_extensionsFactory) {
+        // The old maximumSize used by KFileItemDelegate is not valid any more after the icon size change.
+        // It must be discarded before doItemsLayout() is called (see bug 234600).
+        m_extensionsFactory->fileItemDelegate()->setMaximumSize(QSize());
+    }
+
     doItemsLayout();
+
+    // Calculate the new maximumSize for KFileItemDelegate after the icon size change.
+    QModelIndex current = currentIndex();
+    if (current.isValid()) {
+        adjustMaximumSizeForEditing(current);
+    }
 }
 
 KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex) const
