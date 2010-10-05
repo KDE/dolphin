@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2006-2010 by Peter Penz (peter.penz@gmx.at)             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,86 +16,54 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
+
 #ifndef RENAMEDIALOG_H
 #define RENAMEDIALOG_H
 
 #include "libdolphin_export.h"
 
 #include <kdialog.h>
-#include <kurl.h>
+#include <kfileitem.h>
 
-class KFileItem;
-class KFileItemList;
 class KLineEdit;
 
 #include <QString>
 
 /**
  * @brief Dialog for renaming a variable number of files.
- *
- * The renaming is not done by the dialog, the invoker
- * must do this itself:
- * \code
- * RenameDialog dialog(...);
- * if (dialog.exec() == QDialog::Accepted) {
- *     const QString& newName = dialog.newName();
- *     if (newName.isEmpty()) {
- *         // an invalid name has been chosen, use
- *         // dialog.errorString() to tell the user about this
- *     }
- *     else {
- *         // rename items corresponding to the new name
- *     }
- * }
- * \endcode
  */
 class LIBDOLPHINPRIVATE_EXPORT RenameDialog : public KDialog
 {
     Q_OBJECT
 
 public:
-    explicit RenameDialog(QWidget *parent, const KFileItemList& items);
+    explicit RenameDialog(QWidget* parent, const KFileItemList& items);
     virtual ~RenameDialog();
-
-    /**
-     * Returns the new name of the items. If more than one
-     * item should be renamed, then it is assured that the # character
-     * is part of the returned string. If the returned string is empty,
-     * then RenameDialog::errorString() should be used to show the reason
-     * of having an empty string (e. g. if the # character has
-     * been deleted by the user, although more than one item should be
-     * renamed).
-     */
-    QString newName() const;
-
-    /**
-     * Returns the error string, if Dialog::newName() returned an empty string.
-     */
-    QString errorString() const;
 
 protected slots:
     virtual void slotButtonClicked(int button);
 
 private slots:
-    void slotTextChanged(const QString &newName);
+    void slotTextChanged(const QString& newName);
+
+private:
+    void renameItems();
+
+
+    /**
+     * @return Returns the string \p name, where the characters represented by
+     *         \p indexPlaceHolder get replaced by the index \p index.
+     *         E. g. Calling indexedName("Test #.jpg", 12, '#') returns "Test 12.jpg".
+     *         A connected sequence of placeholders results in leading zeros:
+     *         indexedName("Test ####.jpg", 12, '#') returns "Test 0012.jpg".
+     */
+    static QString indexedName(const QString& name, int index, const QChar& indexPlaceHolder);
 
 private:
     bool m_renameOneItem;
-    KLineEdit* m_lineEdit;
     QString m_newName;
-    QString m_errorString;
-
-    friend class RenameDialogTest; // allow access for unit testing
+    KLineEdit* m_lineEdit;
+    KFileItemList m_items;
 };
-
-inline QString RenameDialog::newName() const
-{
-    return m_newName;
-}
-
-inline QString RenameDialog::errorString() const
-{
-    return m_errorString;
-}
 
 #endif

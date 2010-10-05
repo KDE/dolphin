@@ -95,18 +95,11 @@ void FoldersPanel::rename(const KFileItem& item)
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         m_treeView->edit(proxyIndex);
     } else {
-        KFileItemList items;
-        items.append(item);
-        QPointer<RenameDialog> dialog = new RenameDialog(this, items);
-        if (dialog->exec() == QDialog::Accepted) {
-            const QString newName = dialog->newName();
-            if (!newName.isEmpty()) {
-                KUrl newUrl = item.url();
-                newUrl.setFileName(newName);
-                KonqOperations::rename(this, item.url(), newUrl);
-            }
-        }
-        delete dialog;
+        RenameDialog* dialog = new RenameDialog(this, KFileItemList() << item);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+        dialog->raise();
+        dialog->activateWindow();
     }
 }
 

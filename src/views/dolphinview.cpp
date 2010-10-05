@@ -45,7 +45,6 @@
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <konqmimedata.h>
-#include <kstringhandler.h>
 #include <ktoggleaction.h>
 #include <kurl.h>
 
@@ -67,15 +66,6 @@
 #include "viewproperties.h"
 #include "zoomlevelinfo.h"
 #include "dolphindetailsviewexpander.h"
-
-/**
- * Helper function for sorting items with qSort() in
- * DolphinView::renameSelectedItems().
- */
-bool lessThan(const KFileItem& item1, const KFileItem& item2)
-{
-    return KStringHandler::naturalCompare(item1.name(), item2.name()) < 0;
-}
 
 DolphinView::DolphinView(QWidget* parent,
                          const KUrl& url,
@@ -600,7 +590,7 @@ void DolphinView::renameSelectedItems()
     if (itemCount < 1) {
         return;
     }
-
+/*
     if (itemCount > 1) {
         // More than one item has been selected for renaming. Open
         // a rename dialog and rename all items afterwards.
@@ -646,16 +636,21 @@ void DolphinView::renameSelectedItems()
                 KonqOperations::rename(this, oldUrl, newUrl);
             }
         }
-    } else if (DolphinSettings::instance().generalSettings()->renameInline()) {
-        Q_ASSERT(itemCount == 1);
+    } else*/
+
+    if ((itemCount == 1) && DolphinSettings::instance().generalSettings()->renameInline()) {
         const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForItem(items.first());
         const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->mapFromSource(dirIndex);
         m_viewAccessor.itemView()->edit(proxyIndex);
     } else {
-        Q_ASSERT(itemCount == 1);
+        RenameDialog* dialog = new RenameDialog(this, items);
+        dialog->setAttribute(Qt::WA_DeleteOnClose);
+        dialog->show();
+        dialog->raise();
+        dialog->activateWindow();
 
-        QPointer<RenameDialog> dialog = new RenameDialog(this, items);
-        if (dialog->exec() == QDialog::Rejected) {
+        // XXX
+      /*  if (dialog->exec() == QDialog::Rejected) {
             delete dialog;
             return;
         }
@@ -671,7 +666,7 @@ void DolphinView::renameSelectedItems()
         const KUrl& oldUrl = items.first().url();
         KUrl newUrl = oldUrl;
         newUrl.setFileName(newName);
-        KonqOperations::rename(this, oldUrl, newUrl);
+        KonqOperations::rename(this, oldUrl, newUrl);*/
     }
 
     // assure that the current index remains visible when KDirLister

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2006-2010 by Peter Penz (peter.penz@gmx.at)             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,16 +19,29 @@
 
 #include "renamedialog.h"
 
-#include <kfileitem.h>
 #include <klineedit.h>
 #include <klocale.h>
+#include <konq_operations.h>
+#include <kstringhandler.h>
 
-#include <QtGui/QLabel>
-#include <QtGui/QBoxLayout>
+#include <QLabel>
+#include <QVBoxLayout>
+
+/**
+ * Helper function for sorting items with qSort() in
+ * DolphinView::renameSelectedItems().
+ */
+bool lessThan(const KFileItem& item1, const KFileItem& item2)
+{
+    return KStringHandler::naturalCompare(item1.name(), item2.name()) < 0;
+}
 
 RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     KDialog(parent),
-    m_renameOneItem(false)
+    m_renameOneItem(false),
+    m_newName(),
+    m_lineEdit(0),
+    m_items(items)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));
@@ -116,25 +129,77 @@ RenameDialog::~RenameDialog()
 
 void RenameDialog::slotButtonClicked(int button)
 {
-    if (button == Ok) {
-        m_newName = m_lineEdit->text();
-        if (m_newName.isEmpty()) {
-            m_errorString = i18nc("@info:status",
-                                  "The new name is empty. A name with at least one character must be entered.");
-        } else if (!m_renameOneItem && (m_newName.count('#') == 0)) {
-            m_newName.truncate(0);
-            m_errorString = i18nc("@info:status", "The name must contain at least one # character.");
-        }
+    if (button == KDialog::Ok) {
+        renameItems();
     }
 
     KDialog::slotButtonClicked(button);
 }
 
-void RenameDialog::slotTextChanged(const QString &newName)
+void RenameDialog::slotTextChanged(const QString& newName)
 {
-    const bool enable = !newName.isEmpty() && (m_renameOneItem ? (newName != m_newName) : newName.contains('#'));
+    m_newName = m_lineEdit->text();
+
+    bool enable = !newName.isEmpty() && (m_renameOneItem ? (newName != m_newName) : newName.contains('#'));
+    if (enable) {
+        if (m_renameOneItem) {
+            enable = enable && (newName != m_newName);
+        } else {
+            // Assure that the new name contains exactly one # (or a connected sequence of #'s)
+            const int minSplitCount = 1;
+            int maxSplitCount = 2;
+            if (newName.startsWith(QLatin1Char('#'))) {
+                --maxSplitCount;
+            }
+            if (newName.endsWith(QLatin1Char('#'))) {
+                --maxSplitCount;
+            }
+            const int splitCount = newName.split(QLatin1Char('#'), QString::SkipEmptyParts).count();
+            enable = enable && (splitCount >= minSplitCount) && (splitCount <= maxSplitCount);
+        }
+    }
     enableButtonOk(enable);
 }
 
+void RenameDialog::renameItems()
+{
+    // Currently the items are sorted by the selection order, resort
+    // them by the filename. This assures that the new sort order is similar to
+    // the current filename sort order.
+    qSort(m_items.begin(), m_items.end(), lessThan);
+
+    // Iterate through all items and rename them...
+    int index = 1;
+    foreach (const KFileItem& item, m_items) {
+        const QString newName = indexedName(m_newName, index, QLatin1Char('#'));
+        ++index;
+
+        const KUrl oldUrl = item.url();
+        if (oldUrl.fileName() != newName) {
+            KUrl newUrl = oldUrl;
+            newUrl.setFileName(newName);
+            KonqOperations::rename(this, oldUrl, newUrl);
+        }
+    }
+}
+
+QString RenameDialog::indexedName(const QString& name, int index, const QChar& indexPlaceHolder)
+{
+    QString newName = name;
+
+    QString indexString = QString::number(index);
+
+    // Insert leading zeros if necessary
+    const int minIndexLength = name.count(indexPlaceHolder);
+    while (indexString.length() < minIndexLength) {
+        indexString.prepend(QLatin1Char('0'));
+    }
+
+    // Replace the index placeholders by the indexString
+    const int placeHolderStart = newName.indexOf(indexPlaceHolder);
+    newName.replace(placeHolderStart, minIndexLength, indexString);
+
+    return newName;
+}
 
 #include "renamedialog.moc"
