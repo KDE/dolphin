@@ -130,6 +130,7 @@ RenameDialog::~RenameDialog()
 void RenameDialog::slotButtonClicked(int button)
 {
     if (button == KDialog::Ok) {
+        m_newName = m_lineEdit->text();
         renameItems();
     }
 
@@ -138,9 +139,7 @@ void RenameDialog::slotButtonClicked(int button)
 
 void RenameDialog::slotTextChanged(const QString& newName)
 {
-    m_newName = m_lineEdit->text();
-
-    bool enable = !newName.isEmpty() && (m_renameOneItem ? (newName != m_newName) : newName.contains('#'));
+    bool enable = !newName.isEmpty();
     if (enable) {
         if (m_renameOneItem) {
             enable = enable && (newName != m_newName);
