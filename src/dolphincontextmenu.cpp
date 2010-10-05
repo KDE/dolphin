@@ -256,13 +256,13 @@ void DolphinContextMenu::openItemContextMenu()
         } else if (m_baseUrl.protocol().contains("search")) {
             openParentInNewWindowAction = new QAction(KIcon("window-new"),
                                                     i18nc("@action:inmenu",
-                                                          "Open Parent Folder in New Window"),
+                                                          "Open Path in New Window"),
                                                     this);
             m_popup->addAction(openParentInNewWindowAction);
 
             openParentInNewTabAction = new QAction(KIcon("tab-new"),
                                                    i18nc("@action:inmenu",
-                                                         "Open Parent Folder in New Tab"),
+                                                         "Open Path in New Tab"),
                                                    this);
             m_popup->addAction(openParentInNewTabAction);
 
