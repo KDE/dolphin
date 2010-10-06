@@ -43,6 +43,7 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_fileMetaDataToolTip(0),
     m_toolTipRequested(false),
     m_metaDataRequested(false),
+    m_appliedWaitCursor(false),
     m_item(),
     m_itemRect()
 {
@@ -94,7 +95,10 @@ ToolTipManager::~ToolTipManager()
 
 void ToolTipManager::hideToolTip()
 {
-    QApplication::restoreOverrideCursor();
+    if (m_appliedWaitCursor) {
+        QApplication::restoreOverrideCursor();
+        m_appliedWaitCursor = false;
+    }
 
     m_toolTipRequested = false;
     m_metaDataRequested = false;
@@ -219,14 +223,19 @@ void ToolTipManager::slotMetaDataRequestFinished()
 void ToolTipManager::showToolTip()
 {
     Q_ASSERT(m_toolTipRequested);
-    QApplication::restoreOverrideCursor();
+    if (m_appliedWaitCursor) {
+        QApplication::restoreOverrideCursor();
+        m_appliedWaitCursor = false;
+    }
 
     if (QApplication::mouseButtons() & Qt::LeftButton) {
         return;
     }
 
     if (m_fileMetaDataToolTip->preview().isNull() || m_metaDataRequested) {
+        Q_ASSERT(!m_appliedWaitCursor);
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+        m_appliedWaitCursor = true;
         return;
     }
 

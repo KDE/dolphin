@@ -84,6 +84,7 @@ private:
 
     bool m_toolTipRequested;
     bool m_metaDataRequested;
+    bool m_appliedWaitCursor;
     KFileItem m_item;
     QRect m_itemRect;
 };

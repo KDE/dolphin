@@ -25,6 +25,7 @@
 #include <kiconeffect.h>
 #include <klocale.h>
 
+#include <QApplication>
 #include <QPainter>
 #include <QPaintEvent>
 #include <QRect>
@@ -35,6 +36,7 @@ SelectionToggle::SelectionToggle(QWidget* parent) :
     QAbstractButton(parent),
     m_isHovered(false),
     m_leftMouseButtonPressed(false),
+    m_appliedArrowCursor(false),
     m_fadingValue(0),
     m_margin(0),
     m_icon(),
@@ -132,6 +134,11 @@ void SelectionToggle::enterEvent(QEvent* event)
 {
     QAbstractButton::enterEvent(event);
 
+    if (!m_appliedArrowCursor) {
+        QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
+        m_appliedArrowCursor = true;
+    }
+
     // if the mouse cursor is above the selection toggle, display
     // it immediately without fading timer
     m_isHovered = true;
@@ -147,6 +154,12 @@ void SelectionToggle::enterEvent(QEvent* event)
 void SelectionToggle::leaveEvent(QEvent* event)
 {
     QAbstractButton::leaveEvent(event);
+
+    if (m_appliedArrowCursor) {
+        QApplication::restoreOverrideCursor();
+        m_appliedArrowCursor = false;
+    }
+
     m_isHovered = false;
     update();
 }

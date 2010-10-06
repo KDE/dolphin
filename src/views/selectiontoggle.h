@@ -89,6 +89,7 @@ private:
 private:
     bool m_isHovered;
     bool m_leftMouseButtonPressed;
+    bool m_appliedArrowCursor;
     int m_fadingValue;
     int m_margin;
     QPixmap m_icon;

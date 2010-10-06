@@ -37,11 +37,13 @@
 #include <kdirmodel.h>
 #include <kfilepreviewgenerator.h>
 #include <QAbstractItemView>
+#include <QApplication>
 
 ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
                                              DolphinViewController* dolphinViewController,
                                              const ViewModeController* viewModeController) :
     QObject(view),
+    m_appliedPointingHandCursor(false),
     m_view(view),
     m_dolphinViewController(dolphinViewController),
     m_toolTipManager(0),
@@ -127,6 +129,10 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
             this, SLOT(slotNameFilterChanged(const QString&)));
 
     view->viewport()->installEventFilter(this);
+
+    // Apply a pointing-hand cursor when hovering files
+    connect(view, SIGNAL(entered(const QModelIndex&)), SLOT(applyPointingHandCursor()));
+    connect(view, SIGNAL(viewportEntered()), SLOT(restoreCursor()));
 }
 
 ViewExtensionsFactory::~ViewExtensionsFactory()
@@ -156,9 +162,21 @@ bool ViewExtensionsFactory::autoFolderExpandingEnabled() const
 bool ViewExtensionsFactory::eventFilter(QObject* watched, QEvent* event)
 {
     Q_UNUSED(watched);
-    if ((event->type() == QEvent::Wheel) && (m_selectionManager != 0)) {
-        m_selectionManager->reset();
+
+    switch (event->type()) {
+    case QEvent::Wheel:
+        if (m_selectionManager != 0) {
+            m_selectionManager->reset();
+        }
+        break;
+
+    case QEvent::Leave:
+        restoreCursor();
+        break;
+
+    default: break;
     }
+
     return false;
 }
 
@@ -233,6 +251,22 @@ void ViewExtensionsFactory::slotRequestVersionControlActions(const KFileItemList
 void ViewExtensionsFactory::requestActivation()
 {
     m_dolphinViewController->requestActivation();
+}
+
+void ViewExtensionsFactory::applyPointingHandCursor()
+{
+    if (!m_appliedPointingHandCursor &&  !(QApplication::mouseButtons() & Qt::LeftButton)) {
+        QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
+        m_appliedPointingHandCursor = true;
+    }
+}
+
+void ViewExtensionsFactory::restoreCursor()
+{
+    if (m_appliedPointingHandCursor) {
+        QApplication::restoreOverrideCursor();
+        m_appliedPointingHandCursor = false;
+    }
 }
 
 DolphinSortFilterProxyModel* ViewExtensionsFactory::proxyModel() const
