@@ -133,6 +133,7 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
     // Apply a pointing-hand cursor when hovering files
     connect(view, SIGNAL(entered(const QModelIndex&)), SLOT(applyPointingHandCursor()));
     connect(view, SIGNAL(viewportEntered()), SLOT(restoreCursor()));
+    connect(viewModeController, SIGNAL(urlChanged(const KUrl&)), SLOT(restoreCursor()));
 }
 
 ViewExtensionsFactory::~ViewExtensionsFactory()
