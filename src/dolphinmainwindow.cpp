@@ -462,17 +462,27 @@ void DolphinMainWindow::activatePrevTab()
 void DolphinMainWindow::openInNewTab()
 {
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
-    if ((list.count() == 1) && list[0].isDir()) {
+    if (list.isEmpty()) {
+        openNewTab(m_activeViewContainer->url());
+    } else if ((list.count() == 1) && list[0].isDir()) {
         openNewTab(m_activeViewContainer->view()->selectedUrls()[0]);
     }
 }
 
 void DolphinMainWindow::openInNewWindow()
 {
+    KUrl newWindowUrl;
+
     const KFileItemList list = m_activeViewContainer->view()->selectedItems();
-    if ((list.count() == 1) && list[0].isDir()) {
+    if (list.isEmpty()) {
+        newWindowUrl = m_activeViewContainer->url();
+    } else if ((list.count() == 1) && list[0].isDir()) {
+        newWindowUrl = m_activeViewContainer->view()->selectedUrls()[0];
+    }
+
+    if (!newWindowUrl.isEmpty()) {
         DolphinMainWindow* window = DolphinApplication::app()->createMainWindow();
-        window->changeUrl(m_activeViewContainer->view()->selectedUrls()[0]);
+        window->changeUrl(newWindowUrl);
         window->show();
     }
 }
