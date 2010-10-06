@@ -82,6 +82,9 @@ private slots:
     void setIconOverlay(bool checked);
     void refreshIcon();
 
+    void applyArrowCursor();
+    void restoreCursor();
+
 private:
     void startFading();
     void stopFading();
