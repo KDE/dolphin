@@ -18,12 +18,13 @@
  ***************************************************************************/
 
 #include "informationpanel.h"
+
+#include "informationpanelcontent.h"
+#include <kio/job.h>
 #include <kdirnotify.h>
+#include <QApplication>
 #include <QShowEvent>
 #include <QVBoxLayout>
-#include "informationpanelcontent.h"
-
-#include <kio/job.h>
 
 InformationPanel::InformationPanel(QWidget* parent) :
     Panel(parent),
@@ -89,34 +90,46 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
         return;
     }
 
-    cancelRequest();
+    if (QApplication::mouseButtons() & Qt::LeftButton) {
+        // Ignore the request of an item information when a rubberband
+        // selection is ongoing.
+        return;
+    }
 
-    m_fileItem = KFileItem();
     if (item.isNull()) {
         // The cursor is above the viewport. If files are selected,
         // show information regarding the selection.
         if (m_selection.size() > 0) {
+            cancelRequest();
             m_infoTimer->start();
         }
-    } else {
-        const KUrl url = item.url();
-        if (url.isValid() && !isEqualToShownUrl(url)) {
-            m_urlCandidate = item.url();
-            m_fileItem = item;
-            m_infoTimer->start();
-        }
+    } else if (item.url().isValid() && !isEqualToShownUrl(item.url())) {
+        // The cursor is above an item that is not shown currently
+        cancelRequest();
+
+        m_urlCandidate = item.url();
+        m_fileItem = item;
+        m_infoTimer->start();
     }
 }
 
 bool InformationPanel::urlChanged()
 {
-    if (!url().isValid() || isEqualToShownUrl(url())) {
+    if (!url().isValid()) {
         return false;
     }
 
-    m_shownUrl = url();
-    if (isVisible()) {
-        cancelRequest();
+    if (!isVisible()) {
+        return true;
+    }
+
+    cancelRequest();
+    m_selection.clear();
+
+    if (!isEqualToShownUrl(url())) {
+        m_shownUrl = url();
+        m_fileItem = KFileItem();
+
         // Update the content with a delay. This gives
         // the directory lister the chance to show the content
         // before expensive operations are done to show
@@ -137,6 +150,8 @@ void InformationPanel::showEvent(QShowEvent* event)
             // Information Panel
             init();
         }
+
+        m_shownUrl = url();
         showItemInfo();
     }
 }
@@ -164,10 +179,11 @@ void InformationPanel::showItemInfo()
 
     cancelRequest();
 
-    if (showMultipleSelectionInfo()) {
+    if (m_fileItem.isNull() && (m_selection.count() > 1)) {
+        // The information for a selection of items should be shown
         m_content->showItems(m_selection);
-        m_shownUrl = KUrl();
     } else {
+        // The information for exactly one item should be shown
         KFileItem item;
         if (!m_fileItem.isNull()) {
             item = m_fileItem;
@@ -177,9 +193,9 @@ void InformationPanel::showItemInfo()
         }
 
         if (item.isNull()) {
-            // no item is hovered and no selection has been done: provide
-            // an item for the directory represented by m_shownUrl
-            m_folderStatJob = KIO::stat(m_shownUrl, KIO::HideProgressInfo);
+            // No item is hovered and no selection has been done: provide
+            // an item for the currently shown directory.
+            m_folderStatJob = KIO::stat(url(), KIO::HideProgressInfo);
             connect(m_folderStatJob, SIGNAL(result(KJob*)),
                     this, SLOT(slotFolderStatFinished(KJob*)));
         } else {
@@ -198,6 +214,7 @@ void InformationPanel::slotFolderStatFinished(KJob* job)
 void InformationPanel::slotInfoTimeout()
 {
     m_shownUrl = m_urlCandidate;
+    m_urlCandidate.clear();
     showItemInfo();
 }
 
@@ -288,12 +305,13 @@ void InformationPanel::cancelRequest()
 {
     delete m_folderStatJob;
     m_folderStatJob = 0;
-    m_infoTimer->stop();
-}
 
-bool InformationPanel::showMultipleSelectionInfo() const
-{
-    return m_fileItem.isNull() && (m_selection.count() > 1);
+    m_infoTimer->stop();
+    m_urlChangedTimer->stop();
+    m_resetUrlTimer->stop();
+
+    m_invalidUrlCandidate.clear();
+    m_urlCandidate.clear();
 }
 
 bool InformationPanel::isEqualToShownUrl(const KUrl& url) const

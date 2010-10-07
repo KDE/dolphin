@@ -113,16 +113,6 @@ private:
     void showMetaInfo();
 
     /**
-     * Returns true, if the meta information should be shown for
-     * the multiple selected items that are stored in
-     * m_selection. If true is returned, it is assured that
-     * m_selection.count() > 1. If false is returned, the meta
-     * information should be shown for the file
-     * InformationPanel::fileUrl();
-     */
-    bool showMultipleSelectionInfo() const;
-
-    /**
      * Returns true, if \a url is equal to the shown URL m_shownUrl.
      */
     bool isEqualToShownUrl(const KUrl& url) const;
