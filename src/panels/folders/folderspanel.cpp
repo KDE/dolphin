@@ -109,6 +109,12 @@ void FoldersPanel::setUrl(const KUrl& url)
         return;
     }
 
+    if (url.protocol().contains("search")) {
+        // Skip results shown by a search, as possible identical
+        // directory names are useless without parent-path information.
+        return;
+    }
+
     Panel::setUrl(url);
     if (m_dirLister != 0) {
         m_setLeafVisible = true;
