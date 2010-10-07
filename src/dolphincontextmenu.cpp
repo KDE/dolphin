@@ -321,9 +321,10 @@ void DolphinContextMenu::openViewportContextMenu()
     m_popup->addMenu(newFileMenu->menu());
     m_popup->addSeparator();
 
-    // insert 'Open in new window' and 'Open in new tab' entries
-    m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_window"));
-    m_popup->addAction(m_mainWindow->actionCollection()->action("open_in_new_tab"));
+    // Insert 'New Window' and 'New Tab' entries. Don't use "open_in_new_window" and
+    // "open_in_new_tab" here, as the current selection should get ignored.
+    m_popup->addAction(m_mainWindow->actionCollection()->action("new_window"));
+    m_popup->addAction(m_mainWindow->actionCollection()->action("new_tab"));
     m_popup->addSeparator();
 
     QAction* pasteAction = createPasteAction();
