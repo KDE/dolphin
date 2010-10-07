@@ -96,4 +96,11 @@
         <Action name="show_preview" />
         <Action name="split_view" />
     </ToolBar>
+    <ActionProperties scheme="Default">
+        <Action priority="0" name="go_back"/>
+        <Action priority="0" name="go_forward"/>
+        <Action priority="0" name="icons"/>
+        <Action priority="0" name="details"/>
+        <Action priority="0" name="columns"/>
+    </ActionProperties>
 </kpartgui>
