@@ -101,6 +101,7 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
         // show information regarding the selection.
         if (m_selection.size() > 0) {
             cancelRequest();
+            m_fileItem = KFileItem();
             m_infoTimer->start();
         }
     } else if (item.url().isValid() && !isEqualToShownUrl(item.url())) {
