@@ -46,14 +46,15 @@ public:
     virtual QSize sizeHint() const;
 
 public slots:
-    /** @see Panel::setUrl(). */
-    virtual void setUrl(const KUrl& url);
     void terminalExited();
 
 signals:
     void hideTerminalPanel();
 
 protected:
+    /** @see Panel::urlChanged() */
+    virtual bool urlChanged();
+
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 

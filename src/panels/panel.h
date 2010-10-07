@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Cvetoslav Ludmiloff <ludmiloff@gmail.com>       *
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -37,14 +37,24 @@ public:
     virtual ~Panel();
 
     /** Returns the current set URL of the active Dolphin view. */
-    const KUrl& url() const;
+    KUrl url() const;
 
 public slots:
     /**
      * This is invoked every time the folder being displayed in the
      * active Dolphin view changes.
      */
-    virtual void setUrl(const KUrl& url);
+    void setUrl(const KUrl& url);
+
+protected:
+    /**
+     * Must be implemented by derived classes and is invoked when
+     * the URL has been changed (see Panel::setUrl()).
+     * @return True, if the new URL will get accepted by the derived
+     *         class. If false is returned,
+     *         the URL will be reset to the previous URL.
+     */
+    virtual bool urlChanged() = 0;
 
 private:
     KUrl m_url;

@@ -52,26 +52,26 @@ QSize TerminalPanel::sizeHint() const
     return size;
 }
 
-void TerminalPanel::setUrl(const KUrl& url)
+void TerminalPanel::terminalExited()
 {
-    if (!url.isValid() || (url == Panel::url())) {
-        return;
-    }
+    emit hideTerminalPanel();
+    m_terminal = 0;
+}
 
-    Panel::setUrl(url);
+bool TerminalPanel::urlChanged()
+{
+    if (!url().isValid()) {
+        return false;
+    }
 
     const bool sendInput = (m_terminal != 0)
                            && (m_terminal->foregroundProcessId() == -1)
                            && isVisible();
     if (sendInput) {
-        changeDir(url);
+        changeDir(url());
     }
-}
 
-void TerminalPanel::terminalExited()
-{
-    emit hideTerminalPanel();
-    m_terminal = 0;
+    return true;
 }
 
 void TerminalPanel::showEvent(QShowEvent* event)

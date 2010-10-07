@@ -42,9 +42,6 @@ signals:
     void urlActivated(const KUrl& url);
 
 public slots:
-    /** @see Panel::setUrl() */
-    virtual void setUrl(const KUrl& url);
-
     /**
      * This is invoked to inform the panel that the user has selected a new
      * set of items.
@@ -60,6 +57,9 @@ public slots:
     void requestDelayedItemInfo(const KFileItem& item);
 
 protected:
+    /** @see Panel::urlChanged() */
+    virtual bool urlChanged();
+
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 

@@ -103,23 +103,20 @@ void FoldersPanel::rename(const KFileItem& item)
     }
 }
 
-void FoldersPanel::setUrl(const KUrl& url)
+bool FoldersPanel::urlChanged()
 {
-    if (!url.isValid() || (url == Panel::url())) {
-        return;
-    }
-
-    if (url.protocol().contains("search")) {
+    if (!url().isValid() || url().protocol().contains("search")) {
         // Skip results shown by a search, as possible identical
         // directory names are useless without parent-path information.
-        return;
+        return false;
     }
 
-    Panel::setUrl(url);
     if (m_dirLister != 0) {
         m_setLeafVisible = true;
-        loadTree(url);
+        loadTree(url());
     }
+
+    return true;
 }
 
 void FoldersPanel::showEvent(QShowEvent* event)

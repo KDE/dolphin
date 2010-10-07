@@ -55,7 +55,7 @@
 #include "pixmapviewer.h"
 
 InformationPanelContent::InformationPanelContent(QWidget* parent) :
-    Panel(parent),
+    QWidget(parent),
     m_item(),
     m_pendingPreview(false),
     m_outdatedPreviewTimer(0),
@@ -262,7 +262,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
         break;
     }
 
-    return Panel::eventFilter(obj, event);
+    return QWidget::eventFilter(obj, event);
 }
 
 void InformationPanelContent::configureSettings()

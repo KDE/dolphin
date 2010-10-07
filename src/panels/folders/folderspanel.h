@@ -59,13 +59,10 @@ signals:
      */
     void changeUrl(const KUrl& url, Qt::MouseButtons buttons);
 
-public slots:
-    /**
-     * Changes the current selection inside the tree to \a url.
-     */
-    virtual void setUrl(const KUrl& url);
-
 protected:
+    /** @see Panel::urlChanged() */
+    virtual bool urlChanged();
+
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2009-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,13 +20,12 @@
 #ifndef INFORMATIONPANELCONTENT_H
 #define INFORMATIONPANELCONTENT_H
 
-#include <panels/panel.h>
-
 #include <kconfig.h>
+#include <kfileitem.h>
 #include <kurl.h>
 #include <kvbox.h>
 
-class KFileItem;
+class KFileItemList;
 class KFileMetaDataWidget;
 class PhononWidget;
 class PixmapViewer;
@@ -39,7 +38,7 @@ class QScrollArea;
  * @brief Manages the widgets that display the meta information
 *         for file items of the Information Panel.
  */
-class InformationPanelContent : public Panel
+class InformationPanelContent : public QWidget
 {
     Q_OBJECT
 

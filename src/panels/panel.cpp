@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2006 by Cvetoslav Ludmiloff <ludmiloff@gmail.com>       *
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz@gmx.at>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,14 +31,23 @@ Panel::~Panel()
 {
 }
 
-const KUrl& Panel::url() const
+KUrl Panel::url() const
 {
     return m_url;
 }
 
 void Panel::setUrl(const KUrl& url)
 {
+    if (url.equals(m_url, KUrl::CompareWithoutTrailingSlash)) {
+        return;
+    }
+
+    const KUrl oldUrl = m_url;
     m_url = url;
+    const bool accepted = urlChanged();
+    if (!accepted) {
+        m_url = oldUrl;
+    }
 }
 
 #include "panel.moc"

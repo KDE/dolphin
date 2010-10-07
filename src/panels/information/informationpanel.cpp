@@ -52,24 +52,6 @@ QSize InformationPanel::sizeHint() const
     return size;
 }
 
-void InformationPanel::setUrl(const KUrl& url)
-{
-    Panel::setUrl(url);
-    if (!url.isValid() || isEqualToShownUrl(url)) {
-        return;
-    }
-
-    m_shownUrl = url;
-    if (isVisible()) {
-        cancelRequest();
-        // Update the content with a delay. This gives
-        // the directory lister the chance to show the content
-        // before expensive operations are done to show
-        // meta information.
-        m_urlChangedTimer->start();
-    }
-}
-
 void InformationPanel::setSelection(const KFileItemList& selection)
 {
     if (!isVisible()) {
@@ -124,6 +106,25 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
             m_infoTimer->start();
         }
     }
+}
+
+bool InformationPanel::urlChanged()
+{
+    if (!url().isValid() || isEqualToShownUrl(url())) {
+        return false;
+    }
+
+    m_shownUrl = url();
+    if (isVisible()) {
+        cancelRequest();
+        // Update the content with a delay. This gives
+        // the directory lister the chance to show the content
+        // before expensive operations are done to show
+        // meta information.
+        m_urlChangedTimer->start();
+    }
+
+    return true;
 }
 
 void InformationPanel::showEvent(QShowEvent* event)
