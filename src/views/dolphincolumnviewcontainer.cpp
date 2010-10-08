@@ -403,16 +403,11 @@ void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
             m_dragSource->deleteLater();
             m_dragSource = 0;
         }
-        column->hide();
-        column->setParent(0);
-        column->disconnect();
-
         m_dragSource = column;
     } else {
-        column->deleteLater();
+        delete column;
+        column = 0;
     }
-
-    layoutColumns();
 }
 
 #include "dolphincolumnviewcontainer.moc"

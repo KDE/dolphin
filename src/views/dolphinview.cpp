@@ -1191,18 +1191,13 @@ void DolphinView::applyViewProperties()
 
 void DolphinView::createView()
 {
-    QAbstractItemView* view = m_viewAccessor.itemView();
-    if ((view != 0) && (view->selectionModel() != 0)) {
-        disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-                   this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
-    }
-
     deleteView();
 
     Q_ASSERT(m_viewAccessor.itemView() == 0);
+    Q_ASSERT(m_dolphinViewController->itemView() == 0);
     m_viewAccessor.createView(this, m_dolphinViewController, m_viewModeController, m_mode);
 
-    view = m_viewAccessor.itemView();
+    QAbstractItemView* view = m_viewAccessor.itemView();
     Q_ASSERT(view != 0);
     view->installEventFilter(this);
     view->viewport()->installEventFilter(this);
@@ -1222,7 +1217,15 @@ void DolphinView::createView()
 void DolphinView::deleteView()
 {
     QAbstractItemView* view = m_viewAccessor.itemView();
+    Q_ASSERT((m_dolphinViewController->itemView() == 0) || (m_dolphinViewController->itemView() == view));
+    m_dolphinViewController->setItemView(0);
+
     if (view != 0) {
+        if (view->selectionModel() != 0) {
+            disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+                       this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+        }
+
         // It's important to set the keyboard focus to the parent
         // before deleting the view: Otherwise when having a split
         // view the other view will get the focus and will request
@@ -1230,13 +1233,7 @@ void DolphinView::deleteView()
         setFocusProxy(0);
         setFocus();
 
-        m_topLayout->removeWidget(view);
-        view->close();
-
-        // disconnect all signal/slots
-        disconnect(view);
         m_viewModeController->disconnect(view);
-        view->disconnect();
 
         m_viewAccessor.deleteView();
     }
@@ -1332,32 +1329,38 @@ void DolphinView::ViewAccessor::createView(QWidget* parent,
 
 void DolphinView::ViewAccessor::deleteView()
 {
-    QAbstractItemView* view = itemView();
-    if (view != 0) {
-        if (DragAndDropHelper::instance().isDragSource(view)) {
-            // The view is a drag source (the feature "Open folders
-            // during drag operations" is used). Deleting the view
-            // during an ongoing drag operation is not allowed, so
-            // this will postponed.
-            if (m_dragSource != 0) {
-                // the old stored view is obviously not the drag source anymore
-                m_dragSource->deleteLater();
-                m_dragSource = 0;
-            }
-            view->hide();
-            m_dragSource = view;
-        } else {
-            view->deleteLater();
-        }
-    }
-
-    m_iconsView = 0;
-    m_detailsView = 0;
-
     if (m_columnsContainer != 0) {
+        m_columnsContainer->close();
+        m_columnsContainer->disconnect();
         m_columnsContainer->deleteLater();
+        m_columnsContainer = 0;
+    } else {
+        QAbstractItemView* view = itemView();
+        if (view != 0) {
+            view->close();
+            view->disconnect();
+
+            if (DragAndDropHelper::instance().isDragSource(view)) {
+                // The view is a drag source (the feature "Open folders
+                // during drag operations" is used). Deleting the view
+                // during an ongoing drag operation is not allowed, so
+                // this will postponed.
+                if (m_dragSource != 0) {
+                    // the old stored view is obviously not the drag source anymore
+                    m_dragSource->deleteLater();
+                    m_dragSource = 0;
+                }
+                view->hide();
+                m_dragSource = view;
+            } else {
+                view->deleteLater();
+                view = 0;
+            }
+        }
+
+        m_iconsView = 0;
+        m_detailsView = 0;
     }
-    m_columnsContainer = 0;
 }
 
 
