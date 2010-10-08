@@ -26,24 +26,29 @@
  
 #include <QCoreApplication>
 #include <QEventLoop>
+#include <QRegExp>
 
 FileNameSearchProtocol::FileNameSearchProtocol( const QByteArray &pool, const QByteArray &app ) :
     SlaveBase("search", pool, app),
     m_checkContent(false),
-    m_searchPattern()
+    m_regExp(0)
 {
 }
 
 FileNameSearchProtocol::~FileNameSearchProtocol()
 {
+    delete m_regExp;
+    m_regExp = 0;
 }
 
 void FileNameSearchProtocol::listDir(const KUrl& url)
 {
+    delete m_regExp;
+    m_regExp = 0;
+
     const QStringList searchValues = url.allQueryItemValues("search");
-    m_searchPattern.clear();
     if (!searchValues.isEmpty()) {
-        m_searchPattern = searchValues.first();
+        m_regExp = new QRegExp(searchValues.first(), Qt::CaseInsensitive, QRegExp::Wildcard);
     }
 
     m_checkContent = false;
@@ -79,7 +84,7 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
     const KFileItemList items = dirLister->items();
     foreach (const KFileItem& item, items) {
         bool addItem = false;
-        if (m_searchPattern.isEmpty() || item.name().contains(m_searchPattern, Qt::CaseInsensitive)) {
+        if ((m_regExp == 0) || item.name().contains(*m_regExp)) {
             addItem = true;
         } else if (m_checkContent && item.mimetype().startsWith(QLatin1String("text/"))) {
             addItem = containsPattern(item.url());
@@ -105,6 +110,8 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
 
 bool FileNameSearchProtocol::containsPattern(const KUrl& fileName) const
 {
+    Q_ASSERT(m_regExp != 0);
+
     QFile file(fileName.path());
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
          return false;
@@ -113,7 +120,7 @@ bool FileNameSearchProtocol::containsPattern(const KUrl& fileName) const
      QTextStream in(&file);
      while (!in.atEnd()) {
          const QString line = in.readLine();
-         if (line.contains(m_searchPattern)) {
+         if (line.contains(*m_regExp)) {
              return true;
          }
      }

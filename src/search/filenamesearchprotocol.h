@@ -23,6 +23,7 @@
 #include <kio/slavebase.h>
 
 class KUrl;
+class QRegExp;
  
 /**
  * @brief Lists files where the filename matches do a given query.
@@ -49,7 +50,7 @@ private:
     bool containsPattern(const KUrl& fileName) const;
 
     bool m_checkContent;
-    QString m_searchPattern;
+    QRegExp* m_regExp;
 };
  
 #endif
