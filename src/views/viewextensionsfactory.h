@@ -85,14 +85,11 @@ private slots:
     void slotNameFilterChanged(const QString& nameFilter);
     void slotRequestVersionControlActions(const KFileItemList& items);
     void requestActivation();
-    void applyPointingHandCursor();
-    void restoreCursor();
 
 private:
     DolphinSortFilterProxyModel* proxyModel() const;
 
 private:
-    bool m_appliedPointingHandCursor;
     QAbstractItemView* m_view;
     DolphinViewController* m_dolphinViewController;
     ToolTipManager* m_toolTipManager;

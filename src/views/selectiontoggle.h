@@ -82,9 +82,6 @@ private slots:
     void setIconOverlay(bool checked);
     void refreshIcon();
 
-    void applyArrowCursor();
-    void restoreCursor();
-
 private:
     void startFading();
     void stopFading();
@@ -92,7 +89,6 @@ private:
 private:
     bool m_isHovered;
     bool m_leftMouseButtonPressed;
-    bool m_appliedArrowCursor;
     int m_fadingValue;
     int m_margin;
     QPixmap m_icon;

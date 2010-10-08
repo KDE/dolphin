@@ -65,11 +65,14 @@ private slots:
 private:
     KUrl urlForIndex(const QModelIndex& index) const;
     const QModelIndex indexForUrl(const KUrl& url) const;
+    void applyPointingHandCursor();
+    void restoreCursor();
 
 private:
     QAbstractItemView* m_view;
     SelectionToggle* m_toggle;
     bool m_connected;
+    bool m_appliedPointingHandCursor;
 };
 
 #endif

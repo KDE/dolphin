@@ -32,11 +32,12 @@
 #include <QTimer>
 #include <QTimeLine>
 
+#include <kdebug.h>
+
 SelectionToggle::SelectionToggle(QWidget* parent) :
     QAbstractButton(parent),
     m_isHovered(false),
     m_leftMouseButtonPressed(false),
-    m_appliedArrowCursor(false),
     m_fadingValue(0),
     m_margin(0),
     m_icon(),
@@ -106,25 +107,12 @@ void SelectionToggle::setVisible(bool visible)
 
 bool SelectionToggle::eventFilter(QObject* obj, QEvent* event)
 {
-    if (obj == parent()) {
-        switch (event->type()) {
-        case QEvent::Leave:
-            hide();
-            break;
-
-        case QEvent::MouseMove:
-            if (m_leftMouseButtonPressed) {
-                // Don't forward mouse move events to the viewport,
-                // otherwise a rubberband selection will be shown when
-                // clicking on the selection toggle and moving the mouse
-                // above the viewport.
-                return true;
-            }
-            break;
-
-        default:
-            break;
-        }
+    if ((obj == parent()) && (event->type() == QEvent::MouseMove) && m_leftMouseButtonPressed) {
+        // Don't forward mouse move events to the viewport,
+        // otherwise a rubberband selection will be shown when
+        // clicking on the selection toggle and moving the mouse
+        // above the viewport.
+        return true;
     }
 
     return QAbstractButton::eventFilter(obj, event);
@@ -133,19 +121,6 @@ bool SelectionToggle::eventFilter(QObject* obj, QEvent* event)
 void SelectionToggle::enterEvent(QEvent* event)
 {
     QAbstractButton::enterEvent(event);
-
-    if (!m_appliedArrowCursor) {
-        m_appliedArrowCursor = true;
-        // Apply the arrow asynchronously. This is required for
-        // the following usecase:
-        // 1. Cursor is above the viewport left beside an item
-        // 2. Cursor is moved above the item, so that the selection-toggle
-        //    and the item are entered equally.
-        // In this situation it is not defined who gets the enter-event first.
-        // As the selection-toggle is above the item, it should overwrite possible
-        // cursor changes done by the item.
-        QTimer::singleShot(0, this, SLOT(applyArrowCursor()));
-    }
 
     // if the mouse cursor is above the selection toggle, display
     // it immediately without fading timer
@@ -162,13 +137,6 @@ void SelectionToggle::enterEvent(QEvent* event)
 void SelectionToggle::leaveEvent(QEvent* event)
 {
     QAbstractButton::leaveEvent(event);
-
-    if (m_appliedArrowCursor) {
-        // Reset the cursor asynchronously. See SelectionToggle::enterEvent()
-        // for a more information.
-        m_appliedArrowCursor = false;
-        QTimer::singleShot(0, this, SLOT(restoreCursor()));
-    }
 
     m_isHovered = false;
     update();
@@ -243,16 +211,6 @@ void SelectionToggle::setIconOverlay(bool checked)
 void SelectionToggle::refreshIcon()
 {
     setIconOverlay(isChecked());
-}
-
-void SelectionToggle::applyArrowCursor()
-{
-    QApplication::setOverrideCursor(QCursor(Qt::ArrowCursor));
-}
-
-void SelectionToggle::restoreCursor()
-{
-    QApplication::restoreOverrideCursor();
 }
 
 void SelectionToggle::startFading()

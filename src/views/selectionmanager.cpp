@@ -38,7 +38,8 @@ SelectionManager::SelectionManager(QAbstractItemView* parent) :
     QObject(parent),
     m_view(parent),
     m_toggle(0),
-    m_connected(false)
+    m_connected(false),
+    m_appliedPointingHandCursor(false)
 {
     connect(parent, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(slotEntered(const QModelIndex&)));
@@ -49,6 +50,7 @@ SelectionManager::SelectionManager(QAbstractItemView* parent) :
     m_toggle->hide();
     connect(m_toggle, SIGNAL(clicked(bool)),
             this, SLOT(setItemSelected(bool)));
+    m_toggle->installEventFilter(this);
 
     m_view->viewport()->installEventFilter(this);
 }
@@ -59,14 +61,45 @@ SelectionManager::~SelectionManager()
 
 bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
 {
-    Q_ASSERT(watched == m_view->viewport());
-    if (event->type() == QEvent::MouseButtonPress) {
-        // Set the toggle invisible, if a mouse button has been pressed
-        // outside the toggle boundaries. This e.g. assures, that the toggle
-        // gets invisible during dragging items.
-        const QRect toggleBounds(m_toggle->mapToGlobal(QPoint(0, 0)), m_toggle->size());
-        m_toggle->setVisible(toggleBounds.contains(QCursor::pos()));
+    if (watched == m_view->viewport()) {
+        switch (event->type()) {
+        case QEvent::Leave:
+            m_toggle->hide();
+            break;
+
+        case QEvent::MouseButtonPress: {
+            // Set the toggle invisible, if a mouse button has been pressed
+            // outside the toggle boundaries. This e.g. assures, that the toggle
+            // gets invisible during dragging items.
+            const QRect toggleBounds(m_toggle->mapToGlobal(QPoint(0, 0)), m_toggle->size());
+            m_toggle->setVisible(toggleBounds.contains(QCursor::pos()));
+            break;
+        }
+
+        default:
+            break;
+        }
+    } else if (watched == m_toggle) {
+        switch (event->type()) {
+        case QEvent::Hide:
+            // If the toggle button gets hidden, the cursor is not above the item
+            // anymore and the shape must get restored
+            restoreCursor();
+            break;
+
+        case QEvent::Enter:
+            QApplication::changeOverrideCursor(Qt::ArrowCursor);
+            break;
+
+        case QEvent::Leave:
+            QApplication::changeOverrideCursor(Qt::PointingHandCursor);
+            break;
+
+        default:
+            break;
+        }
     }
+
     return QObject::eventFilter(watched, event);
 }
 
@@ -82,6 +115,8 @@ void SelectionManager::slotEntered(const QModelIndex& index)
                             (index.column() == DolphinModel::Name) &&
                             (QApplication::mouseButtons() == Qt::NoButton);
     if (showToggle) {
+        applyPointingHandCursor();
+
         m_toggle->setUrl(urlForIndex(index));
 
         if (!m_connected) {
@@ -196,6 +231,23 @@ const QModelIndex SelectionManager::indexForUrl(const KUrl& url) const
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
     const QModelIndex dirIndex = dirModel->indexForUrl(url);
     return proxyModel->mapFromSource(dirIndex);
+}
+
+
+void SelectionManager::applyPointingHandCursor()
+{
+    if (!m_appliedPointingHandCursor) {
+        QApplication::setOverrideCursor(QCursor(Qt::PointingHandCursor));
+        m_appliedPointingHandCursor = true;
+    }
+}
+
+void SelectionManager::restoreCursor()
+{
+    if (m_appliedPointingHandCursor) {
+        QApplication::restoreOverrideCursor();
+        m_appliedPointingHandCursor = false;
+    }
 }
 
 #include "selectionmanager.moc"
