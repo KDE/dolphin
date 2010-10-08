@@ -93,6 +93,7 @@
         <Action name="details" />
         <Action name="columns" />
         <Separator name="separator_0" />
+        <Action name="edit_find"/>
         <Action name="show_preview" />
         <Action name="split_view" />
     </ToolBar>
