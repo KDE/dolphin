@@ -23,6 +23,7 @@
 #include "dolphincolumnviewcontainer.h"
 #include "dolphinviewcontroller.h"
 #include "dolphindirlister.h"
+#include "dolphinfileitemdelegate.h"
 #include "dolphinsortfilterproxymodel.h"
 #include "settings/dolphinsettings.h"
 #include "dolphinviewautoscroller.h"
@@ -45,6 +46,7 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QHeaderView>
 #include <QPainter>
 #include <QPoint>
 #include <QScrollBar>
@@ -52,7 +54,7 @@
 DolphinColumnView::DolphinColumnView(QWidget* parent,
                                      DolphinColumnViewContainer* container,
                                      const KUrl& url) :
-    QListView(parent),
+    DolphinTreeView(parent),
     m_active(false),
     m_container(container),
     m_extensionsFactory(0),
@@ -62,23 +64,19 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_decorationSize(),
     m_dirLister(0),
     m_dolphinModel(0),
-    m_proxyModel(0),
-    m_dropRect()
+    m_proxyModel(0)
 {
     setMouseTracking(true);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    setAcceptDrops(true);
+    setUniformRowHeights(true);
     setSelectionBehavior(SelectItems);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
-    setSelectionRectVisible(true);
+    setRootIsDecorated(false);
+    setItemsExpandable(false);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
 
-    setVerticalScrollMode(QListView::ScrollPerPixel);
-    setHorizontalScrollMode(QListView::ScrollPerPixel);
-
-    // apply the column mode settings to the widget
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     Q_ASSERT(settings != 0);
 
@@ -138,6 +136,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     
     DolphinViewController* dolphinViewController = m_container->m_dolphinViewController;
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
+    m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
 
     m_dirLister->openUrl(url, KDirLister::NoFlags);
 }
@@ -202,7 +201,7 @@ void DolphinColumnView::setSelectionModel(QItemSelectionModel* model)
                    this, SLOT(requestActivation()));
     }
 
-    QListView::setSelectionModel(model);
+    DolphinTreeView::setSelectionModel(model);
 
     connect(selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(requestActivation()));
@@ -210,7 +209,7 @@ void DolphinColumnView::setSelectionModel(QItemSelectionModel* model)
 
 QStyleOptionViewItem DolphinColumnView::viewOptions() const
 {
-    QStyleOptionViewItem viewOptions = QListView::viewOptions();
+    QStyleOptionViewItem viewOptions = DolphinTreeView::viewOptions();
     viewOptions.font = m_font;
     viewOptions.fontMetrics = QFontMetrics(m_font);
     viewOptions.decorationSize = m_decorationSize;
@@ -218,9 +217,23 @@ QStyleOptionViewItem DolphinColumnView::viewOptions() const
     return viewOptions;
 }
 
+bool DolphinColumnView::event(QEvent* event)
+{
+    if (event->type() == QEvent::Polish) {
+        // Hide all columns except of the 'Name' column
+        for (int i = DolphinModel::Name + 1; i < DolphinModel::ExtraColumnCount; ++i) {
+            hideColumn(i);
+        }
+        header()->hide();
+    }
+
+    return DolphinTreeView::event(event);
+}
+
 void DolphinColumnView::startDrag(Qt::DropActions supportedActions)
 {
     DragAndDropHelper::instance().startDrag(this, supportedActions, m_container->m_dolphinViewController);
+    DolphinTreeView::startDrag(supportedActions);
 }
 
 void DolphinColumnView::dragEnterEvent(QDragEnterEvent* event)
@@ -229,31 +242,12 @@ void DolphinColumnView::dragEnterEvent(QDragEnterEvent* event)
         event->acceptProposedAction();
         requestActivation();
     }
-}
-
-void DolphinColumnView::dragLeaveEvent(QDragLeaveEvent* event)
-{
-    QListView::dragLeaveEvent(event);
-    setDirtyRegion(m_dropRect);
+    DolphinTreeView::dragEnterEvent(event);
 }
 
 void DolphinColumnView::dragMoveEvent(QDragMoveEvent* event)
 {
-    QListView::dragMoveEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    const QModelIndex index = indexAt(event->pos());
-    setDirtyRegion(m_dropRect);
-
-    m_dropRect.setSize(QSize()); // set as invalid
-    if (index.isValid()) {
-        m_container->m_dolphinViewController->setItemView(this);
-        const KFileItem item = m_container->m_dolphinViewController->itemForIndex(index);
-        if (!item.isNull() && item.isDir()) {
-            m_dropRect = visualRect(index);
-        }
-    }
-    setDirtyRegion(m_dropRect);
+    DolphinTreeView::dragMoveEvent(event);
 
     if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         // accept url drops, independently from the destination item
@@ -265,9 +259,10 @@ void DolphinColumnView::dropEvent(QDropEvent* event)
 {
     const QModelIndex index = indexAt(event->pos());
     m_container->m_dolphinViewController->setItemView(this);
-    const KFileItem item = m_container->m_dolphinViewController->itemForIndex(index);
+    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+    const KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
     m_container->m_dolphinViewController->indicateDroppedUrls(item, url(), event);
-    QListView::dropEvent(event);
+    DolphinTreeView::dropEvent(event);
 }
 
 void DolphinColumnView::paintEvent(QPaintEvent* event)
@@ -287,26 +282,22 @@ void DolphinColumnView::paintEvent(QPaintEvent* event)
         }
     }
 
-    QListView::paintEvent(event);
+    DolphinTreeView::paintEvent(event);
 }
 
 void DolphinColumnView::mousePressEvent(QMouseEvent* event)
 {
     requestActivation();
-    if (!indexAt(event->pos()).isValid()) {
-        if (QApplication::mouseButtons() & Qt::MidButton) {
-            m_container->m_dolphinViewController->replaceUrlByClipboard();
-        }
-    } else if (event->button() == Qt::LeftButton) {
-        // TODO: see comment in DolphinIconsView::mousePressEvent()
-        setState(QAbstractItemView::DraggingState);
+    if (!indexAt(event->pos()).isValid() && (QApplication::mouseButtons() & Qt::MidButton)) {
+        m_container->m_dolphinViewController->replaceUrlByClipboard();
     }
-    QListView::mousePressEvent(event);
+
+    DolphinTreeView::mousePressEvent(event);
 }
 
 void DolphinColumnView::keyPressEvent(QKeyEvent* event)
 {   
-    QListView::keyPressEvent(event);
+    DolphinTreeView::keyPressEvent(event);
 
     DolphinViewController* controller = m_container->m_dolphinViewController;
     controller->handleKeyPressEvent(event);
@@ -314,8 +305,8 @@ void DolphinColumnView::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Right: {
         // Special key handling for the column: A Key_Right should
         // open a new column for the currently selected folder.
-        const QModelIndex index = currentIndex();
-        const KFileItem item = controller->itemForIndex(index);
+        const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(currentIndex());
+        const KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
         if (!item.isNull() && item.isDir()) {
             controller->emitItemTriggered(item);
         }
@@ -336,7 +327,7 @@ void DolphinColumnView::keyPressEvent(QKeyEvent* event)
 void DolphinColumnView::contextMenuEvent(QContextMenuEvent* event)
 {
     requestActivation();
-    QListView::contextMenuEvent(event);
+    DolphinTreeView::contextMenuEvent(event);
     m_container->m_dolphinViewController->triggerContextMenuRequest(event->pos());
 }
 
@@ -344,12 +335,12 @@ void DolphinColumnView::wheelEvent(QWheelEvent* event)
 {
     const int step = m_decorationSize.height();
     verticalScrollBar()->setSingleStep(step);
-    QListView::wheelEvent(event);
+    DolphinTreeView::wheelEvent(event);
 }
 
 void DolphinColumnView::leaveEvent(QEvent* event)
 {
-    QListView::leaveEvent(event);
+    DolphinTreeView::leaveEvent(event);
     // if the mouse is above an item and moved very fast outside the widget,
     // no viewportEntered() signal might be emitted although the mouse has been moved
     // above the viewport
@@ -358,8 +349,34 @@ void DolphinColumnView::leaveEvent(QEvent* event)
 
 void DolphinColumnView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
-    QListView::currentChanged(current, previous);
+    DolphinTreeView::currentChanged(current, previous);
     m_extensionsFactory->handleCurrentIndexChange(current, previous);
+}
+
+QRect DolphinColumnView::visualRect(const QModelIndex& index) const
+{
+    QRect rect = DolphinTreeView::visualRect(index);
+
+    const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+    const KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
+    if (!item.isNull()) {
+        const int width = DolphinFileItemDelegate::nameColumnWidth(item.text(), viewOptions());
+        rect.setWidth(width);
+    }
+
+    return rect;
+}
+
+bool DolphinColumnView::acceptsDrop(const QModelIndex& index) const
+{
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
+        // Accept drops above directories
+        const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
+        const KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
+        return !item.isNull() && item.isDir();
+    }
+
+    return false;
 }
 
 void DolphinColumnView::setZoomLevel(int level)

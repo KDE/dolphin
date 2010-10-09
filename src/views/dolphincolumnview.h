@@ -21,9 +21,9 @@
 #define DOLPHINCOLUMNVIEW_H
 
 #include "dolphinview.h"
+#include "dolphintreeview.h"
 
 #include <QFont>
-#include <QListView>
 #include <QSize>
 #include <QStyleOption>
 
@@ -40,7 +40,7 @@ class ViewExtensionsFactory;
 /**
  * Represents one column inside the DolphinColumnViewContainer.
  */
-class DolphinColumnView : public QListView
+class DolphinColumnView : public DolphinTreeView
 {
     Q_OBJECT
 
@@ -88,9 +88,9 @@ public:
 
 protected:
     virtual QStyleOptionViewItem viewOptions() const;
+    virtual bool event(QEvent* event);
     virtual void startDrag(Qt::DropActions supportedActions);
     virtual void dragEnterEvent(QDragEnterEvent* event);
-    virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dropEvent(QDropEvent* event);
     virtual void paintEvent(QPaintEvent* event);
@@ -100,6 +100,8 @@ protected:
     virtual void wheelEvent(QWheelEvent* event);
     virtual void leaveEvent(QEvent* event);
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
+    virtual QRect visualRect(const QModelIndex& index) const;
+    virtual bool acceptsDrop(const QModelIndex& index) const;
 
 private slots:
     void setZoomLevel(int level);
@@ -133,8 +135,6 @@ private:
     DolphinDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
-
-    QRect m_dropRect;
 
     friend class DolphinColumnViewContainer;
 };
