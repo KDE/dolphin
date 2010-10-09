@@ -197,9 +197,13 @@ KFileItem DolphinViewController::itemForIndex(const QModelIndex& index) const
     Q_ASSERT(m_itemView != 0);
 
     QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(m_itemView->model());
-    KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-    const QModelIndex dirIndex = proxyModel->mapToSource(index);
-    return dirModel->itemForIndex(dirIndex);
+    if (proxyModel != 0) {
+        KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+        const QModelIndex dirIndex = proxyModel->mapToSource(index);
+        return dirModel->itemForIndex(dirIndex);
+    }
+
+    return KFileItem();
 }
 
 void DolphinViewController::triggerItem(const QModelIndex& index)
