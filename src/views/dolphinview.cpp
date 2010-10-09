@@ -537,6 +537,7 @@ void DolphinView::setUrl(const KUrl& url)
 
     // The selection model might change in the case of the column view. Disconnect
     // from the current selection model and reconnect later after the URL switch.
+    const bool hadSelection = hasSelection();
     QAbstractItemView* view = m_viewAccessor.itemView();
     disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
                this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
@@ -558,6 +559,9 @@ void DolphinView::setUrl(const KUrl& url)
     view = m_viewAccessor.itemView();
     connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+    if (hadSelection || hasSelection()) {
+        emitSelectionChangedSignal();
+    }
 }
 
 void DolphinView::selectAll()
@@ -832,7 +836,8 @@ void DolphinView::slotSelectionChanged(const QItemSelection& selected, const QIt
 
 void DolphinView::emitSelectionChangedSignal()
 {
-    emit selectionChanged(DolphinView::selectedItems());
+    m_selectionChangedTimer->stop();
+    emit selectionChanged(selectedItems());
 }
 
 void DolphinView::openContextMenu(const QPoint& pos,
