@@ -96,14 +96,23 @@ private slots:
      */
     void updateActiveUrl();
 
-private:
-    void layoutColumns();
-
     /**
+     * Invoked when m_assureVisibleActiveColumnTimer has been exceeded.
      * Assures that the currently active column is fully visible
      * by adjusting the horizontal position of the content.
      */
+    void slotAssureVisibleActiveColumn();
+
+private:
+    /**
+     * Assures that the currently active column is fully visible
+     * by adjusting the horizontal position of the content. The
+     * adjustment is done with a small delay (see
+     * slotAssureVisibleActiveColumn();
+     */
     void assureVisibleActiveColumn();
+
+    void layoutColumns();
 
     /**
      * Request the activation for the column \a column. It is assured
@@ -114,12 +123,6 @@ private:
 
     /** Removes all columns except of the root column. */
     void removeAllColumns();
-
-    /**
-     * Returns the position of the point \a point relative to the column
-     * \a column.
-     */
-    QPoint columnPosition(DolphinColumnView* column, const QPoint& point) const;
 
     /**
      * Deletes the column. If the itemview of the controller is set to the column,
@@ -139,6 +142,7 @@ private:
     QAbstractItemView* m_dragSource;
 
     QTimer* m_activeUrlTimer;
+    QTimer* m_assureVisibleActiveColumnTimer;
 
     friend class DolphinColumnView;
 };

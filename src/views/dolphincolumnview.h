@@ -114,6 +114,8 @@ private slots:
 
     void slotShowPreviewChanged();
 
+    void slotDirListerCompleted();
+
 private:
     /** Used by DolphinColumnView::setActive(). */
     void activate();
@@ -161,10 +163,7 @@ inline KUrl DolphinColumnView::childUrl() const
 
 inline void DolphinColumnView::setUrl(const KUrl& url)
 {
-    if (url != m_url) {
-        m_url = url;
-        //reload();
-    }
+    m_url = url;
 }
 
 inline KUrl DolphinColumnView::url() const

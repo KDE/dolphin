@@ -120,6 +120,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_dirLister->setDelayedMimeTypes(true);
     const bool showHiddenFiles = m_container->m_dolphinViewController->view()->showHiddenFiles();
     m_dirLister->setShowingDotFiles(showHiddenFiles);
+    connect(m_dirLister, SIGNAL(completed()), this, SLOT(slotDirListerCompleted()));
 
     m_dolphinModel = new DolphinModel(this);
     m_dolphinModel->setDirLister(m_dirLister);
@@ -494,6 +495,34 @@ void DolphinColumnView::slotShowPreviewChanged()
 {
     const DolphinView* view = m_container->m_dolphinViewController->view();
     updateDecorationSize(view->showPreview());
+}
+
+void DolphinColumnView::slotDirListerCompleted()
+{
+    if (!m_childUrl.isEmpty()) {
+        return;
+    }
+
+    // Try to optimize the width of the column, so that no name gets clipped
+    const int requiredWidth = sizeHintForColumn(DolphinModel::Name);
+
+    const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+    if (requiredWidth > settings->columnWidth()) {
+        int frameAroundContents = 0;
+        if (style()->styleHint(QStyle::SH_ScrollView_FrameOnlyAroundContents)) {
+            // TODO: Using 2 PM_DefaultFrameWidths are not sufficient. Check Qt-code
+            // for other pixelmetrics that should be added...
+            frameAroundContents = style()->pixelMetric(QStyle::PM_DefaultFrameWidth) * 4;
+        }
+
+        const int scrollBarWidth = style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
+
+        setMaximumWidth(requiredWidth + frameAroundContents + scrollBarWidth);
+        m_container->layoutColumns();
+        if (m_active) {
+            m_container->assureVisibleActiveColumn();
+        }
+    }
 }
 
 void DolphinColumnView::activate()

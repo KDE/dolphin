@@ -46,7 +46,8 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_emptyViewport(0),
     m_animation(0),
     m_dragSource(0),
-    m_activeUrlTimer(0)
+    m_activeUrlTimer(0),
+    m_assureVisibleActiveColumnTimer(0)
 {
     Q_ASSERT(dolphinViewController != 0);
     Q_ASSERT(viewModeController != 0);
@@ -70,6 +71,15 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_activeUrlTimer->setInterval(200);
     connect(m_activeUrlTimer, SIGNAL(timeout()),
             this, SLOT(updateActiveUrl()));
+
+    // Assuring that the active column gets fully visible is done with a small delay. This
+    // prevents that for temporary activations an animation gets started (e. g. when clicking
+    // on any folder of the parent column, the child column gets activated).
+    m_assureVisibleActiveColumnTimer = new QTimer(this);
+    m_assureVisibleActiveColumnTimer->setSingleShot(true);
+    m_assureVisibleActiveColumnTimer->setInterval(200);
+    connect(m_assureVisibleActiveColumnTimer, SIGNAL(timeout()),
+            this, SLOT(slotAssureVisibleActiveColumn()));
 
     DolphinColumnView* column = new DolphinColumnView(viewport(), this, viewModeController->url());
     m_columns.append(column);
@@ -244,6 +254,46 @@ void DolphinColumnViewContainer::updateActiveUrl()
     m_dolphinViewController->requestUrlChange(activeUrl);
 }
 
+void DolphinColumnViewContainer::slotAssureVisibleActiveColumn()
+{
+    const int viewportWidth = viewport()->width();
+    const int x = activeColumn()->x();
+
+    // When a column that is partly visible on the left side gets activated,
+    // it is useful to also assure that the previous column is partly visible.
+    // This allows the user to scroll to the first column without using the
+    // scrollbar and drag & drop operations to invisible columns.
+    const int previousColumnGap = 3 * style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
+
+    const int width = activeColumn()->maximumWidth();
+    if (x + width > viewportWidth) {
+        const int newContentX = m_contentX - x - width + viewportWidth;
+        if (isRightToLeft()) {
+            m_animation->setFrameRange(m_contentX, newContentX + previousColumnGap);
+        } else {
+            m_animation->setFrameRange(-m_contentX, -newContentX);
+        }
+        if (m_animation->state() != QTimeLine::Running) {
+           m_animation->start();
+        }
+    } else if (x < 0) {
+        const int newContentX = m_contentX - x;
+        if (isRightToLeft()) {
+            m_animation->setFrameRange(m_contentX, newContentX);
+        } else {
+            m_animation->setFrameRange(-m_contentX, -newContentX - previousColumnGap);
+        }
+        if (m_animation->state() != QTimeLine::Running) {
+           m_animation->start();
+        }
+    }
+}
+
+void DolphinColumnViewContainer::assureVisibleActiveColumn()
+{
+    m_assureVisibleActiveColumnTimer->start();
+}
+
 void DolphinColumnViewContainer::layoutColumns()
 {
     // Layout the position of the columns corresponding to their maximum width
@@ -281,38 +331,15 @@ void DolphinColumnViewContainer::layoutColumns()
         contentWidth += column->maximumWidth();
     }
 
-    horizontalScrollBar()->setPageStep(contentWidth);
-    horizontalScrollBar()->setRange(0, contentWidth - viewport()->width());
-}
+    if (horizontalScrollBar()->pageStep() != contentWidth) {
+        disconnect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
+                this, SLOT(moveContentHorizontally(int)));
 
-void DolphinColumnViewContainer::assureVisibleActiveColumn()
-{
-    const int viewportWidth = viewport()->width();
-    const int x = activeColumn()->x();
+        horizontalScrollBar()->setPageStep(contentWidth);
+        horizontalScrollBar()->setRange(0, contentWidth - viewport()->width());
 
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    const int width = settings->columnWidth();
-
-    if (x + width > viewportWidth) {
-        const int newContentX = m_contentX - x - width + viewportWidth;
-        if (isRightToLeft()) {
-            m_animation->setFrameRange(m_contentX, newContentX);
-        } else {
-            m_animation->setFrameRange(-m_contentX, -newContentX);
-        }
-        if (m_animation->state() != QTimeLine::Running) {
-           m_animation->start();
-        }
-    } else if (x < 0) {
-        const int newContentX = m_contentX - x;
-        if (isRightToLeft()) {
-            m_animation->setFrameRange(m_contentX, newContentX);
-        } else {
-            m_animation->setFrameRange(-m_contentX, -newContentX);
-        }
-        if (m_animation->state() != QTimeLine::Running) {
-           m_animation->start();
-        }
+        connect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
+                this, SLOT(moveContentHorizontally(int)));
     }
 }
 
@@ -325,9 +352,7 @@ void DolphinColumnViewContainer::requestActivation(DolphinColumnView* column)
         setFocusProxy(column);
     }
     
-    if (column->isActive()) {
-        assureVisibleActiveColumn();
-    } else {
+    if (!column->isActive()) {
         // Deactivate the currently active column
         if (m_index >= 0) {
             m_columns[m_index]->setActive(false);
@@ -349,9 +374,10 @@ void DolphinColumnViewContainer::requestActivation(DolphinColumnView* column)
         m_index = index;
         m_columns[m_index]->setActive(true);
 
-        assureVisibleActiveColumn();
         m_activeUrlTimer->start(); // calls slot updateActiveUrl()
     }
+
+    assureVisibleActiveColumn();
 }
 
 void DolphinColumnViewContainer::removeAllColumns()
@@ -365,12 +391,6 @@ void DolphinColumnViewContainer::removeAllColumns()
     m_index = 0;
     m_columns[0]->setActive(true);
     assureVisibleActiveColumn();
-}
-
-QPoint DolphinColumnViewContainer::columnPosition(DolphinColumnView* column, const QPoint& point) const
-{
-    const QPoint topLeft = column->frameGeometry().topLeft();
-    return QPoint(point.x() - topLeft.x(), point.y() - topLeft.y());
 }
 
 void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
