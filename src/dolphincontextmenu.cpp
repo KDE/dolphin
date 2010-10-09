@@ -325,6 +325,14 @@ void DolphinContextMenu::openViewportContextMenu()
     // "open_in_new_tab" here, as the current selection should get ignored.
     m_popup->addAction(m_mainWindow->actionCollection()->action("new_window"));
     m_popup->addAction(m_mainWindow->actionCollection()->action("new_tab"));
+
+    // Insert 'Add to Places' entry if exactly one item is selected
+    QAction* addToPlacesAction = 0;
+    if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
+        addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
+                                             i18nc("@action:inmenu Add current folder to places", "Add to Places"));
+    }
+
     m_popup->addSeparator();
 
     QAction* pasteAction = createPasteAction();
@@ -339,13 +347,6 @@ void DolphinContextMenu::openViewportContextMenu()
     addServiceActions(fileItemActions);
 
     addVersionControlActions();
-
-    // insert 'Add to Places' entry if exactly one item is selected
-    QAction* addToPlacesAction = 0;
-    if (!placeExists(m_mainWindow->activeViewContainer()->url())) {
-        addToPlacesAction = m_popup->addAction(KIcon("bookmark-new"),
-                                             i18nc("@action:inmenu Add current folder to places", "Add to Places"));
-    }
 
     addCustomActions();
 
