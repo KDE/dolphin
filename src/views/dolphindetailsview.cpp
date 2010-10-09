@@ -41,31 +41,23 @@
 #include <klocale.h>
 #include <kmenu.h>
 
-#include <QAction>
 #include <QApplication>
 #include <QHeaderView>
-#include <QRubberBand>
-#include <QPainter>
 #include <QScrollBar>
 
 DolphinDetailsView::DolphinDetailsView(QWidget* parent,
                                        DolphinViewController* dolphinViewController,
                                        const ViewModeController* viewModeController,
                                        DolphinSortFilterProxyModel* proxyModel) :
-    QTreeView(parent),
+    DolphinTreeView(parent),
     m_autoResize(true),
-    m_expandingTogglePressed(false),
-    m_keyPressed(false),
-    m_useDefaultIndexAt(true),
-    m_ignoreScrollTo(false),
     m_dolphinViewController(dolphinViewController),
     m_viewModeController(viewModeController),
     m_extensionsFactory(0),
     m_expandableFoldersAction(0),
     m_expandedUrls(),
     m_font(),
-    m_decorationSize(),
-    m_band()
+    m_decorationSize()
 {
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     Q_ASSERT(settings != 0);
@@ -152,8 +144,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
             this, SLOT(slotGlobalSettingsChanged(int)));
 
-    m_useDefaultIndexAt = false;
-
     m_expandableFoldersAction = new QAction(i18nc("@option:check", "Expandable Folders"), this);
     m_expandableFoldersAction->setCheckable(true);
     connect(m_expandableFoldersAction, SIGNAL(toggled(bool)),
@@ -181,46 +171,19 @@ QSet<KUrl> DolphinDetailsView::expandedUrls() const
     return m_expandedUrls;
 }
 
-QRegion DolphinDetailsView::visualRegionForSelection(const QItemSelection& selection) const
-{
-    // We have to make sure that the visualRect of each model index is inside the region.
-    // QTreeView::visualRegionForSelection does not do it right because it assumes implicitly
-    // that all visualRects have the same width, which is in general not the case here.
-    QRegion selectionRegion;
-    const QModelIndexList indexes = selection.indexes();
-
-    foreach(const QModelIndex& index, indexes) {
-        selectionRegion += visualRect(index);
-    }
-
-    return selectionRegion;
-}
-
 bool DolphinDetailsView::event(QEvent* event)
 {
-    switch (event->type()) {
-    case QEvent::Polish:
+    if (event->type() == QEvent::Polish) {
         header()->setResizeMode(QHeaderView::Interactive);
         updateColumnVisibility();
-        break;
-
-    case QEvent::FocusOut:
-        // If a key-press triggers an action that e. g. opens a dialog, the
-        // widget gets no key-release event. Assure that the pressed state
-        // is reset to prevent accidently setting the current index during a selection.
-        m_keyPressed = false;
-        break;
-
-    default:
-        break;
     }
 
-    return QTreeView::event(event);
+    return DolphinTreeView::event(event);
 }
 
 QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 {
-    QStyleOptionViewItem viewOptions = QTreeView::viewOptions();
+    QStyleOptionViewItem viewOptions = DolphinTreeView::viewOptions();
     viewOptions.font = m_font;
     viewOptions.fontMetrics = QFontMetrics(m_font);
     viewOptions.showDecorationSelected = true;
@@ -230,7 +193,7 @@ QStyleOptionViewItem DolphinDetailsView::viewOptions() const
 
 void DolphinDetailsView::contextMenuEvent(QContextMenuEvent* event)
 {
-    QTreeView::contextMenuEvent(event);
+    DolphinTreeView::contextMenuEvent(event);
 
     DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
     m_expandableFoldersAction->setChecked(settings->expandableFolders());
@@ -242,111 +205,21 @@ void DolphinDetailsView::mousePressEvent(QMouseEvent* event)
 {
     m_dolphinViewController->requestActivation();
 
-    const QModelIndex current = currentIndex();
-    QTreeView::mousePressEvent(event);
-
-    m_expandingTogglePressed = isAboveExpandingToggle(event->pos());
+    DolphinTreeView::mousePressEvent(event);
 
     const QModelIndex index = indexAt(event->pos());
-    const bool updateState = index.isValid() &&
-                             (index.column() == DolphinModel::Name) &&
-                             (event->button() == Qt::LeftButton);
-    if (updateState) {
-        setState(QAbstractItemView::DraggingState);
-    }
-
     if (!index.isValid() || (index.column() != DolphinModel::Name)) {
-        // the mouse press is done somewhere outside the filename column
+        // The mouse press is done somewhere outside the filename column
         if (QApplication::mouseButtons() & Qt::MidButton) {
             m_dolphinViewController->replaceUrlByClipboard();
         }
-
-        const Qt::KeyboardModifiers mod = QApplication::keyboardModifiers();
-        if (!m_expandingTogglePressed && !(mod & Qt::ShiftModifier) && !(mod & Qt::ControlModifier)) {
-            clearSelection();
-        }
-
-        // restore the current index, other columns are handled as viewport area.
-        // setCurrentIndex(...) implicitly calls scrollTo(...), which we want to ignore.
-        m_ignoreScrollTo = true;
-        selectionModel()->setCurrentIndex(current, QItemSelectionModel::Current);
-        m_ignoreScrollTo = false;
-
-        if ((event->button() == Qt::LeftButton) && !m_expandingTogglePressed) {
-            // Inform Qt about what we are doing - otherwise it starts dragging items around!
-            setState(DragSelectingState);
-            m_band.show = true;
-            // Incremental update data will not be useful - start from scratch.
-            m_band.ignoreOldInfo = true;
-            const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
-            m_band.origin = event->pos()  + scrollPos;
-            m_band.destination = m_band.origin;
-            m_band.originalSelection = selectionModel()->selection();
-        }
-    }
-}
-
-void DolphinDetailsView::mouseMoveEvent(QMouseEvent* event)
-{
-    if (m_expandingTogglePressed) {
-        // Per default QTreeView starts either a selection or a drag operation when dragging
-        // the expanding toggle button (Qt-issue - see TODO comment in DolphinIconsView::mousePressEvent()).
-        // Turn off this behavior in Dolphin to stay predictable:
-        setState(QAbstractItemView::NoState);
-        return;
-    }
-
-    if (m_band.show) {
-        const QPoint mousePos = event->pos();
-        const QModelIndex index = indexAt(mousePos);
-        if (!index.isValid()) {
-            // the destination of the selection rectangle is above the viewport. In this
-            // case QTreeView does no selection at all, which is not the wanted behavior
-            // in Dolphin -> select all items within the elastic band rectangle
-            updateElasticBandSelection();
-        }
-
-        // TODO: enable QTreeView::mouseMoveEvent(event) again, as soon
-        // as the Qt-issue #199631 has been fixed.
-        // QTreeView::mouseMoveEvent(event);
-        QAbstractItemView::mouseMoveEvent(event);
-        updateElasticBand();
-    } else {
-        // TODO: enable QTreeView::mouseMoveEvent(event) again, as soon
-        // as the Qt-issue #199631 has been fixed.
-        // QTreeView::mouseMoveEvent(event);
-        QAbstractItemView::mouseMoveEvent(event);
-    }
-}
-
-void DolphinDetailsView::mouseReleaseEvent(QMouseEvent* event)
-{
-    if (!m_expandingTogglePressed) {
-        const QModelIndex index = indexAt(event->pos());
-        if (index.isValid() && (index.column() == DolphinModel::Name)) {
-            QTreeView::mouseReleaseEvent(event);
-        } else {
-            // don't change the current index if the cursor is released
-            // above any other column than the name column, as the other
-            // columns act as viewport
-            const QModelIndex current = currentIndex();
-            QTreeView::mouseReleaseEvent(event);
-            selectionModel()->setCurrentIndex(current, QItemSelectionModel::Current);
-        }
-    }
-    m_expandingTogglePressed = false;
-
-    if (m_band.show) {
-        setState(NoState);
-        updateElasticBand();
-        m_band.show = false;
     }
 }
 
 void DolphinDetailsView::startDrag(Qt::DropActions supportedActions)
 {
     DragAndDropHelper::instance().startDrag(this, supportedActions, m_dolphinViewController);
-    m_band.show = false;
+    DolphinTreeView::startDrag(supportedActions);
 }
 
 void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
@@ -354,38 +227,15 @@ void DolphinDetailsView::dragEnterEvent(QDragEnterEvent* event)
     if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
         event->acceptProposedAction();
     }
-
-    if (m_band.show) {
-        updateElasticBand();
-        m_band.show = false;
-    }
-}
-
-void DolphinDetailsView::dragLeaveEvent(QDragLeaveEvent* event)
-{
-    QTreeView::dragLeaveEvent(event);
-    setDirtyRegion(m_dropRect);
+    DolphinTreeView::dragEnterEvent(event);
 }
 
 void DolphinDetailsView::dragMoveEvent(QDragMoveEvent* event)
 {
-    QTreeView::dragMoveEvent(event);
-
-    // TODO: remove this code when the issue #160611 is solved in Qt 4.4
-    setDirtyRegion(m_dropRect);
-    const QModelIndex index = indexAt(event->pos());
-    if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        const KFileItem item = m_dolphinViewController->itemForIndex(index);
-        if (!item.isNull() && item.isDir()) {
-            m_dropRect = visualRect(index);
-        } else {
-            m_dropRect.setSize(QSize()); // set as invalid
-        }
-        setDirtyRegion(m_dropRect);
-    }
+    DolphinTreeView::dragMoveEvent(event);
 
     if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
-        // accept url drops, independently from the destination item
+        // Accept URL drops, independently from the destination item
         event->acceptProposedAction();
     }
 }
@@ -398,49 +248,18 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
         item = m_dolphinViewController->itemForIndex(index);
     }
     m_dolphinViewController->indicateDroppedUrls(item, m_viewModeController->url(), event);
-    QTreeView::dropEvent(event);
-}
-
-void DolphinDetailsView::paintEvent(QPaintEvent* event)
-{
-    QTreeView::paintEvent(event);
-    if (m_band.show) {
-        // The following code has been taken from QListView
-        // and adapted to DolphinDetailsView.
-        // (C) 1992-2007 Trolltech ASA
-        QStyleOptionRubberBand opt;
-        opt.initFrom(this);
-        opt.shape = QRubberBand::Rectangle;
-        opt.opaque = false;
-        opt.rect = elasticBandRect();
-
-        QPainter painter(viewport());
-        painter.save();
-        style()->drawControl(QStyle::CE_RubberBand, &opt, &painter);
-        painter.restore();
-    }
+    DolphinTreeView::dropEvent(event);
 }
 
 void DolphinDetailsView::keyPressEvent(QKeyEvent* event)
 {
-    // If the Control modifier is pressed, a multiple selection
-    // is done and DolphinDetailsView::currentChanged() may not
-    // not change the selection in a custom way.
-    m_keyPressed = !(event->modifiers() & Qt::ControlModifier);
-
-    QTreeView::keyPressEvent(event);
+    DolphinTreeView::keyPressEvent(event);
     m_dolphinViewController->handleKeyPressEvent(event);
-}
-
-void DolphinDetailsView::keyReleaseEvent(QKeyEvent* event)
-{
-    QTreeView::keyReleaseEvent(event);
-    m_keyPressed = false;
 }
 
 void DolphinDetailsView::resizeEvent(QResizeEvent* event)
 {
-    QTreeView::resizeEvent(event);
+    DolphinTreeView::resizeEvent(event);
     if (m_autoResize) {
         resizeColumns();
     }
@@ -450,19 +269,13 @@ void DolphinDetailsView::wheelEvent(QWheelEvent* event)
 {
     const int step = m_decorationSize.height();
     verticalScrollBar()->setSingleStep(step);
-    QTreeView::wheelEvent(event);
+    DolphinTreeView::wheelEvent(event);
 }
 
 void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
-    QTreeView::currentChanged(current, previous);
     m_extensionsFactory->handleCurrentIndexChange(current, previous);
-
-    // Stay consistent with QListView: When changing the current index by key presses,
-    // also change the selection.
-    if (m_keyPressed) {
-        setCurrentIndex(current);
-    }
+    DolphinTreeView::currentChanged(current, previous);
 
     // If folders are expanded, the width which is available for editing may have changed
     // because it depends on the level of the current item in the folder hierarchy.
@@ -472,27 +285,18 @@ void DolphinDetailsView::currentChanged(const QModelIndex& current, const QModel
 bool DolphinDetailsView::eventFilter(QObject* watched, QEvent* event)
 {
     if ((watched == viewport()) && (event->type() == QEvent::Leave)) {
-        // if the mouse is above an item and moved very fast outside the widget,
+        // If the mouse is above an item and moved very fast outside the widget,
         // no viewportEntered() signal might be emitted although the mouse has been moved
-        // above the viewport
+        // above the viewport.
         m_dolphinViewController->emitViewportEntered();
     }
 
-    return QTreeView::eventFilter(watched, event);
-}
-
-QModelIndex DolphinDetailsView::indexAt(const QPoint& point) const
-{
-    // the blank portion of the name column counts as empty space
-    const QModelIndex index = QTreeView::indexAt(point);
-    const bool isAboveEmptySpace  = !m_useDefaultIndexAt &&
-                                    (index.column() == KDirModel::Name) && !visualRect(index).contains(point);
-    return isAboveEmptySpace ? QModelIndex() : index;
+    return DolphinTreeView::eventFilter(watched, event);
 }
 
 QRect DolphinDetailsView::visualRect(const QModelIndex& index) const
 {
-    QRect rect = QTreeView::visualRect(index);
+    QRect rect = DolphinTreeView::visualRect(index);
     const KFileItem item = m_dolphinViewController->itemForIndex(index);
     if (!item.isNull()) {
         const int width = DolphinFileItemDelegate::nameColumnWidth(item.text(), viewOptions());
@@ -502,31 +306,21 @@ QRect DolphinDetailsView::visualRect(const QModelIndex& index) const
     return rect;
 }
 
-void DolphinDetailsView::setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command)
+bool DolphinDetailsView::acceptsDrop(const QModelIndex& index) const
 {
-    // We must override setSelection() as Qt calls it internally and when this happens
-    // we must ensure that the default indexAt() is used.
-    if (!m_band.show) {
-        m_useDefaultIndexAt = true;
-        QTreeView::setSelection(rect, command);
-        m_useDefaultIndexAt = false;
-    } else {
-        // Use our own elastic band selection algorithm
-        updateElasticBandSelection();
+    if (index.isValid() && (index.column() == DolphinModel::Name)) {
+        // Accept drops above directories
+        const KFileItem item = m_dolphinViewController->itemForIndex(index);
+        return !item.isNull() && item.isDir();
     }
-}
 
-void DolphinDetailsView::scrollTo(const QModelIndex & index, ScrollHint hint)
-{
-    if (!m_ignoreScrollTo) {
-        QTreeView::scrollTo(index, hint);
-    }
+    return false;
 }
 
 void DolphinDetailsView::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
 {
     removeExpandedIndexes(parent, start, end);
-    QTreeView::rowsAboutToBeRemoved(parent, start, end);
+    DolphinTreeView::rowsAboutToBeRemoved(parent, start, end);
 }
 
 void DolphinDetailsView::setSortIndicatorSection(DolphinView::Sorting sorting)
@@ -558,34 +352,6 @@ void DolphinDetailsView::slotEntered(const QModelIndex& index)
     }
 }
 
-void DolphinDetailsView::updateElasticBand()
-{
-    if (m_band.show) {
-        QRect dirtyRegion(elasticBandRect());
-        const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
-        m_band.destination = viewport()->mapFromGlobal(QCursor::pos()) + scrollPos;
-        // Going above the (logical) top-left of the view causes complications during selection;
-        // we may as well prevent it.
-        if (m_band.destination.y() < 0) {
-            m_band.destination.setY(0);
-        }
-        if (m_band.destination.x() < 0) {
-            m_band.destination.setX(0);
-        }
-        dirtyRegion = dirtyRegion.united(elasticBandRect());
-        setDirtyRegion(dirtyRegion);
-    }
-}
-
-QRect DolphinDetailsView::elasticBandRect() const
-{
-    const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
-
-    const QPoint topLeft = m_band.origin - scrollPos;
-    const QPoint bottomRight = m_band.destination - scrollPos;
-    return QRect(topLeft, bottomRight).normalized();
-}
-
 void DolphinDetailsView::setZoomLevel(int level)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);
@@ -612,7 +378,7 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
     KMenu popup(this);
     popup.addTitle(i18nc("@title:menu", "Columns"));
 
-    // add checkbox items for each column
+    // Add checkbox items for each column
     QHeaderView* headerView = header();
     const int columns = model()->columnCount();
     for (int i = 0; i < columns; ++i) {
@@ -819,7 +585,7 @@ void DolphinDetailsView::slotGlobalSettingsChanged(int category)
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
     }
-    //Disconnect then reconnect, since the settings have been changed, the connection requirements may have also.
+    // Disconnect then reconnect, since the settings have been changed, the connection requirements may have also.
     disconnect(this, SIGNAL(clicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     disconnect(this, SIGNAL(doubleClicked(QModelIndex)), m_dolphinViewController, SLOT(triggerItem(QModelIndex)));
     if (KGlobalSettings::singleClick()) {
@@ -829,193 +595,11 @@ void DolphinDetailsView::slotGlobalSettingsChanged(int category)
     }
 }
 
-void DolphinDetailsView::updateElasticBandSelection()
-{
-    if (!m_band.show) {
-        return;
-    }
-
-    // Ensure the elastic band itself is up-to-date, in
-    // case we are being called due to e.g. a drag event.
-    updateElasticBand();
-
-    // Clip horizontally to the name column, as some filenames will be
-    // longer than the column.  We don't clip vertically as origin
-    // may be above or below the current viewport area.
-    const int nameColumnX = header()->sectionPosition(DolphinModel::Name);
-    const int nameColumnWidth = header()->sectionSize(DolphinModel::Name);
-    QRect selRect = elasticBandRect().normalized();
-    QRect nameColumnArea(nameColumnX, selRect.y(), nameColumnWidth, selRect.height());
-    selRect = nameColumnArea.intersect(selRect).normalized();
-    // Get the last elastic band rectangle, expressed in viewpoint coordinates.
-    const QPoint scrollPos(horizontalScrollBar()->value(), verticalScrollBar()->value());
-    QRect oldSelRect = QRect(m_band.lastSelectionOrigin - scrollPos, m_band.lastSelectionDestination - scrollPos).normalized();
-
-    if (selRect.isNull()) {
-        selectionModel()->select(m_band.originalSelection, QItemSelectionModel::ClearAndSelect);
-        m_band.ignoreOldInfo = true;
-        return;
-    }
-
-    if (!m_band.ignoreOldInfo) {
-        // Do some quick checks to see if we can rule out the need to
-        // update the selection.
-        Q_ASSERT(uniformRowHeights());
-        QModelIndex dummyIndex = model()->index(0, 0);
-        if (!dummyIndex.isValid()) {
-            // No items in the model presumably.
-            return;
-        }
-
-        // If the elastic band does not cover the same rows as before, we'll
-        // need to re-check, and also invalidate the old item distances.
-        const int rowHeight = QTreeView::rowHeight(dummyIndex);
-        const bool coveringSameRows =
-            (selRect.top()    / rowHeight == oldSelRect.top()    / rowHeight) &&
-            (selRect.bottom() / rowHeight == oldSelRect.bottom() / rowHeight);
-        if (coveringSameRows) {
-            // Covering the same rows, but have we moved far enough horizontally
-            // that we might have (de)selected some other items?
-            const bool itemSelectionChanged =
-                ((selRect.left() > oldSelRect.left()) &&
-                 (selRect.left() > m_band.insideNearestLeftEdge)) ||
-                ((selRect.left() < oldSelRect.left()) &&
-                 (selRect.left() <= m_band.outsideNearestLeftEdge)) ||
-                ((selRect.right() < oldSelRect.right()) &&
-                 (selRect.left() >= m_band.insideNearestRightEdge)) ||
-                ((selRect.right() > oldSelRect.right()) &&
-                 (selRect.right() >= m_band.outsideNearestRightEdge));
-
-            if (!itemSelectionChanged) {
-                return;
-            }
-        }
-    } else {
-        // This is the only piece of optimization data that needs to be explicitly
-        // discarded.
-        m_band.lastSelectionOrigin = QPoint();
-        m_band.lastSelectionDestination = QPoint();
-        oldSelRect = selRect;
-    }
-
-    // Do the selection from scratch. Force a update of the horizontal distances info.
-    m_band.insideNearestLeftEdge   = nameColumnX + nameColumnWidth + 1;
-    m_band.insideNearestRightEdge  = nameColumnX - 1;
-    m_band.outsideNearestLeftEdge  = nameColumnX - 1;
-    m_band.outsideNearestRightEdge = nameColumnX + nameColumnWidth + 1;
-
-    // Include the old selection rect as well, so we can deselect
-    // items that were inside it but not in the new selRect.
-    const QRect boundingRect = selRect.united(oldSelRect).normalized();
-    if (boundingRect.isNull()) {
-        return;
-    }
-
-    // Get the index of the item in this row in the name column.
-    // TODO - would this still work if the columns could be re-ordered?
-    QModelIndex startIndex = QTreeView::indexAt(boundingRect.topLeft());
-    if (startIndex.parent().isValid()) {
-        startIndex = startIndex.parent().child(startIndex.row(), KDirModel::Name);
-    } else {
-        startIndex = model()->index(startIndex.row(), KDirModel::Name);
-    }
-    if (!startIndex.isValid()) {
-        selectionModel()->select(m_band.originalSelection, QItemSelectionModel::ClearAndSelect);
-        m_band.ignoreOldInfo = true;
-        return;
-    }
-
-   // Go through all indexes between the top and bottom of boundingRect, and
-   // update the selection.
-   const int verticalCutoff = boundingRect.bottom();
-   QModelIndex currIndex = startIndex;
-   QModelIndex lastIndex;
-   bool allItemsInBoundDone = false;
-
-   // Calling selectionModel()->select(...) for each item that needs to be
-   // toggled is slow as each call emits selectionChanged(...) so store them
-   // and do the selection toggle in one batch.
-   QItemSelection itemsToToggle;
-   // QItemSelection's deal with continuous ranges of indexes better than
-   // single indexes, so try to portion items that need to be toggled into ranges.
-   bool formingToggleIndexRange = false;
-   QModelIndex toggleIndexRangeBegin = QModelIndex();
-
-   do {
-       QRect currIndexRect = visualRect(currIndex);
-
-        // Update some optimization info as we go.
-       const int cr = currIndexRect.right();
-       const int cl = currIndexRect.left();
-       const int sl = selRect.left();
-       const int sr = selRect.right();
-       // "The right edge of the name is outside of the rect but nearer than m_outsideNearestLeft", etc
-       if ((cr < sl && cr > m_band.outsideNearestLeftEdge)) {
-           m_band.outsideNearestLeftEdge = cr;
-       }
-       if ((cl > sr && cl < m_band.outsideNearestRightEdge)) {
-           m_band.outsideNearestRightEdge = cl;
-       }
-       if ((cl >= sl && cl <= sr && cl > m_band.insideNearestRightEdge)) {
-           m_band.insideNearestRightEdge = cl;
-       }
-       if ((cr >= sl && cr <= sr && cr < m_band.insideNearestLeftEdge)) {
-           m_band.insideNearestLeftEdge = cr;
-       }
-
-       bool currentlySelected = selectionModel()->isSelected(currIndex);
-       bool originallySelected = m_band.originalSelection.contains(currIndex);
-       bool intersectsSelectedRect = currIndexRect.intersects(selRect);
-       bool shouldBeSelected = (intersectsSelectedRect && !originallySelected) || (!intersectsSelectedRect && originallySelected);
-       bool needToToggleItem = (currentlySelected && !shouldBeSelected) || (!currentlySelected && shouldBeSelected);
-       if (needToToggleItem && !formingToggleIndexRange) {
-            toggleIndexRangeBegin = currIndex;
-            formingToggleIndexRange = true;
-       }
-
-       // NOTE: indexBelow actually walks up and down expanded trees for us.
-       QModelIndex nextIndex = indexBelow(currIndex);
-       allItemsInBoundDone = !nextIndex.isValid() || currIndexRect.top() > verticalCutoff;
-
-       const bool commitToggleIndexRange = formingToggleIndexRange &&
-                                           (!needToToggleItem ||
-                                            allItemsInBoundDone ||
-                                            currIndex.parent() != toggleIndexRangeBegin.parent());
-       if (commitToggleIndexRange) {
-           formingToggleIndexRange = false;
-            // If this is the last item in the bounds and it is also the beginning of a range,
-            // don't toggle lastIndex - it will already have been dealt with.
-           if (!allItemsInBoundDone || toggleIndexRangeBegin != currIndex) {
-               itemsToToggle.select(toggleIndexRangeBegin, lastIndex);
-           }
-            // Need to start a new range immediately with currIndex?
-           if (needToToggleItem) {
-               toggleIndexRangeBegin = currIndex;
-               formingToggleIndexRange = true;
-           }
-           if (allItemsInBoundDone && needToToggleItem) {
-                // Toggle the very last item in the bounds.
-               itemsToToggle.select(currIndex, currIndex);
-           }
-       }
-
-       // next item
-       lastIndex = currIndex;
-       currIndex = nextIndex;
-    } while (!allItemsInBoundDone);
-
-
-    selectionModel()->select(itemsToToggle, QItemSelectionModel::Toggle);
-
-    m_band.lastSelectionOrigin = m_band.origin;
-    m_band.lastSelectionDestination = m_band.destination;
-    m_band.ignoreOldInfo = false;
-}
 
 void DolphinDetailsView::setFoldersExpandable(bool expandable)
 {
     if (!expandable) {
-        // collapse all expanded folders, as QTreeView::setItemsExpandable(false)
+        // Collapse all expanded folders, as QTreeView::setItemsExpandable(false)
         // does not do this task
         const int rowCount = model()->rowCount();
         for (int row = 0; row < rowCount; ++row) {
@@ -1090,52 +674,10 @@ KFileItemDelegate::Information DolphinDetailsView::infoForColumn(int columnIndex
     return AdditionalInfoAccessor::instance().keyForColumn(columnIndex);
 }
 
-bool DolphinDetailsView::isAboveExpandingToggle(const QPoint& pos) const
-{
-    // QTreeView offers no public API to get the information whether an index has an
-    // expanding toggle and what boundaries the toggle has. The following approach
-    // also assumes a toggle for file items.
-    if (itemsExpandable()) {
-        const QModelIndex index = QTreeView::indexAt(pos);
-        if (index.isValid() && (index.column() == KDirModel::Name)) {
-            QRect rect = visualRect(index);
-            const int toggleSize = rect.height();
-            if (isRightToLeft()) {
-                rect.moveRight(rect.right());
-            } else {
-                rect.moveLeft(rect.x() - toggleSize);
-            }
-            rect.setWidth(toggleSize);
-
-            QStyleOption opt;
-            opt.initFrom(this);
-            opt.rect = rect;
-            rect = style()->subElementRect(QStyle::SE_TreeViewDisclosureItem, &opt, this);
-
-            return rect.contains(pos);
-        }
-    }
-    return false;
-}
-
 void DolphinDetailsView::adjustMaximumSizeForEditing(const QModelIndex& index)
 {
     // Make sure that the full width of the "Name" column is available for "Rename Inline"
     m_extensionsFactory->fileItemDelegate()->setMaximumSize(QTreeView::visualRect(index).size());
-}
-
-DolphinDetailsView::ElasticBand::ElasticBand() :
-    show(false),
-    origin(),
-    destination(),
-    lastSelectionOrigin(),
-    lastSelectionDestination(),
-    ignoreOldInfo(true),
-    outsideNearestLeftEdge(0),
-    outsideNearestRightEdge(0),
-    insideNearestLeftEdge(0),
-    insideNearestRightEdge(0)
-{
 }
 
 #include "dolphindetailsview.moc"

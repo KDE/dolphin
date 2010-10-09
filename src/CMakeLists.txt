@@ -36,6 +36,7 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinnewfilemenuobserver.cpp
     views/dolphinremoteencoding.cpp
     views/dolphinsortfilterproxymodel.cpp
+    views/dolphintreeview.cpp
     views/dolphinviewactionhandler.cpp
     views/dolphinviewautoscroller.cpp
     views/dolphinviewcontroller.cpp
