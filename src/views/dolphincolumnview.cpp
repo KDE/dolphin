@@ -268,17 +268,18 @@ void DolphinColumnView::dropEvent(QDropEvent* event)
 void DolphinColumnView::paintEvent(QPaintEvent* event)
 {
     if (!m_childUrl.isEmpty()) {
-        // indicate the shown URL of the next column by highlighting the shown folder item
+        // Indicate the shown URL of the next column by highlighting the shown folder item
         const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_childUrl);
         const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         if (proxyIndex.isValid() && !selectionModel()->isSelected(proxyIndex)) {
-            const QRect itemRect = visualRect(proxyIndex);
             QPainter painter(viewport());
-            QColor color = KColorScheme(QPalette::Active, KColorScheme::View).foreground().color();
-            color.setAlpha(32);
-            painter.setPen(Qt::NoPen);
-            painter.setBrush(color);
-            painter.drawRect(itemRect);
+
+            QStyleOptionViewItemV4 option;
+            option.initFrom(this);
+            option.rect = visualRect(proxyIndex);
+            option.state = QStyle::State_Enabled | QStyle::State_HasFocus;
+            option.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
+            style()->drawPrimitive(QStyle::PE_FrameFocusRect, &option, &painter, this);
         }
     }
 
