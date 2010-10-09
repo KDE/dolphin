@@ -34,6 +34,7 @@ class DolphinModel;
 class DolphinSortFilterProxyModel;
 class DolphinDirLister;
 class KFileItem;
+class QLabel;
 class SelectionManager;
 class ViewExtensionsFactory;
 
@@ -102,6 +103,7 @@ protected:
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
     virtual QRect visualRect(const QModelIndex& index) const;
     virtual bool acceptsDrop(const QModelIndex& index) const;
+    virtual bool eventFilter(QObject* watched, QEvent* event);
 
 private slots:
     void setZoomLevel(int level);
@@ -135,6 +137,9 @@ private:
     DolphinDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
+
+    QLabel* m_resizeWidget;
+    int m_resizeXOrigin;
 
     friend class DolphinColumnViewContainer;
 };

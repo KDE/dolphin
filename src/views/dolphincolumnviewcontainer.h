@@ -98,7 +98,6 @@ private slots:
 
 private:
     void layoutColumns();
-    void updateScrollBar();
 
     /**
      * Assures that the currently active column is fully visible

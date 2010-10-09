@@ -40,13 +40,16 @@
 #include <kdirlister.h>
 #include <kfileitem.h>
 #include <kio/previewjob.h>
+#include <kicon.h>
 #include <kiconeffect.h>
 #include <kjob.h>
+#include <klocale.h>
 #include <konqmimedata.h>
 
 #include <QApplication>
 #include <QClipboard>
 #include <QHeaderView>
+#include <QLabel>
 #include <QPainter>
 #include <QPoint>
 #include <QScrollBar>
@@ -64,7 +67,9 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_decorationSize(),
     m_dirLister(0),
     m_dolphinModel(0),
-    m_proxyModel(0)
+    m_proxyModel(0),
+    m_resizeWidget(0),
+    m_resizeXOrigin(-1)
 {
     setMouseTracking(true);
     setAcceptDrops(true);
@@ -76,6 +81,13 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     setRootIsDecorated(false);
     setItemsExpandable(false);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
+    m_resizeWidget = new QLabel(this);
+    m_resizeWidget->setPixmap(KIcon("transform-move").pixmap(KIconLoader::SizeSmall));
+    m_resizeWidget->setToolTip(i18nc("@info:tooltip", "Resize column"));
+    setCornerWidget(m_resizeWidget);
+    m_resizeWidget->installEventFilter(this);
 
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
     Q_ASSERT(settings != 0);
@@ -89,6 +101,9 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
                        settings->italicFont());
         m_font.setPointSizeF(settings->fontSize());
     }
+
+    setMinimumWidth(settings->fontSize() * 10);
+    setMaximumWidth(settings->columnWidth());
 
     connect(this, SIGNAL(viewportEntered()),
             m_container->m_dolphinViewController, SLOT(emitViewportEntered()));
@@ -380,6 +395,61 @@ bool DolphinColumnView::acceptsDrop(const QModelIndex& index) const
     return false;
 }
 
+bool DolphinColumnView::eventFilter(QObject* watched, QEvent* event)
+{
+    if (watched == m_resizeWidget) {
+        switch (event->type()) {
+        case QEvent::MouseButtonPress: {
+            // Initiate the resizing of the column
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+            m_resizeXOrigin = mouseEvent->globalX();
+            m_resizeWidget->setMouseTracking(true);
+            event->accept();
+            return true;
+        }
+
+        case QEvent::MouseButtonDblClick: {
+            // Reset the column width to the default value
+            const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
+            setMaximumWidth(settings->columnWidth());
+            m_container->layoutColumns();
+            m_resizeWidget->setMouseTracking(false);
+            m_resizeXOrigin = -1;
+            event->accept();
+            return true;
+        }
+
+        case QEvent::MouseMove: {
+            // Resize the column and trigger a relayout of the container
+            QMouseEvent* mouseEvent = static_cast<QMouseEvent*>(event);
+            int requestedWidth = maximumWidth() - m_resizeXOrigin + mouseEvent->globalX();;
+            if (requestedWidth < minimumWidth()) {
+                requestedWidth = minimumWidth();
+            }
+            setMaximumWidth(requestedWidth);
+
+            m_container->layoutColumns();
+
+            m_resizeXOrigin = mouseEvent->globalX();
+
+            event->accept();
+            return true;
+        }
+
+        case QEvent::MouseButtonRelease: {
+            // The resizing has been finished
+            m_resizeWidget->setMouseTracking(false);
+            m_resizeXOrigin = -1;
+            event->accept();
+            return true;
+        }
+
+        default:
+            break;
+        }
+    }
+    return DolphinTreeView::eventFilter(watched, event);
+}
 void DolphinColumnView::setZoomLevel(int level)
 {
     const int size = ZoomLevelInfo::iconSizeForZoomLevel(level);

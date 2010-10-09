@@ -79,7 +79,6 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_emptyViewport->setFrameStyle(QFrame::StyledPanel | QFrame::Sunken);
 
     updateColumnsBackground(true);
-
 }
 
 DolphinColumnViewContainer::~DolphinColumnViewContainer()
@@ -171,7 +170,6 @@ void DolphinColumnViewContainer::showColumn(const KUrl& url)
             column->setGeometry(QRect(-1, -1, 1, 1));
             column->show();
             layoutColumns();
-            updateScrollBar();
         }
     }
 
@@ -199,7 +197,6 @@ void DolphinColumnViewContainer::resizeEvent(QResizeEvent* event)
 {
     QScrollArea::resizeEvent(event);
     layoutColumns();
-    updateScrollBar();
     assureVisibleActiveColumn();
 }
 
@@ -249,40 +246,40 @@ void DolphinColumnViewContainer::updateActiveUrl()
 
 void DolphinColumnViewContainer::layoutColumns()
 {
-    const int gap = 4;
-
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    const int columnWidth = settings->columnWidth();
-
+    // Layout the position of the columns corresponding to their maximum width
     QRect emptyViewportRect;
     if (isRightToLeft()) {
+        int columnWidth = m_columns[0]->maximumWidth();
         int x = viewport()->width() - columnWidth + m_contentX;
         foreach (DolphinColumnView* column, m_columns) {
-            column->setGeometry(QRect(x, 0, columnWidth - gap, viewport()->height()));
+            columnWidth = column->maximumWidth();
+            column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
             x -= columnWidth;
         }
-        emptyViewportRect = QRect(0, 0, x + columnWidth - gap, viewport()->height());
+        emptyViewportRect = QRect(0, 0, x + columnWidth, viewport()->height());
     } else {
         int x = m_contentX;
         foreach (DolphinColumnView* column, m_columns) {
-            column->setGeometry(QRect(x, 0, columnWidth - gap, viewport()->height()));
+            const int columnWidth = column->maximumWidth();
+            column->setGeometry(QRect(x, 0, columnWidth, viewport()->height()));
             x += columnWidth;
         }
-        emptyViewportRect = QRect(x, 0, viewport()->width() - x - gap, viewport()->height());
+        emptyViewportRect = QRect(x, 0, viewport()->width() - x, viewport()->height());
     }
 
+    // Show an empty viewport if the columns don't cover the whole viewport
     if (emptyViewportRect.isValid()) {
         m_emptyViewport->show();
         m_emptyViewport->setGeometry(emptyViewportRect);
     } else {
         m_emptyViewport->hide();
     }
-}
 
-void DolphinColumnViewContainer::updateScrollBar()
-{
-    ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    const int contentWidth = m_columns.count() * settings->columnWidth();
+    // Update the horizontal position indicator
+    int contentWidth = 0;
+    foreach (DolphinColumnView* column, m_columns) {
+        contentWidth += column->maximumWidth();
+    }
 
     horizontalScrollBar()->setPageStep(contentWidth);
     horizontalScrollBar()->setRange(0, contentWidth - viewport()->width());
