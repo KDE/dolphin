@@ -465,7 +465,7 @@ void DolphinMainWindow::openInNewTab()
     if (list.isEmpty()) {
         openNewTab(m_activeViewContainer->url());
     } else if ((list.count() == 1) && list[0].isDir()) {
-        openNewTab(m_activeViewContainer->view()->selectedUrls()[0]);
+        openNewTab(list[0].url());
     }
 }
 
@@ -477,7 +477,7 @@ void DolphinMainWindow::openInNewWindow()
     if (list.isEmpty()) {
         newWindowUrl = m_activeViewContainer->url();
     } else if ((list.count() == 1) && list[0].isDir()) {
-        newWindowUrl = m_activeViewContainer->view()->selectedUrls()[0];
+        newWindowUrl = list[0].url();
     }
 
     if (!newWindowUrl.isEmpty()) {
@@ -912,30 +912,31 @@ void DolphinMainWindow::compareFiles()
 
     KUrl urlA;
     KUrl urlB;
-    KUrl::List urls = m_viewTab[m_tabIndex].primaryView->view()->selectedUrls();
 
-    switch (urls.count()) {
+    KFileItemList items = m_viewTab[m_tabIndex].primaryView->view()->selectedItems();
+
+    switch (items.count()) {
     case 0: {
         Q_ASSERT(m_viewTab[m_tabIndex].secondaryView != 0);
-        urls = m_viewTab[m_tabIndex].secondaryView->view()->selectedUrls();
+        items = m_viewTab[m_tabIndex].secondaryView->view()->selectedItems();
         Q_ASSERT(urls.count() == 2);
-        urlA = urls[0];
-        urlB = urls[1];
+        urlA = items[0].url();
+        urlB = items[1].url();
         break;
     }
 
     case 1: {
-        urlA = urls[0];
+        urlA = items[0].url();
         Q_ASSERT(m_viewTab[m_tabIndex].secondaryView != 0);
-        urls = m_viewTab[m_tabIndex].secondaryView->view()->selectedUrls();
-        Q_ASSERT(urls.count() == 1);
-        urlB = urls[0];
+        items = m_viewTab[m_tabIndex].secondaryView->view()->selectedItems();
+        Q_ASSERT(items.count() == 1);
+        urlB = items[0].url();
         break;
     }
 
     case 2: {
-        urlA = urls[0];
-        urlB = urls[1];
+        urlA = items[0].url();
+        urlB = items[1].url();
         break;
     }
 

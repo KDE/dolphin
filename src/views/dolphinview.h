@@ -196,13 +196,6 @@ public:
     KFileItemList selectedItems() const;
 
     /**
-     * Returns a list of URLs for all selected items. An empty list
-     * is returned, if no item is selected.
-     * @see DolphinView::selectedItems()
-     */
-    KUrl::List selectedUrls() const;
-
-    /**
      * Returns the number of selected items (this is faster than
      * invoking selectedItems().count()).
      */

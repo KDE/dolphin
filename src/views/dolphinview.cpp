@@ -314,16 +314,6 @@ KFileItemList DolphinView::selectedItems() const
     return itemList;
 }
 
-KUrl::List DolphinView::selectedUrls() const
-{
-    KUrl::List urls;
-    const KFileItemList list = selectedItems();
-    foreach (const KFileItem &item, list) {
-        urls.append(item.url());
-    }
-    return urls;
-}
-
 int DolphinView::selectedItemsCount() const
 {
     const QAbstractItemView* view = m_viewAccessor.itemView();
@@ -1261,11 +1251,19 @@ void DolphinView::updateZoomLevel(int oldZoomLevel)
 
 KUrl::List DolphinView::simplifiedSelectedUrls() const
 {
-    KUrl::List list = selectedUrls();
-    if (itemsExpandable() ) {
-        list = KDirModel::simplifiedUrlList(list);
+    KUrl::List urls;
+
+    const KFileItemList items = selectedItems();
+    foreach (const KFileItem &item, items) {
+        urls.append(item.url());
     }
-    return list;
+
+
+    if (itemsExpandable()) {
+        urls = KDirModel::simplifiedUrlList(urls);
+    }
+
+    return urls;
 }
 
 QMimeData* DolphinView::selectionMimeData() const

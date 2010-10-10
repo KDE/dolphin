@@ -74,8 +74,10 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     // The context menu either accesses the URLs of the selected items
     // or the items itself. To increase the performance both lists are cached.
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
-    m_selectedUrls = view->selectedUrls();
     m_selectedItems = view->selectedItems();
+    foreach (const KFileItem &item, m_selectedItems) {
+        m_selectedUrls.append(item.url());
+    }
 
     if (m_keyInfo != 0) {
         if (m_keyInfo->isKeyPressed(Qt::Key_Shift) || m_keyInfo->isKeyLatched(Qt::Key_Shift)) {
