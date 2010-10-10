@@ -699,40 +699,6 @@ void DolphinView::setCategorizedSorting(bool categorized)
     emit categorizedSortingChanged();
 }
 
-void DolphinView::toggleSortOrder()
-{
-    const Qt::SortOrder order = (sortOrder() == Qt::AscendingOrder) ?
-                                Qt::DescendingOrder :
-                                Qt::AscendingOrder;
-    setSortOrder(order);
-}
-
-void DolphinView::toggleSortFoldersFirst()
-{
-    setSortFoldersFirst(!sortFoldersFirst());
-}
-
-void DolphinView::toggleAdditionalInfo(QAction* action)
-{
-    const KFileItemDelegate::Information info =
-        static_cast<KFileItemDelegate::Information>(action->data().toInt());
-
-    KFileItemDelegate::InformationList list = additionalInfo();
-
-    const bool show = action->isChecked();
-
-    const int index = list.indexOf(info);
-    const bool containsInfo = (index >= 0);
-    if (show && !containsInfo) {
-        list.append(info);
-        setAdditionalInfo(list);
-    } else if (!show && containsInfo) {
-        list.removeAt(index);
-        setAdditionalInfo(list);
-        Q_ASSERT(list.indexOf(info) < 0);
-    }
-}
-
 void DolphinView::mouseReleaseEvent(QMouseEvent* event)
 {
     QWidget::mouseReleaseEvent(event);

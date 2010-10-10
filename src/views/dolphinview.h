@@ -411,18 +411,6 @@ public slots:
      */
     void setCategorizedSorting(bool categorized);
 
-    /** Switches between an ascending and descending sorting order. */
-    void toggleSortOrder();
-
-    /** Switches between a separate sorting (with folders first) and a mixed sorting of files and folders. */
-    void toggleSortFoldersFirst();
-
-    /**
-     * Switches on or off the displaying of additional information
-     * as specified by \a action.
-     */
-    void toggleAdditionalInfo(QAction* action);
-
 signals:
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.

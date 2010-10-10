@@ -358,12 +358,16 @@ void DolphinViewActionHandler::zoomOut()
 
 void DolphinViewActionHandler::toggleSortOrder()
 {
-    m_currentView->toggleSortOrder();
+    const Qt::SortOrder order = (m_currentView->sortOrder() == Qt::AscendingOrder) ?
+                                Qt::DescendingOrder :
+                                Qt::AscendingOrder;
+    m_currentView->setSortOrder(order);
 }
 
 void DolphinViewActionHandler::toggleSortFoldersFirst()
 {
-    m_currentView->toggleSortFoldersFirst();
+    const bool sortFirst = m_currentView->sortFoldersFirst();
+    m_currentView->setSortFoldersFirst(!sortFirst);
 }
 
 void DolphinViewActionHandler::slotSortOrderChanged(Qt::SortOrder order)
@@ -381,7 +385,24 @@ void DolphinViewActionHandler::slotSortFoldersFirstChanged(bool foldersFirst)
 void DolphinViewActionHandler::toggleAdditionalInfo(QAction* action)
 {
     emit actionBeingHandled();
-    m_currentView->toggleAdditionalInfo(action);
+
+    const KFileItemDelegate::Information info =
+        static_cast<KFileItemDelegate::Information>(action->data().toInt());
+
+    KFileItemDelegate::InformationList list = m_currentView->additionalInfo();
+
+    const bool show = action->isChecked();
+
+    const int index = list.indexOf(info);
+    const bool containsInfo = (index >= 0);
+    if (show && !containsInfo) {
+        list.append(info);
+        m_currentView->setAdditionalInfo(list);
+    } else if (!show && containsInfo) {
+        list.removeAt(index);
+        m_currentView->setAdditionalInfo(list);
+        Q_ASSERT(list.indexOf(info) < 0);
+    }
 }
 
 void DolphinViewActionHandler::slotAdditionalInfoChanged()
