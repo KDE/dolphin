@@ -37,7 +37,7 @@ class QPoint;
  * The DolphinView connects to the signals of DolphinViewController to react on changes
  * that have been triggered by the view mode implementations. The view mode implementations
  * have read access to the whole DolphinView by DolphinViewController::view(). Limited control of the
- * DolphinView by the view mode implementations are defined by the public DolphinController methods.
+ * DolphinView by the view mode implementations are defined by the public DolphinViewController methods.
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinViewController : public QObject
 {
@@ -61,7 +61,7 @@ public:
 
     /**
      * Changes the current view mode implementation where the controller is working.
-     * This is only necessary for views like the tree view, where internally
+     * This is only necessary for views like the column view, where internally
      * several QAbstractItemView instances are used.
      */
     void setItemView(QAbstractItemView* view);
