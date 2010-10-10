@@ -71,7 +71,7 @@ protected:
 
 signals:
     /**
-     * Is emitted when the user pressed Return or Enter
+     * Is emitted when a searching should be triggered
      * and provides the text that should be used as input
      * for searching.
      */
@@ -83,6 +83,8 @@ signals:
      */
     void searchTextChanged(const QString& text);
 
+    void returnPressed(const QString& text);
+
     /**
      * Emitted as soon as the search box should get closed.
      */
@@ -91,6 +93,8 @@ signals:
 private slots:
     void emitSearchSignal();
     void slotConfigurationChanged();
+    void slotSearchTextChanged(const QString& text);
+    void slotReturnPressed(const QString& text);
     void setFilterWidgetsVisible(bool visible);
 
 private:
@@ -127,6 +131,8 @@ private:
     QList<AbstractSearchFilterWidget*> m_filterWidgets;
 
     KUrl m_searchPath;
+
+    QTimer* m_startSearchTimer;
 };
 
 #endif

@@ -34,6 +34,7 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QPushButton>
+#include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
 
@@ -66,7 +67,8 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_filterButton(0),
     m_filterWidgetsLayout(0),
     m_filterWidgets(),
-    m_searchPath()
+    m_searchPath(),
+    m_startSearchTimer(0)
 {
 }
 
@@ -156,6 +158,7 @@ void DolphinSearchBox::keyReleaseEvent(QKeyEvent* event)
 
 void DolphinSearchBox::emitSearchSignal()
 {
+    m_startSearchTimer->stop();
     m_startedSearching = true;
     emit search(m_searchInput->text());
 }
@@ -165,6 +168,22 @@ void DolphinSearchBox::slotConfigurationChanged()
     if (m_startedSearching) {
         emitSearchSignal();
     }
+}
+
+void DolphinSearchBox::slotSearchTextChanged(const QString& text)
+{
+    if (text.isEmpty()) {
+        m_startSearchTimer->stop();
+    } else {
+        m_startSearchTimer->start();
+    }
+    emit searchTextChanged(text);
+}
+
+void DolphinSearchBox::slotReturnPressed(const QString& text)
+{
+    emitSearchSignal();
+    emit returnPressed(text);
 }
 
 void DolphinSearchBox::setFilterWidgetsVisible(bool visible)
@@ -241,10 +260,10 @@ void DolphinSearchBox::init()
     m_searchInput = new KLineEdit(this);
     m_searchInput->setClearButtonShown(true);
     m_searchInput->setFont(KGlobalSettings::generalFont());
-    connect(m_searchInput, SIGNAL(returnPressed()),
-            this, SLOT(emitSearchSignal()));
+    connect(m_searchInput, SIGNAL(returnPressed(QString)),
+            this, SLOT(slotReturnPressed(QString)));
     connect(m_searchInput, SIGNAL(textChanged(QString)),
-            this, SIGNAL(searchTextChanged(QString)));
+            this, SLOT(slotSearchTextChanged(QString)));
 
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
@@ -304,6 +323,13 @@ void DolphinSearchBox::init()
 
     searchLabel->setBuddy(m_searchInput);
     loadSettings();
+
+    // The searching should be started automatically after the user did not change
+    // the text within one second
+    m_startSearchTimer = new QTimer(this);
+    m_startSearchTimer->setSingleShot(true);
+    m_startSearchTimer->setInterval(1000);
+    connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchSignal()));
 }
 
 bool DolphinSearchBox::isSearchPathIndexed() const

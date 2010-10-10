@@ -102,6 +102,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_searchBox->hide();
     connect(m_searchBox, SIGNAL(closeRequest()), this, SLOT(closeSearchBox()));
     connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(startSearching(QString)));
+    connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
     m_dirLister = new DolphinDirLister();
     m_dirLister->setAutoUpdate(true);
@@ -431,7 +432,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
         }
 
         m_view->setUrl(url);
-        if (isActive()) {
+        if (isActive() && !isSearchUrl(url)) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
             // a new view widget.
