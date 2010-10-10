@@ -28,11 +28,8 @@
 
 #include <kurlnavigator.h>
 
-#include <QtGui/QKeyEvent>
-#include <QtCore/QLinkedList>
-#include <QtGui/QListView>
-#include <QtGui/QBoxLayout>
-#include <QtGui/QWidget>
+#include <QElapsedTimer>
+#include <QWidget>
 
 #include <views/dolphinview.h>
 
@@ -257,7 +254,8 @@ private:
     FilterBar* m_filterBar;
 
     DolphinStatusBar* m_statusBar;
-    QTimer* m_statusBarTimer;
+    QTimer* m_statusBarTimer;            // Triggers a delayed update
+    QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
 
     DolphinModel* m_dolphinModel;
     DolphinDirLister* m_dirLister;

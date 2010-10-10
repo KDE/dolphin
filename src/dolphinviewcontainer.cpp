@@ -74,6 +74,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_filterBar(0),
     m_statusBar(0),
     m_statusBarTimer(0),
+    m_statusBarTimestamp(),
     m_dirLister(0),
     m_proxyModel(0)
 {
@@ -124,6 +125,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_dirLister, SIGNAL(percent(int)),
             this, SLOT(updateProgress(int)));
     connect(m_dirLister, SIGNAL(itemsDeleted(const KFileItemList&)),
+            this, SLOT(delayedStatusBarUpdate()));
+    connect(m_dirLister, SIGNAL(newItems(KFileItemList)),
             this, SLOT(delayedStatusBarUpdate()));
     connect(m_dirLister, SIGNAL(completed()),
             this, SLOT(slotDirListerCompleted()));
@@ -280,32 +283,39 @@ void DolphinViewContainer::showFilterBar(bool show)
 
 void DolphinViewContainer::delayedStatusBarUpdate()
 {
-    // Invoke updateStatusBar() with a small delay. This assures that
-    // when a lot of delayedStatusBarUpdates() are done in a short time,
-    // no bottleneck is given.
-    m_statusBarTimer->start();
+    if (m_statusBarTimer->isActive() && (m_statusBarTimestamp.elapsed() > 2000)) {
+        // No update of the statusbar has been done during the last 2 seconds,
+        // although an update has been requested. Trigger an immediate update.
+        m_statusBarTimer->stop();
+        updateStatusBar();
+    } else {
+        // Invoke updateStatusBar() with a small delay. This assures that
+        // when a lot of delayedStatusBarUpdates() are done in a short time,
+        // no bottleneck is given.
+        m_statusBarTimer->start();
+    }
 }
 
 void DolphinViewContainer::updateStatusBar()
 {
+    m_statusBarTimestamp.start();
+
     // As the item count information is less important
     // in comparison with other messages, it should only
     // be shown if:
     // - the status bar is empty or
     // - shows already the item count information or
     // - shows only a not very important information
-    // - if any progress is given don't show the item count info at all
-    const QString msg = m_statusBar->message();
-    const bool updateStatusBarMsg = (msg.isEmpty()
-                                     || (msg == m_statusBar->defaultText())
-                                     || (m_statusBar->type() == DolphinStatusBar::Information))
-                                    && (m_statusBar->progress() == 100);
+    const QString newMessage = m_view->statusBarText();
+    const QString currentMessage = m_statusBar->message();
+    const bool updateStatusBarMsg = currentMessage.isEmpty()
+                                    || (currentMessage == m_statusBar->defaultText())
+                                    || (m_statusBar->type() == DolphinStatusBar::Information);
 
-    const QString text = m_view->statusBarText();
-    m_statusBar->setDefaultText(text);
+    m_statusBar->setDefaultText(newMessage);
 
     if (updateStatusBarMsg) {
-        m_statusBar->setMessage(text, DolphinStatusBar::Default);
+        m_statusBar->setMessage(newMessage, DolphinStatusBar::Default);
     }
 }
 
