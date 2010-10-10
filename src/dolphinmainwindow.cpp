@@ -919,7 +919,7 @@ void DolphinMainWindow::compareFiles()
     case 0: {
         Q_ASSERT(m_viewTab[m_tabIndex].secondaryView != 0);
         items = m_viewTab[m_tabIndex].secondaryView->view()->selectedItems();
-        Q_ASSERT(urls.count() == 2);
+        Q_ASSERT(items.count() == 2);
         urlA = items[0].url();
         urlB = items[1].url();
         break;
