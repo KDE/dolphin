@@ -486,8 +486,18 @@ void DolphinContextMenu::updateRemoveAction()
 {
     const KActionCollection* collection = m_mainWindow->actionCollection();
     const bool moveToTrash = capabilities().isLocal() && !m_shiftPressed;
-    const QAction* action = moveToTrash ? collection->action("move_to_trash") : collection->action("delete");
-    m_removeAction->setText(action->text());
+
+    // Using m_removeAction->setText(action->text()) does not apply the &-shortcut.
+    // This is only done until the original action has been shown at least once. To
+    // bypass this issue, the text and &-shortcut is applied manually.
+    const QAction* action = 0;
+    if (moveToTrash) {
+        action = collection->action("move_to_trash");
+        m_removeAction->setText(i18nc("@action:inmenu", "&Move to Trash"));
+    } else {
+        action = collection->action("delete");
+        m_removeAction->setText(i18nc("@action:inmenu", "&Delete"));
+    }
     m_removeAction->setIcon(action->icon());
     m_removeAction->setShortcuts(action->shortcuts());
 }
