@@ -128,7 +128,9 @@ QList<QAction*> DolphinViewController::versionControlActions(const KFileItemList
 
 void DolphinViewController::handleKeyPressEvent(QKeyEvent* event)
 {
-    Q_ASSERT(m_itemView != 0);
+    if (m_itemView == 0) {
+        return;
+    }
 
     const QItemSelectionModel* selModel = m_itemView->selectionModel();
     const QModelIndex currentIndex = selModel->currentIndex();
@@ -194,13 +196,13 @@ void DolphinViewController::emitItemTriggered(const KFileItem& item)
 
 KFileItem DolphinViewController::itemForIndex(const QModelIndex& index) const
 {
-    Q_ASSERT(m_itemView != 0);
-
-    QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(m_itemView->model());
-    if (proxyModel != 0) {
-        KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-        const QModelIndex dirIndex = proxyModel->mapToSource(index);
-        return dirModel->itemForIndex(dirIndex);
+    if (m_itemView != 0) {
+        QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(m_itemView->model());
+        if (proxyModel != 0) {
+            KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
+            const QModelIndex dirIndex = proxyModel->mapToSource(index);
+            return dirModel->itemForIndex(dirIndex);
+        }
     }
 
     return KFileItem();
@@ -212,7 +214,7 @@ void DolphinViewController::triggerItem(const QModelIndex& index)
         const KFileItem item = itemForIndex(index);
         if (index.isValid() && (index.column() == KDirModel::Name)) {
             emit itemTriggered(item);
-        } else {
+        } else if (m_itemView != 0) {
             m_itemView->clearSelection();
             emit itemEntered(KFileItem());
         }
