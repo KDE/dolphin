@@ -49,7 +49,10 @@ DragAndDropHelper& DragAndDropHelper::instance()
 
 bool DragAndDropHelper::isMimeDataSupported(const QMimeData* mimeData) const
 {
-    return mimeData->hasUrls() || mimeData->hasFormat("application/x-kde-dndextract");
+    // We support everything, cf KonqOperations::doDrop which can save any data.
+    //return mimeData->hasUrls() || mimeData->hasFormat("application/x-kde-dndextract");
+    Q_UNUSED(mimeData);
+    return true;
 }
 
 void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
@@ -109,9 +112,7 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
     } else {
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         const int urlsCount = urls.count();
-        if (urlsCount == 0) {
-            // TODO: handle dropping of other data
-        } else if ((urlsCount == 1) && (urls.first() == destination)) {
+        if ((urlsCount == 1) && (urls.first() == destination)) {
             emit errorMessage(i18nc("@info:status", "A folder cannot be dropped into itself"));
         } else if (dropToItem) {
             KonqOperations::doDrop(destItem, destination, event, widget);
