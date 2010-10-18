@@ -163,14 +163,32 @@ QPixmap DolphinFileItemDelegate::emblemForState(KVersionControlPlugin::VersionSt
         for (int i = KVersionControlPlugin::NormalVersion; i <= KVersionControlPlugin::ConflictingVersion; ++i) {
             QString iconName;
             switch (i) {
-            case KVersionControlPlugin::NormalVersion:          iconName = "vcs-normal"; break;
-            case KVersionControlPlugin::UpdateRequiredVersion:  iconName = "vcs-update-required"; break;
-            case KVersionControlPlugin::LocallyModifiedVersion: iconName = "vcs-locally-modified"; break;
-            case KVersionControlPlugin::AddedVersion:           iconName = "vcs-added"; break;
-            case KVersionControlPlugin::RemovedVersion:         iconName = "vcs-removed"; break;
-            case KVersionControlPlugin::ConflictingVersion:     iconName = "vcs-conflicting"; break;
+            case KVersionControlPlugin::NormalVersion:
+                iconName = "vcs-normal";
+                break;
+            case KVersionControlPlugin::UpdateRequiredVersion:
+                iconName = "vcs-update-required";
+                break;
+            case KVersionControlPlugin::LocallyModifiedVersion:
+                iconName = "vcs-locally-modified";
+                break;
+            case KVersionControlPlugin::LocallyModifiedUnstagedVersion:
+                iconName = "vcs-locally-modified-unstaged";
+                break;
+            case KVersionControlPlugin::AddedVersion:
+                iconName = "vcs-added";
+                break;
+            case KVersionControlPlugin::RemovedVersion:
+                iconName = "vcs-removed";
+                break;
+            case KVersionControlPlugin::ConflictingVersion:
+                iconName = "vcs-conflicting";
+                break;
             case KVersionControlPlugin::UnversionedVersion:
-            default:                                            Q_ASSERT(false); break;
+                break;
+            default:
+                Q_ASSERT(false);
+                break;
             }
 
             m_cachedEmblems[i] = KIcon(iconName).pixmap(emblemSize);
