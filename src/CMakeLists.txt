@@ -1,3 +1,4 @@
+add_subdirectory(tests)
 
 find_package(QImageBlitz REQUIRED)
 
