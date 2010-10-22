@@ -797,6 +797,9 @@ private:
      * slotDirListerCompleted().
      */
     QSet<QString> m_newFileNames;
+
+    // For unit tests
+    friend class TestHelper;
 };
 
 /// Allow using DolphinView::Mode in QVariant

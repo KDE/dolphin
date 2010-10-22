@@ -62,6 +62,9 @@ public:
      */
     QSet<KUrl> expandedUrls() const;
 
+public:
+    virtual QRect visualRect(const QModelIndex& index) const;
+
 protected:
     virtual bool event(QEvent* event);
     virtual QStyleOptionViewItem viewOptions() const;
@@ -76,7 +79,6 @@ protected:
     virtual void wheelEvent(QWheelEvent* event);
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
     virtual bool eventFilter(QObject* watched, QEvent* event);
-    virtual QRect visualRect(const QModelIndex& index) const;
     virtual bool acceptsDrop(const QModelIndex& index) const;
 
 protected slots:
