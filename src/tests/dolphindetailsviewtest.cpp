@@ -53,6 +53,10 @@ private:
 
 void DolphinDetailsViewTest::initTestCase()
 {
+    // add time stamps to find origin of test failures due to timeout at
+    // http://my.cdash.org/index.php?project=kdebase&date=
+    qputenv("KDE_DEBUG_TIMESTAMP", QByteArray("1"));
+
     m_helper = new TestHelper;
     m_view = m_helper->view();
 }
@@ -86,11 +90,13 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
 
     // We have to make sure that the view has loaded the directory before we start the test.
     // TODO: This will be needed frequently. Maybe move to TestHelper.
+    kDebug() << "Reloading view and waiting for the finishedPathLoading(const KUrl&) signal...";
     QSignalSpy finished(m_view, SIGNAL(finishedPathLoading(const KUrl&)));
     m_view->reload();
     while (finished.count() != 1) {
         QTest::qWait(50);
     }
+    kDebug() << "...signal received, continuing";
 
     QModelIndex index0 = detailsView->model()->index(0, 0);
     detailsView->setCurrentIndex(index0);
@@ -105,9 +111,12 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     detailsView->setCurrentIndex(index1);
     QCOMPARE(detailsView->currentIndex(), index1);
 
+    kDebug() << "Now checking zoom levels...";
+
     // Increase the zoom level successively to the maximum.
     while(zoomLevel < ZoomLevelInfo::maximumLevel()) {
         zoomLevel++;
+        kDebug() << "Testing zoom level" << zoomLevel;
         m_view->setZoomLevel(zoomLevel);
 
         //Check for each zoom level that the height of each item is at least the icon size.
@@ -115,7 +124,10 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     }
 
     m_view->hide();
+
+    kDebug() << "Cleaning up test directory...";
     m_helper->cleanupTestDir();
+    kDebug() << "Done.";
 }
 
 QTEST_KDEMAIN(DolphinDetailsViewTest, GUI)
