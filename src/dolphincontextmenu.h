@@ -138,9 +138,33 @@ private:
 
     QAction* createPasteAction();
 
-    KFileItemListProperties& capabilities();
+    KFileItemListProperties& selectedItemsProperties();
+
+    /**
+     * Returns the file item for m_baseUrl.
+     */
+    KFileItem baseFileItem();
+
+    /**
+     * Adds actions that have been installed as service-menu.
+     * (see http://techbase.kde.org/index.php?title=Development/Tutorials/Creating_Konqueror_Service_Menus)
+     */
     void addServiceActions(KFileItemActions& fileItemActions);
-    void addVersionControlActions();
+
+    /**
+     * Adds actions that are provided by a KFileItemActionPlugin.
+     */
+    void addFileItemPluginActions();
+
+    /**
+     * Adds actions that are provided by a KVersionControlPlugin.
+     */
+    void addVersionControlPluginActions();
+
+    /**
+     * Adds custom actions e.g. like the "[x] Expandable Folders"-action
+     * provided in the details view.
+     */
     void addCustomActions();
 
     /**
@@ -168,15 +192,19 @@ private:
     };
 
     DolphinMainWindow* m_mainWindow;
-    KFileItemListProperties* m_capabilities;
+
     KFileItem m_fileInfo;
+
     KUrl m_baseUrl;
+    KFileItem* m_baseFileItem;  /// File item for m_baseUrl
+
     KFileItemList m_selectedItems;
-    KUrl::List m_selectedUrls;
+    KFileItemListProperties* m_selectedItemsProperties;
+
     int m_context;
     KonqCopyToMenu m_copyToMenu;
     QList<QAction*> m_customActions;
-    QScopedPointer<KMenu> m_popup;
+    KMenu* m_popup;
 
     Command m_command;
 

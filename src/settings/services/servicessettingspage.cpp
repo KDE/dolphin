@@ -86,7 +86,7 @@ ServicesSettingsPage::~ServicesSettingsPage()
 
 void ServicesSettingsPage::applySettings()
 {
-    // Apply service menu settings
+    // Apply service menu settingsentries
     KConfig config("kservicemenurc", KConfig::NoGlobals);
     KConfigGroup showGroup = config.group("Show");
 
@@ -146,6 +146,7 @@ void ServicesSettingsPage::loadServices()
     const KConfig config("kservicemenurc", KConfig::NoGlobals);
     const KConfigGroup showGroup = config.group("Show");
 
+    // Load generic services
     const KService::List entries = KServiceTypeTrader::self()->query("KonqPopupMenu/Plugin");
     foreach (const KSharedPtr<KService>& service, entries) {
         const QString file = KStandardDirs::locate("services", service->entryPath());
@@ -156,10 +157,10 @@ void ServicesSettingsPage::loadServices()
         const QString subMenuName = desktopFile.desktopGroup().readEntry("X-KDE-Submenu");
 
         foreach (const KServiceAction& action, serviceActions) {
-            const QString service = action.name();
+            const QString serviceName = action.name();
             const bool addService = !action.noDisplay()
                                     && !action.isSeparator()
-                                    && !isInServicesList(service);
+                                    && !isInServicesList(serviceName);
 
             if (addService) {
                 const QString itemName = subMenuName.isEmpty()
@@ -168,10 +169,24 @@ void ServicesSettingsPage::loadServices()
                 QListWidgetItem* item = new QListWidgetItem(KIcon(action.icon()),
                                                             itemName,
                                                             m_servicesList);
-                item->setData(Qt::UserRole, service);
-                const bool show = showGroup.readEntry(service, true);
+                item->setData(Qt::UserRole, serviceName);
+                const bool show = showGroup.readEntry(serviceName, true);
                 item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
             }
+        }
+    }
+
+    // Load service plugins that implement the KFileItemActionPlugin interface
+    const KService::List pluginServices = KServiceTypeTrader::self()->query("KFileItemAction/Plugin");
+    foreach (const KSharedPtr<KService>& service, pluginServices) {
+        const QString serviceName = service->desktopEntryName();
+        if (!isInServicesList(serviceName)) {
+            QListWidgetItem* item = new QListWidgetItem(KIcon(service->icon()),
+                                                        service->name(),
+                                                        m_servicesList);
+            item->setData(Qt::UserRole, serviceName);
+            const bool show = showGroup.readEntry(serviceName, true);
+            item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
         }
     }
 }

@@ -282,8 +282,9 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
         for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
             if (enabledPlugins.contains((*it)->name())) {
                 KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>();
-                Q_ASSERT(plugin != 0);
-                plugins.append(plugin);
+                if (plugin != 0) {
+                    plugins.append(plugin);
+                }
             }
         }
         if (plugins.isEmpty()) {

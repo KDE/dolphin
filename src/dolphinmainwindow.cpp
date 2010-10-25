@@ -1193,9 +1193,9 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
                                         const KUrl& url,
                                         const QList<QAction*>& customActions)
 {
-    DolphinContextMenu contextMenu(this, item, url);
-    contextMenu.setCustomActions(customActions);
-    const DolphinContextMenu::Command command = contextMenu.open();
+    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, url);
+    contextMenu->setCustomActions(customActions);
+    const DolphinContextMenu::Command command = contextMenu->open();
 
     switch (command) {
     case DolphinContextMenu::OpenParentFolderInNewWindow: {
@@ -1213,6 +1213,8 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
     default:
         break;
     }
+
+    delete contextMenu;
 }
 
 void DolphinMainWindow::init()
