@@ -70,7 +70,7 @@ kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
 target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF3_LIBS} ${QIMAGEBLITZ_LIBRARIES})
 if (Nepomuk_FOUND)
-  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} ${SOPRANO_LIBRARIES})
+  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} nepomukutils ${SOPRANO_LIBRARIES})
 endif (Nepomuk_FOUND)
 
 
@@ -104,6 +104,7 @@ set(dolphin_SRCS
     dolphincontextmenu.cpp
     filterbar/filterbar.cpp
     main.cpp
+    panels/facets/facetpanel.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
     panels/information/pixmapviewer.cpp
@@ -189,6 +190,7 @@ if (Nepomuk_FOUND)
         ${NEPOMUK_LIBRARIES}
         ${SOPRANO_LIBRARIES}
         ${NEPOMUK_QUERY_LIBRARIES}
+        nepomukutils
     )
 endif (Nepomuk_FOUND)
 

@@ -28,6 +28,7 @@
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
 #include "mainwindowadaptor.h"
+#include "panels/facets/facetpanel.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
@@ -1562,6 +1563,20 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, SIGNAL(changeUrl(KUrl, Qt::MouseButtons)),
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
 
+    // setup "Facets"
+   QDockWidget* facetDock = new QDockWidget(i18nc("@title:window", "Filter"));
+   facetDock->setObjectName("facetDock");
+   facetDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+   Panel* facetPanel = new FacetPanel(facetDock);
+   connect(facetPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
+   facetDock->setWidget(facetPanel);
+
+   QAction* facetAction = facetDock->toggleViewAction();
+   facetAction->setIcon(KIcon("dialog-facet"));
+   addDockWidget(Qt::RightDockWidgetArea, facetDock);
+   connect(this, SIGNAL(urlChanged(KUrl)),
+           facetPanel, SLOT(setUrl(KUrl)));
+
     // setup "Terminal"
 #ifndef Q_OS_WIN
     QDockWidget* terminalDock = new QDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
@@ -1616,6 +1631,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(placesAction);
     panelsMenu->addAction(infoAction);
     panelsMenu->addAction(foldersAction);
+    panelsMenu->addAction(facetAction);
 #ifndef Q_OS_WIN
     panelsMenu->addAction(terminalAction);
 #endif

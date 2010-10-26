@@ -47,6 +47,7 @@
     #include <nepomuk/queryparser.h>
     #include <nepomuk/resourcemanager.h>
     #include <nepomuk/resourcetypeterm.h>
+    #include <nepomuk/comparisonterm.h>
     #include "nfo.h"
 
     #include "filters/datesearchfilterwidget.h"
@@ -96,10 +97,7 @@ KUrl DolphinSearchBox::searchPath() const
 KUrl DolphinSearchBox::urlForSearching() const
 {
     KUrl url;
-    if (isSearchPathIndexed() && !m_fileNameButton->isChecked()) {
-        // TODO: Currently Nepomuk is not used for searching filenames. Nepomuk
-        // is capable to provide this, but further investigations are necessary to
-        // also support regular expressions.
+    if (isSearchPathIndexed()) {
         url = nepomukUrlForSearching();
     } else {
         url = m_searchPath;
@@ -334,6 +332,7 @@ void DolphinSearchBox::init()
 
 bool DolphinSearchBox::isSearchPathIndexed() const
 {
+    return true;
 #ifdef HAVE_NEPOMUK
     const QString path = m_searchPath.path();
 
@@ -354,7 +353,8 @@ bool DolphinSearchBox::isSearchPathIndexed() const
         // excluded folder is part of the search path.
         const QStringList excludedFolders = strigiConfig.group("General").readPathEntry("exclude folders", QStringList());
         foreach (const QString& excludedFolder, excludedFolders) {
-            if (excludedFolder.startsWith(path)) {
+            // trueg: this is still not correct since there might be an include folder in the exclude folder
+            if (path.startsWith(excludedFolder)) {
                 isIndexed = false;
                 break;
             }
@@ -383,9 +383,23 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
     // Add input from search filter
     const QString text = m_searchInput->text();
     if (!text.isEmpty()) {
-        const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text);
-        if (customQuery.isValid()) {
-            andTerm.addSubTerm(customQuery.term());
+        if ( m_fileNameButton->isChecked() ) {
+            QString regex = QRegExp::escape(text);
+            regex.replace("\\*", QLatin1String( ".*" ));
+            regex.replace("\\?", QLatin1String( "." ));
+            regex.replace("\\", "\\\\");
+            regex.prepend('^');
+            regex.append('$');
+            andTerm.addSubTerm( Nepomuk::Query::ComparisonTerm(
+                                    Nepomuk::Vocabulary::NFO::fileName(),
+                                    Nepomuk::Query::LiteralTerm( regex ),
+                                    Nepomuk::Query::ComparisonTerm::Regexp ) );
+        }
+        else {
+            const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern);
+            if (customQuery.isValid()) {
+                andTerm.addSubTerm(customQuery.term());
+            }
         }
     }
 
@@ -393,13 +407,12 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
     fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
     fileQuery.setTerm(andTerm);
 
-    if (fileQuery.isValid()) {
-        return fileQuery.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
-                                           "Query Results from '%1'",
-                                           text));
-    }
-#endif
+    return fileQuery.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
+                                       "Query Results from '%1'",
+                                       text));
+#else
     return KUrl();
+#endif
 }
 
 #include "dolphinsearchbox.moc"
