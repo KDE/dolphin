@@ -104,7 +104,6 @@ set(dolphin_SRCS
     dolphincontextmenu.cpp
     filterbar/filterbar.cpp
     main.cpp
-    panels/facets/facetpanel.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
     panels/information/pixmapviewer.cpp
@@ -149,6 +148,7 @@ kde4_add_kcfg_files(dolphin_SRCS
 if(Nepomuk_FOUND)
     set(dolphin_SRCS
         ${dolphin_SRCS}
+        panels/facets/facetpanel.cpp
         search/filters/abstractsearchfilterwidget.cpp
         search/filters/datesearchfilterwidget.cpp
         search/filters/ratingsearchfilterwidget.cpp

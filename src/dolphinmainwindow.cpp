@@ -1564,6 +1564,7 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
 
     // setup "Facets"
+#ifdef HAVE_NEPOMUK
    QDockWidget* facetDock = new QDockWidget(i18nc("@title:window", "Filter"));
    facetDock->setObjectName("facetDock");
    facetDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
@@ -1576,6 +1577,7 @@ void DolphinMainWindow::setupDockWidgets()
    addDockWidget(Qt::RightDockWidgetArea, facetDock);
    connect(this, SIGNAL(urlChanged(KUrl)),
            facetPanel, SLOT(setUrl(KUrl)));
+#endif
 
     // setup "Terminal"
 #ifndef Q_OS_WIN
@@ -1631,7 +1633,9 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(placesAction);
     panelsMenu->addAction(infoAction);
     panelsMenu->addAction(foldersAction);
+#ifdef HAVE_NEPOMUK
     panelsMenu->addAction(facetAction);
+#endif
 #ifndef Q_OS_WIN
     panelsMenu->addAction(terminalAction);
 #endif
