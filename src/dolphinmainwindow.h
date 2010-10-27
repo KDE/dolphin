@@ -431,6 +431,8 @@ private slots:
      */
     void slotWriteStateChanged(bool isFolderWritable);
 
+    void slotSearchModeChanged(bool enabled);
+
     /**
      * Opens the context menu on the current mouse position.
      * @item          File item context. If item is null, the context menu
@@ -543,6 +545,12 @@ private:
     QPointer<DolphinSettingsDialog> m_settingsDialog;
 
     KJob* m_lastHandleUrlStatJob;
+
+    /**
+     * Set to true, if the filter dock visibility is only temporary set
+     * to true by enabling the search mode.
+     */
+    bool m_filterDockIsTemporaryVisible;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const

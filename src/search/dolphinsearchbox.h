@@ -95,7 +95,6 @@ private slots:
     void slotConfigurationChanged();
     void slotSearchTextChanged(const QString& text);
     void slotReturnPressed(const QString& text);
-    void setFilterWidgetsVisible(bool visible);
 
 private:
     void initButton(QPushButton* button);
@@ -127,8 +126,6 @@ private:
     QPushButton* m_contentButton;
 
     QToolButton* m_filterButton;
-    QFormLayout* m_filterWidgetsLayout;
-    QList<AbstractSearchFilterWidget*> m_filterWidgets;
 
     KUrl m_searchPath;
 

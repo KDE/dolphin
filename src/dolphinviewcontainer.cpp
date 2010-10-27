@@ -230,6 +230,10 @@ bool DolphinViewContainer::isFilterBarVisible() const
 
 void DolphinViewContainer::setSearchModeEnabled(bool enabled)
 {
+    if (enabled == isSearchModeEnabled()) {
+        return;
+    }
+
     m_searchBox->setVisible(enabled);
     m_urlNavigator->setVisible(!enabled);
 
@@ -250,6 +254,8 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
             }
         }
     }
+
+    emit searchModeChanged(enabled);
 }
 
 bool DolphinViewContainer::isSearchModeEnabled() const
@@ -435,10 +441,12 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
             if (!m_searchBox->isVisible()) {
                 m_searchBox->setVisible(true);
                 m_urlNavigator->setVisible(false);
+                emit searchModeChanged(true);
             }
         } else if (!m_urlNavigator->isVisible()) {
             m_urlNavigator->setVisible(true);
             m_searchBox->setVisible(false);
+            emit searchModeChanged(false);
         }
 
         m_view->setUrl(url);

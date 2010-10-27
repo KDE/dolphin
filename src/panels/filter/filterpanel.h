@@ -20,8 +20,8 @@
 #ifndef FILTERPANEL_H
 #define FILTERPANEL_H
 
-#include "../panel.h"
 #include <nepomuk/query.h>
+#include <panels/panel.h>
 
 class KJob;
 class QPushButton;
@@ -32,20 +32,23 @@ namespace Nepomuk {
     }
 }
 
+/**
+ * @brief Allows the filtering of search results.
+ */
 class FilterPanel : public Panel
 {
     Q_OBJECT
 
 public:
     FilterPanel(QWidget* parent = 0);
-    ~FilterPanel();
-
-public slots:
-    void setUrl(const KUrl& url);
-    void setQuery(const Nepomuk::Query::Query& query);
+    virtual ~FilterPanel();
 
 signals:
-    void urlActivated( const KUrl& url );
+    void urlActivated(const KUrl& url);
+
+protected:
+    /** @see Panel::urlChanged() */
+    virtual bool urlChanged();
 
 private slots:
     void slotSetUrlStatFinished(KJob*);
@@ -53,13 +56,12 @@ private slots:
     void slotRemoveFolderRestrictionClicked();
 
 private:
-    bool urlChanged() {
-        return true;
-    }
+    void setQuery(const Nepomuk::Query::Query& query);
 
+private:
     KJob* m_lastSetUrlStatJob;
 
-    QPushButton* m_buttonRemoveFolderRestriction;
+    QPushButton* m_removeFolderRestrictionButton;
     Nepomuk::Utils::FacetWidget* m_facetWidget;
     Nepomuk::Query::Query m_unfacetedRestQuery;
 };

@@ -116,7 +116,8 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_actionHandler(0),
     m_remoteEncoding(0),
     m_settingsDialog(0),
-    m_lastHandleUrlStatJob(0)
+    m_lastHandleUrlStatJob(0),
+    m_filterDockIsTemporaryVisible(false)
 {
     // Workaround for a X11-issue in combination with KModifierInfo
     // (see DolphinContextMenu::initializeModifierKeyInfo() for
@@ -570,6 +571,14 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     generalSettings->setFirstRun(false);
 
     settings.save();
+
+    if (m_filterDockIsTemporaryVisible) {
+        QDockWidget* filterDock = findChild<QDockWidget*>("filterDock");
+        if (filterDock != 0) {
+            filterDock->hide();
+        }
+        m_filterDockIsTemporaryVisible = false;
+    }
 
     KXmlGuiWindow::closeEvent(event);
 }
@@ -1191,6 +1200,26 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
     newFileMenu()->setEnabled(isFolderWritable);
 }
 
+void DolphinMainWindow::slotSearchModeChanged(bool enabled)
+{
+    QDockWidget* filterDock = findChild<QDockWidget*>("filterDock");
+    if (filterDock == 0) {
+        return;
+    }
+
+    if (enabled) {
+        if (!filterDock->isVisible()) {
+            m_filterDockIsTemporaryVisible = true;
+        }
+        filterDock->show();
+    } else {
+        if (filterDock->isVisible() && m_filterDockIsTemporaryVisible) {
+            filterDock->hide();
+        }
+        m_filterDockIsTemporaryVisible = false;
+    }
+}
+
 void DolphinMainWindow::openContextMenu(const KFileItem& item,
                                         const KUrl& url,
                                         const QList<QAction*>& customActions)
@@ -1603,6 +1632,9 @@ void DolphinMainWindow::setupDockWidgets()
     if (firstRun) {
         infoDock->hide();
         foldersDock->hide();
+#ifdef HAVE_NEPOMUK
+        filterDock->hide();
+#endif
 #ifndef Q_OS_WIN
         terminalDock->hide();
 #endif
@@ -1739,6 +1771,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(updateFilterBarAction(bool)));
     connect(container, SIGNAL(writeStateChanged(bool)),
             this, SLOT(slotWriteStateChanged(bool)));
+    connect(container, SIGNAL(searchModeChanged(bool)),
+            this, SLOT(slotSearchModeChanged(bool)));
 
     DolphinView* view = container->view();
     connect(view, SIGNAL(selectionChanged(KFileItemList)),

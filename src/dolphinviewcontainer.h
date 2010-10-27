@@ -127,6 +127,13 @@ signals:
      */
     void writeStateChanged(bool isFolderWritable);
 
+    /**
+     * Is emitted if the search mode has been enabled or disabled.
+     * (see DolphinViewContainer::setSearchModeEnabled() and
+     * DolphinViewContainer::isSearchModeEnabled())
+     */
+    void searchModeChanged(bool enabled);
+
 private slots:
     /**
      * Updates the number of items (= number of files + number of

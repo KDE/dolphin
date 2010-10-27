@@ -49,10 +49,6 @@
     #include <nepomuk/resourcetypeterm.h>
     #include <nepomuk/comparisonterm.h>
     #include "nfo.h"
-
-    #include "filters/datesearchfilterwidget.h"
-    #include "filters/ratingsearchfilterwidget.h"
-    #include "filters/tagsearchfilterwidget.h"
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
@@ -66,8 +62,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_fileNameButton(0),
     m_contentButton(0),
     m_filterButton(0),
-    m_filterWidgetsLayout(0),
-    m_filterWidgets(),
     m_searchPath(),
     m_startSearchTimer(0)
 {
@@ -184,34 +178,6 @@ void DolphinSearchBox::slotReturnPressed(const QString& text)
     emit returnPressed(text);
 }
 
-void DolphinSearchBox::setFilterWidgetsVisible(bool visible)
-{
-#ifdef HAVE_NEPOMUK
-    if (visible) {
-        if (m_filterWidgetsLayout == 0) {
-            m_filterWidgetsLayout = new QFormLayout(this);
-            m_filterWidgetsLayout->setSpacing(0);
-
-            m_filterWidgets.append(new DateSearchFilterWidget(this));
-            m_filterWidgets.append(new RatingSearchFilterWidget(this));
-            m_filterWidgets.append(new TagSearchFilterWidget(this));
-
-            foreach (AbstractSearchFilterWidget* filterWidget, m_filterWidgets) {
-                const QString labelText = filterWidget->filterLabel() + QLatin1Char(':');
-                QLabel* label = new QLabel(labelText, this);
-                m_filterWidgetsLayout->addRow(label, filterWidget);
-                connect(filterWidget, SIGNAL(filterChanged()), this, SLOT(emitSearchSignal()));
-            }
-        }
-        m_topLayout->addLayout(m_filterWidgetsLayout);
-    } else {
-        m_topLayout->removeItem(m_filterWidgetsLayout);
-    }
-#else
-    Q_UNUSED(visible);
-#endif
-}
-
 void DolphinSearchBox::initButton(QPushButton* button)
 {
     button->setAutoExclusive(true);
@@ -302,7 +268,7 @@ void DolphinSearchBox::init()
     m_filterButton->setAutoRaise(true);
     m_filterButton->setCheckable(true);
     m_filterButton->hide();
-    connect(m_filterButton, SIGNAL(toggled(bool)), this, SLOT(setFilterWidgetsVisible(bool)));
+    //connect(m_filterButton, SIGNAL(toggled(bool)), this, SLOT(setFilterWidgetsVisible(bool)));
 
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
@@ -332,7 +298,6 @@ void DolphinSearchBox::init()
 
 bool DolphinSearchBox::isSearchPathIndexed() const
 {
-    return true;
 #ifdef HAVE_NEPOMUK
     const QString path = m_searchPath.path();
 
@@ -353,7 +318,6 @@ bool DolphinSearchBox::isSearchPathIndexed() const
         // excluded folder is part of the search path.
         const QStringList excludedFolders = strigiConfig.group("General").readPathEntry("exclude folders", QStringList());
         foreach (const QString& excludedFolder, excludedFolders) {
-            // trueg: this is still not correct since there might be an include folder in the exclude folder
             if (path.startsWith(excludedFolder)) {
                 isIndexed = false;
                 break;
@@ -372,30 +336,19 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
 #ifdef HAVE_NEPOMUK
     Nepomuk::Query::AndTerm andTerm;
 
-    // Add filter terms
-    foreach (const AbstractSearchFilterWidget* filterWidget, m_filterWidgets) {
-        const Nepomuk::Query::Term term = filterWidget->queryTerm();
-        if (term.isValid()) {
-            andTerm.addSubTerm(term);
-        }
-    }
-
     // Add input from search filter
     const QString text = m_searchInput->text();
     if (!text.isEmpty()) {
-        if ( m_fileNameButton->isChecked() ) {
+        if (m_fileNameButton->isChecked()) {
             QString regex = QRegExp::escape(text);
-            regex.replace("\\*", QLatin1String( ".*" ));
-            regex.replace("\\?", QLatin1String( "." ));
+            regex.replace("\\*", QLatin1String(".*"));
+            regex.replace("\\?", QLatin1String("."));
             regex.replace("\\", "\\\\");
-            regex.prepend('^');
-            regex.append('$');
-            andTerm.addSubTerm( Nepomuk::Query::ComparisonTerm(
+            andTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(
                                     Nepomuk::Vocabulary::NFO::fileName(),
-                                    Nepomuk::Query::LiteralTerm( regex ),
-                                    Nepomuk::Query::ComparisonTerm::Regexp ) );
-        }
-        else {
+                                    Nepomuk::Query::LiteralTerm(regex),
+                                    Nepomuk::Query::ComparisonTerm::Regexp));
+        } else {
             const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern);
             if (customQuery.isValid()) {
                 andTerm.addSubTerm(customQuery.term());

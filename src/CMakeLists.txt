@@ -149,10 +149,6 @@ if(Nepomuk_FOUND)
     set(dolphin_SRCS
         ${dolphin_SRCS}
         panels/filter/filterpanel.cpp
-        search/filters/abstractsearchfilterwidget.cpp
-        search/filters/datesearchfilterwidget.cpp
-        search/filters/ratingsearchfilterwidget.cpp
-        search/filters/tagsearchfilterwidget.cpp
     )
     include(SopranoAddOntology)
     soprano_add_ontology(dolphin_SRCS ${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nfo.trig "NFO" "Nepomuk::Vocabulary" "trig")
