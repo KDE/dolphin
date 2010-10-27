@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "facetpanel.h"
+#include "filterpanel.h"
 
 #include <nepomuk/filequery.h>
 #include <nepomuk/facetwidget.h>
@@ -34,7 +34,7 @@
 #include <kdebug.h>
 
 
-FacetPanel::FacetPanel(QWidget* parent)
+FilterPanel::FilterPanel(QWidget* parent)
     : Panel(parent)
 {
     QVBoxLayout* layout = new QVBoxLayout(this);
@@ -52,11 +52,11 @@ FacetPanel::FacetPanel(QWidget* parent)
 }
 
 
-FacetPanel::~FacetPanel()
+FilterPanel::~FilterPanel()
 {
 }
 
-void FacetPanel::setUrl(const KUrl& url)
+void FilterPanel::setUrl(const KUrl& url)
 {
     kDebug() << url;
     Panel::setUrl(url);
@@ -71,7 +71,7 @@ void FacetPanel::setUrl(const KUrl& url)
 }
 
 
-void FacetPanel::setQuery(const Nepomuk::Query::Query& query)
+void FilterPanel::setQuery(const Nepomuk::Query::Query& query)
 {
     kDebug() << query << query.isValid() << query.toSparqlQuery();
 
@@ -90,7 +90,7 @@ void FacetPanel::setQuery(const Nepomuk::Query::Query& query)
 }
 
 
-void FacetPanel::slotSetUrlStatFinished(KJob* job)
+void FilterPanel::slotSetUrlStatFinished(KJob* job)
 {
     m_lastSetUrlStatJob = 0;
     kDebug() << url();
@@ -110,7 +110,7 @@ void FacetPanel::slotSetUrlStatFinished(KJob* job)
 }
 
 
-void FacetPanel::slotFacetsChanged()
+void FilterPanel::slotFacetsChanged()
 {
     Nepomuk::Query::Query query( m_unfacetedRestQuery && m_facetWidget->queryTerm() );
     kDebug() << query;
@@ -118,7 +118,7 @@ void FacetPanel::slotFacetsChanged()
 }
 
 
-void FacetPanel::slotRemoveFolderRestrictionClicked()
+void FilterPanel::slotRemoveFolderRestrictionClicked()
 {
     Nepomuk::Query::FileQuery query( m_unfacetedRestQuery && m_facetWidget->queryTerm() );
     query.setIncludeFolders( KUrl::List() );

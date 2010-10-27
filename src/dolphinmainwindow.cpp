@@ -28,7 +28,7 @@
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
 #include "mainwindowadaptor.h"
-#include "panels/facets/facetpanel.h"
+#include "panels/filter/filterpanel.h"
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
@@ -1563,20 +1563,20 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, SIGNAL(changeUrl(KUrl, Qt::MouseButtons)),
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
 
-    // setup "Facets"
+    // setup "Filter"
 #ifdef HAVE_NEPOMUK
-   QDockWidget* facetDock = new QDockWidget(i18nc("@title:window", "Filter"));
-   facetDock->setObjectName("facetDock");
-   facetDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-   Panel* facetPanel = new FacetPanel(facetDock);
-   connect(facetPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
-   facetDock->setWidget(facetPanel);
+   QDockWidget* filterDock = new QDockWidget(i18nc("@title:window", "Filter"));
+   filterDock->setObjectName("filterDock");
+   filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+   Panel* filterPanel = new FilterPanel(filterDock);
+   connect(filterPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
+   filterDock->setWidget(filterPanel);
 
-   QAction* facetAction = facetDock->toggleViewAction();
-   facetAction->setIcon(KIcon("dialog-facet"));
-   addDockWidget(Qt::RightDockWidgetArea, facetDock);
+   QAction* filterAction = filterDock->toggleViewAction();
+   filterAction->setIcon(KIcon("dialog-facet"));
+   addDockWidget(Qt::RightDockWidgetArea, filterDock);
    connect(this, SIGNAL(urlChanged(KUrl)),
-           facetPanel, SLOT(setUrl(KUrl)));
+           filterPanel, SLOT(setUrl(KUrl)));
 #endif
 
     // setup "Terminal"
@@ -1634,7 +1634,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(infoAction);
     panelsMenu->addAction(foldersAction);
 #ifdef HAVE_NEPOMUK
-    panelsMenu->addAction(facetAction);
+    panelsMenu->addAction(filterAction);
 #endif
 #ifndef Q_OS_WIN
     panelsMenu->addAction(terminalAction);

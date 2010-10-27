@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef FACETPANEL_H
-#define FACETPANEL_H
+#ifndef FILTERPANEL_H
+#define FILTERPANEL_H
 
 #include "../panel.h"
 #include <nepomuk/query.h>
@@ -32,13 +32,13 @@ namespace Nepomuk {
     }
 }
 
-class FacetPanel : public Panel
+class FilterPanel : public Panel
 {
     Q_OBJECT
 
 public:
-    FacetPanel(QWidget* parent = 0);
-    ~FacetPanel();
+    FilterPanel(QWidget* parent = 0);
+    ~FilterPanel();
 
 public slots:
     void setUrl(const KUrl& url);
@@ -64,4 +64,4 @@ private:
     Nepomuk::Query::Query m_unfacetedRestQuery;
 };
 
-#endif // FACETPANEL_H
+#endif // FILTERPANEL_H
