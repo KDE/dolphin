@@ -53,6 +53,7 @@
 #include <kconfig.h>
 #include <kdesktopfile.h>
 #include <kdeversion.h>
+#include <kdualaction.h>
 #include <kfiledialog.h>
 #include <kfileplacesmodel.h>
 #include <kglobal.h>
@@ -1490,7 +1491,7 @@ void DolphinMainWindow::setupActions()
     connect(openTerminal, SIGNAL(triggered()), this, SLOT(openTerminal()));
 
     // setup 'Settings' menu
-    m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
+    m_showMenuBar = KStandardAction::showHideMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
     KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
 
     // not in menu actions
