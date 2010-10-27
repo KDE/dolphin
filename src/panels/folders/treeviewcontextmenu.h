@@ -77,6 +77,12 @@ private slots:
      */
     void setShowHiddenFiles(bool show);
 
+    /**
+     * Sets the 'Automatic Scrolling' setting for the
+     * folders panel to \a enable.
+     */
+    void setAutoScrolling(bool enable);
+
 private:
     void populateMimeData(QMimeData* mimeData, bool cut);
 

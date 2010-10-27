@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at) and              *
- *   Cvetoslav Ludmiloff                                                   *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz19@gmail.com>        *
+ *   Copyright (C) 2006 by Cvetoslav Ludmiloff                             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -19,8 +19,6 @@
  ***************************************************************************/
 
 #include "treeviewcontextmenu.h"
-
-#include "dolphin_folderspanelsettings.h"
 
 #include <kfileitem.h>
 #include <kiconloader.h>
@@ -87,7 +85,7 @@ void TreeViewContextMenu::open()
         KConfigGroup configGroup(globalConfig, "KDE");
         bool showDeleteCommand = configGroup.readEntry("ShowDeleteCommand", false);
 
-        const KUrl& url = m_fileInfo.url();
+        const KUrl url = m_fileInfo.url();
         if (url.isLocalFile()) {
             QAction* moveToTrashAction = new QAction(KIcon("user-trash"),
                                                     i18nc("@action:inmenu", "Move to Trash"), this);
@@ -118,10 +116,16 @@ void TreeViewContextMenu::open()
 
     QAction* showHiddenFilesAction = new QAction(i18nc("@action:inmenu", "Show Hidden Files"), this);
     showHiddenFilesAction->setCheckable(true);
-    showHiddenFilesAction->setChecked(FoldersPanelSettings::showHiddenFiles());
+    showHiddenFilesAction->setChecked(m_parent->showHiddenFiles());
     popup->addAction(showHiddenFilesAction);
-
     connect(showHiddenFilesAction, SIGNAL(toggled(bool)), this, SLOT(setShowHiddenFiles(bool)));
+
+    QAction* autoScrollingAction = new QAction(i18nc("@action:inmenu", "Automatic Scrolling"), this);
+    autoScrollingAction->setCheckable(true);
+    autoScrollingAction->setChecked(m_parent->autoScrolling());
+    popup->addAction(autoScrollingAction);
+    connect(autoScrollingAction, SIGNAL(toggled(bool)), this, SLOT(setAutoScrolling(bool)));
+
 
     popup->exec(QCursor::pos());
     popup->deleteLater();
@@ -191,6 +195,11 @@ void TreeViewContextMenu::showProperties()
 void TreeViewContextMenu::setShowHiddenFiles(bool show)
 {
     m_parent->setShowHiddenFiles(show);
+}
+
+void TreeViewContextMenu::setAutoScrolling(bool enable)
+{
+    m_parent->setAutoScrolling(enable);
 }
 
 #include "treeviewcontextmenu.moc"

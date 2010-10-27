@@ -25,7 +25,6 @@
 
 #include "ktreeview.h"
 
-class QTimer;
 class QTimeLine;
 
 class KTreeView::KTreeViewPrivate : public QObject
@@ -39,11 +38,9 @@ public Q_SLOTS:
 public:
     KTreeViewPrivate(KTreeView *parent);
     KTreeView *parent;
-    void setScrollTowards( int scrollTowards );
 
     bool autoHorizontalScroll;
     QTimeLine *timeLine;
-    QTimer *startScrollTimer;
 };
 
 #endif /* ifndef KTREEVIEW_P_H */

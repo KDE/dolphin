@@ -10,5 +10,9 @@
             <label>Show hidden files</label>
             <default>false</default>
         </entry>
+        <entry name="AutoScrolling" type="Bool">
+            <label>Automatic scrolling</label>
+            <default>true</default>
+        </entry>
     </group>
 </kcfg>

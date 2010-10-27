@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz19@gmail.com>        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -31,10 +31,11 @@
 #include <konq_operations.h>
 
 #include <QApplication>
-#include <QItemSelection>
-#include <QTreeView>
 #include <QBoxLayout>
+#include <QItemSelection>
 #include <QModelIndex>
+#include <QPointer>
+#include <QTreeView>
 #include <QScrollBar>
 #include <QTimer>
 
@@ -88,6 +89,17 @@ bool FoldersPanel::showHiddenFiles() const
     return FoldersPanelSettings::showHiddenFiles();
 }
 
+void FoldersPanel::setAutoScrolling(bool enable)
+{
+    m_treeView->setAutoHorizontalScroll(enable);
+    FoldersPanelSettings::setAutoScrolling(enable);
+}
+
+bool FoldersPanel::autoScrolling() const
+{
+    return FoldersPanelSettings::autoScrolling();
+}
+
 void FoldersPanel::rename(const KFileItem& item)
 {
     if (DolphinSettings::instance().generalSettings()->renameInline()) {
@@ -137,6 +149,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
         m_dirLister->setShowingDotFiles(FoldersPanelSettings::showHiddenFiles());
+        connect(m_dirLister, SIGNAL(completed()), this, SLOT(slotDirListerCompleted()));
 
         Q_ASSERT(m_dolphinModel == 0);
         m_dolphinModel = new DolphinModel(this);
@@ -167,6 +180,9 @@ void FoldersPanel::showEvent(QShowEvent* event)
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
         layout->addWidget(m_treeView);
+
+        setAutoScrolling(FoldersPanelSettings::autoScrolling());
+        setShowHiddenFiles(FoldersPanelSettings::showHiddenFiles());
     }
 
     loadTree(url());
@@ -184,8 +200,9 @@ void FoldersPanel::contextMenuEvent(QContextMenuEvent* event)
         item = m_dolphinModel->itemForIndex(dolphinModelIndex);
     }
 
-    TreeViewContextMenu contextMenu(this, item);
-    contextMenu.open();
+    QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, item);
+    contextMenu->open();
+    delete contextMenu;
 }
 
 void FoldersPanel::keyPressEvent(QKeyEvent* event)
@@ -224,7 +241,6 @@ void FoldersPanel::expandToDir(const QModelIndex& index)
 {
     m_treeView->setExpanded(index, true);
     selectLeafDirectory();
-    m_treeView->resizeColumnToContents(DolphinModel::Name);
 }
 
 void FoldersPanel::scrollToLeaf()
@@ -239,6 +255,19 @@ void FoldersPanel::scrollToLeaf()
 void FoldersPanel::updateMouseButtons()
 {
     m_mouseButtons = QApplication::mouseButtons();
+}
+
+void FoldersPanel::slotDirListerCompleted()
+{
+    m_treeView->resizeColumnToContents(DolphinModel::Name);
+
+    if (m_setLeafVisible) {
+        // Invoke scrollToLeaf() asynchronously. This assures that
+        // the horizontal scrollbar is shown after resizing the column
+        // (otherwise the scrollbar might hide the leaf).
+        QTimer::singleShot(0, this, SLOT(scrollToLeaf()));
+        m_setLeafVisible = false;
+    }
 }
 
 void FoldersPanel::loadTree(const KUrl& url)
@@ -267,21 +296,10 @@ void FoldersPanel::selectLeafDirectory()
 {
     const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-    if (!proxyIndex.isValid()) {
-        return;
+    if (proxyIndex.isValid()) {
+        QItemSelectionModel* selModel = m_treeView->selectionModel();
+        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::ClearAndSelect);
     }
-
-    if (m_setLeafVisible) {
-        // Invoke m_treeView->scrollTo(proxyIndex) asynchronously by
-        // scrollToLeaf(). This assures that the scrolling is done after
-        // the horizontal scrollbar gets visible (otherwise the scrollbar
-        // might hide the leaf).
-        QTimer::singleShot(100, this, SLOT(scrollToLeaf()));
-        m_setLeafVisible = false;
-    }
-
-    QItemSelectionModel* selModel = m_treeView->selectionModel();
-    selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::ClearAndSelect);
 }
 
 #include "folderspanel.moc"

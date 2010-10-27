@@ -51,6 +51,9 @@ public:
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
+    void setAutoScrolling(bool enable);
+    bool autoScrolling() const;
+
     void rename(const KFileItem& item);
 
 signals:
@@ -97,6 +100,8 @@ private slots:
     void scrollToLeaf();
 
     void updateMouseButtons();
+
+    void slotDirListerCompleted();
 
 private:
     /**

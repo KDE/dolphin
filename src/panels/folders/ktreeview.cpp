@@ -31,75 +31,54 @@
 KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent) :
     parent(parent),
     autoHorizontalScroll(false),
-    timeLine(0),
-    startScrollTimer(0)
+    timeLine(0)
 {
-    startScrollTimer = new QTimer(this);
-    startScrollTimer->setSingleShot(true);
-    startScrollTimer->setInterval(300);
-    connect(startScrollTimer, SIGNAL(timeout()),
-            this, SLOT(startScrolling()));
-
-    timeLine = new QTimeLine(300, this);
+    timeLine = new QTimeLine(500, this);
     connect(timeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateVerticalScrollBar(int)));
 
     connect(parent->verticalScrollBar(), SIGNAL(rangeChanged(int, int)),
-            startScrollTimer, SLOT(start()));
+            this, SLOT(startScrolling()));
     connect(parent->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            startScrollTimer, SLOT(start()));
+            this, SLOT(startScrolling()));
     connect(parent, SIGNAL(collapsed(const QModelIndex&)),
-            startScrollTimer, SLOT(start()));
+            this, SLOT(startScrolling()));
     connect(parent, SIGNAL(expanded(const QModelIndex&)),
-            startScrollTimer, SLOT(start()));
+            this, SLOT(startScrolling()));
 }
 
 void KTreeView::KTreeViewPrivate::startScrolling()
 {
-    QModelIndex index;
-
-    const int viewportHeight = parent->viewport()->height();
-
-    // check whether there is a selected index which is partly visible
-    const QModelIndexList selectedIndexes = parent->selectionModel()->selectedIndexes();
-    if (selectedIndexes.count() == 1) {
-        QModelIndex selectedIndex = selectedIndexes.first();
-        const QRect rect = parent->visualRect(selectedIndex);
-        if ((rect.bottom() >= 0) && (rect.top() <= viewportHeight)) {
-            // the selected index is (at least partly) visible, use it as
-            // scroll target
-            index = selectedIndex;
-        }
+    if (!autoHorizontalScroll) {
+        return;
     }
 
-    if (!index.isValid()) {
-        // no partly selected index is visible, determine the most left visual index
-        QModelIndex visibleIndex = parent->indexAt(QPoint(0, 0));
-        if (!visibleIndex.isValid()) {
-            return;
-        }
-
-        index = visibleIndex;
-        int minimum = parent->width();
-        do {
-            const QRect rect = parent->visualRect(visibleIndex);
-            if (rect.top() > viewportHeight) {
-                // the current index and all successors are not visible anymore
-                break;
-            }
-            if (rect.left() < minimum) {
-                minimum = rect.left();
-                index = visibleIndex;
-            }
-            visibleIndex = parent->indexBelow(visibleIndex);
-        } while (visibleIndex.isValid());
+    // Determine the most left visual index
+    QModelIndex visibleIndex = parent->indexAt(QPoint(0, 0));
+    if (!visibleIndex.isValid()) {
+        return;
     }
 
-    // start the horizontal scrolling to assure that the item indicated by 'index' gets fully visible
+    QModelIndex index = visibleIndex;
+    int minimum = parent->width();
+    do {
+        const QRect rect = parent->visualRect(visibleIndex);
+        if (rect.top() > parent->viewport()->height()) {
+            // the current index and all successors are not visible anymore
+            break;
+        }
+        if (rect.left() < minimum) {
+            minimum = rect.left();
+            index = visibleIndex;
+        }
+        visibleIndex = parent->indexBelow(visibleIndex);
+    } while (visibleIndex.isValid());
+
+    // Start the horizontal scrolling to assure that the item indicated by 'index' gets fully visible
     Q_ASSERT(index.isValid());
     const QRect rect = parent->visualRect(index);
 
-    QScrollBar *scrollBar = parent->horizontalScrollBar();
+    QScrollBar* scrollBar = parent->horizontalScrollBar();
     const int oldScrollBarPos = scrollBar->value();
 
     const int itemRight = oldScrollBarPos + rect.left() + rect.width() - 1;
@@ -120,7 +99,6 @@ void KTreeView::KTreeViewPrivate::updateVerticalScrollBar(int value)
 {
     QScrollBar *scrollBar = parent->horizontalScrollBar();
     scrollBar->setValue(value);
-    startScrollTimer->stop();
 }
 
 // ************************************************
@@ -140,12 +118,12 @@ KTreeView::~KTreeView()
 
 void KTreeView::setAutoHorizontalScroll(bool value)
 {
-	d->autoHorizontalScroll = value;
+    d->autoHorizontalScroll = value;
 }
 
 bool KTreeView::autoHorizontalScroll() const
 {
-	return d->autoHorizontalScroll;
+    return d->autoHorizontalScroll;
 }
 
 void KTreeView::setSelectionModel(QItemSelectionModel *selectionModel)
@@ -153,25 +131,18 @@ void KTreeView::setSelectionModel(QItemSelectionModel *selectionModel)
     QTreeView::setSelectionModel(selectionModel);
     connect(selectionModel,
             SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            d->startScrollTimer, SLOT(start()));
+            this, SLOT(startScrolling()));
 }
 
 void KTreeView::scrollTo(const QModelIndex& index, ScrollHint hint)
 {
-    if (d->autoHorizontalScroll) {
-        // assure that the value of the horizontal scrollbar stays on its current value,
-        // KTreeView will adjust the value manually
-        const int value = horizontalScrollBar()->value();
-        QTreeView::scrollTo(index, hint);
-        horizontalScrollBar()->setValue(value);
-    } else {
-        QTreeView::scrollTo(index, hint);
-    }
+    const int value = horizontalScrollBar()->value();
+    QTreeView::scrollTo(index, hint);
+    horizontalScrollBar()->setValue(value);
 }
 
 void KTreeView::hideEvent(QHideEvent *event)
 {
-    d->startScrollTimer->stop();
     d->timeLine->stop();
     QTreeView::hideEvent(event);
 }
