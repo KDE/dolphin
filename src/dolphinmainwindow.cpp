@@ -1593,22 +1593,6 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, SIGNAL(changeUrl(KUrl, Qt::MouseButtons)),
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
 
-    // setup "Filter"
-#ifdef HAVE_NEPOMUK
-   QDockWidget* filterDock = new QDockWidget(i18nc("@title:window", "Filter"));
-   filterDock->setObjectName("filterDock");
-   filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-   Panel* filterPanel = new FilterPanel(filterDock);
-   connect(filterPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
-   filterDock->setWidget(filterPanel);
-
-   QAction* filterAction = filterDock->toggleViewAction();
-   filterAction->setIcon(KIcon("dialog-facet"));
-   addDockWidget(Qt::RightDockWidgetArea, filterDock);
-   connect(this, SIGNAL(urlChanged(KUrl)),
-           filterPanel, SLOT(setUrl(KUrl)));
-#endif
-
     // setup "Terminal"
 #ifndef Q_OS_WIN
     QDockWidget* terminalDock = new QDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
@@ -1628,15 +1612,32 @@ void DolphinMainWindow::setupDockWidgets()
             terminalPanel, SLOT(setUrl(KUrl)));
 #endif
 
+    // setup "Filter"
+#ifdef HAVE_NEPOMUK
+    QDockWidget* filterDock = new QDockWidget(i18nc("@title:window", "Filter"));
+    filterDock->setObjectName("filterDock");
+    filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    Panel* filterPanel = new FilterPanel(filterDock);
+    connect(filterPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
+    filterDock->setWidget(filterPanel);
+
+    QAction* filterAction = filterDock->toggleViewAction();
+    filterAction->setShortcut(Qt::Key_F12);
+    filterAction->setIcon(KIcon("view-filter"));
+    addDockWidget(Qt::RightDockWidgetArea, filterDock);
+    connect(this, SIGNAL(urlChanged(KUrl)),
+           filterPanel, SLOT(setUrl(KUrl)));
+#endif
+
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
     if (firstRun) {
         infoDock->hide();
         foldersDock->hide();
-#ifdef HAVE_NEPOMUK
-        filterDock->hide();
-#endif
 #ifndef Q_OS_WIN
         terminalDock->hide();
+#endif
+#ifdef HAVE_NEPOMUK
+        filterDock->hide();
 #endif
     }
 
@@ -1666,11 +1667,11 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(placesAction);
     panelsMenu->addAction(infoAction);
     panelsMenu->addAction(foldersAction);
-#ifdef HAVE_NEPOMUK
-    panelsMenu->addAction(filterAction);
-#endif
 #ifndef Q_OS_WIN
     panelsMenu->addAction(terminalAction);
+#endif
+#ifdef HAVE_NEPOMUK
+    panelsMenu->addAction(filterAction);
 #endif
 }
 
