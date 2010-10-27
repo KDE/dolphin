@@ -77,6 +77,7 @@ void TreeViewContextMenu::open()
         // insert 'Rename'
         QAction* renameAction = new QAction(i18nc("@action:inmenu", "Rename..."), this);
         renameAction->setEnabled(capabilities.supportsMoving());
+        renameAction->setIcon(KIcon("edit-rename"));
         connect(renameAction, SIGNAL(triggered()), this, SLOT(rename()));
         popup->addAction(renameAction);
 
@@ -108,6 +109,7 @@ void TreeViewContextMenu::open()
 
         // insert 'Properties' entry
         QAction* propertiesAction = new QAction(i18nc("@action:inmenu", "Properties"), this);
+        propertiesAction->setIcon(KIcon("document-properties"));
         connect(propertiesAction, SIGNAL(triggered()), this, SLOT(showProperties()));
         popup->addAction(propertiesAction);
 
