@@ -1178,7 +1178,7 @@ void DolphinMainWindow::slotHandleUrlStatFinished(KJob* job)
     m_lastHandleUrlStatJob = 0;
     const KIO::UDSEntry entry = static_cast<KIO::StatJob*>(job)->statResult();
     const KUrl url = static_cast<KIO::StatJob*>(job)->url();
-    if ( entry.isDir() ) {
+    if (entry.isDir()) {
         activeViewContainer()->setUrl(url);
     } else {
         new KRun(url, this);

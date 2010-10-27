@@ -50,6 +50,9 @@ protected:
     /** @see Panel::urlChanged() */
     virtual bool urlChanged();
 
+    /** @see QWidget::showEvent() */
+    virtual void showEvent(QShowEvent* event);
+
 private slots:
     void slotSetUrlStatFinished(KJob*);
     void slotFacetsChanged();
@@ -59,6 +62,7 @@ private:
     void setQuery(const Nepomuk::Query::Query& query);
 
 private:
+    bool m_initialized;
     KJob* m_lastSetUrlStatJob;
 
     QPushButton* m_removeFolderRestrictionButton;

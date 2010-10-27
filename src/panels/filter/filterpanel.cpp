@@ -29,31 +29,19 @@
 #include <kio/jobclasses.h>
 #include <kio/job.h>
 
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QTreeView>
-#include <QtGui/QPushButton>
+#include <QPushButton>
+#include <QShowEvent>
+#include <QTreeView>
+#include <QVBoxLayout>
 
 FilterPanel::FilterPanel(QWidget* parent) :
-    Panel(parent)
+    Panel(parent),
+    m_initialized(false),
+    m_lastSetUrlStatJob(0),
+    m_removeFolderRestrictionButton(0),
+    m_facetWidget(0),
+    m_unfacetedRestQuery()
 {
-    QVBoxLayout* layout = new QVBoxLayout(this);
-    m_removeFolderRestrictionButton = new QPushButton(i18n("Remove folder restriction"), this);
-    connect(m_removeFolderRestrictionButton, SIGNAL(clicked()), SLOT(slotRemoveFolderRestrictionClicked()));
-
-    layout->addWidget(m_removeFolderRestrictionButton);
-
-    m_facetWidget = new Nepomuk::Utils::FacetWidget(this);
-    layout->addWidget(m_facetWidget, 1);
-    connect(m_facetWidget, SIGNAL(facetsChanged()), this, SLOT(slotFacetsChanged()));
-
-    /*m_facetWidget->addFacet(Nepomuk::Utils::Facet::createFileTypeFacet());
-    m_facetWidget->addFacet(Nepomuk::Utils::Facet::createTypeFacet());
-    m_facetWidget->addFacet(Nepomuk::Utils::Facet::createDateFacet());
-    m_facetWidget->addFacet(Nepomuk::Utils::Facet::createPriorityFacet());
-    m_facetWidget->addFacet(Nepomuk::Utils::Facet::createRatingFacet());*/
-
-    // Init to empty panel
-    setQuery(Nepomuk::Query::Query());
 }
 
 FilterPanel::~FilterPanel()
@@ -62,24 +50,60 @@ FilterPanel::~FilterPanel()
 
 bool FilterPanel::urlChanged()
 {
-    if (!isVisible()) {
-        return true;
+    if (isVisible()) {
+        setQuery(Nepomuk::Query::Query());
+
+        delete m_lastSetUrlStatJob;
+
+        m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
+        connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
+                this, SLOT(slotSetUrlStatFinished(KJob*)));
     }
 
-    // Disable us
-    setQuery(Nepomuk::Query::Query());
-
-    // Get the query from the item
-    m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
-    connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
-            this, SLOT(slotSetUrlStatFinished(KJob*)));
-
     return true;
+}
+
+void FilterPanel::showEvent(QShowEvent* event)
+{
+    if (event->spontaneous()) {
+        Panel::showEvent(event);
+        return;
+    }
+
+    if (!m_initialized) {
+        QVBoxLayout* layout = new QVBoxLayout(this);
+        Q_ASSERT(m_removeFolderRestrictionButton == 0);
+        m_removeFolderRestrictionButton = new QPushButton(i18n("Remove folder restriction"), this);
+        connect(m_removeFolderRestrictionButton, SIGNAL(clicked()), SLOT(slotRemoveFolderRestrictionClicked()));
+
+        layout->addWidget(m_removeFolderRestrictionButton);
+
+        Q_ASSERT(m_facetWidget == 0);
+        m_facetWidget = new Nepomuk::Utils::FacetWidget(this);
+        layout->addWidget(m_facetWidget, 1);
+
+        m_facetWidget->addFacet(Nepomuk::Utils::Facet::createFileTypeFacet());
+        m_facetWidget->addFacet(Nepomuk::Utils::Facet::createDateFacet());
+        m_facetWidget->addFacet(Nepomuk::Utils::Facet::createRatingFacet());
+        m_facetWidget->addFacet(Nepomuk::Utils::Facet::createTagFacet());
+
+        Q_ASSERT(m_lastSetUrlStatJob == 0);
+        m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
+        connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
+                this, SLOT(slotSetUrlStatFinished(KJob*)));
+
+        connect(m_facetWidget, SIGNAL(facetsChanged()), this, SLOT(slotFacetsChanged()));
+
+        m_initialized = true;
+    }
+
+    Panel::showEvent(event);
 }
 
 void FilterPanel::slotSetUrlStatFinished(KJob* job)
 {
     m_lastSetUrlStatJob = 0;
+
     const KIO::UDSEntry uds = static_cast<KIO::StatJob*>(job)->statResult();
     const QString nepomukQueryStr = uds.stringValue(KIO::UDSEntry::UDS_NEPOMUK_QUERY);
     Nepomuk::Query::FileQuery nepomukQuery;
@@ -115,8 +139,7 @@ void FilterPanel::setQuery(const Nepomuk::Query::Query& query)
         m_unfacetedRestQuery.setTerm(m_facetWidget->extractFacetsFromTerm(query.term()));
         m_facetWidget->setClientQuery(query);
         setEnabled(true);
-    }
-    else {
+    } else {
         m_unfacetedRestQuery = Nepomuk::Query::Query();
         setEnabled(false);
     }
