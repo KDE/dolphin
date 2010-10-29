@@ -167,6 +167,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_treeView->setModel(m_proxyModel);
         m_proxyModel->setSorting(DolphinView::SortByName);
         m_proxyModel->setSortOrder(Qt::AscendingOrder);
+        m_treeView->setAutoHorizontalScroll(FoldersPanelSettings::autoScrolling());
 
         new FolderExpander(m_treeView, m_proxyModel);
 
@@ -177,12 +178,14 @@ void FoldersPanel::showEvent(QShowEvent* event)
         connect(m_treeView, SIGNAL(pressed(const QModelIndex&)),
                 this, SLOT(updateMouseButtons()));
 
+        connect(m_treeView->horizontalScrollBar(), SIGNAL(sliderMoved(int)),
+                this, SLOT(slotHorizontalScrollBarMoved(int)));
+        connect(m_treeView->verticalScrollBar(), SIGNAL(sliderMoved(int)),
+                this, SLOT(slotVerticalScrollBarMoved(int)));
+
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
         layout->addWidget(m_treeView);
-
-        setAutoScrolling(FoldersPanelSettings::autoScrolling());
-        setShowHiddenFiles(FoldersPanelSettings::showHiddenFiles());
     }
 
     loadTree(url());
@@ -268,6 +271,22 @@ void FoldersPanel::slotDirListerCompleted()
         QTimer::singleShot(0, this, SLOT(scrollToLeaf()));
         m_setLeafVisible = false;
     }
+}
+
+void FoldersPanel::slotHorizontalScrollBarMoved(int value)
+{
+    Q_UNUSED(value);
+    // Disable the auto-scrolling until the vertical scrollbar has
+    // been moved by the user.
+    m_treeView->setAutoHorizontalScroll(false);
+}
+
+void FoldersPanel::slotVerticalScrollBarMoved(int value)
+{
+    Q_UNUSED(value);
+    // Enable the auto-scrolling again (it might have been disabled by
+    // moving the horizontal scrollbar).
+    m_treeView->setAutoHorizontalScroll(FoldersPanelSettings::autoScrolling());
 }
 
 void FoldersPanel::loadTree(const KUrl& url)

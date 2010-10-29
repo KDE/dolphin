@@ -116,22 +116,17 @@ KTreeView::~KTreeView()
 {
 }
 
-void KTreeView::setAutoHorizontalScroll(bool value)
+void KTreeView::setAutoHorizontalScroll(bool enable)
 {
-    d->autoHorizontalScroll = value;
+    d->autoHorizontalScroll = enable;
+    if (!enable) {
+        d->timeLine->stop();
+    }
 }
 
 bool KTreeView::autoHorizontalScroll() const
 {
     return d->autoHorizontalScroll;
-}
-
-void KTreeView::setSelectionModel(QItemSelectionModel *selectionModel)
-{
-    QTreeView::setSelectionModel(selectionModel);
-    connect(selectionModel,
-            SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-            this, SLOT(startScrolling()));
 }
 
 void KTreeView::scrollTo(const QModelIndex& index, ScrollHint hint)

@@ -103,6 +103,10 @@ private slots:
 
     void slotDirListerCompleted();
 
+    void slotHorizontalScrollBarMoved(int value);
+
+    void slotVerticalScrollBarMoved(int value);
+
 private:
     /**
      * Initializes the base URL of the tree and expands all
