@@ -180,8 +180,6 @@ void FoldersPanel::showEvent(QShowEvent* event)
 
         connect(m_treeView->horizontalScrollBar(), SIGNAL(sliderMoved(int)),
                 this, SLOT(slotHorizontalScrollBarMoved(int)));
-        connect(m_treeView->verticalScrollBar(), SIGNAL(sliderMoved(int)),
-                this, SLOT(slotVerticalScrollBarMoved(int)));
         connect(m_treeView->verticalScrollBar(), SIGNAL(valueChanged(int)),
                 this, SLOT(slotVerticalScrollBarMoved(int)));
 
