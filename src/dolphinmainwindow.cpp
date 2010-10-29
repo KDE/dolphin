@@ -28,7 +28,9 @@
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
 #include "mainwindowadaptor.h"
-#include "panels/filter/filterpanel.h"
+#ifdef HAVE_NEPOMUK
+    #include "panels/filter/filterpanel.h"
+#endif
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
