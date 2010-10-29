@@ -31,24 +31,22 @@ class DolphinSortFilterProxyModel;
 class DolphinView;
 
 /*
- * The class TestHelper aims to make writing Dolphin unit tests easier.
+ * The class TestBase aims to make writing Dolphin unit tests easier.
  * It provides functionality that almost every unit test needs: setup of the DolphinView and
  * easy creation of test files and subfolders in a temporary directory which is removed in
- * the TestHelper destructor.
+ * the TestBase destructor.
  *
- * TODO: TestHelper should also backup the DolphinSettings and restore them later!
+ * TODO: TestBase should also backup the DolphinSettings and restore them later!
  */
 
-class TestHelper
+class TestBase : public QObject
 {
+    Q_OBJECT
 
 public:
 
-    TestHelper();
-    ~TestHelper();
-
-    DolphinView* view() const { return m_view; }
-    DolphinSortFilterProxyModel* proxyModel() const { return m_proxyModel; }
+    TestBase();
+    ~TestBase();
 
     // Returns the item view (icons, details, or columns)
     QAbstractItemView* itemView () const;
@@ -71,17 +69,20 @@ public:
 
     void cleanupTestDir();
 
-private:
+    //  Make members that are accessed frequently by the derived test classes public
 
-    void makePathAbsoluteAndCreateParents(QString& path);
-
-    KTempDir* m_tempDir;
-    QString m_path;
-    QDir* m_dir;
     DolphinDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinView* m_view;
+
+private:
+
+    KTempDir* m_tempDir;
+    QString m_path;
+    QDir* m_dir;
+
+    void makePathAbsoluteAndCreateParents(QString& path);
 
 };
 

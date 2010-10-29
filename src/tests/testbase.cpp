@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "testhelper.h"
+#include "testbase.h"
 
 #include "views/dolphinview.h"
 #include "views/dolphinmodel.h"
@@ -29,7 +29,7 @@
 #include <QtCore/QDir>
 #include <QtGui/QAbstractItemView>
 
-TestHelper::TestHelper()
+TestBase::TestBase()
 {
     m_tempDir = new KTempDir;
     Q_ASSERT(m_tempDir->exists());
@@ -45,7 +45,7 @@ TestHelper::TestHelper()
     m_view = new DolphinView(0, KUrl(m_path), m_proxyModel);
 }
 
-TestHelper::~TestHelper()
+TestBase::~TestBase()
 {
     delete m_view;
     delete m_proxyModel;
@@ -55,18 +55,18 @@ TestHelper::~TestHelper()
     delete m_tempDir;
 }
 
-QAbstractItemView* TestHelper::itemView () const
+QAbstractItemView* TestBase::itemView () const
 {
     return m_view->m_viewAccessor.itemView();
 }
 
 
-KUrl TestHelper::testDirUrl() const
+KUrl TestBase::testDirUrl() const
 {
     return KUrl(m_path);
 }
 
-void TestHelper::createFile(const QString& path, const QByteArray& data)
+void TestBase::createFile(const QString& path, const QByteArray& data)
 {
     QString absolutePath = path;
     makePathAbsoluteAndCreateParents(absolutePath);
@@ -79,14 +79,14 @@ void TestHelper::createFile(const QString& path, const QByteArray& data)
     Q_ASSERT(QFile::exists(absolutePath));
 }
 
-void TestHelper::createFiles(const QStringList& files)
+void TestBase::createFiles(const QStringList& files)
 {
     foreach(const QString& path, files) {
         createFile(path);
     }
 }
 
-void TestHelper::createDir(const QString& path)
+void TestBase::createDir(const QString& path)
 {
     QString absolutePath = path;
     makePathAbsoluteAndCreateParents(absolutePath);
@@ -95,7 +95,7 @@ void TestHelper::createDir(const QString& path)
     Q_ASSERT(QFile::exists(absolutePath));
 }
 
-void TestHelper::makePathAbsoluteAndCreateParents(QString& path)
+void TestBase::makePathAbsoluteAndCreateParents(QString& path)
 {
     QFileInfo fileInfo(path);
     if (!fileInfo.isAbsolute()) {
@@ -111,7 +111,7 @@ void TestHelper::makePathAbsoluteAndCreateParents(QString& path)
     Q_ASSERT(dir.exists());
 }
 
-void TestHelper::cleanupTestDir()
+void TestBase::cleanupTestDir()
 {
     delete m_tempDir;
     m_tempDir = new KTempDir;

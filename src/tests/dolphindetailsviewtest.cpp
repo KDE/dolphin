@@ -19,7 +19,7 @@
 
 #include <qtest_kde.h>
 
-#include "testhelper.h"
+#include "testbase.h"
 
 #include "views/dolphindetailsview.h"
 #include "views/dolphinview.h"
@@ -34,21 +34,16 @@
 
 #include "kdebug.h"
 
-class DolphinDetailsViewTest : public QObject
+class DolphinDetailsViewTest : public TestBase
 {
     Q_OBJECT
 
 private slots:
 
     void initTestCase();
-    void cleanupTestCase();
 
     void bug234600_overlappingIconsWhenZooming();
 
-private:
-
-    TestHelper* m_helper;
-    DolphinView* m_view;
 };
 
 void DolphinDetailsViewTest::initTestCase()
@@ -56,14 +51,6 @@ void DolphinDetailsViewTest::initTestCase()
     // add time stamps to find origin of test failures due to timeout at
     // http://my.cdash.org/index.php?project=kdebase&date=
     qputenv("KDE_DEBUG_TIMESTAMP", QByteArray("1"));
-
-    m_helper = new TestHelper;
-    m_view = m_helper->view();
-}
-
-void DolphinDetailsViewTest::cleanupTestCase()
-{
-    delete m_helper;
 }
 
 /**
@@ -79,10 +66,10 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
 {
     QStringList files;
     files << "a" << "b" << "c" << "d";
-    m_helper->createFiles(files);
+    createFiles(files);
 
     m_view->setMode(DolphinView::DetailsView);
-    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(m_helper->itemView());
+    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
     QVERIFY(detailsView);
     m_view->resize(400, 400);
     m_view->show();
@@ -126,7 +113,7 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     m_view->hide();
 
     kDebug() << "Cleaning up test directory...";
-    m_helper->cleanupTestDir();
+    cleanupTestDir();
     kDebug() << "Done.";
 }
 

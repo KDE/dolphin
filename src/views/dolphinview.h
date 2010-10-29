@@ -799,7 +799,7 @@ private:
     QSet<QString> m_newFileNames;
 
     // For unit tests
-    friend class TestHelper;
+    friend class TestBase;
 };
 
 /// Allow using DolphinView::Mode in QVariant
