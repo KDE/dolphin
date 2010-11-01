@@ -238,10 +238,21 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_urlNavigator->setVisible(!enabled);
 
     if (enabled) {
-        // Remember the current URL, so that it can be restored
-        // when switching back to the URL navigator
-        const KUrl url = m_urlNavigator->locationUrl();
-        m_searchBox->setSearchPath(url);
+        // Remember the most recent non-search URL as search path
+        // of the search-box, so that it can be restored
+        // when switching back to the URL navigator.
+        KUrl url = m_urlNavigator->locationUrl();
+
+        int index = m_urlNavigator->historyIndex();
+        const int historySize = m_urlNavigator->historySize();
+        while (isSearchUrl(url) && (index < historySize)) {
+            ++index;
+            url = m_urlNavigator->locationUrl(index);
+        }
+
+        if (!isSearchUrl(url)) {
+            m_searchBox->setSearchPath(url);
+        }
     } else {
         // Restore the URL for the URL navigator. If Dolphin has been
         // started with a search-URL, the home URL is used as fallback.
@@ -435,19 +446,7 @@ void DolphinViewContainer::saveViewState()
 void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 {
     if (KProtocolManager::supportsListing(url)) {
-         // Assure that the search box is shown instead of the URL navigator in case
-         // that the URL \p url is a search URL (e. g. nepomuksearch:// or filenamesearch://).
-        if (isSearchUrl(url)) {
-            if (!m_searchBox->isVisible()) {
-                m_searchBox->setVisible(true);
-                m_urlNavigator->setVisible(false);
-                emit searchModeChanged(true);
-            }
-        } else if (!m_urlNavigator->isVisible()) {
-            m_urlNavigator->setVisible(true);
-            m_searchBox->setVisible(false);
-            emit searchModeChanged(false);
-        }
+        setSearchModeEnabled(isSearchUrl(url));
 
         m_view->setUrl(url);
         if (isActive() && !isSearchUrl(url)) {
@@ -499,6 +498,7 @@ void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
     // URL history.
     m_urlNavigator->saveLocationState(QByteArray());
     m_urlNavigator->setLocationUrl(newUrl);
+    setSearchModeEnabled(isSearchUrl(newUrl));
 
     m_urlNavigator->blockSignals(block);
 }
@@ -541,7 +541,8 @@ void DolphinViewContainer::closeSearchBox()
 
 bool DolphinViewContainer::isSearchUrl(const KUrl& url) const
 {
-    return url.protocol().contains("search");
+    const QString protocol = url.protocol();
+    return protocol.contains("search") || (protocol == QLatin1String("nepomuk"));
 }
 
 void DolphinViewContainer::slotItemTriggered(const KFileItem& item)

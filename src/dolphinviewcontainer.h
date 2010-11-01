@@ -247,6 +247,9 @@ private slots:
     void closeSearchBox();
 
 private:
+    /**
+     * @return True if the URL protocol is a search URL (e. g. nepomuksearch:// or filenamesearch://).
+     */
     bool isSearchUrl(const KUrl& url) const;
 
 private:
