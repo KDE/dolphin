@@ -324,6 +324,11 @@ public:
      */
     void saveState(QDataStream& stream);
 
+    /**
+     * Returns all the items in the current view.
+     */
+    KFileItemList allItems() const;
+
 public slots:
     /**
      * Changes the directory to \a url. If the current directory is equal to

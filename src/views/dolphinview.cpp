@@ -1458,4 +1458,9 @@ void DolphinView::restoreContentsPosition()
     }
 }
 
+KFileItemList DolphinView::allItems() const
+{
+    return m_viewAccessor.dirLister()->items();
+}
+
 #include "dolphinview.moc"

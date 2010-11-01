@@ -22,6 +22,7 @@
 
 #include <kparts/part.h>
 #include <kparts/browserextension.h>
+#include <kparts/fileinfoextension.h>
 
 #include <QItemSelectionModel>
 
@@ -260,6 +261,22 @@ public Q_SLOTS:
 
 private:
     DolphinPart* m_part;
+};
+
+
+class DolphinPartFileInfoExtension : public KParts::FileInfoExtension
+{
+    Q_OBJECT
+
+public:
+    DolphinPartFileInfoExtension(DolphinPart* part);
+
+    virtual QueryModes supportedQueryModes() const;
+    virtual bool hasSelection() const;
+
+    virtual KFileItemList queryFor(QueryMode mode) const;
+protected:
+    DolphinPart* part() const;
 };
 
 #endif /* DOLPHINPART_H */

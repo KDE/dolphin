@@ -38,6 +38,7 @@
 #include <knewfilemenu.h>
 #include <kmenu.h>
 #include <kinputdialog.h>
+#include <kprotocolinfo.h>
 
 #include "settings/dolphinsettings.h"
 #include "views/dolphinview.h"
@@ -61,6 +62,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     Q_UNUSED(args)
     setComponentData(DolphinPartFactory::componentData(), false);
     m_extension = new DolphinPartBrowserExtension(this);
+    new DolphinPartFileInfoExtension(this);
 
     // make sure that other apps using this part find Dolphin's view-file-columns icons
     KIconLoader::global()->addAppDir("dolphin");
@@ -465,46 +467,6 @@ void DolphinPart::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
     }
 }
 
-////
-
-void DolphinPartBrowserExtension::restoreState(QDataStream &stream)
-{
-    KParts::BrowserExtension::restoreState(stream);
-    m_part->view()->restoreState(stream);
-}
-
-void DolphinPartBrowserExtension::saveState(QDataStream &stream)
-{
-    KParts::BrowserExtension::saveState(stream);
-    m_part->view()->saveState(stream);
-}
-
-void DolphinPartBrowserExtension::cut()
-{
-    m_part->view()->cutSelectedItems();
-}
-
-void DolphinPartBrowserExtension::copy()
-{
-    m_part->view()->copySelectedItems();
-}
-
-void DolphinPartBrowserExtension::paste()
-{
-    m_part->view()->paste();
-}
-
-void DolphinPartBrowserExtension::pasteTo(const KUrl&)
-{
-    m_part->view()->pasteIntoFolder();
-}
-
-void DolphinPartBrowserExtension::reparseConfiguration()
-{
-    m_part->view()->refresh();
-}
-
-////
 
 void DolphinPart::slotEditMimeType()
 {
@@ -628,6 +590,91 @@ void DolphinPart::createDirectory()
 void DolphinPart::setFilesToSelect(const KUrl::List& files)
 {
     m_view->markUrlsAsSelected(files);
+}
+
+////
+
+void DolphinPartBrowserExtension::restoreState(QDataStream &stream)
+{
+    KParts::BrowserExtension::restoreState(stream);
+    m_part->view()->restoreState(stream);
+}
+
+void DolphinPartBrowserExtension::saveState(QDataStream &stream)
+{
+    KParts::BrowserExtension::saveState(stream);
+    m_part->view()->saveState(stream);
+}
+
+void DolphinPartBrowserExtension::cut()
+{
+    m_part->view()->cutSelectedItems();
+}
+
+void DolphinPartBrowserExtension::copy()
+{
+    m_part->view()->copySelectedItems();
+}
+
+void DolphinPartBrowserExtension::paste()
+{
+    m_part->view()->paste();
+}
+
+void DolphinPartBrowserExtension::pasteTo(const KUrl&)
+{
+    m_part->view()->pasteIntoFolder();
+}
+
+void DolphinPartBrowserExtension::reparseConfiguration()
+{
+    m_part->view()->refresh();
+}
+
+////
+
+DolphinPartFileInfoExtension::DolphinPartFileInfoExtension(DolphinPart* part)
+                             : KParts::FileInfoExtension(part)
+{
+}
+
+DolphinPart* DolphinPartFileInfoExtension::part() const
+{
+    return static_cast<DolphinPart*>(parent());
+}
+
+bool DolphinPartFileInfoExtension::hasSelection() const
+{
+    return part()->view()->hasSelection();
+}
+
+KParts::FileInfoExtension::QueryModes DolphinPartFileInfoExtension::supportedQueryModes() const
+{
+    return (KParts::FileInfoExtension::AllItems | KParts::FileInfoExtension::SelectedItems);
+}
+
+KFileItemList DolphinPartFileInfoExtension::queryFor(KParts::FileInfoExtension::QueryMode mode) const
+{
+    KFileItemList list;
+
+    if (mode == KParts::FileInfoExtension::None)
+      return list;
+
+    if (!(supportedQueryModes() & mode))
+      return list;
+
+    switch (mode) {
+      case KParts::FileInfoExtension::SelectedItems:
+          if (hasSelection())
+              return part()->view()->selectedItems();
+          break;
+      case KParts::FileInfoExtension::AllItems:
+          return part()->view()->allItems();
+      default:
+          break;
+    }
+
+    return list;
 }
 
 #include "dolphinpart.moc"
