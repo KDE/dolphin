@@ -37,7 +37,7 @@ FileMetaDataConfigurationDialog::FileMetaDataConfigurationDialog(QWidget* parent
 
     m_descriptionLabel = new QLabel(i18nc("@label::textbox",
                                           "Select which data should "
-                                          "be shown"), this);
+                                          "be shown:"), this);
     m_descriptionLabel->setWordWrap(true);
 
     m_configWidget = new KFileMetaDataConfigurationWidget(this);

@@ -53,7 +53,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
 
     QLabel* label = new QLabel(i18nc("@label:textbox",
                                      "Select which services should "
-                                     "be shown in the context menu."), this);
+                                     "be shown in the context menu:"), this);
     label->setWordWrap(true);
 
     m_servicesList = new QListWidget(this);

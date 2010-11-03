@@ -191,7 +191,7 @@ void BehaviorSettingsPage::configureToolTips()
 {
     FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog();
     dialog->setDescription(i18nc("@label::textbox",
-                                 "Select which data should be shown in the tooltip."));
+                                 "Select which data should be shown in the tooltip:"));
     dialog->setAttribute(Qt::WA_DeleteOnClose);
     dialog->show();
     dialog->raise();
