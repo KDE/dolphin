@@ -96,18 +96,17 @@ void InformationPanel::requestDelayedItemInfo(const KFileItem& item)
         return;
     }
 
+    cancelRequest();
+
     if (item.isNull()) {
         // The cursor is above the viewport. If files are selected,
         // show information regarding the selection.
         if (m_selection.size() > 0) {
-            cancelRequest();
             m_fileItem = KFileItem();
             m_infoTimer->start();
         }
     } else if (item.url().isValid() && !isEqualToShownUrl(item.url())) {
         // The cursor is above an item that is not shown currently
-        cancelRequest();
-
         m_urlCandidate = item.url();
         m_fileItem = item;
         m_infoTimer->start();
@@ -308,8 +307,10 @@ void InformationPanel::cancelRequest()
     m_folderStatJob = 0;
 
     m_infoTimer->stop();
-    m_urlChangedTimer->stop();
     m_resetUrlTimer->stop();
+    // Don't reset m_urlChangedTimer. As it is assured that the timeout of m_urlChangedTimer
+    // has the smallest interval (see init()), it is not possible that the exceeded timer
+    // would overwrite an information provided by a selection or hovering.
 
     m_invalidUrlCandidate.clear();
     m_urlCandidate.clear();
@@ -328,25 +329,26 @@ void InformationPanel::markUrlAsInvalid()
 
 void InformationPanel::init()
 {
-    const int defaultDelay = 300;
-
     m_infoTimer = new QTimer(this);
-    m_infoTimer->setInterval(defaultDelay);
+    m_infoTimer->setInterval(300);
     m_infoTimer->setSingleShot(true);
     connect(m_infoTimer, SIGNAL(timeout()),
             this, SLOT(slotInfoTimeout()));
 
     m_urlChangedTimer = new QTimer(this);
-    m_urlChangedTimer->setInterval(defaultDelay);
+    m_urlChangedTimer->setInterval(200);
     m_urlChangedTimer->setSingleShot(true);
     connect(m_urlChangedTimer, SIGNAL(timeout()),
             this, SLOT(showItemInfo()));
 
     m_resetUrlTimer = new QTimer(this);
-    m_resetUrlTimer->setInterval(defaultDelay * 3);
+    m_resetUrlTimer->setInterval(1000);
     m_resetUrlTimer->setSingleShot(true);
     connect(m_resetUrlTimer, SIGNAL(timeout()),
             this, SLOT(reset()));
+
+    Q_ASSERT(m_urlChangedTimer->interval() < m_infoTimer->interval());
+    Q_ASSERT(m_urlChangedTimer->interval() < m_resetUrlTimer->interval());
 
     org::kde::KDirNotify* dirNotify = new org::kde::KDirNotify(QString(), QString(),
                                                                QDBusConnection::sessionBus(), this);
