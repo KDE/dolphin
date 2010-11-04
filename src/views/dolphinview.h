@@ -43,6 +43,7 @@ typedef KIO::FileUndoManager::CommandType CommandType;
 
 class DolphinColumnViewContainer;
 class DolphinDetailsView;
+class DolphinDetailsViewExpander;
 class DolphinIconsView;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
@@ -53,7 +54,7 @@ class KDirLister;
 class KUrl;
 class ViewModeController;
 class ViewProperties;
-class DolphinDetailsViewExpander;
+class QRegExp;
 
 /**
  * @short Represents a view for the directory content.
@@ -181,12 +182,9 @@ public:
     bool supportsCategorizedSorting() const;
 
     /**
-     * Marks the items indicated by \p urls to get selected after the
-     * directory DolphinView::url() has been loaded. Note that nothing
-     * gets selected if no loading of a directory has been triggered
-     * by DolphinView::setUrl() or DolphinView::reload().
+     * Returns the items of the view.
      */
-    void markUrlsAsSelected(const QList<KUrl>& urls);
+    KFileItemList items() const;
 
     /**
      * Returns the selected items. The list is empty if no item has been
@@ -201,7 +199,19 @@ public:
      */
     int selectedItemsCount() const;
 
-    QItemSelectionModel* selectionModel() const;
+    /**
+     * Marks the items indicated by \p urls to get selected after the
+     * directory DolphinView::url() has been loaded. Note that nothing
+     * gets selected if no loading of a directory has been triggered
+     * by DolphinView::setUrl() or DolphinView::reload().
+     */
+    void markUrlsAsSelected(const QList<KUrl>& urls);
+
+    /**
+     * All items that match to the pattern \a pattern will get selected
+     * if \a enabled is true and deselected if  \a enabled is false.
+     */
+    void setItemSelectionEnabled(const QRegExp& pattern, bool enabled);
 
     /**
      * Sets the zoom level to \a level. It is assured that the used
@@ -324,10 +334,8 @@ public:
      */
     void saveState(QDataStream& stream);
 
-    /**
-     * Returns all the items in the current view.
-     */
-    KFileItemList allItems() const;
+    /** Returns true, if at least one item is selected. */
+    bool hasSelection() const;
 
 public slots:
     /**
@@ -348,9 +356,6 @@ public slots:
      * @see DolphinView::selectedItems()
      */
     void invertSelection();
-
-    /** Returns true, if at least one item is selected. */
-    bool hasSelection() const;
 
     void clearSelection();
 
@@ -711,6 +716,12 @@ private:
      * items in slotDirListerCompleted().
      */
     void addNewFileNames(const QMimeData* mimeData);
+
+    /**
+     * Helper method for DolphinView::setItemSelectionEnabled(): Returns the selection for
+     * all items of \p parent that match with the regular expression defined by \p pattern.
+     */
+    QItemSelection childrenMatchingPattern(const QModelIndex& parent, const QRegExp& pattern) const;
 
 private:
     /**

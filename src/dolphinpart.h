@@ -225,9 +225,7 @@ private:
                         QActionGroup* actionGroup);
 
     void openSelectionDialog(const QString& title, const QString& text,
-                             QItemSelectionModel::SelectionFlags command);
-
-    QItemSelection childrenMatchingPattern(const QModelIndex& parent, const QRegExp& patternRegExp);
+                             bool selectItems);
 
 private:
     DolphinView* m_view;

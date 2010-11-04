@@ -279,18 +279,9 @@ bool DolphinView::supportsCategorizedSorting() const
     return m_viewAccessor.supportsCategorizedSorting();
 }
 
-bool DolphinView::hasSelection() const
+KFileItemList DolphinView::items() const
 {
-    const QAbstractItemView* view = m_viewAccessor.itemView();
-    return (view != 0) && view->selectionModel()->hasSelection();
-}
-
-void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
-{
-    foreach (const KUrl& url, urls) {
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-        m_selectedItems.append(item);
-    }
+    return m_viewAccessor.dirLister()->items();
 }
 
 KFileItemList DolphinView::selectedItems() const
@@ -324,9 +315,21 @@ int DolphinView::selectedItemsCount() const
     return view->selectionModel()->selectedIndexes().count();
 }
 
-QItemSelectionModel* DolphinView::selectionModel() const
+void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
 {
-    return m_viewAccessor.itemView()->selectionModel();
+    foreach (const KUrl& url, urls) {
+        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+        m_selectedItems.append(item);
+    }
+}
+
+void DolphinView::setItemSelectionEnabled(const QRegExp& pattern, bool enabled)
+{
+    const QItemSelection matchingIndexes = childrenMatchingPattern(QModelIndex(), pattern);
+    const QItemSelectionModel::SelectionFlags command = enabled
+                                                      ? QItemSelectionModel::Select
+                                                      : QItemSelectionModel::Deselect;
+    m_viewAccessor.itemView()->selectionModel()->select(matchingIndexes, command);
 }
 
 void DolphinView::setZoomLevel(int level)
@@ -948,6 +951,12 @@ void DolphinView::saveState(QDataStream& stream)
     stream << m_viewAccessor.expandedUrls();
 }
 
+bool DolphinView::hasSelection() const
+{
+    const QAbstractItemView* view = m_viewAccessor.itemView();
+    return (view != 0) && view->selectionModel()->hasSelection();
+}
+
 void DolphinView::observeCreatedItem(const KUrl& url)
 {
     m_createdItemUrl = url;
@@ -1248,6 +1257,30 @@ void DolphinView::addNewFileNames(const QMimeData* mimeData)
     }
 }
 
+QItemSelection DolphinView::childrenMatchingPattern(const QModelIndex& parent, const QRegExp& pattern) const
+{
+    QItemSelection matchingIndexes;
+    const DolphinSortFilterProxyModel* proxyModel = m_viewAccessor.proxyModel();
+    const DolphinModel* dolphinModel = m_viewAccessor.dirModel();
+
+    const int rowCount = proxyModel->rowCount(parent);
+
+    for (int row = 0; row < rowCount; ++row) {
+        QModelIndex index = proxyModel->index(row, 0, parent);
+        QModelIndex sourceIndex = proxyModel->mapToSource(index);
+
+        if (sourceIndex.isValid() && pattern.exactMatch(dolphinModel->data(sourceIndex).toString())) {
+            matchingIndexes += QItemSelectionRange(index);
+        }
+
+        if (proxyModel->hasChildren(index)) {
+            matchingIndexes += childrenMatchingPattern(index, pattern);
+        }
+    }
+
+    return matchingIndexes;
+}
+
 DolphinView::ViewAccessor::ViewAccessor(DolphinSortFilterProxyModel* proxyModel) :
     m_iconsView(0),
     m_detailsView(0),
@@ -1456,11 +1489,6 @@ void DolphinView::restoreContentsPosition()
         view->horizontalScrollBar()->setValue(x);
         view->verticalScrollBar()->setValue(y);
     }
-}
-
-KFileItemList DolphinView::allItems() const
-{
-    return m_viewAccessor.dirLister()->items();
 }
 
 #include "dolphinview.moc"

@@ -480,47 +480,25 @@ void DolphinPart::slotSelectItemsMatchingPattern()
 {
     openSelectionDialog(i18nc("@title:window", "Select"),
                         i18n("Select all items matching this pattern:"),
-                        QItemSelectionModel::Select);
+                        true);
 }
 
 void DolphinPart::slotUnselectItemsMatchingPattern()
 {
     openSelectionDialog(i18nc("@title:window", "Unselect"),
                         i18n("Unselect all items matching this pattern:"),
-                        QItemSelectionModel::Deselect);
+                        false);
 }
 
-void DolphinPart::openSelectionDialog(const QString& title, const QString& text, QItemSelectionModel::SelectionFlags command)
+void DolphinPart::openSelectionDialog(const QString& title, const QString& text, bool selectItems)
 {
     bool okClicked;
     QString pattern = KInputDialog::getText(title, text, "*", &okClicked, m_view);
 
     if (okClicked && !pattern.isEmpty()) {
         QRegExp patternRegExp(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
-        QItemSelection matchingIndexes = childrenMatchingPattern(QModelIndex(), patternRegExp);
-        m_view->selectionModel()->select(matchingIndexes, command);
+        m_view->setItemSelectionEnabled(patternRegExp, selectItems);
     }
-}
-
-QItemSelection DolphinPart::childrenMatchingPattern(const QModelIndex& parent, const QRegExp& patternRegExp)
-{
-    QItemSelection matchingIndexes;
-    int numRows = m_proxyModel->rowCount(parent);
-
-    for (int row = 0; row < numRows; row++) {
-        QModelIndex index = m_proxyModel->index(row, 0, parent);
-        QModelIndex sourceIndex = m_proxyModel->mapToSource(index);
-
-        if (sourceIndex.isValid() && patternRegExp.exactMatch(m_dolphinModel->data(sourceIndex).toString())) {
-            matchingIndexes += QItemSelectionRange(index);
-        }
-
-        if (m_proxyModel->hasChildren(index)) {
-            matchingIndexes += childrenMatchingPattern(index, patternRegExp);
-        }
-    }
-
-    return matchingIndexes;
 }
 
 void DolphinPart::setCurrentViewMode(const QString& viewModeName)
@@ -669,7 +647,7 @@ KFileItemList DolphinPartFileInfoExtension::queryFor(KParts::FileInfoExtension::
               return part()->view()->selectedItems();
           break;
       case KParts::FileInfoExtension::AllItems:
-          return part()->view()->allItems();
+          return part()->view()->items();
       default:
           break;
     }
