@@ -48,7 +48,7 @@
     #include <nepomuk/resourcemanager.h>
     #include <nepomuk/resourcetypeterm.h>
     #include <nepomuk/comparisonterm.h>
-    #include "nfo.h"
+    #include <nepomuk/nfo.h>
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :

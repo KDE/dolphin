@@ -150,9 +150,6 @@ if(Nepomuk_FOUND)
         ${dolphin_SRCS}
         panels/filter/filterpanel.cpp
     )
-    include(SopranoAddOntology)
-    soprano_add_ontology(dolphin_SRCS ${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nfo.trig "NFO" "Nepomuk::Vocabulary" "trig")
-    soprano_add_ontology(dolphin_SRCS ${SHAREDDESKTOPONTOLOGIES_ROOT_DIR}/nie/nie.trig "NIE" "Nepomuk::Vocabulary" "trig")
 endif(Nepomuk_FOUND)
 
 if(NOT WIN32)
