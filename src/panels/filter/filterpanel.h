@@ -55,7 +55,7 @@ protected:
 
 private slots:
     void slotSetUrlStatFinished(KJob*);
-    void slotFacetsChanged();
+    void slotQueryTermChanged(const Nepomuk::Query::Term& term);
     void slotRemoveFolderRestrictionClicked();
 
 private:

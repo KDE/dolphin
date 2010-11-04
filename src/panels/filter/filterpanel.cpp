@@ -92,7 +92,8 @@ void FilterPanel::showEvent(QShowEvent* event)
         connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
                 this, SLOT(slotSetUrlStatFinished(KJob*)));
 
-        connect(m_facetWidget, SIGNAL(facetsChanged()), this, SLOT(slotFacetsChanged()));
+        connect(m_facetWidget, SIGNAL(queryTermChanged(Nepomuk::Query::Term)),
+                this, SLOT(slotQueryTermChanged(Nepomuk::Query::Term)));
 
         m_initialized = true;
     }
@@ -116,9 +117,9 @@ void FilterPanel::slotSetUrlStatFinished(KJob* job)
     setQuery(nepomukQuery);
 }
 
-void FilterPanel::slotFacetsChanged()
+void FilterPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
 {
-    Nepomuk::Query::Query query(m_unfacetedRestQuery && m_facetWidget->queryTerm());
+    Nepomuk::Query::Query query(m_unfacetedRestQuery && term);
     emit urlActivated(query.toSearchUrl());
 }
 
