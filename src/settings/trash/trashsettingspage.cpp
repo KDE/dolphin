@@ -37,7 +37,6 @@ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
     vBox->setSpacing(spacing);
 
     m_proxy = new KCModuleProxy("kcmtrash");
-    connect(m_proxy, SIGNAL(changed(bool)), this, SIGNAL(changed()));
     topLayout->addWidget(m_proxy);
 
     // Add a dummy widget with no restriction regarding
@@ -47,6 +46,8 @@ TrashSettingsPage::TrashSettingsPage(QWidget* parent) :
     topLayout->addWidget(vBox);
 
     loadSettings();
+
+    connect(m_proxy, SIGNAL(changed(bool)), this, SIGNAL(changed()));
 }
 
 TrashSettingsPage::~TrashSettingsPage()

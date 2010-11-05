@@ -40,10 +40,8 @@ StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
     vBox->setSpacing(KDialog::spacingHint());
 
     m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), vBox);
-    connect(m_showZoomSlider, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), vBox);
-    connect(m_showSpaceInfo, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -53,6 +51,9 @@ StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
     topLayout->addWidget(vBox);
 
     loadSettings();
+
+    connect(m_showZoomSlider, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showSpaceInfo, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 }
 
 StatusBarSettingsPage::~StatusBarSettingsPage()

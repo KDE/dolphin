@@ -59,10 +59,8 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     propsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
     m_localProps = new QRadioButton(i18nc("@option:radio", "Remember view properties for each folder"), propsBox);
-    connect(m_localProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_globalProps = new QRadioButton(i18nc("@option:radio", "Use common view properties for all folders"), propsBox);
-    connect(m_globalProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
     propsBoxLayout->addWidget(m_localProps);
@@ -73,13 +71,10 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     confirmBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                                "Moving files or folders to trash"), confirmBox);
-    connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                           "Deleting files or folders"), confirmBox);
-    connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
                                                        "Closing windows with multiple tabs"), confirmBox);
-    connect(m_confirmClosingMultipleTabs, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
     confirmBoxLayout->addWidget(m_confirmMoveToTrash);
@@ -88,30 +83,23 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     // 'Rename inline'
     m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), this);
-    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // 'Show tooltips'
     QWidget* toolTipContainer = new QWidget(this);
     QHBoxLayout* toolTipsLayout = new QHBoxLayout(toolTipContainer);
     toolTipsLayout->setMargin(0);
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), toolTipContainer);
-    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SLOT(updateConfigureButton()));
 
     m_configureToolTips = new QLabel(toolTipContainer);
-    connect(m_configureToolTips, SIGNAL(linkActivated(const QString&)),
-            this, SLOT(configureToolTips()));
 
     toolTipsLayout->addWidget(m_showToolTips);
     toolTipsLayout->addWidget(m_configureToolTips, 1, Qt::AlignLeft);
 
     // 'Show selection marker'
     m_showSelectionToggle = new QCheckBox(i18nc("@option:check", "Show selection marker"), this);
-    connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // 'Natural sorting of items'
     m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), this);
-    connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     topLayout->addWidget(propsBox);
     topLayout->addWidget(confirmBox);
@@ -122,6 +110,18 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     topLayout->addStretch();
 
     loadSettings();
+
+    connect(m_localProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_globalProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_confirmClosingMultipleTabs, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showToolTips, SIGNAL(toggled(bool)), this, SLOT(updateConfigureButton()));
+    connect(m_configureToolTips, SIGNAL(linkActivated(const QString&)), this, SLOT(configureToolTips()));
+    connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 }
 
 BehaviorSettingsPage::~BehaviorSettingsPage()

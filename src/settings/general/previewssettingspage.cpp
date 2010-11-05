@@ -65,8 +65,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_previewPluginsList = new QListWidget(this);
     m_previewPluginsList->setSortingEnabled(true);
     m_previewPluginsList->setSelectionMode(QAbstractItemView::NoSelection);
-    connect(m_previewPluginsList, SIGNAL(itemClicked(QListWidgetItem*)),
-            this, SIGNAL(changed()));
 
     QVBoxLayout* listBoxLayout = new QVBoxLayout(listBox);
     listBoxLayout->addWidget(m_previewPluginsList);
@@ -81,8 +79,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_localFileSizeBox->setSingleStep(1);
     m_localFileSizeBox->setSuffix(QLatin1String(" MB"));
     m_localFileSizeBox->setRange(0, 9999); /* MB */
-    connect(m_localFileSizeBox, SIGNAL(valueChanged(int)),
-            this, SIGNAL(changed()));
 
     QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label Don't create previews for: <Remote files above:> XX MByte",
                                                    "Remote files above:"), this);
@@ -91,8 +87,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_remoteFileSizeBox->setSingleStep(1);
     m_remoteFileSizeBox->setSuffix(QLatin1String(" MB"));
     m_remoteFileSizeBox->setRange(0, 9999); /* MB */
-    connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)),
-            this, SIGNAL(changed()));
 
     QGridLayout* fileSizeBoxLayout = new QGridLayout(fileSizeBox);
     fileSizeBoxLayout->addWidget(localFileSizeLabel, 0, 0, Qt::AlignRight);
@@ -104,6 +98,10 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     topLayout->addWidget(fileSizeBox);
 
     loadSettings();
+
+    connect(m_previewPluginsList, SIGNAL(itemClicked(QListWidgetItem*)), this, SIGNAL(changed()));
+    connect(m_localFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
+    connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
 }
 
 

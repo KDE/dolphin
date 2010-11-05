@@ -61,18 +61,12 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     m_iconSizeGroupBox->setDefaultSizeRange(min, max);
     m_iconSizeGroupBox->setPreviewSizeRange(min, max);
 
-    connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)),
-            this, SIGNAL(changed()));
-    connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)),
-            this, SIGNAL(changed()));
-
     // create "Text" properties
     QWidget* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
     textGroup->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
     m_fontRequester = new DolphinFontRequester(textGroup);
-    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
     QHBoxLayout* textLayout = new QHBoxLayout(textGroup);
     textLayout->addWidget(fontLabel, 0, Qt::AlignRight);
@@ -80,7 +74,6 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
 
     // create "Expandable Folders" checkbox
     m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
-    connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -88,6 +81,11 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     new QWidget(this);
 
     loadSettings();
+
+    connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)), this, SIGNAL(changed()));
+    connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)), this, SIGNAL(changed()));
+    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 }
 
 DetailsViewSettingsPage::~DetailsViewSettingsPage()

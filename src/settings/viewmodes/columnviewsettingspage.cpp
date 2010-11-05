@@ -61,18 +61,12 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     m_iconSizeGroupBox->setDefaultSizeRange(min, max);
     m_iconSizeGroupBox->setPreviewSizeRange(min, max);
 
-    connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)),
-            this, SIGNAL(changed()));
-    connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)),
-            this, SIGNAL(changed()));
-
     // create "Text" properties
     QGroupBox* textGroup = new QGroupBox(i18nc("@title:group", "Text"), this);
     textGroup->setSizePolicy(sizePolicy);
 
     QLabel* fontLabel = new QLabel(i18nc("@label:listbox", "Font:"), textGroup);
     m_fontRequester = new DolphinFontRequester(textGroup);
-    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
 
     QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
     m_textWidthBox = new KComboBox(textGroup);
@@ -80,7 +74,6 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
     m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
-    connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
 
     QGridLayout* textGroupLayout = new QGridLayout(textGroup);
     textGroupLayout->addWidget(fontLabel, 0, 0, Qt::AlignRight);
@@ -94,6 +87,11 @@ ColumnViewSettingsPage::ColumnViewSettingsPage(QWidget* parent) :
     new QWidget(this);
 
     loadSettings();
+
+    connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)), this, SIGNAL(changed()));
+    connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)), this, SIGNAL(changed()));
+    connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
 }
 
 ColumnViewSettingsPage::~ColumnViewSettingsPage()

@@ -50,20 +50,16 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     mouseBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
     m_singleClick = new QRadioButton(i18nc("@option:check Mouse Settings",
                                            "Single-click to open files and folders"), mouseBox);
-    connect(m_singleClick, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     m_doubleClick = new QRadioButton(i18nc("@option:check Mouse Settings",
                                            "Double-click to open files and folders"), mouseBox);
-    connect(m_doubleClick, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     QVBoxLayout* mouseBoxLayout = new QVBoxLayout(mouseBox);
     mouseBoxLayout->addWidget(m_singleClick);
     mouseBoxLayout->addWidget(m_doubleClick);
 
     m_openArchivesAsFolder = new QCheckBox(i18nc("@option:check", "Open archives as folder"), vBox);
-    connect(m_openArchivesAsFolder, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_autoExpandFolders = new QCheckBox(i18nc("option:check", "Open folders during drag operations"), vBox);
-    connect(m_autoExpandFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -73,6 +69,11 @@ NavigationSettingsPage::NavigationSettingsPage(QWidget* parent) :
     topLayout->addWidget(vBox);
 
     loadSettings();
+
+    connect(m_singleClick, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_doubleClick, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_openArchivesAsFolder, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_autoExpandFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 }
 
 NavigationSettingsPage::~NavigationSettingsPage()

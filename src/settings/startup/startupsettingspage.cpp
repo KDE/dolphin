@@ -98,8 +98,7 @@ StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    // Connecting the signals must be done after loading the settings
-    connect(m_homeUrl, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
+    connect(m_homeUrl, SIGNAL(textChanged(const QString&)), this, SLOT(slotSettingsChanged()));
     connect(m_splitView,    SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
     connect(m_editableUrl,  SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
     connect(m_showFullPath, SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));

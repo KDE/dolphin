@@ -41,10 +41,8 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent) :
     vBox->setSpacing(KDialog::spacingHint());
 
     m_showDeleteCommand = new QCheckBox(i18nc("@option:check", "Show 'Delete' command"), vBox);
-    connect(m_showDeleteCommand, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     m_showCopyMoveMenu = new QCheckBox(i18nc("@option:check", "Show 'Copy To' and 'Move To' commands"), vBox);
-    connect(m_showCopyMoveMenu, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -54,6 +52,9 @@ ContextMenuSettingsPage::ContextMenuSettingsPage(QWidget* parent) :
     topLayout->addWidget(vBox);
 
     loadSettings();
+
+    connect(m_showDeleteCommand, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_showCopyMoveMenu, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 }
 
 ContextMenuSettingsPage::~ContextMenuSettingsPage()
