@@ -331,15 +331,12 @@ void DolphinColumnViewContainer::layoutColumns()
         contentWidth += column->maximumWidth();
     }
 
-    if (horizontalScrollBar()->pageStep() != contentWidth) {
-        disconnect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
-                this, SLOT(moveContentHorizontally(int)));
-
+    const int scrollBarMax = contentWidth - viewport()->width();
+    const bool updateScrollBar =    (horizontalScrollBar()->pageStep() != contentWidth)
+                                 || (horizontalScrollBar()->maximum()  != scrollBarMax);
+    if (updateScrollBar) {
         horizontalScrollBar()->setPageStep(contentWidth);
-        horizontalScrollBar()->setRange(0, contentWidth - viewport()->width());
-
-        connect(horizontalScrollBar(), SIGNAL(valueChanged(int)),
-                this, SLOT(moveContentHorizontally(int)));
+        horizontalScrollBar()->setRange(0, scrollBarMax);
     }
 }
 
@@ -351,13 +348,13 @@ void DolphinColumnViewContainer::requestActivation(DolphinColumnView* column)
     if (focusProxy() != column) {
         setFocusProxy(column);
     }
-    
+
     if (!column->isActive()) {
         // Deactivate the currently active column
         if (m_index >= 0) {
             m_columns[m_index]->setActive(false);
         }
-        
+
         // Get the index of the column that should get activated
         int index = 0;
         foreach (DolphinColumnView* currColumn, m_columns) {
