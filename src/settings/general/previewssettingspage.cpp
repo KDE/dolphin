@@ -111,13 +111,15 @@ PreviewsSettingsPage::~PreviewsSettingsPage()
 
 void PreviewsSettingsPage::applySettings()
 {
-    m_enabledPreviewPlugins.clear();
     const int count = m_previewPluginsList->count();
-    for (int i = 0; i < count; ++i) {
-        const QListWidgetItem* item = m_previewPluginsList->item(i);
-        if (item->checkState() == Qt::Checked) {
-            const QString enabledPlugin = item->data(Qt::UserRole).toString();
-            m_enabledPreviewPlugins.append(enabledPlugin);
+    if (count > 0) {
+        m_enabledPreviewPlugins.clear();
+        for (int i = 0; i < count; ++i) {
+            const QListWidgetItem* item = m_previewPluginsList->item(i);
+            if (item->checkState() == Qt::Checked) {
+                const QString enabledPlugin = item->data(Qt::UserRole).toString();
+                m_enabledPreviewPlugins.append(enabledPlugin);
+            }
         }
     }
 
