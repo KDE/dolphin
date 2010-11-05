@@ -226,7 +226,7 @@ void DolphinViewContainer::refresh()
         // settings of the URL navigator and the filterbar.
         m_urlNavigator->setUrlEditable(settings->editableUrl());
         m_urlNavigator->setShowFullPath(settings->showFullPath());
-        showFilterBar(settings->filterBar());
+        setFilterBarVisible(settings->filterBar());
     }
 
     m_view->refresh();
@@ -298,10 +298,10 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
     }
 }
 
-void DolphinViewContainer::showFilterBar(bool show)
+void DolphinViewContainer::setFilterBarVisible(bool visible)
 {
     Q_ASSERT(m_filterBar != 0);
-    if (show) {
+    if (visible) {
         m_filterBar->show();
     } else {
         closeFilterBar();

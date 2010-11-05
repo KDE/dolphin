@@ -110,9 +110,9 @@ public slots:
     void setUrl(const KUrl& url);
 
     /**
-     * Popups the filter bar above the status bar if \a show is true.
+     * Popups the filter bar above the status bar if \a visible is true.
      */
-    void showFilterBar(bool show);
+    void setFilterBarVisible(bool visible);
 
 signals:
     /**

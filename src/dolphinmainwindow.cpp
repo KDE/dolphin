@@ -842,7 +842,7 @@ void DolphinMainWindow::disableStopAction()
 
 void DolphinMainWindow::toggleFilterBarVisibility(bool show)
 {
-    m_activeViewContainer->showFilterBar(show);
+    m_activeViewContainer->setFilterBarVisible(show);
 }
 
 void DolphinMainWindow::toggleEditLocation()
