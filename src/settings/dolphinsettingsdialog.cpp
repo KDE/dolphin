@@ -22,6 +22,8 @@
 
 #include <dolphinapplication.h>
 #include <dolphinmainwindow.h>
+#include "dolphinsettings.h"
+#include "dolphin_generalsettings.h"
 #include "general/generalsettingspage.h"
 #include "navigation/navigationsettingspage.h"
 #include "services/servicessettingspage.h"
@@ -128,6 +130,15 @@ void DolphinSettingsDialog::applySettings()
         page->applySettings();
     }
     DolphinApplication::app()->refreshMainWindows();
+
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    if (settings->modifiedStartupSettings()) {
+        // Reset the modified startup settings hint. The changed startup settings
+        // have been applied already in app()->refreshMainWindows().
+        settings->setModifiedStartupSettings(false);
+        settings->writeConfig();
+    }
+
     enableButtonApply(false);
 }
 

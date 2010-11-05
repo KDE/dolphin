@@ -285,6 +285,19 @@ void DolphinMainWindow::refreshViews()
     }
 
     setActiveViewContainer(activeViewContainer);
+
+    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+    if (generalSettings->modifiedStartupSettings()) {
+        // The startup settings have been changed by the user (see bug #254947).
+        //  Synchronizethe split-view setting with the active view:
+        const bool splitView = generalSettings->splitView();
+        const ViewTab& activeTab = m_viewTab[m_tabIndex];
+        const bool toggle =    ( splitView && (activeTab.secondaryView == 0))
+                            || (!splitView && (activeTab.secondaryView != 0));
+        if (toggle) {
+            toggleSplitView();
+        }
+    }
 }
 
 void DolphinMainWindow::pasteIntoFolder()
@@ -856,14 +869,14 @@ void DolphinMainWindow::replaceLocation()
 void DolphinMainWindow::goBack()
 {
     clearStatusBar();
-    
+
     KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
     urlNavigator->goBack();
-    
+
     if (urlNavigator->locationState().isEmpty()) {
         // An empty location state indicates a redirection URL,
         // which must be skipped too
-        urlNavigator->goBack();       
+        urlNavigator->goBack();
     }
 }
 

@@ -46,6 +46,7 @@ public:
     virtual void restoreDefaults();
 
 private slots:
+    void slotSettingsChanged();
     void selectHomeUrl();
     void useCurrentLocation();
     void useDefaultLocation();

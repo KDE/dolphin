@@ -88,10 +88,6 @@ StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
     m_editableUrl = new QCheckBox(i18nc("@option:check Startup Settings", "Editable location bar"), vBox);
     m_showFullPath = new QCheckBox(i18nc("@option:check Startup Settings", "Show full path inside location bar"), vBox);
     m_filterBar = new QCheckBox(i18nc("@option:check Startup Settings", "Show filter bar"), vBox);
-    connect(m_splitView,    SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_editableUrl,  SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_showFullPath, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_filterBar,    SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
@@ -102,9 +98,12 @@ StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    // it's important connecting 'textChanged' after loadSettings(), as loadSettings()
-    // invokes m_homeUrl->setText()
+    // Connecting the signals must be done after loading the settings
     connect(m_homeUrl, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
+    connect(m_splitView,    SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
+    connect(m_editableUrl,  SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
+    connect(m_showFullPath, SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
+    connect(m_filterBar,    SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
 }
 
 StartupSettingsPage::~StartupSettingsPage()
@@ -139,13 +138,24 @@ void StartupSettingsPage::restoreDefaults()
     settings->useDefaults(false);
 }
 
+void StartupSettingsPage::slotSettingsChanged()
+{
+    // Provide a hint that the startup settings have been changed. This allows the views
+    // to apply the startup settings only if they have been explicitely changed by the user
+    // (see bug #254947).
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    settings->setModifiedStartupSettings(true);
+
+    emit changed();
+}
+
 void StartupSettingsPage::selectHomeUrl()
 {
     const QString homeUrl = m_homeUrl->text();
     KUrl url = KFileDialog::getExistingDirectoryUrl(homeUrl, this);
     if (!url.isEmpty()) {
         m_homeUrl->setText(url.prettyUrl());
-        emit changed();
+        slotSettingsChanged();
     }
 }
 
@@ -156,7 +166,7 @@ void StartupSettingsPage::useCurrentLocation()
 
 void StartupSettingsPage::useDefaultLocation()
 {
-   KUrl url(QDir::homePath());
+    KUrl url(QDir::homePath());
     m_homeUrl->setText(url.prettyUrl());
 }
 

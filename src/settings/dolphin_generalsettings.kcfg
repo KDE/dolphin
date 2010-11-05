@@ -21,8 +21,12 @@
             <default>false</default>
         </entry>
         <entry name="FirstRun" type="Bool">
-            <label>Is the application started the first time</label>
+            <label>Is the application started the first time (internal setting not shown in the UI)</label>
             <default>true</default>
+        </entry>
+        <entry name="ModifiedStartupSettings" type="Bool">
+            <label>Have the startup settings been modified (internal setting not shown in the UI)</label>
+            <default>false</default>
         </entry>
         <entry name="HomeUrl" type="String">
             <label>Home URL</label>

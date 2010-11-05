@@ -219,6 +219,16 @@ bool DolphinViewContainer::isActive() const
 
 void DolphinViewContainer::refresh()
 {
+    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    if (settings->modifiedStartupSettings()) {
+        // The startup settings should only get applied if they have been
+        // modified by the user. Otherwise keep the (possibly) different current
+        // settings of the URL navigator and the filterbar.
+        m_urlNavigator->setUrlEditable(settings->editableUrl());
+        m_urlNavigator->setShowFullPath(settings->showFullPath());
+        showFilterBar(settings->filterBar());
+    }
+
     m_view->refresh();
     m_statusBar->refresh();
 }
