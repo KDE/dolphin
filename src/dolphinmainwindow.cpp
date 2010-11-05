@@ -289,7 +289,7 @@ void DolphinMainWindow::refreshViews()
     const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
     if (generalSettings->modifiedStartupSettings()) {
         // The startup settings have been changed by the user (see bug #254947).
-        //  Synchronizethe split-view setting with the active view:
+        // Synchronize the split-view setting with the active view:
         const bool splitView = generalSettings->splitView();
         const ViewTab& activeTab = m_viewTab[m_tabIndex];
         const bool toggle =    ( splitView && (activeTab.secondaryView == 0))
