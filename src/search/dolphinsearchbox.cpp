@@ -80,7 +80,7 @@ QString DolphinSearchBox::text() const
 void DolphinSearchBox::setSearchPath(const KUrl& url)
 {
     m_searchPath = url;
-    m_filterButton->setVisible(isSearchPathIndexed());
+    m_filterButton->setVisible(m_nepomukActivated && isSearchPathIndexed());
 }
 
 KUrl DolphinSearchBox::searchPath() const
@@ -91,7 +91,7 @@ KUrl DolphinSearchBox::searchPath() const
 KUrl DolphinSearchBox::urlForSearching() const
 {
     KUrl url;
-    if (isSearchPathIndexed()) {
+    if (m_nepomukActivated && isSearchPathIndexed()) {
         url = nepomukUrlForSearching();
     } else {
         url = m_searchPath;
