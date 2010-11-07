@@ -250,10 +250,7 @@ private slots:
     void enableStopAction();
     void disableStopAction();
 
-    /**
-     * Toggles between showing and hiding of the filter bar
-     */
-    void toggleFilterBarVisibility(bool show);
+    void showFilterBar();
 
     /**
      * Toggles between edit and browse mode of the navigation bar.

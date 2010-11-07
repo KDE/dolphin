@@ -111,6 +111,8 @@ public slots:
 
     /**
      * Popups the filter bar above the status bar if \a visible is true.
+     * It \a visible is true, it is assured that the filter bar gains
+     * the keyboard focus.
      */
     void setFilterBarVisible(bool visible);
 

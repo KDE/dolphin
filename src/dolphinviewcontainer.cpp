@@ -303,6 +303,7 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
     Q_ASSERT(m_filterBar != 0);
     if (visible) {
         m_filterBar->show();
+        m_filterBar->setFocus();
     } else {
         closeFilterBar();
     }

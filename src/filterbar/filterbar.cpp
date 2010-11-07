@@ -48,6 +48,7 @@ FilterBar::FilterBar(QWidget* parent) :
     m_filterInput->setClearButtonShown(true);
     connect(m_filterInput, SIGNAL(textChanged(const QString&)),
             this, SIGNAL(filterChanged(const QString&)));
+    setFocusProxy(m_filterInput);
 
     // Apply layout
     QHBoxLayout* hLayout = new QHBoxLayout(this);

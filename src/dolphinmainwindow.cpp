@@ -841,9 +841,9 @@ void DolphinMainWindow::disableStopAction()
     actionCollection()->action("stop")->setEnabled(false);
 }
 
-void DolphinMainWindow::toggleFilterBarVisibility(bool show)
+void DolphinMainWindow::showFilterBar()
 {
-    m_activeViewContainer->setFilterBarVisible(show);
+    m_activeViewContainer->setFilterBarVisible(true);
 }
 
 void DolphinMainWindow::toggleEditLocation()
@@ -1517,11 +1517,11 @@ void DolphinMainWindow::setupActions()
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
-    KToggleAction* showFilterBar = actionCollection()->add<KToggleAction>("show_filter_bar");
+    KAction* showFilterBar = actionCollection()->addAction("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
     showFilterBar->setIcon(KIcon("view-filter"));
     showFilterBar->setShortcut(Qt::CTRL | Qt::Key_I);
-    connect(showFilterBar, SIGNAL(triggered(bool)), this, SLOT(toggleFilterBarVisibility(bool)));
+    connect(showFilterBar, SIGNAL(triggered()), this, SLOT(showFilterBar()));
 
     KAction* compareFiles = actionCollection()->addAction("compare_files");
     compareFiles->setText(i18nc("@action:inmenu Tools", "Compare Files"));
