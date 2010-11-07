@@ -39,7 +39,6 @@ signals:
 
 protected:
     virtual void mousePressEvent(QMouseEvent* event);
-    virtual void rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end);
 
 private slots:
     void slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent);

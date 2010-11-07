@@ -20,10 +20,8 @@
 
 #include "placespanel.h"
 
-#include "dolphin_generalsettings.h"
 #include <kfileitem.h>
 #include <konq_operations.h>
-#include "settings/dolphinsettings.h"
 #include "views/draganddrophelper.h"
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
@@ -45,22 +43,6 @@ void PlacesPanel::mousePressEvent(QMouseEvent* event)
 {
     m_mouseButtons = event->buttons();
     KFilePlacesView::mousePressEvent(event);
-}
-
-void PlacesPanel::rowsAboutToBeRemoved(const QModelIndex& parent, int start, int end)
-{
-    Q_UNUSED(parent);
-
-    const QModelIndexList indexes = selectedIndexes();
-    if (!indexes.isEmpty()) {
-        const int selectedRow = indexes.first().row();
-        if ((start >= selectedRow) && (end <= selectedRow)) {
-            // The currently selected item is about to be removed, reset view to home URL
-            const KUrl homeUrl = DolphinSettings::instance().generalSettings()->homeUrl();
-            setUrl(homeUrl);
-            emit urlChanged(homeUrl, Qt::NoButton);
-        }
-    }
 }
 
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
