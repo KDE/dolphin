@@ -115,10 +115,6 @@ bool DolphinSearchBox::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
         init();
-    } else if (event->type() == QEvent::KeyPress) {
-        if (static_cast<QKeyEvent* >(event)->key() == Qt::Key_Escape) {
-            m_searchInput->clear();
-        }
     }
     return QWidget::event(event);
 }
