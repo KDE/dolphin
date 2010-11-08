@@ -259,19 +259,19 @@ void DolphinColumnViewContainer::slotAssureVisibleActiveColumn()
     const int viewportWidth = viewport()->width();
     const int x = activeColumn()->x();
 
-    // When a column that is partly visible on the left side gets activated,
-    // it is useful to also assure that the previous column is partly visible.
-    // This allows the user to scroll to the first column without using the
+    // When a column that is partly visible gets activated,
+    // it is useful to also assure that the neighbor column is partly visible.
+    // This allows the user to scroll to the first/last column without using the
     // scrollbar and drag & drop operations to invisible columns.
-    const int previousColumnGap = 3 * style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
+    const int neighborColumnGap = 3 * style()->pixelMetric(QStyle::PM_ScrollBarExtent, 0, verticalScrollBar());
 
     const int width = activeColumn()->maximumWidth();
     if (x + width > viewportWidth) {
         const int newContentX = m_contentX - x - width + viewportWidth;
         if (isRightToLeft()) {
-            m_animation->setFrameRange(m_contentX, newContentX + previousColumnGap);
+            m_animation->setFrameRange(m_contentX, newContentX + neighborColumnGap);
         } else {
-            m_animation->setFrameRange(-m_contentX, -newContentX);
+            m_animation->setFrameRange(-m_contentX, -newContentX + neighborColumnGap);
         }
         if (m_animation->state() != QTimeLine::Running) {
            m_animation->start();
@@ -279,9 +279,9 @@ void DolphinColumnViewContainer::slotAssureVisibleActiveColumn()
     } else if (x < 0) {
         const int newContentX = m_contentX - x;
         if (isRightToLeft()) {
-            m_animation->setFrameRange(m_contentX, newContentX);
+            m_animation->setFrameRange(m_contentX, newContentX - neighborColumnGap);
         } else {
-            m_animation->setFrameRange(-m_contentX, -newContentX - previousColumnGap);
+            m_animation->setFrameRange(-m_contentX, -newContentX - neighborColumnGap);
         }
         if (m_animation->state() != QTimeLine::Running) {
            m_animation->start();
