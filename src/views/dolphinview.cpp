@@ -83,7 +83,6 @@ DolphinView::DolphinView(QWidget* parent,
     m_viewModeController(0),
     m_viewAccessor(proxyModel),
     m_selectionChangedTimer(0),
-    m_rootUrl(),
     m_activeItemUrl(),
     m_restoredContentsPosition(),
     m_createdItemUrl(),
@@ -904,13 +903,18 @@ bool DolphinView::itemsExpandable() const
 
 void DolphinView::restoreState(QDataStream& stream)
 {
-    // current item
+    // Restore the URL of the current item that had the keyboard focus
     stream >> m_activeItemUrl;
 
-    // view position
+    // Restore the root URL
+    KUrl rootUrl;
+    stream >> rootUrl;
+    m_viewAccessor.setRootUrl(rootUrl);
+
+    // Restore the view position
     stream >> m_restoredContentsPosition;
 
-    // expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
+    // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
     QSet<KUrl> urlsToExpand;
     stream >> urlsToExpand;
     const DolphinDetailsViewExpander* expander = m_viewAccessor.setExpandedUrls(urlsToExpand);
@@ -925,7 +929,7 @@ void DolphinView::restoreState(QDataStream& stream)
 
 void DolphinView::saveState(QDataStream& stream)
 {
-    // current item
+    // Save the URL of the current item that has the keyboard focus
     KFileItem currentItem;
     const QAbstractItemView* view = m_viewAccessor.itemView();
 
@@ -935,19 +939,22 @@ void DolphinView::saveState(QDataStream& stream)
         currentItem = m_viewAccessor.dirModel()->itemForIndex(dirModelIndex);
     }
 
-    KUrl currentUrl;
+    KUrl currentItemUrl;
     if (!currentItem.isNull()) {
-        currentUrl = currentItem.url();
+        currentItemUrl = currentItem.url();
     }
 
-    stream << currentUrl;
+    stream << currentItemUrl;
 
-    // view position
+    // Save the root URL
+    stream << m_viewAccessor.rootUrl();
+
+    // Save view position
     const int x = view->horizontalScrollBar()->value();
     const int y = view->verticalScrollBar()->value();
     stream << QPoint(x, y);
 
-    // expanded folders (only relevant for the details view - the set will be empty in other view modes)
+    // Save expanded folders (only relevant for the details view - the set will be empty in other view modes)
     stream << m_viewAccessor.expandedUrls();
 }
 
@@ -1106,6 +1113,7 @@ void DolphinView::applyViewProperties()
     if (m_viewAccessor.itemView() == 0) {
         createView();
     }
+
     Q_ASSERT(m_viewAccessor.itemView() != 0);
     Q_ASSERT(m_viewAccessor.itemDelegate() != 0);
 
@@ -1282,6 +1290,7 @@ QItemSelection DolphinView::childrenMatchingPattern(const QModelIndex& parent, c
 }
 
 DolphinView::ViewAccessor::ViewAccessor(DolphinSortFilterProxyModel* proxyModel) :
+    m_rootUrl(),
     m_iconsView(0),
     m_detailsView(0),
     m_columnsContainer(0),
@@ -1322,6 +1331,12 @@ void DolphinView::ViewAccessor::createView(QWidget* parent,
         m_columnsContainer = new DolphinColumnViewContainer(parent,
                                                             dolphinViewController,
                                                             viewModeController);
+        if (!m_rootUrl.isEmpty() && m_rootUrl.isParentOf(viewModeController->url())) {
+            // The column-view must show several columns starting with m_rootUrl as
+            // first column and viewModeController->url() as last column.
+            m_columnsContainer->showColumn(m_rootUrl);
+            m_columnsContainer->showColumn(viewModeController->url());
+        }
         break;
 
     default:
@@ -1365,7 +1380,6 @@ void DolphinView::ViewAccessor::deleteView()
     }
 }
 
-
 void DolphinView::ViewAccessor::prepareUrlChange(const KUrl& url)
 {
     if (m_columnsContainer != 0) {
@@ -1403,9 +1417,14 @@ QWidget* DolphinView::ViewAccessor::layoutTarget() const
     return itemView();
 }
 
+void DolphinView::ViewAccessor::setRootUrl(const KUrl& rootUrl)
+{
+    m_rootUrl = rootUrl;
+}
+
 KUrl DolphinView::ViewAccessor::rootUrl() const
 {
-    return (m_columnsContainer != 0) ? m_columnsContainer->rootUrl() : KUrl();
+    return (m_columnsContainer != 0) ? m_columnsContainer->rootUrl() : m_rootUrl;
 }
 
 bool DolphinView::ViewAccessor::supportsCategorizedSorting() const
@@ -1417,7 +1436,6 @@ bool DolphinView::ViewAccessor::itemsExpandable() const
 {
     return (m_detailsView != 0) && m_detailsView->itemsExpandable();
 }
-
 
 QSet<KUrl> DolphinView::ViewAccessor::expandedUrls() const
 {

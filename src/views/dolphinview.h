@@ -756,6 +756,7 @@ private:
          */
         QWidget* layoutTarget() const;
 
+        void setRootUrl(const KUrl& rootUrl);
         KUrl rootUrl() const;
 
         bool supportsCategorizedSorting() const;
@@ -775,6 +776,7 @@ private:
         KDirLister* dirLister() const;
 
     private:
+        KUrl m_rootUrl;
         DolphinIconsView* m_iconsView;
         DolphinDetailsView* m_detailsView;
         DolphinColumnViewContainer* m_columnsContainer;
@@ -801,7 +803,6 @@ private:
 
     QTimer* m_selectionChangedTimer;
 
-    KUrl m_rootUrl;
     KUrl m_activeItemUrl;
     QPoint m_restoredContentsPosition;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
