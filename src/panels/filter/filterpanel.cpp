@@ -22,8 +22,15 @@
 #include <nepomuk/filequery.h>
 #include <nepomuk/facetwidget.h>
 #include <nepomuk/facet.h>
+#include <Nepomuk/Utils/SimpleFacet>
+#include <Nepomuk/Utils/ProxyFacet>
+#include <Nepomuk/Utils/DynamicResourceFacet>
 #include <Nepomuk/Query/FileQuery>
-#include <Nepomuk/Query/Term>
+#include <Nepomuk/Query/ResourceTypeTerm>
+#include <Nepomuk/Query/LiteralTerm>
+#include <Nepomuk/Query/ComparisonTerm>
+#include <Nepomuk/Vocabulary/NFO>
+#include <Nepomuk/Vocabulary/NMM>
 
 #include <kfileitem.h>
 #include <kio/jobclasses.h>
@@ -82,7 +89,34 @@ void FilterPanel::showEvent(QShowEvent* event)
         m_facetWidget = new Nepomuk::Utils::FacetWidget(this);
         layout->addWidget(m_facetWidget, 1);
 
+        // File Type
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createFileTypeFacet());
+
+        // Image Size
+        Nepomuk::Utils::ProxyFacet* imageSizeProxy = new Nepomuk::Utils::ProxyFacet();
+        imageSizeProxy->setFacetCondition(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Image()));
+        Nepomuk::Utils::SimpleFacet* imageSizeFacet = new Nepomuk::Utils::SimpleFacet(imageSizeProxy);
+        imageSizeFacet->setSelectionMode(Nepomuk::Utils::Facet::MatchAny);
+        imageSizeFacet->addTerm( i18nc("option:check Refers to a filter on image size", "Small"),
+                                Nepomuk::Vocabulary::NFO::width() <= Nepomuk::Query::LiteralTerm(300));
+        imageSizeFacet->addTerm( i18nc("option:check Refers to a filter on image size", "Medium"),
+                                (Nepomuk::Vocabulary::NFO::width() > Nepomuk::Query::LiteralTerm(300)) &&
+                                (Nepomuk::Vocabulary::NFO::width() <= Nepomuk::Query::LiteralTerm(800)));
+        imageSizeFacet->addTerm( i18nc("option:check Refers to a filter on image size", "Large"),
+                                Nepomuk::Vocabulary::NFO::width() > Nepomuk::Query::LiteralTerm(800));
+        imageSizeProxy->setSourceFacet(imageSizeFacet);
+        m_facetWidget->addFacet(imageSizeProxy);
+
+        // Artists
+        Nepomuk::Utils::ProxyFacet* artistProxy = new Nepomuk::Utils::ProxyFacet();
+        artistProxy->setFacetCondition(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Audio()));
+        Nepomuk::Utils::DynamicResourceFacet* artistFacet = new Nepomuk::Utils::DynamicResourceFacet(artistProxy);
+        artistFacet->setSelectionMode(Nepomuk::Utils::Facet::MatchAny);
+        artistFacet->setRelation(Nepomuk::Vocabulary::NMM::performer());
+        artistProxy->setSourceFacet(artistFacet);
+        m_facetWidget->addFacet(artistProxy);
+
+        // Misc
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createDateFacet());
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createRatingFacet());
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createTagFacet());
@@ -136,8 +170,7 @@ void FilterPanel::setQuery(const Nepomuk::Query::Query& query)
 {
     if (query.isValid()) {
         m_removeFolderRestrictionButton->setVisible(query.isFileQuery() && !query.toFileQuery().includeFolders().isEmpty());
-        m_unfacetedRestQuery = query;
-        m_unfacetedRestQuery.setTerm(m_facetWidget->extractFacetsFromTerm(query.term()));
+        m_unfacetedRestQuery = m_facetWidget->extractFacetsFromQuery(query);
         m_facetWidget->setClientQuery(query);
         setEnabled(true);
     } else {
