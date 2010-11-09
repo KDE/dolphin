@@ -119,11 +119,12 @@ void DolphinFileItemDelegate::adjustOptionTextColor(QStyleOptionViewItemV4& opti
     // as tint colors and are mixed with the current set text color. The tint colors
     // have been optimized for the base colors of the corresponding Oxygen emblems.
     switch (state) {
-    case KVersionControlPlugin::UpdateRequiredVersion:  tintColor = Qt::yellow; break;
-    case KVersionControlPlugin::LocallyModifiedVersion: tintColor = Qt::green; break;
-    case KVersionControlPlugin::AddedVersion:           tintColor = Qt::darkGreen; break;
-    case KVersionControlPlugin::RemovedVersion:         tintColor = Qt::darkRed; break;
-    case KVersionControlPlugin::ConflictingVersion:     tintColor = Qt::red; break;
+    case KVersionControlPlugin::UpdateRequiredVersion:          tintColor = Qt::yellow; break;
+    case KVersionControlPlugin::LocallyModifiedUnstagedVersion: tintColor = Qt::darkRed; break;
+    case KVersionControlPlugin::LocallyModifiedVersion:         tintColor = Qt::green; break;
+    case KVersionControlPlugin::AddedVersion:                   tintColor = Qt::darkGreen; break;
+    case KVersionControlPlugin::RemovedVersion:                 tintColor = Qt::darkRed; break;
+    case KVersionControlPlugin::ConflictingVersion:             tintColor = Qt::red; break;
     case KVersionControlPlugin::UnversionedVersion:
     case KVersionControlPlugin::NormalVersion:
     default:
@@ -143,7 +144,7 @@ void DolphinFileItemDelegate::adjustOptionTextColor(QStyleOptionViewItemV4& opti
 
 QPixmap DolphinFileItemDelegate::emblemForState(KVersionControlPlugin::VersionState state, const QSize& size) const
 {
-    Q_ASSERT(state <= KVersionControlPlugin::ConflictingVersion);
+    Q_ASSERT(state <= KVersionControlPlugin::LocallyModifiedUnstagedVersion);
     if (m_cachedSize != size) {
         m_cachedSize = size;
 
@@ -160,7 +161,7 @@ QPixmap DolphinFileItemDelegate::emblemForState(KVersionControlPlugin::VersionSt
         }
 
         const QSize emblemSize(emblemHeight, emblemHeight);
-        for (int i = KVersionControlPlugin::NormalVersion; i <= KVersionControlPlugin::ConflictingVersion; ++i) {
+        for (int i = KVersionControlPlugin::NormalVersion; i <= KVersionControlPlugin::LocallyModifiedUnstagedVersion; ++i) {
             QString iconName;
             switch (i) {
             case KVersionControlPlugin::NormalVersion:
