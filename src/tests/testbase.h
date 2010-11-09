@@ -49,7 +49,10 @@ public:
     ~TestBase();
 
     // Returns the item view (icons, details, or columns)
-    QAbstractItemView* itemView () const;
+    QAbstractItemView* itemView() const;
+
+    // Reloads the view and waits for the finishedPathLoading(const KUrl&) signal.
+    void reloadViewAndWait();
 
     KUrl testDirUrl() const;
 

@@ -34,27 +34,16 @@
 #include <qtestmouse.h>
 #include <qtestkeyboard.h>
 
-#include "kdebug.h"
-
 class DolphinDetailsViewTest : public TestBase
 {
     Q_OBJECT
 
 private slots:
 
-    void initTestCase();
-
     void bug217447_shiftArrowSelection();
     void bug234600_overlappingIconsWhenZooming();
 
 };
-
-void DolphinDetailsViewTest::initTestCase()
-{
-    // add time stamps to find origin of test failures due to timeout at
-    // http://my.cdash.org/index.php?project=kdebase&date=
-    qputenv("KDE_DEBUG_TIMESTAMP", QByteArray("1"));
-}
 
 /**
  * When the first item in the view is active and Shift is held while the "arrow down"
@@ -88,14 +77,7 @@ void DolphinDetailsViewTest::bug217447_shiftArrowSelection()
     m_view->resize(1000, 400);
     m_view->show();
     QTest::qWaitForWindowShown(m_view);
-
-    // We have to make sure that the view has loaded the directory before we start the test.
-    // TODO: This will be needed frequently. Maybe move to TestHelper.
-    QSignalSpy finished(m_view, SIGNAL(finishedPathLoading(const KUrl&)));
-    m_view->reload();
-    while (finished.count() != 1) {
-        QTest::qWait(50);
-    }
+    reloadViewAndWait();
 
     // Select the first item
     QModelIndex index0 = detailsView->model()->index(0, 0);
@@ -165,16 +147,7 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     m_view->resize(400, 400);
     m_view->show();
     QTest::qWaitForWindowShown(m_view);
-
-    // We have to make sure that the view has loaded the directory before we start the test.
-    // TODO: This will be needed frequently. Maybe move to TestHelper.
-    kDebug() << "Reloading view and waiting for the finishedPathLoading(const KUrl&) signal...";
-    QSignalSpy finished(m_view, SIGNAL(finishedPathLoading(const KUrl&)));
-    m_view->reload();
-    while (finished.count() != 1) {
-        QTest::qWait(50);
-    }
-    kDebug() << "...signal received, continuing";
+    reloadViewAndWait();
 
     QModelIndex index0 = detailsView->model()->index(0, 0);
     detailsView->setCurrentIndex(index0);
@@ -189,12 +162,9 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     detailsView->setCurrentIndex(index1);
     QCOMPARE(detailsView->currentIndex(), index1);
 
-    kDebug() << "Now checking zoom levels...";
-
     // Increase the zoom level successively to the maximum.
     while(zoomLevel < ZoomLevelInfo::maximumLevel()) {
         zoomLevel++;
-        kDebug() << "Testing zoom level" << zoomLevel;
         m_view->setZoomLevel(zoomLevel);
 
         //Check for each zoom level that the height of each item is at least the icon size.
@@ -202,10 +172,7 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     }
 
     m_view->hide();
-
-    kDebug() << "Cleaning up test directory...";
     cleanupTestDir();
-    kDebug() << "Done.";
 }
 
 QTEST_KDEMAIN(DolphinDetailsViewTest, GUI)

@@ -19,6 +19,8 @@
 
 #include "testbase.h"
 
+#include <qtest_kde.h>
+
 #include "views/dolphinview.h"
 #include "views/dolphinmodel.h"
 #include "views/dolphindirlister.h"
@@ -28,6 +30,8 @@
 
 #include <QtCore/QDir>
 #include <QtGui/QAbstractItemView>
+
+#include <kdebug.h>
 
 TestBase::TestBase()
 {
@@ -60,6 +64,16 @@ QAbstractItemView* TestBase::itemView () const
     return m_view->m_viewAccessor.itemView();
 }
 
+void TestBase::reloadViewAndWait()
+{
+    kDebug() << "Reloading view and waiting for the finishedPathLoading(const KUrl&) signal...";
+    QSignalSpy finished(m_view, SIGNAL(finishedPathLoading(const KUrl&)));
+    m_view->reload();
+    while (finished.count() != 1) {
+        QTest::qWait(50);
+    }
+    kDebug() << "...signal received, continuing";
+}
 
 KUrl TestBase::testDirUrl() const
 {
