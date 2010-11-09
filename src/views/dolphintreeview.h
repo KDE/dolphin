@@ -40,6 +40,7 @@ public:
     explicit DolphinTreeView(QWidget* parent = 0);
     virtual ~DolphinTreeView();
 
+    virtual QModelIndex indexAt (const QPoint& point) const;
     virtual QRegion visualRegionForSelection(const QItemSelection& selection) const;
 
 protected:   
@@ -62,7 +63,6 @@ protected:
     virtual void keyPressEvent(QKeyEvent* event);
     virtual void keyReleaseEvent(QKeyEvent* event);
     virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
-    virtual QModelIndex indexAt (const QPoint& point) const;
     virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
     virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 

@@ -31,6 +31,8 @@
 #include <KTempDir>
 
 #include <QtCore/QDir>
+#include <qtestmouse.h>
+#include <qtestkeyboard.h>
 
 #include "kdebug.h"
 
@@ -42,6 +44,7 @@ private slots:
 
     void initTestCase();
 
+    void bug217447_shiftArrowSelection();
     void bug234600_overlappingIconsWhenZooming();
 
 };
@@ -51,6 +54,94 @@ void DolphinDetailsViewTest::initTestCase()
     // add time stamps to find origin of test failures due to timeout at
     // http://my.cdash.org/index.php?project=kdebase&date=
     qputenv("KDE_DEBUG_TIMESTAMP", QByteArray("1"));
+}
+
+/**
+ * When the first item in the view is active and Shift is held while the "arrow down"
+ * key is pressed repeatedly, the selection should grow by one item for each key press.
+ * A change in Qt 4.6 revealed a bug in DolphinDetailsView which broke this, see
+ *
+ * https://bugs.kde.org/show_bug.cgi?id=217447
+ *
+ * The problem was that DolphinDetailsView, which uses not the full width of the "Name"
+ * column for an item, but only the width of the actual file name, did not reimplement
+ * QTreeView::visualRect(). This caused item selection to fail because QAbstractItemView
+ * uses the center of the visualRect of an item internally. If the width of the file name
+ * is less than half the width of the "Name" column, the center of an item's visualRect
+ * was therefore outside the space that DolphinDetailsView actually assigned to the
+ * item, and this led to unexpected deselection of items.
+ *
+ * TODO: To make the test more reliable, one could adjust the width of the "Name"
+ * column before the test in order to really make sure that the column is more than twice
+ * as wide as the space actually occupied by the file names (this triggers the bug).
+ */
+
+void DolphinDetailsViewTest::bug217447_shiftArrowSelection()
+{
+    for (int i = 0; i < 100; i++) {
+        createFile(QString("%1").arg(i));
+    }
+
+    m_view->setMode(DolphinView::DetailsView);
+    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
+    QVERIFY(detailsView);
+    m_view->resize(1000, 400);
+    m_view->show();
+    QTest::qWaitForWindowShown(m_view);
+
+    // We have to make sure that the view has loaded the directory before we start the test.
+    // TODO: This will be needed frequently. Maybe move to TestHelper.
+    QSignalSpy finished(m_view, SIGNAL(finishedPathLoading(const KUrl&)));
+    m_view->reload();
+    while (finished.count() != 1) {
+        QTest::qWait(50);
+    }
+
+    // Select the first item
+    QModelIndex index0 = detailsView->model()->index(0, 0);
+    detailsView->setCurrentIndex(index0);
+    QCOMPARE(detailsView->currentIndex(), index0);
+
+    // Before we test Shift-selection, we verify that the root cause is fixed a bit more
+    // directly: we check that passing the corners or the center of an item's visualRect
+    // to itemAt() returns the item (and not an invalid model index).
+    QRect rect = detailsView->visualRect(index0);
+    QCOMPARE(detailsView->indexAt(rect.center()), index0);
+    QCOMPARE(detailsView->indexAt(rect.topLeft()), index0);
+    QCOMPARE(detailsView->indexAt(rect.topRight()), index0);
+    QCOMPARE(detailsView->indexAt(rect.bottomLeft()), index0);
+    QCOMPARE(detailsView->indexAt(rect.bottomRight()), index0);
+
+    // Another way to test this is to Ctrl-click the center of the visualRect.
+    // The selection state of the item should be toggled.
+    detailsView->clearSelection();
+    QItemSelectionModel* selectionModel = detailsView->selectionModel();
+    QCOMPARE(selectionModel->selectedIndexes().count(), 0);
+
+    QTest::mouseClick(detailsView->viewport(), Qt::LeftButton, Qt::ControlModifier, rect.center());
+    QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
+    QCOMPARE(selectedIndexes.count(), 1);
+    QVERIFY(selectedIndexes.contains(index0));
+
+    // Now we go down item by item using Shift+Down. In each step, we check that the current item
+    // is added to the selection and that the size of the selection grows by one.
+
+    int current = 1;
+
+    while (current < 100) {
+        QTest::keyClick(detailsView->viewport(), Qt::Key_Down, Qt::ShiftModifier);
+        QModelIndex currentIndex = detailsView->model()->index(current, 0);
+        QCOMPARE(detailsView->currentIndex(), currentIndex);
+
+        selectedIndexes = selectionModel->selectedIndexes();
+        QCOMPARE(selectedIndexes.count(), current + 1);
+        QVERIFY(selectedIndexes.contains(currentIndex));
+
+        current++;
+    }
+
+    m_view->hide();
+    cleanupTestDir();
 }
 
 /**
