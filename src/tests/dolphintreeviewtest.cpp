@@ -22,6 +22,7 @@
 #include "views/dolphintreeview.h"
 
 #include <qtestkeyboard.h>
+#include <qtestmouse.h>
 #include <QtGui/QStringListModel>
 
 class DolphinTreeViewTest : public QObject
@@ -30,6 +31,7 @@ class DolphinTreeViewTest : public QObject
 
 private slots:
 
+    void bug201459_firstLetterAndThenShiftClickSelection();
     void bug218114_visualRegionForSelection();
 
 };
@@ -64,6 +66,63 @@ public:
     }
 
 };
+
+/**
+ * When the first letter of a file name is pressed, this file becomes the current item
+ * and gets selected. If the user then Shift-clicks another item, it is expected that
+ * all items between these two items get selected. Before the bug
+ *
+ * https://bugs.kde.org/show_bug.cgi?id=201459
+ *
+ * was fixed, this was not the case: the starting point for the Shift-selection was not
+ * updated if an item was selected by pressing the first letter of the file name.
+ */
+
+void DolphinTreeViewTest::bug201459_firstLetterAndThenShiftClickSelection()
+{
+    QStringList items;
+    items << "a" << "b" << "c" << "d" << "e";
+    QStringListModel model(items);
+
+    QModelIndex index[5];
+    for (int i = 0; i < 5; i++) {
+        index[i] = model.index(i, 0);
+    }
+
+    DolphinTreeView view;
+    view.setModel(&model);
+    view.setSelectionMode(QAbstractItemView::ExtendedSelection);
+    view.resize(400, 400);
+    view.show();
+    QTest::qWaitForWindowShown(&view);
+
+    QItemSelectionModel* selectionModel = view.selectionModel();
+    QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
+    QCOMPARE(selectedIndexes.count(), 0);
+
+    // Control-click item 0 ("a")
+    QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::ControlModifier, view.visualRect(index[0]).center());
+    QCOMPARE(view.currentIndex(), index[0]);
+    selectedIndexes = selectionModel->selectedIndexes();
+    QCOMPARE(selectedIndexes.count(), 1);
+    QVERIFY(selectedIndexes.contains(index[0]));
+
+    // Press "c", such that item 2 ("c") should be the current one.
+    QTest::keyClick(view.viewport(), Qt::Key_C);
+    QCOMPARE(view.currentIndex(), index[2]);
+    selectedIndexes = selectionModel->selectedIndexes();
+    QCOMPARE(selectedIndexes.count(), 1);
+    QVERIFY(selectedIndexes.contains(index[2]));
+
+    // Now Shift-Click the last item ("e"). We expect that 3 items ("c", "d", "e") are selected.
+    QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::ShiftModifier, view.visualRect(index[4]).center());
+    QCOMPARE(view.currentIndex(), index[4]);
+    selectedIndexes = selectionModel->selectedIndexes();
+    QCOMPARE(selectedIndexes.count(), 3);
+    QVERIFY(selectedIndexes.contains(index[2]));
+    QVERIFY(selectedIndexes.contains(index[3]));
+    QVERIFY(selectedIndexes.contains(index[4]));
+}
 
 /**
  * QTreeView assumes implicitly that the width of each item's visualRect is the same. This leads to painting
