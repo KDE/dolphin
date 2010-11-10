@@ -168,7 +168,7 @@ void PreviewsSettingsPage::loadSettings()
     m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
                                                      << QLatin1String("directorythumbnail")
                                                      << QLatin1String("imagethumbnail")
-                                                     << QLatin1String("jpegthumbnail"));
+                                                     << QLatin1String("jpegrotatedthumbnail"));
 
     const int maxLocalByteSize = globalConfig.readEntry("MaximumSize", MaxLocalPreviewSize * 1024 * 1024);
     const int maxLocalMByteSize = maxLocalByteSize / (1024 * 1024);
