@@ -30,7 +30,6 @@
 #include "mainwindowadaptor.h"
 #ifdef HAVE_NEPOMUK
     #include "panels/filter/filterpanel.h"
-    #include <nepomuk/resourcemanager.h>
 #endif
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
@@ -1629,11 +1628,9 @@ void DolphinMainWindow::setupDockWidgets()
 
     // setup "Filter"
 #ifdef HAVE_NEPOMUK
-    const bool nepomukActivated = (Nepomuk::ResourceManager::instance()->init() == 0);
     QDockWidget* filterDock = new QDockWidget(i18nc("@title:window", "Filter"));
     filterDock->setObjectName("filterDock");
     filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    filterDock->setEnabled(nepomukActivated);
     Panel* filterPanel = new FilterPanel(filterDock);
     connect(filterPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
     filterDock->setWidget(filterPanel);
@@ -1641,7 +1638,6 @@ void DolphinMainWindow::setupDockWidgets()
     QAction* filterAction = filterDock->toggleViewAction();
     filterAction->setShortcut(Qt::Key_F12);
     filterAction->setIcon(KIcon("view-filter"));
-    filterAction->setEnabled(nepomukActivated);
     addDockWidget(Qt::RightDockWidgetArea, filterDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             filterPanel, SLOT(setUrl(KUrl)));
