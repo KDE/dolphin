@@ -19,7 +19,8 @@
 
 #include "terminalpanel.h"
 
-#include <klibloader.h>
+#include <kpluginloader.h>
+#include <kpluginfactory.h>
 #include <kde_terminal_interface_v2.h>
 #include <kparts/part.h>
 #include <kshell.h>
