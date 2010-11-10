@@ -86,6 +86,10 @@ ServicesSettingsPage::~ServicesSettingsPage()
 
 void ServicesSettingsPage::applySettings()
 {
+    if (!m_initialized) {
+        return;
+    }
+
     // Apply service menu settingsentries
     KConfig config("kservicemenurc", KConfig::NoGlobals);
     KConfigGroup showGroup = config.group("Show");
