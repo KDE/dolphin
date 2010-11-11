@@ -28,7 +28,6 @@ class AbstractSearchFilterWidget;
 class KLineEdit;
 class QFormLayout;
 class QPushButton;
-class QToolButton;
 class QVBoxLayout;
 
 /**
@@ -124,8 +123,6 @@ private:
     QPushButton* m_everywhereButton;
     QPushButton* m_fileNameButton;
     QPushButton* m_contentButton;
-
-    QToolButton* m_filterButton;
 
     KUrl m_searchPath;
 

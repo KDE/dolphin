@@ -61,7 +61,6 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_everywhereButton(0),
     m_fileNameButton(0),
     m_contentButton(0),
-    m_filterButton(0),
     m_searchPath(),
     m_startSearchTimer(0)
 {
@@ -80,7 +79,6 @@ QString DolphinSearchBox::text() const
 void DolphinSearchBox::setSearchPath(const KUrl& url)
 {
     m_searchPath = url;
-    m_filterButton->setVisible(m_nepomukActivated && isSearchPathIndexed());
 
     QFontMetrics metrics(m_fromHereButton->font());
     const int maxWidth = metrics.averageCharWidth() * 15;
@@ -263,14 +261,6 @@ void DolphinSearchBox::init()
     searchWhatGroup->addButton(m_fileNameButton);
     searchWhatGroup->addButton(m_contentButton);
 
-    // Create "Filter" button
-    m_filterButton = new QToolButton(this);
-    m_filterButton->setIcon(KIcon("view-filter"));
-    m_filterButton->setAutoRaise(true);
-    m_filterButton->setCheckable(true);
-    m_filterButton->hide();
-    //connect(m_filterButton, SIGNAL(toggled(bool)), this, SLOT(setFilterWidgetsVisible(bool)));
-
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
     optionsLayout->setMargin(0);
@@ -280,7 +270,6 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(m_fileNameButton);
     optionsLayout->addWidget(m_contentButton);
     optionsLayout->addStretch(1);
-    optionsLayout->addWidget(m_filterButton);
 
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->addLayout(searchInputLayout);
