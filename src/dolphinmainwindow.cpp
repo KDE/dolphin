@@ -30,6 +30,7 @@
 #include "mainwindowadaptor.h"
 #ifdef HAVE_NEPOMUK
     #include "panels/filter/filterpanel.h"
+    #include <nepomuk/resourcemanager.h>
 #endif
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
@@ -1216,6 +1217,11 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 
 void DolphinMainWindow::slotSearchModeChanged(bool enabled)
 {
+    if (Nepomuk::ResourceManager::instance()->init() != 0) {
+        // Currently the Filter Panel only works with Nepomuk enabled
+        return;
+    }
+
     QDockWidget* filterDock = findChild<QDockWidget*>("filterDock");
     if ((filterDock == 0) || !filterDock->isEnabled()) {
         return;
