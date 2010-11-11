@@ -47,7 +47,6 @@ FilterPanel::FilterPanel(QWidget* parent) :
     m_initialized(false),
     m_nepomukEnabled(false),
     m_lastSetUrlStatJob(0),
-    m_removeFolderRestrictionButton(0),
     m_facetWidget(0),
     m_unfacetedRestQuery()
 {
@@ -81,11 +80,7 @@ void FilterPanel::showEvent(QShowEvent* event)
 
     if (!m_initialized) {
         QVBoxLayout* layout = new QVBoxLayout(this);
-        Q_ASSERT(m_removeFolderRestrictionButton == 0);
-        m_removeFolderRestrictionButton = new QPushButton(i18n("Remove folder restriction"), this);
-        connect(m_removeFolderRestrictionButton, SIGNAL(clicked()), SLOT(slotRemoveFolderRestrictionClicked()));
-
-        layout->addWidget(m_removeFolderRestrictionButton);
+        layout->setMargin(0);
 
         Q_ASSERT(m_facetWidget == 0);
         m_facetWidget = new Nepomuk::Utils::FacetWidget(this);
@@ -162,21 +157,11 @@ void FilterPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
     emit urlActivated(query.toSearchUrl());
 }
 
-void FilterPanel::slotRemoveFolderRestrictionClicked()
-{
-    Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && m_facetWidget->queryTerm());
-    query.setIncludeFolders(KUrl::List());
-    query.setExcludeFolders(KUrl::List());
-    m_facetWidget->setClientQuery(query);
-    emit urlActivated(query.toSearchUrl());
-}
-
 void FilterPanel::setQuery(const Nepomuk::Query::Query& query)
 {
     if (query.isValid()) {
         const bool block = m_facetWidget->blockSignals(true);
 
-        m_removeFolderRestrictionButton->setVisible(query.isFileQuery() && !query.toFileQuery().includeFolders().isEmpty());
         m_unfacetedRestQuery = m_facetWidget->extractFacetsFromQuery(query);
         m_facetWidget->setClientQuery(query);
         setEnabled(true);

@@ -24,7 +24,6 @@
 #include <panels/panel.h>
 
 class KJob;
-class QPushButton;
 
 namespace Nepomuk {
     namespace Utils {
@@ -56,7 +55,6 @@ protected:
 private slots:
     void slotSetUrlStatFinished(KJob*);
     void slotQueryTermChanged(const Nepomuk::Query::Term& term);
-    void slotRemoveFolderRestrictionClicked();
 
 private:
     void setQuery(const Nepomuk::Query::Query& query);
@@ -66,7 +64,6 @@ private:
     bool m_nepomukEnabled;
     KJob* m_lastSetUrlStatJob;
 
-    QPushButton* m_removeFolderRestrictionButton;
     Nepomuk::Utils::FacetWidget* m_facetWidget;
     Nepomuk::Query::Query m_unfacetedRestQuery;
 };
