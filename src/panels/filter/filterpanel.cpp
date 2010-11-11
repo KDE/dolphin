@@ -169,10 +169,14 @@ void FilterPanel::slotRemoveFolderRestrictionClicked()
 void FilterPanel::setQuery(const Nepomuk::Query::Query& query)
 {
     if (query.isValid()) {
+        const bool block = m_facetWidget->blockSignals(true);
+
         m_removeFolderRestrictionButton->setVisible(query.isFileQuery() && !query.toFileQuery().includeFolders().isEmpty());
         m_unfacetedRestQuery = m_facetWidget->extractFacetsFromQuery(query);
         m_facetWidget->setClientQuery(query);
         setEnabled(true);
+
+        m_facetWidget->blockSignals(block);
     } else {
         m_unfacetedRestQuery = Nepomuk::Query::Query();
         setEnabled(false);
