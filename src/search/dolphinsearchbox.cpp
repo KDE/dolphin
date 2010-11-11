@@ -81,6 +81,11 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
 {
     m_searchPath = url;
     m_filterButton->setVisible(m_nepomukActivated && isSearchPathIndexed());
+
+    QFontMetrics metrics(m_fromHereButton->font());
+    const int maxWidth = metrics.averageCharWidth() * 15;
+    const QString fileName = metrics.elidedText(url.fileName(), Qt::ElideMiddle, maxWidth);
+    m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", fileName));
 }
 
 KUrl DolphinSearchBox::searchPath() const
