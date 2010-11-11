@@ -236,7 +236,7 @@ void DolphinSearchBox::init()
     searchInputLayout->addWidget(m_searchInput);
 
     // Create "From Here" and "Everywhere"button
-    m_fromHereButton = new QPushButton();
+    m_fromHereButton = new QPushButton(this);
     m_fromHereButton->setText(i18nc("action:button", "From Here"));
     initButton(m_fromHereButton);
 
