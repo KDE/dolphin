@@ -22,6 +22,7 @@
 #include <nepomuk/filequery.h>
 #include <nepomuk/facetwidget.h>
 #include <nepomuk/facet.h>
+#include <nepomuk/resourcemanager.h>
 #include <Nepomuk/Utils/SimpleFacet>
 #include <Nepomuk/Utils/ProxyFacet>
 #include <Nepomuk/Utils/DynamicResourceFacet>
@@ -44,6 +45,7 @@
 FilterPanel::FilterPanel(QWidget* parent) :
     Panel(parent),
     m_initialized(false),
+    m_nepomukEnabled(false),
     m_lastSetUrlStatJob(0),
     m_removeFolderRestrictionButton(0),
     m_facetWidget(0),
@@ -57,7 +59,7 @@ FilterPanel::~FilterPanel()
 
 bool FilterPanel::urlChanged()
 {
-    if (isVisible()) {
+    if (isVisible() && m_nepomukEnabled) {
         setQuery(Nepomuk::Query::Query());
 
         delete m_lastSetUrlStatJob;
@@ -128,6 +130,9 @@ void FilterPanel::showEvent(QShowEvent* event)
 
         connect(m_facetWidget, SIGNAL(queryTermChanged(Nepomuk::Query::Term)),
                 this, SLOT(slotQueryTermChanged(Nepomuk::Query::Term)));
+
+        m_nepomukEnabled = (Nepomuk::ResourceManager::instance()->init() == 0);
+        m_facetWidget->setEnabled(m_nepomukEnabled);
 
         m_initialized = true;
     }

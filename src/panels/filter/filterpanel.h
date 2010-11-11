@@ -63,6 +63,7 @@ private:
 
 private:
     bool m_initialized;
+    bool m_nepomukEnabled;
     KJob* m_lastSetUrlStatJob;
 
     QPushButton* m_removeFolderRestrictionButton;
