@@ -1217,6 +1217,7 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 
 void DolphinMainWindow::slotSearchModeChanged(bool enabled)
 {
+#ifdef HAVE_NEPOMUK
     if (Nepomuk::ResourceManager::instance()->init() != 0) {
         // Currently the Filter Panel only works with Nepomuk enabled
         return;
@@ -1238,6 +1239,9 @@ void DolphinMainWindow::slotSearchModeChanged(bool enabled)
         }
         m_filterDockIsTemporaryVisible = false;
     }
+#else
+    Q_UNUSED(enabled);
+#endif
 }
 
 void DolphinMainWindow::openContextMenu(const KFileItem& item,
