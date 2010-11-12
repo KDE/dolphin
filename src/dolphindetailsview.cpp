@@ -165,7 +165,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
     m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
-    m_extensionsFactory->setAutoFolderExpandingEnabled(settings->expandableFolders());
 }
 
 DolphinDetailsView::~DolphinDetailsView()
