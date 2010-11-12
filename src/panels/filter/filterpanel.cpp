@@ -19,6 +19,8 @@
 
 #include "filterpanel.h"
 
+#include "dolphin_searchsettings.h"
+
 #include <nepomuk/filequery.h>
 #include <nepomuk/facetwidget.h>
 #include <nepomuk/facet.h>
@@ -145,8 +147,18 @@ void FilterPanel::slotSetUrlStatFinished(KJob* job)
     if (!nepomukQueryStr.isEmpty()) {
         nepomukQuery = Nepomuk::Query::Query::fromString(nepomukQueryStr);
     } else if (url().isLocalFile()) {
-        // Fallback query for local file URLs
-        nepomukQuery.addIncludeFolder(url(), false);
+        // Fallback query for local file URLs: List all files
+        Nepomuk::Query::ComparisonTerm compTerm(
+                                Nepomuk::Vocabulary::NFO::fileName(),
+                                Nepomuk::Query::LiteralTerm(".*"),
+                                Nepomuk::Query::ComparisonTerm::Regexp);
+
+        nepomukQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
+        if (SearchSettings::location() == QLatin1String("FromHere")) {
+            nepomukQuery.addIncludeFolder(url(), true);
+        }
+        nepomukQuery.setTerm(compTerm);
+
     }
     setQuery(nepomukQuery);
 }
