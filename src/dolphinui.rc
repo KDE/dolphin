@@ -100,8 +100,16 @@
     <ActionProperties scheme="Default">
         <Action priority="0" name="go_back"/>
         <Action priority="0" name="go_forward"/>
+        <Action priority="0" name="go_up"/>
+        <Action priority="0" name="go_home"/>
+        <Action priority="0" name="stop"/>
         <Action priority="0" name="icons"/>
         <Action priority="0" name="details"/>
         <Action priority="0" name="columns"/>
+        <Action priority="0" name="view_zoom_in"/>
+        <Action priority="0" name="view_zoom_out"/>
+        <Action priority="0" name="edit_cut"/>
+        <Action priority="0" name="edit_copy"/>
+        <Action priority="0" name="edit_paste"/>
     </ActionProperties>
 </kpartgui>
