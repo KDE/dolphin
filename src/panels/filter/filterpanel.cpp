@@ -150,15 +150,12 @@ void FilterPanel::slotSetUrlStatFinished(KJob* job)
         // Fallback query for local file URLs: List all files
         Nepomuk::Query::ComparisonTerm compTerm(
                                 Nepomuk::Vocabulary::NFO::fileName(),
-                                Nepomuk::Query::LiteralTerm(".*"),
-                                Nepomuk::Query::ComparisonTerm::Regexp);
-
+                                Nepomuk::Query::Term());
         nepomukQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
         if (SearchSettings::location() == QLatin1String("FromHere")) {
             nepomukQuery.addIncludeFolder(url(), true);
         }
         nepomukQuery.setTerm(compTerm);
-
     }
     setQuery(nepomukQuery);
 }
