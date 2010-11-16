@@ -210,8 +210,6 @@ void DolphinContextMenu::openTrashItemContextMenu()
     Q_ASSERT(m_context & TrashContext);
     Q_ASSERT(m_context & ItemContext);
 
-    addShowMenubarAction();
-
     QAction* restoreAction = new QAction(i18nc("@action:inmenu", "Restore"), m_mainWindow);
     m_popup->addAction(restoreAction);
 
@@ -283,7 +281,6 @@ void DolphinContextMenu::openItemContextMenu()
         }
     }
 
-    addShowMenubarAction();
     insertDefaultItemActions();
 
     m_popup->addSeparator();
