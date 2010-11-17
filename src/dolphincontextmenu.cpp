@@ -165,8 +165,6 @@ void DolphinContextMenu::openTrashContextMenu()
 {
     Q_ASSERT(m_context & TrashContext);
 
-    addShowMenubarAction();
-
     QAction* emptyTrashAction = new QAction(KIcon("trash-empty"), i18nc("@action:inmenu", "Empty Trash"), m_popup);
     KConfig trashConfig("trashrc", KConfig::SimpleConfig);
     emptyTrashAction->setEnabled(!trashConfig.group("Status").readEntry("Empty", true));
@@ -184,6 +182,8 @@ void DolphinContextMenu::openTrashContextMenu()
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     m_popup->addAction(propertiesAction);
+
+    addShowMenubarAction();
 
     QAction *action = m_popup->exec(QCursor::pos());
     if (action == emptyTrashAction) {
@@ -322,8 +322,6 @@ void DolphinContextMenu::openItemContextMenu()
 
 void DolphinContextMenu::openViewportContextMenu()
 {
-    addShowMenubarAction();
-
     // setup 'Create New' menu
     KNewFileMenu* newFileMenu = m_mainWindow->newFileMenu();
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
@@ -365,6 +363,9 @@ void DolphinContextMenu::openViewportContextMenu()
 
     QAction* propertiesAction = m_popup->addAction(i18nc("@action:inmenu", "Properties"));
     propertiesAction->setIcon(KIcon("document-properties"));
+
+    addShowMenubarAction();
+
     QAction* action = m_popup->exec(QCursor::pos());
     if (action == propertiesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
@@ -409,8 +410,8 @@ void DolphinContextMenu::addShowMenubarAction()
 {
     KAction* showMenuBar = m_mainWindow->showMenuBarAction();
     if (!m_mainWindow->menuBar()->isVisible()) {
-        m_popup->addAction(showMenuBar);
         m_popup->addSeparator();
+        m_popup->addAction(showMenuBar);
     }
 }
 
