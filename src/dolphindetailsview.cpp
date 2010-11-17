@@ -1103,8 +1103,12 @@ bool DolphinDetailsView::isAboveExpandingToggle(const QPoint& pos) const
 
 void DolphinDetailsView::adjustMaximumSizeForEditing(const QModelIndex& index)
 {
-    // Make sure that the full width of the "Name" column is available for "Rename Inline"
-    m_extensionsFactory->fileItemDelegate()->setMaximumSize(QTreeView::visualRect(index).size());
+    // Make sure that the full width of the "Name" column is available for "Rename Inline".
+    // Before we do that, we have to check if m_extensionsFactory has been initialised because
+    // it is possible that we end up here before the constructor is finished (see bug 257035)
+    if (m_extensionsFactory) {
+        m_extensionsFactory->fileItemDelegate()->setMaximumSize(QTreeView::visualRect(index).size());
+    }
 }
 
 DolphinDetailsView::ElasticBand::ElasticBand() :
