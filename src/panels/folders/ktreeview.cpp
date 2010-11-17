@@ -91,6 +91,9 @@ void KTreeView::KTreeViewPrivate::startScrolling()
 
     if (scrollBarPos != oldScrollBarPos) {
         timeLine->setFrameRange(oldScrollBarPos, scrollBarPos);
+        if (timeLine->state() == QTimeLine::Running) {
+            timeLine->stop();
+        }
         timeLine->start();
     }
 }
