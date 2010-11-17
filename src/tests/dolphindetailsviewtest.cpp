@@ -40,10 +40,91 @@ class DolphinDetailsViewTest : public TestBase
 
 private slots:
 
+    void testExpandedUrls();
+
     void bug217447_shiftArrowSelection();
     void bug234600_overlappingIconsWhenZooming();
 
+private:
+
+    QModelIndex proxyModelIndexForUrl(const KUrl& url) const {
+        const QModelIndex index = m_dolphinModel->indexForUrl(url);
+        return m_proxyModel->mapFromSource(index);
+    }
 };
+
+/**
+ * This test verifies that DolphinDetailsView::expandedUrls() returns the right set of URLs.
+ * The test creates a folder hierarchy: 3 folders (a, b, c) contain 3 subfolders (also names a, b, c) each.
+ * Each of those contains 3 further subfolders of the same name.
+ */
+
+void DolphinDetailsViewTest::testExpandedUrls()
+{
+    QStringList files;
+    QStringList subFolderNames;
+    subFolderNames << "a" << "b" << "c";
+
+    foreach(const QString& level1, subFolderNames) {
+        foreach(const QString& level2, subFolderNames) {
+            foreach(const QString& level3, subFolderNames) {
+                files << level1 + "/" + level2 + "/" + level3 + "/testfile";
+            }
+        }
+    }
+
+    createFiles(files);
+
+    m_view->setMode(DolphinView::DetailsView);
+    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
+    QVERIFY(detailsView);
+    detailsView->setFoldersExpandable(true);
+    m_view->resize(400, 400);
+    m_view->show();
+    QTest::qWaitForWindowShown(m_view);
+    reloadViewAndWait();
+
+    // We start with an empty set of expanded URLs.
+    QSet<KUrl> expectedExpandedUrls;
+    QCOMPARE(detailsView->expandedUrls(), expectedExpandedUrls);
+
+    // Every time we expand a folder, we have to wait until the view has finished loading
+    // its contents before we can expand further subfolders. We keep track of the reloading
+    // using a signal spy.
+    QSignalSpy spyFinishedPathLoading(m_view, SIGNAL(finishedPathLoading(const KUrl&)));
+
+    // Expand URLs one by one and verify the result of DolphinDetailsView::expandedUrls()
+    QStringList itemsToExpand;
+    itemsToExpand << "b" << "b/a" << "b/a/c" << "b/c" << "c";
+
+    foreach(const QString& item, itemsToExpand) {
+        KUrl url(m_path + item);
+        detailsView->expand(proxyModelIndexForUrl(url));
+        expectedExpandedUrls += url;
+        QCOMPARE(detailsView->expandedUrls(), expectedExpandedUrls);
+
+        // Before we proceed, we have to make sure that the view has finished
+        // loading the contents of the expanded folder.
+        while (spyFinishedPathLoading.isEmpty()) {
+            QTest::qWait(10);
+        }
+        spyFinishedPathLoading.takeFirst();
+    }
+
+    // Collapse URLs one by one and verify the result of DolphinDetailsView::expandedUrls()
+    QStringList itemsToCollapse;
+    itemsToCollapse << "b/c" << "b/a/c" << "c" << "b/a" << "b";
+
+    foreach(const QString& item, itemsToCollapse) {
+        KUrl url(m_path + item);
+        detailsView->collapse(proxyModelIndexForUrl(url));
+        expectedExpandedUrls -= url;
+        QCOMPARE(detailsView->expandedUrls(), expectedExpandedUrls);
+    }
+
+    m_view->hide();
+    cleanupTestDir();
+}
 
 /**
  * When the first item in the view is active and Shift is held while the "arrow down"

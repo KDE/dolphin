@@ -30,7 +30,7 @@ class DolphinModel;
 class DolphinSortFilterProxyModel;
 class DolphinView;
 
-/*
+/**
  * The class TestBase aims to make writing Dolphin unit tests easier.
  * It provides functionality that almost every unit test needs: setup of the DolphinView and
  * easy creation of test files and subfolders in a temporary directory which is removed in
@@ -56,7 +56,7 @@ public:
 
     KUrl testDirUrl() const;
 
-    /*
+    /**
      * The following functions create either a file, a list of files, or a directory.
      * The paths may be absolute or relative to the test directory. Any missing parent
      * directories will be created automatically.
@@ -66,7 +66,7 @@ public:
     void createFiles(const QStringList& files);
     void createDir(const QString& path);
 
-    /*
+    /**
      * Remove the test directory and create an empty one.
      */
 
@@ -79,10 +79,11 @@ public:
     DolphinSortFilterProxyModel* m_proxyModel;
     DolphinView* m_view;
 
+    QString m_path;
+
 private:
 
     KTempDir* m_tempDir;
-    QString m_path;
     QDir* m_dir;
 
     void makePathAbsoluteAndCreateParents(QString& path);

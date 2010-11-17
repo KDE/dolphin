@@ -211,6 +211,9 @@ private:
 
     QFont m_font;
     QSize m_decorationSize;
+
+    // For unit tests
+    friend class DolphinDetailsViewTest;
 };
 
 #endif
