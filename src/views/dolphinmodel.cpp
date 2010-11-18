@@ -104,7 +104,12 @@ QVariant DolphinModel::data(const QModelIndex& index, int role) const
         case DolphinModel::LocalPathOrUrl:
             const KDirModel *dirModel = qobject_cast<const KDirModel*>(index.model());
             const KFileItem item = dirModel->itemForIndex(index);
-            return item.mostLocalUrl().directory();
+            const KUrl url = item.mostLocalUrl();
+            if (url.protocol() == QLatin1String("trash")) {
+                const KIO::UDSEntry udsEntry = item.entry();
+                return udsEntry.stringValue(KIO::UDSEntry::UDS_EXTRA);
+            }
+            return url.directory();
         }
         break;
 

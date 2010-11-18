@@ -53,9 +53,13 @@ ViewProperties::ViewProperties(const KUrl& url) :
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
-    const bool isSearchUrl = url.protocol().contains("search");
-    if (isSearchUrl) {
+    bool useDetailsViewWithPath = false;
+    if (url.protocol().contains("search")) {
         m_filePath = destinationDir("search");
+        useDetailsViewWithPath = true;
+    } else if (url.protocol() == QLatin1String("trash")) {
+        m_filePath = destinationDir("trash");
+        useDetailsViewWithPath = true;
     } else if (useGlobalViewProps) {
         m_filePath = destinationDir("global");
     } else if (url.isLocalFile()) {
@@ -73,11 +77,11 @@ ViewProperties::ViewProperties(const KUrl& url) :
 
     // If the .directory file does not exist or the timestamp is too old,
     // use default values instead.
-    const bool useDefaultProps = (!useGlobalViewProps || isSearchUrl) &&
+    const bool useDefaultProps = (!useGlobalViewProps || useDetailsViewWithPath) &&
                                  (!QFileInfo(file).exists() ||
                                   (m_node->timestamp() < settings->viewPropsTimestamp()));
     if (useDefaultProps) {
-        if (isSearchUrl) {
+        if (useDetailsViewWithPath) {
             setViewMode(DolphinView::DetailsView);
             setAdditionalInfo(KFileItemDelegate::InformationList() << KFileItemDelegate::LocalPathOrUrl);
         } else {
