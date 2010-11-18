@@ -34,6 +34,7 @@
 #include <Nepomuk/Query/ComparisonTerm>
 #include <Nepomuk/Vocabulary/NFO>
 #include <Nepomuk/Vocabulary/NMM>
+#include <Nepomuk/Vocabulary/NIE>
 
 #include <kfileitem.h>
 #include <kio/jobclasses.h>
@@ -108,7 +109,9 @@ void FilterPanel::showEvent(QShowEvent* event)
 
         // Artists
         Nepomuk::Utils::ProxyFacet* artistProxy = new Nepomuk::Utils::ProxyFacet();
-        artistProxy->setFacetCondition(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Audio()));
+        artistProxy->setFacetCondition(Nepomuk::Query::ResourceTypeTerm(Nepomuk::Vocabulary::NFO::Audio()) ||
+                                       Nepomuk::Query::ComparisonTerm(Nepomuk::Vocabulary::NIE::mimeType(),
+                                                                      Nepomuk::Query::LiteralTerm(QLatin1String("audio"))));
         Nepomuk::Utils::DynamicResourceFacet* artistFacet = new Nepomuk::Utils::DynamicResourceFacet(artistProxy);
         artistFacet->setSelectionMode(Nepomuk::Utils::Facet::MatchAny);
         artistFacet->setRelation(Nepomuk::Vocabulary::NMM::performer());
@@ -162,7 +165,7 @@ void FilterPanel::slotSetUrlStatFinished(KJob* job)
 
 void FilterPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
 {
-    Nepomuk::Query::Query query(m_unfacetedRestQuery && term);
+    Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && term);
     emit urlActivated(query.toSearchUrl());
 }
 
