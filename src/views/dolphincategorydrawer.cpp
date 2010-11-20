@@ -35,7 +35,6 @@
 #include <kiconloader.h>
 #include <kiconeffect.h>
 #include <kcategorizedsortfilterproxymodel.h>
-#include <qimageblitz.h>
 #include <kuser.h>
 #include <kcategorizedview.h>
 
