@@ -41,7 +41,6 @@
 #include <kjob.h>
 #include <kmenu.h>
 #include <kmessagebox.h>
-#include <kmimetyperesolver.h>
 #include <konq_fileitemcapabilities.h>
 #include <konq_operations.h>
 #include <konqmimedata.h>
