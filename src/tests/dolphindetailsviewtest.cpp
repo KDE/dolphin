@@ -44,6 +44,7 @@ private slots:
 
     void bug217447_shiftArrowSelection();
     void bug234600_overlappingIconsWhenZooming();
+    void bug257401_longFilenamesKeyboardNavigation();
 
 private:
 
@@ -250,6 +251,58 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
 
         //Check for each zoom level that the height of each item is at least the icon size.
         QVERIFY(detailsView->visualRect(index1).height() >= ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel));
+    }
+
+    m_view->hide();
+    cleanupTestDir();
+}
+
+/**
+ * The width of the visualRect of an item is usually replaced by the width of the file name.
+ * However, if the file name is wider then the view's name column, this leads to problems with
+ * keyboard navigation if files with very long names are present in the current folder, see
+ * 
+ * https://bugs.kde.org/show_bug.cgi?id=257401
+ *
+ * This test checks that the visualRect of an item is never wider than the "Name" column.
+ */
+
+void DolphinDetailsViewTest::bug257401_longFilenamesKeyboardNavigation() {
+    QString name;
+    for (int i = 0; i < 20; i++) {
+        name += "mmmmmmmmmm";
+        createFile(name);
+    }
+
+    m_view->setMode(DolphinView::DetailsView);
+    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
+    QVERIFY(detailsView);
+    m_view->resize(400, 400);
+    m_view->show();
+    QTest::qWaitForWindowShown(m_view);
+    reloadViewAndWait();
+
+    // Select the first item
+    QModelIndex index0 = detailsView->model()->index(0, 0);
+    detailsView->setCurrentIndex(index0);
+    QCOMPARE(detailsView->currentIndex(), index0);
+    QVERIFY(detailsView->visualRect(index0).width() < detailsView->columnWidth(DolphinModel::Name));
+
+    QItemSelectionModel* selectionModel = detailsView->selectionModel();
+    QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
+    QCOMPARE(selectedIndexes.count(), 1);
+    QVERIFY(selectedIndexes.contains(index0));
+
+    // Move down successively using the "Down" key and check that current item
+    // and selection are as expected.
+    for (int i = 0; i < 19; i++) {
+        QTest::keyClick(detailsView->viewport(), Qt::Key_Down, Qt::NoModifier);
+        QModelIndex currentIndex = detailsView->model()->index(i + 1, 0);
+        QCOMPARE(detailsView->currentIndex(), currentIndex);
+        QVERIFY(detailsView->visualRect(currentIndex).width() <= detailsView->columnWidth(DolphinModel::Name));
+        selectedIndexes = selectionModel->selectedIndexes();
+        QCOMPARE(selectedIndexes.count(), 1);
+        QVERIFY(selectedIndexes.contains(currentIndex));
     }
 
     m_view->hide();
