@@ -36,7 +36,6 @@
 #include <kio/netaccess.h>
 #include <kio/previewjob.h>
 #include <kmenu.h>
-#include <kmimetyperesolver.h>
 #include <knewmenu.h>
 #include <konqmimedata.h>
 #include <kfileitemlistproperties.h>
