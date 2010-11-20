@@ -491,7 +491,10 @@ QRect DolphinDetailsView::visualRect(const QModelIndex& index) const
     const KFileItem item = m_dolphinViewController->itemForIndex(index);
     if (!item.isNull()) {
         const int width = DolphinFileItemDelegate::nameColumnWidth(item.text(), viewOptions());
-        rect.setWidth(width);
+
+        if (width < rect.width()) {
+            rect.setWidth(width);
+        }
     }
 
     return rect;
