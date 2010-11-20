@@ -248,6 +248,12 @@ private slots:
     void startSearching(const QString& text);
     void closeSearchBox();
 
+    /**
+     * Stops the loading of a directory. Is connected with the "stopPressed" signal
+     * from the statusbar.
+     */
+    void stopLoading();
+
 private:
     /**
      * @return True if the URL protocol is a search URL (e. g. nepomuksearch:// or filenamesearch://).

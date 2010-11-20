@@ -52,6 +52,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_zoomSlider(0),
     m_zoomIn(0),
     m_progressBar(0),
+    m_stopButton(0),
     m_progress(100),
     m_messageTimeStamp()
 {
@@ -100,6 +101,13 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_spaceInfo->setUrl(m_view->url());
 
     // Initialize progress information
+    m_stopButton = new QToolButton(this);
+    m_stopButton->setIcon(KIcon("process-stop"));
+    // TODO: Add tooltip for KDE SC 4.7.0, if new strings are allowed again
+    m_stopButton->setAutoRaise(true);
+    m_stopButton->hide();
+    connect(m_stopButton, SIGNAL(clicked()), this, SIGNAL(stopPressed()));
+
     m_progressText = new QLabel(this);
     m_progressText->hide();
 
@@ -126,6 +134,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     topLayout->addWidget(m_messageLabel);
     topLayout->addWidget(m_zoomWidget);
     topLayout->addWidget(m_spaceInfo);
+    topLayout->addWidget(m_stopButton);
     topLayout->addWidget(m_progressText);
     topLayout->addWidget(m_progressBar);
 
@@ -341,11 +350,13 @@ void DolphinStatusBar::updateProgressInfo()
         // Show the progress information and hide the extensions
         setExtensionsVisible(false);
         if (!isErrorShown) {
+            m_stopButton->show();
             m_progressText->show();
             m_progressBar->show();
         }
     } else {
         // Hide the progress information and show the extensions
+        m_stopButton->hide();
         m_progressText->hide();
         m_progressBar->hide();
         setExtensionsVisible(true);

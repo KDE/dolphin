@@ -164,6 +164,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
 
     // initialize status bar
     m_statusBar = new DolphinStatusBar(this, m_view);
+    connect(m_statusBar, SIGNAL(stopPressed()), this, SLOT(stopLoading()));
+
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
     m_statusBarTimer->setInterval(300);
@@ -548,6 +550,11 @@ void DolphinViewContainer::startSearching(const QString &text)
 void DolphinViewContainer::closeSearchBox()
 {
     setSearchModeEnabled(false);
+}
+
+void DolphinViewContainer::stopLoading()
+{
+    m_view->stopLoading();
 }
 
 bool DolphinViewContainer::isSearchUrl(const KUrl& url) const

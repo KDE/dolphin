@@ -115,6 +115,12 @@ public:
      */
     void refresh();
 
+signals:
+    /**
+     * Is emitted if the stop-button has been pressed during showing a progress.
+     */
+    void stopPressed();
+
 protected:
     /** @see QWidget::contextMenuEvent() */
     virtual void contextMenuEvent(QContextMenuEvent* event);
@@ -165,6 +171,7 @@ private:
 
     QLabel* m_progressText;
     QProgressBar* m_progressBar;
+    QToolButton* m_stopButton;
     int m_progress;
 
     // Timestamp when the last message has been set that has not the type
