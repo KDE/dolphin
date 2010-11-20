@@ -33,7 +33,7 @@ class QAbstractProxyModel;
  * Note that this is a workaround, as Qt does not support having custom
  * shapes within the visual rect of an item view. The visual part of
  * workaround is handled inside DolphinFileItemDelegate, the behavior
- * changes are handled in DolphinDetailsView.
+ * changes are handled in DolphinTreeView.
  */
 class DolphinFileItemDelegate : public KFileItemDelegate
 {
