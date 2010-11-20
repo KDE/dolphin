@@ -20,6 +20,7 @@
 #include "dolphinfileitemdelegate.h"
 
 #include "dolphinmodel.h"
+#include <kcolorscheme.h>
 #include <kfileitem.h>
 #include <kicon.h>
 #include <kiconloader.h>
@@ -56,6 +57,15 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
     QStyleOptionViewItemV4 opt(option);
     if (m_hasMinimizedNameColumn && isNameColumn) {
         adjustOptionWidth(opt, proxyModel, dolphinModel, index);
+    }
+
+    if (!isNameColumn) {
+        // Use the inactive text color for all columns except the name column. This indicates for the user that
+        // hovering other columns does not change the actions context.
+        QPalette palette = opt.palette;
+        const QColor textColor = KColorScheme(QPalette::Active).foreground(KColorScheme::InactiveText).color();
+        palette.setColor(QPalette::Text, textColor);
+        opt.palette = palette;
     }
 
     if (dolphinModel->hasVersionData() && isNameColumn) {
