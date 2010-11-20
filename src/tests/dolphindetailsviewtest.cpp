@@ -237,6 +237,7 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
 
     // Setting the zoom level to the minimum value and triggering DolphinDetailsView::currentChanged(...)
     // should make sure that the bug is triggered.
+    int zoomLevelBackup = m_view->zoomLevel();
     int zoomLevel = ZoomLevelInfo::minimumLevel();
     m_view->setZoomLevel(zoomLevel);
 
@@ -248,11 +249,13 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     while(zoomLevel < ZoomLevelInfo::maximumLevel()) {
         zoomLevel++;
         m_view->setZoomLevel(zoomLevel);
+        QCOMPARE(m_view->zoomLevel(), zoomLevel);
 
         //Check for each zoom level that the height of each item is at least the icon size.
         QVERIFY(detailsView->visualRect(index1).height() >= ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel));
     }
 
+    m_view->setZoomLevel(zoomLevelBackup);
     m_view->hide();
     cleanupTestDir();
 }
