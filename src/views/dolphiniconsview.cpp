@@ -121,13 +121,14 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     connect(m_categoryDrawer, SIGNAL(actionRequested(int,QModelIndex)), this, SLOT(categoryDrawerActionRequested(int,QModelIndex)));
     setCategoryDrawer(m_categoryDrawer);
 
-    setFocus();
-
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
             this, SLOT(slotGlobalSettingsChanged(int)));
 
     updateGridSize(view->showPreview(), 0);
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
+
+    // setFocus() must be called after m_extensionsFactory is initialised (see bug 240374).
+    setFocus();
 }
 
 DolphinIconsView::~DolphinIconsView()

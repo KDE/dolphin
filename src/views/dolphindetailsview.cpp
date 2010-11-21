@@ -138,7 +138,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
             this, SLOT(slotShowPreviewChanged()));
 
 
-    setFocus();
     viewport()->installEventFilter(this);
 
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
@@ -159,6 +158,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 
     KDirLister *dirLister = qobject_cast<KDirModel*>(proxyModel->sourceModel())->dirLister();
     connect(dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(resizeColumns()));
+
+    // setFocus() must be called after m_extensionsFactory is initialised (see bug 240374).
+    setFocus();
 }
 
 DolphinDetailsView::~DolphinDetailsView()
