@@ -145,7 +145,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
             this, SLOT(slotShowPreviewChanged()));
 
 
-    setFocus();
     viewport()->installEventFilter(this);
 
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
@@ -165,6 +164,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
 
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
     m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
+
+    // setFocus() must be called after m_extensionsFactory is initialised (see bug 240374).
+    setFocus();
 }
 
 DolphinDetailsView::~DolphinDetailsView()
