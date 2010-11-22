@@ -40,6 +40,21 @@ class DolphinDetailsViewTest : public TestBase
 
 private slots:
 
+    void init() {
+        m_view->setMode(DolphinView::DetailsView);
+        m_detailsView = qobject_cast<DolphinDetailsView*>(itemView());
+        QVERIFY(m_detailsView);
+        m_detailsView->setFoldersExpandable(true);
+        m_view->resize(400, 400);
+        m_view->show();
+        QTest::qWaitForWindowShown(m_view);
+    }
+
+    void cleanup() {
+        m_view->hide();
+        cleanupTestDir();
+    }
+
     void testExpandedUrls();
 
     void bug217447_shiftArrowSelection();
@@ -52,6 +67,8 @@ private:
         const QModelIndex index = m_dolphinModel->indexForUrl(url);
         return m_proxyModel->mapFromSource(index);
     }
+
+    DolphinDetailsView* m_detailsView;
 };
 
 /**
@@ -62,6 +79,8 @@ private:
 
 void DolphinDetailsViewTest::testExpandedUrls()
 {
+    m_detailsView->setFoldersExpandable(true);
+
     QStringList files;
     QStringList subFolderNames;
     subFolderNames << "a" << "b" << "c";
@@ -75,19 +94,11 @@ void DolphinDetailsViewTest::testExpandedUrls()
     }
 
     createFiles(files);
-
-    m_view->setMode(DolphinView::DetailsView);
-    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
-    QVERIFY(detailsView);
-    detailsView->setFoldersExpandable(true);
-    m_view->resize(400, 400);
-    m_view->show();
-    QTest::qWaitForWindowShown(m_view);
     reloadViewAndWait();
 
     // We start with an empty set of expanded URLs.
     QSet<KUrl> expectedExpandedUrls;
-    QCOMPARE(detailsView->expandedUrls(), expectedExpandedUrls);
+    QCOMPARE(m_detailsView->expandedUrls(), expectedExpandedUrls);
 
     // Every time we expand a folder, we have to wait until the view has finished loading
     // its contents before we can expand further subfolders. We keep track of the reloading
@@ -100,9 +111,9 @@ void DolphinDetailsViewTest::testExpandedUrls()
 
     foreach(const QString& item, itemsToExpand) {
         KUrl url(m_path + item);
-        detailsView->expand(proxyModelIndexForUrl(url));
+        m_detailsView->expand(proxyModelIndexForUrl(url));
         expectedExpandedUrls += url;
-        QCOMPARE(detailsView->expandedUrls(), expectedExpandedUrls);
+        QCOMPARE(m_detailsView->expandedUrls(), expectedExpandedUrls);
 
         // Before we proceed, we have to make sure that the view has finished
         // loading the contents of the expanded folder.
@@ -118,13 +129,10 @@ void DolphinDetailsViewTest::testExpandedUrls()
 
     foreach(const QString& item, itemsToCollapse) {
         KUrl url(m_path + item);
-        detailsView->collapse(proxyModelIndexForUrl(url));
+        m_detailsView->collapse(proxyModelIndexForUrl(url));
         expectedExpandedUrls -= url;
-        QCOMPARE(detailsView->expandedUrls(), expectedExpandedUrls);
+        QCOMPARE(m_detailsView->expandedUrls(), expectedExpandedUrls);
     }
-
-    m_view->hide();
-    cleanupTestDir();
 }
 
 /**
@@ -152,37 +160,30 @@ void DolphinDetailsViewTest::bug217447_shiftArrowSelection()
     for (int i = 0; i < 100; i++) {
         createFile(QString("%1").arg(i));
     }
-
-    m_view->setMode(DolphinView::DetailsView);
-    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
-    QVERIFY(detailsView);
-    m_view->resize(1000, 400);
-    m_view->show();
-    QTest::qWaitForWindowShown(m_view);
     reloadViewAndWait();
 
     // Select the first item
-    QModelIndex index0 = detailsView->model()->index(0, 0);
-    detailsView->setCurrentIndex(index0);
-    QCOMPARE(detailsView->currentIndex(), index0);
+    QModelIndex index0 = m_detailsView->model()->index(0, 0);
+    m_detailsView->setCurrentIndex(index0);
+    QCOMPARE(m_detailsView->currentIndex(), index0);
 
     // Before we test Shift-selection, we verify that the root cause is fixed a bit more
     // directly: we check that passing the corners or the center of an item's visualRect
     // to itemAt() returns the item (and not an invalid model index).
-    QRect rect = detailsView->visualRect(index0);
-    QCOMPARE(detailsView->indexAt(rect.center()), index0);
-    QCOMPARE(detailsView->indexAt(rect.topLeft()), index0);
-    QCOMPARE(detailsView->indexAt(rect.topRight()), index0);
-    QCOMPARE(detailsView->indexAt(rect.bottomLeft()), index0);
-    QCOMPARE(detailsView->indexAt(rect.bottomRight()), index0);
+    QRect rect = m_detailsView->visualRect(index0);
+    QCOMPARE(m_detailsView->indexAt(rect.center()), index0);
+    QCOMPARE(m_detailsView->indexAt(rect.topLeft()), index0);
+    QCOMPARE(m_detailsView->indexAt(rect.topRight()), index0);
+    QCOMPARE(m_detailsView->indexAt(rect.bottomLeft()), index0);
+    QCOMPARE(m_detailsView->indexAt(rect.bottomRight()), index0);
 
     // Another way to test this is to Ctrl-click the center of the visualRect.
     // The selection state of the item should be toggled.
-    detailsView->clearSelection();
-    QItemSelectionModel* selectionModel = detailsView->selectionModel();
+    m_detailsView->clearSelection();
+    QItemSelectionModel* selectionModel = m_detailsView->selectionModel();
     QCOMPARE(selectionModel->selectedIndexes().count(), 0);
 
-    QTest::mouseClick(detailsView->viewport(), Qt::LeftButton, Qt::ControlModifier, rect.center());
+    QTest::mouseClick(m_detailsView->viewport(), Qt::LeftButton, Qt::ControlModifier, rect.center());
     QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
     QCOMPARE(selectedIndexes.count(), 1);
     QVERIFY(selectedIndexes.contains(index0));
@@ -193,9 +194,9 @@ void DolphinDetailsViewTest::bug217447_shiftArrowSelection()
     int current = 1;
 
     while (current < 100) {
-        QTest::keyClick(detailsView->viewport(), Qt::Key_Down, Qt::ShiftModifier);
-        QModelIndex currentIndex = detailsView->model()->index(current, 0);
-        QCOMPARE(detailsView->currentIndex(), currentIndex);
+        QTest::keyClick(m_detailsView->viewport(), Qt::Key_Down, Qt::ShiftModifier);
+        QModelIndex currentIndex = m_detailsView->model()->index(current, 0);
+        QCOMPARE(m_detailsView->currentIndex(), currentIndex);
 
         selectedIndexes = selectionModel->selectedIndexes();
         QCOMPARE(selectedIndexes.count(), current + 1);
@@ -203,9 +204,6 @@ void DolphinDetailsViewTest::bug217447_shiftArrowSelection()
 
         current++;
     }
-
-    m_view->hide();
-    cleanupTestDir();
 }
 
 /**
@@ -221,19 +219,13 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
 {
     QStringList files;
     files << "a" << "b" << "c" << "d";
-    createFiles(files);
 
-    m_view->setMode(DolphinView::DetailsView);
-    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
-    QVERIFY(detailsView);
-    m_view->resize(400, 400);
-    m_view->show();
-    QTest::qWaitForWindowShown(m_view);
+    createFiles(files);
     reloadViewAndWait();
 
-    QModelIndex index0 = detailsView->model()->index(0, 0);
-    detailsView->setCurrentIndex(index0);
-    QCOMPARE(detailsView->currentIndex(), index0);
+    QModelIndex index0 = m_detailsView->model()->index(0, 0);
+    m_detailsView->setCurrentIndex(index0);
+    QCOMPARE(m_detailsView->currentIndex(), index0);
 
     // Setting the zoom level to the minimum value and triggering DolphinDetailsView::currentChanged(...)
     // should make sure that the bug is triggered.
@@ -241,9 +233,9 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
     int zoomLevel = ZoomLevelInfo::minimumLevel();
     m_view->setZoomLevel(zoomLevel);
 
-    QModelIndex index1 = detailsView->model()->index(1, 0);
-    detailsView->setCurrentIndex(index1);
-    QCOMPARE(detailsView->currentIndex(), index1);
+    QModelIndex index1 = m_detailsView->model()->index(1, 0);
+    m_detailsView->setCurrentIndex(index1);
+    QCOMPARE(m_detailsView->currentIndex(), index1);
 
     // Increase the zoom level successively to the maximum.
     while(zoomLevel < ZoomLevelInfo::maximumLevel()) {
@@ -252,12 +244,10 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
         QCOMPARE(m_view->zoomLevel(), zoomLevel);
 
         //Check for each zoom level that the height of each item is at least the icon size.
-        QVERIFY(detailsView->visualRect(index1).height() >= ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel));
+        QVERIFY(m_detailsView->visualRect(index1).height() >= ZoomLevelInfo::iconSizeForZoomLevel(zoomLevel));
     }
 
     m_view->setZoomLevel(zoomLevelBackup);
-    m_view->hide();
-    cleanupTestDir();
 }
 
 /**
@@ -276,22 +266,15 @@ void DolphinDetailsViewTest::bug257401_longFilenamesKeyboardNavigation() {
         name += "mmmmmmmmmm";
         createFile(name);
     }
-
-    m_view->setMode(DolphinView::DetailsView);
-    DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView());
-    QVERIFY(detailsView);
-    m_view->resize(400, 400);
-    m_view->show();
-    QTest::qWaitForWindowShown(m_view);
     reloadViewAndWait();
 
     // Select the first item
-    QModelIndex index0 = detailsView->model()->index(0, 0);
-    detailsView->setCurrentIndex(index0);
-    QCOMPARE(detailsView->currentIndex(), index0);
-    QVERIFY(detailsView->visualRect(index0).width() < detailsView->columnWidth(DolphinModel::Name));
+    QModelIndex index0 = m_detailsView->model()->index(0, 0);
+    m_detailsView->setCurrentIndex(index0);
+    QCOMPARE(m_detailsView->currentIndex(), index0);
+    QVERIFY(m_detailsView->visualRect(index0).width() < m_detailsView->columnWidth(DolphinModel::Name));
 
-    QItemSelectionModel* selectionModel = detailsView->selectionModel();
+    QItemSelectionModel* selectionModel = m_detailsView->selectionModel();
     QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
     QCOMPARE(selectedIndexes.count(), 1);
     QVERIFY(selectedIndexes.contains(index0));
@@ -299,17 +282,14 @@ void DolphinDetailsViewTest::bug257401_longFilenamesKeyboardNavigation() {
     // Move down successively using the "Down" key and check that current item
     // and selection are as expected.
     for (int i = 0; i < 19; i++) {
-        QTest::keyClick(detailsView->viewport(), Qt::Key_Down, Qt::NoModifier);
-        QModelIndex currentIndex = detailsView->model()->index(i + 1, 0);
-        QCOMPARE(detailsView->currentIndex(), currentIndex);
-        QVERIFY(detailsView->visualRect(currentIndex).width() <= detailsView->columnWidth(DolphinModel::Name));
+        QTest::keyClick(m_detailsView->viewport(), Qt::Key_Down, Qt::NoModifier);
+        QModelIndex currentIndex = m_detailsView->model()->index(i + 1, 0);
+        QCOMPARE(m_detailsView->currentIndex(), currentIndex);
+        QVERIFY(m_detailsView->visualRect(currentIndex).width() <= m_detailsView->columnWidth(DolphinModel::Name));
         selectedIndexes = selectionModel->selectedIndexes();
         QCOMPARE(selectedIndexes.count(), 1);
         QVERIFY(selectedIndexes.contains(currentIndex));
     }
-
-    m_view->hide();
-    cleanupTestDir();
 }
 
 QTEST_KDEMAIN(DolphinDetailsViewTest, GUI)
