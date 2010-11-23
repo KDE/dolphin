@@ -24,13 +24,9 @@
 #include "views/dolphindetailsview.h"
 #include "views/dolphinview.h"
 #include "views/dolphinmodel.h"
-#include "views/dolphindirlister.h"
 #include "views/dolphinsortfilterproxymodel.h"
 #include "views/zoomlevelinfo.h"
 
-#include <KTempDir>
-
-#include <QtCore/QDir>
 #include <qtestmouse.h>
 #include <qtestkeyboard.h>
 
@@ -73,7 +69,7 @@ private:
 
 /**
  * This test verifies that DolphinDetailsView::expandedUrls() returns the right set of URLs.
- * The test creates a folder hierarchy: 3 folders (a, b, c) contain 3 subfolders (also names a, b, c) each.
+ * The test creates a folder hierarchy: 3 folders (a, b, c) contain 3 subfolders (also named a, b, c) each.
  * Each of those contains 3 further subfolders of the same name.
  */
 
