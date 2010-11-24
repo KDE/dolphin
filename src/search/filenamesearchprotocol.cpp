@@ -16,14 +16,17 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
- 
+
 #include "filenamesearchprotocol.h"
 
 #include <kcomponentdata.h>
 #include <kdirlister.h>
 #include <kfileitem.h>
+#include <kio/netaccess.h>
+#include <kio/job.h>
 #include <kurl.h>
- 
+#include <ktemporaryfile.h>
+
 #include <QCoreApplication>
 #include <QEventLoop>
 #include <QRegExp>
@@ -46,22 +49,19 @@ void FileNameSearchProtocol::listDir(const KUrl& url)
     delete m_regExp;
     m_regExp = 0;
 
-    const QStringList searchValues = url.allQueryItemValues("search");
-    if (!searchValues.isEmpty()) {
-        m_regExp = new QRegExp(searchValues.first(), Qt::CaseInsensitive, QRegExp::Wildcard);
+    const QString search = url.queryItem("search");
+    if (!search.isEmpty()) {
+        m_regExp = new QRegExp(search, Qt::CaseInsensitive, QRegExp::Wildcard);
     }
 
     m_checkContent = false;
-    const QStringList checkContentValues = url.allQueryItemValues("checkContent");
-    if (!checkContentValues.isEmpty() && (checkContentValues.first() == QLatin1String("yes"))) {
+    const QString checkContent = url.queryItem("checkContent");
+    if (checkContent == QLatin1String("yes")) {
         m_checkContent = true;
     }
 
-    KUrl directory = url;
-    directory.setProtocol("file");
-    directory.setEncodedQuery(QByteArray());
-
-    searchDirectory(directory);
+    const QString urlString = url.queryItem("url");
+    searchDirectory(KUrl(urlString));
 
     finished();
 }
@@ -73,12 +73,12 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
     dirLister->setDelayedMimeTypes(false);
     dirLister->setAutoErrorHandlingEnabled(false, 0);
     dirLister->openUrl(directory);
-    
+
     QEventLoop eventLoop;
     QObject::connect(dirLister, SIGNAL(canceled()), &eventLoop, SLOT(quit()));
     QObject::connect(dirLister, SIGNAL(completed()), &eventLoop, SLOT(quit()));
     eventLoop.exec();
-    
+
     // Visualize all items that match the search pattern
     QList<KUrl> pendingDirs;
     const KFileItemList items = dirLister->items();
@@ -87,7 +87,7 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
         if ((m_regExp == 0) || item.name().contains(*m_regExp)) {
             addItem = true;
         } else if (m_checkContent && item.mimetype().startsWith(QLatin1String("text/"))) {
-            addItem = containsPattern(item.url());
+            addItem = contentContainsPattern(item.url());
         }
 
         if (addItem) {
@@ -108,14 +108,34 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
     }
 }
 
-bool FileNameSearchProtocol::containsPattern(const KUrl& fileName) const
+bool FileNameSearchProtocol::contentContainsPattern(const KUrl& fileName) const
 {
     Q_ASSERT(m_regExp != 0);
 
-    QFile file(fileName.path());
+    QString path;
+    KTemporaryFile tempFile;
+
+    if (fileName.isLocalFile()) {
+        path = fileName.path();
+    } else if (tempFile.open()) {
+        KIO::Job* getJob = KIO::file_copy(fileName,
+                                          tempFile.fileName(),
+                                          -1,
+                                          KIO::Overwrite | KIO::HideProgressInfo);
+        if (!KIO::NetAccess::synchronousRun(getJob, 0)) {
+            // The non-local file could not be downloaded
+            return false;
+        }
+        path = tempFile.fileName();
+    } else {
+        // No temporary file could be created for downloading non-local files
+        return false;
+    }
+
+    QFile file(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
          return false;
-     }
+    }
 
      QTextStream in(&file);
      while (!in.atEnd()) {
@@ -129,7 +149,7 @@ bool FileNameSearchProtocol::containsPattern(const KUrl& fileName) const
 }
 
 extern "C" int KDE_EXPORT kdemain( int argc, char **argv )
-{                                   
+{
     KComponentData instance("kio_search");
     QCoreApplication app(argc, argv);
 
@@ -137,9 +157,9 @@ extern "C" int KDE_EXPORT kdemain( int argc, char **argv )
         fprintf(stderr, "Usage: kio_filenamesearch protocol domain-socket1 domain-socket2\n");
         exit(-1);
     }
-    
+
     FileNameSearchProtocol slave(argv[2], argv[3]);
     slave.dispatchLoop();
-    
+
     return 0;
 }

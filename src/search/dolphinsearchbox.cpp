@@ -97,18 +97,22 @@ KUrl DolphinSearchBox::urlForSearching() const
     if (m_nepomukActivated && isSearchPathIndexed()) {
         url = nepomukUrlForSearching();
     } else {
-        url = m_searchPath;
         url.setProtocol("filenamesearch");
         url.addQueryItem("search", m_searchInput->text());
         if (m_contentButton->isChecked()) {
             url.addQueryItem("checkContent", "yes");
         }
+
+        QString encodedUrl;
         if (m_everywhereButton->isChecked()) {
             // It is very unlikely, that the majority of Dolphins target users
             // mean "the whole harddisk" instead of "my home folder" when
             // selecting the "Everywhere" button.
-            url.setPath(QDir::homePath());
+            encodedUrl = QDir::homePath();
+        } else {
+            encodedUrl = m_searchPath.url();
         }
+        url.addQueryItem("url", encodedUrl);
     }
 
     return url;
