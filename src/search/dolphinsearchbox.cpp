@@ -82,8 +82,18 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
 
     QFontMetrics metrics(m_fromHereButton->font());
     const int maxWidth = metrics.averageCharWidth() * 15;
-    const QString fileName = metrics.elidedText(url.fileName(), Qt::ElideMiddle, maxWidth);
-    m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", fileName));
+
+    QString location = url.fileName();
+    if (location.isEmpty()) {
+        if (url.isLocalFile()) {
+            location = QLatin1String("/");
+        } else {
+            location = url.protocol() + QLatin1String(" - ") + url.host();
+        }
+    }
+
+    const QString elidedLocation = metrics.elidedText(location, Qt::ElideMiddle, maxWidth);
+    m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
 }
 
 KUrl DolphinSearchBox::searchPath() const
