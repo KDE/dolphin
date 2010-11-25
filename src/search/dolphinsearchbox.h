@@ -26,6 +26,7 @@
 
 class AbstractSearchFilterWidget;
 class KLineEdit;
+class KSeparator;
 class QFormLayout;
 class QPushButton;
 class QVBoxLayout;
@@ -119,10 +120,11 @@ private:
     QVBoxLayout* m_topLayout;
 
     KLineEdit* m_searchInput;
-    QPushButton* m_fromHereButton;
-    QPushButton* m_everywhereButton;
     QPushButton* m_fileNameButton;
     QPushButton* m_contentButton;
+    KSeparator* m_separator;
+    QPushButton* m_fromHereButton;
+    QPushButton* m_everywhereButton;
 
     KUrl m_searchPath;
 

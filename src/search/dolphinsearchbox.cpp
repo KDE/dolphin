@@ -57,10 +57,11 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_nepomukActivated(false),
     m_topLayout(0),
     m_searchInput(0),
-    m_fromHereButton(0),
-    m_everywhereButton(0),
     m_fileNameButton(0),
     m_contentButton(0),
+    m_separator(0),
+    m_fromHereButton(0),
+    m_everywhereButton(0),
     m_searchPath(),
     m_startSearchTimer(0)
 {
@@ -94,6 +95,11 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
 
     const QString elidedLocation = metrics.elidedText(location, Qt::ElideMiddle, maxWidth);
     m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
+
+    const bool showSearchFromButtons = url.isLocalFile();
+    m_separator->setVisible(showSearchFromButtons);
+    m_fromHereButton->setVisible(showSearchFromButtons);
+    m_everywhereButton->setVisible(showSearchFromButtons);
 }
 
 KUrl DolphinSearchBox::searchPath() const
@@ -249,19 +255,6 @@ void DolphinSearchBox::init()
     searchInputLayout->addWidget(searchLabel);
     searchInputLayout->addWidget(m_searchInput);
 
-    // Create "From Here" and "Everywhere"button
-    m_fromHereButton = new QPushButton(this);
-    m_fromHereButton->setText(i18nc("action:button", "From Here"));
-    initButton(m_fromHereButton);
-
-    m_everywhereButton = new QPushButton(this);
-    m_everywhereButton->setText(i18nc("action:button", "Everywhere"));
-    initButton(m_everywhereButton);
-
-    QButtonGroup* searchLocationGroup = new QButtonGroup(this);
-    searchLocationGroup->addButton(m_fromHereButton);
-    searchLocationGroup->addButton(m_everywhereButton);
-
     // Create "Filename" and "Content" button
     m_fileNameButton = new QPushButton(this);
     m_fileNameButton->setText(i18nc("action:button", "Filename"));
@@ -275,14 +268,29 @@ void DolphinSearchBox::init()
     searchWhatGroup->addButton(m_fileNameButton);
     searchWhatGroup->addButton(m_contentButton);
 
+    m_separator = new KSeparator(Qt::Vertical, this);
+
+    // Create "From Here" and "Everywhere"button
+    m_fromHereButton = new QPushButton(this);
+    m_fromHereButton->setText(i18nc("action:button", "From Here"));
+    initButton(m_fromHereButton);
+
+    m_everywhereButton = new QPushButton(this);
+    m_everywhereButton->setText(i18nc("action:button", "Everywhere"));
+    initButton(m_everywhereButton);
+
+    QButtonGroup* searchLocationGroup = new QButtonGroup(this);
+    searchLocationGroup->addButton(m_fromHereButton);
+    searchLocationGroup->addButton(m_everywhereButton);
+
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
     optionsLayout->setMargin(0);
-    optionsLayout->addWidget(m_fromHereButton);
-    optionsLayout->addWidget(m_everywhereButton);
-    optionsLayout->addWidget(new KSeparator(Qt::Vertical));
     optionsLayout->addWidget(m_fileNameButton);
     optionsLayout->addWidget(m_contentButton);
+    optionsLayout->addWidget(m_separator);
+    optionsLayout->addWidget(m_fromHereButton);
+    optionsLayout->addWidget(m_everywhereButton);
     optionsLayout->addStretch(1);
 
     m_topLayout = new QVBoxLayout(this);
