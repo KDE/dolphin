@@ -149,7 +149,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
 
     updateDecorationSize(dolphinView->showPreview());
     updateBackground();
-    
+
     DolphinViewController* dolphinViewController = m_container->m_dolphinViewController;
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
     m_extensionsFactory->fileItemDelegate()->setMinimizedNameColumn(true);
@@ -166,6 +166,7 @@ DolphinColumnView::~DolphinColumnView()
     m_dirLister = 0; // deleted by m_dolphinModel
 }
 
+
 void DolphinColumnView::setActive(bool active)
 {
     if (m_active != active) {
@@ -177,6 +178,31 @@ void DolphinColumnView::setActive(bool active)
             deactivate();
         }
     }
+}
+
+bool DolphinColumnView::isActive() const
+{
+    return m_active;
+}
+
+void DolphinColumnView::setChildUrl(const KUrl& url)
+{
+    m_childUrl = url;
+}
+
+KUrl DolphinColumnView::childUrl() const
+{
+    return m_childUrl;
+}
+
+void DolphinColumnView::setUrl(const KUrl& url)
+{
+    m_url = url;
+}
+
+KUrl DolphinColumnView::url() const
+{
+    return m_url;
 }
 
 void DolphinColumnView::updateBackground()
@@ -313,7 +339,7 @@ void DolphinColumnView::mousePressEvent(QMouseEvent* event)
 }
 
 void DolphinColumnView::keyPressEvent(QKeyEvent* event)
-{   
+{
     DolphinTreeView::keyPressEvent(event);
 
     DolphinViewController* controller = m_container->m_dolphinViewController;
@@ -564,7 +590,7 @@ void DolphinColumnView::deactivate()
     selectionModel()->setCurrentIndex(current, QItemSelectionModel::NoUpdate);
     connect(selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
             this, SLOT(requestActivation()));
-    
+
     updateBackground();
 }
 

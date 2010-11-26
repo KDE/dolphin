@@ -146,29 +146,4 @@ private:
     friend class DolphinColumnViewContainer;
 };
 
-inline bool DolphinColumnView::isActive() const
-{
-    return m_active;
-}
-
-inline void DolphinColumnView::setChildUrl(const KUrl& url)
-{
-    m_childUrl = url;
-}
-
-inline KUrl DolphinColumnView::childUrl() const
-{
-    return m_childUrl;
-}
-
-inline void DolphinColumnView::setUrl(const KUrl& url)
-{
-    m_url = url;
-}
-
-inline KUrl DolphinColumnView::url() const
-{
-    return m_url;
-}
-
 #endif
