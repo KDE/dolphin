@@ -125,14 +125,6 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_dolphinViewController, SIGNAL(urlChangeRequested(KUrl)),
             m_viewModeController, SLOT(setUrl(KUrl)));
 
-    KDirLister* dirLister = m_viewAccessor.dirLister();
-    connect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
-            this, SLOT(slotRedirection(KUrl,KUrl)));
-    connect(dirLister, SIGNAL(completed()),
-            this, SLOT(slotDirListerCompleted()));
-    connect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
-            this, SLOT(slotRefreshItems()));
-
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the
     // creation is done asynchronously, several signals must be checked:
@@ -526,12 +518,10 @@ void DolphinView::setUrl(const KUrl& url)
         return;
     }
 
-    // The selection model might change in the case of the column view. Disconnect
-    // from the current selection model and reconnect later after the URL switch.
     const bool hadSelection = hasSelection();
-    QAbstractItemView* view = m_viewAccessor.itemView();
-    disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-               this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+
+    // The selection model and directory lister might change in the case of the column view:
+    disconnectViewAccessor();
 
     m_newFileNames.clear();
 
@@ -546,10 +536,9 @@ void DolphinView::setUrl(const KUrl& url)
 
     emit startedPathLoading(url);
 
-    // Reconnect to the (probably) new selection model
-    view = m_viewAccessor.itemView();
-    connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-            this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+    // Reconnect to the (probably) new selection model and directory lister
+    connectViewAccessor();
+
     if (hadSelection || hasSelection()) {
         emitSelectionChangedSignal();
     }
@@ -1184,8 +1173,7 @@ void DolphinView::createView()
     const int zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(view->iconSize());
     m_viewModeController->setZoomLevel(zoomLevel);
 
-    connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-            this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+    connectViewAccessor();
 
     setFocusProxy(m_viewAccessor.layoutTarget());
     m_topLayout->insertWidget(1, m_viewAccessor.layoutTarget());
@@ -1198,10 +1186,7 @@ void DolphinView::deleteView()
     m_dolphinViewController->setItemView(0);
 
     if (view != 0) {
-        if (view->selectionModel() != 0) {
-            disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
-                       this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
-        }
+        disconnectViewAccessor();
 
         // It's important to set the keyboard focus to the parent
         // before deleting the view: Otherwise when having a split
@@ -1286,6 +1271,36 @@ QItemSelection DolphinView::childrenMatchingPattern(const QModelIndex& parent, c
     }
 
     return matchingIndexes;
+}
+
+void DolphinView::connectViewAccessor()
+{
+    KDirLister* dirLister = m_viewAccessor.dirLister();
+    connect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
+            this, SLOT(slotRedirection(KUrl,KUrl)));
+    connect(dirLister, SIGNAL(completed()),
+            this, SLOT(slotDirListerCompleted()));
+    connect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+            this, SLOT(slotRefreshItems()));
+
+    QAbstractItemView* view = m_viewAccessor.itemView();
+    connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+            this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+}
+
+void DolphinView::disconnectViewAccessor()
+{
+    KDirLister* dirLister = m_viewAccessor.dirLister();
+    disconnect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
+               this, SLOT(slotRedirection(KUrl,KUrl)));
+    disconnect(dirLister, SIGNAL(completed()),
+               this, SLOT(slotDirListerCompleted()));
+    disconnect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+               this, SLOT(slotRefreshItems()));
+
+    QAbstractItemView* view = m_viewAccessor.itemView();
+    disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
+               this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
 }
 
 DolphinView::ViewAccessor::ViewAccessor(DolphinSortFilterProxyModel* proxyModel) :

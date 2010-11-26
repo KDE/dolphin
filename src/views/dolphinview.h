@@ -723,6 +723,9 @@ private:
      */
     QItemSelection childrenMatchingPattern(const QModelIndex& parent, const QRegExp& pattern) const;
 
+    void connectViewAccessor();
+    void disconnectViewAccessor();
+
 private:
     /**
      * Abstracts the access to the different view implementations
