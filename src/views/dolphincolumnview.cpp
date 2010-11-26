@@ -283,21 +283,15 @@ void DolphinColumnView::startDrag(Qt::DropActions supportedActions)
 
 void DolphinColumnView::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
-        event->acceptProposedAction();
-        requestActivation();
-    }
+    event->acceptProposedAction();
+    requestActivation();
     DolphinTreeView::dragEnterEvent(event);
 }
 
 void DolphinColumnView::dragMoveEvent(QDragMoveEvent* event)
 {
     DolphinTreeView::dragMoveEvent(event);
-
-    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
-        // accept url drops, independently from the destination item
-        event->acceptProposedAction();
-    }
+    event->acceptProposedAction();
 }
 
 void DolphinColumnView::dropEvent(QDropEvent* event)

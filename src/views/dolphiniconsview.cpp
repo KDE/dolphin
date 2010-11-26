@@ -192,9 +192,7 @@ void DolphinIconsView::startDrag(Qt::DropActions supportedActions)
 
 void DolphinIconsView::dragEnterEvent(QDragEnterEvent* event)
 {
-    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
-        event->acceptProposedAction();
-    }
+    event->acceptProposedAction();
 }
 
 void DolphinIconsView::dragLeaveEvent(QDragLeaveEvent* event)
@@ -220,10 +218,7 @@ void DolphinIconsView::dragMoveEvent(QDragMoveEvent* event)
             m_dropRect.setSize(QSize()); // set as invalid
         }
     }
-    if (DragAndDropHelper::instance().isMimeDataSupported(event->mimeData())) {
-        // accept url drops, independently from the destination item
-        event->acceptProposedAction();
-    }
+    event->acceptProposedAction();
 
     setDirtyRegion(m_dropRect);
 }

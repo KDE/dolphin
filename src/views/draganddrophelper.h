@@ -48,12 +48,6 @@ public:
     static DragAndDropHelper& instance();
 
     /**
-     * Returns true, if Dolphin supports the dragging of
-     * the given mime data.
-     */
-    bool isMimeDataSupported(const QMimeData* mimeData) const;
-
-    /**
      * Creates a drag object for the view \a itemView for all selected items.
      */
     void startDrag(QAbstractItemView* itemView,
@@ -61,7 +55,7 @@ public:
                    DolphinViewController* dolphinViewController = 0);
 
     /**
-     * Returns true if and only if the view \a itemView was the last view to 
+     * Returns true if and only if the view \a itemView was the last view to
      * be passed to startDrag(...), and that drag is still in progress.
      */
     bool isDragSource(QAbstractItemView* itemView) const;
@@ -85,13 +79,13 @@ signals:
 
 private:
     DragAndDropHelper();
-    
+
     /**
      * Creates a pixmap the contains the all icons of the items
      * that are dragged.
      */
     QPixmap createDragPixmap(QAbstractItemView* itemView) const;
-    
+
     // The last view passed in startDrag(...), or 0 if
     // no startDrag(...) initiated drag is in progress.
     QAbstractItemView *m_dragSource;

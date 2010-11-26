@@ -47,14 +47,6 @@ DragAndDropHelper& DragAndDropHelper::instance()
     return s_dragAndDropHelper->instance;
 }
 
-bool DragAndDropHelper::isMimeDataSupported(const QMimeData* mimeData) const
-{
-    // We support everything, cf KonqOperations::doDrop which can save any data.
-    //return mimeData->hasUrls() || mimeData->hasFormat("application/x-kde-dndextract");
-    Q_UNUSED(mimeData);
-    return true;
-}
-
 void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
                                   Qt::DropActions supportedActions,
                                   DolphinViewController* dolphinViewController)
@@ -129,14 +121,14 @@ DragAndDropHelper::DragAndDropHelper()
 
 QPixmap DragAndDropHelper::createDragPixmap(QAbstractItemView* itemView) const
 {
-    const QModelIndexList selectedIndexes = itemView->selectionModel()->selectedIndexes();    
+    const QModelIndexList selectedIndexes = itemView->selectionModel()->selectedIndexes();
     Q_ASSERT(!selectedIndexes.isEmpty());
-    
+
     QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(itemView->model());
     KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
-    
+
     const int itemCount = selectedIndexes.count();
-    
+
     // If more than one item is dragged, align the items inside a
     // rectangular grid. The maximum grid size is limited to 5 x 5 items.
     int xCount = 3;
@@ -148,11 +140,11 @@ QPixmap DragAndDropHelper::createDragPixmap(QAbstractItemView* itemView) const
         xCount = 4;
         size = KIconLoader::SizeSmallMedium;
     }
-    
+
     if (itemCount < xCount) {
         xCount = itemCount;
     }
-    
+
     int yCount = itemCount / xCount;
     if (itemCount % xCount != 0) {
         ++yCount;
@@ -161,10 +153,10 @@ QPixmap DragAndDropHelper::createDragPixmap(QAbstractItemView* itemView) const
         yCount = xCount;
     }
 
-    // Draw the selected items into the grid cells    
+    // Draw the selected items into the grid cells
     QPixmap dragPixmap(xCount * size + xCount - 1, yCount * size + yCount - 1);
     dragPixmap.fill(Qt::transparent);
-    
+
     QPainter painter(&dragPixmap);
     int x = 0;
     int y = 0;
@@ -173,7 +165,7 @@ QPixmap DragAndDropHelper::createDragPixmap(QAbstractItemView* itemView) const
         const KFileItem item = dirModel->itemForIndex(index);
         const QPixmap pixmap = item.pixmap(size, size);
         painter.drawPixmap(x, y, pixmap);
-        
+
         x += size + 1;
         if (x >= dragPixmap.width()) {
             x = 0;
@@ -183,7 +175,7 @@ QPixmap DragAndDropHelper::createDragPixmap(QAbstractItemView* itemView) const
             break;
         }
     }
-    
+
     return dragPixmap;
 }
 
