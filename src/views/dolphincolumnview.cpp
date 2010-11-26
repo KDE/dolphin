@@ -197,7 +197,10 @@ KUrl DolphinColumnView::childUrl() const
 
 void DolphinColumnView::setUrl(const KUrl& url)
 {
-    m_url = url;
+    if (url != m_url) {
+        m_url = url;
+        m_dirLister->openUrl(url, KDirLister::NoFlags);
+    }
 }
 
 KUrl DolphinColumnView::url() const
