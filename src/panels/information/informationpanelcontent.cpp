@@ -204,7 +204,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
                                       ? PhononWidget::Video
                                       : PhononWidget::Audio;
             m_phononWidget->setMode(mode);
-            m_phononWidget->setUrl(item.url());
+            m_phononWidget->setUrl(item.targetUrl());
             if ((mode == PhononWidget::Video) && m_preview->isVisible()) {
                 m_phononWidget->setVideoSize(m_preview->size());
             }
@@ -305,7 +305,7 @@ void InformationPanelContent::showIcon(const KFileItem& item)
 {
     m_outdatedPreviewTimer->stop();
     m_pendingPreview = false;
-    if (!applyPlace(item.url())) {
+    if (!applyPlace(item.targetUrl())) {
         m_preview->setPixmap(item.pixmap(KIconLoader::SizeEnormous));
     }
 }
