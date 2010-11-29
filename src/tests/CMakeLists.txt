@@ -8,10 +8,10 @@ kde4_add_unit_test(dolphindetailsviewtest TEST dolphindetailsviewtest.cpp testba
 target_link_libraries(dolphindetailsviewtest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
 kde4_add_unit_test(dolphinviewtest_icons TEST dolphinviewtest_icons.cpp dolphinviewtest_allviewmodes.cpp testbase.cpp)
-target_link_libraries(dolphinviewtest_icons dolphinprivate ${KDE4_KDEUI_LIBS} ${QT_QTTEST_LIBRARY})
+target_link_libraries(dolphinviewtest_icons dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
 kde4_add_unit_test(dolphinviewtest_details TEST dolphinviewtest_details.cpp dolphinviewtest_allviewmodes.cpp testbase.cpp)
-target_link_libraries(dolphinviewtest_details dolphinprivate ${KDE4_KDEUI_LIBS} ${QT_QTTEST_LIBRARY})
+target_link_libraries(dolphinviewtest_details dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
 kde4_add_unit_test(dolphinviewtest_columns TEST dolphinviewtest_columns.cpp dolphinviewtest_allviewmodes.cpp testbase.cpp)
-target_link_libraries(dolphinviewtest_columns dolphinprivate ${KDE4_KDEUI_LIBS} ${QT_QTTEST_LIBRARY})
+target_link_libraries(dolphinviewtest_columns dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
