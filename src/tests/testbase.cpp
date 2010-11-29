@@ -66,13 +66,8 @@ QAbstractItemView* TestBase::itemView () const
 
 void TestBase::reloadViewAndWait()
 {
-    kDebug() << "Reloading view and waiting for the finishedPathLoading(const KUrl&) signal...";
-    QSignalSpy finished(m_view, SIGNAL(finishedPathLoading(const KUrl&)));
     m_view->reload();
-    while (finished.count() != 1) {
-        QTest::qWait(50);
-    }
-    kDebug() << "...signal received, continuing";
+    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 5000));
 }
 
 KUrl TestBase::testDirUrl() const
