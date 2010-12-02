@@ -117,7 +117,7 @@ void DolphinViewTest_AllViewModes::testSelection() {
 void DolphinViewTest_AllViewModes::verifySelectedItemsCount(int itemsCount) const
 {
     QSignalSpy spySelectionChanged(m_view, SIGNAL(selectionChanged(const KFileItemList&)));
-    QTest::kWaitForSignal(m_view, SIGNAL(selectionChanged(const KFileItemList&)));
+    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(selectionChanged(const KFileItemList&)), 500));
 
     QCOMPARE(m_view->selectedItems().count(), itemsCount);
     QCOMPARE(m_view->selectedItemsCount(), itemsCount);

@@ -67,7 +67,7 @@ QAbstractItemView* TestBase::itemView () const
 void TestBase::reloadViewAndWait()
 {
     m_view->reload();
-    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 5000));
+    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
 }
 
 KUrl TestBase::testDirUrl() const
