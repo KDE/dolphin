@@ -32,6 +32,7 @@ class QLabel;
 class QProgressBar;
 class QToolButton;
 class QSlider;
+class QTimer;
 
 /**
  * @brief Represents the statusbar of a Dolphin view.
@@ -86,11 +87,9 @@ public:
 
     /**
      * Sets the progress in percent (0 - 100). The
-     * progress is shown with a delay of 300 milliseconds:
-     * if the progress does reach 100 % within 300 milliseconds,
-     * the progress is not shown at all. This assures that
-     * no flickering occurs for showing a progress of fast
-     * operations.
+     * progress is shown delayed by 1 second:
+     * If the progress does reach 100 % within 1 second,
+     * the progress is not shown at all.
      */
     void setProgress(int percent);
     int progress() const;
@@ -142,9 +141,9 @@ private slots:
     void zoomIn();
     void showZoomSliderToolTip(int zoomLevel);
 
-private:
     void updateProgressInfo();
 
+private:
     /**
      * Makes the space information widget and zoom slider widget
      * visible, if \a visible is true and the settings allow to show
@@ -173,6 +172,7 @@ private:
     QProgressBar* m_progressBar;
     QToolButton* m_stopButton;
     int m_progress;
+    QTimer* m_showProgressBarTimer;
 
     // Timestamp when the last message has been set that has not the type
     // 'Default'. The timestamp is used to prevent that default messages

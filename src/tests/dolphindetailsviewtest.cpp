@@ -250,7 +250,7 @@ void DolphinDetailsViewTest::bug234600_overlappingIconsWhenZooming()
  * The width of the visualRect of an item is usually replaced by the width of the file name.
  * However, if the file name is wider then the view's name column, this leads to problems with
  * keyboard navigation if files with very long names are present in the current folder, see
- * 
+ *
  * https://bugs.kde.org/show_bug.cgi?id=257401
  *
  * This test checks that the visualRect of an item is never wider than the "Name" column.

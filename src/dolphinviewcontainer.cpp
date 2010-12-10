@@ -289,6 +289,7 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
+
         // Temporary disable the 'File'->'Create New...' menu until
         // the write permissions can be checked in a fast way at
         // DolphinViewContainer::slotDirListerCompleted().
@@ -296,6 +297,11 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
         if (isActive()) {
             emit writeStateChanged(false);
         }
+
+        // Trigger an undetermined progress indication. The progress
+        // information in percent will be triggered by the percent() signal
+        // of the directory lister later.
+        updateProgress(-1);
     }
 }
 

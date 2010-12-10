@@ -37,6 +37,7 @@
 #include <QLabel>
 #include <QProgressBar>
 #include <QToolButton>
+#include <QTime>
 #include <QTimer>
 
 #include <views/dolphinview.h>
@@ -54,6 +55,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_progressBar(0),
     m_stopButton(0),
     m_progress(100),
+    m_showProgressBarTimer(0),
     m_messageTimeStamp()
 {
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
@@ -113,6 +115,11 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
 
     m_progressBar = new QProgressBar(this);
     m_progressBar->hide();
+
+    m_showProgressBarTimer = new QTimer(this);
+    m_showProgressBarTimer->setInterval(1000);
+    m_showProgressBarTimer->setSingleShot(true);
+    connect(m_showProgressBarTimer, SIGNAL(timeout()), this, SLOT(updateProgressInfo()));
 
     // Initialize top layout and size policies
     const int fontHeight = QFontMetrics(m_messageLabel->font()).height();
@@ -222,6 +229,7 @@ void DolphinStatusBar::setProgress(int percent)
         percent = 100;
     }
 
+    const bool progressRestarted = (percent < 100) && (percent < m_progress);
     m_progress = percent;
     if (m_messageLabel->type() == KonqStatusBarMessageLabel::Error) {
         // Don't update any widget or status bar text if an
@@ -229,8 +237,17 @@ void DolphinStatusBar::setProgress(int percent)
         return;
     }
 
+    if (progressRestarted && !m_progressBar->isVisible()) {
+        // Show the progress bar delayed: In the case if 100 % are reached within
+        // a short time, no progress bar will be shown at all.
+        m_showProgressBarTimer->start();
+    }
+
     m_progressBar->setValue(m_progress);
-    if (!m_progressBar->isVisible() || (percent == 100)) {
+    if (percent == 100) {
+        // The end of the progress has been reached. Assure that the progress bar
+        // gets hidden and the extensions widgets get visible again.
+        m_showProgressBarTimer->stop();
         updateProgressInfo();
     }
 
