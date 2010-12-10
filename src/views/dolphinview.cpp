@@ -528,16 +528,14 @@ void DolphinView::setUrl(const KUrl& url)
     m_viewModeController->setUrl(url); // emits urlChanged, which we forward
     m_viewAccessor.prepareUrlChange(url);
     applyViewProperties();
-    loadDirectory(url);
 
     // When changing the URL there is no need to keep the version
     // data of the previous URL.
     m_viewAccessor.dirModel()->clearVersionData();
 
-    emit startedPathLoading(url);
-
     // Reconnect to the (probably) new selection model and directory lister
     connectViewAccessor();
+    loadDirectory(url);
 
     if (hadSelection || hasSelection()) {
         emitSelectionChangedSignal();
@@ -1278,6 +1276,8 @@ void DolphinView::connectViewAccessor()
     KDirLister* dirLister = m_viewAccessor.dirLister();
     connect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
             this, SLOT(slotRedirection(KUrl,KUrl)));
+    connect(dirLister, SIGNAL(started(KUrl)),
+            this, SIGNAL(startedPathLoading(KUrl)));
     connect(dirLister, SIGNAL(completed()),
             this, SLOT(slotDirListerCompleted()));
     connect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
@@ -1293,6 +1293,8 @@ void DolphinView::disconnectViewAccessor()
     KDirLister* dirLister = m_viewAccessor.dirLister();
     disconnect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
                this, SLOT(slotRedirection(KUrl,KUrl)));
+    disconnect(dirLister, SIGNAL(started(KUrl)),
+               this, SIGNAL(startedPathLoading(KUrl)));
     disconnect(dirLister, SIGNAL(completed()),
                this, SLOT(slotDirListerCompleted()));
     disconnect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),

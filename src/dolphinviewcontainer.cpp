@@ -117,8 +117,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_proxyModel->setSourceModel(m_dolphinModel);
     m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
-    connect(m_dirLister, SIGNAL(started(KUrl)),
-            this, SLOT(initializeProgress()));
+    // TODO: In the case of the column view the directory lister changes. Let the DolphinView
+    // inform the container about this information for KDE SC 4.7
     connect(m_dirLister, SIGNAL(clear()),
             this, SLOT(delayedStatusBarUpdate()));
     connect(m_dirLister, SIGNAL(percent(int)),
@@ -127,8 +127,6 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             this, SLOT(delayedStatusBarUpdate()));
     connect(m_dirLister, SIGNAL(newItems(KFileItemList)),
             this, SLOT(delayedStatusBarUpdate()));
-    connect(m_dirLister, SIGNAL(completed()),
-            this, SLOT(slotDirListerCompleted()));
     connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
             this, SLOT(showInfoMessage(const QString&)));
     connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
@@ -153,6 +151,10 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             this, SLOT(redirect(KUrl, KUrl)));
     connect(m_view, SIGNAL(selectionChanged(const KFileItemList&)),
             this, SLOT(delayedStatusBarUpdate()));
+    connect(m_view, SIGNAL(startedPathLoading(KUrl)),
+            this, SLOT(slotStartedPathLoading()));
+    connect(m_view, SIGNAL(finishedPathLoading(KUrl)),
+            this, SLOT(slotFinishedPathLoading()));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(slotUrlNavigatorLocationChanged(const KUrl&)));
@@ -297,11 +299,6 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
         if (isActive()) {
             emit writeStateChanged(false);
         }
-
-        // Trigger an undetermined progress indication. The progress
-        // information in percent will be triggered by the percent() signal
-        // of the directory lister later.
-        updateProgress(-1);
     }
 }
 
@@ -354,17 +351,6 @@ void DolphinViewContainer::updateStatusBar()
     }
 }
 
-void DolphinViewContainer::initializeProgress()
-{
-    if (isSearchUrl(url())) {
-        // Search KIO-slaves usually don't provide any progress information. Give
-        // an immediate hint to the user that a searching is done:
-        updateStatusBar();
-        m_statusBar->setProgressText(i18nc("@info", "Searching..."));
-        m_statusBar->setProgress(-1);
-    }
- }
-
 void DolphinViewContainer::updateProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
@@ -373,7 +359,23 @@ void DolphinViewContainer::updateProgress(int percent)
     m_statusBar->setProgress(percent);
 }
 
-void DolphinViewContainer::slotDirListerCompleted()
+void DolphinViewContainer::slotStartedPathLoading()
+{
+    if (isSearchUrl(url())) {
+        // Search KIO-slaves usually don't provide any progress information. Give
+        // a hint to the user that a searching is done:
+        updateStatusBar();
+        m_statusBar->setProgressText(i18nc("@info", "Searching..."));
+        m_statusBar->setProgress(-1);
+    } else {
+        // Trigger an undetermined progress indication. The progress
+        // information in percent will be triggered by the percent() signal
+        // of the directory lister later.
+        updateProgress(-1);
+    }
+}
+
+void DolphinViewContainer::slotFinishedPathLoading()
 {
     if (!m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(QString());
