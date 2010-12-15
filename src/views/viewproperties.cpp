@@ -49,19 +49,19 @@ ViewProperties::ViewProperties(const KUrl& url) :
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     const bool useGlobalViewProps = settings->globalViewProps();
+    bool useDetailsViewWithPath = false;
 
     // We try and save it to the file .directory in the directory being viewed.
     // If the directory is not writable by the user or the directory is not local,
     // we store the properties information in a local file.
-    bool useDetailsViewWithPath = false;
-    if (url.protocol().contains("search")) {
+    if (useGlobalViewProps) {
+        m_filePath = destinationDir("global");
+    } else if (url.protocol().contains("search")) {
         m_filePath = destinationDir("search");
         useDetailsViewWithPath = true;
     } else if (url.protocol() == QLatin1String("trash")) {
         m_filePath = destinationDir("trash");
         useDetailsViewWithPath = true;
-    } else if (useGlobalViewProps) {
-        m_filePath = destinationDir("global");
     } else if (url.isLocalFile()) {
         m_filePath = url.toLocalFile();
         const QFileInfo info(m_filePath);
