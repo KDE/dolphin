@@ -38,7 +38,6 @@
 #include <kmenu.h>
 #include <knewmenu.h>
 #include <konqmimedata.h>
-#include <kfileitemlistproperties.h>
 #include <konq_operations.h>
 #include <kshell.h>
 #include <kurl.h>
@@ -65,7 +64,6 @@
 
 DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     QWidget(parent),
-    m_isFolderWritable(false),
     m_topLayout(0),
     m_urlNavigator(0),
     m_searchBox(0),
@@ -155,6 +153,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
             this, SLOT(slotStartedPathLoading()));
     connect(m_view, SIGNAL(finishedPathLoading(KUrl)),
             this, SLOT(slotFinishedPathLoading()));
+    connect(m_view, SIGNAL(writeStateChanged(bool)),
+            this, SIGNAL(writeStateChanged(bool)));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(slotUrlNavigatorLocationChanged(const KUrl&)));
@@ -209,9 +209,6 @@ void DolphinViewContainer::setActive(bool active)
 {
     m_urlNavigator->setActive(active);
     m_view->setActive(active);
-    if (active) {
-        emit writeStateChanged(m_isFolderWritable);
-    }
 }
 
 bool DolphinViewContainer::isActive() const
@@ -291,14 +288,6 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
 {
     if (newUrl != m_urlNavigator->locationUrl()) {
         m_urlNavigator->setLocationUrl(newUrl);
-
-        // Temporary disable the 'File'->'Create New...' menu until
-        // the write permissions can be checked in a fast way at
-        // DolphinViewContainer::slotDirListerCompleted().
-        m_isFolderWritable = false;
-        if (isActive()) {
-            emit writeStateChanged(false);
-        }
     }
 }
 
@@ -388,21 +377,6 @@ void DolphinViewContainer::slotFinishedPathLoading()
         m_statusBar->setMessage(i18nc("@info:status", "No items found."), DolphinStatusBar::Information);
     } else {
         updateStatusBar();
-    }
-
-    // Enable the 'File'->'Create New...' menu only if the directory
-    // supports writing.
-    KFileItem item = m_dirLister->rootItem();
-    if (item.isNull()) {
-        // it is unclear whether writing is supported
-        m_isFolderWritable = true;
-    } else {
-        KFileItemListProperties capabilities(KFileItemList() << item);
-        m_isFolderWritable = capabilities.supportsWriting();
-    }
-
-    if (isActive()) {
-        emit writeStateChanged(m_isFolderWritable);
     }
 }
 

@@ -529,6 +529,13 @@ signals:
      */
     void redirection(const KUrl& oldUrl, const KUrl& newUrl);
 
+    /**
+     * Is emitted when the write state of the folder has been changed. The application
+     * should disable all actions like "Create New..." that depend on the write
+     * state.
+     */
+    void writeStateChanged(bool isFolderWritable);
+
 protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
@@ -624,6 +631,12 @@ private slots:
     void slotDeleteFileFinished(KJob* job);
 
     /**
+     * Invoked when the directory lister has been started the
+     * loading of \a url.
+     */
+    void slotDirListerStarted(const KUrl& url);
+
+    /**
      * Invoked when the directory lister has completed the loading of
      * items. Assures that pasted items and renamed items get seleced.
      */
@@ -665,6 +678,8 @@ private slots:
      * Restores the contents position, if history information about the old position is available.
      */
     void restoreContentsPosition();
+
+    void slotUrlChangeRequested(const KUrl& url);
 
 private:
     void loadDirectory(const KUrl& url, bool reload = false);
@@ -725,6 +740,13 @@ private:
 
     void connectViewAccessor();
     void disconnectViewAccessor();
+
+    /**
+     * Updates m_isFolderWritable dependent on whether the folder represented by
+     * the current URL is writable. If the state has changed, the signal
+     * writeableStateChanged() will be emitted.
+     */
+    void updateWritableState();
 
 private:
     /**
@@ -795,6 +817,7 @@ private:
     bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192
     bool m_assureVisibleCurrentIndex : 1;
     bool m_expanderActive : 1;
+    bool m_isFolderWritable : 1;
 
     Mode m_mode;
 

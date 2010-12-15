@@ -34,6 +34,7 @@
 #include <kdirlister.h>
 #include <kiconeffect.h>
 #include <kfileitem.h>
+#include <kfileitemlistproperties.h>
 #include <klocale.h>
 #include <kio/deletejob.h>
 #include <kio/netaccess.h>
@@ -76,6 +77,8 @@ DolphinView::DolphinView(QWidget* parent,
     m_tabsForFiles(false),
     m_isContextMenuOpen(false),
     m_assureVisibleCurrentIndex(false),
+    m_expanderActive(false),
+    m_isFolderWritable(true),
     m_mode(DolphinView::IconsView),
     m_topLayout(0),
     m_dolphinViewController(0),
@@ -123,7 +126,7 @@ DolphinView::DolphinView(QWidget* parent,
     connect(m_dolphinViewController, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
     connect(m_dolphinViewController, SIGNAL(urlChangeRequested(KUrl)),
-            m_viewModeController, SLOT(setUrl(KUrl)));
+            this, SLOT(slotUrlChangeRequested(KUrl)));
 
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the
@@ -169,9 +172,7 @@ void DolphinView::setActive(bool active)
     m_active = active;
 
     QColor color = KColorScheme(QPalette::Active, KColorScheme::View).background().color();
-    if (active) {
-        emitSelectionChangedSignal();
-    } else {
+    if (!active) {
         color.setAlpha(150);
     }
 
@@ -185,6 +186,8 @@ void DolphinView::setActive(bool active)
     if (active) {
         m_viewAccessor.itemView()->setFocus();
         emit activated();
+        emitSelectionChangedSignal();
+        emit writeStateChanged(m_isFolderWritable);
     }
 
     m_viewModeController->indicateActivationChange(active);
@@ -970,6 +973,34 @@ void DolphinView::selectAndScrollToCreatedItem()
     m_createdItemUrl = KUrl();
 }
 
+void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+{
+    if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
+        emit redirection(oldUrl, newUrl);
+        m_viewModeController->redirectToUrl(newUrl); // #186947
+    }
+}
+
+void DolphinView::restoreContentsPosition()
+{
+    if (!m_restoredContentsPosition.isNull()) {
+        const int x = m_restoredContentsPosition.x();
+        const int y = m_restoredContentsPosition.y();
+        m_restoredContentsPosition = QPoint();
+
+        QAbstractItemView* view = m_viewAccessor.itemView();
+        Q_ASSERT(view != 0);
+        view->horizontalScrollBar()->setValue(x);
+        view->verticalScrollBar()->setValue(y);
+    }
+}
+
+void DolphinView::slotUrlChangeRequested(const KUrl& url)
+{
+    m_viewModeController->setUrl(url);
+    updateWritableState();
+}
+
 void DolphinView::showHoverInformation(const KFileItem& item)
 {
     emit requestItemInfo(item);
@@ -987,6 +1018,18 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     } else if (job->error() != KIO::ERR_USER_CANCELED) {
         emit errorMessage(job->errorString());
     }
+}
+
+void DolphinView::slotDirListerStarted(const KUrl& url)
+{
+    // Disable the writestate temporary until it can be determined in a fast way
+    // in DolphinView::slotDirListerCompleted()
+    if (m_isFolderWritable) {
+        m_isFolderWritable = false;
+        emit writeStateChanged(m_isFolderWritable);
+    }
+
+    emit startedPathLoading(url);
 }
 
 void DolphinView::slotDirListerCompleted()
@@ -1013,6 +1056,8 @@ void DolphinView::slotDirListerCompleted()
 
         m_newFileNames.clear();
     }
+
+    updateWritableState();
 }
 
 void DolphinView::slotLoadingCompleted()
@@ -1277,7 +1322,7 @@ void DolphinView::connectViewAccessor()
     connect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
             this, SLOT(slotRedirection(KUrl,KUrl)));
     connect(dirLister, SIGNAL(started(KUrl)),
-            this, SIGNAL(startedPathLoading(KUrl)));
+            this, SLOT(slotDirListerStarted(KUrl)));
     connect(dirLister, SIGNAL(completed()),
             this, SLOT(slotDirListerCompleted()));
     connect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
@@ -1294,7 +1339,7 @@ void DolphinView::disconnectViewAccessor()
     disconnect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
                this, SLOT(slotRedirection(KUrl,KUrl)));
     disconnect(dirLister, SIGNAL(started(KUrl)),
-               this, SIGNAL(startedPathLoading(KUrl)));
+               this, SLOT(slotDirListerStarted(KUrl)));
     disconnect(dirLister, SIGNAL(completed()),
                this, SLOT(slotDirListerCompleted()));
     disconnect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
@@ -1303,6 +1348,21 @@ void DolphinView::disconnectViewAccessor()
     QAbstractItemView* view = m_viewAccessor.itemView();
     disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
                this, SLOT(slotSelectionChanged(QItemSelection, QItemSelection)));
+}
+
+void DolphinView::updateWritableState()
+{
+    const bool wasFolderWritable = m_isFolderWritable;
+    m_isFolderWritable = true;
+
+    const KFileItem item = m_viewAccessor.dirLister()->rootItem();
+    if (!item.isNull()) {
+        KFileItemListProperties capabilities(KFileItemList() << item);
+        m_isFolderWritable = capabilities.supportsWriting();
+    }
+    if (m_isFolderWritable != wasFolderWritable) {
+        emit writeStateChanged(m_isFolderWritable);
+    }
 }
 
 DolphinView::ViewAccessor::ViewAccessor(DolphinSortFilterProxyModel* proxyModel) :
@@ -1501,28 +1561,6 @@ DolphinSortFilterProxyModel* DolphinView::ViewAccessor::proxyModel() const
 KDirLister* DolphinView::ViewAccessor::dirLister() const
 {
     return dirModel()->dirLister();
-}
-
-void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
-{
-    if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
-        emit redirection(oldUrl, newUrl);
-        m_viewModeController->redirectToUrl(newUrl); // #186947
-    }
-}
-
-void DolphinView::restoreContentsPosition()
-{
-    if (!m_restoredContentsPosition.isNull()) {
-        const int x = m_restoredContentsPosition.x();
-        const int y = m_restoredContentsPosition.y();
-        m_restoredContentsPosition = QPoint();
-
-        QAbstractItemView* view = m_viewAccessor.itemView();
-        Q_ASSERT(view != 0);
-        view->horizontalScrollBar()->setValue(x);
-        view->verticalScrollBar()->setValue(y);
-    }
 }
 
 #include "dolphinview.moc"

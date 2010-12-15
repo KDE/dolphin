@@ -265,8 +265,6 @@ private:
     bool isSearchUrl(const KUrl& url) const;
 
 private:
-    bool m_isFolderWritable;
-
     QVBoxLayout* m_topLayout;
     KUrlNavigator* m_urlNavigator;
     DolphinSearchBox* m_searchBox;
