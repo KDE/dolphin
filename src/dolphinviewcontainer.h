@@ -35,11 +35,8 @@
 
 class FilterBar;
 class KUrl;
-class DolphinModel;
 class KUrlNavigator;
-class DolphinDirLister;
 class DolphinSearchBox;
-class DolphinSortFilterProxyModel;
 class DolphinStatusBar;
 
 /**
@@ -276,10 +273,6 @@ private:
     DolphinStatusBar* m_statusBar;
     QTimer* m_statusBarTimer;            // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
-
-    DolphinModel* m_dolphinModel;
-    DolphinDirLister* m_dirLister;
-    DolphinSortFilterProxyModel* m_proxyModel;
 };
 
 inline const DolphinStatusBar* DolphinViewContainer::statusBar() const

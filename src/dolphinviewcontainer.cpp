@@ -71,9 +71,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_filterBar(0),
     m_statusBar(0),
     m_statusBarTimer(0),
-    m_statusBarTimestamp(),
-    m_dirLister(0),
-    m_proxyModel(0)
+    m_statusBarTimestamp()
 {
     hide();
 
@@ -102,37 +100,37 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(startSearching(QString)));
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
-    m_dirLister = new DolphinDirLister();
-    m_dirLister->setAutoUpdate(true);
-    m_dirLister->setMainWindow(window());
-    m_dirLister->setDelayedMimeTypes(true);
+    DolphinDirLister* dirLister = new DolphinDirLister();
+    dirLister->setAutoUpdate(true);
+    dirLister->setMainWindow(window());
+    dirLister->setDelayedMimeTypes(true);
 
-    m_dolphinModel = new DolphinModel(this);
-    m_dolphinModel->setDirLister(m_dirLister);  // m_dolphinModel takes ownership of m_dirLister
-    m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
+    DolphinModel* dolphinModel = new DolphinModel(this);
+    dolphinModel->setDirLister(dirLister);  // dolphinModel takes ownership of dirLister
+    dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
 
-    m_proxyModel = new DolphinSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_dolphinModel);
-    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    DolphinSortFilterProxyModel* proxyModel = new DolphinSortFilterProxyModel(this);
+    proxyModel->setSourceModel(dolphinModel);
+    proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 
     // TODO: In the case of the column view the directory lister changes. Let the DolphinView
     // inform the container about this information for KDE SC 4.7
-    connect(m_dirLister, SIGNAL(clear()),
+    connect(dirLister, SIGNAL(clear()),
             this, SLOT(delayedStatusBarUpdate()));
-    connect(m_dirLister, SIGNAL(percent(int)),
+    connect(dirLister, SIGNAL(percent(int)),
             this, SLOT(updateProgress(int)));
-    connect(m_dirLister, SIGNAL(itemsDeleted(const KFileItemList&)),
+    connect(dirLister, SIGNAL(itemsDeleted(const KFileItemList&)),
             this, SLOT(delayedStatusBarUpdate()));
-    connect(m_dirLister, SIGNAL(newItems(KFileItemList)),
+    connect(dirLister, SIGNAL(newItems(KFileItemList)),
             this, SLOT(delayedStatusBarUpdate()));
-    connect(m_dirLister, SIGNAL(infoMessage(const QString&)),
+    connect(dirLister, SIGNAL(infoMessage(const QString&)),
             this, SLOT(showInfoMessage(const QString&)));
-    connect(m_dirLister, SIGNAL(errorMessage(const QString&)),
+    connect(dirLister, SIGNAL(errorMessage(const QString&)),
             this, SLOT(showErrorMessage(const QString&)));
-    connect(m_dirLister, SIGNAL(urlIsFileError(const KUrl&)),
+    connect(dirLister, SIGNAL(urlIsFileError(const KUrl&)),
             this, SLOT(openFile(const KUrl&)));
 
-    m_view = new DolphinView(this, url, m_proxyModel);
+    m_view = new DolphinView(this, url, proxyModel);
     connect(m_view, SIGNAL(urlChanged(const KUrl&)),
             m_urlNavigator, SLOT(setUrl(const KUrl&)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
@@ -371,7 +369,7 @@ void DolphinViewContainer::slotFinishedPathLoading()
         m_statusBar->setProgress(100);
     }
 
-    if (isSearchUrl(url()) && (m_dirLister->items().count() == 0)) {
+    if (isSearchUrl(url()) && (m_view->items().count() == 0)) {
         // The dir lister has been completed on a Nepomuk-URI and no items have been found. Instead
         // of showing the default status bar information ("0 items") a more helpful information is given:
         m_statusBar->setMessage(i18nc("@info:status", "No items found."), DolphinStatusBar::Information);
@@ -584,9 +582,6 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
 
 void DolphinViewContainer::openFile(const KUrl& url)
 {
-    // Using m_dolphinModel for getting the file item instance is not possible
-    // here: openFile() is triggered by an error of the directory lister
-    // job, so the file item must be received "manually".
     const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
     slotItemTriggered(item);
 }
