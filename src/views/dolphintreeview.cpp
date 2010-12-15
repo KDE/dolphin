@@ -31,7 +31,7 @@
 
 DolphinTreeView::DolphinTreeView(QWidget* parent) :
     QTreeView(parent),
-    m_keyPressed(false),
+    m_updateCurrentIndex(false),
     m_expandingTogglePressed(false),
     m_useDefaultIndexAt(true),
     m_ignoreScrollTo(false),
@@ -75,7 +75,7 @@ bool DolphinTreeView::event(QEvent* event)
         // If a key-press triggers an action that e. g. opens a dialog, the
         // widget gets no key-release event. Assure that the pressed state
         // is reset to prevent accidently setting the current index during a selection.
-        m_keyPressed = false;
+        m_updateCurrentIndex = false;
         break;
     default:
         break;
@@ -239,27 +239,24 @@ void DolphinTreeView::paintEvent(QPaintEvent* event)
 
 void DolphinTreeView::keyPressEvent(QKeyEvent* event)
 {
-    // If the Control modifier is pressed, a multiple selection
-    // is done and DolphinDetailsView::currentChanged() may not
-    // not change the selection in a custom way.
-    m_keyPressed = !(event->modifiers() & Qt::ControlModifier);
-
+    // See DolphinTreeView::currentChanged() for more information about m_updateCurrentIndex
+    m_updateCurrentIndex = (event->modifiers() == Qt::NoModifier);
     QTreeView::keyPressEvent(event);
 }
 
 void DolphinTreeView::keyReleaseEvent(QKeyEvent* event)
 {
     QTreeView::keyReleaseEvent(event);
-    m_keyPressed = false;
+    m_updateCurrentIndex = false;
 }
 
 void DolphinTreeView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
 {
     QTreeView::currentChanged(current, previous);
 
-    // Stay consistent with QListView: When changing the current index by key presses,
-    // also change the selection.
-    if (m_keyPressed) {
+    // Stay consistent with QListView: When changing the current index by key presses
+    // without modifiers, also change the selection.
+    if (m_updateCurrentIndex) {
         setCurrentIndex(current);
     }
 }

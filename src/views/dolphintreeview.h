@@ -43,7 +43,7 @@ public:
     virtual QModelIndex indexAt (const QPoint& point) const;
     virtual QRegion visualRegionForSelection(const QItemSelection& selection) const;
 
-protected:   
+protected:
     /**
      * @return True, if the item with the index \p index accepts a drop. In this
      *         case a visual feedback for the user is given during dragging. Per
@@ -95,7 +95,7 @@ private:
     bool isAboveExpandingToggle(const QPoint& pos) const;
 
 private:
-    bool m_keyPressed;        // true if a key is pressed currently; info used by currentChanged()
+    bool m_updateCurrentIndex;
     bool m_expandingTogglePressed;
     bool m_useDefaultIndexAt; // true, if QTreeView::indexAt() should be used
     bool m_ignoreScrollTo;    // true if calls to scrollTo(...) should do nothing.
