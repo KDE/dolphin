@@ -44,19 +44,6 @@ public:
     /** @see SettingsPageBase::restoreDefaults() */
     virtual void restoreDefaults();
 
-private slots:
-    /**
-     * Updates the visibility state of the configure
-     * button m_configureToolTips.
-     */
-    void updateConfigureButton();
-
-    /**
-     * Opens a dialog which allows the user to specify which
-     * meta data should be shown in the tooltip.
-     */
-    void configureToolTips();
-
 private:
     void loadSettings();
 
