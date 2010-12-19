@@ -503,6 +503,15 @@ private:
 
     QString squeezedText(const QString& text) const;
 
+    /**
+     * Adds a clone of the action \a action to the action-collection with
+     * the name \a actionName, so that the action \a action also can be
+     * added to the toolbar by the user. This is useful if the creation of
+     * \a action is e.g. done in Qt and hence cannot be added directly
+     * to the action-collection.
+     */
+    void addActionCloneToCollection(QAction* action, const QString& actionName);
+
 private:
     /**
      * Implements a custom error handling for the undo manager. This

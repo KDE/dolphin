@@ -1591,6 +1591,7 @@ void DolphinMainWindow::setupDockWidgets()
     QAction* infoAction = infoDock->toggleViewAction();
     infoAction->setIcon(KIcon("dialog-information"));
     infoAction->setShortcut(Qt::Key_F11);
+    addActionCloneToCollection(infoAction, "show_information_panel");
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
@@ -1610,6 +1611,7 @@ void DolphinMainWindow::setupDockWidgets()
     QAction* foldersAction = foldersDock->toggleViewAction();
     foldersAction->setShortcut(Qt::Key_F7);
     foldersAction->setIcon(KIcon("folder"));
+    addActionCloneToCollection(foldersAction, "show_folders_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
@@ -1630,6 +1632,7 @@ void DolphinMainWindow::setupDockWidgets()
     QAction* terminalAction = terminalDock->toggleViewAction();
     terminalAction->setShortcut(Qt::Key_F4);
     terminalAction->setIcon(KIcon("utilities-terminal"));
+    addActionCloneToCollection(terminalAction, "show_terminal_panel");
 
     addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
@@ -1648,6 +1651,7 @@ void DolphinMainWindow::setupDockWidgets()
     QAction* filterAction = filterDock->toggleViewAction();
     filterAction->setShortcut(Qt::Key_F12);
     filterAction->setIcon(KIcon("view-filter"));
+    addActionCloneToCollection(filterAction, "show_filter_panel");
     addDockWidget(Qt::RightDockWidgetArea, filterDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             filterPanel, SLOT(setUrl(KUrl)));
@@ -1678,6 +1682,7 @@ void DolphinMainWindow::setupDockWidgets()
     QAction* placesAction = placesDock->toggleViewAction();
     placesAction->setShortcut(Qt::Key_F9);
     placesAction->setIcon(KIcon("bookmarks"));
+    addActionCloneToCollection(placesAction, "show_places_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(placesPanel, SIGNAL(urlChanged(KUrl, Qt::MouseButtons)),
@@ -1917,6 +1922,14 @@ QString DolphinMainWindow::squeezedText(const QString& text) const
 {
     const QFontMetrics fm = fontMetrics();
     return fm.elidedText(text, Qt::ElideMiddle, fm.maxWidth() * 10);
+}
+
+void DolphinMainWindow::addActionCloneToCollection(QAction* action, const QString& actionName)
+{
+    KAction* actionClone = actionCollection()->addAction(actionName);
+    actionClone->setText(action->text());
+    actionClone->setIcon(action->icon());
+    connect(actionClone, SIGNAL(triggered()), action, SLOT(trigger()));
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
