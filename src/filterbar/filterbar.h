@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz19@gmail.com>        *
  *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
+
 #ifndef FILTERBAR_H
 #define FILTERBAR_H
 
@@ -28,7 +29,6 @@ class KLineEdit;
  * @brief Provides an input field for filtering the currently shown items.
  *
  * @author Gregor Kališnik <gregor@podnapisi.net>
- * @author Peter Penz <peter.penz@gmx.at>
  */
 class FilterBar : public QWidget
 {
@@ -37,6 +37,11 @@ class FilterBar : public QWidget
 public:
     FilterBar(QWidget* parent = 0);
     virtual ~FilterBar();
+
+    /**
+     * Selects the whole text of the filter bar.
+     */
+    void selectAll();
 
 public slots:
     /** Clears the input field. */

@@ -64,6 +64,11 @@ public:
     /** @return URL that will start the searching of files. */
     KUrl urlForSearching() const;
 
+    /**
+     * Selects the whole text of the search box.
+     */
+    void selectAll();
+
 protected:
     virtual bool event(QEvent* event);
     virtual void showEvent(QShowEvent* event);

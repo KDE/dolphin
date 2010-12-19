@@ -239,6 +239,10 @@ bool DolphinViewContainer::isFilterBarVisible() const
 void DolphinViewContainer::setSearchModeEnabled(bool enabled)
 {
     if (enabled == isSearchModeEnabled()) {
+        if (enabled && !m_searchBox->hasFocus()) {
+            m_searchBox->setFocus();
+            m_searchBox->selectAll();
+        }
         return;
     }
 
@@ -295,6 +299,7 @@ void DolphinViewContainer::setFilterBarVisible(bool visible)
     if (visible) {
         m_filterBar->show();
         m_filterBar->setFocus();
+        m_filterBar->selectAll();
     } else {
         closeFilterBar();
     }

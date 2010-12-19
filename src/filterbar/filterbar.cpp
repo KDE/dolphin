@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006-2010 by Peter Penz <peter.penz19@gmail.com>        *
  *   Copyright (C) 2006 by Gregor Kališnik <gregor@podnapisi.net>          *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,6 +62,11 @@ FilterBar::FilterBar(QWidget* parent) :
 
 FilterBar::~FilterBar()
 {
+}
+
+void FilterBar::selectAll()
+{
+    m_filterInput->selectAll();
 }
 
 void FilterBar::clear()

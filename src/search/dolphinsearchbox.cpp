@@ -134,6 +134,11 @@ KUrl DolphinSearchBox::urlForSearching() const
     return url;
 }
 
+void DolphinSearchBox::selectAll()
+{
+    m_searchInput->selectAll();
+}
+
 bool DolphinSearchBox::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
@@ -243,6 +248,7 @@ void DolphinSearchBox::init()
     m_searchInput = new KLineEdit(this);
     m_searchInput->setClearButtonShown(true);
     m_searchInput->setFont(KGlobalSettings::generalFont());
+    setFocusProxy(m_searchInput);
     connect(m_searchInput, SIGNAL(returnPressed(QString)),
             this, SLOT(slotReturnPressed(QString)));
     connect(m_searchInput, SIGNAL(textChanged(QString)),
