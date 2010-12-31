@@ -24,6 +24,7 @@
 #include <config-nepomuk.h>
 
 #include "dolphinapplication.h"
+#include "dolphindockwidget.h"
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
@@ -56,6 +57,7 @@
 #include <kconfig.h>
 #include <kdesktopfile.h>
 #include <kdeversion.h>
+#include <kdualaction.h>
 #include <kfiledialog.h>
 #include <kfileplacesmodel.h>
 #include <kglobal.h>
@@ -89,7 +91,6 @@
 #include <QKeyEvent>
 #include <QClipboard>
 #include <QSplitter>
-#include <QDockWidget>
 #include <kacceleratormanager.h>
 
 /*
@@ -866,6 +867,21 @@ void DolphinMainWindow::replaceLocation()
     lineEdit->setSelection(0, text.length());
 }
 
+void DolphinMainWindow::togglePanelLockState()
+{
+    GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+
+    const bool newLockState = !generalSettings->lockPanels();
+    foreach (QObject* child, children()) {
+        DolphinDockWidget* dock = qobject_cast<DolphinDockWidget*>(child);
+        if (dock != 0) {
+            dock->setLocked(newLockState);
+        }
+    }
+
+    generalSettings->setLockPanels(newLockState);
+}
+
 void DolphinMainWindow::goBack()
 {
     clearStatusBar();
@@ -1580,11 +1596,23 @@ void DolphinMainWindow::setupActions()
 
 void DolphinMainWindow::setupDockWidgets()
 {
-    // setup "Information"
-    QDockWidget* infoDock = new QDockWidget(i18nc("@title:window", "Information"));
+    const bool lock = DolphinSettings::instance().generalSettings()->lockPanels();
+
+    KDualAction* lockLayoutAction = actionCollection()->add<KDualAction>("lock_panels");
+    lockLayoutAction->setActiveText(i18nc("@action:inmenu Panels", "Unlock Panels"));
+    lockLayoutAction->setActiveIcon(KIcon("object-unlocked"));
+    lockLayoutAction->setInactiveText(i18nc("@action:inmenu Panels", "Lock Panels"));
+    lockLayoutAction->setInactiveIcon(KIcon("object-locked"));
+    lockLayoutAction->setActive(lock);
+    connect(lockLayoutAction, SIGNAL(triggered()), this, SLOT(togglePanelLockState()));
+
+    // Setup "Information"
+    DolphinDockWidget* infoDock = new DolphinDockWidget(i18nc("@title:window", "Information"));
+    infoDock->setLocked(lock);
     infoDock->setObjectName("infoDock");
     infoDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     Panel* infoPanel = new InformationPanel(infoDock);
+    infoPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
     connect(infoPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
     infoDock->setWidget(infoPanel);
 
@@ -1601,11 +1629,13 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, SIGNAL(requestItemInfo(KFileItem)),
             infoPanel, SLOT(requestDelayedItemInfo(KFileItem)));
 
-    // setup "Folders"
-    QDockWidget* foldersDock = new QDockWidget(i18nc("@title:window", "Folders"));
+    // Setup "Folders"
+    DolphinDockWidget* foldersDock = new DolphinDockWidget(i18nc("@title:window", "Folders"));
+    foldersDock->setLocked(lock);
     foldersDock->setObjectName("foldersDock");
     foldersDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     FoldersPanel* foldersPanel = new FoldersPanel(foldersDock);
+    foldersPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
     foldersDock->setWidget(foldersPanel);
 
     QAction* foldersAction = foldersDock->toggleViewAction();
@@ -1619,12 +1649,14 @@ void DolphinMainWindow::setupDockWidgets()
     connect(foldersPanel, SIGNAL(changeUrl(KUrl, Qt::MouseButtons)),
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
 
-    // setup "Terminal"
+    // Setup "Terminal"
 #ifndef Q_OS_WIN
-    QDockWidget* terminalDock = new QDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
+    DolphinDockWidget* terminalDock = new DolphinDockWidget(i18nc("@title:window Shell terminal", "Terminal"));
+    terminalDock->setLocked(lock);
     terminalDock->setObjectName("terminalDock");
     terminalDock->setAllowedAreas(Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
     Panel* terminalPanel = new TerminalPanel(terminalDock);
+    terminalPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
     terminalDock->setWidget(terminalPanel);
 
     connect(terminalPanel, SIGNAL(hideTerminalPanel()), terminalDock, SLOT(hide()));
@@ -1639,12 +1671,14 @@ void DolphinMainWindow::setupDockWidgets()
             terminalPanel, SLOT(setUrl(KUrl)));
 #endif
 
-    // setup "Filter"
+    // Setup "Filter"
 #ifdef HAVE_NEPOMUK
-    QDockWidget* filterDock = new QDockWidget(i18nc("@title:window", "Filter"));
+    DolphinDockWidget* filterDock = new DolphinDockWidget(i18nc("@title:window", "Filter"));
+    filterDock->setLocked(lock);
     filterDock->setObjectName("filterDock");
     filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
     Panel* filterPanel = new FilterPanel(filterDock);
+    filterPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
     connect(filterPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
     filterDock->setWidget(filterPanel);
 
@@ -1669,15 +1703,17 @@ void DolphinMainWindow::setupDockWidgets()
 #endif
     }
 
-    // setup "Places"
-    QDockWidget* placesDock = new QDockWidget(i18nc("@title:window", "Places"));
+    // Setup "Places"
+    DolphinDockWidget* placesDock = new DolphinDockWidget(i18nc("@title:window", "Places"));
+    placesDock->setLocked(lock);
     placesDock->setObjectName("placesDock");
     placesDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
 
     PlacesPanel* placesPanel = new PlacesPanel(placesDock);
-    placesDock->setWidget(placesPanel);
     placesPanel->setModel(DolphinSettings::instance().placesModel());
     placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    connect(placesPanel, SIGNAL(lockChangeRequested(bool)), this, SLOT(slotPanelLockChangeRequested(bool)));
+    placesDock->setWidget(placesPanel);
 
     QAction* placesAction = placesDock->toggleViewAction();
     placesAction->setShortcut(Qt::Key_F9);
@@ -1690,6 +1726,7 @@ void DolphinMainWindow::setupDockWidgets()
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
 
+    // Add actions into the "Panels" menu
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
     actionCollection()->addAction("panels", panelsMenu);
     panelsMenu->setDelayed(false);
@@ -1702,6 +1739,8 @@ void DolphinMainWindow::setupDockWidgets()
 #ifdef HAVE_NEPOMUK
     panelsMenu->addAction(filterAction);
 #endif
+    panelsMenu->addSeparator();
+    panelsMenu->addAction(lockLayoutAction);
 }
 
 void DolphinMainWindow::updateEditActions()

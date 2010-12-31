@@ -61,8 +61,10 @@ public:
     /**
      * Opens a menu which allows to configure which meta information
      * should be shown.
+     *
+     * TODO: Move this code to the class InformationPanel
      */
-    void configureSettings();
+    void configureSettings(const QList<QAction*>& customContextMenuActions);
 
 signals:
     void urlActivated( const KUrl& url );

@@ -39,6 +39,7 @@
 #include <kfileitem.h>
 #include <kio/jobclasses.h>
 #include <kio/job.h>
+#include <kmenu.h>
 
 #include <QPushButton>
 #include <QShowEvent>
@@ -138,6 +139,18 @@ void FilterPanel::showEvent(QShowEvent* event)
     }
 
     Panel::showEvent(event);
+}
+
+void FilterPanel::contextMenuEvent(QContextMenuEvent* event)
+{
+    Panel::contextMenuEvent(event);
+
+    QWeakPointer<KMenu> popup = new KMenu(this);
+    foreach (QAction* action, customContextMenuActions()) {
+        popup.data()->addAction(action);
+    }
+    popup.data()->exec(QCursor::pos());
+    delete popup.data();
 }
 
 void FilterPanel::slotSetUrlStatFinished(KJob* job)

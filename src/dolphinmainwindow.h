@@ -264,6 +264,11 @@ private slots:
      */
     void replaceLocation();
 
+    /**
+     * Toggles the state of the panels between a locked and unlocked layout.
+     */
+    void togglePanelLockState();
+
     /** Goes back on step of the URL history. */
     void goBack();
 

@@ -265,7 +265,7 @@ bool InformationPanelContent::eventFilter(QObject* obj, QEvent* event)
     return QWidget::eventFilter(obj, event);
 }
 
-void InformationPanelContent::configureSettings()
+void InformationPanelContent::configureSettings(const QList<QAction*>& customContextMenuActions)
 {
     KMenu popup(this);
 
@@ -276,6 +276,11 @@ void InformationPanelContent::configureSettings()
 
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(KIcon("configure"));
+
+    popup.addSeparator();
+    foreach (QAction* action, customContextMenuActions) {
+        popup.addAction(action);
+    }
 
     // Open the popup and adjust the settings for the
     // selected action.

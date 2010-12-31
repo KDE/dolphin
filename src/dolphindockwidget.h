@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by Sebastian Trueg <trueg@kde.org>                  *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,58 +17,34 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef FILTERPANEL_H
-#define FILTERPANEL_H
 
-#include <nepomuk/query.h>
-#include <panels/panel.h>
+#ifndef DOLPHIN_DOCK_WIDGET_H
+#define DOLPHIN_DOCK_WIDGET_H
 
-class KJob;
-
-namespace Nepomuk {
-    namespace Utils {
-        class FacetWidget;
-    }
-}
+#include <QDockWidget>
 
 /**
- * @brief Allows the filtering of search results.
+ * @brief Extends QDockWidget to be able to get locked.
  */
-class FilterPanel : public Panel
+class DolphinDockWidget : public QDockWidget
 {
     Q_OBJECT
 
 public:
-    FilterPanel(QWidget* parent = 0);
-    virtual ~FilterPanel();
+    DolphinDockWidget(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    DolphinDockWidget(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    virtual ~DolphinDockWidget();
 
-signals:
-    void urlActivated(const KUrl& url);
-
-protected:
-    /** @see Panel::urlChanged() */
-    virtual bool urlChanged();
-
-    /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
-
-    /** @see QWidget::contextMenuEvent() */
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-
-private slots:
-    void slotSetUrlStatFinished(KJob*);
-    void slotQueryTermChanged(const Nepomuk::Query::Term& term);
+    /**
+     * @param lock If \a lock is true, the title bar of the dock-widget will get hidden so
+     *             that it is not possible for the user anymore to move or undock the dock-widget.
+     */
+    void setLocked(bool lock);
+    bool isLocked() const;
 
 private:
-    void setQuery(const Nepomuk::Query::Query& query);
-
-private:
-    bool m_initialized;
-    bool m_nepomukEnabled;
-    KJob* m_lastSetUrlStatJob;
-
-    Nepomuk::Utils::FacetWidget* m_facetWidget;
-    Nepomuk::Query::Query m_unfacetedRestQuery;
+    bool m_locked;
+    QWidget* m_dockTitleBar;
 };
 
-#endif // FILTERPANEL_H
+#endif

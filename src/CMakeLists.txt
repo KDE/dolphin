@@ -96,6 +96,7 @@ install(FILES views/versioncontrol/fileviewversioncontrolplugin.desktop DESTINAT
 
 set(dolphin_SRCS
     dolphinapplication.cpp
+    dolphindockwidget.cpp
     dolphinmainwindow.cpp
     dolphinnewfilemenu.cpp
     dolphinviewcontainer.cpp

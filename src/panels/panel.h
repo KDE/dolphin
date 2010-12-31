@@ -27,6 +27,9 @@
 
 /**
  * @brief Base widget for all panels that can be docked on the window borders.
+ *
+ * Derived panels should provide a context menu that at least offers the
+ * actions from Panel::customContextMenuActions().
  */
 class Panel : public QWidget
 {
@@ -38,6 +41,14 @@ public:
 
     /** Returns the current set URL of the active Dolphin view. */
     KUrl url() const;
+
+    /**
+     * Sets custom context menu actions that are added to the panel specific
+     * context menu actions. Allows an application to apply custom actions to
+     * the panel.
+     */
+    void setCustomContextMenuActions(const QList<QAction*>& actions);
+    QList<QAction*> customContextMenuActions() const;
 
 public slots:
     /**
@@ -58,6 +69,7 @@ protected:
 
 private:
     KUrl m_url;
+    QList<QAction*> m_customContextMenuActions;
 };
 
 #endif // PANEL_H

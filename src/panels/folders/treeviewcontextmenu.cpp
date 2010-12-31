@@ -128,6 +128,10 @@ void TreeViewContextMenu::open()
     popup->addAction(autoScrollingAction);
     connect(autoScrollingAction, SIGNAL(toggled(bool)), this, SLOT(setAutoScrolling(bool)));
 
+    popup->addSeparator();
+    foreach (QAction* action, m_parent->customContextMenuActions()) {
+        popup->addAction(action);
+    }
 
     popup->exec(QCursor::pos());
     popup->deleteLater();

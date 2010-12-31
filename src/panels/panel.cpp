@@ -23,7 +23,8 @@
 
 Panel::Panel(QWidget* parent) :
     QWidget(parent),
-    m_url(KUrl())
+    m_url(),
+    m_customContextMenuActions()
 {
 }
 
@@ -34,6 +35,16 @@ Panel::~Panel()
 KUrl Panel::url() const
 {
     return m_url;
+}
+
+void Panel::setCustomContextMenuActions(const QList<QAction*>& actions)
+{
+    m_customContextMenuActions = actions;
+}
+
+QList<QAction*> Panel::customContextMenuActions() const
+{
+    return m_customContextMenuActions;
 }
 
 void Panel::setUrl(const KUrl& url)
