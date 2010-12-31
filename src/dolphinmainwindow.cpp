@@ -1712,7 +1712,6 @@ void DolphinMainWindow::setupDockWidgets()
     PlacesPanel* placesPanel = new PlacesPanel(placesDock);
     placesPanel->setModel(DolphinSettings::instance().placesModel());
     placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    connect(placesPanel, SIGNAL(lockChangeRequested(bool)), this, SLOT(slotPanelLockChangeRequested(bool)));
     placesDock->setWidget(placesPanel);
 
     QAction* placesAction = placesDock->toggleViewAction();
