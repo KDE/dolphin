@@ -1231,12 +1231,14 @@ void DolphinView::deleteView()
     if (view != 0) {
         disconnectViewAccessor();
 
-        // It's important to set the keyboard focus to the parent
-        // before deleting the view: Otherwise when having a split
-        // view the other view will get the focus and will request
-        // an activation (see DolphinView::eventFilter()).
-        setFocusProxy(0);
-        setFocus();
+        if (hasFocus()) {
+            // It's important to set the keyboard focus to the parent
+            // before deleting the view: Otherwise when having a split
+            // view the other view will get the focus and will request
+            // an activation (see DolphinView::eventFilter()).
+            setFocusProxy(0);
+            setFocus();
+        }
 
         m_viewModeController->disconnect(view);
 
