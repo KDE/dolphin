@@ -109,6 +109,21 @@ void DolphinViewTest_AllViewModes::testSelection() {
     verifySelectedItemsCount(5);
 }
 
+void DolphinViewTest_AllViewModes::testKeyboardFocus()
+{
+    const DolphinView::Mode mode = m_view->mode();
+
+    // The view may not grab the keyboard focus itself. Also when switching
+    // the view-mode, the focus-state must remain.
+    QVERIFY(!m_view->hasFocus());
+    for (int i = 0; i <= DolphinView::MaxModeEnum; ++i) {
+        m_view->setMode(static_cast<DolphinView::Mode>(i));
+        QVERIFY(!m_view->hasFocus());
+    }
+
+    m_view->setMode(mode);
+}
+
 /**
  * verifySelectedItemsCount(int) waits until the DolphinView's selectionChanged(const KFileItemList&)
  * signal is received and checks that the selection state of the view is as expected.

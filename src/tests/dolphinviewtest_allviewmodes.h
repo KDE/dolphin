@@ -50,6 +50,8 @@ private slots:
 
     void testSelection();
 
+    void testKeyboardFocus();
+
 public:
 
     /** Returns the view mode (Icons, Details, Columns) to be used in the test. */
