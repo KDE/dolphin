@@ -211,12 +211,17 @@ void DolphinView::setMode(Mode mode)
     // be restored after reloading the directory
     m_selectedItems = selectedItems();
 
+    const bool hasFocus = m_viewAccessor.itemView()->hasFocus();
     deleteView();
 
     const KUrl viewPropsUrl = rootUrl();
     ViewProperties props(viewPropsUrl);
     props.setViewMode(m_mode);
     createView();
+
+    if (hasFocus) {
+        m_viewAccessor.itemView()->setFocus();
+    }
 
     // the file item delegate has been recreated, apply the current
     // additional information manually
