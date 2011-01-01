@@ -109,12 +109,17 @@ void DolphinViewTest_AllViewModes::testSelection() {
     verifySelectedItemsCount(5);
 }
 
+/**
+ * testKeyboardFocus() checks whether a view grabs the keyboard focus.
+ *
+ * A view may never grab the keyboard focus itself and must respect the focus-state
+ * when switching the view mode.
+ */
+
 void DolphinViewTest_AllViewModes::testKeyboardFocus()
 {
     const DolphinView::Mode mode = m_view->mode();
 
-    // The view may not grab the keyboard focus itself. Also when switching
-    // the view-mode, the focus-state must remain.
     QVERIFY(!m_view->hasFocus());
     for (int i = 0; i <= DolphinView::MaxModeEnum; ++i) {
         m_view->setMode(static_cast<DolphinView::Mode>(i));
