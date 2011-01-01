@@ -126,9 +126,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
 
     updateGridSize(view->showPreview(), 0);
     m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);
-
-    // setFocus() must be called after m_extensionsFactory is initialised (see bug 240374).
-    setFocus();
 }
 
 DolphinIconsView::~DolphinIconsView()
