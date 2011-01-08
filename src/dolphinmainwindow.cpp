@@ -220,7 +220,7 @@ void DolphinMainWindow::openFiles(const QList<KUrl>& files)
 
 void DolphinMainWindow::toggleViews()
 {
-    if (m_viewTab[m_tabIndex].primaryView == 0) {
+    if (m_viewTab[m_tabIndex].secondaryView == 0) {
         return;
     }
 
