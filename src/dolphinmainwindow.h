@@ -93,14 +93,6 @@ public:
      */
     bool isSplit() const;
 
-    /**
-     * If the main window contains two instances of a view container
-     * (DolphinMainWindow::isSplit() returns true), then the
-     * two views get toggled (the right view is on the left, the left
-     * view on the right).
-     */
-    void toggleViews();
-
     /** Renames the item represented by \a oldUrl to \a newUrl. */
     void rename(const KUrl& oldUrl, const KUrl& newUrl);
 

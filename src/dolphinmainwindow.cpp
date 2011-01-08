@@ -218,21 +218,6 @@ void DolphinMainWindow::openFiles(const QList<KUrl>& files)
     }
 }
 
-void DolphinMainWindow::toggleViews()
-{
-    if (m_viewTab[m_tabIndex].secondaryView == 0) {
-        return;
-    }
-
-    // move secondary view from the last position of the splitter
-    // to the first position
-    m_viewTab[m_tabIndex].splitter->insertWidget(0, m_viewTab[m_tabIndex].secondaryView);
-
-    DolphinViewContainer* container = m_viewTab[m_tabIndex].primaryView;
-    m_viewTab[m_tabIndex].primaryView = m_viewTab[m_tabIndex].secondaryView;
-    m_viewTab[m_tabIndex].secondaryView = container;
-}
-
 void DolphinMainWindow::showCommand(CommandType command)
 {
     DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
