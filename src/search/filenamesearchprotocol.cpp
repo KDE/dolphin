@@ -102,6 +102,9 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
     }
     listEntry(KIO::UDSEntry(), true);
 
+    delete dirLister;
+    dirLister = 0;
+
     // Recursively iterate all sub directories
     foreach (const KUrl& pendingDir, pendingDirs) {
         searchDirectory(pendingDir);
