@@ -74,7 +74,7 @@ public:
     DolphinViewContainer* activeViewContainer() const;
 
     /**
-     * Opens each directory \p in a separate tab. If the "split view"
+     * Opens each directory in \p dirs in a separate tab. If the "split view"
      * option is enabled, 2 directories are collected within one tab.
      */
     void openDirectories(const QList<KUrl>& dirs);
@@ -105,7 +105,7 @@ public:
     void rename(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
-     * Refreshes the views of the main window by recreating them dependent from
+     * Refreshes the views of the main window by recreating them according to
      * the given Dolphin settings.
      */
     void refreshViews();
@@ -190,7 +190,7 @@ private slots:
 
     /**
      * Updates the state of the 'Undo' menu action dependent
-     * from the parameter \a available.
+     * on the parameter \a available.
      */
     void slotUndoAvailable(bool available);
 
@@ -219,7 +219,7 @@ private slots:
     void find();
 
     /**
-     * Updates the text of the paste action dependent from
+     * Updates the text of the paste action dependent on
      * the number of items which are in the clipboard.
      */
     void updatePasteAction();
@@ -241,10 +241,10 @@ private slots:
      */
     void toggleSplitView();
 
-    /** Reloads the current active view. */
+    /** Reloads the currently active view. */
     void reloadView();
 
-    /** Stops the loading process for the current active view. */
+    /** Stops the loading process for the currently active view. */
     void stopLoading();
 
     void enableStopAction();
@@ -269,7 +269,7 @@ private slots:
      */
     void togglePanelLockState();
 
-    /** Goes back on step of the URL history. */
+    /** Goes back one step of the URL history. */
     void goBack();
 
     /** Goes forward one step of the URL history. */
@@ -379,7 +379,7 @@ private slots:
     void closeTab();
 
     /**
-     * Closes the tab with the index \index and activates the tab with index - 1.
+     * Closes the tab with the index \a index and activates the tab with index - 1.
      */
     void closeTab(int index);
 
@@ -410,7 +410,7 @@ private slots:
     void slotTestCanDecode(const QDragMoveEvent* event, bool& accept);
 
     /**
-     * If the URL can be listed open it in the current view, otherwise
+     * If the URL can be listed, open it in the current view, otherwise
      * run it through KRun.
      */
     void handleUrl(const KUrl& url);
