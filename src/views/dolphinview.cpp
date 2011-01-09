@@ -566,15 +566,23 @@ void DolphinView::selectAll()
 
 void DolphinView::invertSelection()
 {
+    // Implementation note: Using selectionModel->select(selection, QItemSelectionModel::Toggle) does not
+    // work, as QItemSelectionModel::hasSelection() provides invalid values in this case. This might be a Qt-issue -
+    // when changing the implementation with an updated Qt-version don't forget to run the Dolphin-unit-tests that
+    // verify this usecase.
+    const KFileItemList selItems = selectedItems();
+    clearSelection();
+
+    QItemSelection invertedSelection;
+    foreach (const KFileItem& item, items()) {
+        if (!selItems.contains(item)) {
+            const QModelIndex index = m_viewAccessor.proxyModel()->mapFromSource(m_viewAccessor.dirModel()->indexForItem(item));
+            invertedSelection.select(index, index);
+        }
+    }
+
     QItemSelectionModel* selectionModel = m_viewAccessor.itemView()->selectionModel();
-    const QAbstractItemModel* itemModel = selectionModel->model();
-
-    const QModelIndex topLeft = itemModel->index(0, 0);
-    const QModelIndex bottomRight = itemModel->index(itemModel->rowCount() - 1,
-                                                     itemModel->columnCount() - 1);
-
-    const QItemSelection selection(topLeft, bottomRight);
-    selectionModel->select(selection, QItemSelectionModel::Toggle);
+    selectionModel->select(invertedSelection, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
 }
 
 void DolphinView::clearSelection()
@@ -1100,7 +1108,7 @@ void DolphinView::slotLoadingCompleted()
         foreach(const KFileItem& item, m_selectedItems) {
             url = item.url().upUrl();
             if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
-                QModelIndex index = m_viewAccessor.proxyModel()->mapFromSource(m_viewAccessor.dirModel()->indexForItem(item));
+                const QModelIndex index = m_viewAccessor.proxyModel()->mapFromSource(m_viewAccessor.dirModel()->indexForItem(item));
                 newSelection.select(index, index);
             }
         }

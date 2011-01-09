@@ -83,13 +83,11 @@ void DolphinViewTest_AllViewModes::testSelection() {
     m_view->selectAll();
     verifySelectedItemsCount(totalItems);
 
-    // TODO: DolphinView::invertSelection() does not work in combination with DolphinView::hasSelection(). Might
-    // be a Qt-issue - further investigations are needed.
-    //m_view->invertSelection();
-    //verifySelectedItemsCount(0);
-    //
-    //m_view->invertSelection();
-    //verifySelectedItemsCount(totalItems);
+    m_view->invertSelection();
+    verifySelectedItemsCount(0);
+
+    m_view->invertSelection();
+    verifySelectedItemsCount(totalItems);
 
     m_view->clearSelection();
     verifySelectedItemsCount(0);
@@ -149,14 +147,6 @@ void DolphinViewTest_AllViewModes::verifySelectedItemsCount(int itemsCount) cons
         QVERIFY(m_view->hasSelection());
     }
     else {
-        if (mode() == DolphinView::ColumnView &&
-            itemView()->selectionModel()->selectedIndexes().count() == 0 &&
-            itemView()->selectionModel()->hasSelection()) {
-            QEXPECT_FAIL("",
-                         "The selection model's hasSelection() method returns true, but there are no selected indexes. Needs to be investigated.",
-                         Continue);
-        }
-
         QVERIFY(!m_view->hasSelection());
     }
 }
