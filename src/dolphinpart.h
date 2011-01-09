@@ -118,7 +118,6 @@ Q_SIGNALS:
 
 private Q_SLOTS:
     void slotCompleted(const KUrl& url);
-    void slotCanceled(const KUrl& url);
     void slotMessage(const QString& msg);
     void slotErrorMessage(const QString& msg);
     /**
@@ -231,9 +230,6 @@ private:
     DolphinView* m_view;
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
-    KDirLister* m_dirLister;
-    DolphinModel* m_dolphinModel;
-    DolphinSortFilterProxyModel* m_proxyModel;
     DolphinPartBrowserExtension* m_extension;
     KNewFileMenu* m_newFileMenu;
     QString m_nameFilter;

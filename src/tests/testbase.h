@@ -74,9 +74,6 @@ public:
 
     //  Make members that are accessed frequently by the derived test classes public
 
-    DolphinDirLister* m_dirLister;
-    DolphinModel* m_dolphinModel;
-    DolphinSortFilterProxyModel* m_proxyModel;
     DolphinView* m_view;
 
     QString m_path;

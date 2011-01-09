@@ -60,8 +60,8 @@ private slots:
 private:
 
     QModelIndex proxyModelIndexForUrl(const KUrl& url) const {
-        const QModelIndex index = m_dolphinModel->indexForUrl(url);
-        return m_proxyModel->mapFromSource(index);
+        const QModelIndex index = m_view->m_viewAccessor.m_dolphinModel->indexForUrl(url);
+        return m_view->m_viewAccessor.m_proxyModel->mapFromSource(index);
     }
 
     DolphinDetailsView* m_detailsView;

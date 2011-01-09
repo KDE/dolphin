@@ -119,15 +119,10 @@ public:
     };
 
     /**
-     * @param parent           Parent widget of the view.
      * @param url              Specifies the content which should be shown.
-     * @param proxyModel       Used proxy model which specifies the sorting. The
-     *                         model is not owned by the view and won't get
-     *                         deleted.
+     * @param parent           Parent widget of the view.
      */
-    DolphinView(QWidget* parent,
-                const KUrl& url,
-                DolphinSortFilterProxyModel* proxyModel);
+    DolphinView( const KUrl& url, QWidget* parent);
 
     virtual ~DolphinView();
 
@@ -182,6 +177,13 @@ public:
     bool supportsCategorizedSorting() const;
 
     /**
+     * Returns the root item which represents the current URL. Note that the returned
+     * item can be null (KFileItem::isNull() will return true) in case that the directory
+     * has not been loaded.
+     */
+    KFileItem rootItem() const;
+
+    /**
      * Returns the items of the view.
      */
     KFileItemList items() const;
@@ -189,7 +191,6 @@ public:
     /**
      * Returns the selected items. The list is empty if no item has been
      * selected.
-     * @see DolphinView::selectedUrls()
      */
     KFileItemList selectedItems() const;
 
@@ -274,6 +275,7 @@ public:
      * which contain the given filter string will be shown.
      */
     void setNameFilter(const QString& nameFilter);
+    QString nameFilter() const;
 
     /**
      * Calculates the number of currently shown files into
@@ -436,6 +438,11 @@ signals:
     void itemTriggered(const KFileItem& item);
 
     /**
+     * Is emitted if items have been added or deleted.
+     */
+    void itemCountChanged();
+
+    /**
      * Is emitted if a new tab should be opened for the URL \a url.
      */
     void tabRequested(const KUrl& url);
@@ -522,6 +529,18 @@ signals:
      * has been loaded.
      */
     void finishedPathLoading(const KUrl& url);
+
+    /**
+     * Is emitted after DolphinView::setUrl() has been invoked and provides
+     * the information how much percent of the current path have been loaded.
+     */
+    void pathLoadingProgress(int percent);
+
+    /**
+     * Is emitted if the DolphinView::setUrl() is invoked but the URL is not
+     * a directory.
+     */
+    void urlIsFileError(const KUrl& file);
 
     /**
      * Emitted when KDirLister emits redirection.
@@ -756,7 +775,7 @@ private:
     class ViewAccessor
     {
     public:
-        ViewAccessor(DolphinSortFilterProxyModel* proxyModel);
+        ViewAccessor();
         ~ViewAccessor();
 
         void createView(QWidget* parent,
@@ -805,9 +824,13 @@ private:
         DolphinIconsView* m_iconsView;
         DolphinDetailsView* m_detailsView;
         DolphinColumnViewContainer* m_columnsContainer;
+        DolphinModel* m_dolphinModel;
         DolphinSortFilterProxyModel* m_proxyModel;
         QAbstractItemView* m_dragSource;
         QPointer<DolphinDetailsViewExpander> m_detailsViewExpander;
+
+        // For unit tests
+        friend class DolphinDetailsViewTest;
     };
 
     bool m_active : 1;
@@ -843,6 +866,7 @@ private:
 
     // For unit tests
     friend class TestBase;
+    friend class DolphinDetailsViewTest;
 };
 
 /// Allow using DolphinView::Mode in QVariant

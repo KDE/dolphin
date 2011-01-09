@@ -49,6 +49,7 @@
 #include <kurl.h>
 
 #include "additionalinfoaccessor.h"
+#include "dolphindirlister.h"
 #include "dolphinmodel.h"
 #include "dolphincolumnviewcontainer.h"
 #include "dolphinviewcontroller.h"
@@ -67,9 +68,7 @@
 #include "zoomlevelinfo.h"
 #include "dolphindetailsviewexpander.h"
 
-DolphinView::DolphinView(QWidget* parent,
-                         const KUrl& url,
-                         DolphinSortFilterProxyModel* proxyModel) :
+DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     QWidget(parent),
     m_active(true),
     m_showPreview(false),
@@ -83,7 +82,7 @@ DolphinView::DolphinView(QWidget* parent,
     m_topLayout(0),
     m_dolphinViewController(0),
     m_viewModeController(0),
-    m_viewAccessor(proxyModel),
+    m_viewAccessor(),
     m_selectionChangedTimer(0),
     m_activeItemUrl(),
     m_restoredContentsPosition(),
@@ -277,6 +276,11 @@ bool DolphinView::supportsCategorizedSorting() const
     return m_viewAccessor.supportsCategorizedSorting();
 }
 
+KFileItem DolphinView::rootItem() const
+{
+    return m_viewAccessor.dirLister()->rootItem();
+}
+
 KFileItemList DolphinView::items() const
 {
     return m_viewAccessor.dirLister()->items();
@@ -440,6 +444,11 @@ void DolphinView::refresh()
 void DolphinView::setNameFilter(const QString& nameFilter)
 {
     m_viewModeController->setNameFilter(nameFilter);
+}
+
+QString DolphinView::nameFilter() const
+{
+    return m_viewModeController->nameFilter();
 }
 
 void DolphinView::calculateItemCount(int& fileCount,
@@ -1326,14 +1335,20 @@ QItemSelection DolphinView::childrenMatchingPattern(const QModelIndex& parent, c
 void DolphinView::connectViewAccessor()
 {
     KDirLister* dirLister = m_viewAccessor.dirLister();
-    connect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
-            this, SLOT(slotRedirection(KUrl,KUrl)));
-    connect(dirLister, SIGNAL(started(KUrl)),
-            this, SLOT(slotDirListerStarted(KUrl)));
-    connect(dirLister, SIGNAL(completed()),
-            this, SLOT(slotDirListerCompleted()));
+    connect(dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SLOT(slotRedirection(KUrl,KUrl)));
+    connect(dirLister, SIGNAL(started(KUrl)),          this, SLOT(slotDirListerStarted(KUrl)));
+    connect(dirLister, SIGNAL(completed()),            this, SLOT(slotDirListerCompleted()));
+    connect(dirLister, SIGNAL(canceled()),             this, SLOT(slotDirListerCompleted()));
     connect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
             this, SLOT(slotRefreshItems()));
+
+    connect(dirLister, SIGNAL(clear()),                      this, SIGNAL(itemCountChanged()));
+    connect(dirLister, SIGNAL(newItems(KFileItemList)),      this, SIGNAL(itemCountChanged()));
+    connect(dirLister, SIGNAL(infoMessage(const QString&)),  this, SIGNAL(infoMessage(const QString&)));
+    connect(dirLister, SIGNAL(errorMessage(const QString&)), this, SIGNAL(infoMessage(const QString&)));
+    connect(dirLister, SIGNAL(percent(int)),                 this, SIGNAL(pathLoadingProgress(int)));
+    connect(dirLister, SIGNAL(urlIsFileError(const KUrl&)),  this, SIGNAL(urlIsFileError(const KUrl&)));
+    connect(dirLister, SIGNAL(itemsDeleted(const KFileItemList&)), this, SIGNAL(itemCountChanged()));
 
     QAbstractItemView* view = m_viewAccessor.itemView();
     connect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
@@ -1343,14 +1358,20 @@ void DolphinView::connectViewAccessor()
 void DolphinView::disconnectViewAccessor()
 {
     KDirLister* dirLister = m_viewAccessor.dirLister();
-    disconnect(dirLister, SIGNAL(redirection(KUrl,KUrl)),
-               this, SLOT(slotRedirection(KUrl,KUrl)));
-    disconnect(dirLister, SIGNAL(started(KUrl)),
-               this, SLOT(slotDirListerStarted(KUrl)));
-    disconnect(dirLister, SIGNAL(completed()),
-               this, SLOT(slotDirListerCompleted()));
+    disconnect(dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SLOT(slotRedirection(KUrl,KUrl)));
+    disconnect(dirLister, SIGNAL(started(KUrl)),          this, SLOT(slotDirListerStarted(KUrl)));
+    disconnect(dirLister, SIGNAL(completed()),            this, SLOT(slotDirListerCompleted()));
+    disconnect(dirLister, SIGNAL(canceled()),             this, SLOT(slotDirListerCompleted()));
     disconnect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
                this, SLOT(slotRefreshItems()));
+
+    disconnect(dirLister, SIGNAL(clear()),                      this, SIGNAL(itemCountChanged()));
+    disconnect(dirLister, SIGNAL(newItems(KFileItemList)),      this, SIGNAL(itemCountChanged()));
+    disconnect(dirLister, SIGNAL(infoMessage(const QString&)),  this, SIGNAL(infoMessage(const QString&)));
+    disconnect(dirLister, SIGNAL(errorMessage(const QString&)), this, SIGNAL(errorMessage(const QString&)));
+    disconnect(dirLister, SIGNAL(percent(int)),                 this, SIGNAL(pathLoadingProgress(int)));
+    disconnect(dirLister, SIGNAL(urlIsFileError(const KUrl&)),  this, SIGNAL(urlIsFileError(const KUrl&)));
+    disconnect(dirLister, SIGNAL(itemsDeleted(const KFileItemList&)), this, SIGNAL(itemCountChanged()));
 
     QAbstractItemView* view = m_viewAccessor.itemView();
     disconnect(view->selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
@@ -1372,18 +1393,36 @@ void DolphinView::updateWritableState()
     }
 }
 
-DolphinView::ViewAccessor::ViewAccessor(DolphinSortFilterProxyModel* proxyModel) :
+DolphinView::ViewAccessor::ViewAccessor() :
     m_rootUrl(),
     m_iconsView(0),
     m_detailsView(0),
     m_columnsContainer(0),
-    m_proxyModel(proxyModel),
+    m_dolphinModel(0),
+    m_proxyModel(0),
     m_dragSource(0)
 {
+    DolphinDirLister* dirLister = new DolphinDirLister();
+    dirLister->setAutoUpdate(true);
+    dirLister->setDelayedMimeTypes(true);
+
+    m_dolphinModel = new DolphinModel();
+    m_dolphinModel->setDirLister(dirLister);  // m_dolphinModel takes ownership of dirLister
+    m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
+
+    m_proxyModel = new DolphinSortFilterProxyModel();
+    m_proxyModel->setSourceModel(m_dolphinModel);
+    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
 }
 
 DolphinView::ViewAccessor::~ViewAccessor()
 {
+    delete m_proxyModel;
+    m_proxyModel = 0;
+
+    delete m_dolphinModel;
+    m_dolphinModel = 0;
+
     delete m_dragSource;
     m_dragSource = 0;
 }

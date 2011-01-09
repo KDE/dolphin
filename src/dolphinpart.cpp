@@ -67,27 +67,13 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     // make sure that other apps using this part find Dolphin's view-file-columns icons
     KIconLoader::global()->addAppDir("dolphin");
 
-    m_dirLister = new DolphinDirLister;
-    m_dirLister->setAutoUpdate(true);
-    if (parentWidget) {
-        m_dirLister->setMainWindow(parentWidget->window());
-    }
-    m_dirLister->setDelayedMimeTypes(true);
-
-    connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted(KUrl)));
-    connect(m_dirLister, SIGNAL(canceled(KUrl)), this, SLOT(slotCanceled(KUrl)));
-    connect(m_dirLister, SIGNAL(percent(int)), this, SLOT(updateProgress(int)));
-    connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
-
-    m_dolphinModel = new DolphinModel(this);
-    m_dolphinModel->setDirLister(m_dirLister); // m_dolphinModel takes ownership of m_dirLister
-
-    m_proxyModel = new DolphinSortFilterProxyModel(this);
-    m_proxyModel->setSourceModel(m_dolphinModel);
-
-    m_view = new DolphinView(parentWidget, KUrl(), m_proxyModel);
+    m_view = new DolphinView(KUrl(), parentWidget);
     m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
+
+    connect(m_view, SIGNAL(finishedPathLoading(KUrl)), this, SLOT(slotCompleted(KUrl)));
+    connect(m_view, SIGNAL(pathLoadingProgress(int)), this, SLOT(updateProgress(int)));
+    connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
 
     setXMLFile("dolphinpart.rc");
 
@@ -116,12 +102,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
     // Watch for changes that should result in updates to the
     // status bar text.
-    connect(m_dirLister, SIGNAL(itemsDeleted(const KFileItemList&)),
-            this, SLOT(updateStatusBar()));
-    connect(m_dirLister, SIGNAL(clear()),
-            this, SLOT(updateStatusBar()));
-    connect(m_view,  SIGNAL(selectionChanged(const KFileItemList)),
-            this, SLOT(updateStatusBar()));
+    connect(m_view, SIGNAL(itemCountChanged()), this, SLOT(updateStatusBar()));
+    connect(m_view,  SIGNAL(selectionChanged(const KFileItemList)), this, SLOT(updateStatusBar()));
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);
@@ -292,7 +274,7 @@ bool DolphinPart::openUrl(const KUrl& url)
     bool reload = arguments().reload();
     // A bit of a workaround so that changing the namefilter works: force reload.
     // Otherwise DolphinView wouldn't relist the URL, so nothing would happen.
-    if (m_nameFilter != m_dirLister->nameFilter())
+    if (m_nameFilter != m_view->nameFilter())
         reload = true;
     if (m_view->url() == url && !reload) { // DolphinView won't do anything in that case, so don't emit started
         return true;
@@ -306,7 +288,7 @@ bool DolphinPart::openUrl(const KUrl& url)
     emit setWindowCaption(prettyUrl);
     emit m_extension->setLocationBarUrl(prettyUrl);
     emit started(0); // get the wheel to spin
-    m_dirLister->setNameFilter(m_nameFilter);
+    m_view->setNameFilter(m_nameFilter);
     m_view->setUrl(url);
     updatePasteAction();
     emit aboutToOpenURL();
@@ -319,11 +301,6 @@ void DolphinPart::slotCompleted(const KUrl& url)
 {
     Q_UNUSED(url)
     emit completed();
-}
-
-void DolphinPart::slotCanceled(const KUrl& url)
-{
-    slotCompleted(url);
 }
 
 void DolphinPart::slotMessage(const QString& msg)
@@ -383,7 +360,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
 
     if (item.isNull()) { // viewport context menu
         popupFlags |= KParts::BrowserExtension::ShowNavigationItems | KParts::BrowserExtension::ShowUp;
-        item = m_dirLister->rootItem();
+        item = m_view->rootItem();
         if (item.isNull())
             item = KFileItem( S_IFDIR, (mode_t)-1, url() );
         else

@@ -39,22 +39,12 @@ TestBase::TestBase()
     Q_ASSERT(m_tempDir->exists());
     m_path = m_tempDir->name();
     m_dir = new QDir(m_path);
-    m_dirLister = new DolphinDirLister();
-    m_dirLister->setAutoUpdate(true);
-    m_dolphinModel = new DolphinModel();
-    m_dolphinModel->setDirLister(m_dirLister);
-    m_proxyModel = new DolphinSortFilterProxyModel(0);
-    m_proxyModel->setSourceModel(m_dolphinModel);
-    m_proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-    m_view = new DolphinView(0, KUrl(m_path), m_proxyModel);
+    m_view = new DolphinView(KUrl(m_path), 0);
 }
 
 TestBase::~TestBase()
 {
     delete m_view;
-    delete m_proxyModel;
-    // m_dolphinModel owns m_dirLister -> do not delete it here!
-    delete m_dolphinModel;
     delete m_dir;
     delete m_tempDir;
 }

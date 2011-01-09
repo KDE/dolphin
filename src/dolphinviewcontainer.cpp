@@ -53,8 +53,6 @@
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphincolumnview.h"
 #include "views/dolphindetailsview.h"
-#include "views/dolphindirlister.h"
-#include "views/dolphinsortfilterproxymodel.h"
 #include "views/draganddrophelper.h"
 #include "views/dolphiniconsview.h"
 #include "views/dolphinmodel.h"
@@ -100,59 +98,23 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(startSearching(QString)));
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
-    DolphinDirLister* dirLister = new DolphinDirLister();
-    dirLister->setAutoUpdate(true);
-    dirLister->setMainWindow(window());
-    dirLister->setDelayedMimeTypes(true);
-
-    DolphinModel* dolphinModel = new DolphinModel(this);
-    dolphinModel->setDirLister(dirLister);  // dolphinModel takes ownership of dirLister
-    dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
-
-    DolphinSortFilterProxyModel* proxyModel = new DolphinSortFilterProxyModel(this);
-    proxyModel->setSourceModel(dolphinModel);
-    proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
-
-    // TODO: In the case of the column view the directory lister changes. Let the DolphinView
-    // inform the container about this information for KDE SC 4.7
-    connect(dirLister, SIGNAL(clear()),
-            this, SLOT(delayedStatusBarUpdate()));
-    connect(dirLister, SIGNAL(percent(int)),
-            this, SLOT(updateProgress(int)));
-    connect(dirLister, SIGNAL(itemsDeleted(const KFileItemList&)),
-            this, SLOT(delayedStatusBarUpdate()));
-    connect(dirLister, SIGNAL(newItems(KFileItemList)),
-            this, SLOT(delayedStatusBarUpdate()));
-    connect(dirLister, SIGNAL(infoMessage(const QString&)),
-            this, SLOT(showInfoMessage(const QString&)));
-    connect(dirLister, SIGNAL(errorMessage(const QString&)),
-            this, SLOT(showErrorMessage(const QString&)));
-    connect(dirLister, SIGNAL(urlIsFileError(const KUrl&)),
-            this, SLOT(openFile(const KUrl&)));
-
-    m_view = new DolphinView(this, url, proxyModel);
-    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
-            m_urlNavigator, SLOT(setUrl(const KUrl&)));
-    connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
-            this, SLOT(showItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(errorMessage(const QString&)),
-            this, SLOT(showErrorMessage(const QString&)));
-    connect(m_view, SIGNAL(infoMessage(const QString&)),
-            this, SLOT(showInfoMessage(const QString&)));
-    connect(m_view, SIGNAL(operationCompletedMessage(const QString&)),
-            this, SLOT(showOperationCompletedMessage(const QString&)));
-    connect(m_view, SIGNAL(itemTriggered(KFileItem)),
-            this, SLOT(slotItemTriggered(KFileItem)));
-    connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
-            this, SLOT(redirect(KUrl, KUrl)));
-    connect(m_view, SIGNAL(selectionChanged(const KFileItemList&)),
-            this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(startedPathLoading(KUrl)),
-            this, SLOT(slotStartedPathLoading()));
-    connect(m_view, SIGNAL(finishedPathLoading(KUrl)),
-            this, SLOT(slotFinishedPathLoading()));
-    connect(m_view, SIGNAL(writeStateChanged(bool)),
-            this, SIGNAL(writeStateChanged(bool)));
+    m_view = new DolphinView(url, this);
+    connect(m_view, SIGNAL(urlChanged(const KUrl&)),      m_urlNavigator, SLOT(setUrl(const KUrl&)));
+    connect(m_view, SIGNAL(writeStateChanged(bool)),      this, SIGNAL(writeStateChanged(bool)));
+    connect(m_view, SIGNAL(requestItemInfo(KFileItem)),   this, SLOT(showItemInfo(KFileItem)));
+    connect(m_view, SIGNAL(errorMessage(const QString&)), this, SLOT(showErrorMessage(const QString&)));
+    connect(m_view, SIGNAL(infoMessage(const QString&)),  this, SLOT(showInfoMessage(const QString&)));
+    connect(m_view, SIGNAL(itemTriggered(KFileItem)),     this, SLOT(slotItemTriggered(KFileItem)));
+    connect(m_view, SIGNAL(redirection(KUrl, KUrl)),      this, SLOT(redirect(KUrl, KUrl)));
+    connect(m_view, SIGNAL(startedPathLoading(KUrl)),     this, SLOT(slotStartedPathLoading()));
+    connect(m_view, SIGNAL(finishedPathLoading(KUrl)),    this, SLOT(slotFinishedPathLoading()));
+    connect(m_view, SIGNAL(itemCountChanged()),           this, SLOT(delayedStatusBarUpdate()));
+    connect(m_view, SIGNAL(pathLoadingProgress(int)),     this, SLOT(updateProgress(int)));
+    connect(m_view, SIGNAL(infoMessage(const QString&)),  this, SLOT(showInfoMessage(const QString&)));
+    connect(m_view, SIGNAL(errorMessage(const QString&)), this, SLOT(showErrorMessage(const QString&)));
+    connect(m_view, SIGNAL(urlIsFileError(const KUrl&)),  this, SLOT(openFile(const KUrl&)));
+    connect(m_view, SIGNAL(selectionChanged(const KFileItemList&)),    this, SLOT(delayedStatusBarUpdate()));
+    connect(m_view, SIGNAL(operationCompletedMessage(const QString&)), this, SLOT(showOperationCompletedMessage(const QString&)));
 
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(slotUrlNavigatorLocationChanged(const KUrl&)));
