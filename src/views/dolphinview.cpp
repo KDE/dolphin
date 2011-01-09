@@ -1346,7 +1346,6 @@ void DolphinView::connectViewAccessor()
     connect(dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SLOT(slotRedirection(KUrl,KUrl)));
     connect(dirLister, SIGNAL(started(KUrl)),          this, SLOT(slotDirListerStarted(KUrl)));
     connect(dirLister, SIGNAL(completed()),            this, SLOT(slotDirListerCompleted()));
-    connect(dirLister, SIGNAL(canceled()),             this, SLOT(slotDirListerCompleted()));
     connect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
             this, SLOT(slotRefreshItems()));
 
@@ -1369,7 +1368,6 @@ void DolphinView::disconnectViewAccessor()
     disconnect(dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SLOT(slotRedirection(KUrl,KUrl)));
     disconnect(dirLister, SIGNAL(started(KUrl)),          this, SLOT(slotDirListerStarted(KUrl)));
     disconnect(dirLister, SIGNAL(completed()),            this, SLOT(slotDirListerCompleted()));
-    disconnect(dirLister, SIGNAL(canceled()),             this, SLOT(slotDirListerCompleted()));
     disconnect(dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
                this, SLOT(slotRefreshItems()));
 
