@@ -45,7 +45,6 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
                                    DolphinSortFilterProxyModel* proxyModel) :
     KCategorizedView(parent),
     m_dolphinViewController(dolphinViewController),
-    m_viewModeController(viewModeController),
     m_categoryDrawer(new DolphinCategoryDrawer(this)),
     m_extensionsFactory(0),
     m_font(),
@@ -224,7 +223,7 @@ void DolphinIconsView::dropEvent(QDropEvent* event)
 {
     const QModelIndex index = indexAt(event->pos());
     const KFileItem item = m_dolphinViewController->itemForIndex(index);
-    m_dolphinViewController->indicateDroppedUrls(item, m_viewModeController->url(), event);
+    m_dolphinViewController->indicateDroppedUrls(item, event);
     // don't call KCategorizedView::dropEvent(event), as it moves
     // the items which is not wanted
 }

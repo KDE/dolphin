@@ -52,7 +52,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     DolphinTreeView(parent),
     m_autoResize(true),
     m_dolphinViewController(dolphinViewController),
-    m_viewModeController(viewModeController),
     m_extensionsFactory(0),
     m_expandableFoldersAction(0),
     m_expandedUrls(),
@@ -239,7 +238,7 @@ void DolphinDetailsView::dropEvent(QDropEvent* event)
     if (index.isValid() && (index.column() == DolphinModel::Name)) {
         item = m_dolphinViewController->itemForIndex(index);
     }
-    m_dolphinViewController->indicateDroppedUrls(item, m_viewModeController->url(), event);
+    m_dolphinViewController->indicateDroppedUrls(item, event);
     DolphinTreeView::dropEvent(event);
 }
 

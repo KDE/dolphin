@@ -87,12 +87,9 @@ public:
      * Indicates that URLs are dropped above a destination. The DolphinView
      * will start the corresponding action (copy, move, link).
      * @param destItem  Item of the destination (can be null, see KFileItem::isNull()).
-     * @param destPath  Path of the destination.
      * @param event     Drop event
      */
-    void indicateDroppedUrls(const KFileItem& destItem,
-                             const KUrl& destPath,
-                             QDropEvent* event);
+    void indicateDroppedUrls(const KFileItem& destItem, QDropEvent* event);
 
     /**
      * Informs the DolphinView about a sorting change done inside

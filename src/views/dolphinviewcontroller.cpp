@@ -84,11 +84,9 @@ void DolphinViewController::requestActivation()
     emit activated();
 }
 
-void DolphinViewController::indicateDroppedUrls(const KFileItem& destItem,
-                                            const KUrl& destPath,
-                                            QDropEvent* event)
+void DolphinViewController::indicateDroppedUrls(const KFileItem& destItem, QDropEvent* event)
 {
-    emit urlsDropped(destItem, destPath, event);
+    emit urlsDropped(destItem, m_dolphinView->url(), event);
 }
 
 

@@ -106,7 +106,6 @@ private:
 
 private:
     DolphinViewController* m_dolphinViewController;
-    const ViewModeController* m_viewModeController;
     DolphinCategoryDrawer* m_categoryDrawer;
     ViewExtensionsFactory* m_extensionsFactory;
 

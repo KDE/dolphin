@@ -199,7 +199,6 @@ private:
     bool m_autoResize; // if true, the columns are resized automatically to the available width
 
     DolphinViewController* m_dolphinViewController;
-    const ViewModeController* m_viewModeController;
     ViewExtensionsFactory* m_extensionsFactory;
     QAction* m_expandableFoldersAction;
 

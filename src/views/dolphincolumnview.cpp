@@ -300,7 +300,7 @@ void DolphinColumnView::dropEvent(QDropEvent* event)
     m_container->m_dolphinViewController->setItemView(this);
     const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
     const KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
-    m_container->m_dolphinViewController->indicateDroppedUrls(item, url(), event);
+    m_container->m_dolphinViewController->indicateDroppedUrls(item, event);
     DolphinTreeView::dropEvent(event);
 }
 
