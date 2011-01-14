@@ -18,7 +18,6 @@ set(dolphinprivate_LIB_SRCS
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
     settings/dolphinsettings.cpp
-    settings/filemetadataconfigurationdialog.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     views/additionalinfoaccessor.cpp
@@ -103,6 +102,7 @@ set(dolphin_SRCS
     dolphincontextmenu.cpp
     filterbar/filterbar.cpp
     main.cpp
+    panels/information/filemetadataconfigurationdialog.cpp
     panels/information/informationpanel.cpp
     panels/information/informationpanelcontent.cpp
     panels/information/pixmapviewer.cpp

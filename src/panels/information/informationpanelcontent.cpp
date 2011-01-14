@@ -49,8 +49,8 @@
 #include <QVBoxLayout>
 
 #include "dolphin_informationpanelsettings.h"
+#include "filemetadataconfigurationdialog.h"
 #include "settings/dolphinsettings.h"
-#include "settings/filemetadataconfigurationdialog.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
 

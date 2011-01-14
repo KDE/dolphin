@@ -21,7 +21,6 @@
 #include "behaviorsettingspage.h"
 
 #include "dolphin_generalsettings.h"
-#include <settings/filemetadataconfigurationdialog.h>
 #include <settings/dolphinsettings.h>
 
 #include <kdialog.h>

@@ -22,7 +22,6 @@
 
 #include <kdialog.h>
 #include <kfileitem.h>
-#include <libdolphin_export.h>
 
 class QLabel;
 class KFileMetaDataConfigurationWidget;
@@ -31,7 +30,7 @@ class KFileMetaDataConfigurationWidget;
  * @brief Dialog which allows to configure which meta data should be shown
  *        in the KFileMetaDataWidget.
  */
-class LIBDOLPHINPRIVATE_EXPORT FileMetaDataConfigurationDialog : public KDialog
+class FileMetaDataConfigurationDialog : public KDialog
 {
     Q_OBJECT
 
