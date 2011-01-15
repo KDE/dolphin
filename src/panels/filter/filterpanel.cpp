@@ -51,6 +51,7 @@ FilterPanel::FilterPanel(QWidget* parent) :
     m_initialized(false),
     m_nepomukEnabled(false),
     m_lastSetUrlStatJob(0),
+    m_startedFromDir(),
     m_facetWidget(0),
     m_unfacetedRestQuery()
 {
@@ -62,6 +63,13 @@ FilterPanel::~FilterPanel()
 
 bool FilterPanel::urlChanged()
 {
+    if (!url().protocol().startsWith("nepomuk")) {
+        // Remember the current directory before a searching is started.
+        // This is required to restore the directory in case that all facets
+        // have been reset by the user (see slotQueryTermChanged()).
+        m_startedFromDir = url();
+    }
+
     if (isVisible() && m_nepomukEnabled) {
         setQuery(Nepomuk::Query::Query());
 
@@ -178,8 +186,29 @@ void FilterPanel::slotSetUrlStatFinished(KJob* job)
 
 void FilterPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
 {
-    Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && term);
-    emit urlActivated(query.toSearchUrl());
+    if (term.isValid()) {
+        // Default case: A facet has been changed by the user to restrict the query.
+        Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && term);
+        emit urlActivated(query.toSearchUrl());
+        return;
+    }
+
+    // All facets have been reset by the user to be unrestricted.
+    // Verify whether the unfaceted rest query contains any additional restriction
+    // (e.g. a filename in the search field). If no further restriction is given, exit
+    // the search mode by returning to the directory where the searching has been
+    // started from.
+    const Nepomuk::Query::Term rootTerm = m_unfacetedRestQuery.term();
+    if (rootTerm.type() == Nepomuk::Query::Term::Comparison) {
+        const Nepomuk::Query::ComparisonTerm& compTerm = static_cast<const Nepomuk::Query::ComparisonTerm&>(rootTerm);
+        if (compTerm.subTerm().isValid()) {
+            Nepomuk::Query::FileQuery query(m_unfacetedRestQuery);
+            emit urlActivated(query.toSearchUrl());
+            return;
+        }
+    }
+
+    emit urlActivated(m_startedFromDir);
 }
 
 void FilterPanel::setQuery(const Nepomuk::Query::Query& query)

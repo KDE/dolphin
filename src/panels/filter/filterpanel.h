@@ -67,6 +67,7 @@ private:
     bool m_nepomukEnabled;
     KJob* m_lastSetUrlStatJob;
 
+    KUrl m_startedFromDir;
     Nepomuk::Utils::FacetWidget* m_facetWidget;
     Nepomuk::Query::Query m_unfacetedRestQuery;
 };
