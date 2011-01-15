@@ -38,6 +38,7 @@ DolphinTreeView::DolphinTreeView(QWidget* parent) :
     m_dropRect(),
     m_band()
 {
+    setUniformRowHeights(true);
 }
 
 DolphinTreeView::~DolphinTreeView()

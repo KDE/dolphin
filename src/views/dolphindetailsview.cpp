@@ -66,7 +66,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     setLayoutDirection(Qt::LeftToRight);
     setAcceptDrops(true);
     setSortingEnabled(true);
-    setUniformRowHeights(true);
     setSelectionBehavior(SelectItems);
     setDragDropMode(QAbstractItemView::DragDrop);
     setDropIndicatorShown(false);
