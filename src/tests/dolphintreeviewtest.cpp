@@ -1,24 +1,25 @@
-/***************************************************************************
- *   Copyright (C) 2010 by Frank Reininghaus (frank78ac@googlemail.com)    *
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- *   This program is distributed in the hope that it will be useful,       *
- *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
- *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
- ***************************************************************************/
+/*****************************************************************************
+ *   Copyright (C) 2010-2011 by Frank Reininghaus (frank78ac@googlemail.com) *
+ *                                                                           *
+ *   This program is free software; you can redistribute it and/or modify    *
+ *   it under the terms of the GNU General Public License as published by    *
+ *   the Free Software Foundation; either version 2 of the License, or       *
+ *   (at your option) any later version.                                     *
+ *                                                                           *
+ *   This program is distributed in the hope that it will be useful,         *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the           *
+ *   GNU General Public License for more details.                            *
+ *                                                                           *
+ *   You should have received a copy of the GNU General Public License       *
+ *   along with this program; if not, write to the                           *
+ *   Free Software Foundation, Inc.,                                         *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA              *
+ *****************************************************************************/
 
 #include <qtest_kde.h>
-#include <kdebug.h> 
+#include <kdebug.h>
+#include <kaction.h>
 
 #include "views/dolphintreeview.h"
 
@@ -99,9 +100,39 @@ public:
  * is why DolphinTreeView has some custom code for this. The test verifies that this
  * works without unwanted side effects.
  *
- * TODO: Add test for deletion of multiple files if Shift-Delete is pressed for some time, see
- * https://bugs.kde.org/show_bug.cgi?id=259656
+ * The test uses the class TreeViewWithDeleteShortcut which deletes the selected items
+ * when Shift-Delete is pressed. This is needed to test the fix for bug 259656 (see below).
  */
+
+class TreeViewWithDeleteShortcut : public DolphinTreeView {
+
+    Q_OBJECT
+
+public:
+
+    TreeViewWithDeleteShortcut(QWidget* parent = 0) : DolphinTreeView(parent) {
+        // To test the fix for bug 259656, we need a delete shortcut.
+        KAction* deleteAction = new KAction(this);
+        deleteAction->setShortcut(Qt::SHIFT | Qt::Key_Delete);
+        addAction(deleteAction);
+        connect(deleteAction, SIGNAL(triggered()), this, SLOT(deleteSelectedItems()));
+    };
+
+    ~TreeViewWithDeleteShortcut() {};
+
+public slots:
+
+    void deleteSelectedItems() {
+        // We have to delete the items one by one and update the list of selected items after
+        // each step because every removal will invalidate the model indexes in the list.
+        QModelIndexList selectedItems = selectionModel()->selectedIndexes();
+        while (!selectedItems.isEmpty()) {
+            const QModelIndex index = selectedItems.takeFirst();
+            model()->removeRow(index.row());
+            selectedItems = selectionModel()->selectedIndexes();
+        }
+    }
+};
 
 void DolphinTreeViewTest::testKeyboardNavigationSelectionUpdate() {
     QStringList items;
@@ -113,7 +144,7 @@ void DolphinTreeViewTest::testKeyboardNavigationSelectionUpdate() {
         index[i] = model.index(i, 0);
     }
 
-    DolphinTreeView view;
+    TreeViewWithDeleteShortcut view;
     view.setModel(&model);
     view.setSelectionMode(QAbstractItemView::ExtendedSelection);
     view.resize(400, 400);
@@ -225,6 +256,29 @@ void DolphinTreeViewTest::testKeyboardNavigationSelectionUpdate() {
     kDebug() << "Mouse release on \"b\"";
     QTest::mouseRelease(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.visualRect(index[1]).center());
     verifyCurrentItemAndSelection(view, index[0], expectedSelection);
+
+    /**
+     * Keeping Shift+Delete pressed for some time should delete only one item, see
+     *
+     * https://bugs.kde.org/show_bug.cgi?id=259656
+     */
+
+    view.clearSelection();
+    QVERIFY(view.selectionModel()->selectedIndexes().isEmpty());
+
+    // Click item 0 ("a")
+    kDebug() << "Click on \"a\"";
+    QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.visualRect(index[0]).center());
+    verifyCurrentItemAndSelection(view, index[0]);
+
+    // Press Shift-Delete and keep the keys pressed for some time
+    kDebug() << "Press Shift-Delete";
+    QTest::keyPress(view.viewport(), Qt::Key_Delete, Qt::ShiftModifier);
+    QTest::qWait(200);
+    QTest::keyRelease(view.viewport(), Qt::Key_Delete, Qt::ShiftModifier);
+
+    // Verify that only one item has been deleted
+    QCOMPARE(view.model()->rowCount(), 4);
 }
 
 /**
