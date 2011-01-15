@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 #include <qtest_kde.h>
+#include <kdebug.h> 
 
 #include "views/dolphintreeview.h"
 
@@ -31,8 +32,33 @@ class DolphinTreeViewTest : public QObject
 
 private slots:
 
-    void bug201459_firstLetterAndThenShiftClickSelection();
+    void testKeyboardNavigationSelectionUpdate();
+
     void bug218114_visualRegionForSelection();
+
+private:
+
+    /** A method that simplifies checking a view's current item and selection */
+    static void verifyCurrentItemAndSelection(const QAbstractItemView& view, const QModelIndex& expectedCurrent, const QModelIndexList& expectedSelection) {
+        QCOMPARE(view.currentIndex(), expectedCurrent);
+        const QModelIndexList selectedIndexes = view.selectionModel()->selectedIndexes();
+        QCOMPARE(selectedIndexes.count(), expectedSelection.count());
+        foreach(const QModelIndex& index, expectedSelection) {
+            QVERIFY(selectedIndexes.contains(index));
+        }
+    }
+
+    /** Use this method if only one item is selected */
+    static void verifyCurrentItemAndSelection(const QAbstractItemView& view, const QModelIndex& current, const QModelIndex& selected) {
+        QModelIndexList list;
+        list << selected;
+        verifyCurrentItemAndSelection(view, current, list);
+    }
+
+    /** Use this method if the only selected item is the current item */
+    static void verifyCurrentItemAndSelection(const QAbstractItemView& view, const QModelIndex& current) {
+        verifyCurrentItemAndSelection(view, current, current);
+    }
 
 };
 
@@ -68,18 +94,16 @@ public:
 };
 
 /**
- * When the first letter of a file name is pressed, this file becomes the current item
- * and gets selected. If the user then Shift-clicks another item, it is expected that
- * all items between these two items get selected. Before the bug
+ * This test checks that updating the selection after key presses works as expected.
+ * Qt does not handle this internally if the first letter of an item is pressed, which
+ * is why DolphinTreeView has some custom code for this. The test verifies that this
+ * works without unwanted side effects.
  *
- * https://bugs.kde.org/show_bug.cgi?id=201459
- *
- * was fixed, this was not the case: the starting point for the Shift-selection was not
- * updated if an item was selected by pressing the first letter of the file name.
+ * TODO: Add test for deletion of multiple files if Shift-Delete is pressed for some time, see
+ * https://bugs.kde.org/show_bug.cgi?id=259656
  */
 
-void DolphinTreeViewTest::bug201459_firstLetterAndThenShiftClickSelection()
-{
+void DolphinTreeViewTest::testKeyboardNavigationSelectionUpdate() {
     QStringList items;
     items << "a" << "b" << "c" << "d" << "e";
     QStringListModel model(items);
@@ -96,32 +120,111 @@ void DolphinTreeViewTest::bug201459_firstLetterAndThenShiftClickSelection()
     view.show();
     QTest::qWaitForWindowShown(&view);
 
-    QItemSelectionModel* selectionModel = view.selectionModel();
-    QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
-    QCOMPARE(selectedIndexes.count(), 0);
+    view.clearSelection();
+    QVERIFY(view.selectionModel()->selectedIndexes().isEmpty());
+
+    /**
+     * Check that basic keyboard navigation with arrow keys works.
+     */
+
+    view.setCurrentIndex(index[0]);
+    verifyCurrentItemAndSelection(view, index[0]);
+
+    // Go down -> item 1 ("b") should be selected
+    kDebug() << "Down";
+    QTest::keyClick(view.viewport(), Qt::Key_Down);
+    verifyCurrentItemAndSelection(view, index[1]);
+
+    // Go down -> item 2 ("c") should be selected
+    kDebug() << "Down";
+    QTest::keyClick(view.viewport(), Qt::Key_Down);
+    verifyCurrentItemAndSelection(view, index[2]);
+
+    // Ctrl-Up -> item 2 ("c") remains selected
+    kDebug() << "Ctrl-Up";
+    QTest::keyClick(view.viewport(), Qt::Key_Up, Qt::ControlModifier);
+    verifyCurrentItemAndSelection(view, index[1], index[2]);
+
+    // Go up -> item 0 ("a") should be selected
+    kDebug() << "Up";
+    QTest::keyClick(view.viewport(), Qt::Key_Up);
+    verifyCurrentItemAndSelection(view, index[0]);
+
+    // Shift-Down -> items 0 and 1 ("a" and "b") should be selected
+    kDebug() << "Shift-Down";
+    QTest::keyClick(view.viewport(), Qt::Key_Down, Qt::ShiftModifier);
+    QModelIndexList expectedSelection;
+    expectedSelection << index[0] << index[1];
+    verifyCurrentItemAndSelection(view, index[1], expectedSelection);
+
+    /**
+    * When the first letter of a file name is pressed, this file becomes the current item
+    * and gets selected. If the user then Shift-clicks another item, it is expected that
+    * all items between these two items get selected. Before the bug
+    *
+    * https://bugs.kde.org/show_bug.cgi?id=201459
+    *
+    * was fixed, this was not the case: the starting point for the Shift-selection was not
+    * updated if an item was selected by pressing the first letter of the file name.
+    */
+
+    view.clearSelection();
+    QVERIFY(view.selectionModel()->selectedIndexes().isEmpty());
 
     // Control-click item 0 ("a")
+    kDebug() << "Ctrl-click on \"a\"";
     QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::ControlModifier, view.visualRect(index[0]).center());
-    QCOMPARE(view.currentIndex(), index[0]);
-    selectedIndexes = selectionModel->selectedIndexes();
-    QCOMPARE(selectedIndexes.count(), 1);
-    QVERIFY(selectedIndexes.contains(index[0]));
+    verifyCurrentItemAndSelection(view, index[0]);
 
     // Press "c", such that item 2 ("c") should be the current one.
+    kDebug() << "Press \"c\"";
     QTest::keyClick(view.viewport(), Qt::Key_C);
-    QCOMPARE(view.currentIndex(), index[2]);
-    selectedIndexes = selectionModel->selectedIndexes();
-    QCOMPARE(selectedIndexes.count(), 1);
-    QVERIFY(selectedIndexes.contains(index[2]));
+    verifyCurrentItemAndSelection(view, index[2]);
 
     // Now Shift-Click the last item ("e"). We expect that 3 items ("c", "d", "e") are selected.
+    kDebug() << "Shift-click on \"e\"";
     QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::ShiftModifier, view.visualRect(index[4]).center());
-    QCOMPARE(view.currentIndex(), index[4]);
-    selectedIndexes = selectionModel->selectedIndexes();
-    QCOMPARE(selectedIndexes.count(), 3);
-    QVERIFY(selectedIndexes.contains(index[2]));
-    QVERIFY(selectedIndexes.contains(index[3]));
-    QVERIFY(selectedIndexes.contains(index[4]));
+    expectedSelection.clear();
+    expectedSelection << index[2] << index[3] << index[4];
+    verifyCurrentItemAndSelection(view, index[4], expectedSelection);
+
+    /**
+     * Starting a drag&drop operation should not clear the selection, see
+     * 
+     * https://bugs.kde.org/show_bug.cgi?id=158649
+     */
+
+    view.clearSelection();
+    QVERIFY(view.selectionModel()->selectedIndexes().isEmpty());
+
+    // Click item 0 ("a")
+    kDebug() << "Click on \"a\"";
+    QTest::mouseClick(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.visualRect(index[0]).center());
+    verifyCurrentItemAndSelection(view, index[0]);
+
+    // Shift-Down -> "a" and "b" should be selected
+    kDebug() << "Shift-Down";
+    QTest::keyClick(view.viewport(), Qt::Key_Down, Qt::ShiftModifier);
+    expectedSelection.clear();
+    expectedSelection << index[0] << index[1];
+    verifyCurrentItemAndSelection(view, index[1], expectedSelection);
+
+    // Press mouse button on item 0 ("a"), but do not release it. Check that the selection is unchanged
+    kDebug() << "Mouse press on \"a\"";
+    QTest::mousePress(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.visualRect(index[0]).center());
+    verifyCurrentItemAndSelection(view, index[0], expectedSelection);
+
+    // Move mouse to item 1 ("b"), check that selection is unchanged
+    kDebug() << "Move mouse to \"b\"";
+    QMouseEvent moveEvent(QEvent::MouseMove, view.visualRect(index[1]).center(), Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    bool moveEventReceived = qApp->notify(view.viewport(), &moveEvent);
+    QVERIFY(moveEventReceived);
+    verifyCurrentItemAndSelection(view, index[0], expectedSelection);
+
+    // Release mouse button on item 1 ("b"), check that selection is unchanged
+    kDebug() << "Mouse release on \"b\"";
+    QTest::mouseRelease(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.visualRect(index[1]).center());
+    verifyCurrentItemAndSelection(view, index[0], expectedSelection);
 }
 
 /**
