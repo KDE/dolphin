@@ -50,9 +50,11 @@ private:
      */
     bool contentContainsPattern(const KUrl& fileName) const;
 
+    void cleanup();
 
     bool m_checkContent;
     QRegExp* m_regExp;
+    QSet<QString> m_iteratedDirs;
 };
 
 #endif
