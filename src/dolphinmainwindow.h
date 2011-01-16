@@ -229,7 +229,7 @@ private slots:
     /**
      * Switches between one and two views:
      * If one view is visible, it will get split into two views.
-     * If already two views are visible, the nonactivated view gets closed.
+     * If already two views are visible, the active view gets closed.
      */
     void toggleSplitView();
 
