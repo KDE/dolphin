@@ -34,20 +34,19 @@
 FileNameSearchProtocol::FileNameSearchProtocol( const QByteArray &pool, const QByteArray &app ) :
     SlaveBase("search", pool, app),
     m_checkContent(false),
-    m_regExp(0)
+    m_regExp(0),
+    m_iteratedDirs()
 {
 }
 
 FileNameSearchProtocol::~FileNameSearchProtocol()
 {
-    delete m_regExp;
-    m_regExp = 0;
+    cleanup();
 }
 
 void FileNameSearchProtocol::listDir(const KUrl& url)
 {
-    delete m_regExp;
-    m_regExp = 0;
+    cleanup();
 
     const QString search = url.queryItem("search");
     if (!search.isEmpty()) {
@@ -63,11 +62,17 @@ void FileNameSearchProtocol::listDir(const KUrl& url)
     const QString urlString = url.queryItem("url");
     searchDirectory(KUrl(urlString));
 
+    cleanup();
     finished();
 }
 
 void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
 {
+    if (directory.path() == QLatin1String("/proc")) {
+        // Don't try to iterate the /proc directory of Linux
+        return;
+    }
+
     // Get all items of the directory
     KDirLister *dirLister = new KDirLister();
     dirLister->setDelayedMimeTypes(false);
@@ -97,21 +102,21 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
         }
 
         if (item.isDir()) {
-            bool skipDir = false;
-            const KUrl itemDir = item.url();
             if (item.isLink()) {
-                // Assure that no endless searching is done if a link points
-                // to a parent directory
-                const KUrl linkDestDir = item.linkDest();
-                skipDir = linkDestDir.isParentOf(itemDir);
-            }
-
-            if (!skipDir) {
-                pendingDirs.append(itemDir);
+                // Assure that no endless searching is done in directories that
+                // have already been iterated.
+                const KUrl linkDest(item.url(), item.linkDest());
+                if (!m_iteratedDirs.contains(linkDest.path())) {
+                    pendingDirs.append(linkDest);
+                }
+            } else {
+                pendingDirs.append(item.url());
             }
         }
     }
     listEntry(KIO::UDSEntry(), true);
+
+    m_iteratedDirs.insert(directory.path());
 
     delete dirLister;
     dirLister = 0;
@@ -160,6 +165,13 @@ bool FileNameSearchProtocol::contentContainsPattern(const KUrl& fileName) const
      }
 
      return false;
+}
+
+void FileNameSearchProtocol::cleanup()
+{
+    delete m_regExp;
+    m_regExp = 0;
+    m_iteratedDirs.clear();
 }
 
 extern "C" int KDE_EXPORT kdemain( int argc, char **argv )
