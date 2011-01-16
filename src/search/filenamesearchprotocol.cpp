@@ -97,7 +97,18 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
         }
 
         if (item.isDir()) {
-            pendingDirs.append(item.url());
+            bool skipDir = false;
+            const KUrl itemDir = item.url();
+            if (item.isLink()) {
+                // Assure that no endless searching is done if a link points
+                // to a parent directory
+                const KUrl linkDestDir = item.linkDest();
+                skipDir = linkDestDir.isParentOf(itemDir);
+            }
+
+            if (!skipDir) {
+                pendingDirs.append(itemDir);
+            }
         }
     }
     listEntry(KIO::UDSEntry(), true);
