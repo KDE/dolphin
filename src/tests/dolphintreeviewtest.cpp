@@ -36,6 +36,7 @@ private slots:
     void testKeyboardNavigationSelectionUpdate();
 
     void bug218114_visualRegionForSelection();
+    void bug220898_focusOut();
 
 private:
 
@@ -331,6 +332,82 @@ void DolphinTreeViewTest::bug218114_visualRegionForSelection()
     QVERIFY(boundingRect.contains(view.visualRect(index0)));
     QVERIFY(boundingRect.contains(view.visualRect(index1)));
     QVERIFY(boundingRect.contains(view.visualRect(index2)));
+}
+
+/**
+ * This test verifies that selection of multiple items with the mouse works
+ * if a key was pressed and the keyboard focus moved to another window before the
+ * key was released, see
+ *
+ * https://bugs.kde.org/show_bug.cgi?id=220898
+ */
+
+void DolphinTreeViewTest::bug220898_focusOut()
+{
+    QStringList items;
+    items << "a" << "b" << "c" << "d" << "e";
+    QStringListModel model(items);
+
+    QModelIndex index[5];
+    for (int i = 0; i < 5; i++) {
+        index[i] = model.index(i, 0);
+    }
+
+    TestView view;
+    view.setModel(&model);
+    view.setSelectionMode(QAbstractItemView::ExtendedSelection);
+    view.resize(400, 400);
+    view.show();
+    QTest::qWaitForWindowShown(&view);
+
+    view.setCurrentIndex(index[0]);
+    verifyCurrentItemAndSelection(view, index[0]);
+
+    // Press Down
+    QTest::keyPress(view.viewport(), Qt::Key_Down, Qt::NoModifier);
+
+    // Move keyboard focus to another widget
+    QWidget widget;
+    widget.show();
+    QTest::qWaitForWindowShown(&widget);
+    widget.setFocus();
+
+    // Wait until the widgets have received the focus events
+    while (view.viewport()->hasFocus() || !widget.hasFocus()) {
+        QTest::qWait(10);
+    }
+    QVERIFY(widget.hasFocus());
+    QVERIFY(!view.viewport()->hasFocus());
+
+    // Release the "Down" key
+    QTest::keyRelease(&widget, Qt::Key_Down, Qt::NoModifier);
+
+    // Move keyboard focus back to the view
+    widget.hide();
+    view.viewport()->setFocus();
+
+    // Wait until the widgets have received the focus events
+    while (!view.viewport()->hasFocus() || widget.hasFocus()) {
+        QTest::qWait(10);
+    }
+    QVERIFY(!widget.hasFocus());
+    QVERIFY(view.viewport()->hasFocus());
+
+    // Press left mouse button below the last item
+    const int lastRowHeight = view.sizeHintForRow(4);
+    QTest::mousePress(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.visualRect(index[4]).center() + QPoint(0, lastRowHeight));
+
+    // Move mouse to the first item and release
+    QTest::mouseMove(view.viewport(), view.visualRect(index[0]).center());
+    QMouseEvent moveEvent(QEvent::MouseMove, view.visualRect(index[0]).center(), Qt::NoButton, Qt::LeftButton, Qt::NoModifier);
+    bool moveEventReceived = qApp->notify(view.viewport(), &moveEvent);
+    QVERIFY(moveEventReceived);
+    QTest::mouseRelease(view.viewport(), Qt::LeftButton, Qt::NoModifier, view.visualRect(index[0]).center());
+
+    // All items should be selected
+    QModelIndexList expectedSelection;
+    expectedSelection << index[0] << index[1] << index[2] << index[3] << index[4];
+    verifyCurrentItemAndSelection(view, index[0], expectedSelection);
 }
 
 QTEST_KDEMAIN(DolphinTreeViewTest, GUI)
