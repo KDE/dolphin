@@ -41,6 +41,7 @@ public:
     virtual ~DolphinTreeView();
 
     virtual QModelIndex indexAt (const QPoint& point) const;
+    virtual void keyboardSearch(const QString & search);
     virtual QRegion visualRegionForSelection(const QItemSelection& selection) const;
 
 protected:
@@ -60,9 +61,6 @@ protected:
     virtual void dragMoveEvent(QDragMoveEvent* event);
     virtual void dragLeaveEvent(QDragLeaveEvent* event);
     virtual void paintEvent(QPaintEvent* event);
-    virtual void keyPressEvent(QKeyEvent* event);
-    virtual void keyReleaseEvent(QKeyEvent* event);
-    virtual void currentChanged(const QModelIndex& current, const QModelIndex& previous);
     virtual void setSelection(const QRect& rect, QItemSelectionModel::SelectionFlags command);
     virtual void scrollTo(const QModelIndex& index, ScrollHint hint = EnsureVisible);
 
@@ -95,7 +93,6 @@ private:
     bool isAboveExpandingToggle(const QPoint& pos) const;
 
 private:
-    bool m_updateCurrentIndex;
     bool m_expandingTogglePressed;
     bool m_useDefaultIndexAt; // true, if QTreeView::indexAt() should be used
     bool m_ignoreScrollTo;    // true if calls to scrollTo(...) should do nothing.

@@ -31,7 +31,6 @@
 
 DolphinTreeView::DolphinTreeView(QWidget* parent) :
     QTreeView(parent),
-    m_updateCurrentIndex(false),
     m_expandingTogglePressed(false),
     m_useDefaultIndexAt(true),
     m_ignoreScrollTo(false),
@@ -43,6 +42,17 @@ DolphinTreeView::DolphinTreeView(QWidget* parent) :
 
 DolphinTreeView::~DolphinTreeView()
 {
+}
+
+void DolphinTreeView::keyboardSearch(const QString & search)
+{
+    const QModelIndex oldCurrent = currentIndex();
+    QTreeView::keyboardSearch(search);
+    if (currentIndex() != oldCurrent) {
+        // The current index has changed, but it is not selected yet.
+        // To select it, we call setCurrentIndex(...).
+        setCurrentIndex(currentIndex());
+    }
 }
 
 QRegion DolphinTreeView::visualRegionForSelection(const QItemSelection& selection) const
@@ -71,12 +81,6 @@ bool DolphinTreeView::event(QEvent* event)
     switch (event->type()) {
     case QEvent::Polish:
         m_useDefaultIndexAt = false;
-        break;
-    case QEvent::FocusOut:
-        // If a key-press triggers an action that e. g. opens a dialog, the
-        // widget gets no key-release event. Assure that the pressed state
-        // is reset to prevent accidently setting the current index during a selection.
-        m_updateCurrentIndex = false;
         break;
     default:
         break;
@@ -235,30 +239,6 @@ void DolphinTreeView::paintEvent(QPaintEvent* event)
         painter.save();
         style()->drawControl(QStyle::CE_RubberBand, &opt, &painter);
         painter.restore();
-    }
-}
-
-void DolphinTreeView::keyPressEvent(QKeyEvent* event)
-{
-    // See DolphinTreeView::currentChanged() for more information about m_updateCurrentIndex
-    m_updateCurrentIndex = (event->modifiers() == Qt::NoModifier);
-    QTreeView::keyPressEvent(event);
-}
-
-void DolphinTreeView::keyReleaseEvent(QKeyEvent* event)
-{
-    QTreeView::keyReleaseEvent(event);
-    m_updateCurrentIndex = false;
-}
-
-void DolphinTreeView::currentChanged(const QModelIndex& current, const QModelIndex& previous)
-{
-    QTreeView::currentChanged(current, previous);
-
-    // Stay consistent with QListView: When changing the current index by key presses
-    // without modifiers, also change the selection.
-    if (m_updateCurrentIndex) {
-        setCurrentIndex(current);
     }
 }
 
