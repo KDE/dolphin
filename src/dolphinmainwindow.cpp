@@ -844,6 +844,7 @@ void DolphinMainWindow::replaceLocation()
 {
     KUrlNavigator* navigator = m_activeViewContainer->urlNavigator();
     navigator->setUrlEditable(true);
+    navigator->setFocus();
 
     // select the whole text of the combo box editor
     QLineEdit* lineEdit = navigator->editor()->lineEdit();  // krazy:exclude=qclasses
