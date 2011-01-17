@@ -263,14 +263,6 @@ void FoldersPanel::updateMouseButtons()
 void FoldersPanel::slotDirListerCompleted()
 {
     m_treeView->resizeColumnToContents(DolphinModel::Name);
-
-    if (m_setLeafVisible) {
-        // Invoke scrollToLeaf() asynchronously. This assures that
-        // the horizontal scrollbar is shown after resizing the column
-        // (otherwise the scrollbar might hide the leaf).
-        QTimer::singleShot(0, this, SLOT(scrollToLeaf()));
-        m_setLeafVisible = false;
-    }
 }
 
 void FoldersPanel::slotHorizontalScrollBarMoved(int value)
@@ -315,9 +307,18 @@ void FoldersPanel::selectLeafDirectory()
 {
     const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+
     if (proxyIndex.isValid()) {
         QItemSelectionModel* selModel = m_treeView->selectionModel();
         selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::ClearAndSelect);
+
+        if (m_setLeafVisible) {
+            // Invoke scrollToLeaf() asynchronously. This assures that
+            // the horizontal scrollbar is shown after resizing the column
+            // (otherwise the scrollbar might hide the leaf).
+            QTimer::singleShot(0, this, SLOT(scrollToLeaf()));
+            m_setLeafVisible = false;
+        }
     }
 }
 
