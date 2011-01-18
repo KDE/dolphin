@@ -133,6 +133,7 @@ private:
     QLabel* m_nameLabel;
     KFileMetaDataWidget* m_metaDataWidget;
     QScrollArea* m_metaDataArea;
+    QStringList m_enabledPlugins;
 };
 
 #endif // INFORMATIONPANELCONTENT_H
