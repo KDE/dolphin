@@ -34,9 +34,10 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinModel : public KDirModel
 
 public:
     enum AdditionalColumns {
-        Version = KDirModel::ColumnCount,
-        LinkDest,
+        LinkDest = KDirModel::ColumnCount,
         LocalPathOrUrl,
+        // Assure that invisible columns are added as last entries:
+        Version,
         ExtraColumnCount // Mandatory last entry
     };
 
