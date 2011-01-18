@@ -20,8 +20,10 @@
 #include "tooltipmanager.h"
 
 #include "filemetadatatooltip.h"
+#include <KConfigGroup>
 #include <KIcon>
 #include <KIO/PreviewJob>
+#include <KSharedConfig>
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -45,7 +47,8 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_metaDataRequested(false),
     m_appliedWaitCursor(false),
     m_item(),
-    m_itemRect()
+    m_itemRect(),
+    m_enabledPlugins()
 {
     static FileMetaDataToolTip* sharedToolTip = 0;
     if (sharedToolTip == 0) {
@@ -168,7 +171,14 @@ void ToolTipManager::startContentRetrieval()
     // Request a preview of the item
     m_fileMetaDataToolTip->setPreview(QPixmap());
 
-    KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item, 256, 256);
+    if (m_enabledPlugins.isEmpty()) {
+        const KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+        m_enabledPlugins = globalConfig.readEntry("Plugins", QStringList()
+                                                             << "directorythumbnail"
+                                                             << "imagethumbnail"
+                                                             << "jpegthumbnail");
+    }
+    KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item, 256, 256, true, true, &m_enabledPlugins);
 
     connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
             this, SLOT(setPreviewPix(const KFileItem&, const QPixmap&)));

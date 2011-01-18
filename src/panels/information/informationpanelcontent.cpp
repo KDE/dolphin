@@ -63,7 +63,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_phononWidget(0),
     m_nameLabel(0),
     m_metaDataWidget(0),
-    m_metaDataArea(0)
+    m_metaDataArea(0),
+    m_enabledPlugins()
 {
     parent->installEventFilter(this);
 
@@ -173,13 +174,16 @@ void InformationPanelContent::showItem(const KFileItem& item)
                 m_outdatedPreviewTimer->start();
             }
 
-            KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item,
-                                                    m_preview->width(),
-                                                    m_preview->height(),
-                                                    0,
-                                                    0,
-                                                    false,
-                                                    true);
+            if (m_enabledPlugins.isEmpty()) {
+                const KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+                m_enabledPlugins = globalConfig.readEntry("Plugins", QStringList()
+                                                                     << "directorythumbnail"
+                                                                     << "imagethumbnail"
+                                                                     << "jpegthumbnail");
+            }
+
+            KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item, m_preview->width(), m_preview->height(),
+                                                    0, 0, false, true, &m_enabledPlugins);
 
             connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
                     this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
