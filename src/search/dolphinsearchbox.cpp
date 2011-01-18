@@ -377,8 +377,10 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
     Nepomuk::Query::FileQuery fileQuery;
     fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
     fileQuery.setTerm(andTerm);
-    if(m_fromHereButton->isChecked())
-        fileQuery.addIncludeFolder(m_searchPath, false);
+    if (m_fromHereButton->isChecked()) {
+        const bool recursive = true;
+        fileQuery.addIncludeFolder(m_searchPath, recursive);
+    }
 
     return fileQuery.toSearchUrl(i18nc("@title UDS_DISPLAY_NAME for a KIO directory listing. %1 is the query the user entered.",
                                        "Query Results from '%1'",
