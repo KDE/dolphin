@@ -375,7 +375,7 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
     }
 
     Nepomuk::Query::FileQuery fileQuery;
-    fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
+    fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFilesAndFolders);
     fileQuery.setTerm(andTerm);
     if (m_fromHereButton->isChecked()) {
         const bool recursive = true;
