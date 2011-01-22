@@ -33,7 +33,7 @@ class SettingsPageBase : public QWidget
     Q_OBJECT
 
 public:
-    explicit SettingsPageBase(QWidget* parent);
+    explicit SettingsPageBase(QWidget* parent = 0);
     virtual ~SettingsPageBase();
 
     /**

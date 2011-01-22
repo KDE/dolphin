@@ -36,7 +36,7 @@ class DolphinSettingsDialog : public KPageDialog
     Q_OBJECT
 
 public:
-    explicit DolphinSettingsDialog(const KUrl& url, QWidget* parent);
+    explicit DolphinSettingsDialog(const KUrl& url, QWidget* parent = 0);
     virtual ~DolphinSettingsDialog();
 
 protected slots:

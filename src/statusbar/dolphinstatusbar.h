@@ -57,7 +57,7 @@ public:
         Error = KonqStatusBarMessageLabel::Error
     };
 
-    explicit DolphinStatusBar(QWidget* parent, DolphinView* view);
+    DolphinStatusBar(QWidget* parent, DolphinView* view);
 
     virtual ~DolphinStatusBar();
 

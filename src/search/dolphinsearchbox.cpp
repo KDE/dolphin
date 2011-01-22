@@ -163,7 +163,7 @@ void DolphinSearchBox::showEvent(QShowEvent* event)
 void DolphinSearchBox::keyReleaseEvent(QKeyEvent* event)
 {
     QWidget::keyReleaseEvent(event);
-    if ((event->key() == Qt::Key_Escape)) {
+    if (event->key() == Qt::Key_Escape) {
         if (m_searchInput->text().isEmpty()) {
             emit closeRequest();
         } else {

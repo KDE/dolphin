@@ -17,7 +17,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-
 #ifndef DOLPHIN_DOCK_WIDGET_H
 #define DOLPHIN_DOCK_WIDGET_H
 
@@ -31,8 +30,8 @@ class DolphinDockWidget : public QDockWidget
     Q_OBJECT
 
 public:
-    DolphinDockWidget(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
-    DolphinDockWidget(QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    explicit DolphinDockWidget(const QString& title, QWidget* parent = 0, Qt::WindowFlags flags = 0);
+    explicit DolphinDockWidget(QWidget* parent = 0, Qt::WindowFlags flags = 0);
     virtual ~DolphinDockWidget();
 
     /**

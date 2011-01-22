@@ -45,7 +45,7 @@ class DolphinSearchBox : public QWidget {
     Q_OBJECT
 
 public:
-    DolphinSearchBox(QWidget* parent = 0);
+    explicit DolphinSearchBox(QWidget* parent = 0);
     virtual ~DolphinSearchBox();
 
     /**

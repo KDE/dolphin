@@ -18,7 +18,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-
 #ifndef _DOLPHIN_APPLICATION_H
 #define _DOLPHIN_APPLICATION_H
 
