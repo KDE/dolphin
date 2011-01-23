@@ -34,6 +34,7 @@
 #include <QKeyEvent>
 #include <QLabel>
 #include <QPushButton>
+#include <QScrollArea>
 #include <QTimer>
 #include <QToolButton>
 #include <QVBoxLayout>
@@ -299,9 +300,22 @@ void DolphinSearchBox::init()
     optionsLayout->addWidget(m_everywhereButton);
     optionsLayout->addStretch(1);
 
+    // Put the options into a QScrollArea. This prevents increasing the view width
+    // in case that not enough width for the options is available.
+    QWidget* optionsContainer = new QWidget(this);
+    optionsContainer->setLayout(optionsLayout);
+    QScrollArea* optionsScrollArea = new QScrollArea(this);
+    optionsScrollArea->setFrameShape(QFrame::NoFrame);
+    optionsScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    optionsScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    optionsScrollArea->setMaximumHeight(optionsContainer->sizeHint().height());
+    optionsScrollArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    optionsScrollArea->setWidget(optionsContainer);
+    optionsScrollArea->setWidgetResizable(true);
+
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->addLayout(searchInputLayout);
-    m_topLayout->addLayout(optionsLayout);
+    m_topLayout->addWidget(optionsScrollArea);
 
     searchLabel->setBuddy(m_searchInput);
     loadSettings();
