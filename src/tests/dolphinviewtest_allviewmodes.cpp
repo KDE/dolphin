@@ -37,6 +37,13 @@ DolphinViewTest_AllViewModes::DolphinViewTest_AllViewModes() {
 }
 
 void DolphinViewTest_AllViewModes::init() {
+    if (mode() == DolphinView::ColumnView) {
+        // In Columns View mode, we need to create a new DolphinView after each
+        // test to make the file-related tests after the first one pass.
+        // TODO: Try to find out if there is a hidden bug in the Columns View that causes this.
+        delete m_view;
+        m_view = new DolphinView(KUrl(m_path), 0);
+    }
     m_view->setMode(mode());
     QVERIFY(verifyCorrectViewMode());
     m_view->resize(200, 300);
@@ -142,13 +149,6 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
 
     m_view->setShowHiddenFiles(false);
     QVERIFY(!m_view->showHiddenFiles());
-
-    if (mode() == DolphinView::ColumnView) {
-        // If the columns view is used, the view is empty before calling qApp->sendPostedEvents.
-        // It seems that some event needs to be processed to see the items in the view.
-        // TODO: Find out why this is needed for the columns view, but not for the other view modes.
-        qApp->sendPostedEvents();
-    }
 
     /** Check that the sort order is correct for different kinds of settings */
 
