@@ -27,6 +27,9 @@
 #include "views/dolphinmodel.h"
 #include "views/dolphindirlister.h"
 #include "views/dolphinsortfilterproxymodel.h"
+#include "views/zoomlevelinfo.h"
+
+#include <QtGui/QScrollBar>
 
 #include <qtestmouse.h>
 #include <qtestkeyboard.h>
@@ -105,15 +108,22 @@ void DolphinViewTest_AllViewModes::testSelection() {
     QTest::mouseClick(itemView()->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView()->visualRect(index).center());
     verifySelectedItemsCount(1);
 
-    index = itemView()->model()->index(45, 0);
+    index = itemView()->model()->index(totalItems - 5, 0);
     itemView()->scrollTo(index);
     QTest::mouseClick(itemView()->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView()->visualRect(index).center());
     verifySelectedItemsCount(2);
 
-    index = itemView()->model()->index(48, 0);
+    index = itemView()->model()->index(totalItems - 2, 0);
     itemView()->scrollTo(index);
     QTest::mouseClick(itemView()->viewport(), Qt::LeftButton, Qt::ShiftModifier, itemView()->visualRect(index).center());
     verifySelectedItemsCount(5);
+
+    m_view->invertSelection();
+    verifySelectedItemsCount(totalItems - 5);
+
+    // Pressing Esc should clear the selection
+    QTest::keyClick(itemView()->viewport(), Qt::Key_Escape);
+    verifySelectedItemsCount(0);
 }
 
 /**
@@ -211,6 +221,147 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
     QVERIFY(m_view->showPreview());
 
     // TODO: Check that the view properties are restored correctly when changing the folder and then going back.
+}
+
+/**
+ * testZoomLevel() checks that setting the zoom level works, both using DolphinView's API and using Ctrl+mouse wheel.
+ */
+
+void DolphinViewTest_AllViewModes::testZoomLevel()
+{
+    createFiles(QStringList() << "a" << "b");
+    reloadViewAndWait();
+
+    m_view->setShowPreview(false);
+    QVERIFY(!m_view->showPreview());
+
+    int zoomLevelBackup = m_view->zoomLevel();
+
+    int zoomLevel = ZoomLevelInfo::minimumLevel();
+    m_view->setZoomLevel(zoomLevel);
+    QCOMPARE(m_view->zoomLevel(), zoomLevel);
+
+    // Increase the zoom level successively to the maximum.
+    while(zoomLevel < ZoomLevelInfo::maximumLevel()) {
+        zoomLevel++;
+        m_view->setZoomLevel(zoomLevel);
+        QCOMPARE(m_view->zoomLevel(), zoomLevel);
+    }
+
+    // Try setting a zoom level larger than the maximum
+    m_view->setZoomLevel(ZoomLevelInfo::maximumLevel() + 1);
+    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::maximumLevel());
+
+    // Turn previews on and try setting a zoom level smaller than the minimum
+    m_view->setShowPreview(true);
+    QVERIFY(m_view->showPreview());
+    m_view->setZoomLevel(ZoomLevelInfo::minimumLevel() - 1);
+    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::minimumLevel());
+
+    // Turn previews off again and check that the zoom level is restored
+    m_view->setShowPreview(false);
+    QVERIFY(!m_view->showPreview());
+    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::maximumLevel());
+
+    // Change the zoom level using Ctrl+mouse wheel
+    QModelIndex index = itemView()->model()->index(0, 0);
+    itemView()->scrollTo(index);
+
+    while (m_view->zoomLevel() > ZoomLevelInfo::minimumLevel()) {
+        int oldZoomLevel = m_view->zoomLevel();
+        QWheelEvent wheelEvent(itemView()->visualRect(index).center(), -1, Qt::NoButton, Qt::ControlModifier);
+        bool wheelEventReceived = qApp->notify(itemView()->viewport(), &wheelEvent);
+        QVERIFY(wheelEventReceived);
+        QVERIFY(m_view->zoomLevel() < oldZoomLevel);
+    }
+    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::minimumLevel());
+
+    while (m_view->zoomLevel() < ZoomLevelInfo::maximumLevel()) {
+        int oldZoomLevel = m_view->zoomLevel();
+        QWheelEvent wheelEvent(itemView()->visualRect(index).center(), 1, Qt::NoButton, Qt::ControlModifier);
+        bool wheelEventReceived = qApp->notify(itemView()->viewport(), &wheelEvent);
+        QVERIFY(wheelEventReceived);
+        QVERIFY(m_view->zoomLevel() > oldZoomLevel);
+    }
+    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::maximumLevel());
+
+    // Turn previews on again and check that the zoom level is restored
+    m_view->setShowPreview(true);
+    QVERIFY(m_view->showPreview());
+    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::minimumLevel());
+
+    // Restore the initial state
+    m_view->setZoomLevel(zoomLevelBackup);
+    m_view->setShowPreview(false);
+    m_view->setZoomLevel(zoomLevelBackup);
+}
+
+/**
+ * testSaveAndRestoreState() checks if saving and restoring the view state (current item, scroll position).
+ *
+ * Note that we call qApp->sendPostedEvents() every time the view's finishedPathLoading(const KUrl&) signal
+ * is received. The reason is that the scroll position is restored in the slot restoreContentsPosition(),
+ * which is been invoked using a queued connection in DolphinView::slotLoadingCompleted(). To make sure
+ * that this slot is really executed before we proceed, we have to empty the event queue using qApp->sendPostedEvents().
+ */
+
+void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
+{
+    const int totalItems = 50;
+
+    for (int i = 0; i < totalItems; i++) {
+        createFile(QString("%1").arg(i));
+    }
+    createDir("51");
+    reloadViewAndWait();
+
+    // Set sorting settings to the default to make sure that the item positions are reproducible.
+    m_view->setSorting(DolphinView::SortByName);
+    QCOMPARE(m_view->sorting(), DolphinView::SortByName);
+    m_view->setSortOrder(Qt::AscendingOrder);
+    QCOMPARE(m_view->sortOrder(), Qt::AscendingOrder);
+
+    const QModelIndex index45 = itemView()->model()->index(45, 0);
+    itemView()->scrollTo(index45);
+    itemView()->setCurrentIndex(index45);
+    const int scrollPosX = itemView()->horizontalScrollBar()->value();
+    const int scrollPosY = itemView()->verticalScrollBar()->value();
+
+    // Save the view state
+    QByteArray viewState;
+    QDataStream saveStream(&viewState, QIODevice::WriteOnly);
+    m_view->saveState(saveStream);
+
+    // Change the URL and then go back
+    m_view->setUrl(m_path + "/51");
+    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    qApp->sendPostedEvents();
+
+    m_view->setUrl(m_path);
+    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    qApp->sendPostedEvents();
+
+    // Verify that the view is scrolled to top and that item 45 is not the current item
+    QVERIFY(itemView()->currentIndex() != index45);
+    QCOMPARE(itemView()->horizontalScrollBar()->value(), 0);
+    QCOMPARE(itemView()->verticalScrollBar()->value(), 0);
+
+    // Change the URL again
+    m_view->setUrl(m_path + "/51");
+    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    qApp->sendPostedEvents();
+
+    // Check that the current item and scroll position are correct if DolphinView::restoreState()
+    // is called after the URL change
+    m_view->setUrl(m_path);
+    QDataStream restoreStream(viewState);
+    m_view->restoreState(restoreStream);
+    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    qApp->sendPostedEvents();
+
+    QCOMPARE(itemView()->currentIndex(), index45);
+    QCOMPARE(itemView()->horizontalScrollBar()->value(), scrollPosX);
+    QCOMPARE(itemView()->verticalScrollBar()->value(), scrollPosY);
 }
 
 /**

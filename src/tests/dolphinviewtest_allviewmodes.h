@@ -50,6 +50,8 @@ private slots:
 
     void testSelection();
     void testViewPropertySettings();
+    void testZoomLevel();
+    void testSaveAndRestoreState();
 
     void testKeyboardFocus();
 
