@@ -217,14 +217,25 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
  * testKeyboardFocus() checks whether a view grabs the keyboard focus.
  *
  * A view may never grab the keyboard focus itself and must respect the focus-state
- * when switching the view mode.
+ * when switching the view mode, see
+ *
+ * https://bugs.kde.org/show_bug.cgi?id=261147
  */
 
 void DolphinViewTest_AllViewModes::testKeyboardFocus()
 {
     const DolphinView::Mode mode = m_view->mode();
 
+    // Move keyboard focus to another widget. To see that this is needed, run only this test,
+    // i.e., pass 'testKeyboardFocus' as a parameter on the command line.
+    QWidget widget;
+    widget.show();
+    QTest::qWaitForWindowShown(&widget);
+    widget.setFocus();
+
     QVERIFY(!m_view->hasFocus());
+
+    // Switch view modes and verify that the view does not get the focus back
     for (int i = 0; i <= DolphinView::MaxModeEnum; ++i) {
         m_view->setMode(static_cast<DolphinView::Mode>(i));
         QVERIFY(!m_view->hasFocus());
