@@ -1126,7 +1126,9 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
 
         if (tab.secondaryView != 0) {
             const KUrl secondaryUrl = tab.secondaryView->url();
-            window->toggleSplitView();
+            if (window->m_viewTab[0].secondaryView == 0) {
+                window->toggleSplitView();
+            }
             window->m_viewTab[0].secondaryView->setUrl(secondaryUrl);
             if (tab.primaryView->isActive()) {
                 window->m_viewTab[0].primaryView->setActive(true);
