@@ -22,6 +22,7 @@
 #include "dolphinmodel.h"
 #include "selectiontoggle.h"
 #include <kdirmodel.h>
+#include <kglobalsettings.h>
 #include <kiconeffect.h>
 
 #include <QAbstractButton>
@@ -115,7 +116,9 @@ void SelectionManager::slotEntered(const QModelIndex& index)
                             (index.column() == DolphinModel::Name) &&
                             (QApplication::mouseButtons() == Qt::NoButton);
     if (showToggle) {
-        applyPointingHandCursor();
+        if (KGlobalSettings::singleClick()) {
+            applyPointingHandCursor();
+        }
 
         m_toggle->setUrl(urlForIndex(index));
 
