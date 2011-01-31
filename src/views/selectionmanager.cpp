@@ -20,7 +20,9 @@
 #include "selectionmanager.h"
 
 #include "dolphinmodel.h"
+#include "dolphin_generalsettings.h"
 #include "selectiontoggle.h"
+#include "settings/dolphinsettings.h"
 #include <kdirmodel.h>
 #include <kglobalsettings.h>
 #include <kiconeffect.h>
@@ -46,12 +48,16 @@ SelectionManager::SelectionManager(QAbstractItemView* parent) :
             this, SLOT(slotEntered(const QModelIndex&)));
     connect(parent, SIGNAL(viewportEntered()),
             this, SLOT(slotViewportEntered()));
-    m_toggle = new SelectionToggle(m_view->viewport());
-    m_toggle->setCheckable(true);
-    m_toggle->hide();
-    connect(m_toggle, SIGNAL(clicked(bool)),
-            this, SLOT(setItemSelected(bool)));
-    m_toggle->installEventFilter(this);
+
+    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    if (settings->showSelectionToggle()) {
+        m_toggle = new SelectionToggle(m_view->viewport());
+        m_toggle->setCheckable(true);
+        m_toggle->hide();
+        connect(m_toggle, SIGNAL(clicked(bool)),
+                this, SLOT(setItemSelected(bool)));
+        m_toggle->installEventFilter(this);
+    }
 
     m_view->viewport()->installEventFilter(this);
 }
@@ -65,15 +71,20 @@ bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
     if (watched == m_view->viewport()) {
         switch (event->type()) {
         case QEvent::Leave:
-            m_toggle->hide();
+            if (m_toggle != 0) {
+                m_toggle->hide();
+            }
+            restoreCursor();
             break;
 
         case QEvent::MouseButtonPress: {
             // Set the toggle invisible, if a mouse button has been pressed
             // outside the toggle boundaries. This e.g. assures, that the toggle
             // gets invisible during dragging items.
-            const QRect toggleBounds(m_toggle->mapToGlobal(QPoint(0, 0)), m_toggle->size());
-            m_toggle->setVisible(toggleBounds.contains(QCursor::pos()));
+            if (m_toggle != 0) {
+                const QRect toggleBounds(m_toggle->mapToGlobal(QPoint(0, 0)), m_toggle->size());
+                m_toggle->setVisible(toggleBounds.contains(QCursor::pos()));
+            }
             break;
         }
 
@@ -82,12 +93,6 @@ bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
         }
     } else if (watched == m_toggle) {
         switch (event->type()) {
-        case QEvent::Hide:
-            // If the toggle button gets hidden, the cursor is not above the item
-            // anymore and the shape must get restored
-            restoreCursor();
-            break;
-
         case QEvent::Enter:
             QApplication::changeOverrideCursor(Qt::ArrowCursor);
             break;
@@ -106,22 +111,23 @@ bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
 
 void SelectionManager::reset()
 {
-    m_toggle->reset();
+    if (m_toggle != 0) {
+        m_toggle->reset();
+    }
 }
 
 void SelectionManager::slotEntered(const QModelIndex& index)
 {
-    m_toggle->hide();
-    const bool showToggle = index.isValid() &&
-                            (index.column() == DolphinModel::Name) &&
-                            (QApplication::mouseButtons() == Qt::NoButton);
-    if (showToggle) {
-        if (KGlobalSettings::singleClick()) {
-            applyPointingHandCursor();
-        }
+    const bool isSelectionCandidate = index.isValid() &&
+                                      (index.column() == DolphinModel::Name) &&
+                                      (QApplication::mouseButtons() == Qt::NoButton);
 
-        m_toggle->setUrl(urlForIndex(index));
+    restoreCursor();
+    if (isSelectionCandidate && KGlobalSettings::singleClick()) {
+        applyPointingHandCursor();
+    }
 
+    if (isSelectionCandidate) {
         if (!m_connected) {
             connect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
                     this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
@@ -131,6 +137,23 @@ void SelectionManager::slotEntered(const QModelIndex& index)
                     SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
             m_connected = true;
         }
+    } else {
+        disconnect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
+                   this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
+        disconnect(m_view->selectionModel(),
+                   SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
+                   this,
+                   SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
+        m_connected = false;
+    }
+
+    if (m_toggle == 0) {
+        return;
+    }
+
+    m_toggle->hide();
+    if (isSelectionCandidate) {
+        m_toggle->setUrl(urlForIndex(index));
 
         // Increase the size of the toggle for large items
         const int iconHeight = m_view->iconSize().height();
@@ -159,26 +182,22 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         m_toggle->show();
     } else {
         m_toggle->setUrl(KUrl());
-        disconnect(m_view->model(), SIGNAL(rowsRemoved(const QModelIndex&, int, int)),
-                   this, SLOT(slotRowsRemoved(const QModelIndex&, int, int)));
-        disconnect(m_view->selectionModel(),
-                   SIGNAL(selectionChanged(const QItemSelection&, const QItemSelection&)),
-                   this,
-                   SLOT(slotSelectionChanged(const QItemSelection&, const QItemSelection&)));
-        m_connected = false;
     }
 }
 
 void SelectionManager::slotViewportEntered()
 {
-    m_toggle->hide();
+    if (m_toggle != 0) {
+        m_toggle->hide();
+    }
+    restoreCursor();
 }
 
 void SelectionManager::setItemSelected(bool selected)
 {
     emit selectionChanged();
 
-    if (!m_toggle->url().isEmpty()) {
+    if ((m_toggle != 0) && !m_toggle->url().isEmpty()) {
         const QModelIndex index = indexForUrl(m_toggle->url());
         if (index.isValid()) {
             QItemSelectionModel* selModel = m_view->selectionModel();
@@ -197,7 +216,10 @@ void SelectionManager::slotRowsRemoved(const QModelIndex& parent, int start, int
     Q_UNUSED(parent);
     Q_UNUSED(start);
     Q_UNUSED(end);
-    m_toggle->hide();
+    if (m_toggle != 0) {
+        m_toggle->hide();
+    }
+    restoreCursor();
 }
 
 void SelectionManager::slotSelectionChanged(const QItemSelection& selected,
@@ -206,7 +228,7 @@ void SelectionManager::slotSelectionChanged(const QItemSelection& selected,
     // The selection has been changed outside the scope of the selection manager
     // (e. g. by the rubberband or the "Select All" action). Take care updating
     // the state of the toggle button.
-    if (!m_toggle->url().isEmpty()) {
+    if ((m_toggle != 0) && !m_toggle->url().isEmpty()) {
         const QModelIndex index = indexForUrl(m_toggle->url());
         if (index.isValid()) {
             if (selected.contains(index)) {

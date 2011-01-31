@@ -77,13 +77,11 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
             this, SLOT(slotShowPreviewChanged()));
 
     // initialize selection manager
-    if (settings->showSelectionToggle()) {
-        m_selectionManager = new SelectionManager(view);
-        connect(m_selectionManager, SIGNAL(selectionChanged()),
-                this, SLOT(requestActivation()));
-        connect(viewModeController, SIGNAL(urlChanged(const KUrl&)),
-                m_selectionManager, SLOT(reset()));
-    }
+    m_selectionManager = new SelectionManager(view);
+    connect(m_selectionManager, SIGNAL(selectionChanged()),
+            this, SLOT(requestActivation()));
+    connect(viewModeController, SIGNAL(urlChanged(const KUrl&)),
+            m_selectionManager, SLOT(reset()));
 
     // initialize auto scroller
     m_autoScroller = new DolphinViewAutoScroller(view);
