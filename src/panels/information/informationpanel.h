@@ -35,9 +35,6 @@ public:
     explicit InformationPanel(QWidget* parent = 0);
     virtual ~InformationPanel();
 
-    /** @see QWidget::sizeHint() */
-    virtual QSize sizeHint() const;
-
 signals:
     void urlActivated(const KUrl& url);
 

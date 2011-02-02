@@ -46,13 +46,6 @@ TerminalPanel::~TerminalPanel()
 {
 }
 
-QSize TerminalPanel::sizeHint() const
-{
-    QSize size = Panel::sizeHint();
-    size.setHeight(200);
-    return size;
-}
-
 void TerminalPanel::terminalExited()
 {
     emit hideTerminalPanel();

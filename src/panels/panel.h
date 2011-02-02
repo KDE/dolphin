@@ -39,6 +39,9 @@ public:
     /** Returns the current set URL of the active Dolphin view. */
     KUrl url() const;
 
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
+
 public slots:
     /**
      * This is invoked every time the folder being displayed in the

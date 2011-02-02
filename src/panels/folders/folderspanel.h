@@ -45,9 +45,6 @@ public:
     FoldersPanel(QWidget* parent = 0);
     virtual ~FoldersPanel();
 
-    /** @see QWidget::sizeHint() */
-    virtual QSize sizeHint() const;
-
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
