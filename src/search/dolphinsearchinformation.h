@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2010 by Sebastian Trueg <trueg@kde.org>                  *
+ *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,61 +17,41 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef FILTERPANEL_H
-#define FILTERPANEL_H
+#ifndef DOLPHINSEARCHINFORMATION_H
+#define DOLPHINSEARCHINFORMATION_H
 
-#include <nepomuk/query.h>
-#include <panels/panel.h>
-
-class KJob;
-
-namespace Nepomuk {
-    namespace Utils {
-        class FacetWidget;
-    }
-}
+class KUrl;
 
 /**
- * @brief Allows the filtering of search results.
+ * @brief Allows to access search-engine related information.
  */
-class FilterPanel : public Panel
+class DolphinSearchInformation
 {
-    Q_OBJECT
-
 public:
-    FilterPanel(QWidget* parent = 0);
-    virtual ~FilterPanel();
+    static DolphinSearchInformation& instance();
+    virtual ~DolphinSearchInformation();
 
-signals:
-    void urlActivated(const KUrl& url);
+    /**
+     * @return True if the Nepomuk indexer is enabled. If Nepomuk is
+     *         disabled, always false is returned.
+     */
+    bool isIndexingEnabled() const;
+
+    /**
+     * @return True if the complete directory tree specified by path
+     *         is indexed by the Nepomuk indexer. If Nepomuk is disabled,
+     *         always false is returned.
+     */
+    bool isPathIndexed(const KUrl& url) const;
 
 protected:
-    /** @see Panel::urlChanged() */
-    virtual bool urlChanged();
-
-    /** @see QWidget::showEvent() */
-    virtual void showEvent(QShowEvent* event);
-
-    /** @see QWidget::hideEvent() */
-    virtual void hideEvent(QHideEvent* event);
-
-    /** @see QWidget::contextMenuEvent() */
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-
-private slots:
-    void slotSetUrlStatFinished(KJob*);
-    void slotQueryTermChanged(const Nepomuk::Query::Term& term);
+    DolphinSearchInformation();
 
 private:
-    void setQuery(const Nepomuk::Query::Query& query);
+    bool m_indexingEnabled;
 
-private:
-    bool m_initialized;
-    KJob* m_lastSetUrlStatJob;
-
-    KUrl m_startedFromDir;
-    Nepomuk::Utils::FacetWidget* m_facetWidget;
-    Nepomuk::Query::Query m_unfacetedRestQuery;
+    friend class DolphinSearchInformationSingleton;
 };
 
-#endif // FILTERPANEL_H
+#endif
+

@@ -108,12 +108,6 @@ private:
     void init();
 
     /**
-     * @return True, if the complete directory tree specified by m_searchPath
-     *         is indexed by Strigi.
-     */
-    bool isSearchPathIndexed() const;
-
-    /**
      * @return URL that represents the Nepomuk query for starting the search.
      */
     KUrl nepomukUrlForSearching() const;
