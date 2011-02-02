@@ -36,6 +36,8 @@
 #include <Nepomuk/Vocabulary/NMM>
 #include <Nepomuk/Vocabulary/NIE>
 
+#include <search/dolphinsearchinformation.h>
+
 #include <kfileitem.h>
 #include <kio/jobclasses.h>
 #include <kio/job.h>
@@ -48,12 +50,12 @@
 FilterPanel::FilterPanel(QWidget* parent) :
     Panel(parent),
     m_initialized(false),
-    m_nepomukEnabled(false),
     m_lastSetUrlStatJob(0),
     m_startedFromDir(),
     m_facetWidget(0),
     m_unfacetedRestQuery()
 {
+    setEnabled(false);
 }
 
 FilterPanel::~FilterPanel()
@@ -69,7 +71,7 @@ bool FilterPanel::urlChanged()
         m_startedFromDir = url();
     }
 
-    if (isVisible() && m_nepomukEnabled) {
+    if (isVisible() && DolphinSearchInformation::instance().isIndexingEnabled()) {
         setQuery(Nepomuk::Query::Query());
 
         delete m_lastSetUrlStatJob;
@@ -139,13 +141,23 @@ void FilterPanel::showEvent(QShowEvent* event)
         connect(m_facetWidget, SIGNAL(queryTermChanged(Nepomuk::Query::Term)),
                 this, SLOT(slotQueryTermChanged(Nepomuk::Query::Term)));
 
-        m_nepomukEnabled = (Nepomuk::ResourceManager::instance()->init() == 0);
-        m_facetWidget->setEnabled(m_nepomukEnabled);
-
         m_initialized = true;
     }
+    
+    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+    setEnabled(searchInfo.isIndexingEnabled() &&
+               searchInfo.isPathIndexed(m_startedFromDir));
 
     Panel::showEvent(event);
+}
+
+void FilterPanel::hideEvent(QHideEvent* event)
+{
+    if (!event->spontaneous()) {
+        setEnabled(false);
+    }
+
+    Panel::hideEvent(event);
 }
 
 void FilterPanel::slotSetUrlStatFinished(KJob* job)
@@ -205,7 +217,10 @@ void FilterPanel::setQuery(const Nepomuk::Query::Query& query)
 
         m_unfacetedRestQuery = m_facetWidget->extractFacetsFromQuery(query);
         m_facetWidget->setClientQuery(query);
-        setEnabled(true);
+
+        const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+        setEnabled(searchInfo.isIndexingEnabled() &&
+                   searchInfo.isPathIndexed(m_startedFromDir));
 
         m_facetWidget->blockSignals(block);
     } else {

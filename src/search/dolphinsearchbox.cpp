@@ -20,6 +20,7 @@
 #include "dolphinsearchbox.h"
 
 #include "dolphin_searchsettings.h"
+#include "dolphinsearchinformation.h"
 
 #include <kicon.h>
 #include <klineedit.h>
@@ -111,7 +112,8 @@ KUrl DolphinSearchBox::searchPath() const
 KUrl DolphinSearchBox::urlForSearching() const
 {
     KUrl url;
-    if (m_nepomukActivated && isSearchPathIndexed()) {
+    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+    if (searchInfo.isIndexingEnabled() && searchInfo.isPathIndexed(url)) {
         url = nepomukUrlForSearching();
     } else {
         url.setProtocol("filenamesearch");
@@ -326,41 +328,6 @@ void DolphinSearchBox::init()
     m_startSearchTimer->setSingleShot(true);
     m_startSearchTimer->setInterval(1000);
     connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchSignal()));
-}
-
-bool DolphinSearchBox::isSearchPathIndexed() const
-{
-#ifdef HAVE_NEPOMUK
-    const QString path = m_searchPath.path();
-
-    const KConfig strigiConfig("nepomukstrigirc");
-    const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders", QStringList());
-
-    // Check whether the current search path is part of an indexed folder
-    bool isIndexed = false;
-    foreach (const QString& indexedFolder, indexedFolders) {
-        if (path.startsWith(indexedFolder)) {
-            isIndexed = true;
-            break;
-        }
-    }
-
-    if (isIndexed) {
-        // The current search path is part of an indexed folder. Check whether no
-        // excluded folder is part of the search path.
-        const QStringList excludedFolders = strigiConfig.group("General").readPathEntry("exclude folders", QStringList());
-        foreach (const QString& excludedFolder, excludedFolders) {
-            if (path.startsWith(excludedFolder)) {
-                isIndexed = false;
-                break;
-            }
-        }
-    }
-
-    return isIndexed;
-#else
-    return false;
-#endif
 }
 
 KUrl DolphinSearchBox::nepomukUrlForSearching() const

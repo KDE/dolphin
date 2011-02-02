@@ -113,6 +113,7 @@ set(dolphin_SRCS
     panels/folders/folderspanel.cpp
     panels/folders/paneltreeview.cpp
     search/dolphinsearchbox.cpp
+    search/dolphinsearchinformation.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/contextmenusettingspage.cpp
     settings/general/generalsettingspage.cpp

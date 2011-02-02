@@ -35,6 +35,7 @@
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
+#include "search/dolphinsearchinformation.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
@@ -1220,13 +1221,14 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 void DolphinMainWindow::slotSearchModeChanged(bool enabled)
 {
 #ifdef HAVE_NEPOMUK
-    if (Nepomuk::ResourceManager::instance()->init() != 0) {
-        // Currently the Filter Panel only works with Nepomuk enabled
+    const KUrl url = m_activeViewContainer->url();
+    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+    if (!searchInfo.isIndexingEnabled() || !searchInfo.isPathIndexed(url)) {
         return;
     }
 
     QDockWidget* filterDock = findChild<QDockWidget*>("filterDock");
-    if ((filterDock == 0) || !filterDock->isEnabled()) {
+    if (filterDock == 0) {
         return;
     }
 
