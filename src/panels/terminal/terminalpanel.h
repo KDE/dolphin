@@ -42,9 +42,6 @@ public:
     TerminalPanel(QWidget* parent = 0);
     virtual ~TerminalPanel();
 
-    /** @see QWidget::sizeHint() */
-    virtual QSize sizeHint() const;
-
 public slots:
     void terminalExited();
 

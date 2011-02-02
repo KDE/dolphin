@@ -70,11 +70,6 @@ FoldersPanel::~FoldersPanel()
     m_dirLister = 0; // deleted by m_dolphinModel
 }
 
-QSize FoldersPanel::sizeHint() const
-{
-    return QSize(200, 400);
-}
-
 void FoldersPanel::setShowHiddenFiles(bool show)
 {
     FoldersPanelSettings::setShowHiddenFiles(show);

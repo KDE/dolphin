@@ -50,6 +50,9 @@ public:
     void setCustomContextMenuActions(const QList<QAction*>& actions);
     QList<QAction*> customContextMenuActions() const;
 
+    /** @see QWidget::sizeHint() */
+    virtual QSize sizeHint() const;
+
 public slots:
     /**
      * This is invoked every time the folder being displayed in the

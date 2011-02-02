@@ -46,13 +46,6 @@ InformationPanel::~InformationPanel()
 {
 }
 
-QSize InformationPanel::sizeHint() const
-{
-    QSize size = Panel::sizeHint();
-    size.setWidth(minimumSizeHint().width());
-    return size;
-}
-
 void InformationPanel::setSelection(const KFileItemList& selection)
 {
     if (!isVisible()) {
