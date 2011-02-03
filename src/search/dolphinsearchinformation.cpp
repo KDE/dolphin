@@ -53,15 +53,14 @@ bool DolphinSearchInformation::isIndexingEnabled() const
 bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
 {
 #ifdef HAVE_NEPOMUK
-    const QString path = url.path();
-
     const KConfig strigiConfig("nepomukstrigirc");
     const QStringList indexedFolders = strigiConfig.group("General").readPathEntry("folders", QStringList());
 
     // Check whether the path is part of an indexed folder
     bool isIndexed = false;
     foreach (const QString& indexedFolder, indexedFolders) {
-        if (path.startsWith(indexedFolder)) {
+        const KUrl indexedPath(indexedFolder);
+        if (indexedPath.isParentOf(url)) {
             isIndexed = true;
             break;
         }
@@ -72,7 +71,8 @@ bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
         // excluded folder is part of the path.
         const QStringList excludedFolders = strigiConfig.group("General").readPathEntry("exclude folders", QStringList());
         foreach (const QString& excludedFolder, excludedFolders) {
-            if (path.startsWith(excludedFolder)) {
+            const KUrl excludedPath(excludedFolder);
+            if (excludedPath.isParentOf(url)) {
                 isIndexed = false;
                 break;
             }
