@@ -140,7 +140,7 @@ void StartupSettingsPage::restoreDefaults()
 void StartupSettingsPage::slotSettingsChanged()
 {
     // Provide a hint that the startup settings have been changed. This allows the views
-    // to apply the startup settings only if they have been explicitely changed by the user
+    // to apply the startup settings only if they have been explicitly changed by the user
     // (see bug #254947).
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     settings->setModifiedStartupSettings(true);

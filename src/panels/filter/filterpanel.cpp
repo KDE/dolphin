@@ -65,7 +65,7 @@ FilterPanel::~FilterPanel()
 
 bool FilterPanel::urlChanged()
 {
-    if (!url().protocol().startsWith("nepomuk")) {
+    if (!url().protocol().startsWith(QLatin1String("nepomuk"))) {
         // Remember the current directory before a searching is started.
         // This is required to restore the directory in case that all facets
         // have been reset by the user (see slotQueryTermChanged()).
