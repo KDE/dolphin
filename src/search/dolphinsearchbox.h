@@ -69,6 +69,8 @@ public:
      */
     void selectAll();
 
+    void clearText();
+
 protected:
     virtual bool event(QEvent* event);
     virtual void showEvent(QShowEvent* event);
@@ -114,7 +116,6 @@ private:
 
 private:
     bool m_startedSearching;
-    bool m_nepomukActivated;
 
     QVBoxLayout* m_topLayout;
 

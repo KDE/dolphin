@@ -56,7 +56,6 @@
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
     m_startedSearching(false),
-    m_nepomukActivated(false),
     m_topLayout(0),
     m_searchInput(0),
     m_fileNameButton(0),
@@ -142,6 +141,11 @@ void DolphinSearchBox::selectAll()
     m_searchInput->selectAll();
 }
 
+void DolphinSearchBox::clearText()
+{
+    m_searchInput->clear();
+}
+
 bool DolphinSearchBox::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
@@ -153,11 +157,6 @@ bool DolphinSearchBox::event(QEvent* event)
 void DolphinSearchBox::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous()) {
-#ifdef HAVE_NEPOMUK
-        m_nepomukActivated = (Nepomuk::ResourceManager::instance()->init() == 0);
-#endif
-
-        m_searchInput->clear();
         m_searchInput->setFocus();
         m_startedSearching = false;
     }
