@@ -21,7 +21,7 @@
 
 #include <KDialog>
 #include <KFileItem>
-#include <kfilemetadatawidget.h>
+#include <KFileMetaDataWidget>
 #include <KFilePlacesModel>
 #include <KGlobalSettings>
 #include <KIO/PreviewJob>

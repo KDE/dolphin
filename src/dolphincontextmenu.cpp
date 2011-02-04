@@ -41,7 +41,7 @@
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
 #include <kmodifierkeyinfo.h>
-#include <knewfilemenu.h>
+#include <KNewFileMenu>
 #include <konqmimedata.h>
 #include <konq_operations.h>
 #include <kservice.h>

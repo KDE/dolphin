@@ -22,7 +22,7 @@
 
 #include "dolphinmainwindow.h"
 
-#include <kaboutdata.h>
+#include <KAboutData>
 #include <KCmdLineArgs>
 #include <KLocale>
 #include <kmainwindow.h>

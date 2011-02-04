@@ -22,7 +22,7 @@
 #include <KPluginLoader>
 #include <KPluginFactory>
 #include <kde_terminal_interface_v2.h>
-#include <kparts/part.h>
+#include <KParts/Part>
 #include <KShell>
 #include <KIO/Job>
 #include <KIO/JobUiDelegate>

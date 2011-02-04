@@ -21,7 +21,7 @@
 #include "filemetadatatooltip.h"
 
 #include <KColorScheme>
-#include <kfilemetadatawidget.h>
+#include <KFileMetaDataWidget>
 #include <KSeparator>
 #include <KWindowSystem>
 

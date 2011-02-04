@@ -22,7 +22,7 @@
 #include <KFileItemListProperties>
 #include <konq_operations.h>
 
-#include <kaboutdata.h>
+#include <KAboutData>
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KDebug>
@@ -33,11 +33,11 @@
 #include <KPluginFactory>
 #include <KToggleAction>
 #include <KIO/NetAccess>
-#include <ktoolinvocation.h>
+#include <KToolInvocation>
 #include <kauthorized.h>
-#include <knewfilemenu.h>
+#include <KNewFileMenu>
 #include <KMenu>
-#include <kinputdialog.h>
+#include <KInputDialog>
 #include <KProtocolInfo>
 
 #include "settings/dolphinsettings.h"

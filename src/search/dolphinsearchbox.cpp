@@ -25,7 +25,7 @@
 #include <KIcon>
 #include <KLineEdit>
 #include <KLocale>
-#include <kseparator.h>
+#include <KSeparator>
 
 #include <QButtonGroup>
 #include <QDir>

@@ -21,7 +21,7 @@
 
 #include "informationpanelcontent.h"
 #include <KIO/Job>
-#include <kdirnotify.h>
+#include <KDirNotify>
 #include <QApplication>
 #include <QShowEvent>
 #include <QVBoxLayout>

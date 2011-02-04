@@ -20,7 +20,7 @@
 #include "dolphinnewfilemenuobserver.h"
 
 #include <KGlobal>
-#include <knewmenu.h>
+#include <KNewFileMenu>
 
 class DolphinNewFileMenuObserverSingleton
 {

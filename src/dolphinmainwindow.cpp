@@ -67,7 +67,7 @@
 #include <KIcon>
 #include <KIconLoader>
 #include <KIO/NetAccess>
-#include <kinputdialog.h>
+#include <KInputDialog>
 #include <KLocale>
 #include <KProtocolManager>
 #include <KMenu>
@@ -86,7 +86,7 @@
 #include <KUrlNavigator>
 #include <KUrl>
 #include <KUrlComboBox>
-#include <ktoolinvocation.h>
+#include <KToolInvocation>
 
 #include <QDBusMessage>
 #include <QKeyEvent>
