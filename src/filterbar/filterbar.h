@@ -21,7 +21,7 @@
 #ifndef FILTERBAR_H
 #define FILTERBAR_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 class KLineEdit;
 

@@ -29,7 +29,7 @@
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
-#include <nepomuk/resourcemanager.h>
+#include <Nepomuk/ResourceManager>
 #endif
 
 #include <KComponentData>
@@ -39,7 +39,7 @@
 #include <KMessageBox>
 #include <KStandardDirs>
 #include <KUrl>
-#include <kcombobox.h>
+#include <KComboBox>
 
 #include <QAction>
 #include <QButtonGroup>

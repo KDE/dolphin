@@ -22,8 +22,8 @@
 #include <KTabWidget>
 #include <KDialog>
 #include <KLocale>
-#include <kpluginfactory.h>
-#include <kpluginloader.h>
+#include <KPluginFactory>
+#include <KPluginLoader>
 
 #include <settings/general/behaviorsettingspage.h>
 #include <settings/general/previewssettingspage.h>

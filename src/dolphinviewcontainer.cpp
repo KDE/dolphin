@@ -20,12 +20,12 @@
 #include "dolphinviewcontainer.h"
 #include <KProtocolManager>
 
-#include <QtGui/QApplication>
-#include <QtGui/QKeyEvent>
-#include <QtGui/QItemSelection>
-#include <QtGui/QBoxLayout>
-#include <QtCore/QTimer>
-#include <QtGui/QScrollBar>
+#include <QApplication>
+#include <QKeyEvent>
+#include <QItemSelection>
+#include <QBoxLayout>
+#include <QTimer>
+#include <QScrollBar>
 
 #include <KDesktopFile>
 #include <KFileItemDelegate>

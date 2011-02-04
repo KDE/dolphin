@@ -30,7 +30,7 @@
 #include <KMessageBox>
 #include <knewstuff3/knewstuffbutton.h>
 #include <KService>
-#include <kservicetypetrader.h>
+#include <KServiceTypeTrader>
 #include <KStandardDirs>
 
 #include <QCheckBox>

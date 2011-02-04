@@ -29,7 +29,7 @@
 #include <KDialog>
 #include <KLocale>
 #include <KIconLoader>
-#include <ktabwidget.h>
+#include <KTabWidget>
 
 ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),

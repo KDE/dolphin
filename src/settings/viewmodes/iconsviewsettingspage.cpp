@@ -29,7 +29,7 @@
 #include <KIconLoader>
 #include <KGlobalSettings>
 #include <KLocale>
-#include <kcombobox.h>
+#include <KComboBox>
 #include <KNumInput>
 
 #include <QCheckBox>

@@ -26,7 +26,7 @@
 #include <KGlobal>
 #include <KLocale>
 #include <KNumInput>
-#include <kservicetypetrader.h>
+#include <KServiceTypeTrader>
 #include <KService>
 
 #include <settings/dolphinsettings.h>

@@ -26,7 +26,7 @@
 #include "dolphin_generalsettings.h"
 
 #include <KDialog>
-#include <kfiledialog.h>
+#include <KFileDialog>
 #include <KLocale>
 #include <KLineEdit>
 #include <KMessageBox>

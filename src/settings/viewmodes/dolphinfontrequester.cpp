@@ -19,7 +19,7 @@
 
 #include "dolphinfontrequester.h"
 
-#include <kfontdialog.h>
+#include <KFontDialog>
 #include <KGlobalSettings>
 #include <KLocale>
 #include <KComboBox>
