@@ -49,6 +49,12 @@ public:
     virtual ~DolphinSearchBox();
 
     /**
+     * Sets the text that should be used as input for
+     * searching.
+     */
+    void setText(const QString& text);
+
+    /**
      * Returns the text that should be used as input
      * for searching.
      */
@@ -68,8 +74,6 @@ public:
      * Selects the whole text of the search box.
      */
     void selectAll();
-
-    void clearText();
 
 protected:
     virtual bool event(QEvent* event);

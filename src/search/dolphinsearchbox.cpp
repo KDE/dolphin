@@ -73,6 +73,11 @@ DolphinSearchBox::~DolphinSearchBox()
     saveSettings();
 }
 
+void DolphinSearchBox::setText(const QString& text)
+{
+    m_searchInput->setText(text);
+}
+
 QString DolphinSearchBox::text() const
 {
     return m_searchInput->text();
@@ -139,11 +144,6 @@ KUrl DolphinSearchBox::urlForSearching() const
 void DolphinSearchBox::selectAll()
 {
     m_searchInput->selectAll();
-}
-
-void DolphinSearchBox::clearText()
-{
-    m_searchInput->clear();
 }
 
 bool DolphinSearchBox::event(QEvent* event)
