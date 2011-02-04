@@ -19,11 +19,11 @@
 
 #include "selectiontoggle.h"
 
-#include <kglobalsettings.h>
-#include <kicon.h>
-#include <kiconloader.h>
-#include <kiconeffect.h>
-#include <klocale.h>
+#include <KGlobalSettings>
+#include <KIcon>
+#include <KIconLoader>
+#include <KIconEffect>
+#include <KLocale>
 
 #include <QApplication>
 #include <QPainter>
@@ -32,7 +32,7 @@
 #include <QTimer>
 #include <QTimeLine>
 
-#include <kdebug.h>
+#include <KDebug>
 
 SelectionToggle::SelectionToggle(QWidget* parent) :
     QAbstractButton(parent),

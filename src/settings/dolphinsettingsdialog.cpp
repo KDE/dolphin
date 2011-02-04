@@ -31,9 +31,9 @@
 #include "viewmodes/viewsettingspage.h"
 #include "trash/trashsettingspage.h"
 
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kicon.h>
+#include <KLocale>
+#include <KMessageBox>
+#include <KIcon>
 
 DolphinSettingsDialog::DolphinSettingsDialog(const KUrl& url, QWidget* parent) :
     KPageDialog(parent),

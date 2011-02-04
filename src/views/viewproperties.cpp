@@ -24,10 +24,10 @@
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
-#include <kcomponentdata.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
-#include <kurl.h>
+#include <KComponentData>
+#include <KLocale>
+#include <KStandardDirs>
+#include <KUrl>
 
 #include <QDate>
 #include <QFile>

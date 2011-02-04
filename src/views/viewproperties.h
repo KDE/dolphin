@@ -22,7 +22,7 @@
 #define VIEWPROPERTIES_H
 
 #include <views/dolphinview.h>
-#include <kurl.h>
+#include <KUrl>
 #include <libdolphin_export.h>
 
 class ViewPropertySettings;

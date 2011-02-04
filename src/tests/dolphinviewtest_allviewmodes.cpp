@@ -29,7 +29,7 @@
 #include "views/dolphinsortfilterproxymodel.h"
 #include "views/zoomlevelinfo.h"
 
-#include <QtGui/QScrollBar>
+#include <QScrollBar>
 
 #include <qtestmouse.h>
 #include <qtestkeyboard.h>

@@ -19,7 +19,7 @@
 
 #include "pixmapviewer.h"
 
-#include <kiconloader.h>
+#include <KIconLoader>
 
 #include <QLayout>
 #include <QPainter>

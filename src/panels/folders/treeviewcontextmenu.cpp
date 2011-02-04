@@ -20,15 +20,15 @@
 
 #include "treeviewcontextmenu.h"
 
-#include <kfileitem.h>
-#include <kiconloader.h>
-#include <kio/deletejob.h>
-#include <kmenu.h>
+#include <KFileItem>
+#include <KIconLoader>
+#include <KIO/DeleteJob>
+#include <KMenu>
 #include <konqmimedata.h>
-#include <kfileitemlistproperties.h>
+#include <KFileItemListProperties>
 #include <konq_operations.h>
-#include <klocale.h>
-#include <kpropertiesdialog.h>
+#include <KLocale>
+#include <KPropertiesDialog>
 
 #include "folderspanel.h"
 

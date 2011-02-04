@@ -31,9 +31,9 @@
 #include "viewmodecontroller.h"
 #include "zoomlevelinfo.h"
 
-#include <kcategorizedsortfilterproxymodel.h>
-#include <kdialog.h>
-#include <kfileitemdelegate.h>
+#include <KCategorizedSortFilterProxyModel>
+#include <KDialog>
+#include <KFileItemDelegate>
 
 #include <QAbstractProxyModel>
 #include <QApplication>

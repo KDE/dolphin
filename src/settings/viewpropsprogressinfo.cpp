@@ -21,12 +21,12 @@
 #include "viewpropsprogressinfo.h"
 #include "applyviewpropsjob.h"
 
-#include <QtGui/QLabel>
-#include <QtGui/QProgressBar>
-#include <QtCore/QTimer>
-#include <QtGui/QBoxLayout>
+#include <QLabel>
+#include <QProgressBar>
+#include <QTimer>
+#include <QBoxLayout>
 
-#include <klocale.h>
+#include <KLocale>
 #include <kio/jobclasses.h>
 
 #include <views/viewproperties.h>

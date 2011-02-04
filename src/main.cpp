@@ -23,10 +23,10 @@
 #include "dolphinmainwindow.h"
 
 #include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <klocale.h>
+#include <KCmdLineArgs>
+#include <KLocale>
 #include <kmainwindow.h>
-#include <kdebug.h>
+#include <KDebug>
 
 extern "C"
 KDE_EXPORT int kdemain(int argc, char **argv)

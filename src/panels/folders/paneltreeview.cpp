@@ -19,7 +19,7 @@
 
 #include "paneltreeview.h"
 
-#include <kfileitemdelegate.h>
+#include <KFileItemDelegate>
 #include <QListView>
 #include <QKeyEvent>
 #include <QPainter>

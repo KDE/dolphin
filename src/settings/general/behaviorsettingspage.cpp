@@ -23,8 +23,8 @@
 #include "dolphin_generalsettings.h"
 #include <settings/dolphinsettings.h>
 
-#include <kdialog.h>
-#include <klocale.h>
+#include <KDialog>
+#include <KLocale>
 
 #include <QCheckBox>
 #include <QGroupBox>

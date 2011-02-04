@@ -20,7 +20,7 @@
 #include "filemetadataconfigurationdialog.h"
 
 #include <kfilemetadataconfigurationwidget.h>
-#include <klocale.h>
+#include <KLocale>
 #include <QLabel>
 #include <QVBoxLayout>
 

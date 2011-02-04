@@ -26,9 +26,9 @@
 
 #include <QVBoxLayout>
 
-#include <kdialog.h>
-#include <klocale.h>
-#include <kiconloader.h>
+#include <KDialog>
+#include <KLocale>
+#include <KIconLoader>
 #include <ktabwidget.h>
 
 ViewSettingsPage::ViewSettingsPage(QWidget* parent) :

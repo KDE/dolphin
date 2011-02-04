@@ -23,9 +23,9 @@
 #include <dolphin_columnmodesettings.h>
 #include "iconsizegroupbox.h"
 
-#include <kdialog.h>
-#include <klocale.h>
-#include <kcombobox.h>
+#include <KDialog>
+#include <KLocale>
+#include <KComboBox>
 
 #include <settings/dolphinsettings.h>
 

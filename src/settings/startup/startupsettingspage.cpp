@@ -25,12 +25,12 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <kdialog.h>
+#include <KDialog>
 #include <kfiledialog.h>
-#include <klocale.h>
-#include <klineedit.h>
-#include <kmessagebox.h>
-#include <kvbox.h>
+#include <KLocale>
+#include <KLineEdit>
+#include <KMessageBox>
+#include <KVBox>
 
 #include <QCheckBox>
 #include <QGroupBox>

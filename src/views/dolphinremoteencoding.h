@@ -21,8 +21,8 @@
 #define DOLPHINREMOTEENCODING_H
 
 #include <QStringList>
-#include <QtGui/QAction>
-#include <kurl.h>
+#include <QAction>
+#include <KUrl>
 #include "libdolphin_export.h"
 
 

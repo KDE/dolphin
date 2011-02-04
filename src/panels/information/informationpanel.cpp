@@ -20,7 +20,7 @@
 #include "informationpanel.h"
 
 #include "informationpanelcontent.h"
-#include <kio/job.h>
+#include <KIO/Job>
 #include <kdirnotify.h>
 #include <QApplication>
 #include <QShowEvent>

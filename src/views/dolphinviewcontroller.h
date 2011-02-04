@@ -21,8 +21,8 @@
 #define DOLPHINVIEWCONTROLLER_H
 
 #include <views/dolphinview.h>
-#include <kurl.h>
-#include <QtCore/QObject>
+#include <KUrl>
+#include <QObject>
 #include <libdolphin_export.h>
 
 class QAbstractItemView;

@@ -20,9 +20,9 @@
 #ifndef VIEWPROPSPROGRESSINFO_H
 #define VIEWPROPSPROGRESSINFO_H
 
-#include <kdialog.h>
+#include <KDialog>
 #include <kio/directorysizejob.h>
-#include <kurl.h>
+#include <KUrl>
 
 class ApplyViewPropsJob;
 class QLabel;

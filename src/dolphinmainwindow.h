@@ -26,11 +26,11 @@
 
 #include <config-nepomuk.h>
 
-#include <kfileitemdelegate.h>
+#include <KFileItemDelegate>
 #include <kio/fileundomanager.h>
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
-#include <kactionmenu.h>
+#include <KActionMenu>
 
 #include "views/dolphinview.h"
 

@@ -28,10 +28,10 @@
 
 #include <KTempDir>
 
-#include <QtCore/QDir>
-#include <QtGui/QAbstractItemView>
+#include <QDir>
+#include <QAbstractItemView>
 
-#include <kdebug.h>
+#include <KDebug>
 
 #ifdef Q_OS_UNIX
 #include <utime.h>

@@ -19,10 +19,10 @@
 
 #include "renamedialog.h"
 
-#include <klineedit.h>
-#include <klocale.h>
+#include <KLineEdit>
+#include <KLocale>
 #include <konq_operations.h>
-#include <kstringhandler.h>
+#include <KStringHandler>
 
 #include <QLabel>
 #include <QVBoxLayout>

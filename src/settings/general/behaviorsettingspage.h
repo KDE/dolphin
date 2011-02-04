@@ -21,7 +21,7 @@
 #define BEHAVIORSETTINGSPAGE_H
 
 #include <settings/settingspagebase.h>
-#include <kurl.h>
+#include <KUrl>
 
 class QCheckBox;
 class QLabel;

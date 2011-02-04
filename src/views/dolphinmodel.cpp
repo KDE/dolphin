@@ -22,17 +22,16 @@
 
 #include "dolphinsortfilterproxymodel.h"
 
-#include "kcategorizedview.h"
-
-#include <kdatetime.h>
-#include <kdirmodel.h>
-#include <kfileitem.h>
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kurl.h>
-#include <kuser.h>
-#include <kmimetype.h>
-#include <kstandarddirs.h>
+#include <KCategorizedView>
+#include <KDateTime>
+#include <KDirModel>
+#include <KFileItem>
+#include <KIconLoader>
+#include <KLocale>
+#include <KUrl>
+#include <KUser>
+#include <KMimeType>
+#include <KStandardDirs>
 
 #include <QList>
 #include <QSortFilterProxyModel>

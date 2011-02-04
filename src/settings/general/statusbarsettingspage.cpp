@@ -21,9 +21,9 @@
 
 #include <dolphin_generalsettings.h>
 
-#include <kdialog.h>
-#include <klocale.h>
-#include <kvbox.h>
+#include <KDialog>
+#include <KLocale>
+#include <KVBox>
 
 #include <settings/dolphinsettings.h>
 

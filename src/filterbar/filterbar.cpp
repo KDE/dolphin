@@ -24,10 +24,10 @@
 #include <QLabel>
 #include <QToolButton>
 
-#include <kicon.h>
-#include <klocale.h>
-#include <klineedit.h>
-#include <kiconloader.h>
+#include <KIcon>
+#include <KLocale>
+#include <KLineEdit>
+#include <KIconLoader>
 
 FilterBar::FilterBar(QWidget* parent) :
     QWidget(parent)

@@ -20,8 +20,8 @@
 #ifndef ADDITIONALINFODIALOG_H
 #define ADDITIONALINFODIALOG_H
 
-#include <kdialog.h>
-#include <kfileitemdelegate.h>
+#include <KDialog>
+#include <KFileItemDelegate>
 #include <QList>
 
 class QCheckBox;

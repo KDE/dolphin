@@ -25,9 +25,9 @@
 #include "paneltreeview.h"
 #include "treeviewcontextmenu.h"
 
-#include <kfileplacesmodel.h>
-#include <kdirlister.h>
-#include <kfileitem.h>
+#include <KFilePlacesModel>
+#include <KDirLister>
+#include <KFileItem>
 #include <konq_operations.h>
 
 #include <QApplication>

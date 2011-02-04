@@ -23,8 +23,8 @@
 #include "dolphinmodel.h"
 #include "dolphinsortfilterproxymodel.h"
 
-#include <kdirlister.h>
-#include <kdirmodel.h>
+#include <KDirLister>
+#include <KDirModel>
 
 DolphinDetailsViewExpander::DolphinDetailsViewExpander(DolphinDetailsView* parent,
                                                        const QSet<KUrl>& urlsToExpand) :

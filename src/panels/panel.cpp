@@ -19,7 +19,7 @@
  ***************************************************************************/
 
 #include "panel.h"
-#include <kurl.h>
+#include <KUrl>
 
 Panel::Panel(QWidget* parent) :
     QWidget(parent),

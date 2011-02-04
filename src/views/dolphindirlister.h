@@ -21,7 +21,7 @@
 #define DOLPHINDIRLISTER_H
 
 #include <libdolphin_export.h>
-#include <kdirlister.h>
+#include <KDirLister>
 
 /**
  * @brief Extends the class KDirLister by emitting a signal when an

@@ -20,10 +20,10 @@
 
 #include "draganddrophelper.h"
 
-#include <kdirmodel.h>
-#include <kfileitem.h>
-#include <kicon.h>
-#include <klocale.h>
+#include <KDirModel>
+#include <KFileItem>
+#include <KIcon>
+#include <KLocale>
 #include <konq_operations.h>
 
 #include "views/dolphiniconsview.h"

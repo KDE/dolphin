@@ -25,10 +25,10 @@
 
 #include "dolphin_iconsmodesettings.h"
 
-#include <kdialog.h>
-#include <kiconloader.h>
-#include <kglobalsettings.h>
-#include <klocale.h>
+#include <KDialog>
+#include <KIconLoader>
+#include <KGlobalSettings>
+#include <KLocale>
 #include <kcombobox.h>
 #include <KNumInput>
 

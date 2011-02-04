@@ -20,10 +20,10 @@
 #ifndef INFORMATIONPANELCONTENT_H
 #define INFORMATIONPANELCONTENT_H
 
-#include <kconfig.h>
-#include <kfileitem.h>
-#include <kurl.h>
-#include <kvbox.h>
+#include <KConfig>
+#include <KFileItem>
+#include <KUrl>
+#include <KVBox>
 
 class KFileItemList;
 class KFileMetaDataWidget;

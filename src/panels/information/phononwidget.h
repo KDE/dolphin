@@ -21,10 +21,10 @@
 #ifndef PHONONWIDGET_H
 #define PHONONWIDGET_H
 
-#include <kurl.h>
+#include <KUrl>
 
-#include <QtCore/QSize>
-#include <QtGui/QWidget>
+#include <QSize>
+#include <QWidget>
 
 #include <Phonon/Global>
 

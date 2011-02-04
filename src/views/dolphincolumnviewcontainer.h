@@ -22,7 +22,7 @@
 
 #include "dolphinview.h"
 
-#include <kurl.h>
+#include <KUrl>
 
 #include <QList>
 #include <QScrollArea>

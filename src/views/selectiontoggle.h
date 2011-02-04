@@ -20,7 +20,7 @@
 #ifndef SELECTIONTOGGLE_H
 #define SELECTIONTOGGLE_H
 
-#include <kurl.h>
+#include <KUrl>
 
 #include <QAbstractButton>
 #include <QPixmap>

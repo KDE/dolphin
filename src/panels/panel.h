@@ -21,9 +21,9 @@
 #ifndef PANEL_H
 #define PANEL_H
 
-#include <QtGui/QWidget>
-#include <kurl.h>
-#include <kfileitem.h>
+#include <QWidget>
+#include <KUrl>
+#include <KFileItem>
 
 /**
  * @brief Base widget for all panels that can be docked on the window borders.

@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "zoomlevelinfo.h"
-#include <kiconloader.h>
+#include <KIconLoader>
 #include <QSize>
 
 int ZoomLevelInfo::minimumLevel()

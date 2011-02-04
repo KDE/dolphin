@@ -20,8 +20,8 @@
 #ifndef FILEMETADATACONFIGURATIONDIALOG_H
 #define FILEMETADATACONFIGURATIONDIALOG_H
 
-#include <kdialog.h>
-#include <kfileitem.h>
+#include <KDialog>
+#include <KFileItem>
 
 class QLabel;
 class KFileMetaDataConfigurationWidget;

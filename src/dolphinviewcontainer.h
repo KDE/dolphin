@@ -20,12 +20,12 @@
 #ifndef DOLPHINVIEWCONTAINER_H
 #define DOLPHINVIEWCONTAINER_H
 
-#include <kfileitem.h>
-#include <kfileitemdelegate.h>
-#include <kglobalsettings.h>
-#include <kio/job.h>
+#include <KFileItem>
+#include <KFileItemDelegate>
+#include <KGlobalSettings>
+#include <KIO/Job>
 
-#include <kurlnavigator.h>
+#include <KUrlNavigator>
 
 #include <QElapsedTimer>
 #include <QWidget>

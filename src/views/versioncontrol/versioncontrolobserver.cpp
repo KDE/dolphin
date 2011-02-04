@@ -21,10 +21,10 @@
 
 #include "dolphin_versioncontrolsettings.h"
 
-#include <kdirlister.h>
-#include <klocale.h>
-#include <kservice.h>
-#include <kservicetypetrader.h>
+#include <KDirLister>
+#include <KLocale>
+#include <KService>
+#include <KServiceTypeTrader>
 #include <kversioncontrolplugin.h>
 
 #include "pendingthreadsmaintainer.h"

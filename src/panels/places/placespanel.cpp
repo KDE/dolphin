@@ -20,7 +20,7 @@
 
 #include "placespanel.h"
 
-#include <kfileitem.h>
+#include <KFileItem>
 #include <konq_operations.h>
 #include "views/draganddrophelper.h"
 

@@ -27,10 +27,10 @@
 #include "libdolphin_export.h"
 
 #include <kparts/part.h>
-#include <kfileitem.h>
-#include <kfileitemdelegate.h>
+#include <KFileItem>
+#include <KFileItemDelegate>
 #include <kio/fileundomanager.h>
-#include <kio/job.h>
+#include <KIO/Job>
 
 #include <QBoxLayout>
 #include <QKeyEvent>

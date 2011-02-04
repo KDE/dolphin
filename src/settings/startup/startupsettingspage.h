@@ -20,7 +20,7 @@
 #define STARTUPSETTINGSPAGE_H
 
 #include <settings/settingspagebase.h>
-#include <kurl.h>
+#include <KUrl>
 
 class KLineEdit;
 class QCheckBox;

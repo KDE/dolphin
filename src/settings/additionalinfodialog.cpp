@@ -19,7 +19,7 @@
 
 #include "additionalinfodialog.h"
 
-#include <klocale.h>
+#include <KLocale>
 
 #include <QCheckBox>
 #include <QLabel>

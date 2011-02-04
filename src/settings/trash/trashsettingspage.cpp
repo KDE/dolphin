@@ -20,8 +20,8 @@
 #include "trashsettingspage.h"
 
 #include <KCModuleProxy>
-#include <kdialog.h>
-#include <kvbox.h>
+#include <KDialog>
+#include <KVBox>
 
 #include <settings/dolphinsettings.h>
 

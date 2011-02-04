@@ -20,11 +20,11 @@
 #include "dolphinfileitemdelegate.h"
 
 #include "dolphinmodel.h"
-#include <kcolorscheme.h>
-#include <kfileitem.h>
-#include <kicon.h>
-#include <kiconloader.h>
-#include <kstringhandler.h>
+#include <KColorScheme>
+#include <KFileItem>
+#include <KIcon>
+#include <KIconLoader>
+#include <KStringHandler>
 
 #include <QAbstractItemModel>
 #include <QAbstractProxyModel>

@@ -23,8 +23,8 @@
 #include "dolphinfontrequester.h"
 #include "dolphin_detailsmodesettings.h"
 
-#include <kdialog.h>
-#include <klocale.h>
+#include <KDialog>
+#include <KLocale>
 
 #include <settings/dolphinsettings.h>
 

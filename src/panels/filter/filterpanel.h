@@ -20,7 +20,7 @@
 #ifndef FILTERPANEL_H
 #define FILTERPANEL_H
 
-#include <nepomuk/query.h>
+#include <Nepomuk/Query/Query>
 #include <panels/panel.h>
 
 class KJob;

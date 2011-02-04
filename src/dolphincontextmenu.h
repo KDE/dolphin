@@ -20,15 +20,14 @@
 #ifndef DOLPHINCONTEXTMENU_H
 #define DOLPHINCONTEXTMENU_H
 
-#include <kdesktopfileactions.h>
-#include <kfileitem.h>
-#include <kservice.h>
-#include <kurl.h>
+#include <KFileItem>
+#include <KService>
+#include <KUrl>
 #include <konq_copytomenu.h>
 
-#include <QtCore/QObject>
+#include <QObject>
 
-#include <QtCore/QVector>
+#include <QVector>
 
 #include <QScopedPointer>
 

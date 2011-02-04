@@ -25,17 +25,16 @@
 #include "views/zoomlevelinfo.h"
 #include <konq_operations.h>
 
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <kactionmenu.h>
-#include <kfileitemdelegate.h>
-#include <klocale.h>
+#include <KAction>
+#include <KActionCollection>
+#include <KActionMenu>
+#include <KFileItemDelegate>
+#include <KLocale>
 #include <knewmenu.h>
-#include <kselectaction.h>
-#include <ktoggleaction.h>
-#include <krun.h>
-#include <kpropertiesdialog.h>
-
+#include <KSelectAction>
+#include <KToggleAction>
+#include <KRun>
+#include <KPropertiesDialog>
 
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
     : QObject(parent),

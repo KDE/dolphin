@@ -22,11 +22,11 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <kiconloader.h>
-#include <kicon.h>
-#include <klocale.h>
-#include <kmenu.h>
-#include <kvbox.h>
+#include <KIconLoader>
+#include <KIcon>
+#include <KLocale>
+#include <KMenu>
+#include <KVBox>
 
 #include "settings/dolphinsettings.h"
 #include "statusbarspaceinfo.h"

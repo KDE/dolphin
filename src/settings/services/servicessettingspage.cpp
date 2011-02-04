@@ -21,17 +21,17 @@
 
 #include "dolphin_versioncontrolsettings.h"
 
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kdesktopfile.h>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KDesktopFile>
 #include <kdesktopfileactions.h>
-#include <kicon.h>
-#include <klocale.h>
-#include <kmessagebox.h>
+#include <KIcon>
+#include <KLocale>
+#include <KMessageBox>
 #include <knewstuff3/knewstuffbutton.h>
-#include <kservice.h>
+#include <KService>
 #include <kservicetypetrader.h>
-#include <kstandarddirs.h>
+#include <KStandardDirs>
 
 #include <QCheckBox>
 #include <QGridLayout>

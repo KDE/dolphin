@@ -19,12 +19,12 @@
 
 #include "filenamesearchprotocol.h"
 
-#include <kcomponentdata.h>
-#include <kdirlister.h>
-#include <kfileitem.h>
-#include <kio/netaccess.h>
-#include <kio/job.h>
-#include <kurl.h>
+#include <KComponentData>
+#include <KDirLister>
+#include <KFileItem>
+#include <KIO/NetAccess>
+#include <KIO/Job>
+#include <KUrl>
 #include <ktemporaryfile.h>
 
 #include <QCoreApplication>

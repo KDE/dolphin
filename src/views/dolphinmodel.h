@@ -21,7 +21,7 @@
 #ifndef DOLPHINMODEL_H
 #define DOLPHINMODEL_H
 
-#include <kdirmodel.h>
+#include <KDirModel>
 #include <kversioncontrolplugin.h>
 #include <libdolphin_export.h>
 

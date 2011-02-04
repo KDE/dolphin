@@ -20,8 +20,8 @@
 #include "dolphinviewcontroller.h"
 #include "zoomlevelinfo.h"
 
-#include <kdirmodel.h>
-#include <kfileitemactions.h>
+#include <KDirModel>
+#include <KFileItemActions>
 #include <QAbstractProxyModel>
 #include <QApplication>
 #include <QClipboard>

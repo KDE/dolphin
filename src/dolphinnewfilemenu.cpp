@@ -26,8 +26,8 @@
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinview.h"
 
-#include <kactioncollection.h>
-#include <kio/job.h>
+#include <KActionCollection>
+#include <KIO/Job>
 
 DolphinNewFileMenu::DolphinNewFileMenu(QWidget* parent, DolphinMainWindow* mainWin) :
     KNewFileMenu(mainWin->actionCollection(), "create_new", parent),

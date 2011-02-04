@@ -20,10 +20,10 @@
 #ifndef DOLPHINICONSVIEW_H
 #define DOLPHINICONSVIEW_H
 
-#include <kcategorizedview.h>
+#include <KCategorizedView>
 
-#include <kfileitem.h>
-#include <kfileitemdelegate.h>
+#include <KFileItem>
+#include <KFileItemDelegate>
 
 #include <QFont>
 #include <QSize>

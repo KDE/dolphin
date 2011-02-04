@@ -23,9 +23,9 @@
 #include "dolphin_generalsettings.h"
 #include "selectiontoggle.h"
 #include "settings/dolphinsettings.h"
-#include <kdirmodel.h>
-#include <kglobalsettings.h>
-#include <kiconeffect.h>
+#include <KDirModel>
+#include <KGlobalSettings>
+#include <KIconEffect>
 
 #include <QAbstractButton>
 #include <QAbstractItemView>

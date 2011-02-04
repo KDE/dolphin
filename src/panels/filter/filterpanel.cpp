@@ -21,10 +21,9 @@
 
 #include "dolphin_searchsettings.h"
 
-#include <nepomuk/filequery.h>
-#include <nepomuk/facetwidget.h>
-#include <nepomuk/facet.h>
-#include <nepomuk/resourcemanager.h>
+#include <Nepomuk/ResourceManager>
+#include <Nepomuk/Utils/FacetWidget>
+#include <Nepomuk/Utils/Facet>
 #include <Nepomuk/Utils/SimpleFacet>
 #include <Nepomuk/Utils/ProxyFacet>
 #include <Nepomuk/Utils/DynamicResourceFacet>
@@ -38,10 +37,10 @@
 
 #include <search/dolphinsearchinformation.h>
 
-#include <kfileitem.h>
+#include <KFileItem>
 #include <kio/jobclasses.h>
-#include <kio/job.h>
-#include <kmenu.h>
+#include <KIO/Job>
+#include <KMenu>
 
 #include <QPushButton>
 #include <QShowEvent>

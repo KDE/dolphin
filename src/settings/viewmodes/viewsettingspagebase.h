@@ -20,7 +20,7 @@
 #ifndef VIEWSETTINGSPAGEBASE_H
 #define VIEWSETTINGSPAGEBASE_H
 
-#include <kvbox.h>
+#include <KVBox>
 
 /**
  * @brief Base class for view settings configuration pages.

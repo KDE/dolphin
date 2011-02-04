@@ -19,17 +19,17 @@
 
 #include "folderexpander.h"
 
-#include <QtCore/QTimer>
-#include <QtGui/QAbstractItemView>
-#include <QtGui/QTreeView>
-#include <QtGui/QScrollBar>
+#include <QTimer>
+#include <QAbstractItemView>
+#include <QTreeView>
+#include <QScrollBar>
 
-#include <QtCore/QEvent>
-#include <QtGui/QDragMoveEvent>
+#include <QEvent>
+#include <QDragMoveEvent>
 
-#include <QtGui/QSortFilterProxyModel>
+#include <QSortFilterProxyModel>
 
-#include <kdirmodel.h>
+#include <KDirModel>
 
 FolderExpander::FolderExpander(QAbstractItemView *view, QSortFilterProxyModel *proxyModel) :
     QObject(view),

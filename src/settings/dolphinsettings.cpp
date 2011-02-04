@@ -20,10 +20,10 @@
 
 #include "dolphinsettings.h"
 
-#include <kfileplacesmodel.h>
-#include <kcomponentdata.h>
-#include <klocale.h>
-#include <kstandarddirs.h>
+#include <KFilePlacesModel>
+#include <KComponentData>
+#include <KLocale>
+#include <KStandardDirs>
 
 #include "dolphin_columnmodesettings.h"
 #include "dolphin_detailsmodesettings.h"

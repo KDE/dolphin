@@ -20,7 +20,7 @@
 #ifndef FOLDERSPANEL_H
 #define FOLDERSPANEL_H
 
-#include <kurl.h>
+#include <KUrl>
 #include <panels/panel.h>
 
 class KDirLister;

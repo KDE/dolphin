@@ -27,7 +27,7 @@
 #include <QSize>
 #include <QStyleOption>
 
-#include <kurl.h>
+#include <KUrl>
 
 class DolphinColumnViewContainer;
 class DolphinModel;

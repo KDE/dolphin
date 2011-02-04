@@ -19,26 +19,26 @@
 
 #include "dolphinpart.h"
 
-#include <kfileitemlistproperties.h>
+#include <KFileItemListProperties>
 #include <konq_operations.h>
 
 #include <kaboutdata.h>
-#include <kactioncollection.h>
-#include <kconfiggroup.h>
-#include <kdebug.h>
-#include <kglobalsettings.h>
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kmessagebox.h>
-#include <kpluginfactory.h>
-#include <ktoggleaction.h>
-#include <kio/netaccess.h>
+#include <KActionCollection>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KGlobalSettings>
+#include <KIconLoader>
+#include <KLocale>
+#include <KMessageBox>
+#include <KPluginFactory>
+#include <KToggleAction>
+#include <KIO/NetAccess>
 #include <ktoolinvocation.h>
 #include <kauthorized.h>
 #include <knewfilemenu.h>
-#include <kmenu.h>
+#include <KMenu>
 #include <kinputdialog.h>
-#include <kprotocolinfo.h>
+#include <KProtocolInfo>
 
 #include "settings/dolphinsettings.h"
 #include "views/dolphinview.h"

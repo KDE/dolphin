@@ -20,7 +20,7 @@
 #ifndef DOLPHINSEARCHBOX_H
 #define DOLPHINSEARCHBOX_H
 
-#include <kurl.h>
+#include <KUrl>
 #include <QList>
 #include <QWidget>
 

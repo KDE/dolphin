@@ -36,10 +36,10 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 
-#include <kdirmodel.h>
-#include <kdirlister.h>
-#include <klocale.h>
-#include <kmenu.h>
+#include <KDirModel>
+#include <KDirLister>
+#include <KLocale>
+#include <KMenu>
 
 #include <QApplication>
 #include <QHeaderView>

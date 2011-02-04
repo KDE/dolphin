@@ -22,9 +22,9 @@
 #include <settings/dolphinsettings.h>
 #include <dolphin_generalsettings.h>
 
-#include <kdialog.h>
-#include <klocale.h>
-#include <kvbox.h>
+#include <KDialog>
+#include <KLocale>
+#include <KVBox>
 
 #include <QCheckBox>
 #include <QVBoxLayout>

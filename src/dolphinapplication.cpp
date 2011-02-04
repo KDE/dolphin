@@ -23,8 +23,8 @@
 #include "dolphinviewcontainer.h"
 
 #include <applicationadaptor.h>
-#include <kcmdlineargs.h>
-#include <kurl.h>
+#include <KCmdLineArgs>
+#include <KUrl>
 #include <QtDBus/QDBusConnection>
 
 DolphinApplication::DolphinApplication() :

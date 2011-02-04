@@ -31,7 +31,7 @@
 #include "mainwindowadaptor.h"
 #ifdef HAVE_NEPOMUK
     #include "panels/filter/filterpanel.h"
-    #include <nepomuk/resourcemanager.h>
+    #include <Nepomuk/ResourceManager>
 #endif
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
@@ -52,40 +52,40 @@
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <kactionmenu.h>
-#include <kconfig.h>
-#include <kdesktopfile.h>
+#include <KAction>
+#include <KActionCollection>
+#include <KActionMenu>
+#include <KConfig>
+#include <KDesktopFile>
 #include <kdeversion.h>
 #include <kdualaction.h>
-#include <kfiledialog.h>
-#include <kfileplacesmodel.h>
-#include <kglobal.h>
-#include <klineedit.h>
+#include <KFileDialog>
+#include <KFilePlacesModel>
+#include <KGlobal>
+#include <KLineEdit>
 #include <ktoolbar.h>
-#include <kicon.h>
-#include <kiconloader.h>
-#include <kio/netaccess.h>
+#include <KIcon>
+#include <KIconLoader>
+#include <KIO/NetAccess>
 #include <kinputdialog.h>
-#include <klocale.h>
-#include <kprotocolmanager.h>
-#include <kmenu.h>
-#include <kmenubar.h>
-#include <kmessagebox.h>
-#include <kfileitemlistproperties.h>
+#include <KLocale>
+#include <KProtocolManager>
+#include <KMenu>
+#include <KMenuBar>
+#include <KMessageBox>
+#include <KFileItemListProperties>
 #include <konqmimedata.h>
-#include <kprotocolinfo.h>
-#include <krun.h>
-#include <kshell.h>
-#include <kstandarddirs.h>
+#include <KProtocolInfo>
+#include <KRun>
+#include <KShell>
+#include <KStandardDirs>
 #include <kstatusbar.h>
-#include <kstandardaction.h>
+#include <KStandardAction>
 #include <ktabbar.h>
-#include <ktoggleaction.h>
-#include <kurlnavigator.h>
-#include <kurl.h>
-#include <kurlcombobox.h>
+#include <KToggleAction>
+#include <KUrlNavigator>
+#include <KUrl>
+#include <KUrlComboBox>
 #include <ktoolinvocation.h>
 
 #include <QDBusMessage>

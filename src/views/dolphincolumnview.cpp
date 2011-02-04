@@ -36,14 +36,14 @@
 #include "viewmodecontroller.h"
 #include "zoomlevelinfo.h"
 
-#include <kcolorscheme.h>
-#include <kdirlister.h>
-#include <kfileitem.h>
-#include <kio/previewjob.h>
-#include <kicon.h>
-#include <kiconeffect.h>
-#include <kjob.h>
-#include <klocale.h>
+#include <KColorScheme>
+#include <KDirLister>
+#include <KFileItem>
+#include <KIO/PreviewJob>
+#include <KIcon>
+#include <KIconEffect>
+#include <KJob>
+#include <KLocale>
 #include <konqmimedata.h>
 
 #include <QApplication>

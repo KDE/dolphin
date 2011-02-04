@@ -20,7 +20,7 @@
 #ifndef SELECTIONMANAGER_H
 #define SELECTIONMANAGER_H
 
-#include <kfileitem.h>
+#include <KFileItem>
 
 #include <QObject>
 

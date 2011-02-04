@@ -20,7 +20,7 @@
 #ifndef VIEWMODECONTROLLER_H
 #define VIEWMODECONTROLLER_H
 
-#include <kurl.h>
+#include <KUrl>
 #include <QObject>
 #include <libdolphin_export.h>
 #include <views/dolphinview.h>

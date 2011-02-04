@@ -19,7 +19,7 @@
 
 #include "iconsizegroupbox.h"
 
-#include <klocale.h>
+#include <KLocale>
 
 #include <QApplication>
 #include <QGridLayout>

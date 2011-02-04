@@ -22,9 +22,9 @@
 #include "dolphin_searchsettings.h"
 #include "dolphinsearchinformation.h"
 
-#include <kicon.h>
-#include <klineedit.h>
-#include <klocale.h>
+#include <KIcon>
+#include <KLineEdit>
+#include <KLocale>
 #include <kseparator.h>
 
 #include <QButtonGroup>
@@ -42,15 +42,15 @@
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
-    #include <nepomuk/andterm.h>
-    #include <nepomuk/filequery.h>
-    #include <nepomuk/literalterm.h>
-    #include <nepomuk/query.h>
-    #include <nepomuk/queryparser.h>
-    #include <nepomuk/resourcemanager.h>
-    #include <nepomuk/resourcetypeterm.h>
-    #include <nepomuk/comparisonterm.h>
-    #include <nepomuk/nfo.h>
+    #include <Nepomuk/Query/AndTerm>
+    #include <Nepomuk/Query/FileQuery>
+    #include <Nepomuk/Query/LiteralTerm>
+    #include <Nepomuk/Query/Query>
+    #include <Nepomuk/Query/QueryParser>
+    #include <Nepomuk/Query/ResourceTypeTerm>
+    #include <Nepomuk/Query/ComparisonTerm>
+    #include <Nepomuk/ResourceManager>
+    #include <Nepomuk/Vocabulary/NFO>
 #endif
 
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :

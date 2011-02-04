@@ -20,8 +20,8 @@
 #include "additionalinfoaccessor.h"
 
 #include "dolphinmodel.h"
-#include <kglobal.h>
-#include <klocale.h>
+#include <KGlobal>
+#include <KLocale>
 
 class AdditionalInfoAccessorSingleton
 {

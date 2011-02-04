@@ -22,8 +22,8 @@
 
 #include "libdolphin_export.h"
 
-#include <kdialog.h>
-#include <kfileitem.h>
+#include <KDialog>
+#include <KFileItem>
 
 class KLineEdit;
 

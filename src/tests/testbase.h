@@ -22,7 +22,7 @@
 
 #include <KUrl>
 
-#include <QtCore/QDateTime>
+#include <QDateTime>
 
 class KTempDir;
 class QAbstractItemView;

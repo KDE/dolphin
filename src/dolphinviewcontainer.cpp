@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 #include "dolphinviewcontainer.h"
-#include <kprotocolmanager.h>
+#include <KProtocolManager>
 
 #include <QtGui/QApplication>
 #include <QtGui/QKeyEvent>
@@ -27,23 +27,23 @@
 #include <QtCore/QTimer>
 #include <QtGui/QScrollBar>
 
-#include <kdesktopfile.h>
-#include <kfileitemdelegate.h>
-#include <kfileplacesmodel.h>
-#include <kglobalsettings.h>
-#include <klocale.h>
-#include <kiconeffect.h>
-#include <kio/netaccess.h>
-#include <kio/previewjob.h>
-#include <kmenu.h>
+#include <KDesktopFile>
+#include <KFileItemDelegate>
+#include <KFilePlacesModel>
+#include <KGlobalSettings>
+#include <KLocale>
+#include <KIconEffect>
+#include <KIO/NetAccess>
+#include <KIO/PreviewJob>
+#include <KMenu>
 #include <knewmenu.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
-#include <kshell.h>
-#include <kurl.h>
-#include <kurlcombobox.h>
-#include <kurlnavigator.h>
-#include <krun.h>
+#include <KShell>
+#include <KUrl>
+#include <KUrlComboBox>
+#include <KUrlNavigator>
+#include <KRun>
 
 #include "dolphin_generalsettings.h"
 #include "dolphinmainwindow.h"

@@ -25,15 +25,15 @@
 #include <Phonon/SeekSlider>
 #include <Phonon/VideoPlayer>
 
-#include <QtGui/QVBoxLayout>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QShowEvent>
-#include <QtGui/QToolButton>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QShowEvent>
+#include <QToolButton>
 
-#include <kdialog.h>
-#include <kicon.h>
-#include <kurl.h>
-#include <klocale.h>
+#include <KDialog>
+#include <KIcon>
+#include <KUrl>
+#include <KLocale>
 
 class EmbeddedVideoPlayer : public Phonon::VideoPlayer
 {

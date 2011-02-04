@@ -19,18 +19,18 @@
 
 #include "informationpanelcontent.h"
 
-#include <kdialog.h>
-#include <kfileitem.h>
+#include <KDialog>
+#include <KFileItem>
 #include <kfilemetadatawidget.h>
-#include <kfileplacesmodel.h>
-#include <kglobalsettings.h>
-#include <kio/previewjob.h>
-#include <kiconeffect.h>
-#include <kiconloader.h>
-#include <klocale.h>
-#include <kmenu.h>
+#include <KFilePlacesModel>
+#include <KGlobalSettings>
+#include <KIO/PreviewJob>
+#include <KIconEffect>
+#include <KIconLoader>
+#include <KLocale>
+#include <KMenu>
 #include <kseparator.h>
-#include <kstringhandler.h>
+#include <KStringHandler>
 
 #include <Phonon/BackendCapabilities>
 #include <Phonon/MediaObject>

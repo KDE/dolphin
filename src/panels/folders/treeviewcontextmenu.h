@@ -20,7 +20,7 @@
 #ifndef TREEVIEWCONTEXTMENU_H
 #define TREEVIEWCONTEXTMENU_H
 
-#include <QtCore/QObject>
+#include <QObject>
 #include <KFileItem>
 
 class FoldersPanel;

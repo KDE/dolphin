@@ -26,21 +26,21 @@
 #include "dolphinremoteencoding.h"
 #include "dolphinviewactionhandler.h"
 
-#include <kdebug.h>
-#include <kactionmenu.h>
-#include <kactioncollection.h>
-#include <kicon.h>
-#include <klocale.h>
-#include <kglobal.h>
-#include <kmimetype.h>
-#include <kconfig.h>
-#include <kcharsets.h>
-#include <kmenu.h>
-#include <kprotocolinfo.h>
-#include <kprotocolmanager.h>
-#include <kio/slaveconfig.h>
-#include <kio/scheduler.h>
-#include <kconfiggroup.h>
+#include <KDebug>
+#include <KActionMenu>
+#include <KActionCollection>
+#include <KIcon>
+#include <KLocale>
+#include <KGlobal>
+#include <KMimeType>
+#include <KConfig>
+#include <KCharsets>
+#include <KMenu>
+#include <KProtocolInfo>
+#include <KProtocolManager>
+#include <KIO/SlaveConfig>
+#include <KIO/Scheduler>
+#include <KConfigGroup>
 
 #define DATA_KEY        QLatin1String("Charset")
 

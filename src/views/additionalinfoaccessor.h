@@ -21,7 +21,7 @@
 #define ADDITIONALINFOACCESSOR_H
 
 #include <libdolphin_export.h>
-#include <kfileitemdelegate.h>
+#include <KFileItemDelegate>
 #include <views/dolphinview.h>
 
 #include <QList>

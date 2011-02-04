@@ -20,7 +20,7 @@
 #ifndef PANELTREEVIEW_H
 #define PANELTREEVIEW_H
 
-#include <kurl.h>
+#include <KUrl>
 #include <panels/folders/ktreeview.h>
 
 /**

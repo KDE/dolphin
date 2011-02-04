@@ -19,7 +19,7 @@
 
 #include "dolphinnewfilemenuobserver.h"
 
-#include <kglobal.h>
+#include <KGlobal>
 #include <knewmenu.h>
 
 class DolphinNewFileMenuObserverSingleton

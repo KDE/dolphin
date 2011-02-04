@@ -33,9 +33,9 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <kdirlister.h>
-#include <kdirmodel.h>
-#include <kfilepreviewgenerator.h>
+#include <KDirLister>
+#include <KDirModel>
+#include <KFilePreviewGenerator>
 #include <QAbstractItemView>
 #include <QApplication>
 

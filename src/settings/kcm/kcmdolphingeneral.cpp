@@ -19,9 +19,9 @@
 
 #include "kcmdolphingeneral.h"
 
-#include <ktabwidget.h>
-#include <kdialog.h>
-#include <klocale.h>
+#include <KTabWidget>
+#include <KDialog>
+#include <KLocale>
 #include <kpluginfactory.h>
 #include <kpluginloader.h>
 

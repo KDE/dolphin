@@ -19,7 +19,7 @@
 
 #include "pendingthreadsmaintainer.h"
 
-#include <kglobal.h>
+#include <KGlobal>
 #include <QThread>
 #include <QTimer>
 

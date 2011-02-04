@@ -22,8 +22,8 @@
 
 #include <KDiskFreeSpaceInfo>
 #include <kmountpoint.h>
-#include <klocale.h>
-#include <kio/job.h>
+#include <KLocale>
+#include <KIO/Job>
 
 #include <QTimer>
 #include <QKeyEvent>

@@ -21,7 +21,7 @@
 #ifndef SETTINGSPAGEBASE_H
 #define SETTINGSPAGEBASE_H
 
-#include <QtGui/QWidget>
+#include <QWidget>
 
 /**
  * @brief Base class for the settings pages of the Dolphin settings dialog.

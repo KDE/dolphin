@@ -23,9 +23,9 @@
 #ifndef APPLYVIEWPROPSJOB_H
 #define APPLYVIEWPROPSJOB_H
 
-#include <kio/job.h>
-#include <kfileitem.h>
-#include <kurl.h>
+#include <KIO/Job>
+#include <KFileItem>
+#include <KUrl>
 
 class ViewProperties;
 

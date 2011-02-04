@@ -20,7 +20,7 @@
 #ifndef STATUSBARSPACEINFO_H
 #define STATUSBARSPACEINFO_H
 
-#include <kurl.h>
+#include <KUrl>
 
 #include <QColor>
 #include <QKeyEvent>

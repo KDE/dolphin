@@ -23,7 +23,7 @@
 
 #include "libdolphin_export.h"
 
-#include <kdialog.h>
+#include <KDialog>
 
 class QCheckBox;
 class KComboBox;

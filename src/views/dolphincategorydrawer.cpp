@@ -29,14 +29,14 @@
 #include <QStyleOption>
 
 #ifdef HAVE_NEPOMUK
-#include <nepomuk/kratingpainter.h>
+#include <Nepomuk/KRatingPainter>
 #endif
 
-#include <kiconloader.h>
-#include <kiconeffect.h>
-#include <kcategorizedsortfilterproxymodel.h>
-#include <kuser.h>
-#include <kcategorizedview.h>
+#include <KIconLoader>
+#include <KIconEffect>
+#include <KCategorizedSortFilterProxyModel>
+#include <KUser>
+#include <KCategorizedView>
 
 #include "dolphinview.h"
 #include "dolphinmodel.h"

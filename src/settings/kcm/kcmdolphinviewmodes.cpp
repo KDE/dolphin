@@ -19,11 +19,11 @@
 
 #include "kcmdolphinviewmodes.h"
 
-#include <ktabwidget.h>
-#include <kdialog.h>
-#include <klocale.h>
-#include <kpluginfactory.h>
-#include <kpluginloader.h>
+#include <KTabWidget>
+#include <KDialog>
+#include <KLocale>
+#include <KPluginFactory>
+#include <KPluginLoader>
 
 #include <settings/viewmodes/columnviewsettingspage.h>
 #include <settings/viewmodes/detailsviewsettingspage.h>

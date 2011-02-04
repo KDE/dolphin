@@ -32,13 +32,13 @@
 #include <nepomuk/resourcemanager.h>
 #endif
 
-#include <kcomponentdata.h>
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kio/netaccess.h>
-#include <kmessagebox.h>
-#include <kstandarddirs.h>
-#include <kurl.h>
+#include <KComponentData>
+#include <KLocale>
+#include <KIconLoader>
+#include <KIO/NetAccess>
+#include <KMessageBox>
+#include <KStandardDirs>
+#include <KUrl>
 #include <kcombobox.h>
 
 #include <QAction>

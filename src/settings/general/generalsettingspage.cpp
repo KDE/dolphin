@@ -26,10 +26,10 @@
 #include <settings/settingspagebase.h>
 #include "statusbarsettingspage.h"
 
-#include <kdialog.h>
-#include <klocale.h>
-#include <kiconloader.h>
-#include <ktabwidget.h>
+#include <KDialog>
+#include <KLocale>
+#include <KIconLoader>
+#include <KTabWidget>
 
 #include <QVBoxLayout>
 

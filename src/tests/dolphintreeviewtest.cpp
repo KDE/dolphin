@@ -18,14 +18,14 @@
  *****************************************************************************/
 
 #include <qtest_kde.h>
-#include <kdebug.h>
-#include <kaction.h>
+#include <KDebug>
+#include <KAction>
 
 #include "views/dolphintreeview.h"
 
 #include <qtestkeyboard.h>
 #include <qtestmouse.h>
-#include <QtGui/QStringListModel>
+#include <QStringListModel>
 
 class DolphinTreeViewTest : public QObject
 {

@@ -20,9 +20,9 @@
 #include "dolphinfontrequester.h"
 
 #include <kfontdialog.h>
-#include <kglobalsettings.h>
-#include <klocale.h>
-#include <kcombobox.h>
+#include <KGlobalSettings>
+#include <KLocale>
+#include <KComboBox>
 
 #include <QEvent>
 #include <QPushButton>

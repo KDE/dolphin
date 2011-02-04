@@ -20,7 +20,7 @@
 #ifndef DOLPHINFILEITEMDELEGATE_H
 #define DOLPHINFILEITEMDELEGATE_H
 
-#include <kfileitemdelegate.h>
+#include <KFileItemDelegate>
 #include <views/dolphinmodel.h>
 
 class QAbstractProxyModel;

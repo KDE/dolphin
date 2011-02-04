@@ -21,13 +21,13 @@
 
 #include "dolphin_generalsettings.h"
 
-#include <kconfiggroup.h>
-#include <kdialog.h>
-#include <kglobal.h>
-#include <klocale.h>
+#include <KConfigGroup>
+#include <KDialog>
+#include <KGlobal>
+#include <KLocale>
 #include <KNumInput>
 #include <kservicetypetrader.h>
-#include <kservice.h>
+#include <KService>
 
 #include <settings/dolphinsettings.h>
 
