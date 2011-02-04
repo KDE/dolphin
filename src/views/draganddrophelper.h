@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2007 by Peter Penz <peter.penz19@gmail.com>             *
  *   Copyright (C) 2007 by David Faure <faure@kde.org>                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

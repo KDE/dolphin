@@ -25,8 +25,6 @@
 
 /**
  * @brief Base class for the settings pages of the Dolphin settings dialog.
- *
- * @author Peter Penz <peter.penz@gmx.at>
  */
 class SettingsPageBase : public QWidget
 {

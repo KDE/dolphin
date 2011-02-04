@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz19@gmail.com>             *
  *   Copyright (C) 2006 by Holger 'zecke' Freyther <freyther@kde.org>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

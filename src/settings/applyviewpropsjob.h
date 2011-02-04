@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz@gmx.at>                  *
+ *   Copyright (C) 2006 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   The code is based on kdelibs/kio/kio/directorysizejob.*               *
  *  (C) 2006 by David Faure <faure@kde.org>                                *

@@ -1,6 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by <haraldhv (at) stud.ntnu.no>                    *
- *   Copyright (C) 2008 by <peter.penz@gmx.at>                             *
+ *   Copyright (C) 2008 by <peter.penz19@gmail.com>                        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
