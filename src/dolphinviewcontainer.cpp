@@ -212,6 +212,8 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_urlNavigator->setVisible(!enabled);
 
     if (enabled) {
+        m_searchBox->clearText();
+
         // Remember the most recent non-search URL as search path
         // of the search-box, so that it can be restored
         // when switching back to the URL navigator.
