@@ -81,7 +81,7 @@ bool DolphinSearchInformation::isPathIndexed(const KUrl& url) const
 
     return isIndexed;
 #else
-    Q_UNUSED(path);
+    Q_UNUSED(url);
     return false;
 #endif
 }
