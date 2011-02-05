@@ -56,6 +56,7 @@
 DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     QWidget(parent),
     m_startedSearching(false),
+    m_readOnly(false),
     m_topLayout(0),
     m_searchInput(0),
     m_fileNameButton(0),
@@ -63,6 +64,7 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_separator(0),
     m_fromHereButton(0),
     m_everywhereButton(0),
+    m_infoLabel(0),
     m_searchPath(),
     m_startSearchTimer(0)
 {
@@ -144,6 +146,19 @@ KUrl DolphinSearchBox::urlForSearching() const
 void DolphinSearchBox::selectAll()
 {
     m_searchInput->selectAll();
+}
+
+void DolphinSearchBox::setReadOnly(bool readOnly)
+{
+    if (m_readOnly != readOnly) {
+        m_readOnly = readOnly;
+        applyReadOnlyState();
+    }
+}
+
+bool DolphinSearchBox::isReadOnly() const
+{
+    return m_readOnly;
 }
 
 bool DolphinSearchBox::event(QEvent* event)
@@ -256,12 +271,16 @@ void DolphinSearchBox::init()
     connect(m_searchInput, SIGNAL(textChanged(QString)),
             this, SLOT(slotSearchTextChanged(QString)));
 
+    // Create information label
+    m_infoLabel = new QLabel("TODO: Provide information about the current query", this);
+
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
     searchInputLayout->setMargin(0);
     searchInputLayout->addWidget(closeButton);
     searchInputLayout->addWidget(searchLabel);
     searchInputLayout->addWidget(m_searchInput);
+    searchInputLayout->addWidget(m_infoLabel);
 
     // Create "Filename" and "Content" button
     m_fileNameButton = new QPushButton(this);
@@ -327,6 +346,8 @@ void DolphinSearchBox::init()
     m_startSearchTimer->setSingleShot(true);
     m_startSearchTimer->setInterval(1000);
     connect(m_startSearchTimer, SIGNAL(timeout()), this, SLOT(emitSearchSignal()));
+
+    applyReadOnlyState();
 }
 
 KUrl DolphinSearchBox::nepomukUrlForSearching() const
@@ -368,6 +389,18 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
 #else
     return KUrl();
 #endif
+}
+
+void DolphinSearchBox::applyReadOnlyState()
+{
+    // TODO: This is just an early draft to indicate that a state change
+    // has been done
+    m_searchInput->setVisible(!m_readOnly);
+    m_infoLabel->setVisible(m_readOnly);
+    m_fileNameButton->setEnabled(!m_readOnly);
+    m_contentButton->setEnabled(!m_readOnly);
+    m_fromHereButton->setEnabled(!m_readOnly);
+    m_everywhereButton->setEnabled(!m_readOnly);
 }
 
 #include "dolphinsearchbox.moc"

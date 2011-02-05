@@ -212,13 +212,13 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     m_urlNavigator->setVisible(!enabled);
 
     if (enabled) {
+        KUrl url = m_urlNavigator->locationUrl();
         m_searchBox->setText(QString());
+        m_searchBox->setReadOnly(isSearchUrl(url));
 
         // Remember the most recent non-search URL as search path
         // of the search-box, so that it can be restored
         // when switching back to the URL navigator.
-        KUrl url = m_urlNavigator->locationUrl();
-
         int index = m_urlNavigator->historyIndex();
         const int historySize = m_urlNavigator->historySize();
         while (isSearchUrl(url) && (index < historySize)) {

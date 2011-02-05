@@ -25,6 +25,7 @@
 #include <QWidget>
 
 class AbstractSearchFilterWidget;
+class QLabel;
 class KLineEdit;
 class KSeparator;
 class QFormLayout;
@@ -75,6 +76,14 @@ public:
      */
     void selectAll();
 
+    /**
+     * @param readOnly If set to true the searchbox cannot be modified
+     *                 by the user and acts as visual indicator for
+     *                 an externally triggered search query.
+     */
+    void setReadOnly(bool readOnly);
+    bool isReadOnly() const;
+
 protected:
     virtual bool event(QEvent* event);
     virtual void showEvent(QShowEvent* event);
@@ -118,8 +127,11 @@ private:
      */
     KUrl nepomukUrlForSearching() const;
 
+    void applyReadOnlyState();
+
 private:
     bool m_startedSearching;
+    bool m_readOnly;
 
     QVBoxLayout* m_topLayout;
 
@@ -129,6 +141,8 @@ private:
     KSeparator* m_separator;
     QPushButton* m_fromHereButton;
     QPushButton* m_everywhereButton;
+
+    QLabel* m_infoLabel;
 
     KUrl m_searchPath;
 
