@@ -119,7 +119,7 @@ KUrl DolphinSearchBox::urlForSearching() const
 {
     KUrl url;
     const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    if (searchInfo.isIndexingEnabled() && searchInfo.isPathIndexed(url)) {
+    if (searchInfo.isIndexingEnabled() && searchInfo.isPathIndexed(m_searchPath)) {
         url = nepomukUrlForSearching();
     } else {
         url.setProtocol("filenamesearch");
