@@ -60,7 +60,7 @@ void DolphinViewTest_AllViewModes::cleanup() {
 }
 
 /**
- * testSelection() checks the basic selection funtionality of DolphinView, including:
+ * testSelection() checks the basic selection functionality of DolphinView, including:
  *
  * selectedItems()
  * selectedItemsCount()
