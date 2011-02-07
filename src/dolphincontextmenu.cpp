@@ -29,6 +29,7 @@
 #include <kactioncollection.h>
 #include <kdesktopfile.h>
 #include <kfileitemactionplugin.h>
+#include <kabstractfileitemactionplugin.h>
 #include <kfileitemactions.h>
 #include <kfileitemlistproperties.h>
 #include <kfileplacesmodel.h>
@@ -511,15 +512,17 @@ void DolphinContextMenu::addFileItemPluginActions()
             continue;
         }
 
+        // Old API (kdelibs-4.6.0 only)
         KFileItemActionPlugin* plugin = service->createInstance<KFileItemActionPlugin>();
-        if (plugin == 0) {
-            continue;
+        if (plugin) {
+            plugin->setParent(m_popup);
+            m_popup->addActions(plugin->actions(props, m_mainWindow));
         }
-
-        plugin->setParent(m_popup);
-        const QList<QAction*> actions = plugin->actions(props, m_mainWindow);
-        foreach (QAction* action, actions) {
-            m_popup->addAction(action);
+        // New API (kdelibs >= 4.6.1)
+        KAbstractFileItemActionPlugin* abstractPlugin = service->createInstance<KAbstractFileItemActionPlugin>();
+        if (abstractPlugin) {
+            abstractPlugin->setParent(m_popup);
+            m_popup->addActions(abstractPlugin->actions(props, m_mainWindow));
         }
     }
 }
