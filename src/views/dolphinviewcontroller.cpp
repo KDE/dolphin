@@ -139,10 +139,8 @@ void DolphinViewController::handleKeyPressEvent(QKeyEvent* event)
         return;
     }
 
-    // Collect the non-directory files into a list and
-    // call runPreferredApplications for that list.
-    // Several selected directories are opened in separate tabs,
-    // one selected directory will get opened in the view.
+    // Collect selected files and selected directories
+    // as two separate lists.
     QModelIndexList dirQueue;
     const QModelIndexList indexList = selModel->selectedIndexes();
     KFileItemList fileOpenList;
@@ -154,14 +152,20 @@ void DolphinViewController::handleKeyPressEvent(QKeyEvent* event)
         }
     }
 
-    KFileItemActions fileItemActions;
-    fileItemActions.runPreferredApplications(fileOpenList, "DesktopEntryName != 'dolphin'");
+    // Handle selected files
+    if (fileOpenList.count() == 1) {
+        emit itemTriggered(fileOpenList.first());
+    } else {
+        KFileItemActions fileItemActions;
+        fileItemActions.runPreferredApplications(fileOpenList, "DesktopEntryName != 'dolphin'");
+    }
 
-    if (dirQueue.length() == 1) {
-        // open directory in the view
+    // Handle selected directories
+    if (dirQueue.count() == 1) {
+        // Open directory in the view
         emit itemTriggered(itemForIndex(dirQueue[0]));
     } else {
-        // open directories in separate tabs
+        // Open directories in separate tabs
         foreach(const QModelIndex& dir, dirQueue) {
             emit tabRequested(itemForIndex(dir).url());
         }
