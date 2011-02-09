@@ -29,9 +29,9 @@
 #include <KActionCollection>
 #include <KIO/Job>
 
-DolphinNewFileMenu::DolphinNewFileMenu(QWidget* parent, DolphinMainWindow* mainWin) :
-    KNewFileMenu(mainWin->actionCollection(), "create_new", parent),
-    m_mainWin(mainWin)
+DolphinNewFileMenu::DolphinNewFileMenu(DolphinMainWindow* parent) :
+    KNewFileMenu(parent->actionCollection(), "create_new", parent),
+    m_mainWin(parent)
 {
     DolphinNewFileMenuObserver::instance().attach(this);
 }
