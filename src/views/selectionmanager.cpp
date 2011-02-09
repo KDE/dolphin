@@ -71,7 +71,7 @@ bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
     if (watched == m_view->viewport()) {
         switch (event->type()) {
         case QEvent::Leave:
-            if (m_toggle != 0) {
+            if (m_toggle) {
                 m_toggle->hide();
             }
             restoreCursor();
@@ -81,7 +81,7 @@ bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
             // Set the toggle invisible, if a mouse button has been pressed
             // outside the toggle boundaries. This e.g. assures, that the toggle
             // gets invisible during dragging items.
-            if (m_toggle != 0) {
+            if (m_toggle) {
                 const QRect toggleBounds(m_toggle->mapToGlobal(QPoint(0, 0)), m_toggle->size());
                 m_toggle->setVisible(toggleBounds.contains(QCursor::pos()));
             }
@@ -111,7 +111,7 @@ bool SelectionManager::eventFilter(QObject* watched, QEvent* event)
 
 void SelectionManager::reset()
 {
-    if (m_toggle != 0) {
+    if (m_toggle) {
         m_toggle->reset();
     }
 }
@@ -147,7 +147,7 @@ void SelectionManager::slotEntered(const QModelIndex& index)
         m_connected = false;
     }
 
-    if (m_toggle == 0) {
+    if (!m_toggle) {
         return;
     }
 
@@ -187,7 +187,7 @@ void SelectionManager::slotEntered(const QModelIndex& index)
 
 void SelectionManager::slotViewportEntered()
 {
-    if (m_toggle != 0) {
+    if (m_toggle) {
         m_toggle->hide();
     }
     restoreCursor();
@@ -197,7 +197,7 @@ void SelectionManager::setItemSelected(bool selected)
 {
     emit selectionChanged();
 
-    if ((m_toggle != 0) && !m_toggle->url().isEmpty()) {
+    if (m_toggle && !m_toggle->url().isEmpty()) {
         const QModelIndex index = indexForUrl(m_toggle->url());
         if (index.isValid()) {
             QItemSelectionModel* selModel = m_view->selectionModel();
@@ -216,7 +216,7 @@ void SelectionManager::slotRowsRemoved(const QModelIndex& parent, int start, int
     Q_UNUSED(parent);
     Q_UNUSED(start);
     Q_UNUSED(end);
-    if (m_toggle != 0) {
+    if (m_toggle) {
         m_toggle->hide();
     }
     restoreCursor();
@@ -228,7 +228,7 @@ void SelectionManager::slotSelectionChanged(const QItemSelection& selected,
     // The selection has been changed outside the scope of the selection manager
     // (e. g. by the rubberband or the "Select All" action). Take care updating
     // the state of the toggle button.
-    if ((m_toggle != 0) && !m_toggle->url().isEmpty()) {
+    if (m_toggle && !m_toggle->url().isEmpty()) {
         const QModelIndex index = indexForUrl(m_toggle->url());
         if (index.isValid()) {
             if (selected.contains(index)) {

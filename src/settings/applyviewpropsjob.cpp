@@ -61,7 +61,7 @@ void ApplyViewPropsJob::slotEntries(KIO::Job*, const KIO::UDSEntryList& list)
             KUrl url(m_dir);
             url.addPath(name);
 
-            Q_ASSERT(m_viewProps != 0);
+            Q_ASSERT(m_viewProps);
 
             ViewProperties props(url);
             props.setDirProperties(*m_viewProps);

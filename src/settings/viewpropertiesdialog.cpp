@@ -73,7 +73,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_applyToAllFolders(0),
     m_useAsDefault(0)
 {
-    Q_ASSERT(dolphinView != 0);
+    Q_ASSERT(dolphinView);
     const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
 
     setCaption(i18nc("@title:window", "View Properties"));
@@ -332,8 +332,7 @@ void ViewPropertiesDialog::applyViewProperties()
         return;
     }
 
-    const bool applyToSubFolders = (m_applyToSubFolders != 0) &&
-                                   m_applyToSubFolders->isChecked();
+    const bool applyToSubFolders = m_applyToSubFolders && m_applyToSubFolders->isChecked();
     if (applyToSubFolders) {
         const QString text(i18nc("@info", "The view properties of all sub-folders will be changed. Do you want to continue?"));
         if (KMessageBox::questionYesNo(this, text) == KMessageBox::No) {
@@ -348,13 +347,11 @@ void ViewPropertiesDialog::applyViewProperties()
         info->show();
     }
 
-    const bool applyToAllFolders = (m_applyToAllFolders != 0) &&
-                                   m_applyToAllFolders->isChecked();
+    const bool applyToAllFolders = m_applyToAllFolders && m_applyToAllFolders->isChecked();
 
     // If the user selected 'Apply To All Folders' the view properties implicitely
     // are also used as default for new folders.
-    const bool useAsDefault = applyToAllFolders ||
-                              ((m_useAsDefault != 0) && m_useAsDefault->isChecked());
+    const bool useAsDefault = applyToAllFolders || (m_useAsDefault && m_useAsDefault->isChecked());
     if (useAsDefault) {
         // For directories where no .directory file is available, the .directory
         // file stored for the global view properties is used as fallback. To update

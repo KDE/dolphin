@@ -259,7 +259,7 @@ void DolphinViewContainer::setUrl(const KUrl& newUrl)
 
 void DolphinViewContainer::setFilterBarVisible(bool visible)
 {
-    Q_ASSERT(m_filterBar != 0);
+    Q_ASSERT(m_filterBar);
     if (visible) {
         m_filterBar->show();
         m_filterBar->setFocus();
@@ -338,7 +338,7 @@ void DolphinViewContainer::slotFinishedPathLoading()
         m_statusBar->setProgress(100);
     }
 
-    if (isSearchUrl(url()) && (m_view->items().count() == 0)) {
+    if (isSearchUrl(url()) && m_view->items().isEmpty()) {
         // The dir lister has been completed on a Nepomuk-URI and no items have been found. Instead
         // of showing the default status bar information ("0 items") a more helpful information is given:
         m_statusBar->setMessage(i18nc("@info:status", "No items found."), DolphinStatusBar::Information);

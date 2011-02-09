@@ -169,7 +169,7 @@ void DolphinRemoteEncoding::slotAboutToShow()
 
 void DolphinRemoteEncoding::slotItemSelected(QAction* action)
 {
-    if (action != 0) {
+    if (action) {
         int id = action->data().toInt();
     
         KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
@@ -200,7 +200,7 @@ void DolphinRemoteEncoding::slotDefault()
         // Remove the exact name match...
         domains << m_currentURL.host();
 
-        while (partList.count()) {
+        while (!partList.isEmpty()) {
             if (partList.count() == 2) {
                 if (partList[0].length() <= 2 && partList[1].length() == 2) {
                     break;

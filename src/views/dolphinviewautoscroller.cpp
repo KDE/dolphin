@@ -131,13 +131,13 @@ void DolphinViewAutoScroller::scrollViewport()
     }
 
     QScrollBar* verticalScrollBar = m_itemView->verticalScrollBar();
-    if (verticalScrollBar != 0) {
+    if (verticalScrollBar) {
         const int value = verticalScrollBar->value();
         verticalScrollBar->setValue(value + m_verticalScrollInc);
 
     }
     QScrollBar* horizontalScrollBar = m_itemView->horizontalScrollBar();
-    if (horizontalScrollBar != 0) {
+    if (horizontalScrollBar) {
         const int value = horizontalScrollBar->value();
         horizontalScrollBar->setValue(value + m_horizontalScrollInc);
 
@@ -156,9 +156,9 @@ void DolphinViewAutoScroller::scrollViewport()
 
 void DolphinViewAutoScroller::triggerAutoScroll()
 {
-    const bool verticalScrolling = (m_itemView->verticalScrollBar() != 0) &&
+    const bool verticalScrolling = m_itemView->verticalScrollBar() &&
                                    m_itemView->verticalScrollBar()->isVisible();
-    const bool horizontalScrolling = (m_itemView->horizontalScrollBar() != 0) &&
+    const bool horizontalScrolling = m_itemView->horizontalScrollBar() &&
                                      m_itemView->horizontalScrollBar()->isVisible();
     if (!verticalScrolling && !horizontalScrolling) {
         // no scrollbars are shown at all, so no autoscrolling is necessary

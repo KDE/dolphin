@@ -62,11 +62,11 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
     const QModelIndexList indexes = itemView->selectionModel()->selectedIndexes();
     if (!indexes.isEmpty()) {
         QMimeData *data = itemView->model()->mimeData(indexes);
-        if (data == 0) {
+        if (!data) {
             return;
         }
 
-        if (dolphinViewController != 0) {
+        if (dolphinViewController) {
             dolphinViewController->requestToolTipHiding();
         }
 
@@ -83,7 +83,7 @@ void DragAndDropHelper::startDrag(QAbstractItemView* itemView,
 
 bool DragAndDropHelper::isDragSource(QAbstractItemView* itemView) const
 {
-    return (m_dragSource != 0) && (m_dragSource == itemView);
+    return m_dragSource && (m_dragSource == itemView);
 }
 
 void DragAndDropHelper::dropUrls(const KFileItem& destItem,

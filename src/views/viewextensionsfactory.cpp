@@ -155,7 +155,7 @@ bool ViewExtensionsFactory::autoFolderExpandingEnabled() const
 bool ViewExtensionsFactory::eventFilter(QObject* watched, QEvent* event)
 {
     Q_UNUSED(watched);
-    if ((event->type() == QEvent::Wheel) && (m_selectionManager != 0)) {
+    if ((event->type() == QEvent::Wheel) && m_selectionManager) {
         m_selectionManager->reset();
     }
     return false;
@@ -164,7 +164,7 @@ bool ViewExtensionsFactory::eventFilter(QObject* watched, QEvent* event)
 void ViewExtensionsFactory::slotZoomLevelChanged()
 {
     m_previewGenerator->updateIcons();
-    if (m_selectionManager != 0) {
+    if (m_selectionManager) {
         m_selectionManager->reset();
     }
 }

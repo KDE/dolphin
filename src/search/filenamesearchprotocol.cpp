@@ -89,7 +89,7 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
     const KFileItemList items = dirLister->items();
     foreach (const KFileItem& item, items) {
         bool addItem = false;
-        if ((m_regExp == 0) || item.name().contains(*m_regExp)) {
+        if (!m_regExp || item.name().contains(*m_regExp)) {
             addItem = true;
         } else if (m_checkContent && item.mimetype().startsWith(QLatin1String("text/"))) {
             addItem = contentContainsPattern(item.url());
@@ -129,7 +129,7 @@ void FileNameSearchProtocol::searchDirectory(const KUrl& directory)
 
 bool FileNameSearchProtocol::contentContainsPattern(const KUrl& fileName) const
 {
-    Q_ASSERT(m_regExp != 0);
+    Q_ASSERT(m_regExp);
 
     QString path;
     KTemporaryFile tempFile;

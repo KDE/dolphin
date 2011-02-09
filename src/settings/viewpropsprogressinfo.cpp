@@ -104,12 +104,12 @@ void ViewPropsProgressInfo::closeEvent(QCloseEvent* event)
 
 void ViewPropsProgressInfo::updateProgress()
 {
-    if (m_dirSizeJob != 0) {
+    if (m_dirSizeJob) {
         const int subdirs = m_dirSizeJob->totalSubdirs();
         m_label->setText(i18nc("@info:progress", "Counting folders: %1", subdirs));
     }
 
-    if (m_applyViewPropsJob != 0) {
+    if (m_applyViewPropsJob) {
         const int progress = m_applyViewPropsJob->progress();
         m_progressBar->setValue(progress);
     }
@@ -134,12 +134,12 @@ void ViewPropsProgressInfo::applyViewProperties()
 
 void ViewPropsProgressInfo::cancelApplying()
 {
-    if (m_dirSizeJob != 0) {
+    if (m_dirSizeJob) {
         m_dirSizeJob->kill();
         m_dirSizeJob = 0;
     }
 
-    if (m_applyViewPropsJob != 0) {
+    if (m_applyViewPropsJob) {
         m_applyViewPropsJob->kill();
         m_applyViewPropsJob = 0;
     }

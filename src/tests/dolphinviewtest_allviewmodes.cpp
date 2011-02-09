@@ -409,7 +409,7 @@ void DolphinViewTest_AllViewModes::verifySelectedItemsCount(int itemsCount) cons
     QCOMPARE(m_view->selectedItemsCount(), itemsCount);
     QCOMPARE(spySelectionChanged.count(), 1);
     QCOMPARE(qvariant_cast<KFileItemList>(spySelectionChanged.at(0).at(0)).count(), itemsCount);
-    if (itemsCount != 0) {
+    if (itemsCount) {
         QVERIFY(m_view->hasSelection());
     }
     else {

@@ -37,7 +37,7 @@ DolphinApplication::DolphinApplication() :
 DolphinApplication::~DolphinApplication()
 {
     // cleanup what ever is left from the MainWindows
-    while (m_mainWindows.count() != 0) {
+    while (!m_mainWindows.isEmpty()) {
         delete m_mainWindows.takeFirst();
     }
 }

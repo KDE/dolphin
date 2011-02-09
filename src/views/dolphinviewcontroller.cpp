@@ -53,14 +53,14 @@ void DolphinViewController::requestUrlChange(const KUrl& url)
 
 void DolphinViewController::setItemView(QAbstractItemView* view)
 {
-    if (m_itemView != 0) {
+    if (m_itemView) {
         disconnect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
                    this, SLOT(updateMouseButtonState()));
     }
 
     m_itemView = view;
 
-    if (m_itemView != 0) {
+    if (m_itemView) {
         // TODO: this is a workaround until  Qt-issue 176832 has been fixed
         connect(m_itemView, SIGNAL(pressed(const QModelIndex&)),
                 this, SLOT(updateMouseButtonState()));
@@ -126,7 +126,7 @@ QList<QAction*> DolphinViewController::versionControlActions(const KFileItemList
 
 void DolphinViewController::handleKeyPressEvent(QKeyEvent* event)
 {
-    if (m_itemView == 0) {
+    if (!m_itemView) {
         return;
     }
 
@@ -194,9 +194,9 @@ void DolphinViewController::emitItemTriggered(const KFileItem& item)
 
 KFileItem DolphinViewController::itemForIndex(const QModelIndex& index) const
 {
-    if (m_itemView != 0) {
+    if (m_itemView) {
         QAbstractProxyModel* proxyModel = static_cast<QAbstractProxyModel*>(m_itemView->model());
-        if (proxyModel != 0) {
+        if (proxyModel) {
             KDirModel* dirModel = static_cast<KDirModel*>(proxyModel->sourceModel());
             const QModelIndex dirIndex = proxyModel->mapToSource(index);
             return dirModel->itemForIndex(dirIndex);
@@ -212,7 +212,7 @@ void DolphinViewController::triggerItem(const QModelIndex& index)
         const KFileItem item = itemForIndex(index);
         if (index.isValid() && (index.column() == KDirModel::Name)) {
             emit itemTriggered(item);
-        } else if (m_itemView != 0) {
+        } else if (m_itemView) {
             m_itemView->clearSelection();
             emit itemEntered(KFileItem());
         }

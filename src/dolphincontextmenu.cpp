@@ -81,7 +81,7 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
     const DolphinView* view = m_mainWindow->activeViewContainer()->view();
     m_selectedItems = view->selectedItems();
 
-    if (m_keyInfo != 0) {
+    if (m_keyInfo) {
         if (m_keyInfo->isKeyPressed(Qt::Key_Shift) || m_keyInfo->isKeyLatched(Qt::Key_Shift)) {
             m_shiftPressed = true;
         }
@@ -306,7 +306,7 @@ void DolphinContextMenu::openItemContextMenu()
     m_popup->addAction(propertiesAction);
 
     QAction* activatedAction = m_popup->exec(QCursor::pos());
-    if (activatedAction != 0) {
+    if (activatedAction) {
         if (activatedAction == addToPlacesAction) {
             const KUrl selectedUrl(m_fileInfo.url());
             if (selectedUrl.isValid()) {
@@ -374,7 +374,7 @@ void DolphinContextMenu::openViewportContextMenu()
         KPropertiesDialog* dialog = new KPropertiesDialog(url, m_mainWindow);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
         dialog->show();
-    } else if ((addToPlacesAction != 0) && (action == addToPlacesAction)) {
+    } else if (addToPlacesAction && (action == addToPlacesAction)) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(placesName(url), url);
@@ -459,7 +459,7 @@ QAction* DolphinContextMenu::createPasteAction()
 
 KFileItemListProperties& DolphinContextMenu::selectedItemsProperties()
 {
-    if (m_selectedItemsProperties == 0) {
+    if (!m_selectedItemsProperties) {
         m_selectedItemsProperties = new KFileItemListProperties(m_selectedItems);
     }
     return *m_selectedItemsProperties;
@@ -467,7 +467,7 @@ KFileItemListProperties& DolphinContextMenu::selectedItemsProperties()
 
 KFileItem DolphinContextMenu::baseFileItem()
 {
-    if (m_baseFileItem == 0) {
+    if (!m_baseFileItem) {
         m_baseFileItem = new KFileItem(KFileItem::Unknown, KFileItem::Unknown, m_baseUrl);
     }
     return *m_baseFileItem;

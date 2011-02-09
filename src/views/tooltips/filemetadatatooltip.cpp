@@ -84,7 +84,7 @@ void FileMetaDataToolTip::setPreview(const QPixmap& pixmap)
 
 QPixmap FileMetaDataToolTip::preview() const
 {
-    if (m_preview->pixmap() != 0) {
+    if (m_preview->pixmap()) {
         return *m_preview->pixmap();
     }
     return QPixmap();

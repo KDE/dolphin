@@ -125,7 +125,7 @@ void SelectionToggle::enterEvent(QEvent* event)
     // if the mouse cursor is above the selection toggle, display
     // it immediately without fading timer
     m_isHovered = true;
-    if (m_fadingTimeLine != 0) {
+    if (m_fadingTimeLine) {
         m_fadingTimeLine->stop();
     }
     m_fadingValue = 255;
@@ -192,7 +192,7 @@ void SelectionToggle::setFadingValue(int value)
 {
     m_fadingValue = value;
     if (m_fadingValue >= 255) {
-        Q_ASSERT(m_fadingTimeLine != 0);
+        Q_ASSERT(m_fadingTimeLine);
         m_fadingTimeLine->stop();
     }
     update();
@@ -215,7 +215,7 @@ void SelectionToggle::refreshIcon()
 
 void SelectionToggle::startFading()
 {
-    Q_ASSERT(m_fadingTimeLine == 0);
+    Q_ASSERT(!m_fadingTimeLine);
 
     const bool animate = KGlobalSettings::graphicEffectsLevel() & KGlobalSettings::SimpleAnimationEffects;
     const int duration = animate ? 600 : 1;
@@ -230,7 +230,7 @@ void SelectionToggle::startFading()
 
 void SelectionToggle::stopFading()
 {
-    if (m_fadingTimeLine != 0) {
+    if (m_fadingTimeLine) {
         m_fadingTimeLine->stop();
         delete m_fadingTimeLine;
         m_fadingTimeLine = 0;

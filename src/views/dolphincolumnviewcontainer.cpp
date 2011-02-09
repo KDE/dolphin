@@ -49,8 +49,8 @@ DolphinColumnViewContainer::DolphinColumnViewContainer(QWidget* parent,
     m_activeUrlTimer(0),
     m_assureVisibleActiveColumnTimer(0)
 {
-    Q_ASSERT(dolphinViewController != 0);
-    Q_ASSERT(viewModeController != 0);
+    Q_ASSERT(dolphinViewController);
+    Q_ASSERT(viewModeController);
 
     setAcceptDrops(true);
     setFocusPolicy(Qt::NoFocus);
@@ -392,7 +392,7 @@ void DolphinColumnViewContainer::removeAllColumns()
 
 void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
 {
-    if (column == 0) {
+    if (!column) {
         return;
     }
 
@@ -412,7 +412,7 @@ void DolphinColumnViewContainer::deleteColumn(DolphinColumnView* column)
         // during drag operations" is used). Deleting the view
         // during an ongoing drag operation is not allowed, so
         // this will postponed.
-        if (m_dragSource != 0) {
+        if (m_dragSource) {
             // the old stored view is obviously not the drag source anymore
             m_dragSource->deleteLater();
             m_dragSource = 0;

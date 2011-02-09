@@ -90,7 +90,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     m_resizeWidget->installEventFilter(this);
 
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    Q_ASSERT(settings != 0);
+    Q_ASSERT(settings);
 
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
@@ -241,7 +241,7 @@ void DolphinColumnView::setSelectionModel(QItemSelectionModel* model)
     // If a change of the selection is done although the view is not active
     // (e. g. by the selection markers), the column must be activated. This
     // is done by listening to the current selectionChanged() signal.
-    if (selectionModel() != 0) {
+    if (selectionModel()) {
         disconnect(selectionModel(), SIGNAL(selectionChanged(QItemSelection, QItemSelection)),
                    this, SLOT(requestActivation()));
     }
@@ -507,7 +507,7 @@ void DolphinColumnView::requestActivation()
 void DolphinColumnView::updateFont()
 {
     const ColumnModeSettings* settings = DolphinSettings::instance().columnModeSettings();
-    Q_ASSERT(settings != 0);
+    Q_ASSERT(settings);
 
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();

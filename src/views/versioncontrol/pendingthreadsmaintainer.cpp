@@ -41,7 +41,7 @@ PendingThreadsMaintainer::~PendingThreadsMaintainer()
 
 void PendingThreadsMaintainer::append(QThread* thread)
 {
-    Q_ASSERT(thread != 0);
+    Q_ASSERT(thread);
     m_threads.append(thread);
     m_timer->start();
 }

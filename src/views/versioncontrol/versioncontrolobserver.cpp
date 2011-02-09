@@ -49,13 +49,14 @@ VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
     m_plugin(0),
     m_updateItemStatesThread(0)
 {
-    Q_ASSERT(view != 0);
+    Q_ASSERT(view);
 
     QAbstractProxyModel* proxyModel = qobject_cast<QAbstractProxyModel*>(view->model());
-    m_dolphinModel = (proxyModel == 0) ?
-                     qobject_cast<DolphinModel*>(view->model()) :
-                     qobject_cast<DolphinModel*>(proxyModel->sourceModel());
-    if (m_dolphinModel != 0) {
+    m_dolphinModel = proxyModel ?
+                     qobject_cast<DolphinModel*>(proxyModel->sourceModel()) :
+                     qobject_cast<DolphinModel*>(view->model());
+
+    if (m_dolphinModel) {
         m_dirLister = m_dolphinModel->dirLister();
         connect(m_dirLister, SIGNAL(completed()),
                 this, SLOT(delayedDirectoryVerification()));
@@ -75,7 +76,7 @@ VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
 
 VersionControlObserver::~VersionControlObserver()
 {
-    if (m_updateItemStatesThread != 0) {
+    if (m_updateItemStatesThread) {
         if (m_updateItemStatesThread->isFinished()) {
             delete m_updateItemStatesThread;
             m_updateItemStatesThread = 0;
@@ -91,7 +92,7 @@ VersionControlObserver::~VersionControlObserver()
         }
     }
 
-    if (m_plugin != 0) {
+    if (m_plugin) {
         m_plugin->disconnect();
         m_plugin = 0;
     }
@@ -137,12 +138,12 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-    if (m_plugin != 0) {
+    if (m_plugin) {
         m_plugin->disconnect();
     }
 
     m_plugin = searchPlugin(versionControlUrl);
-    if (m_plugin != 0) {
+    if (m_plugin) {
         connect(m_plugin, SIGNAL(versionStatesChanged()),
                 this, SLOT(silentDirectoryVerification()));
         connect(m_plugin, SIGNAL(infoMessage(QString)),
@@ -180,7 +181,7 @@ void VersionControlObserver::verifyDirectory()
 
 void VersionControlObserver::slotThreadFinished()
 {
-    if (m_plugin == 0) {
+    if (!m_plugin) {
         return;
     }
 
@@ -222,8 +223,8 @@ void VersionControlObserver::slotThreadFinished()
 
 void VersionControlObserver::updateItemStates()
 {
-    Q_ASSERT(m_plugin != 0);
-    if (m_updateItemStatesThread == 0) {
+    Q_ASSERT(m_plugin);
+    if (!m_updateItemStatesThread) {
         m_updateItemStatesThread = new UpdateItemStatesThread();
         connect(m_updateItemStatesThread, SIGNAL(finished()),
                 this, SLOT(slotThreadFinished()));
@@ -282,7 +283,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
         for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
             if (enabledPlugins.contains((*it)->name())) {
                 KVersionControlPlugin* plugin = (*it)->createInstance<KVersionControlPlugin>();
-                if (plugin != 0) {
+                if (plugin) {
                     plugins.append(plugin);
                 }
             }
@@ -330,7 +331,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
 
 bool VersionControlObserver::isVersioned() const
 {
-    return m_dolphinModel->hasVersionData() && (m_plugin != 0);
+    return m_dolphinModel->hasVersionData() && m_plugin;
 }
 
 #include "versioncontrolobserver.moc"

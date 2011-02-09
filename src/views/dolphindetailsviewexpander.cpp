@@ -34,16 +34,16 @@ DolphinDetailsViewExpander::DolphinDetailsViewExpander(DolphinDetailsView* paren
     m_dolphinModel(0),
     m_proxyModel(0)
 {
-    Q_ASSERT(parent != 0);
+    Q_ASSERT(parent);
 
     m_proxyModel = qobject_cast<const DolphinSortFilterProxyModel*>(parent->model());
-    Q_ASSERT(m_proxyModel != 0);
+    Q_ASSERT(m_proxyModel);
 
     m_dolphinModel = qobject_cast<const DolphinModel*>(m_proxyModel->sourceModel());
-    Q_ASSERT(m_dolphinModel != 0);
+    Q_ASSERT(m_dolphinModel);
 
     m_dirLister = m_dolphinModel->dirLister();
-    Q_ASSERT(m_dirLister != 0);
+    Q_ASSERT(m_dirLister);
 
     // The URLs must be sorted. E.g. /home/user/ cannot be expanded before /home/
     // because it is not known to the dir model before.

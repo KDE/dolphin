@@ -192,7 +192,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
         }
     }
 
-    if (m_metaDataWidget != 0) {
+    if (m_metaDataWidget) {
         m_metaDataWidget->show();
         m_metaDataWidget->setItems(KFileItemList() << item);
     }
@@ -234,7 +234,7 @@ void InformationPanelContent::showItems(const KFileItemList& items)
     m_preview->setPixmap(icon);
     setNameLabelText(i18ncp("@info", "%1 item selected", "%1 items selected", items.count()));
 
-    if (m_metaDataWidget != 0) {
+    if (m_metaDataWidget) {
         m_metaDataWidget->setItems(items);
     }
 
@@ -289,7 +289,7 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     // Open the popup and adjust the settings for the
     // selected action.
     QAction* action = popup.exec(QCursor::pos());
-    if (action == 0) {
+    if (!action) {
         return;
     }
 
@@ -418,7 +418,7 @@ void InformationPanelContent::adjustWidgetSizes(int width)
 
     // The metadata widget also contains a text widget which may return
     // a large preferred width.
-    if (m_metaDataWidget != 0) {
+    if (m_metaDataWidget) {
         m_metaDataWidget->setMaximumWidth(maxWidth);
     }
 

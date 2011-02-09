@@ -118,7 +118,7 @@ void PhononWidget::showEvent(QShowEvent *event)
         return;
     }
 
-    if (m_topLayout == 0) {
+    if (!m_topLayout) {
         m_topLayout = new QVBoxLayout(this);
         m_topLayout->setMargin(0);
         m_topLayout->setSpacing(KDialog::spacingHint());
@@ -185,7 +185,7 @@ void PhononWidget::play()
 {
     switch (m_mode) {
     case Audio:
-        if (m_audioMedia == 0) {
+        if (!m_audioMedia) {
             m_audioMedia = Phonon::createPlayer(Phonon::MusicCategory, m_url);
             m_audioMedia->setParent(this);
         }
@@ -195,7 +195,7 @@ void PhononWidget::play()
         break;
 
     case Video:
-        if (m_videoPlayer == 0) {
+        if (!m_videoPlayer) {
             m_videoPlayer = new EmbeddedVideoPlayer(Phonon::VideoCategory, this);
             m_topLayout->insertWidget(0, m_videoPlayer);
         }
@@ -209,7 +209,7 @@ void PhononWidget::play()
         break;
     }
 
-    Q_ASSERT(m_media != 0);
+    Q_ASSERT(m_media);
     connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
             this, SLOT(stateChanged(Phonon::State)));
     m_seekSlider->setMediaObject(m_media);
@@ -219,7 +219,7 @@ void PhononWidget::play()
 
 void PhononWidget::stop()
 {
-    if (m_media != 0) {
+    if (m_media) {
         m_media->stop();
         disconnect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
                    this, SLOT(stateChanged(Phonon::State)));
@@ -229,14 +229,14 @@ void PhononWidget::stop()
         m_playButton->show();
     }
 
-    if (m_videoPlayer != 0) {
+    if (m_videoPlayer) {
         m_videoPlayer->hide();
     }
 }
 
 void PhononWidget::applyVideoSize()
 {
-    if ((m_videoPlayer != 0) && m_videoSize.isValid()) {
+    if ((m_videoPlayer) && m_videoSize.isValid()) {
         m_videoPlayer->setSizeHint(m_videoSize);
     }
 }

@@ -64,7 +64,7 @@ void DolphinDockWidget::setLocked(bool lock)
         m_locked = lock;
 
         if (lock) {
-            if (m_dockTitleBar == 0) {
+            if (!m_dockTitleBar) {
                 m_dockTitleBar = new DolphinDockTitleBar(this);
             }
             setTitleBarWidget(m_dockTitleBar);

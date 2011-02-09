@@ -51,7 +51,7 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_enabledPlugins()
 {
     static FileMetaDataToolTip* sharedToolTip = 0;
-    if (sharedToolTip == 0) {
+    if (!sharedToolTip) {
         sharedToolTip = new FileMetaDataToolTip();
         // TODO: Using K_GLOBAL_STATIC would be preferable to maintain the
         // instance, but the cleanup of KFileMetaDataWidget at this stage does

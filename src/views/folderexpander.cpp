@@ -39,14 +39,11 @@ FolderExpander::FolderExpander(QAbstractItemView *view, QSortFilterProxyModel *p
     m_autoExpandTriggerTimer(0),
     m_autoExpandPos()
 {
-    if (m_view == 0)  {
-        return;
-    }
-    if (m_proxyModel == 0)  {
+    if (!m_view || !m_proxyModel)  {
         return;
     }
     KDirModel *m_dirModel = qobject_cast<KDirModel*>(m_proxyModel->sourceModel());
-    if (m_dirModel == 0) {
+    if (!m_dirModel) {
         return;
     }
 
@@ -100,7 +97,7 @@ void FolderExpander::autoExpandTimeout()
     QModelIndex proxyIndexToExpand = m_view->indexAt(m_autoExpandPos);
     QModelIndex indexToExpand = m_proxyModel->mapToSource(proxyIndexToExpand);
     KDirModel* m_dirModel = qobject_cast< KDirModel* >(m_proxyModel->sourceModel());
-    Q_ASSERT(m_dirModel != 0);
+    Q_ASSERT(m_dirModel);
     KFileItem itemToExpand = m_dirModel->itemForIndex(indexToExpand);
 
     if (itemToExpand.isNull() || itemToExpand == m_dirModel->itemForIndex(QModelIndex())) {
@@ -111,7 +108,7 @@ void FolderExpander::autoExpandTimeout()
 
     if (itemToExpand.isDir()) {
         QTreeView* treeView = qobject_cast<QTreeView*>(m_view);
-        if ((treeView != 0) && treeView->itemsExpandable()) {
+        if (treeView && treeView->itemsExpandable()) {
             // Toggle expanded state of this directory.
             treeView->setExpanded(proxyIndexToExpand, !treeView->isExpanded(proxyIndexToExpand));
         }

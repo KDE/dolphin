@@ -38,7 +38,7 @@ class QTimer;
  * \code
  * ThreadCreator::~ThreadCreator()
  * {
- *     if (m_thread != 0) {
+ *     if (m_thread) {
  *         PendingThreadsMaintainer::instance().append(m_thread);
  *         m_thread = 0;
  *     }

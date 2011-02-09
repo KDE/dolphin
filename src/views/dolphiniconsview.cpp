@@ -54,8 +54,8 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
     m_itemSize(),
     m_dropRect()
 {
-    Q_ASSERT(dolphinViewController != 0);
-    Q_ASSERT(viewModeController != 0);
+    Q_ASSERT(dolphinViewController);
+    Q_ASSERT(viewModeController);
 
     setModel(proxyModel);
     setLayoutDirection(Qt::LeftToRight);
@@ -93,7 +93,7 @@ DolphinIconsView::DolphinIconsView(QWidget* parent,
 
     // apply the icons mode settings to the widget
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    Q_ASSERT(settings != 0);
+    Q_ASSERT(settings);
 
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
@@ -405,7 +405,7 @@ void DolphinIconsView::slotGlobalSettingsChanged(int category)
     Q_UNUSED(category);
 
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    Q_ASSERT(settings != 0);
+    Q_ASSERT(settings);
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
     }
@@ -449,7 +449,7 @@ void DolphinIconsView::categoryDrawerActionRequested(int action, const QModelInd
 void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
 {
     const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    Q_ASSERT(settings != 0);
+    Q_ASSERT(settings);
 
     int itemWidth = settings->itemWidth();
     int itemHeight = settings->itemHeight();
@@ -510,7 +510,7 @@ void DolphinIconsView::updateGridSize(bool showPreview, int additionalInfoCount)
     setGridSizeOwn(QSize(itemWidth + spacing * 2, itemHeight + spacing));
 
     KFileItemDelegate* delegate = dynamic_cast<KFileItemDelegate*>(itemDelegate());
-    if (delegate != 0) {
+    if (delegate) {
         delegate->setMaximumSize(m_itemSize);
     }
 }

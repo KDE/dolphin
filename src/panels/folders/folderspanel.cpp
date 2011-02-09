@@ -73,7 +73,7 @@ FoldersPanel::~FoldersPanel()
 void FoldersPanel::setShowHiddenFiles(bool show)
 {
     FoldersPanelSettings::setShowHiddenFiles(show);
-    if (m_dirLister != 0) {
+    if (m_dirLister) {
         m_dirLister->setShowingDotFiles(show);
         m_dirLister->openUrl(m_dirLister->url(), KDirLister::Reload);
     }
@@ -118,7 +118,7 @@ bool FoldersPanel::urlChanged()
         return false;
     }
 
-    if (m_dirLister != 0) {
+    if (m_dirLister) {
         m_setLeafVisible = true;
         loadTree(url());
     }
@@ -133,7 +133,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         return;
     }
 
-    if (m_dirLister == 0) {
+    if (!m_dirLister) {
         // Postpone the creating of the dir lister to the first show event.
         // This assures that no performance and memory overhead is given when the TreeView is not
         // used at all (see FoldersPanel::setUrl()).
@@ -146,18 +146,18 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_dirLister->setShowingDotFiles(FoldersPanelSettings::showHiddenFiles());
         connect(m_dirLister, SIGNAL(completed()), this, SLOT(slotDirListerCompleted()));
 
-        Q_ASSERT(m_dolphinModel == 0);
+        Q_ASSERT(!m_dolphinModel);
         m_dolphinModel = new DolphinModel(this);
         m_dolphinModel->setDirLister(m_dirLister);
         m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
         connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
                 this, SLOT(expandToDir(const QModelIndex&)));
 
-        Q_ASSERT(m_proxyModel == 0);
+        Q_ASSERT(!m_proxyModel);
         m_proxyModel = new DolphinSortFilterProxyModel(this);
         m_proxyModel->setSourceModel(m_dolphinModel);
 
-        Q_ASSERT(m_treeView == 0);
+        Q_ASSERT(!m_treeView);
         m_treeView = new PanelTreeView(this);
         m_treeView->setModel(m_proxyModel);
         m_proxyModel->setSorting(DolphinView::SortByName);
@@ -278,7 +278,7 @@ void FoldersPanel::slotVerticalScrollBarMoved(int value)
 
 void FoldersPanel::loadTree(const KUrl& url)
 {
-    Q_ASSERT(m_dirLister != 0);
+    Q_ASSERT(m_dirLister);
     m_leafDir = url;
 
     KUrl baseUrl;

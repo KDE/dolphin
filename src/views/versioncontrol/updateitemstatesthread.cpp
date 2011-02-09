@@ -53,7 +53,7 @@ void UpdateItemStatesThread::setData(KVersionControlPlugin* plugin,
 void UpdateItemStatesThread::run()
 {
     Q_ASSERT(!m_itemStates.isEmpty());
-    Q_ASSERT(m_plugin != 0);
+    Q_ASSERT(m_plugin);
 
     // The items from m_itemStates may be located in different directory levels. The version
     // plugin requires the root directory for KVersionControlPlugin::beginRetrieval(). Instead

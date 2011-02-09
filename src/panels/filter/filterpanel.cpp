@@ -95,7 +95,7 @@ void FilterPanel::showEvent(QShowEvent* event)
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
 
-        Q_ASSERT(m_facetWidget == 0);
+        Q_ASSERT(!m_facetWidget);
         m_facetWidget = new Nepomuk::Utils::FacetWidget(this);
         layout->addWidget(m_facetWidget, 1);
 
@@ -133,7 +133,7 @@ void FilterPanel::showEvent(QShowEvent* event)
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createRatingFacet());
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createTagFacet());
 
-        Q_ASSERT(m_lastSetUrlStatJob == 0);
+        Q_ASSERT(!m_lastSetUrlStatJob);
         m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
         connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
                 this, SLOT(slotSetUrlStatFinished(KJob*)));

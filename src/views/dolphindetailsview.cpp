@@ -59,9 +59,9 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     m_decorationSize()
 {
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    Q_ASSERT(settings != 0);
-    Q_ASSERT(dolphinViewController != 0);
-    Q_ASSERT(viewModeController != 0);
+    Q_ASSERT(settings);
+    Q_ASSERT(dolphinViewController);
+    Q_ASSERT(viewModeController);
 
     setLayoutDirection(Qt::LeftToRight);
     setAcceptDrops(true);
@@ -388,7 +388,7 @@ void DolphinDetailsView::configureSettings(const QPoint& pos)
     popup.addSeparator();
 
     QAction* activatedAction = popup.exec(header()->mapToGlobal(pos));
-    if (activatedAction != 0) {
+    if (activatedAction) {
         const bool show = activatedAction->isChecked();
         const int columnIndex = activatedAction->data().toInt();
 
@@ -574,7 +574,7 @@ void DolphinDetailsView::slotGlobalSettingsChanged(int category)
     Q_UNUSED(category);
 
     const DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    Q_ASSERT(settings != 0);
+    Q_ASSERT(settings);
     if (settings->useSystemFont()) {
         m_font = KGlobalSettings::generalFont();
     }

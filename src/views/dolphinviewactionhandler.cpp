@@ -320,7 +320,7 @@ KActionCollection* DolphinViewActionHandler::actionCollection()
 void DolphinViewActionHandler::updateViewActions()
 {
     QAction* viewModeAction = m_actionCollection->action(currentViewModeActionName());
-    if (viewModeAction != 0) {
+    if (viewModeAction) {
         viewModeAction->setChecked(true);
 
         QAction* viewModeMenu = m_actionCollection->action("view_mode");
@@ -484,7 +484,7 @@ void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
         }
     }
 
-    if (action != 0) {
+    if (action) {
         action->setChecked(true);
 
         QAction* sortByMenu =  m_actionCollection->action("sort");
@@ -495,12 +495,12 @@ void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
 void DolphinViewActionHandler::slotZoomLevelChanged(int level)
 {
     QAction* zoomInAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomIn));
-    if (zoomInAction != 0) {
+    if (zoomInAction) {
         zoomInAction->setEnabled(level < ZoomLevelInfo::maximumLevel());
     }
 
     QAction* zoomOutAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomOut));
-    if (zoomOutAction != 0) {
+    if (zoomOutAction) {
         zoomOutAction->setEnabled(level > ZoomLevelInfo::minimumLevel());
     }
 }

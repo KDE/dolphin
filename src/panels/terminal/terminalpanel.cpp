@@ -58,9 +58,7 @@ bool TerminalPanel::urlChanged()
         return false;
     }
 
-    const bool sendInput = (m_terminal != 0)
-                           && (m_terminal->foregroundProcessId() == -1)
-                           && isVisible();
+    const bool sendInput = m_terminal && (m_terminal->foregroundProcessId() == -1) && isVisible();
     if (sendInput) {
         changeDir(url());
     }
@@ -75,18 +73,18 @@ void TerminalPanel::showEvent(QShowEvent* event)
         return;
     }
 
-    if (m_terminal == 0) {
+    if (!m_terminal) {
         m_clearTerminal = true;
         KPluginFactory* factory = KPluginLoader("libkonsolepart").factory();
         KParts::ReadOnlyPart* part = factory ? (factory->create<KParts::ReadOnlyPart>(this)) : 0;
-        if (part != 0) {
+        if (part) {
             connect(part, SIGNAL(destroyed(QObject*)), this, SLOT(terminalExited()));
             m_terminalWidget = part->widget();
             m_layout->addWidget(m_terminalWidget);
             m_terminal = qobject_cast<TerminalInterfaceV2 *>(part);
         }
     }
-    if (m_terminal != 0) {
+    if (m_terminal) {
         m_terminal->showShellInDir(url().toLocalFile());
         changeDir(url());
         m_terminalWidget->setFocus();
