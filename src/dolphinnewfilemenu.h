@@ -39,7 +39,7 @@ class DolphinNewFileMenu : public KNewFileMenu
     Q_OBJECT
 
 public:
-    DolphinNewFileMenu(QWidget* parent, DolphinMainWindow* mainWin);
+    DolphinNewFileMenu(DolphinMainWindow* parent);
     virtual ~DolphinNewFileMenu();
 
 protected slots:
