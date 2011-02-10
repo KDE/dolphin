@@ -30,7 +30,7 @@
 #include <KActionMenu>
 #include <KFileItemDelegate>
 #include <KLocale>
-#include <KNewFileMenu>
+#include <knewfilemenu.h>
 #include <KSelectAction>
 #include <KToggleAction>
 #include <KRun>

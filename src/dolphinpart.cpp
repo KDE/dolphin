@@ -35,7 +35,7 @@
 #include <KIO/NetAccess>
 #include <KToolInvocation>
 #include <kauthorized.h>
-#include <KNewFileMenu>
+#include <knewfilemenu.h>
 #include <KMenu>
 #include <KInputDialog>
 #include <KProtocolInfo>

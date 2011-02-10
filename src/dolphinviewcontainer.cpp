@@ -36,7 +36,7 @@
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
 #include <KMenu>
-#include <KNewFileMenu>
+#include <knewfilemenu.h>
 #include <konqmimedata.h>
 #include <konq_operations.h>
 #include <KShell>

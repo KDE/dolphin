@@ -38,7 +38,7 @@
 #include <search/dolphinsearchinformation.h>
 
 #include <KFileItem>
-#include <KIO/JobClasses>
+#include <kio/jobclasses.h>
 #include <KIO/Job>
 #include <KMenu>
 

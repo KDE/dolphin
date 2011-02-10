@@ -19,7 +19,7 @@
 
 #include "dolphindirlister.h"
 #include <KLocale>
-#include <KIO/JobClasses>
+#include <kio/jobclasses.h>
 
 DolphinDirLister::DolphinDirLister() :
     KDirLister()

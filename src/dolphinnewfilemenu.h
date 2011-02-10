@@ -21,7 +21,7 @@
 #ifndef DOLPHINNEWFILEMENU_H
 #define DOLPHINNEWFILEMENU_H
 
-#include <KNewFileMenu>
+#include <knewfilemenu.h>
 
 class DolphinMainWindow;
 class KJob;
