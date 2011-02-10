@@ -35,13 +35,13 @@
 #include <kfileplacesmodel.h>
 #include <kglobal.h>
 #include <KIconLoader>
-#include <kio/netaccess.h>
+#include <KIO/NetAccess>
 #include <kmenu.h>
 #include <kmenubar.h>
 #include <kmessagebox.h>
 #include <kmimetypetrader.h>
 #include <kmodifierkeyinfo.h>
-#include <knewfilemenu.h>
+#include <KNewFileMenu>
 #include <konqmimedata.h>
 #include <konq_operations.h>
 #include <kservice.h>

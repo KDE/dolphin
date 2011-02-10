@@ -27,7 +27,7 @@
 #include <QBoxLayout>
 
 #include <KLocale>
-#include <kio/jobclasses.h>
+#include <KIO/JobClasses>
 
 #include <views/viewproperties.h>
 
