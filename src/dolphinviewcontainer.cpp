@@ -541,6 +541,7 @@ void DolphinViewContainer::closeSearchBox()
 void DolphinViewContainer::stopLoading()
 {
     m_view->stopLoading();
+    m_statusBar->setProgress(100);
 }
 
 bool DolphinViewContainer::isSearchUrl(const KUrl& url) const
