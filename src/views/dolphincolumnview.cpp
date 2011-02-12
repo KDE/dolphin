@@ -552,6 +552,8 @@ void DolphinColumnView::activate()
 {
     setFocus(Qt::OtherFocusReason);
 
+    connect(this, SIGNAL(clicked(const QModelIndex&)),
+            m_container->m_dolphinViewController, SLOT(requestTab(const QModelIndex&)));
     if (KGlobalSettings::singleClick()) {
         connect(this, SIGNAL(clicked(const QModelIndex&)),
                 m_container->m_dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
@@ -570,6 +572,9 @@ void DolphinColumnView::activate()
 void DolphinColumnView::deactivate()
 {
     clearFocus();
+
+    disconnect(this, SIGNAL(clicked(const QModelIndex&)),
+               m_container->m_dolphinViewController, SLOT(requestTab(const QModelIndex&)));
     if (KGlobalSettings::singleClick()) {
         disconnect(this, SIGNAL(clicked(const QModelIndex&)),
                    m_container->m_dolphinViewController, SLOT(triggerItem(const QModelIndex&)));
