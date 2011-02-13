@@ -434,8 +434,12 @@ void DolphinView::refresh()
     m_active = true;
 
     createView();
-    applyViewProperties();
     reload();
+
+    // For performance reasons applying the view properties should be done after updating
+    // the directory-lister URL with reload(). Otherwise in combination with enabled
+    // previews the creation of already obsolete directory items gets triggered.
+    applyViewProperties();
 
     setActive(oldActivationState);
     updateZoomLevel(oldZoomLevel);
@@ -544,7 +548,6 @@ void DolphinView::setUrl(const KUrl& url)
 
     m_viewModeController->setUrl(url); // emits urlChanged, which we forward
     m_viewAccessor.prepareUrlChange(url);
-    applyViewProperties();
 
     // When changing the URL there is no need to keep the version
     // data of the previous URL.
@@ -553,6 +556,11 @@ void DolphinView::setUrl(const KUrl& url)
     // Reconnect to the (probably) new selection model and directory lister
     connectViewAccessor();
     loadDirectory(url);
+
+    // For performance reasons applying the view properties should be done after updating
+    // the directory-lister URL with loadDirectory(). Otherwise in combination with enabled
+    // previews the creation of already obsolete directory items gets triggered.
+    applyViewProperties();
 
     if (hadSelection || hasSelection()) {
         emitSelectionChangedSignal();
