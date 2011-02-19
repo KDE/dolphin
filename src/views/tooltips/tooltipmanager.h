@@ -87,7 +87,6 @@ private:
     bool m_appliedWaitCursor;
     KFileItem m_item;
     QRect m_itemRect;
-    QStringList m_enabledPlugins;
 };
 
 #endif
