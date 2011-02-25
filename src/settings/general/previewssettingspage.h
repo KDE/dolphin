@@ -22,8 +22,9 @@
 
 #include <settings/settingspagebase.h>
 
-class QListWidget;
 class KIntSpinBox;
+class QListView;
+class QModelIndex;
 
 /**
  * @brief Allows the configuration of file previews.
@@ -50,14 +51,15 @@ protected:
     virtual void showEvent(QShowEvent* event);
 
 private slots:
-    void loadPreviewPlugins();
+    void configureService(const QModelIndex& index);
 
 private:
+    void loadPreviewPlugins();
     void loadSettings();
 
 private:
     bool m_initialized;
-    QListWidget* m_previewPluginsList;
+    QListView *m_listView;
     QStringList m_enabledPreviewPlugins;
     KIntSpinBox* m_localFileSizeBox;
     KIntSpinBox* m_remoteFileSizeBox;

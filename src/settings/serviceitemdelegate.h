@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009-2010 by Peter Penz <peter.penz19@gmail.com>        *
+ *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,58 +16,44 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef SERVICESSETTINGSPAGE_H
-#define SERVICESSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#ifndef SERVICEITEMDELEGATE_H
+#define SERVICEITEMDELEGATE_H
 
-#include <QMap>
-#include <QString>
-
-class QCheckBox;
-class QGroupBox;
-class QListView;
+#include <KWidgetItemDelegate>
 
 /**
- * @brief Page for the 'Services' settings of the Dolphin settings dialog.
+ * @brief Widget item delegate for a service that can be enabled or disabled.
+ *
+ * Additionally it is possible to configure a service.
+ * @see ServiceModel
  */
-class ServicesSettingsPage : public SettingsPageBase
+class ServiceItemDelegate : public KWidgetItemDelegate
 {
     Q_OBJECT
 
 public:
-    ServicesSettingsPage(QWidget* parent);
-    virtual ~ServicesSettingsPage();
+    explicit ServiceItemDelegate(QAbstractItemView* itemView, QObject* parent = 0);
+    virtual ~ServiceItemDelegate();
 
-    /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
+    virtual QSize sizeHint(const QStyleOptionViewItem &option,
+                           const QModelIndex &index) const;
 
-    /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
+    virtual void paint(QPainter* painter, const QStyleOptionViewItem& option,
+                       const QModelIndex& index) const;
 
-protected:
-    virtual void showEvent(QShowEvent* event);
+    virtual QList<QWidget*> createItemWidgets() const;
+
+    virtual void updateItemWidgets(const QList<QWidget*> widgets,
+                                   const QStyleOptionViewItem& option,
+                                   const QPersistentModelIndex& index) const;
+
+signals:
+    void requestServiceConfiguration(const QModelIndex& index);
 
 private slots:
-    /**
-     * Loads locally installed services.
-     */
-    void loadServices();
-
-private:
-    /**
-     * Loads installed version control systems.
-     */
-    void loadVersionControlSystems();
-
-    bool isInServicesList(const QString& service) const;
-
-private:
-    bool m_initialized;
-    QListView *m_listView;
-    QGroupBox* m_vcsGroupBox;
-    QMap<QString, QCheckBox*> m_vcsPluginsMap;
-    QStringList m_enabledVcsPlugins;
+    void slotCheckBoxClicked(bool checked);
+    void slotConfigureButtonClicked();
 };
 
 #endif

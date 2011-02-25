@@ -20,6 +20,7 @@
 #include "previewssettingspage.h"
 
 #include "dolphin_generalsettings.h"
+#include "configurepreviewplugindialog.h"
 
 #include <KConfigGroup>
 #include <KDialog>
@@ -30,15 +31,20 @@
 #include <KService>
 
 #include <settings/dolphinsettings.h>
+#include <settings/serviceitemdelegate.h>
+#include <settings/servicemodel.h>
 
 #include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
-#include <QListWidget>
-#include <QRadioButton>
+#include <QListView>
+#include <QPainter>
+#include <QScrollBar>
 #include <QShowEvent>
 #include <QSlider>
+#include <QSortFilterProxyModel>
 #include <QGridLayout>
+#include <QVBoxLayout>
 
 // default settings
 namespace {
@@ -50,7 +56,7 @@ namespace {
 PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
-    m_previewPluginsList(0),
+    m_listView(0),
     m_enabledPreviewPlugins(),
     m_localFileSizeBox(0),
     m_remoteFileSizeBox(0)
@@ -62,12 +68,23 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     // Create group box "Show previews for:"
     QGroupBox* listBox = new QGroupBox(i18nc("@title:group", "Show previews for"), this);
 
-    m_previewPluginsList = new QListWidget(this);
-    m_previewPluginsList->setSortingEnabled(true);
-    m_previewPluginsList->setSelectionMode(QAbstractItemView::NoSelection);
+    m_listView = new QListView(this);
+
+    ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
+    connect(delegate, SIGNAL(requestServiceConfiguration(QModelIndex)),
+            this, SLOT(configureService(QModelIndex)));
+
+    ServiceModel* serviceModel = new ServiceModel(this);
+    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(serviceModel);
+    proxyModel->setSortRole(Qt::DisplayRole);
+
+    m_listView->setModel(proxyModel);
+    m_listView->setItemDelegate(delegate);
+    m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
 
     QVBoxLayout* listBoxLayout = new QVBoxLayout(listBox);
-    listBoxLayout->addWidget(m_previewPluginsList);
+    listBoxLayout->addWidget(m_listView);
 
     // Create group box "Don't create previews for"
     QGroupBox* fileSizeBox = new QGroupBox(i18nc("@title:group", "Do not create previews for"), this);
@@ -99,11 +116,10 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
 
     loadSettings();
 
-    connect(m_previewPluginsList, SIGNAL(itemClicked(QListWidgetItem*)), this, SIGNAL(changed()));
+    connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
     connect(m_localFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
     connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
 }
-
 
 PreviewsSettingsPage::~PreviewsSettingsPage()
 {
@@ -111,13 +127,15 @@ PreviewsSettingsPage::~PreviewsSettingsPage()
 
 void PreviewsSettingsPage::applySettings()
 {
-    const int count = m_previewPluginsList->count();
-    if (count > 0) {
+    const QAbstractItemModel* model = m_listView->model();
+    const int rowCount = model->rowCount();
+    if (rowCount > 0) {
         m_enabledPreviewPlugins.clear();
-        for (int i = 0; i < count; ++i) {
-            const QListWidgetItem* item = m_previewPluginsList->item(i);
-            if (item->checkState() == Qt::Checked) {
-                const QString enabledPlugin = item->data(Qt::UserRole).toString();
+        for (int i = 0; i < rowCount; ++i) {
+            const QModelIndex index = model->index(i, 0);
+            const bool checked = model->data(index, Qt::CheckStateRole).toBool();
+            if (checked) {
+                const QString enabledPlugin = model->data(index, Qt::UserRole).toString();
                 m_enabledPreviewPlugins.append(enabledPlugin);
             }
         }
@@ -144,22 +162,53 @@ void PreviewsSettingsPage::restoreDefaults()
 void PreviewsSettingsPage::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous() && !m_initialized) {
-        QMetaObject::invokeMethod(this, "loadPreviewPlugins", Qt::QueuedConnection);
+        loadPreviewPlugins();
         m_initialized = true;
     }
     SettingsPageBase::showEvent(event);
 }
 
+void PreviewsSettingsPage::configureService(const QModelIndex& index)
+{
+    const QAbstractItemModel* model = index.model();
+    const QString pluginName = model->data(index).toString();
+    const QString desktopEntryName = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
+
+    ConfigurePreviewPluginDialog* dialog = new ConfigurePreviewPluginDialog(pluginName, desktopEntryName, this);
+    dialog->setAttribute(Qt::WA_DeleteOnClose);
+    dialog->show();
+}
+
 void PreviewsSettingsPage::loadPreviewPlugins()
 {
+    QAbstractItemModel* model = m_listView->model();
+
     const KService::List plugins = KServiceTypeTrader::self()->query(QLatin1String("ThumbCreator"));
     foreach (const KSharedPtr<KService>& service, plugins) {
-        QListWidgetItem* item = new QListWidgetItem(service->name(),
-                                                    m_previewPluginsList);
-        item->setData(Qt::UserRole, service->desktopEntryName());
+        const bool configurable = service->property("Configurable", QVariant::Bool).toBool();
         const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
-        item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
+        if (service->desktopEntryName() == QLatin1String("jpegrotatedthumbnail")) {
+            // Before KDE SC 4.7 thumbnail plugins where not configurable and in addition to
+            // the jpegthumbnail-plugin a jpegrotatedthumbnail-plugin was offered. Make this
+            // plugin obsolete for users that updated from a previous KDE SC version:
+            if (show) {
+                m_enabledPreviewPlugins.removeOne(service->desktopEntryName());
+                KConfigGroup globalConfig(KGlobal::config(), QLatin1String("PreviewSettings"));
+                globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
+                globalConfig.sync();
+            }
+            continue;
+        }
+
+        model->insertRow(0);
+        const QModelIndex index = model->index(0, 0);
+        model->setData(index, show, Qt::CheckStateRole);
+        model->setData(index, configurable, ServiceModel::ConfigurableRole);
+        model->setData(index, service->name(), Qt::DisplayRole);
+        model->setData(index, service->desktopEntryName(), ServiceModel::DesktopEntryNameRole);
     }
+
+    model->sort(Qt::DisplayRole);
 }
 
 void PreviewsSettingsPage::loadSettings()
@@ -168,7 +217,7 @@ void PreviewsSettingsPage::loadSettings()
     m_enabledPreviewPlugins = globalConfig.readEntry("Plugins", QStringList()
                                                      << QLatin1String("directorythumbnail")
                                                      << QLatin1String("imagethumbnail")
-                                                     << QLatin1String("jpegrotatedthumbnail"));
+                                                     << QLatin1String("jpegthumbnail"));
 
     const int maxLocalByteSize = globalConfig.readEntry("MaximumSize", MaxLocalPreviewSize * 1024 * 1024);
     const int maxLocalMByteSize = maxLocalByteSize / (1024 * 1024);

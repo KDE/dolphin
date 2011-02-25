@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009-2010 by Peter Penz <peter.penz19@gmail.com>        *
+ *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,60 +14,42 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
-#ifndef SERVICESSETTINGSPAGE_H
-#define SERVICESSETTINGSPAGE_H
 
-#include <settings/settingspagebase.h>
+#ifndef CONFIGUREPREVIEWPLUGINDIALOG_H
+#define CONFIGUREPREVIEWPLUGINDIALOG_H
 
-#include <QMap>
-#include <QString>
+#include <KDialog>
 
-class QCheckBox;
-class QGroupBox;
-class QListView;
+class ThumbCreatorV2;
 
 /**
- * @brief Page for the 'Services' settings of the Dolphin settings dialog.
+ * @brief Dialog for configuring preview-plugins.
  */
-class ServicesSettingsPage : public SettingsPageBase
+class ConfigurePreviewPluginDialog : public KDialog
 {
     Q_OBJECT
 
 public:
-    ServicesSettingsPage(QWidget* parent);
-    virtual ~ServicesSettingsPage();
-
-    /** @see SettingsPageBase::applySettings() */
-    virtual void applySettings();
-
-    /** @see SettingsPageBase::restoreDefaults() */
-    virtual void restoreDefaults();
-
-protected:
-    virtual void showEvent(QShowEvent* event);
+    /**
+     * @param pluginName       User visible name of the plugin
+     * @param desktopEntryName The name of the plugin that is noted in the desktopentry.
+     *                         Is used to instantiate the plugin to get the configuration
+     *                         widget.
+     * @param parent           Parent widget.
+     */
+    explicit ConfigurePreviewPluginDialog(const QString& pluginName,
+                                          const QString& desktopEntryName,
+                                          QWidget* parent = 0);
+    virtual ~ConfigurePreviewPluginDialog();
 
 private slots:
-    /**
-     * Loads locally installed services.
-     */
-    void loadServices();
+    void slotOk();
 
 private:
-    /**
-     * Loads installed version control systems.
-     */
-    void loadVersionControlSystems();
-
-    bool isInServicesList(const QString& service) const;
-
-private:
-    bool m_initialized;
-    QListView *m_listView;
-    QGroupBox* m_vcsGroupBox;
-    QMap<QString, QCheckBox*> m_vcsPluginsMap;
-    QStringList m_enabledVcsPlugins;
+    QWidget* m_configurationWidget;
+    ThumbCreatorV2* m_previewPlugin;
 };
 
 #endif

@@ -33,18 +33,22 @@
 #include <KServiceTypeTrader>
 #include <KStandardDirs>
 
+#include <settings/serviceitemdelegate.h>
+#include <settings/servicemodel.h>
+
 #include <QCheckBox>
 #include <QGridLayout>
 #include <QGroupBox>
 #include <QLabel>
 #include <QListWidget>
 #include <QPushButton>
+#include <QSortFilterProxyModel>
 #include <QShowEvent>
 
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
-    m_servicesList(0),
+    m_listView(0),
     m_vcsGroupBox(0),
     m_vcsPluginsMap(),
     m_enabledVcsPlugins()
@@ -56,11 +60,16 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
                                      "be shown in the context menu:"), this);
     label->setWordWrap(true);
 
-    m_servicesList = new QListWidget(this);
-    m_servicesList->setSortingEnabled(true);
-    m_servicesList->setSelectionMode(QAbstractItemView::NoSelection);
-    connect(m_servicesList, SIGNAL(itemClicked(QListWidgetItem*)),
-            this, SIGNAL(changed()));
+    m_listView = new QListView(this);
+    ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
+    ServiceModel* serviceModel = new ServiceModel(this);
+    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setSourceModel(serviceModel);
+    proxyModel->setSortRole(Qt::DisplayRole);
+    m_listView->setModel(proxyModel);
+    m_listView->setItemDelegate(delegate);
+    m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
+    connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
 
     KNS3::Button* downloadButton = new KNS3::Button(i18nc("@action:button", "Download New Services..."),
                                                     "servicemenu.knsrc",
@@ -73,7 +82,7 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     m_vcsGroupBox->hide();
 
     topLayout->addWidget(label);
-    topLayout->addWidget(m_servicesList);
+    topLayout->addWidget(m_listView);
     topLayout->addWidget(downloadButton);
     topLayout->addWidget(m_vcsGroupBox);
 
@@ -94,11 +103,11 @@ void ServicesSettingsPage::applySettings()
     KConfig config("kservicemenurc", KConfig::NoGlobals);
     KConfigGroup showGroup = config.group("Show");
 
-    const int count = m_servicesList->count();
-    for (int i = 0; i < count; ++i) {
-        QListWidgetItem* item = m_servicesList->item(i);
-        const bool show = (item->checkState() == Qt::Checked);
-        const QString service = item->data(Qt::UserRole).toString();
+    const QAbstractItemModel* model = m_listView->model();
+    for (int i = 0; i < model->rowCount(); ++i) {
+        const QModelIndex index = model->index(i, 0);
+        const bool show = model->data(index, Qt::CheckStateRole).toBool();
+        const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
         showGroup.writeEntry(service, show);
     }
 
@@ -128,18 +137,18 @@ void ServicesSettingsPage::applySettings()
 
 void ServicesSettingsPage::restoreDefaults()
 {
-    const int count = m_servicesList->count();
-    for (int i = 0; i < count; ++i) {
-        QListWidgetItem* item = m_servicesList->item(i);
-        item->setCheckState(Qt::Checked);
+    QAbstractItemModel* model = m_listView->model();
+    for (int i = 0; i < model->rowCount(); ++i) {
+        const QModelIndex index = model->index(i, 0);
+        model->setData(index, true, Qt::CheckStateRole);
     }
 }
 
 void ServicesSettingsPage::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous() && !m_initialized) {
-        QMetaObject::invokeMethod(this, "loadServices", Qt::QueuedConnection);
-        QMetaObject::invokeMethod(this, "loadVersionControlSystems", Qt::QueuedConnection);
+        loadServices();
+        loadVersionControlSystems();
         m_initialized = true;
     }
     SettingsPageBase::showEvent(event);
@@ -147,6 +156,8 @@ void ServicesSettingsPage::showEvent(QShowEvent* event)
 
 void ServicesSettingsPage::loadServices()
 {
+    QAbstractItemModel* model = m_listView->model();
+
     const KConfig config("kservicemenurc", KConfig::NoGlobals);
     const KConfigGroup showGroup = config.group("Show");
 
@@ -170,12 +181,14 @@ void ServicesSettingsPage::loadServices()
                 const QString itemName = subMenuName.isEmpty()
                                          ? action.text()
                                          : i18nc("@item:inmenu", "%1: %2", subMenuName, action.text());
-                QListWidgetItem* item = new QListWidgetItem(KIcon(action.icon()),
-                                                            itemName,
-                                                            m_servicesList);
-                item->setData(Qt::UserRole, serviceName);
                 const bool show = showGroup.readEntry(serviceName, true);
-                item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
+
+                model->insertRow(0);
+                const QModelIndex index = model->index(0, 0);
+                model->setData(index, action.icon(), Qt::DecorationRole);
+                model->setData(index, show, Qt::CheckStateRole);
+                model->setData(index, itemName, Qt::DisplayRole);
+                model->setData(index, serviceName, ServiceModel::DesktopEntryNameRole);
             }
         }
     }
@@ -183,16 +196,20 @@ void ServicesSettingsPage::loadServices()
     // Load service plugins that implement the KFileItemActionPlugin interface
     const KService::List pluginServices = KServiceTypeTrader::self()->query("KFileItemAction/Plugin");
     foreach (const KSharedPtr<KService>& service, pluginServices) {
-        const QString serviceName = service->desktopEntryName();
-        if (!isInServicesList(serviceName)) {
-            QListWidgetItem* item = new QListWidgetItem(KIcon(service->icon()),
-                                                        service->name(),
-                                                        m_servicesList);
-            item->setData(Qt::UserRole, serviceName);
-            const bool show = showGroup.readEntry(serviceName, true);
-            item->setCheckState(show ? Qt::Checked : Qt::Unchecked);
+        const QString desktopEntryName = service->desktopEntryName();
+        if (!isInServicesList(desktopEntryName)) {
+            const bool show = showGroup.readEntry(desktopEntryName, true);
+
+            model->insertRow(0);
+            const QModelIndex index = model->index(0, 0);
+            model->setData(index, service->icon(), Qt::DecorationRole);
+            model->setData(index, show, Qt::CheckStateRole);
+            model->setData(index, service->name(), Qt::DisplayRole);
+            model->setData(index, desktopEntryName, ServiceModel::DesktopEntryNameRole);
         }
     }
+
+    model->sort(Qt::DisplayRole);
 }
 
 void ServicesSettingsPage::loadVersionControlSystems()
@@ -228,10 +245,10 @@ void ServicesSettingsPage::loadVersionControlSystems()
 
 bool ServicesSettingsPage::isInServicesList(const QString& service) const
 {
-    const int count = m_servicesList->count();
-    for (int i = 0; i < count; ++i) {
-        QListWidgetItem* item = m_servicesList->item(i);
-        if (item->data(Qt::UserRole).toString() == service) {
+    QAbstractItemModel* model = m_listView->model();
+    for (int i = 0; i < model->rowCount(); ++i) {
+        const QModelIndex index = model->index(i, 0);
+        if (model->data(index, ServiceModel::DesktopEntryNameRole).toString() == service) {
             return true;
         }
     }

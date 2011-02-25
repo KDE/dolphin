@@ -116,6 +116,7 @@ set(dolphin_SRCS
     search/dolphinsearchbox.cpp
     search/dolphinsearchinformation.cpp
     settings/general/behaviorsettingspage.cpp
+    settings/general/configurepreviewplugindialog.cpp
     settings/general/contextmenusettingspage.cpp
     settings/general/generalsettingspage.cpp
     settings/general/previewssettingspage.cpp
@@ -124,6 +125,8 @@ set(dolphin_SRCS
     settings/navigation/navigationsettingspage.cpp
     settings/services/servicessettingspage.cpp
     settings/settingspagebase.cpp
+    settings/serviceitemdelegate.cpp
+    settings/servicemodel.cpp
     settings/startup/startupsettingspage.cpp
     settings/trash/trashsettingspage.cpp
     settings/viewmodes/columnviewsettingspage.cpp
@@ -210,14 +213,19 @@ set(kcm_dolphinnavigation_PART_SRCS
 set(kcm_dolphinservices_PART_SRCS
     settings/kcm/kcmdolphinservices.cpp
     settings/services/servicessettingspage.cpp
-    settings/settingspagebase.cpp)
+    settings/settingspagebase.cpp
+    settings/serviceitemdelegate.cpp
+    settings/servicemodel.cpp)
 
 set(kcm_dolphingeneral_PART_SRCS
     settings/kcm/kcmdolphingeneral.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/previewssettingspage.cpp
+    settings/general/configurepreviewplugindialog.cpp
     settings/general/contextmenusettingspage.cpp
-    settings/settingspagebase.cpp)
+    settings/settingspagebase.cpp
+    settings/serviceitemdelegate.cpp
+    settings/servicemodel.cpp)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
     settings/dolphin_columnmodesettings.kcfgc
