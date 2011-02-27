@@ -1449,7 +1449,7 @@ void DolphinMainWindow::setupActions()
     // doesn't work
     KAction* cut = KStandardAction::cut(this, SLOT(cut()), actionCollection());
     KShortcut cutShortcut = cut->shortcut();
-    cutShortcut.remove(Qt::SHIFT + Qt::Key_Delete, KShortcut::KeepEmpty);
+    cutShortcut.remove(Qt::SHIFT | Qt::Key_Delete, KShortcut::KeepEmpty);
     cut->setShortcut(cutShortcut);
     KStandardAction::copy(this, SLOT(copy()), actionCollection());
     KAction* paste = KStandardAction::paste(this, SLOT(paste()), actionCollection());
@@ -1462,7 +1462,7 @@ void DolphinMainWindow::setupActions()
 
     KAction* selectAll = actionCollection()->addAction("select_all");
     selectAll->setText(i18nc("@action:inmenu Edit", "Select All"));
-    selectAll->setShortcut(Qt::CTRL + Qt::Key_A);
+    selectAll->setShortcut(Qt::CTRL | Qt::Key_A);
     connect(selectAll, SIGNAL(triggered()), this, SLOT(selectAll()));
 
     KAction* invertSelection = actionCollection()->addAction("invert_selection");
@@ -1554,11 +1554,11 @@ void DolphinMainWindow::setupActions()
     // not in menu actions
     QList<QKeySequence> nextTabKeys;
     nextTabKeys.append(KStandardShortcut::tabNext().primary());
-    nextTabKeys.append(QKeySequence(Qt::CTRL + Qt::Key_Tab));
+    nextTabKeys.append(QKeySequence(Qt::CTRL | Qt::Key_Tab));
 
     QList<QKeySequence> prevTabKeys;
     prevTabKeys.append(KStandardShortcut::tabPrev().primary());
-    prevTabKeys.append(QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_Tab));
+    prevTabKeys.append(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Tab));
 
     KAction* activateNextTab = actionCollection()->addAction("activate_next_tab");
     activateNextTab->setText(i18nc("@action:inmenu", "Activate Next Tab"));
