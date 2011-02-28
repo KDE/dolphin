@@ -73,8 +73,14 @@ ViewExtensionsFactory::ViewExtensionsFactory(QAbstractItemView* view,
             this, SLOT(slotZoomLevelChanged()));
     connect(viewModeController, SIGNAL(cancelPreviews()),
             this, SLOT(cancelPreviews()));
+
+    // slotPreviewChanged() is connected as Qt::QueuedConnection to prevent performance
+    // issues when the directory lister changes its URL after the preview-changes have
+    // been applied. Usecase: Switch from directory A having no previews to
+    // directory B with previews (see sequence in DolphinView::setUrl()).
     connect(dolphinViewController->view(), SIGNAL(showPreviewChanged()),
-            this, SLOT(slotShowPreviewChanged()));
+            this, SLOT(slotShowPreviewChanged()),
+            Qt::QueuedConnection);
 
     // initialize selection manager
     m_selectionManager = new SelectionManager(view);
