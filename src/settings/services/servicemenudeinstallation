@@ -12,11 +12,18 @@ dir = archive + "-dir"
 # try: installKDE4
 # try: install.sh
 # try: install
-dd = Dir.new(dir)
-dd.read
-dd.read
-dir += "/" + dd.read
-dd = nil
+while true
+    dd = Dir.new(dir)
+    break if dd.count != 3
+    odir = dir
+    for entry in dd
+        dir += "/" + entry if entry != "." && entry != ".."
+    end
+    if !File.directory? dir
+        dir = odir
+        break
+    end
+end
 Dir.chdir(dir)
 def fail()
     system("kdialog --passivepopup \"Deinstallation failed\" 15")
