@@ -130,9 +130,9 @@ void DolphinFileItemDelegate::adjustOptionTextColor(QStyleOptionViewItemV4& opti
     // have been optimized for the base colors of the corresponding Oxygen emblems.
     switch (state) {
     case KVersionControlPlugin::UpdateRequiredVersion:          tintColor = Qt::yellow; break;
-    case KVersionControlPlugin::LocallyModifiedUnstagedVersion: tintColor = Qt::darkRed; break;
+    case KVersionControlPlugin::LocallyModifiedUnstagedVersion: tintColor = Qt::darkGreen; break;
     case KVersionControlPlugin::LocallyModifiedVersion:         tintColor = Qt::green; break;
-    case KVersionControlPlugin::AddedVersion:                   tintColor = Qt::darkGreen; break;
+    case KVersionControlPlugin::AddedVersion:                   tintColor = Qt::green; break;
     case KVersionControlPlugin::RemovedVersion:                 tintColor = Qt::darkRed; break;
     case KVersionControlPlugin::ConflictingVersion:             tintColor = Qt::red; break;
     case KVersionControlPlugin::UnversionedVersion:
