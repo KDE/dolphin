@@ -559,6 +559,7 @@ protected:
     /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual bool eventFilter(QObject* watched, QEvent* event);
+    virtual void showEvent(QShowEvent* event);
 
 private slots:
     /**

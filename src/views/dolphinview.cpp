@@ -768,6 +768,14 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
     return QWidget::eventFilter(watched, event);
 }
 
+void DolphinView::showEvent(QShowEvent* event)
+{
+    QWidget::showEvent(event);
+    if (!event->spontaneous()) {
+        loadDirectory(url());
+    }
+}
+
 void DolphinView::activate()
 {
     setActive(true);

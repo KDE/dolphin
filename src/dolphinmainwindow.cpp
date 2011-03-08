@@ -163,6 +163,11 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
         return;
     }
 
+    if (dirs.count() == 1) {
+        m_activeViewContainer->setUrl(dirs.first());
+        return;
+    }
+
     const int oldOpenTabsCount = m_viewTab.count();
 
     const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
@@ -419,7 +424,6 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     viewTab.primaryView = new DolphinViewContainer(url, viewTab.splitter);
     viewTab.primaryView->setActive(false);
     connectViewSignals(viewTab.primaryView);
-    viewTab.primaryView->view()->reload();
 
     m_viewTab.append(viewTab);
 
@@ -1307,7 +1311,6 @@ void DolphinMainWindow::init()
     m_activeViewContainer = m_viewTab[m_tabIndex].primaryView;
     connectViewSignals(m_activeViewContainer);
     DolphinView* view = m_activeViewContainer->view();
-    view->reload();
     m_activeViewContainer->show();
     m_actionHandler->setCurrentView(view);
 
@@ -1924,7 +1927,6 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
     splitter->addWidget(m_viewTab[tabIndex].secondaryView);
     splitter->setSizes(QList<int>() << newWidth << newWidth);
     connectViewSignals(m_viewTab[tabIndex].secondaryView);
-    m_viewTab[tabIndex].secondaryView->view()->reload();
     m_viewTab[tabIndex].secondaryView->setActive(false);
     m_viewTab[tabIndex].secondaryView->show();
 }
