@@ -30,7 +30,7 @@
 #include "dolphinviewcontainer.h"
 #include "mainwindowadaptor.h"
 #ifdef HAVE_NEPOMUK
-    #include "panels/filter/filterpanel.h"
+    #include "panels/search/searchpanel.h"
     #include <Nepomuk/ResourceManager>
 #endif
 #include "panels/folders/folderspanel.h"
@@ -121,7 +121,7 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_remoteEncoding(0),
     m_settingsDialog(0),
     m_lastHandleUrlStatJob(0),
-    m_filterDockIsTemporaryVisible(false)
+    m_searchDockIsTemporaryVisible(false)
 {
     // Workaround for a X11-issue in combination with KModifierInfo
     // (see DolphinContextMenu::initializeModifierKeyInfo() for
@@ -578,12 +578,12 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
 
     settings.save();
 
-    if (m_filterDockIsTemporaryVisible) {
-        QDockWidget* filterDock = findChild<QDockWidget*>("filterDock");
-        if (filterDock) {
-            filterDock->hide();
+    if (m_searchDockIsTemporaryVisible) {
+        QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
+        if (searchDock) {
+            searchDock->hide();
         }
-        m_filterDockIsTemporaryVisible = false;
+        m_searchDockIsTemporaryVisible = false;
     }
 
     KXmlGuiWindow::closeEvent(event);
@@ -1231,21 +1231,21 @@ void DolphinMainWindow::slotSearchModeChanged(bool enabled)
         return;
     }
 
-    QDockWidget* filterDock = findChild<QDockWidget*>("filterDock");
-    if (!filterDock) {
+    QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
+    if (!searchDock) {
         return;
     }
 
     if (enabled) {
-        if (!filterDock->isVisible()) {
-            m_filterDockIsTemporaryVisible = true;
+        if (!searchDock->isVisible()) {
+            m_searchDockIsTemporaryVisible = true;
         }
-        filterDock->show();
+        searchDock->show();
     } else {
-        if (filterDock->isVisible() && m_filterDockIsTemporaryVisible) {
-            filterDock->hide();
+        if (searchDock->isVisible() && m_searchDockIsTemporaryVisible) {
+            searchDock->hide();
         }
-        m_filterDockIsTemporaryVisible = false;
+        m_searchDockIsTemporaryVisible = false;
     }
 #else
     Q_UNUSED(enabled);
@@ -1662,24 +1662,24 @@ void DolphinMainWindow::setupDockWidgets()
             terminalPanel, SLOT(setUrl(KUrl)));
 #endif
 
-    // Setup "Filter"
+    // Setup "Search"
 #ifdef HAVE_NEPOMUK
-    DolphinDockWidget* filterDock = new DolphinDockWidget(i18nc("@title:window", "Filter"));
-    filterDock->setLocked(lock);
-    filterDock->setObjectName("filterDock");
-    filterDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
-    Panel* filterPanel = new FilterPanel(filterDock);
-    filterPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
-    connect(filterPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
-    filterDock->setWidget(filterPanel);
+    DolphinDockWidget* searchDock = new DolphinDockWidget(i18nc("@title:window", "Search"));
+    searchDock->setLocked(lock);
+    searchDock->setObjectName("searchDock");
+    searchDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea);
+    Panel* searchPanel = new SearchPanel(searchDock);
+    searchPanel->setCustomContextMenuActions(QList<QAction*>() << lockLayoutAction);
+    connect(searchPanel, SIGNAL(urlActivated(KUrl)), this, SLOT(handleUrl(KUrl)));
+    searchDock->setWidget(searchPanel);
 
-    QAction* filterAction = filterDock->toggleViewAction();
-    filterAction->setShortcut(Qt::Key_F12);
-    filterAction->setIcon(KIcon("view-filter"));
-    addActionCloneToCollection(filterAction, "show_filter_panel");
-    addDockWidget(Qt::RightDockWidgetArea, filterDock);
+    QAction* searchAction = searchDock->toggleViewAction();
+    searchAction->setShortcut(Qt::Key_F12);
+    searchAction->setIcon(KIcon("system-search"));
+    addActionCloneToCollection(searchAction, "show_search_panel");
+    addDockWidget(Qt::RightDockWidgetArea, searchDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
-            filterPanel, SLOT(setUrl(KUrl)));
+            searchPanel, SLOT(setUrl(KUrl)));
 #endif
 
     const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
@@ -1690,7 +1690,7 @@ void DolphinMainWindow::setupDockWidgets()
         terminalDock->hide();
 #endif
 #ifdef HAVE_NEPOMUK
-        filterDock->hide();
+        searchDock->hide();
 #endif
     }
 
@@ -1733,7 +1733,7 @@ void DolphinMainWindow::setupDockWidgets()
     panelsMenu->addAction(terminalAction);
 #endif
 #ifdef HAVE_NEPOMUK
-    panelsMenu->addAction(filterAction);
+    panelsMenu->addAction(searchAction);
 #endif
     panelsMenu->addSeparator();
     panelsMenu->addAction(lockLayoutAction);

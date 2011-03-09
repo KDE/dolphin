@@ -151,7 +151,7 @@ kde4_add_kcfg_files(dolphin_SRCS
 if(Nepomuk_FOUND)
     set(dolphin_SRCS
         ${dolphin_SRCS}
-        panels/filter/filterpanel.cpp
+        panels/search/searchpanel.cpp
     )
 endif(Nepomuk_FOUND)
 

@@ -553,7 +553,7 @@ private:
      * Set to true, if the filter dock visibility is only temporary set
      * to true by enabling the search mode.
      */
-    bool m_filterDockIsTemporaryVisible;
+    bool m_searchDockIsTemporaryVisible;
 };
 
 inline DolphinViewContainer* DolphinMainWindow::activeViewContainer() const
