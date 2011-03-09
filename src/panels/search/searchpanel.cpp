@@ -76,7 +76,6 @@ bool SearchPanel::urlChanged()
 
         delete m_lastSetUrlStatJob;
 
-        kDebug() << "--- searchPanel::urlChanged(): url:" << url();
         m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
         connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
                 this, SLOT(slotSetUrlStatFinished(KJob*)));
@@ -179,7 +178,6 @@ void SearchPanel::slotSetUrlStatFinished(KJob* job)
 
     const KIO::UDSEntry uds = static_cast<KIO::StatJob*>(job)->statResult();
     const QString nepomukQueryStr = uds.stringValue(KIO::UDSEntry::UDS_NEPOMUK_QUERY);
-    kDebug() << "--- SearchPanel::slotSetUrlStatFinished(): nepomukQueryStr" << nepomukQueryStr;
     Nepomuk::Query::FileQuery nepomukQuery;
     if (!nepomukQueryStr.isEmpty()) {
         nepomukQuery = Nepomuk::Query::Query::fromString(nepomukQueryStr);
