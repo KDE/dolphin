@@ -205,11 +205,7 @@ void DolphinSearchBox::slotConfigurationChanged()
 
 void DolphinSearchBox::slotSearchTextChanged(const QString& text)
 {
-    if (text.isEmpty()) {
-        m_startSearchTimer->stop();
-    } else {
-        m_startSearchTimer->start();
-    }
+    m_startSearchTimer->start();
     emit searchTextChanged(text);
 }
 
@@ -355,23 +351,20 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
 #ifdef HAVE_NEPOMUK
     Nepomuk::Query::AndTerm andTerm;
 
-    // Add input from search filter
     const QString text = m_searchInput->text();
-    if (!text.isEmpty()) {
-        if (m_fileNameButton->isChecked()) {
-            QString regex = QRegExp::escape(text);
-            regex.replace("\\*", QLatin1String(".*"));
-            regex.replace("\\?", QLatin1String("."));
-            regex.replace("\\", "\\\\");
-            andTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(
-                                    Nepomuk::Vocabulary::NFO::fileName(),
-                                    Nepomuk::Query::LiteralTerm(regex),
-                                    Nepomuk::Query::ComparisonTerm::Regexp));
-        } else {
-            const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern);
-            if (customQuery.isValid()) {
-                andTerm.addSubTerm(customQuery.term());
-            }
+    if (m_fileNameButton->isChecked()) {
+        QString regex = QRegExp::escape(text);
+        regex.replace("\\*", QLatin1String(".*"));
+        regex.replace("\\?", QLatin1String("."));
+        regex.replace("\\", "\\\\");
+        andTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(
+                                Nepomuk::Vocabulary::NFO::fileName(),
+                                Nepomuk::Query::LiteralTerm(regex),
+                                Nepomuk::Query::ComparisonTerm::Regexp));
+    } else {
+        const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern);
+        if (customQuery.isValid()) {
+            andTerm.addSubTerm(customQuery.term());
         }
     }
 

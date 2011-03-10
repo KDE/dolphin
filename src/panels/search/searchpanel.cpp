@@ -72,8 +72,16 @@ bool SearchPanel::urlChanged()
     }
 
     if (isVisible() && DolphinSearchInformation::instance().isIndexingEnabled()) {
-        setQuery(Nepomuk::Query::Query());
+        const Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && m_facetWidget->queryTerm());
+        if (query.toSearchUrl() == url()) {
+            // The new URL has been triggered by the SearchPanel itself in
+            // slotQueryTermChanged() and no further handling is required.
+            return true;
+        }
 
+        // Reset the current query and disable the facet-widget until
+        // the new query has been determined by KIO::stat():
+        setQuery(Nepomuk::Query::Query());
         delete m_lastSetUrlStatJob;
 
         m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
@@ -178,9 +186,12 @@ void SearchPanel::slotSetUrlStatFinished(KJob* job)
 
     const KIO::UDSEntry uds = static_cast<KIO::StatJob*>(job)->statResult();
     const QString nepomukQueryStr = uds.stringValue(KIO::UDSEntry::UDS_NEPOMUK_QUERY);
+    const Nepomuk::Query::Term facetQueryTerm = m_facetWidget->queryTerm();
     Nepomuk::Query::FileQuery nepomukQuery;
     if (!nepomukQueryStr.isEmpty()) {
-        nepomukQuery = Nepomuk::Query::Query::fromString(nepomukQueryStr);
+        // Always merge the query that has been retrieved by SearchPanel::setUrl() with
+        // the current facet-query, so that the user settings don't get lost.
+        nepomukQuery = Nepomuk::Query::Query::fromString(nepomukQueryStr) && facetQueryTerm;
     } else if (url().isLocalFile()) {
         // Fallback query for local file URLs: List all files
         Nepomuk::Query::ComparisonTerm compTerm(
@@ -192,7 +203,13 @@ void SearchPanel::slotSetUrlStatFinished(KJob* job)
         }
         nepomukQuery.setTerm(compTerm);
     }
+
     setQuery(nepomukQuery);
+
+    if (facetQueryTerm.isValid()) {
+        Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && facetQueryTerm);
+        emit urlActivated(query.toSearchUrl());
+    }
 }
 
 void SearchPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
