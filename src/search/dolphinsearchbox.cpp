@@ -104,7 +104,7 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     const QString elidedLocation = metrics.elidedText(location, Qt::ElideMiddle, maxWidth);
     m_fromHereButton->setText(i18nc("action:button", "From Here (%1)", elidedLocation));
 
-    const bool showSearchFromButtons = url.isLocalFile();
+    const bool showSearchFromButtons = url.isLocalFile() && !m_readOnly;
     m_separator->setVisible(showSearchFromButtons);
     m_fromHereButton->setVisible(showSearchFromButtons);
     m_everywhereButton->setVisible(showSearchFromButtons);
@@ -393,10 +393,10 @@ void DolphinSearchBox::applyReadOnlyState()
     // has been done
     m_searchInput->setVisible(!m_readOnly);
     m_infoLabel->setVisible(m_readOnly);
-    m_fileNameButton->setEnabled(!m_readOnly);
-    m_contentButton->setEnabled(!m_readOnly);
-    m_fromHereButton->setEnabled(!m_readOnly);
-    m_everywhereButton->setEnabled(!m_readOnly);
+    m_fileNameButton->setVisible(!m_readOnly);
+    m_contentButton->setVisible(!m_readOnly);
+    m_fromHereButton->setVisible(!m_readOnly);
+    m_everywhereButton->setVisible(!m_readOnly);
 }
 
 #include "dolphinsearchbox.moc"
