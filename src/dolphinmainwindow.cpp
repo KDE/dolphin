@@ -51,6 +51,7 @@
 
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
+#include "dolphin_searchsettings.h"
 
 #include <KAction>
 #include <KActionCollection>
@@ -1246,6 +1247,20 @@ void DolphinMainWindow::slotSearchModeChanged(bool enabled)
             searchDock->hide();
         }
         m_searchDockIsTemporaryVisible = false;
+    }
+
+    SearchPanel* searchPanel = qobject_cast<SearchPanel*>(searchDock->widget());
+    if (searchPanel) {
+        // Per default any search-operation triggered by the Search Panel is done
+        // "Everywhere".
+        SearchPanel::SearchMode searchMode = SearchPanel::Everywhere;
+
+        if (enabled && (SearchSettings::location() == QLatin1String("FromHere"))) {
+            // Only if the search-mode is enabled it is visible for the user whether
+            // a searching is done "Everywhere" or "From Here" (= current directory).
+            searchMode = SearchPanel::FromCurrentDir;
+        }
+        searchPanel->setSearchMode(searchMode);
     }
 #else
     Q_UNUSED(enabled);

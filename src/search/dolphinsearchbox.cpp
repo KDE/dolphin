@@ -42,9 +42,9 @@
 
 #include <config-nepomuk.h>
 #ifdef HAVE_NEPOMUK
-    #include <Nepomuk/Query/AndTerm>
     #include <Nepomuk/Query/FileQuery>
     #include <Nepomuk/Query/LiteralTerm>
+    #include <Nepomuk/Query/OrTerm>
     #include <Nepomuk/Query/Query>
     #include <Nepomuk/Query/QueryParser>
     #include <Nepomuk/Query/ResourceTypeTerm>
@@ -349,28 +349,31 @@ void DolphinSearchBox::init()
 KUrl DolphinSearchBox::nepomukUrlForSearching() const
 {
 #ifdef HAVE_NEPOMUK
-    Nepomuk::Query::AndTerm andTerm;
+    Nepomuk::Query::OrTerm orTerm;
 
     const QString text = m_searchInput->text();
-    if (m_fileNameButton->isChecked()) {
-        QString regex = QRegExp::escape(text);
-        regex.replace("\\*", QLatin1String(".*"));
-        regex.replace("\\?", QLatin1String("."));
-        regex.replace("\\", "\\\\");
-        andTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(
-                                Nepomuk::Vocabulary::NFO::fileName(),
-                                Nepomuk::Query::LiteralTerm(regex),
-                                Nepomuk::Query::ComparisonTerm::Regexp));
-    } else {
+
+    // Search the text in the filename in any case
+    QString regex = QRegExp::escape(text);
+    regex.replace("\\*", QLatin1String(".*"));
+    regex.replace("\\?", QLatin1String("."));
+    regex.replace("\\", "\\\\");
+    orTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(
+                            Nepomuk::Vocabulary::NFO::fileName(),
+                            Nepomuk::Query::LiteralTerm(regex),
+                            Nepomuk::Query::ComparisonTerm::Regexp));
+
+    if (m_contentButton->isChecked()) {
+        // Search the text also in the content of the files
         const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern);
         if (customQuery.isValid()) {
-            andTerm.addSubTerm(customQuery.term());
+            orTerm.addSubTerm(customQuery.term());
         }
     }
 
     Nepomuk::Query::FileQuery fileQuery;
     fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFilesAndFolders);
-    fileQuery.setTerm(andTerm);
+    fileQuery.setTerm(orTerm);
     if (m_fromHereButton->isChecked()) {
         const bool recursive = true;
         fileQuery.addIncludeFolder(m_searchPath, recursive);

@@ -32,15 +32,32 @@ namespace Nepomuk {
 }
 
 /**
- * @brief Allows the filtering of search results.
+ * @brief Allows to search for files by enabling generic search patterns (= facets).
+ *
+ * For example it is possible to search for images, documents or specific tags.
+ * The search panel can be adjusted to search only from the current folder or everywhere.
  */
 class SearchPanel : public Panel
 {
     Q_OBJECT
 
 public:
+    enum SearchMode
+    {
+        Everywhere,
+        FromCurrentDir
+    };
+
     SearchPanel(QWidget* parent = 0);
     virtual ~SearchPanel();
+
+    /**
+     * Specifies whether a searching is done in all folders (= Everywhere)
+     * or from the current directory (= FromCurrentDir). The current directory
+     * is automatically determined when setUrl() has been called.
+     */
+    void setSearchMode(SearchMode mode);
+    SearchMode searchMode() const;
 
 signals:
     void urlActivated(const KUrl& url);
@@ -67,6 +84,7 @@ private:
 
 private:
     bool m_initialized;
+    SearchMode m_searchMode;
     KJob* m_lastSetUrlStatJob;
 
     KUrl m_startedFromDir;

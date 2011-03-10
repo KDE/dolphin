@@ -50,6 +50,7 @@
 SearchPanel::SearchPanel(QWidget* parent) :
     Panel(parent),
     m_initialized(false),
+    m_searchMode(Everywhere),
     m_lastSetUrlStatJob(0),
     m_startedFromDir(),
     m_facetWidget(0),
@@ -62,13 +63,28 @@ SearchPanel::~SearchPanel()
 {
 }
 
+void SearchPanel::setSearchMode(SearchMode mode)
+{
+    m_searchMode = mode;
+}
+
+SearchPanel::SearchMode SearchPanel::searchMode() const
+{
+    return m_searchMode;
+}
+
 bool SearchPanel::urlChanged()
 {
-    if (!url().protocol().startsWith(QLatin1String("nepomuk"))) {
+    const bool isNepomukUrl = url().protocol().startsWith(QLatin1String("nepomuk"));
+    if (!isNepomukUrl) {
         // Remember the current directory before a searching is started.
         // This is required to restore the directory in case that all facets
         // have been reset by the user (see slotQueryTermChanged()).
         m_startedFromDir = url();
+
+        const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+        setEnabled(searchInfo.isIndexingEnabled() &&
+                   searchInfo.isPathIndexed(m_startedFromDir));
     }
 
     if (isVisible() && DolphinSearchInformation::instance().isIndexingEnabled()) {
@@ -79,14 +95,19 @@ bool SearchPanel::urlChanged()
             return true;
         }
 
-        // Reset the current query and disable the facet-widget until
-        // the new query has been determined by KIO::stat():
-        setQuery(Nepomuk::Query::Query());
         delete m_lastSetUrlStatJob;
 
-        m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
-        connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
-                this, SLOT(slotSetUrlStatFinished(KJob*)));
+        if (isNepomukUrl) {
+            // Reset the current query and disable the facet-widget until
+            // the new query has been determined by KIO::stat():
+            m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
+            connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
+                    this, SLOT(slotSetUrlStatFinished(KJob*)));
+            setEnabled(false);
+        } else {
+            // Reset the search panel because a "normal" directory is shown.
+            setQuery(Nepomuk::Query::Query());
+        }
     }
 
     return true;
@@ -141,20 +162,11 @@ void SearchPanel::showEvent(QShowEvent* event)
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createRatingFacet());
         m_facetWidget->addFacet(Nepomuk::Utils::Facet::createTagFacet());
 
-        Q_ASSERT(!m_lastSetUrlStatJob);
-        m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
-        connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
-                this, SLOT(slotSetUrlStatFinished(KJob*)));
-
         connect(m_facetWidget, SIGNAL(queryTermChanged(Nepomuk::Query::Term)),
                 this, SLOT(slotQueryTermChanged(Nepomuk::Query::Term)));
 
         m_initialized = true;
     }
-
-    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    setEnabled(searchInfo.isIndexingEnabled() &&
-               searchInfo.isPathIndexed(m_startedFromDir));
 
     Panel::showEvent(event);
 }
@@ -184,6 +196,10 @@ void SearchPanel::slotSetUrlStatFinished(KJob* job)
 {
     m_lastSetUrlStatJob = 0;
 
+    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+    setEnabled(searchInfo.isIndexingEnabled() &&
+               searchInfo.isPathIndexed(m_startedFromDir));
+
     const KIO::UDSEntry uds = static_cast<KIO::StatJob*>(job)->statResult();
     const QString nepomukQueryStr = uds.stringValue(KIO::UDSEntry::UDS_NEPOMUK_QUERY);
     const Nepomuk::Query::Term facetQueryTerm = m_facetWidget->queryTerm();
@@ -191,17 +207,7 @@ void SearchPanel::slotSetUrlStatFinished(KJob* job)
     if (!nepomukQueryStr.isEmpty()) {
         // Always merge the query that has been retrieved by SearchPanel::setUrl() with
         // the current facet-query, so that the user settings don't get lost.
-        nepomukQuery = Nepomuk::Query::Query::fromString(nepomukQueryStr) && facetQueryTerm;
-    } else if (url().isLocalFile()) {
-        // Fallback query for local file URLs: List all files
-        Nepomuk::Query::ComparisonTerm compTerm(
-                                Nepomuk::Vocabulary::NFO::fileName(),
-                                Nepomuk::Query::Term());
-        nepomukQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
-        if (SearchSettings::location() == QLatin1String("FromHere")) {
-            nepomukQuery.addIncludeFolder(url(), true);
-        }
-        nepomukQuery.setTerm(compTerm);
+        nepomukQuery = Nepomuk::Query::Query::fromString(nepomukQueryStr) && m_facetWidget->queryTerm();
     }
 
     setQuery(nepomukQuery);
@@ -216,6 +222,20 @@ void SearchPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
 {
     if (term.isValid()) {
         // Default case: A facet has been changed by the user to restrict the query.
+        if ((m_searchMode == FromCurrentDir) && !m_unfacetedRestQuery.isValid()) {
+            // Adjust the query to respect the FromCurrentDir setting
+            Nepomuk::Query::ComparisonTerm compTerm(
+                                    Nepomuk::Vocabulary::NFO::fileName(),
+                                    Nepomuk::Query::Term());
+
+            Nepomuk::Query::FileQuery subDirsQuery;
+            subDirsQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFiles);
+            subDirsQuery.addIncludeFolder(m_startedFromDir, true);
+            subDirsQuery.setTerm(compTerm);
+
+            setQuery(subDirsQuery);
+        }
+
         Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && term);
         emit urlActivated(query.toSearchUrl());
         return;
@@ -241,19 +261,8 @@ void SearchPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
 
 void SearchPanel::setQuery(const Nepomuk::Query::Query& query)
 {
-    if (query.isValid()) {
-        const bool block = m_facetWidget->blockSignals(true);
-
-        m_unfacetedRestQuery = m_facetWidget->extractFacetsFromQuery(query);
-        m_facetWidget->setClientQuery(query);
-
-        const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-        setEnabled(searchInfo.isIndexingEnabled() &&
-                   searchInfo.isPathIndexed(m_startedFromDir));
-
-        m_facetWidget->blockSignals(block);
-    } else {
-        m_unfacetedRestQuery = Nepomuk::Query::Query();
-        setEnabled(false);
-    }
+    const bool block = m_facetWidget->blockSignals(true);
+    m_unfacetedRestQuery = m_facetWidget->extractFacetsFromQuery(query);
+    m_facetWidget->setClientQuery(query);
+    m_facetWidget->blockSignals(block);
 }
