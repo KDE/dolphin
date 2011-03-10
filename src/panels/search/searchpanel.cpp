@@ -81,13 +81,9 @@ bool SearchPanel::urlChanged()
         // This is required to restore the directory in case that all facets
         // have been reset by the user (see slotQueryTermChanged()).
         m_startedFromDir = url();
-
-        const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-        setEnabled(searchInfo.isIndexingEnabled() &&
-                   searchInfo.isPathIndexed(m_startedFromDir));
     }
 
-    if (isVisible() && DolphinSearchInformation::instance().isIndexingEnabled()) {
+    if (isVisible() && DolphinSearchInformation::instance().isIndexingEnabled()) {       
         const Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && m_facetWidget->queryTerm());
         if (query.toSearchUrl() == url()) {
             // The new URL has been triggered by the SearchPanel itself in
@@ -103,11 +99,14 @@ bool SearchPanel::urlChanged()
             m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
             connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
                     this, SLOT(slotSetUrlStatFinished(KJob*)));
-            setEnabled(false);
         } else {
             // Reset the search panel because a "normal" directory is shown.
             setQuery(Nepomuk::Query::Query());
         }
+
+        const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+        setEnabled(searchInfo.isIndexingEnabled() &&
+                   searchInfo.isPathIndexed(m_startedFromDir));
     }
 
     return true;
@@ -168,16 +167,11 @@ void SearchPanel::showEvent(QShowEvent* event)
         m_initialized = true;
     }
 
+    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+    setEnabled(searchInfo.isIndexingEnabled() &&
+               searchInfo.isPathIndexed(url()));
+
     Panel::showEvent(event);
-}
-
-void SearchPanel::hideEvent(QHideEvent* event)
-{
-    if (!event->spontaneous()) {
-        setEnabled(false);
-    }
-
-    Panel::hideEvent(event);
 }
 
 void SearchPanel::contextMenuEvent(QContextMenuEvent* event)

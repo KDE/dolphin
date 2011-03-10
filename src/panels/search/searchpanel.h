@@ -69,9 +69,6 @@ protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 
-    /** @see QWidget::hideEvent() */
-    virtual void hideEvent(QHideEvent* event);
-
     /** @see QWidget::contextMenuEvent() */
     virtual void contextMenuEvent(QContextMenuEvent* event);
 
