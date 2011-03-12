@@ -37,6 +37,7 @@ class QAbstractProxyModel;
  */
 class DolphinFileItemDelegate : public KFileItemDelegate
 {
+    Q_OBJECT
 public:
     explicit DolphinFileItemDelegate(QObject* parent = 0);
     virtual ~DolphinFileItemDelegate();
@@ -60,6 +61,9 @@ public:
      */
     static int nameColumnWidth(const QString& name, const QStyleOptionViewItem& option);
 
+private slots:
+    void handleDisplayPaletteChange();
+
 private:
     static void adjustOptionWidth(QStyleOptionViewItemV4& option,
                                   const QAbstractProxyModel* proxyModel,
@@ -75,6 +79,8 @@ private:
     bool m_hasMinimizedNameColumn;
     mutable QSize m_cachedSize;
     mutable QPixmap m_cachedEmblems[KVersionControlPlugin::LocallyModifiedUnstagedVersion + 1];
+    mutable QColor m_cachedInactiveTextColor;
+    mutable bool m_cachedInactiveTextColorDirty;
 };
 
 inline void DolphinFileItemDelegate::setMinimizedNameColumn(bool minimized)
