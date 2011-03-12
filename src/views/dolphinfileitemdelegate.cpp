@@ -22,6 +22,7 @@
 #include "dolphinmodel.h"
 #include <kcolorscheme.h>
 #include <kfileitem.h>
+#include <kglobalsettings.h>
 #include <kicon.h>
 #include <kiconloader.h>
 #include <kstringhandler.h>
@@ -37,9 +38,11 @@ DolphinFileItemDelegate::DolphinFileItemDelegate(QObject* parent) :
     KFileItemDelegate(parent),
     m_hasMinimizedNameColumn(false),
     m_cachedSize(),
-    m_cachedEmblems()
+    m_cachedEmblems(),
+    m_cachedInactiveTextColorDirty(true)
 {
     setJobTransfersVisible(true);
+    connect(KGlobalSettings::self(), SIGNAL(kdisplayPaletteChanged()), this, SLOT(handleDisplayPaletteChange()));
 }
 
 DolphinFileItemDelegate::~DolphinFileItemDelegate()
@@ -63,8 +66,11 @@ void DolphinFileItemDelegate::paint(QPainter* painter,
         // Use the inactive text color for all columns except the name column. This indicates for the user that
         // hovering other columns does not change the actions context.
         QPalette palette = opt.palette;
-        const QColor textColor = KColorScheme(QPalette::Active).foreground(KColorScheme::InactiveText).color();
-        palette.setColor(QPalette::Text, textColor);
+        if (m_cachedInactiveTextColorDirty) {
+            m_cachedInactiveTextColor = KColorScheme(QPalette::Active).foreground(KColorScheme::InactiveText).color();
+            m_cachedInactiveTextColorDirty = false;
+        }
+        palette.setColor(QPalette::Text, m_cachedInactiveTextColor);
         opt.palette = palette;
     }
 
@@ -100,6 +106,11 @@ int DolphinFileItemDelegate::nameColumnWidth(const QString& name, const QStyleOp
         width = defaultWidth;
     }
     return width;
+}
+
+void DolphinFileItemDelegate::handleDisplayPaletteChange()
+{
+    m_cachedInactiveTextColorDirty = true;
 }
 
 void DolphinFileItemDelegate::adjustOptionWidth(QStyleOptionViewItemV4& option,
