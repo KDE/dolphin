@@ -64,16 +64,6 @@ protected:
     virtual void paintEvent(QPaintEvent* event);
 
 private:
-    /**
-     * Helper method for FileMetaDataToolTip::paintEvent() to adjust the painter path \p path
-     * by rounded corners.
-     */
-    static void arc(QPainterPath& path,
-                    qreal cx, qreal cy,
-                    qreal radius, qreal angle,
-                    qreal sweepLength);
-
-private:
     QLabel* m_preview;
     QLabel* m_name;
     KFileMetaDataWidget* m_fileMetaDataWidget;

@@ -48,17 +48,6 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_item(),
     m_itemRect()
 {
-    static FileMetaDataToolTip* sharedToolTip = 0;
-    if (!sharedToolTip) {
-        sharedToolTip = new FileMetaDataToolTip();
-        // TODO: Using K_GLOBAL_STATIC would be preferable to maintain the
-        // instance, but the cleanup of KFileMetaDataWidget at this stage does
-        // not work.
-    }
-    m_fileMetaDataToolTip = sharedToolTip;
-    connect(m_fileMetaDataToolTip, SIGNAL(metaDataRequestFinished(KFileItemList)),
-            this, SLOT(slotMetaDataRequestFinished()));
-
     m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
     connect(parent, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(requestToolTip(const QModelIndex&)));
@@ -86,6 +75,7 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     connect(parent->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(hideToolTip()));
 
+    Q_ASSERT(m_view);
     m_view->viewport()->installEventFilter(this);
     m_view->installEventFilter(this);
 }
@@ -106,9 +96,9 @@ void ToolTipManager::hideToolTip()
     m_showToolTipTimer->stop();
     m_contentRetrievalTimer->stop();
 
-    m_fileMetaDataToolTip->setItems(KFileItemList());
-    m_fileMetaDataToolTip->hide();
-}
+    delete m_fileMetaDataToolTip;
+    m_fileMetaDataToolTip = 0;}
+
 
 bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 {
@@ -145,6 +135,11 @@ void ToolTipManager::requestToolTip(const QModelIndex& index)
         // Only start the retrieving of the content, when the mouse has been over this
         // item for 200 milliseconds. This prevents a lot of useless preview jobs and
         // meta data retrieval, when passing rapidly over a lot of items.
+        Q_ASSERT(!m_fileMetaDataToolTip);
+        m_fileMetaDataToolTip = new FileMetaDataToolTip(m_view);
+        connect(m_fileMetaDataToolTip, SIGNAL(metaDataRequestFinished(KFileItemList)),
+                this, SLOT(slotMetaDataRequestFinished()));
+
         m_contentRetrievalTimer->start();
         m_showToolTipTimer->start();
         m_toolTipRequested = true;
