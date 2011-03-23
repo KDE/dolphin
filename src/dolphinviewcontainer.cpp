@@ -288,21 +288,12 @@ void DolphinViewContainer::updateStatusBar()
 {
     m_statusBarTimestamp.start();
 
-    // As the item count information is less important
-    // in comparison with other messages, it should only
-    // be shown if:
-    // - the status bar is empty or
-    // - shows already the item count information or
-    // - shows only a not very important information
     const QString newMessage = m_view->statusBarText();
-    const QString currentMessage = m_statusBar->message();
-    const bool updateStatusBarMsg = currentMessage.isEmpty()
-                                    || (currentMessage == m_statusBar->defaultText())
-                                    || (m_statusBar->type() == DolphinStatusBar::Information);
-
     m_statusBar->setDefaultText(newMessage);
 
-    if (updateStatusBarMsg) {
+    // We don't want to override errors. Other messages are only protected by
+    // the Statusbar itself depending on timings (see DolphinStatusBar::setMessage).
+    if (m_statusBar->type() != DolphinStatusBar::Error) {
         m_statusBar->setMessage(newMessage, DolphinStatusBar::Default);
     }
 }

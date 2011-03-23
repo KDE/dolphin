@@ -139,6 +139,9 @@ private slots:
      * of selected files and the sum of the filesize is shown. The update
      * is done asynchronously, as getting the sum of the
      * filesizes can be an expensive operation.
+     * Unless a previous OperationCompletedMessage was set very shortly before
+     * calling this method, it will be overwritten (see DolphinStatusBar::setMessage).
+     * Previous ErrorMessages however are always preserved.
      */
     void delayedStatusBarUpdate();
 
