@@ -123,12 +123,6 @@ private:
     void insertDefaultItemActions();
 
     /**
-     * Adds the "Show menubar" action to the menu if the
-     * menubar is hidden.
-     */
-    void addShowMenubarAction();
-
-    /**
      * Returns a name for adding the URL \a url to the Places panel.
      */
     QString placesName(const KUrl& url) const;

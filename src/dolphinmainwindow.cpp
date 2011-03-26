@@ -64,13 +64,14 @@
 #include <KFilePlacesModel>
 #include <KGlobal>
 #include <KLineEdit>
-#include <ktoolbar.h>
+#include <KToolBar>
 #include <KIcon>
 #include <KIconLoader>
 #include <KIO/NetAccess>
 #include <KInputDialog>
 #include <KLocale>
 #include <KProtocolManager>
+#include <KPushButton>
 #include <KMenu>
 #include <KMenuBar>
 #include <KMessageBox>
@@ -111,7 +112,6 @@ Q_DECLARE_METATYPE(ClosedTab)
 DolphinMainWindow::DolphinMainWindow(int id) :
     KXmlGuiWindow(0),
     m_newFileMenu(0),
-    m_showMenuBar(0),
     m_tabBar(0),
     m_activeViewContainer(0),
     m_centralWidgetLayout(0),
@@ -121,6 +121,10 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_actionHandler(0),
     m_remoteEncoding(0),
     m_settingsDialog(0),
+    m_toolBarSpacer(0),
+    m_openToolBarMenuButton(0),
+    m_toolBarMenu(),
+    m_updateToolBarTimer(0),
     m_lastHandleUrlStatJob(0),
     m_searchDockIsTemporaryVisible(false)
 {
@@ -939,12 +943,6 @@ void DolphinMainWindow::goUp(Qt::MouseButtons buttons)
     }
 }
 
-void DolphinMainWindow::goHome()
-{
-    clearStatusBar();
-    m_activeViewContainer->urlNavigator()->goHome();
-}
-
 void DolphinMainWindow::compareFiles()
 {
     // The method is only invoked if exactly 2 files have
@@ -1004,6 +1002,11 @@ void DolphinMainWindow::toggleShowMenuBar()
 {
     const bool visible = menuBar()->isVisible();
     menuBar()->setVisible(!visible);
+    if (visible) {
+        createToolBarMenuButton();
+    } else {
+        deleteToolBarMenuButton();
+    }
 }
 
 void DolphinMainWindow::openTerminal()
@@ -1308,6 +1311,126 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
     delete contextMenu;
 }
 
+void DolphinMainWindow::openToolBarMenu()
+{
+    const int height = m_openToolBarMenuButton->height();
+    const QPoint pos = m_openToolBarMenuButton->mapToGlobal(QPoint(0, height));
+
+    m_toolBarMenu = new KMenu(m_openToolBarMenuButton);
+    m_toolBarMenu.data()->setAttribute(Qt::WA_DeleteOnClose);
+    connect(m_toolBarMenu.data(), SIGNAL(aboutToShow()), this, SLOT(updateToolBarMenu()));
+
+    m_toolBarMenu.data()->exec(pos);
+}
+
+void DolphinMainWindow::updateToolBarMenu()
+{
+    KMenu* menu = m_toolBarMenu.data();
+    if (!menu) {
+        return;
+    }
+
+    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+
+    KActionCollection* ac = actionCollection();
+
+    // Add "Edit" actions
+    bool added = addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Undo)), menu) |
+                 addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Find)), menu) |
+                 addActionToMenu(ac->action("select_all"), menu) |
+                 addActionToMenu(ac->action("invert_selection"), menu);
+
+    if (added) {
+        menu->addSeparator();
+    }
+
+    // Add "View" actions
+    if (!generalSettings->showZoomSlider()) {
+        addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomIn)), menu);
+        addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomOut)), menu);
+        menu->addSeparator();
+    }
+
+    added = addActionToMenu(ac->action("view_mode"), menu) |
+            addActionToMenu(ac->action("sort"), menu) |
+            addActionToMenu(ac->action("additional_info"), menu) |
+            addActionToMenu(ac->action("show_preview"), menu) |
+            addActionToMenu(ac->action("show_in_groups"), menu) |
+            addActionToMenu(ac->action("show_hidden_files"), menu);
+
+    if (added) {
+        menu->addSeparator();
+    }
+
+    added = addActionToMenu(ac->action("split_view"), menu) |
+            addActionToMenu(ac->action("reload"), menu) |
+            addActionToMenu(ac->action("view_properties"), menu);
+    if (added) {
+        menu->addSeparator();
+    }
+
+    addActionToMenu(ac->action("panels"), menu);
+    KMenu* locationBarMenu = new KMenu(i18nc("@action:inmenu", "Location Bar"), menu);
+    locationBarMenu->addAction(ac->action("editable_location"));
+    locationBarMenu->addAction(ac->action("replace_location"));
+    menu->addMenu(locationBarMenu);
+
+    menu->addSeparator();
+
+    // Add "Go" menu
+    KMenu* goMenu = new KMenu(i18nc("@action:inmenu", "Go"), menu);
+    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Back)));
+    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Forward)));
+    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Up)));
+    goMenu->addAction(ac->action("closed_tabs"));
+    menu->addMenu(goMenu);
+
+    // Add "Tool" menu
+    KMenu* toolsMenu = new KMenu(i18nc("@action:inmenu", "Tools"), menu);
+    toolsMenu->addAction(ac->action("show_filter_bar"));
+    toolsMenu->addAction(ac->action("compare_files"));
+    toolsMenu->addAction(ac->action("open_terminal"));
+    toolsMenu->addAction(ac->action("change_remote_encoding"));
+    menu->addMenu(toolsMenu);
+
+    // Add "Settings" menu
+    KMenu* settingsMenu = new KMenu(i18nc("@action:inmenu", "Settings"), menu);
+    settingsMenu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
+    settingsMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
+    settingsMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Preferences)));
+    menu->addMenu(settingsMenu);
+
+    // Add "Help" menu
+    KMenu* helpMenu = new KMenu(i18nc("@action:inmenu", "Help"), menu);
+    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::HelpContents)));
+    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::WhatsThis)));
+    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutApp)));
+    helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutKDE)));
+    menu->addMenu(helpMenu);
+
+    menu->addSeparator();
+    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ShowMenubar)), menu);
+}
+
+void DolphinMainWindow::updateToolBar()
+{
+    if (!menuBar()->isVisible()) {
+        createToolBarMenuButton();
+    }
+}
+
+void DolphinMainWindow::slotToolBarSpacerDeleted()
+{
+    m_toolBarSpacer = 0;
+    m_updateToolBarTimer->start();
+}
+
+void DolphinMainWindow::slotToolBarMenuButtonDeleted()
+{
+    m_openToolBarMenuButton = 0;
+    m_updateToolBarTimer->start();
+}
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -1396,11 +1519,17 @@ void DolphinMainWindow::init()
     showFilterBarAction->setChecked(generalSettings->filterBar());
 
     if (firstRun) {
-        // assure a proper default size if Dolphin runs the first time
+        menuBar()->setVisible(false);
+        // Assure a proper default size if Dolphin runs the first time
         resize(750, 500);
     }
 
-    m_showMenuBar->setChecked(!menuBar()->isHidden());  // workaround for bug #171080
+    const bool showMenu = !menuBar()->isHidden();
+    QAction* showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
+    showMenuBarAction->setChecked(showMenu);  // workaround for bug #171080
+    if (!showMenu) {
+        createToolBarMenuButton();
+    }
 }
 
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
@@ -1532,10 +1661,10 @@ void DolphinMainWindow::setupActions()
     stop->setIcon(KIcon("process-stop"));
     connect(stop, SIGNAL(triggered()), this, SLOT(stopLoading()));
 
-    KToggleAction* showFullLocation = actionCollection()->add<KToggleAction>("editable_location");
-    showFullLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
-    showFullLocation->setShortcut(Qt::CTRL | Qt::Key_L);
-    connect(showFullLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
+    KToggleAction* editableLocation = actionCollection()->add<KToggleAction>("editable_location");
+    editableLocation->setText(i18nc("@action:inmenu Navigation Bar", "Editable Location"));
+    editableLocation->setShortcut(Qt::CTRL | Qt::Key_L);
+    connect(editableLocation, SIGNAL(triggered()), this, SLOT(toggleEditLocation()));
 
     KAction* replaceLocation = actionCollection()->addAction("replace_location");
     replaceLocation->setText(i18nc("@action:inmenu Navigation Bar", "Replace Location"));
@@ -1568,8 +1697,6 @@ void DolphinMainWindow::setupActions()
     KAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
     connect(upAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goUp(Qt::MouseButtons)));
 
-    KStandardAction::home(this, SLOT(goHome()), actionCollection());
-
     // setup 'Tools' menu
     KAction* showFilterBar = actionCollection()->addAction("show_filter_bar");
     showFilterBar->setText(i18nc("@action:inmenu Tools", "Show Filter Bar"));
@@ -1590,7 +1717,7 @@ void DolphinMainWindow::setupActions()
     connect(openTerminal, SIGNAL(triggered()), this, SLOT(openTerminal()));
 
     // setup 'Settings' menu
-    m_showMenuBar = KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
+    KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
     KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
 
     // not in menu actions
@@ -1826,6 +1953,67 @@ void DolphinMainWindow::updateGoActions()
     QAction* goUpAction = actionCollection()->action(KStandardAction::name(KStandardAction::Up));
     const KUrl currentUrl = m_activeViewContainer->url();
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
+}
+
+void DolphinMainWindow::createToolBarMenuButton()
+{
+    if (m_toolBarSpacer && m_openToolBarMenuButton) {
+        return;
+    }
+    Q_ASSERT(!m_toolBarSpacer);
+    Q_ASSERT(!m_openToolBarMenuButton);
+
+    m_toolBarSpacer = new QWidget(this);
+    m_toolBarSpacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+
+    m_openToolBarMenuButton = new KPushButton(this);
+    m_openToolBarMenuButton->setFlat(true);
+    m_openToolBarMenuButton->setIcon(KIcon("configure"));
+    m_openToolBarMenuButton->setMaximumWidth(m_openToolBarMenuButton->sizeHint().height());
+
+    // Instead of using QPushButton::setMenu() the opening of the menu is done manually
+    // to prevent the "clutter" of the down-arrow drawn by the style.
+    connect(m_openToolBarMenuButton, SIGNAL(clicked()), this, SLOT(openToolBarMenu()));
+
+    toolBar()->addWidget(m_toolBarSpacer);
+    toolBar()->addWidget(m_openToolBarMenuButton);
+
+    // The added widgets are owned by the toolbar and may get deleted when e.g. the toolbar
+    // gets edited. In this case we must add them again. The adding is done asynchronously by
+    // m_updateToolBarTimer.
+    connect(m_toolBarSpacer, SIGNAL(destroyed()), this, SLOT(slotToolBarSpacerDeleted()));
+    connect(m_openToolBarMenuButton, SIGNAL(destroyed()), this, SLOT(slotToolBarMenuButtonDeleted()));
+    m_updateToolBarTimer = new QTimer(this);
+    m_updateToolBarTimer->setInterval(500);
+    connect(m_updateToolBarTimer, SIGNAL(timeout()), this, SLOT(updateToolBar()));
+}
+
+void DolphinMainWindow::deleteToolBarMenuButton()
+{
+    delete m_toolBarSpacer;
+    m_toolBarSpacer = 0;
+
+    delete m_openToolBarMenuButton;
+    m_openToolBarMenuButton = 0;
+
+    delete m_updateToolBarTimer;
+    m_updateToolBarTimer = 0;
+}
+
+bool DolphinMainWindow::addActionToMenu(QAction* action, KMenu* menu)
+{
+    Q_ASSERT(action);
+    Q_ASSERT(menu);
+
+    const KToolBar* toolBarWidget = toolBar();
+    foreach (const QWidget* widget, action->associatedWidgets()) {
+        if (widget == toolBarWidget) {
+            return false;
+        }
+    }
+
+    menu->addAction(action);
+    return true;
 }
 
 void DolphinMainWindow::rememberClosedTab(int index)

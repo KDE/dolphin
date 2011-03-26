@@ -184,8 +184,6 @@ void DolphinContextMenu::openTrashContextMenu()
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     m_popup->addAction(propertiesAction);
 
-    addShowMenubarAction();
-
     QAction *action = m_popup->exec(QCursor::pos());
     if (action == emptyTrashAction) {
         const QString text(i18nc("@info", "Do you really want to empty the Trash? All items will be deleted."));
@@ -367,8 +365,6 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* propertiesAction = m_popup->addAction(i18nc("@action:inmenu", "Properties"));
     propertiesAction->setIcon(KIcon("document-properties"));
 
-    addShowMenubarAction();
-
     QAction* action = m_popup->exec(QCursor::pos());
     if (action == propertiesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
@@ -406,15 +402,6 @@ void DolphinContextMenu::insertDefaultItemActions()
     } else {
         m_popup->addAction(m_removeAction);
         updateRemoveAction();
-    }
-}
-
-void DolphinContextMenu::addShowMenubarAction()
-{
-    KAction* showMenuBar = m_mainWindow->showMenuBarAction();
-    if (!m_mainWindow->menuBar()->isVisible()) {
-        m_popup->addSeparator();
-        m_popup->addAction(showMenuBar);
     }
 }
 

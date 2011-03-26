@@ -38,13 +38,14 @@
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
-class KAction;
 class DolphinViewActionHandler;
 class DolphinApplication;
 class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
+class KAction;
 class KNewFileMenu;
+class KPushButton;
 class KTabBar;
 class KUrl;
 class QSplitter;
@@ -107,12 +108,6 @@ public:
      * with other menus (e. g. a context menu).
      */
     KNewFileMenu* newFileMenu() const;
-
-    /**
-     * Returns the 'Show Menubar' action which can be shared with
-     * other menus (e. g. a context menu).
-     */
-    KAction* showMenuBarAction() const;
 
 public slots:
     /**
@@ -295,9 +290,6 @@ private slots:
      */
     void goUp(Qt::MouseButtons buttons);
 
-    /** Goes to the home URL. */
-    void goHome();
-
     /** Opens Kompare for 2 selected files. */
     void compareFiles();
 
@@ -446,6 +438,12 @@ private slots:
                          const KUrl& url,
                          const QList<QAction*>& customActions);
 
+    void openToolBarMenu();
+    void updateToolBarMenu();
+    void updateToolBar();
+    void slotToolBarSpacerDeleted();
+    void slotToolBarMenuButtonDeleted();
+
 private:
     DolphinMainWindow(int id);
     void init();
@@ -468,6 +466,16 @@ private:
     void updateEditActions();
     void updateViewActions();
     void updateGoActions();
+
+    void createToolBarMenuButton();
+    void deleteToolBarMenuButton();
+
+    /**
+     * Adds the action \p action to the menu \p menu in
+     * case if it has not added already to the toolbar.
+     * @return True if the action has been added to the menu.
+     */
+    bool addActionToMenu(QAction* action, KMenu* menu);
 
     /**
      * Adds the tab[\a index] to the closed tab menu's list of actions.
@@ -537,12 +545,12 @@ private:
 
     KNewFileMenu* m_newFileMenu;
     KActionMenu* m_recentTabsMenu;
-    KAction* m_showMenuBar;
     KTabBar* m_tabBar;
     DolphinViewContainer* m_activeViewContainer;
     QVBoxLayout* m_centralWidgetLayout;
     int m_id;
 
+    // Members for the tab-handling:
     struct ViewTab
     {
         ViewTab() : isPrimaryViewActive(true), primaryView(0), secondaryView(0), splitter(0) {}
@@ -551,13 +559,18 @@ private:
         DolphinViewContainer* secondaryView;
         QSplitter* splitter;
     };
-
     int m_tabIndex;
     QList<ViewTab> m_viewTab;
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
     QPointer<DolphinSettingsDialog> m_settingsDialog;
+
+    // Members for the toolbar menu that is shown when the menubar is hidden:
+    QWidget* m_toolBarSpacer;
+    KPushButton* m_openToolBarMenuButton;
+    QWeakPointer<KMenu> m_toolBarMenu;
+    QTimer* m_updateToolBarTimer;
 
     KJob* m_lastHandleUrlStatJob;
 
@@ -581,11 +594,6 @@ inline bool DolphinMainWindow::isSplit() const
 inline KNewFileMenu* DolphinMainWindow::newFileMenu() const
 {
     return m_newFileMenu;
-}
-
-inline KAction* DolphinMainWindow::showMenuBarAction() const
-{
-    return m_showMenuBar;
 }
 
 inline int DolphinMainWindow::getId() const
