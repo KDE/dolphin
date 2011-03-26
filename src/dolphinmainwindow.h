@@ -261,6 +261,13 @@ private slots:
      */
     void togglePanelLockState();
 
+    /**
+     * Is invoked if the Places panel got visible/invisible and takes care
+     * that the places-selector of all views is only shown if the Places panel
+     * is invisible.
+     */
+    void slotPlacesPanelVisibilityChanged(bool visible);
+
     /** Goes back one step of the URL history. */
     void goBack();
 
@@ -450,6 +457,11 @@ private:
      * is usually shown in darker colors.
      */
     void setActiveViewContainer(DolphinViewContainer* view);
+
+    /**
+     * Creates a view container and does a default initialization.
+     */
+    DolphinViewContainer* createViewContainer(const KUrl& url, QWidget* parent);
 
     void setupActions();
     void setupDockWidgets();

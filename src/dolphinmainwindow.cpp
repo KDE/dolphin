@@ -422,7 +422,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     ViewTab viewTab;
     viewTab.splitter = new QSplitter(this);
     viewTab.splitter->setChildrenCollapsible(false);
-    viewTab.primaryView = new DolphinViewContainer(url, viewTab.splitter);
+    viewTab.primaryView = createViewContainer(url, viewTab.splitter);
     viewTab.primaryView->setActive(false);
     connectViewSignals(viewTab.primaryView);
 
@@ -872,6 +872,19 @@ void DolphinMainWindow::togglePanelLockState()
     generalSettings->setLockPanels(newLockState);
 }
 
+void DolphinMainWindow::slotPlacesPanelVisibilityChanged(bool visible)
+{
+    const int tabCount = m_viewTab.count();
+    for (int i = 0; i < tabCount; ++i) {
+        ViewTab& tab = m_viewTab[i];
+        Q_ASSERT(tab.primaryView);
+        tab.primaryView->urlNavigator()->setPlacesSelectorVisible(!visible);
+        if (tab.secondaryView) {
+            tab.secondaryView->urlNavigator()->setPlacesSelectorVisible(!visible);
+        }
+    }
+}
+
 void DolphinMainWindow::goBack()
 {
     clearStatusBar();
@@ -1319,9 +1332,8 @@ void DolphinMainWindow::init()
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
     connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
-    ViewProperties props(homeUrl);
-    m_viewTab[m_tabIndex].primaryView = new DolphinViewContainer(homeUrl,
-                                                                 m_viewTab[m_tabIndex].splitter);
+
+    m_viewTab[m_tabIndex].primaryView = createViewContainer(homeUrl, m_viewTab[m_tabIndex].splitter);
 
     m_activeViewContainer = m_viewTab[m_tabIndex].primaryView;
     connectViewSignals(m_activeViewContainer);
@@ -1425,6 +1437,18 @@ void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContain
     }
 
     emit urlChanged(url);
+}
+
+DolphinViewContainer* DolphinMainWindow::createViewContainer(const KUrl& url, QWidget* parent)
+{
+    DolphinViewContainer* container = new DolphinViewContainer(url, parent);
+
+    // The places-selector from the URL navigator should only be shown
+    // if the places dock is invisible
+    QDockWidget* placesDock = findChild<QDockWidget*>("placesDock");
+    container->urlNavigator()->setPlacesSelectorVisible(!placesDock || !placesDock->isVisible());
+
+    return container;
 }
 
 void DolphinMainWindow::setupActions()
@@ -1736,6 +1760,8 @@ void DolphinMainWindow::setupDockWidgets()
             this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
+    connect(placesDock, SIGNAL(visibilityChanged(bool)),
+            this, SLOT(slotPlacesPanelVisibilityChanged(bool)));
 
     // Add actions into the "Panels" menu
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
@@ -1938,7 +1964,7 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
     const int newWidth = (m_viewTab[tabIndex].primaryView->width() - splitter->handleWidth()) / 2;
 
     const DolphinView* view = m_viewTab[tabIndex].primaryView->view();
-    m_viewTab[tabIndex].secondaryView = new DolphinViewContainer(view->rootUrl(), 0);
+    m_viewTab[tabIndex].secondaryView = createViewContainer(view->rootUrl(), 0);
     splitter->addWidget(m_viewTab[tabIndex].secondaryView);
     splitter->setSizes(QList<int>() << newWidth << newWidth);
     connectViewSignals(m_viewTab[tabIndex].secondaryView);
