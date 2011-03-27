@@ -44,12 +44,12 @@ class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
 class KAction;
+class KJob;
 class KNewFileMenu;
-class KPushButton;
 class KTabBar;
 class KUrl;
 class QSplitter;
-class KJob;
+class QToolButton;
 
 /**
  * @short Main window for Dolphin.
@@ -568,7 +568,7 @@ private:
 
     // Members for the toolbar menu that is shown when the menubar is hidden:
     QWidget* m_toolBarSpacer;
-    KPushButton* m_openToolBarMenuButton;
+    QToolButton* m_openToolBarMenuButton;
     QWeakPointer<KMenu> m_toolBarMenu;
     QTimer* m_updateToolBarTimer;
 

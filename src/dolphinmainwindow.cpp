@@ -53,6 +53,7 @@
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_searchsettings.h"
 
+#include <KAcceleratorManager>
 #include <KAction>
 #include <KActionCollection>
 #include <KActionMenu>
@@ -71,7 +72,6 @@
 #include <KInputDialog>
 #include <KLocale>
 #include <KProtocolManager>
-#include <KPushButton>
 #include <KMenu>
 #include <KMenuBar>
 #include <KMessageBox>
@@ -93,8 +93,8 @@
 #include <QDBusMessage>
 #include <QKeyEvent>
 #include <QClipboard>
+#include <QToolButton>
 #include <QSplitter>
-#include <kacceleratormanager.h>
 
 /*
  * Remembers the tab configuration if a tab has been closed.
@@ -1962,12 +1962,10 @@ void DolphinMainWindow::createToolBarMenuButton()
     Q_ASSERT(!m_openToolBarMenuButton);
 
     m_toolBarSpacer = new QWidget(this);
-    m_toolBarSpacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+    m_toolBarSpacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
 
-    m_openToolBarMenuButton = new KPushButton(this);
-    m_openToolBarMenuButton->setFlat(true);
+    m_openToolBarMenuButton = new QToolButton(this);
     m_openToolBarMenuButton->setIcon(KIcon("configure"));
-    m_openToolBarMenuButton->setMaximumWidth(m_openToolBarMenuButton->sizeHint().height());
 
     // Instead of using QPushButton::setMenu() the opening of the menu is done manually
     // to prevent the "clutter" of the down-arrow drawn by the style.
