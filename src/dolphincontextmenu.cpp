@@ -49,6 +49,7 @@
 #include <KPropertiesDialog>
 #include <KStandardAction>
 #include <KStandardDirs>
+#include <KToolBar>
 
 #include <QApplication>
 #include <QClipboard>
@@ -183,6 +184,8 @@ void DolphinContextMenu::openTrashContextMenu()
 
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     m_popup->addAction(propertiesAction);
+
+    addShowMenuBarAction();
 
     QAction *action = m_popup->exec(QCursor::pos());
     if (action == emptyTrashAction) {
@@ -365,6 +368,8 @@ void DolphinContextMenu::openViewportContextMenu()
     QAction* propertiesAction = m_popup->addAction(i18nc("@action:inmenu", "Properties"));
     propertiesAction->setIcon(KIcon("document-properties"));
 
+    addShowMenuBarAction();
+
     QAction* action = m_popup->exec(QCursor::pos());
     if (action == propertiesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
@@ -402,6 +407,16 @@ void DolphinContextMenu::insertDefaultItemActions()
     } else {
         m_popup->addAction(m_removeAction);
         updateRemoveAction();
+    }
+}
+
+void DolphinContextMenu::addShowMenuBarAction()
+{
+    const KActionCollection* ac = m_mainWindow->actionCollection();
+    QAction* showMenuBar = ac->action(KStandardAction::name(KStandardAction::ShowMenubar));
+    if (!m_mainWindow->menuBar()->isVisible() && !m_mainWindow->toolBar()->isVisible()) {
+        m_popup->addSeparator();
+        m_popup->addAction(showMenuBar);
     }
 }
 
