@@ -443,6 +443,7 @@ private slots:
     void updateToolBar();
     void slotToolBarSpacerDeleted();
     void slotToolBarMenuButtonDeleted();
+    void slotToolBarIconSizeChanged(const QSize& iconSize);
 
 private:
     DolphinMainWindow(int id);

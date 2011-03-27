@@ -1429,6 +1429,13 @@ void DolphinMainWindow::slotToolBarMenuButtonDeleted()
     m_updateToolBarTimer->start();
 }
 
+void DolphinMainWindow::slotToolBarIconSizeChanged(const QSize& iconSize)
+{
+    if (m_openToolBarMenuButton) {
+        m_openToolBarMenuButton->setIconSize(iconSize);
+    }
+}
+
 void DolphinMainWindow::init()
 {
     DolphinSettings& settings = DolphinSettings::instance();
@@ -1973,6 +1980,7 @@ void DolphinMainWindow::createToolBarMenuButton()
 
     toolBar()->addWidget(m_toolBarSpacer);
     toolBar()->addWidget(m_openToolBarMenuButton);
+    connect(toolBar(), SIGNAL(iconSizeChanged(QSize)), this, SLOT(slotToolBarIconSizeChanged(QSize)));
 
     // The added widgets are owned by the toolbar and may get deleted when e.g. the toolbar
     // gets edited. In this case we must add them again. The adding is done asynchronously by
