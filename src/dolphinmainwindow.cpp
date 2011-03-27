@@ -1393,12 +1393,10 @@ void DolphinMainWindow::updateToolBarMenu()
     toolsMenu->addAction(ac->action("change_remote_encoding"));
     menu->addMenu(toolsMenu);
 
-    // Add "Settings" menu
-    KMenu* settingsMenu = new KMenu(i18nc("@action:inmenu", "Settings"), menu);
-    settingsMenu->addAction(ac->action(KStandardAction::name(KStandardAction::KeyBindings)));
-    settingsMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)));
-    settingsMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Preferences)));
-    menu->addMenu(settingsMenu);
+    // Add "Settings" menu entries
+    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::KeyBindings)), menu);
+    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ConfigureToolbars)), menu);
+    addActionToMenu(ac->action(KStandardAction::name(KStandardAction::Preferences)), menu);
 
     // Add "Help" menu
     KMenu* helpMenu = new KMenu(i18nc("@action:inmenu", "Help"), menu);
