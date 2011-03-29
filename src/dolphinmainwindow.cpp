@@ -891,8 +891,6 @@ void DolphinMainWindow::slotPlacesPanelVisibilityChanged(bool visible)
 
 void DolphinMainWindow::goBack()
 {
-    clearStatusBar();
-
     KUrlNavigator* urlNavigator = m_activeViewContainer->urlNavigator();
     urlNavigator->goBack();
 
@@ -905,14 +903,17 @@ void DolphinMainWindow::goBack()
 
 void DolphinMainWindow::goForward()
 {
-    clearStatusBar();
     m_activeViewContainer->urlNavigator()->goForward();
 }
 
 void DolphinMainWindow::goUp()
 {
-    clearStatusBar();
     m_activeViewContainer->urlNavigator()->goUp();
+}
+
+void DolphinMainWindow::goHome()
+{
+    m_activeViewContainer->urlNavigator()->goHome();
 }
 
 void DolphinMainWindow::goBack(Qt::MouseButtons buttons)
@@ -1382,6 +1383,7 @@ void DolphinMainWindow::updateToolBarMenu()
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Back)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Forward)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Up)));
+    goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Home)));
     goMenu->addAction(ac->action("closed_tabs"));
     menu->addMenu(goMenu);
 
@@ -1701,6 +1703,8 @@ void DolphinMainWindow::setupActions()
 
     KAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
     connect(upAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goUp(Qt::MouseButtons)));
+
+    KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
     // setup 'Tools' menu
     KAction* showFilterBar = actionCollection()->addAction("show_filter_bar");

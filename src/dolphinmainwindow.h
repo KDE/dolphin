@@ -272,6 +272,9 @@ private slots:
     /** Goes up one hierarchy of the current URL. */
     void goUp();
 
+    /** Changes the location to the home URL. */
+    void goHome();
+
     /**
      * Open the previous URL in the URL history in a new tab
      * if the middle mouse button is clicked.
