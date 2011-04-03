@@ -1,4 +1,4 @@
-/*****************************************************************************
+/****************************************************************************
  *   Copyright (C) 2010-2011 by Frank Reininghaus (frank78ac@googlemail.com) *
  *                                                                           *
  *   This program is free software; you can redistribute it and/or modify    *
@@ -17,11 +17,13 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA              *
  *****************************************************************************/
 
+#include <kdebug.h>
+
 #include "dolphinviewtest_allviewmodes.h"
 
 #include <qtest_kde.h>
 
-#include "testbase.h"
+#include "testdir.h"
 
 #include "views/dolphinview.h"
 #include "views/dolphinmodel.h"
@@ -37,26 +39,6 @@
 DolphinViewTest_AllViewModes::DolphinViewTest_AllViewModes() {
     // Need to register KFileItemList for use with QSignalSpy
     qRegisterMetaType<KFileItemList>("KFileItemList");
-}
-
-void DolphinViewTest_AllViewModes::init() {
-    if (mode() == DolphinView::ColumnView) {
-        // In Columns View mode, we need to create a new DolphinView after each
-        // test to make the file-related tests after the first one pass.
-        // TODO: Try to find out if there is a hidden bug in the Columns View that causes this.
-        delete m_view;
-        m_view = new DolphinView(KUrl(m_path), 0);
-    }
-    m_view->setMode(mode());
-    QVERIFY(verifyCorrectViewMode());
-    m_view->resize(200, 300);
-    m_view->show();
-    QTest::qWaitForWindowShown(m_view);
-}
-
-void DolphinViewTest_AllViewModes::cleanup() {
-    m_view->hide();
-    cleanupTestDir();
 }
 
 /**
@@ -75,55 +57,57 @@ void DolphinViewTest_AllViewModes::cleanup() {
 Q_DECLARE_METATYPE(KFileItemList)
 
 void DolphinViewTest_AllViewModes::testSelection() {
+    TestDir dir;    
     const int totalItems = 50;
-
     for (int i = 0; i < totalItems; i++) {
-        createFile(QString("%1").arg(i));
+        dir.createFile(QString("%1").arg(i));
     }
-    reloadViewAndWait();
+
+    DolphinView view(dir.url(), 0);
+    QAbstractItemView* itemView = initView(&view);
 
     // Start with an empty selection
-    m_view->clearSelection();
+    view.clearSelection();
 
-    QCOMPARE(m_view->selectedItems().count(), 0);
-    QCOMPARE(m_view->selectedItemsCount(), 0);
-    QVERIFY(!m_view->hasSelection());
+    QCOMPARE(view.selectedItems().count(), 0);
+    QCOMPARE(view.selectedItemsCount(), 0);
+    QVERIFY(!view.hasSelection());
 
     // First some simple tests where either all or no items are selected
-    m_view->selectAll();
-    verifySelectedItemsCount(totalItems);
+    view.selectAll();
+    verifySelectedItemsCount(&view, totalItems);
 
-    m_view->invertSelection();
-    verifySelectedItemsCount(0);
+    view.invertSelection();
+    verifySelectedItemsCount(&view, 0);
 
-    m_view->invertSelection();
-    verifySelectedItemsCount(totalItems);
+    view.invertSelection();
+    verifySelectedItemsCount(&view, totalItems);
 
-    m_view->clearSelection();
-    verifySelectedItemsCount(0);
+    view.clearSelection();
+    verifySelectedItemsCount(&view, 0);
 
     // Now we select individual items using mouse clicks
-    QModelIndex index = itemView()->model()->index(2, 0);
-    itemView()->scrollTo(index);
-    QTest::mouseClick(itemView()->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView()->visualRect(index).center());
-    verifySelectedItemsCount(1);
+    QModelIndex index = itemView->model()->index(2, 0);
+    itemView->scrollTo(index);
+    QTest::mouseClick(itemView->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView->visualRect(index).center());
+    verifySelectedItemsCount(&view, 1);
 
-    index = itemView()->model()->index(totalItems - 5, 0);
-    itemView()->scrollTo(index);
-    QTest::mouseClick(itemView()->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView()->visualRect(index).center());
-    verifySelectedItemsCount(2);
+    index = itemView->model()->index(totalItems - 5, 0);
+    itemView->scrollTo(index);
+    QTest::mouseClick(itemView->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView->visualRect(index).center());
+    verifySelectedItemsCount(&view, 2);
 
-    index = itemView()->model()->index(totalItems - 2, 0);
-    itemView()->scrollTo(index);
-    QTest::mouseClick(itemView()->viewport(), Qt::LeftButton, Qt::ShiftModifier, itemView()->visualRect(index).center());
-    verifySelectedItemsCount(5);
+    index = itemView->model()->index(totalItems - 2, 0);
+    itemView->scrollTo(index);
+    QTest::mouseClick(itemView->viewport(), Qt::LeftButton, Qt::ShiftModifier, itemView->visualRect(index).center());
+    verifySelectedItemsCount(&view, 5);
 
-    m_view->invertSelection();
-    verifySelectedItemsCount(totalItems - 5);
+    view.invertSelection();
+    verifySelectedItemsCount(&view, totalItems - 5);
 
     // Pressing Esc should clear the selection
-    QTest::keyClick(itemView()->viewport(), Qt::Key_Escape);
-    verifySelectedItemsCount(0);
+    QTest::keyClick(itemView->viewport(), Qt::Key_Escape);
+    verifySelectedItemsCount(&view, 0);
 }
 
 /**
@@ -135,90 +119,92 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
     // Create some files with different sizes and modification times to check the different sorting options
     QDateTime now = QDateTime::currentDateTime();
 
-    createFile("a", "A file", now.addDays(-3));
-    createFile("b", "A larger file", now.addDays(0));
-    createDir("c", now.addDays(-2));
-    createFile("d", "The largest file in this directory", now.addDays(-1));
-    createFile("e", "An even larger file", now.addDays(-4));
-    createFile(".f");
+    TestDir dir;
+    dir.createFile("a", "A file", now.addDays(-3));
+    dir.createFile("b", "A larger file", now.addDays(0));
+    dir.createDir("c", now.addDays(-2));
+    dir.createFile("d", "The largest file in this directory", now.addDays(-1));
+    dir.createFile("e", "An even larger file", now.addDays(-4));
+    dir.createFile(".f");
 
-    reloadViewAndWait();
+    DolphinView view(dir.url(), 0);
+    initView(&view);
 
     // First set all settings to the default.
-    m_view->setSorting(DolphinView::SortByName);
-    QCOMPARE(m_view->sorting(), DolphinView::SortByName);
+    view.setSorting(DolphinView::SortByName);
+    QCOMPARE(view.sorting(), DolphinView::SortByName);
 
-    m_view->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(m_view->sortOrder(), Qt::AscendingOrder);
+    view.setSortOrder(Qt::AscendingOrder);
+    QCOMPARE(view.sortOrder(), Qt::AscendingOrder);
 
-    m_view->setSortFoldersFirst(true);
-    QVERIFY(m_view->sortFoldersFirst());
+    view.setSortFoldersFirst(true);
+    QVERIFY(view.sortFoldersFirst());
 
-    m_view->setShowPreview(false);
-    QVERIFY(!m_view->showPreview());
+    view.setShowPreview(false);
+    QVERIFY(!view.showPreview());
 
-    m_view->setShowHiddenFiles(false);
-    QVERIFY(!m_view->showHiddenFiles());
+    view.setShowHiddenFiles(false);
+    QVERIFY(!view.showHiddenFiles());
 
     /** Check that the sort order is correct for different kinds of settings */
 
     // Sort by Name, ascending
-    QCOMPARE(m_view->sorting(), DolphinView::SortByName);
-    QCOMPARE(m_view->sortOrder(), Qt::AscendingOrder);
-    QCOMPARE(viewItems(), QStringList() << "c" << "a" << "b" << "d" << "e");
+    QCOMPARE(view.sorting(), DolphinView::SortByName);
+    QCOMPARE(view.sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(viewItems(&view), QStringList() << "c" << "a" << "b" << "d" << "e");
 
     // Sort by Name, descending
-    m_view->setSortOrder(Qt::DescendingOrder);
-    QCOMPARE(m_view->sorting(), DolphinView::SortByName);
-    QCOMPARE(m_view->sortOrder(), Qt::DescendingOrder);
-    QCOMPARE(viewItems(), QStringList() << "c" << "e" << "d" << "b" << "a");
+    view.setSortOrder(Qt::DescendingOrder);
+    QCOMPARE(view.sorting(), DolphinView::SortByName);
+    QCOMPARE(view.sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(viewItems(&view), QStringList() << "c" << "e" << "d" << "b" << "a");
 
     // Sort by Size, descending
-    m_view->setSorting(DolphinView::SortBySize);
-    QCOMPARE(m_view->sorting(), DolphinView::SortBySize);
-    QCOMPARE(m_view->sortOrder(), Qt::DescendingOrder);
-    QCOMPARE(viewItems(), QStringList() << "c" << "d" << "e" << "b" << "a");
+    view.setSorting(DolphinView::SortBySize);
+    QCOMPARE(view.sorting(), DolphinView::SortBySize);
+    QCOMPARE(view.sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(viewItems(&view), QStringList() << "c" << "d" << "e" << "b" << "a");
 
     // Sort by Size, ascending
-    m_view->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(m_view->sorting(), DolphinView::SortBySize);
-    QCOMPARE(m_view->sortOrder(), Qt::AscendingOrder);
-    QCOMPARE(viewItems(), QStringList() << "c" << "a" << "b" << "e" << "d");
+    view.setSortOrder(Qt::AscendingOrder);
+    QCOMPARE(view.sorting(), DolphinView::SortBySize);
+    QCOMPARE(view.sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(viewItems(&view), QStringList() << "c" << "a" << "b" << "e" << "d");
 
     // Sort by Date, ascending
-    m_view->setSorting(DolphinView::SortByDate);
-    QCOMPARE(m_view->sorting(), DolphinView::SortByDate);
-    QCOMPARE(m_view->sortOrder(), Qt::AscendingOrder);
-    QCOMPARE(viewItems(), QStringList() << "c" << "e" << "a" << "d" << "b");
+    view.setSorting(DolphinView::SortByDate);
+    QCOMPARE(view.sorting(), DolphinView::SortByDate);
+    QCOMPARE(view.sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(viewItems(&view), QStringList() << "c" << "e" << "a" << "d" << "b");
 
     // Sort by Date, descending
-    m_view->setSortOrder(Qt::DescendingOrder);
-    QCOMPARE(m_view->sorting(), DolphinView::SortByDate);
-    QCOMPARE(m_view->sortOrder(), Qt::DescendingOrder);
-    QCOMPARE(viewItems(), QStringList() << "c" << "b" << "d" << "a" << "e");
+    view.setSortOrder(Qt::DescendingOrder);
+    QCOMPARE(view.sorting(), DolphinView::SortByDate);
+    QCOMPARE(view.sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(viewItems(&view), QStringList() << "c" << "b" << "d" << "a" << "e");
 
     // Disable "Sort Folders First"
-    m_view->setSortFoldersFirst(false);
-    QVERIFY(!m_view->sortFoldersFirst());
-    QCOMPARE(viewItems(), QStringList()<< "b" << "d" << "c"  << "a" << "e");
+    view.setSortFoldersFirst(false);
+    QVERIFY(!view.sortFoldersFirst());
+    QCOMPARE(viewItems(&view), QStringList()<< "b" << "d" << "c"  << "a" << "e");
 
     // Try again with Sort by Name, ascending
-    m_view->setSorting(DolphinView::SortByName);
-    m_view->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(m_view->sorting(), DolphinView::SortByName);
-    QCOMPARE(m_view->sortOrder(), Qt::AscendingOrder);
-    QCOMPARE(viewItems(), QStringList() << "a" << "b" << "c" << "d" << "e");
+    view.setSorting(DolphinView::SortByName);
+    view.setSortOrder(Qt::AscendingOrder);
+    QCOMPARE(view.sorting(), DolphinView::SortByName);
+    QCOMPARE(view.sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(viewItems(&view), QStringList() << "a" << "b" << "c" << "d" << "e");
 
     // Show hidden files. This triggers the dir lister
     // -> we have to wait until loading the hidden files is finished
-    m_view->setShowHiddenFiles(true);
-    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
-    QVERIFY(m_view->showHiddenFiles());
-    QCOMPARE(viewItems(), QStringList() << ".f" << "a" << "b" << "c" << "d" << "e");
+    view.setShowHiddenFiles(true);
+    QVERIFY(QTest::kWaitForSignal(&view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    QVERIFY(view.showHiddenFiles());
+    QCOMPARE(viewItems(&view), QStringList() << ".f" << "a" << "b" << "c" << "d" << "e");
 
     // Previews
-    m_view->setShowPreview(true);
-    QVERIFY(m_view->showPreview());
+    view.setShowPreview(true);
+    QVERIFY(view.showPreview());
 
     // TODO: Check that the view properties are restored correctly when changing the folder and then going back.
 }
@@ -229,71 +215,73 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
 
 void DolphinViewTest_AllViewModes::testZoomLevel()
 {
-    createFiles(QStringList() << "a" << "b");
-    reloadViewAndWait();
+    TestDir dir;
+    dir.createFiles(QStringList() << "a" << "b");
+    DolphinView view(dir.url(), 0);
+    QAbstractItemView* itemView = initView(&view);
 
-    m_view->setShowPreview(false);
-    QVERIFY(!m_view->showPreview());
+    view.setShowPreview(false);
+    QVERIFY(!view.showPreview());
 
-    int zoomLevelBackup = m_view->zoomLevel();
+    int zoomLevelBackup = view.zoomLevel();
 
     int zoomLevel = ZoomLevelInfo::minimumLevel();
-    m_view->setZoomLevel(zoomLevel);
-    QCOMPARE(m_view->zoomLevel(), zoomLevel);
+    view.setZoomLevel(zoomLevel);
+    QCOMPARE(view.zoomLevel(), zoomLevel);
 
     // Increase the zoom level successively to the maximum.
     while(zoomLevel < ZoomLevelInfo::maximumLevel()) {
         zoomLevel++;
-        m_view->setZoomLevel(zoomLevel);
-        QCOMPARE(m_view->zoomLevel(), zoomLevel);
+        view.setZoomLevel(zoomLevel);
+        QCOMPARE(view.zoomLevel(), zoomLevel);
     }
 
     // Try setting a zoom level larger than the maximum
-    m_view->setZoomLevel(ZoomLevelInfo::maximumLevel() + 1);
-    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::maximumLevel());
+    view.setZoomLevel(ZoomLevelInfo::maximumLevel() + 1);
+    QCOMPARE(view.zoomLevel(), ZoomLevelInfo::maximumLevel());
 
     // Turn previews on and try setting a zoom level smaller than the minimum
-    m_view->setShowPreview(true);
-    QVERIFY(m_view->showPreview());
-    m_view->setZoomLevel(ZoomLevelInfo::minimumLevel() - 1);
-    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::minimumLevel());
+    view.setShowPreview(true);
+    QVERIFY(view.showPreview());
+    view.setZoomLevel(ZoomLevelInfo::minimumLevel() - 1);
+    QCOMPARE(view.zoomLevel(), ZoomLevelInfo::minimumLevel());
 
     // Turn previews off again and check that the zoom level is restored
-    m_view->setShowPreview(false);
-    QVERIFY(!m_view->showPreview());
-    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::maximumLevel());
+    view.setShowPreview(false);
+    QVERIFY(!view.showPreview());
+    QCOMPARE(view.zoomLevel(), ZoomLevelInfo::maximumLevel());
 
     // Change the zoom level using Ctrl+mouse wheel
-    QModelIndex index = itemView()->model()->index(0, 0);
-    itemView()->scrollTo(index);
+    QModelIndex index = itemView->model()->index(0, 0);
+    itemView->scrollTo(index);
 
-    while (m_view->zoomLevel() > ZoomLevelInfo::minimumLevel()) {
-        int oldZoomLevel = m_view->zoomLevel();
-        QWheelEvent wheelEvent(itemView()->visualRect(index).center(), -1, Qt::NoButton, Qt::ControlModifier);
-        bool wheelEventReceived = qApp->notify(itemView()->viewport(), &wheelEvent);
+    while (view.zoomLevel() > ZoomLevelInfo::minimumLevel()) {
+        int oldZoomLevel = view.zoomLevel();
+        QWheelEvent wheelEvent(itemView->visualRect(index).center(), -1, Qt::NoButton, Qt::ControlModifier);
+        bool wheelEventReceived = qApp->notify(itemView->viewport(), &wheelEvent);
         QVERIFY(wheelEventReceived);
-        QVERIFY(m_view->zoomLevel() < oldZoomLevel);
+        QVERIFY(view.zoomLevel() < oldZoomLevel);
     }
-    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::minimumLevel());
+    QCOMPARE(view.zoomLevel(), ZoomLevelInfo::minimumLevel());
 
-    while (m_view->zoomLevel() < ZoomLevelInfo::maximumLevel()) {
-        int oldZoomLevel = m_view->zoomLevel();
-        QWheelEvent wheelEvent(itemView()->visualRect(index).center(), 1, Qt::NoButton, Qt::ControlModifier);
-        bool wheelEventReceived = qApp->notify(itemView()->viewport(), &wheelEvent);
+    while (view.zoomLevel() < ZoomLevelInfo::maximumLevel()) {
+        int oldZoomLevel = view.zoomLevel();
+        QWheelEvent wheelEvent(itemView->visualRect(index).center(), 1, Qt::NoButton, Qt::ControlModifier);
+        bool wheelEventReceived = qApp->notify(itemView->viewport(), &wheelEvent);
         QVERIFY(wheelEventReceived);
-        QVERIFY(m_view->zoomLevel() > oldZoomLevel);
+        QVERIFY(view.zoomLevel() > oldZoomLevel);
     }
-    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::maximumLevel());
+    QCOMPARE(view.zoomLevel(), ZoomLevelInfo::maximumLevel());
 
     // Turn previews on again and check that the zoom level is restored
-    m_view->setShowPreview(true);
-    QVERIFY(m_view->showPreview());
-    QCOMPARE(m_view->zoomLevel(), ZoomLevelInfo::minimumLevel());
+    view.setShowPreview(true);
+    QVERIFY(view.showPreview());
+    QCOMPARE(view.zoomLevel(), ZoomLevelInfo::minimumLevel());
 
     // Restore the initial state
-    m_view->setZoomLevel(zoomLevelBackup);
-    m_view->setShowPreview(false);
-    m_view->setZoomLevel(zoomLevelBackup);
+    view.setZoomLevel(zoomLevelBackup);
+    view.setShowPreview(false);
+    view.setZoomLevel(zoomLevelBackup);
 }
 
 /**
@@ -308,60 +296,67 @@ void DolphinViewTest_AllViewModes::testZoomLevel()
 void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
 {
     const int totalItems = 50;
-
+    TestDir dir;
     for (int i = 0; i < totalItems; i++) {
-        createFile(QString("%1").arg(i));
+        dir.createFile(QString("%1").arg(i));
     }
-    createDir("51");
-    reloadViewAndWait();
+    dir.createDir("51");
+    DolphinView view(dir.url(), 0);
+    initView(&view);
 
     // Set sorting settings to the default to make sure that the item positions are reproducible.
-    m_view->setSorting(DolphinView::SortByName);
-    QCOMPARE(m_view->sorting(), DolphinView::SortByName);
-    m_view->setSortOrder(Qt::AscendingOrder);
-    QCOMPARE(m_view->sortOrder(), Qt::AscendingOrder);
+    view.setSorting(DolphinView::SortByName);
+    QCOMPARE(view.sorting(), DolphinView::SortByName);
+    view.setSortOrder(Qt::AscendingOrder);
+    QCOMPARE(view.sortOrder(), Qt::AscendingOrder);
 
-    const QModelIndex index45 = itemView()->model()->index(45, 0);
-    itemView()->scrollTo(index45);
-    itemView()->setCurrentIndex(index45);
-    const int scrollPosX = itemView()->horizontalScrollBar()->value();
-    const int scrollPosY = itemView()->verticalScrollBar()->value();
+    const QModelIndex index45 = itemView(&view)->model()->index(45, 0);
+    itemView(&view)->scrollTo(index45);
+    itemView(&view)->setCurrentIndex(index45);
+    const int scrollPosX = itemView(&view)->horizontalScrollBar()->value();
+    const int scrollPosY = itemView(&view)->verticalScrollBar()->value();
+    QTest::qWait(2000);
 
     // Save the view state
     QByteArray viewState;
     QDataStream saveStream(&viewState, QIODevice::WriteOnly);
-    m_view->saveState(saveStream);
+    view.saveState(saveStream);
 
-    // Change the URL and then go back
-    m_view->setUrl(m_path + "/51");
-    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    // Change the URL
+    view.setUrl(dir.name() + "51");
+    QVERIFY(QTest::kWaitForSignal(&view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
     qApp->sendPostedEvents();
 
-    m_view->setUrl(m_path);
-    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    // Go back, but do not call DolphinView::restoreState()
+    view.setUrl(dir.url());
+    QVERIFY(QTest::kWaitForSignal(&view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
     qApp->sendPostedEvents();
 
-    // Verify that the view is scrolled to top and that item 45 is not the current item
-    QVERIFY(itemView()->currentIndex() != index45);
-    QCOMPARE(itemView()->horizontalScrollBar()->value(), 0);
-    QCOMPARE(itemView()->verticalScrollBar()->value(), 0);
+    // Verify that the view is scrolled to top-left corner and that item 45 is not the current item.
+    // Note that the vertical position of the columns view might not be zero -> skip that part
+    // of the check in this case.
+    QVERIFY(itemView(&view)->currentIndex() != index45);
+    QCOMPARE(itemView(&view)->horizontalScrollBar()->value(), 0);
+    if (mode() != DolphinView::ColumnView) {
+        QCOMPARE(itemView(&view)->verticalScrollBar()->value(), 0);
+    }
 
     // Change the URL again
-    m_view->setUrl(m_path + "/51");
-    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    view.setUrl(dir.name() + "51");
+    QVERIFY(QTest::kWaitForSignal(&view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
     qApp->sendPostedEvents();
 
     // Check that the current item and scroll position are correct if DolphinView::restoreState()
     // is called after the URL change
-    m_view->setUrl(m_path);
+    view.setUrl(dir.url());
     QDataStream restoreStream(viewState);
-    m_view->restoreState(restoreStream);
-    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    view.restoreState(restoreStream);
+    QVERIFY(QTest::kWaitForSignal(&view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
     qApp->sendPostedEvents();
 
-    QCOMPARE(itemView()->currentIndex(), index45);
-    QCOMPARE(itemView()->horizontalScrollBar()->value(), scrollPosX);
-    QCOMPARE(itemView()->verticalScrollBar()->value(), scrollPosY);
+    QCOMPARE(itemView(&view)->currentIndex(), index45);
+    QCOMPARE(itemView(&view)->horizontalScrollBar()->value(), scrollPosX);
+    QCOMPARE(itemView(&view)->verticalScrollBar()->value(), scrollPosY);
 }
 
 /**
@@ -375,7 +370,10 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
 
 void DolphinViewTest_AllViewModes::testKeyboardFocus()
 {
-    const DolphinView::Mode mode = m_view->mode();
+    TestDir dir;
+    dir.createFiles(QStringList() << "a" << "b");
+    DolphinView view(dir.url(), 0);
+    initView(&view);
 
     // Move keyboard focus to another widget. To see that this is needed, run only this test,
     // i.e., pass 'testKeyboardFocus' as a parameter on the command line.
@@ -384,15 +382,24 @@ void DolphinViewTest_AllViewModes::testKeyboardFocus()
     QTest::qWaitForWindowShown(&widget);
     widget.setFocus();
 
-    QVERIFY(!m_view->hasFocus());
+    QVERIFY(!view.hasFocus());
 
     // Switch view modes and verify that the view does not get the focus back
     for (int i = 0; i <= DolphinView::MaxModeEnum; ++i) {
-        m_view->setMode(static_cast<DolphinView::Mode>(i));
-        QVERIFY(!m_view->hasFocus());
+        view.setMode(static_cast<DolphinView::Mode>(i));
+        QVERIFY(!view.hasFocus());
     }
+}
 
-    m_view->setMode(mode);
+QAbstractItemView* DolphinViewTest_AllViewModes::initView(DolphinView* view) const
+{
+    view->setMode(mode());
+    view->resize(200, 300);
+    view->show();
+    QTest::qWaitForWindowShown(view);
+    Q_ASSERT(verifyCorrectViewMode(view));
+    reloadViewAndWait(view);
+    return itemView(view);
 }
 
 /**
@@ -400,20 +407,20 @@ void DolphinViewTest_AllViewModes::testKeyboardFocus()
  * signal is received and checks that the selection state of the view is as expected.
  */
 
-void DolphinViewTest_AllViewModes::verifySelectedItemsCount(int itemsCount) const
+void DolphinViewTest_AllViewModes::verifySelectedItemsCount(DolphinView* view, int itemsCount) const
 {
-    QSignalSpy spySelectionChanged(m_view, SIGNAL(selectionChanged(const KFileItemList&)));
-    QVERIFY(QTest::kWaitForSignal(m_view, SIGNAL(selectionChanged(const KFileItemList&)), 500));
+    QSignalSpy spySelectionChanged(view, SIGNAL(selectionChanged(const KFileItemList&)));
+    QVERIFY(QTest::kWaitForSignal(view, SIGNAL(selectionChanged(const KFileItemList&)), 500));
 
-    QCOMPARE(m_view->selectedItems().count(), itemsCount);
-    QCOMPARE(m_view->selectedItemsCount(), itemsCount);
+    QCOMPARE(view->selectedItems().count(), itemsCount);
+    QCOMPARE(view->selectedItemsCount(), itemsCount);
     QCOMPARE(spySelectionChanged.count(), 1);
     QCOMPARE(qvariant_cast<KFileItemList>(spySelectionChanged.at(0).at(0)).count(), itemsCount);
     if (itemsCount) {
-        QVERIFY(m_view->hasSelection());
+        QVERIFY(view->hasSelection());
     }
     else {
-        QVERIFY(!m_view->hasSelection());
+        QVERIFY(!view->hasSelection());
     }
 }
 

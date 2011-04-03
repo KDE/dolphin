@@ -17,36 +17,43 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA              *
  *****************************************************************************/
 
-#include "testbase.h"
+#ifndef TESTDIR_H
+#define TESTDIR_H
 
-#include <qtest_kde.h>
+#include <KTempDir>
+#include <KUrl>
 
-#include "views/dolphinview.h"
-#include "views/dolphinmodel.h"
-#include "views/dolphindirlister.h"
-#include "views/dolphinsortfilterproxymodel.h"
+#include <QDateTime>
 
-#include <QAbstractItemView>
+/**
+ * TestDir provides a temporary directory. In addition to KTempDir, it has
+ * methods that create files and subdirectories inside the directory.
+ */
 
-QAbstractItemView* TestBase::itemView(const DolphinView* view)
+class TestDir : public KTempDir
 {
-    return view->m_viewAccessor.itemView();
-}
 
-void TestBase::reloadViewAndWait(DolphinView* view)
-{
-    view->reload();
-    QVERIFY(QTest::kWaitForSignal(view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
-}
+public:
 
-QStringList TestBase::viewItems(const DolphinView* view)
-{
-    QStringList itemList;
-    const QAbstractItemModel* model = itemView(view)->model();
+    TestDir() {}
+    ~TestDir() {}
 
-    for (int row = 0; row < model->rowCount(); row++) {
-        itemList << model->data(model->index(row, 0), Qt::DisplayRole).toString();
-    }
+    KUrl url() const { return KUrl(name()); }
 
-    return itemList;
-}
+    /**
+     * The following functions create either a file, a list of files, or a directory.
+     * The paths may be absolute or relative to the test directory. Any missing parent
+     * directories will be created automatically.
+     */
+
+    void createFile(const QString& path, const QByteArray& data = QByteArray("test"), const QDateTime& time = QDateTime());
+    void createFiles(const QStringList& files);
+    void createDir(const QString& path, const QDateTime& time = QDateTime());
+
+private:
+
+    void makePathAbsoluteAndCreateParents(QString& path);
+
+};
+
+#endif

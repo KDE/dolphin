@@ -31,8 +31,8 @@ public:
         return DolphinView::IconsView;
     }
 
-    virtual bool verifyCorrectViewMode() const {
-        return (m_view->mode() == DolphinView::IconsView);
+    virtual bool verifyCorrectViewMode(const DolphinView* view) const {
+        return (view->mode() == DolphinView::IconsView);
     }
 
 };

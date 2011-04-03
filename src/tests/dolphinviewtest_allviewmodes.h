@@ -45,9 +45,6 @@ public:
 
 private slots:
 
-    void init();
-    void cleanup();
-
     void testSelection();
     void testViewPropertySettings();
     void testZoomLevel();
@@ -55,19 +52,28 @@ private slots:
 
     void testKeyboardFocus();
 
-public:
+private:
+
+    /**
+     * Sets the correct view mode, shows the view on the screen, and waits until loading the
+     * folder in the view is finished.
+     *
+     * Many unit tests need access to DolphinVie's internal item view (icons, details, or columns).
+     * Therefore, a pointer to the item view is returned by initView(DolphinView*).
+     */
+    QAbstractItemView* initView(DolphinView* view) const;
 
     /** Returns the view mode (Icons, Details, Columns) to be used in the test. */
     virtual DolphinView::Mode mode() const = 0;
 
     /** Should return true if the view mode is correct. */
-    virtual bool verifyCorrectViewMode() const = 0;
+    virtual bool verifyCorrectViewMode(const DolphinView* view) const = 0;
 
     /**
      * Waits for the DolphinView's selectionChanged(const KFileItemList&) to be emitted
      * and verifies that the number of selected items is as expected.
      */
-    void verifySelectedItemsCount(int) const;
+    void verifySelectedItemsCount(DolphinView* view, int itemsCount) const;
 
 };
 

@@ -17,26 +17,20 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA              *
  *****************************************************************************/
 
-#ifndef TESTHELPER_H
-#define TESTHELPER_H
+#ifndef TESTBASE_H
+#define TESTBASE_H
 
-#include <KUrl>
+#include <QtCore/QObject>
 
-#include <QDateTime>
-
-class KTempDir;
 class QAbstractItemView;
-class QDir;
 class DolphinDirLister;
 class DolphinModel;
 class DolphinSortFilterProxyModel;
 class DolphinView;
 
 /**
- * The class TestBase aims to make writing Dolphin unit tests easier.
- * It provides functionality that almost every unit test needs: setup of the DolphinView and
- * easy creation of test files and subfolders in a temporary directory which is removed in
- * the TestBase destructor.
+ * The class TestBase (which is a friend of DolphinView's) provides access to some
+ * parts of DolphinView to the unit tests.
  *
  * TODO: TestBase should also backup the DolphinSettings and restore them later!
  */
@@ -47,51 +41,17 @@ class TestBase : public QObject
 
 public:
 
-    TestBase();
-    ~TestBase();
+    TestBase() {};
+    ~TestBase() {};
 
-    // Returns the item view (icons, details, or columns)
-    QAbstractItemView* itemView() const;
+    /** Returns the item view (icons, details, or columns) */
+    static QAbstractItemView* itemView(const DolphinView* view);
 
-    // Reloads the view and waits for the finishedPathLoading(const KUrl&) signal.
-    void reloadViewAndWait();
+    /** Reloads the view and waits for the finishedPathLoading(const KUrl&) signal. */
+    static void reloadViewAndWait(DolphinView* view);
 
-    KUrl testDirUrl() const;
-
-    /**
-     * The following functions create either a file, a list of files, or a directory.
-     * The paths may be absolute or relative to the test directory. Any missing parent
-     * directories will be created automatically.
-     */
-
-    void createFile(const QString& path, const QByteArray& data = QByteArray("test"), const QDateTime& time = QDateTime());
-    void createFiles(const QStringList& files);
-    void createDir(const QString& path, const QDateTime& time = QDateTime());
-
-    /**
-     * Returns the items shown in the view. The order corresponds to the sort order of the view.
-     */
-
-    QStringList viewItems() const;
-
-    /**
-     * Remove the test directory and create an empty one.
-     */
-
-    void cleanupTestDir();
-
-    //  Make members that are accessed frequently by the derived test classes public
-
-    DolphinView* m_view;
-
-    QString m_path;
-
-private:
-
-    KTempDir* m_tempDir;
-    QDir* m_dir;
-
-    void makePathAbsoluteAndCreateParents(QString& path);
+    /** Returns the items shown in the view. The order corresponds to the sort order of the view. */
+    static QStringList viewItems(const DolphinView* view);
 
 };
 

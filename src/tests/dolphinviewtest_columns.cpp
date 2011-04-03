@@ -31,8 +31,8 @@ public:
         return DolphinView::ColumnView;
     }
 
-    virtual bool verifyCorrectViewMode() const {
-        return (m_view->mode() == DolphinView::ColumnView);
+    virtual bool verifyCorrectViewMode(const DolphinView* view) const {
+        return (view->mode() == DolphinView::ColumnView);
     }
 
 };
