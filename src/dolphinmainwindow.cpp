@@ -1513,7 +1513,7 @@ void DolphinMainWindow::setupActions()
     connect(m_recentTabsMenu->menu(), SIGNAL(triggered(QAction *)),
             this, SLOT(restoreClosedTab(QAction *)));
 
-    QAction* action = new QAction("Empty Recently Closed Tabs", m_recentTabsMenu);
+    QAction* action = new QAction(i18n("Empty Recently Closed Tabs"), m_recentTabsMenu);
     action->setIcon(KIcon("edit-clear-list"));
     action->setData(QVariant::fromValue(true));
     m_recentTabsMenu->addAction(action);
