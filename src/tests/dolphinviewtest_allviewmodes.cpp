@@ -315,7 +315,6 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
     itemView(&view)->setCurrentIndex(index45);
     const int scrollPosX = itemView(&view)->horizontalScrollBar()->value();
     const int scrollPosY = itemView(&view)->verticalScrollBar()->value();
-    QTest::qWait(2000);
 
     // Save the view state
     QByteArray viewState;
