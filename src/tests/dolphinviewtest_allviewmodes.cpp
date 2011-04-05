@@ -389,14 +389,34 @@ void DolphinViewTest_AllViewModes::testKeyboardFocus()
     }
 }
 
+// Private member functions which are used by the tests
+
+/**
+ * initView(DolphinView*) sets the correct view mode, shows the view on the screen, and waits until loading the
+ * folder in the view is finished.
+ *
+ * Many unit tests need access to DolphinVie's internal item view (icons, details, or columns).
+ * Therefore, a pointer to the item view is returned by initView(DolphinView*).
+ */
+
 QAbstractItemView* DolphinViewTest_AllViewModes::initView(DolphinView* view) const
 {
+    QSignalSpy spyFinishedPathLoading(view, SIGNAL(finishedPathLoading(const KUrl&)));
     view->setMode(mode());
+    Q_ASSERT(verifyCorrectViewMode(view));
     view->resize(200, 300);
     view->show();
     QTest::qWaitForWindowShown(view);
-    Q_ASSERT(verifyCorrectViewMode(view));
-    reloadViewAndWait(view);
+
+    // If the DolphinView's finishedPathLoading(const KUrl&) signal has not been received yet,
+    // we have to wait a bit more.
+    // The reason why the if-statement is needed here is that the signal might have been emitted
+    // while we were waiting in QTest::qWaitForWindowShown(view)
+    // -> waitForFinishedPathLoading(view) would fail in that case.
+    if (spyFinishedPathLoading.isEmpty()) {
+        Q_ASSERT(waitForFinishedPathLoading(view));
+    }
+
     return itemView(view);
 }
 

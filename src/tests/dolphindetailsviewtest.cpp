@@ -53,13 +53,24 @@ private:
      * Therefore, a pointer to the details view is returned by initView(DolphinView*).
      */
     DolphinDetailsView* initView(DolphinView* view) const {
+        QSignalSpy spyFinishedPathLoading(view, SIGNAL(finishedPathLoading(const KUrl&)));
         view->setMode(DolphinView::DetailsView);
         DolphinDetailsView* detailsView = qobject_cast<DolphinDetailsView*>(itemView(view));
+        Q_ASSERT(detailsView);
         detailsView->setFoldersExpandable(true);
         view->resize(400, 400);
         view->show();
         QTest::qWaitForWindowShown(view);
-        reloadViewAndWait(view);
+
+        // If the DolphinView's finishedPathLoading(const KUrl&) signal has not been received yet,
+        // we have to wait a bit more.
+        // The reason why the if-statement is needed here is that the signal might have been emitted
+        // while we were waiting in QTest::qWaitForWindowShown(view)
+        // -> waitForFinishedPathLoading(view) would fail in that case.
+        if (spyFinishedPathLoading.isEmpty()) {
+            Q_ASSERT(waitForFinishedPathLoading(view));
+        }
+
         return detailsView;
     }
 
