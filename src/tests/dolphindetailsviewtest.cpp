@@ -98,11 +98,6 @@ void DolphinDetailsViewTest::testExpandedUrls()
     QSet<KUrl> expectedExpandedUrls;
     QCOMPARE(detailsView->expandedUrls(), expectedExpandedUrls);
 
-    // Every time we expand a folder, we have to wait until the view has finished loading
-    // its contents before we can expand further subfolders. We keep track of the reloading
-    // using a signal spy.
-    QSignalSpy spyFinishedPathLoading(&view, SIGNAL(finishedPathLoading(const KUrl&)));
-
     // Expand URLs one by one and verify the result of DolphinDetailsView::expandedUrls()
     QStringList itemsToExpand;
     itemsToExpand << "b" << "b/a" << "b/a/c" << "b/c" << "c";
@@ -115,10 +110,7 @@ void DolphinDetailsViewTest::testExpandedUrls()
 
         // Before we proceed, we have to make sure that the view has finished
         // loading the contents of the expanded folder.
-        while (spyFinishedPathLoading.isEmpty()) {
-            QTest::qWait(10);
-        }
-        spyFinishedPathLoading.takeFirst();
+        QVERIFY(waitForFinishedPathLoading(&view));
     }
 
     // Collapse URLs one by one and verify the result of DolphinDetailsView::expandedUrls()

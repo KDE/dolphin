@@ -33,10 +33,15 @@ QAbstractItemView* TestBase::itemView(const DolphinView* view)
     return view->m_viewAccessor.itemView();
 }
 
+bool TestBase::waitForFinishedPathLoading(DolphinView* view, int milliseconds)
+{
+    return QTest::kWaitForSignal(view, SIGNAL(finishedPathLoading(const KUrl&)), milliseconds);
+}
+
 void TestBase::reloadViewAndWait(DolphinView* view)
 {
     view->reload();
-    QVERIFY(QTest::kWaitForSignal(view, SIGNAL(finishedPathLoading(const KUrl&)), 2000));
+    QVERIFY(waitForFinishedPathLoading(view));
 }
 
 QStringList TestBase::viewItems(const DolphinView* view)

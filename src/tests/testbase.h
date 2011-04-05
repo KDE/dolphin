@@ -47,6 +47,12 @@ public:
     /** Returns the item view (icons, details, or columns) */
     static QAbstractItemView* itemView(const DolphinView* view);
 
+    /**
+     * Waits until the view emits its finishedPathLoading(const KUrl&) signal.
+     * Returns false if it is not received within the given number of milliseconds.
+     */
+    static bool waitForFinishedPathLoading(DolphinView* view, int milliseconds=2000);
+
     /** Reloads the view and waits for the finishedPathLoading(const KUrl&) signal. */
     static void reloadViewAndWait(DolphinView* view);
 
