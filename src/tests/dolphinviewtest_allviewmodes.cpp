@@ -375,8 +375,7 @@ void DolphinViewTest_AllViewModes::testKeyboardFocus()
     DolphinView view(dir.url(), 0);
     initView(&view);
 
-    // Move keyboard focus to another widget. To see that this is needed, run only this test,
-    // i.e., pass 'testKeyboardFocus' as a parameter on the command line.
+    // Move the keyboard focus to another widget.
     QWidget widget;
     widget.show();
     QTest::qWaitForWindowShown(&widget);
