@@ -90,11 +90,24 @@
 #include <KUrlComboBox>
 #include <KToolInvocation>
 
+#include <QDesktopWidget>
 #include <QDBusMessage>
 #include <QKeyEvent>
 #include <QClipboard>
 #include <QToolButton>
 #include <QSplitter>
+
+/*
+ * Menu shown when pressing the configure-button in the toolbar.
+ */
+class ToolBarMenu : public KMenu
+{
+public:
+    ToolBarMenu(QWidget* parent);
+    virtual ~ToolBarMenu();
+protected:
+    virtual void showEvent(QShowEvent* event);
+};
 
 /*
  * Remembers the tab configuration if a tab has been closed.
@@ -123,7 +136,6 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     m_settingsDialog(0),
     m_toolBarSpacer(0),
     m_openToolBarMenuButton(0),
-    m_toolBarMenu(),
     m_updateToolBarTimer(0),
     m_lastHandleUrlStatJob(0),
     m_searchDockIsTemporaryVisible(false)
@@ -1312,24 +1324,14 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
     delete contextMenu;
 }
 
-void DolphinMainWindow::openToolBarMenu()
-{
-    const int height = m_openToolBarMenuButton->height();
-    const QPoint pos = m_openToolBarMenuButton->mapToGlobal(QPoint(0, height));
-
-    m_toolBarMenu = new KMenu(m_openToolBarMenuButton);
-    m_toolBarMenu.data()->setAttribute(Qt::WA_DeleteOnClose);
-    connect(m_toolBarMenu.data(), SIGNAL(aboutToShow()), this, SLOT(updateToolBarMenu()));
-
-    m_toolBarMenu.data()->exec(pos);
-}
-
 void DolphinMainWindow::updateToolBarMenu()
 {
-    KMenu* menu = m_toolBarMenu.data();
-    if (!menu) {
-        return;
-    }
+    KMenu* menu = qobject_cast<KMenu*>(sender());
+    Q_ASSERT(menu);
+
+    // All actions get cleared by KMenu::clear(). The sub-menus are deleted
+    // by connecting to the aboutToHide() signal from the parent-menu.
+    menu->clear();
 
     const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
 
@@ -1380,6 +1382,7 @@ void DolphinMainWindow::updateToolBarMenu()
 
     // Add "Go" menu
     KMenu* goMenu = new KMenu(i18nc("@action:inmenu", "Go"), menu);
+    connect(menu, SIGNAL(aboutToHide()), goMenu, SLOT(deleteLater()));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Back)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Forward)));
     goMenu->addAction(ac->action(KStandardAction::name(KStandardAction::Up)));
@@ -1389,6 +1392,7 @@ void DolphinMainWindow::updateToolBarMenu()
 
     // Add "Tool" menu
     KMenu* toolsMenu = new KMenu(i18nc("@action:inmenu", "Tools"), menu);
+    connect(menu, SIGNAL(aboutToHide()), toolsMenu, SLOT(deleteLater()));
     toolsMenu->addAction(ac->action("show_filter_bar"));
     toolsMenu->addAction(ac->action("compare_files"));
     toolsMenu->addAction(ac->action("open_terminal"));
@@ -1402,6 +1406,7 @@ void DolphinMainWindow::updateToolBarMenu()
 
     // Add "Help" menu
     KMenu* helpMenu = new KMenu(i18nc("@action:inmenu", "Help"), menu);
+    connect(menu, SIGNAL(aboutToHide()), helpMenu, SLOT(deleteLater()));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::HelpContents)));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::WhatsThis)));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutApp)));
@@ -1977,10 +1982,13 @@ void DolphinMainWindow::createToolBarMenuButton()
 
     m_openToolBarMenuButton = new QToolButton(this);
     m_openToolBarMenuButton->setIcon(KIcon("configure"));
+    m_openToolBarMenuButton->setPopupMode(QToolButton::InstantPopup);
+    m_openToolBarMenuButton->setToolTip(i18nc("@info:tooltip", "Configure and control Dolphin"));
 
-    // Instead of using QPushButton::setMenu() the opening of the menu is done manually
-    // to prevent the "clutter" of the down-arrow drawn by the style.
-    connect(m_openToolBarMenuButton, SIGNAL(clicked()), this, SLOT(openToolBarMenu()));
+    KMenu* toolBarMenu = new ToolBarMenu(m_openToolBarMenuButton);
+    connect(toolBarMenu, SIGNAL(aboutToShow()), this, SLOT(updateToolBarMenu()));
+
+    m_openToolBarMenuButton->setMenu(toolBarMenu);
 
     toolBar()->addWidget(m_toolBarSpacer);
     toolBar()->addWidget(m_openToolBarMenuButton);
@@ -2221,6 +2229,49 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
     } else {
         KIO::FileUndoManager::UiInterface::jobError(job);
     }
+}
+
+ToolBarMenu::ToolBarMenu(QWidget* parent) :
+    KMenu(parent)
+{
+}
+
+ToolBarMenu::~ToolBarMenu()
+{
+}
+
+void ToolBarMenu::showEvent(QShowEvent* event)
+{
+    KMenu::showEvent(event);
+
+    // Adjust the position of the menu to be shown within the
+    // Dolphin window to reduce the cases that sub-menus might overlap
+    // the right screen border.
+    QPoint pos;
+    QWidget* button = parentWidget();
+    if (layoutDirection() == Qt::RightToLeft) {
+        pos = button->mapToGlobal(QPoint(0, button->height()));
+    } else {
+        pos = button->mapToGlobal(QPoint(button->width(), button->height()));
+        pos.rx() -= width();
+    }
+
+    // Assure that the menu is not shown outside the screen boundaries and
+    // that it does not overlap with the parent button.
+    const QRect screen = QApplication::desktop()->screenGeometry(QCursor::pos());
+    if (pos.x() < 0) {
+        pos.rx() = 0;
+    } else if (pos.x() + width() >= screen.width()) {
+        pos.rx() = screen.width() - width();
+    }
+
+    if (pos.y() < 0) {
+        pos.ry() = 0;
+    } else if (pos.y() + height() >= screen.height()) {
+        pos.ry() = button->mapToGlobal(QPoint(0, 0)).y() - height();
+    }
+
+    move(pos);
 }
 
 #include "dolphinmainwindow.moc"

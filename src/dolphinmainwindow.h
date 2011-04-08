@@ -441,7 +441,6 @@ private slots:
                          const KUrl& url,
                          const QList<QAction*>& customActions);
 
-    void openToolBarMenu();
     void updateToolBarMenu();
     void updateToolBar();
     void slotToolBarSpacerDeleted();
@@ -573,7 +572,6 @@ private:
     // Members for the toolbar menu that is shown when the menubar is hidden:
     QWidget* m_toolBarSpacer;
     QToolButton* m_openToolBarMenuButton;
-    QWeakPointer<KMenu> m_toolBarMenu;
     QTimer* m_updateToolBarTimer;
 
     KJob* m_lastHandleUrlStatJob;
