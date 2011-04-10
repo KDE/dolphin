@@ -310,6 +310,15 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
     view.setSortOrder(Qt::AscendingOrder);
     QCOMPARE(view.sortOrder(), Qt::AscendingOrder);
 
+    // Make sure that previews are off and that the icon size does not depend on the preview setting.
+    // This is needed for the test for bug 270437, see below.
+    view.setShowPreview(false);
+    int zoomLevel = view.zoomLevel();
+    view.setShowPreview(true);
+    view.setZoomLevel(zoomLevel);
+    view.setShowPreview(false);
+
+    // Select item 45
     const QModelIndex index45 = itemView(&view)->model()->index(45, 0);
     itemView(&view)->scrollTo(index45);
     itemView(&view)->setCurrentIndex(index45);
@@ -353,6 +362,39 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
     QVERIFY(waitForFinishedPathLoading(&view));
     qApp->sendPostedEvents();
 
+    QCOMPARE(itemView(&view)->currentIndex(), index45);
+    QCOMPARE(itemView(&view)->horizontalScrollBar()->value(), scrollPosX);
+    QCOMPARE(itemView(&view)->verticalScrollBar()->value(), scrollPosY);
+
+    /**
+     * Additionally, we verify the fix for the bug https://bugs.kde.org/show_bug.cgi?id=270437
+     * Actually, it's a bug in KFilePreviewGenerator, but it is easier to test it here.
+     */
+
+    // Turn previews on.
+    view.setShowPreview(true);
+    QVERIFY(view.showPreview());
+
+    // We have to process all events in the queue to make sure that previews are really on.
+    qApp->sendPostedEvents();
+
+    // Current item and scroll position should not change.
+    QCOMPARE(itemView(&view)->currentIndex(), index45);
+    QCOMPARE(itemView(&view)->horizontalScrollBar()->value(), scrollPosX);
+    QCOMPARE(itemView(&view)->verticalScrollBar()->value(), scrollPosY);
+
+    // Turn previews off again. Before bug 270437, this triggered the dir lister's openUrl() method
+    // -> we check that by listening to the view's startedPathLoading() signal and wait until the loading is finished in that case.
+    QSignalSpy spy(&view, SIGNAL(startedPathLoading(const KUrl&)));
+    view.setShowPreview(false);
+    QVERIFY(!view.showPreview());
+    qApp->sendPostedEvents();
+    if (!spy.isEmpty()) {
+        // The dir lister reloads the directory. We wait until the loading is finished.
+        QVERIFY(waitForFinishedPathLoading(&view));
+    }
+
+    // Current item and scroll position should not change.
     QCOMPARE(itemView(&view)->currentIndex(), index45);
     QCOMPARE(itemView(&view)->horizontalScrollBar()->value(), scrollPosX);
     QCOMPARE(itemView(&view)->verticalScrollBar()->value(), scrollPosY);
