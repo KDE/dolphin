@@ -193,6 +193,11 @@ private Q_SLOTS:
     void slotOpenTerminal();
 
     /**
+     * Open KFind with the current path.
+     */
+    void slotFindFile();
+
+    /**
      * Updates the 'Create New...' sub menu, just before it's shown.
      */
     void updateNewMenu();

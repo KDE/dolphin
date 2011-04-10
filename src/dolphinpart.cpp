@@ -31,6 +31,7 @@
 #include <KLocale>
 #include <KMessageBox>
 #include <KPluginFactory>
+#include <KRun>
 #include <KToggleAction>
 #include <KIO/NetAccess>
 #include <KToolInvocation>
@@ -193,6 +194,12 @@ void DolphinPart::createActions()
                    goActionGroup);
 
     // Tools menu
+    KAction* findFile = actionCollection()->addAction("find_file");
+    findFile->setText(i18nc("@action:inmenu Tools", "Find File..."));
+    findFile->setShortcut(Qt::CTRL | Qt::Key_F);
+    findFile->setIcon(KIcon("edit-find"));
+    connect(findFile, SIGNAL(triggered()), this, SLOT(slotFindFile()));
+
     if (KAuthorized::authorizeKAction("shell_access")) {
         KAction* action = actionCollection()->addAction("open_terminal");
         action->setIcon(KIcon("utilities-terminal"));
@@ -200,7 +207,6 @@ void DolphinPart::createActions()
         connect(action, SIGNAL(triggered()), SLOT(slotOpenTerminal()));
         action->setShortcut(Qt::Key_F4);
     }
-
 }
 
 void DolphinPart::createGoAction(const char* name, const char* iconName,
@@ -514,6 +520,11 @@ void DolphinPart::slotOpenTerminal()
     }
 
     KToolInvocation::invokeTerminal(QString(), dir);
+}
+
+void DolphinPart::slotFindFile()
+{
+    KRun::run("kfind", url(), widget());
 }
 
 void DolphinPart::updateNewMenu()
