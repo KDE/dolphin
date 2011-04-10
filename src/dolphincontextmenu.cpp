@@ -365,20 +365,14 @@ void DolphinContextMenu::openViewportContextMenu()
 
     addCustomActions();
 
-    QAction* propertiesAction = m_popup->addAction(i18nc("@action:inmenu", "Properties"));
-    propertiesAction->setIcon(KIcon("document-properties"));
+    QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
+    m_popup->addAction(propertiesAction);
 
     addShowMenuBarAction();
 
     QAction* action = m_popup->exec(QCursor::pos());
-    if (action == propertiesAction) {
-        const KUrl& url = m_mainWindow->activeViewContainer()->url();
-
-        KPropertiesDialog* dialog = new KPropertiesDialog(url, m_mainWindow);
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-        dialog->show();
-    } else if (addToPlacesAction && (action == addToPlacesAction)) {
-        const KUrl& url = m_mainWindow->activeViewContainer()->url();
+    if (addToPlacesAction && (action == addToPlacesAction)) {
+        const KUrl url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
             DolphinSettings::instance().placesModel()->addPlace(placesName(url), url);
         }
