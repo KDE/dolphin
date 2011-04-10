@@ -82,6 +82,7 @@ DolphinColumnView::DolphinColumnView(QWidget* parent,
     setItemsExpandable(false);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    setVerticalScrollMode(QTreeView::ScrollPerPixel);
 
     m_resizeWidget = new QLabel(this);
     m_resizeWidget->setPixmap(KIcon("transform-move").pixmap(KIconLoader::SizeSmall));
