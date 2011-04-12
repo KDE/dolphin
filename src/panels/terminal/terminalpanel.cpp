@@ -19,6 +19,8 @@
 
 #include "terminalpanel.h"
 
+#include <signal.h>
+
 #include <KPluginLoader>
 #include <KPluginFactory>
 #include <kde_terminal_interface_v2.h>
@@ -113,11 +115,8 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
         // The TerminalV2 interface does not provide a way to delete the
         // current line before sending a new input. This is mandatory,
         // otherwise sending a 'cd x' to a existing 'rm -rf *' might
-        // result in data loss. As workaround Ctrl+C is send.
-        QString cancel;
-        cancel.append(QChar(3));
-        cancel.append(QChar('c'));
-        m_terminal->sendInput(cancel);
+        // result in data loss. As workaround SIGINT is send.
+        kill(m_terminal->terminalProcessId(), SIGINT);
     }
 
     m_terminal->sendInput("cd " + KShell::quoteArg(dir) + '\n');
