@@ -39,6 +39,9 @@ public:
     explicit DolphinSettingsDialog(const KUrl& url, QWidget* parent = 0);
     virtual ~DolphinSettingsDialog();
 
+signals:
+    void settingsChanged();
+
 protected slots:
     /** @see KDialog::slotButtonClicked() */
     virtual void slotButtonClicked(int button);

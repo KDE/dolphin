@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2006-2011 by Peter Penz <peter.penz19@gmail.com>        *
  *   Copyright (C) 2006 by Holger 'zecke' Freyther <freyther@kde.org>      *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,24 +18,16 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef _DOLPHIN_APPLICATION_H
-#define _DOLPHIN_APPLICATION_H
+#ifndef DOLPHIN_APPLICATION_H
+#define DOLPHIN_APPLICATION_H
 
-#include <kuniqueapplication.h>
+#include <KApplication>
 
 class DolphinMainWindow;
 
-/**
- * @brief Holds the application data which can be accessed.
- * At first this will hold a list of DolphinMainWindows which
- * we will delete on application exit.
- */
-
-class DolphinApplication : public KUniqueApplication
+class DolphinApplication : public KApplication
 {
     Q_OBJECT
-    Q_CLASSINFO("D-Bus Interface", "org.kde.dolphin.Application")
-    friend class DolphinMainWindow;
 
 public:
     DolphinApplication();
@@ -43,26 +35,10 @@ public:
 
     static DolphinApplication* app();
 
-    /**
-     * Construct a new mainwindow which is owned
-     * by the application.
-     */
-    DolphinMainWindow* createMainWindow();
-    void refreshMainWindows();
-
-    /** @see KUniqueApplication::newInstance(). */
-    virtual int newInstance();
-
-    /** Interface implementation for D-Bus Interface. */
-    int openWindow(const QString& urlString);
+    void restoreSession();
 
 private:
-    /** Called by the DolphinMainWindow to deregister. */
-    void removeMainWindow(DolphinMainWindow* mainWindow);
-
-private:
-    QList<DolphinMainWindow*> m_mainWindows;
-    int m_lastId;
+    DolphinMainWindow* m_mainWindow;
 };
 
 #endif

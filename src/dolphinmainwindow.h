@@ -22,8 +22,6 @@
 #ifndef DOLPHIN_MAINWINDOW_H
 #define DOLPHIN_MAINWINDOW_H
 
-#include "panels/panel.h"
-
 #include <config-nepomuk.h>
 
 #include <KFileItemDelegate>
@@ -32,9 +30,8 @@
 #include <kxmlguiwindow.h>
 #include <KActionMenu>
 
-#include "views/dolphinview.h"
-
 #include <QList>
+#include <QWeakPointer>
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
@@ -44,12 +41,15 @@ class DolphinSettingsDialog;
 class DolphinViewContainer;
 class DolphinRemoteEncoding;
 class KAction;
+class KFileItem;
+class KFileItemList;
 class KJob;
 class KNewFileMenu;
 class KTabBar;
 class KUrl;
 class QSplitter;
 class QToolButton;
+class QVBoxLayout;
 
 /**
  * @short Main window for Dolphin.
@@ -64,6 +64,7 @@ class DolphinMainWindow: public KXmlGuiWindow
     friend class DolphinApplication;
 
 public:
+    DolphinMainWindow();
     virtual ~DolphinMainWindow();
 
     /**
@@ -448,9 +449,6 @@ private slots:
     void slotToolBarIconSizeChanged(const QSize& iconSize);
 
 private:
-    DolphinMainWindow(int id);
-    void init();
-
     /**
      * Activates the given view, which means that
      * all menu actions are applied to this view. When
@@ -567,7 +565,7 @@ private:
 
     DolphinViewActionHandler* m_actionHandler;
     DolphinRemoteEncoding* m_remoteEncoding;
-    QPointer<DolphinSettingsDialog> m_settingsDialog;
+    QWeakPointer<DolphinSettingsDialog> m_settingsDialog;
 
     // Members for the toolbar menu that is shown when the menubar is hidden:
     QWidget* m_toolBarSpacer;

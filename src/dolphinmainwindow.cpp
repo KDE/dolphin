@@ -28,7 +28,6 @@
 #include "dolphincontextmenu.h"
 #include "dolphinnewfilemenu.h"
 #include "dolphinviewcontainer.h"
-#include "mainwindowadaptor.h"
 #ifdef HAVE_NEPOMUK
     #include "panels/search/searchpanel.h"
     #include <Nepomuk/ResourceManager>
@@ -122,18 +121,17 @@ struct ClosedTab
 };
 Q_DECLARE_METATYPE(ClosedTab)
 
-DolphinMainWindow::DolphinMainWindow(int id) :
+DolphinMainWindow::DolphinMainWindow() :
     KXmlGuiWindow(0),
     m_newFileMenu(0),
     m_tabBar(0),
     m_activeViewContainer(0),
     m_centralWidgetLayout(0),
-    m_id(id),
     m_tabIndex(0),
     m_viewTab(),
     m_actionHandler(0),
     m_remoteEncoding(0),
-    m_settingsDialog(0),
+    m_settingsDialog(),
     m_toolBarSpacer(0),
     m_openToolBarMenuButton(0),
     m_updateToolBarTimer(0),
@@ -148,9 +146,6 @@ DolphinMainWindow::DolphinMainWindow(int id) :
     setObjectName("Dolphin#");
 
     m_viewTab.append(ViewTab());
-
-    new MainWindowAdaptor(this);
-    QDBusConnection::sessionBus().registerObject(QString("/dolphin/MainWindow%1").arg(m_id), this);
 
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface());
@@ -167,11 +162,106 @@ DolphinMainWindow::DolphinMainWindow(int id) :
             this, SLOT(showErrorMessage(const QString&)));
     connect(&DragAndDropHelper::instance(), SIGNAL(errorMessage(const QString&)),
             this, SLOT(showErrorMessage(const QString&)));
+
+    const DolphinSettings& settings = DolphinSettings::instance();
+
+    GeneralSettings* generalSettings = settings.generalSettings();
+    const bool firstRun = generalSettings->firstRun();
+    if (firstRun) {
+        generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
+    }
+
+    setAcceptDrops(true);
+
+    m_viewTab[m_tabIndex].splitter = new QSplitter(this);
+    m_viewTab[m_tabIndex].splitter->setChildrenCollapsible(false);
+
+    setupActions();
+
+    const KUrl homeUrl(generalSettings->homeUrl());
+    setUrlAsCaption(homeUrl);
+    m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
+    connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
+    connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
+
+    m_viewTab[m_tabIndex].primaryView = createViewContainer(homeUrl, m_viewTab[m_tabIndex].splitter);
+
+    m_activeViewContainer = m_viewTab[m_tabIndex].primaryView;
+    connectViewSignals(m_activeViewContainer);
+    DolphinView* view = m_activeViewContainer->view();
+    m_activeViewContainer->show();
+    m_actionHandler->setCurrentView(view);
+
+    m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
+    connect(this, SIGNAL(urlChanged(const KUrl&)),
+            m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
+
+    m_tabBar = new KTabBar(this);
+    m_tabBar->setMovable(true);
+    m_tabBar->setTabsClosable(true);
+    connect(m_tabBar, SIGNAL(currentChanged(int)),
+            this, SLOT(setActiveTab(int)));
+    connect(m_tabBar, SIGNAL(tabCloseRequested(int)),
+            this, SLOT(closeTab(int)));
+    connect(m_tabBar, SIGNAL(contextMenu(int, const QPoint&)),
+            this, SLOT(openTabContextMenu(int, const QPoint&)));
+    connect(m_tabBar, SIGNAL(newTabRequest()),
+            this, SLOT(openNewTab()));
+    connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)),
+            this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
+    connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
+            this, SLOT(closeTab(int)));
+    connect(m_tabBar, SIGNAL(tabMoved(int, int)),
+            this, SLOT(slotTabMoved(int, int)));
+    connect(m_tabBar, SIGNAL(receivedDropEvent(int, QDropEvent*)),
+            this, SLOT(tabDropEvent(int, QDropEvent*)));
+
+    m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
+
+    QWidget* centralWidget = new QWidget(this);
+    m_centralWidgetLayout = new QVBoxLayout(centralWidget);
+    m_centralWidgetLayout->setSpacing(0);
+    m_centralWidgetLayout->setMargin(0);
+    m_centralWidgetLayout->addWidget(m_tabBar);
+    m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter, 1);
+
+    setCentralWidget(centralWidget);
+    setupDockWidgets();
+    emit urlChanged(homeUrl);
+
+    setupGUI(Keys | Save | Create | ToolBar);
+    stateChanged("new_file");
+
+    QClipboard* clipboard = QApplication::clipboard();
+    connect(clipboard, SIGNAL(dataChanged()),
+            this, SLOT(updatePasteAction()));
+
+    if (generalSettings->splitView()) {
+        toggleSplitView();
+    }
+    updateEditActions();
+    updateViewActions();
+    updateGoActions();
+
+    QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
+    showFilterBarAction->setChecked(generalSettings->filterBar());
+
+    if (firstRun) {
+        menuBar()->setVisible(false);
+        // Assure a proper default size if Dolphin runs the first time
+        resize(750, 500);
+    }
+
+    const bool showMenu = !menuBar()->isHidden();
+    QAction* showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
+    showMenuBarAction->setChecked(showMenu);  // workaround for bug #171080
+    if (!showMenu) {
+        createToolBarMenuButton();
+    }
 }
 
 DolphinMainWindow::~DolphinMainWindow()
 {
-    DolphinApplication::app()->removeMainWindow(this);
 }
 
 void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
@@ -204,7 +294,7 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
         }
     }
 
-    // remove the previously opened tabs
+    // Remove the previously opened tabs
     for (int i = 0; i < oldOpenTabsCount; ++i) {
         closeTab(0);
     }
@@ -397,7 +487,7 @@ void DolphinMainWindow::updateFilterBarAction(bool show)
 
 void DolphinMainWindow::openNewMainWindow()
 {
-    DolphinApplication::app()->createMainWindow()->show();
+    KRun::run("dolphin", KUrl::List(), this);
 }
 
 void DolphinMainWindow::openNewTab()
@@ -507,9 +597,7 @@ void DolphinMainWindow::openInNewWindow()
     }
 
     if (!newWindowUrl.isEmpty()) {
-        DolphinMainWindow* window = DolphinApplication::app()->createMainWindow();
-        window->changeUrl(newWindowUrl);
-        window->show();
+        KRun::run("dolphin", KUrl::List() << newWindowUrl, this);
     }
 }
 
@@ -1042,11 +1130,13 @@ void DolphinMainWindow::editSettings()
 {
     if (!m_settingsDialog) {
         const KUrl url = activeViewContainer()->url();
-        m_settingsDialog = new DolphinSettingsDialog(url, this);
-        m_settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
-        m_settingsDialog->show();
+        DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
+        connect(settingsDialog, SIGNAL(settingsChanged()), this, SLOT(reloadView()));
+        settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
+        settingsDialog->show();
+        m_settingsDialog = settingsDialog;
     } else {
-        m_settingsDialog->raise();
+        m_settingsDialog.data()->raise();
     }
 }
 
@@ -1153,25 +1243,20 @@ void DolphinMainWindow::openTabContextMenu(int index, const QPoint& pos)
         openNewTab(url);
         m_tabBar->setCurrentIndex(m_viewTab.count() - 1);
     } else if (selectedAction == detachTabAction) {
+        const QString separator(QLatin1Char(' '));
+        QString command = QLatin1String("dolphin");
+
         const ViewTab& tab = m_viewTab[index];
         Q_ASSERT(tab.primaryView);
-        const KUrl primaryUrl = tab.primaryView->url();
-        DolphinMainWindow* window = DolphinApplication::app()->createMainWindow();
-        window->changeUrl(primaryUrl);
 
+        command += separator + tab.primaryView->url().url();
         if (tab.secondaryView) {
-            const KUrl secondaryUrl = tab.secondaryView->url();
-            if (!window->m_viewTab[0].secondaryView) {
-                window->toggleSplitView();
-            }
-            window->m_viewTab[0].secondaryView->setUrl(secondaryUrl);
-            if (tab.primaryView->isActive()) {
-                window->m_viewTab[0].primaryView->setActive(true);
-            } else {
-                window->m_viewTab[0].secondaryView->setActive(true);
-            }
+            command += separator + tab.secondaryView->url().url();
+            command += separator + QLatin1String("-split");
         }
-        window->show();
+
+        KRun::runCommand(command, this);
+
         closeTab(index);
     } else if (selectedAction == closeOtherTabsAction) {
         const int count = m_tabBar->count();
@@ -1306,9 +1391,7 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
 
     switch (command) {
     case DolphinContextMenu::OpenParentFolderInNewWindow: {
-        DolphinMainWindow* window = DolphinApplication::app()->createMainWindow();
-        window->changeUrl(item.url().upUrl());
-        window->show();
+        KRun::run("dolphin", KUrl::List() << item.url().upUrl(), this);
         break;
     }
 
@@ -1440,107 +1523,6 @@ void DolphinMainWindow::slotToolBarIconSizeChanged(const QSize& iconSize)
 {
     if (m_openToolBarMenuButton) {
         m_openToolBarMenuButton->setIconSize(iconSize);
-    }
-}
-
-void DolphinMainWindow::init()
-{
-    DolphinSettings& settings = DolphinSettings::instance();
-
-    // Check whether Dolphin runs the first time. If yes then
-    // a proper default window size is given at the end of DolphinMainWindow::init().
-    GeneralSettings* generalSettings = settings.generalSettings();
-    const bool firstRun = generalSettings->firstRun();
-    if (firstRun) {
-        generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
-    }
-
-    setAcceptDrops(true);
-
-    m_viewTab[m_tabIndex].splitter = new QSplitter(this);
-    m_viewTab[m_tabIndex].splitter->setChildrenCollapsible(false);
-
-    setupActions();
-
-    const KUrl homeUrl(generalSettings->homeUrl());
-    setUrlAsCaption(homeUrl);
-    m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
-    connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
-    connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
-
-    m_viewTab[m_tabIndex].primaryView = createViewContainer(homeUrl, m_viewTab[m_tabIndex].splitter);
-
-    m_activeViewContainer = m_viewTab[m_tabIndex].primaryView;
-    connectViewSignals(m_activeViewContainer);
-    DolphinView* view = m_activeViewContainer->view();
-    m_activeViewContainer->show();
-    m_actionHandler->setCurrentView(view);
-
-    m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
-    connect(this, SIGNAL(urlChanged(const KUrl&)),
-            m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
-
-    m_tabBar = new KTabBar(this);
-    m_tabBar->setMovable(true);
-    m_tabBar->setTabsClosable(true);
-    connect(m_tabBar, SIGNAL(currentChanged(int)),
-            this, SLOT(setActiveTab(int)));
-    connect(m_tabBar, SIGNAL(tabCloseRequested(int)),
-            this, SLOT(closeTab(int)));
-    connect(m_tabBar, SIGNAL(contextMenu(int, const QPoint&)),
-            this, SLOT(openTabContextMenu(int, const QPoint&)));
-    connect(m_tabBar, SIGNAL(newTabRequest()),
-            this, SLOT(openNewTab()));
-    connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)),
-            this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
-    connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
-            this, SLOT(closeTab(int)));
-    connect(m_tabBar, SIGNAL(tabMoved(int, int)),
-            this, SLOT(slotTabMoved(int, int)));
-    connect(m_tabBar, SIGNAL(receivedDropEvent(int, QDropEvent*)),
-            this, SLOT(tabDropEvent(int, QDropEvent*)));
-
-    m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
-
-    QWidget* centralWidget = new QWidget(this);
-    m_centralWidgetLayout = new QVBoxLayout(centralWidget);
-    m_centralWidgetLayout->setSpacing(0);
-    m_centralWidgetLayout->setMargin(0);
-    m_centralWidgetLayout->addWidget(m_tabBar);
-    m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter, 1);
-
-    setCentralWidget(centralWidget);
-    setupDockWidgets();
-    emit urlChanged(homeUrl);
-
-    setupGUI(Keys | Save | Create | ToolBar);
-    stateChanged("new_file");
-
-    QClipboard* clipboard = QApplication::clipboard();
-    connect(clipboard, SIGNAL(dataChanged()),
-            this, SLOT(updatePasteAction()));
-
-    if (generalSettings->splitView()) {
-        toggleSplitView();
-    }
-    updateEditActions();
-    updateViewActions();
-    updateGoActions();
-
-    QAction* showFilterBarAction = actionCollection()->action("show_filter_bar");
-    showFilterBarAction->setChecked(generalSettings->filterBar());
-
-    if (firstRun) {
-        menuBar()->setVisible(false);
-        // Assure a proper default size if Dolphin runs the first time
-        resize(750, 500);
-    }
-
-    const bool showMenu = !menuBar()->isHidden();
-    QAction* showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
-    showMenuBarAction->setChecked(showMenu);  // workaround for bug #171080
-    if (!showMenu) {
-        createToolBarMenuButton();
     }
 }
 

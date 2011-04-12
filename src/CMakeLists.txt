@@ -159,13 +159,6 @@ if(NOT WIN32)
    set(dolphin_SRCS ${dolphin_SRCS} panels/terminal/terminalpanel.cpp)
 endif(NOT WIN32)
 
-qt4_add_dbus_adaptor(dolphin_SRCS
-   org.kde.dolphin.Application.xml
-   dolphinapplication.h DolphinApplication)
-qt4_add_dbus_adaptor(dolphin_SRCS
-   org.kde.dolphin.MainWindow.xml
-   dolphinmainwindow.h DolphinMainWindow)
-
 kde4_add_app_icon(dolphin_SRCS "${KDE4_ICON_INSTALL_DIR}/oxygen/*/apps/system-file-manager.png")
 
 kde4_add_kdeinit_executable(dolphin ${dolphin_SRCS})

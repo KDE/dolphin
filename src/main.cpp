@@ -72,28 +72,15 @@ KDE_EXPORT int kdemain(int argc, char **argv)
 
     options.add("select", ki18nc("@info:shell", "The files and directories passed as arguments "
                                                 "will be selected."));
+    options.add("split", ki18nc("@info:shell", "Dolphin will get started with a split view."));
     options.add("+[Url]", ki18nc("@info:shell", "Document to open"));
     KCmdLineArgs::addCmdLineOptions(options);
-
-    if (!DolphinApplication::start()) {
-        return 0;
-    }
 
     DolphinApplication app;
     KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
 
     if (app.isSessionRestored()) {
-        int n = 1;
-        while (KMainWindow::canBeRestored(n)) {
-            const QString className = KXmlGuiWindow::classNameOfToplevel(n);
-            if (className == QLatin1String("DolphinMainWindow")) {
-                DolphinMainWindow* win = app.createMainWindow();
-                win->restore(n);
-            } else {
-                kWarning() << "Unknown class " << className << " in session saved data!";
-            }
-            ++n;
-        }
+        app.restoreSession();
     }
     app.exec(); // krazy:exclude=crashy
 

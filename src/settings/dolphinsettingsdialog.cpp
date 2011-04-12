@@ -129,7 +129,6 @@ void DolphinSettingsDialog::applySettings()
     foreach (SettingsPageBase* page, m_pages) {
         page->applySettings();
     }
-    DolphinApplication::app()->refreshMainWindows();
 
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     if (settings->modifiedStartupSettings()) {
@@ -140,6 +139,8 @@ void DolphinSettingsDialog::applySettings()
     }
 
     enableButtonApply(false);
+
+    emit settingsChanged();
 }
 
 void DolphinSettingsDialog::restoreDefaults()
