@@ -49,8 +49,8 @@ private slots:
     void testViewPropertySettings();
     void testZoomLevel();
     void testSaveAndRestoreState();
-
     void testKeyboardFocus();
+    void testCutCopyPaste();
 
 private:
 

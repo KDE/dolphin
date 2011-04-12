@@ -55,3 +55,19 @@ QStringList TestBase::viewItems(const DolphinView* view)
 
     return itemList;
 }
+
+QStringList TestBase::selectedItems(const DolphinView* view)
+{
+    QStringList itemList;
+    const QAbstractItemModel* model = itemView(view)->model();
+    const QModelIndexList selectedIndexes = itemView(view)->selectionModel()->selectedIndexes();
+
+    for (int row = 0; row < model->rowCount(); row++) {
+        const QModelIndex index = model->index(row, 0);
+        if (selectedIndexes.contains(index)) {
+            itemList << model->data(model->index(row, 0), Qt::DisplayRole).toString();
+        }
+    }
+
+    return itemList;
+}

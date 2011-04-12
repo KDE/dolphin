@@ -431,13 +431,112 @@ void DolphinViewTest_AllViewModes::testKeyboardFocus()
     }
 }
 
+/**
+ * testCutCopyPaste() checks if cutting or copying items in one view and pasting
+ * them in another one works.
+ */
+
+void DolphinViewTest_AllViewModes::testCutCopyPaste()
+{
+    TestDir dir1;
+    dir1.createFiles(QStringList() << "a" << "b" << "c" << "d");
+    DolphinView view1(dir1.url(), 0);
+    QAbstractItemView* itemView1 = initView(&view1);
+
+    TestDir dir2;
+    dir2.createFiles(QStringList() << "1" << "2" << "3" << "4");
+    dir2.createDir("subfolder");
+    DolphinView view2(dir2.url(), 0);
+    QAbstractItemView* itemView2 = initView(&view2);
+
+    // Make sure that both views are sorted by name in ascending order
+    // TODO: Maybe that should be done in initView(), such all tests can rely on it...?
+    view1.setSorting(DolphinView::SortByName);
+    view1.setSortOrder(Qt::AscendingOrder);
+    view2.setSorting(DolphinView::SortByName);
+    view2.setSortOrder(Qt::AscendingOrder);
+    view2.setSortFoldersFirst(true);
+
+    QCOMPARE(viewItems(&view1), QStringList() << "a" << "b" << "c" << "d");
+    QCOMPARE(viewItems(&view2), QStringList() << "subfolder" << "1" << "2" << "3" << "4");
+
+    /** Copy and paste */
+    // Select an item ("d") n view1, copy it and paste it in view2.
+    // Note that we have to wait for view2's finishedPathLoading() signal because the pasting is done in the background.
+    QModelIndex index = itemView1->model()->index(3, 0);
+    itemView1->scrollTo(index);
+    QTest::mouseClick(itemView1->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView1->visualRect(index).center());
+    verifySelectedItemsCount(&view1, 1);
+    QCOMPARE(selectedItems(&view1), QStringList() << "d");
+    view1.copySelectedItems();
+    view2.paste();
+    waitForFinishedPathLoading(&view2);
+    QCOMPARE(viewItems(&view1), QStringList() << "a" << "b" << "c" << "d");
+    QCOMPARE(viewItems(&view2), QStringList() << "subfolder" << "1" << "2" << "3" << "4" << "d");
+    // The pasted item should be selected
+    QCOMPARE(selectedItems(&view2), QStringList() << "d");
+
+    /** Cut and paste */
+    // Select two items ("3", "4") in view2, cut and paste in view1.
+    view2.clearSelection();
+    index = itemView2->model()->index(3, 0);
+    itemView2->scrollTo(index);
+    QTest::mouseClick(itemView2->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView2->visualRect(index).center());
+    verifySelectedItemsCount(&view2, 1);
+    index = itemView2->model()->index(4, 0);
+    itemView2->scrollTo(index);
+    QTest::mouseClick(itemView2->viewport(), Qt::LeftButton, Qt::ShiftModifier, itemView2->visualRect(index).center());
+    verifySelectedItemsCount(&view2, 2);
+    QCOMPARE(selectedItems(&view2), QStringList() << "3" << "4");
+    view2.cutSelectedItems();
+    // In view1, "d" is still selected
+    QCOMPARE(selectedItems(&view1), QStringList() << "d");
+    // Paste "3" and "4"
+    view1.paste();
+    waitForFinishedPathLoading(&view1);
+    // In principle, KIO could implement copy&paste such that the pasted items are already there, but the cut items
+    // have not been removed yet. Therefore, we check the number of items in view2 and also wait for that view's
+    // finishedPathLoading() signal if the cut items are still there.
+    if (viewItems(&view2).count() > 4) {
+        waitForFinishedPathLoading(&view2);
+    }
+    QCOMPARE(viewItems(&view1), QStringList() << "3" << "4" << "a" << "b" << "c" << "d");
+    QCOMPARE(viewItems(&view2), QStringList() << "subfolder" << "1" << "2" << "d");
+    // The pasted items ("3", "4") should be selected now, and the previous selection ("d") should be cleared.
+    QCOMPARE(selectedItems(&view1), QStringList() << "3" << "4");
+
+    /** Copy and paste into subfolder */
+    view1.clearSelection();
+    index = itemView1->model()->index(3, 0);
+    itemView1->scrollTo(index);
+    QTest::mouseClick(itemView1->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView1->visualRect(index).center());
+    verifySelectedItemsCount(&view1, 1);
+    QCOMPARE(selectedItems(&view1), QStringList() << "b");
+    view1.copySelectedItems();
+    // Now we use view1 to display the subfolder, which is still empty.
+    view1.setUrl(dir2.name() + "subfolder");
+    waitForFinishedPathLoading(&view1);
+    QCOMPARE(viewItems(&view1), QStringList());
+    // Select the subfolder.in view2
+    view2.clearSelection();
+    index = itemView2->model()->index(0, 0);
+    itemView2->scrollTo(index);
+    QTest::mouseClick(itemView2->viewport(), Qt::LeftButton, Qt::ControlModifier, itemView2->visualRect(index).center());
+    verifySelectedItemsCount(&view2, 1);
+    // Paste into the subfolder
+    view2.pasteIntoFolder();
+    waitForFinishedPathLoading(&view1);
+    QCOMPARE(viewItems(&view1), QStringList() << "b");
+    // The pasted items in view1 are *not* selected now (because the pasting was done indirectly using view2.pasteIntoFolder()).
+}
+
 // Private member functions which are used by the tests
 
 /**
  * initView(DolphinView*) sets the correct view mode, shows the view on the screen, and waits until loading the
  * folder in the view is finished.
  *
- * Many unit tests need access to DolphinVie's internal item view (icons, details, or columns).
+ * Many unit tests need access to DolphinView's internal item view (icons, details, or columns).
  * Therefore, a pointer to the item view is returned by initView(DolphinView*).
  */
 

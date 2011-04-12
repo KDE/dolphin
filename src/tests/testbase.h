@@ -59,6 +59,9 @@ public:
     /** Returns the items shown in the view. The order corresponds to the sort order of the view. */
     static QStringList viewItems(const DolphinView* view);
 
+    /** Returns the items which are selected in the view. The order corresponds to the sort order of the view. */
+    static QStringList selectedItems(const DolphinView* view);
+
 };
 
 #endif
