@@ -68,7 +68,7 @@ private:
         // while we were waiting in QTest::qWaitForWindowShown(view)
         // -> waitForFinishedPathLoading(view) would fail in that case.
         if (spyFinishedPathLoading.isEmpty()) {
-            Q_ASSERT(waitForFinishedPathLoading(view));
+            waitForFinishedPathLoading(view);
         }
 
         return detailsView;
@@ -121,7 +121,7 @@ void DolphinDetailsViewTest::testExpandedUrls()
 
         // Before we proceed, we have to make sure that the view has finished
         // loading the contents of the expanded folder.
-        QVERIFY(waitForFinishedPathLoading(&view));
+        waitForFinishedPathLoading(&view);
     }
 
     // Collapse URLs one by one and verify the result of DolphinDetailsView::expandedUrls()

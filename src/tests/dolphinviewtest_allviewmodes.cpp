@@ -198,7 +198,7 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
     // Show hidden files. This triggers the dir lister
     // -> we have to wait until loading the hidden files is finished
     view.setShowHiddenFiles(true);
-    QVERIFY(waitForFinishedPathLoading(&view));
+    waitForFinishedPathLoading(&view);
     QVERIFY(view.showHiddenFiles());
     QCOMPARE(viewItems(&view), QStringList() << ".f" << "a" << "b" << "c" << "d" << "e");
 
@@ -332,12 +332,12 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
 
     // Change the URL
     view.setUrl(dir.name() + "51");
-    QVERIFY(waitForFinishedPathLoading(&view));
+    waitForFinishedPathLoading(&view);
     qApp->sendPostedEvents();
 
     // Go back, but do not call DolphinView::restoreState()
     view.setUrl(dir.url());
-    QVERIFY(waitForFinishedPathLoading(&view));
+    waitForFinishedPathLoading(&view);
     qApp->sendPostedEvents();
 
     // Verify that the view is scrolled to top-left corner and that item 45 is not the current item.
@@ -351,7 +351,7 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
 
     // Change the URL again
     view.setUrl(dir.name() + "51");
-    QVERIFY(waitForFinishedPathLoading(&view));
+    waitForFinishedPathLoading(&view);
     qApp->sendPostedEvents();
 
     // Check that the current item and scroll position are correct if DolphinView::restoreState()
@@ -359,7 +359,7 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
     view.setUrl(dir.url());
     QDataStream restoreStream(viewState);
     view.restoreState(restoreStream);
-    QVERIFY(waitForFinishedPathLoading(&view));
+    waitForFinishedPathLoading(&view);
     qApp->sendPostedEvents();
 
     QCOMPARE(itemView(&view)->currentIndex(), index45);
@@ -391,7 +391,7 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
     qApp->sendPostedEvents();
     if (!spy.isEmpty()) {
         // The dir lister reloads the directory. We wait until the loading is finished.
-        QVERIFY(waitForFinishedPathLoading(&view));
+        waitForFinishedPathLoading(&view);
     }
 
     // Current item and scroll position should not change.
@@ -555,7 +555,7 @@ QAbstractItemView* DolphinViewTest_AllViewModes::initView(DolphinView* view) con
     // while we were waiting in QTest::qWaitForWindowShown(view)
     // -> waitForFinishedPathLoading(view) would fail in that case.
     if (spyFinishedPathLoading.isEmpty()) {
-        Q_ASSERT(waitForFinishedPathLoading(view));
+        waitForFinishedPathLoading(view);
     }
 
     return itemView(view);

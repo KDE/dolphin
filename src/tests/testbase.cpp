@@ -33,15 +33,19 @@ QAbstractItemView* TestBase::itemView(const DolphinView* view)
     return view->m_viewAccessor.itemView();
 }
 
-bool TestBase::waitForFinishedPathLoading(DolphinView* view, int milliseconds)
+void TestBase::waitForFinishedPathLoading(DolphinView* view, int milliseconds)
 {
-    return QTest::kWaitForSignal(view, SIGNAL(finishedPathLoading(const KUrl&)), milliseconds);
+    // If the signal is not received, somthing is going seriously wrong.
+    // -> assert here rather than continuing, which might result in test failures which are hard to unterstand.
+    bool viewHasFinishedLoading = QTest::kWaitForSignal(view, SIGNAL(finishedPathLoading(const KUrl&)), milliseconds);
+    Q_ASSERT(viewHasFinishedLoading);
+    Q_UNUSED(viewHasFinishedLoading) // suppress compiler warining is asserts are disabled
 }
 
 void TestBase::reloadViewAndWait(DolphinView* view)
 {
     view->reload();
-    QVERIFY(waitForFinishedPathLoading(view));
+    waitForFinishedPathLoading(view);
 }
 
 QStringList TestBase::viewItems(const DolphinView* view)
