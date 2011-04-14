@@ -96,7 +96,7 @@ private:
     KFilePreviewGenerator* m_previewGenerator;
     SelectionManager* m_selectionManager;
     DolphinViewAutoScroller* m_autoScroller;
-    DolphinFileItemDelegate* m_fileItemDelegate;   
+    DolphinFileItemDelegate* m_fileItemDelegate;
     VersionControlObserver* m_versionControlObserver;
     FolderExpander* m_folderExpander;
 };

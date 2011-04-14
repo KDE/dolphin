@@ -56,7 +56,7 @@ public:
 
     QList<QAction*> contextMenuActions(const KFileItemList& items) const;
     QList<QAction*> contextMenuActions(const QString& directory) const;
-    
+
 signals:
     /**
      * Is emitted if an information message with the content \a msg
@@ -75,7 +75,7 @@ signals:
      * should be shown.
      */
     void operationCompletedMessage(const QString& msg);
-    
+
 private slots:
     /**
      * Invokes verifyDirectory() with a small delay. If delayedDirectoryVerification()
@@ -90,7 +90,7 @@ private slots:
      * delayedDirectoryVerification() it and assures that the verification of
      * the directory is done silently without information messages.
      */
-    void silentDirectoryVerification();    
+    void silentDirectoryVerification();
 
     void verifyDirectory();
 
@@ -99,7 +99,7 @@ private slots:
      * and applys the item states.
      */
     void slotThreadFinished();
-    
+
 private:
     struct ItemState
     {
@@ -132,11 +132,11 @@ private:
     bool m_versionedDirectory;
     bool m_silentUpdate; // if true, no messages will be send during the update
                          // of version states
-    
+
     QAbstractItemView* m_view;
     KDirLister* m_dirLister;
     DolphinModel* m_dolphinModel;
-    
+
     QTimer* m_dirVerificationTimer;
 
     KVersionControlPlugin* m_plugin;

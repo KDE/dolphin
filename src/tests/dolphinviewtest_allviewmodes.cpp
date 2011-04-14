@@ -57,7 +57,7 @@ DolphinViewTest_AllViewModes::DolphinViewTest_AllViewModes() {
 Q_DECLARE_METATYPE(KFileItemList)
 
 void DolphinViewTest_AllViewModes::testSelection() {
-    TestDir dir;    
+    TestDir dir;
     const int totalItems = 50;
     for (int i = 0; i < totalItems; i++) {
         dir.createFile(QString("%1").arg(i));

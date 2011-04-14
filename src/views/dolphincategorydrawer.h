@@ -44,7 +44,7 @@ public:
     virtual ~DolphinCategoryDrawer();
 
     bool allCategorySelected(const QString &category) const;
-    
+
     bool someCategorySelected(const QString &category) const;
 
     virtual void drawCategory(const QModelIndex &index, int sortRole,

@@ -83,7 +83,7 @@ bool SearchPanel::urlChanged()
         m_startedFromDir = url();
     }
 
-    if (isVisible() && DolphinSearchInformation::instance().isIndexingEnabled()) {       
+    if (isVisible() && DolphinSearchInformation::instance().isIndexingEnabled()) {
         const Nepomuk::Query::FileQuery query(m_unfacetedRestQuery && m_facetWidget->queryTerm());
         if (query.toSearchUrl() == url()) {
             // The new URL has been triggered by the SearchPanel itself in

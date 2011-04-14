@@ -30,7 +30,7 @@ class ZoomLevelInfo {
 public:
     static int minimumLevel();
     static int maximumLevel();
-    
+
     /**
      * Helper method for the view implementation to get
      * the icon size for the zoom level \a level that
@@ -38,7 +38,7 @@ public:
      * ZoomLevelInfo::maximumLevel().
      */
     static int iconSizeForZoomLevel(int level);
-    
+
     /**
      * Helper method for the view implementation to get
      * the zoom level for the icon size \a size that

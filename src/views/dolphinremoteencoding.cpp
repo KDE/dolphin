@@ -16,13 +16,13 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
- 
+
  /*
  * This code is largely based on the kremoteencodingplugin
  * Copyright (c) 2003 Thiago Macieira <thiago.macieira@kdemail.net>
  * Distributed under the same terms.
  */
- 
+
 #include "dolphinremoteencoding.h"
 #include "dolphinviewactionhandler.h"
 
@@ -48,7 +48,7 @@ DolphinRemoteEncoding::DolphinRemoteEncoding(QObject* parent, DolphinViewActionH
    :QObject(parent),
     m_actionHandler(actionHandler),
     m_loaded(false),
-    m_idDefault(0)    
+    m_idDefault(0)
 {
     m_menu = new KActionMenu(KIcon("character-set"), i18n("Select Remote Charset"), this);
     m_actionHandler->actionCollection()->addAction("change_remote_encoding", m_menu);
@@ -86,7 +86,7 @@ void DolphinRemoteEncoding::slotAboutToOpenUrl()
         // everything whose type is T_FILESYSTEM except for local files
         if (!m_currentURL.isLocalFile() &&
             KProtocolManager::outputType(m_currentURL) == KProtocolInfo::T_FILESYSTEM) {
-          
+
             m_menu->setEnabled(true);
             loadSettings();
         } else {
@@ -105,7 +105,7 @@ void DolphinRemoteEncoding::fillMenu()
     KMenu* menu = m_menu->menu();
     menu->clear();
 
- 
+
     for (int i = 0; i < m_encodingDescriptions.size();i++) {
         QAction* action = new QAction(m_encodingDescriptions.at(i), this);
         action->setCheckable(true);
@@ -117,7 +117,7 @@ void DolphinRemoteEncoding::fillMenu()
     menu->addAction(i18n("Reload"), this, SLOT(slotReload()), 0);
     menu->addAction(i18n("Default"), this, SLOT(slotDefault()), 0)->setCheckable(true);
     m_idDefault = m_encodingDescriptions.size() + 2;
-  
+
     connect(menu, SIGNAL(triggered(QAction*)), this, SLOT(slotItemSelected(QAction*)));
 }
 
@@ -126,12 +126,12 @@ void DolphinRemoteEncoding::updateMenu()
     if (!m_loaded) {
         loadSettings();
     }
-  
+
     // uncheck everything
     for (int i =  0; i < m_menu->menu()->actions().count(); i++) {
         m_menu->menu()->actions().at(i)->setChecked(false);
     }
-  
+
     QString charset = KIO::SlaveConfig::self()->configData(m_currentURL.protocol(),
                                                            m_currentURL.host(), DATA_KEY);
 
@@ -145,7 +145,7 @@ void DolphinRemoteEncoding::updateMenu()
                 break;
             }
         }
-      
+
         kDebug() << "URL=" << m_currentURL << " charset=" << charset;
 
         if (!isFound) {
@@ -156,7 +156,7 @@ void DolphinRemoteEncoding::updateMenu()
     } else {
         m_menu->menu()->actions().at(m_idDefault)->setChecked(true);
     }
-    
+
 }
 
 void DolphinRemoteEncoding::slotAboutToShow()
@@ -171,7 +171,7 @@ void DolphinRemoteEncoding::slotItemSelected(QAction* action)
 {
     if (action) {
         int id = action->data().toInt();
-    
+
         KConfig config(("kio_" + m_currentURL.protocol() + "rc").toLatin1());
         QString host = m_currentURL.host();
         if (m_menu->menu()->actions().at(id)->isChecked()) {

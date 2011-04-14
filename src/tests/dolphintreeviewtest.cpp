@@ -222,7 +222,7 @@ void DolphinTreeViewTest::testKeyboardNavigationSelectionUpdate() {
 
     /**
      * Starting a drag&drop operation should not clear the selection, see
-     * 
+     *
      * https://bugs.kde.org/show_bug.cgi?id=158649
      */
 

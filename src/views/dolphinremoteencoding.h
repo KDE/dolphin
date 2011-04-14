@@ -47,10 +47,10 @@ public Q_SLOTS:
   void slotItemSelected(QAction* action);
   void slotReload();
   void slotDefault();
-  
+
 private Q_SLOTS:
   void slotAboutToShow();
-  
+
 private:
   void updateView();
   void loadSettings();
