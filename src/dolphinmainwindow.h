@@ -99,12 +99,6 @@ public:
     void rename(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
-     * Refreshes the views of the main window by recreating them according to
-     * the given Dolphin settings.
-     */
-    void refreshViews();
-
-    /**
      * Returns the 'Create New...' sub menu which also can be shared
      * with other menus (e. g. a context menu).
      */
@@ -166,6 +160,12 @@ protected:
     virtual void readProperties(const KConfigGroup& group);
 
 private slots:
+    /**
+     * Refreshes the views of the main window by recreating them according to
+     * the given Dolphin settings.
+     */
+    void refreshViews();
+
     void clearStatusBar();
 
     /** Updates the 'Create New...' sub menu. */

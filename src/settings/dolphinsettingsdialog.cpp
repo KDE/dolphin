@@ -130,17 +130,17 @@ void DolphinSettingsDialog::applySettings()
         page->applySettings();
     }
 
+    emit settingsChanged();
+
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();
     if (settings->modifiedStartupSettings()) {
         // Reset the modified startup settings hint. The changed startup settings
-        // have been applied already in app()->refreshMainWindows().
+        // have been applied already due to emitting settingsChanged().
         settings->setModifiedStartupSettings(false);
         settings->writeConfig();
     }
 
     enableButtonApply(false);
-
-    emit settingsChanged();
 }
 
 void DolphinSettingsDialog::restoreDefaults()

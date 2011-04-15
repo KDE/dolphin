@@ -366,39 +366,6 @@ void DolphinMainWindow::showCommand(CommandType command)
     }
 }
 
-void DolphinMainWindow::refreshViews()
-{
-    Q_ASSERT(m_viewTab[m_tabIndex].primaryView);
-
-    // remember the current active view, as because of
-    // the refreshing the active view might change to
-    // the secondary view
-    DolphinViewContainer* activeViewContainer = m_activeViewContainer;
-
-    const int tabCount = m_viewTab.count();
-    for (int i = 0; i < tabCount; ++i) {
-        m_viewTab[i].primaryView->refresh();
-        if (m_viewTab[i].secondaryView) {
-            m_viewTab[i].secondaryView->refresh();
-        }
-    }
-
-    setActiveViewContainer(activeViewContainer);
-
-    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-    if (generalSettings->modifiedStartupSettings()) {
-        // The startup settings have been changed by the user (see bug #254947).
-        // Synchronize the split-view setting with the active view:
-        const bool splitView = generalSettings->splitView();
-        const ViewTab& activeTab = m_viewTab[m_tabIndex];
-        const bool toggle =    ( splitView && !activeTab.secondaryView)
-                            || (!splitView &&  activeTab.secondaryView);
-        if (toggle) {
-            toggleSplitView();
-        }
-    }
-}
-
 void DolphinMainWindow::pasteIntoFolder()
 {
     m_activeViewContainer->view()->pasteIntoFolder();
@@ -1131,7 +1098,7 @@ void DolphinMainWindow::editSettings()
     if (!m_settingsDialog) {
         const KUrl url = activeViewContainer()->url();
         DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
-        connect(settingsDialog, SIGNAL(settingsChanged()), this, SLOT(reloadView()));
+        connect(settingsDialog, SIGNAL(settingsChanged()), this, SLOT(refreshViews()));
         settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
         settingsDialog->show();
         m_settingsDialog = settingsDialog;
@@ -2050,6 +2017,39 @@ void DolphinMainWindow::rememberClosedTab(int index)
     }
     actionCollection()->action("closed_tabs")->setEnabled(true);
     KAcceleratorManager::manage(tabsMenu);
+}
+
+void DolphinMainWindow::refreshViews()
+{
+    Q_ASSERT(m_viewTab[m_tabIndex].primaryView);
+
+    // remember the current active view, as because of
+    // the refreshing the active view might change to
+    // the secondary view
+    DolphinViewContainer* activeViewContainer = m_activeViewContainer;
+
+    const int tabCount = m_viewTab.count();
+    for (int i = 0; i < tabCount; ++i) {
+        m_viewTab[i].primaryView->refresh();
+        if (m_viewTab[i].secondaryView) {
+            m_viewTab[i].secondaryView->refresh();
+        }
+    }
+
+    setActiveViewContainer(activeViewContainer);
+
+    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+    if (generalSettings->modifiedStartupSettings()) {
+        // The startup settings have been changed by the user (see bug #254947).
+        // Synchronize the split-view setting with the active view:
+        const bool splitView = generalSettings->splitView();
+        const ViewTab& activeTab = m_viewTab[m_tabIndex];
+        const bool toggle =    ( splitView && !activeTab.secondaryView)
+                            || (!splitView &&  activeTab.secondaryView);
+        if (toggle) {
+            toggleSplitView();
+        }
+    }
 }
 
 void DolphinMainWindow::clearStatusBar()
