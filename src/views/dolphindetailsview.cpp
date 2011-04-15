@@ -135,7 +135,6 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
     connect(view, SIGNAL(showPreviewChanged()),
             this, SLOT(slotShowPreviewChanged()));
 
-
     viewport()->installEventFilter(this);
 
     connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
@@ -458,6 +457,7 @@ void DolphinDetailsView::resizeColumns()
     QHeaderView* headerView = header();
     const int rowCount = model()->rowCount();
     QFontMetrics fontMetrics(viewport()->font());
+    const int horizontalGap = fontMetrics.height();
 
     // Define the maximum number of rows, where an exact (but expensive) calculation
     // of the widths is done.
@@ -472,14 +472,21 @@ void DolphinDetailsView::resizeColumns()
             // Calculate the required width for the current column and consider only
             // up to maxRowCount columns for performance reasons
             if (rowCount > 0) {
-                const QAbstractProxyModel* proxyModel = qobject_cast<const QAbstractProxyModel*>(model());
-                const KDirModel* dirModel = qobject_cast<const KDirModel*>(proxyModel->sourceModel());
-
                 const int count = qMin(rowCount, maxRowCount);
-                const QStyleOptionViewItem option = viewOptions();
                 for (int row = 0; row < count; ++row) {
-                    const QModelIndex index = dirModel->index(row, column);
-                    const int width = itemDelegate()->sizeHint(option, index).width();
+                    const QModelIndex index = model()->index(row, column);
+                    QString text;
+                    if (column == DolphinModel::Size) {
+                        // This is a workaround as KFileItemDelegate::sizeHint() does not
+                        // work in a way that is required for calculating the size.
+                        const QAbstractProxyModel* proxyModel = qobject_cast<const QAbstractProxyModel*>(model());
+                        const KDirModel* dirModel = qobject_cast<const KDirModel*>(proxyModel->sourceModel());
+                        const QModelIndex dirIndex = proxyModel->mapToSource(index);
+                        text = itemSizeString(dirIndex, dirModel->itemForIndex(dirIndex));
+                    } else {
+                        text = model()->data(index).toString();
+                    }
+                    const int width = fontMetrics.width(text) + horizontalGap;
                     if (width > columnWidth[column]) {
                         columnWidth[column] = width;
                     }
@@ -489,8 +496,7 @@ void DolphinDetailsView::resizeColumns()
             // Assure that the required width is sufficient for the header too
             const int logicalIndex = headerView->logicalIndex(column);
             const QString headline = model()->headerData(logicalIndex, Qt::Horizontal).toString();
-            // TODO: check Qt-sources which left/right-gap is used for the headlines
-            const int headlineWidth = fontMetrics.width(headline) + 20;
+            const int headlineWidth = fontMetrics.width(headline) + horizontalGap;
 
             columnWidth[column] = qMax(columnWidth[column], headlineWidth);
         }
@@ -675,6 +681,26 @@ void DolphinDetailsView::adjustMaximumSizeForEditing(const QModelIndex& index)
     if (m_extensionsFactory) {
         m_extensionsFactory->fileItemDelegate()->setMaximumSize(QTreeView::visualRect(index).size());
     }
+}
+
+QString DolphinDetailsView::itemSizeString(const QModelIndex& index, const KFileItem& item) const
+{
+    // The following code has been copied from KFileItemDelegate::Private::itemSize()
+    // Copyright (c) 2006-2007, 2008 Fredrik Höglund <fredrik@kde.org>
+    // Ideally this should be handled by KFileItemDelegate::sizeHint().
+    if (item.isFile()) {
+        return KGlobal::locale()->formatByteSize(item.size());
+    }
+
+    // Return the number of items in the directory
+    const QVariant value = index.data(KDirModel::ChildCountRole);
+    const int count = value.type() == QVariant::Int ? value.toInt() : KDirModel::ChildCountUnknown;
+
+    if (count == KDirModel::ChildCountUnknown) {
+        return QString();
+    }
+
+    return i18ncp("Items in a folder", "1 item", "%1 items", count);
 }
 
 #include "dolphindetailsview.moc"

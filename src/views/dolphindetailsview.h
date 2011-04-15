@@ -195,6 +195,12 @@ private:
      */
     void adjustMaximumSizeForEditing(const QModelIndex& index);
 
+    /**
+     * Helper method for DolphinDetailsView::resizeColumns(): Returns the
+     * string representation of the size-value for the given index.
+     */
+    QString itemSizeString(const QModelIndex& index, const KFileItem& item) const;
+
 private:
     bool m_autoResize; // if true, the columns are resized automatically to the available width
 
