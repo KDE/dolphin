@@ -131,7 +131,16 @@ void RenameDialog::slotButtonClicked(int button)
 {
     if (button == KDialog::Ok) {
         m_newName = m_lineEdit->text();
-        renameItems();
+
+        if (m_renameOneItem) {
+            Q_ASSERT(m_items.count() == 1);
+            const KUrl oldUrl = m_items.first().url();
+            KUrl newUrl = oldUrl;
+            newUrl.setFileName(m_newName);
+            KonqOperations::rename(this, oldUrl, newUrl);
+        } else {
+            renameItems();
+        }
     }
 
     KDialog::slotButtonClicked(button);
