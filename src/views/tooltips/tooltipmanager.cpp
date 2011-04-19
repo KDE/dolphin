@@ -97,7 +97,8 @@ void ToolTipManager::hideToolTip()
     m_contentRetrievalTimer->stop();
 
     delete m_fileMetaDataToolTip;
-    m_fileMetaDataToolTip = 0;}
+    m_fileMetaDataToolTip = 0;
+}
 
 
 bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
@@ -160,6 +161,7 @@ void ToolTipManager::startContentRetrieval()
     // meta-data have been received.
     m_metaDataRequested = true;
     m_fileMetaDataToolTip->setItems(KFileItemList() << m_item);
+    m_fileMetaDataToolTip->adjustSize();
 
     // Request a preview of the item
     m_fileMetaDataToolTip->setPreview(QPixmap());
@@ -211,6 +213,7 @@ void ToolTipManager::slotMetaDataRequestFinished()
     }
 
     m_metaDataRequested = false;
+
     if (!m_showToolTipTimer->isActive()) {
         showToolTip();
     }
@@ -256,35 +259,36 @@ void ToolTipManager::showToolTip()
     }
 
     // m_itemRect defines the area of the item, where the tooltip should be
-    // shown. Per default the tooltip is shown in the bottom right corner.
+    // shown. Per default the tooltip is shown centered at the bottom.
     // It must be assured that:
     // - the content is fully visible
     // - the content is not drawn inside m_itemRect
-    const bool hasRoomToLeft  = (m_itemRect.left()   - size.width()  >= screen.left());
-    const bool hasRoomToRight = (m_itemRect.right()  + size.width()  <= screen.right());
-    const bool hasRoomAbove   = (m_itemRect.top()    - size.height() >= screen.top());
-    const bool hasRoomBelow   = (m_itemRect.bottom() + size.height() <= screen.bottom());
+    const int margin = 3;
+    const bool hasRoomToLeft  = (m_itemRect.left()   - size.width()  - margin >= screen.left());
+    const bool hasRoomToRight = (m_itemRect.right()  + size.width()  + margin <= screen.right());
+    const bool hasRoomAbove   = (m_itemRect.top()    - size.height() - margin >= screen.top());
+    const bool hasRoomBelow   = (m_itemRect.bottom() + size.height() + margin <= screen.bottom());
     if (!hasRoomAbove && !hasRoomBelow && !hasRoomToLeft && !hasRoomToRight) {
         return;
     }
 
     int x, y;
     if (hasRoomBelow || hasRoomAbove) {
-        x = QCursor::pos().x() + 16; // TODO: use mouse pointer width instead of the magic value of 16
+        x = qMax(screen.left(), m_itemRect.center().x() - size.width() / 2);
         if (x + size.width() >= screen.right()) {
             x = screen.right() - size.width() + 1;
         }
         if (hasRoomBelow) {
-            y = m_itemRect.bottom() + 1;
+            y = m_itemRect.bottom() + margin;
         } else {
-            y = m_itemRect.top() - size.height();
+            y = m_itemRect.top() - size.height() - margin;
         }
     } else {
         Q_ASSERT(hasRoomToLeft || hasRoomToRight);
         if (hasRoomToRight) {
-            x = m_itemRect.right() + 1;
+            x = m_itemRect.right() + margin;
         } else {
-            x = m_itemRect.left() - size.width();
+            x = m_itemRect.left() - size.width() - margin;
         }
         // Put the tooltip at the bottom of the screen. The x-coordinate has already
         // been adjusted, so that no overlapping with m_itemRect occurs.
@@ -294,7 +298,7 @@ void ToolTipManager::showToolTip()
     // Step #3 - Alter tooltip geometry
     m_fileMetaDataToolTip->setFixedSize(size);
     m_fileMetaDataToolTip->layout()->setSizeConstraint(QLayout::SetNoConstraint);
-    m_fileMetaDataToolTip->setGeometry(x, y, size.width(), size.height());
+    m_fileMetaDataToolTip->move(QPoint(x, y));
     m_fileMetaDataToolTip->show();
 
     m_toolTipRequested = false;
