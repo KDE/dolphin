@@ -177,6 +177,46 @@ bool DolphinViewContainer::isActive() const
     return m_view->isActive();
 }
 
+const DolphinStatusBar* DolphinViewContainer::statusBar() const
+{
+    return m_statusBar;
+}
+
+DolphinStatusBar* DolphinViewContainer::statusBar()
+{
+    return m_statusBar;
+}
+
+const KUrlNavigator* DolphinViewContainer::urlNavigator() const
+{
+    return m_urlNavigator;
+}
+
+KUrlNavigator* DolphinViewContainer::urlNavigator()
+{
+    return m_urlNavigator;
+}
+
+const DolphinView* DolphinViewContainer::view() const
+{
+    return m_view;
+}
+
+DolphinView* DolphinViewContainer::view()
+{
+    return m_view;
+}
+
+const DolphinSearchBox* DolphinViewContainer::searchBox() const
+{
+    return m_searchBox;
+}
+
+DolphinSearchBox* DolphinViewContainer::searchBox()
+{
+    return m_searchBox;
+}
+
 void DolphinViewContainer::refresh()
 {
     GeneralSettings* settings = DolphinSettings::instance().generalSettings();

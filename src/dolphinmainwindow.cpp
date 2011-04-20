@@ -35,6 +35,7 @@
 #include "panels/folders/folderspanel.h"
 #include "panels/places/placespanel.h"
 #include "panels/information/informationpanel.h"
+#include "search/dolphinsearchbox.h"
 #include "search/dolphinsearchinformation.h"
 #include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
@@ -821,6 +822,21 @@ void DolphinMainWindow::find()
     m_activeViewContainer->setSearchModeEnabled(true);
 }
 
+void DolphinMainWindow::slotSearchLocationChanged()
+{
+    QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
+    if (!searchDock) {
+        return;
+    }
+
+    SearchPanel* searchPanel = qobject_cast<SearchPanel*>(searchDock->widget());
+    if (searchPanel) {
+        searchPanel->setSearchMode(SearchSettings::location() == QLatin1String("FromHere")
+                                   ? SearchPanel::FromCurrentDir
+                                   : SearchPanel::Everywhere);
+    }
+}
+
 void DolphinMainWindow::updatePasteAction()
 {
     QAction* pasteAction = actionCollection()->action(KStandardAction::name(KStandardAction::Paste));
@@ -1307,9 +1323,8 @@ void DolphinMainWindow::slotWriteStateChanged(bool isFolderWritable)
 void DolphinMainWindow::slotSearchModeChanged(bool enabled)
 {
 #ifdef HAVE_NEPOMUK
-    const KUrl url = m_activeViewContainer->url();
     const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    if (!searchInfo.isIndexingEnabled() || !searchInfo.isPathIndexed(url)) {
+    if (!searchInfo.isIndexingEnabled()) {
         return;
     }
 
@@ -2065,6 +2080,10 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(slotWriteStateChanged(bool)));
     connect(container, SIGNAL(searchModeChanged(bool)),
             this, SLOT(slotSearchModeChanged(bool)));
+
+    const DolphinSearchBox* searchBox = container->searchBox();
+    connect(searchBox, SIGNAL(searchLocationChanged(SearchLocation)),
+            this, SLOT(slotSearchLocationChanged()));
 
     DolphinView* view = container->view();
     connect(view, SIGNAL(selectionChanged(KFileItemList)),

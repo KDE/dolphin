@@ -66,6 +66,9 @@ SearchPanel::~SearchPanel()
 void SearchPanel::setSearchMode(SearchMode mode)
 {
     m_searchMode = mode;
+    if (isVisible()) {
+        setEnabled(isFilteringPossible());
+    }
 }
 
 SearchPanel::SearchMode SearchPanel::searchMode() const
@@ -104,9 +107,7 @@ bool SearchPanel::urlChanged()
             setQuery(Nepomuk::Query::Query());
         }
 
-        const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-        setEnabled(searchInfo.isIndexingEnabled() &&
-                   searchInfo.isPathIndexed(m_startedFromDir));
+        setEnabled(isFilteringPossible());
     }
 
     return true;
@@ -167,9 +168,7 @@ void SearchPanel::showEvent(QShowEvent* event)
         m_initialized = true;
     }
 
-    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    setEnabled(searchInfo.isIndexingEnabled() &&
-               searchInfo.isPathIndexed(url()));
+    setEnabled(isFilteringPossible());
 
     Panel::showEvent(event);
 }
@@ -190,9 +189,7 @@ void SearchPanel::slotSetUrlStatFinished(KJob* job)
 {
     m_lastSetUrlStatJob = 0;
 
-    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
-    setEnabled(searchInfo.isIndexingEnabled() &&
-               searchInfo.isPathIndexed(m_startedFromDir));
+    setEnabled(isFilteringPossible());
 
     const KIO::UDSEntry uds = static_cast<KIO::StatJob*>(job)->statResult();
     const QString nepomukQueryStr = uds.stringValue(KIO::UDSEntry::UDS_NEPOMUK_QUERY);
@@ -259,4 +256,11 @@ void SearchPanel::setQuery(const Nepomuk::Query::Query& query)
     m_unfacetedRestQuery = m_facetWidget->extractFacetsFromQuery(query);
     m_facetWidget->setClientQuery(query);
     m_facetWidget->blockSignals(block);
+}
+
+bool SearchPanel::isFilteringPossible() const
+{
+    const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
+    return searchInfo.isIndexingEnabled()
+           && ((m_searchMode == Everywhere) || searchInfo.isPathIndexed(m_startedFromDir));
 }

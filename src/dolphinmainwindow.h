@@ -207,6 +207,13 @@ private slots:
     void find();
 
     /**
+     * Is invoked when the "Find" is active and the search location
+     * (From Here/Everywhere) has been changed. Updates the
+     * enabled state of the Search Panel.
+     */
+    void slotSearchLocationChanged();
+
+    /**
      * Updates the text of the paste action dependent on
      * the number of items which are in the clipboard.
      */

@@ -80,6 +80,9 @@ public:
     const DolphinView* view() const;
     DolphinView* view();
 
+    const DolphinSearchBox* searchBox() const;
+    DolphinSearchBox* searchBox();
+
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
      */
@@ -276,35 +279,5 @@ private:
     QTimer* m_statusBarTimer;            // Triggers a delayed update
     QElapsedTimer m_statusBarTimestamp;  // Time in ms since last update
 };
-
-inline const DolphinStatusBar* DolphinViewContainer::statusBar() const
-{
-    return m_statusBar;
-}
-
-inline DolphinStatusBar* DolphinViewContainer::statusBar()
-{
-    return m_statusBar;
-}
-
-inline const KUrlNavigator* DolphinViewContainer::urlNavigator() const
-{
-    return m_urlNavigator;
-}
-
-inline KUrlNavigator* DolphinViewContainer::urlNavigator()
-{
-    return m_urlNavigator;
-}
-
-inline const DolphinView* DolphinViewContainer::view() const
-{
-    return m_view;
-}
-
-inline DolphinView* DolphinViewContainer::view()
-{
-    return m_view;
-}
 
 #endif // DOLPHINVIEWCONTAINER_H

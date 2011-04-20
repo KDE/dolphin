@@ -79,6 +79,16 @@ private slots:
 private:
     void setQuery(const Nepomuk::Query::Query& query);
 
+    /**
+     * @return True if the facets can be applied to the given URL
+     *         and hence a filtering of the content is possible.
+     *         False is returned if the search-mode is set to
+     *         SearchMode::FromCurrentDir and this directory is
+     *         not indexed at all. Also if indexing is disabled
+     *         false will be returned.
+     */
+    bool isFilteringPossible() const;
+
 private:
     bool m_initialized;
     SearchMode m_searchMode;

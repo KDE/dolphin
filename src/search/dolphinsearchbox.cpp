@@ -196,8 +196,19 @@ void DolphinSearchBox::emitSearchSignal()
     emit search(m_searchInput->text());
 }
 
+void DolphinSearchBox::slotSearchLocationChanged()
+{
+    emit searchLocationChanged(m_fromHereButton->isChecked() ? SearchFromHere : SearchEverywhere);
+}
+
+void DolphinSearchBox::slotSearchContextChanged()
+{
+    emit searchContextChanged(m_fileNameButton->isChecked() ? SearchFileName : SearchContent);
+}
+
 void DolphinSearchBox::slotConfigurationChanged()
 {
+    saveSettings();
     if (m_startedSearching) {
         emitSearchSignal();
     }
@@ -220,7 +231,7 @@ void DolphinSearchBox::initButton(QPushButton* button)
     button->setAutoExclusive(true);
     button->setFlat(true);
     button->setCheckable(true);
-    connect(button, SIGNAL(toggled(bool)), this, SLOT(slotConfigurationChanged()));
+    connect(button, SIGNAL(clicked(bool)), this, SLOT(slotConfigurationChanged()));
 }
 
 void DolphinSearchBox::loadSettings()
@@ -290,6 +301,8 @@ void DolphinSearchBox::init()
     QButtonGroup* searchWhatGroup = new QButtonGroup(this);
     searchWhatGroup->addButton(m_fileNameButton);
     searchWhatGroup->addButton(m_contentButton);
+    connect(m_fileNameButton, SIGNAL(clicked()), this, SLOT(slotSearchContextChanged()));
+    connect(m_contentButton, SIGNAL(clicked()), this, SLOT(slotSearchContextChanged()));
 
     m_separator = new KSeparator(Qt::Vertical, this);
 
@@ -305,6 +318,8 @@ void DolphinSearchBox::init()
     QButtonGroup* searchLocationGroup = new QButtonGroup(this);
     searchLocationGroup->addButton(m_fromHereButton);
     searchLocationGroup->addButton(m_everywhereButton);
+    connect(m_fromHereButton, SIGNAL(clicked()), this, SLOT(slotSearchLocationChanged()));
+    connect(m_everywhereButton, SIGNAL(clicked()), this, SLOT(slotSearchLocationChanged()));
 
     // Apply layout for the options
     QHBoxLayout* optionsLayout = new QHBoxLayout();
