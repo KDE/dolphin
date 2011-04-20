@@ -831,9 +831,9 @@ void DolphinMainWindow::slotSearchLocationChanged()
 
     SearchPanel* searchPanel = qobject_cast<SearchPanel*>(searchDock->widget());
     if (searchPanel) {
-        searchPanel->setSearchMode(SearchSettings::location() == QLatin1String("FromHere")
-                                   ? SearchPanel::FromCurrentDir
-                                   : SearchPanel::Everywhere);
+        searchPanel->setSearchLocation(SearchSettings::location() == QLatin1String("FromHere")
+                                       ? SearchPanel::FromCurrentDir
+                                       : SearchPanel::Everywhere);
     }
 }
 
@@ -1346,17 +1346,20 @@ void DolphinMainWindow::slotSearchModeChanged(bool enabled)
     }
 
     SearchPanel* searchPanel = qobject_cast<SearchPanel*>(searchDock->widget());
-    if (searchPanel) {
-        // Per default any search-operation triggered by the Search Panel is done
-        // "Everywhere".
-        SearchPanel::SearchMode searchMode = SearchPanel::Everywhere;
+    if (!searchPanel) {
+        return;
+    }
 
-        if (enabled && (SearchSettings::location() == QLatin1String("FromHere"))) {
-            // Only if the search-mode is enabled it is visible for the user whether
-            // a searching is done "Everywhere" or "From Here" (= current directory).
-            searchMode = SearchPanel::FromCurrentDir;
+    if (enabled) {
+        SearchPanel::SearchLocation searchLocation = SearchPanel::Everywhere;
+        const KUrl url = m_activeViewContainer->url();
+        const bool isSearchUrl = (url.protocol() == QLatin1String("nepomuksearch"));
+        if ((SearchSettings::location() == QLatin1String("FromHere") && !isSearchUrl)) {
+            searchLocation = SearchPanel::FromCurrentDir;
         }
-        searchPanel->setSearchMode(searchMode);
+        searchPanel->setSearchLocation(searchLocation);
+    } else {
+        searchPanel->setSearchLocation(SearchPanel::Everywhere);
     }
 #else
     Q_UNUSED(enabled);

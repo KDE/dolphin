@@ -50,7 +50,7 @@
 SearchPanel::SearchPanel(QWidget* parent) :
     Panel(parent),
     m_initialized(false),
-    m_searchMode(Everywhere),
+    m_searchLocation(Everywhere),
     m_lastSetUrlStatJob(0),
     m_startedFromDir(),
     m_facetWidget(0),
@@ -63,17 +63,17 @@ SearchPanel::~SearchPanel()
 {
 }
 
-void SearchPanel::setSearchMode(SearchMode mode)
+void SearchPanel::setSearchLocation(SearchLocation location)
 {
-    m_searchMode = mode;
+    m_searchLocation = location;
     if (isVisible()) {
         setEnabled(isFilteringPossible());
     }
 }
 
-SearchPanel::SearchMode SearchPanel::searchMode() const
+SearchPanel::SearchLocation SearchPanel::searchLocation() const
 {
-    return m_searchMode;
+    return m_searchLocation;
 }
 
 bool SearchPanel::urlChanged()
@@ -213,7 +213,7 @@ void SearchPanel::slotQueryTermChanged(const Nepomuk::Query::Term& term)
 {
     if (term.isValid()) {
         // Default case: A facet has been changed by the user to restrict the query.
-        if ((m_searchMode == FromCurrentDir) && !m_unfacetedRestQuery.isValid()) {
+        if ((m_searchLocation == FromCurrentDir) && !m_unfacetedRestQuery.isValid()) {
             // Adjust the query to respect the FromCurrentDir setting
             Nepomuk::Query::ComparisonTerm compTerm(
                                     Nepomuk::Vocabulary::NFO::fileName(),
@@ -262,5 +262,5 @@ bool SearchPanel::isFilteringPossible() const
 {
     const DolphinSearchInformation& searchInfo = DolphinSearchInformation::instance();
     return searchInfo.isIndexingEnabled()
-           && ((m_searchMode == Everywhere) || searchInfo.isPathIndexed(m_startedFromDir));
+           && ((m_searchLocation == Everywhere) || searchInfo.isPathIndexed(m_startedFromDir));
 }

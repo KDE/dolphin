@@ -42,7 +42,7 @@ class SearchPanel : public Panel
     Q_OBJECT
 
 public:
-    enum SearchMode
+    enum SearchLocation
     {
         Everywhere,
         FromCurrentDir
@@ -56,8 +56,8 @@ public:
      * or from the current directory (= FromCurrentDir). The current directory
      * is automatically determined when setUrl() has been called.
      */
-    void setSearchMode(SearchMode mode);
-    SearchMode searchMode() const;
+    void setSearchLocation(SearchLocation location);
+    SearchLocation searchLocation() const;
 
 signals:
     void urlActivated(const KUrl& url);
@@ -83,7 +83,7 @@ private:
      * @return True if the facets can be applied to the given URL
      *         and hence a filtering of the content is possible.
      *         False is returned if the search-mode is set to
-     *         SearchMode::FromCurrentDir and this directory is
+     *         SearchLocation::FromCurrentDir and this directory is
      *         not indexed at all. Also if indexing is disabled
      *         false will be returned.
      */
@@ -91,7 +91,7 @@ private:
 
 private:
     bool m_initialized;
-    SearchMode m_searchMode;
+    SearchLocation m_searchLocation;
     KJob* m_lastSetUrlStatJob;
 
     KUrl m_startedFromDir;
