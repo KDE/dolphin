@@ -254,7 +254,7 @@ void DolphinViewContainer::setSearchModeEnabled(bool enabled)
     if (enabled) {
         KUrl url = m_urlNavigator->locationUrl();
         m_searchBox->setText(QString());
-        m_searchBox->setReadOnly(isSearchUrl(url));
+        m_searchBox->setReadOnly(isSearchUrl(url), url);
 
         // Remember the most recent non-search URL as search path
         // of the search-box, so that it can be restored

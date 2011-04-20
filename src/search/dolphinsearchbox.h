@@ -25,11 +25,12 @@
 #include <QWidget>
 
 class AbstractSearchFilterWidget;
-class QLabel;
 class KLineEdit;
 class KSeparator;
 class QFormLayout;
 class QPushButton;
+class QScrollArea;
+class QLabel;
 class QVBoxLayout;
 
 /**
@@ -90,8 +91,11 @@ public:
      * @param readOnly If set to true the searchbox cannot be modified
      *                 by the user and acts as visual indicator for
      *                 an externally triggered search query.
+     * @param query    If readOnly is true this URL will be used
+     *                 to show a human readable information about the
+     *                 query.
      */
-    void setReadOnly(bool readOnly);
+    void setReadOnly(bool readOnly, const KUrl& query = KUrl());
     bool isReadOnly() const;
 
 protected:
@@ -157,16 +161,17 @@ private:
 
     QVBoxLayout* m_topLayout;
 
+    QLabel* m_searchLabel;
     KLineEdit* m_searchInput;
+    QScrollArea* m_optionsScrollArea;
     QPushButton* m_fileNameButton;
     QPushButton* m_contentButton;
     KSeparator* m_separator;
     QPushButton* m_fromHereButton;
     QPushButton* m_everywhereButton;
 
-    QLabel* m_infoLabel;
-
     KUrl m_searchPath;
+    KUrl m_readOnlyQuery;
 
     QTimer* m_startSearchTimer;
 };

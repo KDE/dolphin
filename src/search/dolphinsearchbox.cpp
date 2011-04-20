@@ -58,14 +58,16 @@ DolphinSearchBox::DolphinSearchBox(QWidget* parent) :
     m_startedSearching(false),
     m_readOnly(false),
     m_topLayout(0),
+    m_searchLabel(0),
     m_searchInput(0),
+    m_optionsScrollArea(0),
     m_fileNameButton(0),
     m_contentButton(0),
     m_separator(0),
     m_fromHereButton(0),
     m_everywhereButton(0),
-    m_infoLabel(0),
     m_searchPath(),
+    m_readOnlyQuery(),
     m_startSearchTimer(0)
 {
 }
@@ -148,10 +150,11 @@ void DolphinSearchBox::selectAll()
     m_searchInput->selectAll();
 }
 
-void DolphinSearchBox::setReadOnly(bool readOnly)
+void DolphinSearchBox::setReadOnly(bool readOnly, const KUrl& query)
 {
     if (m_readOnly != readOnly) {
         m_readOnly = readOnly;
+        m_readOnlyQuery = query;
         applyReadOnlyState();
     }
 }
@@ -266,7 +269,7 @@ void DolphinSearchBox::init()
     connect(closeButton, SIGNAL(clicked()), SIGNAL(closeRequest()));
 
     // Create search label
-    QLabel* searchLabel = new QLabel(i18nc("@label:textbox", "Find:"), this);
+    m_searchLabel = new QLabel(this);
 
     // Create search box
     m_searchInput = new KLineEdit(this);
@@ -278,16 +281,12 @@ void DolphinSearchBox::init()
     connect(m_searchInput, SIGNAL(textChanged(QString)),
             this, SLOT(slotSearchTextChanged(QString)));
 
-    // Create information label
-    m_infoLabel = new QLabel("TODO: Provide information about the current query", this);
-
     // Apply layout for the search input
     QHBoxLayout* searchInputLayout = new QHBoxLayout();
     searchInputLayout->setMargin(0);
     searchInputLayout->addWidget(closeButton);
-    searchInputLayout->addWidget(searchLabel);
+    searchInputLayout->addWidget(m_searchLabel);
     searchInputLayout->addWidget(m_searchInput);
-    searchInputLayout->addWidget(m_infoLabel);
 
     // Create "Filename" and "Content" button
     m_fileNameButton = new QPushButton(this);
@@ -335,20 +334,21 @@ void DolphinSearchBox::init()
     // in case that not enough width for the options is available.
     QWidget* optionsContainer = new QWidget(this);
     optionsContainer->setLayout(optionsLayout);
-    QScrollArea* optionsScrollArea = new QScrollArea(this);
-    optionsScrollArea->setFrameShape(QFrame::NoFrame);
-    optionsScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    optionsScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    optionsScrollArea->setMaximumHeight(optionsContainer->sizeHint().height());
-    optionsScrollArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    optionsScrollArea->setWidget(optionsContainer);
-    optionsScrollArea->setWidgetResizable(true);
+
+    m_optionsScrollArea = new QScrollArea(this);
+    m_optionsScrollArea->setFrameShape(QFrame::NoFrame);
+    m_optionsScrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_optionsScrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_optionsScrollArea->setMaximumHeight(optionsContainer->sizeHint().height());
+    m_optionsScrollArea->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    m_optionsScrollArea->setWidget(optionsContainer);
+    m_optionsScrollArea->setWidgetResizable(true);
 
     m_topLayout = new QVBoxLayout(this);
+    m_topLayout->setMargin(0);
     m_topLayout->addLayout(searchInputLayout);
-    m_topLayout->addWidget(optionsScrollArea);
+    m_topLayout->addWidget(m_optionsScrollArea);
 
-    searchLabel->setBuddy(m_searchInput);
     loadSettings();
 
     // The searching should be started automatically after the user did not change
@@ -404,14 +404,14 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
 
 void DolphinSearchBox::applyReadOnlyState()
 {
-    // TODO: This is just an early draft to indicate that a state change
-    // has been done
+    if (m_readOnly) {
+        m_searchLabel->setText(Nepomuk::Query::Query::titleFromQueryUrl(m_readOnlyQuery));
+    } else {
+        m_searchLabel->setText(i18nc("@label:textbox", "Find:"));
+    }
+
     m_searchInput->setVisible(!m_readOnly);
-    m_infoLabel->setVisible(m_readOnly);
-    m_fileNameButton->setVisible(!m_readOnly);
-    m_contentButton->setVisible(!m_readOnly);
-    m_fromHereButton->setVisible(!m_readOnly);
-    m_everywhereButton->setVisible(!m_readOnly);
+    m_optionsScrollArea->setVisible(!m_readOnly);
 }
 
 #include "dolphinsearchbox.moc"
