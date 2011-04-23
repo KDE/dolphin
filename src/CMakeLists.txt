@@ -1,5 +1,3 @@
-add_subdirectory(tests)
-
 macro_optional_find_package(Nepomuk)
 macro_log_feature(Nepomuk_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "" "For adding desktop-wide tagging support to dolphin")
 macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
@@ -11,6 +9,8 @@ if (Nepomuk_FOUND)
   # Yes, Soprano includes is what we need here
   include_directories( ${SOPRANO_INCLUDE_DIR} ${NEPOMUK_INCLUDE_DIR} )
 endif (Nepomuk_FOUND)
+
+add_subdirectory(tests)
 
 ########### next target ###############
 
