@@ -189,16 +189,7 @@ void DolphinContextMenu::openTrashContextMenu()
 
     QAction *action = m_popup->exec(QCursor::pos());
     if (action == emptyTrashAction) {
-        const QString text(i18nc("@info", "Do you really want to empty the Trash? All items will be deleted."));
-        const bool del = KMessageBox::warningContinueCancel(m_mainWindow,
-                                                            text,
-                                                            QString(),
-                                                            KGuiItem(i18nc("@action:button", "Empty Trash"),
-                                                                     KIcon("user-trash"))
-                                                           ) == KMessageBox::Continue;
-        if (del) {
-            KonqOperations::emptyTrash(m_mainWindow);
-        }
+        KonqOperations::emptyTrash(m_mainWindow);
     } else if (action == addToPlacesAction) {
         const KUrl& url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
