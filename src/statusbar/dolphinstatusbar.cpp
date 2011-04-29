@@ -68,7 +68,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_zoomWidget = new QWidget(this);
 
     m_zoomOut = new QToolButton(m_zoomWidget);
-    m_zoomOut->setIcon(KIcon("zoom-out"));
+    m_zoomOut->setIcon(KIcon("file-zoom-out"));
     m_zoomOut->setAutoRaise(true);
 
     m_zoomSlider = new QSlider(Qt::Horizontal, m_zoomWidget);
@@ -81,7 +81,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     updateZoomSliderToolTip(view->zoomLevel());
 
     m_zoomIn = new QToolButton(m_zoomWidget);
-    m_zoomIn->setIcon(KIcon("zoom-in"));
+    m_zoomIn->setIcon(KIcon("file-zoom-in"));
     m_zoomIn->setAutoRaise(true);
 
     // Initialize zoom widget layout
