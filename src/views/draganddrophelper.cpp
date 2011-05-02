@@ -99,7 +99,7 @@ void DragAndDropHelper::dropUrls(const KFileItem& destItem,
         QString remoteDBusClient = mimeData->data("application/x-kde-dndextract");
         QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, "/DndExtract",
                                                               "org.kde.DndExtract", "extractSelectedFilesTo");
-        message.setArguments(QVariantList() << destination.path());
+        message.setArguments(QVariantList() << destination.pathOrUrl());
         QDBusConnection::sessionBus().call(message);
     } else {
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
