@@ -404,9 +404,13 @@ KUrl DolphinSearchBox::nepomukUrlForSearching() const
 
 void DolphinSearchBox::applyReadOnlyState()
 {
+#ifdef HAVE_NEPOMUK
     if (m_readOnly) {
         m_searchLabel->setText(Nepomuk::Query::Query::titleFromQueryUrl(m_readOnlyQuery));
     } else {
+#else
+    {
+#endif
         m_searchLabel->setText(i18nc("@label:textbox", "Find:"));
     }
 
