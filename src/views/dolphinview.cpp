@@ -592,6 +592,10 @@ void DolphinView::renameSelectedItems()
         dialog->raise();
         dialog->activateWindow();
     }
+
+    // assure that the current index remains visible when KDirLister
+    // will notify the view about changed items
+    m_assureVisibleCurrentIndex = true;
 }
 
 void DolphinView::trashSelectedItems()
