@@ -73,7 +73,7 @@ void ConfigurePreviewPluginDialog::slotOk()
     // for a specific MIME-type should be regenerated. As this is not available yet we
     // delete the whole thumbnails directory.
     QApplication::changeOverrideCursor(Qt::BusyCursor);
-    KIO::NetAccess::del(QDir::homePath() + "/.thumbnails/", this);
+    KIO::NetAccess::del(QString(QDir::homePath() + "/.thumbnails/"), this);
     QApplication::restoreOverrideCursor();
 
 }
