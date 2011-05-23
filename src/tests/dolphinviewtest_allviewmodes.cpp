@@ -331,7 +331,7 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
     view.saveState(saveStream);
 
     // Change the URL
-    view.setUrl(dir.name() + "51");
+    view.setUrl(KUrl(dir.name() + "51"));
     waitForFinishedPathLoading(&view);
     qApp->sendPostedEvents();
 
@@ -350,7 +350,7 @@ void DolphinViewTest_AllViewModes::testSaveAndRestoreState()
     }
 
     // Change the URL again
-    view.setUrl(dir.name() + "51");
+    view.setUrl(KUrl(dir.name() + "51"));
     waitForFinishedPathLoading(&view);
     qApp->sendPostedEvents();
 
@@ -514,7 +514,7 @@ void DolphinViewTest_AllViewModes::testCutCopyPaste()
     QCOMPARE(selectedItems(&view1), QStringList() << "b");
     view1.copySelectedItems();
     // Now we use view1 to display the subfolder, which is still empty.
-    view1.setUrl(dir2.name() + "subfolder");
+    view1.setUrl(KUrl(dir2.name() + "subfolder"));
     waitForFinishedPathLoading(&view1);
     QCOMPARE(viewItems(&view1), QStringList());
     // Select the subfolder.in view2
