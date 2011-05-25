@@ -54,6 +54,14 @@ void TerminalPanel::terminalExited()
     m_terminal = 0;
 }
 
+void TerminalPanel::visibilityChanged(bool visible)
+{
+    if (!visible && m_terminal && (m_terminal->foregroundProcessId() == -1)) {
+        // Make sure this terminal does not prevent unmounting any removable drives
+        changeDir(KUrl::fromPath("/"));
+    }
+}
+
 bool TerminalPanel::urlChanged()
 {
     if (!url().isValid()) {

@@ -1798,6 +1798,8 @@ void DolphinMainWindow::setupDockWidgets()
     terminalDock->setWidget(terminalPanel);
 
     connect(terminalPanel, SIGNAL(hideTerminalPanel()), terminalDock, SLOT(hide()));
+    connect(terminalDock, SIGNAL(visibilityChanged(bool)),
+            terminalPanel, SLOT(visibilityChanged(bool)));
 
     QAction* terminalAction = terminalDock->toggleViewAction();
     terminalAction->setShortcut(Qt::Key_F4);

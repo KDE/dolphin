@@ -44,6 +44,7 @@ public:
 
 public slots:
     void terminalExited();
+    void visibilityChanged(bool visible);
 
 signals:
     void hideTerminalPanel();
