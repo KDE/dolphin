@@ -824,6 +824,7 @@ void DolphinMainWindow::find()
 
 void DolphinMainWindow::slotSearchLocationChanged()
 {
+#ifdef HAVE_NEPOMUK
     QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
     if (!searchDock) {
         return;
@@ -835,6 +836,7 @@ void DolphinMainWindow::slotSearchLocationChanged()
                                        ? SearchPanel::FromCurrentDir
                                        : SearchPanel::Everywhere);
     }
+#endif
 }
 
 void DolphinMainWindow::updatePasteAction()
