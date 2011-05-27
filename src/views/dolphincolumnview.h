@@ -61,8 +61,10 @@ public:
 
     /**
      * Sets the directory URL of the child column that is shown next to
-     * this column. This property is only used for a visual indication
+     * this column. This property is used for a visual indication
      * of the shown directory, it does not trigger a loading of the model.
+     * When no url is selected and the user presses right, then child
+     * url will be used as column.
      */
     void setChildUrl(const KUrl& url);
     KUrl childUrl() const;

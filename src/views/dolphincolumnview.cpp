@@ -338,6 +338,7 @@ void DolphinColumnView::mousePressEvent(QMouseEvent* event)
 
 void DolphinColumnView::keyPressEvent(QKeyEvent* event)
 {
+    const bool hadSelection = selectionModel()->hasSelection();
     DolphinTreeView::keyPressEvent(event);
 
     DolphinViewController* controller = m_container->m_dolphinViewController;
@@ -346,7 +347,15 @@ void DolphinColumnView::keyPressEvent(QKeyEvent* event)
     case Qt::Key_Right: {
         // Special key handling for the column: A Key_Right should
         // open a new column for the currently selected folder.
-        const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(currentIndex());
+        QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(currentIndex());
+
+        // If there is no selection we automatically move to the child url
+        // instead of the first directory.
+        // See BUG:263110
+        if (!hadSelection && !childUrl().isEmpty()) {
+            dolphinModelIndex = m_dolphinModel->indexForUrl(childUrl());
+        }
+
         const KFileItem item = m_dolphinModel->itemForIndex(dolphinModelIndex);
         if (!item.isNull() && item.isDir()) {
             controller->emitItemTriggered(item);
