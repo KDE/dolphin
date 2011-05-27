@@ -148,7 +148,7 @@ void RenameDialog::slotButtonClicked(int button)
 
 void RenameDialog::slotTextChanged(const QString& newName)
 {
-    bool enable = !newName.isEmpty();
+    bool enable = !newName.isEmpty() && (newName != QLatin1String("..")) && (newName != QLatin1String(".")) && !newName.contains('/');
     if (enable) {
         if (m_renameOneItem) {
             enable = enable && (newName != m_newName);
