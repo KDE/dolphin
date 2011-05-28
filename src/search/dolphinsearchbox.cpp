@@ -364,31 +364,29 @@ void DolphinSearchBox::init()
 KUrl DolphinSearchBox::nepomukUrlForSearching() const
 {
 #ifdef HAVE_NEPOMUK
-    Nepomuk::Query::OrTerm orTerm;
+    Nepomuk::Query::Term term;
 
     const QString text = m_searchInput->text();
 
-    // Search the text in the filename in any case
-    QString regex = QRegExp::escape(text);
-    regex.replace("\\*", QLatin1String(".*"));
-    regex.replace("\\?", QLatin1String("."));
-    regex.replace("\\", "\\\\");
-    orTerm.addSubTerm(Nepomuk::Query::ComparisonTerm(
-                            Nepomuk::Vocabulary::NFO::fileName(),
-                            Nepomuk::Query::LiteralTerm(regex),
-                            Nepomuk::Query::ComparisonTerm::Regexp));
-
     if (m_contentButton->isChecked()) {
-        // Search the text also in the content of the files
-        const Nepomuk::Query::Query customQuery = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern);
-        if (customQuery.isValid()) {
-            orTerm.addSubTerm(customQuery.term());
-        }
+        // Let Nepomuk parse the query
+        term = Nepomuk::Query::QueryParser::parseQuery(text, Nepomuk::Query::QueryParser::DetectFilenamePattern).term();
+    }
+    else {
+        // Search the text in the filename only
+        QString regex = QRegExp::escape(text);
+        regex.replace("\\*", QLatin1String(".*"));
+        regex.replace("\\?", QLatin1String("."));
+        regex.replace("\\", "\\\\");
+        term = Nepomuk::Query::ComparisonTerm(
+                    Nepomuk::Vocabulary::NFO::fileName(),
+                    Nepomuk::Query::LiteralTerm(regex),
+                    Nepomuk::Query::ComparisonTerm::Regexp);
     }
 
     Nepomuk::Query::FileQuery fileQuery;
     fileQuery.setFileMode(Nepomuk::Query::FileQuery::QueryFilesAndFolders);
-    fileQuery.setTerm(orTerm);
+    fileQuery.setTerm(term);
     if (m_fromHereButton->isChecked()) {
         const bool recursive = true;
         fileQuery.addIncludeFolder(m_searchPath, recursive);
