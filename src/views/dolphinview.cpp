@@ -1429,6 +1429,11 @@ void DolphinView::ViewAccessor::createView(QWidget* parent,
     default:
         Q_ASSERT(false);
     }
+
+    KDirLister* lister = dirLister();
+    if (lister) {
+        lister->setMainWindow(parent->window());
+    }
 }
 
 void DolphinView::ViewAccessor::deleteView()
