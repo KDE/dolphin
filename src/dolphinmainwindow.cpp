@@ -2279,6 +2279,8 @@ void ToolBarMenu::showEvent(QShowEvent* event)
         pos.ry() = button->mapToGlobal(QPoint(0, 0)).y() - height();
     }
 
+    pos += screen.topLeft();
+
     move(pos);
 }
 
