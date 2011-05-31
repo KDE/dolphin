@@ -136,7 +136,7 @@ void RenameDialog::slotButtonClicked(int button)
             Q_ASSERT(m_items.count() == 1);
             const KUrl oldUrl = m_items.first().url();
             KUrl newUrl = oldUrl;
-            newUrl.setFileName(m_newName);
+            newUrl.setFileName(KIO::encodeFileName(m_newName));
             KonqOperations::rename(this, oldUrl, newUrl);
         } else {
             renameItems();
@@ -148,7 +148,7 @@ void RenameDialog::slotButtonClicked(int button)
 
 void RenameDialog::slotTextChanged(const QString& newName)
 {
-    bool enable = !newName.isEmpty() && (newName != QLatin1String("..")) && (newName != QLatin1String(".")) && !newName.contains('/');
+    bool enable = !newName.isEmpty() && (newName != QLatin1String("..")) && (newName != QLatin1String("."));
     if (enable) {
         if (m_renameOneItem) {
             enable = enable && (newName != m_newName);
@@ -185,7 +185,7 @@ void RenameDialog::renameItems()
         const KUrl oldUrl = item.url();
         if (oldUrl.fileName() != newName) {
             KUrl newUrl = oldUrl;
-            newUrl.setFileName(newName);
+            newUrl.setFileName(KIO::encodeFileName(newName));
             KonqOperations::rename(this, oldUrl, newUrl);
         }
     }
