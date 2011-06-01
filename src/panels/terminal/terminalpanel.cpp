@@ -50,13 +50,16 @@ TerminalPanel::~TerminalPanel()
 
 void TerminalPanel::terminalExited()
 {
-    emit hideTerminalPanel();
     m_terminal = 0;
+    emit hideTerminalPanel();
 }
 
-void TerminalPanel::visibilityChanged(bool visible)
+void TerminalPanel::dockVisibilityChanged()
 {
-    if (!visible && m_terminal && (m_terminal->foregroundProcessId() == -1)) {
+    // Only react when the DockWidget itself (not some parent) is hidden. This way we don't
+    // respond when e.g. Dolphin is minimized.
+    if (parentWidget() && parentWidget()->isHidden() &&
+        m_terminal && (m_terminal->foregroundProcessId() == -1)) {
         // Make sure this terminal does not prevent unmounting any removable drives
         changeDir(KUrl::fromPath("/"));
     }
