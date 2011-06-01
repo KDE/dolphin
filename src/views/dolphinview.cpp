@@ -671,6 +671,8 @@ void DolphinView::setShowHiddenFiles(bool show)
         return;
     }
 
+    m_selectedItems = selectedItems();
+
     const KUrl viewPropsUrl = rootUrl();
     ViewProperties props(viewPropsUrl);
     props.setShowHiddenFiles(show);
