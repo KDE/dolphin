@@ -579,7 +579,7 @@ QAbstractItemView* DolphinViewTest_AllViewModes::initView(DolphinView* view) con
 void DolphinViewTest_AllViewModes::verifySelectedItemsCount(DolphinView* view, int itemsCount) const
 {
     QSignalSpy spySelectionChanged(view, SIGNAL(selectionChanged(const KFileItemList&)));
-    QVERIFY(QTest::kWaitForSignal(view, SIGNAL(selectionChanged(const KFileItemList&)), 500));
+    QVERIFY(QTest::kWaitForSignal(view, SIGNAL(selectionChanged(const KFileItemList&)), 2000));
 
     QCOMPARE(view->selectedItems().count(), itemsCount);
     QCOMPARE(view->selectedItemsCount(), itemsCount);
