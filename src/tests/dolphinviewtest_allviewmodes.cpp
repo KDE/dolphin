@@ -143,7 +143,12 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
     view.setShowPreview(false);
     QVERIFY(!view.showPreview());
 
-    view.setShowHiddenFiles(false);
+    if (view.showHiddenFiles()) {
+        // Changing the "hidden files" setting triggers the dir lister
+        // -> we have to wait until loading the hidden files is finished
+        view.setShowHiddenFiles(false);
+        waitForFinishedPathLoading(&view);
+    }
     QVERIFY(!view.showHiddenFiles());
 
     /** Check that the sort order is correct for different kinds of settings */
@@ -200,7 +205,12 @@ void DolphinViewTest_AllViewModes::testViewPropertySettings()
     view.setShowHiddenFiles(true);
     waitForFinishedPathLoading(&view);
     QVERIFY(view.showHiddenFiles());
-    QCOMPARE(viewItems(&view), QStringList() << ".f" << "a" << "b" << "c" << "d" << "e");
+
+    // Depending on the settings, a .directory file might have been created.
+    // Remove it from the list to get consistent results.
+    QStringList result = viewItems(&view);
+    result.removeAll(".directory");
+    QCOMPARE(result, QStringList() << ".f" << "a" << "b" << "c" << "d" << "e");
 
     // Previews
     view.setShowPreview(true);
