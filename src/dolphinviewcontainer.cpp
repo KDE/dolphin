@@ -200,7 +200,7 @@ DolphinViewContainer::~DolphinViewContainer()
 
 KUrl DolphinViewContainer::url() const
 {
-    return m_urlNavigator->locationUrl();
+    return m_view->url();
 }
 
 void DolphinViewContainer::setActive(bool active)
