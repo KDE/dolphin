@@ -306,7 +306,8 @@ void InformationPanelContent::showIcon(const KFileItem& item)
     m_outdatedPreviewTimer->stop();
     m_pendingPreview = false;
     if (!applyPlace(item.targetUrl())) {
-        m_preview->setPixmap(item.pixmap(KIconLoader::SizeEnormous));
+        KIcon icon(item.iconName(), KIconLoader::global(), item.overlays());
+        m_preview->setPixmap(icon.pixmap(KIconLoader::SizeEnormous));
     }
 }
 
@@ -314,10 +315,11 @@ void InformationPanelContent::showPreview(const KFileItem& item,
                                           const QPixmap& pixmap)
 {
     m_outdatedPreviewTimer->stop();
-
     Q_UNUSED(item);
     if (m_pendingPreview) {
-        m_preview->setPixmap(pixmap);
+        QPixmap p = pixmap;
+        KIconLoader::global()->drawOverlays(item.overlays(), p, KIconLoader::Desktop);
+        m_preview->setPixmap(p);
         m_pendingPreview = false;
     }
 }
