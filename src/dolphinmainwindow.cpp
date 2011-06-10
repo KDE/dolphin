@@ -2267,19 +2267,17 @@ void ToolBarMenu::showEvent(QShowEvent* event)
     // Assure that the menu is not shown outside the screen boundaries and
     // that it does not overlap with the parent button.
     const QRect screen = QApplication::desktop()->screenGeometry(QCursor::pos());
-    if (pos.x() < 0) {
-        pos.rx() = 0;
-    } else if (pos.x() + width() >= screen.width()) {
-        pos.rx() = screen.width() - width();
+    if (pos.x() < screen.x()) {
+        pos.rx() = screen.x();
+    } else if (pos.x() + width() > screen.x() + screen.width()) {
+        pos.rx() = screen.x() + screen.width() - width();
     }
 
-    if (pos.y() < 0) {
-        pos.ry() = 0;
-    } else if (pos.y() + height() >= screen.height()) {
+    if (pos.y() < screen.y()) {
+        pos.ry() = screen.y();
+    } else if (pos.y() + height() > screen.y() + screen.height()) {
         pos.ry() = button->mapToGlobal(QPoint(0, 0)).y() - height();
     }
-
-    pos += screen.topLeft();
 
     move(pos);
 }
