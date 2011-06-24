@@ -773,7 +773,7 @@ private:
      * Abstracts the access to the different view implementations
      * for icons-, details- and column-view.
      */
-    class ViewAccessor
+    class LIBDOLPHINPRIVATE_EXPORT ViewAccessor
     {
     public:
         ViewAccessor();
