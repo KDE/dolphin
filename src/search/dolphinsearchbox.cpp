@@ -34,7 +34,7 @@
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
-#include <QPushButton>
+#include <QToolButton>
 #include <QScrollArea>
 #include <QTimer>
 #include <QToolButton>
@@ -229,10 +229,10 @@ void DolphinSearchBox::slotReturnPressed(const QString& text)
     emit returnPressed(text);
 }
 
-void DolphinSearchBox::initButton(QPushButton* button)
+void DolphinSearchBox::initButton(QToolButton* button)
 {
     button->setAutoExclusive(true);
-    button->setFlat(true);
+    button->setAutoRaise(true);
     button->setCheckable(true);
     connect(button, SIGNAL(clicked(bool)), this, SLOT(slotConfigurationChanged()));
 }
@@ -289,11 +289,11 @@ void DolphinSearchBox::init()
     searchInputLayout->addWidget(m_searchInput);
 
     // Create "Filename" and "Content" button
-    m_fileNameButton = new QPushButton(this);
+    m_fileNameButton = new QToolButton(this);
     m_fileNameButton->setText(i18nc("action:button", "Filename"));
     initButton(m_fileNameButton);
 
-    m_contentButton = new QPushButton();
+    m_contentButton = new QToolButton();
     m_contentButton->setText(i18nc("action:button", "Content"));
     initButton(m_contentButton);;
 
@@ -306,11 +306,11 @@ void DolphinSearchBox::init()
     m_separator = new KSeparator(Qt::Vertical, this);
 
     // Create "From Here" and "Everywhere"button
-    m_fromHereButton = new QPushButton(this);
+    m_fromHereButton = new QToolButton(this);
     m_fromHereButton->setText(i18nc("action:button", "From Here"));
     initButton(m_fromHereButton);
 
-    m_everywhereButton = new QPushButton(this);
+    m_everywhereButton = new QToolButton(this);
     m_everywhereButton->setText(i18nc("action:button", "Everywhere"));
     initButton(m_everywhereButton);
 

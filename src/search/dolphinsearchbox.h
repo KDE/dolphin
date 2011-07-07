@@ -28,7 +28,7 @@ class AbstractSearchFilterWidget;
 class KLineEdit;
 class KSeparator;
 class QFormLayout;
-class QPushButton;
+class QToolButton;
 class QScrollArea;
 class QLabel;
 class QVBoxLayout;
@@ -143,7 +143,7 @@ private slots:
     void slotReturnPressed(const QString& text);
 
 private:
-    void initButton(QPushButton* button);
+    void initButton(QToolButton* button);
     void loadSettings();
     void saveSettings();
     void init();
@@ -164,11 +164,11 @@ private:
     QLabel* m_searchLabel;
     KLineEdit* m_searchInput;
     QScrollArea* m_optionsScrollArea;
-    QPushButton* m_fileNameButton;
-    QPushButton* m_contentButton;
+    QToolButton* m_fileNameButton;
+    QToolButton* m_contentButton;
     KSeparator* m_separator;
-    QPushButton* m_fromHereButton;
-    QPushButton* m_everywhereButton;
+    QToolButton* m_fromHereButton;
+    QToolButton* m_everywhereButton;
 
     KUrl m_searchPath;
     KUrl m_readOnlyQuery;
