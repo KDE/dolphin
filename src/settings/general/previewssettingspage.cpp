@@ -187,18 +187,6 @@ void PreviewsSettingsPage::loadPreviewPlugins()
     foreach (const KSharedPtr<KService>& service, plugins) {
         const bool configurable = service->property("Configurable", QVariant::Bool).toBool();
         const bool show = m_enabledPreviewPlugins.contains(service->desktopEntryName());
-        if (service->desktopEntryName() == QLatin1String("jpegrotatedthumbnail")) {
-            // Before KDE SC 4.7 thumbnail plugins where not configurable and in addition to
-            // the jpegthumbnail-plugin a jpegrotatedthumbnail-plugin was offered. Make this
-            // plugin obsolete for users that updated from a previous KDE SC version:
-            if (show) {
-                m_enabledPreviewPlugins.removeOne(service->desktopEntryName());
-                KConfigGroup globalConfig(KGlobal::config(), QLatin1String("PreviewSettings"));
-                globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
-                globalConfig.sync();
-            }
-            continue;
-        }
 
         model->insertRow(0);
         const QModelIndex index = model->index(0, 0);
@@ -218,6 +206,19 @@ void PreviewsSettingsPage::loadSettings()
                                                      << QLatin1String("directorythumbnail")
                                                      << QLatin1String("imagethumbnail")
                                                      << QLatin1String("jpegthumbnail"));
+
+    // If the user is upgrading from KDE <= 4.6, we must check if he had the 'jpegrotatedthumbnail' plugin enabled.
+    // This plugin does not exist any more in KDE >= 4.7, so we have to replace it with the 'jpegthumbnail' plugin.
+    //
+    // Note that the upgrade to the correct plugin is done already in KFilePreviewGenerator. However, if Konqueror is
+    // opened in web browsing mode and the Settings dialog is opened, we might end up here before KFilePreviewGenerator's
+    // constructor is ever called -> the plugin replacement should be done here as well.
+    if(m_enabledPreviewPlugins.contains(QLatin1String("jpegrotatedthumbnail"))) {
+        m_enabledPreviewPlugins.removeAll(QLatin1String("jpegrotatedthumbnail"));
+        m_enabledPreviewPlugins.append(QLatin1String("jpegthumbnail"));
+        globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
+        globalConfig.sync();
+    }
 
     const int maxLocalByteSize = globalConfig.readEntry("MaximumSize", MaxLocalPreviewSize * 1024 * 1024);
     const int maxLocalMByteSize = maxLocalByteSize / (1024 * 1024);
