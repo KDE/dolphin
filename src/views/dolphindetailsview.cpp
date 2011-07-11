@@ -127,6 +127,7 @@ DolphinDetailsView::DolphinDetailsView(QWidget* parent,
                        settings->italicFont());
         m_font.setPointSizeF(settings->fontSize());
     }
+    setFont(m_font);
 
     setVerticalScrollMode(QTreeView::ScrollPerPixel);
     setHorizontalScrollMode(QTreeView::ScrollPerPixel);
@@ -456,8 +457,8 @@ void DolphinDetailsView::resizeColumns()
 
     QHeaderView* headerView = header();
     const int rowCount = model()->rowCount();
-    QFontMetrics fontMetrics(viewport()->font());
-    const int horizontalGap = fontMetrics.height();
+    QFontMetrics fontMetrics(m_font);
+    const int horizontalGap = 2 * (style()->pixelMetric(QStyle::PM_FocusFrameHMargin) + 1) + 4; // Hardcoded values taken from Qt
 
     // Define the maximum number of rows, where an exact (but expensive) calculation
     // of the widths is done.
