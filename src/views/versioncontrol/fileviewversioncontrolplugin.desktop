@@ -3,6 +3,7 @@ Type=ServiceType
 X-KDE-ServiceType=FileViewVersionControlPlugin
 Comment=Version Control Plugin for File Views
 Comment[ar]=ملحق التحكم بالإصدارات لعروض الملفات
+Comment[as]=নথিপত্ৰ দৰ্শনসমূহৰ বাবে সংস্কৰণ নিয়ন্ত্ৰণ প্লাগিন
 Comment[ast]=Complementu de control de versiones pa vistes de ficheros
 Comment[bg]=Приставка за контрол на версиите при преглед на файлове
 Comment[bs]=Priključak upravljanja verzijama za datotečne prikaze
