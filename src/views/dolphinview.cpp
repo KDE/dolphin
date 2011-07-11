@@ -97,7 +97,6 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_dolphinViewController = new DolphinViewController(this);
 
     m_viewModeController = new ViewModeController(this);
-    m_viewModeController->setUrl(url);
 
     connect(m_viewModeController, SIGNAL(urlChanged(const KUrl&)),
             this, SIGNAL(urlChanged(const KUrl&)));
@@ -140,6 +139,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
             this, SLOT(emitSelectionChangedSignal()));
 
     applyViewProperties();
+    setUrl(url);
     m_topLayout->addWidget(m_viewAccessor.layoutTarget());
 }
 
@@ -772,14 +772,6 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
     }
 
     return QWidget::eventFilter(watched, event);
-}
-
-void DolphinView::showEvent(QShowEvent* event)
-{
-    QWidget::showEvent(event);
-    if (!event->spontaneous()) {
-        loadDirectory(url());
-    }
 }
 
 void DolphinView::activate()
