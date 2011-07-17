@@ -83,9 +83,9 @@ DolphinApplication* DolphinApplication::app()
 
 void DolphinApplication::restoreSession()
 {
-    const QString className = KXmlGuiWindow::classNameOfToplevel(0);
+    const QString className = KXmlGuiWindow::classNameOfToplevel(1);
     if (className == QLatin1String("DolphinMainWindow")) {
-        m_mainWindow->restore(0);
+        m_mainWindow->restore(1);
     } else {
         kWarning() << "Unknown class " << className << " in session saved data!";
     }
