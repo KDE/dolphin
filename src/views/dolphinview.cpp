@@ -1253,7 +1253,6 @@ void DolphinView::createView()
 void DolphinView::deleteView()
 {
     QAbstractItemView* view = m_viewAccessor.itemView();
-    Q_ASSERT(!m_dolphinViewController->itemView() || (m_dolphinViewController->itemView() == view));
     m_dolphinViewController->setItemView(0);
 
     if (view) {
