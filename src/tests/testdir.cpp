@@ -27,8 +27,20 @@
 #include <sys/utime.h>
 #endif
 
-/** The following function is taken from kdelibs/kio/tests/kiotesthelper.h, copyright (C) 2006 by David Faure */
+TestDir::TestDir()
+{
+}
 
+TestDir::~TestDir()
+{
+}
+
+KUrl TestDir::url() const
+{
+    return KUrl(name());
+}
+
+/** The following function is taken from kdelibs/kio/tests/kiotesthelper.h, copyright (C) 2006 by David Faure */
 static void setTimeStamp(const QString& path, const QDateTime& mtime)
 {
 #ifdef Q_OS_UNIX
@@ -63,7 +75,7 @@ void TestDir::createFile(const QString& path, const QByteArray& data, const QDat
 
 void TestDir::createFiles(const QStringList& files)
 {
-    foreach(const QString& path, files) {
+    foreach (const QString& path, files) {
         createFile(path);
     }
 }

@@ -32,7 +32,7 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinDirLister : public KDirLister
     Q_OBJECT
 
 public:
-    DolphinDirLister();
+    DolphinDirLister(QObject* parent = 0);
     virtual ~DolphinDirLister();
 
 signals:

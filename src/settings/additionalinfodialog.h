@@ -20,8 +20,8 @@
 #ifndef ADDITIONALINFODIALOG_H
 #define ADDITIONALINFODIALOG_H
 
+#include <views/dolphinview.h>
 #include <KDialog>
-#include <KFileItemDelegate>
 #include <QList>
 
 class QCheckBox;
@@ -34,15 +34,15 @@ class AdditionalInfoDialog : public KDialog
     Q_OBJECT
 
 public:
-    AdditionalInfoDialog(QWidget* parent, KFileItemDelegate::InformationList infoList);
+    AdditionalInfoDialog(QWidget* parent, const QList<DolphinView::AdditionalInfo>& infoList);
     virtual ~AdditionalInfoDialog();
-    KFileItemDelegate::InformationList informationList() const;
+    QList<DolphinView::AdditionalInfo> informationList() const;
 
 private slots:
     void slotOk();
 
 private:
-    KFileItemDelegate::InformationList m_infoList;
+    QList<DolphinView::AdditionalInfo> m_infoList;
     QList<QCheckBox*> m_checkBoxes;
 };
 

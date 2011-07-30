@@ -26,9 +26,6 @@
 #include <QHeaderView>
 #include <QScrollBar>
 
-#include <views/dolphinmodel.h>
-#include <views/draganddrophelper.h>
-
 PanelTreeView::PanelTreeView(QWidget* parent) :
     KTreeView(parent)
 {
@@ -69,10 +66,10 @@ bool PanelTreeView::event(QEvent* event)
     switch (event->type()) {
     case QEvent::Polish:
         // Hide all columns except of the 'Name' column
-        for (int i = DolphinModel::Name + 1; i < DolphinModel::ExtraColumnCount; ++i) {
+        /*for (int i = DolphinModel::Name + 1; i < DolphinModel::ExtraColumnCount; ++i) {
             hideColumn(i);
         }
-        header()->hide();
+        header()->hide();*/
         break;
 
     case QEvent::Show:
@@ -97,7 +94,8 @@ bool PanelTreeView::event(QEvent* event)
 
 void PanelTreeView::startDrag(Qt::DropActions supportedActions)
 {
-    DragAndDropHelper::instance().startDrag(this, supportedActions);
+    Q_UNUSED(supportedActions);
+    //DragAndDropHelper::instance().startDrag(this, supportedActions);
 }
 
 void PanelTreeView::dragEnterEvent(QDragEnterEvent* event)

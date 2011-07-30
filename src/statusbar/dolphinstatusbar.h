@@ -137,9 +137,8 @@ private slots:
      */
     void setZoomLevel(int zoomLevel);
 
-    void zoomOut();
-    void zoomIn();
     void showZoomSliderToolTip(int zoomLevel);
+    void slotZoomLevelChanged(int current, int previous);
 
     void updateProgressInfo();
 
@@ -163,10 +162,7 @@ private:
     KonqStatusBarMessageLabel* m_messageLabel;
     StatusBarSpaceInfo* m_spaceInfo;
 
-    QWidget* m_zoomWidget;
-    QToolButton* m_zoomOut;
     QSlider* m_zoomSlider;
-    QToolButton* m_zoomIn;
 
     QLabel* m_progressText;
     QProgressBar* m_progressBar;

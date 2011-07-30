@@ -25,7 +25,6 @@
 #include <KLocale>
 #include <KStandardDirs>
 
-#include "dolphin_columnmodesettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
@@ -45,17 +44,11 @@ DolphinSettings& DolphinSettings::instance()
 void DolphinSettings::save()
 {
     m_generalSettings->writeConfig();
-    m_iconsModeSettings->writeConfig();
-    m_detailsModeSettings->writeConfig();
-    m_columnModeSettings->writeConfig();
 }
 
 DolphinSettings::DolphinSettings()
 {
     m_generalSettings = new GeneralSettings();
-    m_iconsModeSettings = new IconsModeSettings();
-    m_detailsModeSettings = new DetailsModeSettings();
-    m_columnModeSettings = new ColumnModeSettings();
     m_placesModel = new KFilePlacesModel();
 }
 
@@ -63,15 +56,6 @@ DolphinSettings::~DolphinSettings()
 {
     delete m_generalSettings;
     m_generalSettings = 0;
-
-    delete m_iconsModeSettings;
-    m_iconsModeSettings = 0;
-
-    delete m_detailsModeSettings;
-    m_detailsModeSettings = 0;
-
-    delete m_columnModeSettings;
-    m_columnModeSettings = 0;
 
     delete m_placesModel;
     m_placesModel = 0;

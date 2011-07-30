@@ -39,9 +39,6 @@
 #include <QScrollBar>
 #include <QTimer>
 
-#include <views/draganddrophelper.h>
-#include <views/dolphinmodel.h>
-#include <views/dolphinsortfilterproxymodel.h>
 #include <views/dolphinview.h>
 #include <views/folderexpander.h>
 #include <views/renamedialog.h>
@@ -51,8 +48,8 @@ FoldersPanel::FoldersPanel(QWidget* parent) :
     m_setLeafVisible(false),
     m_mouseButtons(Qt::NoButton),
     m_dirLister(0),
-    m_dolphinModel(0),
-    m_proxyModel(0),
+    //m_dolphinModel(0),
+    //m_proxyModel(0),
     m_treeView(0),
     m_leafDir()
 {
@@ -63,25 +60,26 @@ FoldersPanel::~FoldersPanel()
 {
     FoldersPanelSettings::self()->writeConfig();
 
-    delete m_proxyModel;
-    m_proxyModel = 0;
-    delete m_dolphinModel;
-    m_dolphinModel = 0;
-    m_dirLister = 0; // deleted by m_dolphinModel
+    //delete m_proxyModel;
+    //m_proxyModel = 0;
+    //delete m_dolphinModel;
+    //m_dolphinModel = 0;
+    delete m_dirLister;
+    m_dirLister = 0;
 }
 
-void FoldersPanel::setShowHiddenFiles(bool show)
+void FoldersPanel::setHiddenFilesShown(bool show)
 {
-    FoldersPanelSettings::setShowHiddenFiles(show);
+    FoldersPanelSettings::setHiddenFilesShown(show);
     if (m_dirLister) {
         m_dirLister->setShowingDotFiles(show);
         m_dirLister->openUrl(m_dirLister->url(), KDirLister::Reload);
     }
 }
 
-bool FoldersPanel::showHiddenFiles() const
+bool FoldersPanel::hiddenFilesShown() const
 {
-    return FoldersPanelSettings::showHiddenFiles();
+    return FoldersPanelSettings::hiddenFilesShown();
 }
 
 void FoldersPanel::setAutoScrolling(bool enable)
@@ -98,9 +96,9 @@ bool FoldersPanel::autoScrolling() const
 void FoldersPanel::rename(const KFileItem& item)
 {
     if (DolphinSettings::instance().generalSettings()->renameInline()) {
-        const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
-        const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        m_treeView->edit(proxyIndex);
+        //const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
+        //const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+        //m_treeView->edit(proxyIndex);
     } else {
         RenameDialog* dialog = new RenameDialog(this, KFileItemList() << item);
         dialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -143,10 +141,10 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_dirLister->setMainWindow(window());
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
-        m_dirLister->setShowingDotFiles(FoldersPanelSettings::showHiddenFiles());
+        m_dirLister->setShowingDotFiles(FoldersPanelSettings::hiddenFilesShown());
         connect(m_dirLister, SIGNAL(completed()), this, SLOT(slotDirListerCompleted()));
 
-        Q_ASSERT(!m_dolphinModel);
+        /*Q_ASSERT(!m_dolphinModel);
         m_dolphinModel = new DolphinModel(this);
         m_dolphinModel->setDirLister(m_dirLister);
         m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
@@ -180,7 +178,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
 
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
-        layout->addWidget(m_treeView);
+        layout->addWidget(m_treeView);*/
     }
 
     loadTree(url());
@@ -192,11 +190,11 @@ void FoldersPanel::contextMenuEvent(QContextMenuEvent* event)
     Panel::contextMenuEvent(event);
 
     KFileItem item;
-    const QModelIndex index = m_treeView->indexAt(event->pos());
+    /*const QModelIndex index = m_treeView->indexAt(event->pos());
     if (index.isValid()) {
         const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
         item = m_dolphinModel->itemForIndex(dolphinModelIndex);
-    }
+    }*/
 
     QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, item);
     contextMenu->open();
@@ -216,22 +214,25 @@ void FoldersPanel::keyPressEvent(QKeyEvent* event)
 
 void FoldersPanel::updateActiveView(const QModelIndex& index)
 {
-    const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
+    Q_UNUSED(index);
+    /*const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
     const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
     if (!item.isNull()) {
         emit changeUrl(item.url(), m_mouseButtons);
-    }
+    }*/
 }
 
 void FoldersPanel::dropUrls(const QModelIndex& index, QDropEvent* event)
 {
+    Q_UNUSED(event);
     if (index.isValid()) {
-        const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
+        /*const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
         KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
         Q_ASSERT(!item.isNull());
         if (item.isDir()) {
-            DragAndDropHelper::instance().dropUrls(item, item.url(), event, this);
-        }
+            Q_UNUSED(event);
+            //DragAndDropHelper::instance().dropUrls(item, item.url(), event, this);
+        }*/
     }
 }
 
@@ -243,11 +244,11 @@ void FoldersPanel::expandToDir(const QModelIndex& index)
 
 void FoldersPanel::scrollToLeaf()
 {
-    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
+    /*const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
     if (proxyIndex.isValid()) {
         m_treeView->scrollTo(proxyIndex);
-    }
+    }*/
 }
 
 void FoldersPanel::updateMouseButtons()
@@ -257,7 +258,7 @@ void FoldersPanel::updateMouseButtons()
 
 void FoldersPanel::slotDirListerCompleted()
 {
-    m_treeView->resizeColumnToContents(DolphinModel::Name);
+//    m_treeView->resizeColumnToContents(DolphinModel::Name);
 }
 
 void FoldersPanel::slotHorizontalScrollBarMoved(int value)
@@ -295,12 +296,12 @@ void FoldersPanel::loadTree(const KUrl& url)
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl, KDirLister::Reload);
     }
-    m_dolphinModel->expandToUrl(m_leafDir);
+    //m_dolphinModel->expandToUrl(m_leafDir);
 }
 
 void FoldersPanel::selectLeafDirectory()
 {
-    const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
+    /*const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
     const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
 
     if (proxyIndex.isValid()) {
@@ -314,7 +315,7 @@ void FoldersPanel::selectLeafDirectory()
             QTimer::singleShot(0, this, SLOT(scrollToLeaf()));
             m_setLeafVisible = false;
         }
-    }
+    }*/
 }
 
 #include "folderspanel.moc"

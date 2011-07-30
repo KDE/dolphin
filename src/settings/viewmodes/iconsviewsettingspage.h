@@ -20,7 +20,6 @@
 #ifndef ICONSVIEWSETTINGSPAGE_H
 #define ICONSVIEWSETTINGSPAGE_H
 
-#include <views/dolphiniconsview.h>
 #include "viewsettingspagebase.h"
 
 class DolphinFontRequester;
@@ -36,10 +35,7 @@ class KIntSpinBox;
  * - icon size
  * - preview size
  * - text width
- * - grid spacing
  * - font
- * - number of text lines
- * - arrangement
  *
  * @see DolphinIconsViewSettings
  */
@@ -65,23 +61,9 @@ private:
     void loadSettings();
 
 private:
-    enum
-    {
-        GridSpacingBase =   8,
-        GridSpacingInc  =  12,
-        LeftToRightBase = 128,
-        LeftToRightInc  =  64,
-        TopToBottomBase =  32,
-        TopToBottomInc  =  32
-    };
-
     IconSizeGroupBox* m_iconSizeGroupBox;
     KComboBox* m_textWidthBox;
     DolphinFontRequester* m_fontRequester;
-    KIntSpinBox* m_textlinesCountBox;
-
-    KComboBox* m_arrangementBox;
-    KComboBox* m_gridSpacingBox;
 };
 
 #endif

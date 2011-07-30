@@ -1,4 +1,4 @@
 File=dolphin_iconsmodesettings.kcfg
 ClassName=IconsModeSettings
-Singleton=false 
+Singleton=yes
 Mutators=true

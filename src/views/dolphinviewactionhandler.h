@@ -124,7 +124,7 @@ private Q_SLOTS:
     void togglePreview(bool);
 
     /** Updates the state of the 'Show preview' menu action. */
-    void slotShowPreviewChanged();
+    void slotPreviewsShownChanged(bool shown);
 
     /** Increases the size of the current set view mode. */
     void zoomIn();
@@ -156,7 +156,7 @@ private Q_SLOTS:
     /**
      * Updates the state of the 'Zoom In' and 'Zoom Out' actions.
      */
-    void slotZoomLevelChanged(int level);
+    void slotZoomLevelChanged(int current, int previous);
 
     /**
      * Switches on or off the displaying of additional information
@@ -172,7 +172,8 @@ private Q_SLOTS:
     /**
      * Updates the state of the 'Additional Information' actions.
      */
-    void slotAdditionalInfoChanged();
+    void slotAdditionalInfoListChanged(const QList<DolphinView::AdditionalInfo>& current,
+                                       const QList<DolphinView::AdditionalInfo>& previous);
 
     /**
      * Switches between sorting by categories or not.
@@ -182,7 +183,7 @@ private Q_SLOTS:
     /**
      * Updates the state of the 'Categorized sorting' menu action.
      */
-    void slotCategorizedSortingChanged();
+    void slotCategorizedSortingChanged(bool sortCategorized);
 
     /**
      * Switches between showing and hiding of hidden marked files
@@ -192,7 +193,7 @@ private Q_SLOTS:
     /**
      * Updates the state of the 'Show hidden files' menu action.
      */
-    void slotShowHiddenFilesChanged();
+    void slotHiddenFilesShownChanged(bool shown);
 
     /**
      * Opens the view properties dialog, which allows to modify the properties
@@ -234,16 +235,16 @@ private:
     KToggleAction* iconsModeAction();
 
     /**
+     * Returns the "switch to compact mode" action.
+     * Helper method for createActions();
+     */
+    KToggleAction* compactModeAction();
+
+    /**
      * Returns the "switch to details mode" action.
      * Helper method for createActions();
      */
     KToggleAction* detailsModeAction();
-
-    /**
-     * Returns the "switch to columns mode" action.
-     * Helper method for createActions();
-     */
-    KToggleAction* columnsModeAction();
 
     KActionCollection* m_actionCollection;
     DolphinView* m_currentView;

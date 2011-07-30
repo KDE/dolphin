@@ -42,7 +42,6 @@
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinremoteencoding.h"
-#include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
 
 #ifndef Q_OS_WIN
@@ -161,8 +160,8 @@ DolphinMainWindow::DolphinMainWindow() :
             this, SLOT(showCommand(CommandType)));
     connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(const QString&)),
             this, SLOT(showErrorMessage(const QString&)));
-    connect(&DragAndDropHelper::instance(), SIGNAL(errorMessage(const QString&)),
-            this, SLOT(showErrorMessage(const QString&)));
+    //connect(&DragAndDropHelper::instance(), SIGNAL(errorMessage(const QString&)),
+    //        this, SLOT(showErrorMessage(const QString&)));
 
     const DolphinSettings& settings = DolphinSettings::instance();
 
@@ -725,14 +724,14 @@ void DolphinMainWindow::readProperties(const KConfigGroup& group)
 
 void DolphinMainWindow::updateNewMenu()
 {
-    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
+    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->hiddenFilesShown());
     m_newFileMenu->checkUpToDate();
     m_newFileMenu->setPopupFiles(activeViewContainer()->url());
 }
 
 void DolphinMainWindow::createDirectory()
 {
-    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->showHiddenFiles());
+    m_newFileMenu->setViewShowsHiddenFiles(activeViewContainer()->view()->hiddenFilesShown());
     m_newFileMenu->setPopupFiles(activeViewContainer()->url());
     m_newFileMenu->createDirectory();
 }
@@ -1313,7 +1312,8 @@ void DolphinMainWindow::tabDropEvent(int tab, QDropEvent* event)
     if (!urls.isEmpty() && tab != -1) {
         const ViewTab& viewTab = m_viewTab[tab];
         const KUrl destPath = viewTab.isPrimaryViewActive ? viewTab.primaryView->url() : viewTab.secondaryView->url();
-        DragAndDropHelper::instance().dropUrls(KFileItem(), destPath, event, m_tabBar);
+        Q_UNUSED(destPath);
+        //DragAndDropHelper::instance().dropUrls(KFileItem(), destPath, event, m_tabBar);
     }
 }
 
@@ -2178,7 +2178,7 @@ void DolphinMainWindow::createSecondaryView(int tabIndex)
     const int newWidth = (m_viewTab[tabIndex].primaryView->width() - splitter->handleWidth()) / 2;
 
     const DolphinView* view = m_viewTab[tabIndex].primaryView->view();
-    m_viewTab[tabIndex].secondaryView = createViewContainer(view->rootUrl(), 0);
+    m_viewTab[tabIndex].secondaryView = createViewContainer(view->url(), 0);
     splitter->addWidget(m_viewTab[tabIndex].secondaryView);
     splitter->setSizes(QList<int>() << newWidth << newWidth);
     connectViewSignals(m_viewTab[tabIndex].secondaryView);

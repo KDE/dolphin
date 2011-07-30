@@ -6,13 +6,8 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <include>kglobalsettings.h</include>
     <include>kiconloader.h</include>
-    <include>QListView</include>
     <kcfgfile name="dolphinrc"/>
     <group name="IconsMode">
-        <entry name="Arrangement" type="Int">
-            <label>Arrangement</label>
-            <default code="true">QListView::TopToBottom</default>
-        </entry>
         <entry name="UseSystemFont" type="Bool">
             <label>Use system font</label>
             <default>true</default>
@@ -33,38 +28,17 @@
             <label>Font weight</label>
             <default>0</default>
         </entry>
-        <entry name="ItemHeight" type="Int">
-            <label>Item height</label>
-            <!--
-                 check 'void IconsViewSettingsPage::applySettings()' as reference (iconsviewsettingspage.cpp):
-                 itemHeight += fontHeight * numberOfTextlines + 10;
-            /-->
-            <default code="true">KIconLoader::SizeMedium + QFontMetrics(KGlobalSettings::generalFont()).height() * 2 + 10</default>
-        </entry>
-        <entry name="ItemWidth" type="Int">
-            <label>Item width</label>
-            <!--
-                 check 'void IconsViewSettingsPage::applySettings()' as reference (iconsviewsettingspage.cpp):
-                 itemWidth = TopToBottomBase + textSizeIndex * TopToBottomInc;
-            /-->
-            <default>96</default>
-        </entry>
-        <entry name="GridSpacing" type="Int">
-            <label>Grid spacing</label>
-            <default>8</default>
-        </entry>
         <entry name="IconSize" type="Int">
             <label>Icon size</label>
             <default code="true">KIconLoader::SizeMedium</default>
         </entry>
-        <entry name="NumberOfTextlines" type="Int">
-            <label>Number of textlines</label>
-            <!-- don't forget adjusting the "ItemHeight" too when changing this value /-->
-            <default>2</default>
-        </entry>
         <entry name="PreviewSize" type="Int">
             <label>Preview size</label>
             <default code="true">KIconLoader::SizeHuge</default>
+        </entry>
+        <entry name="TextWidthIndex" type="Int">
+            <label>Text width index</label>
+            <default>1</default>
         </entry>
     </group>
 </kcfg>

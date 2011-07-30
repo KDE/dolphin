@@ -3,6 +3,9 @@ macro_log_feature(Nepomuk_FOUND "Nepomuk" "Nepomuk" "http://www.kde.org" FALSE "
 macro_bool_to_01(Nepomuk_FOUND HAVE_NEPOMUK)
 configure_file(config-nepomuk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-nepomuk.h )
 
+macro_bool_to_01(X11_Xrender_FOUND HAVE_XRENDER)
+configure_file(config-X11.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-X11.h )
+
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} )
 
 if (Nepomuk_FOUND)
@@ -15,47 +18,49 @@ add_subdirectory(tests)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
+    kitemviews/kfileitemlistview.cpp
+    kitemviews/kfileitemlistwidget.cpp
+    kitemviews/kfileitemmodel.cpp
+    kitemviews/kfileitemmodelrolesupdater.cpp
+    kitemviews/kitemlistcontainer.cpp
+    kitemviews/kitemlistcontroller.cpp
+    kitemviews/kitemlistgroupheader.cpp
+    kitemviews/kitemlistselectionmanager.cpp
+    kitemviews/kitemlistsizehintresolver.cpp
+    kitemviews/kitemliststyleoption.cpp
+    kitemviews/kitemlistview.cpp
+    kitemviews/kitemlistviewanimation.cpp
+    kitemviews/kitemlistviewlayouter.cpp
+    kitemviews/kitemlistwidget.cpp
+    kitemviews/kitemmodelbase.cpp
+    kitemviews/kpixmapmodifier.cpp
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
     settings/dolphinsettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     views/additionalinfoaccessor.cpp
-    views/dolphincategorydrawer.cpp
     views/dolphindirlister.cpp
     views/dolphinview.cpp
-    views/dolphindetailsview.cpp
-    views/dolphindetailsviewexpander.cpp
-    views/dolphinfileitemdelegate.cpp
-    views/dolphiniconsview.cpp
-    views/dolphincolumnview.cpp
-    views/dolphincolumnviewcontainer.cpp
-    views/dolphinmodel.cpp
+    views/dolphinitemlistcontainer.cpp
     views/dolphinnewfilemenuobserver.cpp
     views/dolphinremoteencoding.cpp
-    views/dolphinsortfilterproxymodel.cpp
-    views/dolphintreeview.cpp
     views/dolphinviewactionhandler.cpp
     views/dolphinviewautoscroller.cpp
-    views/dolphinviewcontroller.cpp
-    views/draganddrophelper.cpp
     views/folderexpander.cpp
     views/renamedialog.cpp
-    views/selectiontoggle.cpp
-    views/selectionmanager.cpp
     views/tooltips/filemetadatatooltip.cpp
     views/tooltips/tooltipmanager.cpp
     views/versioncontrol/pendingthreadsmaintainer.cpp
     views/versioncontrol/updateitemstatesthread.cpp
     views/versioncontrol/versioncontrolobserver.cpp
-    views/viewextensionsfactory.cpp
     views/viewmodecontroller.cpp
     views/viewproperties.cpp
     views/zoomlevelinfo.cpp
 )
 
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
-    settings/dolphin_columnmodesettings.kcfgc
+    settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
@@ -69,6 +74,10 @@ target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF3_L
 if (Nepomuk_FOUND)
   target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} nepomukutils ${SOPRANO_LIBRARIES})
 endif (Nepomuk_FOUND)
+if(X11_Xrender_FOUND)
+  target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
+endif(X11_Xrender_FOUND)
+
 
 
 set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
@@ -129,7 +138,6 @@ set(dolphin_SRCS
     settings/servicemodel.cpp
     settings/startup/startupsettingspage.cpp
     settings/trash/trashsettingspage.cpp
-    settings/viewmodes/columnviewsettingspage.cpp
     settings/viewmodes/detailsviewsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
     settings/viewmodes/iconsizegroupbox.cpp
@@ -144,6 +152,9 @@ set(dolphin_SRCS
 kde4_add_kcfg_files(dolphin_SRCS
     panels/folders/dolphin_folderspanelsettings.kcfgc
     panels/information/dolphin_informationpanelsettings.kcfgc
+    settings/dolphin_compactmodesettings.kcfgc
+    settings/dolphin_detailsmodesettings.kcfgc
+    settings/dolphin_iconsmodesettings.kcfgc
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc
 )
@@ -190,7 +201,6 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(kcm_dolphinviewmodes_PART_SRCS
     settings/kcm/kcmdolphinviewmodes.cpp
-    settings/viewmodes/columnviewsettingspage.cpp
     settings/viewmodes/detailsviewsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
     settings/viewmodes/iconsizegroupbox.cpp
@@ -221,7 +231,7 @@ set(kcm_dolphingeneral_PART_SRCS
     settings/servicemodel.cpp)
 
 kde4_add_kcfg_files(kcm_dolphinviewmodes_PART_SRCS
-    settings/dolphin_columnmodesettings.kcfgc
+    settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
@@ -273,7 +283,7 @@ install(TARGETS kio_filenamesearch DESTINATION ${PLUGIN_INSTALL_DIR})
 install( PROGRAMS dolphin.desktop DESTINATION ${XDG_APPS_INSTALL_DIR} )
 install( FILES settings/dolphin_directoryviewpropertysettings.kcfg
                settings/dolphin_generalsettings.kcfg
-               settings/dolphin_columnmodesettings.kcfg
+               settings/dolphin_compactmodesettings.kcfg
                settings/dolphin_iconsmodesettings.kcfg
                settings/dolphin_detailsmodesettings.kcfg
                settings/dolphin_versioncontrolsettings.kcfg

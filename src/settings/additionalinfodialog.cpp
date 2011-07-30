@@ -28,7 +28,7 @@
 #include "views/additionalinfoaccessor.h"
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
-                                           KFileItemDelegate::InformationList infoList) :
+                                           const QList<DolphinView::AdditionalInfo>& infoList) :
     KDialog(parent),
     m_infoList(infoList),
     m_checkBoxes()
@@ -49,8 +49,8 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
 
     // Add checkboxes
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const KFileItemDelegate::InformationList keys = infoAccessor.keys();
-    foreach (const KFileItemDelegate::Information info, keys) {
+    const QList<DolphinView::AdditionalInfo> keys = infoAccessor.keys();
+    foreach (DolphinView::AdditionalInfo info, keys) {
         QCheckBox* checkBox = new QCheckBox(infoAccessor.translation(info), mainWidget);
         checkBox->setChecked(infoList.contains(info));
         layout->addWidget(checkBox);
@@ -75,7 +75,7 @@ AdditionalInfoDialog::~AdditionalInfoDialog()
     saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
-KFileItemDelegate::InformationList AdditionalInfoDialog::informationList() const
+QList<DolphinView::AdditionalInfo> AdditionalInfoDialog::informationList() const
 {
     return m_infoList;
 }
@@ -84,9 +84,9 @@ void AdditionalInfoDialog::slotOk()
 {
     m_infoList.clear();
 
-    const KFileItemDelegate::InformationList keys = AdditionalInfoAccessor::instance().keys();
+    const QList<DolphinView::AdditionalInfo> keys = AdditionalInfoAccessor::instance().keys();
     int index = 0;
-    foreach (const KFileItemDelegate::Information info, keys) {
+    foreach (DolphinView::AdditionalInfo info, keys) {
         if (m_checkBoxes[index]->isChecked()) {
             m_infoList.append(info);
         }

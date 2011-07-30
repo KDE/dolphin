@@ -36,6 +36,8 @@
 #include <KRun>
 #include <KPropertiesDialog>
 
+#include <KDebug>
+
 DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
     : QObject(parent),
       m_actionCollection(collection),
@@ -49,29 +51,32 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
 {
     Q_ASSERT(view);
 
-    if (m_currentView)
+    if (m_currentView) {
         disconnect(m_currentView, 0, this, 0);
+    }
 
     m_currentView = view;
 
-    connect(view, SIGNAL(modeChanged()),
+    connect(view, SIGNAL(modeChanged(DolphinView::Mode, DolphinView::Mode)),
             this, SLOT(updateViewActions()));
-    connect(view, SIGNAL(showPreviewChanged()),
-            this, SLOT(slotShowPreviewChanged()));
+    connect(view, SIGNAL(previewsShownChanged(bool)),
+            this, SLOT(slotPreviewsShownChanged(bool)));
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(view, SIGNAL(sortFoldersFirstChanged(bool)),
             this, SLOT(slotSortFoldersFirstChanged(bool)));
-    connect(view, SIGNAL(additionalInfoChanged()),
-            this, SLOT(slotAdditionalInfoChanged()));
-    connect(view, SIGNAL(categorizedSortingChanged()),
-            this, SLOT(slotCategorizedSortingChanged()));
-    connect(view, SIGNAL(showHiddenFilesChanged()),
-            this, SLOT(slotShowHiddenFilesChanged()));
+    connect(view, SIGNAL(additionalInfoListChanged(QList<DolphinView::AdditionalInfo>,
+                                                   QList<DolphinView::AdditionalInfo>)),
+            this, SLOT(slotAdditionalInfoListChanged(QList<DolphinView::AdditionalInfo>,
+                                                     QList<DolphinView::AdditionalInfo>)));
+    connect(view, SIGNAL(categorizedSortingChanged(bool)),
+            this, SLOT(slotCategorizedSortingChanged(bool)));
+    connect(view, SIGNAL(hiddenFilesShownChanged(bool)),
+            this, SLOT(slotHiddenFilesShownChanged(bool)));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
-    connect(view, SIGNAL(zoomLevelChanged(int)),
-            this, SLOT(slotZoomLevelChanged(int)));
+    connect(view, SIGNAL(zoomLevelChanged(int, int)),
+            this, SLOT(slotZoomLevelChanged(int, int)));
 }
 
 DolphinView* DolphinViewActionHandler::currentView()
@@ -130,14 +135,14 @@ void DolphinViewActionHandler::createActions()
 
     // View menu
     KToggleAction* iconsAction = iconsModeAction();
+    KToggleAction* compactAction = compactModeAction();
     KToggleAction* detailsAction = detailsModeAction();
-    KToggleAction* columnsAction = columnsModeAction();
 
     KSelectAction* viewModeActions = m_actionCollection->add<KSelectAction>("view_mode");
     viewModeActions->setText(i18nc("@action:intoolbar", "View Mode"));
     viewModeActions->addAction(iconsAction);
+    viewModeActions->addAction(compactAction);
     viewModeActions->addAction(detailsAction);
-    viewModeActions->addAction(columnsAction);
     viewModeActions->setToolBarMode(KSelectAction::MenuMode);
     connect(viewModeActions, SIGNAL(triggered(QAction*)), this, SLOT(slotViewModeActionTriggered(QAction*)));
 
@@ -214,8 +219,8 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
 
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
 
-    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
-    foreach (KFileItemDelegate::Information info, infoKeys) {
+    const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
+    foreach (DolphinView::AdditionalInfo info, infoList) {
         const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
         action->setText(infoAccessor.translation(info));
@@ -239,8 +244,8 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     sortByActionGroup->addAction(sortByName);
 
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
-    foreach (KFileItemDelegate::Information info, infoKeys) {
+    const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
+    foreach (DolphinView::AdditionalInfo info, infoList) {
         const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
         action->setText(infoAccessor.translation(info));
@@ -289,11 +294,12 @@ void DolphinViewActionHandler::slotDeleteItems()
 void DolphinViewActionHandler::togglePreview(bool show)
 {
     emit actionBeingHandled();
-    m_currentView->setShowPreview(show);
+    m_currentView->setPreviewsShown(show);
 }
 
-void DolphinViewActionHandler::slotShowPreviewChanged()
+void DolphinViewActionHandler::slotPreviewsShownChanged(bool shown)
 {
+    Q_UNUSED(shown);
     // It is not enough to update the 'Show Preview' action, also
     // the 'Zoom In' and 'Zoom Out' actions must be adapted.
     updateViewActions();
@@ -306,8 +312,8 @@ QString DolphinViewActionHandler::currentViewModeActionName() const
         return "icons";
     case DolphinView::DetailsView:
         return "details";
-    case DolphinView::ColumnView:
-        return "columns";
+    case DolphinView::CompactView:
+        return "compact";
     }
     return QString(); // can't happen
 }
@@ -328,17 +334,17 @@ void DolphinViewActionHandler::updateViewActions()
     }
 
     QAction* showPreviewAction = m_actionCollection->action("show_preview");
-    showPreviewAction->setChecked(m_currentView->showPreview());
+    showPreviewAction->setChecked(m_currentView->previewsShown());
 
     slotSortOrderChanged(m_currentView->sortOrder());
     slotSortFoldersFirstChanged(m_currentView->sortFoldersFirst());
-    slotAdditionalInfoChanged();
-    slotCategorizedSortingChanged();
+    slotAdditionalInfoListChanged(m_currentView->additionalInfoList(), QList<DolphinView::AdditionalInfo>());
+    slotCategorizedSortingChanged(m_currentView->categorizedSorting());
     slotSortingChanged(m_currentView->sorting());
-    slotZoomLevelChanged(m_currentView->zoomLevel());
+    slotZoomLevelChanged(m_currentView->zoomLevel(), -1);
 
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
-    showHiddenFilesAction->setChecked(m_currentView->showHiddenFiles());
+    showHiddenFilesAction->setChecked(m_currentView->hiddenFilesShown());
 }
 
 void DolphinViewActionHandler::zoomIn()
@@ -385,10 +391,10 @@ void DolphinViewActionHandler::toggleAdditionalInfo(QAction* action)
 {
     emit actionBeingHandled();
 
-    const KFileItemDelegate::Information info =
-        static_cast<KFileItemDelegate::Information>(action->data().toInt());
+    const DolphinView::AdditionalInfo info =
+        static_cast<DolphinView::AdditionalInfo>(action->data().toInt());
 
-    KFileItemDelegate::InformationList list = m_currentView->additionalInfo();
+    QList<DolphinView::AdditionalInfo> list = m_currentView->additionalInfoList();
 
     const bool show = action->isChecked();
 
@@ -396,17 +402,30 @@ void DolphinViewActionHandler::toggleAdditionalInfo(QAction* action)
     const bool containsInfo = (index >= 0);
     if (show && !containsInfo) {
         list.append(info);
-        m_currentView->setAdditionalInfo(list);
+        m_currentView->setAdditionalInfoList(list);
     } else if (!show && containsInfo) {
         list.removeAt(index);
-        m_currentView->setAdditionalInfo(list);
+        m_currentView->setAdditionalInfoList(list);
         Q_ASSERT(list.indexOf(info) < 0);
     }
 }
 
-void DolphinViewActionHandler::slotAdditionalInfoChanged()
+void DolphinViewActionHandler::slotAdditionalInfoListChanged(const QList<DolphinView::AdditionalInfo>& current,
+                                                             const QList<DolphinView::AdditionalInfo>& previous)
 {
-    m_currentView->updateAdditionalInfoActions(m_actionCollection);
+    Q_UNUSED(previous);
+
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+
+    const QList<DolphinView::AdditionalInfo> checkedInfo = current;
+    const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
+
+    foreach (DolphinView::AdditionalInfo info, infoList) {
+        const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
+        QAction* action = m_actionCollection->action(name);
+        Q_ASSERT(action);
+        action->setChecked(checkedInfo.contains(info));
+    }
 }
 
 void DolphinViewActionHandler::toggleSortCategorization(bool categorizedSorting)
@@ -414,23 +433,22 @@ void DolphinViewActionHandler::toggleSortCategorization(bool categorizedSorting)
     m_currentView->setCategorizedSorting(categorizedSorting);
 }
 
-void DolphinViewActionHandler::slotCategorizedSortingChanged()
+void DolphinViewActionHandler::slotCategorizedSortingChanged(bool sortCategorized)
 {
     QAction* showInGroupsAction = m_actionCollection->action("show_in_groups");
-    showInGroupsAction->setChecked(m_currentView->categorizedSorting());
-    showInGroupsAction->setEnabled(m_currentView->supportsCategorizedSorting());
+    showInGroupsAction->setChecked(sortCategorized);
 }
 
 void DolphinViewActionHandler::toggleShowHiddenFiles(bool show)
 {
     emit actionBeingHandled();
-    m_currentView->setShowHiddenFiles(show);
+    m_currentView->setHiddenFilesShown(show);
 }
 
-void DolphinViewActionHandler::slotShowHiddenFilesChanged()
+void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
 {
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
-    showHiddenFilesAction->setChecked(m_currentView->showHiddenFiles());
+    showHiddenFilesAction->setChecked(shown);
 }
 
 
@@ -445,26 +463,26 @@ KToggleAction* DolphinViewActionHandler::iconsModeAction()
     return iconsView;
 }
 
+KToggleAction* DolphinViewActionHandler::compactModeAction()
+{
+    KToggleAction* iconsView = m_actionCollection->add<KToggleAction>("compact");
+    iconsView->setText(i18nc("@action:inmenu View Mode", "Compact"));
+    iconsView->setToolTip(i18nc("@info", "Compact view mode"));
+    iconsView->setShortcut(Qt::CTRL | Qt::Key_2);
+    iconsView->setIcon(KIcon("view-list-details")); // TODO: discuss with Oxygen-team the wrong (?) name
+    iconsView->setData(QVariant::fromValue(DolphinView::CompactView));
+    return iconsView;
+}
+
 KToggleAction* DolphinViewActionHandler::detailsModeAction()
 {
     KToggleAction* detailsView = m_actionCollection->add<KToggleAction>("details");
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setToolTip(i18nc("@info", "Details view mode"));
-    detailsView->setShortcut(Qt::CTRL | Qt::Key_2);
-    detailsView->setIcon(KIcon("view-list-details"));
+    detailsView->setShortcut(Qt::CTRL | Qt::Key_3);
+    detailsView->setIcon(KIcon("view-list-text"));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
     return detailsView;
-}
-
-KToggleAction* DolphinViewActionHandler::columnsModeAction()
-{
-    KToggleAction* columnView = m_actionCollection->add<KToggleAction>("columns");
-    columnView->setText(i18nc("@action:inmenu View Mode", "Columns"));
-    columnView->setToolTip(i18nc("@info", "Columns view mode"));
-    columnView->setShortcut(Qt::CTRL | Qt::Key_3);
-    columnView->setIcon(KIcon("view-file-columns"));
-    columnView->setData(QVariant::fromValue(DolphinView::ColumnView));
-    return columnView;
 }
 
 void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
@@ -474,8 +492,8 @@ void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
         action = m_actionCollection->action("sort_by_name");
     } else {
         const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-        const KFileItemDelegate::InformationList infoKeys = infoAccessor.keys();
-        foreach (const KFileItemDelegate::Information info, infoKeys) {
+        const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
+        foreach (DolphinView::AdditionalInfo info, infoList) {
             if (sorting == infoAccessor.sorting(info)) {
                 const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
                 action = m_actionCollection->action(name);
@@ -492,16 +510,18 @@ void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
     }
 }
 
-void DolphinViewActionHandler::slotZoomLevelChanged(int level)
+void DolphinViewActionHandler::slotZoomLevelChanged(int current, int previous)
 {
+    Q_UNUSED(previous);
+
     QAction* zoomInAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomIn));
     if (zoomInAction) {
-        zoomInAction->setEnabled(level < ZoomLevelInfo::maximumLevel());
+        zoomInAction->setEnabled(current < ZoomLevelInfo::maximumLevel());
     }
 
     QAction* zoomOutAction = m_actionCollection->action(KStandardAction::name(KStandardAction::ZoomOut));
     if (zoomOutAction) {
-        zoomOutAction->setEnabled(level > ZoomLevelInfo::minimumLevel());
+        zoomOutAction->setEnabled(current > ZoomLevelInfo::minimumLevel());
     }
 }
 

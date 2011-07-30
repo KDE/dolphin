@@ -6,8 +6,8 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <kcfgfile name="dolphinrc"/>
     <group name="InformationPanel">
-        <entry name="showPreview" type="Bool">
-            <label>Show preview</label>
+        <entry name="previewsShown" type="Bool">
+            <label>Previews shown</label>
             <default>true</default>
         </entry>
     </group>

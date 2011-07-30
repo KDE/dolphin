@@ -26,8 +26,6 @@
 #include <KDialog>
 #include <KLocale>
 
-#include <settings/dolphinsettings.h>
-
 #include <QButtonGroup>
 #include <QCheckBox>
 #include <QComboBox>
@@ -42,8 +40,7 @@
 DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     ViewSettingsPageBase(parent),
     m_iconSizeGroupBox(0),
-    m_fontRequester(0),
-    m_expandableFolders(0)
+    m_fontRequester(0)
 {
     const int spacing = KDialog::spacingHint();
     const int margin = KDialog::marginHint();
@@ -72,9 +69,6 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     textLayout->addWidget(fontLabel, 0, Qt::AlignRight);
     textLayout->addWidget(m_fontRequester);
 
-    // create "Expandable Folders" checkbox
-    m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
-
     // Add a dummy widget with no restriction regarding
     // a vertical resizing. This assures that the dialog layout
     // is not stretched vertically.
@@ -85,7 +79,6 @@ DetailsViewSettingsPage::DetailsViewSettingsPage(QWidget* parent) :
     connect(m_iconSizeGroupBox, SIGNAL(defaultSizeChanged(int)), this, SIGNAL(changed()));
     connect(m_iconSizeGroupBox, SIGNAL(previewSizeChanged(int)), this, SIGNAL(changed()));
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
-    connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
 }
 
 DetailsViewSettingsPage::~DetailsViewSettingsPage()
@@ -94,58 +87,49 @@ DetailsViewSettingsPage::~DetailsViewSettingsPage()
 
 void DetailsViewSettingsPage::applySettings()
 {
-    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-
     const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->defaultSizeValue());
     const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(m_iconSizeGroupBox->previewSizeValue());
-    settings->setIconSize(iconSize);
-    settings->setPreviewSize(previewSize);
+    DetailsModeSettings::setIconSize(iconSize);
+    DetailsModeSettings::setPreviewSize(previewSize);
 
     const QFont font = m_fontRequester->font();
-    settings->setUseSystemFont(m_fontRequester->mode() == DolphinFontRequester::SystemFont);
-    settings->setFontFamily(font.family());
-    settings->setFontSize(font.pointSizeF());
-    settings->setItalicFont(font.italic());
-    settings->setFontWeight(font.weight());
+    DetailsModeSettings::setUseSystemFont(m_fontRequester->mode() == DolphinFontRequester::SystemFont);
+    DetailsModeSettings::setFontFamily(font.family());
+    DetailsModeSettings::setFontSize(font.pointSizeF());
+    DetailsModeSettings::setItalicFont(font.italic());
+    DetailsModeSettings::setFontWeight(font.weight());
 
-    settings->setExpandableFolders(m_expandableFolders->isChecked());
-
-    settings->writeConfig();
+    DetailsModeSettings::self()->writeConfig();
 }
 
 void DetailsViewSettingsPage::restoreDefaults()
 {
-    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-    settings->useDefaults(true);
+    DetailsModeSettings::self()->useDefaults(true);
     loadSettings();
-    settings->useDefaults(false);
+    DetailsModeSettings::self()->useDefaults(false);
 }
 
 void DetailsViewSettingsPage::loadSettings()
 {
-    DetailsModeSettings* settings = DolphinSettings::instance().detailsModeSettings();
-
-    const QSize iconSize(settings->iconSize(), settings->iconSize());
+    const QSize iconSize(DetailsModeSettings::iconSize(), DetailsModeSettings::iconSize());
     const int iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
     m_iconSizeGroupBox->setDefaultSizeValue(iconSizeValue);
 
-    const QSize previewSize(settings->previewSize(), settings->previewSize());
+    const QSize previewSize(DetailsModeSettings::previewSize(), DetailsModeSettings::previewSize());
     const int previewSizeValue = ZoomLevelInfo::zoomLevelForIconSize(previewSize);
     m_iconSizeGroupBox->setPreviewSizeValue(previewSizeValue);
 
-    if (settings->useSystemFont()) {
+    if (DetailsModeSettings::useSystemFont()) {
         m_fontRequester->setMode(DolphinFontRequester::SystemFont);
     } else {
-        QFont font(settings->fontFamily(),
-                   qRound(settings->fontSize()));
-        font.setItalic(settings->italicFont());
-        font.setWeight(settings->fontWeight());
-        font.setPointSizeF(settings->fontSize());
+        QFont font(DetailsModeSettings::fontFamily(),
+                   qRound(DetailsModeSettings::fontSize()));
+        font.setItalic(DetailsModeSettings::italicFont());
+        font.setWeight(DetailsModeSettings::fontWeight());
+        font.setPointSizeF(DetailsModeSettings::fontSize());
         m_fontRequester->setMode(DolphinFontRequester::CustomFont);
         m_fontRequester->setCustomFont(font);
     }
-
-    m_expandableFolders->setChecked(settings->expandableFolders());
 }
 
 #include "detailsviewsettingspage.moc"

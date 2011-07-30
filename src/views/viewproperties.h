@@ -37,7 +37,7 @@ class ViewPropertySettings;
  * \code
  * ViewProperties props(KUrl("/home/peter/Documents"));
  * const DolphinView::Mode mode = props.viewMode();
- * const bool showHiddenFiles = props.isShowHiddenFilesEnabled();
+ * const bool hiddenFilesShown = props.hiddenFilesShown();
  * \endcode
  *
  * When modifying a view property, the '.directory' file is automatically updated
@@ -56,11 +56,11 @@ public:
     void setViewMode(DolphinView::Mode mode);
     DolphinView::Mode viewMode() const;
 
-    void setShowPreview(bool show);
-    bool showPreview() const;
+    void setPreviewsShown(bool show);
+    bool previewsShown() const;
 
-    void setShowHiddenFiles(bool show);
-    bool showHiddenFiles() const;
+    void setHiddenFilesShown(bool show);
+    bool hiddenFilesShown() const;
 
     void setCategorizedSorting(bool categorized);
     bool categorizedSorting() const;
@@ -79,14 +79,14 @@ public:
      * Note that the additional-info property is the only property where
      * the value is dependent from another property (in this case the view-mode).
      */
-    void setAdditionalInfo(const KFileItemDelegate::InformationList& info);
+    void setAdditionalInfoList(const QList<DolphinView::AdditionalInfo>& info);
 
     /**
      * Returns the additional information for the current set view-mode.
      * Note that the additional-info property is the only property where
      * the value is dependent from another property (in this case the view-mode).
      */
-    KFileItemDelegate::InformationList additionalInfo() const;
+    QList<DolphinView::AdditionalInfo> additionalInfoList() const;
 
     /**
      * Sets the directory properties view mode, show preview,
@@ -130,18 +130,6 @@ private:
      * directory.
      */
     QString destinationDir(const QString& subDir) const;
-
-    /**
-     * Helper method for ViewProperties::additionalInfo(): Returns
-     * the additional info for the outdated version 1 of the view-properties.
-     */
-    KFileItemDelegate::InformationList additionalInfoV1() const;
-
-    /**
-     * Helper method for ViewProperties::additionalInfo(): Returns
-     * the additional info for the current version 2 of the view-properties.
-     */
-    KFileItemDelegate::InformationList additionalInfoV2() const;
 
     /**
      * Returns the view-mode prefix when storing additional properties for

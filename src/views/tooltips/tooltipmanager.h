@@ -44,8 +44,7 @@ class ToolTipManager : public QObject
     Q_OBJECT
 
 public:
-    explicit ToolTipManager(QAbstractItemView* parent,
-                            DolphinSortFilterProxyModel* model);
+    explicit ToolTipManager(QWidget* parent);
     virtual ~ToolTipManager();
 
 public slots:
@@ -68,7 +67,7 @@ private slots:
     void showToolTip();
 
 private:
-    QAbstractItemView* m_view;
+    QWidget* m_view;
     DolphinModel* m_dolphinModel;
     DolphinSortFilterProxyModel* m_proxyModel;
 

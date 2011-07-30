@@ -1,0 +1,4 @@
+File=dolphin_compactmodesettings.kcfg
+ClassName=CompactModeSettings
+Singleton=yes
+Mutators=true

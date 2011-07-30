@@ -73,7 +73,7 @@ private:
     KComboBox* m_sortOrder;
     KComboBox* m_sorting;
     QCheckBox* m_sortFoldersFirst;
-    QCheckBox* m_showPreview;
+    QCheckBox* m_previewsShown;
     QCheckBox* m_showInGroups;
     QCheckBox* m_showHiddenFiles;
     QPushButton* m_additionalInfo;

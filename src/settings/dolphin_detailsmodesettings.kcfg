@@ -36,10 +36,6 @@
             <label>Preview size</label>
             <default code="true">KIconLoader::SizeLarge</default>
         </entry>
-        <entry name="ExpandableFolders" type="Bool">
-            <label>Expandable folders</label>
-            <default>false</default>
-        </entry>
         <entry name="ColumnPositions" type="IntList">
             <label>Position of columns</label>
             <default>0,1,2,3,4,5,6,7,8</default>

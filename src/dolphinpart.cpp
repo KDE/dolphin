@@ -44,8 +44,6 @@
 #include "settings/dolphinsettings.h"
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
-#include "views/dolphinsortfilterproxymodel.h"
-#include "views/dolphinmodel.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
 #include "views/dolphindirlister.h"
@@ -96,7 +94,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotSelectionChanged(KFileItemList)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),
             this, SLOT(slotRequestItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(modeChanged()),
+    connect(m_view, SIGNAL(modeChanged(DolphinView::Mode,DolphinView::Mode)),
             this, SIGNAL(viewModeChanged())); // relay signal
     connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
             this, SLOT(slotRedirection(KUrl, KUrl)));
@@ -531,7 +529,7 @@ void DolphinPart::updateNewMenu()
 {
     // As requested by KNewFileMenu :
     m_newFileMenu->checkUpToDate();
-    m_newFileMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
+    m_newFileMenu->setViewShowsHiddenFiles(m_view->hiddenFilesShown());
     // And set the files that the menu apply on :
     m_newFileMenu->setPopupFiles(url());
 }
@@ -548,7 +546,7 @@ void DolphinPart::updateProgress(int percent)
 
 void DolphinPart::createDirectory()
 {
-    m_newFileMenu->setViewShowsHiddenFiles(m_view->showHiddenFiles());
+    m_newFileMenu->setViewShowsHiddenFiles(m_view->hiddenFilesShown());
     m_newFileMenu->setPopupFiles(url());
     m_newFileMenu->createDirectory();
 }

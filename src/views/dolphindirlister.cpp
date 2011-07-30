@@ -21,8 +21,8 @@
 #include <KLocale>
 #include <KIO/JobClasses>
 
-DolphinDirLister::DolphinDirLister() :
-    KDirLister()
+DolphinDirLister::DolphinDirLister(QObject* parent) :
+    KDirLister(parent)
 {
     setAutoErrorHandlingEnabled(false, 0);
 }

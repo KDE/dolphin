@@ -102,8 +102,8 @@ InformationPanelContent::InformationPanelContent(QWidget* parent) :
     m_nameLabel->setAlignment(Qt::AlignHCenter);
     m_nameLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
-    const bool showPreview = InformationPanelSettings::showPreview();
-    m_preview->setVisible(showPreview);
+    const bool previewsShown = InformationPanelSettings::previewsShown();
+    m_preview->setVisible(previewsShown);
 
     m_metaDataWidget = new KFileMetaDataWidget(parent);
     m_metaDataWidget->setFont(KGlobalSettings::smallestReadableFont());
@@ -188,7 +188,7 @@ void InformationPanelContent::showItem(const KFileItem& item)
         m_metaDataWidget->setItems(KFileItemList() << item);
     }
 
-    if (InformationPanelSettings::showPreview()) {
+    if (InformationPanelSettings::previewsShown()) {
         const QString mimeType = item.mimetype();
         const bool usePhonon = Phonon::BackendCapabilities::isMimeTypeAvailable(mimeType) &&
                                (mimeType != "image/png");  // TODO: workaround, as Phonon
@@ -267,7 +267,7 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     QAction* previewAction = popup.addAction(i18nc("@action:inmenu", "Preview"));
     previewAction->setIcon(KIcon("view-preview"));
     previewAction->setCheckable(true);
-    previewAction->setChecked(InformationPanelSettings::showPreview());
+    previewAction->setChecked(InformationPanelSettings::previewsShown());
 
     QAction* configureAction = popup.addAction(i18nc("@action:inmenu", "Configure..."));
     configureAction->setIcon(KIcon("configure"));
@@ -287,7 +287,7 @@ void InformationPanelContent::configureSettings(const QList<QAction*>& customCon
     const bool isChecked = action->isChecked();
     if (action == previewAction) {
         m_preview->setVisible(isChecked);
-        InformationPanelSettings::setShowPreview(isChecked);
+        InformationPanelSettings::setPreviewsShown(isChecked);
     } else if (action == configureAction) {
         FileMetaDataConfigurationDialog* dialog = new FileMetaDataConfigurationDialog();
         dialog->setDescription(i18nc("@label::textbox",

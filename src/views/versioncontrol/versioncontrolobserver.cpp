@@ -35,23 +35,21 @@
 #include <QMutexLocker>
 #include <QTimer>
 
-#include <views/dolphinmodel.h>
-
-VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
+VersionControlObserver::VersionControlObserver(QWidget* view) :
     QObject(view),
     m_pendingItemStatesUpdate(false),
     m_versionedDirectory(false),
     m_silentUpdate(false),
     m_view(view),
-    m_dirLister(0),
-    m_dolphinModel(0),
+    //m_dirLister(0),
+    //m_dolphinModel(0),
     m_dirVerificationTimer(0),
     m_plugin(0),
     m_updateItemStatesThread(0)
 {
     Q_ASSERT(view);
 
-    QAbstractProxyModel* proxyModel = qobject_cast<QAbstractProxyModel*>(view->model());
+    /*QAbstractProxyModel* proxyModel = qobject_cast<QAbstractProxyModel*>(view->model());
     m_dolphinModel = proxyModel ?
                      qobject_cast<DolphinModel*>(proxyModel->sourceModel()) :
                      qobject_cast<DolphinModel*>(view->model());
@@ -71,7 +69,7 @@ VersionControlObserver::VersionControlObserver(QAbstractItemView* view) :
         m_dirVerificationTimer->setInterval(500);
         connect(m_dirVerificationTimer, SIGNAL(timeout()),
                 this, SLOT(verifyDirectory()));
-    }
+    }*/
 }
 
 VersionControlObserver::~VersionControlObserver()
@@ -133,7 +131,7 @@ void VersionControlObserver::silentDirectoryVerification()
 
 void VersionControlObserver::verifyDirectory()
 {
-    const KUrl versionControlUrl = m_dirLister->url();
+    const KUrl versionControlUrl; // = m_dirLister->url();
     if (!versionControlUrl.isLocalFile()) {
         return;
     }
@@ -143,7 +141,7 @@ void VersionControlObserver::verifyDirectory()
     }
 
     m_plugin = searchPlugin(versionControlUrl);
-    if (m_plugin) {
+    /*if (m_plugin) {
         connect(m_plugin, SIGNAL(versionStatesChanged()),
                 this, SLOT(silentDirectoryVerification()));
         connect(m_plugin, SIGNAL(infoMessage(QString)),
@@ -176,7 +174,7 @@ void VersionControlObserver::verifyDirectory()
                    this, SLOT(delayedDirectoryVerification()));
         disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
                    this, SLOT(delayedDirectoryVerification()));
-    }
+    }*/
 }
 
 void VersionControlObserver::slotThreadFinished()
@@ -195,7 +193,7 @@ void VersionControlObserver::slotThreadFinished()
     // (a detailed description of the root cause is given in the class KFilePreviewGenerator
     // from kdelibs). To bypass this bottleneck, the signals of the model are temporary blocked.
     // This works as the update of the data does not require a relayout of the views used in Dolphin.
-    const bool signalsBlocked = m_dolphinModel->signalsBlocked();
+    /*const bool signalsBlocked = m_dolphinModel->signalsBlocked();
     m_dolphinModel->blockSignals(true);
 
     const QList<ItemState> itemStates = m_updateItemStatesThread->itemStates();
@@ -218,7 +216,7 @@ void VersionControlObserver::slotThreadFinished()
     if (m_pendingItemStatesUpdate) {
         m_pendingItemStatesUpdate = false;
         updateItemStates();
-    }
+    }*/
 }
 
 void VersionControlObserver::updateItemStates()
@@ -249,7 +247,9 @@ void VersionControlObserver::updateItemStates()
 
 void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates)
 {
-    const int rowCount = m_dolphinModel->rowCount(parentIndex);
+    Q_UNUSED(parentIndex);
+    Q_UNUSED(itemStates);
+    /*const int rowCount = m_dolphinModel->rowCount(parentIndex);
     for (int row = 0; row < rowCount; ++row) {
         const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Version, parentIndex);
         addDirectory(index, itemStates);
@@ -260,7 +260,7 @@ void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<
         itemState.version = KVersionControlPlugin::UnversionedVersion;
 
         itemStates.append(itemState);
-    }
+    }*/
 }
 
 KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& directory) const
@@ -296,7 +296,8 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
 
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
-    foreach (KVersionControlPlugin* plugin, plugins) {
+    Q_UNUSED(directory);
+    /*foreach (KVersionControlPlugin* plugin, plugins) {
         // Use the KDirLister cache to check for .svn, .git, ... files
         KUrl dirUrl(directory);
         KUrl fileUrl = dirUrl;
@@ -324,14 +325,14 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
                 upUrl = dirUrl.upUrl();
             }
         }
-    }
+    }*/
 
     return 0;
 }
 
 bool VersionControlObserver::isVersioned() const
 {
-    return m_dolphinModel->hasVersionData() && m_plugin;
+    return false; //m_dolphinModel->hasVersionData() && m_plugin;
 }
 
 #include "versioncontrolobserver.moc"

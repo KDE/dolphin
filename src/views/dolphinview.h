@@ -41,34 +41,25 @@
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
-class DolphinColumnViewContainer;
-class DolphinDetailsView;
-class DolphinDetailsViewExpander;
-class DolphinIconsView;
-class DolphinModel;
-class DolphinSortFilterProxyModel;
-class DolphinViewController;
+class DolphinDirLister;
+class DolphinItemListContainer;
 class KAction;
 class KActionCollection;
-class KDirLister;
+class KFileItemModel;
 class KUrl;
-class ViewModeController;
 class ViewProperties;
 class QRegExp;
 
 /**
  * @short Represents a view for the directory content.
  *
- * View modes for icons, details and columns are supported. It's
+ * View modes for icons, compact and details are supported. It's
  * possible to adjust:
  * - sort order
  * - sort type
  * - show hidden files
  * - show previews
- *
- * @see DolphinIconsView
- * @see DolphinDetailsView
- * @see DolphinColumnView
+ * - enable grouping
  */
 class LIBDOLPHINPRIVATE_EXPORT DolphinView : public QWidget
 {
@@ -76,31 +67,28 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinView : public QWidget
 
 public:
     /**
-     * Defines the view mode for a directory. The view mode
-     * can be defined when constructing a DolphinView. The
+     * Defines the view mode for a directory. The
      * view mode is automatically updated if the directory itself
      * defines a view mode (see class ViewProperties for details).
      */
     enum Mode
     {
         /**
-         * The directory items are shown as icons including an
-         * icon name.
+         * The items are shown as icons with a name-label below.
          */
         IconsView = 0,
 
         /**
-         * The icon, the name and at least the size of the directory
-         * items are shown in a table. It is possible to add columns
-         * for date, group and permissions.
+         * The icon, the name and the size of the items are
+         * shown per default as a table.
          */
         DetailsView = 1,
 
         /**
-         * Each folder is shown in a separate column.
+         * The items are shown as icons with the name-label aligned
+         * to the right side.
          */
-        ColumnView = 2,
-        MaxModeEnum = ColumnView
+        CompactView = 3
     };
 
     /** Defines the sort order for the items of a directory. */
@@ -114,15 +102,29 @@ public:
         SortByGroup,
         SortByType,
         SortByDestination,
-        SortByPath,
-        MaxSortingEnum = SortByPath
+        SortByPath
+    };
+
+    /** Defines the additional information shown for the items of a directory. */
+    enum AdditionalInfo
+    {
+        NoInfo = 0,
+        NameInfo,
+        SizeInfo,
+        DateInfo,
+        PermissionsInfo,
+        OwnerInfo,
+        GroupInfo,
+        TypeInfo,
+        DestinationInfo,
+        PathInfo
     };
 
     /**
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
      */
-    DolphinView( const KUrl& url, QWidget* parent);
+    DolphinView(const KUrl& url, QWidget* parent);
 
     virtual ~DolphinView();
 
@@ -131,17 +133,6 @@ public:
      * The URL navigator is synchronized with this URL.
      */
     KUrl url() const;
-
-    /**
-     * Returns the root URL of the view, which is defined as the first
-     * visible path of DolphinView::url(). Usually the root URL is
-     * equal to DolphinView::url(), but in the case of the column view
-     * when 2 columns are shown, the root URL might be:
-     * /home/peter/Documents
-     * and DolphinView::url() might return
-     * /home/peter/Documents/Music/
-     */
-    KUrl rootUrl() const;
 
     /**
      * If \a active is true, the view will marked as active. The active
@@ -159,29 +150,14 @@ public:
     void setMode(Mode mode);
     Mode mode() const;
 
-    /** See setShowPreview */
-    bool showPreview() const;
+    /** See setPreviewsShown */
+    bool previewsShown() const;
 
     /** See setShowHiddenFiles */
-    bool showHiddenFiles() const;
+    bool hiddenFilesShown() const;
 
     /** See setCategorizedSorting */
     bool categorizedSorting() const;
-
-    /**
-     * Returns true, if the categorized sorting is supported by the current
-     * used mode (see DolphinView::setMode()). Currently only DolphinView::IconsView
-     * supports categorizations. To check whether the categorized
-     * sorting is set, use DolphinView::categorizedSorting().
-     */
-    bool supportsCategorizedSorting() const;
-
-    /**
-     * Returns the root item which represents the current URL. Note that the returned
-     * item can be null (KFileItem::isNull() will return true) in case that the directory
-     * has not been loaded.
-     */
-    KFileItem rootItem() const;
 
     /**
      * Returns the items of the view.
@@ -253,10 +229,10 @@ public:
     bool sortFoldersFirst() const;
 
     /** Sets the additional information which should be shown for the items. */
-    void setAdditionalInfo(KFileItemDelegate::InformationList info);
+    void setAdditionalInfoList(const QList<AdditionalInfo>& info);
 
     /** Returns the additional information which should be shown for the items. */
-    KFileItemDelegate::InformationList additionalInfo() const;
+    QList<AdditionalInfo> additionalInfoList() const;
 
     /** Reloads the current directory. */
     void reload();
@@ -300,11 +276,6 @@ public:
     QList<QAction*> versionControlActions(const KFileItemList& items) const;
 
     /**
-     * Updates the state of the 'Additional Information' actions in \a collection.
-     */
-    void updateAdditionalInfoActions(KActionCollection* collection);
-
-    /**
      * Returns the state of the paste action:
      * first is whether the action should be enabled
      * second is the text for the action
@@ -338,6 +309,13 @@ public:
 
     /** Returns true, if at least one item is selected. */
     bool hasSelection() const;
+
+    /**
+     * Returns the root item which represents the current URL. Note that the returned
+     * item can be null (KFileItem::isNull() will return true) in case that the directory
+     * has not been loaded.
+     */
+    KFileItem rootItem() const;
 
 public slots:
     /**
@@ -403,7 +381,7 @@ public slots:
      * (GeneralSettings::globalViewProps() returns false), then the
      * preview setting will be stored automatically.
      */
-    void setShowPreview(bool show);
+    void setPreviewsShown(bool show);
 
     /**
      * Shows all hidden files of the current directory,
@@ -412,7 +390,7 @@ public slots:
      * (GeneralSettings::globalViewProps() returns false), then the
      * show hidden file setting will be stored automatically.
      */
-    void setShowHiddenFiles(bool show);
+    void setHiddenFilesShown(bool show);
 
     /**
      * Summarizes all sorted items by their category \a categorized
@@ -428,6 +406,13 @@ signals:
      * Is emitted if the view has been activated by e. g. a mouse click.
      */
     void activated();
+
+    /**
+     * Is emitted if the URL of the view will be changed to \a url.
+     * After the URL has been changed the signal urlChanged() will
+     * be emitted.
+     */
+    void urlAboutToBeChanged(const KUrl& url);
 
     /** Is emitted if URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
@@ -451,16 +436,16 @@ signals:
      * Is emitted if the view mode (IconsView, DetailsView,
      * PreviewsView) has been changed.
      */
-    void modeChanged();
+    void modeChanged(Mode current, Mode previous);
 
     /** Is emitted if the 'show preview' property has been changed. */
-    void showPreviewChanged();
+    void previewsShownChanged(bool shown);
 
     /** Is emitted if the 'show hidden files' property has been changed. */
-    void showHiddenFilesChanged();
+    void hiddenFilesShownChanged(bool shown);
 
     /** Is emitted if the 'categorized sorting' property has been changed. */
-    void categorizedSortingChanged();
+    void categorizedSortingChanged(bool sortCategorized);
 
     /** Is emitted if the sorting by name, size or date has been changed. */
     void sortingChanged(DolphinView::Sorting sorting);
@@ -472,10 +457,11 @@ signals:
     void sortFoldersFirstChanged(bool foldersFirst);
 
     /** Is emitted if the additional information shown for this view has been changed. */
-    void additionalInfoChanged();
+    void additionalInfoListChanged(const QList<DolphinView::AdditionalInfo>& current,
+                                   const QList<DolphinView::AdditionalInfo>& previous);
 
     /** Is emitted if the zoom level has been changed by zooming in or out. */
-    void zoomLevelChanged(int level);
+    void zoomLevelChanged(int current, int previous);
 
     /**
      * Is emitted if information of an item is requested to be shown e. g. in the panel.
@@ -556,10 +542,8 @@ signals:
     void writeStateChanged(bool isFolderWritable);
 
 protected:
-    /** @see QWidget::mouseReleaseEvent */
     virtual void mouseReleaseEvent(QMouseEvent* event);
-    virtual bool eventFilter(QObject* watched, QEvent* event);
-    virtual void showEvent(QShowEvent* event);
+    virtual void contextMenuEvent(QContextMenuEvent* event);
 
 private slots:
     /**
@@ -568,12 +552,9 @@ private slots:
      */
     void activate();
 
-    /**
-     * If the item \a item is a directory, then this
-     * directory will be loaded. If the  item is a file, the corresponding
-     * application will get started.
-     */
-    void triggerItem(const KFileItem& index);
+    void slotItemClicked(int index, Qt::MouseButton button);
+
+    void slotItemExpansionToggleClicked(int index);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
@@ -623,12 +604,6 @@ private slots:
      * sorting of files and folders (separate with folders first or mixed) given by \a foldersFirst.
      */
     void updateSortFoldersFirst(bool foldersFirst);
-
-    /**
-     * Updates the view properties of the current URL to the
-     * additional information given by \a info.
-     */
-    void updateAdditionalInfo(const KFileItemDelegate::InformationList& info);
 
     /**
      * Updates the status bar to show hover information for the
@@ -699,9 +674,11 @@ private slots:
      */
     void restoreContentsPosition();
 
-    void slotUrlChangeRequested(const KUrl& url);
+    //void slotUrlChangeRequested(const KUrl& url);
 
 private:
+    KFileItemModel* fileItemModel() const;
+
     void loadDirectory(const KUrl& url, bool reload = false);
 
     /**
@@ -710,13 +687,7 @@ private:
      */
     void applyViewProperties();
 
-    /**
-     * Creates a new view representing the given view mode (DolphinView::mode()).
-     * The current view will get deleted.
-     */
-    void createView();
-
-    void deleteView();
+    void applyAdditionalInfoListToView();
 
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
@@ -758,9 +729,6 @@ private:
      */
     QItemSelection childrenMatchingPattern(const QModelIndex& parent, const QRegExp& pattern) const;
 
-    void connectViewAccessor();
-    void disconnectViewAccessor();
-
     /**
      * Updates m_isFolderWritable dependent on whether the folder represented by
      * the current URL is writable. If the state has changed, the signal
@@ -768,88 +736,23 @@ private:
      */
     void updateWritableState();
 
+    QByteArray sortRoleForSorting(Sorting sorting) const;
+
 private:
-    /**
-     * Abstracts the access to the different view implementations
-     * for icons-, details- and column-view.
-     */
-    class ViewAccessor
-    {
-    public:
-        ViewAccessor();
-        ~ViewAccessor();
-
-        void createView(QWidget* parent,
-                        DolphinViewController* dolphinViewController,
-                        const ViewModeController* viewModeController,
-                        Mode mode);
-        void deleteView();
-
-        /**
-         * Must be invoked before the URL has been changed and allows view implementations
-         * like the column view to create a new column.
-         */
-        void prepareUrlChange(const KUrl& url);
-
-        QAbstractItemView* itemView() const;
-        KFileItemDelegate* itemDelegate() const;
-
-        /**
-         * Returns the widget that should be added to the layout as target. Usually
-         * the item view itself is returned, but in the case of the column view
-         * a container widget is returned.
-         */
-        QWidget* layoutTarget() const;
-
-        void setRootUrl(const KUrl& rootUrl);
-        KUrl rootUrl() const;
-
-        bool supportsCategorizedSorting() const;
-        bool itemsExpandable() const;
-        QSet<KUrl> expandedUrls() const;
-        const DolphinDetailsViewExpander* setExpandedUrls(const QSet<KUrl>& urlsToExpand);
-
-        /**
-         * Returns true, if a reloading of the items is required
-         * when the additional information properties have been changed
-         * by the user.
-         */
-        bool reloadOnAdditionalInfoChange() const;
-
-        DolphinModel* dirModel() const;
-        DolphinSortFilterProxyModel* proxyModel() const;
-        KDirLister* dirLister() const;
-
-    private:
-        KUrl m_rootUrl;
-        DolphinIconsView* m_iconsView;
-        DolphinDetailsView* m_detailsView;
-        DolphinColumnViewContainer* m_columnsContainer;
-        DolphinModel* m_dolphinModel;
-        DolphinSortFilterProxyModel* m_proxyModel;
-        QAbstractItemView* m_dragSource;
-        QPointer<DolphinDetailsViewExpander> m_detailsViewExpander;
-
-        // For unit tests
-        friend class DolphinDetailsViewTest;
-    };
-
     bool m_active : 1;
-    bool m_showPreview : 1;
-    bool m_storedCategorizedSorting : 1;
     bool m_tabsForFiles : 1;
-    bool m_isContextMenuOpen : 1;   // TODO: workaround for Qt-issue 207192
     bool m_assureVisibleCurrentIndex : 1;
     bool m_expanderActive : 1;
     bool m_isFolderWritable : 1;
 
+    KUrl m_url;
     Mode m_mode;
+    QList<AdditionalInfo> m_additionalInfoList;
 
     QVBoxLayout* m_topLayout;
 
-    DolphinViewController* m_dolphinViewController;
-    ViewModeController* m_viewModeController;
-    ViewAccessor m_viewAccessor;
+    DolphinDirLister* m_dirLister;
+    DolphinItemListContainer* m_container;
 
     QTimer* m_selectionChangedTimer;
 

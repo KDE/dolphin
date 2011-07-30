@@ -65,12 +65,9 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
 
     QLabel* editLabel = 0;
     if (m_renameOneItem) {
-        m_newName =  items.first().name();
-        editLabel = new QLabel(i18nc("@label:textbox", "Rename the item <filename>%1</filename> to:",
-                                     KStringHandler::csqueeze(m_newName)), page);
-        if (m_newName.size() > 40) {
-            editLabel->setToolTip(m_newName); // Set the filename as a the tool tip...
-        }
+        m_newName = items.first().name();
+        editLabel = new QLabel(i18nc("@label:textbox", "Rename the item <filename>%1</filename> to:", m_newName),
+                               page);
     } else {
         m_newName = i18nc("@info:status", "New name #");
         editLabel = new QLabel(i18ncp("@label:textbox",

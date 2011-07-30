@@ -29,29 +29,27 @@
  * TestDir provides a temporary directory. In addition to KTempDir, it has
  * methods that create files and subdirectories inside the directory.
  */
-
 class TestDir : public KTempDir
 {
 
 public:
+    TestDir();
+    virtual ~TestDir();
 
-    TestDir() {}
-    ~TestDir() {}
-
-    KUrl url() const { return KUrl(name()); }
+    KUrl url() const;
 
     /**
      * The following functions create either a file, a list of files, or a directory.
      * The paths may be absolute or relative to the test directory. Any missing parent
      * directories will be created automatically.
      */
-
-    void createFile(const QString& path, const QByteArray& data = QByteArray("test"), const QDateTime& time = QDateTime());
+    void createFile(const QString& path,
+                    const QByteArray& data = QByteArray("test"),
+                    const QDateTime& time = QDateTime());
     void createFiles(const QStringList& files);
     void createDir(const QString& path, const QDateTime& time = QDateTime());
 
 private:
-
     void makePathAbsoluteAndCreateParents(QString& path);
 
 };

@@ -23,11 +23,10 @@
 
 #include <libdolphin_export.h>
 
-class ColumnModeSettings;
-class DetailsModeSettings;
 class GeneralSettings;
-class IconsModeSettings;
 class KFilePlacesModel;
+
+// TODO: Remove this class completely and just work with the settings directly instead
 
 /**
  * @brief Manages and stores all settings from Dolphin.
@@ -46,9 +45,6 @@ public:
     static DolphinSettings& instance();
 
     GeneralSettings* generalSettings() const;
-    IconsModeSettings* iconsModeSettings() const;
-    DetailsModeSettings* detailsModeSettings() const;
-    ColumnModeSettings* columnModeSettings() const;
     KFilePlacesModel* placesModel() const;
     virtual void save();
 
@@ -59,30 +55,12 @@ protected:
 
 private:
     GeneralSettings* m_generalSettings;
-    IconsModeSettings* m_iconsModeSettings;
-    DetailsModeSettings* m_detailsModeSettings;
-    ColumnModeSettings* m_columnModeSettings;
     KFilePlacesModel* m_placesModel;
 };
 
 inline GeneralSettings* DolphinSettings::generalSettings() const
 {
     return m_generalSettings;
-}
-
-inline IconsModeSettings* DolphinSettings::iconsModeSettings() const
-{
-    return m_iconsModeSettings;
-}
-
-inline DetailsModeSettings* DolphinSettings::detailsModeSettings() const
-{
-    return m_detailsModeSettings;
-}
-
-inline ColumnModeSettings* DolphinSettings::columnModeSettings() const
-{
-    return m_columnModeSettings;
 }
 
 inline KFilePlacesModel* DolphinSettings::placesModel() const

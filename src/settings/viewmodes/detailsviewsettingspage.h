@@ -24,7 +24,6 @@
 
 class DolphinFontRequester;
 class IconSizeGroupBox;
-class QCheckBox;
 
 /**
  * @brief Represents the page from the Dolphin Settings which allows
@@ -54,7 +53,6 @@ private:
 private:
     IconSizeGroupBox* m_iconSizeGroupBox;
     DolphinFontRequester* m_fontRequester;
-    QCheckBox* m_expandableFolders;
 };
 
 #endif

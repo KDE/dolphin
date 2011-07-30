@@ -42,7 +42,7 @@ class DolphinStatusBar;
  * @short Represents a view for the directory content
  *        including the navigation bar, filter bar and status bar.
  *
- * View modes for icons, details and columns are supported. Currently
+ * View modes for icons, compact and details are supported. Currently
  * Dolphin allows to have up to two views inside the main window.
  *
  * @see DolphinView
@@ -212,10 +212,16 @@ private slots:
     void activate();
 
     /**
-     * Saves the state of the current view: contents position,
-     * root URL, ...
+     * Is invoked if the signal urlAboutToBeChanged() from the DolphinView
+     * is emitted. Tries to save the view-state.
      */
-    void saveViewState();
+    void slotViewUrlAboutToBeChanged(const KUrl& url);
+
+    /**
+     * Is invoked if the signal urlAboutToBeChanged() from the URL navigator
+     * is emitted. Tries to save the view-state.
+     */
+    void slotUrlNavigatorLocationAboutToBeChanged(const KUrl& url);
 
     /**
      * Restores the current view to show \a url and assures
@@ -265,6 +271,12 @@ private:
      * @return True if the URL protocol is a search URL (e. g. nepomuksearch:// or filenamesearch://).
      */
     bool isSearchUrl(const KUrl& url) const;
+
+    /**
+     * Saves the state of the current view: contents position,
+     * root URL, ...
+     */
+    void saveViewState();
 
 private:
     QVBoxLayout* m_topLayout;

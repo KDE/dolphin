@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE kcfg SYSTEM "http://www.kde.org/standards/kcfg/1.0/kcfg.dtd">
+<kcfg xmlns="http://www.kde.org/standards/kcfg/1.0"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.kde.org/standards/kcfg/1.0
+      http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
+    <include>kglobalsettings.h</include>
+    <include>kiconloader.h</include>
+    <kcfgfile name="dolphinrc"/>
+    <group name="CompactMode">
+        <entry name="UseSystemFont" type="Bool">
+            <label>Use system font</label>
+            <default>true</default>
+        </entry>
+        <entry name="FontFamily" type="String">
+            <label>Font family</label>
+            <default code="true">KGlobalSettings::generalFont().family()</default>
+        </entry>
+        <entry name="FontSize" type="Double">
+            <label>Font size</label>
+            <default code="true">KGlobalSettings::generalFont().pointSizeF()</default>
+        </entry>
+        <entry name="ItalicFont" type="Bool">
+            <label>Italic</label>
+            <default>false</default>
+        </entry>
+        <entry name="FontWeight" type="Int">
+            <label>Font weight</label>
+            <default>0</default>
+        </entry>
+        <entry name="IconSize" type="Int">
+            <label>Icon size</label>
+            <default code="true">KIconLoader::SizeMedium</default>
+        </entry>
+        <entry name="PreviewSize" type="Int">
+            <label>Preview size</label>
+            <default code="true">KIconLoader::SizeHuge</default>
+        </entry>
+    </group>
+</kcfg>

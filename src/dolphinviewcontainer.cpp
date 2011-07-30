@@ -51,12 +51,6 @@
 #include "search/dolphinsearchbox.h"
 #include "settings/dolphinsettings.h"
 #include "statusbar/dolphinstatusbar.h"
-#include "views/dolphincolumnview.h"
-#include "views/dolphindetailsview.h"
-#include "views/draganddrophelper.h"
-#include "views/dolphiniconsview.h"
-#include "views/dolphinmodel.h"
-#include "views/dolphinviewcontroller.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 
@@ -115,11 +109,12 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(urlIsFileError(const KUrl&)),  this, SLOT(openFile(const KUrl&)));
     connect(m_view, SIGNAL(selectionChanged(const KFileItemList&)),    this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(operationCompletedMessage(const QString&)), this, SLOT(showOperationCompletedMessage(const QString&)));
+    connect(m_view, SIGNAL(urlAboutToBeChanged(const KUrl&)),          this, SLOT(slotViewUrlAboutToBeChanged(const KUrl&)));
 
+    connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(const KUrl&)),
+            this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(const KUrl&)));
     connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
             this, SLOT(slotUrlNavigatorLocationChanged(const KUrl&)));
-    connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(const KUrl&)),
-            this, SLOT(saveViewState()));
     connect(m_urlNavigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
 
@@ -378,6 +373,50 @@ void DolphinViewContainer::slotFinishedPathLoading()
     }
 }
 
+void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
+{
+    KUrl url = item.targetUrl();
+
+    if (item.isDir()) {
+        m_view->setUrl(url);
+        return;
+    }
+
+    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    const bool browseThroughArchives = settings->browseThroughArchives();
+    if (browseThroughArchives && item.isFile() && url.isLocalFile()) {
+        // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
+        // zip:/<path>/ when clicking on a zip file, etc.
+        // The .protocol file specifies the mimetype that the kioslave handles.
+        // Note that we don't use mimetype inheritance since we don't want to
+        // open OpenDocument files as zip folders...
+        const QString protocol = KProtocolManager::protocolForArchiveMimetype(item.mimetype());
+        if (!protocol.isEmpty()) {
+            url.setProtocol(protocol);
+            m_view->setUrl(url);
+            return;
+        }
+    }
+
+    if (item.mimetype() == QLatin1String("application/x-desktop")) {
+        // Redirect to the URL in Type=Link desktop files
+        KDesktopFile desktopFile(url.toLocalFile());
+        if (desktopFile.hasLinkType()) {
+            url = desktopFile.readUrl();
+            m_view->setUrl(url);
+            return;
+        }
+    }
+
+    item.run();
+}
+
+void DolphinViewContainer::openFile(const KUrl& url)
+{
+    const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
+    slotItemTriggered(item);
+}
+
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
 {
     if (item.isNull()) {
@@ -427,20 +466,36 @@ void DolphinViewContainer::activate()
     setActive(true);
 }
 
-void DolphinViewContainer::saveViewState()
+void DolphinViewContainer::slotViewUrlAboutToBeChanged(const KUrl& url)
 {
-    QByteArray locationState;
-    QDataStream stream(&locationState, QIODevice::WriteOnly);
-    m_view->saveState(stream);
-    m_urlNavigator->saveLocationState(locationState);
+    // URL changes of the view can happen in two ways:
+    // 1. The URL navigator gets changed and will trigger the view to update its URL
+    // 2. The URL of the view gets changed and will trigger the URL navigator to update
+    //    its URL (e.g. by clicking on an item)
+    // In this scope the view-state may only get saved in case 2:
+    if (url != m_urlNavigator->locationUrl()) {
+        saveViewState();
+    }
+}
+
+void DolphinViewContainer::slotUrlNavigatorLocationAboutToBeChanged(const KUrl& url)
+{
+    // URL changes of the view can happen in two ways:
+    // 1. The URL navigator gets changed and will trigger the view to update its URL
+    // 2. The URL of the view gets changed and will trigger the URL navigator to update
+    //    its URL (e.g. by clicking on an item)
+    // In this scope the view-state may only get saved in case 1:
+    if (url != m_view->url()) {
+        saveViewState();
+    }
 }
 
 void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 {
     if (KProtocolManager::supportsListing(url)) {
         setSearchModeEnabled(isSearchUrl(url));
-
         m_view->setUrl(url);
+
         if (isActive() && !isSearchUrl(url)) {
             // When an URL has been entered, the view should get the focus.
             // The focus must be requested asynchronously, as changing the URL might create
@@ -476,7 +531,9 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
-    DragAndDropHelper::instance().dropUrls(KFileItem(), destination, event, this);
+    Q_UNUSED(destination);
+    Q_UNUSED(event);
+    //DragAndDropHelper::instance().dropUrls(KFileItem(), destination, event, this);
 }
 
 void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
@@ -510,7 +567,6 @@ void DolphinViewContainer::saveUrlCompletionMode(KGlobalSettings::Completion com
 void DolphinViewContainer::slotHistoryChanged()
 {
     QByteArray locationState = m_urlNavigator->locationState();
-
     if (!locationState.isEmpty()) {
         QDataStream stream(&locationState, QIODevice::ReadOnly);
         m_view->restoreState(stream);
@@ -543,48 +599,12 @@ bool DolphinViewContainer::isSearchUrl(const KUrl& url) const
     return protocol.contains("search") || (protocol == QLatin1String("nepomuk"));
 }
 
-void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
+void DolphinViewContainer::saveViewState()
 {
-    KUrl url = item.targetUrl();
-
-    if (item.isDir()) {
-        m_view->setUrl(url);
-        return;
-    }
-
-    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    const bool browseThroughArchives = settings->browseThroughArchives();
-    if (browseThroughArchives && item.isFile() && url.isLocalFile()) {
-        // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
-        // zip:/<path>/ when clicking on a zip file, etc.
-        // The .protocol file specifies the mimetype that the kioslave handles.
-        // Note that we don't use mimetype inheritance since we don't want to
-        // open OpenDocument files as zip folders...
-        const QString protocol = KProtocolManager::protocolForArchiveMimetype(item.mimetype());
-        if (!protocol.isEmpty()) {
-            url.setProtocol(protocol);
-            m_view->setUrl(url);
-            return;
-        }
-    }
-
-    if (item.mimetype() == "application/x-desktop") {
-        // redirect to the url in Type=Link desktop files
-        KDesktopFile desktopFile(url.toLocalFile());
-        if (desktopFile.hasLinkType()) {
-            url = desktopFile.readUrl();
-            m_view->setUrl(url);
-            return;
-        }
-    }
-
-    item.run();
-}
-
-void DolphinViewContainer::openFile(const KUrl& url)
-{
-    const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-    slotItemTriggered(item);
+    QByteArray locationState;
+    QDataStream stream(&locationState, QIODevice::WriteOnly);
+    m_view->saveState(stream);
+    m_urlNavigator->saveLocationState(locationState);
 }
 
 #include "dolphinviewcontainer.moc"

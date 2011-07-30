@@ -51,7 +51,7 @@ class LIBDOLPHINPRIVATE_EXPORT VersionControlObserver : public QObject
     Q_OBJECT
 
 public:
-    VersionControlObserver(QAbstractItemView* view);
+    VersionControlObserver(QWidget* parent);
     virtual ~VersionControlObserver();
 
     QList<QAction*> contextMenuActions(const KFileItemList& items) const;
@@ -133,9 +133,9 @@ private:
     bool m_silentUpdate; // if true, no messages will be send during the update
                          // of version states
 
-    QAbstractItemView* m_view;
-    KDirLister* m_dirLister;
-    DolphinModel* m_dolphinModel;
+    QWidget* m_view;
+    //KDirLister* m_dirLister;
+    //DolphinModel* m_dolphinModel;
 
     QTimer* m_dirVerificationTimer;
 

@@ -45,8 +45,8 @@ public:
     FoldersPanel(QWidget* parent = 0);
     virtual ~FoldersPanel();
 
-    void setShowHiddenFiles(bool show);
-    bool showHiddenFiles() const;
+    void setHiddenFilesShown(bool show);
+    bool hiddenFilesShown() const;
 
     void setAutoScrolling(bool enable);
     bool autoScrolling() const;
@@ -123,8 +123,8 @@ private:
     bool m_setLeafVisible;
     Qt::MouseButtons m_mouseButtons;
     KDirLister* m_dirLister;
-    DolphinModel* m_dolphinModel;
-    DolphinSortFilterProxyModel* m_proxyModel;
+    //DolphinModel* m_dolphinModel;
+    //DolphinSortFilterProxyModel* m_proxyModel;
     PanelTreeView* m_treeView;
     KUrl m_leafDir;
 };

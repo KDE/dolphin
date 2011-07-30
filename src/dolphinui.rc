@@ -90,8 +90,8 @@
         <Action name="go_forward" />
         <Separator name="separator_1" />
         <Action name="icons" />
+        <Action name="compact" />
         <Action name="details" />
-        <Action name="columns" />
         <Separator name="separator_0" />
         <Action name="edit_find"/>
         <Action name="show_preview" />
@@ -104,8 +104,8 @@
         <Action priority="0" name="go_home"/>
         <Action priority="0" name="stop"/>
         <Action priority="0" name="icons"/>
+        <Action priority="0" name="compact"/>
         <Action priority="0" name="details"/>
-        <Action priority="0" name="columns"/>
         <Action priority="0" name="view_zoom_in"/>
         <Action priority="0" name="view_zoom_out"/>
         <Action priority="0" name="edit_cut"/>

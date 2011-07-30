@@ -25,7 +25,6 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 
-#include <settings/viewmodes/columnviewsettingspage.h>
 #include <settings/viewmodes/detailsviewsettingspage.h>
 #include <settings/viewmodes/iconsviewsettingspage.h>
 
@@ -59,19 +58,15 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
     tabWidget->addTab(iconsPage, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
     connect(iconsPage, SIGNAL(changed()), this, SLOT(changed()));
 
+    // TODO: initialize 'Compact' tab
+
     // initialize 'Details' tab
     DetailsViewSettingsPage* detailsPage = new DetailsViewSettingsPage(tabWidget);
-    tabWidget->addTab(detailsPage, KIcon("view-list-details"), i18nc("@title:tab", "Details"));
+    tabWidget->addTab(detailsPage, KIcon("view-list-text"), i18nc("@title:tab", "Details"));
     connect(detailsPage, SIGNAL(changed()), this, SLOT(changed()));
-
-    // initialize 'Column' tab
-    ColumnViewSettingsPage* columnPage = new ColumnViewSettingsPage(tabWidget);
-    tabWidget->addTab(columnPage, KIcon("view-file-columns"), i18nc("@title:tab", "Column"));
-    connect(columnPage, SIGNAL(changed()), this, SLOT(changed()));
 
     m_pages.append(iconsPage);
     m_pages.append(detailsPage);
-    m_pages.append(columnPage);
 
     topLayout->addWidget(tabWidget, 0, 0);
 }

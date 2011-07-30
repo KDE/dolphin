@@ -32,8 +32,8 @@ ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
 {
     m_viewProps = new ViewProperties(dir);
     m_viewProps->setViewMode(viewProps.viewMode());
-    m_viewProps->setShowPreview(viewProps.showPreview());
-    m_viewProps->setShowHiddenFiles(viewProps.showHiddenFiles());
+    m_viewProps->setPreviewsShown(viewProps.previewsShown());
+    m_viewProps->setHiddenFilesShown(viewProps.hiddenFilesShown());
     m_viewProps->setSorting(viewProps.sorting());
     m_viewProps->setSortOrder(viewProps.sortOrder());
 

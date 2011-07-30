@@ -20,7 +20,6 @@
 
 #include "viewsettingspage.h"
 
-#include "columnviewsettingspage.h"
 #include "iconsviewsettingspage.h"
 #include "detailsviewsettingspage.h"
 
@@ -46,19 +45,15 @@ ViewSettingsPage::ViewSettingsPage(QWidget* parent) :
     tabWidget->addTab(iconsPage, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
     connect(iconsPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
+    // TODO: initialize 'Compact' tab
+
     // initialize 'Details' tab
     DetailsViewSettingsPage* detailsPage = new DetailsViewSettingsPage(tabWidget);
-    tabWidget->addTab(detailsPage, KIcon("view-list-details"), i18nc("@title:tab", "Details"));
+    tabWidget->addTab(detailsPage, KIcon("view-list-text"), i18nc("@title:tab", "Details"));
     connect(detailsPage, SIGNAL(changed()), this, SIGNAL(changed()));
-
-    // initialize 'Column' tab
-    ColumnViewSettingsPage* columnPage = new ColumnViewSettingsPage(tabWidget);
-    tabWidget->addTab(columnPage, KIcon("view-file-columns"), i18nc("@title:tab", "Column"));
-    connect(columnPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
     m_pages.append(iconsPage);
     m_pages.append(detailsPage);
-    m_pages.append(columnPage);
 
     topLayout->addWidget(tabWidget, 0, 0);
 }

@@ -6,8 +6,8 @@
       http://www.kde.org/standards/kcfg/1.0/kcfg.xsd">
     <kcfgfile name="dolphinrc"/>
     <group name="FoldersPanel">
-        <entry name="ShowHiddenFiles" type="Bool">
-            <label>Show hidden files</label>
+        <entry name="HiddenFilesShown" type="Bool">
+            <label>Hidden files shown</label>
             <default>false</default>
         </entry>
         <entry name="AutoScrolling" type="Bool">

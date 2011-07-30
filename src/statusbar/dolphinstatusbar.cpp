@@ -48,10 +48,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_view(view),
     m_messageLabel(0),
     m_spaceInfo(0),
-    m_zoomWidget(0),
-    m_zoomOut(0),
     m_zoomSlider(0),
-    m_zoomIn(0),
     m_progressBar(0),
     m_stopButton(0),
     m_progress(100),
@@ -64,14 +61,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     // Initialize message label
     m_messageLabel = new KonqStatusBarMessageLabel(this);
 
-    // Initialize zoom slider
-    m_zoomWidget = new QWidget(this);
-
-    m_zoomOut = new QToolButton(m_zoomWidget);
-    m_zoomOut->setIcon(KIcon("file-zoom-out"));
-    m_zoomOut->setAutoRaise(true);
-
-    m_zoomSlider = new QSlider(Qt::Horizontal, m_zoomWidget);
+    // Initialize zoom widget
+    m_zoomSlider = new QSlider(Qt::Horizontal, this);
     m_zoomSlider->setPageStep(1);
 
     const int min = ZoomLevelInfo::minimumLevel();
@@ -80,23 +71,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_zoomSlider->setValue(view->zoomLevel());
     updateZoomSliderToolTip(view->zoomLevel());
 
-    m_zoomIn = new QToolButton(m_zoomWidget);
-    m_zoomIn->setIcon(KIcon("file-zoom-in"));
-    m_zoomIn->setAutoRaise(true);
-
-    // Initialize zoom widget layout
-    QHBoxLayout* zoomWidgetLayout = new QHBoxLayout(m_zoomWidget);
-    zoomWidgetLayout->setSpacing(0);
-    zoomWidgetLayout->setMargin(0);
-    zoomWidgetLayout->addWidget(m_zoomOut);
-    zoomWidgetLayout->addWidget(m_zoomSlider);
-    zoomWidgetLayout->addWidget(m_zoomIn);
-
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setZoomLevel(int)));
     connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(showZoomSliderToolTip(int)));
-    connect(m_view, SIGNAL(zoomLevelChanged(int)), m_zoomSlider, SLOT(setValue(int)));
-    connect(m_zoomOut, SIGNAL(clicked()), this, SLOT(zoomOut()));
-    connect(m_zoomIn, SIGNAL(clicked()), this, SLOT(zoomIn()));
+    connect(m_view, SIGNAL(zoomLevelChanged(int, int)), this, SLOT(slotZoomLevelChanged(int, int)));
 
     // Initialize space information
     m_spaceInfo = new StatusBarSpaceInfo(this);
@@ -123,8 +100,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
 
     // Initialize top layout and size policies
     const int fontHeight = QFontMetrics(m_messageLabel->font()).height();
-    const int zoomWidgetHeight = m_zoomWidget->minimumSizeHint().height();
-    const int contentHeight = qMax(fontHeight, zoomWidgetHeight);
+    const int zoomSliderHeight = m_zoomSlider->minimumSizeHint().height();
+    const int contentHeight = qMax(fontHeight, zoomSliderHeight);
 
     m_messageLabel->setMinimumTextHeight(contentHeight);
 
@@ -132,14 +109,14 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_spaceInfo->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
 
     m_progressBar->setMaximumSize(200, contentHeight);
-    m_zoomWidget->setMaximumSize(150, contentHeight);
+    m_zoomSlider->setMaximumSize(150, contentHeight);
     m_zoomSlider->setMinimumWidth(30);
 
     QHBoxLayout* topLayout = new QHBoxLayout(this);
     topLayout->setMargin(0);
     topLayout->setSpacing(4);
     topLayout->addWidget(m_messageLabel);
-    topLayout->addWidget(m_zoomWidget);
+    topLayout->addWidget(m_zoomSlider);
     topLayout->addWidget(m_spaceInfo);
     topLayout->addWidget(m_stopButton);
     topLayout->addWidget(m_progressText);
@@ -317,7 +294,7 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
     } else if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
         settings->setShowZoomSlider(visible);
-        m_zoomWidget->setVisible(visible);
+        m_zoomSlider->setVisible(visible);
     } else if (action == showSpaceInfoAction) {
         const bool visible = showSpaceInfoAction->isChecked();
         settings->setShowSpaceInfo(visible);
@@ -332,22 +309,8 @@ void DolphinStatusBar::updateSpaceInfoContent(const KUrl& url)
 
 void DolphinStatusBar::setZoomLevel(int zoomLevel)
 {
-    m_zoomOut->setEnabled(zoomLevel > m_zoomSlider->minimum());
-    m_zoomIn->setEnabled(zoomLevel < m_zoomSlider->maximum());
     m_view->setZoomLevel(zoomLevel);
     updateZoomSliderToolTip(zoomLevel);
-}
-
-void DolphinStatusBar::zoomOut()
-{
-    const int value = m_zoomSlider->value();
-    m_zoomSlider->setValue(value - 1);
-}
-
-void DolphinStatusBar::zoomIn()
-{
-    const int value = m_zoomSlider->value();
-    m_zoomSlider->setValue(value + 1);
 }
 
 void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
@@ -358,6 +321,12 @@ void DolphinStatusBar::showZoomSliderToolTip(int zoomLevel)
     global.ry() += m_zoomSlider->height() / 2;
     QHelpEvent toolTipEvent(QEvent::ToolTip, QPoint(0, 0), m_zoomSlider->mapToGlobal(global));
     QApplication::sendEvent(m_zoomSlider, &toolTipEvent);
+}
+
+void DolphinStatusBar::slotZoomLevelChanged(int current, int previous)
+{
+    Q_UNUSED(previous);
+    m_zoomSlider->setValue(current);
 }
 
 void DolphinStatusBar::updateProgressInfo()
@@ -383,14 +352,14 @@ void DolphinStatusBar::updateProgressInfo()
 void DolphinStatusBar::setExtensionsVisible(bool visible)
 {
     bool showSpaceInfo = visible;
-    bool showZoomWidget = visible;
+    bool showZoomSlider = visible;
     if (visible) {
         const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
         showSpaceInfo = settings->showSpaceInfo();
-        showZoomWidget = settings->showZoomSlider();
+        showZoomSlider = settings->showZoomSlider();
     }
     m_spaceInfo->setVisible(showSpaceInfo);
-    m_zoomWidget->setVisible(showZoomWidget);
+    m_zoomSlider->setVisible(showZoomSlider);
 }
 
 void DolphinStatusBar::updateZoomSliderToolTip(int zoomLevel)

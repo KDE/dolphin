@@ -60,31 +60,21 @@ public:
      *         All entries of this list are keys for accessing the corresponding
      *         data (see actionCollectionName(), translation(), bitValue()).
      */
-    KFileItemDelegate::InformationList keys() const;
+    QList<DolphinView::AdditionalInfo> keys() const;
 
-    /**
-     * @return Key for the model column with the index \p columnIndex.
-     */
-    KFileItemDelegate::Information keyForColumn(int columnIndex) const;
+    QByteArray role(DolphinView::AdditionalInfo info) const;
 
-    QString actionCollectionName(KFileItemDelegate::Information info, ActionCollectionType type) const;
+    QString actionCollectionName(DolphinView::AdditionalInfo info, ActionCollectionType type) const;
 
-    QString translation(KFileItemDelegate::Information info) const;
+    QString translation(DolphinView::AdditionalInfo info) const;
 
     /**
      * @return String representation of the value that is stored in the .directory
      *         by ViewProperties.
      */
-    QString value(KFileItemDelegate::Information info) const;
+    QString value(DolphinView::AdditionalInfo info) const;
 
-    DolphinView::Sorting sorting(KFileItemDelegate::Information info) const;
-
-    /**
-     * @return Bitvalue for \p info that is stored in a ViewProperties instance.
-     *         Is required only for backward compatibility with the version 1 of
-     *         the view-properties.
-     */
-    int bitValue(KFileItemDelegate::Information info) const;
+    DolphinView::Sorting sorting(DolphinView::AdditionalInfo info) const;
 
 protected:
     AdditionalInfoAccessor();
@@ -98,11 +88,10 @@ private:
         const char* const translation;
         const char* const value;
         const DolphinView::Sorting sorting;
-        const int bitValue; // for backward compatibility with version 1 of view-properties
     };
 
-    KFileItemDelegate::InformationList m_information;
-    QMap<KFileItemDelegate::Information, const AdditionalInfo*> m_map;
+    QList<DolphinView::AdditionalInfo> m_infoList;
+    QMap<DolphinView::AdditionalInfo, const AdditionalInfo*> m_map;
 };
 
 #endif

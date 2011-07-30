@@ -26,19 +26,14 @@
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QLayout>
 #include <QScrollArea>
 #include <QScrollBar>
 #include <QTimer>
 
-#include <views/dolphinmodel.h>
-#include <views/dolphinsortfilterproxymodel.h>
-
-ToolTipManager::ToolTipManager(QAbstractItemView* parent,
-                               DolphinSortFilterProxyModel* model) :
+ToolTipManager::ToolTipManager(QWidget* parent) :
     QObject(parent),
     m_view(parent),
-    m_dolphinModel(0),
-    m_proxyModel(model),
     m_showToolTipTimer(0),
     m_contentRetrievalTimer(0),
     m_fileMetaDataToolTip(0),
@@ -48,11 +43,11 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     m_item(),
     m_itemRect()
 {
-    m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
-    connect(parent, SIGNAL(entered(const QModelIndex&)),
-            this, SLOT(requestToolTip(const QModelIndex&)));
-    connect(parent, SIGNAL(viewportEntered()),
-            this, SLOT(hideToolTip()));
+    //m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
+    //connect(parent, SIGNAL(entered(const QModelIndex&)),
+    //        this, SLOT(requestToolTip(const QModelIndex&)));
+    //connect(parent, SIGNAL(viewportEntered()),
+    //        this, SLOT(hideToolTip()));
 
     // Initialize timers
     m_showToolTipTimer = new QTimer(this);
@@ -70,14 +65,14 @@ ToolTipManager::ToolTipManager(QAbstractItemView* parent,
     // When the mousewheel is used, the items don't get a hovered indication
     // (Qt-issue #200665). To assure that the tooltip still gets hidden,
     // the scrollbars are observed.
-    connect(parent->horizontalScrollBar(), SIGNAL(valueChanged(int)),
+    /*connect(parent->horizontalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(hideToolTip()));
     connect(parent->verticalScrollBar(), SIGNAL(valueChanged(int)),
-            this, SLOT(hideToolTip()));
+            this, SLOT(hideToolTip()));*/
 
     Q_ASSERT(m_view);
-    m_view->viewport()->installEventFilter(this);
-    m_view->installEventFilter(this);
+    //m_view->viewport()->installEventFilter(this);
+    //m_view->installEventFilter(this);
 }
 
 ToolTipManager::~ToolTipManager()
@@ -103,7 +98,7 @@ void ToolTipManager::hideToolTip()
 
 bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
 {
-    if (watched == m_view->viewport()) {
+    /*if (watched == m_view->viewport()) {
         switch (event->type()) {
         case QEvent::Leave:
         case QEvent::MouseButtonPress:
@@ -114,24 +109,25 @@ bool ToolTipManager::eventFilter(QObject* watched, QEvent* event)
         }
     } else if ((watched == m_view) && (event->type() == QEvent::KeyPress)) {
         hideToolTip();
-    }
+    }*/
 
     return QObject::eventFilter(watched, event);
 }
 
 void ToolTipManager::requestToolTip(const QModelIndex& index)
 {
+    Q_UNUSED(index);
     hideToolTip();
 
     // Only request a tooltip for the name column and when no selection or
     // drag & drop operation is done (indicated by the left mouse button)
-    if ((index.column() == DolphinModel::Name) && !(QApplication::mouseButtons() & Qt::LeftButton)) {
-        m_itemRect = m_view->visualRect(index);
-        const QPoint pos = m_view->viewport()->mapToGlobal(m_itemRect.topLeft());
+    if (!(QApplication::mouseButtons() & Qt::LeftButton)) {
+        m_itemRect = QRect(); //m_view->visualRect(index);
+        const QPoint pos; // = m_view->viewport()->mapToGlobal(m_itemRect.topLeft());
         m_itemRect.moveTo(pos);
 
-        const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-        m_item = m_dolphinModel->itemForIndex(dirIndex);
+        //const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
+        //m_item = m_dolphinModel->itemForIndex(dirIndex);
 
         // Only start the retrieving of the content, when the mouse has been over this
         // item for 200 milliseconds. This prevents a lot of useless preview jobs and
