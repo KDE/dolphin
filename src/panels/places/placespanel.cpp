@@ -28,10 +28,10 @@ PlacesPanel::PlacesPanel(QWidget* parent) :
     m_mouseButtons(Qt::NoButton)
 {
     setDropOnPlaceEnabled(true);
-    connect(this, SIGNAL(urlsDropped(const KUrl&, QDropEvent*, QWidget*)),
-            this, SLOT(slotUrlsDropped(const KUrl&, QDropEvent*, QWidget*)));
-    connect(this, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(emitExtendedUrlChangedSignal(const KUrl&)));
+    connect(this, SIGNAL(urlsDropped(KUrl,QDropEvent*,QWidget*)),
+            this, SLOT(slotUrlsDropped(KUrl,QDropEvent*,QWidget*)));
+    connect(this, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(emitExtendedUrlChangedSignal(KUrl)));
 }
 
 PlacesPanel::~PlacesPanel()

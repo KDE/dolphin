@@ -157,9 +157,9 @@ void VersionControlObserver::verifyDirectory()
             // The directory is versioned. Assume that the user will further browse through
             // versioned directories and decrease the verification timer.
             m_dirVerificationTimer->setInterval(100);
-            connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+            connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
                     this, SLOT(delayedDirectoryVerification()));
-            connect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
+            connect(m_dirLister, SIGNAL(newItems(KFileItemList)),
                     this, SLOT(delayedDirectoryVerification()));
         }
         updateItemStates();
@@ -170,9 +170,9 @@ void VersionControlObserver::verifyDirectory()
         // value, so that browsing through non-versioned directories is not slown down
         // by an immediate verification.
         m_dirVerificationTimer->setInterval(500);
-        disconnect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+        disconnect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
                    this, SLOT(delayedDirectoryVerification()));
-        disconnect(m_dirLister, SIGNAL(newItems(const KFileItemList&)),
+        disconnect(m_dirLister, SIGNAL(newItems(KFileItemList)),
                    this, SLOT(delayedDirectoryVerification()));
     }*/
 }

@@ -98,7 +98,7 @@ StartupSettingsPage::StartupSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_homeUrl, SIGNAL(textChanged(const QString&)), this, SLOT(slotSettingsChanged()));
+    connect(m_homeUrl, SIGNAL(textChanged(QString)), this, SLOT(slotSettingsChanged()));
     connect(m_splitView,    SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
     connect(m_editableUrl,  SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));
     connect(m_showFullPath, SIGNAL(toggled(bool)), this, SLOT(slotSettingsChanged()));

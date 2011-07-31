@@ -55,8 +55,8 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_showProgressBarTimer(0),
     m_messageTimeStamp()
 {
-    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(updateSpaceInfoContent(const KUrl&)));
+    connect(m_view, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(updateSpaceInfoContent(KUrl)));
 
     // Initialize message label
     m_messageLabel = new KonqStatusBarMessageLabel(this);
@@ -73,7 +73,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
 
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setZoomLevel(int)));
     connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(showZoomSliderToolTip(int)));
-    connect(m_view, SIGNAL(zoomLevelChanged(int, int)), this, SLOT(slotZoomLevelChanged(int, int)));
+    connect(m_view, SIGNAL(zoomLevelChanged(int,int)), this, SLOT(slotZoomLevelChanged(int,int)));
 
     // Initialize space information
     m_spaceInfo = new StatusBarSpaceInfo(this);

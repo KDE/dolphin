@@ -96,13 +96,13 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(m_view, SIGNAL(modeChanged(DolphinView::Mode,DolphinView::Mode)),
             this, SIGNAL(viewModeChanged())); // relay signal
-    connect(m_view, SIGNAL(redirection(KUrl, KUrl)),
-            this, SLOT(slotRedirection(KUrl, KUrl)));
+    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),
+            this, SLOT(slotRedirection(KUrl,KUrl)));
 
     // Watch for changes that should result in updates to the
     // status bar text.
     connect(m_view, SIGNAL(itemCountChanged()), this, SLOT(updateStatusBar()));
-    connect(m_view,  SIGNAL(selectionChanged(const KFileItemList)), this, SLOT(updateStatusBar()));
+    connect(m_view,  SIGNAL(selectionChanged(KFileItemList)), this, SLOT(updateStatusBar()));
 
     m_actionHandler = new DolphinViewActionHandler(actionCollection(), this);
     m_actionHandler->setCurrentView(m_view);

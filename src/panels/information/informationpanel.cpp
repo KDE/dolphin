@@ -346,7 +346,7 @@ void InformationPanel::init()
 
     org::kde::KDirNotify* dirNotify = new org::kde::KDirNotify(QString(), QString(),
                                                                QDBusConnection::sessionBus(), this);
-    connect(dirNotify, SIGNAL(FileRenamed(QString, QString)), SLOT(slotFileRenamed(QString, QString)));
+    connect(dirNotify, SIGNAL(FileRenamed(QString,QString)), SLOT(slotFileRenamed(QString,QString)));
     connect(dirNotify, SIGNAL(FilesAdded(QString)), SLOT(slotFilesAdded(QString)));
     connect(dirNotify, SIGNAL(FilesChanged(QStringList)), SLOT(slotFilesChanged(QStringList)));
     connect(dirNotify, SIGNAL(FilesRemoved(QStringList)), SLOT(slotFilesRemoved(QStringList)));

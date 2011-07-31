@@ -86,8 +86,8 @@ DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
         if (m_keyInfo->isKeyPressed(Qt::Key_Shift) || m_keyInfo->isKeyLatched(Qt::Key_Shift)) {
             m_shiftPressed = true;
         }
-        connect(m_keyInfo, SIGNAL(keyPressed(Qt::Key, bool)),
-                this, SLOT(slotKeyModifierPressed(Qt::Key, bool)));
+        connect(m_keyInfo, SIGNAL(keyPressed(Qt::Key,bool)),
+                this, SLOT(slotKeyModifierPressed(Qt::Key,bool)));
     }
 
     m_removeAction = new QAction(this);

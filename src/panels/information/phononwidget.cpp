@@ -210,7 +210,7 @@ void PhononWidget::play()
     }
 
     Q_ASSERT(m_media);
-    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
+    connect(m_media, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
             this, SLOT(stateChanged(Phonon::State)));
     m_seekSlider->setMediaObject(m_media);
 
@@ -221,7 +221,7 @@ void PhononWidget::stop()
 {
     if (m_media) {
         m_media->stop();
-        disconnect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)),
+        disconnect(m_media, SIGNAL(stateChanged(Phonon::State,Phonon::State)),
                    this, SLOT(stateChanged(Phonon::State)));
         emit playingStopped();
 

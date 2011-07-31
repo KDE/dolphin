@@ -38,8 +38,8 @@ ApplyViewPropsJob::ApplyViewPropsJob(const KUrl& dir,
     m_viewProps->setSortOrder(viewProps.sortOrder());
 
     KIO::ListJob* listJob = KIO::listRecursive(dir, KIO::HideProgressInfo);
-    connect(listJob, SIGNAL(entries(KIO::Job*, const KIO::UDSEntryList&)),
-            SLOT(slotEntries(KIO::Job*, const KIO::UDSEntryList&)));
+    connect(listJob, SIGNAL(entries(KIO::Job*,KIO::UDSEntryList)),
+            SLOT(slotEntries(KIO::Job*,KIO::UDSEntryList)));
     addSubjob(listJob);
 }
 

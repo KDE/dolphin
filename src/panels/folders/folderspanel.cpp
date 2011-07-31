@@ -148,8 +148,8 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_dolphinModel = new DolphinModel(this);
         m_dolphinModel->setDirLister(m_dirLister);
         m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
-        connect(m_dolphinModel, SIGNAL(expand(const QModelIndex&)),
-                this, SLOT(expandToDir(const QModelIndex&)));
+        connect(m_dolphinModel, SIGNAL(expand(QModelIndex)),
+                this, SLOT(expandToDir(QModelIndex)));
 
         Q_ASSERT(!m_proxyModel);
         m_proxyModel = new DolphinSortFilterProxyModel(this);
@@ -164,11 +164,11 @@ void FoldersPanel::showEvent(QShowEvent* event)
 
         new FolderExpander(m_treeView, m_proxyModel);
 
-        connect(m_treeView, SIGNAL(clicked(const QModelIndex&)),
-                this, SLOT(updateActiveView(const QModelIndex&)));
-        connect(m_treeView, SIGNAL(urlsDropped(const QModelIndex&, QDropEvent*)),
-                this, SLOT(dropUrls(const QModelIndex&, QDropEvent*)));
-        connect(m_treeView, SIGNAL(pressed(const QModelIndex&)),
+        connect(m_treeView, SIGNAL(clicked(QModelIndex)),
+                this, SLOT(updateActiveView(QModelIndex)));
+        connect(m_treeView, SIGNAL(urlsDropped(QModelIndex,QDropEvent*)),
+                this, SLOT(dropUrls(QModelIndex,QDropEvent*)));
+        connect(m_treeView, SIGNAL(pressed(QModelIndex)),
                 this, SLOT(updateMouseButtons()));
 
         connect(m_treeView->horizontalScrollBar(), SIGNAL(sliderMoved(int)),

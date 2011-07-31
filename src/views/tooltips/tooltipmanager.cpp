@@ -44,8 +44,8 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_itemRect()
 {
     //m_dolphinModel = static_cast<DolphinModel*>(m_proxyModel->sourceModel());
-    //connect(parent, SIGNAL(entered(const QModelIndex&)),
-    //        this, SLOT(requestToolTip(const QModelIndex&)));
+    //connect(parent, SIGNAL(entered(QModelIndex)),
+    //        this, SLOT(requestToolTip(QModelIndex)));
     //connect(parent, SIGNAL(viewportEntered()),
     //        this, SLOT(hideToolTip()));
 
@@ -164,9 +164,9 @@ void ToolTipManager::startContentRetrieval()
 
     KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item, QSize(256, 256));
 
-    connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-            this, SLOT(setPreviewPix(const KFileItem&, const QPixmap&)));
-    connect(job, SIGNAL(failed(const KFileItem&)),
+    connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
+            this, SLOT(setPreviewPix(KFileItem,QPixmap)));
+    connect(job, SIGNAL(failed(KFileItem)),
             this, SLOT(previewFailed()));
 }
 

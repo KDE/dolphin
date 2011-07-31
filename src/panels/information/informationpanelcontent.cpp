@@ -176,10 +176,10 @@ void InformationPanelContent::showItem(const KFileItem& item)
             KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
             job->setScaleType(KIO::PreviewJob::Unscaled);
 
-            connect(job, SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-                    this, SLOT(showPreview(const KFileItem&, const QPixmap&)));
-            connect(job, SIGNAL(failed(const KFileItem&)),
-                    this, SLOT(showIcon(const KFileItem&)));
+            connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
+                    this, SLOT(showPreview(KFileItem,QPixmap)));
+            connect(job, SIGNAL(failed(KFileItem)),
+                    this, SLOT(showIcon(KFileItem)));
         }
     }
 

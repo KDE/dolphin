@@ -56,11 +56,11 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
 
     updateGridSize();
 /*
-    connect(this, SIGNAL(clicked(const QModelIndex&)),
-            dolphinViewController, SLOT(requestTab(const QModelIndex&)));*/
+    connect(this, SIGNAL(clicked(QModelIndex)),
+            dolphinViewController, SLOT(requestTab(QModelIndex)));*/
 /*
-    connect(this, SIGNAL(entered(const QModelIndex&)),
-            dolphinViewController, SLOT(emitItemEntered(const QModelIndex&)));
+    connect(this, SIGNAL(entered(QModelIndex)),
+            dolphinViewController, SLOT(emitItemEntered(QModelIndex)));
     connect(this, SIGNAL(viewportEntered()),
             dolphinViewController, SLOT(emitViewportEntered()));*/
 

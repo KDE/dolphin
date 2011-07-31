@@ -57,7 +57,7 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
 
     m_currentView = view;
 
-    connect(view, SIGNAL(modeChanged(DolphinView::Mode, DolphinView::Mode)),
+    connect(view, SIGNAL(modeChanged(DolphinView::Mode,DolphinView::Mode)),
             this, SLOT(updateViewActions()));
     connect(view, SIGNAL(previewsShownChanged(bool)),
             this, SLOT(slotPreviewsShownChanged(bool)));
@@ -75,8 +75,8 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotHiddenFilesShownChanged(bool)));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(slotSortingChanged(DolphinView::Sorting)));
-    connect(view, SIGNAL(zoomLevelChanged(int, int)),
-            this, SLOT(slotZoomLevelChanged(int, int)));
+    connect(view, SIGNAL(zoomLevelChanged(int,int)),
+            this, SLOT(slotZoomLevelChanged(int,int)));
 }
 
 DolphinView* DolphinViewActionHandler::currentView()
@@ -106,8 +106,8 @@ void DolphinViewActionHandler::createActions()
     moveToTrash->setText(i18nc("@action:inmenu File", "Move to Trash"));
     moveToTrash->setIcon(KIcon("user-trash"));
     moveToTrash->setShortcut(QKeySequence::Delete);
-    connect(moveToTrash, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)),
-            this, SLOT(slotTrashActivated(Qt::MouseButtons, Qt::KeyboardModifiers)));
+    connect(moveToTrash, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)),
+            this, SLOT(slotTrashActivated(Qt::MouseButtons,Qt::KeyboardModifiers)));
 
     KAction* deleteAction = m_actionCollection->addAction("delete");
     deleteAction->setIcon(KIcon("edit-delete"));

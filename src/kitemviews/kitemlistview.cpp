@@ -66,8 +66,8 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_layouter->setSizeHintResolver(m_sizeHintResolver);
 
     m_animation = new KItemListViewAnimation(this);
-    connect(m_animation, SIGNAL(finished(QGraphicsWidget*, KItemListViewAnimation::AnimationType)),
-            this, SLOT(slotAnimationFinished(QGraphicsWidget*, KItemListViewAnimation::AnimationType)));
+    connect(m_animation, SIGNAL(finished(QGraphicsWidget*,KItemListViewAnimation::AnimationType)),
+            this, SLOT(slotAnimationFinished(QGraphicsWidget*,KItemListViewAnimation::AnimationType)));
 
     m_layoutTimer = new QTimer(this);
     m_layoutTimer->setInterval(300);

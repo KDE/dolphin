@@ -100,29 +100,29 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     //m_viewModeController = new ViewModeController(this);
     //m_viewModeController->setUrl(url);
 
-    /*connect(m_viewModeController, SIGNAL(urlChanged(const KUrl&)),
-            this, SIGNAL(urlChanged(const KUrl&)));
+    /*connect(m_viewModeController, SIGNAL(urlChanged(KUrl)),
+            this, SIGNAL(urlChanged(KUrl)));
 
-    connect(m_dolphinViewController, SIGNAL(requestContextMenu(const QPoint&, const QList<QAction*>&)),
-            this, SLOT(openContextMenu(const QPoint&, const QList<QAction*>&)));
-    connect(m_dolphinViewController, SIGNAL(urlsDropped(const KFileItem&, const KUrl&, QDropEvent*)),
-            this, SLOT(dropUrls(const KFileItem&, const KUrl&, QDropEvent*)));
+    connect(m_dolphinViewController, SIGNAL(requestContextMenu(QPoint,QList<QAction*>)),
+            this, SLOT(openContextMenu(QPoint,QList<QAction*>)));
+    connect(m_dolphinViewController, SIGNAL(urlsDropped(KFileItem,KUrl,QDropEvent*)),
+            this, SLOT(dropUrls(KFileItem,KUrl,QDropEvent*)));
     connect(m_dolphinViewController, SIGNAL(sortingChanged(DolphinView::Sorting)),
             this, SLOT(updateSorting(DolphinView::Sorting)));
     connect(m_dolphinViewController, SIGNAL(sortOrderChanged(Qt::SortOrder)),
             this, SLOT(updateSortOrder(Qt::SortOrder)));
     connect(m_dolphinViewController, SIGNAL(sortFoldersFirstChanged(bool)),
             this, SLOT(updateSortFoldersFirst(bool)));
-    connect(m_dolphinViewController, SIGNAL(additionalInfoChanged(const QList<DolphinView::AdditionalInfo>&)),
-            this, SLOT(updateAdditionalInfo(const QList<DolphinView::AdditionalInfo>&)));*/
-    //connect(m_dolphinViewController, SIGNAL(itemTriggered(const KFileItem&)),
-    //        this, SLOT(triggerItem(const KFileItem&)));
-    //connect(m_dolphinViewController, SIGNAL(tabRequested(const KUrl&)),
-    //        this, SIGNAL(tabRequested(const KUrl&)));
+    connect(m_dolphinViewController, SIGNAL(additionalInfoChanged(QList<DolphinView::AdditionalInfo>)),
+            this, SLOT(updateAdditionalInfo(QList<DolphinView::AdditionalInfo>)));*/
+    //connect(m_dolphinViewController, SIGNAL(itemTriggered(KFileItem)),
+    //        this, SLOT(triggerItem(KFileItem)));
+    //connect(m_dolphinViewController, SIGNAL(tabRequested(KUrl)),
+    //        this, SIGNAL(tabRequested(KUrl)));
     /*connect(m_dolphinViewController, SIGNAL(activated()),
             this, SLOT(activate()));
-    connect(m_dolphinViewController, SIGNAL(itemEntered(const KFileItem&)),
-            this, SLOT(showHoverInformation(const KFileItem&)));
+    connect(m_dolphinViewController, SIGNAL(itemEntered(KFileItem)),
+            this, SLOT(showHoverInformation(KFileItem)));
     connect(m_dolphinViewController, SIGNAL(viewportEntered()),
             this, SLOT(clearHoverInformation()));
     connect(m_dolphinViewController, SIGNAL(urlChangeRequested(KUrl)),
@@ -131,8 +131,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the
     // creation is done asynchronously, several signals must be checked:
-    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(itemCreated(const KUrl&)),
-            this, SLOT(observeCreatedItem(const KUrl&)));
+    connect(&DolphinNewFileMenuObserver::instance(), SIGNAL(itemCreated(KUrl)),
+            this, SLOT(observeCreatedItem(KUrl)));
 
     m_selectionChangedTimer = new QTimer(this);
     m_selectionChangedTimer->setSingleShot(true);
@@ -147,16 +147,16 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SLOT(slotRedirection(KUrl,KUrl)));
     connect(m_dirLister, SIGNAL(started(KUrl)),          this, SLOT(slotDirListerStarted(KUrl)));
     connect(m_dirLister, SIGNAL(completed()),            this, SLOT(slotDirListerCompleted()));
-    connect(m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem,KFileItem>>&)),
+    connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
             this, SLOT(slotRefreshItems()));
 
     connect(m_dirLister, SIGNAL(clear()),                      this, SIGNAL(itemCountChanged()));
     connect(m_dirLister, SIGNAL(newItems(KFileItemList)),      this, SIGNAL(itemCountChanged()));
-    connect(m_dirLister, SIGNAL(infoMessage(const QString&)),  this, SIGNAL(infoMessage(const QString&)));
-    connect(m_dirLister, SIGNAL(errorMessage(const QString&)), this, SIGNAL(infoMessage(const QString&)));
+    connect(m_dirLister, SIGNAL(infoMessage(QString)),  this, SIGNAL(infoMessage(QString)));
+    connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SIGNAL(infoMessage(QString)));
     connect(m_dirLister, SIGNAL(percent(int)),                 this, SIGNAL(pathLoadingProgress(int)));
-    connect(m_dirLister, SIGNAL(urlIsFileError(const KUrl&)),  this, SIGNAL(urlIsFileError(const KUrl&)));
-    connect(m_dirLister, SIGNAL(itemsDeleted(const KFileItemList&)), this, SIGNAL(itemCountChanged()));
+    connect(m_dirLister, SIGNAL(urlIsFileError(KUrl)),  this, SIGNAL(urlIsFileError(KUrl)));
+    connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SIGNAL(itemCountChanged()));
 
     m_container = new DolphinItemListContainer(m_dirLister, this);
     QHash<QByteArray, int> visibleRoles;
@@ -164,8 +164,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_container->setVisibleRoles(visibleRoles);
 
     KItemListController* controller = m_container->controller();
-    connect(controller, SIGNAL(itemClicked(int, Qt::MouseButton)),
-            this, SLOT(slotItemClicked(int, Qt::MouseButton)));
+    connect(controller, SIGNAL(itemClicked(int,Qt::MouseButton)),
+            this, SLOT(slotItemClicked(int,Qt::MouseButton)));
     connect(controller, SIGNAL(itemExpansionToggleClicked(int)), this, SLOT(slotItemExpansionToggleClicked(int)));
 
     applyViewProperties();
@@ -879,7 +879,7 @@ KFileItem DolphinView::rootItem() const
 void DolphinView::observeCreatedItem(const KUrl& url)
 {
     m_createdItemUrl = url;
-    //connect(m_dirModel, SIGNAL(rowsInserted(const QModelIndex&, int, int)),
+    //connect(m_dirModel, SIGNAL(rowsInserted(QModelIndex,int,int)),
     //        this, SLOT(selectAndScrollToCreatedItem()));
 }
 
@@ -894,7 +894,7 @@ void DolphinView::selectAndScrollToCreatedItem()
         }
     }
 
-    disconnect(m_viewAccessor.dirModel(), SIGNAL(rowsInserted(const QModelIndex&, int, int)),
+    disconnect(m_viewAccessor.dirModel(), SIGNAL(rowsInserted(QModelIndex,int,int)),
                this, SLOT(selectAndScrollToCreatedItem()));*/
     m_createdItemUrl = KUrl();
 }

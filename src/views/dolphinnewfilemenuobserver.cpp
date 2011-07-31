@@ -36,18 +36,18 @@ DolphinNewFileMenuObserver& DolphinNewFileMenuObserver::instance()
 
 void DolphinNewFileMenuObserver::attach(const KNewFileMenu* menu)
 {
-    connect(menu, SIGNAL(fileCreated(const KUrl&)),
-            this, SIGNAL(itemCreated(const KUrl&)));
-    connect(menu, SIGNAL(directoryCreated(const KUrl&)),
-            this, SIGNAL(itemCreated(const KUrl&)));
+    connect(menu, SIGNAL(fileCreated(KUrl)),
+            this, SIGNAL(itemCreated(KUrl)));
+    connect(menu, SIGNAL(directoryCreated(KUrl)),
+            this, SIGNAL(itemCreated(KUrl)));
 }
 
 void DolphinNewFileMenuObserver::detach(const KNewFileMenu* menu)
 {
-    disconnect(menu, SIGNAL(fileCreated(const KUrl&)),
-               this, SIGNAL(itemCreated(const KUrl&)));
-    disconnect(menu, SIGNAL(directoryCreated(const KUrl&)),
-               this, SIGNAL(itemCreated(const KUrl&)));
+    disconnect(menu, SIGNAL(fileCreated(KUrl)),
+               this, SIGNAL(itemCreated(KUrl)));
+    disconnect(menu, SIGNAL(directoryCreated(KUrl)),
+               this, SIGNAL(itemCreated(KUrl)));
 }
 
 DolphinNewFileMenuObserver::DolphinNewFileMenuObserver() :

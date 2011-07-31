@@ -493,8 +493,8 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
         job = KIO::filePreview(itemsSubSet, cacheSize, &m_enabledPlugins);
     }
 
-    connect(job,  SIGNAL(gotPreview(const KFileItem&, const QPixmap&)),
-            this, SLOT(slotGotPreview(const KFileItem&, const QPixmap&)));
+    connect(job,  SIGNAL(gotPreview(KFileItem,QPixmap)),
+            this, SLOT(slotGotPreview(KFileItem,QPixmap)));
     connect(job,  SIGNAL(failed(KFileItem)),
             this, SLOT(slotPreviewFailed(KFileItem)));
     connect(job,  SIGNAL(finished(KJob*)),

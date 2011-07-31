@@ -72,8 +72,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_topLayout->setMargin(0);
 
     m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
-    connect(m_urlNavigator, SIGNAL(urlsDropped(const KUrl&, QDropEvent*)),
-            this, SLOT(dropUrls(const KUrl&, QDropEvent*)));
+    connect(m_urlNavigator, SIGNAL(urlsDropped(KUrl,QDropEvent*)),
+            this, SLOT(dropUrls(KUrl,QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
             this, SLOT(activate()));
     connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
@@ -93,28 +93,28 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
     m_view = new DolphinView(url, this);
-    connect(m_view, SIGNAL(urlChanged(const KUrl&)),      m_urlNavigator, SLOT(setUrl(const KUrl&)));
+    connect(m_view, SIGNAL(urlChanged(KUrl)),      m_urlNavigator, SLOT(setUrl(KUrl)));
     connect(m_view, SIGNAL(writeStateChanged(bool)),      this, SIGNAL(writeStateChanged(bool)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),   this, SLOT(showItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(errorMessage(const QString&)), this, SLOT(showErrorMessage(const QString&)));
-    connect(m_view, SIGNAL(infoMessage(const QString&)),  this, SLOT(showInfoMessage(const QString&)));
+    connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(showErrorMessage(QString)));
+    connect(m_view, SIGNAL(infoMessage(QString)),  this, SLOT(showInfoMessage(QString)));
     connect(m_view, SIGNAL(itemTriggered(KFileItem)),     this, SLOT(slotItemTriggered(KFileItem)));
-    connect(m_view, SIGNAL(redirection(KUrl, KUrl)),      this, SLOT(redirect(KUrl, KUrl)));
+    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),      this, SLOT(redirect(KUrl,KUrl)));
     connect(m_view, SIGNAL(startedPathLoading(KUrl)),     this, SLOT(slotStartedPathLoading()));
     connect(m_view, SIGNAL(finishedPathLoading(KUrl)),    this, SLOT(slotFinishedPathLoading()));
     connect(m_view, SIGNAL(itemCountChanged()),           this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(pathLoadingProgress(int)),     this, SLOT(updateProgress(int)));
-    connect(m_view, SIGNAL(infoMessage(const QString&)),  this, SLOT(showInfoMessage(const QString&)));
-    connect(m_view, SIGNAL(errorMessage(const QString&)), this, SLOT(showErrorMessage(const QString&)));
-    connect(m_view, SIGNAL(urlIsFileError(const KUrl&)),  this, SLOT(openFile(const KUrl&)));
-    connect(m_view, SIGNAL(selectionChanged(const KFileItemList&)),    this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(operationCompletedMessage(const QString&)), this, SLOT(showOperationCompletedMessage(const QString&)));
-    connect(m_view, SIGNAL(urlAboutToBeChanged(const KUrl&)),          this, SLOT(slotViewUrlAboutToBeChanged(const KUrl&)));
+    connect(m_view, SIGNAL(infoMessage(QString)),  this, SLOT(showInfoMessage(QString)));
+    connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(showErrorMessage(QString)));
+    connect(m_view, SIGNAL(urlIsFileError(KUrl)),  this, SLOT(openFile(KUrl)));
+    connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
+    connect(m_view, SIGNAL(operationCompletedMessage(QString)), this, SLOT(showOperationCompletedMessage(QString)));
+    connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
 
-    connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(const KUrl&)),
-            this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(const KUrl&)));
-    connect(m_urlNavigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(slotUrlNavigatorLocationChanged(const KUrl&)));
+    connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(KUrl)),
+            this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(KUrl)));
+    connect(m_urlNavigator, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(slotUrlNavigatorLocationChanged(KUrl)));
     connect(m_urlNavigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
 
@@ -135,11 +135,11 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     // initialize filter bar
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());
-    connect(m_filterBar, SIGNAL(filterChanged(const QString&)),
-            this, SLOT(setNameFilter(const QString&)));
+    connect(m_filterBar, SIGNAL(filterChanged(QString)),
+            this, SLOT(setNameFilter(QString)));
     connect(m_filterBar, SIGNAL(closeRequest()),
             this, SLOT(closeFilterBar()));
-    connect(m_view, SIGNAL(urlChanged(const KUrl&)),
+    connect(m_view, SIGNAL(urlChanged(KUrl)),
             m_filterBar, SLOT(clear()));
 
     m_topLayout->addWidget(m_urlNavigator);

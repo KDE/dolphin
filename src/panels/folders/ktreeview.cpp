@@ -37,13 +37,13 @@ KTreeView::KTreeViewPrivate::KTreeViewPrivate(KTreeView *parent) :
     connect(timeLine, SIGNAL(frameChanged(int)),
             this, SLOT(updateVerticalScrollBar(int)));
 
-    connect(parent->verticalScrollBar(), SIGNAL(rangeChanged(int, int)),
+    connect(parent->verticalScrollBar(), SIGNAL(rangeChanged(int,int)),
             this, SLOT(startScrolling()));
     connect(parent->verticalScrollBar(), SIGNAL(valueChanged(int)),
             this, SLOT(startScrolling()));
-    connect(parent, SIGNAL(collapsed(const QModelIndex&)),
+    connect(parent, SIGNAL(collapsed(QModelIndex)),
             this, SLOT(startScrolling()));
-    connect(parent, SIGNAL(expanded(const QModelIndex&)),
+    connect(parent, SIGNAL(expanded(QModelIndex)),
             this, SLOT(startScrolling()));
 }
 

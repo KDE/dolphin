@@ -152,16 +152,16 @@ DolphinMainWindow::DolphinMainWindow() :
 
     connect(undoManager, SIGNAL(undoAvailable(bool)),
             this, SLOT(slotUndoAvailable(bool)));
-    connect(undoManager, SIGNAL(undoTextChanged(const QString&)),
-            this, SLOT(slotUndoTextChanged(const QString&)));
+    connect(undoManager, SIGNAL(undoTextChanged(QString)),
+            this, SLOT(slotUndoTextChanged(QString)));
     connect(undoManager, SIGNAL(jobRecordingStarted(CommandType)),
             this, SLOT(clearStatusBar()));
     connect(undoManager, SIGNAL(jobRecordingFinished(CommandType)),
             this, SLOT(showCommand(CommandType)));
-    connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(const QString&)),
-            this, SLOT(showErrorMessage(const QString&)));
-    //connect(&DragAndDropHelper::instance(), SIGNAL(errorMessage(const QString&)),
-    //        this, SLOT(showErrorMessage(const QString&)));
+    connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(QString)),
+            this, SLOT(showErrorMessage(QString)));
+    //connect(&DragAndDropHelper::instance(), SIGNAL(errorMessage(QString)),
+    //        this, SLOT(showErrorMessage(QString)));
 
     const DolphinSettings& settings = DolphinSettings::instance();
 
@@ -193,7 +193,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_actionHandler->setCurrentView(view);
 
     m_remoteEncoding = new DolphinRemoteEncoding(this, m_actionHandler);
-    connect(this, SIGNAL(urlChanged(const KUrl&)),
+    connect(this, SIGNAL(urlChanged(KUrl)),
             m_remoteEncoding, SLOT(slotAboutToOpenUrl()));
 
     m_tabBar = new KTabBar(this);
@@ -203,18 +203,18 @@ DolphinMainWindow::DolphinMainWindow() :
             this, SLOT(setActiveTab(int)));
     connect(m_tabBar, SIGNAL(tabCloseRequested(int)),
             this, SLOT(closeTab(int)));
-    connect(m_tabBar, SIGNAL(contextMenu(int, const QPoint&)),
-            this, SLOT(openTabContextMenu(int, const QPoint&)));
+    connect(m_tabBar, SIGNAL(contextMenu(int,QPoint)),
+            this, SLOT(openTabContextMenu(int,QPoint)));
     connect(m_tabBar, SIGNAL(newTabRequest()),
             this, SLOT(openNewTab()));
-    connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*, bool&)),
-            this, SLOT(slotTestCanDecode(const QDragMoveEvent*, bool&)));
+    connect(m_tabBar, SIGNAL(testCanDecode(const QDragMoveEvent*,bool&)),
+            this, SLOT(slotTestCanDecode(const QDragMoveEvent*,bool&)));
     connect(m_tabBar, SIGNAL(mouseMiddleClick(int)),
             this, SLOT(closeTab(int)));
-    connect(m_tabBar, SIGNAL(tabMoved(int, int)),
-            this, SLOT(slotTabMoved(int, int)));
-    connect(m_tabBar, SIGNAL(receivedDropEvent(int, QDropEvent*)),
-            this, SLOT(tabDropEvent(int, QDropEvent*)));
+    connect(m_tabBar, SIGNAL(tabMoved(int,int)),
+            this, SLOT(slotTabMoved(int,int)));
+    connect(m_tabBar, SIGNAL(receivedDropEvent(int,QDropEvent*)),
+            this, SLOT(tabDropEvent(int,QDropEvent*)));
 
     m_tabBar->blockSignals(true);  // signals get unblocked after at least 2 tabs are open
 
@@ -1656,7 +1656,7 @@ void DolphinMainWindow::setupActions()
 
     // setup 'Go' menu
     KAction* backAction = KStandardAction::back(this, SLOT(goBack()), actionCollection());
-    connect(backAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goBack(Qt::MouseButtons)));
+    connect(backAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goBack(Qt::MouseButtons)));
     KShortcut backShortcut = backAction->shortcut();
     backShortcut.setAlternate(Qt::Key_Backspace);
     backAction->setShortcut(backShortcut);
@@ -1664,8 +1664,8 @@ void DolphinMainWindow::setupActions()
     m_recentTabsMenu = new KActionMenu(i18n("Recently Closed Tabs"), this);
     m_recentTabsMenu->setIcon(KIcon("edit-undo"));
     actionCollection()->addAction("closed_tabs", m_recentTabsMenu);
-    connect(m_recentTabsMenu->menu(), SIGNAL(triggered(QAction *)),
-            this, SLOT(restoreClosedTab(QAction *)));
+    connect(m_recentTabsMenu->menu(), SIGNAL(triggered(QAction*)),
+            this, SLOT(restoreClosedTab(QAction*)));
 
     QAction* action = new QAction(i18n("Empty Recently Closed Tabs"), m_recentTabsMenu);
     action->setIcon(KIcon("edit-clear-list"));
@@ -1675,10 +1675,10 @@ void DolphinMainWindow::setupActions()
     m_recentTabsMenu->setEnabled(false);
 
     KAction* forwardAction = KStandardAction::forward(this, SLOT(goForward()), actionCollection());
-    connect(forwardAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goForward(Qt::MouseButtons)));
+    connect(forwardAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goForward(Qt::MouseButtons)));
 
     KAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
-    connect(upAction, SIGNAL(triggered(Qt::MouseButtons, Qt::KeyboardModifiers)), this, SLOT(goUp(Qt::MouseButtons)));
+    connect(upAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goUp(Qt::MouseButtons)));
 
     KStandardAction::home(this, SLOT(goHome()), actionCollection());
 
@@ -1788,8 +1788,8 @@ void DolphinMainWindow::setupDockWidgets()
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             foldersPanel, SLOT(setUrl(KUrl)));
-    connect(foldersPanel, SIGNAL(changeUrl(KUrl, Qt::MouseButtons)),
-            this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
+    connect(foldersPanel, SIGNAL(changeUrl(KUrl,Qt::MouseButtons)),
+            this, SLOT(handlePlacesClick(KUrl,Qt::MouseButtons)));
 
     // Setup "Terminal"
 #ifndef Q_OS_WIN
@@ -1870,8 +1870,8 @@ void DolphinMainWindow::setupDockWidgets()
     addActionCloneToCollection(placesAction, "show_places_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
-    connect(placesPanel, SIGNAL(urlChanged(KUrl, Qt::MouseButtons)),
-            this, SLOT(handlePlacesClick(KUrl, Qt::MouseButtons)));
+    connect(placesPanel, SIGNAL(urlChanged(KUrl,Qt::MouseButtons)),
+            this, SLOT(handlePlacesClick(KUrl,Qt::MouseButtons)));
     connect(this, SIGNAL(urlChanged(KUrl)),
             placesPanel, SLOT(setUrl(KUrl)));
     connect(placesDock, SIGNAL(visibilityChanged(bool)),
@@ -2101,23 +2101,23 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(slotRequestItemInfo(KFileItem)));
     connect(view, SIGNAL(activated()),
             this, SLOT(toggleActiveView()));
-    connect(view, SIGNAL(tabRequested(const KUrl&)),
-            this, SLOT(openNewTab(const KUrl&)));
-    connect(view, SIGNAL(requestContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)),
-            this, SLOT(openContextMenu(KFileItem, const KUrl&, const QList<QAction*>&)));
+    connect(view, SIGNAL(tabRequested(KUrl)),
+            this, SLOT(openNewTab(KUrl)));
+    connect(view, SIGNAL(requestContextMenu(KFileItem,KUrl,QList<QAction*>)),
+            this, SLOT(openContextMenu(KFileItem,KUrl,QList<QAction*>)));
     connect(view, SIGNAL(startedPathLoading(KUrl)),
             this, SLOT(enableStopAction()));
     connect(view, SIGNAL(finishedPathLoading(KUrl)),
             this, SLOT(disableStopAction()));
 
     const KUrlNavigator* navigator = container->urlNavigator();
-    connect(navigator, SIGNAL(urlChanged(const KUrl&)),
-            this, SLOT(changeUrl(const KUrl&)));
+    connect(navigator, SIGNAL(urlChanged(KUrl)),
+            this, SLOT(changeUrl(KUrl)));
     connect(navigator, SIGNAL(historyChanged()),
             this, SLOT(updateHistory()));
     connect(navigator, SIGNAL(editableStateChanged(bool)),
             this, SLOT(slotEditableStateChanged(bool)));
-    connect(navigator, SIGNAL(tabRequested(const KUrl&)),
+    connect(navigator, SIGNAL(tabRequested(KUrl)),
             this, SLOT(openNewTab(KUrl)));
 }
 
