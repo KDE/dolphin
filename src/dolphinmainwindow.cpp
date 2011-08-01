@@ -1479,8 +1479,11 @@ void DolphinMainWindow::updateToolBarMenu()
     connect(menu, SIGNAL(aboutToHide()), helpMenu, SLOT(deleteLater()));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::HelpContents)));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::WhatsThis)));
+    helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::ReportBug)));
+    helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::SwitchApplicationLanguage)));
+    helpMenu->addSeparator();
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutApp)));
     helpMenu->addAction(ac->action(KStandardAction::name(KStandardAction::AboutKDE)));
     menu->addMenu(helpMenu);
