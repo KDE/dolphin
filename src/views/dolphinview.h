@@ -210,16 +210,16 @@ public:
      */
     bool isZoomOutPossible() const;
 
-    /** Sets the sort order of the items inside a directory (see DolphinView::Sorting). */
+    /** Sets the sorting criterion (e.g., SortByName, SortBySize,...) of the items inside a directory (see DolphinView::Sorting). */
     void setSorting(Sorting sorting);
 
-    /** Returns the sort order of the items inside a directory (see DolphinView::Sorting). */
+    /** Returns the sorting criterion (e.g., SortByName, SortBySize,...) of the items inside a directory (see DolphinView::Sorting). */
     Sorting sorting() const;
 
     /** Sets the sort order (Qt::Ascending or Qt::Descending) for the items. */
     void setSortOrder(Qt::SortOrder order);
 
-    /** Returns the current used sort order (Qt::Ascending or Qt::Descending). */
+    /** Returns the currently used sort order (Qt::Ascending or Qt::Descending). */
     Qt::SortOrder sortOrder() const;
 
     /** Sets a separate sorting with folders first (true) or a mixed sorting of files and folders (false). */
@@ -414,7 +414,7 @@ signals:
      */
     void urlAboutToBeChanged(const KUrl& url);
 
-    /** Is emitted if URL of the view has been changed to \a url. */
+    /** Is emitted if the URL of the view has been changed to \a url. */
     void urlChanged(const KUrl& url);
 
     /**
@@ -651,7 +651,7 @@ private slots:
     /**
      * Observes the item with the URL \a url. As soon as the directory
      * model indicates that the item is available, the item will
-     * get selected and it is assure that the item stays visible.
+     * get selected and it is assured that the item stays visible.
      *
      * @see selectAndScrollToCreatedItem()
      */
