@@ -36,7 +36,8 @@ KItemListController::KItemListController(QObject* parent) :
     m_selectionBehavior(NoSelection),
     m_model(0),
     m_view(0),
-    m_selectionManager(new KItemListSelectionManager(this))
+    m_selectionManager(new KItemListSelectionManager(this)),
+    m_pressedIndex(-1)
 {
 }
 
@@ -130,6 +131,8 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
 {
     Q_UNUSED(event);
     Q_UNUSED(transform);
+    const QPointF pos = transform.map(event->pos());
+    m_pressedIndex = m_view->itemAt(pos);
     return false;
 }
 
@@ -145,7 +148,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     if (m_view) {
         const QPointF pos = transform.map(event->pos());
         const int index = m_view->itemAt(pos);
-        if (index >= 0) {
+        if (index >= 0 && index == m_pressedIndex) {
             bool emitItemClicked = true;
             if (event->button() & Qt::LeftButton) {
                 if (m_view->isAboveExpansionToggle(index, pos)) {
@@ -160,6 +163,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         }
     }
 
+    m_pressedIndex = -1;
     return false;
 }
 

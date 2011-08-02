@@ -111,6 +111,7 @@ private:
     KItemModelBase* m_model;
     KItemListView* m_view;
     KItemListSelectionManager* m_selectionManager;
+    int m_pressedIndex;
 };
 
 #endif
