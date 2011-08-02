@@ -118,7 +118,8 @@ void ViewProperties::setViewMode(DolphinView::Mode mode)
 
 DolphinView::Mode ViewProperties::viewMode() const
 {
-    return static_cast<DolphinView::Mode>(m_node->viewMode());
+    const int mode = qBound(0, m_node->viewMode(), 2);
+    return static_cast<DolphinView::Mode>(mode);
 }
 
 void ViewProperties::setPreviewsShown(bool show)

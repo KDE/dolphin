@@ -150,12 +150,12 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
             this, SLOT(slotRefreshItems()));
 
-    connect(m_dirLister, SIGNAL(clear()),                      this, SIGNAL(itemCountChanged()));
-    connect(m_dirLister, SIGNAL(newItems(KFileItemList)),      this, SIGNAL(itemCountChanged()));
-    connect(m_dirLister, SIGNAL(infoMessage(QString)),  this, SIGNAL(infoMessage(QString)));
-    connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SIGNAL(infoMessage(QString)));
-    connect(m_dirLister, SIGNAL(percent(int)),                 this, SIGNAL(pathLoadingProgress(int)));
-    connect(m_dirLister, SIGNAL(urlIsFileError(KUrl)),  this, SIGNAL(urlIsFileError(KUrl)));
+    connect(m_dirLister, SIGNAL(clear()),                     this, SIGNAL(itemCountChanged()));
+    connect(m_dirLister, SIGNAL(newItems(KFileItemList)),     this, SIGNAL(itemCountChanged()));
+    connect(m_dirLister, SIGNAL(infoMessage(QString)),        this, SIGNAL(infoMessage(QString)));
+    connect(m_dirLister, SIGNAL(errorMessage(QString)),       this, SIGNAL(infoMessage(QString)));
+    connect(m_dirLister, SIGNAL(percent(int)),                this, SIGNAL(pathLoadingProgress(int)));
+    connect(m_dirLister, SIGNAL(urlIsFileError(KUrl)),        this, SIGNAL(urlIsFileError(KUrl)));
     connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SIGNAL(itemCountChanged()));
 
     m_container = new DolphinItemListContainer(m_dirLister, this);

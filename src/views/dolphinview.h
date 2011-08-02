@@ -82,13 +82,13 @@ public:
          * The icon, the name and the size of the items are
          * shown per default as a table.
          */
-        DetailsView = 1,
+        DetailsView,
 
         /**
          * The items are shown as icons with the name-label aligned
          * to the right side.
          */
-        CompactView = 3
+        CompactView
     };
 
     /** Defines the sort order for the items of a directory. */
