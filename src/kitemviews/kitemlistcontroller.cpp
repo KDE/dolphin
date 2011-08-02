@@ -164,6 +164,10 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
                     emit itemExpansionToggleClicked(index);
                     emitItemClicked = false;
                 }
+                else if (event->modifiers() & Qt::ShiftModifier || event->modifiers() & Qt::ControlModifier) {
+                    // The mouse click should only update the selection, not trigger the item.
+                    emitItemClicked = false;
+                }
             }
 
             if (emitItemClicked) {
