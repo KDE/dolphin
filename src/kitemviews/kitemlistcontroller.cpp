@@ -131,10 +131,17 @@ bool KItemListController::inputMethodEvent(QInputMethodEvent* event)
 
 bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
     const QPointF pos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(pos);
+
+    m_selectionManager->setCurrentItem(m_pressedIndex);
+
+    // The anchor for the current selection is updated except for Shift+LeftButton events
+    // (the current selection is continued with the previous anchor in that case).
+    if (!(event->buttons() & Qt::LeftButton && event->modifiers() & Qt::ShiftModifier)) {
+        m_selectionManager->setAnchorItem(m_pressedIndex);
+    }
+
     return false;
 }
 
