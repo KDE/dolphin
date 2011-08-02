@@ -44,6 +44,14 @@
 #define KFILEITEMMODELROLESUPDATER_DEBUG
 
 namespace {
+    // Maximum time in ms that the KFileItemModelRolesUpdater
+    // may perform a blocking operation
+    const int MaxBlockTimeout = 200;
+
+    // Maximum number of items that will get resolved synchronously.
+    // The value should roughly represent the number of maximum visible
+    // items, as it does not make sense to resolve more items synchronously
+    // and probably reach the MaxBlockTimeout because of invisible items.
     const int MaxResolveItemsCount = 100;
 }
 
@@ -344,9 +352,8 @@ void KFileItemModelRolesUpdater::slotPreviewJobFinished(KJob* job)
         return;
     }
 
-    const KFileItemList visibleItems   = sortedItems(m_pendingVisibleItems);
-    const KFileItemList invisibleItems = itemSubSet(m_pendingInvisibleItems, MaxResolveItemsCount - visibleItems.count());
-    startPreviewJob(visibleItems + invisibleItems);
+    const KFileItemList visibleItems = sortedItems(m_pendingVisibleItems);
+    startPreviewJob(visibleItems + m_pendingInvisibleItems.toList());
 }
 
 void KFileItemModelRolesUpdater::resolvePendingRoles()
@@ -358,10 +365,9 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
                               || m_roles.contains("type");
     const ResolveHint resolveHint = hasSlowRoles ? ResolveFast : ResolveAll;
 
-    // Resolving the MIME type can be expensive. Assure that not more than 200 ms are
+    // Resolving the MIME type can be expensive. Assure that not more than MaxBlockTimeout ms are
     // spend for resolving them synchronously. Usually this is more than enough to determine
     // all visible items, but there are corner cases where this limit gets easily exceeded.
-    const int MaxTime = 200;
     QElapsedTimer timer;
     timer.start();
 
@@ -377,7 +383,7 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
         }
         ++resolvedCount;
 
-        if (timer.elapsed() > MaxTime) {
+        if (timer.elapsed() > MaxBlockTimeout) {
             break;
         }
     }
@@ -397,7 +403,7 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
     }
 
     int index = 0;
-    while (resolvedCount < MaxResolveItemsCount && index < invisibleItems.count() && timer.elapsed() <= MaxTime) {
+    while (resolvedCount < MaxResolveItemsCount && index < invisibleItems.count() && timer.elapsed() <= MaxBlockTimeout) {
         const KFileItem item = invisibleItems.at(index);
         applyResolvedRoles(item, resolveHint);
 
@@ -418,8 +424,9 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
     }
 
 #ifdef KFILEITEMMODELROLESUPDATER_DEBUG
-    if (timer.elapsed() > MaxTime) {
-        kDebug() << "Maximum time exceeded, skipping items... Remaining visible:" << m_pendingVisibleItems.count()
+    if (timer.elapsed() > MaxBlockTimeout) {
+        kDebug() << "Maximum time of" << MaxBlockTimeout
+                 << "ms exceeded, skipping items... Remaining visible:" << m_pendingVisibleItems.count()
                  << "invisible:" << m_pendingInvisibleItems.count();
     }
     kDebug() << "[TIME] Resolved pending roles:" << timer.elapsed();
@@ -482,16 +489,28 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
     const QSize cacheSize = (m_iconSize.width() > 128) || (m_iconSize.height() > 128)
                             ? QSize(256, 256) : QSize(128, 128);
 
-    KJob* job;
-    if (items.count() <= MaxResolveItemsCount) {
-        job = KIO::filePreview(items, cacheSize, &m_enabledPlugins);
-    } else {
-        KFileItemList itemsSubSet;
-        for (int i = 0; i <= MaxResolveItemsCount; ++i) {
-            itemsSubSet.append(items.at(i));
+    // KIO::filePreview() will request the MIME-type of all passed items, which (in the
+    // worst case) might block the application for several seconds. To prevent such
+    // a blocking the MIME-type of the items will determined until the MaxBlockTimeout
+    // has been reached and only those items will get passed. As soon as the MIME-type
+    // has been resolved once KIO::filePreview() can already access the resolved
+    // MIME-type in a fast way.
+    QElapsedTimer timer;
+    timer.start();
+    KFileItemList itemSubSet;
+    for (int i = 0; i < items.count(); ++i) {
+        KFileItem item = items.at(i);
+        item.determineMimeType();
+        itemSubSet.append(items.at(i));
+        if (timer.elapsed() > MaxBlockTimeout) {
+#ifdef KFILEITEMMODELROLESUPDATER_DEBUG
+            kDebug() << "Maximum time of" << MaxBlockTimeout << "ms exceeded, creating only previews for"
+                     << (i + 1) << "items," << (items.count() - (i + 1)) << "will be resolved later";
+#endif
+            break;
         }
-        job = KIO::filePreview(itemsSubSet, cacheSize, &m_enabledPlugins);
     }
+    KJob* job = KIO::filePreview(itemSubSet, cacheSize, &m_enabledPlugins);
 
     connect(job,  SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(slotGotPreview(KFileItem,QPixmap)));
@@ -708,24 +727,6 @@ KFileItemList KFileItemModelRolesUpdater::sortedItems(const QSet<KFileItem>& ite
 #ifdef KFILEITEMMODELROLESUPDATER_DEBUG
     kDebug() << "[TIME] Sorting of items:" << timer.elapsed();
 #endif
-    return itemList;
-}
-
-KFileItemList KFileItemModelRolesUpdater::itemSubSet(const QSet<KFileItem>& items, int count)
-{
-    KFileItemList itemList;
-
-    int index = 0;
-    QSetIterator<KFileItem> it(items);
-    while (it.hasNext() && index < count) {
-        const KFileItem item = it.next();
-        if (item.isNull()) {
-            continue;
-        }
-        itemList.append(item);
-        ++index;
-    }
-
     return itemList;
 }
 

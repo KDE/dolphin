@@ -137,7 +137,6 @@ private:
 
     KFileItemList sortedItems(const QSet<KFileItem>& items) const;
 
-    static KFileItemList itemSubSet(const QSet<KFileItem>& items, int count);
     static int subDirectoriesCount(const QString& path);
 
 private:
