@@ -58,6 +58,8 @@ void KItemListController::setModel(KItemModelBase* model)
         m_view->setModel(m_model);
     }
 
+    m_selectionManager->setModel(m_model);
+
     emit modelChanged(m_model, oldModel);
 }
 
