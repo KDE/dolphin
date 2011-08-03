@@ -645,6 +645,27 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
     }
 }
 
+void KItemListView::currentChanged(int current, int previous)
+{
+    Q_UNUSED(previous);
+
+    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    while (it.hasNext()) {
+        it.next();
+
+        KItemListWidget* widget = it.value();
+        KItemListStyleOption styleOption = widget->styleOption();
+        if (it.key() == current) {
+            styleOption.state |= QStyle::State_HasFocus;
+            widget->setStyleOption(styleOption);
+        }
+        else if (styleOption.state & QStyle::State_HasFocus) {
+            styleOption.state &= ~QStyle::State_HasFocus;
+            widget->setStyleOption(styleOption);
+        }
+    }
+}
+
 void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
                                           KItemListViewAnimation::AnimationType type)
 {
@@ -899,7 +920,13 @@ KItemListWidget* KItemListView::createWidget(int index)
     KItemListWidget* widget = m_widgetCreator->create(this);
     widget->setVisibleRoles(m_visibleRoles);
     widget->setVisibleRolesSizes(m_visibleRolesSizes);
-    widget->setStyleOption(m_styleOption);
+
+    KItemListStyleOption option = m_styleOption;
+    if (index == m_controller->selectionManager()->currentItem()) {
+        option.state |= QStyle::State_HasFocus;
+    }
+    widget->setStyleOption(option);
+
     widget->setIndex(index);
     widget->setData(m_model->data(index));
     m_visibleItems.insert(index, widget);
@@ -957,7 +984,13 @@ void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
     m_visibleItems.remove(oldIndex);
     widget->setVisibleRoles(m_visibleRoles);
     widget->setVisibleRolesSizes(m_visibleRolesSizes);
-    widget->setStyleOption(m_styleOption);
+
+    KItemListStyleOption option = m_styleOption;
+    if (index == m_controller->selectionManager()->currentItem()) {
+        option.state |= QStyle::State_HasFocus;
+    }
+    widget->setStyleOption(option);
+
     widget->setIndex(index);
     widget->setData(m_model->data(index));
     m_visibleItems.insert(index, widget);

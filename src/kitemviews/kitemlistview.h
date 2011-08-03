@@ -169,6 +169,7 @@ protected slots:
                                   const QSet<QByteArray>& roles);
 
 private slots:
+    void currentChanged(int current, int previous);
     void slotAnimationFinished(QGraphicsWidget* widget,
                                KItemListViewAnimation::AnimationType type);
     void slotLayoutTimerFinished();

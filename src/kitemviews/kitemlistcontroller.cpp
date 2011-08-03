@@ -82,9 +82,14 @@ void KItemListController::setView(KItemListView* view)
     KItemListView* oldView = m_view;
     m_view = view;
 
+    if (oldView) {
+        disconnect(m_selectionManager, SIGNAL(currentChanged(int,int)), oldView, SLOT(currentChanged(int,int)));
+    }
+
     if (m_view) {
         m_view->setController(this);
         m_view->setModel(m_model);
+        connect(m_selectionManager, SIGNAL(currentChanged(int,int)), m_view, SLOT(currentChanged(int,int)));
     }
 
     emit viewChanged(m_view, oldView);

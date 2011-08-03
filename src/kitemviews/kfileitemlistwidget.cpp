@@ -127,11 +127,16 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         drawPixmap(painter, m_pixmap);
     }
 
-    painter->setFont(itemListStyleOption.font);
+    QFont font(itemListStyleOption.font);
+    if (itemListStyleOption.state & QStyle::State_HasFocus) {
+        font.setUnderline(true);
+    }
+    painter->setFont(font);
     painter->setPen(itemListStyleOption.palette.text().color());
     painter->drawStaticText(m_textPos[Name], m_text[Name]);
 
     painter->setPen(m_additionalInfoTextColor);
+    painter->setFont(itemListStyleOption.font);
     for (int i = Name + 1; i < TextIdCount; ++i) {
         painter->drawStaticText(m_textPos[i], m_text[i]);
     }
