@@ -403,8 +403,9 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     KItemRangeList itemRanges;
     int targetIndex = 0;
     int sourceIndex = 0;
-    int insertedAtIndex = -1;
-    int insertedCount = 0;
+    int insertedAtIndex = -1;         // Index for the current item-range
+    int insertedCount = 0;            // Count for the current item-range
+    int previouslyInsertedCount = 0;  // Sum of previously inserted items for all ranges
     while (sourceIndex < sortedItems.count()) {
         // Find target index from m_items to insert the current item
         // in a sorted order
@@ -418,7 +419,8 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 
         if (targetIndex - previousTargetIndex > 0 && insertedAtIndex >= 0) {
             itemRanges << KItemRange(insertedAtIndex, insertedCount);
-            insertedAtIndex = targetIndex;
+            previouslyInsertedCount += insertedCount;
+            insertedAtIndex = targetIndex - previouslyInsertedCount;
             insertedCount = 0;
         }
 
@@ -431,6 +433,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 
         if (insertedAtIndex < 0) {
             insertedAtIndex = targetIndex;
+            Q_ASSERT(previouslyInsertedCount == 0);
         }
         ++targetIndex;
         ++sourceIndex;

@@ -72,6 +72,15 @@ public:
     void setStyleOption(const KItemListStyleOption& option);
     const KItemListStyleOption& styleOption() const;
 
+    void setSelected(bool selected);
+    bool isSelected() const;
+
+    void setCurrent(bool current);
+    bool isCurrent() const;
+
+    void setHovered(bool hovered);
+    bool isHovered() const;
+
     /**
      * @return True if \a point is inside KItemListWidget::hoverBoundingRect(),
      *         KItemListWidget::selectionToggleRect() or KItemListWidget::expansionToggleRect().
@@ -104,6 +113,9 @@ protected:
     virtual void visibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous);
     virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void currentChanged(bool current);
+    virtual void selectedChanged(bool selected);
+    virtual void hoveredChanged(bool hovered);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
     /**
@@ -120,6 +132,9 @@ private:
     Q_PROPERTY(qreal hoverOpacity READ hoverOpacity WRITE setHoverOpacity)
 
     int m_index;
+    bool m_selected;
+    bool m_current;
+    bool m_hovered;
     QHash<QByteArray, QVariant> m_data;
     QHash<QByteArray, int> m_visibleRoles;
     QHash<QByteArray, QSizeF> m_visibleRolesSizes;

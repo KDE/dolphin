@@ -38,8 +38,6 @@ private slots:
     void init();
     void cleanup();
 
-    void testFeffi();
-
 private:
     KFileItemListView* m_listView;
     KFileItemModel* m_model;
@@ -81,18 +79,6 @@ void KFileItemListViewTest::cleanup()
 
     delete m_testDir;
     m_testDir = 0;
-}
-
-void KFileItemListViewTest::testFeffi()
-{
-    QStringList files;
-    files << "a.txt" << "b.txt" << "c.txt";
-    m_testDir->createFiles(files);
-
-    m_dirLister->openUrl(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
-
-    QCOMPARE(m_model->count(), 3);
 }
 
 QTEST_KDEMAIN(KFileItemListViewTest, GUI)

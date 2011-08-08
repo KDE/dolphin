@@ -48,15 +48,12 @@ void DolphinSettings::save()
 
 DolphinSettings::DolphinSettings()
 {
-    m_generalSettings = new GeneralSettings();
+    m_generalSettings = GeneralSettings::self();
     m_placesModel = new KFilePlacesModel();
 }
 
 DolphinSettings::~DolphinSettings()
 {
-    delete m_generalSettings;
-    m_generalSettings = 0;
-
     delete m_placesModel;
     m_placesModel = 0;
 }

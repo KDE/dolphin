@@ -57,6 +57,7 @@ protected:
     virtual void visibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous);
     virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void hoveredChanged(bool hovered);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
 private:
@@ -85,6 +86,7 @@ private:
     QString roleText(TextId textId, const QVariant& roleValue) const;
 
     void drawPixmap(QPainter* painter, const QPixmap& pixmap);
+    void drawFocusIndicator(QPainter* painter);
 
     static QPixmap pixmapForIcon(const QString& name, int size);
     static TextId roleTextId(const QByteArray& role);

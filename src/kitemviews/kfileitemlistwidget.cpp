@@ -33,6 +33,7 @@
 #include <QFontMetricsF>
 #include <QGraphicsSceneResizeEvent>
 #include <QPainter>
+#include <QStyleOption>
 #include <QTextLayout>
 #include <QTextLine>
 
@@ -91,6 +92,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         const_cast<KFileItemListWidget*>(this)->updateCache();
     }
 
+    // Draw expansion toggle '>' or 'V'
     if (m_isDir && !m_expansionArea.isEmpty()) {
         QStyleOption arrowOption;
         arrowOption.rect = m_expansionArea.toRect();
@@ -99,10 +101,8 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         style()->drawPrimitive(arrow, &arrowOption, painter);
     }
 
-    const bool isHovered = (hoverOpacity() > 0.0);
-
     const KItemListStyleOption& itemListStyleOption = styleOption();
-    if (isHovered) {
+    if (isHovered()) {
         // Blend the unhovered and hovered pixmap if the hovering
         // animation is ongoing
         if (hoverOpacity() < 1.0) {
@@ -127,11 +127,11 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         drawPixmap(painter, m_pixmap);
     }
 
-    QFont font(itemListStyleOption.font);
-    if (itemListStyleOption.state & QStyle::State_HasFocus) {
-        font.setUnderline(true);
+    if (isCurrent()) {
+        drawFocusIndicator(painter);
     }
-    painter->setFont(font);
+
+    painter->setFont(itemListStyleOption.font);
     painter->setPen(itemListStyleOption.palette.text().color());
     painter->drawStaticText(m_textPos[Name], m_text[Name]);
 
@@ -241,6 +241,12 @@ void KFileItemListWidget::styleOptionChanged(const KItemListStyleOption& current
                                        (c1.green() * p1 + c2.green() * p2) / 100,
                                        (c1.blue()  * p1 + c2.blue()  * p2) / 100);
 
+    m_dirtyLayout = true;
+}
+
+void KFileItemListWidget::hoveredChanged(bool hovered)
+{
+    Q_UNUSED(hovered);
     m_dirtyLayout = true;
 }
 
@@ -374,7 +380,7 @@ void KFileItemListWidget::updatePixmapCache()
     m_hoverPixmapRect.moveTopLeft(QPointF(x, y));
 
     // Prepare the pixmap that is used when the item gets hovered
-    if (option.state & QStyle::State_MouseOver) {
+    if (isHovered()) {
         m_hoverPixmap = m_pixmap;
         KIconEffect* effect = KIconLoader::global()->iconEffect();
         // In the KIconLoader terminology, active = hover.
@@ -679,6 +685,31 @@ void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
     if (isHiddenItem) {
         painter->setOpacity(opacity);
     }
+}
+
+void KFileItemListWidget::drawFocusIndicator(QPainter* painter)
+{
+    // Ideally style()->drawPrimitive(QStyle::PE_FrameFocusRect...)
+    // should be used, but Oxygen only draws indicators within classes
+    // derived from QAbstractItemView or Q3ListView. As a workaround
+    // the indicator is drawn manually. Code copied from oxygenstyle.cpp
+    // Copyright ( C ) 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+    // TODO: Clarify with Oxygen maintainers how to proceed with this.
+
+    const KItemListStyleOption& option = styleOption();
+    const QPalette palette = option.palette;
+    const QRect rect = m_textsBoundingRect.toRect().adjusted(0, 0, 0, -1);
+
+    QLinearGradient gradient(rect.bottomLeft(), rect.bottomRight());
+    gradient.setColorAt(0.0, Qt::transparent);
+    gradient.setColorAt(1.0, Qt::transparent);
+    gradient.setColorAt(0.2, palette.color(QPalette::Text));
+    gradient.setColorAt(0.8, palette.color(QPalette::Text));
+
+    painter->setRenderHint(QPainter::Antialiasing, false);
+    painter->setPen(QPen(gradient, 1));
+    painter->drawLine(rect.bottomLeft(), rect.bottomRight());
+    painter->setRenderHint(QPainter::Antialiasing, true);
 }
 
 QPixmap KFileItemListWidget::pixmapForIcon(const QString& name, int size)

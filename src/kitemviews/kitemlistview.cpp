@@ -256,10 +256,6 @@ void KItemListView::setGeometry(const QRectF& rect)
 
 int KItemListView::itemAt(const QPointF& pos) const
 {
-    if (!m_model) {
-        return -1;
-    }
-
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
@@ -313,6 +309,11 @@ QSizeF KItemListView::itemSizeHint(int index) const
 QHash<QByteArray, QSizeF> KItemListView::visibleRoleSizes() const
 {
     return QHash<QByteArray, QSizeF>();
+}
+
+QRectF KItemListView::itemBoundingRect(int index) const
+{
+    return m_layouter->itemBoundingRect(index);
 }
 
 void KItemListView::beginTransaction()
@@ -412,56 +413,6 @@ void KItemListView::mousePressEvent(QGraphicsSceneMouseEvent* event)
     event->accept();
 }
 
-void KItemListView::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
-{
-    if (!m_model) {
-        return;
-    }
-
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-    while (it.hasNext()) {
-        it.next();
-
-        KItemListWidget* widget = it.value();
-        KItemListStyleOption styleOption = widget->styleOption();
-        const QPointF mappedPos = widget->mapFromItem(this, event->pos());
-
-        const bool hovered = widget->contains(mappedPos) &&
-                             !widget->expansionToggleRect().contains(mappedPos) &&
-                             !widget->selectionToggleRect().contains(mappedPos);
-        if (hovered) {
-            if (!(styleOption.state & QStyle::State_MouseOver)) {
-                styleOption.state |= QStyle::State_MouseOver;
-                widget->setStyleOption(styleOption);
-            }
-        } else if (styleOption.state & QStyle::State_MouseOver) {
-            styleOption.state &= ~QStyle::State_MouseOver;
-            widget->setStyleOption(styleOption);
-        }
-    }
-}
-
-void KItemListView::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
-{
-    Q_UNUSED(event);
-
-    if (!m_model) {
-        return;
-    }
-
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-    while (it.hasNext()) {
-        it.next();
-
-        KItemListWidget* widget = it.value();
-        KItemListStyleOption styleOption = widget->styleOption();
-        if (styleOption.state & QStyle::State_MouseOver) {
-            styleOption.state &= ~QStyle::State_MouseOver;
-            widget->setStyleOption(styleOption);
-        }
-    }
-}
-
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 {
     return m_visibleItems.values();
@@ -476,13 +427,18 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         beginTransaction();
     }
 
+    int previouslyInsertedCount = 0;
     foreach (const KItemRange& range, itemRanges) {
-        const int index = range.index;
+        // range.index is related to the model before anything has been inserted.
+        // As in each loop the current item-range gets inserted the index must
+        // be increased by the already previoulsy inserted items.
+        const int index = range.index + previouslyInsertedCount;
         const int count = range.count;
         if (index < 0 || count <= 0) {
             kWarning() << "Invalid item range (index:" << index << ", count:" << count << ")";
             continue;
         }
+        previouslyInsertedCount += count;
 
         m_sizeHintResolver->itemsInserted(index, count);
 
@@ -524,16 +480,10 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
             doLayout(Animation, index, count);
             update();
         }
+    }
 
-        if (m_controller) {
-            KItemListSelectionManager* selectionManager = m_controller->selectionManager();
-            const int current = selectionManager->currentItem();
-            if (current < 0) {
-                selectionManager->setCurrentItem(0);
-            } else if (current >= index) {
-                selectionManager->setCurrentItem(current + count);
-            }
-        }
+    if (m_controller) {
+        m_controller->selectionManager()->itemsInserted(itemRanges);
     }
 
     if (hasMultipleRanges) {
@@ -611,14 +561,10 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             doLayout(Animation, index, -count);
             update();
         }
+    }
 
-        /*KItemListSelectionManager* selectionManager = m_controller->selectionManager();
-        const int current = selectionManager->currentItem();
-        if (count() <= 0) {
-            selectionManager->setCurrentItem(-1);
-        } else if (current >= index) {
-            selectionManager->setCurrentItem(current + count);
-        }*/
+    if (m_controller) {
+        m_controller->selectionManager()->itemsRemoved(itemRanges);
     }
 
     if (hasMultipleRanges) {
@@ -645,24 +591,33 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
     }
 }
 
-void KItemListView::currentChanged(int current, int previous)
+void KItemListView::slotCurrentChanged(int current, int previous)
+{
+    Q_UNUSED(previous);
+
+    KItemListWidget* previousWidget = m_visibleItems.value(previous, 0);
+    if (previousWidget) {
+        Q_ASSERT(previousWidget->isCurrent());
+        previousWidget->setCurrent(false);
+    }
+
+    KItemListWidget* currentWidget = m_visibleItems.value(current, 0);
+    if (currentWidget) {
+        Q_ASSERT(!currentWidget->isCurrent());
+        currentWidget->setCurrent(true);
+    }
+}
+
+void KItemListView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)
 {
     Q_UNUSED(previous);
 
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
-
+        const int index = it.key();
         KItemListWidget* widget = it.value();
-        KItemListStyleOption styleOption = widget->styleOption();
-        if (it.key() == current) {
-            styleOption.state |= QStyle::State_HasFocus;
-            widget->setStyleOption(styleOption);
-        }
-        else if (styleOption.state & QStyle::State_HasFocus) {
-            styleOption.state &= ~QStyle::State_HasFocus;
-            widget->setStyleOption(styleOption);
-        }
+        widget->setSelected(current.contains(index));
     }
 }
 
@@ -717,7 +672,20 @@ void KItemListView::setController(KItemListController* controller)
 {
     if (m_controller != controller) {
         KItemListController* previous = m_controller;
+        if (previous) {
+            KItemListSelectionManager* selectionManager = previous->selectionManager();
+            disconnect(selectionManager, SIGNAL(currentChanged(int,int)), this, SLOT(slotCurrentChanged(int,int)));
+            disconnect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)), this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
+        }
+
         m_controller = controller;
+
+        if (controller) {
+            KItemListSelectionManager* selectionManager = controller->selectionManager();
+            connect(selectionManager, SIGNAL(currentChanged(int,int)), this, SLOT(slotCurrentChanged(int,int)));
+            connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)), this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
+        }
+
         onControllerChanged(controller, previous);
     }
 }
@@ -918,17 +886,7 @@ void KItemListView::emitOffsetChanges()
 KItemListWidget* KItemListView::createWidget(int index)
 {
     KItemListWidget* widget = m_widgetCreator->create(this);
-    widget->setVisibleRoles(m_visibleRoles);
-    widget->setVisibleRolesSizes(m_visibleRolesSizes);
-
-    KItemListStyleOption option = m_styleOption;
-    if (index == m_controller->selectionManager()->currentItem()) {
-        option.state |= QStyle::State_HasFocus;
-    }
-    widget->setStyleOption(option);
-
-    widget->setIndex(index);
-    widget->setData(m_model->data(index));
+    updateWidgetProperties(widget, index);
     m_visibleItems.insert(index, widget);
 
     if (m_grouped) {
@@ -982,17 +940,7 @@ void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
 
     const int oldIndex = widget->index();
     m_visibleItems.remove(oldIndex);
-    widget->setVisibleRoles(m_visibleRoles);
-    widget->setVisibleRolesSizes(m_visibleRolesSizes);
-
-    KItemListStyleOption option = m_styleOption;
-    if (index == m_controller->selectionManager()->currentItem()) {
-        option.state |= QStyle::State_HasFocus;
-    }
-    widget->setStyleOption(option);
-
-    widget->setIndex(index);
-    widget->setData(m_model->data(index));
+    updateWidgetProperties(widget, index);
     m_visibleItems.insert(index, widget);
 
     initializeItemListWidget(widget);
@@ -1097,6 +1045,28 @@ void KItemListView::applyDynamicItemSize()
 
         m_layouter->setItemSize(dynamicItemSize);
     }
+}
+
+void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
+{
+    widget->setVisibleRoles(m_visibleRoles);
+    widget->setVisibleRolesSizes(m_visibleRolesSizes);
+    widget->setStyleOption(m_styleOption);
+
+    const KItemListSelectionManager* selectionManager = m_controller->selectionManager();
+    widget->setCurrent(index == selectionManager->currentItem());
+
+    if (selectionManager->hasSelection()) {
+        const QSet<int> selectedItems = selectionManager->selectedItems();
+        widget->setSelected(selectedItems.contains(index));
+    } else {
+        widget->setSelected(false);
+    }
+
+    widget->setHovered(false);
+
+    widget->setIndex(index);
+    widget->setData(m_model->data(index));
 }
 
 KItemListCreatorBase::~KItemListCreatorBase()

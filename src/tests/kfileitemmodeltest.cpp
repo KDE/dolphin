@@ -24,8 +24,10 @@
 #include "testdir.h"
 
 namespace {
-    const int DefaultTimeout = 2000;
+    const int DefaultTimeout = 5000;
 };
+
+Q_DECLARE_METATYPE(KItemRangeList)
 
 class KFileItemModelTest : public QObject
 {
@@ -39,7 +41,8 @@ private slots:
     void testDefaultSortRole();
     void testDefaultGroupRole();
     void testNewItems();
-    void testInsertingItems();
+    void testModelConsistencyWhenInsertingItems();
+    void testItemRangeConsistencyWhenInsertingItems();
 
     void testExpansionLevelsCompare_data();
     void testExpansionLevelsCompare();
@@ -120,9 +123,9 @@ void KFileItemModelTest::testNewItems()
     QVERIFY(isModelConsistent());
 }
 
-void KFileItemModelTest::testInsertingItems()
+void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
 {
-    // QSKIP("Temporary disabled", SkipSingle);
+    QSKIP("Temporary disabled", SkipSingle);
 
     // KFileItemModel prevents that inserting a punch of items sequentially
     // results in an itemsInserted()-signal for each item. Instead internally
@@ -162,6 +165,58 @@ void KFileItemModelTest::testInsertingItems()
     }
 
     QCOMPARE(m_model->count(), 201);
+}
+
+void KFileItemModelTest::testItemRangeConsistencyWhenInsertingItems()
+{
+    QStringList files;
+    files << "B" << "E" << "G";
+    m_testDir->createFiles(files);
+
+    // Due to inserting the 3 items one item-range with index == 0 and
+    // count == 3 must be given
+    QSignalSpy spy1(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    QCOMPARE(spy1.count(), 1);
+    QList<QVariant> arguments = spy1.takeFirst();
+    KItemRangeList itemRangeList = arguments.at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList.count(), 1);
+    KItemRange itemRange = itemRangeList.first();
+    QCOMPARE(itemRange.index, 0);
+    QCOMPARE(itemRange.count, 3);
+
+    // The indexes of the item-ranges must always be related to the model before
+    // the items have been inserted. Having:
+    //   0 1 2
+    //   B E G
+    // and inserting A, C, D, F the resulting model will be:
+    //   0 1 2 3 4 5 6
+    //   A B C D E F G
+    // and the item-ranges must be:
+    //   index: 0, count: 1 for A
+    //   index: 1, count: 2 for B, C
+    //   index: 2, count: 1 for G
+
+    files.clear();
+    files << "A" << "C" << "D" << "F";
+    m_testDir->createFiles(files);
+
+    QSignalSpy spy2(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    QCOMPARE(spy2.count(), 1);
+    arguments = spy2.takeFirst();
+    itemRangeList = arguments.at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList.count(), 3);
+    QCOMPARE(itemRangeList.at(0).index, 0);
+    QCOMPARE(itemRangeList.at(0).count, 1);
+    QCOMPARE(itemRangeList.at(1).index, 1);
+    QCOMPARE(itemRangeList.at(1).count, 2);
+    QCOMPARE(itemRangeList.at(2).index, 2);
+    QCOMPARE(itemRangeList.at(2).count, 1);
 }
 
 void KFileItemModelTest::testExpansionLevelsCompare_data()

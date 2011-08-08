@@ -47,19 +47,20 @@ public:
     explicit ToolTipManager(QWidget* parent);
     virtual ~ToolTipManager();
 
-public slots:
     /**
-     * Hides the currently shown tooltip. Invoking this method is
-     * only needed when the tooltip should be hidden although
-     * an item is hovered.
+     * Triggers the showing of the tooltip for the item \p item
+     * where the item has the maximum boundaries of \p itemRect.
+     * The tooltip manager takes care that the tooltip is shown
+     * slightly delayed.
+     */
+    void showToolTip(const KFileItem& item, const QRectF& itemRect);
+
+    /**
+     * Hides the currently shown tooltip.
      */
     void hideToolTip();
 
-protected:
-    virtual bool eventFilter(QObject* watched, QEvent* event);
-
 private slots:
-    void requestToolTip(const QModelIndex& index);
     void startContentRetrieval();
     void setPreviewPix(const KFileItem& item, const QPixmap& pix);
     void previewFailed();
@@ -67,9 +68,10 @@ private slots:
     void showToolTip();
 
 private:
-    QWidget* m_view;
-    DolphinModel* m_dolphinModel;
-    DolphinSortFilterProxyModel* m_proxyModel;
+    int toolTipMargin() const;
+
+private:
+    QWidget* m_parentWidget;
 
     /// Timeout from requesting a tooltip until the tooltip
     /// should be shown

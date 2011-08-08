@@ -106,9 +106,46 @@ public:
     virtual QString roleDescription(const QByteArray& role) const;
 
 signals:
+    /**
+     * Is emitted if one or more items have been inserted. Each item-range consists
+     * of:
+     * - an index where items have been inserted
+     * - the number of inserted items.
+     * The index of each item-range represents the index of the model
+     * before the items have been inserted.
+     *
+     * For the item-ranges it is assured that:
+     * - They don't overlap
+     * - The index of item-range n is smaller than the index of item-range n + 1.
+     */
     void itemsInserted(const KItemRangeList& itemRanges);
+
+    /**
+     * Is emitted if one or more items have been removed. Each item-range consists
+     * of:
+     * - an index where items have been inserted
+     * - the number of inserted items.
+     * The index of each item-range represents the index of the model
+     * before the items have been removed.
+     *
+     * For the item-ranges it is assured that:
+     * - They don't overlap
+     * - The index of item-range n is smaller than the index of item-range n + 1.
+     */
     void itemsRemoved(const KItemRangeList& itemRanges);
-    void itemsMoved(const KItemRangeList& itemRanges);
+
+    /**
+     * Is emitted if one ore more items get moved.
+     * @param itemRanges     Item-ranges that get moved to a new position.
+     * @param movedToIndexes New position of the ranges.
+     * It is assured that the itemRanges list has the same size as the movedToIndexes list.
+     *
+     * For the item-ranges it is assured that:
+     * - They don't overlap
+     * - The index of item-range n is smaller than the index of item-range n + 1.
+     */
+    void itemsMoved(const KItemRangeList& itemRanges, const QList<int> movedToIndexes);
+
     void itemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles);
 
     void groupRoleChanged(const QByteArray& current, const QByteArray& previous);

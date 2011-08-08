@@ -25,10 +25,16 @@
 
 #include <libdolphin_export.h>
 
+#include <kitemviews/kitemmodelbase.h>
+
 #include <QObject>
+#include <QSet>
 
 class KItemModelBase;
 
+/**
+ * @brief Allows to select and deselect items of a KItemListView.
+ */
 class LIBDOLPHINPRIVATE_EXPORT KItemListSelectionManager : public QObject
 {
     Q_OBJECT
@@ -39,13 +45,22 @@ public:
         Deselect,
         Toggle
     };
-    
+
     KItemListSelectionManager(QObject* parent = 0);
     virtual ~KItemListSelectionManager();
 
     void setCurrentItem(int current);
     int currentItem() const;
 
+    void setSelectedItems(const QSet<int>& items);
+    QSet<int> selectedItems() const;
+    bool hasSelection() const;
+
+    void setSelected(int index, int count = 1, SelectionMode mode = Select);
+    void clearSelection();
+
+    void beginAnchoredSelection(int anchor, SelectionMode mode = Select);
+    void endAnchoredSelection();
     void setAnchorItem(int anchor);
     int anchorItem() const;
 
@@ -53,17 +68,24 @@ public:
 
 signals:
     void currentChanged(int current, int previous);
+    void selectionChanged(const QSet<int>& current, const QSet<int>& previous);
     void anchorChanged(int anchor, int previous);
 
-protected:
+private:
     void setModel(KItemModelBase* model);
+    void itemsInserted(const KItemRangeList& itemRanges);
+    void itemsRemoved(const KItemRangeList& itemRanges);
 
 private:
     int m_currentItem;
     int m_anchorItem;
+    QSet<int> m_selectedItems;
+
     KItemModelBase* m_model;
 
-    friend class KItemListController;
+    friend class KItemListController; // Calls setModel()
+    friend class KItemListView;       // Calls itemsInserted() and itemsRemoved()
+    friend class KItemListSelectionManagerTest;
 };
 
 #endif

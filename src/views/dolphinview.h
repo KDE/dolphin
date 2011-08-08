@@ -47,6 +47,7 @@ class KAction;
 class KActionCollection;
 class KFileItemModel;
 class KUrl;
+class ToolTipManager;
 class ViewProperties;
 class QRegExp;
 
@@ -553,17 +554,18 @@ private slots:
     void activate();
 
     void slotItemClicked(int index, Qt::MouseButton button);
-
     void slotItemExpansionToggleClicked(int index);
+    void slotItemHovered(int index);
+    void slotItemUnhovered(int index);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
-     * because getting all file items for the signal can be an expensive
+     * because getting all file items for the selection can be an expensive
      * operation. Fast selection changes are collected in this case and
      * the signal is emitted only after no selection change has been done
      * within a small delay.
      */
-    void slotSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+    void slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous);
 
     /**
      * Is called by emitDelayedSelectionChangedSignal() and emits the
@@ -638,12 +640,6 @@ private slots:
     void slotDirListerCompleted();
 
     /**
-     * Invoked when the loading of the directory is finished.
-     * Restores the active item and the scroll position if possible.
-     */
-    void slotLoadingCompleted();
-
-    /**
      * Is invoked when the KDirLister indicates refreshed items.
      */
     void slotRefreshItems();
@@ -670,9 +666,10 @@ private slots:
     void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
-     * Restores the contents position, if history information about the old position is available.
+     * Applies the state that has been restored by restoreViewState()
+     * to the view.
      */
-    void restoreContentsPosition();
+    void updateViewState();
 
     //void slotUrlChangeRequested(const KUrl& url);
 
@@ -717,11 +714,11 @@ private:
 
     /**
      * Is invoked after a paste operation or a drag & drop
-     * operation and adds the filenames of all URLs from \a mimeData to
-     * m_newFileNames. This allows to select all newly added
-     * items in slotDirListerCompleted().
+     * operation and URLs from \a mimeData as selected.
+     * This allows to select all newly pasted
+     * items in restoreViewState().
      */
-    void addNewFileNames(const QMimeData* mimeData);
+    void markPastedUrlsAsSelected(const QMimeData* mimeData);
 
     /**
      * Helper method for DolphinView::setItemSelectionEnabled(): Returns the selection for
@@ -742,7 +739,6 @@ private:
     bool m_active : 1;
     bool m_tabsForFiles : 1;
     bool m_assureVisibleCurrentIndex : 1;
-    bool m_expanderActive : 1;
     bool m_isFolderWritable : 1;
 
     KUrl m_url;
@@ -754,19 +750,14 @@ private:
     DolphinDirLister* m_dirLister;
     DolphinItemListContainer* m_container;
 
+    ToolTipManager* m_toolTipManager;
+
     QTimer* m_selectionChangedTimer;
 
-    KUrl m_activeItemUrl;
+    int m_currentItemIndex;
     QPoint m_restoredContentsPosition;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
     KFileItemList m_selectedItems; // this is used for making the View to remember selections after F5
-
-    /**
-     * Remembers the filenames that have been added by a paste operation
-     * or a drag & drop operation. Allows to select the items in
-     * slotDirListerCompleted().
-     */
-    QSet<QString> m_newFileNames;
 
     // For unit tests
     friend class TestBase;

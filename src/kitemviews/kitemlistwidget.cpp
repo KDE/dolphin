@@ -30,10 +30,14 @@
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QStyle>
+#include <QStyleOption>
 
 KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
     QGraphicsWidget(parent, 0),
     m_index(-1),
+    m_selected(false),
+    m_current(false),
+    m_hovered(false),
     m_data(),
     m_visibleRoles(),
     m_visibleRolesSizes(),
@@ -90,11 +94,21 @@ QHash<QByteArray, QVariant> KItemListWidget::data() const
 void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option);
+
+    const QRect hoverBounds = hoverBoundingRect().toRect();
+    if (m_selected) {
+        QStyleOptionViewItemV4 viewItemOption;
+        viewItemOption.initFrom(widget);
+        viewItemOption.rect = hoverBounds;
+        viewItemOption.state = QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item;
+        viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
+        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+    }
+
     if (m_hoverOpacity <= 0.0) {
         return;
     }
 
-    const QRect hoverBounds = hoverBoundingRect().toRect();
     if (!m_hoverCache) {
         m_hoverCache = new QPixmap(hoverBounds.size());
         m_hoverCache->fill(Qt::transparent);
@@ -104,7 +118,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         QStyleOptionViewItemV4 viewItemOption;
         viewItemOption.initFrom(widget);
         viewItemOption.rect = QRect(0, 0, hoverBounds.width(), hoverBounds.height());
-        viewItemOption.state = QStyle::State_Enabled | QStyle::State_MouseOver;
+        viewItemOption.state = QStyle::State_Enabled | QStyle::State_MouseOver | QStyle::State_Item;
         viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
 
         widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, &pixmapPainter, widget);
@@ -143,34 +157,8 @@ QHash<QByteArray, QSizeF> KItemListWidget::visibleRolesSizes() const
 void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
 {
     const KItemListStyleOption previous = m_styleOption;
-    if (m_index >= 0) {
-        clearCache();
-
-        const bool wasHovered = (previous.state & QStyle::State_MouseOver);
-        m_styleOption = option;
-        const bool isHovered = (m_styleOption.state & QStyle::State_MouseOver);
-
-        if (wasHovered != isHovered) {
-            // The hovering state has been changed. Assure that a fade-animation
-            // is done to the new state.
-            if (!m_hoverAnimation) {
-                m_hoverAnimation = new QPropertyAnimation(this, "hoverOpacity", this);
-                m_hoverAnimation->setDuration(200);
-            }
-            m_hoverAnimation->stop();
-
-            if (!wasHovered && isHovered) {
-                m_hoverAnimation->setEndValue(1.0);
-            } else {
-                Q_ASSERT(wasHovered && !isHovered);
-                m_hoverAnimation->setEndValue(0.0);
-            }
-
-            m_hoverAnimation->start();
-        }
-    } else {
-        m_styleOption = option;
-    }
+    clearCache();
+    m_styleOption = option;
 
     styleOptionChanged(option, previous);
 }
@@ -178,6 +166,66 @@ void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
 const KItemListStyleOption& KItemListWidget::styleOption() const
 {
     return m_styleOption;
+}
+
+void KItemListWidget::setSelected(bool selected)
+{
+    if (m_selected != selected) {
+        m_selected = selected;
+        selectedChanged(selected);
+        update();
+    }
+}
+
+bool KItemListWidget::isSelected() const
+{
+    return m_selected;
+}
+
+void KItemListWidget::setCurrent(bool current)
+{
+    if (m_current != current) {
+        m_current = current;
+        currentChanged(current);
+        update();
+    }
+}
+
+bool KItemListWidget::isCurrent() const
+{
+    return m_current;
+}
+
+void KItemListWidget::setHovered(bool hovered)
+{
+    if (hovered == m_hovered) {
+        return;
+    }
+
+    m_hovered = hovered;
+
+    if (!m_hoverAnimation) {
+        m_hoverAnimation = new QPropertyAnimation(this, "hoverOpacity", this);
+        m_hoverAnimation->setDuration(200);
+    }
+    m_hoverAnimation->stop();
+
+    if (hovered) {
+        m_hoverAnimation->setEndValue(1.0);
+    } else {
+        m_hoverAnimation->setEndValue(0.0);
+    }
+
+    m_hoverAnimation->start();
+
+    hoveredChanged(hovered);
+
+    update();
+}
+
+bool KItemListWidget::isHovered() const
+{
+    return m_hovered;
 }
 
 bool KItemListWidget::contains(const QPointF& point) const
@@ -232,6 +280,21 @@ void KItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
     Q_UNUSED(current);
     Q_UNUSED(previous);
     update();
+}
+
+void KItemListWidget::currentChanged(bool current)
+{
+    Q_UNUSED(current);
+}
+
+void KItemListWidget::selectedChanged(bool selected)
+{
+    Q_UNUSED(selected);
+}
+
+void KItemListWidget::hoveredChanged(bool hovered)
+{
+    Q_UNUSED(hovered);
 }
 
 void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)

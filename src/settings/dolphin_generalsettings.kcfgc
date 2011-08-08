@@ -1,4 +1,4 @@
 File=dolphin_generalsettings.kcfg
-ClassName=GeneralSettings 
-Singleton=false 
+ClassName=GeneralSettings
+Singleton=yes
 Mutators=true

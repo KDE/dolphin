@@ -101,6 +101,19 @@ public:
 
 signals:
     void itemClicked(int index, Qt::MouseButton button);
+
+    /**
+     * Is emitted if the item with the index \p index gets hovered.
+     */
+    void itemHovered(int index);
+
+    /**
+     * Is emitted if the item with the index \p index gets unhovered.
+     * It is assured that the signal itemHovered() for this index
+     * has been emitted before.
+     */
+    void itemUnhovered(int index);
+
     void itemExpansionToggleClicked(int index);
 
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);

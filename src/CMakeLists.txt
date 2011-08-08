@@ -154,6 +154,7 @@ kde4_add_kcfg_files(dolphin_SRCS
     panels/information/dolphin_informationpanelsettings.kcfgc
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_detailsmodesettings.kcfgc
+    settings/dolphin_generalsettings.kcfgc
     settings/dolphin_iconsmodesettings.kcfgc
     search/dolphin_searchsettings.kcfgc
     settings/dolphin_versioncontrolsettings.kcfgc

@@ -30,6 +30,7 @@
 #include <kitemviews/kitemlistwidget.h>
 #include <kitemviews/kitemmodelbase.h>
 #include <QGraphicsWidget>
+#include <QSet>
 
 class KItemListController;
 class KItemListWidgetCreatorBase;
@@ -61,6 +62,8 @@ class QTimer;
 class LIBDOLPHINPRIVATE_EXPORT KItemListView : public QGraphicsWidget
 {
     Q_OBJECT
+
+    Q_PROPERTY(qreal offset READ offset WRITE setOffset)
 
 public:
     KItemListView(QGraphicsWidget* parent = 0);
@@ -132,6 +135,8 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
     virtual QHash<QByteArray, QSizeF> visibleRoleSizes() const;
 
+    QRectF itemBoundingRect(int index) const;
+
     void beginTransaction();
     void endTransaction();
     bool isTransactionActive() const;
@@ -157,8 +162,6 @@ protected:
 
     virtual bool event(QEvent* event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
@@ -169,7 +172,8 @@ protected slots:
                                   const QSet<QByteArray>& roles);
 
 private slots:
-    void currentChanged(int current, int previous);
+    void slotCurrentChanged(int current, int previous);
+    void slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous);
     void slotAnimationFinished(QGraphicsWidget* widget,
                                KItemListViewAnimation::AnimationType type);
     void slotLayoutTimerFinished();
@@ -228,6 +232,12 @@ private:
      * size to the layouter.
      */
     void applyDynamicItemSize();
+
+    /**
+     * Helper method for createWidget() and setWidgetIndex() to update the properties
+     * of the itemlist widget.
+     */
+    void updateWidgetProperties(KItemListWidget* widget, int index);
 
 private:
     bool m_grouped;

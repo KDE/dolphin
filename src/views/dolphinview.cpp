@@ -38,6 +38,7 @@
 #include <KLocale>
 #include <kitemviews/kfileitemmodel.h>
 #include <kitemviews/kfileitemlistview.h>
+#include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kitemlistview.h>
 #include <kitemviews/kitemlistcontroller.h>
 #include <KIO/DeleteJob>
@@ -57,14 +58,13 @@
 #include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
+#include "dolphinitemlistcontainer.h"
 #include "renamedialog.h"
 #include "settings/dolphinsettings.h"
 #include "viewmodecontroller.h"
 #include "viewproperties.h"
+#include "views/tooltips/tooltipmanager.h"
 #include "zoomlevelinfo.h"
-
-// TODO:
-#include "dolphinitemlistcontainer.h"
 
 namespace {
     const int MaxModeEnum = DolphinView::CompactView;
@@ -76,7 +76,6 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_active(true),
     m_tabsForFiles(false),
     m_assureVisibleCurrentIndex(false),
-    m_expanderActive(false),
     m_isFolderWritable(true),
     m_url(url),
     m_mode(DolphinView::IconsView),
@@ -84,12 +83,12 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_topLayout(0),
     m_dirLister(0),
     m_container(0),
+    m_toolTipManager(0),
     m_selectionChangedTimer(0),
-    m_activeItemUrl(),
+    m_currentItemIndex(-1),
     m_restoredContentsPosition(),
     m_createdItemUrl(),
-    m_selectedItems(),
-    m_newFileNames()
+    m_selectedItems()
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -167,6 +166,14 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemClicked(int,Qt::MouseButton)),
             this, SLOT(slotItemClicked(int,Qt::MouseButton)));
     connect(controller, SIGNAL(itemExpansionToggleClicked(int)), this, SLOT(slotItemExpansionToggleClicked(int)));
+    connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
+    connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
+
+    KItemListSelectionManager* selectionManager = controller->selectionManager();
+    connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
+            this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
+
+    m_toolTipManager = new ToolTipManager(this);
 
     applyViewProperties();
     m_topLayout->addWidget(m_container);
@@ -211,7 +218,6 @@ void DolphinView::setActive(bool active)
         //    view->setFocus();
         //}
         emit activated();
-        emitSelectionChangedSignal();
         emit writeStateChanged(m_isFolderWritable);
     }
 
@@ -261,35 +267,23 @@ KFileItemList DolphinView::items() const
 
 KFileItemList DolphinView::selectedItems() const
 {
-    return KFileItemList();
-/*    KFileItemList itemList;
-    const QAbstractItemView* view = m_viewAccessor.itemView();
-    if (!view) {
-        return itemList;
+    const KFileItemModel* model = fileItemModel();
+    const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+    const QSet<int> selectedIndexes = selectionManager->selectedItems();
+
+    KFileItemList selectedItems;
+    QSetIterator<int> it(selectedIndexes);
+    while (it.hasNext()) {
+        const int index = it.next();
+        selectedItems.append(model->fileItem(index));
     }
-
-    const QItemSelection selection = m_viewAccessor.proxyModel()->mapSelectionToSource(view->selectionModel()->selection());
-
-    const QModelIndexList indexList = selection.indexes();
-    foreach (const QModelIndex &index, indexList) {
-        KFileItem item = m_viewAccessor.dirModel()->itemForIndex(index);
-        if (!item.isNull()) {
-            itemList.append(item);
-        }
-    }
-
-    return itemList;*/
+    return selectedItems;
 }
 
 int DolphinView::selectedItemsCount() const
 {
-    return 0;
-    /*const QAbstractItemView* view = m_viewAccessor.itemView();
-    if (!view) {
-        return 0;
-    }
-
-    return view->selectionModel()->selectedIndexes().count();*/
+    const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+    return selectionManager->selectedItems().count();
 }
 
 void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
@@ -509,10 +503,11 @@ void DolphinView::setUrl(const KUrl& url)
     }
 
     emit urlAboutToBeChanged(url);
-
-    const bool hadSelection = hasSelection();
-    m_newFileNames.clear();
     m_url = url;
+
+    if (GeneralSettings::showToolTips()) {
+        m_toolTipManager->hideToolTip();
+    }
 
     // It is important to clear the items from the model before
     // applying the view properties, otherwise expensive operations
@@ -523,36 +518,28 @@ void DolphinView::setUrl(const KUrl& url)
     loadDirectory(url);
 
     emit urlChanged(url);
-    if (hadSelection || hasSelection()) {
-        emitSelectionChangedSignal();
-    }
 }
 
 void DolphinView::selectAll()
 {
-    //m_viewAccessor.itemView()->selectAll();
+    KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+    selectionManager->setSelected(0, fileItemModel()->count());
 }
 
 void DolphinView::invertSelection()
 {
-/*    // Implementation note: Using selectionModel->select(selection, QItemSelectionModel::Toggle) does not
-    // work, as QItemSelectionModel::hasSelection() provides invalid values in this case. This might be a Qt-issue -
-    // when changing the implementation with an updated Qt-version don't forget to run the Dolphin-unit-tests that
-    // verify this usecase.
-    const KFileItemList selItems = selectedItems();
-    clearSelection();
+     KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+     const QSet<int> selectedItems = selectionManager->selectedItems();
+     QSet<int> invertedSelectedItems;
 
-    QItemSelection invertedSelection;
-    foreach (const KFileItem& item, items()) {
-        if (!selItems.contains(item)) {
-            const QModelIndex index = m_viewAccessor.proxyModel()->mapFromSource(m_viewAccessor.dirModel()->indexForItem(item));
-            invertedSelection.select(index, index);
-        }
-    }
+     const int maxIndex = fileItemModel()->count() - 1;
+     for (int i = 0; i <= maxIndex; ++i) {
+         if (!selectedItems.contains(i)) {
+             invertedSelectedItems.insert(i);
+         }
+     }
 
-    QItemSelectionModel* selectionModel = m_viewAccessor.itemView()->selectionModel();
-    selectionModel->select(invertedSelection, QItemSelectionModel::ClearAndSelect | QItemSelectionModel::Current);
-    */
+     selectionManager->setSelectedItems(invertedSelectedItems);
 }
 
 void DolphinView::clearSelection()
@@ -711,23 +698,54 @@ void DolphinView::slotItemClicked(int index, Qt::MouseButton button)
             emit tabRequested(item.url());
         }
     } else if (button & Qt::RightButton) {
-        // TODO: attach customActions for the details-view
+        if (GeneralSettings::showToolTips()) {
+            m_toolTipManager->hideToolTip();
+        }
         emit requestContextMenu(item, url(), QList<QAction*>());
     }
 }
 
 void DolphinView::slotItemExpansionToggleClicked(int index)
 {
+    // TODO: When doing a model->setExpanded(false) it should
+    // be checked here whether the current index is part of the
+    // closed sub-tree. If this is the case, the current index
+    // should be adjusted to the parent index.
     KFileItemModel* model = fileItemModel();
     const bool expanded = model->isExpanded(index);
     model->setExpanded(index, !expanded);
 }
 
-void DolphinView::slotSelectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
+void DolphinView::slotItemHovered(int index)
 {
-    const int count = selectedItemsCount();
-    const bool selectionStateChanged = ((count >  0) && (selected.count() == count)) ||
-                                       ((count == 0) && !deselected.isEmpty());
+    const KFileItem item = fileItemModel()->fileItem(index);
+
+    if (GeneralSettings::showToolTips()) {
+        QRectF itemRect = m_container->controller()->view()->itemBoundingRect(index);
+        const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
+        itemRect.moveTo(pos);
+
+        m_toolTipManager->showToolTip(item, itemRect);
+    }
+
+    emit requestItemInfo(item);
+}
+
+void DolphinView::slotItemUnhovered(int index)
+{
+    Q_UNUSED(index);
+    if (GeneralSettings::showToolTips()) {
+        m_toolTipManager->hideToolTip();
+    }
+    emit requestItemInfo(KFileItem());
+}
+
+void DolphinView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)
+{
+    const int currentCount = current.count();
+    const int previousCount = previous.count();
+    const bool selectionStateChanged = (currentCount == 0 && previousCount  > 0) ||
+                                       (currentCount >  0 && previousCount == 0);
 
     // If nothing has been selected before and something got selected (or if something
     // was selected before and now nothing is selected) the selectionChangedSignal must
@@ -745,18 +763,11 @@ void DolphinView::emitSelectionChangedSignal()
 void DolphinView::openContextMenu(const QPoint& pos,
                                   const QList<QAction*>& customActions)
 {
-    Q_UNUSED(pos);
     KFileItem item;
-    /*QAbstractItemView* view = m_viewAccessor.itemView();
-    QModelIndex index;
-    if (view) {
-        index = view->indexAt(pos);
+    const int index = m_container->controller()->view()->itemAt(pos);
+    if (index >= 0) {
+        item = fileItemModel()->fileItem(index);
     }
-
-    if (index.isValid() && (index.column() == DolphinModel::Name)) {
-        const QModelIndex dolphinModelIndex = m_viewAccessor.proxyModel()->mapToSource(index);
-        item = m_viewAccessor.dirModel()->itemForIndex(dolphinModelIndex);
-    }*/
 
     emit requestContextMenu(item, url(), customActions);
 }
@@ -767,7 +778,7 @@ void DolphinView::dropUrls(const KFileItem& destItem,
 {
     Q_UNUSED(destItem);
     Q_UNUSED(destPath);
-    addNewFileNames(event->mimeData());
+    markPastedUrlsAsSelected(event->mimeData());
     //DragAndDropHelper::instance().dropUrls(destItem, destPath, event, this);
 }
 
@@ -824,8 +835,8 @@ bool DolphinView::itemsExpandable() const
 
 void DolphinView::restoreState(QDataStream& stream)
 {
-    // Restore the URL of the current item that had the keyboard focus
-    stream >> m_activeItemUrl;
+    // Restore the current item that had the keyboard focus
+    stream >> m_currentItemIndex;
 
     // Restore the view position
     stream >> m_restoredContentsPosition;
@@ -845,20 +856,13 @@ void DolphinView::restoreState(QDataStream& stream)
 
 void DolphinView::saveState(QDataStream& stream)
 {
-    // Save the URL of the current item that has the keyboard focus
-
-    KUrl currentItemUrl;
-    //if (!currentItem.isNull()) {
-    //    currentItemUrl = currentItem.url();
-    //}
-
-    stream << currentItemUrl;
+    // Save the current item that has the keyboard focus
+    stream << m_container->controller()->selectionManager()->currentItem();
 
     // Save view position
     const qreal x = m_container->horizontalScrollBar()->value();
     const qreal y = m_container->verticalScrollBar()->value();
     stream << QPoint(x, y);
-    kDebug() << "saving view state" << QPoint(x, y);
 
     // Save expanded folders (only relevant for the details view - the set will be empty in other view modes)
     //stream << m_viewAccessor.expandedUrls();
@@ -866,9 +870,7 @@ void DolphinView::saveState(QDataStream& stream)
 
 bool DolphinView::hasSelection() const
 {
-    //const QAbstractItemView* view = m_viewAccessor.itemView();
-    //return view && view->selectionModel()->hasSelection();
-    return false;
+    return m_container->controller()->selectionManager()->hasSelection();
 }
 
 KFileItem DolphinView::rootItem() const
@@ -907,8 +909,14 @@ void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
     }
 }
 
-void DolphinView::restoreContentsPosition()
+void DolphinView::updateViewState()
 {
+    if (m_currentItemIndex >= 0) {
+        KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+        selectionManager->setCurrentItem(m_currentItemIndex);
+        m_currentItemIndex =-1;
+    }
+
     if (!m_restoredContentsPosition.isNull()) {
         const int x = m_restoredContentsPosition.x();
         const int y = m_restoredContentsPosition.y();
@@ -917,13 +925,23 @@ void DolphinView::restoreContentsPosition()
         m_container->horizontalScrollBar()->setValue(x);
         m_container->verticalScrollBar()->setValue(y);
     }
-}
 
-/*void DolphinView::slotUrlChangeRequested(const KUrl& url)
-{
-    m_viewModeController->setUrl(url);
-    updateWritableState();
-}*/
+    if (!m_selectedItems.isEmpty()) {
+        KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+        QSet<int> selectedItems = selectionManager->selectedItems();
+        const KFileItemModel* model = fileItemModel();
+
+        foreach (const KFileItem& selectedItem, m_selectedItems) {
+            const int index = model->index(selectedItem);
+            if (index >= 0) {
+                selectedItems.insert(index);
+            }
+        }
+
+        selectionManager->setSelectedItems(selectedItems);
+        m_selectedItems.clear();
+    }
+}
 
 void DolphinView::showHoverInformation(const KFileItem& item)
 {
@@ -958,81 +976,15 @@ void DolphinView::slotDirListerStarted(const KUrl& url)
 
 void DolphinView::slotDirListerCompleted()
 {
-    if (!m_expanderActive) {
-        slotLoadingCompleted();
-    }
-
-    if (!m_newFileNames.isEmpty()) {
-        // select all newly added items created by a paste operation or
-        // a drag & drop operation, and clear the previous selection
-        /*QAbstractItemView* view = m_viewAccessor.itemView();
-        if (view) {
-            view->clearSelection();
-            const int rowCount = m_viewAccessor.proxyModel()->rowCount();
-            QItemSelection selection;
-            for (int row = 0; row < rowCount; ++row) {
-                const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->index(row, 0);
-                const QModelIndex dirIndex = m_viewAccessor.proxyModel()->mapToSource(proxyIndex);
-                const KUrl url = m_viewAccessor.dirModel()->itemForIndex(dirIndex).url();
-                if (m_newFileNames.contains(url.fileName())) {
-                    selection.merge(QItemSelection(proxyIndex, proxyIndex), QItemSelectionModel::Select);
-                }
-            }
-            view->selectionModel()->select(selection, QItemSelectionModel::Select);
-        }*/
-
-        m_newFileNames.clear();
-    }
-
-    updateWritableState();
-}
-
-void DolphinView::slotLoadingCompleted()
-{
-    m_expanderActive = false;
-
-    if (!m_activeItemUrl.isEmpty()) {
-        // assure that the current item remains visible
-        /*const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForUrl(m_activeItemUrl);
-        if (dirIndex.isValid()) {
-            const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->mapFromSource(dirIndex);
-            QAbstractItemView* view = m_viewAccessor.itemView();
-            if (view) {
-                const bool clearSelection = !hasSelection();
-                view->setCurrentIndex(proxyIndex);
-                if (clearSelection) {
-                    view->clearSelection();
-                }
-            }
-            m_activeItemUrl.clear();
-        }*/
-    }
-
-    if (!m_selectedItems.isEmpty()) {
-        /*const KUrl& baseUrl = url();
-        KUrl url;
-        QItemSelection newSelection;
-        foreach(const KFileItem& item, m_selectedItems) {
-            url = item.url().upUrl();
-            if (baseUrl.equals(url, KUrl::CompareWithoutTrailingSlash)) {
-                const QModelIndex index = m_viewAccessor.proxyModel()->mapFromSource(m_viewAccessor.dirModel()->indexForItem(item));
-                newSelection.select(index, index);
-            }
-        }
-        QAbstractItemView* view = m_viewAccessor.itemView();
-        if (view) {
-            view->selectionModel()->select(newSelection,
-                                                            QItemSelectionModel::ClearAndSelect
-                                                            | QItemSelectionModel::Current);
-        }*/
-        m_selectedItems.clear();
-    }
-
-    // Restore the contents position. This has to be done using a Qt::QueuedConnection
-    // because the view might not be in its final state yet.
-    QTimer::singleShot(0, this, SLOT(restoreContentsPosition()));
+    // Update the view-state. This has to be done using a Qt::QueuedConnection
+    // because the view might not be in its final state yet (the view also
+    // listens to the completed()-signal from KDirLister and the order of
+    // of slots is undefined).
+    QTimer::singleShot(0, this, SLOT(updateViewState()));
 
     emit finishedPathLoading(url());
+
+    updateWritableState();
 }
 
 void DolphinView::slotRefreshItems()
@@ -1172,7 +1124,7 @@ void DolphinView::applyAdditionalInfoListToView()
 
 void DolphinView::pasteToUrl(const KUrl& url)
 {
-    addNewFileNames(QApplication::clipboard()->mimeData());
+    markPastedUrlsAsSelected(QApplication::clipboard()->mimeData());
     KonqOperations::doPaste(this, url);
 }
 
@@ -1213,12 +1165,10 @@ QMimeData* DolphinView::selectionMimeData() const
     return 0;
 }
 
-void DolphinView::addNewFileNames(const QMimeData* mimeData)
+void DolphinView::markPastedUrlsAsSelected(const QMimeData* mimeData)
 {
     const KUrl::List urls = KUrl::List::fromMimeData(mimeData);
-    foreach (const KUrl& url, urls) {
-        m_newFileNames.insert(url.fileName());
-    }
+    markUrlsAsSelected(urls);
 }
 
 QItemSelection DolphinView::childrenMatchingPattern(const QModelIndex& parent, const QRegExp& pattern) const
@@ -1252,7 +1202,7 @@ void DolphinView::updateWritableState()
     const bool wasFolderWritable = m_isFolderWritable;
     m_isFolderWritable = true;
 
-    const KFileItem item; // = m_viewAccessor.dirLister()->rootItem();
+    const KFileItem item = m_dirLister->rootItem();
     if (!item.isNull()) {
         KFileItemListProperties capabilities(KFileItemList() << item);
         m_isFolderWritable = capabilities.supportsWriting();

@@ -122,7 +122,7 @@ void BehaviorSettingsPage::applySettings()
 
     const bool useGlobalProps = m_globalProps->isChecked();
 
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->setGlobalViewProps(useGlobalProps);
 
     if (useGlobalProps) {

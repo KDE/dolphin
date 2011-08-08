@@ -30,6 +30,7 @@
 class KItemListController;
 class KItemListView;
 class KItemModelBase;
+class QPropertyAnimation;
 
 /**
  * @brief Provides a QWidget based scrolling view for a KItemListController.
@@ -51,6 +52,8 @@ protected:
     virtual void showEvent(QShowEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
     virtual void scrollContentsBy(int dx, int dy);
+    virtual bool eventFilter(QObject* obj, QEvent* event);
+    virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
@@ -63,6 +66,9 @@ private:
 
 private:
     KItemListController* m_controller;
+
+    bool m_sliderMovedByUser;
+    QPropertyAnimation* m_viewOffsetAnimation;
 };
 
 #endif

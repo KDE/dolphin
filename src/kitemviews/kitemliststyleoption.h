@@ -23,18 +23,23 @@
 #include <libdolphin_export.h>
 
 #include <QFont>
-#include <QStyleOption>
+#include <QFontMetrics>
+#include <QPalette>
+#include <QRect>
 
-class LIBDOLPHINPRIVATE_EXPORT KItemListStyleOption : public QStyleOption
+class LIBDOLPHINPRIVATE_EXPORT KItemListStyleOption
 {
 public:
     KItemListStyleOption();
     KItemListStyleOption(const KItemListStyleOption& other);
     virtual ~KItemListStyleOption();
 
+    QRect rect;
+    QFont font;
+    QFontMetrics fontMetrics;
+    QPalette palette;
     int margin;
     int iconSize;
-    QFont font;
 };
 #endif
 

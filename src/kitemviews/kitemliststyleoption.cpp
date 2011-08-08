@@ -20,16 +20,23 @@
 #include "kitemliststyleoption.h"
 
 KItemListStyleOption::KItemListStyleOption() :
-    QStyleOption(QStyleOption::Version, QStyleOption::SO_CustomBase + 1)
+    rect(),
+    font(),
+    fontMetrics(QFont()),
+    palette(),
+    margin(0),
+    iconSize(0)
 {
 }
 
 KItemListStyleOption::KItemListStyleOption(const KItemListStyleOption& other) :
-    QStyleOption(other)
+    rect(other.rect),
+    font(other.font),
+    fontMetrics(other.fontMetrics),
+    palette(other.palette),
+    margin(other.margin),
+    iconSize(other.iconSize)
 {
-    margin = other.margin;
-    iconSize = other.iconSize;
-    font = other.font;
 }
 
 KItemListStyleOption::~KItemListStyleOption()

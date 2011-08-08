@@ -82,14 +82,9 @@ void KItemListController::setView(KItemListView* view)
     KItemListView* oldView = m_view;
     m_view = view;
 
-    if (oldView) {
-        disconnect(m_selectionManager, SIGNAL(currentChanged(int,int)), oldView, SLOT(currentChanged(int,int)));
-    }
-
     if (m_view) {
         m_view->setController(this);
         m_view->setModel(m_model);
-        connect(m_selectionManager, SIGNAL(currentChanged(int,int)), m_view, SLOT(currentChanged(int,int)));
     }
 
     emit viewChanged(m_view, oldView);
@@ -139,12 +134,18 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     const QPointF pos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(pos);
 
-    m_selectionManager->setCurrentItem(m_pressedIndex);
-
-    // The anchor for the current selection is updated except for Shift+LeftButton events
-    // (the current selection is continued with the previous anchor in that case).
-    if (!(event->buttons() & Qt::LeftButton && event->modifiers() & Qt::ShiftModifier)) {
+    const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
+                                       event->modifiers() & Qt::ControlModifier;
+    if (!shiftOrControlPressed) {
+        m_selectionManager->clearSelection();
         m_selectionManager->setAnchorItem(m_pressedIndex);
+    }
+
+    if (m_pressedIndex >= 0) {
+        m_selectionManager->setCurrentItem(m_pressedIndex);
+        if (!m_view->isAboveExpansionToggle(m_pressedIndex, pos)) {
+            m_selectionManager->setSelected(m_pressedIndex);
+        }
     }
 
     return false;
@@ -162,15 +163,18 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     if (m_view) {
         const QPointF pos = transform.map(event->pos());
         const int index = m_view->itemAt(pos);
+        const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier || event->modifiers() & Qt::ControlModifier;
+
         if (index >= 0 && index == m_pressedIndex) {
+            // The release event is done above the same item as the press event
             bool emitItemClicked = true;
             if (event->button() & Qt::LeftButton) {
                 if (m_view->isAboveExpansionToggle(index, pos)) {
                     emit itemExpansionToggleClicked(index);
                     emitItemClicked = false;
                 }
-                else if (event->modifiers() & Qt::ShiftModifier || event->modifiers() & Qt::ControlModifier) {
-                    // The mouse click should only update the selection, not trigger the item.
+                else if (shiftOrControlPressed) {
+                    // The mouse click should only update the selection, not trigger the item
                     emitItemClicked = false;
                 }
             }
@@ -178,6 +182,8 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             if (emitItemClicked) {
                 emit itemClicked(index, event->button());
             }
+        } else if (!shiftOrControlPressed) {
+            m_selectionManager->clearSelection();
         }
     }
 
@@ -229,8 +235,49 @@ bool KItemListController::hoverEnterEvent(QGraphicsSceneHoverEvent* event, const
 
 bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
+    // The implementation assumes that only one item can get hovered no matter
+    // whether they overlap or not.
+
     Q_UNUSED(transform);
+    if (!m_model || !m_view) {
+        return false;
+    }
+
+    // Search the previously hovered item that might get unhovered
+    KItemListWidget* unhoveredWidget = 0;
+    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+        if (widget->isHovered()) {
+            unhoveredWidget = widget;
+            break;
+        }
+    }
+
+    // Search the currently hovered item
+    KItemListWidget* hoveredWidget = 0;
+    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+        const QPointF mappedPos = widget->mapFromItem(m_view, event->pos());
+
+        const bool hovered = widget->contains(mappedPos) &&
+                             !widget->expansionToggleRect().contains(mappedPos) &&
+                             !widget->selectionToggleRect().contains(mappedPos);
+        if (hovered) {
+            hoveredWidget = widget;
+            break;
+        }
+    }
+
+    if (unhoveredWidget != hoveredWidget) {
+        if (unhoveredWidget) {
+            unhoveredWidget->setHovered(false);
+            emit itemUnhovered(unhoveredWidget->index());
+        }
+
+        if (hoveredWidget) {
+            hoveredWidget->setHovered(true);
+            emit itemHovered(hoveredWidget->index());
+        }
+    }
+
     return false;
 }
 
@@ -238,6 +285,17 @@ bool KItemListController::hoverLeaveEvent(QGraphicsSceneHoverEvent* event, const
 {
     Q_UNUSED(event);
     Q_UNUSED(transform);
+
+    if (!m_model || !m_view) {
+        return false;
+    }
+
+    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+        if (widget->isHovered()) {
+            widget->setHovered(false);
+            emit itemUnhovered(widget->index());
+        }
+    }
     return false;
 }
 
@@ -262,9 +320,6 @@ bool KItemListController::processEvent(QEvent* event, const QTransform& transfor
     }
 
     switch (event->type()) {
-//  case QEvent::FocusIn:
-//  case QEvent::FocusOut:
-//      return focusEvent(static_cast<QFocusEvent*>(event));
     case QEvent::KeyPress:
         return keyPressEvent(static_cast<QKeyEvent*>(event));
     case QEvent::InputMethod:
