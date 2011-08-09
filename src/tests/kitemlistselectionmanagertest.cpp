@@ -58,6 +58,7 @@ private slots:
 
     void testConstructor();
 
+    void testCurrentItemAnchorItem();
     void testSetSelected_data();
     void testSetSelected();
     void testItemsInserted();
@@ -86,6 +87,40 @@ void KItemListSelectionManagerTest::testConstructor()
     QCOMPARE(m_selectionManager->selectedItems().count(), 0);
     QCOMPARE(m_selectionManager->currentItem(), 0);
     QCOMPARE(m_selectionManager->anchorItem(), -1);
+}
+
+void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
+{
+    QSignalSpy spyCurrent(m_selectionManager, SIGNAL(currentChanged(int,int)));
+    QSignalSpy spyAnchor(m_selectionManager, SIGNAL(anchorChanged(int,int)));;
+
+    // Set current item and check that the selection manager emits the currentChanged(int,int) signal correctly.
+    m_selectionManager->setCurrentItem(4);
+    QCOMPARE(m_selectionManager->currentItem(), 4);
+    QCOMPARE(spyCurrent.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(0)), 4);
+    spyCurrent.takeFirst();
+
+    m_selectionManager->setCurrentItem(2);
+    QCOMPARE(m_selectionManager->currentItem(), 2);
+    QCOMPARE(spyCurrent.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(0)), 2);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(1)), 4);
+    spyCurrent.takeFirst();
+
+    // Set anchor item and check that the selection manager emits the anchorChanged(int,int) signal correctly.
+    m_selectionManager->setAnchorItem(3);
+    QCOMPARE(m_selectionManager->anchorItem(), 3);
+    QCOMPARE(spyAnchor.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 3);
+    spyAnchor.takeFirst();
+
+    m_selectionManager->setAnchorItem(5);
+    QCOMPARE(m_selectionManager->anchorItem(), 5);
+    QCOMPARE(spyAnchor.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 5);
+    QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(1)), 3);
+    spyAnchor.takeFirst();
 }
 
 void KItemListSelectionManagerTest::testSetSelected_data()
