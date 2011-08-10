@@ -64,6 +64,11 @@ public:
     void setAnchorItem(int anchor);
     int anchorItem() const;
 
+    bool isAnchoredSelectionActive() const;
+    void setAnchoredSelectionActive(bool active);
+    SelectionMode anchoredSelectionMode() const;
+    void setAnchoredSelectionMode(SelectionMode mode);
+
     KItemModelBase* model() const;
 
 signals:
@@ -80,6 +85,8 @@ private:
     int m_currentItem;
     int m_anchorItem;
     QSet<int> m_selectedItems;
+    bool m_isAnchoredSelectionActive;
+    SelectionMode m_anchoredSelectionMode;
 
     KItemModelBase* m_model;
 

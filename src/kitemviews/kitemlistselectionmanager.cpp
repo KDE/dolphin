@@ -30,6 +30,8 @@ KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
     m_currentItem(-1),
     m_anchorItem(-1),
     m_selectedItems(),
+    m_isAnchoredSelectionActive(false),
+    m_anchoredSelectionMode(KItemListSelectionManager::Select),
     m_model(0)
 {
 }
@@ -68,12 +70,37 @@ void KItemListSelectionManager::setSelectedItems(const QSet<int>& items)
 
 QSet<int> KItemListSelectionManager::selectedItems() const
 {
-    return m_selectedItems;
+    QSet<int> selectedItems = m_selectedItems;
+
+    if (m_isAnchoredSelectionActive) {
+        const int from = qMin(m_anchorItem, m_currentItem);
+        const int to = qMax(m_anchorItem, m_currentItem);
+
+        for (int index = from; index <= to; index++) {
+            switch (m_anchoredSelectionMode) {
+            case Select:
+                selectedItems.insert(index);
+                break;
+            case Deselect:
+                selectedItems.remove(index);
+                break;
+            case Toggle:
+                if (selectedItems.contains(index)) {
+                    selectedItems.remove(index);
+                } else {
+                    selectedItems.insert(index);
+                }
+                break;
+            }
+        }
+    }
+
+    return selectedItems;
 }
 
 bool KItemListSelectionManager::hasSelection() const
 {
-    return !m_selectedItems.isEmpty();
+    return !m_selectedItems.isEmpty() || (m_isAnchoredSelectionActive && m_anchoredSelectionMode == KItemListSelectionManager::Select);
 }
 
 void KItemListSelectionManager::setSelected(int index, int count, SelectionMode mode)
@@ -125,7 +152,13 @@ void KItemListSelectionManager::clearSelection()
     if (!m_selectedItems.isEmpty()) {
         const QSet<int> previous = m_selectedItems;
         m_selectedItems.clear();
+        m_isAnchoredSelectionActive = false;
         emit selectionChanged(m_selectedItems, previous);
+    }
+    else if (m_isAnchoredSelectionActive) {
+        m_isAnchoredSelectionActive = false;
+        // TODO: the 'previous' parameter of the signal has to be set correctly, but do we actually need it?
+        emit selectionChanged(m_selectedItems, m_selectedItems);
     }
 }
 
@@ -156,6 +189,26 @@ void KItemListSelectionManager::setAnchorItem(int anchor)
 int KItemListSelectionManager::anchorItem() const
 {
     return m_anchorItem;
+}
+
+bool KItemListSelectionManager::isAnchoredSelectionActive() const
+{
+    return m_isAnchoredSelectionActive;
+}
+
+void KItemListSelectionManager::setAnchoredSelectionActive(bool active)
+{
+    m_isAnchoredSelectionActive = active;
+}
+
+KItemListSelectionManager::SelectionMode KItemListSelectionManager::anchoredSelectionMode() const
+{
+    return m_anchoredSelectionMode;
+}
+
+void KItemListSelectionManager::setAnchoredSelectionMode(KItemListSelectionManager::SelectionMode mode)
+{
+    m_anchoredSelectionMode = mode;
 }
 
 KItemModelBase* KItemListSelectionManager::model() const

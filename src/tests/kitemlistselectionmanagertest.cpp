@@ -92,20 +92,18 @@ void KItemListSelectionManagerTest::testConstructor()
 void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
 {
     QSignalSpy spyCurrent(m_selectionManager, SIGNAL(currentChanged(int,int)));
-    QSignalSpy spyAnchor(m_selectionManager, SIGNAL(anchorChanged(int,int)));;
+    QSignalSpy spyAnchor(m_selectionManager, SIGNAL(anchorChanged(int,int)));
+
+    m_selectionManager->setAnchoredSelectionActive(true);
+    QVERIFY(m_selectionManager->isAnchoredSelectionActive());
+    m_selectionManager->setAnchoredSelectionMode(KItemListSelectionManager::Select);
+    QCOMPARE(m_selectionManager->anchoredSelectionMode(), KItemListSelectionManager::Select);
 
     // Set current item and check that the selection manager emits the currentChanged(int,int) signal correctly.
     m_selectionManager->setCurrentItem(4);
     QCOMPARE(m_selectionManager->currentItem(), 4);
     QCOMPARE(spyCurrent.count(), 1);
     QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(0)), 4);
-    spyCurrent.takeFirst();
-
-    m_selectionManager->setCurrentItem(2);
-    QCOMPARE(m_selectionManager->currentItem(), 2);
-    QCOMPARE(spyCurrent.count(), 1);
-    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(0)), 2);
-    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(1)), 4);
     spyCurrent.takeFirst();
 
     // Set anchor item and check that the selection manager emits the anchorChanged(int,int) signal correctly.
@@ -121,6 +119,21 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 5);
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(1)), 3);
     spyAnchor.takeFirst();
+
+    // Items between current and anchor should be selected now
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 4 << 5);
+    QVERIFY(m_selectionManager->hasSelection());
+
+    // Change current item again and check the selection
+    m_selectionManager->setCurrentItem(2);
+    QCOMPARE(m_selectionManager->currentItem(), 2);
+    QCOMPARE(spyCurrent.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(0)), 2);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(1)), 4);
+    spyCurrent.takeFirst();
+
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 2 << 3 << 4 << 5);
+    QVERIFY(m_selectionManager->hasSelection());
 
     // Inserting items should update current item and anchor item.
     m_selectionManager->itemsInserted(KItemRangeList() <<
@@ -140,6 +153,9 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(1)), 5);
     spyAnchor.takeFirst();
 
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7 << 8);
+    QVERIFY(m_selectionManager->hasSelection());
+
     // Removing items should update current item and anchor item.
     m_selectionManager->itemsRemoved(KItemRangeList() <<
                                      KItemRange(0, 2) <<
@@ -157,6 +173,14 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 5);
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(1)), 8);
     spyAnchor.takeFirst();
+
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 2 << 3 << 4 << 5);
+    QVERIFY(m_selectionManager->hasSelection());
+
+    // Verify that clearSelection() also clears the anchored selection.
+    m_selectionManager->clearSelection();
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>());
+    QVERIFY(!m_selectionManager->hasSelection());
 }
 
 void KItemListSelectionManagerTest::testSetSelected_data()
