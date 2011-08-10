@@ -96,8 +96,6 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
 
     m_selectionManager->setAnchoredSelectionActive(true);
     QVERIFY(m_selectionManager->isAnchoredSelectionActive());
-    m_selectionManager->setAnchoredSelectionMode(KItemListSelectionManager::Select);
-    QCOMPARE(m_selectionManager->anchoredSelectionMode(), KItemListSelectionManager::Select);
 
     // Set current item and check that the selection manager emits the currentChanged(int,int) signal correctly.
     m_selectionManager->setCurrentItem(4);

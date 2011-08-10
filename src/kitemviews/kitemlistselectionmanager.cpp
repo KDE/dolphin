@@ -31,7 +31,6 @@ KItemListSelectionManager::KItemListSelectionManager(QObject* parent) :
     m_anchorItem(-1),
     m_selectedItems(),
     m_isAnchoredSelectionActive(false),
-    m_anchoredSelectionMode(KItemListSelectionManager::Select),
     m_model(0)
 {
 }
@@ -77,21 +76,7 @@ QSet<int> KItemListSelectionManager::selectedItems() const
         const int to = qMax(m_anchorItem, m_currentItem);
 
         for (int index = from; index <= to; index++) {
-            switch (m_anchoredSelectionMode) {
-            case Select:
-                selectedItems.insert(index);
-                break;
-            case Deselect:
-                selectedItems.remove(index);
-                break;
-            case Toggle:
-                if (selectedItems.contains(index)) {
-                    selectedItems.remove(index);
-                } else {
-                    selectedItems.insert(index);
-                }
-                break;
-            }
+            selectedItems.insert(index);
         }
     }
 
@@ -100,7 +85,7 @@ QSet<int> KItemListSelectionManager::selectedItems() const
 
 bool KItemListSelectionManager::hasSelection() const
 {
-    return !m_selectedItems.isEmpty() || (m_isAnchoredSelectionActive && m_anchoredSelectionMode == KItemListSelectionManager::Select);
+    return !m_selectedItems.isEmpty() || m_isAnchoredSelectionActive;
 }
 
 void KItemListSelectionManager::setSelected(int index, int count, SelectionMode mode)
@@ -162,10 +147,9 @@ void KItemListSelectionManager::clearSelection()
     }
 }
 
-void KItemListSelectionManager::beginAnchoredSelection(int anchor, SelectionMode mode)
+void KItemListSelectionManager::beginAnchoredSelection(int anchor)
 {
     Q_UNUSED(anchor);
-    Q_UNUSED(mode);
 }
 
 void KItemListSelectionManager::endAnchoredSelection()
@@ -199,16 +183,6 @@ bool KItemListSelectionManager::isAnchoredSelectionActive() const
 void KItemListSelectionManager::setAnchoredSelectionActive(bool active)
 {
     m_isAnchoredSelectionActive = active;
-}
-
-KItemListSelectionManager::SelectionMode KItemListSelectionManager::anchoredSelectionMode() const
-{
-    return m_anchoredSelectionMode;
-}
-
-void KItemListSelectionManager::setAnchoredSelectionMode(KItemListSelectionManager::SelectionMode mode)
-{
-    m_anchoredSelectionMode = mode;
 }
 
 KItemModelBase* KItemListSelectionManager::model() const

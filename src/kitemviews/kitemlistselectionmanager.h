@@ -59,15 +59,13 @@ public:
     void setSelected(int index, int count = 1, SelectionMode mode = Select);
     void clearSelection();
 
-    void beginAnchoredSelection(int anchor, SelectionMode mode = Select);
+    void beginAnchoredSelection(int anchor);
     void endAnchoredSelection();
     void setAnchorItem(int anchor);
     int anchorItem() const;
 
     bool isAnchoredSelectionActive() const;
     void setAnchoredSelectionActive(bool active);
-    SelectionMode anchoredSelectionMode() const;
-    void setAnchoredSelectionMode(SelectionMode mode);
 
     KItemModelBase* model() const;
 
@@ -86,7 +84,6 @@ private:
     int m_anchorItem;
     QSet<int> m_selectedItems;
     bool m_isAnchoredSelectionActive;
-    SelectionMode m_anchoredSelectionMode;
 
     KItemModelBase* m_model;
 
