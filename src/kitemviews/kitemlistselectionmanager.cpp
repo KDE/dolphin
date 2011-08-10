@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2011 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   Based on the Itemviews NG project from Trolltech Labs:                *
  *   http://qt.gitorious.org/qt-labs/itemviews-ng                          *
@@ -149,11 +150,22 @@ void KItemListSelectionManager::clearSelection()
 
 void KItemListSelectionManager::beginAnchoredSelection(int anchor)
 {
-    Q_UNUSED(anchor);
+    m_isAnchoredSelectionActive = true;
+    setAnchorItem(anchor);
 }
 
 void KItemListSelectionManager::endAnchoredSelection()
 {
+    if (m_isAnchoredSelectionActive) {
+        const int from = qMin(m_anchorItem, m_currentItem);
+        const int to = qMax(m_anchorItem, m_currentItem);
+
+        for (int index = from; index <= to; index++) {
+            m_selectedItems.insert(index);
+        }
+
+        m_isAnchoredSelectionActive = false;
+    }
 }
 
 void KItemListSelectionManager::setAnchorItem(int anchor)

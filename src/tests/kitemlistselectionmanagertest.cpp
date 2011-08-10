@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2011 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -63,6 +64,7 @@ private slots:
     void testSetSelected();
     void testItemsInserted();
     void testItemsRemoved();
+    void testAnchoredSelection();
 
 private:
     KItemListSelectionManager* m_selectionManager;
@@ -258,6 +260,47 @@ void KItemListSelectionManagerTest::testItemsRemoved()
     QVERIFY(selectedItems.contains(5));
     QVERIFY(selectedItems.contains(6));
     QVERIFY(selectedItems.contains(7));
+}
+
+void KItemListSelectionManagerTest::testAnchoredSelection()
+{
+    m_selectionManager->beginAnchoredSelection(5);
+    QVERIFY(m_selectionManager->isAnchoredSelectionActive());
+    QCOMPARE(m_selectionManager->anchorItem(), 5);
+
+    m_selectionManager->setCurrentItem(6);
+    QCOMPARE(m_selectionManager->currentItem(), 6);
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6);
+
+    m_selectionManager->setCurrentItem(4);
+    QCOMPARE(m_selectionManager->currentItem(), 4);
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 4 << 5);
+
+    m_selectionManager->setCurrentItem(7);
+    QCOMPARE(m_selectionManager->currentItem(), 7);
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7);
+
+    // Ending the anchored selection should not change the selected items.
+    m_selectionManager->endAnchoredSelection();
+    QVERIFY(!m_selectionManager->isAnchoredSelectionActive());
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7);
+
+    // Start a new anchored selection that overlaps the previous one
+    m_selectionManager->beginAnchoredSelection(9);
+    QVERIFY(m_selectionManager->isAnchoredSelectionActive());
+    QCOMPARE(m_selectionManager->anchorItem(), 9);
+
+    m_selectionManager->setCurrentItem(6);
+    QCOMPARE(m_selectionManager->currentItem(), 6);
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7 << 8 << 9);
+
+    m_selectionManager->setCurrentItem(10);
+    QCOMPARE(m_selectionManager->currentItem(), 10);
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7 << 9 << 10);
+
+    m_selectionManager->endAnchoredSelection();
+    QVERIFY(!m_selectionManager->isAnchoredSelectionActive());
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7 << 9 << 10);
 }
 
 QTEST_KDEMAIN(KItemListSelectionManagerTest, NoGUI)
