@@ -49,6 +49,7 @@ public:
     KItemListController* controller() const;
 
 protected:
+    virtual void keyPressEvent(QKeyEvent* event);
     virtual void showEvent(QShowEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
     virtual void scrollContentsBy(int dx, int dy);

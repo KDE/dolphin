@@ -26,6 +26,7 @@
 #include "kitemlistview.h"
 #include "kitemmodelbase.h"
 
+#include <QApplication>
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QPropertyAnimation>
@@ -80,6 +81,20 @@ KItemListContainer::~KItemListContainer()
 KItemListController* KItemListContainer::controller() const
 {
     return m_controller;
+}
+
+void KItemListContainer::keyPressEvent(QKeyEvent* event)
+{
+    // TODO: We should find a better way to handle the key press events in the view.
+    // The reasons why we need this hack are:
+    // 1. Without reimplementing keyPressEvent() here, the event would not reach the QGraphicsView.
+    // 2. By default, the KItemListView does not have the keyboard focus in the QGraphicsScene, so
+    //    simply sending the event to the QGraphicsView which is the KItemListContainer's viewport
+    //    does not work.
+    KItemListView* view = m_controller->view();
+    if (view) {
+        QApplication::sendEvent(view, event);
+    }
 }
 
 void KItemListContainer::showEvent(QShowEvent* event)

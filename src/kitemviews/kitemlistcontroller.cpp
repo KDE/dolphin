@@ -119,7 +119,14 @@ bool KItemListController::hideEvent(QHideEvent* event)
 
 bool KItemListController::keyPressEvent(QKeyEvent* event)
 {
-    Q_UNUSED(event);
+    switch (event->key()) {
+    case Qt::Key_Home:
+        m_selectionManager->setCurrentItem(0);
+        break;
+    case Qt::Key_End:
+        m_selectionManager->setCurrentItem(m_model->count() - 1);
+        break;
+    }
     return false;
 }
 
