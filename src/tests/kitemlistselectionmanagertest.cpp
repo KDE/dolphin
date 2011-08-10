@@ -121,6 +121,42 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 5);
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(1)), 3);
     spyAnchor.takeFirst();
+
+    // Inserting items should update current item and anchor item.
+    m_selectionManager->itemsInserted(KItemRangeList() <<
+                                      KItemRange(0, 1) <<
+                                      KItemRange(2, 2) <<
+                                      KItemRange(6, 3));
+
+    QCOMPARE(m_selectionManager->currentItem(), 5);
+    QCOMPARE(spyCurrent.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(0)), 5);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(1)), 2);
+    spyCurrent.takeFirst();
+
+    QCOMPARE(m_selectionManager->anchorItem(), 8);
+    QCOMPARE(spyAnchor.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 8);
+    QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(1)), 5);
+    spyAnchor.takeFirst();
+
+    // Removing items should update current item and anchor item.
+    m_selectionManager->itemsRemoved(KItemRangeList() <<
+                                     KItemRange(0, 2) <<
+                                     KItemRange(2, 1) <<
+                                     KItemRange(9, 2));
+
+    QCOMPARE(m_selectionManager->currentItem(), 2);
+    QCOMPARE(spyCurrent.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(0)), 2);
+    QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(1)), 5);
+    spyCurrent.takeFirst();
+
+    QCOMPARE(m_selectionManager->anchorItem(), 5);
+    QCOMPARE(spyAnchor.count(), 1);
+    QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 5);
+    QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(1)), 8);
+    spyAnchor.takeFirst();
 }
 
 void KItemListSelectionManagerTest::testSetSelected_data()

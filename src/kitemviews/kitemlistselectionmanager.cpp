@@ -187,6 +187,20 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
         setCurrentItem(m_currentItem + inc);
     }
 
+    // Update the anchor item
+    if (m_anchorItem < 0) {
+        setAnchorItem(0);
+    } else {
+        int inc = 0;
+        foreach (const KItemRange& itemRange, itemRanges) {
+            if (m_anchorItem < itemRange.index) {
+                break;
+            }
+            inc += itemRange.count;
+        }
+        setAnchorItem(m_anchorItem + inc);
+    }
+
     // Update the selections
     if (!m_selectedItems.isEmpty()) {
         const QSet<int> previous = m_selectedItems;
@@ -229,6 +243,22 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
             }
         }
         setCurrentItem(currentItem);
+    }
+
+    // Update the anchor item
+    if (m_anchorItem >= 0) {
+        int anchorItem = m_anchorItem;
+        foreach (const KItemRange& itemRange, itemRanges) {
+            if (anchorItem < itemRange.index) {
+                break;
+            }
+            if (anchorItem >= itemRange.index + itemRange.count) {
+                anchorItem -= itemRange.count;
+            } else if (anchorItem >= m_model->count()) {
+                anchorItem = m_model->count() - 1;
+            }
+        }
+        setAnchorItem(anchorItem);
     }
 
     // Update the selections
