@@ -65,6 +65,8 @@ private slots:
     void testItemsInserted();
     void testItemsRemoved();
     void testAnchoredSelection();
+    void testChangeSelection_data();
+    void testChangeSelection();
 
 private:
     KItemListSelectionManager* m_selectionManager;
@@ -306,6 +308,139 @@ void KItemListSelectionManagerTest::testAnchoredSelection()
     m_selectionManager->endAnchoredSelection();
     QVERIFY(!m_selectionManager->isAnchoredSelectionActive());
     QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7 << 9 << 10);
+}
+
+namespace {
+    enum ModelChangeType {
+        NoChange,
+        InsertItems,
+        RemoveItems
+    };
+}
+
+Q_DECLARE_METATYPE(QSet<int>);
+Q_DECLARE_METATYPE(ModelChangeType);
+Q_DECLARE_METATYPE(KItemRangeList);
+
+void KItemListSelectionManagerTest::testChangeSelection_data()
+{
+    QTest::addColumn<QSet<int> >("initialSelection");
+    QTest::addColumn<int>("anchor");
+    QTest::addColumn<int>("current");
+    QTest::addColumn<QSet<int> >("expectedSelection");
+    QTest::addColumn<ModelChangeType>("changeType");
+    QTest::addColumn<KItemRangeList>("changedItems");
+    QTest::addColumn<QSet<int> >("finalSelection");
+
+    QTest::newRow("No change")
+        << (QSet<int>() << 5 << 6)
+        << 2 << 3
+        << (QSet<int>() << 2 << 3 << 5 << 6)
+        << NoChange << KItemRangeList()
+        << (QSet<int>() << 2 << 3 << 5 << 6);    
+
+    QTest::newRow("Insert Items")
+        << (QSet<int>() << 5 << 6)
+        << 2 << 3
+        << (QSet<int>() << 2 << 3 << 5 << 6)
+        << InsertItems << (KItemRangeList() << KItemRange(1, 1) << KItemRange(5, 2) << KItemRange(10, 5))
+        << (QSet<int>() << 3 << 4 << 8 << 9);
+
+    QTest::newRow("Remove Items")
+        << (QSet<int>() << 5 << 6)
+        << 2 << 3
+        << (QSet<int>() << 2 << 3 << 5 << 6)
+        << RemoveItems << (KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5))
+        << (QSet<int>() << 1 << 2 << 3 << 4);
+}
+
+void KItemListSelectionManagerTest::testChangeSelection()
+{
+    QFETCH(QSet<int>, initialSelection);
+    QFETCH(int, anchor);
+    QFETCH(int, current);
+    QFETCH(QSet<int> , expectedSelection);
+    QFETCH(ModelChangeType, changeType);
+    QFETCH(KItemRangeList, changedItems);
+    QFETCH(QSet<int> , finalSelection);
+
+    QSignalSpy spySelectionChanged(m_selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)));
+
+    // Initial selection should be empty
+    QVERIFY(!m_selectionManager->hasSelection());
+    QVERIFY(m_selectionManager->selectedItems().isEmpty());
+
+    // Perform the initial selectiion
+    m_selectionManager->setSelectedItems(initialSelection);
+    QCOMPARE(m_selectionManager->selectedItems(), initialSelection);
+    if (initialSelection.isEmpty()) {
+        QVERIFY(!m_selectionManager->hasSelection());
+        QCOMPARE(spySelectionChanged.count(), 0);
+    }
+    else {
+        QVERIFY(m_selectionManager->hasSelection());
+        QCOMPARE(spySelectionChanged.count(), 1);
+        QList<QVariant> arguments = spySelectionChanged.takeFirst();
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), initialSelection);
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), QSet<int>());
+    }
+
+    // Perform an anchored selection.
+    // Note that current and anchor index are equal first because this is the case in typical uses of the
+    // selection manager, and because this makes it easier to test the correctness of the signal's arguments.
+    m_selectionManager->setCurrentItem(anchor);
+    m_selectionManager->beginAnchoredSelection(anchor);
+    m_selectionManager->setCurrentItem(current);
+    QCOMPARE(m_selectionManager->selectedItems(), expectedSelection);
+    QCOMPARE(m_selectionManager->hasSelection(), !expectedSelection.isEmpty());
+    if (expectedSelection == initialSelection) {
+        QCOMPARE(spySelectionChanged.count(), 0);
+    }
+    else {
+        QCOMPARE(spySelectionChanged.count(), 1);
+        QList<QVariant> arguments = spySelectionChanged.takeFirst();
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), expectedSelection);
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), initialSelection);
+    }
+
+    // Change the model by inserting or removing items.
+    switch (changeType) {
+    case InsertItems:
+        m_selectionManager->itemsInserted(changedItems);
+        break;
+    case RemoveItems:
+        m_selectionManager->itemsRemoved(changedItems);
+        break;
+    case NoChange:
+        break;
+    }
+
+    QCOMPARE(m_selectionManager->selectedItems(), finalSelection);
+    QCOMPARE(m_selectionManager->hasSelection(), !finalSelection.isEmpty());
+    if (finalSelection == expectedSelection) {
+        QCOMPARE(spySelectionChanged.count(), 0);
+    }
+    else {
+        QCOMPARE(spySelectionChanged.count(), 1);
+        QList<QVariant> arguments = spySelectionChanged.takeFirst();
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), finalSelection);
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), expectedSelection);
+    }
+
+    // Finally, clear the selection
+    m_selectionManager->clearSelection();
+    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>());
+    QVERIFY(!m_selectionManager->hasSelection());
+    if (finalSelection.isEmpty()) {
+        // Selection has been empty already
+        QCOMPARE(spySelectionChanged.count(), 0);
+    }
+    else {
+        QCOMPARE(spySelectionChanged.count(), 1);
+        QList<QVariant> arguments = spySelectionChanged.takeFirst();
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), QSet<int>());
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), finalSelection);
+    }
 }
 
 QTEST_KDEMAIN(KItemListSelectionManagerTest, NoGUI)

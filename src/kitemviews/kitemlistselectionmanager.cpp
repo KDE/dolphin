@@ -81,7 +81,7 @@ QSet<int> KItemListSelectionManager::selectedItems() const
 {
     QSet<int> selectedItems = m_selectedItems;
 
-    if (m_isAnchoredSelectionActive) {
+    if (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem)) {
         const int from = qMin(m_anchorItem, m_currentItem);
         const int to = qMax(m_anchorItem, m_currentItem);
 
@@ -95,7 +95,7 @@ QSet<int> KItemListSelectionManager::selectedItems() const
 
 bool KItemListSelectionManager::hasSelection() const
 {
-    return !m_selectedItems.isEmpty() || m_isAnchoredSelectionActive;
+    return !m_selectedItems.isEmpty() || (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem));
 }
 
 void KItemListSelectionManager::setSelected(int index, int count, SelectionMode mode)
