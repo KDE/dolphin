@@ -43,6 +43,8 @@ KItemListSelectionManager::~KItemListSelectionManager()
 void KItemListSelectionManager::setCurrentItem(int current)
 {
     const int previous = m_currentItem;
+    const QSet<int> previousSelection = selectedItems();
+
     if (m_model && current >= 0 && current < m_model->count()) {
         m_currentItem = current;
     } else {
@@ -51,6 +53,13 @@ void KItemListSelectionManager::setCurrentItem(int current)
 
     if (m_currentItem != previous) {
         emit currentChanged(m_currentItem, previous);
+
+        if (m_isAnchoredSelectionActive) {
+            const QSet<int> selection = selectedItems();
+            if (selection != previousSelection) {
+                emit selectionChanged(selection, previousSelection);
+            }
+        }
     }
 }
 
@@ -95,7 +104,7 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
         return;
     }
 
-    const QSet<int> previous = m_selectedItems;
+    const QSet<int> previous = selectedItems();
 
     count = qMin(count, m_model->count() - index);
 
@@ -128,23 +137,19 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
         break;
     }
 
-    if (m_selectedItems != previous) {
-        emit selectionChanged(m_selectedItems, previous);
+    const QSet<int> selection = selectedItems();
+    if (selection != previous) {
+        emit selectionChanged(selection, previous);
     }
 }
 
 void KItemListSelectionManager::clearSelection()
 {
-    if (!m_selectedItems.isEmpty()) {
-        const QSet<int> previous = m_selectedItems;
+    const QSet<int> previous = selectedItems();
+    if (!previous.isEmpty()) {
         m_selectedItems.clear();
         m_isAnchoredSelectionActive = false;
-        emit selectionChanged(m_selectedItems, previous);
-    }
-    else if (m_isAnchoredSelectionActive) {
-        m_isAnchoredSelectionActive = false;
-        // TODO: the 'previous' parameter of the signal has to be set correctly, but do we actually need it?
-        emit selectionChanged(m_selectedItems, m_selectedItems);
+        emit selectionChanged(QSet<int>(), previous);
     }
 }
 
@@ -212,10 +217,14 @@ void KItemListSelectionManager::setModel(KItemModelBase* model)
 
 void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
 {
+    // Store the current selection (needed in the selectionChanged() signal)
+    const QSet<int> previousSelection = selectedItems();
+
     // Update the current item
     if (m_currentItem < 0) {
         setCurrentItem(0);
     } else {
+        const int previousCurrent = m_currentItem;
         int inc = 0;
         foreach (const KItemRange& itemRange, itemRanges) {
             if (m_currentItem < itemRange.index) {
@@ -223,13 +232,17 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
             }
             inc += itemRange.count;
         }
-        setCurrentItem(m_currentItem + inc);
+        // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
+        // emit it only once in this function -> change the current item manually and emit currentChanged
+        m_currentItem += inc;
+        emit currentChanged(m_currentItem, previousCurrent);
     }
 
     // Update the anchor item
     if (m_anchorItem < 0) {
         setAnchorItem(0);
     } else {
+        const int previousAnchor = m_anchorItem;
         int inc = 0;
         foreach (const KItemRange& itemRange, itemRanges) {
             if (m_anchorItem < itemRange.index) {
@@ -237,16 +250,15 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
             }
             inc += itemRange.count;
         }
-        setAnchorItem(m_anchorItem + inc);
+        m_anchorItem += inc;
+        emit anchorChanged(m_anchorItem, previousAnchor);
     }
 
     // Update the selections
     if (!m_selectedItems.isEmpty()) {
         const QSet<int> previous = m_selectedItems;
-
-        QSet<int> current;
-        current.reserve(m_selectedItems.count());
-        QSetIterator<int> it(m_selectedItems);
+        m_selectedItems.clear();
+        QSetIterator<int> it(previous);
         while (it.hasNext()) {
             const int index = it.next();
             int inc = 0;
@@ -256,20 +268,24 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
                 }
                 inc += itemRange.count;
             }
-            current.insert(index + inc);
+            m_selectedItems.insert(index + inc);
         }
+    }
 
-        if (current != previous) {
-            m_selectedItems = current;
-            emit selectionChanged(current, previous);
-        }
+    const QSet<int> selection = selectedItems();
+    if (selection != previousSelection) {
+        emit selectionChanged(selection, previousSelection);
     }
 }
 
 void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 {
+    // Store the current selection (needed in the selectionChanged() signal)
+    const QSet<int> previousSelection = selectedItems();
+
     // Update the current item
     if (m_currentItem >= 0) {
+        const int previousCurrent = m_currentItem;
         int currentItem = m_currentItem;
         foreach (const KItemRange& itemRange, itemRanges) {
             if (currentItem < itemRange.index) {
@@ -281,11 +297,15 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
                 currentItem = m_model->count() - 1;
             }
         }
-        setCurrentItem(currentItem);
+        // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
+        // emit it only once in this function -> change the current item manually and emit currentChanged
+        m_currentItem = currentItem;
+        emit currentChanged(m_currentItem, previousCurrent);
     }
 
     // Update the anchor item
     if (m_anchorItem >= 0) {
+        const int previousAnchor = m_anchorItem;
         int anchorItem = m_anchorItem;
         foreach (const KItemRange& itemRange, itemRanges) {
             if (anchorItem < itemRange.index) {
@@ -297,16 +317,15 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
                 anchorItem = m_model->count() - 1;
             }
         }
-        setAnchorItem(anchorItem);
+        m_anchorItem = anchorItem;
+        emit anchorChanged(m_anchorItem, previousAnchor);
     }
 
     // Update the selections
     if (!m_selectedItems.isEmpty()) {
         const QSet<int> previous = m_selectedItems;
-
-        QSet<int> current;
-        current.reserve(m_selectedItems.count());
-        QSetIterator<int> it(m_selectedItems);
+        m_selectedItems.clear();
+        QSetIterator<int> it(previous);
         while (it.hasNext()) {
             int index = it.next();
             int dec = 0;
@@ -326,14 +345,14 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
             }
             index -= dec;
             if (index >= 0)  {
-                current.insert(index);
+                m_selectedItems.insert(index);
             }
         }
+    }
 
-        if (current != previous) {
-            m_selectedItems = current;
-            emit selectionChanged(current, previous);
-        }
+    const QSet<int> selection = selectedItems();
+    if (selection != previousSelection) {
+        emit selectionChanged(selection, previousSelection);
     }
 }
 

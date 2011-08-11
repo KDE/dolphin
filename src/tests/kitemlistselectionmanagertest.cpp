@@ -212,6 +212,7 @@ void KItemListSelectionManagerTest::testItemsInserted()
     // Select items 10 to 12
     m_selectionManager->setSelected(10, 3);
     QSet<int> selectedItems = m_selectionManager->selectedItems();
+    QCOMPARE(selectedItems.count(), 3);
     QVERIFY(selectedItems.contains(10));
     QVERIFY(selectedItems.contains(11));
     QVERIFY(selectedItems.contains(12));
@@ -219,6 +220,7 @@ void KItemListSelectionManagerTest::testItemsInserted()
     // Insert items 0 to 4 -> selection must be 15 to 17
     m_selectionManager->itemsInserted(KItemRangeList() << KItemRange(0, 5));
     selectedItems = m_selectionManager->selectedItems();
+    QCOMPARE(selectedItems.count(), 3);
     QVERIFY(selectedItems.contains(15));
     QVERIFY(selectedItems.contains(16));
     QVERIFY(selectedItems.contains(17));
@@ -229,6 +231,7 @@ void KItemListSelectionManagerTest::testItemsInserted()
                                       KItemRange(16, 1) <<
                                       KItemRange(17, 1));
     selectedItems = m_selectionManager->selectedItems();
+    QCOMPARE(selectedItems.count(), 3);
     QVERIFY(selectedItems.contains(16));
     QVERIFY(selectedItems.contains(18));
     QVERIFY(selectedItems.contains(20));
@@ -239,6 +242,7 @@ void KItemListSelectionManagerTest::testItemsRemoved()
     // Select items 10 to 15
     m_selectionManager->setSelected(10, 6);
     QSet<int> selectedItems = m_selectionManager->selectedItems();
+    QCOMPARE(selectedItems.count(), 6);
     for (int i = 10; i <= 15; ++i) {
         QVERIFY(selectedItems.contains(i));
     }
@@ -246,6 +250,7 @@ void KItemListSelectionManagerTest::testItemsRemoved()
     // Remove items 0 to 4 -> selection must be 5 to 10
     m_selectionManager->itemsRemoved(KItemRangeList() << KItemRange(0, 5));
     selectedItems = m_selectionManager->selectedItems();
+    QCOMPARE(selectedItems.count(), 6);
     for (int i = 5; i <= 10; ++i) {
         QVERIFY(selectedItems.contains(i));
     }
