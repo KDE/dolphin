@@ -82,6 +82,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     // Initialize progress information
     m_stopButton = new QToolButton(this);
     m_stopButton->setIcon(KIcon("process-stop"));
+    m_stopButton->setAccessibleName(i18n("Stop"));
     // TODO: Add tooltip for KDE SC 4.7.0, if new strings are allowed again
     m_stopButton->setAutoRaise(true);
     m_stopButton->hide();
