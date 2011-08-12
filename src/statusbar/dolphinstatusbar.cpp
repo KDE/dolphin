@@ -63,6 +63,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
 
     // Initialize zoom widget
     m_zoomSlider = new QSlider(Qt::Horizontal, this);
+    m_zoomSlider->setAccessibleName(i18n("Zoom slider"));
     m_zoomSlider->setPageStep(1);
 
     const int min = ZoomLevelInfo::minimumLevel();
