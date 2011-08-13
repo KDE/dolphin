@@ -27,6 +27,11 @@
 class QTimer;
 
 /**
+ * TODO: Replace the PendingThreadMaintainer by a kind of
+ *       VersionControlThreadFactory that is responsible for creating
+ *       and deleting the threads. This would bypass the hack to poll
+ *       for for pending threads.
+ *
  * If the creator of a thread gets deleted, although the thread is still
  * working, usually QThread::wait() is invoked. The drawback of this
  * approach is that the user interface gets blocked for an undefined amount
