@@ -47,7 +47,7 @@ class LIBDOLPHINPRIVATE_EXPORT KFileItemModelRolesUpdater : public QObject
     Q_OBJECT
 
 public:
-    KFileItemModelRolesUpdater(KFileItemModel* model, QObject* parent = 0);
+    explicit KFileItemModelRolesUpdater(KFileItemModel* model, QObject* parent = 0);
     virtual ~KFileItemModelRolesUpdater();
 
     void setIconSize(const QSize& size);

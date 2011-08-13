@@ -34,7 +34,6 @@
 #include <QHBoxLayout>
 #include <QKeyEvent>
 #include <QLabel>
-#include <QToolButton>
 #include <QScrollArea>
 #include <QTimer>
 #include <QToolButton>

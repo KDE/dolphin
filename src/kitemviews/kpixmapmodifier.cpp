@@ -1,4 +1,4 @@
-//krazy:exclude=copyright (email of Maxim is missing)
+// krazy:excludeall=copyright (email of Maxim is missing)
 /*
     This file is a part of the KDE project
 

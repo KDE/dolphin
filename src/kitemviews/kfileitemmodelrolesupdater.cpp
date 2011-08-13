@@ -744,7 +744,7 @@ int KFileItemModelRolesUpdater::subDirectoriesCount(const QString& path)
     if (dir) {
         count = 0;
         struct dirent *dirEntry = 0;
-        while ((dirEntry = ::readdir(dir))) {
+        while ((dirEntry = ::readdir(dir))) { // krazy:exclude=syscalls
             if (dirEntry->d_name[0] == '.') {
                 if (dirEntry->d_name[1] == '\0') {
                     // Skip "."

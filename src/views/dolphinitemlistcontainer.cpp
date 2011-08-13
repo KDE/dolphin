@@ -23,7 +23,6 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_compactmodesettings.h"
 
-#include <kitemviews/kitemliststyleoption.h>
 #include <kitemviews/kfileitemlistview.h>
 #include <kitemviews/kfileitemmodel.h>
 #include <kitemviews/kitemlistcontroller.h>

@@ -43,8 +43,8 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinItemListContainer : public KItemListContai
     Q_OBJECT
 
 public:
-    DolphinItemListContainer(KDirLister* dirLister,
-                             QWidget* parent = 0);
+    explicit DolphinItemListContainer(KDirLister* dirLister,
+                                      QWidget* parent = 0);
 
     virtual ~DolphinItemListContainer();
 
