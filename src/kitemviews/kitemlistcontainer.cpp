@@ -232,14 +232,17 @@ void KItemListContainer::updateScrollBars()
     QScrollBar* scrollBar = 0;
     int singleStep = 0;
     int pageStep = 0;
+    QScrollBar* otherScrollBar = 0;
     if (view->scrollOrientation() == Qt::Vertical) {
         scrollBar = verticalScrollBar();
         singleStep = view->itemSize().height();
         pageStep = view->size().height();
+        otherScrollBar = horizontalScrollBar();
     } else {
         scrollBar = horizontalScrollBar();
         singleStep = view->itemSize().width();
         pageStep = view->size().width();
+        otherScrollBar = verticalScrollBar();
     }
 
     const int value = view->offset();
@@ -263,6 +266,10 @@ void KItemListContainer::updateScrollBars()
     scrollBar->setMinimum(0);
     scrollBar->setMaximum(maximum);
     scrollBar->setValue(value);
+
+    // Make sure that the other scroll bar is hidden
+    otherScrollBar->setMaximum(0);
+    otherScrollBar->setValue(0);
 }
 
 void KItemListContainer::updateGeometries()
