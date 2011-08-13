@@ -96,6 +96,12 @@
 #include <QToolButton>
 #include <QSplitter>
 
+namespace {
+    // Used for GeneralSettings::version() to determine whether
+    // an updated version of Dolphin is running.
+    const int CurrentDolphinVersion = 171;
+};
+
 /*
  * Menu shown when pressing the configure-button in the toolbar.
  */
@@ -647,6 +653,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     }
 
     generalSettings->setFirstRun(false);
+    generalSettings->setVersion(CurrentDolphinVersion);
 
     settings.save();
 
@@ -1838,17 +1845,24 @@ void DolphinMainWindow::setupDockWidgets()
             searchPanel, SLOT(setUrl(KUrl)));
 #endif
 
-    const bool firstRun = DolphinSettings::instance().generalSettings()->firstRun();
+    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
+    const bool firstRun = generalSettings->firstRun();
     if (firstRun) {
         infoDock->hide();
         foldersDock->hide();
 #ifndef Q_OS_WIN
         terminalDock->hide();
 #endif
-#ifdef HAVE_NEPOMUK
-        searchDock->hide();
-#endif
     }
+
+#ifdef HAVE_NEPOMUK
+    // The search dock has been introduced with Dolphin 1.7.0. Hide it per
+    // default when updating from an older Dolphin version or when Dolphin is
+    // started the first time.
+    if (firstRun || generalSettings->version() < 170) {
+        searchDock->hide();
+    }
+#endif
 
     // Setup "Places"
     DolphinDockWidget* placesDock = new DolphinDockWidget(i18nc("@title:window", "Places"));
