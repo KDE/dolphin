@@ -163,6 +163,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_container->setVisibleRoles(visibleRoles);
 
     KItemListController* controller = m_container->controller();
+    controller->setSelectionBehavior(KItemListController::MultiSelection);
     connect(controller, SIGNAL(itemClicked(int,Qt::MouseButton)),
             this, SLOT(slotItemClicked(int,Qt::MouseButton)));
     connect(controller, SIGNAL(itemExpansionToggleClicked(int)), this, SLOT(slotItemExpansionToggleClicked(int)));

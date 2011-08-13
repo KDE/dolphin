@@ -311,15 +311,16 @@ void KItemListSelectionManagerTest::testAnchoredSelection()
 }
 
 namespace {
-    enum ModelChangeType {
+    enum ChangeType {
         NoChange,
         InsertItems,
-        RemoveItems
+        RemoveItems,
+        EndAnchoredSelection
     };
 }
 
 Q_DECLARE_METATYPE(QSet<int>);
-Q_DECLARE_METATYPE(ModelChangeType);
+Q_DECLARE_METATYPE(ChangeType);
 Q_DECLARE_METATYPE(KItemRangeList);
 
 void KItemListSelectionManagerTest::testChangeSelection_data()
@@ -328,7 +329,7 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
     QTest::addColumn<int>("anchor");
     QTest::addColumn<int>("current");
     QTest::addColumn<QSet<int> >("expectedSelection");
-    QTest::addColumn<ModelChangeType>("changeType");
+    QTest::addColumn<ChangeType>("changeType");
     QTest::addColumn<KItemRangeList>("changedItems");
     QTest::addColumn<QSet<int> >("finalSelection");
 
@@ -352,6 +353,13 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << (QSet<int>() << 2 << 3 << 5 << 6)
         << RemoveItems << (KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5))
         << (QSet<int>() << 1 << 2 << 3 << 4);
+
+    QTest::newRow("Empty Anchored Selection")
+        << QSet<int>()
+        << 2 << 2
+        << QSet<int>()
+        << EndAnchoredSelection << KItemRangeList()
+        << QSet<int>();
 }
 
 void KItemListSelectionManagerTest::testChangeSelection()
@@ -360,7 +368,7 @@ void KItemListSelectionManagerTest::testChangeSelection()
     QFETCH(int, anchor);
     QFETCH(int, current);
     QFETCH(QSet<int> , expectedSelection);
-    QFETCH(ModelChangeType, changeType);
+    QFETCH(ChangeType, changeType);
     QFETCH(KItemRangeList, changedItems);
     QFETCH(QSet<int> , finalSelection);
 
@@ -410,6 +418,10 @@ void KItemListSelectionManagerTest::testChangeSelection()
         break;
     case RemoveItems:
         m_selectionManager->itemsRemoved(changedItems);
+        break;
+    case EndAnchoredSelection:
+        m_selectionManager->endAnchoredSelection();
+        QVERIFY(!m_selectionManager->isAnchoredSelectionActive());
         break;
     case NoChange:
         break;

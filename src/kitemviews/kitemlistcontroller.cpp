@@ -141,18 +141,51 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     const QPointF pos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(pos);
 
-    const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
-                                       event->modifiers() & Qt::ControlModifier;
-    if (!shiftOrControlPressed) {
+    if (m_view->isAboveExpansionToggle(m_pressedIndex, pos)) {
+        return true;
+    }
+
+    const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
+    const bool controlPressed = event->modifiers() & Qt::ControlModifier;
+    const bool shiftOrControlPressed = shiftPressed || controlPressed;
+
+    if (!shiftOrControlPressed || m_selectionBehavior == SingleSelection) {
         m_selectionManager->clearSelection();
-        m_selectionManager->setAnchorItem(m_pressedIndex);
+    }
+
+    if (!shiftPressed) {
+        // Finish the anchored selection before the current index is changed
+        m_selectionManager->endAnchoredSelection();
     }
 
     if (m_pressedIndex >= 0) {
         m_selectionManager->setCurrentItem(m_pressedIndex);
-        if (!m_view->isAboveExpansionToggle(m_pressedIndex, pos)) {
+
+        switch (m_selectionBehavior) {
+        case NoSelection:
+            return true;
+        case SingleSelection:
             m_selectionManager->setSelected(m_pressedIndex);
+            return true;
+        case MultiSelection:
+            if (controlPressed) {
+                m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+                m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+            }
+            else {
+                if (shiftPressed && m_selectionManager->isAnchoredSelectionActive()) {
+                    // The anchored selection is continued automatically by calling
+                    // m_selectionManager->setCurrentItem(m_pressedIndex), see above -> nothing more to do here
+                    return true;
+                }
+
+                // Select the pressed item and start a new anchored selection
+                m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Select);
+                m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+            }
         }
+
+        return true;
     }
 
     return false;

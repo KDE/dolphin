@@ -161,16 +161,16 @@ void KItemListSelectionManager::beginAnchoredSelection(int anchor)
 
 void KItemListSelectionManager::endAnchoredSelection()
 {
-    if (m_isAnchoredSelectionActive) {
+    if (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem)) {
         const int from = qMin(m_anchorItem, m_currentItem);
         const int to = qMax(m_anchorItem, m_currentItem);
 
         for (int index = from; index <= to; index++) {
             m_selectedItems.insert(index);
         }
-
-        m_isAnchoredSelectionActive = false;
     }
+
+    m_isAnchoredSelectionActive = false;
 }
 
 void KItemListSelectionManager::setAnchorItem(int anchor)
