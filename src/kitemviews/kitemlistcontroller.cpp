@@ -119,15 +119,92 @@ bool KItemListController::hideEvent(QHideEvent* event)
 
 bool KItemListController::keyPressEvent(QKeyEvent* event)
 {
+    const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
+    const bool controlPressed = event->modifiers() & Qt::ControlModifier;
+    const bool shiftOrControlPressed = shiftPressed || controlPressed;
+
+    int index = m_selectionManager->currentItem();
+
     switch (event->key()) {
     case Qt::Key_Home:
-        m_selectionManager->setCurrentItem(0);
+        index = 0;
         break;
+
     case Qt::Key_End:
-        m_selectionManager->setCurrentItem(m_model->count() - 1);
+        index = m_model->count() - 1;
+        break;
+
+    case Qt::Key_Up:
+        if (m_view->scrollOrientation() == Qt::Horizontal) {
+            if (index > 0) {
+                index--;
+            }
+        }
+        else {
+            // TODO: Move to the previous row
+        }
+        break;
+
+    case Qt::Key_Down:
+        if (m_view->scrollOrientation() == Qt::Horizontal) {
+            if (index < m_model->count() - 1) {
+                index++;
+            }
+        }
+        else {
+            // TODO: Move to the next row
+        }
+        break;
+
+    case Qt::Key_Left:
+        if (m_view->scrollOrientation() == Qt::Vertical) {
+            if (index > 0) {
+                index--;
+            }
+        }
+        else {
+            // TODO: Move to the previous column
+        }
+        break;
+
+    case Qt::Key_Right:
+        if (m_view->scrollOrientation() == Qt::Vertical) {
+            if (index < m_model->count() - 1) {
+                index++;
+            }
+        }
+        else {
+            // TODO: Move to the next column
+        }
+        break;
+
+    case Qt::Key_Space:
+        if (controlPressed) {
+            m_selectionManager->endAnchoredSelection();
+            m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
+            m_selectionManager->beginAnchoredSelection(index);
+        }
+     default:
         break;
     }
-    return false;
+
+    if (m_selectionManager->currentItem() != index) {
+        if (controlPressed) {
+            m_selectionManager->endAnchoredSelection();
+        }
+
+        m_selectionManager->setCurrentItem(index);
+
+        if (!shiftOrControlPressed || m_selectionBehavior == SingleSelection) {
+            m_selectionManager->clearSelection();
+            m_selectionManager->setSelected(index, 1);
+        }
+
+        if (!shiftPressed) {
+            m_selectionManager->beginAnchoredSelection(index);
+        }
+    }
+    return true;
 }
 
 bool KItemListController::inputMethodEvent(QInputMethodEvent* event)
