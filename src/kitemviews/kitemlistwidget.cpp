@@ -95,6 +95,8 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 {
     Q_UNUSED(option);
 
+    painter->setRenderHint(QPainter::Antialiasing);
+
     const QRect iconBounds = iconBoundingRect().toRect();
     if (m_selected) {
         QStyleOptionViewItemV4 viewItemOption;
@@ -103,6 +105,12 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         viewItemOption.state = QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item;
         viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
         widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+
+        drawTextBackground(painter);
+    }
+
+    if (isCurrent()) {
+        drawFocusIndicator(painter);
     }
 
     if (m_hoverOpacity <= 0.0) {
@@ -110,6 +118,8 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     }
 
     if (!m_hoverCache) {
+        // Initialize the m_hoverCache pixmap to improve the drawing performance
+        // when fading the hover background
         m_hoverCache = new QPixmap(iconBounds.size());
         m_hoverCache->fill(Qt::transparent);
 
@@ -127,6 +137,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     const qreal opacity = painter->opacity();
     painter->setOpacity(m_hoverOpacity * opacity);
     painter->drawPixmap(iconBounds.topLeft(), *m_hoverCache);
+    drawTextBackground(painter);
     painter->setOpacity(opacity);
 }
 
@@ -318,6 +329,46 @@ void KItemListWidget::clearCache()
 {
     delete m_hoverCache;
     m_hoverCache = 0;
+}
+
+void KItemListWidget::drawFocusIndicator(QPainter* painter)
+{
+    // Ideally style()->drawPrimitive(QStyle::PE_FrameFocusRect...)
+    // should be used, but Oxygen only draws indicators within classes
+    // derived from QAbstractItemView or Q3ListView. As a workaround
+    // the indicator is drawn manually. Code copied from oxygenstyle.cpp
+    // Copyright ( C ) 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
+    // TODO: Clarify with Oxygen maintainers how to proceed with this.
+
+    const KItemListStyleOption& option = styleOption();
+    const QPalette palette = option.palette;
+    const QRect rect = textBoundingRect().toRect().adjusted(0, 0, 0, -1);
+
+    QLinearGradient gradient(rect.bottomLeft(), rect.bottomRight());
+    gradient.setColorAt(0.0, Qt::transparent);
+    gradient.setColorAt(1.0, Qt::transparent);
+    gradient.setColorAt(0.2, palette.color(QPalette::Text));
+    gradient.setColorAt(0.8, palette.color(QPalette::Text));
+
+    painter->setRenderHint(QPainter::Antialiasing, false);
+    painter->setPen(QPen(gradient, 1));
+    painter->drawLine(rect.bottomLeft(), rect.bottomRight());
+    painter->setRenderHint(QPainter::Antialiasing, true);
+}
+
+void KItemListWidget::drawTextBackground(QPainter* painter)
+{
+    const qreal opacity = painter->opacity();
+
+    QRectF textBounds = textBoundingRect();
+    const qreal marginDiff = m_styleOption.margin / 2;
+    textBounds.adjust(marginDiff, marginDiff, -marginDiff, -marginDiff);
+    painter->setOpacity(opacity * 0.1);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(m_styleOption.palette.text());
+    painter->drawRoundedRect(textBounds, 4, 4);
+
+    painter->setOpacity(opacity);
 }
 
 #include "kitemlistwidget.moc"

@@ -86,7 +86,6 @@ private:
     QString roleText(TextId textId, const QVariant& roleValue) const;
 
     void drawPixmap(QPainter* painter, const QPixmap& pixmap);
-    void drawFocusIndicator(QPainter* painter);
 
     static QPixmap pixmapForIcon(const QString& name, int size);
     static TextId roleTextId(const QByteArray& role);

@@ -86,8 +86,6 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 {
     KItemListWidget::paint(painter, option, widget);
 
-    painter->setRenderHint(QPainter::Antialiasing);
-
     if (m_dirtyContent || m_dirtyLayout) {
         const_cast<KFileItemListWidget*>(this)->updateCache();
     }
@@ -112,23 +110,9 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         const qreal opacity = painter->opacity();
         painter->setOpacity(hoverOpacity() * opacity);
         drawPixmap(painter, m_hoverPixmap);
-
-        // Draw the hover background for the text
-        QRectF textsBoundingRect = m_textBoundingRect;
-        const qreal marginDiff = itemListStyleOption.margin / 2;
-        textsBoundingRect.adjust(marginDiff, marginDiff, -marginDiff, -marginDiff);
-        painter->setOpacity(hoverOpacity() * opacity * 0.1);
-        painter->setPen(Qt::NoPen);
-        painter->setBrush(itemListStyleOption.palette.text());
-        painter->drawRoundedRect(textsBoundingRect, 4, 4);
-
         painter->setOpacity(opacity);
     } else {
         drawPixmap(painter, m_pixmap);
-    }
-
-    if (isCurrent()) {
-        drawFocusIndicator(painter);
     }
 
     painter->setFont(itemListStyleOption.font);
@@ -685,31 +669,6 @@ void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
     if (isHiddenItem) {
         painter->setOpacity(opacity);
     }
-}
-
-void KFileItemListWidget::drawFocusIndicator(QPainter* painter)
-{
-    // Ideally style()->drawPrimitive(QStyle::PE_FrameFocusRect...)
-    // should be used, but Oxygen only draws indicators within classes
-    // derived from QAbstractItemView or Q3ListView. As a workaround
-    // the indicator is drawn manually. Code copied from oxygenstyle.cpp
-    // Copyright ( C ) 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
-    // TODO: Clarify with Oxygen maintainers how to proceed with this.
-
-    const KItemListStyleOption& option = styleOption();
-    const QPalette palette = option.palette;
-    const QRect rect = m_textBoundingRect.toRect().adjusted(0, 0, 0, -1);
-
-    QLinearGradient gradient(rect.bottomLeft(), rect.bottomRight());
-    gradient.setColorAt(0.0, Qt::transparent);
-    gradient.setColorAt(1.0, Qt::transparent);
-    gradient.setColorAt(0.2, palette.color(QPalette::Text));
-    gradient.setColorAt(0.8, palette.color(QPalette::Text));
-
-    painter->setRenderHint(QPainter::Antialiasing, false);
-    painter->setPen(QPen(gradient, 1));
-    painter->drawLine(rect.bottomLeft(), rect.bottomRight());
-    painter->setRenderHint(QPainter::Antialiasing, true);
 }
 
 QPixmap KFileItemListWidget::pixmapForIcon(const QString& name, int size)

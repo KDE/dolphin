@@ -132,6 +132,8 @@ protected:
 private:
     void setHoverOpacity(qreal opacity);
     void clearCache();
+    void drawFocusIndicator(QPainter* painter);
+    void drawTextBackground(QPainter* painter);
 
 private:
     Q_PROPERTY(qreal hoverOpacity READ hoverOpacity WRITE setHoverOpacity)
