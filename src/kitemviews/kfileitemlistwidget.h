@@ -48,8 +48,8 @@ public:
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
-    virtual bool contains(const QPointF& point) const;
-    virtual QRectF hoverBoundingRect() const;
+    virtual QRectF iconBoundingRect() const;
+    virtual QRectF textBoundingRect() const;
     virtual QRectF expansionToggleRect() const;
 
 protected:
@@ -107,7 +107,7 @@ private:
 
     QPointF m_textPos[TextIdCount];
     QStaticText m_text[TextIdCount];
-    QRectF m_textsBoundingRect;
+    QRectF m_textBoundingRect;
 
     QList<QByteArray> m_sortedVisibleRoles;
 

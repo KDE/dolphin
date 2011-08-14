@@ -53,7 +53,7 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_hoverPixmap(),
     m_textPos(),
     m_text(),
-    m_textsBoundingRect(),
+    m_textBoundingRect(),
     m_sortedVisibleRoles(),
     m_expansionArea(),
     m_additionalInfoTextColor()
@@ -114,7 +114,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         drawPixmap(painter, m_hoverPixmap);
 
         // Draw the hover background for the text
-        QRectF textsBoundingRect = m_textsBoundingRect;
+        QRectF textsBoundingRect = m_textBoundingRect;
         const qreal marginDiff = itemListStyleOption.margin / 2;
         textsBoundingRect.adjust(marginDiff, marginDiff, -marginDiff, -marginDiff);
         painter->setOpacity(hoverOpacity() * opacity * 0.1);
@@ -149,17 +149,17 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 #endif
 }
 
-bool KFileItemListWidget::contains(const QPointF& point) const
-{
-    return KItemListWidget::contains(point) || m_textsBoundingRect.contains(point);
-}
-
-QRectF KFileItemListWidget::hoverBoundingRect() const
+QRectF KFileItemListWidget::iconBoundingRect() const
 {
     QRectF bounds = m_hoverPixmapRect;
     const qreal margin = styleOption().margin;
     bounds.adjust(-margin, -margin, margin, margin);
     return bounds;
+}
+
+QRectF KFileItemListWidget::textBoundingRect() const
+{
+    return m_textBoundingRect;
 }
 
 QRectF KFileItemListWidget::expansionToggleRect() const
@@ -471,7 +471,7 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
 
     m_text[Name].setTextWidth(maxWidth);
     m_textPos[Name] = QPointF(option.margin, widgetHeight - textLinesCount * fontHeight - option.margin);
-    m_textsBoundingRect = QRectF(option.margin + (maxWidth - requiredWidthForName) / 2,
+    m_textBoundingRect = QRectF(option.margin + (maxWidth - requiredWidthForName) / 2,
                                  m_textPos[Name].y(),
                                  requiredWidthForName,
                                  m_text[Name].size().height());
@@ -511,14 +511,14 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
         m_text[textId].setTextWidth(maxWidth);
 
         const QRectF textBoundingRect(option.margin + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
-        m_textsBoundingRect |= textBoundingRect;
+        m_textBoundingRect |= textBoundingRect;
 
         y += fontHeight;
     }
 
     // Add a margin to the text bounding rectangle
     const qreal margin = option.margin;
-    m_textsBoundingRect.adjust(-margin, -margin, margin, margin);
+    m_textBoundingRect.adjust(-margin, -margin, margin, margin);
 }
 
 void KFileItemListWidget::updateCompactLayoutTextCache()
@@ -560,7 +560,7 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
         y += fontHeight;
     }
 
-    m_textsBoundingRect = QRectF(x - option.margin, 0, maximumRequiredTextWidth + 2 * option.margin, widgetHeight);
+    m_textBoundingRect = QRectF(x - option.margin, 0, maximumRequiredTextWidth + 2 * option.margin, widgetHeight);
 }
 
 void KFileItemListWidget::updateDetailsLayoutTextCache()
@@ -571,7 +571,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     // +------+
     // | Icon |  Name role   Additional role 1   Additional role 2
     // +------+
-    m_textsBoundingRect = QRectF();
+    m_textBoundingRect = QRectF();
 
     const KItemListStyleOption& option = styleOption();
     const QHash<QByteArray, QVariant> values = data();
@@ -597,7 +597,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
 
         switch (textId) {
         case Name: {
-            m_textsBoundingRect = QRectF(m_textPos[textId].x() - option.margin, 0,
+            m_textBoundingRect = QRectF(m_textPos[textId].x() - option.margin, 0,
                                          requiredWidth + 2 * option.margin, size().height());
 
             // The column after the name should always be aligned on the same x-position independent
@@ -698,7 +698,7 @@ void KFileItemListWidget::drawFocusIndicator(QPainter* painter)
 
     const KItemListStyleOption& option = styleOption();
     const QPalette palette = option.palette;
-    const QRect rect = m_textsBoundingRect.toRect().adjusted(0, 0, 0, -1);
+    const QRect rect = m_textBoundingRect.toRect().adjusted(0, 0, 0, -1);
 
     QLinearGradient gradient(rect.bottomLeft(), rect.bottomRight());
     gradient.setColorAt(0.0, Qt::transparent);

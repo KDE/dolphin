@@ -83,16 +83,21 @@ public:
 
     /**
      * @return True if \a point is inside KItemListWidget::hoverBoundingRect(),
-     *         KItemListWidget::selectionToggleRect() or KItemListWidget::expansionToggleRect().
+     *         KItemListWidget::textBoundingRect(), KItemListWidget::selectionToggleRect()
+     *         or KItemListWidget::expansionToggleRect().
      * @reimp
      */
     virtual bool contains(const QPointF& point) const;
 
     /**
-     * @return Bounding rectangle for the area that acts as hovering-area. Per default
-     *         the bounding rectangle of the KItemListWidget is returned.
+     * @return Bounding rectangle for the area that shows the icon.
      */
-    virtual QRectF hoverBoundingRect() const;
+    virtual QRectF iconBoundingRect() const = 0;
+
+    /**
+     * @return Bounding rectangle for the area that contains the text-properties.
+     */
+    virtual QRectF textBoundingRect() const = 0;
 
     /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.

@@ -95,11 +95,11 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 {
     Q_UNUSED(option);
 
-    const QRect hoverBounds = hoverBoundingRect().toRect();
+    const QRect iconBounds = iconBoundingRect().toRect();
     if (m_selected) {
         QStyleOptionViewItemV4 viewItemOption;
         viewItemOption.initFrom(widget);
-        viewItemOption.rect = hoverBounds;
+        viewItemOption.rect = iconBounds;
         viewItemOption.state = QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item;
         viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
         widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
@@ -110,14 +110,14 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     }
 
     if (!m_hoverCache) {
-        m_hoverCache = new QPixmap(hoverBounds.size());
+        m_hoverCache = new QPixmap(iconBounds.size());
         m_hoverCache->fill(Qt::transparent);
 
         QPainter pixmapPainter(m_hoverCache);
 
         QStyleOptionViewItemV4 viewItemOption;
         viewItemOption.initFrom(widget);
-        viewItemOption.rect = QRect(0, 0, hoverBounds.width(), hoverBounds.height());
+        viewItemOption.rect = QRect(0, 0, iconBounds.width(), iconBounds.height());
         viewItemOption.state = QStyle::State_Enabled | QStyle::State_MouseOver | QStyle::State_Item;
         viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
 
@@ -126,7 +126,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
     const qreal opacity = painter->opacity();
     painter->setOpacity(m_hoverOpacity * opacity);
-    painter->drawPixmap(hoverBounds.topLeft(), *m_hoverCache);
+    painter->drawPixmap(iconBounds.topLeft(), *m_hoverCache);
     painter->setOpacity(opacity);
 }
 
@@ -230,14 +230,14 @@ bool KItemListWidget::isHovered() const
 
 bool KItemListWidget::contains(const QPointF& point) const
 {
-    return hoverBoundingRect().contains(point) ||
+    if (!QGraphicsWidget::contains(point)) {
+        return false;
+    }
+
+    return iconBoundingRect().contains(point) ||
+           textBoundingRect().contains(point) ||
            expansionToggleRect().contains(point) ||
            selectionToggleRect().contains(point);
-}
-
-QRectF KItemListWidget::hoverBoundingRect() const
-{
-    return QRectF(QPointF(0, 0), size());
 }
 
 QRectF KItemListWidget::selectionToggleRect() const
