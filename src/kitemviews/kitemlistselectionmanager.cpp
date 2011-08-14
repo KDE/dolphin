@@ -104,6 +104,7 @@ void KItemListSelectionManager::setSelected(int index, int count, SelectionMode 
         return;
     }
 
+    endAnchoredSelection();
     const QSet<int> previous = selectedItems();
 
     count = qMin(count, m_model->count() - index);

@@ -529,23 +529,13 @@ void DolphinView::selectAll()
 
 void DolphinView::invertSelection()
 {
-     KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
-     const QSet<int> selectedItems = selectionManager->selectedItems();
-     QSet<int> invertedSelectedItems;
-
-     const int maxIndex = fileItemModel()->count() - 1;
-     for (int i = 0; i <= maxIndex; ++i) {
-         if (!selectedItems.contains(i)) {
-             invertedSelectedItems.insert(i);
-         }
-     }
-
-     selectionManager->setSelectedItems(invertedSelectedItems);
+    KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+    selectionManager->setSelected(0, fileItemModel()->count(), KItemListSelectionManager::Toggle);
 }
 
 void DolphinView::clearSelection()
 {
-    //m_viewAccessor.itemView()->clearSelection();
+    m_container->controller()->selectionManager()->clearSelection();
 }
 
 void DolphinView::renameSelectedItems()

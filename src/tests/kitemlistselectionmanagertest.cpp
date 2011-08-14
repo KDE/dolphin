@@ -315,7 +315,8 @@ namespace {
         NoChange,
         InsertItems,
         RemoveItems,
-        EndAnchoredSelection
+        EndAnchoredSelection,
+        ToggleSelected
     };
 }
 
@@ -360,6 +361,13 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << QSet<int>()
         << EndAnchoredSelection << KItemRangeList()
         << QSet<int>();
+
+    QTest::newRow("Toggle selection")
+        << (QSet<int>() << 1 << 3 << 4)
+        << 6 << 8
+        << (QSet<int>() << 1 << 3 << 4 << 6 << 7 << 8)
+        << ToggleSelected << (KItemRangeList() << KItemRange(0, 10))
+        << (QSet<int>() << 0 << 2 << 5 << 9);
 }
 
 void KItemListSelectionManagerTest::testChangeSelection()
@@ -422,6 +430,11 @@ void KItemListSelectionManagerTest::testChangeSelection()
     case EndAnchoredSelection:
         m_selectionManager->endAnchoredSelection();
         QVERIFY(!m_selectionManager->isAnchoredSelectionActive());
+        break;
+    case ToggleSelected:
+        foreach(const KItemRange& range, changedItems) {
+            m_selectionManager->setSelected(range.index, range.count, KItemListSelectionManager::Toggle);
+        }
         break;
     case NoChange:
         break;
