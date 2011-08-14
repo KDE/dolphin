@@ -99,7 +99,7 @@
 namespace {
     // Used for GeneralSettings::version() to determine whether
     // an updated version of Dolphin is running.
-    const int CurrentDolphinVersion = 171;
+    const int CurrentDolphinVersion = 200;
 };
 
 /*
@@ -172,7 +172,7 @@ DolphinMainWindow::DolphinMainWindow() :
     const DolphinSettings& settings = DolphinSettings::instance();
 
     GeneralSettings* generalSettings = settings.generalSettings();
-    const bool firstRun = generalSettings->firstRun();
+    const bool firstRun = (generalSettings->version() < 200);
     if (firstRun) {
         generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
     }
@@ -652,9 +652,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         }
     }
 
-    generalSettings->setFirstRun(false);
     generalSettings->setVersion(CurrentDolphinVersion);
-
     settings.save();
 
     if (m_searchDockIsTemporaryVisible) {
@@ -1845,24 +1843,16 @@ void DolphinMainWindow::setupDockWidgets()
             searchPanel, SLOT(setUrl(KUrl)));
 #endif
 
-    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-    const bool firstRun = generalSettings->firstRun();
-    if (firstRun) {
+    if (DolphinSettings::instance().generalSettings()->version() < 200) {
         infoDock->hide();
         foldersDock->hide();
 #ifndef Q_OS_WIN
         terminalDock->hide();
 #endif
-    }
-
 #ifdef HAVE_NEPOMUK
-    // The search dock has been introduced with Dolphin 1.7.0. Hide it per
-    // default when updating from an older Dolphin version or when Dolphin is
-    // started the first time.
-    if (firstRun || generalSettings->version() < 170) {
         searchDock->hide();
-    }
 #endif
+    }
 
     // Setup "Places"
     DolphinDockWidget* placesDock = new DolphinDockWidget(i18nc("@title:window", "Places"));

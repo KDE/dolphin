@@ -20,10 +20,6 @@
             <label>Should the full path be shown inside the location bar</label>
             <default>false</default>
         </entry>
-        <entry name="FirstRun" type="Bool">
-            <label>Is the application started the first time (internal setting not shown in the UI)</label>
-            <default>true</default>
-        </entry>
         <entry name="Version" type="Int">
             <label>Internal version of Dolphin, containing 3 digits for mayor, minor, bugfix</label>
             <default>0</default>
