@@ -267,6 +267,11 @@ void KItemListContainer::updateScrollBars()
     scrollBar->setMaximum(maximum);
     scrollBar->setValue(value);
 
+    disconnect(view, SIGNAL(scrollTo(int)),
+               otherScrollBar, SLOT(setValue(int)));
+    connect(view, SIGNAL(scrollTo(int)),
+            scrollBar, SLOT(setValue(int)));
+
     // Make sure that the other scroll bar is hidden
     otherScrollBar->setMaximum(0);
     otherScrollBar->setValue(0);

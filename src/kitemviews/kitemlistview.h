@@ -145,6 +145,7 @@ public:
 signals:
     void offsetChanged(int current, int previous);
     void maximumOffsetChanged(int current, int previous);
+    void scrollTo(int newOffset);
 
 protected:
     virtual void initializeItemListWidget(KItemListWidget* item);

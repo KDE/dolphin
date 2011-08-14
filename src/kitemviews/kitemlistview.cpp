@@ -611,6 +611,32 @@ void KItemListView::slotCurrentChanged(int current, int previous)
         Q_ASSERT(!currentWidget->isCurrent());
         currentWidget->setCurrent(true);
     }
+
+    const QRectF viewGeometry = geometry();
+    const QRectF currentBoundingRect = itemBoundingRect(current);
+
+    if (!viewGeometry.contains(currentBoundingRect)) {
+        // Make sure that the new current item is fully visible in the view.
+        qreal newOffset = offset();
+        if (currentBoundingRect.top() < viewGeometry.top()) {
+            Q_ASSERT(scrollOrientation() == Qt::Vertical);
+            newOffset += currentBoundingRect.top() - viewGeometry.top();
+        }
+        else if ((currentBoundingRect.bottom() > viewGeometry.bottom())) {
+            Q_ASSERT(scrollOrientation() == Qt::Vertical);
+            newOffset += currentBoundingRect.bottom() - viewGeometry.bottom();
+        }
+        else if (currentBoundingRect.left() < viewGeometry.left()) {
+            Q_ASSERT(scrollOrientation() == Qt::Horizontal);
+            newOffset += currentBoundingRect.left() - viewGeometry.left();
+        }
+        else if ((currentBoundingRect.right() > viewGeometry.right())) {
+            Q_ASSERT(scrollOrientation() == Qt::Horizontal);
+            newOffset += currentBoundingRect.right() - viewGeometry.right();
+        }
+
+        emit scrollTo(newOffset);
+    }
 }
 
 void KItemListView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)
