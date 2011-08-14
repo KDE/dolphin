@@ -297,13 +297,22 @@ void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
 
 void DolphinView::setItemSelectionEnabled(const QRegExp& pattern, bool enabled)
 {
-    Q_UNUSED(pattern);
-    Q_UNUSED(enabled);
-    /*const QItemSelection matchingIndexes = childrenMatchingPattern(QModelIndex(), pattern);
-    const QItemSelectionModel::SelectionFlags command = enabled
-                                                      ? QItemSelectionModel::Select
-                                                      : QItemSelectionModel::Deselect;
-    m_viewAccessor.itemView()->selectionModel()->select(matchingIndexes, command);*/
+    const KItemListSelectionManager::SelectionMode mode = enabled
+                                                        ? KItemListSelectionManager::Select
+                                                        : KItemListSelectionManager::Deselect;
+    const KFileItemModel* model = fileItemModel();
+    KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+
+    for (int index = 0; index < model->count(); index++) {
+        const KFileItem item = model->fileItem(index);
+        if (pattern.exactMatch(item.name())) {
+            // An alternative approach would be to store the matching items in a QSet<int> and
+            // select them in one go after the loop, but we'd need a new function
+            // KItemListSelectionManager::setSelected(QSet<int>, SelectionMode mode)
+            // for that.
+            selectionManager->setSelected(index, 1, mode);
+        }
+    }
 }
 
 void DolphinView::setZoomLevel(int level)
@@ -1160,32 +1169,6 @@ void DolphinView::markPastedUrlsAsSelected(const QMimeData* mimeData)
 {
     const KUrl::List urls = KUrl::List::fromMimeData(mimeData);
     markUrlsAsSelected(urls);
-}
-
-QItemSelection DolphinView::childrenMatchingPattern(const QModelIndex& parent, const QRegExp& pattern) const
-{
-    Q_UNUSED(parent);
-    Q_UNUSED(pattern);
-    QItemSelection matchingIndexes;
-    /*const DolphinSortFilterProxyModel* proxyModel = m_viewAccessor.proxyModel();
-    const DolphinModel* dolphinModel = m_viewAccessor.dirModel();
-
-    const int rowCount = proxyModel->rowCount(parent);
-
-    for (int row = 0; row < rowCount; ++row) {
-        QModelIndex index = proxyModel->index(row, 0, parent);
-        QModelIndex sourceIndex = proxyModel->mapToSource(index);
-
-        if (sourceIndex.isValid() && pattern.exactMatch(dolphinModel->data(sourceIndex).toString())) {
-            matchingIndexes += QItemSelectionRange(index);
-        }
-
-        if (proxyModel->hasChildren(index)) {
-            matchingIndexes += childrenMatchingPattern(index, pattern);
-        }
-    }*/
-
-    return matchingIndexes;
 }
 
 void DolphinView::updateWritableState()

@@ -35,7 +35,6 @@
 #include <QBoxLayout>
 #include <QKeyEvent>
 #include <QLinkedList>
-#include <QListView>
 #include <QSet>
 #include <QWidget>
 
@@ -719,12 +718,6 @@ private:
      * items in restoreViewState().
      */
     void markPastedUrlsAsSelected(const QMimeData* mimeData);
-
-    /**
-     * Helper method for DolphinView::setItemSelectionEnabled(): Returns the selection for
-     * all items of \p parent that match with the regular expression defined by \p pattern.
-     */
-    QItemSelection childrenMatchingPattern(const QModelIndex& parent, const QRegExp& pattern) const;
 
     /**
      * Updates m_isFolderWritable dependent on whether the folder represented by
