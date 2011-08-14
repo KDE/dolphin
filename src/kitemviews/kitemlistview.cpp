@@ -627,12 +627,14 @@ void KItemListView::slotCurrentChanged(int current, int previous)
             newOffset += currentBoundingRect.bottom() - viewGeometry.bottom();
         }
         else if (currentBoundingRect.left() < viewGeometry.left()) {
-            Q_ASSERT(scrollOrientation() == Qt::Horizontal);
-            newOffset += currentBoundingRect.left() - viewGeometry.left();
+            if (scrollOrientation() == Qt::Horizontal) {
+                newOffset += currentBoundingRect.left() - viewGeometry.left();
+            }
         }
         else if ((currentBoundingRect.right() > viewGeometry.right())) {
-            Q_ASSERT(scrollOrientation() == Qt::Horizontal);
-            newOffset += currentBoundingRect.right() - viewGeometry.right();
+            if (scrollOrientation() == Qt::Horizontal) {
+                newOffset += currentBoundingRect.right() - viewGeometry.right();
+            }
         }
 
         emit scrollTo(newOffset);
