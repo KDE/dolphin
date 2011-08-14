@@ -69,6 +69,8 @@ public:
 
     int maximumVisibleItems() const;
 
+    int itemsPerOffset() const;
+
     /**
      * @return True if the item with the index \p itemIndex
      *         is the first item within a group.

@@ -316,6 +316,11 @@ QRectF KItemListView::itemBoundingRect(int index) const
     return m_layouter->itemBoundingRect(index);
 }
 
+int KItemListView::itemsPerOffset() const
+{
+    return m_layouter->itemsPerOffset();
+}
+
 void KItemListView::beginTransaction()
 {
     ++m_activeTransactions;

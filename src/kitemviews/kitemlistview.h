@@ -136,6 +136,7 @@ public:
     virtual QHash<QByteArray, QSizeF> visibleRoleSizes() const;
 
     QRectF itemBoundingRect(int index) const;
+    int itemsPerOffset() const;
 
     void beginTransaction();
     void endTransaction();

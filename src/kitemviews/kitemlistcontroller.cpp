@@ -124,57 +124,64 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     const bool shiftOrControlPressed = shiftPressed || controlPressed;
 
     int index = m_selectionManager->currentItem();
+    const int itemCount = m_model->count();
+    const int itemsPerRow = m_view->itemsPerOffset();
 
-    switch (event->key()) {
+    // For horizontal scroll orientation, transform
+    // the arrow keys to simplify the event handling.
+    int key = event->key();
+    if (m_view->scrollOrientation() == Qt::Horizontal) {
+        switch (key) {
+        case Qt::Key_Up:    key = Qt::Key_Left; break;
+        case Qt::Key_Down:  key = Qt::Key_Right; break;
+        case Qt::Key_Left:  key = Qt::Key_Up; break;
+        case Qt::Key_Right: key = Qt::Key_Down; break;
+        default:            break;
+        }
+    }
+
+    switch (key) {
     case Qt::Key_Home:
         index = 0;
         break;
 
     case Qt::Key_End:
-        index = m_model->count() - 1;
-        break;
-
-    case Qt::Key_Up:
-        if (m_view->scrollOrientation() == Qt::Horizontal) {
-            if (index > 0) {
-                index--;
-            }
-        }
-        else {
-            // TODO: Move to the previous row
-        }
-        break;
-
-    case Qt::Key_Down:
-        if (m_view->scrollOrientation() == Qt::Horizontal) {
-            if (index < m_model->count() - 1) {
-                index++;
-            }
-        }
-        else {
-            // TODO: Move to the next row
-        }
+        index = itemCount - 1;
         break;
 
     case Qt::Key_Left:
-        if (m_view->scrollOrientation() == Qt::Vertical) {
-            if (index > 0) {
-                index--;
-            }
-        }
-        else {
-            // TODO: Move to the previous column
+        if (index > 0) {
+            index--;
         }
         break;
 
     case Qt::Key_Right:
-        if (m_view->scrollOrientation() == Qt::Vertical) {
-            if (index < m_model->count() - 1) {
-                index++;
-            }
+        if (index < itemCount - 1) {
+            index++;
+        }
+        break;
+
+    case Qt::Key_Up:
+        if (index >= itemsPerRow) {
+            index -= itemsPerRow;
+        }
+        break;
+
+    case Qt::Key_Down:
+        if (index + itemsPerRow < itemCount) {
+            // We are not in the last row yet.
+            index += itemsPerRow;
         }
         else {
-            // TODO: Move to the next column
+            // We are either in the last row already, or we are in the second-last row,
+            // and there is no item below the current item.
+            // In the latter case, we jump to the very last item.
+            const int currentColumn = index % itemsPerRow;
+            const int lastItemColumn = (itemCount - 1) % itemsPerRow;
+            const bool inLastRow = currentColumn < lastItemColumn;
+            if (!inLastRow) {
+                index = itemCount - 1;
+            }
         }
         break;
 
@@ -184,7 +191,8 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
             m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
             m_selectionManager->beginAnchoredSelection(index);
         }
-     default:
+
+    default:
         break;
     }
 
