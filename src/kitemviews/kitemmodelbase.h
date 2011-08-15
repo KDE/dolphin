@@ -35,6 +35,8 @@ struct KItemRange
     KItemRange(int index, int count);
     int index;
     int count;
+
+    bool operator == (const KItemRange& other) const;
 };
 typedef QList<KItemRange> KItemRangeList;
 

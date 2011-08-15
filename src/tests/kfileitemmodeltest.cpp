@@ -43,6 +43,7 @@ private slots:
     void testNewItems();
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
+    void testExpandItems();
 
     void testExpansionLevelsCompare_data();
     void testExpansionLevelsCompare();
@@ -182,10 +183,7 @@ void KFileItemModelTest::testItemRangeConsistencyWhenInsertingItems()
     QCOMPARE(spy1.count(), 1);
     QList<QVariant> arguments = spy1.takeFirst();
     KItemRangeList itemRangeList = arguments.at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList.count(), 1);
-    KItemRange itemRange = itemRangeList.first();
-    QCOMPARE(itemRange.index, 0);
-    QCOMPARE(itemRange.count, 3);
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 3));
 
     // The indexes of the item-ranges must always be related to the model before
     // the items have been inserted. Having:
@@ -210,13 +208,83 @@ void KFileItemModelTest::testItemRangeConsistencyWhenInsertingItems()
     QCOMPARE(spy2.count(), 1);
     arguments = spy2.takeFirst();
     itemRangeList = arguments.at(0).value<KItemRangeList>();
-    QCOMPARE(itemRangeList.count(), 3);
-    QCOMPARE(itemRangeList.at(0).index, 0);
-    QCOMPARE(itemRangeList.at(0).count, 1);
-    QCOMPARE(itemRangeList.at(1).index, 1);
-    QCOMPARE(itemRangeList.at(1).count, 2);
-    QCOMPARE(itemRangeList.at(2).index, 2);
-    QCOMPARE(itemRangeList.at(2).count, 1);
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(0, 1) << KItemRange(1, 2) << KItemRange(2, 1));
+}
+
+void KFileItemModelTest::testExpandItems()
+{
+    // Test expanding subfolders in a folder with the items "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1".
+    // Besides testing the basic item expansion functionality, the test makes sure that
+    // KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& b)
+    // yields the correct result for "a/a/1" and "a/a-1/", whis is non-trivial because they share the
+    // first three characters.
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "expansionLevel";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a/a/1" << "a/a-1/1"; // missing folders are created automatically
+    m_testDir->createFiles(files);
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // So far, the model contains only "a/"
+    QCOMPARE(m_model->count(), 1);
+    QVERIFY(m_model->isExpandable(0));
+    QVERIFY(!m_model->isExpanded(0));
+
+    QSignalSpy spyInserted(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+
+    // Expand the folder "a/" -> "a/a/" and "a/a-1/" become visible
+    m_model->setExpanded(0, true);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/a/", "a/a-1/"
+
+    QCOMPARE(spyInserted.count(), 1);
+    KItemRangeList itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 2)); // 2 new items "a/a/" and "a/a-1/" with indices 1 and 2
+
+    QVERIFY(m_model->isExpandable(1));
+    QVERIFY(!m_model->isExpanded(1));
+    QVERIFY(m_model->isExpandable(2));
+    QVERIFY(!m_model->isExpanded(2));
+
+    // Expand the folder "a/a/" -> "a/a/1" becomes visible
+    m_model->setExpanded(1, true);
+    QVERIFY(m_model->isExpanded(1));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 4);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/"
+
+    QCOMPARE(spyInserted.count(), 1);
+    itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(2, 1)); // 1 new item "a/a/1" with index 2
+
+    QVERIFY(!m_model->isExpandable(2));
+    QVERIFY(!m_model->isExpanded(2));
+
+    // Expand the folder "a/a-1/" -> "a/a-1/1" becomes visible
+    m_model->setExpanded(3, true);
+    QVERIFY(m_model->isExpanded(3));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 5);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
+
+    QCOMPARE(spyInserted.count(), 1);
+    itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(4, 1)); // 1 new item "a/a-1/1" with index 4
+
+    QVERIFY(!m_model->isExpandable(4));
+    QVERIFY(!m_model->isExpanded(4));
+
+    QSignalSpy spyRemoved(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+
+    // Collapse the top-level folder -> all other items should disappear
+    m_model->setExpanded(0, false);
+    QVERIFY(!m_model->isExpanded(0));
+    QCOMPARE(spyRemoved.count(), 1);
+    itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
+    QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 4)); // 4 items removed
 }
 
 void KFileItemModelTest::testExpansionLevelsCompare_data()
@@ -229,6 +297,9 @@ void KFileItemModelTest::testExpansionLevelsCompare_data()
     QTest::newRow("Sub path: A < B") << "/a/b" << "/a/b/c" << -1;
     QTest::newRow("Sub path: A > B") << "/a/b/c" << "/a/b" << +1;
     QTest::newRow("Same level: /a/1 < /a-1/1") << "/a/1" << "/a-1/1" << -1;
+    QTest::newRow("Same level: /a-/1 > /a/1") << "/a-1/1" << "/a/1" << +1;
+    QTest::newRow("Different levels: /a/a/1 < /a/a-1") << "/a/a/1" << "/a/a-1" << -1;
+    QTest::newRow("Different levels: /a/a-1 > /a/a/1") << "/a/a-1" << "/a/a/1" << +1;
 }
 
 void KFileItemModelTest::testExpansionLevelsCompare()
