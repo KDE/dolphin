@@ -26,6 +26,7 @@
 #include <KFileItem>
 
 class KLineEdit;
+class KIntSpinBox;
 
 #include <QString>
 
@@ -49,7 +50,6 @@ private slots:
 private:
     void renameItems();
 
-
     /**
      * @return Returns the string \p name, where the characters represented by
      *         \p indexPlaceHolder get replaced by the index \p index.
@@ -64,6 +64,7 @@ private:
     QString m_newName;
     KLineEdit* m_lineEdit;
     KFileItemList m_items;
+    KIntSpinBox* m_spinBox;
 };
 
 #endif

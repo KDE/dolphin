@@ -23,7 +23,9 @@
 #include <KLocale>
 #include <konq_operations.h>
 #include <KStringHandler>
+#include <knuminput.h>
 
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QVBoxLayout>
 
@@ -41,7 +43,8 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     m_renameOneItem(false),
     m_newName(),
     m_lineEdit(0),
-    m_items(items)
+    m_items(items),
+    m_spinBox(0)
 {
     const QSize minSize = minimumSize();
     setMinimumSize(QSize(320, minSize.height()));
@@ -118,8 +121,15 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     topLayout->addWidget(m_lineEdit);
 
     if (!m_renameOneItem) {
-        QLabel* infoLabel = new QLabel(i18nc("@info", "(# will be replaced by ascending numbers)"), page);
-        topLayout->addWidget(infoLabel);
+        QLabel* infoLabel = new QLabel(i18nc("@info", "# will be replaced by ascending numbers starting with:"), page);
+        m_spinBox = new KIntSpinBox(0, 10000, 1, 1, page, 10);
+
+        QHBoxLayout* horizontalLayout = new QHBoxLayout(page);
+        horizontalLayout->setMargin(0);
+        horizontalLayout->addWidget(infoLabel);
+        horizontalLayout->addWidget(m_spinBox);
+
+        topLayout->addLayout(horizontalLayout);
     }
 }
 
@@ -177,7 +187,7 @@ void RenameDialog::renameItems()
     qSort(m_items.begin(), m_items.end(), lessThan);
 
     // Iterate through all items and rename them...
-    int index = 1;
+    int index = m_spinBox->value();
     foreach (const KFileItem& item, m_items) {
         const QString newName = indexedName(m_newName, index, QLatin1Char('#'));
         ++index;
