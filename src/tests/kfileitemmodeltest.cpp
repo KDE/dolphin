@@ -228,6 +228,7 @@ void KFileItemModelTest::testExpansionLevelsCompare_data()
     QTest::newRow("Equal") << "/a/b" << "/a/b" << 0;
     QTest::newRow("Sub path: A < B") << "/a/b" << "/a/b/c" << -1;
     QTest::newRow("Sub path: A > B") << "/a/b/c" << "/a/b" << +1;
+    QTest::newRow("Same level: /a/1 < /a-1/1") << "/a/1" << "/a-1/1" << -1;
 }
 
 void KFileItemModelTest::testExpansionLevelsCompare()

@@ -831,7 +831,7 @@ int KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& 
     if (index > maxIndex) {
         index = maxIndex;
     }
-    while (pathA.at(index) != QLatin1Char('/') && index > 0) {
+    while ((pathA.at(index) != QLatin1Char('/') || pathB.at(index) != QLatin1Char('/')) && index > 0) {
         --index;
     }
 
