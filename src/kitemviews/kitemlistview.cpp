@@ -24,6 +24,7 @@
 
 #include "kitemlistcontroller.h"
 #include "kitemlistgroupheader.h"
+#include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
 #include "kitemlistsizehintresolver_p.h"
 #include "kitemlistviewlayouter_p.h"
@@ -32,13 +33,17 @@
 
 #include <KDebug>
 
+#include <QCursor>
 #include <QGraphicsSceneMouseEvent>
+#include <QPainter>
 #include <QPropertyAnimation>
 #include <QStyle>
+#include <QStyleOptionRubberBand>
 #include <QTimer>
 
 KItemListView::KItemListView(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
+    m_autoScrollMarginEnabled(false),
     m_grouped(false),
     m_activeTransactions(0),
     m_itemSize(),
@@ -56,7 +61,9 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_animation(0),
     m_layoutTimer(0),
     m_oldOffset(0),
-    m_oldMaximumOffset(0)
+    m_oldMaximumOffset(0),
+    m_rubberBand(0),
+    m_mousePos()
 {
     setAcceptHoverEvents(true);
 
@@ -73,6 +80,9 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_layoutTimer->setInterval(300);
     m_layoutTimer->setSingleShot(true);
     connect(m_layoutTimer, SIGNAL(timeout()), this, SLOT(slotLayoutTimerFinished()));
+
+    m_rubberBand = new KItemListRubberBand(this);
+    connect(m_rubberBand, SIGNAL(activationChanged(bool)), this, SLOT(slotRubberBandActivationChanged(bool)));
 }
 
 KItemListView::~KItemListView()
@@ -348,6 +358,30 @@ bool KItemListView::isTransactionActive() const
     return m_activeTransactions > 0;
 }
 
+void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    QGraphicsWidget::paint(painter, option, widget);
+
+    if (m_rubberBand->isActive()) {
+        QRectF rubberBandRect = QRectF(m_rubberBand->startPosition(),
+                                       m_rubberBand->endPosition()).normalized();
+
+        const QPointF topLeft = rubberBandRect.topLeft();
+        if (scrollOrientation() == Qt::Vertical) {
+            rubberBandRect.moveTo(topLeft.x(), topLeft.y() - offset());
+        } else {
+            rubberBandRect.moveTo(topLeft.x() - offset(), topLeft.y());
+        }
+
+        QStyleOptionRubberBand opt;
+        opt.initFrom(widget);
+        opt.shape = QRubberBand::Rectangle;
+        opt.opaque = false;
+        opt.rect = rubberBandRect.toRect();
+        style()->drawControl(QStyle::CE_RubberBand, &opt, painter);
+    }
+}
+
 void KItemListView::initializeItemListWidget(KItemListWidget* item)
 {
     Q_UNUSED(item);
@@ -415,7 +449,14 @@ bool KItemListView::event(QEvent* event)
 
 void KItemListView::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
+    m_mousePos = transform().map(event->pos());
     event->accept();
+}
+
+void KItemListView::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    m_mousePos = transform().map(event->pos());
+    QGraphicsWidget::mouseMoveEvent(event);
 }
 
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
@@ -436,7 +477,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
     foreach (const KItemRange& range, itemRanges) {
         // range.index is related to the model before anything has been inserted.
         // As in each loop the current item-range gets inserted the index must
-        // be increased by the already previoulsy inserted items.
+        // be increased by the already previously inserted items.
         const int index = range.index + previouslyInsertedCount;
         const int count = range.count;
         if (index < 0 || count <= 0) {
@@ -701,6 +742,30 @@ void KItemListView::slotLayoutTimerFinished()
     doLayout(Animation, 0, 0);
 }
 
+void KItemListView::slotRubberBandStartPosChanged()
+{
+    update();
+}
+
+void KItemListView::slotRubberBandEndPosChanged()
+{
+    triggerAutoScrolling();
+    update();
+}
+
+void KItemListView::slotRubberBandActivationChanged(bool active)
+{
+    if (active) {
+        connect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandStartPosChanged()));
+        connect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandEndPosChanged()));
+    } else {
+        disconnect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandStartPosChanged()));
+        disconnect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandEndPosChanged()));
+    }
+
+    update();
+}
+
 void KItemListView::setController(KItemListController* controller)
 {
     if (m_controller != controller) {
@@ -754,6 +819,11 @@ void KItemListView::setModel(KItemModelBase* model)
     }
 
     onModelChanged(model, previous);
+}
+
+KItemListRubberBand* KItemListView::rubberBand() const
+{
+    return m_rubberBand;
 }
 
 void KItemListView::updateLayout()
@@ -903,13 +973,13 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
 void KItemListView::emitOffsetChanges()
 {
-    const int newOffset = m_layouter->offset();
+    const qreal newOffset = m_layouter->offset();
     if (m_oldOffset != newOffset) {
         emit offsetChanged(newOffset, m_oldOffset);
         m_oldOffset = newOffset;
     }
 
-    const int newMaximumOffset = m_layouter->maximumOffset();
+    const qreal newMaximumOffset = m_layouter->maximumOffset();
     if (m_oldMaximumOffset != newMaximumOffset) {
         emit maximumOffsetChanged(newMaximumOffset, m_oldMaximumOffset);
         m_oldMaximumOffset = newMaximumOffset;
@@ -1101,6 +1171,40 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setIndex(index);
     widget->setData(m_model->data(index));
 }
+
+void KItemListView::triggerAutoScrolling()
+{
+    const int pos = (scrollOrientation() == Qt::Vertical) ? m_mousePos.y() : m_mousePos.x();
+    const int inc = calculateAutoScrollingIncrement(pos, size().height());
+    if (inc != 0) {
+        emit scrollTo(offset() + inc);
+    }
+}
+
+int KItemListView::calculateAutoScrollingIncrement(int pos, int size)
+{
+    int inc = 0;
+
+    const int minSpeed = 4;
+    const int maxSpeed = 768;
+    const int speedLimiter = 48;
+    const int autoScrollBorder = 64;
+
+    if (pos < autoScrollBorder) {
+        inc = -minSpeed + qAbs(pos - autoScrollBorder) * (pos - autoScrollBorder) / speedLimiter;
+        if (inc < -maxSpeed) {
+            inc = -maxSpeed;
+        }
+    } else if (pos > size - autoScrollBorder) {
+        inc = minSpeed + qAbs(pos - size + autoScrollBorder) * (pos - size + autoScrollBorder) / speedLimiter;
+        if (inc > maxSpeed) {
+            inc = maxSpeed;
+        }
+    }
+
+    return inc;
+}
+
 
 KItemListCreatorBase::~KItemListCreatorBase()
 {

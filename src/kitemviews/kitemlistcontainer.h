@@ -59,6 +59,7 @@ protected:
 private slots:
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
     void slotViewChanged(KItemListView* current, KItemListView* previous);
+    void scrollTo(qreal offset);
     void updateScrollBars();
 
 private:

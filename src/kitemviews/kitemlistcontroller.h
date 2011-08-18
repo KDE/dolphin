@@ -28,6 +28,7 @@
 #include <QObject>
 
 class KItemModelBase;
+class KItemListRubberBandManager;
 class KItemListSelectionManager;
 class KItemListView;
 class QGraphicsSceneHoverEvent;
@@ -118,6 +119,9 @@ signals:
 
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);
     void viewChanged(KItemListView* current, KItemListView* previous);
+
+private slots:
+    void slotViewOffsetChanged(qreal current, qreal previous);
 
 private:
     SelectionBehavior m_selectionBehavior;

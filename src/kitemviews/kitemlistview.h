@@ -37,6 +37,7 @@ class KItemListWidgetCreatorBase;
 class KItemListGroupHeader;
 class KItemListGroupHeaderCreatorBase;
 class KItemListSizeHintResolver;
+class KItemListRubberBand;
 class KItemListViewAnimation;
 class KItemListViewLayouter;
 class KItemListWidget;
@@ -142,10 +143,15 @@ public:
     void endTransaction();
     bool isTransactionActive() const;
 
+    /**
+     * @reimp
+     */
+   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+
 signals:
-    void offsetChanged(int current, int previous);
-    void maximumOffsetChanged(int current, int previous);
-    void scrollTo(int newOffset);
+    void offsetChanged(qreal current, qreal previous);
+    void maximumOffsetChanged(qreal current, qreal previous);
+    void scrollTo(qreal newOffset);
 
 protected:
     virtual void initializeItemListWidget(KItemListWidget* item);
@@ -164,6 +170,7 @@ protected:
 
     virtual bool event(QEvent* event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
@@ -180,6 +187,10 @@ private slots:
                                KItemListViewAnimation::AnimationType type);
     void slotLayoutTimerFinished();
 
+    void slotRubberBandStartPosChanged();
+    void slotRubberBandEndPosChanged();
+    void slotRubberBandActivationChanged(bool active);
+
 private:
     enum LayoutAnimationHint
     {
@@ -195,6 +206,8 @@ private:
 
     void setController(KItemListController* controller);
     void setModel(KItemModelBase* model);
+
+    KItemListRubberBand* rubberBand() const;
 
     void updateLayout();
     void doLayout(LayoutAnimationHint hint, int changedIndex, int changedCount);
@@ -241,7 +254,22 @@ private:
      */
     void updateWidgetProperties(KItemListWidget* widget, int index);
 
+    /**
+     * Emits the signal scrollTo() with the corresponding target offset if the current
+     * mouse position is above the autoscroll-margin.
+     */
+    void triggerAutoScrolling();
+
+    /**
+     * Helper function for triggerAutoScrolling(). Returns the scroll increment
+     * that should be added to the offset() based on the available size \a size
+     * and the current mouse position \a pos. As soon as \a pos is inside
+     * the autoscroll-margin a value != 0 will be returned.
+     */
+    static int calculateAutoScrollingIncrement(int pos, int size);
+
 private:
+    bool m_autoScrollMarginEnabled;
     bool m_grouped;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
 
@@ -263,8 +291,12 @@ private:
     KItemListViewAnimation* m_animation;
 
     QTimer* m_layoutTimer; // Triggers an asynchronous doLayout() call.
-    int m_oldOffset;
-    int m_oldMaximumOffset;
+    qreal m_oldOffset;
+    qreal m_oldMaximumOffset;
+
+    KItemListRubberBand* m_rubberBand;
+
+    QPointF m_mousePos;
 
     friend class KItemListController;
 };

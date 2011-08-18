@@ -210,16 +210,30 @@ void KItemListContainer::slotViewChanged(KItemListView* current, KItemListView* 
     QGraphicsScene* scene = static_cast<QGraphicsView*>(viewport())->scene();
     if (previous) {
         scene->removeItem(previous);
-        disconnect(previous, SIGNAL(offsetChanged(int,int)), this, SLOT(updateScrollBars()));
-        disconnect(previous, SIGNAL(maximumOffsetChanged(int,int)), this, SLOT(updateScrollBars()));
+        disconnect(previous, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
+        disconnect(previous, SIGNAL(maximumOffsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
+        disconnect(previous, SIGNAL(scrollTo(qreal)), this, SLOT(scrollTo(qreal)));
         m_viewOffsetAnimation->setTargetObject(0);
     }
     if (current) {
         scene->addItem(current);
-        connect(current, SIGNAL(offsetChanged(int,int)), this, SLOT(updateScrollBars()));
-        connect(current, SIGNAL(maximumOffsetChanged(int,int)), this, SLOT(updateScrollBars()));
+        connect(current, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
+        connect(current, SIGNAL(maximumOffsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
+        connect(current, SIGNAL(scrollTo(qreal)), this, SLOT(scrollTo(qreal)));
         m_viewOffsetAnimation->setTargetObject(current);
     }
+}
+
+void KItemListContainer::scrollTo(qreal offset)
+{
+    const KItemListView* view = m_controller->view();
+    if (!view) {
+        return;
+    }
+
+    QScrollBar* scrollBar = (view->scrollOrientation() == Qt::Vertical)
+                            ? verticalScrollBar() : horizontalScrollBar();
+    scrollBar->setValue(offset);
 }
 
 void KItemListContainer::updateScrollBars()
@@ -267,11 +281,6 @@ void KItemListContainer::updateScrollBars()
     scrollBar->setMaximum(maximum);
     scrollBar->setValue(value);
 
-    disconnect(view, SIGNAL(scrollTo(int)),
-               otherScrollBar, SLOT(setValue(int)));
-    connect(view, SIGNAL(scrollTo(int)),
-            scrollBar, SLOT(setValue(int)));
-
     // Make sure that the other scroll bar is hidden
     otherScrollBar->setMaximum(0);
     otherScrollBar->setValue(0);
@@ -316,7 +325,7 @@ void KItemListContainer::initialize()
     setViewport(graphicsView);
 
     m_viewOffsetAnimation = new QPropertyAnimation(this, "offset");
-    m_viewOffsetAnimation->setDuration(500);
+    m_viewOffsetAnimation->setDuration(300);
 
     horizontalScrollBar()->installEventFilter(this);
     verticalScrollBar()->installEventFilter(this);

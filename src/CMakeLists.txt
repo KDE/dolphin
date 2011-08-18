@@ -25,6 +25,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistcontainer.cpp
     kitemviews/kitemlistcontroller.cpp
     kitemviews/kitemlistgroupheader.cpp
+    kitemviews/kitemlistrubberband.cpp
     kitemviews/kitemlistselectionmanager.cpp
     kitemviews/kitemlistsizehintresolver.cpp
     kitemviews/kitemliststyleoption.cpp

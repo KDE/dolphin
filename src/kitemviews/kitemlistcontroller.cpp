@@ -23,11 +23,11 @@
 #include "kitemlistcontroller.h"
 
 #include "kitemlistview.h"
+#include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
 
 #include <QEvent>
 #include <QGraphicsSceneEvent>
-#include <QTransform>
 
 #include <KDebug>
 
@@ -80,11 +80,16 @@ void KItemListController::setView(KItemListView* view)
     }
 
     KItemListView* oldView = m_view;
+    if (oldView) {
+        disconnect(oldView, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(slotViewOffsetChanged(qreal,qreal)));
+    }
+
     m_view = view;
 
     if (m_view) {
         m_view->setController(this);
         m_view->setModel(m_model);
+        connect(m_view, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(slotViewOffsetChanged(qreal,qreal)));
     }
 
     emit viewChanged(m_view, oldView);
@@ -223,6 +228,10 @@ bool KItemListController::inputMethodEvent(QInputMethodEvent* event)
 
 bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
+    if (!m_view) {
+        return false;
+    }
+
     const QPointF pos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(pos);
 
@@ -248,29 +257,40 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
 
         switch (m_selectionBehavior) {
         case NoSelection:
-            return true;
+            break;
+
         case SingleSelection:
             m_selectionManager->setSelected(m_pressedIndex);
-            return true;
+            break;
+
         case MultiSelection:
             if (controlPressed) {
                 m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex);
-            }
-            else {
-                if (shiftPressed && m_selectionManager->isAnchoredSelectionActive()) {
-                    // The anchored selection is continued automatically by calling
-                    // m_selectionManager->setCurrentItem(m_pressedIndex), see above -> nothing more to do here
-                    return true;
-                }
-
+            } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
                 m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Select);
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex);
             }
+            break;
+
+        default:
+            Q_ASSERT(false);
+            break;
         }
 
         return true;
+    } else {
+        KItemListRubberBand* rubberBand = m_view->rubberBand();
+        QPointF startPos = pos;
+        if (m_view->scrollOrientation() == Qt::Vertical) {
+            startPos.ry() += m_view->offset();
+        } else {
+            startPos.rx() += m_view->offset();
+        }
+        rubberBand->setStartPosition(startPos);
+        rubberBand->setEndPosition(startPos);
+        rubberBand->setActive(true);
     }
 
     return false;
@@ -278,38 +298,55 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
 
 bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    if (!m_view) {
+        return false;
+    }
+
+    KItemListRubberBand* rubberBand = m_view->rubberBand();
+    if (rubberBand->isActive()) {
+        QPointF endPos = transform.map(event->pos());
+        if (m_view->scrollOrientation() == Qt::Vertical) {
+            endPos.ry() += m_view->offset();
+        } else {
+            endPos.rx() += m_view->offset();
+        }
+        rubberBand->setEndPosition(endPos);
+    }
+
     return false;
 }
 
 bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
-    if (m_view) {
-        const QPointF pos = transform.map(event->pos());
-        const int index = m_view->itemAt(pos);
-        const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier || event->modifiers() & Qt::ControlModifier;
+    if (!m_view) {
+        return false;
+    }
 
-        if (index >= 0 && index == m_pressedIndex) {
-            // The release event is done above the same item as the press event
-            bool emitItemClicked = true;
-            if (event->button() & Qt::LeftButton) {
-                if (m_view->isAboveExpansionToggle(index, pos)) {
-                    emit itemExpansionToggleClicked(index);
-                    emitItemClicked = false;
-                }
-                else if (shiftOrControlPressed) {
-                    // The mouse click should only update the selection, not trigger the item
-                    emitItemClicked = false;
-                }
-            }
+    m_view->rubberBand()->setActive(false);
 
-            if (emitItemClicked) {
-                emit itemClicked(index, event->button());
+    const QPointF pos = transform.map(event->pos());
+    const int index = m_view->itemAt(pos);
+    const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier || event->modifiers() & Qt::ControlModifier;
+
+    if (index >= 0 && index == m_pressedIndex) {
+        // The release event is done above the same item as the press event
+        bool emitItemClicked = true;
+        if (event->button() & Qt::LeftButton) {
+            if (m_view->isAboveExpansionToggle(index, pos)) {
+                emit itemExpansionToggleClicked(index);
+                emitItemClicked = false;
             }
-        } else if (!shiftOrControlPressed) {
-            m_selectionManager->clearSelection();
+            else if (shiftOrControlPressed) {
+                // The mouse click should only update the selection, not trigger the item
+                emitItemClicked = false;
+            }
         }
+
+        if (emitItemClicked) {
+            emit itemClicked(index, event->button());
+        }
+    } else if (!shiftOrControlPressed) {
+        m_selectionManager->clearSelection();
     }
 
     m_pressedIndex = -1;
@@ -478,6 +515,30 @@ bool KItemListController::processEvent(QEvent* event, const QTransform& transfor
     }
 
     return false;
+}
+
+void KItemListController::slotViewOffsetChanged(qreal current, qreal previous)
+{
+    if (!m_view) {
+        return;
+    }
+
+    KItemListRubberBand* rubberBand = m_view->rubberBand();
+    if (rubberBand->isActive()) {
+        const qreal diff = current - previous;
+        // TODO: Ideally just QCursor::pos() should be used as
+        // new end-position but it seems there is no easy way
+        // to have something like QWidget::mapFromGlobal() for QGraphicsWidget
+        // (... or I just missed an easy way to do the mapping)
+        QPointF endPos = rubberBand->endPosition();
+        if (m_view->scrollOrientation() == Qt::Vertical) {
+            endPos.ry() += diff;
+        } else {
+            endPos.rx() += diff;
+        }
+
+        rubberBand->setEndPosition(endPos);
+    }
 }
 
 #include "kitemlistcontroller.moc"
