@@ -86,9 +86,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 {
     KItemListWidget::paint(painter, option, widget);
 
-    if (m_dirtyContent || m_dirtyLayout) {
-        const_cast<KFileItemListWidget*>(this)->updateCache();
-    }
+    const_cast<KFileItemListWidget*>(this)->updateCache();
 
     // Draw expansion toggle '>' or 'V'
     if (m_isDir && !m_expansionArea.isEmpty()) {
@@ -135,6 +133,8 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
 QRectF KFileItemListWidget::iconBoundingRect() const
 {
+    const_cast<KFileItemListWidget*>(this)->updateCache();
+
     QRectF bounds = m_hoverPixmapRect;
     const qreal margin = styleOption().margin;
     bounds.adjust(-margin, -margin, margin, margin);
@@ -143,11 +143,13 @@ QRectF KFileItemListWidget::iconBoundingRect() const
 
 QRectF KFileItemListWidget::textBoundingRect() const
 {
+    const_cast<KFileItemListWidget*>(this)->updateCache();
     return m_textBoundingRect;
 }
 
 QRectF KFileItemListWidget::expansionToggleRect() const
 {
+    const_cast<KFileItemListWidget*>(this)->updateCache();
     return m_isDir ? m_expansionArea : QRectF();
 }
 
@@ -242,7 +244,7 @@ void KFileItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
 
 void KFileItemListWidget::updateCache()
 {
-    if (index() < 0) {
+    if ((!m_dirtyContent && !m_dirtyLayout) || index() < 0) {
         return;
     }
 

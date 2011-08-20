@@ -136,7 +136,19 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
     virtual QHash<QByteArray, QSizeF> visibleRoleSizes() const;
 
+    /**
+     * @return The bounding rectangle of the item relative to the top/left of
+     *         the currently visible area (see KItemListView::offset()).
+     */
     QRectF itemBoundingRect(int index) const;
+
+    /**
+     * @return The number of items that can be shown in parallel for one offset.
+     *         Assuming the scrolldirection is vertical then a value of 4 means
+     *         that 4 columns for items are available. Assuming the scrolldirection
+     *         is horizontal then a value of 4 means that 4 lines for items are
+     *         available.
+     */
     int itemsPerOffset() const;
 
     void beginTransaction();

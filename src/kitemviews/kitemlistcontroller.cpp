@@ -291,6 +291,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         rubberBand->setStartPosition(startPos);
         rubberBand->setEndPosition(startPos);
         rubberBand->setActive(true);
+        connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
     }
 
     return false;
@@ -322,7 +323,13 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         return false;
     }
 
-    m_view->rubberBand()->setActive(false);
+    KItemListRubberBand* rubberBand = m_view->rubberBand();
+    if (rubberBand->isActive()) {
+        disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+        rubberBand->setActive(false);
+        m_pressedIndex = -1;
+        return false;
+    }
 
     const QPointF pos = transform.map(event->pos());
     const int index = m_view->itemAt(pos);
@@ -539,6 +546,70 @@ void KItemListController::slotViewOffsetChanged(qreal current, qreal previous)
 
         rubberBand->setEndPosition(endPos);
     }
+}
+
+void KItemListController::slotRubberBandChanged()
+{
+    if (!m_view || !m_model || m_model->count() <= 0) {
+        return;
+    }
+
+    const KItemListRubberBand* rubberBand = m_view->rubberBand();
+    const QPointF startPos = rubberBand->startPosition();
+    const QPointF endPos = rubberBand->endPosition();
+    QRectF rubberBandRect = QRectF(startPos, endPos).normalized();
+
+    const bool scrollVertical = (m_view->scrollOrientation() == Qt::Vertical);
+    if (scrollVertical) {
+        rubberBandRect.translate(0, -m_view->offset());
+    } else {
+        rubberBandRect.translate(-m_view->offset(), 0);
+    }
+
+    QSet<int> selectedItems;
+
+    // Select all visible items that intersect with the rubberband
+    foreach (const KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+        const int index = widget->index();
+
+        const QRectF widgetRect = m_view->itemBoundingRect(index);
+        if (widgetRect.intersects(rubberBandRect)) {
+            const QRectF iconRect = widget->iconBoundingRect().translated(widgetRect.topLeft());
+            const QRectF textRect = widget->textBoundingRect().translated(widgetRect.topLeft());
+            if (iconRect.intersects(rubberBandRect) || textRect.intersects(rubberBandRect)) {
+                selectedItems.insert(index);
+            }
+        }
+    }
+
+    // Select all invisible items that intersect with the rubberband. Instead of
+    // iterating all items only the area which might be touched by the rubberband
+    // will be checked.
+    const bool increaseIndex = scrollVertical ?
+                               startPos.y() > endPos.y(): startPos.x() > endPos.x();
+
+    int index = increaseIndex ? m_view->lastVisibleIndex() + 1 : m_view->firstVisibleIndex() - 1;
+    bool selectionFinished = false;
+    do {
+        const QRectF widgetRect = m_view->itemBoundingRect(index);
+        if (widgetRect.intersects(rubberBandRect)) {
+            selectedItems.insert(index);
+        }
+
+        if (increaseIndex) {
+            ++index;
+            selectionFinished = (index >= m_model->count()) ||
+                                ( scrollVertical && widgetRect.top()  > rubberBandRect.bottom()) ||
+                                (!scrollVertical && widgetRect.left() > rubberBandRect.right());
+        } else {
+            --index;
+            selectionFinished = (index < 0) ||
+                                ( scrollVertical && widgetRect.bottom() < rubberBandRect.top()) ||
+                                (!scrollVertical && widgetRect.right()  < rubberBandRect.left());
+        }
+    } while (!selectionFinished);
+
+    m_selectionManager->setSelectedItems(selectedItems);
 }
 
 #include "kitemlistcontroller.moc"

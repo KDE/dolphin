@@ -28,7 +28,6 @@
 #include <QObject>
 
 class KItemModelBase;
-class KItemListRubberBandManager;
 class KItemListSelectionManager;
 class KItemListView;
 class QGraphicsSceneHoverEvent;
@@ -122,6 +121,12 @@ signals:
 
 private slots:
     void slotViewOffsetChanged(qreal current, qreal previous);
+
+    /**
+     * Is invoked when the rubberband boundaries have been changed and will select
+     * all items that are touched by the rubberband.
+     */
+    void slotRubberBandChanged();
 
 private:
     SelectionBehavior m_selectionBehavior;
