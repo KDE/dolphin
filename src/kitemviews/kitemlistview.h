@@ -191,6 +191,12 @@ private slots:
     void slotRubberBandEndPosChanged();
     void slotRubberBandActivationChanged(bool active);
 
+    /**
+     * Emits the signal scrollTo() with the corresponding target offset if the current
+     * mouse position is above the autoscroll-margin.
+     */
+    void triggerAutoScrolling();
+
 private:
     enum LayoutAnimationHint
     {
@@ -253,12 +259,6 @@ private:
      * of the itemlist widget.
      */
     void updateWidgetProperties(KItemListWidget* widget, int index);
-
-    /**
-     * Emits the signal scrollTo() with the corresponding target offset if the current
-     * mouse position is above the autoscroll-margin.
-     */
-    void triggerAutoScrolling();
 
     /**
      * Helper function for triggerAutoScrolling(). Returns the scroll increment

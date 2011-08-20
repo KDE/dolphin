@@ -64,11 +64,6 @@ void KItemListRubberBand::setActive(bool active)
     if (m_active != active) {
         m_active = active;
         emit activationChanged(active);
-
-        if (!active) {
-            m_startPos = QPointF();
-            m_endPos = QPointF();
-        }
     }
 }
 

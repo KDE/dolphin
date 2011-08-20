@@ -25,6 +25,7 @@
 
 #include <libdolphin_export.h>
 
+#include <QAbstractAnimation>
 #include <QAbstractScrollArea>
 
 class KItemListController;
@@ -59,6 +60,7 @@ protected:
 private slots:
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
     void slotViewChanged(KItemListView* current, KItemListView* previous);
+    void slotAnimationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
     void scrollTo(qreal offset);
     void updateScrollBars();
 
@@ -69,8 +71,8 @@ private:
 private:
     KItemListController* m_controller;
 
-    bool m_sliderMovedByUser;
-    QPropertyAnimation* m_viewOffsetAnimation;
+    bool m_smoothScrolling;
+    QPropertyAnimation* m_smoothScrollingAnimation;
 };
 
 #endif

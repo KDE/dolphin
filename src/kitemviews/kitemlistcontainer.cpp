@@ -59,8 +59,8 @@ public:
 KItemListContainer::KItemListContainer(KItemListController* controller, QWidget* parent) :
     QAbstractScrollArea(parent),
     m_controller(controller),
-    m_sliderMovedByUser(false),
-    m_viewOffsetAnimation(0)
+    m_smoothScrolling(false),
+    m_smoothScrollingAnimation(0)
 {
     Q_ASSERT(controller);
     controller->setParent(this);
@@ -69,7 +69,9 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
 
 KItemListContainer::KItemListContainer(QWidget* parent) :
     QAbstractScrollArea(parent),
-    m_controller(0)
+    m_controller(0),
+    m_smoothScrolling(false),
+    m_smoothScrollingAnimation(0)
 {
     initialize();
 }
@@ -119,24 +121,24 @@ void KItemListContainer::scrollContentsBy(int dx, int dy)
     const qreal currentOffset = view->offset();
     qreal offsetDiff = (view->scrollOrientation() == Qt::Vertical) ? dy : dx;
 
-    const bool animRunning = (m_viewOffsetAnimation->state() == QAbstractAnimation::Running);
+    const bool animRunning = (m_smoothScrollingAnimation->state() == QAbstractAnimation::Running);
     if (animRunning) {
         // Stopping a running animation means skipping the range from the current offset
         // until the target offset. To prevent skipping of the range the difference
         // is added to the new target offset.
-        m_viewOffsetAnimation->stop();
-        const qreal targetOffset = m_viewOffsetAnimation->endValue().toReal();
+        const qreal targetOffset = m_smoothScrollingAnimation->endValue().toReal();
         offsetDiff += (currentOffset - targetOffset);
     }
 
     const qreal newOffset = currentOffset - offsetDiff;
 
-    if (m_sliderMovedByUser || animRunning) {
-        m_viewOffsetAnimation->stop();
-        m_viewOffsetAnimation->setStartValue(currentOffset);
-        m_viewOffsetAnimation->setEndValue(newOffset);
-        m_viewOffsetAnimation->setEasingCurve(animRunning ? QEasingCurve::OutQuad : QEasingCurve::InOutQuad);
-        m_viewOffsetAnimation->start();
+    if (m_smoothScrolling || animRunning) {
+        m_smoothScrollingAnimation->stop();
+        m_smoothScrollingAnimation->setStartValue(currentOffset);
+        m_smoothScrollingAnimation->setEndValue(newOffset);
+        m_smoothScrollingAnimation->setEasingCurve(animRunning ? QEasingCurve::OutQuad : QEasingCurve::InOutQuad);
+        m_smoothScrollingAnimation->start();
+        view->setOffset(currentOffset);
     } else {
         view->setOffset(newOffset);
     }
@@ -147,8 +149,8 @@ bool KItemListContainer::eventFilter(QObject* obj, QEvent* event)
     Q_ASSERT(obj == horizontalScrollBar() || obj == verticalScrollBar());
 
     // Check whether the scrollbar has been adjusted by a mouse-event
-    // triggered by the user and remember this in m_sliderMovedByUser.
-    // The smooth scrolling will only get active if m_sliderMovedByUser
+    // triggered by the user and remember this in m_smoothScrolling.
+    // The smooth scrolling will only get active if m_smoothScrolling
     // is true (see scrollContentsBy()).
     const bool scrollVertical = (m_controller->view()->scrollOrientation() == Qt::Vertical);
     const bool checkEvent = ( scrollVertical && obj == verticalScrollBar()) ||
@@ -156,11 +158,11 @@ bool KItemListContainer::eventFilter(QObject* obj, QEvent* event)
     if (checkEvent) {
         switch (event->type()) {
         case QEvent::MouseButtonPress:
-            m_sliderMovedByUser = true;
-           break;
+            m_smoothScrolling = true;
+            break;
 
         case QEvent::MouseButtonRelease:
-            m_sliderMovedByUser = false;
+            m_smoothScrolling = false;
             break;
 
         case QEvent::Wheel:
@@ -169,7 +171,7 @@ bool KItemListContainer::eventFilter(QObject* obj, QEvent* event)
 
         default:
             break;
-         }
+        }
     }
 
     return QAbstractScrollArea::eventFilter(obj, event);
@@ -185,8 +187,8 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
     const int numDegrees = event->delta() / 8;
     const int numSteps = numDegrees / 15;
 
-    const bool previous = m_sliderMovedByUser;
-    m_sliderMovedByUser = true;
+    const bool previous = m_smoothScrolling;
+    m_smoothScrolling = true;
     if (view->scrollOrientation() == Qt::Vertical) {
         const int value = verticalScrollBar()->value();
         verticalScrollBar()->setValue(value - numSteps * view->size().height());
@@ -194,7 +196,7 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
         const int value = horizontalScrollBar()->value();
         horizontalScrollBar()->setValue(value - numSteps * view->size().width());
     }
-    m_sliderMovedByUser = previous;
+    m_smoothScrolling = previous;
 
     event->accept();
 }
@@ -213,16 +215,26 @@ void KItemListContainer::slotViewChanged(KItemListView* current, KItemListView* 
         disconnect(previous, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
         disconnect(previous, SIGNAL(maximumOffsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
         disconnect(previous, SIGNAL(scrollTo(qreal)), this, SLOT(scrollTo(qreal)));
-        m_viewOffsetAnimation->setTargetObject(0);
+        m_smoothScrollingAnimation->setTargetObject(0);
     }
     if (current) {
         scene->addItem(current);
         connect(current, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
         connect(current, SIGNAL(maximumOffsetChanged(qreal,qreal)), this, SLOT(updateScrollBars()));
         connect(current, SIGNAL(scrollTo(qreal)), this, SLOT(scrollTo(qreal)));
-        m_viewOffsetAnimation->setTargetObject(current);
+        m_smoothScrollingAnimation->setTargetObject(current);
     }
 }
+
+void KItemListContainer::slotAnimationStateChanged(QAbstractAnimation::State newState,
+                                                   QAbstractAnimation::State oldState)
+{
+    Q_UNUSED(oldState);
+    if (newState == QAbstractAnimation::Stopped) {
+        m_smoothScrolling = false;
+    }
+}
+
 
 void KItemListContainer::scrollTo(qreal offset)
 {
@@ -231,6 +243,7 @@ void KItemListContainer::scrollTo(qreal offset)
         return;
     }
 
+    m_smoothScrolling = true;
     QScrollBar* scrollBar = (view->scrollOrientation() == Qt::Vertical)
                             ? verticalScrollBar() : horizontalScrollBar();
     scrollBar->setValue(offset);
@@ -261,7 +274,7 @@ void KItemListContainer::updateScrollBars()
 
     const int value = view->offset();
     const int maximum = qMax(0, int(view->maximumOffset() - pageStep));
-    if (m_viewOffsetAnimation->state() == QAbstractAnimation::Running) {
+    if (m_smoothScrollingAnimation->state() == QAbstractAnimation::Running) {
         if (maximum == scrollBar->maximum()) {
             // The value has been changed by the animation, no update
             // of the scrollbars is required as their target state will be
@@ -272,7 +285,7 @@ void KItemListContainer::updateScrollBars()
         // The maximum has been changed which indicates that the content
         // of the view has been changed. Stop the animation in any case and
         // update the scrollbars immediately.
-        m_viewOffsetAnimation->stop();
+        m_smoothScrollingAnimation->stop();
     }
 
     scrollBar->setSingleStep(singleStep);
@@ -324,8 +337,10 @@ void KItemListContainer::initialize()
     QGraphicsView* graphicsView = new KItemListContainerViewport(new QGraphicsScene(this), this);
     setViewport(graphicsView);
 
-    m_viewOffsetAnimation = new QPropertyAnimation(this, "offset");
-    m_viewOffsetAnimation->setDuration(300);
+    m_smoothScrollingAnimation = new QPropertyAnimation(this, "offset");
+    m_smoothScrollingAnimation->setDuration(300);
+    connect(m_smoothScrollingAnimation, SIGNAL(stateChanged(QAbstractAnimation::State,QAbstractAnimation::State)),
+            this, SLOT(slotAnimationStateChanged(QAbstractAnimation::State,QAbstractAnimation::State)));
 
     horizontalScrollBar()->installEventFilter(this);
     verticalScrollBar()->installEventFilter(this);

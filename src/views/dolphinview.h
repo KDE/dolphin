@@ -436,7 +436,7 @@ signals:
      * Is emitted if the view mode (IconsView, DetailsView,
      * PreviewsView) has been changed.
      */
-    void modeChanged(Mode current, Mode previous);
+    void modeChanged(DolphinView::Mode current, DolphinView::Mode previous);
 
     /** Is emitted if the 'show preview' property has been changed. */
     void previewsShownChanged(bool shown);

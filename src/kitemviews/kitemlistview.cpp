@@ -678,7 +678,9 @@ void KItemListView::slotCurrentChanged(int current, int previous)
             }
         }
 
-        emit scrollTo(newOffset);
+        if (newOffset != offset()) {
+            emit scrollTo(newOffset);
+        }
     }
 }
 
@@ -749,7 +751,11 @@ void KItemListView::slotRubberBandStartPosChanged()
 
 void KItemListView::slotRubberBandEndPosChanged()
 {
-    triggerAutoScrolling();
+    // The autoscrolling is triggered asynchronously otherwise it
+    // might be possible to have an endless recursion: The autoscrolling
+    // might adjust the position which might result in updating the
+    // rubberband end-position.
+    QTimer::singleShot(0, this, SLOT(triggerAutoScrolling()));
     update();
 }
 
@@ -764,6 +770,24 @@ void KItemListView::slotRubberBandActivationChanged(bool active)
     }
 
     update();
+}
+
+void KItemListView::triggerAutoScrolling()
+{
+    int pos = 0;
+    int visibleSize = 0;
+    if (scrollOrientation() == Qt::Vertical) {
+        pos = m_mousePos.y();
+        visibleSize = size().height();
+    } else {
+        pos = m_mousePos.x();
+        visibleSize = size().width();
+    }
+
+    const int inc = calculateAutoScrollingIncrement(pos, visibleSize);
+    if (inc != 0) {
+        emit scrollTo(offset() + inc);
+    }
 }
 
 void KItemListView::setController(KItemListController* controller)
@@ -1170,15 +1194,6 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
 
     widget->setIndex(index);
     widget->setData(m_model->data(index));
-}
-
-void KItemListView::triggerAutoScrolling()
-{
-    const int pos = (scrollOrientation() == Qt::Vertical) ? m_mousePos.y() : m_mousePos.x();
-    const int inc = calculateAutoScrollingIncrement(pos, size().height());
-    if (inc != 0) {
-        emit scrollTo(offset() + inc);
-    }
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int size)
