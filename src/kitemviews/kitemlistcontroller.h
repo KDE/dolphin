@@ -26,6 +26,7 @@
 #include <libdolphin_export.h>
 
 #include <QObject>
+#include <QSet>
 
 class KItemModelBase;
 class KItemListSelectionManager;
@@ -134,6 +135,14 @@ private:
     KItemListView* m_view;
     KItemListSelectionManager* m_selectionManager;
     int m_pressedIndex;
+
+    /**
+     * When starting a rubberband selection during a Shift- or Control-key has been
+     * pressed the current selection should never be deleted. To be able to restore
+     * the current selection it is remembered in m_oldSelection before
+     * rubberband gets activated.
+     */
+    QSet<int> m_oldSelection;
 };
 
 #endif

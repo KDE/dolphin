@@ -38,7 +38,8 @@ KItemListController::KItemListController(QObject* parent) :
     m_model(0),
     m_view(0),
     m_selectionManager(new KItemListSelectionManager(this)),
-    m_pressedIndex(-1)
+    m_pressedIndex(-1),
+    m_oldSelection()
 {
 }
 
@@ -294,6 +295,8 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         } else {
             startPos.rx() += m_view->offset();
         }
+
+        m_oldSelection = m_selectionManager->selectedItems();
         rubberBand->setStartPosition(startPos);
         rubberBand->setEndPosition(startPos);
         rubberBand->setActive(true);
@@ -338,6 +341,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     if (rubberBand->isActive()) {
         disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
         rubberBand->setActive(false);
+        m_oldSelection.clear();
         m_pressedIndex = -1;
         return false;
     }
@@ -577,14 +581,13 @@ void KItemListController::slotRubberBandChanged()
         rubberBandRect.translate(-m_view->offset(), 0);
     }
 
-    QSet<int> previousSelectedItems;
-    if (m_selectionManager->hasSelection()) {
-        // Don't clear the current selection in case if the user pressed the
-        // Shift- or Control-key during the rubberband selection
+    if (!m_oldSelection.isEmpty()) {
+        // Clear the old selection that was available before the rubberband has
+        // been activated in case if no Shift- or Control-key are pressed
         const bool shiftOrControlPressed = QApplication::keyboardModifiers() & Qt::ShiftModifier ||
                                            QApplication::keyboardModifiers() & Qt::ControlModifier;
-        if (shiftOrControlPressed) {
-            previousSelectedItems = m_selectionManager->selectedItems();
+        if (!shiftOrControlPressed) {
+            m_oldSelection.clear();
         }
     }
 
@@ -631,7 +634,7 @@ void KItemListController::slotRubberBandChanged()
         }
     } while (!selectionFinished);
 
-    m_selectionManager->setSelectedItems(selectedItems + previousSelectedItems);
+    m_selectionManager->setSelectedItems(selectedItems + m_oldSelection);
 }
 
 #include "kitemlistcontroller.moc"
