@@ -785,9 +785,27 @@ void KItemListView::triggerAutoScrolling()
     }
 
     const int inc = calculateAutoScrollingIncrement(pos, visibleSize);
-    if (inc != 0) {
-        emit scrollTo(offset() + inc);
+    if (inc == 0) {
+        // The mouse position is not above an autoscroll margin
+        return;
     }
+
+    if (m_rubberBand->isActive()) {
+        // If a rubberband selection is ongoing the autoscrolling may only get triggered
+        // if the direction of the rubberband is similar to the autoscroll direction.
+
+        const qreal minDiff = 4; // Ignore any autoscrolling if the rubberband is very small
+        const qreal diff = (scrollOrientation() == Qt::Vertical)
+                           ? m_rubberBand->endPosition().y() - m_rubberBand->startPosition().y()
+                           : m_rubberBand->endPosition().x() - m_rubberBand->startPosition().x();
+        if (qAbs(diff) < minDiff || (inc < 0 && diff > 0) || (inc > 0 && diff < 0)) {
+            // The rubberband direction is different from the scroll direction (e.g. the rubberband has
+            // been moved up although the autoscroll direction might be down)
+            return;
+        }
+    }
+
+    emit scrollTo(offset() + inc);
 }
 
 void KItemListView::setController(KItemListController* controller)
