@@ -285,6 +285,11 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         QPointF startPos = pos;
         if (m_view->scrollOrientation() == Qt::Vertical) {
             startPos.ry() += m_view->offset();
+            if (m_view->itemSize().width() < 0) {
+                // Use a special rubberband for views that have only one column and
+                // expand the rubberband to use the whole width of the view.
+                startPos.setX(0);
+            }
         } else {
             startPos.rx() += m_view->offset();
         }
@@ -308,6 +313,11 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         QPointF endPos = transform.map(event->pos());
         if (m_view->scrollOrientation() == Qt::Vertical) {
             endPos.ry() += m_view->offset();
+            if (m_view->itemSize().width() < 0) {
+                // Use a special rubberband for views that have only one column and
+                // expand the rubberband to use the whole width of the view.
+                endPos.setX(m_view->size().width());
+            }
         } else {
             endPos.rx() += m_view->offset();
         }
