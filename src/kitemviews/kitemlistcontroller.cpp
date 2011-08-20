@@ -26,6 +26,7 @@
 #include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
 
+#include <QApplication>
 #include <QEvent>
 #include <QGraphicsSceneEvent>
 
@@ -576,6 +577,17 @@ void KItemListController::slotRubberBandChanged()
         rubberBandRect.translate(-m_view->offset(), 0);
     }
 
+    QSet<int> previousSelectedItems;
+    if (m_selectionManager->hasSelection()) {
+        // Don't clear the current selection in case if the user pressed the
+        // Shift- or Control-key during the rubberband selection
+        const bool shiftOrControlPressed = QApplication::keyboardModifiers() & Qt::ShiftModifier ||
+                                           QApplication::keyboardModifiers() & Qt::ControlModifier;
+        if (shiftOrControlPressed) {
+            previousSelectedItems = m_selectionManager->selectedItems();
+        }
+    }
+
     QSet<int> selectedItems;
 
     // Select all visible items that intersect with the rubberband
@@ -619,7 +631,7 @@ void KItemListController::slotRubberBandChanged()
         }
     } while (!selectionFinished);
 
-    m_selectionManager->setSelectedItems(selectedItems);
+    m_selectionManager->setSelectedItems(selectedItems + previousSelectedItems);
 }
 
 #include "kitemlistcontroller.moc"
