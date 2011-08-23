@@ -66,6 +66,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_mousePos()
 {
     setAcceptHoverEvents(true);
+    setAcceptDrops(true);
 
     m_sizeHintResolver = new KItemListSizeHintResolver(this);
 
@@ -457,6 +458,11 @@ void KItemListView::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     m_mousePos = transform().map(event->pos());
     QGraphicsWidget::mouseMoveEvent(event);
+}
+
+void KItemListView::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
+{
+    event->setAccepted(true);
 }
 
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const

@@ -183,6 +183,7 @@ protected:
     virtual bool event(QEvent* event);
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 

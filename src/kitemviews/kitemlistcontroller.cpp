@@ -26,19 +26,28 @@
 #include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
 
+// TODO: Remove after moving mimeData() and createDropPixmap() into
+// KFileItemModel/KFileItemListView
+#include "kfileitemmodel.h"
+#include <KIcon>
+
 #include <QApplication>
+#include <QDrag>
 #include <QEvent>
 #include <QGraphicsSceneEvent>
+#include <QMimeData>
 
 #include <KDebug>
 
 KItemListController::KItemListController(QObject* parent) :
     QObject(parent),
+    m_dragging(false),
     m_selectionBehavior(NoSelection),
     m_model(0),
     m_view(0),
     m_selectionManager(new KItemListSelectionManager(this)),
     m_pressedIndex(-1),
+    m_pressedMousePos(),
     m_oldSelection()
 {
 }
@@ -234,10 +243,10 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         return false;
     }
 
-    const QPointF pos = transform.map(event->pos());
-    m_pressedIndex = m_view->itemAt(pos);
+    m_pressedMousePos = transform.map(event->pos());
+    m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
-    if (m_view->isAboveExpansionToggle(m_pressedIndex, pos)) {
+    if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
         return true;
     }
 
@@ -284,7 +293,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         return true;
     } else {
         KItemListRubberBand* rubberBand = m_view->rubberBand();
-        QPointF startPos = pos;
+        QPointF startPos = m_pressedMousePos;
         if (m_view->scrollOrientation() == Qt::Vertical) {
             startPos.ry() += m_view->offset();
             if (m_view->itemSize().width() < 0) {
@@ -312,20 +321,33 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         return false;
     }
 
-    KItemListRubberBand* rubberBand = m_view->rubberBand();
-    if (rubberBand->isActive()) {
-        QPointF endPos = transform.map(event->pos());
-        if (m_view->scrollOrientation() == Qt::Vertical) {
-            endPos.ry() += m_view->offset();
-            if (m_view->itemSize().width() < 0) {
-                // Use a special rubberband for views that have only one column and
-                // expand the rubberband to use the whole width of the view.
-                endPos.setX(m_view->size().width());
+    if (m_pressedIndex >= 0) {
+        // Check whether a dragging should be started
+        if (!m_dragging) {
+            const QPointF pos = transform.map(event->pos());
+            const qreal minDragDiff = 4;
+            m_dragging = qAbs(pos.x() - m_pressedMousePos.x()) >= minDragDiff ||
+                         qAbs(pos.y() - m_pressedMousePos.y()) >= minDragDiff;
+            if (m_dragging) {
+                startDragging();
             }
-        } else {
-            endPos.rx() += m_view->offset();
         }
-        rubberBand->setEndPosition(endPos);
+    } else {
+        KItemListRubberBand* rubberBand = m_view->rubberBand();
+        if (rubberBand->isActive()) {
+            QPointF endPos = transform.map(event->pos());
+            if (m_view->scrollOrientation() == Qt::Vertical) {
+                endPos.ry() += m_view->offset();
+                if (m_view->itemSize().width() < 0) {
+                    // Use a special rubberband for views that have only one column and
+                    // expand the rubberband to use the whole width of the view.
+                    endPos.setX(m_view->size().width());
+                }
+            } else {
+                endPos.rx() += m_view->offset();
+            }
+            rubberBand->setEndPosition(endPos);
+        }
     }
 
     return false;
@@ -342,35 +364,35 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
         rubberBand->setActive(false);
         m_oldSelection.clear();
-        m_pressedIndex = -1;
-        return false;
+    } else {
+        const QPointF pos = transform.map(event->pos());
+        const int index = m_view->itemAt(pos);
+        const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
+                                           event->modifiers() & Qt::ControlModifier;
+
+        if (index >= 0 && index == m_pressedIndex) {
+            // The release event is done above the same item as the press event
+            bool emitItemClicked = true;
+            if (event->button() & Qt::LeftButton) {
+                if (m_view->isAboveExpansionToggle(index, pos)) {
+                    emit itemExpansionToggleClicked(index);
+                    emitItemClicked = false;
+                } else if (shiftOrControlPressed) {
+                    // The mouse click should only update the selection, not trigger the item
+                    emitItemClicked = false;
+                }
+            }
+
+            if (emitItemClicked) {
+                emit itemClicked(index, event->button());
+            }
+        } else if (!shiftOrControlPressed) {
+            m_selectionManager->clearSelection();
+        }
     }
 
-    const QPointF pos = transform.map(event->pos());
-    const int index = m_view->itemAt(pos);
-    const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier || event->modifiers() & Qt::ControlModifier;
-
-    if (index >= 0 && index == m_pressedIndex) {
-        // The release event is done above the same item as the press event
-        bool emitItemClicked = true;
-        if (event->button() & Qt::LeftButton) {
-            if (m_view->isAboveExpansionToggle(index, pos)) {
-                emit itemExpansionToggleClicked(index);
-                emitItemClicked = false;
-            }
-            else if (shiftOrControlPressed) {
-                // The mouse click should only update the selection, not trigger the item
-                emitItemClicked = false;
-            }
-        }
-
-        if (emitItemClicked) {
-            emit itemClicked(index, event->button());
-        }
-    } else if (!shiftOrControlPressed) {
-        m_selectionManager->clearSelection();
-    }
-
+    m_dragging = false;
+    m_pressedMousePos = QPointF();
     m_pressedIndex = -1;
     return false;
 }
@@ -407,6 +429,8 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
 {
     Q_UNUSED(event);
     Q_UNUSED(transform);
+
+    m_dragging = false;
     return false;
 }
 
@@ -635,6 +659,73 @@ void KItemListController::slotRubberBandChanged()
     } while (!selectionFinished);
 
     m_selectionManager->setSelectedItems(selectedItems + m_oldSelection);
+}
+
+QPixmap KItemListController::createDragPixmap(const QSet<int>& indexes) const
+{
+    if (!m_model || !m_view) {
+        return QPixmap();
+    }
+
+    // TODO: The current hack assumes a property "iconPixmap" in the model. The method
+    // will get an interface of KFileItemList later.
+    QSetIterator<int> it(indexes);
+    while (it.hasNext()) {
+        const int index = it.next();
+        // TODO: Only one item is considered currently
+        QPixmap pixmap = m_model->data(index).value("iconPixmap").value<QPixmap>();
+        if (pixmap.isNull()) {
+            KIcon icon(m_model->data(index).value("iconName").toString());
+            const QSizeF size = m_view->itemSize();
+            pixmap = icon.pixmap(size.toSize());
+        }
+        return pixmap;
+    }
+
+    return QPixmap();
+}
+
+QMimeData* KItemListController::createMimeData(const QSet<int>& indexes) const
+{
+    if (!m_model) {
+        return 0;
+    }
+
+    QMimeData* data = new QMimeData();
+
+    // TODO: Check KDirModel::mimeData() for a good reference implementation
+    KUrl::List urls;
+    QSetIterator<int> it(indexes);
+    while (it.hasNext()) {
+        const int index = it.next();
+        // TODO: Big hack to use KFileItemModel here. Remove after moving mimeData()
+        // into KFileItemModel.
+        KFileItemModel* model = qobject_cast<KFileItemModel*>(m_model);
+        Q_ASSERT(model);
+        const KUrl url = model->fileItem(index).url();
+        urls.append(url);
+    }
+
+    urls.populateMimeData(data);
+
+    return data;
+}
+
+void KItemListController::startDragging()
+{
+    // The created drag object will be owned and deleted
+    // by QApplication::activeWindow().
+    QDrag* drag = new QDrag(QApplication::activeWindow());
+
+    const QSet<int> selectedItems = m_selectionManager->selectedItems();
+
+    const QPixmap pixmap = createDragPixmap(selectedItems);
+    drag->setPixmap(pixmap);
+
+    QMimeData* data = createMimeData(selectedItems);
+    drag->setMimeData(data);
+
+    drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::IgnoreAction);
 }
 
 #include "kitemlistcontroller.moc"

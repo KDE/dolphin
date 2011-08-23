@@ -26,6 +26,8 @@
 #include <libdolphin_export.h>
 
 #include <QObject>
+#include <QPixmap>
+#include <QPointF>
 #include <QSet>
 
 class KItemModelBase;
@@ -39,6 +41,7 @@ class QGraphicsSceneWheelEvent;
 class QHideEvent;
 class QInputMethodEvent;
 class QKeyEvent;
+class QMimeData;
 class QShowEvent;
 class QTransform;
 
@@ -130,11 +133,32 @@ private slots:
     void slotRubberBandChanged();
 
 private:
+    /**
+     * @return Pixmap that is used for a drag operation based on the
+     *         items given by \a indexes.
+     * TODO: Will be moved to KItemListView later
+     */
+    QPixmap createDragPixmap(const QSet<int>& indexes) const;
+
+    /**
+     * @return MIME-data for the items given by \a indexes.
+     * TODO: Will be moved to KItemListView or KItemModelBase/KFileItemModel later.
+     */
+    QMimeData* createMimeData(const QSet<int>& indexes) const;
+
+    /**
+     * Creates a QDrag object to start a drag-operation.
+     */
+    void startDragging();
+
+private:
+    bool m_dragging;
     SelectionBehavior m_selectionBehavior;
     KItemModelBase* m_model;
     KItemListView* m_view;
     KItemListSelectionManager* m_selectionManager;
     int m_pressedIndex;
+    QPointF m_pressedMousePos;
 
     /**
      * When starting a rubberband selection during a Shift- or Control-key has been
