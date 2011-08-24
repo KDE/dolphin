@@ -238,6 +238,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         return false;
     }
 
+    m_dragging = false;
     m_pressedMousePos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
@@ -247,9 +248,8 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
 
     const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
     const bool controlPressed = event->modifiers() & Qt::ControlModifier;
-    const bool shiftOrControlPressed = shiftPressed || controlPressed;
 
-    if (!shiftOrControlPressed || m_selectionBehavior == SingleSelection) {
+    if (m_selectionBehavior == SingleSelection) {
         m_selectionManager->clearSelection();
     }
 
@@ -318,13 +318,13 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
 
     if (m_pressedIndex >= 0) {
         // Check whether a dragging should be started
-        if (!m_dragging) {
+        if (!m_dragging && (event->buttons() & Qt::LeftButton)) {
             const QPointF pos = transform.map(event->pos());
             const qreal minDragDiff = 4;
-            m_dragging = qAbs(pos.x() - m_pressedMousePos.x()) >= minDragDiff ||
-                         qAbs(pos.y() - m_pressedMousePos.y()) >= minDragDiff;
-            if (m_dragging) {
-                startDragging();
+            const bool hasMinDragDiff = qAbs(pos.x() - m_pressedMousePos.x()) >= minDragDiff ||
+                                        qAbs(pos.y() - m_pressedMousePos.y()) >= minDragDiff;
+            if (hasMinDragDiff && startDragging()) {
+                m_dragging = true;
             }
         }
     } else {
@@ -354,36 +354,49 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         return false;
     }
 
+    const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
+                                       event->modifiers() & Qt::ControlModifier;
+
+    bool clearSelection = !shiftOrControlPressed && !m_dragging && !(event->button() == Qt::RightButton);
+
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (rubberBand->isActive()) {
         disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
         rubberBand->setActive(false);
         m_oldSelection.clear();
-    } else {
-        const QPointF pos = transform.map(event->pos());
-        const int index = m_view->itemAt(pos);
-        const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
-                                           event->modifiers() & Qt::ControlModifier;
 
-        if (index >= 0 && index == m_pressedIndex) {
-            // The release event is done above the same item as the press event
-            bool emitItemClicked = true;
-            if (event->button() & Qt::LeftButton) {
-                if (m_view->isAboveExpansionToggle(index, pos)) {
-                    emit itemExpansionToggleClicked(index);
-                    emitItemClicked = false;
-                } else if (shiftOrControlPressed) {
-                    // The mouse click should only update the selection, not trigger the item
-                    emitItemClicked = false;
-                }
-            }
-
-            if (emitItemClicked) {
-                emit itemClicked(index, event->button());
-            }
-        } else if (!shiftOrControlPressed) {
-            m_selectionManager->clearSelection();
+        if (rubberBand->startPosition() != rubberBand->endPosition()) {
+            clearSelection = false;
         }
+    }
+
+    const QPointF pos = transform.map(event->pos());
+    const int index = m_view->itemAt(pos);
+
+    if (index >= 0 && index == m_pressedIndex) {
+        // The release event is done above the same item as the press event
+
+        if (clearSelection) {
+            // Clear the previous selection but reselect the current index
+            m_selectionManager->setSelectedItems(QSet<int>() << index);
+        }
+
+        bool emitItemClicked = true;
+        if (event->button() & Qt::LeftButton) {
+            if (m_view->isAboveExpansionToggle(index, pos)) {
+                emit itemExpansionToggleClicked(index);
+                emitItemClicked = false;
+            } else if (shiftOrControlPressed) {
+                // The mouse click should only update the selection, not trigger the item
+                emitItemClicked = false;
+            }
+        }
+
+        if (emitItemClicked) {
+            emit itemClicked(index, event->button());
+        }
+    } else if (clearSelection) {
+        m_selectionManager->clearSelection();
     }
 
     m_dragging = false;
@@ -656,16 +669,16 @@ void KItemListController::slotRubberBandChanged()
     m_selectionManager->setSelectedItems(selectedItems + m_oldSelection);
 }
 
-void KItemListController::startDragging()
+bool KItemListController::startDragging()
 {
     if (!m_view || !m_model) {
-        return;
+        return false;
     }
 
     const QSet<int> selectedItems = m_selectionManager->selectedItems();
     QMimeData* data = m_model->createMimeData(selectedItems);
     if (!data) {
-        return;
+        return false;
     }
 
     // The created drag object will be owned and deleted
@@ -677,6 +690,7 @@ void KItemListController::startDragging()
     drag->setPixmap(pixmap);
 
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::IgnoreAction);
+    return true;
 }
 
 #include "kitemlistcontroller.moc"

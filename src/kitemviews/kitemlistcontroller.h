@@ -135,8 +135,10 @@ private slots:
 private:
     /**
      * Creates a QDrag object to start a drag-operation.
+     * @return True if the QDrag object has been created. If false is returned
+     *         there is no implementation available for KItemModelBase::createMimeData().
      */
-    void startDragging();
+    bool startDragging();
 
 private:
     bool m_dragging;
