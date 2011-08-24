@@ -27,6 +27,7 @@
 #include <KStringHandler>
 
 #include <KDebug>
+#include <KIcon>
 
 #include <QTextLine>
 #include <QTimer>
@@ -46,6 +47,8 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     m_updateIconSizeTimer(0),
     m_minimumRolesWidths()
 {
+    setAcceptDrops(true);
+
     setScrollOrientation(Qt::Vertical);
     setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
     setGroupHeaderCreator(new KItemListGroupHeaderCreator<KItemListGroupHeader>());
@@ -202,6 +205,26 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRoleSizes() const
     kDebug() << "[TIME] Calculated dynamic item size for " << itemCount << "items:" << timer.elapsed();
 #endif
     return sizes;
+}
+
+QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
+{
+    QPixmap pixmap;
+
+    if (model()) {
+        QSetIterator<int> it(indexes);
+        while (it.hasNext()) {
+            const int index = it.next();
+            // TODO: Only one item is considered currently
+            pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
+            if (pixmap.isNull()) {
+                KIcon icon(model()->data(index).value("iconName").toString());
+                pixmap = icon.pixmap(itemSize().toSize());
+            }
+        }
+    }
+
+    return pixmap;
 }
 
 void KFileItemListView::initializeItemListWidget(KItemListWidget* item)

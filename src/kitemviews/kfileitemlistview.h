@@ -48,8 +48,14 @@ public:
     void setItemLayout(Layout layout);
     Layout itemLayout() const;
 
+    /** @reimp */
     virtual QSizeF itemSizeHint(int index) const;
+
+    /** @reimp */
     virtual QHash<QByteArray, QSizeF> visibleRoleSizes() const;
+
+    /** @reimp */
+    virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
 
 protected:
     virtual void initializeItemListWidget(KItemListWidget* item);

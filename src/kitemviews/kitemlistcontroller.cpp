@@ -26,11 +26,6 @@
 #include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
 
-// TODO: Remove after moving mimeData() and createDropPixmap() into
-// KFileItemModel/KFileItemListView
-#include "kfileitemmodel.h"
-#include <KIcon>
-
 #include <QApplication>
 #include <QDrag>
 #include <QEvent>
@@ -661,69 +656,25 @@ void KItemListController::slotRubberBandChanged()
     m_selectionManager->setSelectedItems(selectedItems + m_oldSelection);
 }
 
-QPixmap KItemListController::createDragPixmap(const QSet<int>& indexes) const
-{
-    if (!m_model || !m_view) {
-        return QPixmap();
-    }
-
-    // TODO: The current hack assumes a property "iconPixmap" in the model. The method
-    // will get an interface of KFileItemList later.
-    QSetIterator<int> it(indexes);
-    while (it.hasNext()) {
-        const int index = it.next();
-        // TODO: Only one item is considered currently
-        QPixmap pixmap = m_model->data(index).value("iconPixmap").value<QPixmap>();
-        if (pixmap.isNull()) {
-            KIcon icon(m_model->data(index).value("iconName").toString());
-            const QSizeF size = m_view->itemSize();
-            pixmap = icon.pixmap(size.toSize());
-        }
-        return pixmap;
-    }
-
-    return QPixmap();
-}
-
-QMimeData* KItemListController::createMimeData(const QSet<int>& indexes) const
-{
-    if (!m_model) {
-        return 0;
-    }
-
-    QMimeData* data = new QMimeData();
-
-    // TODO: Check KDirModel::mimeData() for a good reference implementation
-    KUrl::List urls;
-    QSetIterator<int> it(indexes);
-    while (it.hasNext()) {
-        const int index = it.next();
-        // TODO: Big hack to use KFileItemModel here. Remove after moving mimeData()
-        // into KFileItemModel.
-        KFileItemModel* model = qobject_cast<KFileItemModel*>(m_model);
-        Q_ASSERT(model);
-        const KUrl url = model->fileItem(index).url();
-        urls.append(url);
-    }
-
-    urls.populateMimeData(data);
-
-    return data;
-}
-
 void KItemListController::startDragging()
 {
+    if (!m_view || !m_model) {
+        return;
+    }
+
+    const QSet<int> selectedItems = m_selectionManager->selectedItems();
+    QMimeData* data = m_model->createMimeData(selectedItems);
+    if (!data) {
+        return;
+    }
+
     // The created drag object will be owned and deleted
     // by QApplication::activeWindow().
     QDrag* drag = new QDrag(QApplication::activeWindow());
-
-    const QSet<int> selectedItems = m_selectionManager->selectedItems();
-
-    const QPixmap pixmap = createDragPixmap(selectedItems);
-    drag->setPixmap(pixmap);
-
-    QMimeData* data = createMimeData(selectedItems);
     drag->setMimeData(data);
+
+    const QPixmap pixmap = m_view->createDragPixmap(selectedItems);
+    drag->setPixmap(pixmap);
 
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::IgnoreAction);
 }

@@ -24,6 +24,7 @@
 #include <KStringHandler>
 #include <KDebug>
 
+#include <QMimeData>
 #include <QTimer>
 
 #define KFILEITEMMODEL_DEBUG
@@ -130,6 +131,27 @@ bool KFileItemModel::supportsGrouping() const
 bool KFileItemModel::supportsSorting() const
 {
     return true;
+}
+
+QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
+{
+    QMimeData* data = new QMimeData();
+
+    KUrl::List urls;
+    urls.reserve(indexes.count());
+
+    QSetIterator<int> it(indexes);
+    while (it.hasNext()) {
+        const int index = it.next();
+        const KUrl url = fileItem(index).url();
+        if (url.isValid() && !url.isEmpty()) {
+            urls.append(url);
+        }
+    }
+
+    urls.populateMimeData(data);
+
+    return data;
 }
 
 KFileItem KFileItemModel::fileItem(int index) const

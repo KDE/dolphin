@@ -134,19 +134,6 @@ private slots:
 
 private:
     /**
-     * @return Pixmap that is used for a drag operation based on the
-     *         items given by \a indexes.
-     * TODO: Will be moved to KItemListView later
-     */
-    QPixmap createDragPixmap(const QSet<int>& indexes) const;
-
-    /**
-     * @return MIME-data for the items given by \a indexes.
-     * TODO: Will be moved to KItemListView or KItemModelBase/KFileItemModel later.
-     */
-    QMimeData* createMimeData(const QSet<int>& indexes) const;
-
-    /**
      * Creates a QDrag object to start a drag-operation.
      */
     void startDragging();

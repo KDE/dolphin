@@ -30,6 +30,8 @@
 #include <QSet>
 #include <QVariant>
 
+class QMimeData;
+
 struct KItemRange
 {
     KItemRange(int index, int count);
@@ -106,6 +108,13 @@ public:
     QByteArray sortRole() const;
 
     virtual QString roleDescription(const QByteArray& role) const;
+
+    /**
+     * @return MIME-data for the items given by \a indexes. The default implementation
+     *         returns 0. The ownership of the returned instance is in the hand of the
+     *         caller of this method.
+     */
+    virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
 signals:
     /**

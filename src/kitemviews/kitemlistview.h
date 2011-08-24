@@ -156,9 +156,16 @@ public:
     bool isTransactionActive() const;
 
     /**
+     * @return Pixmap that is used for a drag operation based on the
+     *         items given by \a indexes. The default implementation returns
+     *         a null-pixmap.
+     */
+    virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
+
+    /**
      * @reimp
      */
-   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 signals:
     void offsetChanged(qreal current, qreal previous);

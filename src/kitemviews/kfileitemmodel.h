@@ -66,6 +66,9 @@ public:
      */
     virtual bool supportsSorting() const;
 
+    /** @reimp */
+    virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
+
     /**
      * @return The file-item for the index \a index. If the index is in a valid
      *         range it is assured that the file-item is not null. The runtime

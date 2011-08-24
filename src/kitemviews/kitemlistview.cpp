@@ -66,7 +66,6 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_mousePos()
 {
     setAcceptHoverEvents(true);
-    setAcceptDrops(true);
 
     m_sizeHintResolver = new KItemListSizeHintResolver(this);
 
@@ -357,6 +356,12 @@ void KItemListView::endTransaction()
 bool KItemListView::isTransactionActive() const
 {
     return m_activeTransactions > 0;
+}
+
+QPixmap KItemListView::createDragPixmap(const QSet<int>& indexes) const
+{
+    Q_UNUSED(indexes);
+    return QPixmap();
 }
 
 void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)

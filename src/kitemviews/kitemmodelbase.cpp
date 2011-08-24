@@ -103,6 +103,12 @@ QString KItemModelBase::roleDescription(const QByteArray& role) const
     return role;
 }
 
+QMimeData* KItemModelBase::createMimeData(const QSet<int>& indexes) const
+{
+    Q_UNUSED(indexes);
+    return 0;
+}
+
 void KItemModelBase::onGroupRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
     Q_UNUSED(current);
