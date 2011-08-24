@@ -20,6 +20,7 @@
 #include "kfileitemmodel.h"
 
 #include <KDirLister>
+#include <KDirModel>
 #include <KLocale>
 #include <KStringHandler>
 #include <KDebug>
@@ -137,19 +138,36 @@ QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
 {
     QMimeData* data = new QMimeData();
 
+    // The following code has been taken from KDirModel::mimeData()
+    // (kdelibs/kio/kio/kdirmodel.cpp)
+    // Copyright (C) 2006 David Faure <faure@kde.org>
     KUrl::List urls;
-    urls.reserve(indexes.count());
+    KUrl::List mostLocalUrls;
+    bool canUseMostLocalUrls = true;
 
     QSetIterator<int> it(indexes);
     while (it.hasNext()) {
         const int index = it.next();
-        const KUrl url = fileItem(index).url();
-        if (url.isValid() && !url.isEmpty()) {
-            urls.append(url);
+        const KFileItem item = fileItem(index);
+        if (!item.isNull()) {
+            urls << item.url();
+
+            bool isLocal;
+            mostLocalUrls << item.mostLocalUrl(isLocal);
+            if (!isLocal) {
+                canUseMostLocalUrls = false;
+            }
         }
     }
 
-    urls.populateMimeData(data);
+    const bool different = canUseMostLocalUrls && mostLocalUrls != urls;
+    urls = KDirModel::simplifiedUrlList(urls);
+    if (different) {
+        mostLocalUrls = KDirModel::simplifiedUrlList(mostLocalUrls);
+        urls.populateMimeData(mostLocalUrls, data);
+    } else {
+        urls.populateMimeData(data);
+    }
 
     return data;
 }
