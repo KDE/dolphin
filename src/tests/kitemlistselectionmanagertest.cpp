@@ -98,9 +98,6 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QSignalSpy spyCurrent(m_selectionManager, SIGNAL(currentChanged(int,int)));
     QSignalSpy spyAnchor(m_selectionManager, SIGNAL(anchorChanged(int,int)));
 
-    m_selectionManager->setAnchoredSelectionActive(true);
-    QVERIFY(m_selectionManager->isAnchoredSelectionActive());
-
     // Set current item and check that the selection manager emits the currentChanged(int,int) signal correctly.
     m_selectionManager->setCurrentItem(4);
     QCOMPARE(m_selectionManager->currentItem(), 4);
@@ -109,7 +106,8 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     spyCurrent.takeFirst();
 
     // Set anchor item and check that the selection manager emits the anchorChanged(int,int) signal correctly.
-    m_selectionManager->setAnchorItem(3);
+    m_selectionManager->beginAnchoredSelection(3);
+    QVERIFY(m_selectionManager->isAnchoredSelectionActive());
     QCOMPARE(m_selectionManager->anchorItem(), 3);
     QCOMPARE(spyAnchor.count(), 1);
     QCOMPARE(qvariant_cast<int>(spyAnchor.at(0).at(0)), 3);
@@ -183,6 +181,9 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     m_selectionManager->clearSelection();
     QCOMPARE(m_selectionManager->selectedItems(), QSet<int>());
     QVERIFY(!m_selectionManager->hasSelection());
+
+    m_selectionManager->endAnchoredSelection();
+    QVERIFY(!m_selectionManager->isAnchoredSelectionActive());
 }
 
 void KItemListSelectionManagerTest::testSetSelected_data()
@@ -339,7 +340,7 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
         << 2 << 3
         << (QSet<int>() << 2 << 3 << 5 << 6)
         << NoChange << KItemRangeList()
-        << (QSet<int>() << 2 << 3 << 5 << 6);    
+        << (QSet<int>() << 2 << 3 << 5 << 6);
 
     QTest::newRow("Insert Items")
         << (QSet<int>() << 5 << 6)

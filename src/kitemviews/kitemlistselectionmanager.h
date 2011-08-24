@@ -61,11 +61,17 @@ public:
 
     void beginAnchoredSelection(int anchor);
     void endAnchoredSelection();
+
+    /**
+     * Sets the anchor to \a anchor and emits anchorChanged() if the
+     * anchor differs from the current anchor value. If no anchor selection is active (see
+     * KItemListSelectionManager::beginAnchoredSelection()) or the index
+     * is not within the available model items the anchor will not be modified.
+     */
     void setAnchorItem(int anchor);
     int anchorItem() const;
 
     bool isAnchoredSelectionActive() const;
-    void setAnchoredSelectionActive(bool active);
 
     KItemModelBase* model() const;
 

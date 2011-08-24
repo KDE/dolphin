@@ -81,11 +81,13 @@ QSet<int> KItemListSelectionManager::selectedItems() const
 {
     QSet<int> selectedItems = m_selectedItems;
 
-    if (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem)) {
+    if (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem) {
+        Q_ASSERT(m_anchorItem >= 0);
+        Q_ASSERT(m_currentItem >= 0);
         const int from = qMin(m_anchorItem, m_currentItem);
         const int to = qMax(m_anchorItem, m_currentItem);
 
-        for (int index = from; index <= to; index++) {
+        for (int index = from; index <= to; ++index) {
             selectedItems.insert(index);
         }
     }
@@ -95,7 +97,7 @@ QSet<int> KItemListSelectionManager::selectedItems() const
 
 bool KItemListSelectionManager::hasSelection() const
 {
-    return !m_selectedItems.isEmpty() || (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem));
+    return !m_selectedItems.isEmpty() || (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem);
 }
 
 void KItemListSelectionManager::setSelected(int index, int count, SelectionMode mode)
@@ -156,17 +158,22 @@ void KItemListSelectionManager::clearSelection()
 
 void KItemListSelectionManager::beginAnchoredSelection(int anchor)
 {
-    m_isAnchoredSelectionActive = true;
-    setAnchorItem(anchor);
+    if (anchor >= 0 && m_model && anchor < m_model->count()) {
+        m_isAnchoredSelectionActive = true;
+        setAnchorItem(anchor);
+        Q_ASSERT(m_anchorItem >= 0);
+    }
 }
 
 void KItemListSelectionManager::endAnchoredSelection()
 {
     if (m_isAnchoredSelectionActive && (m_anchorItem != m_currentItem)) {
+        Q_ASSERT(m_anchorItem >= 0);
+        Q_ASSERT(m_currentItem >= 0);
         const int from = qMin(m_anchorItem, m_currentItem);
         const int to = qMax(m_anchorItem, m_currentItem);
 
-        for (int index = from; index <= to; index++) {
+        for (int index = from; index <= to; ++index) {
             m_selectedItems.insert(index);
         }
     }
@@ -176,14 +183,18 @@ void KItemListSelectionManager::endAnchoredSelection()
 
 void KItemListSelectionManager::setAnchorItem(int anchor)
 {
-    const int previous = m_anchorItem;
-    if (m_model && anchor < m_model->count()) {
-        m_anchorItem = anchor;
-    } else {
-        m_anchorItem = -1;
+    if (!m_isAnchoredSelectionActive) {
+        return;
     }
 
-    if (m_anchorItem != previous) {
+    if (anchor < 0 || (m_model && anchor >= m_model->count())) {
+        // Index is out of range
+        return;
+    }
+
+    if (m_anchorItem != anchor) {
+        const int previous = m_anchorItem;
+        m_anchorItem = anchor;
         emit anchorChanged(m_anchorItem, previous);
     }
 }
@@ -196,11 +207,6 @@ int KItemListSelectionManager::anchorItem() const
 bool KItemListSelectionManager::isAnchoredSelectionActive() const
 {
     return m_isAnchoredSelectionActive;
-}
-
-void KItemListSelectionManager::setAnchoredSelectionActive(bool active)
-{
-    m_isAnchoredSelectionActive = active;
 }
 
 KItemModelBase* KItemListSelectionManager::model() const
@@ -319,6 +325,10 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
             }
         }
         m_anchorItem = anchorItem;
+        if (m_anchorItem < 0) {
+            m_isAnchoredSelectionActive = false;
+        }
+
         emit anchorChanged(m_anchorItem, previousAnchor);
     }
 
