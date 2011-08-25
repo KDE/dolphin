@@ -128,21 +128,30 @@ void KItemListContainer::scrollContentsBy(int dx, int dy)
         // Stopping a running animation means skipping the range from the current offset
         // until the target offset. To prevent skipping of the range the difference
         // is added to the new target offset.
-        const qreal targetOffset = m_smoothScrollingAnimation->endValue().toReal();
-        offsetDiff += (currentOffset - targetOffset);
+        const qreal oldEndOffset = m_smoothScrollingAnimation->endValue().toReal();
+        offsetDiff += (currentOffset - oldEndOffset);
     }
 
-    const qreal newOffset = currentOffset - offsetDiff;
+    const qreal endOffset = currentOffset - offsetDiff;
 
     if (m_smoothScrolling || animRunning) {
+        qreal startOffset = currentOffset;
+        if (animRunning) {
+            // If the animation was running and has been interrupted by assigning a new end-offset
+            // one frame must be added to the start-offset to keep the animation smooth. This also
+            // assures that animation proceeds even in cases where new end-offset are triggered
+            // within a very short timeslots.
+            startOffset += (endOffset - currentOffset) * 1000 / (m_smoothScrollingAnimation->duration() * 60);
+        }
+
         m_smoothScrollingAnimation->stop();
-        m_smoothScrollingAnimation->setStartValue(currentOffset);
-        m_smoothScrollingAnimation->setEndValue(newOffset);
+        m_smoothScrollingAnimation->setStartValue(startOffset);
+        m_smoothScrollingAnimation->setEndValue(endOffset);
         m_smoothScrollingAnimation->setEasingCurve(animRunning ? QEasingCurve::OutQuad : QEasingCurve::InOutQuad);
         m_smoothScrollingAnimation->start();
-        view->setOffset(currentOffset);
+        view->setOffset(startOffset);
     } else {
-        view->setOffset(newOffset);
+        view->setOffset(endOffset);
     }
 }
 
