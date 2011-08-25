@@ -71,6 +71,7 @@ private:
 private:
     KItemListController* m_controller;
 
+    bool m_scrollBarPressed;
     bool m_smoothScrolling;
     QPropertyAnimation* m_smoothScrollingAnimation;
 };

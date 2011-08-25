@@ -59,6 +59,7 @@ public:
 KItemListContainer::KItemListContainer(KItemListController* controller, QWidget* parent) :
     QAbstractScrollArea(parent),
     m_controller(controller),
+    m_scrollBarPressed(false),
     m_smoothScrolling(false),
     m_smoothScrollingAnimation(0)
 {
@@ -70,6 +71,7 @@ KItemListContainer::KItemListContainer(KItemListController* controller, QWidget*
 KItemListContainer::KItemListContainer(QWidget* parent) :
     QAbstractScrollArea(parent),
     m_controller(0),
+    m_scrollBarPressed(false),
     m_smoothScrolling(false),
     m_smoothScrollingAnimation(0)
 {
@@ -149,8 +151,8 @@ bool KItemListContainer::eventFilter(QObject* obj, QEvent* event)
     Q_ASSERT(obj == horizontalScrollBar() || obj == verticalScrollBar());
 
     // Check whether the scrollbar has been adjusted by a mouse-event
-    // triggered by the user and remember this in m_smoothScrolling.
-    // The smooth scrolling will only get active if m_smoothScrolling
+    // triggered by the user and remember this in m_scrollBarPressed.
+    // The smooth scrolling will only get active if m_scrollBarPressed
     // is true (see scrollContentsBy()).
     const bool scrollVertical = (m_controller->view()->scrollOrientation() == Qt::Vertical);
     const bool checkEvent = ( scrollVertical && obj == verticalScrollBar()) ||
@@ -158,10 +160,12 @@ bool KItemListContainer::eventFilter(QObject* obj, QEvent* event)
     if (checkEvent) {
         switch (event->type()) {
         case QEvent::MouseButtonPress:
+            m_scrollBarPressed = true;
             m_smoothScrolling = true;
             break;
 
         case QEvent::MouseButtonRelease:
+            m_scrollBarPressed = false;
             m_smoothScrolling = false;
             break;
 
@@ -230,7 +234,7 @@ void KItemListContainer::slotAnimationStateChanged(QAbstractAnimation::State new
                                                    QAbstractAnimation::State oldState)
 {
     Q_UNUSED(oldState);
-    if (newState == QAbstractAnimation::Stopped) {
+    if (newState == QAbstractAnimation::Stopped && m_smoothScrolling && !m_scrollBarPressed) {
         m_smoothScrolling = false;
     }
 }
