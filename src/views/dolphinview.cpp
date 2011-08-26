@@ -1158,11 +1158,11 @@ KUrl::List DolphinView::simplifiedSelectedUrls() const
 
 QMimeData* DolphinView::selectionMimeData() const
 {
-    /*const QAbstractItemView* view = m_viewAccessor.itemView();
-    Q_ASSERT((view) && (view->selectionModel()));
-    const QItemSelection selection = m_viewAccessor.proxyModel()->mapSelectionToSource(view->selectionModel()->selection());
-    return m_viewAccessor.dirModel()->mimeData(selection.indexes());*/
-    return 0;
+    const KFileItemModel* model = fileItemModel();
+    const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
+    const QSet<int> selectedIndexes = selectionManager->selectedItems();
+
+    return model->createMimeData(selectedIndexes);
 }
 
 void DolphinView::markPastedUrlsAsSelected(const QMimeData* mimeData)
