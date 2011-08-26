@@ -41,6 +41,7 @@ private slots:
     void testDefaultSortRole();
     void testDefaultGroupRole();
     void testNewItems();
+    void testRemoveItems();
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
@@ -122,6 +123,19 @@ void KFileItemModelTest::testNewItems()
     QCOMPARE(m_model->count(), 3);
 
     QVERIFY(isModelConsistent());
+}
+
+void KFileItemModelTest::testRemoveItems()
+{
+    m_testDir->createFile("a.txt");
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 1);
+
+    m_testDir->removeFile("a.txt");
+    m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(m_model->count(), 0);
 }
 
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()

@@ -93,6 +93,16 @@ void TestDir::createDir(const QString& path, const QDateTime& time)
     Q_ASSERT(QFile::exists(absolutePath));
 }
 
+void TestDir::removeFile(const QString& path)
+{
+    QString absolutePath = path;
+    QFileInfo fileInfo(absolutePath);
+    if (!fileInfo.isAbsolute()) {
+        absolutePath = name() + path;
+    }
+    QFile::remove(absolutePath);
+}
+
 void TestDir::makePathAbsoluteAndCreateParents(QString& path)
 {
     QFileInfo fileInfo(path);

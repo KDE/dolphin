@@ -49,6 +49,8 @@ public:
     void createFiles(const QStringList& files);
     void createDir(const QString& path, const QDateTime& time = QDateTime());
 
+    void removeFile(const QString& path);
+
 private:
     void makePathAbsoluteAndCreateParents(QString& path);
 

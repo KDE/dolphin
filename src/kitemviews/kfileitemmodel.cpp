@@ -517,7 +517,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     foreach (const KFileItem& itemToRemove, sortedItems) {
         const int previousTargetIndex = targetIndex;
         while (targetIndex < m_sortedItems.count()) {
-            if (m_sortedItems.at(targetIndex) == itemToRemove) {
+            if (m_sortedItems.at(targetIndex).url() == itemToRemove.url()) {
                 break;
             }
             ++targetIndex;
