@@ -160,8 +160,7 @@ void KItemListSelectionManager::beginAnchoredSelection(int anchor)
 {
     if (anchor >= 0 && m_model && anchor < m_model->count()) {
         m_isAnchoredSelectionActive = true;
-        setAnchorItem(anchor);
-        Q_ASSERT(m_anchorItem >= 0);
+        m_anchorItem = anchor;
     }
 }
 
@@ -179,24 +178,6 @@ void KItemListSelectionManager::endAnchoredSelection()
     }
 
     m_isAnchoredSelectionActive = false;
-}
-
-void KItemListSelectionManager::setAnchorItem(int anchor)
-{
-    if (!m_isAnchoredSelectionActive) {
-        return;
-    }
-
-    if (anchor < 0 || (m_model && anchor >= m_model->count())) {
-        // Index is out of range
-        return;
-    }
-
-    if (m_anchorItem != anchor) {
-        const int previous = m_anchorItem;
-        m_anchorItem = anchor;
-        emit anchorChanged(m_anchorItem, previous);
-    }
 }
 
 int KItemListSelectionManager::anchorItem() const
@@ -247,9 +228,8 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
 
     // Update the anchor item
     if (m_anchorItem < 0) {
-        setAnchorItem(0);
+        m_anchorItem = 0;
     } else {
-        const int previousAnchor = m_anchorItem;
         int inc = 0;
         foreach (const KItemRange& itemRange, itemRanges) {
             if (m_anchorItem < itemRange.index) {
@@ -258,7 +238,6 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
             inc += itemRange.count;
         }
         m_anchorItem += inc;
-        emit anchorChanged(m_anchorItem, previousAnchor);
     }
 
     // Update the selections
@@ -312,7 +291,6 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
 
     // Update the anchor item
     if (m_anchorItem >= 0) {
-        const int previousAnchor = m_anchorItem;
         int anchorItem = m_anchorItem;
         foreach (const KItemRange& itemRange, itemRanges) {
             if (anchorItem < itemRange.index) {
@@ -328,8 +306,6 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
         if (m_anchorItem < 0) {
             m_isAnchoredSelectionActive = false;
         }
-
-        emit anchorChanged(m_anchorItem, previousAnchor);
     }
 
     // Update the selections
