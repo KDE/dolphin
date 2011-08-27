@@ -244,6 +244,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
     if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
+        m_selectionManager->setCurrentItem(m_pressedIndex);
         return true;
     }
 
