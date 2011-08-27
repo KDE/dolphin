@@ -180,11 +180,6 @@ void KItemListSelectionManager::endAnchoredSelection()
     m_isAnchoredSelectionActive = false;
 }
 
-int KItemListSelectionManager::anchorItem() const
-{
-    return m_anchorItem;
-}
-
 bool KItemListSelectionManager::isAnchoredSelectionActive() const
 {
     return m_isAnchoredSelectionActive;

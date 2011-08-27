@@ -61,7 +61,6 @@ public:
 
     void beginAnchoredSelection(int anchor);
     void endAnchoredSelection();
-    int anchorItem() const;
     bool isAnchoredSelectionActive() const;
 
     KItemModelBase* model() const;

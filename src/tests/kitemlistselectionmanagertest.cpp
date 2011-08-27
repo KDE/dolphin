@@ -90,7 +90,7 @@ void KItemListSelectionManagerTest::testConstructor()
     QVERIFY(!m_selectionManager->hasSelection());
     QCOMPARE(m_selectionManager->selectedItems().count(), 0);
     QCOMPARE(m_selectionManager->currentItem(), 0);
-    QCOMPARE(m_selectionManager->anchorItem(), -1);
+    QCOMPARE(m_selectionManager->m_anchorItem, -1);
 }
 
 void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
@@ -107,7 +107,7 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     // Begin an anchored selection.
     m_selectionManager->beginAnchoredSelection(5);
     QVERIFY(m_selectionManager->isAnchoredSelectionActive());
-    QCOMPARE(m_selectionManager->anchorItem(), 5);
+    QCOMPARE(m_selectionManager->m_anchorItem, 5);
 
     // Items between current and anchor should be selected now
     QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 4 << 5);
@@ -136,7 +136,7 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(1)), 2);
     spyCurrent.takeFirst();
 
-    QCOMPARE(m_selectionManager->anchorItem(), 8);
+    QCOMPARE(m_selectionManager->m_anchorItem, 8);
 
     QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 5 << 6 << 7 << 8);
     QVERIFY(m_selectionManager->hasSelection());
@@ -153,7 +153,7 @@ void KItemListSelectionManagerTest::testCurrentItemAnchorItem()
     QCOMPARE(qvariant_cast<int>(spyCurrent.at(0).at(1)), 5);
     spyCurrent.takeFirst();
 
-    QCOMPARE(m_selectionManager->anchorItem(), 5);
+    QCOMPARE(m_selectionManager->m_anchorItem, 5);
 
     QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << 2 << 3 << 4 << 5);
     QVERIFY(m_selectionManager->hasSelection());
@@ -255,7 +255,7 @@ void KItemListSelectionManagerTest::testAnchoredSelection()
 {
     m_selectionManager->beginAnchoredSelection(5);
     QVERIFY(m_selectionManager->isAnchoredSelectionActive());
-    QCOMPARE(m_selectionManager->anchorItem(), 5);
+    QCOMPARE(m_selectionManager->m_anchorItem, 5);
 
     m_selectionManager->setCurrentItem(6);
     QCOMPARE(m_selectionManager->currentItem(), 6);
@@ -277,7 +277,7 @@ void KItemListSelectionManagerTest::testAnchoredSelection()
     // Start a new anchored selection that overlaps the previous one
     m_selectionManager->beginAnchoredSelection(9);
     QVERIFY(m_selectionManager->isAnchoredSelectionActive());
-    QCOMPARE(m_selectionManager->anchorItem(), 9);
+    QCOMPARE(m_selectionManager->m_anchorItem, 9);
 
     m_selectionManager->setCurrentItem(6);
     QCOMPARE(m_selectionManager->currentItem(), 6);
@@ -389,6 +389,8 @@ void KItemListSelectionManagerTest::testChangeSelection()
     m_selectionManager->setCurrentItem(anchor);
     m_selectionManager->beginAnchoredSelection(anchor);
     m_selectionManager->setCurrentItem(current);
+    QCOMPARE(m_selectionManager->m_anchorItem, anchor);
+    QCOMPARE(m_selectionManager->currentItem(), current);
     QCOMPARE(m_selectionManager->selectedItems(), expectedSelection);
     QCOMPARE(m_selectionManager->hasSelection(), !expectedSelection.isEmpty());
     if (expectedSelection == initialSelection) {
