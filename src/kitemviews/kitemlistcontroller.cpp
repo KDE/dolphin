@@ -306,6 +306,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         rubberBand->setEndPosition(startPos);
         rubberBand->setActive(true);
         connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+        m_view->setAutoScroll(true);
     }
 
     return false;
@@ -365,6 +366,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
         rubberBand->setActive(false);
         m_oldSelection.clear();
+        m_view->setAutoScroll(false);
 
         if (rubberBand->startPosition() != rubberBand->endPosition()) {
             clearSelection = false;

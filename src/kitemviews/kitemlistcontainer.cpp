@@ -120,7 +120,14 @@ void KItemListContainer::scrollContentsBy(int dx, int dy)
         return;
     }
 
+    const QScrollBar* scrollBar = (view->scrollOrientation() == Qt::Vertical)
+                                  ? verticalScrollBar() : horizontalScrollBar();
     const qreal currentOffset = view->offset();
+    if (static_cast<int>(currentOffset) == scrollBar->value()) {
+        // The current offset is already synchronous to the scrollbar
+        return;
+    }
+
     qreal offsetDiff = (view->scrollOrientation() == Qt::Vertical) ? dy : dx;
 
     const bool animRunning = (m_smoothScrollingAnimation->state() == QAbstractAnimation::Running);

@@ -90,6 +90,14 @@ public:
     QHash<QByteArray, int> visibleRoles() const;
 
     /**
+     * If set to true an automatic scrolling is done as soon as the
+     * mouse is moved near the borders of the view. Per default
+     * the automatic scrolling is turned off.
+     */
+    void setAutoScroll(bool enabled);
+    bool autoScroll() const;
+
+    /**
      * @return Controller of the item-list. The controller gets
      *         initialized by KItemListController::setView() and will
      *         result in calling KItemListController::onControllerChanged().
@@ -124,6 +132,7 @@ public:
     void setStyleOption(const KItemListStyleOption& option);
     const KItemListStyleOption& styleOption() const;
 
+    /** @reimp */
     virtual void setGeometry(const QRectF& rect);
 
     int itemAt(const QPointF& pos) const;
@@ -207,13 +216,13 @@ private slots:
                                KItemListViewAnimation::AnimationType type);
     void slotLayoutTimerFinished();
 
-    void slotRubberBandStartPosChanged();
-    void slotRubberBandEndPosChanged();
+    void slotRubberBandPosChanged();
     void slotRubberBandActivationChanged(bool active);
 
     /**
-     * Emits the signal scrollTo() with the corresponding target offset if the current
-     * mouse position is above the autoscroll-margin.
+     * Triggers the autoscrolling if autoScroll() is enabled by checking the
+     * current mouse position. If the mouse position is within the autoscroll
+     * margins a timer will be started that periodically triggers the autoscrolling.
      */
     void triggerAutoScrolling();
 
@@ -289,7 +298,6 @@ private:
     static int calculateAutoScrollingIncrement(int pos, int size);
 
 private:
-    bool m_autoScrollMarginEnabled;
     bool m_grouped;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
 
@@ -314,9 +322,11 @@ private:
     qreal m_oldOffset;
     qreal m_oldMaximumOffset;
 
+    bool m_skipAutoScrollForRubberBand;
     KItemListRubberBand* m_rubberBand;
 
     QPointF m_mousePos;
+    QTimer* m_autoScrollTimer;
 
     friend class KItemListController;
 };

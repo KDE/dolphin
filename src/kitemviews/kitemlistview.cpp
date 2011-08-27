@@ -43,7 +43,6 @@
 
 KItemListView::KItemListView(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
-    m_autoScrollMarginEnabled(false),
     m_grouped(false),
     m_activeTransactions(0),
     m_itemSize(),
@@ -62,8 +61,10 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_layoutTimer(0),
     m_oldOffset(0),
     m_oldMaximumOffset(0),
+    m_skipAutoScrollForRubberBand(false),
     m_rubberBand(0),
-    m_mousePos()
+    m_mousePos(),
+    m_autoScrollTimer(0)
 {
     setAcceptHoverEvents(true);
 
@@ -191,6 +192,26 @@ void KItemListView::setVisibleRoles(const QHash<QByteArray, int>& roles)
 QHash<QByteArray, int> KItemListView::visibleRoles() const
 {
     return m_visibleRoles;
+}
+
+void KItemListView::setAutoScroll(bool enabled)
+{
+    if (enabled && !m_autoScrollTimer) {
+        m_autoScrollTimer = new QTimer(this);
+        m_autoScrollTimer->setInterval(1000 / 60); // 60 frames per second
+        m_autoScrollTimer->setSingleShot(false);
+        connect(m_autoScrollTimer, SIGNAL(timeout()), this, SLOT(triggerAutoScrolling()));
+        m_autoScrollTimer->start();
+    } else if (!enabled && m_autoScrollTimer) {
+        delete m_autoScrollTimer;
+        m_autoScrollTimer = 0;
+    }
+
+}
+
+bool KItemListView::autoScroll() const
+{
+    return m_autoScrollTimer != 0;
 }
 
 KItemListController* KItemListView::controller() const
@@ -463,6 +484,10 @@ void KItemListView::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     m_mousePos = transform().map(event->pos());
     QGraphicsWidget::mouseMoveEvent(event);
+
+    if (m_autoScrollTimer && !m_autoScrollTimer->isActive()) {
+        m_autoScrollTimer->start();
+    }
 }
 
 void KItemListView::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
@@ -755,29 +780,21 @@ void KItemListView::slotLayoutTimerFinished()
     doLayout(Animation, 0, 0);
 }
 
-void KItemListView::slotRubberBandStartPosChanged()
+void KItemListView::slotRubberBandPosChanged()
 {
-    update();
-}
-
-void KItemListView::slotRubberBandEndPosChanged()
-{
-    // The autoscrolling is triggered asynchronously otherwise it
-    // might be possible to have an endless recursion: The autoscrolling
-    // might adjust the position which might result in updating the
-    // rubberband end-position.
-    QTimer::singleShot(0, this, SLOT(triggerAutoScrolling()));
     update();
 }
 
 void KItemListView::slotRubberBandActivationChanged(bool active)
 {
     if (active) {
-        connect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandStartPosChanged()));
-        connect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandEndPosChanged()));
+        connect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
+        connect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
+        m_skipAutoScrollForRubberBand = true;
     } else {
-        disconnect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandStartPosChanged()));
-        disconnect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandEndPosChanged()));
+        disconnect(m_rubberBand, SIGNAL(startPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
+        disconnect(m_rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandPosChanged()));
+        m_skipAutoScrollForRubberBand = false;
     }
 
     update();
@@ -785,6 +802,10 @@ void KItemListView::slotRubberBandActivationChanged(bool active)
 
 void KItemListView::triggerAutoScrolling()
 {
+    if (!m_autoScrollTimer) {
+        return;
+    }
+
     int pos = 0;
     int visibleSize = 0;
     if (scrollOrientation() == Qt::Vertical) {
@@ -797,13 +818,17 @@ void KItemListView::triggerAutoScrolling()
 
     const int inc = calculateAutoScrollingIncrement(pos, visibleSize);
     if (inc == 0) {
-        // The mouse position is not above an autoscroll margin
+        // The mouse position is not above an autoscroll margin (the autoscroll timer
+        // will be restarted in mouseMoveEvent())
+        m_autoScrollTimer->stop();
         return;
     }
 
-    if (m_rubberBand->isActive()) {
+    if (m_rubberBand->isActive() && m_skipAutoScrollForRubberBand) {
         // If a rubberband selection is ongoing the autoscrolling may only get triggered
-        // if the direction of the rubberband is similar to the autoscroll direction.
+        // if the direction of the rubberband is similar to the autoscroll direction. This
+        // prevents that starting to create a rubberband within the autoscroll margins starts
+        // an autoscrolling.
 
         const qreal minDiff = 4; // Ignore any autoscrolling if the rubberband is very small
         const qreal diff = (scrollOrientation() == Qt::Vertical)
@@ -812,11 +837,22 @@ void KItemListView::triggerAutoScrolling()
         if (qAbs(diff) < minDiff || (inc < 0 && diff > 0) || (inc > 0 && diff < 0)) {
             // The rubberband direction is different from the scroll direction (e.g. the rubberband has
             // been moved up although the autoscroll direction might be down)
+            m_autoScrollTimer->stop();
             return;
         }
     }
 
-    emit scrollTo(offset() + inc);
+    // As soon as the autoscrolling has been triggered at least once despite having an active rubberband,
+    // the autoscrolling may not get skipped anymore until a new rubberband is created
+    m_skipAutoScrollForRubberBand = false;
+
+    setOffset(offset() + inc);
+
+    if (!m_autoScrollTimer->isActive()) {
+       // Trigger the autoscroll timer which will periodically call
+       // triggerAutoScrolling()
+       m_autoScrollTimer->start();
+    }
 }
 
 void KItemListView::setController(KItemListController* controller)
@@ -1230,8 +1266,8 @@ int KItemListView::calculateAutoScrollingIncrement(int pos, int size)
     int inc = 0;
 
     const int minSpeed = 4;
-    const int maxSpeed = 768;
-    const int speedLimiter = 48;
+    const int maxSpeed = 128;
+    const int speedLimiter = 96;
     const int autoScrollBorder = 64;
 
     if (pos < autoScrollBorder) {
