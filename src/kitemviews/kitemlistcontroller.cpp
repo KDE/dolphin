@@ -32,6 +32,7 @@
 #include <QGraphicsSceneEvent>
 #include <QMimeData>
 
+#include <KGlobalSettings>
 #include <KDebug>
 
 KItemListController::KItemListController(QObject* parent) :
@@ -389,6 +390,8 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             } else if (shiftOrControlPressed) {
                 // The mouse click should only update the selection, not trigger the item
                 emitItemClicked = false;
+            } else if (!KGlobalSettings::singleClick()) {
+                emitItemClicked = false;
             }
         }
 
@@ -407,8 +410,15 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 
 bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
+    const QPointF pos = transform.map(event->pos());
+    const int index = m_view->itemAt(pos);
+
+    bool emitItemClicked = !KGlobalSettings::singleClick() &&
+                           (event->button() & Qt::LeftButton) &&
+                           index >= 0 && index < m_model->count();
+    if (emitItemClicked) {
+        emit itemClicked(index, event->button());
+    }
     return false;
 }
 
@@ -546,6 +556,8 @@ bool KItemListController::processEvent(QEvent* event, const QTransform& transfor
         return mouseMoveEvent(static_cast<QGraphicsSceneMouseEvent*>(event), QTransform());
     case QEvent::GraphicsSceneMouseRelease:
         return mouseReleaseEvent(static_cast<QGraphicsSceneMouseEvent*>(event), QTransform());
+    case QEvent::GraphicsSceneMouseDoubleClick:
+        return mouseDoubleClickEvent(static_cast<QGraphicsSceneMouseEvent*>(event), QTransform());
     case QEvent::GraphicsSceneWheel:
          return wheelEvent(static_cast<QGraphicsSceneWheelEvent*>(event), QTransform());
     case QEvent::GraphicsSceneDragEnter:
