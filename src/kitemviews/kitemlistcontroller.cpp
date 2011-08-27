@@ -387,10 +387,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             if (m_view->isAboveExpansionToggle(index, pos)) {
                 emit itemExpansionToggleClicked(index);
                 emitItemClicked = false;
-            } else if (shiftOrControlPressed) {
-                // The mouse click should only update the selection, not trigger the item
-                emitItemClicked = false;
-            } else if (!KGlobalSettings::singleClick()) {
+            } else if (shiftOrControlPressed || !KGlobalSettings::singleClick()) {
                 emitItemClicked = false;
             }
         }
