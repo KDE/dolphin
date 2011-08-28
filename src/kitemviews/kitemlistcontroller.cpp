@@ -25,6 +25,7 @@
 #include "kitemlistview.h"
 #include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
+#include "kitemlistkeyboardsearchmanager_p.h"
 
 #include <QApplication>
 #include <QDrag>
@@ -42,10 +43,12 @@ KItemListController::KItemListController(QObject* parent) :
     m_model(0),
     m_view(0),
     m_selectionManager(new KItemListSelectionManager(this)),
+    m_keyboardManager(new KItemListKeyboardSearchManager(this)),
     m_pressedIndex(-1),
     m_pressedMousePos(),
     m_oldSelection()
 {
+    connect(m_keyboardManager, SIGNAL(requestItemActivation(QString,bool)), this, SLOT(slotKeyboardActivationRequested(QString,bool)));
 }
 
 KItemListController::~KItemListController()
@@ -202,10 +205,12 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
             m_selectionManager->endAnchoredSelection();
             m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
             m_selectionManager->beginAnchoredSelection(index);
+            break;
         }
 
     default:
-        break;
+        m_keyboardManager->addKeys(event->text());
+        return false;
     }
 
     if (m_selectionManager->currentItem() != index) {
@@ -225,6 +230,27 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         }
     }
     return true;
+}
+
+void KItemListController::slotKeyboardActivationRequested(const QString& text, bool searchFromNextItem)
+{
+    if (!m_model) {
+        return;
+    }
+    const int currentIndex = m_selectionManager->currentItem();
+    int index;
+    if (searchFromNextItem) {
+         index = m_model->indexForKeyboardSearch(text, (currentIndex + 1) % m_model->count());
+    }
+    else {
+        index = m_model->indexForKeyboardSearch(text, currentIndex);
+    }
+    if (index >= 0) {
+        m_selectionManager->setCurrentItem(index);
+        m_selectionManager->clearSelection();
+        m_selectionManager->setSelected(index, 1);
+        m_selectionManager->beginAnchoredSelection(index);
+    }
 }
 
 bool KItemListController::inputMethodEvent(QInputMethodEvent* event)

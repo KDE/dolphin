@@ -116,6 +116,13 @@ public:
      */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
+    /**
+     * @return Reimplement this to return the index for the first item
+     * beginning with string typed in through the keyboard, -1 if not found.
+     * @param text              the text which has been typed in through the keyboard
+     * @param startFromIndex    the index from which to start searching from
+     */
+    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
 signals:
     /**
      * Is emitted if one or more items have been inserted. Each item-range consists

@@ -31,6 +31,7 @@
 #include <QSet>
 
 class KItemModelBase;
+class KItemListKeyboardSearchManager;
 class KItemListSelectionManager;
 class KItemListView;
 class QGraphicsSceneHoverEvent;
@@ -132,6 +133,8 @@ private slots:
      */
     void slotRubberBandChanged();
 
+    void slotKeyboardActivationRequested(const QString& text, bool searchFromNextItem);
+
 private:
     /**
      * Creates a QDrag object to start a drag-operation.
@@ -146,6 +149,7 @@ private:
     KItemModelBase* m_model;
     KItemListView* m_view;
     KItemListSelectionManager* m_selectionManager;
+    KItemListKeyboardSearchManager* m_keyboardManager;
     int m_pressedIndex;
     QPointF m_pressedMousePos;
 

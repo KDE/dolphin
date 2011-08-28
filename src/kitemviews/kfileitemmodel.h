@@ -55,6 +55,10 @@ public:
     virtual bool setData(int index, const QHash<QByteArray, QVariant> &values);
 
     /**
+     * @reimp
+     */
+    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
+    /**
      * @return True
      * @reimp
      */

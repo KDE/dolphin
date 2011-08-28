@@ -109,6 +109,11 @@ QMimeData* KItemModelBase::createMimeData(const QSet<int>& indexes) const
     return 0;
 }
 
+int KItemModelBase::indexForKeyboardSearch(const QString& text, int startFromIndex) const
+{
+    return -1;
+}
+
 void KItemModelBase::onGroupRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
     Q_UNUSED(current);
