@@ -678,7 +678,16 @@ void KItemListController::slotRubberBandChanged()
         }
     } while (!selectionFinished);
 
-    m_selectionManager->setSelectedItems(selectedItems + m_oldSelection);
+    if (QApplication::keyboardModifiers() & Qt::ControlModifier) {
+        // If Control is pressed, the selection state of all items in the rubberband is toggled.
+        // Therefore, the new selection contains:
+        // 1. All previously selected items which are not inside the rubberband, and
+        // 2. all items inside the rubberband which have not been selected previously.
+        m_selectionManager->setSelectedItems((m_oldSelection - selectedItems) + (selectedItems - m_oldSelection));
+    }
+    else {
+        m_selectionManager->setSelectedItems(selectedItems + m_oldSelection);
+    }
 }
 
 bool KItemListController::startDragging()
