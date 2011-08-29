@@ -114,7 +114,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
             this, SLOT(updateSortFoldersFirst(bool)));
     connect(m_dolphinViewController, SIGNAL(additionalInfoChanged(QList<DolphinView::AdditionalInfo>)),
             this, SLOT(updateAdditionalInfo(QList<DolphinView::AdditionalInfo>)));*/
-    //connect(m_dolphinViewController, SIGNAL(itemTriggered(KFileItem)),
+    //connect(m_dolphinViewController, SIGNAL(itemActivated(KFileItem)),
     //        this, SLOT(triggerItem(KFileItem)));
     //connect(m_dolphinViewController, SIGNAL(tabRequested(KUrl)),
     //        this, SIGNAL(tabRequested(KUrl)));
@@ -695,7 +695,7 @@ void DolphinView::slotItemActivated(int index)
     if (selectedItems.isEmpty())
         return;
     if (selectedItems.count() == 1) {
-        emit itemTriggered(fileItemModel()->fileItem(index)); // caught by DolphinViewContainer or DolphinPart
+        emit itemActivated(fileItemModel()->fileItem(index)); // caught by DolphinViewContainer or DolphinPart
     }
     else {
         foreach (int i, selectedItems) {
@@ -703,7 +703,7 @@ void DolphinView::slotItemActivated(int index)
             if (fileItem.isDir()) {
                 emit tabRequested(fileItem.url());
             } else {
-                emit itemTriggered(fileItem);
+                emit itemActivated(fileItem);
             }
         }
     }
@@ -719,6 +719,7 @@ void DolphinView::slotItemMiddleClicked(int index)
 
 void DolphinView::slotContextMenuRequested(int index, const QPointF& pos)
 {
+    Q_UNUSED(pos);
     if (GeneralSettings::showToolTips()) {
         m_toolTipManager->hideToolTip();
     }

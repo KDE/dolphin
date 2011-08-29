@@ -420,7 +420,7 @@ signals:
     /**
      * Is emitted when clicking on an item with the left mouse button.
      */
-    void itemTriggered(const KFileItem& item);
+    void itemActivated(const KFileItem& item);
 
     /**
      * Is emitted if items have been added or deleted.

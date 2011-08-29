@@ -82,8 +82,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotMessage(QString)));
     connect(m_view, SIGNAL(errorMessage(QString)),
             this, SLOT(slotErrorMessage(QString)));
-    connect(m_view, SIGNAL(itemTriggered(KFileItem)),
-            this, SLOT(slotItemTriggered(KFileItem)));
+    connect(m_view, SIGNAL(itemActivated(KFileItem)),
+            this, SLOT(slotItemActivated(KFileItem)));
     connect(m_view, SIGNAL(tabRequested(KUrl)),
             this, SLOT(createNewWindow(KUrl)));
     connect(m_view, SIGNAL(requestContextMenu(KFileItem,KUrl,QList<QAction*>)),
@@ -329,7 +329,7 @@ void DolphinPart::slotRequestItemInfo(const KFileItem& item)
     }
 }
 
-void DolphinPart::slotItemTriggered(const KFileItem& item)
+void DolphinPart::slotItemActivated(const KFileItem& item)
 {
     KParts::OpenUrlArguments args;
     // Forget about the known mimetype if a target URL is used.
@@ -348,7 +348,7 @@ void DolphinPart::slotItemTriggered(const KFileItem& item)
 void DolphinPart::createNewWindow(const KUrl& url)
 {
     // TODO: Check issue N176832 for the missing QAIV signal; task 177399 - maybe this code
-    // should be moved into DolphinPart::slotItemTriggered()
+    // should be moved into DolphinPart::slotItemActivated()
     emit m_extension->createNewWindow(url);
 }
 

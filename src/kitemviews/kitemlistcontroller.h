@@ -134,7 +134,7 @@ private slots:
      */
     void slotRubberBandChanged();
 
-    void slotKeyboardActivationRequested(const QString& text, bool searchFromNextItem);
+    void slotChangeCurrentItem(const QString& text, bool searchFromNextItem);
 
 private:
     /**

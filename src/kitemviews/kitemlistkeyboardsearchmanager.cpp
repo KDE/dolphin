@@ -48,7 +48,7 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
     const bool searchFromNextItem = m_searchedString.isEmpty();
     if (!keys.isEmpty()) {
         m_searchedString.append(keys);
-        emit requestItemActivation(m_searchedString, searchFromNextItem);
+        emit changeCurrentItem(m_searchedString, searchFromNextItem);
     }
     m_keyboardInputTime.start();
 }

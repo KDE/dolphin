@@ -173,7 +173,7 @@ private slots:
      * directory is opened in the view. If the item is a file, the file
      * gets started by the corresponding application.
      */
-    void slotItemTriggered(const KFileItem& item);
+    void slotItemActivated(const KFileItem& item);
 
     /**
      * Opens a the file \a url by opening the corresponding application.

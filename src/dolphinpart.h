@@ -128,7 +128,7 @@ private Q_SLOTS:
     /**
      * Handles clicking on an item
      */
-    void slotItemTriggered(const KFileItem& item);
+    void slotItemActivated(const KFileItem& item);
     /**
      * Creates a new window showing the content of \a url.
      */

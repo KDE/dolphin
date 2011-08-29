@@ -54,14 +54,16 @@ public:
     void addKeys(const QString& keys);
 
 signals:
-
     /**
-     * Is emitted when a text is to be searched.
-     * @param searchFromNextItem if true, start searching
-     * from item next to current item. Otherwise, search from
-     * current item.
+     * Is emitted if the current item should be changed corresponding
+     * to \a text.
+     * @param searchFromNextItem If true start searching from item next to the
+     *                           current item. Otherwise, search from the
+     *                           current item.
      */
-    void requestItemActivation(const QString& string, bool searchFromNextItem);
+    // TODO: Think about getting rid of the bool parameter
+    // (see http://doc.qt.nokia.com/qq/qq13-apis.html#thebooleanparametertrap)
+    void changeCurrentItem(const QString& string, bool searchFromNextItem);
 
 private:
     QString m_searchedString;

@@ -48,7 +48,8 @@ KItemListController::KItemListController(QObject* parent) :
     m_pressedMousePos(),
     m_oldSelection()
 {
-    connect(m_keyboardManager, SIGNAL(requestItemActivation(QString,bool)), this, SLOT(slotKeyboardActivationRequested(QString,bool)));
+    connect(m_keyboardManager, SIGNAL(changeCurrentItem(QString,bool)),
+            this, SLOT(slotChangeCurrentItem(QString,bool)));
 }
 
 KItemListController::~KItemListController()
@@ -237,7 +238,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     return true;
 }
 
-void KItemListController::slotKeyboardActivationRequested(const QString& text, bool searchFromNextItem)
+void KItemListController::slotChangeCurrentItem(const QString& text, bool searchFromNextItem)
 {
     if (!m_model) {
         return;

@@ -93,20 +93,20 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
     m_view = new DolphinView(url, this);
-    connect(m_view, SIGNAL(urlChanged(KUrl)),      m_urlNavigator, SLOT(setUrl(KUrl)));
+    connect(m_view, SIGNAL(urlChanged(KUrl)),             m_urlNavigator, SLOT(setUrl(KUrl)));
     connect(m_view, SIGNAL(writeStateChanged(bool)),      this, SIGNAL(writeStateChanged(bool)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),   this, SLOT(showItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(showErrorMessage(QString)));
-    connect(m_view, SIGNAL(infoMessage(QString)),  this, SLOT(showInfoMessage(QString)));
-    connect(m_view, SIGNAL(itemTriggered(KFileItem)),     this, SLOT(slotItemTriggered(KFileItem)));
-    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),      this, SLOT(redirect(KUrl,KUrl)));
+    connect(m_view, SIGNAL(errorMessage(QString)),        this, SLOT(showErrorMessage(QString)));
+    connect(m_view, SIGNAL(infoMessage(QString)),         this, SLOT(showInfoMessage(QString)));
+    connect(m_view, SIGNAL(itemActivated(KFileItem)),     this, SLOT(slotItemActivated(KFileItem)));
+    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),       this, SLOT(redirect(KUrl,KUrl)));
     connect(m_view, SIGNAL(startedPathLoading(KUrl)),     this, SLOT(slotStartedPathLoading()));
     connect(m_view, SIGNAL(finishedPathLoading(KUrl)),    this, SLOT(slotFinishedPathLoading()));
     connect(m_view, SIGNAL(itemCountChanged()),           this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(pathLoadingProgress(int)),     this, SLOT(updateProgress(int)));
-    connect(m_view, SIGNAL(infoMessage(QString)),  this, SLOT(showInfoMessage(QString)));
-    connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(showErrorMessage(QString)));
-    connect(m_view, SIGNAL(urlIsFileError(KUrl)),  this, SLOT(openFile(KUrl)));
+    connect(m_view, SIGNAL(infoMessage(QString)),         this, SLOT(showInfoMessage(QString)));
+    connect(m_view, SIGNAL(errorMessage(QString)),        this, SLOT(showErrorMessage(QString)));
+    connect(m_view, SIGNAL(urlIsFileError(KUrl)),         this, SLOT(openFile(KUrl)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(operationCompletedMessage(QString)), this, SLOT(showOperationCompletedMessage(QString)));
     connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
@@ -373,7 +373,7 @@ void DolphinViewContainer::slotFinishedPathLoading()
     }
 }
 
-void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
+void DolphinViewContainer::slotItemActivated(const KFileItem& item)
 {
     KUrl url = item.targetUrl();
 
@@ -414,7 +414,7 @@ void DolphinViewContainer::slotItemTriggered(const KFileItem& item)
 void DolphinViewContainer::openFile(const KUrl& url)
 {
     const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-    slotItemTriggered(item);
+    slotItemActivated(item);
 }
 
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
