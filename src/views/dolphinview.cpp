@@ -699,8 +699,7 @@ void DolphinView::slotItemActivated(int index)
     }
     else {
         foreach (int i, selectedItems) {
-            const KFileItem fileItem;
-            fileItem = fileItemModel()->fileItem(i);
+            const KFileItem fileItem = fileItemModel()->fileItem(i);
             if (fileItem.isDir()) {
                 emit tabRequested(fileItem.url());
             } else {
