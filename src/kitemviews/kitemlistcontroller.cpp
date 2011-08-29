@@ -307,6 +307,11 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
             if (controlPressed) {
                 m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+            } else if (event->buttons() & Qt::RightButton) {
+                // Only clear the selection if a context menu is requested above a non-selected item
+                if (!m_selectionManager->selectedItems().contains(m_pressedIndex)) {
+                    m_selectionManager->setSelectedItems(QSet<int>() << m_pressedIndex);
+                }
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
                 m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Select);
@@ -321,6 +326,10 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
 
         return true;
     } else {
+        if (event->buttons() & Qt::RightButton) {
+            m_selectionManager->clearSelection();
+        }
+
         KItemListRubberBand* rubberBand = m_view->rubberBand();
         QPointF startPos = m_pressedMousePos;
         if (m_view->scrollOrientation() == Qt::Vertical) {
@@ -392,7 +401,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
                                        event->modifiers() & Qt::ControlModifier;
 
-    bool clearSelection = !shiftOrControlPressed && !m_dragging && !(event->button() == Qt::RightButton);
+    bool clearSelection = !shiftOrControlPressed && !m_dragging && event->button() != Qt::RightButton;
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (rubberBand->isActive()) {
