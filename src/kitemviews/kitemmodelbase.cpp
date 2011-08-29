@@ -111,6 +111,8 @@ QMimeData* KItemModelBase::createMimeData(const QSet<int>& indexes) const
 
 int KItemModelBase::indexForKeyboardSearch(const QString& text, int startFromIndex) const
 {
+    Q_UNUSED(text);
+    Q_UNUSED(startFromIndex);
     return -1;
 }
 
