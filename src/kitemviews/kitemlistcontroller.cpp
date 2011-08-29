@@ -200,6 +200,11 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         }
         break;
 
+    case Qt::Key_Enter:
+    case Qt::Key_Return:
+        emit itemActivated(index);
+        break;
+
     case Qt::Key_Space:
         if (controlPressed) {
             m_selectionManager->endAnchoredSelection();
@@ -240,7 +245,7 @@ void KItemListController::slotKeyboardActivationRequested(const QString& text, b
     const int currentIndex = m_selectionManager->currentItem();
     int index;
     if (searchFromNextItem) {
-         index = m_model->indexForKeyboardSearch(text, (currentIndex + 1) % m_model->count());
+        index = m_model->indexForKeyboardSearch(text, (currentIndex + 1) % m_model->count());
     }
     else {
         index = m_model->indexForKeyboardSearch(text, currentIndex);
@@ -411,18 +416,24 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             m_selectionManager->setSelectedItems(QSet<int>() << index);
         }
 
-        bool emitItemClicked = true;
         if (event->button() & Qt::LeftButton) {
+            bool emitItemActivated = true;
             if (m_view->isAboveExpansionToggle(index, pos)) {
                 emit itemExpansionToggleClicked(index);
-                emitItemClicked = false;
-            } else if (shiftOrControlPressed || !KGlobalSettings::singleClick()) {
-                emitItemClicked = false;
+                emitItemActivated = false;
+            } else if (shiftOrControlPressed) {
+                // The mouse click should only update the selection, not trigger the item
+                emitItemActivated = false;
+            } else if (!KGlobalSettings::singleClick()) {
+                emitItemActivated = false;
             }
-        }
-
-        if (emitItemClicked) {
-            emit itemClicked(index, event->button());
+            if (emitItemActivated) {
+                emit itemActivated(index);
+            }
+        } else if (event->button() & Qt::MidButton) {
+            emit itemMiddleClicked(index);
+        } else if (event->button() & Qt::RightButton) {
+            emit contextMenuRequested(index, QPointF(event->pos()));
         }
     } else if (clearSelection) {
         m_selectionManager->clearSelection();
@@ -439,11 +450,11 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
     const QPointF pos = transform.map(event->pos());
     const int index = m_view->itemAt(pos);
 
-    bool emitItemClicked = !KGlobalSettings::singleClick() &&
+    bool emitItemActivated = !KGlobalSettings::singleClick() &&
                            (event->button() & Qt::LeftButton) &&
                            index >= 0 && index < m_model->count();
-    if (emitItemClicked) {
-        emit itemClicked(index, event->button());
+    if (emitItemActivated) {
+        emit itemActivated(index);
     }
     return false;
 }

@@ -552,7 +552,9 @@ private slots:
      */
     void activate();
 
-    void slotItemClicked(int index, Qt::MouseButton button);
+    void slotItemActivated(int index);
+    void slotItemMiddleClicked(int index);
+    void slotContextMenuRequested(int index, const QPointF& pos);
     void slotItemExpansionToggleClicked(int index);
     void slotItemHovered(int index);
     void slotItemUnhovered(int index);

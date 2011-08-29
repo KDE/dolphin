@@ -105,13 +105,14 @@ public:
     virtual bool processEvent(QEvent* event, const QTransform& transform);
 
 signals:
-    void itemClicked(int index, Qt::MouseButton button);
+    void itemActivated(int index);
+    void itemMiddleClicked(int index);
+    void contextMenuRequested(int index, const QPointF& pos);
 
     /**
      * Is emitted if the item with the index \p index gets hovered.
      */
     void itemHovered(int index);
-
     /**
      * Is emitted if the item with the index \p index gets unhovered.
      * It is assured that the signal itemHovered() for this index

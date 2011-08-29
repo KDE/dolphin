@@ -164,8 +164,10 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
 
     KItemListController* controller = m_container->controller();
     controller->setSelectionBehavior(KItemListController::MultiSelection);
-    connect(controller, SIGNAL(itemClicked(int,Qt::MouseButton)),
-            this, SLOT(slotItemClicked(int,Qt::MouseButton)));
+    connect(controller, SIGNAL(itemActivated(int)),
+            this, SLOT(slotItemActivated(int)));
+    connect(controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
+    connect(controller, SIGNAL(contextMenuRequested(int,QPointF)), this, SLOT(slotContextMenuRequested(int,QPointF)));
     connect(controller, SIGNAL(itemExpansionToggleClicked(int)), this, SLOT(slotItemExpansionToggleClicked(int)));
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
@@ -677,7 +679,7 @@ void DolphinView::contextMenuEvent(QContextMenuEvent* event)
     const KItemListView* view = m_container->controller()->view();
     if (view->itemAt(pos) < 0) {
         // Only open the context-menu if the cursor is above the viewport
-        // (the context-menu for items is handled in slotItemClicked())
+        // (the context-menu for items is handled in slotContextMenuRequested())
         requestContextMenu(KFileItem(), url(), QList<QAction*>());
     }
 }
@@ -687,22 +689,42 @@ void DolphinView::activate()
     setActive(true);
 }
 
-void DolphinView::slotItemClicked(int index, Qt::MouseButton button)
+void DolphinView::slotItemActivated(int index)
+{
+    const QSet<int> selectedItems = m_container->controller()->selectionManager()->selectedItems();
+    if (selectedItems.isEmpty())
+        return;
+    if (selectedItems.count() == 1) {
+        emit itemTriggered(fileItemModel()->fileItem(index)); // caught by DolphinViewContainer or DolphinPart
+    }
+    else {
+        foreach (int i, selectedItems) {
+            const KFileItem fileItem;
+            fileItem = fileItemModel()->fileItem(i);
+            if (fileItem.isDir()) {
+                emit tabRequested(fileItem.url());
+            } else {
+                emit itemTriggered(fileItem);
+            }
+        }
+    }
+}
+
+void DolphinView::slotItemMiddleClicked(int index)
 {
     const KFileItem item = fileItemModel()->fileItem(index);
-
-    if (button & Qt::LeftButton) {
-        emit itemTriggered(item); // caught by DolphinViewContainer or DolphinPart
-    } else if (button & Qt::MidButton) {
-        if (item.isDir() || isTabsForFilesEnabled()) {
-            emit tabRequested(item.url());
-        }
-    } else if (button & Qt::RightButton) {
-        if (GeneralSettings::showToolTips()) {
-            m_toolTipManager->hideToolTip();
-        }
-        emit requestContextMenu(item, url(), QList<QAction*>());
+    if (item.isDir() || isTabsForFilesEnabled()) {
+        emit tabRequested(item.url());
     }
+}
+
+void DolphinView::slotContextMenuRequested(int index, const QPointF& pos)
+{
+    if (GeneralSettings::showToolTips()) {
+        m_toolTipManager->hideToolTip();
+    }
+    const KFileItem item = fileItemModel()->fileItem(index);
+    emit requestContextMenu(item, url(), QList<QAction*>());
 }
 
 void DolphinView::slotItemExpansionToggleClicked(int index)
