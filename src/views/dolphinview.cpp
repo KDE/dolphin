@@ -691,15 +691,14 @@ void DolphinView::activate()
 
 void DolphinView::slotItemActivated(int index)
 {
-    const QSet<int> selectedItems = m_container->controller()->selectionManager()->selectedItems();
-    if (selectedItems.isEmpty())
+    KFileItemList items = selectedItems();
+    if (items.isEmpty())
         return;
-    if (selectedItems.count() == 1) {
-        emit itemActivated(fileItemModel()->fileItem(index)); // caught by DolphinViewContainer or DolphinPart
+    if (items.count() == 1) {
+        emit itemActivated(items.at(0)); // caught by DolphinViewContainer or DolphinPart
     }
     else {
-        foreach (int i, selectedItems) {
-            const KFileItem fileItem = fileItemModel()->fileItem(i);
+        foreach (const KFileItem& fileItem, items) {
             if (fileItem.isDir()) {
                 emit tabRequested(fileItem.url());
             } else {
