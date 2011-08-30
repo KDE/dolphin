@@ -684,6 +684,17 @@ void DolphinView::contextMenuEvent(QContextMenuEvent* event)
     }
 }
 
+void DolphinView::wheelEvent(QWheelEvent* event)
+{
+    if (event->modifiers().testFlag(Qt::ControlModifier)) {
+        const int numDegrees = event->delta() / 8;
+        const int numSteps = numDegrees / 15;
+
+        setZoomLevel(zoomLevel() + numSteps);
+    }
+    event->accept();
+}
+
 void DolphinView::activate()
 {
     setActive(true);

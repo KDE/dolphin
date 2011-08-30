@@ -544,6 +544,7 @@ signals:
 protected:
     virtual void mouseReleaseEvent(QMouseEvent* event);
     virtual void contextMenuEvent(QContextMenuEvent* event);
+    virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
     /**

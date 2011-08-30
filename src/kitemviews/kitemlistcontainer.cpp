@@ -199,7 +199,13 @@ bool KItemListContainer::eventFilter(QObject* obj, QEvent* event)
 
 void KItemListContainer::wheelEvent(QWheelEvent* event)
 {
+    if (event->modifiers().testFlag(Qt::ControlModifier)) {
+        event->ignore();
+        return;
+    }
+
     KItemListView* view = m_controller->view();
+    
     if (!view || event->orientation() != view->scrollOrientation()) {
         return;
     }
