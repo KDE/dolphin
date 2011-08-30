@@ -32,6 +32,7 @@
 #include <KActionCollection>
 #include <KColorScheme>
 #include <KDirLister>
+#include <KDirModel>
 #include <KIconEffect>
 #include <KFileItem>
 #include <KFileItemListProperties>
@@ -1172,18 +1173,17 @@ void DolphinView::updateZoomLevel(int oldZoomLevel)
 
 KUrl::List DolphinView::simplifiedSelectedUrls() const
 {
-    Q_ASSERT(false); // TODO
     KUrl::List urls;
-/*
+
     const KFileItemList items = selectedItems();
     foreach (const KFileItem &item, items) {
         urls.append(item.url());
     }
 
-
     if (itemsExpandable()) {
+        // TODO: Check if we still need KDirModel for this in KDE 5.0
         urls = KDirModel::simplifiedUrlList(urls);
-    }*/
+    }
 
     return urls;
 }

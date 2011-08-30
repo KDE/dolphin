@@ -179,7 +179,7 @@ QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
     }
 
     const bool different = canUseMostLocalUrls && mostLocalUrls != urls;
-    urls = KDirModel::simplifiedUrlList(urls);
+    urls = KDirModel::simplifiedUrlList(urls); // TODO: Check if we still need KDirModel for this in KDE 5.0
     if (different) {
         mostLocalUrls = KDirModel::simplifiedUrlList(mostLocalUrls);
         urls.populateMimeData(mostLocalUrls, data);
