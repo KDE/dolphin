@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2011 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -48,6 +49,8 @@ private slots:
 
     void testExpansionLevelsCompare_data();
     void testExpansionLevelsCompare();
+
+    void testIndexForKeyboardSearch();
 
 private:
     bool isModelConsistent() const;
@@ -325,6 +328,56 @@ void KFileItemModelTest::testExpansionLevelsCompare()
     const KFileItem a(KUrl(urlA), QString(), mode_t(-1));
     const KFileItem b(KUrl(urlB), QString(), mode_t(-1));
     QCOMPARE(m_model->expansionLevelsCompare(a, b), result);
+}
+
+void KFileItemModelTest::testIndexForKeyboardSearch()
+{
+    QStringList files;
+    files << "a" << "aa" << "Image.jpg" << "Image.png" << "Text" << "Text1" << "Text2" << "Text11";
+    m_testDir->createFiles(files);
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // Search from index 0
+    QCOMPARE(m_model->indexForKeyboardSearch("a", 0), 0);
+    QCOMPARE(m_model->indexForKeyboardSearch("aa", 0), 1);
+    QCOMPARE(m_model->indexForKeyboardSearch("i", 0), 2);
+    QCOMPARE(m_model->indexForKeyboardSearch("image", 0), 2);
+    QCOMPARE(m_model->indexForKeyboardSearch("image.jpg", 0), 2);
+    QCOMPARE(m_model->indexForKeyboardSearch("image.png", 0), 3);
+    QCOMPARE(m_model->indexForKeyboardSearch("t", 0), 4);
+    QCOMPARE(m_model->indexForKeyboardSearch("text", 0), 4);
+    QCOMPARE(m_model->indexForKeyboardSearch("text1", 0), 5);
+    QCOMPARE(m_model->indexForKeyboardSearch("text2", 0), 6);
+    QCOMPARE(m_model->indexForKeyboardSearch("text11", 0), 7);
+
+    // Start a search somewhere in the middle
+    QCOMPARE(m_model->indexForKeyboardSearch("a", 1), 1);
+    QCOMPARE(m_model->indexForKeyboardSearch("i", 3), 3);
+    QCOMPARE(m_model->indexForKeyboardSearch("t", 5), 5);
+    QCOMPARE(m_model->indexForKeyboardSearch("text1", 6), 7);
+
+    // Test searches that go past the last item back to index 0
+    QCOMPARE(m_model->indexForKeyboardSearch("a", 2), 0);
+    QCOMPARE(m_model->indexForKeyboardSearch("i", 7), 2);
+    QCOMPARE(m_model->indexForKeyboardSearch("image.jpg", 3), 2);
+    QCOMPARE(m_model->indexForKeyboardSearch("text2", 7), 6);
+
+    // Test searches that yield no result
+    QCOMPARE(m_model->indexForKeyboardSearch("aaa", 0), -1);
+    QCOMPARE(m_model->indexForKeyboardSearch("b", 0), -1);
+    QCOMPARE(m_model->indexForKeyboardSearch("image.svg", 0), -1);
+    QCOMPARE(m_model->indexForKeyboardSearch("text3", 0), -1);
+    QCOMPARE(m_model->indexForKeyboardSearch("text3", 5), -1);
+
+    // Test upper case searches (note that search is case insensitive)
+    QCOMPARE(m_model->indexForKeyboardSearch("A", 0), 0);
+    QCOMPARE(m_model->indexForKeyboardSearch("aA", 0), 1);
+    QCOMPARE(m_model->indexForKeyboardSearch("TexT", 5), 5);
+    QCOMPARE(m_model->indexForKeyboardSearch("IMAGE", 4), 2);
+
+    // TODO: Maybe we should also test keyboard searches in directories which are not sorted by Name?
 }
 
 bool KFileItemModelTest::isModelConsistent() const

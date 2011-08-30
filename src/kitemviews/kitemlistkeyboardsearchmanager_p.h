@@ -29,10 +29,6 @@
 #include <QString>
 #include <QElapsedTimer>
 
-class KItemListController;
-class QInputMethodEvent;
-class QKeyEvent;
-
 /**
  * @brief Controls the keyboard searching ability for a KItemListController.
  *

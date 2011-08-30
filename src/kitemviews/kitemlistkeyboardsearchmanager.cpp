@@ -45,10 +45,23 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
         || !keyboardTimeWasValid || keys.isEmpty()) {
         m_searchedString.clear();
     }
-    const bool searchFromNextItem = m_searchedString.isEmpty();
+
+    const bool newSearch = m_searchedString.isEmpty();
+
     if (!keys.isEmpty()) {
         m_searchedString.append(keys);
-        emit changeCurrentItem(m_searchedString, searchFromNextItem);
+
+        // Special case:
+        // If the same key is pressed repeatedly, the next item matching that key should be highlighted
+        const QChar firstKey = m_searchedString.length() > 0 ? m_searchedString.at(0) : QChar();
+        const bool sameKey = m_searchedString.length() > 1 && m_searchedString.count(firstKey) == m_searchedString.length();
+
+        // Searching for a matching item should start from the next item if either
+        // 1. a new search is started, or
+        // 2. a 'repeated key' search is done.
+        const bool searchFromNextItem = newSearch || sameKey;
+
+        emit changeCurrentItem(sameKey ? firstKey : m_searchedString, searchFromNextItem);
     }
     m_keyboardInputTime.start();
 }
