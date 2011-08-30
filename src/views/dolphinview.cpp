@@ -702,7 +702,7 @@ void DolphinView::activate()
 
 void DolphinView::slotItemActivated(int index)
 {
-    KFileItemList items = selectedItems();
+    const KFileItemList items = selectedItems();
     if (items.isEmpty())
         return;
     if (items.count() == 1) {
