@@ -863,7 +863,7 @@ bool DolphinView::isTabsForFilesEnabled() const
 
 bool DolphinView::itemsExpandable() const
 {
-    return false; //m_viewAccessor.itemsExpandable();
+    return m_mode == DetailsView;
 }
 
 void DolphinView::restoreState(QDataStream& stream)
