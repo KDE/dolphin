@@ -45,7 +45,6 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_minimumUpdateIntervalTimer(0),
     m_maximumUpdateIntervalTimer(0),
     m_pendingItemsToInsert(),
-    m_pendingItemsToDelete(),
     m_rootExpansionLevel(-1)
 {
     resetRoles();
@@ -67,14 +66,14 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_minimumUpdateIntervalTimer = new QTimer(this);
     m_minimumUpdateIntervalTimer->setInterval(1000);
     m_minimumUpdateIntervalTimer->setSingleShot(true);
-    connect(m_minimumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItems()));
+    connect(m_minimumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItemsToInsert()));
 
     // For slow KIO-slaves like used for searching it makes sense to show results periodically even
     // before the completed() or canceled() signal has been emitted.
     m_maximumUpdateIntervalTimer = new QTimer(this);
     m_maximumUpdateIntervalTimer->setInterval(2000);
     m_maximumUpdateIntervalTimer->setSingleShot(true);
-    connect(m_maximumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItems()));
+    connect(m_maximumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItemsToInsert()));
 
     Q_ASSERT(m_minimumUpdateIntervalTimer->interval() <= m_maximumUpdateIntervalTimer->interval());
 }
@@ -363,7 +362,7 @@ void KFileItemModel::slotCompleted()
         return;
     }
 
-    dispatchPendingItems();
+    dispatchPendingItemsToInsert();
     m_minimumUpdateIntervalTimer->start();
 }
 
@@ -371,15 +370,11 @@ void KFileItemModel::slotCanceled()
 {
     m_minimumUpdateIntervalTimer->stop();
     m_maximumUpdateIntervalTimer->stop();
-    dispatchPendingItems();
+    dispatchPendingItemsToInsert();
 }
 
 void KFileItemModel::slotNewItems(const KFileItemList& items)
 {
-    if (!m_pendingItemsToDelete.isEmpty()) {
-        removeItems(m_pendingItemsToDelete);
-        m_pendingItemsToDelete.clear();
-    }
     m_pendingItemsToInsert.append(items);
 
     if (useMaximumUpdateInterval() && !m_maximumUpdateIntervalTimer->isActive()) {
@@ -395,7 +390,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
         insertItems(m_pendingItemsToInsert);
         m_pendingItemsToInsert.clear();
     }
-    m_pendingItemsToDelete.append(items);
+    removeItems(items);
 }
 
 void KFileItemModel::slotClear()
@@ -407,7 +402,6 @@ void KFileItemModel::slotClear()
     m_minimumUpdateIntervalTimer->stop();
     m_maximumUpdateIntervalTimer->stop();
     m_pendingItemsToInsert.clear();
-    m_pendingItemsToDelete.clear();
 
     m_rootExpansionLevel = -1;
 
@@ -425,16 +419,11 @@ void KFileItemModel::slotClear(const KUrl& url)
     Q_UNUSED(url);
 }
 
-void KFileItemModel::dispatchPendingItems()
+void KFileItemModel::dispatchPendingItemsToInsert()
 {
     if (!m_pendingItemsToInsert.isEmpty()) {
-        Q_ASSERT(m_pendingItemsToDelete.isEmpty());
         insertItems(m_pendingItemsToInsert);
         m_pendingItemsToInsert.clear();
-    } else if (!m_pendingItemsToDelete.isEmpty()) {
-        Q_ASSERT(m_pendingItemsToInsert.isEmpty());
-        removeItems(m_pendingItemsToDelete);
-        m_pendingItemsToDelete.clear();
     }
 }
 

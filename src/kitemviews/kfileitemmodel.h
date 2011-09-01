@@ -112,7 +112,7 @@ private slots:
     void slotClear();
     void slotClear(const KUrl& url);
 
-    void dispatchPendingItems();
+    void dispatchPendingItemsToInsert();
 
 private:
     void insertItems(const KFileItemList& items);
@@ -184,7 +184,6 @@ private:
     QTimer* m_minimumUpdateIntervalTimer;
     QTimer* m_maximumUpdateIntervalTimer;
     KFileItemList m_pendingItemsToInsert;
-    KFileItemList m_pendingItemsToDelete;
 
     // Stores the smallest expansion level of the root-URL. Is required to calculate
     // the "expansionLevel" role in an efficient way. A value < 0 indicates that
