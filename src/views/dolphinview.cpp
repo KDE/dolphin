@@ -703,18 +703,21 @@ void DolphinView::activate()
 
 void DolphinView::slotItemActivated(int index)
 {
+    Q_UNUSED(index);
+
     const KFileItemList items = selectedItems();
-    if (items.isEmpty())
+    if (items.isEmpty()) {
         return;
+    }
+
     if (items.count() == 1) {
         emit itemActivated(items.at(0)); // caught by DolphinViewContainer or DolphinPart
-    }
-    else {
-        foreach (const KFileItem& fileItem, items) {
-            if (fileItem.isDir()) {
-                emit tabRequested(fileItem.url());
+    } else {
+        foreach (const KFileItem& item, items) {
+            if (item.isDir()) {
+                emit tabRequested(item.url());
             } else {
-                emit itemActivated(fileItem);
+                emit itemActivated(item);
             }
         }
     }
