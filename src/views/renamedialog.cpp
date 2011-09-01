@@ -82,35 +82,17 @@ RenameDialog::RenameDialog(QWidget *parent, const KFileItemList& items) :
     m_lineEdit = new KLineEdit(page);
     connect(m_lineEdit, SIGNAL(textChanged(QString)), this, SLOT(slotTextChanged(QString)));
 
-    QString fileName = items[0].url().prettyUrl();
-    QString extension = KMimeType::extractKnownExtension(fileName.toLower());
-    if (!extension.isEmpty()) {
-        extension.insert(0, '.');
-        // The first item seems to have a extension (e. g. '.jpg' or '.txt'). Now
-        // check whether all other URLs have the same extension. If this is the
-        // case, add this extension to the name suggestion.
-        for (int i = 1; i < itemCount; ++i) {
-            fileName = items[i].url().prettyUrl().toLower();
-            if (!fileName.endsWith(extension)) {
-                // at least one item does not have the same extension
-                extension.truncate(0);
-                break;
-            }
-        }
-    }
-
     int selectionLength = m_newName.length();
-    if (!m_renameOneItem) {
-        --selectionLength; // don't select the # character
-    }
-
-    const int extensionLength = extension.length();
-    if (extensionLength > 0) {
-        if (m_renameOneItem) {
-            selectionLength -= extensionLength;
-        } else {
-            m_newName.append(extension);
+    if (m_renameOneItem) {
+        const QString fileName = items.first().url().prettyUrl();
+        const QString extension = KMimeType::extractKnownExtension(fileName.toLower());
+        if (extension.length() > 0) {
+            // Don't select the extension
+            selectionLength -= extension.length() + 1;
         }
+    } else {
+         // Don't select the # character
+        --selectionLength;
     }
 
     m_lineEdit->setText(m_newName);
@@ -189,10 +171,16 @@ void RenameDialog::renameItems()
     // Iterate through all items and rename them...
     int index = m_spinBox->value();
     foreach (const KFileItem& item, m_items) {
-        const QString newName = indexedName(m_newName, index, QLatin1Char('#'));
+        QString newName = indexedName(m_newName, index, QLatin1Char('#'));
         ++index;
 
         const KUrl oldUrl = item.url();
+        const QString extension = KMimeType::extractKnownExtension(oldUrl.prettyUrl().toLower());
+        if (!extension.isEmpty()) {
+            newName.append(QLatin1Char('.'));
+            newName.append(extension);
+        }
+
         if (oldUrl.fileName() != newName) {
             KUrl newUrl = oldUrl;
             newUrl.setFileName(KIO::encodeFileName(newName));
