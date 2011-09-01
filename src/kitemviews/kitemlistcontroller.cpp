@@ -38,7 +38,6 @@
 
 KItemListController::KItemListController(QObject* parent) :
     QObject(parent),
-    m_dragging(false),
     m_selectionBehavior(NoSelection),
     m_model(0),
     m_view(0),
@@ -271,7 +270,6 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         return false;
     }
 
-    m_dragging = false;
     m_pressedMousePos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
@@ -362,13 +360,13 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
 
     if (m_pressedIndex >= 0) {
         // Check whether a dragging should be started
-        if (!m_dragging && (event->buttons() & Qt::LeftButton)) {
+        if (event->buttons() & Qt::LeftButton) {
             const QPointF pos = transform.map(event->pos());
             const qreal minDragDiff = 4;
             const bool hasMinDragDiff = qAbs(pos.x() - m_pressedMousePos.x()) >= minDragDiff ||
                                         qAbs(pos.y() - m_pressedMousePos.y()) >= minDragDiff;
-            if (hasMinDragDiff && startDragging()) {
-                m_dragging = true;
+            if (hasMinDragDiff) {
+                startDragging();
             }
         }
     } else {
@@ -401,7 +399,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
                                        event->modifiers() & Qt::ControlModifier;
 
-    bool clearSelection = !shiftOrControlPressed && !m_dragging && event->button() != Qt::RightButton;
+    bool clearSelection = !shiftOrControlPressed && event->button() != Qt::RightButton;
 
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (rubberBand->isActive()) {
@@ -449,7 +447,6 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         m_selectionManager->clearSelection();
     }
 
-    m_dragging = false;
     m_pressedMousePos = QPointF();
     m_pressedIndex = -1;
     return false;
@@ -494,8 +491,6 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
 {
     Q_UNUSED(event);
     Q_UNUSED(transform);
-
-    m_dragging = false;
     return false;
 }
 
@@ -737,16 +732,16 @@ void KItemListController::slotRubberBandChanged()
     }
 }
 
-bool KItemListController::startDragging()
+void KItemListController::startDragging()
 {
     if (!m_view || !m_model) {
-        return false;
+        return;
     }
 
     const QSet<int> selectedItems = m_selectionManager->selectedItems();
     QMimeData* data = m_model->createMimeData(selectedItems);
     if (!data) {
-        return false;
+        return;
     }
 
     // The created drag object will be owned and deleted
@@ -758,7 +753,6 @@ bool KItemListController::startDragging()
     drag->setPixmap(pixmap);
 
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::IgnoreAction);
-    return true;
 }
 
 #include "kitemlistcontroller.moc"

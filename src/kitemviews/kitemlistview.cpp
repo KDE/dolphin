@@ -41,6 +41,15 @@
 #include <QStyleOptionRubberBand>
 #include <QTimer>
 
+namespace {
+    // Time in ms until reaching the autoscroll margin triggers
+    // an initial autoscrolling
+    const int InitialAutoScrollDelay = 700;
+
+    // Delay in ms for triggering the next autoscroll
+    const int RepeatingAutoScrollDelay = 1000 / 60;
+}
+
 KItemListView::KItemListView(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
     m_grouped(false),
@@ -64,6 +73,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_skipAutoScrollForRubberBand(false),
     m_rubberBand(0),
     m_mousePos(),
+    m_autoScrollIncrement(0),
     m_autoScrollTimer(0)
 {
     setAcceptHoverEvents(true);
@@ -198,10 +208,9 @@ void KItemListView::setAutoScroll(bool enabled)
 {
     if (enabled && !m_autoScrollTimer) {
         m_autoScrollTimer = new QTimer(this);
-        m_autoScrollTimer->setInterval(1000 / 60); // 60 frames per second
         m_autoScrollTimer->setSingleShot(false);
         connect(m_autoScrollTimer, SIGNAL(timeout()), this, SLOT(triggerAutoScrolling()));
-        m_autoScrollTimer->start();
+        m_autoScrollTimer->start(InitialAutoScrollDelay);
     } else if (!enabled && m_autoScrollTimer) {
         delete m_autoScrollTimer;
         m_autoScrollTimer = 0;
@@ -482,17 +491,40 @@ void KItemListView::mousePressEvent(QGraphicsSceneMouseEvent* event)
 
 void KItemListView::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
-    m_mousePos = transform().map(event->pos());
     QGraphicsWidget::mouseMoveEvent(event);
 
+    m_mousePos = transform().map(event->pos());
     if (m_autoScrollTimer && !m_autoScrollTimer->isActive()) {
-        m_autoScrollTimer->start();
+        m_autoScrollTimer->start(InitialAutoScrollDelay);
     }
 }
 
 void KItemListView::dragEnterEvent(QGraphicsSceneDragDropEvent* event)
 {
     event->setAccepted(true);
+    setAutoScroll(true);
+}
+
+void KItemListView::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsWidget::dragMoveEvent(event);
+
+    m_mousePos = transform().map(event->pos());
+    if (m_autoScrollTimer && !m_autoScrollTimer->isActive()) {
+        m_autoScrollTimer->start(InitialAutoScrollDelay);
+    }
+}
+
+void KItemListView::dragLeaveEvent(QGraphicsSceneDragDropEvent *event)
+{
+    QGraphicsWidget::dragLeaveEvent(event);
+    setAutoScroll(false);
+}
+
+void KItemListView::dropEvent(QGraphicsSceneDragDropEvent* event)
+{
+    QGraphicsWidget::dropEvent(event);
+    setAutoScroll(false);
 }
 
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
@@ -816,8 +848,12 @@ void KItemListView::triggerAutoScrolling()
         visibleSize = size().width();
     }
 
-    const int inc = calculateAutoScrollingIncrement(pos, visibleSize);
-    if (inc == 0) {
+    if (m_autoScrollTimer->interval() == InitialAutoScrollDelay) {
+        m_autoScrollIncrement = 0;
+    }
+
+    m_autoScrollIncrement = calculateAutoScrollingIncrement(pos, visibleSize, m_autoScrollIncrement);
+    if (m_autoScrollIncrement == 0) {
         // The mouse position is not above an autoscroll margin (the autoscroll timer
         // will be restarted in mouseMoveEvent())
         m_autoScrollTimer->stop();
@@ -834,7 +870,7 @@ void KItemListView::triggerAutoScrolling()
         const qreal diff = (scrollOrientation() == Qt::Vertical)
                            ? m_rubberBand->endPosition().y() - m_rubberBand->startPosition().y()
                            : m_rubberBand->endPosition().x() - m_rubberBand->startPosition().x();
-        if (qAbs(diff) < minDiff || (inc < 0 && diff > 0) || (inc > 0 && diff < 0)) {
+        if (qAbs(diff) < minDiff || (m_autoScrollIncrement < 0 && diff > 0) || (m_autoScrollIncrement > 0 && diff < 0)) {
             // The rubberband direction is different from the scroll direction (e.g. the rubberband has
             // been moved up although the autoscroll direction might be down)
             m_autoScrollTimer->stop();
@@ -846,13 +882,11 @@ void KItemListView::triggerAutoScrolling()
     // the autoscrolling may not get skipped anymore until a new rubberband is created
     m_skipAutoScrollForRubberBand = false;
 
-    setOffset(offset() + inc);
+    setOffset(offset() + m_autoScrollIncrement);
 
-    if (!m_autoScrollTimer->isActive()) {
-       // Trigger the autoscroll timer which will periodically call
-       // triggerAutoScrolling()
-       m_autoScrollTimer->start();
-    }
+   // Trigger the autoscroll timer which will periodically call
+   // triggerAutoScrolling()
+   m_autoScrollTimer->start(RepeatingAutoScrollDelay);
 }
 
 void KItemListView::setController(KItemListController* controller)
@@ -1261,7 +1295,7 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setData(m_model->data(index));
 }
 
-int KItemListView::calculateAutoScrollingIncrement(int pos, int size)
+int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)
 {
     int inc = 0;
 
@@ -1270,16 +1304,18 @@ int KItemListView::calculateAutoScrollingIncrement(int pos, int size)
     const int speedLimiter = 96;
     const int autoScrollBorder = 64;
 
+    // Limit the increment that is allowed to be added in comparison to 'oldInc'.
+    // This assures that the autoscrolling speed grows gradually.
+    const int incLimiter = 1;
+
     if (pos < autoScrollBorder) {
         inc = -minSpeed + qAbs(pos - autoScrollBorder) * (pos - autoScrollBorder) / speedLimiter;
-        if (inc < -maxSpeed) {
-            inc = -maxSpeed;
-        }
-    } else if (pos > size - autoScrollBorder) {
-        inc = minSpeed + qAbs(pos - size + autoScrollBorder) * (pos - size + autoScrollBorder) / speedLimiter;
-        if (inc > maxSpeed) {
-            inc = maxSpeed;
-        }
+        inc = qMax(inc, -maxSpeed);
+        inc = qMax(inc, oldInc - incLimiter);
+    } else if (pos > range - autoScrollBorder) {
+        inc = minSpeed + qAbs(pos - range + autoScrollBorder) * (pos - range + autoScrollBorder) / speedLimiter;
+        inc = qMin(inc, maxSpeed);
+        inc = qMin(inc, oldInc + incLimiter);
     }
 
     return inc;

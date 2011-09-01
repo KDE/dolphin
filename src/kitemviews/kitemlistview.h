@@ -200,6 +200,9 @@ protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
     virtual void dragEnterEvent(QGraphicsSceneDragDropEvent* event);
+    virtual void dragMoveEvent(QGraphicsSceneDragDropEvent* event);
+    virtual void dragLeaveEvent(QGraphicsSceneDragDropEvent* event);
+    virtual void dropEvent(QGraphicsSceneDragDropEvent* event);
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
@@ -290,12 +293,16 @@ private:
     void updateWidgetProperties(KItemListWidget* widget, int index);
 
     /**
-     * Helper function for triggerAutoScrolling(). Returns the scroll increment
-     * that should be added to the offset() based on the available size \a size
-     * and the current mouse position \a pos. As soon as \a pos is inside
-     * the autoscroll-margin a value != 0 will be returned.
+     * Helper function for triggerAutoScrolling().
+     * @param pos    Logical position of the mouse relative to the range.
+     * @param range  Range of the visible area.
+     * @param oldInc Previous increment. Is used to assure that the increment
+     *               increases only gradually.
+     * @return Scroll increment that should be added to the offset().
+     *         As soon as \a pos is inside the autoscroll-margin a
+     *         value != 0 will be returned.
      */
-    static int calculateAutoScrollingIncrement(int pos, int size);
+    static int calculateAutoScrollingIncrement(int pos, int range, int oldInc);
 
 private:
     bool m_grouped;
@@ -326,6 +333,7 @@ private:
     KItemListRubberBand* m_rubberBand;
 
     QPointF m_mousePos;
+    int m_autoScrollIncrement;
     QTimer* m_autoScrollTimer;
 
     friend class KItemListController;
