@@ -140,12 +140,9 @@ set(dolphin_SRCS
     settings/servicemodel.cpp
     settings/startup/startupsettingspage.cpp
     settings/trash/trashsettingspage.cpp
-    settings/viewmodes/detailsviewsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
-    settings/viewmodes/iconsizegroupbox.cpp
-    settings/viewmodes/iconsviewsettingspage.cpp
     settings/viewmodes/viewsettingspage.cpp
-    settings/viewmodes/viewsettingspagebase.cpp
+    settings/viewmodes/viewsettingstab.cpp
     statusbar/dolphinstatusbar.cpp
     statusbar/statusbarspaceinfo.cpp
     views/zoomlevelinfo.cpp
@@ -204,11 +201,8 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 
 set(kcm_dolphinviewmodes_PART_SRCS
     settings/kcm/kcmdolphinviewmodes.cpp
-    settings/viewmodes/detailsviewsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
-    settings/viewmodes/iconsizegroupbox.cpp
-    settings/viewmodes/iconsviewsettingspage.cpp
-    settings/viewmodes/viewsettingspagebase.cpp
+    settings/viewmodes/viewsettingstab.cpp
     views/zoomlevelinfo.cpp)
 
 set(kcm_dolphinnavigation_PART_SRCS

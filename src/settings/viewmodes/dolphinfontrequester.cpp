@@ -25,16 +25,18 @@
 #include <KComboBox>
 
 #include <QEvent>
+#include <QHBoxLayout>
 #include <QPushButton>
 
 DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
-    KHBox(parent),
+    QWidget(parent),
     m_modeCombo(0),
     m_chooseFontButton(0),
     m_mode(SystemFont),
     m_customFont()
 {
-    setSpacing(KDialog::spacingHint());
+    QHBoxLayout* topLayout = new QHBoxLayout(this);
+    topLayout->setMargin(0);
 
     m_modeCombo = new KComboBox(this);
     m_modeCombo->addItem(i18nc("@item:inlistbox Font", "System Font"));
@@ -47,6 +49,9 @@ DolphinFontRequester::DolphinFontRequester(QWidget* parent) :
             this, SLOT(openFontDialog()));
 
     changeMode(m_modeCombo->currentIndex());
+
+    topLayout->addWidget(m_modeCombo);
+    topLayout->addWidget(m_chooseFontButton);
 }
 
 DolphinFontRequester::~DolphinFontRequester()
@@ -57,7 +62,7 @@ void DolphinFontRequester::setMode(Mode mode)
 {
     m_mode = mode;
     m_modeCombo->setCurrentIndex(m_mode);
-    m_modeCombo->setFont(font());
+    m_modeCombo->setFont(customFont());
     m_chooseFontButton->setEnabled(m_mode == CustomFont);
 }
 
@@ -66,7 +71,7 @@ DolphinFontRequester::Mode DolphinFontRequester::mode() const
     return m_mode;
 }
 
-QFont DolphinFontRequester::font() const
+QFont DolphinFontRequester::currentFont() const
 {
     return (m_mode == CustomFont) ? m_customFont : KGlobalSettings::generalFont();
 }
@@ -84,9 +89,9 @@ QFont DolphinFontRequester::customFont() const
 bool DolphinFontRequester::event(QEvent* event)
 {
     if (event->type() == QEvent::Polish) {
-        m_modeCombo->setFont(font());
+        m_modeCombo->setFont(customFont());
     }
-    return KHBox::event(event);
+    return QWidget::event(event);
 }
 
 void DolphinFontRequester::openFontDialog()

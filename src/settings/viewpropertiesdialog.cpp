@@ -96,8 +96,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
     m_viewMode = new KComboBox(propsGrid);
     m_viewMode->addItem(KIcon("view-list-icons"), i18nc("@item:inlistbox", "Icons"));
-    m_viewMode->addItem(KIcon("feffi"), i18nc("@item:inlistbox", "Compact")); // TODO: adjust icons
-    m_viewMode->addItem(KIcon("view-list-text"), i18nc("@item:inlistbox", "Details"));
+    m_viewMode->addItem(KIcon("view-list-details"), i18nc("@item:inlistbox", "Compact"));
+    m_viewMode->addItem(KIcon("view-list-tree"), i18nc("@item:inlistbox", "Details"));
 
     QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsGrid);
     QWidget* sortingBox = new QWidget(propsGrid);

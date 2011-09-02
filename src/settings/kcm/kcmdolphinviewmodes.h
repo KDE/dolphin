@@ -22,7 +22,7 @@
 
 #include <kcmodule.h>
 
-class ViewSettingsPageBase;
+class ViewSettingsTab;
 
 /**
  * @brief Allow to configure the Dolphin views.
@@ -42,7 +42,7 @@ private:
     void reparseConfiguration();
 
 private:
-    QList<ViewSettingsPageBase*> m_pages;
+    QList<ViewSettingsTab*> m_tabs;
 };
 
 #endif

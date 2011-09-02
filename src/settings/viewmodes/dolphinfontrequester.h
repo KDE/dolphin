@@ -20,9 +20,8 @@
 #ifndef DOLPHINFONTREQUESTER_H
 #define DOLPHINFONTREQUESTER_H
 
-#include <khbox.h>
-
 #include <QFont>
+#include <QWidget>
 
 class KComboBox;
 class QPushButton;
@@ -30,7 +29,7 @@ class QPushButton;
 /**
  * @brief Allows to select between using the system font or a custom font.
  */
-class DolphinFontRequester : public KHBox
+class DolphinFontRequester : public QWidget
 {
     Q_OBJECT
 
@@ -52,7 +51,7 @@ public:
      * if the mode is \a CustomFont, otherwise the system font is
      * returned.
      */
-    QFont font() const;
+    QFont currentFont() const;
 
     void setCustomFont(const QFont& font);
     QFont customFont() const;

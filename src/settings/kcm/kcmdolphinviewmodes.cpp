@@ -25,8 +25,7 @@
 #include <KPluginFactory>
 #include <KPluginLoader>
 
-#include <settings/viewmodes/detailsviewsettingspage.h>
-#include <settings/viewmodes/iconsviewsettingspage.h>
+#include <settings/viewmodes/viewsettingstab.h>
 
 #include <QDBusConnection>
 #include <QDBusMessage>
@@ -39,7 +38,7 @@ K_EXPORT_PLUGIN(KCMDolphinViewModesConfigFactory("kcmdolphinviewmodes"))
 
 DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, const QVariantList& args) :
     KCModule(KCMDolphinViewModesConfigFactory::componentData(), parent),
-    m_pages()
+    m_tabs()
 {
     Q_UNUSED(args);
 
@@ -53,20 +52,24 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
 
     KTabWidget* tabWidget = new KTabWidget(this);
 
-    // initialize 'Icons' tab
-    IconsViewSettingsPage* iconsPage = new IconsViewSettingsPage(tabWidget);
-    tabWidget->addTab(iconsPage, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
-    connect(iconsPage, SIGNAL(changed()), this, SLOT(changed()));
+    // Initialize 'Icons' tab
+    ViewSettingsTab* iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);
+    tabWidget->addTab(iconsTab, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
+    connect(iconsTab, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    // TODO: initialize 'Compact' tab
+    // Initialize 'Compact' tab
+    ViewSettingsTab* compactTab = new ViewSettingsTab(ViewSettingsTab::CompactMode, tabWidget);
+    tabWidget->addTab(compactTab, KIcon("view-list-details"), i18nc("@title:tab", "Compact"));
+    connect(compactTab, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    // initialize 'Details' tab
-    DetailsViewSettingsPage* detailsPage = new DetailsViewSettingsPage(tabWidget);
-    tabWidget->addTab(detailsPage, KIcon("view-list-text"), i18nc("@title:tab", "Details"));
-    connect(detailsPage, SIGNAL(changed()), this, SLOT(changed()));
+    // Initialize 'Details' tab
+    ViewSettingsTab* detailsTab = new ViewSettingsTab(ViewSettingsTab::DetailsMode, tabWidget);
+    tabWidget->addTab(detailsTab, KIcon("view-list-tree"), i18nc("@title:tab", "Details"));
+    connect(detailsTab, SIGNAL(changed()), this, SIGNAL(changed()));
 
-    m_pages.append(iconsPage);
-    m_pages.append(detailsPage);
+    m_tabs.append(iconsTab);
+    m_tabs.append(compactTab);
+    m_tabs.append(detailsTab);
 
     topLayout->addWidget(tabWidget, 0, 0);
 }
@@ -77,16 +80,16 @@ DolphinViewModesConfigModule::~DolphinViewModesConfigModule()
 
 void DolphinViewModesConfigModule::save()
 {
-    foreach (ViewSettingsPageBase* page, m_pages) {
-        page->applySettings();
+    foreach (ViewSettingsTab* tab, m_tabs) {
+        tab->applySettings();
     }
     reparseConfiguration();
 }
 
 void DolphinViewModesConfigModule::defaults()
 {
-    foreach (ViewSettingsPageBase* page, m_pages) {
-        page->restoreDefaults();
+    foreach (ViewSettingsTab* tab, m_tabs) {
+        tab->restoreDefaultSettings();
     }
     reparseConfiguration();
 }

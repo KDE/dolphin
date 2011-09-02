@@ -49,7 +49,6 @@
 #endif
 
 #include "dolphin_generalsettings.h"
-#include "dolphin_iconsmodesettings.h"
 #include "dolphin_searchsettings.h"
 
 #include <KAcceleratorManager>

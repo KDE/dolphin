@@ -22,7 +22,7 @@
 
 #include <settings/settingspagebase.h>
 
-class ViewSettingsPageBase;
+class ViewSettingsTab;
 class QWidget;
 
 /**
@@ -46,7 +46,7 @@ public:
     virtual void restoreDefaults();
 
 private:
-    QList<ViewSettingsPageBase*> m_pages;
+    QList<ViewSettingsTab*> m_tabs;
 };
 
 #endif

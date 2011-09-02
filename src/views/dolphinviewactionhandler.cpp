@@ -480,7 +480,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
     detailsView->setText(i18nc("@action:inmenu View Mode", "Details"));
     detailsView->setToolTip(i18nc("@info", "Details view mode"));
     detailsView->setShortcut(Qt::CTRL | Qt::Key_3);
-    detailsView->setIcon(KIcon("view-list-text"));
+    detailsView->setIcon(KIcon("view-list-tree"));
     detailsView->setData(QVariant::fromValue(DolphinView::DetailsView));
     return detailsView;
 }
