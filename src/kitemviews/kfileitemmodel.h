@@ -55,10 +55,6 @@ public:
     virtual bool setData(int index, const QHash<QByteArray, QVariant> &values);
 
     /**
-     * @reimp
-     */
-    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
-    /**
      * @return True
      * @reimp
      */
@@ -72,6 +68,12 @@ public:
 
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
+
+    /** @reimp */
+    virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
+
+    /** @reimp */
+    virtual bool supportsDropping(int index) const;
 
     /**
      * @return The file-item for the index \a index. If the index is in a valid

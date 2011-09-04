@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2007-2011 by Peter Penz <peter.penz19@gmail.com>        *
  *   Copyright (C) 2007 by David Faure <faure@kde.org>                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,44 +22,17 @@
 #define DRAGANDDROPHELPER_H
 
 #include "libdolphin_export.h"
-#include <QObject>
-#include <QPixmap>
 
-class DolphinViewController;
+#include <QString>
+
 class KFileItem;
 class KUrl;
 class QDropEvent;
-class QAbstractItemView;
-class QMimeData;
 class QWidget;
 
-/**
- * @brief Helper class for having a common drag and drop behavior.
- *
- * The class is used by DolphinIconsView, DolphinDetailsView,
- * DolphinColumnView and PanelTreeView to have a consistent
- * drag and drop behavior between all views.
- */
-class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper : public QObject
+class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper
 {
-    Q_OBJECT
-
 public:
-    static DragAndDropHelper& instance();
-
-    /**
-     * Creates a drag object for the view \a itemView for all selected items.
-     */
-    void startDrag(QAbstractItemView* itemView,
-                   Qt::DropActions supportedActions,
-                   DolphinViewController* dolphinViewController = 0);
-
-    /**
-     * Returns true if and only if the view \a itemView was the last view to
-     * be passed to startDrag(...), and that drag is still in progress.
-     */
-    bool isDragSource(QAbstractItemView* itemView) const;
-
     /**
      * Handles the dropping of URLs to the given
      * destination. A context menu with the options
@@ -69,28 +42,13 @@ public:
      * @param destPath  Path of the destination.
      * @param event     Drop event.
      * @param widget    Source widget where the dragging has been started.
+     * @return          Error message if dropping is not possible. If an empty string
+     *                  is returned, the dropping has been successful.
      */
-    void dropUrls(const KFileItem& destItem,
-                  const KUrl& destPath,
-                  QDropEvent* event,
-                  QWidget* widget);
-signals:
-    void errorMessage(const QString& msg);
-
-private:
-    DragAndDropHelper();
-
-    /**
-     * Creates a pixmap the contains the all icons of the items
-     * that are dragged.
-     */
-    QPixmap createDragPixmap(QAbstractItemView* itemView) const;
-
-    // The last view passed in startDrag(...), or 0 if
-    // no startDrag(...) initiated drag is in progress.
-    QAbstractItemView *m_dragSource;
-
-    friend class DragAndDropHelperSingleton;
+    static QString dropUrls(const KFileItem& destItem,
+                            const KUrl& destPath,
+                            QDropEvent* event,
+                            QWidget* widget);
 };
 
 #endif

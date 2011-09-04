@@ -482,16 +482,43 @@ bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, con
 
 bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
     Q_UNUSED(transform);
+    if (!m_model || !m_view) {
+        return false;
+    }
+
+    KItemListWidget* oldHoveredWidget = hoveredWidget();
+    KItemListWidget* newHoveredWidget = widgetForPos(event->pos());
+    if (oldHoveredWidget != newHoveredWidget) {
+        if (oldHoveredWidget) {
+            oldHoveredWidget->setHovered(false);
+            emit itemUnhovered(oldHoveredWidget->index());
+        }
+
+        if (newHoveredWidget) {
+            const int index = newHoveredWidget->index();
+            if (m_model->supportsDropping(index)) {
+                newHoveredWidget->setHovered(true);
+            }
+            emit itemHovered(index);
+        }
+    }
+
     return false;
 }
 
 bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QTransform& transform)
 {
-    Q_UNUSED(event);
-    Q_UNUSED(transform);
-    return false;
+    Q_UNUSED(transform)
+    if (!m_view) {
+        return false;
+    }
+
+    const QPointF pos = transform.map(event->pos());
+    const int index = m_view->itemAt(pos);
+    emit itemDropEvent(index, event);
+
+    return true;
 }
 
 bool KItemListController::hoverEnterEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform)
@@ -503,46 +530,22 @@ bool KItemListController::hoverEnterEvent(QGraphicsSceneHoverEvent* event, const
 
 bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const QTransform& transform)
 {
-    // The implementation assumes that only one item can get hovered no matter
-    // whether they overlap or not.
-
     Q_UNUSED(transform);
     if (!m_model || !m_view) {
         return false;
     }
 
-    // Search the previously hovered item that might get unhovered
-    KItemListWidget* unhoveredWidget = 0;
-    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
-        if (widget->isHovered()) {
-            unhoveredWidget = widget;
-            break;
-        }
-    }
-
-    // Search the currently hovered item
-    KItemListWidget* hoveredWidget = 0;
-    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
-        const QPointF mappedPos = widget->mapFromItem(m_view, event->pos());
-
-        const bool hovered = widget->contains(mappedPos) &&
-                             !widget->expansionToggleRect().contains(mappedPos) &&
-                             !widget->selectionToggleRect().contains(mappedPos);
-        if (hovered) {
-            hoveredWidget = widget;
-            break;
-        }
-    }
-
-    if (unhoveredWidget != hoveredWidget) {
-        if (unhoveredWidget) {
-            unhoveredWidget->setHovered(false);
-            emit itemUnhovered(unhoveredWidget->index());
+    KItemListWidget* oldHoveredWidget = hoveredWidget();
+    KItemListWidget* newHoveredWidget = widgetForPos(event->pos());
+    if (oldHoveredWidget != newHoveredWidget) {
+        if (oldHoveredWidget) {
+            oldHoveredWidget->setHovered(false);
+            emit itemUnhovered(oldHoveredWidget->index());
         }
 
-        if (hoveredWidget) {
-            hoveredWidget->setHovered(true);
-            emit itemHovered(hoveredWidget->index());
+        if (newHoveredWidget) {
+            newHoveredWidget->setHovered(true);
+            emit itemHovered(newHoveredWidget->index());
         }
     }
 
@@ -753,6 +756,37 @@ void KItemListController::startDragging()
     drag->setPixmap(pixmap);
 
     drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::IgnoreAction);
+}
+
+KItemListWidget* KItemListController::hoveredWidget() const
+{
+    Q_ASSERT(m_view);
+
+    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+        if (widget->isHovered()) {
+            return widget;
+        }
+    }
+
+    return 0;
+}
+
+KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
+{
+    Q_ASSERT(m_view);
+
+    foreach (KItemListWidget* widget, m_view->visibleItemListWidgets()) {
+        const QPointF mappedPos = widget->mapFromItem(m_view, pos);
+
+        const bool hovered = widget->contains(mappedPos) &&
+                             !widget->expansionToggleRect().contains(mappedPos) &&
+                             !widget->selectionToggleRect().contains(mappedPos);
+        if (hovered) {
+            return widget;
+        }
+    }
+
+    return 0;
 }
 
 #include "kitemlistcontroller.moc"

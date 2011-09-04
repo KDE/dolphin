@@ -22,10 +22,12 @@
 
 #include <QAbstractItemView>
 #include <QApplication>
+#include <QBoxLayout>
 #include <QClipboard>
+#include <QDropEvent>
+#include <QGraphicsSceneDragDropEvent>
 #include <QKeyEvent>
 #include <QItemSelection>
-#include <QBoxLayout>
 #include <QTimer>
 #include <QScrollBar>
 
@@ -60,6 +62,7 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphinitemlistcontainer.h"
+#include "draganddrophelper.h"
 #include "renamedialog.h"
 #include "settings/dolphinsettings.h"
 #include "viewmodecontroller.h"
@@ -172,6 +175,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemExpansionToggleClicked(int)), this, SLOT(slotItemExpansionToggleClicked(int)));
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
+    connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
@@ -774,6 +778,19 @@ void DolphinView::slotItemUnhovered(int index)
         m_toolTipManager->hideToolTip();
     }
     emit requestItemInfo(KFileItem());
+}
+
+void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
+{
+    const KFileItem destItem = fileItemModel()->fileItem(index);
+
+    QDropEvent dropEvent(event->pos().toPoint(),
+                         event->possibleActions(),
+                         event->mimeData(),
+                         event->buttons(),
+                         event->modifiers());
+
+    DragAndDropHelper::dropUrls(destItem, url(), &dropEvent, this);
 }
 
 void DolphinView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)

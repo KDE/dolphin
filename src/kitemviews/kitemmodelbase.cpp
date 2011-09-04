@@ -116,6 +116,12 @@ int KItemModelBase::indexForKeyboardSearch(const QString& text, int startFromInd
     return -1;
 }
 
+bool KItemModelBase::supportsDropping(int index) const
+{
+    Q_UNUSED(index);
+    return false;
+}
+
 void KItemModelBase::onGroupRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
     Q_UNUSED(current);

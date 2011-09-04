@@ -34,6 +34,7 @@ class KItemModelBase;
 class KItemListKeyboardSearchManager;
 class KItemListSelectionManager;
 class KItemListView;
+class KItemListWidget;
 class QGraphicsSceneHoverEvent;
 class QGraphicsSceneDragDropEvent;
 class QGraphicsSceneMouseEvent;
@@ -113,6 +114,7 @@ signals:
      * Is emitted if the item with the index \p index gets hovered.
      */
     void itemHovered(int index);
+
     /**
      * Is emitted if the item with the index \p index gets unhovered.
      * It is assured that the signal itemHovered() for this index
@@ -121,6 +123,13 @@ signals:
     void itemUnhovered(int index);
 
     void itemExpansionToggleClicked(int index);
+
+    /**
+     * Is emitted if a drop event is done above the item with the index
+     * \a index. If \a index is < 0 the drop event is done above an
+     * empty area of the view.
+     */
+    void itemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
 
     void modelChanged(KItemModelBase* current, KItemModelBase* previous);
     void viewChanged(KItemListView* current, KItemListView* previous);
@@ -141,6 +150,18 @@ private:
      * Creates a QDrag object and initiates a drag-operation.
      */
     void startDragging();
+
+    /**
+     * @return Widget that is currently in the hovered state. 0 is returned
+     *         if no widget is marked as hovered.
+     */
+    KItemListWidget* hoveredWidget() const;
+
+    /**
+     * @return Widget that is below the position \a pos. 0 is returned
+     *         if no widget is below the position.
+     */
+    KItemListWidget* widgetForPos(const QPointF& pos) const;
 
 private:
     SelectionBehavior m_selectionBehavior;

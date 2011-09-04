@@ -123,6 +123,20 @@ public:
      * @param startFromIndex    the index from which to start searching from
      */
     virtual int indexForKeyboardSearch(const QString& text, int startFromIndex = 0) const;
+
+    /**
+     * @return True, if the item with the index \a index basically supports dropping.
+     *         Per default false is returned.
+     *
+     *         The information is used only to give a visual feedback during a drag operation
+     *         and not to decide whether a drop event gets emitted. It is it is still up to
+     *         the receiver of KItemListController::itemDropEvent() to decide how to handle
+     *         the drop event.
+     */
+    // TODO: Should the MIME-data be passed too so that the model can do a more specific
+    // decision whether it accepts the drop?
+    virtual bool supportsDropping(int index) const;
+
 signals:
     /**
      * Is emitted if one or more items have been inserted. Each item-range consists

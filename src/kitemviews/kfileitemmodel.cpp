@@ -123,24 +123,6 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
     return false;
 }
 
-int KFileItemModel::indexForKeyboardSearch(const QString& text, int startFromIndex) const
-{
-    startFromIndex = qMax(0, startFromIndex);
-    for (int i = startFromIndex; i < count(); i++) {
-        if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
-            kDebug() << data(i)["name"].toString();
-            return i;
-        }
-    }
-    for (int i = 0; i < startFromIndex; i++) {
-        if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
-            kDebug() << data(i)["name"].toString();
-            return i;
-        }
-    }
-    return -1;
-}
-
 bool KFileItemModel::supportsGrouping() const
 {
     return true;
@@ -187,6 +169,30 @@ QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
     }
 
     return data;
+}
+
+int KFileItemModel::indexForKeyboardSearch(const QString& text, int startFromIndex) const
+{
+    startFromIndex = qMax(0, startFromIndex);
+    for (int i = startFromIndex; i < count(); i++) {
+        if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
+            kDebug() << data(i)["name"].toString();
+            return i;
+        }
+    }
+    for (int i = 0; i < startFromIndex; i++) {
+        if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
+            kDebug() << data(i)["name"].toString();
+            return i;
+        }
+    }
+    return -1;
+}
+
+bool KFileItemModel::supportsDropping(int index) const
+{
+    const KFileItem item = fileItem(index);
+    return item.isNull() ? false : item.isDir();
 }
 
 KFileItem KFileItemModel::fileItem(int index) const

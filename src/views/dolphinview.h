@@ -18,7 +18,6 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-
 #ifndef DOLPHINVIEW_H
 #define DOLPHINVIEW_H
 
@@ -48,6 +47,7 @@ class KFileItemModel;
 class KUrl;
 class ToolTipManager;
 class ViewProperties;
+class QGraphicsSceneDragDropEvent;
 class QRegExp;
 
 /**
@@ -559,6 +559,7 @@ private slots:
     void slotItemExpansionToggleClicked(int index);
     void slotItemHovered(int index);
     void slotItemUnhovered(int index);
+    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
