@@ -27,13 +27,10 @@
 #include <QList>
 #include <QMutex>
 #include <QObject>
-#include <QPersistentModelIndex>
 #include <QString>
 
-class DolphinModel;
-class KDirLister;
 class KFileItemList;
-class QAbstractItemView;
+class KFileItemModel;
 class QAction;
 class QTimer;
 class UpdateItemStatesThread;
@@ -41,8 +38,8 @@ class UpdateItemStatesThread;
 /**
  * @brief Observes all version control plugins.
  *
- * The item view gets updated automatically if the currently shown
- * directory is under version control.
+ * The items of the directory-model get updated automatically if the currently
+ * shown directory is under version control.
  *
  * @see VersionControlPlugin
  */
@@ -51,8 +48,11 @@ class LIBDOLPHINPRIVATE_EXPORT VersionControlObserver : public QObject
     Q_OBJECT
 
 public:
-    VersionControlObserver(QWidget* parent);
+    explicit VersionControlObserver(QObject* parent = 0);
     virtual ~VersionControlObserver();
+
+    void setModel(KFileItemModel* model);
+    KFileItemModel* model() const;
 
     QList<QAction*> contextMenuActions(const KFileItemList& items) const;
     QList<QAction*> contextMenuActions(const QString& directory) const;
@@ -103,7 +103,7 @@ private slots:
 private:
     struct ItemState
     {
-        QPersistentModelIndex index;
+        int index;
         KFileItem item;
         KVersionControlPlugin::VersionState version;
     };
@@ -114,7 +114,7 @@ private:
      * Adds recursively all items from the directory \p parentIndex into
      * the list \p itemStates.
      */
-    void addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates);
+    //void addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates);
 
     /**
      * Returns a matching plugin for the given directory.
@@ -133,9 +133,7 @@ private:
     bool m_silentUpdate; // if true, no messages will be send during the update
                          // of version states
 
-    QWidget* m_view;
-    //KDirLister* m_dirLister;
-    //DolphinModel* m_dolphinModel;
+    KFileItemModel* m_model;
 
     QTimer* m_dirVerificationTimer;
 

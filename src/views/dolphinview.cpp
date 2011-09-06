@@ -65,6 +65,7 @@
 #include "draganddrophelper.h"
 #include "renamedialog.h"
 #include "settings/dolphinsettings.h"
+#include "versioncontrol/versioncontrolobserver.h"
 #include "viewmodecontroller.h"
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
@@ -92,7 +93,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_currentItemIndex(-1),
     m_restoredContentsPosition(),
     m_createdItemUrl(),
-    m_selectedItems()
+    m_selectedItems(),
+    m_versionControlObserver(0)
 {
     m_topLayout = new QVBoxLayout(this);
     m_topLayout->setSpacing(0);
@@ -176,12 +178,19 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
     connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
+    connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)), this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
             this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
 
     m_toolTipManager = new ToolTipManager(this);
+
+    m_versionControlObserver = new VersionControlObserver(this);
+    m_versionControlObserver->setModel(fileItemModel());
+    connect(m_versionControlObserver, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
+    connect(m_versionControlObserver, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
+    connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(QString)), this, SIGNAL(operationCompletedMessage(QString)));
 
     applyViewProperties();
     m_topLayout->addWidget(m_container);
@@ -791,6 +800,15 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->modifiers());
 
     DragAndDropHelper::dropUrls(destItem, url(), &dropEvent, this);
+}
+
+void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
+{
+    Q_UNUSED(previous);
+    Q_ASSERT(qobject_cast<KFileItemModel*>(current));
+
+    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(current);
+    m_versionControlObserver->setModel(fileItemModel);
 }
 
 void DolphinView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)

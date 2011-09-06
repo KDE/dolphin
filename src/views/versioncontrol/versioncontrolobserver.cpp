@@ -25,51 +25,35 @@
 #include <KLocale>
 #include <KService>
 #include <KServiceTypeTrader>
+#include <kitemviews/kfileitemmodel.h>
 #include <kversioncontrolplugin.h>
 
 #include "pendingthreadsmaintainer.h"
 #include "updateitemstatesthread.h"
 
-#include <QAbstractProxyModel>
-#include <QAbstractItemView>
 #include <QMutexLocker>
 #include <QTimer>
 
-VersionControlObserver::VersionControlObserver(QWidget* view) :
-    QObject(view),
+VersionControlObserver::VersionControlObserver(QObject* parent) :
+    QObject(parent),
     m_pendingItemStatesUpdate(false),
     m_versionedDirectory(false),
     m_silentUpdate(false),
-    m_view(view),
-    //m_dirLister(0),
-    //m_dolphinModel(0),
+    m_model(0),
     m_dirVerificationTimer(0),
     m_plugin(0),
     m_updateItemStatesThread(0)
 {
-    Q_ASSERT(view);
-
-    /*QAbstractProxyModel* proxyModel = qobject_cast<QAbstractProxyModel*>(view->model());
-    m_dolphinModel = proxyModel ?
-                     qobject_cast<DolphinModel*>(proxyModel->sourceModel()) :
-                     qobject_cast<DolphinModel*>(view->model());
-
-    if (m_dolphinModel) {
-        m_dirLister = m_dolphinModel->dirLister();
-        connect(m_dirLister, SIGNAL(completed()),
-                this, SLOT(delayedDirectoryVerification()));
-
-        // The verification timer specifies the timeout until the shown directory
-        // is checked whether it is versioned. Per default it is assumed that users
-        // don't iterate through versioned directories and a high timeout is used
-        // The timeout will be decreased as soon as a versioned directory has been
-        // found (see verifyDirectory()).
-        m_dirVerificationTimer = new QTimer(this);
-        m_dirVerificationTimer->setSingleShot(true);
-        m_dirVerificationTimer->setInterval(500);
-        connect(m_dirVerificationTimer, SIGNAL(timeout()),
-                this, SLOT(verifyDirectory()));
-    }*/
+    // The verification timer specifies the timeout until the shown directory
+    // is checked whether it is versioned. Per default it is assumed that users
+    // don't iterate through versioned directories and a high timeout is used
+    // The timeout will be decreased as soon as a versioned directory has been
+    // found (see verifyDirectory()).
+    m_dirVerificationTimer = new QTimer(this);
+    m_dirVerificationTimer->setSingleShot(true);
+    m_dirVerificationTimer->setInterval(500);
+    connect(m_dirVerificationTimer, SIGNAL(timeout()),
+            this, SLOT(verifyDirectory()));
 }
 
 VersionControlObserver::~VersionControlObserver()
@@ -94,6 +78,26 @@ VersionControlObserver::~VersionControlObserver()
         m_plugin->disconnect();
         m_plugin = 0;
     }
+}
+
+void VersionControlObserver::setModel(KFileItemModel* model)
+{
+    if (m_model) {
+        disconnect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
+                   this, SLOT(delayedDirectoryVerification()));
+    }
+
+    m_model = model;
+
+    if (model) {
+        connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
+                this, SLOT(delayedDirectoryVerification()));
+    }
+}
+
+KFileItemModel* VersionControlObserver::model() const
+{
+    return m_model;
 }
 
 QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& items) const
@@ -131,7 +135,11 @@ void VersionControlObserver::silentDirectoryVerification()
 
 void VersionControlObserver::verifyDirectory()
 {
-    const KUrl versionControlUrl; // = m_dirLister->url();
+    if (!m_model) {
+        return;
+    }
+
+    const KUrl versionControlUrl = m_model->rootDirectory();
     if (!versionControlUrl.isLocalFile()) {
         return;
     }
@@ -141,7 +149,7 @@ void VersionControlObserver::verifyDirectory()
     }
 
     m_plugin = searchPlugin(versionControlUrl);
-    /*if (m_plugin) {
+    if (m_plugin) {
         connect(m_plugin, SIGNAL(versionStatesChanged()),
                 this, SLOT(silentDirectoryVerification()));
         connect(m_plugin, SIGNAL(infoMessage(QString)),
@@ -157,10 +165,8 @@ void VersionControlObserver::verifyDirectory()
             // The directory is versioned. Assume that the user will further browse through
             // versioned directories and decrease the verification timer.
             m_dirVerificationTimer->setInterval(100);
-            connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
-                    this, SLOT(delayedDirectoryVerification()));
-            connect(m_dirLister, SIGNAL(newItems(KFileItemList)),
-                    this, SLOT(delayedDirectoryVerification()));
+            connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
+                   this, SLOT(delayedDirectoryVerification()));
         }
         updateItemStates();
     } else if (m_versionedDirectory) {
@@ -170,11 +176,9 @@ void VersionControlObserver::verifyDirectory()
         // value, so that browsing through non-versioned directories is not slown down
         // by an immediate verification.
         m_dirVerificationTimer->setInterval(500);
-        disconnect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
+        disconnect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
                    this, SLOT(delayedDirectoryVerification()));
-        disconnect(m_dirLister, SIGNAL(newItems(KFileItemList)),
-                   this, SLOT(delayedDirectoryVerification()));
-    }*/
+    }
 }
 
 void VersionControlObserver::slotThreadFinished()
@@ -184,27 +188,17 @@ void VersionControlObserver::slotThreadFinished()
     }
 
     if (!m_updateItemStatesThread->retrievedItems()) {
-        // ignore m_silentUpdate for an error message
+        // Ignore m_silentUpdate for an error message
         emit errorMessage(i18nc("@info:status", "Update of version information failed."));
         return;
     }
 
-    // QAbstractItemModel::setData() triggers a bottleneck in combination with QListView
-    // (a detailed description of the root cause is given in the class KFilePreviewGenerator
-    // from kdelibs). To bypass this bottleneck, the signals of the model are temporary blocked.
-    // This works as the update of the data does not require a relayout of the views used in Dolphin.
-    /*const bool signalsBlocked = m_dolphinModel->signalsBlocked();
-    m_dolphinModel->blockSignals(true);
-
     const QList<ItemState> itemStates = m_updateItemStatesThread->itemStates();
     foreach (const ItemState& itemState, itemStates) {
-        m_dolphinModel->setData(itemState.index,
-                                QVariant(static_cast<int>(itemState.version)),
-                                Qt::DecorationRole);
+        QHash<QByteArray, QVariant> values;
+        values.insert("version", QVariant(static_cast<int>(itemState.version)));
+        m_model->setData(itemState.index, values);
     }
-
-    m_dolphinModel->blockSignals(signalsBlocked);
-    m_view->viewport()->repaint();
 
     if (!m_silentUpdate) {
         // Using an empty message results in clearing the previously shown information message and showing
@@ -216,7 +210,7 @@ void VersionControlObserver::slotThreadFinished()
     if (m_pendingItemStatesUpdate) {
         m_pendingItemStatesUpdate = false;
         updateItemStates();
-    }*/
+    }
 }
 
 void VersionControlObserver::updateItemStates()
@@ -235,7 +229,7 @@ void VersionControlObserver::updateItemStates()
     }
 
     QList<ItemState> itemStates;
-    addDirectory(QModelIndex(), itemStates);
+    //addDirectory(QModelIndex(), itemStates);
     if (!itemStates.isEmpty()) {
         if (!m_silentUpdate) {
             emit infoMessage(i18nc("@info:status", "Updating version information..."));
@@ -245,11 +239,11 @@ void VersionControlObserver::updateItemStates()
     }
 }
 
-void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates)
+/*void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates)
 {
     Q_UNUSED(parentIndex);
     Q_UNUSED(itemStates);
-    /*const int rowCount = m_dolphinModel->rowCount(parentIndex);
+    const int rowCount = m_dolphinModel->rowCount(parentIndex);
     for (int row = 0; row < rowCount; ++row) {
         const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Version, parentIndex);
         addDirectory(index, itemStates);
@@ -260,8 +254,8 @@ void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<
         itemState.version = KVersionControlPlugin::UnversionedVersion;
 
         itemStates.append(itemState);
-    }*/
-}
+    }
+}*/
 
 KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& directory) const
 {
@@ -297,12 +291,12 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
     Q_UNUSED(directory);
-    /*foreach (KVersionControlPlugin* plugin, plugins) {
+    foreach (KVersionControlPlugin* plugin, plugins) {
         // Use the KDirLister cache to check for .svn, .git, ... files
         KUrl dirUrl(directory);
         KUrl fileUrl = dirUrl;
         fileUrl.addPath(plugin->fileName());
-        const KFileItem item = m_dirLister->findByUrl(fileUrl);
+        const KFileItem item; // = m_dirLister->findByUrl(fileUrl);
         if (!item.isNull()) {
             return plugin;
         }
@@ -325,7 +319,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
                 upUrl = dirUrl.upUrl();
             }
         }
-    }*/
+    }
 
     return 0;
 }

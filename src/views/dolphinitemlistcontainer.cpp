@@ -23,6 +23,8 @@
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_compactmodesettings.h"
 
+#include "dolphinfileitemlistwidget.h"
+
 #include <kitemviews/kfileitemlistview.h>
 #include <kitemviews/kfileitemmodel.h>
 #include <kitemviews/kitemlistcontroller.h>
@@ -45,6 +47,7 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
     controller()->setModel(new KFileItemModel(dirLister, this));
 
     m_fileItemListView = new KFileItemListView();
+    m_fileItemListView->setWidgetCreator(new KItemListWidgetCreator<DolphinFileItemListWidget>());    
     controller()->setView(m_fileItemListView);
 
     KItemListStyleOption option;

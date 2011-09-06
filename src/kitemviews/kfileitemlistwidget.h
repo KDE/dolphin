@@ -53,6 +53,9 @@ public:
     virtual QRectF expansionToggleRect() const;
 
 protected:
+    void setTextColor(const QColor& color);
+    QColor textColor() const;
+    
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous);
     virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
@@ -82,6 +85,8 @@ private:
     void updateIconsLayoutTextCache();
     void updateCompactLayoutTextCache();
     void updateDetailsLayoutTextCache();
+    
+    void updateAdditionalInfoTextColor();
 
     QString roleText(TextId textId, const QVariant& roleValue) const;
 
@@ -111,6 +116,7 @@ private:
     QList<QByteArray> m_sortedVisibleRoles;
 
     QRectF m_expansionArea;
+    QColor* m_customTextColor;
     QColor m_additionalInfoTextColor;
 };
 

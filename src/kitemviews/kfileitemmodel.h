@@ -90,6 +90,11 @@ public:
     int index(const KFileItem& item) const;
 
     /**
+     * @return Root directory of all items.
+     */
+    KUrl rootDirectory() const;
+
+    /**
      * Clears all items of the model.
      */
     void clear();

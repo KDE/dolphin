@@ -27,6 +27,15 @@
 class KFileItemModelRolesUpdater;
 class QTimer;
 
+/**
+ * @brief View that allows to show the content of file-items.
+ *
+ * The corresponding model set by the controller must be an instance
+ * of KFileItemModel. Per default KFileItemListWidget is set as widget creator
+ * value and KItemListGroupHeader as group-header creator value. Use
+ * KItemListView::setWidgetCreator() and KItemListView::setGroupHeaderCreator()
+ * to apply customized generators.
+ */
 class LIBDOLPHINPRIVATE_EXPORT KFileItemListView : public KItemListView
 {
     Q_OBJECT

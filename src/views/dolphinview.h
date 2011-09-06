@@ -44,8 +44,10 @@ class DolphinItemListContainer;
 class KAction;
 class KActionCollection;
 class KFileItemModel;
+class KItemModelBase;
 class KUrl;
 class ToolTipManager;
+class VersionControlObserver;
 class ViewProperties;
 class QGraphicsSceneDragDropEvent;
 class QRegExp;
@@ -560,6 +562,7 @@ private slots:
     void slotItemHovered(int index);
     void slotItemUnhovered(int index);
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
+    void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
@@ -755,6 +758,8 @@ private:
     QPoint m_restoredContentsPosition;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
     KFileItemList m_selectedItems; // this is used for making the View to remember selections after F5
+    
+    VersionControlObserver* m_versionControlObserver;
 
     // For unit tests
     friend class TestBase;

@@ -43,6 +43,7 @@ set(dolphinprivate_LIB_SRCS
     settings/viewpropsprogressinfo.cpp
     views/additionalinfoaccessor.cpp
     views/dolphindirlister.cpp
+    views/dolphinfileitemlistwidget.cpp
     views/dolphinview.cpp
     views/dolphinitemlistcontainer.cpp
     views/dolphinnewfilemenuobserver.cpp

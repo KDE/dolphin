@@ -56,6 +56,7 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_textBoundingRect(),
     m_sortedVisibleRoles(),
     m_expansionArea(),
+    m_customTextColor(0),
     m_additionalInfoTextColor()
 {
     for (int i = 0; i < TextIdCount; ++i) {
@@ -66,6 +67,8 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
 
 KFileItemListWidget::~KFileItemListWidget()
 {
+    delete m_customTextColor;
+    m_customTextColor = 0;
 }
 
 void KFileItemListWidget::setLayout(Layout layout)
@@ -114,7 +117,11 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     }
 
     painter->setFont(itemListStyleOption.font);
-    painter->setPen(itemListStyleOption.palette.text().color());
+    if (m_customTextColor) {
+        painter->setPen(*m_customTextColor);
+    } else {
+        painter->setPen(itemListStyleOption.palette.text().color());
+    }
     painter->drawStaticText(m_textPos[Name], m_text[Name]);
 
     painter->setPen(m_additionalInfoTextColor);
@@ -151,6 +158,27 @@ QRectF KFileItemListWidget::expansionToggleRect() const
 {
     const_cast<KFileItemListWidget*>(this)->updateCache();
     return m_isDir ? m_expansionArea : QRectF();
+}
+
+void KFileItemListWidget::setTextColor(const QColor& color)
+{
+    if (color.isValid()) {
+        if (!m_customTextColor) {
+            m_customTextColor = new QColor(color);
+        } else {
+            *m_customTextColor = color;
+        }
+    } else {
+        delete m_customTextColor;
+        m_customTextColor = 0;
+    }
+    updateAdditionalInfoTextColor();
+    update();
+}
+
+QColor KFileItemListWidget::textColor() const
+{
+    return m_customTextColor ? *m_customTextColor : styleOption().palette.text().color();
 }
 
 void KFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
@@ -215,18 +243,7 @@ void KFileItemListWidget::styleOptionChanged(const KItemListStyleOption& current
                                              const KItemListStyleOption& previous)
 {
     KItemListWidget::styleOptionChanged(current, previous);
-
-    // For the color of the additional info the inactive text color
-    // is not used as this might lead to unreadable text for some color schemes. Instead
-    // the text color is slightly mixed with the background color.
-    const QColor c1 = current.palette.text().color();
-    const QColor c2 = current.palette.background().color();
-    const int p1 = 70;
-    const int p2 = 100 - p1;
-    m_additionalInfoTextColor = QColor((c1.red()   * p1 + c2.red()   * p2) / 100,
-                                       (c1.green() * p1 + c2.green() * p2) / 100,
-                                       (c1.blue()  * p1 + c2.blue()  * p2) / 100);
-
+    updateAdditionalInfoTextColor();
     m_dirtyLayout = true;
 }
 
@@ -600,6 +617,20 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
             break;
         }
     }
+}
+
+void KFileItemListWidget::updateAdditionalInfoTextColor()
+{
+    // For the color of the additional info the inactive text color
+    // is not used as this might lead to unreadable text for some color schemes. Instead
+    // the text color is slightly mixed with the background color.
+    const QColor c1 = m_customTextColor ? *m_customTextColor : styleOption().palette.text().color();
+    const QColor c2 = styleOption().palette.background().color();
+    const int p1 = 70;
+    const int p2 = 100 - p1;
+    m_additionalInfoTextColor = QColor((c1.red()   * p1 + c2.red()   * p2) / 100,
+                                       (c1.green() * p1 + c2.green() * p2) / 100,
+                                       (c1.blue()  * p1 + c2.blue()  * p2) / 100);
 }
 
 QString KFileItemListWidget::roleText(TextId textId, const QVariant& roleValue) const
