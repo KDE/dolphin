@@ -85,12 +85,16 @@ void VersionControlObserver::setModel(KFileItemModel* model)
     if (m_model) {
         disconnect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
                    this, SLOT(delayedDirectoryVerification()));
+        disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+                   this, SLOT(delayedDirectoryVerification()));
     }
 
     m_model = model;
 
     if (model) {
         connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
+                this, SLOT(delayedDirectoryVerification()));
+        connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
                 this, SLOT(delayedDirectoryVerification()));
     }
 }

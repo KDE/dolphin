@@ -57,6 +57,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     connect(dirLister, SIGNAL(completed()), this, SLOT(slotCompleted()));
     connect(dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(slotNewItems(KFileItemList)));
     connect(dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
+    connect(dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
     connect(dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
     connect(dirLister, SIGNAL(clear(KUrl)), this, SLOT(slotClear(KUrl)));
 
@@ -415,6 +416,55 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
         m_pendingItemsToInsert.clear();
     }
     removeItems(items);
+}
+
+void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items)
+{
+    Q_ASSERT(!items.isEmpty());
+#ifdef KFILEITEMMODEL_DEBUG
+    kDebug() << "Refreshing" << items.count() << "items";
+#endif
+
+    // Get the indexes of all items that have been refreshed
+    QList<int> indexes;
+    indexes.reserve(items.count());
+
+    QListIterator<QPair<KFileItem, KFileItem> > it(items);
+    while (it.hasNext()) {
+        const QPair<KFileItem, KFileItem>& itemPair = it.next();
+        const int index = m_items.value(itemPair.second.url(), -1);
+        if (index >= 0) {
+            indexes.append(index);
+        }
+    }
+
+    // Extract the item-ranges out of the changed indexes
+    qSort(indexes);
+
+    KItemRangeList itemRangeList;
+    int rangeIndex = 0;
+    int rangeCount = 1;
+    int previousIndex = indexes.at(0);
+
+    const int maxIndex = indexes.count() - 1;
+    for (int i = 1; i <= maxIndex; ++i) {
+        const int currentIndex = indexes.at(i);
+        if (currentIndex == previousIndex + 1) {
+            ++rangeCount;
+        } else {
+            itemRangeList.append(KItemRange(rangeIndex, rangeCount));
+
+            rangeIndex = currentIndex;
+            rangeCount = 1;
+        }
+        previousIndex = currentIndex;
+    }
+
+    if (rangeCount > 0) {
+        itemRangeList.append(KItemRange(rangeIndex, rangeCount));
+    }
+
+    emit itemsChanged(itemRangeList, QSet<QByteArray>());
 }
 
 void KFileItemModel::slotClear()
