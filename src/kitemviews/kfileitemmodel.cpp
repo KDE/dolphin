@@ -204,13 +204,22 @@ KFileItem KFileItemModel::fileItem(int index) const
     return KFileItem();
 }
 
+KFileItem KFileItemModel::fileItem(const KUrl& url) const
+{
+    const int index = m_items.value(url, -1);
+    if (index >= 0) {
+        return m_sortedItems.at(index);
+    }
+    return KFileItem();
+}
+
 int KFileItemModel::index(const KFileItem& item) const
 {
     if (item.isNull()) {
         return -1;
     }
 
-    return m_items.value(item, -1);
+    return m_items.value(item.url(), -1);
 }
 
 KUrl KFileItemModel::rootDirectory() const
@@ -360,7 +369,7 @@ void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArr
     int index = 0;
     foreach (const KFileItem& item, sortedItems) {
         m_sortedItems.append(item);
-        m_items.insert(item, index);
+        m_items.insert(item.url(), index);
         m_data.append(retrieveData(item));
 
         ++index;
@@ -504,7 +513,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     // The indexes of all m_items must be adjusted, not only the index
     // of the new items
     for (int i = 0; i < m_sortedItems.count(); ++i) {
-        m_items.insert(m_sortedItems.at(i), i);
+        m_items.insert(m_sortedItems.at(i).url(), i);
     }
 
     itemRanges << KItemRange(insertedAtIndex, insertedCount);
@@ -566,7 +575,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     // Delete the items
     for (int i = indexesToRemove.count() - 1; i >= 0; --i) {
         const int indexToRemove = indexesToRemove.at(i);
-        m_items.remove(m_sortedItems.at(indexToRemove));
+        m_items.remove(m_sortedItems.at(indexToRemove).url());
         m_sortedItems.removeAt(indexToRemove);
         m_data.removeAt(indexToRemove);
     }
@@ -574,7 +583,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     // The indexes of all m_items must be adjusted, not only the index
     // of the removed items
     for (int i = 0; i < m_sortedItems.count(); ++i) {
-        m_items.insert(m_sortedItems.at(i), i);
+        m_items.insert(m_sortedItems.at(i).url(), i);
     }
 
     if (count() <= 0) {

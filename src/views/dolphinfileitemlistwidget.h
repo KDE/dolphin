@@ -31,6 +31,11 @@ class LIBDOLPHINPRIVATE_EXPORT DolphinFileItemListWidget : public KFileItemListW
 public:
     DolphinFileItemListWidget(QGraphicsItem* parent);
     virtual ~DolphinFileItemListWidget();
+
+protected:
+    /** @reimp */
+    virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
+
 };
 
 #endif

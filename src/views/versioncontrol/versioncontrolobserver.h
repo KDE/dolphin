@@ -111,12 +111,6 @@ private:
     void updateItemStates();
 
     /**
-     * Adds recursively all items from the directory \p parentIndex into
-     * the list \p itemStates.
-     */
-    //void addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates);
-
-    /**
      * Returns a matching plugin for the given directory.
      * 0 is returned, if no matching plugin has been found.
      */

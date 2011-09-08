@@ -55,12 +55,8 @@ void UpdateItemStatesThread::run()
     Q_ASSERT(!m_itemStates.isEmpty());
     Q_ASSERT(m_plugin);
 
-    // The items from m_itemStates may be located in different directory levels. The version
-    // plugin requires the root directory for KVersionControlPlugin::beginRetrieval(). Instead
-    // of doing an expensive search, we utilize the knowledge of the implementation of
-    // VersionControlObserver::addDirectory() to be sure that the last item contains the root.
     QMutexLocker itemLocker(&m_itemMutex);
-    const QString directory = m_itemStates.last().item.url().directory(KUrl::AppendTrailingSlash);
+    const QString directory = m_itemStates.first().item.url().directory(KUrl::AppendTrailingSlash);
     itemLocker.unlock();
 
     QMutexLocker pluginLocker(m_globalPluginMutex);

@@ -165,8 +165,6 @@ void VersionControlObserver::verifyDirectory()
             // The directory is versioned. Assume that the user will further browse through
             // versioned directories and decrease the verification timer.
             m_dirVerificationTimer->setInterval(100);
-            connect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                   this, SLOT(delayedDirectoryVerification()));
         }
         updateItemStates();
     } else if (m_versionedDirectory) {
@@ -176,8 +174,6 @@ void VersionControlObserver::verifyDirectory()
         // value, so that browsing through non-versioned directories is not slown down
         // by an immediate verification.
         m_dirVerificationTimer->setInterval(500);
-        disconnect(m_model, SIGNAL(itemsInserted(KItemRangeList)),
-                   this, SLOT(delayedDirectoryVerification()));
     }
 }
 
@@ -196,7 +192,7 @@ void VersionControlObserver::slotThreadFinished()
     const QList<ItemState> itemStates = m_updateItemStatesThread->itemStates();
     foreach (const ItemState& itemState, itemStates) {
         QHash<QByteArray, QVariant> values;
-        values.insert("version", QVariant(static_cast<int>(itemState.version)));
+        values.insert("version", QVariant(itemState.version));
         m_model->setData(itemState.index, values);
     }
 
@@ -229,7 +225,18 @@ void VersionControlObserver::updateItemStates()
     }
 
     QList<ItemState> itemStates;
-    //addDirectory(QModelIndex(), itemStates);
+    const int itemCount = m_model->count();
+    itemStates.reserve(itemCount);
+
+    for (int i = 0; i < itemCount; ++i) {
+        ItemState itemState;
+        itemState.index = i;
+        itemState.item = m_model->fileItem(i);
+        itemState.version = KVersionControlPlugin::UnversionedVersion;
+
+        itemStates.append(itemState);
+    }
+
     if (!itemStates.isEmpty()) {
         if (!m_silentUpdate) {
             emit infoMessage(i18nc("@info:status", "Updating version information..."));
@@ -238,24 +245,6 @@ void VersionControlObserver::updateItemStates()
         m_updateItemStatesThread->start(); // slotThreadFinished() is called when finished
     }
 }
-
-/*void VersionControlObserver::addDirectory(const QModelIndex& parentIndex, QList<ItemState>& itemStates)
-{
-    Q_UNUSED(parentIndex);
-    Q_UNUSED(itemStates);
-    const int rowCount = m_dolphinModel->rowCount(parentIndex);
-    for (int row = 0; row < rowCount; ++row) {
-        const QModelIndex index = m_dolphinModel->index(row, DolphinModel::Version, parentIndex);
-        addDirectory(index, itemStates);
-
-        ItemState itemState;
-        itemState.index = index;
-        itemState.item = m_dolphinModel->itemForIndex(index);
-        itemState.version = KVersionControlPlugin::UnversionedVersion;
-
-        itemStates.append(itemState);
-    }
-}*/
 
 KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& directory) const
 {
@@ -293,11 +282,8 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
     Q_UNUSED(directory);
     foreach (KVersionControlPlugin* plugin, plugins) {
         // Use the KDirLister cache to check for .svn, .git, ... files
-        KUrl dirUrl(directory);
-        KUrl fileUrl = dirUrl;
-        fileUrl.addPath(plugin->fileName());
-        const KFileItem item; // = m_dirLister->findByUrl(fileUrl);
-        if (!item.isNull()) {
+        const QString fileName = directory.path(KUrl::AddTrailingSlash) + plugin->fileName();
+        if (QFile::exists(fileName)) {
             return plugin;
         }
 
@@ -308,11 +294,11 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
         // m_versionedDirectory. Drawback: Until e. g. Git is recognized, the root directory
         // must be shown at least once.
         if (m_versionedDirectory) {
+            KUrl dirUrl(directory);
             KUrl upUrl = dirUrl.upUrl();
             while (upUrl != dirUrl) {
-                const QString filePath = dirUrl.pathOrUrl(KUrl::AddTrailingSlash) + plugin->fileName();
-                QFileInfo file(filePath);
-                if (file.exists()) {
+                const QString fileName = dirUrl.path(KUrl::AddTrailingSlash) + plugin->fileName();
+                if (QFile::exists(fileName)) {
                     return plugin;
                 }
                 dirUrl = upUrl;

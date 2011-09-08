@@ -83,6 +83,13 @@ public:
     KFileItem fileItem(int index) const;
 
     /**
+     * @return The file-item for the url \a url. If no file-item with the given
+     *         URL is found KFileItem::isNull() will be true for the returned
+     *         file-item. The runtime complexity of this call is O(1).
+     */
+    KFileItem fileItem(const KUrl& url) const;
+
+    /**
      * @return The index for the file-item \a item. -1 is returned if no file-item
      *         is found or if the file-item is null. The runtime
      *         complexity of this call is O(1).
@@ -183,7 +190,7 @@ private:
     Qt::CaseSensitivity m_caseSensitivity;
 
     KFileItemList m_sortedItems;   // Allows O(1) access for KFileItemModel::fileItem(int index)
-    QHash<KFileItem, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
+    QHash<KUrl, int> m_items;      // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
     QList<QHash<QByteArray, QVariant> > m_data;
 
     bool m_requestRole[RolesCount];

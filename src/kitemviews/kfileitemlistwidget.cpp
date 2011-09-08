@@ -168,12 +168,14 @@ void KFileItemListWidget::setTextColor(const QColor& color)
         } else {
             *m_customTextColor = color;
         }
-    } else {
+        updateAdditionalInfoTextColor();
+        update();
+    } else if (m_customTextColor){
         delete m_customTextColor;
         m_customTextColor = 0;
+        updateAdditionalInfoTextColor();
+        update();
     }
-    updateAdditionalInfoTextColor();
-    update();
 }
 
 QColor KFileItemListWidget::textColor() const
