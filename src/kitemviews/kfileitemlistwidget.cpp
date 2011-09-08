@@ -56,8 +56,9 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_textBoundingRect(),
     m_sortedVisibleRoles(),
     m_expansionArea(),
-    m_customTextColor(0),
-    m_additionalInfoTextColor()
+    m_customTextColor(),
+    m_additionalInfoTextColor(),
+    m_overlay()
 {
     for (int i = 0; i < TextIdCount; ++i) {
         m_text[i].setTextFormat(Qt::PlainText);
@@ -67,8 +68,6 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
 
 KFileItemListWidget::~KFileItemListWidget()
 {
-    delete m_customTextColor;
-    m_customTextColor = 0;
 }
 
 void KFileItemListWidget::setLayout(Layout layout)
@@ -117,11 +116,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     }
 
     painter->setFont(itemListStyleOption.font);
-    if (m_customTextColor) {
-        painter->setPen(*m_customTextColor);
-    } else {
-        painter->setPen(itemListStyleOption.palette.text().color());
-    }
+    painter->setPen(textColor());
     painter->drawStaticText(m_textPos[Name], m_text[Name]);
 
     painter->setPen(m_additionalInfoTextColor);
@@ -162,17 +157,8 @@ QRectF KFileItemListWidget::expansionToggleRect() const
 
 void KFileItemListWidget::setTextColor(const QColor& color)
 {
-    if (color.isValid()) {
-        if (!m_customTextColor) {
-            m_customTextColor = new QColor(color);
-        } else {
-            *m_customTextColor = color;
-        }
-        updateAdditionalInfoTextColor();
-        update();
-    } else if (m_customTextColor){
-        delete m_customTextColor;
-        m_customTextColor = 0;
+    if (color != m_customTextColor) {
+        m_customTextColor = color;
         updateAdditionalInfoTextColor();
         update();
     }
@@ -180,7 +166,23 @@ void KFileItemListWidget::setTextColor(const QColor& color)
 
 QColor KFileItemListWidget::textColor() const
 {
-    return m_customTextColor ? *m_customTextColor : styleOption().palette.text().color();
+    return m_customTextColor.isValid() ? m_customTextColor : styleOption().palette.text().color();
+}
+
+void KFileItemListWidget::setOverlay(const QPixmap& overlay)
+{
+    const bool updateContent = (overlay.isNull() && !m_overlay.isNull()) ||
+                               (!overlay.isNull() && m_overlay.isNull());
+    if (updateContent) {
+        m_overlay = overlay;
+        m_dirtyContent = true;
+        update();
+    }
+}
+
+QPixmap KFileItemListWidget::overlay() const
+{
+    return m_overlay;
 }
 
 void KFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
@@ -368,6 +370,10 @@ void KFileItemListWidget::updatePixmapCache()
         }
 
         Q_ASSERT(m_pixmap.height() == iconHeight);
+    }
+    if (!m_overlay.isNull()) {
+        QPainter painter(&m_pixmap);
+        painter.drawPixmap(0, m_pixmap.height() - m_overlay.height(), m_overlay);
     }
 
     m_scaledPixmapSize = QSize(scaledIconHeight, scaledIconHeight);
@@ -626,7 +632,7 @@ void KFileItemListWidget::updateAdditionalInfoTextColor()
     // For the color of the additional info the inactive text color
     // is not used as this might lead to unreadable text for some color schemes. Instead
     // the text color is slightly mixed with the background color.
-    const QColor c1 = m_customTextColor ? *m_customTextColor : styleOption().palette.text().color();
+    const QColor c1 = textColor();
     const QColor c2 = styleOption().palette.background().color();
     const int p1 = 70;
     const int p2 = 100 - p1;

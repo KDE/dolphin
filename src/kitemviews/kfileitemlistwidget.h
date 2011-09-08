@@ -55,6 +55,9 @@ public:
 protected:
     void setTextColor(const QColor& color);
     QColor textColor() const;
+
+    void setOverlay(const QPixmap& overlay);
+    QPixmap overlay() const;
     
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous);
@@ -116,8 +119,11 @@ private:
     QList<QByteArray> m_sortedVisibleRoles;
 
     QRectF m_expansionArea;
-    QColor* m_customTextColor;
+
+    QColor m_customTextColor;
     QColor m_additionalInfoTextColor;
+
+    QPixmap m_overlay;
 };
 
 #endif

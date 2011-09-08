@@ -23,7 +23,14 @@
 #include <libdolphin_export.h>
 
 #include <kitemviews/kfileitemlistwidget.h>
+#include <kversioncontrolplugin.h>
 
+/**
+ * @brief Extends KFileItemListWidget to handle the "version" role.
+ *
+ * The "version" role is set if version-control-plugins have been enabled.
+ * @see KVersionControlPlugin
+ */
 class LIBDOLPHINPRIVATE_EXPORT DolphinFileItemListWidget : public KFileItemListWidget
 {
     Q_OBJECT
@@ -33,8 +40,11 @@ public:
     virtual ~DolphinFileItemListWidget();
 
 protected:
-    /** @reimp */
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
+    virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+
+private:
+    static QPixmap overlayForState(KVersionControlPlugin::VersionState state, int size);
 
 };
 
