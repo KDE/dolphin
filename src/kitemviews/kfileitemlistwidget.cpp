@@ -88,7 +88,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 {
     KItemListWidget::paint(painter, option, widget);
 
-    const_cast<KFileItemListWidget*>(this)->updateCache();
+    const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
 
     // Draw expansion toggle '>' or 'V'
     if (m_isDir && !m_expansionArea.isEmpty()) {
@@ -135,7 +135,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
 QRectF KFileItemListWidget::iconBoundingRect() const
 {
-    const_cast<KFileItemListWidget*>(this)->updateCache();
+    const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
 
     QRectF bounds = m_hoverPixmapRect;
     const qreal margin = styleOption().margin;
@@ -145,14 +145,24 @@ QRectF KFileItemListWidget::iconBoundingRect() const
 
 QRectF KFileItemListWidget::textBoundingRect() const
 {
-    const_cast<KFileItemListWidget*>(this)->updateCache();
+    const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
     return m_textBoundingRect;
 }
 
 QRectF KFileItemListWidget::expansionToggleRect() const
 {
-    const_cast<KFileItemListWidget*>(this)->updateCache();
+    const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
     return m_isDir ? m_expansionArea : QRectF();
+}
+
+void KFileItemListWidget::invalidateCache()
+{
+    m_dirtyLayout = true;
+    m_dirtyContent = true;
+}
+
+void KFileItemListWidget::refreshCache()
+{
 }
 
 void KFileItemListWidget::setTextColor(const QColor& color)
@@ -171,13 +181,9 @@ QColor KFileItemListWidget::textColor() const
 
 void KFileItemListWidget::setOverlay(const QPixmap& overlay)
 {
-    const bool updateContent = (overlay.isNull() && !m_overlay.isNull()) ||
-                               (!overlay.isNull() && m_overlay.isNull());
-    if (updateContent) {
-        m_overlay = overlay;
-        m_dirtyContent = true;
-        update();
-    }
+    m_overlay = overlay;
+    m_dirtyContent = true;
+    update();
 }
 
 QPixmap KFileItemListWidget::overlay() const
@@ -263,11 +269,13 @@ void KFileItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
     m_dirtyLayout = true;
 }
 
-void KFileItemListWidget::updateCache()
+void KFileItemListWidget::triggerCacheRefreshing()
 {
     if ((!m_dirtyContent && !m_dirtyLayout) || index() < 0) {
         return;
     }
+
+    refreshCache();
 
     m_isDir = data()["isDir"].toBool();
 

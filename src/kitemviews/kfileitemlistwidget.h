@@ -53,6 +53,18 @@ public:
     virtual QRectF expansionToggleRect() const;
 
 protected:
+    /**
+     * Invalidates the cache which results in calling KFileItemListWidget::refreshCache() as
+     * soon as the item need to gets repainted.
+     */
+    void invalidateCache();
+
+    /**
+     * Is called if the cache got invalidated by KFileItemListWidget::invalidateCache().
+     * The default implementation is empty.
+     */
+    virtual void refreshCache();
+
     void setTextColor(const QColor& color);
     QColor textColor() const;
 
@@ -80,7 +92,7 @@ private:
         TextIdCount // Mandatory last entry
     };
 
-    void updateCache();
+    void triggerCacheRefreshing();
     void updateExpansionArea();
     void updatePixmapCache();
 

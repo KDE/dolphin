@@ -40,8 +40,7 @@ public:
     virtual ~DolphinFileItemListWidget();
 
 protected:
-    virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
-    virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void refreshCache();
 
 private:
     static QPixmap overlayForState(KVersionControlPlugin::VersionState state, int size);

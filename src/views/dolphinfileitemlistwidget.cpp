@@ -34,16 +34,14 @@ DolphinFileItemListWidget::~DolphinFileItemListWidget()
 {
 }
 
-void DolphinFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles)
+void DolphinFileItemListWidget::refreshCache()
 {
-    KFileItemListWidget::dataChanged(current, roles);
-
     QColor color;
-    QPixmap overlay;
-    if (roles.contains("version")) {
+    const QHash<QByteArray, QVariant> values = data();
+    if (values.contains("version")) {
         // The item is under version control. Apply the text color corresponding
         // to its version state.
-        const KVersionControlPlugin::VersionState version = static_cast<KVersionControlPlugin::VersionState>(current.value("version").toInt());
+        const KVersionControlPlugin::VersionState version = static_cast<KVersionControlPlugin::VersionState>(values.value("version").toInt());
         const QColor textColor = styleOption().palette.text().color();
         QColor tintColor = textColor;
 
@@ -68,22 +66,12 @@ void DolphinFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& c
                        (tintColor.blue()  + textColor.blue())  / 2,
                        (tintColor.alpha() + textColor.alpha()) / 2);
 
-        overlay = overlayForState(version, styleOption().iconSize);
+        setOverlay(overlayForState(version, styleOption().iconSize));
+    } else if (!overlay().isNull()) {
+        setOverlay(QPixmap());
     }
 
     setTextColor(color);
-    setOverlay(overlay);
-}
-
-void DolphinFileItemListWidget::styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
-{
-    KFileItemListWidget::styleOptionChanged(current, previous);
-
-    if (!overlay().isNull() && current.iconSize != previous.iconSize) {
-        const KVersionControlPlugin::VersionState version = static_cast<KVersionControlPlugin::VersionState>(data().value("version").toInt());
-        const QPixmap newOverlay = overlayForState(version, current.iconSize);
-        setOverlay(newOverlay);
-    }
 }
 
 QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::VersionState version, int size)
