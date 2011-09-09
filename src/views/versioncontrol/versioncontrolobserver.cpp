@@ -28,7 +28,6 @@
 #include <kitemviews/kfileitemmodel.h>
 #include <kversioncontrolplugin.h>
 
-#include "pendingthreadsmaintainer.h"
 #include "updateitemstatesthread.h"
 
 #include <QMutexLocker>
@@ -58,24 +57,8 @@ VersionControlObserver::VersionControlObserver(QObject* parent) :
 
 VersionControlObserver::~VersionControlObserver()
 {
-    if (m_updateItemStatesThread) {
-        if (m_updateItemStatesThread->isFinished()) {
-            delete m_updateItemStatesThread;
-            m_updateItemStatesThread = 0;
-        } else {
-            // The version controller gets deleted, while a thread still
-            // is working to get the version information. To avoid a blocking
-            // user interface, the thread will be forwarded to the
-            // PendingThreadsMaintainer, which will delete the thread later.
-            disconnect(m_updateItemStatesThread, SIGNAL(finished()),
-                       this, SLOT(slotThreadFinished()));
-            PendingThreadsMaintainer::instance().append(m_updateItemStatesThread);
-            m_updateItemStatesThread = 0;
-        }
-    }
-
     if (m_plugin) {
-        m_plugin->disconnect();
+        m_plugin->disconnect(this);
         m_plugin = 0;
     }
 }
@@ -149,7 +132,7 @@ void VersionControlObserver::verifyDirectory()
     }
 
     if (m_plugin) {
-        m_plugin->disconnect();
+        m_plugin->disconnect(this);
     }
 
     m_plugin = searchPlugin(versionControlUrl);
@@ -183,17 +166,20 @@ void VersionControlObserver::verifyDirectory()
 
 void VersionControlObserver::slotThreadFinished()
 {
+    UpdateItemStatesThread* thread = m_updateItemStatesThread;
+    m_updateItemStatesThread = 0; // The thread deletes itself automatically (see updateItemStates())
+
     if (!m_plugin) {
         return;
     }
 
-    if (!m_updateItemStatesThread->retrievedItems()) {
+    if (!thread->retrievedItems()) {
         // Ignore m_silentUpdate for an error message
         emit errorMessage(i18nc("@info:status", "Update of version information failed."));
         return;
     }
 
-    const QList<ItemState> itemStates = m_updateItemStatesThread->itemStates();
+    const QList<ItemState> itemStates = thread->itemStates();
     foreach (const ItemState& itemState, itemStates) {
         QHash<QByteArray, QVariant> values;
         values.insert("version", QVariant(itemState.version));
@@ -220,6 +206,8 @@ void VersionControlObserver::updateItemStates()
         m_updateItemStatesThread = new UpdateItemStatesThread();
         connect(m_updateItemStatesThread, SIGNAL(finished()),
                 this, SLOT(slotThreadFinished()));
+        connect(m_updateItemStatesThread, SIGNAL(finished()),
+                m_updateItemStatesThread, SLOT(deleteLater()));
     }
     if (m_updateItemStatesThread->isRunning()) {
         // An update is currently ongoing. Wait until the thread has finished
@@ -283,7 +271,6 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
 
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
-    Q_UNUSED(directory);
     foreach (KVersionControlPlugin* plugin, plugins) {
         // Use the KDirLister cache to check for .svn, .git, ... files
         const QString fileName = directory.path(KUrl::AddTrailingSlash) + plugin->fileName();
