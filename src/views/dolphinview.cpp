@@ -518,8 +518,16 @@ QString DolphinView::statusBarText() const
 
 QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) const
 {
-    Q_UNUSED(items);
-    return QList<QAction*>(); //m_dolphinViewController->versionControlActions(items);
+    QList<QAction*> actions;
+
+    if (items.isEmpty()) {
+        const KUrl url = fileItemModel()->rootDirectory();
+        actions = m_versionControlObserver->contextMenuActions(url.path(KUrl::AddTrailingSlash));
+    } else {
+        actions = m_versionControlObserver->contextMenuActions(items);
+    }
+
+    return actions;
 }
 
 void DolphinView::setUrl(const KUrl& url)

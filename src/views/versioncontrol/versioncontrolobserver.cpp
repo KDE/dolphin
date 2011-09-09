@@ -90,19 +90,28 @@ KFileItemModel* VersionControlObserver::model() const
 QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& items) const
 {
     QList<QAction*> actions;
-    if (isVersioned() && m_updateItemStatesThread->lockPlugin()) {
-        actions = m_plugin->contextMenuActions(items);
-        m_updateItemStatesThread->unlockPlugin();
+    if (isVersioned()) {
+        if (m_updateItemStatesThread && m_updateItemStatesThread->lockPlugin()) {
+            actions = m_plugin->contextMenuActions(items);
+            m_updateItemStatesThread->unlockPlugin();
+        } else {
+            actions = m_plugin->contextMenuActions(items);
+        }
     }
+
     return actions;
 }
 
 QList<QAction*> VersionControlObserver::contextMenuActions(const QString& directory) const
 {
     QList<QAction*> actions;
-    if (isVersioned() && m_updateItemStatesThread->lockPlugin()) {
-        actions = m_plugin->contextMenuActions(directory);
-        m_updateItemStatesThread->unlockPlugin();
+    if (isVersioned()) {
+        if (m_updateItemStatesThread && m_updateItemStatesThread->lockPlugin()) {
+            actions = m_plugin->contextMenuActions(directory);
+            m_updateItemStatesThread->unlockPlugin();
+        } else {
+            actions = m_plugin->contextMenuActions(directory);
+        }
     }
 
     return actions;
@@ -303,7 +312,7 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
 
 bool VersionControlObserver::isVersioned() const
 {
-    return false; //m_dolphinModel->hasVersionData() && m_plugin;
+    return m_versionedDirectory && m_plugin;
 }
 
 #include "versioncontrolobserver.moc"
