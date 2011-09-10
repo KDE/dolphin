@@ -438,6 +438,12 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         }
     }
 
+    // If the changed items have been created recently, they might not be in m_items yet.
+    // In that case, the list 'indexes' might be empty.
+    if (indexes.isEmpty()) {
+        return;
+    }
+
     // Extract the item-ranges out of the changed indexes
     qSort(indexes);
 
