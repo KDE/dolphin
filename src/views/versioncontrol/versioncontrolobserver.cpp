@@ -26,7 +26,7 @@
 #include <KService>
 #include <KServiceTypeTrader>
 #include <kitemviews/kfileitemmodel.h>
-#include <kversioncontrolplugin.h>
+#include <kversioncontrolplugin2.h>
 
 #include "updateitemstatesthread.h"
 
@@ -87,30 +87,41 @@ KFileItemModel* VersionControlObserver::model() const
     return m_model;
 }
 
-QList<QAction*> VersionControlObserver::contextMenuActions(const KFileItemList& items) const
+QList<QAction*> VersionControlObserver::actions(const KFileItemList& items) const
 {
     QList<QAction*> actions;
-    if (isVersioned()) {
-        if (m_updateItemStatesThread && m_updateItemStatesThread->lockPlugin()) {
-            actions = m_plugin->contextMenuActions(items);
-            m_updateItemStatesThread->unlockPlugin();
-        } else {
-            actions = m_plugin->contextMenuActions(items);
-        }
+    if (!m_model) {
+        return actions;
     }
 
-    return actions;
-}
-
-QList<QAction*> VersionControlObserver::contextMenuActions(const QString& directory) const
-{
-    QList<QAction*> actions;
-    if (isVersioned()) {
+    KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
+    if (pluginV2) {
+        // Use version 2 of the KVersionControlPlugin which allows providing actions
+        // also for non-versioned directories.
         if (m_updateItemStatesThread && m_updateItemStatesThread->lockPlugin()) {
-            actions = m_plugin->contextMenuActions(directory);
+            actions = pluginV2->actions(items);
             m_updateItemStatesThread->unlockPlugin();
         } else {
-            actions = m_plugin->contextMenuActions(directory);
+            actions = pluginV2->actions(items);
+        }
+    } else if (isVersioned()) {
+        // Support deprecated interfaces from KVersionControlPlugin version 1.
+        // Context menu actions where only available for versioned directories.
+        QString directory;
+        if (items.count() == 1) {
+            const KFileItem rootItem = m_model->rootItem();
+            if (!rootItem.isNull() && items.first().url() == rootItem.url()) {
+                directory = rootItem.url().path(KUrl::AddTrailingSlash);
+            }
+        }
+
+        if (m_updateItemStatesThread && m_updateItemStatesThread->lockPlugin()) {
+            actions = directory.isEmpty() ? m_plugin->contextMenuActions(items)
+                                          : m_plugin->contextMenuActions(directory);
+            m_updateItemStatesThread->unlockPlugin();
+        } else {
+            actions = directory.isEmpty() ? m_plugin->contextMenuActions(items)
+                                          : m_plugin->contextMenuActions(directory);
         }
     }
 
@@ -135,7 +146,7 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-    const KUrl versionControlUrl = m_model->rootDirectory();
+    const KUrl versionControlUrl = m_model->rootItem().url();
     if (!versionControlUrl.isLocalFile()) {
         return;
     }
@@ -146,8 +157,14 @@ void VersionControlObserver::verifyDirectory()
 
     m_plugin = searchPlugin(versionControlUrl);
     if (m_plugin) {
-        connect(m_plugin, SIGNAL(versionStatesChanged()),
-                this, SLOT(silentDirectoryVerification()));
+        KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
+        if (pluginV2) {
+            connect(pluginV2, SIGNAL(itemVersionsChanged()),
+                    this, SLOT(silentDirectoryVerification()));
+        } else {
+            connect(m_plugin, SIGNAL(versionStatesChanged()),
+                    this, SLOT(silentDirectoryVerification()));
+        }
         connect(m_plugin, SIGNAL(infoMessage(QString)),
                 this, SIGNAL(infoMessage(QString)));
         connect(m_plugin, SIGNAL(errorMessage(QString)),
@@ -233,7 +250,7 @@ void VersionControlObserver::updateItemStates()
         ItemState itemState;
         itemState.index = i;
         itemState.item = m_model->fileItem(i);
-        itemState.version = KVersionControlPlugin::UnversionedVersion;
+        itemState.version = KVersionControlPlugin2::UnversionedVersion;
 
         itemStates.append(itemState);
     }

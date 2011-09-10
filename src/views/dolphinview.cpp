@@ -521,10 +521,10 @@ QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) c
     QList<QAction*> actions;
 
     if (items.isEmpty()) {
-        const KUrl url = fileItemModel()->rootDirectory();
-        actions = m_versionControlObserver->contextMenuActions(url.path(KUrl::AddTrailingSlash));
+        const KFileItem item = fileItemModel()->rootItem();
+        actions = m_versionControlObserver->actions(KFileItemList() << item);
     } else {
-        actions = m_versionControlObserver->contextMenuActions(items);
+        actions = m_versionControlObserver->actions(items);
     }
 
     return actions;

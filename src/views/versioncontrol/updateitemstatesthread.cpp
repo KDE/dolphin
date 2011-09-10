@@ -19,6 +19,8 @@
 
 #include "updateitemstatesthread.h"
 
+#include <kversioncontrolplugin2.h>
+
 #include <QMutexLocker>
 
 UpdateItemStatesThread::UpdateItemStatesThread() :
@@ -64,9 +66,19 @@ void UpdateItemStatesThread::run()
     if (m_plugin->beginRetrieval(directory)) {
         itemLocker.relock();
         const int count = m_itemStates.count();
-        for (int i = 0; i < count; ++i) {
-            m_itemStates[i].version = m_plugin->versionState(m_itemStates[i].item);
+
+        KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
+        if (pluginV2) {
+            for (int i = 0; i < count; ++i) {
+                m_itemStates[i].version = pluginV2->itemVersion(m_itemStates[i].item);
+            }
+        } else {
+            for (int i = 0; i < count; ++i) {
+                const KVersionControlPlugin::VersionState state = m_plugin->versionState(m_itemStates[i].item);
+                m_itemStates[i].version = static_cast<KVersionControlPlugin2::ItemVersion>(state);
+            }
         }
+
         m_plugin->endRetrieval();
         m_retrievedItems = true;
     }

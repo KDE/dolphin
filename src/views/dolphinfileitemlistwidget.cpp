@@ -21,6 +21,7 @@
 
 #include <KIcon>
 #include <KIconLoader>
+#include <kversioncontrolplugin2.h>
 #include <QColor>
 
 #include <KDebug>
@@ -41,7 +42,7 @@ void DolphinFileItemListWidget::refreshCache()
     if (values.contains("version")) {
         // The item is under version control. Apply the text color corresponding
         // to its version state.
-        const KVersionControlPlugin::VersionState version = static_cast<KVersionControlPlugin::VersionState>(values.value("version").toInt());
+        const KVersionControlPlugin2::ItemVersion version = static_cast<KVersionControlPlugin2::ItemVersion>(values.value("version").toInt());
         const QColor textColor = styleOption().palette.text().color();
         QColor tintColor = textColor;
 
@@ -49,14 +50,16 @@ void DolphinFileItemListWidget::refreshCache()
         // as tint colors and are mixed with the current set text color. The tint colors
         // have been optimized for the base colors of the corresponding Oxygen emblems.
         switch (version) {
-        case KVersionControlPlugin::UpdateRequiredVersion:          tintColor = Qt::yellow; break;
-        case KVersionControlPlugin::LocallyModifiedUnstagedVersion: tintColor = Qt::green; break;
-        case KVersionControlPlugin::LocallyModifiedVersion:         tintColor = Qt::green; break;
-        case KVersionControlPlugin::AddedVersion:                   tintColor = Qt::green; break;
-        case KVersionControlPlugin::RemovedVersion:                 tintColor = Qt::darkRed; break;
-        case KVersionControlPlugin::ConflictingVersion:             tintColor = Qt::red; break;
-        case KVersionControlPlugin::UnversionedVersion:             tintColor = Qt::white; break;
-        case KVersionControlPlugin::NormalVersion:
+        case KVersionControlPlugin2::UpdateRequiredVersion:          tintColor = Qt::yellow; break;
+        case KVersionControlPlugin2::LocallyModifiedUnstagedVersion: tintColor = Qt::green; break;
+        case KVersionControlPlugin2::LocallyModifiedVersion:         tintColor = Qt::green; break;
+        case KVersionControlPlugin2::AddedVersion:                   tintColor = Qt::green; break;
+        case KVersionControlPlugin2::RemovedVersion:                 tintColor = Qt::darkRed; break;
+        case KVersionControlPlugin2::ConflictingVersion:             tintColor = Qt::red; break;
+        case KVersionControlPlugin2::UnversionedVersion:             tintColor = Qt::white; break;
+        case KVersionControlPlugin2::IgnoredVersion:                 tintColor = Qt::white; break;
+        case KVersionControlPlugin2::MissingVersion:                 tintColor = Qt::red; break;
+        case KVersionControlPlugin2::NormalVersion:
         default:
             break;
         }
@@ -74,7 +77,7 @@ void DolphinFileItemListWidget::refreshCache()
     setTextColor(color);
 }
 
-QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin::VersionState version, int size)
+QPixmap DolphinFileItemListWidget::overlayForState(KVersionControlPlugin2::ItemVersion version, int size)
 {
     int overlayHeight = KIconLoader::SizeSmall;
     if (size >= KIconLoader::SizeEnormous) {

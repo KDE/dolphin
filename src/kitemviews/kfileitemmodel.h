@@ -97,9 +97,9 @@ public:
     int index(const KFileItem& item) const;
 
     /**
-     * @return Root directory of all items.
+     * @return Root item of all items.
      */
-    KUrl rootDirectory() const;
+    KFileItem rootItem() const;
 
     /**
      * Clears all items of the model.

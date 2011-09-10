@@ -223,13 +223,13 @@ int KFileItemModel::index(const KFileItem& item) const
     return m_items.value(item.url(), -1);
 }
 
-KUrl KFileItemModel::rootDirectory() const
+KFileItem KFileItemModel::rootItem() const
 {
     const KDirLister* dirLister = m_dirLister.data();
     if (dirLister) {
-        return dirLister->url();
+        return dirLister->rootItem();
     }
-    return KUrl();
+    return KFileItem();
 }
 
 void KFileItemModel::clear()

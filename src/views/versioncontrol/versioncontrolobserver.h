@@ -23,7 +23,7 @@
 #include <libdolphin_export.h>
 
 #include <KFileItem>
-#include <kversioncontrolplugin.h>
+#include <kversioncontrolplugin2.h>
 #include <QList>
 #include <QMutex>
 #include <QObject>
@@ -54,8 +54,7 @@ public:
     void setModel(KFileItemModel* model);
     KFileItemModel* model() const;
 
-    QList<QAction*> contextMenuActions(const KFileItemList& items) const;
-    QList<QAction*> contextMenuActions(const QString& directory) const;
+    QList<QAction*> actions(const KFileItemList& items) const;
 
 signals:
     /**
@@ -105,7 +104,7 @@ private:
     {
         int index;
         KFileItem item;
-        KVersionControlPlugin::VersionState version;
+        KVersionControlPlugin2::ItemVersion version;
     };
 
     void updateItemStates();

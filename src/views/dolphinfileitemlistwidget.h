@@ -23,7 +23,7 @@
 #include <libdolphin_export.h>
 
 #include <kitemviews/kfileitemlistwidget.h>
-#include <kversioncontrolplugin.h>
+#include <kversioncontrolplugin2.h>
 
 /**
  * @brief Extends KFileItemListWidget to handle the "version" role.
@@ -43,7 +43,7 @@ protected:
     virtual void refreshCache();
 
 private:
-    static QPixmap overlayForState(KVersionControlPlugin::VersionState state, int size);
+    static QPixmap overlayForState(KVersionControlPlugin2::ItemVersion version, int size);
 
 };
 
