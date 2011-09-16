@@ -285,9 +285,28 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 {
     Q_UNUSED(itemRanges);
     m_firstVisibleIndex = 0;
-    m_lastVisibleIndex = -1;
-    if (hasPendingRoles() && m_model->count() <= 0) {
+    m_lastVisibleIndex = -1;    
+    if (!hasPendingRoles()) {
+        return;
+    }
+
+    if (m_model->count() == 0) {
+        // Most probably a directory change is done. Clear all pending items
+        // and also kill all ongoing preview-jobs.
         resetPendingRoles();
+    } else {
+        // Remove all items from m_pendingVisibleItems and m_pendingInvisibleItems
+        // that are not part of the model anymore.
+        for (int i = 0; i <= 1; ++i) {
+            QSet<KFileItem>& pendingItems = (i == 0) ? m_pendingVisibleItems : m_pendingInvisibleItems;
+            QMutableSetIterator<KFileItem> it(pendingItems);
+            while (it.hasNext()) {
+                const KFileItem item = it.next();
+                if (m_model->index(item) < 0) {
+                    pendingItems.remove(item);
+                }
+            }
+        }
     }
 }
 
@@ -477,7 +496,7 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
 
 void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
 {
-    if (items.count() <= 0 || m_paused) {
+    if (items.isEmpty() || m_paused) {
         return;
     }
 
@@ -541,7 +560,6 @@ void KFileItemModelRolesUpdater::resetPendingRoles()
 
 void KFileItemModelRolesUpdater::triggerPendingRolesResolving(int count)
 {
-    Q_ASSERT(count <= m_model->count());
     if (count == m_model->count()) {
         // When initially loading a directory a synchronous resolving prevents a minor
         // flickering when opening directories. This is also fine from a performance point
@@ -565,7 +583,7 @@ void KFileItemModelRolesUpdater::sortAndResolveAllRoles()
     Q_ASSERT(m_pendingVisibleItems.isEmpty());
     Q_ASSERT(m_pendingInvisibleItems.isEmpty());
 
-    if (m_model->count() <= 0) {
+    if (m_model->count() == 0) {
         return;
     }
 
@@ -599,7 +617,7 @@ void KFileItemModelRolesUpdater::sortAndResolveAllRoles()
 void KFileItemModelRolesUpdater::sortAndResolvePendingRoles()
 {
     Q_ASSERT(!m_paused);
-    if (m_model->count() <= 0) {
+    if (m_model->count() == 0) {
         return;
     }
 
@@ -638,6 +656,10 @@ void KFileItemModelRolesUpdater::sortAndResolvePendingRoles()
 
 bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, ResolveHint hint)
 {
+    if (item.isNull()) {
+        return false;
+    }
+
     const bool resolveAll = (hint == ResolveAll);
 
     bool mimeTypeChanged = false;
