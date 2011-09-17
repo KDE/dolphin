@@ -736,6 +736,7 @@ private:
     void updateWritableState();
 
     QByteArray sortRoleForSorting(Sorting sorting) const;
+    Sorting sortingForSortRole(const QByteArray& sortRole) const;
 
 private:
     bool m_active : 1;

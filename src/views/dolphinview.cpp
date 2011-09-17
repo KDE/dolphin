@@ -358,8 +358,8 @@ void DolphinView::setSorting(Sorting sorting)
 
 DolphinView::Sorting DolphinView::sorting() const
 {
-    return DolphinView::SortByName;
-    //return m_viewAccessor.proxyModel()->sorting();
+    KItemModelBase* model = m_container->controller()->model();
+    return sortingForSortRole(model->sortRole());
 }
 
 void DolphinView::setSortOrder(Qt::SortOrder order)
@@ -1281,6 +1281,23 @@ QByteArray DolphinView::sortRoleForSorting(Sorting sorting) const
     }
 
     return QByteArray();
+}
+
+DolphinView::Sorting DolphinView::sortingForSortRole(const QByteArray& sortRole) const
+{
+    static QHash<QByteArray, DolphinView::Sorting> sortHash;
+    if (sortHash.isEmpty()) {
+        sortHash.insert("name", SortByName);
+        sortHash.insert("size", SortBySize);
+        sortHash.insert("date", SortByDate);
+        sortHash.insert("permissions", SortByPermissions);
+        sortHash.insert("owner", SortByOwner);
+        sortHash.insert("group", SortByGroup);
+        sortHash.insert("type", SortByType);
+        sortHash.insert("destination", SortByDestination);
+        sortHash.insert("path", SortByPath);
+    }
+    return sortHash.value(sortRole);
 }
 
 #include "dolphinview.moc"
