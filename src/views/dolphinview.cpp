@@ -151,7 +151,6 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
 
     connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SLOT(slotRedirection(KUrl,KUrl)));
     connect(m_dirLister, SIGNAL(started(KUrl)),          this, SLOT(slotDirListerStarted(KUrl)));
-    connect(m_dirLister, SIGNAL(completed()),            this, SLOT(slotDirListerCompleted()));
     connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
             this, SLOT(slotRefreshItems()));
 
@@ -180,6 +179,11 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
     connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)), this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
 
+    KFileItemModel* model = fileItemModel();
+    if (model) {
+        connect(model, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
+    }
+
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
             this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
@@ -187,7 +191,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_toolTipManager = new ToolTipManager(this);
 
     m_versionControlObserver = new VersionControlObserver(this);
-    m_versionControlObserver->setModel(fileItemModel());
+    m_versionControlObserver->setModel(model);
     connect(m_versionControlObserver, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
     connect(m_versionControlObserver, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
     connect(m_versionControlObserver, SIGNAL(operationCompletedMessage(QString)), this, SIGNAL(operationCompletedMessage(QString)));
@@ -812,8 +816,12 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
 
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
-    Q_UNUSED(previous);
+    if (previous != 0) {
+        disconnect(previous, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
+    }
+
     Q_ASSERT(qobject_cast<KFileItemModel*>(current));
+    connect(current, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
 
     KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(current);
     m_versionControlObserver->setModel(fileItemModel);
@@ -921,16 +929,9 @@ void DolphinView::restoreState(QDataStream& stream)
     stream >> m_restoredContentsPosition;
 
     // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
-    QSet<KUrl> urlsToExpand;
-    stream >> urlsToExpand;
-    /*const DolphinDetailsViewExpander* expander = m_viewAccessor.setExpandedUrls(urlsToExpand);
-    if (expander) {
-        m_expanderActive = true;
-        connect (expander, SIGNAL(completed()), this, SLOT(slotLoadingCompleted()));
-    }
-    else {
-        m_expanderActive = false;
-    }*/
+    QSet<KUrl> urls;
+    stream >> urls;
+    fileItemModel()->restoreExpandedUrls(urls);
 }
 
 void DolphinView::saveState(QDataStream& stream)
@@ -944,7 +945,7 @@ void DolphinView::saveState(QDataStream& stream)
     stream << QPoint(x, y);
 
     // Save expanded folders (only relevant for the details view - the set will be empty in other view modes)
-    //stream << m_viewAccessor.expandedUrls();
+    stream << fileItemModel()->expandedUrls();
 }
 
 bool DolphinView::hasSelection() const
@@ -1044,7 +1045,7 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
 void DolphinView::slotDirListerStarted(const KUrl& url)
 {
     // Disable the writestate temporary until it can be determined in a fast way
-    // in DolphinView::slotDirListerCompleted()
+    // in DolphinView::slotLoadingCompleted()
     if (m_isFolderWritable) {
         m_isFolderWritable = false;
         emit writeStateChanged(m_isFolderWritable);
@@ -1053,7 +1054,7 @@ void DolphinView::slotDirListerStarted(const KUrl& url)
     emit startedPathLoading(url);
 }
 
-void DolphinView::slotDirListerCompleted()
+void DolphinView::slotLoadingCompleted()
 {
     // Update the view-state. This has to be done using a Qt::QueuedConnection
     // because the view might not be in its final state yet (the view also

@@ -45,7 +45,10 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_minimumUpdateIntervalTimer(0),
     m_maximumUpdateIntervalTimer(0),
     m_pendingItemsToInsert(),
-    m_rootExpansionLevel(-1)
+    m_pendingEmitLoadingCompleted(false),
+    m_rootExpansionLevel(-1),
+    m_expandedUrls(),
+    m_restoredExpandedUrls()
 {
     resetRoles();
     m_requestRole[NameRole] = true;
@@ -306,14 +309,18 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         return false;
     }
 
+    const KUrl url = m_sortedItems.at(index).url();
     if (expanded) {
-        const KUrl url = m_sortedItems.at(index).url();
+        m_expandedUrls.insert(url);
+
         KDirLister* dirLister = m_dirLister.data();
         if (dirLister) {
             dirLister->openUrl(url, KDirLister::Keep);
             return true;
         }
     } else {
+        m_expandedUrls.remove(url);
+
         KFileItemList itemsToRemove;
         const int expansionLevel = data(index)["expansionLevel"].toInt();
         ++index;
@@ -342,6 +349,16 @@ bool KFileItemModel::isExpandable(int index) const
         return m_sortedItems.at(index).isDir();
     }
     return false;
+}
+
+QSet<KUrl> KFileItemModel::expandedUrls() const
+{
+    return m_expandedUrls;
+}
+
+void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
+{
+    m_restoredExpandedUrls = urls;
 }
 
 void KFileItemModel::onGroupRoleChanged(const QByteArray& current, const QByteArray& previous)
@@ -381,13 +398,38 @@ void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArr
 
 void KFileItemModel::slotCompleted()
 {
-    if (m_minimumUpdateIntervalTimer->isActive()) {
+    if (m_restoredExpandedUrls.isEmpty() && m_minimumUpdateIntervalTimer->isActive()) {
         // dispatchPendingItems() will be called when the timer
         // has been expired.
+        m_pendingEmitLoadingCompleted = true;
         return;
     }
 
+    m_pendingEmitLoadingCompleted = false;
     dispatchPendingItemsToInsert();
+
+    if (!m_restoredExpandedUrls.isEmpty()) {
+        // Try to find a URL that can be expanded.
+        // Note that the parent folder must be expanded before any of its subfolders become visible.
+        // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
+        // -> we expand the first visible URL we find in m_restoredExpandedUrls.
+        foreach(const KUrl& url, m_restoredExpandedUrls) {
+            const int index = m_items.value(url, -1);
+            if (index >= 0) {
+                // We have found an expandable URL. Expand it and return - when
+                // the dir lister has finished, this slot will be called again.
+                m_restoredExpandedUrls.remove(url);
+                setExpanded(index, true);
+                return;
+            }
+        }
+
+        // None of the URLs in m_restoredExpandedUrls could be found in the model. This can happen
+        // if these URLs have been deleted in the meantime.
+        m_restoredExpandedUrls.clear();
+    }
+
+    emit loadingCompleted();
     m_minimumUpdateIntervalTimer->start();
 }
 
@@ -492,6 +534,8 @@ void KFileItemModel::slotClear()
         m_data.clear();
         emit itemsRemoved(KItemRangeList() << KItemRange(0, removedCount));
     }
+
+    m_expandedUrls.clear();
 }
 
 void KFileItemModel::slotClear(const KUrl& url)
@@ -504,6 +548,10 @@ void KFileItemModel::dispatchPendingItemsToInsert()
     if (!m_pendingItemsToInsert.isEmpty()) {
         insertItems(m_pendingItemsToInsert);
         m_pendingItemsToInsert.clear();
+    }
+
+    if (m_pendingEmitLoadingCompleted) {
+        emit loadingCompleted();
     }
 }
 
@@ -669,6 +717,7 @@ void KFileItemModel::removeExpandedItems()
     removeItems(expandedItems);
 
     m_rootExpansionLevel = -1;
+    m_expandedUrls.clear();
 }
 
 void KFileItemModel::resetRoles()

@@ -243,6 +243,10 @@ void KFileItemModelTest::testExpandItems()
     files << "a/a/1" << "a/a-1/1"; // missing folders are created automatically
     m_testDir->createFiles(files);
 
+    // Store the URLs of all folders in a set.
+    QSet<KUrl> allFolders;
+    allFolders << KUrl(m_testDir->name() + "a") << KUrl(m_testDir->name() + "a/a") << KUrl(m_testDir->name() + "a/a-1");
+
     m_dirLister->openUrl(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
@@ -250,6 +254,7 @@ void KFileItemModelTest::testExpandItems()
     QCOMPARE(m_model->count(), 1);
     QVERIFY(m_model->isExpandable(0));
     QVERIFY(!m_model->isExpanded(0));
+    QVERIFY(m_model->expandedUrls().empty());
 
     QSignalSpy spyInserted(m_model, SIGNAL(itemsInserted(KItemRangeList)));
 
@@ -258,6 +263,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 3); // 3 items: "a/", "a/a/", "a/a-1/"
+    QCOMPARE(m_model->expandedUrls(), QSet<KUrl>() << KUrl(m_testDir->name() + "a"));
 
     QCOMPARE(spyInserted.count(), 1);
     KItemRangeList itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -273,6 +279,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->isExpanded(1));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 4);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/"
+    QCOMPARE(m_model->expandedUrls(), QSet<KUrl>() << KUrl(m_testDir->name() + "a") << KUrl(m_testDir->name() + "a/a"));
 
     QCOMPARE(spyInserted.count(), 1);
     itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -285,7 +292,8 @@ void KFileItemModelTest::testExpandItems()
     m_model->setExpanded(3, true);
     QVERIFY(m_model->isExpanded(3));
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
-    QCOMPARE(m_model->count(), 5);  // 4 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
+    QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
+    QCOMPARE(m_model->expandedUrls(), allFolders);
 
     QCOMPARE(spyInserted.count(), 1);
     itemRangeList = spyInserted.takeFirst().at(0).value<KItemRangeList>();
@@ -299,9 +307,28 @@ void KFileItemModelTest::testExpandItems()
     // Collapse the top-level folder -> all other items should disappear
     m_model->setExpanded(0, false);
     QVERIFY(!m_model->isExpanded(0));
+    QCOMPARE(m_model->count(), 1);
+    QVERIFY(!m_model->expandedUrls().contains(KUrl(m_testDir->name() + "a"))); // TODO: Make sure that child URLs are also removed
+
     QCOMPARE(spyRemoved.count(), 1);
     itemRangeList = spyRemoved.takeFirst().at(0).value<KItemRangeList>();
     QCOMPARE(itemRangeList, KItemRangeList() << KItemRange(1, 4)); // 4 items removed
+
+    // Clear the model, reload the folder and try to restore the expanded folders.
+    m_model->clear();
+    QCOMPARE(m_model->count(), 0);
+    QVERIFY(m_model->expandedUrls().empty());
+
+    m_dirLister->openUrl(m_testDir->url());
+    m_model->restoreExpandedUrls(allFolders);
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(m_model->isExpanded(1));
+    QVERIFY(!m_model->isExpanded(2));
+    QVERIFY(m_model->isExpanded(3));
+    QVERIFY(!m_model->isExpanded(4));
+    QCOMPARE(m_model->expandedUrls(), allFolders);
 }
 
 void KFileItemModelTest::testExpansionLevelsCompare_data()

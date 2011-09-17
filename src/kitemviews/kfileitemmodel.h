@@ -113,6 +113,11 @@ public:
     bool setExpanded(int index, bool expanded);
     bool isExpanded(int index) const;
     bool isExpandable(int index) const;
+    QSet<KUrl> expandedUrls() const;
+    void restoreExpandedUrls(const QSet<KUrl>& urls);
+
+signals:
+    void loadingCompleted();
 
 protected:
     virtual void onGroupRoleChanged(const QByteArray& current, const QByteArray& previous);
@@ -199,11 +204,18 @@ private:
     QTimer* m_minimumUpdateIntervalTimer;
     QTimer* m_maximumUpdateIntervalTimer;
     KFileItemList m_pendingItemsToInsert;
+    bool m_pendingEmitLoadingCompleted;
 
     // Stores the smallest expansion level of the root-URL. Is required to calculate
     // the "expansionLevel" role in an efficient way. A value < 0 indicates that
     // it has not been initialized yet.
     mutable int m_rootExpansionLevel;
+
+    // Stores the URLs of the expanded folders.
+    QSet<KUrl> m_expandedUrls;
+
+    // Stores the URLs which have to be expanded in order to restore a previous state of the model.
+    QSet<KUrl> m_restoredExpandedUrls;
 
     friend class KFileItemModelTest; // For unit testing
 };

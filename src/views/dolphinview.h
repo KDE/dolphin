@@ -640,10 +640,12 @@ private slots:
     void slotDirListerStarted(const KUrl& url);
 
     /**
-     * Invoked when the directory lister has completed the loading of
-     * items. Assures that pasted items and renamed items get seleced.
+     * Invoked when the file item model indicates that the directory lister has completed the loading
+     * of items, and that expanded folders have been restored (if the view mode is 'Details', and the
+     * view state is restored after navigating back or forward in history). Assures that pasted items
+     * and renamed items get seleced.
      */
-    void slotDirListerCompleted();
+    void slotLoadingCompleted();
 
     /**
      * Is invoked when the KDirLister indicates refreshed items.
