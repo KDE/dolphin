@@ -868,7 +868,7 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
         }
     }
 
-    if (m_sortFoldersFirst) {
+    if (m_sortFoldersFirst || m_sortRole == SizeRole) {
         const bool isDirA = a.isDir();
         const bool isDirB = b.isDir();
         if (isDirA && !isDirB) {
@@ -895,6 +895,20 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
         if (dateTimeA < dateTimeB) {
             result = -1;
         } else if (dateTimeA > dateTimeB) {
+            result = +1;
+        }
+        break;
+    }
+
+    case SizeRole: {
+        // TODO: Implement sorting folders by the number of items inside.
+        // This is more tricky to get right because this number is retrieved
+        // asynchronously by KFileItemModelRolesUpdater.
+        const KIO::filesize_t sizeA = a.size();
+        const KIO::filesize_t sizeB = b.size();
+        if (sizeA < sizeB) {
+            result = -1;
+        } else if (sizeA > sizeB) {
             result = +1;
         }
         break;

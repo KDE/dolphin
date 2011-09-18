@@ -386,6 +386,23 @@ void KFileItemModelTest::testSorting()
     QVERIFY(!m_model->sortFoldersFirst());
     QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "d" << "e");
 
+    // Sort by Size, ascending, 'Sort Folders First' enabled
+    m_model->setSortRole("size");
+    m_model->setSortFoldersFirst(true);
+    QCOMPARE(m_model->sortRole(), QByteArray("size"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QVERIFY(m_model->sortFoldersFirst());
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "a" << "b" << "e" << "d");
+
+    // Sort by Size, descending, 'Sort Folders First' enabled
+    m_model->setSortOrder(Qt::DescendingOrder);
+    QCOMPARE(m_model->sortRole(), QByteArray("size"));
+    QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
+    QVERIFY(m_model->sortFoldersFirst());
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "d" << "e" << "b" << "a");
+
+    // TODO: How shall the sorting by size be done if 'Sort Folders First' is disabled?
+
     // TODO: Sort by other roles; show/hide hidden files
 }
 
