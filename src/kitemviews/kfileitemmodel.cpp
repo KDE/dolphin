@@ -137,6 +137,19 @@ bool KFileItemModel::supportsSorting() const
     return true;
 }
 
+void KFileItemModel::setSortFoldersFirst(bool foldersFirst)
+{
+    if (foldersFirst != m_sortFoldersFirst) {
+        m_sortFoldersFirst = foldersFirst;
+        resortAllItems();
+    }
+}
+
+bool KFileItemModel::sortFoldersFirst() const
+{
+    return m_sortFoldersFirst;
+}
+
 QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
 {
     QMimeData* data = new QMimeData();
@@ -370,30 +383,15 @@ void KFileItemModel::onGroupRoleChanged(const QByteArray& current, const QByteAr
 void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
     Q_UNUSED(previous);
-    const int itemCount = count();
-    if (itemCount <= 0) {
-        return;
-    }
-
     m_sortRole = roleIndex(current);
+    resortAllItems();
+}
 
-    KFileItemList sortedItems = m_sortedItems;
-    m_sortedItems.clear();
-    m_items.clear();
-    m_data.clear();
-    emit itemsRemoved(KItemRangeList() << KItemRange(0, itemCount));
-
-    sort(sortedItems.begin(), sortedItems.end());
-    int index = 0;
-    foreach (const KFileItem& item, sortedItems) {
-        m_sortedItems.append(item);
-        m_items.insert(item.url(), index);
-        m_data.append(retrieveData(item));
-
-        ++index;
-    }
-
-    emit itemsInserted(KItemRangeList() << KItemRange(0, itemCount));
+void KFileItemModel::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    resortAllItems();
 }
 
 void KFileItemModel::slotCompleted()
@@ -698,6 +696,32 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     emit itemsRemoved(itemRanges);
 }
 
+void KFileItemModel::resortAllItems()
+{
+    const int itemCount = count();
+    if (itemCount <= 0) {
+        return;
+    }
+
+    KFileItemList sortedItems = m_sortedItems;
+    m_sortedItems.clear();
+    m_items.clear();
+    m_data.clear();
+    emit itemsRemoved(KItemRangeList() << KItemRange(0, itemCount));
+
+    sort(sortedItems.begin(), sortedItems.end());
+    int index = 0;
+    foreach (const KFileItem& item, sortedItems) {
+        m_sortedItems.append(item);
+        m_items.insert(item.url(), index);
+        m_data.append(retrieveData(item));
+
+        ++index;
+    }
+
+    emit itemsInserted(KItemRangeList() << KItemRange(0, itemCount));
+}
+
 void KFileItemModel::removeExpandedItems()
 {
 
@@ -840,7 +864,7 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
         result = expansionLevelsCompare(a, b);
         if (result != 0) {
             // The items have parents with different expansion levels
-            return result < 0;
+            return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
         }
     }
 
@@ -887,7 +911,7 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
         result = QString::compare(a.url().url(), b.url().url(), Qt::CaseSensitive);
     }
 
-    return result < 0;
+    return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
 }
 
 void KFileItemModel::sort(const KFileItemList::iterator& startIterator, const KFileItemList::iterator& endIterator)

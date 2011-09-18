@@ -371,7 +371,8 @@ void DolphinView::setSortOrder(Qt::SortOrder order)
 
 Qt::SortOrder DolphinView::sortOrder() const
 {
-    return Qt::AscendingOrder; // m_viewAccessor.proxyModel()->sortOrder();
+    KItemModelBase* model = fileItemModel();
+    return model->sortOrder();
 }
 
 void DolphinView::setSortFoldersFirst(bool foldersFirst)
@@ -383,7 +384,8 @@ void DolphinView::setSortFoldersFirst(bool foldersFirst)
 
 bool DolphinView::sortFoldersFirst() const
 {
-    return true; // m_viewAccessor.proxyModel()->sortFoldersFirst();
+    KFileItemModel* model = fileItemModel();
+    return model->sortFoldersFirst();
 }
 
 void DolphinView::setAdditionalInfoList(const QList<AdditionalInfo>& info)
@@ -885,7 +887,8 @@ void DolphinView::updateSortOrder(Qt::SortOrder order)
     ViewProperties props(url());
     props.setSortOrder(order);
 
-    //m_viewAccessor.proxyModel()->setSortOrder(order);
+    KItemModelBase* model = fileItemModel();
+    model->setSortOrder(order);
 
     emit sortOrderChanged(order);
 }
@@ -895,7 +898,8 @@ void DolphinView::updateSortFoldersFirst(bool foldersFirst)
     ViewProperties props(url());
     props.setSortFoldersFirst(foldersFirst);
 
-    //m_viewAccessor.proxyModel()->setSortFoldersFirst(foldersFirst);
+    KFileItemModel* model = fileItemModel();
+    model->setSortFoldersFirst(foldersFirst);
 
     emit sortFoldersFirstChanged(foldersFirst);
 }
@@ -1143,25 +1147,25 @@ void DolphinView::applyViewProperties()
     }*/
 
     const DolphinView::Sorting sorting = props.sorting();
-    KItemModelBase* model = m_container->controller()->model();
+    KFileItemModel* model = fileItemModel();
     const QByteArray newSortRole = sortRoleForSorting(sorting);
     if (newSortRole != model->sortRole()) {
         model->setSortRole(newSortRole);
         emit sortingChanged(sorting);
     }
-/*
+
     const Qt::SortOrder sortOrder = props.sortOrder();
-    if (sortOrder != m_viewAccessor.proxyModel()->sortOrder()) {
-        m_viewAccessor.proxyModel()->setSortOrder(sortOrder);
+    if (sortOrder != model->sortOrder()) {
+        model->setSortOrder(sortOrder);
         emit sortOrderChanged(sortOrder);
     }
 
     const bool sortFoldersFirst = props.sortFoldersFirst();
-    if (sortFoldersFirst != m_viewAccessor.proxyModel()->sortFoldersFirst()) {
-        m_viewAccessor.proxyModel()->setSortFoldersFirst(sortFoldersFirst);
+    if (sortFoldersFirst != model->sortFoldersFirst()) {
+        model->setSortFoldersFirst(sortFoldersFirst);
         emit sortFoldersFirstChanged(sortFoldersFirst);
     }
-*/
+
     const QList<DolphinView::AdditionalInfo> infoList = props.additionalInfoList();
     if (infoList != m_additionalInfoList) {
         const QList<DolphinView::AdditionalInfo> previousList = m_additionalInfoList;

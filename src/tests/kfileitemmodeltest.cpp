@@ -46,6 +46,7 @@ private slots:
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
+    void testSorting();
 
     void testExpansionLevelsCompare_data();
     void testExpansionLevelsCompare();
@@ -54,6 +55,7 @@ private slots:
 
 private:
     bool isModelConsistent() const;
+    QStringList itemsInModel() const;
 
 private:
     KFileItemModel* m_model;
@@ -331,6 +333,62 @@ void KFileItemModelTest::testExpandItems()
     QCOMPARE(m_model->expandedUrls(), allFolders);
 }
 
+void KFileItemModelTest::testSorting()
+{
+    // Create some files with different sizes and modification times to check the different sorting options
+    QDateTime now = QDateTime::currentDateTime();
+
+    m_testDir->createFile("a", "A file", now.addDays(-3));
+    m_testDir->createFile("b", "A larger file", now.addDays(0));
+    m_testDir->createDir("c", now.addDays(-2));
+    m_testDir->createFile("d", "The largest file in this directory", now.addDays(-1));
+    m_testDir->createFile("e", "An even larger file", now.addDays(-4));
+    m_testDir->createFile(".f");
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // Default: Sort by Name, ascending
+    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QVERIFY(m_model->sortFoldersFirst());
+    //QVERIFY(!m_model->showHiddenFiles());
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "a" << "b" << "d" << "e");
+
+    // Sort by Name, descending
+    m_model->setSortOrder(Qt::DescendingOrder);
+    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+    QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "e" << "d" << "b" << "a");
+
+    // Sort by Date, decending
+    m_model->setSortRole("date");
+    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "b" << "d" << "a" << "e");
+
+    // Sort by Date, ascending
+    m_model->setSortOrder(Qt::AscendingOrder);
+    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "e" << "a" << "d" << "b");
+
+    // Sort by Date, ascending, 'Sort Folders First' disabled
+    m_model->setSortFoldersFirst(false);
+    QCOMPARE(m_model->sortRole(), QByteArray("date"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QVERIFY(!m_model->sortFoldersFirst());
+    QCOMPARE(itemsInModel(), QStringList() << "e" << "a" << "c" << "d" << "b");
+
+    // Default: Sort by Name, ascending, 'Sort Folders First' disabled
+    m_model->setSortRole("name");
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QVERIFY(!m_model->sortFoldersFirst());
+    QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "d" << "e");
+
+    // TODO: Sort by other roles; show/hide hidden files
+}
+
 void KFileItemModelTest::testExpansionLevelsCompare_data()
 {
     QTest::addColumn<QString>("urlA");
@@ -424,6 +482,17 @@ bool KFileItemModelTest::isModelConsistent() const
     }
 
     return true;
+}
+
+QStringList KFileItemModelTest::itemsInModel() const
+{
+    QStringList items;
+
+    for (int i = 0; i < m_model->count(); i++) {
+        items << m_model->data(i).value("name").toString();
+    }
+
+    return items;
 }
 
 QTEST_KDEMAIN(KFileItemModelTest, NoGUI)

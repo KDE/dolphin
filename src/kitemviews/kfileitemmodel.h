@@ -66,6 +66,12 @@ public:
      */
     virtual bool supportsSorting() const;
 
+    /**
+     * Sets a separate sorting with folders first (true) or a mixed sorting of files and folders (false).
+     */
+    void setSortFoldersFirst(bool foldersFirst);
+    bool sortFoldersFirst() const;
+
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
@@ -122,6 +128,7 @@ signals:
 protected:
     virtual void onGroupRoleChanged(const QByteArray& current, const QByteArray& previous);
     virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private slots:
     void slotCompleted();
@@ -137,6 +144,8 @@ private slots:
 private:
     void insertItems(const KFileItemList& items);
     void removeItems(const KFileItemList& items);
+
+    void resortAllItems();
 
     void removeExpandedItems();
 

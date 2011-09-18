@@ -100,12 +100,20 @@ public:
     virtual bool supportsSorting() const;
 
     /**
-     * Sets the sor-role to \a role. The method KItemModelBase::onSortRoleChanged() will be
+     * Sets the sort-role to \a role. The method KItemModelBase::onSortRoleChanged() will be
      * called so that model-implementations can react on the sort-role change. Afterwards the
      * signal sortRoleChanged() will be emitted.
      */
     void setSortRole(const QByteArray& role);
     QByteArray sortRole() const;
+
+    /**
+     * Sets the sort order to \a order. The method KItemModelBase::onSortOrderChanged() will be
+     * called so that model-implementations can react on the sort order change. Afterwards the
+     * signal sortOrderChanged() will be emitted.
+     */
+    void setSortOrder(Qt::SortOrder order);
+    Qt::SortOrder sortOrder() const;
 
     virtual QString roleDescription(const QByteArray& role) const;
 
@@ -182,6 +190,7 @@ signals:
 
     void groupRoleChanged(const QByteArray& current, const QByteArray& previous);
     void sortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    void sortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 protected:
     /**
@@ -204,10 +213,26 @@ protected:
      */
     virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);
 
+    /**
+     * Is invoked if the sort order has been changed by KItemModelBase::setSortOrder(). Allows
+     * to react on the changed sort order before the signal sortOrderChanged() will be emitted.
+     * The implementation must assure that the items are sorted by the order given by \a current.
+     * Usually the most efficient way is to emit a
+     * itemsRemoved() signal for all items, reorder the items internally and to emit a
+     * itemsInserted() signal afterwards.
+     */
+    virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
+
 private:
     QByteArray m_groupRole;
     QByteArray m_sortRole;
+    Qt::SortOrder m_sortOrder;
 };
+
+inline Qt::SortOrder KItemModelBase::sortOrder() const
+{
+    return m_sortOrder;
+}
 
 #endif
 
