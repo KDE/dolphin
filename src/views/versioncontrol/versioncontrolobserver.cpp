@@ -146,8 +146,8 @@ void VersionControlObserver::verifyDirectory()
         return;
     }
 
-    const KUrl versionControlUrl = m_model->rootItem().url();
-    if (!versionControlUrl.isLocalFile()) {
+    const KFileItem rootItem = m_model->rootItem();
+    if (rootItem.isNull() || !rootItem.url().isLocalFile()) {
         return;
     }
 
@@ -155,7 +155,7 @@ void VersionControlObserver::verifyDirectory()
         m_plugin->disconnect(this);
     }
 
-    m_plugin = searchPlugin(versionControlUrl);
+    m_plugin = searchPlugin(rootItem.url());
     if (m_plugin) {
         KVersionControlPlugin2* pluginV2 = qobject_cast<KVersionControlPlugin2*>(m_plugin);
         if (pluginV2) {
