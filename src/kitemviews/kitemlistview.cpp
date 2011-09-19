@@ -229,6 +229,9 @@ void KItemListView::setHeaderShown(bool show)
 {
     if (show && !m_header) {
         m_header = new KItemListHeader(this);
+        m_header->setPos(0, 0);
+        m_header->setModel(m_model);
+        m_header->setZValue(1);
         updateHeaderWidth();
         m_layouter->setHeaderHeight(m_header->size().height());
     } else if (!show && m_header) {

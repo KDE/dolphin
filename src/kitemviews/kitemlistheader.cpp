@@ -19,24 +19,75 @@
 
 #include "kitemlistheader_p.h"
 
+#include "kitemmodelbase.h"
+
+#include <QFontMetricsF>
 #include <QPainter>
+#include <QStyleOptionHeader>
 
 KItemListHeader::KItemListHeader(QGraphicsWidget* parent) :
-    QGraphicsWidget(parent)
+    QGraphicsWidget(parent),
+    m_model(0)
 {
-    resize(0, 20); // TODO...
+    QStyleOptionHeader opt;
+    const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection, &opt, QSize());
+    resize(0, headerSize.height());
 }
 
 KItemListHeader::~KItemListHeader()
 {
 }
 
+void KItemListHeader::setModel(KItemModelBase* model)
+{
+    if (m_model == model) {
+        return;
+    }
+
+    if (m_model) {
+        disconnect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
+                   this, SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
+        disconnect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
+                   this, SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
+    }
+
+    m_model = model;
+
+    if (m_model) {
+        connect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
+                this, SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
+        connect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
+                this, SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
+    }
+}
+
+KItemModelBase* KItemListHeader::model() const
+{
+    return m_model;
+}
+
 void KItemListHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    painter->setPen(Qt::red);
-    painter->drawRect(rect());
+
+    QStyleOption opt;
+    opt.init(widget);
+    opt.rect = rect().toRect();
+    opt.state |= QStyle::State_Horizontal;
+    style()->drawControl(QStyle::CE_HeaderEmptyArea, &opt, painter);
+}
+
+void KItemListHeader::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+}
+
+void KItemListHeader::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
 }
 
 #include "kitemlistheader_p.moc"

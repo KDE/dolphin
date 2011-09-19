@@ -362,7 +362,8 @@ void KItemListViewLayouter::updateVisibleIndexes()
         prevRowIndex -= m_columnCount;
     }
 
-    while (prevRowIndex >= 0 && m_itemBoundingRects[prevRowIndex].bottom() >= m_offset) {
+    const qreal top = m_offset + m_headerHeight;
+    while (prevRowIndex >= 0 && m_itemBoundingRects[prevRowIndex].bottom() >= top) {
         m_firstVisibleIndex = prevRowIndex;
         prevRowIndex -= m_columnCount;
     }

@@ -329,15 +329,13 @@ void KItemListContainer::updateGeometries()
 {
     QRect rect = geometry();
 
-    int widthDec = frameWidth() * 2;
-    if (verticalScrollBar()->isVisible()) {
-        widthDec += style()->pixelMetric(QStyle::PM_ScrollBarExtent);
-    }
+    const int widthDec = verticalScrollBar()->isVisible()
+                         ? frameWidth() + style()->pixelMetric(QStyle::PM_ScrollBarExtent)
+                         : frameWidth() * 2;
 
-    int heightDec = frameWidth() * 2;
-    if (horizontalScrollBar()->isVisible()) {
-        heightDec += style()->pixelMetric(QStyle::PM_ScrollBarExtent);
-    }
+    const int heightDec = horizontalScrollBar()->isVisible()
+                          ? frameWidth() + style()->pixelMetric(QStyle::PM_ScrollBarExtent)
+                          : frameWidth() * 2;
 
     rect.adjust(0, 0, -widthDec, -heightDec);
 

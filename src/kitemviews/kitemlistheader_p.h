@@ -23,6 +23,8 @@
 #include <libdolphin_export.h>
 #include <QGraphicsWidget>
 
+class KItemModelBase;
+
 /**
  * @brief Header for KItemListView that shows the currently used roles.
  */
@@ -34,7 +36,17 @@ public:
     KItemListHeader(QGraphicsWidget* parent = 0);
     virtual ~KItemListHeader();
 
+    void setModel(KItemModelBase* model);
+    KItemModelBase* model() const;
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+
+private slots:
+    void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
+
+private:
+    KItemModelBase* m_model;
 };
 
 #endif
