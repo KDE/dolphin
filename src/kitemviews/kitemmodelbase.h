@@ -177,8 +177,13 @@ signals:
     /**
      * Is emitted if one ore more items get moved.
      * @param itemRanges     Item-ranges that get moved to a new position.
-     * @param movedToIndexes New position of the ranges.
-     * It is assured that the itemRanges list has the same size as the movedToIndexes list.
+     * @param movedToIndexes New positions for each element of the item-ranges.
+     *
+     * For example if the model has 10 items and the items 0 and 1 get exchanged
+     * with the items 5 and 6 then the parameters look like this:
+     * - itemRanges: Contains two ranges. The first has the index 0 and a count of
+     *               2 and the second as the index 5 and a count of 2.
+     * - movedToIndexes: Contains the four values 5, 6, 0, 1
      *
      * For the item-ranges it is assured that:
      * - They don't overlap
