@@ -39,6 +39,7 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_scrollOrientation(Qt::Vertical),
     m_size(),
     m_itemSize(128, 128),
+    m_headerHeight(0),
     m_model(0),
     m_sizeHintResolver(0),
     m_offset(0),
@@ -96,6 +97,19 @@ void KItemListViewLayouter::setItemSize(const QSizeF& size)
 QSizeF KItemListViewLayouter::itemSize() const
 {
     return m_itemSize;
+}
+
+void KItemListViewLayouter::setHeaderHeight(qreal height)
+{
+    if (m_headerHeight != height) {
+        m_headerHeight = height;
+        m_dirty = true;
+    }
+}
+
+qreal KItemListViewLayouter::headerHeight() const
+{
+    return m_headerHeight;
 }
 
 void KItemListViewLayouter::setOffset(qreal offset)
@@ -216,7 +230,6 @@ void KItemListViewLayouter::doLayout()
         QElapsedTimer timer;
         timer.start();
 #endif
-
         m_visibleIndexesDirty = true;
 
         QSizeF itemSize = m_itemSize;
@@ -250,7 +263,7 @@ void KItemListViewLayouter::doLayout()
 
         m_itemBoundingRects.reserve(itemCount);
 
-        qreal y = 0;
+        qreal y = m_headerHeight;
         int rowIndex = 0;
 
         int index = 0;

@@ -47,6 +47,14 @@ public:
     void setItemSize(const QSizeF& size);
     QSizeF itemSize() const;
 
+    /**
+     * Sets the height of the header that is always aligned
+     * at the top. A height of <= 0.0 means that no header is
+     * used.
+     */
+    void setHeaderHeight(qreal height);
+    qreal headerHeight() const;
+
     // TODO: add note that offset can be < 0 or > maximumOffset!
     void setOffset(qreal offset);
     qreal offset() const;
@@ -95,6 +103,7 @@ private:
     QSizeF m_size;
 
     QSizeF m_itemSize;
+    qreal m_headerHeight;
     const KItemModelBase* m_model;
     const KItemListSizeHintResolver* m_sizeHintResolver;
 

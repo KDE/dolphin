@@ -24,6 +24,7 @@
 
 #include "kitemlistcontroller.h"
 #include "kitemlistgroupheader.h"
+#include "kitemlistheader_p.h"
 #include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
 #include "kitemlistsizehintresolver_p.h"
@@ -74,7 +75,8 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_rubberBand(0),
     m_mousePos(),
     m_autoScrollIncrement(0),
-    m_autoScrollTimer(0)
+    m_autoScrollTimer(0),
+    m_header(0)
 {
     setAcceptHoverEvents(true);
 
@@ -221,6 +223,24 @@ void KItemListView::setAutoScroll(bool enabled)
 bool KItemListView::autoScroll() const
 {
     return m_autoScrollTimer != 0;
+}
+
+void KItemListView::setHeaderShown(bool show)
+{
+    if (show && !m_header) {
+        m_header = new KItemListHeader(this);
+        updateHeaderWidth();
+        m_layouter->setHeaderHeight(m_header->size().height());
+    } else if (!show && m_header) {
+        delete m_header;
+        m_header = 0;
+        m_layouter->setHeaderHeight(0);
+    }
+}
+
+bool KItemListView::isHeaderShown() const
+{
+    return m_header != 0;
 }
 
 KItemListController* KItemListView::controller() const
@@ -530,6 +550,12 @@ void KItemListView::dropEvent(QGraphicsSceneDragDropEvent* event)
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 {
     return m_visibleItems.values();
+}
+
+void KItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
+{
+    QGraphicsWidget::resizeEvent(event);
+    updateHeaderWidth();
 }
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
@@ -1293,6 +1319,16 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
 
     widget->setIndex(index);
     widget->setData(m_model->data(index));
+}
+
+void KItemListView::updateHeaderWidth()
+{
+    if (!m_header) {
+        return;
+    }
+
+    // TODO 1: Use the required width of all roles
+    m_header->resize(size().width(), m_header->size().height());
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

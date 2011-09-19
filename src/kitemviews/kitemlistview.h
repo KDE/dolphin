@@ -33,14 +33,15 @@
 #include <QSet>
 
 class KItemListController;
-class KItemListWidgetCreatorBase;
 class KItemListGroupHeader;
 class KItemListGroupHeaderCreatorBase;
+class KItemListHeader;
 class KItemListSizeHintResolver;
 class KItemListRubberBand;
 class KItemListViewAnimation;
 class KItemListViewLayouter;
 class KItemListWidget;
+class KItemListWidgetCreatorBase;
 class KItemListViewCreatorBase;
 class QTimer;
 
@@ -96,6 +97,13 @@ public:
      */
     void setAutoScroll(bool enabled);
     bool autoScroll() const;
+
+    /**
+     * Turns on the header if \p show is true. Per default the
+     * header is not shown.
+     */
+    void setHeaderShown(bool show);
+    bool isHeaderShown() const;
 
     /**
      * @return Controller of the item-list. The controller gets
@@ -206,6 +214,8 @@ protected:
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+
 protected slots:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
     virtual void slotItemsRemoved(const KItemRangeList& itemRanges);
@@ -293,6 +303,12 @@ private:
     void updateWidgetProperties(KItemListWidget* widget, int index);
 
     /**
+     * Updates the width of the KItemListHeader corresponding to the required width of
+     * the roles.
+     */
+    void updateHeaderWidth();
+
+    /**
      * Helper function for triggerAutoScrolling().
      * @param pos    Logical position of the mouse relative to the range.
      * @param range  Range of the visible area.
@@ -335,6 +351,8 @@ private:
     QPointF m_mousePos;
     int m_autoScrollIncrement;
     QTimer* m_autoScrollTimer;
+
+    KItemListHeader* m_header;
 
     friend class KItemListController;
 };
