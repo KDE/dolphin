@@ -199,6 +199,11 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
 
     markVisibleRolesSizesAsDirty();
     updateLayout();
+
+    if (m_header) {
+        m_header->setVisibleRoles(roles);
+        m_header->setVisibleRolesWidths(headerRolesWidths());
+    }
 }
 
 QList<QByteArray> KItemListView::visibleRoles() const
@@ -231,6 +236,8 @@ void KItemListView::setHeaderShown(bool show)
         m_header = new KItemListHeader(this);
         m_header->setPos(0, 0);
         m_header->setModel(m_model);
+        m_header->setVisibleRoles(m_visibleRoles);
+        m_header->setVisibleRolesWidths(headerRolesWidths());
         m_header->setZValue(1);
         updateHeaderWidth();
         m_layouter->setHeaderHeight(m_header->size().height());
@@ -759,17 +766,14 @@ void KItemListView::slotCurrentChanged(int current, int previous)
         if (currentBoundingRect.top() < viewGeometry.top()) {
             Q_ASSERT(scrollOrientation() == Qt::Vertical);
             newOffset += currentBoundingRect.top() - viewGeometry.top();
-        }
-        else if ((currentBoundingRect.bottom() > viewGeometry.bottom())) {
+        } else if ((currentBoundingRect.bottom() > viewGeometry.bottom())) {
             Q_ASSERT(scrollOrientation() == Qt::Vertical);
             newOffset += currentBoundingRect.bottom() - viewGeometry.bottom();
-        }
-        else if (currentBoundingRect.left() < viewGeometry.left()) {
+        } else if (currentBoundingRect.left() < viewGeometry.left()) {
             if (scrollOrientation() == Qt::Horizontal) {
                 newOffset += currentBoundingRect.left() - viewGeometry.left();
             }
-        }
-        else if ((currentBoundingRect.right() > viewGeometry.right())) {
+        } else if ((currentBoundingRect.right() > viewGeometry.right())) {
             if (scrollOrientation() == Qt::Horizontal) {
                 newOffset += currentBoundingRect.right() - viewGeometry.right();
             }
@@ -1276,6 +1280,10 @@ void KItemListView::applyDynamicItemSize()
         foreach (KItemListWidget* widget, visibleItemListWidgets()) {
             widget->setVisibleRolesSizes(m_visibleRolesSizes);
         }
+
+        if (m_header) {
+            m_header->setVisibleRolesWidths(headerRolesWidths());
+        }
     }
 
     if (m_layouter->itemSize().isEmpty()) {
@@ -1332,6 +1340,19 @@ void KItemListView::updateHeaderWidth()
 
     // TODO 1: Use the required width of all roles
     m_header->resize(size().width(), m_header->size().height());
+}
+
+QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const
+{
+    QHash<QByteArray, qreal> rolesWidths;
+
+    QHashIterator<QByteArray, QSizeF> it(m_visibleRolesSizes);
+    while (it.hasNext()) {
+        it.next();
+        rolesWidths.insert(it.key(), it.value().width());
+    }
+
+    return rolesWidths;
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

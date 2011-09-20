@@ -22,6 +22,8 @@
 
 #include <libdolphin_export.h>
 #include <QGraphicsWidget>
+#include <QHash>
+#include <QList>
 
 class KItemModelBase;
 
@@ -39,6 +41,12 @@ public:
     void setModel(KItemModelBase* model);
     KItemModelBase* model() const;
 
+    void setVisibleRoles(const QList<QByteArray>& roles);
+    QList<QByteArray> visibleRoles() const;
+
+    void setVisibleRolesWidths(const QHash<QByteArray, qreal> rolesWidths);
+    QHash<QByteArray, qreal> visibleRolesWidths() const;
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 private slots:
@@ -47,6 +55,8 @@ private slots:
 
 private:
     KItemModelBase* m_model;
+    QList<QByteArray> m_visibleRoles;
+    QHash<QByteArray, qreal> m_visibleRolesWidths;
 };
 
 #endif

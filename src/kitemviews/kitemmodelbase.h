@@ -115,6 +115,10 @@ public:
     void setSortOrder(Qt::SortOrder order);
     Qt::SortOrder sortOrder() const;
 
+    /**
+     * @return Translated description for the \p role. The description is e.g. used
+     *         for the header in KItemListView.
+     */
     virtual QString roleDescription(const QByteArray& role) const;
 
     /**

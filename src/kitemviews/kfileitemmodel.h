@@ -81,6 +81,9 @@ public:
     /** @reimp */
     virtual bool supportsDropping(int index) const;
 
+    /** @reimp */
+    virtual QString roleDescription(const QByteArray& role) const;
+
     /**
      * @return The file-item for the index \a index. If the index is in a valid
      *         range it is assured that the file-item is not null. The runtime

@@ -305,6 +305,11 @@ private:
     void updateHeaderWidth();
 
     /**
+     * @return The widths of each visible role that is shown in the KItemListHeader.
+     */
+    QHash<QByteArray, qreal> headerRolesWidths() const;
+
+    /**
      * Helper function for triggerAutoScrolling().
      * @param pos    Logical position of the mouse relative to the range.
      * @param range  Range of the visible area.

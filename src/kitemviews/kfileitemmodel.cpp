@@ -212,6 +212,30 @@ bool KFileItemModel::supportsDropping(int index) const
     return item.isNull() ? false : item.isDir();
 }
 
+QString KFileItemModel::roleDescription(const QByteArray& role) const
+{
+    QString descr;
+
+    switch (roleIndex(role)) {
+    case NameRole:           descr = i18nc("@item:intable", "Name"); break;
+    case SizeRole:           descr = i18nc("@item:intable", "Size"); break;
+    case DateRole:           descr = i18nc("@item:intable", "Date"); break;
+    case PermissionsRole:    descr = i18nc("@item:intable", "Permissions"); break;
+    case OwnerRole:          descr = i18nc("@item:intable", "Owner"); break;
+    case GroupRole:          descr = i18nc("@item:intable", "Group"); break;
+    case TypeRole:           descr = i18nc("@item:intable", "Type"); break;
+    case DestinationRole:    descr = i18nc("@item:intable", "Destination"); break;
+    case PathRole:           descr = i18nc("@item:intable", "Path"); break;
+    case NoRole:             break;
+    case IsDirRole:          break;
+    case IsExpandedRole:     break;
+    case ExpansionLevelRole: break;
+    default:                 Q_ASSERT(false); break;
+    }
+
+    return descr;
+}
+
 KFileItem KFileItemModel::fileItem(int index) const
 {
     if (index >= 0 && index < count()) {

@@ -27,7 +27,9 @@
 
 KItemListHeader::KItemListHeader(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
-    m_model(0)
+    m_model(0),
+    m_visibleRoles(),
+    m_visibleRolesWidths()
 {
     QStyleOptionHeader opt;
     const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection, &opt, QSize());
@@ -66,16 +68,62 @@ KItemModelBase* KItemListHeader::model() const
     return m_model;
 }
 
+void KItemListHeader::setVisibleRoles(const QList<QByteArray>& roles)
+{
+    m_visibleRoles = roles;
+    update();
+}
+
+QList<QByteArray> KItemListHeader::visibleRoles() const
+{
+    return m_visibleRoles;
+}
+
+void KItemListHeader::setVisibleRolesWidths(const QHash<QByteArray, qreal> rolesWidths)
+{
+    m_visibleRolesWidths = rolesWidths;
+    update();
+}
+
+QHash<QByteArray, qreal> KItemListHeader::visibleRolesWidths() const
+{
+    return m_visibleRolesWidths;
+}
+
 void KItemListHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
+    // Draw background
     QStyleOption opt;
     opt.init(widget);
     opt.rect = rect().toRect();
     opt.state |= QStyle::State_Horizontal;
     style()->drawControl(QStyle::CE_HeaderEmptyArea, &opt, painter);
+
+    if (!m_model) {
+        return;
+    }
+
+    // Draw roles
+    // TODO: This is a rough draft only
+    QFontMetricsF fontMetrics(font());
+    QTextOption textOption(Qt::AlignLeft | Qt::AlignVCenter);
+
+    painter->setFont(font());
+    painter->setPen(palette().text().color());
+
+    const qreal margin = style()->pixelMetric(QStyle::PM_HeaderMargin);
+    qreal x = margin;
+    foreach (const QByteArray& role, m_visibleRoles) {
+        const QString roleDescription = m_model->roleDescription(role);
+        const qreal textWidth = fontMetrics.width(roleDescription);
+        QRectF rect(x, 0, textWidth, size().height());
+        painter->drawText(rect, roleDescription, textOption);
+
+        x += m_visibleRolesWidths.value(role) + margin;
+    }
 }
 
 void KItemListHeader::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
