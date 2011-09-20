@@ -126,13 +126,13 @@ bool DolphinItemListContainer::previewsShown() const
     return m_fileItemListView->previewsShown();
 }
 
-void DolphinItemListContainer::setVisibleRoles(const QHash<QByteArray, int>& roles)
+void DolphinItemListContainer::setVisibleRoles(const QList<QByteArray>& roles)
 {
     m_fileItemListView->setVisibleRoles(roles);
     updateGridSize();
 }
 
-QHash<QByteArray, int> DolphinItemListContainer::visibleRoles() const
+QList<QByteArray> DolphinItemListContainer::visibleRoles() const
 {
     return m_fileItemListView->visibleRoles();
 }

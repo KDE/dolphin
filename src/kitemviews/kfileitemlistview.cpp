@@ -141,10 +141,8 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
         // For each row exactly one role is shown. Calculate the maximum required width that is necessary
         // to show all roles without horizontal clipping.
         qreal maximumRequiredWidth = 0.0;
-        QHashIterator<QByteArray, int> it(visibleRoles());
-        while (it.hasNext()) {
-            it.next();
-            const QByteArray& role = it.key();
+
+        foreach (const QByteArray& role, visibleRoles()) {
             const QString text = values[role].toString();
             const qreal requiredWidth = option.fontMetrics.width(text);
             maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
@@ -178,13 +176,8 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRoleSizes() const
 
     const int itemCount = model()->count();
     for (int i = 0; i < itemCount; ++i) {
-        QHashIterator<QByteArray, int> it(visibleRoles());
-        while (it.hasNext()) {
-            it.next();
-            const QByteArray& visibleRole = it.key();
-
+        foreach (const QByteArray& visibleRole, visibleRoles()) {
             QSizeF maxSize = sizes.value(visibleRole, QSizeF(0, 0));
-
             const QSizeF itemSize = visibleRoleSizeHint(i, visibleRole);
             maxSize = maxSize.expandedTo(itemSize);
             sizes.insert(visibleRole, maxSize);
@@ -274,7 +267,7 @@ void KFileItemListView::onOffsetChanged(qreal current, qreal previous)
     triggerVisibleIndexRangeUpdate();
 }
 
-void KFileItemListView::onVisibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous)
+void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
 {
     Q_UNUSED(previous);
 
@@ -283,7 +276,7 @@ void KFileItemListView::onVisibleRolesChanged(const QHash<QByteArray, int>& curr
 
     // KFileItemModel does not distinct between "visible" and "invisible" roles.
     // Add all roles that are mandatory for having a working KFileItemListView:
-    QSet<QByteArray> keys = current.keys().toSet();
+    QSet<QByteArray> keys = current.toSet();
     QSet<QByteArray> roles = keys;
     roles.insert("iconPixmap");
     roles.insert("iconName");

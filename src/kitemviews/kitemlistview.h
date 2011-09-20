@@ -83,12 +83,8 @@ public:
 
     qreal maximumOffset() const;
 
-    /**
-     * Sets the visible roles to \p roles. The integer-value defines
-     * the order of the visible role: Smaller values are ordered first.
-     */
-    void setVisibleRoles(const QHash<QByteArray, int>& roles);
-    QHash<QByteArray, int> visibleRoles() const;
+    void setVisibleRoles(const QList<QByteArray>& roles);
+    QList<QByteArray> visibleRoles() const;
 
     /**
      * If set to true an automatic scrolling is done as soon as the
@@ -198,7 +194,7 @@ protected:
     virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous);
     virtual void onOffsetChanged(qreal current, qreal previous);
-    virtual void onVisibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous);
+    virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
 
     virtual void onTransactionBegin();
@@ -327,7 +323,7 @@ private:
     QSizeF m_itemSize;
     KItemListController* m_controller;
     KItemModelBase* m_model;
-    QHash<QByteArray, int> m_visibleRoles;
+    QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, QSizeF> m_visibleRolesSizes;
     KItemListWidgetCreatorBase* m_widgetCreator;
     KItemListGroupHeaderCreatorBase* m_groupHeaderCreator;

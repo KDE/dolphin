@@ -163,9 +163,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SIGNAL(itemCountChanged()));
 
     m_container = new DolphinItemListContainer(m_dirLister, this);
-    QHash<QByteArray, int> visibleRoles;
-    visibleRoles.insert("name", 0);
-    m_container->setVisibleRoles(visibleRoles);
+    m_container->setVisibleRoles(QList<QByteArray>() << "name");
 
     KItemListController* controller = m_container->controller();
     controller->setSelectionBehavior(KItemListController::MultiSelection);
@@ -1194,13 +1192,12 @@ void DolphinView::applyAdditionalInfoListToView()
 {
     const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
 
-    QHash<QByteArray, int> visibleRoles;
-    visibleRoles.insert("name", 0);
+    QList<QByteArray> visibleRoles;
+    visibleRoles.reserve(m_additionalInfoList.count() + 1);
+    visibleRoles.append("name");
 
-    int index = 1;
     foreach (AdditionalInfo info, m_additionalInfoList) {
-        visibleRoles.insert(infoAccessor.role(info), index);
-        ++index;
+        visibleRoles.append(infoAccessor.role(info));
     }
 
     m_container->setVisibleRoles(visibleRoles);

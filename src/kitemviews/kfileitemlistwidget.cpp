@@ -199,7 +199,7 @@ void KFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current
 
     QSet<QByteArray> dirtyRoles;
     if (roles.isEmpty()) {
-        dirtyRoles = visibleRoles().keys().toSet();
+        dirtyRoles = visibleRoles().toSet();
         dirtyRoles.insert("iconPixmap");
         dirtyRoles.insert("iconName");
     } else {
@@ -213,33 +213,12 @@ void KFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current
     }
 }
 
-void KFileItemListWidget::visibleRolesChanged(const QHash<QByteArray, int>& current,
-                                              const QHash<QByteArray, int>& previous)
+void KFileItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
+                                              const QList<QByteArray>& previous)
 {
     KItemListWidget::visibleRolesChanged(current, previous);
+    m_sortedVisibleRoles = current;
     m_dirtyLayout = true;
-
-    // Cache the roles sorted into m_sortedVisibleRoles:
-    const int visibleRolesCount = current.count();
-    m_sortedVisibleRoles.clear();
-    m_sortedVisibleRoles.reserve(visibleRolesCount);
-    for (int i = 0; i < visibleRolesCount; ++i) {
-        m_sortedVisibleRoles.append(QByteArray());
-    }
-
-    QHashIterator<QByteArray, int> it(current);
-    while (it.hasNext()) {
-        it.next();
-
-        const int index = it.value();
-        if (index < 0 || index >= visibleRolesCount || !m_sortedVisibleRoles.at(index).isEmpty()) {
-            kWarning() << "The visible roles have an invalid sort order.";
-            break;
-        }
-
-        const QByteArray& role = it.key();
-        m_sortedVisibleRoles[index] = role;
-    }
 }
 
 void KFileItemListWidget::visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current,

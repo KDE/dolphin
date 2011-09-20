@@ -72,7 +72,7 @@ protected:
     virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous);
     virtual void onOffsetChanged(qreal current, qreal previous);
-    virtual void onVisibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous);
+    virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void onTransactionBegin();
     virtual void onTransactionEnd();

@@ -59,12 +59,8 @@ public:
      */
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
-    /**
-     * Sets the visible roles to \p roles. The integer-value defines
-     * the order of the visible role: Smaller values are ordered first.
-     */
-    void setVisibleRoles(const QHash<QByteArray, int>& roles);
-    QHash<QByteArray, int> visibleRoles() const;
+    void setVisibleRoles(const QList<QByteArray>& roles);
+    QList<QByteArray> visibleRoles() const;
 
     void setVisibleRolesSizes(const QHash<QByteArray, QSizeF> rolesSizes);
     QHash<QByteArray, QSizeF> visibleRolesSizes() const;
@@ -115,7 +111,7 @@ public:
 
 protected:
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
-    virtual void visibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous);
+    virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void currentChanged(bool current);
@@ -143,7 +139,7 @@ private:
     bool m_current;
     bool m_hovered;
     QHash<QByteArray, QVariant> m_data;
-    QHash<QByteArray, int> m_visibleRoles;
+    QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, QSizeF> m_visibleRolesSizes;
     KItemListStyleOption m_styleOption;
 

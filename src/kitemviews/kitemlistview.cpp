@@ -180,9 +180,9 @@ qreal KItemListView::maximumOffset() const
     return m_layouter->maximumOffset();
 }
 
-void KItemListView::setVisibleRoles(const QHash<QByteArray, int>& roles)
+void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
 {
-    const QHash<QByteArray, int> previousRoles = m_visibleRoles;
+    const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
 
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
@@ -201,7 +201,7 @@ void KItemListView::setVisibleRoles(const QHash<QByteArray, int>& roles)
     updateLayout();
 }
 
-QHash<QByteArray, int> KItemListView::visibleRoles() const
+QList<QByteArray> KItemListView::visibleRoles() const
 {
     return m_visibleRoles;
 }
@@ -476,7 +476,7 @@ void KItemListView::onOffsetChanged(qreal current, qreal previous)
     Q_UNUSED(previous);
 }
 
-void KItemListView::onVisibleRolesChanged(const QHash<QByteArray, int>& current, const QHash<QByteArray, int>& previous)
+void KItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);

@@ -141,14 +141,14 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     painter->setOpacity(opacity);
 }
 
-void KItemListWidget::setVisibleRoles(const QHash<QByteArray, int>& roles)
+void KItemListWidget::setVisibleRoles(const QList<QByteArray>& roles)
 {
-    const QHash<QByteArray, int> previousRoles = m_visibleRoles;
+    const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
     visibleRolesChanged(roles, previousRoles);
 }
 
-QHash<QByteArray, int> KItemListWidget::visibleRoles() const
+QList<QByteArray> KItemListWidget::visibleRoles() const
 {
     return m_visibleRoles;
 }
@@ -269,8 +269,8 @@ void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
     update();
 }
 
-void KItemListWidget::visibleRolesChanged(const QHash<QByteArray, int>& current,
-                                          const QHash<QByteArray, int>& previous)
+void KItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
+                                          const QList<QByteArray>& previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);

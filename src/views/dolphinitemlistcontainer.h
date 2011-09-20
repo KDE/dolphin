@@ -51,12 +51,8 @@ public:
     void setPreviewsShown(bool show);
     bool previewsShown() const;
 
-    /**
-     * Sets the visible roles to \p roles. The integer-value defines
-     * the order of the visible role: Smaller values are ordered first.
-     */
-    void setVisibleRoles(const QHash<QByteArray, int>& roles);
-    QHash<QByteArray, int> visibleRoles() const;
+    void setVisibleRoles(const QList<QByteArray>& roles);
+    QList<QByteArray> visibleRoles() const;
 
     void setZoomLevel(int level);
     int zoomLevel() const;
