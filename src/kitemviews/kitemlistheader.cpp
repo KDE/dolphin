@@ -22,17 +22,25 @@
 #include "kitemmodelbase.h"
 
 #include <QFontMetricsF>
+#include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QStyleOptionHeader>
+
+#include <KDebug>
 
 KItemListHeader::KItemListHeader(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
     m_model(0),
     m_visibleRoles(),
-    m_visibleRolesWidths()
+    m_visibleRolesWidths(),
+    m_hoveredRoleIndex(-1),
+    m_pressedRoleIndex(-1),
+    m_resizePressedRole(false)
 {
-    QStyleOptionHeader opt;
-    const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection, &opt, QSize());
+    setAcceptHoverEvents(true);
+
+    QStyleOptionHeader option;
+    const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection, &option, QSize());
     resize(0, headerSize.height());
 }
 
@@ -95,34 +103,78 @@ void KItemListHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     Q_UNUSED(option);
     Q_UNUSED(widget);
 
-    // Draw background
-    QStyleOption opt;
-    opt.init(widget);
-    opt.rect = rect().toRect();
-    opt.state |= QStyle::State_Horizontal;
-    style()->drawControl(QStyle::CE_HeaderEmptyArea, &opt, painter);
-
     if (!m_model) {
         return;
     }
 
     // Draw roles
-    // TODO: This is a rough draft only
-    QFontMetricsF fontMetrics(font());
-    QTextOption textOption(Qt::AlignLeft | Qt::AlignVCenter);
-
     painter->setFont(font());
     painter->setPen(palette().text().color());
 
-    const qreal margin = style()->pixelMetric(QStyle::PM_HeaderMargin);
-    qreal x = margin;
+    qreal x = 0;
+    int orderIndex = 0;
     foreach (const QByteArray& role, m_visibleRoles) {
-        const QString roleDescription = m_model->roleDescription(role);
-        const qreal textWidth = fontMetrics.width(roleDescription);
-        QRectF rect(x, 0, textWidth, size().height());
-        painter->drawText(rect, roleDescription, textOption);
+        const qreal roleWidth = m_visibleRolesWidths.value(role);
+        const QRectF rect(x, 0, roleWidth, size().height());
+        paintRole(painter, role, rect, orderIndex);
+        x += roleWidth;
+        ++orderIndex;
+    }
 
-        x += m_visibleRolesWidths.value(role) + margin;
+    // Draw background without roles
+    QStyleOption opt;
+    opt.init(widget);
+    opt.rect = QRect(x, 0, size().width() - x, size().height());
+    opt.state |= QStyle::State_Horizontal;
+    style()->drawControl(QStyle::CE_HeaderEmptyArea, &opt, painter);
+}
+
+void KItemListHeader::mousePressEvent(QGraphicsSceneMouseEvent* event)
+{
+    event->accept();
+    updatePressedRoleIndex(event->pos());
+}
+
+void KItemListHeader::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsWidget::mouseReleaseEvent(event);
+    if (m_pressedRoleIndex != -1) {
+        m_pressedRoleIndex = -1;
+        update();
+    }
+}
+
+void KItemListHeader::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
+{
+    QGraphicsWidget::mouseMoveEvent(event);
+    updatePressedRoleIndex(event->pos());
+}
+
+void KItemListHeader::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
+{
+    QGraphicsWidget::hoverEnterEvent(event);
+    updateHoveredRoleIndex(event->pos());
+}
+
+void KItemListHeader::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
+{
+    QGraphicsWidget::hoverLeaveEvent(event);
+    if (m_hoveredRoleIndex != -1) {
+        m_hoveredRoleIndex = -1;
+        update();
+    }
+}
+
+void KItemListHeader::hoverMoveEvent(QGraphicsSceneHoverEvent* event)
+{
+    QGraphicsWidget::hoverMoveEvent(event);
+
+    const QPointF& pos = event->pos();
+    updateHoveredRoleIndex(pos);
+    if (m_hoveredRoleIndex >= 0 && isAboveRoleGrip(pos, m_hoveredRoleIndex)) {
+        setCursor(Qt::SplitHCursor);
+    } else {
+        unsetCursor();
     }
 }
 
@@ -136,6 +188,99 @@ void KItemListHeader::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder 
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
+}
+
+void KItemListHeader::paintRole(QPainter* painter,
+                                const QByteArray& role,
+                                const QRectF& rect,
+                                int orderIndex)
+{
+    // The following code is based on the code from QHeaderView::paintSection().
+    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+    QStyleOptionHeader option;
+    option.section = orderIndex;
+    option.state = QStyle::State_None | QStyle::State_Raised;
+    if (isEnabled()) {
+        option.state |= QStyle::State_Enabled;
+    }
+    if (window() && window()->isActiveWindow()) {
+        option.state |= QStyle::State_Active;
+    }
+    if (m_hoveredRoleIndex == orderIndex) {
+        option.state |= QStyle::State_MouseOver;
+    }
+    if (m_pressedRoleIndex == orderIndex) {
+        option.state |= QStyle::State_Sunken;
+    }
+    /*if (m_model->sortRole() == role) {
+        option.sortIndicator = (m_model->sortOrder() == Qt::AscendingOrder) ?
+                                QStyleOptionHeader::SortDown : QStyleOptionHeader::SortUp;
+    }*/
+    option.rect = rect.toRect();
+
+    if (m_visibleRoles.count() == 1) {
+        option.position = QStyleOptionHeader::OnlyOneSection;
+    } else if (orderIndex == 0) {
+        option.position = QStyleOptionHeader::Beginning;
+    } else if (orderIndex == m_visibleRoles.count() - 1) {
+        option.position = QStyleOptionHeader::End;
+    } else {
+        option.position = QStyleOptionHeader::Middle;
+    }
+
+    option.selectedPosition = QStyleOptionHeader::NotAdjacent;
+
+    const QString text = m_model->roleDescription(role);
+    const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
+    option.text = option.fontMetrics.elidedText(text, Qt::ElideRight, option.rect.width() - grip);
+
+    style()->drawControl(QStyle::CE_Header, &option, painter);
+}
+
+void KItemListHeader::updatePressedRoleIndex(const QPointF& pos)
+{
+    const int pressedIndex = roleIndexAt(pos);
+    if (m_pressedRoleIndex != pressedIndex) {
+        m_pressedRoleIndex = pressedIndex;
+        update();
+    }
+}
+
+void KItemListHeader::updateHoveredRoleIndex(const QPointF& pos)
+{
+    const int hoverIndex = roleIndexAt(pos);
+    if (m_hoveredRoleIndex != hoverIndex) {
+        m_hoveredRoleIndex = hoverIndex;
+        update();
+    }
+}
+
+int KItemListHeader::roleIndexAt(const QPointF& pos) const
+{
+    int index = -1;
+
+    qreal x = 0;
+    foreach (const QByteArray& role, m_visibleRoles) {
+        ++index;
+        x += m_visibleRolesWidths.value(role);
+        if (pos.x() <= x) {
+            break;
+        }
+    }
+
+    return index;
+}
+
+bool KItemListHeader::isAboveRoleGrip(const QPointF& pos, int roleIndex) const
+{
+    qreal x = 0;
+    for (int i = 0; i <= roleIndex; ++i) {
+        const QByteArray role = m_visibleRoles.at(i);
+        x += m_visibleRolesWidths.value(role);
+    }
+
+    const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
+    return pos.x() >= (x - grip) && pos.x() <= x;
 }
 
 #include "kitemlistheader_p.moc"

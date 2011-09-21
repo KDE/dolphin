@@ -49,14 +49,34 @@ public:
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
+protected:
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
+    virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);
+    virtual void mouseMoveEvent(QGraphicsSceneMouseEvent* event);
+    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
+    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
+
 private slots:
     void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);
     void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private:
+    void paintRole(QPainter* painter, const QByteArray& role, const QRectF& rect, int orderIndex);
+
+    void updatePressedRoleIndex(const QPointF& pos);
+    void updateHoveredRoleIndex(const QPointF& pos);
+    int roleIndexAt(const QPointF& pos) const;
+    bool isAboveRoleGrip(const QPointF& pos, int roleIndex) const;
+
+private:
     KItemModelBase* m_model;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_visibleRolesWidths;
+
+    int m_hoveredRoleIndex;
+    int m_pressedRoleIndex;
+    bool m_resizePressedRole;
 };
 
 #endif
