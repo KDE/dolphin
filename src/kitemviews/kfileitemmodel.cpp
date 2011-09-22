@@ -191,15 +191,13 @@ QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
 int KFileItemModel::indexForKeyboardSearch(const QString& text, int startFromIndex) const
 {
     startFromIndex = qMax(0, startFromIndex);
-    for (int i = startFromIndex; i < count(); i++) {
+    for (int i = startFromIndex; i < count(); ++i) {
         if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
-            kDebug() << data(i)["name"].toString();
             return i;
         }
     }
-    for (int i = 0; i < startFromIndex; i++) {
+    for (int i = 0; i < startFromIndex; ++i) {
         if (data(i)["name"].toString().startsWith(text, Qt::CaseInsensitive)) {
-            kDebug() << data(i)["name"].toString();
             return i;
         }
     }
