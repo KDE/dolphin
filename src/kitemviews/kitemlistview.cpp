@@ -321,7 +321,9 @@ void KItemListView::setGeometry(const QRectF& rect)
         m_layouter->setSize(rect.size());
     }
 
-    m_layoutTimer->start();
+    if (!m_layoutTimer->isActive()) {
+        m_layoutTimer->start();
+    }
 }
 
 int KItemListView::itemAt(const QPointF& pos) const
