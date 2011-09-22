@@ -263,6 +263,13 @@ int KFileItemModel::index(const KFileItem& item) const
     return m_items.value(item.url(), -1);
 }
 
+int KFileItemModel::index(const KUrl& url) const
+{
+    KUrl urlToFind = url;
+    urlToFind.adjustPath(KUrl::RemoveTrailingSlash);
+    return m_items.value(urlToFind, -1);
+}
+
 KFileItem KFileItemModel::rootItem() const
 {
     const KDirLister* dirLister = m_dirLister.data();

@@ -90,7 +90,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_container(0),
     m_toolTipManager(0),
     m_selectionChangedTimer(0),
-    m_currentItemIndex(-1),
+    m_currentItemUrl(),
     m_restoredContentsPosition(),
     m_createdItemUrl(),
     m_selectedItems(),
@@ -925,7 +925,7 @@ bool DolphinView::itemsExpandable() const
 void DolphinView::restoreState(QDataStream& stream)
 {
     // Restore the current item that had the keyboard focus
-    stream >> m_currentItemIndex;
+    stream >> m_currentItemUrl;
 
     // Restore the view position
     stream >> m_restoredContentsPosition;
@@ -939,7 +939,14 @@ void DolphinView::restoreState(QDataStream& stream)
 void DolphinView::saveState(QDataStream& stream)
 {
     // Save the current item that has the keyboard focus
-    stream << m_container->controller()->selectionManager()->currentItem();
+    const int currentIndex = m_container->controller()->selectionManager()->currentItem();
+    if (currentIndex != -1) {
+        KFileItem item = fileItemModel()->fileItem(currentIndex);
+        KUrl currentItemUrl = item.url();
+        stream << currentItemUrl;
+    } else {
+        stream << KUrl();
+    }
 
     // Save view position
     const qreal x = m_container->horizontalScrollBar()->value();
@@ -993,10 +1000,15 @@ void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 
 void DolphinView::updateViewState()
 {
-    if (m_currentItemIndex >= 0) {
+    if (m_currentItemUrl != KUrl()) {
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
-        selectionManager->setCurrentItem(m_currentItemIndex);
-        m_currentItemIndex =-1;
+        const int currentIndex = fileItemModel()->index(m_currentItemUrl);
+        if (currentIndex != -1) {
+            selectionManager->setCurrentItem(currentIndex);
+        } else {
+            selectionManager->setCurrentItem(0);
+        }
+        m_currentItemUrl = KUrl();
     }
 
     if (!m_restoredContentsPosition.isNull()) {
@@ -1299,6 +1311,11 @@ DolphinView::Sorting DolphinView::sortingForSortRole(const QByteArray& sortRole)
         sortHash.insert("path", SortByPath);
     }
     return sortHash.value(sortRole);
+}
+
+void DolphinView::markUrlAsCurrent(const KUrl& url)
+{
+    m_currentItemUrl = url;
 }
 
 #include "dolphinview.moc"

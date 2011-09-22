@@ -330,8 +330,10 @@ void DolphinMainWindow::openFiles(const QList<KUrl>& files)
     const int tabCount = m_viewTab.count();
     for (int i = 0; i < tabCount; ++i) {
         m_viewTab[i].primaryView->view()->markUrlsAsSelected(files);
+        m_viewTab[i].primaryView->view()->markUrlAsCurrent(files.at(0));
         if (m_viewTab[i].secondaryView) {
             m_viewTab[i].secondaryView->view()->markUrlsAsSelected(files);
+            m_viewTab[i].secondaryView->view()->markUrlAsCurrent(files.at(0));
         }
     }
 }

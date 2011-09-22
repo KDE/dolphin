@@ -106,6 +106,12 @@ public:
     int index(const KFileItem& item) const;
 
     /**
+     * @return The index for the URL \a url. -1 is returned if no file-item
+     *         is found. The runtime complexity of this call is O(1).
+     */
+    int index(const KUrl& url) const;
+
+    /**
      * @return Root item of all items.
      */
     KFileItem rootItem() const;

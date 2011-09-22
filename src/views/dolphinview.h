@@ -187,6 +187,12 @@ public:
     void markUrlsAsSelected(const QList<KUrl>& urls);
 
     /**
+     * Marks the item indicated by \p url as the current item after the
+     * directory DolphinView::url() has been loaded.
+     */
+    void markUrlAsCurrent(const KUrl& url);
+
+    /**
      * All items that match to the pattern \a pattern will get selected
      * if \a enabled is true and deselected if  \a enabled is false.
      */
@@ -757,7 +763,7 @@ private:
 
     QTimer* m_selectionChangedTimer;
 
-    int m_currentItemIndex;
+    KUrl m_currentItemUrl;
     QPoint m_restoredContentsPosition;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
     KFileItemList m_selectedItems; // this is used for making the View to remember selections after F5
