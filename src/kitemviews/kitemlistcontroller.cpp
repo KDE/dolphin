@@ -362,10 +362,7 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         // Check whether a dragging should be started
         if (event->buttons() & Qt::LeftButton) {
             const QPointF pos = transform.map(event->pos());
-            const qreal minDragDiff = 4;
-            const bool hasMinDragDiff = qAbs(pos.x() - m_pressedMousePos.x()) >= minDragDiff ||
-                                        qAbs(pos.y() - m_pressedMousePos.y()) >= minDragDiff;
-            if (hasMinDragDiff) {
+            if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
                 startDragging();
             }
         }

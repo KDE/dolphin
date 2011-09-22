@@ -68,15 +68,24 @@ private:
     void updateHoveredRoleIndex(const QPointF& pos);
     int roleIndexAt(const QPointF& pos) const;
     bool isAboveRoleGrip(const QPointF& pos, int roleIndex) const;
+    qreal minimumRoleWidth() const;
 
 private:
+    enum RoleOperation
+    {
+        NoRoleOperation,
+        ResizeRoleOperation,
+        MoveRoleOperation
+    };
+
     KItemModelBase* m_model;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, qreal> m_visibleRolesWidths;
 
     int m_hoveredRoleIndex;
     int m_pressedRoleIndex;
-    bool m_resizePressedRole;
+    RoleOperation m_roleOperation;
+    QPointF m_pressedMousePos;
 };
 
 #endif

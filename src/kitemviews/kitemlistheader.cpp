@@ -21,7 +21,7 @@
 
 #include "kitemmodelbase.h"
 
-#include <QFontMetricsF>
+#include <QApplication>
 #include <QGraphicsSceneHoverEvent>
 #include <QPainter>
 #include <QStyleOptionHeader>
@@ -35,7 +35,8 @@ KItemListHeader::KItemListHeader(QGraphicsWidget* parent) :
     m_visibleRolesWidths(),
     m_hoveredRoleIndex(-1),
     m_pressedRoleIndex(-1),
-    m_resizePressedRole(false)
+    m_roleOperation(NoRoleOperation),
+    m_pressedMousePos()
 {
     setAcceptHoverEvents(true);
 
@@ -90,6 +91,17 @@ QList<QByteArray> KItemListHeader::visibleRoles() const
 void KItemListHeader::setVisibleRolesWidths(const QHash<QByteArray, qreal> rolesWidths)
 {
     m_visibleRolesWidths = rolesWidths;
+
+    // Assure that no width is smaller than the minimum allowed width
+    const qreal minWidth = minimumRoleWidth();
+    QMutableHashIterator<QByteArray, qreal> it(m_visibleRolesWidths);
+    while (it.hasNext()) {
+        it.next();
+        if (it.value() < minWidth) {
+            m_visibleRolesWidths.insert(it.key(), minWidth);
+        }
+    }
+
     update();
 }
 
@@ -133,21 +145,57 @@ void KItemListHeader::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
     event->accept();
     updatePressedRoleIndex(event->pos());
+    m_pressedMousePos = event->pos();
+    m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ?
+                      ResizeRoleOperation : NoRoleOperation;
 }
 
 void KItemListHeader::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
 {
     QGraphicsWidget::mouseReleaseEvent(event);
-    if (m_pressedRoleIndex != -1) {
-        m_pressedRoleIndex = -1;
-        update();
+
+    if (m_pressedRoleIndex == -1) {
+        return;
     }
+
+    if (m_roleOperation == NoRoleOperation) {
+        // Only a click has been done and no moving or resizing has been started
+        const QByteArray sortRole = m_model->sortRole();
+        const int sortRoleIndex = m_visibleRoles.indexOf(sortRole);
+        if (m_pressedRoleIndex == sortRoleIndex) {
+            // Toggle the sort order
+            const Qt::SortOrder toggled = (m_model->sortOrder() == Qt::AscendingOrder) ?
+                                          Qt::DescendingOrder : Qt::AscendingOrder;
+            m_model->setSortOrder(toggled);
+        } else {
+            // Change the sort role
+            const QByteArray sortRole = m_visibleRoles.at(m_pressedRoleIndex);
+            m_model->setSortRole(sortRole);
+        }
+    }
+
+    m_pressedRoleIndex = -1;
+    m_roleOperation = NoRoleOperation;
+    update();
 }
 
 void KItemListHeader::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
 {
     QGraphicsWidget::mouseMoveEvent(event);
-    updatePressedRoleIndex(event->pos());
+
+    if (m_roleOperation == ResizeRoleOperation) {
+        const QByteArray pressedRole = m_visibleRoles.at(m_pressedRoleIndex);
+
+        qreal roleWidth = m_visibleRolesWidths.value(pressedRole);
+        roleWidth += event->pos().x() - event->lastPos().x();
+        roleWidth = qMax(minimumRoleWidth(), roleWidth);
+
+        m_visibleRolesWidths.insert(pressedRole, roleWidth);
+        update();
+    } else if ((event->pos() - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
+        kDebug() << "Moving of role not supported yet";
+        m_roleOperation = MoveRoleOperation;
+    }
 }
 
 void KItemListHeader::hoverEnterEvent(QGraphicsSceneHoverEvent* event)
@@ -182,12 +230,14 @@ void KItemListHeader::slotSortRoleChanged(const QByteArray& current, const QByte
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
+    update();
 }
 
 void KItemListHeader::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
+    update();
 }
 
 void KItemListHeader::paintRole(QPainter* painter,
@@ -199,7 +249,7 @@ void KItemListHeader::paintRole(QPainter* painter,
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
     QStyleOptionHeader option;
     option.section = orderIndex;
-    option.state = QStyle::State_None | QStyle::State_Raised;
+    option.state = QStyle::State_None | QStyle::State_Raised | QStyle::State_Horizontal;
     if (isEnabled()) {
         option.state |= QStyle::State_Enabled;
     }
@@ -212,10 +262,10 @@ void KItemListHeader::paintRole(QPainter* painter,
     if (m_pressedRoleIndex == orderIndex) {
         option.state |= QStyle::State_Sunken;
     }
-    /*if (m_model->sortRole() == role) {
+    if (m_model->sortRole() == role) {
         option.sortIndicator = (m_model->sortOrder() == Qt::AscendingOrder) ?
                                 QStyleOptionHeader::SortDown : QStyleOptionHeader::SortUp;
-    }*/
+    }
     option.rect = rect.toRect();
 
     if (m_visibleRoles.count() == 1) {
@@ -228,11 +278,9 @@ void KItemListHeader::paintRole(QPainter* painter,
         option.position = QStyleOptionHeader::Middle;
     }
 
+    option.orientation = Qt::Horizontal;
     option.selectedPosition = QStyleOptionHeader::NotAdjacent;
-
-    const QString text = m_model->roleDescription(role);
-    const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
-    option.text = option.fontMetrics.elidedText(text, Qt::ElideRight, option.rect.width() - grip);
+    option.text = m_model->roleDescription(role);
 
     style()->drawControl(QStyle::CE_Header, &option, painter);
 }
@@ -281,6 +329,12 @@ bool KItemListHeader::isAboveRoleGrip(const QPointF& pos, int roleIndex) const
 
     const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
     return pos.x() >= (x - grip) && pos.x() <= x;
+}
+
+qreal KItemListHeader::minimumRoleWidth() const
+{
+    QFontMetricsF fontMetrics(font());
+    return fontMetrics.averageCharWidth() * 5;
 }
 
 #include "kitemlistheader_p.moc"
