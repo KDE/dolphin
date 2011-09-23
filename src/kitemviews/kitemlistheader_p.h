@@ -49,6 +49,15 @@ public:
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
+signals:
+    /**
+     * Is emitted if the width of a visible role has been adjusted by the user with the mouse
+     * (no signal is emitted if KItemListHeader::setVisibleRoles() is invoked).
+     */
+    void visibleRoleWidthChanged(const QByteArray& role,
+                                 qreal currentWidth,
+                                 qreal previousWidth);
+
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);

@@ -396,7 +396,20 @@ QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role)
     const QVariant value = model()->data(index).value(role);
     const QString text = value.toString();
     if (!text.isEmpty()) {
-        width = qMax(width, qreal(option.margin * 2 + option.fontMetrics.width(text)));
+        const qreal columnMargin = option.margin * 3;
+        width = qMax(width, qreal(2 * columnMargin + option.fontMetrics.width(text)));
+    }
+
+    if (role == "name") {
+        const QHash<QByteArray, QVariant> values = model()->data(index);
+        Q_ASSERT(values.contains("expansionLevel"));
+
+        // Increase the width by the expansion-toggle and the current expansion level
+        const int expansionLevel = values.value("expansionLevel", 0).toInt();
+        width += option.margin + expansionLevel * itemSize().height() + KIconLoader::SizeSmall;
+
+        // Increase the width by the required space for the icon
+        width += option.margin * 2 + option.iconSize;
     }
 
     return QSizeF(width, height);

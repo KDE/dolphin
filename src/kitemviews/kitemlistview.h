@@ -147,6 +147,12 @@ public:
     int lastVisibleIndex() const;
 
     virtual QSizeF itemSizeHint(int index) const;
+
+    /**
+     * @return The size of each visible role in case if KItemListView::itemSize()
+     *         is empty. This allows to have dynamic but equal role sizes between
+     *         all items. Per default an empty hash is returned.
+     */
     virtual QHash<QByteArray, QSizeF> visibleRoleSizes() const;
 
     /**
@@ -227,6 +233,16 @@ private slots:
 
     void slotRubberBandPosChanged();
     void slotRubberBandActivationChanged(bool active);
+
+    /**
+     * Is invoked if the visible role-width of one role in the header has
+     * been changed by the user. It is remembered that the user has modified
+     * the role-width, so that it won't be changed anymore automatically to
+     * calculate an optimized width.
+     */
+    void slotVisibleRoleWidthChanged(const QByteArray& role,
+                                     qreal currentWidth,
+                                     qreal previousWidth);
 
     /**
      * Triggers the autoscrolling if autoScroll() is enabled by checking the
@@ -354,6 +370,7 @@ private:
     QTimer* m_autoScrollTimer;
 
     KItemListHeader* m_header;
+    bool m_useHeaderWidths;
 
     friend class KItemListController;
 };

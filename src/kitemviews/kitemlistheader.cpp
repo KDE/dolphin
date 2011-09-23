@@ -186,12 +186,15 @@ void KItemListHeader::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     if (m_roleOperation == ResizeRoleOperation) {
         const QByteArray pressedRole = m_visibleRoles.at(m_pressedRoleIndex);
 
-        qreal roleWidth = m_visibleRolesWidths.value(pressedRole);
-        roleWidth += event->pos().x() - event->lastPos().x();
-        roleWidth = qMax(minimumRoleWidth(), roleWidth);
+        qreal previousWidth = m_visibleRolesWidths.value(pressedRole);
+        qreal currentWidth = previousWidth;
+        currentWidth += event->pos().x() - event->lastPos().x();
+        currentWidth = qMax(minimumRoleWidth(), currentWidth);
 
-        m_visibleRolesWidths.insert(pressedRole, roleWidth);
+        m_visibleRolesWidths.insert(pressedRole, currentWidth);
         update();
+
+        emit visibleRoleWidthChanged(pressedRole, currentWidth, previousWidth);
     } else if ((event->pos() - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
         kDebug() << "Moving of role not supported yet";
         m_roleOperation = MoveRoleOperation;

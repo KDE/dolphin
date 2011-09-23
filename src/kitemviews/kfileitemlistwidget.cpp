@@ -578,7 +578,9 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     const int scaledIconSize = widgetHeight - 2 * option.margin;
     const int fontHeight = option.fontMetrics.height();
 
-    qreal x = m_expansionArea.right() + option.margin * 3 + scaledIconSize;
+    const qreal columnMargin = option.margin * 3;
+    const qreal firstColumnInc = m_expansionArea.right() + option.margin * 2 + scaledIconSize;
+    qreal x = firstColumnInc;
     const qreal y = qMax(qreal(option.margin), (widgetHeight - fontHeight) / 2);
 
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
@@ -588,7 +590,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         m_text[textId].setText(text);
 
         const qreal requiredWidth = option.fontMetrics.width(text);
-        m_textPos[textId] = QPointF(x, y);
+        m_textPos[textId] = QPointF(x + columnMargin, y);
 
         const qreal columnWidth = visibleRolesSizes().value(role, QSizeF(0, 0)).width();
         x += columnWidth;
@@ -596,16 +598,16 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         switch (textId) {
         case Name: {
             m_textBoundingRect = QRectF(m_textPos[textId].x() - option.margin, 0,
-                                         requiredWidth + 2 * option.margin, size().height());
+                                        requiredWidth + 2 * option.margin, size().height());
 
             // The column after the name should always be aligned on the same x-position independent
             // from the expansion-level shown in the name column
-            x -= m_expansionArea.right();
+            x -= firstColumnInc;
             break;
         }
         case Size:
             // The values for the size should be right aligned
-            m_textPos[textId].rx() += columnWidth - requiredWidth - 2 * option.margin;
+            m_textPos[textId].rx() += columnWidth - requiredWidth - 2 * columnMargin;
             break;
 
         default:
