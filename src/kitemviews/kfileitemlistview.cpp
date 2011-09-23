@@ -143,7 +143,7 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
         qreal maximumRequiredWidth = 0.0;
 
         foreach (const QByteArray& role, visibleRoles()) {
-            const QString text = values[role].toString();
+            const QString text = KFileItemListWidget::roleText(role, values);
             const qreal requiredWidth = option.fontMetrics.width(text);
             maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
         }
@@ -427,15 +427,14 @@ QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role)
     qreal width = m_minimumRolesWidths.value(role, 0);
     const qreal height = option.margin * 2 + option.fontMetrics.height();
 
-    const QVariant value = model()->data(index).value(role);
-    const QString text = value.toString();
+    const QHash<QByteArray, QVariant> values = model()->data(index);
+    const QString text = KFileItemListWidget::roleText(role, values);
     if (!text.isEmpty()) {
         const qreal columnMargin = option.margin * 3;
         width = qMax(width, qreal(2 * columnMargin + option.fontMetrics.width(text)));
     }
 
     if (role == "name") {
-        const QHash<QByteArray, QVariant> values = model()->data(index);
         Q_ASSERT(values.contains("expansionLevel"));
 
         // Increase the width by the expansion-toggle and the current expansion level

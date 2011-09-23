@@ -52,6 +52,14 @@ public:
     virtual QRectF textBoundingRect() const;
     virtual QRectF expansionToggleRect() const;
 
+    /**
+     * @return Shown string for the role \p role of the item with the values \p values.
+     */
+    // TODO: Move this method to a helper class shared by KFileItemListWidget and
+    // KFileItemListView to share information that is required to calculate the size hints
+    // in KFileItemListView and to represent the actual data in KFileItemListWidget.
+    static QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values);
+
 protected:
     /**
      * Invalidates the cache which results in calling KFileItemListWidget::refreshCache() as
@@ -102,8 +110,6 @@ private:
     void updateDetailsLayoutTextCache();
     
     void updateAdditionalInfoTextColor();
-
-    QString roleText(TextId textId, const QVariant& roleValue) const;
 
     void drawPixmap(QPainter* painter, const QPixmap& pixmap);
 

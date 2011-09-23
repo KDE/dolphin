@@ -52,7 +52,7 @@ public:
 
     virtual int count() const;
     virtual QHash<QByteArray, QVariant> data(int index) const;
-    virtual bool setData(int index, const QHash<QByteArray, QVariant> &values);
+    virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
 
     /**
      * @return True

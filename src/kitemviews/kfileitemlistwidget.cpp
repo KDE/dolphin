@@ -155,6 +155,51 @@ QRectF KFileItemListWidget::expansionToggleRect() const
     return m_isDir ? m_expansionArea : QRectF();
 }
 
+QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values)
+{
+    QString text;
+    const QVariant roleValue = values.value(role);
+
+    switch (roleTextId(role)) {
+    case Name:
+    case Permissions:
+    case Owner:
+    case Group:
+    case Type:
+    case Destination:
+    case Path:
+        text = roleValue.toString();
+        break;
+
+    case Size: {
+        if (values.value("isDir").toBool()) {
+            // The item represents a directory. Show the number of sub directories
+            // instead of the file size of the directory.
+            if (!roleValue.isNull()) {
+                const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
+                text = i18ncp("@item:intable", "%1 item", "%1 items", size);
+            }
+        } else {
+            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
+            text = KIO::convertSize(size);
+        }
+        break;
+    }
+
+    case Date: {
+        const QDateTime dateTime = roleValue.toDateTime();
+        text = KGlobal::locale()->formatDateTime(dateTime);
+        break;
+    }
+
+    default:
+        Q_ASSERT(false);
+        break;
+    }
+
+    return text;
+}
+
 void KFileItemListWidget::invalidateCache()
 {
     m_dirtyLayout = true;
@@ -482,7 +527,7 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
             continue;
         }
 
-        const QString text = roleText(textId, values[role]);
+        const QString text = roleText(role, values);
         m_text[textId].setText(text);
 
         qreal requiredWidth = 0;
@@ -540,7 +585,7 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
         const TextId textId = roleTextId(role);
 
-        const QString text = roleText(textId, values[role]);
+        const QString text = roleText(role, values);
         m_text[textId].setText(text);
 
         qreal requiredWidth = option.fontMetrics.width(text);
@@ -586,7 +631,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
         const TextId textId = roleTextId(role);
 
-        const QString text = roleText(textId, values[role]);
+        const QString text = roleText(role, values);
         m_text[textId].setText(text);
 
         const qreal requiredWidth = option.fontMetrics.width(text);
@@ -628,50 +673,6 @@ void KFileItemListWidget::updateAdditionalInfoTextColor()
     m_additionalInfoTextColor = QColor((c1.red()   * p1 + c2.red()   * p2) / 100,
                                        (c1.green() * p1 + c2.green() * p2) / 100,
                                        (c1.blue()  * p1 + c2.blue()  * p2) / 100);
-}
-
-QString KFileItemListWidget::roleText(TextId textId, const QVariant& roleValue) const
-{
-    QString text;
-
-    switch (textId) {
-    case Name:
-    case Permissions:
-    case Owner:
-    case Group:
-    case Type:
-    case Destination:
-    case Path:
-        text = roleValue.toString();
-        break;
-
-    case Size: {
-        if (data().value("isDir").toBool()) {
-            // The item represents a directory. Show the number of sub directories
-            // instead of the file size of the directory.
-            if (!roleValue.isNull()) {
-                const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-                text = i18ncp("@item:intable", "%1 item", "%1 items", size);
-            }
-        } else {
-            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-            text = KIO::convertSize(size);
-        }
-        break;
-    }
-
-    case Date: {
-        const QDateTime dateTime = roleValue.toDateTime();
-        text = KGlobal::locale()->formatDateTime(dateTime);
-        break;
-    }
-
-    default:
-        Q_ASSERT(false);
-        break;
-    }
-
-    return text;
 }
 
 void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
