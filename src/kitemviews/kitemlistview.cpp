@@ -764,7 +764,9 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
         if (updateSizeHints) {
             m_sizeHintResolver->itemsChanged(index, count, roles);
             m_layouter->markAsDirty();
-            updateLayout();
+            if (!m_layoutTimer->isActive()) {
+                m_layoutTimer->start();
+            }
         }
 
         // Apply the changed roles to the visible item-widgets
