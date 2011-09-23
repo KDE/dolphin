@@ -204,6 +204,7 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
     if (m_header) {
         m_header->setVisibleRoles(roles);
         m_header->setVisibleRolesWidths(headerRolesWidths());
+        m_useHeaderWidths = false;
     }
 }
 
@@ -463,6 +464,12 @@ void KItemListView::initializeItemListWidget(KItemListWidget* item)
     Q_UNUSED(item);
 }
 
+bool KItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
+{
+    Q_UNUSED(changedRoles);
+    return true;
+}
+
 void KItemListView::onControllerChanged(KItemListController* current, KItemListController* previous)
 {
     Q_UNUSED(current);
@@ -578,11 +585,19 @@ void KItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
     updateHeaderWidth();
 }
 
+bool KItemListView::markVisibleRolesSizesAsDirty()
+{
+    const bool dirty = m_itemSize.isEmpty();
+    if (dirty && !m_useHeaderWidths) {
+        m_visibleRolesSizes.clear();
+        m_layouter->setItemSize(QSizeF());
+    }
+    return dirty;
+}
+
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 {
-    if (!m_useHeaderWidths) {
-        markVisibleRolesSizesAsDirty();
-    }
+    markVisibleRolesSizesAsDirty();
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -655,9 +670,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
 void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
-    if (!m_useHeaderWidths) {
-        markVisibleRolesSizesAsDirty();
-    }
+    markVisibleRolesSizesAsDirty();
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -739,12 +752,22 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
                                      const QSet<QByteArray>& roles)
 {
+    const bool updateSizeHints = itemSizeHintUpdateRequired(roles);
+    if (updateSizeHints) {
+        markVisibleRolesSizesAsDirty();
+    }
+
     foreach (const KItemRange& itemRange, itemRanges) {
         const int index = itemRange.index;
         const int count = itemRange.count;
 
-        m_sizeHintResolver->itemsChanged(index, count, roles);
+        if (updateSizeHints) {
+            m_sizeHintResolver->itemsChanged(index, count, roles);
+            m_layouter->markAsDirty();
+            updateLayout();
+        }
 
+        // Apply the changed roles to the visible item-widgets
         const int lastIndex = index + count - 1;
         for (int i = index; i <= lastIndex; ++i) {
             KItemListWidget* widget = m_visibleItems.value(i);
@@ -752,6 +775,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
                 widget->setData(m_model->data(i), roles);
             }
         }
+
     }
 }
 
@@ -884,7 +908,6 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
                                                 qreal previousWidth)
 {
     Q_UNUSED(previousWidth);
-    Q_ASSERT(m_header);
 
     m_useHeaderWidths = true;
 
@@ -1290,17 +1313,6 @@ void KItemListView::setLayouterSize(const QSizeF& size, SizeType sizeType)
     case ItemSize: m_layouter->setItemSize(size); break;
     default: break;
     }
-}
-
-bool KItemListView::markVisibleRolesSizesAsDirty()
-{
-    const bool dirty = m_itemSize.isEmpty();
-    if (dirty) {
-        m_visibleRolesSizes.clear();
-        m_layouter->setItemSize(QSizeF());
-        m_useHeaderWidths = false;
-    }
-    return dirty;
 }
 
 void KItemListView::applyDynamicItemSize()

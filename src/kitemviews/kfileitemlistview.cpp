@@ -194,6 +194,24 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRoleSizes() const
         }
     }
 
+    // Stretch the width of the first role so that the full visible view-width
+    // is used to show all roles.
+    const qreal availableWidth = size().width();
+
+    qreal usedWidth = 0;
+    QHashIterator<QByteArray, QSizeF> it(sizes);
+    while (it.hasNext()) {
+        it.next();
+        usedWidth += it.value().width();
+    }
+
+    if (usedWidth < availableWidth) {
+        const QByteArray role = visibleRoles().first();
+        QSizeF firstRoleSize = sizes.value(role);
+        firstRoleSize.rwidth() += availableWidth - usedWidth;
+        sizes.insert(role, firstRoleSize);
+    }
+
 #ifdef KFILEITEMLISTVIEW_DEBUG
     kDebug() << "[TIME] Calculated dynamic item size for " << itemCount << "items:" << timer.elapsed();
 #endif
@@ -230,6 +248,21 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
     case DetailsLayout: fileItemListWidget->setLayout(KFileItemListWidget::DetailsLayout); break;
     default:            Q_ASSERT(false); break;
     }
+}
+
+bool KFileItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
+{
+    // Even if the icons have a different size they are always aligned within
+    // the area defined by KItemStyleOption.iconSize and hence result in no
+    // change of the item-size.
+    const bool containsIconName = changedRoles.contains("iconName");
+    const bool containsIconPixmap = changedRoles.contains("iconPixmap");
+    const int count = changedRoles.count();
+
+    const bool iconChanged = (containsIconName && containsIconPixmap && count == 2) ||
+                             (containsIconName && count == 1) ||
+                             (containsIconPixmap && count == 1);
+    return !iconChanged;
 }
 
 void KFileItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* previous)
@@ -320,6 +353,7 @@ void KFileItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     KItemListView::resizeEvent(event);
     triggerVisibleIndexRangeUpdate();
+    markVisibleRolesSizesAsDirty();
 }
 
 void KFileItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)

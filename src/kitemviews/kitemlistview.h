@@ -146,6 +146,12 @@ public:
     int firstVisibleIndex() const;
     int lastVisibleIndex() const;
 
+    /**
+     * @return Required size for the item with the index \p index.
+     *         Per default KItemListView::itemSize() is returned.
+     *         When reimplementing this method it is recommended to
+     *         also reimplement KItemListView::itemSizeHintUpdateRequired().
+     */
     virtual QSizeF itemSizeHint(int index) const;
 
     /**
@@ -194,6 +200,16 @@ signals:
 protected:
     virtual void initializeItemListWidget(KItemListWidget* item);
 
+    /**
+     * @return True if at least one of the changed roles \p changedRoles might result
+     *         in the need to update the item-size hint (see KItemListView::itemSizeHint()).
+     *         Per default true is returned which means on each role-change of existing items
+     *         the item-size hints are recalculated. For performance reasons it is recommended
+     *         to return false in case if a role-change will not result in a changed
+     *         item-size hint.
+     */
+    virtual bool itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const;
+
     virtual void onControllerChanged(KItemListController* current, KItemListController* previous);
     virtual void onModelChanged(KItemModelBase* current, KItemModelBase* previous);
 
@@ -216,6 +232,16 @@ protected:
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
+    /**
+     * Marks the visible roles as dirty so that they will get updated when doing the next
+     * layout. The visible roles will only get marked as dirty if an empty item-size is
+     * given and if the roles have not already been customized by the user by adjusting
+     * the view-header.
+     * @return True if the visible roles have been marked as dirty.
+     */
+    bool markVisibleRolesSizesAsDirty();
+
+    /** @reimp */
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
 protected slots:
@@ -293,14 +319,6 @@ private:
      * Helper method for prepareLayoutForIncreasedItemCount().
      */
     void setLayouterSize(const QSizeF& size, SizeType sizeType);
-
-    /**
-     * Marks the visible roles as dirty so that they will get updated when doing the next
-     * layout. The visible roles will only get marked as dirty if an empty item-size is
-     * given.
-     * @return True if the visible roles have been marked as dirty.
-     */
-    bool markVisibleRolesSizesAsDirty();
 
     /**
      * Updates the m_visibleRoleSizes property and applies the dynamic

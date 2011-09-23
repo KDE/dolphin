@@ -68,6 +68,7 @@ public:
 
 protected:
     virtual void initializeItemListWidget(KItemListWidget* item);
+    virtual bool itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const;
     virtual void onModelChanged(KItemModelBase* current, KItemModelBase* previous);
     virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous);
