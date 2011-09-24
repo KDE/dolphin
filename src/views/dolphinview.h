@@ -766,7 +766,7 @@ private:
     KUrl m_currentItemUrl;
     QPoint m_restoredContentsPosition;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
-    KFileItemList m_selectedItems; // this is used for making the View to remember selections after F5
+    QList<KUrl> m_selectedUrls; // this is used for making the View to remember selections after F5
     
     VersionControlObserver* m_versionControlObserver;
 

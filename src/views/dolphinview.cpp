@@ -93,7 +93,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_currentItemUrl(),
     m_restoredContentsPosition(),
     m_createdItemUrl(),
-    m_selectedItems(),
+    m_selectedUrls(),
     m_versionControlObserver(0)
 {
     m_topLayout = new QVBoxLayout(this);
@@ -307,10 +307,7 @@ int DolphinView::selectedItemsCount() const
 
 void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
 {
-    foreach (const KUrl& url, urls) {
-        KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-        m_selectedItems.append(item);
-    }
+    m_selectedUrls = urls;
 }
 
 void DolphinView::setItemSelectionEnabled(const QRegExp& pattern, bool enabled)
@@ -409,7 +406,10 @@ void DolphinView::reload()
     QByteArray viewState;
     QDataStream saveStream(&viewState, QIODevice::WriteOnly);
     saveState(saveStream);
-    m_selectedItems= selectedItems();
+
+    const KFileItemList itemList = selectedItems();
+    m_selectedUrls.clear();
+    m_selectedUrls = itemList.urlList();
 
     setUrl(url());
     loadDirectory(url(), true);
@@ -666,7 +666,9 @@ void DolphinView::setHiddenFilesShown(bool show)
         return;
     }
 
-    m_selectedItems = selectedItems();
+    const KFileItemList itemList = selectedItems();
+    m_selectedUrls.clear();
+    m_selectedUrls = itemList.urlList();
 
     ViewProperties props(url());
     props.setHiddenFilesShown(show);
@@ -1020,20 +1022,20 @@ void DolphinView::updateViewState()
         m_container->verticalScrollBar()->setValue(y);
     }
 
-    if (!m_selectedItems.isEmpty()) {
+    if (!m_selectedUrls.isEmpty()) {
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
         QSet<int> selectedItems = selectionManager->selectedItems();
         const KFileItemModel* model = fileItemModel();
 
-        foreach (const KFileItem& selectedItem, m_selectedItems) {
-            const int index = model->index(selectedItem);
+        foreach (const KUrl& url, m_selectedUrls) {
+            const int index = model->index(url);
             if (index >= 0) {
                 selectedItems.insert(index);
             }
         }
 
         selectionManager->setSelectedItems(selectedItems);
-        m_selectedItems.clear();
+        m_selectedUrls.clear();
     }
 }
 
