@@ -21,7 +21,7 @@
             <default>false</default>
         </entry>
         <entry name="Version" type="Int">
-            <label>Internal version of Dolphin, containing 3 digits for mayor, minor, bugfix</label>
+            <label>Internal version of Dolphin, containing 3 digits for major, minor, bugfix</label>
             <default>0</default>
         </entry>
         <entry name="ModifiedStartupSettings" type="Bool">
