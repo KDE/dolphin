@@ -135,7 +135,7 @@ signals:
     void viewChanged(KItemListView* current, KItemListView* previous);
 
 private slots:
-    void slotViewOffsetChanged(qreal current, qreal previous);
+    void slotViewScrollOffsetChanged(qreal current, qreal previous);
 
     /**
      * Is invoked when the rubberband boundaries have been changed and will select

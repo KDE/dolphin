@@ -69,8 +69,10 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_layouter(0),
     m_animation(0),
     m_layoutTimer(0),
-    m_oldOffset(0),
-    m_oldMaximumOffset(0),
+    m_oldScrollOffset(0),
+    m_oldMaximumScrollOffset(0),
+    m_oldItemOffset(0),
+    m_oldMaximumItemOffset(0),
     m_skipAutoScrollForRubberBand(false),
     m_rubberBand(0),
     m_mousePos(),
@@ -133,12 +135,14 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
 
     m_itemSize = itemSize;
 
-    if (!markVisibleRolesSizesAsDirty()) {
-        if (itemSize.width() < previousSize.width() || itemSize.height() < previousSize.height()) {
-            prepareLayoutForIncreasedItemCount(itemSize, ItemSize);
-        } else {
-            m_layouter->setItemSize(itemSize);
-        }
+    if (itemSize.isEmpty()) {
+        updateVisibleRoleSizes();
+    }
+
+    if (itemSize.width() < previousSize.width() || itemSize.height() < previousSize.height()) {
+        prepareLayoutForIncreasedItemCount(itemSize, ItemSize);
+    } else {
+        m_layouter->setItemSize(itemSize);
     }
 
     m_sizeHintResolver->clearCache();
@@ -151,34 +155,49 @@ QSizeF KItemListView::itemSize() const
     return m_itemSize;
 }
 
-void KItemListView::setOffset(qreal offset)
+void KItemListView::setScrollOffset(qreal offset)
 {
     if (offset < 0) {
         offset = 0;
     }
 
-    const qreal previousOffset = m_layouter->offset();
+    const qreal previousOffset = m_layouter->scrollOffset();
     if (offset == previousOffset) {
         return;
     }
 
-    m_layouter->setOffset(offset);
-    m_animation->setOffset(offset);
+    m_layouter->setScrollOffset(offset);
+    m_animation->setScrollOffset(offset);
     if (!m_layoutTimer->isActive()) {
         doLayout(NoAnimation, 0, 0);
         update();
     }
-    onOffsetChanged(offset, previousOffset);
+    onScrollOffsetChanged(offset, previousOffset);
 }
 
-qreal KItemListView::offset() const
+qreal KItemListView::scrollOffset() const
 {
-    return m_layouter->offset();
+    return m_layouter->scrollOffset();
 }
 
-qreal KItemListView::maximumOffset() const
+qreal KItemListView::maximumScrollOffset() const
 {
-    return m_layouter->maximumOffset();
+    return m_layouter->maximumScrollOffset();
+}
+
+void KItemListView::setItemOffset(qreal offset)
+{
+    m_layouter->setItemOffset(offset);
+}
+
+qreal KItemListView::itemOffset() const
+{
+    return m_layouter->itemOffset();
+}
+
+qreal KItemListView::maximumItemOffset() const
+{
+    return m_layouter->maximumItemOffset();
 }
 
 void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
@@ -198,7 +217,7 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
     m_layouter->markAsDirty();
     onVisibleRolesChanged(roles, previousRoles);
 
-    markVisibleRolesSizesAsDirty();
+    updateVisibleRoleSizes();
     updateLayout();
 
     if (m_header) {
@@ -320,10 +339,6 @@ void KItemListView::setGeometry(const QRectF& rect)
         return;
     }
 
-    if (m_itemSize.isEmpty()) {
-        m_layouter->setItemSize(QSizeF());
-    }
-
     if (m_model->count() > 0) {
         prepareLayoutForIncreasedItemCount(rect.size(), LayouterSize);
     } else {
@@ -333,6 +348,8 @@ void KItemListView::setGeometry(const QRectF& rect)
     if (!m_layoutTimer->isActive()) {
         m_layoutTimer->start();
     }
+
+    updateVisibleRoleSizes();
 }
 
 int KItemListView::itemAt(const QPointF& pos) const
@@ -387,7 +404,7 @@ QSizeF KItemListView::itemSizeHint(int index) const
     return itemSize();
 }
 
-QHash<QByteArray, QSizeF> KItemListView::visibleRoleSizes() const
+QHash<QByteArray, QSizeF> KItemListView::visibleRolesSizes() const
 {
     return QHash<QByteArray, QSizeF>();
 }
@@ -445,9 +462,9 @@ void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* opt
 
         const QPointF topLeft = rubberBandRect.topLeft();
         if (scrollOrientation() == Qt::Vertical) {
-            rubberBandRect.moveTo(topLeft.x(), topLeft.y() - offset());
+            rubberBandRect.moveTo(topLeft.x(), topLeft.y() - scrollOffset());
         } else {
-            rubberBandRect.moveTo(topLeft.x() - offset(), topLeft.y());
+            rubberBandRect.moveTo(topLeft.x() - scrollOffset(), topLeft.y());
         }
 
         QStyleOptionRubberBand opt;
@@ -494,7 +511,7 @@ void KItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& previ
     Q_UNUSED(previous);
 }
 
-void KItemListView::onOffsetChanged(qreal current, qreal previous)
+void KItemListView::onScrollOffsetChanged(qreal current, qreal previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
@@ -585,19 +602,9 @@ void KItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
     updateHeaderWidth();
 }
 
-bool KItemListView::markVisibleRolesSizesAsDirty()
-{
-    const bool dirty = m_itemSize.isEmpty();
-    if (dirty && !m_useHeaderWidths) {
-        m_visibleRolesSizes.clear();
-        m_layouter->setItemSize(QSizeF());
-    }
-    return dirty;
-}
-
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 {
-    markVisibleRolesSizesAsDirty();
+    updateVisibleRoleSizes();
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -641,7 +648,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         }
 
         m_layouter->markAsDirty();
-        if (m_model->count() == count && maximumOffset() > size().height()) {
+        if (m_model->count() == count && maximumScrollOffset() > size().height()) {
             kDebug() << "Scrollbar required, skipping layout";
             const int scrollBarExtent = style()->pixelMetric(QStyle::PM_ScrollBarExtent);
             QSizeF layouterSize = m_layouter->size();
@@ -670,7 +677,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
 void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
-    markVisibleRolesSizesAsDirty();
+    updateVisibleRoleSizes();
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -754,7 +761,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
 {
     const bool updateSizeHints = itemSizeHintUpdateRequired(roles);
     if (updateSizeHints) {
-        markVisibleRolesSizesAsDirty();
+        updateVisibleRoleSizes();
     }
 
     foreach (const KItemRange& itemRange, itemRanges) {
@@ -802,7 +809,7 @@ void KItemListView::slotCurrentChanged(int current, int previous)
 
     if (!viewGeometry.contains(currentBoundingRect)) {
         // Make sure that the new current item is fully visible in the view.
-        qreal newOffset = offset();
+        qreal newOffset = scrollOffset();
         if (currentBoundingRect.top() < viewGeometry.top()) {
             Q_ASSERT(scrollOrientation() == Qt::Vertical);
             newOffset += currentBoundingRect.top() - viewGeometry.top();
@@ -819,7 +826,7 @@ void KItemListView::slotCurrentChanged(int current, int previous)
             }
         }
 
-        if (newOffset != offset()) {
+        if (newOffset != scrollOffset()) {
             emit scrollTo(newOffset);
         }
     }
@@ -917,10 +924,10 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
         QSizeF roleSize = m_visibleRolesSizes.value(role);
         roleSize.setWidth(currentWidth);
         m_visibleRolesSizes.insert(role, roleSize);
-    }
 
-    m_layouter->setItemSize(QSizeF()); // Forces an update in applyDynamicItemSize()
-    updateLayout();
+        updateVisibleRoleSizes();
+        updateLayout();
+    }
 }
 
 void KItemListView::triggerAutoScrolling()
@@ -973,7 +980,7 @@ void KItemListView::triggerAutoScrolling()
     // the autoscrolling may not get skipped anymore until a new rubberband is created
     m_skipAutoScrollForRubberBand = false;
 
-    setOffset(offset() + m_autoScrollIncrement);
+    setScrollOffset(scrollOffset() + m_autoScrollIncrement);
 
    // Trigger the autoscroll timer which will periodically call
    // triggerAutoScrolling()
@@ -1057,7 +1064,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         return;
     }
 
-    applyDynamicItemSize();
+    //markVisibleRolesSizesAsDirty();
 
     const int firstVisibleIndex = m_layouter->firstVisibleIndex();
     const int lastVisibleIndex = m_layouter->lastVisibleIndex();
@@ -1066,13 +1073,13 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         return;
     }
 
-    // Do a sanity check of the offset-property: When properties of the itemlist-view have been changed
+    // Do a sanity check of the scroll-offset property: When properties of the itemlist-view have been changed
     // it might be possible that the maximum offset got changed too. Assure that the full visible range
     // is still shown if the maximum offset got decreased.
     const qreal visibleOffsetRange = (scrollOrientation() == Qt::Horizontal) ? size().width() : size().height();
-    const qreal maxOffsetToShowFullRange = maximumOffset() - visibleOffsetRange;
-    if (offset() > maxOffsetToShowFullRange) {
-        m_layouter->setOffset(qMax(qreal(0), maxOffsetToShowFullRange));
+    const qreal maxOffsetToShowFullRange = maximumScrollOffset() - visibleOffsetRange;
+    if (scrollOffset() > maxOffsetToShowFullRange) {
+        m_layouter->setScrollOffset(qMax(qreal(0), maxOffsetToShowFullRange));
     }
 
     // Determine all items that are completely invisible and might be
@@ -1187,16 +1194,28 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
 void KItemListView::emitOffsetChanges()
 {
-    const qreal newOffset = m_layouter->offset();
-    if (m_oldOffset != newOffset) {
-        emit offsetChanged(newOffset, m_oldOffset);
-        m_oldOffset = newOffset;
+    const qreal newScrollOffset = m_layouter->scrollOffset();
+    if (m_oldScrollOffset != newScrollOffset) {
+        emit scrollOffsetChanged(newScrollOffset, m_oldScrollOffset);
+        m_oldScrollOffset = newScrollOffset;
     }
 
-    const qreal newMaximumOffset = m_layouter->maximumOffset();
-    if (m_oldMaximumOffset != newMaximumOffset) {
-        emit maximumOffsetChanged(newMaximumOffset, m_oldMaximumOffset);
-        m_oldMaximumOffset = newMaximumOffset;
+    const qreal newMaximumScrollOffset = m_layouter->maximumScrollOffset();
+    if (m_oldMaximumScrollOffset != newMaximumScrollOffset) {
+        emit maximumScrollOffsetChanged(newMaximumScrollOffset, m_oldMaximumScrollOffset);
+        m_oldMaximumScrollOffset = newMaximumScrollOffset;
+    }
+
+    const qreal newItemOffset = m_layouter->itemOffset();
+    if (m_oldItemOffset != newItemOffset) {
+        emit itemOffsetChanged(newItemOffset, m_oldItemOffset);
+        m_oldItemOffset = newItemOffset;
+    }
+
+    const qreal newMaximumItemOffset = m_layouter->maximumItemOffset();
+    if (m_oldMaximumItemOffset != newMaximumItemOffset) {
+        emit maximumItemOffsetChanged(newMaximumItemOffset, m_oldMaximumItemOffset);
+        m_oldMaximumItemOffset = newMaximumItemOffset;
     }
 }
 
@@ -1317,50 +1336,6 @@ void KItemListView::setLayouterSize(const QSizeF& size, SizeType sizeType)
     }
 }
 
-void KItemListView::applyDynamicItemSize()
-{
-    if (!m_itemSize.isEmpty()) {
-        return;
-    }
-
-    if (m_visibleRolesSizes.isEmpty()) {
-        m_visibleRolesSizes = visibleRoleSizes();
-        if (m_header) {
-            m_header->setVisibleRolesWidths(headerRolesWidths());
-        }
-    }
-
-    if (m_layouter->itemSize().isEmpty()) {
-        // Calculate the maximum size of an item by considering the
-        // visible role sizes and apply them to the layouter.
-        qreal requiredWidth = 0;
-        qreal requiredHeight = 0;
-
-        QHashIterator<QByteArray, QSizeF> it(m_visibleRolesSizes);
-        while (it.hasNext()) {
-            it.next();
-            const QSizeF& visibleRoleSize = it.value();
-            requiredWidth  += visibleRoleSize.width();
-            requiredHeight += visibleRoleSize.height();
-        }
-
-        QSizeF dynamicItemSize = m_itemSize;
-        if (dynamicItemSize.width() <= 0) {
-            dynamicItemSize.setWidth(qMax(requiredWidth, size().width()));
-        }
-        if (dynamicItemSize.height() <= 0) {
-            dynamicItemSize.setHeight(qMax(requiredHeight, size().height()));
-        }
-
-        m_layouter->setItemSize(dynamicItemSize);
-
-        // Update the role sizes for all visible widgets
-        foreach (KItemListWidget* widget, visibleItemListWidgets()) {
-            widget->setVisibleRolesSizes(m_visibleRolesSizes);
-        }
-    }
-}
-
 void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
 {
     widget->setVisibleRoles(m_visibleRoles);
@@ -1406,6 +1381,46 @@ QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const
     return rolesWidths;
 }
 
+void KItemListView::updateVisibleRoleSizes()
+{
+    if (!m_itemSize.isEmpty() || m_useHeaderWidths) {
+        return;
+    }
+
+    m_visibleRolesSizes = visibleRolesSizes();
+    if (m_header) {
+        m_header->setVisibleRolesWidths(headerRolesWidths());
+    }
+
+    // Calculate the maximum size of an item by considering the
+    // visible role sizes and apply them to the layouter.
+    qreal requiredWidth = 0;
+    qreal requiredHeight = 0;
+
+    QHashIterator<QByteArray, QSizeF> it(m_visibleRolesSizes);
+    while (it.hasNext()) {
+        it.next();
+        const QSizeF& visibleRoleSize = it.value();
+        requiredWidth  += visibleRoleSize.width();
+        requiredHeight += visibleRoleSize.height();
+    }
+
+    QSizeF dynamicItemSize = m_itemSize;
+    if (dynamicItemSize.width() <= 0) {
+        dynamicItemSize.setWidth(qMax(requiredWidth, size().width()));
+    }
+    if (dynamicItemSize.height() <= 0) {
+        dynamicItemSize.setHeight(qMax(requiredHeight, size().height()));
+    }
+
+    m_layouter->setItemSize(dynamicItemSize);
+
+    // Update the role sizes for all visible widgets
+    foreach (KItemListWidget* widget, visibleItemListWidgets()) {
+        widget->setVisibleRolesSizes(m_visibleRolesSizes);
+    }
+}
+
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)
 {
     int inc = 0;
@@ -1431,6 +1446,7 @@ int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldIn
 
     return inc;
 }
+
 
 
 KItemListCreatorBase::~KItemListCreatorBase()

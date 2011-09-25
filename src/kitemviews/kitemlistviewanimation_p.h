@@ -49,8 +49,8 @@ public:
     void setScrollOrientation(Qt::Orientation orientation);
     Qt::Orientation scrollOrientation() const;
 
-    void setOffset(qreal offset);
-    qreal offset() const;
+    void setScrollOffset(qreal scrollOffset);
+    qreal scrollOffset() const;
 
     void start(QGraphicsWidget* widget, AnimationType type, const QVariant& endValue = QVariant());
 
@@ -70,7 +70,7 @@ private:
     enum { AnimationTypeCount = 4 };
 
     Qt::Orientation m_scrollOrientation;
-    qreal m_offset;
+    qreal m_scrollOffset;
     QHash<QGraphicsWidget*, QPropertyAnimation*> m_animation[AnimationTypeCount];
 };
 

@@ -62,7 +62,8 @@ private slots:
     void slotViewChanged(KItemListView* current, KItemListView* previous);
     void slotAnimationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
     void scrollTo(qreal offset);
-    void updateScrollBars();
+    void updateScrollOffsetScrollBar();
+    void updateItemOffsetScrollBar();
 
 private:
     void initialize();

@@ -167,7 +167,7 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
     return QSize();
 }
 
-QHash<QByteArray, QSizeF> KFileItemListView::visibleRoleSizes() const
+QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes() const
 {
     QElapsedTimer timer;
     timer.start();
@@ -293,7 +293,7 @@ void KFileItemListView::onItemSizeChanged(const QSizeF& current, const QSizeF& p
     triggerVisibleIndexRangeUpdate();
 }
 
-void KFileItemListView::onOffsetChanged(qreal current, qreal previous)
+void KFileItemListView::onScrollOffsetChanged(qreal current, qreal previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
@@ -353,7 +353,6 @@ void KFileItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     KItemListView::resizeEvent(event);
     triggerVisibleIndexRangeUpdate();
-    markVisibleRolesSizesAsDirty();
 }
 
 void KFileItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
@@ -435,8 +434,6 @@ QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role)
     }
 
     if (role == "name") {
-        Q_ASSERT(values.contains("expansionLevel"));
-
         // Increase the width by the expansion-toggle and the current expansion level
         const int expansionLevel = values.value("expansionLevel", 0).toInt();
         width += option.margin + expansionLevel * itemSize().height() + KIconLoader::SizeSmall;

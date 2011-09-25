@@ -29,7 +29,7 @@
 KItemListViewAnimation::KItemListViewAnimation(QObject* parent) :
     QObject(parent),
     m_scrollOrientation(Qt::Vertical),
-    m_offset(0),
+    m_scrollOffset(0),
     m_animation()
 {
 }
@@ -51,10 +51,10 @@ Qt::Orientation KItemListViewAnimation::scrollOrientation() const
     return m_scrollOrientation;
 }
 
-void KItemListViewAnimation::setOffset(qreal offset)
+void KItemListViewAnimation::setScrollOffset(qreal offset)
 {
-    const qreal diff = m_offset - offset;
-    m_offset = offset;
+    const qreal diff = m_scrollOffset - offset;
+    m_scrollOffset = offset;
 
     // The change of the offset requires that the position of all
     // animated QGraphicsWidgets get adjusted. An exception is made
@@ -108,9 +108,9 @@ void KItemListViewAnimation::setOffset(qreal offset)
     }
 }
 
-qreal KItemListViewAnimation::offset() const
+qreal KItemListViewAnimation::scrollOffset() const
 {
-    return m_offset;
+    return m_scrollOffset;
 }
 
 void KItemListViewAnimation::start(QGraphicsWidget* widget, AnimationType type, const QVariant& endValue)

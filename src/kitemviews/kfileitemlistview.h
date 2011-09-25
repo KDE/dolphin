@@ -61,7 +61,7 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /** @reimp */
-    virtual QHash<QByteArray, QSizeF> visibleRoleSizes() const;
+    virtual QHash<QByteArray, QSizeF> visibleRolesSizes() const;
 
     /** @reimp */
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
@@ -72,7 +72,7 @@ protected:
     virtual void onModelChanged(KItemModelBase* current, KItemModelBase* previous);
     virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous);
-    virtual void onOffsetChanged(qreal current, qreal previous);
+    virtual void onScrollOffsetChanged(qreal current, qreal previous);
     virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void onTransactionBegin();

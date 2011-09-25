@@ -91,7 +91,7 @@ void KItemListController::setView(KItemListView* view)
 
     KItemListView* oldView = m_view;
     if (oldView) {
-        disconnect(oldView, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(slotViewOffsetChanged(qreal,qreal)));
+        disconnect(oldView, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
     }
 
     m_view = view;
@@ -99,7 +99,7 @@ void KItemListController::setView(KItemListView* view)
     if (m_view) {
         m_view->setController(this);
         m_view->setModel(m_model);
-        connect(m_view, SIGNAL(offsetChanged(qreal,qreal)), this, SLOT(slotViewOffsetChanged(qreal,qreal)));
+        connect(m_view, SIGNAL(scrollOffsetChanged(qreal,qreal)), this, SLOT(slotViewScrollOffsetChanged(qreal,qreal)));
     }
 
     emit viewChanged(m_view, oldView);
@@ -331,14 +331,14 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         KItemListRubberBand* rubberBand = m_view->rubberBand();
         QPointF startPos = m_pressedMousePos;
         if (m_view->scrollOrientation() == Qt::Vertical) {
-            startPos.ry() += m_view->offset();
+            startPos.ry() += m_view->scrollOffset();
             if (m_view->itemSize().width() < 0) {
                 // Use a special rubberband for views that have only one column and
                 // expand the rubberband to use the whole width of the view.
                 startPos.setX(0);
             }
         } else {
-            startPos.rx() += m_view->offset();
+            startPos.rx() += m_view->scrollOffset();
         }
 
         m_oldSelection = m_selectionManager->selectedItems();
@@ -371,14 +371,14 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         if (rubberBand->isActive()) {
             QPointF endPos = transform.map(event->pos());
             if (m_view->scrollOrientation() == Qt::Vertical) {
-                endPos.ry() += m_view->offset();
+                endPos.ry() += m_view->scrollOffset();
                 if (m_view->itemSize().width() < 0) {
                     // Use a special rubberband for views that have only one column and
                     // expand the rubberband to use the whole width of the view.
                     endPos.setX(m_view->size().width());
                 }
             } else {
-                endPos.rx() += m_view->offset();
+                endPos.rx() += m_view->scrollOffset();
             }
             rubberBand->setEndPosition(endPos);
         }
@@ -625,7 +625,7 @@ bool KItemListController::processEvent(QEvent* event, const QTransform& transfor
     return false;
 }
 
-void KItemListController::slotViewOffsetChanged(qreal current, qreal previous)
+void KItemListController::slotViewScrollOffsetChanged(qreal current, qreal previous)
 {
     if (!m_view) {
         return;
@@ -662,9 +662,9 @@ void KItemListController::slotRubberBandChanged()
 
     const bool scrollVertical = (m_view->scrollOrientation() == Qt::Vertical);
     if (scrollVertical) {
-        rubberBandRect.translate(0, -m_view->offset());
+        rubberBandRect.translate(0, -m_view->scrollOffset());
     } else {
-        rubberBandRect.translate(-m_view->offset(), 0);
+        rubberBandRect.translate(-m_view->scrollOffset(), 0);
     }
 
     if (!m_oldSelection.isEmpty()) {

@@ -42,8 +42,10 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_headerHeight(0),
     m_model(0),
     m_sizeHintResolver(0),
-    m_offset(0),
-    m_maximumOffset(0),
+    m_scrollOffset(0),
+    m_maximumScrollOffset(0),
+    m_itemOffset(0),
+    m_maximumItemOffset(0),
     m_firstVisibleIndex(-1),
     m_lastVisibleIndex(-1),
     m_firstVisibleGroupIndex(-1),
@@ -112,17 +114,42 @@ qreal KItemListViewLayouter::headerHeight() const
     return m_headerHeight;
 }
 
-void KItemListViewLayouter::setOffset(qreal offset)
+void KItemListViewLayouter::setScrollOffset(qreal offset)
 {
-    if (m_offset != offset) {
-        m_offset = offset;
+    if (m_scrollOffset != offset) {
+        m_scrollOffset = offset;
         m_visibleIndexesDirty = true;
     }
 }
 
-qreal KItemListViewLayouter::offset() const
+qreal KItemListViewLayouter::scrollOffset() const
 {
-    return m_offset;
+    return m_scrollOffset;
+}
+
+qreal KItemListViewLayouter::maximumScrollOffset() const
+{
+    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    return m_maximumScrollOffset;
+}
+
+void KItemListViewLayouter::setItemOffset(qreal offset)
+{
+    if (m_itemOffset != offset) {
+        m_itemOffset = offset;
+        m_visibleIndexesDirty = true;
+    }
+}
+
+qreal KItemListViewLayouter::itemOffset() const
+{
+    return m_itemOffset;
+}
+
+qreal KItemListViewLayouter::maximumItemOffset() const
+{
+    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    return m_maximumItemOffset;
 }
 
 void KItemListViewLayouter::setModel(const KItemModelBase* model)
@@ -151,12 +178,6 @@ const KItemListSizeHintResolver* KItemListViewLayouter::sizeHintResolver() const
     return m_sizeHintResolver;
 }
 
-qreal KItemListViewLayouter::maximumOffset() const
-{
-    const_cast<KItemListViewLayouter*>(this)->doLayout();
-    return m_maximumOffset;
-}
-
 int KItemListViewLayouter::firstVisibleIndex() const
 {
     const_cast<KItemListViewLayouter*>(this)->doLayout();
@@ -182,15 +203,13 @@ QRectF KItemListViewLayouter::itemBoundingRect(int index) const
         const QRectF& b = m_itemBoundingRects[index];
         QRectF bounds(b.y(), b.x(), b.height(), b.width());
         QPointF pos = bounds.topLeft();
-        pos.rx() -= m_offset;
+        pos.rx() -= m_scrollOffset;
         bounds.moveTo(pos);
         return bounds;
     }
 
     QRectF bounds = m_itemBoundingRects[index];
-    QPointF pos = bounds.topLeft();
-    pos.ry() -= m_offset;
-    bounds.moveTo(pos);
+    bounds.moveTo(bounds.topLeft() - QPointF(m_itemOffset, m_scrollOffset));
     return bounds;
 }
 
@@ -251,9 +270,11 @@ void KItemListViewLayouter::doLayout()
         if (itemCount > m_columnCount) {
             // Apply the unused width equally to each column
             const qreal unusedWidth = size.width() - m_columnCount * m_columnWidth;
-            const qreal columnInc = unusedWidth / (m_columnCount + 1);
-            m_columnWidth += columnInc;
-            m_xPosInc += columnInc;
+            if (unusedWidth > 0) {
+                const qreal columnInc = unusedWidth / (m_columnCount + 1);
+                m_columnWidth += columnInc;
+                m_xPosInc += columnInc;
+            }
         }
 
         int rowCount = itemCount / m_columnCount;
@@ -303,7 +324,13 @@ void KItemListViewLayouter::doLayout()
                                       m_itemBoundingRects.end());
         }
 
-        m_maximumOffset = (itemCount > 0) ? m_itemBoundingRects.last().bottom() : 0;
+        if (itemCount > 0) {
+            m_maximumScrollOffset = m_itemBoundingRects.last().bottom();
+            m_maximumItemOffset = m_columnCount * m_columnWidth;
+        } else {
+            m_maximumScrollOffset = 0;
+            m_maximumItemOffset = 0;
+        }
 
         m_grouped = !m_model->groupRole().isEmpty();
         /*if (m_grouped) {
@@ -354,7 +381,7 @@ void KItemListViewLayouter::updateVisibleIndexes()
     // Calculate the first visible index:
     // 1. Guess the index by using the minimum row height
     const int maxIndex = m_model->count() - 1;
-    m_firstVisibleIndex = int(m_offset / minimumHeight) * m_columnCount;
+    m_firstVisibleIndex = int(m_scrollOffset / minimumHeight) * m_columnCount;
 
     // 2. Decrease the index by checking the real row heights
     int prevRowIndex = m_firstVisibleIndex - m_columnCount;
@@ -362,7 +389,7 @@ void KItemListViewLayouter::updateVisibleIndexes()
         prevRowIndex -= m_columnCount;
     }
 
-    const qreal top = m_offset + m_headerHeight;
+    const qreal top = m_scrollOffset + m_headerHeight;
     while (prevRowIndex >= 0 && m_itemBoundingRects[prevRowIndex].bottom() >= top) {
         m_firstVisibleIndex = prevRowIndex;
         prevRowIndex -= m_columnCount;
@@ -371,7 +398,7 @@ void KItemListViewLayouter::updateVisibleIndexes()
 
     // Calculate the last visible index
     const int visibleHeight = horizontalScrolling ? m_size.width() : m_size.height();
-    const qreal bottom = m_offset + visibleHeight;
+    const qreal bottom = m_scrollOffset + visibleHeight;
     m_lastVisibleIndex = m_firstVisibleIndex; // first visible row, first column
     int nextRowIndex = m_lastVisibleIndex + m_columnCount;
     while (nextRowIndex <= maxIndex && m_itemBoundingRects[nextRowIndex].y() <= bottom) {
@@ -404,7 +431,7 @@ void KItemListViewLayouter::updateGroupedVisibleIndexes()
     const int lastGroupIndex = m_groups.count() - 1;
     int groupIndex = lastGroupIndex;
     for (int i = 1; i < m_groups.count(); ++i) {
-        if (m_groups[i].y >= m_offset) {
+        if (m_groups[i].y >= m_scrollOffset) {
             groupIndex = i - 1;
             break;
         }
@@ -413,7 +440,7 @@ void KItemListViewLayouter::updateGroupedVisibleIndexes()
     // Calculate the first visible index
     qreal groupY = m_groups[groupIndex].y;
     m_firstVisibleIndex = m_groups[groupIndex].firstItemIndex;
-    const int invisibleRowCount = int(m_offset - groupY) / int(m_itemSize.height());
+    const int invisibleRowCount = int(m_scrollOffset - groupY) / int(m_itemSize.height());
     m_firstVisibleIndex += invisibleRowCount * m_columnCount;
     if (groupIndex + 1 <= lastGroupIndex) {
         // Check whether the calculated first visible index remains inside the current
@@ -431,7 +458,7 @@ void KItemListViewLayouter::updateGroupedVisibleIndexes()
     m_firstVisibleIndex = qBound(0, m_firstVisibleIndex, maxIndex);
 
     // Calculate the last visible index: Find group where the last visible item is shown.
-    const qreal visibleBottom = m_offset + m_size.height(); // TODO: respect Qt::Horizontal alignment
+    const qreal visibleBottom = m_scrollOffset + m_size.height(); // TODO: respect Qt::Horizontal alignment
     while ((groupIndex < lastGroupIndex) && (m_groups[groupIndex + 1].y < visibleBottom)) {
         ++groupIndex;
     }

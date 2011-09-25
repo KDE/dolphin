@@ -56,8 +56,15 @@ public:
     qreal headerHeight() const;
 
     // TODO: add note that offset can be < 0 or > maximumOffset!
-    void setOffset(qreal offset);
-    qreal offset() const;
+    void setScrollOffset(qreal scrollOffset);
+    qreal scrollOffset() const;
+
+    qreal maximumScrollOffset() const;
+
+    void setItemOffset(qreal scrollOffset);
+    qreal itemOffset() const;
+
+    qreal maximumItemOffset() const;
 
     void setModel(const KItemModelBase* model);
     const KItemModelBase* model() const;
@@ -65,7 +72,6 @@ public:
     void setSizeHintResolver(const KItemListSizeHintResolver* sizeHintResolver);
     const KItemListSizeHintResolver* sizeHintResolver() const;
 
-    qreal maximumOffset() const;
 
     // TODO: mention that return value is -1 if count == 0
     int firstVisibleIndex() const;
@@ -107,8 +113,11 @@ private:
     const KItemModelBase* m_model;
     const KItemListSizeHintResolver* m_sizeHintResolver;
 
-    qreal m_offset;
-    qreal m_maximumOffset;
+    qreal m_scrollOffset;
+    qreal m_maximumScrollOffset;
+
+    qreal m_itemOffset;
+    qreal m_maximumItemOffset;
 
     int m_firstVisibleIndex;
     int m_lastVisibleIndex;

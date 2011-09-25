@@ -65,7 +65,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListView : public QGraphicsWidget
 {
     Q_OBJECT
 
-    Q_PROPERTY(qreal offset READ offset WRITE setOffset)
+    Q_PROPERTY(qreal scrollOffset READ scrollOffset WRITE setScrollOffset)
 
 public:
     KItemListView(QGraphicsWidget* parent = 0);
@@ -78,10 +78,15 @@ public:
     QSizeF itemSize() const;
 
     // TODO: add note that offset is not checked against maximumOffset, only against 0.
-    void setOffset(qreal offset);
-    qreal offset() const;
+    void setScrollOffset(qreal offset);
+    qreal scrollOffset() const;
 
-    qreal maximumOffset() const;
+    qreal maximumScrollOffset() const;
+
+    void setItemOffset(qreal scrollOffset);
+    qreal itemOffset() const;
+
+    qreal maximumItemOffset() const;
 
     void setVisibleRoles(const QList<QByteArray>& roles);
     QList<QByteArray> visibleRoles() const;
@@ -159,7 +164,7 @@ public:
      *         is empty. This allows to have dynamic but equal role sizes between
      *         all items. Per default an empty hash is returned.
      */
-    virtual QHash<QByteArray, QSizeF> visibleRoleSizes() const;
+    virtual QHash<QByteArray, QSizeF> visibleRolesSizes() const;
 
     /**
      * @return The bounding rectangle of the item relative to the top/left of
@@ -193,8 +198,10 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 signals:
-    void offsetChanged(qreal current, qreal previous);
-    void maximumOffsetChanged(qreal current, qreal previous);
+    void scrollOffsetChanged(qreal current, qreal previous);
+    void maximumScrollOffsetChanged(qreal current, qreal previous);
+    void itemOffsetChanged(qreal current, qreal previous);
+    void maximumItemOffsetChanged(qreal current, qreal previous);
     void scrollTo(qreal newOffset);
 
 protected:
@@ -215,7 +222,7 @@ protected:
 
     virtual void onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     virtual void onItemSizeChanged(const QSizeF& current, const QSizeF& previous);
-    virtual void onOffsetChanged(qreal current, qreal previous);
+    virtual void onScrollOffsetChanged(qreal current, qreal previous);
     virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
 
@@ -231,15 +238,6 @@ protected:
     virtual void dropEvent(QGraphicsSceneDragDropEvent* event);
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
-
-    /**
-     * Marks the visible roles as dirty so that they will get updated when doing the next
-     * layout. The visible roles will only get marked as dirty if an empty item-size is
-     * given and if the roles have not already been customized by the user by adjusting
-     * the view-header.
-     * @return True if the visible roles have been marked as dirty.
-     */
-    bool markVisibleRolesSizesAsDirty();
 
     /** @reimp */
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
@@ -321,12 +319,6 @@ private:
     void setLayouterSize(const QSizeF& size, SizeType sizeType);
 
     /**
-     * Updates the m_visibleRoleSizes property and applies the dynamic
-     * size to the layouter.
-     */
-    void applyDynamicItemSize();
-
-    /**
      * Helper method for createWidget() and setWidgetIndex() to update the properties
      * of the itemlist widget.
      */
@@ -342,6 +334,13 @@ private:
      * @return The widths of each visible role that is shown in the KItemListHeader.
      */
     QHash<QByteArray, qreal> headerRolesWidths() const;
+
+    /**
+     * Updates m_visibleRoleSizes by calling KItemListView::visibleRoleSizes()
+     * if the m_itemRect is empty and no custom header-widths are used
+     * (see m_useHeaderWidths).
+     */
+    void updateVisibleRoleSizes();
 
     /**
      * Helper function for triggerAutoScrolling().
@@ -377,8 +376,10 @@ private:
     KItemListViewAnimation* m_animation;
 
     QTimer* m_layoutTimer; // Triggers an asynchronous doLayout() call.
-    qreal m_oldOffset;
-    qreal m_oldMaximumOffset;
+    qreal m_oldScrollOffset;
+    qreal m_oldMaximumScrollOffset;
+    qreal m_oldItemOffset;
+    qreal m_oldMaximumItemOffset;
 
     bool m_skipAutoScrollForRubberBand;
     KItemListRubberBand* m_rubberBand;
