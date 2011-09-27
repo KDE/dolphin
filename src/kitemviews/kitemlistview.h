@@ -160,11 +160,12 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /**
+     * @param itemRanges Items that must be checked for getting the visible roles sizes.
      * @return The size of each visible role in case if KItemListView::itemSize()
      *         is empty. This allows to have dynamic but equal role sizes between
      *         all items. Per default an empty hash is returned.
      */
-    virtual QHash<QByteArray, QSizeF> visibleRolesSizes() const;
+    virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
 
     /**
      * @return The bounding rectangle of the item relative to the top/left of
@@ -339,6 +340,11 @@ private:
      * Updates m_visibleRoleSizes by calling KItemListView::visibleRoleSizes()
      * if the m_itemRect is empty and no custom header-widths are used
      * (see m_useHeaderWidths).
+     */
+    void updateVisibleRoleSizes(const KItemRangeList& itemRanges);
+
+    /**
+     * Convenience method for updateVisibleRoleSizes(KItemRangeList() << KItemRange(0, m_model->count()).
      */
     void updateVisibleRoleSizes();
 

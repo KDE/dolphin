@@ -404,8 +404,9 @@ QSizeF KItemListView::itemSizeHint(int index) const
     return itemSize();
 }
 
-QHash<QByteArray, QSizeF> KItemListView::visibleRolesSizes() const
+QHash<QByteArray, QSizeF> KItemListView::visibleRolesSizes(const KItemRangeList& itemRanges) const
 {
+    Q_UNUSED(itemRanges);
     return QHash<QByteArray, QSizeF>();
 }
 
@@ -604,7 +605,7 @@ void KItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 {
-    updateVisibleRoleSizes();
+    updateVisibleRoleSizes(itemRanges);
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -761,7 +762,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
 {
     const bool updateSizeHints = itemSizeHintUpdateRequired(roles);
     if (updateSizeHints) {
-        updateVisibleRoleSizes();
+        updateVisibleRoleSizes(itemRanges);
     }
 
     foreach (const KItemRange& itemRange, itemRanges) {
@@ -1381,13 +1382,48 @@ QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const
     return rolesWidths;
 }
 
-void KItemListView::updateVisibleRoleSizes()
+void KItemListView::updateVisibleRoleSizes(const KItemRangeList& itemRanges)
 {
     if (!m_itemSize.isEmpty() || m_useHeaderWidths) {
         return;
     }
 
-    m_visibleRolesSizes = visibleRolesSizes();
+    const int itemCount = m_model->count();
+    int rangesItemCount = 0;
+    foreach (const KItemRange& range, itemRanges) {
+        rangesItemCount += range.count;
+    }
+
+    if (itemCount == rangesItemCount) {
+        // The sizes of all roles need to be determined
+        m_visibleRolesSizes = visibleRolesSizes(itemRanges);
+    } else {
+        // Only a sub range of the roles need to be determined.
+        // The chances are good that the sizes of the sub ranges
+        // already fit into the available sizes and hence no
+        // expensive update might be required.
+        bool updateRequired = false;
+
+        const QHash<QByteArray, QSizeF> updatedSizes = visibleRolesSizes(itemRanges);
+        QHashIterator<QByteArray, QSizeF> it(updatedSizes);
+        while (it.hasNext()) {
+            it.next();
+            const QByteArray& role = it.key();
+            const QSizeF& updatedSize = it.value();
+            const QSizeF currentSize = m_visibleRolesSizes.value(role);
+            if (updatedSize.width() > currentSize.width() || updatedSize.height() > currentSize.height()) {
+                m_visibleRolesSizes.insert(role, updatedSize);
+                updateRequired = true;
+            }
+        }
+
+        if (!updateRequired) {
+            // All the updated sizes are smaller than the current sizes and no change
+            // of the roles-widths is required
+            return;
+        }
+    }
+
     if (m_header) {
         m_header->setVisibleRolesWidths(headerRolesWidths());
     }
@@ -1419,6 +1455,11 @@ void KItemListView::updateVisibleRoleSizes()
     foreach (KItemListWidget* widget, visibleItemListWidgets()) {
         widget->setVisibleRolesSizes(m_visibleRolesSizes);
     }
+}
+
+void KItemListView::updateVisibleRoleSizes()
+{
+    updateVisibleRoleSizes(KItemRangeList() << KItemRange(0, m_model->count()));
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)
