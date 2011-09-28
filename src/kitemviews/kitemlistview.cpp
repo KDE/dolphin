@@ -60,6 +60,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_model(0),
     m_visibleRoles(),
     m_visibleRolesSizes(),
+    m_stretchedVisibleRolesSizes(),
     m_widgetCreator(0),
     m_groupHeaderCreator(0),
     m_styleOption(),
@@ -136,7 +137,7 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
     m_itemSize = itemSize;
 
     if (itemSize.isEmpty()) {
-        updateVisibleRoleSizes();
+        updateVisibleRolesSizes();
     }
 
     if (itemSize.width() < previousSize.width() || itemSize.height() < previousSize.height()) {
@@ -210,14 +211,14 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
         it.next();
         KItemListWidget* widget = it.value();
         widget->setVisibleRoles(roles);
-        widget->setVisibleRolesSizes(m_visibleRolesSizes);
+        widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
     }
 
     m_sizeHintResolver->clearCache();
     m_layouter->markAsDirty();
     onVisibleRolesChanged(roles, previousRoles);
 
-    updateVisibleRoleSizes();
+    updateVisibleRolesSizes();
     updateLayout();
 
     if (m_header) {
@@ -335,6 +336,7 @@ const KItemListStyleOption& KItemListView::styleOption() const
 void KItemListView::setGeometry(const QRectF& rect)
 {
     QGraphicsWidget::setGeometry(rect);
+
     if (!m_model) {
         return;
     }
@@ -349,7 +351,10 @@ void KItemListView::setGeometry(const QRectF& rect)
         m_layoutTimer->start();
     }
 
-    updateVisibleRoleSizes();
+    // Changing the geometry does not require to do an expensive
+    // update of the visible-roles sizes, only the stretched sizes
+    // need to be adjusted to the new size.
+    updateStretchedVisibleRolesSizes();
 }
 
 int KItemListView::itemAt(const QPointF& pos) const
@@ -605,7 +610,7 @@ void KItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 {
-    updateVisibleRoleSizes(itemRanges);
+    updateVisibleRolesSizes(itemRanges);
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -678,7 +683,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
 void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
-    updateVisibleRoleSizes();
+    updateVisibleRolesSizes();
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -762,7 +767,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
 {
     const bool updateSizeHints = itemSizeHintUpdateRequired(roles);
     if (updateSizeHints) {
-        updateVisibleRoleSizes(itemRanges);
+        updateVisibleRolesSizes(itemRanges);
     }
 
     foreach (const KItemRange& itemRange, itemRanges) {
@@ -925,8 +930,9 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
         QSizeF roleSize = m_visibleRolesSizes.value(role);
         roleSize.setWidth(currentWidth);
         m_visibleRolesSizes.insert(role, roleSize);
+        m_stretchedVisibleRolesSizes.insert(role, roleSize);
 
-        updateVisibleRoleSizes();
+        updateVisibleRolesSizes();
         updateLayout();
     }
 }
@@ -1340,7 +1346,7 @@ void KItemListView::setLayouterSize(const QSizeF& size, SizeType sizeType)
 void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
 {
     widget->setVisibleRoles(m_visibleRoles);
-    widget->setVisibleRolesSizes(m_visibleRolesSizes);
+    widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
     widget->setStyleOption(m_styleOption);
 
     const KItemListSelectionManager* selectionManager = m_controller->selectionManager();
@@ -1373,7 +1379,7 @@ QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const
 {
     QHash<QByteArray, qreal> rolesWidths;
 
-    QHashIterator<QByteArray, QSizeF> it(m_visibleRolesSizes);
+    QHashIterator<QByteArray, QSizeF> it(m_stretchedVisibleRolesSizes);
     while (it.hasNext()) {
         it.next();
         rolesWidths.insert(it.key(), it.value().width());
@@ -1382,7 +1388,7 @@ QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const
     return rolesWidths;
 }
 
-void KItemListView::updateVisibleRoleSizes(const KItemRangeList& itemRanges)
+void KItemListView::updateVisibleRolesSizes(const KItemRangeList& itemRanges)
 {
     if (!m_itemSize.isEmpty() || m_useHeaderWidths) {
         return;
@@ -1424,12 +1430,27 @@ void KItemListView::updateVisibleRoleSizes(const KItemRangeList& itemRanges)
         }
     }
 
-    if (m_header) {
-        m_header->setVisibleRolesWidths(headerRolesWidths());
+    updateStretchedVisibleRolesSizes();
+}
+
+void KItemListView::updateVisibleRolesSizes()
+{
+    const int itemCount = m_model->count();
+    if (itemCount > 0) {
+        updateVisibleRolesSizes(KItemRangeList() << KItemRange(0, itemCount));
+    }
+}
+
+void KItemListView::updateStretchedVisibleRolesSizes()
+{
+    if (!m_itemSize.isEmpty() || m_useHeaderWidths) {
+        return;
     }
 
     // Calculate the maximum size of an item by considering the
-    // visible role sizes and apply them to the layouter.
+    // visible role sizes and apply them to the layouter. If the
+    // size does not use the available view-size it the size of the
+    // first role will get stretched.
     qreal requiredWidth = 0;
     qreal requiredHeight = 0;
 
@@ -1441,25 +1462,42 @@ void KItemListView::updateVisibleRoleSizes(const KItemRangeList& itemRanges)
         requiredHeight += visibleRoleSize.height();
     }
 
+    m_stretchedVisibleRolesSizes = m_visibleRolesSizes;
+    const QByteArray role = visibleRoles().first();
+    QSizeF firstRoleSize = m_stretchedVisibleRolesSizes.value(role);
+
     QSizeF dynamicItemSize = m_itemSize;
+
     if (dynamicItemSize.width() <= 0) {
-        dynamicItemSize.setWidth(qMax(requiredWidth, size().width()));
+        const qreal availableWidth = size().width();
+        if (requiredWidth < availableWidth) {
+            // Stretch the first role to use the whole width for the item
+            firstRoleSize.rwidth() += availableWidth - requiredWidth;
+            m_stretchedVisibleRolesSizes.insert(role, firstRoleSize);
+        }
+        dynamicItemSize.setWidth(qMax(requiredWidth, availableWidth));
     }
+
     if (dynamicItemSize.height() <= 0) {
-        dynamicItemSize.setHeight(qMax(requiredHeight, size().height()));
+        const qreal availableHeight = size().height();
+        if (requiredHeight < availableHeight) {
+            // Stretch the first role to use the whole height for the item
+            firstRoleSize.rheight() += availableHeight - requiredHeight;
+            m_stretchedVisibleRolesSizes.insert(role, firstRoleSize);
+        }
+        dynamicItemSize.setHeight(qMax(requiredHeight, availableHeight));
     }
 
     m_layouter->setItemSize(dynamicItemSize);
 
+    if (m_header) {
+        m_header->setVisibleRolesWidths(headerRolesWidths());
+    }
+
     // Update the role sizes for all visible widgets
     foreach (KItemListWidget* widget, visibleItemListWidgets()) {
-        widget->setVisibleRolesSizes(m_visibleRolesSizes);
+        widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
     }
-}
-
-void KItemListView::updateVisibleRoleSizes()
-{
-    updateVisibleRoleSizes(KItemRangeList() << KItemRange(0, m_model->count()));
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

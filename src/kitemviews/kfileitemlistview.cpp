@@ -198,29 +198,11 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes(const KItemRangeL
                 maxTimeExceeded = true;
                 break;
             }
+            ++calculatedItemCount;
         }
         if (maxTimeExceeded) {
             break;
         }
-        ++calculatedItemCount;
-    }
-
-    // Stretch the width of the first role so that the full visible view-width
-    // is used to show all roles.
-    const qreal availableWidth = size().width();
-
-    qreal usedWidth = 0;
-    QHashIterator<QByteArray, QSizeF> it(sizes);
-    while (it.hasNext()) {
-        it.next();
-        usedWidth += it.value().width();
-    }
-
-    if (usedWidth < availableWidth) {
-        const QByteArray role = visibleRoles().first();
-        QSizeF firstRoleSize = sizes.value(role);
-        firstRoleSize.rwidth() += availableWidth - usedWidth;
-        sizes.insert(role, firstRoleSize);
     }
 
 #ifdef KFILEITEMLISTVIEW_DEBUG

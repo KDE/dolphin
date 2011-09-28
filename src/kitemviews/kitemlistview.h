@@ -337,16 +337,24 @@ private:
     QHash<QByteArray, qreal> headerRolesWidths() const;
 
     /**
-     * Updates m_visibleRoleSizes by calling KItemListView::visibleRoleSizes()
-     * if the m_itemRect is empty and no custom header-widths are used
-     * (see m_useHeaderWidths).
+     * Updates m_visibleRolesSizes by calling KItemListView::visibleRolesSizes().
+     * Nothing will be done if m_itemRect is not empty or custom header-widths
+     * are used (see m_useHeaderWidths). Also m_strechedVisibleRolesSizes will be adjusted
+     * to respect the available view-size.
      */
-    void updateVisibleRoleSizes(const KItemRangeList& itemRanges);
+    void updateVisibleRolesSizes(const KItemRangeList& itemRanges);
 
     /**
      * Convenience method for updateVisibleRoleSizes(KItemRangeList() << KItemRange(0, m_model->count()).
      */
-    void updateVisibleRoleSizes();
+    void updateVisibleRolesSizes();
+
+    /**
+     * Updates m_stretchedVisibleRolesSizes based on m_visibleRolesSizes and the available
+     * view-size. Nothing will be done if m_itemRect is not empty or custom header-widths
+     * are used (see m_useHeaderWidths).
+     */
+    void updateStretchedVisibleRolesSizes();
 
     /**
      * Helper function for triggerAutoScrolling().
@@ -369,6 +377,7 @@ private:
     KItemModelBase* m_model;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, QSizeF> m_visibleRolesSizes;
+    QHash<QByteArray, QSizeF> m_stretchedVisibleRolesSizes;
     KItemListWidgetCreatorBase* m_widgetCreator;
     KItemListGroupHeaderCreatorBase* m_groupHeaderCreator;
     KItemListStyleOption m_styleOption;

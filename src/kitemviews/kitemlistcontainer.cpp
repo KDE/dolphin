@@ -205,7 +205,7 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
     }
 
     KItemListView* view = m_controller->view();
-    
+
     if (!view || event->orientation() != view->scrollOrientation()) {
         return;
     }
@@ -343,7 +343,7 @@ void KItemListContainer::updateItemOffsetScrollBar()
     }
 
     const int value = view->itemOffset();
-    const int maximum = qMax(0, int(view->maximumItemOffset() - pageStep));
+    const int maximum = qMax(0, int(view->maximumItemOffset()) - pageStep);
 
     itemOffsetScrollBar->setSingleStep(singleStep);
     itemOffsetScrollBar->setPageStep(pageStep);
@@ -366,13 +366,16 @@ void KItemListContainer::updateGeometries()
 
     rect.adjust(0, 0, -widthDec, -heightDec);
 
-    m_controller->view()->setGeometry(QRect(0, 0, rect.width(), rect.height()));
+    const QRectF newGeometry(0, 0, rect.width(), rect.height());
+    if (m_controller->view()->geometry() != newGeometry) {
+        m_controller->view()->setGeometry(newGeometry);
 
-    static_cast<KItemListContainerViewport*>(viewport())->scene()->setSceneRect(0, 0, rect.width(), rect.height());
-    static_cast<KItemListContainerViewport*>(viewport())->viewport()->setGeometry(QRect(0, 0, rect.width(), rect.height()));
+        static_cast<KItemListContainerViewport*>(viewport())->scene()->setSceneRect(0, 0, rect.width(), rect.height());
+        static_cast<KItemListContainerViewport*>(viewport())->viewport()->setGeometry(QRect(0, 0, rect.width(), rect.height()));
 
-    updateScrollOffsetScrollBar();
-    updateItemOffsetScrollBar();
+        updateScrollOffsetScrollBar();
+        updateItemOffsetScrollBar();
+    }
 }
 
 void KItemListContainer::initialize()
