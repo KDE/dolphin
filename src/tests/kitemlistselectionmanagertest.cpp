@@ -297,14 +297,44 @@ namespace {
         NoChange,
         InsertItems,
         RemoveItems,
+        MoveItems,
         EndAnchoredSelection,
-        ToggleSelected
+        SetSelected
     };
 }
 
 Q_DECLARE_METATYPE(QSet<int>);
 Q_DECLARE_METATYPE(ChangeType);
+Q_DECLARE_METATYPE(KItemRange);
 Q_DECLARE_METATYPE(KItemRangeList);
+Q_DECLARE_METATYPE(KItemListSelectionManager::SelectionMode);
+Q_DECLARE_METATYPE(QList<int>);
+
+/**
+ * The following function provides a generic way to test the selection functionality.
+ *
+ * The test is data-driven and takes the following arguments:
+ * 
+ * \param initialSelection  The selection at the beginning.
+ * \param anchor            This item will be the anchor item.
+ * \param current           This item will be the current item.
+ * \param expectedSelection Expected selection after anchor and current are set.
+ * \param changeType        Type of the change that is done then:
+ *                          - NoChange
+ *                          - InsertItems -> data.at(0) provides the KItemRangeList. \sa KItemListSelectionManager::itemsInserted()
+ *                          - RemoveItems -> data.at(0) provides the KItemRangeList. \sa KItemListSelectionManager::itemsRemoved()
+ *                          - MoveItems   -> data.at(0) provides the KItemRange containing the original indices,
+ *                                           data.at(1) provides the list containing the new indices
+ *                                          \sa KItemListSelectionManager::itemsMoved(), KItemModelBase::itemsMoved()
+ *                          - EndAnchoredSelection
+ *                          - SetSelected -> data.at(0) provides the index where the selection process starts,
+ *                                           data.at(1) provides the number of indices to be selected,
+ *                                           data.at(2) provides the selection mode.
+ *                                          \sa KItemListSelectionManager::setSelected()
+ * \param data              A list of QVariants which will be cast to the arguments needed for the chosen ChangeType (see above).
+ * \param finalSelection    The expected final selection.
+ *
+ */
 
 void KItemListSelectionManagerTest::testChangeSelection_data()
 {
@@ -313,43 +343,68 @@ void KItemListSelectionManagerTest::testChangeSelection_data()
     QTest::addColumn<int>("current");
     QTest::addColumn<QSet<int> >("expectedSelection");
     QTest::addColumn<ChangeType>("changeType");
-    QTest::addColumn<KItemRangeList>("changedItems");
+    QTest::addColumn<QList<QVariant> >("data");
     QTest::addColumn<QSet<int> >("finalSelection");
 
     QTest::newRow("No change")
         << (QSet<int>() << 5 << 6)
         << 2 << 3
         << (QSet<int>() << 2 << 3 << 5 << 6)
-        << NoChange << KItemRangeList()
+        << NoChange
+        << QList<QVariant>()
         << (QSet<int>() << 2 << 3 << 5 << 6);
 
     QTest::newRow("Insert Items")
         << (QSet<int>() << 5 << 6)
         << 2 << 3
         << (QSet<int>() << 2 << 3 << 5 << 6)
-        << InsertItems << (KItemRangeList() << KItemRange(1, 1) << KItemRange(5, 2) << KItemRange(10, 5))
+        << InsertItems
+        << (QList<QVariant>() << QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(5, 2) << KItemRange(10, 5)))
         << (QSet<int>() << 3 << 4 << 8 << 9);
 
     QTest::newRow("Remove Items")
         << (QSet<int>() << 5 << 6)
         << 2 << 3
         << (QSet<int>() << 2 << 3 << 5 << 6)
-        << RemoveItems << (KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5))
+        << RemoveItems
+        << (QList<QVariant>() << QVariant::fromValue(KItemRangeList() << KItemRange(1, 1) << KItemRange(3, 1) << KItemRange(10, 5)))
         << (QSet<int>() << 1 << 2 << 3 << 4);
 
     QTest::newRow("Empty Anchored Selection")
         << QSet<int>()
         << 2 << 2
         << QSet<int>()
-        << EndAnchoredSelection << KItemRangeList()
+        << EndAnchoredSelection
+        << QList<QVariant>()
         << QSet<int>();
 
     QTest::newRow("Toggle selection")
         << (QSet<int>() << 1 << 3 << 4)
         << 6 << 8
         << (QSet<int>() << 1 << 3 << 4 << 6 << 7 << 8)
-        << ToggleSelected << (KItemRangeList() << KItemRange(0, 10))
+        << SetSelected
+        << (QList<QVariant>() << 0 << 10 << QVariant::fromValue(KItemListSelectionManager::Toggle))
         << (QSet<int>() << 0 << 2 << 5 << 9);
+
+    // Swap items 2, 3 and 4, 5
+    QTest::newRow("Move items")
+        << (QSet<int>() << 0 << 1 << 2 << 3)
+        << -1 << -1
+        << (QSet<int>() << 0 << 1 << 2 << 3)
+        << MoveItems
+        << (QList<QVariant>() << QVariant::fromValue(KItemRange(2, 4))
+                              << QVariant::fromValue(QList<int>() << 4 << 5 << 2 << 3))
+        << (QSet<int>() << 0 << 1 << 4 << 5);
+
+    // Revert sort order
+    QTest::newRow("Revert sort order")
+        << (QSet<int>() << 0 << 1)
+        << 3 << 4
+        << (QSet<int>() << 0 << 1 << 3 << 4)
+        << MoveItems
+        << (QList<QVariant>() << QVariant::fromValue(KItemRange(0, 10))
+                              << QVariant::fromValue(QList<int>() << 9 << 8 << 7 << 6 << 5 << 4 << 3 << 2 << 1 << 0))
+        << (QSet<int>() << 5 << 6 << 8 << 9);
 }
 
 void KItemListSelectionManagerTest::testChangeSelection()
@@ -357,10 +412,10 @@ void KItemListSelectionManagerTest::testChangeSelection()
     QFETCH(QSet<int>, initialSelection);
     QFETCH(int, anchor);
     QFETCH(int, current);
-    QFETCH(QSet<int> , expectedSelection);
+    QFETCH(QSet<int>, expectedSelection);
     QFETCH(ChangeType, changeType);
-    QFETCH(KItemRangeList, changedItems);
-    QFETCH(QSet<int> , finalSelection);
+    QFETCH(QList<QVariant>, data);
+    QFETCH(QSet<int>, finalSelection);
 
     QSignalSpy spySelectionChanged(m_selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)));
 
@@ -406,19 +461,23 @@ void KItemListSelectionManagerTest::testChangeSelection()
     // Change the model by inserting or removing items.
     switch (changeType) {
     case InsertItems:
-        m_selectionManager->itemsInserted(changedItems);
+        m_selectionManager->itemsInserted(data.at(0).value<KItemRangeList>());
         break;
     case RemoveItems:
-        m_selectionManager->itemsRemoved(changedItems);
+        m_selectionManager->itemsRemoved(data.at(0).value<KItemRangeList>());
+        break;
+    case MoveItems:
+        m_selectionManager->itemsMoved(data.at(0).value<KItemRange>(),
+                                       data.at(1).value<QList<int> >());
         break;
     case EndAnchoredSelection:
         m_selectionManager->endAnchoredSelection();
         QVERIFY(!m_selectionManager->isAnchoredSelectionActive());
         break;
-    case ToggleSelected:
-        foreach(const KItemRange& range, changedItems) {
-            m_selectionManager->setSelected(range.index, range.count, KItemListSelectionManager::Toggle);
-        }
+    case SetSelected:
+        m_selectionManager->setSelected(data.at(0).value<int>(), // index
+                                        data.at(1).value<int>(), // count
+                                        data.at(2).value<KItemListSelectionManager::SelectionMode>());
         break;
     case NoChange:
         break;

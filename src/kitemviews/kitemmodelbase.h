@@ -34,7 +34,7 @@ class QMimeData;
 
 struct KItemRange
 {
-    KItemRange(int index, int count);
+    KItemRange(int index = 0, int count = 0);
     int index;
     int count;
 
@@ -180,20 +180,15 @@ signals:
 
     /**
      * Is emitted if one ore more items get moved.
-     * @param itemRanges     Item-ranges that get moved to a new position.
-     * @param movedToIndexes New positions for each element of the item-ranges.
+     * @param itemRange      Item-range that gets moved to a new position.
+     * @param movedToIndexes New positions for each element of the item-range.
      *
      * For example if the model has 10 items and the items 0 and 1 get exchanged
      * with the items 5 and 6 then the parameters look like this:
-     * - itemRanges: Contains two ranges. The first has the index 0 and a count of
-     *               2 and the second as the index 5 and a count of 2.
-     * - movedToIndexes: Contains the four values 5, 6, 0, 1
-     *
-     * For the item-ranges it is assured that:
-     * - They don't overlap
-     * - The index of item-range n is smaller than the index of item-range n + 1.
+     * - itemRange: has the index 0 and a count of 7.
+     * - movedToIndexes: Contains the seven values 5, 6, 2, 3, 4, 0, 1
      */
-    void itemsMoved(const KItemRangeList& itemRanges, const QList<int> movedToIndexes);
+    void itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
 
     void itemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles);
 

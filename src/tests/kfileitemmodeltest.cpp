@@ -29,6 +29,7 @@ namespace {
 };
 
 Q_DECLARE_METATYPE(KItemRangeList)
+Q_DECLARE_METATYPE(QList<int>)
 
 class KFileItemModelTest : public QObject
 {
@@ -65,6 +66,7 @@ private:
 
 void KFileItemModelTest::init()
 {
+    qRegisterMetaType<KItemRange>("KItemRange");
     qRegisterMetaType<KItemRangeList>("KItemRangeList");
     qRegisterMetaType<KFileItemList>("KFileItemList");
 
@@ -355,23 +357,31 @@ void KFileItemModelTest::testSorting()
     //QVERIFY(!m_model->showHiddenFiles());
     QCOMPARE(itemsInModel(), QStringList() << "c" << "a" << "b" << "d" << "e");
 
+    QSignalSpy spyItemsMoved(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)));
+
     // Sort by Name, descending
     m_model->setSortOrder(Qt::DescendingOrder);
     QCOMPARE(m_model->sortRole(), QByteArray("name"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "e" << "d" << "b" << "a");
+    QCOMPARE(spyItemsMoved.count(), 1);
+    QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 0 << 4 << 3 << 2 << 1);
 
-    // Sort by Date, decending
+    // Sort by Date, descending
     m_model->setSortRole("date");
     QCOMPARE(m_model->sortRole(), QByteArray("date"));
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "b" << "d" << "a" << "e");
+    QCOMPARE(spyItemsMoved.count(), 1);
+    QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 0 << 4 << 2 << 1 << 3);
 
     // Sort by Date, ascending
     m_model->setSortOrder(Qt::AscendingOrder);
     QCOMPARE(m_model->sortRole(), QByteArray("date"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QCOMPARE(itemsInModel(), QStringList() << "c" << "e" << "a" << "d" << "b");
+    QCOMPARE(spyItemsMoved.count(), 1);
+    QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 0 << 4 << 3 << 2 << 1);
 
     // Sort by Date, ascending, 'Sort Folders First' disabled
     m_model->setSortFoldersFirst(false);
@@ -379,20 +389,33 @@ void KFileItemModelTest::testSorting()
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortFoldersFirst());
     QCOMPARE(itemsInModel(), QStringList() << "e" << "a" << "c" << "d" << "b");
+    QCOMPARE(spyItemsMoved.count(), 1);
+    QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 2 << 0 << 1 << 3 << 4);
 
-    // Default: Sort by Name, ascending, 'Sort Folders First' disabled
+    // Sort by Name, ascending, 'Sort Folders First' disabled
     m_model->setSortRole("name");
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(!m_model->sortFoldersFirst());
     QCOMPARE(itemsInModel(), QStringList() << "a" << "b" << "c" << "d" << "e");
+    QCOMPARE(spyItemsMoved.count(), 1);
+    QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 4 << 0 << 2 << 3 << 1);
 
-    // Sort by Size, ascending, 'Sort Folders First' enabled
+    // Sort by Size, ascending, 'Sort Folders First' disabled
     m_model->setSortRole("size");
+    QCOMPARE(m_model->sortRole(), QByteArray("size"));
+    QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
+    QVERIFY(!m_model->sortFoldersFirst());
+    QCOMPARE(itemsInModel(), QStringList() << "c" << "a" << "b" << "e" << "d");
+    QCOMPARE(spyItemsMoved.count(), 1);
+    QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 1 << 2 << 0 << 4 << 3);
+
+    // In 'Sort by Size' mode, folders are always first -> changing 'Sort Folders First' does not resort the model
     m_model->setSortFoldersFirst(true);
     QCOMPARE(m_model->sortRole(), QByteArray("size"));
     QCOMPARE(m_model->sortOrder(), Qt::AscendingOrder);
     QVERIFY(m_model->sortFoldersFirst());
     QCOMPARE(itemsInModel(), QStringList() << "c" << "a" << "b" << "e" << "d");
+    QCOMPARE(spyItemsMoved.count(), 0);
 
     // Sort by Size, descending, 'Sort Folders First' enabled
     m_model->setSortOrder(Qt::DescendingOrder);
@@ -400,8 +423,8 @@ void KFileItemModelTest::testSorting()
     QCOMPARE(m_model->sortOrder(), Qt::DescendingOrder);
     QVERIFY(m_model->sortFoldersFirst());
     QCOMPARE(itemsInModel(), QStringList() << "c" << "d" << "e" << "b" << "a");
-
-    // TODO: How shall the sorting by size be done if 'Sort Folders First' is disabled?
+    QCOMPARE(spyItemsMoved.count(), 1);
+    QCOMPARE(spyItemsMoved.takeFirst().at(1).value<QList<int> >(), QList<int>() << 0 << 4 << 3 << 2 << 1);
 
     // TODO: Sort by other roles; show/hide hidden files
 }

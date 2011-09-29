@@ -762,6 +762,15 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
     }
 }
 
+void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
+{
+    // TODO:
+    // * Implement KItemListView::slotItemsMoved() (which should call KItemListSelectionManager::itemsMoved())
+    // * Do not emit itemsRemoved()/itemsInserted() in KFileItemModel::resortAllItems()
+    Q_UNUSED(itemRange);
+    Q_UNUSED(movedToIndexes);
+}
+
 void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
                                      const QSet<QByteArray>& roles)
 {
@@ -1031,6 +1040,8 @@ void KItemListView::setModel(KItemModelBase* model)
                    this,    SLOT(slotItemsInserted(KItemRangeList)));
         disconnect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),
                    this,    SLOT(slotItemsRemoved(KItemRangeList)));
+        disconnect(m_model, SIGNAL(itemsMoved(KItemRangeList,QList<int>)),
+                   this,    SLOT(slotItemsMoved(KItemRangeList,QList<int>)));
     }
 
     m_model = model;
@@ -1044,6 +1055,8 @@ void KItemListView::setModel(KItemModelBase* model)
                 this,    SLOT(slotItemsInserted(KItemRangeList)));
         connect(m_model, SIGNAL(itemsRemoved(KItemRangeList)),
                 this,    SLOT(slotItemsRemoved(KItemRangeList)));
+        connect(m_model, SIGNAL(itemsMoved(KItemRangeList,QList<int>)),
+                this,    SLOT(slotItemsMoved(KItemRangeList,QList<int>)));
     }
 
     onModelChanged(model, previous);

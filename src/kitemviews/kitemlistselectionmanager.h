@@ -73,6 +73,7 @@ private:
     void setModel(KItemModelBase* model);
     void itemsInserted(const KItemRangeList& itemRanges);
     void itemsRemoved(const KItemRangeList& itemRanges);
+    void itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
 
 private:
     int m_currentItem;

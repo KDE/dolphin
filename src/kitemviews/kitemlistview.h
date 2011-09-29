@@ -246,6 +246,7 @@ protected:
 protected slots:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
     virtual void slotItemsRemoved(const KItemRangeList& itemRanges);
+    virtual void slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
     virtual void slotItemsChanged(const KItemRangeList& itemRanges,
                                   const QSet<QByteArray>& roles);
 

@@ -239,6 +239,7 @@ void KItemListSelectionManager::itemsInserted(const KItemRangeList& itemRanges)
     if (!m_selectedItems.isEmpty()) {
         const QSet<int> previous = m_selectedItems;
         m_selectedItems.clear();
+        m_selectedItems.reserve(previous.count());
         QSetIterator<int> it(previous);
         while (it.hasNext()) {
             const int index = it.next();
@@ -307,6 +308,7 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     if (!m_selectedItems.isEmpty()) {
         const QSet<int> previous = m_selectedItems;
         m_selectedItems.clear();
+        m_selectedItems.reserve(previous.count());
         QSetIterator<int> it(previous);
         while (it.hasNext()) {
             int index = it.next();
@@ -327,6 +329,50 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
             }
             index -= dec;
             if (index >= 0)  {
+                m_selectedItems.insert(index);
+            }
+        }
+    }
+
+    const QSet<int> selection = selectedItems();
+    if (selection != previousSelection) {
+        emit selectionChanged(selection, previousSelection);
+    }
+}
+
+void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
+{
+    // Store the current selection (needed in the selectionChanged() signal)
+    const QSet<int> previousSelection = selectedItems();
+
+    // Update the current item
+    if (m_currentItem >= itemRange.index && m_currentItem < itemRange.index + itemRange.count) {
+        const int previousCurrentItem = m_currentItem;
+        const int newCurrentItem = movedToIndexes.at(previousCurrentItem - itemRange.index);
+
+        // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
+        // emit it only once in this function -> change the current item manually and emit currentChanged
+        m_currentItem = newCurrentItem;
+        emit currentChanged(newCurrentItem, previousCurrentItem);
+    }
+
+    // Update the anchor item
+    if (m_anchorItem >= itemRange.index && m_anchorItem < itemRange.index + itemRange.count) {
+        m_anchorItem = movedToIndexes.at(m_anchorItem - itemRange.index);
+    }
+
+    // Update the selections
+    if (!m_selectedItems.isEmpty()) {
+        const QSet<int> previous = m_selectedItems;
+        m_selectedItems.clear();
+        m_selectedItems.reserve(previous.count());
+        QSetIterator<int> it(previous);
+        while (it.hasNext()) {
+            const int index = it.next();
+            if (index >= itemRange.index && index < itemRange.index + itemRange.count) {
+                m_selectedItems.insert(movedToIndexes.at(index - itemRange.index));
+            }
+            else {
                 m_selectedItems.insert(index);
             }
         }

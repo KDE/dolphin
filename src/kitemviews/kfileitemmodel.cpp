@@ -732,6 +732,8 @@ void KFileItemModel::resortAllItems()
         return;
     }
 
+    const KFileItemList oldSortedItems = m_sortedItems;
+
     KFileItemList sortedItems = m_sortedItems;
     m_sortedItems.clear();
     m_items.clear();
@@ -748,12 +750,28 @@ void KFileItemModel::resortAllItems()
         ++index;
     }
 
+    bool emitItemsMoved = false;
+    QList<int> movedToIndexes;
+    movedToIndexes.reserve(sortedItems.count());
+    for (int i = 0; i < itemCount; i++) {
+        const int newIndex = m_items.value(oldSortedItems.at(i).url());
+        movedToIndexes.append(newIndex);
+        if (!emitItemsMoved && newIndex != i) {
+            emitItemsMoved = true;
+        }
+    }
+
+    if (emitItemsMoved) {
+        // TODO:
+        // * Implement KItemListView::slotItemsMoved() (which should call KItemListSelectionManager::itemsMoved())
+        // * Do not emit itemsRemoved()/itemsInserted() here.
+        emit itemsMoved(KItemRange(0, itemCount), movedToIndexes);
+    }
     emit itemsInserted(KItemRangeList() << KItemRange(0, itemCount));
 }
 
 void KFileItemModel::removeExpandedItems()
 {
-
     KFileItemList expandedItems;
 
     const int maxIndex = m_data.count() - 1;
