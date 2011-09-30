@@ -119,7 +119,9 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
     m_animation->setScrollOrientation(orientation);
     m_sizeHintResolver->clearCache();
     updateLayout();
+
     onScrollOrientationChanged(orientation, previousOrientation);
+    emit scrollOrientationChanged(orientation, previousOrientation);
 }
 
 Qt::Orientation KItemListView::scrollOrientation() const
@@ -189,6 +191,13 @@ qreal KItemListView::maximumScrollOffset() const
 void KItemListView::setItemOffset(qreal offset)
 {
     m_layouter->setItemOffset(offset);
+    if (m_header) {
+        m_header->setPos(-offset, 0);
+    }
+    if (!m_layoutTimer->isActive()) {
+        doLayout(NoAnimation, 0, 0);
+        update();
+    }
 }
 
 qreal KItemListView::itemOffset() const
@@ -1505,6 +1514,7 @@ void KItemListView::updateStretchedVisibleRolesSizes()
 
     if (m_header) {
         m_header->setVisibleRolesWidths(headerRolesWidths());
+        m_header->resize(dynamicItemSize.width(), m_header->size().height());
     }
 
     // Update the role sizes for all visible widgets

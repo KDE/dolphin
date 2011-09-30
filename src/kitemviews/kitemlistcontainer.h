@@ -29,6 +29,7 @@
 #include <QAbstractScrollArea>
 
 class KItemListController;
+class KItemListSmoothScroller;
 class KItemListView;
 class KItemModelBase;
 class QPropertyAnimation;
@@ -54,13 +55,12 @@ protected:
     virtual void showEvent(QShowEvent* event);
     virtual void resizeEvent(QResizeEvent* event);
     virtual void scrollContentsBy(int dx, int dy);
-    virtual bool eventFilter(QObject* obj, QEvent* event);
     virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
+    void slotScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
     void slotViewChanged(KItemListView* current, KItemListView* previous);
-    void slotAnimationStateChanged(QAbstractAnimation::State newState, QAbstractAnimation::State oldState);
     void scrollTo(qreal offset);
     void updateScrollOffsetScrollBar();
     void updateItemOffsetScrollBar();
@@ -68,13 +68,13 @@ private slots:
 private:
     void initialize();
     void updateGeometries();
+    void updateSmoothScrollers(Qt::Orientation orientation);
 
 private:
     KItemListController* m_controller;
 
-    bool m_scrollBarPressed;
-    bool m_smoothScrolling;
-    QPropertyAnimation* m_smoothScrollingAnimation;
+    KItemListSmoothScroller* m_horizontalSmoothScroller;
+    KItemListSmoothScroller* m_verticalSmoothScroller;
 };
 
 #endif

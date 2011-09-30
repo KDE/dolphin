@@ -719,8 +719,10 @@ void DolphinView::wheelEvent(QWheelEvent* event)
         const int numSteps = numDegrees / 15;
 
         setZoomLevel(zoomLevel() + numSteps);
+        event->accept();
+    } else {
+        event->ignore();
     }
-    event->accept();
 }
 
 void DolphinView::activate()

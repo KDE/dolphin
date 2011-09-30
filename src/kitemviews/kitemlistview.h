@@ -66,6 +66,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListView : public QGraphicsWidget
     Q_OBJECT
 
     Q_PROPERTY(qreal scrollOffset READ scrollOffset WRITE setScrollOffset)
+    Q_PROPERTY(qreal itemOffset READ itemOffset WRITE setItemOffset)
 
 public:
     KItemListView(QGraphicsWidget* parent = 0);
@@ -199,6 +200,7 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 signals:
+    void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
     void scrollOffsetChanged(qreal current, qreal previous);
     void maximumScrollOffsetChanged(qreal current, qreal previous);
     void itemOffsetChanged(qreal current, qreal previous);
