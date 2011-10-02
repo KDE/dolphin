@@ -101,13 +101,6 @@ public:
     bool autoScroll() const;
 
     /**
-     * Turns on the header if \p show is true. Per default the
-     * header is not shown.
-     */
-    void setHeaderShown(bool show);
-    bool isHeaderShown() const;
-
-    /**
      * @return Controller of the item-list. The controller gets
      *         initialized by KItemListController::setView() and will
      *         result in calling KItemListController::onControllerChanged().
@@ -329,12 +322,6 @@ private:
     void updateWidgetProperties(KItemListWidget* widget, int index);
 
     /**
-     * Updates the width of the KItemListHeader corresponding to the required width of
-     * the roles.
-     */
-    void updateHeaderWidth();
-
-    /**
      * @return The widths of each visible role that is shown in the KItemListHeader.
      */
     QHash<QByteArray, qreal> headerRolesWidths() const;
@@ -358,6 +345,22 @@ private:
      * are used (see m_useHeaderWidths).
      */
     void updateStretchedVisibleRolesSizes();
+
+    /**
+     * Turns on the header if \p show is true. Per default the
+     * header is not shown.
+     */
+    void setHeaderShown(bool show);
+
+    /**
+     * @return Sum of the widths of all visible roles.
+     */
+    qreal visibleRolesSizesWidthSum() const;
+
+    /**
+     * @return Sum of the heights of all visible roles.
+     */
+    qreal visibleRolesSizesHeightSum() const;
 
     /**
      * Helper function for triggerAutoScrolling().

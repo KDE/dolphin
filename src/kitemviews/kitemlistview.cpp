@@ -138,9 +138,11 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
 
     m_itemSize = itemSize;
 
-    if (itemSize.isEmpty()) {
+    const bool emptySize = itemSize.isEmpty();
+    if (emptySize) {
         updateVisibleRolesSizes();
     }
+    setHeaderShown(emptySize);
 
     if (itemSize.width() < previousSize.width() || itemSize.height() < previousSize.height()) {
         prepareLayoutForIncreasedItemCount(itemSize, ItemSize);
@@ -259,36 +261,6 @@ void KItemListView::setAutoScroll(bool enabled)
 bool KItemListView::autoScroll() const
 {
     return m_autoScrollTimer != 0;
-}
-
-void KItemListView::setHeaderShown(bool show)
-{
-    if (show && !m_header) {
-        m_header = new KItemListHeader(this);
-        m_header->setPos(0, 0);
-        m_header->setModel(m_model);
-        m_header->setVisibleRoles(m_visibleRoles);
-        m_header->setVisibleRolesWidths(headerRolesWidths());
-        m_header->setZValue(1);
-
-        m_useHeaderWidths = false;
-        updateHeaderWidth();
-
-        connect(m_header, SIGNAL(visibleRoleWidthChanged(QByteArray,qreal,qreal)),
-                this, SLOT(slotVisibleRoleWidthChanged(QByteArray,qreal,qreal)));
-
-        m_layouter->setHeaderHeight(m_header->size().height());
-    } else if (!show && m_header) {
-        delete m_header;
-        m_header = 0;
-        m_useHeaderWidths = false;
-        m_layouter->setHeaderHeight(0);
-    }
-}
-
-bool KItemListView::isHeaderShown() const
-{
-    return m_header != 0;
 }
 
 KItemListController* KItemListView::controller() const
@@ -614,7 +586,29 @@ QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 void KItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     QGraphicsWidget::resizeEvent(event);
-    updateHeaderWidth();
+    if (m_itemSize.isEmpty() && m_useHeaderWidths) {
+        QSizeF dynamicItemSize = m_layouter->itemSize();
+        const QSizeF newSize = event->newSize();
+
+        if (m_itemSize.width() < 0) {
+            const qreal requiredWidth = visibleRolesSizesWidthSum();
+            if (newSize.width() > requiredWidth) {
+                dynamicItemSize.setWidth(newSize.width());
+            }
+            const qreal headerWidth = qMax(newSize.width(), requiredWidth);
+            m_header->resize(headerWidth, m_header->size().height());
+        }
+
+        if (m_itemSize.height() < 0) {
+            const qreal requiredHeight = visibleRolesSizesHeightSum();
+            if (newSize.height() > requiredHeight) {
+                dynamicItemSize.setHeight(newSize.height());
+            }
+            // TODO: KItemListHeader is not prepared for vertical alignment
+        }
+
+        m_layouter->setItemSize(dynamicItemSize);
+    }
 }
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
@@ -950,7 +944,24 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
         m_visibleRolesSizes.insert(role, roleSize);
         m_stretchedVisibleRolesSizes.insert(role, roleSize);
 
-        updateVisibleRolesSizes();
+        // Apply the new size to the layouter
+        QSizeF dynamicItemSize = m_itemSize;
+        if (dynamicItemSize.width() < 0) {
+            const qreal requiredWidth = visibleRolesSizesWidthSum();
+            dynamicItemSize.setWidth(qMax(size().width(), requiredWidth));
+        }
+        if (dynamicItemSize.height() < 0) {
+            const qreal requiredHeight = visibleRolesSizesHeightSum();
+            dynamicItemSize.setHeight(qMax(size().height(), requiredHeight));
+        }
+
+        m_layouter->setItemSize(dynamicItemSize);
+
+        // Update the role sizes for all visible widgets
+        foreach (KItemListWidget* widget, visibleItemListWidgets()) {
+            widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
+        }
+
         updateLayout();
     }
 }
@@ -1387,16 +1398,6 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setData(m_model->data(index));
 }
 
-void KItemListView::updateHeaderWidth()
-{
-    if (!m_header) {
-        return;
-    }
-
-    // TODO 1: Use the required width of all roles
-    m_header->resize(size().width(), m_header->size().height());
-}
-
 QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const
 {
     QHash<QByteArray, qreal> rolesWidths;
@@ -1473,17 +1474,6 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     // visible role sizes and apply them to the layouter. If the
     // size does not use the available view-size it the size of the
     // first role will get stretched.
-    qreal requiredWidth = 0;
-    qreal requiredHeight = 0;
-
-    QHashIterator<QByteArray, QSizeF> it(m_visibleRolesSizes);
-    while (it.hasNext()) {
-        it.next();
-        const QSizeF& visibleRoleSize = it.value();
-        requiredWidth  += visibleRoleSize.width();
-        requiredHeight += visibleRoleSize.height();
-    }
-
     m_stretchedVisibleRolesSizes = m_visibleRolesSizes;
     const QByteArray role = visibleRoles().first();
     QSizeF firstRoleSize = m_stretchedVisibleRolesSizes.value(role);
@@ -1491,6 +1481,7 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     QSizeF dynamicItemSize = m_itemSize;
 
     if (dynamicItemSize.width() <= 0) {
+        const qreal requiredWidth = visibleRolesSizesWidthSum();
         const qreal availableWidth = size().width();
         if (requiredWidth < availableWidth) {
             // Stretch the first role to use the whole width for the item
@@ -1501,6 +1492,7 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     }
 
     if (dynamicItemSize.height() <= 0) {
+        const qreal requiredHeight = visibleRolesSizesHeightSum();
         const qreal availableHeight = size().height();
         if (requiredHeight < availableHeight) {
             // Stretch the first role to use the whole height for the item
@@ -1521,6 +1513,52 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     foreach (KItemListWidget* widget, visibleItemListWidgets()) {
         widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
     }
+}
+
+void KItemListView::setHeaderShown(bool show)
+{
+    if (show && !m_header) {
+        m_header = new KItemListHeader(this);
+        m_header->setPos(0, 0);
+        m_header->setModel(m_model);
+        m_header->setVisibleRoles(m_visibleRoles);
+        m_header->setVisibleRolesWidths(headerRolesWidths());
+        m_header->setZValue(1);
+
+        m_useHeaderWidths = false;
+
+        connect(m_header, SIGNAL(visibleRoleWidthChanged(QByteArray,qreal,qreal)),
+                this, SLOT(slotVisibleRoleWidthChanged(QByteArray,qreal,qreal)));
+
+        m_layouter->setHeaderHeight(m_header->size().height());
+    } else if (!show && m_header) {
+        delete m_header;
+        m_header = 0;
+        m_useHeaderWidths = false;
+        m_layouter->setHeaderHeight(0);
+    }
+}
+
+qreal KItemListView::visibleRolesSizesWidthSum() const
+{
+    qreal widthSum = 0;
+    QHashIterator<QByteArray, QSizeF> it(m_visibleRolesSizes);
+    while (it.hasNext()) {
+        it.next();
+        widthSum += it.value().width();
+    }
+    return widthSum;
+}
+
+qreal KItemListView::visibleRolesSizesHeightSum() const
+{
+    qreal heightSum = 0;
+    QHashIterator<QByteArray, QSizeF> it(m_visibleRolesSizes);
+    while (it.hasNext()) {
+        it.next();
+        heightSum += it.value().height();
+    }
+    return heightSum;
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)
