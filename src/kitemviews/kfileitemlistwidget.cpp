@@ -119,10 +119,27 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     painter->setPen(textColor());
     painter->drawStaticText(m_textPos[Name], m_text[Name]);
 
+    bool clipAdditionalInfoBounds = false;
+    if (m_layout == DetailsLayout) {
+        // Prevent a possible overlapping of the additional-information texts
+        // with the icon. This can happen if the user has minimized the width
+        // of the name-column to a very small value.
+        const qreal minX = m_pixmapPos.x() + m_pixmap.width() + 4 * itemListStyleOption.margin;
+        if (m_textPos[Name + 1].x() < minX) {
+            clipAdditionalInfoBounds = true;
+            painter->save();
+            painter->setClipRect(minX, 0, size().width() - minX, size().height(), Qt::IntersectClip);
+        }
+    }
+
     painter->setPen(m_additionalInfoTextColor);
     painter->setFont(itemListStyleOption.font);
     for (int i = Name + 1; i < TextIdCount; ++i) {
         painter->drawStaticText(m_textPos[i], m_text[i]);
+    }
+
+    if (clipAdditionalInfoBounds) {
+        painter->restore();
     }
 
 #ifdef KFILEITEMLISTWIDGET_DEBUG
@@ -631,13 +648,23 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
         const TextId textId = roleTextId(role);
 
-        const QString text = roleText(role, values);
-        m_text[textId].setText(text);
+        QString text = roleText(role, values);
 
-        const qreal requiredWidth = option.fontMetrics.width(text);
-        m_textPos[textId] = QPointF(x + columnMargin, y);
-
+        // Elide the text in case it does not fit into the available column-width
+        qreal requiredWidth = option.fontMetrics.width(text);
         const qreal columnWidth = visibleRolesSizes().value(role, QSizeF(0, 0)).width();
+        qreal availableTextWidth = columnWidth - 2 * columnMargin;
+        if (textId == Name) {
+            availableTextWidth -= firstColumnInc;
+        }
+
+        if (requiredWidth > availableTextWidth) {
+            text = option.fontMetrics.elidedText(text, Qt::ElideRight, availableTextWidth);
+            requiredWidth = option.fontMetrics.width(text);
+        }
+
+        m_text[textId].setText(text);
+        m_textPos[textId] = QPointF(x + columnMargin, y);
         x += columnWidth;
 
         switch (textId) {

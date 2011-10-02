@@ -227,16 +227,17 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
 
     m_sizeHintResolver->clearCache();
     m_layouter->markAsDirty();
-    onVisibleRolesChanged(roles, previousRoles);
-
-    updateVisibleRolesSizes();
-    updateLayout();
 
     if (m_header) {
         m_header->setVisibleRoles(roles);
         m_header->setVisibleRolesWidths(headerRolesWidths());
         m_useHeaderWidths = false;
     }
+
+    updateVisibleRolesSizes();
+    updateLayout();
+
+    onVisibleRolesChanged(roles, previousRoles);
 }
 
 QList<QByteArray> KItemListView::visibleRoles() const

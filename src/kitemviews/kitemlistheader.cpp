@@ -337,7 +337,7 @@ bool KItemListHeader::isAboveRoleGrip(const QPointF& pos, int roleIndex) const
 qreal KItemListHeader::minimumRoleWidth() const
 {
     QFontMetricsF fontMetrics(font());
-    return fontMetrics.averageCharWidth() * 5;
+    return fontMetrics.averageCharWidth() * 8;
 }
 
 #include "kitemlistheader_p.moc"
