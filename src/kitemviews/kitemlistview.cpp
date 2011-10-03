@@ -771,8 +771,19 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
     // TODO:
     // * Implement KItemListView::slotItemsMoved() (which should call KItemListSelectionManager::itemsMoved())
     // * Do not emit itemsRemoved()/itemsInserted() in KFileItemModel::resortAllItems()
-    Q_UNUSED(itemRange);
-    Q_UNUSED(movedToIndexes);
+    const int firstVisibleMovedIndex = qMax(firstVisibleIndex(), itemRange.index);
+    const int lastVisibleMovedIndex = qMin(lastVisibleIndex(), itemRange.index + itemRange.count - 1);
+
+    for (int index = firstVisibleMovedIndex; index <= lastVisibleMovedIndex; ++index) {
+        KItemListWidget* widget = m_visibleItems.value(index);
+        if (widget) {
+            updateWidgetProperties(widget, index);
+        }
+    }
+
+    if (m_controller) {
+        m_controller->selectionManager()->itemsMoved(itemRange, movedToIndexes);
+    }
 }
 
 void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,

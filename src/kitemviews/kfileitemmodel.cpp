@@ -733,26 +733,26 @@ void KFileItemModel::resortAllItems()
     }
 
     const KFileItemList oldSortedItems = m_sortedItems;
+    const QHash<KUrl, int> oldItems = m_items;
+    const QList<QHash<QByteArray, QVariant> > oldData = m_data;
 
-    KFileItemList sortedItems = m_sortedItems;
-    m_sortedItems.clear();
     m_items.clear();
     m_data.clear();
-    emit itemsRemoved(KItemRangeList() << KItemRange(0, itemCount));
 
-    sort(sortedItems.begin(), sortedItems.end());
+    sort(m_sortedItems.begin(), m_sortedItems.end());
     int index = 0;
-    foreach (const KFileItem& item, sortedItems) {
-        m_sortedItems.append(item);
+    foreach (const KFileItem& item, m_sortedItems) {
         m_items.insert(item.url(), index);
-        m_data.append(retrieveData(item));
+
+        const int oldItemIndex = oldItems.value(item.url());
+        m_data.append(oldData.at(oldItemIndex));
 
         ++index;
     }
 
     bool emitItemsMoved = false;
     QList<int> movedToIndexes;
-    movedToIndexes.reserve(sortedItems.count());
+    movedToIndexes.reserve(m_sortedItems.count());
     for (int i = 0; i < itemCount; i++) {
         const int newIndex = m_items.value(oldSortedItems.at(i).url());
         movedToIndexes.append(newIndex);
@@ -762,12 +762,8 @@ void KFileItemModel::resortAllItems()
     }
 
     if (emitItemsMoved) {
-        // TODO:
-        // * Implement KItemListView::slotItemsMoved() (which should call KItemListSelectionManager::itemsMoved())
-        // * Do not emit itemsRemoved()/itemsInserted() here.
         emit itemsMoved(KItemRange(0, itemCount), movedToIndexes);
     }
-    emit itemsInserted(KItemRangeList() << KItemRange(0, itemCount));
 }
 
 void KFileItemModel::removeExpandedItems()
