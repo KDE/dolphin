@@ -95,6 +95,26 @@ QSet<int> KItemListSelectionManager::selectedItems() const
     return selectedItems;
 }
 
+bool KItemListSelectionManager::isSelected(int index) const
+{
+    if (m_selectedItems.contains(index)) {
+        return true;
+    }
+
+    if (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem) {
+        Q_ASSERT(m_anchorItem >= 0);
+        Q_ASSERT(m_currentItem >= 0);
+        const int from = qMin(m_anchorItem, m_currentItem);
+        const int to = qMax(m_anchorItem, m_currentItem);
+
+        if (from <= index && index <= to) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool KItemListSelectionManager::hasSelection() const
 {
     return !m_selectedItems.isEmpty() || (m_isAnchoredSelectionActive && m_anchorItem != m_currentItem);

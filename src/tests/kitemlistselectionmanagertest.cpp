@@ -69,6 +69,8 @@ private slots:
     void testChangeSelection();
 
 private:
+    void verifySelectionChange(QSignalSpy& spy, const QSet<int>& currentSelection, const QSet<int>& previousSelection) const;
+
     KItemListSelectionManager* m_selectionManager;
 };
 
@@ -425,18 +427,8 @@ void KItemListSelectionManagerTest::testChangeSelection()
 
     // Perform the initial selectiion
     m_selectionManager->setSelectedItems(initialSelection);
-    QCOMPARE(m_selectionManager->selectedItems(), initialSelection);
-    if (initialSelection.isEmpty()) {
-        QVERIFY(!m_selectionManager->hasSelection());
-        QCOMPARE(spySelectionChanged.count(), 0);
-    }
-    else {
-        QVERIFY(m_selectionManager->hasSelection());
-        QCOMPARE(spySelectionChanged.count(), 1);
-        QList<QVariant> arguments = spySelectionChanged.takeFirst();
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), initialSelection);
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), QSet<int>());
-    }
+
+    verifySelectionChange(spySelectionChanged, initialSelection, QSet<int>());
 
     // Perform an anchored selection.
     // Note that current and anchor index are equal first because this is the case in typical uses of the
@@ -446,17 +438,8 @@ void KItemListSelectionManagerTest::testChangeSelection()
     m_selectionManager->setCurrentItem(current);
     QCOMPARE(m_selectionManager->m_anchorItem, anchor);
     QCOMPARE(m_selectionManager->currentItem(), current);
-    QCOMPARE(m_selectionManager->selectedItems(), expectedSelection);
-    QCOMPARE(m_selectionManager->hasSelection(), !expectedSelection.isEmpty());
-    if (expectedSelection == initialSelection) {
-        QCOMPARE(spySelectionChanged.count(), 0);
-    }
-    else {
-        QCOMPARE(spySelectionChanged.count(), 1);
-        QList<QVariant> arguments = spySelectionChanged.takeFirst();
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), expectedSelection);
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), initialSelection);
-    }
+
+    verifySelectionChange(spySelectionChanged, expectedSelection, initialSelection);
 
     // Change the model by inserting or removing items.
     switch (changeType) {
@@ -483,31 +466,37 @@ void KItemListSelectionManagerTest::testChangeSelection()
         break;
     }
 
-    QCOMPARE(m_selectionManager->selectedItems(), finalSelection);
-    QCOMPARE(m_selectionManager->hasSelection(), !finalSelection.isEmpty());
-    if (finalSelection == expectedSelection) {
-        QCOMPARE(spySelectionChanged.count(), 0);
-    }
-    else {
-        QCOMPARE(spySelectionChanged.count(), 1);
-        QList<QVariant> arguments = spySelectionChanged.takeFirst();
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), finalSelection);
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), expectedSelection);
-    }
+    verifySelectionChange(spySelectionChanged, finalSelection, expectedSelection);
 
     // Finally, clear the selection
     m_selectionManager->clearSelection();
-    QCOMPARE(m_selectionManager->selectedItems(), QSet<int>());
-    QVERIFY(!m_selectionManager->hasSelection());
-    if (finalSelection.isEmpty()) {
-        // Selection has been empty already
-        QCOMPARE(spySelectionChanged.count(), 0);
+
+    verifySelectionChange(spySelectionChanged, QSet<int>(), finalSelection);
+}
+
+void KItemListSelectionManagerTest::verifySelectionChange(QSignalSpy& spy,
+                                                          const QSet<int>& currentSelection,
+                                                          const QSet<int>& previousSelection) const
+{
+    QCOMPARE(m_selectionManager->selectedItems(), currentSelection);
+    QCOMPARE(m_selectionManager->hasSelection(), !currentSelection.isEmpty());
+    for (int index = 0; index < m_selectionManager->model()->count(); ++index) {
+        if (currentSelection.contains(index)) {
+            QVERIFY(m_selectionManager->isSelected(index));
+        }
+        else {
+            QVERIFY(!m_selectionManager->isSelected(index));
+        }
+    }
+
+    if (currentSelection == previousSelection) {
+        QCOMPARE(spy.count(), 0);
     }
     else {
-        QCOMPARE(spySelectionChanged.count(), 1);
-        QList<QVariant> arguments = spySelectionChanged.takeFirst();
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), QSet<int>());
-        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), finalSelection);
+        QCOMPARE(spy.count(), 1);
+        QList<QVariant> arguments = spy.takeFirst();
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(0)), currentSelection);
+        QCOMPARE(qvariant_cast<QSet<int> >(arguments.at(1)), previousSelection);
     }
 }
 

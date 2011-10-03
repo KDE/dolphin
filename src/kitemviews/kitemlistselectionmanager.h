@@ -54,6 +54,7 @@ public:
 
     void setSelectedItems(const QSet<int>& items);
     QSet<int> selectedItems() const;
+    bool isSelected(int index) const;
     bool hasSelection() const;
 
     void setSelected(int index, int count = 1, SelectionMode mode = Select);
