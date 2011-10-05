@@ -141,14 +141,14 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
     const bool emptySize = itemSize.isEmpty();
     if (emptySize) {
         updateVisibleRolesSizes();
+    } else {
+        if (itemSize.width() < previousSize.width() || itemSize.height() < previousSize.height()) {
+            prepareLayoutForIncreasedItemCount(itemSize, ItemSize);
+        } else {
+            m_layouter->setItemSize(itemSize);
+        }
     }
     setHeaderShown(emptySize);
-
-    if (itemSize.width() < previousSize.width() || itemSize.height() < previousSize.height()) {
-        prepareLayoutForIncreasedItemCount(itemSize, ItemSize);
-    } else {
-        m_layouter->setItemSize(itemSize);
-    }
 
     m_sizeHintResolver->clearCache();
     updateLayout();
