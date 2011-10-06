@@ -91,7 +91,7 @@ void DolphinSearchBox::setSearchPath(const KUrl& url)
     m_searchPath = url;
 
     QFontMetrics metrics(m_fromHereButton->font());
-    const int maxWidth = metrics.averageCharWidth() * 15;
+    const int maxWidth = metrics.height() * 8;
 
     QString location = url.fileName();
     if (location.isEmpty()) {
