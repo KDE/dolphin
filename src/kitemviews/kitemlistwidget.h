@@ -77,6 +77,9 @@ public:
     void setHovered(bool hovered);
     bool isHovered() const;
 
+    void setAlternatingBackgroundColors(bool enable);
+    bool alternatingBackgroundColors() const;
+
     /**
      * @return True if \a point is inside KItemListWidget::hoverBoundingRect(),
      *         KItemListWidget::textBoundingRect(), KItemListWidget::selectionToggleRect()
@@ -117,7 +120,8 @@ protected:
     virtual void currentChanged(bool current);
     virtual void selectedChanged(bool selected);
     virtual void hoveredChanged(bool hovered);
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+    virtual void alternatingBackgroundColorsChanged(bool enabled);
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);    
 
     /**
      * @return The current opacity of the hover-animation. When implementing a custom painting-code for a hover-state
@@ -127,7 +131,7 @@ protected:
 
 private:
     void setHoverOpacity(qreal opacity);
-    void clearCache();
+    void clearHoverCache();
     void drawFocusIndicator(QPainter* painter);
     void drawTextBackground(QPainter* painter);
 
@@ -138,6 +142,7 @@ private:
     bool m_selected;
     bool m_current;
     bool m_hovered;
+    bool m_alternatingBackgroundColors;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, QSizeF> m_visibleRolesSizes;

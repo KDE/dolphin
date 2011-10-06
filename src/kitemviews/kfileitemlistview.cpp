@@ -245,6 +245,8 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
     case DetailsLayout: fileItemListWidget->setLayout(KFileItemListWidget::DetailsLayout); break;
     default:            Q_ASSERT(false); break;
     }
+
+    fileItemListWidget->setAlternatingBackgroundColors(m_itemLayout == DetailsLayout);
 }
 
 bool KFileItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const

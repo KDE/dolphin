@@ -38,6 +38,7 @@ KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
     m_selected(false),
     m_current(false),
     m_hovered(false),
+    m_alternatingBackgroundColors(false),
     m_data(),
     m_visibleRoles(),
     m_visibleRolesSizes(),
@@ -50,7 +51,7 @@ KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
 
 KItemListWidget::~KItemListWidget()
 {
-    clearCache();
+    clearHoverCache();
 }
 
 void KItemListWidget::setIndex(int index)
@@ -60,7 +61,7 @@ void KItemListWidget::setIndex(int index)
             m_hoverAnimation->stop();
             m_hoverOpacity = 0;
         }
-        clearCache();
+        clearHoverCache();
 
         m_index = index;
     }
@@ -74,7 +75,7 @@ int KItemListWidget::index() const
 void KItemListWidget::setData(const QHash<QByteArray, QVariant>& data,
                               const QSet<QByteArray>& roles)
 {
-    clearCache();
+    clearHoverCache();
     if (roles.isEmpty()) {
         m_data = data;
         dataChanged(m_data);
@@ -96,6 +97,12 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     Q_UNUSED(option);
 
     painter->setRenderHint(QPainter::Antialiasing);
+
+    if (m_alternatingBackgroundColors && (m_index & 0x1)) {
+        const QColor backgroundColor = m_styleOption.palette.color(QPalette::AlternateBase);
+        const QRectF backgroundRect(0, 0, size().width(), size().height());
+        painter->fillRect(backgroundRect, backgroundColor);
+    }
 
     const QRect iconBounds = iconBoundingRect().toRect();
     if (m_selected) {
@@ -168,7 +175,7 @@ QHash<QByteArray, QSizeF> KItemListWidget::visibleRolesSizes() const
 void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
 {
     const KItemListStyleOption previous = m_styleOption;
-    clearCache();
+    clearHoverCache();
     m_styleOption = option;
 
     styleOptionChanged(option, previous);
@@ -237,6 +244,20 @@ void KItemListWidget::setHovered(bool hovered)
 bool KItemListWidget::isHovered() const
 {
     return m_hovered;
+}
+
+void KItemListWidget::setAlternatingBackgroundColors(bool enable)
+{
+    if (m_alternatingBackgroundColors != enable) {
+        m_alternatingBackgroundColors = enable;
+        alternatingBackgroundColorsChanged(enable);
+        update();
+    }
+}
+
+bool KItemListWidget::alternatingBackgroundColors() const
+{
+    return m_alternatingBackgroundColors;
 }
 
 bool KItemListWidget::contains(const QPointF& point) const
@@ -308,10 +329,15 @@ void KItemListWidget::hoveredChanged(bool hovered)
     Q_UNUSED(hovered);
 }
 
+void KItemListWidget::alternatingBackgroundColorsChanged(bool enabled)
+{
+    Q_UNUSED(enabled);
+}
+
 void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     QGraphicsWidget::resizeEvent(event);
-    clearCache();
+    clearHoverCache();
 }
 
 qreal KItemListWidget::hoverOpacity() const
@@ -325,7 +351,7 @@ void KItemListWidget::setHoverOpacity(qreal opacity)
     update();
 }
 
-void KItemListWidget::clearCache()
+void KItemListWidget::clearHoverCache()
 {
     delete m_hoverCache;
     m_hoverCache = 0;

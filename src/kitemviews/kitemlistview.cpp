@@ -1394,8 +1394,8 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     const KItemListSelectionManager* selectionManager = m_controller->selectionManager();
     widget->setCurrent(index == selectionManager->currentItem());
     widget->setSelected(selectionManager->isSelected(index));
-
     widget->setHovered(false);
+    widget->setAlternatingBackgroundColors(false);
     widget->setIndex(index);
     widget->setData(m_model->data(index));
 }
