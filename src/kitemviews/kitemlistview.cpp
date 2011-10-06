@@ -1271,6 +1271,8 @@ void KItemListView::emitOffsetChanges()
 KItemListWidget* KItemListView::createWidget(int index)
 {
     KItemListWidget* widget = m_widgetCreator->create(this);
+    widget->setFlag(QGraphicsItem::ItemStacksBehindParent);
+
     updateWidgetProperties(widget, index);
     m_visibleItems.insert(index, widget);
 
