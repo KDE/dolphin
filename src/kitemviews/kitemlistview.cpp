@@ -148,7 +148,6 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
             m_layouter->setItemSize(itemSize);
         }
     }
-    setHeaderShown(emptySize);
 
     m_sizeHintResolver->clearCache();
     updateLayout();
@@ -1460,17 +1459,18 @@ void KItemListView::updateVisibleRolesSizes(const KItemRangeList& itemRanges)
 
     if (itemCount == rangesItemCount) {
         m_visibleRolesSizes = visibleRolesSizes(itemRanges);
-
-        // Assure the the sizes are not smaller than the minimum defined by the header
-        // TODO: Currently only implemented for a top-aligned header
-        const qreal minHeaderRoleWidth = m_header->minimumRoleWidth();
-        QMutableHashIterator<QByteArray, QSizeF> it (m_visibleRolesSizes);
-        while (it.hasNext()) {
-            it.next();
-            const QSizeF& size = it.value();
-            if (size.width() < minHeaderRoleWidth) {
-                const QSizeF newSize(minHeaderRoleWidth, size.height());
-                m_visibleRolesSizes.insert(it.key(), newSize);
+        if (m_header) {
+            // Assure the the sizes are not smaller than the minimum defined by the header
+            // TODO: Currently only implemented for a top-aligned header
+            const qreal minHeaderRoleWidth = m_header->minimumRoleWidth();
+            QMutableHashIterator<QByteArray, QSizeF> it (m_visibleRolesSizes);
+            while (it.hasNext()) {
+                it.next();
+                const QSizeF& size = it.value();
+                if (size.width() < minHeaderRoleWidth) {
+                    const QSizeF newSize(minHeaderRoleWidth, size.height());
+                    m_visibleRolesSizes.insert(it.key(), newSize);
+                }
             }
         }
     } else {

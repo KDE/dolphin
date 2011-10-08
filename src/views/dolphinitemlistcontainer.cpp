@@ -189,11 +189,16 @@ void DolphinItemListContainer::setItemLayout(KFileItemListView::Layout layout)
 
     switch (layout) {
     case KFileItemListView::IconsLayout:
+        m_fileItemListView->setScrollOrientation(Qt::Vertical);
+        m_fileItemListView->setHeaderShown(false);
+        break;
     case KFileItemListView::DetailsLayout:
         m_fileItemListView->setScrollOrientation(Qt::Vertical);
+        m_fileItemListView->setHeaderShown(true);
         break;
     case KFileItemListView::CompactLayout:
         m_fileItemListView->setScrollOrientation(Qt::Horizontal);
+        m_fileItemListView->setHeaderShown(false);
         break;
     default:
         Q_ASSERT(false);
