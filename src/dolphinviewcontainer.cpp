@@ -35,7 +35,6 @@
 #include <KIconEffect>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
-#include <KMenu>
 #include <KNewFileMenu>
 #include <konqmimedata.h>
 #include <konq_operations.h>

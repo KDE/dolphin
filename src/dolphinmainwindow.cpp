@@ -1374,13 +1374,14 @@ void DolphinMainWindow::slotSearchModeChanged(bool enabled)
 #endif
 }
 
-void DolphinMainWindow::openContextMenu(const KFileItem& item,
+void DolphinMainWindow::openContextMenu(const QPoint& pos,
+                                        const KFileItem& item,
                                         const KUrl& url,
                                         const QList<QAction*>& customActions)
 {
-    QPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, item, url);
-    contextMenu->setCustomActions(customActions);
-    const DolphinContextMenu::Command command = contextMenu->open();
+    QWeakPointer<DolphinContextMenu> contextMenu = new DolphinContextMenu(this, pos, item, url);
+    contextMenu.data()->setCustomActions(customActions);
+    const DolphinContextMenu::Command command = contextMenu.data()->open();
 
     switch (command) {
     case DolphinContextMenu::OpenParentFolderInNewWindow: {
@@ -1397,7 +1398,7 @@ void DolphinMainWindow::openContextMenu(const KFileItem& item,
         break;
     }
 
-    delete contextMenu;
+    delete contextMenu.data();
 }
 
 void DolphinMainWindow::updateToolBarMenu()
@@ -2111,8 +2112,8 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(toggleActiveView()));
     connect(view, SIGNAL(tabRequested(KUrl)),
             this, SLOT(openNewTab(KUrl)));
-    connect(view, SIGNAL(requestContextMenu(KFileItem,KUrl,QList<QAction*>)),
-            this, SLOT(openContextMenu(KFileItem,KUrl,QList<QAction*>)));
+    connect(view, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)),
+            this, SLOT(openContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
     connect(view, SIGNAL(startedPathLoading(KUrl)),
             this, SLOT(enableStopAction()));
     connect(view, SIGNAL(finishedPathLoading(KUrl)),

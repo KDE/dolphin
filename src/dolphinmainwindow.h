@@ -439,13 +439,15 @@ private slots:
 
     /**
      * Opens the context menu on the current mouse position.
+     * @pos           Position in screen coordinates.
      * @item          File item context. If item is null, the context menu
      *                should be applied to \a url.
      * @url           URL which contains \a item.
      * @customActions Actions that should be added to the context menu,
      *                if the file item is null.
      */
-    void openContextMenu(const KFileItem& item,
+    void openContextMenu(const QPoint& pos,
+                         const KFileItem& item,
                          const KUrl& url,
                          const QList<QAction*>& customActions);
 

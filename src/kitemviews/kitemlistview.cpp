@@ -434,6 +434,37 @@ bool KItemListView::isTransactionActive() const
     return m_activeTransactions > 0;
 }
 
+
+void KItemListView::setHeaderShown(bool show)
+{
+
+    if (show && !m_header) {
+        m_header = new KItemListHeader(this);
+        m_header->setPos(0, 0);
+        m_header->setModel(m_model);
+        m_header->setVisibleRoles(m_visibleRoles);
+        m_header->setVisibleRolesWidths(headerRolesWidths());
+        m_header->setZValue(1);
+
+        m_useHeaderWidths = false;
+
+        connect(m_header, SIGNAL(visibleRoleWidthChanged(QByteArray,qreal,qreal)),
+                this, SLOT(slotVisibleRoleWidthChanged(QByteArray,qreal,qreal)));
+
+        m_layouter->setHeaderHeight(m_header->size().height());
+    } else if (!show && m_header) {
+        delete m_header;
+        m_header = 0;
+        m_useHeaderWidths = false;
+        m_layouter->setHeaderHeight(0);
+    }
+}
+
+bool KItemListView::isHeaderShown() const
+{
+    return m_header != 0;
+}
+
 QPixmap KItemListView::createDragPixmap(const QSet<int>& indexes) const
 {
     Q_UNUSED(indexes);
@@ -1519,30 +1550,6 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     }
 }
 
-void KItemListView::setHeaderShown(bool show)
-{
-    if (show && !m_header) {
-        m_header = new KItemListHeader(this);
-        m_header->setPos(0, 0);
-        m_header->setModel(m_model);
-        m_header->setVisibleRoles(m_visibleRoles);
-        m_header->setVisibleRolesWidths(headerRolesWidths());
-        m_header->setZValue(1);
-
-        m_useHeaderWidths = false;
-
-        connect(m_header, SIGNAL(visibleRoleWidthChanged(QByteArray,qreal,qreal)),
-                this, SLOT(slotVisibleRoleWidthChanged(QByteArray,qreal,qreal)));
-
-        m_layouter->setHeaderHeight(m_header->size().height());
-    } else if (!show && m_header) {
-        delete m_header;
-        m_header = 0;
-        m_useHeaderWidths = false;
-        m_layouter->setHeaderHeight(0);
-    }
-}
-
 qreal KItemListView::visibleRolesSizesWidthSum() const
 {
     qreal widthSum = 0;
@@ -1563,6 +1570,11 @@ qreal KItemListView::visibleRolesSizesHeightSum() const
         heightSum += it.value().height();
     }
     return heightSum;
+}
+
+QRectF KItemListView::headerBoundaries() const
+{
+    return m_header ? m_header->geometry() : QRectF();
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

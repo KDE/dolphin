@@ -65,6 +65,7 @@ public:
     /**
      * @parent        Pointer to the main window the context menu
      *                belongs to.
+     * @pos           Position in screen coordinates.
      * @fileInfo      Pointer to the file item the context menu
      *                is applied. If 0 is passed, the context menu
      *                is above the viewport.
@@ -72,6 +73,7 @@ public:
      *                should be opened.
      */
     DolphinContextMenu(DolphinMainWindow* parent,
+                       const QPoint& pos,
                        const KFileItem& fileInfo,
                        const KUrl& baseUrl);
 
@@ -190,6 +192,7 @@ private:
         TrashContext = 2
     };
 
+    QPoint m_pos;
     DolphinMainWindow* m_mainWindow;
 
     KFileItem m_fileInfo;

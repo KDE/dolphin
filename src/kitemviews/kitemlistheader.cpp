@@ -19,6 +19,8 @@
 
 #include "kitemlistheader_p.h"
 
+#include <KAction>
+#include <KMenu>
 #include "kitemmodelbase.h"
 
 #include <QApplication>
@@ -143,11 +145,15 @@ void KItemListHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
 void KItemListHeader::mousePressEvent(QGraphicsSceneMouseEvent* event)
 {
-    event->accept();
-    updatePressedRoleIndex(event->pos());
-    m_pressedMousePos = event->pos();
-    m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ?
-                      ResizeRoleOperation : NoRoleOperation;
+    if (event->button() & Qt::LeftButton) {
+        updatePressedRoleIndex(event->pos());
+        m_pressedMousePos = event->pos();
+        m_roleOperation = isAboveRoleGrip(m_pressedMousePos, m_pressedRoleIndex) ?
+                          ResizeRoleOperation : NoRoleOperation;
+        event->accept();
+    } else {
+        event->ignore();
+    }
 }
 
 void KItemListHeader::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)

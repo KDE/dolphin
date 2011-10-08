@@ -322,32 +322,44 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
             break;
         }
 
-        return true;
-    } else {
         if (event->buttons() & Qt::RightButton) {
-            m_selectionManager->clearSelection();
+            emit itemContextMenuRequested(m_pressedIndex, event->screenPos());
         }
 
-        KItemListRubberBand* rubberBand = m_view->rubberBand();
-        QPointF startPos = m_pressedMousePos;
-        if (m_view->scrollOrientation() == Qt::Vertical) {
-            startPos.ry() += m_view->scrollOffset();
-            if (m_view->itemSize().width() < 0) {
-                // Use a special rubberband for views that have only one column and
-                // expand the rubberband to use the whole width of the view.
-                startPos.setX(0);
-            }
-        } else {
-            startPos.rx() += m_view->scrollOffset();
-        }
-
-        m_oldSelection = m_selectionManager->selectedItems();
-        rubberBand->setStartPosition(startPos);
-        rubberBand->setEndPosition(startPos);
-        rubberBand->setActive(true);
-        connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
-        m_view->setAutoScroll(true);
+        return true;
     }
+
+    if (event->buttons() & Qt::RightButton) {
+        m_selectionManager->clearSelection();
+
+        const QRectF headerBounds = m_view->headerBoundaries();
+        if (headerBounds.contains(event->pos())) {
+            emit headerContextMenuRequested(event->screenPos());
+        } else {
+            emit viewContextMenuRequested(event->screenPos());
+        }
+        return true;
+    }
+
+    KItemListRubberBand* rubberBand = m_view->rubberBand();
+    QPointF startPos = m_pressedMousePos;
+    if (m_view->scrollOrientation() == Qt::Vertical) {
+        startPos.ry() += m_view->scrollOffset();
+        if (m_view->itemSize().width() < 0) {
+            // Use a special rubberband for views that have only one column and
+            // expand the rubberband to use the whole width of the view.
+            startPos.setX(0);
+        }
+    } else {
+        startPos.rx() += m_view->scrollOffset();
+    }
+
+    m_oldSelection = m_selectionManager->selectedItems();
+    rubberBand->setStartPosition(startPos);
+    rubberBand->setEndPosition(startPos);
+    rubberBand->setActive(true);
+    connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+    m_view->setAutoScroll(true);
 
     return false;
 }
@@ -437,8 +449,6 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             }
         } else if (event->button() & Qt::MidButton) {
             emit itemMiddleClicked(index);
-        } else if (event->button() & Qt::RightButton) {
-            emit contextMenuRequested(index, QPointF(event->pos()));
         }
     } else if (clearSelection) {
         m_selectionManager->clearSelection();

@@ -488,7 +488,8 @@ signals:
      * for the URL should be shown and the custom actions \a customActions
      * will be added.
      */
-    void requestContextMenu(const KFileItem& item,
+    void requestContextMenu(const QPoint& pos,
+                            const KFileItem& item,
                             const KUrl& url,
                             const QList<QAction*>& customActions);
 
@@ -551,8 +552,6 @@ signals:
 
 protected:
     virtual void mouseReleaseEvent(QMouseEvent* event);
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-    virtual void wheelEvent(QWheelEvent* event);
 
 private slots:
     /**
@@ -563,7 +562,9 @@ private slots:
 
     void slotItemActivated(int index);
     void slotItemMiddleClicked(int index);
-    void slotContextMenuRequested(int index, const QPointF& pos);
+    void slotItemContextMenuRequested(int index, const QPointF& pos);
+    void slotViewContextMenuRequested(const QPointF& pos);
+    void slotHeaderContextMenuRequested(const QPointF& pos);
     void slotItemExpansionToggleClicked(int index);
     void slotItemHovered(int index);
     void slotItemUnhovered(int index);
@@ -584,13 +585,6 @@ private slots:
      * signal \a selectionChanged() with all selected file items as parameter.
      */
     void emitSelectionChangedSignal();
-
-    /**
-     * Opens the context menu on position \a pos. The position
-     * is used to check whether the context menu is related to an
-     * item or to the viewport.
-     */
-    void openContextMenu(const QPoint& pos, const QList<QAction*>& customActions);
 
     /**
      * Drops dragged URLs to the destination path \a destPath. If

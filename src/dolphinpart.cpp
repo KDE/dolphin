@@ -86,8 +86,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
             this, SLOT(slotItemActivated(KFileItem)));
     connect(m_view, SIGNAL(tabRequested(KUrl)),
             this, SLOT(createNewWindow(KUrl)));
-    connect(m_view, SIGNAL(requestContextMenu(KFileItem,KUrl,QList<QAction*>)),
-            this, SLOT(slotOpenContextMenu(KFileItem,KUrl,QList<QAction*>)));
+    connect(m_view, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)),
+            this, SLOT(slotOpenContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
             m_extension, SIGNAL(selectionInfo(KFileItemList)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),
@@ -352,7 +352,8 @@ void DolphinPart::createNewWindow(const KUrl& url)
     emit m_extension->createNewWindow(url);
 }
 
-void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
+void DolphinPart::slotOpenContextMenu(const QPoint& pos,
+                                      const KFileItem& _item,
                                       const KUrl&,
                                       const QList<QAction*>& customActions)
 {
@@ -430,7 +431,7 @@ void DolphinPart::slotOpenContextMenu(const KFileItem& _item,
 
     actionGroups.insert("editactions", editActions);
 
-    emit m_extension->popupMenu(QCursor::pos(),
+    emit m_extension->popupMenu(pos,
                                 items,
                                 KParts::OpenUrlArguments(),
                                 KParts::BrowserArguments(),

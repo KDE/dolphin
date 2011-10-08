@@ -108,7 +108,22 @@ public:
 signals:
     void itemActivated(int index);
     void itemMiddleClicked(int index);
-    void contextMenuRequested(int index, const QPointF& pos);
+
+    /**
+     * Emitted if a context-menu is requested for the item with
+     * the index \a index. It is assured that the index is valid.
+     */
+    void itemContextMenuRequested(int index, const QPointF& pos);
+
+    /**
+     * Emitted if a context-menu is requested for the KItemListView.
+     */
+    void viewContextMenuRequested(const QPointF& pos);
+
+    /**
+     * Emitted if a context-menu is requested for the header of the KItemListView.
+     */
+    void headerContextMenuRequested(const QPointF& pos);
 
     /**
      * Is emitted if the item with the index \p index gets hovered.

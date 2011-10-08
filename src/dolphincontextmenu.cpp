@@ -61,8 +61,11 @@
 K_GLOBAL_STATIC(KModifierKeyInfo, m_keyInfo)
 
 DolphinContextMenu::DolphinContextMenu(DolphinMainWindow* parent,
+                                       const QPoint& pos,
                                        const KFileItem& fileInfo,
                                        const KUrl& baseUrl) :
+    QObject(parent),
+    m_pos(pos),
     m_mainWindow(parent),
     m_fileInfo(fileInfo),
     m_baseUrl(baseUrl),
@@ -187,7 +190,7 @@ void DolphinContextMenu::openTrashContextMenu()
 
     addShowMenuBarAction();
 
-    QAction *action = m_popup->exec(QCursor::pos());
+    QAction *action = m_popup->exec(m_pos);
     if (action == emptyTrashAction) {
         KonqOperations::emptyTrash(m_mainWindow);
     } else if (action == addToPlacesAction) {
@@ -212,7 +215,7 @@ void DolphinContextMenu::openTrashItemContextMenu()
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     m_popup->addAction(propertiesAction);
 
-    if (m_popup->exec(QCursor::pos()) == restoreAction) {
+    if (m_popup->exec(m_pos) == restoreAction) {
         KUrl::List selectedUrls;
         foreach (const KFileItem &item, m_selectedItems) {
             selectedUrls.append(item.url());
@@ -299,7 +302,7 @@ void DolphinContextMenu::openItemContextMenu()
     QAction* propertiesAction = m_mainWindow->actionCollection()->action("properties");
     m_popup->addAction(propertiesAction);
 
-    QAction* activatedAction = m_popup->exec(QCursor::pos());
+    QAction* activatedAction = m_popup->exec(m_pos);
     if (activatedAction) {
         if (activatedAction == addToPlacesAction) {
             const KUrl selectedUrl(m_fileInfo.url());
@@ -361,7 +364,7 @@ void DolphinContextMenu::openViewportContextMenu()
 
     addShowMenuBarAction();
 
-    QAction* action = m_popup->exec(QCursor::pos());
+    QAction* action = m_popup->exec(m_pos);
     if (addToPlacesAction && (action == addToPlacesAction)) {
         const KUrl url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {

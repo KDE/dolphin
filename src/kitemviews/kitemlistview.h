@@ -181,6 +181,13 @@ public:
     bool isTransactionActive() const;
 
     /**
+     * Turns on the header if \p show is true. Per default the
+     * header is not shown.
+     */
+    void setHeaderShown(bool show);
+    bool isHeaderShown() const;
+
+    /**
      * @return Pixmap that is used for a drag operation based on the
      *         items given by \a indexes. The default implementation returns
      *         a null-pixmap.
@@ -347,12 +354,6 @@ private:
     void updateStretchedVisibleRolesSizes();
 
     /**
-     * Turns on the header if \p show is true. Per default the
-     * header is not shown.
-     */
-    void setHeaderShown(bool show);
-
-    /**
      * @return Sum of the widths of all visible roles.
      */
     qreal visibleRolesSizesWidthSum() const;
@@ -361,6 +362,12 @@ private:
      * @return Sum of the heights of all visible roles.
      */
     qreal visibleRolesSizesHeightSum() const;
+
+    /**
+     * @return Boundaries of the header. An empty rectangle is returned
+     *         if no header is shown.
+     */
+    QRectF headerBoundaries() const;
 
     /**
      * Helper function for triggerAutoScrolling().

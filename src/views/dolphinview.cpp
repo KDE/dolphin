@@ -170,7 +170,9 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemActivated(int)),
             this, SLOT(slotItemActivated(int)));
     connect(controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
-    connect(controller, SIGNAL(contextMenuRequested(int,QPointF)), this, SLOT(slotContextMenuRequested(int,QPointF)));
+    connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
+    connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
+    connect(controller, SIGNAL(headerContextMenuRequested(QPointF)), this, SLOT(slotHeaderContextMenuRequested(QPointF)));
     connect(controller, SIGNAL(itemExpansionToggleClicked(int)), this, SLOT(slotItemExpansionToggleClicked(int)));
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
@@ -699,32 +701,6 @@ void DolphinView::mouseReleaseEvent(QMouseEvent* event)
     setActive(true);
 }
 
-void DolphinView::contextMenuEvent(QContextMenuEvent* event)
-{
-    Q_UNUSED(event);
-
-    const QPoint pos = m_container->mapFromGlobal(QCursor::pos());
-    const KItemListView* view = m_container->controller()->view();
-    if (view->itemAt(pos) < 0) {
-        // Only open the context-menu if the cursor is above the viewport
-        // (the context-menu for items is handled in slotContextMenuRequested())
-        requestContextMenu(KFileItem(), url(), QList<QAction*>());
-    }
-}
-
-void DolphinView::wheelEvent(QWheelEvent* event)
-{
-    if (event->modifiers().testFlag(Qt::ControlModifier)) {
-        const int numDegrees = event->delta() / 8;
-        const int numSteps = numDegrees / 15;
-
-        setZoomLevel(zoomLevel() + numSteps);
-        event->accept();
-    } else {
-        event->ignore();
-    }
-}
-
 void DolphinView::activate()
 {
     setActive(true);
@@ -760,14 +736,63 @@ void DolphinView::slotItemMiddleClicked(int index)
     }
 }
 
-void DolphinView::slotContextMenuRequested(int index, const QPointF& pos)
+void DolphinView::slotItemContextMenuRequested(int index, const QPointF& pos)
 {
-    Q_UNUSED(pos);
     if (GeneralSettings::showToolTips()) {
         m_toolTipManager->hideToolTip();
     }
     const KFileItem item = fileItemModel()->fileItem(index);
-    emit requestContextMenu(item, url(), QList<QAction*>());
+    emit requestContextMenu(pos.toPoint(), item, url(), QList<QAction*>());
+}
+
+void DolphinView::slotViewContextMenuRequested(const QPointF& pos)
+{
+    if (GeneralSettings::showToolTips()) {
+        m_toolTipManager->hideToolTip();
+    }
+    emit requestContextMenu(pos.toPoint(), KFileItem(), url(), QList<QAction*>());
+}
+
+void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
+{
+    QWeakPointer<KMenu> menu = new KMenu(QApplication::activeWindow());
+
+    KItemListView* view = m_container->controller()->view();
+    const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
+
+    // Add all roles to the menu that can be shown or hidden by the user
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const QList<DolphinView::AdditionalInfo> keys = infoAccessor.keys();
+    foreach (const DolphinView::AdditionalInfo info, keys) {
+        const QByteArray& role = infoAccessor.role(info);
+        if (role != "name") {
+            const QString text = fileItemModel()->roleDescription(role);
+
+            QAction* action = menu.data()->addAction(text);
+            action->setCheckable(true);
+            action->setChecked(visibleRolesSet.contains(role));
+            action->setData(info);
+        }
+    }
+
+    QAction* action = menu.data()->exec(pos.toPoint());
+    if (action) {
+        // Show or hide the selected role
+        const DolphinView::AdditionalInfo info =
+            static_cast<DolphinView::AdditionalInfo>(action->data().toInt());
+
+        const QByteArray selectedRole = infoAccessor.role(info);
+        QList<QByteArray> visibleRoles = view->visibleRoles();
+        if (action->isChecked()) {
+            const int index = keys.indexOf(info);
+            visibleRoles.insert(index + 1, selectedRole);
+        } else {
+            visibleRoles.removeOne(selectedRole);
+        }
+        view->setVisibleRoles(visibleRoles);
+    }
+
+    delete menu.data();
 }
 
 void DolphinView::slotItemExpansionToggleClicked(int index)
@@ -849,18 +874,6 @@ void DolphinView::emitSelectionChangedSignal()
 {
     m_selectionChangedTimer->stop();
     emit selectionChanged(selectedItems());
-}
-
-void DolphinView::openContextMenu(const QPoint& pos,
-                                  const QList<QAction*>& customActions)
-{
-    KFileItem item;
-    const int index = m_container->controller()->view()->itemAt(pos);
-    if (index >= 0) {
-        item = fileItemModel()->fileItem(index);
-    }
-
-    emit requestContextMenu(item, url(), customActions);
 }
 
 void DolphinView::dropUrls(const KFileItem& destItem,
