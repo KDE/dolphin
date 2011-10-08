@@ -1459,8 +1459,20 @@ void KItemListView::updateVisibleRolesSizes(const KItemRangeList& itemRanges)
     }
 
     if (itemCount == rangesItemCount) {
-        // The sizes of all roles need to be determined
         m_visibleRolesSizes = visibleRolesSizes(itemRanges);
+
+        // Assure the the sizes are not smaller than the minimum defined by the header
+        // TODO: Currently only implemented for a top-aligned header
+        const qreal minHeaderRoleWidth = m_header->minimumRoleWidth();
+        QMutableHashIterator<QByteArray, QSizeF> it (m_visibleRolesSizes);
+        while (it.hasNext()) {
+            it.next();
+            const QSizeF& size = it.value();
+            if (size.width() < minHeaderRoleWidth) {
+                const QSizeF newSize(minHeaderRoleWidth, size.height());
+                m_visibleRolesSizes.insert(it.key(), newSize);
+            }
+        }
     } else {
         // Only a sub range of the roles need to be determined.
         // The chances are good that the sizes of the sub ranges
@@ -1483,7 +1495,7 @@ void KItemListView::updateVisibleRolesSizes(const KItemRangeList& itemRanges)
 
         if (!updateRequired) {
             // All the updated sizes are smaller than the current sizes and no change
-            // of the roles-widths is required
+            // of the stretched roles-widths is required
             return;
         }
     }

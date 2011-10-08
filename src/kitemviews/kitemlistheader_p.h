@@ -47,6 +47,8 @@ public:
     void setVisibleRolesWidths(const QHash<QByteArray, qreal> rolesWidths);
     QHash<QByteArray, qreal> visibleRolesWidths() const;
 
+    qreal minimumRoleWidth() const;
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 signals:
@@ -77,7 +79,6 @@ private:
     void updateHoveredRoleIndex(const QPointF& pos);
     int roleIndexAt(const QPointF& pos) const;
     bool isAboveRoleGrip(const QPointF& pos, int roleIndex) const;
-    qreal minimumRoleWidth() const;
 
 private:
     enum RoleOperation

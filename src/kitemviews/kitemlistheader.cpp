@@ -112,6 +112,12 @@ QHash<QByteArray, qreal> KItemListHeader::visibleRolesWidths() const
     return m_visibleRolesWidths;
 }
 
+qreal KItemListHeader::minimumRoleWidth() const
+{
+    QFontMetricsF fontMetrics(font());
+    return fontMetrics.height() * 4;
+}
+
 void KItemListHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     Q_UNUSED(option);
@@ -338,12 +344,6 @@ bool KItemListHeader::isAboveRoleGrip(const QPointF& pos, int roleIndex) const
 
     const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
     return pos.x() >= (x - grip) && pos.x() <= x;
-}
-
-qreal KItemListHeader::minimumRoleWidth() const
-{
-    QFontMetricsF fontMetrics(font());
-    return fontMetrics.height() * 4;
 }
 
 #include "kitemlistheader_p.moc"
