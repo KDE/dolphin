@@ -781,15 +781,23 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         const DolphinView::AdditionalInfo info =
             static_cast<DolphinView::AdditionalInfo>(action->data().toInt());
 
+        ViewProperties props(url());
+        QList<DolphinView::AdditionalInfo> infoList = props.additionalInfoList();
+
         const QByteArray selectedRole = infoAccessor.role(info);
         QList<QByteArray> visibleRoles = view->visibleRoles();
+
         if (action->isChecked()) {
-            const int index = keys.indexOf(info);
-            visibleRoles.insert(index + 1, selectedRole);
+            const int index = keys.indexOf(info) + 1;
+            visibleRoles.insert(index, selectedRole);
+            infoList.insert(index, info);
         } else {
             visibleRoles.removeOne(selectedRole);
+            infoList.removeOne(info);
         }
+
         view->setVisibleRoles(visibleRoles);
+        props.setAdditionalInfoList(infoList);
     }
 
     delete menu.data();
