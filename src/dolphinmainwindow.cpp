@@ -441,14 +441,14 @@ void DolphinMainWindow::updateHistory()
     const int index = urlNavigator->historyIndex();
 
     QAction* backAction = actionCollection()->action("go_back");
-    backAction->setToolTip(i18nc("@info", "Go back"));
     if (backAction) {
+        backAction->setToolTip(i18nc("@info", "Go back"));
         backAction->setEnabled(index < urlNavigator->historySize() - 1);
     }
 
     QAction* forwardAction = actionCollection()->action("go_forward");
-    forwardAction->setToolTip(i18nc("@info", "Go forward"));
     if (forwardAction) {
+        forwardAction->setToolTip(i18nc("@info", "Go forward"));
         forwardAction->setEnabled(index > 0);
     }
 }
