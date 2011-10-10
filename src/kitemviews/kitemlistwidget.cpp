@@ -117,7 +117,12 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     }
 
     if (isCurrent()) {
-        drawFocusIndicator(painter);
+        QStyleOptionViewItemV4 viewItemOption;
+        viewItemOption.initFrom(widget);
+        viewItemOption.rect = textBoundingRect().toRect();
+        viewItemOption.state = QStyle::State_Enabled | QStyle::State_Item;
+        viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
+        style()->drawPrimitive(QStyle::PE_FrameFocusRect, &viewItemOption, painter, widget);
     }
 
     if (m_hoverOpacity <= 0.0) {
@@ -355,31 +360,6 @@ void KItemListWidget::clearHoverCache()
 {
     delete m_hoverCache;
     m_hoverCache = 0;
-}
-
-void KItemListWidget::drawFocusIndicator(QPainter* painter)
-{
-    // Ideally style()->drawPrimitive(QStyle::PE_FrameFocusRect...)
-    // should be used, but Oxygen only draws indicators within classes
-    // derived from QAbstractItemView or Q3ListView. As a workaround
-    // the indicator is drawn manually. Code copied from oxygenstyle.cpp
-    // Copyright ( C ) 2009-2010 Hugo Pereira Da Costa <hugo@oxygen-icons.org>
-    // TODO: Clarify with Oxygen maintainers how to proceed with this.
-
-    const KItemListStyleOption& option = styleOption();
-    const QPalette palette = option.palette;
-    const QRect rect = textBoundingRect().toRect().adjusted(0, 0, 0, -1);
-
-    QLinearGradient gradient(rect.bottomLeft(), rect.bottomRight());
-    gradient.setColorAt(0.0, Qt::transparent);
-    gradient.setColorAt(1.0, Qt::transparent);
-    gradient.setColorAt(0.2, palette.color(QPalette::Text));
-    gradient.setColorAt(0.8, palette.color(QPalette::Text));
-
-    painter->setRenderHint(QPainter::Antialiasing, false);
-    painter->setPen(QPen(gradient, 1));
-    painter->drawLine(rect.bottomLeft(), rect.bottomRight());
-    painter->setRenderHint(QPainter::Antialiasing, true);
 }
 
 void KItemListWidget::drawTextBackground(QPainter* painter)

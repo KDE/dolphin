@@ -132,7 +132,6 @@ protected:
 private:
     void setHoverOpacity(qreal opacity);
     void clearHoverCache();
-    void drawFocusIndicator(QPainter* painter);
     void drawTextBackground(QPainter* painter);
 
 private:
