@@ -1769,9 +1769,7 @@ void DolphinMainWindow::setupDockWidgets()
     infoDock->setWidget(infoPanel);
 
     QAction* infoAction = infoDock->toggleViewAction();
-    infoAction->setIcon(KIcon("dialog-information"));
-    infoAction->setShortcut(Qt::Key_F11);
-    addActionCloneToCollection(infoAction, "show_information_panel");
+    createPanelAction(KIcon("dialog-information"), Qt::Key_F11, infoAction, "show_information_panel");
 
     addDockWidget(Qt::RightDockWidgetArea, infoDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
@@ -1791,9 +1789,7 @@ void DolphinMainWindow::setupDockWidgets()
     foldersDock->setWidget(foldersPanel);
 
     QAction* foldersAction = foldersDock->toggleViewAction();
-    foldersAction->setShortcut(Qt::Key_F7);
-    foldersAction->setIcon(KIcon("folder"));
-    addActionCloneToCollection(foldersAction, "show_folders_panel");
+    createPanelAction(KIcon("folder"), Qt::Key_F7, foldersAction, "show_folders_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, foldersDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
@@ -1816,9 +1812,7 @@ void DolphinMainWindow::setupDockWidgets()
             terminalPanel, SLOT(dockVisibilityChanged()));
 
     QAction* terminalAction = terminalDock->toggleViewAction();
-    terminalAction->setShortcut(Qt::Key_F4);
-    terminalAction->setIcon(KIcon("utilities-terminal"));
-    addActionCloneToCollection(terminalAction, "show_terminal_panel");
+    createPanelAction(KIcon("utilities-terminal"), Qt::Key_F4, terminalAction, "show_terminal_panel");
 
     addDockWidget(Qt::BottomDockWidgetArea, terminalDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
@@ -1837,9 +1831,7 @@ void DolphinMainWindow::setupDockWidgets()
     searchDock->setWidget(searchPanel);
 
     QAction* searchAction = searchDock->toggleViewAction();
-    searchAction->setShortcut(Qt::Key_F12);
-    searchAction->setIcon(KIcon("system-search"));
-    addActionCloneToCollection(searchAction, "show_search_panel");
+    createPanelAction(KIcon("system-search"), Qt::Key_F12, searchAction, "show_search_panel");
     addDockWidget(Qt::RightDockWidgetArea, searchDock);
     connect(this, SIGNAL(urlChanged(KUrl)),
             searchPanel, SLOT(setUrl(KUrl)));
@@ -1874,9 +1866,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesDock->setWidget(placesPanel);
 
     QAction* placesAction = placesDock->toggleViewAction();
-    placesAction->setShortcut(Qt::Key_F9);
-    placesAction->setIcon(KIcon("bookmarks"));
-    addActionCloneToCollection(placesAction, "show_places_panel");
+    createPanelAction(KIcon("bookmarks"), Qt::Key_F9, placesAction, "show_places_panel");
 
     addDockWidget(Qt::LeftDockWidgetArea, placesDock);
     connect(placesPanel, SIGNAL(urlChanged(KUrl,Qt::MouseButtons)),
@@ -2222,12 +2212,18 @@ QString DolphinMainWindow::squeezedText(const QString& text) const
     return fm.elidedText(text, Qt::ElideMiddle, fm.maxWidth() * 10);
 }
 
-void DolphinMainWindow::addActionCloneToCollection(QAction* action, const QString& actionName)
+void DolphinMainWindow::createPanelAction(const KIcon& icon,
+                                          const QKeySequence& shortcut,
+                                          QAction* dockAction,
+                                          const QString& actionName)
 {
-    KAction* actionClone = actionCollection()->addAction(actionName);
-    actionClone->setText(action->text());
-    actionClone->setIcon(action->icon());
-    connect(actionClone, SIGNAL(triggered()), action, SLOT(trigger()));
+    KAction* panelAction = actionCollection()->addAction(actionName);
+    panelAction->setText(dockAction->text());
+    panelAction->setIcon(icon);
+    panelAction->setShortcut(shortcut);
+
+    dockAction->setIcon(icon);
+    connect(panelAction, SIGNAL(triggered()), dockAction, SLOT(trigger()));
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :

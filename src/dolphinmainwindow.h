@@ -531,13 +531,15 @@ private:
     QString squeezedText(const QString& text) const;
 
     /**
-     * Adds a clone of the action \a action to the action-collection with
-     * the name \a actionName, so that the action \a action also can be
-     * added to the toolbar by the user. This is useful if the creation of
-     * \a action is e.g. done in Qt and hence cannot be added directly
-     * to the action-collection.
+     * Creates an action for showing/hiding a panel, that is accessible
+     * in "Configure toolbars..." and "Configure shortcuts...". This is necessary
+     * as the action for toggling the dock visibility is done by Qt which
+     * is no KAction instance.
      */
-    void addActionCloneToCollection(QAction* action, const QString& actionName);
+    void createPanelAction(const KIcon& icon,
+                           const QKeySequence& shortcut,
+                           QAction* dockAction,
+                           const QString& actionName);
 
 private:
     /**
