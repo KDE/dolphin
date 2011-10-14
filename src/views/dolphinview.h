@@ -409,6 +409,9 @@ public slots:
      */
     void setCategorizedSorting(bool categorized);
 
+    /** Activates the view if the item list container gets focus. */
+    virtual bool eventFilter(QObject* watched, QEvent* event);
+
 signals:
     /**
      * Is emitted if the view has been activated by e. g. a mouse click.
@@ -549,9 +552,6 @@ signals:
      * state.
      */
     void writeStateChanged(bool isFolderWritable);
-
-protected:
-    virtual void mouseReleaseEvent(QMouseEvent* event);
 
 private slots:
     /**

@@ -164,6 +164,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
 
     m_container = new DolphinItemListContainer(m_dirLister, this);
     m_container->setVisibleRoles(QList<QByteArray>() << "name");
+    m_container->installEventFilter(this);
 
     KItemListController* controller = m_container->controller();
     controller->setSelectionBehavior(KItemListController::MultiSelection);
@@ -695,10 +696,20 @@ void DolphinView::setCategorizedSorting(bool categorized)
     emit categorizedSortingChanged(categorized);
 }
 
-void DolphinView::mouseReleaseEvent(QMouseEvent* event)
+bool DolphinView::eventFilter(QObject* watched, QEvent* event)
 {
-    QWidget::mouseReleaseEvent(event);
-    setActive(true);
+    switch (event->type()) {
+    case QEvent::FocusIn:
+        if (watched == m_container) {
+            setActive(true);
+        }
+        break;
+
+    default:
+        break;
+    }
+
+    return QWidget::eventFilter(watched, event);
 }
 
 void DolphinView::activate()
