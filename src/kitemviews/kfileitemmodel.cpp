@@ -31,11 +31,10 @@
 #define KFILEITEMMODEL_DEBUG
 
 KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
-    KItemModelBase(QByteArray(), "name", parent),
+    KItemModelBase("name", parent),
     m_dirLister(dirLister),
     m_naturalSorting(true),
     m_sortFoldersFirst(true),
-    m_groupRole(NoRole),
     m_sortRole(NameRole),
     m_caseSensitivity(Qt::CaseInsensitive),
     m_sortedItems(),
@@ -125,16 +124,6 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
         return true;
     }
     return false;
-}
-
-bool KFileItemModel::supportsGrouping() const
-{
-    return true;
-}
-
-bool KFileItemModel::supportsSorting() const
-{
-    return true;
 }
 
 void KFileItemModel::setSortFoldersFirst(bool foldersFirst)
@@ -232,6 +221,20 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
     }
 
     return descr;
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::groups() const
+{
+    // TODO:
+    QPair<int, QVariant> group1(0, "Group 1");
+    QPair<int, QVariant> group2(5, "Group 2");
+    QPair<int, QVariant> group3(10, "Group 3");
+
+    QList<QPair<int, QVariant> > groups;
+    groups.append(group1);
+    groups.append(group2);
+    groups.append(group3);
+    return groups;
 }
 
 KFileItem KFileItemModel::fileItem(int index) const
@@ -403,10 +406,9 @@ void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
     m_restoredExpandedUrls = urls;
 }
 
-void KFileItemModel::onGroupRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KFileItemModel::onGroupedSortingChanged(bool current)
 {
-    Q_UNUSED(previous);
-    m_groupRole = roleIndex(current);
+    Q_UNUSED(current);
 }
 
 void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArray& previous)

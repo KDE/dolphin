@@ -55,18 +55,6 @@ public:
     virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
 
     /**
-     * @return True
-     * @reimp
-     */
-    virtual bool supportsGrouping() const;
-
-    /**
-     * @return True
-     * @reimp
-     */
-    virtual bool supportsSorting() const;
-
-    /**
      * Sets a separate sorting with folders first (true) or a mixed sorting of files and folders (false).
      */
     void setSortFoldersFirst(bool foldersFirst);
@@ -83,6 +71,9 @@ public:
 
     /** @reimp */
     virtual QString roleDescription(const QByteArray& role) const;
+
+    /** @reimp */
+    virtual QList<QPair<int, QVariant> > groups() const;
 
     /**
      * @return The file-item for the index \a index. If the index is in a valid
@@ -135,7 +126,7 @@ signals:
     void loadingCompleted();
 
 protected:
-    virtual void onGroupRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void onGroupedSortingChanged(bool current);
     virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);
     virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
@@ -209,7 +200,6 @@ private:
     bool m_naturalSorting;
     bool m_sortFoldersFirst;
 
-    Role m_groupRole;
     Role m_sortRole;
     Qt::CaseSensitivity m_caseSensitivity;
 

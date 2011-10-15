@@ -267,9 +267,40 @@ DolphinView::Mode DolphinView::mode() const
     return m_mode;
 }
 
+void DolphinView::setPreviewsShown(bool show)
+{
+    if (previewsShown() == show) {
+        return;
+    }
+
+    ViewProperties props(url());
+    props.setPreviewsShown(show);
+
+    m_container->setPreviewsShown(show);
+    emit previewsShownChanged(show);
+}
+
 bool DolphinView::previewsShown() const
 {
     return m_container->previewsShown();
+}
+
+void DolphinView::setHiddenFilesShown(bool show)
+{
+    if (m_dirLister->showingDotFiles() == show) {
+        return;
+    }
+
+    const KFileItemList itemList = selectedItems();
+    m_selectedUrls.clear();
+    m_selectedUrls = itemList.urlList();
+
+    ViewProperties props(url());
+    props.setHiddenFilesShown(show);
+
+    m_dirLister->setShowingDotFiles(show);
+    m_dirLister->emitChanges();
+    emit hiddenFilesShownChanged(show);
 }
 
 bool DolphinView::hiddenFilesShown() const
@@ -277,9 +308,24 @@ bool DolphinView::hiddenFilesShown() const
     return m_dirLister->showingDotFiles();
 }
 
-bool DolphinView::categorizedSorting() const
+void DolphinView::setGroupedSorting(bool grouped)
 {
-    return false; //m_storedCategorizedSorting;
+    if (grouped == groupedSorting()) {
+        return;
+    }
+
+    ViewProperties props(url());
+    props.setGroupedSorting(grouped);
+    props.save();
+
+    m_container->controller()->model()->setGroupedSorting(grouped);
+
+    emit groupedSortingChanged(grouped);
+}
+
+bool DolphinView::groupedSorting() const
+{
+    return fileItemModel()->groupedSorting();
 }
 
 KFileItemList DolphinView::items() const
@@ -648,52 +694,6 @@ void DolphinView::pasteIntoFolder()
     if ((items.count() == 1) && items.first().isDir()) {
         pasteToUrl(items.first().url());
     }
-}
-
-void DolphinView::setPreviewsShown(bool show)
-{
-    if (previewsShown() == show) {
-        return;
-    }
-
-    ViewProperties props(url());
-    props.setPreviewsShown(show);
-
-    m_container->setPreviewsShown(show);
-    emit previewsShownChanged(show);
-}
-
-void DolphinView::setHiddenFilesShown(bool show)
-{
-    if (m_dirLister->showingDotFiles() == show) {
-        return;
-    }
-
-    const KFileItemList itemList = selectedItems();
-    m_selectedUrls.clear();
-    m_selectedUrls = itemList.urlList();
-
-    ViewProperties props(url());
-    props.setHiddenFilesShown(show);
-
-    m_dirLister->setShowingDotFiles(show);
-    m_dirLister->emitChanges();
-    emit hiddenFilesShownChanged(show);
-}
-
-void DolphinView::setCategorizedSorting(bool categorized)
-{
-    if (categorized == categorizedSorting()) {
-        return;
-    }
-
-    ViewProperties props(url());
-    props.setCategorizedSorting(categorized);
-    props.save();
-
-    //m_viewAccessor.proxyModel()->setCategorizedModel(categorized);
-
-    emit categorizedSortingChanged(categorized);
 }
 
 bool DolphinView::eventFilter(QObject* watched, QEvent* event)
@@ -1198,15 +1198,15 @@ void DolphinView::applyViewProperties()
         emit hiddenFilesShownChanged(hiddenFilesShown);
     }
 
-/*    m_storedCategorizedSorting = props.categorizedSorting();
-    const bool categorized = m_storedCategorizedSorting && supportsCategorizedSorting();
-    if (categorized != m_viewAccessor.proxyModel()->isCategorizedModel()) {
-        m_viewAccessor.proxyModel()->setCategorizedModel(categorized);
-        emit categorizedSortingChanged();
-    }*/
+    KFileItemModel* model = fileItemModel();
+
+    const bool groupedSorting = props.groupedSorting();
+    if (groupedSorting != model->groupedSorting()) {
+        model->setGroupedSorting(groupedSorting);
+        emit groupedSortingChanged(groupedSorting);
+    }
 
     const DolphinView::Sorting sorting = props.sorting();
-    KFileItemModel* model = fileItemModel();
     const QByteArray newSortRole = sortRoleForSorting(sorting);
     if (newSortRole != model->sortRole()) {
         model->setSortRole(newSortRole);

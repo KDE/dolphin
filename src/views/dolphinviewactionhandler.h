@@ -176,14 +176,14 @@ private Q_SLOTS:
                                        const QList<DolphinView::AdditionalInfo>& previous);
 
     /**
-     * Switches between sorting by categories or not.
+     * Switches between sorting by groups or not.
      */
-    void toggleSortCategorization(bool);
+    void toggleGroupedSorting(bool);
 
     /**
      * Updates the state of the 'Categorized sorting' menu action.
      */
-    void slotCategorizedSortingChanged(bool sortCategorized);
+    void slotGroupedSortingChanged(bool sortCategorized);
 
     /**
      * Switches between showing and hiding of hidden marked files

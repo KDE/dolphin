@@ -143,17 +143,17 @@ void ViewProperties::setHiddenFilesShown(bool show)
     }
 }
 
-void ViewProperties::setCategorizedSorting(bool categorized)
+void ViewProperties::setGroupedSorting(bool grouped)
 {
-    if (m_node->categorizedSorting() != categorized) {
-        m_node->setCategorizedSorting(categorized);
+    if (m_node->groupedSorting() != grouped) {
+        m_node->setGroupedSorting(grouped);
         update();
     }
 }
 
-bool ViewProperties::categorizedSorting() const
+bool ViewProperties::groupedSorting() const
 {
-    return m_node->categorizedSorting();
+    return m_node->groupedSorting();
 }
 
 bool ViewProperties::hiddenFilesShown() const
@@ -312,7 +312,7 @@ void ViewProperties::setDirProperties(const ViewProperties& props)
     setViewMode(props.viewMode());
     setPreviewsShown(props.previewsShown());
     setHiddenFilesShown(props.hiddenFilesShown());
-    setCategorizedSorting(props.categorizedSorting());
+    setGroupedSorting(props.groupedSorting());
     setSorting(props.sorting());
     setSortOrder(props.sortOrder());
     setSortFoldersFirst(props.sortFoldersFirst());

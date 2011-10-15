@@ -52,7 +52,7 @@ typedef QList<KItemRange> KItemRangeList;
  *
  * One item consists of a variable number of role/value-pairs.
  *
- * A model can optionally provide sorting- and/or grouping-capabilities.
+ * A model can optionally provide sorting- and grouping-capabilities.
  */
 class LIBDOLPHINPRIVATE_EXPORT KItemModelBase : public QObject
 {
@@ -60,7 +60,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemModelBase : public QObject
 
 public:
     KItemModelBase(QObject* parent = 0);
-    KItemModelBase(const QByteArray& groupRole, const QByteArray& sortRole, QObject* parent = 0);
+    KItemModelBase(const QByteArray& sortRole, QObject* parent = 0);
     virtual ~KItemModelBase();
 
     /** @return The number of items. */
@@ -78,26 +78,13 @@ public:
     virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
 
     /**
-     * @return True if the model supports grouping of data. Per default false is returned.
-     *         If the model should support grouping it is necessary to overwrite
-     *         this method to return true and to implement KItemModelBase::onGroupRoleChanged().
+     * Enables/disables the grouped sorting. The method KItemModelBase::onGroupedSortingChanged() will be
+     * called so that model-implementations can react on the grouped-sorting change. Afterwards the
+     * signal groupedSortingChanged() will be emitted. If the grouped sorting is enabled, the method
+     * KItemModelBase::groups() must be implemented.
      */
-    virtual bool supportsGrouping() const;
-
-    /**
-     * Sets the group-role to \a role. The method KItemModelBase::onGroupRoleChanged() will be
-     * called so that model-implementations can react on the group-role change. Afterwards the
-     * signal groupRoleChanged() will be emitted.
-     */
-    void setGroupRole(const QByteArray& role);
-    QByteArray groupRole() const;
-
-    /**
-     * @return True if the model supports sorting of data. Per default false is returned.
-     *         If the model should support sorting it is necessary to overwrite
-     *         this method to return true and to implement KItemModelBase::onSortRoleChanged().
-     */
-    virtual bool supportsSorting() const;
+    void setGroupedSorting(bool grouped);
+    bool groupedSorting() const;
 
     /**
      * Sets the sort-role to \a role. The method KItemModelBase::onSortRoleChanged() will be
@@ -120,6 +107,8 @@ public:
      *         for the header in KItemListView.
      */
     virtual QString roleDescription(const QByteArray& role) const;
+
+    virtual QList<QPair<int, QVariant> > groups() const;
 
     /**
      * @return MIME-data for the items given by \a indexes. The default implementation
@@ -192,20 +181,16 @@ signals:
 
     void itemsChanged(const KItemRangeList& itemRanges, const QSet<QByteArray>& roles);
 
-    void groupRoleChanged(const QByteArray& current, const QByteArray& previous);
+    void groupedSortingChanged(bool current);
     void sortRoleChanged(const QByteArray& current, const QByteArray& previous);
     void sortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 protected:
     /**
-     * Is invoked if the group role has been changed by KItemModelBase::setGroupRole(). Allows
-     * to react on the changed group role before the signal groupRoleChanged() will be emitted.
-     * The implementation must assure that the items are sorted in a way that they are grouped
-     * by the role given by \a current. Usually the most efficient way is to emit a
-     * itemsRemoved() signal for all items, reorder the items internally and to emit a
-     * itemsInserted() signal afterwards.
+     * Is invoked if the grouped sorting has been changed by KItemModelBase::setGroupedSorting(). Allows
+     * to react on the changed grouped sorting  before the signal groupedSortingChanged() will be emitted.
      */
-    virtual void onGroupRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void onGroupedSortingChanged(bool current);
 
     /**
      * Is invoked if the sort role has been changed by KItemModelBase::setSortRole(). Allows
@@ -228,7 +213,7 @@ protected:
     virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private:
-    QByteArray m_groupRole;
+    bool m_groupedSorting;
     QByteArray m_sortRole;
     Qt::SortOrder m_sortOrder;
 };

@@ -845,6 +845,11 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
     }
 }
 
+void KItemListView::slotGroupedSortingChanged(bool current)
+{
+    m_grouped = current;
+}
+
 void KItemListView::slotCurrentChanged(int current, int previous)
 {
     Q_UNUSED(previous);
@@ -1101,11 +1106,13 @@ void KItemListView::setModel(KItemModelBase* model)
                    this,    SLOT(slotItemsRemoved(KItemRangeList)));
         disconnect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
                    this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
+        disconnect(m_model, SIGNAL(groupedSortingChanged(bool)),
+                   this,    SLOT(slotGroupedSortingChanged(bool)));
     }
 
     m_model = model;
     m_layouter->setModel(model);
-    m_grouped = !model->groupRole().isEmpty();
+    m_grouped = model->groupedSorting();
 
     if (m_model) {
         connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
@@ -1116,6 +1123,8 @@ void KItemListView::setModel(KItemModelBase* model)
                 this,    SLOT(slotItemsRemoved(KItemRangeList)));
         connect(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)),
                 this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
+        connect(m_model, SIGNAL(groupedSortingChanged(bool)),
+                this,    SLOT(slotGroupedSortingChanged(bool)));
     }
 
     onModelChanged(model, previous);

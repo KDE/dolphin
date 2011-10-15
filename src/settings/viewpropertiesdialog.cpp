@@ -268,7 +268,7 @@ void ViewPropertiesDialog::slotSortOrderChanged(int index)
 
 void ViewPropertiesDialog::slotCategorizedSortingChanged()
 {
-    m_viewProps->setCategorizedSorting(m_showInGroups->isChecked());
+    m_viewProps->setGroupedSorting(m_showInGroups->isChecked());
     markAsDirty(true);
 }
 
@@ -379,7 +379,7 @@ void ViewPropertiesDialog::applyViewProperties()
     m_dolphinView->setSorting(m_viewProps->sorting());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
     m_dolphinView->setSortFoldersFirst(m_viewProps->sortFoldersFirst());
-    m_dolphinView->setCategorizedSorting(m_viewProps->categorizedSorting());
+    m_dolphinView->setGroupedSorting(m_viewProps->groupedSorting());
     m_dolphinView->setAdditionalInfoList(m_viewProps->additionalInfoList());
     m_dolphinView->setPreviewsShown(m_viewProps->previewsShown());
     m_dolphinView->setHiddenFilesShown(m_viewProps->hiddenFilesShown());
@@ -408,7 +408,7 @@ void ViewPropertiesDialog::loadSettings()
     // load show preview, show in groups and show hidden files settings
     m_previewsShown->setChecked(m_viewProps->previewsShown());
 
-    m_showInGroups->setChecked(m_viewProps->categorizedSorting());
+    m_showInGroups->setChecked(m_viewProps->groupedSorting());
     m_showInGroups->setEnabled(index == DolphinView::IconsView); // only the icons view supports categorized sorting
 
     m_showHiddenFiles->setChecked(m_viewProps->hiddenFilesShown());

@@ -253,6 +253,7 @@ protected slots:
                                   const QSet<QByteArray>& roles);
 
 private slots:
+    void slotGroupedSortingChanged(bool current);
     void slotCurrentChanged(int current, int previous);
     void slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous);
     void slotAnimationFinished(QGraphicsWidget* widget,

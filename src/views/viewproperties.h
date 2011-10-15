@@ -62,8 +62,8 @@ public:
     void setHiddenFilesShown(bool show);
     bool hiddenFilesShown() const;
 
-    void setCategorizedSorting(bool categorized);
-    bool categorizedSorting() const;
+    void setGroupedSorting(bool grouped);
+    bool groupedSorting() const;
 
     void setSorting(DolphinView::Sorting sorting);
     DolphinView::Sorting sorting() const;

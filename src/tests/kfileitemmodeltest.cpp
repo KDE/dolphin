@@ -41,7 +41,7 @@ private slots:
 
     void testDefaultRoles();
     void testDefaultSortRole();
-    void testDefaultGroupRole();
+    void testDefaultGroupedSorting();
     void testNewItems();
     void testRemoveItems();
     void testModelConsistencyWhenInsertingItems();
@@ -113,9 +113,9 @@ void KFileItemModelTest::testDefaultSortRole()
     QCOMPARE(m_model->data(2)["name"].toString(), QString("c.txt"));
 }
 
-void KFileItemModelTest::testDefaultGroupRole()
+void KFileItemModelTest::testDefaultGroupedSorting()
 {
-    QVERIFY(m_model->groupRole().isEmpty());
+    QCOMPARE(m_model->groupedSorting(), false);
 }
 
 void KFileItemModelTest::testNewItems()

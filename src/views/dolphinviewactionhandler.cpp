@@ -70,7 +70,7 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotAdditionalInfoListChanged(QList<DolphinView::AdditionalInfo>,
                                                      QList<DolphinView::AdditionalInfo>)));
     connect(view, SIGNAL(categorizedSortingChanged(bool)),
-            this, SLOT(slotCategorizedSortingChanged(bool)));
+            this, SLOT(slotGroupedSortingChanged(bool)));
     connect(view, SIGNAL(hiddenFilesShownChanged(bool)),
             this, SLOT(slotHiddenFilesShownChanged(bool)));
     connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
@@ -196,7 +196,7 @@ void DolphinViewActionHandler::createActions()
 
     KToggleAction* showInGroups = m_actionCollection->add<KToggleAction>("show_in_groups");
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
-    connect(showInGroups, SIGNAL(triggered(bool)), this, SLOT(toggleSortCategorization(bool)));
+    connect(showInGroups, SIGNAL(triggered(bool)), this, SLOT(toggleGroupedSorting(bool)));
 
     KToggleAction* showHiddenFiles = m_actionCollection->add<KToggleAction>("show_hidden_files");
     showHiddenFiles->setText(i18nc("@action:inmenu View", "Show Hidden Files"));
@@ -339,7 +339,7 @@ void DolphinViewActionHandler::updateViewActions()
     slotSortOrderChanged(m_currentView->sortOrder());
     slotSortFoldersFirstChanged(m_currentView->sortFoldersFirst());
     slotAdditionalInfoListChanged(m_currentView->additionalInfoList(), QList<DolphinView::AdditionalInfo>());
-    slotCategorizedSortingChanged(m_currentView->categorizedSorting());
+    slotGroupedSortingChanged(m_currentView->groupedSorting());
     slotSortingChanged(m_currentView->sorting());
     slotZoomLevelChanged(m_currentView->zoomLevel(), -1);
 
@@ -428,15 +428,15 @@ void DolphinViewActionHandler::slotAdditionalInfoListChanged(const QList<Dolphin
     }
 }
 
-void DolphinViewActionHandler::toggleSortCategorization(bool categorizedSorting)
+void DolphinViewActionHandler::toggleGroupedSorting(bool grouped)
 {
-    m_currentView->setCategorizedSorting(categorizedSorting);
+    m_currentView->setGroupedSorting(grouped);
 }
 
-void DolphinViewActionHandler::slotCategorizedSortingChanged(bool sortCategorized)
+void DolphinViewActionHandler::slotGroupedSortingChanged(bool groupedSorting)
 {
     QAction* showInGroupsAction = m_actionCollection->action("show_in_groups");
-    showInGroupsAction->setChecked(sortCategorized);
+    showInGroupsAction->setChecked(groupedSorting);
 }
 
 void DolphinViewActionHandler::toggleShowHiddenFiles(bool show)
@@ -450,7 +450,6 @@ void DolphinViewActionHandler::slotHiddenFilesShownChanged(bool shown)
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
     showHiddenFilesAction->setChecked(shown);
 }
-
 
 KToggleAction* DolphinViewActionHandler::iconsModeAction()
 {

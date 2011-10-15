@@ -34,9 +34,9 @@
             <default>false</default>
         </entry>
 
-        <entry name="CategorizedSorting" type="Bool" >
-            <label context="@label">Categorized Sorting</label>
-            <whatsthis context="@info:whatsthis">When this option is enabled, the sorted items are summarized by their category.</whatsthis>
+        <entry name="GroupedSorting" type="Bool" >
+            <label context="@label">Grouped Sorting</label>
+            <whatsthis context="@info:whatsthis">When this option is enabled, the sorted items are categorized into groups.</whatsthis>
             <default>false</default>
         </entry>
 

@@ -35,15 +35,15 @@ bool KItemRange::operator == (const KItemRange& other) const
 
 KItemModelBase::KItemModelBase(QObject* parent) :
     QObject(parent),
-    m_groupRole(),
+    m_groupedSorting(false),
     m_sortRole(),
     m_sortOrder(Qt::AscendingOrder)
 {
 }
 
-KItemModelBase::KItemModelBase(const QByteArray& groupRole, const QByteArray& sortRole, QObject* parent) :
+KItemModelBase::KItemModelBase(const QByteArray& sortRole, QObject* parent) :
     QObject(parent),
-    m_groupRole(groupRole),
+    m_groupedSorting(false),
     m_sortRole(sortRole),
     m_sortOrder(Qt::AscendingOrder)
 {
@@ -60,34 +60,23 @@ bool KItemModelBase::setData(int index, const QHash<QByteArray, QVariant> &value
     return false;
 }
 
-bool KItemModelBase::supportsGrouping() const
+void KItemModelBase::setGroupedSorting(bool grouped)
 {
-    return false;
-}
-
-void KItemModelBase::setGroupRole(const QByteArray& role)
-{
-    if (supportsGrouping() && role != m_groupRole) {
-        const QByteArray previous = m_groupRole;
-        m_groupRole = role;
-        onGroupRoleChanged(role, previous);
-        emit groupRoleChanged(role, previous);
+    if (m_groupedSorting != grouped) {
+        m_groupedSorting = grouped;
+        onGroupedSortingChanged(grouped);
+        emit groupedSortingChanged(grouped);
     }
 }
 
-QByteArray KItemModelBase::groupRole() const
+bool KItemModelBase::groupedSorting() const
 {
-    return m_groupRole;
-}
-
-bool KItemModelBase::supportsSorting() const
-{
-    return false;
+    return m_groupedSorting;
 }
 
 void KItemModelBase::setSortRole(const QByteArray& role)
 {
-    if (supportsSorting() && role != m_sortRole) {
+    if (role != m_sortRole) {
         const QByteArray previous = m_sortRole;
         m_sortRole = role;
         onSortRoleChanged(role, previous);
@@ -102,7 +91,7 @@ QByteArray KItemModelBase::sortRole() const
 
 void KItemModelBase::setSortOrder(Qt::SortOrder order)
 {
-    if (supportsSorting() && order != m_sortOrder) {
+    if (order != m_sortOrder) {
         const Qt::SortOrder previous = m_sortOrder;
         m_sortOrder = order;
         onSortOrderChanged(order, previous);
@@ -113,6 +102,11 @@ void KItemModelBase::setSortOrder(Qt::SortOrder order)
 QString KItemModelBase::roleDescription(const QByteArray& role) const
 {
     return role;
+}
+
+QList<QPair<int, QVariant> > KItemModelBase::groups() const
+{
+    return QList<QPair<int, QVariant> >();
 }
 
 QMimeData* KItemModelBase::createMimeData(const QSet<int>& indexes) const
@@ -134,10 +128,9 @@ bool KItemModelBase::supportsDropping(int index) const
     return false;
 }
 
-void KItemModelBase::onGroupRoleChanged(const QByteArray& current, const QByteArray& previous)
+void KItemModelBase::onGroupedSortingChanged(bool current)
 {
     Q_UNUSED(current);
-    Q_UNUSED(previous);
 }
 
 void KItemModelBase::onSortRoleChanged(const QByteArray& current, const QByteArray& previous)

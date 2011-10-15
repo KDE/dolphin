@@ -332,18 +332,16 @@ void KItemListViewLayouter::doLayout()
             m_maximumItemOffset = 0;
         }
 
-        m_grouped = !m_model->groupRole().isEmpty();
-        /*if (m_grouped) {
+        m_grouped = m_model->groupedSorting();
+        if (m_grouped) {
             createGroupHeaders();
 
             const int lastGroupItemCount = m_model->count() - m_groups.last().firstItemIndex;
-            m_maximumOffset = m_groups.last().y + (lastGroupItemCount / m_columnCount) * m_rowHeight;
+            m_maximumScrollOffset = m_groups.last().y + (lastGroupItemCount / m_columnCount) * itemSize.height();
             if (lastGroupItemCount % m_columnCount != 0) {
-                m_maximumOffset += m_rowHeight;
+                m_maximumScrollOffset += itemSize.height();
             }
-        } else {*/
-         //   m_maximumOffset = m_minimumRowHeight * rowCount;
-        //}
+        }
 
 #ifdef KITEMLISTVIEWLAYOUTER_DEBUG
         kDebug() << "[TIME] doLayout() for " << m_model->count() << "items:" << timer.elapsed();
@@ -480,7 +478,6 @@ void KItemListViewLayouter::updateGroupedVisibleIndexes()
             m_lastVisibleIndex = nextGroupIndex - 1;
         }
     }
-    //Q_ASSERT(m_lastVisibleIndex < m_model->count());
     m_lastVisibleIndex = qBound(0, m_lastVisibleIndex, maxIndex);
 
     m_visibleIndexesDirty = false;
@@ -491,14 +488,13 @@ void KItemListViewLayouter::createGroupHeaders()
     m_groups.clear();
     m_groupIndexes.clear();
 
-    // TODO:
-    QList<int> numbers;
-    numbers << 0 << 5 << 6 << 13 << 20 << 25 << 30 << 35 << 50;
+    const QList<QPair<int, QVariant> > groups = m_model->groups();
 
     qreal y = 0;
-    for (int i = 0; i < numbers.count(); ++i) {
+    for (int i = 0; i < groups.count(); ++i) {
+        const int firstItemIndex = groups.at(i).first;
         if (i > 0) {
-            const int previousGroupItemCount = numbers[i] - m_groups.last().firstItemIndex;
+            const int previousGroupItemCount = firstItemIndex - m_groups.last().firstItemIndex;
             int previousGroupRowCount = previousGroupItemCount / m_columnCount;
             if (previousGroupItemCount % m_columnCount != 0) {
                 ++previousGroupRowCount;
@@ -509,11 +505,11 @@ void KItemListViewLayouter::createGroupHeaders()
         y += HeaderHeight;
 
         ItemGroup itemGroup;
-        itemGroup.firstItemIndex = numbers[i];
+        itemGroup.firstItemIndex = firstItemIndex;
         itemGroup.y = y;
 
         m_groups.append(itemGroup);
-        m_groupIndexes.insert(itemGroup.firstItemIndex);
+        m_groupIndexes.insert(firstItemIndex);
     }
 }
 

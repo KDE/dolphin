@@ -152,14 +152,31 @@ public:
     void setMode(Mode mode);
     Mode mode() const;
 
-    /** See setPreviewsShown */
+    /**
+     * Turns on the file preview for the all files of the current directory,
+     * if \a show is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * preview setting will be stored automatically.
+     */
+    void setPreviewsShown(bool show);
     bool previewsShown() const;
 
-    /** See setShowHiddenFiles */
+    /**
+     * Shows all hidden files of the current directory,
+     * if \a show is true.
+     * If the view properties should be remembered for each directory
+     * (GeneralSettings::globalViewProps() returns false), then the
+     * show hidden file setting will be stored automatically.
+     */
+    void setHiddenFilesShown(bool show);
     bool hiddenFilesShown() const;
 
-    /** See setCategorizedSorting */
-    bool categorizedSorting() const;
+    /**
+     * Turns on sorting by groups if \a enable is true.
+     */
+    void setGroupedSorting(bool grouped);
+    bool groupedSorting() const;
 
     /**
      * Returns the items of the view.
@@ -382,33 +399,6 @@ public slots:
      */
     void pasteIntoFolder();
 
-    /**
-     * Turns on the file preview for the all files of the current directory,
-     * if \a show is true.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * preview setting will be stored automatically.
-     */
-    void setPreviewsShown(bool show);
-
-    /**
-     * Shows all hidden files of the current directory,
-     * if \a show is true.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * show hidden file setting will be stored automatically.
-     */
-    void setHiddenFilesShown(bool show);
-
-    /**
-     * Summarizes all sorted items by their category \a categorized
-     * is true.
-     * If the view properties should be remembered for each directory
-     * (GeneralSettings::globalViewProps() returns false), then the
-     * categorized sorting setting will be stored automatically.
-     */
-    void setCategorizedSorting(bool categorized);
-
     /** Activates the view if the item list container gets focus. */
     virtual bool eventFilter(QObject* watched, QEvent* event);
 
@@ -455,8 +445,8 @@ signals:
     /** Is emitted if the 'show hidden files' property has been changed. */
     void hiddenFilesShownChanged(bool shown);
 
-    /** Is emitted if the 'categorized sorting' property has been changed. */
-    void categorizedSortingChanged(bool sortCategorized);
+    /** Is emitted if the 'grouped sorting' property has been changed. */
+    void groupedSortingChanged(bool groupedSorting);
 
     /** Is emitted if the sorting by name, size or date has been changed. */
     void sortingChanged(DolphinView::Sorting sorting);
