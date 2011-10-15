@@ -712,6 +712,19 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
     return QWidget::eventFilter(watched, event);
 }
 
+void DolphinView::wheelEvent(QWheelEvent* event)
+{
+    if (event->modifiers().testFlag(Qt::ControlModifier)) {
+        const int numDegrees = event->delta() / 8;
+        const int numSteps = numDegrees / 15;
+
+        setZoomLevel(zoomLevel() + numSteps);
+        event->accept();
+    } else {
+        event->ignore();
+    }
+}
+
 void DolphinView::activate()
 {
     setActive(true);
