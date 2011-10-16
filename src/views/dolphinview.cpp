@@ -343,7 +343,7 @@ KFileItemList DolphinView::selectedItems() const
     qSort(sortedIndexes);
 
     KFileItemList selectedItems;
-    QSetIterator<int> it(selectedIndexes);
+    QListIterator<int> it(sortedIndexes);
     while (it.hasNext()) {
         const int index = it.next();
         selectedItems.append(model->fileItem(index));
