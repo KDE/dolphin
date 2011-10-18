@@ -27,15 +27,14 @@
 #define KITEMLISTVIEWLAYOUTER_DEBUG
 
 namespace {
-    // TODO
-    const int HeaderHeight = 50;
+    // TODO: Calculate dynamically
+    const int GroupHeaderHeight = 50;
 };
 
 KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     QObject(parent),
     m_dirty(true),
     m_visibleIndexesDirty(true),
-    m_grouped(false),
     m_scrollOrientation(Qt::Vertical),
     m_size(),
     m_itemSize(128, 128),
@@ -48,7 +47,6 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_maximumItemOffset(0),
     m_firstVisibleIndex(-1),
     m_lastVisibleIndex(-1),
-    m_firstVisibleGroupIndex(-1),
     m_columnWidth(0),
     m_xPosInc(0),
     m_columnCount(0),
@@ -287,10 +285,40 @@ void KItemListViewLayouter::doLayout()
         qreal y = m_headerHeight;
         int rowIndex = 0;
 
+        const bool grouped = createGroupHeaders();
+        int groupIndex = 0;
+        int firstItemIndexOfGroup = 0;
+
         int index = 0;
         while (index < itemCount) {
             qreal x = m_xPosInc;
             qreal maxItemHeight = itemSize.height();
+
+            if (grouped) {
+                if (horizontalScrolling) {
+                    // All group headers will always be aligned on the top and not
+                    // flipped like the other properties
+                    x += GroupHeaderHeight;
+                }
+
+                if (index == firstItemIndexOfGroup) {
+                    if (!horizontalScrolling) {
+                        // The item is the first item of a group.
+                        // Increase the y-position to provide space
+                        // for the group header.
+                        y += GroupHeaderHeight;
+                    }
+
+                    // Calculate the index of the first item for
+                    // the next group
+                    ++groupIndex;
+                    if (groupIndex < m_groups.count()) {
+                        firstItemIndexOfGroup = m_groups.at(groupIndex);
+                    } else {
+                        firstItemIndexOfGroup = -1;
+                    }
+                }
+            }
 
             int column = 0;
             while (index < itemCount && column < m_columnCount) {
@@ -314,6 +342,12 @@ void KItemListViewLayouter::doLayout()
                 x += m_columnWidth;
                 ++index;
                 ++column;
+
+                if (grouped && index == firstItemIndexOfGroup) {
+                    // The item represents the first index of a group
+                    // and must aligned in the first column
+                    break;
+                }
             }
 
             y += maxItemHeight;
@@ -332,28 +366,13 @@ void KItemListViewLayouter::doLayout()
             m_maximumItemOffset = 0;
         }
 
-        m_grouped = m_model->groupedSorting();
-        if (m_grouped) {
-            createGroupHeaders();
-
-            const int lastGroupItemCount = m_model->count() - m_groups.last().firstItemIndex;
-            m_maximumScrollOffset = m_groups.last().y + (lastGroupItemCount / m_columnCount) * itemSize.height();
-            if (lastGroupItemCount % m_columnCount != 0) {
-                m_maximumScrollOffset += itemSize.height();
-            }
-        }
-
 #ifdef KITEMLISTVIEWLAYOUTER_DEBUG
         kDebug() << "[TIME] doLayout() for " << m_model->count() << "items:" << timer.elapsed();
 #endif
         m_dirty = false;
     }
 
-    if (m_grouped) {
-        updateGroupedVisibleIndexes();
-    } else {
-        updateVisibleIndexes();
-    }
+    updateVisibleIndexes();
 }
 
 void KItemListViewLayouter::updateVisibleIndexes()
@@ -362,7 +381,6 @@ void KItemListViewLayouter::updateVisibleIndexes()
         return;
     }
 
-    Q_ASSERT(!m_grouped);
     Q_ASSERT(!m_dirty);
 
     if (m_model->count() <= 0) {
@@ -372,145 +390,74 @@ void KItemListViewLayouter::updateVisibleIndexes()
         return;
     }
 
-    const bool horizontalScrolling = (m_scrollOrientation == Qt::Horizontal);
-    const int minimumHeight =  horizontalScrolling ? m_itemSize.width()
-                                                   : m_itemSize.height();
-
-    // Calculate the first visible index:
-    // 1. Guess the index by using the minimum row height
     const int maxIndex = m_model->count() - 1;
-    m_firstVisibleIndex = int(m_scrollOffset / minimumHeight) * m_columnCount;
 
-    // 2. Decrease the index by checking the real row heights
-    int prevRowIndex = m_firstVisibleIndex - m_columnCount;
-    while (prevRowIndex > maxIndex) {
-        prevRowIndex -= m_columnCount;
+    // Calculate the first visible index that is (at least partly) visible
+    int min = 0;
+    int max = maxIndex;
+    int mid = 0;
+    do {
+        mid = (min + max) / 2;
+        if (m_itemBoundingRects[mid].bottom() < m_scrollOffset) {
+            min = mid + 1;
+        } else {
+            max = mid - 1;
+        }
+    } while (min <= max);
+
+    while (mid < maxIndex && m_itemBoundingRects[mid].bottom() < m_scrollOffset) {
+        ++mid;
+    }
+    m_firstVisibleIndex = mid;
+
+    // Calculate the last visible index that is (at least partly) visible
+    const int visibleHeight = (m_scrollOrientation == Qt::Horizontal) ? m_size.width() : m_size.height();
+    qreal bottom = m_scrollOffset + visibleHeight;
+    if (m_model->groupedSorting()) {
+        bottom += GroupHeaderHeight;
     }
 
-    const qreal top = m_scrollOffset + m_headerHeight;
-    while (prevRowIndex >= 0 && m_itemBoundingRects[prevRowIndex].bottom() >= top) {
-        m_firstVisibleIndex = prevRowIndex;
-        prevRowIndex -= m_columnCount;
-    }
-    m_firstVisibleIndex = qBound(0, m_firstVisibleIndex, maxIndex);
+    min = m_firstVisibleIndex;
+    max = maxIndex;
+    do {
+        mid = (min + max) / 2;
+        if (m_itemBoundingRects[mid].y() <= bottom) {
+            min = mid + 1;
+        } else {
+            max = mid - 1;
+        }
+    } while (min <= max);
 
-    // Calculate the last visible index
-    const int visibleHeight = horizontalScrolling ? m_size.width() : m_size.height();
-    const qreal bottom = m_scrollOffset + visibleHeight;
-    m_lastVisibleIndex = m_firstVisibleIndex; // first visible row, first column
-    int nextRowIndex = m_lastVisibleIndex + m_columnCount;
-    while (nextRowIndex <= maxIndex && m_itemBoundingRects[nextRowIndex].y() <= bottom) {
-        m_lastVisibleIndex = nextRowIndex;
-        nextRowIndex += m_columnCount;
+    while (mid > 0 && m_itemBoundingRects[mid].y() > bottom) {
+        --mid;
     }
-    m_lastVisibleIndex += m_columnCount - 1; // move it to the last column
-    m_lastVisibleIndex = qBound(0, m_lastVisibleIndex, maxIndex);
+    m_lastVisibleIndex = mid;
 
     m_visibleIndexesDirty = false;
 }
 
-void KItemListViewLayouter::updateGroupedVisibleIndexes()
+bool KItemListViewLayouter::createGroupHeaders()
 {
-    if (!m_visibleIndexesDirty) {
-        return;
+    if (!m_model->groupedSorting()) {
+        return false;
     }
 
-    Q_ASSERT(m_grouped);
-    Q_ASSERT(!m_dirty);
-
-    if (m_model->count() <= 0) {
-        m_firstVisibleIndex = -1;
-        m_lastVisibleIndex = -1;
-        m_visibleIndexesDirty = false;
-        return;
-    }
-
-    // Find the first visible group
-    const int lastGroupIndex = m_groups.count() - 1;
-    int groupIndex = lastGroupIndex;
-    for (int i = 1; i < m_groups.count(); ++i) {
-        if (m_groups[i].y >= m_scrollOffset) {
-            groupIndex = i - 1;
-            break;
-        }
-    }
-
-    // Calculate the first visible index
-    qreal groupY = m_groups[groupIndex].y;
-    m_firstVisibleIndex = m_groups[groupIndex].firstItemIndex;
-    const int invisibleRowCount = int(m_scrollOffset - groupY) / int(m_itemSize.height());
-    m_firstVisibleIndex += invisibleRowCount * m_columnCount;
-    if (groupIndex + 1 <= lastGroupIndex) {
-        // Check whether the calculated first visible index remains inside the current
-        // group. If this is not the case let the first element of the next group be the first
-        // visible index.
-        const int nextGroupIndex = m_groups[groupIndex + 1].firstItemIndex;
-        if (m_firstVisibleIndex > nextGroupIndex) {
-            m_firstVisibleIndex = nextGroupIndex;
-        }
-    }
-
-    m_firstVisibleGroupIndex = groupIndex;
-
-    const int maxIndex = m_model->count() - 1;
-    m_firstVisibleIndex = qBound(0, m_firstVisibleIndex, maxIndex);
-
-    // Calculate the last visible index: Find group where the last visible item is shown.
-    const qreal visibleBottom = m_scrollOffset + m_size.height(); // TODO: respect Qt::Horizontal alignment
-    while ((groupIndex < lastGroupIndex) && (m_groups[groupIndex + 1].y < visibleBottom)) {
-        ++groupIndex;
-    }
-
-    groupY = m_groups[groupIndex].y;
-    m_lastVisibleIndex = m_groups[groupIndex].firstItemIndex;
-    const int availableHeight = static_cast<int>(visibleBottom - groupY);
-    int visibleRowCount = availableHeight / int(m_itemSize.height());
-    if (availableHeight % int(m_itemSize.height()) != 0) {
-        ++visibleRowCount;
-    }
-    m_lastVisibleIndex += visibleRowCount * m_columnCount - 1;
-
-    if (groupIndex + 1 <= lastGroupIndex) {
-        // Check whether the calculate last visible index remains inside the current group.
-        // If this is not the case let the last element of this group be the last visible index.
-        const int nextGroupIndex = m_groups[groupIndex + 1].firstItemIndex;
-        if (m_lastVisibleIndex >= nextGroupIndex) {
-            m_lastVisibleIndex = nextGroupIndex - 1;
-        }
-    }
-    m_lastVisibleIndex = qBound(0, m_lastVisibleIndex, maxIndex);
-
-    m_visibleIndexesDirty = false;
-}
-
-void KItemListViewLayouter::createGroupHeaders()
-{
     m_groups.clear();
     m_groupIndexes.clear();
 
     const QList<QPair<int, QVariant> > groups = m_model->groups();
+    if (groups.isEmpty()) {
+        return false;
+    }
 
-    qreal y = 0;
+    m_groups.reserve(groups.count());
     for (int i = 0; i < groups.count(); ++i) {
         const int firstItemIndex = groups.at(i).first;
-        if (i > 0) {
-            const int previousGroupItemCount = firstItemIndex - m_groups.last().firstItemIndex;
-            int previousGroupRowCount = previousGroupItemCount / m_columnCount;
-            if (previousGroupItemCount % m_columnCount != 0) {
-                ++previousGroupRowCount;
-            }
-            const qreal previousGroupHeight = previousGroupRowCount * m_itemSize.height();
-            y += previousGroupHeight;
-        }
-        y += HeaderHeight;
-
-        ItemGroup itemGroup;
-        itemGroup.firstItemIndex = firstItemIndex;
-        itemGroup.y = y;
-
-        m_groups.append(itemGroup);
+        m_groups.append(firstItemIndex);
         m_groupIndexes.insert(firstItemIndex);
     }
+
+    return true;
 }
 
 #include "kitemlistviewlayouter_p.moc"

@@ -95,15 +95,12 @@ public:
 
 private:
     void doLayout();
-
     void updateVisibleIndexes();
-    void updateGroupedVisibleIndexes();
-    void createGroupHeaders();
+    bool createGroupHeaders();
 
 private:
     bool m_dirty;
     bool m_visibleIndexesDirty;
-    bool m_grouped;
 
     Qt::Orientation m_scrollOrientation;
     QSizeF m_size;
@@ -122,17 +119,11 @@ private:
     int m_firstVisibleIndex;
     int m_lastVisibleIndex;
 
-    int m_firstVisibleGroupIndex;
-
     qreal m_columnWidth;
     qreal m_xPosInc;
     int m_columnCount;
 
-    struct ItemGroup {
-        int firstItemIndex;
-        qreal y;
-    };
-    QList<ItemGroup> m_groups;
+    QList<int> m_groups;
 
     // Stores all item indexes that are the first item of a group.
     // Assures fast access for KItemListViewLayouter::isFirstGroupItem().

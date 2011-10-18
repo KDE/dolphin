@@ -25,6 +25,7 @@
 
 #include <libdolphin_export.h>
 
+#include <kitemviews/kitemlistgroupheader.h>
 #include <kitemviews/kitemliststyleoption.h>
 #include <kitemviews/kitemlistviewanimation_p.h>
 #include <kitemviews/kitemlistwidget.h>
@@ -33,7 +34,6 @@
 #include <QSet>
 
 class KItemListController;
-class KItemListGroupHeader;
 class KItemListGroupHeaderCreatorBase;
 class KItemListHeader;
 class KItemListSizeHintResolver;
@@ -477,7 +477,9 @@ template <class T>
 KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 {
     KItemListWidget* widget = static_cast<KItemListWidget*>(popRecycleableWidget());
-    if (!widget) {
+    if (widget) {
+        widget->setParentItem(view);
+    } else {
         widget = new T(view);
         addCreatedWidget(widget);
     }
@@ -517,7 +519,9 @@ template <class T>
 KItemListGroupHeader* KItemListGroupHeaderCreator<T>::create(QGraphicsWidget* parent)
 {
     KItemListGroupHeader* widget = static_cast<KItemListGroupHeader*>(popRecycleableWidget());
-    if (!widget) {
+    if (widget) {
+        widget->setParentItem(parent);
+    } else {
         widget = new T(parent);
         addCreatedWidget(widget);
     }

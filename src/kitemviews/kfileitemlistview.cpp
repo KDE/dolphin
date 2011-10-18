@@ -68,8 +68,11 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
 
 KFileItemListView::~KFileItemListView()
 {
-    delete widgetCreator();
+    // The group headers are children of the widgets created by
+    // widgetCreator(). So it is mandatory to delete the group headers
+    // first.
     delete groupHeaderCreator();
+    delete widgetCreator();
 
     delete m_modelRolesUpdater;
     m_modelRolesUpdater = 0;

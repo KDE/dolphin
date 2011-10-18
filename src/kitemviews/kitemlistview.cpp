@@ -23,7 +23,6 @@
 #include "kitemlistview.h"
 
 #include "kitemlistcontroller.h"
-#include "kitemlistgroupheader.h"
 #include "kitemlistheader_p.h"
 #include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
@@ -1318,6 +1317,8 @@ KItemListWidget* KItemListView::createWidget(int index)
     if (m_grouped) {
         if (m_layouter->isFirstGroupItem(index)) {
             KItemListGroupHeader* header = m_groupHeaderCreator->create(widget);
+            header->show();
+            // TODO:
             header->setPos(0, -50);
             header->resize(50, 50);
             m_visibleGroups.insert(widget, header);
@@ -1358,6 +1359,8 @@ void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
 
         if (createHeader) {
             KItemListGroupHeader* header = m_groupHeaderCreator->create(widget);
+            header->show();
+            // TODO:
             header->setPos(0, -50);
             header->resize(50, 50);
             m_visibleGroups.insert(widget, header);
@@ -1667,6 +1670,7 @@ KItemListWidgetCreatorBase::~KItemListWidgetCreatorBase()
 
 void KItemListWidgetCreatorBase::recycle(KItemListWidget* widget)
 {
+    widget->setParentItem(0);
     widget->setOpacity(1.0);
     pushRecycleableWidget(widget);
 }

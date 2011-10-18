@@ -225,15 +225,19 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
 
 QList<QPair<int, QVariant> > KFileItemModel::groups() const
 {
-    // TODO:
+    // TODO: dirty hack for initial testing of grouping functionality
     QPair<int, QVariant> group1(0, "Group 1");
-    QPair<int, QVariant> group2(5, "Group 2");
+    QPair<int, QVariant> group2(2, "Group 2");
     QPair<int, QVariant> group3(10, "Group 3");
+    QPair<int, QVariant> group4(11, "Group 4");
+    QPair<int, QVariant> group5(40, "Group 5");
 
     QList<QPair<int, QVariant> > groups;
     groups.append(group1);
     groups.append(group2);
     groups.append(group3);
+    groups.append(group4);
+    groups.append(group5);
     return groups;
 }
 
