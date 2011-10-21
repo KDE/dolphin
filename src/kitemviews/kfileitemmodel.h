@@ -194,6 +194,16 @@ private:
 
     bool useMaximumUpdateInterval() const;
 
+    QList<QPair<int, QVariant> > nameRoleGroups() const;
+    QList<QPair<int, QVariant> > sizeRoleGroups() const;
+    QList<QPair<int, QVariant> > dateRoleGroups() const;
+    QList<QPair<int, QVariant> > permissionRoleGroups() const;
+    QList<QPair<int, QVariant> > ownerRoleGroups() const;
+    QList<QPair<int, QVariant> > groupRoleGroups() const;
+    QList<QPair<int, QVariant> > typeRoleGroups() const;
+    QList<QPair<int, QVariant> > destinationRoleGroups() const;
+    QList<QPair<int, QVariant> > pathRoleGroups() const;
+
 private:
     QWeakPointer<KDirLister> m_dirLister;
 
@@ -213,6 +223,9 @@ private:
     QTimer* m_maximumUpdateIntervalTimer;
     KFileItemList m_pendingItemsToInsert;
     bool m_pendingEmitLoadingCompleted;
+
+    // Cache for KFileItemModel::groups()
+    mutable QList<QPair<int, QVariant> > m_groups;
 
     // Stores the smallest expansion level of the root-URL. Is required to calculate
     // the "expansionLevel" role in an efficient way. A value < 0 indicates that

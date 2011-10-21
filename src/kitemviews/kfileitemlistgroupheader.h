@@ -17,42 +17,23 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KITEMLISTGROUPHEADER_H
-#define KITEMLISTGROUPHEADER_H
+#ifndef KFILEITEMLISTGROUPHEADER_H
+#define KFILEITEMLISTGROUPHEADER_H
 
 #include <libdolphin_export.h>
 
-#include <QByteArray>
-#include <QGraphicsWidget>
-#include <QVariant>
+#include <kitemviews/kitemlistgroupheader.h>
 
-class KItemListView;
-
-class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeader : public QGraphicsWidget
+class LIBDOLPHINPRIVATE_EXPORT KFileItemListGroupHeader : public KItemListGroupHeader
 {
     Q_OBJECT
 
 public:
-    KItemListGroupHeader(QGraphicsWidget* parent = 0);
-    virtual ~KItemListGroupHeader();
+    KFileItemListGroupHeader(QGraphicsWidget* parent = 0);
+    virtual ~KFileItemListGroupHeader();
 
-    void setRole(const QByteArray& role);
-    QByteArray role() const;
-
-    void setData(const QVariant& data);
-    QVariant data() const;
-
-    virtual QSizeF sizeHint(Qt::SizeHint which = Qt::PreferredSize, const QSizeF& constraint = QSizeF()) const;
+    /** @reimp */
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-
-protected:
-    virtual void roleChanged(const QByteArray& current, const QByteArray& previous);
-    virtual void dataChanged(const QVariant& current, const QVariant& previous);
-
-private:
-    QByteArray m_role;
-    QVariant m_data;
-
 };
 #endif
 

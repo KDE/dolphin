@@ -45,6 +45,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_maximumUpdateIntervalTimer(0),
     m_pendingItemsToInsert(),
     m_pendingEmitLoadingCompleted(false),
+    m_groups(),
     m_rootExpansionLevel(-1),
     m_expandedUrls(),
     m_restoredExpandedUrls()
@@ -225,20 +226,34 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
 
 QList<QPair<int, QVariant> > KFileItemModel::groups() const
 {
-    // TODO: dirty hack for initial testing of grouping functionality
-    QPair<int, QVariant> group1(0, "Group 1");
-    QPair<int, QVariant> group2(2, "Group 2");
-    QPair<int, QVariant> group3(10, "Group 3");
-    QPair<int, QVariant> group4(11, "Group 4");
-    QPair<int, QVariant> group5(40, "Group 5");
+    if (!m_data.isEmpty() && m_groups.isEmpty()) {
+#ifdef KFILEITEMMODEL_DEBUG
+        QElapsedTimer timer;
+        timer.start();
+#endif
+        switch (roleIndex(sortRole())) {
+        case NameRole:           m_groups = nameRoleGroups(); break;
+        case SizeRole:           m_groups = sizeRoleGroups(); break;
+        case DateRole:           m_groups = dateRoleGroups(); break;
+        case PermissionsRole:    m_groups = permissionRoleGroups(); break;
+        case OwnerRole:          m_groups = ownerRoleGroups(); break;
+        case GroupRole:          m_groups = groupRoleGroups(); break;
+        case TypeRole:           m_groups = typeRoleGroups(); break;
+        case DestinationRole:    m_groups = destinationRoleGroups(); break;
+        case PathRole:           m_groups = pathRoleGroups(); break;
+        case NoRole:             break;
+        case IsDirRole:          break;
+        case IsExpandedRole:     break;
+        case ExpansionLevelRole: break;
+        default:                 Q_ASSERT(false); break;
+        }
 
-    QList<QPair<int, QVariant> > groups;
-    groups.append(group1);
-    groups.append(group2);
-    groups.append(group3);
-    groups.append(group4);
-    groups.append(group5);
-    return groups;
+#ifdef KFILEITEMMODEL_DEBUG
+        kDebug() << "[TIME] Calculating groups for" << count() << "items:" << timer.elapsed();
+#endif
+    }
+
+    return m_groups;
 }
 
 KFileItem KFileItemModel::fileItem(int index) const
@@ -413,6 +428,7 @@ void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
 void KFileItemModel::onGroupedSortingChanged(bool current)
 {
     Q_UNUSED(current);
+    m_groups.clear();
 }
 
 void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArray& previous)
@@ -500,6 +516,8 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     kDebug() << "Refreshing" << items.count() << "items";
 #endif
 
+    m_groups.clear();
+
     // Get the indexes of all items that have been refreshed
     QList<int> indexes;
     indexes.reserve(items.count());
@@ -554,6 +572,8 @@ void KFileItemModel::slotClear()
     kDebug() << "Clearing all items";
 #endif
 
+    m_groups.clear();
+
     m_minimumUpdateIntervalTimer->stop();
     m_maximumUpdateIntervalTimer->stop();
     m_pendingItemsToInsert.clear();
@@ -600,6 +620,8 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     kDebug() << "===========================================================";
     kDebug() << "Inserting" << items.count() << "items";
 #endif
+
+    m_groups.clear();
 
     KFileItemList sortedItems = items;
     sort(sortedItems.begin(), sortedItems.end());
@@ -671,6 +693,8 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     kDebug() << "Removing " << items.count() << "items";
 #endif
 
+    m_groups.clear();
+
     KFileItemList sortedItems = items;
     sort(sortedItems.begin(), sortedItems.end());
 
@@ -737,6 +761,8 @@ void KFileItemModel::resortAllItems()
     if (itemCount <= 0) {
         return;
     }
+
+    m_groups.clear();
 
     const KFileItemList oldSortedItems = m_sortedItems;
     const QHash<KUrl, int> oldItems = m_items;
@@ -1129,6 +1155,112 @@ bool KFileItemModel::useMaximumUpdateInterval() const
 {
     const KDirLister* dirLister = m_dirLister.data();
     return dirLister && !dirLister->url().isLocalFile();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+
+    const int maxIndex = count() - 1;
+    QList<QPair<int, QVariant> > groups;
+
+    QString groupValue;
+    QChar firstChar;
+    bool isLetter = false;
+    for (int i = 0; i <= maxIndex; ++i) {
+        const QString name = m_data.at(i).value("name").toString();
+
+        // Use the first character of the name as group indication
+        QChar newFirstChar = name.at(0).toUpper();
+        if (newFirstChar == QLatin1Char('~') && name.length() > 1) {
+            newFirstChar = name.at(1);
+        }
+
+        if (firstChar != newFirstChar) {
+            QString newGroupValue;
+            if (newFirstChar >= QLatin1Char('A') && newFirstChar <= QLatin1Char('Z')) {
+                // Apply group 'A' - 'Z'
+                newGroupValue = newFirstChar;
+                isLetter = true;
+            } else if (newFirstChar >= QLatin1Char('0') && newFirstChar <= QLatin1Char('9')) {
+                // Apply group 'Numerics' for any name that starts with a digit
+                newGroupValue = i18nc("@title:group", "Numerics");
+                isLetter = false;
+            } else {
+                if (isLetter) {
+                    // If the current group is 'A' - 'Z' check whether a locale character
+                    // fits into the existing group.
+                    const QChar prevChar(firstChar.unicode() - ushort(1));
+                    const QChar nextChar(firstChar.unicode() + ushort(1));
+                    const QString currChar(newFirstChar);
+                    const bool partOfCurrentGroup = currChar.localeAwareCompare(prevChar) > 0 &&
+                                                    currChar.localeAwareCompare(nextChar) < 0;
+                    if (partOfCurrentGroup) {
+                        continue;
+                    }
+                }
+                newGroupValue = i18nc("@title:group", "Others");
+                isLetter = false;
+            }
+
+            if (newGroupValue != groupValue) {
+                groupValue = newGroupValue;
+                groups.append(QPair<int, QVariant>(i, newGroupValue));
+            }
+
+            firstChar = newFirstChar;
+        }
+    }
+    return groups;
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+
+    return QList<QPair<int, QVariant> >();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+    return QList<QPair<int, QVariant> >();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+    return QList<QPair<int, QVariant> >();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::ownerRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+    return QList<QPair<int, QVariant> >();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::groupRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+    return QList<QPair<int, QVariant> >();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::typeRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+    return QList<QPair<int, QVariant> >();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::destinationRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+    return QList<QPair<int, QVariant> >();
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::pathRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+    return QList<QPair<int, QVariant> >();
 }
 
 #include "kfileitemmodel.moc"

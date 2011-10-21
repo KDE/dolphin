@@ -19,7 +19,7 @@
 
 #include "kfileitemlistview.h"
 
-#include "kitemlistgroupheader.h"
+#include "kfileitemlistgroupheader.h"
 #include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
@@ -51,7 +51,7 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
 
     setScrollOrientation(Qt::Vertical);
     setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
-    setGroupHeaderCreator(new KItemListGroupHeaderCreator<KItemListGroupHeader>());
+    setGroupHeaderCreator(new KItemListGroupHeaderCreator<KFileItemListGroupHeader>());
 
     m_updateVisibleIndexRangeTimer = new QTimer(this);
     m_updateVisibleIndexRangeTimer->setSingleShot(true);

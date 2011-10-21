@@ -1,6 +1,9 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
+ *   Based on the Itemviews NG project from Trolltech Labs:                *
+ *   http://qt.gitorious.org/qt-labs/itemviews-ng                          *
+ *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
  *   the Free Software Foundation; either version 2 of the License, or     *
@@ -17,43 +20,24 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KITEMLISTGROUPHEADER_H
-#define KITEMLISTGROUPHEADER_H
+#include "kfileitemlistgroupheader.h"
 
-#include <libdolphin_export.h>
+#include <QPainter>
 
-#include <QByteArray>
-#include <QGraphicsWidget>
-#include <QVariant>
-
-class KItemListView;
-
-class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeader : public QGraphicsWidget
+KFileItemListGroupHeader::KFileItemListGroupHeader(QGraphicsWidget* parent) :
+    KItemListGroupHeader(parent)
 {
-    Q_OBJECT
+}
 
-public:
-    KItemListGroupHeader(QGraphicsWidget* parent = 0);
-    virtual ~KItemListGroupHeader();
+KFileItemListGroupHeader::~KFileItemListGroupHeader()
+{
+}
 
-    void setRole(const QByteArray& role);
-    QByteArray role() const;
+void KFileItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
+{
+    KItemListGroupHeader::paint(painter, option, widget);
+    // TODO: Use dataChanged() hook to prepare a cached property
+    painter->drawText(QRectF(0, 0, size().width(), size().height()), data().toString());
+}
 
-    void setData(const QVariant& data);
-    QVariant data() const;
-
-    virtual QSizeF sizeHint(Qt::SizeHint which = Qt::PreferredSize, const QSizeF& constraint = QSizeF()) const;
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-
-protected:
-    virtual void roleChanged(const QByteArray& current, const QByteArray& previous);
-    virtual void dataChanged(const QVariant& current, const QVariant& previous);
-
-private:
-    QByteArray m_role;
-    QVariant m_data;
-
-};
-#endif
-
-
+#include "kfileitemlistgroupheader.moc"

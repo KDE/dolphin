@@ -847,6 +847,27 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
 void KItemListView::slotGroupedSortingChanged(bool current)
 {
     m_grouped = current;
+    if (m_grouped) {
+        // Assure that headers from already visible items get created
+        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+        while (it.hasNext()) {
+            it.next();
+            KItemListWidget* widget = it.value();
+            updateGroupHeaderForWidget(widget);
+        }
+    } else {
+        // Clear all visible headers
+        QHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
+        while (it.hasNext()) {
+            it.next();
+            KItemListGroupHeader* header = it.value();
+            m_groupHeaderCreator->recycle(header);
+        }
+        m_visibleGroups.clear();
+    }
+
+    m_layouter->markAsDirty();
+    updateLayout();
 }
 
 void KItemListView::slotCurrentChanged(int current, int previous)
@@ -1151,8 +1172,6 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         return;
     }
 
-    //markVisibleRolesSizesAsDirty();
-
     const int firstVisibleIndex = m_layouter->firstVisibleIndex();
     const int lastVisibleIndex = m_layouter->lastVisibleIndex();
     if (firstVisibleIndex < 0) {
@@ -1315,14 +1334,7 @@ KItemListWidget* KItemListView::createWidget(int index)
     m_visibleItems.insert(index, widget);
 
     if (m_grouped) {
-        if (m_layouter->isFirstGroupItem(index)) {
-            KItemListGroupHeader* header = m_groupHeaderCreator->create(widget);
-            header->show();
-            // TODO:
-            header->setPos(0, -50);
-            header->resize(50, 50);
-            m_visibleGroups.insert(widget, header);
-        }
+        updateGroupHeaderForWidget(widget);
     }
 
     initializeItemListWidget(widget);
@@ -1345,32 +1357,14 @@ void KItemListView::recycleWidget(KItemListWidget* widget)
 
 void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
 {
-    if (m_grouped) {
-        bool createHeader = m_layouter->isFirstGroupItem(index);
-        KItemListGroupHeader* header = m_visibleGroups.value(widget);
-        if (header) {
-            if (createHeader) {
-                createHeader = false;
-            } else {
-                m_groupHeaderCreator->recycle(header);
-                m_visibleGroups.remove(widget);
-            }
-        }
-
-        if (createHeader) {
-            KItemListGroupHeader* header = m_groupHeaderCreator->create(widget);
-            header->show();
-            // TODO:
-            header->setPos(0, -50);
-            header->resize(50, 50);
-            m_visibleGroups.insert(widget, header);
-        }
-    }
-
     const int oldIndex = widget->index();
     m_visibleItems.remove(oldIndex);
     updateWidgetProperties(widget, index);
     m_visibleItems.insert(index, widget);
+
+    if (m_grouped) {
+        updateGroupHeaderForWidget(widget);
+    }
 
     initializeItemListWidget(widget);
 }
@@ -1442,6 +1436,48 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setAlternatingBackgroundColors(false);
     widget->setIndex(index);
     widget->setData(m_model->data(index));
+}
+
+void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
+{
+    const int index = widget->index();
+    KItemListGroupHeader* header = m_visibleGroups.value(widget);
+    if (!m_layouter->isFirstGroupItem(index)) {
+        // The widget does not represent the first item of a group
+        // and hence requires no header
+        if (header) {
+            m_groupHeaderCreator->recycle(header);
+            m_visibleGroups.remove(widget);
+        }
+        return;
+    }
+
+    if (!header) {
+        header = m_groupHeaderCreator->create(widget);
+        m_visibleGroups.insert(widget, header);
+    }
+
+    // TODO:
+    header->show();
+    header->setPos(0, -50);
+    header->resize(200, 50);
+    header->setRole(model()->sortRole());
+
+    // Determine the shown data for the header by doing a binary
+    // search in the groups-list
+    const QList<QPair<int, QVariant> > groups = model()->groups();
+    int min = 0;
+    int max = groups.count() - 1;
+    int mid = 0;
+    do {
+        mid = (min + max) / 2;
+        if (index > groups.at(mid).first) {
+            min = mid + 1;
+        } else {
+            max = mid - 1;
+        }
+    } while (groups.at(mid).first != index && min <= max);
+    header->setData(groups.at(mid).second);
 }
 
 QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const

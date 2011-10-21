@@ -29,12 +29,44 @@
 #include <KDebug>
 
 KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget* parent) :
-    QGraphicsWidget(parent, 0)
+    QGraphicsWidget(parent, 0),
+    m_role(),
+    m_data()
 {
 }
 
 KItemListGroupHeader::~KItemListGroupHeader()
 {
+}
+
+void KItemListGroupHeader::setRole(const QByteArray& role)
+{
+    if (m_role != role) {
+        const QByteArray previous = m_role;
+        m_role = role;
+        update();
+        roleChanged(role, previous);
+    }
+}
+
+QByteArray KItemListGroupHeader::role() const
+{
+    return m_role;
+}
+
+void KItemListGroupHeader::setData(const QVariant& data)
+{
+    if (m_data != data) {
+        const QVariant previous = m_data;
+        m_data = data;
+        update();
+        dataChanged(data, previous);
+    }
+}
+
+QVariant KItemListGroupHeader::data() const
+{
+    return m_data;
 }
 
 QSizeF KItemListGroupHeader::sizeHint(Qt::SizeHint which, const QSizeF& constraint) const
@@ -53,6 +85,18 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
     painter->drawRect(rect());
 
     //painter->drawText(rect(), QString::number(m_index));
+}
+
+void KItemListGroupHeader::roleChanged(const QByteArray& current, const QByteArray& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+}
+
+void KItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
 }
 
 #include "kitemlistgroupheader.moc"

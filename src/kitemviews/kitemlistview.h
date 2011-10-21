@@ -330,6 +330,12 @@ private:
     void updateWidgetProperties(KItemListWidget* widget, int index);
 
     /**
+     * Helper method for createWidget() and setWidgetIndex() to create or update
+     * the itemlist groupheader.
+     */
+    void updateGroupHeaderForWidget(KItemListWidget* widget);
+
+    /**
      * @return The widths of each visible role that is shown in the KItemListHeader.
      */
     QHash<QByteArray, qreal> headerRolesWidths() const;
