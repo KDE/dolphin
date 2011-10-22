@@ -150,7 +150,7 @@ void KItemListContainer::wheelEvent(QWheelEvent* event)
     const int numSteps = numDegrees / 15;
 
     const QScrollBar* scrollBar = smoothScroller->scrollBar();
-    smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep());
+    smoothScroller->scrollTo(scrollBar->value() - numSteps * scrollBar->pageStep() / 4);
 
     event->accept();
 }
