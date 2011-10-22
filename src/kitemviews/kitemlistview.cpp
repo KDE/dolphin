@@ -857,13 +857,12 @@ void KItemListView::slotGroupedSortingChanged(bool current)
         }
     } else {
         // Clear all visible headers
-        QHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
+        QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
         while (it.hasNext()) {
             it.next();
-            KItemListGroupHeader* header = it.value();
-            m_groupHeaderCreator->recycle(header);
+            recycleGroupHeaderForWidget(it.key());
         }
-        m_visibleGroups.clear();
+        Q_ASSERT(m_visibleGroups.isEmpty());
     }
 
     m_layouter->markAsDirty();
@@ -943,11 +942,7 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
         // All KItemListWidgets that are animated by the DeleteAnimation are not maintained
         // by m_visibleWidgets and must be deleted manually after the animation has
         // been finished.
-        KItemListGroupHeader* header = m_visibleGroups.value(itemListWidget);
-        if (header) {
-            m_groupHeaderCreator->recycle(header);
-            m_visibleGroups.remove(itemListWidget);
-        }
+        recycleGroupHeaderForWidget(itemListWidget);
         m_widgetCreator->recycle(itemListWidget);
         break;
     }
@@ -1344,11 +1339,7 @@ KItemListWidget* KItemListView::createWidget(int index)
 void KItemListView::recycleWidget(KItemListWidget* widget)
 {
     if (m_grouped) {
-        KItemListGroupHeader* header = m_visibleGroups.value(widget);
-        if (header) {
-            m_groupHeaderCreator->recycle(header);
-            m_visibleGroups.remove(widget);
-        }
+        recycleGroupHeaderForWidget(widget);
     }
 
     m_visibleItems.remove(widget->index());
@@ -1441,21 +1432,20 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
 void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
 {
     const int index = widget->index();
-    KItemListGroupHeader* header = m_visibleGroups.value(widget);
     if (!m_layouter->isFirstGroupItem(index)) {
         // The widget does not represent the first item of a group
         // and hence requires no header
-        if (header) {
-            m_groupHeaderCreator->recycle(header);
-            m_visibleGroups.remove(widget);
-        }
+        recycleGroupHeaderForWidget(widget);
         return;
     }
 
+    KItemListGroupHeader* header = m_visibleGroups.value(widget);
     if (!header) {
-        header = m_groupHeaderCreator->create(widget);
+        header = m_groupHeaderCreator->create(this);
+        header->setParentItem(widget);
         m_visibleGroups.insert(widget, header);
     }
+    Q_ASSERT(header->parentItem() == widget);
 
     // TODO:
     header->show();
@@ -1478,6 +1468,16 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
         }
     } while (groups.at(mid).first != index && min <= max);
     header->setData(groups.at(mid).second);
+}
+
+void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
+{
+    KItemListGroupHeader* header = m_visibleGroups.value(widget);
+    if (header) {
+        header->setParentItem(0);
+        m_groupHeaderCreator->recycle(header);
+        m_visibleGroups.remove(widget);
+    }
 }
 
 QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const

@@ -331,9 +331,14 @@ private:
 
     /**
      * Helper method for createWidget() and setWidgetIndex() to create or update
-     * the itemlist groupheader.
+     * the itemlist group-header.
      */
     void updateGroupHeaderForWidget(KItemListWidget* widget);
+
+    /**
+     * Recycles the group-header from the widget.
+     */
+    void recycleGroupHeaderForWidget(KItemListWidget* widget);
 
     /**
      * @return The widths of each visible role that is shown in the KItemListHeader.
@@ -483,9 +488,7 @@ template <class T>
 KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
 {
     KItemListWidget* widget = static_cast<KItemListWidget*>(popRecycleableWidget());
-    if (widget) {
-        widget->setParentItem(view);
-    } else {
+    if (!widget) {
         widget = new T(view);
         addCreatedWidget(widget);
     }
@@ -504,7 +507,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeaderCreatorBase : public KItemLis
 {
 public:
     virtual ~KItemListGroupHeaderCreatorBase();
-    virtual KItemListGroupHeader* create(QGraphicsWidget* parent) = 0;
+    virtual KItemListGroupHeader* create(KItemListView* view) = 0;
     virtual void recycle(KItemListGroupHeader* header);
 };
 
@@ -513,7 +516,7 @@ class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeaderCreator : public KItemListGro
 {
 public:
     virtual ~KItemListGroupHeaderCreator();
-    virtual KItemListGroupHeader* create(QGraphicsWidget* parent);
+    virtual KItemListGroupHeader* create(KItemListView* view);
 };
 
 template <class T>
@@ -522,13 +525,11 @@ KItemListGroupHeaderCreator<T>::~KItemListGroupHeaderCreator()
 }
 
 template <class T>
-KItemListGroupHeader* KItemListGroupHeaderCreator<T>::create(QGraphicsWidget* parent)
+KItemListGroupHeader* KItemListGroupHeaderCreator<T>::create(KItemListView* view)
 {
     KItemListGroupHeader* widget = static_cast<KItemListGroupHeader*>(popRecycleableWidget());
-    if (widget) {
-        widget->setParentItem(parent);
-    } else {
-        widget = new T(parent);
+    if (!widget) {
+        widget = new T(view);
         addCreatedWidget(widget);
     }
     return widget;
