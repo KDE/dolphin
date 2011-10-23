@@ -162,10 +162,10 @@ public:
     virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
 
     /**
-     * @return The bounding rectangle of the item relative to the top/left of
+     * @return The rectangle of the item relative to the top/left of
      *         the currently visible area (see KItemListView::offset()).
      */
-    QRectF itemBoundingRect(int index) const;
+    QRectF itemRect(int index) const;
 
     /**
      * @return The number of items that can be shown in parallel for one offset.
@@ -334,6 +334,13 @@ private:
      * the itemlist group-header.
      */
     void updateGroupHeaderForWidget(KItemListWidget* widget);
+
+    /**
+     * Updates the position and size of the group-header that belongs
+     * to the itemlist widget \a widget. The given widget must represent
+     * the first item of a group.
+     */
+    void updateGroupHeaderLayout(KItemListWidget* widget);
 
     /**
      * Recycles the group-header from the widget.

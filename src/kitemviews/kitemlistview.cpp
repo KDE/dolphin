@@ -395,9 +395,9 @@ QHash<QByteArray, QSizeF> KItemListView::visibleRolesSizes(const KItemRangeList&
     return QHash<QByteArray, QSizeF>();
 }
 
-QRectF KItemListView::itemBoundingRect(int index) const
+QRectF KItemListView::itemRect(int index) const
 {
-    return m_layouter->itemBoundingRect(index);
+    return m_layouter->itemRect(index);
 }
 
 int KItemListView::itemsPerOffset() const
@@ -848,6 +848,11 @@ void KItemListView::slotGroupedSortingChanged(bool current)
 {
     m_grouped = current;
     if (m_grouped) {
+        // Apply the height of the header to the layouter
+        const qreal groupHeaderHeight = m_styleOption.fontMetrics.height() +
+                                        m_styleOption.margin * 2;
+        m_layouter->setGroupHeaderHeight(groupHeaderHeight);
+
         // Assure that headers from already visible items get created
         QHashIterator<int, KItemListWidget*> it(m_visibleItems);
         while (it.hasNext()) {
@@ -886,24 +891,24 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     }
 
     const QRectF viewGeometry = geometry();
-    const QRectF currentBoundingRect = itemBoundingRect(current);
+    const QRectF currentRect = itemRect(current);
 
-    if (!viewGeometry.contains(currentBoundingRect)) {
+    if (!viewGeometry.contains(currentRect)) {
         // Make sure that the new current item is fully visible in the view.
         qreal newOffset = scrollOffset();
-        if (currentBoundingRect.top() < viewGeometry.top()) {
+        if (currentRect.top() < viewGeometry.top()) {
             Q_ASSERT(scrollOrientation() == Qt::Vertical);
-            newOffset += currentBoundingRect.top() - viewGeometry.top();
-        } else if ((currentBoundingRect.bottom() > viewGeometry.bottom())) {
+            newOffset += currentRect.top() - viewGeometry.top();
+        } else if ((currentRect.bottom() > viewGeometry.bottom())) {
             Q_ASSERT(scrollOrientation() == Qt::Vertical);
-            newOffset += currentBoundingRect.bottom() - viewGeometry.bottom();
-        } else if (currentBoundingRect.left() < viewGeometry.left()) {
+            newOffset += currentRect.bottom() - viewGeometry.bottom();
+        } else if (currentRect.left() < viewGeometry.left()) {
             if (scrollOrientation() == Qt::Horizontal) {
-                newOffset += currentBoundingRect.left() - viewGeometry.left();
+                newOffset += currentRect.left() - viewGeometry.left();
             }
-        } else if ((currentBoundingRect.right() > viewGeometry.right())) {
+        } else if ((currentRect.right() > viewGeometry.right())) {
             if (scrollOrientation() == Qt::Horizontal) {
-                newOffset += currentBoundingRect.right() - viewGeometry.right();
+                newOffset += currentRect.right() - viewGeometry.right();
             }
         }
 
@@ -1209,7 +1214,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         bool applyNewPos = true;
         bool wasHidden = false;
 
-        const QRectF itemBounds = m_layouter->itemBoundingRect(i);
+        const QRectF itemBounds = m_layouter->itemRect(i);
         const QPointF newPos = itemBounds.topLeft();
         KItemListWidget* widget = m_visibleItems.value(i);
         if (!widget) {
@@ -1228,13 +1233,13 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             if (animate && changedCount < 0) {
                 // Items have been deleted, move the created item to the
                 // imaginary old position.
-                const QRectF itemBoundingRect = m_layouter->itemBoundingRect(i - changedCount);
-                if (itemBoundingRect.isEmpty()) {
+                const QRectF itemRect = m_layouter->itemRect(i - changedCount);
+                if (itemRect.isEmpty()) {
                     const QPointF invisibleOldPos = (scrollOrientation() == Qt::Vertical)
                                                     ? QPointF(0, size().height()) : QPointF(size().width(), 0);
                     widget->setPos(invisibleOldPos);
                 } else {
-                    widget->setPos(itemBoundingRect.topLeft());
+                    widget->setPos(itemRect.topLeft());
                 }
                 applyNewPos = false;
             }
@@ -1288,6 +1293,15 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     // Delete invisible KItemListWidget instances that have not been reused
     foreach (int index, reusableItems) {
         recycleWidget(m_visibleItems.value(index));
+    }
+
+    if (m_grouped) {
+        // Update the layout of all visible group headers
+        QHashIterator<KItemListWidget*, KItemListGroupHeader*> it(m_visibleGroups);
+        while (it.hasNext()) {
+            it.next();
+            updateGroupHeaderLayout(it.key());
+        }
     }
 
     emitOffsetChanges();
@@ -1397,7 +1411,7 @@ void KItemListView::prepareLayoutForIncreasedItemCount(const QSizeF& size, SizeT
         for (int i = minFirst; i <= maxLast; ++i) {
             if (!m_visibleItems.contains(i)) {
                 KItemListWidget* widget = createWidget(i);
-                const QPointF pos = m_layouter->itemBoundingRect(i).topLeft();
+                const QPointF pos = m_layouter->itemRect(i).topLeft();
                 widget->setPos(pos);
             }
         }
@@ -1447,12 +1461,6 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
     }
     Q_ASSERT(header->parentItem() == widget);
 
-    // TODO:
-    header->show();
-    header->setPos(0, -50);
-    header->resize(200, 50);
-    header->setRole(model()->sortRole());
-
     // Determine the shown data for the header by doing a binary
     // search in the groups-list
     const QList<QPair<int, QVariant> > groups = model()->groups();
@@ -1467,7 +1475,28 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
             max = mid - 1;
         }
     } while (groups.at(mid).first != index && min <= max);
+
     header->setData(groups.at(mid).second);
+    header->setRole(model()->sortRole());
+
+    header->show();
+}
+
+void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
+{
+    KItemListGroupHeader* header = m_visibleGroups.value(widget);
+    Q_ASSERT(header);
+
+    const int index = widget->index();
+    const QRectF groupHeaderRect = m_layouter->groupHeaderRect(index);
+    const QRectF itemRect = m_layouter->itemRect(index);
+
+    // The group-header is a child of the itemlist widget. Translate the
+    // group header position to the relative position.
+    const QPointF groupHeaderPos(groupHeaderRect.x() - itemRect.x(),
+                                 - groupHeaderRect.height());
+    header->setPos(groupHeaderPos);
+    header->resize(groupHeaderRect.size());
 }
 
 void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)

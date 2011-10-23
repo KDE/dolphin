@@ -693,10 +693,10 @@ void KItemListController::slotRubberBandChanged()
     foreach (const KItemListWidget* widget, m_view->visibleItemListWidgets()) {
         const int index = widget->index();
 
-        const QRectF widgetRect = m_view->itemBoundingRect(index);
+        const QRectF widgetRect = m_view->itemRect(index);
         if (widgetRect.intersects(rubberBandRect)) {
-            const QRectF iconRect = widget->iconBoundingRect().translated(widgetRect.topLeft());
-            const QRectF textRect = widget->textBoundingRect().translated(widgetRect.topLeft());
+            const QRectF iconRect = widget->iconRect().translated(widgetRect.topLeft());
+            const QRectF textRect = widget->textRect().translated(widgetRect.topLeft());
             if (iconRect.intersects(rubberBandRect) || textRect.intersects(rubberBandRect)) {
                 selectedItems.insert(index);
             }
@@ -712,7 +712,7 @@ void KItemListController::slotRubberBandChanged()
     int index = increaseIndex ? m_view->lastVisibleIndex() + 1 : m_view->firstVisibleIndex() - 1;
     bool selectionFinished = false;
     do {
-        const QRectF widgetRect = m_view->itemBoundingRect(index);
+        const QRectF widgetRect = m_view->itemRect(index);
         if (widgetRect.intersects(rubberBandRect)) {
             selectedItems.insert(index);
         }

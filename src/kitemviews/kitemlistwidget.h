@@ -53,7 +53,7 @@ public:
     QHash<QByteArray, QVariant> data() const;
 
     /**
-     * Draws the hover-bounding-rectangle if the item is hovered. Overwrite this method
+     * Draws the hover-rectangle if the item is hovered. Overwrite this method
      * to show the data of the custom model provided by KItemListWidget::data().
      * @reimp
      */
@@ -81,22 +81,22 @@ public:
     bool alternatingBackgroundColors() const;
 
     /**
-     * @return True if \a point is inside KItemListWidget::hoverBoundingRect(),
-     *         KItemListWidget::textBoundingRect(), KItemListWidget::selectionToggleRect()
+     * @return True if \a point is inside KItemListWidget::hoverRect(),
+     *         KItemListWidget::textRect(), KItemListWidget::selectionToggleRect()
      *         or KItemListWidget::expansionToggleRect().
      * @reimp
      */
     virtual bool contains(const QPointF& point) const;
 
     /**
-     * @return Bounding rectangle for the area that shows the icon.
+     * @return Rectangle for the area that shows the icon.
      */
-    virtual QRectF iconBoundingRect() const = 0;
+    virtual QRectF iconRect() const = 0;
 
     /**
-     * @return Bounding rectangle for the area that contains the text-properties.
+     * @return Rectangle for the area that contains the text-properties.
      */
-    virtual QRectF textBoundingRect() const = 0;
+    virtual QRectF textRect() const = 0;
 
     /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.

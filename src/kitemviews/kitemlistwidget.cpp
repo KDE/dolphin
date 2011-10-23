@@ -104,7 +104,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         painter->fillRect(backgroundRect, backgroundColor);
     }
 
-    const QRect iconBounds = iconBoundingRect().toRect();
+    const QRect iconBounds = iconRect().toRect();
     if (m_selected) {
         QStyleOptionViewItemV4 viewItemOption;
         viewItemOption.initFrom(widget);
@@ -119,7 +119,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     if (isCurrent()) {
         QStyleOptionViewItemV4 viewItemOption;
         viewItemOption.initFrom(widget);
-        viewItemOption.rect = textBoundingRect().toRect();
+        viewItemOption.rect = textRect().toRect();
         viewItemOption.state = QStyle::State_Enabled | QStyle::State_Item;
         viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, &viewItemOption, painter, widget);
@@ -271,8 +271,8 @@ bool KItemListWidget::contains(const QPointF& point) const
         return false;
     }
 
-    return iconBoundingRect().contains(point) ||
-           textBoundingRect().contains(point) ||
+    return iconRect().contains(point) ||
+           textRect().contains(point) ||
            expansionToggleRect().contains(point) ||
            selectionToggleRect().contains(point);
 }
@@ -366,7 +366,7 @@ void KItemListWidget::drawTextBackground(QPainter* painter)
 {
     const qreal opacity = painter->opacity();
 
-    QRectF textBounds = textBoundingRect();
+    QRectF textBounds = textRect();
     const qreal marginDiff = m_styleOption.margin / 2;
     textBounds.adjust(marginDiff, marginDiff, -marginDiff, -marginDiff);
     painter->setOpacity(opacity * 0.1);

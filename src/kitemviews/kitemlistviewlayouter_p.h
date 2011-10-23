@@ -55,6 +55,13 @@ public:
     void setHeaderHeight(qreal height);
     qreal headerHeight() const;
 
+    /**
+     * Sets the height of the group header that is used
+     * to indicate a new item group.
+     */
+    void setGroupHeaderHeight(qreal height);
+    qreal groupHeaderHeight() const;
+
     // TODO: add note that offset can be < 0 or > maximumOffset!
     void setScrollOffset(qreal scrollOffset);
     qreal scrollOffset() const;
@@ -72,17 +79,39 @@ public:
     void setSizeHintResolver(const KItemListSizeHintResolver* sizeHintResolver);
     const KItemListSizeHintResolver* sizeHintResolver() const;
 
-
-    // TODO: mention that return value is -1 if count == 0
+    /**
+     * @return The first (at least partly) visible index. -1 is returned
+     *         if the item count is 0.
+     */
     int firstVisibleIndex() const;
 
-    // TODO: mention that return value is -1 if count == 0
+    /**
+     * @return The last (at least partly) visible index. -1 is returned
+     *         if the item count is 0.
+     */
     int lastVisibleIndex() const;
 
-    QRectF itemBoundingRect(int index) const;
+    /**
+     * @return Rectangle of the item with the index \a index.
+     *         The top/left of the bounding rectangle is related to
+     *         the top/left of the KItemListView. An empty rectangle
+     *         is returned if an invalid index is given.
+     */
+    QRectF itemRect(int index) const;
 
+    QRectF groupHeaderRect(int index) const;
+
+    /**
+     * @return Maximum number of (at least partly) visible items for
+     *         the given size.
+     */
     int maximumVisibleItems() const;
 
+    /**
+     * @return Maximum number of items that can be shown in the same row
+     *          (= vertical scrolldirection) or same column
+     *          (= horizontal scrolldirection).
+     */
     int itemsPerOffset() const;
 
     /**
@@ -123,13 +152,12 @@ private:
     qreal m_xPosInc;
     int m_columnCount;
 
-    QList<int> m_groups;
-
     // Stores all item indexes that are the first item of a group.
     // Assures fast access for KItemListViewLayouter::isFirstGroupItem().
-    QSet<int> m_groupIndexes;
+    QSet<int> m_groupItemIndexes;
+    qreal m_groupHeaderHeight;
 
-    QList<QRectF> m_itemBoundingRects;
+    QList<QRectF> m_itemRects;
 };
 
 #endif

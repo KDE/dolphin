@@ -53,7 +53,7 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_hoverPixmap(),
     m_textPos(),
     m_text(),
-    m_textBoundingRect(),
+    m_textRect(),
     m_sortedVisibleRoles(),
     m_expansionArea(),
     m_customTextColor(),
@@ -150,7 +150,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 #endif
 }
 
-QRectF KFileItemListWidget::iconBoundingRect() const
+QRectF KFileItemListWidget::iconRect() const
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
 
@@ -160,10 +160,10 @@ QRectF KFileItemListWidget::iconBoundingRect() const
     return bounds;
 }
 
-QRectF KFileItemListWidget::textBoundingRect() const
+QRectF KFileItemListWidget::textRect() const
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
-    return m_textBoundingRect;
+    return m_textRect;
 }
 
 QRectF KFileItemListWidget::expansionToggleRect() const
@@ -531,7 +531,7 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
 
     m_text[Name].setTextWidth(maxWidth);
     m_textPos[Name] = QPointF(option.margin, widgetHeight - textLinesCount * fontHeight - option.margin);
-    m_textBoundingRect = QRectF(option.margin + (maxWidth - requiredWidthForName) / 2,
+    m_textRect = QRectF(option.margin + (maxWidth - requiredWidthForName) / 2,
                                  m_textPos[Name].y(),
                                  requiredWidthForName,
                                  m_text[Name].size().height());
@@ -570,15 +570,15 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
         m_textPos[textId] = QPointF(option.margin, y);
         m_text[textId].setTextWidth(maxWidth);
 
-        const QRectF textBoundingRect(option.margin + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
-        m_textBoundingRect |= textBoundingRect;
+        const QRectF textRect(option.margin + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
+        m_textRect |= textRect;
 
         y += fontHeight;
     }
 
-    // Add a margin to the text bounding rectangle
+    // Add a margin to the text rectangle
     const qreal margin = option.margin;
-    m_textBoundingRect.adjust(-margin, -margin, margin, margin);
+    m_textRect.adjust(-margin, -margin, margin, margin);
 }
 
 void KFileItemListWidget::updateCompactLayoutTextCache()
@@ -620,7 +620,7 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
         y += fontHeight;
     }
 
-    m_textBoundingRect = QRectF(x - option.margin, 0, maximumRequiredTextWidth + 2 * option.margin, widgetHeight);
+    m_textRect = QRectF(x - option.margin, 0, maximumRequiredTextWidth + 2 * option.margin, widgetHeight);
 }
 
 void KFileItemListWidget::updateDetailsLayoutTextCache()
@@ -631,7 +631,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     // +------+
     // | Icon |  Name role   Additional role 1   Additional role 2
     // +------+
-    m_textBoundingRect = QRectF();
+    m_textRect = QRectF();
 
     const KItemListStyleOption& option = styleOption();
     const QHash<QByteArray, QVariant> values = data();
@@ -669,7 +669,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
 
         switch (textId) {
         case Name: {
-            m_textBoundingRect = QRectF(m_textPos[textId].x() - option.margin, 0,
+            m_textRect = QRectF(m_textPos[textId].x() - option.margin, 0,
                                         requiredWidth + 2 * option.margin, size().height());
 
             // The column after the name should always be aligned on the same x-position independent
