@@ -22,6 +22,8 @@
 
 #include <libdolphin_export.h>
 
+#include <kitemviews/kitemliststyleoption.h>
+
 #include <QByteArray>
 #include <QGraphicsWidget>
 #include <QVariant>
@@ -42,17 +44,60 @@ public:
     void setData(const QVariant& data);
     QVariant data() const;
 
-    virtual QSizeF sizeHint(Qt::SizeHint which = Qt::PreferredSize, const QSizeF& constraint = QSizeF()) const;
+    void setStyleOption(const KItemListStyleOption& option);
+    const KItemListStyleOption& styleOption() const;
+
+    /**
+     * Sets the scroll orientation that is used by the KItemListView.
+     * This allows the group header to use a modified look dependent
+     * on the orientation.
+     */
+    void setScrollOrientation(Qt::Orientation orientation);
+    Qt::Orientation scrollOrientation() const;
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 protected:
+    /**
+     * Is called after the role has been changed and allows the derived class
+     * to react on this change.
+     */
     virtual void roleChanged(const QByteArray& current, const QByteArray& previous);
+
+    /**
+     * Is called after the role has been changed and allows the derived class
+     * to react on this change.
+     */
     virtual void dataChanged(const QVariant& current, const QVariant& previous);
 
+    /**
+     * Is called after the style option has been changed and allows the derived class
+     * to react on this change.
+     */
+    virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+
+    /**
+     * Is called after the scroll orientation has been changed and allows the derived class
+     * to react on this change.
+     */
+    virtual void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
+
+    /** @reimp */
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+
 private:
+    void updateCache();
+
+private:
+    bool m_dirtyCache;
     QByteArray m_role;
     QVariant m_data;
+    KItemListStyleOption m_styleOption;
+    Qt::Orientation m_scrollOrientation;
 
+    QPixmap* m_leftBorderCache;
+    QPixmap* m_rightBorderCache;
+    QColor m_outlineColor;
 };
 #endif
 

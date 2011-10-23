@@ -355,6 +355,25 @@ void KItemListViewLayouter::doLayout()
                     m_itemRects.append(bounds);
                 }
 
+                if (grouped && horizontalScrolling) {
+                    // When grouping is enabled in the horizontal mode, the header alignment
+                    // looks like this:
+                    //   Header-1 Header-2 Header-3
+                    //   Item 1   Item 4   Item 7
+                    //   Item 2   Item 5   Item 8
+                    //   Item 3   Item 6   Item 9
+                    // In this case 'requiredItemHeight' represents the column-width. We don't
+                    // check the content of the header in the layouter to determine the required
+                    // width, hence assure that at least a minimal width of 15 characters is given
+                    // (in average a character requires the halve width of the font height).
+                    //
+                    // TODO: Let the group headers provide a minimum width and respect this width here
+                    const qreal minimumGroupHeaderWidth = m_groupHeaderHeight * 15 / 2;
+                    if (requiredItemHeight < minimumGroupHeaderWidth) {
+                        requiredItemHeight = minimumGroupHeaderWidth;
+                    }
+                }
+
                 maxItemHeight = qMax(maxItemHeight, requiredItemHeight);
                 x += m_columnWidth;
                 ++index;

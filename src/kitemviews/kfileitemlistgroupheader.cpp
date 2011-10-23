@@ -25,8 +25,12 @@
 #include <QPainter>
 
 KFileItemListGroupHeader::KFileItemListGroupHeader(QGraphicsWidget* parent) :
-    KItemListGroupHeader(parent)
+    KItemListGroupHeader(parent),
+    m_font(),
+    m_text()
 {
+    m_text.setTextFormat(Qt::PlainText);
+    m_text.setPerformanceHint(QStaticText::AggressiveCaching);
 }
 
 KFileItemListGroupHeader::~KFileItemListGroupHeader()
@@ -36,8 +40,35 @@ KFileItemListGroupHeader::~KFileItemListGroupHeader()
 void KFileItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     KItemListGroupHeader::paint(painter, option, widget);
-    // TODO: Use dataChanged() hook to prepare a cached property
-    painter->drawText(QRectF(0, 0, size().width(), size().height()), data().toString());
+
+    painter->setPen(styleOption().palette.text().color());
+    painter->setFont(m_font);
+    const int margin = styleOption().margin;
+    painter->drawStaticText(margin * 2, margin, m_text);
+}
+
+void KFileItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    updateText();
+}
+
+void KFileItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
+{
+    QGraphicsWidget::resizeEvent(event);
+    updateText();
+}
+
+void KFileItemListGroupHeader::updateText()
+{
+    const qreal width = size().width() - 4 * styleOption().margin;
+    m_font = font();
+    m_font.setBold(true);
+
+    QFontMetricsF fontMetrics(m_font);
+    const QString text = fontMetrics.elidedText(data().toString(), Qt::ElideRight, width);
+    m_text.setText(text);
 }
 
 #include "kfileitemlistgroupheader.moc"

@@ -24,6 +24,8 @@
 
 #include <kitemviews/kitemlistgroupheader.h>
 
+#include <QStaticText>
+
 class LIBDOLPHINPRIVATE_EXPORT KFileItemListGroupHeader : public KItemListGroupHeader
 {
     Q_OBJECT
@@ -32,8 +34,18 @@ public:
     KFileItemListGroupHeader(QGraphicsWidget* parent = 0);
     virtual ~KFileItemListGroupHeader();
 
-    /** @reimp */
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+
+protected:
+    virtual void dataChanged(const QVariant& current, const QVariant& previous);
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+
+private:
+    void updateText();
+
+private:
+    QFont m_font;
+    QStaticText m_text;
 };
 #endif
 

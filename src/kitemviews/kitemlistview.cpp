@@ -1478,6 +1478,8 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
 
     header->setData(groups.at(mid).second);
     header->setRole(model()->sortRole());
+    header->setStyleOption(m_styleOption);
+    header->setScrollOrientation(scrollOrientation());
 
     header->show();
 }

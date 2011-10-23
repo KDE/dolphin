@@ -1168,6 +1168,13 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
     QChar firstChar;
     bool isLetter = false;
     for (int i = 0; i <= maxIndex; ++i) {
+        if (m_requestRole[ExpansionLevelRole] && m_data.at(i).value("expansionLevel").toInt() > 0) {
+            // KItemListView would be capable to show sub-groups in groups but
+            // in typical usecases this results in visual clutter, hence we
+            // just ignore sub-groups.
+            continue;
+        }
+
         const QString name = m_data.at(i).value("name").toString();
 
         // Use the first character of the name as group indication
