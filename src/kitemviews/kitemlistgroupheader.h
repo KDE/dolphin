@@ -87,6 +87,7 @@ protected:
 
 private:
     void updateCache();
+    void deleteCache();
 
 private:
     bool m_dirtyCache;

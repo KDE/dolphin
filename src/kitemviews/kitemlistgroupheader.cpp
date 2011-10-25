@@ -44,8 +44,7 @@ KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget* parent) :
 
 KItemListGroupHeader::~KItemListGroupHeader()
 {
-    delete m_leftBorderCache;
-    delete m_rightBorderCache;
+    deleteCache();
 }
 
 void KItemListGroupHeader::setRole(const QByteArray& role)
@@ -96,7 +95,11 @@ void KItemListGroupHeader::setScrollOrientation(Qt::Orientation orientation)
     if (m_scrollOrientation != orientation) {
         const Qt::Orientation previous = m_scrollOrientation;
         m_scrollOrientation = orientation;
-        m_dirtyCache = true;
+        if (orientation == Qt::Vertical) {
+            m_dirtyCache = true;
+        } else {
+            deleteCache();
+        }
         scrollOrientationChanged(orientation, previous);
     }
 }
@@ -108,12 +111,18 @@ Qt::Orientation KItemListGroupHeader::scrollOrientation() const
 
 void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
+    Q_UNUSED(option);
+    Q_UNUSED(widget);
+
+    if (m_scrollOrientation == Qt::Horizontal) {
+        Q_ASSERT(!m_leftBorderCache);
+        Q_ASSERT(!m_rightBorderCache);
+        return;
+    }
+
     if (m_dirtyCache) {
         updateCache();
     }
-
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
 
     const int leftBorderX = m_leftBorderCache->width() + 1;
     const int rightBorderX = size().width() - m_rightBorderCache->width() - 2;
@@ -161,8 +170,7 @@ void KItemListGroupHeader::updateCache()
 {
     Q_ASSERT(m_dirtyCache);
 
-    delete m_leftBorderCache;
-    delete m_rightBorderCache;
+    deleteCache();
 
     const int length = qMax(int(size().height() - 1), 1);
     m_leftBorderCache = new QPixmap(length, length);
@@ -210,33 +218,34 @@ void KItemListGroupHeader::updateCache()
         QPainter painter(m_rightBorderCache);
         painter.setPen(m_outlineColor);
 
+        // 1. Draw top horizontal line
+        painter.drawLine(0, 0, length - 3, 0);
+
+        // 2. Draw vertical line with gradient
         const int right = length - 1;
-        if (m_scrollOrientation == Qt::Vertical) {
-            // 1. Draw top horizontal line
-            painter.drawLine(0, 0, length - 3, 0);
+        const QPoint start(right, 3);
+        QLinearGradient gradient(start, QPoint(right, length));
+        gradient.setColorAt(0, m_outlineColor);
+        gradient.setColorAt(1, Qt::transparent);
+        painter.fillRect(QRect(start, QSize(1, length - start.y())), gradient);
 
-            // 2. Draw vertical line with gradient
-            const QPoint start(right, 3);
-            QLinearGradient gradient(start, QPoint(right, length));
-            gradient.setColorAt(0, m_outlineColor);
-            gradient.setColorAt(1, Qt::transparent);
-            painter.fillRect(QRect(start, QSize(1, length - start.y())), gradient);
-
-            // 3. Draw arc
-            painter.setRenderHint(QPainter::Antialiasing);
-            QRectF arc(QPointF(length - 5, 0), QSizeF(4, 4));
-            arc.translate(0.5, 0.5);
-            painter.drawArc(arc, 0, 1440);
-        } else {
-            // Draw a horizontal gradiented line
-            QLinearGradient gradient(QPoint(0, 0), QPoint(length, 0));
-            gradient.setColorAt(0, m_outlineColor);
-            gradient.setColorAt(1, Qt::transparent);
-            painter.fillRect(QRect(QPoint(0, 0), QSize(length, 1)), gradient);
-        }
+        // 3. Draw arc
+        painter.setRenderHint(QPainter::Antialiasing);
+        QRectF arc(QPointF(length - 5, 0), QSizeF(4, 4));
+        arc.translate(0.5, 0.5);
+        painter.drawArc(arc, 0, 1440);
     }
 
     m_dirtyCache = false;
+}
+
+void KItemListGroupHeader::deleteCache()
+{
+    delete m_leftBorderCache;
+    m_leftBorderCache = 0;
+
+    delete m_rightBorderCache;
+    m_rightBorderCache = 0;
 }
 
 #include "kitemlistgroupheader.moc"

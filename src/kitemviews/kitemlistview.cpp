@@ -117,6 +117,15 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
     m_layouter->setScrollOrientation(orientation);
     m_animation->setScrollOrientation(orientation);
     m_sizeHintResolver->clearCache();
+
+    if (m_grouped) {
+        QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
+        while (it.hasNext()) {
+            it.next();
+            it.value()->setScrollOrientation(orientation);
+        }
+    }
+
     updateLayout();
 
     onScrollOrientationChanged(orientation, previousOrientation);
@@ -857,8 +866,7 @@ void KItemListView::slotGroupedSortingChanged(bool current)
         QHashIterator<int, KItemListWidget*> it(m_visibleItems);
         while (it.hasNext()) {
             it.next();
-            KItemListWidget* widget = it.value();
-            updateGroupHeaderForWidget(widget);
+            updateGroupHeaderForWidget(it.value());
         }
     } else {
         // Clear all visible headers
