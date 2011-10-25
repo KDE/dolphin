@@ -260,6 +260,7 @@ int KItemListViewLayouter::itemsPerOffset() const
 
 bool KItemListViewLayouter::isFirstGroupItem(int itemIndex) const
 {
+    const_cast<KItemListViewLayouter*>(this)->doLayout();
     return m_groupItemIndexes.contains(itemIndex);
 }
 

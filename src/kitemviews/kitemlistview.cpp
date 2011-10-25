@@ -1203,6 +1203,10 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         if (invisible && !m_animation->isStarted(widget)) {
             widget->setVisible(false);
             reusableItems.append(index);
+
+            if (m_grouped) {
+                recycleGroupHeaderForWidget(widget);
+            }
         }
     }
 
@@ -1224,6 +1228,10 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                 const int oldIndex = reusableItems.takeLast();
                 widget = m_visibleItems.value(oldIndex);
                 setWidgetIndex(widget, i);
+
+                if (m_grouped) {
+                    updateGroupHeaderForWidget(widget);
+                }
             } else {
                 // No reusable KItemListWidget instance is available, create a new one
                 widget = createWidget(i);
@@ -1366,10 +1374,6 @@ void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
     m_visibleItems.remove(oldIndex);
     updateWidgetProperties(widget, index);
     m_visibleItems.insert(index, widget);
-
-    if (m_grouped) {
-        updateGroupHeaderForWidget(widget);
-    }
 
     initializeItemListWidget(widget);
 }

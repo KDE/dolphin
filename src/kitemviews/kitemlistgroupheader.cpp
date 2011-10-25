@@ -164,7 +164,7 @@ void KItemListGroupHeader::updateCache()
     delete m_leftBorderCache;
     delete m_rightBorderCache;
 
-    const int length = size().height() - 1;
+    const int length = qMax(int(size().height() - 1), 1);
     m_leftBorderCache = new QPixmap(length, length);
     m_leftBorderCache->fill(Qt::transparent);
 
