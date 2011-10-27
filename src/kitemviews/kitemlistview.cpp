@@ -1423,8 +1423,9 @@ void KItemListView::prepareLayoutForIncreasedItemCount(const QSizeF& size, SizeT
         for (int i = minFirst; i <= maxLast; ++i) {
             if (!m_visibleItems.contains(i)) {
                 KItemListWidget* widget = createWidget(i);
-                const QPointF pos = m_layouter->itemRect(i).topLeft();
-                widget->setPos(pos);
+                const QRectF itemRect = m_layouter->itemRect(i);
+                widget->setPos(itemRect.topLeft());
+                widget->resize(itemRect.size());
             }
         }
         setLayouterSize(size, sizeType);

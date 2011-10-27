@@ -327,13 +327,19 @@ namespace {
 
 void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
 {
+    if (scaledSize.isEmpty()) {
+        pixmap = QPixmap();
+        return;
+    }
+
 #if defined(Q_WS_X11) && defined(HAVE_XRENDER)
     // Assume that the texture size limit is 2048x2048
     if ((pixmap.width() <= 2048) && (pixmap.height() <= 2048) && pixmap.x11PictureHandle()) {
+        const QPixmap unscaledPixmap = pixmap.copy(); // Make a deep copy for XRender
         QSize scaledPixmapSize = pixmap.size();
         scaledPixmapSize.scale(scaledSize, Qt::KeepAspectRatio);
 
-        const qreal factor = scaledPixmapSize.width() / qreal(pixmap.width());
+        const qreal factor = scaledPixmapSize.width() / qreal(unscaledPixmap.width());
 
         XTransform xform = {{
             { XDoubleToFixed(1 / factor), 0, 0 },
@@ -348,11 +354,11 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
 
         XRenderPictureAttributes attr;
         attr.repeat = RepeatPad;
-        XRenderChangePicture(dpy, pixmap.x11PictureHandle(), CPRepeat, &attr);
+        XRenderChangePicture(dpy, unscaledPixmap.x11PictureHandle(), CPRepeat, &attr);
 
-        XRenderSetPictureFilter(dpy, pixmap.x11PictureHandle(), FilterBilinear, 0, 0);
-        XRenderSetPictureTransform(dpy, pixmap.x11PictureHandle(), &xform);
-        XRenderComposite(dpy, PictOpOver, pixmap.x11PictureHandle(), None, scaledPixmap.x11PictureHandle(),
+        XRenderSetPictureFilter(dpy, unscaledPixmap.x11PictureHandle(), FilterBilinear, 0, 0);
+        XRenderSetPictureTransform(dpy, unscaledPixmap.x11PictureHandle(), &xform);
+        XRenderComposite(dpy, PictOpOver, unscaledPixmap.x11PictureHandle(), None, scaledPixmap.x11PictureHandle(),
                          0, 0, 0, 0, 0, 0, scaledPixmap.width(), scaledPixmap.height());
         pixmap = scaledPixmap;
     } else {

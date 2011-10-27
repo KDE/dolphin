@@ -694,7 +694,7 @@ void KFileItemListWidget::updateAdditionalInfoTextColor()
     // is not used as this might lead to unreadable text for some color schemes. Instead
     // the text color is slightly mixed with the background color.
     const QColor c1 = textColor();
-    const QColor c2 = styleOption().palette.background().color();
+    const QColor c2 = styleOption().palette.base().color();
     const int p1 = 70;
     const int p2 = 100 - p1;
     m_additionalInfoTextColor = QColor((c1.red()   * p1 + c2.red()   * p2) / 100,

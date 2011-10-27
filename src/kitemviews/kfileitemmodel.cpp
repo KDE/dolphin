@@ -1190,13 +1190,15 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
                 newGroupValue = newFirstChar;
                 isLetter = true;
             } else if (newFirstChar >= QLatin1Char('0') && newFirstChar <= QLatin1Char('9')) {
-                // Apply group 'Numerics' for any name that starts with a digit
-                newGroupValue = i18nc("@title:group", "Numerics");
+                // Apply group '0 - 9' for any name that starts with a digit
+                newGroupValue = i18nc("@title:group Groups that start with a digit", "0 - 9");
                 isLetter = false;
             } else {
                 if (isLetter) {
                     // If the current group is 'A' - 'Z' check whether a locale character
                     // fits into the existing group.
+                    // TODO: This does not work in the case if e.g. the group 'O' starts with
+                    // an umlaut 'O' -> provide unit-test to document this known issue
                     const QChar prevChar(firstChar.unicode() - ushort(1));
                     const QChar nextChar(firstChar.unicode() + ushort(1));
                     const QString currChar(newFirstChar);
