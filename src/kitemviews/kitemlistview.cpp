@@ -856,19 +856,17 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
 void KItemListView::slotGroupedSortingChanged(bool current)
 {
     m_grouped = current;
+
     if (m_grouped) {
         // Apply the height of the header to the layouter
         const qreal groupHeaderHeight = m_styleOption.fontMetrics.height() +
                                         m_styleOption.margin * 2;
         m_layouter->setGroupHeaderHeight(groupHeaderHeight);
 
-        // Assure that headers from already visible items get created
-        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-        while (it.hasNext()) {
-            it.next();
-            updateGroupHeaderForWidget(it.value());
-        }
+        updateVisibleGroupHeaders(); // Triggers updateLayout()
     } else {
+        m_layouter->markAsDirty();
+
         // Clear all visible headers
         QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
         while (it.hasNext()) {
@@ -876,10 +874,27 @@ void KItemListView::slotGroupedSortingChanged(bool current)
             recycleGroupHeaderForWidget(it.key());
         }
         Q_ASSERT(m_visibleGroups.isEmpty());
-    }
 
-    m_layouter->markAsDirty();
-    updateLayout();
+        updateLayout();
+    }
+}
+
+void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    if (m_grouped) {
+        updateVisibleGroupHeaders();
+    }
+}
+
+void KItemListView::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    if (m_grouped) {
+        updateVisibleGroupHeaders();
+    }
 }
 
 void KItemListView::slotCurrentChanged(int current, int previous)
@@ -1136,6 +1151,10 @@ void KItemListView::setModel(KItemModelBase* model)
                    this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
         disconnect(m_model, SIGNAL(groupedSortingChanged(bool)),
                    this,    SLOT(slotGroupedSortingChanged(bool)));
+        disconnect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
+                   this,    SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
+        disconnect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
+                   this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
     }
 
     m_model = model;
@@ -1153,6 +1172,10 @@ void KItemListView::setModel(KItemModelBase* model)
                 this,    SLOT(slotItemsMoved(KItemRange,QList<int>)));
         connect(m_model, SIGNAL(groupedSortingChanged(bool)),
                 this,    SLOT(slotGroupedSortingChanged(bool)));
+        connect(m_model, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
+                this,    SLOT(slotSortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
+        connect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
+                this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
     }
 
     onModelChanged(model, previous);
@@ -1526,6 +1549,20 @@ void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
         m_groupHeaderCreator->recycle(header);
         m_visibleGroups.remove(widget);
     }
+}
+
+void KItemListView::updateVisibleGroupHeaders()
+{
+    Q_ASSERT(m_grouped);
+    m_layouter->markAsDirty();
+
+    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    while (it.hasNext()) {
+        it.next();
+        updateGroupHeaderForWidget(it.value());
+    }
+
+    updateLayout();
 }
 
 QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const

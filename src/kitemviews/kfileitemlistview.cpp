@@ -304,27 +304,9 @@ void KFileItemListView::onScrollOffsetChanged(qreal current, qreal previous)
 
 void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
 {
+    Q_UNUSED(current);
     Q_UNUSED(previous);
-
-    Q_ASSERT(qobject_cast<KFileItemModel*>(model()));
-    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
-
-    // KFileItemModel does not distinct between "visible" and "invisible" roles.
-    // Add all roles that are mandatory for having a working KFileItemListView:
-    QSet<QByteArray> keys = current.toSet();
-    QSet<QByteArray> roles = keys;
-    roles.insert("iconPixmap");
-    roles.insert("iconName");
-    roles.insert("name"); // TODO: just don't allow to disable it
-    roles.insert("isDir");
-    if (m_itemLayout == DetailsLayout) {
-        roles.insert("isExpanded");
-        roles.insert("expansionLevel");
-    }
-
-    fileItemModel->setRoles(roles);
-
-    m_modelRolesUpdater->setRoles(keys);
+    applyRolesToModel();
 }
 
 void KFileItemListView::onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
@@ -361,6 +343,16 @@ void KFileItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
     KItemListView::slotItemsRemoved(itemRanges);
     updateTimersInterval();
+}
+
+void KFileItemListView::slotSortRoleChanged(const QByteArray& current, const QByteArray& previous)
+{
+    const QByteArray sortRole = model()->sortRole();
+    if (!visibleRoles().contains(sortRole)) {
+        applyRolesToModel();
+    }
+
+    KItemListView::slotSortRoleChanged(current, previous);
 }
 
 void KFileItemListView::triggerVisibleIndexRangeUpdate()
@@ -479,6 +471,30 @@ void KFileItemListView::updateMinimumRolesWidths()
     const KItemListStyleOption& option = styleOption();
     const QString sizeText = QLatin1String("888888") + i18nc("@item:intable", "items");
     m_minimumRolesWidths.insert("size", option.fontMetrics.width(sizeText));
+}
+
+void KFileItemListView::applyRolesToModel()
+{
+    Q_ASSERT(qobject_cast<KFileItemModel*>(model()));
+    KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
+
+    // KFileItemModel does not distinct between "visible" and "invisible" roles.
+    // Add all roles that are mandatory for having a working KFileItemListView:
+    QSet<QByteArray> roles = visibleRoles().toSet();
+    roles.insert("iconPixmap");
+    roles.insert("iconName");
+    roles.insert("name");
+    roles.insert("isDir");
+    if (m_itemLayout == DetailsLayout) {
+        roles.insert("isExpanded");
+        roles.insert("expansionLevel");
+    }
+
+    // Assure that the role that is used for sorting will be determined
+    roles.insert(fileItemModel->sortRole());
+
+    fileItemModel->setRoles(roles);
+    m_modelRolesUpdater->setRoles(roles);
 }
 
 #include "kfileitemlistview.moc"

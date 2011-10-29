@@ -252,10 +252,13 @@ protected slots:
     virtual void slotItemsChanged(const KItemRangeList& itemRanges,
                                   const QSet<QByteArray>& roles);
 
+    virtual void slotGroupedSortingChanged(bool current);
+    virtual void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
+    virtual void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);
+    virtual void slotCurrentChanged(int current, int previous);
+    virtual void slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous);
+
 private slots:
-    void slotGroupedSortingChanged(bool current);
-    void slotCurrentChanged(int current, int previous);
-    void slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous);
     void slotAnimationFinished(QGraphicsWidget* widget,
                                KItemListViewAnimation::AnimationType type);
     void slotLayoutTimerFinished();
@@ -346,6 +349,13 @@ private:
      * Recycles the group-header from the widget.
      */
     void recycleGroupHeaderForWidget(KItemListWidget* widget);
+
+    /**
+     * Helper method for slotGroupedSortingChanged(), slotSortOrderChanged()
+     * and slotSortRoleChanged(): Iterates through all visible items and updates
+     * the group-header widgets.
+     */
+    void updateVisibleGroupHeaders();
 
     /**
      * @return The widths of each visible role that is shown in the KItemListHeader.

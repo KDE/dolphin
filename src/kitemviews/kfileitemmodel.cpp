@@ -36,6 +36,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_naturalSorting(true),
     m_sortFoldersFirst(true),
     m_sortRole(NameRole),
+    m_roles(),
     m_caseSensitivity(Qt::CaseInsensitive),
     m_sortedItems(),
     m_items(),
@@ -306,6 +307,8 @@ void KFileItemModel::clear()
 
 void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
 {
+    m_roles = roles;
+
     if (count() > 0) {
         const bool supportedExpanding = m_requestRole[IsExpandedRole] && m_requestRole[ExpansionLevelRole];
         const bool willSupportExpanding = roles.contains("isExpanded") && roles.contains("expansionLevel");
@@ -317,6 +320,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
     }
 
     resetRoles();
+
     QSetIterator<QByteArray> it(roles);
     while (it.hasNext()) {
         const QByteArray& role = it.next();
@@ -337,28 +341,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
 
 QSet<QByteArray> KFileItemModel::roles() const
 {
-    QSet<QByteArray> roles;
-    for (int i = 0; i < RolesCount; ++i) {
-        if (m_requestRole[i]) {
-            switch (i) {
-            case NoRole:             break;
-            case NameRole:           roles.insert("name"); break;
-            case SizeRole:           roles.insert("size"); break;
-            case DateRole:           roles.insert("date"); break;
-            case PermissionsRole:    roles.insert("permissions"); break;
-            case OwnerRole:          roles.insert("owner"); break;
-            case GroupRole:          roles.insert("group"); break;
-            case TypeRole:           roles.insert("type"); break;
-            case DestinationRole:    roles.insert("destination"); break;
-            case PathRole:           roles.insert("path"); break;
-            case IsDirRole:          roles.insert("isDir"); break;
-            case IsExpandedRole:     roles.insert("isExpanded"); break;
-            case ExpansionLevelRole: roles.insert("expansionLevel"); break;
-            default:                 Q_ASSERT(false); break;
-            }
-        }
-    }
-    return roles;
+    return m_roles;
 }
 
 bool KFileItemModel::setExpanded(int index, bool expanded)
@@ -435,6 +418,13 @@ void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArr
 {
     Q_UNUSED(previous);
     m_sortRole = roleIndex(current);
+
+#ifdef KFILEITEMMODEL_DEBUG
+    if (!m_requestRole[m_sortRole]) {
+        kWarning() << "The sort-role has been changed to a role that has not been received yet";
+    }
+#endif
+
     resortAllItems();
 }
 

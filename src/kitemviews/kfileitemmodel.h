@@ -166,6 +166,9 @@ private:
         RolesCount // Mandatory last entry
     };
 
+    /**
+     * Resets all values from m_requestRole to false.
+     */
     void resetRoles();
 
     Role roleIndex(const QByteArray& role) const;
@@ -217,6 +220,7 @@ private:
     bool m_sortFoldersFirst;
 
     Role m_sortRole;
+    QSet<QByteArray> m_roles;
     Qt::CaseSensitivity m_caseSensitivity;
 
     KFileItemList m_sortedItems;   // Allows O(1) access for KFileItemModel::fileItem(int index)

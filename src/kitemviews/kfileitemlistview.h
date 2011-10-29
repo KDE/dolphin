@@ -81,6 +81,7 @@ protected:
 
 protected slots:
     virtual void slotItemsRemoved(const KItemRangeList& itemRanges);
+    virtual void slotSortRoleChanged(const QByteArray& current, const QByteArray& previous);
 
 private slots:
     void triggerVisibleIndexRangeUpdate();
@@ -94,6 +95,14 @@ private:
     void updateLayoutOfVisibleItems();
     void updateTimersInterval();
     void updateMinimumRolesWidths();
+
+    /**
+     * Applies the roles defined by KItemListView::visibleRoles() to the
+     * KFileItemModel and KFileItemModelRolesUpdater. As the model does not
+     * distinct between visible and invisible roles also internal roles
+     * are applied that are mandatory for having a working KFileItemModel.
+     */
+    void applyRolesToModel();
 
 private:
     Layout m_itemLayout;
