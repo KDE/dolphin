@@ -198,11 +198,17 @@ private:
     QList<QPair<int, QVariant> > sizeRoleGroups() const;
     QList<QPair<int, QVariant> > dateRoleGroups() const;
     QList<QPair<int, QVariant> > permissionRoleGroups() const;
-    QList<QPair<int, QVariant> > ownerRoleGroups() const;
-    QList<QPair<int, QVariant> > groupRoleGroups() const;
-    QList<QPair<int, QVariant> > typeRoleGroups() const;
-    QList<QPair<int, QVariant> > destinationRoleGroups() const;
-    QList<QPair<int, QVariant> > pathRoleGroups() const;
+    QList<QPair<int, QVariant> > genericStringRoleGroups(const QByteArray& role) const;
+
+    /**
+     * Helper method for all xxxRoleGroups() methods to check whether the
+     * item with the given index is a child-item. A child-item is defined
+     * as item having an expansion-level > 0. All xxxRoleGroups() methods
+     * should skip the grouping if the item is a child-item (although
+     * KItemListView would be capable to show sub-groups in groups this
+     * results in visual clutter for most usecases).
+     */
+    bool isChildItem(int index) const;
 
 private:
     QWeakPointer<KDirLister> m_dirLister;
@@ -240,6 +246,11 @@ private:
 
     friend class KFileItemModelTest; // For unit testing
 };
+
+inline bool KFileItemModel::isChildItem(int index) const
+{
+    return m_requestRole[ExpansionLevelRole] && m_data.at(index).value("expansionLevel").toInt() > 0;
+}
 
 #endif
 

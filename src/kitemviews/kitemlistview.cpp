@@ -1466,6 +1466,11 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
         return;
     }
 
+    const QList<QPair<int, QVariant> > groups = model()->groups();
+    if (groups.isEmpty()) {
+        return;
+    }
+
     KItemListGroupHeader* header = m_visibleGroups.value(widget);
     if (!header) {
         header = m_groupHeaderCreator->create(this);
@@ -1476,7 +1481,6 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
 
     // Determine the shown data for the header by doing a binary
     // search in the groups-list
-    const QList<QPair<int, QVariant> > groups = model()->groups();
     int min = 0;
     int max = groups.count() - 1;
     int mid = 0;

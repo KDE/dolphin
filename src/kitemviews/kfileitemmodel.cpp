@@ -236,11 +236,11 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         case SizeRole:           m_groups = sizeRoleGroups(); break;
         case DateRole:           m_groups = dateRoleGroups(); break;
         case PermissionsRole:    m_groups = permissionRoleGroups(); break;
-        case OwnerRole:          m_groups = ownerRoleGroups(); break;
-        case GroupRole:          m_groups = groupRoleGroups(); break;
-        case TypeRole:           m_groups = typeRoleGroups(); break;
-        case DestinationRole:    m_groups = destinationRoleGroups(); break;
-        case PathRole:           m_groups = pathRoleGroups(); break;
+        case OwnerRole:          m_groups = genericStringRoleGroups("owner"); break;
+        case GroupRole:          m_groups = genericStringRoleGroups("group"); break;
+        case TypeRole:           m_groups = genericStringRoleGroups("type"); break;
+        case DestinationRole:    m_groups = genericStringRoleGroups("destination"); break;
+        case PathRole:           m_groups = genericStringRoleGroups("path"); break;
         case NoRole:             break;
         case IsDirRole:          break;
         case IsExpandedRole:     break;
@@ -762,12 +762,11 @@ void KFileItemModel::resortAllItems()
         return;
     }
 
-    m_groups.clear();
-
     const KFileItemList oldSortedItems = m_sortedItems;
     const QHash<KUrl, int> oldItems = m_items;
     const QList<QHash<QByteArray, QVariant> > oldData = m_data;
 
+    m_groups.clear();
     m_items.clear();
     m_data.clear();
 
@@ -1168,10 +1167,7 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
     QChar firstChar;
     bool isLetter = false;
     for (int i = 0; i <= maxIndex; ++i) {
-        if (m_requestRole[ExpansionLevelRole] && m_data.at(i).value("expansionLevel").toInt() > 0) {
-            // KItemListView would be capable to show sub-groups in groups but
-            // in typical usecases this results in visual clutter, hence we
-            // just ignore sub-groups.
+        if (isChildItem(i)) {
             continue;
         }
 
@@ -1227,49 +1223,227 @@ QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
 {
     Q_ASSERT(!m_data.isEmpty());
 
-    return QList<QPair<int, QVariant> >();
+    const int maxIndex = count() - 1;
+    QList<QPair<int, QVariant> > groups;
+
+    QString groupValue;
+    for (int i = 0; i <= maxIndex; ++i) {
+        if (isChildItem(i)) {
+            continue;
+        }
+
+        const KFileItem& item = m_sortedItems.at(i);
+        const KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
+        QString newGroupValue;
+        if (!item.isNull() && item.isDir()) {
+            newGroupValue = i18nc("@title:group Size", "Folders");
+        } else if (fileSize < 5 * 1024 * 1024) {
+            newGroupValue = i18nc("@title:group Size", "Small");
+        } else if (fileSize < 10 * 1024 * 1024) {
+            newGroupValue = i18nc("@title:group Size", "Medium");
+        } else {
+            newGroupValue = i18nc("@title:group Size", "Big");
+        }
+
+        if (newGroupValue != groupValue) {
+            groupValue = newGroupValue;
+            groups.append(QPair<int, QVariant>(i, newGroupValue));
+        }
+    }
+
+    return groups;
 }
 
 QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
 {
     Q_ASSERT(!m_data.isEmpty());
-    return QList<QPair<int, QVariant> >();
+
+    const int maxIndex = count() - 1;
+    QList<QPair<int, QVariant> > groups;
+
+    const QDate currentDate = KDateTime::currentLocalDateTime().date();
+
+    int yearForCurrentWeek = 0;
+    int currentWeek = currentDate.weekNumber(&yearForCurrentWeek);
+    if (yearForCurrentWeek == currentDate.year() + 1) {
+        currentWeek = 53;
+    }
+
+    QDate previousModifiedDate;
+    QString groupValue;
+    for (int i = 0; i <= maxIndex; ++i) {
+        if (isChildItem(i)) {
+            continue;
+        }
+
+        const KDateTime modifiedTime = m_sortedItems.at(i).time(KFileItem::ModificationTime);
+        const QDate modifiedDate = modifiedTime.date();
+        if (modifiedDate == previousModifiedDate) {
+            // The current item is in the same group as the previous item
+            continue;
+        }
+        previousModifiedDate = modifiedDate;
+
+        const int daysDistance = modifiedDate.daysTo(currentDate);
+
+        int yearForModifiedWeek = 0;
+        int modifiedWeek = modifiedDate.weekNumber(&yearForModifiedWeek);
+        if (yearForModifiedWeek == modifiedDate.year() + 1) {
+            modifiedWeek = 53;
+        }
+
+        QString newGroupValue;
+        if (currentDate.year() == modifiedDate.year() && currentDate.month() == modifiedDate.month()) {
+            if (modifiedWeek > currentWeek) {
+                // Usecase: modified date = 2010-01-01, current date = 2010-01-22
+                //          modified week = 53,         current week = 3
+                modifiedWeek = 0;
+            }
+            switch (currentWeek - modifiedWeek) {
+            case 0:
+                switch (daysDistance) {
+                case 0:  newGroupValue = i18nc("@title:group Date", "Today"); break;
+                case 1:  newGroupValue = i18nc("@title:group Date", "Yesterday"); break;
+                default: newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: %A", "%A"));
+                }
+                break;
+            case 1:
+                newGroupValue = i18nc("@title:group Date", "Last Week");
+                break;
+            case 2:
+                newGroupValue = i18nc("@title:group Date", "Two Weeks Ago");
+                break;
+            case 3:
+                newGroupValue = i18nc("@title:group Date", "Three Weeks Ago");
+                break;
+            case 4:
+            case 5:
+                newGroupValue = i18nc("@title:group Date", "Earlier this Month");
+                break;
+            default:
+                Q_ASSERT(false);
+            }
+        } else {
+            const QDate lastMonthDate = currentDate.addMonths(-1);
+            if  (lastMonthDate.year() == modifiedDate.year() && lastMonthDate.month() == modifiedDate.month()) {
+                if (daysDistance == 1) {
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Yesterday (%B, %Y)"));
+                } else if (daysDistance <= 7) {
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group The week day name: %A, %B is full month name in current locale, and %Y is full year number", "%A (%B, %Y)"));
+                } else if (daysDistance <= 7 * 2) {
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Last Week (%B, %Y)"));
+                } else if (daysDistance <= 7 * 3) {
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Two Weeks Ago (%B, %Y)"));
+                } else if (daysDistance <= 7 * 4) {
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Three Weeks Ago (%B, %Y)"));
+                } else {
+                    newGroupValue = modifiedTime.toString(i18nc("@title:group Date: %B is full month name in current locale, and %Y is full year number", "Earlier on %B, %Y"));
+                }
+            } else {
+                newGroupValue = modifiedTime.toString(i18nc("@title:group The month and year: %B is full month name in current locale, and %Y is full year number", "%B, %Y"));
+            }
+        }
+
+        if (newGroupValue != groupValue) {
+            groupValue = newGroupValue;
+            groups.append(QPair<int, QVariant>(i, newGroupValue));
+        }
+    }
+
+    return groups;
 }
 
 QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
 {
     Q_ASSERT(!m_data.isEmpty());
-    return QList<QPair<int, QVariant> >();
+
+    const int maxIndex = count() - 1;
+    QList<QPair<int, QVariant> > groups;
+
+    QString permissionsString;
+    QString groupValue;
+    for (int i = 0; i <= maxIndex; ++i) {
+        if (isChildItem(i)) {
+            continue;
+        }
+
+        const QString newPermissionsString = m_data.at(i).value("permissions").toString();
+        if (newPermissionsString == permissionsString) {
+            continue;
+        }
+        permissionsString = newPermissionsString;
+
+        const QFileInfo info(m_sortedItems.at(i).url().pathOrUrl());
+
+        // Set user string
+        QString user;
+        if (info.permission(QFile::ReadUser)) {
+            user = i18nc("@item:intext Access permission, concatenated", "Read, ");
+        }
+        if (info.permission(QFile::WriteUser)) {
+            user += i18nc("@item:intext Access permission, concatenated", "Write, ");
+        }
+        if (info.permission(QFile::ExeUser)) {
+            user += i18nc("@item:intext Access permission, concatenated", "Execute, ");
+        }
+        user = user.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : user.mid(0, user.count() - 2);
+
+        // Set group string
+        QString group;
+        if (info.permission(QFile::ReadGroup)) {
+            group = i18nc("@item:intext Access permission, concatenated", "Read, ");
+        }
+        if (info.permission(QFile::WriteGroup)) {
+            group += i18nc("@item:intext Access permission, concatenated", "Write, ");
+        }
+        if (info.permission(QFile::ExeGroup)) {
+            group += i18nc("@item:intext Access permission, concatenated", "Execute, ");
+        }
+        group = group.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : group.mid(0, group.count() - 2);
+
+        // Set others string
+        QString others;
+        if (info.permission(QFile::ReadOther)) {
+            others = i18nc("@item:intext Access permission, concatenated", "Read, ");
+        }
+        if (info.permission(QFile::WriteOther)) {
+            others += i18nc("@item:intext Access permission, concatenated", "Write, ");
+        }
+        if (info.permission(QFile::ExeOther)) {
+            others += i18nc("@item:intext Access permission, concatenated", "Execute, ");
+        }
+        others = others.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : others.mid(0, others.count() - 2);
+
+        const QString newGroupValue = i18nc("@title:group Files and folders by permissions", "User: %1 | Group: %2 | Others: %3", user, group, others);
+        if (newGroupValue != groupValue) {
+            groupValue = newGroupValue;
+            groups.append(QPair<int, QVariant>(i, newGroupValue));
+        }
+    }
+
+    return groups;
 }
 
-QList<QPair<int, QVariant> > KFileItemModel::ownerRoleGroups() const
+QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByteArray& role) const
 {
     Q_ASSERT(!m_data.isEmpty());
-    return QList<QPair<int, QVariant> >();
-}
 
-QList<QPair<int, QVariant> > KFileItemModel::groupRoleGroups() const
-{
-    Q_ASSERT(!m_data.isEmpty());
-    return QList<QPair<int, QVariant> >();
-}
+    const int maxIndex = count() - 1;
+    QList<QPair<int, QVariant> > groups;
 
-QList<QPair<int, QVariant> > KFileItemModel::typeRoleGroups() const
-{
-    Q_ASSERT(!m_data.isEmpty());
-    return QList<QPair<int, QVariant> >();
-}
+    QString groupValue;
+    for (int i = 0; i <= maxIndex; ++i) {
+        if (isChildItem(i)) {
+            continue;
+        }
+        const QString newGroupValue = m_data.at(i).value(role).toString();
+        if (newGroupValue != groupValue) {
+            groupValue = newGroupValue;
+            groups.append(QPair<int, QVariant>(i, newGroupValue));
+        }
+    }
 
-QList<QPair<int, QVariant> > KFileItemModel::destinationRoleGroups() const
-{
-    Q_ASSERT(!m_data.isEmpty());
-    return QList<QPair<int, QVariant> >();
-}
-
-QList<QPair<int, QVariant> > KFileItemModel::pathRoleGroups() const
-{
-    Q_ASSERT(!m_data.isEmpty());
-    return QList<QPair<int, QVariant> >();
+    return groups;
 }
 
 #include "kfileitemmodel.moc"
