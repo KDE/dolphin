@@ -24,6 +24,24 @@
 #include "kitemviews/kfileitemmodel.h"
 #include "testdir.h"
 
+void myMessageOutput(QtMsgType type, const char* msg)
+{
+    switch (type) {
+     case QtDebugMsg:
+         break;
+     case QtWarningMsg:
+         break;
+     case QtCriticalMsg:
+         fprintf(stderr, "Critical: %s\n", msg);
+         break;
+     case QtFatalMsg:
+         fprintf(stderr, "Fatal: %s\n", msg);
+         abort();
+     default:
+        break;
+    }
+ }
+
 namespace {
     const int DefaultTimeout = 5000;
 };
@@ -44,6 +62,9 @@ private slots:
     void testDefaultGroupedSorting();
     void testNewItems();
     void testRemoveItems();
+    void testSetData();
+    void testSetDataWithModifiedSortRole_data();
+    void testSetDataWithModifiedSortRole();
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
@@ -66,6 +87,10 @@ private:
 
 void KFileItemModelTest::init()
 {
+    // The item-model tests result in a huge number of debugging
+    // output from kdelibs. Only show critical and fatal messages.
+    qInstallMsgHandler(myMessageOutput);
+
     qRegisterMetaType<KItemRange>("KItemRange");
     qRegisterMetaType<KItemRangeList>("KItemRangeList");
     qRegisterMetaType<KFileItemList>("KFileItemList");
@@ -145,9 +170,105 @@ void KFileItemModelTest::testRemoveItems()
     QCOMPARE(m_model->count(), 0);
 }
 
+void KFileItemModelTest::testSetData()
+{
+    m_testDir->createFile("a.txt");
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    QHash<QByteArray, QVariant> values;
+    values.insert("customRole1", "Test1");
+    values.insert("customRole2", "Test2");
+
+    QSignalSpy itemsChangedSpy(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)));
+    m_model->setData(0, values);
+    QCOMPARE(itemsChangedSpy.count(), 1);
+
+    values = m_model->data(0);
+    QCOMPARE(values.value("customRole1").toString(), QString("Test1"));
+    QCOMPARE(values.value("customRole2").toString(), QString("Test2"));
+    QVERIFY(isModelConsistent());
+}
+
+void KFileItemModelTest::testSetDataWithModifiedSortRole_data()
+{
+    QTest::addColumn<int>("changedIndex");
+    QTest::addColumn<int>("changedRating");
+    QTest::addColumn<int>("ratingIndex0");
+    QTest::addColumn<int>("ratingIndex1");
+    QTest::addColumn<int>("ratingIndex2");
+
+    // Default setup:
+    // Index 0 = rating 2
+    // Index 1 = rating 4
+    // Index 2 = rating 6
+
+    QTest::newRow("Index 0: Rating 3") << 0 << 3 << 3 << 4 << 6;
+    QTest::newRow("Index 0: Rating 5") << 0 << 5 << 4 << 5 << 6;
+    QTest::newRow("Index 0: Rating 8") << 0 << 8 << 4 << 6 << 8;
+
+    QTest::newRow("Index 2: Rating 1") << 2 << 1 << 1 << 2 << 4;
+    QTest::newRow("Index 2: Rating 3") << 2 << 3 << 2 << 3 << 4;
+    QTest::newRow("Index 2: Rating 5") << 2 << 5 << 2 << 4 << 5;
+}
+
+void KFileItemModelTest::testSetDataWithModifiedSortRole()
+{
+    QFETCH(int, changedIndex);
+    QFETCH(int, changedRating);
+    QFETCH(int, ratingIndex0);
+    QFETCH(int, ratingIndex1);
+    QFETCH(int, ratingIndex2);
+
+    // Changing the value of a sort-role must result in
+    // a reordering of the items.
+    QCOMPARE(m_model->sortRole(), QByteArray("name"));
+
+    QStringList files;
+    files << "a.txt" << "b.txt" << "c.txt";
+    m_testDir->createFiles(files);
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // Fill the "rating" role of each file:
+    // a.txt -> 2
+    // b.txt -> 4
+    // c.txt -> 6
+
+    QHash<QByteArray, QVariant> ratingA;
+    ratingA.insert("rating", 2);
+    m_model->setData(0, ratingA);
+
+    QHash<QByteArray, QVariant> ratingB;
+    ratingB.insert("rating", 4);
+    m_model->setData(1, ratingB);
+
+    QHash<QByteArray, QVariant> ratingC;
+    ratingC.insert("rating", 6);
+    m_model->setData(2, ratingC);
+
+    m_model->setSortRole("rating");
+    QCOMPARE(m_model->data(0).value("rating").toInt(), 2);
+    QCOMPARE(m_model->data(1).value("rating").toInt(), 4);
+    QCOMPARE(m_model->data(2).value("rating").toInt(), 6);
+
+    // Now change the rating from a.txt. This usually results
+    // in reordering of the items.
+    QHash<QByteArray, QVariant> rating;
+    rating.insert("rating", changedRating);
+    m_model->setData(changedIndex, rating);
+
+    QCOMPARE(m_model->data(0).value("rating").toInt(), ratingIndex0);
+    QCOMPARE(m_model->data(1).value("rating").toInt(), ratingIndex1);
+    QCOMPARE(m_model->data(2).value("rating").toInt(), ratingIndex2);
+    QVERIFY(isModelConsistent());
+}
+
 void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
 {
-    QSKIP("Temporary disabled", SkipSingle);
+    //QSKIP("Temporary disabled", SkipSingle);
 
     // KFileItemModel prevents that inserting a punch of items sequentially
     // results in an itemsInserted()-signal for each item. Instead internally

@@ -51,9 +51,12 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_expandedUrls(),
     m_restoredExpandedUrls()
 {
+    // Apply default roles that should be determined
     resetRoles();
     m_requestRole[NameRole] = true;
     m_requestRole[IsDirRole] = true;
+    m_roles.insert("name");
+    m_roles.insert("isDir");
 
     Q_ASSERT(dirLister);
 
@@ -102,33 +105,109 @@ QHash<QByteArray, QVariant> KFileItemModel::data(int index) const
 
 bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& values)
 {
-    if (index >= 0 && index < count()) {
-        QHash<QByteArray, QVariant> currentValue = m_data.at(index);
+    if (index < 0 || index >= count()) {
+        return false;
+    }
 
-        QSet<QByteArray> changedRoles;
-        QHashIterator<QByteArray, QVariant> it(values);
-        while (it.hasNext()) {
-            it.next();
-            const QByteArray role = it.key();
-            const QVariant value = it.value();
+    QHash<QByteArray, QVariant> currentValue = m_data.at(index);
 
-            if (currentValue[role] != value) {
-                currentValue[role] = value;
-                changedRoles.insert(role);
-            }
+    // Determine which roles have been changed
+    QSet<QByteArray> changedRoles;
+    QHashIterator<QByteArray, QVariant> it(values);
+    while (it.hasNext()) {
+        it.next();
+        const QByteArray role = it.key();
+        const QVariant value = it.value();
+
+        if (currentValue[role] != value) {
+            currentValue[role] = value;
+            changedRoles.insert(role);
         }
+    }
 
-        if (!changedRoles.isEmpty()) {
-            if (groupedSorting() && changedRoles.contains(sortRole())) {
-                m_groups.clear();
-            }
-            m_data[index] = currentValue;
-            emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
-        }
+    if (changedRoles.isEmpty()) {
+        return false;
+    }
 
+    m_data[index] = currentValue;
+
+    if (!changedRoles.contains(sortRole())) {
+        emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
         return true;
     }
-    return false;
+
+    // The sort role has been changed which might result in a changed
+    // item index. In this case instead of emitting the itemsChanged()
+    // signal the following is done:
+    // 1. The item gets removed from the current position and the signal
+    //    itemsRemoved() will be emitted.
+    // 2. The item gets inserted to the new position and the signal
+    //    itemsInserted() will be emitted.
+
+    const KFileItem& changedItem = m_sortedItems.at(index);
+    const bool sortOrderDecreased = (index > 0 && lessThan(changedItem, m_sortedItems.at(index - 1)));
+    const bool sortOrderIncreased = !sortOrderDecreased &&
+                                    (index < count() - 1 && lessThan(m_sortedItems.at(index + 1), changedItem));
+
+    if (!sortOrderDecreased && !sortOrderIncreased) {
+        // Although the value of the sort-role has been changed it did not result
+        // into a changed position.
+        emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
+        return true;
+    }
+
+    m_groups.clear();
+
+    if (!m_pendingItemsToInsert.isEmpty()) {
+        insertItems(m_pendingItemsToInsert);
+        m_pendingItemsToInsert.clear();
+    }
+
+    // Do a binary search to find the new position where the item
+    // should get inserted. The result will be stored in 'mid'.
+    int min = sortOrderIncreased ? index + 1 : 0;
+    int max = sortOrderDecreased ? index - 1 : count() - 1;
+    int mid = 0;
+    do {
+        mid = (min + max) / 2;
+        if (lessThan(m_sortedItems.at(mid), changedItem)) {
+            min = mid + 1;
+        } else {
+            max = mid - 1;
+        }
+    } while (min <= max);
+
+    if (sortOrderIncreased && mid == max && lessThan(m_sortedItems.at(max), changedItem)) {
+        ++mid;
+    }
+
+    // Remove the item from the old position
+    const KFileItem removedItem = changedItem;
+    const QHash<QByteArray, QVariant> removedData = m_data[index];
+
+    m_items.remove(changedItem.url());
+    m_sortedItems.removeAt(index);
+    m_data.removeAt(index);
+    for (int i = 0; i < m_sortedItems.count(); ++i) {
+        m_items.insert(m_sortedItems.at(i).url(), i);
+    }
+
+    emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
+
+    // Insert the item to the new position
+    if (sortOrderIncreased) {
+        --mid;
+    }
+
+    m_sortedItems.insert(mid, removedItem);
+    m_data.insert(mid, removedData);
+    for (int i = 0; i < m_sortedItems.count(); ++i) {
+        m_items.insert(m_sortedItems.at(i).url(), i);
+    }
+
+    emit itemsInserted(KItemRangeList() << KItemRange(mid, 1));
+
+    return true;
 }
 
 void KFileItemModel::setSortFoldersFirst(bool foldersFirst)
@@ -218,6 +297,9 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
     case TypeRole:           descr = i18nc("@item:intable", "Type"); break;
     case DestinationRole:    descr = i18nc("@item:intable", "Destination"); break;
     case PathRole:           descr = i18nc("@item:intable", "Path"); break;
+    case CommentRole:        descr = i18nc("@item:intable", "Comment"); break;
+    case TagsRole:           descr = i18nc("@item:intable", "Tags"); break;
+    case RatingRole:         descr = i18nc("@item:intable", "Rating"); break;
     case NoRole:             break;
     case IsDirRole:          break;
     case IsExpandedRole:     break;
@@ -245,6 +327,9 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         case TypeRole:           m_groups = genericStringRoleGroups("type"); break;
         case DestinationRole:    m_groups = genericStringRoleGroups("destination"); break;
         case PathRole:           m_groups = genericStringRoleGroups("path"); break;
+        case CommentRole:        m_groups = genericStringRoleGroups("comment"); break;
+        case TagsRole:           m_groups = genericStringRoleGroups("tags"); break;
+        case RatingRole:         m_groups = ratingRoleGroups(); break;
         case NoRole:             break;
         case IsDirRole:          break;
         case IsExpandedRole:     break;
@@ -831,6 +916,9 @@ KFileItemModel::Role KFileItemModel::roleIndex(const QByteArray& role) const
         rolesHash.insert("type", TypeRole);
         rolesHash.insert("destination", DestinationRole);
         rolesHash.insert("path", PathRole);
+        rolesHash.insert("comment", CommentRole);
+        rolesHash.insert("tags", TagsRole);
+        rolesHash.insert("rating", RatingRole);
         rolesHash.insert("isDir", IsDirRole);
         rolesHash.insert("isExpanded", IsExpandedRole);
         rolesHash.insert("expansionLevel", ExpansionLevelRole);
@@ -968,9 +1056,6 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
     }
 
     case SizeRole: {
-        // TODO: Implement sorting folders by the number of items inside.
-        // This is more tricky to get right because this number is retrieved
-        // asynchronously by KFileItemModelRolesUpdater.
         const KIO::filesize_t sizeA = a.size();
         const KIO::filesize_t sizeB = b.size();
         if (sizeA < sizeB) {
@@ -978,6 +1063,23 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
         } else if (sizeA > sizeB) {
             result = +1;
         }
+        break;
+    }
+
+    case TypeRole: {
+        // Only compare the type if the MIME-type is known for performance reasons.
+        // If the MIME-type is unknown it will be resolved later by KFileItemModelRolesUpdater
+        // and a resorting will be triggered.
+        if (a.isMimeTypeKnown() && b.isMimeTypeKnown()) {
+            result = QString::compare(a.mimeComment(), b.mimeComment());
+        }
+        break;
+    }
+
+    case RatingRole: {
+        const int indexA = m_items.value(a.url(), -1);
+        const int indexB = m_items.value(b.url(), -1);
+        result = m_data.value(indexA).value("rating").toInt() - m_data.value(indexB).value("rating").toInt();
         break;
     }
 
@@ -1408,6 +1510,28 @@ QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
         others = others.isEmpty() ? i18nc("@item:intext Access permission, concatenated", "Forbidden") : others.mid(0, others.count() - 2);
 
         const QString newGroupValue = i18nc("@title:group Files and folders by permissions", "User: %1 | Group: %2 | Others: %3", user, group, others);
+        if (newGroupValue != groupValue) {
+            groupValue = newGroupValue;
+            groups.append(QPair<int, QVariant>(i, newGroupValue));
+        }
+    }
+
+    return groups;
+}
+
+QList<QPair<int, QVariant> > KFileItemModel::ratingRoleGroups() const
+{
+    Q_ASSERT(!m_data.isEmpty());
+
+    const int maxIndex = count() - 1;
+    QList<QPair<int, QVariant> > groups;
+
+    int groupValue;
+    for (int i = 0; i <= maxIndex; ++i) {
+        if (isChildItem(i)) {
+            continue;
+        }
+        const int newGroupValue = m_data.at(i).value("rating").toInt();
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
             groups.append(QPair<int, QVariant>(i, newGroupValue));
