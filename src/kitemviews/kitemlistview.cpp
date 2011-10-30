@@ -126,7 +126,7 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
         }
     }
 
-    updateLayout();
+    doLayout(Animation, 0, 0);
 
     onScrollOrientationChanged(orientation, previousOrientation);
     emit scrollOrientationChanged(orientation, previousOrientation);
@@ -158,7 +158,7 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
     }
 
     m_sizeHintResolver->clearCache();
-    updateLayout();
+    doLayout(Animation, 0, 0);
     onItemSizeChanged(itemSize, previousSize);
 }
 
@@ -182,7 +182,6 @@ void KItemListView::setScrollOffset(qreal offset)
     m_animation->setScrollOffset(offset);
     if (!m_layoutTimer->isActive()) {
         doLayout(NoAnimation, 0, 0);
-        update();
     }
     onScrollOffsetChanged(offset, previousOffset);
 }
@@ -205,7 +204,6 @@ void KItemListView::setItemOffset(qreal offset)
     }
     if (!m_layoutTimer->isActive()) {
         doLayout(NoAnimation, 0, 0);
-        update();
     }
 }
 
@@ -242,7 +240,7 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
     }
 
     updateVisibleRolesSizes();
-    updateLayout();
+    doLayout(Animation, 0, 0);
 
     onVisibleRolesChanged(roles, previousRoles);
 }
@@ -313,7 +311,7 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     }
 
     m_sizeHintResolver->clearCache();
-    updateLayout();
+    doLayout(Animation, 0, 0);
     onStyleOptionChanged(option, previousOption);
 }
 
@@ -432,7 +430,7 @@ void KItemListView::endTransaction()
 
     if (m_activeTransactions == 0) {
         onTransactionEnd();
-        updateLayout();
+        doLayout(Animation, 0, 0);
     }
 }
 
@@ -836,6 +834,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
         if (updateSizeHints) {
             m_sizeHintResolver->itemsChanged(index, count, roles);
             m_layouter->markAsDirty();
+
             if (!m_layoutTimer->isActive()) {
                 m_layoutTimer->start();
             }
@@ -850,12 +849,22 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
             }
         }
 
+        if (m_grouped && roles.contains(m_model->sortRole())) {
+            // The sort-role has been changed which might result
+            // in modified group headers
+            updateVisibleGroupHeaders();
+            doLayout(NoAnimation, 0, 0);
+            if (!m_layoutTimer->isActive()) {
+                m_layoutTimer->start();
+            }
+        }
     }
 }
 
 void KItemListView::slotGroupedSortingChanged(bool current)
 {
     m_grouped = current;
+    m_layouter->markAsDirty();
 
     if (m_grouped) {
         // Apply the height of the header to the layouter
@@ -863,10 +872,8 @@ void KItemListView::slotGroupedSortingChanged(bool current)
                                         m_styleOption.margin * 2;
         m_layouter->setGroupHeaderHeight(groupHeaderHeight);
 
-        updateVisibleGroupHeaders(); // Triggers updateLayout()
+        updateVisibleGroupHeaders();
     } else {
-        m_layouter->markAsDirty();
-
         // Clear all visible headers
         QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
         while (it.hasNext()) {
@@ -874,9 +881,9 @@ void KItemListView::slotGroupedSortingChanged(bool current)
             recycleGroupHeaderForWidget(it.key());
         }
         Q_ASSERT(m_visibleGroups.isEmpty());
-
-        updateLayout();
     }
+
+    doLayout(Animation, 0, 0);
 }
 
 void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
@@ -885,6 +892,7 @@ void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pr
     Q_UNUSED(previous);
     if (m_grouped) {
         updateVisibleGroupHeaders();
+        doLayout(Animation, 0, 0);
     }
 }
 
@@ -894,6 +902,7 @@ void KItemListView::slotSortRoleChanged(const QByteArray& current, const QByteAr
     Q_UNUSED(previous);
     if (m_grouped) {
         updateVisibleGroupHeaders();
+        doLayout(Animation, 0, 0);
     }
 }
 
@@ -1049,7 +1058,7 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
             widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
         }
 
-        updateLayout();
+        doLayout(Animation, 0, 0);
     }
 }
 
@@ -1184,12 +1193,6 @@ void KItemListView::setModel(KItemModelBase* model)
 KItemListRubberBand* KItemListView::rubberBand() const
 {
     return m_rubberBand;
-}
-
-void KItemListView::updateLayout()
-{
-    doLayout(Animation, 0, 0);
-    update();
 }
 
 void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int changedCount)
@@ -1561,8 +1564,6 @@ void KItemListView::updateVisibleGroupHeaders()
         it.next();
         updateGroupHeaderForWidget(it.value());
     }
-
-    updateLayout();
 }
 
 QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const

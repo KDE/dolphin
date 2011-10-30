@@ -119,6 +119,9 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
         }
 
         if (!changedRoles.isEmpty()) {
+            if (groupedSorting() && changedRoles.contains(sortRole())) {
+                m_groups.clear();
+            }
             m_data[index] = currentValue;
             emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
         }
