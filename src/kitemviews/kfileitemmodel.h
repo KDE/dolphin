@@ -131,6 +131,12 @@ protected:
     virtual void onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private slots:
+    /**
+     * Resorts all items dependent on the set sortRole(), sortOrder()
+     * and foldersFirst() settings.
+     */
+    void resortAllItems();
+    
     void slotCompleted();
     void slotCanceled();
     void slotNewItems(const KFileItemList& items);
@@ -142,13 +148,6 @@ private slots:
     void dispatchPendingItemsToInsert();
 
 private:
-    void insertItems(const KFileItemList& items);
-    void removeItems(const KFileItemList& items);
-
-    void resortAllItems();
-
-    void removeExpandedItems();
-
     enum Role {
         NoRole,
         NameRole,
@@ -169,6 +168,25 @@ private:
         RolesCount // Mandatory last entry
     };
 
+    struct ItemData
+    {
+        KFileItem item;
+        QHash<QByteArray, QVariant> values;
+    };
+    
+    void insertItems(const KFileItemList& items);
+    void removeItems(const KFileItemList& items);
+    
+    /**
+     * Helper method for insertItems() and removeItems(): Creates
+     * a list of ItemData elements based on the given items.
+     * Note that the ItemData instances are created dynamically and
+     * must be deleted by the caller.
+     */
+    QList<ItemData*> createItemDataList(const KFileItemList& items) const;
+
+    void removeExpandedItems();
+
     /**
      * Resets all values from m_requestRole to false.
      */
@@ -177,9 +195,33 @@ private:
     Role roleIndex(const QByteArray& role) const;
 
     QHash<QByteArray, QVariant> retrieveData(const KFileItem& item) const;
+    
+    bool lessThan(const ItemData* a, const ItemData* b) const;
+    
+    /**
+     * Sorts the items by using lessThan() as comparison criteria.
+     * The merge sort algorithm is used to assure a worst-case
+     * of O(n * log(n)) and to keep the number of comparisons low.
+     */
+    void sort(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end);
+    
+    /** Helper method for sort(). */
+    void merge(QList<ItemData*>::iterator begin,
+               QList<ItemData*>::iterator pivot,
+               QList<ItemData*>::iterator end);
 
-    bool lessThan(const KFileItem& a, const KFileItem& b) const;
-    void sort(const KFileItemList::iterator& start, const KFileItemList::iterator& end);
+    /** Helper method for sort(). */
+    QList<ItemData*>::iterator lowerBound(QList<ItemData*>::iterator begin,
+                                          QList<ItemData*>::iterator end,
+                                          const ItemData* value);
+    
+    /** Helper method for sort(). */
+    QList<ItemData*>::iterator upperBound(QList<ItemData*>::iterator begin,
+                                          QList<ItemData*>::iterator end,
+                                          const ItemData* value);
+    /** Helper method for sort(). */
+    void reverse(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end);
+    
     int stringCompare(const QString& a, const QString& b) const;
 
     /**
@@ -226,15 +268,15 @@ private:
     Role m_sortRole;
     QSet<QByteArray> m_roles;
     Qt::CaseSensitivity m_caseSensitivity;
-
-    KFileItemList m_sortedItems;   // Allows O(1) access for KFileItemModel::fileItem(int index)
-    QHash<KUrl, int> m_items;      // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
-    QList<QHash<QByteArray, QVariant> > m_data;
+        
+    QList<ItemData*> m_itemData;
+    QHash<KUrl, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
 
     bool m_requestRole[RolesCount];
 
     QTimer* m_minimumUpdateIntervalTimer;
     QTimer* m_maximumUpdateIntervalTimer;
+    QTimer* m_resortAllItemsTimer;
     KFileItemList m_pendingItemsToInsert;
     bool m_pendingEmitLoadingCompleted;
 
@@ -257,7 +299,7 @@ private:
 
 inline bool KFileItemModel::isChildItem(int index) const
 {
-    return m_requestRole[ExpansionLevelRole] && m_data.at(index).value("expansionLevel").toInt() > 0;
+    return m_requestRole[ExpansionLevelRole] && m_itemData.at(index)->values.value("expansionLevel").toInt() > 0;
 }
 
 #endif

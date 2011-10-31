@@ -38,12 +38,12 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_sortRole(NameRole),
     m_roles(),
     m_caseSensitivity(Qt::CaseInsensitive),
-    m_sortedItems(),
+    m_itemData(),
     m_items(),
-    m_data(),
     m_requestRole(),
     m_minimumUpdateIntervalTimer(0),
     m_maximumUpdateIntervalTimer(0),
+    m_resortAllItemsTimer(0),
     m_pendingItemsToInsert(),
     m_pendingEmitLoadingCompleted(false),
     m_groups(),
@@ -82,23 +82,34 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_maximumUpdateIntervalTimer->setInterval(2000);
     m_maximumUpdateIntervalTimer->setSingleShot(true);
     connect(m_maximumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItemsToInsert()));
+    
+    // When changing the value of an item which represents the sort-role a resorting must be
+    // triggered. Especially in combination with KFileItemModelRolesUpdater this might be done
+    // for a lot of items within a quite small timeslot. To prevent expensive resortings the
+    // resorting is postponed until the timer has been exceeded.
+    m_resortAllItemsTimer = new QTimer(this);
+    m_resortAllItemsTimer->setInterval(1000);
+    m_resortAllItemsTimer->setSingleShot(true);
+    connect(m_resortAllItemsTimer, SIGNAL(timeout()), this, SLOT(resortAllItems()));
 
     Q_ASSERT(m_minimumUpdateIntervalTimer->interval() <= m_maximumUpdateIntervalTimer->interval());
 }
 
 KFileItemModel::~KFileItemModel()
 {
+    qDeleteAll(m_itemData);
+    m_itemData.clear();
 }
 
 int KFileItemModel::count() const
 {
-    return m_data.count();
+    return m_itemData.count();
 }
 
 QHash<QByteArray, QVariant> KFileItemModel::data(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_data.at(index);
+        return m_itemData.at(index)->values;
     }
     return QHash<QByteArray, QVariant>();
 }
@@ -109,7 +120,7 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
         return false;
     }
 
-    QHash<QByteArray, QVariant> currentValue = m_data.at(index);
+    QHash<QByteArray, QVariant> currentValues = m_itemData.at(index)->values;
 
     // Determine which roles have been changed
     QSet<QByteArray> changedRoles;
@@ -119,8 +130,8 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
         const QByteArray role = it.key();
         const QVariant value = it.value();
 
-        if (currentValue[role] != value) {
-            currentValue[role] = value;
+        if (currentValues[role] != value) {
+            currentValues[role] = value;
             changedRoles.insert(role);
         }
     }
@@ -129,84 +140,13 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
         return false;
     }
 
-    m_data[index] = currentValue;
+    m_itemData[index]->values = currentValues;
+    emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
 
-    if (!changedRoles.contains(sortRole())) {
-        emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
-        return true;
+    if (changedRoles.contains(sortRole())) {
+        m_resortAllItemsTimer->start();
     }
-
-    // The sort role has been changed which might result in a changed
-    // item index. In this case instead of emitting the itemsChanged()
-    // signal the following is done:
-    // 1. The item gets removed from the current position and the signal
-    //    itemsRemoved() will be emitted.
-    // 2. The item gets inserted to the new position and the signal
-    //    itemsInserted() will be emitted.
-
-    const KFileItem& changedItem = m_sortedItems.at(index);
-    const bool sortOrderDecreased = (index > 0 && lessThan(changedItem, m_sortedItems.at(index - 1)));
-    const bool sortOrderIncreased = !sortOrderDecreased &&
-                                    (index < count() - 1 && lessThan(m_sortedItems.at(index + 1), changedItem));
-
-    if (!sortOrderDecreased && !sortOrderIncreased) {
-        // Although the value of the sort-role has been changed it did not result
-        // into a changed position.
-        emit itemsChanged(KItemRangeList() << KItemRange(index, 1), changedRoles);
-        return true;
-    }
-
-    m_groups.clear();
-
-    if (!m_pendingItemsToInsert.isEmpty()) {
-        insertItems(m_pendingItemsToInsert);
-        m_pendingItemsToInsert.clear();
-    }
-
-    // Do a binary search to find the new position where the item
-    // should get inserted. The result will be stored in 'mid'.
-    int min = sortOrderIncreased ? index + 1 : 0;
-    int max = sortOrderDecreased ? index - 1 : count() - 1;
-    int mid = 0;
-    do {
-        mid = (min + max) / 2;
-        if (lessThan(m_sortedItems.at(mid), changedItem)) {
-            min = mid + 1;
-        } else {
-            max = mid - 1;
-        }
-    } while (min <= max);
-
-    if (sortOrderIncreased && mid == max && lessThan(m_sortedItems.at(max), changedItem)) {
-        ++mid;
-    }
-
-    // Remove the item from the old position
-    const KFileItem removedItem = changedItem;
-    const QHash<QByteArray, QVariant> removedData = m_data[index];
-
-    m_items.remove(changedItem.url());
-    m_sortedItems.removeAt(index);
-    m_data.removeAt(index);
-    for (int i = 0; i < m_sortedItems.count(); ++i) {
-        m_items.insert(m_sortedItems.at(i).url(), i);
-    }
-
-    emit itemsRemoved(KItemRangeList() << KItemRange(index, 1));
-
-    // Insert the item to the new position
-    if (sortOrderIncreased) {
-        --mid;
-    }
-
-    m_sortedItems.insert(mid, removedItem);
-    m_data.insert(mid, removedData);
-    for (int i = 0; i < m_sortedItems.count(); ++i) {
-        m_items.insert(m_sortedItems.at(i).url(), i);
-    }
-
-    emit itemsInserted(KItemRangeList() << KItemRange(mid, 1));
-
+        
     return true;
 }
 
@@ -312,7 +252,7 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
 
 QList<QPair<int, QVariant> > KFileItemModel::groups() const
 {
-    if (!m_data.isEmpty() && m_groups.isEmpty()) {
+    if (!m_itemData.isEmpty() && m_groups.isEmpty()) {
 #ifdef KFILEITEMMODEL_DEBUG
         QElapsedTimer timer;
         timer.start();
@@ -348,7 +288,7 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
 KFileItem KFileItemModel::fileItem(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_sortedItems.at(index);
+        return m_itemData.at(index)->item;
     }
 
     return KFileItem();
@@ -358,7 +298,7 @@ KFileItem KFileItemModel::fileItem(const KUrl& url) const
 {
     const int index = m_items.value(url, -1);
     if (index >= 0) {
-        return m_sortedItems.at(index);
+        return m_itemData.at(index)->item;
     }
     return KFileItem();
 }
@@ -419,7 +359,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
         // Update m_data with the changed requested roles
         const int maxIndex = count() - 1;
         for (int i = 0; i <= maxIndex; ++i) {
-            m_data[i] = retrieveData(m_sortedItems.at(i));
+            m_itemData[i]->values = retrieveData(m_itemData.at(i)->item);
         }
 
         kWarning() << "TODO: Emitting itemsChanged() with no information what has changed!";
@@ -444,7 +384,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         return false;
     }
 
-    const KUrl url = m_sortedItems.at(index).url();
+    const KUrl url = m_itemData.at(index)->item.url();
     if (expanded) {
         m_expandedUrls.insert(url);
 
@@ -460,7 +400,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         const int expansionLevel = data(index)["expansionLevel"].toInt();
         ++index;
         while (index < count() && data(index)["expansionLevel"].toInt() > expansionLevel) {
-            itemsToRemove.append(m_sortedItems.at(index));
+            itemsToRemove.append(m_itemData.at(index)->item);
             ++index;
         }
         removeItems(itemsToRemove);
@@ -473,7 +413,7 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
 bool KFileItemModel::isExpanded(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_data.at(index).value("isExpanded").toBool();
+        return m_itemData.at(index)->values.value("isExpanded").toBool();
     }
     return false;
 }
@@ -481,7 +421,7 @@ bool KFileItemModel::isExpanded(int index) const
 bool KFileItemModel::isExpandable(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_sortedItems.at(index).isDir();
+        return m_itemData.at(index)->item.isDir();
     }
     return false;
 }
@@ -520,7 +460,62 @@ void KFileItemModel::onSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pre
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
-    resortAllItems();
+    resortAllItems();    
+}
+
+void KFileItemModel::resortAllItems()
+{
+    m_resortAllItemsTimer->stop();
+    
+    const int itemCount = count();
+    if (itemCount <= 0) {
+        return;
+    }
+
+#ifdef KFILEITEMMODEL_DEBUG
+    QElapsedTimer timer;
+    timer.start();
+    kDebug() << "===========================================================";
+    kDebug() << "Resorting" << itemCount << "items";
+#endif
+
+    // Remember the order of the current URLs so
+    // that it can be determined which indexes have
+    // been moved because of the resorting.
+    QList<KUrl> oldUrls;
+    oldUrls.reserve(itemCount);
+    foreach (const ItemData* itemData, m_itemData) {
+        oldUrls.append(itemData->item.url());
+    }
+   
+    m_groups.clear();
+    m_items.clear();
+    
+    // Resort the items
+    sort(m_itemData.begin(), m_itemData.end());    
+    for (int i = 0; i < itemCount; ++i) {
+        m_items.insert(m_itemData.at(i)->item.url(), i);
+    }
+    
+    // Determine the indexes that have been moved
+    bool emitItemsMoved = false;
+    QList<int> movedToIndexes;
+    movedToIndexes.reserve(itemCount);
+    for (int i = 0; i < itemCount; i++) {
+        const int newIndex = m_items.value(oldUrls.at(i).url());
+        movedToIndexes.append(newIndex);
+        if (!emitItemsMoved && newIndex != i) {
+            emitItemsMoved = true;
+        }
+    }   
+
+    if (emitItemsMoved) {
+        emit itemsMoved(KItemRange(0, itemCount), movedToIndexes);
+    }
+    
+#ifdef KFILEITEMMODEL_DEBUG
+    kDebug() << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
+#endif    
 }
 
 void KFileItemModel::slotCompleted()
@@ -654,15 +649,16 @@ void KFileItemModel::slotClear()
 
     m_minimumUpdateIntervalTimer->stop();
     m_maximumUpdateIntervalTimer->stop();
+    m_resortAllItemsTimer->stop();
     m_pendingItemsToInsert.clear();
 
     m_rootExpansionLevel = -1;
 
-    const int removedCount = m_data.count();
+    const int removedCount = m_itemData.count();
     if (removedCount > 0) {
-        m_sortedItems.clear();
+        qDeleteAll(m_itemData);
+        m_itemData.clear();
         m_items.clear();
-        m_data.clear();
         emit itemsRemoved(KItemRangeList() << KItemRange(0, removedCount));
     }
 
@@ -701,7 +697,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 
     m_groups.clear();
 
-    KFileItemList sortedItems = items;
+    QList<ItemData*> sortedItems = createItemDataList(items);
     sort(sortedItems.begin(), sortedItems.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
@@ -711,15 +707,15 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     KItemRangeList itemRanges;
     int targetIndex = 0;
     int sourceIndex = 0;
-    int insertedAtIndex = -1;         // Index for the current item-range
-    int insertedCount = 0;            // Count for the current item-range
-    int previouslyInsertedCount = 0;  // Sum of previously inserted items for all ranges
+    int insertedAtIndex = -1;        // Index for the current item-range
+    int insertedCount = 0;           // Count for the current item-range
+    int previouslyInsertedCount = 0; // Sum of previously inserted items for all ranges
     while (sourceIndex < sortedItems.count()) {
         // Find target index from m_items to insert the current item
         // in a sorted order
         const int previousTargetIndex = targetIndex;
-        while (targetIndex < m_sortedItems.count()) {
-            if (!lessThan(m_sortedItems.at(targetIndex), sortedItems.at(sourceIndex))) {
+        while (targetIndex < m_itemData.count()) {
+            if (!lessThan(m_itemData.at(targetIndex), sortedItems.at(sourceIndex))) {
                 break;
             }
             ++targetIndex;
@@ -732,11 +728,10 @@ void KFileItemModel::insertItems(const KFileItemList& items)
             insertedCount = 0;
         }
 
-        // Insert item at the position targetIndex
-        const KFileItem item = sortedItems.at(sourceIndex);
-        m_sortedItems.insert(targetIndex, item);
-        m_data.insert(targetIndex, retrieveData(item));
+        // Insert item at the position targetIndex by transfering
+        // the ownership of the item-data from sortedItems to m_itemData.
         // m_items will be inserted after the loop (see comment below)
+        m_itemData.insert(targetIndex, sortedItems.at(sourceIndex));        
         ++insertedCount;
 
         if (insertedAtIndex < 0) {
@@ -749,8 +744,9 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 
     // The indexes of all m_items must be adjusted, not only the index
     // of the new items
-    for (int i = 0; i < m_sortedItems.count(); ++i) {
-        m_items.insert(m_sortedItems.at(i).url(), i);
+    const int itemDataCount = m_itemData.count();
+    for (int i = 0; i < itemDataCount; ++i) {
+        m_items.insert(m_itemData.at(i)->item.url(), i);
     }
 
     itemRanges << KItemRange(insertedAtIndex, insertedCount);
@@ -773,7 +769,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
 
     m_groups.clear();
 
-    KFileItemList sortedItems = items;
+    QList<ItemData*> sortedItems = createItemDataList(items);
     sort(sortedItems.begin(), sortedItems.end());
 
     QList<int> indexesToRemove;
@@ -784,15 +780,17 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     int removedAtIndex = -1;
     int removedCount = 0;
     int targetIndex = 0;
-    foreach (const KFileItem& itemToRemove, sortedItems) {
+    foreach (const ItemData* itemData, sortedItems) {
+        const KFileItem& itemToRemove = itemData->item;
+        
         const int previousTargetIndex = targetIndex;
-        while (targetIndex < m_sortedItems.count()) {
-            if (m_sortedItems.at(targetIndex).url() == itemToRemove.url()) {
+        while (targetIndex < m_itemData.count()) {
+            if (m_itemData.at(targetIndex)->item.url() == itemToRemove.url()) {
                 break;
             }
             ++targetIndex;
         }
-        if (targetIndex >= m_sortedItems.count()) {
+        if (targetIndex >= m_itemData.count()) {
             kWarning() << "Item that should be deleted has not been found!";
             return;
         }
@@ -810,19 +808,21 @@ void KFileItemModel::removeItems(const KFileItemList& items)
         ++removedCount;
         ++targetIndex;
     }
+    qDeleteAll(sortedItems);
+    sortedItems.clear();
 
     // Delete the items
     for (int i = indexesToRemove.count() - 1; i >= 0; --i) {
         const int indexToRemove = indexesToRemove.at(i);
-        m_items.remove(m_sortedItems.at(indexToRemove).url());
-        m_sortedItems.removeAt(indexToRemove);
-        m_data.removeAt(indexToRemove);
+        delete m_itemData.at(indexToRemove);
+        m_itemData.removeAt(indexToRemove);
     }
 
     // The indexes of all m_items must be adjusted, not only the index
     // of the removed items
-    for (int i = 0; i < m_sortedItems.count(); ++i) {
-        m_items.insert(m_sortedItems.at(i).url(), i);
+    const int itemDataCount = m_itemData.count();
+    for (int i = 0; i < itemDataCount; ++i) {
+        m_items.insert(m_itemData.at(i)->item.url(), i);
     }
 
     if (count() <= 0) {
@@ -833,57 +833,30 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     emit itemsRemoved(itemRanges);
 }
 
-void KFileItemModel::resortAllItems()
+QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KFileItemList& items) const
 {
-    const int itemCount = count();
-    if (itemCount <= 0) {
-        return;
+    QList<ItemData*> itemDataList;
+    itemDataList.reserve(items.count());
+
+    foreach (const KFileItem& item, items) {
+        ItemData* itemData = new ItemData();
+        itemData->item = item;
+        itemData->values = retrieveData(item);
+        itemDataList.append(itemData);
     }
-
-    const KFileItemList oldSortedItems = m_sortedItems;
-    const QHash<KUrl, int> oldItems = m_items;
-    const QList<QHash<QByteArray, QVariant> > oldData = m_data;
-
-    m_groups.clear();
-    m_items.clear();
-    m_data.clear();
-
-    sort(m_sortedItems.begin(), m_sortedItems.end());
-    int index = 0;
-    foreach (const KFileItem& item, m_sortedItems) {
-        m_items.insert(item.url(), index);
-
-        const int oldItemIndex = oldItems.value(item.url());
-        m_data.append(oldData.at(oldItemIndex));
-
-        ++index;
-    }
-
-    bool emitItemsMoved = false;
-    QList<int> movedToIndexes;
-    movedToIndexes.reserve(m_sortedItems.count());
-    for (int i = 0; i < itemCount; i++) {
-        const int newIndex = m_items.value(oldSortedItems.at(i).url());
-        movedToIndexes.append(newIndex);
-        if (!emitItemsMoved && newIndex != i) {
-            emitItemsMoved = true;
-        }
-    }
-
-    if (emitItemsMoved) {
-        emit itemsMoved(KItemRange(0, itemCount), movedToIndexes);
-    }
+ 
+    return itemDataList;
 }
 
 void KFileItemModel::removeExpandedItems()
 {
     KFileItemList expandedItems;
 
-    const int maxIndex = m_data.count() - 1;
+    const int maxIndex = m_itemData.count() - 1;
     for (int i = 0; i <= maxIndex; ++i) {
-        if (m_data.at(i).value("expansionLevel").toInt() > 0) {
-            const KFileItem fileItem = m_sortedItems.at(i);
-            expandedItems.append(fileItem);
+        const ItemData* itemData = m_itemData.at(i);
+        if (itemData->values.value("expansionLevel").toInt() > 0) {
+            expandedItems.append(itemData->item);
         }
     }
 
@@ -927,7 +900,7 @@ KFileItemModel::Role KFileItemModel::roleIndex(const QByteArray& role) const
 }
 
 QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) const
-{
+{    
     // It is important to insert only roles that are fast to retrieve. E.g.
     // KFileItem::iconName() can be very expensive if the MIME-type is unknown
     // and hence will be retrieved asynchronously by KFileItemModelRolesUpdater.
@@ -1011,12 +984,15 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     return data;
 }
 
-bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
+bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
 {
+    const KFileItem& itemA = a->item;
+    const KFileItem& itemB = b->item;
+    
     int result = 0;
 
     if (m_rootExpansionLevel >= 0) {
-        result = expansionLevelsCompare(a, b);
+        result = expansionLevelsCompare(itemA, itemB);
         if (result != 0) {
             // The items have parents with different expansion levels
             return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
@@ -1024,8 +1000,8 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
     }
 
     if (m_sortFoldersFirst || m_sortRole == SizeRole) {
-        const bool isDirA = a.isDir();
-        const bool isDirB = b.isDir();
+        const bool isDirA = itemA.isDir();
+        const bool isDirB = itemB.isDir();
         if (isDirA && !isDirB) {
             return true;
         } else if (!isDirA && isDirB) {
@@ -1035,18 +1011,18 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
 
     switch (m_sortRole) {
     case NameRole: {
-        result = stringCompare(a.text(), b.text());
+        result = stringCompare(itemA.text(), itemB.text());
         if (result == 0) {
             // KFileItem::text() may not be unique in case UDS_DISPLAY_NAME is used
-            result = stringCompare(a.name(m_caseSensitivity == Qt::CaseInsensitive),
-                                   b.name(m_caseSensitivity == Qt::CaseInsensitive));
+            result = stringCompare(itemA.name(m_caseSensitivity == Qt::CaseInsensitive),
+                                   itemB.name(m_caseSensitivity == Qt::CaseInsensitive));
         }
         break;
     }
 
     case DateRole: {
-        const KDateTime dateTimeA = a.time(KFileItem::ModificationTime);
-        const KDateTime dateTimeB = b.time(KFileItem::ModificationTime);
+        const KDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
+        const KDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
         if (dateTimeA < dateTimeB) {
             result = -1;
         } else if (dateTimeA > dateTimeB) {
@@ -1056,8 +1032,8 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
     }
 
     case SizeRole: {
-        const KIO::filesize_t sizeA = a.size();
-        const KIO::filesize_t sizeB = b.size();
+        const KIO::filesize_t sizeA = itemA.size();
+        const KIO::filesize_t sizeB = itemB.size();
         if (sizeA < sizeB) {
             result = -1;
         } else if (sizeA > sizeB) {
@@ -1067,19 +1043,25 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
     }
 
     case TypeRole: {
-        // Only compare the type if the MIME-type is known for performance reasons.
-        // If the MIME-type is unknown it will be resolved later by KFileItemModelRolesUpdater
-        // and a resorting will be triggered.
-        if (a.isMimeTypeKnown() && b.isMimeTypeKnown()) {
-            result = QString::compare(a.mimeComment(), b.mimeComment());
-        }
+        result = QString::compare(a->values.value("type").toString(),
+                                  b->values.value("type").toString());
         break;
     }
 
+    case CommentRole: {
+        result = QString::compare(a->values.value("comment").toString(),
+                                  b->values.value("comment").toString());
+        break;
+    }    
+
+    case TagsRole: {
+        result = QString::compare(a->values.value("tags").toString(),
+                                  b->values.value("tags").toString());
+        break;
+    }    
+    
     case RatingRole: {
-        const int indexA = m_items.value(a.url(), -1);
-        const int indexB = m_items.value(b.url(), -1);
-        result = m_data.value(indexA).value("rating").toInt() - m_data.value(indexB).value("rating").toInt();
+        result = a->values.value("rating").toInt() - b->values.value("rating").toInt();
         break;
     }
 
@@ -1091,76 +1073,132 @@ bool KFileItemModel::lessThan(const KFileItem& a, const KFileItem& b) const
         // It must be assured that the sort order is always unique even if two values have been
         // equal. In this case a comparison of the URL is done which is unique in all cases
         // within KDirLister.
-        result = QString::compare(a.url().url(), b.url().url(), Qt::CaseSensitive);
+        result = QString::compare(itemA.url().url(), itemB.url().url(), Qt::CaseSensitive);
     }
 
     return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
 }
 
-void KFileItemModel::sort(const KFileItemList::iterator& startIterator, const KFileItemList::iterator& endIterator)
-{
-    KFileItemList::iterator start = startIterator;
-    KFileItemList::iterator end = endIterator;
-
-    // The implementation is based on qSortHelper() from qalgorithms.h
+void KFileItemModel::sort(QList<ItemData*>::iterator begin,
+                          QList<ItemData*>::iterator end)
+{   
+    // The implementation is based on qStableSortHelper() from qalgorithms.h
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-    // In opposite to qSort() it allows to use a member-function for the comparison of elements.
-    while (1) {
-        int span = int(end - start);
-        if (span < 2) {
-            return;
-        }
-
-        --end;
-        KFileItemList::iterator low = start, high = end - 1;
-        KFileItemList::iterator pivot = start + span / 2;
-
-        if (lessThan(*end, *start)) {
-            qSwap(*end, *start);
-        }
-        if (span == 2) {
-            return;
-        }
-
-        if (lessThan(*pivot, *start)) {
-            qSwap(*pivot, *start);
-        }
-        if (lessThan(*end, *pivot)) {
-            qSwap(*end, *pivot);
-        }
-        if (span == 3) {
-            return;
-        }
-
-        qSwap(*pivot, *end);
-
-        while (low < high) {
-            while (low < high && lessThan(*low, *end)) {
-                ++low;
-            }
-
-            while (high > low && lessThan(*end, *high)) {
-                --high;
-            }
-            if (low < high) {
-                qSwap(*low, *high);
-                ++low;
-                --high;
-            } else {
-                break;
-            }
-        }
-
-        if (lessThan(*low, *end)) {
-            ++low;
-        }
-
-        qSwap(*end, *low);
-        sort(start, low);
-
-        start = low + 1;
-        ++end;
+    // In opposite to qStableSort() it allows to use a member-function for the comparison of elements.
+    
+    const int span = end - begin;
+    if (span < 2) {
+        return;
     }
+    
+    const QList<ItemData*>::iterator middle = begin + span / 2;
+    sort(begin, middle);
+    sort(middle, end);
+    merge(begin, middle, end);
+}
+
+void KFileItemModel::merge(QList<ItemData*>::iterator begin,
+                           QList<ItemData*>::iterator pivot,
+                           QList<ItemData*>::iterator end)
+{
+    // The implementation is based on qMerge() from qalgorithms.h
+    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+    
+    const int len1 = pivot - begin;
+    const int len2 = end - pivot;
+    
+    if (len1 == 0 || len2 == 0) {
+        return;
+    }
+    
+    if (len1 + len2 == 2) {
+        if (lessThan(*(begin + 1), *(begin))) {
+            qSwap(*begin, *(begin + 1));
+        }
+        return;
+    }
+    
+    QList<ItemData*>::iterator firstCut;
+    QList<ItemData*>::iterator secondCut;
+    int len2Half;
+    if (len1 > len2) {
+        const int len1Half = len1 / 2;
+        firstCut = begin + len1Half;
+        secondCut = lowerBound(pivot, end, *firstCut);
+        len2Half = secondCut - pivot;
+    } else {
+        len2Half = len2 / 2;
+        secondCut = pivot + len2Half;
+        firstCut = upperBound(begin, pivot, *secondCut);
+    }
+    
+    reverse(firstCut, pivot);
+    reverse(pivot, secondCut);
+    reverse(firstCut, secondCut);
+    
+    const QList<ItemData*>::iterator newPivot = firstCut + len2Half;
+    merge(begin, firstCut, newPivot);
+    merge(newPivot, secondCut, end);
+}
+
+QList<KFileItemModel::ItemData*>::iterator KFileItemModel::lowerBound(QList<ItemData*>::iterator begin,
+                                                                      QList<ItemData*>::iterator end,
+                                                                      const ItemData* value)
+{
+    // The implementation is based on qLowerBound() from qalgorithms.h
+    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+    
+    QList<ItemData*>::iterator middle;
+    int n = int(end - begin);
+    int half;
+
+    while (n > 0) {
+        half = n >> 1;
+        middle = begin + half;
+        if (lessThan(*middle, value)) {
+            begin = middle + 1;
+            n -= half + 1;
+        } else {
+            n = half;
+        }
+    }
+    return begin;
+}
+
+QList<KFileItemModel::ItemData*>::iterator KFileItemModel::upperBound(QList<ItemData*>::iterator begin,
+                                                                      QList<ItemData*>::iterator end,
+                                                                      const ItemData* value)
+{
+    // The implementation is based on qUpperBound() from qalgorithms.h
+    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+    
+    QList<ItemData*>::iterator middle;
+    int n = end - begin;
+    int half;
+
+    while (n > 0) {
+        half = n >> 1;
+        middle = begin + half;
+        if (lessThan(value, *middle)) {
+            n = half;
+        } else {
+            begin = middle + 1;
+            n -= half + 1;
+        }
+    }
+    return begin;
+}
+
+void KFileItemModel::reverse(QList<ItemData*>::iterator begin,
+                             QList<ItemData*>::iterator end)
+{
+    // The implementation is based on qReverse() from qalgorithms.h
+    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
+    
+    --end;
+    while (begin < end) {
+        qSwap(*begin++, *end--);
+    }    
 }
 
 int KFileItemModel::stringCompare(const QString& a, const QString& b) const
@@ -1253,7 +1291,7 @@ bool KFileItemModel::useMaximumUpdateInterval() const
 
 QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
 {
-    Q_ASSERT(!m_data.isEmpty());
+    Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
@@ -1266,7 +1304,7 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
             continue;
         }
 
-        const QString name = m_data.at(i).value("name").toString();
+        const QString name = m_itemData.at(i)->values.value("name").toString();
 
         // Use the first character of the name as group indication
         QChar newFirstChar = name.at(0).toUpper();
@@ -1316,7 +1354,7 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
 
 QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
 {
-    Q_ASSERT(!m_data.isEmpty());
+    Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
@@ -1327,7 +1365,7 @@ QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
             continue;
         }
 
-        const KFileItem& item = m_sortedItems.at(i);
+        const KFileItem& item = m_itemData.at(i)->item;
         const KIO::filesize_t fileSize = !item.isNull() ? item.size() : ~0U;
         QString newGroupValue;
         if (!item.isNull() && item.isDir()) {
@@ -1351,7 +1389,7 @@ QList<QPair<int, QVariant> > KFileItemModel::sizeRoleGroups() const
 
 QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
 {
-    Q_ASSERT(!m_data.isEmpty());
+    Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
@@ -1371,7 +1409,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
             continue;
         }
 
-        const KDateTime modifiedTime = m_sortedItems.at(i).time(KFileItem::ModificationTime);
+        const KDateTime modifiedTime = m_itemData.at(i)->item.time(KFileItem::ModificationTime);
         const QDate modifiedDate = modifiedTime.date();
         if (modifiedDate == previousModifiedDate) {
             // The current item is in the same group as the previous item
@@ -1450,7 +1488,7 @@ QList<QPair<int, QVariant> > KFileItemModel::dateRoleGroups() const
 
 QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
 {
-    Q_ASSERT(!m_data.isEmpty());
+    Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
@@ -1462,13 +1500,14 @@ QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
             continue;
         }
 
-        const QString newPermissionsString = m_data.at(i).value("permissions").toString();
+        const ItemData* itemData = m_itemData.at(i);
+        const QString newPermissionsString = itemData->values.value("permissions").toString();
         if (newPermissionsString == permissionsString) {
             continue;
         }
         permissionsString = newPermissionsString;
 
-        const QFileInfo info(m_sortedItems.at(i).url().pathOrUrl());
+        const QFileInfo info(itemData->item.url().pathOrUrl());
 
         // Set user string
         QString user;
@@ -1521,7 +1560,7 @@ QList<QPair<int, QVariant> > KFileItemModel::permissionRoleGroups() const
 
 QList<QPair<int, QVariant> > KFileItemModel::ratingRoleGroups() const
 {
-    Q_ASSERT(!m_data.isEmpty());
+    Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
@@ -1531,7 +1570,7 @@ QList<QPair<int, QVariant> > KFileItemModel::ratingRoleGroups() const
         if (isChildItem(i)) {
             continue;
         }
-        const int newGroupValue = m_data.at(i).value("rating").toInt();
+        const int newGroupValue = m_itemData.at(i)->values.value("rating").toInt();
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
             groups.append(QPair<int, QVariant>(i, newGroupValue));
@@ -1543,7 +1582,7 @@ QList<QPair<int, QVariant> > KFileItemModel::ratingRoleGroups() const
 
 QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByteArray& role) const
 {
-    Q_ASSERT(!m_data.isEmpty());
+    Q_ASSERT(!m_itemData.isEmpty());
 
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
@@ -1553,7 +1592,7 @@ QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByte
         if (isChildItem(i)) {
             continue;
         }
-        const QString newGroupValue = m_data.at(i).value(role).toString();
+        const QString newGroupValue = m_itemData.at(i)->values.value(role).toString();
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
             groups.append(QPair<int, QVariant>(i, newGroupValue));

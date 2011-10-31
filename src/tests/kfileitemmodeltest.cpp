@@ -195,6 +195,7 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole_data()
 {
     QTest::addColumn<int>("changedIndex");
     QTest::addColumn<int>("changedRating");
+    QTest::addColumn<bool>("expectMoveSignal");
     QTest::addColumn<int>("ratingIndex0");
     QTest::addColumn<int>("ratingIndex1");
     QTest::addColumn<int>("ratingIndex2");
@@ -204,19 +205,20 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole_data()
     // Index 1 = rating 4
     // Index 2 = rating 6
 
-    QTest::newRow("Index 0: Rating 3") << 0 << 3 << 3 << 4 << 6;
-    QTest::newRow("Index 0: Rating 5") << 0 << 5 << 4 << 5 << 6;
-    QTest::newRow("Index 0: Rating 8") << 0 << 8 << 4 << 6 << 8;
+    QTest::newRow("Index 0: Rating 3") << 0 << 3 << false << 3 << 4 << 6;
+    QTest::newRow("Index 0: Rating 5") << 0 << 5 << true  << 4 << 5 << 6;
+    QTest::newRow("Index 0: Rating 8") << 0 << 8 << true  << 4 << 6 << 8;
 
-    QTest::newRow("Index 2: Rating 1") << 2 << 1 << 1 << 2 << 4;
-    QTest::newRow("Index 2: Rating 3") << 2 << 3 << 2 << 3 << 4;
-    QTest::newRow("Index 2: Rating 5") << 2 << 5 << 2 << 4 << 5;
+    QTest::newRow("Index 2: Rating 1") << 2 << 1 << true  << 1 << 2 << 4;
+    QTest::newRow("Index 2: Rating 3") << 2 << 3 << true  << 2 << 3 << 4;
+    QTest::newRow("Index 2: Rating 5") << 2 << 5 << false << 2 << 4 << 5;
 }
 
 void KFileItemModelTest::testSetDataWithModifiedSortRole()
 {
     QFETCH(int, changedIndex);
     QFETCH(int, changedRating);
+    QFETCH(bool, expectMoveSignal);
     QFETCH(int, ratingIndex0);
     QFETCH(int, ratingIndex1);
     QFETCH(int, ratingIndex2);
@@ -260,6 +262,10 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     rating.insert("rating", changedRating);
     m_model->setData(changedIndex, rating);
 
+    if (expectMoveSignal) {
+        QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
+    }
+    
     QCOMPARE(m_model->data(0).value("rating").toInt(), ratingIndex0);
     QCOMPARE(m_model->data(1).value("rating").toInt(), ratingIndex1);
     QCOMPARE(m_model->data(2).value("rating").toInt(), ratingIndex2);
