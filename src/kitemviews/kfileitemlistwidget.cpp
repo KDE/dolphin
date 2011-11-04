@@ -192,13 +192,18 @@ QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteA
         if (values.value("isDir").toBool()) {
             // The item represents a directory. Show the number of sub directories
             // instead of the file size of the directory.
-            if (!roleValue.isNull()) {
+            if (roleValue.isNull()) {
+                text = i18nc("@item:intable", "Unknown");
+            } else {
                 const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
                 text = i18ncp("@item:intable", "%1 item", "%1 items", size);
             }
         } else {
-            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
-            text = KIO::convertSize(size);
+            // Show the size in kilobytes (always round up)
+            const KLocale* locale = KGlobal::locale();
+            const int roundInc = (locale->binaryUnitDialect() == KLocale::MetricBinaryDialect) ? 499 : 511;
+            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>() + roundInc;
+            text = locale->formatByteSize(size, 0, KLocale::DefaultBinaryDialect, KLocale::UnitKiloByte);
         }
         break;
     }

@@ -427,7 +427,13 @@ void DolphinViewContainer::showItemInfo(const KFileItem& item)
             m_statusBar->clear();
         }
     } else {
-        m_statusBar->setMessage(item.getStatusBarInfo(), DolphinStatusBar::Default);
+        QString message;
+        if (item.isDir()) {
+            message = item.name();
+        } else {
+            message = i18nc("@info:status filename (type)", "%1 (%2)", item.name(), item.mimeComment());
+        }
+        m_statusBar->setMessage(message, DolphinStatusBar::Default);
     }
 }
 

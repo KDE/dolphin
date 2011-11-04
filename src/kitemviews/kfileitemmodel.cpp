@@ -1032,12 +1032,22 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
     }
 
     case SizeRole: {
-        const KIO::filesize_t sizeA = itemA.size();
-        const KIO::filesize_t sizeB = itemB.size();
-        if (sizeA < sizeB) {
-            result = -1;
-        } else if (sizeA > sizeB) {
-            result = +1;
+        if (itemA.isDir()) {
+            Q_ASSERT(itemB.isDir()); // see "if (m_sortFoldersFirst || m_sortRole == SizeRole)" above
+
+            const QVariant valueA = a->values.value("size");
+            const QVariant valueB = b->values.value("size");
+
+            if (valueA.isNull()) {
+                result = -1;
+            } else if (valueB.isNull()) {
+                result = +1;
+            } else {
+                result = valueA.value<KIO::filesize_t>() - valueB.value<KIO::filesize_t>();
+            }
+        } else {
+            Q_ASSERT(!itemB.isDir()); // see "if (m_sortFoldersFirst || m_sortRole == SizeRole)" above
+            result = itemA.size() - itemB.size();
         }
         break;
     }

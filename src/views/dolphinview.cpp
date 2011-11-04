@@ -362,6 +362,11 @@ void DolphinView::markUrlsAsSelected(const QList<KUrl>& urls)
     m_selectedUrls = urls;
 }
 
+void DolphinView::markUrlAsCurrent(const KUrl& url)
+{
+    m_currentItemUrl = url;
+}
+
 void DolphinView::setItemSelectionEnabled(const QRegExp& pattern, bool enabled)
 {
     const KItemListSelectionManager::SelectionMode mode = enabled
@@ -515,61 +520,50 @@ void DolphinView::calculateItemCount(int& fileCount,
 
 QString DolphinView::statusBarText() const
 {
-    QString text;
+    QString summary;
+    QString foldersText;
+    QString filesText;
+
     int folderCount = 0;
     int fileCount = 0;
     KIO::filesize_t totalFileSize = 0;
 
     if (hasSelection()) {
-        // give a summary of the status of the selected files
+        // Give a summary of the status of the selected files
         const KFileItemList list = selectedItems();
-        if (list.isEmpty()) {
-            // when an item is triggered, it is temporary selected but selectedItems()
-            // will return an empty list
-            return text;
-        }
-
-        KFileItemList::const_iterator it = list.begin();
-        const KFileItemList::const_iterator end = list.end();
-        while (it != end) {
-            const KFileItem& item = *it;
+        foreach (const KFileItem& item, list) {
             if (item.isDir()) {
                 ++folderCount;
             } else {
                 ++fileCount;
                 totalFileSize += item.size();
             }
-            ++it;
         }
 
         if (folderCount + fileCount == 1) {
-            // if only one item is selected, show the filename
-            const QString name = list.first().text();
-            text = (folderCount == 1) ? i18nc("@info:status", "<filename>%1</filename> selected", name) :
-                                        i18nc("@info:status", "<filename>%1</filename> selected (%2)",
-                                              name, KIO::convertSize(totalFileSize));
+            // If only one item is selected, show the filename
+            filesText = i18nc("@info:status", "<filename>%1</filename> selected", list.first().text());
         } else {
-            // at least 2 items are selected
-            const QString foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
-            const QString filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
-            if ((folderCount > 0) && (fileCount > 0)) {
-                text = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
-                             foldersText, filesText, KIO::convertSize(totalFileSize));
-            } else if (fileCount > 0) {
-                text = i18nc("@info:status files (size)", "%1 (%2)", filesText, KIO::convertSize(totalFileSize));
-            } else {
-                Q_ASSERT(folderCount > 0);
-                text = foldersText;
-            }
+            // At least 2 items are selected
+            foldersText = i18ncp("@info:status", "1 Folder selected", "%1 Folders selected", folderCount);
+            filesText = i18ncp("@info:status", "1 File selected", "%1 Files selected", fileCount);
         }
     } else {
         calculateItemCount(fileCount, folderCount, totalFileSize);
-        text = KIO::itemsSummaryString(fileCount + folderCount,
-                                       fileCount, folderCount,
-                                       totalFileSize, true);
+        foldersText = i18ncp("@info:status", "1 Folder", "%1 Folders", folderCount);
+        filesText = i18ncp("@info:status", "1 File", "%1 Files", fileCount);
     }
 
-    return text;
+    if (fileCount > 0 && folderCount > 0) {
+        summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
+                        foldersText, filesText, fileSizeText(totalFileSize));
+    } else if (fileCount > 0) {
+        summary = i18nc("@info:status files (size)", "%1 (%2)", filesText, fileSizeText(totalFileSize));
+    } else if (folderCount > 0) {
+        summary = foldersText;
+    }
+
+    return summary;
 }
 
 QList<QAction*> DolphinView::versionControlActions(const KFileItemList& items) const
@@ -1365,9 +1359,27 @@ DolphinView::Sorting DolphinView::sortingForSortRole(const QByteArray& sortRole)
     return sortHash.value(sortRole);
 }
 
-void DolphinView::markUrlAsCurrent(const KUrl& url)
+QString DolphinView::fileSizeText(KIO::filesize_t fileSize)
 {
-    m_currentItemUrl = url;
+    const KLocale* locale = KGlobal::locale();
+    const unsigned int multiplier = (locale->binaryUnitDialect() == KLocale::MetricBinaryDialect)
+                                    ? 1000 : 1024;
+
+    QString text;
+    if (fileSize < multiplier) {
+        // Show the size in bytes
+        text = locale->formatByteSize(fileSize, 0, KLocale::DefaultBinaryDialect, KLocale::UnitByte);
+    } else if (fileSize < multiplier * multiplier) {
+        // Show the size in kilobytes and always round up. This is done
+        // for consistency with the values shown e.g. in the "Size" column
+        // of the details-view.
+        fileSize += (multiplier / 2) - 1;
+        text = locale->formatByteSize(fileSize, 0, KLocale::DefaultBinaryDialect, KLocale::UnitKiloByte);
+    } else {
+        // Show the size in the best fitting unit having one decimal
+        text = locale->formatByteSize(fileSize, 1);
+    }
+    return text;
 }
 
 #include "dolphinview.moc"
