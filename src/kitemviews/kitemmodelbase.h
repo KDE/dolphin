@@ -108,6 +108,12 @@ public:
      */
     virtual QString roleDescription(const QByteArray& role) const;
 
+    /**
+     * @return List of group headers. Each list-item consists of the index of the item
+     *         that represents the first item of a group and a value represented
+     *         as QVariant. The value is shown by an instance of KItemListGroupHeader.
+     *         Per default an empty list is returned.
+     */
     virtual QList<QPair<int, QVariant> > groups() const;
 
     /**

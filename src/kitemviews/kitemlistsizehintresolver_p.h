@@ -28,6 +28,9 @@
 
 class KItemListView;
 
+/**
+ * @brief Calculates and caches the sizehints of items in KItemListView.
+ */
 class LIBDOLPHINPRIVATE_EXPORT KItemListSizeHintResolver
 {
 public:
@@ -37,7 +40,7 @@ public:
 
     void itemsInserted(int index, int count);
     void itemsRemoved(int index, int count);
-    void itemsMoved(int from, int to, int count);
+    void itemsMoved(int index, int count);
     void itemsChanged(int index, int count, const QSet<QByteArray>& roles);
 
     void clearCache();

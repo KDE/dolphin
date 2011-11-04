@@ -708,7 +708,6 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
         if (!hasMultipleRanges) {
             doLayout(Animation, index, count);
-            update();
         }
     }
 
@@ -789,7 +788,6 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         m_layouter->markAsDirty();
         if (!hasMultipleRanges) {
             doLayout(Animation, index, -count);
-            update();
         }
     }
 
@@ -804,6 +802,13 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
 void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
 {
+    m_sizeHintResolver->itemsMoved(itemRange.index, itemRange.count);
+    m_layouter->markAsDirty();
+
+    if (m_controller) {
+        m_controller->selectionManager()->itemsMoved(itemRange, movedToIndexes);
+    }
+
     const int firstVisibleMovedIndex = qMax(firstVisibleIndex(), itemRange.index);
     const int lastVisibleMovedIndex = qMin(lastVisibleIndex(), itemRange.index + itemRange.count - 1);
 
@@ -811,12 +816,14 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
         KItemListWidget* widget = m_visibleItems.value(index);
         if (widget) {
             updateWidgetProperties(widget, index);
+            if (m_grouped) {
+                updateGroupHeaderForWidget(widget);
+            }
+            initializeItemListWidget(widget);
         }
     }
 
-    if (m_controller) {
-        m_controller->selectionManager()->itemsMoved(itemRange, movedToIndexes);
-    }
+    doLayout(NoAnimation, 0, 0);
 }
 
 void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
@@ -854,9 +861,6 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
             // in modified group headers
             updateVisibleGroupHeaders();
             doLayout(NoAnimation, 0, 0);
-            if (!m_layoutTimer->isActive()) {
-                m_layoutTimer->start();
-            }
         }
     }
 }
@@ -1328,7 +1332,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         widget->setVisible(true);
 
         if (widget->size() != itemBounds.size()) {
-            m_animation->start(widget, KItemListViewAnimation::ResizeAnimation, itemBounds.size());
+            if (animate) {
+                m_animation->start(widget, KItemListViewAnimation::ResizeAnimation, itemBounds.size());
+            } else {
+                widget->resize(itemBounds.size());
+            }
         }
     }
 
@@ -1484,6 +1492,8 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
 
 void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
 {
+    Q_ASSERT(m_grouped);
+
     const int index = widget->index();
     if (!m_layouter->isFirstGroupItem(index)) {
         // The widget does not represent the first item of a group

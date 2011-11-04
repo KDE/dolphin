@@ -88,7 +88,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     // for a lot of items within a quite small timeslot. To prevent expensive resortings the
     // resorting is postponed until the timer has been exceeded.
     m_resortAllItemsTimer = new QTimer(this);
-    m_resortAllItemsTimer->setInterval(1000);
+    m_resortAllItemsTimer->setInterval(500);
     m_resortAllItemsTimer->setSingleShot(true);
     connect(m_resortAllItemsTimer, SIGNAL(timeout()), this, SLOT(resortAllItems()));
 

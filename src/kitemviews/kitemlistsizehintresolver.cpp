@@ -60,11 +60,13 @@ void KItemListSizeHintResolver::itemsRemoved(int index, int count)
     m_sizeHintCache.erase(begin, end);
 }
 
-void KItemListSizeHintResolver::itemsMoved(int from, int to, int count)
+void KItemListSizeHintResolver::itemsMoved(int index, int count)
 {
-    Q_UNUSED(from);
-    Q_UNUSED(to);
-    Q_UNUSED(count);
+    while (count) {
+        m_sizeHintCache[index] = QSizeF();
+        ++index;
+        --count;
+    }
 }
 
 void KItemListSizeHintResolver::itemsChanged(int index, int count, const QSet<QByteArray>& roles)
