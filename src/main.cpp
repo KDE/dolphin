@@ -41,6 +41,12 @@ KDE_EXPORT int kdemain(int argc, char **argv)
     about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
                     ki18nc("@info:credit", "Maintainer and developer"),
                     "peter.penz19@gmail.com");
+    about.addAuthor(ki18nc("@info:credit", "Frank Reininghaus"),
+                    ki18nc("@info:credit", "Developer"),
+                    "frank78ac@googlemail.com");
+    about.addAuthor(ki18nc("@info:credit", "Sebastian Trüg"),
+                    ki18nc("@info:credit", "Developer"),
+                    "trueg@kde.org"),
     about.addAuthor(ki18nc("@info:credit", "David Faure"),
                     ki18nc("@info:credit", "Developer"),
                     "faure@kde.org");
