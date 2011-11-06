@@ -69,7 +69,7 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
                                                    QList<DolphinView::AdditionalInfo>)),
             this, SLOT(slotAdditionalInfoListChanged(QList<DolphinView::AdditionalInfo>,
                                                      QList<DolphinView::AdditionalInfo>)));
-    connect(view, SIGNAL(categorizedSortingChanged(bool)),
+    connect(view, SIGNAL(groupedSortingChanged(bool)),
             this, SLOT(slotGroupedSortingChanged(bool)));
     connect(view, SIGNAL(hiddenFilesShownChanged(bool)),
             this, SLOT(slotHiddenFilesShownChanged(bool)));

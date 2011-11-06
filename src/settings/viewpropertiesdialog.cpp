@@ -160,7 +160,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     connect(m_previewsShown, SIGNAL(clicked()),
             this, SLOT(slotShowPreviewChanged()));
     connect(m_showInGroups, SIGNAL(clicked()),
-            this, SLOT(slotCategorizedSortingChanged()));
+            this, SLOT(slotGroupedSortingChanged()));
     connect(m_showHiddenFiles, SIGNAL(clicked()),
             this, SLOT(slotShowHiddenFilesChanged()));
 
@@ -260,7 +260,7 @@ void ViewPropertiesDialog::slotSortOrderChanged(int index)
     markAsDirty(true);
 }
 
-void ViewPropertiesDialog::slotCategorizedSortingChanged()
+void ViewPropertiesDialog::slotGroupedSortingChanged()
 {
     m_viewProps->setGroupedSorting(m_showInGroups->isChecked());
     markAsDirty(true);

@@ -47,8 +47,8 @@
 </MenuBar>
 <ToolBar name="mainToolBar"><text context="@title:menu">Dolphin Toolbar</text>
   <Action name="icons" />
+  <Action name="compact" />
   <Action name="details" />
-  <Action name="columns" />
 </ToolBar>
 <State name="has_selection" >
   <enable>

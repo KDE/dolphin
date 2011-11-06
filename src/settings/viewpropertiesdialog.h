@@ -53,7 +53,7 @@ private slots:
     void slotViewModeChanged(int index);
     void slotSortingChanged(int index);
     void slotSortOrderChanged(int index);
-    void slotCategorizedSortingChanged();
+    void slotGroupedSortingChanged();
     void slotSortFoldersFirstChanged();
     void slotShowPreviewChanged();
     void slotShowHiddenFilesChanged();
