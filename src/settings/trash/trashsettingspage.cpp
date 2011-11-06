@@ -23,8 +23,6 @@
 #include <KDialog>
 #include <KVBox>
 
-#include <settings/dolphinsettings.h>
-
 #include <QVBoxLayout>
 
 TrashSettingsPage::TrashSettingsPage(QWidget* parent) :

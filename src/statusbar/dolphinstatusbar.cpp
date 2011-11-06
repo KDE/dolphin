@@ -28,7 +28,6 @@
 #include <KMenu>
 #include <KVBox>
 
-#include "settings/dolphinsettings.h"
 #include "statusbarspaceinfo.h"
 
 #include <QApplication>
@@ -278,15 +277,13 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
     default: break;
     }
 
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-
     QAction* showZoomSliderAction = menu.addAction(i18nc("@action:inmenu", "Show Zoom Slider"));
     showZoomSliderAction->setCheckable(true);
-    showZoomSliderAction->setChecked(settings->showZoomSlider());
+    showZoomSliderAction->setChecked(GeneralSettings::showZoomSlider());
 
     QAction* showSpaceInfoAction = menu.addAction(i18nc("@action:inmenu", "Show Space Information"));
     showSpaceInfoAction->setCheckable(true);
-    showSpaceInfoAction->setChecked(settings->showSpaceInfo());
+    showSpaceInfoAction->setChecked(GeneralSettings::showSpaceInfo());
 
     const QAction* action = menu.exec(QCursor::pos());
     if (action == copyAction) {
@@ -295,11 +292,11 @@ void DolphinStatusBar::contextMenuEvent(QContextMenuEvent* event)
         QApplication::clipboard()->setMimeData(mimeData);
     } else if (action == showZoomSliderAction) {
         const bool visible = showZoomSliderAction->isChecked();
-        settings->setShowZoomSlider(visible);
+        GeneralSettings::setShowZoomSlider(visible);
         m_zoomSlider->setVisible(visible);
     } else if (action == showSpaceInfoAction) {
         const bool visible = showSpaceInfoAction->isChecked();
-        settings->setShowSpaceInfo(visible);
+        GeneralSettings::setShowSpaceInfo(visible);
         m_spaceInfo->setVisible(visible);
     }
 }
@@ -356,9 +353,8 @@ void DolphinStatusBar::setExtensionsVisible(bool visible)
     bool showSpaceInfo = visible;
     bool showZoomSlider = visible;
     if (visible) {
-        const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-        showSpaceInfo = settings->showSpaceInfo();
-        showZoomSlider = settings->showZoomSlider();
+        showSpaceInfo = GeneralSettings::showSpaceInfo();
+        showZoomSlider = GeneralSettings::showZoomSlider();
     }
     m_spaceInfo->setVisible(showSpaceInfo);
     m_zoomSlider->setVisible(showZoomSlider);

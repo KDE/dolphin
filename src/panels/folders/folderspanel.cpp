@@ -19,13 +19,11 @@
 
 #include "folderspanel.h"
 
-#include "settings/dolphinsettings.h"
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
 #include "paneltreeview.h"
 #include "treeviewcontextmenu.h"
 
-#include <KFilePlacesModel>
 #include <KDirLister>
 #include <KFileItem>
 #include <konq_operations.h>
@@ -95,7 +93,8 @@ bool FoldersPanel::autoScrolling() const
 
 void FoldersPanel::rename(const KFileItem& item)
 {
-    if (DolphinSettings::instance().generalSettings()->renameInline()) {
+    // TODO: Inline renaming is not supported anymore in Dolphin 2.0
+    if (false /* GeneralSettings::renameInline() */) {
         //const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
         //const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
         //m_treeView->edit(proxyIndex);

@@ -19,7 +19,6 @@
 
 #include "contextmenusettingspage.h"
 
-#include <settings/dolphinsettings.h>
 #include <dolphin_generalsettings.h>
 
 #include <KDialog>
@@ -68,14 +67,13 @@ void ContextMenuSettingsPage::applySettings()
     configGroup.writeEntry("ShowDeleteCommand", m_showDeleteCommand->isChecked());
     configGroup.sync();
 
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setShowCopyMoveMenu(m_showCopyMoveMenu->isChecked());
-    settings->writeConfig();
+    GeneralSettings::setShowCopyMoveMenu(m_showCopyMoveMenu->isChecked());
+    GeneralSettings::self()->writeConfig();
 }
 
 void ContextMenuSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -88,8 +86,7 @@ void ContextMenuSettingsPage::loadSettings()
     KConfigGroup configGroup(globalConfig, "KDE");
     m_showDeleteCommand->setChecked(configGroup.readEntry("ShowDeleteCommand", SHOW_DELETE));
 
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    m_showCopyMoveMenu->setChecked(settings->showCopyMoveMenu());
+    m_showCopyMoveMenu->setChecked(GeneralSettings::showCopyMoveMenu());
 }
 
 #include "contextmenusettingspage.moc"

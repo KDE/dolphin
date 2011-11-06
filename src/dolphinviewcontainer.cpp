@@ -30,7 +30,6 @@
 #include <KDesktopFile>
 #include <KFileItemDelegate>
 #include <KFilePlacesModel>
-#include <KGlobalSettings>
 #include <KLocale>
 #include <KIconEffect>
 #include <KIO/NetAccess>
@@ -48,8 +47,8 @@
 #include "dolphinmainwindow.h"
 #include "filterbar/filterbar.h"
 #include "search/dolphinsearchbox.h"
-#include "settings/dolphinsettings.h"
 #include "statusbar/dolphinstatusbar.h"
+#include "views/dolphinplacesmodel.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 
@@ -70,7 +69,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    m_urlNavigator = new KUrlNavigator(DolphinSettings::instance().placesModel(), url, this);
+    m_urlNavigator = new KUrlNavigator(DolphinPlacesModel::instance(), url, this);
     connect(m_urlNavigator, SIGNAL(urlsDropped(KUrl,QDropEvent*)),
             this, SLOT(dropUrls(KUrl,QDropEvent*)));
     connect(m_urlNavigator, SIGNAL(activated()),
@@ -78,7 +77,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_urlNavigator->editor(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
             this, SLOT(saveUrlCompletionMode(KGlobalSettings::Completion)));
 
-    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    const GeneralSettings* settings = GeneralSettings::self();
     m_urlNavigator->setUrlEditable(settings->editableUrl());
     m_urlNavigator->setShowFullPath(settings->showFullPath());
     m_urlNavigator->setHomeUrl(KUrl(settings->homeUrl()));
@@ -213,14 +212,13 @@ DolphinSearchBox* DolphinViewContainer::searchBox()
 
 void DolphinViewContainer::refresh()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    if (settings->modifiedStartupSettings()) {
+    if (GeneralSettings::modifiedStartupSettings()) {
         // The startup settings should only get applied if they have been
         // modified by the user. Otherwise keep the (possibly) different current
         // settings of the URL navigator and the filterbar.
-        m_urlNavigator->setUrlEditable(settings->editableUrl());
-        m_urlNavigator->setShowFullPath(settings->showFullPath());
-        setFilterBarVisible(settings->filterBar());
+        m_urlNavigator->setUrlEditable(GeneralSettings::editableUrl());
+        m_urlNavigator->setShowFullPath(GeneralSettings::showFullPath());
+        setFilterBarVisible(GeneralSettings::filterBar());
     }
 
     m_view->refresh();
@@ -381,9 +379,7 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
         return;
     }
 
-    const GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    const bool browseThroughArchives = settings->browseThroughArchives();
-    if (browseThroughArchives && item.isFile() && url.isLocalFile()) {
+    if (GeneralSettings::browseThroughArchives() && item.isFile() && url.isLocalFile()) {
         // Generic mechanism for redirecting to tar:/<path>/ when clicking on a tar file,
         // zip:/<path>/ when clicking on a zip file, etc.
         // The .protocol file specifies the mimetype that the kioslave handles.
@@ -564,9 +560,7 @@ void DolphinViewContainer::requestFocus()
 
 void DolphinViewContainer::saveUrlCompletionMode(KGlobalSettings::Completion completion)
 {
-    DolphinSettings& settings = DolphinSettings::instance();
-    settings.generalSettings()->setUrlCompletionMode(completion);
-    settings.save();
+    GeneralSettings::setUrlCompletionMode(completion);
 }
 
 void DolphinViewContainer::slotHistoryChanged()

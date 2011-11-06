@@ -37,7 +37,6 @@
 #include "panels/information/informationpanel.h"
 #include "search/dolphinsearchbox.h"
 #include "search/dolphinsearchinformation.h"
-#include "settings/dolphinsettings.h"
 #include "settings/dolphinsettingsdialog.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinviewactionhandler.h"
@@ -87,6 +86,8 @@
 #include <KUrl>
 #include <KUrlComboBox>
 #include <KToolInvocation>
+
+#include "views/dolphinplacesmodel.h"
 
 #include <QDesktopWidget>
 #include <QDBusMessage>
@@ -143,6 +144,10 @@ DolphinMainWindow::DolphinMainWindow() :
     m_lastHandleUrlStatJob(0),
     m_searchDockIsTemporaryVisible(false)
 {
+    DolphinPlacesModel::setModel(new KFilePlacesModel(this));
+    connect(DolphinPlacesModel::instance(), SIGNAL(errorMessage(QString)),
+            this, SLOT(showErrorMessage(QString)));
+
     // Workaround for a X11-issue in combination with KModifierInfo
     // (see DolphinContextMenu::initializeModifierKeyInfo() for
     // more information):
@@ -163,8 +168,6 @@ DolphinMainWindow::DolphinMainWindow() :
             this, SLOT(clearStatusBar()));
     connect(undoManager, SIGNAL(jobRecordingFinished(CommandType)),
             this, SLOT(showCommand(CommandType)));
-    connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(QString)),
-            this, SLOT(showErrorMessage(QString)));
 
     GeneralSettings* generalSettings = GeneralSettings::self();
     const bool firstRun = (generalSettings->version() < 200);
@@ -278,8 +281,7 @@ void DolphinMainWindow::openDirectories(const QList<KUrl>& dirs)
 
     const int oldOpenTabsCount = m_viewTab.count();
 
-    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-    const bool hasSplitView = generalSettings->splitView();
+    const bool hasSplitView = GeneralSettings::splitView();
 
     // Open each directory inside a new tab. If the "split view" option has been enabled,
     // always show two directories within one tab.
@@ -507,8 +509,7 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     actionCollection()->action("close_tab")->setEnabled(true);
 
     // provide a split view, if the startup settings are set this way
-    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-    if (generalSettings->splitView()) {
+    if (GeneralSettings::splitView()) {
         const int tabIndex = m_viewTab.count() - 1;
         createSecondaryView(tabIndex);
         m_viewTab[tabIndex].secondaryView->setActive(true);
@@ -596,8 +597,6 @@ void DolphinMainWindow::showEvent(QShowEvent* event)
 
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
-    GeneralSettings* generalSettings = GeneralSettings::self();
-
     // Find out if Dolphin is closed directly by the user or
     // by the session manager because the session is closed
     bool closedByUser = true;
@@ -606,7 +605,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         closedByUser = false;
     }
 
-    if ((m_viewTab.count() > 1) && generalSettings->confirmClosingMultipleTabs() && closedByUser) {
+    if (m_viewTab.count() > 1 && GeneralSettings::confirmClosingMultipleTabs() && closedByUser) {
         // Ask the user if he really wants to quit and close all tabs.
         // Open a confirmation dialog with 3 buttons:
         // KDialog::Yes    -> Quit
@@ -632,7 +631,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
             KMessageBox::Notify);
 
         if (doNotAskAgainCheckboxResult) {
-            generalSettings->setConfirmClosingMultipleTabs(false);
+            GeneralSettings::setConfirmClosingMultipleTabs(false);
         }
 
         switch (result) {
@@ -648,8 +647,8 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
         }
     }
 
-    generalSettings->setVersion(CurrentDolphinVersion);
-    generalSettings->writeConfig();
+    GeneralSettings::setVersion(CurrentDolphinVersion);
+    GeneralSettings::self()->writeConfig();
 
     if (m_searchDockIsTemporaryVisible) {
         QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
@@ -948,9 +947,7 @@ void DolphinMainWindow::replaceLocation()
 
 void DolphinMainWindow::togglePanelLockState()
 {
-    GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-
-    const bool newLockState = !generalSettings->lockPanels();
+    const bool newLockState = !GeneralSettings::lockPanels();
     foreach (QObject* child, children()) {
         DolphinDockWidget* dock = qobject_cast<DolphinDockWidget*>(child);
         if (dock) {
@@ -958,7 +955,7 @@ void DolphinMainWindow::togglePanelLockState()
         }
     }
 
-    generalSettings->setLockPanels(newLockState);
+    GeneralSettings::setLockPanels(newLockState);
 }
 
 void DolphinMainWindow::slotPlacesPanelVisibilityChanged(bool visible)
@@ -1405,8 +1402,6 @@ void DolphinMainWindow::updateToolBarMenu()
     // by connecting to the aboutToHide() signal from the parent-menu.
     menu->clear();
 
-    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-
     KActionCollection* ac = actionCollection();
 
     // Add "Edit" actions
@@ -1420,7 +1415,7 @@ void DolphinMainWindow::updateToolBarMenu()
     }
 
     // Add "View" actions
-    if (!generalSettings->showZoomSlider()) {
+    if (!GeneralSettings::showZoomSlider()) {
         addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomIn)), menu);
         addActionToMenu(ac->action(KStandardAction::name(KStandardAction::ZoomOut)), menu);
         menu->addSeparator();
@@ -1743,7 +1738,7 @@ void DolphinMainWindow::setupActions()
 
 void DolphinMainWindow::setupDockWidgets()
 {
-    const bool lock = DolphinSettings::instance().generalSettings()->lockPanels();
+    const bool lock = GeneralSettings::lockPanels();
 
     KDualAction* lockLayoutAction = actionCollection()->add<KDualAction>("lock_panels");
     lockLayoutAction->setActiveText(i18nc("@action:inmenu Panels", "Unlock Panels"));
@@ -1832,7 +1827,7 @@ void DolphinMainWindow::setupDockWidgets()
             searchPanel, SLOT(setUrl(KUrl)));
 #endif
 
-    if (DolphinSettings::instance().generalSettings()->version() < 200) {
+    if (GeneralSettings::version() < 200) {
         infoDock->hide();
         foldersDock->hide();
 #ifndef Q_OS_WIN
@@ -1856,7 +1851,7 @@ void DolphinMainWindow::setupDockWidgets()
     placesActions.append(separator);
     placesActions.append(lockLayoutAction);
     placesPanel->addActions(placesActions);
-    placesPanel->setModel(DolphinSettings::instance().placesModel());
+    placesPanel->setModel(DolphinPlacesModel::instance());
     placesPanel->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     placesDock->setWidget(placesPanel);
 
@@ -2056,11 +2051,10 @@ void DolphinMainWindow::refreshViews()
 
     setActiveViewContainer(activeViewContainer);
 
-    const GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-    if (generalSettings->modifiedStartupSettings()) {
+    if (GeneralSettings::modifiedStartupSettings()) {
         // The startup settings have been changed by the user (see bug #254947).
         // Synchronize the split-view setting with the active view:
-        const bool splitView = generalSettings->splitView();
+        const bool splitView = GeneralSettings::splitView();
         const ViewTab& activeTab = m_viewTab[m_tabIndex];
         const bool toggle =    ( splitView && !activeTab.secondaryView)
                             || (!splitView &&  activeTab.secondaryView);

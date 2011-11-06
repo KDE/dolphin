@@ -50,9 +50,9 @@
 
 #include "dolphin_informationpanelsettings.h"
 #include "filemetadataconfigurationdialog.h"
-#include "settings/dolphinsettings.h"
 #include "phononwidget.h"
 #include "pixmapviewer.h"
+#include "views/dolphinplacesmodel.h"
 
 InformationPanelContent::InformationPanelContent(QWidget* parent) :
     QWidget(parent),
@@ -352,8 +352,8 @@ void InformationPanelContent::refreshMetaData()
 
 bool InformationPanelContent::applyPlace(const KUrl& url)
 {
-    KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
-    int count = placesModel->rowCount();
+    KFilePlacesModel* placesModel = DolphinPlacesModel::instance();
+    const int count = placesModel->rowCount();
 
     for (int i = 0; i < count; ++i) {
         QModelIndex index = placesModel->index(i, 0);

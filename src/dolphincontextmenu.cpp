@@ -22,7 +22,6 @@
 
 #include "dolphinmainwindow.h"
 #include "dolphinnewfilemenu.h"
-#include "settings/dolphinsettings.h"
 #include "dolphinviewcontainer.h"
 #include "dolphin_generalsettings.h"
 
@@ -55,6 +54,7 @@
 #include <QClipboard>
 #include <QDir>
 
+#include "views/dolphinplacesmodel.h"
 #include "views/dolphinview.h"
 #include "views/viewmodecontroller.h"
 
@@ -194,9 +194,9 @@ void DolphinContextMenu::openTrashContextMenu()
     if (action == emptyTrashAction) {
         KonqOperations::emptyTrash(m_mainWindow);
     } else if (action == addToPlacesAction) {
-        const KUrl& url = m_mainWindow->activeViewContainer()->url();
+        const KUrl url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
-            DolphinSettings::instance().placesModel()->addPlace(i18nc("@label", "Trash"), url);
+            DolphinPlacesModel::instance()->addPlace(i18nc("@label", "Trash"), url);
         }
     }
 }
@@ -292,7 +292,7 @@ void DolphinContextMenu::openItemContextMenu()
     addVersionControlPluginActions();
 
     // insert 'Copy To' and 'Move To' sub menus
-    if (DolphinSettings::instance().generalSettings()->showCopyMoveMenu()) {
+    if (GeneralSettings::showCopyMoveMenu()) {
         m_copyToMenu.setItems(m_selectedItems);
         m_copyToMenu.setReadOnly(!selectedItemsProperties().supportsWriting());
         m_copyToMenu.addActionsTo(m_popup);
@@ -307,8 +307,8 @@ void DolphinContextMenu::openItemContextMenu()
         if (activatedAction == addToPlacesAction) {
             const KUrl selectedUrl(m_fileInfo.url());
             if (selectedUrl.isValid()) {
-                DolphinSettings::instance().placesModel()->addPlace(placesName(selectedUrl),
-                                                                    selectedUrl);
+                DolphinPlacesModel::instance()->addPlace(placesName(selectedUrl),
+                                                         selectedUrl);
             }
         } else if (activatedAction == openParentInNewWindowAction) {
             m_command = OpenParentFolderInNewWindow;
@@ -368,7 +368,7 @@ void DolphinContextMenu::openViewportContextMenu()
     if (addToPlacesAction && (action == addToPlacesAction)) {
         const KUrl url = m_mainWindow->activeViewContainer()->url();
         if (url.isValid()) {
-            DolphinSettings::instance().placesModel()->addPlace(placesName(url), url);
+            DolphinPlacesModel::instance()->addPlace(placesName(url), url);
         }
     }
 }
@@ -419,7 +419,7 @@ QString DolphinContextMenu::placesName(const KUrl& url) const
 
 bool DolphinContextMenu::placeExists(const KUrl& url) const
 {
-    const KFilePlacesModel* placesModel = DolphinSettings::instance().placesModel();
+    const KFilePlacesModel* placesModel = DolphinPlacesModel::instance();
     const int count = placesModel->rowCount();
 
     for (int i = 0; i < count; ++i) {

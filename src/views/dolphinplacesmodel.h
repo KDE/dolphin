@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz                                      *
- *   peter.penz@gmx.at                                                     *
+ *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,54 +17,27 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINSETTINGS_H
-#define DOLPHINSETTINGS_H
+#ifndef DOLPHIN_PLACES_MODEL_H
+#define DOLPHIN_PLACES_MODEL_H
 
 #include <libdolphin_export.h>
 
-class GeneralSettings;
 class KFilePlacesModel;
 
-// TODO: Remove this class completely and just work with the settings directly instead
-
 /**
- * @brief Manages and stores all settings from Dolphin.
- *
- * The following properties are stored:
- * - home URL
- * - default view mode
- * - URL navigator state (editable or not)
- * - Text completion state
- * - split view
- * - properties for views
+ * @brief Allows global access to the places-model of Dolphin
+ *        that is shown in the "Places" panel.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinSettings
+class LIBDOLPHINPRIVATE_EXPORT DolphinPlacesModel
 {
 public:
-    static DolphinSettings& instance();
-
-    GeneralSettings* generalSettings() const;
-    KFilePlacesModel* placesModel() const;
-    virtual void save();
-
-protected:
-    DolphinSettings();
-    virtual ~DolphinSettings();
-    friend class DolphinSettingsSingleton;
+    static KFilePlacesModel* instance();
 
 private:
-    GeneralSettings* m_generalSettings;
-    KFilePlacesModel* m_placesModel;
+    static void setModel(KFilePlacesModel* model);
+    static KFilePlacesModel* m_filePlacesModel;
+
+    friend class DolphinMainWindow; // Sets the model with setModel()
 };
-
-inline GeneralSettings* DolphinSettings::generalSettings() const
-{
-    return m_generalSettings;
-}
-
-inline KFilePlacesModel* DolphinSettings::placesModel() const
-{
-    return m_placesModel;
-}
 
 #endif

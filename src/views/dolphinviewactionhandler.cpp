@@ -314,6 +314,9 @@ QString DolphinViewActionHandler::currentViewModeActionName() const
         return "details";
     case DolphinView::CompactView:
         return "compact";
+    default:
+        Q_ASSERT(false);
+        break;
     }
     return QString(); // can't happen
 }

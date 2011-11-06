@@ -41,16 +41,16 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kpixmapmodifier.cpp
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
-    settings/dolphinsettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     views/additionalinfoaccessor.cpp
     views/dolphindirlister.cpp
     views/dolphinfileitemlistwidget.cpp
-    views/dolphinview.cpp
     views/dolphinitemlistcontainer.cpp
     views/dolphinnewfilemenuobserver.cpp
+    views/dolphinplacesmodel.cpp
     views/dolphinremoteencoding.cpp
+    views/dolphinview.cpp
     views/dolphinviewactionhandler.cpp
     views/dolphinviewautoscroller.cpp
     views/draganddrophelper.cpp

@@ -22,7 +22,6 @@
 
 #include <dolphinapplication.h>
 #include <dolphinmainwindow.h>
-#include "dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 #include "general/generalsettingspage.h"
 #include "navigation/navigationsettingspage.h"
@@ -132,7 +131,7 @@ void DolphinSettingsDialog::applySettings()
 
     emit settingsChanged();
 
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     if (settings->modifiedStartupSettings()) {
         // Reset the modified startup settings hint. The changed startup settings
         // have been applied already due to emitting settingsChanged().

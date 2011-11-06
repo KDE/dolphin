@@ -64,7 +64,6 @@
 #include "dolphinitemlistcontainer.h"
 #include "draganddrophelper.h"
 #include "renamedialog.h"
-#include "settings/dolphinsettings.h"
 #include "versioncontrol/versioncontrolobserver.h"
 #include "viewmodecontroller.h"
 #include "viewproperties.h"

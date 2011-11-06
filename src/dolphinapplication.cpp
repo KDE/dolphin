@@ -21,7 +21,6 @@
 #include "dolphinapplication.h"
 #include "dolphinmainwindow.h"
 #include "dolphin_generalsettings.h"
-#include "settings/dolphinsettings.h"
 
 #include <KCmdLineArgs>
 #include <KDebug>
@@ -38,12 +37,11 @@ DolphinApplication::DolphinApplication() :
     KCmdLineArgs* args = KCmdLineArgs::parsedArgs();
 
     bool resetSplitSettings = false;
-    GeneralSettings* generalSettings = DolphinSettings::instance().generalSettings();
-    if (args->isSet("split") && !generalSettings->splitView()) {
+    if (args->isSet("split") && !GeneralSettings::splitView()) {
         // Dolphin should be opened with a split view although this is not
         // set in the GeneralSettings. Temporary adjust the setting until
         // all passed URLs have been opened.
-        generalSettings->setSplitView(true);
+        GeneralSettings::setSplitView(true);
         resetSplitSettings = true;
     }
 
@@ -68,7 +66,7 @@ DolphinApplication::DolphinApplication() :
     args->clear();
 
     if (resetSplitSettings) {
-        generalSettings->setSplitView(false);
+        GeneralSettings::setSplitView(false);
     }
 }
 

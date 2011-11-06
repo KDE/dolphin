@@ -21,7 +21,6 @@
 #include "behaviorsettingspage.h"
 
 #include "dolphin_generalsettings.h"
-#include <settings/dolphinsettings.h>
 
 #include <KDialog>
 #include <KLocale>
@@ -156,7 +155,7 @@ void BehaviorSettingsPage::applySettings()
 
 void BehaviorSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -166,8 +165,7 @@ void BehaviorSettingsPage::restoreDefaults()
 
 void BehaviorSettingsPage::loadSettings()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    if (settings->globalViewProps()) {
+    if (GeneralSettings::globalViewProps()) {
         m_globalProps->setChecked(true);
     } else {
         m_localProps->setChecked(true);
@@ -178,10 +176,10 @@ void BehaviorSettingsPage::loadSettings()
     m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", CONFIRM_TRASH));
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", CONFIRM_DELETE));
 
-    m_confirmClosingMultipleTabs->setChecked(settings->confirmClosingMultipleTabs());
-    m_renameInline->setChecked(settings->renameInline());
-    m_showToolTips->setChecked(settings->showToolTips());
-    m_showSelectionToggle->setChecked(settings->showSelectionToggle());
+    m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
+    m_renameInline->setChecked(GeneralSettings::renameInline());
+    m_showToolTips->setChecked(GeneralSettings::showToolTips());
+    m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());
 }
 

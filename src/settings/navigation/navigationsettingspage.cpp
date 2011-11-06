@@ -19,8 +19,6 @@
 
 #include "navigationsettingspage.h"
 
-#include "settings/dolphinsettings.h"
-
 #include "dolphin_generalsettings.h"
 
 #include <KDialog>
@@ -88,7 +86,7 @@ void NavigationSettingsPage::applySettings()
     config.sync();
     KGlobalSettings::self()->emitChange(KGlobalSettings::SettingsChanged, KGlobalSettings::SETTINGS_MOUSE);
 
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->setBrowseThroughArchives(m_openArchivesAsFolder->isChecked());
     settings->setAutoExpandFolders(m_autoExpandFolders->isChecked());
 
@@ -97,7 +95,7 @@ void NavigationSettingsPage::applySettings()
 
 void NavigationSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -113,9 +111,8 @@ void NavigationSettingsPage::loadSettings()
     const bool singleClick = KGlobalSettings::singleClick();
     m_singleClick->setChecked(singleClick);
     m_doubleClick->setChecked(!singleClick);
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    m_openArchivesAsFolder->setChecked(settings->browseThroughArchives());
-    m_autoExpandFolders->setChecked(settings->autoExpandFolders());
+    m_openArchivesAsFolder->setChecked(GeneralSettings::browseThroughArchives());
+    m_autoExpandFolders->setChecked(GeneralSettings::autoExpandFolders());
 }
 
 #include "navigationsettingspage.moc"

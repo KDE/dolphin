@@ -25,8 +25,6 @@
 #include <KLocale>
 #include <KVBox>
 
-#include <settings/dolphinsettings.h>
-
 #include <QCheckBox>
 #include <QVBoxLayout>
 
@@ -62,7 +60,7 @@ StatusBarSettingsPage::~StatusBarSettingsPage()
 
 void StatusBarSettingsPage::applySettings()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->setShowZoomSlider(m_showZoomSlider->isChecked());
     settings->setShowSpaceInfo(m_showSpaceInfo->isChecked());
     settings->writeConfig();
@@ -70,7 +68,7 @@ void StatusBarSettingsPage::applySettings()
 
 void StatusBarSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -78,9 +76,8 @@ void StatusBarSettingsPage::restoreDefaults()
 
 void StatusBarSettingsPage::loadSettings()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    m_showZoomSlider->setChecked(settings->showZoomSlider());
-    m_showSpaceInfo->setChecked(settings->showSpaceInfo());
+    m_showZoomSlider->setChecked(GeneralSettings::showZoomSlider());
+    m_showSpaceInfo->setChecked(GeneralSettings::showSpaceInfo());
 }
 
 #include "statusbarsettingspage.moc"

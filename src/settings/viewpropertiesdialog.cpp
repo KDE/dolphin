@@ -22,7 +22,6 @@
 
 #include "additionalinfodialog.h"
 #include "views/dolphinview.h"
-#include "settings/dolphinsettings.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "viewpropsprogressinfo.h"
@@ -73,7 +72,7 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_useAsDefault(0)
 {
     Q_ASSERT(dolphinView);
-    const bool useGlobalViewProps = DolphinSettings::instance().generalSettings()->globalViewProps();
+    const bool useGlobalViewProps = GeneralSettings::globalViewProps();
 
     setCaption(i18nc("@title:window", "View Properties"));
     setButtons(KDialog::Ok | KDialog::Cancel | KDialog::Apply);
@@ -348,14 +347,13 @@ void ViewPropertiesDialog::applyViewProperties()
         // For directories where no .directory file is available, the .directory
         // file stored for the global view properties is used as fallback. To update
         // this file we temporary turn on the global view properties mode.
-        GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-        Q_ASSERT(!settings->globalViewProps());
+        Q_ASSERT(!GeneralSettings::globalViewProps());
 
-        settings->setGlobalViewProps(true);
+        GeneralSettings::setGlobalViewProps(true);
         ViewProperties defaultProps(m_dolphinView->url());
         defaultProps.setDirProperties(*m_viewProps);
         defaultProps.save();
-        settings->setGlobalViewProps(false);
+        GeneralSettings::setGlobalViewProps(false);
     }
 
     if (applyToAllFolders) {
@@ -366,8 +364,9 @@ void ViewPropertiesDialog::applyViewProperties()
 
         // Updating the global view properties time stamp in the general settings makes
         // all existing viewproperties invalid, as they have a smaller time stamp.
-        GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+        GeneralSettings* settings = GeneralSettings::self();
         settings->setViewPropsTimestamp(QDateTime::currentDateTime());
+        settings->writeConfig();
     }
 
     m_dolphinView->setMode(m_viewProps->viewMode());

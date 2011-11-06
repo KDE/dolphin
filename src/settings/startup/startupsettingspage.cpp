@@ -19,7 +19,6 @@
 
 #include "startupsettingspage.h"
 
-#include "settings/dolphinsettings.h"
 #include "dolphinmainwindow.h"
 #include "dolphinviewcontainer.h"
 
@@ -111,7 +110,7 @@ StartupSettingsPage::~StartupSettingsPage()
 
 void StartupSettingsPage::applySettings()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
 
     const KUrl url(m_homeUrl->text());
     KFileItem fileItem(KFileItem::Unknown, KFileItem::Unknown, url);
@@ -131,7 +130,7 @@ void StartupSettingsPage::applySettings()
 
 void StartupSettingsPage::restoreDefaults()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
@@ -142,9 +141,7 @@ void StartupSettingsPage::slotSettingsChanged()
     // Provide a hint that the startup settings have been changed. This allows the views
     // to apply the startup settings only if they have been explicitly changed by the user
     // (see bug #254947).
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    settings->setModifiedStartupSettings(true);
-
+    GeneralSettings::setModifiedStartupSettings(true);
     emit changed();
 }
 
@@ -171,13 +168,12 @@ void StartupSettingsPage::useDefaultLocation()
 
 void StartupSettingsPage::loadSettings()
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
-    KUrl url(settings->homeUrl());
+    const KUrl url(GeneralSettings::homeUrl());
     m_homeUrl->setText(url.prettyUrl());
-    m_splitView->setChecked(settings->splitView());
-    m_editableUrl->setChecked(settings->editableUrl());
-    m_showFullPath->setChecked(settings->showFullPath());
-    m_filterBar->setChecked(settings->filterBar());
+    m_splitView->setChecked(GeneralSettings::splitView());
+    m_editableUrl->setChecked(GeneralSettings::editableUrl());
+    m_showFullPath->setChecked(GeneralSettings::showFullPath());
+    m_filterBar->setChecked(GeneralSettings::filterBar());
 }
 
 #include "startupsettingspage.moc"

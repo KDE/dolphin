@@ -30,7 +30,6 @@
 #include <KServiceTypeTrader>
 #include <KService>
 
-#include <settings/dolphinsettings.h>
 #include <settings/serviceitemdelegate.h>
 #include <settings/servicemodel.h>
 

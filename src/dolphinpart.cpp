@@ -41,7 +41,6 @@
 #include <KInputDialog>
 #include <KProtocolInfo>
 
-#include "settings/dolphinsettings.h"
 #include "views/dolphinview.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinnewfilemenuobserver.h"
@@ -129,7 +128,6 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
 
 DolphinPart::~DolphinPart()
 {
-    DolphinSettings::instance().save();
     DolphinNewFileMenuObserver::instance().detach(m_newFileMenu);
 }
 

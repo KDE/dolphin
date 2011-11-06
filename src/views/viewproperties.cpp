@@ -33,8 +33,6 @@
 #include <QFile>
 #include <QFileInfo>
 
-#include "settings/dolphinsettings.h"
-
 namespace {
     // String representation to mark the additional properties of
     // the details view as customized by the user. See
@@ -47,7 +45,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
     m_autoSave(true),
     m_node(0)
 {
-    GeneralSettings* settings = DolphinSettings::instance().generalSettings();
+    GeneralSettings* settings = GeneralSettings::self();
     const bool useGlobalViewProps = settings->globalViewProps();
     bool useDetailsViewWithPath = false;
 

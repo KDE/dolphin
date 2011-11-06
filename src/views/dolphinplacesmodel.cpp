@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006 by Peter Penz (peter.penz@gmx.at),                 *
- *   Cvetoslav Ludmiloff and Patrice Tremblay                              *
+ *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,42 +17,18 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "dolphinsettings.h"
+#include "dolphinplacesmodel.h"
 
 #include <KFilePlacesModel>
-#include <KComponentData>
-#include <KLocale>
-#include <KStandardDirs>
 
-#include "dolphin_detailsmodesettings.h"
-#include "dolphin_generalsettings.h"
-#include "dolphin_iconsmodesettings.h"
+KFilePlacesModel* DolphinPlacesModel::m_filePlacesModel = 0;
 
-class DolphinSettingsSingleton
+KFilePlacesModel* DolphinPlacesModel::instance()
 {
-public:
-    DolphinSettings instance;
-};
-K_GLOBAL_STATIC(DolphinSettingsSingleton, s_settings)
-
-DolphinSettings& DolphinSettings::instance()
-{
-    return s_settings->instance;
+    return m_filePlacesModel;
 }
 
-void DolphinSettings::save()
+void DolphinPlacesModel::setModel(KFilePlacesModel* model)
 {
-    m_generalSettings->writeConfig();
-}
-
-DolphinSettings::DolphinSettings()
-{
-    m_generalSettings = GeneralSettings::self();
-    m_placesModel = new KFilePlacesModel();
-}
-
-DolphinSettings::~DolphinSettings()
-{
-    delete m_placesModel;
-    m_placesModel = 0;
+    m_filePlacesModel = model;
 }
