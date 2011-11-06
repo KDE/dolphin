@@ -95,9 +95,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
 
     QLabel* viewModeLabel = new QLabel(i18nc("@label:listbox", "View mode:"), propsGrid);
     m_viewMode = new KComboBox(propsGrid);
-    m_viewMode->addItem(KIcon("view-list-icons"), i18nc("@item:inlistbox", "Icons"));
-    m_viewMode->addItem(KIcon("view-list-details"), i18nc("@item:inlistbox", "Compact"));
-    m_viewMode->addItem(KIcon("view-list-tree"), i18nc("@item:inlistbox", "Details"));
+    m_viewMode->addItem(KIcon("view-list-icons"), i18nc("@item:inlistbox", "Icons"), DolphinView::IconsView);
+    m_viewMode->addItem(KIcon("view-list-details"), i18nc("@item:inlistbox", "Compact"), DolphinView::CompactView);
+    m_viewMode->addItem(KIcon("view-list-tree"), i18nc("@item:inlistbox", "Details"), DolphinView::DetailsView);
 
     QLabel* sortingLabel = new QLabel(i18nc("@label:listbox", "Sorting:"), propsGrid);
     QWidget* sortingBox = new QWidget(propsGrid);
@@ -106,6 +106,8 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
 
+    // TODO: Provide a kind of SortingInfoAccessor similar to AdditionalInfoAccessor
+    // to assure that adding a sort-role requires to change only one file
     m_sorting = new KComboBox(sortingBox);
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Name"));
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Size"));
@@ -114,15 +116,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Owner"));
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Group"));
     m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Type"));
-#ifdef HAVE_NEPOMUK
-    // TODO: Hided "sort by rating" and "sort by tags" as without caching the performance
-    // is too slow currently (Nepomuk will support caching in future releases).
-    //
-    // if (!Nepomuk::ResourceManager::instance()->init()) {
-    //    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Rating"));
-    //    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Tags"));
-    // }
-#endif
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Link Destination"));
+    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Path"));
+
     m_sortFoldersFirst = new QCheckBox(i18nc("@option:check", "Show folders first"));
     m_previewsShown = new QCheckBox(i18nc("@option:check", "Show preview"));
     m_showInGroups = new QCheckBox(i18nc("@option:check", "Show in groups"));
@@ -246,17 +242,16 @@ void ViewPropertiesDialog::slotApply()
 
 void ViewPropertiesDialog::slotViewModeChanged(int index)
 {
-    m_viewProps->setViewMode(static_cast<DolphinView::Mode>(index));
+    const QVariant itemData = m_viewMode->itemData(index);
+    const DolphinView::Mode viewMode = static_cast<DolphinView::Mode>(itemData.toInt());
+    m_viewProps->setViewMode(viewMode);
     markAsDirty(true);
 }
 
 void ViewPropertiesDialog::slotSortingChanged(int index)
 {
-    Q_UNUSED(index);
-    Q_ASSERT(false);
-    //const DolphinView::Sorting sorting = DolphinSortFilterProxyModel::sortingForColumn(index);
-    //m_viewProps->setSorting(sorting);
-    //markAsDirty(true);
+    m_viewProps->setSorting(static_cast<DolphinView::Sorting>(index));
+    markAsDirty(true);
 }
 
 void ViewPropertiesDialog::slotSortOrderChanged(int index)
@@ -391,26 +386,23 @@ void ViewPropertiesDialog::applyViewProperties()
 
 void ViewPropertiesDialog::loadSettings()
 {
-    // load view mode
-    const int index = static_cast<int>(m_viewProps->viewMode());
-    m_viewMode->setCurrentIndex(index);
+    // Load view mode
+    switch (m_viewProps->viewMode()) {
+    case DolphinView::IconsView:   m_viewMode->setCurrentIndex(0); break;
+    case DolphinView::CompactView: m_viewMode->setCurrentIndex(1); break;
+    case DolphinView::DetailsView: m_viewMode->setCurrentIndex(2); break;
+    default: break;
+    }
 
-    // load sort order and sorting
+    // Load sort order and sorting
     const int sortOrderIndex = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIndex);
     m_sorting->setCurrentIndex(m_viewProps->sorting());
-
-    const bool enabled = (index == DolphinView::DetailsView) ||
-                         (index == DolphinView::IconsView);
-    m_additionalInfo->setEnabled(enabled);
-
     m_sortFoldersFirst->setChecked(m_viewProps->sortFoldersFirst());
-    // load show preview, show in groups and show hidden files settings
+
+    // Load show preview, show in groups and show hidden files settings
     m_previewsShown->setChecked(m_viewProps->previewsShown());
-
     m_showInGroups->setChecked(m_viewProps->groupedSorting());
-    m_showInGroups->setEnabled(index == DolphinView::IconsView); // only the icons view supports categorized sorting
-
     m_showHiddenFiles->setChecked(m_viewProps->hiddenFilesShown());
     markAsDirty(false);
 }

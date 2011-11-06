@@ -165,12 +165,8 @@ DolphinMainWindow::DolphinMainWindow() :
             this, SLOT(showCommand(CommandType)));
     connect(DolphinSettings::instance().placesModel(), SIGNAL(errorMessage(QString)),
             this, SLOT(showErrorMessage(QString)));
-    //connect(&DragAndDropHelper::instance(), SIGNAL(errorMessage(QString)),
-    //        this, SLOT(showErrorMessage(QString)));
 
-    const DolphinSettings& settings = DolphinSettings::instance();
-
-    GeneralSettings* generalSettings = settings.generalSettings();
+    GeneralSettings* generalSettings = GeneralSettings::self();
     const bool firstRun = (generalSettings->version() < 200);
     if (firstRun) {
         generalSettings->setViewPropsTimestamp(QDateTime::currentDateTime());
@@ -600,8 +596,7 @@ void DolphinMainWindow::showEvent(QShowEvent* event)
 
 void DolphinMainWindow::closeEvent(QCloseEvent* event)
 {
-    DolphinSettings& settings = DolphinSettings::instance();
-    GeneralSettings* generalSettings = settings.generalSettings();
+    GeneralSettings* generalSettings = GeneralSettings::self();
 
     // Find out if Dolphin is closed directly by the user or
     // by the session manager because the session is closed
@@ -654,7 +649,7 @@ void DolphinMainWindow::closeEvent(QCloseEvent* event)
     }
 
     generalSettings->setVersion(CurrentDolphinVersion);
-    settings.save();
+    generalSettings->writeConfig();
 
     if (m_searchDockIsTemporaryVisible) {
         QDockWidget* searchDock = findChild<QDockWidget*>("searchDock");
