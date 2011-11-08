@@ -195,6 +195,13 @@ Exec=dolphin
 
 [Desktop Action compact]
 Name=Compact
+Name[ia]=Compacte
+Name[nl]=Compact
+Name[pt]=Compacto
+Name[pt_BR]=Compacto
+Name[sv]=Kompakt
+Name[uk]=Компактний
+Name[x-test]=xxCompactxx
 Icon=view-list-details
 # Dummy
 Exec=dolphin
