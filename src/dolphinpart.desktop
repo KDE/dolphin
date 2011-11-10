@@ -195,6 +195,7 @@ Exec=dolphin
 
 [Desktop Action compact]
 Name=Compact
+Name[de]=Kompakt
 Name[ia]=Compacte
 Name[nl]=Compact
 Name[pt]=Compacto
@@ -202,6 +203,7 @@ Name[pt_BR]=Compacto
 Name[sv]=Kompakt
 Name[uk]=Компактний
 Name[x-test]=xxCompactxx
+Name[zh_TW]=簡潔模式
 Icon=view-list-details
 # Dummy
 Exec=dolphin
@@ -291,7 +293,7 @@ Name[uz@cyrillic]=Тафсилотлар
 Name[wa]=Detays
 Name[x-test]=xxDetailsxx
 Name[zh_CN]=细节
-Name[zh_TW]=詳情
+Name[zh_TW]=詳細模式
 Icon=view-list-tree
 # Dummy
 Exec=dolphin
