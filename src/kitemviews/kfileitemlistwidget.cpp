@@ -58,7 +58,8 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_expansionArea(),
     m_customTextColor(),
     m_additionalInfoTextColor(),
-    m_overlay()
+    m_overlay(),
+    m_selectionTogglePos()
 {
     for (int i = 0; i < TextIdCount; ++i) {
         m_text[i].setTextFormat(Qt::PlainText);
@@ -185,7 +186,26 @@ QRectF KFileItemListWidget::selectionToggleRect() const
         toggleSize = KIconLoader::SizeSmallMedium;
     }
 
-    return QRectF(m_pixmapPos, QSizeF(toggleSize, toggleSize));
+    QPointF pos = m_selectionTogglePos;
+
+    // If the selection toggle has a very small distance to the
+    // widget borders, the size of the selection toggle will get
+    // increased to prevent an accidental clicking of the item
+    // when trying to hit the toggle.
+    const int widgetHeight = size().height();
+    const int widgetWidth = size().width();
+    const int minMargin = 2;
+
+    if (toggleSize + minMargin * 2 >= widgetHeight) {
+        toggleSize = widgetHeight;
+        pos.setY(0);
+    }
+    if (toggleSize + minMargin * 2 >= widgetWidth) {
+        toggleSize = widgetWidth;
+        pos.setX(0);
+    }
+
+    return QRectF(pos, QSizeF(toggleSize, toggleSize));
 }
 
 QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values)
@@ -397,6 +417,10 @@ void KFileItemListWidget::updatePixmapCache()
     }
 
     if (updatePixmap) {
+        // The selection toggle should always be applied to the top/left
+        // of the pixmap
+        m_selectionTogglePos = QPointF(-option.margin, -option.margin);
+
         m_pixmap = values["iconPixmap"].value<QPixmap>();
         if (m_pixmap.isNull()) {
             // Use the icon that fits to the MIME-type
@@ -424,15 +448,17 @@ void KFileItemListWidget::updatePixmapCache()
             squarePixmap.fill(Qt::transparent);
 
             QPainter painter(&squarePixmap);
+            int x, y;
             if (iconOnTop) {
-                const int x = (iconHeight - m_pixmap.width()) / 2;  // Center horizontally
-                const int y = iconHeight - m_pixmap.height();       // Align on bottom
+                x = (iconHeight - m_pixmap.width()) / 2;  // Center horizontally
+                y = iconHeight - m_pixmap.height();       // Align on bottom
                 painter.drawPixmap(x, y, m_pixmap);
             } else {
-                const int x = iconHeight - m_pixmap.width();        // Align right
-                const int y = (iconHeight - m_pixmap.height()) / 2; // Center vertically
+                x = iconHeight - m_pixmap.width();        // Align right
+                y = (iconHeight - m_pixmap.height()) / 2; // Center vertically
                 painter.drawPixmap(x, y, m_pixmap);
             }
+            m_selectionTogglePos += QPointF(x, y);
 
             m_pixmap = squarePixmap;
         } else {
@@ -454,6 +480,10 @@ void KFileItemListWidget::updatePixmapCache()
         m_pixmapPos.setX(m_textPos[Name].x() - 2 * option.margin - scaledIconHeight);
     }
     m_pixmapPos.setY(option.margin);
+
+    if (updatePixmap) {
+      m_selectionTogglePos += m_pixmapPos;
+    }
 
     // Center the hover rectangle horizontally and align it on bottom
     const qreal x = m_pixmapPos.x() + (m_scaledPixmapSize.width() - m_hoverPixmapRect.width()) / 2.0;

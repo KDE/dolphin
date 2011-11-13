@@ -23,6 +23,8 @@
 #include <KIconLoader>
 #include <QPainter>
 
+#include <KDebug>
+
 KItemListSelectionToggle::KItemListSelectionToggle(QGraphicsItem* parent) :
     QGraphicsWidget(parent, 0),
     m_checked(false),
@@ -80,7 +82,20 @@ void KItemListSelectionToggle::hoverLeaveEvent(QGraphicsSceneHoverEvent* event)
 void KItemListSelectionToggle::updatePixmap()
 {
     const char* icon = m_checked ? "list-remove" : "list-add";
-    const int iconSize = qMin(size().width(), size().height());
+
+    int iconSize = qMin(size().width(), size().height());
+    if (iconSize < KIconLoader::SizeSmallMedium) {
+        iconSize = KIconLoader::SizeSmall;
+    } else if (iconSize < KIconLoader::SizeMedium) {
+        iconSize = KIconLoader::SizeSmallMedium;
+    } else if (iconSize < KIconLoader::SizeLarge) {
+        iconSize = KIconLoader::SizeMedium;
+    } else if (iconSize < KIconLoader::SizeHuge) {
+        iconSize = KIconLoader::SizeLarge;
+    } else if (iconSize < KIconLoader::SizeEnormous) {
+        iconSize = KIconLoader::SizeHuge;
+    }
+
     m_pixmap = KIconLoader::global()->loadIcon(QLatin1String(icon), KIconLoader::NoGroup, iconSize);
 
     if (m_hovered) {

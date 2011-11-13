@@ -28,6 +28,7 @@
 #include <kitemviews/kitemliststyleoption.h>
 
 #include <QGraphicsWidget>
+#include <QStyle>
 
 class KItemListSelectionToggle;
 class QPropertyAnimation;
@@ -142,7 +143,7 @@ private:
     void initializeSelectionToggle();
     void setHoverOpacity(qreal opacity);
     void clearHoverCache();
-    void drawTextBackground(QPainter* painter);
+    void drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState);
 
 private:
     Q_PROPERTY(qreal hoverOpacity READ hoverOpacity WRITE setHoverOpacity)

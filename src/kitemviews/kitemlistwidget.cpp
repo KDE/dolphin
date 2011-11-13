@@ -31,7 +31,6 @@
 #include <QApplication>
 #include <QPainter>
 #include <QPropertyAnimation>
-#include <QStyle>
 #include <QStyleOption>
 
 KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
@@ -111,16 +110,10 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         painter->fillRect(backgroundRect, backgroundColor);
     }
 
-    const QRect iconBounds = iconRect().toRect();
     if (m_selected) {
-        QStyleOptionViewItemV4 viewItemOption;
-        viewItemOption.initFrom(widget);
-        viewItemOption.rect = iconBounds;
-        viewItemOption.state = QStyle::State_Enabled | QStyle::State_Selected | QStyle::State_Item;
-        viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
-        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
-
-        drawTextBackground(painter);
+        drawItemStyleOption(painter, widget, QStyle::State_Enabled |
+                                             QStyle::State_Selected |
+                                             QStyle::State_Item);
     }
 
     if (isCurrent()) {
@@ -132,32 +125,24 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, &viewItemOption, painter, widget);
     }
 
-    if (m_hoverOpacity <= 0.0) {
-        return;
+    if (m_hoverOpacity > 0.0) {
+        if (!m_hoverCache) {
+            // Initialize the m_hoverCache pixmap to improve the drawing performance
+            // when fading the hover background
+            m_hoverCache = new QPixmap(size().toSize());
+            m_hoverCache->fill(Qt::transparent);
+
+            QPainter pixmapPainter(m_hoverCache);
+            drawItemStyleOption(&pixmapPainter, widget, QStyle::State_Enabled |
+                                                        QStyle::State_MouseOver |
+                                                        QStyle::State_Item);
+        }
+
+        const qreal opacity = painter->opacity();
+        painter->setOpacity(m_hoverOpacity * opacity);
+        painter->drawPixmap(0, 0, *m_hoverCache);
+        painter->setOpacity(opacity);
     }
-
-    if (!m_hoverCache) {
-        // Initialize the m_hoverCache pixmap to improve the drawing performance
-        // when fading the hover background
-        m_hoverCache = new QPixmap(iconBounds.size());
-        m_hoverCache->fill(Qt::transparent);
-
-        QPainter pixmapPainter(m_hoverCache);
-
-        QStyleOptionViewItemV4 viewItemOption;
-        viewItemOption.initFrom(widget);
-        viewItemOption.rect = QRect(0, 0, iconBounds.width(), iconBounds.height());
-        viewItemOption.state = QStyle::State_Enabled | QStyle::State_MouseOver | QStyle::State_Item;
-        viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
-
-        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, &pixmapPainter, widget);
-    }
-
-    const qreal opacity = painter->opacity();
-    painter->setOpacity(m_hoverOpacity * opacity);
-    painter->drawPixmap(iconBounds.topLeft(), *m_hoverCache);
-    drawTextBackground(painter);
-    painter->setOpacity(opacity);
 }
 
 void KItemListWidget::setVisibleRoles(const QList<QByteArray>& roles)
@@ -247,11 +232,14 @@ void KItemListWidget::setHovered(bool hovered)
     m_hoverAnimation->stop();
 
     if (hovered) {
+        const qreal startValue = qMax(hoverOpacity(), qreal(0.1));
+        m_hoverAnimation->setStartValue(startValue);
         m_hoverAnimation->setEndValue(1.0);
         if (m_enabledSelectionToggle && !(QApplication::mouseButtons() & Qt::LeftButton)) {
             initializeSelectionToggle();
         }
     } else {
+        m_hoverAnimation->setStartValue(hoverOpacity());
         m_hoverAnimation->setEndValue(0.0);
     }
 
@@ -408,6 +396,12 @@ void KItemListWidget::setHoverOpacity(qreal opacity)
     if (m_selectionToggle) {
         m_selectionToggle->setOpacity(opacity);
     }
+
+    if (m_hoverOpacity <= 0.0) {
+        delete m_hoverCache;
+        m_hoverCache = 0;
+    }
+
     update();
 }
 
@@ -417,19 +411,29 @@ void KItemListWidget::clearHoverCache()
     m_hoverCache = 0;
 }
 
-void KItemListWidget::drawTextBackground(QPainter* painter)
+void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState)
 {
-    const qreal opacity = painter->opacity();
+    const QRect iconBounds = iconRect().toRect();
+    const QRect textBounds = textRect().toRect();
 
-    QRectF textBounds = textRect();
-    const qreal marginDiff = m_styleOption.margin / 2;
-    textBounds.adjust(marginDiff, marginDiff, -marginDiff, -marginDiff);
-    painter->setOpacity(opacity * 0.1);
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(m_styleOption.palette.text());
-    painter->drawRoundedRect(textBounds, 4, 4);
+    QStyleOptionViewItemV4 viewItemOption;
+    viewItemOption.initFrom(widget);
+    viewItemOption.state = styleState;
+    viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
 
-    painter->setOpacity(opacity);
+    const bool drawMerged = (iconBounds.top()    == textBounds.top() &&
+                             iconBounds.bottom() == textBounds.bottom());
+
+    if (drawMerged) {
+        viewItemOption.rect = iconBounds | textBounds;
+        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+    } else {
+        viewItemOption.rect = iconBounds;
+        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+
+        viewItemOption.rect = textBounds.adjusted(2, 2, -2, -2);
+        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
+    }
 }
 
 #include "kitemlistwidget.moc"

@@ -99,39 +99,6 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_topLayout->setSpacing(0);
     m_topLayout->setMargin(0);
 
-    //m_dolphinViewController = new DolphinViewController(this);
-
-    //m_viewModeController = new ViewModeController(this);
-    //m_viewModeController->setUrl(url);
-
-    /*connect(m_viewModeController, SIGNAL(urlChanged(KUrl)),
-            this, SIGNAL(urlChanged(KUrl)));
-
-    connect(m_dolphinViewController, SIGNAL(requestContextMenu(QPoint,QList<QAction*>)),
-            this, SLOT(openContextMenu(QPoint,QList<QAction*>)));
-    connect(m_dolphinViewController, SIGNAL(urlsDropped(KFileItem,KUrl,QDropEvent*)),
-            this, SLOT(dropUrls(KFileItem,KUrl,QDropEvent*)));
-    connect(m_dolphinViewController, SIGNAL(sortingChanged(DolphinView::Sorting)),
-            this, SLOT(updateSorting(DolphinView::Sorting)));
-    connect(m_dolphinViewController, SIGNAL(sortOrderChanged(Qt::SortOrder)),
-            this, SLOT(updateSortOrder(Qt::SortOrder)));
-    connect(m_dolphinViewController, SIGNAL(sortFoldersFirstChanged(bool)),
-            this, SLOT(updateSortFoldersFirst(bool)));
-    connect(m_dolphinViewController, SIGNAL(additionalInfoChanged(QList<DolphinView::AdditionalInfo>)),
-            this, SLOT(updateAdditionalInfo(QList<DolphinView::AdditionalInfo>)));*/
-    //connect(m_dolphinViewController, SIGNAL(itemActivated(KFileItem)),
-    //        this, SLOT(triggerItem(KFileItem)));
-    //connect(m_dolphinViewController, SIGNAL(tabRequested(KUrl)),
-    //        this, SIGNAL(tabRequested(KUrl)));
-    /*connect(m_dolphinViewController, SIGNAL(activated()),
-            this, SLOT(activate()));
-    connect(m_dolphinViewController, SIGNAL(itemEntered(KFileItem)),
-            this, SLOT(showHoverInformation(KFileItem)));
-    connect(m_dolphinViewController, SIGNAL(viewportEntered()),
-            this, SLOT(clearHoverInformation()));
-    connect(m_dolphinViewController, SIGNAL(urlChangeRequested(KUrl)),
-            this, SLOT(slotUrlChangeRequested(KUrl)));*/
-
     // When a new item has been created by the "Create New..." menu, the item should
     // get selected and it must be assured that the item will get visible. As the
     // creation is done asynchronously, several signals must be checked:
@@ -164,6 +131,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_container = new DolphinItemListContainer(m_dirLister, this);
     m_container->setVisibleRoles(QList<QByteArray>() << "name");
     m_container->installEventFilter(this);
+    setFocusProxy(m_container);
 
     KItemListController* controller = m_container->controller();
     controller->setSelectionBehavior(KItemListController::MultiSelection);
@@ -224,25 +192,20 @@ void DolphinView::setActive(bool active)
         color.setAlpha(150);
     }
 
-    /*QAbstractItemView* view = m_viewAccessor.itemView();
-    QWidget* viewport = view ? view->viewport() : 0;
+    QWidget* viewport = m_container->viewport();
     if (viewport) {
         QPalette palette;
         palette.setColor(viewport->backgroundRole(), color);
         viewport->setPalette(palette);
-    }*/
+    }
 
     update();
 
     if (active) {
-        //if (view) {
-        //    view->setFocus();
-        //}
+        m_container->setFocus();
         emit activated();
         emit writeStateChanged(m_isFolderWritable);
     }
-
-    //m_viewModeController->indicateActivationChange(active);
 }
 
 bool DolphinView::isActive() const
