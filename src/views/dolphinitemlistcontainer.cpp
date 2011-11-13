@@ -19,6 +19,7 @@
 
 #include "dolphinitemlistcontainer.h"
 
+#include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_compactmodesettings.h"
@@ -48,58 +49,10 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
 
     m_fileItemListView = new KFileItemListView();
     m_fileItemListView->setWidgetCreator(new KItemListWidgetCreator<DolphinFileItemListWidget>());    
+    m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
     controller()->setView(m_fileItemListView);
 
-    KItemListStyleOption option;
-
-    // TODO:
-    option.font = parent->font();
-    option.fontMetrics = QFontMetrics(parent->font());
-
     updateGridSize();
-/*
-    connect(this, SIGNAL(clicked(QModelIndex)),
-            dolphinViewController, SLOT(requestTab(QModelIndex)));*/
-/*
-    connect(this, SIGNAL(entered(QModelIndex)),
-            dolphinViewController, SLOT(emitItemEntered(QModelIndex)));
-    connect(this, SIGNAL(viewportEntered()),
-            dolphinViewController, SLOT(emitViewportEntered()));*/
-
-    // apply the icons mode settings to the widget
-    //const IconsModeSettings* settings = DolphinSettings::instance().iconsModeSettings();
-    //Q_ASSERT(settings);
-
-    /*if (settings->useSystemFont()) {
-        m_font = KGlobalSettings::generalFont();
-    } else {
-        m_font = QFont(settings->fontFamily(),
-                       qRound(settings->fontSize()),
-                       settings->fontWeight(),
-                       settings->italicFont());
-        m_font.setPointSizeF(settings->fontSize());
-    }
-
-    setWordWrap(settings->numberOfTextlines() > 1);
-
-    if (settings->arrangement() == QListView::TopToBottom) {
-        setFlow(QListView::LeftToRight);
-        m_decorationPosition = QStyleOptionViewItem::Top;
-        m_displayAlignment = Qt::AlignHCenter;
-    } else {
-        setFlow(QListView::TopToBottom);
-        m_decorationPosition = QStyleOptionViewItem::Left;
-        m_displayAlignment = Qt::AlignLeft | Qt::AlignVCenter;
-    }
-
-    connect(m_categoryDrawer, SIGNAL(actionRequested(int,QModelIndex)), this, SLOT(categoryDrawerActionRequested(int,QModelIndex)));
-    setCategoryDrawer(m_categoryDrawer);
-
-    connect(KGlobalSettings::self(), SIGNAL(settingsChanged(int)),
-            this, SLOT(slotGlobalSettingsChanged(int)));*/
-
-    //updateGridSize(dolphinView->showPreview(), 0);
-    /*m_extensionsFactory = new ViewExtensionsFactory(this, dolphinViewController, viewModeController);*/
 }
 
 DolphinItemListContainer::~DolphinItemListContainer()

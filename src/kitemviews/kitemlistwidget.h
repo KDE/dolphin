@@ -29,6 +29,7 @@
 
 #include <QGraphicsWidget>
 
+class KItemListSelectionToggle;
 class QPropertyAnimation;
 
 /**
@@ -68,6 +69,8 @@ public:
     void setStyleOption(const KItemListStyleOption& option);
     const KItemListStyleOption& styleOption() const;
 
+    // TODO: Hides QGraphicsItem::setSelected()/isSelected(). Replace
+    // this by using the default mechanism.
     void setSelected(bool selected);
     bool isSelected() const;
 
@@ -79,6 +82,9 @@ public:
 
     void setAlternatingBackgroundColors(bool enable);
     bool alternatingBackgroundColors() const;
+
+    void setEnabledSelectionToggle(bool enabled);
+    bool enabledSelectionToggle() const;
 
     /**
      * @return True if \a point is inside KItemListWidget::hoverRect(),
@@ -129,7 +135,11 @@ protected:
      */
     qreal hoverOpacity() const;
 
+private slots:
+    void slotHoverAnimationFinished();
+
 private:
+    void initializeSelectionToggle();
     void setHoverOpacity(qreal opacity);
     void clearHoverCache();
     void drawTextBackground(QPainter* painter);
@@ -142,6 +152,7 @@ private:
     bool m_current;
     bool m_hovered;
     bool m_alternatingBackgroundColors;
+    bool m_enabledSelectionToggle;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, QSizeF> m_visibleRolesSizes;
@@ -150,6 +161,8 @@ private:
     qreal m_hoverOpacity;
     mutable QPixmap* m_hoverCache;
     QPropertyAnimation* m_hoverAnimation;
+
+    KItemListSelectionToggle* m_selectionToggle;
 };
 #endif
 

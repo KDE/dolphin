@@ -22,11 +22,13 @@
 
 #include "kitemlistwidget.h"
 
+#include "kitemlistselectiontoggle_p.h"
 #include "kitemlistview.h"
 #include "kitemmodelbase.h"
 
 #include <KDebug>
 
+#include <QApplication>
 #include <QPainter>
 #include <QPropertyAnimation>
 #include <QStyle>
@@ -39,13 +41,15 @@ KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
     m_current(false),
     m_hovered(false),
     m_alternatingBackgroundColors(false),
+    m_enabledSelectionToggle(false),
     m_data(),
     m_visibleRoles(),
     m_visibleRolesSizes(),
     m_styleOption(),
     m_hoverOpacity(0),
     m_hoverCache(0),
-    m_hoverAnimation(0)
+    m_hoverAnimation(0),
+    m_selectionToggle(0)
 {
 }
 
@@ -57,6 +61,9 @@ KItemListWidget::~KItemListWidget()
 void KItemListWidget::setIndex(int index)
 {
     if (m_index != index) {
+        delete m_selectionToggle;
+        m_selectionToggle = 0;
+
         if (m_hoverAnimation) {
             m_hoverAnimation->stop();
             m_hoverOpacity = 0;
@@ -195,6 +202,10 @@ void KItemListWidget::setSelected(bool selected)
 {
     if (m_selected != selected) {
         m_selected = selected;
+        if (m_selectionToggle) {
+            m_selectionToggle->setChecked(selected);
+        }
+
         selectedChanged(selected);
         update();
     }
@@ -209,6 +220,7 @@ void KItemListWidget::setCurrent(bool current)
 {
     if (m_current != current) {
         m_current = current;
+
         currentChanged(current);
         update();
     }
@@ -230,11 +242,15 @@ void KItemListWidget::setHovered(bool hovered)
     if (!m_hoverAnimation) {
         m_hoverAnimation = new QPropertyAnimation(this, "hoverOpacity", this);
         m_hoverAnimation->setDuration(200);
+        connect(m_hoverAnimation, SIGNAL(finished()), this, SLOT(slotHoverAnimationFinished()));
     }
     m_hoverAnimation->stop();
 
     if (hovered) {
         m_hoverAnimation->setEndValue(1.0);
+        if (m_enabledSelectionToggle && !(QApplication::mouseButtons() & Qt::LeftButton)) {
+            initializeSelectionToggle();
+        }
     } else {
         m_hoverAnimation->setEndValue(0.0);
     }
@@ -263,6 +279,19 @@ void KItemListWidget::setAlternatingBackgroundColors(bool enable)
 bool KItemListWidget::alternatingBackgroundColors() const
 {
     return m_alternatingBackgroundColors;
+}
+
+void KItemListWidget::setEnabledSelectionToggle(bool enable)
+{
+    if (m_enabledSelectionToggle != enable) {
+        m_enabledSelectionToggle = enable;
+        update();
+    }
+}
+
+bool KItemListWidget::enabledSelectionToggle() const
+{
+    return m_enabledSelectionToggle;
 }
 
 bool KItemListWidget::contains(const QPointF& point) const
@@ -350,9 +379,35 @@ qreal KItemListWidget::hoverOpacity() const
     return m_hoverOpacity;
 }
 
+void KItemListWidget::slotHoverAnimationFinished()
+{
+    if (!m_hovered) {
+        delete m_selectionToggle;
+        m_selectionToggle = 0;
+    }
+}
+
+void KItemListWidget::initializeSelectionToggle()
+{
+    Q_ASSERT(m_enabledSelectionToggle);
+
+    if (!m_selectionToggle) {
+        m_selectionToggle = new KItemListSelectionToggle(this);
+    }
+
+    const QRectF toggleRect = selectionToggleRect();
+    m_selectionToggle->setPos(toggleRect.topLeft());
+    m_selectionToggle->resize(toggleRect.size());
+
+    m_selectionToggle->setChecked(isSelected());
+}
+
 void KItemListWidget::setHoverOpacity(qreal opacity)
 {
     m_hoverOpacity = opacity;
+    if (m_selectionToggle) {
+        m_selectionToggle->setOpacity(opacity);
+    }
     update();
 }
 

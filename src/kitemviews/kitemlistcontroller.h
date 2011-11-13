@@ -179,6 +179,7 @@ private:
     KItemListWidget* widgetForPos(const QPointF& pos) const;
 
 private:
+    bool m_selectionTogglePressed;
     SelectionBehavior m_selectionBehavior;
     KItemModelBase* m_model;
     KItemListView* m_view;

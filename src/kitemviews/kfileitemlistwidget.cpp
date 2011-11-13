@@ -172,6 +172,22 @@ QRectF KFileItemListWidget::expansionToggleRect() const
     return m_isDir ? m_expansionArea : QRectF();
 }
 
+QRectF KFileItemListWidget::selectionToggleRect() const
+{
+    const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
+
+    const int iconHeight = m_pixmap.height();
+
+    int toggleSize = KIconLoader::SizeSmall;
+    if (iconHeight >= KIconLoader::SizeEnormous) {
+        toggleSize = KIconLoader::SizeMedium;
+    } else if (iconHeight >= KIconLoader::SizeLarge) {
+        toggleSize = KIconLoader::SizeSmallMedium;
+    }
+
+    return QRectF(m_pixmapPos, QSizeF(toggleSize, toggleSize));
+}
+
 QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values)
 {
     QString text;

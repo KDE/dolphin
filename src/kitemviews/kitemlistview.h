@@ -101,6 +101,13 @@ public:
     bool autoScroll() const;
 
     /**
+     * If set to true selection-toggles will be shown when hovering
+     * an item. Per default the selection-toggles are disabled.
+     */
+    void setEnabledSelectionToggles(bool enabled);
+    bool enabledSelectionToggles() const;
+
+    /**
      * @return Controller of the item-list. The controller gets
      *         initialized by KItemListController::setView() and will
      *         result in calling KItemListController::onControllerChanged().
@@ -410,6 +417,7 @@ private:
     static int calculateAutoScrollingIncrement(int pos, int range, int oldInc);
 
 private:
+    bool m_enabledSelectionToggles;
     bool m_grouped;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
 

@@ -30,6 +30,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kitemlistkeyboardsearchmanager.cpp
     kitemviews/kitemlistrubberband.cpp
     kitemviews/kitemlistselectionmanager.cpp
+    kitemviews/kitemlistselectiontoggle.cpp
     kitemviews/kitemlistsizehintresolver.cpp
     kitemviews/kitemlistsmoothscroller.cpp
     kitemviews/kitemliststyleoption.cpp

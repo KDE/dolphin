@@ -38,6 +38,7 @@
 
 KItemListController::KItemListController(QObject* parent) :
     QObject(parent),
+    m_selectionTogglePressed(false),
     m_selectionBehavior(NoSelection),
     m_model(0),
     m_view(0),
@@ -274,7 +275,14 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
 
     if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
+        m_selectionTogglePressed = true;
         m_selectionManager->setCurrentItem(m_pressedIndex);
+        return true;
+    }
+
+    m_selectionTogglePressed = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
+    if (m_selectionTogglePressed) {
+        m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
         return true;
     }
 
@@ -375,6 +383,12 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         if (event->buttons() & Qt::LeftButton) {
             const QPointF pos = transform.map(event->pos());
             if ((pos - m_pressedMousePos).manhattanLength() >= QApplication::startDragDistance()) {
+                if (!m_selectionManager->isSelected(m_pressedIndex)) {
+                    // Always assure that the dragged item gets selected. Usually this is already
+                    // done on the mouse-press event, but when using the selection-toggle on a
+                    // selected item the dragged item is not selected yet.
+                    m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+                }
                 startDragging();
             }
         }
@@ -403,6 +417,18 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 {
     if (!m_view) {
         return false;
+    }
+
+    const bool isAboveSelectionToggle = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
+    if (isAboveSelectionToggle) {
+        m_selectionTogglePressed = false;
+        return true;
+    }
+
+    if (!isAboveSelectionToggle && m_selectionTogglePressed) {
+        m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+        m_selectionTogglePressed = false;
+        return true;
     }
 
     const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
@@ -465,8 +491,8 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
     const int index = m_view->itemAt(pos);
 
     bool emitItemActivated = !KGlobalSettings::singleClick() &&
-                           (event->button() & Qt::LeftButton) &&
-                           index >= 0 && index < m_model->count();
+                             (event->button() & Qt::LeftButton) &&
+                             index >= 0 && index < m_model->count();
     if (emitItemActivated) {
         emit itemActivated(index);
     }
@@ -749,6 +775,10 @@ void KItemListController::startDragging()
     }
 
     const QSet<int> selectedItems = m_selectionManager->selectedItems();
+    if (selectedItems.isEmpty()) {
+        return;
+    }
+
     QMimeData* data = m_model->createMimeData(selectedItems);
     if (!data) {
         return;
@@ -786,8 +816,7 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
         const QPointF mappedPos = widget->mapFromItem(m_view, pos);
 
         const bool hovered = widget->contains(mappedPos) &&
-                             !widget->expansionToggleRect().contains(mappedPos) &&
-                             !widget->selectionToggleRect().contains(mappedPos);
+                             !widget->expansionToggleRect().contains(mappedPos);
         if (hovered) {
             return widget;
         }

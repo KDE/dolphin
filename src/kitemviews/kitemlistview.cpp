@@ -52,6 +52,7 @@ namespace {
 
 KItemListView::KItemListView(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
+    m_enabledSelectionToggles(false),
     m_grouped(false),
     m_activeTransactions(0),
     m_itemSize(),
@@ -269,6 +270,24 @@ bool KItemListView::autoScroll() const
     return m_autoScrollTimer != 0;
 }
 
+void KItemListView::setEnabledSelectionToggles(bool enabled)
+{
+    if (m_enabledSelectionToggles != enabled) {
+        m_enabledSelectionToggles = enabled;
+
+        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+        while (it.hasNext()) {
+            it.next();
+            it.value()->setEnabledSelectionToggle(enabled);
+        }
+    }
+}
+
+bool KItemListView::enabledSelectionToggles() const
+{
+    return m_enabledSelectionToggles;
+}
+
 KItemListController* KItemListView::controller() const
 {
     return m_controller;
@@ -362,8 +381,14 @@ int KItemListView::itemAt(const QPointF& pos) const
 
 bool KItemListView::isAboveSelectionToggle(int index, const QPointF& pos) const
 {
-    Q_UNUSED(index);
-    Q_UNUSED(pos);
+    const KItemListWidget* widget = m_visibleItems.value(index);
+    if (widget) {
+        const QRectF selectionToggleRect = widget->selectionToggleRect();
+        if (!selectionToggleRect.isEmpty()) {
+            const QPointF mappedPos = widget->mapFromItem(this, pos);
+            return selectionToggleRect.contains(mappedPos);
+        }
+    }
     return false;
 }
 
@@ -1486,6 +1511,7 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setSelected(selectionManager->isSelected(index));
     widget->setHovered(false);
     widget->setAlternatingBackgroundColors(false);
+    widget->setEnabledSelectionToggle(enabledSelectionToggles());
     widget->setIndex(index);
     widget->setData(m_model->data(index));
 }

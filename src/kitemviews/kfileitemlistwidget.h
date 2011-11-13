@@ -51,6 +51,7 @@ public:
     virtual QRectF iconRect() const;
     virtual QRectF textRect() const;
     virtual QRectF expansionToggleRect() const;
+    virtual QRectF selectionToggleRect() const;
 
     /**
      * @return Shown string for the role \p role of the item with the values \p values.
