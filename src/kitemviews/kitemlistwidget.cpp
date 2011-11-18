@@ -123,6 +123,9 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         viewItemOption.initFrom(widget);
         viewItemOption.rect = textRect().toRect();
         viewItemOption.state = QStyle::State_Enabled | QStyle::State_Item;
+        if (m_selected) {
+            viewItemOption.state |= QStyle::State_Selected;
+        }
         viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, &viewItemOption, painter, widget);
     }
