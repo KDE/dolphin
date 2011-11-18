@@ -279,7 +279,13 @@ void KFileItemListWidget::setTextColor(const QColor& color)
 
 QColor KFileItemListWidget::textColor() const
 {
-    return m_customTextColor.isValid() ? m_customTextColor : styleOption().palette.text().color();
+    if (m_customTextColor.isValid()) {
+        return m_customTextColor;
+    } else if (isSelected()) {
+        return styleOption().palette.highlightedText().color();
+    } else {
+        return styleOption().palette.text().color();
+    }
 }
 
 void KFileItemListWidget::setOverlay(const QPixmap& overlay)
@@ -343,6 +349,12 @@ void KFileItemListWidget::hoveredChanged(bool hovered)
 {
     Q_UNUSED(hovered);
     m_dirtyLayout = true;
+}
+
+void KFileItemListWidget::selectedChanged(bool selected)
+{
+    Q_UNUSED(selected);
+    updateAdditionalInfoTextColor();
 }
 
 void KFileItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
@@ -741,10 +753,18 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
 
 void KFileItemListWidget::updateAdditionalInfoTextColor()
 {
+    QColor c1;
+    if (m_customTextColor.isValid()) {
+        c1 = m_customTextColor;
+    } else if (isSelected() && m_layout != DetailsLayout) {
+        c1 = styleOption().palette.highlightedText().color();
+    } else {
+        c1 = styleOption().palette.text().color();
+    }
+
     // For the color of the additional info the inactive text color
     // is not used as this might lead to unreadable text for some color schemes. Instead
-    // the text color is slightly mixed with the background color.
-    const QColor c1 = textColor();
+    // the text color c1 is slightly mixed with the background color.
     const QColor c2 = styleOption().palette.base().color();
     const int p1 = 70;
     const int p2 = 100 - p1;

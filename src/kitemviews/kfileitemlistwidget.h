@@ -85,6 +85,7 @@ protected:
     virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void hoveredChanged(bool hovered);
+    virtual void selectedChanged(bool selected);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
 private:
