@@ -144,8 +144,6 @@ private:
     QColor m_additionalInfoTextColor;
 
     QPixmap m_overlay;
-
-    QPointF m_selectionTogglePos;
 };
 
 #endif
