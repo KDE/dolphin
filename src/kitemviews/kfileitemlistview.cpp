@@ -23,12 +23,14 @@
 #include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
+#include "kpixmapmodifier_p.h"
 #include <KLocale>
 #include <KStringHandler>
 
 #include <KDebug>
 #include <KIcon>
 
+#include <QPainter>
 #include <QTextLine>
 #include <QTimer>
 
@@ -220,22 +222,83 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes(const KItemRangeL
 
 QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
 {
-    QPixmap pixmap;
+    if (!model()) {
+        return QPixmap();
+    }
 
-    if (model()) {
-        QSetIterator<int> it(indexes);
-        while (it.hasNext()) {
-            const int index = it.next();
-            // TODO: Only one item is considered currently
-            pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
-            if (pixmap.isNull()) {
-                KIcon icon(model()->data(index).value("iconName").toString());
-                pixmap = icon.pixmap(itemSize().toSize());
-            }
+    const int itemCount = indexes.count();
+    Q_ASSERT(itemCount > 0);
+    if (itemCount == 1) {
+        // Only one item is selected. Use the original icon without resizing.
+        const int index = indexes.values().first();
+        QPixmap dragPixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
+        if (dragPixmap.isNull()) {
+            KIcon icon(model()->data(index).value("iconName").toString());
+            dragPixmap = icon.pixmap(itemSize().toSize());
+        }
+        return dragPixmap;
+    }
+
+    // If more than one item is dragged, align the items inside a
+    // rectangular grid. The maximum grid size is limited to 5 x 5 items.
+    int xCount;
+    int size;
+    if (itemCount > 16) {
+        xCount = 5;
+        size = KIconLoader::SizeSmall;
+    } else if (itemCount > 9) {
+        xCount = 4;
+        size = KIconLoader::SizeSmallMedium;
+    } else {
+        xCount = 3;
+        size = KIconLoader::SizeMedium;
+    }
+
+    if (itemCount < xCount) {
+        xCount = itemCount;
+    }
+
+    int yCount = itemCount / xCount;
+    if (itemCount % xCount != 0) {
+        ++yCount;
+    }
+    if (yCount > xCount) {
+        yCount = xCount;
+    }
+
+    // Draw the selected items into the grid cells.
+    QPixmap dragPixmap(xCount * size + xCount - 1, yCount * size + yCount - 1);
+    dragPixmap.fill(Qt::transparent);
+
+    QPainter painter(&dragPixmap);
+    int x = 0;
+    int y = 0;
+    QSetIterator<int> it(indexes);
+    while (it.hasNext()) {
+        const int index = it.next();
+
+        QPixmap pixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
+        if (pixmap.isNull()) {
+            KIcon icon(model()->data(index).value("iconName").toString());
+            pixmap = icon.pixmap(size, size);
+        } else {
+            KPixmapModifier::scale(pixmap, QSize(size, size));
+        }
+
+        painter.drawPixmap(x, y, pixmap);
+
+        x += size + 1;
+        if (x >= dragPixmap.width()) {
+            x = 0;
+            y += size + 1;
+        }
+
+        if (y >= dragPixmap.height()) {
+            break;
         }
     }
 
-    return pixmap;
+    return dragPixmap;
 }
 
 void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
