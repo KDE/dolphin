@@ -228,16 +228,6 @@ QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
 
     const int itemCount = indexes.count();
     Q_ASSERT(itemCount > 0);
-    if (itemCount == 1) {
-        // Only one item is selected. Use the original icon without resizing.
-        const int index = indexes.values().first();
-        QPixmap dragPixmap = model()->data(index).value("iconPixmap").value<QPixmap>();
-        if (dragPixmap.isNull()) {
-            KIcon icon(model()->data(index).value("iconName").toString());
-            dragPixmap = icon.pixmap(itemSize().toSize());
-        }
-        return dragPixmap;
-    }
 
     // If more than one item is dragged, align the items inside a
     // rectangular grid. The maximum grid size is limited to 5 x 5 items.
@@ -267,7 +257,7 @@ QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
     }
 
     // Draw the selected items into the grid cells.
-    QPixmap dragPixmap(xCount * size + xCount - 1, yCount * size + yCount - 1);
+    QPixmap dragPixmap(xCount * size + xCount, yCount * size + yCount);
     dragPixmap.fill(Qt::transparent);
 
     QPainter painter(&dragPixmap);
