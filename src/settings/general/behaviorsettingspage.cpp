@@ -44,7 +44,6 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     m_globalProps(0),
     m_confirmMoveToTrash(0),
     m_confirmDelete(0),
-    m_renameInline(0),
     m_showToolTips(0),
     m_showSelectionToggle(0),
     m_naturalSorting(0)
@@ -78,9 +77,6 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     confirmBoxLayout->addWidget(m_confirmDelete);
     confirmBoxLayout->addWidget(m_confirmClosingMultipleTabs);
 
-    // 'Rename inline'
-    m_renameInline = new QCheckBox(i18nc("@option:check", "Rename inline"), this);
-
     // 'Show tooltips'
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
 
@@ -92,7 +88,6 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     topLayout->addWidget(propsBox);
     topLayout->addWidget(confirmBox);
-    topLayout->addWidget(m_renameInline);
     topLayout->addWidget(m_showToolTips);
     topLayout->addWidget(m_showSelectionToggle);
     topLayout->addWidget(m_naturalSorting);
@@ -105,7 +100,6 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_confirmClosingMultipleTabs, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_renameInline, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -140,7 +134,6 @@ void BehaviorSettingsPage::applySettings()
     confirmationGroup.sync();
 
     settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
-    settings->setRenameInline(m_renameInline->isChecked());
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     settings->writeConfig();
@@ -177,7 +170,6 @@ void BehaviorSettingsPage::loadSettings()
     m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", CONFIRM_DELETE));
 
     m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
-    m_renameInline->setChecked(GeneralSettings::renameInline());
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());

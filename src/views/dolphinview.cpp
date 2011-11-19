@@ -591,6 +591,8 @@ void DolphinView::renameSelectedItems()
         return;
     }
 
+    // TODO: The new view-engine introduced with Dolphin 2.0 does not support inline
+    // renaming yet.
     /*if ((itemCount == 1) && DolphinSettings::instance().generalSettings()->renameInline()) {
         const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForItem(items.first());
         const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->mapFromSource(dirIndex);

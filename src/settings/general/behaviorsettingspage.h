@@ -57,7 +57,6 @@ private:
     QCheckBox* m_confirmDelete;
     QCheckBox* m_confirmClosingMultipleTabs;
 
-    QCheckBox* m_renameInline;
     QCheckBox* m_showToolTips;
     QLabel* m_configureToolTips;
     QCheckBox* m_showSelectionToggle;

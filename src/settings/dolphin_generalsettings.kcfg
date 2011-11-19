@@ -52,10 +52,6 @@
             <label>Ask for confirmation when closing windows with multiple tabs.</label>
             <default>true</default>
         </entry>
-        <entry name="RenameInline" type="Bool">
-            <label>Rename inline</label>
-            <default>false</default>
-        </entry>
         <entry name="ShowSelectionToggle" type="Bool">
             <label>Show selection toggle</label>
             <default>true</default>
