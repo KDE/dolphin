@@ -1702,7 +1702,9 @@ void DolphinMainWindow::setupActions()
     connect(openTerminal, SIGNAL(triggered()), this, SLOT(openTerminal()));
 
     // setup 'Settings' menu
-    KStandardAction::showMenubar(this, SLOT(toggleShowMenuBar()), actionCollection());
+    KToggleAction* showMenuBar = KStandardAction::showMenubar(0, 0, actionCollection());
+    connect(showMenuBar, SIGNAL(triggered(bool)),                   // Fixes #286822
+            this, SLOT(toggleShowMenuBar()), Qt::QueuedConnection);
     KStandardAction::preferences(this, SLOT(editSettings()), actionCollection());
 
     // not in menu actions
