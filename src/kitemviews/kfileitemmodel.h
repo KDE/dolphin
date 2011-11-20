@@ -120,7 +120,11 @@ public:
     bool isExpanded(int index) const;
     bool isExpandable(int index) const;
     QSet<KUrl> expandedUrls() const;
-    void restoreExpandedUrls(const QSet<KUrl>& urls);
+
+    /**
+     * Expands all parent-items of each URL given by \a urls.
+     */
+    void setExpanded(const QSet<KUrl>& urls);
 
 signals:
     void loadingCompleted();
@@ -291,8 +295,9 @@ private:
     // Stores the URLs of the expanded folders.
     QSet<KUrl> m_expandedUrls;
 
-    // Stores the URLs which have to be expanded in order to restore a previous state of the model.
-    QSet<KUrl> m_restoredExpandedUrls;
+    // URLs that must be expanded. The expanding is initially triggered in setExpanded()
+    // and done step after step in slotCompleted().
+    QSet<KUrl> m_urlsToExpand;
 
     friend class KFileItemModelTest; // For unit testing
 };

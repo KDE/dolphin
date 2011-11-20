@@ -65,6 +65,8 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     m_updateIconSizeTimer->setInterval(ShortInterval);
     connect(m_updateIconSizeTimer, SIGNAL(timeout()), this, SLOT(updateIconSize()));
 
+    setVisibleRoles(QList<QByteArray>() << "name");
+
     updateMinimumRolesWidths();
 }
 
@@ -302,7 +304,8 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
     default:            Q_ASSERT(false); break;
     }
 
-    fileItemListWidget->setAlternatingBackgroundColors(m_itemLayout == DetailsLayout);
+    fileItemListWidget->setAlternatingBackgroundColors(m_itemLayout == DetailsLayout &&
+                                                       visibleRoles().count() > 1);
 }
 
 bool KFileItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
@@ -332,6 +335,8 @@ void KFileItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* 
     m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel*>(current), this);
     const int size = styleOption().iconSize;
     m_modelRolesUpdater->setIconSize(QSize(size, size));
+
+    applyRolesToModel();
 }
 
 void KFileItemListView::onScrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous)
@@ -360,6 +365,19 @@ void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, 
     Q_UNUSED(current);
     Q_UNUSED(previous);
     applyRolesToModel();
+
+    if (m_itemLayout == DetailsLayout) {
+        // Only enable the alternating background colors if more than one role
+        // is visible
+        const int previousCount = previous.count();
+        const int currentCount = current.count();
+        if ((previousCount <= 1 && currentCount > 1) || (previousCount > 1 && currentCount <= 1)) {
+            const bool enabled = (currentCount > 1);
+            foreach (KItemListWidget* widget, visibleItemListWidgets()) {
+                widget->setAlternatingBackgroundColors(enabled);
+            }
+        }
+    }
 }
 
 void KFileItemListView::onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)
@@ -410,6 +428,9 @@ void KFileItemListView::slotSortRoleChanged(const QByteArray& current, const QBy
 
 void KFileItemListView::triggerVisibleIndexRangeUpdate()
 {
+    if (!model()) {
+        return;
+    }
     m_modelRolesUpdater->setPaused(true);
     m_updateVisibleIndexRangeTimer->start();
 }
@@ -439,6 +460,9 @@ void KFileItemListView::updateVisibleIndexRange()
 
 void KFileItemListView::triggerIconSizeUpdate()
 {
+    if (!model()) {
+        return;
+    }
     m_modelRolesUpdater->setPaused(true);
     m_updateIconSizeTimer->start();
 }
@@ -494,6 +518,10 @@ QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role)
 
 void KFileItemListView::updateLayoutOfVisibleItems()
 {
+    if (!model()) {
+        return;
+    }
+
     foreach (KItemListWidget* widget, visibleItemListWidgets()) {
         initializeItemListWidget(widget);
     }
@@ -528,6 +556,10 @@ void KFileItemListView::updateMinimumRolesWidths()
 
 void KFileItemListView::applyRolesToModel()
 {
+    if (!model()) {
+        return;
+    }
+
     Q_ASSERT(qobject_cast<KFileItemModel*>(model()));
     KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(model());
 

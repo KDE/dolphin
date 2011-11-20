@@ -55,7 +55,6 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinviewactionhandler.cpp
     views/dolphinviewautoscroller.cpp
     views/draganddrophelper.cpp
-    views/folderexpander.cpp
     views/renamedialog.cpp
     views/tooltips/filemetadatatooltip.cpp
     views/tooltips/tooltipmanager.cpp
@@ -123,12 +122,10 @@ set(dolphin_SRCS
     panels/information/informationpanelcontent.cpp
     panels/information/pixmapviewer.cpp
     panels/information/phononwidget.cpp
-    panels/folders/ktreeview.cpp
     panels/places/placespanel.cpp
     panels/panel.cpp
     panels/folders/treeviewcontextmenu.cpp
     panels/folders/folderspanel.cpp
-    panels/folders/paneltreeview.cpp
     search/dolphinsearchbox.cpp
     search/dolphinsearchinformation.cpp
     settings/general/behaviorsettingspage.cpp

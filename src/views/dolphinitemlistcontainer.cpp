@@ -61,9 +61,9 @@ DolphinItemListContainer::~DolphinItemListContainer()
     CompactModeSettings::self()->writeConfig();
     DetailsModeSettings::self()->writeConfig();
 
-    KItemListView* view = controller()->view();
     controller()->setView(0);
-    delete view;
+    delete m_fileItemListView;
+    m_fileItemListView = 0;
 }
 
 void DolphinItemListContainer::setPreviewsShown(bool show)

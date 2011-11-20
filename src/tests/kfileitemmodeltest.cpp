@@ -451,7 +451,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->expandedUrls().empty());
 
     m_dirLister->openUrl(m_testDir->url());
-    m_model->restoreExpandedUrls(allFolders);
+    m_model->setExpanded(allFolders);
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QVERIFY(m_model->isExpanded(0));

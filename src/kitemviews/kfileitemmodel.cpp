@@ -49,7 +49,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_groups(),
     m_rootExpansionLevel(-1),
     m_expandedUrls(),
-    m_restoredExpandedUrls()
+    m_urlsToExpand()
 {
     // Apply default roles that should be determined
     resetRoles();
@@ -431,9 +431,43 @@ QSet<KUrl> KFileItemModel::expandedUrls() const
     return m_expandedUrls;
 }
 
-void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
+void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
 {
-    m_restoredExpandedUrls = urls;
+
+    const KDirLister* dirLister = m_dirLister.data();
+    if (!dirLister) {
+        return;
+    }
+
+    const int pos = dirLister->url().url().length();
+
+    // Assure that each sub-path of the URLs that should be
+    // expanded is added to m_urlsToExpand too. KDirLister
+    // does not care whether the parent-URL has already been
+    // expanded.
+    QSetIterator<KUrl> it1(urls);
+    while (it1.hasNext()) {
+        const KUrl& url = it1.next();
+
+        KUrl urlToExpand = dirLister->url();
+        const QStringList subDirs = url.url().mid(pos).split(QDir::separator());
+        for (int i = 0; i < subDirs.count(); ++i) {
+            urlToExpand.addPath(subDirs.at(i));
+            m_urlsToExpand.insert(urlToExpand);
+        }
+    }
+
+    // KDirLister::open() must called at least once to trigger an initial
+    // loading. The pending URLs that must be restored are handled
+    // in slotCompleted().
+    QSetIterator<KUrl> it2(m_urlsToExpand);
+    while (it2.hasNext()) {
+        const int idx = index(it2.next());
+        if (idx >= 0 && !isExpanded(idx)) {
+            setExpanded(idx, true);
+            break;
+        }
+    }
 }
 
 void KFileItemModel::onGroupedSortingChanged(bool current)
@@ -520,7 +554,7 @@ void KFileItemModel::resortAllItems()
 
 void KFileItemModel::slotCompleted()
 {
-    if (m_restoredExpandedUrls.isEmpty() && m_minimumUpdateIntervalTimer->isActive()) {
+    if (m_urlsToExpand.isEmpty() && m_minimumUpdateIntervalTimer->isActive()) {
         // dispatchPendingItems() will be called when the timer
         // has been expired.
         m_pendingEmitLoadingCompleted = true;
@@ -530,25 +564,26 @@ void KFileItemModel::slotCompleted()
     m_pendingEmitLoadingCompleted = false;
     dispatchPendingItemsToInsert();
 
-    if (!m_restoredExpandedUrls.isEmpty()) {
+    if (!m_urlsToExpand.isEmpty()) {
         // Try to find a URL that can be expanded.
         // Note that the parent folder must be expanded before any of its subfolders become visible.
         // Therefore, some URLs in m_restoredExpandedUrls might not be visible yet
         // -> we expand the first visible URL we find in m_restoredExpandedUrls.
-        foreach(const KUrl& url, m_restoredExpandedUrls) {
+        foreach(const KUrl& url, m_urlsToExpand) {
             const int index = m_items.value(url, -1);
             if (index >= 0) {
-                // We have found an expandable URL. Expand it and return - when
-                // the dir lister has finished, this slot will be called again.
-                m_restoredExpandedUrls.remove(url);
-                setExpanded(index, true);
-                return;
+                m_urlsToExpand.remove(url);
+                if (setExpanded(index, true)) {
+                    // The dir lister has been triggered. This slot will be called
+                    // again after the directory has been expanded.
+                    return;
+                }
             }
         }
 
         // None of the URLs in m_restoredExpandedUrls could be found in the model. This can happen
         // if these URLs have been deleted in the meantime.
-        m_restoredExpandedUrls.clear();
+        m_urlsToExpand.clear();
     }
 
     emit loadingCompleted();

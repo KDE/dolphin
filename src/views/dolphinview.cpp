@@ -943,7 +943,7 @@ void DolphinView::restoreState(QDataStream& stream)
     // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
     QSet<KUrl> urls;
     stream >> urls;
-    fileItemModel()->restoreExpandedUrls(urls);
+    fileItemModel()->setExpanded(urls);
 }
 
 void DolphinView::saveState(QDataStream& stream)

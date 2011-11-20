@@ -24,11 +24,8 @@
 #include <panels/panel.h>
 
 class KDirLister;
-class DolphinModel;
-
-class DolphinSortFilterProxyModel;
-class PanelTreeView;
-class QModelIndex;
+class KFileItemModel;
+class KItemListController;
 
 /**
  * @brief Shows a tree view of the directories starting from
@@ -77,28 +74,28 @@ private slots:
      * Updates the active view to the URL
      * which is given by the item with the index \a index.
      */
-    void updateActiveView(const QModelIndex& index);
+    //void updateActiveView(const QModelIndex& index);
 
     /**
      * Is emitted if URLs have been dropped
      * to the index \a index.
      */
-    void dropUrls(const QModelIndex& index, QDropEvent* event);
+    //void dropUrls(const QModelIndex& index, QDropEvent* event);
 
     /**
      * Expands the treeview to show the directory
      * specified by \a index.
      */
-    void expandToDir(const QModelIndex& index);
+    //void expandToDir(const QModelIndex& index);
 
     /**
      * Assures that the leaf folder gets visible.
      */
-    void scrollToLeaf();
+    //void scrollToLeaf();
 
     void updateMouseButtons();
 
-    void slotDirListerCompleted();
+    void slotLoadingCompleted();
 
     void slotHorizontalScrollBarMoved(int value);
 
@@ -119,13 +116,13 @@ private:
      */
     void selectLeafDirectory();
 
+    KFileItemModel* fileItemModel() const;
+
 private:
     bool m_setLeafVisible;
     Qt::MouseButtons m_mouseButtons;
     KDirLister* m_dirLister;
-    //DolphinModel* m_dolphinModel;
-    //DolphinSortFilterProxyModel* m_proxyModel;
-    PanelTreeView* m_treeView;
+    KItemListController* m_controller;
     KUrl m_leafDir;
 };
 

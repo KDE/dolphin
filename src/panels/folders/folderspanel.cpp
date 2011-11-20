@@ -21,8 +21,14 @@
 
 #include "dolphin_folderspanelsettings.h"
 #include "dolphin_generalsettings.h"
-#include "paneltreeview.h"
 #include "treeviewcontextmenu.h"
+
+#include <kitemviews/kitemlistselectionmanager.h>
+#include <kitemviews/kfileitemlistview.h>
+#include <kitemviews/kfileitemlistwidget.h>
+#include <kitemviews/kitemlistcontainer.h>
+#include <kitemviews/kitemlistcontroller.h>
+#include <kitemviews/kfileitemmodel.h>
 
 #include <KDirLister>
 #include <KFileItem>
@@ -30,25 +36,19 @@
 
 #include <QApplication>
 #include <QBoxLayout>
-#include <QItemSelection>
-#include <QModelIndex>
-#include <QPointer>
-#include <QTreeView>
-#include <QScrollBar>
+#include <QGraphicsView>
 #include <QTimer>
 
-#include <views/dolphinview.h>
-#include <views/folderexpander.h>
 #include <views/renamedialog.h>
+
+#include <KDebug>
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),
     m_setLeafVisible(false),
     m_mouseButtons(Qt::NoButton),
     m_dirLister(0),
-    //m_dolphinModel(0),
-    //m_proxyModel(0),
-    m_treeView(0),
+    m_controller(0),
     m_leafDir()
 {
     setLayoutDirection(Qt::LeftToRight);
@@ -58,10 +58,10 @@ FoldersPanel::~FoldersPanel()
 {
     FoldersPanelSettings::self()->writeConfig();
 
-    //delete m_proxyModel;
-    //m_proxyModel = 0;
-    //delete m_dolphinModel;
-    //m_dolphinModel = 0;
+    KItemListView* view = m_controller->view();
+    m_controller->setView(0);
+    delete view;
+
     delete m_dirLister;
     m_dirLister = 0;
 }
@@ -70,8 +70,11 @@ void FoldersPanel::setHiddenFilesShown(bool show)
 {
     FoldersPanelSettings::setHiddenFilesShown(show);
     if (m_dirLister) {
+        KFileItemModel* model = fileItemModel();
+        const QSet<KUrl> expandedUrls = model->expandedUrls();
         m_dirLister->setShowingDotFiles(show);
         m_dirLister->openUrl(m_dirLister->url(), KDirLister::Reload);
+        model->setExpanded(expandedUrls);
     }
 }
 
@@ -82,7 +85,7 @@ bool FoldersPanel::hiddenFilesShown() const
 
 void FoldersPanel::setAutoScrolling(bool enable)
 {
-    m_treeView->setAutoHorizontalScroll(enable);
+    //m_treeView->setAutoHorizontalScroll(enable);
     FoldersPanelSettings::setAutoScrolling(enable);
 }
 
@@ -141,43 +144,48 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
         m_dirLister->setShowingDotFiles(FoldersPanelSettings::hiddenFilesShown());
-        connect(m_dirLister, SIGNAL(completed()), this, SLOT(slotDirListerCompleted()));
 
-        /*Q_ASSERT(!m_dolphinModel);
-        m_dolphinModel = new DolphinModel(this);
-        m_dolphinModel->setDirLister(m_dirLister);
-        m_dolphinModel->setDropsAllowed(DolphinModel::DropOnDirectory);
-        connect(m_dolphinModel, SIGNAL(expand(QModelIndex)),
-                this, SLOT(expandToDir(QModelIndex)));
+        KFileItemListView* view  = new KFileItemListView();
+        view->setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
 
-        Q_ASSERT(!m_proxyModel);
-        m_proxyModel = new DolphinSortFilterProxyModel(this);
-        m_proxyModel->setSourceModel(m_dolphinModel);
+        KItemListStyleOption styleOption = view->styleOption();
+        styleOption.margin = 2;
+        styleOption.iconSize = KIconLoader::SizeSmall;
+        view->setStyleOption(styleOption);
 
-        Q_ASSERT(!m_treeView);
-        m_treeView = new PanelTreeView(this);
-        m_treeView->setModel(m_proxyModel);
-        m_proxyModel->setSorting(DolphinView::SortByName);
-        m_proxyModel->setSortOrder(Qt::AscendingOrder);
-        m_treeView->setAutoHorizontalScroll(FoldersPanelSettings::autoScrolling());
+        const qreal itemHeight = qMax(int(KIconLoader::SizeSmall), styleOption.fontMetrics.height());
+        view->setItemSize(QSizeF(-1, itemHeight + 2 * styleOption.margin));
+        view->setItemLayout(KFileItemListView::DetailsLayout);
 
-        new FolderExpander(m_treeView, m_proxyModel);
+        KFileItemModel* model = new KFileItemModel(m_dirLister, this);
+        // Use a QueuedConnection to give the view the possibility to react first on the
+        // finished loading.
+        connect(model, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
 
-        connect(m_treeView, SIGNAL(clicked(QModelIndex)),
-                this, SLOT(updateActiveView(QModelIndex)));
-        connect(m_treeView, SIGNAL(urlsDropped(QModelIndex,QDropEvent*)),
-                this, SLOT(dropUrls(QModelIndex,QDropEvent*)));
-        connect(m_treeView, SIGNAL(pressed(QModelIndex)),
-                this, SLOT(updateMouseButtons()));
+        KItemListContainer* container = new KItemListContainer(this);
+        m_controller = container->controller();
+        m_controller->setView(view);
+        m_controller->setModel(model);
 
-        connect(m_treeView->horizontalScrollBar(), SIGNAL(sliderMoved(int)),
-                this, SLOT(slotHorizontalScrollBarMoved(int)));
-        connect(m_treeView->verticalScrollBar(), SIGNAL(valueChanged(int)),
-                this, SLOT(slotVerticalScrollBarMoved(int)));
+        // TODO: Check whether it makes sense to make an explicit API for KItemListContainer
+        // to make the background transparent.
+        container->setFrameShape(QFrame::NoFrame);
+        QGraphicsView* graphicsView = qobject_cast<QGraphicsView*>(container->viewport());
+        if (graphicsView) {
+            // Make the background of the container transparent and apply the window-text color
+            // to the text color, so that enough contrast is given for all color
+            // schemes
+            QPalette p = graphicsView->palette();
+            p.setColor(QPalette::Active,   QPalette::Text, p.color(QPalette::Active,   QPalette::WindowText));
+            p.setColor(QPalette::Inactive, QPalette::Text, p.color(QPalette::Inactive, QPalette::WindowText));
+            p.setColor(QPalette::Disabled, QPalette::Text, p.color(QPalette::Disabled, QPalette::WindowText));
+            graphicsView->setPalette(p);
+            graphicsView->viewport()->setAutoFillBackground(false);
+        }
 
         QVBoxLayout* layout = new QVBoxLayout(this);
         layout->setMargin(0);
-        layout->addWidget(m_treeView);*/
+        layout->addWidget(container);
     }
 
     loadTree(url());
@@ -205,49 +213,10 @@ void FoldersPanel::keyPressEvent(QKeyEvent* event)
     const int key = event->key();
     if ((key == Qt::Key_Enter) || (key == Qt::Key_Return)) {
         event->accept();
-        updateActiveView(m_treeView->currentIndex());
+        //updateActiveView(m_treeView->currentIndex());
     } else {
         Panel::keyPressEvent(event);
     }
-}
-
-void FoldersPanel::updateActiveView(const QModelIndex& index)
-{
-    Q_UNUSED(index);
-    /*const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-    const KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
-    if (!item.isNull()) {
-        emit changeUrl(item.url(), m_mouseButtons);
-    }*/
-}
-
-void FoldersPanel::dropUrls(const QModelIndex& index, QDropEvent* event)
-{
-    Q_UNUSED(event);
-    if (index.isValid()) {
-        /*const QModelIndex dirIndex = m_proxyModel->mapToSource(index);
-        KFileItem item = m_dolphinModel->itemForIndex(dirIndex);
-        Q_ASSERT(!item.isNull());
-        if (item.isDir()) {
-            Q_UNUSED(event);
-            //DragAndDropHelper::instance().dropUrls(item, item.url(), event, this);
-        }*/
-    }
-}
-
-void FoldersPanel::expandToDir(const QModelIndex& index)
-{
-    m_treeView->setExpanded(index, true);
-    selectLeafDirectory();
-}
-
-void FoldersPanel::scrollToLeaf()
-{
-    /*const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
-    const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-    if (proxyIndex.isValid()) {
-        m_treeView->scrollTo(proxyIndex);
-    }*/
 }
 
 void FoldersPanel::updateMouseButtons()
@@ -255,9 +224,12 @@ void FoldersPanel::updateMouseButtons()
     m_mouseButtons = QApplication::mouseButtons();
 }
 
-void FoldersPanel::slotDirListerCompleted()
+void FoldersPanel::slotLoadingCompleted()
 {
-//    m_treeView->resizeColumnToContents(DolphinModel::Name);
+    const int index = fileItemModel()->index(url());
+    if (index >= 0) {
+        m_controller->selectionManager()->setCurrentItem(index);
+    }
 }
 
 void FoldersPanel::slotHorizontalScrollBarMoved(int value)
@@ -265,7 +237,7 @@ void FoldersPanel::slotHorizontalScrollBarMoved(int value)
     Q_UNUSED(value);
     // Disable the auto-scrolling until the vertical scrollbar has
     // been moved by the user.
-    m_treeView->setAutoHorizontalScroll(false);
+    //m_treeView->setAutoHorizontalScroll(false);
 }
 
 void FoldersPanel::slotVerticalScrollBarMoved(int value)
@@ -273,7 +245,7 @@ void FoldersPanel::slotVerticalScrollBarMoved(int value)
     Q_UNUSED(value);
     // Enable the auto-scrolling again (it might have been disabled by
     // moving the horizontal scrollbar).
-    m_treeView->setAutoHorizontalScroll(FoldersPanelSettings::autoScrolling());
+    //m_treeView->setAutoHorizontalScroll(FoldersPanelSettings::autoScrolling());
 }
 
 void FoldersPanel::loadTree(const KUrl& url)
@@ -283,10 +255,10 @@ void FoldersPanel::loadTree(const KUrl& url)
 
     KUrl baseUrl;
     if (url.isLocalFile()) {
-        // use the root directory as base for local URLs (#150941)
+        // Use the root directory as base for local URLs (#150941)
         baseUrl = QDir::rootPath();
     } else {
-        // clear the path for non-local URLs and use it as base
+        // Clear the path for non-local URLs and use it as base
         baseUrl = url;
         baseUrl.setPath(QString('/'));
     }
@@ -295,7 +267,14 @@ void FoldersPanel::loadTree(const KUrl& url)
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl, KDirLister::Reload);
     }
-    //m_dolphinModel->expandToUrl(m_leafDir);
+
+    KFileItemModel* model = fileItemModel();
+    const int index = model->index(url);
+    if (index >= 0) {
+        m_controller->selectionManager()->setCurrentItem(index);
+    } else {
+        model->setExpanded(QSet<KUrl>() << url);
+    }
 }
 
 void FoldersPanel::selectLeafDirectory()
@@ -315,6 +294,11 @@ void FoldersPanel::selectLeafDirectory()
             m_setLeafVisible = false;
         }
     }*/
+}
+
+KFileItemModel* FoldersPanel::fileItemModel() const
+{
+    return static_cast<KFileItemModel*>(m_controller->model());
 }
 
 #include "folderspanel.moc"

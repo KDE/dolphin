@@ -1196,7 +1196,7 @@ void KItemListView::setModel(KItemModelBase* model)
     }
 
     m_model = model;
-    m_layouter->setModel(model);
+    m_layouter->setModel(model);   
     m_grouped = model->groupedSorting();
 
     if (m_model) {
@@ -1231,7 +1231,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         m_layoutTimer->stop();
     }
 
-    if (m_model->count() < 0 || m_activeTransactions > 0) {
+    if (!m_model || m_model->count() < 0 || m_activeTransactions > 0) {
         return;
     }
 
@@ -1675,6 +1675,10 @@ void KItemListView::updateVisibleRolesSizes(const KItemRangeList& itemRanges)
 
 void KItemListView::updateVisibleRolesSizes()
 {
+    if (!m_model) {
+        return;
+    }
+
     const int itemCount = m_model->count();
     if (itemCount > 0) {
         updateVisibleRolesSizes(KItemRangeList() << KItemRange(0, itemCount));
@@ -1683,7 +1687,7 @@ void KItemListView::updateVisibleRolesSizes()
 
 void KItemListView::updateStretchedVisibleRolesSizes()
 {
-    if (!m_itemSize.isEmpty() || m_useHeaderWidths) {
+    if (!m_itemSize.isEmpty() || m_useHeaderWidths || m_visibleRoles.isEmpty()) {
         return;
     }
 
@@ -1692,7 +1696,7 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     // size does not use the available view-size it the size of the
     // first role will get stretched.
     m_stretchedVisibleRolesSizes = m_visibleRolesSizes;
-    const QByteArray role = visibleRoles().first();
+    const QByteArray role = m_visibleRoles.first();
     QSizeF firstRoleSize = m_stretchedVisibleRolesSizes.value(role);
 
     QSizeF dynamicItemSize = m_itemSize;

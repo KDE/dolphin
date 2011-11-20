@@ -19,13 +19,15 @@
 
 #include "kitemliststyleoption.h"
 
+#include <KIconLoader>
+
 KItemListStyleOption::KItemListStyleOption() :
     rect(),
     font(),
     fontMetrics(QFont()),
     palette(),
     margin(0),
-    iconSize(0)
+    iconSize(KIconLoader::SizeMedium)
 {
 }
 

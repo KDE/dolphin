@@ -314,7 +314,14 @@ void KItemListContainer::updateSmoothScrollers(Qt::Orientation orientation)
 
 void KItemListContainer::initialize()
 {
-    if (!m_controller) {
+    if (m_controller) {
+        if (m_controller->model()) {
+            slotModelChanged(m_controller->model(), 0);
+        }
+        if (m_controller->view()) {
+            slotViewChanged(m_controller->view(), 0);
+        }
+    } else {
         m_controller = new KItemListController(this);
     }
 
