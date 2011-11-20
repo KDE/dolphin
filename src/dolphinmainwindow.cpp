@@ -2214,6 +2214,7 @@ void DolphinMainWindow::createPanelAction(const KIcon& icon,
     panelAction->setShortcut(shortcut);
 
     dockAction->setIcon(icon);
+    dockAction->setShortcut(shortcut);
     connect(panelAction, SIGNAL(triggered()), dockAction, SLOT(trigger()));
 }
 
