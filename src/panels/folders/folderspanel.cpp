@@ -58,9 +58,11 @@ FoldersPanel::~FoldersPanel()
 {
     FoldersPanelSettings::self()->writeConfig();
 
-    KItemListView* view = m_controller->view();
-    m_controller->setView(0);
-    delete view;
+    if (m_controller) {
+        KItemListView* view = m_controller->view();
+        m_controller->setView(0);
+        delete view;
+    }
 
     delete m_dirLister;
     m_dirLister = 0;
