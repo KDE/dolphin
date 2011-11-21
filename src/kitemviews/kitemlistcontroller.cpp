@@ -240,7 +240,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
 
 void KItemListController::slotChangeCurrentItem(const QString& text, bool searchFromNextItem)
 {
-    if (!m_model) {
+    if (!m_model || m_model->count() == 0) {
         return;
     }
     const int currentIndex = m_selectionManager->currentItem();
