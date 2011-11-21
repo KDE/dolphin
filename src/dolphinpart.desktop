@@ -93,7 +93,7 @@ InitialPreference=7
 
 # Provide info about the view modes using the Actions mechanism so that KService parses it.
 # Konqueror then queries KService to get hold of the translated texts for the view modes
-Actions=icons;details;columns;
+Actions=icons;details;compact;
 
 [Desktop Action icons]
 Name=Icons
