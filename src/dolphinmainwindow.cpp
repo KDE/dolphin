@@ -1872,14 +1872,15 @@ void DolphinMainWindow::setupDockWidgets()
     KActionMenu* panelsMenu = new KActionMenu(i18nc("@action:inmenu View", "Panels"), this);
     actionCollection()->addAction("panels", panelsMenu);
     panelsMenu->setDelayed(false);
-    panelsMenu->addAction(placesAction);
-    panelsMenu->addAction(infoAction);
-    panelsMenu->addAction(foldersAction);
+    const KActionCollection* ac = actionCollection();
+    panelsMenu->addAction(ac->action("show_places_panel"));
+    panelsMenu->addAction(ac->action("show_information_panel"));
+    panelsMenu->addAction(ac->action("show_folders_panel"));
 #ifndef Q_OS_WIN
-    panelsMenu->addAction(terminalAction);
+    panelsMenu->addAction(ac->action("show_terminal_panel"));
 #endif
 #ifdef HAVE_NEPOMUK
-    panelsMenu->addAction(searchAction);
+    panelsMenu->addAction(ac->action("show_search_panel"));
 #endif
     panelsMenu->addSeparator();
     panelsMenu->addAction(lockLayoutAction);
@@ -2209,13 +2210,14 @@ void DolphinMainWindow::createPanelAction(const KIcon& icon,
                                           const QString& actionName)
 {
     KAction* panelAction = actionCollection()->addAction(actionName);
+    panelAction->setCheckable(true);
+    panelAction->setChecked(dockAction->isChecked());
     panelAction->setText(dockAction->text());
     panelAction->setIcon(icon);
     panelAction->setShortcut(shortcut);
 
-    dockAction->setIcon(icon);
-    dockAction->setShortcut(shortcut);
     connect(panelAction, SIGNAL(triggered()), dockAction, SLOT(trigger()));
+    connect(dockAction, SIGNAL(toggled(bool)), panelAction, SLOT(setChecked(bool)));
 }
 
 DolphinMainWindow::UndoUiInterface::UndoUiInterface() :
