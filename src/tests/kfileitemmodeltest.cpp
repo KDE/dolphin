@@ -451,7 +451,7 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(m_model->expandedUrls().empty());
 
     m_dirLister->openUrl(m_testDir->url());
-    m_model->setExpanded(allFolders);
+    m_model->restoreExpandedUrls(allFolders);
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QVERIFY(m_model->isExpanded(0));
@@ -459,6 +459,17 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(!m_model->isExpanded(2));
     QVERIFY(m_model->isExpanded(3));
     QVERIFY(!m_model->isExpanded(4));
+    QCOMPARE(m_model->expandedUrls(), allFolders);
+
+    // Move to a sub folder, then call restoreExpandedFolders() *before* going back.
+    // This is how DolphinView restores the expanded folders when navigating in history.
+    m_dirLister->openUrl(KUrl(m_testDir->name() + "a/a/"));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QCOMPARE(m_model->count(), 1);  // 1 item: "1"
+    m_model->restoreExpandedUrls(allFolders);
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QCOMPARE(m_model->expandedUrls(), allFolders);
 }
 

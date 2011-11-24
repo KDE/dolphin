@@ -431,6 +431,11 @@ QSet<KUrl> KFileItemModel::expandedUrls() const
     return m_expandedUrls;
 }
 
+void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
+{
+    m_urlsToExpand = urls;
+}
+
 void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
 {
 

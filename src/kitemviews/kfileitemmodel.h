@@ -122,6 +122,13 @@ public:
     QSet<KUrl> expandedUrls() const;
 
     /**
+     * Marks the URLs in \a urls as subfolders which were expanded previously.
+     * They are re-expanded one by one each time the KDirLister's completed() signal is received.
+     * Note that a manual triggering of the KDirLister is required.
+     */
+    void restoreExpandedUrls(const QSet<KUrl>& urls);
+
+    /**
      * Expands all parent-items of each URL given by \a urls.
      */
     void setExpanded(const QSet<KUrl>& urls);
