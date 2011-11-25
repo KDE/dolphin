@@ -280,11 +280,11 @@ QColor KFileItemListWidget::textColor() const
 {
     if (m_customTextColor.isValid()) {
         return m_customTextColor;
-    } else if (isSelected()) {
-        return styleOption().palette.highlightedText().color();
-    } else {
-        return styleOption().palette.text().color();
     }
+
+    const QPalette::ColorGroup group = isActiveWindow() ? QPalette::Active : QPalette::Inactive;
+    const QPalette::ColorRole role = isSelected() ? QPalette::HighlightedText : QPalette::Text;
+    return styleOption().palette.brush(group, role).color();
 }
 
 void KFileItemListWidget::setOverlay(const QPixmap& overlay)
