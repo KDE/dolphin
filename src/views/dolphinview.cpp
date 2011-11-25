@@ -339,7 +339,7 @@ void DolphinView::setItemSelectionEnabled(const QRegExp& pattern, bool enabled)
 
     for (int index = 0; index < model->count(); index++) {
         const KFileItem item = model->fileItem(index);
-        if (pattern.exactMatch(item.name())) {
+        if (pattern.exactMatch(item.text())) {
             // An alternative approach would be to store the matching items in a QSet<int> and
             // select them in one go after the loop, but we'd need a new function
             // KItemListSelectionManager::setSelected(QSet<int>, SelectionMode mode)

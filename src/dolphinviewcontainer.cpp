@@ -425,9 +425,9 @@ void DolphinViewContainer::showItemInfo(const KFileItem& item)
     } else {
         QString message;
         if (item.isDir()) {
-            message = item.name();
+            message = item.text();
         } else {
-            message = i18nc("@info:status filename (type)", "%1 (%2)", item.name(), item.mimeComment());
+            message = i18nc("@info:status filename (type)", "%1 (%2)", item.text(), item.mimeComment());
         }
         m_statusBar->setMessage(message, DolphinStatusBar::Default);
     }

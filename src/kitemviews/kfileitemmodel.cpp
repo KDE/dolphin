@@ -953,7 +953,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     }
 
     if (m_requestRole[NameRole]) {
-        data.insert("name", item.name());
+        data.insert("name", item.text());
     }
 
     if (m_requestRole[SizeRole]) {
