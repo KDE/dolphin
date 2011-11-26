@@ -19,6 +19,7 @@
 
 #include "kfileitemlistwidget.h"
 
+#include "kfileitemclipboard_p.h"
 #include "kfileitemmodel.h"
 #include "kitemlistview.h"
 #include "kpixmapmodifier_p.h"
@@ -41,6 +42,8 @@
 
 KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     KItemListWidget(parent),
+    m_isCut(false),
+    m_isHidden(false),
     m_isDir(false),
     m_dirtyLayout(true),
     m_dirtyContent(true),
@@ -362,6 +365,40 @@ void KFileItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
     m_dirtyLayout = true;
 }
 
+void KFileItemListWidget::showEvent(QShowEvent* event)
+{
+    KItemListWidget::showEvent(event);
+
+    // Listen to changes of the clipboard to mark the item as cut/uncut
+    KFileItemClipboard* clipboard = KFileItemClipboard::instance();
+
+    const KUrl itemUrl = data().value("url").value<KUrl>();
+    m_isCut = clipboard->isCut(itemUrl);
+
+    connect(clipboard, SIGNAL(cutItemsChanged()),
+            this, SLOT(slotCutItemsChanged()));
+}
+
+void KFileItemListWidget::hideEvent(QHideEvent* event)
+{
+    disconnect(KFileItemClipboard::instance(), SIGNAL(cutItemsChanged()),
+               this, SLOT(slotCutItemsChanged()));
+
+    KItemListWidget::hideEvent(event);
+}
+
+void KFileItemListWidget::slotCutItemsChanged()
+{
+    const KUrl itemUrl = data().value("url").value<KUrl>();
+    const bool isCut = KFileItemClipboard::instance()->isCut(itemUrl);
+    if (m_isCut != isCut) {
+        m_isCut = isCut;
+        m_pixmap = QPixmap();
+        m_dirtyContent = true;
+        update();
+    }
+}
+
 void KFileItemListWidget::triggerCacheRefreshing()
 {
     if ((!m_dirtyContent && !m_dirtyLayout) || index() < 0) {
@@ -370,7 +407,9 @@ void KFileItemListWidget::triggerCacheRefreshing()
 
     refreshCache();
 
-    m_isDir = data()["isDir"].toBool();
+    const QHash<QByteArray, QVariant> values = data();
+    m_isDir = values["isDir"].toBool();
+    m_isHidden = values["name"].toString().startsWith(QLatin1Char('.'));
 
     updateExpansionArea();
     updateTextsCache();
@@ -471,6 +510,14 @@ void KFileItemListWidget::updatePixmapCache()
             m_hoverPixmapRect.setSize(m_pixmap.size());
         }
 
+        if (m_isCut) {
+            applyCutEffect(m_pixmap);
+        }
+
+        if (m_isHidden) {
+            applyHiddenEffect(m_pixmap);
+        }
+
         Q_ASSERT(m_pixmap.height() == iconHeight);
     }
     if (!m_overlay.isNull()) {
@@ -498,7 +545,7 @@ void KFileItemListWidget::updatePixmapCache()
         KIconEffect* effect = KIconLoader::global()->iconEffect();
         // In the KIconLoader terminology, active = hover.
         if (effect->hasEffect(KIconLoader::Desktop, KIconLoader::ActiveState)) {
-            m_hoverPixmap =  effect->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::ActiveState);
+            m_hoverPixmap = effect->apply(m_pixmap, KIconLoader::Desktop, KIconLoader::ActiveState);
         } else {
             m_hoverPixmap = m_pixmap;
         }
@@ -765,13 +812,6 @@ void KFileItemListWidget::updateAdditionalInfoTextColor()
 
 void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
 {
-    const bool isHiddenItem = m_text[Name].text().startsWith(QLatin1Char('.'));
-    qreal opacity;
-    if (isHiddenItem) {
-        opacity = painter->opacity();
-        painter->setOpacity(opacity * 0.3);
-    }
-
     if (m_scaledPixmapSize != pixmap.size()) {
         QPixmap scaledPixmap = pixmap;
         KPixmapModifier::scale(scaledPixmap, m_scaledPixmapSize);
@@ -783,10 +823,6 @@ void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
 #endif
     } else {
         painter->drawPixmap(m_pixmapPos, pixmap);
-    }
-
-    if (isHiddenItem) {
-        painter->setOpacity(opacity);
     }
 }
 
@@ -837,6 +873,17 @@ KFileItemListWidget::TextId KFileItemListWidget::roleTextId(const QByteArray& ro
     }
 
     return rolesHash.value(role);
+}
+
+void KFileItemListWidget::applyCutEffect(QPixmap& pixmap)
+{
+    KIconEffect* effect = KIconLoader::global()->iconEffect();
+    pixmap = effect->apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
+}
+
+void KFileItemListWidget::applyHiddenEffect(QPixmap& pixmap)
+{
+    KIconEffect::semiTransparent(pixmap);
 }
 
 #include "kfileitemlistwidget.moc"

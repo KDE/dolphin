@@ -87,6 +87,11 @@ protected:
     virtual void hoveredChanged(bool hovered);
     virtual void selectedChanged(bool selected);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
+    virtual void showEvent(QShowEvent* event);
+    virtual void hideEvent(QHideEvent* event);
+
+private slots:
+    void slotCutItemsChanged();
 
 private:
     enum TextId {
@@ -117,9 +122,14 @@ private:
 
     static QPixmap pixmapForIcon(const QString& name, int size);
     static TextId roleTextId(const QByteArray& role);
+    static void applyCutEffect(QPixmap& pixmap);
+    static void applyHiddenEffect(QPixmap& pixmap);
 
 private:
+    bool m_isCut;
+    bool m_isHidden;
     bool m_isDir;
+
     bool m_dirtyLayout;
     bool m_dirtyContent;
     QSet<QByteArray> m_dirtyContentRoles;

@@ -18,6 +18,7 @@ add_subdirectory(tests)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
+    kitemviews/kfileitemclipboard.cpp
     kitemviews/kfileitemlistgroupheader.cpp
     kitemviews/kfileitemlistview.cpp
     kitemviews/kfileitemlistwidget.cpp

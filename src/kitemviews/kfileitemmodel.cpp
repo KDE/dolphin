@@ -946,6 +946,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     // and hence will be retrieved asynchronously by KFileItemModelRolesUpdater.
     QHash<QByteArray, QVariant> data;
     data.insert("iconPixmap", QPixmap());
+    data.insert("url", item.url());
 
     const bool isDir = item.isDir();
     if (m_requestRole[IsDirRole]) {
