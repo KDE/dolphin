@@ -63,43 +63,26 @@ protected:
     /** @see QWidget::showEvent() */
     virtual void showEvent(QShowEvent* event);
 
-    /** @see QWidget::contextMenuEvent() */
-    virtual void contextMenuEvent(QContextMenuEvent* event);
-
     /** @see QWidget::keyPressEvent() */
     virtual void keyPressEvent(QKeyEvent* event);
 
 private slots:
-    /**
-     * Updates the active view to the URL
-     * which is given by the item with the index \a index.
-     */
-    //void updateActiveView(const QModelIndex& index);
-
-    /**
-     * Is emitted if URLs have been dropped
-     * to the index \a index.
-     */
-    //void dropUrls(const QModelIndex& index, QDropEvent* event);
-
-    /**
-     * Expands the treeview to show the directory
-     * specified by \a index.
-     */
-    //void expandToDir(const QModelIndex& index);
-
-    /**
-     * Assures that the leaf folder gets visible.
-     */
-    //void scrollToLeaf();
-
-    void updateMouseButtons();
+    void slotItemActivated(int index);
+    void slotItemMiddleClicked(int index);
+    void slotItemContextMenuRequested(int index, const QPointF& pos);
+    void slotViewContextMenuRequested(const QPointF& pos);
 
     void slotLoadingCompleted();
 
     void slotHorizontalScrollBarMoved(int value);
 
     void slotVerticalScrollBarMoved(int value);
+
+    /**
+     * Increases the opacity of the view step by step until it is fully
+     * opaque.
+     */
+    void startFadeInAnimation();
 
 private:
     /**
@@ -110,20 +93,17 @@ private:
     void loadTree(const KUrl& url);
 
     /**
-     * Selects the current leaf directory m_leafDir and assures
-     * that the directory is visible if the leaf has been set by
-     * FoldersPanel::setUrl().
+     * Sets the item with the index \a index as current item, selects
+     * the item and assures that the item will be visible.
      */
-    void selectLeafDirectory();
+    void updateCurrentItem(int index);
 
     KFileItemModel* fileItemModel() const;
 
 private:
-    bool m_setLeafVisible;
-    Qt::MouseButtons m_mouseButtons;
+    bool m_updateCurrentItem;
     KDirLister* m_dirLister;
     KItemListController* m_controller;
-    KUrl m_leafDir;
 };
 
 #endif // FOLDERSPANEL_H

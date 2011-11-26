@@ -64,6 +64,9 @@ public:
     virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
 
     /** @reimp */
+    virtual bool supportsItemExpanding() const;
+
+    /** @reimp */
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
 
 protected:

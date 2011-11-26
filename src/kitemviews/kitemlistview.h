@@ -169,10 +169,26 @@ public:
     virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
 
     /**
+     * @return True if the view supports the expanding of items. Per default false
+     *         is returned. If expanding of items is supported, the methods
+     *         KItemModelBase::setExpanded(), KItemModelBase::isExpanded() and
+     *         KItemModelBase::isExpandable() must be reimplemented. The view-implementation
+     *         has to take care itself how to visually represent the expanded items provided
+     *         by the model.
+     */
+    virtual bool supportsItemExpanding() const;
+
+    /**
      * @return The rectangle of the item relative to the top/left of
      *         the currently visible area (see KItemListView::offset()).
      */
     QRectF itemRect(int index) const;
+
+    /**
+     * Scrolls to the item with the index \a index so that the item
+     * will be fully visible.
+     */
+    void scrollToItem(int index);
 
     /**
      * @return The number of items that can be shown in parallel for one offset.

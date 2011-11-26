@@ -109,6 +109,25 @@ QList<QPair<int, QVariant> > KItemModelBase::groups() const
     return QList<QPair<int, QVariant> >();
 }
 
+bool KItemModelBase::setExpanded(int index, bool expanded)
+{
+    Q_UNUSED(index);
+    Q_UNUSED(expanded);
+    return false;
+}
+
+bool KItemModelBase::isExpanded(int index) const
+{
+    Q_UNUSED(index);
+    return false;
+}
+
+bool KItemModelBase::isExpandable(int index) const
+{
+    Q_UNUSED(index);
+    return false;
+}
+
 QMimeData* KItemModelBase::createMimeData(const QSet<int>& indexes) const
 {
     Q_UNUSED(indexes);

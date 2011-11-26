@@ -427,9 +427,43 @@ QHash<QByteArray, QSizeF> KItemListView::visibleRolesSizes(const KItemRangeList&
     return QHash<QByteArray, QSizeF>();
 }
 
+bool KItemListView::supportsItemExpanding() const
+{
+    return false;
+}
+
 QRectF KItemListView::itemRect(int index) const
 {
     return m_layouter->itemRect(index);
+}
+
+void KItemListView::scrollToItem(int index)
+{
+    const QRectF viewGeometry = geometry();
+    const QRectF currentRect = itemRect(index);
+
+    if (!viewGeometry.contains(currentRect)) {
+        qreal newOffset = scrollOffset();
+        if (currentRect.top() < viewGeometry.top()) {
+            Q_ASSERT(scrollOrientation() == Qt::Vertical);
+            newOffset += currentRect.top() - viewGeometry.top();
+        } else if ((currentRect.bottom() > viewGeometry.bottom())) {
+            Q_ASSERT(scrollOrientation() == Qt::Vertical);
+            newOffset += currentRect.bottom() - viewGeometry.bottom();
+        } else if (currentRect.left() < viewGeometry.left()) {
+            if (scrollOrientation() == Qt::Horizontal) {
+                newOffset += currentRect.left() - viewGeometry.left();
+            }
+        } else if ((currentRect.right() > viewGeometry.right())) {
+            if (scrollOrientation() == Qt::Horizontal) {
+                newOffset += currentRect.right() - viewGeometry.right();
+            }
+        }
+
+        if (newOffset != scrollOffset()) {
+            emit scrollTo(newOffset);
+        }
+    }
 }
 
 int KItemListView::itemsPerOffset() const
@@ -949,33 +983,6 @@ void KItemListView::slotCurrentChanged(int current, int previous)
     if (currentWidget) {
         Q_ASSERT(!currentWidget->isCurrent());
         currentWidget->setCurrent(true);
-    }
-
-    const QRectF viewGeometry = geometry();
-    const QRectF currentRect = itemRect(current);
-
-    if (!viewGeometry.contains(currentRect)) {
-        // Make sure that the new current item is fully visible in the view.
-        qreal newOffset = scrollOffset();
-        if (currentRect.top() < viewGeometry.top()) {
-            Q_ASSERT(scrollOrientation() == Qt::Vertical);
-            newOffset += currentRect.top() - viewGeometry.top();
-        } else if ((currentRect.bottom() > viewGeometry.bottom())) {
-            Q_ASSERT(scrollOrientation() == Qt::Vertical);
-            newOffset += currentRect.bottom() - viewGeometry.bottom();
-        } else if (currentRect.left() < viewGeometry.left()) {
-            if (scrollOrientation() == Qt::Horizontal) {
-                newOffset += currentRect.left() - viewGeometry.left();
-            }
-        } else if ((currentRect.right() > viewGeometry.right())) {
-            if (scrollOrientation() == Qt::Horizontal) {
-                newOffset += currentRect.right() - viewGeometry.right();
-            }
-        }
-
-        if (newOffset != scrollOffset()) {
-            emit scrollTo(newOffset);
-        }
     }
 }
 

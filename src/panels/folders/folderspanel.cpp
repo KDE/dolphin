@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QBoxLayout>
 #include <QGraphicsView>
+#include <QPropertyAnimation>
 #include <QTimer>
 
 #include <views/renamedialog.h>
@@ -45,11 +46,9 @@
 
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),
-    m_setLeafVisible(false),
-    m_mouseButtons(Qt::NoButton),
+    m_updateCurrentItem(false),
     m_dirLister(0),
-    m_controller(0),
-    m_leafDir()
+    m_controller(0)
 {
     setLayoutDirection(Qt::LeftToRight);
 }
@@ -121,7 +120,6 @@ bool FoldersPanel::urlChanged()
     }
 
     if (m_dirLister) {
-        m_setLeafVisible = true;
         loadTree(url());
     }
 
@@ -158,6 +156,10 @@ void FoldersPanel::showEvent(QShowEvent* event)
         const qreal itemHeight = qMax(int(KIconLoader::SizeSmall), styleOption.fontMetrics.height());
         view->setItemSize(QSizeF(-1, itemHeight + 2 * styleOption.margin));
         view->setItemLayout(KFileItemListView::DetailsLayout);
+        // Set the opacity to 0 initially. The opacity will be increased after the loading of the initial tree
+        // has been finished in slotLoadingCompleted(). This prevents an unnecessary animation-mess when
+        // opening the folders panel.
+        view->setOpacity(0);
 
         KFileItemModel* model = new KFileItemModel(m_dirLister, this);
         // Use a QueuedConnection to give the view the possibility to react first on the
@@ -168,6 +170,12 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_controller = container->controller();
         m_controller->setView(view);
         m_controller->setModel(model);
+        m_controller->setSelectionBehavior(KItemListController::SingleSelection);
+
+        connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
+        connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
+        connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
+        connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
 
         // TODO: Check whether it makes sense to make an explicit API for KItemListContainer
         // to make the background transparent.
@@ -194,22 +202,6 @@ void FoldersPanel::showEvent(QShowEvent* event)
     Panel::showEvent(event);
 }
 
-void FoldersPanel::contextMenuEvent(QContextMenuEvent* event)
-{
-    Panel::contextMenuEvent(event);
-
-    KFileItem item;
-    /*const QModelIndex index = m_treeView->indexAt(event->pos());
-    if (index.isValid()) {
-        const QModelIndex dolphinModelIndex = m_proxyModel->mapToSource(index);
-        item = m_dolphinModel->itemForIndex(dolphinModelIndex);
-    }*/
-
-    QPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, item);
-    contextMenu->open();
-    delete contextMenu;
-}
-
 void FoldersPanel::keyPressEvent(QKeyEvent* event)
 {
     const int key = event->key();
@@ -221,17 +213,65 @@ void FoldersPanel::keyPressEvent(QKeyEvent* event)
     }
 }
 
-void FoldersPanel::updateMouseButtons()
+void FoldersPanel::slotItemActivated(int index)
 {
-    m_mouseButtons = QApplication::mouseButtons();
+    const KFileItem item = fileItemModel()->fileItem(index);
+    if (!item.isNull()) {
+        emit changeUrl(item.url(), Qt::LeftButton);
+    }
+}
+
+void FoldersPanel::slotItemMiddleClicked(int index)
+{
+    const KFileItem item = fileItemModel()->fileItem(index);
+    if (!item.isNull()) {
+        emit changeUrl(item.url(), Qt::MiddleButton);
+    }
+}
+
+void FoldersPanel::slotItemContextMenuRequested(int index, const QPointF& pos)
+{
+    Q_UNUSED(pos);
+
+    const KFileItem fileItem = fileItemModel()->fileItem(index);
+
+    QWeakPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, fileItem);
+    contextMenu.data()->open();
+    if (contextMenu.data()) {
+        delete contextMenu.data();
+    }
+}
+
+void FoldersPanel::slotViewContextMenuRequested(const QPointF& pos)
+{
+    Q_UNUSED(pos);
+
+    QWeakPointer<TreeViewContextMenu> contextMenu = new TreeViewContextMenu(this, KFileItem());
+    contextMenu.data()->open();
+    if (contextMenu.data()) {
+        delete contextMenu.data();
+    }
 }
 
 void FoldersPanel::slotLoadingCompleted()
 {
-    const int index = fileItemModel()->index(url());
-    if (index >= 0) {
-        m_controller->selectionManager()->setCurrentItem(index);
+    if (m_controller->view()->opacity() == 0) {
+        // The loading of the initial tree after opening the Folders panel
+        // has been finished. Trigger the increasing of the opacity after
+        // a short delay to give the view the chance to finish its internal
+        // animations.
+        // TODO: Check whether it makes sense to allow accessing the
+        // view-internal delay for usecases like this.
+        QTimer::singleShot(250, this, SLOT(startFadeInAnimation()));
     }
+
+    if (!m_updateCurrentItem) {
+        return;
+    }
+
+    const int index = fileItemModel()->index(url());
+    updateCurrentItem(index);
+    m_updateCurrentItem = false;
 }
 
 void FoldersPanel::slotHorizontalScrollBarMoved(int value)
@@ -250,10 +290,21 @@ void FoldersPanel::slotVerticalScrollBarMoved(int value)
     //m_treeView->setAutoHorizontalScroll(FoldersPanelSettings::autoScrolling());
 }
 
+void FoldersPanel::startFadeInAnimation()
+{
+    QPropertyAnimation* anim = new QPropertyAnimation(m_controller->view(), "opacity", this);
+    anim->setStartValue(0);
+    anim->setEndValue(1);
+    anim->setEasingCurve(QEasingCurve::InOutQuad);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
+    anim->setDuration(200);
+}
+
 void FoldersPanel::loadTree(const KUrl& url)
 {
     Q_ASSERT(m_dirLister);
-    m_leafDir = url;
+
+    m_updateCurrentItem = false;
 
     KUrl baseUrl;
     if (url.isLocalFile()) {
@@ -266,6 +317,7 @@ void FoldersPanel::loadTree(const KUrl& url)
     }
 
     if (m_dirLister->url() != baseUrl) {
+        m_updateCurrentItem = true;
         m_dirLister->stop();
         m_dirLister->openUrl(baseUrl, KDirLister::Reload);
     }
@@ -273,29 +325,23 @@ void FoldersPanel::loadTree(const KUrl& url)
     KFileItemModel* model = fileItemModel();
     const int index = model->index(url);
     if (index >= 0) {
-        m_controller->selectionManager()->setCurrentItem(index);
+        updateCurrentItem(index);
     } else {
+        m_updateCurrentItem = true;
         model->setExpanded(QSet<KUrl>() << url);
+        // slotLoadingCompleted() will be invoked after the model has
+        // expanded the url
     }
 }
 
-void FoldersPanel::selectLeafDirectory()
+void FoldersPanel::updateCurrentItem(int index)
 {
-    /*const QModelIndex dirIndex = m_dolphinModel->indexForUrl(m_leafDir);
-    const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
+    KItemListSelectionManager* selectionManager = m_controller->selectionManager();
+    selectionManager->setCurrentItem(index);
+    selectionManager->clearSelection();
+    selectionManager->setSelected(index);
 
-    if (proxyIndex.isValid()) {
-        QItemSelectionModel* selModel = m_treeView->selectionModel();
-        selModel->setCurrentIndex(proxyIndex, QItemSelectionModel::ClearAndSelect);
-
-        if (m_setLeafVisible) {
-            // Invoke scrollToLeaf() asynchronously. This assures that
-            // the horizontal scrollbar is shown after resizing the column
-            // (otherwise the scrollbar might hide the leaf).
-            QTimer::singleShot(0, this, SLOT(scrollToLeaf()));
-            m_setLeafVisible = false;
-        }
-    }*/
+    m_controller->view()->scrollToItem(index);
 }
 
 KFileItemModel* FoldersPanel::fileItemModel() const

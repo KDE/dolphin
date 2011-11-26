@@ -53,7 +53,6 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinremoteencoding.cpp
     views/dolphinview.cpp
     views/dolphinviewactionhandler.cpp
-    views/dolphinviewautoscroller.cpp
     views/draganddrophelper.cpp
     views/renamedialog.cpp
     views/tooltips/filemetadatatooltip.cpp

@@ -116,9 +116,10 @@ public:
     void setRoles(const QSet<QByteArray>& roles);
     QSet<QByteArray> roles() const;
 
-    bool setExpanded(int index, bool expanded);
-    bool isExpanded(int index) const;
-    bool isExpandable(int index) const;
+    virtual bool setExpanded(int index, bool expanded);
+    virtual bool isExpanded(int index) const;
+    virtual bool isExpandable(int index) const;
+
     QSet<KUrl> expandedUrls() const;
 
     /**

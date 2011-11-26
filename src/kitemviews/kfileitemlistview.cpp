@@ -222,6 +222,11 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes(const KItemRangeL
     return sizes;
 }
 
+bool KFileItemListView::supportsItemExpanding() const
+{
+    return m_itemLayout == DetailsLayout;
+}
+
 QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
 {
     if (!model()) {

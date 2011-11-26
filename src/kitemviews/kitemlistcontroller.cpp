@@ -135,17 +135,31 @@ bool KItemListController::hideEvent(QHideEvent* event)
 
 bool KItemListController::keyPressEvent(QKeyEvent* event)
 {
+    int index = m_selectionManager->currentItem();
+    int key = event->key();
+
+    // Handle the expanding/collapsing of items
+    if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
+        if (key == Qt::Key_Right) {
+            if (m_model->setExpanded(index, true)) {
+                return true;
+            }
+        } else if (key == Qt::Key_Left) {
+            if (m_model->setExpanded(index, false)) {
+                return true;
+            }
+        }
+    }
+
     const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
     const bool controlPressed = event->modifiers() & Qt::ControlModifier;
     const bool shiftOrControlPressed = shiftPressed || controlPressed;
 
-    int index = m_selectionManager->currentItem();
     const int itemCount = m_model->count();
     const int itemsPerRow = m_view->itemsPerOffset();
 
     // For horizontal scroll orientation, transform
     // the arrow keys to simplify the event handling.
-    int key = event->key();
     if (m_view->scrollOrientation() == Qt::Horizontal) {
         switch (key) {
         case Qt::Key_Up:    key = Qt::Key_Left; break;
@@ -155,6 +169,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         default:            break;
         }
     }
+
 
     switch (key) {
     case Qt::Key_Home:
@@ -234,6 +249,8 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         if (!shiftPressed) {
             m_selectionManager->beginAnchoredSelection(index);
         }
+
+        m_view->scrollToItem(index);
     }
     return true;
 }
@@ -348,25 +365,27 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
         return true;
     }
 
-    KItemListRubberBand* rubberBand = m_view->rubberBand();
-    QPointF startPos = m_pressedMousePos;
-    if (m_view->scrollOrientation() == Qt::Vertical) {
-        startPos.ry() += m_view->scrollOffset();
-        if (m_view->itemSize().width() < 0) {
-            // Use a special rubberband for views that have only one column and
-            // expand the rubberband to use the whole width of the view.
-            startPos.setX(0);
+    if (m_selectionBehavior == MultiSelection) {
+        QPointF startPos = m_pressedMousePos;
+        if (m_view->scrollOrientation() == Qt::Vertical) {
+            startPos.ry() += m_view->scrollOffset();
+            if (m_view->itemSize().width() < 0) {
+                // Use a special rubberband for views that have only one column and
+                // expand the rubberband to use the whole width of the view.
+                startPos.setX(0);
+            }
+        } else {
+            startPos.rx() += m_view->scrollOffset();
         }
-    } else {
-        startPos.rx() += m_view->scrollOffset();
-    }
 
-    m_oldSelection = m_selectionManager->selectedItems();
-    rubberBand->setStartPosition(startPos);
-    rubberBand->setEndPosition(startPos);
-    rubberBand->setActive(true);
-    connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
-    m_view->setAutoScroll(true);
+        m_oldSelection = m_selectionManager->selectedItems();
+        KItemListRubberBand* rubberBand = m_view->rubberBand();
+        rubberBand->setStartPosition(startPos);
+        rubberBand->setEndPosition(startPos);
+        rubberBand->setActive(true);
+        connect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
+        m_view->setAutoScroll(true);
+    }
 
     return false;
 }
@@ -461,6 +480,9 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         if (event->button() & Qt::LeftButton) {
             bool emitItemActivated = true;
             if (m_view->isAboveExpansionToggle(index, pos)) {
+                const bool expanded = m_model->isExpanded(index);
+                m_model->setExpanded(index, !expanded);
+
                 emit itemExpansionToggleClicked(index);
                 emitItemActivated = false;
             } else if (shiftOrControlPressed) {

@@ -50,25 +50,25 @@ public:
     void open();
 
 private slots:
-    /** Cuts the item m_fileInfo. */
+    /** Cuts the item m_fileItem. */
     void cut();
 
-    /** Copies the item m_fileInfo. */
+    /** Copies the item m_fileItem. */
     void copy();
 
-    /** Paste the clipboard to m_fileInfo. */
+    /** Paste the clipboard to m_fileItem. */
     void paste();
 
-    /** Renames the item m_fileInfo. */
+    /** Renames the item m_fileItem. */
     void rename();
 
-    /** Moves the item m_fileInfo to the trash. */
+    /** Moves the item m_fileItem to the trash. */
     void moveToTrash();
 
-    /** Deletes the item m_fileInfo. */
+    /** Deletes the item m_fileItem. */
     void deleteItem();
 
-    /** Shows the properties of the item m_fileInfo. */
+    /** Shows the properties of the item m_fileItem. */
     void showProperties();
 
     /**
@@ -88,7 +88,7 @@ private:
 
 private:
     FoldersPanel* m_parent;
-    KFileItem m_fileInfo;
+    KFileItem m_fileItem;
 };
 
 #endif

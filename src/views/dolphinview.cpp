@@ -141,7 +141,6 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
     connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
     connect(controller, SIGNAL(headerContextMenuRequested(QPointF)), this, SLOT(slotHeaderContextMenuRequested(QPointF)));
-    connect(controller, SIGNAL(itemExpansionToggleClicked(int)), this, SLOT(slotItemExpansionToggleClicked(int)));
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
     connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
@@ -786,17 +785,6 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     }
 
     delete menu.data();
-}
-
-void DolphinView::slotItemExpansionToggleClicked(int index)
-{
-    // TODO: When doing a model->setExpanded(false) it should
-    // be checked here whether the current index is part of the
-    // closed sub-tree. If this is the case, the current index
-    // should be adjusted to the parent index.
-    KFileItemModel* model = fileItemModel();
-    const bool expanded = model->isExpanded(index);
-    model->setExpanded(index, !expanded);
 }
 
 void DolphinView::slotItemHovered(int index)
