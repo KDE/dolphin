@@ -92,7 +92,7 @@ DolphinSearchInformation::DolphinSearchInformation() :
 #ifdef HAVE_NEPOMUK
     if (Nepomuk::ResourceManager::instance()->init() == 0) {
         KConfig config("nepomukserverrc");
-        m_indexingEnabled = config.group("Service-nepomukstrigiservice").readEntry("autostart", false);
+        m_indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
     }
 #endif
 }
