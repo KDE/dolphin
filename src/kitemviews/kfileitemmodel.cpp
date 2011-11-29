@@ -40,6 +40,8 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_caseSensitivity(Qt::CaseInsensitive),
     m_itemData(),
     m_items(),
+    m_nameFilter(),
+    m_filteredItems(),
     m_requestRole(),
     m_minimumUpdateIntervalTimer(0),
     m_maximumUpdateIntervalTimer(0),
@@ -473,6 +475,57 @@ void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
             break;
         }
     }
+}
+
+void KFileItemModel::setNameFilter(const QString& nameFilter)
+{
+    if (m_nameFilter != nameFilter) {
+        // TODO #1: Assure that expanded items only can get hidden
+        // if no child item is visible
+
+        // TODO #2: If the user entered a '*' use a regular expression
+
+        m_nameFilter = nameFilter;
+
+        const QString filter = nameFilter.toLower();
+
+        // Check which shown items from m_itemData must get
+        // hidden and hence moved to m_filteredItems.
+        KFileItemList newFilteredItems;
+
+        foreach (ItemData* itemData, m_itemData) {
+            if (!matchesNameFilter(itemData->item, filter)) {
+                m_filteredItems.append(itemData->item);
+                newFilteredItems.append(itemData->item);
+            }
+        }
+
+        if (!newFilteredItems.isEmpty()) {
+            slotItemsDeleted(newFilteredItems);
+        }
+
+        // Check which hidden items from m_filteredItems should
+        // get visible again and hence removed from m_filteredItems.
+        KFileItemList newVisibleItems;
+
+        for (int i = m_filteredItems.count() - 1; i >= 0; --i) {
+            const KFileItem item = m_filteredItems.at(i);
+            if (matchesNameFilter(item, filter)) {
+                newVisibleItems.append(item);
+                m_filteredItems.removeAt(i);
+            }
+        }
+
+        if (!newVisibleItems.isEmpty()) {
+            slotNewItems(newVisibleItems);
+            dispatchPendingItemsToInsert();
+        }
+    }
+}
+
+QString KFileItemModel::nameFilter() const
+{
+    return m_nameFilter;
 }
 
 void KFileItemModel::onGroupedSortingChanged(bool current)
@@ -1652,6 +1705,12 @@ QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByte
     }
 
     return groups;
+}
+
+bool KFileItemModel::matchesNameFilter(const KFileItem& item, const QString& nameFilter)
+{
+    const QString itemText = item.text().toLower();
+    return itemText.contains(nameFilter);
 }
 
 #include "kfileitemmodel.moc"

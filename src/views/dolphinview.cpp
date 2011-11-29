@@ -459,13 +459,12 @@ void DolphinView::refresh()
 
 void DolphinView::setNameFilter(const QString& nameFilter)
 {
-    Q_UNUSED(nameFilter);
-    //m_viewModeController->setNameFilter(nameFilter);
+    fileItemModel()->setNameFilter(nameFilter);
 }
 
 QString DolphinView::nameFilter() const
 {
-    return QString(); //m_viewModeController->nameFilter();
+    return fileItemModel()->nameFilter();
 }
 
 void DolphinView::calculateItemCount(int& fileCount,

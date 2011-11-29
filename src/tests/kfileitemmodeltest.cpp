@@ -75,6 +75,8 @@ private slots:
 
     void testIndexForKeyboardSearch();
 
+    void testNameFilter();
+
 private:
     bool isModelConsistent() const;
     QStringList itemsInModel() const;
@@ -641,6 +643,34 @@ void KFileItemModelTest::testIndexForKeyboardSearch()
     QCOMPARE(m_model->indexForKeyboardSearch("IMAGE", 4), 2);
 
     // TODO: Maybe we should also test keyboard searches in directories which are not sorted by Name?
+}
+
+void KFileItemModelTest::testNameFilter()
+{
+    QStringList files;
+    files << "A1" << "A2" << "Abc" << "Bcd" << "Cde";
+    m_testDir->createFiles(files);
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    m_model->setNameFilter("A"); // Shows A1, A2 and Abc
+    QCOMPARE(m_model->count(), 3);
+
+    m_model->setNameFilter("A2"); // Shows only A2
+    QCOMPARE(m_model->count(), 1);
+
+    m_model->setNameFilter("A2"); // Shows only A1
+    QCOMPARE(m_model->count(), 1);
+
+    m_model->setNameFilter("Bc"); // Shows "Abc" and "Bcd"
+    QCOMPARE(m_model->count(), 2);
+
+    m_model->setNameFilter("bC"); // Shows "Abc" and "Bcd"
+    QCOMPARE(m_model->count(), 2);
+
+    m_model->setNameFilter(QString()); // Shows again all items
+    QCOMPARE(m_model->count(), 5);
 }
 
 bool KFileItemModelTest::isModelConsistent() const

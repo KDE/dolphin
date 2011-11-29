@@ -134,6 +134,9 @@ public:
      */
     void setExpanded(const QSet<KUrl>& urls);
 
+    void setNameFilter(const QString& nameFilter);
+    QString nameFilter() const;
+
 signals:
     void loadingCompleted();
 
@@ -271,6 +274,11 @@ private:
      */
     bool isChildItem(int index) const;
 
+    /**
+     * @return True if the given item matches with the name filter.
+     */
+    static bool matchesNameFilter(const KFileItem& item, const QString& nameFilter);
+
 private:
     QWeakPointer<KDirLister> m_dirLister;
 
@@ -283,6 +291,9 @@ private:
         
     QList<ItemData*> m_itemData;
     QHash<KUrl, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
+
+    QString m_nameFilter;
+    KFileItemList m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
 
     bool m_requestRole[RolesCount];
 
