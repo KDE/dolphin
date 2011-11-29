@@ -135,8 +135,11 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
 
     KItemListController* controller = m_container->controller();
     controller->setSelectionBehavior(KItemListController::MultiSelection);
-    connect(controller, SIGNAL(itemActivated(int)),
-            this, SLOT(slotItemActivated(int)));
+    if (GeneralSettings::autoExpandFolders()) {
+        controller->setAutoActivationDelay(750);
+    }
+    connect(controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
+    connect(controller, SIGNAL(itemsActivated(QSet<int>)), this, SLOT(slotItemsActivated(QSet<int>)));
     connect(controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
     connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
     connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
@@ -692,22 +695,30 @@ void DolphinView::activate()
 
 void DolphinView::slotItemActivated(int index)
 {
-    Q_UNUSED(index);
+    const KFileItem item = fileItemModel()->fileItem(index);
+    if (!item.isNull()) {
+        emit itemActivated(item);
+    }
+}
 
-    const KFileItemList items = selectedItems();
-    if (items.isEmpty()) {
-        return;
+void DolphinView::slotItemsActivated(const QSet<int>& indexes)
+{
+    Q_ASSERT(indexes.count() >= 2);
+
+    KFileItemList items;
+
+    KFileItemModel* model = fileItemModel();
+    QSetIterator<int> it(indexes);
+    while (it.hasNext()) {
+        const int index = it.next();
+        items.append(model->fileItem(index));
     }
 
-    if (items.count() == 1) {
-        emit itemActivated(items.at(0)); // caught by DolphinViewContainer or DolphinPart
-    } else {
-        foreach (const KFileItem& item, items) {
-            if (item.isDir()) {
-                emit tabRequested(item.url());
-            } else {
-                emit itemActivated(item);
-            }
+    foreach (const KFileItem& item, items) {
+        if (item.isDir()) {
+            emit tabRequested(item.url());
+        } else {
+            emit itemActivated(item);
         }
     }
 }

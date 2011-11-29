@@ -32,6 +32,7 @@
 #include <QEvent>
 #include <QGraphicsSceneEvent>
 #include <QMimeData>
+#include <QTimer>
 
 #include <KGlobalSettings>
 #include <KDebug>
@@ -46,10 +47,16 @@ KItemListController::KItemListController(QObject* parent) :
     m_keyboardManager(new KItemListKeyboardSearchManager(this)),
     m_pressedIndex(-1),
     m_pressedMousePos(),
+    m_autoActivationTimer(0),
     m_oldSelection()
 {
     connect(m_keyboardManager, SIGNAL(changeCurrentItem(QString,bool)),
             this, SLOT(slotChangeCurrentItem(QString,bool)));
+
+    m_autoActivationTimer = new QTimer(this);
+    m_autoActivationTimer->setSingleShot(true);
+    m_autoActivationTimer->setInterval(-1);
+    connect(m_autoActivationTimer, SIGNAL(timeout()), this, SLOT(slotAutoActivationTimeout()));
 }
 
 KItemListController::~KItemListController()
@@ -119,6 +126,16 @@ void KItemListController::setSelectionBehavior(SelectionBehavior behavior)
 KItemListController::SelectionBehavior KItemListController::selectionBehavior() const
 {
     return m_selectionBehavior;
+}
+
+void KItemListController::setAutoActivationDelay(int delay)
+{
+    m_autoActivationTimer->setInterval(delay);
+}
+
+int KItemListController::autoActivationDelay() const
+{
+    return m_autoActivationTimer->interval();
 }
 
 bool KItemListController::showEvent(QShowEvent* event)
@@ -217,9 +234,17 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         break;
 
     case Qt::Key_Enter:
-    case Qt::Key_Return:
-        emit itemActivated(index);
+    case Qt::Key_Return: {
+        const QSet<int> selectedItems = m_selectionManager->selectedItems();
+        if (selectedItems.count() >= 2) {
+            emit itemsActivated(selectedItems);
+        } else if (selectedItems.count() == 1) {
+            emit itemActivated(selectedItems.toList().first());
+        } else {
+            emit itemActivated(index);
+        }
         break;
+    }
 
     case Qt::Key_Space:
         if (controlPressed) {
@@ -273,6 +298,27 @@ void KItemListController::slotChangeCurrentItem(const QString& text, bool search
         m_selectionManager->clearSelection();
         m_selectionManager->setSelected(index, 1);
         m_selectionManager->beginAnchoredSelection(index);
+    }
+}
+
+void KItemListController::slotAutoActivationTimeout()
+{
+    if (!m_model || !m_view) {
+        return;
+    }
+
+    const int index = m_autoActivationTimer->property("index").toInt();
+    if (index < 0 || index >= m_model->count()) {
+        return;
+    }
+
+    if (m_model->supportsDropping(index)) {
+        if (m_view->supportsItemExpanding() && m_model->isExpandable(index)) {
+            const bool expanded = m_model->isExpanded(index);
+            m_model->setExpanded(index, !expanded);
+        } else {
+            emit itemActivated(index);
+        }
     }
 }
 
@@ -542,8 +588,13 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
     }
 
     KItemListWidget* oldHoveredWidget = hoveredWidget();
-    KItemListWidget* newHoveredWidget = widgetForPos(event->pos());
+
+    const QPointF pos = transform.map(event->pos());
+    KItemListWidget* newHoveredWidget = widgetForPos(pos);
+
     if (oldHoveredWidget != newHoveredWidget) {
+        m_autoActivationTimer->stop();
+
         if (oldHoveredWidget) {
             oldHoveredWidget->setHovered(false);
             emit itemUnhovered(oldHoveredWidget->index());
@@ -555,6 +606,11 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
                 newHoveredWidget->setHovered(true);
             }
             emit itemHovered(index);
+
+            if (m_autoActivationTimer->interval() >= 0) {
+                m_autoActivationTimer->setProperty("index", index);
+                m_autoActivationTimer->start();
+            }
         }
     }
 
@@ -567,6 +623,8 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
     if (!m_view) {
         return false;
     }
+
+    m_autoActivationTimer->stop();
 
     const QPointF pos = transform.map(event->pos());
     const int index = m_view->itemAt(pos);
@@ -590,7 +648,9 @@ bool KItemListController::hoverMoveEvent(QGraphicsSceneHoverEvent* event, const 
     }
 
     KItemListWidget* oldHoveredWidget = hoveredWidget();
-    KItemListWidget* newHoveredWidget = widgetForPos(event->pos());
+    const QPointF pos = transform.map(event->pos());
+    KItemListWidget* newHoveredWidget = widgetForPos(pos);
+
     if (oldHoveredWidget != newHoveredWidget) {
         if (oldHoveredWidget) {
             oldHoveredWidget->setHovered(false);

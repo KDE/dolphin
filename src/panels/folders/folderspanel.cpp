@@ -171,6 +171,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_controller->setView(view);
         m_controller->setModel(model);
         m_controller->setSelectionBehavior(KItemListController::SingleSelection);
+        m_controller->setAutoActivationDelay(750);
 
         connect(m_controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
         connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));

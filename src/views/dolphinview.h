@@ -555,6 +555,7 @@ private slots:
     void activate();
 
     void slotItemActivated(int index);
+    void slotItemsActivated(const QSet<int>& indexes);
     void slotItemMiddleClicked(int index);
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);

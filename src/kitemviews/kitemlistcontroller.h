@@ -86,6 +86,24 @@ public:
     void setSelectionBehavior(SelectionBehavior behavior);
     SelectionBehavior selectionBehavior() const;
 
+    /**
+     * Sets the delay in milliseconds when dragging an object above an item
+     * until the item gets activated automatically. A value of -1 indicates
+     * that no automatic activation will be done at all (= default value).
+     *
+     * The hovered item must support dropping (see KItemModelBase::supportsDropping()),
+     * otherwise the automatic activation is not available.
+     *
+     * After activating the item the signal itemActivated() will be
+     * emitted. If the view supports the expanding of items
+     * (KItemListView::supportsItemExpanding() returns true) and the item
+     * itself is expandable (see KItemModelBase::isExpandable()) then instead
+     * of activating the item it gets expanded instead (see
+     * KItemModelBase::setExpanded()).
+     */
+    void setAutoActivationDelay(int delay);
+    int autoActivationDelay() const;
+
     virtual bool showEvent(QShowEvent* event);
     virtual bool hideEvent(QHideEvent* event);
     virtual bool keyPressEvent(QKeyEvent* event);
@@ -106,7 +124,18 @@ public:
     virtual bool processEvent(QEvent* event, const QTransform& transform);
 
 signals:
+    /**
+     * Is emitted if exactly one item has been activated by e.g. a mouse-click
+     * or by pressing Return/Enter.
+     */
     void itemActivated(int index);
+
+    /**
+     * Is emitted if more than one item has been activated by pressing Return/Enter
+     * when having a selection.
+     */
+    void itemsActivated(const QSet<int>& indexes);
+
     void itemMiddleClicked(int index);
 
     /**
@@ -160,6 +189,8 @@ private slots:
 
     void slotChangeCurrentItem(const QString& text, bool searchFromNextItem);
 
+    void slotAutoActivationTimeout();
+
 private:
     /**
      * Creates a QDrag object and initiates a drag-operation.
@@ -187,6 +218,8 @@ private:
     KItemListKeyboardSearchManager* m_keyboardManager;
     int m_pressedIndex;
     QPointF m_pressedMousePos;
+
+    QTimer* m_autoActivationTimer;
 
     /**
      * When starting a rubberband selection during a Shift- or Control-key has been
