@@ -460,6 +460,16 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
         KItemListRubberBand* rubberBand = m_view->rubberBand();
         if (rubberBand->isActive()) {
             QPointF endPos = transform.map(event->pos());
+
+            // Update the current item.
+            const int newCurrent = m_view->itemAt(endPos);
+            if (newCurrent >= 0) {
+                // It's expected that the new current index is also the new anchor (bug 163451).
+                m_selectionManager->endAnchoredSelection();
+                m_selectionManager->setCurrentItem(newCurrent);
+                m_selectionManager->beginAnchoredSelection(newCurrent);
+            }
+
             if (m_view->scrollOrientation() == Qt::Vertical) {
                 endPos.ry() += m_view->scrollOffset();
                 if (m_view->itemSize().width() < 0) {
