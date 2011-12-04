@@ -480,46 +480,37 @@ void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
 void KFileItemModel::setNameFilter(const QString& nameFilter)
 {
     if (m_nameFilter != nameFilter) {
-        // TODO #1: Assure that expanded items only can get hidden
-        // if no child item is visible
-
-        // TODO #2: If the user entered a '*' use a regular expression
+        dispatchPendingItemsToInsert();
 
         m_nameFilter = nameFilter;
-
-        const QString filter = nameFilter.toLower();
 
         // Check which shown items from m_itemData must get
         // hidden and hence moved to m_filteredItems.
         KFileItemList newFilteredItems;
 
         foreach (ItemData* itemData, m_itemData) {
-            if (!matchesNameFilter(itemData->item, filter)) {
-                m_filteredItems.append(itemData->item);
+            if (!matchesNameFilter(itemData->item)) {
                 newFilteredItems.append(itemData->item);
+                m_filteredItems.insert(itemData->item);
             }
         }
 
-        if (!newFilteredItems.isEmpty()) {
-            slotItemsDeleted(newFilteredItems);
-        }
+        removeItems(newFilteredItems);
 
         // Check which hidden items from m_filteredItems should
         // get visible again and hence removed from m_filteredItems.
         KFileItemList newVisibleItems;
 
-        for (int i = m_filteredItems.count() - 1; i >= 0; --i) {
-            const KFileItem item = m_filteredItems.at(i);
-            if (matchesNameFilter(item, filter)) {
+        QMutableSetIterator<KFileItem> it(m_filteredItems);
+        while (it.hasNext()) {
+            const KFileItem item = it.next();
+            if (matchesNameFilter(item)) {
                 newVisibleItems.append(item);
-                m_filteredItems.removeAt(i);
+                m_filteredItems.remove(item);
             }
         }
 
-        if (!newVisibleItems.isEmpty()) {
-            slotNewItems(newVisibleItems);
-            dispatchPendingItemsToInsert();
-        }
+        insertItems(newVisibleItems);
     }
 }
 
@@ -657,7 +648,23 @@ void KFileItemModel::slotCanceled()
 
 void KFileItemModel::slotNewItems(const KFileItemList& items)
 {
-    m_pendingItemsToInsert.append(items);
+    if (m_nameFilter.isEmpty()) {
+        m_pendingItemsToInsert.append(items);
+    } else {
+        // The name-filter is active. Hide filtered items
+        // before inserting them into the model and remember
+        // the filtered items in m_filteredItems.
+        KFileItemList filteredItems;
+        foreach (const KFileItem& item, items) {
+            if (matchesNameFilter(item)) {
+                filteredItems.append(item);
+            } else {
+                m_filteredItems.insert(item);
+            }
+        }
+
+        m_pendingItemsToInsert.append(filteredItems);
+    }
 
     if (useMaximumUpdateInterval() && !m_maximumUpdateIntervalTimer->isActive()) {
         // Assure that items get dispatched if no completed() or canceled() signal is
@@ -668,10 +675,14 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
 
 void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
 {
-    if (!m_pendingItemsToInsert.isEmpty()) {
-        insertItems(m_pendingItemsToInsert);
-        m_pendingItemsToInsert.clear();
+    dispatchPendingItemsToInsert();
+
+    if (!m_filteredItems.isEmpty()) {
+        foreach (const KFileItem& item, items) {
+            m_filteredItems.remove(item);
+        }
     }
+
     removeItems(items);
 }
 
@@ -738,6 +749,7 @@ void KFileItemModel::slotClear()
     kDebug() << "Clearing all items";
 #endif
 
+    m_filteredItems.clear();
     m_groups.clear();
 
     m_minimumUpdateIntervalTimer->stop();
@@ -907,7 +919,11 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     // Delete the items
     for (int i = indexesToRemove.count() - 1; i >= 0; --i) {
         const int indexToRemove = indexesToRemove.at(i);
-        delete m_itemData.at(indexToRemove);
+        ItemData* data = m_itemData.at(indexToRemove);
+
+        m_items.remove(data->item.url());
+
+        delete data;
         m_itemData.removeAt(indexToRemove);
     }
 
@@ -1707,10 +1723,15 @@ QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByte
     return groups;
 }
 
-bool KFileItemModel::matchesNameFilter(const KFileItem& item, const QString& nameFilter)
+bool KFileItemModel::matchesNameFilter(const KFileItem& item) const
 {
+    // TODO #1: A performance improvement would be possible by caching m_nameFilter.toLower().
+    // Before adding yet-another-member it should be checked whether it brings a noticable
+    // improvement at all.
+
+    // TODO #2: If the user entered a '*' use a regular expression
     const QString itemText = item.text().toLower();
-    return itemText.contains(nameFilter);
+    return itemText.contains(m_nameFilter.toLower());
 }
 
 #include "kfileitemmodel.moc"

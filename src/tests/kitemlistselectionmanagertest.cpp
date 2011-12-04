@@ -27,18 +27,28 @@ class DummyModel : public KItemModelBase
 {
 public:
     DummyModel();
+    void setCount(int count);
     virtual int count() const;
     virtual QHash<QByteArray, QVariant> data(int index) const;
+
+private:
+    int m_count;
 };
 
 DummyModel::DummyModel() :
-    KItemModelBase()
+    KItemModelBase(),
+    m_count(100)
 {
+}
+
+void DummyModel::setCount(int count)
+{
+    m_count = count;
 }
 
 int DummyModel::count() const
 {
-    return 100;
+    return m_count;
 }
 
 QHash<QByteArray, QVariant> DummyModel::data(int index) const
@@ -46,7 +56,6 @@ QHash<QByteArray, QVariant> DummyModel::data(int index) const
     Q_UNUSED(index);
     return QHash<QByteArray, QVariant>();
 }
-
 
 
 class KItemListSelectionManagerTest : public QObject
@@ -67,24 +76,30 @@ private slots:
     void testAnchoredSelection();
     void testChangeSelection_data();
     void testChangeSelection();
+    void testDeleteCurrentItem_data();
+    void testDeleteCurrentItem();
 
 private:
     void verifySelectionChange(QSignalSpy& spy, const QSet<int>& currentSelection, const QSet<int>& previousSelection) const;
 
     KItemListSelectionManager* m_selectionManager;
+    DummyModel* m_model;
 };
 
 void KItemListSelectionManagerTest::init()
 {
+    m_model = new DummyModel();
     m_selectionManager = new KItemListSelectionManager();
-    m_selectionManager->setModel(new DummyModel());
+    m_selectionManager->setModel(m_model);
 }
 
 void KItemListSelectionManagerTest::cleanup()
 {
-    delete m_selectionManager->model();
     delete m_selectionManager;
     m_selectionManager = 0;
+
+    delete m_model;
+    m_model = 0;
 }
 
 void KItemListSelectionManagerTest::testConstructor()
@@ -472,6 +487,36 @@ void KItemListSelectionManagerTest::testChangeSelection()
     m_selectionManager->clearSelection();
 
     verifySelectionChange(spySelectionChanged, QSet<int>(), finalSelection);
+}
+
+void KItemListSelectionManagerTest::testDeleteCurrentItem_data()
+{
+    QTest::addColumn<int>("oldCurrentItemIndex");
+    QTest::addColumn<int>("removeIndex");
+    QTest::addColumn<int>("removeCount");
+    QTest::addColumn<int>("newCurrentItemIndex");
+
+    QTest::newRow("Remove before")               << 50 <<  0 << 10 << 40;
+    QTest::newRow("Remove after")                << 50 << 51 << 10 << 50;
+    QTest::newRow("Remove exactly current item") << 50 << 50 <<  1 << 50;
+    QTest::newRow("Remove around current item")  << 50 << 45 << 10 << 50;
+    QTest::newRow("Remove all except one item")  << 50 <<  1 << 99 <<  0;
+}
+
+void KItemListSelectionManagerTest::testDeleteCurrentItem()
+{
+    QFETCH(int, oldCurrentItemIndex);
+    QFETCH(int, removeIndex);
+    QFETCH(int, removeCount);
+    QFETCH(int, newCurrentItemIndex);
+
+    m_selectionManager->setCurrentItem(oldCurrentItemIndex);
+
+    const int newCount = m_model->count() - removeCount;
+    m_model->setCount(newCount);
+    m_selectionManager->itemsRemoved(KItemRangeList() << KItemRange(removeIndex, removeCount));
+
+    QCOMPARE(m_selectionManager->currentItem(), newCurrentItemIndex);
 }
 
 void KItemListSelectionManagerTest::verifySelectionChange(QSignalSpy& spy,

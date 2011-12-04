@@ -275,9 +275,9 @@ private:
     bool isChildItem(int index) const;
 
     /**
-     * @return True if the given item matches with the name filter.
+     * @return True if the given item matches with the current set name filter.
      */
-    static bool matchesNameFilter(const KFileItem& item, const QString& nameFilter);
+    bool matchesNameFilter(const KFileItem& item) const;
 
 private:
     QWeakPointer<KDirLister> m_dirLister;
@@ -293,7 +293,7 @@ private:
     QHash<KUrl, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
 
     QString m_nameFilter;
-    KFileItemList m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
+    QSet<KFileItem> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
 
     bool m_requestRole[RolesCount];
 

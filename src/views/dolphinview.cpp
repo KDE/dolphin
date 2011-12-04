@@ -950,6 +950,7 @@ void DolphinView::saveState(QDataStream& stream)
     const int currentIndex = m_container->controller()->selectionManager()->currentItem();
     if (currentIndex != -1) {
         KFileItem item = fileItemModel()->fileItem(currentIndex);
+        Q_ASSERT(!item.isNull()); // If the current index is valid a item must exist
         KUrl currentItemUrl = item.url();
         stream << currentItemUrl;
     } else {

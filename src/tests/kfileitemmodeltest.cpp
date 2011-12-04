@@ -162,14 +162,17 @@ void KFileItemModelTest::testNewItems()
 void KFileItemModelTest::testRemoveItems()
 {
     m_testDir->createFile("a.txt");
+    m_testDir->createFile("b.txt");
     m_dirLister->openUrl(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
-    QCOMPARE(m_model->count(), 1);
+    QCOMPARE(m_model->count(), 2);
+    QVERIFY(isModelConsistent());
 
     m_testDir->removeFile("a.txt");
     m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
-    QCOMPARE(m_model->count(), 0);
+    QCOMPARE(m_model->count(), 1);
+    QVERIFY(isModelConsistent());
 }
 
 void KFileItemModelTest::testSetData()
@@ -675,6 +678,10 @@ void KFileItemModelTest::testNameFilter()
 
 bool KFileItemModelTest::isModelConsistent() const
 {
+    if (m_model->m_items.count() != m_model->m_itemData.count()) {
+        return false;
+    }
+
     for (int i = 0; i < m_model->count(); ++i) {
         const KFileItem item = m_model->fileItem(i);
         if (item.isNull()) {
