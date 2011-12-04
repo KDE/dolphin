@@ -188,7 +188,7 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
         }
     } else {
         const bool resolveAll = (m_iconSizeChangedDuringPausing && m_previewShown) ||
-                                (m_previewChangedDuringPausing && !m_previewShown) ||
+                                m_previewChangedDuringPausing ||
                                 m_rolesChangedDuringPausing;
         if (resolveAll) {
             sortAndResolveAllRoles();
