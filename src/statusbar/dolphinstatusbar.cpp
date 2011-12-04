@@ -74,6 +74,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     connect(m_zoomSlider, SIGNAL(valueChanged(int)), this, SLOT(setZoomLevel(int)));
     connect(m_zoomSlider, SIGNAL(sliderMoved(int)), this, SLOT(showZoomSliderToolTip(int)));
     connect(m_view, SIGNAL(zoomLevelChanged(int,int)), this, SLOT(slotZoomLevelChanged(int,int)));
+    connect(m_view, SIGNAL(previewsShownChanged(bool)), this, SLOT(slotPreviewsShownChanged(bool)));
 
     // Initialize space information
     m_spaceInfo = new StatusBarSpaceInfo(this);
@@ -326,6 +327,13 @@ void DolphinStatusBar::slotZoomLevelChanged(int current, int previous)
 {
     Q_UNUSED(previous);
     m_zoomSlider->setValue(current);
+}
+
+void DolphinStatusBar::slotPreviewsShownChanged(bool shown)
+{
+    Q_UNUSED(shown);
+    // The zoom level might be different with/without previews -> update the zoom slider.
+    m_zoomSlider->setValue(m_view->zoomLevel());
 }
 
 void DolphinStatusBar::updateProgressInfo()

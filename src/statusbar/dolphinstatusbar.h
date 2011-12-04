@@ -139,6 +139,7 @@ private slots:
 
     void showZoomSliderToolTip(int zoomLevel);
     void slotZoomLevelChanged(int current, int previous);
+    void slotPreviewsShownChanged(bool shown);
 
     void updateProgressInfo();
 
