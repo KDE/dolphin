@@ -737,7 +737,9 @@ KFileItemList KFileItemModelRolesUpdater::sortedItems(const QSet<KFileItem>& ite
     while (it.hasNext()) {
         const KFileItem item = it.next();
         const int index = m_model->index(item);
-        indexes.append(index);
+        if (index >= 0) {
+            indexes.append(index);
+        }
     }
     qSort(indexes);
 
