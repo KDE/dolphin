@@ -351,7 +351,18 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     const bool shiftPressed = event->modifiers() & Qt::ShiftModifier;
     const bool controlPressed = event->modifiers() & Qt::ControlModifier;
 
-    if (m_selectionBehavior == SingleSelection) {
+    // The previous selection is cleared if either
+    // 1. The selection mode is SingleSelection, or
+    // 2. the selection mode is MultiSelection, and *none* of the following conditions are met:
+    //    a) Shift or Control are pressed.
+    //    b) The clicked item is selected already. In that case, the user might want to:
+    //       - start dragging multiple items, or
+    //       - open the context menu and perform an action for all selected items.
+    const bool shiftOrControlPressed = shiftPressed || controlPressed;
+    const bool pressedItemAlreadySelected = m_pressedIndex >= 0 && m_selectionManager->isSelected(m_pressedIndex);
+    const bool clearSelection = m_selectionBehavior == SingleSelection ||
+                                (!shiftOrControlPressed && !pressedItemAlreadySelected);
+    if (clearSelection) {
         m_selectionManager->clearSelection();
     }
 
@@ -375,11 +386,6 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
             if (controlPressed) {
                 m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
                 m_selectionManager->beginAnchoredSelection(m_pressedIndex);
-            } else if (event->buttons() & Qt::RightButton) {
-                // Only clear the selection if a context menu is requested above a non-selected item
-                if (!m_selectionManager->selectedItems().contains(m_pressedIndex)) {
-                    m_selectionManager->setSelectedItems(QSet<int>() << m_pressedIndex);
-                }
             } else if (!shiftPressed || !m_selectionManager->isAnchoredSelectionActive()) {
                 // Select the pressed item and start a new anchored selection
                 m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Select);
@@ -400,8 +406,6 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     }
 
     if (event->buttons() & Qt::RightButton) {
-        m_selectionManager->clearSelection();
-
         const QRectF headerBounds = m_view->headerBoundaries();
         if (headerBounds.contains(event->pos())) {
             emit headerContextMenuRequested(event->screenPos());
@@ -508,18 +512,12 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     const bool shiftOrControlPressed = event->modifiers() & Qt::ShiftModifier ||
                                        event->modifiers() & Qt::ControlModifier;
 
-    bool clearSelection = !shiftOrControlPressed && event->button() != Qt::RightButton;
-
     KItemListRubberBand* rubberBand = m_view->rubberBand();
     if (rubberBand->isActive()) {
         disconnect(rubberBand, SIGNAL(endPositionChanged(QPointF,QPointF)), this, SLOT(slotRubberBandChanged()));
         rubberBand->setActive(false);
         m_oldSelection.clear();
         m_view->setAutoScroll(false);
-
-        if (rubberBand->startPosition() != rubberBand->endPosition()) {
-            clearSelection = false;
-        }
     }
 
     const QPointF pos = transform.map(event->pos());
@@ -527,11 +525,6 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 
     if (index >= 0 && index == m_pressedIndex) {
         // The release event is done above the same item as the press event
-
-        if (clearSelection) {
-            // Clear the previous selection but reselect the current index
-            m_selectionManager->setSelectedItems(QSet<int>() << index);
-        }
 
         if (event->button() & Qt::LeftButton) {
             bool emitItemActivated = true;
@@ -553,8 +546,6 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         } else if (event->button() & Qt::MidButton) {
             emit itemMiddleClicked(index);
         }
-    } else if (clearSelection) {
-        m_selectionManager->clearSelection();
     }
 
     m_pressedMousePos = QPointF();
