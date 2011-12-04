@@ -702,8 +702,14 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     QListIterator<QPair<KFileItem, KFileItem> > it(items);
     while (it.hasNext()) {
         const QPair<KFileItem, KFileItem>& itemPair = it.next();
-        const int index = m_items.value(itemPair.second.url(), -1);
+        const KFileItem& oldItem = itemPair.first;
+        const KFileItem& newItem = itemPair.second;
+        const int index = m_items.value(oldItem.url(), -1);
         if (index >= 0) {
+            m_itemData[index]->item = newItem;
+            m_itemData[index]->values = retrieveData(newItem);
+            m_items.remove(oldItem.url());
+            m_items.insert(newItem.url(), index);
             indexes.append(index);
         }
     }
@@ -718,9 +724,9 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     qSort(indexes);
 
     KItemRangeList itemRangeList;
-    int rangeIndex = 0;
-    int rangeCount = 1;
     int previousIndex = indexes.at(0);
+    int rangeIndex = previousIndex;
+    int rangeCount = 1;
 
     const int maxIndex = indexes.count() - 1;
     for (int i = 1; i <= maxIndex; ++i) {
@@ -740,7 +746,7 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         itemRangeList.append(KItemRange(rangeIndex, rangeCount));
     }
 
-    emit itemsChanged(itemRangeList, QSet<QByteArray>());
+    emit itemsChanged(itemRangeList, m_roles);
 }
 
 void KFileItemModel::slotClear()
