@@ -357,6 +357,7 @@ void InformationPanel::init()
     connect(m_content, SIGNAL(urlActivated(KUrl)), this, SIGNAL(urlActivated(KUrl)));
 
     QVBoxLayout* layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->addWidget(m_content);
 
     m_initialized = true;
