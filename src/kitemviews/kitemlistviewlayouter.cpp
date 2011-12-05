@@ -399,7 +399,16 @@ void KItemListViewLayouter::doLayout()
         }
 
         if (itemCount > 0) {
+            // Calculate the maximum y-range of the last row for m_maximumScrollOffset
             m_maximumScrollOffset = m_itemRects.last().bottom();
+            const qreal rowY = m_itemRects.last().y();
+
+            int index = m_itemRects.count() - 2;
+            while (index >= 0 && m_itemRects.at(index).bottom() >= rowY) {
+                m_maximumScrollOffset = qMax(m_maximumScrollOffset, m_itemRects.at(index).bottom());
+                --index;
+            }
+
             m_maximumItemOffset = m_columnCount * m_columnWidth;
         } else {
             m_maximumScrollOffset = 0;
