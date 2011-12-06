@@ -1126,9 +1126,18 @@ void DolphinView::applyViewProperties()
     m_container->beginTransaction();
 
     const ViewProperties props(url());
+    KFileItemModel* model = fileItemModel();
 
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
+        // Prevent an animated transition of the position and size of the items when switching
+        // the view-mode by temporary clearing the model and updating it again after the view mode
+        // has been modified.
+        const bool restoreModel = (model->count() > 0);
+        if (restoreModel) {
+            model->clear();
+        }
+
         const Mode previousMode = m_mode;
         m_mode = mode;
 
@@ -1149,6 +1158,10 @@ void DolphinView::applyViewProperties()
         if (m_container->zoomLevel() != oldZoomLevel) {
             emit zoomLevelChanged(m_container->zoomLevel(), oldZoomLevel);
         }
+
+        if (restoreModel) {
+            loadDirectory(url());
+        }
     }
 
     const bool hiddenFilesShown = props.hiddenFilesShown();
@@ -1157,8 +1170,6 @@ void DolphinView::applyViewProperties()
         m_dirLister->emitChanges();
         emit hiddenFilesShownChanged(hiddenFilesShown);
     }
-
-    KFileItemModel* model = fileItemModel();
 
     const bool groupedSorting = props.groupedSorting();
     if (groupedSorting != model->groupedSorting()) {
