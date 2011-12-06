@@ -121,11 +121,22 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     if (isCurrent()) {
         QStyleOptionViewItemV4 viewItemOption;
         viewItemOption.initFrom(widget);
-        viewItemOption.rect = textRect().toRect();
+
+        const QRect iconBounds = iconRect().toRect();
+        const QRect textBounds = textRect().toRect();
+        if (iconBounds.bottom() >= textBounds.top()) {
+            viewItemOption.rect = textBounds;
+        } else {
+            // See KItemListWidget::drawItemStyleOption(): The selection rectangle
+            // gets decreased.
+            viewItemOption.rect = textBounds.adjusted(1, 1, -1, -1);
+        }
+
         viewItemOption.state = QStyle::State_Enabled | QStyle::State_Item;
         if (m_selected) {
             viewItemOption.state |= QStyle::State_Selected;
         }
+
         viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
         style()->drawPrimitive(QStyle::PE_FrameFocusRect, &viewItemOption, painter, widget);
     }
@@ -428,17 +439,14 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
 
-    const bool drawMerged = (iconBounds.top()    == textBounds.top() &&
-                             iconBounds.bottom() == textBounds.bottom());
-
-    if (drawMerged) {
+    if (iconBounds.bottom() >= textBounds.top()) {
         viewItemOption.rect = iconBounds | textBounds;
         widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
     } else {
         viewItemOption.rect = iconBounds;
         widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 
-        viewItemOption.rect = textBounds.adjusted(2, 2, -2, -2);
+        viewItemOption.rect = textBounds.adjusted(1, 1, -1, -1);
         widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
     }
 }

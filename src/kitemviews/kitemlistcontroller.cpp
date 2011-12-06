@@ -187,7 +187,6 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         }
     }
 
-
     switch (key) {
     case Qt::Key_Home:
         index = 0;
@@ -345,6 +344,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_selectionTogglePressed = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
     if (m_selectionTogglePressed) {
         m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+        m_selectionManager->setCurrentItem(m_pressedIndex);
         return true;
     }
 

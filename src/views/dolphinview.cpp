@@ -1135,6 +1135,11 @@ void DolphinView::applyViewProperties()
         // has been modified.
         const bool restoreModel = (model->count() > 0);
         if (restoreModel) {
+            const int currentItemIndex = m_container->controller()->selectionManager()->currentItem();
+            if (currentItemIndex >= 0) {
+                m_currentItemUrl = model->fileItem(currentItemIndex).url();
+            }
+            m_selectedUrls = selectedItems().urlList();
             model->clear();
         }
 

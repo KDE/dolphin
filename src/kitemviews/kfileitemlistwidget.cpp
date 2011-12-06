@@ -281,7 +281,7 @@ void KFileItemListWidget::setTextColor(const QColor& color)
 
 QColor KFileItemListWidget::textColor() const
 {
-    if (m_customTextColor.isValid()) {
+    if (m_customTextColor.isValid() && !isSelected()) {
         return m_customTextColor;
     }
 

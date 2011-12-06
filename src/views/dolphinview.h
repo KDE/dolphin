@@ -757,10 +757,11 @@ private:
 
     QTimer* m_selectionChangedTimer;
 
-    KUrl m_currentItemUrl;
+    KUrl m_currentItemUrl; // Used for making the view to remember the current URL after F5
     QPoint m_restoredContentsPosition;
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
-    QList<KUrl> m_selectedUrls; // this is used for making the View to remember selections after F5
+
+    QList<KUrl> m_selectedUrls; // Used for making the view to remember selections after F5
     
     VersionControlObserver* m_versionControlObserver;
 
