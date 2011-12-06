@@ -157,7 +157,7 @@ QRectF KFileItemListWidget::iconRect() const
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
 
-    QRectF bounds = m_hoverPixmapRect;
+    QRectF bounds(m_pixmapPos, m_scaledPixmapSize);
     const qreal margin = styleOption().margin;
     bounds.adjust(-margin, -margin, margin, margin);
     return bounds;
