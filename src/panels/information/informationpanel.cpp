@@ -48,20 +48,12 @@ InformationPanel::~InformationPanel()
 
 void InformationPanel::setSelection(const KFileItemList& selection)
 {
+    m_selection = selection;
+    m_fileItem = KFileItem();
+
     if (!isVisible()) {
         return;
     }
-
-    if (selection.isEmpty() && m_selection.isEmpty()) {
-        // The selection has not really changed, only the current index.
-        // QItemSelectionModel emits a signal in this case and it is less
-        // expensive doing the check this way instead of patching
-        // DolphinView::emitSelectionChanged().
-        return;
-    }
-
-    m_selection = selection;
-    m_fileItem = KFileItem();
 
     const int count = selection.count();
     if (count == 0) {
