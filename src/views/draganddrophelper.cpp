@@ -24,14 +24,13 @@
 #include <KLocale>
 #include <konq_operations.h>
 #include <KUrl>
+#include <QApplication>
 #include <QtDBus>
 #include <QDropEvent>
-#include <QWidget>
 
 QString DragAndDropHelper::dropUrls(const KFileItem& destItem,
                                     const KUrl& destPath,
-                                    QDropEvent* event,
-                                    QWidget* widget)
+                                    QDropEvent* event)
 {
     const bool dropToItem = !destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile());
     const KUrl destination = dropToItem ? destItem.url() : destPath;
@@ -49,9 +48,9 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem,
         if (urlsCount == 1 && urls.first() == destination) {
             return i18nc("@info:status", "A folder cannot be dropped into itself");
         } else if (dropToItem) {
-            KonqOperations::doDrop(destItem, destination, event, widget);
+            KonqOperations::doDrop(destItem, destination, event, QApplication::activeWindow());
         } else {
-            KonqOperations::doDrop(KFileItem(), destination, event, widget);
+            KonqOperations::doDrop(KFileItem(), destination, event, QApplication::activeWindow());
         }
     }
 

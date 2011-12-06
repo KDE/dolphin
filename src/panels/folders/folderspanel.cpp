@@ -36,10 +36,13 @@
 
 #include <QApplication>
 #include <QBoxLayout>
+#include <QDropEvent>
+#include <QGraphicsSceneDragDropEvent>
 #include <QGraphicsView>
 #include <QPropertyAnimation>
 #include <QTimer>
 
+#include <views/draganddrophelper.h>
 #include <views/renamedialog.h>
 
 #include <KDebug>
@@ -86,7 +89,7 @@ bool FoldersPanel::hiddenFilesShown() const
 
 void FoldersPanel::setAutoScrolling(bool enable)
 {
-    //m_treeView->setAutoHorizontalScroll(enable);
+    // TODO: Not supported yet in Dolphin 2.0
     FoldersPanelSettings::setAutoScrolling(enable);
 }
 
@@ -177,6 +180,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         connect(m_controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
         connect(m_controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
         connect(m_controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
+        connect(m_controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
 
         // TODO: Check whether it makes sense to make an explicit API for KItemListContainer
         // to make the background transparent.
@@ -208,7 +212,6 @@ void FoldersPanel::keyPressEvent(QKeyEvent* event)
     const int key = event->key();
     if ((key == Qt::Key_Enter) || (key == Qt::Key_Return)) {
         event->accept();
-        //updateActiveView(m_treeView->currentIndex());
     } else {
         Panel::keyPressEvent(event);
     }
@@ -254,6 +257,21 @@ void FoldersPanel::slotViewContextMenuRequested(const QPointF& pos)
     }
 }
 
+void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
+{
+    if (index >= 0) {
+        const KFileItem destItem = fileItemModel()->fileItem(index);
+
+        QDropEvent dropEvent(event->pos().toPoint(),
+                             event->possibleActions(),
+                             event->mimeData(),
+                             event->buttons(),
+                             event->modifiers());
+
+        DragAndDropHelper::dropUrls(destItem, url(), &dropEvent);
+    }
+}
+
 void FoldersPanel::slotLoadingCompleted()
 {
     if (m_controller->view()->opacity() == 0) {
@@ -273,22 +291,6 @@ void FoldersPanel::slotLoadingCompleted()
     const int index = fileItemModel()->index(url());
     updateCurrentItem(index);
     m_updateCurrentItem = false;
-}
-
-void FoldersPanel::slotHorizontalScrollBarMoved(int value)
-{
-    Q_UNUSED(value);
-    // Disable the auto-scrolling until the vertical scrollbar has
-    // been moved by the user.
-    //m_treeView->setAutoHorizontalScroll(false);
-}
-
-void FoldersPanel::slotVerticalScrollBarMoved(int value)
-{
-    Q_UNUSED(value);
-    // Enable the auto-scrolling again (it might have been disabled by
-    // moving the horizontal scrollbar).
-    //m_treeView->setAutoHorizontalScroll(FoldersPanelSettings::autoScrolling());
 }
 
 void FoldersPanel::startFadeInAnimation()

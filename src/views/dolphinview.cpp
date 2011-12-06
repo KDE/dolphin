@@ -831,7 +831,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->buttons(),
                          event->modifiers());
 
-    DragAndDropHelper::dropUrls(destItem, url(), &dropEvent, this);
+    DragAndDropHelper::dropUrls(destItem, url(), &dropEvent);
 }
 
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)

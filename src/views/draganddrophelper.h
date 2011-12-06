@@ -41,14 +41,12 @@ public:
      * @param destItem  Item of the destination (can be null, see KFileItem::isNull()).
      * @param destPath  Path of the destination.
      * @param event     Drop event.
-     * @param widget    Source widget where the dragging has been started.
      * @return          Error message if dropping is not possible. If an empty string
      *                  is returned, the dropping has been successful.
      */
     static QString dropUrls(const KFileItem& destItem,
                             const KUrl& destPath,
-                            QDropEvent* event,
-                            QWidget* widget);
+                            QDropEvent* event);
 };
 
 #endif

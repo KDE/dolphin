@@ -26,6 +26,7 @@
 class KDirLister;
 class KFileItemModel;
 class KItemListController;
+class QGraphicsSceneDragDropEvent;
 
 /**
  * @brief Shows a tree view of the directories starting from
@@ -71,12 +72,9 @@ private slots:
     void slotItemMiddleClicked(int index);
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);
+    void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
 
     void slotLoadingCompleted();
-
-    void slotHorizontalScrollBarMoved(int value);
-
-    void slotVerticalScrollBarMoved(int value);
 
     /**
      * Increases the opacity of the view step by step until it is fully
