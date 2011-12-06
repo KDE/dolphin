@@ -22,6 +22,7 @@
 
 #include <KFileItem>
 #include <konq_operations.h>
+#include <views/draganddrophelper.h>
 
 PlacesPanel::PlacesPanel(QWidget* parent) :
     KFilePlacesView(parent),
@@ -46,10 +47,7 @@ void PlacesPanel::mousePressEvent(QMouseEvent* event)
 
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
 {
-    Q_UNUSED(dest);
-    Q_UNUSED(event);
-    Q_UNUSED(parent);
-    //DragAndDropHelper::instance().dropUrls(KFileItem(), dest, event, parent);
+    DragAndDropHelper::dropUrls(KFileItem(), dest, event, parent);
 }
 
 void PlacesPanel::emitExtendedUrlChangedSignal(const KUrl& url)
