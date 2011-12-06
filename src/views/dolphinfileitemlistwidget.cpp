@@ -56,10 +56,10 @@ void DolphinFileItemListWidget::refreshCache()
         case KVersionControlPlugin2::AddedVersion:                   tintColor = Qt::green; break;
         case KVersionControlPlugin2::RemovedVersion:                 tintColor = Qt::darkRed; break;
         case KVersionControlPlugin2::ConflictingVersion:             tintColor = Qt::red; break;
-        case KVersionControlPlugin2::UnversionedVersion:             tintColor = Qt::white; break;
         case KVersionControlPlugin2::IgnoredVersion:                 tintColor = Qt::white; break;
         case KVersionControlPlugin2::MissingVersion:                 tintColor = Qt::red; break;
         case KVersionControlPlugin2::NormalVersion:
+        case KVersionControlPlugin2::UnversionedVersion:
         default:
             break;
         }
