@@ -95,6 +95,7 @@ bool SearchPanel::urlChanged()
         }
 
         delete m_lastSetUrlStatJob;
+        m_lastSetUrlStatJob = 0;
 
         if (isNepomukUrl) {
             // Reset the current query and disable the facet-widget until
