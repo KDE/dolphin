@@ -679,9 +679,8 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, Resol
             data = rolesData(item);
         }
 
-        if (mimeTypeChanged || m_clearPreviews) {
-            data.insert("iconName", item.iconName());
-        }
+        data.insert("iconName", item.iconName());
+
         if (m_clearPreviews) {
             data.insert("iconPixmap", QString());
         }
