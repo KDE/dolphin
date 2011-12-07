@@ -504,16 +504,16 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     viewTab.primaryView->setActive(false);
     connectViewSignals(viewTab.primaryView);
 
+    const int newTabIndex = m_viewTab.count();
     m_viewTab.append(viewTab);
 
     actionCollection()->action("close_tab")->setEnabled(true);
 
     // provide a split view, if the startup settings are set this way
     if (GeneralSettings::splitView()) {
-        const int tabIndex = m_viewTab.count() - 1;
-        createSecondaryView(tabIndex);
-        m_viewTab[tabIndex].secondaryView->setActive(true);
-        m_viewTab[tabIndex].isPrimaryViewActive = false;
+        createSecondaryView(newTabIndex);
+        viewTab.secondaryView->setActive(true);
+        viewTab.isPrimaryViewActive = false;
     }
 
     if (focusWidget) {
@@ -521,29 +521,33 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
         // in background, assure that the previous focused widget gets the focus back.
         focusWidget->setFocus();
     }
+
+    // TODO: Temporary switching to the new tab is a workaround/hack to prevent that
+    // the KItemListView from the DolphinView is initialized with a too small size.
+    // The small size results in an unwanted animation of the items when showing the
+    // tab the first time, as the KItemListView size will be adjusted on-the-fly.
+    const int currentTabIndex = m_tabIndex;
+    m_tabBar->setCurrentIndex(newTabIndex);
+    m_tabBar->setCurrentIndex(currentTabIndex);
 }
 
 void DolphinMainWindow::activateNextTab()
 {
-    if ((m_viewTab.count() == 1) || (m_tabBar->count() < 2)) {
-        return;
+    if (m_viewTab.count() >= 2) {
+        const int tabIndex = (m_tabBar->currentIndex() + 1) % m_tabBar->count();
+        m_tabBar->setCurrentIndex(tabIndex);
     }
-
-    const int tabIndex = (m_tabBar->currentIndex() + 1) % m_tabBar->count();
-    m_tabBar->setCurrentIndex(tabIndex);
 }
 
 void DolphinMainWindow::activatePrevTab()
 {
-    if ((m_viewTab.count() == 1) || (m_tabBar->count() < 2)) {
-        return;
+    if (m_viewTab.count() >= 2) {
+        int tabIndex = m_tabBar->currentIndex() - 1;
+        if (tabIndex == -1) {
+            tabIndex = m_tabBar->count() - 1;
+        }
+        m_tabBar->setCurrentIndex(tabIndex);
     }
-
-    int tabIndex = m_tabBar->currentIndex() - 1;
-    if (tabIndex == -1) {
-        tabIndex = m_tabBar->count() - 1;
-    }
-    m_tabBar->setCurrentIndex(tabIndex);
 }
 
 void DolphinMainWindow::openInNewTab()
@@ -2165,16 +2169,20 @@ bool DolphinMainWindow::isKompareInstalled() const
 
 void DolphinMainWindow::createSecondaryView(int tabIndex)
 {
-    QSplitter* splitter = m_viewTab[tabIndex].splitter;
-    const int newWidth = (m_viewTab[tabIndex].primaryView->width() - splitter->handleWidth()) / 2;
+    ViewTab& viewTab = m_viewTab[tabIndex];
 
-    const DolphinView* view = m_viewTab[tabIndex].primaryView->view();
-    m_viewTab[tabIndex].secondaryView = createViewContainer(view->url(), 0);
-    splitter->addWidget(m_viewTab[tabIndex].secondaryView);
+    QSplitter* splitter = viewTab.splitter;
+    const int newWidth = (viewTab.primaryView->width() - splitter->handleWidth()) / 2;
+
+    const DolphinView* view = viewTab.primaryView->view();
+    viewTab.secondaryView = createViewContainer(view->url(), 0);
+    splitter->addWidget(viewTab.secondaryView);
     splitter->setSizes(QList<int>() << newWidth << newWidth);
-    connectViewSignals(m_viewTab[tabIndex].secondaryView);
-    m_viewTab[tabIndex].secondaryView->setActive(false);
-    m_viewTab[tabIndex].secondaryView->show();
+
+    connectViewSignals(viewTab.secondaryView);
+    viewTab.secondaryView->setActive(false);
+    viewTab.secondaryView->resize(newWidth, viewTab.primaryView->height());
+    viewTab.secondaryView->show();
 }
 
 QString DolphinMainWindow::tabProperty(const QString& property, int tabIndex) const
