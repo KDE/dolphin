@@ -30,7 +30,9 @@
 #include <QApplication>
 #include <QDrag>
 #include <QEvent>
+#include <QGraphicsScene>
 #include <QGraphicsSceneEvent>
+#include <QGraphicsView>
 #include <QMimeData>
 #include <QTimer>
 
@@ -218,8 +220,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         if (index + itemsPerRow < itemCount) {
             // We are not in the last row yet.
             index += itemsPerRow;
-        }
-        else {
+        } else {
             // We are either in the last row already, or we are in the second-last row,
             // and there is no item below the current item.
             // In the latter case, we jump to the very last item.
@@ -250,8 +251,33 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
             m_selectionManager->endAnchoredSelection();
             m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
             m_selectionManager->beginAnchoredSelection(index);
-            break;
+        } else {
+            m_keyboardManager->addKeys(event->text());
         }
+        break;
+
+    case Qt::Key_Menu: {
+        // Emit the signal itemContextMenuRequested() in case if at least one
+        // item is selected. Otherwise the signal viewContextMenuRequested() will be emitted.
+        const QSet<int> selectedItems = m_selectionManager->selectedItems();
+        int index = -1;
+        if (selectedItems.count() >= 2) {
+            const int currentItemIndex = m_selectionManager->currentItem();
+            index = selectedItems.contains(currentItemIndex)
+                    ? currentItemIndex : selectedItems.toList().first();
+        } else if (selectedItems.count() == 1) {
+            index = selectedItems.toList().first();
+        }
+
+        if (index >= 0) {
+            const QRectF contextRect = m_view->itemContextRect(index);
+            const QPointF pos(m_view->scene()->views().first()->mapToGlobal(contextRect.bottomRight().toPoint()));
+            emit itemContextMenuRequested(index, pos);
+        } else {
+            emit viewContextMenuRequested(QCursor::pos());
+        }
+        break;
+    }
 
     default:
         m_keyboardManager->addKeys(event->text());

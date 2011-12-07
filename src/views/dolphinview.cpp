@@ -802,7 +802,7 @@ void DolphinView::slotItemHovered(int index)
     const KFileItem item = fileItemModel()->fileItem(index);
 
     if (GeneralSettings::showToolTips()) {
-        QRectF itemRect = m_container->controller()->view()->itemRect(index);
+        QRectF itemRect = m_container->controller()->view()->itemContextRect(index);
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
 

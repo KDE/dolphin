@@ -437,6 +437,19 @@ QRectF KItemListView::itemRect(int index) const
     return m_layouter->itemRect(index);
 }
 
+QRectF KItemListView::itemContextRect(int index) const
+{
+    QRectF contextRect;
+
+    const KItemListWidget* widget = m_visibleItems.value(index);
+    if (widget) {
+        contextRect = widget->iconRect() | widget->textRect();
+        contextRect.translate(itemRect(index).topLeft());
+    }
+
+    return contextRect;
+}
+
 void KItemListView::scrollToItem(int index)
 {
     const QRectF viewGeometry = geometry();

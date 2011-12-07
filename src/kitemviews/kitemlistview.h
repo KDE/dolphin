@@ -185,6 +185,18 @@ public:
     QRectF itemRect(int index) const;
 
     /**
+     * @return The context rectangle of the item relative to the top/left of
+     *         the currently visible area (see KItemListView::offset()). The
+     *         context rectangle is defined by by the united rectangle of
+     *         the icon rectangle and the text rectangle (see KItemListWidget::iconRect()
+     *         and KItemListWidget::textRect()) and is useful as reference for e.g. aligning
+     *         a tooltip or a context-menu for an item. Note that a context rectangle will
+     *         only be returned for (at least partly) visible items. An empty rectangle will
+     *         be returned for fully invisible items.
+     */
+    QRectF itemContextRect(int index) const;
+
+    /**
      * Scrolls to the item with the index \a index so that the item
      * will be fully visible.
      */
