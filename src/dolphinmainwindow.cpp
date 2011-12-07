@@ -156,6 +156,8 @@ DolphinMainWindow::DolphinMainWindow() :
     setObjectName("Dolphin#");
 
     m_viewTab.append(ViewTab());
+    ViewTab& viewTab = m_viewTab[m_tabIndex];
+    viewTab.wasActive = true; // The first opened tab is automatically active
 
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     undoManager->setUiInterface(new UndoUiInterface());
@@ -177,8 +179,8 @@ DolphinMainWindow::DolphinMainWindow() :
 
     setAcceptDrops(true);
 
-    m_viewTab[m_tabIndex].splitter = new QSplitter(this);
-    m_viewTab[m_tabIndex].splitter->setChildrenCollapsible(false);
+    viewTab.splitter = new QSplitter(this);
+    viewTab.splitter->setChildrenCollapsible(false);
 
     setupActions();
 
@@ -188,9 +190,9 @@ DolphinMainWindow::DolphinMainWindow() :
     connect(m_actionHandler, SIGNAL(actionBeingHandled()), SLOT(clearStatusBar()));
     connect(m_actionHandler, SIGNAL(createDirectory()), SLOT(createDirectory()));
 
-    m_viewTab[m_tabIndex].primaryView = createViewContainer(homeUrl, m_viewTab[m_tabIndex].splitter);
+    viewTab.primaryView = createViewContainer(homeUrl, viewTab.splitter);
 
-    m_activeViewContainer = m_viewTab[m_tabIndex].primaryView;
+    m_activeViewContainer = viewTab.primaryView;
     connectViewSignals(m_activeViewContainer);
     DolphinView* view = m_activeViewContainer->view();
     m_activeViewContainer->show();
@@ -227,7 +229,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_centralWidgetLayout->setSpacing(0);
     m_centralWidgetLayout->setMargin(0);
     m_centralWidgetLayout->addWidget(m_tabBar);
-    m_centralWidgetLayout->addWidget(m_viewTab[m_tabIndex].splitter, 1);
+    m_centralWidgetLayout->addWidget(viewTab.splitter, 1);
 
     setCentralWidget(centralWidget);
     setupDockWidgets();
@@ -504,13 +506,13 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
     viewTab.primaryView->setActive(false);
     connectViewSignals(viewTab.primaryView);
 
-    const int newTabIndex = m_viewTab.count();
     m_viewTab.append(viewTab);
 
     actionCollection()->action("close_tab")->setEnabled(true);
 
     // provide a split view, if the startup settings are set this way
     if (GeneralSettings::splitView()) {
+        const int newTabIndex = m_viewTab.count() - 1;
         createSecondaryView(newTabIndex);
         viewTab.secondaryView->setActive(true);
         viewTab.isPrimaryViewActive = false;
@@ -521,14 +523,6 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
         // in background, assure that the previous focused widget gets the focus back.
         focusWidget->setFocus();
     }
-
-    // TODO: Temporary switching to the new tab is a workaround/hack to prevent that
-    // the KItemListView from the DolphinView is initialized with a too small size.
-    // The small size results in an unwanted animation of the items when showing the
-    // tab the first time, as the KItemListView size will be adjusted on-the-fly.
-    const int currentTabIndex = m_tabIndex;
-    m_tabBar->setCurrentIndex(newTabIndex);
-    m_tabBar->setCurrentIndex(currentTabIndex);
 }
 
 void DolphinMainWindow::activateNextTab()
@@ -1155,6 +1149,18 @@ void DolphinMainWindow::setActiveTab(int index)
         viewTab.secondaryView->show();
     }
     viewTab.splitter->show();
+
+    if (!viewTab.wasActive) {
+        viewTab.wasActive = true;
+
+        // If the tab has not been activated yet the size of the KItemListView is
+        // undefined and results in an unwanted animation. To prevent this a
+        // reloading of the directory gets triggered.
+        viewTab.primaryView->view()->reload();
+        if (viewTab.secondaryView) {
+            viewTab.secondaryView->view()->reload();
+        }
+    }
 
     setActiveViewContainer(viewTab.isPrimaryViewActive ? viewTab.primaryView :
                                                          viewTab.secondaryView);
