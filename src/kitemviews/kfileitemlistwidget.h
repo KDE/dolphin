@@ -139,8 +139,9 @@ private:
     QPixmap m_pixmap;
     QSize m_scaledPixmapSize;
 
-    QRectF m_hoverPixmapRect;
-    QPixmap m_hoverPixmap;
+    QSize m_originalPixmapSize; // Size of pixmap before it gets converted to a square pixmap
+    QRectF m_iconRect;          // Cache for KItemListWidget::iconRect()
+    QPixmap m_hoverPixmap;      // Cache for modified m_pixmap when hovering the item
 
     QPointF m_textPos[TextIdCount];
     QStaticText m_text[TextIdCount];

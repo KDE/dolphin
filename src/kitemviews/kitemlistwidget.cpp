@@ -124,7 +124,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 
         const QRect iconBounds = iconRect().toRect();
         const QRect textBounds = textRect().toRect();
-        if (iconBounds.bottom() >= textBounds.top()) {
+        if (iconBounds.bottom() > textBounds.top()) {
             viewItemOption.rect = textBounds;
         } else {
             // See KItemListWidget::drawItemStyleOption(): The selection rectangle
@@ -439,7 +439,7 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
 
-    if (iconBounds.bottom() >= textBounds.top()) {
+    if (iconBounds.bottom() > textBounds.top()) {
         viewItemOption.rect = iconBounds | textBounds;
         widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
     } else {

@@ -52,7 +52,8 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_pixmapPos(),
     m_pixmap(),
     m_scaledPixmapSize(),
-    m_hoverPixmapRect(),
+    m_originalPixmapSize(),
+    m_iconRect(),
     m_hoverPixmap(),
     m_textPos(),
     m_text(),
@@ -156,11 +157,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 QRectF KFileItemListWidget::iconRect() const
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
-
-    QRectF bounds(m_pixmapPos, m_scaledPixmapSize);
-    const qreal margin = styleOption().margin;
-    bounds.adjust(-margin, -margin, margin, margin);
-    return bounds;
+    return m_iconRect;
 }
 
 QRectF KFileItemListWidget::textRect() const
@@ -477,7 +474,7 @@ void KFileItemListWidget::updatePixmapCache()
                 iconName = QLatin1String("unknown");
             }
             m_pixmap = pixmapForIcon(iconName, iconHeight);
-            m_hoverPixmapRect.setSize(m_pixmap.size());
+            m_originalPixmapSize = m_pixmap.size();
         } else if (m_pixmap.size() != QSize(iconHeight, iconHeight)) {
             // A custom pixmap has been applied. Assure that the pixmap
             // is scaled to the available size.
@@ -486,7 +483,7 @@ void KFileItemListWidget::updatePixmapCache()
             if (scale) {
                 KPixmapModifier::scale(m_pixmap, QSize(iconHeight, iconHeight));
             }
-            m_hoverPixmapRect.setSize(m_pixmap.size());
+            m_originalPixmapSize = m_pixmap.size();
 
             // To simplify the handling of scaling the original pixmap
             // will be embedded into a square pixmap.
@@ -507,7 +504,7 @@ void KFileItemListWidget::updatePixmapCache()
 
             m_pixmap = squarePixmap;
         } else {
-            m_hoverPixmapRect.setSize(m_pixmap.size());
+            m_originalPixmapSize = m_pixmap.size();
         }
 
         if (m_isCut) {
@@ -535,10 +532,19 @@ void KFileItemListWidget::updatePixmapCache()
     m_pixmapPos.setY(option.margin);
 
     // Center the hover rectangle horizontally and align it on bottom
-    const qreal x = m_pixmapPos.x() + (m_scaledPixmapSize.width() - m_hoverPixmapRect.width()) / 2.0;
-    const qreal y = m_pixmapPos.y() + m_scaledPixmapSize.height() - m_hoverPixmapRect.height();
-    m_hoverPixmapRect.moveTopLeft(QPointF(x, y));
-
+    qreal hoverWidth = m_originalPixmapSize.width();
+    qreal hoverHeight = m_originalPixmapSize.height();
+    if (scaledIconHeight != m_pixmap.height()) {
+        const qreal scaleFactor = qreal(scaledIconHeight) / qreal(m_pixmap.height());
+        hoverWidth  *= scaleFactor;
+        hoverHeight *= scaleFactor;
+    }
+    const qreal hoverX = m_pixmapPos.x() + (m_scaledPixmapSize.width() - hoverWidth) / 2.0;
+    const qreal hoverY = m_pixmapPos.y() + m_scaledPixmapSize.height() - hoverHeight;
+    m_iconRect = QRectF(hoverX, hoverY, hoverWidth, hoverHeight);
+    const qreal margin = option.margin;
+    m_iconRect.adjust(-margin, -margin, margin, margin);
+    
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
         m_hoverPixmap = m_pixmap;
