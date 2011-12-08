@@ -90,9 +90,9 @@ KFileItemListWidget::Layout KFileItemListWidget::layout() const
 
 void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    KItemListWidget::paint(painter, option, widget);
-
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
+
+    KItemListWidget::paint(painter, option, widget);
 
     // Draw expansion toggle '>' or 'V'
     if (m_isDir && !m_expansionArea.isEmpty()) {
@@ -638,9 +638,9 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     m_text[Name].setTextWidth(maxWidth);
     m_textPos[Name] = QPointF(option.margin, widgetHeight - textLinesCount * fontHeight - option.margin);
     m_textRect = QRectF(option.margin + (maxWidth - requiredWidthForName) / 2,
-                                 m_textPos[Name].y(),
-                                 requiredWidthForName,
-                                 m_text[Name].size().height());
+                        m_textPos[Name].y(),
+                        requiredWidthForName,
+                        textLinesCountForName * fontHeight);
 
     // Calculate the position for each additional information
     qreal y = m_textPos[Name].y() + textLinesCountForName * fontHeight;

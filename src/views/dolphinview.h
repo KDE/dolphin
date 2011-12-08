@@ -695,14 +695,6 @@ private:
     void pasteToUrl(const KUrl& url);
 
     /**
-     * Checks whether the current item view has the same zoom level
-     * as \a oldZoomLevel. If this is not the case, the zoom level
-     * of the controller is updated and a zoomLevelChanged() signal
-     * is emitted.
-     */
-    void updateZoomLevel(int oldZoomLevel);
-
-    /**
      * Returns a list of URLs for all selected items. The list is
      * simplified, so that when the URLs are part of different tree
      * levels, only the parent is returned.

@@ -34,41 +34,6 @@
 
 #include <views/zoomlevelinfo.h>
 
-template<class T>
-void apply(int iconSizeValue, int previewSizeValue, const QFont& font, bool useSystemFont)
-{
-    const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(iconSizeValue);
-    const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(previewSizeValue);
-    T::setIconSize(iconSize);
-    T::setPreviewSize(previewSize);
-
-    T::setUseSystemFont(useSystemFont);
-    T::setFontFamily(font.family());
-    T::setFontSize(font.pointSizeF());
-    T::setItalicFont(font.italic());
-    T::setFontWeight(font.weight());
-
-    T::self()->writeConfig();
-}
-
-template<class T>
-void load(int* iconSizeValue, int* previewSizeValue, QFont* font, bool* useSystemFont)
-{
-    const QSize iconSize(T::iconSize(), T::iconSize());
-    *iconSizeValue = ZoomLevelInfo::zoomLevelForIconSize(iconSize);
-
-    const QSize previewSize(T::previewSize(), T::previewSize());
-    *previewSizeValue = ZoomLevelInfo::zoomLevelForIconSize(previewSize);
-
-    *useSystemFont = T::useSystemFont();
-
-    *font = QFont(T::fontFamily(), qRound(T::fontSize()));
-    font->setItalic(T::italicFont());
-    font->setWeight(T::fontWeight());
-    font->setPointSizeF(T::fontSize());
-}
-
-
 ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     QWidget(parent),
     m_mode(mode),
@@ -146,26 +111,27 @@ ViewSettingsTab::~ViewSettingsTab()
 
 void ViewSettingsTab::applySettings()
 {
-    const int defaultSize = m_defaultSizeSlider->value();
-    const int previewSize = m_previewSizeSlider->value();
     const QFont font = m_fontRequester->currentFont();
     const bool useSystemFont = (m_fontRequester->mode() == DolphinFontRequester::SystemFont);
 
-    switch (m_mode) {
-    case IconsMode:
+    if (m_mode == IconsMode) {
         IconsModeSettings::setTextWidthIndex(m_textWidthBox->currentIndex());
-        apply<IconsModeSettings>(defaultSize, previewSize, font, useSystemFont);
-        break;
-    case CompactMode:
-        apply<CompactModeSettings>(defaultSize, previewSize, font, useSystemFont);
-        break;
-    case DetailsMode:
-        apply<DetailsModeSettings>(defaultSize, previewSize, font, useSystemFont);
-        break;
-    default:
-        Q_ASSERT(false);
-        break;
     }
+
+    ViewModeSettings settings(viewMode());
+
+    const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(m_defaultSizeSlider->value());
+    const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(m_previewSizeSlider->value());
+    settings.setIconSize(iconSize);
+    settings.setPreviewSize(previewSize);
+
+    settings.setUseSystemFont(useSystemFont);
+    settings.setFontFamily(font.family());
+    settings.setFontSize(font.pointSizeF());
+    settings.setItalicFont(font.italic());
+    settings.setFontWeight(font.weight());
+
+    settings.writeConfig();
 }
 
 void ViewSettingsTab::restoreDefaultSettings()
@@ -185,31 +151,41 @@ void ViewSettingsTab::restoreDefaultSettings()
 
 void ViewSettingsTab::loadSettings()
 {
-    int iconSizeValue = 0;
-    int previewSizeValue = 0;
-    QFont font;
-    bool useSystemFont = false;
-
-    switch (m_mode) {
-    case IconsMode:
+    if (m_mode == IconsMode) {
         m_textWidthBox->setCurrentIndex(IconsModeSettings::textWidthIndex());
-        load<IconsModeSettings>(&iconSizeValue, &previewSizeValue, &font, &useSystemFont);
-        break;
-    case CompactMode:
-        load<CompactModeSettings>(&iconSizeValue, &previewSizeValue, &font, &useSystemFont);
-        break;
-    case DetailsMode:
-        load<DetailsModeSettings>(&iconSizeValue, &previewSizeValue, &font, &useSystemFont);
-        break;
-    default:
-        Q_ASSERT(false);
-        break;
     }
 
-    m_defaultSizeSlider->setValue(iconSizeValue);
-    m_previewSizeSlider->setValue(previewSizeValue);
-    m_fontRequester->setMode(useSystemFont ? DolphinFontRequester::SystemFont : DolphinFontRequester::CustomFont);
+    const ViewModeSettings settings(viewMode());
+    const QSize iconSize(settings.iconSize(), settings.iconSize());
+    m_defaultSizeSlider->setValue(ZoomLevelInfo::zoomLevelForIconSize(iconSize));
+
+    const QSize previewSize(settings.previewSize(), settings.previewSize());
+    m_previewSizeSlider->setValue(ZoomLevelInfo::zoomLevelForIconSize(previewSize));
+
+    m_fontRequester->setMode(settings.useSystemFont()
+                             ? DolphinFontRequester::SystemFont
+                             : DolphinFontRequester::CustomFont);
+
+    QFont font(settings.fontFamily(), qRound(settings.fontSize()));
+    font.setItalic(settings.italicFont());
+    font.setWeight(settings.fontWeight());
+    font.setPointSizeF(settings.fontSize());
     m_fontRequester->setCustomFont(font);
 }
+
+ViewModeSettings::ViewMode ViewSettingsTab::viewMode() const
+{
+    ViewModeSettings::ViewMode mode;
+
+    switch (m_mode) {
+    case ViewSettingsTab::IconsMode:   mode = ViewModeSettings::IconsMode; break;
+    case ViewSettingsTab::CompactMode: mode = ViewModeSettings::CompactMode; break;
+    case ViewSettingsTab::DetailsMode: mode = ViewModeSettings::DetailsMode; break;
+    default: Q_ASSERT(false); break;
+    }
+
+    return mode;
+}
+
 
 #include "viewsettingstab.moc"

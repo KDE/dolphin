@@ -52,6 +52,7 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
     m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
     controller()->setView(m_fileItemListView);
 
+    updateFont();
     updateGridSize();
 }
 
@@ -104,23 +105,13 @@ void DolphinItemListContainer::setZoomLevel(int level)
 
     m_zoomLevel = level;
 
+    ViewModeSettings settings(viewMode());
     if (previewsShown()) {
         const int previewSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
-
-        switch (itemLayout()) {
-        case KFileItemListView::IconsLayout:   IconsModeSettings::setPreviewSize(previewSize); break;
-        case KFileItemListView::CompactLayout: CompactModeSettings::setPreviewSize(previewSize); break;
-        case KFileItemListView::DetailsLayout: DetailsModeSettings::setPreviewSize(previewSize); break;
-        default: Q_ASSERT(false); break;
-        }
+        settings.setPreviewSize(previewSize);
     } else {
         const int iconSize = ZoomLevelInfo::iconSizeForZoomLevel(level);
-        switch (itemLayout()) {
-        case KFileItemListView::IconsLayout:   IconsModeSettings::setIconSize(iconSize); break;
-        case KFileItemListView::CompactLayout: CompactModeSettings::setIconSize(iconSize); break;
-        case KFileItemListView::DetailsLayout: DetailsModeSettings::setIconSize(iconSize); break;
-        default: Q_ASSERT(false); break;
-        }
+        settings.setIconSize(iconSize);
     }
 
     updateGridSize();
@@ -158,6 +149,7 @@ void DolphinItemListContainer::setItemLayout(KFileItemListView::Layout layout)
         break;
     }
 
+    updateFont();
     updateGridSize();
     endTransaction();
 }
@@ -177,26 +169,21 @@ void DolphinItemListContainer::endTransaction()
     m_fileItemListView->endTransaction();
 }
 
+void DolphinItemListContainer::refresh()
+{
+    ViewModeSettings settings(viewMode());
+    settings.readConfig();
+
+    updateFont();
+    updateGridSize();
+}
+
 void DolphinItemListContainer::updateGridSize()
 {
-    // Calculate the size of the icon
-    int iconSize;
-    if (previewsShown()) {
-        switch (itemLayout()) {
-        case KFileItemListView::IconsLayout:   iconSize = IconsModeSettings::previewSize(); break;
-        case KFileItemListView::CompactLayout: iconSize = CompactModeSettings::previewSize(); break;
-        case KFileItemListView::DetailsLayout: iconSize = DetailsModeSettings::previewSize(); break;
-        default: Q_ASSERT(false); break;
-        }
-    } else {
-        switch (itemLayout()) {
-        case KFileItemListView::IconsLayout:   iconSize = IconsModeSettings::iconSize(); break;
-        case KFileItemListView::CompactLayout: iconSize = CompactModeSettings::iconSize(); break;
-        case KFileItemListView::DetailsLayout: iconSize = DetailsModeSettings::iconSize(); break;
-        default: Q_ASSERT(false); break;
-        }
-    }
+    const ViewModeSettings settings(viewMode());
 
+    // Calculate the size of the icon
+    const int iconSize = previewsShown() ? settings.previewSize() : settings.iconSize();
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption styleOption = m_fileItemListView->styleOption();
 
@@ -234,6 +221,37 @@ void DolphinItemListContainer::updateGridSize()
     styleOption.iconSize = iconSize;
     m_fileItemListView->setStyleOption(styleOption);
     m_fileItemListView->setItemSize(QSizeF(itemWidth, itemHeight));
+}
+
+void DolphinItemListContainer::updateFont()
+{
+    KItemListStyleOption styleOption = m_fileItemListView->styleOption();
+
+    const ViewModeSettings settings(viewMode());
+
+    QFont font(settings.fontFamily(), qRound(settings.fontSize()));
+    font.setItalic(settings.italicFont());
+    font.setWeight(settings.fontWeight());
+    font.setPointSizeF(settings.fontSize());
+
+    styleOption.font = font;
+    styleOption.fontMetrics = QFontMetrics(font);
+
+    m_fileItemListView->setStyleOption(styleOption);
+}
+
+ViewModeSettings::ViewMode DolphinItemListContainer::viewMode() const
+{
+    ViewModeSettings::ViewMode mode;
+
+    switch (itemLayout()) {
+    case KFileItemListView::IconsLayout:   mode = ViewModeSettings::IconsMode; break;
+    case KFileItemListView::CompactLayout: mode = ViewModeSettings::CompactMode; break;
+    case KFileItemListView::DetailsLayout: mode = ViewModeSettings::DetailsMode; break;
+    default: Q_ASSERT(false); break;
+    }
+
+    return mode;
 }
 
 #include "dolphinitemlistcontainer.moc"

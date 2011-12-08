@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008-2011 by Peter Penz <peter.penz19@gmail.com>        *
+ *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,52 +17,54 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef VIEWSETTINGSTAB_H
-#define VIEWSETTINGSTAB_H
+#ifndef VIEWMODESETTINGS_H
+#define VIEWMODESETTINGS_H
 
-#include <QWidget>
-#include <settings/viewmodes/viewmodesettings.h>
-
-class DolphinFontRequester;
-class KComboBox;
-class QSlider;
+#include <QString>
 
 /**
- * @brief Represents one tab of the view-settings page.
+ * @short Helper class for accessing similar properties of IconsModeSettings,
+ *        CompactModeSettings and DetailsModeSettings.
  */
-class ViewSettingsTab : public QWidget
+class ViewModeSettings
 {
-    Q_OBJECT
-
 public:
-    enum Mode
+    enum ViewMode
     {
         IconsMode,
         CompactMode,
         DetailsMode
     };
 
-    explicit ViewSettingsTab(Mode mode, QWidget* parent = 0);
-    virtual ~ViewSettingsTab();
+    ViewModeSettings(ViewMode mode);
+    virtual ~ViewModeSettings();
 
-    void applySettings();
-    void restoreDefaultSettings();
+    void setIconSize(int size) const;
+    int iconSize() const;
 
-signals:
-    void changed();
+    void setPreviewSize(int size) const;
+    int previewSize() const;
+
+    void setUseSystemFont(bool flag);
+    bool useSystemFont() const;
+
+    void setFontFamily(const QString& fontFamily);
+    QString fontFamily() const;
+
+    void setFontSize(qreal fontSize);
+    qreal fontSize() const;
+
+    void setItalicFont(bool italic);
+    bool italicFont() const;
+
+    void setFontWeight(int fontWeight);
+    int fontWeight() const;
+
+    void readConfig();
+    void writeConfig();
 
 private:
-    void loadSettings();
-
-    ViewModeSettings::ViewMode viewMode() const;
-
-private:
-    Mode m_mode;
-    QSlider* m_defaultSizeSlider;
-    QSlider* m_previewSizeSlider;
-
-    DolphinFontRequester* m_fontRequester;
-    KComboBox* m_textWidthBox;
+    ViewMode m_mode;
 };
 
 #endif

@@ -445,15 +445,9 @@ void DolphinView::stopLoading()
 
 void DolphinView::refresh()
 {
-    const bool oldActivationState = m_active;
-    const int oldZoomLevel = zoomLevel();
-    m_active = true;
-
+    m_container->refresh();
     applyViewProperties();
     reload();
-
-    setActive(oldActivationState);
-    updateZoomLevel(oldZoomLevel);
 }
 
 void DolphinView::setNameFilter(const QString& nameFilter)
@@ -1242,16 +1236,6 @@ void DolphinView::pasteToUrl(const KUrl& url)
 {
     markPastedUrlsAsSelected(QApplication::clipboard()->mimeData());
     KonqOperations::doPaste(this, url);
-}
-
-void DolphinView::updateZoomLevel(int oldZoomLevel)
-{
-    Q_UNUSED(oldZoomLevel);
- /*   const int newZoomLevel = ZoomLevelInfo::zoomLevelForIconSize(m_viewAccessor.itemView()->iconSize());
-    if (oldZoomLevel != newZoomLevel) {
-        m_viewModeController->setZoomLevel(newZoomLevel);
-        emit zoomLevelChanged(newZoomLevel);
-    }*/
 }
 
 KUrl::List DolphinView::simplifiedSelectedUrls() const

@@ -22,6 +22,7 @@
 
 #include <kitemviews/kfileitemlistview.h>
 #include <kitemviews/kitemlistcontainer.h>
+#include <settings/viewmodes/viewmodesettings.h>
 
 #include <libdolphin_export.h>
 
@@ -63,8 +64,16 @@ public:
     void beginTransaction();
     void endTransaction();
 
+    /**
+     * Refreshs the view by reapplying the (changed) viewmode settings.
+     */
+    void refresh();
+
 private:
     void updateGridSize();
+    void updateFont();
+
+    ViewModeSettings::ViewMode viewMode() const;
 
 private:
     int m_zoomLevel;

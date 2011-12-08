@@ -43,6 +43,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kpixmapmodifier.cpp
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
+    settings/viewmodes/viewmodesettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
     views/additionalinfoaccessor.cpp
@@ -144,6 +145,7 @@ set(dolphin_SRCS
     settings/trash/trashsettingspage.cpp
     settings/viewmodes/dolphinfontrequester.cpp
     settings/viewmodes/viewsettingspage.cpp
+    settings/viewmodes/viewmodesettings.cpp
     settings/viewmodes/viewsettingstab.cpp
     statusbar/dolphinstatusbar.cpp
     statusbar/statusbarspaceinfo.cpp
@@ -204,6 +206,7 @@ install(TARGETS dolphin ${INSTALL_TARGETS_DEFAULT_ARGS})
 set(kcm_dolphinviewmodes_PART_SRCS
     settings/kcm/kcmdolphinviewmodes.cpp
     settings/viewmodes/dolphinfontrequester.cpp
+    settings/viewmodes/viewmodesettings.cpp
     settings/viewmodes/viewsettingstab.cpp
     views/zoomlevelinfo.cpp)
 
