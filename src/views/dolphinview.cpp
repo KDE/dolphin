@@ -262,8 +262,7 @@ void DolphinView::setHiddenFilesShown(bool show)
     ViewProperties props(url());
     props.setHiddenFilesShown(show);
 
-    m_dirLister->setShowingDotFiles(show);
-    m_dirLister->emitChanges();
+    fileItemModel()->setShowHiddenFiles(show);
     emit hiddenFilesShownChanged(show);
 }
 
@@ -1170,9 +1169,8 @@ void DolphinView::applyViewProperties()
     }
 
     const bool hiddenFilesShown = props.hiddenFilesShown();
-    if (hiddenFilesShown != m_dirLister->showingDotFiles()) {
-        m_dirLister->setShowingDotFiles(hiddenFilesShown);
-        m_dirLister->emitChanges();
+    if (hiddenFilesShown != model->showHiddenFiles()) {
+        model->setShowHiddenFiles(hiddenFilesShown);
         emit hiddenFilesShownChanged(hiddenFilesShown);
     }
 

@@ -165,6 +165,24 @@ bool KFileItemModel::sortFoldersFirst() const
     return m_sortFoldersFirst;
 }
 
+void KFileItemModel::setShowHiddenFiles(bool show)
+{
+    KDirLister* dirLister = m_dirLister.data();
+    if (dirLister) {
+        dirLister->setShowingDotFiles(show);
+        dirLister->emitChanges();
+        if (show) {
+            slotCompleted();
+        }
+    }
+}
+
+bool KFileItemModel::showHiddenFiles() const
+{
+    const KDirLister* dirLister = m_dirLister.data();
+    return dirLister ? dirLister->showingDotFiles() : false;
+}
+
 QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
 {
     QMimeData* data = new QMimeData();

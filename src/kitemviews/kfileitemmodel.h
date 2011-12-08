@@ -41,6 +41,15 @@ class QTimer;
  *
  * Also the recursive expansion of sub-directories is supported by
  * KFileItemModel::setExpanded().
+ *
+ * TODO: In the longterm instead of passing a KDirLister just an URL should
+ * be passed and a KDirLister used internally. This solves the following issues:
+ * - The user of the API does not need to decide whether he listens to KDirLister
+ *   or KFileItemModel.
+ * - It resolves minor conceptual differences between KDirLister and KFileItemModel.
+ *   E.g. there is no way for KFileItemModel to check whether a completed() signal
+ *   will be emitted after newItems() will be send by KDirLister or not (in the case
+ *   of setShowingDotFiles() no completed() signal will get emitted).
  */
 class LIBDOLPHINPRIVATE_EXPORT KFileItemModel : public KItemModelBase
 {
@@ -59,6 +68,9 @@ public:
      */
     void setSortFoldersFirst(bool foldersFirst);
     bool sortFoldersFirst() const;
+
+    void setShowHiddenFiles(bool show);
+    bool showHiddenFiles() const;
 
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
@@ -138,6 +150,13 @@ public:
     QString nameFilter() const;
 
 signals:
+    /**
+     * Is emitted after the loading of a directory has been completed or new
+     * items have been inserted to an already loaded directory. Usually
+     * one or more itemsInserted() signals are emitted before loadingCompleted()
+     * (the only exception is loading an empty directory, where only a
+     * loadingCompleted() signal gets emitted).
+     */
     void loadingCompleted();
 
 protected:

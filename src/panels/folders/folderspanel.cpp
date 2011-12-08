@@ -76,8 +76,7 @@ void FoldersPanel::setHiddenFilesShown(bool show)
     if (m_dirLister) {
         KFileItemModel* model = fileItemModel();
         const QSet<KUrl> expandedUrls = model->expandedUrls();
-        m_dirLister->setShowingDotFiles(show);
-        m_dirLister->openUrl(m_dirLister->url(), KDirLister::Reload);
+        model->setShowHiddenFiles(show);
         model->setExpanded(expandedUrls);
     }
 }
@@ -146,7 +145,6 @@ void FoldersPanel::showEvent(QShowEvent* event)
         m_dirLister->setMainWindow(window());
         m_dirLister->setDelayedMimeTypes(true);
         m_dirLister->setAutoErrorHandlingEnabled(false, this);
-        m_dirLister->setShowingDotFiles(FoldersPanelSettings::hiddenFilesShown());
 
         KFileItemListView* view  = new KFileItemListView();
         view->setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
@@ -165,6 +163,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         view->setOpacity(0);
 
         KFileItemModel* model = new KFileItemModel(m_dirLister, this);
+        model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
         // Use a QueuedConnection to give the view the possibility to react first on the
         // finished loading.
         connect(model, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
