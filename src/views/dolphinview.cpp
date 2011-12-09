@@ -447,7 +447,6 @@ void DolphinView::refresh()
 {
     m_container->refresh();
     applyViewProperties();
-    reload();
 }
 
 void DolphinView::setNameFilter(const QString& nameFilter)
