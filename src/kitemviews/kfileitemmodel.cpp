@@ -404,17 +404,21 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         return false;
     }
 
+    KDirLister* dirLister = m_dirLister.data();
     const KUrl url = m_itemData.at(index)->item.url();
     if (expanded) {
         m_expandedUrls.insert(url);
 
-        KDirLister* dirLister = m_dirLister.data();
         if (dirLister) {
             dirLister->openUrl(url, KDirLister::Keep);
             return true;
         }
     } else {
         m_expandedUrls.remove(url);
+
+        if (dirLister) {
+            dirLister->stop(url);
+        }
 
         KFileItemList itemsToRemove;
         const int expansionLevel = data(index)["expansionLevel"].toInt();
@@ -666,6 +670,22 @@ void KFileItemModel::slotCanceled()
 
 void KFileItemModel::slotNewItems(const KFileItemList& items)
 {
+    if (m_requestRole[ExpansionLevelRole] && m_rootExpansionLevel >= 0) {
+        // If the expanding of items is enabled in the model, it might be
+        // possible that the call dirLister->openUrl(url, KDirLister::Keep) in
+        // KFileItemModel::setExpanded() results in emitting of the same items
+        // twice due to the Keep-parameter. This case happens if an item gets
+        // expanded, collapsed and expanded again before the items could be loaded
+        // for the first expansion.
+        foreach (const KFileItem& item, items) {
+            const int index = m_items.value(item.url(), -1);
+            if (index >= 0) {
+                // The items are already part of the model.
+                return;
+            }
+        }
+    }
+
     if (m_nameFilter.isEmpty()) {
         m_pendingItemsToInsert.append(items);
     } else {
