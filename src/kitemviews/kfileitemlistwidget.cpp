@@ -460,7 +460,8 @@ void KFileItemListWidget::updatePixmapCache()
     if (!updatePixmap && m_dirtyContent) {
         updatePixmap = m_dirtyContentRoles.isEmpty()
                        || m_dirtyContentRoles.contains("iconPixmap")
-                       || m_dirtyContentRoles.contains("iconName");
+                       || m_dirtyContentRoles.contains("iconName")
+                       || m_dirtyContentRoles.contains("iconOverlays");
     }
 
     if (updatePixmap) {
@@ -505,6 +506,22 @@ void KFileItemListWidget::updatePixmapCache()
             m_pixmap = squarePixmap;
         } else {
             m_originalPixmapSize = m_pixmap.size();
+        }
+
+        const QStringList overlays = values["iconOverlays"].toStringList();
+
+        // Strangely KFileItem::overlays() returns empty string-values, so
+        // we need to check first whether an overlay must be drawn at all.
+        // It is more efficient to do it here, as KIconLoader::drawOverlays()
+        // assumes that an overlay will be drawn and has some additional
+        // setup time.
+        foreach (const QString& overlay, overlays) {
+            if (!overlay.isEmpty()) {
+                // There is at least one overlay, draw all overlays above m_pixmap
+                // and cancel the check
+                KIconLoader::global()->drawOverlays(overlays, m_pixmap, KIconLoader::Desktop);
+                break;
+            }
         }
 
         if (m_isCut) {

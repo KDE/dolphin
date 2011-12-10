@@ -714,6 +714,8 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
         data.insert("type", item.mimeComment());
     }
 
+    data.insert("iconOverlays", item.overlays());
+
     return data;
 }
 
