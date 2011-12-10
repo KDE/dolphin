@@ -23,6 +23,7 @@
 #include <libdolphin_export.h>
 #include <KFileItemList>
 #include <KUrl>
+#include <kitemviews/kfileitemmodelfilter_p.h>
 #include <kitemviews/kitemmodelbase.h>
 
 #include <QHash>
@@ -293,11 +294,6 @@ private:
      */
     bool isChildItem(int index) const;
 
-    /**
-     * @return True if the given item matches with the current set name filter.
-     */
-    bool matchesNameFilter(const KFileItem& item) const;
-
 private:
     QWeakPointer<KDirLister> m_dirLister;
 
@@ -311,7 +307,7 @@ private:
     QList<ItemData*> m_itemData;
     QHash<KUrl, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
 
-    QString m_nameFilter;
+    KFileItemModelFilter m_filter;
     QSet<KFileItem> m_filteredItems; // Items that got hidden by KFileItemModel::setNameFilter()
 
     bool m_requestRole[RolesCount];

@@ -40,7 +40,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_caseSensitivity(Qt::CaseInsensitive),
     m_itemData(),
     m_items(),
-    m_nameFilter(),
+    m_filter(),
     m_filteredItems(),
     m_requestRole(),
     m_minimumUpdateIntervalTimer(0),
@@ -501,17 +501,17 @@ void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
 
 void KFileItemModel::setNameFilter(const QString& nameFilter)
 {
-    if (m_nameFilter != nameFilter) {
+    if (m_filter.pattern() != nameFilter) {
         dispatchPendingItemsToInsert();
 
-        m_nameFilter = nameFilter;
+        m_filter.setPattern(nameFilter);
 
         // Check which shown items from m_itemData must get
         // hidden and hence moved to m_filteredItems.
         KFileItemList newFilteredItems;
 
         foreach (ItemData* itemData, m_itemData) {
-            if (!matchesNameFilter(itemData->item)) {
+            if (!m_filter.matches(itemData->item)) {
                 newFilteredItems.append(itemData->item);
                 m_filteredItems.insert(itemData->item);
             }
@@ -526,7 +526,7 @@ void KFileItemModel::setNameFilter(const QString& nameFilter)
         QMutableSetIterator<KFileItem> it(m_filteredItems);
         while (it.hasNext()) {
             const KFileItem item = it.next();
-            if (matchesNameFilter(item)) {
+            if (m_filter.matches(item)) {
                 newVisibleItems.append(item);
                 m_filteredItems.remove(item);
             }
@@ -538,7 +538,7 @@ void KFileItemModel::setNameFilter(const QString& nameFilter)
 
 QString KFileItemModel::nameFilter() const
 {
-    return m_nameFilter;
+    return m_filter.pattern();
 }
 
 void KFileItemModel::onGroupedSortingChanged(bool current)
@@ -686,7 +686,7 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
         }
     }
 
-    if (m_nameFilter.isEmpty()) {
+    if (m_filter.pattern().isEmpty()) {
         m_pendingItemsToInsert.append(items);
     } else {
         // The name-filter is active. Hide filtered items
@@ -694,7 +694,7 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
         // the filtered items in m_filteredItems.
         KFileItemList filteredItems;
         foreach (const KFileItem& item, items) {
-            if (matchesNameFilter(item)) {
+            if (m_filter.matches(item)) {
                 filteredItems.append(item);
             } else {
                 m_filteredItems.insert(item);
@@ -1767,17 +1767,6 @@ QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByte
     }
 
     return groups;
-}
-
-bool KFileItemModel::matchesNameFilter(const KFileItem& item) const
-{
-    // TODO #1: A performance improvement would be possible by caching m_nameFilter.toLower().
-    // Before adding yet-another-member it should be checked whether it brings a noticable
-    // improvement at all.
-
-    // TODO #2: If the user entered a '*' use a regular expression
-    const QString itemText = item.text().toLower();
-    return itemText.contains(m_nameFilter.toLower());
 }
 
 #include "kfileitemmodel.moc"
