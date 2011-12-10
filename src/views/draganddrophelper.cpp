@@ -44,10 +44,13 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem,
         QDBusConnection::sessionBus().call(message);
     } else {
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
-        const int urlsCount = urls.count();
-        if (urlsCount == 1 && urls.first() == destination) {
-            return i18nc("@info:status", "A folder cannot be dropped into itself");
-        } else if (dropToItem) {
+        foreach (const KUrl& url, urls) {
+            if (url == destination) {
+                return i18nc("@info:status", "A folder cannot be dropped into itself");
+            }
+        }
+
+        if (dropToItem) {
             KonqOperations::doDrop(destItem, destination, event, QApplication::activeWindow());
         } else {
             KonqOperations::doDrop(KFileItem(), destination, event, QApplication::activeWindow());
