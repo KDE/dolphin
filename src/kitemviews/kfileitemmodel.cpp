@@ -785,6 +785,8 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
     }
 
     emit itemsChanged(itemRangeList, m_roles);
+
+    resortAllItems();
 }
 
 void KFileItemModel::slotClear()
