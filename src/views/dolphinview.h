@@ -647,6 +647,18 @@ private slots:
     void slotRefreshItems();
 
     /**
+     * Is invoked when the sort order has been changed by the user by clicking
+     * on a header item. The view properties of the directory will get updated.
+     */
+    void slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOrder previous);
+
+    /**
+     * Is invoked when the sort role has been changed by the user by clicking
+     * on a header item. The view properties of the directory will get updated.
+     */
+    void slotSortRoleChangedByHeader(const QByteArray& current, const QByteArray& previous);
+
+    /**
      * Observes the item with the URL \a url. As soon as the directory
      * model indicates that the item is available, the item will
      * get selected and it is assured that the item stays visible.

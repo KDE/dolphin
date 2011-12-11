@@ -527,10 +527,14 @@ void KItemListView::setHeaderShown(bool show)
         m_header->setVisibleRolesWidths(headerRolesWidths());
         m_header->setZValue(1);
 
-        m_useHeaderWidths = false;
-
         connect(m_header, SIGNAL(visibleRoleWidthChanged(QByteArray,qreal,qreal)),
                 this, SLOT(slotVisibleRoleWidthChanged(QByteArray,qreal,qreal)));
+        connect(m_header, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
+                this, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
+        connect(m_header, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
+                this, SIGNAL(sortRoleChanged(QByteArray,QByteArray)));
+
+        m_useHeaderWidths = false;
 
         m_layouter->setHeaderHeight(m_header->size().height());
     } else if (!show && m_header) {

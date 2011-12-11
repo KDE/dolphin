@@ -60,6 +60,22 @@ signals:
                                  qreal currentWidth,
                                  qreal previousWidth);
 
+    /**
+     * Is emitted if the user has changed the sort order by clicking on a
+     * header item. The sort order of the model has already been adjusted to
+     * the current sort order. Note that no signal will be emitted if the
+     * sort order of the model has been changed without user interaction.
+     */
+    void sortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
+
+    /**
+     * Is emitted if the user has changed the sort role by clicking on a
+     * header item. The sort role of the model has already been adjusted to
+     * the current sort role. Note that no signal will be emitted if the
+     * sort role of the model has been changed without user interaction.
+     */
+    void sortRoleChanged(const QByteArray& current, const QByteArray& previous);
+
 protected:
     virtual void mousePressEvent(QGraphicsSceneMouseEvent* event);
     virtual void mouseReleaseEvent(QGraphicsSceneMouseEvent* event);

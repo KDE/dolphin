@@ -154,6 +154,12 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
         connect(model, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
     }
 
+    KItemListView* view = controller->view();
+    connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
+            this, SLOT(slotSortOrderChangedByHeader(Qt::SortOrder,Qt::SortOrder)));
+    connect(view, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
+            this, SLOT(slotSortRoleChangedByHeader(QByteArray,QByteArray)));
+
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
             this, SLOT(slotSelectionChanged(QSet<int>,QSet<int>)));
@@ -1094,6 +1100,29 @@ void DolphinView::slotRefreshItems()
         //    m_viewAccessor.itemView()->scrollTo(m_viewAccessor.itemView()->currentIndex());
         //}
     }
+}
+
+void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOrder previous)
+{
+    Q_UNUSED(previous);
+    Q_ASSERT(fileItemModel()->sortOrder() == current);
+
+    ViewProperties props(url());
+    props.setSortOrder(current);
+
+    emit sortOrderChanged(current);
+}
+
+void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const QByteArray& previous)
+{
+    Q_UNUSED(previous);
+    Q_ASSERT(fileItemModel()->sortRole() == current);
+
+    ViewProperties props(url());
+    const Sorting sorting = sortingForSortRole(current);
+    props.setSorting(sorting);
+
+    emit sortingChanged(sorting);
 }
 
 KFileItemModel* DolphinView::fileItemModel() const

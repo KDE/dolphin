@@ -176,13 +176,17 @@ void KItemListHeader::mouseReleaseEvent(QGraphicsSceneMouseEvent* event)
         const int sortRoleIndex = m_visibleRoles.indexOf(sortRole);
         if (m_pressedRoleIndex == sortRoleIndex) {
             // Toggle the sort order
-            const Qt::SortOrder toggled = (m_model->sortOrder() == Qt::AscendingOrder) ?
+            const Qt::SortOrder previous = m_model->sortOrder();
+            const Qt::SortOrder current = (m_model->sortOrder() == Qt::AscendingOrder) ?
                                           Qt::DescendingOrder : Qt::AscendingOrder;
-            m_model->setSortOrder(toggled);
+            m_model->setSortOrder(current);
+            emit sortOrderChanged(current, previous);
         } else {
             // Change the sort role
-            const QByteArray sortRole = m_visibleRoles.at(m_pressedRoleIndex);
-            m_model->setSortRole(sortRole);
+            const QByteArray previous = m_model->sortRole();
+            const QByteArray current = m_visibleRoles.at(m_pressedRoleIndex);
+            m_model->setSortRole(current);
+            emit sortRoleChanged(current, previous);
         }
     }
 
