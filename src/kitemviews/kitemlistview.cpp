@@ -452,7 +452,11 @@ QRectF KItemListView::itemContextRect(int index) const
 
 void KItemListView::scrollToItem(int index)
 {
-    const QRectF viewGeometry = geometry();
+    QRectF viewGeometry = geometry();
+    if (m_header) {
+        const qreal headerHeight = m_header->size().height();
+        viewGeometry.adjust(0, headerHeight, 0, 0);
+    }
     const QRectF currentRect = itemRect(index);
 
     if (!viewGeometry.contains(currentRect)) {
