@@ -314,8 +314,7 @@ void KItemListController::slotChangeCurrentItem(const QString& text, bool search
     int index;
     if (searchFromNextItem) {
         index = m_model->indexForKeyboardSearch(text, (currentIndex + 1) % m_model->count());
-    }
-    else {
+    } else {
         index = m_model->indexForKeyboardSearch(text, currentIndex);
     }
     if (index >= 0) {
@@ -323,6 +322,7 @@ void KItemListController::slotChangeCurrentItem(const QString& text, bool search
         m_selectionManager->clearSelection();
         m_selectionManager->setSelected(index, 1);
         m_selectionManager->beginAnchoredSelection(index);
+        m_view->scrollToItem(index);
     }
 }
 
