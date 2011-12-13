@@ -231,7 +231,18 @@ private:
 
     QHash<QByteArray, QVariant> retrieveData(const KFileItem& item) const;
     
+    /**
+     * @return True if the item-data \a a should be ordered before the item-data
+     *         \b. The item-data may have different parent-items.
+     */
     bool lessThan(const ItemData* a, const ItemData* b) const;
+
+    /**
+     * Helper method for lessThan() and expansionLevelsCompare(): Compares
+     * the passed item-data using m_sortRole as criteria. Both items must
+     * have the same parent item, otherwise the comparison will be wrong.
+     */
+    int sortRoleCompare(const ItemData* a, const ItemData* b) const;
     
     /**
      * Sorts the items by using lessThan() as comparison criteria.

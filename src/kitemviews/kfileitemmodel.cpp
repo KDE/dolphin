@@ -920,7 +920,14 @@ void KFileItemModel::removeItems(const KFileItemList& items)
 
     m_groups.clear();
 
-    QList<ItemData*> sortedItems = createItemDataList(items);
+    QList<ItemData*> sortedItems;
+    sortedItems.reserve(items.count());
+    foreach (const KFileItem& item, items) {
+        const int index = m_items.value(item.url(), -1);
+        if (index >= 0) {
+            sortedItems.append(m_itemData.at(index));
+        }
+    }
     sort(sortedItems.begin(), sortedItems.end());
 
     QList<int> indexesToRemove;
@@ -959,8 +966,6 @@ void KFileItemModel::removeItems(const KFileItemList& items)
         ++removedCount;
         ++targetIndex;
     }
-    qDeleteAll(sortedItems);
-    sortedItems.clear();
 
     // Delete the items
     for (int i = indexesToRemove.count() - 1; i >= 0; --i) {
@@ -1166,16 +1171,22 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
         }
     }
 
+    result = sortRoleCompare(a, b);
+
+    return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
+}
+
+int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
+{
+    const KFileItem& itemA = a->item;
+    const KFileItem& itemB = b->item;
+
+    int result = 0;
+
     switch (m_sortRole) {
-    case NameRole: {
-        result = stringCompare(itemA.text(), itemB.text());
-        if (result == 0) {
-            // KFileItem::text() may not be unique in case UDS_DISPLAY_NAME is used
-            result = stringCompare(itemA.name(m_caseSensitivity == Qt::CaseInsensitive),
-                                   itemB.name(m_caseSensitivity == Qt::CaseInsensitive));
-        }
+    case NameRole:
+        // The name role is handled as default fallback after the switch
         break;
-    }
 
     case DateRole: {
         const KDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
@@ -1219,14 +1230,14 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
         result = QString::compare(a->values.value("comment").toString(),
                                   b->values.value("comment").toString());
         break;
-    }    
+    }
 
     case TagsRole: {
         result = QString::compare(a->values.value("tags").toString(),
                                   b->values.value("tags").toString());
         break;
-    }    
-    
+    }
+
     case RatingRole: {
         result = a->values.value("rating").toInt() - b->values.value("rating").toInt();
         break;
@@ -1236,14 +1247,28 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
         break;
     }
 
-    if (result == 0) {
-        // It must be assured that the sort order is always unique even if two values have been
-        // equal. In this case a comparison of the URL is done which is unique in all cases
-        // within KDirLister.
-        result = QString::compare(itemA.url().url(), itemB.url().url(), Qt::CaseSensitive);
+    if (result != 0) {
+        // The current sort role was sufficient to define an order
+        return result;
     }
 
-    return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
+    // Fallback #1: Compare the text of the items
+    result = stringCompare(itemA.text(), itemB.text());
+    if (result != 0) {
+        return result;
+    }
+
+    // Fallback #2: KFileItem::text() may not be unique in case UDS_DISPLAY_NAME is used
+    result = stringCompare(itemA.name(m_caseSensitivity == Qt::CaseInsensitive),
+                           itemB.name(m_caseSensitivity == Qt::CaseInsensitive));
+    if (result != 0) {
+        return result;
+    }
+
+    // Fallback #3: It must be assured that the sort order is always unique even if two values have been
+    // equal. In this case a comparison of the URL is done which is unique in all cases
+    // within KDirLister.
+    return QString::compare(itemA.url().url(), itemB.url().url(), Qt::CaseSensitive);
 }
 
 void KFileItemModel::sort(QList<ItemData*>::iterator begin,
@@ -1401,9 +1426,9 @@ int KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& 
 
     // Check whether one item is the parent of the other item
     if (urlA.isParentOf(urlB)) {
-        return -1;
+        return (sortOrder() == Qt::AscendingOrder) ? -1 : +1;
     } else if (urlB.isParentOf(urlA)) {
-        return +1;
+        return (sortOrder() == Qt::AscendingOrder) ? +1 : -1;
     }
 
     // Determine the maximum common path of both items and
@@ -1436,7 +1461,52 @@ int KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& 
         return +1;
     }
 
-    return stringCompare(subPathA, subPathB);
+    if (m_sortRole == NameRole) {
+        // Performance optimization for sorting by names: Just call
+        // stringCompare() directly to prevent the potentially slow
+        // path to get the ItemData for parents.
+        return stringCompare(subPathA, subPathB);
+    }
+
+    // Compare the item-data the parents that represent the first
+    // different path after the common path.
+
+    // TODO: The following implementation is very hacky but works. Issues with
+    // this approach:
+    // 1. m_items is accessed, although the sorting in might also work on
+    //    a non-member variables. This happens in insertItems() but it does
+    //    not really matter as in this case only a presorting is done.
+    // 2. It is very slow in theory as it introduces a O(n*n) runtime complexity
+    //    in combination with lessThan(). Practically the code is still fast
+    //    enough for thousands of items but this must be fixed.
+    //
+    // Proposal: Extend the internal structure ItemData by a member
+    // 'ItemData* parent and access it here.
+
+    const KUrl parentUrlA(pathA.left(index) + subPathA);
+    const KUrl parentUrlB(pathB.left(index) + subPathB);
+
+    const ItemData* parentItemDataA = 0;
+    foreach (const ItemData* itemData, m_itemData) {
+        if (itemData->item.url() == parentUrlA) {
+            parentItemDataA = itemData;
+            break;
+        }
+    }
+
+    const ItemData* parentItemDataB = 0;
+    foreach (const ItemData* itemData, m_itemData) {
+        if (itemData->item.url() == parentUrlB) {
+            parentItemDataB = itemData;
+            break;
+        }
+    }
+
+    if (parentItemDataA && parentItemDataB) {
+        return sortRoleCompare(parentItemDataA, parentItemDataB);
+    }
+
+    return QString::compare(urlA.url(), urlB.url(), Qt::CaseSensitive);
 }
 
 QString KFileItemModel::subPath(const KFileItem& item,
