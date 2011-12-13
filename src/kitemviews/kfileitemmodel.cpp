@@ -1473,15 +1473,16 @@ int KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& 
 
     // TODO: The following implementation is very hacky but works. Issues with
     // this approach:
-    // 1. m_items is accessed, although the sorting in might also work on
-    //    a non-member variables. This happens in insertItems() but it does
+    // 1. m_items is accessed, although the sorting might also work on
+    //    non-member variables. This happens in insertItems() but it does
     //    not really matter as in this case only a presorting is done.
     // 2. It is very slow in theory as it introduces a O(n*n) runtime complexity
     //    in combination with lessThan(). Practically the code is still fast
     //    enough for thousands of items but this must be fixed.
     //
     // Proposal: Extend the internal structure ItemData by a member
-    // 'ItemData* parent and access it here.
+    // 'ItemData* parent' and access it here. It should be sufficient
+    // to update 'parent' in combination with the expansionLevel.
 
     const KUrl parentUrlA(pathA.left(index) + subPathA);
     const KUrl parentUrlB(pathB.left(index) + subPathB);
