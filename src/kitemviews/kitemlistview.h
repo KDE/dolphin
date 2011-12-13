@@ -542,7 +542,7 @@ public:
 };
 
 template <class T>
-class LIBDOLPHINPRIVATE_EXPORT KItemListWidgetCreator : public KItemListWidgetCreatorBase
+class KItemListWidgetCreator : public KItemListWidgetCreatorBase
 {
 public:
     virtual ~KItemListWidgetCreator();
@@ -582,7 +582,7 @@ public:
 };
 
 template <class T>
-class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeaderCreator : public KItemListGroupHeaderCreatorBase
+class KItemListGroupHeaderCreator : public KItemListGroupHeaderCreatorBase
 {
 public:
     virtual ~KItemListGroupHeaderCreator();
