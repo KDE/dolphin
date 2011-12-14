@@ -370,7 +370,11 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     m_selectionTogglePressed = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
     if (m_selectionTogglePressed) {
         m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+        // The previous anchored selection has been finished already in
+        // KItemListSelectionManager::setSelected(). We can safely change
+        // the current item and start a new anchored selection now.
         m_selectionManager->setCurrentItem(m_pressedIndex);
+        m_selectionManager->beginAnchoredSelection(m_pressedIndex);
         return true;
     }
 
