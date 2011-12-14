@@ -1002,6 +1002,21 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KFileI
         ItemData* itemData = new ItemData();
         itemData->item = item;
         itemData->values = retrieveData(item);
+        itemData->parent = 0;
+
+        const bool determineParent = m_requestRole[ExpansionLevelRole]
+                                     && itemData->values["expansionLevel"].toInt() > 0;
+        if (determineParent) {
+            KUrl parentUrl = item.url().upUrl();
+            parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+            const int parentIndex = m_items.value(parentUrl, -1);
+            if (parentIndex >= 0) {
+                itemData->parent = m_itemData.at(parentIndex);
+            } else {
+                kWarning() << "Parent item not found for" << item.url();
+            }
+        }
+
         itemDataList.append(itemData);
     }
  
@@ -1148,13 +1163,10 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
 
 bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
 {
-    const KFileItem& itemA = a->item;
-    const KFileItem& itemB = b->item;
-    
     int result = 0;
 
     if (m_rootExpansionLevel >= 0) {
-        result = expansionLevelsCompare(itemA, itemB);
+        result = expansionLevelsCompare(a, b);
         if (result != 0) {
             // The items have parents with different expansion levels
             return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
@@ -1162,8 +1174,8 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
     }
 
     if (m_sortFoldersFirst || m_sortRole == SizeRole) {
-        const bool isDirA = itemA.isDir();
-        const bool isDirB = itemB.isDir();
+        const bool isDirA = a->item.isDir();
+        const bool isDirB = b->item.isDir();
         if (isDirA && !isDirB) {
             return true;
         } else if (!isDirA && isDirB) {
@@ -1415,10 +1427,10 @@ int KFileItemModel::stringCompare(const QString& a, const QString& b) const
                             : QString::compare(a, b, Qt::CaseSensitive);
 }
 
-int KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& b) const
+int KFileItemModel::expansionLevelsCompare(const ItemData* a, const ItemData* b) const
 {
-    const KUrl urlA = a.url();
-    const KUrl urlB = b.url();
+    const KUrl urlA = a->item.url();
+    const KUrl urlB = b->item.url();
     if (urlA.directory() == urlB.directory()) {
         // Both items have the same directory as parent
         return 0;
@@ -1451,9 +1463,9 @@ int KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& 
     // Determine the first sub-path after the common path and
     // check whether it represents a directory or already a file
     bool isDirA = true;
-    const QString subPathA = subPath(a, pathA, index, &isDirA);
+    const QString subPathA = subPath(a->item, pathA, index, &isDirA);
     bool isDirB = true;
-    const QString subPathB = subPath(b, pathB, index, &isDirB);
+    const QString subPathB = subPath(b->item, pathB, index, &isDirB);
 
     if (isDirA && !isDirB) {
         return -1;
@@ -1461,52 +1473,26 @@ int KFileItemModel::expansionLevelsCompare(const KFileItem& a, const KFileItem& 
         return +1;
     }
 
-    if (m_sortRole == NameRole) {
-        // Performance optimization for sorting by names: Just call
-        // stringCompare() directly to prevent the potentially slow
-        // path to get the ItemData for parents.
-        return stringCompare(subPathA, subPathB);
-    }
-
-    // Compare the item-data the parents that represent the first
+    // Compare the items of the parents that represent the first
     // different path after the common path.
-
-    // TODO: The following implementation is very hacky but works. Issues with
-    // this approach:
-    // 1. m_items is accessed, although the sorting might also work on
-    //    non-member variables. This happens in insertItems() but it does
-    //    not really matter as in this case only a presorting is done.
-    // 2. It is very slow in theory as it introduces a O(n*n) runtime complexity
-    //    in combination with lessThan(). Practically the code is still fast
-    //    enough for thousands of items but this must be fixed.
-    //
-    // Proposal: Extend the internal structure ItemData by a member
-    // 'ItemData* parent' and access it here. It should be sufficient
-    // to update 'parent' in combination with the expansionLevel.
-
     const KUrl parentUrlA(pathA.left(index) + subPathA);
     const KUrl parentUrlB(pathB.left(index) + subPathB);
 
-    const ItemData* parentItemDataA = 0;
-    foreach (const ItemData* itemData, m_itemData) {
-        if (itemData->item.url() == parentUrlA) {
-            parentItemDataA = itemData;
-            break;
-        }
+    const ItemData* parentA = a;
+    while (parentA && parentA->item.url() != parentUrlA) {
+        parentA = parentA->parent;
     }
 
-    const ItemData* parentItemDataB = 0;
-    foreach (const ItemData* itemData, m_itemData) {
-        if (itemData->item.url() == parentUrlB) {
-            parentItemDataB = itemData;
-            break;
-        }
+    const ItemData* parentB = b;
+    while (parentB && parentB->item.url() != parentUrlB) {
+        parentB = parentB->parent;
     }
 
-    if (parentItemDataA && parentItemDataB) {
-        return sortRoleCompare(parentItemDataA, parentItemDataB);
+    if (parentA && parentB) {
+        return sortRoleCompare(parentA, parentB);
     }
 
+    kWarning() << "Child items without parent detected:" << a->item.url() << b->item.url();
     return QString::compare(urlA.url(), urlB.url(), Qt::CaseSensitive);
 }
 

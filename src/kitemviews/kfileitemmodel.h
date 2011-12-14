@@ -207,6 +207,7 @@ private:
     {
         KFileItem item;
         QHash<QByteArray, QVariant> values;
+        ItemData* parent;
     };
     
     void insertItems(const KFileItemList& items);
@@ -276,7 +277,7 @@ private:
      * is not sufficient, it is also important to check the hierarchy for having
      * a correct order like shown in a tree.
      */
-    int expansionLevelsCompare(const KFileItem& a, const KFileItem& b) const;
+    int expansionLevelsCompare(const ItemData* a, const ItemData* b) const;
 
     /**
      * Helper method for expansionLevelCompare().
