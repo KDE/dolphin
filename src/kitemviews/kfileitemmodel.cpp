@@ -512,8 +512,12 @@ void KFileItemModel::setNameFilter(const QString& nameFilter)
 
         foreach (ItemData* itemData, m_itemData) {
             if (!m_filter.matches(itemData->item)) {
-                newFilteredItems.append(itemData->item);
-                m_filteredItems.insert(itemData->item);
+                // Only filter non-expanded items as child items may never
+                // exist without a parent item
+                if (!itemData->values.value("isExpanded").toBool()) {
+                    newFilteredItems.append(itemData->item);
+                    m_filteredItems.insert(itemData->item);
+                }
             }
         }
 
