@@ -1484,9 +1484,9 @@ int KFileItemModel::expansionLevelsCompare(const ItemData* a, const ItemData* b)
     const QString subPathB = subPath(b->item, pathB, index, &isDirB);
 
     if (isDirA && !isDirB) {
-        return -1;
+        return (sortOrder() == Qt::AscendingOrder) ? -1 : +1;
     } else if (!isDirA && isDirB) {
-        return +1;
+        return (sortOrder() == Qt::AscendingOrder) ? +1 : -1;
     }
 
     // Compare the items of the parents that represent the first
