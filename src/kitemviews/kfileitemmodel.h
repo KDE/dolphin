@@ -334,8 +334,18 @@ private:
     mutable QList<QPair<int, QVariant> > m_groups;
 
     // Stores the smallest expansion level of the root-URL. Is required to calculate
-    // the "expansionLevel" role in an efficient way. A value < 0 indicates that
-    // it has not been initialized yet.
+    // the "expansionLevel" role in an efficient way. A value < 0 indicates a
+    // special meaning:
+    enum RootExpansionLevelTypes
+    {
+        // m_rootExpansionLevel is uninitialized and must be determined by checking
+        // the root URL from the KDirLister.
+        UninitializedRootExpansionLevel = -1,
+        // All items should be forced to get an expansion level of 0 even if they
+        // represent child items. This is useful for slaves that provide no parent items
+        // for child items like e.g. the search IO slaves.
+        ForceRootExpansionLevel = -2
+    };
     mutable int m_rootExpansionLevel;
 
     // Stores the URLs of the expanded folders.

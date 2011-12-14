@@ -49,7 +49,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_pendingItemsToInsert(),
     m_pendingEmitLoadingCompleted(false),
     m_groups(),
-    m_rootExpansionLevel(-1),
+    m_rootExpansionLevel(UninitializedRootExpansionLevel),
     m_expandedUrls(),
     m_urlsToExpand()
 {
@@ -807,7 +807,7 @@ void KFileItemModel::slotClear()
     m_resortAllItemsTimer->stop();
     m_pendingItemsToInsert.clear();
 
-    m_rootExpansionLevel = -1;
+    m_rootExpansionLevel = UninitializedRootExpansionLevel;
 
     const int removedCount = m_itemData.count();
     if (removedCount > 0) {
@@ -990,7 +990,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     }
 
     if (count() <= 0) {
-        m_rootExpansionLevel = -1;
+        m_rootExpansionLevel = UninitializedRootExpansionLevel;
     }
 
     itemRanges << KItemRange(removedAtIndex, removedCount);
@@ -1044,7 +1044,7 @@ void KFileItemModel::removeExpandedItems()
     Q_ASSERT(m_rootExpansionLevel >= 0);
     removeItems(expandedItems);
 
-    m_rootExpansionLevel = -1;
+    m_rootExpansionLevel = UninitializedRootExpansionLevel;
     m_expandedUrls.clear();
 }
 
@@ -1141,17 +1141,29 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     }
 
     if (m_requestRole[ExpansionLevelRole]) {
-        if (m_rootExpansionLevel < 0 && m_dirLister.data()) {
-            const QString rootDir = m_dirLister.data()->url().directory(KUrl::AppendTrailingSlash);
-            m_rootExpansionLevel = rootDir.count('/');
-            if (m_rootExpansionLevel == 1) {
-                // Special case: The root is already reached and no parent is available
-                --m_rootExpansionLevel;
+        if (m_rootExpansionLevel == UninitializedRootExpansionLevel && m_dirLister.data()) {
+            const KUrl rootUrl = m_dirLister.data()->url();
+            const QString protocol = rootUrl.protocol();
+            const bool isSearchUrl = (protocol.contains("search") || protocol == QLatin1String("nepomuk"));
+            if (isSearchUrl) {
+                m_rootExpansionLevel = ForceRootExpansionLevel;
+            } else {
+                const QString rootDir = rootUrl.directory(KUrl::AppendTrailingSlash);
+                m_rootExpansionLevel = rootDir.count('/');
+                if (m_rootExpansionLevel == 1) {
+                    // Special case: The root is already reached and no parent is available
+                    --m_rootExpansionLevel;
+                }
             }
         }
-        const QString dir = item.url().directory(KUrl::AppendTrailingSlash);
-        const int level = dir.count('/') - m_rootExpansionLevel - 1;
-        data.insert("expansionLevel", level);
+
+        if (m_rootExpansionLevel == ForceRootExpansionLevel) {
+            data.insert("expansionLevel", 0);
+        } else {
+            const QString dir = item.url().directory(KUrl::AppendTrailingSlash);
+            const int level = dir.count('/') - m_rootExpansionLevel - 1;
+            data.insert("expansionLevel", level);
+        }
     }
 
     if (item.isMimeTypeKnown()) {
