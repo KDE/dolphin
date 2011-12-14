@@ -1158,7 +1158,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
         }
 
         if (m_rootExpansionLevel == ForceRootExpansionLevel) {
-            data.insert("expansionLevel", 0);
+            data.insert("expansionLevel", -1);
         } else {
             const QString dir = item.url().directory(KUrl::AppendTrailingSlash);
             const int level = dir.count('/') - m_rootExpansionLevel - 1;

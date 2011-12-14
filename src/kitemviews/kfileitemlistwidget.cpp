@@ -424,15 +424,17 @@ void KFileItemListWidget::updateExpansionArea()
         Q_ASSERT(values.contains("expansionLevel"));
         const KItemListStyleOption& option = styleOption();
         const int expansionLevel = values.value("expansionLevel", 0).toInt();
-
-        const qreal widgetHeight = size().height();
-        const qreal expansionLevelSize = KIconLoader::SizeSmall;
-        const qreal x = option.margin + expansionLevel * widgetHeight;
-        const qreal y = (widgetHeight - expansionLevelSize) / 2;
-        m_expansionArea = QRectF(x, y, expansionLevelSize, expansionLevelSize);
-    } else {
-        m_expansionArea = QRectF();
+        if (expansionLevel >= 0) {
+            const qreal widgetHeight = size().height();
+            const qreal expansionLevelSize = KIconLoader::SizeSmall;
+            const qreal x = option.margin + expansionLevel * widgetHeight;
+            const qreal y = (widgetHeight - expansionLevelSize) / 2;
+            m_expansionArea = QRectF(x, y, expansionLevelSize, expansionLevelSize);
+            return;
+        }
     }
+
+    m_expansionArea = QRectF();
 }
 
 void KFileItemListWidget::updatePixmapCache()
