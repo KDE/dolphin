@@ -141,22 +141,18 @@ void RenameDialog::slotButtonClicked(int button)
 void RenameDialog::slotTextChanged(const QString& newName)
 {
     bool enable = !newName.isEmpty() && (newName != QLatin1String("..")) && (newName != QLatin1String("."));
-    if (enable) {
-        if (m_renameOneItem) {
-            enable = enable && (newName != m_newName);
-        } else {
-            // Assure that the new name contains exactly one # (or a connected sequence of #'s)
-            const int minSplitCount = 1;
-            int maxSplitCount = 2;
-            if (newName.startsWith(QLatin1Char('#'))) {
-                --maxSplitCount;
-            }
-            if (newName.endsWith(QLatin1Char('#'))) {
-                --maxSplitCount;
-            }
-            const int splitCount = newName.split(QLatin1Char('#'), QString::SkipEmptyParts).count();
-            enable = enable && (splitCount >= minSplitCount) && (splitCount <= maxSplitCount);
+    if (enable && !m_renameOneItem) {
+        // Assure that the new name contains exactly one # (or a connected sequence of #'s)
+        const int minSplitCount = 1;
+        int maxSplitCount = 2;
+        if (newName.startsWith(QLatin1Char('#'))) {
+            --maxSplitCount;
         }
+        if (newName.endsWith(QLatin1Char('#'))) {
+            --maxSplitCount;
+        }
+        const int splitCount = newName.split(QLatin1Char('#'), QString::SkipEmptyParts).count();
+        enable = enable && (splitCount >= minSplitCount) && (splitCount <= maxSplitCount);
     }
     enableButtonOk(enable);
 }
