@@ -451,6 +451,7 @@ void DolphinView::stopLoading()
 
 void DolphinView::refresh()
 {
+    GeneralSettings::self()->readConfig();
     m_container->refresh();
     applyViewProperties();
 }
