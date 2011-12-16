@@ -243,42 +243,7 @@ QStringList KFileItemModelRolesUpdater::enabledPlugins() const
 
 void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRanges)
 {
-    // If no valid index range is given assume that all items are visible.
-    // A cleanup will be done later as soon as the index range has been set.
-    const bool hasValidIndexRange = (m_lastVisibleIndex >= 0);
-
-    if (hasValidIndexRange) {
-        // Move all current pending visible items that are not visible anymore
-        // to the pending invisible items.
-        QSetIterator<KFileItem> it(m_pendingVisibleItems);
-        while (it.hasNext()) {
-            const KFileItem item = it.next();
-            const int index = m_model->index(item);
-            if (index < m_firstVisibleIndex || index > m_lastVisibleIndex) {
-                m_pendingVisibleItems.remove(item);
-                m_pendingInvisibleItems.insert(item);
-            }
-        }
-    }
-
-    int rangesCount = 0;
-
-    foreach (const KItemRange& range, itemRanges) {
-        rangesCount += range.count;
-
-        // Add the inserted items to the pending visible and invisible items
-        const int lastIndex = range.index + range.count - 1;
-        for (int i = range.index; i <= lastIndex; ++i) {
-            const KFileItem item = m_model->fileItem(i);
-            if (!hasValidIndexRange || (i >= m_firstVisibleIndex && i <= m_lastVisibleIndex)) {
-                m_pendingVisibleItems.insert(item);
-            } else {
-                m_pendingInvisibleItems.insert(item);
-            }
-        }
-    }
-
-    triggerPendingRolesResolving(rangesCount);
+    startUpdating(itemRanges);
 }
 
 void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRanges)
@@ -313,9 +278,8 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRanges,
                                                   const QSet<QByteArray>& roles)
 {
-    Q_UNUSED(itemRanges);
     Q_UNUSED(roles);
-    // TODO
+    startUpdating(itemRanges);
 }
 
 void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPixmap& pixmap)
@@ -492,6 +456,46 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
                  << "invisible:" << m_pendingInvisibleItems.count();
     }
 #endif
+}
+
+void KFileItemModelRolesUpdater::startUpdating(const KItemRangeList& itemRanges)
+{
+    // If no valid index range is given assume that all items are visible.
+    // A cleanup will be done later as soon as the index range has been set.
+    const bool hasValidIndexRange = (m_lastVisibleIndex >= 0);
+
+    if (hasValidIndexRange) {
+        // Move all current pending visible items that are not visible anymore
+        // to the pending invisible items.
+        QSetIterator<KFileItem> it(m_pendingVisibleItems);
+        while (it.hasNext()) {
+            const KFileItem item = it.next();
+            const int index = m_model->index(item);
+            if (index < m_firstVisibleIndex || index > m_lastVisibleIndex) {
+                m_pendingVisibleItems.remove(item);
+                m_pendingInvisibleItems.insert(item);
+            }
+        }
+    }
+
+    int rangesCount = 0;
+
+    foreach (const KItemRange& range, itemRanges) {
+        rangesCount += range.count;
+
+        // Add the inserted items to the pending visible and invisible items
+        const int lastIndex = range.index + range.count - 1;
+        for (int i = range.index; i <= lastIndex; ++i) {
+            const KFileItem item = m_model->fileItem(i);
+            if (!hasValidIndexRange || (i >= m_firstVisibleIndex && i <= m_lastVisibleIndex)) {
+                m_pendingVisibleItems.insert(item);
+            } else {
+                m_pendingInvisibleItems.insert(item);
+            }
+        }
+    }
+
+    triggerPendingRolesResolving(rangesCount);
 }
 
 void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)

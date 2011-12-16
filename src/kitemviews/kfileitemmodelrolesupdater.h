@@ -107,12 +107,22 @@ private slots:
     void slotItemsChanged(const KItemRangeList& itemRanges,
                           const QSet<QByteArray>& roles);
 
+    /**
+     * Is invoked after a preview has been received successfully.
+     * @see startPreviewJob()
+     */
     void slotGotPreview(const KFileItem& item, const QPixmap& pixmap);
+
+    /**
+     * Is invoked after generating a preview has failed.
+     * @see startPreviewJob()
+     */
     void slotPreviewFailed(const KFileItem& item);
 
     /**
      * Is invoked when the preview job has been finished and
      * removes the job from the m_previewJobs list.
+     * @see startPreviewJob()
      */
     void slotPreviewJobFinished(KJob* job);
 
@@ -120,6 +130,19 @@ private slots:
     void resolveNextPendingRoles();
 
 private:
+    /**
+     * Updates the roles for the given item ranges. The roles for the currently
+     * visible items will get updated first.
+     */
+    void startUpdating(const KItemRangeList& itemRanges);
+
+    /**
+     * Creates previews for the items starting from the first item of the
+     * given list.
+     * @see slotGotPreview()
+     * @see slotPreviewFailed()
+     * @see slotPreviewJobFinished()
+     */
     void startPreviewJob(const KFileItemList& items);
 
     bool hasPendingRoles() const;
