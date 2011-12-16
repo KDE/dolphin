@@ -127,7 +127,7 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
         }
     }
 
-    doLayout(Animation, 0, 0);
+    doLayout(Animation);
 
     onScrollOrientationChanged(orientation, previousOrientation);
     emit scrollOrientationChanged(orientation, previousOrientation);
@@ -159,7 +159,7 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
     }
 
     m_sizeHintResolver->clearCache();
-    doLayout(Animation, 0, 0);
+    doLayout(Animation);
     onItemSizeChanged(itemSize, previousSize);
 }
 
@@ -181,9 +181,11 @@ void KItemListView::setScrollOffset(qreal offset)
 
     m_layouter->setScrollOffset(offset);
     m_animation->setScrollOffset(offset);
-    if (!m_layoutTimer->isActive()) {
-        doLayout(NoAnimation, 0, 0);
-    }
+
+    // Don't check whether the m_layoutTimer is active: Changing the
+    // scroll offset must always trigger a synchronous layout, otherwise
+    // the smooth-scrolling might get jerky.
+    doLayout(NoAnimation);
     onScrollOffsetChanged(offset, previousOffset);
 }
 
@@ -204,7 +206,7 @@ void KItemListView::setItemOffset(qreal offset)
         m_header->setPos(-offset, 0);
     }
     if (!m_layoutTimer->isActive()) {
-        doLayout(NoAnimation, 0, 0);
+        doLayout(NoAnimation);
     }
 }
 
@@ -241,7 +243,7 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
     }
 
     updateVisibleRolesSizes();
-    doLayout(Animation, 0, 0);
+    doLayout(Animation);
 
     onVisibleRolesChanged(roles, previousRoles);
 }
@@ -330,7 +332,7 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     }
 
     m_sizeHintResolver->clearCache();
-    doLayout(Animation, 0, 0);
+    doLayout(Animation);
     onStyleOptionChanged(option, previousOption);
 }
 
@@ -506,7 +508,7 @@ void KItemListView::endTransaction()
 
     if (m_activeTransactions == 0) {
         onTransactionEnd();
-        doLayout(Animation, 0, 0);
+        doLayout(Animation);
     }
 }
 
@@ -775,7 +777,6 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
         m_layouter->markAsDirty();
         if (m_model->count() == count && maximumScrollOffset() > size().height()) {
-            kDebug() << "Scrollbar required, skipping layout";
             const int scrollBarExtent = style()->pixelMetric(QStyle::PM_ScrollBarExtent);
             QSizeF layouterSize = m_layouter->size();
             if (scrollOrientation() == Qt::Vertical) {
@@ -903,7 +904,7 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
         }
     }
 
-    doLayout(NoAnimation, 0, 0);
+    doLayout(NoAnimation);
 }
 
 void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
@@ -940,7 +941,7 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
             // The sort-role has been changed which might result
             // in modified group headers
             updateVisibleGroupHeaders();
-            doLayout(NoAnimation, 0, 0);
+            doLayout(NoAnimation);
         }
     }
 }
@@ -967,7 +968,7 @@ void KItemListView::slotGroupedSortingChanged(bool current)
         Q_ASSERT(m_visibleGroups.isEmpty());
     }
 
-    doLayout(Animation, 0, 0);
+    doLayout(Animation);
 }
 
 void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous)
@@ -976,7 +977,7 @@ void KItemListView::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder pr
     Q_UNUSED(previous);
     if (m_grouped) {
         updateVisibleGroupHeaders();
-        doLayout(Animation, 0, 0);
+        doLayout(Animation);
     }
 }
 
@@ -986,7 +987,7 @@ void KItemListView::slotSortRoleChanged(const QByteArray& current, const QByteAr
     Q_UNUSED(previous);
     if (m_grouped) {
         updateVisibleGroupHeaders();
-        doLayout(Animation, 0, 0);
+        doLayout(Animation);
     }
 }
 
@@ -1060,7 +1061,7 @@ void KItemListView::slotAnimationFinished(QGraphicsWidget* widget,
 void KItemListView::slotLayoutTimerFinished()
 {
     m_layouter->setSize(geometry().size());
-    doLayout(Animation, 0, 0);
+    doLayout(Animation);
 }
 
 void KItemListView::slotRubberBandPosChanged()
@@ -1115,7 +1116,7 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
             widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
         }
 
-        doLayout(Animation, 0, 0);
+        doLayout(Animation);
     }
 }
 
@@ -1255,7 +1256,6 @@ KItemListRubberBand* KItemListView::rubberBand() const
 void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int changedCount)
 {
     if (m_layoutTimer->isActive()) {
-        kDebug() << "Stopping layout timer, synchronous layout requested";
         m_layoutTimer->stop();
     }
 
@@ -1331,7 +1331,8 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
             if (animate && changedCount < 0) {
                 // Items have been deleted, move the created item to the
-                // imaginary old position.
+                // imaginary old position. They will get animated to the new position
+                // later.
                 const QRectF itemRect = m_layouter->itemRect(i - changedCount);
                 if (itemRect.isEmpty()) {
                     const QPointF invisibleOldPos = (scrollOrientation() == Qt::Vertical)
@@ -1349,7 +1350,6 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         if (animate) {
             const bool itemsRemoved = (changedCount < 0);
             const bool itemsInserted = (changedCount > 0);
-
             if (itemsRemoved && (i >= changedIndex + changedCount + 1)) {
                 // The item is located after the removed items. Animate the moving of the position.
                 m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);

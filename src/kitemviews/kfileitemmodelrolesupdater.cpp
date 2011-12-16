@@ -41,7 +41,7 @@
     #include <QFile>
 #endif
 
-#define KFILEITEMMODELROLESUPDATER_DEBUG
+// #define KFILEITEMMODELROLESUPDATER_DEBUG
 
 namespace {
     // Maximum time in ms that the KFileItemModelRolesUpdater

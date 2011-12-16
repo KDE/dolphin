@@ -38,7 +38,7 @@
 #include <QTextLayout>
 #include <QTextLine>
 
-//#define KFILEITEMLISTWIDGET_DEBUG
+// #define KFILEITEMLISTWIDGET_DEBUG
 
 KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     KItemListWidget(parent),

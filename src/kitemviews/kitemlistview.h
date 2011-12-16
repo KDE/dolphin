@@ -354,8 +354,8 @@ private:
 
     KItemListRubberBand* rubberBand() const;
 
-    void doLayout(LayoutAnimationHint hint, int changedIndex, int changedCount);
-    void doGroupHeadersLayout(LayoutAnimationHint hint, int changedIndex, int changedCount);
+    void doLayout(LayoutAnimationHint hint, int changedIndex = 0, int changedCount = 0);
+
     void emitOffsetChanges();
 
     KItemListWidget* createWidget(int index);

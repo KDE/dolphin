@@ -34,7 +34,7 @@
 #include <QTextLine>
 #include <QTimer>
 
-#define KFILEITEMLISTVIEW_DEBUG
+// #define KFILEITEMLISTVIEW_DEBUG
 
 namespace {
     const int ShortInterval = 50;

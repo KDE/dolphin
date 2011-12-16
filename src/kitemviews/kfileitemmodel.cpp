@@ -28,7 +28,7 @@
 #include <QMimeData>
 #include <QTimer>
 
-#define KFILEITEMMODEL_DEBUG
+// #define KFILEITEMMODEL_DEBUG
 
 KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     KItemModelBase("name", parent),

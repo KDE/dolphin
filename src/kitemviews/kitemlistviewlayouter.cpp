@@ -24,7 +24,7 @@
 
 #include <KDebug>
 
-#define KITEMLISTVIEWLAYOUTER_DEBUG
+// #define KITEMLISTVIEWLAYOUTER_DEBUG
 
 KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     QObject(parent),
