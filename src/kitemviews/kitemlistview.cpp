@@ -1385,7 +1385,17 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         widget->setVisible(true);
 
         if (widget->size() != itemBounds.size()) {
+            // Resize the widget for the item to the changed size.
             if (animate) {
+                // If a dynamic item size is used then no animation is done in the direction
+                // of the dynamic size.
+                if (m_itemSize.width() <= 0) {
+                    // The width is dynamic, apply the new width without animation.
+                    widget->resize(itemBounds.width(), widget->size().height());
+                } else if (m_itemSize.height() <= 0) {
+                    // The height is dynamic, apply the new height without animation.
+                    widget->resize(widget->size().width(), itemBounds.height());
+                }
                 m_animation->start(widget, KItemListViewAnimation::ResizeAnimation, itemBounds.size());
             } else {
                 widget->resize(itemBounds.size());
