@@ -685,6 +685,8 @@ private slots:
      */
     void updateViewState();
 
+    void hideToolTip();
+
     //void slotUrlChangeRequested(const KUrl& url);
 
 private:

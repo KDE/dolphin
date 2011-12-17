@@ -132,6 +132,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_container->setVisibleRoles(QList<QByteArray>() << "name");
     m_container->installEventFilter(this);
     setFocusProxy(m_container);
+    connect(m_container->horizontalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(hideToolTip()));
+    connect(m_container->verticalScrollBar(), SIGNAL(valueChanged(int)), this, SLOT(hideToolTip()));
 
     KItemListController* controller = m_container->controller();
     controller->setSelectionBehavior(KItemListController::MultiSelection);
@@ -1045,6 +1047,14 @@ void DolphinView::updateViewState()
 
         selectionManager->setSelectedItems(selectedItems);
         m_selectedUrls.clear();
+    }
+}
+
+
+void DolphinView::hideToolTip()
+{
+    if (GeneralSettings::showToolTips()) {
+        m_toolTipManager->hideToolTip();
     }
 }
 
