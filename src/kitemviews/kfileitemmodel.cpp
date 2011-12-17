@@ -1149,8 +1149,10 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
         if (m_rootExpansionLevel == UninitializedRootExpansionLevel && m_dirLister.data()) {
             const KUrl rootUrl = m_dirLister.data()->url();
             const QString protocol = rootUrl.protocol();
-            const bool isSearchUrl = (protocol.contains("search") || protocol == QLatin1String("nepomuk"));
-            if (isSearchUrl) {
+            const bool forceRootExpansionLevel = (protocol == QLatin1String("trash") ||
+                                                  protocol == QLatin1String("nepomuk") ||
+                                                  protocol.contains(QLatin1String("search")));
+            if (forceRootExpansionLevel) {
                 m_rootExpansionLevel = ForceRootExpansionLevel;
             } else {
                 const QString rootDir = rootUrl.directory(KUrl::AppendTrailingSlash);
