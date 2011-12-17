@@ -1133,7 +1133,12 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     }
 
     if (m_requestRole[PathRole]) {
-        data.insert("path", item.localPath());
+        if (item.url().protocol() == QLatin1String("trash")) {
+            const KIO::UDSEntry udsEntry = item.entry();
+            data.insert("path", udsEntry.stringValue(KIO::UDSEntry::UDS_EXTRA));
+        } else {
+            data.insert("path", item.localPath());
+        }
     }
 
     if (m_requestRole[IsExpandedRole]) {
