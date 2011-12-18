@@ -146,6 +146,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
     connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
     connect(controller, SIGNAL(headerContextMenuRequested(QPointF)), this, SLOT(slotHeaderContextMenuRequested(QPointF)));
+    connect(controller, SIGNAL(itemPressed(int,Qt::MouseButton)), this, SLOT(hideToolTip()));
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
     connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
@@ -553,9 +554,7 @@ void DolphinView::setUrl(const KUrl& url)
     emit urlAboutToBeChanged(url);
     m_url = url;
 
-    if (GeneralSettings::showToolTips()) {
-        m_toolTipManager->hideToolTip();
-    }
+    hideToolTip();
 
     // It is important to clear the items from the model before
     // applying the view properties, otherwise expensive operations
@@ -733,18 +732,12 @@ void DolphinView::slotItemMiddleClicked(int index)
 
 void DolphinView::slotItemContextMenuRequested(int index, const QPointF& pos)
 {
-    if (GeneralSettings::showToolTips()) {
-        m_toolTipManager->hideToolTip();
-    }
     const KFileItem item = fileItemModel()->fileItem(index);
     emit requestContextMenu(pos.toPoint(), item, url(), QList<QAction*>());
 }
 
 void DolphinView::slotViewContextMenuRequested(const QPointF& pos)
 {
-    if (GeneralSettings::showToolTips()) {
-        m_toolTipManager->hideToolTip();
-    }
     emit requestContextMenu(pos.toPoint(), KFileItem(), url(), QList<QAction*>());
 }
 
@@ -802,7 +795,7 @@ void DolphinView::slotItemHovered(int index)
 {
     const KFileItem item = fileItemModel()->fileItem(index);
 
-    if (GeneralSettings::showToolTips()) {
+    if (GeneralSettings::showToolTips() && QApplication::mouseButtons() == Qt::NoButton) {
         QRectF itemRect = m_container->controller()->view()->itemContextRect(index);
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
@@ -816,9 +809,7 @@ void DolphinView::slotItemHovered(int index)
 void DolphinView::slotItemUnhovered(int index)
 {
     Q_UNUSED(index);
-    if (GeneralSettings::showToolTips()) {
-        m_toolTipManager->hideToolTip();
-    }
+    hideToolTip();
     emit requestItemInfo(KFileItem());
 }
 
@@ -1049,7 +1040,6 @@ void DolphinView::updateViewState()
         m_selectedUrls.clear();
     }
 }
-
 
 void DolphinView::hideToolTip()
 {

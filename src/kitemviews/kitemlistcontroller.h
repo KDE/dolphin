@@ -166,6 +166,17 @@ signals:
      */
     void itemUnhovered(int index);
 
+    /**
+     * Is emitted if a mouse-button has been pressed above an item.
+     */
+    void itemPressed(int index, Qt::MouseButton button);
+
+    /**
+     * Is emitted if a mouse-button has been released above an item.
+     * It is assured that the signal itemPressed() has been emitted before.
+     */
+    void itemReleased(int index, Qt::MouseButton button);
+
     void itemExpansionToggleClicked(int index);
 
     /**
