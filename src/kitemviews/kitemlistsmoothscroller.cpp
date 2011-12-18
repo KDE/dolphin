@@ -35,7 +35,7 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
     m_animation(0)
 {
     m_animation = new QPropertyAnimation(this);
-    m_animation->setDuration(300);
+    m_animation->setDuration(200);
     connect(m_animation, SIGNAL(stateChanged(QAbstractAnimation::State,QAbstractAnimation::State)),
             this, SLOT(slotAnimationStateChanged(QAbstractAnimation::State,QAbstractAnimation::State)));
 

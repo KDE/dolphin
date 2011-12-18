@@ -69,6 +69,7 @@ private slots:
 private:
     enum { AnimationTypeCount = 4 };
 
+    int m_animationDuration;
     Qt::Orientation m_scrollOrientation;
     qreal m_scrollOffset;
     QHash<QGraphicsWidget*, QPropertyAnimation*> m_animation[AnimationTypeCount];
