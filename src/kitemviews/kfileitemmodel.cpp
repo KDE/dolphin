@@ -719,13 +719,21 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
 {
     dispatchPendingItemsToInsert();
 
-    if (!m_filteredItems.isEmpty()) {
+    KFileItemList itemsToRemove = items;
+    if (m_requestRole[ExpansionLevelRole] && m_rootExpansionLevel >= 0) {
+        // Assure that removing a parent item also results in removing all children
         foreach (const KFileItem& item, items) {
+            itemsToRemove.append(childItems(item));
+        }
+    }
+
+    if (!m_filteredItems.isEmpty()) {
+        foreach (const KFileItem& item, itemsToRemove) {
             m_filteredItems.remove(item);
         }
     }
 
-    removeItems(items);
+    removeItems(itemsToRemove);
 }
 
 void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items)
@@ -1847,6 +1855,23 @@ QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByte
     }
 
     return groups;
+}
+
+KFileItemList KFileItemModel::childItems(const KFileItem& item) const
+{
+    KFileItemList items;
+
+    int index = m_items.value(item.url(), -1);
+    if (index >= 0) {
+        const int parentLevel = m_itemData.at(index)->values.value("expansionLevel").toInt();
+        ++index;
+        while (index < m_itemData.count() && m_itemData.at(index)->values.value("expansionLevel").toInt() > parentLevel) {
+            items.append(m_itemData.at(index)->item);
+            ++index;
+        }
+    }
+
+    return items;
 }
 
 #include "kfileitemmodel.moc"

@@ -306,6 +306,11 @@ private:
      */
     bool isChildItem(int index) const;
 
+    /**
+     * @return Recursive list of child items that have \a item as upper most parent.
+     */
+    KFileItemList childItems(const KFileItem& item) const;
+
 private:
     QWeakPointer<KDirLister> m_dirLister;
 
