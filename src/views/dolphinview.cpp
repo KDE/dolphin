@@ -815,7 +815,14 @@ void DolphinView::slotItemUnhovered(int index)
 
 void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
-    const KFileItem destItem = fileItemModel()->fileItem(index);
+    KFileItem destItem = fileItemModel()->fileItem(index);
+    if (destItem.isNull()) {
+        destItem = fileItemModel()->rootItem();
+        if (destItem.isNull()) {
+            kWarning() << "No destination item available for drop operation.";
+            return;
+        }
+    }
 
     QDropEvent dropEvent(event->pos().toPoint(),
                          event->possibleActions(),
@@ -823,7 +830,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->buttons(),
                          event->modifiers());
 
-    const QString error = DragAndDropHelper::dropUrls(destItem, url(), &dropEvent);
+    const QString error = DragAndDropHelper::dropUrls(destItem, &dropEvent);
     if (!error.isEmpty()) {
         emit errorMessage(error);
     }

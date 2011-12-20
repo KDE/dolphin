@@ -28,12 +28,14 @@
 #include <QtDBus>
 #include <QDropEvent>
 
-QString DragAndDropHelper::dropUrls(const KFileItem& destItem,
-                                    const KUrl& destPath,
-                                    QDropEvent* event)
+QString DragAndDropHelper::dropUrls(const KFileItem& destItem, QDropEvent* event)
 {
-    const bool dropToItem = !destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile());
-    const KUrl destination = dropToItem ? destItem.url() : destPath;
+    Q_ASSERT(!destItem.isNull());
+
+    const KUrl destination = destItem.url();
+    if (!destItem.isWritable()) {
+        return i18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destination.pathOrUrl());
+    }
 
     const QMimeData* mimeData = event->mimeData();
     if (mimeData->hasFormat("application/x-kde-dndextract")) {
@@ -50,11 +52,7 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem,
             }
         }
 
-        if (dropToItem) {
-            KonqOperations::doDrop(destItem, destination, event, QApplication::activeWindow());
-        } else {
-            KonqOperations::doDrop(KFileItem(), destination, event, QApplication::activeWindow());
-        }
+        KonqOperations::doDrop(destItem, destination, event, QApplication::activeWindow());
     }
 
     return QString();

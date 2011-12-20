@@ -48,7 +48,8 @@ void PlacesPanel::mousePressEvent(QMouseEvent* event)
 void PlacesPanel::slotUrlsDropped(const KUrl& dest, QDropEvent* event, QWidget* parent)
 {
     Q_UNUSED(parent);
-    DragAndDropHelper::dropUrls(KFileItem(), dest, event);
+    const KFileItem destItem(KFileItem::Unknown, KFileItem::Unknown, dest);
+    DragAndDropHelper::dropUrls(destItem, event);
 }
 
 void PlacesPanel::emitExtendedUrlChangedSignal(const KUrl& url)

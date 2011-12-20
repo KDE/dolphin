@@ -38,15 +38,12 @@ public:
      * destination. A context menu with the options
      * 'Move Here', 'Copy Here', 'Link Here' and
      * 'Cancel' is offered to the user.
-     * @param destItem  Item of the destination (can be null, see KFileItem::isNull()).
-     * @param destPath  Path of the destination.
+     * @param destItem  Item of the destination.
      * @param event     Drop event.
      * @return          Error message if dropping is not possible. If an empty string
      *                  is returned, the dropping has been successful.
      */
-    static QString dropUrls(const KFileItem& destItem,
-                            const KUrl& destPath,
-                            QDropEvent* event);
+    static QString dropUrls(const KFileItem& destItem, QDropEvent* event);
 };
 
 #endif
