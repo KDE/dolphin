@@ -1170,7 +1170,9 @@ void KItemListView::triggerAutoScrolling()
     // the autoscrolling may not get skipped anymore until a new rubberband is created
     m_skipAutoScrollForRubberBand = false;
 
-    setScrollOffset(scrollOffset() + m_autoScrollIncrement);
+    const qreal maxVisibleOffset = qMax(qreal(0), maximumScrollOffset() - visibleSize);
+    const qreal newScrollOffset = qMin(scrollOffset() + m_autoScrollIncrement, maxVisibleOffset);
+    setScrollOffset(newScrollOffset);
 
    // Trigger the autoscroll timer which will periodically call
    // triggerAutoScrolling()
