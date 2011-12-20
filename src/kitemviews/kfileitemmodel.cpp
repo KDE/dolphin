@@ -1556,7 +1556,7 @@ QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
         // Use the first character of the name as group indication
         QChar newFirstChar = name.at(0).toUpper();
         if (newFirstChar == QLatin1Char('~') && name.length() > 1) {
-            newFirstChar = name.at(1);
+            newFirstChar = name.at(1).toUpper();
         }
 
         if (firstChar != newFirstChar) {
