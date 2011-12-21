@@ -57,6 +57,23 @@ public:
     void setItemLayout(Layout layout);
     Layout itemLayout() const;
 
+    /**
+     * Sets the list of enabled thumbnail plugins that are used for previews.
+     * Per default all plugins enabled in the KConfigGroup "PreviewSettings"
+     * are used.
+     *
+     * For a list of available plugins, call KServiceTypeTrader::self()->query("ThumbCreator").
+     *
+     * @see enabledPlugins
+     */
+    void setEnabledPlugins(const QStringList& list);
+
+    /**
+     * Returns the list of enabled thumbnail plugins.
+     * @see setEnabledPlugins
+     */
+    QStringList enabledPlugins() const;
+
     /** @reimp */
     virtual QSizeF itemSizeHint(int index) const;
 
