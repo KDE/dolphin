@@ -441,21 +441,31 @@ void KItemListViewLayouter::updateVisibleIndexes()
 
     const int maxIndex = m_model->count() - 1;
 
-    // Calculate the first visible index that is (at least partly) visible
+    // Calculate the first visible index that is fully visible
     int min = 0;
     int max = maxIndex;
     int mid = 0;
     do {
         mid = (min + max) / 2;
-        if (m_itemRects[mid].bottom() < m_scrollOffset) {
+        if (m_itemRects[mid].top() < m_scrollOffset) {
             min = mid + 1;
         } else {
             max = mid - 1;
         }
     } while (min <= max);
 
-    while (mid < maxIndex && m_itemRects[mid].bottom() < m_scrollOffset) {
-        ++mid;
+    if (mid > 0) {
+        // Include the row before the first fully visible index, as it might
+        // be partly visible
+        if (m_itemRects[mid].top() >= m_scrollOffset) {
+            --mid;
+            Q_ASSERT(m_itemRects[mid].top() < m_scrollOffset);
+        }
+
+        const qreal rowTop = m_itemRects[mid].top();
+        while (mid > 0 && m_itemRects[mid - 1].top() == rowTop) {
+            --mid;
+        }
     }
     m_firstVisibleIndex = mid;
 
