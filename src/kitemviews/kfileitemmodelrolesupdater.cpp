@@ -169,7 +169,18 @@ bool KFileItemModelRolesUpdater::isPreviewShown() const
 
 void KFileItemModelRolesUpdater::setEnabledPlugins(const QStringList& list)
 {
+    if (m_enabledPlugins == list) {
+        return;
+    }
+
     m_enabledPlugins = list;
+    if (m_previewShown) {
+        if (m_paused) {
+            m_previewChangedDuringPausing = true;
+        } else {
+            sortAndResolveAllRoles();
+        }
+    }
 }
 
 void KFileItemModelRolesUpdater::setPaused(bool paused)

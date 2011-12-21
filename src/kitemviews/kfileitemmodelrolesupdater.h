@@ -82,12 +82,9 @@ public:
     QSet<QByteArray> roles() const;
 
     /**
-     * Sets the list of enabled thumbnail plugins.
+     * Sets the list of enabled thumbnail plugins that are used for previews.
      * Per default all plugins enabled in the KConfigGroup "PreviewSettings"
      * are used.
-     *
-     * Note that this method doesn't cause already generated previews
-     * to be regenerated.
      *
      * For a list of available plugins, call KServiceTypeTrader::self()->query("ThumbCreator").
      *

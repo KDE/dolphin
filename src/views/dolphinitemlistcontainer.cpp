@@ -176,6 +176,13 @@ void DolphinItemListContainer::refresh()
 
     updateFont();
     updateGridSize();
+
+    const KConfigGroup globalConfig(KGlobal::config(), "PreviewSettings");
+    const QStringList plugins = globalConfig.readEntry("Plugins", QStringList()
+                                                       << "directorythumbnail"
+                                                       << "imagethumbnail"
+                                                       << "jpegthumbnail");
+    m_fileItemListView->setEnabledPlugins(plugins);
 }
 
 void DolphinItemListContainer::updateGridSize()

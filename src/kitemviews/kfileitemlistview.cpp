@@ -107,6 +107,18 @@ KFileItemListView::Layout KFileItemListView::itemLayout() const
     return m_itemLayout;
 }
 
+void KFileItemListView::setEnabledPlugins(const QStringList& list)
+{
+    if (m_modelRolesUpdater) {
+        m_modelRolesUpdater->setEnabledPlugins(list);
+    }
+}
+
+QStringList KFileItemListView::enabledPlugins() const
+{
+    return m_modelRolesUpdater ? m_modelRolesUpdater->enabledPlugins() : QStringList();
+}
+
 QSizeF KFileItemListView::itemSizeHint(int index) const
 {
     const QHash<QByteArray, QVariant> values = model()->data(index);
@@ -333,10 +345,7 @@ void KFileItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* 
     Q_UNUSED(previous);
     Q_ASSERT(qobject_cast<KFileItemModel*>(current));
 
-    if (m_modelRolesUpdater) {
-        delete m_modelRolesUpdater;
-    }
-
+    delete m_modelRolesUpdater;
     m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel*>(current), this);
     const int size = styleOption().iconSize;
     m_modelRolesUpdater->setIconSize(QSize(size, size));
