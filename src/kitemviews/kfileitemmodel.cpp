@@ -674,19 +674,31 @@ void KFileItemModel::slotCanceled()
 
 void KFileItemModel::slotNewItems(const KFileItemList& items)
 {
+    Q_ASSERT(!items.isEmpty());
+
     if (m_requestRole[ExpansionLevelRole] && m_rootExpansionLevel >= 0) {
-        // If the expanding of items is enabled in the model, it might be
-        // possible that the call dirLister->openUrl(url, KDirLister::Keep) in
-        // KFileItemModel::setExpanded() results in emitting of the same items
-        // twice due to the Keep-parameter. This case happens if an item gets
-        // expanded, collapsed and expanded again before the items could be loaded
-        // for the first expansion.
-        foreach (const KFileItem& item, items) {
-            const int index = m_items.value(item.url(), -1);
-            if (index >= 0) {
-                // The items are already part of the model.
-                return;
-            }
+        const KFileItem item = items.first();
+
+        // If the expanding of items is enabled, the call
+        // dirLister->openUrl(url, KDirLister::Keep) in KFileItemModel::setExpanded()
+        // might result in emitting the same items twice due to the Keep-parameter.
+        // This case happens if an item gets expanded, collapsed and expanded again
+        // before the items could be loaded for the first expansion.
+        const int index = m_items.value(item.url(), -1);
+        if (index >= 0) {
+            // The items are already part of the model.
+            return;
+        }
+
+        // KDirLister keeps the children of items that got expanded once even if
+        // they got collapsed again with KFileItemModel::setExpanded(false). So it must be
+        // checked whether the parent for new items is still expanded.
+        KUrl parentUrl = item.url().upUrl();
+        parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
+        const int parentIndex = m_items.value(parentUrl, -1);
+        if (parentIndex >= 0 && !m_itemData[parentIndex]->values.value("isExpanded").toBool()) {
+            // The parent is not expanded.
+            return;
         }
     }
 
