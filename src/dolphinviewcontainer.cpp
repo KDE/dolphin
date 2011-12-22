@@ -49,6 +49,7 @@
 #include "search/dolphinsearchbox.h"
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinplacesmodel.h"
+#include "views/draganddrophelper.h"
 #include "views/viewmodecontroller.h"
 #include "views/viewproperties.h"
 
@@ -532,9 +533,8 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
-    Q_UNUSED(destination);
-    Q_UNUSED(event);
-    //DragAndDropHelper::instance().dropUrls(KFileItem(), destination, event, this);
+    const KFileItem destItem(KFileItem::Unknown, KFileItem::Unknown, destination);
+    DragAndDropHelper::dropUrls(destItem, event);
 }
 
 void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
