@@ -356,7 +356,8 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
 
     const bool hasSlowRoles = m_previewShown
                               || m_roles.contains("size")
-                              || m_roles.contains("type");
+                              || m_roles.contains("type")
+                              || m_roles.contains("isExpandable");
     const ResolveHint resolveHint = hasSlowRoles ? ResolveFast : ResolveAll;
 
     // Resolving the MIME type can be expensive. Assure that not more than MaxBlockTimeout ms are
@@ -715,12 +716,18 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 {
     QHash<QByteArray, QVariant> data;
 
-    if (m_roles.contains("size")) {
-        if (item.isDir() && item.isLocalFile()) {
-            const QString path = item.localPath();
-            const int count = subDirectoriesCount(path);
-            if (count >= 0) {
+    const bool getSizeRole = m_roles.contains("size");
+    const bool getIsExpandableRole = m_roles.contains("isExpandable");
+
+    if ((getSizeRole || getIsExpandableRole) && item.isDir() && item.isLocalFile()) {
+        const QString path = item.localPath();
+        const int count = subDirectoriesCount(path);
+        if (count >= 0) {
+            if (getSizeRole) {
                 data.insert("size", KIO::filesize_t(count));
+            }
+            if (getIsExpandableRole) {
+                data.insert("isExpandable", count > 0);
             }
         }
     }
@@ -770,11 +777,17 @@ KFileItemList KFileItemModelRolesUpdater::sortedItems(const QSet<KFileItem>& ite
     return itemList;
 }
 
-int KFileItemModelRolesUpdater::subDirectoriesCount(const QString& path)
+int KFileItemModelRolesUpdater::subDirectoriesCount(const QString& path) const
 {
+    const bool countHiddenFiles = m_model->showHiddenFiles();
+
 #ifdef Q_WS_WIN
     QDir dir(path);
-    return dir.entryList(QDir::AllEntries|QDir::NoDotAndDotDot|QDir::System).count();
+    QDir::Filters filters = QDir::AllEntries | QDir::NoDotAndDotDot | QDir::System;
+    if (countHiddenFiles) {
+        filters |= QDir::Hidden;
+    }
+    return dir.entryList(filters).count();
 #else
     // Taken from kdelibs/kio/kio/kdirmodel.cpp
     // Copyright (C) 2006 David Faure <faure@kde.org>
@@ -786,8 +799,8 @@ int KFileItemModelRolesUpdater::subDirectoriesCount(const QString& path)
         struct dirent *dirEntry = 0;
         while ((dirEntry = ::readdir(dir))) { // krazy:exclude=syscalls
             if (dirEntry->d_name[0] == '.') {
-                if (dirEntry->d_name[1] == '\0') {
-                    // Skip "."
+                if (dirEntry->d_name[1] == '\0' || !countHiddenFiles) {
+                    // Skip "." or hidden files
                     continue;
                 }
                 if (dirEntry->d_name[1] == '.' && dirEntry->d_name[2] == '\0') {

@@ -44,7 +44,7 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     KItemListWidget(parent),
     m_isCut(false),
     m_isHidden(false),
-    m_isDir(false),
+    m_isExpandable(false),
     m_dirtyLayout(true),
     m_dirtyContent(true),
     m_dirtyContentRoles(),
@@ -95,7 +95,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     KItemListWidget::paint(painter, option, widget);
 
     // Draw expansion toggle '>' or 'V'
-    if (m_isDir && !m_expansionArea.isEmpty()) {
+    if (m_isExpandable) {
         QStyleOption arrowOption;
         arrowOption.rect = m_expansionArea.toRect();
         const QStyle::PrimitiveElement arrow = data()["isExpanded"].toBool()
@@ -169,7 +169,7 @@ QRectF KFileItemListWidget::textRect() const
 QRectF KFileItemListWidget::expansionToggleRect() const
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
-    return m_isDir ? m_expansionArea : QRectF();
+    return m_isExpandable ? m_expansionArea : QRectF();
 }
 
 QRectF KFileItemListWidget::selectionToggleRect() const
@@ -405,7 +405,7 @@ void KFileItemListWidget::triggerCacheRefreshing()
     refreshCache();
 
     const QHash<QByteArray, QVariant> values = data();
-    m_isDir = values["isDir"].toBool();
+    m_isExpandable = values["isExpandable"].toBool();
     m_isHidden = values["name"].toString().startsWith(QLatin1Char('.'));
 
     updateExpansionArea();

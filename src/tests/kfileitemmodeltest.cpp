@@ -372,7 +372,7 @@ void KFileItemModelTest::testExpandItems()
     // yields the correct result for "a/a/1" and "a/a-1/", whis is non-trivial because they share the
     // first three characters.
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "expansionLevel";
+    modelRoles << "isExpanded" << "isExpandable" << "expansionLevel";
     m_model->setRoles(modelRoles);
 
     QStringList files;
