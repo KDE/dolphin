@@ -677,7 +677,11 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
     Q_ASSERT(!items.isEmpty());
 
     if (m_requestRole[ExpansionLevelRole] && m_rootExpansionLevel >= 0) {
-        const KFileItem item = items.first();
+        // To be able to compare whether the new items may be inserted as children
+        // of a parent item the pending items must be added to the model first.
+        dispatchPendingItemsToInsert();
+
+        KFileItem item = items.first();
 
         // If the expanding of items is enabled, the call
         // dirLister->openUrl(url, KDirLister::Keep) in KFileItemModel::setExpanded()
@@ -1171,6 +1175,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
             const QString protocol = rootUrl.protocol();
             const bool forceRootExpansionLevel = (protocol == QLatin1String("trash") ||
                                                   protocol == QLatin1String("nepomuk") ||
+                                                  protocol == QLatin1String("remote") ||
                                                   protocol.contains(QLatin1String("search")));
             if (forceRootExpansionLevel) {
                 m_rootExpansionLevel = ForceRootExpansionLevel;
