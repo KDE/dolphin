@@ -33,10 +33,10 @@ KDE_EXPORT int kdemain(int argc, char **argv)
 {
     KAboutData about("dolphin", 0,
                      ki18nc("@title", "Dolphin"),
-                     "1.99",
+                     "2.0.95",
                      ki18nc("@title", "File Manager"),
                      KAboutData::License_GPL,
-                     ki18nc("@info:credit", "(C) 2006-2011 Peter Penz"));
+                     ki18nc("@info:credit", "(C) 2006-2012 Peter Penz"));
     about.setHomepage("http://dolphin.kde.org");
     about.addAuthor(ki18nc("@info:credit", "Peter Penz"),
                     ki18nc("@info:credit", "Maintainer and developer"),
