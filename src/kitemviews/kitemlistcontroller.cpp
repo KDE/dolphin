@@ -188,6 +188,16 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         default:            break;
         }
     }
+    
+    const bool selectSingleItem = itemCount == 1 &&
+                                  (key == Qt::Key_Home || key == Qt::Key_End  ||
+                                   key == Qt::Key_Up   || key == Qt::Key_Down ||
+                                   key == Qt::Key_Left || key == Qt::Key_Right);
+    if (selectSingleItem) {
+        const int current = m_selectionManager->currentItem();
+        m_selectionManager->setSelected(current);
+        return true;
+    }
 
     switch (key) {
     case Qt::Key_Home:
@@ -252,7 +262,8 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
             m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
             m_selectionManager->beginAnchoredSelection(index);
         } else {
-            m_keyboardManager->addKeys(event->text());
+            const int current = m_selectionManager->currentItem();
+            m_selectionManager->setSelected(current);
         }
         break;
 
