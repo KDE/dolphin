@@ -95,7 +95,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     KItemListWidget::paint(painter, option, widget);
 
     // Draw expansion toggle '>' or 'V'
-    if (m_isExpandable) {
+    if (m_isExpandable && !m_expansionArea.isEmpty()) {
         QStyleOption arrowOption;
         arrowOption.rect = m_expansionArea.toRect();
         const QStyle::PrimitiveElement arrow = data()["isExpanded"].toBool()
