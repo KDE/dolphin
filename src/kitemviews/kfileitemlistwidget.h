@@ -128,7 +128,7 @@ private:
 private:
     bool m_isCut;
     bool m_isHidden;
-    bool m_isDir;
+    bool m_isExpandable;
 
     bool m_dirtyLayout;
     bool m_dirtyContent;

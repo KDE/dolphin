@@ -199,6 +199,7 @@ private:
         RatingRole,
         IsDirRole,
         IsExpandedRole,
+        IsExpandableRole,
         ExpansionLevelRole,
         RolesCount // Mandatory last entry
     };

@@ -157,7 +157,7 @@ private:
 
     KFileItemList sortedItems(const QSet<KFileItem>& items) const;
 
-    static int subDirectoriesCount(const QString& path);
+    int subDirectoriesCount(const QString& path) const;
 
 private:
     // Property for setPaused()/isPaused().

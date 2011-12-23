@@ -586,6 +586,7 @@ void KFileItemListView::applyRolesToModel()
     roles.insert("isDir");
     if (m_itemLayout == DetailsLayout) {
         roles.insert("isExpanded");
+        roles.insert("isExpandable");
         roles.insert("expansionLevel");
     }
 

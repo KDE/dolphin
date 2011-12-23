@@ -358,8 +358,8 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
     m_roles = roles;
 
     if (count() > 0) {
-        const bool supportedExpanding = m_requestRole[IsExpandedRole] && m_requestRole[ExpansionLevelRole];
-        const bool willSupportExpanding = roles.contains("isExpanded") && roles.contains("expansionLevel");
+        const bool supportedExpanding = m_requestRole[ExpansionLevelRole];
+        const bool willSupportExpanding = roles.contains("expansionLevel");
         if (supportedExpanding && !willSupportExpanding) {
             // No expanding is supported anymore. Take care to delete all items that have an expansion level
             // that is not 0 (and hence are part of an expanded item).
@@ -394,7 +394,7 @@ QSet<QByteArray> KFileItemModel::roles() const
 
 bool KFileItemModel::setExpanded(int index, bool expanded)
 {
-    if (isExpanded(index) == expanded || index < 0 || index >= count()) {
+    if (!isExpandable(index) || isExpanded(index) == expanded) {
         return false;
     }
 
@@ -445,7 +445,7 @@ bool KFileItemModel::isExpanded(int index) const
 bool KFileItemModel::isExpandable(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_itemData.at(index)->item.isDir();
+        return m_itemData.at(index)->values.value("isExpandable").toBool();
     }
     return false;
 }
@@ -462,7 +462,6 @@ void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
 
 void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
 {
-
     const KDirLister* dirLister = m_dirLister.data();
     if (!dirLister) {
         return;
@@ -1097,6 +1096,7 @@ KFileItemModel::Role KFileItemModel::roleIndex(const QByteArray& role) const
         rolesHash.insert("rating", RatingRole);
         rolesHash.insert("isDir", IsDirRole);
         rolesHash.insert("isExpanded", IsExpandedRole);
+        rolesHash.insert("isExpandable", IsExpandableRole);
         rolesHash.insert("expansionLevel", ExpansionLevelRole);
     }
     return rolesHash.value(role, NoRole);
@@ -1167,6 +1167,10 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
 
     if (m_requestRole[IsExpandedRole]) {
         data.insert("isExpanded", false);
+    }
+
+    if (m_requestRole[IsExpandableRole]) {
+        data.insert("isExpandable", item.isDir() && item.url() == item.targetUrl());
     }
 
     if (m_requestRole[ExpansionLevelRole]) {
