@@ -1531,16 +1531,16 @@ int KFileItemModel::expansionLevelsCompare(const ItemData* a, const ItemData* b)
 
     // Compare the items of the parents that represent the first
     // different path after the common path.
-    const KUrl parentUrlA(pathA.left(index) + subPathA);
-    const KUrl parentUrlB(pathB.left(index) + subPathB);
+    const QString parentPathA = pathA.left(index) + subPathA;
+    const QString parentPathB = pathB.left(index) + subPathB;
 
     const ItemData* parentA = a;
-    while (parentA && parentA->item.url() != parentUrlA) {
+    while (parentA && parentA->item.url().path() != parentPathA) {
         parentA = parentA->parent;
     }
 
     const ItemData* parentB = b;
-    while (parentB && parentB->item.url() != parentUrlB) {
+    while (parentB && parentB->item.url().path() != parentPathB) {
         parentB = parentB->parent;
     }
 
