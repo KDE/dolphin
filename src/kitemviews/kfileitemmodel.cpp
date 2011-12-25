@@ -606,20 +606,19 @@ void KFileItemModel::resortAllItems()
     }
     
     // Determine the indexes that have been moved
-    bool emitItemsMoved = false;
     QList<int> movedToIndexes;
     movedToIndexes.reserve(itemCount);
     for (int i = 0; i < itemCount; i++) {
         const int newIndex = m_items.value(oldUrls.at(i).url());
         movedToIndexes.append(newIndex);
-        if (!emitItemsMoved && newIndex != i) {
-            emitItemsMoved = true;
-        }
     }   
 
-    if (emitItemsMoved) {
-        emit itemsMoved(KItemRange(0, itemCount), movedToIndexes);
-    }
+    // Don't check whether items have really been moved and always emit a
+    // itemsMoved() signal after resorting: In case of grouped items
+    // the groups might change even if the items themselves don't change their
+    // position. Let the receiver of the signal decide whether a check for moved
+    // items makes sense.
+    emit itemsMoved(KItemRange(0, itemCount), movedToIndexes);
     
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "[TIME] Resorting of" << itemCount << "items:" << timer.elapsed();
@@ -1845,12 +1844,12 @@ QList<QPair<int, QVariant> > KFileItemModel::ratingRoleGroups() const
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
 
-    int groupValue;
+    int groupValue = -1;
     for (int i = 0; i <= maxIndex; ++i) {
         if (isChildItem(i)) {
             continue;
         }
-        const int newGroupValue = m_itemData.at(i)->values.value("rating").toInt();
+        const int newGroupValue = m_itemData.at(i)->values.value("rating", 0).toInt();
         if (newGroupValue != groupValue) {
             groupValue = newGroupValue;
             groups.append(QPair<int, QVariant>(i, newGroupValue));
@@ -1867,15 +1866,17 @@ QList<QPair<int, QVariant> > KFileItemModel::genericStringRoleGroups(const QByte
     const int maxIndex = count() - 1;
     QList<QPair<int, QVariant> > groups;
 
+    bool isFirstGroupValue = true;
     QString groupValue;
     for (int i = 0; i <= maxIndex; ++i) {
         if (isChildItem(i)) {
             continue;
         }
         const QString newGroupValue = m_itemData.at(i)->values.value(role).toString();
-        if (newGroupValue != groupValue) {
+        if (newGroupValue != groupValue || isFirstGroupValue) {
             groupValue = newGroupValue;
             groups.append(QPair<int, QVariant>(i, newGroupValue));
+            isFirstGroupValue = false;
         }
     }
 
