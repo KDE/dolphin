@@ -367,6 +367,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
         }
     }
 
+    m_groups.clear();
     resetRoles();
 
     QSetIterator<QByteArray> it(roles);
