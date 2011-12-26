@@ -220,6 +220,34 @@ private:
      */
     KItemListWidget* widgetForPos(const QPointF& pos) const;
 
+    /**
+     * Updates m_keyboardAnchorIndex and m_keyboardAnchorPos. If no anchor is
+     * set, it will be adjusted to the current item. If it is set it will be
+     * checked whether it is still valid, otherwise it will be reset to the
+     * current item.
+     */
+    void updateKeyboardAnchor();
+
+    /**
+     * @return Index for the next row based on the current index.
+     *         If there is no next row the current index will be returned.
+     */
+    int nextRowIndex() const;
+
+    /**
+     * @return Index for the previous row based on the current index.
+     *         If there is no previous row the current index will be returned.
+     */
+    int previousRowIndex() const;
+
+    /**
+     * Helper method for updateKeyboardAnchor(), previousRowIndex() and nextRowIndex().
+     * @return The position of the keyboard anchor for the item with the index \a index.
+     *         If a horizontal scrolling is used the y-position of the item will be returned,
+     *         for the vertical scrolling the x-position will be returned.
+     */
+    qreal keyboardAnchorPos(int index) const;
+
 private:
     bool m_selectionTogglePressed;
     SelectionBehavior m_selectionBehavior;
@@ -235,10 +263,27 @@ private:
     /**
      * When starting a rubberband selection during a Shift- or Control-key has been
      * pressed the current selection should never be deleted. To be able to restore
-     * the current selection it is remembered in m_oldSelection before
+     * the current selection it is remembered in m_oldSelection before the
      * rubberband gets activated.
      */
     QSet<int> m_oldSelection;
+
+    /**
+     * Assuming a view is given with a vertical scroll-orientation, grouped items and
+     * a maximum of 4 columns:
+     *
+     *  1  2  3  4
+     *  5  6  7
+     *  8  9 10 11
+     * 12 13 14
+     *
+     * If the current index is on 4 and key-down is pressed, then item 7 gets the current
+     * item. Now when pressing key-down again item 11 should get the current item and not
+     * item 10. This makes it necessary to keep track of the requested column to have a
+     * similar behavior like in a text editor:
+     */
+    int m_keyboardAnchorIndex;
+    qreal m_keyboardAnchorXPos;
 };
 
 #endif

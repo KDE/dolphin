@@ -50,7 +50,9 @@ KItemListController::KItemListController(QObject* parent) :
     m_pressedIndex(-1),
     m_pressedMousePos(),
     m_autoActivationTimer(0),
-    m_oldSelection()
+    m_oldSelection(),
+    m_keyboardAnchorIndex(-1),
+    m_keyboardAnchorXPos(0)
 {
     connect(m_keyboardManager, SIGNAL(changeCurrentItem(QString,bool)),
             this, SLOT(slotChangeCurrentItem(QString,bool)));
@@ -175,7 +177,6 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     const bool shiftOrControlPressed = shiftPressed || controlPressed;
 
     const int itemCount = m_model->count();
-    const int itemsPerRow = m_view->itemsPerOffset();
 
     // For horizontal scroll orientation, transform
     // the arrow keys to simplify the event handling.
@@ -210,37 +211,28 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
 
     case Qt::Key_Left:
         if (index > 0) {
-            index--;
+            --index;
+            m_keyboardAnchorIndex = index;
+            m_keyboardAnchorXPos = keyboardAnchorPos(index);
         }
         break;
 
     case Qt::Key_Right:
         if (index < itemCount - 1) {
-            index++;
+            ++index;
+            m_keyboardAnchorIndex = index;
+            m_keyboardAnchorXPos = keyboardAnchorPos(index);
         }
         break;
 
     case Qt::Key_Up:
-        if (index >= itemsPerRow) {
-            index -= itemsPerRow;
-        }
+        updateKeyboardAnchor();
+        index = previousRowIndex();
         break;
 
     case Qt::Key_Down:
-        if (index + itemsPerRow < itemCount) {
-            // We are not in the last row yet.
-            index += itemsPerRow;
-        } else {
-            // We are either in the last row already, or we are in the second-last row,
-            // and there is no item below the current item.
-            // In the latter case, we jump to the very last item.
-            const int currentColumn = index % itemsPerRow;
-            const int lastItemColumn = (itemCount - 1) % itemsPerRow;
-            const bool inLastRow = currentColumn < lastItemColumn;
-            if (!inLastRow) {
-                index = itemCount - 1;
-            }
-        }
+        updateKeyboardAnchor();
+        index = nextRowIndex();
         break;
 
     case Qt::Key_Enter:
@@ -950,6 +942,99 @@ KItemListWidget* KItemListController::widgetForPos(const QPointF& pos) const
         if (hovered) {
             return widget;
         }
+    }
+
+    return 0;
+}
+
+void KItemListController::updateKeyboardAnchor()
+{
+    const bool validAnchor = m_keyboardAnchorIndex >= 0 &&
+                             m_keyboardAnchorIndex < m_model->count() &&
+                             keyboardAnchorPos(m_keyboardAnchorIndex) == m_keyboardAnchorXPos;
+    if (!validAnchor) {
+        const int index = m_selectionManager->currentItem();
+        m_keyboardAnchorIndex = index;
+        m_keyboardAnchorXPos = keyboardAnchorPos(index);
+    }
+}
+
+int KItemListController::nextRowIndex() const
+{
+    const int currentIndex = m_selectionManager->currentItem();
+    if (m_keyboardAnchorIndex < 0) {
+        return currentIndex;
+    }
+
+    const int maxIndex = m_model->count() - 1;
+    if (currentIndex == maxIndex) {
+        return currentIndex;
+    }
+
+    // Calculate the index of the last column inside the row of the current index
+    int lastColumnIndex = currentIndex;
+    while (keyboardAnchorPos(lastColumnIndex + 1) > keyboardAnchorPos(lastColumnIndex)) {
+        ++lastColumnIndex;
+        if (lastColumnIndex >= maxIndex) {
+            return currentIndex;
+        }
+    }
+
+    // Based on the last column index go to the next row and calculate the nearest index
+    // that is below the current index
+    int nextRowIndex = lastColumnIndex + 1;
+    int searchIndex = nextRowIndex;
+    qreal minDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(nextRowIndex));
+    while (searchIndex < maxIndex && keyboardAnchorPos(searchIndex + 1) > keyboardAnchorPos(searchIndex)) {
+        ++searchIndex;
+        const qreal searchDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(searchIndex));
+        if (searchDiff < minDiff) {
+            minDiff = searchDiff;
+            nextRowIndex = searchIndex;
+        }
+    }
+
+    return nextRowIndex;
+}
+
+int KItemListController::previousRowIndex() const
+{
+    const int currentIndex = m_selectionManager->currentItem();
+    if (m_keyboardAnchorIndex < 0 || currentIndex == 0) {
+        return currentIndex;
+    }
+
+    // Calculate the index of the first column inside the row of the current index
+    int firstColumnIndex = currentIndex;
+    while (keyboardAnchorPos(firstColumnIndex - 1) < keyboardAnchorPos(firstColumnIndex)) {
+        --firstColumnIndex;
+        if (firstColumnIndex <= 0) {
+            return currentIndex;
+        }
+    }
+
+    // Based on the first column index go to the previous row and calculate the nearest index
+    // that is above the current index
+    int previousRowIndex = firstColumnIndex - 1;
+    int searchIndex = previousRowIndex;
+    qreal minDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(previousRowIndex));
+    while (searchIndex > 0 && keyboardAnchorPos(searchIndex - 1) < keyboardAnchorPos(searchIndex)) {
+        --searchIndex;
+        const qreal searchDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(searchIndex));
+        if (searchDiff < minDiff) {
+            minDiff = searchDiff;
+            previousRowIndex = searchIndex;
+        }
+    }
+
+    return previousRowIndex;
+}
+
+qreal KItemListController::keyboardAnchorPos(int index) const
+{
+    const QRectF itemRect = m_view->itemRect(index);
+    if (!itemRect.isEmpty()) {
+        return (m_view->scrollOrientation() == Qt::Vertical) ? itemRect.x() : itemRect.y();
     }
 
     return 0;
