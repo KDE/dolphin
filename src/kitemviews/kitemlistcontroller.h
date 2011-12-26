@@ -283,7 +283,7 @@ private:
      * similar behavior like in a text editor:
      */
     int m_keyboardAnchorIndex;
-    qreal m_keyboardAnchorXPos;
+    qreal m_keyboardAnchorPos;
 };
 
 #endif
