@@ -108,13 +108,6 @@ public:
     int maximumVisibleItems() const;
 
     /**
-     * @return Maximum number of items that can be shown in the same row
-     *          (= vertical scrolldirection) or same column
-     *          (= horizontal scrolldirection).
-     */
-    int itemsPerOffset() const;
-
-    /**
      * @return True if the item with the index \p itemIndex
      *         is the first item within a group.
      */

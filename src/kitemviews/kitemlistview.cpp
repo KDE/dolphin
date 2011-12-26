@@ -485,11 +485,6 @@ void KItemListView::scrollToItem(int index)
     }
 }
 
-int KItemListView::itemsPerOffset() const
-{
-    return m_layouter->itemsPerOffset();
-}
-
 void KItemListView::beginTransaction()
 {
     ++m_activeTransactions;

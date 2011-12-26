@@ -202,15 +202,6 @@ public:
      */
     void scrollToItem(int index);
 
-    /**
-     * @return The number of items that can be shown in parallel for one offset.
-     *         Assuming the scrolldirection is vertical then a value of 4 means
-     *         that 4 columns for items are available. Assuming the scrolldirection
-     *         is horizontal then a value of 4 means that 4 lines for items are
-     *         available.
-     */
-    int itemsPerOffset() const;
-
     void beginTransaction();
     void endTransaction();
     bool isTransactionActive() const;

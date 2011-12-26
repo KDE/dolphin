@@ -253,11 +253,6 @@ int KItemListViewLayouter::maximumVisibleItems() const
     return rows * m_columnCount;
 }
 
-int KItemListViewLayouter::itemsPerOffset() const
-{
-    return m_columnCount;
-}
-
 bool KItemListViewLayouter::isFirstGroupItem(int itemIndex) const
 {
     const_cast<KItemListViewLayouter*>(this)->doLayout();
