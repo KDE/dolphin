@@ -201,13 +201,19 @@ qreal KItemListView::maximumScrollOffset() const
 
 void KItemListView::setItemOffset(qreal offset)
 {
+    if (m_layouter->itemOffset() == offset) {
+        return;
+    }
+
     m_layouter->setItemOffset(offset);
     if (m_header) {
         m_header->setPos(-offset, 0);
     }
-    if (!m_layoutTimer->isActive()) {
-        doLayout(NoAnimation);
-    }
+
+    // Don't check whether the m_layoutTimer is active: Changing the
+    // item offset must always trigger a synchronous layout, otherwise
+    // the smooth-scrolling might get jerky.
+    doLayout(NoAnimation);
 }
 
 qreal KItemListView::itemOffset() const
