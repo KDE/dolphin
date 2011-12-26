@@ -52,7 +52,7 @@ KItemListController::KItemListController(QObject* parent) :
     m_autoActivationTimer(0),
     m_oldSelection(),
     m_keyboardAnchorIndex(-1),
-    m_keyboardAnchorXPos(0)
+    m_keyboardAnchorPos(0)
 {
     connect(m_keyboardManager, SIGNAL(changeCurrentItem(QString,bool)),
             this, SLOT(slotChangeCurrentItem(QString,bool)));
@@ -213,7 +213,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         if (index > 0) {
             --index;
             m_keyboardAnchorIndex = index;
-            m_keyboardAnchorXPos = keyboardAnchorPos(index);
+            m_keyboardAnchorPos = keyboardAnchorPos(index);
         }
         break;
 
@@ -221,7 +221,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         if (index < itemCount - 1) {
             ++index;
             m_keyboardAnchorIndex = index;
-            m_keyboardAnchorXPos = keyboardAnchorPos(index);
+            m_keyboardAnchorPos = keyboardAnchorPos(index);
         }
         break;
 
@@ -951,11 +951,11 @@ void KItemListController::updateKeyboardAnchor()
 {
     const bool validAnchor = m_keyboardAnchorIndex >= 0 &&
                              m_keyboardAnchorIndex < m_model->count() &&
-                             keyboardAnchorPos(m_keyboardAnchorIndex) == m_keyboardAnchorXPos;
+                             keyboardAnchorPos(m_keyboardAnchorIndex) == m_keyboardAnchorPos;
     if (!validAnchor) {
         const int index = m_selectionManager->currentItem();
         m_keyboardAnchorIndex = index;
-        m_keyboardAnchorXPos = keyboardAnchorPos(index);
+        m_keyboardAnchorPos = keyboardAnchorPos(index);
     }
 }
 
@@ -984,10 +984,10 @@ int KItemListController::nextRowIndex() const
     // that is below the current index
     int nextRowIndex = lastColumnIndex + 1;
     int searchIndex = nextRowIndex;
-    qreal minDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(nextRowIndex));
+    qreal minDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(nextRowIndex));
     while (searchIndex < maxIndex && keyboardAnchorPos(searchIndex + 1) > keyboardAnchorPos(searchIndex)) {
         ++searchIndex;
-        const qreal searchDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(searchIndex));
+        const qreal searchDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(searchIndex));
         if (searchDiff < minDiff) {
             minDiff = searchDiff;
             nextRowIndex = searchIndex;
@@ -1017,10 +1017,10 @@ int KItemListController::previousRowIndex() const
     // that is above the current index
     int previousRowIndex = firstColumnIndex - 1;
     int searchIndex = previousRowIndex;
-    qreal minDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(previousRowIndex));
+    qreal minDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(previousRowIndex));
     while (searchIndex > 0 && keyboardAnchorPos(searchIndex - 1) < keyboardAnchorPos(searchIndex)) {
         --searchIndex;
-        const qreal searchDiff = qAbs(m_keyboardAnchorXPos - keyboardAnchorPos(searchIndex));
+        const qreal searchDiff = qAbs(m_keyboardAnchorPos - keyboardAnchorPos(searchIndex));
         if (searchDiff < minDiff) {
             minDiff = searchDiff;
             previousRowIndex = searchIndex;
