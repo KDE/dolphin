@@ -147,8 +147,11 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     }
 
 #ifdef KFILEITEMLISTWIDGET_DEBUG
-    painter->setPen(Qt::red);
     painter->setBrush(Qt::NoBrush);
+    painter->setPen(Qt::green);
+    painter->drawRect(m_iconRect);
+
+    painter->setPen(Qt::red);
     painter->drawText(QPointF(0, itemListStyleOption.fontMetrics.height()), QString::number(index()));
     painter->drawRect(rect());
 #endif
@@ -494,16 +497,12 @@ void KFileItemListWidget::updatePixmapCache()
             squarePixmap.fill(Qt::transparent);
 
             QPainter painter(&squarePixmap);
-            int x, y;
-            if (iconOnTop) {
-                x = (iconHeight - m_pixmap.width()) / 2;  // Center horizontally
-                y = iconHeight - m_pixmap.height();       // Align on bottom
-                painter.drawPixmap(x, y, m_pixmap);
-            } else {
-                x = iconHeight - m_pixmap.width();        // Align right
-                y = (iconHeight - m_pixmap.height()) / 2; // Center vertically
-                painter.drawPixmap(x, y, m_pixmap);
+            const int x = (iconHeight - m_pixmap.width()) / 2;  // Center horizontally
+            int y = iconHeight - m_pixmap.height();             // Move to bottom
+            if (!iconOnTop) {
+                y /= 2.0;                                       // Center vertically
             }
+            painter.drawPixmap(x, y, m_pixmap);
 
             m_pixmap = squarePixmap;
         } else {
@@ -559,7 +558,12 @@ void KFileItemListWidget::updatePixmapCache()
         hoverHeight *= scaleFactor;
     }
     const qreal hoverX = m_pixmapPos.x() + (m_scaledPixmapSize.width() - hoverWidth) / 2.0;
-    const qreal hoverY = m_pixmapPos.y() + m_scaledPixmapSize.height() - hoverHeight;
+    qreal hoverY = m_scaledPixmapSize.height() - hoverHeight;
+    if (!iconOnTop) {
+        hoverY /= 2.0;
+    }
+    hoverY += m_pixmapPos.y();
+
     m_iconRect = QRectF(hoverX, hoverY, hoverWidth, hoverHeight);
     const qreal margin = option.margin;
     m_iconRect.adjust(-margin, -margin, margin, margin);
@@ -843,7 +847,7 @@ void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
         painter->drawPixmap(m_pixmapPos, scaledPixmap);
 
 #ifdef KFILEITEMLISTWIDGET_DEBUG
-        painter->setPen(Qt::green);
+        painter->setPen(Qt::blue);
         painter->drawRect(QRectF(m_pixmapPos, QSizeF(scaledPixmap.size())));
 #endif
     } else {
