@@ -234,7 +234,7 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
         pos.rx() = 0;
         size = QSizeF(m_size.width(), m_groupHeaderHeight);
     } else {
-        size = QSizeF(firstItemRect.width(), m_groupHeaderHeight);
+        size = QSizeF(minimumGroupHeaderWidth(), m_groupHeaderHeight);
     }
     return QRectF(pos, size);
 }
@@ -293,10 +293,7 @@ void KItemListViewLayouter::doLayout()
             // Apply the unused width equally to each column
             const qreal unusedWidth = size.width() - m_columnCount * m_columnWidth;
             if (unusedWidth > 0) {
-                // [Comment #1] A cast to int is done on purpose to prevent rounding issues when
-                // drawing pixmaps and drawing text or other graphic primitives: Qt uses a different
-                // rastering algorithm for the upper/left of pixmaps
-                const qreal columnInc = int(unusedWidth / (m_columnCount + 1));
+                const qreal columnInc = unusedWidth / (m_columnCount + 1);
                 m_columnWidth += columnInc;
                 m_xPosInc += columnInc;
             }
@@ -367,9 +364,9 @@ void KItemListViewLayouter::doLayout()
                     // (in average a character requires the halve width of the font height).
                     //
                     // TODO: Let the group headers provide a minimum width and respect this width here
-                    const qreal minimumGroupHeaderWidth = int(m_groupHeaderHeight * 15 / 2); // See [Comment #1]
-                    if (requiredItemHeight < minimumGroupHeaderWidth) {
-                        requiredItemHeight = minimumGroupHeaderWidth;
+                    const qreal headerWidth = minimumGroupHeaderWidth();
+                    if (requiredItemHeight < headerWidth) {
+                        requiredItemHeight = headerWidth;
                     }
                 }
 
@@ -509,6 +506,11 @@ bool KItemListViewLayouter::createGroupHeaders()
     }
 
     return true;
+}
+
+qreal KItemListViewLayouter::minimumGroupHeaderWidth() const
+{
+    return m_groupHeaderHeight * 15 / 2;
 }
 
 #include "kitemlistviewlayouter_p.moc"
