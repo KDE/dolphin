@@ -288,70 +288,33 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     // Update the current item
     if (m_currentItem >= 0) {
         const int previousCurrent = m_currentItem;
-        int currentItem = m_currentItem;
-        foreach (const KItemRange& itemRange, itemRanges) {
-            if (currentItem < itemRange.index) {
-                break;
-            }
-
-            if (currentItem >= itemRange.index + itemRange.count) {
-                currentItem -= itemRange.count;
-            }
-
-            if (currentItem >= m_model->count()) {
-                currentItem = m_model->count() - 1;
-            }
-        }
-        // Calling setCurrentItem would trigger the selectionChanged signal, but we want to
+        // Calling setCurrentItem() would trigger the selectionChanged signal, but we want to
         // emit it only once in this function -> change the current item manually and emit currentChanged
-        m_currentItem = currentItem;
-        Q_ASSERT(m_currentItem < m_model->count());
-        emit currentChanged(m_currentItem, previousCurrent);
+        m_currentItem = indexAfterRangesRemoving(m_currentItem, itemRanges);
+        if (m_currentItem < 0) {
+            m_currentItem = qMin(previousCurrent, m_model->count() - 1);
+        }
+        if (m_currentItem != previousCurrent) {
+            emit currentChanged(m_currentItem, previousCurrent);
+        }
     }
 
     // Update the anchor item
     if (m_anchorItem >= 0) {
-        int anchorItem = m_anchorItem;
-        foreach (const KItemRange& itemRange, itemRanges) {
-            if (anchorItem < itemRange.index) {
-                break;
-            }
-            if (anchorItem >= itemRange.index + itemRange.count) {
-                anchorItem -= itemRange.count;
-            } else if (anchorItem >= m_model->count()) {
-                anchorItem = m_model->count() - 1;
-            }
-        }
-        m_anchorItem = anchorItem;
+        m_anchorItem = indexAfterRangesRemoving(m_anchorItem, itemRanges);
         if (m_anchorItem < 0) {
             m_isAnchoredSelectionActive = false;
         }
     }
 
-    // Update the selections
+    // Update the selections and the anchor item
     if (!m_selectedItems.isEmpty()) {
         const QSet<int> previous = m_selectedItems;
         m_selectedItems.clear();
         m_selectedItems.reserve(previous.count());
         QSetIterator<int> it(previous);
         while (it.hasNext()) {
-            int index = it.next();
-            int dec = 0;
-            foreach (const KItemRange& itemRange, itemRanges) {
-                if (index < itemRange.index) {
-                    break;
-                }
-
-                if (index < itemRange.index + itemRange.count) {
-                    // The selection is part of the removed range
-                    // and will get deleted
-                    index = -1;
-                    break;
-                }
-
-                dec += itemRange.count;
-            }
-            index -= dec;
+            const int index = indexAfterRangesRemoving(it.next(), itemRanges);
             if (index >= 0)  {
                 m_selectedItems.insert(index);
             }
@@ -362,6 +325,9 @@ void KItemListSelectionManager::itemsRemoved(const KItemRangeList& itemRanges)
     if (selection != previousSelection) {
         emit selectionChanged(selection, previousSelection);
     }
+
+    Q_ASSERT(m_currentItem < m_model->count());
+    Q_ASSERT(m_anchorItem < m_model->count());
 }
 
 void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
@@ -408,4 +374,21 @@ void KItemListSelectionManager::itemsMoved(const KItemRange& itemRange, const QL
     }
 }
 
+int KItemListSelectionManager::indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges) const
+{
+    int dec = 0;
+    foreach (const KItemRange& itemRange, itemRanges) {
+        if (index < itemRange.index) {
+            break;
+        }
+
+        if (index < itemRange.index + itemRange.count) {
+            // The index is part of the removed range
+            return -1;
+        }
+
+        dec += itemRange.count;
+    }
+    return index - dec;
+}
 #include "kitemlistselectionmanager.moc"

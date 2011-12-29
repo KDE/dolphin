@@ -311,11 +311,8 @@ KFileItemList DolphinView::selectedItems() const
     const KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
     const QSet<int> selectedIndexes = selectionManager->selectedItems();
 
-    QList<int> sortedIndexes = selectedIndexes.toList();
-    qSort(sortedIndexes);
-
     KFileItemList selectedItems;
-    QListIterator<int> it(sortedIndexes);
+    QSetIterator<int> it(selectedIndexes);
     while (it.hasNext()) {
         const int index = it.next();
         selectedItems.append(model->fileItem(index));
