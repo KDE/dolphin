@@ -76,6 +76,13 @@ private:
     void itemsRemoved(const KItemRangeList& itemRanges);
     void itemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes);
 
+
+    /**
+     * Helper method for itemsRemoved. Returns the changed index after removing
+     * the given range. If the index is part of the range, -1 will be returned.
+     */
+    int indexAfterRangesRemoving(int index, const KItemRangeList& itemRanges) const;
+
 private:
     int m_currentItem;
     int m_anchorItem;
