@@ -21,7 +21,6 @@
 #include "statusbarspaceinfo.h"
 
 #include <KDiskFreeSpaceInfo>
-#include <kmountpoint.h>
 #include <KLocale>
 #include <KIO/Job>
 
@@ -83,12 +82,7 @@ void StatusBarSpaceInfo::refresh()
         return;
     }
 
-    KMountPoint::Ptr mp = KMountPoint::currentMountPoints().findByPath(m_url.toLocalFile());
-    if (!mp) {
-        return;
-    }
-
-    KDiskFreeSpaceInfo job = KDiskFreeSpaceInfo::freeSpaceInfo(mp->mountPoint());
+    KDiskFreeSpaceInfo job = KDiskFreeSpaceInfo::freeSpaceInfo(m_url.toLocalFile());
     if (!job.isValid()) {
         setText(i18nc("@info:status", "Unknown size"));
         setValue(0);
