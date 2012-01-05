@@ -63,7 +63,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     Q_ASSERT(dirLister);
 
     connect(dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));
-    connect(dirLister, SIGNAL(completed()), this, SLOT(slotCompleted()));
+    connect(dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted()));
     connect(dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(slotNewItems(KFileItemList)));
     connect(dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
     connect(dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
