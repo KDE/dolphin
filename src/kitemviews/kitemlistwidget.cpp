@@ -119,26 +119,25 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     }
 
     if (isCurrent()) {
-        QStyleOptionViewItemV4 viewItemOption;
-        viewItemOption.initFrom(widget);
+        QStyleOptionFocusRect focusRectOption;
+        focusRectOption.initFrom(widget);
 
         const QRect iconBounds = iconRect().toRect();
         const QRect textBounds = textRect().toRect();
         if (iconBounds.bottom() > textBounds.top()) {
-            viewItemOption.rect = textBounds;
+            focusRectOption.rect = textBounds;
         } else {
             // See KItemListWidget::drawItemStyleOption(): The selection rectangle
             // gets decreased.
-            viewItemOption.rect = textBounds.adjusted(1, 1, -1, -1);
+            focusRectOption.rect = textBounds.adjusted(1, 1, -1, -1);
         }
 
-        viewItemOption.state = QStyle::State_Enabled | QStyle::State_Item;
+        focusRectOption.state = QStyle::State_Enabled | QStyle::State_Item;
         if (m_selected) {
-            viewItemOption.state |= QStyle::State_Selected;
+            focusRectOption.state |= QStyle::State_Selected;
         }
 
-        viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
-        style()->drawPrimitive(QStyle::PE_FrameFocusRect, &viewItemOption, painter, widget);
+        style()->drawPrimitive(QStyle::PE_FrameFocusRect, &focusRectOption, painter, widget);
     }
 
     if (m_hoverOpacity > 0.0) {
@@ -438,6 +437,7 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.initFrom(widget);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
+    viewItemOption.showDecorationSelected = true;
 
     if (iconBounds.bottom() > textBounds.top()) {
         viewItemOption.rect = iconBounds | textBounds;
