@@ -41,6 +41,7 @@
 
 KItemListController::KItemListController(QObject* parent) :
     QObject(parent),
+    m_singleClickActivation(KGlobalSettings::singleClick()),
     m_selectionTogglePressed(false),
     m_selectionBehavior(NoSelection),
     m_model(0),
@@ -140,6 +141,16 @@ void KItemListController::setAutoActivationDelay(int delay)
 int KItemListController::autoActivationDelay() const
 {
     return m_autoActivationTimer->interval();
+}
+
+void KItemListController::setSingleClickActivation(bool singleClick)
+{
+    m_singleClickActivation = singleClick;
+}
+
+bool KItemListController::singleClickActivation() const
+{
+    return m_singleClickActivation;
 }
 
 bool KItemListController::showEvent(QShowEvent* event)
@@ -577,7 +588,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
             } else if (shiftOrControlPressed) {
                 // The mouse click should only update the selection, not trigger the item
                 emitItemActivated = false;
-            } else if (!KGlobalSettings::singleClick()) {
+            } else if (!m_singleClickActivation) {
                 emitItemActivated = false;
             }
             if (emitItemActivated) {
@@ -598,7 +609,7 @@ bool KItemListController::mouseDoubleClickEvent(QGraphicsSceneMouseEvent* event,
     const QPointF pos = transform.map(event->pos());
     const int index = m_view->itemAt(pos);
 
-    bool emitItemActivated = !KGlobalSettings::singleClick() &&
+    bool emitItemActivated = !m_singleClickActivation &&
                              (event->button() & Qt::LeftButton) &&
                              index >= 0 && index < m_model->count();
     if (emitItemActivated) {

@@ -104,6 +104,15 @@ public:
     void setAutoActivationDelay(int delay);
     int autoActivationDelay() const;
 
+    /**
+     * If set to true, the signals itemActivated() and itemsActivated() are emitted
+     * after a single-click of the left mouse button. If set to false, a double-click
+     * is required. Per default the setting from KGlobalSettings::singleClick() is
+     * used.
+     */
+    void setSingleClickActivation(bool singleClick);
+    bool singleClickActivation() const;
+
     virtual bool showEvent(QShowEvent* event);
     virtual bool hideEvent(QHideEvent* event);
     virtual bool keyPressEvent(QKeyEvent* event);
@@ -249,6 +258,7 @@ private:
     qreal keyboardAnchorPos(int index) const;
 
 private:
+    bool m_singleClickActivation;
     bool m_selectionTogglePressed;
     SelectionBehavior m_selectionBehavior;
     KItemModelBase* m_model;
