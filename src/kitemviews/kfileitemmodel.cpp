@@ -1188,12 +1188,8 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
             if (forceRootExpansionLevel) {
                 m_rootExpansionLevel = ForceRootExpansionLevel;
             } else {
-                const QString rootDir = rootUrl.directory(KUrl::AppendTrailingSlash);
+                const QString rootDir = rootUrl.path(KUrl::AddTrailingSlash);
                 m_rootExpansionLevel = rootDir.count('/');
-                if (m_rootExpansionLevel == 1) {
-                    // Special case: The root is already reached and no parent is available
-                    --m_rootExpansionLevel;
-                }
             }
         }
 
@@ -1201,7 +1197,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
             data.insert("expansionLevel", -1);
         } else {
             const QString dir = item.url().directory(KUrl::AppendTrailingSlash);
-            const int level = dir.count('/') - m_rootExpansionLevel - 1;
+            const int level = dir.count('/') - m_rootExpansionLevel;
             data.insert("expansionLevel", level);
         }
     }
