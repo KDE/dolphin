@@ -362,10 +362,10 @@ void KPixmapModifier::scale(QPixmap& pixmap, const QSize& scaledSize)
                          0, 0, 0, 0, 0, 0, scaledPixmap.width(), scaledPixmap.height());
         pixmap = scaledPixmap;
     } else {
-        pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::FastTransformation);
+        pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
     }
 #else
-    pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::FastTransformation);
+    pixmap = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 #endif
 }
 
