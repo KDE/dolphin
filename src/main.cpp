@@ -82,6 +82,10 @@ KDE_EXPORT int kdemain(int argc, char **argv)
     options.add("+[Url]", ki18nc("@info:shell", "Document to open"));
     KCmdLineArgs::addCmdLineOptions(options);
 
+    // Use the native graphicssystem per default, as the scaling of pixmaps is just way too
+    // slow with the raster graphicssystem (see KPixmapModifier::scalePixmap()).
+    QApplication::setGraphicsSystem("native");
+
     DolphinApplication app;
     KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
 
