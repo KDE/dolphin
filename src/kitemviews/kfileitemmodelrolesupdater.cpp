@@ -72,7 +72,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_pendingVisibleItems(),
     m_pendingInvisibleItems(),
     m_previewJobs(),
-    m_resolvePendingRolesTimer(0)
+    m_resolvePendingRolesTimer(0),
+    m_changedItemsTimer(0),
+    m_changedItems()
 {
     Q_ASSERT(model);
 
@@ -95,6 +97,13 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_resolvePendingRolesTimer->setInterval(1);
     m_resolvePendingRolesTimer->setSingleShot(true);
     connect(m_resolvePendingRolesTimer, SIGNAL(timeout()), this, SLOT(resolvePendingRoles()));
+
+    // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
+    // resolving of the roles. Postpone the resolving until no update has been done for 2 seconds.
+    m_changedItemsTimer = new QTimer(this);
+    m_changedItemsTimer->setInterval(2000);
+    m_changedItemsTimer->setSingleShot(true);
+    connect(m_changedItemsTimer, SIGNAL(timeout()), this, SLOT(resolveChangedItems()));
 }
 
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
@@ -270,9 +279,14 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
         // Most probably a directory change is done. Clear all pending items
         // and also kill all ongoing preview-jobs.
         resetPendingRoles();
+
+        m_changedItems.clear();
+        m_changedItemsTimer->stop();
     } else {
         // Remove all items from m_pendingVisibleItems and m_pendingInvisibleItems
-        // that are not part of the model anymore.
+        // that are not part of the model anymore. The items from m_changedItems
+        // don't need to be handled here, removed items are just skipped in
+        // resolveChangedItems().
         for (int i = 0; i <= 1; ++i) {
             QSet<KFileItem>& pendingItems = (i == 0) ? m_pendingVisibleItems : m_pendingInvisibleItems;
             QMutableSetIterator<KFileItem> it(pendingItems);
@@ -290,7 +304,22 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRang
                                                   const QSet<QByteArray>& roles)
 {
     Q_UNUSED(roles);
-    startUpdating(itemRanges);
+
+    if (m_changedItemsTimer->isActive()) {
+        // A call of slotItemsChanged() has been done recently. Postpone the resolving
+        // of the roles until the timer has exceeded.
+        foreach (const KItemRange& itemRange, itemRanges) {
+            int index = itemRange.index;
+            for (int count = itemRange.count; count >= 0; --count) {
+                m_changedItems.insert(m_model->fileItem(index));
+                ++index;
+            }
+        }
+    } else {
+        // No call of slotItemsChanged() has been done recently, resolve the roles now.
+        startUpdating(itemRanges);
+    }
+    m_changedItemsTimer->start();
 }
 
 void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPixmap& pixmap)
@@ -468,6 +497,26 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
                  << "invisible:" << m_pendingInvisibleItems.count();
     }
 #endif
+}
+
+void KFileItemModelRolesUpdater::resolveChangedItems()
+{
+    if (m_changedItems.isEmpty()) {
+        return;
+    }
+
+    KItemRangeList itemRanges;
+
+    QSetIterator<KFileItem> it(m_changedItems);
+    while (it.hasNext()) {
+        const KFileItem& item = it.next();
+        const int index = m_model->index(item);
+        if (index >= 0) {
+            itemRanges.append(KItemRange(index, 1));
+        }
+    }
+
+    startUpdating(itemRanges);
 }
 
 void KFileItemModelRolesUpdater::startUpdating(const KItemRangeList& itemRanges)
