@@ -126,6 +126,13 @@ private slots:
     void resolvePendingRoles();
     void resolveNextPendingRoles();
 
+    /**
+     * Resolves items that have not been resolved yet after the change has been
+     * notified by slotItemsChanged(). Is invoked if the m_changedItemsTimer
+     * exceeds.
+     */
+    void resolveChangedItems();
+
 private:
     /**
      * Updates the roles for the given item ranges. The roles for the currently
@@ -189,6 +196,14 @@ private:
     QList<KJob*> m_previewJobs;
 
     QTimer* m_resolvePendingRolesTimer;
+
+    // When downloading or copying large files, the slot slotItemsChanged()
+    // will be called periodically within a quite short delay. To prevent
+    // a high CPU-load by generating e.g. previews for each notification, the update
+    // will be postponed until no file change has been done within a longer period
+    // of time.
+    QTimer* m_changedItemsTimer;
+    QSet<KFileItem> m_changedItems;
 };
 
 #endif
