@@ -196,6 +196,7 @@ Exec=dolphin
 [Desktop Action compact]
 Name=Compact
 Name[ca]=Compacte
+Name[ca@valencia]=Compacte
 Name[da]=Kompakt
 Name[de]=Kompakt
 Name[es]=Compacta
