@@ -301,6 +301,11 @@ private slots:
      */
     void goUp(Qt::MouseButtons buttons);
 
+    /**
+     * Open the home URL in a new tab
+     */
+    void goHome(Qt::MouseButtons buttons);
+
     /** Opens Kompare for 2 selected files. */
     void compareFiles();
 
