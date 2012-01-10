@@ -925,7 +925,7 @@ void KItemListController::startDragging()
     const QPixmap pixmap = m_view->createDragPixmap(selectedItems);
     drag->setPixmap(pixmap);
 
-    drag->exec(Qt::CopyAction);
+    drag->exec(Qt::MoveAction | Qt::CopyAction | Qt::LinkAction, Qt::CopyAction);
 }
 
 KItemListWidget* KItemListController::hoveredWidget() const
