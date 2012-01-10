@@ -1024,6 +1024,14 @@ void DolphinMainWindow::goUp(Qt::MouseButtons buttons)
     }
 }
 
+void DolphinMainWindow::goHome(Qt::MouseButtons buttons)
+{
+    // The default case (left button pressed) is handled in goHome().
+    if (buttons == Qt::MidButton) {
+        openNewTab(GeneralSettings::self()->homeUrl());
+    }
+}
+
 void DolphinMainWindow::compareFiles()
 {
     // The method is only invoked if exactly 2 files have
@@ -1690,7 +1698,8 @@ void DolphinMainWindow::setupActions()
     KAction* upAction = KStandardAction::up(this, SLOT(goUp()), actionCollection());
     connect(upAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goUp(Qt::MouseButtons)));
 
-    KStandardAction::home(this, SLOT(goHome()), actionCollection());
+    KAction* homeAction = KStandardAction::home(this, SLOT(goHome()), actionCollection());
+    connect(homeAction, SIGNAL(triggered(Qt::MouseButtons,Qt::KeyboardModifiers)), this, SLOT(goHome(Qt::MouseButtons)));
 
     // setup 'Tools' menu
     KAction* showFilterBar = actionCollection()->addAction("show_filter_bar");
