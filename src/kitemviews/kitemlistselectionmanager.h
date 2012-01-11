@@ -92,7 +92,7 @@ private:
     KItemModelBase* m_model;
 
     friend class KItemListController; // Calls setModel()
-    friend class KItemListView;       // Calls itemsInserted() and itemsRemoved()
+    friend class KItemListView;       // Calls itemsInserted(), itemsRemoved() and itemsMoved()
     friend class KItemListSelectionManagerTest;
 };
 
