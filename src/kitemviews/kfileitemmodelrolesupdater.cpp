@@ -310,7 +310,7 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRang
         // of the roles until the timer has exceeded.
         foreach (const KItemRange& itemRange, itemRanges) {
             int index = itemRange.index;
-            for (int count = itemRange.count; count >= 0; --count) {
+            for (int count = itemRange.count; count > 0; --count) {
                 m_changedItems.insert(m_model->fileItem(index));
                 ++index;
             }
