@@ -380,7 +380,9 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
     }
 
     if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
+        m_selectionManager->endAnchoredSelection();
         m_selectionManager->setCurrentItem(m_pressedIndex);
+        m_selectionManager->beginAnchoredSelection(m_pressedIndex);
         return true;
     }
 
