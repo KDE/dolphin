@@ -132,7 +132,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
             focusRectOption.rect = textBounds.adjusted(1, 1, -1, -1);
         }
 
-        focusRectOption.state = QStyle::State_Enabled | QStyle::State_Item;
+        focusRectOption.state = QStyle::State_Enabled | QStyle::State_Item | QStyle::State_KeyboardFocusChange;
         if (m_selected) {
             focusRectOption.state |= QStyle::State_Selected;
         }
