@@ -195,7 +195,7 @@ void VersionControlObserver::slotThreadFinished()
     UpdateItemStatesThread* thread = m_updateItemStatesThread;
     m_updateItemStatesThread = 0; // The thread deletes itself automatically (see updateItemStates())
 
-    if (!m_plugin) {
+    if (!m_plugin || !thread) {
         return;
     }
 
