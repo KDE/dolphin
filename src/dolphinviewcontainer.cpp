@@ -373,6 +373,11 @@ void DolphinViewContainer::slotFinishedPathLoading()
 
 void DolphinViewContainer::slotItemActivated(const KFileItem& item)
 {
+    // It is possible to activate items on inactive views by
+    // drag & drop operations. Assure that activating an item always
+    // results in an active view.
+    m_view->setActive(true);
+
     KUrl url = item.targetUrl();
 
     if (item.isDir()) {
