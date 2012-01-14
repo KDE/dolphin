@@ -139,7 +139,7 @@ private:
 
     QAction* createPasteAction();
 
-    KFileItemListProperties& selectedItemsProperties();
+    KFileItemListProperties& selectedItemsProperties() const;
 
     /**
      * Returns the file item for m_baseUrl.
@@ -170,9 +170,17 @@ private:
 
     /**
      * Updates m_removeAction to represent the 'Delete'-action if the shift-key
-     * has been pressed. Otherwise it represents the 'Move to Trash'-action.
+     * has been pressed or the selection is not local. Otherwise it represents
+     * the 'Move to Trash'-action.
      */
     void updateRemoveAction();
+
+    /**
+     * @return True if no shift key has been pressed and the selection represents
+     *         only local files.
+     * @see updateRemoveAction(), slotRemoveActionTriggered()
+     */
+    bool moveToTrash() const;
 
 private:
     struct Entry
@@ -201,7 +209,7 @@ private:
     KFileItem* m_baseFileItem;  /// File item for m_baseUrl
 
     KFileItemList m_selectedItems;
-    KFileItemListProperties* m_selectedItemsProperties;
+    mutable KFileItemListProperties* m_selectedItemsProperties;
 
     int m_context;
     KonqCopyToMenu m_copyToMenu;
