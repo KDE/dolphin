@@ -52,6 +52,7 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
     m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
     controller()->setView(m_fileItemListView);
 
+    updateAutoActivationDelay();
     updateFont();
     updateGridSize();
 }
@@ -174,6 +175,10 @@ void DolphinItemListContainer::refresh()
     ViewModeSettings settings(viewMode());
     settings.readConfig();
 
+    beginTransaction();
+
+    m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
+    updateAutoActivationDelay();
     updateFont();
     updateGridSize();
 
@@ -183,6 +188,8 @@ void DolphinItemListContainer::refresh()
                                                        << "imagethumbnail"
                                                        << "jpegthumbnail");
     m_fileItemListView->setEnabledPlugins(plugins);
+
+    endTransaction();
 }
 
 void DolphinItemListContainer::updateGridSize()
@@ -245,6 +252,12 @@ void DolphinItemListContainer::updateFont()
     styleOption.fontMetrics = QFontMetrics(font);
 
     m_fileItemListView->setStyleOption(styleOption);
+}
+
+void DolphinItemListContainer::updateAutoActivationDelay()
+{
+    const int delay = GeneralSettings::autoExpandFolders() ? 750 : -1;
+    controller()->setAutoActivationDelay(delay);
 }
 
 ViewModeSettings::ViewMode DolphinItemListContainer::viewMode() const

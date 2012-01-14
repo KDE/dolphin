@@ -73,6 +73,12 @@ private:
     void updateGridSize();
     void updateFont();
 
+    /**
+     * Updates the auto activation delay of the itemlist controller
+     * dependent on the 'autoExpand' setting from the general settings.
+     */
+    void updateAutoActivationDelay();
+
     ViewModeSettings::ViewMode viewMode() const;
 
 private:

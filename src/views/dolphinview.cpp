@@ -137,9 +137,6 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
 
     KItemListController* controller = m_container->controller();
     controller->setSelectionBehavior(KItemListController::MultiSelection);
-    if (GeneralSettings::autoExpandFolders()) {
-        controller->setAutoActivationDelay(750);
-    }
     connect(controller, SIGNAL(itemActivated(int)), this, SLOT(slotItemActivated(int)));
     connect(controller, SIGNAL(itemsActivated(QSet<int>)), this, SLOT(slotItemsActivated(QSet<int>)));
     connect(controller, SIGNAL(itemMiddleClicked(int)), this, SLOT(slotItemMiddleClicked(int)));
