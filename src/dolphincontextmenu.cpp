@@ -159,10 +159,10 @@ void DolphinContextMenu::slotKeyModifierPressed(Qt::Key key, bool pressed)
 void DolphinContextMenu::slotRemoveActionTriggered()
 {
     const KActionCollection* collection = m_mainWindow->actionCollection();
-    if (m_shiftPressed) {
-        collection->action("delete")->trigger();
-    } else {
+    if (moveToTrash()) {
         collection->action("move_to_trash")->trigger();
+    } else {
+        collection->action("delete")->trigger();
     }
 }
 
@@ -449,7 +449,7 @@ QAction* DolphinContextMenu::createPasteAction()
     return action;
 }
 
-KFileItemListProperties& DolphinContextMenu::selectedItemsProperties()
+KFileItemListProperties& DolphinContextMenu::selectedItemsProperties() const
 {
     if (!m_selectedItemsProperties) {
         m_selectedItemsProperties = new KFileItemListProperties(m_selectedItems);
@@ -541,13 +541,12 @@ void DolphinContextMenu::addCustomActions()
 void DolphinContextMenu::updateRemoveAction()
 {
     const KActionCollection* collection = m_mainWindow->actionCollection();
-    const bool moveToTrash = selectedItemsProperties().isLocal() && !m_shiftPressed;
 
     // Using m_removeAction->setText(action->text()) does not apply the &-shortcut.
     // This is only done until the original action has been shown at least once. To
     // bypass this issue, the text and &-shortcut is applied manually.
     const QAction* action = 0;
-    if (moveToTrash) {
+    if (moveToTrash()) {
         action = collection->action("move_to_trash");
         m_removeAction->setText(i18nc("@action:inmenu", "&Move to Trash"));
     } else {
@@ -556,6 +555,11 @@ void DolphinContextMenu::updateRemoveAction()
     }
     m_removeAction->setIcon(action->icon());
     m_removeAction->setShortcuts(action->shortcuts());
+}
+
+bool DolphinContextMenu::moveToTrash() const
+{
+    return selectedItemsProperties().isLocal() && !m_shiftPressed;
 }
 
 #include "dolphincontextmenu.moc"
