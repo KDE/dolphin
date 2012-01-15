@@ -389,6 +389,10 @@ int KItemListView::itemAt(const QPointF& pos) const
 
 bool KItemListView::isAboveSelectionToggle(int index, const QPointF& pos) const
 {
+    if (!m_enabledSelectionToggles) {
+        return false;
+    }
+
     const KItemListWidget* widget = m_visibleItems.value(index);
     if (widget) {
         const QRectF selectionToggleRect = widget->selectionToggleRect();
