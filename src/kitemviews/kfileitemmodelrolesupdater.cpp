@@ -33,7 +33,7 @@
 #include <QElapsedTimer>
 #include <QTimer>
 
-// Required includes for subDirectoriesCount():
+// Required includes for subItemsCount():
 #ifdef Q_WS_WIN
     #include <QDir>
 #else
@@ -770,7 +770,7 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
 
     if ((getSizeRole || getIsExpandableRole) && item.isDir() && item.isLocalFile()) {
         const QString path = item.localPath();
-        const int count = subDirectoriesCount(path);
+        const int count = subItemsCount(path);
         if (count >= 0) {
             if (getSizeRole) {
                 data.insert("size", KIO::filesize_t(count));
@@ -826,15 +826,21 @@ KFileItemList KFileItemModelRolesUpdater::sortedItems(const QSet<KFileItem>& ite
     return itemList;
 }
 
-int KFileItemModelRolesUpdater::subDirectoriesCount(const QString& path) const
+int KFileItemModelRolesUpdater::subItemsCount(const QString& path) const
 {
     const bool countHiddenFiles = m_model->showHiddenFiles();
+    const bool showFoldersOnly  = m_model->showFoldersOnly();
 
 #ifdef Q_WS_WIN
     QDir dir(path);
-    QDir::Filters filters = QDir::AllEntries | QDir::NoDotAndDotDot | QDir::System;
+    QDir::Filters filters = QDir::NoDotAndDotDot | QDir::System;
     if (countHiddenFiles) {
         filters |= QDir::Hidden;
+    }
+    if (showFoldersOnly) {
+        filters |= QDir::Dirs;
+    } else {
+        filters |= QDir::AllEntries;
     }
     return dir.entryList(filters).count();
 #else
@@ -857,7 +863,10 @@ int KFileItemModelRolesUpdater::subDirectoriesCount(const QString& path) const
                     continue;
                 }
             }
-            ++count;
+
+            if (!showFoldersOnly || dirEntry->d_type == DT_DIR) {
+                ++count;
+            }
         }
         ::closedir(dir);
     }

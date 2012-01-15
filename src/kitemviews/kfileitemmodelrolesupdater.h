@@ -164,7 +164,10 @@ private:
 
     KFileItemList sortedItems(const QSet<KFileItem>& items) const;
 
-    int subDirectoriesCount(const QString& path) const;
+    /**
+     * @return The number of items of the path \a path.
+     */
+    int subItemsCount(const QString& path) const;
 
 private:
     // Property for setPaused()/isPaused().

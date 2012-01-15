@@ -73,6 +73,13 @@ public:
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
+    /**
+     * If set to true, only folders are shown as items of the model. Files
+     * are ignored.
+     */
+    void setShowFoldersOnly(bool enabled);
+    bool showFoldersOnly() const;
+
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
 
