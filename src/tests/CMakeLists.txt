@@ -1,6 +1,8 @@
 set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_BUILD_DIR}/.. ${KDE4_INCLUDES} )
 
+# needed on windows to correctly use the files from dolphinprivate
+add_definitions(-DLIBDOLPHINPRIVATE_EXPORT=)
 # KItemListSelectionManagerTest
 set(kitemlistselectionmanagertest_SRCS
     kitemlistselectionmanagertest.cpp
