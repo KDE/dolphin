@@ -140,7 +140,6 @@ void FoldersPanel::showEvent(QShowEvent* event)
         // This assures that no performance and memory overhead is given when the TreeView is not
         // used at all (see FoldersPanel::setUrl()).
         m_dirLister = new KDirLister();
-        m_dirLister->setDirOnlyMode(true);
         m_dirLister->setAutoUpdate(true);
         m_dirLister->setMainWindow(window());
         m_dirLister->setDelayedMimeTypes(true);
@@ -163,6 +162,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         view->setOpacity(0);
 
         KFileItemModel* model = new KFileItemModel(m_dirLister, this);
+        model->setShowFoldersOnly(true);
         model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
         // Use a QueuedConnection to give the view the possibility to react first on the
         // finished loading.

@@ -183,6 +183,20 @@ bool KFileItemModel::showHiddenFiles() const
     return dirLister ? dirLister->showingDotFiles() : false;
 }
 
+void KFileItemModel::setShowFoldersOnly(bool enabled)
+{
+    KDirLister* dirLister = m_dirLister.data();
+    if (dirLister) {
+        dirLister->setDirOnlyMode(enabled);
+    }
+}
+
+bool KFileItemModel::showFoldersOnly() const
+{
+    KDirLister* dirLister = m_dirLister.data();
+    return dirLister ? dirLister->dirOnlyMode() : false;
+}
+
 QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
 {
     QMimeData* data = new QMimeData();
