@@ -195,6 +195,7 @@ void DolphinViewActionHandler::createActions()
     }
 
     KToggleAction* showInGroups = m_actionCollection->add<KToggleAction>("show_in_groups");
+    showInGroups->setIcon(KIcon("view-group"));
     showInGroups->setText(i18nc("@action:inmenu View", "Show in Groups"));
     connect(showInGroups, SIGNAL(triggered(bool)), this, SLOT(toggleGroupedSorting(bool)));
 
