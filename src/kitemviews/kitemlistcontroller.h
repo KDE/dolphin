@@ -260,6 +260,7 @@ private:
 private:
     bool m_singleClickActivation;
     bool m_selectionTogglePressed;
+    bool m_clearSelectionIfItemsAreNotDragged;
     SelectionBehavior m_selectionBehavior;
     KItemModelBase* m_model;
     KItemListView* m_view;

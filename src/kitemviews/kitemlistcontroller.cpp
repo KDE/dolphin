@@ -43,6 +43,7 @@ KItemListController::KItemListController(QObject* parent) :
     QObject(parent),
     m_singleClickActivation(KGlobalSettings::singleClick()),
     m_selectionTogglePressed(false),
+    m_clearSelectionIfItemsAreNotDragged(false),
     m_selectionBehavior(NoSelection),
     m_model(0),
     m_view(0),
@@ -413,6 +414,13 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
                                 (!shiftOrControlPressed && !pressedItemAlreadySelected);
     if (clearSelection) {
         m_selectionManager->clearSelection();
+    } else if (pressedItemAlreadySelected && (event->buttons() & Qt::LeftButton)) {
+        // The user might want to start dragging multiple items, but if he clicks the item
+        // in order to trigger it instead, the other selected items must be deselected.
+        // However, we do not know yet what the user is going to do.
+        // -> remember that the user pressed an item which had been selected already and
+        //    clear the selection in mouseReleaseEvent(), unless the items are dragged.
+        m_clearSelectionIfItemsAreNotDragged = true;
     }
 
     if (!shiftPressed) {
@@ -505,7 +513,12 @@ bool KItemListController::mouseMoveEvent(QGraphicsSceneMouseEvent* event, const 
                     // done on the mouse-press event, but when using the selection-toggle on a
                     // selected item the dragged item is not selected yet.
                     m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Toggle);
+                } else {
+                    // A selected item has been clicked to drag all selected items
+                    // -> the selection should not be cleared when the mouse button is released.
+                    m_clearSelectionIfItemsAreNotDragged = false;
                 }
+
                 startDragging();
             }
         }
@@ -579,6 +592,14 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
     if (index >= 0 && index == m_pressedIndex) {
         // The release event is done above the same item as the press event
 
+        if (m_clearSelectionIfItemsAreNotDragged) {
+            // A selected item has been clicked, but no drag operation has been started
+            // -> clear the rest of the selection.
+            m_selectionManager->clearSelection();
+            m_selectionManager->setSelected(m_pressedIndex, 1, KItemListSelectionManager::Select);
+            m_selectionManager->beginAnchoredSelection(m_pressedIndex);
+        }
+
         if (event->button() & Qt::LeftButton) {
             bool emitItemActivated = true;
             if (m_view->isAboveExpansionToggle(index, pos)) {
@@ -603,6 +624,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
 
     m_pressedMousePos = QPointF();
     m_pressedIndex = -1;
+    m_clearSelectionIfItemsAreNotDragged = false;
     return false;
 }
 
