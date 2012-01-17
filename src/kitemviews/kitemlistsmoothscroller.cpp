@@ -19,6 +19,7 @@
 
 #include "kitemlistsmoothscroller_p.h"
 
+#include <KGlobalSettings>
 #include <QEvent>
 #include <QPropertyAnimation>
 #include <QScrollBar>
@@ -35,7 +36,8 @@ KItemListSmoothScroller::KItemListSmoothScroller(QScrollBar* scrollBar,
     m_animation(0)
 {
     m_animation = new QPropertyAnimation(this);
-    m_animation->setDuration(200);
+    const int duration = (KGlobalSettings::graphicEffectsLevel() == KGlobalSettings::NoEffects) ? 1 : 100;
+    m_animation->setDuration(duration);
     connect(m_animation, SIGNAL(stateChanged(QAbstractAnimation::State,QAbstractAnimation::State)),
             this, SLOT(slotAnimationStateChanged(QAbstractAnimation::State,QAbstractAnimation::State)));
 
@@ -100,7 +102,6 @@ void KItemListSmoothScroller::scrollContentsBy(qreal distance)
     }
 
     const qreal endOffset = currentOffset - distance;
-
     if (m_smoothScrolling || animRunning) {
         qreal startOffset = currentOffset;
         if (animRunning) {
@@ -109,6 +110,11 @@ void KItemListSmoothScroller::scrollContentsBy(qreal distance)
             // assures that animation proceeds even in cases where new end-offset are triggered
             // within a very short timeslots.
             startOffset += (endOffset - currentOffset) * 1000 / (m_animation->duration() * 60);
+            if (currentOffset < endOffset) {
+                startOffset = qMin(startOffset, endOffset);
+            } else {
+                startOffset = qMax(startOffset, endOffset);
+            }
         }
 
         m_animation->stop();

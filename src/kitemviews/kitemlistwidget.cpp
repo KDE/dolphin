@@ -28,6 +28,7 @@
 
 #include <KDebug>
 
+#include <KGlobalSettings>
 #include <QApplication>
 #include <QPainter>
 #include <QPropertyAnimation>
@@ -243,7 +244,8 @@ void KItemListWidget::setHovered(bool hovered)
 
     if (!m_hoverAnimation) {
         m_hoverAnimation = new QPropertyAnimation(this, "hoverOpacity", this);
-        m_hoverAnimation->setDuration(200);
+        const int duration = (KGlobalSettings::graphicEffectsLevel() == KGlobalSettings::NoEffects) ? 1 : 200;       
+        m_hoverAnimation->setDuration(duration);
         connect(m_hoverAnimation, SIGNAL(finished()), this, SLOT(slotHoverAnimationFinished()));
     }
     m_hoverAnimation->stop();
