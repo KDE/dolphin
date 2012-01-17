@@ -355,20 +355,55 @@ void KItemListView::setGeometry(const QRectF& rect)
         return;
     }
 
-    if (m_model->count() > 0) {
-        prepareLayoutForIncreasedItemCount(rect.size(), LayouterSize);
+    const QSizeF newSize = rect.size();
+    if (m_itemSize.isEmpty()) {
+        // The item size is dynamic:
+        // Changing the geometry does not require to do an expensive
+        // update of the visible-roles sizes, only the stretched sizes
+        // need to be adjusted to the new size.
+        updateStretchedVisibleRolesSizes();
+        
+        if (m_useHeaderWidths) {
+            QSizeF dynamicItemSize = m_layouter->itemSize();
+    
+            if (m_itemSize.width() < 0) {
+                const qreal requiredWidth = visibleRolesSizesWidthSum();
+                if (newSize.width() > requiredWidth) {
+                    dynamicItemSize.setWidth(newSize.width());
+                }
+                const qreal headerWidth = qMax(newSize.width(), requiredWidth);
+                m_header->resize(headerWidth, m_header->size().height());
+            }
+    
+            if (m_itemSize.height() < 0) {
+                const qreal requiredHeight = visibleRolesSizesHeightSum();
+                if (newSize.height() > requiredHeight) {
+                    dynamicItemSize.setHeight(newSize.height());
+                }
+                // TODO: KItemListHeader is not prepared for vertical alignment
+            }
+    
+            m_layouter->setItemSize(dynamicItemSize);
+        }
+        
+        // Triggering a synchronous layout is fine from a performance point of view,
+        // as with dynamic item sizes no moving animation must be done.
+        m_layouter->setSize(newSize);
+        doLayout(Animation);
     } else {
-        m_layouter->setSize(rect.size());
-    }
+        // The item size is not dynamic and most probably the geometry change results
+        // in animated position changes of the items. Trigger an asynchronous relayout
+        // with m_layoutTimer to prevent performance bottlenecks.
+        if (m_model->count() > 0) {
+            prepareLayoutForIncreasedItemCount(newSize, LayouterSize);
+        } else {
+            m_layouter->setSize(newSize);
+        }
 
-    if (!m_layoutTimer->isActive()) {
-        m_layoutTimer->start();
+        if (!m_layoutTimer->isActive()) {
+          m_layoutTimer->start();
+        }
     }
-
-    // Changing the geometry does not require to do an expensive
-    // update of the visible-roles sizes, only the stretched sizes
-    // need to be adjusted to the new size.
-    updateStretchedVisibleRolesSizes();
 }
 
 int KItemListView::itemAt(const QPointF& pos) const
@@ -705,34 +740,6 @@ void KItemListView::dropEvent(QGraphicsSceneDragDropEvent* event)
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 {
     return m_visibleItems.values();
-}
-
-void KItemListView::resizeEvent(QGraphicsSceneResizeEvent* event)
-{
-    QGraphicsWidget::resizeEvent(event);
-    if (m_itemSize.isEmpty() && m_useHeaderWidths) {
-        QSizeF dynamicItemSize = m_layouter->itemSize();
-        const QSizeF newSize = event->newSize();
-
-        if (m_itemSize.width() < 0) {
-            const qreal requiredWidth = visibleRolesSizesWidthSum();
-            if (newSize.width() > requiredWidth) {
-                dynamicItemSize.setWidth(newSize.width());
-            }
-            const qreal headerWidth = qMax(newSize.width(), requiredWidth);
-            m_header->resize(headerWidth, m_header->size().height());
-        }
-
-        if (m_itemSize.height() < 0) {
-            const qreal requiredHeight = visibleRolesSizesHeightSum();
-            if (newSize.height() > requiredHeight) {
-                dynamicItemSize.setHeight(newSize.height());
-            }
-            // TODO: KItemListHeader is not prepared for vertical alignment
-        }
-
-        m_layouter->setItemSize(dynamicItemSize);
-    }
 }
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)

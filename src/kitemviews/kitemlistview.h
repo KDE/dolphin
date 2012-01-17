@@ -286,9 +286,6 @@ protected:
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
 
-    /** @reimp */
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
-
 protected slots:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
     virtual void slotItemsRemoved(const KItemRangeList& itemRanges);
