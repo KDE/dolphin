@@ -401,7 +401,7 @@ void KItemListView::setGeometry(const QRectF& rect)
         }
 
         if (!m_layoutTimer->isActive()) {
-          m_layoutTimer->start();
+            m_layoutTimer->start();
         }
     }
 }
@@ -788,15 +788,23 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         }
 
         m_layouter->markAsDirty();
-        if (m_model->count() == count && maximumScrollOffset() > size().height()) {
-            const int scrollBarExtent = style()->pixelMetric(QStyle::PM_ScrollBarExtent);
-            QSizeF layouterSize = m_layouter->size();
-            if (scrollOrientation() == Qt::Vertical) {
-                layouterSize.rwidth() -= scrollBarExtent;
-            } else {
-                layouterSize.rheight() -= scrollBarExtent;
+        if (m_model->count() == count && m_activeTransactions == 0) {
+            // Check whether a scrollbar is required to show the inserted items. In this case
+            // the size of the layouter will be decreased before calling doLayout(): This prevents
+            // an unnecessary temporary animation due to the geometry change of the inserted scrollbar.
+            const bool verticalScrollOrientation = (scrollOrientation() == Qt::Vertical);
+            const bool decreaseLayouterSize = ( verticalScrollOrientation && maximumScrollOffset() > size().height()) ||
+                                              (!verticalScrollOrientation && maximumScrollOffset() > size().width());
+            if (decreaseLayouterSize) {
+                const int scrollBarExtent = style()->pixelMetric(QStyle::PM_ScrollBarExtent);
+                QSizeF layouterSize = m_layouter->size();
+                if (verticalScrollOrientation) {
+                    layouterSize.rwidth() -= scrollBarExtent;
+                } else {
+                    layouterSize.rheight() -= scrollBarExtent;
+                }
+                m_layouter->setSize(layouterSize);
             }
-            m_layouter->setSize(layouterSize);
         }
 
         if (!hasMultipleRanges) {
@@ -880,7 +888,14 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
         m_layouter->markAsDirty();
         if (!hasMultipleRanges) {
+            // The decrease-layout-size optimization in KItemListView::slotItemsInserted()
+            // assumes an updated geometry. If items are removed during an active transaction,
+            // the transaction will be temporary deactivated so that doLayout() triggers a
+            // geometry update if necessary.
+            const int activeTransactions = m_activeTransactions;
+            m_activeTransactions = 0;
             doLayout(Animation, index, -count);
+            m_activeTransactions = activeTransactions;
         }
     }
 
