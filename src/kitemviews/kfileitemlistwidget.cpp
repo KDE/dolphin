@@ -79,6 +79,7 @@ void KFileItemListWidget::setLayout(Layout layout)
     if (m_layout != layout) {
         m_layout = layout;
         m_dirtyLayout = true;
+        updateAdditionalInfoTextColor();
         update();
     }
 }
