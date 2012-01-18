@@ -132,14 +132,14 @@ void DolphinRemoteEncoding::updateMenu()
         m_menu->menu()->actions().at(i)->setChecked(false);
     }
 
-    QString charset = KIO::SlaveConfig::self()->configData(m_currentURL.protocol(),
-                                                           m_currentURL.host(), DATA_KEY);
+    QString charset = KGlobal::charsets()->descriptionForEncoding(KIO::SlaveConfig::self()->configData(m_currentURL.protocol(),
+                                                                  m_currentURL.host(), DATA_KEY));
 
     if (!charset.isEmpty()) {
         int id = 0;
         bool isFound = false;
         for (int i = 0; i < m_encodingDescriptions.size(); i++) {
-            if (m_encodingDescriptions.at(i).contains(charset)) {
+            if (m_encodingDescriptions.at(i) == charset) {
                 isFound = true;
                 id = i;
                 break;
