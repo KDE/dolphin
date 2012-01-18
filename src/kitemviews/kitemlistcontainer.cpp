@@ -173,7 +173,7 @@ void KItemListContainer::slotViewChanged(KItemListView* current, KItemListView* 
     QGraphicsScene* scene = static_cast<QGraphicsView*>(viewport())->scene();
     if (previous) {
         scene->removeItem(previous);
-        disconnect(current, SIGNAL(scrollOrientationChanged(Qt::Orientation,Qt::Orientation)), this, SLOT(slotScrollOrientationChanged(Qt::Orientation,Qt::Orientation)));
+        disconnect(previous, SIGNAL(scrollOrientationChanged(Qt::Orientation,Qt::Orientation)), this, SLOT(slotScrollOrientationChanged(Qt::Orientation,Qt::Orientation)));
         disconnect(previous, SIGNAL(scrollOffsetChanged(qreal,qreal)),        this, SLOT(updateScrollOffsetScrollBar()));
         disconnect(previous, SIGNAL(maximumScrollOffsetChanged(qreal,qreal)), this, SLOT(updateScrollOffsetScrollBar()));
         disconnect(previous, SIGNAL(itemOffsetChanged(qreal,qreal)),          this, SLOT(updateItemOffsetScrollBar()));
