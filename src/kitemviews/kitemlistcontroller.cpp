@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2011 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2012 by Frank Reininghaus <frank78ac@googlemail.com>    *
  *                                                                         *
  *   Based on the Itemviews NG project from Trolltech Labs:                *
  *   http://qt.gitorious.org/qt-labs/itemviews-ng                          *
@@ -239,12 +240,68 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
 
     case Qt::Key_Up:
         updateKeyboardAnchor();
-        index = previousRowIndex();
+        index = previousRowIndex(index);
         break;
 
     case Qt::Key_Down:
         updateKeyboardAnchor();
-        index = nextRowIndex();
+        index = nextRowIndex(index);
+        break;
+
+    case Qt::Key_PageUp:
+        if (m_view->scrollOrientation() == Qt::Horizontal) {
+            // The new current index should correspond to the first item in the current column.
+            int newIndex = qMax(index - 1, 0);
+            while (newIndex != index && m_view->itemRect(newIndex).topLeft().y() < m_view->itemRect(index).topLeft().y()) {
+                index = newIndex;
+                newIndex = qMax(index - 1, 0);
+            }
+            m_keyboardAnchorIndex = index;
+            m_keyboardAnchorPos = keyboardAnchorPos(index);
+        } else {
+            const qreal currentItemBottom = m_view->itemRect(index).bottomLeft().y();
+            const qreal height = m_view->geometry().height();
+
+            // The new current item should be the first item in the current
+            // column whose itemRect's top coordinate is larger than targetY.
+            const qreal targetY = currentItemBottom - height;
+
+            updateKeyboardAnchor();
+            int newIndex = previousRowIndex(index);
+            do {
+                index = newIndex;
+                updateKeyboardAnchor();
+                newIndex = previousRowIndex(index);
+            } while (m_view->itemRect(newIndex).topLeft().y() > targetY && newIndex != index);
+        }
+        break;
+
+    case Qt::Key_PageDown:
+        if (m_view->scrollOrientation() == Qt::Horizontal) {
+            // The new current index should correspond to the last item in the current column.
+            int newIndex = qMin(index + 1, m_model->count() - 1);
+            while (newIndex != index && m_view->itemRect(newIndex).topLeft().y() > m_view->itemRect(index).topLeft().y()) {
+                index = newIndex;
+                newIndex = qMin(index + 1, m_model->count() - 1);
+            }
+            m_keyboardAnchorIndex = index;
+            m_keyboardAnchorPos = keyboardAnchorPos(index);
+        } else {
+            const qreal currentItemTop = m_view->itemRect(index).topLeft().y();
+            const qreal height = m_view->geometry().height();
+
+            // The new current item should be the last item in the current
+            // column whose itemRect's bottom coordinate is smaller than targetY.
+            const qreal targetY = currentItemTop + height;
+
+            updateKeyboardAnchor();
+            int newIndex = nextRowIndex(index);
+            do {
+                index = newIndex;
+                updateKeyboardAnchor();
+                newIndex = nextRowIndex(index);
+            } while (m_view->itemRect(newIndex).bottomLeft().y() < targetY && newIndex != index);
+        }
         break;
 
     case Qt::Key_Enter:
@@ -994,24 +1051,23 @@ void KItemListController::updateKeyboardAnchor()
     }
 }
 
-int KItemListController::nextRowIndex() const
+int KItemListController::nextRowIndex(int index) const
 {
-    const int currentIndex = m_selectionManager->currentItem();
     if (m_keyboardAnchorIndex < 0) {
-        return currentIndex;
+        return index;
     }
 
     const int maxIndex = m_model->count() - 1;
-    if (currentIndex == maxIndex) {
-        return currentIndex;
+    if (index == maxIndex) {
+        return index;
     }
 
     // Calculate the index of the last column inside the row of the current index
-    int lastColumnIndex = currentIndex;
+    int lastColumnIndex = index;
     while (keyboardAnchorPos(lastColumnIndex + 1) > keyboardAnchorPos(lastColumnIndex)) {
         ++lastColumnIndex;
         if (lastColumnIndex >= maxIndex) {
-            return currentIndex;
+            return index;
         }
     }
 
@@ -1032,19 +1088,18 @@ int KItemListController::nextRowIndex() const
     return nextRowIndex;
 }
 
-int KItemListController::previousRowIndex() const
+int KItemListController::previousRowIndex(int index) const
 {
-    const int currentIndex = m_selectionManager->currentItem();
-    if (m_keyboardAnchorIndex < 0 || currentIndex == 0) {
-        return currentIndex;
+    if (m_keyboardAnchorIndex < 0 || index == 0) {
+        return index;
     }
 
     // Calculate the index of the first column inside the row of the current index
-    int firstColumnIndex = currentIndex;
+    int firstColumnIndex = index;
     while (keyboardAnchorPos(firstColumnIndex - 1) < keyboardAnchorPos(firstColumnIndex)) {
         --firstColumnIndex;
         if (firstColumnIndex <= 0) {
-            return currentIndex;
+            return index;
         }
     }
 

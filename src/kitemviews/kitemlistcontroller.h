@@ -238,16 +238,16 @@ private:
     void updateKeyboardAnchor();
 
     /**
-     * @return Index for the next row based on the current index.
-     *         If there is no next row the current index will be returned.
+     * @return Index for the next row based on \a index.
+     *         If there is no next row \a index will be returned.
      */
-    int nextRowIndex() const;
+    int nextRowIndex(int index) const;
 
     /**
-     * @return Index for the previous row based on the current index.
-     *         If there is no previous row the current index will be returned.
+     * @return Index for the previous row based on  \a index.
+     *         If there is no previous row \a index will be returned.
      */
-    int previousRowIndex() const;
+    int previousRowIndex(int index) const;
 
     /**
      * Helper method for updateKeyboardAnchor(), previousRowIndex() and nextRowIndex().
