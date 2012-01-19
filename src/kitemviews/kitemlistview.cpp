@@ -1292,8 +1292,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         return;
     }
 
-    const int firstVisibleIndex = m_layouter->firstVisibleIndex();
-    const int lastVisibleIndex = m_layouter->lastVisibleIndex();
+    int firstVisibleIndex = m_layouter->firstVisibleIndex();
     if (firstVisibleIndex < 0) {
         emitOffsetChanges();
         return;
@@ -1306,7 +1305,10 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     const qreal maxOffsetToShowFullRange = maximumScrollOffset() - visibleOffsetRange;
     if (scrollOffset() > maxOffsetToShowFullRange) {
         m_layouter->setScrollOffset(qMax(qreal(0), maxOffsetToShowFullRange));
+        firstVisibleIndex = m_layouter->firstVisibleIndex();
     }
+
+    const int lastVisibleIndex = m_layouter->lastVisibleIndex();
 
     // Determine all items that are completely invisible and might be
     // reused for items that just got (at least partly) visible.
