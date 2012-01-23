@@ -471,7 +471,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
                                 (!shiftOrControlPressed && !pressedItemAlreadySelected);
     if (clearSelection) {
         m_selectionManager->clearSelection();
-    } else if (pressedItemAlreadySelected && (event->buttons() & Qt::LeftButton)) {
+    } else if (pressedItemAlreadySelected && !shiftOrControlPressed && (event->buttons() & Qt::LeftButton)) {
         // The user might want to start dragging multiple items, but if he clicks the item
         // in order to trigger it instead, the other selected items must be deselected.
         // However, we do not know yet what the user is going to do.
