@@ -127,7 +127,10 @@ void TerminalPanel::sendCdToTerminal(const QString& dir)
         // current line before sending a new input. This is mandatory,
         // otherwise sending a 'cd x' to a existing 'rm -rf *' might
         // result in data loss. As workaround SIGINT is send.
-        kill(m_terminal->terminalProcessId(), SIGINT);
+        const int processId = m_terminal->terminalProcessId();
+        if (processId > 0) {
+            kill(processId, SIGINT);
+        }
     }
 
     m_terminal->sendInput("cd " + KShell::quoteArg(dir) + '\n');
