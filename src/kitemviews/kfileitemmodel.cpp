@@ -482,7 +482,7 @@ void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
         return;
     }
 
-    const int pos = dirLister->url().url().length();
+    const int pos = dirLister->url().path().length();
 
     // Assure that each sub-path of the URLs that should be
     // expanded is added to m_urlsToExpand too. KDirLister
@@ -493,7 +493,7 @@ void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
         const KUrl& url = it1.next();
 
         KUrl urlToExpand = dirLister->url();
-        const QStringList subDirs = url.url().mid(pos).split(QDir::separator());
+        const QStringList subDirs = url.path().mid(pos).split(QDir::separator());
         for (int i = 0; i < subDirs.count(); ++i) {
             urlToExpand.addPath(subDirs.at(i));
             m_urlsToExpand.insert(urlToExpand);
