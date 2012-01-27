@@ -510,12 +510,12 @@ void DolphinMainWindow::openNewTab(const KUrl& url)
 
     actionCollection()->action("close_tab")->setEnabled(true);
 
-    // provide a split view, if the startup settings are set this way
+    // Provide a split view, if the startup settings are set this way
     if (GeneralSettings::splitView()) {
         const int newTabIndex = m_viewTab.count() - 1;
         createSecondaryView(newTabIndex);
-        viewTab.secondaryView->setActive(true);
-        viewTab.isPrimaryViewActive = false;
+        m_viewTab[newTabIndex].secondaryView->setActive(true);
+        m_viewTab[newTabIndex].isPrimaryViewActive = false;
     }
 
     if (focusWidget) {
