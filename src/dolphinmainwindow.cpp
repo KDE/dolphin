@@ -41,6 +41,7 @@
 #include "statusbar/dolphinstatusbar.h"
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinremoteencoding.h"
+#include "views/draganddrophelper.h"
 #include "views/viewproperties.h"
 
 #ifndef Q_OS_WIN
@@ -1327,9 +1328,9 @@ void DolphinMainWindow::tabDropEvent(int tab, QDropEvent* event)
     const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
     if (!urls.isEmpty() && tab != -1) {
         const ViewTab& viewTab = m_viewTab[tab];
-        const KUrl destPath = viewTab.isPrimaryViewActive ? viewTab.primaryView->url() : viewTab.secondaryView->url();
-        Q_UNUSED(destPath);
-        //DragAndDropHelper::instance().dropUrls(KFileItem(), destPath, event, m_tabBar);
+        const DolphinView* view = viewTab.isPrimaryViewActive ? viewTab.primaryView->view()
+                                                              : viewTab.secondaryView->view();
+        DragAndDropHelper::dropUrls(view->rootItem(), event);
     }
 }
 

@@ -336,9 +336,7 @@ public:
     bool hasSelection() const;
 
     /**
-     * Returns the root item which represents the current URL. Note that the returned
-     * item can be null (KFileItem::isNull() will return true) in case that the directory
-     * has not been loaded.
+     * Returns the root item which represents the current URL.
      */
     KFileItem rootItem() const;
 
@@ -579,15 +577,6 @@ private slots:
      * signal \a selectionChanged() with all selected file items as parameter.
      */
     void emitSelectionChangedSignal();
-
-    /**
-     * Drops dragged URLs to the destination path \a destPath. If
-     * the URLs are dropped above an item inside the destination path,
-     * the item is indicated by \a destItem.
-     */
-    void dropUrls(const KFileItem& destItem,
-                  const KUrl& destPath,
-                  QDropEvent* event);
 
     /**
      * Updates the view properties of the current URL to the

@@ -863,16 +863,6 @@ void DolphinView::emitSelectionChangedSignal()
     emit selectionChanged(selectedItems());
 }
 
-void DolphinView::dropUrls(const KFileItem& destItem,
-                           const KUrl& destPath,
-                           QDropEvent* event)
-{
-    Q_UNUSED(destItem);
-    Q_UNUSED(destPath);
-    markPastedUrlsAsSelected(event->mimeData());
-    //DragAndDropHelper::instance().dropUrls(destItem, destPath, event, this);
-}
-
 void DolphinView::updateSorting(DolphinView::Sorting sorting)
 {
     ViewProperties props(url());
@@ -969,7 +959,12 @@ bool DolphinView::hasSelection() const
 
 KFileItem DolphinView::rootItem() const
 {
-    return m_dirLister->rootItem();
+    KFileItem item = m_dirLister->rootItem();
+    if (item.isNull()) {
+        // The directory has not been loaded yet
+        item = KFileItem(KFileItem::Unknown, KFileItem::Unknown, url());
+    }
+    return item;
 }
 
 void DolphinView::observeCreatedItem(const KUrl& url)
