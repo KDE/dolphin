@@ -181,7 +181,9 @@ ViewModeSettings::ViewMode ViewSettingsTab::viewMode() const
     case ViewSettingsTab::IconsMode:   mode = ViewModeSettings::IconsMode; break;
     case ViewSettingsTab::CompactMode: mode = ViewModeSettings::CompactMode; break;
     case ViewSettingsTab::DetailsMode: mode = ViewModeSettings::DetailsMode; break;
-    default: Q_ASSERT(false); break;
+    default:                           mode = ViewModeSettings::IconsMode;
+                                       Q_ASSERT(false);
+                                       break;
     }
 
     return mode;
