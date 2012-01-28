@@ -710,6 +710,12 @@ bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, con
 {
     Q_UNUSED(event);
     Q_UNUSED(transform);
+
+    KItemListWidget* widget = hoveredWidget();
+    if (widget) {
+        widget->setHovered(false);
+        emit itemUnhovered(widget->index());
+    }
     return false;
 }
 
