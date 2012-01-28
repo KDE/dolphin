@@ -37,7 +37,9 @@
     case IconsMode:   value = IconsModeSettings::getValue(); break; \
     case CompactMode: value = CompactModeSettings::getValue(); break; \
     case DetailsMode: value = DetailsModeSettings::getValue(); break; \
-    default: Q_ASSERT(false); break; \
+    default:          value = IconsModeSettings::getValue(); \
+                      Q_ASSERT(false); \
+                      break; \
     } \
     return value
 
