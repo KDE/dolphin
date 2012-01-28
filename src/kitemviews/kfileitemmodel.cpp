@@ -21,6 +21,7 @@
 
 #include <KDirLister>
 #include <KDirModel>
+#include <KGlobalSettings>
 #include <KLocale>
 #include <KStringHandler>
 #include <KDebug>
@@ -33,7 +34,7 @@
 KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     KItemModelBase("name", parent),
     m_dirLister(dirLister),
-    m_naturalSorting(true),
+    m_naturalSorting(KGlobalSettings::naturalSorting()),
     m_sortFoldersFirst(true),
     m_sortRole(NameRole),
     m_roles(),
@@ -95,6 +96,8 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     connect(m_resortAllItemsTimer, SIGNAL(timeout()), this, SLOT(resortAllItems()));
 
     Q_ASSERT(m_minimumUpdateIntervalTimer->interval() <= m_maximumUpdateIntervalTimer->interval());
+    
+    connect(KGlobalSettings::self(), SIGNAL(naturalSortingChanged()), this, SLOT(slotNaturalSortingChanged()));
 }
 
 KFileItemModel::~KFileItemModel()
@@ -860,6 +863,12 @@ void KFileItemModel::slotClear()
 void KFileItemModel::slotClear(const KUrl& url)
 {
     Q_UNUSED(url);
+}
+
+void KFileItemModel::slotNaturalSortingChanged()
+{
+    m_naturalSorting = KGlobalSettings::naturalSorting();
+    resortAllItems();
 }
 
 void KFileItemModel::dispatchPendingItemsToInsert()

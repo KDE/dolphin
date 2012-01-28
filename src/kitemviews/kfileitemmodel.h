@@ -186,6 +186,7 @@ private slots:
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >& items);
     void slotClear();
     void slotClear(const KUrl& url);
+    void slotNaturalSortingChanged();
 
     void dispatchPendingItemsToInsert();
 
