@@ -227,7 +227,11 @@ void DolphinItemListContainer::updateGridSize()
         itemHeight = innerMargin * 2 + qMax(iconSize, styleOption.fontMetrics.height());
         break;
     }
-    default: Q_ASSERT(false); break;
+    default:
+        itemWidth = -1;
+        itemHeight = -1;
+        Q_ASSERT(false);
+        break;
     }
 
     // Apply the calculated values
@@ -268,7 +272,9 @@ ViewModeSettings::ViewMode DolphinItemListContainer::viewMode() const
     case KFileItemListView::IconsLayout:   mode = ViewModeSettings::IconsMode; break;
     case KFileItemListView::CompactLayout: mode = ViewModeSettings::CompactMode; break;
     case KFileItemListView::DetailsLayout: mode = ViewModeSettings::DetailsMode; break;
-    default: Q_ASSERT(false); break;
+    default:                               mode = ViewModeSettings::IconsMode;
+                                           Q_ASSERT(false);
+                                           break;
     }
 
     return mode;
