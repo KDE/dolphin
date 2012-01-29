@@ -344,6 +344,22 @@ private:
 
     void doLayout(LayoutAnimationHint hint, int changedIndex = 0, int changedCount = 0);
 
+    /**
+     * Helper method for doLayout: Returns a list of items that can be reused for the visible
+     * area. Invisible group headers get recycled. The reusable items are items that are
+     * invisible and not animated. Reusing items is faster in comparison to deleting invisible
+     * items and creating a new instance for visible items.
+     */
+    QList<int> recycleInvisibleItems(int firstVisibleIndex, int lastVisibleIndex);
+
+    /**
+     * Helper method for doLayout: Starts a moving-animation for the widget to the given
+     * new position. The moving-animation is only started if the new position is within
+     * the same row or column, otherwise the create-animation is used instead.
+     * @return True if the moving-animation has been applied.
+     */
+    bool moveWidget(KItemListWidget* widget, const QPointF& newPos);
+
     void emitOffsetChanges();
 
     KItemListWidget* createWidget(int index);
