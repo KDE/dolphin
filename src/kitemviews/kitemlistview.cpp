@@ -1310,27 +1310,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
     const int lastVisibleIndex = m_layouter->lastVisibleIndex();
 
-    // Determine all items that are completely invisible and might be
-    // reused for items that just got (at least partly) visible.
-    // Items that do e.g. an animated moving of their position are not
-    // marked as invisible: This assures that a scrolling inside the view
-    // can be done without breaking an animation.
-    QList<int> reusableItems;
-    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-    while (it.hasNext()) {
-        it.next();
-        KItemListWidget* widget = it.value();
-        const int index = widget->index();
-        const bool invisible = (index < firstVisibleIndex) || (index > lastVisibleIndex);
-        if (invisible && !m_animation->isStarted(widget)) {
-            widget->setVisible(false);
-            reusableItems.append(index);
-
-            if (m_grouped) {
-                recycleGroupHeaderForWidget(widget);
-            }
-        }
-    }
+    QList<int> reusableItems = recycleInvisibleItems(firstVisibleIndex, lastVisibleIndex);
 
     // Assure that for each visible item a KItemListWidget is available. KItemListWidget
     // instances from invisible items are reused. If no reusable items are
@@ -1383,8 +1363,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             const bool itemsInserted = (changedCount > 0);
             if (itemsRemoved && (i >= changedIndex + changedCount + 1)) {
                 // The item is located after the removed items. Animate the moving of the position.
-                m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
-                applyNewPos = false;
+                applyNewPos = !moveWidget(widget, newPos);
             } else if (itemsInserted && i >= changedIndex) {
                 // The item is located after the first inserted item
                 if (i <= changedIndex + changedCount - 1) {
@@ -1398,13 +1377,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                     // The item was already there before, so animate the moving of the position.
                     // No moving animation is done if the item is animated by a create animation: This
                     // prevents a "move animation mess" when inserting several ranges in parallel.
-                    m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
-                    applyNewPos = false;
+                    applyNewPos = !moveWidget(widget, newPos);
                 }
             } else if (!itemsRemoved && !itemsInserted && !wasHidden) {
                 // The size of the view might have been changed. Animate the moving of the position.
-                m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
-                applyNewPos = false;
+                applyNewPos = !moveWidget(widget, newPos);
             }
         }
 
@@ -1449,6 +1426,55 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     }
 
     emitOffsetChanges();
+}
+
+QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex, int lastVisibleIndex)
+{
+    // Determine all items that are completely invisible and might be
+    // reused for items that just got (at least partly) visible.
+    // Items that do e.g. an animated moving of their position are not
+    // marked as invisible: This assures that a scrolling inside the view
+    // can be done without breaking an animation.
+
+    QList<int> items;
+
+    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    while (it.hasNext()) {
+        it.next();
+        KItemListWidget* widget = it.value();
+        const int index = widget->index();
+        const bool invisible = (index < firstVisibleIndex) || (index > lastVisibleIndex);
+        if (invisible && !m_animation->isStarted(widget)) {
+            widget->setVisible(false);
+            items.append(index);
+
+            if (m_grouped) {
+                recycleGroupHeaderForWidget(widget);
+            }
+        }
+    }
+
+    return items;
+}
+
+bool KItemListView::moveWidget(KItemListWidget* widget, const QPointF& newPos)
+{
+    // The moving-animation should only be started, if it is done within one
+    // row or one column. Otherwise instead of a moving-animation a
+    // create-animation on the new position will be used instead. This is done
+    // to prevent "irritating" moving-animations.
+    const QPointF oldPos = widget->pos();
+    const qreal xDiff = qAbs(oldPos.x() - newPos.x());
+    const qreal yDiff = qAbs(oldPos.y() - newPos.y());
+    if (xDiff <= m_itemSize.width() || yDiff <= m_itemSize.height()) {
+        // The moving animation is done inside a column or a row.
+        m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
+        return true;
+    }
+
+    m_animation->stop(widget);
+    m_animation->start(widget, KItemListViewAnimation::CreateAnimation);
+    return false;
 }
 
 void KItemListView::emitOffsetChanges()
