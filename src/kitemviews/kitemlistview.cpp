@@ -1457,8 +1457,8 @@ bool KItemListView::moveWidget(KItemListWidget* widget, const QPointF& newPos)
     
     const bool startMovingAnim =    xMax <= 0
                                  || yMax <= 0
-                                 || qAbs(oldPos.x() - newPos.x()) <= xMax
-                                 || qAbs(oldPos.y() - newPos.y()) <= yMax;
+                                 || qAbs(oldPos.x() - newPos.x()) < xMax
+                                 || qAbs(oldPos.y() - newPos.y()) < yMax;
     if (startMovingAnim) {
         // The moving animation is done inside a column or a row.
         m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
