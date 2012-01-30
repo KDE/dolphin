@@ -508,18 +508,16 @@ void KItemListView::scrollToItem(int index)
 
     if (!viewGeometry.contains(currentRect)) {
         qreal newOffset = scrollOffset();
-        if (currentRect.top() < viewGeometry.top()) {
-            Q_ASSERT(scrollOrientation() == Qt::Vertical);
-            newOffset += currentRect.top() - viewGeometry.top();
-        } else if ((currentRect.bottom() > viewGeometry.bottom())) {
-            Q_ASSERT(scrollOrientation() == Qt::Vertical);
-            newOffset += currentRect.bottom() - viewGeometry.bottom();
-        } else if (currentRect.left() < viewGeometry.left()) {
-            if (scrollOrientation() == Qt::Horizontal) {
-                newOffset += currentRect.left() - viewGeometry.left();
+        if (scrollOrientation() == Qt::Vertical) {
+            if (currentRect.top() < viewGeometry.top()) {
+                newOffset += currentRect.top() - viewGeometry.top();
+            } else if (currentRect.bottom() > viewGeometry.bottom()) {
+                newOffset += currentRect.bottom() - viewGeometry.bottom();
             }
-        } else if ((currentRect.right() > viewGeometry.right())) {
-            if (scrollOrientation() == Qt::Horizontal) {
+        } else {
+            if (currentRect.left() < viewGeometry.left()) {
+                newOffset += currentRect.left() - viewGeometry.left();
+            } else if (currentRect.right() > viewGeometry.right()) {
                 newOffset += currentRect.right() - viewGeometry.right();
             }
         }
