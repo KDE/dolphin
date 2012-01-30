@@ -1330,7 +1330,7 @@ void DolphinMainWindow::tabDropEvent(int tab, QDropEvent* event)
         const ViewTab& viewTab = m_viewTab[tab];
         const DolphinView* view = viewTab.isPrimaryViewActive ? viewTab.primaryView->view()
                                                               : viewTab.secondaryView->view();
-        DragAndDropHelper::dropUrls(view->rootItem(), event);
+        DragAndDropHelper::dropUrls(view->rootItem(), view->url(), event);
     }
 }
 

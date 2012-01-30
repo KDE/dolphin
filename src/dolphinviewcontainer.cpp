@@ -538,8 +538,7 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
-    const KFileItem destItem(KFileItem::Unknown, KFileItem::Unknown, destination);
-    DragAndDropHelper::dropUrls(destItem, event);
+    DragAndDropHelper::dropUrls(KFileItem(), destination, event);
 }
 
 void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
