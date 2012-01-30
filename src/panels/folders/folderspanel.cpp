@@ -263,11 +263,7 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
         KFileItemModel* model = fileItemModel();
         KFileItem destItem = model->fileItem(index);
         if (destItem.isNull()) {
-            destItem = model->rootItem();
-            if (destItem.isNull()) {
-                kWarning() << "No destination item available for drop operation.";
-                return;
-            }
+            return;
         }
 
         QDropEvent dropEvent(event->pos().toPoint(),
@@ -276,7 +272,7 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
                              event->buttons(),
                              event->modifiers());
 
-        DragAndDropHelper::dropUrls(destItem, &dropEvent);
+        DragAndDropHelper::dropUrls(destItem, destItem.url(), &dropEvent);
     }
 }
 

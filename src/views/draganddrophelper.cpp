@@ -28,13 +28,10 @@
 #include <QtDBus>
 #include <QDropEvent>
 
-QString DragAndDropHelper::dropUrls(const KFileItem& destItem, QDropEvent* event)
+QString DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destUrl, QDropEvent* event)
 {
-    Q_ASSERT(!destItem.isNull());
-
-    const KUrl destination = destItem.url();
-    if (!destItem.isWritable()) {
-        return i18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destination.pathOrUrl());
+    if (!destItem.isNull() && !destItem.isWritable()) {
+        return i18nc("@info:status", "Access denied. Could not write to <filename>%1</filename>", destUrl.pathOrUrl());
     }
 
     const QMimeData* mimeData = event->mimeData();
@@ -42,17 +39,17 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem, QDropEvent* event
         const QString remoteDBusClient = mimeData->data("application/x-kde-dndextract");
         QDBusMessage message = QDBusMessage::createMethodCall(remoteDBusClient, "/DndExtract",
                                                               "org.kde.DndExtract", "extractSelectedFilesTo");
-        message.setArguments(QVariantList() << destination.pathOrUrl());
+        message.setArguments(QVariantList() << destUrl.pathOrUrl());
         QDBusConnection::sessionBus().call(message);
     } else {
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         foreach (const KUrl& url, urls) {
-            if (url == destination) {
+            if (url == destUrl) {
                 return i18nc("@info:status", "A folder cannot be dropped into itself");
             }
         }
 
-        KonqOperations::doDrop(destItem, destination, event, QApplication::activeWindow());
+        KonqOperations::doDrop(destItem, destUrl, event, QApplication::activeWindow());
     }
 
     return QString();

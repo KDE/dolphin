@@ -809,13 +809,13 @@ void DolphinView::slotItemUnhovered(int index)
 
 void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
+    KUrl destUrl;
     KFileItem destItem = fileItemModel()->fileItem(index);
     if (destItem.isNull()) {
         destItem = fileItemModel()->rootItem();
-        if (destItem.isNull()) {
-            kWarning() << "No destination item available for drop operation.";
-            return;
-        }
+        destUrl = url();
+    } else {
+        destUrl = destItem.url();
     }
 
     QDropEvent dropEvent(event->pos().toPoint(),
@@ -824,7 +824,7 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
                          event->buttons(),
                          event->modifiers());
 
-    const QString error = DragAndDropHelper::dropUrls(destItem, &dropEvent);
+    const QString error = DragAndDropHelper::dropUrls(destItem, destUrl, &dropEvent);
     if (!error.isEmpty()) {
         emit errorMessage(error);
     }
@@ -959,12 +959,7 @@ bool DolphinView::hasSelection() const
 
 KFileItem DolphinView::rootItem() const
 {
-    KFileItem item = m_dirLister->rootItem();
-    if (item.isNull()) {
-        // The directory has not been loaded yet
-        item = KFileItem(KFileItem::Unknown, KFileItem::Unknown, url());
-    }
-    return item;
+    return m_dirLister->rootItem();
 }
 
 void DolphinView::observeCreatedItem(const KUrl& url)
