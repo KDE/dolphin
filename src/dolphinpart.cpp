@@ -591,7 +591,7 @@ void DolphinPartBrowserExtension::pasteTo(const KUrl&)
 
 void DolphinPartBrowserExtension::reparseConfiguration()
 {
-    m_part->view()->refresh();
+    m_part->view()->readSettings();
 }
 
 ////

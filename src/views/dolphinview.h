@@ -265,11 +265,15 @@ public:
     void stopLoading();
 
     /**
-     * Refreshes the view to get synchronized with the (updated) Dolphin settings.
-     * This method only needs to get invoked if the view settings for the Icons View,
-     * Details View or Columns View have been changed.
+     * Refreshes the view to get synchronized with the settings (e.g. icons size,
+     * font, ...).
      */
-    void refresh();
+    void readSettings();
+    
+    /**
+     * Saves the current settings (e.g. icons size, font, ..).
+     */
+    void writeSettings();
 
     /**
      * Filters the currently shown items by \a nameFilter. All items

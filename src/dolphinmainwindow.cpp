@@ -1118,7 +1118,10 @@ void DolphinMainWindow::openTerminal()
 void DolphinMainWindow::editSettings()
 {
     if (!m_settingsDialog) {
-        const KUrl url = activeViewContainer()->url();
+        DolphinViewContainer* container = activeViewContainer();
+        container->view()->writeSettings();
+        
+        const KUrl url = container->url();
         DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
         connect(settingsDialog, SIGNAL(settingsChanged()), this, SLOT(refreshViews()));
         settingsDialog->setAttribute(Qt::WA_DeleteOnClose);
@@ -2066,9 +2069,9 @@ void DolphinMainWindow::refreshViews()
 
     const int tabCount = m_viewTab.count();
     for (int i = 0; i < tabCount; ++i) {
-        m_viewTab[i].primaryView->refresh();
+        m_viewTab[i].primaryView->readSettings();
         if (m_viewTab[i].secondaryView) {
-            m_viewTab[i].secondaryView->refresh();
+            m_viewTab[i].secondaryView->readSettings();
         }
     }
 

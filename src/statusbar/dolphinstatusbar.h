@@ -112,7 +112,7 @@ public:
     /**
      * Refreshes the status bar to get synchronized with the (updated) Dolphin settings.
      */
-    void refresh();
+    void readSettings();
 
 signals:
     /**

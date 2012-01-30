@@ -64,10 +64,8 @@ public:
     void beginTransaction();
     void endTransaction();
 
-    /**
-     * Refreshs the view by reapplying the (changed) viewmode settings.
-     */
-    void refresh();
+    void readSettings();   
+    void writeSettings();
 
 private:
     void updateGridSize();

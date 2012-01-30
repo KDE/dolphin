@@ -211,7 +211,7 @@ DolphinSearchBox* DolphinViewContainer::searchBox()
     return m_searchBox;
 }
 
-void DolphinViewContainer::refresh()
+void DolphinViewContainer::readSettings()
 {
     if (GeneralSettings::modifiedStartupSettings()) {
         // The startup settings should only get applied if they have been
@@ -222,8 +222,8 @@ void DolphinViewContainer::refresh()
         setFilterBarVisible(GeneralSettings::filterBar());
     }
 
-    m_view->refresh();
-    m_statusBar->refresh();
+    m_view->readSettings();
+    m_statusBar->readSettings();
 }
 
 bool DolphinViewContainer::isFilterBarVisible() const

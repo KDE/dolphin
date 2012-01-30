@@ -59,10 +59,8 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
 
 DolphinItemListContainer::~DolphinItemListContainer()
 {
-    IconsModeSettings::self()->writeConfig();
-    CompactModeSettings::self()->writeConfig();
-    DetailsModeSettings::self()->writeConfig();
-
+    writeSettings();
+    
     controller()->setView(0);
     delete m_fileItemListView;
     m_fileItemListView = 0;
@@ -170,7 +168,7 @@ void DolphinItemListContainer::endTransaction()
     m_fileItemListView->endTransaction();
 }
 
-void DolphinItemListContainer::refresh()
+void DolphinItemListContainer::readSettings()
 {
     ViewModeSettings settings(viewMode());
     settings.readConfig();
@@ -190,6 +188,13 @@ void DolphinItemListContainer::refresh()
     m_fileItemListView->setEnabledPlugins(plugins);
 
     endTransaction();
+}
+
+void DolphinItemListContainer::writeSettings()
+{  
+    IconsModeSettings::self()->writeConfig();
+    CompactModeSettings::self()->writeConfig();
+    DetailsModeSettings::self()->writeConfig();
 }
 
 void DolphinItemListContainer::updateGridSize()
