@@ -367,17 +367,6 @@ private:
     void setWidgetIndex(KItemListWidget* widget, int index);
 
     /**
-     * Helper method for setGeometry() and setItemSize(): Calling both methods might result
-     * in a changed number of visible items. To assure that currently invisible items can
-     * get animated from the old position to the new position prepareLayoutForIncreasedItemCount()
-     * takes care to create all item widgets that are visible with the old or the new size.
-     * @param size     Size of the layouter or the item dependent on \p sizeType.
-     * @param sizeType LayouterSize: KItemListLayouter::setSize() is used.
-     *                 ItemSize: KItemListLayouter::setItemSize() is used.
-     */
-    void prepareLayoutForIncreasedItemCount(const QSizeF& size, SizeType sizeType);
-
-    /**
      * Helper method for prepareLayoutForIncreasedItemCount().
      */
     void setLayouterSize(const QSizeF& size, SizeType sizeType);
