@@ -147,15 +147,10 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
 
     m_itemSize = itemSize;
 
-    const bool emptySize = itemSize.isEmpty();
-    if (emptySize) {
+    if (itemSize.isEmpty()) {
         updateVisibleRolesSizes();
     } else {
-        if (itemSize.width() < previousSize.width() || itemSize.height() < previousSize.height()) {
-            prepareLayoutForIncreasedItemCount(itemSize, ItemSize);
-        } else {
-            m_layouter->setItemSize(itemSize);
-        }
+        m_layouter->setItemSize(itemSize);
     }
 
     m_sizeHintResolver->clearCache();
@@ -394,12 +389,7 @@ void KItemListView::setGeometry(const QRectF& rect)
         // The item size is not dynamic and most probably the geometry change results
         // in animated position changes of the items. Trigger an asynchronous relayout
         // with m_layoutTimer to prevent performance bottlenecks.
-        if (m_model->count() > 0) {
-            prepareLayoutForIncreasedItemCount(newSize, LayouterSize);
-        } else {
-            m_layouter->setSize(newSize);
-        }
-
+        m_layouter->setSize(newSize);
         if (!m_layoutTimer->isActive()) {
             m_layoutTimer->start();
         }
@@ -1462,9 +1452,14 @@ bool KItemListView::moveWidget(KItemListWidget* widget, const QPointF& newPos)
     // create-animation on the new position will be used instead. This is done
     // to prevent "irritating" moving-animations.
     const QPointF oldPos = widget->pos();
-    const qreal xDiff = qAbs(oldPos.x() - newPos.x());
-    const qreal yDiff = qAbs(oldPos.y() - newPos.y());
-    if (xDiff <= m_itemSize.width() || yDiff <= m_itemSize.height()) {
+    const qreal xMax = m_itemSize.width();
+    const qreal yMax = m_itemSize.height();
+    
+    const bool startMovingAnim =    xMax <= 0
+                                 || yMax <= 0
+                                 || qAbs(oldPos.x() - newPos.x()) <= xMax
+                                 || qAbs(oldPos.y() - newPos.y()) <= yMax;
+    if (startMovingAnim) {
         // The moving animation is done inside a column or a row.
         m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
         return true;
@@ -1536,52 +1531,6 @@ void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
     m_visibleItems.insert(index, widget);
 
     initializeItemListWidget(widget);
-}
-
-void KItemListView::prepareLayoutForIncreasedItemCount(const QSizeF& size, SizeType sizeType)
-{
-    // Calculate the first visible index and last visible index for the current size
-    const int currentFirst = m_layouter->firstVisibleIndex();
-    const int currentLast = m_layouter->lastVisibleIndex();
-
-    const QSizeF currentSize = (sizeType == LayouterSize) ? m_layouter->size() : m_layouter->itemSize();
-
-    // Calculate the first visible index and last visible index for the new size
-    setLayouterSize(size, sizeType);
-    const int newFirst = m_layouter->firstVisibleIndex();
-    const int newLast = m_layouter->lastVisibleIndex();
-
-    if ((currentFirst != newFirst) || (currentLast != newLast)) {
-        // At least one index has been changed. Assure that widgets for all possible
-        // visible items get created so that a move-animation can be started later.
-        const int maxVisibleItems = m_layouter->maximumVisibleItems();
-        int minFirst = qMin(newFirst, currentFirst);
-        const int maxLast = qMax(newLast, currentLast);
-
-        if (maxLast - minFirst + 1 < maxVisibleItems) {
-            // Increasing the size might result in a smaller KItemListView::offset().
-            // Decrease the first visible index in a way that at least the maximum
-            // visible items are shown.
-            minFirst = qMax(0, maxLast - maxVisibleItems + 1);
-        }
-
-        if (maxLast - minFirst > maxVisibleItems  + maxVisibleItems / 2) {
-            // The creating of widgets is quite expensive. Assure that never more
-            // than 50 % of the maximum visible items get created for the animations.
-            return;
-        }
-
-        setLayouterSize(currentSize, sizeType);
-        for (int i = minFirst; i <= maxLast; ++i) {
-            if (!m_visibleItems.contains(i)) {
-                KItemListWidget* widget = createWidget(i);
-                const QRectF itemRect = m_layouter->itemRect(i);
-                widget->setPos(itemRect.topLeft());
-                widget->resize(itemRect.size());
-            }
-        }
-        setLayouterSize(size, sizeType);
-    }
 }
 
 void KItemListView::setLayouterSize(const QSizeF& size, SizeType sizeType)

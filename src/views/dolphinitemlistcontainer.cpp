@@ -209,7 +209,7 @@ void DolphinItemListContainer::updateGridSize()
     switch (itemLayout()) {
     case KFileItemListView::IconsLayout: {
         const int minItemWidth = 64;
-        itemWidth = minItemWidth + IconsModeSettings::textWidthIndex() * 64; // TODO:
+        itemWidth = minItemWidth + IconsModeSettings::textWidthIndex() * 64;
         if (itemWidth < iconSize + innerMargin * 2) {
             itemWidth = iconSize + innerMargin * 2;
         }
@@ -217,7 +217,7 @@ void DolphinItemListContainer::updateGridSize()
         break;
     }
     case KFileItemListView::CompactLayout: {
-        itemWidth = innerMargin * 2;
+        itemWidth = innerMargin * 4 + iconSize + styleOption.fontMetrics.height() * 5;
         const int textLinesCount = m_fileItemListView->visibleRoles().count();
         itemHeight = innerMargin * 2 + qMax(iconSize, textLinesCount * styleOption.fontMetrics.height());
         break;
