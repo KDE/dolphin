@@ -254,7 +254,7 @@ QString DolphinStatusBar::defaultText() const
     return m_messageLabel->defaultText();
 }
 
-void DolphinStatusBar::refresh()
+void DolphinStatusBar::readSettings()
 {
     setExtensionsVisible(true);
 }

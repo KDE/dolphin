@@ -446,11 +446,17 @@ void DolphinView::stopLoading()
     m_dirLister->stop();
 }
 
-void DolphinView::refresh()
+void DolphinView::readSettings()
 {
     GeneralSettings::self()->readConfig();
-    m_container->refresh();
+    m_container->readSettings();
     applyViewProperties();
+}
+
+void DolphinView::writeSettings()
+{
+    GeneralSettings::self()->writeConfig();
+    m_container->writeSettings();
 }
 
 void DolphinView::setNameFilter(const QString& nameFilter)
