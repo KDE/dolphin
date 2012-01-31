@@ -1125,6 +1125,30 @@ KFileItemModel::Role KFileItemModel::roleIndex(const QByteArray& role) const
     return rolesHash.value(role, NoRole);
 }
 
+QByteArray KFileItemModel::roleByteArray(Role role) const
+{
+    static const char* const roles[RolesCount] = {
+        0, // NoRole
+        "name",
+        "size",
+        "date",
+        "permissions",
+        "owner",
+        "group",
+        "type",
+        "destination",
+        "path",
+        "comment",
+        "tags",
+        "rating",
+        "isDir",
+        "isExpanded",
+        "isExpandable",
+        "expansionLevel"        
+    };
+    return roles[role];
+}
+
 QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) const
 {    
     // It is important to insert only roles that are fast to retrieve. E.g.
@@ -1274,18 +1298,7 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     case NameRole:
         // The name role is handled as default fallback after the switch
         break;
-
-    case DateRole: {
-        const KDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
-        const KDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
-        if (dateTimeA < dateTimeB) {
-            result = -1;
-        } else if (dateTimeA > dateTimeB) {
-            result = +1;
-        }
-        break;
-    }
-
+        
     case SizeRole: {
         if (itemA.isDir()) {
             Q_ASSERT(itemB.isDir()); // see "if (m_sortFoldersFirst || m_sortRole == SizeRole)" above
@@ -1307,29 +1320,36 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
         break;
     }
 
-    case TypeRole: {
-        result = QString::compare(a->values.value("type").toString(),
-                                  b->values.value("type").toString());
+    case DateRole: {
+        const KDateTime dateTimeA = itemA.time(KFileItem::ModificationTime);
+        const KDateTime dateTimeB = itemB.time(KFileItem::ModificationTime);
+        if (dateTimeA < dateTimeB) {
+            result = -1;
+        } else if (dateTimeA > dateTimeB) {
+            result = +1;
+        }
         break;
     }
-
-    case CommentRole: {
-        result = QString::compare(a->values.value("comment").toString(),
-                                  b->values.value("comment").toString());
-        break;
-    }
-
-    case TagsRole: {
-        result = QString::compare(a->values.value("tags").toString(),
-                                  b->values.value("tags").toString());
-        break;
-    }
-
+    
     case RatingRole: {
         result = a->values.value("rating").toInt() - b->values.value("rating").toInt();
         break;
     }
-
+    
+    case PermissionsRole:
+    case OwnerRole:
+    case GroupRole:
+    case TypeRole:
+    case DestinationRole:
+    case PathRole:
+    case CommentRole:
+    case TagsRole: {
+        const QByteArray role = roleByteArray(m_sortRole);
+        result = QString::compare(a->values.value(role).toString(),
+                                  b->values.value(role).toString());
+        break;
+    }
+        
     default:
         break;
     }
