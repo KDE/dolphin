@@ -358,7 +358,7 @@ private:
      * the same row or column, otherwise the create-animation is used instead.
      * @return True if the moving-animation has been applied.
      */
-    bool moveWidget(KItemListWidget* widget, const QPointF& newPos);
+    bool moveWidget(KItemListWidget* widget, const QRectF& itemBounds);
 
     void emitOffsetChanges();
 
