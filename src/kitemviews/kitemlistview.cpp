@@ -1351,7 +1351,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             const bool itemsInserted = (changedCount > 0);
             if (itemsRemoved && (i >= changedIndex + changedCount + 1)) {
                 // The item is located after the removed items. Animate the moving of the position.
-                applyNewPos = !moveWidget(widget, newPos);
+                applyNewPos = !moveWidget(widget, itemBounds);
             } else if (itemsInserted && i >= changedIndex) {
                 // The item is located after the first inserted item
                 if (i <= changedIndex + changedCount - 1) {
@@ -1365,11 +1365,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                     // The item was already there before, so animate the moving of the position.
                     // No moving animation is done if the item is animated by a create animation: This
                     // prevents a "move animation mess" when inserting several ranges in parallel.
-                    applyNewPos = !moveWidget(widget, newPos);
+                    applyNewPos = !moveWidget(widget, itemBounds);
                 }
             } else if (!itemsRemoved && !itemsInserted && !wasHidden) {
                 // The size of the view might have been changed. Animate the moving of the position.
-                applyNewPos = !moveWidget(widget, newPos);
+                applyNewPos = !moveWidget(widget, itemBounds);
             }
         }
 
@@ -1445,22 +1445,57 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex, int lastV
     return items;
 }
 
-bool KItemListView::moveWidget(KItemListWidget* widget, const QPointF& newPos)
+bool KItemListView::moveWidget(KItemListWidget* widget,const QRectF& itemBounds)
 {
-    // The moving-animation should only be started, if it is done within one
-    // row or one column. Otherwise instead of a moving-animation a
-    // create-animation on the new position will be used instead. This is done
-    // to prevent "irritating" moving-animations.
     const QPointF oldPos = widget->pos();
-    const qreal xMax = m_itemSize.width();
-    const qreal yMax = m_itemSize.height();
+    const QPointF newPos = itemBounds.topLeft();
+    if (oldPos == newPos) {
+        return false;
+    }
     
-    const bool startMovingAnim =    xMax <= 0
-                                 || yMax <= 0
-                                 || qAbs(oldPos.x() - newPos.x()) < xMax
-                                 || qAbs(oldPos.y() - newPos.y()) < yMax;
+    bool startMovingAnim = m_itemSize.isEmpty();
+    if (!startMovingAnim) {
+        // When having a grid the moving-animation should only be started, if it is done within
+        // one row in the vertical scroll-orientation or one column in the horizontal scroll-orientation.
+        // Otherwise instead of a moving-animation a create-animation on the new position will be used
+        // instead. This is done to prevent overlapping (and confusing) moving-animations.
+
+        int zoomDiff = 0;
+        if (widget->size() != itemBounds.size()) {
+            // The item-size has been increased or decreased
+            const bool zoomOut = (widget->size().width()  >= itemBounds.size().width()) &&
+                                 (widget->size().height() >= itemBounds.size().height());
+            zoomDiff = zoomOut ? -1 : +1;
+        }
+
+        const qreal xMax = m_itemSize.width();
+        const qreal yMax = m_itemSize.height();
+        qreal xDiff = oldPos.x() - newPos.x();
+        qreal yDiff = oldPos.y() - newPos.y();
+        if (scrollOrientation() == Qt::Vertical) {
+            if (zoomDiff != 0) {
+                // Skip moving animations that changed the row
+                startMovingAnim = (zoomDiff > 0 &&  xDiff < xMax) ||
+                                  (zoomDiff < 0 && -xDiff < xMax);
+            } else {
+                xDiff = qAbs(xDiff);
+                yDiff = qAbs(yDiff);
+                startMovingAnim = (xDiff > yDiff && yDiff < yMax);
+            }
+        } else {
+            if (zoomDiff != 0) {
+                // Skip moving animations that changed the column
+                startMovingAnim = (zoomDiff > 0 &&  yDiff < yMax) ||
+                                  (zoomDiff < 0 && -yDiff < yMax);
+            } else {
+                xDiff = qAbs(xDiff);
+                yDiff = qAbs(yDiff);
+                startMovingAnim = (yDiff > xDiff && xDiff < xMax);
+            }
+        }
+    }
+
     if (startMovingAnim) {
-        // The moving animation is done inside a column or a row.
         m_animation->start(widget, KItemListViewAnimation::MovingAnimation, newPos);
         return true;
     }
