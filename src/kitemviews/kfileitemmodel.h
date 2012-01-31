@@ -237,7 +237,17 @@ private:
      */
     void resetRoles();
 
+    /**
+     * @return Role-index for the given role byte-array.
+     *         Runtime complexity is O(1).
+     */
     Role roleIndex(const QByteArray& role) const;
+    
+    /**
+     * @return Role-byte-array for the given role-index.
+     *         Runtime complexity is O(1).
+     */
+    QByteArray roleByteArray(Role role) const;
 
     QHash<QByteArray, QVariant> retrieveData(const KFileItem& item) const;
     
