@@ -216,10 +216,14 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     switch (key) {
     case Qt::Key_Home:
         index = 0;
+        m_keyboardAnchorIndex = index;
+        m_keyboardAnchorPos = keyboardAnchorPos(index);
         break;
 
     case Qt::Key_End:
         index = itemCount - 1;
+        m_keyboardAnchorIndex = index;
+        m_keyboardAnchorPos = keyboardAnchorPos(index);
         break;
 
     case Qt::Key_Left:
