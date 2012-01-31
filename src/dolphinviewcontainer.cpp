@@ -219,6 +219,7 @@ void DolphinViewContainer::readSettings()
         // settings of the URL navigator and the filterbar.
         m_urlNavigator->setUrlEditable(GeneralSettings::editableUrl());
         m_urlNavigator->setShowFullPath(GeneralSettings::showFullPath());
+        m_urlNavigator->setHomeUrl(KUrl(GeneralSettings::homeUrl()));
         setFilterBarVisible(GeneralSettings::filterBar());
     }
 
