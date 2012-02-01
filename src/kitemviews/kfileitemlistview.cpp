@@ -376,8 +376,6 @@ void KFileItemListView::onScrollOffsetChanged(qreal current, qreal previous)
 
 void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
 {
-    Q_UNUSED(current);
-    Q_UNUSED(previous);
     applyRolesToModel();
 
     if (m_itemLayout == DetailsLayout) {
