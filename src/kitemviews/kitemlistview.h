@@ -513,6 +513,7 @@ private:
     bool m_useHeaderWidths;
 
     friend class KItemListController;
+    friend class KItemListControllerTest;
 };
 
 /**
