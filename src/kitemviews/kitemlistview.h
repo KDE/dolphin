@@ -347,10 +347,13 @@ private:
     /**
      * Helper method for doLayout: Returns a list of items that can be reused for the visible
      * area. Invisible group headers get recycled. The reusable items are items that are
-     * invisible and not animated. Reusing items is faster in comparison to deleting invisible
+     * invisible. If the animation hint is 'Animation' then items that are currently animated
+     * won't be reused. Reusing items is faster in comparison to deleting invisible
      * items and creating a new instance for visible items.
      */
-    QList<int> recycleInvisibleItems(int firstVisibleIndex, int lastVisibleIndex);
+    QList<int> recycleInvisibleItems(int firstVisibleIndex,
+                                     int lastVisibleIndex,
+                                     LayoutAnimationHint hint);
 
     /**
      * Helper method for doLayout: Starts a moving-animation for the widget to the given
@@ -442,6 +445,21 @@ private:
      *         if no header is shown.
      */
     QRectF headerBoundaries() const;
+    
+    /**
+     * @return True if the number of columns or rows will be changed when applying
+     *         the new grid- and item-size. Used to determine whether an animation
+     *         should be done when applying the new layout.
+     */
+    bool changesItemGridLayout(const QSizeF& newGridSize, const QSizeF& newItemSize) const;
+    
+    /**
+     * @param changedItemCount Number of inserted  or removed items.
+     * @return                 True if the inserting or removing of items should be animated.
+     *                         No animation should be done if the number of items is too large
+     *                         to provide a pleasant animation.
+     */
+    bool animateChangedItemCount(int changedItemCount) const;
 
     /**
      * Helper function for triggerAutoScrolling().
