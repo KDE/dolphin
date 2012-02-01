@@ -123,7 +123,6 @@ private slots:
      */
     void slotPreviewJobFinished(KJob* job);
 
-    void resolvePendingRoles();
     void resolveNextPendingRoles();
 
     /**
@@ -150,8 +149,8 @@ private:
     void startPreviewJob(const KFileItemList& items);
 
     bool hasPendingRoles() const;
+    void resolvePendingRoles();
     void resetPendingRoles();
-    void triggerPendingRolesResolving(int count);
     void sortAndResolveAllRoles();
     void sortAndResolvePendingRoles();
 
@@ -197,8 +196,6 @@ private:
     QSet<KFileItem> m_pendingVisibleItems;
     QSet<KFileItem> m_pendingInvisibleItems;
     QList<KJob*> m_previewJobs;
-
-    QTimer* m_resolvePendingRolesTimer;
 
     // When downloading or copying large files, the slot slotItemsChanged()
     // will be called periodically within a quite short delay. To prevent

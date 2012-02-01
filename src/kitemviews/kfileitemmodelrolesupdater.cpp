@@ -72,7 +72,6 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_pendingVisibleItems(),
     m_pendingInvisibleItems(),
     m_previewJobs(),
-    m_resolvePendingRolesTimer(0),
     m_changedItemsTimer(0),
     m_changedItems()
 {
@@ -90,13 +89,6 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
             this,    SLOT(slotItemsRemoved(KItemRangeList)));
     connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
             this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
-
-    // A timer with a minimal timeout is used to merge several triggerPendingRolesResolving() calls
-    // to only one call of resolvePendingRoles().
-    m_resolvePendingRolesTimer = new QTimer(this);
-    m_resolvePendingRolesTimer->setInterval(1);
-    m_resolvePendingRolesTimer->setSingleShot(true);
-    connect(m_resolvePendingRolesTimer, SIGNAL(timeout()), this, SLOT(resolvePendingRoles()));
 
     // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
     // resolving of the roles. Postpone the resolving until no update has been done for 2 seconds.
@@ -379,84 +371,6 @@ void KFileItemModelRolesUpdater::slotPreviewJobFinished(KJob* job)
     startPreviewJob(visibleItems + m_pendingInvisibleItems.toList());
 }
 
-void KFileItemModelRolesUpdater::resolvePendingRoles()
-{
-    int resolvedCount = 0;
-
-    const bool hasSlowRoles = m_previewShown
-                              || m_roles.contains("size")
-                              || m_roles.contains("type")
-                              || m_roles.contains("isExpandable");
-    const ResolveHint resolveHint = hasSlowRoles ? ResolveFast : ResolveAll;
-
-    // Resolving the MIME type can be expensive. Assure that not more than MaxBlockTimeout ms are
-    // spend for resolving them synchronously. Usually this is more than enough to determine
-    // all visible items, but there are corner cases where this limit gets easily exceeded.
-    QElapsedTimer timer;
-    timer.start();
-
-    // Resolve the MIME type of all visible items
-    QSetIterator<KFileItem> visibleIt(m_pendingVisibleItems);
-    while (visibleIt.hasNext()) {
-        const KFileItem item = visibleIt.next();
-        applyResolvedRoles(item, resolveHint);
-        if (!hasSlowRoles) {
-            Q_ASSERT(!m_pendingInvisibleItems.contains(item));
-            // All roles have been resolved already by applyResolvedRoles()
-            m_pendingVisibleItems.remove(item);
-        }
-        ++resolvedCount;
-
-        if (timer.elapsed() > MaxBlockTimeout) {
-            break;
-        }
-    }
-
-    // Resolve the MIME type of the invisible items at least until the timeout
-    // has been exceeded or the maximum number of items has been reached
-    KFileItemList invisibleItems;
-    if (m_lastVisibleIndex >= 0) {
-        // The visible range is valid, don't care about the order how the MIME
-        // type of invisible items get resolved
-        invisibleItems = m_pendingInvisibleItems.toList();
-    } else {
-        // The visible range is temporary invalid (e.g. happens when loading
-        // a directory) so take care to sort the currently invisible items where
-        // a part will get visible later
-        invisibleItems = sortedItems(m_pendingInvisibleItems);
-    }
-
-    int index = 0;
-    while (resolvedCount < MaxResolveItemsCount && index < invisibleItems.count() && timer.elapsed() <= MaxBlockTimeout) {
-        const KFileItem item = invisibleItems.at(index);
-        applyResolvedRoles(item, resolveHint);
-
-        if (!hasSlowRoles) {
-            // All roles have been resolved already by applyResolvedRoles()
-            m_pendingInvisibleItems.remove(item);
-        }
-        ++index;
-        ++resolvedCount;
-    }
-
-    if (m_previewShown) {
-        KFileItemList items = sortedItems(m_pendingVisibleItems);
-        items += invisibleItems;
-        startPreviewJob(items);
-    } else {
-        QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
-    }
-
-#ifdef KFILEITEMMODELROLESUPDATER_DEBUG
-    if (timer.elapsed() > MaxBlockTimeout) {
-        kDebug() << "Maximum time of" << MaxBlockTimeout
-                 << "ms exceeded, skipping items... Remaining visible:" << m_pendingVisibleItems.count()
-                 << "invisible:" << m_pendingInvisibleItems.count();
-    }
-    kDebug() << "[TIME] Resolved pending roles:" << timer.elapsed();
-#endif
-}
-
 void KFileItemModelRolesUpdater::resolveNextPendingRoles()
 {
     if (m_paused) {
@@ -556,7 +470,7 @@ void KFileItemModelRolesUpdater::startUpdating(const KItemRangeList& itemRanges)
         }
     }
 
-    triggerPendingRolesResolving(rangesCount);
+    resolvePendingRoles();
 }
 
 void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
@@ -612,6 +526,84 @@ bool KFileItemModelRolesUpdater::hasPendingRoles() const
     return !m_pendingVisibleItems.isEmpty() || !m_pendingInvisibleItems.isEmpty();
 }
 
+void KFileItemModelRolesUpdater::resolvePendingRoles()
+{
+    int resolvedCount = 0;
+
+    const bool hasSlowRoles = m_previewShown
+                              || m_roles.contains("size")
+                              || m_roles.contains("type")
+                              || m_roles.contains("isExpandable");
+    const ResolveHint resolveHint = hasSlowRoles ? ResolveFast : ResolveAll;
+
+    // Resolving the MIME type can be expensive. Assure that not more than MaxBlockTimeout ms are
+    // spend for resolving them synchronously. Usually this is more than enough to determine
+    // all visible items, but there are corner cases where this limit gets easily exceeded.
+    QElapsedTimer timer;
+    timer.start();
+
+    // Resolve the MIME type of all visible items
+    QSetIterator<KFileItem> visibleIt(m_pendingVisibleItems);
+    while (visibleIt.hasNext()) {
+        const KFileItem item = visibleIt.next();
+        applyResolvedRoles(item, resolveHint);
+        if (!hasSlowRoles) {
+            Q_ASSERT(!m_pendingInvisibleItems.contains(item));
+            // All roles have been resolved already by applyResolvedRoles()
+            m_pendingVisibleItems.remove(item);
+        }
+        ++resolvedCount;
+
+        if (timer.elapsed() > MaxBlockTimeout) {
+            break;
+        }
+    }
+
+    // Resolve the MIME type of the invisible items at least until the timeout
+    // has been exceeded or the maximum number of items has been reached
+    KFileItemList invisibleItems;
+    if (m_lastVisibleIndex >= 0) {
+        // The visible range is valid, don't care about the order how the MIME
+        // type of invisible items get resolved
+        invisibleItems = m_pendingInvisibleItems.toList();
+    } else {
+        // The visible range is temporary invalid (e.g. happens when loading
+        // a directory) so take care to sort the currently invisible items where
+        // a part will get visible later
+        invisibleItems = sortedItems(m_pendingInvisibleItems);
+    }
+
+    int index = 0;
+    while (resolvedCount < MaxResolveItemsCount && index < invisibleItems.count() && timer.elapsed() <= MaxBlockTimeout) {
+        const KFileItem item = invisibleItems.at(index);
+        applyResolvedRoles(item, resolveHint);
+
+        if (!hasSlowRoles) {
+            // All roles have been resolved already by applyResolvedRoles()
+            m_pendingInvisibleItems.remove(item);
+        }
+        ++index;
+        ++resolvedCount;
+    }
+
+    if (m_previewShown) {
+        KFileItemList items = sortedItems(m_pendingVisibleItems);
+        items += invisibleItems;
+        startPreviewJob(items);
+    } else {
+        QTimer::singleShot(0, this, SLOT(resolveNextPendingRoles()));
+    }
+
+#ifdef KFILEITEMMODELROLESUPDATER_DEBUG
+    if (timer.elapsed() > MaxBlockTimeout) {
+        kDebug() << "Maximum time of" << MaxBlockTimeout
+                 << "ms exceeded, skipping items... Remaining visible:" << m_pendingVisibleItems.count()
+                 << "invisible:" << m_pendingInvisibleItems.count();
+    }
+    kDebug() << "[TIME] Resolved pending roles:" << timer.elapsed();
+#endif
+}
+
 void KFileItemModelRolesUpdater::resetPendingRoles()
 {
     m_pendingVisibleItems.clear();
@@ -621,21 +613,6 @@ void KFileItemModelRolesUpdater::resetPendingRoles()
         job->kill();
     }
     Q_ASSERT(m_previewJobs.isEmpty());
-}
-
-void KFileItemModelRolesUpdater::triggerPendingRolesResolving(int count)
-{
-    if (count == m_model->count()) {
-        // When initially loading a directory a synchronous resolving prevents a minor
-        // flickering when opening directories. This is also fine from a performance point
-        // of view as it is assured in resolvePendingRoles() to never block the event-loop
-        // for more than 200 ms.
-        resolvePendingRoles();
-    } else {
-        // Items have been added. This can be done in several small steps within one loop
-        // because of the sorting and hence may not trigger any expensive operation.
-        m_resolvePendingRolesTimer->start();
-    }
 }
 
 void KFileItemModelRolesUpdater::sortAndResolveAllRoles()
@@ -675,8 +652,7 @@ void KFileItemModelRolesUpdater::sortAndResolveAllRoles()
         }
     }
 
-    triggerPendingRolesResolving(m_pendingVisibleItems.count() +
-                                 m_pendingInvisibleItems.count());
+    resolvePendingRoles();
 }
 
 void KFileItemModelRolesUpdater::sortAndResolvePendingRoles()
@@ -715,8 +691,7 @@ void KFileItemModelRolesUpdater::sortAndResolvePendingRoles()
         }
     }
 
-    triggerPendingRolesResolving(m_pendingVisibleItems.count() +
-                                 m_pendingInvisibleItems.count());
+    resolvePendingRoles();
 }
 
 bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, ResolveHint hint)
