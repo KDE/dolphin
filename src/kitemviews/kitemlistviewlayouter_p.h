@@ -161,6 +161,8 @@ private:
     qreal m_groupHeaderHeight;
 
     QList<QRectF> m_itemRects;
+
+    friend class KItemListControllerTest;
 };
 
 #endif

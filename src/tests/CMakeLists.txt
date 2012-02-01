@@ -12,6 +12,18 @@ set(kitemlistselectionmanagertest_SRCS
 kde4_add_unit_test(kitemlistselectionmanagertest TEST ${kitemlistselectionmanagertest_SRCS})
 target_link_libraries(kitemlistselectionmanagertest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
 
+# KItemListControllerTest
+set(kitemlistcontrollertest_SRCS
+    kitemlistcontrollertest.cpp
+    testdir.cpp
+    ../kitemviews/kfileitemmodel.cpp
+    ../kitemviews/kfileitemlistview.cpp
+    ../kitemviews/kitemmodelbase.cpp
+    ../kitemviews/kitemlistview.cpp
+)
+kde4_add_unit_test(kitemlistcontrollertest TEST ${kitemlistcontrollertest_SRCS})
+target_link_libraries(kitemlistcontrollertest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})
+
 # KFileItemListViewTest
 set(kfileitemlistviewtest_SRCS
     kfileitemlistviewtest.cpp

@@ -203,7 +203,8 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         }
     }
     
-    const bool selectSingleItem = itemCount == 1 &&
+    const bool selectSingleItem = m_selectionBehavior != NoSelection &&
+                                  itemCount == 1 &&
                                   (key == Qt::Key_Home || key == Qt::Key_End  ||
                                    key == Qt::Key_Up   || key == Qt::Key_Down ||
                                    key == Qt::Key_Left || key == Qt::Key_Right);
@@ -322,13 +323,15 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     }
 
     case Qt::Key_Space:
-        if (controlPressed) {
-            m_selectionManager->endAnchoredSelection();
-            m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
-            m_selectionManager->beginAnchoredSelection(index);
-        } else {
-            const int current = m_selectionManager->currentItem();
-            m_selectionManager->setSelected(current);
+        if (m_selectionBehavior == MultiSelection) {
+            if (controlPressed) {
+                m_selectionManager->endAnchoredSelection();
+                m_selectionManager->setSelected(index, 1, KItemListSelectionManager::Toggle);
+                m_selectionManager->beginAnchoredSelection(index);
+            } else {
+                const int current = m_selectionManager->currentItem();
+                m_selectionManager->setSelected(current);
+            }
         }
         break;
 
@@ -361,19 +364,33 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
     }
 
     if (m_selectionManager->currentItem() != index) {
-        if (controlPressed) {
-            m_selectionManager->endAnchoredSelection();
-        }
+        switch (m_selectionBehavior) {
+        case NoSelection:
+            m_selectionManager->setCurrentItem(index);
+            break;
 
-        m_selectionManager->setCurrentItem(index);
-
-        if (!shiftOrControlPressed || m_selectionBehavior == SingleSelection) {
+        case SingleSelection:
+            m_selectionManager->setCurrentItem(index);
             m_selectionManager->clearSelection();
             m_selectionManager->setSelected(index, 1);
-        }
+            break;
 
-        if (!shiftPressed) {
-            m_selectionManager->beginAnchoredSelection(index);
+        case MultiSelection:
+            if (controlPressed) {
+                m_selectionManager->endAnchoredSelection();
+            }
+
+            m_selectionManager->setCurrentItem(index);
+
+            if (!shiftOrControlPressed) {
+                m_selectionManager->clearSelection();
+                m_selectionManager->setSelected(index, 1);
+            }
+
+            if (!shiftPressed) {
+                m_selectionManager->beginAnchoredSelection(index);
+            }
+            break;
         }
 
         m_view->scrollToItem(index);
