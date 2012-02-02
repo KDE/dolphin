@@ -68,11 +68,6 @@ private slots:
     void showToolTip();
 
 private:
-    int toolTipMargin() const;
-
-private:
-    QWidget* m_parentWidget;
-
     /// Timeout from requesting a tooltip until the tooltip
     /// should be shown
     QTimer* m_showToolTipTimer;
@@ -86,6 +81,7 @@ private:
     bool m_toolTipRequested;
     bool m_metaDataRequested;
     bool m_appliedWaitCursor;
+    int m_margin;
     KFileItem m_item;
     QRect m_itemRect;
 };
