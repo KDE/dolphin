@@ -549,6 +549,9 @@ protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     virtual void wheelEvent(QWheelEvent* event);
 
+    /** @reimp */
+    virtual void hideEvent(QHideEvent* event);
+    
 private slots:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)

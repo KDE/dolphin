@@ -694,6 +694,12 @@ void DolphinView::wheelEvent(QWheelEvent* event)
     }
 }
 
+void DolphinView::hideEvent(QHideEvent* event)
+{
+    hideToolTip();
+    QWidget::hideEvent(event);
+}
+
 void DolphinView::activate()
 {
     setActive(true);
