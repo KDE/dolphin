@@ -1353,12 +1353,6 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                 }
                 applyNewPos = false;
             }
-        } else if (m_animation->isStarted(widget, KItemListViewAnimation::MovingAnimation)) {
-            if (animate) {
-                applyNewPos = false;
-            } else {
-                m_animation->stop(widget);
-            }
         }
 
         if (animate) {
@@ -1386,6 +1380,8 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                 // The size of the view might have been changed. Animate the moving of the position.
                 applyNewPos = !moveWidget(widget, itemBounds);
             }
+        } else {
+            m_animation->stop(widget);
         }
 
         if (applyNewPos) {
