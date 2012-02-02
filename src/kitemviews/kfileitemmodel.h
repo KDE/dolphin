@@ -330,6 +330,12 @@ private:
      */
     KFileItemList childItems(const KFileItem& item) const;
 
+    /**
+     * Helper method for sortRoleCompare().
+     * @return 0 if both sizes are equal, +1 if a > b and -1 if a < b.
+     */
+    static int fileSizeCompare(KIO::filesize_t a, KIO::filesize_t b);
+
 private:
     QWeakPointer<KDirLister> m_dirLister;
 
