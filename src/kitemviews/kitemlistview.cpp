@@ -263,7 +263,7 @@ void KItemListView::setAutoScroll(bool enabled)
 {
     if (enabled && !m_autoScrollTimer) {
         m_autoScrollTimer = new QTimer(this);
-        m_autoScrollTimer->setSingleShot(false);
+        m_autoScrollTimer->setSingleShot(true);
         connect(m_autoScrollTimer, SIGNAL(timeout()), this, SLOT(triggerAutoScrolling()));
         m_autoScrollTimer->start(InitialAutoScrollDelay);
     } else if (!enabled && m_autoScrollTimer) {
