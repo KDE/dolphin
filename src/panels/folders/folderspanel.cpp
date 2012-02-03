@@ -73,12 +73,7 @@ FoldersPanel::~FoldersPanel()
 void FoldersPanel::setHiddenFilesShown(bool show)
 {
     FoldersPanelSettings::setHiddenFilesShown(show);
-    if (m_dirLister) {
-        KFileItemModel* model = fileItemModel();
-        const QSet<KUrl> expandedUrls = model->expandedUrls();
-        model->setShowHiddenFiles(show);
-        model->setExpanded(expandedUrls);
-    }
+    fileItemModel()->setShowHiddenFiles(show);
 }
 
 bool FoldersPanel::hiddenFilesShown() const
