@@ -1313,12 +1313,20 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
             } else if (valueB.isNull()) {
                 result = +1;
             } else {
-                result = fileSizeCompare(valueA.value<KIO::filesize_t>(), valueB.value<KIO::filesize_t>());
+                result = valueA.toInt() - valueB.toInt();
             }
         } else {
             // See "if (m_sortFoldersFirst || m_sortRole == SizeRole)" in KFileItemModel::lessThan():
             Q_ASSERT(!itemB.isDir());
-            result = fileSizeCompare(itemA.size(), itemB.size());
+            const KIO::filesize_t sizeA = itemA.size();
+            const KIO::filesize_t sizeB = itemB.size();
+            if (sizeA > sizeB) {
+                result = +1;
+            } else if (sizeA < sizeB) {
+                result = -1;
+            } else {
+                result = 0;
+            }
         }
         break;
     }
@@ -1941,17 +1949,6 @@ KFileItemList KFileItemModel::childItems(const KFileItem& item) const
     }
 
     return items;
-}
-
-int KFileItemModel::fileSizeCompare(KIO::filesize_t a, KIO::filesize_t b)
-{
-    if (a > b) {
-        return +1;
-    } else if (a < b) {
-        return -1;
-    } else {
-        return 0;
-    }
 }
 
 #include "kfileitemmodel.moc"
