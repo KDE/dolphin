@@ -118,7 +118,7 @@ void TreeViewContextMenu::open()
     if (m_fileItem.isNull()) {
         QAction* showHiddenFilesAction = new QAction(i18nc("@action:inmenu", "Show Hidden Files"), this);
         showHiddenFilesAction->setCheckable(true);
-        showHiddenFilesAction->setChecked(m_parent->hiddenFilesShown());
+        showHiddenFilesAction->setChecked(m_parent->showHiddenFiles());
         popup->addAction(showHiddenFilesAction);
         connect(showHiddenFilesAction, SIGNAL(toggled(bool)), this, SLOT(setShowHiddenFiles(bool)));
 
@@ -205,7 +205,7 @@ void TreeViewContextMenu::showProperties()
 
 void TreeViewContextMenu::setShowHiddenFiles(bool show)
 {
-    m_parent->setHiddenFilesShown(show);
+    m_parent->setShowHiddenFiles(show);
 }
 
 void TreeViewContextMenu::setAutoScrolling(bool enable)

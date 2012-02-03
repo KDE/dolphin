@@ -43,8 +43,8 @@ public:
     FoldersPanel(QWidget* parent = 0);
     virtual ~FoldersPanel();
 
-    void setHiddenFilesShown(bool show);
-    bool hiddenFilesShown() const;
+    void setShowHiddenFiles(bool show);
+    bool showHiddenFiles() const;
 
     void setAutoScrolling(bool enable);
     bool autoScrolling() const;
