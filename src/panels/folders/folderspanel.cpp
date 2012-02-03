@@ -70,13 +70,13 @@ FoldersPanel::~FoldersPanel()
     m_dirLister = 0;
 }
 
-void FoldersPanel::setHiddenFilesShown(bool show)
+void FoldersPanel::setShowHiddenFiles(bool show)
 {
     FoldersPanelSettings::setHiddenFilesShown(show);
     fileItemModel()->setShowHiddenFiles(show);
 }
 
-bool FoldersPanel::hiddenFilesShown() const
+bool FoldersPanel::showHiddenFiles() const
 {
     return FoldersPanelSettings::hiddenFilesShown();
 }
