@@ -330,7 +330,7 @@ void FoldersPanel::loadTree(const KUrl& url)
         updateCurrentItem(index);
     } else {
         m_updateCurrentItem = true;
-        model->setExpanded(QSet<KUrl>() << url);
+        model->expandParentItems(url);
         // slotLoadingCompleted() will be invoked after the model has
         // expanded the url
     }

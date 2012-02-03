@@ -68,6 +68,7 @@ private slots:
     void testModelConsistencyWhenInsertingItems();
     void testItemRangeConsistencyWhenInsertingItems();
     void testExpandItems();
+    void testExpandParentItems();
     void testSorting();
 
     void testExpansionLevelsCompare_data();
@@ -476,6 +477,57 @@ void KFileItemModelTest::testExpandItems()
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QCOMPARE(m_model->expandedUrls(), allFolders);
+}
+
+void KFileItemModelTest::testExpandParentItems()
+{
+    // Create a tree structure of folders:
+    // a 1/
+    // a 1/b1/
+    // a 1/b1/c1/
+    // a2/
+    // a2/b2/
+    // a2/b2/c2/
+    // a2/b2/c2/d2/
+    QSet<QByteArray> modelRoles = m_model->roles();
+    modelRoles << "isExpanded" << "isExpandable" << "expansionLevel";
+    m_model->setRoles(modelRoles);
+
+    QStringList files;
+    files << "a 1/b1/c1/file.txt" << "a2/b2/c2/d2/file.txt"; // missing folders are created automatically
+    m_testDir->createFiles(files);
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
+
+    // So far, the model contains only "a 1/" and "a2/".
+    QCOMPARE(m_model->count(), 2);
+    QVERIFY(m_model->expandedUrls().empty());
+
+    // Expand the parents of "a2/b2/c2".
+    m_model->expandParentItems(KUrl(m_testDir->name() + "a2/b2/c2"));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+
+    // The model should now contain "a 1/", "a2/", "a2/b2/", and "a2/b2/c2/".
+    // It's important that only the parents of "a1/b1/c1" are expanded.
+    QCOMPARE(m_model->count(), 4);
+    QVERIFY(!m_model->isExpanded(0));
+    QVERIFY(m_model->isExpanded(1));
+    QVERIFY(m_model->isExpanded(2));
+    QVERIFY(!m_model->isExpanded(3));
+
+    // Expand the parents of "a 1/b1".
+    m_model->expandParentItems(KUrl(m_testDir->name() + "a 1/b1"));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+
+    // The model should now contain "a 1/", "a 1/b1/", "a2/", "a2/b2", and "a2/b2/c2/".
+    // It's important that only the parents of "a 1/b1/" and "a2/b2/c2/" are expanded.
+    QCOMPARE(m_model->count(), 5);
+    QVERIFY(m_model->isExpanded(0));
+    QVERIFY(!m_model->isExpanded(1));
+    QVERIFY(m_model->isExpanded(2));
+    QVERIFY(m_model->isExpanded(3));
+    QVERIFY(!m_model->isExpanded(4));
 }
 
 void KFileItemModelTest::testSorting()
