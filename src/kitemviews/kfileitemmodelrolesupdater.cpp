@@ -839,7 +839,9 @@ int KFileItemModelRolesUpdater::subItemsCount(const QString& path) const
                 }
             }
 
-            if (!showFoldersOnly || dirEntry->d_type == DT_DIR) {
+            // If only directories are counted, consider an unknown file type also
+            // as directory instead of trying to do an expensive stat() (see bug 292642).
+            if (!showFoldersOnly || dirEntry->d_type == DT_DIR || dirEntry->d_type == DT_UNKNOWN) {
                 ++count;
             }
         }
