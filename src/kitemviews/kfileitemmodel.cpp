@@ -478,7 +478,7 @@ void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
     m_urlsToExpand = urls;
 }
 
-void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
+void KFileItemModel::expandParentItems(const KUrl& url)
 {
     const KDirLister* dirLister = m_dirLister.data();
     if (!dirLister) {
@@ -487,20 +487,15 @@ void KFileItemModel::setExpanded(const QSet<KUrl>& urls)
 
     const int pos = dirLister->url().path().length();
 
-    // Assure that each sub-path of the URLs that should be
-    // expanded is added to m_urlsToExpand too. KDirLister
+    // Assure that each sub-path of the URL that should be
+    // expanded is added to m_urlsToExpand. KDirLister
     // does not care whether the parent-URL has already been
     // expanded.
-    QSetIterator<KUrl> it1(urls);
-    while (it1.hasNext()) {
-        const KUrl& url = it1.next();
-
-        KUrl urlToExpand = dirLister->url();
-        const QStringList subDirs = url.path().mid(pos).split(QDir::separator());
-        for (int i = 0; i < subDirs.count(); ++i) {
-            urlToExpand.addPath(subDirs.at(i));
-            m_urlsToExpand.insert(urlToExpand);
-        }
+    KUrl urlToExpand = dirLister->url();
+    const QStringList subDirs = url.path().mid(pos).split(QDir::separator());
+    for (int i = 0; i < subDirs.count() - 1; ++i) {
+        urlToExpand.addPath(subDirs.at(i));
+        m_urlsToExpand.insert(urlToExpand);
     }
 
     // KDirLister::open() must called at least once to trigger an initial

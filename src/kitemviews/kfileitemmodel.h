@@ -150,9 +150,9 @@ public:
     void restoreExpandedUrls(const QSet<KUrl>& urls);
 
     /**
-     * Expands all parent-items of each URL given by \a urls.
+     * Expands all parent-items of \a url.
      */
-    void setExpanded(const QSet<KUrl>& urls);
+    void expandParentItems(const KUrl& url);
 
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
