@@ -192,41 +192,30 @@ void KItemListControllerTest::testKeyboardNavigation_data()
     QTest::addColumn<bool>("groupingEnabled");
     QTest::addColumn<QList<QPair<KeyPress, ViewState> > >("testList");
 
-    static QList<KFileItemListView::Layout> layoutList;
-    static QHash<KFileItemListView::Layout, QString> layoutNames;
-    if (layoutList.isEmpty()) {
-        layoutList.append(KFileItemListView::IconsLayout);
-        layoutNames[KFileItemListView::IconsLayout] = "Icons";
+    QList<KFileItemListView::Layout> layoutList;
+    QHash<KFileItemListView::Layout, QString> layoutNames;
+    layoutList.append(KFileItemListView::IconsLayout);
+    layoutNames[KFileItemListView::IconsLayout] = "Icons";
+    layoutList.append(KFileItemListView::CompactLayout);
+    layoutNames[KFileItemListView::CompactLayout] = "Compact";
+    layoutList.append(KFileItemListView::DetailsLayout);
+    layoutNames[KFileItemListView::DetailsLayout] = "Details";
 
-        layoutList.append(KFileItemListView::CompactLayout);
-        layoutNames[KFileItemListView::CompactLayout] = "Compact";
+    QList<KItemListController::SelectionBehavior> selectionBehaviorList;
+    QHash<KItemListController::SelectionBehavior, QString> selectionBehaviorNames;
+    selectionBehaviorList.append(KItemListController::NoSelection);
+    selectionBehaviorNames[KItemListController::NoSelection] = "NoSelection";
+    selectionBehaviorList.append(KItemListController::SingleSelection);
+    selectionBehaviorNames[KItemListController::SingleSelection] = "SingleSelection";
+    selectionBehaviorList.append(KItemListController::MultiSelection);
+    selectionBehaviorNames[KItemListController::MultiSelection] = "MultiSelection";
 
-        layoutList.append(KFileItemListView::DetailsLayout);
-        layoutNames[KFileItemListView::DetailsLayout] = "Details";
-    }
-
-    static QList<KItemListController::SelectionBehavior> selectionBehaviorList;
-    static QHash<KItemListController::SelectionBehavior, QString> selectionBehaviorNames;
-    if (selectionBehaviorList.isEmpty()) {
-        selectionBehaviorList.append(KItemListController::NoSelection);
-        selectionBehaviorNames[KItemListController::NoSelection] = "NoSelection";
-
-        selectionBehaviorList.append(KItemListController::SingleSelection);
-        selectionBehaviorNames[KItemListController::SingleSelection] = "SingleSelection";
-
-        selectionBehaviorList.append(KItemListController::MultiSelection);
-        selectionBehaviorNames[KItemListController::MultiSelection] = "MultiSelection";
-    }
-
-    static QList<bool> groupingEnabledList;
-    static QHash<bool, QString> groupingEnabledNames;
-    if (groupingEnabledList.isEmpty()) {
-        groupingEnabledList.append(false);
-        groupingEnabledNames[false] = "ungrouped";
-
-        groupingEnabledList.append(true);
-        groupingEnabledNames[true] = "grouping enabled";
-    }
+    QList<bool> groupingEnabledList;
+    QHash<bool, QString> groupingEnabledNames;
+    groupingEnabledList.append(false);
+    groupingEnabledNames[false] = "ungrouped";
+    groupingEnabledList.append(true);
+    groupingEnabledNames[true] = "grouping enabled";
 
     foreach (KFileItemListView::Layout layout, layoutList) {
         // The following settings depend on the layout.
