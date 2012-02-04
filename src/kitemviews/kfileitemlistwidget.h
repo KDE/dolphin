@@ -139,7 +139,6 @@ private:
     QPixmap m_pixmap;
     QSize m_scaledPixmapSize;
 
-    QSize m_originalPixmapSize; // Size of pixmap before it gets converted to a square pixmap
     QRectF m_iconRect;          // Cache for KItemListWidget::iconRect()
     QPixmap m_hoverPixmap;      // Cache for modified m_pixmap when hovering the item
 

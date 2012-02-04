@@ -432,7 +432,6 @@ void KItemListWidget::clearHoverCache()
 
 void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState)
 {
-    const QRect iconBounds = iconRect().toRect();
     const QRect textBounds = textRect().toRect();
 
     QStyleOptionViewItemV4 viewItemOption;
@@ -440,17 +439,8 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-
-    if (iconBounds.bottom() > textBounds.top()) {
-        viewItemOption.rect = iconBounds | textBounds;
-        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
-    } else {
-        viewItemOption.rect = iconBounds;
-        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
-
-        viewItemOption.rect = textBounds.adjusted(1, 1, -1, -1);
-        widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
-    }
+    viewItemOption.rect = textBounds;
+    widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 
 #include "kitemlistwidget.moc"

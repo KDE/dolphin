@@ -124,6 +124,13 @@ private:
      */
     void applyRolesToModel();
 
+    /**
+     * @return Size that is available for the icons. The size might be larger than specified by
+     *         KItemListStyleOption::iconSize: With the IconsLayout also the empty left area left
+     *         and right of an icon will be included.
+     */
+    QSize availableIconSize() const;
+
 private:
     Layout m_itemLayout;
 

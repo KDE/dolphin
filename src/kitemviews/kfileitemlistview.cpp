@@ -152,7 +152,7 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
 
         const qreal height = textLinesCount * option.fontMetrics.height() +
                              option.iconSize +
-                             option.margin * 4;
+                             option.margin * 3;
         return QSizeF(itemSize().width(), height);
     }
 
@@ -347,8 +347,7 @@ void KFileItemListView::onModelChanged(KItemModelBase* current, KItemModelBase* 
 
     delete m_modelRolesUpdater;
     m_modelRolesUpdater = new KFileItemModelRolesUpdater(static_cast<KFileItemModel*>(current), this);
-    const int size = styleOption().iconSize;
-    m_modelRolesUpdater->setIconSize(QSize(size, size));
+    m_modelRolesUpdater->setIconSize(availableIconSize());
 
     applyRolesToModel();
 }
@@ -462,8 +461,7 @@ void KFileItemListView::updateVisibleIndexRange()
         // of the icon-size before unpausing m_modelRolesUpdater. This prevents
         // an unnecessary expensive recreation of all previews afterwards.
         m_updateIconSizeTimer->stop();
-        const KItemListStyleOption& option = styleOption();
-        m_modelRolesUpdater->setIconSize(QSize(option.iconSize, option.iconSize));
+        m_modelRolesUpdater->setIconSize(availableIconSize());
     }
 
     m_modelRolesUpdater->setPaused(isTransactionActive());
@@ -485,8 +483,7 @@ void KFileItemListView::updateIconSize()
         return;
     }
 
-    const KItemListStyleOption& option = styleOption();
-    m_modelRolesUpdater->setIconSize(QSize(option.iconSize, option.iconSize));
+    m_modelRolesUpdater->setIconSize(availableIconSize());
 
     if (m_updateVisibleIndexRangeTimer->isActive()) {
         // If the visibility-index-range update is pending do an immediate update
@@ -593,6 +590,18 @@ void KFileItemListView::applyRolesToModel()
 
     fileItemModel->setRoles(roles);
     m_modelRolesUpdater->setRoles(roles);
+}
+
+QSize KFileItemListView::availableIconSize() const
+{
+    const KItemListStyleOption& option = styleOption();
+    const int iconSize = option.iconSize;
+    if (m_itemLayout == IconsLayout) {
+        const int maxIconWidth = itemSize().width() - 2 * option.margin;
+        return QSize(maxIconWidth, iconSize);
+    }
+
+    return QSize(iconSize, iconSize);
 }
 
 #include "kfileitemlistview.moc"

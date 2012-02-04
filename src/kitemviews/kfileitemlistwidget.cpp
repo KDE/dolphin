@@ -52,7 +52,6 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_pixmapPos(),
     m_pixmap(),
     m_scaledPixmapSize(),
-    m_originalPixmapSize(),
     m_iconRect(),
     m_hoverPixmap(),
     m_textPos(),
@@ -448,23 +447,17 @@ void KFileItemListWidget::updatePixmapCache()
     // Precondition: Requires already updated m_textPos values to calculate
     // the remaining height when the alignment is vertical.
 
+    const QSizeF widgetSize = size();
     const bool iconOnTop = (m_layout == IconsLayout);
     const KItemListStyleOption& option = styleOption();
-    const int iconHeight = option.iconSize;
+    const qreal margin = option.margin;
+
+    const int maxIconWidth = iconOnTop ? widgetSize.width() - 2 * margin : option.iconSize;
+    const int maxIconHeight = option.iconSize;
 
     const QHash<QByteArray, QVariant> values = data();
-    const QSizeF widgetSize = size();
 
-    int scaledIconHeight = 0;
-    if (iconOnTop) {
-        scaledIconHeight = static_cast<int>(m_textPos[Name].y() - 3 * option.margin);
-    } else {
-        const int textRowsCount = (m_layout == CompactLayout) ? visibleRoles().count() : 1;
-        const qreal requiredTextHeight = textRowsCount * option.fontMetrics.height();
-        scaledIconHeight = (requiredTextHeight < iconHeight) ? widgetSize.height() - 2 * option.margin : iconHeight;
-    }
-
-    bool updatePixmap = (iconHeight != m_pixmap.height());
+    bool updatePixmap = (m_pixmap.width() != maxIconWidth || m_pixmap.height() != maxIconHeight);
     if (!updatePixmap && m_dirtyContent) {
         updatePixmap = m_dirtyContentRoles.isEmpty()
                        || m_dirtyContentRoles.contains("iconPixmap")
@@ -482,34 +475,11 @@ void KFileItemListWidget::updatePixmapCache()
                 // use a generic icon as fallback
                 iconName = QLatin1String("unknown");
             }
-            m_pixmap = pixmapForIcon(iconName, iconHeight);
-            m_originalPixmapSize = m_pixmap.size();
-        } else if (m_pixmap.size() != QSize(iconHeight, iconHeight)) {
+            m_pixmap = pixmapForIcon(iconName, maxIconHeight);
+        } else if (m_pixmap.width() != maxIconWidth || m_pixmap.height() != maxIconHeight) {
             // A custom pixmap has been applied. Assure that the pixmap
-            // is scaled to the available size.
-            const bool scale = m_pixmap.width() > iconHeight || m_pixmap.height() > iconHeight ||
-                               (m_pixmap.width() < iconHeight && m_pixmap.height() < iconHeight);
-            if (scale) {
-                KPixmapModifier::scale(m_pixmap, QSize(iconHeight, iconHeight));
-            }
-            m_originalPixmapSize = m_pixmap.size();
-
-            // To simplify the handling of scaling the original pixmap
-            // will be embedded into a square pixmap.
-            QPixmap squarePixmap(iconHeight, iconHeight);
-            squarePixmap.fill(Qt::transparent);
-
-            QPainter painter(&squarePixmap);
-            const int x = (iconHeight - m_pixmap.width()) / 2;  // Center horizontally
-            int y = iconHeight - m_pixmap.height();             // Move to bottom
-            if (!iconOnTop) {
-                y /= 2.0;                                       // Center vertically
-            }
-            painter.drawPixmap(x, y, m_pixmap);
-
-            m_pixmap = squarePixmap;
-        } else {
-            m_originalPixmapSize = m_pixmap.size();
+            // is scaled to the maximum available size.
+            KPixmapModifier::scale(m_pixmap, QSize(maxIconWidth, maxIconHeight));
         }
 
         const QStringList overlays = values["iconOverlays"].toStringList();
@@ -535,40 +505,42 @@ void KFileItemListWidget::updatePixmapCache()
         if (m_isHidden) {
             applyHiddenEffect(m_pixmap);
         }
-
-        Q_ASSERT(m_pixmap.height() == iconHeight);
     }
+
     if (!m_overlay.isNull()) {
         QPainter painter(&m_pixmap);
         painter.drawPixmap(0, m_pixmap.height() - m_overlay.height(), m_overlay);
     }
 
-    m_scaledPixmapSize = QSize(scaledIconHeight, scaledIconHeight);
+    int scaledIconSize = 0;
+    if (iconOnTop) {
+        scaledIconSize = static_cast<int>(m_textPos[Name].y() - 2 * margin);
+    } else {
+        const int textRowsCount = (m_layout == CompactLayout) ? visibleRoles().count() : 1;
+        const qreal requiredTextHeight = textRowsCount * option.fontMetrics.height();
+        scaledIconSize = (requiredTextHeight < maxIconHeight) ?
+                           widgetSize.height() - 2 * margin : maxIconHeight;
+    }
+
+    const int maxScaledIconWidth = iconOnTop ? widgetSize.width() - 2 * margin : scaledIconSize;
+    const int maxScaledIconHeight = scaledIconSize;
+
+    m_scaledPixmapSize = m_pixmap.size();
+    m_scaledPixmapSize.scale(maxScaledIconWidth, maxScaledIconHeight, Qt::KeepAspectRatio);
 
     if (iconOnTop) {
+        // Center horizontally and align on bottom within the icon-area
         m_pixmapPos.setX((widgetSize.width() - m_scaledPixmapSize.width()) / 2);
+        m_pixmapPos.setY(margin + scaledIconSize - m_scaledPixmapSize.height());
     } else {
-        m_pixmapPos.setX(m_textPos[Name].x() - 2 * option.margin - scaledIconHeight);
+        // Center horizontally and vertically within the icon-area
+        m_pixmapPos.setX(m_textPos[Name].x() - 2 * margin
+                         - (scaledIconSize + m_scaledPixmapSize.width()) / 2);
+        m_pixmapPos.setY(margin
+                         + (scaledIconSize - m_scaledPixmapSize.height()) / 2);
     }
-    m_pixmapPos.setY(option.margin);
 
-    // Center the hover rectangle horizontally and align it on bottom
-    qreal hoverWidth = m_originalPixmapSize.width();
-    qreal hoverHeight = m_originalPixmapSize.height();
-    if (scaledIconHeight != m_pixmap.height()) {
-        const qreal scaleFactor = qreal(scaledIconHeight) / qreal(m_pixmap.height());
-        hoverWidth  *= scaleFactor;
-        hoverHeight *= scaleFactor;
-    }
-    const qreal hoverX = m_pixmapPos.x() + (m_scaledPixmapSize.width() - hoverWidth) / 2.0;
-    qreal hoverY = m_scaledPixmapSize.height() - hoverHeight;
-    if (!iconOnTop) {
-        hoverY /= 2.0;
-    }
-    hoverY += m_pixmapPos.y();
-
-    m_iconRect = QRectF(hoverX, hoverY, hoverWidth, hoverHeight);
-    const qreal margin = option.margin;
+    m_iconRect = QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize));
     m_iconRect.adjust(-margin, -margin, margin, margin);
     
     // Prepare the pixmap that is used when the item gets hovered
@@ -633,7 +605,8 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     const QHash<QByteArray, QVariant> values = data();
 
     const KItemListStyleOption& option = styleOption();
-    const qreal maxWidth = size().width() - 2 * option.margin;
+    const qreal margin = option.margin;
+    const qreal maxWidth = size().width() - 2 * margin;
     const qreal widgetHeight = size().height();
     const qreal fontHeight = option.fontMetrics.height();
 
@@ -662,8 +635,8 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     textLinesCount += additionalRolesCount;
 
     m_text[Name].setTextWidth(maxWidth);
-    m_textPos[Name] = QPointF(option.margin, widgetHeight - textLinesCount * fontHeight - option.margin);
-    m_textRect = QRectF(option.margin + (maxWidth - requiredWidthForName) / 2,
+    m_textPos[Name] = QPointF(margin, widgetHeight - textLinesCount * fontHeight - margin);
+    m_textRect = QRectF(margin + (maxWidth - requiredWidthForName) / 2,
                         m_textPos[Name].y(),
                         requiredWidthForName,
                         textLinesCountForName * fontHeight);
@@ -693,23 +666,22 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
                 // in comparison to QTextLine::setLineWidth(). It might happen that the text does
                 // not get elided although it does not fit into the given width. As workaround
                 // the margin is substracted.
-                const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth - option.margin);
+                const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth - margin);
                 m_text[textId].setText(elidedText);
             }
         }
         layout.endLayout();
 
-        m_textPos[textId] = QPointF(option.margin, y);
+        m_textPos[textId] = QPointF(margin, y);
         m_text[textId].setTextWidth(maxWidth);
 
-        const QRectF textRect(option.margin + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
+        const QRectF textRect(margin + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
         m_textRect |= textRect;
 
         y += fontHeight;
     }
 
     // Add a margin to the text rectangle
-    const qreal margin = option.margin;
     m_textRect.adjust(-margin, -margin, margin, margin);
 }
 
@@ -851,7 +823,7 @@ void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
 
 #ifdef KFILEITEMLISTWIDGET_DEBUG
         painter->setPen(Qt::blue);
-        painter->drawRect(QRectF(m_pixmapPos, QSizeF(scaledPixmap.size())));
+        painter->drawRect(QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize)));
 #endif
     } else {
         painter->drawPixmap(m_pixmapPos, pixmap);
