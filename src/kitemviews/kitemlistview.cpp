@@ -1847,16 +1847,20 @@ bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize, const QSize
     if (m_layouter->scrollOrientation() == Qt::Vertical) {
         const qreal itemWidth = m_layouter->itemSize().width();
         if (itemWidth > 0) {
-            const int oldColumnCount = m_layouter->size().width() / itemWidth;
             const int newColumnCount = newGridSize.width() / newItemSize.width();
-            return oldColumnCount != newColumnCount;
+            if (m_model->count() > newColumnCount) {
+                const int oldColumnCount = m_layouter->size().width() / itemWidth;
+                return oldColumnCount != newColumnCount;
+            }
         }       
     } else {
         const qreal itemHeight = m_layouter->itemSize().height();
         if (itemHeight > 0) {
-            const int oldRowCount = m_layouter->size().height() / itemHeight;
             const int newRowCount = newGridSize.height() / newItemSize.height();
-            return oldRowCount != newRowCount;
+            if (m_model->count() > newRowCount) {
+                const int oldRowCount = m_layouter->size().height() / itemHeight;
+                return oldRowCount != newRowCount;
+            }
         }               
     }
     

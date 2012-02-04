@@ -218,7 +218,7 @@ void DolphinItemListContainer::updateGridSize()
         if (itemWidth < iconSize + innerMargin * 2) {
             itemWidth = iconSize + innerMargin * 2;
         }
-        itemHeight = innerMargin * 2 + iconSize + styleOption.fontMetrics.height();
+        itemHeight = innerMargin * 3 + iconSize + styleOption.fontMetrics.height();
         break;
     }
     case KFileItemListView::CompactLayout: {
