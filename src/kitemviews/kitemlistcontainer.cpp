@@ -234,11 +234,19 @@ void KItemListContainer::updateScrollOffsetScrollBar()
     const int value = view->scrollOffset();
     const int maximum = qMax(0, int(view->maximumScrollOffset() - pageStep));
     if (smoothScroller->requestScrollBarUpdate(maximum)) {
+        const bool updatePolicy = (scrollOffsetScrollBar->maximum() > 0 && maximum == 0)
+                                  || horizontalScrollBarPolicy() == Qt::ScrollBarAlwaysOn;
+
         scrollOffsetScrollBar->setSingleStep(singleStep);
         scrollOffsetScrollBar->setPageStep(pageStep);
         scrollOffsetScrollBar->setMinimum(0);
         scrollOffsetScrollBar->setMaximum(maximum);
         scrollOffsetScrollBar->setValue(value);
+
+        if (updatePolicy) {
+            // Prevent a potential endless layout loop (see bug #293318).
+            updateScrollOffsetScrollBarPolicy();
+        }
     }
 }
 
@@ -317,6 +325,32 @@ void KItemListContainer::updateSmoothScrollers(Qt::Orientation orientation)
     } else {
         m_horizontalSmoothScroller->setPropertyName("scrollOffset");
         m_verticalSmoothScroller->setPropertyName("itemOffset");
+    }
+}
+
+void KItemListContainer::updateScrollOffsetScrollBarPolicy()
+{
+    const KItemListView* view = m_controller->view();
+    Q_ASSERT(view);
+    const bool vertical = (view->scrollOrientation() == Qt::Vertical);
+
+    QStyleOption option;
+    option.initFrom(this);
+    const int scrollBarInc = style()->pixelMetric(QStyle::PM_ScrollBarExtent, &option, this);
+
+    QSizeF newViewSize = m_controller->view()->size();
+    if (vertical) {
+        newViewSize.rwidth() += scrollBarInc;
+    } else {
+        newViewSize.rheight() += scrollBarInc;
+    }
+
+    const Qt::ScrollBarPolicy policy = view->scrollBarRequired(newViewSize)
+                                       ? Qt::ScrollBarAlwaysOn : Qt::ScrollBarAsNeeded;
+    if (vertical) {
+        setVerticalScrollBarPolicy(policy);
+    } else {
+        setHorizontalScrollBarPolicy(policy);
     }
 }
 

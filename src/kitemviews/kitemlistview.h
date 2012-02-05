@@ -462,6 +462,13 @@ private:
     bool animateChangedItemCount(int changedItemCount) const;
 
     /**
+     * @return True if a scrollbar for the given scroll-orientation is required
+     *         when using a size of \p size for the view. Calling the method is rather
+     *         expansive as a temporary relayout needs to be done.
+     */
+    bool scrollBarRequired(const QSizeF& size) const;
+
+    /**
      * Helper function for triggerAutoScrolling().
      * @param pos    Logical position of the mouse relative to the range.
      * @param range  Range of the visible area.
@@ -512,6 +519,7 @@ private:
     KItemListHeader* m_header;
     bool m_useHeaderWidths;
 
+    friend class KItemListContainer; // Accesses scrollBarRequired()
     friend class KItemListController;
     friend class KItemListControllerTest;
 };
