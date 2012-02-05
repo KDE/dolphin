@@ -70,6 +70,13 @@ private:
     void updateGeometries();
     void updateSmoothScrollers(Qt::Orientation orientation);
 
+    /**
+     * Helper method for updateScrollOffsetScrollBar(). Updates the scrollbar-policy
+     * to Qt::ScrollBarAlwaysOn for cases where turning off the scrollbar might lead
+     * to an endless layout loop (see bug #293318).
+     */
+    void updateScrollOffsetScrollBarPolicy();
+
 private:
     KItemListController* m_controller;
 

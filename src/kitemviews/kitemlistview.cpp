@@ -1880,6 +1880,19 @@ bool KItemListView::animateChangedItemCount(int changedItemCount) const
     return changedItemCount <= maximum * 2 / 3;
 }
 
+
+bool KItemListView::scrollBarRequired(const QSizeF& size) const
+{
+    const QSizeF oldSize = m_layouter->size();
+
+    m_layouter->setSize(size);
+    const qreal maxOffset = m_layouter->maximumScrollOffset();
+    m_layouter->setSize(oldSize);
+
+    return m_layouter->scrollOrientation() == Qt::Vertical ? maxOffset > size.height()
+                                                           : maxOffset > size.width();
+}
+
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)
 {
     int inc = 0;
