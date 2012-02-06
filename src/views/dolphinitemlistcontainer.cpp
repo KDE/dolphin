@@ -242,8 +242,10 @@ void DolphinItemListContainer::updateGridSize()
     // Apply the calculated values
     styleOption.margin = innerMargin;
     styleOption.iconSize = iconSize;
+    m_fileItemListView->beginTransaction();
     m_fileItemListView->setStyleOption(styleOption);
     m_fileItemListView->setItemSize(QSizeF(itemWidth, itemHeight));
+    m_fileItemListView->endTransaction();
 }
 
 void DolphinItemListContainer::updateFont()

@@ -30,6 +30,13 @@
 
 class KItemListView;
 
+/**
+ * @brief Base class for group headers.
+ *
+ * Draws a default header background. Derived classes must reimplement
+ * the method paint() and draw the role within the given roleBounds() with
+ * the color roleColor().
+ */
 class LIBDOLPHINPRIVATE_EXPORT KItemListGroupHeader : public QGraphicsWidget
 {
     Q_OBJECT
@@ -58,6 +65,12 @@ public:
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 protected:
+    /** @return Bounding rectangle where the role should be drawn into. */
+    QRectF roleBounds() const;
+
+    /** @return Primary color that should be used for drawing the role. */
+    QColor roleColor() const;
+
     /**
      * Is called after the role has been changed and allows the derived class
      * to react on this change.
@@ -87,7 +100,6 @@ protected:
 
 private:
     void updateCache();
-    void deleteCache();
 
 private:
     bool m_dirtyCache;
@@ -96,9 +108,8 @@ private:
     KItemListStyleOption m_styleOption;
     Qt::Orientation m_scrollOrientation;
 
-    QPixmap* m_leftBorderCache;
-    QPixmap* m_rightBorderCache;
-    QColor m_outlineColor;
+    QColor m_roleColor;
+    QRectF m_roleBounds;
 };
 #endif
 
