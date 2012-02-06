@@ -55,6 +55,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_enabledSelectionToggles(false),
     m_grouped(false),
     m_activeTransactions(0),
+    m_endTransactionAnimationHint(Animation),
     m_itemSize(),
     m_controller(0),
     m_model(0),
@@ -125,6 +126,8 @@ void KItemListView::setScrollOrientation(Qt::Orientation orientation)
             it.next();
             it.value()->setScrollOrientation(orientation);
         }
+        updateGroupHeaderHeight();
+
     }
 
     doLayout(NoAnimation);
@@ -331,14 +334,19 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     const KItemListStyleOption previousOption = m_styleOption;
     m_styleOption = option;
 
+    if (m_grouped) {
+        updateGroupHeaderHeight();
+    }
+
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         it.value()->setStyleOption(option);
     }
 
-    m_sizeHintResolver->clearCache();
+    m_sizeHintResolver->clearCache();   
     doLayout(Animation);
+
     onStyleOptionChanged(option, previousOption);
 }
 
@@ -548,7 +556,8 @@ void KItemListView::endTransaction()
 
     if (m_activeTransactions == 0) {
         onTransactionEnd();
-        doLayout(NoAnimation);
+        doLayout(m_endTransactionAnimationHint);
+        m_endTransactionAnimationHint = Animation;
     }
 }
 
@@ -556,7 +565,6 @@ bool KItemListView::isTransactionActive() const
 {
     return m_activeTransactions > 0;
 }
-
 
 void KItemListView::setHeaderShown(bool show)
 {
@@ -893,7 +901,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             // geometry update if necessary.
             const int activeTransactions = m_activeTransactions;
             m_activeTransactions = 0;
-            doLayout(animateChangedItemCount(count) ? Animation : NoAnimation, index, -count);            
+            doLayout(animateChangedItemCount(count) ? Animation : NoAnimation, index, -count);
             m_activeTransactions = activeTransactions;
         }
     }
@@ -978,12 +986,7 @@ void KItemListView::slotGroupedSortingChanged(bool current)
     m_layouter->markAsDirty();
 
     if (m_grouped) {
-        // Apply the height of the header to the layouter
-        const qreal groupHeaderHeight = m_styleOption.fontMetrics.height() +
-                                        m_styleOption.margin * 2;
-        m_layouter->setGroupHeaderHeight(groupHeaderHeight);
-
-        updateVisibleGroupHeaders();
+        updateGroupHeaderHeight();
     } else {
         // Clear all visible headers
         QMutableHashIterator<KItemListWidget*, KItemListGroupHeader*> it (m_visibleGroups);
@@ -1287,7 +1290,16 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         m_layoutTimer->stop();
     }
 
-    if (!m_model || m_model->count() < 0 || m_activeTransactions > 0) {
+    if (m_activeTransactions > 0) {
+        if (hint == NoAnimation) {
+            // As soon as at least one property change should be done without animation,
+            // the whole transaction will be marked as not animated.
+            m_endTransactionAnimationHint = NoAnimation;
+        }
+        return;
+    }
+
+    if (!m_model || m_model->count() < 0) {
         return;
     }
 
@@ -1608,13 +1620,13 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
         return;
     }
 
-    KItemListGroupHeader* header = m_visibleGroups.value(widget);
-    if (!header) {
-        header = m_groupHeaderCreator->create(this);
-        header->setParentItem(widget);
-        m_visibleGroups.insert(widget, header);
+    KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
+    if (!groupHeader) {
+        groupHeader = m_groupHeaderCreator->create(this);
+        groupHeader->setParentItem(widget);
+        m_visibleGroups.insert(widget, groupHeader);
     }
-    Q_ASSERT(header->parentItem() == widget);
+    Q_ASSERT(groupHeader->parentItem() == widget);
 
     // Determine the shown data for the header by doing a binary
     // search in the groups-list
@@ -1630,18 +1642,18 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
         }
     } while (groups.at(mid).first != index && min <= max);
 
-    header->setData(groups.at(mid).second);
-    header->setRole(model()->sortRole());
-    header->setStyleOption(m_styleOption);
-    header->setScrollOrientation(scrollOrientation());
+    groupHeader->setData(groups.at(mid).second);
+    groupHeader->setRole(model()->sortRole());
+    groupHeader->setStyleOption(m_styleOption);
+    groupHeader->setScrollOrientation(scrollOrientation());
 
-    header->show();
+    groupHeader->show();
 }
 
 void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
 {
-    KItemListGroupHeader* header = m_visibleGroups.value(widget);
-    Q_ASSERT(header);
+    KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
+    Q_ASSERT(groupHeader);
 
     const int index = widget->index();
     const QRectF groupHeaderRect = m_layouter->groupHeaderRect(index);
@@ -1651,8 +1663,8 @@ void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
     // group header position to the relative position.
     const QPointF groupHeaderPos(groupHeaderRect.x() - itemRect.x(),
                                  - groupHeaderRect.height());
-    header->setPos(groupHeaderPos);
-    header->resize(groupHeaderRect.size());
+    groupHeader->setPos(groupHeaderPos);
+    groupHeader->resize(groupHeaderRect.size());
 }
 
 void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
@@ -1891,6 +1903,16 @@ bool KItemListView::scrollBarRequired(const QSizeF& size) const
 
     return m_layouter->scrollOrientation() == Qt::Vertical ? maxOffset > size.height()
                                                            : maxOffset > size.width();
+}
+
+void KItemListView::updateGroupHeaderHeight()
+{
+    qreal groupHeaderHeight = m_styleOption.fontMetrics.height();
+    groupHeaderHeight += (scrollOrientation() == Qt::Vertical)
+                         ? m_styleOption.margin * 4 : m_styleOption.margin * 2;
+    m_layouter->setGroupHeaderHeight(groupHeaderHeight);
+
+    updateVisibleGroupHeaders();
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

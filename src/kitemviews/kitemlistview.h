@@ -202,8 +202,20 @@ public:
      */
     void scrollToItem(int index);
 
+    /**
+     * If several properties of KItemListView are changed synchronously, it is
+     * recommended to encapsulate the calls between beginTransaction() and endTransaction().
+     * This prevents unnecessary and expensive layout-calculations.
+     */
     void beginTransaction();
+
+    /**
+     * Counterpart to beginTransaction(). The layout changes will only be animated if
+     * all property changes between beginTransaction() and endTransaction() support
+     * animations.
+     */
     void endTransaction();
+
     bool isTransactionActive() const;
 
     /**
@@ -469,6 +481,12 @@ private:
     bool scrollBarRequired(const QSizeF& size) const;
 
     /**
+     * Applies the height of the group header to the layouter. The height
+     * depends on the used scroll orientation.
+     */
+    void updateGroupHeaderHeight();
+
+    /**
      * Helper function for triggerAutoScrolling().
      * @param pos    Logical position of the mouse relative to the range.
      * @param range  Range of the visible area.
@@ -484,6 +502,7 @@ private:
     bool m_enabledSelectionToggles;
     bool m_grouped;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
+    LayoutAnimationHint m_endTransactionAnimationHint;
 
     QSizeF m_itemSize;
     KItemListController* m_controller;

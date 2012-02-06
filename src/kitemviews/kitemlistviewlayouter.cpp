@@ -221,6 +221,8 @@ QRectF KItemListViewLayouter::itemRect(int index) const
 
 QRectF KItemListViewLayouter::groupHeaderRect(int index) const
 {
+    const_cast<KItemListViewLayouter*>(this)->doLayout();
+
     const QRectF firstItemRect = itemRect(index);
     QPointF pos = firstItemRect.topLeft();
     if (pos.isNull()) {

@@ -41,10 +41,9 @@ void KFileItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphi
 {
     KItemListGroupHeader::paint(painter, option, widget);
 
-    painter->setPen(styleOption().palette.text().color());
+    painter->setPen(roleColor());
     painter->setFont(m_font);
-    const int margin = styleOption().margin;
-    painter->drawStaticText(margin * 2, margin, m_text);
+    painter->drawStaticText(roleBounds().topLeft(), m_text);
 }
 
 void KFileItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
@@ -63,8 +62,7 @@ void KFileItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
 void KFileItemListGroupHeader::updateText()
 {
     const qreal width = size().width() - 4 * styleOption().margin;
-    m_font = font();
-    m_font.setBold(true);
+    m_font = font(); // TODO: Most probably the font size will be slightly shrinked in future
 
     QFontMetricsF fontMetrics(m_font);
     const QString text = fontMetrics.elidedText(data().toString(), Qt::ElideRight, width);
