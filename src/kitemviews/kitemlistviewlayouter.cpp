@@ -277,13 +277,24 @@ void KItemListViewLayouter::doLayout()
 
         QSizeF itemSize = m_itemSize;
         QSizeF size = m_size;
+        
+        const bool grouped = createGroupHeaders();
 
         const bool horizontalScrolling = (m_scrollOrientation == Qt::Horizontal);
         if (horizontalScrolling) {
+            // Flip everything so that the layout logically can work like having
+            // a vertical scrolling
             itemSize.setWidth(m_itemSize.height());
             itemSize.setHeight(m_itemSize.width());
             size.setWidth(m_size.height());
             size.setHeight(m_size.width());
+            
+            if (grouped) {
+                // In the horizontal scrolling case all groups are aligned
+                // at the top, which decreases the available height. For the
+                // flipped data this means that the width must be decreased.
+                size.rwidth() -= m_groupHeaderHeight;
+            }
         }
 
         m_columnWidth = itemSize.width();
@@ -310,8 +321,6 @@ void KItemListViewLayouter::doLayout()
 
         qreal y = m_headerHeight;
         int rowIndex = 0;
-
-        const bool grouped = createGroupHeaders();
 
         int index = 0;
         while (index < itemCount) {
