@@ -206,7 +206,9 @@ void DolphinItemListContainer::updateGridSize()
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption styleOption = m_fileItemListView->styleOption();
 
-    const int innerMargin = (iconSize >= KIconLoader::SizeSmallMedium) ? 4 : 2;
+    const int padding = (iconSize >= KIconLoader::SizeSmallMedium) ? 4 : 2;
+    int horizontalMargin = 0;
+    int verticalMargin = 0;
 
     // Calculate the item-width and item-height
     int itemWidth;
@@ -215,21 +217,35 @@ void DolphinItemListContainer::updateGridSize()
     case KFileItemListView::IconsLayout: {
         const int minItemWidth = 64;
         itemWidth = minItemWidth + IconsModeSettings::textWidthIndex() * 64;
-        if (itemWidth < iconSize + innerMargin * 2) {
-            itemWidth = iconSize + innerMargin * 2;
+        
+        if (previewsShown()) {
+            // Optimize the width for previews with a 3:2 aspect ratio instead
+            // of a 1:1 ratio to avoid wasting too much vertical space when
+            // photos.
+            const int minWidth = iconSize * 3 / 2;
+            itemWidth = qMax(itemWidth, minWidth);
         }
-        itemHeight = innerMargin * 3 + iconSize + styleOption.fontMetrics.height();
+        
+        if (itemWidth < iconSize + padding * 2) {
+            itemWidth = iconSize + padding * 2;
+        }
+        itemHeight = padding * 3 + iconSize + styleOption.fontMetrics.height();
+        
+        horizontalMargin = padding * 2;
+        verticalMargin = horizontalMargin;
         break;
     }
     case KFileItemListView::CompactLayout: {
-        itemWidth = innerMargin * 4 + iconSize + styleOption.fontMetrics.height() * 5;
+        itemWidth = padding * 4 + iconSize + styleOption.fontMetrics.height() * 5;
         const int textLinesCount = m_fileItemListView->visibleRoles().count();
-        itemHeight = innerMargin * 2 + qMax(iconSize, textLinesCount * styleOption.fontMetrics.height());
+        itemHeight = padding * 2 + qMax(iconSize, textLinesCount * styleOption.fontMetrics.height());
+        
+        horizontalMargin = padding * 2;
         break;
     }
     case KFileItemListView::DetailsLayout: {
         itemWidth = -1;
-        itemHeight = innerMargin * 2 + qMax(iconSize, styleOption.fontMetrics.height());
+        itemHeight = padding * 2 + qMax(iconSize, styleOption.fontMetrics.height());
         break;
     }
     default:
@@ -240,7 +256,9 @@ void DolphinItemListContainer::updateGridSize()
     }
 
     // Apply the calculated values
-    styleOption.margin = innerMargin;
+    styleOption.padding = padding;
+    styleOption.horizontalMargin = horizontalMargin;
+    styleOption.verticalMargin = verticalMargin;
     styleOption.iconSize = iconSize;
     m_fileItemListView->beginTransaction();
     m_fileItemListView->setStyleOption(styleOption);

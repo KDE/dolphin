@@ -463,7 +463,9 @@ private:
      *         the new grid- and item-size. Used to determine whether an animation
      *         should be done when applying the new layout.
      */
-    bool changesItemGridLayout(const QSizeF& newGridSize, const QSizeF& newItemSize) const;
+    bool changesItemGridLayout(const QSizeF& newGridSize,
+                               const QSizeF& newItemSize,
+                               const QSizeF& newItemMargin) const;
     
     /**
      * @param changedItemCount Number of inserted  or removed items.
@@ -497,6 +499,13 @@ private:
      *         value != 0 will be returned.
      */
     static int calculateAutoScrollingIncrement(int pos, int range, int oldInc);
+    
+    /**
+     * Helper functions for changesItemCount().
+     * @return The number of items that fit into the available size by
+     *         respecting the size of the item and the margin between the items.
+     */
+    static int itemsPerSize(qreal size, qreal itemSize, qreal itemMargin);
 
 private:
     bool m_enabledSelectionToggles;
