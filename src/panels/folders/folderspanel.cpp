@@ -255,8 +255,7 @@ void FoldersPanel::slotViewContextMenuRequested(const QPointF& pos)
 void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event)
 {
     if (index >= 0) {
-        KFileItemModel* model = fileItemModel();
-        KFileItem destItem = model->fileItem(index);
+        KFileItem destItem = fileItemModel()->fileItem(index);
         if (destItem.isNull()) {
             return;
         }

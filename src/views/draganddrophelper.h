@@ -34,10 +34,11 @@ class LIBDOLPHINPRIVATE_EXPORT DragAndDropHelper
 {
 public:
     /**
-     * Handles the dropping of URLs to the given
-     * destination. A context menu with the options
-     * 'Move Here', 'Copy Here', 'Link Here' and
-     * 'Cancel' is offered to the user.
+     * Handles the dropping of URLs to the given destination. A context menu
+     * with the options 'Move Here', 'Copy Here', 'Link Here' and 'Cancel' is
+     * offered to the user. The drag destination must represent a directory or
+     * a desktop-file, otherwise the dropping gets ignored.
+     *
      * @param destItem  Item of the destination. Can be 0 (KFileItem::isNull()) if
      *                  no file-item is available for the destination. In this case
      *                  destUrl is used as fallback. For performance reasons it is
@@ -45,8 +46,9 @@ public:
      * @param destUrl   URL of the item destination. Is used only if destItem::isNull()
      *                  is true.
      * @param event     Drop event.
-     * @return          Error message if dropping is not possible. If an empty string
-     *                  is returned, the dropping has been successful.
+     * @return          Error message intended to be shown for users if dropping is not
+     *                  possible. If an empty string is returned, the dropping has been
+     *                  successful.
      */
     static QString dropUrls(const KFileItem& destItem,
                             const KUrl& destUrl,
