@@ -41,15 +41,18 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destU
                                                               "org.kde.DndExtract", "extractSelectedFilesTo");
         message.setArguments(QVariantList() << destUrl.pathOrUrl());
         QDBusConnection::sessionBus().call(message);
-    } else {
+    } else if (!destItem.isNull() && (destItem.isDir() || destItem.isDesktopFile())) {
+        // Drop into a directory or a desktop-file
         const KUrl::List urls = KUrl::List::fromMimeData(event->mimeData());
         foreach (const KUrl& url, urls) {
             if (url == destUrl) {
                 return i18nc("@info:status", "A folder cannot be dropped into itself");
             }
         }
-
+        
         KonqOperations::doDrop(destItem, destUrl, event, QApplication::activeWindow());
+    } else {
+        KonqOperations::doDrop(KFileItem(), destUrl, event, QApplication::activeWindow());
     }
 
     return QString();
