@@ -128,7 +128,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         // Prevent a possible overlapping of the additional-information texts
         // with the icon. This can happen if the user has minimized the width
         // of the name-column to a very small value.
-        const qreal minX = m_pixmapPos.x() + m_pixmap.width() + 4 * itemListStyleOption.margin;
+        const qreal minX = m_pixmapPos.x() + m_pixmap.width() + 4 * itemListStyleOption.padding;
         if (m_textPos[Name + 1].x() < minX) {
             clipAdditionalInfoBounds = true;
             painter->save();
@@ -196,13 +196,13 @@ QRectF KFileItemListWidget::selectionToggleRect() const
     // when trying to hit the toggle.
     const int widgetHeight = size().height();
     const int widgetWidth = size().width();
-    const int minMargin = 2;
+    const int minPadding = 2;
 
-    if (toggleSize + minMargin * 2 >= widgetHeight) {
+    if (toggleSize + minPadding * 2 >= widgetHeight) {
         toggleSize = widgetHeight;
         pos.setY(0);
     }
-    if (toggleSize + minMargin * 2 >= widgetWidth) {
+    if (toggleSize + minPadding * 2 >= widgetWidth) {
         toggleSize = widgetWidth;
         pos.setX(0);
     }
@@ -432,7 +432,7 @@ void KFileItemListWidget::updateExpansionArea()
         if (expansionLevel >= 0) {
             const qreal widgetHeight = size().height();
             const qreal expansionLevelSize = KIconLoader::SizeSmall;
-            const qreal x = option.margin + expansionLevel * widgetHeight;
+            const qreal x = option.padding + expansionLevel * widgetHeight;
             const qreal y = (widgetHeight - expansionLevelSize) / 2;
             m_expansionArea = QRectF(x, y, expansionLevelSize, expansionLevelSize);
             return;
@@ -450,9 +450,9 @@ void KFileItemListWidget::updatePixmapCache()
     const QSizeF widgetSize = size();
     const bool iconOnTop = (m_layout == IconsLayout);
     const KItemListStyleOption& option = styleOption();
-    const qreal margin = option.margin;
+    const qreal padding = option.padding;
 
-    const int maxIconWidth = iconOnTop ? widgetSize.width() - 2 * margin : option.iconSize;
+    const int maxIconWidth = iconOnTop ? widgetSize.width() - 2 * padding : option.iconSize;
     const int maxIconHeight = option.iconSize;
 
     const QHash<QByteArray, QVariant> values = data();
@@ -514,15 +514,15 @@ void KFileItemListWidget::updatePixmapCache()
 
     int scaledIconSize = 0;
     if (iconOnTop) {
-        scaledIconSize = static_cast<int>(m_textPos[Name].y() - 2 * margin);
+        scaledIconSize = static_cast<int>(m_textPos[Name].y() - 2 * padding);
     } else {
         const int textRowsCount = (m_layout == CompactLayout) ? visibleRoles().count() : 1;
         const qreal requiredTextHeight = textRowsCount * option.fontMetrics.height();
         scaledIconSize = (requiredTextHeight < maxIconHeight) ?
-                           widgetSize.height() - 2 * margin : maxIconHeight;
+                           widgetSize.height() - 2 * padding : maxIconHeight;
     }
 
-    const int maxScaledIconWidth = iconOnTop ? widgetSize.width() - 2 * margin : scaledIconSize;
+    const int maxScaledIconWidth = iconOnTop ? widgetSize.width() - 2 * padding : scaledIconSize;
     const int maxScaledIconHeight = scaledIconSize;
 
     m_scaledPixmapSize = m_pixmap.size();
@@ -531,17 +531,17 @@ void KFileItemListWidget::updatePixmapCache()
     if (iconOnTop) {
         // Center horizontally and align on bottom within the icon-area
         m_pixmapPos.setX((widgetSize.width() - m_scaledPixmapSize.width()) / 2);
-        m_pixmapPos.setY(margin + scaledIconSize - m_scaledPixmapSize.height());
+        m_pixmapPos.setY(padding + scaledIconSize - m_scaledPixmapSize.height());
     } else {
         // Center horizontally and vertically within the icon-area
-        m_pixmapPos.setX(m_textPos[Name].x() - 2 * margin
+        m_pixmapPos.setX(m_textPos[Name].x() - 2 * padding
                          - (scaledIconSize + m_scaledPixmapSize.width()) / 2);
-        m_pixmapPos.setY(margin
+        m_pixmapPos.setY(padding
                          + (scaledIconSize - m_scaledPixmapSize.height()) / 2);
     }
 
     m_iconRect = QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize));
-    m_iconRect.adjust(-margin, -margin, margin, margin);
+    m_iconRect.adjust(-padding, -padding, padding, padding);
     
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
@@ -605,8 +605,8 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     const QHash<QByteArray, QVariant> values = data();
 
     const KItemListStyleOption& option = styleOption();
-    const qreal margin = option.margin;
-    const qreal maxWidth = size().width() - 2 * margin;
+    const qreal padding = option.padding;
+    const qreal maxWidth = size().width() - 2 * padding;
     const qreal widgetHeight = size().height();
     const qreal fontHeight = option.fontMetrics.height();
 
@@ -635,8 +635,8 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     textLinesCount += additionalRolesCount;
 
     m_text[Name].setTextWidth(maxWidth);
-    m_textPos[Name] = QPointF(margin, widgetHeight - textLinesCount * fontHeight - margin);
-    m_textRect = QRectF(margin + (maxWidth - requiredWidthForName) / 2,
+    m_textPos[Name] = QPointF(padding, widgetHeight - textLinesCount * fontHeight - padding);
+    m_textRect = QRectF(padding + (maxWidth - requiredWidthForName) / 2,
                         m_textPos[Name].y(),
                         requiredWidthForName,
                         textLinesCountForName * fontHeight);
@@ -665,24 +665,24 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
                 // TODO: QFontMetrics::elidedText() works different regarding the given width
                 // in comparison to QTextLine::setLineWidth(). It might happen that the text does
                 // not get elided although it does not fit into the given width. As workaround
-                // the margin is substracted.
-                const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth - margin);
+                // the padding is substracted.
+                const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth - padding);
                 m_text[textId].setText(elidedText);
             }
         }
         layout.endLayout();
 
-        m_textPos[textId] = QPointF(margin, y);
+        m_textPos[textId] = QPointF(padding, y);
         m_text[textId].setTextWidth(maxWidth);
 
-        const QRectF textRect(margin + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
+        const QRectF textRect(padding + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
         m_textRect |= textRect;
 
         y += fontHeight;
     }
 
-    // Add a margin to the text rectangle
-    m_textRect.adjust(-margin, -margin, margin, margin);
+    // Add a padding to the text rectangle
+    m_textRect.adjust(-padding, -padding, padding, padding);
 }
 
 void KFileItemListWidget::updateCompactLayoutTextCache()
@@ -697,12 +697,12 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
     const qreal widgetHeight = size().height();
     const qreal fontHeight = option.fontMetrics.height();
     const qreal textLinesHeight = qMax(visibleRoles().count(), 1) * fontHeight;
-    const int scaledIconSize = (textLinesHeight < option.iconSize) ? widgetHeight - 2 * option.margin : option.iconSize;
+    const int scaledIconSize = (textLinesHeight < option.iconSize) ? widgetHeight - 2 * option.padding : option.iconSize;
 
     qreal maximumRequiredTextWidth = 0;
-    const qreal x = option.margin * 3 + scaledIconSize;
+    const qreal x = option.padding * 3 + scaledIconSize;
     qreal y = (widgetHeight - textLinesHeight) / 2;
-    const qreal maxWidth = size().width() - x - option.margin;
+    const qreal maxWidth = size().width() - x - option.padding;
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
         const TextId textId = roleTextId(role);
 
@@ -724,7 +724,7 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
         y += fontHeight;
     }
 
-    m_textRect = QRectF(x - option.margin, 0, maximumRequiredTextWidth + 2 * option.margin, widgetHeight);
+    m_textRect = QRectF(x - option.padding, 0, maximumRequiredTextWidth + 2 * option.padding, widgetHeight);
 }
 
 void KFileItemListWidget::updateDetailsLayoutTextCache()
@@ -741,13 +741,13 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     const QHash<QByteArray, QVariant> values = data();
 
     const qreal widgetHeight = size().height();
-    const int scaledIconSize = widgetHeight - 2 * option.margin;
+    const int scaledIconSize = widgetHeight - 2 * option.padding;
     const int fontHeight = option.fontMetrics.height();
 
-    const qreal columnMargin = option.margin * 3;
-    const qreal firstColumnInc = m_expansionArea.right() + option.margin * 2 + scaledIconSize;
+    const qreal columnPadding = option.padding * 3;
+    const qreal firstColumnInc = m_expansionArea.right() + option.padding * 2 + scaledIconSize;
     qreal x = firstColumnInc;
-    const qreal y = qMax(qreal(option.margin), (widgetHeight - fontHeight) / 2);
+    const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
 
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
         const TextId textId = roleTextId(role);
@@ -757,7 +757,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         // Elide the text in case it does not fit into the available column-width
         qreal requiredWidth = option.fontMetrics.width(text);
         const qreal columnWidth = visibleRolesSizes().value(role, QSizeF(0, 0)).width();
-        qreal availableTextWidth = columnWidth - 2 * columnMargin;
+        qreal availableTextWidth = columnWidth - 2 * columnPadding;
         if (textId == Name) {
             availableTextWidth -= firstColumnInc;
         }
@@ -768,13 +768,13 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         }
 
         m_text[textId].setText(text);
-        m_textPos[textId] = QPointF(x + columnMargin, y);
+        m_textPos[textId] = QPointF(x + columnPadding, y);
         x += columnWidth;
 
         switch (textId) {
         case Name: {
-            m_textRect = QRectF(m_textPos[textId].x() - option.margin, 0,
-                                        requiredWidth + 2 * option.margin, size().height());
+            m_textRect = QRectF(m_textPos[textId].x() - option.padding, 0,
+                                        requiredWidth + 2 * option.padding, size().height());
 
             // The column after the name should always be aligned on the same x-position independent
             // from the expansion-level shown in the name column
@@ -783,7 +783,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         }
         case Size:
             // The values for the size should be right aligned
-            m_textPos[textId].rx() += columnWidth - requiredWidth - 2 * columnMargin;
+            m_textPos[textId].rx() += columnWidth - requiredWidth - 2 * columnPadding;
             break;
 
         default:

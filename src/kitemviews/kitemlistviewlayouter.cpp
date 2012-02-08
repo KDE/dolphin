@@ -33,6 +33,7 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_scrollOrientation(Qt::Vertical),
     m_size(),
     m_itemSize(128, 128),
+    m_itemMargin(),
     m_headerHeight(0),
     m_model(0),
     m_sizeHintResolver(0),
@@ -92,6 +93,19 @@ void KItemListViewLayouter::setItemSize(const QSizeF& size)
 QSizeF KItemListViewLayouter::itemSize() const
 {
     return m_itemSize;
+}
+
+void KItemListViewLayouter::setItemMargin(const QSizeF& margin)
+{
+    if (m_itemMargin != margin) {
+        m_itemMargin = margin;
+        m_dirty = true;
+    }
+}
+
+QSizeF KItemListViewLayouter::itemMargin() const
+{
+    return m_itemMargin;
 }
 
 void KItemListViewLayouter::setHeaderHeight(qreal height)
@@ -276,6 +290,7 @@ void KItemListViewLayouter::doLayout()
         m_visibleIndexesDirty = true;
 
         QSizeF itemSize = m_itemSize;
+        QSizeF itemMargin = m_itemMargin;
         QSizeF size = m_size;
         
         const bool grouped = createGroupHeaders();
@@ -286,6 +301,8 @@ void KItemListViewLayouter::doLayout()
             // a vertical scrolling
             itemSize.setWidth(m_itemSize.height());
             itemSize.setHeight(m_itemSize.width());
+            itemMargin.setWidth(m_itemMargin.height());
+            itemMargin.setHeight(m_itemMargin.width());
             size.setWidth(m_size.height());
             size.setHeight(m_size.width());
             
@@ -297,9 +314,10 @@ void KItemListViewLayouter::doLayout()
             }
         }
 
-        m_columnWidth = itemSize.width();
-        m_columnCount = qMax(1, int(size.width() / m_columnWidth));
-        m_xPosInc = 0;
+        m_columnWidth = itemSize.width() + itemMargin.width();
+        const qreal widthForColumns = size.width() - itemMargin.width();
+        m_columnCount = qMax(1, int(widthForColumns / m_columnWidth));
+        m_xPosInc = itemMargin.width();
 
         const int itemCount = m_model->count();
         if (itemCount > m_columnCount) {
@@ -319,7 +337,7 @@ void KItemListViewLayouter::doLayout()
 
         m_itemRects.reserve(itemCount);
 
-        qreal y = m_headerHeight;
+        qreal y = m_headerHeight + itemMargin.height();
         int rowIndex = 0;
 
         int index = 0;
@@ -393,12 +411,12 @@ void KItemListViewLayouter::doLayout()
                 }
             }
 
-            y += maxItemHeight;
+            y += maxItemHeight + itemMargin.height();
             ++rowIndex;
         }
         if (m_itemRects.count() > itemCount) {
             m_itemRects.erase(m_itemRects.begin() + itemCount,
-                                      m_itemRects.end());
+                              m_itemRects.end());
         }
 
         if (itemCount > 0) {

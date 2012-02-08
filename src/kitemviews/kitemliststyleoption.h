@@ -38,7 +38,9 @@ public:
     QFont font;
     QFontMetrics fontMetrics;
     QPalette palette;
-    int margin;
+    int padding;
+    int horizontalMargin;
+    int verticalMargin;
     int iconSize;
 };
 #endif

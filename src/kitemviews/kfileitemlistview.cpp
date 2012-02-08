@@ -129,7 +129,7 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
     case IconsLayout: {
         const QString text = KStringHandler::preProcessWrap(values["name"].toString());
 
-        const qreal maxWidth = itemSize().width() - 2 * option.margin;
+        const qreal maxWidth = itemSize().width() - 2 * option.padding;
         int textLinesCount = 0;
         QTextLine line;
 
@@ -152,7 +152,7 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
 
         const qreal height = textLinesCount * option.fontMetrics.height() +
                              option.iconSize +
-                             option.margin * 3;
+                             option.padding * 3;
         return QSizeF(itemSize().width(), height);
     }
 
@@ -167,14 +167,14 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
             maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
         }
 
-        const qreal width = option.margin * 4 + option.iconSize + maximumRequiredWidth;
-        const qreal height = option.margin * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.height());
+        const qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
+        const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.height());
         return QSizeF(width, height);
     }
 
     case DetailsLayout: {
         // The width will be determined dynamically by KFileItemListView::visibleRoleSizes()
-        const qreal height = option.margin * 2 + qMax(option.iconSize, option.fontMetrics.height());
+        const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
         return QSizeF(-1, height);
     }
 
@@ -504,22 +504,22 @@ QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role)
     const KItemListStyleOption& option = styleOption();
 
     qreal width = m_minimumRolesWidths.value(role, 0);
-    const qreal height = option.margin * 2 + option.fontMetrics.height();
+    const qreal height = option.padding * 2 + option.fontMetrics.height();
 
     const QHash<QByteArray, QVariant> values = model()->data(index);
     const QString text = KFileItemListWidget::roleText(role, values);
     if (!text.isEmpty()) {
-        const qreal columnMargin = option.margin * 3;
-        width = qMax(width, qreal(2 * columnMargin + option.fontMetrics.width(text)));
+        const qreal columnPadding = option.padding * 3;
+        width = qMax(width, qreal(2 * columnPadding + option.fontMetrics.width(text)));
     }
 
     if (role == "name") {
         // Increase the width by the expansion-toggle and the current expansion level
         const int expansionLevel = values.value("expansionLevel", 0).toInt();
-        width += option.margin + expansionLevel * itemSize().height() + KIconLoader::SizeSmall;
+        width += option.padding + expansionLevel * itemSize().height() + KIconLoader::SizeSmall;
 
         // Increase the width by the required space for the icon
-        width += option.margin * 2 + option.iconSize;
+        width += option.padding * 2 + option.iconSize;
     }
 
     return QSizeF(width, height);
@@ -597,7 +597,7 @@ QSize KFileItemListView::availableIconSize() const
     const KItemListStyleOption& option = styleOption();
     const int iconSize = option.iconSize;
     if (m_itemLayout == IconsLayout) {
-        const int maxIconWidth = itemSize().width() - 2 * option.margin;
+        const int maxIconWidth = itemSize().width() - 2 * option.padding;
         return QSize(maxIconWidth, iconSize);
     }
 

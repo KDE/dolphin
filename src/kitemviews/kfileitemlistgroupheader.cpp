@@ -61,7 +61,7 @@ void KFileItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
 
 void KFileItemListGroupHeader::updateText()
 {
-    const qreal width = size().width() - 4 * styleOption().margin;
+    const qreal width = size().width() - 4 * styleOption().padding;
     m_font = font(); // TODO: Most probably the font size will be slightly shrinked in future
 
     QFontMetricsF fontMetrics(m_font);

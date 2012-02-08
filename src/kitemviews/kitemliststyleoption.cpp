@@ -26,7 +26,9 @@ KItemListStyleOption::KItemListStyleOption() :
     font(),
     fontMetrics(QFont()),
     palette(),
-    margin(0),
+    padding(0),
+    horizontalMargin(0),
+    verticalMargin(0),
     iconSize(KIconLoader::SizeMedium)
 {
 }
@@ -36,7 +38,9 @@ KItemListStyleOption::KItemListStyleOption(const KItemListStyleOption& other) :
     font(other.font),
     fontMetrics(other.fontMetrics),
     palette(other.palette),
-    margin(other.margin),
+    padding(other.padding),
+    horizontalMargin(other.horizontalMargin),
+    verticalMargin(other.verticalMargin),
     iconSize(other.iconSize)
 {
 }

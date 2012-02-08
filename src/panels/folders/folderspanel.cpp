@@ -144,12 +144,12 @@ void FoldersPanel::showEvent(QShowEvent* event)
         view->setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
 
         KItemListStyleOption styleOption = view->styleOption();
-        styleOption.margin = 2;
+        styleOption.padding = 2;
         styleOption.iconSize = KIconLoader::SizeSmall;
         view->setStyleOption(styleOption);
 
         const qreal itemHeight = qMax(int(KIconLoader::SizeSmall), styleOption.fontMetrics.height());
-        view->setItemSize(QSizeF(-1, itemHeight + 2 * styleOption.margin));
+        view->setItemSize(QSizeF(-1, itemHeight + 2 * styleOption.padding));
         view->setItemLayout(KFileItemListView::DetailsLayout);
         // Set the opacity to 0 initially. The opacity will be increased after the loading of the initial tree
         // has been finished in slotLoadingCompleted(). This prevents an unnecessary animation-mess when

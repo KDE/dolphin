@@ -48,6 +48,12 @@ public:
     QSizeF itemSize() const;
 
     /**
+     * Margin between the rows and columns of items.
+     */
+    void setItemMargin(const QSizeF& margin);
+    QSizeF itemMargin() const;
+    
+    /**
      * Sets the height of the header that is always aligned
      * at the top. A height of <= 0.0 means that no header is
      * used.
@@ -61,8 +67,7 @@ public:
      */
     void setGroupHeaderHeight(qreal height);
     qreal groupHeaderHeight() const;
-
-    // TODO: add note that offset can be < 0 or > maximumOffset!
+    
     void setScrollOffset(qreal scrollOffset);
     qreal scrollOffset() const;
 
@@ -138,7 +143,8 @@ private:
     QSizeF m_size;
 
     QSizeF m_itemSize;
-    qreal m_headerHeight;
+    QSizeF m_itemMargin;
+    qreal m_headerHeight;    
     const KItemModelBase* m_model;
     const KItemListSizeHintResolver* m_sizeHintResolver;
 

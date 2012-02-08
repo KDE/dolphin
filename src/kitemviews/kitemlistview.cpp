@@ -151,7 +151,9 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
     // Skip animations when the number of rows or columns
     // are changed in the grid layout. Although the animation
     // engine can handle this usecase, it looks obtrusive.
-    const bool animate = !changesItemGridLayout(m_layouter->size(), itemSize);
+    const bool animate = !changesItemGridLayout(m_layouter->size(),
+                                                itemSize,
+                                                m_layouter->itemMargin());
     
     m_itemSize = itemSize;
 
@@ -334,6 +336,18 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     const KItemListStyleOption previousOption = m_styleOption;
     m_styleOption = option;
 
+    bool animate = true;    
+    const QSizeF margin(option.horizontalMargin, option.verticalMargin);
+    if (margin != m_layouter->itemMargin()) {
+        // Skip animations when the number of rows or columns
+        // are changed in the grid layout. Although the animation
+        // engine can handle this usecase, it looks obtrusive.
+        animate = !changesItemGridLayout(m_layouter->size(),
+                                         m_layouter->itemSize(),
+                                         margin);
+        m_layouter->setItemMargin(margin);
+    }
+
     if (m_grouped) {
         updateGroupHeaderHeight();
     }
@@ -345,7 +359,7 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     }
 
     m_sizeHintResolver->clearCache();   
-    doLayout(Animation);
+    doLayout(animate ? Animation : NoAnimation);
 
     onStyleOptionChanged(option, previousOption);
 }
@@ -399,7 +413,9 @@ void KItemListView::setGeometry(const QRectF& rect)
         m_layouter->setSize(newSize);
         doLayout(Animation);
     } else {
-        const bool animate = !changesItemGridLayout(newSize, m_layouter->itemSize());        
+        const bool animate = !changesItemGridLayout(newSize,
+                                                    m_layouter->itemSize(),
+                                                    m_layouter->itemMargin());        
         m_layouter->setSize(newSize);
         
         if (animate) {
@@ -1494,8 +1510,9 @@ bool KItemListView::moveWidget(KItemListWidget* widget,const QRectF& itemBounds)
         // one row in the vertical scroll-orientation or one column in the horizontal scroll-orientation.
         // Otherwise instead of a moving-animation a create-animation on the new position will be used
         // instead. This is done to prevent overlapping (and confusing) moving-animations.
-        const qreal xMax = m_itemSize.width();
-        const qreal yMax = m_itemSize.height();
+        const QSizeF itemMargin = m_layouter->itemMargin();
+        const qreal xMax = m_itemSize.width() + itemMargin.width();
+        const qreal yMax = m_itemSize.height() + itemMargin.height();
         qreal xDiff = qAbs(oldPos.x() - newPos.x());
         qreal yDiff = qAbs(oldPos.y() - newPos.y());
         if (scrollOrientation() == Qt::Vertical) {
@@ -1850,7 +1867,9 @@ QRectF KItemListView::headerBoundaries() const
     return m_header ? m_header->geometry() : QRectF();
 }
 
-bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize, const QSizeF& newItemSize) const
+bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
+                                          const QSizeF& newItemSize,
+                                          const QSizeF& newItemMargin) const
 {
     if (newItemSize.isEmpty() || newGridSize.isEmpty()) {
         return false;
@@ -1859,18 +1878,26 @@ bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize, const QSize
     if (m_layouter->scrollOrientation() == Qt::Vertical) {
         const qreal itemWidth = m_layouter->itemSize().width();
         if (itemWidth > 0) {
-            const int newColumnCount = newGridSize.width() / newItemSize.width();
+            const int newColumnCount = itemsPerSize(newGridSize.width(),
+                                                    newItemSize.width(),
+                                                    newItemMargin.width());
             if (m_model->count() > newColumnCount) {
-                const int oldColumnCount = m_layouter->size().width() / itemWidth;
+                const int oldColumnCount = itemsPerSize(m_layouter->size().width(),
+                                                        itemWidth,
+                                                        m_layouter->itemMargin().width());
                 return oldColumnCount != newColumnCount;
             }
         }       
     } else {
         const qreal itemHeight = m_layouter->itemSize().height();
         if (itemHeight > 0) {
-            const int newRowCount = newGridSize.height() / newItemSize.height();
+            const int newRowCount = itemsPerSize(newGridSize.height(),
+                                                 newItemSize.height(),
+                                                 newItemMargin.height());
             if (m_model->count() > newRowCount) {
-                const int oldRowCount = m_layouter->size().height() / itemHeight;
+                const int oldRowCount = itemsPerSize(m_layouter->size().height(),
+                                                     itemHeight,
+                                                     m_layouter->itemMargin().height());
                 return oldRowCount != newRowCount;
             }
         }               
@@ -1909,7 +1936,7 @@ void KItemListView::updateGroupHeaderHeight()
 {
     qreal groupHeaderHeight = m_styleOption.fontMetrics.height();
     groupHeaderHeight += (scrollOrientation() == Qt::Vertical)
-                         ? m_styleOption.margin * 4 : m_styleOption.margin * 2;
+                         ? m_styleOption.padding * 4 : m_styleOption.padding * 2;
     m_layouter->setGroupHeaderHeight(groupHeaderHeight);
 
     updateVisibleGroupHeaders();
@@ -1939,6 +1966,13 @@ int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldIn
     }
 
     return inc;
+}
+
+int KItemListView::itemsPerSize(qreal size, qreal itemSize, qreal itemMargin)
+{
+    const qreal availableSize = size - itemMargin;
+    const int count = availableSize / (itemSize + itemMargin);
+    return count;
 }
 
 

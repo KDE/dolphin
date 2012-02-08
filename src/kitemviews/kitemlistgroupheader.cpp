@@ -116,7 +116,7 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
 
     if (m_scrollOrientation != Qt::Horizontal) {
         painter->setPen(m_roleColor);
-        const qreal y = m_roleBounds.y() - m_styleOption.margin;
+        const qreal y = m_roleBounds.y() - m_styleOption.padding;
         painter->drawLine(0, y, size().width() - 1, y);
     }
 }
@@ -177,13 +177,13 @@ void KItemListGroupHeader::updateCache()
                          (c1.green() * p1 + c2.green() * p2) / 100,
                          (c1.blue()  * p1 + c2.blue()  * p2) / 100);
 
-    const int margin = m_styleOption.margin;
+    const int padding = m_styleOption.padding;
     const QFontMetrics fontMetrics(m_styleOption.font);
     const qreal roleHeight = fontMetrics.height();
 
-    m_roleBounds = QRectF(margin,
-                          size().height() - roleHeight - margin,
-                          size().width() - 2 * margin,
+    m_roleBounds = QRectF(padding,
+                          size().height() - roleHeight - padding,
+                          size().width() - 2 * padding,
                           roleHeight);
 
     m_dirtyCache = false;
