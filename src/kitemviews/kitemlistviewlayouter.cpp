@@ -320,7 +320,7 @@ void KItemListViewLayouter::doLayout()
         m_xPosInc = itemMargin.width();
 
         const int itemCount = m_model->count();
-        if (itemCount > m_columnCount) {
+        if (itemCount > m_columnCount && m_columnWidth >= 32) {
             // Apply the unused width equally to each column
             const qreal unusedWidth = size.width() - m_columnCount * m_columnWidth;
             if (unusedWidth > 0) {
