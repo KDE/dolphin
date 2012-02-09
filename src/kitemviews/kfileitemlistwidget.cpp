@@ -179,7 +179,7 @@ QRectF KFileItemListWidget::selectionToggleRect() const
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
 
-    const int iconHeight = m_pixmap.height();
+    const int iconHeight = styleOption().iconSize;
 
     int toggleSize = KIconLoader::SizeSmall;
     if (iconHeight >= KIconLoader::SizeEnormous) {
@@ -196,13 +196,15 @@ QRectF KFileItemListWidget::selectionToggleRect() const
     // when trying to hit the toggle.
     const int widgetHeight = size().height();
     const int widgetWidth = size().width();
-    const int minPadding = 2;
+    const int minMargin = 2;
 
-    if (toggleSize + minPadding * 2 >= widgetHeight) {
+    if (toggleSize + minMargin * 2 >= widgetHeight) {
+        pos.rx() -= (widgetHeight - toggleSize) / 2;
         toggleSize = widgetHeight;
         pos.setY(0);
     }
-    if (toggleSize + minPadding * 2 >= widgetWidth) {
+    if (toggleSize + minMargin * 2 >= widgetWidth) {
+        pos.ry() -= (widgetWidth - toggleSize) / 2;
         toggleSize = widgetWidth;
         pos.setX(0);
     }
@@ -541,7 +543,6 @@ void KFileItemListWidget::updatePixmapCache()
     }
 
     m_iconRect = QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize));
-    m_iconRect.adjust(-padding, -padding, padding, padding);
     
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
