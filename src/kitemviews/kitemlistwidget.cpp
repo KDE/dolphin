@@ -439,7 +439,7 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = textBounds;
+    viewItemOption.rect = textBounds.adjusted(1, 0, -1, 0);
     widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 

@@ -336,6 +336,14 @@ private slots:
      */
     void triggerAutoScrolling();
 
+    /**
+     * Is invoked if the geometry of the parent-widget from a group-header has been
+     * changed. The x-position and width of the group-header gets adjusted to assure
+     * that it always spans the whole width even during temporary transitions of the
+     * parent widget.
+     */
+    void slotGeometryOfGroupHeaderParentChanged();
+
 private:
     enum LayoutAnimationHint
     {

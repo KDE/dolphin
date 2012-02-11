@@ -48,6 +48,7 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_columnCount(0),
     m_groupItemIndexes(),
     m_groupHeaderHeight(0),
+    m_groupHeaderMargin(0),
     m_itemRects()
 {
 }
@@ -132,6 +133,19 @@ void KItemListViewLayouter::setGroupHeaderHeight(qreal height)
 qreal KItemListViewLayouter::groupHeaderHeight() const
 {
     return m_groupHeaderHeight;
+}
+
+void KItemListViewLayouter::setGroupHeaderMargin(qreal margin)
+{
+    if (m_groupHeaderMargin != margin) {
+        m_groupHeaderMargin = margin;
+        m_dirty = true;
+    }
+}
+
+qreal KItemListViewLayouter::groupHeaderMargin() const
+{
+    return m_groupHeaderMargin;
 }
 
 void KItemListViewLayouter::setScrollOffset(qreal offset)
@@ -310,7 +324,7 @@ void KItemListViewLayouter::doLayout()
                 // In the horizontal scrolling case all groups are aligned
                 // at the top, which decreases the available height. For the
                 // flipped data this means that the width must be decreased.
-                size.rwidth() -= m_groupHeaderHeight;
+                size.rwidth() -= m_groupHeaderMargin + m_groupHeaderHeight;
             }
         }
 
@@ -322,7 +336,7 @@ void KItemListViewLayouter::doLayout()
         const int itemCount = m_model->count();
         if (itemCount > m_columnCount && m_columnWidth >= 32) {
             // Apply the unused width equally to each column
-            const qreal unusedWidth = size.width() - m_columnCount * m_columnWidth;
+            const qreal unusedWidth = widthForColumns - m_columnCount * m_columnWidth;
             if (unusedWidth > 0) {
                 const qreal columnInc = unusedWidth / (m_columnCount + 1);
                 m_columnWidth += columnInc;
@@ -349,16 +363,22 @@ void KItemListViewLayouter::doLayout()
                 if (horizontalScrolling) {
                     // All group headers will always be aligned on the top and not
                     // flipped like the other properties
-                    x += m_groupHeaderHeight;
+                    x +=  m_groupHeaderMargin + m_groupHeaderHeight;
                 }
 
-                if (m_groupItemIndexes.contains(index)) {
-                    if (!horizontalScrolling) {
-                        // The item is the first item of a group.
-                        // Increase the y-position to provide space
-                        // for the group header.
-                        y += m_groupHeaderHeight;
+                if (m_groupItemIndexes.contains(index) && !horizontalScrolling) {
+                    // The item is the first item of a group.
+                    // Increase the y-position to provide space
+                    // for the group header.
+                    if (index == 0) {
+                        // The first group header should be aligned on top
+                        y -= itemMargin.height();
+                    } else {
+                        // Only add a margin if there has been added another
+                        // group already before
+                        y += m_groupHeaderMargin;
                     }
+                    y += m_groupHeaderHeight;
                 }
             }
 
@@ -429,6 +449,8 @@ void KItemListViewLayouter::doLayout()
                 m_maximumScrollOffset = qMax(m_maximumScrollOffset, m_itemRects.at(index).bottom());
                 --index;
             }
+
+            m_maximumScrollOffset += itemMargin.height();
 
             m_maximumItemOffset = m_columnCount * m_columnWidth;
         } else {

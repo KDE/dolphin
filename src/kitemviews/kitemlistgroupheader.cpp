@@ -36,6 +36,8 @@ KItemListGroupHeader::KItemListGroupHeader(QGraphicsWidget* parent) :
     m_data(),
     m_styleOption(),
     m_scrollOrientation(Qt::Vertical),
+    m_itemIndex(-1),
+    m_lineColor(),
     m_roleColor(),
     m_roleBounds()
 {
@@ -100,6 +102,21 @@ void KItemListGroupHeader::setScrollOrientation(Qt::Orientation orientation)
     }
 }
 
+void KItemListGroupHeader::setItemIndex(int index)
+{
+    if (m_itemIndex != index) {
+        const int previous = m_itemIndex;
+        m_itemIndex = index;
+        m_dirtyCache = true;
+        itemIndexChanged(m_itemIndex, previous);
+    }
+}
+
+int KItemListGroupHeader::itemIndex() const
+{
+    return m_itemIndex;
+}
+
 Qt::Orientation KItemListGroupHeader::scrollOrientation() const
 {
     return m_scrollOrientation;
@@ -114,8 +131,13 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
         updateCache();
     }
 
-    if (m_scrollOrientation != Qt::Horizontal) {
-        painter->setPen(m_roleColor);
+    if (m_scrollOrientation == Qt::Horizontal) {
+        painter->setPen(m_lineColor);
+        const qreal x = m_roleBounds.x() - m_styleOption.padding;
+        painter->drawLine(x, 0, x, size().height() - 1);
+
+    } else if (m_itemIndex > 0) {
+        painter->setPen(m_lineColor);
         const qreal y = m_roleBounds.y() - m_styleOption.padding;
         painter->drawLine(0, y, size().width() - 1, y);
     }
@@ -155,6 +177,12 @@ void KItemListGroupHeader::scrollOrientationChanged(Qt::Orientation current, Qt:
     Q_UNUSED(previous);
 }
 
+void KItemListGroupHeader::itemIndexChanged(int current, int previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+}
+
 void KItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     QGraphicsWidget::resizeEvent(event);
@@ -167,26 +195,40 @@ void KItemListGroupHeader::updateCache()
 {
     Q_ASSERT(m_dirtyCache);
 
-    // Calculate the outline color. No alphablending is used for
+    // Calculate the role- and line-color. No alphablending is used for
     // performance reasons.
     const QColor c1 = m_styleOption.palette.text().color();
-    const QColor c2 = m_styleOption.palette.background().color();
-    const int p1 = 35;
-    const int p2 = 100 - p1;
-    m_roleColor = QColor((c1.red()   * p1 + c2.red()   * p2) / 100,
-                         (c1.green() * p1 + c2.green() * p2) / 100,
-                         (c1.blue()  * p1 + c2.blue()  * p2) / 100);
+    const QColor c2 = m_styleOption.palette.base().color();
+    m_lineColor = mixedColor(c1, c2, 10);
+    m_roleColor = mixedColor(c1, c2, 50);
 
-    const int padding = m_styleOption.padding;
+    int horizontalMargin = 0;
+    if (m_scrollOrientation == Qt::Vertical) {
+        // The x-position of the group-header-widget will always be 0,
+        // Add a minimum margin.
+        horizontalMargin = qMax(2, m_styleOption.horizontalMargin);
+    }
+
+    const int padding = qMax(2, m_styleOption.padding);
     const QFontMetrics fontMetrics(m_styleOption.font);
     const qreal roleHeight = fontMetrics.height();
 
-    m_roleBounds = QRectF(padding,
+    m_roleBounds = QRectF(horizontalMargin + padding,
                           size().height() - roleHeight - padding,
-                          size().width() - 2 * padding,
+                          size().width() - 2 * (horizontalMargin + padding),
                           roleHeight);
 
     m_dirtyCache = false;
+}
+
+QColor KItemListGroupHeader::mixedColor(const QColor& c1, const QColor& c2, int c1Percent)
+{
+    Q_ASSERT(c1Percent >= 0 && c1Percent <= 100);
+
+    const int c2Percent = 100 - c1Percent;
+    return QColor((c1.red()   * c1Percent + c2.red()   * c2Percent) / 100,
+                  (c1.green() * c1Percent + c2.green() * c2Percent) / 100,
+                  (c1.blue()  * c1Percent + c2.blue()  * c2Percent) / 100);
 }
 
 #include "kitemlistgroupheader.moc"
