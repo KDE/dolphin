@@ -206,7 +206,7 @@ void DolphinItemListContainer::updateGridSize()
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption styleOption = m_fileItemListView->styleOption();
 
-    const int padding = (iconSize >= KIconLoader::SizeSmallMedium) ? 4 : 2;
+    int padding = 2;
     int horizontalMargin = 0;
     int verticalMargin = 0;
 
@@ -215,7 +215,7 @@ void DolphinItemListContainer::updateGridSize()
     int itemHeight;
     switch (itemLayout()) {
     case KFileItemListView::IconsLayout: {
-        const int minItemWidth = 64;
+        const int minItemWidth = 48;
         itemWidth = minItemWidth + IconsModeSettings::textWidthIndex() * 64;
         
         if (previewsShown()) {
@@ -231,8 +231,8 @@ void DolphinItemListContainer::updateGridSize()
         }
         itemHeight = padding * 3 + iconSize + styleOption.fontMetrics.height();
         
-        horizontalMargin = padding * 2;
-        verticalMargin = horizontalMargin;
+        horizontalMargin = 4;
+        verticalMargin = 8;
         break;
     }
     case KFileItemListView::CompactLayout: {
@@ -240,12 +240,13 @@ void DolphinItemListContainer::updateGridSize()
         const int textLinesCount = m_fileItemListView->visibleRoles().count();
         itemHeight = padding * 2 + qMax(iconSize, textLinesCount * styleOption.fontMetrics.height());
         
-        horizontalMargin = padding * 2;
+        horizontalMargin = 8;
         break;
     }
     case KFileItemListView::DetailsLayout: {
         itemWidth = -1;
         itemHeight = padding * 2 + qMax(iconSize, styleOption.fontMetrics.height());
+        padding = 3;
         break;
     }
     default:

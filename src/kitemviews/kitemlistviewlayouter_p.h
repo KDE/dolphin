@@ -67,6 +67,13 @@ public:
      */
     void setGroupHeaderHeight(qreal height);
     qreal groupHeaderHeight() const;
+
+    /**
+     * Sets the margin between the last items of the group n and
+     * the group header for the group n + 1.
+     */
+    void setGroupHeaderMargin(qreal margin);
+    qreal groupHeaderMargin() const;
     
     void setScrollOffset(qreal scrollOffset);
     qreal scrollOffset() const;
@@ -165,6 +172,7 @@ private:
     // Assures fast access for KItemListViewLayouter::isFirstGroupItem().
     QSet<int> m_groupItemIndexes;
     qreal m_groupHeaderHeight;
+    qreal m_groupHeaderMargin;
 
     QList<QRectF> m_itemRects;
 

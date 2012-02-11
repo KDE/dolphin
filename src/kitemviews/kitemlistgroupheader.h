@@ -62,6 +62,9 @@ public:
     void setScrollOrientation(Qt::Orientation orientation);
     Qt::Orientation scrollOrientation() const;
 
+    void setItemIndex(int index);
+    int itemIndex() const;
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 protected:
@@ -95,11 +98,19 @@ protected:
      */
     virtual void scrollOrientationChanged(Qt::Orientation current, Qt::Orientation previous);
 
+    /**
+     * Is called after the item index has been changed and allows the derived class to react on
+     * this change.
+     */
+    virtual void itemIndexChanged(int current, int previous);
+
     /** @reimp */
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
 private:
     void updateCache();
+
+    static QColor mixedColor(const QColor& c1, const QColor& c2, int c1Percent = 50);
 
 private:
     bool m_dirtyCache;
@@ -107,7 +118,9 @@ private:
     QVariant m_data;
     KItemListStyleOption m_styleOption;
     Qt::Orientation m_scrollOrientation;
+    int m_itemIndex;
 
+    QColor m_lineColor;
     QColor m_roleColor;
     QRectF m_roleBounds;
 };

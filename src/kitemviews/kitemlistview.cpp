@@ -1224,6 +1224,15 @@ void KItemListView::triggerAutoScrolling()
    m_autoScrollTimer->start(RepeatingAutoScrollDelay);
 }
 
+void KItemListView::slotGeometryOfGroupHeaderParentChanged()
+{
+    KItemListWidget* widget = qobject_cast<KItemListWidget*>(sender());
+    Q_ASSERT(widget);
+    KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
+    Q_ASSERT(groupHeader);
+    updateGroupHeaderLayout(widget);
+}
+
 void KItemListView::setController(KItemListController* controller)
 {
     if (m_controller != controller) {
@@ -1642,6 +1651,7 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
         groupHeader = m_groupHeaderCreator->create(this);
         groupHeader->setParentItem(widget);
         m_visibleGroups.insert(widget, groupHeader);
+        connect(widget, SIGNAL(geometryChanged()), this, SLOT(slotGeometryOfGroupHeaderParentChanged()));
     }
     Q_ASSERT(groupHeader->parentItem() == widget);
 
@@ -1663,6 +1673,7 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
     groupHeader->setRole(model()->sortRole());
     groupHeader->setStyleOption(m_styleOption);
     groupHeader->setScrollOrientation(scrollOrientation());
+    groupHeader->setItemIndex(index);
 
     groupHeader->show();
 }
@@ -1678,10 +1689,16 @@ void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
 
     // The group-header is a child of the itemlist widget. Translate the
     // group header position to the relative position.
-    const QPointF groupHeaderPos(groupHeaderRect.x() - itemRect.x(),
-                                 - groupHeaderRect.height());
-    groupHeader->setPos(groupHeaderPos);
-    groupHeader->resize(groupHeaderRect.size());
+    if (scrollOrientation() == Qt::Vertical) {
+        // In the vertical scroll orientation the group header should always span
+        // the whole width no matter which temporary position the parent widget
+        // has. In this case the x-position and width will be adjusted manually.
+        groupHeader->setPos(-widget->x(), -groupHeaderRect.height());
+        groupHeader->resize(size().width(), groupHeaderRect.size().height());
+    } else {
+        groupHeader->setPos(groupHeaderRect.x() - itemRect.x(), -groupHeaderRect.height());
+        groupHeader->resize(groupHeaderRect.size());
+    }
 }
 
 void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
@@ -1691,6 +1708,7 @@ void KItemListView::recycleGroupHeaderForWidget(KItemListWidget* widget)
         header->setParentItem(0);
         m_groupHeaderCreator->recycle(header);
         m_visibleGroups.remove(widget);
+        disconnect(widget, SIGNAL(geometryChanged()), this, SLOT(slotGeometryOfGroupHeaderParentChanged()));
     }
 }
 
@@ -1934,10 +1952,18 @@ bool KItemListView::scrollBarRequired(const QSizeF& size) const
 
 void KItemListView::updateGroupHeaderHeight()
 {
-    qreal groupHeaderHeight = m_styleOption.fontMetrics.height();
-    groupHeaderHeight += (scrollOrientation() == Qt::Vertical)
-                         ? m_styleOption.padding * 4 : m_styleOption.padding * 2;
+    const qreal groupHeaderHeight = m_styleOption.fontMetrics.height() + m_styleOption.padding * 2;
+
+    qreal groupHeaderMargin = 0;
+    if (scrollOrientation() == Qt::Horizontal) {
+        groupHeaderMargin = m_styleOption.horizontalMargin;
+    } else if (m_itemSize.isEmpty()){
+        groupHeaderMargin = groupHeaderHeight / 2;
+    } else {
+        groupHeaderMargin = m_styleOption.verticalMargin * 2;
+    }
     m_layouter->setGroupHeaderHeight(groupHeaderHeight);
+    m_layouter->setGroupHeaderMargin(groupHeaderMargin);
 
     updateVisibleGroupHeaders();
 }
