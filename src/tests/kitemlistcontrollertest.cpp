@@ -37,6 +37,7 @@ namespace {
 Q_DECLARE_METATYPE(KFileItemListView::Layout);
 Q_DECLARE_METATYPE(Qt::Orientation);
 Q_DECLARE_METATYPE(KItemListController::SelectionBehavior);
+Q_DECLARE_METATYPE(QSet<int>);
 
 class KItemListControllerTest : public QObject
 {
@@ -76,6 +77,8 @@ private:
  */
 void KItemListControllerTest::initTestCase()
 {
+    qRegisterMetaType<QSet<int> >("QSet<int>");
+
     m_testDir = new TestDir();
     m_dirLister = new KDirLister();
     m_model = new KFileItemModel(m_dirLister);
@@ -158,17 +161,22 @@ struct KeyPress {
 
 /**
  * \class ViewState is a small helper struct that represents a certain state
- * of the view, including the current item and the selected items.
+ * of the view, including the current item, the selected items in MultiSelection
+ * mode (in the other modes, the selection is either empty or equal to the
+ * current item), and the information whether items were activated by the last
+ * key press.
  */
 struct ViewState {
 
-    ViewState(int current, QSet<int> selection) :
+    ViewState(int current, const QSet<int> selection, bool activated = false) :
         m_current(current),
-        m_selection(selection)
+        m_selection(selection),
+        m_activated(activated)
     {}
 
     int m_current;
     QSet<int> m_selection;
+    bool m_activated;
 };
 
 // We have to define a typedef for the pair in order to make the test compile.
@@ -264,11 +272,15 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                     // for any layout and any number of columns.
                     testList
                         << qMakePair(KeyPress(nextItemKey), ViewState(1, QSet<int>() << 1))
+                        << qMakePair(KeyPress(Qt::Key_Return), ViewState(1, QSet<int>() << 1, true))
+                        << qMakePair(KeyPress(Qt::Key_Enter), ViewState(1, QSet<int>() << 1, true))
                         << qMakePair(KeyPress(nextItemKey), ViewState(2, QSet<int>() << 2))
                         << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, QSet<int>() << 2 << 3))
+                        << qMakePair(KeyPress(Qt::Key_Return), ViewState(3, QSet<int>() << 2 << 3, true))
                         << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(2, QSet<int>() << 2))
                         << qMakePair(KeyPress(nextItemKey, Qt::ShiftModifier), ViewState(3, QSet<int>() << 2 << 3))
                         << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(4, QSet<int>() << 2 << 3))
+                        << qMakePair(KeyPress(Qt::Key_Return), ViewState(4, QSet<int>() << 2 << 3, true))
                         << qMakePair(KeyPress(previousItemKey), ViewState(3, QSet<int>() << 3))
                         << qMakePair(KeyPress(Qt::Key_Home, Qt::ShiftModifier), ViewState(0, QSet<int>() << 0 << 1 << 2 << 3))
                         << qMakePair(KeyPress(nextItemKey, Qt::ControlModifier), ViewState(1, QSet<int>() << 0 << 1 << 2 << 3))
@@ -276,7 +288,10 @@ void KItemListControllerTest::testKeyboardNavigation_data()
                         << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(1, QSet<int>() << 0 << 1 << 2 << 3))
                         << qMakePair(KeyPress(Qt::Key_End), ViewState(19, QSet<int>() << 19))
                         << qMakePair(KeyPress(previousItemKey, Qt::ShiftModifier), ViewState(18, QSet<int>() << 18 << 19))
-                        << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, QSet<int>() << 0));
+                        << qMakePair(KeyPress(Qt::Key_Home), ViewState(0, QSet<int>() << 0))
+                        << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, QSet<int>()))
+                        << qMakePair(KeyPress(Qt::Key_Enter), ViewState(0, QSet<int>(), true))
+                        << qMakePair(KeyPress(Qt::Key_Space, Qt::ControlModifier), ViewState(0, QSet<int>() << 0));
 
                     // Next, we test combinations of key presses which only work for a
                     // particular number of columns and either enabled or disabled grouping.
@@ -456,19 +471,52 @@ void KItemListControllerTest::testKeyboardNavigation()
     adjustGeometryForColumnCount(columnCount);
     QCOMPARE(m_view->m_layouter->m_columnCount, columnCount);
 
+    QSignalSpy spySingleItemActivated(m_controller, SIGNAL(itemActivated(int)));
+    QSignalSpy spyMultipleItemsActivated(m_controller, SIGNAL(itemsActivated(QSet<int>)));
+
     while (!testList.isEmpty()) {
         const QPair<KeyPress, ViewState> test = testList.takeFirst();
         const Qt::Key key = test.first.m_key;
         const Qt::KeyboardModifiers modifier = test.first.m_modifier;
         const int current = test.second.m_current;
         const QSet<int> selection = test.second.m_selection;
+        const bool activated = test.second.m_activated;
 
         QTest::keyClick(m_container, key, modifier);
+
         QCOMPARE(m_selectionManager->currentItem(), current);
         switch (selectionBehavior) {
         case KItemListController::NoSelection: QVERIFY(m_selectionManager->selectedItems().isEmpty()); break;
         case KItemListController::SingleSelection: QCOMPARE(m_selectionManager->selectedItems(), QSet<int>() << current); break;
         case KItemListController::MultiSelection: QCOMPARE(m_selectionManager->selectedItems(), selection); break;
+        }
+
+        if (activated) {
+            switch (selectionBehavior) {
+            case KItemListController::MultiSelection:
+                if (!selection.isEmpty()) {
+                    // The selected items should be activated.
+                    if (selection.count() == 1) {
+                        QVERIFY(!spySingleItemActivated.isEmpty());
+                        QCOMPARE(qvariant_cast<int>(spySingleItemActivated.takeFirst().at(0)), selection.toList().at(0));
+                        QVERIFY(spyMultipleItemsActivated.isEmpty());
+                    } else {
+                        QVERIFY(spySingleItemActivated.isEmpty());
+                        QVERIFY(!spyMultipleItemsActivated.isEmpty());
+                        QCOMPARE(qvariant_cast<QSet<int> >(spyMultipleItemsActivated.takeFirst().at(0)), selection);
+                    }
+                    break;
+                }
+                // No items are selected. Therefore, the current item should be activated.
+                // This is handled by falling through to the NoSelection/SingleSelection case.
+            case KItemListController::NoSelection:
+            case KItemListController::SingleSelection:
+                // In NoSelection and SingleSelection mode, the current item should be activated.
+                QVERIFY(!spySingleItemActivated.isEmpty());
+                QCOMPARE(qvariant_cast<int>(spySingleItemActivated.takeFirst().at(0)), current);
+                QVERIFY(spyMultipleItemsActivated.isEmpty());
+                break;
+            }
         }
     }
 }
