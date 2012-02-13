@@ -447,14 +447,14 @@ void KItemListControllerTest::testKeyboardNavigation()
     m_view->setScrollOrientation(scrollOrientation);
     QCOMPARE(m_view->scrollOrientation(), scrollOrientation);
 
-    adjustGeometryForColumnCount(columnCount);
-    QCOMPARE(m_view->m_layouter->m_columnCount, columnCount);
-
     m_controller->setSelectionBehavior(selectionBehavior);
     QCOMPARE(m_controller->selectionBehavior(), selectionBehavior);
 
     m_model->setGroupedSorting(groupingEnabled);
     QCOMPARE(m_model->groupedSorting(), groupingEnabled);
+
+    adjustGeometryForColumnCount(columnCount);
+    QCOMPARE(m_view->m_layouter->m_columnCount, columnCount);
 
     while (!testList.isEmpty()) {
         const QPair<KeyPress, ViewState> test = testList.takeFirst();
