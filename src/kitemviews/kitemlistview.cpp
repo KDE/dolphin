@@ -1346,6 +1346,16 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
     const int lastVisibleIndex = m_layouter->lastVisibleIndex();
 
+    int firstExpansionIndex = -1;
+    int lastExpansionIndex = -1;
+    const bool supportsExpanding = supportsItemExpanding();
+    if (supportsExpanding && changedCount != 0) {
+        // Any inserting or removing of items might result in changing the siblings-information
+        // of other visible items.
+        firstExpansionIndex = firstVisibleIndex;
+        lastExpansionIndex = lastVisibleIndex;
+    }
+
     QList<int> reusableItems = recycleInvisibleItems(firstVisibleIndex, lastVisibleIndex, hint);
 
     // Assure that for each visible item a KItemListWidget is available. KItemListWidget
@@ -1389,6 +1399,13 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                     widget->setPos(itemRect.topLeft());
                 }
                 applyNewPos = false;
+            }
+
+            if (supportsExpanding && changedCount == 0) {
+                if (firstExpansionIndex < 0) {
+                    firstExpansionIndex = i;
+                }
+                lastExpansionIndex = i;
             }
         }
 
@@ -1450,6 +1467,10 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
     // Delete invisible KItemListWidget instances that have not been reused
     foreach (int index, reusableItems) {
         recycleWidget(m_visibleItems.value(index));
+    }
+
+    if (supportsExpanding) {
+        updateSiblingsInformation(firstExpansionIndex, lastExpansionIndex);
     }
 
     if (m_grouped) {
@@ -1627,6 +1648,7 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setEnabledSelectionToggle(enabledSelectionToggles());
     widget->setIndex(index);
     widget->setData(m_model->data(index));
+    widget->setSiblingsInformation(QBitArray());
 }
 
 void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
@@ -1966,6 +1988,112 @@ void KItemListView::updateGroupHeaderHeight()
     m_layouter->setGroupHeaderMargin(groupHeaderMargin);
 
     updateVisibleGroupHeaders();
+}
+
+void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
+{
+    const int firstVisibleIndex = m_layouter->firstVisibleIndex();
+    const int lastVisibleIndex  = m_layouter->lastVisibleIndex();
+    const bool isRangeVisible = firstIndex >= 0 &&
+                                lastIndex  >= firstIndex &&
+                                lastIndex  >= firstVisibleIndex &&
+                                firstIndex <= lastVisibleIndex;
+    if (!isRangeVisible) {
+        return;
+    }
+
+    int previousParents = 0;
+    QBitArray previousSiblings;
+
+    // The rootIndex describes the first index where the siblings get
+    // calculated from. For the calculation the upper most parent item
+    // is required. For performance reasons it is checked first whether
+    // the visible items before or after the current range already
+    // contain a siblings information which can be used as base.
+    int rootIndex = firstIndex;
+
+    KItemListWidget* widget = m_visibleItems.value(firstIndex - 1);
+    if (!widget) {
+        // There is no visible widget before the range, check whether there
+        // is one after the range:
+        widget = m_visibleItems.value(lastIndex + 1);
+        if (widget) {
+            // The sibling information of the widget may only be used if
+            // all items of the range have the same number of parents.
+            const int parents = m_model->expandedParentsCount(lastIndex + 1);
+            for (int i = lastIndex; i >= firstIndex; --i) {
+                if (m_model->expandedParentsCount(i) != parents) {
+                    widget = 0;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (widget) {
+        // Performance optimization: Use the sibling information of the visible
+        // widget beside the given range.
+        previousSiblings = widget->siblingsInformation();
+        if (previousSiblings.isEmpty()) {
+            return;
+        }
+        previousParents = previousSiblings.count() - 1;
+        previousSiblings.truncate(previousParents);
+    } else {
+        // Potentially slow path: Go back to the upper most parent of firstIndex
+        // to be able to calculate the initial value for the siblings.
+        while (rootIndex > 0 && m_model->expandedParentsCount(rootIndex) > 0) {
+            --rootIndex;
+        }
+    }
+
+    for (int i = rootIndex; i <= lastIndex; ++i) {
+        // Update the parent-siblings in case if the current item represents
+        // a child or an upper parent.
+        const int currentParents = m_model->expandedParentsCount(i);
+        if (previousParents < currentParents) {
+            previousParents = currentParents;
+            previousSiblings.resize(currentParents);
+            previousSiblings.setBit(currentParents - 1, hasSiblingSuccessor(i - 1));
+        } else if (previousParents > currentParents) {
+            previousParents = currentParents;
+            previousSiblings.truncate(currentParents);
+        }
+
+        if (i >= firstIndex) {
+            // The index represents a visible item. Apply the parent-siblings
+            // and update the sibling of the current item.
+            KItemListWidget* widget = m_visibleItems.value(i);
+            if (!widget) {
+                continue;
+            }
+
+            QBitArray siblings = previousSiblings;
+            siblings.resize(siblings.count() + 1);
+            siblings.setBit(siblings.count() - 1, hasSiblingSuccessor(i));
+
+            widget->setSiblingsInformation(siblings);
+        }
+    }
+}
+
+bool KItemListView::hasSiblingSuccessor(int index) const
+{
+    const int parentsCount = m_model->expandedParentsCount(index);
+    ++index;
+
+    const int itemCount = m_model->count();
+    while (index < itemCount) {
+        const int currentParentsCount = m_model->expandedParentsCount(index);
+        if (currentParentsCount == parentsCount) {
+            return true;
+        } else if (currentParentsCount < parentsCount) {
+            return false;
+        }
+        ++index;
+    }
+
+    return false;
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)

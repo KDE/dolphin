@@ -146,6 +146,12 @@ public:
     virtual bool isExpandable(int index) const;
 
     /**
+     * @return Number of expanded parent items for the item with the given index.
+     *         Per default 0 is returned.
+     */
+    virtual int expandedParentsCount(int index) const;
+
+    /**
      * @return MIME-data for the items given by \a indexes. The default implementation
      *         returns 0. The ownership of the returned instance is in the hand of the
      *         caller of this method.

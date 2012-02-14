@@ -50,7 +50,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_pendingItemsToInsert(),
     m_pendingEmitLoadingCompleted(false),
     m_groups(),
-    m_rootExpansionLevel(UninitializedRootExpansionLevel),
+    m_expandedParentsCountRoot(UninitializedExpandedParentsCountRoot),
     m_expandedUrls(),
     m_urlsToExpand()
 {
@@ -265,22 +265,22 @@ QString KFileItemModel::roleDescription(const QByteArray& role) const
     QString descr;
 
     switch (roleIndex(role)) {
-    case NameRole:           descr = i18nc("@item:intable", "Name"); break;
-    case SizeRole:           descr = i18nc("@item:intable", "Size"); break;
-    case DateRole:           descr = i18nc("@item:intable", "Date"); break;
-    case PermissionsRole:    descr = i18nc("@item:intable", "Permissions"); break;
-    case OwnerRole:          descr = i18nc("@item:intable", "Owner"); break;
-    case GroupRole:          descr = i18nc("@item:intable", "Group"); break;
-    case TypeRole:           descr = i18nc("@item:intable", "Type"); break;
-    case DestinationRole:    descr = i18nc("@item:intable", "Destination"); break;
-    case PathRole:           descr = i18nc("@item:intable", "Path"); break;
-    case CommentRole:        descr = i18nc("@item:intable", "Comment"); break;
-    case TagsRole:           descr = i18nc("@item:intable", "Tags"); break;
-    case RatingRole:         descr = i18nc("@item:intable", "Rating"); break;
-    case NoRole:             break;
-    case IsDirRole:          break;
-    case IsExpandedRole:     break;
-    case ExpansionLevelRole: break;
+    case NameRole:        descr = i18nc("@item:intable", "Name"); break;
+    case SizeRole:        descr = i18nc("@item:intable", "Size"); break;
+    case DateRole:        descr = i18nc("@item:intable", "Date"); break;
+    case PermissionsRole: descr = i18nc("@item:intable", "Permissions"); break;
+    case OwnerRole:       descr = i18nc("@item:intable", "Owner"); break;
+    case GroupRole:       descr = i18nc("@item:intable", "Group"); break;
+    case TypeRole:        descr = i18nc("@item:intable", "Type"); break;
+    case DestinationRole: descr = i18nc("@item:intable", "Destination"); break;
+    case PathRole:        descr = i18nc("@item:intable", "Path"); break;
+    case CommentRole:     descr = i18nc("@item:intable", "Comment"); break;
+    case TagsRole:        descr = i18nc("@item:intable", "Tags"); break;
+    case RatingRole:      descr = i18nc("@item:intable", "Rating"); break;
+    case NoRole:          break;
+    case IsDirRole:       break;
+    case IsExpandedRole:  break;
+    case ExpandedParentsCountRole: break;
     default:                 Q_ASSERT(false); break;
     }
 
@@ -295,22 +295,22 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         timer.start();
 #endif
         switch (roleIndex(sortRole())) {
-        case NameRole:           m_groups = nameRoleGroups(); break;
-        case SizeRole:           m_groups = sizeRoleGroups(); break;
-        case DateRole:           m_groups = dateRoleGroups(); break;
-        case PermissionsRole:    m_groups = permissionRoleGroups(); break;
-        case OwnerRole:          m_groups = genericStringRoleGroups("owner"); break;
-        case GroupRole:          m_groups = genericStringRoleGroups("group"); break;
-        case TypeRole:           m_groups = genericStringRoleGroups("type"); break;
-        case DestinationRole:    m_groups = genericStringRoleGroups("destination"); break;
-        case PathRole:           m_groups = genericStringRoleGroups("path"); break;
-        case CommentRole:        m_groups = genericStringRoleGroups("comment"); break;
-        case TagsRole:           m_groups = genericStringRoleGroups("tags"); break;
-        case RatingRole:         m_groups = ratingRoleGroups(); break;
-        case NoRole:             break;
-        case IsDirRole:          break;
-        case IsExpandedRole:     break;
-        case ExpansionLevelRole: break;
+        case NameRole:        m_groups = nameRoleGroups(); break;
+        case SizeRole:        m_groups = sizeRoleGroups(); break;
+        case DateRole:        m_groups = dateRoleGroups(); break;
+        case PermissionsRole: m_groups = permissionRoleGroups(); break;
+        case OwnerRole:       m_groups = genericStringRoleGroups("owner"); break;
+        case GroupRole:       m_groups = genericStringRoleGroups("group"); break;
+        case TypeRole:        m_groups = genericStringRoleGroups("type"); break;
+        case DestinationRole: m_groups = genericStringRoleGroups("destination"); break;
+        case PathRole:        m_groups = genericStringRoleGroups("path"); break;
+        case CommentRole:     m_groups = genericStringRoleGroups("comment"); break;
+        case TagsRole:        m_groups = genericStringRoleGroups("tags"); break;
+        case RatingRole:      m_groups = ratingRoleGroups(); break;
+        case NoRole:          break;
+        case IsDirRole:       break;
+        case IsExpandedRole:  break;
+        case ExpandedParentsCountRole: break;
         default:                 Q_ASSERT(false); break;
         }
 
@@ -375,8 +375,8 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
     m_roles = roles;
 
     if (count() > 0) {
-        const bool supportedExpanding = m_requestRole[ExpansionLevelRole];
-        const bool willSupportExpanding = roles.contains("expansionLevel");
+        const bool supportedExpanding = m_requestRole[ExpandedParentsCountRole];
+        const bool willSupportExpanding = roles.contains("expandedParentsCount");
         if (supportedExpanding && !willSupportExpanding) {
             // No expanding is supported anymore. Take care to delete all items that have an expansion level
             // that is not 0 (and hence are part of an expanded item).
@@ -439,9 +439,9 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         }
 
         KFileItemList itemsToRemove;
-        const int expansionLevel = data(index)["expansionLevel"].toInt();
+        const int expandedParentsCount = data(index)["expandedParentsCount"].toInt();
         ++index;
-        while (index < count() && data(index)["expansionLevel"].toInt() > expansionLevel) {
+        while (index < count() && data(index)["expandedParentsCount"].toInt() > expandedParentsCount) {
             itemsToRemove.append(m_itemData.at(index)->item);
             ++index;
         }
@@ -466,6 +466,14 @@ bool KFileItemModel::isExpandable(int index) const
         return m_itemData.at(index)->values.value("isExpandable").toBool();
     }
     return false;
+}
+
+int KFileItemModel::expandedParentsCount(int index) const
+{
+    if (index >= 0 && index < count()) {
+        return m_itemData.at(index)->values.value("expandedParentsCount").toInt();
+    }
+    return 0;
 }
 
 QSet<KUrl> KFileItemModel::expandedUrls() const
@@ -687,7 +695,7 @@ void KFileItemModel::slotNewItems(const KFileItemList& items)
 {
     Q_ASSERT(!items.isEmpty());
 
-    if (m_requestRole[ExpansionLevelRole] && m_rootExpansionLevel >= 0) {
+    if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
         // To be able to compare whether the new items may be inserted as children
         // of a parent item the pending items must be added to the model first.
         dispatchPendingItemsToInsert();
@@ -747,7 +755,7 @@ void KFileItemModel::slotItemsDeleted(const KFileItemList& items)
     dispatchPendingItemsToInsert();
 
     KFileItemList itemsToRemove = items;
-    if (m_requestRole[ExpansionLevelRole] && m_rootExpansionLevel >= 0) {
+    if (m_requestRole[ExpandedParentsCountRole] && m_expandedParentsCountRoot >= 0) {
         // Assure that removing a parent item also results in removing all children
         foreach (const KFileItem& item, items) {
             itemsToRemove.append(childItems(item));
@@ -842,7 +850,7 @@ void KFileItemModel::slotClear()
     m_resortAllItemsTimer->stop();
     m_pendingItemsToInsert.clear();
 
-    m_rootExpansionLevel = UninitializedRootExpansionLevel;
+    m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
 
     const int removedCount = m_itemData.count();
     if (removedCount > 0) {
@@ -1031,7 +1039,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
     }
 
     if (count() <= 0) {
-        m_rootExpansionLevel = UninitializedRootExpansionLevel;
+        m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
     }
 
     itemRanges << KItemRange(removedAtIndex, removedCount);
@@ -1049,8 +1057,8 @@ QList<KFileItemModel::ItemData*> KFileItemModel::createItemDataList(const KFileI
         itemData->values = retrieveData(item);
         itemData->parent = 0;
 
-        const bool determineParent = m_requestRole[ExpansionLevelRole]
-                                     && itemData->values["expansionLevel"].toInt() > 0;
+        const bool determineParent = m_requestRole[ExpandedParentsCountRole]
+                                     && itemData->values["expandedParentsCount"].toInt() > 0;
         if (determineParent) {
             KUrl parentUrl = item.url().upUrl();
             parentUrl.adjustPath(KUrl::RemoveTrailingSlash);
@@ -1075,17 +1083,17 @@ void KFileItemModel::removeExpandedItems()
     const int maxIndex = m_itemData.count() - 1;
     for (int i = 0; i <= maxIndex; ++i) {
         const ItemData* itemData = m_itemData.at(i);
-        if (itemData->values.value("expansionLevel").toInt() > 0) {
+        if (itemData->values.value("expandedParentsCount").toInt() > 0) {
             expandedItems.append(itemData->item);
         }
     }
 
-    // The m_rootExpansionLevel may not get reset before all items with
-    // a bigger expansionLevel have been removed.
-    Q_ASSERT(m_rootExpansionLevel >= 0);
+    // The m_expandedParentsCountRoot may not get reset before all items with
+    // a bigger count have been removed.
+    Q_ASSERT(m_expandedParentsCountRoot >= 0);
     removeItems(expandedItems);
 
-    m_rootExpansionLevel = UninitializedRootExpansionLevel;
+    m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
     m_expandedUrls.clear();
 }
 
@@ -1115,7 +1123,7 @@ KFileItemModel::Role KFileItemModel::roleIndex(const QByteArray& role) const
         rolesHash.insert("isDir", IsDirRole);
         rolesHash.insert("isExpanded", IsExpandedRole);
         rolesHash.insert("isExpandable", IsExpandableRole);
-        rolesHash.insert("expansionLevel", ExpansionLevelRole);
+        rolesHash.insert("expandedParentsCount", ExpandedParentsCountRole);
     }
     return rolesHash.value(role, NoRole);
 }
@@ -1139,7 +1147,7 @@ QByteArray KFileItemModel::roleByteArray(Role role) const
         "isDir",
         "isExpanded",
         "isExpandable",
-        "expansionLevel"        
+        "expandedParentsCount"
     };
     return roles[role];
 }
@@ -1219,28 +1227,28 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
         data.insert("isExpandable", item.isDir() && item.url() == item.targetUrl());
     }
 
-    if (m_requestRole[ExpansionLevelRole]) {
-        if (m_rootExpansionLevel == UninitializedRootExpansionLevel && m_dirLister.data()) {
+    if (m_requestRole[ExpandedParentsCountRole]) {
+        if (m_expandedParentsCountRoot == UninitializedExpandedParentsCountRoot && m_dirLister.data()) {
             const KUrl rootUrl = m_dirLister.data()->url();
             const QString protocol = rootUrl.protocol();
-            const bool forceRootExpansionLevel = (protocol == QLatin1String("trash") ||
-                                                  protocol == QLatin1String("nepomuk") ||
-                                                  protocol == QLatin1String("remote") ||
-                                                  protocol.contains(QLatin1String("search")));
-            if (forceRootExpansionLevel) {
-                m_rootExpansionLevel = ForceRootExpansionLevel;
+            const bool forceExpandedParentsCountRoot = (protocol == QLatin1String("trash") ||
+                                                        protocol == QLatin1String("nepomuk") ||
+                                                        protocol == QLatin1String("remote") ||
+                                                        protocol.contains(QLatin1String("search")));
+            if (forceExpandedParentsCountRoot) {
+                m_expandedParentsCountRoot = ForceExpandedParentsCountRoot;
             } else {
                 const QString rootDir = rootUrl.path(KUrl::AddTrailingSlash);
-                m_rootExpansionLevel = rootDir.count('/');
+                m_expandedParentsCountRoot = rootDir.count('/');
             }
         }
 
-        if (m_rootExpansionLevel == ForceRootExpansionLevel) {
-            data.insert("expansionLevel", -1);
+        if (m_expandedParentsCountRoot == ForceExpandedParentsCountRoot) {
+            data.insert("expandedParentsCount", -1);
         } else {
             const QString dir = item.url().directory(KUrl::AppendTrailingSlash);
-            const int level = dir.count('/') - m_rootExpansionLevel;
-            data.insert("expansionLevel", level);
+            const int level = dir.count('/') - m_expandedParentsCountRoot;
+            data.insert("expandedParentsCount", level);
         }
     }
 
@@ -1259,8 +1267,8 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
 {
     int result = 0;
 
-    if (m_rootExpansionLevel >= 0) {
-        result = expansionLevelsCompare(a, b);
+    if (m_expandedParentsCountRoot >= 0) {
+        result = expandedParentsCountCompare(a, b);
         if (result != 0) {
             // The items have parents with different expansion levels
             return (sortOrder() == Qt::AscendingOrder) ? result < 0 : result > 0;
@@ -1528,7 +1536,7 @@ int KFileItemModel::stringCompare(const QString& a, const QString& b) const
                             : QString::compare(a, b, Qt::CaseSensitive);
 }
 
-int KFileItemModel::expansionLevelsCompare(const ItemData* a, const ItemData* b) const
+int KFileItemModel::expandedParentsCountCompare(const ItemData* a, const ItemData* b) const
 {
     const KUrl urlA = a->item.url();
     const KUrl urlB = b->item.url();
@@ -1935,9 +1943,9 @@ KFileItemList KFileItemModel::childItems(const KFileItem& item) const
 
     int index = m_items.value(item.url(), -1);
     if (index >= 0) {
-        const int parentLevel = m_itemData.at(index)->values.value("expansionLevel").toInt();
+        const int parentLevel = m_itemData.at(index)->values.value("expandedParentsCount").toInt();
         ++index;
-        while (index < m_itemData.count() && m_itemData.at(index)->values.value("expansionLevel").toInt() > parentLevel) {
+        while (index < m_itemData.count() && m_itemData.at(index)->values.value("expandedParentsCount").toInt() > parentLevel) {
             items.append(m_itemData.at(index)->item);
             ++index;
         }
