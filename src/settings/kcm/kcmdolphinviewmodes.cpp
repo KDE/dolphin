@@ -55,17 +55,17 @@ DolphinViewModesConfigModule::DolphinViewModesConfigModule(QWidget* parent, cons
     // Initialize 'Icons' tab
     ViewSettingsTab* iconsTab = new ViewSettingsTab(ViewSettingsTab::IconsMode, tabWidget);
     tabWidget->addTab(iconsTab, KIcon("view-list-icons"), i18nc("@title:tab", "Icons"));
-    connect(iconsTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(iconsTab, SIGNAL(changed()), this, SLOT(viewModeChanged()));
 
     // Initialize 'Compact' tab
     ViewSettingsTab* compactTab = new ViewSettingsTab(ViewSettingsTab::CompactMode, tabWidget);
     tabWidget->addTab(compactTab, KIcon("view-list-details"), i18nc("@title:tab", "Compact"));
-    connect(compactTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(compactTab, SIGNAL(changed()), this, SLOT(viewModeChanged()));
 
     // Initialize 'Details' tab
     ViewSettingsTab* detailsTab = new ViewSettingsTab(ViewSettingsTab::DetailsMode, tabWidget);
     tabWidget->addTab(detailsTab, KIcon("view-list-tree"), i18nc("@title:tab", "Details"));
-    connect(detailsTab, SIGNAL(changed()), this, SIGNAL(changed()));
+    connect(detailsTab, SIGNAL(changed()), this, SLOT(viewModeChanged()));
 
     m_tabs.append(iconsTab);
     m_tabs.append(compactTab);
@@ -98,6 +98,11 @@ void DolphinViewModesConfigModule::reparseConfiguration()
 {
     QDBusMessage message = QDBusMessage::createSignal("/KonqMain", "org.kde.Konqueror.Main", "reparseConfiguration");
     QDBusConnection::sessionBus().send(message);
+}
+
+void DolphinViewModesConfigModule::viewModeChanged()
+{
+    emit changed(true);
 }
 
 #include "kcmdolphinviewmodes.moc"
