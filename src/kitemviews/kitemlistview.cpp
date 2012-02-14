@@ -833,6 +833,7 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
         if (!hasMultipleRanges) {
             doLayout(animateChangedItemCount(count) ? Animation : NoAnimation, index, count);
+            updateSiblingsInformation();
         }
     }
 
@@ -841,7 +842,9 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
     }
 
     if (hasMultipleRanges) {
+        m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
+        updateSiblingsInformation();
     }
 }
 
@@ -919,6 +922,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             m_activeTransactions = 0;
             doLayout(animateChangedItemCount(count) ? Animation : NoAnimation, index, -count);
             m_activeTransactions = activeTransactions;
+            updateSiblingsInformation();
         }
     }
 
@@ -927,7 +931,9 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
     }
 
     if (hasMultipleRanges) {
+        m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
+        updateSiblingsInformation();
     }
 }
 
@@ -954,14 +960,8 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
         }
     }
 
-    if (supportsItemExpanding()) {
-        // The siblings information only gets updated in KItemListView::doLayout() if
-        // items have been inserted or removed. In the case of just moving the items
-        // the siblings must be updated manually:
-        updateSiblingsInformation(firstVisibleMovedIndex, lastVisibleMovedIndex);
-    }
-
     doLayout(NoAnimation);
+    updateSiblingsInformation();
 }
 
 void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
@@ -1353,15 +1353,9 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
 
     const int lastVisibleIndex = m_layouter->lastVisibleIndex();
 
-    int firstExpansionIndex = -1;
-    int lastExpansionIndex = -1;
+    int firstSibblingIndex = -1;
+    int lastSibblingIndex = -1;
     const bool supportsExpanding = supportsItemExpanding();
-    if (supportsExpanding && changedCount != 0) {
-        // Any inserting or removing of items might result in changing the siblings-information
-        // of other visible items.
-        firstExpansionIndex = firstVisibleIndex;
-        lastExpansionIndex = lastVisibleIndex;
-    }
 
     QList<int> reusableItems = recycleInvisibleItems(firstVisibleIndex, lastVisibleIndex, hint);
 
@@ -1409,10 +1403,10 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             }
 
             if (supportsExpanding && changedCount == 0) {
-                if (firstExpansionIndex < 0) {
-                    firstExpansionIndex = i;
+                if (firstSibblingIndex < 0) {
+                    firstSibblingIndex = i;
                 }
-                lastExpansionIndex = i;
+                lastSibblingIndex = i;
             }
         }
 
@@ -1476,8 +1470,9 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
         recycleWidget(m_visibleItems.value(index));
     }
 
-    if (supportsExpanding) {
-        updateSiblingsInformation(firstExpansionIndex, lastExpansionIndex);
+    if (supportsExpanding && firstSibblingIndex >= 0) {
+        Q_ASSERT(lastSibblingIndex >= 0);
+        updateSiblingsInformation(firstSibblingIndex, lastSibblingIndex);
     }
 
     if (m_grouped) {
@@ -1999,14 +1994,19 @@ void KItemListView::updateGroupHeaderHeight()
 
 void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
 {
-    const int firstVisibleIndex = m_layouter->firstVisibleIndex();
-    const int lastVisibleIndex  = m_layouter->lastVisibleIndex();
-    const bool isRangeVisible = firstIndex >= 0 &&
-                                lastIndex  >= firstIndex &&
-                                lastIndex  >= firstVisibleIndex &&
-                                firstIndex <= lastVisibleIndex;
-    if (!isRangeVisible) {
+    if (!supportsItemExpanding()) {
         return;
+    }
+
+    if (firstIndex < 0 || lastIndex < 0) {
+        firstIndex = m_layouter->firstVisibleIndex();
+        lastIndex  = m_layouter->lastVisibleIndex();
+    } else {
+        const bool isRangeVisible = (firstIndex <= m_layouter->lastVisibleIndex() &&
+                                     lastIndex  >= m_layouter->firstVisibleIndex());
+        if (!isRangeVisible) {
+            return;
+        }
     }
 
     int previousParents = 0;
@@ -2054,10 +2054,12 @@ void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
         }
     }
 
+    Q_ASSERT(previousParents >= 0);
     for (int i = rootIndex; i <= lastIndex; ++i) {
         // Update the parent-siblings in case if the current item represents
         // a child or an upper parent.
         const int currentParents = m_model->expandedParentsCount(i);
+        Q_ASSERT(currentParents >= 0);
         if (previousParents < currentParents) {
             previousParents = currentParents;
             previousSiblings.resize(currentParents);

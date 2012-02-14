@@ -498,10 +498,12 @@ private:
 
     /**
      * Updates the siblings-information for all visible items that are inside
-     * the range of \p firstIndex and \p lastIndex.
+     * the range of \p firstIndex and \p lastIndex. If firstIndex or lastIndex
+     * is smaller than 0, the siblings-information for all visible items gets
+     * updated.
      * @see KItemListWidget::setSiblingsInformation()
      */
-    void updateSiblingsInformation(int firstIndex, int lastIndex);
+    void updateSiblingsInformation(int firstIndex = -1, int lastIndex = -1);
 
     /**
      * Helper method for updateExpansionIndicators().

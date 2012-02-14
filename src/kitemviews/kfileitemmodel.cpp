@@ -471,7 +471,10 @@ bool KFileItemModel::isExpandable(int index) const
 int KFileItemModel::expandedParentsCount(int index) const
 {
     if (index >= 0 && index < count()) {
-        return m_itemData.at(index)->values.value("expandedParentsCount").toInt();
+        const int parentsCount = m_itemData.at(index)->values.value("expandedParentsCount").toInt();
+        if (parentsCount > 0) {
+            return parentsCount;
+        }
     }
     return 0;
 }
