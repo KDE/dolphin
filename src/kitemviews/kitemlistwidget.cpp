@@ -46,6 +46,7 @@ KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
     m_visibleRoles(),
     m_visibleRolesSizes(),
     m_styleOption(),
+    m_siblingsInfo(),
     m_hoverOpacity(0),
     m_hoverCache(0),
     m_hoverAnimation(0),
@@ -92,6 +93,7 @@ void KItemListWidget::setData(const QHash<QByteArray, QVariant>& data,
         }
         dataChanged(m_data, roles);
     }
+    update();
 }
 
 QHash<QByteArray, QVariant> KItemListWidget::data() const
@@ -167,7 +169,9 @@ void KItemListWidget::setVisibleRoles(const QList<QByteArray>& roles)
 {
     const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
+
     visibleRolesChanged(roles, previousRoles);
+    update();
 }
 
 QList<QByteArray> KItemListWidget::visibleRoles() const
@@ -179,7 +183,9 @@ void KItemListWidget::setVisibleRolesSizes(const QHash<QByteArray, QSizeF> roles
 {
     const QHash<QByteArray, QSizeF> previousRolesSizes = m_visibleRolesSizes;
     m_visibleRolesSizes = rolesSizes;
+
     visibleRolesSizesChanged(rolesSizes, previousRolesSizes);
+    update();
 }
 
 QHash<QByteArray, QSizeF> KItemListWidget::visibleRolesSizes() const
@@ -194,6 +200,7 @@ void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
     m_styleOption = option;
 
     styleOptionChanged(option, previous);
+    update();
 }
 
 const KItemListStyleOption& KItemListWidget::styleOption() const
@@ -208,7 +215,6 @@ void KItemListWidget::setSelected(bool selected)
         if (m_selectionToggle) {
             m_selectionToggle->setChecked(selected);
         }
-
         selectedChanged(selected);
         update();
     }
@@ -223,7 +229,6 @@ void KItemListWidget::setCurrent(bool current)
 {
     if (m_current != current) {
         m_current = current;
-
         currentChanged(current);
         update();
     }
@@ -265,7 +270,6 @@ void KItemListWidget::setHovered(bool hovered)
     m_hoverAnimation->start();
 
     hoveredChanged(hovered);
-
     update();
 }
 
@@ -301,6 +305,19 @@ bool KItemListWidget::enabledSelectionToggle() const
     return m_enabledSelectionToggle;
 }
 
+void KItemListWidget::setSiblingsInformation(const QBitArray& siblings)
+{
+    const QBitArray previous = m_siblingsInfo;
+    m_siblingsInfo = siblings;
+    siblingsInformationChanged(m_siblingsInfo, previous);
+    update();
+}
+
+QBitArray KItemListWidget::siblingsInformation() const
+{
+    return m_siblingsInfo;
+}
+
 bool KItemListWidget::contains(const QPointF& point) const
 {
     if (!QGraphicsWidget::contains(point)) {
@@ -328,7 +345,6 @@ void KItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
 {
     Q_UNUSED(current);
     Q_UNUSED(roles);
-    update();
 }
 
 void KItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
@@ -336,7 +352,6 @@ void KItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
-    update();
 }
 
 void KItemListWidget::visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current,
@@ -344,7 +359,6 @@ void KItemListWidget::visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& 
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
-    update();
 }
 
 void KItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
@@ -352,7 +366,6 @@ void KItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
-    update();
 }
 
 void KItemListWidget::currentChanged(bool current)
@@ -373,6 +386,12 @@ void KItemListWidget::hoveredChanged(bool hovered)
 void KItemListWidget::alternatingBackgroundColorsChanged(bool enabled)
 {
     Q_UNUSED(enabled);
+}
+
+void KItemListWidget::siblingsInformationChanged(const QBitArray& current, const QBitArray& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
 }
 
 void KItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)

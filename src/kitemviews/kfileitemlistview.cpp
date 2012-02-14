@@ -515,8 +515,8 @@ QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role)
 
     if (role == "name") {
         // Increase the width by the expansion-toggle and the current expansion level
-        const int expansionLevel = values.value("expansionLevel", 0).toInt();
-        width += option.padding + expansionLevel * itemSize().height() + KIconLoader::SizeSmall;
+        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
+        width += option.padding + expandedParentsCount * itemSize().height() + KIconLoader::SizeSmall;
 
         // Increase the width by the required space for the icon
         width += option.padding * 2 + option.iconSize;
@@ -582,7 +582,7 @@ void KFileItemListView::applyRolesToModel()
     if (m_itemLayout == DetailsLayout) {
         roles.insert("isExpanded");
         roles.insert("isExpandable");
-        roles.insert("expansionLevel");
+        roles.insert("expandedParentsCount");
     }
 
     // Assure that the role that is used for sorting will be determined

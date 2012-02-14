@@ -373,7 +373,7 @@ void KFileItemModelTest::testExpandItems()
     // yields the correct result for "a/a/1" and "a/a-1/", whis is non-trivial because they share the
     // first three characters.
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expansionLevel";
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     QStringList files;
@@ -490,7 +490,7 @@ void KFileItemModelTest::testExpandParentItems()
     // a2/b2/c2/
     // a2/b2/c2/d2/
     QSet<QByteArray> modelRoles = m_model->roles();
-    modelRoles << "isExpanded" << "isExpandable" << "expansionLevel";
+    modelRoles << "isExpanded" << "isExpandable" << "expandedParentsCount";
     m_model->setRoles(modelRoles);
 
     QStringList files;
@@ -665,7 +665,7 @@ void KFileItemModelTest::testExpansionLevelsCompare()
     b.item = itemB;
     b.parent = 0;
 
-    QCOMPARE(m_model->expansionLevelsCompare(&a, &b), result);
+    QCOMPARE(m_model->expandedParentsCountCompare(&a, &b), result);
 }
 
 void KFileItemModelTest::testIndexForKeyboardSearch()

@@ -139,6 +139,7 @@ public:
     virtual bool setExpanded(int index, bool expanded);
     virtual bool isExpanded(int index) const;
     virtual bool isExpandable(int index) const;
+    virtual int expandedParentsCount(int index) const;
 
     QSet<KUrl> expandedUrls() const;
 
@@ -208,7 +209,7 @@ private:
         IsDirRole,
         IsExpandedRole,
         IsExpandableRole,
-        ExpansionLevelRole,
+        ExpandedParentsCountRole,
         RolesCount // Mandatory last entry
     };
 
@@ -258,7 +259,7 @@ private:
     bool lessThan(const ItemData* a, const ItemData* b) const;
 
     /**
-     * Helper method for lessThan() and expansionLevelsCompare(): Compares
+     * Helper method for lessThan() and expandedParentsCountCompare(): Compares
      * the passed item-data using m_sortRole as criteria. Both items must
      * have the same parent item, otherwise the comparison will be wrong.
      */
@@ -296,10 +297,10 @@ private:
      * is not sufficient, it is also important to check the hierarchy for having
      * a correct order like shown in a tree.
      */
-    int expansionLevelsCompare(const ItemData* a, const ItemData* b) const;
+    int expandedParentsCountCompare(const ItemData* a, const ItemData* b) const;
 
     /**
-     * Helper method for expansionLevelCompare().
+     * Helper method for expandedParentsCountCompare().
      */
     QString subPath(const KFileItem& item,
                     const QString& itemPath,
@@ -358,19 +359,19 @@ private:
     mutable QList<QPair<int, QVariant> > m_groups;
 
     // Stores the smallest expansion level of the root-URL. Is required to calculate
-    // the "expansionLevel" role in an efficient way. A value < 0 indicates a
+    // the "expandedParentsCount" role in an efficient way. A value < 0 indicates a
     // special meaning:
-    enum RootExpansionLevelTypes
+    enum ExpandedParentsCountRootTypes
     {
-        // m_rootExpansionLevel is uninitialized and must be determined by checking
+        // m_expandedParentsCountRoot is uninitialized and must be determined by checking
         // the root URL from the KDirLister.
-        UninitializedRootExpansionLevel = -1,
-        // All items should be forced to get an expansion level of 0 even if they
+        UninitializedExpandedParentsCountRoot = -1,
+        // All items should be forced to get an expanded parents count of 0 even if they
         // represent child items. This is useful for slaves that provide no parent items
         // for child items like e.g. the search IO slaves.
-        ForceRootExpansionLevel = -2
+        ForceExpandedParentsCountRoot = -2
     };
-    mutable int m_rootExpansionLevel;
+    mutable int m_expandedParentsCountRoot;
 
     // Stores the URLs of the expanded folders.
     QSet<KUrl> m_expandedUrls;
@@ -384,7 +385,7 @@ private:
 
 inline bool KFileItemModel::isChildItem(int index) const
 {
-    return m_requestRole[ExpansionLevelRole] && m_itemData.at(index)->values.value("expansionLevel").toInt() > 0;
+    return m_requestRole[ExpandedParentsCountRole] && m_itemData.at(index)->values.value("expandedParentsCount").toInt() > 0;
 }
 
 #endif

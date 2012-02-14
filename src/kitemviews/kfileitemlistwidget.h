@@ -86,6 +86,7 @@ protected:
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void hoveredChanged(bool hovered);
     virtual void selectedChanged(bool selected);
+    virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
     virtual void showEvent(QShowEvent* event);
     virtual void hideEvent(QHideEvent* event);
@@ -119,6 +120,7 @@ private:
     void updateAdditionalInfoTextColor();
 
     void drawPixmap(QPainter* painter, const QPixmap& pixmap);
+    void drawSiblingsInformation(QPainter* painter);
 
     static QPixmap pixmapForIcon(const QString& name, int size);
     static TextId roleTextId(const QByteArray& role);

@@ -94,13 +94,8 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
     KItemListWidget::paint(painter, option, widget);
 
-    // Draw expansion toggle '>' or 'V'
-    if (m_isExpandable && !m_expansionArea.isEmpty()) {
-        QStyleOption arrowOption;
-        arrowOption.rect = m_expansionArea.toRect();
-        const QStyle::PrimitiveElement arrow = data()["isExpanded"].toBool()
-                                               ? QStyle::PE_IndicatorArrowDown : QStyle::PE_IndicatorArrowRight;
-        style()->drawPrimitive(arrow, &arrowOption, painter);
+    if (!m_expansionArea.isEmpty()) {
+        drawSiblingsInformation(painter);
     }
 
     const KItemListStyleOption& itemListStyleOption = styleOption();
@@ -309,7 +304,8 @@ QPixmap KFileItemListWidget::overlay() const
 void KFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current,
                                       const QSet<QByteArray>& roles)
 {
-    KItemListWidget::dataChanged(current, roles);
+    Q_UNUSED(current);
+
     m_dirtyContent = true;
 
     QSet<QByteArray> dirtyRoles;
@@ -331,7 +327,7 @@ void KFileItemListWidget::dataChanged(const QHash<QByteArray, QVariant>& current
 void KFileItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
                                               const QList<QByteArray>& previous)
 {
-    KItemListWidget::visibleRolesChanged(current, previous);
+    Q_UNUSED(previous);
     m_sortedVisibleRoles = current;
     m_dirtyLayout = true;
 }
@@ -339,14 +335,16 @@ void KFileItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
 void KFileItemListWidget::visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current,
                                                    const QHash<QByteArray, QSizeF>& previous)
 {
-    KItemListWidget::visibleRolesSizesChanged(current, previous);
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
     m_dirtyLayout = true;
 }
 
 void KFileItemListWidget::styleOptionChanged(const KItemListStyleOption& current,
                                              const KItemListStyleOption& previous)
 {
-    KItemListWidget::styleOptionChanged(current, previous);
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
     updateAdditionalInfoTextColor();
     m_dirtyLayout = true;
 }
@@ -362,6 +360,14 @@ void KFileItemListWidget::selectedChanged(bool selected)
     Q_UNUSED(selected);
     updateAdditionalInfoTextColor();
 }
+
+void KFileItemListWidget::siblingsInformationChanged(const QBitArray& current, const QBitArray& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    m_dirtyLayout = true;
+}
+
 
 void KFileItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
@@ -428,15 +434,14 @@ void KFileItemListWidget::updateExpansionArea()
 {
     if (m_layout == DetailsLayout) {
         const QHash<QByteArray, QVariant> values = data();
-        Q_ASSERT(values.contains("expansionLevel"));
-        const KItemListStyleOption& option = styleOption();
-        const int expansionLevel = values.value("expansionLevel", 0).toInt();
-        if (expansionLevel >= 0) {
+        Q_ASSERT(values.contains("expandedParentsCount"));
+        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
+        if (expandedParentsCount >= 0) {
             const qreal widgetHeight = size().height();
-            const qreal expansionLevelSize = KIconLoader::SizeSmall;
-            const qreal x = option.padding + expansionLevel * widgetHeight;
-            const qreal y = (widgetHeight - expansionLevelSize) / 2;
-            m_expansionArea = QRectF(x, y, expansionLevelSize, expansionLevelSize);
+            const qreal inc = (widgetHeight - KIconLoader::SizeSmall) / 2;
+            const qreal x = expandedParentsCount * widgetHeight + inc;
+            const qreal y = inc;
+            m_expansionArea = QRectF(x, y, KIconLoader::SizeSmall, KIconLoader::SizeSmall);
             return;
         }
     }
@@ -746,7 +751,8 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     const int fontHeight = option.fontMetrics.height();
 
     const qreal columnPadding = option.padding * 3;
-    const qreal firstColumnInc = m_expansionArea.right() + option.padding * 2 + scaledIconSize;
+    const qreal firstColumnInc = (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2
+                                 + scaledIconSize;
     qreal x = firstColumnInc;
     const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
 
@@ -828,6 +834,37 @@ void KFileItemListWidget::drawPixmap(QPainter* painter, const QPixmap& pixmap)
 #endif
     } else {
         painter->drawPixmap(m_pixmapPos, pixmap);
+    }
+}
+
+void KFileItemListWidget::drawSiblingsInformation(QPainter* painter)
+{
+    const int siblingSize = size().height();
+    const int x = (m_expansionArea.left() + m_expansionArea.right() - siblingSize) / 2;
+    QRect siblingRect(x, 0, siblingSize, siblingSize);
+
+    QStyleOption option;
+    bool isItemSibling = true;
+
+    const QBitArray siblings = siblingsInformation();
+    for (int i = siblings.count() - 1; i >= 0; --i) {
+        option.rect = siblingRect;
+        option.state = siblings.at(i) ? QStyle::State_Sibling : QStyle::State_None;
+
+        if (isItemSibling) {
+            option.state |= QStyle::State_Item;
+            if (m_isExpandable) {
+                option.state |= QStyle::State_Children;
+            }
+            if (data()["isExpanded"].toBool()) {
+                option.state |= QStyle::State_Open;
+            }
+            isItemSibling = false;
+        }
+
+        style()->drawPrimitive(QStyle::PE_IndicatorBranch, &option, painter);
+
+        siblingRect.translate(-siblingRect.width(), 0);
     }
 }
 

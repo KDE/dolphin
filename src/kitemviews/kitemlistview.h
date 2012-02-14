@@ -497,6 +497,20 @@ private:
     void updateGroupHeaderHeight();
 
     /**
+     * Updates the siblings-information for all visible items that are inside
+     * the range of \p firstIndex and \p lastIndex.
+     * @see KItemListWidget::setSiblingsInformation()
+     */
+    void updateSiblingsInformation(int firstIndex, int lastIndex);
+
+    /**
+     * Helper method for updateExpansionIndicators().
+     * @return True if the item with the index \a index has a sibling successor
+     *         (= the item is not the last item of the current hierarchy).
+     */
+    bool hasSiblingSuccessor(int index) const;
+
+    /**
      * Helper function for triggerAutoScrolling().
      * @param pos    Logical position of the mouse relative to the range.
      * @param range  Range of the visible area.

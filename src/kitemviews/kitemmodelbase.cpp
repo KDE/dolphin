@@ -128,6 +128,12 @@ bool KItemModelBase::isExpandable(int index) const
     return false;
 }
 
+int KItemModelBase::expandedParentsCount(int index) const
+{
+    Q_UNUSED(index);
+    return 0;
+}
+
 QMimeData* KItemModelBase::createMimeData(const QSet<int>& indexes) const
 {
     Q_UNUSED(indexes);

@@ -27,6 +27,7 @@
 
 #include <kitemviews/kitemliststyleoption.h>
 
+#include <QBitArray>
 #include <QGraphicsWidget>
 #include <QStyle>
 
@@ -88,6 +89,16 @@ public:
     bool enabledSelectionToggle() const;
 
     /**
+     * Sets the sibling information for the item and all of its parents.
+     * The sibling information of the upper most parent is represented by
+     * the first bit, the sibling information of the item by the last bit.
+     * The sibling information is useful for drawing the branches in
+     * tree views.
+     */
+    void setSiblingsInformation(const QBitArray& siblings);
+    QBitArray siblingsInformation() const;
+
+    /**
      * @return True if \a point is inside KItemListWidget::hoverRect(),
      *         KItemListWidget::textRect(), KItemListWidget::selectionToggleRect()
      *         or KItemListWidget::expansionToggleRect().
@@ -128,6 +139,7 @@ protected:
     virtual void selectedChanged(bool selected);
     virtual void hoveredChanged(bool hovered);
     virtual void alternatingBackgroundColorsChanged(bool enabled);
+    virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);    
 
     /**
@@ -158,6 +170,7 @@ private:
     QList<QByteArray> m_visibleRoles;
     QHash<QByteArray, QSizeF> m_visibleRolesSizes;
     KItemListStyleOption m_styleOption;
+    QBitArray m_siblingsInfo;
 
     qreal m_hoverOpacity;
     mutable QPixmap* m_hoverCache;
