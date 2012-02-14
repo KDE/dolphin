@@ -105,8 +105,6 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 {
     Q_UNUSED(option);
 
-    painter->setRenderHint(QPainter::Antialiasing);
-
     if (m_alternatingBackgroundColors && (m_index & 0x1)) {
         const QColor backgroundColor = m_styleOption.palette.color(QPalette::AlternateBase);
         const QRectF backgroundRect(0, 0, size().width(), size().height());

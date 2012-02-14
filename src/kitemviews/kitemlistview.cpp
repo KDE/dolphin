@@ -954,6 +954,13 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
         }
     }
 
+    if (supportsItemExpanding()) {
+        // The siblings information only gets updated in KItemListView::doLayout() if
+        // items have been inserted or removed. In the case of just moving the items
+        // the siblings must be updated manually:
+        updateSiblingsInformation(firstVisibleMovedIndex, lastVisibleMovedIndex);
+    }
+
     doLayout(NoAnimation);
 }
 
@@ -2079,21 +2086,35 @@ void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
 
 bool KItemListView::hasSiblingSuccessor(int index) const
 {
+    bool hasSuccessor = false;
     const int parentsCount = m_model->expandedParentsCount(index);
-    ++index;
+    int successorIndex = index + 1;
 
+    // Search the next sibling
     const int itemCount = m_model->count();
-    while (index < itemCount) {
-        const int currentParentsCount = m_model->expandedParentsCount(index);
+    while (successorIndex < itemCount) {
+        const int currentParentsCount = m_model->expandedParentsCount(successorIndex);
         if (currentParentsCount == parentsCount) {
-            return true;
+            hasSuccessor = true;
+            break;
         } else if (currentParentsCount < parentsCount) {
-            return false;
+            break;
         }
-        ++index;
+        ++successorIndex;
     }
 
-    return false;
+    if (m_grouped && hasSuccessor) {
+        // If the sibling is part of another group, don't mark it as
+        // successor as the group header is between the sibling connections.
+        for (int i = index + 1; i <= successorIndex; ++i) {
+            if (m_layouter->isFirstGroupItem(i)) {
+                hasSuccessor = false;
+                break;
+            }
+        }
+    }
+
+    return hasSuccessor;
 }
 
 int KItemListView::calculateAutoScrollingIncrement(int pos, int range, int oldInc)
