@@ -41,6 +41,9 @@ public:
 private:
     void reparseConfiguration();
 
+private Q_SLOTS:
+   void viewModeChanged();
+
 private:
     QList<ViewSettingsTab*> m_tabs;
 };
