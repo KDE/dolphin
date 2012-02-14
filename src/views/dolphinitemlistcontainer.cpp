@@ -206,7 +206,7 @@ void DolphinItemListContainer::updateGridSize()
     m_zoomLevel = ZoomLevelInfo::zoomLevelForIconSize(QSize(iconSize, iconSize));
     KItemListStyleOption styleOption = m_fileItemListView->styleOption();
 
-    int padding = 2;
+    const int padding = 2;
     int horizontalMargin = 0;
     int verticalMargin = 0;
 
@@ -246,7 +246,6 @@ void DolphinItemListContainer::updateGridSize()
     case KFileItemListView::DetailsLayout: {
         itemWidth = -1;
         itemHeight = padding * 2 + qMax(iconSize, styleOption.fontMetrics.height());
-        padding = 3;
         break;
     }
     default:

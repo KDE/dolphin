@@ -133,7 +133,7 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
 
     if (m_scrollOrientation == Qt::Horizontal) {
         painter->setPen(m_lineColor);
-        const qreal x = m_roleBounds.x() - m_styleOption.padding;
+        const qreal x = m_roleBounds.x() - 2 * m_styleOption.padding;
         painter->drawLine(x, 0, x, size().height() - 1);
 
     } else if (m_itemIndex > 0) {
@@ -200,16 +200,18 @@ void KItemListGroupHeader::updateCache()
     const QColor c1 = m_styleOption.palette.text().color();
     const QColor c2 = m_styleOption.palette.base().color();
     m_lineColor = mixedColor(c1, c2, 10);
-    m_roleColor = mixedColor(c1, c2, 50);
+    m_roleColor = mixedColor(c1, c2, 70);
 
+    int padding = m_styleOption.padding;
     int horizontalMargin = 0;
     if (m_scrollOrientation == Qt::Vertical) {
         // The x-position of the group-header-widget will always be 0,
         // Add a minimum margin.
         horizontalMargin = qMax(2, m_styleOption.horizontalMargin);
+    } else {
+        padding *= 2;
     }
 
-    const int padding = qMax(2, m_styleOption.padding);
     const QFontMetrics fontMetrics(m_styleOption.font);
     const qreal roleHeight = fontMetrics.height();
 
