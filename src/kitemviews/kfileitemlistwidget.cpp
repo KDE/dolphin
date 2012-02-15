@@ -780,8 +780,11 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
 
         switch (textId) {
         case Name: {
+            const qreal textWidth = option.extendedSelectionRegion
+                                    ? size().width() - m_textPos[textId].x()
+                                    : requiredWidth + 2 * option.padding;
             m_textRect = QRectF(m_textPos[textId].x() - option.padding, 0,
-                                        requiredWidth + 2 * option.padding, size().height());
+                                textWidth, size().height());
 
             // The column after the name should always be aligned on the same x-position independent
             // from the expansion-level shown in the name column

@@ -105,34 +105,38 @@ void TreeViewContextMenu::open()
         }
 
         popup->addSeparator();
+    }
 
+    // insert 'Show Hidden Files'
+    QAction* showHiddenFilesAction = new QAction(i18nc("@action:inmenu", "Show Hidden Files"), this);
+    showHiddenFilesAction->setCheckable(true);
+    showHiddenFilesAction->setChecked(m_parent->showHiddenFiles());
+    popup->addAction(showHiddenFilesAction);
+    connect(showHiddenFilesAction, SIGNAL(toggled(bool)), this, SLOT(setShowHiddenFiles(bool)));
+
+    // insert 'Automatic Scrolling'
+    QAction* autoScrollingAction = new QAction(i18nc("@action:inmenu", "Automatic Scrolling"), this);
+    autoScrollingAction->setCheckable(true);
+    autoScrollingAction->setChecked(m_parent->autoScrolling());
+    // TODO: Temporary disabled. Horizontal autoscrolling will be implemented later either
+    // in KItemViews or manually as part of the FoldersPanel
+    //popup->addAction(autoScrollingAction);
+    connect(autoScrollingAction, SIGNAL(toggled(bool)), this, SLOT(setAutoScrolling(bool)));
+    
+    if (!m_fileItem.isNull()) {
         // insert 'Properties' entry
         QAction* propertiesAction = new QAction(i18nc("@action:inmenu", "Properties"), this);
         propertiesAction->setIcon(KIcon("document-properties"));
         connect(propertiesAction, SIGNAL(triggered()), this, SLOT(showProperties()));
         popup->addAction(propertiesAction);
+    }
 
+    QList<QAction*> customActions = m_parent->customContextMenuActions();
+    if (!customActions.isEmpty()) {       
         popup->addSeparator();
-    }
-
-    if (m_fileItem.isNull()) {
-        QAction* showHiddenFilesAction = new QAction(i18nc("@action:inmenu", "Show Hidden Files"), this);
-        showHiddenFilesAction->setCheckable(true);
-        showHiddenFilesAction->setChecked(m_parent->showHiddenFiles());
-        popup->addAction(showHiddenFilesAction);
-        connect(showHiddenFilesAction, SIGNAL(toggled(bool)), this, SLOT(setShowHiddenFiles(bool)));
-
-        QAction* autoScrollingAction = new QAction(i18nc("@action:inmenu", "Automatic Scrolling"), this);
-        autoScrollingAction->setCheckable(true);
-        autoScrollingAction->setChecked(m_parent->autoScrolling());
-        // TODO: Temporary disabled. Horizontal autoscrolling will be implemented later either
-        // in KItemViews or manually as part of the FoldersPanel
-        //popup->addAction(autoScrollingAction);
-        connect(autoScrollingAction, SIGNAL(toggled(bool)), this, SLOT(setAutoScrolling(bool)));
-    }
-
-    foreach (QAction* action, m_parent->customContextMenuActions()) {
-        popup->addAction(action);
+        foreach (QAction* action, customActions) {
+            popup->addAction(action);
+        }
     }
 
     QWeakPointer<KMenu> popupPtr = popup;

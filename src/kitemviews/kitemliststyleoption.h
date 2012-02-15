@@ -42,6 +42,7 @@ public:
     int horizontalMargin;
     int verticalMargin;
     int iconSize;
+    bool extendedSelectionRegion;
 };
 #endif
 

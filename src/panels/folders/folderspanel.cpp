@@ -146,6 +146,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         KItemListStyleOption styleOption = view->styleOption();
         styleOption.padding = 2;
         styleOption.iconSize = KIconLoader::SizeSmall;
+        styleOption.extendedSelectionRegion = true;
         view->setStyleOption(styleOption);
 
         const qreal itemHeight = qMax(int(KIconLoader::SizeSmall), styleOption.fontMetrics.height());
