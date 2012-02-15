@@ -29,7 +29,8 @@ KItemListStyleOption::KItemListStyleOption() :
     padding(0),
     horizontalMargin(0),
     verticalMargin(0),
-    iconSize(KIconLoader::SizeMedium)
+    iconSize(KIconLoader::SizeMedium),
+    extendedSelectionRegion(false)
 {
 }
 
@@ -41,7 +42,8 @@ KItemListStyleOption::KItemListStyleOption(const KItemListStyleOption& other) :
     padding(other.padding),
     horizontalMargin(other.horizontalMargin),
     verticalMargin(other.verticalMargin),
-    iconSize(other.iconSize)
+    iconSize(other.iconSize),
+    extendedSelectionRegion(other.extendedSelectionRegion)
 {
 }
 
