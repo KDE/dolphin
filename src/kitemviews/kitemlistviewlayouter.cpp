@@ -392,15 +392,15 @@ void KItemListViewLayouter::doLayout()
                     // The item is the first item of a group.
                     // Increase the y-position to provide space
                     // for the group header.
-                    if (index == 0) {
-                        // The first group header should be aligned on top
-                        y -= itemMargin.height();
-                    } else {
+                    if (index > 0) {
                         // Only add a margin if there has been added another
                         // group already before
                         y += m_groupHeaderMargin;
+                    } else if (!horizontalScrolling) {
+                        // The first group header should be aligned on top
+                        y -= itemMargin.height();
                     }
-                    
+
                     if (!horizontalScrolling) {
                         y += m_groupHeaderHeight;
                     }
