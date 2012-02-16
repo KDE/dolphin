@@ -257,14 +257,36 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
         return QRectF();
     }
 
-    pos.ry() -= m_groupHeaderHeight;
-
     QSizeF size;
     if (m_scrollOrientation == Qt::Vertical) {
         pos.rx() = 0;
+        pos.ry() -= m_groupHeaderHeight;
         size = QSizeF(m_size.width(), m_groupHeaderHeight);
     } else {
-        size = QSizeF(minimumGroupHeaderWidth(), m_groupHeaderHeight);
+        pos.rx() -= m_itemMargin.width();
+        pos.ry() = 0;
+        
+        // Determine the maximum width used in the
+        // current column. As the scroll-direction is
+        // Qt::Horizontal and m_itemRects is accessed directly,
+        // the logical height represents the visual width.
+        qreal width = minimumGroupHeaderWidth();
+        const qreal y = m_itemRects[index].y();
+        const int maxIndex = m_itemRects.count() - 1;
+        while (index <= maxIndex) {
+            QRectF bounds = m_itemRects[index];
+            if (bounds.y() != y) {
+                break;
+            }
+            
+            if (bounds.height() > width) {
+                width = bounds.height();
+            }
+            
+            ++index;           
+        }
+        
+        size = QSizeF(width, m_size.height());
     }
     return QRectF(pos, size);
 }
@@ -324,7 +346,7 @@ void KItemListViewLayouter::doLayout()
                 // In the horizontal scrolling case all groups are aligned
                 // at the top, which decreases the available height. For the
                 // flipped data this means that the width must be decreased.
-                size.rwidth() -= m_groupHeaderMargin + m_groupHeaderHeight;
+                size.rwidth() -= m_groupHeaderHeight;
             }
         }
 
@@ -363,10 +385,10 @@ void KItemListViewLayouter::doLayout()
                 if (horizontalScrolling) {
                     // All group headers will always be aligned on the top and not
                     // flipped like the other properties
-                    x +=  m_groupHeaderMargin + m_groupHeaderHeight;
+                    x += m_groupHeaderHeight;
                 }
 
-                if (m_groupItemIndexes.contains(index) && !horizontalScrolling) {
+                if (m_groupItemIndexes.contains(index)) {
                     // The item is the first item of a group.
                     // Increase the y-position to provide space
                     // for the group header.
@@ -378,7 +400,10 @@ void KItemListViewLayouter::doLayout()
                         // group already before
                         y += m_groupHeaderMargin;
                     }
-                    y += m_groupHeaderHeight;
+                    
+                    if (!horizontalScrolling) {
+                        y += m_groupHeaderHeight;
+                    }
                 }
             }
 
@@ -561,7 +586,7 @@ bool KItemListViewLayouter::createGroupHeaders()
 
 qreal KItemListViewLayouter::minimumGroupHeaderWidth() const
 {
-    return m_groupHeaderHeight * 15 / 2;
+    return 100;
 }
 
 #include "kitemlistviewlayouter_p.moc"
