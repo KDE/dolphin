@@ -1720,7 +1720,7 @@ void KItemListView::updateGroupHeaderLayout(KItemListWidget* widget)
         groupHeader->setPos(-widget->x(), -groupHeaderRect.height());
         groupHeader->resize(size().width(), groupHeaderRect.size().height());
     } else {
-        groupHeader->setPos(groupHeaderRect.x() - itemRect.x(), -groupHeaderRect.height());
+        groupHeader->setPos(groupHeaderRect.x() - itemRect.x(), -widget->y());
         groupHeader->resize(groupHeaderRect.size());
     }
 }
@@ -1976,15 +1976,21 @@ bool KItemListView::scrollBarRequired(const QSizeF& size) const
 
 void KItemListView::updateGroupHeaderHeight()
 {
-    const qreal groupHeaderHeight = m_styleOption.fontMetrics.height() + m_styleOption.padding * 2;
-
+    qreal groupHeaderHeight = m_styleOption.fontMetrics.height();
     qreal groupHeaderMargin = 0;
+    
     if (scrollOrientation() == Qt::Horizontal) {
+        // The vertical margin above and below the header should be
+        // equal to the horizontal margin, not the vertical margin
+        // from m_styleOption.
+        groupHeaderHeight += 2 * m_styleOption.horizontalMargin;
         groupHeaderMargin = m_styleOption.horizontalMargin;
     } else if (m_itemSize.isEmpty()){
-        groupHeaderMargin = groupHeaderHeight / 2;
+        groupHeaderHeight += 2 * m_styleOption.padding;
+        groupHeaderMargin = m_styleOption.iconSize / 2;
     } else {
-        groupHeaderMargin = m_styleOption.verticalMargin * 2;
+        groupHeaderHeight += 2 * m_styleOption.padding;
+        groupHeaderMargin = m_styleOption.iconSize / 4;
     }
     m_layouter->setGroupHeaderHeight(groupHeaderHeight);
     m_layouter->setGroupHeaderMargin(groupHeaderMargin);

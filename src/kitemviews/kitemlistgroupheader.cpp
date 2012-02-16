@@ -131,15 +131,17 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
         updateCache();
     }
 
+    if (m_itemIndex == 0) {
+        // No top- or left-line should be drawn for the first group-header
+        return;
+    }
+    
+    painter->setPen(m_lineColor);
+    
     if (m_scrollOrientation == Qt::Horizontal) {
-        painter->setPen(m_lineColor);
-        const qreal x = m_roleBounds.x() - 2 * m_styleOption.padding;
-        painter->drawLine(x, 0, x, size().height() - 1);
-
-    } else if (m_itemIndex > 0) {
-        painter->setPen(m_lineColor);
-        const qreal y = m_roleBounds.y() - m_styleOption.padding;
-        painter->drawLine(0, y, size().width() - 1, y);
+        painter->drawLine(0, 0, 0, size().height() - 1);
+    } else {
+        painter->drawLine(0, 0, size().width() - 1, 0);
     }
 }
 
@@ -202,22 +204,17 @@ void KItemListGroupHeader::updateCache()
     m_lineColor = mixedColor(c1, c2, 10);
     m_roleColor = mixedColor(c1, c2, 70);
 
-    int padding = m_styleOption.padding;
-    int horizontalMargin = 0;
-    if (m_scrollOrientation == Qt::Vertical) {
-        // The x-position of the group-header-widget will always be 0,
-        // Add a minimum margin.
-        horizontalMargin = qMax(2, m_styleOption.horizontalMargin);
-    } else {
-        padding *= 2;
-    }
+    const int padding = qMax(1, m_styleOption.padding);
+    const int horizontalMargin = qMax(2, m_styleOption.horizontalMargin);
 
     const QFontMetrics fontMetrics(m_styleOption.font);
     const qreal roleHeight = fontMetrics.height();
+    
+    const int y = (m_scrollOrientation == Qt::Vertical) ? padding : horizontalMargin;
 
     m_roleBounds = QRectF(horizontalMargin + padding,
-                          size().height() - roleHeight - padding,
-                          size().width() - 2 * (horizontalMargin + padding),
+                          y,
+                          size().width() - 2 * padding - horizontalMargin,
                           roleHeight);
 
     m_dirtyCache = false;
