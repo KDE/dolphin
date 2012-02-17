@@ -67,6 +67,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_styleOption(),
     m_visibleItems(),
     m_visibleGroups(),
+    m_visibleCells(),
     m_sizeHintResolver(0),
     m_layouter(0),
     m_animation(0),
@@ -775,6 +776,11 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         beginTransaction();
     }
 
+    // Important: Don't read any m_layouter-property inside the for-loop in case if
+    // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
+    // updated in each loop-cycle and has only a consistent state after the loop.
+    m_layouter->markAsDirty();
+
     int previouslyInsertedCount = 0;
     foreach (const KItemRange& range, itemRanges) {
         // range.index is related to the model before anything has been inserted.
@@ -808,10 +814,14 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         for (int i = itemsToMove.count() - 1; i >= 0; --i) {
             KItemListWidget* widget = m_visibleItems.value(itemsToMove[i]);
             Q_ASSERT(widget);
-            setWidgetIndex(widget, widget->index() + count);
+            if (hasMultipleRanges) {
+                setWidgetIndex(widget, widget->index() + count);
+            } else {
+                // Try to animate the moving of the item
+                moveWidgetToIndex(widget, widget->index() + count);
+            }
         }
 
-        m_layouter->markAsDirty();
         if (m_model->count() == count && m_activeTransactions == 0) {
             // Check whether a scrollbar is required to show the inserted items. In this case
             // the size of the layouter will be decreased before calling doLayout(): This prevents
@@ -856,6 +866,11 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
     if (hasMultipleRanges) {
         beginTransaction();
     }
+
+    // Important: Don't read any m_layouter-property inside the for-loop in case if
+    // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
+    // updated in each loop-cycle and has only a consistent state after the loop.
+    m_layouter->markAsDirty();
 
     for (int i = itemRanges.count() - 1; i >= 0; --i) {
         const KItemRange& range = itemRanges.at(i);
@@ -908,11 +923,15 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
             KItemListWidget* widget = m_visibleItems.value(i);
             if (widget) {
                 const int newIndex = i - count;
-                setWidgetIndex(widget, newIndex);
+                if (hasMultipleRanges) {
+                    setWidgetIndex(widget, newIndex);
+                } else {
+                    // Try to animate the moving of the item
+                    moveWidgetToIndex(widget, newIndex);
+                }
             }
         }
 
-        m_layouter->markAsDirty();
         if (!hasMultipleRanges) {
             // The decrease-layout-size optimization in KItemListView::slotItemsInserted()
             // assumes an updated geometry. If items are removed during an active transaction,
@@ -1164,10 +1183,11 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
         m_layouter->setItemSize(dynamicItemSize);
 
         // Update the role sizes for all visible widgets
-        foreach (KItemListWidget* widget, visibleItemListWidgets()) {
-            widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
+        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+        while (it.hasNext()) {
+            it.next();
+            it.value()->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
         }
-
         doLayout(NoAnimation);
     }
 }
@@ -1415,7 +1435,7 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
             const bool itemsInserted = (changedCount > 0);
             if (itemsRemoved && (i >= changedIndex + changedCount + 1)) {
                 // The item is located after the removed items. Animate the moving of the position.
-                applyNewPos = !moveWidget(widget, itemBounds);
+                applyNewPos = !moveWidget(widget, newPos);
             } else if (itemsInserted && i >= changedIndex) {
                 // The item is located after the first inserted item
                 if (i <= changedIndex + changedCount - 1) {
@@ -1429,11 +1449,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                     // The item was already there before, so animate the moving of the position.
                     // No moving animation is done if the item is animated by a create animation: This
                     // prevents a "move animation mess" when inserting several ranges in parallel.
-                    applyNewPos = !moveWidget(widget, itemBounds);
+                    applyNewPos = !moveWidget(widget, newPos);
                 }
             } else if (!itemsRemoved && !itemsInserted && !wasHidden) {
                 // The size of the view might have been changed. Animate the moving of the position.
-                applyNewPos = !moveWidget(widget, itemBounds);
+                applyNewPos = !moveWidget(widget, newPos);
             }
         } else {
             m_animation->stop(widget);
@@ -1463,6 +1483,11 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                 widget->resize(itemBounds.size());
             }
         }
+
+        // Updating the cell-information must be done as last step: The decision whether the
+        // moving-animation should be started at all is based on the previous cell-information.
+        const Cell cell(m_layouter->itemColumn(i), m_layouter->itemRow(i));
+        m_visibleCells.insert(i, cell);
     }
 
     // Delete invisible KItemListWidget instances that have not been reused
@@ -1528,29 +1553,25 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex,
     return items;
 }
 
-bool KItemListView::moveWidget(KItemListWidget* widget,const QRectF& itemBounds)
+bool KItemListView::moveWidget(KItemListWidget* widget,const QPointF& newPos)
 {
-    const QPointF oldPos = widget->pos();
-    const QPointF newPos = itemBounds.topLeft();
-    if (oldPos == newPos) {
+    if (widget->pos() == newPos) {
         return false;
     }
     
-    bool startMovingAnim = m_itemSize.isEmpty() || widget->size() != itemBounds.size();
-    if (!startMovingAnim) {
-        // When having a grid the moving-animation should only be started, if it is done within
-        // one row in the vertical scroll-orientation or one column in the horizontal scroll-orientation.
-        // Otherwise instead of a moving-animation a create-animation on the new position will be used
-        // instead. This is done to prevent overlapping (and confusing) moving-animations.
-        const QSizeF itemMargin = m_layouter->itemMargin();
-        const qreal xMax = m_itemSize.width() + itemMargin.width();
-        const qreal yMax = m_itemSize.height() + itemMargin.height();
-        qreal xDiff = qAbs(oldPos.x() - newPos.x());
-        qreal yDiff = qAbs(oldPos.y() - newPos.y());
+    bool startMovingAnim = false;
+
+    // When having a grid the moving-animation should only be started, if it is done within
+    // one row in the vertical scroll-orientation or one column in the horizontal scroll-orientation.
+    // Otherwise instead of a moving-animation a create-animation on the new position will be used
+    // instead. This is done to prevent overlapping (and confusing) moving-animations.
+    const int index = widget->index();
+    const Cell cell = m_visibleCells.value(index);
+    if (cell.column >= 0 && cell.row >= 0) {
         if (scrollOrientation() == Qt::Vertical) {
-            startMovingAnim = (xDiff > yDiff && yDiff < yMax);
+            startMovingAnim = (cell.row == m_layouter->itemRow(index));
         } else {
-            startMovingAnim = (yDiff > xDiff && xDiff < xMax);
+            startMovingAnim = (cell.column == m_layouter->itemColumn(index));
         }
     }
 
@@ -1598,6 +1619,7 @@ KItemListWidget* KItemListView::createWidget(int index)
 
     updateWidgetProperties(widget, index);
     m_visibleItems.insert(index, widget);
+    m_visibleCells.insert(index, Cell());
 
     if (m_grouped) {
         updateGroupHeaderForWidget(widget);
@@ -1613,18 +1635,42 @@ void KItemListView::recycleWidget(KItemListWidget* widget)
         recycleGroupHeaderForWidget(widget);
     }
 
-    m_visibleItems.remove(widget->index());
+    const int index = widget->index();
+    m_visibleItems.remove(index);
+    m_visibleCells.remove(index);
+
     m_widgetCreator->recycle(widget);
 }
 
 void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
 {
     const int oldIndex = widget->index();
+
     m_visibleItems.remove(oldIndex);
+    m_visibleCells.remove(oldIndex);
+
     updateWidgetProperties(widget, index);
+
     m_visibleItems.insert(index, widget);
+    m_visibleCells.insert(index, Cell());
 
     initializeItemListWidget(widget);
+}
+
+void KItemListView::moveWidgetToIndex(KItemListWidget* widget, int index)
+{
+    const int oldIndex = widget->index();
+    const Cell oldCell = m_visibleCells.value(oldIndex);
+
+    setWidgetIndex(widget, index);
+
+    const Cell newCell(m_layouter->itemColumn(index), m_layouter->itemRow(index));
+    const bool vertical = (scrollOrientation() == Qt::Vertical);
+    const bool updateCell = (vertical  && oldCell.row    == newCell.row) ||
+                            (!vertical && oldCell.column == newCell.column);
+    if (updateCell) {
+        m_visibleCells.insert(index, newCell);
+    }
 }
 
 void KItemListView::setLayouterSize(const QSizeF& size, SizeType sizeType)
@@ -1877,8 +1923,10 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     }
 
     // Update the role sizes for all visible widgets
-    foreach (KItemListWidget* widget, visibleItemListWidgets()) {
-        widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
+    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    while (it.hasNext()) {
+        it.next();
+        it.value()->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
     }
 }
 
@@ -1912,7 +1960,7 @@ QRectF KItemListView::headerBoundaries() const
 bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
                                           const QSizeF& newItemSize,
                                           const QSizeF& newItemMargin) const
-{
+{  
     if (newItemSize.isEmpty() || newGridSize.isEmpty()) {
         return false;
     }
