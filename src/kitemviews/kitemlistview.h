@@ -381,13 +381,26 @@ private:
      * the same row or column, otherwise the create-animation is used instead.
      * @return True if the moving-animation has been applied.
      */
-    bool moveWidget(KItemListWidget* widget, const QRectF& itemBounds);
+    bool moveWidget(KItemListWidget* widget, const QPointF& newPos);
 
     void emitOffsetChanges();
 
     KItemListWidget* createWidget(int index);
     void recycleWidget(KItemListWidget* widget);
+
+    /**
+     * Changes the index of the widget to \a index. The cell-information
+     * for the widget gets reset and will be updated in the next doLayout().
+     */
     void setWidgetIndex(KItemListWidget* widget, int index);
+
+    /**
+     * Changes the index of the widget to \a index. In opposite to
+     * setWidgetIndex() the cell-information of the widget gets updated.
+     * This update gives doLayout() the chance to animate the moving
+     * of the item visually (see moveWidget()).
+     */
+    void moveWidgetToIndex(KItemListWidget* widget, int index);
 
     /**
      * Helper method for prepareLayoutForIncreasedItemCount().
@@ -549,6 +562,15 @@ private:
 
     QHash<int, KItemListWidget*> m_visibleItems;
     QHash<KItemListWidget*, KItemListGroupHeader*> m_visibleGroups;
+
+    struct Cell
+    {
+        Cell() : column(-1), row(-1) {}
+        Cell(int c, int r) : column(c), row(r) {}
+        int column;
+        int row;
+    };
+    QHash<int, Cell> m_visibleCells;
 
     int m_scrollBarExtent;
     KItemListSizeHintResolver* m_sizeHintResolver;

@@ -49,7 +49,7 @@ KItemListViewLayouter::KItemListViewLayouter(QObject* parent) :
     m_groupItemIndexes(),
     m_groupHeaderHeight(0),
     m_groupHeaderMargin(0),
-    m_itemRects()
+    m_itemInfos()
 {
 }
 
@@ -227,14 +227,14 @@ int KItemListViewLayouter::lastVisibleIndex() const
 QRectF KItemListViewLayouter::itemRect(int index) const
 {
     const_cast<KItemListViewLayouter*>(this)->doLayout();
-    if (index < 0 || index >= m_itemRects.count()) {
+    if (index < 0 || index >= m_itemInfos.count()) {
         return QRectF();
     }
 
     if (m_scrollOrientation == Qt::Horizontal) {
         // Rotate the logical direction which is always vertical by 90°
         // to get the physical horizontal direction
-        const QRectF& b = m_itemRects[index];
+        const QRectF& b = m_itemInfos[index].rect;
         QRectF bounds(b.y(), b.x(), b.height(), b.width());
         QPointF pos = bounds.topLeft();
         pos.rx() -= m_scrollOffset;
@@ -242,7 +242,7 @@ QRectF KItemListViewLayouter::itemRect(int index) const
         return bounds;
     }
 
-    QRectF bounds = m_itemRects[index];
+    QRectF bounds = m_itemInfos[index].rect;
     bounds.moveTo(bounds.topLeft() - QPointF(m_itemOffset, m_scrollOffset));
     return bounds;
 }
@@ -271,10 +271,10 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
         // Qt::Horizontal and m_itemRects is accessed directly,
         // the logical height represents the visual width.
         qreal width = minimumGroupHeaderWidth();
-        const qreal y = m_itemRects[index].y();
-        const int maxIndex = m_itemRects.count() - 1;
+        const qreal y = m_itemInfos[index].rect.y();
+        const int maxIndex = m_itemInfos.count() - 1;
         while (index <= maxIndex) {
-            QRectF bounds = m_itemRects[index];
+            QRectF bounds = m_itemInfos[index].rect;
             if (bounds.y() != y) {
                 break;
             }
@@ -289,6 +289,30 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
         size = QSizeF(width, m_size.height());
     }
     return QRectF(pos, size);
+}
+
+int KItemListViewLayouter::itemColumn(int index) const
+{
+    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    if (index < 0 || index >= m_itemInfos.count()) {
+        return -1;
+    }
+
+    return (m_scrollOrientation == Qt::Vertical)
+            ? m_itemInfos[index].column
+            : m_itemInfos[index].row; 
+}
+
+int KItemListViewLayouter::itemRow(int index) const
+{
+    const_cast<KItemListViewLayouter*>(this)->doLayout();
+    if (index < 0 || index >= m_itemInfos.count()) {
+        return -1;
+    }
+
+    return (m_scrollOrientation == Qt::Vertical)
+            ? m_itemInfos[index].row
+            : m_itemInfos[index].column; 
 }
 
 int KItemListViewLayouter::maximumVisibleItems() const
@@ -371,10 +395,10 @@ void KItemListViewLayouter::doLayout()
             ++rowCount;
         }
 
-        m_itemRects.reserve(itemCount);
+        m_itemInfos.reserve(itemCount);
 
         qreal y = m_headerHeight + itemMargin.height();
-        int rowIndex = 0;
+        int row = 0;
 
         int index = 0;
         while (index < itemCount) {
@@ -419,10 +443,16 @@ void KItemListViewLayouter::doLayout()
                 }
 
                 const QRectF bounds(x, y, itemSize.width(), requiredItemHeight);
-                if (index < m_itemRects.count()) {
-                    m_itemRects[index] = bounds;
+                if (index < m_itemInfos.count()) {
+                    m_itemInfos[index].rect = bounds;
+                    m_itemInfos[index].column = column;
+                    m_itemInfos[index].row = row;
                 } else {
-                    m_itemRects.append(bounds);
+                    ItemInfo itemInfo;
+                    itemInfo.rect = bounds;
+                    itemInfo.column = column;
+                    itemInfo.row = row;
+                    m_itemInfos.append(itemInfo);
                 }
 
                 if (grouped && horizontalScrolling) {
@@ -457,21 +487,21 @@ void KItemListViewLayouter::doLayout()
             }
 
             y += maxItemHeight + itemMargin.height();
-            ++rowIndex;
+            ++row;
         }
-        if (m_itemRects.count() > itemCount) {
-            m_itemRects.erase(m_itemRects.begin() + itemCount,
-                              m_itemRects.end());
+        if (m_itemInfos.count() > itemCount) {
+            m_itemInfos.erase(m_itemInfos.begin() + itemCount,
+                              m_itemInfos.end());
         }
-
+        
         if (itemCount > 0) {
             // Calculate the maximum y-range of the last row for m_maximumScrollOffset
-            m_maximumScrollOffset = m_itemRects.last().bottom();
-            const qreal rowY = m_itemRects.last().y();
+            m_maximumScrollOffset = m_itemInfos.last().rect.bottom();
+            const qreal rowY = m_itemInfos.last().rect.y();
 
-            int index = m_itemRects.count() - 2;
-            while (index >= 0 && m_itemRects.at(index).bottom() >= rowY) {
-                m_maximumScrollOffset = qMax(m_maximumScrollOffset, m_itemRects.at(index).bottom());
+            int index = m_itemInfos.count() - 2;
+            while (index >= 0 && m_itemInfos[index].rect.bottom() >= rowY) {
+                m_maximumScrollOffset = qMax(m_maximumScrollOffset, m_itemInfos[index].rect.bottom());
                 --index;
             }
 
@@ -515,7 +545,7 @@ void KItemListViewLayouter::updateVisibleIndexes()
     int mid = 0;
     do {
         mid = (min + max) / 2;
-        if (m_itemRects[mid].top() < m_scrollOffset) {
+        if (m_itemInfos[mid].rect.top() < m_scrollOffset) {
             min = mid + 1;
         } else {
             max = mid - 1;
@@ -525,13 +555,13 @@ void KItemListViewLayouter::updateVisibleIndexes()
     if (mid > 0) {
         // Include the row before the first fully visible index, as it might
         // be partly visible
-        if (m_itemRects[mid].top() >= m_scrollOffset) {
+        if (m_itemInfos[mid].rect.top() >= m_scrollOffset) {
             --mid;
-            Q_ASSERT(m_itemRects[mid].top() < m_scrollOffset);
+            Q_ASSERT(m_itemInfos[mid].rect.top() < m_scrollOffset);
         }
 
-        const qreal rowTop = m_itemRects[mid].top();
-        while (mid > 0 && m_itemRects[mid - 1].top() == rowTop) {
+        const qreal rowTop = m_itemInfos[mid].rect.top();
+        while (mid > 0 && m_itemInfos[mid - 1].rect.top() == rowTop) {
             --mid;
         }
     }
@@ -548,14 +578,14 @@ void KItemListViewLayouter::updateVisibleIndexes()
     max = maxIndex;
     do {
         mid = (min + max) / 2;
-        if (m_itemRects[mid].y() <= bottom) {
+        if (m_itemInfos[mid].rect.y() <= bottom) {
             min = mid + 1;
         } else {
             max = mid - 1;
         }
     } while (min <= max);
 
-    while (mid > 0 && m_itemRects[mid].y() > bottom) {
+    while (mid > 0 && m_itemInfos[mid].rect.y() > bottom) {
         --mid;
     }
     m_lastVisibleIndex = mid;

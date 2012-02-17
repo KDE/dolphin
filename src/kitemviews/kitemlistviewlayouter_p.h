@@ -112,6 +112,18 @@ public:
     QRectF itemRect(int index) const;
 
     QRectF groupHeaderRect(int index) const;
+    
+    /**
+     * @return Column of the item with the index \a index.
+     *         -1 is returned if an invalid index is given.
+     */
+    int itemColumn(int index) const;
+    
+    /**
+     * @return Row of the item with the index \a index.
+     *         -1 is returned if an invalid index is given.
+     */
+    int itemRow(int index) const;
 
     /**
      * @return Maximum number of (at least partly) visible items for
@@ -174,7 +186,12 @@ private:
     qreal m_groupHeaderHeight;
     qreal m_groupHeaderMargin;
 
-    QList<QRectF> m_itemRects;
+    struct ItemInfo {
+        QRectF rect;
+        int column;
+        int row;
+    };
+    QList<ItemInfo> m_itemInfos;
 
     friend class KItemListControllerTest;
 };
