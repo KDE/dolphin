@@ -1168,19 +1168,6 @@ void DolphinView::applyViewProperties()
 
     const Mode mode = props.viewMode();
     if (m_mode != mode) {
-        // Prevent an animated transition of the position and size of the items when switching
-        // the view-mode by temporary clearing the model and updating it again after the view mode
-        // has been modified.
-        const bool restoreModel = (model->count() > 0);
-        if (restoreModel) {
-            const int currentItemIndex = m_container->controller()->selectionManager()->currentItem();
-            if (currentItemIndex >= 0) {
-                m_currentItemUrl = model->fileItem(currentItemIndex).url();
-            }
-            m_selectedUrls = selectedItems().urlList();
-            model->clear();
-        }
-
         const Mode previousMode = m_mode;
         m_mode = mode;
 
@@ -1200,10 +1187,6 @@ void DolphinView::applyViewProperties()
 
         if (m_container->zoomLevel() != oldZoomLevel) {
             emit zoomLevelChanged(m_container->zoomLevel(), oldZoomLevel);
-        }
-
-        if (restoreModel) {
-            loadDirectory(url());
         }
     }
 

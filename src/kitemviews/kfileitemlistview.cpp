@@ -97,8 +97,17 @@ bool KFileItemListView::previewsShown() const
 void KFileItemListView::setItemLayout(Layout layout)
 {
     if (m_itemLayout != layout) {
+        const bool updateRoles = (m_itemLayout == DetailsLayout || layout == DetailsLayout);
         m_itemLayout = layout;
+        if (updateRoles) {
+            // The details-layout requires some invisible roles that
+            // must be added to the model if the new layout is "details".
+            // If the old layout was "details" the roles will get removed.
+            applyRolesToModel();
+        }
         updateLayoutOfVisibleItems();
+
+        setSupportsItemExpanding(m_itemLayout == DetailsLayout);
     }
 }
 
@@ -232,11 +241,6 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes(const KItemRangeL
     kDebug() << "[TIME] Calculated dynamic item size for " << rangesItemCount << "items:" << timer.elapsed();
 #endif
     return sizes;
-}
-
-bool KFileItemListView::supportsItemExpanding() const
-{
-    return m_itemLayout == DetailsLayout;
 }
 
 QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
