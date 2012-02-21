@@ -2057,7 +2057,7 @@ void KItemListView::updateGroupHeaderHeight()
 
 void KItemListView::updateSiblingsInformation(int firstIndex, int lastIndex)
 {
-    if (!supportsItemExpanding()) {
+    if (!supportsItemExpanding() || !m_model) {
         return;
     }
 
