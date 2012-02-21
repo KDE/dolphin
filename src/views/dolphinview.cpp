@@ -808,7 +808,7 @@ void DolphinView::slotItemHovered(int index)
 {
     const KFileItem item = fileItemModel()->fileItem(index);
 
-    if (GeneralSettings::showToolTips() && QApplication::mouseButtons() == Qt::NoButton) {
+    if (GeneralSettings::showToolTips() && hasFocus() && QApplication::mouseButtons() == Qt::NoButton) {
         QRectF itemRect = m_container->controller()->view()->itemContextRect(index);
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
