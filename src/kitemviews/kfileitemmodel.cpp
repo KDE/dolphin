@@ -372,6 +372,9 @@ void KFileItemModel::clear()
 
 void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
 {
+    if (m_roles == roles) {
+        return;
+    }
     m_roles = roles;
 
     if (count() > 0) {

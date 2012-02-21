@@ -54,6 +54,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
     m_enabledSelectionToggles(false),
     m_grouped(false),
+    m_supportsItemExpanding(false),
     m_activeTransactions(0),
     m_endTransactionAnimationHint(Animation),
     m_itemSize(),
@@ -503,7 +504,7 @@ QHash<QByteArray, QSizeF> KItemListView::visibleRolesSizes(const KItemRangeList&
 
 bool KItemListView::supportsItemExpanding() const
 {
-    return false;
+    return m_supportsItemExpanding;
 }
 
 QRectF KItemListView::itemRect(int index) const
@@ -765,6 +766,14 @@ void KItemListView::dropEvent(QGraphicsSceneDragDropEvent* event)
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 {
     return m_visibleItems.values();
+}
+
+void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
+{
+    if (m_supportsItemExpanding != supportsExpanding) {
+        m_supportsItemExpanding = supportsExpanding;
+        updateSiblingsInformation();
+    }
 }
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)

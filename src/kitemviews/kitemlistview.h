@@ -176,7 +176,7 @@ public:
      *         has to take care itself how to visually represent the expanded items provided
      *         by the model.
      */
-    virtual bool supportsItemExpanding() const;
+    bool supportsItemExpanding() const;
 
     /**
      * @return The rectangle of the item relative to the top/left of
@@ -297,6 +297,13 @@ protected:
     virtual void dropEvent(QGraphicsSceneDragDropEvent* event);
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
+
+    /**
+     * Must be called by the derived class if it supports the expanding
+     * of items.
+     * @see supportsItemExpanding()
+     */
+    void setSupportsItemExpanding(bool supportsExpanding);
 
 protected slots:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
@@ -547,6 +554,7 @@ private:
 private:
     bool m_enabledSelectionToggles;
     bool m_grouped;
+    bool m_supportsItemExpanding;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
     LayoutAnimationHint m_endTransactionAnimationHint;
 

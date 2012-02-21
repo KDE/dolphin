@@ -216,25 +216,14 @@ void KFileItemModelRolesUpdater::setPaused(bool paused)
 
 void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 {
-    if (roles.count() == m_roles.count()) {
-        bool isEqual = true;
-        foreach (const QByteArray& role, roles) {
-            if (!m_roles.contains(role)) {
-                isEqual = false;
-                break;
-            }
-        }
-        if (isEqual) {
-            return;
-        }
-    }
+    if (m_roles != roles) {
+        m_roles = roles;
 
-    m_roles = roles;
-
-    if (m_paused) {
-        m_rolesChangedDuringPausing = true;
-    } else {
-        sortAndResolveAllRoles();
+        if (m_paused) {
+            m_rolesChangedDuringPausing = true;
+        } else {
+            sortAndResolveAllRoles();
+        }
     }
 }
 
