@@ -40,7 +40,7 @@ KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
     m_selected(false),
     m_current(false),
     m_hovered(false),
-    m_alternatingBackgroundColors(false),
+    m_alternateBackground(false),
     m_enabledSelectionToggle(false),
     m_data(),
     m_visibleRoles(),
@@ -105,7 +105,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
 {
     Q_UNUSED(option);
 
-    if (m_alternatingBackgroundColors && (m_index & 0x1)) {
+    if (m_alternateBackground) {
         const QColor backgroundColor = m_styleOption.palette.color(QPalette::AlternateBase);
         const QRectF backgroundRect(0, 0, size().width(), size().height());
         painter->fillRect(backgroundRect, backgroundColor);
@@ -276,18 +276,18 @@ bool KItemListWidget::isHovered() const
     return m_hovered;
 }
 
-void KItemListWidget::setAlternatingBackgroundColors(bool enable)
+void KItemListWidget::setAlternateBackground(bool enable)
 {
-    if (m_alternatingBackgroundColors != enable) {
-        m_alternatingBackgroundColors = enable;
-        alternatingBackgroundColorsChanged(enable);
+    if (m_alternateBackground != enable) {
+        m_alternateBackground = enable;
+        alternateBackgroundChanged(enable);
         update();
     }
 }
 
-bool KItemListWidget::alternatingBackgroundColors() const
+bool KItemListWidget::alternateBackground() const
 {
-    return m_alternatingBackgroundColors;
+    return m_alternateBackground;
 }
 
 void KItemListWidget::setEnabledSelectionToggle(bool enable)
@@ -381,7 +381,7 @@ void KItemListWidget::hoveredChanged(bool hovered)
     Q_UNUSED(hovered);
 }
 
-void KItemListWidget::alternatingBackgroundColorsChanged(bool enabled)
+void KItemListWidget::alternateBackgroundChanged(bool enabled)
 {
     Q_UNUSED(enabled);
 }

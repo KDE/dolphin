@@ -82,8 +82,8 @@ public:
     void setHovered(bool hovered);
     bool isHovered() const;
 
-    void setAlternatingBackgroundColors(bool enable);
-    bool alternatingBackgroundColors() const;
+    void setAlternateBackground(bool enable);
+    bool alternateBackground() const;
 
     void setEnabledSelectionToggle(bool enabled);
     bool enabledSelectionToggle() const;
@@ -138,7 +138,7 @@ protected:
     virtual void currentChanged(bool current);
     virtual void selectedChanged(bool selected);
     virtual void hoveredChanged(bool hovered);
-    virtual void alternatingBackgroundColorsChanged(bool enabled);
+    virtual void alternateBackgroundChanged(bool enabled);
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);    
 
@@ -164,7 +164,7 @@ private:
     bool m_selected;
     bool m_current;
     bool m_hovered;
-    bool m_alternatingBackgroundColors;
+    bool m_alternateBackground;
     bool m_enabledSelectionToggle;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;

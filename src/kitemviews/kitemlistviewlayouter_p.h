@@ -139,6 +139,15 @@ public:
 
     void markAsDirty();
 
+#ifndef QT_NO_DEBUG
+    /**
+     * @return True if the layouter has been marked as dirty and hence has
+     *         not called yet doLayout(). Is enabled only in the debugging
+     *         mode, as it is not useful to check the dirty state otherwise.
+     */
+    bool isDirty();
+#endif
+
 private:
     void doLayout();
     void updateVisibleIndexes();
