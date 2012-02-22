@@ -396,14 +396,15 @@ private:
     void recycleWidget(KItemListWidget* widget);
 
     /**
-     * Changes the index of the widget to \a index. The cell-information
-     * for the widget gets reset and will be updated in the next doLayout().
+     * Changes the index of the widget to \a index and assures a consistent
+     * update for m_visibleItems and m_visibleCells. The cell-information
+     * for the new index will not be updated and be initialized as empty cell.
      */
     void setWidgetIndex(KItemListWidget* widget, int index);
 
     /**
      * Changes the index of the widget to \a index. In opposite to
-     * setWidgetIndex() the cell-information of the widget gets updated.
+     * setWidgetIndex() the cell-information for the widget gets updated.
      * This update gives doLayout() the chance to animate the moving
      * of the item visually (see moveWidget()).
      */
@@ -421,7 +422,7 @@ private:
     void updateWidgetProperties(KItemListWidget* widget, int index);
 
     /**
-     * Helper method for createWidget() and setWidgetIndex() to create or update
+     * Helper method for updateWidgetPropertes() to create or update
      * the itemlist group-header.
      */
     void updateGroupHeaderForWidget(KItemListWidget* widget);
@@ -444,6 +445,26 @@ private:
      * the group-header widgets.
      */
     void updateVisibleGroupHeaders();
+
+    /**
+     * @return Index for the item in the list returned by KItemModelBase::groups()
+     *         that represents the group where the item with the index \a index
+     *         belongs to. -1 is returned if no groups are available.
+     */
+    int groupIndexForItem(int index) const;
+
+    /**
+     * Updates the alternateBackground-property of the widget dependent
+     * on the state of useAlternateBackgrounds() and the grouping state.
+     */
+    void updateAlternateBackgroundForWidget(KItemListWidget* widget);
+
+    /**
+     * @return True if alternate backgrounds should be used for the items.
+     *         This is the case if an empty item-size is given and if there
+     *         is more than one visible role.
+     */
+    bool useAlternateBackgrounds() const;
 
     /**
      * @return The widths of each visible role that is shown in the KItemListHeader.

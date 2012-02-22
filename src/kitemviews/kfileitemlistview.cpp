@@ -324,9 +324,6 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
     case DetailsLayout: fileItemListWidget->setLayout(KFileItemListWidget::DetailsLayout); break;
     default:            Q_ASSERT(false); break;
     }
-
-    fileItemListWidget->setAlternatingBackgroundColors(m_itemLayout == DetailsLayout &&
-                                                       visibleRoles().count() > 1);
 }
 
 bool KFileItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
@@ -379,20 +376,9 @@ void KFileItemListView::onScrollOffsetChanged(qreal current, qreal previous)
 
 void KFileItemListView::onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous)
 {
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
     applyRolesToModel();
-
-    if (m_itemLayout == DetailsLayout) {
-        // Only enable the alternating background colors if more than one role
-        // is visible
-        const int previousCount = previous.count();
-        const int currentCount = current.count();
-        if ((previousCount <= 1 && currentCount > 1) || (previousCount > 1 && currentCount <= 1)) {
-            const bool enabled = (currentCount > 1);
-            foreach (KItemListWidget* widget, visibleItemListWidgets()) {
-                widget->setAlternatingBackgroundColors(enabled);
-            }
-        }
-    }
 }
 
 void KFileItemListView::onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous)

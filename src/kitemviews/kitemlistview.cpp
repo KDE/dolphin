@@ -156,8 +156,23 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
     const bool animate = !changesItemGridLayout(m_layouter->size(),
                                                 itemSize,
                                                 m_layouter->itemMargin());
-    
+
+    const bool updateAlternateBackgrounds = (m_visibleRoles.count() > 1) &&
+                                            (( m_itemSize.isEmpty() && !itemSize.isEmpty()) ||
+                                             (!m_itemSize.isEmpty() && itemSize.isEmpty()));
+
     m_itemSize = itemSize;
+
+    if (updateAlternateBackgrounds) {
+        // For an empty item size alternate backgrounds are drawn if more than
+        // one role is shown. Assure that the backgrounds for visible items are
+        // updated when changing the size in this context.
+        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+        while (it.hasNext()) {
+            it.next();
+            updateAlternateBackgroundForWidget(it.value());
+        }
+    }
 
     if (itemSize.isEmpty()) {
         updateVisibleRolesSizes();
@@ -238,12 +253,19 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
     const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
 
+    const bool updateAlternateBackgrounds = m_itemSize.isEmpty() &&
+                                            ((roles.count() > 1 && previousRoles.count() <= 1) ||
+                                             (roles.count() <= 1 && previousRoles.count() > 1));
+
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
         KItemListWidget* widget = it.value();
         widget->setVisibleRoles(roles);
         widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
+        if (updateAlternateBackgrounds) {
+            updateAlternateBackgroundForWidget(widget);
+        }
     }
 
     m_sizeHintResolver->clearCache();
@@ -785,9 +807,6 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         beginTransaction();
     }
 
-    // Important: Don't read any m_layouter-property inside the for-loop in case if
-    // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
-    // updated in each loop-cycle and has only a consistent state after the loop.
     m_layouter->markAsDirty();
 
     int previouslyInsertedCount = 0;
@@ -823,11 +842,12 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         for (int i = itemsToMove.count() - 1; i >= 0; --i) {
             KItemListWidget* widget = m_visibleItems.value(itemsToMove[i]);
             Q_ASSERT(widget);
+            const int newIndex = widget->index() + count;
             if (hasMultipleRanges) {
-                setWidgetIndex(widget, widget->index() + count);
+                setWidgetIndex(widget, newIndex);
             } else {
                 // Try to animate the moving of the item
-                moveWidgetToIndex(widget, widget->index() + count);
+                moveWidgetToIndex(widget, newIndex);
             }
         }
 
@@ -861,6 +881,12 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
     }
 
     if (hasMultipleRanges) {
+#ifndef QT_NO_DEBUG
+        // Important: Don't read any m_layouter-property inside the for-loop in case if
+        // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
+        // updated in each loop-cycle and has only a consistent state after the loop.
+        Q_ASSERT(m_layouter->isDirty());
+#endif
         m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
         updateSiblingsInformation();
@@ -876,9 +902,6 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         beginTransaction();
     }
 
-    // Important: Don't read any m_layouter-property inside the for-loop in case if
-    // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
-    // updated in each loop-cycle and has only a consistent state after the loop.
     m_layouter->markAsDirty();
 
     for (int i = itemRanges.count() - 1; i >= 0; --i) {
@@ -959,6 +982,12 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
     }
 
     if (hasMultipleRanges) {
+#ifndef QT_NO_DEBUG
+        // Important: Don't read any m_layouter-property inside the for-loop in case if
+        // multiple ranges are given! m_layouter accesses m_sizeHintResolver which is
+        // updated in each loop-cycle and has only a consistent state after the loop.
+        Q_ASSERT(m_layouter->isDirty());
+#endif
         m_endTransactionAnimationHint = NoAnimation;
         endTransaction();
         updateSiblingsInformation();
@@ -981,9 +1010,6 @@ void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>
         KItemListWidget* widget = m_visibleItems.value(index);
         if (widget) {
             updateWidgetProperties(widget, index);
-            if (m_grouped) {
-                updateGroupHeaderForWidget(widget);
-            }
             initializeItemListWidget(widget);
         }
     }
@@ -1048,6 +1074,17 @@ void KItemListView::slotGroupedSortingChanged(bool current)
         Q_ASSERT(m_visibleGroups.isEmpty());
     }
 
+    if (useAlternateBackgrounds()) {
+        // Changing the group mode requires to update the alternate backgrounds
+        // as with the enabled group mode the altering is done on base of the first
+        // group item.
+        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+        while (it.hasNext()) {
+            it.next();
+            updateAlternateBackgroundForWidget(it.value());
+        }
+    }
+
     doLayout(NoAnimation);
 }
 
@@ -1077,13 +1114,11 @@ void KItemListView::slotCurrentChanged(int current, int previous)
 
     KItemListWidget* previousWidget = m_visibleItems.value(previous, 0);
     if (previousWidget) {
-        Q_ASSERT(previousWidget->isCurrent());
         previousWidget->setCurrent(false);
     }
 
     KItemListWidget* currentWidget = m_visibleItems.value(current, 0);
     if (currentWidget) {
-        Q_ASSERT(!currentWidget->isCurrent());
         currentWidget->setCurrent(true);
     }
 }
@@ -1406,10 +1441,8 @@ void KItemListView::doLayout(LayoutAnimationHint hint, int changedIndex, int cha
                 const int oldIndex = reusableItems.takeLast();
                 widget = m_visibleItems.value(oldIndex);
                 setWidgetIndex(widget, i);
-
-                if (m_grouped) {
-                    updateGroupHeaderForWidget(widget);
-                }
+                updateWidgetProperties(widget, i);
+                initializeItemListWidget(widget);
             } else {
                 // No reusable KItemListWidget instance is available, create a new one
                 widget = createWidget(i);
@@ -1626,14 +1659,9 @@ KItemListWidget* KItemListView::createWidget(int index)
     KItemListWidget* widget = m_widgetCreator->create(this);
     widget->setFlag(QGraphicsItem::ItemStacksBehindParent);
 
-    updateWidgetProperties(widget, index);
     m_visibleItems.insert(index, widget);
     m_visibleCells.insert(index, Cell());
-
-    if (m_grouped) {
-        updateGroupHeaderForWidget(widget);
-    }
-
+    updateWidgetProperties(widget, index);
     initializeItemListWidget(widget);
     return widget;
 }
@@ -1654,16 +1682,13 @@ void KItemListView::recycleWidget(KItemListWidget* widget)
 void KItemListView::setWidgetIndex(KItemListWidget* widget, int index)
 {
     const int oldIndex = widget->index();
-
     m_visibleItems.remove(oldIndex);
     m_visibleCells.remove(oldIndex);
-
-    updateWidgetProperties(widget, index);
 
     m_visibleItems.insert(index, widget);
     m_visibleCells.insert(index, Cell());
 
-    initializeItemListWidget(widget);
+    widget->setIndex(index);
 }
 
 void KItemListView::moveWidgetToIndex(KItemListWidget* widget, int index)
@@ -1701,11 +1726,15 @@ void KItemListView::updateWidgetProperties(KItemListWidget* widget, int index)
     widget->setCurrent(index == selectionManager->currentItem());
     widget->setSelected(selectionManager->isSelected(index));
     widget->setHovered(false);
-    widget->setAlternatingBackgroundColors(false);
     widget->setEnabledSelectionToggle(enabledSelectionToggles());
     widget->setIndex(index);
     widget->setData(m_model->data(index));
     widget->setSiblingsInformation(QBitArray());
+    updateAlternateBackgroundForWidget(widget);
+
+    if (m_grouped) {
+        updateGroupHeaderForWidget(widget);
+    }
 }
 
 void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
@@ -1734,21 +1763,9 @@ void KItemListView::updateGroupHeaderForWidget(KItemListWidget* widget)
     }
     Q_ASSERT(groupHeader->parentItem() == widget);
 
-    // Determine the shown data for the header by doing a binary
-    // search in the groups-list
-    int min = 0;
-    int max = groups.count() - 1;
-    int mid = 0;
-    do {
-        mid = (min + max) / 2;
-        if (index > groups.at(mid).first) {
-            min = mid + 1;
-        } else {
-            max = mid - 1;
-        }
-    } while (groups.at(mid).first != index && min <= max);
-
-    groupHeader->setData(groups.at(mid).second);
+    const int groupIndex = groupIndexForItem(index);
+    Q_ASSERT(groupIndex >= 0);
+    groupHeader->setData(groups.at(groupIndex).second);
     groupHeader->setRole(model()->sortRole());
     groupHeader->setStyleOption(m_styleOption);
     groupHeader->setScrollOrientation(scrollOrientation());
@@ -1801,6 +1818,60 @@ void KItemListView::updateVisibleGroupHeaders()
         it.next();
         updateGroupHeaderForWidget(it.value());
     }
+}
+
+int KItemListView::groupIndexForItem(int index) const
+{
+    Q_ASSERT(m_grouped);
+
+    const QList<QPair<int, QVariant> > groups = model()->groups();
+    if (groups.isEmpty()) {
+        return -1;
+    }
+
+    int min = 0;
+    int max = groups.count() - 1;
+    int mid = 0;
+    do {
+        mid = (min + max) / 2;
+        if (index > groups[mid].first) {
+            min = mid + 1;
+        } else {
+            max = mid - 1;
+        }
+    } while (groups[mid].first != index && min <= max);
+
+    if (min > max) {
+        while (groups[mid].first > index && mid > 0) {
+            --mid;
+        }
+    }
+
+    return mid;
+}
+
+void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget* widget)
+{
+    bool enabled = useAlternateBackgrounds();
+    if (enabled) {
+        const int index = widget->index();
+        enabled = (index & 0x1) > 0;
+        if (m_grouped) {
+            const int groupIndex = groupIndexForItem(index);
+            if (groupIndex >= 0) {
+                const QList<QPair<int, QVariant> > groups = model()->groups();
+                const int indexOfFirstGroupItem = groups[groupIndex].first;
+                const int relativeIndex = index - indexOfFirstGroupItem;
+                enabled = (relativeIndex & 0x1) == 0;
+            }
+        }
+    }
+    widget->setAlternateBackground(enabled);
+}
+
+bool KItemListView::useAlternateBackgrounds() const
+{
+    return m_itemSize.isEmpty() && m_visibleRoles.count() > 1;
 }
 
 QHash<QByteArray, qreal> KItemListView::headerRolesWidths() const

@@ -340,6 +340,14 @@ void KItemListViewLayouter::markAsDirty()
     m_dirty = true;
 }
 
+
+#ifndef QT_NO_DEBUG
+    bool KItemListViewLayouter::isDirty()
+    {
+        return m_dirty;
+    }
+#endif
+
 void KItemListViewLayouter::doLayout()
 {
     if (m_dirty) {
