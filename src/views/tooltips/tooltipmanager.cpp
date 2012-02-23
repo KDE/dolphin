@@ -44,9 +44,9 @@ ToolTipManager::ToolTipManager(QWidget* parent) :
     m_itemRect()
 {
     if (parent) {
-        m_margin = qMax(m_margin, parent->style()->pixelMetric(QStyle::PM_ToolTipLabelFrameWidth));        
+        m_margin = qMax(m_margin, parent->style()->pixelMetric(QStyle::PM_ToolTipLabelFrameWidth));
     }
-    
+
     m_showToolTipTimer = new QTimer(this);
     m_showToolTipTimer->setSingleShot(true);
     m_showToolTipTimer->setInterval(500);

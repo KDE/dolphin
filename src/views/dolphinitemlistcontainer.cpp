@@ -48,7 +48,7 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
     controller()->setModel(new KFileItemModel(dirLister, this));
 
     m_fileItemListView = new KFileItemListView();
-    m_fileItemListView->setWidgetCreator(new KItemListWidgetCreator<DolphinFileItemListWidget>());    
+    m_fileItemListView->setWidgetCreator(new KItemListWidgetCreator<DolphinFileItemListWidget>());
     m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
     controller()->setView(m_fileItemListView);
 
@@ -60,7 +60,7 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
 DolphinItemListContainer::~DolphinItemListContainer()
 {
     writeSettings();
-    
+
     controller()->setView(0);
     delete m_fileItemListView;
     m_fileItemListView = 0;
@@ -191,7 +191,7 @@ void DolphinItemListContainer::readSettings()
 }
 
 void DolphinItemListContainer::writeSettings()
-{  
+{
     IconsModeSettings::self()->writeConfig();
     CompactModeSettings::self()->writeConfig();
     DetailsModeSettings::self()->writeConfig();
@@ -217,7 +217,7 @@ void DolphinItemListContainer::updateGridSize()
     case KFileItemListView::IconsLayout: {
         const int minItemWidth = 48;
         itemWidth = minItemWidth + IconsModeSettings::textWidthIndex() * 64;
-        
+
         if (previewsShown()) {
             // Optimize the width for previews with a 3:2 aspect ratio instead
             // of a 1:1 ratio to avoid wasting too much vertical space when
@@ -225,12 +225,12 @@ void DolphinItemListContainer::updateGridSize()
             const int minWidth = iconSize * 3 / 2;
             itemWidth = qMax(itemWidth, minWidth);
         }
-        
+
         if (itemWidth < iconSize + padding * 2) {
             itemWidth = iconSize + padding * 2;
         }
         itemHeight = padding * 3 + iconSize + styleOption.fontMetrics.height();
-        
+
         horizontalMargin = 4;
         verticalMargin = 8;
         break;
@@ -239,7 +239,7 @@ void DolphinItemListContainer::updateGridSize()
         itemWidth = padding * 4 + iconSize + styleOption.fontMetrics.height() * 5;
         const int textLinesCount = m_fileItemListView->visibleRoles().count();
         itemHeight = padding * 2 + qMax(iconSize, textLinesCount * styleOption.fontMetrics.height());
-        
+
         horizontalMargin = 8;
         break;
     }

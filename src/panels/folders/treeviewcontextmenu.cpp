@@ -122,7 +122,7 @@ void TreeViewContextMenu::open()
     // in KItemViews or manually as part of the FoldersPanel
     //popup->addAction(autoScrollingAction);
     connect(autoScrollingAction, SIGNAL(toggled(bool)), this, SLOT(setAutoScrolling(bool)));
-    
+
     if (!m_fileItem.isNull()) {
         // insert 'Properties' entry
         QAction* propertiesAction = new QAction(i18nc("@action:inmenu", "Properties"), this);
@@ -132,7 +132,7 @@ void TreeViewContextMenu::open()
     }
 
     QList<QAction*> customActions = m_parent->customContextMenuActions();
-    if (!customActions.isEmpty()) {       
+    if (!customActions.isEmpty()) {
         popup->addSeparator();
         foreach (QAction* action, customActions) {
             popup->addAction(action);

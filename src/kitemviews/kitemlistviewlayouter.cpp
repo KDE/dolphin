@@ -265,7 +265,7 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
     } else {
         pos.rx() -= m_itemMargin.width();
         pos.ry() = 0;
-        
+
         // Determine the maximum width used in the
         // current column. As the scroll-direction is
         // Qt::Horizontal and m_itemRects is accessed directly,
@@ -278,14 +278,14 @@ QRectF KItemListViewLayouter::groupHeaderRect(int index) const
             if (bounds.y() != y) {
                 break;
             }
-            
+
             if (bounds.height() > width) {
                 width = bounds.height();
             }
-            
-            ++index;           
+
+            ++index;
         }
-        
+
         size = QSizeF(width, m_size.height());
     }
     return QRectF(pos, size);
@@ -300,7 +300,7 @@ int KItemListViewLayouter::itemColumn(int index) const
 
     return (m_scrollOrientation == Qt::Vertical)
             ? m_itemInfos[index].column
-            : m_itemInfos[index].row; 
+            : m_itemInfos[index].row;
 }
 
 int KItemListViewLayouter::itemRow(int index) const
@@ -312,7 +312,7 @@ int KItemListViewLayouter::itemRow(int index) const
 
     return (m_scrollOrientation == Qt::Vertical)
             ? m_itemInfos[index].row
-            : m_itemInfos[index].column; 
+            : m_itemInfos[index].column;
 }
 
 int KItemListViewLayouter::maximumVisibleItems() const
@@ -360,7 +360,7 @@ void KItemListViewLayouter::doLayout()
         QSizeF itemSize = m_itemSize;
         QSizeF itemMargin = m_itemMargin;
         QSizeF size = m_size;
-        
+
         const bool grouped = createGroupHeaders();
 
         const bool horizontalScrolling = (m_scrollOrientation == Qt::Horizontal);
@@ -373,7 +373,7 @@ void KItemListViewLayouter::doLayout()
             itemMargin.setHeight(m_itemMargin.width());
             size.setWidth(m_size.height());
             size.setHeight(m_size.width());
-            
+
             if (grouped) {
                 // In the horizontal scrolling case all groups are aligned
                 // at the top, which decreases the available height. For the
@@ -501,7 +501,7 @@ void KItemListViewLayouter::doLayout()
             m_itemInfos.erase(m_itemInfos.begin() + itemCount,
                               m_itemInfos.end());
         }
-        
+
         if (itemCount > 0) {
             // Calculate the maximum y-range of the last row for m_maximumScrollOffset
             m_maximumScrollOffset = m_itemInfos.last().rect.bottom();

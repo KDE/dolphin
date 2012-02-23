@@ -157,7 +157,7 @@ void ViewSettingsTab::loadSettings()
 
     ViewModeSettings settings(viewMode());
     settings.readConfig();
-    
+
     const QSize iconSize(settings.iconSize(), settings.iconSize());
     m_defaultSizeSlider->setValue(ZoomLevelInfo::zoomLevelForIconSize(iconSize));
 

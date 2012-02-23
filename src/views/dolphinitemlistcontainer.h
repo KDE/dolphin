@@ -64,7 +64,7 @@ public:
     void beginTransaction();
     void endTransaction();
 
-    void readSettings();   
+    void readSettings();
     void writeSettings();
 
 private:

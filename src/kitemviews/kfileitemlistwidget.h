@@ -79,7 +79,7 @@ protected:
 
     void setOverlay(const QPixmap& overlay);
     QPixmap overlay() const;
-    
+
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
@@ -116,7 +116,7 @@ private:
     void updateIconsLayoutTextCache();
     void updateCompactLayoutTextCache();
     void updateDetailsLayoutTextCache();
-    
+
     void updateAdditionalInfoTextColor();
 
     void drawPixmap(QPainter* painter, const QPixmap& pixmap);

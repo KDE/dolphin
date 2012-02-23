@@ -271,7 +271,7 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     if (expectMoveSignal) {
         QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsMoved(KItemRange,QList<int>)), DefaultTimeout));
     }
-    
+
     QCOMPARE(m_model->data(0).value("rating").toInt(), ratingIndex0);
     QCOMPARE(m_model->data(1).value("rating").toInt(), ratingIndex1);
     QCOMPARE(m_model->data(2).value("rating").toInt(), ratingIndex2);

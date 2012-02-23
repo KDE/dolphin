@@ -269,7 +269,7 @@ public:
      * font, ...).
      */
     void readSettings();
-    
+
     /**
      * Saves the current settings (e.g. icons size, font, ..).
      */
@@ -551,7 +551,7 @@ protected:
 
     /** @reimp */
     virtual void hideEvent(QHideEvent* event);
-    
+
 private slots:
     /**
      * Marks the view as active (DolphinView:isActive() will return true)
@@ -766,7 +766,7 @@ private:
     KUrl m_createdItemUrl; // URL for a new item that got created by the "Create New..." menu
 
     QList<KUrl> m_selectedUrls; // Used for making the view to remember selections after F5
-    
+
     VersionControlObserver* m_versionControlObserver;
 
     // For unit tests

@@ -360,7 +360,7 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     const KItemListStyleOption previousOption = m_styleOption;
     m_styleOption = option;
 
-    bool animate = true;    
+    bool animate = true;
     const QSizeF margin(option.horizontalMargin, option.verticalMargin);
     if (margin != m_layouter->itemMargin()) {
         // Skip animations when the number of rows or columns
@@ -382,7 +382,7 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
         it.value()->setStyleOption(option);
     }
 
-    m_sizeHintResolver->clearCache();   
+    m_sizeHintResolver->clearCache();
     doLayout(animate ? Animation : NoAnimation);
 
     onStyleOptionChanged(option, previousOption);
@@ -408,10 +408,10 @@ void KItemListView::setGeometry(const QRectF& rect)
         // update of the visible-roles sizes, only the stretched sizes
         // need to be adjusted to the new size.
         updateStretchedVisibleRolesSizes();
-        
+
         if (m_useHeaderWidths) {
             QSizeF dynamicItemSize = m_layouter->itemSize();
-    
+
             if (m_itemSize.width() < 0) {
                 const qreal requiredWidth = visibleRolesSizesWidthSum();
                 if (newSize.width() > requiredWidth) {
@@ -420,7 +420,7 @@ void KItemListView::setGeometry(const QRectF& rect)
                 const qreal headerWidth = qMax(newSize.width(), requiredWidth);
                 m_header->resize(headerWidth, m_header->size().height());
             }
-    
+
             if (m_itemSize.height() < 0) {
                 const qreal requiredHeight = visibleRolesSizesHeightSum();
                 if (newSize.height() > requiredHeight) {
@@ -428,10 +428,10 @@ void KItemListView::setGeometry(const QRectF& rect)
                 }
                 // TODO: KItemListHeader is not prepared for vertical alignment
             }
-    
+
             m_layouter->setItemSize(dynamicItemSize);
         }
-        
+
         // Triggering a synchronous layout is fine from a performance point of view,
         // as with dynamic item sizes no moving animation must be done.
         m_layouter->setSize(newSize);
@@ -439,9 +439,9 @@ void KItemListView::setGeometry(const QRectF& rect)
     } else {
         const bool animate = !changesItemGridLayout(newSize,
                                                     m_layouter->itemSize(),
-                                                    m_layouter->itemMargin());        
+                                                    m_layouter->itemMargin());
         m_layouter->setSize(newSize);
-        
+
         if (animate) {
             // Trigger an asynchronous relayout with m_layoutTimer to prevent
             // performance bottlenecks. If the timer is exceeded, an animated layout
@@ -1352,7 +1352,7 @@ void KItemListView::setModel(KItemModelBase* model)
     }
 
     m_model = model;
-    m_layouter->setModel(model);   
+    m_layouter->setModel(model);
     m_grouped = model->groupedSorting();
 
     if (m_model) {
@@ -1584,7 +1584,7 @@ QList<int> KItemListView::recycleInvisibleItems(int firstVisibleIndex,
             } else {
                 widget->setVisible(false);
                 items.append(index);
-    
+
                 if (m_grouped) {
                     recycleGroupHeaderForWidget(widget);
                 }
@@ -1600,7 +1600,7 @@ bool KItemListView::moveWidget(KItemListWidget* widget,const QPointF& newPos)
     if (widget->pos() == newPos) {
         return false;
     }
-    
+
     bool startMovingAnim = false;
 
     // When having a grid the moving-animation should only be started, if it is done within
@@ -2040,11 +2040,11 @@ QRectF KItemListView::headerBoundaries() const
 bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
                                           const QSizeF& newItemSize,
                                           const QSizeF& newItemMargin) const
-{  
+{
     if (newItemSize.isEmpty() || newGridSize.isEmpty()) {
         return false;
     }
-    
+
     if (m_layouter->scrollOrientation() == Qt::Vertical) {
         const qreal itemWidth = m_layouter->itemSize().width();
         if (itemWidth > 0) {
@@ -2057,7 +2057,7 @@ bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
                                                         m_layouter->itemMargin().width());
                 return oldColumnCount != newColumnCount;
             }
-        }       
+        }
     } else {
         const qreal itemHeight = m_layouter->itemSize().height();
         if (itemHeight > 0) {
@@ -2070,9 +2070,9 @@ bool KItemListView::changesItemGridLayout(const QSizeF& newGridSize,
                                                      m_layouter->itemMargin().height());
                 return oldRowCount != newRowCount;
             }
-        }               
+        }
     }
-    
+
     return false;
 }
 
@@ -2081,7 +2081,7 @@ bool KItemListView::animateChangedItemCount(int changedItemCount) const
     if (m_layouter->size().isEmpty() || m_layouter->itemSize().isEmpty()) {
         return false;
     }
-    
+
     const int maximum = (scrollOrientation() == Qt::Vertical)
                         ? m_layouter->size().width()  / m_layouter->itemSize().width()
                         : m_layouter->size().height() / m_layouter->itemSize().height();
@@ -2106,7 +2106,7 @@ void KItemListView::updateGroupHeaderHeight()
 {
     qreal groupHeaderHeight = m_styleOption.fontMetrics.height();
     qreal groupHeaderMargin = 0;
-    
+
     if (scrollOrientation() == Qt::Horizontal) {
         // The vertical margin above and below the header should be
         // equal to the horizontal margin, not the vertical margin

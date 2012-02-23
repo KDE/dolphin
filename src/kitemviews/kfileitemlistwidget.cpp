@@ -548,7 +548,7 @@ void KFileItemListWidget::updatePixmapCache()
     }
 
     m_iconRect = QRectF(m_pixmapPos, QSizeF(m_scaledPixmapSize));
-    
+
     // Prepare the pixmap that is used when the item gets hovered
     if (isHovered()) {
         m_hoverPixmap = m_pixmap;
