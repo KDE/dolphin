@@ -81,6 +81,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_tabsForFiles(false),
     m_assureVisibleCurrentIndex(false),
     m_isFolderWritable(true),
+    m_dragging(false),
     m_url(url),
     m_mode(DolphinView::IconsView),
     m_additionalInfoList(),
@@ -155,6 +156,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     }
 
     KItemListView* view = controller->view();
+    view->installEventFilter(this);
     connect(view, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
             this, SLOT(slotSortOrderChangedByHeader(Qt::SortOrder,Qt::SortOrder)));
     connect(view, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
@@ -674,6 +676,22 @@ bool DolphinView::eventFilter(QObject* watched, QEvent* event)
         }
         break;
 
+    case QEvent::GraphicsSceneDragEnter:
+        if (watched == m_container->controller()->view()) {
+            m_dragging = true;
+        }
+        break;
+
+    case QEvent::GraphicsSceneDragLeave:
+        if (watched == m_container->controller()->view()) {
+            m_dragging = false;
+        }
+        break;
+
+    case QEvent::GraphicsSceneDrop:
+        if (watched == m_container->controller()->view()) {
+            m_dragging = false;
+        }
     default:
         break;
     }
@@ -808,7 +826,7 @@ void DolphinView::slotItemHovered(int index)
 {
     const KFileItem item = fileItemModel()->fileItem(index);
 
-    if (GeneralSettings::showToolTips() && hasFocus() && QApplication::mouseButtons() == Qt::NoButton) {
+    if (GeneralSettings::showToolTips() && !m_dragging) {
         QRectF itemRect = m_container->controller()->view()->itemContextRect(index);
         const QPoint pos = m_container->mapToGlobal(itemRect.topLeft().toPoint());
         itemRect.moveTo(pos);
