@@ -741,10 +741,12 @@ private:
     static QString fileSizeText(KIO::filesize_t fileSize);
 
 private:
-    bool m_active : 1;
-    bool m_tabsForFiles : 1;
-    bool m_assureVisibleCurrentIndex : 1;
-    bool m_isFolderWritable : 1;
+    bool m_active;
+    bool m_tabsForFiles;
+    bool m_assureVisibleCurrentIndex;
+    bool m_isFolderWritable;
+    bool m_dragging; // True if a dragging is done. Required to be able to decide whether a
+                     // tooltip may be shown when hovering an item.
 
     KUrl m_url;
     Mode m_mode;
