@@ -45,7 +45,7 @@ typedef QList<KItemRange> KItemRangeList;
 /**
  * @brief Base class for model implementations used by KItemListView and KItemListController.
  *
- * A item-model consists of a variable number of items. The number of items
+ * An item-model consists of a variable number of items. The number of items
  * is given by KItemModelBase::count(). The data of an item is accessed by a unique index
  * with KItemModelBase::data(). The indexes are integer-values counting from 0 to the
  * KItemModelBase::count() - 1.
@@ -55,7 +55,7 @@ typedef QList<KItemRange> KItemRangeList;
  * A model can optionally provide sorting- and grouping-capabilities.
  *
  * Also optionally it is possible to provide a tree of items by implementing the methods
- * setExpanded(), isExpanded() and isExpandable().
+ * setExpanded(), isExpanded(), isExpandable() and expandedParentsCount().
  */
 class LIBDOLPHINPRIVATE_EXPORT KItemModelBase : public QObject
 {

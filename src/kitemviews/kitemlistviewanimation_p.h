@@ -31,6 +31,12 @@ class QGraphicsWidget;
 class QPointF;
 class QPropertyAnimation;
 
+/**
+ * @brief Internal helper class for KItemListView to animate the items.
+ *
+ * Supports item animations for moving, creating, deleting and resizing
+ * an item. Several applications can be applied to one item in parallel.
+ */
 class LIBDOLPHINPRIVATE_EXPORT KItemListViewAnimation : public QObject
 {
     Q_OBJECT
@@ -52,12 +58,32 @@ public:
     void setScrollOffset(qreal scrollOffset);
     qreal scrollOffset() const;
 
+    /**
+     * Starts the animation of the type \a type for the widget \a widget. If an animation
+     * of the type is already running, this animation will be stopped before starting
+     * the new animation.
+     */
     void start(QGraphicsWidget* widget, AnimationType type, const QVariant& endValue = QVariant());
 
+    /**
+     * Stops the animation of the type \a type for the widget \a widget.
+     */
     void stop(QGraphicsWidget* widget, AnimationType type);
+
+    /**
+     * Stops all animations that have been applied to the widget \a widget.
+     */
     void stop(QGraphicsWidget* widget);
 
+    /**
+     * @return True if the animation of the type \a type has been started
+     *         for the widget \a widget..
+     */
     bool isStarted(QGraphicsWidget *widget, AnimationType type) const;
+
+    /**
+     * @return True if any animation has been started for the widget.
+     */
     bool isStarted(QGraphicsWidget* widget) const;
 
 signals:

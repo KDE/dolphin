@@ -179,7 +179,7 @@ private slots:
      * and foldersFirst() settings.
      */
     void resortAllItems();
-    
+
     void slotCompleted();
     void slotCanceled();
     void slotNewItems(const KFileItemList& items);
@@ -219,10 +219,10 @@ private:
         QHash<QByteArray, QVariant> values;
         ItemData* parent;
     };
-    
+
     void insertItems(const KFileItemList& items);
     void removeItems(const KFileItemList& items);
-    
+
     /**
      * Helper method for insertItems() and removeItems(): Creates
      * a list of ItemData elements based on the given items.
@@ -243,7 +243,7 @@ private:
      *         Runtime complexity is O(1).
      */
     Role roleIndex(const QByteArray& role) const;
-    
+
     /**
      * @return Role-byte-array for the given role-index.
      *         Runtime complexity is O(1).
@@ -251,7 +251,7 @@ private:
     QByteArray roleByteArray(Role role) const;
 
     QHash<QByteArray, QVariant> retrieveData(const KFileItem& item) const;
-    
+
     /**
      * @return True if the item-data \a a should be ordered before the item-data
      *         \b. The item-data may have different parent-items.
@@ -264,14 +264,14 @@ private:
      * have the same parent item, otherwise the comparison will be wrong.
      */
     int sortRoleCompare(const ItemData* a, const ItemData* b) const;
-    
+
     /**
      * Sorts the items by using lessThan() as comparison criteria.
      * The merge sort algorithm is used to assure a worst-case
      * of O(n * log(n)) and to keep the number of comparisons low.
      */
     void sort(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end);
-    
+
     /** Helper method for sort(). */
     void merge(QList<ItemData*>::iterator begin,
                QList<ItemData*>::iterator pivot,
@@ -281,14 +281,14 @@ private:
     QList<ItemData*>::iterator lowerBound(QList<ItemData*>::iterator begin,
                                           QList<ItemData*>::iterator end,
                                           const ItemData* value);
-    
+
     /** Helper method for sort(). */
     QList<ItemData*>::iterator upperBound(QList<ItemData*>::iterator begin,
                                           QList<ItemData*>::iterator end,
                                           const ItemData* value);
     /** Helper method for sort(). */
     void reverse(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end);
-    
+
     int stringCompare(const QString& a, const QString& b) const;
 
     /**
@@ -340,7 +340,7 @@ private:
     Role m_sortRole;
     QSet<QByteArray> m_roles;
     Qt::CaseSensitivity m_caseSensitivity;
-        
+
     QList<ItemData*> m_itemData;
     QHash<KUrl, int> m_items; // Allows O(1) access for KFileItemModel::index(const KFileItem& item)
 

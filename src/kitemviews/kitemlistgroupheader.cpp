@@ -135,9 +135,9 @@ void KItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphicsIt
         // No top- or left-line should be drawn for the first group-header
         return;
     }
-    
+
     painter->setPen(m_lineColor);
-    
+
     if (m_scrollOrientation == Qt::Horizontal) {
         painter->drawLine(0, 0, 0, size().height() - 1);
     } else {
@@ -209,7 +209,7 @@ void KItemListGroupHeader::updateCache()
 
     const QFontMetrics fontMetrics(m_styleOption.font);
     const qreal roleHeight = fontMetrics.height();
-    
+
     const int y = (m_scrollOrientation == Qt::Vertical) ? padding : horizontalMargin;
 
     m_roleBounds = QRectF(horizontalMargin + padding,

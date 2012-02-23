@@ -331,7 +331,7 @@ Q_DECLARE_METATYPE(QList<int>);
  * The following function provides a generic way to test the selection functionality.
  *
  * The test is data-driven and takes the following arguments:
- * 
+ *
  * \param initialSelection  The selection at the beginning.
  * \param anchor            This item will be the anchor item.
  * \param current           This item will be the current item.

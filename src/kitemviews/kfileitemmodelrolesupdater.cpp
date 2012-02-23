@@ -251,7 +251,7 @@ void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRang
 {
     Q_UNUSED(itemRanges);
     m_firstVisibleIndex = 0;
-    m_lastVisibleIndex = -1;    
+    m_lastVisibleIndex = -1;
     if (!hasPendingRoles()) {
         return;
     }

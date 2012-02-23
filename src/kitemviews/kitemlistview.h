@@ -72,18 +72,33 @@ public:
     KItemListView(QGraphicsWidget* parent = 0);
     virtual ~KItemListView();
 
+    /**
+     * If the scroll-orientation is vertical, the items are ordered
+     * from top to bottom (= default setting). If the scroll-orientation
+     * is horizontal, the items are ordered from left to right.
+     */
     void setScrollOrientation(Qt::Orientation orientation);
     Qt::Orientation scrollOrientation() const;
 
     void setItemSize(const QSizeF& size);
     QSizeF itemSize() const;
 
-    // TODO: add note that offset is not checked against maximumOffset, only against 0.
+    /**
+     * Offset of the scrollbar that represents the scroll-orientation
+     * (see setScrollOrientation()).
+     */
     void setScrollOffset(qreal offset);
     qreal scrollOffset() const;
 
     qreal maximumScrollOffset() const;
 
+    /**
+     * Offset related to an item, that does not fit into the available
+     * size of the listview. If the scroll-orientation is vertical
+     * the item-offset describes the offset of the horizontal axe, if
+     * the scroll-orientation is horizontal the item-offset describes
+     * the offset of the vertical axe.
+     */
     void setItemOffset(qreal scrollOffset);
     qreal itemOffset() const;
 
@@ -116,7 +131,7 @@ public:
 
     /**
      * @return Model of the item-list. The model gets
-     *         initialized by KItemListController::setView() and will
+     *         initialized by KItemListController::setModel() and will
      *         result in calling KItemListController::onModelChanged().
      */
     KItemModelBase* model() const;
@@ -145,11 +160,27 @@ public:
     /** @reimp */
     virtual void setGeometry(const QRectF& rect);
 
+    /**
+     * @return Index of the item that is below the point \a pos.
+     *         The position is relative to the upper right of
+     *         the visible area. Only (at least partly) visible
+     *         items are considered. -1 is returned if no item is
+     *         below the position.
+     */
     int itemAt(const QPointF& pos) const;
     bool isAboveSelectionToggle(int index, const QPointF& pos) const;
     bool isAboveExpansionToggle(int index, const QPointF& pos) const;
 
+    /**
+     * @return Index of the first item that is at least partly visible.
+     *         -1 is returned if the model contains no items.
+     */
     int firstVisibleIndex() const;
+
+    /**
+     * @return Index of the last item that is at least partly visible.
+     *         -1 is returned if the model contains no items.
+     */
     int lastVisibleIndex() const;
 
     /**
@@ -162,17 +193,20 @@ public:
 
     /**
      * @param itemRanges Items that must be checked for getting the visible roles sizes.
-     * @return The size of each visible role in case if KItemListView::itemSize()
-     *         is empty. This allows to have dynamic but equal role sizes between
-     *         all items. Per default an empty hash is returned.
+     * @return           The size of each visible role in case if KItemListView::itemSize()
+     *                   is empty. This allows to have dynamic but equal role sizes between
+     *                   all items, like used in the classic "table-views". Per default an
+     *                   empty hash is returned.
      */
     virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
 
     /**
-     * @return True if the view supports the expanding of items. Per default false
-     *         is returned. If expanding of items is supported, the methods
-     *         KItemModelBase::setExpanded(), KItemModelBase::isExpanded() and
-     *         KItemModelBase::isExpandable() must be reimplemented. The view-implementation
+     * @return True if the view supports the expanding of items. Per default
+     *         false is returned. If expanding of items is supported
+     *         (see setSupportsItemExpanding()),the methods
+     *         KItemModelBase::setExpanded(), KItemModelBase::isExpanded(),
+     *         KItemModelBase::isExpandable() and KItemModelBase::expandedParentsCount()
+     *         must be reimplemented. The view-implementation
      *         has to take care itself how to visually represent the expanded items provided
      *         by the model.
      */
@@ -220,7 +254,8 @@ public:
 
     /**
      * Turns on the header if \p show is true. Per default the
-     * header is not shown.
+     * header is not shown. Usually the header is turned on when
+     * showing a classic "table-view" to describe the shown columns.
      */
     void setHeaderShown(bool show);
     bool isHeaderShown() const;
@@ -506,7 +541,7 @@ private:
      *         if no header is shown.
      */
     QRectF headerBoundaries() const;
-    
+
     /**
      * @return True if the number of columns or rows will be changed when applying
      *         the new grid- and item-size. Used to determine whether an animation
@@ -515,7 +550,7 @@ private:
     bool changesItemGridLayout(const QSizeF& newGridSize,
                                const QSizeF& newItemSize,
                                const QSizeF& newItemMargin) const;
-    
+
     /**
      * @param changedItemCount Number of inserted  or removed items.
      * @return                 True if the inserting or removing of items should be animated.
@@ -564,7 +599,7 @@ private:
      *         value != 0 will be returned.
      */
     static int calculateAutoScrollingIncrement(int pos, int range, int oldInc);
-    
+
     /**
      * Helper functions for changesItemCount().
      * @return The number of items that fit into the available size by

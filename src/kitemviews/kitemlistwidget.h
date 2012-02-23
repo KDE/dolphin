@@ -140,7 +140,7 @@ protected:
     virtual void hoveredChanged(bool hovered);
     virtual void alternateBackgroundChanged(bool enabled);
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
-    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);    
+    virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
     /**
      * @return The current opacity of the hover-animation. When implementing a custom painting-code for a hover-state

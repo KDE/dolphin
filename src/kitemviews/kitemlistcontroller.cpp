@@ -202,7 +202,7 @@ bool KItemListController::keyPressEvent(QKeyEvent* event)
         default:            break;
         }
     }
-    
+
     const bool selectSingleItem = m_selectionBehavior != NoSelection &&
                                   itemCount == 1 &&
                                   (key == Qt::Key_Home || key == Qt::Key_End  ||

@@ -30,6 +30,20 @@
 class KItemModelBase;
 class KItemListSizeHintResolver;
 
+/**
+ * @brief Internal helper class for KItemListView to layout the items.
+ *
+ * The layouter is capable to align the items within a grid. If the
+ * scroll-direction is horizontal the column-width of the grid can be
+ * variable. If the scroll-direction is vertical the row-height of
+ * the grid can be variable.
+ *
+ * The layouter is implemented in a way that it postpones the expensive
+ * layout operation until a property is read the first time after
+ * marking the layouter as dirty (see markAsDirty()). This means that
+ * changing properties of the layouter is not expensive, only the
+ * first read of a property can get expensive.
+ */
 class LIBDOLPHINPRIVATE_EXPORT KItemListViewLayouter : public QObject
 {
     Q_OBJECT
@@ -52,7 +66,7 @@ public:
      */
     void setItemMargin(const QSizeF& margin);
     QSizeF itemMargin() const;
-    
+
     /**
      * Sets the height of the header that is always aligned
      * at the top. A height of <= 0.0 means that no header is
@@ -74,7 +88,7 @@ public:
      */
     void setGroupHeaderMargin(qreal margin);
     qreal groupHeaderMargin() const;
-    
+
     void setScrollOffset(qreal scrollOffset);
     qreal scrollOffset() const;
 
@@ -111,14 +125,21 @@ public:
      */
     QRectF itemRect(int index) const;
 
+    /**
+     * @return Rectangle of the group header for the item with the
+     *         index \a index. Note that the layouter does not check
+     *         whether the item really has a header: Usually only
+     *         the first item of a group gets a header (see
+     *         isFirstGroupItem()).
+     */
     QRectF groupHeaderRect(int index) const;
-    
+
     /**
      * @return Column of the item with the index \a index.
      *         -1 is returned if an invalid index is given.
      */
     int itemColumn(int index) const;
-    
+
     /**
      * @return Row of the item with the index \a index.
      *         -1 is returned if an invalid index is given.
@@ -137,6 +158,10 @@ public:
      */
     bool isFirstGroupItem(int itemIndex) const;
 
+    /**
+     * Marks the layouter as dirty. This means as soon as a property of
+     * the layouter gets read, an expensive relayout will be done.
+     */
     void markAsDirty();
 
 #ifndef QT_NO_DEBUG
@@ -172,7 +197,7 @@ private:
 
     QSizeF m_itemSize;
     QSizeF m_itemMargin;
-    qreal m_headerHeight;    
+    qreal m_headerHeight;
     const KItemModelBase* m_model;
     const KItemListSizeHintResolver* m_sizeHintResolver;
 

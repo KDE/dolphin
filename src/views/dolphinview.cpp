@@ -451,11 +451,11 @@ void DolphinView::stopLoading()
 void DolphinView::readSettings()
 {
     const int oldZoomLevel = m_container->zoomLevel();
-    
+
     GeneralSettings::self()->readConfig();
     m_container->readSettings();
     applyViewProperties();
-    
+
     const int newZoomLevel = m_container->zoomLevel();
     if (newZoomLevel != oldZoomLevel) {
         emit zoomLevelChanged(newZoomLevel, oldZoomLevel);

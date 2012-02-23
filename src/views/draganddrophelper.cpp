@@ -49,7 +49,7 @@ QString DragAndDropHelper::dropUrls(const KFileItem& destItem, const KUrl& destU
                 return i18nc("@info:status", "A folder cannot be dropped into itself");
             }
         }
-        
+
         KonqOperations::doDrop(destItem, destUrl, event, QApplication::activeWindow());
     } else {
         KonqOperations::doDrop(KFileItem(), destUrl, event, QApplication::activeWindow());

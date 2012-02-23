@@ -1120,7 +1120,7 @@ void DolphinMainWindow::editSettings()
     if (!m_settingsDialog) {
         DolphinViewContainer* container = activeViewContainer();
         container->view()->writeSettings();
-        
+
         const KUrl url = container->url();
         DolphinSettingsDialog* settingsDialog = new DolphinSettingsDialog(url, this);
         connect(settingsDialog, SIGNAL(settingsChanged()), this, SLOT(refreshViews()));
