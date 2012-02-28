@@ -1085,6 +1085,7 @@ void KItemListView::slotGroupedSortingChanged(bool current)
         }
     }
 
+    updateSiblingsInformation();
     doLayout(NoAnimation);
 }
 
