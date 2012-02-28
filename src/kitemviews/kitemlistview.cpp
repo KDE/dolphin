@@ -1862,7 +1862,7 @@ void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget* widget)
                 const QList<QPair<int, QVariant> > groups = model()->groups();
                 const int indexOfFirstGroupItem = groups[groupIndex].first;
                 const int relativeIndex = index - indexOfFirstGroupItem;
-                enabled = (relativeIndex & 0x1) == 0;
+                enabled = (relativeIndex & 0x1) > 0;
             }
         }
     }
@@ -2114,10 +2114,10 @@ void KItemListView::updateGroupHeaderHeight()
         groupHeaderHeight += 2 * m_styleOption.horizontalMargin;
         groupHeaderMargin = m_styleOption.horizontalMargin;
     } else if (m_itemSize.isEmpty()){
-        groupHeaderHeight += 2 * m_styleOption.padding;
+        groupHeaderHeight += 4 * m_styleOption.padding;
         groupHeaderMargin = m_styleOption.iconSize / 2;
     } else {
-        groupHeaderHeight += 2 * m_styleOption.padding;
+        groupHeaderHeight += 2 * m_styleOption.padding + m_styleOption.verticalMargin;
         groupHeaderMargin = m_styleOption.iconSize / 4;
     }
     m_layouter->setGroupHeaderHeight(groupHeaderHeight);
