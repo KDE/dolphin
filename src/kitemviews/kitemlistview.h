@@ -298,6 +298,14 @@ signals:
      */
     void sortRoleChanged(const QByteArray& current, const QByteArray& previous);
 
+    /**
+     * Is emitted if the user has changed the visible roles by moving a header
+     * item (see KItemListView::setHeaderShown()). Note that no signal will be
+     * emitted if the roles have been changed without user interaction by
+     * KItemListView::setVisibleRoles().
+     */
+    void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
+
 protected:
     virtual void initializeItemListWidget(KItemListWidget* item);
 
@@ -370,6 +378,14 @@ private slots:
     void slotVisibleRoleWidthChanged(const QByteArray& role,
                                      qreal currentWidth,
                                      qreal previousWidth);
+
+    /**
+     * Is invoked if a visible role has been moved by the user. Applies
+     * the moved role to the view.
+     */
+    void slotVisibleRoleMoved(const QByteArray& role,
+                              int currentIndex,
+                              int previousIndex);
 
     /**
      * Triggers the autoscrolling if autoScroll() is enabled by checking the

@@ -64,6 +64,8 @@ public:
 
     QByteArray role(DolphinView::AdditionalInfo info) const;
 
+    DolphinView::AdditionalInfo additionalInfo(const QByteArray& role) const;
+
     QString actionCollectionName(DolphinView::AdditionalInfo info, ActionCollectionType type) const;
 
     QString translation(DolphinView::AdditionalInfo info) const;
@@ -72,6 +74,7 @@ public:
      * @return String representation of the value that is stored in the .directory
      *         by ViewProperties.
      */
+    // TODO Dolphin 3.0: Deprecate - just use role() instead.
     QString value(DolphinView::AdditionalInfo info) const;
 
     DolphinView::Sorting sorting(DolphinView::AdditionalInfo info) const;
@@ -83,15 +86,15 @@ protected:
 
 private:
     struct AdditionalInfo {
-        const char* const actionCollectionName;
-        const char* const context;
-        const char* const translation;
-        const char* const value;
+        const char* const role;
+        const char* const roleTranslationContext;
+        const char* const roleTranslation;
+        const char* const value; // TODO Dolphin 3.0: Deprecate and use role instead
         const DolphinView::Sorting sorting;
     };
 
-    QList<DolphinView::AdditionalInfo> m_infoList;
     QMap<DolphinView::AdditionalInfo, const AdditionalInfo*> m_map;
+    QHash<QByteArray, DolphinView::AdditionalInfo> m_infoForRole;
 };
 
 #endif

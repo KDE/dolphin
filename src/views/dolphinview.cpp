@@ -161,6 +161,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
             this, SLOT(slotSortOrderChangedByHeader(Qt::SortOrder,Qt::SortOrder)));
     connect(view, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
             this, SLOT(slotSortRoleChangedByHeader(QByteArray,QByteArray)));
+    connect(view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
+            this, SLOT(slotVisibleRolesChangedByHeader(QList<QByteArray>,QList<QByteArray>)));
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
@@ -1155,6 +1157,29 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const Q
     props.setSorting(sorting);
 
     emit sortingChanged(sorting);
+}
+
+void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
+                                                  const QList<QByteArray>& previous)
+{
+    Q_UNUSED(previous);
+    Q_ASSERT(m_container->controller()->view()->visibleRoles() == current);
+
+    const QList<AdditionalInfo> previousAdditionalInfoList = m_additionalInfoList;
+
+    m_additionalInfoList.clear();
+    m_additionalInfoList.reserve(current.count());
+    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    foreach (const QByteArray& role, current) {
+        if (role != "name") {
+            m_additionalInfoList.append(infoAccessor.additionalInfo(role));
+        }
+    }
+
+    ViewProperties props(url());
+    props.setAdditionalInfoList(m_additionalInfoList);
+
+    emit additionalInfoListChanged(m_additionalInfoList, previousAdditionalInfoList);
 }
 
 KFileItemModel* DolphinView::fileItemModel() const
