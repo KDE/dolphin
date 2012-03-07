@@ -619,6 +619,8 @@ void KItemListView::setHeaderShown(bool show)
 
         connect(m_header, SIGNAL(visibleRoleWidthChanged(QByteArray,qreal,qreal)),
                 this, SLOT(slotVisibleRoleWidthChanged(QByteArray,qreal,qreal)));
+        connect(m_header, SIGNAL(visibleRoleMoved(QByteArray,int,int)),
+                this, SLOT(slotVisibleRoleMoved(QByteArray,int,int)));
         connect(m_header, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)),
                 this, SIGNAL(sortOrderChanged(Qt::SortOrder,Qt::SortOrder)));
         connect(m_header, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
@@ -1235,6 +1237,23 @@ void KItemListView::slotVisibleRoleWidthChanged(const QByteArray& role,
         }
         doLayout(NoAnimation);
     }
+}
+
+void KItemListView::slotVisibleRoleMoved(const QByteArray& role,
+                                         int currentIndex,
+                                         int previousIndex)
+{
+    Q_ASSERT(m_visibleRoles[previousIndex] == role);
+
+    const QList<QByteArray> previous = m_visibleRoles;
+
+    QList<QByteArray> current = m_visibleRoles;
+    current.removeAt(previousIndex);
+    current.insert(currentIndex, role);
+
+    setVisibleRoles(current);
+
+    emit visibleRolesChanged(current, previous);
 }
 
 void KItemListView::triggerAutoScrolling()

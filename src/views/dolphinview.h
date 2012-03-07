@@ -111,7 +111,6 @@ public:
     enum AdditionalInfo
     {
         NoInfo = 0,
-        NameInfo,
         SizeInfo,
         DateInfo,
         PermissionsInfo,
@@ -653,6 +652,13 @@ private slots:
      * on a header item. The view properties of the directory will get updated.
      */
     void slotSortRoleChangedByHeader(const QByteArray& current, const QByteArray& previous);
+
+    /**
+     * Is invoked when the visible roles have been changed by the user by dragging
+     * a header item. The view properties of the directory will get updated.
+     */
+    void slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
+                                         const QList<QByteArray>& previous);
 
     /**
      * Observes the item with the URL \a url. As soon as the directory

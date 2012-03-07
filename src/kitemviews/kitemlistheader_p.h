@@ -61,6 +61,11 @@ signals:
                                  qreal previousWidth);
 
     /**
+     * Is emitted if the position of the visible role has been changed.
+     */
+    void visibleRoleMoved(const QByteArray& role, int currentIndex, int previousIndex);
+
+    /**
      * Is emitted if the user has changed the sort order by clicking on a
      * header item. The sort order of the model has already been adjusted to
      * the current sort order. Note that no signal will be emitted if the
@@ -89,12 +94,29 @@ private slots:
     void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private:
-    void paintRole(QPainter* painter, const QByteArray& role, const QRectF& rect, int orderIndex);
+    void paintRole(QPainter* painter, const QByteArray& role, const QRectF& rect, int orderIndex) const;
 
     void updatePressedRoleIndex(const QPointF& pos);
     void updateHoveredRoleIndex(const QPointF& pos);
     int roleIndexAt(const QPointF& pos) const;
     bool isAboveRoleGrip(const QPointF& pos, int roleIndex) const;
+
+    /**
+     * Creates a pixmap of the role with the index \a roleIndex that is shown
+     * during moving a role.
+     */
+    QPixmap createRolePixmap(int roleIndex) const;
+
+    /**
+     * @return Target index of the currently moving visible role based on the current
+     *         state of m_movingRole.
+     */
+    int targetOfMovingRole() const;
+
+    /**
+     * @return x-position of the left border of the role \a role.
+     */
+    qreal roleXPosition(const QByteArray& role) const;
 
 private:
     enum RoleOperation
@@ -112,6 +134,14 @@ private:
     int m_pressedRoleIndex;
     RoleOperation m_roleOperation;
     QPointF m_pressedMousePos;
+
+    struct MovingRole
+    {
+        QPixmap pixmap;
+        int x;
+        int xDec;
+        int index;
+    } m_movingRole;
 };
 
 #endif

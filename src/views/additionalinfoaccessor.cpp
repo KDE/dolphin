@@ -36,26 +36,17 @@ AdditionalInfoAccessor& AdditionalInfoAccessor::instance()
 
 QList<DolphinView::AdditionalInfo> AdditionalInfoAccessor::keys() const
 {
-    return m_infoList;
+    return m_map.keys();
 }
 
 QByteArray AdditionalInfoAccessor::role(DolphinView::AdditionalInfo info) const
 {
-    QByteArray role;
-    switch (info) {
-    case DolphinView::NameInfo:        role = "name"; break;
-    case DolphinView::SizeInfo:        role = "size"; break;
-    case DolphinView::DateInfo:        role = "date"; break;
-    case DolphinView::PermissionsInfo: role = "permissions"; break;
-    case DolphinView::OwnerInfo:       role = "owner"; break;
-    case DolphinView::GroupInfo:       role = "group"; break;
-    case DolphinView::TypeInfo:        role = "type"; break;
-    case DolphinView::DestinationInfo: role = "destination"; break;
-    case DolphinView::PathInfo:        role = "path"; break;
-    default: break;
-    }
+    return m_map[info]->role;
+}
 
-    return role;
+DolphinView::AdditionalInfo AdditionalInfoAccessor::additionalInfo(const QByteArray& role) const
+{
+    return m_infoForRole.value(role);
 }
 
 QString AdditionalInfoAccessor::actionCollectionName(DolphinView::AdditionalInfo info,
@@ -64,11 +55,11 @@ QString AdditionalInfoAccessor::actionCollectionName(DolphinView::AdditionalInfo
     QString name;
     switch (type) {
     case SortByType:
-        name = QLatin1String("sort_by_") + QLatin1String(m_map[info]->actionCollectionName);
+        name = QLatin1String("sort_by_") + QLatin1String(m_map[info]->role);
         break;
 
     case AdditionalInfoType:
-        name = QLatin1String("show_") + QLatin1String(m_map[info]->actionCollectionName);
+        name = QLatin1String("show_") + QLatin1String(m_map[info]->role);
         break;
     }
 
@@ -77,7 +68,7 @@ QString AdditionalInfoAccessor::actionCollectionName(DolphinView::AdditionalInfo
 
 QString AdditionalInfoAccessor::translation(DolphinView::AdditionalInfo info) const
 {
-    return i18nc(m_map[info]->context, m_map[info]->translation);
+    return i18nc(m_map[info]->roleTranslationContext, m_map[info]->roleTranslation);
 }
 
 QString AdditionalInfoAccessor::value(DolphinView::AdditionalInfo info) const
@@ -91,11 +82,11 @@ DolphinView::Sorting AdditionalInfoAccessor::sorting(DolphinView::AdditionalInfo
 }
 
 AdditionalInfoAccessor::AdditionalInfoAccessor() :
-    m_infoList(),
-    m_map()
+    m_map(),
+    m_infoForRole()
 {
     static const AdditionalInfoAccessor::AdditionalInfo additionalInfo[] = {
-        // Entries for view-properties version 1:
+        // role          roleTranslationContext       roleTranslation      value              sorting
         { "size",        I18N_NOOP2_NOSTRIP("@label", "Size"),             "Size",            DolphinView::SortBySize},
         { "date",        I18N_NOOP2_NOSTRIP("@label", "Date"),             "Date",            DolphinView::SortByDate},
         { "permissions", I18N_NOOP2_NOSTRIP("@label", "Permissions"),      "Permissions",     DolphinView::SortByPermissions},
@@ -115,16 +106,11 @@ AdditionalInfoAccessor::AdditionalInfoAccessor() :
     m_map.insert(DolphinView::DestinationInfo, &additionalInfo[6]);
     m_map.insert(DolphinView::PathInfo, &additionalInfo[7]);
 
-    // The m_infoList defines all available keys and the sort order
-    // (don't use m_information = m_map.keys(), as the order would be undefined).
-    m_infoList.append(DolphinView::SizeInfo);
-    m_infoList.append(DolphinView::DateInfo);
-    m_infoList.append(DolphinView::PermissionsInfo);
-    m_infoList.append(DolphinView::OwnerInfo);
-    m_infoList.append(DolphinView::GroupInfo);
-    m_infoList.append(DolphinView::TypeInfo);
-    m_infoList.append(DolphinView::DestinationInfo);
-    m_infoList.append(DolphinView::PathInfo);
+    QMapIterator<DolphinView::AdditionalInfo, const AdditionalInfo*> it(m_map);
+    while (it.hasNext()) {
+        it.next();
+        m_infoForRole.insert(it.value()->role, it.key());
+    }
 }
 
 AdditionalInfoAccessor::~AdditionalInfoAccessor()

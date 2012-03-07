@@ -219,18 +219,7 @@ void ViewProperties::setAdditionalInfoList(const QList<DolphinView::AdditionalIn
         newInfoStringList.append(prefix + infoAccessor.value(info));
     }
 
-    // Only update the information if it has been changed
-    bool changed = oldInfoStringList.count() != newInfoStringList.count();
-    if (!changed) {
-        foreach (const QString& oldInfoString, oldInfoStringList) {
-            if (!newInfoStringList.contains(oldInfoString)) {
-                changed = true;
-                break;
-            }
-        }
-    }
-
-    if (changed) {
+    if (oldInfoStringList != newInfoStringList) {
         const bool markCustomizedDetails = (m_node->viewMode() == DolphinView::DetailsView)
                                            && !newInfoStringList.contains(CustomizedDetailsString);
         if (markCustomizedDetails) {
