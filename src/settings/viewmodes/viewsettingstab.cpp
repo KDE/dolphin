@@ -95,8 +95,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         break;
     }
     case DetailsMode:
-        // Disabled for 4.8.x: No new UI-strings are allowed
-        // m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
+        m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
         break;
     default:
         break;
@@ -118,8 +117,7 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
         connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
         break;
     case DetailsMode:
-        // Disabled for 4.8.x: No new UI-strings are allowed
-        //connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+        connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
         break;
     default:
         break;
@@ -140,8 +138,7 @@ void ViewSettingsTab::applySettings()
         IconsModeSettings::setTextWidthIndex(m_textWidthBox->currentIndex());
         break;
     case DetailsMode:
-        // Disabled for 4.8.x: No new UI-strings are allowed
-        //DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
+        DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
         break;
     default:
         break;
@@ -185,8 +182,7 @@ void ViewSettingsTab::loadSettings()
         m_textWidthBox->setCurrentIndex(IconsModeSettings::textWidthIndex());
         break;
     case DetailsMode:
-        // Disabled for 4.8.x: No new UI-strings are allowed
-        // m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
+        m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
         break;
     default:
         break;
