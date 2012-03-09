@@ -152,6 +152,7 @@ void FoldersPanel::showEvent(QShowEvent* event)
         const qreal itemHeight = qMax(int(KIconLoader::SizeSmall), styleOption.fontMetrics.height());
         view->setItemSize(QSizeF(-1, itemHeight + 2 * styleOption.padding));
         view->setItemLayout(KFileItemListView::DetailsLayout);
+        view->setSupportsItemExpanding(true);
         // Set the opacity to 0 initially. The opacity will be increased after the loading of the initial tree
         // has been finished in slotLoadingCompleted(). This prevents an unnecessary animation-mess when
         // opening the folders panel.
