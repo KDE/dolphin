@@ -27,6 +27,7 @@
 #include <KComboBox>
 #include <KLocale>
 
+#include <QCheckBox>
 #include <QGroupBox>
 #include <QLabel>
 #include <QSlider>
@@ -40,7 +41,8 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     m_defaultSizeSlider(0),
     m_previewSizeSlider(0),
     m_fontRequester(0),
-    m_textWidthBox(0)
+    m_textWidthBox(0),
+    m_expandableFolders(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
@@ -79,7 +81,8 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     textGroupLayout->addWidget(fontLabel, 0, 0, Qt::AlignRight);
     textGroupLayout->addWidget(m_fontRequester, 0, 1);
 
-    if (m_mode == IconsMode) {
+    switch (m_mode) {
+    case IconsMode: {
         QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
         m_textWidthBox = new KComboBox(textGroup);
         m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
@@ -89,10 +92,19 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
         textGroupLayout->addWidget(textWidthLabel, 2, 0, Qt::AlignRight);
         textGroupLayout->addWidget(m_textWidthBox, 2, 1);
+        break;
+    }
+    case DetailsMode:
+        // Disabled for 4.8.x: No new UI-strings are allowed
+        // m_expandableFolders = new QCheckBox(i18nc("@option:check", "Expandable folders"), this);
+        break;
+    default:
+        break;
     }
 
     topLayout->addWidget(iconSizeGroup);
     topLayout->addWidget(textGroup);
+    topLayout->addWidget(m_expandableFolders);
     topLayout->addStretch(1);
 
     loadSettings();
@@ -100,8 +112,17 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     connect(m_defaultSizeSlider, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
     connect(m_previewSizeSlider, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
     connect(m_fontRequester, SIGNAL(changed()), this, SIGNAL(changed()));
-    if (m_mode == IconsMode) {
+
+    switch (m_mode) {
+    case IconsMode:
         connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+        break;
+    case DetailsMode:
+        // Disabled for 4.8.x: No new UI-strings are allowed
+        //connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+        break;
+    default:
+        break;
     }
 }
 
@@ -114,8 +135,16 @@ void ViewSettingsTab::applySettings()
     const QFont font = m_fontRequester->currentFont();
     const bool useSystemFont = (m_fontRequester->mode() == DolphinFontRequester::SystemFont);
 
-    if (m_mode == IconsMode) {
+    switch (m_mode) {
+    case IconsMode:
         IconsModeSettings::setTextWidthIndex(m_textWidthBox->currentIndex());
+        break;
+    case DetailsMode:
+        // Disabled for 4.8.x: No new UI-strings are allowed
+        //DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
+        break;
+    default:
+        break;
     }
 
     ViewModeSettings settings(viewMode());
@@ -151,8 +180,16 @@ void ViewSettingsTab::restoreDefaultSettings()
 
 void ViewSettingsTab::loadSettings()
 {
-    if (m_mode == IconsMode) {
+    switch (m_mode) {
+    case IconsMode:
         m_textWidthBox->setCurrentIndex(IconsModeSettings::textWidthIndex());
+        break;
+    case DetailsMode:
+        // Disabled for 4.8.x: No new UI-strings are allowed
+        // m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());
+        break;
+    default:
+        break;
     }
 
     ViewModeSettings settings(viewMode());

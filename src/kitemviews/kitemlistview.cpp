@@ -524,6 +524,15 @@ QHash<QByteArray, QSizeF> KItemListView::visibleRolesSizes(const KItemRangeList&
     return QHash<QByteArray, QSizeF>();
 }
 
+void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
+{
+    if (m_supportsItemExpanding != supportsExpanding) {
+        m_supportsItemExpanding = supportsExpanding;
+        updateSiblingsInformation();
+        onSupportsItemExpandingChanged(supportsExpanding);
+    }
+}
+
 bool KItemListView::supportsItemExpanding() const
 {
     return m_supportsItemExpanding;
@@ -725,6 +734,11 @@ void KItemListView::onStyleOptionChanged(const KItemListStyleOption& current, co
     Q_UNUSED(previous);
 }
 
+void KItemListView::onSupportsItemExpandingChanged(bool supportsExpanding)
+{
+    Q_UNUSED(supportsExpanding);
+}
+
 void KItemListView::onTransactionBegin()
 {
 }
@@ -790,14 +804,6 @@ void KItemListView::dropEvent(QGraphicsSceneDragDropEvent* event)
 QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 {
     return m_visibleItems.values();
-}
-
-void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
-{
-    if (m_supportsItemExpanding != supportsExpanding) {
-        m_supportsItemExpanding = supportsExpanding;
-        updateSiblingsInformation();
-    }
 }
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)

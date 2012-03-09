@@ -46,6 +46,9 @@ public:
     void setLayout(Layout layout);
     Layout layout() const;
 
+    void setSupportsItemExpanding(bool supportsItemExpanding);
+    bool supportsItemExpanding() const;
+
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
     virtual QRectF iconRect() const;
@@ -131,6 +134,7 @@ private:
     bool m_isCut;
     bool m_isHidden;
     bool m_isExpandable;
+    bool m_supportsItemExpanding;
 
     bool m_dirtyLayout;
     bool m_dirtyContent;

@@ -45,6 +45,7 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_isCut(false),
     m_isHidden(false),
     m_isExpandable(false),
+    m_supportsItemExpanding(false),
     m_dirtyLayout(true),
     m_dirtyContent(true),
     m_dirtyContentRoles(),
@@ -88,6 +89,20 @@ KFileItemListWidget::Layout KFileItemListWidget::layout() const
     return m_layout;
 }
 
+void KFileItemListWidget::setSupportsItemExpanding(bool supportsItemExpanding)
+{
+    if (m_supportsItemExpanding != supportsItemExpanding) {
+        m_supportsItemExpanding = supportsItemExpanding;
+        m_dirtyLayout = true;
+        update();
+    }
+}
+
+bool KFileItemListWidget::supportsItemExpanding() const
+{
+    return m_supportsItemExpanding;
+}
+
 void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
@@ -119,7 +134,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     painter->drawStaticText(m_textPos[Name], m_text[Name]);
 
     bool clipAdditionalInfoBounds = false;
-    if (m_layout == DetailsLayout) {
+    if (m_supportsItemExpanding) {
         // Prevent a possible overlapping of the additional-information texts
         // with the icon. This can happen if the user has minimized the width
         // of the name-column to a very small value.
@@ -418,7 +433,7 @@ void KFileItemListWidget::triggerCacheRefreshing()
     refreshCache();
 
     const QHash<QByteArray, QVariant> values = data();
-    m_isExpandable = values["isExpandable"].toBool();
+    m_isExpandable = m_supportsItemExpanding && values["isExpandable"].toBool();
     m_isHidden = values["name"].toString().startsWith(QLatin1Char('.'));
 
     updateExpansionArea();
@@ -432,7 +447,7 @@ void KFileItemListWidget::triggerCacheRefreshing()
 
 void KFileItemListWidget::updateExpansionArea()
 {
-    if (m_layout == DetailsLayout) {
+    if (m_supportsItemExpanding) {
         const QHash<QByteArray, QVariant> values = data();
         Q_ASSERT(values.contains("expandedParentsCount"));
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
@@ -751,8 +766,13 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     const int fontHeight = option.fontMetrics.height();
 
     const qreal columnPadding = option.padding * 3;
-    const qreal firstColumnInc = (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2
-                                 + scaledIconSize;
+    qreal firstColumnInc = scaledIconSize;
+    if (m_supportsItemExpanding) {
+        firstColumnInc += (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2;
+    } else {
+        firstColumnInc += option.padding;
+    }
+
     qreal x = firstColumnInc;
     const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
 

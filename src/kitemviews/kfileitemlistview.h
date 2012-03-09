@@ -92,6 +92,7 @@ protected:
     virtual void onScrollOffsetChanged(qreal current, qreal previous);
     virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void onSupportsItemExpandingChanged(bool supportsExpanding);
     virtual void onTransactionBegin();
     virtual void onTransactionEnd();
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
