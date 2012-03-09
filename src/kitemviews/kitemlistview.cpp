@@ -299,7 +299,6 @@ void KItemListView::setAutoScroll(bool enabled)
         delete m_autoScrollTimer;
         m_autoScrollTimer = 0;
     }
-
 }
 
 bool KItemListView::autoScroll() const

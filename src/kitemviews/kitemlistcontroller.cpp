@@ -732,6 +732,8 @@ bool KItemListController::dragLeaveEvent(QGraphicsSceneDragDropEvent* event, con
     Q_UNUSED(event);
     Q_UNUSED(transform);
 
+    m_view->setAutoScroll(false);
+
     KItemListWidget* widget = hoveredWidget();
     if (widget) {
         widget->setHovered(false);
@@ -785,6 +787,7 @@ bool KItemListController::dropEvent(QGraphicsSceneDragDropEvent* event, const QT
     }
 
     m_autoActivationTimer->stop();
+    m_view->setAutoScroll(false);
 
     const QPointF pos = transform.map(event->pos());
     const int index = m_view->itemAt(pos);
