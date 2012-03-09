@@ -25,6 +25,7 @@
 
 class DolphinFontRequester;
 class KComboBox;
+class QCheckBox;
 class QSlider;
 
 /**
@@ -63,6 +64,7 @@ private:
 
     DolphinFontRequester* m_fontRequester;
     KComboBox* m_textWidthBox;
+    QCheckBox* m_expandableFolders;
 };
 
 #endif

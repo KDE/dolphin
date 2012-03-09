@@ -106,8 +106,6 @@ void KFileItemListView::setItemLayout(Layout layout)
             applyRolesToModel();
         }
         updateLayoutOfVisibleItems();
-
-        setSupportsItemExpanding(m_itemLayout == DetailsLayout);
     }
 }
 
@@ -324,6 +322,8 @@ void KFileItemListView::initializeItemListWidget(KItemListWidget* item)
     case DetailsLayout: fileItemListWidget->setLayout(KFileItemListWidget::DetailsLayout); break;
     default:            Q_ASSERT(false); break;
     }
+
+    fileItemListWidget->setSupportsItemExpanding(supportsItemExpanding());
 }
 
 bool KFileItemListView::itemSizeHintUpdateRequired(const QSet<QByteArray>& changedRoles) const
@@ -386,6 +386,13 @@ void KFileItemListView::onStyleOptionChanged(const KItemListStyleOption& current
     Q_UNUSED(current);
     Q_UNUSED(previous);
     triggerIconSizeUpdate();
+}
+
+void KFileItemListView::onSupportsItemExpandingChanged(bool supportsExpanding)
+{
+    Q_UNUSED(supportsExpanding);
+    applyRolesToModel();
+    updateLayoutOfVisibleItems();
 }
 
 void KFileItemListView::onTransactionBegin()
@@ -569,7 +576,7 @@ void KFileItemListView::applyRolesToModel()
     roles.insert("iconName");
     roles.insert("name");
     roles.insert("isDir");
-    if (m_itemLayout == DetailsLayout) {
+    if (supportsItemExpanding()) {
         roles.insert("isExpanded");
         roles.insert("isExpandable");
         roles.insert("expandedParentsCount");

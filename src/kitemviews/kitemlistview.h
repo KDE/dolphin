@@ -201,15 +201,15 @@ public:
     virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
 
     /**
-     * @return True if the view supports the expanding of items. Per default
-     *         false is returned. If expanding of items is supported
-     *         (see setSupportsItemExpanding()),the methods
-     *         KItemModelBase::setExpanded(), KItemModelBase::isExpanded(),
-     *         KItemModelBase::isExpandable() and KItemModelBase::expandedParentsCount()
-     *         must be reimplemented. The view-implementation
-     *         has to take care itself how to visually represent the expanded items provided
-     *         by the model.
+     * If set to true, items having child-items can be expanded to show the child-items as
+     * part of the view. Per default the expanding of items is is disabled. If expanding of
+     * items is enabled, the methods KItemModelBase::setExpanded(), KItemModelBase::isExpanded(),
+     * KItemModelBase::isExpandable() and KItemModelBase::expandedParentsCount()
+     * must be reimplemented. The view-implementation
+     * has to take care itself how to visually represent the expanded items provided
+     * by the model.
      */
+    void setSupportsItemExpanding(bool supportsExpanding);
     bool supportsItemExpanding() const;
 
     /**
@@ -327,6 +327,7 @@ protected:
     virtual void onScrollOffsetChanged(qreal current, qreal previous);
     virtual void onVisibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
     virtual void onStyleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
+    virtual void onSupportsItemExpandingChanged(bool supportsExpanding);
 
     virtual void onTransactionBegin();
     virtual void onTransactionEnd();
@@ -340,13 +341,6 @@ protected:
     virtual void dropEvent(QGraphicsSceneDragDropEvent* event);
 
     QList<KItemListWidget*> visibleItemListWidgets() const;
-
-    /**
-     * Must be called by the derived class if it supports the expanding
-     * of items.
-     * @see supportsItemExpanding()
-     */
-    void setSupportsItemExpanding(bool supportsExpanding);
 
 protected slots:
     virtual void slotItemsInserted(const KItemRangeList& itemRanges);
