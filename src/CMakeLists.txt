@@ -47,7 +47,6 @@ set(dolphinprivate_LIB_SRCS
     settings/viewmodes/viewmodesettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
-    views/additionalinfoaccessor.cpp
     views/dolphindirlister.cpp
     views/dolphinfileitemlistwidget.cpp
     views/dolphinitemlistcontainer.cpp
@@ -58,6 +57,7 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinviewactionhandler.cpp
     views/draganddrophelper.cpp
     views/renamedialog.cpp
+    views/rolesaccessor.cpp
     views/tooltips/filemetadatatooltip.cpp
     views/tooltips/tooltipmanager.cpp
     views/versioncontrol/updateitemstatesthread.cpp

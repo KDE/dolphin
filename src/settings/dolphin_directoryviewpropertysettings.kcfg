@@ -40,10 +40,10 @@
             <default>false</default>
         </entry>
 
-        <entry name="Sorting" type="Int" >
+        <entry name="SortRole" type="String" >
             <label context="@label">Sort files by</label>
             <whatsthis context="@info:whatsthis">This option defines which attribute (name, size, date, etc.) sorting is performed on.</whatsthis>
-            <default code="true">DolphinView::SortByName</default>
+            <default code="true">"name"</default>
         </entry>
 
         <entry name="SortOrder" type="Int" >
@@ -58,8 +58,8 @@
             <default>true</default>
         </entry>
 
-        <entry name="AdditionalInfo" type="StringList">
-            <label context="@label">Additional information</label>
+        <entry name="VisibleRoles" type="StringList">
+            <label context="@label">Visible roles</label>
             <default></default>
         </entry>
 

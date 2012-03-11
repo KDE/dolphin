@@ -151,7 +151,7 @@ private Q_SLOTS:
     /**
      * Updates the state of the 'Sort by' actions.
      */
-    void slotSortingChanged(DolphinView::Sorting sorting);
+    void slotSortRoleChanged(const QByteArray& role);
 
     /**
      * Updates the state of the 'Zoom In' and 'Zoom Out' actions.
@@ -172,8 +172,8 @@ private Q_SLOTS:
     /**
      * Updates the state of the 'Additional Information' actions.
      */
-    void slotAdditionalInfoListChanged(const QList<DolphinView::AdditionalInfo>& current,
-                                       const QList<DolphinView::AdditionalInfo>& previous);
+    void slotVisibleRolesChanged(const QList<QByteArray>& current,
+                                 const QList<QByteArray>& previous);
 
     /**
      * Switches between sorting by groups or not.

@@ -25,12 +25,12 @@
 #include <QLabel>
 #include <QVBoxLayout>
 
-#include "views/additionalinfoaccessor.h"
+#include "views/rolesaccessor.h"
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
-                                           const QList<DolphinView::AdditionalInfo>& infoList) :
+                                           const QList<QByteArray>& visibleRoles) :
     KDialog(parent),
-    m_infoList(infoList),
+    m_visibleRoles(visibleRoles),
     m_checkBoxes()
 {
     setCaption(i18nc("@title:window", "Additional Information"));
@@ -48,11 +48,11 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
     layout->addWidget(header);
 
     // Add checkboxes
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const QList<DolphinView::AdditionalInfo> keys = infoAccessor.keys();
-    foreach (DolphinView::AdditionalInfo info, keys) {
-        QCheckBox* checkBox = new QCheckBox(infoAccessor.translation(info), mainWidget);
-        checkBox->setChecked(infoList.contains(info));
+    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
+    const QList<QByteArray> roles = rolesAccessor.roles();
+    foreach (const QByteArray& role, roles) {
+        QCheckBox* checkBox = new QCheckBox(rolesAccessor.translation(role), mainWidget);
+        checkBox->setChecked(visibleRoles.contains(role));
         layout->addWidget(checkBox);
         m_checkBoxes.append(checkBox);
     }
@@ -75,20 +75,20 @@ AdditionalInfoDialog::~AdditionalInfoDialog()
     saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
-QList<DolphinView::AdditionalInfo> AdditionalInfoDialog::informationList() const
+QList<QByteArray> AdditionalInfoDialog::visibleRoles() const
 {
-    return m_infoList;
+    return m_visibleRoles;
 }
 
 void AdditionalInfoDialog::slotOk()
 {
-    m_infoList.clear();
+    m_visibleRoles.clear();
 
-    const QList<DolphinView::AdditionalInfo> keys = AdditionalInfoAccessor::instance().keys();
+    const QList<QByteArray> roles = RolesAccessor::instance().roles();
     int index = 0;
-    foreach (DolphinView::AdditionalInfo info, keys) {
+    foreach (const QByteArray& role, roles) {
         if (m_checkBoxes[index]->isChecked()) {
-            m_infoList.append(info);
+            m_visibleRoles.append(role);
         }
         ++index;
     }

@@ -93,34 +93,6 @@ public:
         CompactView
     };
 
-    /** Defines the sort order for the items of a directory. */
-    enum Sorting
-    {
-        SortByName = 0,
-        SortBySize,
-        SortByDate,
-        SortByPermissions,
-        SortByOwner,
-        SortByGroup,
-        SortByType,
-        SortByDestination,
-        SortByPath
-    };
-
-    /** Defines the additional information shown for the items of a directory. */
-    enum AdditionalInfo
-    {
-        NoInfo = 0,
-        SizeInfo,
-        DateInfo,
-        PermissionsInfo,
-        OwnerInfo,
-        GroupInfo,
-        TypeInfo,
-        DestinationInfo,
-        PathInfo
-    };
-
     /**
      * @param url              Specifies the content which should be shown.
      * @param parent           Parent widget of the view.
@@ -234,29 +206,21 @@ public:
      */
     bool isZoomOutPossible() const;
 
-    /** Sets the sorting criterion (e.g., SortByName, SortBySize,...) of the items inside a directory (see DolphinView::Sorting). */
-    void setSorting(Sorting sorting);
+    void setSortRole(const QByteArray& role);
+    QByteArray sortRole() const;
 
-    /** Returns the sorting criterion (e.g., SortByName, SortBySize,...) of the items inside a directory (see DolphinView::Sorting). */
-    Sorting sorting() const;
-
-    /** Sets the sort order (Qt::Ascending or Qt::Descending) for the items. */
     void setSortOrder(Qt::SortOrder order);
-
-    /** Returns the currently used sort order (Qt::Ascending or Qt::Descending). */
     Qt::SortOrder sortOrder() const;
 
     /** Sets a separate sorting with folders first (true) or a mixed sorting of files and folders (false). */
     void setSortFoldersFirst(bool foldersFirst);
-
-    /** Returns if files and folders are sorted separately or not. */
     bool sortFoldersFirst() const;
 
     /** Sets the additional information which should be shown for the items. */
-    void setAdditionalInfoList(const QList<AdditionalInfo>& info);
+    void setVisibleRoles(const QList<QByteArray>& roles);
 
     /** Returns the additional information which should be shown for the items. */
-    QList<AdditionalInfo> additionalInfoList() const;
+    QList<QByteArray> visibleRoles() const;
 
     /** Reloads the current directory. */
     void reload();
@@ -450,17 +414,20 @@ signals:
     void groupedSortingChanged(bool groupedSorting);
 
     /** Is emitted if the sorting by name, size or date has been changed. */
-    void sortingChanged(DolphinView::Sorting sorting);
+    void sortRoleChanged(const QByteArray& role);
 
     /** Is emitted if the sort order (ascending or descending) has been changed. */
     void sortOrderChanged(Qt::SortOrder order);
 
-    /** Is emitted if the sorting of files and folders (separate with folders first or mixed) has been changed. */
+    /**
+     * Is emitted if the sorting of files and folders (separate with folders
+     * first or mixed) has been changed.
+     */
     void sortFoldersFirstChanged(bool foldersFirst);
 
     /** Is emitted if the additional information shown for this view has been changed. */
-    void additionalInfoListChanged(const QList<DolphinView::AdditionalInfo>& current,
-                                   const QList<DolphinView::AdditionalInfo>& previous);
+    void visibleRolesChanged(const QList<QByteArray>& current,
+                             const QList<QByteArray>& previous);
 
     /** Is emitted if the zoom level has been changed by zooming in or out. */
     void zoomLevelChanged(int current, int previous);
@@ -586,9 +553,9 @@ private slots:
 
     /**
      * Updates the view properties of the current URL to the
-     * sorting given by \a sorting.
+     * sorting given by \a role.
      */
-    void updateSorting(DolphinView::Sorting sorting);
+    void updateSortRole(const QByteArray& role);
 
     /**
      * Updates the view properties of the current URL to the
@@ -702,8 +669,6 @@ private:
      */
     void applyViewProperties();
 
-    void applyAdditionalInfoListToView();
-
     /**
      * Helper method for DolphinView::paste() and DolphinView::pasteIntoFolder().
      * Pastes the clipboard data into the URL \a url.
@@ -737,9 +702,6 @@ private:
      */
     void updateWritableState();
 
-    QByteArray sortRoleForSorting(Sorting sorting) const;
-    Sorting sortingForSortRole(const QByteArray& sortRole) const;
-
     /**
      * Returns the text for the filesize by converting it to the best fitting
      * unit.
@@ -756,7 +718,7 @@ private:
 
     KUrl m_url;
     Mode m_mode;
-    QList<AdditionalInfo> m_additionalInfoList;
+    QList<QByteArray> m_visibleRoles;
 
     QVBoxLayout* m_topLayout;
 

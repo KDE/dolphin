@@ -56,7 +56,7 @@
 #include <KToggleAction>
 #include <KUrl>
 
-#include "additionalinfoaccessor.h"
+#include "rolesaccessor.h"
 #include "dolphindirlister.h"
 #include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
@@ -72,7 +72,6 @@
 
 namespace {
     const int MaxModeEnum = DolphinView::CompactView;
-    const int MaxSortingEnum = DolphinView::SortByPath;
 };
 
 DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
@@ -84,7 +83,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_dragging(false),
     m_url(url),
     m_mode(DolphinView::IconsView),
-    m_additionalInfoList(),
+    m_visibleRoles(),
     m_topLayout(0),
     m_dirLister(0),
     m_container(0),
@@ -371,17 +370,17 @@ int DolphinView::zoomLevel() const
     return m_container->zoomLevel();
 }
 
-void DolphinView::setSorting(Sorting sorting)
+void DolphinView::setSortRole(const QByteArray& role)
 {
-    if (sorting != this->sorting()) {
-        updateSorting(sorting);
+    if (role != sortRole()) {
+        updateSortRole(role);
     }
 }
 
-DolphinView::Sorting DolphinView::sorting() const
+QByteArray DolphinView::sortRole() const
 {
-    KItemModelBase* model = m_container->controller()->model();
-    return sortingForSortRole(model->sortRole());
+    const KItemModelBase* model = m_container->controller()->model();
+    return model->sortRole();
 }
 
 void DolphinView::setSortOrder(Qt::SortOrder order)
@@ -410,22 +409,22 @@ bool DolphinView::sortFoldersFirst() const
     return model->sortFoldersFirst();
 }
 
-void DolphinView::setAdditionalInfoList(const QList<AdditionalInfo>& info)
+void DolphinView::setVisibleRoles(const QList<QByteArray>& roles)
 {
-    const QList<AdditionalInfo> previousList = info;
+    const QList<QByteArray> previousRoles = roles;
 
     ViewProperties props(url());
-    props.setAdditionalInfoList(info);
+    props.setVisibleRoles(roles);
 
-    m_additionalInfoList = info;
-    applyAdditionalInfoListToView();
+    m_visibleRoles = roles;
+    m_container->setVisibleRoles(roles);
 
-    emit additionalInfoListChanged(m_additionalInfoList, previousList);
+    emit visibleRolesChanged(m_visibleRoles, previousRoles);
 }
 
-QList<DolphinView::AdditionalInfo> DolphinView::additionalInfoList() const
+QList<QByteArray> DolphinView::visibleRoles() const
 {
-    return m_additionalInfoList;
+    return m_visibleRoles;
 }
 
 void DolphinView::reload()
@@ -782,43 +781,35 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
 
     // Add all roles to the menu that can be shown or hidden by the user
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const QList<DolphinView::AdditionalInfo> keys = infoAccessor.keys();
-    foreach (const DolphinView::AdditionalInfo info, keys) {
-        const QByteArray& role = infoAccessor.role(info);
+    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
+    const QList<QByteArray> roles = rolesAccessor.roles();
+    foreach (const QByteArray& role, roles) {
         if (role != "name") {
             const QString text = fileItemModel()->roleDescription(role);
 
             QAction* action = menu.data()->addAction(text);
             action->setCheckable(true);
             action->setChecked(visibleRolesSet.contains(role));
-            action->setData(info);
+            action->setData(role);
         }
     }
 
     QAction* action = menu.data()->exec(pos.toPoint());
     if (action) {
         // Show or hide the selected role
-        const DolphinView::AdditionalInfo info =
-            static_cast<DolphinView::AdditionalInfo>(action->data().toInt());
+        const QByteArray selectedRole = action->data().toByteArray();
 
         ViewProperties props(url());
-        QList<DolphinView::AdditionalInfo> infoList = props.additionalInfoList();
-
-        const QByteArray selectedRole = infoAccessor.role(info);
         QList<QByteArray> visibleRoles = view->visibleRoles();
-
         if (action->isChecked()) {
-            const int index = keys.indexOf(info) + 1;
+            const int index = roles.indexOf(selectedRole) + 1;
             visibleRoles.insert(index, selectedRole);
-            infoList.insert(index, info);
         } else {
             visibleRoles.removeOne(selectedRole);
-            infoList.removeOne(info);
         }
 
         view->setVisibleRoles(visibleRoles);
-        props.setAdditionalInfoList(infoList);
+        props.setVisibleRoles(visibleRoles);
     }
 
     delete menu.data();
@@ -905,15 +896,15 @@ void DolphinView::emitSelectionChangedSignal()
     emit selectionChanged(selectedItems());
 }
 
-void DolphinView::updateSorting(DolphinView::Sorting sorting)
+void DolphinView::updateSortRole(const QByteArray& role)
 {
     ViewProperties props(url());
-    props.setSorting(sorting);
+    props.setSortRole(role);
 
     KItemModelBase* model = m_container->controller()->model();
-    model->setSortRole(sortRoleForSorting(sorting));
+    model->setSortRole(role);
 
-    emit sortingChanged(sorting);
+    emit sortRoleChanged(role);
 }
 
 void DolphinView::updateSortOrder(Qt::SortOrder order)
@@ -1153,10 +1144,9 @@ void DolphinView::slotSortRoleChangedByHeader(const QByteArray& current, const Q
     Q_ASSERT(fileItemModel()->sortRole() == current);
 
     ViewProperties props(url());
-    const Sorting sorting = sortingForSortRole(current);
-    props.setSorting(sorting);
+    props.setSortRole(current);
 
-    emit sortingChanged(sorting);
+    emit sortRoleChanged(current);
 }
 
 void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
@@ -1165,21 +1155,14 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
     Q_UNUSED(previous);
     Q_ASSERT(m_container->controller()->view()->visibleRoles() == current);
 
-    const QList<AdditionalInfo> previousAdditionalInfoList = m_additionalInfoList;
+    const QList<QByteArray> previousVisibleRoles = m_visibleRoles;
 
-    m_additionalInfoList.clear();
-    m_additionalInfoList.reserve(current.count());
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    foreach (const QByteArray& role, current) {
-        if (role != "name") {
-            m_additionalInfoList.append(infoAccessor.additionalInfo(role));
-        }
-    }
+    m_visibleRoles = current;
 
     ViewProperties props(url());
-    props.setAdditionalInfoList(m_additionalInfoList);
+    props.setVisibleRoles(m_visibleRoles);
 
-    emit additionalInfoListChanged(m_additionalInfoList, previousAdditionalInfoList);
+    emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
 }
 
 KFileItemModel* DolphinView::fileItemModel() const
@@ -1245,11 +1228,10 @@ void DolphinView::applyViewProperties()
         emit groupedSortingChanged(groupedSorting);
     }
 
-    const DolphinView::Sorting sorting = props.sorting();
-    const QByteArray newSortRole = sortRoleForSorting(sorting);
-    if (newSortRole != model->sortRole()) {
-        model->setSortRole(newSortRole);
-        emit sortingChanged(sorting);
+    const QByteArray sortRole = props.sortRole();
+    if (sortRole != model->sortRole()) {
+        model->setSortRole(sortRole);
+        emit sortRoleChanged(sortRole);
     }
 
     const Qt::SortOrder sortOrder = props.sortOrder();
@@ -1264,12 +1246,12 @@ void DolphinView::applyViewProperties()
         emit sortFoldersFirstChanged(sortFoldersFirst);
     }
 
-    const QList<DolphinView::AdditionalInfo> infoList = props.additionalInfoList();
-    if (infoList != m_additionalInfoList) {
-        const QList<DolphinView::AdditionalInfo> previousList = m_additionalInfoList;
-        m_additionalInfoList = infoList;
-        applyAdditionalInfoListToView();
-        emit additionalInfoListChanged(m_additionalInfoList, previousList);
+    const QList<QByteArray> visibleRoles = props.visibleRoles();
+    if (visibleRoles != m_visibleRoles) {
+        const QList<QByteArray> previousVisibleRoles = m_visibleRoles;
+        m_visibleRoles = visibleRoles;
+        m_container->setVisibleRoles(visibleRoles);
+        emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
     }
 
     const bool previewsShown = props.previewsShown();
@@ -1286,21 +1268,6 @@ void DolphinView::applyViewProperties()
     }
 
     m_container->endTransaction();
-}
-
-void DolphinView::applyAdditionalInfoListToView()
-{
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-
-    QList<QByteArray> visibleRoles;
-    visibleRoles.reserve(m_additionalInfoList.count() + 1);
-    visibleRoles.append("name");
-
-    foreach (AdditionalInfo info, m_additionalInfoList) {
-        visibleRoles.append(infoAccessor.role(info));
-    }
-
-    m_container->setVisibleRoles(visibleRoles);
 }
 
 void DolphinView::pasteToUrl(const KUrl& url)
@@ -1354,41 +1321,6 @@ void DolphinView::updateWritableState()
     if (m_isFolderWritable != wasFolderWritable) {
         emit writeStateChanged(m_isFolderWritable);
     }
-}
-
-QByteArray DolphinView::sortRoleForSorting(Sorting sorting) const
-{
-    switch (sorting) {
-    case SortByName:        return "name";
-    case SortBySize:        return "size";
-    case SortByDate:        return "date";
-    case SortByPermissions: return "permissions";
-    case SortByOwner:       return "owner";
-    case SortByGroup:       return "group";
-    case SortByType:        return "type";
-    case SortByDestination: return "destination";
-    case SortByPath:        return "path";
-    default: break;
-    }
-
-    return QByteArray();
-}
-
-DolphinView::Sorting DolphinView::sortingForSortRole(const QByteArray& sortRole) const
-{
-    static QHash<QByteArray, DolphinView::Sorting> sortHash;
-    if (sortHash.isEmpty()) {
-        sortHash.insert("name", SortByName);
-        sortHash.insert("size", SortBySize);
-        sortHash.insert("date", SortByDate);
-        sortHash.insert("permissions", SortByPermissions);
-        sortHash.insert("owner", SortByOwner);
-        sortHash.insert("group", SortByGroup);
-        sortHash.insert("type", SortByType);
-        sortHash.insert("destination", SortByDestination);
-        sortHash.insert("path", SortByPath);
-    }
-    return sortHash.value(sortRole);
 }
 
 QString DolphinView::fileSizeText(KIO::filesize_t fileSize)

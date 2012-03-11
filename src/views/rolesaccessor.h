@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2010 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -14,35 +14,51 @@
  *   You should have received a copy of the GNU General Public License     *
  *   along with this program; if not, write to the                         *
  *   Free Software Foundation, Inc.,                                       *
- *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
+ *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef ADDITIONALINFODIALOG_H
-#define ADDITIONALINFODIALOG_H
+#ifndef ROLESACCESSOR_H
+#define ROLESACCESSOR_H
 
-#include <KDialog>
+#include <libdolphin_export.h>
+
 #include <QList>
-
-class QCheckBox;
+#include <QHash>
 
 /**
- * @brief Dialog for changing the additional information shown in the view.
+ * @brief Allows to access the available roles that can be shown in a view.
  */
-class AdditionalInfoDialog : public KDialog
+class LIBDOLPHINPRIVATE_EXPORT RolesAccessor
 {
-    Q_OBJECT
-
 public:
-    AdditionalInfoDialog(QWidget* parent, const QList<QByteArray>& visibleRoles);
-    virtual ~AdditionalInfoDialog();
-    QList<QByteArray> visibleRoles() const;
+    static RolesAccessor& instance();
 
-private slots:
-    void slotOk();
+    /**
+     * @return List of all available roles.
+     */
+    QList<QByteArray> roles() const;
+
+    /**
+     * @return Translation of the role that can be shown e.g. in the header
+     *         of a view or as menu-entry.
+     */
+    QString translation(const QByteArray& role) const;
+
+protected:
+    RolesAccessor();
+    virtual ~RolesAccessor();
+    friend class RolesAccessorSingleton;
 
 private:
-    QList<QByteArray> m_visibleRoles;
-    QList<QCheckBox*> m_checkBoxes;
+    struct Translation {
+        const char* const role;
+        const char* const roleTranslationContext;
+        const char* const roleTranslation;
+    };
+
+    QList<QByteArray> m_roles;
+    QHash<QByteArray, const Translation*> m_translation;
 };
 
 #endif
+

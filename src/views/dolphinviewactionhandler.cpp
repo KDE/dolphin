@@ -19,7 +19,7 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include "additionalinfoaccessor.h"
+#include "rolesaccessor.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/dolphinview.h"
 #include "views/zoomlevelinfo.h"
@@ -65,16 +65,14 @@ void DolphinViewActionHandler::setCurrentView(DolphinView* view)
             this, SLOT(slotSortOrderChanged(Qt::SortOrder)));
     connect(view, SIGNAL(sortFoldersFirstChanged(bool)),
             this, SLOT(slotSortFoldersFirstChanged(bool)));
-    connect(view, SIGNAL(additionalInfoListChanged(QList<DolphinView::AdditionalInfo>,
-                                                   QList<DolphinView::AdditionalInfo>)),
-            this, SLOT(slotAdditionalInfoListChanged(QList<DolphinView::AdditionalInfo>,
-                                                     QList<DolphinView::AdditionalInfo>)));
+    connect(view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
+            this, SLOT(slotVisibleRolesChanged(QList<QByteArray>,QList<QByteArray>)));
     connect(view, SIGNAL(groupedSortingChanged(bool)),
             this, SLOT(slotGroupedSortingChanged(bool)));
     connect(view, SIGNAL(hiddenFilesShownChanged(bool)),
             this, SLOT(slotHiddenFilesShownChanged(bool)));
-    connect(view, SIGNAL(sortingChanged(DolphinView::Sorting)),
-            this, SLOT(slotSortingChanged(DolphinView::Sorting)));
+    connect(view, SIGNAL(sortRoleChanged(QByteArray)),
+            this, SLOT(slotSortRoleChanged(QByteArray)));
     connect(view, SIGNAL(zoomLevelChanged(int,int)),
             this, SLOT(slotZoomLevelChanged(int,int)));
 }
@@ -218,40 +216,37 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
     showInformationMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
     showInformationMenu->setDelayed(false);
 
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
 
-    const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
-    foreach (DolphinView::AdditionalInfo info, infoList) {
-        const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
+    const QList<QByteArray> roles = rolesAccessor.roles();
+    foreach (const QByteArray& role, roles) {
+        if (role == "name") {
+            // It should not be possible to hide the "name" role
+            continue;
+        }
+
+        const QString name = QLatin1String("show_") + role;
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
-        action->setText(infoAccessor.translation(info));
-        action->setData(info);
+        action->setText(rolesAccessor.translation(role));
+        action->setData(role);
         action->setActionGroup(additionalInfoGroup);
     }
 
     return additionalInfoGroup;
 }
 
-Q_DECLARE_METATYPE(DolphinView::Sorting)
-
 QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
 {
     QActionGroup* sortByActionGroup = new QActionGroup(m_actionCollection);
     sortByActionGroup->setExclusive(true);
 
-    KToggleAction* sortByName = m_actionCollection->add<KToggleAction>("sort_by_name");
-    sortByName->setText(i18nc("@action:inmenu Sort By", "Name"));
-    sortByName->setData(QVariant::fromValue(DolphinView::SortByName));
-    sortByActionGroup->addAction(sortByName);
-
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
-    foreach (DolphinView::AdditionalInfo info, infoList) {
-        const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
+    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
+    const QList<QByteArray> roles = rolesAccessor.roles();
+    foreach (const QByteArray& role, roles) {
+        const QString name = QLatin1String("sort_by_") + role;
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
-        action->setText(infoAccessor.translation(info));
-        const DolphinView::Sorting sorting = infoAccessor.sorting(info);
-        action->setData(QVariant::fromValue(sorting));
+        action->setText(rolesAccessor.translation(role));
+        action->setData(role);
         sortByActionGroup->addAction(action);
     }
 
@@ -342,9 +337,9 @@ void DolphinViewActionHandler::updateViewActions()
 
     slotSortOrderChanged(m_currentView->sortOrder());
     slotSortFoldersFirstChanged(m_currentView->sortFoldersFirst());
-    slotAdditionalInfoListChanged(m_currentView->additionalInfoList(), QList<DolphinView::AdditionalInfo>());
+    slotVisibleRolesChanged(m_currentView->visibleRoles(), QList<QByteArray>());
     slotGroupedSortingChanged(m_currentView->groupedSorting());
-    slotSortingChanged(m_currentView->sorting());
+    slotSortRoleChanged(m_currentView->sortRole());
     slotZoomLevelChanged(m_currentView->zoomLevel(), -1);
 
     QAction* showHiddenFilesAction = m_actionCollection->action("show_hidden_files");
@@ -395,40 +390,40 @@ void DolphinViewActionHandler::toggleAdditionalInfo(QAction* action)
 {
     emit actionBeingHandled();
 
-    const DolphinView::AdditionalInfo info =
-        static_cast<DolphinView::AdditionalInfo>(action->data().toInt());
+    const QByteArray toggledRole = action->data().toByteArray();
 
-    QList<DolphinView::AdditionalInfo> list = m_currentView->additionalInfoList();
+    QList<QByteArray> roles = m_currentView->visibleRoles();
 
     const bool show = action->isChecked();
 
-    const int index = list.indexOf(info);
+    const int index = roles.indexOf(toggledRole);
     const bool containsInfo = (index >= 0);
     if (show && !containsInfo) {
-        list.append(info);
-        m_currentView->setAdditionalInfoList(list);
+        roles.append(toggledRole);
+        m_currentView->setVisibleRoles(roles);
     } else if (!show && containsInfo) {
-        list.removeAt(index);
-        m_currentView->setAdditionalInfoList(list);
-        Q_ASSERT(list.indexOf(info) < 0);
+        roles.removeAt(index);
+        m_currentView->setVisibleRoles(roles);
+        Q_ASSERT(roles.indexOf(toggledRole) < 0);
     }
 }
 
-void DolphinViewActionHandler::slotAdditionalInfoListChanged(const QList<DolphinView::AdditionalInfo>& current,
-                                                             const QList<DolphinView::AdditionalInfo>& previous)
+void DolphinViewActionHandler::slotVisibleRolesChanged(const QList<QByteArray>& current,
+                                                       const QList<QByteArray>& previous)
 {
     Q_UNUSED(previous);
 
-    const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
+    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
 
-    const QList<DolphinView::AdditionalInfo> checkedInfo = current;
-    const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
+    const QSet<QByteArray> checkedRoles = current.toSet();
+    const QList<QByteArray> roles = rolesAccessor.roles();
 
-    foreach (DolphinView::AdditionalInfo info, infoList) {
-        const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::AdditionalInfoType);
+    foreach (const QByteArray& role, roles) {
+        const QString name = QLatin1String("show_") + role;
         QAction* action = m_actionCollection->action(name);
-        Q_ASSERT(action);
-        action->setChecked(checkedInfo.contains(info));
+        if (action) {
+            action->setChecked(checkedRoles.contains(role));
+        }
     }
 }
 
@@ -488,23 +483,10 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
     return detailsView;
 }
 
-void DolphinViewActionHandler::slotSortingChanged(DolphinView::Sorting sorting)
+void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
 {
-    QAction* action = 0;
-    if (sorting == DolphinView::SortByName) {
-        action = m_actionCollection->action("sort_by_name");
-    } else {
-        const AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-        const QList<DolphinView::AdditionalInfo> infoList = infoAccessor.keys();
-        foreach (DolphinView::AdditionalInfo info, infoList) {
-            if (sorting == infoAccessor.sorting(info)) {
-                const QString name = infoAccessor.actionCollectionName(info, AdditionalInfoAccessor::SortByType);
-                action = m_actionCollection->action(name);
-                break;
-            }
-        }
-    }
-
+    const QString name = QLatin1String("sort_by_") + role;
+    QAction* action = m_actionCollection->action(name);
     if (action) {
         action->setChecked(true);
 
@@ -530,8 +512,8 @@ void DolphinViewActionHandler::slotZoomLevelChanged(int current, int previous)
 
 void DolphinViewActionHandler::slotSortTriggered(QAction* action)
 {
-    const DolphinView::Sorting sorting = action->data().value<DolphinView::Sorting>();
-    m_currentView->setSorting(sorting);
+    const QByteArray role = action->data().toByteArray();
+    m_currentView->setSortRole(role);
 }
 
 void DolphinViewActionHandler::slotAdjustViewProperties()

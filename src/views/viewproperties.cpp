@@ -20,7 +20,7 @@
 
 #include "viewproperties.h"
 
-#include "additionalinfoaccessor.h"
+#include "rolesaccessor.h"
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 
@@ -36,7 +36,7 @@
 namespace {
     // String representation to mark the additional properties of
     // the details view as customized by the user. See
-    // ViewProperties::additionalInfoList() for more information.
+    // ViewProperties::visibleRoles() for more information.
     const char* CustomizedDetailsString = "CustomizedDetails";
 }
 
@@ -81,7 +81,7 @@ ViewProperties::ViewProperties(const KUrl& url) :
     if (useDefaultProps) {
         if (useDetailsViewWithPath) {
             setViewMode(DolphinView::DetailsView);
-            setAdditionalInfoList(QList<DolphinView::AdditionalInfo>() << DolphinView::PathInfo);
+            setVisibleRoles(QList<QByteArray>() << "path");
         } else {
             // The global view-properties act as default for directories without
             // any view-property configuration
@@ -159,17 +159,17 @@ bool ViewProperties::hiddenFilesShown() const
     return m_node->hiddenFilesShown();
 }
 
-void ViewProperties::setSorting(DolphinView::Sorting sorting)
+void ViewProperties::setSortRole(const QByteArray& role)
 {
-    if (m_node->sorting() != sorting) {
-        m_node->setSorting(sorting);
+    if (m_node->sortRole() != role) {
+        m_node->setSortRole(role);
         update();
     }
 }
 
-DolphinView::Sorting ViewProperties::sorting() const
+QByteArray ViewProperties::sortRole() const
 {
-    return static_cast<DolphinView::Sorting>(m_node->sorting());
+    return m_node->sortRole().toLatin1();
 }
 
 void ViewProperties::setSortOrder(Qt::SortOrder sortOrder)
@@ -198,51 +198,49 @@ bool ViewProperties::sortFoldersFirst() const
     return m_node->sortFoldersFirst();
 }
 
-void ViewProperties::setAdditionalInfoList(const QList<DolphinView::AdditionalInfo>& list)
+void ViewProperties::setVisibleRoles(const QList<QByteArray>& roles)
 {
-    // See ViewProperties::additionalInfoList() for the storage format
+    // See ViewProperties::visibleRoles() for the storage format
     // of the additional information.
 
     // Remove the old values stored for the current view-mode
-    const QStringList oldInfoStringList = m_node->additionalInfo();
+    const QStringList oldVisibleRoles = m_node->visibleRoles();
     const QString prefix = viewModePrefix();
-    QStringList newInfoStringList = oldInfoStringList;
-    for (int i = newInfoStringList.count() - 1; i >= 0; --i) {
-        if (newInfoStringList.at(i).startsWith(prefix)) {
-            newInfoStringList.removeAt(i);
+    QStringList newVisibleRoles = oldVisibleRoles;
+    for (int i = newVisibleRoles.count() - 1; i >= 0; --i) {
+        if (newVisibleRoles[i].startsWith(prefix)) {
+            newVisibleRoles.removeAt(i);
         }
     }
 
     // Add the updated values for the current view-mode
-    AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-    foreach (DolphinView::AdditionalInfo info, list) {
-        newInfoStringList.append(prefix + infoAccessor.value(info));
+    foreach (const QByteArray& role, roles) {
+        newVisibleRoles.append(prefix + role);
     }
 
-    if (oldInfoStringList != newInfoStringList) {
+    if (oldVisibleRoles != newVisibleRoles) {
         const bool markCustomizedDetails = (m_node->viewMode() == DolphinView::DetailsView)
-                                           && !newInfoStringList.contains(CustomizedDetailsString);
+                                           && !newVisibleRoles.contains(CustomizedDetailsString);
         if (markCustomizedDetails) {
             // The additional information of the details-view has been modified. Set a marker,
-            // so that it is allowed to also show no additional information
-            // (see fallback in ViewProperties::additionalInfoV2, if no additional information is
-            // available).
-            newInfoStringList.append(CustomizedDetailsString);
+            // so that it is allowed to also show no additional information without doing the
+            // fallback to show the size and date per default.
+            newVisibleRoles.append(CustomizedDetailsString);
         }
 
-        m_node->setAdditionalInfo(newInfoStringList);
+        m_node->setVisibleRoles(newVisibleRoles);
         update();
     }
 }
 
-QList<DolphinView::AdditionalInfo> ViewProperties::additionalInfoList() const
+QList<QByteArray> ViewProperties::visibleRoles() const
 {
     // The shown additional information is stored for each view-mode separately as
     // string with the view-mode as prefix. Example:
     //
-    // AdditionalInfo=Details_Size,Details_Date,Details_Owner,Icon_Size
+    // AdditionalInfo=Details_size,Details_date,Details_owner,Icons_size
     //
-    // To get the representation as QList<DolphinView::AdditionalInfo>, the current
+    // To get the representation as QList<QByteArray>, the current
     // view-mode must be checked and the values of this mode added to the list.
     //
     // For the details-view a special case must be respected: Per default the size
@@ -251,47 +249,34 @@ QList<DolphinView::AdditionalInfo> ViewProperties::additionalInfoList() const
     // by "CustomizedDetails"), also a details-view with no additional information
     // is accepted.
 
-    QList<DolphinView::AdditionalInfo> usedInfo;
+    QList<QByteArray> roles;
+    roles.append("name");
 
-    // infoHash allows to get the mapped DolphinView::AdditionalInfo value
-    // for a stored string-value in a fast way
-    static QHash<QString, DolphinView::AdditionalInfo> infoHash;
-    if (infoHash.isEmpty()) {
-        AdditionalInfoAccessor& infoAccessor = AdditionalInfoAccessor::instance();
-        const QList<DolphinView::AdditionalInfo> keys = infoAccessor.keys();
-        foreach (DolphinView::AdditionalInfo key, keys) {
-            infoHash.insert(infoAccessor.value(key), key);
-        }
-    }
-
-    // Iterate through all stored keys stored as strings and map them to
-    // the corresponding DolphinView::AdditionalInfo values.
+    // Iterate through all stored keys and append all roles that match to
+    // the curren view mode.
     const QString prefix = viewModePrefix();
     const int prefixLength = prefix.length();
-    const QStringList infoStringList = m_node->additionalInfo();
-    foreach (const QString& infoString, infoStringList) {
-        if (infoString.startsWith(prefix)) {
-            const QString key = infoString.right(infoString.length() - prefixLength);
-            if (infoHash.contains(key)) {
-                usedInfo.append(infoHash.value(key));
-            } else {
-                kWarning() << "Did not find the key" << key << "in the information string";
+    const QStringList visibleRoles = m_node->visibleRoles();
+    foreach (const QString& visibleRole, visibleRoles) {
+        if (visibleRole.startsWith(prefix)) {
+            const QByteArray role = visibleRole.right(visibleRole.length() - prefixLength).toLatin1();
+            if (role != "name") {
+                roles.append(role);
             }
         }
     }
 
     // For the details view the size and date should be shown per default
     // until the additional information has been explicitly changed by the user
-    const bool useDefaultValues = usedInfo.isEmpty()
+    const bool useDefaultValues = roles.count() == 1 // "name"
                                   && (m_node->viewMode() == DolphinView::DetailsView)
-                                  && !infoStringList.contains(CustomizedDetailsString);
-    Q_UNUSED(useDefaultValues);
+                                  && !visibleRoles.contains(CustomizedDetailsString);
     if (useDefaultValues) {
-        usedInfo.append(DolphinView::SizeInfo);
-        usedInfo.append(DolphinView::DateInfo);
+        roles.append("size");
+        roles.append("date");
     }
 
-    return usedInfo;
+    return roles;
 }
 
 void ViewProperties::setDirProperties(const ViewProperties& props)
@@ -300,10 +285,10 @@ void ViewProperties::setDirProperties(const ViewProperties& props)
     setPreviewsShown(props.previewsShown());
     setHiddenFilesShown(props.hiddenFilesShown());
     setGroupedSorting(props.groupedSorting());
-    setSorting(props.sorting());
+    setSortRole(props.sortRole());
     setSortOrder(props.sortOrder());
     setSortFoldersFirst(props.sortFoldersFirst());
-    setAdditionalInfoList(props.additionalInfoList());
+    setVisibleRoles(props.visibleRoles());
 }
 
 void ViewProperties::setAutoSaveEnabled(bool autoSave)

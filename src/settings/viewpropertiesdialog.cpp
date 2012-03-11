@@ -21,6 +21,7 @@
 #include "viewpropertiesdialog.h"
 
 #include "additionalinfodialog.h"
+#include "views/rolesaccessor.h"
 #include "views/dolphinview.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
@@ -105,18 +106,12 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Ascending"));
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
 
-    // TODO: Provide a kind of SortingInfoAccessor similar to AdditionalInfoAccessor
-    // to assure that adding a sort-role requires to change only one file
     m_sorting = new KComboBox(sortingBox);
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Name"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Size"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Date"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Permissions"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Owner"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Group"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Type"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Link Destination"));
-    m_sorting->addItem(i18nc("@item:inlistbox Sort", "By Path"));
+    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
+    const QList<QByteArray> roles = rolesAccessor.roles();
+    foreach (const QByteArray& role, roles) {
+        m_sorting->addItem(rolesAccessor.translation(role), role);
+    }
 
     m_sortFoldersFirst = new QCheckBox(i18nc("@option:check", "Show folders first"));
     m_previewsShown = new QCheckBox(i18nc("@option:check", "Show preview"));
@@ -249,7 +244,8 @@ void ViewPropertiesDialog::slotViewModeChanged(int index)
 
 void ViewPropertiesDialog::slotSortingChanged(int index)
 {
-    m_viewProps->setSorting(static_cast<DolphinView::Sorting>(index));
+    const QByteArray role = m_sorting->itemData(index).toByteArray();
+    m_viewProps->setSortRole(role);
     markAsDirty(true);
 }
 
@@ -295,22 +291,22 @@ void ViewPropertiesDialog::markAsDirty(bool isDirty)
 
 void ViewPropertiesDialog::configureAdditionalInfo()
 {
-    QList<DolphinView::AdditionalInfo> infoList = m_viewProps->additionalInfoList();
-    const bool useDefaultInfo = (m_viewProps->viewMode() == DolphinView::DetailsView) &&
-                                (infoList.isEmpty() || infoList.contains(DolphinView::NoInfo));
-    if (useDefaultInfo) {
+    QList<QByteArray> visibleRoles = m_viewProps->visibleRoles();
+    const bool useDefaultRoles = (m_viewProps->viewMode() == DolphinView::DetailsView) && visibleRoles.isEmpty();
+    if (useDefaultRoles) {
         // Using the details view without any additional information (-> additional column)
         // makes no sense and leads to a usability problem as no viewport area is available
         // anymore. Hence as fallback provide at least a size and date column.
-        infoList.clear();
-        infoList.append(DolphinView::SizeInfo);
-        infoList.append(DolphinView::DateInfo);
-        m_viewProps->setAdditionalInfoList(infoList);
+        visibleRoles.clear();
+        visibleRoles.append("name");
+        visibleRoles.append("size");
+        visibleRoles.append("date");
+        m_viewProps->setVisibleRoles(visibleRoles);
     }
 
-    QPointer<AdditionalInfoDialog> dialog = new AdditionalInfoDialog(this, infoList);
+    QPointer<AdditionalInfoDialog> dialog = new AdditionalInfoDialog(this, visibleRoles);
     if (dialog->exec() == QDialog::Accepted) {
-        m_viewProps->setAdditionalInfoList(dialog->informationList());
+        m_viewProps->setVisibleRoles(dialog->visibleRoles());
         markAsDirty(true);
     }
     delete dialog;
@@ -370,11 +366,11 @@ void ViewPropertiesDialog::applyViewProperties()
     }
 
     m_dolphinView->setMode(m_viewProps->viewMode());
-    m_dolphinView->setSorting(m_viewProps->sorting());
+    m_dolphinView->setSortRole(m_viewProps->sortRole());
     m_dolphinView->setSortOrder(m_viewProps->sortOrder());
     m_dolphinView->setSortFoldersFirst(m_viewProps->sortFoldersFirst());
     m_dolphinView->setGroupedSorting(m_viewProps->groupedSorting());
-    m_dolphinView->setAdditionalInfoList(m_viewProps->additionalInfoList());
+    m_dolphinView->setVisibleRoles(m_viewProps->visibleRoles());
     m_dolphinView->setPreviewsShown(m_viewProps->previewsShown());
     m_dolphinView->setHiddenFilesShown(m_viewProps->hiddenFilesShown());
 
@@ -396,7 +392,11 @@ void ViewPropertiesDialog::loadSettings()
     // Load sort order and sorting
     const int sortOrderIndex = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIndex);
-    m_sorting->setCurrentIndex(m_viewProps->sorting());
+
+    const QList<QByteArray> roles = RolesAccessor::instance().roles();
+    const int sortRoleIndex = roles.indexOf(m_viewProps->sortRole());
+    m_sorting->setCurrentIndex(sortRoleIndex);
+
     m_sortFoldersFirst->setChecked(m_viewProps->sortFoldersFirst());
 
     // Load show preview, show in groups and show hidden files settings

@@ -65,8 +65,8 @@ public:
     void setGroupedSorting(bool grouped);
     bool groupedSorting() const;
 
-    void setSorting(DolphinView::Sorting sorting);
-    DolphinView::Sorting sorting() const;
+    void setSortRole(const QByteArray& role);
+    QByteArray sortRole() const;
 
     void setSortOrder(Qt::SortOrder sortOrder);
     Qt::SortOrder sortOrder() const;
@@ -79,14 +79,14 @@ public:
      * Note that the additional-info property is the only property where
      * the value is dependent from another property (in this case the view-mode).
      */
-    void setAdditionalInfoList(const QList<DolphinView::AdditionalInfo>& info);
+    void setVisibleRoles(const QList<QByteArray>& info);
 
     /**
      * Returns the additional information for the current set view-mode.
      * Note that the additional-info property is the only property where
      * the value is dependent from another property (in this case the view-mode).
      */
-    QList<DolphinView::AdditionalInfo> additionalInfoList() const;
+    QList<QByteArray> visibleRoles() const;
 
     /**
      * Sets the directory properties view mode, show preview,
