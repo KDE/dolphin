@@ -34,6 +34,9 @@
 #include <QFileInfo>
 
 namespace {
+    const int CurrentViewPropertiesVersion = 2;
+    const int AdditionalInfoViewPropertiesVersion = 1;
+
     // String representation to mark the additional properties of
     // the details view as customized by the user. See
     // ViewProperties::visibleRoles() for more information.
@@ -256,7 +259,14 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     // the curren view mode.
     const QString prefix = viewModePrefix();
     const int prefixLength = prefix.length();
-    const QStringList visibleRoles = m_node->visibleRoles();
+
+    QStringList visibleRoles = m_node->visibleRoles();
+    if (visibleRoles.isEmpty() && m_node->version() <= AdditionalInfoViewPropertiesVersion) {
+        // Convert the obsolete additionalInfo-property from older versions into the
+        // visibleRoles-property
+        visibleRoles = const_cast<ViewProperties*>(this)->convertAdditionalInfo();
+    }
+
     foreach (const QString& visibleRole, visibleRoles) {
         if (visibleRole.startsWith(prefix)) {
             const QByteArray role = visibleRole.right(visibleRole.length() - prefixLength).toLatin1();
@@ -310,6 +320,7 @@ void ViewProperties::update()
 void ViewProperties::save()
 {
     KStandardDirs::makeDir(m_filePath);
+    m_node->setVersion(CurrentViewPropertiesVersion);
     m_node->writeConfig();
     m_changedProps = false;
 }
@@ -340,6 +351,39 @@ QString ViewProperties::viewModePrefix() const
     }
 
     return prefix;
+}
+
+QStringList ViewProperties::convertAdditionalInfo()
+{
+    QStringList visibleRoles;
+
+    const QStringList additionalInfo = m_node->additionalInfo();
+    if (!additionalInfo.isEmpty()) {
+        // Convert the obsolete values like Icons_Size, Details_Date, ...
+        // to Icons_size, Details_date, ... where the suffix just represents
+        // the internal role. One special-case must be handled: "LinkDestination"
+        // has been used for "destination".
+        visibleRoles.reserve(additionalInfo.count());
+        foreach (const QString& info, additionalInfo) {
+            QString visibleRole = info;
+            int index = visibleRole.indexOf('_');
+            if (index >= 0 && index + 1 < visibleRole.length()) {
+                ++index;
+                if (visibleRole[index] == QLatin1Char('L')) {
+                    visibleRole.replace("LinkDestination", "destination");
+                } else {
+                    visibleRole[index] = visibleRole[index].toLower();
+                }
+            }
+            visibleRoles.append(visibleRole);
+        }
+    }
+
+    m_node->setAdditionalInfo(QStringList());
+    m_node->setVisibleRoles(visibleRoles);
+    update();
+
+    return visibleRoles;
 }
 
 bool ViewProperties::isPartOfHome(const QString& filePath)

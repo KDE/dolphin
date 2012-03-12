@@ -138,6 +138,13 @@ private:
     QString viewModePrefix() const;
 
     /**
+     * Provides backward compatibility with .directory files created with
+     * Dolphin < 2.1: Converts the old additionalInfo-property into
+     * the visibleRoles-property and clears the additionalInfo-property.
+     */
+    QStringList convertAdditionalInfo();
+
+    /**
      * Returns true, if \a filePath is part of the home-path (see QDir::homePath()).
      */
     static bool isPartOfHome(const QString& filePath);

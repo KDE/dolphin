@@ -18,8 +18,7 @@
         <entry name="Version" type="Int" >
             <label context="@label">Version</label>
             <whatsthis context="@info:whatsthis">This option defines the used version of the view properties.</whatsthis>
-            <default>2</default>
-            <min>1</min>
+            <default>-1</default>
         </entry>
 
         <entry name="ViewMode" type="Int" >
@@ -66,6 +65,12 @@
         <entry name="Timestamp" type="DateTime" >
             <label context="@label">Properties last changed</label>
             <whatsthis context="@info:whatsthis">The last time these properties were changed by the user.</whatsthis>
+        </entry>
+
+        <!-- Obsolete - replaced by VisibleRoles -->
+        <entry name="AdditionalInfo" type="StringList">
+            <label context="@label">Additional Information</label>
+            <default></default>
         </entry>
     </group>
 </kcfg>
