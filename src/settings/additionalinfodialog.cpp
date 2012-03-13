@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2007-2012 by Peter Penz <peter.penz19@gmail.com>        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -20,18 +20,16 @@
 #include "additionalinfodialog.h"
 
 #include <KLocale>
-
+#include "kitemviews/kfileitemmodel.h"
 #include <QCheckBox>
 #include <QLabel>
 #include <QVBoxLayout>
-
-#include "views/rolesaccessor.h"
 
 AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
                                            const QList<QByteArray>& visibleRoles) :
     KDialog(parent),
     m_visibleRoles(visibleRoles),
-    m_checkBoxes()
+    m_listWidget(0)
 {
     setCaption(i18nc("@title:window", "Additional Information"));
     setButtons(Ok | Cancel);
@@ -39,30 +37,29 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
 
     QWidget* mainWidget = new QWidget(this);
     mainWidget->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Minimum);
-    QVBoxLayout* layout = new QVBoxLayout(mainWidget);
 
     // Add header
     QLabel* header = new QLabel(mainWidget);
     header->setText(i18nc("@label", "Select which additional information should be shown:"));
     header->setWordWrap(true);
-    layout->addWidget(header);
 
     // Add checkboxes
-    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
-    const QList<QByteArray> roles = rolesAccessor.roles();
-    foreach (const QByteArray& role, roles) {
-        QCheckBox* checkBox = new QCheckBox(rolesAccessor.translation(role), mainWidget);
-        checkBox->setChecked(visibleRoles.contains(role));
-        layout->addWidget(checkBox);
-        m_checkBoxes.append(checkBox);
+    m_listWidget = new QListWidget(mainWidget);
+    m_listWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        QListWidgetItem* item = new QListWidgetItem(info.translation, m_listWidget);
+        item->setCheckState(visibleRoles.contains(info.role) ? Qt::Checked : Qt::Unchecked);
     }
 
+    QVBoxLayout* layout = new QVBoxLayout(mainWidget);
+    layout->addWidget(header);
+    layout->addWidget(m_listWidget);
     layout->addStretch(1);
 
     setMainWidget(mainWidget);
 
-    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                                    "AdditionalInfoDialog");
+    const KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "AdditionalInfoDialog");
     restoreDialogSize(dialogConfig);
 
     connect(this, SIGNAL(okClicked()), this, SLOT(slotOk()));
@@ -70,8 +67,7 @@ AdditionalInfoDialog::AdditionalInfoDialog(QWidget* parent,
 
 AdditionalInfoDialog::~AdditionalInfoDialog()
 {
-    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"),
-                              "AdditionalInfoDialog");
+    KConfigGroup dialogConfig(KSharedConfig::openConfig("dolphinrc"), "AdditionalInfoDialog");
     saveDialogSize(dialogConfig, KConfigBase::Persistent);
 }
 
@@ -84,11 +80,12 @@ void AdditionalInfoDialog::slotOk()
 {
     m_visibleRoles.clear();
 
-    const QList<QByteArray> roles = RolesAccessor::instance().roles();
     int index = 0;
-    foreach (const QByteArray& role, roles) {
-        if (m_checkBoxes[index]->isChecked()) {
-            m_visibleRoles.append(role);
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        const QListWidgetItem* item = m_listWidget->item(index);
+        if (item->checkState() == Qt::Checked) {
+            m_visibleRoles.append(info.role);
         }
         ++index;
     }

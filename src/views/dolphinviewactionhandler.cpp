@@ -19,7 +19,6 @@
 
 #include "dolphinviewactionhandler.h"
 
-#include "rolesaccessor.h"
 #include "settings/viewpropertiesdialog.h"
 #include "views/dolphinview.h"
 #include "views/zoomlevelinfo.h"
@@ -29,6 +28,7 @@
 #include <KActionCollection>
 #include <KActionMenu>
 #include <KFileItemDelegate>
+#include <kitemviews/kfileitemmodel.h>
 #include <KLocale>
 #include <KNewFileMenu>
 #include <KSelectAction>
@@ -216,19 +216,17 @@ QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
     showInformationMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
     showInformationMenu->setDelayed(false);
 
-    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
-
-    const QList<QByteArray> roles = rolesAccessor.roles();
-    foreach (const QByteArray& role, roles) {
-        if (role == "name") {
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        if (info.role == "name") {
             // It should not be possible to hide the "name" role
             continue;
         }
 
-        const QString name = QLatin1String("show_") + role;
+        const QString name = QLatin1String("show_") + info.role;
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
-        action->setText(rolesAccessor.translation(role));
-        action->setData(role);
+        action->setText(info.translation);
+        action->setData(info.role);
         action->setActionGroup(additionalInfoGroup);
     }
 
@@ -240,13 +238,12 @@ QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
     QActionGroup* sortByActionGroup = new QActionGroup(m_actionCollection);
     sortByActionGroup->setExclusive(true);
 
-    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
-    const QList<QByteArray> roles = rolesAccessor.roles();
-    foreach (const QByteArray& role, roles) {
-        const QString name = QLatin1String("sort_by_") + role;
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        const QString name = QLatin1String("sort_by_") + info.role;
         KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
-        action->setText(rolesAccessor.translation(role));
-        action->setData(role);
+        action->setText(info.translation);
+        action->setData(info.role);
         sortByActionGroup->addAction(action);
     }
 
@@ -413,16 +410,13 @@ void DolphinViewActionHandler::slotVisibleRolesChanged(const QList<QByteArray>& 
 {
     Q_UNUSED(previous);
 
-    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
-
     const QSet<QByteArray> checkedRoles = current.toSet();
-    const QList<QByteArray> roles = rolesAccessor.roles();
-
-    foreach (const QByteArray& role, roles) {
-        const QString name = QLatin1String("show_") + role;
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        const QString name = QLatin1String("show_") + info.role;
         QAction* action = m_actionCollection->action(name);
         if (action) {
-            action->setChecked(checkedRoles.contains(role));
+            action->setChecked(checkedRoles.contains(info.role));
         }
     }
 }

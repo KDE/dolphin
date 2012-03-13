@@ -90,7 +90,7 @@ public:
     virtual bool supportsDropping(int index) const;
 
     /** @reimp */
-    virtual QString roleDescription(const QByteArray& role) const;
+    virtual QString roleDescription(const QByteArray& typeForRole) const;
 
     /** @reimp */
     virtual QList<QPair<int, QVariant> > groups() const;
@@ -158,6 +158,14 @@ public:
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
 
+    struct RoleInfo
+    {   QByteArray role;
+        QString translation;
+        QString group;
+    };
+
+    static QList<RoleInfo> rolesInformation();
+
 signals:
     /**
      * Is emitted after the loading of a directory has been completed or new
@@ -192,7 +200,7 @@ private slots:
     void dispatchPendingItemsToInsert();
 
 private:
-    enum Role {
+    enum RoleType {
         NoRole,
         NameRole,
         SizeRole,
@@ -239,16 +247,16 @@ private:
     void resetRoles();
 
     /**
-     * @return Role-index for the given role byte-array.
+     * @return Role-type for the given role.
      *         Runtime complexity is O(1).
      */
-    Role roleIndex(const QByteArray& role) const;
+    RoleType typeForRole(const QByteArray& role) const;
 
     /**
-     * @return Role-byte-array for the given role-index.
+     * @return Role-byte-array for the given role-type.
      *         Runtime complexity is O(1).
      */
-    QByteArray roleByteArray(Role role) const;
+    QByteArray roleForType(RoleType roleType) const;
 
     QHash<QByteArray, QVariant> retrieveData(const KFileItem& item) const;
 
@@ -314,7 +322,7 @@ private:
     QList<QPair<int, QVariant> > dateRoleGroups() const;
     QList<QPair<int, QVariant> > permissionRoleGroups() const;
     QList<QPair<int, QVariant> > ratingRoleGroups() const;
-    QList<QPair<int, QVariant> > genericStringRoleGroups(const QByteArray& role) const;
+    QList<QPair<int, QVariant> > genericStringRoleGroups(const QByteArray& typeForRole) const;
 
     /**
      * Helper method for all xxxRoleGroups() methods to check whether the
@@ -331,13 +339,32 @@ private:
      */
     KFileItemList childItems(const KFileItem& item) const;
 
+    /**
+     * Maps the QByteArray-roles to RoleTypes and provides translation- and
+     * group-contexts.
+     */
+    struct RoleInfoMap
+    {
+        const char* const role;
+        const RoleType roleType;
+        const char* const roleTranslationContext;
+        const char* const roleTranslation;
+        const char* const groupTranslationContext;
+        const char* const groupTranslation;
+    };
+
+    /**
+     * @return Map of user visible roles that are accessible by KFileItemModel::rolesInformation().
+     */
+    static const RoleInfoMap* rolesInfoMap(int& count);
+
 private:
     QWeakPointer<KDirLister> m_dirLister;
 
     bool m_naturalSorting;
     bool m_sortFoldersFirst;
 
-    Role m_sortRole;
+    RoleType m_sortRole;
     QSet<QByteArray> m_roles;
     Qt::CaseSensitivity m_caseSensitivity;
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2007 by Peter Penz (peter.penz@gmx.at)                  *
+ *   Copyright (C) 2007-2012 by Peter Penz <peter.penz19@gmail.com>        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -22,6 +22,7 @@
 
 #include <KDialog>
 #include <QList>
+#include <QListWidget>
 
 class QCheckBox;
 
@@ -42,7 +43,7 @@ private slots:
 
 private:
     QList<QByteArray> m_visibleRoles;
-    QList<QCheckBox*> m_checkBoxes;
+    QListWidget* m_listWidget;
 };
 
 #endif

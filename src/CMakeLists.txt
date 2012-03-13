@@ -57,7 +57,6 @@ set(dolphinprivate_LIB_SRCS
     views/dolphinviewactionhandler.cpp
     views/draganddrophelper.cpp
     views/renamedialog.cpp
-    views/rolesaccessor.cpp
     views/tooltips/filemetadatatooltip.cpp
     views/tooltips/tooltipmanager.cpp
     views/versioncontrol/updateitemstatesthread.cpp

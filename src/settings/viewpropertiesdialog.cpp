@@ -21,7 +21,7 @@
 #include "viewpropertiesdialog.h"
 
 #include "additionalinfodialog.h"
-#include "views/rolesaccessor.h"
+#include "kitemviews/kfileitemmodel.h"
 #include "views/dolphinview.h"
 #include "dolphin_generalsettings.h"
 #include "dolphin_iconsmodesettings.h"
@@ -107,10 +107,9 @@ ViewPropertiesDialog::ViewPropertiesDialog(DolphinView* dolphinView) :
     m_sortOrder->addItem(i18nc("@item:inlistbox Sort", "Descending"));
 
     m_sorting = new KComboBox(sortingBox);
-    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
-    const QList<QByteArray> roles = rolesAccessor.roles();
-    foreach (const QByteArray& role, roles) {
-        m_sorting->addItem(rolesAccessor.translation(role), role);
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        m_sorting->addItem(info.translation, info.role);
     }
 
     m_sortFoldersFirst = new QCheckBox(i18nc("@option:check", "Show folders first"));
@@ -393,8 +392,15 @@ void ViewPropertiesDialog::loadSettings()
     const int sortOrderIndex = (m_viewProps->sortOrder() == Qt::AscendingOrder) ? 0 : 1;
     m_sortOrder->setCurrentIndex(sortOrderIndex);
 
-    const QList<QByteArray> roles = RolesAccessor::instance().roles();
-    const int sortRoleIndex = roles.indexOf(m_viewProps->sortRole());
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    int sortRoleIndex = 0;
+    for (int i = 0; i < rolesInfo.count(); ++i)
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        if (info.role == m_viewProps->sortRole()) {
+            sortRoleIndex = i;
+            break;
+        }
+    }
     m_sorting->setCurrentIndex(sortRoleIndex);
 
     m_sortFoldersFirst->setChecked(m_viewProps->sortFoldersFirst());

@@ -20,7 +20,6 @@
 
 #include "viewproperties.h"
 
-#include "rolesaccessor.h"
 #include "dolphin_directoryviewpropertysettings.h"
 #include "dolphin_generalsettings.h"
 

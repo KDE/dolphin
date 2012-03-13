@@ -257,34 +257,21 @@ int KFileItemModel::indexForKeyboardSearch(const QString& text, int startFromInd
 bool KFileItemModel::supportsDropping(int index) const
 {
     const KFileItem item = fileItem(index);
-    return item.isNull() ? false : item.isDir() || item.isDesktopFile();
+    return !item.isNull() && (item.isDir() || item.isDesktopFile());
 }
 
 QString KFileItemModel::roleDescription(const QByteArray& role) const
 {
-    QString descr;
-
-    switch (roleIndex(role)) {
-    case NameRole:        descr = i18nc("@item:intable", "Name"); break;
-    case SizeRole:        descr = i18nc("@item:intable", "Size"); break;
-    case DateRole:        descr = i18nc("@item:intable", "Date"); break;
-    case PermissionsRole: descr = i18nc("@item:intable", "Permissions"); break;
-    case OwnerRole:       descr = i18nc("@item:intable", "Owner"); break;
-    case GroupRole:       descr = i18nc("@item:intable", "Group"); break;
-    case TypeRole:        descr = i18nc("@item:intable", "Type"); break;
-    case DestinationRole: descr = i18nc("@item:intable", "Destination"); break;
-    case PathRole:        descr = i18nc("@item:intable", "Path"); break;
-    case CommentRole:     descr = i18nc("@item:intable", "Comment"); break;
-    case TagsRole:        descr = i18nc("@item:intable", "Tags"); break;
-    case RatingRole:      descr = i18nc("@item:intable", "Rating"); break;
-    case NoRole:          break;
-    case IsDirRole:       break;
-    case IsExpandedRole:  break;
-    case ExpandedParentsCountRole: break;
-    default:                 Q_ASSERT(false); break;
+    static QHash<QByteArray, QString> description;
+    if (description.isEmpty()) {
+        int count = 0;
+        const RoleInfoMap* map = rolesInfoMap(count);
+        for (int i = 0; i < count; ++i) {
+            description.insert(map[i].role, map[i].roleTranslation);
+        }
     }
 
-    return descr;
+    return description.value(role);
 }
 
 QList<QPair<int, QVariant> > KFileItemModel::groups() const
@@ -294,7 +281,7 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         QElapsedTimer timer;
         timer.start();
 #endif
-        switch (roleIndex(sortRole())) {
+        switch (typeForRole(sortRole())) {
         case NameRole:        m_groups = nameRoleGroups(); break;
         case SizeRole:        m_groups = sizeRoleGroups(); break;
         case DateRole:        m_groups = dateRoleGroups(); break;
@@ -393,7 +380,7 @@ void KFileItemModel::setRoles(const QSet<QByteArray>& roles)
     QSetIterator<QByteArray> it(roles);
     while (it.hasNext()) {
         const QByteArray& role = it.next();
-        m_requestRole[roleIndex(role)] = true;
+        m_requestRole[typeForRole(role)] = true;
     }
 
     if (count() > 0) {
@@ -571,6 +558,26 @@ QString KFileItemModel::nameFilter() const
     return m_filter.pattern();
 }
 
+QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
+{
+    static QList<RoleInfo> rolesInfo;
+    if (rolesInfo.isEmpty()) {
+        int count = 0;
+        const RoleInfoMap* map = rolesInfoMap(count);
+        for (int i = 0; i < count; ++i) {
+            if (map[i].roleType != NoRole) {
+                RoleInfo info;
+                info.role = map[i].role;
+                info.translation = map[i].roleTranslation;
+                info.group = map[i].groupTranslation;
+                rolesInfo.append(info);
+            }
+        }
+    }
+
+    return rolesInfo;
+}
+
 void KFileItemModel::onGroupedSortingChanged(bool current)
 {
     Q_UNUSED(current);
@@ -580,7 +587,7 @@ void KFileItemModel::onGroupedSortingChanged(bool current)
 void KFileItemModel::onSortRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
     Q_UNUSED(previous);
-    m_sortRole = roleIndex(current);
+    m_sortRole = typeForRole(current);
 
 #ifdef KFILEITEMMODEL_DEBUG
     if (!m_requestRole[m_sortRole]) {
@@ -1110,52 +1117,54 @@ void KFileItemModel::resetRoles()
     }
 }
 
-KFileItemModel::Role KFileItemModel::roleIndex(const QByteArray& role) const
+KFileItemModel::RoleType KFileItemModel::typeForRole(const QByteArray& role) const
 {
-    static QHash<QByteArray, Role> rolesHash;
-    if (rolesHash.isEmpty()) {
-        rolesHash.insert("name", NameRole);
-        rolesHash.insert("size", SizeRole);
-        rolesHash.insert("date", DateRole);
-        rolesHash.insert("permissions", PermissionsRole);
-        rolesHash.insert("owner", OwnerRole);
-        rolesHash.insert("group", GroupRole);
-        rolesHash.insert("type", TypeRole);
-        rolesHash.insert("destination", DestinationRole);
-        rolesHash.insert("path", PathRole);
-        rolesHash.insert("comment", CommentRole);
-        rolesHash.insert("tags", TagsRole);
-        rolesHash.insert("rating", RatingRole);
-        rolesHash.insert("isDir", IsDirRole);
-        rolesHash.insert("isExpanded", IsExpandedRole);
-        rolesHash.insert("isExpandable", IsExpandableRole);
-        rolesHash.insert("expandedParentsCount", ExpandedParentsCountRole);
+    static QHash<QByteArray, RoleType> roles;
+    if (roles.isEmpty()) {
+        // Insert user visible roles that can be accessed with
+        // KFileItemModel::roleInformation()
+        int count = 0;
+        const RoleInfoMap* map = rolesInfoMap(count);
+        for (int i = 0; i < count; ++i) {
+            roles.insert(map[i].role, map[i].roleType);
+        }
+
+        // Insert internal roles (take care to synchronize the implementation
+        // with KFileItemModel::roleForType() in case if a change is done).
+        roles.insert("isDir", IsDirRole);
+        roles.insert("isExpanded", IsExpandedRole);
+        roles.insert("isExpandable", IsExpandableRole);
+        roles.insert("expandedParentsCount", ExpandedParentsCountRole);
+
+        Q_ASSERT(roles.count() == RolesCount);
     }
-    return rolesHash.value(role, NoRole);
+
+    return roles.value(role, NoRole);
 }
 
-QByteArray KFileItemModel::roleByteArray(Role role) const
+QByteArray KFileItemModel::roleForType(RoleType roleType) const
 {
-    static const char* const roles[RolesCount] = {
-        0, // NoRole
-        "name",
-        "size",
-        "date",
-        "permissions",
-        "owner",
-        "group",
-        "type",
-        "destination",
-        "path",
-        "comment",
-        "tags",
-        "rating",
-        "isDir",
-        "isExpanded",
-        "isExpandable",
-        "expandedParentsCount"
+    static QHash<RoleType, QByteArray> roles;
+    if (roles.isEmpty()) {
+        // Insert user visible roles that can be accessed with
+        // KFileItemModel::roleInformation()
+        int count = 0;
+        const RoleInfoMap* map = rolesInfoMap(count);
+        for (int i = 0; i < count; ++i) {
+            roles.insert(map[i].roleType, map[i].role);
+        }
+
+        // Insert internal roles (take care to synchronize the implementation
+        // with KFileItemModel::typeForRole() in case if a change is done).
+        roles.insert(IsDirRole, "isDir");
+        roles.insert(IsExpandedRole, "isExpanded");
+        roles.insert(IsExpandableRole, "isExpandable");
+        roles.insert(ExpandedParentsCountRole, "expandedParentsCount");
+
+        Q_ASSERT(roles.count() == RolesCount);
     };
-    return roles[role];
+
+    return roles.value(roleType);
 }
 
 QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) const
@@ -1364,7 +1373,7 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     case PathRole:
     case CommentRole:
     case TagsRole: {
-        const QByteArray role = roleByteArray(m_sortRole);
+        const QByteArray role = roleForType(m_sortRole);
         result = QString::compare(a->values.value(role).toString(),
                                   b->values.value(role).toString());
         break;
@@ -1958,6 +1967,29 @@ KFileItemList KFileItemModel::childItems(const KFileItem& item) const
     }
 
     return items;
+}
+
+const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
+{
+    static const RoleInfoMap rolesInfoMap[] = {
+    //    role           roleType         role translation                                  group translation
+        { 0,             NoRole,          0, 0,                                             0, 0 },
+        { "name",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0 },
+        { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0 },
+        { "date",        DateRole,        I18N_NOOP2_NOSTRIP("@label", "Date"),             0, 0 },
+        { "permissions", PermissionsRole, I18N_NOOP2_NOSTRIP("@label", "Permissions"),      0, 0 },
+        { "owner",       OwnerRole,       I18N_NOOP2_NOSTRIP("@label", "Owner"),            0, 0 },
+        { "group",       GroupRole,       I18N_NOOP2_NOSTRIP("@label", "Group"),            0, 0 },
+        { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             0, 0 },
+        { "destination", DestinationRole, I18N_NOOP2_NOSTRIP("@label", "Link Destination"), 0, 0 },
+        { "path",        PathRole,        I18N_NOOP2_NOSTRIP("@label", "Path"),             0, 0 },
+        { "comment",     CommentRole,     I18N_NOOP2_NOSTRIP("@label", "Comment"),          0, 0 },
+        { "tags",        TagsRole,        I18N_NOOP2_NOSTRIP("@label", "Tags"),             0, 0 },
+        { "rating",      RatingRole,      I18N_NOOP2_NOSTRIP("@label", "Rating"),           0, 0 }
+    };
+
+    count = sizeof(rolesInfoMap) / sizeof(RoleInfoMap);
+    return rolesInfoMap;
 }
 
 #include "kfileitemmodel.moc"

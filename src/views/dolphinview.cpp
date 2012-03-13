@@ -56,7 +56,6 @@
 #include <KToggleAction>
 #include <KUrl>
 
-#include "rolesaccessor.h"
 #include "dolphindirlister.h"
 #include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
@@ -781,16 +780,15 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
 
     // Add all roles to the menu that can be shown or hidden by the user
-    const RolesAccessor& rolesAccessor = RolesAccessor::instance();
-    const QList<QByteArray> roles = rolesAccessor.roles();
-    foreach (const QByteArray& role, roles) {
-        if (role != "name") {
-            const QString text = fileItemModel()->roleDescription(role);
+    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
+    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
+        if (info.role != "name") {
+            const QString text = fileItemModel()->roleDescription(info.role);
 
             QAction* action = menu.data()->addAction(text);
             action->setCheckable(true);
-            action->setChecked(visibleRolesSet.contains(role));
-            action->setData(role);
+            action->setChecked(visibleRolesSet.contains(info.role));
+            action->setData(info.role);
         }
     }
 
@@ -802,8 +800,7 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         ViewProperties props(url());
         QList<QByteArray> visibleRoles = view->visibleRoles();
         if (action->isChecked()) {
-            const int index = roles.indexOf(selectedRole) + 1;
-            visibleRoles.insert(index, selectedRole);
+            visibleRoles.append(selectedRole);
         } else {
             visibleRoles.removeOne(selectedRole);
         }
