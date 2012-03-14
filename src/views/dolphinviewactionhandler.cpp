@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by David Faure <faure@kde.org>                     *
+ *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,9 +28,9 @@
 #include <KAction>
 #include <KActionCollection>
 #include <KActionMenu>
-#include <KFileItemDelegate>
 #include <kitemviews/kfileitemmodel.h>
 #include <KLocale>
+#include <KMenu>
 #include <KNewFileMenu>
 #include <KSelectAction>
 #include <KToggleAction>
@@ -38,10 +39,12 @@
 
 #include <KDebug>
 
-DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent)
-    : QObject(parent),
-      m_actionCollection(collection),
-      m_currentView(0)
+DolphinViewActionHandler::DolphinViewActionHandler(KActionCollection* collection, QObject* parent) :
+    QObject(parent),
+    m_actionCollection(collection),
+    m_currentView(0),
+    m_sortByActions(),
+    m_visibleRoles()
 {
     Q_ASSERT(m_actionCollection);
     createActions();
@@ -167,8 +170,7 @@ void DolphinViewActionHandler::createActions()
     connect(sortFoldersFirst, SIGNAL(triggered()), this, SLOT(toggleSortFoldersFirst()));
 
     // View -> Sort By
-    QActionGroup* sortByActionGroup = createSortByActionGroup();
-    connect(sortByActionGroup, SIGNAL(triggered(QAction*)), this, SLOT(slotSortTriggered(QAction*)));
+    QActionGroup* sortByActionGroup = createFileItemRolesActionGroup("sort_by_");
 
     KActionMenu* sortByActionMenu = m_actionCollection->add<KActionMenu>("sort");
     sortByActionMenu->setText(i18nc("@action:inmenu View", "Sort By"));
@@ -182,14 +184,14 @@ void DolphinViewActionHandler::createActions()
     sortByActionMenu->addAction(sortFoldersFirst);
 
     // View -> Additional Information
-    QActionGroup* additionalInfoGroup = createAdditionalInformationActionGroup();
-    connect(additionalInfoGroup, SIGNAL(triggered(QAction*)), this, SLOT(toggleAdditionalInfo(QAction*)));
+    QActionGroup* visibleRolesGroup = createFileItemRolesActionGroup("show_");
 
-    KActionMenu* additionalInfoMenu = m_actionCollection->add<KActionMenu>("additional_info");
-    additionalInfoMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
-    additionalInfoMenu->setDelayed(false);
-    foreach (QAction* action, additionalInfoGroup->actions()) {
-        additionalInfoMenu->addAction(action);
+    KActionMenu* visibleRolesMenu = m_actionCollection->add<KActionMenu>("additional_info");
+    visibleRolesMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
+    visibleRolesMenu->setDelayed(false);
+
+    foreach (QAction* action, visibleRolesGroup->actions()) {
+        visibleRolesMenu->addAction(action);
     }
 
     KToggleAction* showInGroups = m_actionCollection->add<KToggleAction>("show_in_groups");
@@ -207,47 +209,70 @@ void DolphinViewActionHandler::createActions()
     connect(adjustViewProps, SIGNAL(triggered()), this, SLOT(slotAdjustViewProperties()));
 }
 
-QActionGroup* DolphinViewActionHandler::createAdditionalInformationActionGroup()
+QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QString& groupPrefix)
 {
-    QActionGroup* additionalInfoGroup = new QActionGroup(m_actionCollection);
-    additionalInfoGroup->setExclusive(false);
+    const bool isSortGroup = (groupPrefix == QLatin1String("sort_by_"));
+    Q_ASSERT(isSortGroup || (!isSortGroup && groupPrefix == QLatin1String("show_")));
 
-    KActionMenu* showInformationMenu = m_actionCollection->add<KActionMenu>("additional_info");
-    showInformationMenu->setText(i18nc("@action:inmenu View", "Additional Information"));
-    showInformationMenu->setDelayed(false);
+    QActionGroup* rolesActionGroup = new QActionGroup(m_actionCollection);
+    rolesActionGroup->setExclusive(isSortGroup);
+    if (isSortGroup) {
+        connect(rolesActionGroup, SIGNAL(triggered(QAction*)),
+                this, SLOT(slotSortTriggered(QAction*)));
+    } else {
+        connect(rolesActionGroup, SIGNAL(triggered(QAction*)),
+                this, SLOT(toggleVisibleRole(QAction*)));
+    }
+
+    QString groupName;
+    KActionMenu* groupMenu = 0;
+    QActionGroup* groupMenuGroup = 0;
 
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
-        if (info.role == "name") {
+        if (!isSortGroup && info.role == "name") {
             // It should not be possible to hide the "name" role
             continue;
         }
 
-        const QString name = QLatin1String("show_") + info.role;
-        KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
+        KToggleAction* action = 0;
+        const QString name = groupPrefix + info.role;
+        if (info.group.isEmpty()) {
+            action = m_actionCollection->add<KToggleAction>(name);
+            action->setActionGroup(rolesActionGroup);
+        } else {
+            if (!groupMenu || info.group != groupName) {
+                groupName = info.group;
+                groupMenu = m_actionCollection->add<KActionMenu>(groupName);
+                groupMenu->setText(groupName);
+                groupMenu->setActionGroup(rolesActionGroup);
+
+                groupMenuGroup = new QActionGroup(groupMenu);
+                groupMenuGroup->setExclusive(isSortGroup);
+                if (isSortGroup) {
+                    connect(groupMenuGroup, SIGNAL(triggered(QAction*)),
+                            this, SLOT(slotSortTriggered(QAction*)));
+                } else {
+                    connect(groupMenuGroup, SIGNAL(triggered(QAction*)),
+                            this, SLOT(toggleVisibleRole(QAction*)));
+                }
+            }
+
+            action = new KToggleAction(groupMenu);
+            action->setActionGroup(groupMenuGroup);
+            groupMenu->addAction(action);
+        }
         action->setText(info.translation);
         action->setData(info.role);
-        action->setActionGroup(additionalInfoGroup);
+
+        if (isSortGroup) {
+            m_sortByActions.insert(info.role, action);
+        } else {
+            m_visibleRoles.insert(info.role, action);
+        }
     }
 
-    return additionalInfoGroup;
-}
-
-QActionGroup* DolphinViewActionHandler::createSortByActionGroup()
-{
-    QActionGroup* sortByActionGroup = new QActionGroup(m_actionCollection);
-    sortByActionGroup->setExclusive(true);
-
-    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
-        const QString name = QLatin1String("sort_by_") + info.role;
-        KToggleAction* action = m_actionCollection->add<KToggleAction>(name);
-        action->setText(info.translation);
-        action->setData(info.role);
-        sortByActionGroup->addAction(action);
-    }
-
-    return sortByActionGroup;
+    return rolesActionGroup;
 }
 
 void DolphinViewActionHandler::slotViewModeActionTriggered(QAction* action)
@@ -383,7 +408,7 @@ void DolphinViewActionHandler::slotSortFoldersFirstChanged(bool foldersFirst)
     m_actionCollection->action("folders_first")->setChecked(foldersFirst);
 }
 
-void DolphinViewActionHandler::toggleAdditionalInfo(QAction* action)
+void DolphinViewActionHandler::toggleVisibleRole(QAction* action)
 {
     emit actionBeingHandled();
 
@@ -411,13 +436,12 @@ void DolphinViewActionHandler::slotVisibleRolesChanged(const QList<QByteArray>& 
     Q_UNUSED(previous);
 
     const QSet<QByteArray> checkedRoles = current.toSet();
-    const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
-    foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
-        const QString name = QLatin1String("show_") + info.role;
-        QAction* action = m_actionCollection->action(name);
-        if (action) {
-            action->setChecked(checkedRoles.contains(info.role));
-        }
+    QHashIterator<QByteArray, KToggleAction*> it(m_visibleRoles);
+    while (it.hasNext()) {
+        it.next();
+        const QByteArray& role = it.key();
+        KToggleAction* action = it.value();
+        action->setChecked(checkedRoles.contains(role));
     }
 }
 
@@ -479,8 +503,7 @@ KToggleAction* DolphinViewActionHandler::detailsModeAction()
 
 void DolphinViewActionHandler::slotSortRoleChanged(const QByteArray& role)
 {
-    const QString name = QLatin1String("sort_by_") + role;
-    QAction* action = m_actionCollection->action(name);
+    KToggleAction* action = m_sortByActions.value(role);
     if (action) {
         action->setChecked(true);
 
@@ -506,6 +529,25 @@ void DolphinViewActionHandler::slotZoomLevelChanged(int current, int previous)
 
 void DolphinViewActionHandler::slotSortTriggered(QAction* action)
 {
+    // The radiobuttons of the "Sort By"-menu are split between the main-menu
+    // and several sub-menus. Because of this they don't have a common
+    // action-group that assures an exclusive toggle-state between the main-menu
+    // actions and the sub-menu-actions. If an action gets checked, it must
+    // be assured that all other actions get unchecked.
+    QAction* sortByMenu =  m_actionCollection->action("sort");
+    foreach (QAction* groupAction, sortByMenu->menu()->actions()) {
+        KActionMenu* actionMenu = qobject_cast<KActionMenu*>(groupAction);
+        if (actionMenu) {
+            foreach (QAction* subAction, actionMenu->menu()->actions()) {
+                subAction->setChecked(false);
+            }
+        } else if (groupAction->actionGroup()) {
+            groupAction->setChecked(false);
+        }
+    }
+    action->setChecked(true);
+
+    // Apply the activated sort-role to the view
     const QByteArray role = action->data().toByteArray();
     m_currentView->setSortRole(role);
 }

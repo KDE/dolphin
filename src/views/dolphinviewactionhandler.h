@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008 by David Faure <faure@kde.org>                     *
+ *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -162,7 +163,7 @@ private Q_SLOTS:
      * Switches on or off the displaying of additional information
      * as specified by \a action.
      */
-    void toggleAdditionalInfo(QAction* action);
+    void toggleVisibleRole(QAction* action);
 
     /**
      * Changes the sorting of the current view.
@@ -217,16 +218,14 @@ private:
     void createActions();
 
     /**
-     * Creates an action group with all the "show additional information" actions in it.
-     * Helper method for createActions();
+     * Creates an action-group out of all roles from KFileItemModel.
+     * Dependent on the group-prefix either a radiobutton-group is
+     * created for sorting (prefix is "sort_by_") or a checkbox-group
+     * is created for additional information (prefix is "show_").
+     * The changes of actions are reported to slotSortTriggered() or
+     * toggleAdditionalInfo().
      */
-    QActionGroup* createAdditionalInformationActionGroup();
-
-    /**
-     * Creates an action group with all the "sort by" actions in it.
-     * Helper method for createActions();
-     */
-    QActionGroup* createSortByActionGroup();
+    QActionGroup* createFileItemRolesActionGroup(const QString& groupPrefix);
 
     /**
      * Returns the "switch to icons mode" action.
@@ -248,6 +247,9 @@ private:
 
     KActionCollection* m_actionCollection;
     DolphinView* m_currentView;
+
+    QHash<QByteArray, KToggleAction*> m_sortByActions;
+    QHash<QByteArray, KToggleAction*> m_visibleRoles;
 };
 
 #endif /* DOLPHINVIEWACTIONHANDLER_H */

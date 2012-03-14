@@ -779,17 +779,33 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     KItemListView* view = m_container->controller()->view();
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
 
+    QString groupName;
+    QMenu* groupMenu = 0;
+
     // Add all roles to the menu that can be shown or hidden by the user
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
-        if (info.role != "name") {
-            const QString text = fileItemModel()->roleDescription(info.role);
-
-            QAction* action = menu.data()->addAction(text);
-            action->setCheckable(true);
-            action->setChecked(visibleRolesSet.contains(info.role));
-            action->setData(info.role);
+        if (info.role == "name") {
+            // It should not be possible to hide the "name" role
+            continue;
         }
+
+        const QString text = fileItemModel()->roleDescription(info.role);
+        QAction* action = 0;
+        if (info.group.isEmpty()) {
+            action = menu.data()->addAction(text);
+        } else {
+            if (!groupMenu || info.group != groupName) {
+                groupName = info.group;
+                groupMenu = menu.data()->addMenu(groupName);
+            }
+
+            action = groupMenu->addAction(text);
+        }
+
+        action->setCheckable(true);
+        action->setChecked(visibleRolesSet.contains(info.role));
+        action->setData(info.role);
     }
 
     QAction* action = menu.data()->exec(pos.toPoint());
