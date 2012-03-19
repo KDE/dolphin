@@ -83,8 +83,6 @@ KDE_EXPORT int kdemain(int argc, char **argv)
     KCmdLineArgs::addCmdLineOptions(options);
 
     DolphinApplication app;
-    KGlobal::locale()->insertCatalog("libkonq"); // needed for applications using libkonq
-
     if (app.isSessionRestored()) {
         app.restoreSession();
     }
