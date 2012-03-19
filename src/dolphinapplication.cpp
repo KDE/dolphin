@@ -30,6 +30,8 @@
 DolphinApplication::DolphinApplication() :
     m_mainWindow(0)
 {
+    KGlobal::locale()->insertCatalog("libkonq"); // Needed for applications using libkonq
+
     m_mainWindow = new DolphinMainWindow();
     m_mainWindow->setAttribute(Qt::WA_DeleteOnClose);
     m_mainWindow->show();
