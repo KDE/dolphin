@@ -454,9 +454,7 @@ bool KItemListController::mousePressEvent(QGraphicsSceneMouseEvent* event, const
 
     m_pressedMousePos = transform.map(event->pos());
     m_pressedIndex = m_view->itemAt(m_pressedMousePos);
-    if (m_pressedIndex >= 0) {
-        emit itemPressed(m_pressedIndex, event->button());
-    }
+    emit mouseButtonPressed(m_pressedIndex, event->buttons());
 
     if (m_view->isAboveExpansionToggle(m_pressedIndex, m_pressedMousePos)) {
         m_selectionManager->endAnchoredSelection();
@@ -637,9 +635,7 @@ bool KItemListController::mouseReleaseEvent(QGraphicsSceneMouseEvent* event, con
         return false;
     }
 
-    if (m_pressedIndex >= 0) {
-        emit itemReleased(m_pressedIndex, event->button());
-    }
+    emit mouseButtonReleased(m_pressedIndex, event->buttons());
 
     const bool isAboveSelectionToggle = m_view->isAboveSelectionToggle(m_pressedIndex, m_pressedMousePos);
     if (isAboveSelectionToggle) {

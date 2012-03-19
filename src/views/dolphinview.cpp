@@ -142,7 +142,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(itemContextMenuRequested(int,QPointF)), this, SLOT(slotItemContextMenuRequested(int,QPointF)));
     connect(controller, SIGNAL(viewContextMenuRequested(QPointF)), this, SLOT(slotViewContextMenuRequested(QPointF)));
     connect(controller, SIGNAL(headerContextMenuRequested(QPointF)), this, SLOT(slotHeaderContextMenuRequested(QPointF)));
-    connect(controller, SIGNAL(itemPressed(int,Qt::MouseButton)), this, SLOT(hideToolTip()));
+    connect(controller, SIGNAL(mouseButtonPressed(int,Qt::MouseButtons)), this, SLOT(slotMouseButtonPressed(int,Qt::MouseButtons)));
     connect(controller, SIGNAL(itemHovered(int)), this, SLOT(slotItemHovered(int)));
     connect(controller, SIGNAL(itemUnhovered(int)), this, SLOT(slotItemUnhovered(int)));
     connect(controller, SIGNAL(itemDropEvent(int,QGraphicsSceneDragDropEvent*)), this, SLOT(slotItemDropEvent(int,QGraphicsSceneDragDropEvent*)));
@@ -887,6 +887,22 @@ void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* prev
 
     KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(current);
     m_versionControlObserver->setModel(fileItemModel);
+}
+
+void DolphinView::slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons)
+{
+    hideToolTip();
+
+    if (itemIndex < 0) {
+        // Trigger the history navigation only when clicking on the viewport:
+        // Above an item the XButtons provide a simple way to select items in
+        // the singleClick mode.
+        if (buttons & Qt::XButton1) {
+            emit goBackRequested();
+        } else if (buttons & Qt::XButton2) {
+            emit goForwardRequested();
+        }
+    }
 }
 
 void DolphinView::slotSelectionChanged(const QSet<int>& current, const QSet<int>& previous)

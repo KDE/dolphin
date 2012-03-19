@@ -177,14 +177,18 @@ signals:
 
     /**
      * Is emitted if a mouse-button has been pressed above an item.
+     * If the index is smaller than 0, the mouse-button has been pressed
+     * above the viewport.
      */
-    void itemPressed(int index, Qt::MouseButton button);
+    void mouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
 
     /**
      * Is emitted if a mouse-button has been released above an item.
-     * It is assured that the signal itemPressed() has been emitted before.
+     * It is assured that the signal mouseButtonPressed() has been emitted before.
+     * If the index is smaller than 0, the mouse-button has been pressed
+     * above the viewport.
      */
-    void itemReleased(int index, Qt::MouseButton button);
+    void mouseButtonReleased(int itemIndex, Qt::MouseButtons buttons);
 
     void itemExpansionToggleClicked(int index);
 

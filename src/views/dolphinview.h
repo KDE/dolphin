@@ -511,6 +511,18 @@ signals:
      */
     void writeStateChanged(bool isFolderWritable);
 
+    /**
+     * Is emitted if the URL should be changed to the previous URL of the
+     * history (e.g. because the "back"-mousebutton has been pressed).
+     */
+    void goBackRequested();
+
+    /**
+     * Is emitted if the URL should be changed to the next URL of the
+     * history (e.g. because the "next"-mousebutton has been pressed).
+     */
+    void goForwardRequested();
+
 protected:
     /** Changes the zoom level if Control is pressed during a wheel event. */
     virtual void wheelEvent(QWheelEvent* event);
@@ -535,6 +547,7 @@ private slots:
     void slotItemUnhovered(int index);
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
     void slotModelChanged(KItemModelBase* current, KItemModelBase* previous);
+    void slotMouseButtonPressed(int itemIndex, Qt::MouseButtons buttons);
 
     /**
      * Emits the signal \a selectionChanged() with a small delay. This is
