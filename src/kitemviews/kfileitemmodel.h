@@ -369,11 +369,9 @@ private:
 
     bool m_requestRole[RolesCount];
 
-    QTimer* m_minimumUpdateIntervalTimer;
     QTimer* m_maximumUpdateIntervalTimer;
     QTimer* m_resortAllItemsTimer;
     KFileItemList m_pendingItemsToInsert;
-    bool m_pendingEmitLoadingCompleted;
 
     // Cache for KFileItemModel::groups()
     mutable QList<QPair<int, QVariant> > m_groups;
