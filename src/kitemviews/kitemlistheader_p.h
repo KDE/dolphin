@@ -94,7 +94,11 @@ private slots:
     void slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder previous);
 
 private:
-    void paintRole(QPainter* painter, const QByteArray& role, const QRectF& rect, int orderIndex) const;
+    void paintRole(QPainter* painter,
+                   const QByteArray& role,
+                   const QRectF& rect,
+                   int orderIndex,
+                   QWidget* widget = 0) const;
 
     void updatePressedRoleIndex(const QPointF& pos);
     void updateHoveredRoleIndex(const QPointF& pos);
