@@ -499,6 +499,12 @@ private:
     int groupIndexForItem(int index) const;
 
     /**
+     * Updates the alternate background for all visible items.
+     * @see updateAlternateBackgroundForWidget()
+     */
+    void updateAlternateBackgrounds();
+
+    /**
      * Updates the alternateBackground-property of the widget dependent
      * on the state of useAlternateBackgrounds() and the grouping state.
      */
