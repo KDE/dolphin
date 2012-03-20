@@ -1564,10 +1564,12 @@ int KFileItemModel::expandedParentsCountCompare(const ItemData* a, const ItemDat
     bool isDirB = true;
     const QString subPathB = subPath(b->item, pathB, index, &isDirB);
 
-    if (isDirA && !isDirB) {
-        return (sortOrder() == Qt::AscendingOrder) ? -1 : +1;
-    } else if (!isDirA && isDirB) {
-        return (sortOrder() == Qt::AscendingOrder) ? +1 : -1;
+    if (m_sortFoldersFirst || m_sortRole == SizeRole) {
+        if (isDirA && !isDirB) {
+            return (sortOrder() == Qt::AscendingOrder) ? -1 : +1;
+        } else if (!isDirA && isDirB) {
+            return (sortOrder() == Qt::AscendingOrder) ? +1 : -1;
+        }
     }
 
     // Compare the items of the parents that represent the first
