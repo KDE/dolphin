@@ -157,21 +157,17 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
                                                 itemSize,
                                                 m_layouter->itemMargin());
 
-    const bool updateAlternateBackgrounds = (m_visibleRoles.count() > 1) &&
-                                            (( m_itemSize.isEmpty() && !itemSize.isEmpty()) ||
-                                             (!m_itemSize.isEmpty() && itemSize.isEmpty()));
+    const bool alternateBackgroundsChanged = (m_visibleRoles.count() > 1) &&
+                                             (( m_itemSize.isEmpty() && !itemSize.isEmpty()) ||
+                                              (!m_itemSize.isEmpty() && itemSize.isEmpty()));
 
     m_itemSize = itemSize;
 
-    if (updateAlternateBackgrounds) {
+    if (alternateBackgroundsChanged) {
         // For an empty item size alternate backgrounds are drawn if more than
         // one role is shown. Assure that the backgrounds for visible items are
         // updated when changing the size in this context.
-        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-        while (it.hasNext()) {
-            it.next();
-            updateAlternateBackgroundForWidget(it.value());
-        }
+        updateAlternateBackgrounds();
     }
 
     if (itemSize.isEmpty()) {
@@ -253,9 +249,9 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
     const QList<QByteArray> previousRoles = m_visibleRoles;
     m_visibleRoles = roles;
 
-    const bool updateAlternateBackgrounds = m_itemSize.isEmpty() &&
-                                            ((roles.count() > 1 && previousRoles.count() <= 1) ||
-                                             (roles.count() <= 1 && previousRoles.count() > 1));
+    const bool alternateBackgroundsChanged = m_itemSize.isEmpty() &&
+                                             ((roles.count() > 1 && previousRoles.count() <= 1) ||
+                                              (roles.count() <= 1 && previousRoles.count() > 1));
 
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
@@ -263,7 +259,7 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
         KItemListWidget* widget = it.value();
         widget->setVisibleRoles(roles);
         widget->setVisibleRolesSizes(m_stretchedVisibleRolesSizes);
-        if (updateAlternateBackgrounds) {
+        if (alternateBackgroundsChanged) {
             updateAlternateBackgroundForWidget(widget);
         }
     }
@@ -898,6 +894,10 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
         endTransaction();
         updateSiblingsInformation();
     }
+
+    if (useAlternateBackgrounds()) {
+        updateAlternateBackgrounds();
+    }
 }
 
 void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
@@ -999,6 +999,10 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
         endTransaction();
         updateSiblingsInformation();
     }
+
+    if (useAlternateBackgrounds()) {
+        updateAlternateBackgrounds();
+    }
 }
 
 void KItemListView::slotItemsMoved(const KItemRange& itemRange, const QList<int>& movedToIndexes)
@@ -1085,13 +1089,8 @@ void KItemListView::slotGroupedSortingChanged(bool current)
         // Changing the group mode requires to update the alternate backgrounds
         // as with the enabled group mode the altering is done on base of the first
         // group item.
-        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-        while (it.hasNext()) {
-            it.next();
-            updateAlternateBackgroundForWidget(it.value());
-        }
+        updateAlternateBackgrounds();
     }
-
     updateSiblingsInformation();
     doLayout(NoAnimation);
 }
@@ -1873,6 +1872,15 @@ int KItemListView::groupIndexForItem(int index) const
     }
 
     return mid;
+}
+
+void KItemListView::updateAlternateBackgrounds()
+{
+    QHashIterator<int, KItemListWidget*> it(m_visibleItems);
+    while (it.hasNext()) {
+        it.next();
+        updateAlternateBackgroundForWidget(it.value());
+    }
 }
 
 void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget* widget)
