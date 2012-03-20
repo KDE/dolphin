@@ -141,7 +141,7 @@ void KItemListHeader::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     foreach (const QByteArray& role, m_visibleRoles) {
         const qreal roleWidth = m_visibleRolesWidths.value(role);
         const QRectF rect(x, 0, roleWidth, size().height());
-        paintRole(painter, role, rect, orderIndex);
+        paintRole(painter, role, rect, orderIndex, widget);
         x += roleWidth;
         ++orderIndex;
     }
@@ -339,7 +339,8 @@ void KItemListHeader::slotSortOrderChanged(Qt::SortOrder current, Qt::SortOrder 
 void KItemListHeader::paintRole(QPainter* painter,
                                 const QByteArray& role,
                                 const QRectF& rect,
-                                int orderIndex) const
+                                int orderIndex,
+                                QWidget* widget) const
 {
     // The following code is based on the code from QHeaderView::paintSection().
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -378,7 +379,7 @@ void KItemListHeader::paintRole(QPainter* painter,
     option.selectedPosition = QStyleOptionHeader::NotAdjacent;
     option.text = m_model->roleDescription(role);
 
-    style()->drawControl(QStyle::CE_Header, &option, painter);
+    style()->drawControl(QStyle::CE_Header, &option, painter, widget);
 }
 
 void KItemListHeader::updatePressedRoleIndex(const QPointF& pos)
