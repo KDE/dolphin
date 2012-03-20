@@ -62,6 +62,7 @@ private slots:
     void testDefaultGroupedSorting();
     void testNewItems();
     void testRemoveItems();
+    void testLoadingCompleted();
     void testSetData();
     void testSetDataWithModifiedSortRole_data();
     void testSetDataWithModifiedSortRole();
@@ -100,6 +101,7 @@ void KFileItemModelTest::init()
 
     m_testDir = new TestDir();
     m_dirLister = new KDirLister();
+    m_dirLister->setAutoUpdate(false);
     m_model = new KFileItemModel(m_dirLister);
 }
 
@@ -173,6 +175,49 @@ void KFileItemModelTest::testRemoveItems()
     m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 1);
+    QVERIFY(isModelConsistent());
+}
+
+void KFileItemModelTest::testLoadingCompleted()
+{
+    QSignalSpy loadingCompletedSpy(m_model, SIGNAL(loadingCompleted()));
+    QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
+    QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
+
+    m_testDir->createFiles(QStringList() << "a.txt" << "b.txt" << "c.txt");
+
+    m_dirLister->openUrl(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QCOMPARE(loadingCompletedSpy.count(), 1);
+    QCOMPARE(itemsInsertedSpy.count(), 1);
+    QCOMPARE(itemsRemovedSpy.count(), 0);
+    QCOMPARE(m_model->count(), 3);
+
+    m_testDir->createFiles(QStringList() << "d.txt" << "e.txt");
+    m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QCOMPARE(loadingCompletedSpy.count(), 2);
+    QCOMPARE(itemsInsertedSpy.count(), 2);
+    QCOMPARE(itemsRemovedSpy.count(), 0);
+    QCOMPARE(m_model->count(), 5);
+
+    m_testDir->removeFile("a.txt");
+    m_testDir->createFile("f.txt");
+    m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QCOMPARE(loadingCompletedSpy.count(), 3);
+    QCOMPARE(itemsInsertedSpy.count(), 3);
+    QCOMPARE(itemsRemovedSpy.count(), 1);
+    QCOMPARE(m_model->count(), 5);
+
+    m_testDir->removeFile("b.txt");
+    m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
+    QCOMPARE(loadingCompletedSpy.count(), 4);
+    QCOMPARE(itemsInsertedSpy.count(), 3);
+    QCOMPARE(itemsRemovedSpy.count(), 2);
+    QCOMPARE(m_model->count(), 4);
+
     QVERIFY(isModelConsistent());
 }
 
@@ -288,8 +333,6 @@ void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
     // one itemsInserted()-signal. However in this test we want to stress
     // KFileItemModel to do a lot of insert operation and hence decrease
     // the timeout to 1 millisecond.
-    m_model->m_minimumUpdateIntervalTimer->setInterval(1);
-
     m_testDir->createFile("1");
     m_dirLister->openUrl(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));

@@ -44,11 +44,9 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_filter(),
     m_filteredItems(),
     m_requestRole(),
-    m_minimumUpdateIntervalTimer(0),
     m_maximumUpdateIntervalTimer(0),
     m_resortAllItemsTimer(0),
     m_pendingItemsToInsert(),
-    m_pendingEmitLoadingCompleted(false),
     m_groups(),
     m_expandedParentsCountRoot(UninitializedExpandedParentsCountRoot),
     m_expandedUrls(),
@@ -71,14 +69,6 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     connect(dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
     connect(dirLister, SIGNAL(clear(KUrl)), this, SLOT(slotClear(KUrl)));
 
-    // Although the layout engine of KItemListView is fast it is very inefficient to e.g.
-    // emit 50 itemsInserted()-signals each 100 ms. m_minimumUpdateIntervalTimer assures that updates
-    // are done in 1 second intervals for equal operations.
-    m_minimumUpdateIntervalTimer = new QTimer(this);
-    m_minimumUpdateIntervalTimer->setInterval(1000);
-    m_minimumUpdateIntervalTimer->setSingleShot(true);
-    connect(m_minimumUpdateIntervalTimer, SIGNAL(timeout()), this, SLOT(dispatchPendingItemsToInsert()));
-
     // For slow KIO-slaves like used for searching it makes sense to show results periodically even
     // before the completed() or canceled() signal has been emitted.
     m_maximumUpdateIntervalTimer = new QTimer(this);
@@ -94,8 +84,6 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_resortAllItemsTimer->setInterval(500);
     m_resortAllItemsTimer->setSingleShot(true);
     connect(m_resortAllItemsTimer, SIGNAL(timeout()), this, SLOT(resortAllItems()));
-
-    Q_ASSERT(m_minimumUpdateIntervalTimer->interval() <= m_maximumUpdateIntervalTimer->interval());
 
     connect(KGlobalSettings::self(), SIGNAL(naturalSortingChanged()), this, SLOT(slotNaturalSortingChanged()));
 }
@@ -654,14 +642,6 @@ void KFileItemModel::resortAllItems()
 
 void KFileItemModel::slotCompleted()
 {
-    if (m_urlsToExpand.isEmpty() && m_minimumUpdateIntervalTimer->isActive()) {
-        // dispatchPendingItems() will be called when the timer
-        // has been expired.
-        m_pendingEmitLoadingCompleted = true;
-        return;
-    }
-
-    m_pendingEmitLoadingCompleted = false;
     dispatchPendingItemsToInsert();
 
     if (!m_urlsToExpand.isEmpty()) {
@@ -687,12 +667,10 @@ void KFileItemModel::slotCompleted()
     }
 
     emit loadingCompleted();
-    m_minimumUpdateIntervalTimer->start();
 }
 
 void KFileItemModel::slotCanceled()
 {
-    m_minimumUpdateIntervalTimer->stop();
     m_maximumUpdateIntervalTimer->stop();
     dispatchPendingItemsToInsert();
 }
@@ -851,7 +829,6 @@ void KFileItemModel::slotClear()
     m_filteredItems.clear();
     m_groups.clear();
 
-    m_minimumUpdateIntervalTimer->stop();
     m_maximumUpdateIntervalTimer->stop();
     m_resortAllItemsTimer->stop();
     m_pendingItemsToInsert.clear();
@@ -885,10 +862,6 @@ void KFileItemModel::dispatchPendingItemsToInsert()
     if (!m_pendingItemsToInsert.isEmpty()) {
         insertItems(m_pendingItemsToInsert);
         m_pendingItemsToInsert.clear();
-    }
-
-    if (m_pendingEmitLoadingCompleted) {
-        emit loadingCompleted();
     }
 }
 

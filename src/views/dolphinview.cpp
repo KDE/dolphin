@@ -1115,9 +1115,7 @@ void DolphinView::slotDirListerStarted(const KUrl& url)
 void DolphinView::slotLoadingCompleted()
 {
     // Update the view-state. This has to be done using a Qt::QueuedConnection
-    // because the view might not be in its final state yet (the view also
-    // listens to the completed()-signal from KDirLister and the order of
-    // of slots is undefined).
+    // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, SLOT(updateViewState()));
 
     emit finishedPathLoading(url());
