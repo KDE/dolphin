@@ -91,9 +91,9 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
             this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
 
     // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
-    // resolving of the roles. Postpone the resolving until no update has been done for 2 seconds.
+    // resolving of the roles. Postpone the resolving until no update has been done for 1 second.
     m_changedItemsTimer = new QTimer(this);
-    m_changedItemsTimer->setInterval(2000);
+    m_changedItemsTimer->setInterval(1000);
     m_changedItemsTimer->setSingleShot(true);
     connect(m_changedItemsTimer, SIGNAL(timeout()), this, SLOT(resolveChangedItems()));
 }
@@ -418,6 +418,7 @@ void KFileItemModelRolesUpdater::resolveChangedItems()
             itemRanges.append(KItemRange(index, 1));
         }
     }
+    m_changedItems.clear();
 
     startUpdating(itemRanges);
 }
@@ -711,7 +712,7 @@ bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, Resol
         data.insert("iconName", item.iconName());
 
         if (m_clearPreviews) {
-            data.insert("iconPixmap", QString());
+            data.insert("iconPixmap", QPixmap());
         }
 
         disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
