@@ -783,7 +783,15 @@ void KFileItemModel::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> >&
         const int index = m_items.value(oldItem.url(), -1);
         if (index >= 0) {
             m_itemData[index]->item = newItem;
-            m_itemData[index]->values = retrieveData(newItem);
+
+            // Keep old values as long as possible if they could not retrieved synchronously yet.
+            // The update of the values will be done asynchronously by KFileItemModelRolesUpdater.
+            QHashIterator<QByteArray, QVariant> it(retrieveData(newItem));
+            while (it.hasNext()) {
+                it.next();
+                m_itemData[index]->values.insert(it.key(), it.value());
+            }
+
             m_items.remove(oldItem.url());
             m_items.insert(newItem.url(), index);
             indexes.append(index);
@@ -1146,7 +1154,6 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     // KFileItem::iconName() can be very expensive if the MIME-type is unknown
     // and hence will be retrieved asynchronously by KFileItemModelRolesUpdater.
     QHash<QByteArray, QVariant> data;
-    data.insert("iconPixmap", QPixmap());
     data.insert("url", item.url());
 
     const bool isDir = item.isDir();
