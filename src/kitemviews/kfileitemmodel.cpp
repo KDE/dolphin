@@ -1077,7 +1077,6 @@ void KFileItemModel::removeExpandedItems()
 
     // The m_expandedParentsCountRoot may not get reset before all items with
     // a bigger count have been removed.
-    Q_ASSERT(m_expandedParentsCountRoot >= 0);
     removeItems(expandedItems);
 
     m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
