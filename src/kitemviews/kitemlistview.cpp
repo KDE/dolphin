@@ -1998,7 +1998,7 @@ void KItemListView::updateStretchedVisibleRolesSizes()
 
     // Calculate the maximum size of an item by considering the
     // visible role sizes and apply them to the layouter. If the
-    // size does not use the available view-size it the size of the
+    // size does not use the available view-size the size of the
     // first role will get stretched.
     m_stretchedVisibleRolesSizes = m_visibleRolesSizes;
     const QByteArray role = m_visibleRoles.first();
@@ -2009,24 +2009,24 @@ void KItemListView::updateStretchedVisibleRolesSizes()
     if (dynamicItemSize.width() <= 0) {
         const qreal requiredWidth = visibleRolesSizesWidthSum();
         const qreal availableWidth = size().width();
-        if (requiredWidth < availableWidth) {
-            // Stretch the first role to use the whole width for the item
+        if (requiredWidth != availableWidth) {
+            // Stretch the first role to use the whole remaining width
             firstRoleSize.rwidth() += availableWidth - requiredWidth;
+
+            // TODO: A proper calculation of the minimum width depends on the implementation
+            // of KItemListWidget. Probably a kind of minimum size-hint should be introduced
+            // later.
+            const qreal minWidth = m_styleOption.iconSize * 2 + 200;
+            if (firstRoleSize.width() < minWidth) {
+                firstRoleSize.rwidth() = minWidth;
+            }
             m_stretchedVisibleRolesSizes.insert(role, firstRoleSize);
         }
-        dynamicItemSize.setWidth(qMax(requiredWidth, availableWidth));
+        dynamicItemSize.rwidth() = qMax(requiredWidth, availableWidth);
     }
 
-    if (dynamicItemSize.height() <= 0) {
-        const qreal requiredHeight = visibleRolesSizesHeightSum();
-        const qreal availableHeight = size().height();
-        if (requiredHeight < availableHeight) {
-            // Stretch the first role to use the whole height for the item
-            firstRoleSize.rheight() += availableHeight - requiredHeight;
-            m_stretchedVisibleRolesSizes.insert(role, firstRoleSize);
-        }
-        dynamicItemSize.setHeight(qMax(requiredHeight, availableHeight));
-    }
+    // TODO: A dynamic item height (dynamicItemSize.height() <= 0)
+    // is not handled currently
 
     m_layouter->setItemSize(dynamicItemSize);
 
