@@ -44,7 +44,7 @@ public:
     void setVisibleRoles(const QList<QByteArray>& roles);
     QList<QByteArray> visibleRoles() const;
 
-    void setVisibleRolesWidths(const QHash<QByteArray, qreal> rolesWidths);
+    void setVisibleRolesWidths(const QHash<QByteArray, qreal>& rolesWidths);
     QHash<QByteArray, qreal> visibleRolesWidths() const;
 
     qreal minimumRoleWidth() const;

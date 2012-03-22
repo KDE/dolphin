@@ -513,7 +513,7 @@ QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role)
     if (role == "name") {
         // Increase the width by the expansion-toggle and the current expansion level
         const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-        width += option.padding + expandedParentsCount * itemSize().height() + KIconLoader::SizeSmall;
+        width += option.padding + (expandedParentsCount + 1) * itemSize().height() + KIconLoader::SizeSmall;
 
         // Increase the width by the required space for the icon
         width += option.padding * 2 + option.iconSize;

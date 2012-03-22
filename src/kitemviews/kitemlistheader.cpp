@@ -95,7 +95,7 @@ QList<QByteArray> KItemListHeader::visibleRoles() const
     return m_visibleRoles;
 }
 
-void KItemListHeader::setVisibleRolesWidths(const QHash<QByteArray, qreal> rolesWidths)
+void KItemListHeader::setVisibleRolesWidths(const QHash<QByteArray, qreal>& rolesWidths)
 {
     m_visibleRolesWidths = rolesWidths;
 
