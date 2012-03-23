@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef KITEMLISTHEADER_H
-#define KITEMLISTHEADER_H
+#ifndef KITEMLISTHEADERWIDGET_H
+#define KITEMLISTHEADERWIDGET_H
 
 #include <libdolphin_export.h>
 #include <QGraphicsWidget>
@@ -28,42 +28,48 @@
 class KItemModelBase;
 
 /**
- * @brief Header for KItemListView that shows the currently used roles.
+ * @brief Widget the implements the header for KItemListView showing the currently used roles.
+ *
+ * The widget is an internal API, the user of KItemListView may only access the
+ * class KItemListHeader.
  */
-class LIBDOLPHINPRIVATE_EXPORT KItemListHeader : public QGraphicsWidget
+class LIBDOLPHINPRIVATE_EXPORT KItemListHeaderWidget : public QGraphicsWidget
 {
     Q_OBJECT
 
 public:
-    KItemListHeader(QGraphicsWidget* parent = 0);
-    virtual ~KItemListHeader();
+    KItemListHeaderWidget(QGraphicsWidget* parent = 0);
+    virtual ~KItemListHeaderWidget();
 
     void setModel(KItemModelBase* model);
     KItemModelBase* model() const;
 
-    void setVisibleRoles(const QList<QByteArray>& roles);
-    QList<QByteArray> visibleRoles() const;
+    void setAutomaticColumnResizing(bool automatic);
+    bool automaticColumnResizing() const;
 
-    void setVisibleRolesWidths(const QHash<QByteArray, qreal>& rolesWidths);
-    QHash<QByteArray, qreal> visibleRolesWidths() const;
+    void setColumns(const QList<QByteArray>& roles);
+    QList<QByteArray> columns() const;
 
-    qreal minimumRoleWidth() const;
+    void setColumnWidth(const QByteArray& role, qreal width);
+    qreal columnWidth(const QByteArray& role) const;
+
+    qreal minimumColumnWidth() const;
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
 
 signals:
     /**
      * Is emitted if the width of a visible role has been adjusted by the user with the mouse
-     * (no signal is emitted if KItemListHeader::setVisibleRoles() is invoked).
+     * (no signal is emitted if KItemListHeader::setVisibleRoleWidth() is invoked).
      */
-    void visibleRoleWidthChanged(const QByteArray& role,
-                                 qreal currentWidth,
-                                 qreal previousWidth);
+    void columnWidthChanged(const QByteArray& role,
+                            qreal currentWidth,
+                            qreal previousWidth);
 
     /**
-     * Is emitted if the position of the visible role has been changed.
+     * Is emitted if the position of the column has been changed.
      */
-    void visibleRoleMoved(const QByteArray& role, int currentIndex, int previousIndex);
+    void columnMoved(const QByteArray& role, int currentIndex, int previousIndex);
 
     /**
      * Is emitted if the user has changed the sort order by clicking on a
@@ -130,9 +136,10 @@ private:
         MoveRoleOperation
     };
 
+    bool m_automaticColumnResizing;
     KItemModelBase* m_model;
-    QList<QByteArray> m_visibleRoles;
-    QHash<QByteArray, qreal> m_visibleRolesWidths;
+    QList<QByteArray> m_columns;
+    QHash<QByteArray, qreal> m_columnsWidths;
 
     int m_hoveredRoleIndex;
     int m_pressedRoleIndex;

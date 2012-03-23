@@ -88,6 +88,9 @@ public:
      */
     QList<QByteArray> visibleRoles() const;
 
+    void setHeaderColumnWidths(const QList<int>& widths);
+    QList<int> headerColumnWidths() const;
+
     /**
      * Sets the directory properties view mode, show preview,
      * show hidden files, sorting and sort order like

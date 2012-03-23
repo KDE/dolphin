@@ -36,6 +36,7 @@
 class KItemListController;
 class KItemListGroupHeaderCreatorBase;
 class KItemListHeader;
+class KItemListHeaderWidget;
 class KItemListSizeHintResolver;
 class KItemListRubberBand;
 class KItemListViewAnimation;
@@ -192,13 +193,13 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /**
-     * @param itemRanges Items that must be checked for getting the visible roles sizes.
-     * @return           The size of each visible role in case if KItemListView::itemSize()
-     *                   is empty. This allows to have dynamic but equal role sizes between
-     *                   all items, like used in the classic "table-views". Per default an
-     *                   empty hash is returned.
+     * @param itemRanges Items that must be checked for getting the widths of columns.
+     * @return           The width of the column of each visible role. The width will
+     *                   be respected if the width of the item size is <= 0 (see
+     *                   KItemListView::setItemSize()). Per default an empty hash
+     *                   is returned.
      */
-    virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
+    virtual QHash<QByteArray, qreal> columnWidths(const KItemRangeList& itemRanges) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -253,12 +254,18 @@ public:
     bool isTransactionActive() const;
 
     /**
-     * Turns on the header if \p show is true. Per default the
-     * header is not shown. Usually the header is turned on when
+     * Turns on the header if \p visible is true. Per default the
+     * header is not visible. Usually the header is turned on when
      * showing a classic "table-view" to describe the shown columns.
      */
-    void setHeaderShown(bool show);
-    bool isHeaderShown() const;
+    void setHeaderVisible(bool visible);
+    bool isHeaderVisible() const;
+
+    /**
+     * @return Header of the list. The header is also available if it is not shown
+     *         (see KItemListView::setHeaderShown()).
+     */
+    KItemListHeader* header() const;
 
     /**
      * @return Pixmap that is used for a drag operation based on the
@@ -364,22 +371,22 @@ private slots:
     void slotRubberBandActivationChanged(bool active);
 
     /**
-     * Is invoked if the visible role-width of one role in the header has
+     * Is invoked if the column-width of one role in the header has
      * been changed by the user. It is remembered that the user has modified
      * the role-width, so that it won't be changed anymore automatically to
      * calculate an optimized width.
      */
-    void slotVisibleRoleWidthChanged(const QByteArray& role,
-                                     qreal currentWidth,
-                                     qreal previousWidth);
+    void slotHeaderColumnWidthChanged(const QByteArray& role,
+                                      qreal currentWidth,
+                                      qreal previousWidth);
 
     /**
-     * Is invoked if a visible role has been moved by the user. Applies
+     * Is invoked if a column has been moved by the user. Applies
      * the moved role to the view.
      */
-    void slotVisibleRoleMoved(const QByteArray& role,
-                              int currentIndex,
-                              int previousIndex);
+    void slotHeaderColumnMoved(const QByteArray& role,
+                               int currentIndex,
+                               int previousIndex);
 
     /**
      * Triggers the autoscrolling if autoScroll() is enabled by checking the
@@ -517,10 +524,13 @@ private:
      */
     bool useAlternateBackgrounds() const;
 
+    void applyColumnWidthsFromHeader();
+
     /**
-     * @return The widths of each visible role that is shown in the KItemListHeader.
+     * Applies the roles-sizes from m_stretchedVisibleRolesSizes
+     * to \a widget.
      */
-    QHash<QByteArray, qreal> headerRolesWidths() const;
+    void updateWidgetColumnWidths(KItemListWidget* widget);
 
     /**
      * Updates m_visibleRolesSizes by calling KItemListView::visibleRolesSizes().
@@ -528,29 +538,23 @@ private:
      * are used (see m_useHeaderWidths). Also m_strechedVisibleRolesSizes will be adjusted
      * to respect the available view-size.
      */
-    void updateVisibleRolesSizes(const KItemRangeList& itemRanges);
+    void updateColumnWidthsCache(const KItemRangeList& itemRanges);
 
     /**
      * Convenience method for updateVisibleRoleSizes(KItemRangeList() << KItemRange(0, m_model->count()).
      */
-    void updateVisibleRolesSizes();
+    void updateColumnWidthsCache();
 
     /**
-     * Updates m_stretchedVisibleRolesSizes based on m_visibleRolesSizes and the available
-     * view-size. Nothing will be done if m_itemRect is not empty or custom header-widths
-     * are used (see m_useHeaderWidths).
+     * Updates the column widhts of the header based on m_columnWidthsCache and the available
+     * view-size.
      */
-    void updateStretchedVisibleRolesSizes();
+    void updateColumnWidthsForHeader();
 
     /**
-     * @return Sum of the widths of all visible roles.
+     * @return Sum of the widths of all columns.
      */
-    qreal visibleRolesSizesWidthSum() const;
-
-    /**
-     * @return Sum of the heights of all visible roles.
-     */
-    qreal visibleRolesSizesHeightSum() const;
+    qreal columnWidthsSum() const;
 
     /**
      * @return Boundaries of the header. An empty rectangle is returned
@@ -634,14 +638,14 @@ private:
     KItemListController* m_controller;
     KItemModelBase* m_model;
     QList<QByteArray> m_visibleRoles;
-    QHash<QByteArray, QSizeF> m_visibleRolesSizes;
-    QHash<QByteArray, QSizeF> m_stretchedVisibleRolesSizes;
     KItemListWidgetCreatorBase* m_widgetCreator;
     KItemListGroupHeaderCreatorBase* m_groupHeaderCreator;
     KItemListStyleOption m_styleOption;
 
     QHash<int, KItemListWidget*> m_visibleItems;
     QHash<KItemListWidget*, KItemListGroupHeader*> m_visibleGroups;
+
+    QHash<QByteArray, qreal> m_columnWidthsCache; // Cache for columnWidths() result
 
     struct Cell
     {
@@ -671,9 +675,10 @@ private:
     QTimer* m_autoScrollTimer;
 
     KItemListHeader* m_header;
-    bool m_useHeaderWidths;
+    KItemListHeaderWidget* m_headerWidget;
 
     friend class KItemListContainer; // Accesses scrollBarRequired()
+    friend class KItemListHeader;    // Accesses m_headerWidget
     friend class KItemListController;
     friend class KItemListControllerTest;
 };

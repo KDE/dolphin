@@ -292,6 +292,19 @@ QList<QByteArray> ViewProperties::visibleRoles() const
     return roles;
 }
 
+void ViewProperties::setHeaderColumnWidths(const QList<int>& widths)
+{
+    if (m_node->headerColumnWidths() != widths) {
+        m_node->setHeaderColumnWidths(widths);
+        update();
+    }
+}
+
+QList<int> ViewProperties::headerColumnWidths() const
+{
+    return m_node->headerColumnWidths();
+}
+
 void ViewProperties::setDirProperties(const ViewProperties& props)
 {
     setViewMode(props.viewMode());
@@ -302,6 +315,7 @@ void ViewProperties::setDirProperties(const ViewProperties& props)
     setSortOrder(props.sortOrder());
     setSortFoldersFirst(props.sortFoldersFirst());
     setVisibleRoles(props.visibleRoles());
+    setHeaderColumnWidths(props.headerColumnWidths());
 }
 
 void ViewProperties::setAutoSaveEnabled(bool autoSave)

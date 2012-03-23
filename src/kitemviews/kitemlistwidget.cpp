@@ -44,7 +44,7 @@ KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
     m_enabledSelectionToggle(false),
     m_data(),
     m_visibleRoles(),
-    m_visibleRolesSizes(),
+    m_columnWidths(),
     m_styleOption(),
     m_siblingsInfo(),
     m_hoverOpacity(0),
@@ -177,18 +177,20 @@ QList<QByteArray> KItemListWidget::visibleRoles() const
     return m_visibleRoles;
 }
 
-void KItemListWidget::setVisibleRolesSizes(const QHash<QByteArray, QSizeF> rolesSizes)
-{
-    const QHash<QByteArray, QSizeF> previousRolesSizes = m_visibleRolesSizes;
-    m_visibleRolesSizes = rolesSizes;
 
-    visibleRolesSizesChanged(rolesSizes, previousRolesSizes);
-    update();
+void KItemListWidget::setColumnWidth(const QByteArray& role, qreal width)
+{
+    if (m_columnWidths.value(role) != width) {
+        const qreal previousWidth = width;
+        m_columnWidths.insert(role, width);
+        columnWidthChanged(role, width, previousWidth);
+        update();
+    }
 }
 
-QHash<QByteArray, QSizeF> KItemListWidget::visibleRolesSizes() const
+qreal KItemListWidget::columnWidth(const QByteArray& role) const
 {
-    return m_visibleRolesSizes;
+    return m_columnWidths.value(role);
 }
 
 void KItemListWidget::setStyleOption(const KItemListStyleOption& option)
@@ -352,9 +354,11 @@ void KItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
     Q_UNUSED(previous);
 }
 
-void KItemListWidget::visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current,
-                                               const QHash<QByteArray, QSizeF>& previous)
+void KItemListWidget::columnWidthChanged(const QByteArray& role,
+                                         qreal current,
+                                         qreal previous)
 {
+    Q_UNUSED(role);
     Q_UNUSED(current);
     Q_UNUSED(previous);
 }

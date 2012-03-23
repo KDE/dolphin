@@ -543,6 +543,7 @@ private slots:
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);
     void slotHeaderContextMenuRequested(const QPointF& pos);
+    void slotHeaderColumnWidthChanged(const QByteArray& role, qreal current, qreal previous);
     void slotItemHovered(int index);
     void slotItemUnhovered(int index);
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);

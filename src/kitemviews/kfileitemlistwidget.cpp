@@ -139,7 +139,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         // with the icon. This can happen if the user has minimized the width
         // of the name-column to a very small value.
         const qreal minX = m_pixmapPos.x() + m_pixmap.width() + 4 * itemListStyleOption.padding;
-        if (m_textPos[Name + 1].x() < minX) {
+        if (m_textPos[Name].x() + columnWidth("name") > minX) {
             clipAdditionalInfoBounds = true;
             painter->save();
             painter->setClipRect(minX, 0, size().width() - minX, size().height(), Qt::IntersectClip);
@@ -347,9 +347,11 @@ void KFileItemListWidget::visibleRolesChanged(const QList<QByteArray>& current,
     m_dirtyLayout = true;
 }
 
-void KFileItemListWidget::visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current,
-                                                   const QHash<QByteArray, QSizeF>& previous)
+void KFileItemListWidget::columnWidthChanged(const QByteArray& role,
+                                             qreal current,
+                                             qreal previous)
 {
+    Q_UNUSED(role);
     Q_UNUSED(current);
     Q_UNUSED(previous);
     m_dirtyLayout = true;
@@ -783,8 +785,8 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
 
         // Elide the text in case it does not fit into the available column-width
         qreal requiredWidth = option.fontMetrics.width(text);
-        const qreal columnWidth = visibleRolesSizes().value(role, QSizeF(0, 0)).width();
-        qreal availableTextWidth = columnWidth - 2 * columnPadding;
+        const qreal roleWidth = columnWidth(role);
+        qreal availableTextWidth = roleWidth - 2 * columnPadding;
         if (textId == Name) {
             availableTextWidth -= firstColumnInc;
         }
@@ -796,7 +798,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
 
         m_text[textId].setText(text);
         m_textPos[textId] = QPointF(x + columnPadding, y);
-        x += columnWidth;
+        x += roleWidth;
 
         switch (textId) {
         case Name: {
@@ -813,7 +815,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         }
         case Size:
             // The values for the size should be right aligned
-            m_textPos[textId].rx() += columnWidth - requiredWidth - 2 * columnPadding;
+            m_textPos[textId].rx() += roleWidth - requiredWidth - 2 * columnPadding;
             break;
 
         default:

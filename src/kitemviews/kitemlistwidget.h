@@ -65,8 +65,12 @@ public:
     void setVisibleRoles(const QList<QByteArray>& roles);
     QList<QByteArray> visibleRoles() const;
 
-    void setVisibleRolesSizes(const QHash<QByteArray, QSizeF> rolesSizes);
-    QHash<QByteArray, QSizeF> visibleRolesSizes() const;
+    /**
+     * Sets the width of a role that should be used if the alignment of the content
+     * should be done in columns.
+     */
+    void setColumnWidth(const QByteArray& role, qreal width);
+    qreal columnWidth(const QByteArray& role) const;
 
     void setStyleOption(const KItemListStyleOption& option);
     const KItemListStyleOption& styleOption() const;
@@ -133,7 +137,7 @@ public:
 protected:
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
-    virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
+    virtual void columnWidthChanged(const QByteArray& role, qreal current, qreal previous);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void currentChanged(bool current);
     virtual void selectedChanged(bool selected);
@@ -168,7 +172,7 @@ private:
     bool m_enabledSelectionToggle;
     QHash<QByteArray, QVariant> m_data;
     QList<QByteArray> m_visibleRoles;
-    QHash<QByteArray, QSizeF> m_visibleRolesSizes;
+    QHash<QByteArray, qreal> m_columnWidths;
     KItemListStyleOption m_styleOption;
     QBitArray m_siblingsInfo;
 

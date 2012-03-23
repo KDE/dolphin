@@ -62,6 +62,11 @@
             <default></default>
         </entry>
 
+        <entry name="HeaderColumnWidths" type="IntList">
+            <label context="@label">Header column widths</label>
+            <default></default>
+        </entry>
+
         <entry name="Timestamp" type="DateTime" >
             <label context="@label">Properties last changed</label>
             <whatsthis context="@info:whatsthis">The last time these properties were changed by the user.</whatsthis>

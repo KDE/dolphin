@@ -78,7 +78,7 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /** @reimp */
-    virtual QHash<QByteArray, QSizeF> visibleRolesSizes(const KItemRangeList& itemRanges) const;
+    virtual QHash<QByteArray, qreal> columnWidths(const KItemRangeList& itemRanges) const;
 
     /** @reimp */
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;

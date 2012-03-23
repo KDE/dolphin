@@ -41,6 +41,7 @@
 #include <KLocale>
 #include <kitemviews/kfileitemmodel.h>
 #include <kitemviews/kfileitemlistview.h>
+#include <kitemviews/kitemlistheader.h>
 #include <kitemviews/kitemlistselectionmanager.h>
 #include <kitemviews/kitemlistview.h>
 #include <kitemviews/kitemlistcontroller.h>
@@ -161,6 +162,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
             this, SLOT(slotSortRoleChangedByHeader(QByteArray,QByteArray)));
     connect(view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
             this, SLOT(slotVisibleRolesChangedByHeader(QList<QByteArray>,QList<QByteArray>)));
+    connect(view->header(), SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
+            this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
 
     KItemListSelectionManager* selectionManager = controller->selectionManager();
     connect(selectionManager, SIGNAL(selectionChanged(QSet<int>,QSet<int>)),
@@ -774,7 +777,9 @@ void DolphinView::slotViewContextMenuRequested(const QPointF& pos)
 
 void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 {
-    QWeakPointer<KMenu> menu = new KMenu(QApplication::activeWindow());
+    ViewProperties props(url());
+
+    QPointer<KMenu> menu = new KMenu(QApplication::activeWindow());
 
     KItemListView* view = m_container->controller()->view();
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
@@ -793,11 +798,11 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         const QString text = fileItemModel()->roleDescription(info.role);
         QAction* action = 0;
         if (info.group.isEmpty()) {
-            action = menu.data()->addAction(text);
+            action = menu->addAction(text);
         } else {
             if (!groupMenu || info.group != groupName) {
                 groupName = info.group;
-                groupMenu = menu.data()->addMenu(groupName);
+                groupMenu = menu->addMenu(groupName);
             }
 
             action = groupMenu->addAction(text);
@@ -808,24 +813,84 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         action->setData(info.role);
     }
 
-    QAction* action = menu.data()->exec(pos.toPoint());
-    if (action) {
-        // Show or hide the selected role
-        const QByteArray selectedRole = action->data().toByteArray();
+    menu->addSeparator();
 
-        ViewProperties props(url());
-        QList<QByteArray> visibleRoles = view->visibleRoles();
-        if (action->isChecked()) {
-            visibleRoles.append(selectedRole);
+    QActionGroup* widthsGroup = new QActionGroup(menu);
+    const bool autoColumnWidths = props.headerColumnWidths().isEmpty();
+
+    QAction* autoAdjustWidthsAction = menu->addAction(i18nc("@action:inmenu", "Automatic Column Widths"));
+    autoAdjustWidthsAction->setCheckable(true);
+    autoAdjustWidthsAction->setChecked(autoColumnWidths);
+    autoAdjustWidthsAction->setActionGroup(widthsGroup);
+
+    QAction* customWidthsAction = menu->addAction(i18nc("@action:inmenu", "Custom Column Widths"));
+    customWidthsAction->setCheckable(true);
+    customWidthsAction->setChecked(!autoColumnWidths);
+    customWidthsAction->setActionGroup(widthsGroup);
+
+    QAction* action = menu->exec(pos.toPoint());
+    if (menu && action) {
+        if (action == autoAdjustWidthsAction) {
+            // Clear the column-widths from the viewproperties and turn on
+            // the automatic resizing of the columns
+            props.setHeaderColumnWidths(QList<int>());
+            KItemListHeader* header = m_container->controller()->view()->header();
+            header->setAutomaticColumnResizing(true);
+        } else if (action == customWidthsAction) {
+            // Apply the current column-widths as custom column-widths and turn
+            // off the automatic resizing of the columns
+            const KItemListView* view = m_container->controller()->view();
+            KItemListHeader* header = view->header();
+
+            QList<int> columnWidths;
+            foreach (const QByteArray& role, view->visibleRoles()) {
+                columnWidths.append(header->columnWidth(role));
+            }
+
+            props.setHeaderColumnWidths(columnWidths);
+            header->setAutomaticColumnResizing(false);
         } else {
-            visibleRoles.removeOne(selectedRole);
-        }
+            // Show or hide the selected role
+            const QByteArray selectedRole = action->data().toByteArray();
 
-        view->setVisibleRoles(visibleRoles);
-        props.setVisibleRoles(visibleRoles);
+            QList<QByteArray> visibleRoles = view->visibleRoles();
+            if (action->isChecked()) {
+                visibleRoles.append(selectedRole);
+            } else {
+                visibleRoles.removeOne(selectedRole);
+            }
+
+            view->setVisibleRoles(visibleRoles);
+            props.setVisibleRoles(visibleRoles);
+        }
     }
 
-    delete menu.data();
+    delete menu;
+}
+
+void DolphinView::slotHeaderColumnWidthChanged(const QByteArray& role, qreal current, qreal previous)
+{
+    Q_UNUSED(previous);
+
+    const QList<QByteArray> visibleRoles = m_container->visibleRoles();
+
+    ViewProperties props(url());
+    QList<int> columnWidths = props.headerColumnWidths();
+    if (columnWidths.count() != visibleRoles.count()) {
+        columnWidths.clear();
+        columnWidths.reserve(visibleRoles.count());
+        const KItemListHeader* header = m_container->controller()->view()->header();
+        foreach (const QByteArray& role, visibleRoles) {
+            const int width = header->columnWidth(role);
+            columnWidths.append(width);
+        }
+    }
+
+    const int roleIndex = visibleRoles.indexOf(role);
+    Q_ASSERT(roleIndex >= 0 && roleIndex < columnWidths.count());
+    columnWidths[roleIndex] = current;
+
+    props.setHeaderColumnWidths(columnWidths);
 }
 
 void DolphinView::slotItemHovered(int index)
@@ -1291,6 +1356,24 @@ void DolphinView::applyViewProperties()
         // Changing the preview-state might result in a changed zoom-level
         if (oldZoomLevel != zoomLevel()) {
             emit zoomLevelChanged(zoomLevel(), oldZoomLevel);
+        }
+    }
+
+    KItemListView* itemListView = m_container->controller()->view();
+    if (itemListView->isHeaderVisible()) {
+        KItemListHeader* header = itemListView->header();
+        const QList<int> headerColumnWidths = props.headerColumnWidths();
+        const int rolesCount = m_visibleRoles.count();
+        if (headerColumnWidths.count() == rolesCount) {
+            header->setAutomaticColumnResizing(false);
+
+            QHash<QByteArray, qreal> columnWidths;
+            for (int i = 0; i < rolesCount; ++i) {
+                columnWidths.insert(m_visibleRoles[i], headerColumnWidths[i]);
+            }
+            header->setColumnWidths(columnWidths);
+        } else {
+            header->setAutomaticColumnResizing(true);
         }
     }
 

@@ -85,7 +85,7 @@ protected:
 
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
-    virtual void visibleRolesSizesChanged(const QHash<QByteArray, QSizeF>& current, const QHash<QByteArray, QSizeF>& previous);
+    virtual void columnWidthChanged(const QByteArray& role, qreal current, qreal previous);
     virtual void styleOptionChanged(const KItemListStyleOption& current, const KItemListStyleOption& previous);
     virtual void hoveredChanged(bool hovered);
     virtual void selectedChanged(bool selected);

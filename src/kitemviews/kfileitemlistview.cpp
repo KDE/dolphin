@@ -193,12 +193,12 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
     return QSize();
 }
 
-QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes(const KItemRangeList& itemRanges) const
+QHash<QByteArray, qreal> KFileItemListView::columnWidths(const KItemRangeList& itemRanges) const
 {
     QElapsedTimer timer;
     timer.start();
 
-    QHash<QByteArray, QSizeF> sizes;
+    QHash<QByteArray, qreal> widths;
 
     int calculatedItemCount = 0;
     bool maxTimeExceeded = false;
@@ -208,10 +208,10 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes(const KItemRangeL
 
         for (int i = startIndex; i <= endIndex; ++i) {
             foreach (const QByteArray& visibleRole, visibleRoles()) {
-                QSizeF maxSize = sizes.value(visibleRole, QSizeF(0, 0));
+                qreal maxWidth = widths.value(visibleRole, 0);
                 const QSizeF itemSize = visibleRoleSizeHint(i, visibleRole);
-                maxSize = maxSize.expandedTo(itemSize);
-                sizes.insert(visibleRole, maxSize);
+                maxWidth = qMax(itemSize.width(), maxWidth);
+                widths.insert(visibleRole, maxWidth);
             }
 
             if (calculatedItemCount > 100 && timer.elapsed() > 200) {
@@ -238,7 +238,7 @@ QHash<QByteArray, QSizeF> KFileItemListView::visibleRolesSizes(const KItemRangeL
     }
     kDebug() << "[TIME] Calculated dynamic item size for " << rangesItemCount << "items:" << timer.elapsed();
 #endif
-    return sizes;
+    return widths;
 }
 
 QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
