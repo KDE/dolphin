@@ -32,10 +32,11 @@
 
 KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
-    m_automaticColumnResizing(false),
+    m_automaticColumnResizing(true),
     m_model(0),
     m_columns(),
-    m_columnsWidths(),
+    m_columnWidths(),
+    m_preferredColumnWidths(),
     m_hoveredRoleIndex(-1),
     m_pressedRoleIndex(-1),
     m_roleOperation(NoRoleOperation),
@@ -98,6 +99,8 @@ bool KItemListHeaderWidget::automaticColumnResizing() const
 void KItemListHeaderWidget::setColumns(const QList<QByteArray>& roles)
 {
     m_columns = roles;
+    m_columnWidths.clear();
+    m_preferredColumnWidths.clear();
     update();
 }
 
@@ -113,15 +116,25 @@ void KItemListHeaderWidget::setColumnWidth(const QByteArray& role, qreal width)
         width = minWidth;
     }
 
-    if (m_columnsWidths.value(role) != width) {
-        m_columnsWidths.insert(role, width);
+    if (m_columnWidths.value(role) != width) {
+        m_columnWidths.insert(role, width);
         update();
     }
 }
 
 qreal KItemListHeaderWidget::columnWidth(const QByteArray& role) const
 {
-    return m_columnsWidths.value(role);
+    return m_columnWidths.value(role);
+}
+
+void KItemListHeaderWidget::setPreferredColumnWidth(const QByteArray& role, qreal width)
+{
+    m_preferredColumnWidths.insert(role, width);
+}
+
+qreal KItemListHeaderWidget::preferredColumnWidth(const QByteArray& role) const
+{
+    return m_preferredColumnWidths.value(role);
 }
 
 qreal KItemListHeaderWidget::minimumColumnWidth() const
@@ -146,7 +159,7 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
     qreal x = 0;
     int orderIndex = 0;
     foreach (const QByteArray& role, m_columns) {
-        const qreal roleWidth = m_columnsWidths.value(role);
+        const qreal roleWidth = m_columnWidths.value(role);
         const QRectF rect(x, 0, roleWidth, size().height());
         paintRole(painter, role, rect, orderIndex, widget);
         x += roleWidth;
@@ -250,7 +263,7 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
                 qreal roleX = 0;
                 for (int i = 0; i < roleIndex; ++i) {
                     const QByteArray role = m_columns[i];
-                    roleX += m_columnsWidths.value(role);
+                    roleX += m_columnWidths.value(role);
                 }
 
                 m_movingRole.xDec = event->pos().x() - roleX;
@@ -263,12 +276,12 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
     case ResizeRoleOperation: {
         const QByteArray pressedRole = m_columns[m_pressedRoleIndex];
 
-        qreal previousWidth = m_columnsWidths.value(pressedRole);
+        qreal previousWidth = m_columnWidths.value(pressedRole);
         qreal currentWidth = previousWidth;
         currentWidth += event->pos().x() - event->lastPos().x();
         currentWidth = qMax(minimumColumnWidth(), currentWidth);
 
-        m_columnsWidths.insert(pressedRole, currentWidth);
+        m_columnWidths.insert(pressedRole, currentWidth);
         update();
 
         emit columnWidthChanged(pressedRole, currentWidth, previousWidth);
@@ -344,10 +357,10 @@ void KItemListHeaderWidget::slotSortOrderChanged(Qt::SortOrder current, Qt::Sort
 }
 
 void KItemListHeaderWidget::paintRole(QPainter* painter,
-                                const QByteArray& role,
-                                const QRectF& rect,
-                                int orderIndex,
-                                QWidget* widget) const
+                                      const QByteArray& role,
+                                      const QRectF& rect,
+                                      int orderIndex,
+                                      QWidget* widget) const
 {
     // The following code is based on the code from QHeaderView::paintSection().
     // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
@@ -414,7 +427,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
     qreal x = 0;
     foreach (const QByteArray& role, m_columns) {
         ++index;
-        x += m_columnsWidths.value(role);
+        x += m_columnWidths.value(role);
         if (pos.x() <= x) {
             break;
         }
@@ -428,7 +441,7 @@ bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF& pos, int roleIndex) c
     qreal x = 0;
     for (int i = 0; i <= roleIndex; ++i) {
         const QByteArray role = m_columns[i];
-        x += m_columnsWidths.value(role);
+        x += m_columnWidths.value(role);
     }
 
     const int grip = style()->pixelMetric(QStyle::PM_HeaderGripMargin);
@@ -438,7 +451,7 @@ bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF& pos, int roleIndex) c
 QPixmap KItemListHeaderWidget::createRolePixmap(int roleIndex) const
 {
     const QByteArray role = m_columns[roleIndex];
-    const qreal roleWidth = m_columnsWidths.value(role);
+    const qreal roleWidth = m_columnWidths.value(role);
     const QRect rect(0, 0, roleWidth, size().height());
 
     QImage image(rect.size(), QImage::Format_ARGB32_Premultiplied);
@@ -469,7 +482,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
     qreal targetLeft = 0;
     while (targetIndex < m_columns.count()) {
         const QByteArray role = m_columns[targetIndex];
-        const qreal targetWidth = m_columnsWidths.value(role);
+        const qreal targetWidth = m_columnWidths.value(role);
         const qreal targetRight = targetLeft + targetWidth - 1;
 
         const bool isInTarget = (targetWidth >= movingWidth &&
@@ -498,7 +511,7 @@ qreal KItemListHeaderWidget::roleXPosition(const QByteArray& role) const
             return x;
         }
 
-        x += m_columnsWidths.value(visibleRole);
+        x += m_columnWidths.value(visibleRole);
     }
 
     return -1;

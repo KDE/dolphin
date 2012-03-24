@@ -30,7 +30,7 @@ void KItemListHeader::setAutomaticColumnResizing(bool automatic)
     if (m_headerWidget->automaticColumnResizing() != automatic) {
         m_headerWidget->setAutomaticColumnResizing(automatic);
         if (automatic) {
-            m_view->updateColumnWidthsForHeader();
+            m_view->resizeColumnWidths();
         }
     }
 }
@@ -63,6 +63,11 @@ void KItemListHeader::setColumnWidths(const QHash<QByteArray, qreal>& columnWidt
 
         m_view->applyColumnWidthsFromHeader();
     }
+}
+
+qreal KItemListHeader::preferredColumnWidth(const QByteArray& role) const
+{
+    return m_headerWidget->preferredColumnWidth(role);
 }
 
 KItemListHeader::KItemListHeader(KItemListView* listView) :

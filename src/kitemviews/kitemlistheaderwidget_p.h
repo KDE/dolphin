@@ -53,6 +53,12 @@ public:
     void setColumnWidth(const QByteArray& role, qreal width);
     qreal columnWidth(const QByteArray& role) const;
 
+    /**
+     * Sets the column-width that is required to show the role unclipped.
+     */
+    void setPreferredColumnWidth(const QByteArray& role, qreal width);
+    qreal preferredColumnWidth(const QByteArray& role) const;
+
     qreal minimumColumnWidth() const;
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -139,7 +145,8 @@ private:
     bool m_automaticColumnResizing;
     KItemModelBase* m_model;
     QList<QByteArray> m_columns;
-    QHash<QByteArray, qreal> m_columnsWidths;
+    QHash<QByteArray, qreal> m_columnWidths;
+    QHash<QByteArray, qreal> m_preferredColumnWidths;
 
     int m_hoveredRoleIndex;
     int m_pressedRoleIndex;

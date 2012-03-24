@@ -65,6 +65,11 @@ public:
      */
     void setColumnWidths(const QHash<QByteArray, qreal>& columnWidths);
 
+    /**
+     * @return The column width that is required to show the role unclipped.
+     */
+    qreal preferredColumnWidth(const QByteArray& role) const;
+
 signals:
     /**
      * Is emitted if the width of a column has been adjusted by the user with the mouse

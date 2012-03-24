@@ -830,18 +830,16 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 
     QAction* action = menu->exec(pos.toPoint());
     if (menu && action) {
+        KItemListHeader* header = view->header();
+
         if (action == autoAdjustWidthsAction) {
             // Clear the column-widths from the viewproperties and turn on
             // the automatic resizing of the columns
             props.setHeaderColumnWidths(QList<int>());
-            KItemListHeader* header = m_container->controller()->view()->header();
             header->setAutomaticColumnResizing(true);
         } else if (action == customWidthsAction) {
             // Apply the current column-widths as custom column-widths and turn
             // off the automatic resizing of the columns
-            const KItemListView* view = m_container->controller()->view();
-            KItemListHeader* header = view->header();
-
             QList<int> columnWidths;
             foreach (const QByteArray& role, view->visibleRoles()) {
                 columnWidths.append(header->columnWidth(role));
@@ -862,6 +860,11 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
 
             view->setVisibleRoles(visibleRoles);
             props.setVisibleRoles(visibleRoles);
+
+            // Reset the stored column-widths, so that automatic resizing is
+            // used again.
+            props.setHeaderColumnWidths(QList<int>());
+            header->setAutomaticColumnResizing(true);
         }
     }
 

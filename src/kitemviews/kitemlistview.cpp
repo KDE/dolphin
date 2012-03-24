@@ -67,7 +67,6 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_styleOption(),
     m_visibleItems(),
     m_visibleGroups(),
-    m_columnWidthsCache(),
     m_visibleCells(),
     m_sizeHintResolver(0),
     m_layouter(0),
@@ -177,7 +176,7 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
 
     if (itemSize.isEmpty()) {
         if (m_headerWidget->automaticColumnResizing()) {
-            updateColumnWidthsCache();
+            updatePreferredColumnWidths();
         } else {
             // Only apply the changed height and respect the header widths
             // set by the user
@@ -282,10 +281,15 @@ void KItemListView::setVisibleRoles(const QList<QByteArray>& roles)
 
     if (m_headerWidget->isVisible()) {
         m_headerWidget->setColumns(roles);
-        m_headerWidget->setAutomaticColumnResizing(true);
     }
 
-    updateColumnWidthsCache();
+    if (m_itemSize.isEmpty()) {
+        updatePreferredColumnWidths();
+        if (!m_headerWidget->automaticColumnResizing()) {
+            applyColumnWidthsFromHeader();
+        }
+    }
+
     doLayout(NoAnimation);
 
     onVisibleRolesChanged(roles, previousRoles);
@@ -410,31 +414,20 @@ void KItemListView::setGeometry(const QRectF& rect)
 
     const QSizeF newSize = rect.size();
     if (m_itemSize.isEmpty()) {
-        // The item size is dynamic:
-        // Changing the geometry does not require to do an expensive
-        // update of the visible-roles sizes, only the stretched sizes
-        // need to be adjusted to the new size.
-        updateColumnWidthsForHeader();
-
-        if (!m_headerWidget->automaticColumnResizing()) {
-            QSizeF dynamicItemSize = m_layouter->itemSize();
-
-            if (m_itemSize.width() < 0) {
-                const qreal requiredWidth = columnWidthsSum();
-                if (newSize.width() > requiredWidth) {
-                    dynamicItemSize.setWidth(newSize.width());
-                }
-                const qreal headerWidth = qMax(newSize.width(), requiredWidth);
-                m_headerWidget->resize(headerWidth, m_headerWidget->size().height());
-            }
-
+        if (m_headerWidget->automaticColumnResizing()) {
+            resizeColumnWidths();
+        } else {
+            const qreal requiredWidth = columnWidthsSum();
+            const QSizeF dynamicItemSize(qMax(newSize.width(), requiredWidth),
+                                         m_itemSize.height());
             m_layouter->setItemSize(dynamicItemSize);
+            m_headerWidget->resize(dynamicItemSize.width(), m_headerWidget->size().height());
         }
 
         // Triggering a synchronous layout is fine from a performance point of view,
         // as with dynamic item sizes no moving animation must be done.
         m_layouter->setSize(newSize);
-        doLayout(Animation);
+        doLayout(NoAnimation);
     } else {
         const bool animate = !changesItemGridLayout(newSize,
                                                     m_layouter->itemSize(),
@@ -517,7 +510,7 @@ QSizeF KItemListView::itemSizeHint(int index) const
     return itemSize();
 }
 
-QHash<QByteArray, qreal> KItemListView::columnWidths(const KItemRangeList& itemRanges) const
+QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeList& itemRanges) const
 {
     Q_UNUSED(itemRanges);
     return QHash<QByteArray, qreal>();
@@ -616,7 +609,6 @@ bool KItemListView::isTransactionActive() const
 
 void KItemListView::setHeaderVisible(bool visible)
 {
-
     if (visible && !m_headerWidget->isVisible()) {
         m_headerWidget->setPos(0, 0);
         m_headerWidget->setModel(m_model);
@@ -632,8 +624,6 @@ void KItemListView::setHeaderVisible(bool visible)
         connect(m_headerWidget, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
                 this, SIGNAL(sortRoleChanged(QByteArray,QByteArray)));
 
-        m_headerWidget->setAutomaticColumnResizing(true);
-
         m_layouter->setHeaderHeight(m_headerWidget->size().height());
         m_headerWidget->setVisible(true);
     } else if (!visible && m_headerWidget->isVisible()) {
@@ -647,7 +637,6 @@ void KItemListView::setHeaderVisible(bool visible)
                    this, SIGNAL(sortRoleChanged(QByteArray,QByteArray)));
 
         m_layouter->setHeaderHeight(0);
-        m_headerWidget->setAutomaticColumnResizing(true);
         m_headerWidget->setVisible(false);
     }
 }
@@ -819,7 +808,9 @@ QList<KItemListWidget*> KItemListView::visibleItemListWidgets() const
 
 void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 {
-    updateColumnWidthsCache(itemRanges);
+    if (m_itemSize.isEmpty()) {
+        updatePreferredColumnWidths(itemRanges);
+    }
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -918,7 +909,9 @@ void KItemListView::slotItemsInserted(const KItemRangeList& itemRanges)
 
 void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
-    updateColumnWidthsCache();
+    if (m_itemSize.isEmpty()) {
+        updatePreferredColumnWidths();
+    }
 
     const bool hasMultipleRanges = (itemRanges.count() > 1);
     if (hasMultipleRanges) {
@@ -1049,8 +1042,8 @@ void KItemListView::slotItemsChanged(const KItemRangeList& itemRanges,
                                      const QSet<QByteArray>& roles)
 {
     const bool updateSizeHints = itemSizeHintUpdateRequired(roles);
-    if (updateSizeHints) {
-        updateColumnWidthsCache(itemRanges);
+    if (updateSizeHints && m_itemSize.isEmpty()) {
+        updatePreferredColumnWidths(itemRanges);
     }
 
     foreach (const KItemRange& itemRange, itemRanges) {
@@ -1226,27 +1219,12 @@ void KItemListView::slotHeaderColumnWidthChanged(const QByteArray& role,
                                                  qreal currentWidth,
                                                  qreal previousWidth)
 {
+    Q_UNUSED(role);
+    Q_UNUSED(currentWidth);
     Q_UNUSED(previousWidth);
 
     m_headerWidget->setAutomaticColumnResizing(false);
-
-    if (m_columnWidthsCache.contains(role)) {
-        m_columnWidthsCache.insert(role, currentWidth);
-
-        // Apply the new size to the layouter
-        const qreal requiredWidth = columnWidthsSum();
-        const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth),
-                                     m_itemSize.height());
-        m_layouter->setItemSize(dynamicItemSize);
-
-        // Update the role sizes for all visible widgets
-        QHashIterator<int, KItemListWidget*> it(m_visibleItems);
-        while (it.hasNext()) {
-            it.next();
-            updateWidgetColumnWidths(it.value());
-        }
-        doLayout(NoAnimation);
-    }
+    applyColumnWidthsFromHeader();
 }
 
 void KItemListView::slotHeaderColumnMoved(const QByteArray& role,
@@ -1915,17 +1893,12 @@ bool KItemListView::useAlternateBackgrounds() const
 
 void KItemListView::applyColumnWidthsFromHeader()
 {
-    qreal roleWidthSum = 0;
-    foreach (const QByteArray& role, m_visibleRoles) {
-        const qreal width = m_headerWidget->columnWidth(role);
-        m_columnWidthsCache.insert(role, width);
-        roleWidthSum += width;
-    }
-
     // Apply the new size to the layouter
-    const QSizeF dynamicItemSize(qMax(size().width(), roleWidthSum),
+    const qreal requiredWidth = columnWidthsSum();
+    const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth),
                                  m_itemSize.height());
     m_layouter->setItemSize(dynamicItemSize);
+    m_headerWidget->resize(dynamicItemSize.width(), m_headerWidget->size().height());
 
     // Update the role sizes for all visible widgets
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
@@ -1933,7 +1906,6 @@ void KItemListView::applyColumnWidthsFromHeader()
         it.next();
         updateWidgetColumnWidths(it.value());
     }
-    doLayout(NoAnimation);
 }
 
 void KItemListView::updateWidgetColumnWidths(KItemListWidget* widget)
@@ -1943,11 +1915,9 @@ void KItemListView::updateWidgetColumnWidths(KItemListWidget* widget)
     }
 }
 
-void KItemListView::updateColumnWidthsCache(const KItemRangeList& itemRanges)
+void KItemListView::updatePreferredColumnWidths(const KItemRangeList& itemRanges)
 {
-    if (!m_itemSize.isEmpty() || !m_headerWidget->automaticColumnResizing()) {
-        return;
-    }
+    Q_ASSERT(m_itemSize.isEmpty());
 
     const int itemCount = m_model->count();
     int rangesItemCount = 0;
@@ -1956,18 +1926,9 @@ void KItemListView::updateColumnWidthsCache(const KItemRangeList& itemRanges)
     }
 
     if (itemCount == rangesItemCount) {
-        m_columnWidthsCache = columnWidths(itemRanges);
-        if (m_headerWidget->isVisible()) {
-            // Assure the the sizes are not smaller than the minimum defined by the header
-            const qreal minHeaderRoleWidth = m_headerWidget->minimumColumnWidth();
-            QMutableHashIterator<QByteArray, qreal> it (m_columnWidthsCache);
-            while (it.hasNext()) {
-                it.next();
-                const qreal width = it.value();
-                if (width < minHeaderRoleWidth) {
-                    m_columnWidthsCache.insert(it.key(), minHeaderRoleWidth);
-                }
-            }
+        const QHash<QByteArray, qreal> preferredWidths = preferredColumnWidths(itemRanges);
+        foreach (const QByteArray& role, m_visibleRoles) {
+            m_headerWidget->setPreferredColumnWidth(role, preferredWidths.value(role));
         }
     } else {
         // Only a sub range of the roles need to be determined.
@@ -1976,15 +1937,15 @@ void KItemListView::updateColumnWidthsCache(const KItemRangeList& itemRanges)
         // expensive update might be required.
         bool updateRequired = false;
 
-        const QHash<QByteArray, qreal> updatedWidths = columnWidths(itemRanges);
+        const QHash<QByteArray, qreal> updatedWidths = preferredColumnWidths(itemRanges);
         QHashIterator<QByteArray, qreal> it(updatedWidths);
         while (it.hasNext()) {
             it.next();
             const QByteArray& role = it.key();
             const qreal updatedWidth = it.value();
-            const qreal currentWidth = m_columnWidthsCache.value(role);
+            const qreal currentWidth = m_headerWidget->preferredColumnWidth(role);
             if (updatedWidth > currentWidth) {
-                m_columnWidthsCache.insert(role, updatedWidth);
+                m_headerWidget->setPreferredColumnWidth(role, updatedWidth);
                 updateRequired = true;
             }
         }
@@ -1996,10 +1957,12 @@ void KItemListView::updateColumnWidthsCache(const KItemRangeList& itemRanges)
         }
     }
 
-    updateColumnWidthsForHeader();
+    if (m_header->automaticColumnResizing()) {
+        resizeColumnWidths();
+    }
 }
 
-void KItemListView::updateColumnWidthsCache()
+void KItemListView::updatePreferredColumnWidths()
 {
     if (!m_model) {
         return;
@@ -2007,15 +1970,14 @@ void KItemListView::updateColumnWidthsCache()
 
     const int itemCount = m_model->count();
     if (itemCount > 0) {
-        updateColumnWidthsCache(KItemRangeList() << KItemRange(0, itemCount));
+        updatePreferredColumnWidths(KItemRangeList() << KItemRange(0, itemCount));
     }
 }
 
-void KItemListView::updateColumnWidthsForHeader()
+void KItemListView::resizeColumnWidths()
 {
-    if (!m_itemSize.isEmpty() || !m_headerWidget->automaticColumnResizing() || m_visibleRoles.isEmpty()) {
-        return;
-    }
+    Q_ASSERT(m_itemSize.isEmpty());
+    Q_ASSERT(m_headerWidget->automaticColumnResizing());
 
     // Calculate the maximum size of an item by considering the
     // visible role sizes and apply them to the layouter. If the
@@ -2023,39 +1985,41 @@ void KItemListView::updateColumnWidthsForHeader()
     // first role will get stretched.
 
     foreach (const QByteArray& role, m_visibleRoles) {
-        m_headerWidget->setColumnWidth(role, m_columnWidthsCache.value(role));
+        const qreal preferredWidth = m_headerWidget->preferredColumnWidth(role);
+        m_headerWidget->setColumnWidth(role, preferredWidth);
     }
 
-    const QByteArray role = m_visibleRoles.first();
-    qreal firstColumnWidth = m_columnWidthsCache.value(role);
-
+    const QByteArray firstRole = m_visibleRoles.first();
+    qreal firstColumnWidth = m_headerWidget->columnWidth(firstRole);
     QSizeF dynamicItemSize = m_itemSize;
 
-    if (dynamicItemSize.width() <= 0) {
-        const qreal requiredWidth = columnWidthsSum();
-        const qreal availableWidth = size().width();
-        if (requiredWidth != availableWidth) {
-            // Stretch the first role to use the whole remaining width
-            firstColumnWidth += availableWidth - requiredWidth;
+    qreal requiredWidth = columnWidthsSum();
+    const qreal availableWidth = size().width();
+    if (requiredWidth < availableWidth) {
+        // Stretch the first column to use the whole remaining width
+        firstColumnWidth += availableWidth - requiredWidth;
+        m_headerWidget->setColumnWidth(firstRole, firstColumnWidth);
+    } else if (requiredWidth > availableWidth) {
+        // Shrink the first column to be able to show as much other
+        // columns as possible
+        qreal shrinkedFirstColumnWidth = firstColumnWidth - requiredWidth + availableWidth;
 
-            // TODO: A proper calculation of the minimum width depends on the implementation
-            // of KItemListWidget. Probably a kind of minimum size-hint should be introduced
-            // later.
-            const qreal minWidth = m_styleOption.iconSize * 2 + 200;
-            if (firstColumnWidth < minWidth) {
-                firstColumnWidth = minWidth;
-            }
-
-            m_headerWidget->setColumnWidth(role, firstColumnWidth);
+        // TODO: A proper calculation of the minimum width depends on the implementation
+        // of KItemListWidget. Probably a kind of minimum size-hint should be introduced
+        // later.
+        const qreal minWidth = m_styleOption.iconSize * 2 + 200;
+        if (shrinkedFirstColumnWidth < minWidth) {
+            shrinkedFirstColumnWidth = minWidth;
         }
-        dynamicItemSize.rwidth() = qMax(requiredWidth, availableWidth);
+
+        m_headerWidget->setColumnWidth(firstRole, shrinkedFirstColumnWidth);
+        requiredWidth -= firstColumnWidth - shrinkedFirstColumnWidth;
     }
+
+    dynamicItemSize.rwidth() = qMax(requiredWidth, availableWidth);
 
     m_layouter->setItemSize(dynamicItemSize);
-
-    if (m_headerWidget->isVisible()) {
-        m_headerWidget->resize(dynamicItemSize.width(), m_headerWidget->size().height());
-    }
+    m_headerWidget->resize(dynamicItemSize.width(), m_headerWidget->size().height());
 
     // Update the role sizes for all visible widgets
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
@@ -2067,13 +2031,11 @@ void KItemListView::updateColumnWidthsForHeader()
 
 qreal KItemListView::columnWidthsSum() const
 {
-    qreal widthSum = 0;
-    QHashIterator<QByteArray, qreal> it(m_columnWidthsCache);
-    while (it.hasNext()) {
-        it.next();
-        widthSum += it.value();
+    qreal widthsSum = 0;
+    foreach (const QByteArray& role, m_visibleRoles) {
+        widthsSum += m_headerWidget->columnWidth(role);
     }
-    return widthSum;
+    return widthsSum;
 }
 
 QRectF KItemListView::headerBoundaries() const

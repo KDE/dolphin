@@ -193,7 +193,7 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
     return QSize();
 }
 
-QHash<QByteArray, qreal> KFileItemListView::columnWidths(const KItemRangeList& itemRanges) const
+QHash<QByteArray, qreal> KFileItemListView::preferredColumnWidths(const KItemRangeList& itemRanges) const
 {
     QElapsedTimer timer;
     timer.start();

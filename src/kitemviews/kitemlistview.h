@@ -194,12 +194,12 @@ public:
 
     /**
      * @param itemRanges Items that must be checked for getting the widths of columns.
-     * @return           The width of the column of each visible role. The width will
+     * @return           The preferred width of the column of each visible role. The width will
      *                   be respected if the width of the item size is <= 0 (see
      *                   KItemListView::setItemSize()). Per default an empty hash
      *                   is returned.
      */
-    virtual QHash<QByteArray, qreal> columnWidths(const KItemRangeList& itemRanges) const;
+    virtual QHash<QByteArray, qreal> preferredColumnWidths(const KItemRangeList& itemRanges) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -372,9 +372,9 @@ private slots:
 
     /**
      * Is invoked if the column-width of one role in the header has
-     * been changed by the user. It is remembered that the user has modified
-     * the role-width, so that it won't be changed anymore automatically to
-     * calculate an optimized width.
+     * been changed by the user. The automatic resizing of columns
+     * will be turned off as soon as this method has been called at
+     * least once.
      */
     void slotHeaderColumnWidthChanged(const QByteArray& role,
                                       qreal currentWidth,
@@ -487,7 +487,7 @@ private:
     void updateGroupHeaderLayout(KItemListWidget* widget);
 
     /**
-     * Recycles the group-header from the widget.
+     * Recycles the group-header for the widget.
      */
     void recycleGroupHeaderForWidget(KItemListWidget* widget);
 
@@ -524,32 +524,34 @@ private:
      */
     bool useAlternateBackgrounds() const;
 
+    /**
+     * Applies the column-widths from m_headerWidget to the layout
+     * of the view.
+     */
     void applyColumnWidthsFromHeader();
 
     /**
-     * Applies the roles-sizes from m_stretchedVisibleRolesSizes
-     * to \a widget.
+     * Applies the column-widths from m_headerWidget to \a widget.
      */
     void updateWidgetColumnWidths(KItemListWidget* widget);
 
     /**
-     * Updates m_visibleRolesSizes by calling KItemListView::visibleRolesSizes().
-     * Nothing will be done if m_itemRect is not empty or custom header-widths
-     * are used (see m_useHeaderWidths). Also m_strechedVisibleRolesSizes will be adjusted
-     * to respect the available view-size.
+     * Updates the preferred column-widths of m_groupHeaderWidget by
+     * invoking KItemListView::columnWidths().
      */
-    void updateColumnWidthsCache(const KItemRangeList& itemRanges);
+    void updatePreferredColumnWidths(const KItemRangeList& itemRanges);
 
     /**
-     * Convenience method for updateVisibleRoleSizes(KItemRangeList() << KItemRange(0, m_model->count()).
+     * Convenience method for
+     * updateColumnWidthsCache(KItemRangeList() << KItemRange(0, m_model->count()).
      */
-    void updateColumnWidthsCache();
+    void updatePreferredColumnWidths();
 
     /**
-     * Updates the column widhts of the header based on m_columnWidthsCache and the available
-     * view-size.
+     * Resizes the column-widths of m_headerWidget based on the preferred widths
+     * and the vailable view-size.
      */
-    void updateColumnWidthsForHeader();
+    void resizeColumnWidths();
 
     /**
      * @return Sum of the widths of all columns.
@@ -644,8 +646,6 @@ private:
 
     QHash<int, KItemListWidget*> m_visibleItems;
     QHash<KItemListWidget*, KItemListGroupHeader*> m_visibleGroups;
-
-    QHash<QByteArray, qreal> m_columnWidthsCache; // Cache for columnWidths() result
 
     struct Cell
     {
