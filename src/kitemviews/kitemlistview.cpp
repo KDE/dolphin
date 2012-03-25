@@ -514,10 +514,11 @@ QSizeF KItemListView::itemSizeHint(int index) const
     return itemSize();
 }
 
-QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeList& itemRanges) const
+qreal KItemListView::preferredColumnWidth(int index, const QByteArray& role) const
 {
-    Q_UNUSED(itemRanges);
-    return QHash<QByteArray, qreal>();
+    Q_UNUSED(index);
+    Q_UNUSED(role);
+    return 100;
 }
 
 void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
@@ -1896,6 +1897,44 @@ void KItemListView::updateAlternateBackgroundForWidget(KItemListWidget* widget)
 bool KItemListView::useAlternateBackgrounds() const
 {
     return m_itemSize.isEmpty() && m_visibleRoles.count() > 1;
+}
+
+QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeList& itemRanges) const
+{
+    QElapsedTimer timer;
+    timer.start();
+
+    QHash<QByteArray, qreal> widths;
+
+    int calculatedItemCount = 0;
+    bool maxTimeExceeded = false;
+    foreach (const KItemRange& itemRange, itemRanges) {
+        const int startIndex = itemRange.index;
+        const int endIndex = startIndex + itemRange.count - 1;
+
+        for (int i = startIndex; i <= endIndex; ++i) {
+            foreach (const QByteArray& visibleRole, visibleRoles()) {
+                qreal maxWidth = widths.value(visibleRole, 0);
+                const qreal width = preferredColumnWidth(i, visibleRole);
+                maxWidth = qMax(width, maxWidth);
+                widths.insert(visibleRole, maxWidth);
+            }
+
+            if (calculatedItemCount > 100 && timer.elapsed() > 200) {
+                // When having several thousands of items calculating the sizes can get
+                // very expensive. We accept a possibly too small role-size in favour
+                // of having no blocking user interface.
+                maxTimeExceeded = true;
+                break;
+            }
+            ++calculatedItemCount;
+        }
+        if (maxTimeExceeded) {
+            break;
+        }
+    }
+
+    return widths;
 }
 
 void KItemListView::applyColumnWidthsFromHeader()

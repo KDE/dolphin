@@ -193,13 +193,10 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /**
-     * @param itemRanges Items that must be checked for getting the widths of columns.
-     * @return           The preferred width of the column of each visible role. The width will
-     *                   be respected if the width of the item size is <= 0 (see
-     *                   KItemListView::setItemSize()). Per default an empty hash
-     *                   is returned.
+     * @return The preferred column-width of the item with the index \a index
+     *         for the given \a role that is shown in the column.
      */
-    virtual QHash<QByteArray, qreal> preferredColumnWidths(const KItemRangeList& itemRanges) const;
+    virtual qreal preferredColumnWidth(int index, const QByteArray& role) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -523,6 +520,15 @@ private:
      *         is more than one visible role.
      */
     bool useAlternateBackgrounds() const;
+
+    /**
+     * @param itemRanges Items that must be checked for getting the widths of columns.
+     * @return           The preferred width of the column of each visible role. The width will
+     *                   be respected if the width of the item size is <= 0 (see
+     *                   KItemListView::setItemSize()). Per default an empty hash
+     *                   is returned.
+     */
+    QHash<QByteArray, qreal> preferredColumnWidths(const KItemRangeList& itemRanges) const;
 
     /**
      * Applies the column-widths from m_headerWidget to the layout

@@ -78,7 +78,7 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /** @reimp */
-    virtual QHash<QByteArray, qreal> preferredColumnWidths(const KItemRangeList& itemRanges) const;
+    qreal preferredColumnWidth(int index, const QByteArray& role) const;
 
     /** @reimp */
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
@@ -109,7 +109,6 @@ private slots:
     void updateIconSize();
 
 private:
-    QSizeF visibleRoleSizeHint(int index, const QByteArray& role) const;
     void updateLayoutOfVisibleItems();
     void updateTimersInterval();
     void updateMinimumRolesWidths();

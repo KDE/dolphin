@@ -193,52 +193,29 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
     return QSize();
 }
 
-QHash<QByteArray, qreal> KFileItemListView::preferredColumnWidths(const KItemRangeList& itemRanges) const
+qreal KFileItemListView::preferredColumnWidth(int index, const QByteArray& role) const
 {
-    QElapsedTimer timer;
-    timer.start();
+    const KItemListStyleOption& option = styleOption();
 
-    QHash<QByteArray, qreal> widths;
+    qreal width = m_minimumRolesWidths.value(role, 0);
 
-    int calculatedItemCount = 0;
-    bool maxTimeExceeded = false;
-    foreach (const KItemRange& itemRange, itemRanges) {
-        const int startIndex = itemRange.index;
-        const int endIndex = startIndex + itemRange.count - 1;
-
-        for (int i = startIndex; i <= endIndex; ++i) {
-            foreach (const QByteArray& visibleRole, visibleRoles()) {
-                qreal maxWidth = widths.value(visibleRole, 0);
-                const QSizeF itemSize = visibleRoleSizeHint(i, visibleRole);
-                maxWidth = qMax(itemSize.width(), maxWidth);
-                widths.insert(visibleRole, maxWidth);
-            }
-
-            if (calculatedItemCount > 100 && timer.elapsed() > 200) {
-                // When having several thousands of items calculating the sizes can get
-                // very expensive. We accept a possibly too small role-size in favour
-                // of having no blocking user interface.
-                #ifdef KFILEITEMLISTVIEW_DEBUG
-                    kDebug() << "Timer exceeded, stopped after" << calculatedItemCount << "items";
-                #endif
-                maxTimeExceeded = true;
-                break;
-            }
-            ++calculatedItemCount;
-        }
-        if (maxTimeExceeded) {
-            break;
-        }
+    const QHash<QByteArray, QVariant> values = model()->data(index);
+    const QString text = KFileItemListWidget::roleText(role, values);
+    if (!text.isEmpty()) {
+        const qreal columnPadding = option.padding * 3;
+        width = qMax(width, qreal(2 * columnPadding + option.fontMetrics.width(text)));
     }
 
-#ifdef KFILEITEMLISTVIEW_DEBUG
-    int rangesItemCount = 0;
-    foreach (const KItemRange& itemRange, itemRanges) {
-        rangesItemCount += itemRange.count;
+    if (role == "name") {
+        // Increase the width by the expansion-toggle and the current expansion level
+        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
+        width += option.padding + (expandedParentsCount + 1) * itemSize().height() + KIconLoader::SizeSmall;
+
+        // Increase the width by the required space for the icon
+        width += option.padding * 2 + option.iconSize;
     }
-    kDebug() << "[TIME] Calculated dynamic item size for " << rangesItemCount << "items:" << timer.elapsed();
-#endif
-    return widths;
+
+    return width;
 }
 
 QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
@@ -494,32 +471,6 @@ void KFileItemListView::updateIconSize()
 
     m_modelRolesUpdater->setPaused(isTransactionActive());
     updateTimersInterval();
-}
-
-QSizeF KFileItemListView::visibleRoleSizeHint(int index, const QByteArray& role) const
-{
-    const KItemListStyleOption& option = styleOption();
-
-    qreal width = m_minimumRolesWidths.value(role, 0);
-    const qreal height = option.padding * 2 + option.fontMetrics.height();
-
-    const QHash<QByteArray, QVariant> values = model()->data(index);
-    const QString text = KFileItemListWidget::roleText(role, values);
-    if (!text.isEmpty()) {
-        const qreal columnPadding = option.padding * 3;
-        width = qMax(width, qreal(2 * columnPadding + option.fontMetrics.width(text)));
-    }
-
-    if (role == "name") {
-        // Increase the width by the expansion-toggle and the current expansion level
-        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-        width += option.padding + (expandedParentsCount + 1) * itemSize().height() + KIconLoader::SizeSmall;
-
-        // Increase the width by the required space for the icon
-        width += option.padding * 2 + option.iconSize;
-    }
-
-    return QSizeF(width, height);
 }
 
 void KFileItemListView::updateLayoutOfVisibleItems()
