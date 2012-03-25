@@ -543,7 +543,7 @@ private:
 
     /**
      * Convenience method for
-     * updateColumnWidthsCache(KItemRangeList() << KItemRange(0, m_model->count()).
+     * updatePreferredColumnWidths(KItemRangeList() << KItemRange(0, m_model->count()).
      */
     void updatePreferredColumnWidths();
 
@@ -551,7 +551,7 @@ private:
      * Resizes the column-widths of m_headerWidget based on the preferred widths
      * and the vailable view-size.
      */
-    void resizeColumnWidths();
+    void applyAutomaticColumnWidths();
 
     /**
      * @return Sum of the widths of all columns.

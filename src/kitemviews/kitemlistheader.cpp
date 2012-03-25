@@ -30,7 +30,8 @@ void KItemListHeader::setAutomaticColumnResizing(bool automatic)
     if (m_headerWidget->automaticColumnResizing() != automatic) {
         m_headerWidget->setAutomaticColumnResizing(automatic);
         if (automatic) {
-            m_view->resizeColumnWidths();
+            m_view->applyAutomaticColumnWidths();
+            m_view->doLayout(KItemListView::NoAnimation);
         }
     }
 }
@@ -45,6 +46,7 @@ void KItemListHeader::setColumnWidth(const QByteArray& role, qreal width)
     if (!m_headerWidget->automaticColumnResizing()) {
         m_headerWidget->setColumnWidth(role, width);
         m_view->applyColumnWidthsFromHeader();
+        m_view->doLayout(KItemListView::NoAnimation);
     }
 }
 
@@ -62,6 +64,7 @@ void KItemListHeader::setColumnWidths(const QHash<QByteArray, qreal>& columnWidt
         }
 
         m_view->applyColumnWidthsFromHeader();
+        m_view->doLayout(KItemListView::NoAnimation);
     }
 }
 

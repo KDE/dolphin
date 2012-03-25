@@ -844,7 +844,6 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
             foreach (const QByteArray& role, view->visibleRoles()) {
                 columnWidths.append(header->columnWidth(role));
             }
-
             props.setHeaderColumnWidths(columnWidths);
             header->setAutomaticColumnResizing(false);
         } else {
@@ -861,10 +860,11 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
             view->setVisibleRoles(visibleRoles);
             props.setVisibleRoles(visibleRoles);
 
-            // Reset the stored column-widths, so that automatic resizing is
-            // used again.
-            props.setHeaderColumnWidths(QList<int>());
-            header->setAutomaticColumnResizing(true);
+            QList<int> columnWidths;
+            foreach (const QByteArray& role, view->visibleRoles()) {
+                columnWidths.append(header->columnWidth(role));
+            }
+            props.setHeaderColumnWidths(columnWidths);
         }
     }
 
