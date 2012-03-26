@@ -75,12 +75,6 @@ public:
     QStringList enabledPlugins() const;
 
     /** @reimp */
-    virtual QSizeF itemSizeHint(int index) const;
-
-    /** @reimp */
-    virtual qreal preferredRoleColumnWidth(const QByteArray& role, int index) const;
-
-    /** @reimp */
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
 
 protected:
@@ -111,7 +105,6 @@ private slots:
 private:
     void updateLayoutOfVisibleItems();
     void updateTimersInterval();
-    void updateMinimumRolesWidths();
 
     /**
      * Applies the roles defined by KItemListView::visibleRoles() to the
@@ -134,9 +127,6 @@ private:
     KFileItemModelRolesUpdater* m_modelRolesUpdater;
     QTimer* m_updateVisibleIndexRangeTimer;
     QTimer* m_updateIconSizeTimer;
-
-    // Cache for calculating visibleRoleSizes() in a fast way
-    QHash<QByteArray, int> m_minimumRolesWidths;
 
     friend class KFileItemListViewTest; // For unit testing
 };

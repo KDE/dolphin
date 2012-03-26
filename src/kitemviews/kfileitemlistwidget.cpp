@@ -20,8 +20,8 @@
 #include "kfileitemlistwidget.h"
 
 #include "kfileitemclipboard_p.h"
+#include "kfileitemlistview.h"
 #include "kfileitemmodel.h"
-#include "kitemlistview.h"
 #include "kpixmapmodifier_p.h"
 
 #include <KIcon>
@@ -222,48 +222,62 @@ QRectF KFileItemListWidget::selectionToggleRect() const
     return QRectF(pos, QSizeF(toggleSize, toggleSize));
 }
 
-QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values)
+QSizeF KFileItemListWidget::itemSizeHint(int index, const KItemListView* view)
 {
-    QString text;
-    const QVariant roleValue = values.value(role);
+    const QHash<QByteArray, QVariant> values = view->model()->data(index);
+    const KItemListStyleOption& option = view->styleOption();
+    const int additionalRolesCount = qMax(view->visibleRoles().count() - 1, 0);
 
-    switch (roleTextId(role)) {
-    case Name:
-    case Permissions:
-    case Owner:
-    case Group:
-    case Type:
-    case Destination:
-    case Path:
-        text = roleValue.toString();
-        break;
+    switch (static_cast<const KFileItemListView*>(view)->itemLayout()) {
+    case IconsLayout: {
+        const QString text = KStringHandler::preProcessWrap(values["name"].toString());
 
-    case Size: {
-        if (values.value("isDir").toBool()) {
-            // The item represents a directory. Show the number of sub directories
-            // instead of the file size of the directory.
-            if (!roleValue.isNull()) {
-                const int count = roleValue.toInt();
-                if (count < 0) {
-                    text = i18nc("@item:intable", "Unknown");
-                } else {
-                    text = i18ncp("@item:intable", "%1 item", "%1 items", count);
-                }
-            }
-        } else {
-            // Show the size in kilobytes (always round up)
-            const KLocale* locale = KGlobal::locale();
-            const int roundInc = (locale->binaryUnitDialect() == KLocale::MetricBinaryDialect) ? 499 : 511;
-            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>() + roundInc;
-            text = locale->formatByteSize(size, 0, KLocale::DefaultBinaryDialect, KLocale::UnitKiloByte);
+        const qreal maxWidth = view->itemSize().width() - 2 * option.padding;
+        int textLinesCount = 0;
+        QTextLine line;
+
+        // Calculate the number of lines required for wrapping the name
+        QTextOption textOption(Qt::AlignHCenter);
+        textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+
+        QTextLayout layout(text, option.font);
+        layout.setTextOption(textOption);
+        layout.beginLayout();
+        while ((line = layout.createLine()).isValid()) {
+            line.setLineWidth(maxWidth);
+            line.naturalTextWidth();
+            ++textLinesCount;
         }
-        break;
+        layout.endLayout();
+
+        // Add one line for each additional information
+        textLinesCount += additionalRolesCount;
+
+        const qreal height = textLinesCount * option.fontMetrics.height() +
+                             option.iconSize +
+                             option.padding * 3;
+        return QSizeF(view->itemSize().width(), height);
     }
 
-    case Date: {
-        const QDateTime dateTime = roleValue.toDateTime();
-        text = KGlobal::locale()->formatDateTime(dateTime);
-        break;
+    case CompactLayout: {
+        // For each row exactly one role is shown. Calculate the maximum required width that is necessary
+        // to show all roles without horizontal clipping.
+        qreal maximumRequiredWidth = 0.0;
+
+        foreach (const QByteArray& role, view->visibleRoles()) {
+            const QString text = KFileItemListWidget::roleText(role, values);
+            const qreal requiredWidth = option.fontMetrics.width(text);
+            maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
+        }
+
+        const qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
+        const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.height());
+        return QSizeF(width, height);
+    }
+
+    case DetailsLayout: {
+        const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
+        return QSizeF(-1, height);
     }
 
     default:
@@ -271,7 +285,34 @@ QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteA
         break;
     }
 
-    return text;
+    return QSize();
+}
+
+qreal KFileItemListWidget::preferredRoleColumnWidth(const QByteArray& role,
+                                                    int index,
+                                                    const KItemListView* view)
+{
+    qreal width = 0;
+
+    const QHash<QByteArray, QVariant> values = view->model()->data(index);
+    const KItemListStyleOption& option = view->styleOption();
+
+    const QString text = KFileItemListWidget::roleText(role, values);
+    if (!text.isEmpty()) {
+        const qreal columnPadding = option.padding * 3;
+        width = qMax(width, qreal(2 * columnPadding + option.fontMetrics.width(text)));
+    }
+
+    if (role == "name") {
+        // Increase the width by the expansion-toggle and the current expansion level
+        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
+        width += option.padding + (expandedParentsCount + 1) * view->itemSize().height() + KIconLoader::SizeSmall;
+
+        // Increase the width by the required space for the icon
+        width += option.padding * 2 + option.iconSize;
+    }
+
+    return width;
 }
 
 void KFileItemListWidget::invalidateCache()
@@ -924,6 +965,17 @@ QPixmap KFileItemListWidget::pixmapForIcon(const QString& name, int size)
     return pixmap;
 }
 
+void KFileItemListWidget::applyCutEffect(QPixmap& pixmap)
+{
+    KIconEffect* effect = KIconLoader::global()->iconEffect();
+    pixmap = effect->apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
+}
+
+void KFileItemListWidget::applyHiddenEffect(QPixmap& pixmap)
+{
+    KIconEffect::semiTransparent(pixmap);
+}
+
 KFileItemListWidget::TextId KFileItemListWidget::roleTextId(const QByteArray& role)
 {
     static QHash<QByteArray, TextId> rolesHash;
@@ -942,15 +994,55 @@ KFileItemListWidget::TextId KFileItemListWidget::roleTextId(const QByteArray& ro
     return rolesHash.value(role);
 }
 
-void KFileItemListWidget::applyCutEffect(QPixmap& pixmap)
+QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values)
 {
-    KIconEffect* effect = KIconLoader::global()->iconEffect();
-    pixmap = effect->apply(pixmap, KIconLoader::Desktop, KIconLoader::DisabledState);
-}
+    QString text;
+    const QVariant roleValue = values.value(role);
 
-void KFileItemListWidget::applyHiddenEffect(QPixmap& pixmap)
-{
-    KIconEffect::semiTransparent(pixmap);
-}
+    switch (roleTextId(role)) {
+    case Name:
+    case Permissions:
+    case Owner:
+    case Group:
+    case Type:
+    case Destination:
+    case Path:
+        text = roleValue.toString();
+        break;
 
+    case Size: {
+        if (values.value("isDir").toBool()) {
+            // The item represents a directory. Show the number of sub directories
+            // instead of the file size of the directory.
+            if (!roleValue.isNull()) {
+                const int count = roleValue.toInt();
+                if (count < 0) {
+                    text = i18nc("@item:intable", "Unknown");
+                } else {
+                    text = i18ncp("@item:intable", "%1 item", "%1 items", count);
+                }
+            }
+        } else {
+            // Show the size in kilobytes (always round up)
+            const KLocale* locale = KGlobal::locale();
+            const int roundInc = (locale->binaryUnitDialect() == KLocale::MetricBinaryDialect) ? 499 : 511;
+            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>() + roundInc;
+            text = locale->formatByteSize(size, 0, KLocale::DefaultBinaryDialect, KLocale::UnitKiloByte);
+        }
+        break;
+    }
+
+    case Date: {
+        const QDateTime dateTime = roleValue.toDateTime();
+        text = KGlobal::locale()->formatDateTime(dateTime);
+        break;
+    }
+
+    default:
+        Q_ASSERT(false);
+        break;
+    }
+
+    return text;
+}
 #include "kfileitemlistwidget.moc"

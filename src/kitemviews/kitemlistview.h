@@ -186,17 +186,11 @@ public:
 
     /**
      * @return Required size for the item with the index \p index.
-     *         Per default KItemListView::itemSize() is returned.
-     *         When reimplementing this method it is recommended to
-     *         also reimplement KItemListView::itemSizeHintUpdateRequired().
+     *         The returned value might be larger than KItemListView::itemSize().
+     *         In this case the layout grid will be stretched to assure an
+     *         unclipped item.
      */
-    virtual QSizeF itemSizeHint(int index) const;
-
-    /**
-     * @return The preferred column-width of the given \a role for the item
-     *         with the index \a index.
-     */
-    virtual qreal preferredRoleColumnWidth(const QByteArray& role, int index) const;
+    QSizeF itemSizeHint(int index) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
@@ -714,24 +708,50 @@ private:
  * @brief Base class for creating KItemListWidgets.
  *
  * It is recommended that applications simply use the KItemListWidgetCreator-template class.
- * For a custom implementation the methods create() and recyle() must be reimplemented.
- * The intention of the widget creator is to prevent repetitive and expensive instantiations and
- * deletions of KItemListWidgets by recycling existing widget instances.
+ * For a custom implementation the methods create(), itemSizeHint() and preferredColumnWith()
+ * must be reimplemented. The intention of the widget creator is to prevent repetitive and
+ * expensive instantiations and deletions of KItemListWidgets by recycling existing widget
+ * instances.
  */
 class LIBDOLPHINPRIVATE_EXPORT KItemListWidgetCreatorBase : public KItemListCreatorBase
 {
 public:
     virtual ~KItemListWidgetCreatorBase();
+
     virtual KItemListWidget* create(KItemListView* view) = 0;
+
     virtual void recycle(KItemListWidget* widget);
+
+    virtual QSizeF itemSizeHint(int index, const KItemListView* view) const = 0;
+
+    virtual qreal preferredRoleColumnWidth(const QByteArray& role,
+                                           int index,
+                                           const KItemListView* view) const = 0;
 };
 
+/**
+ * @brief Template class for creating KItemListWidgets.
+ *
+ * The template class must provide the following two static methods:
+ * - QSizeF itemSizeHint(int index, const KItemListView* view)
+ * - preferredRoleColumnWidth(const QByteArray& role, int index, const KItemListView* view)
+ * Those static methods are used as implementation for
+ * KItemListWidgetCreatorBase::itemSizeHint() and
+ * KItemListWidgetCreatorBase::preferedRoleColumnWidth().
+ */
 template <class T>
 class KItemListWidgetCreator : public KItemListWidgetCreatorBase
 {
 public:
     virtual ~KItemListWidgetCreator();
+
     virtual KItemListWidget* create(KItemListView* view);
+
+    virtual QSizeF itemSizeHint(int index, const KItemListView* view) const;
+
+    virtual qreal preferredRoleColumnWidth(const QByteArray& role,
+                                           int index,
+                                           const KItemListView* view) const;
 };
 
 template <class T>
@@ -748,6 +768,20 @@ KItemListWidget* KItemListWidgetCreator<T>::create(KItemListView* view)
         addCreatedWidget(widget);
     }
     return widget;
+}
+
+template<class T>
+QSizeF KItemListWidgetCreator<T>::itemSizeHint(int index, const KItemListView* view) const
+{
+    return T::itemSizeHint(index, view);
+}
+
+template<class T>
+qreal KItemListWidgetCreator<T>::preferredRoleColumnWidth(const QByteArray& role,
+                                                          int index,
+                                                          const KItemListView* view) const
+{
+    return T::preferredRoleColumnWidth(role, index, view);
 }
 
 /**

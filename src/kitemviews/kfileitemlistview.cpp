@@ -46,8 +46,7 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     m_itemLayout(IconsLayout),
     m_modelRolesUpdater(0),
     m_updateVisibleIndexRangeTimer(0),
-    m_updateIconSizeTimer(0),
-    m_minimumRolesWidths()
+    m_updateIconSizeTimer(0)
 {
     setAcceptDrops(true);
 
@@ -66,8 +65,6 @@ KFileItemListView::KFileItemListView(QGraphicsWidget* parent) :
     connect(m_updateIconSizeTimer, SIGNAL(timeout()), this, SLOT(updateIconSize()));
 
     setVisibleRoles(QList<QByteArray>() << "name");
-
-    updateMinimumRolesWidths();
 }
 
 KFileItemListView::~KFileItemListView()
@@ -124,98 +121,6 @@ void KFileItemListView::setEnabledPlugins(const QStringList& list)
 QStringList KFileItemListView::enabledPlugins() const
 {
     return m_modelRolesUpdater ? m_modelRolesUpdater->enabledPlugins() : QStringList();
-}
-
-QSizeF KFileItemListView::itemSizeHint(int index) const
-{
-    const QHash<QByteArray, QVariant> values = model()->data(index);
-    const KItemListStyleOption& option = styleOption();
-    const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
-
-    switch (m_itemLayout) {
-    case IconsLayout: {
-        const QString text = KStringHandler::preProcessWrap(values["name"].toString());
-
-        const qreal maxWidth = itemSize().width() - 2 * option.padding;
-        int textLinesCount = 0;
-        QTextLine line;
-
-        // Calculate the number of lines required for wrapping the name
-        QTextOption textOption(Qt::AlignHCenter);
-        textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
-
-        QTextLayout layout(text, option.font);
-        layout.setTextOption(textOption);
-        layout.beginLayout();
-        while ((line = layout.createLine()).isValid()) {
-            line.setLineWidth(maxWidth);
-            line.naturalTextWidth();
-            ++textLinesCount;
-        }
-        layout.endLayout();
-
-        // Add one line for each additional information
-        textLinesCount += additionalRolesCount;
-
-        const qreal height = textLinesCount * option.fontMetrics.height() +
-                             option.iconSize +
-                             option.padding * 3;
-        return QSizeF(itemSize().width(), height);
-    }
-
-    case CompactLayout: {
-        // For each row exactly one role is shown. Calculate the maximum required width that is necessary
-        // to show all roles without horizontal clipping.
-        qreal maximumRequiredWidth = 0.0;
-
-        foreach (const QByteArray& role, visibleRoles()) {
-            const QString text = KFileItemListWidget::roleText(role, values);
-            const qreal requiredWidth = option.fontMetrics.width(text);
-            maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
-        }
-
-        const qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
-        const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.height());
-        return QSizeF(width, height);
-    }
-
-    case DetailsLayout: {
-        // The width will be determined dynamically by KFileItemListView::visibleRoleSizes()
-        const qreal height = option.padding * 2 + qMax(option.iconSize, option.fontMetrics.height());
-        return QSizeF(-1, height);
-    }
-
-    default:
-        Q_ASSERT(false);
-        break;
-    }
-
-    return QSize();
-}
-
-qreal KFileItemListView::preferredRoleColumnWidth(const QByteArray& role, int index) const
-{
-    const KItemListStyleOption& option = styleOption();
-
-    qreal width = m_minimumRolesWidths.value(role, 0);
-
-    const QHash<QByteArray, QVariant> values = model()->data(index);
-    const QString text = KFileItemListWidget::roleText(role, values);
-    if (!text.isEmpty()) {
-        const qreal columnPadding = option.padding * 3;
-        width = qMax(width, qreal(2 * columnPadding + option.fontMetrics.width(text)));
-    }
-
-    if (role == "name") {
-        // Increase the width by the expansion-toggle and the current expansion level
-        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-        width += option.padding + (expandedParentsCount + 1) * itemSize().height() + KIconLoader::SizeSmall;
-
-        // Increase the width by the required space for the icon
-        width += option.padding * 2 + option.iconSize;
-    }
-
-    return width;
 }
 
 QPixmap KFileItemListView::createDragPixmap(const QSet<int>& indexes) const
@@ -500,15 +405,6 @@ void KFileItemListView::updateTimersInterval()
     const int interval = (model()->count() <= 0) ? ShortInterval : LongInterval;
     m_updateVisibleIndexRangeTimer->setInterval(interval);
     m_updateIconSizeTimer->setInterval(interval);
-}
-
-void KFileItemListView::updateMinimumRolesWidths()
-{
-    m_minimumRolesWidths.clear();
-
-    const KItemListStyleOption& option = styleOption();
-    const QString sizeText = QLatin1String("888888") + i18nc("@item:intable", "items");
-    m_minimumRolesWidths.insert("size", option.fontMetrics.width(sizeText));
 }
 
 void KFileItemListView::applyRolesToModel()

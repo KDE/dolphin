@@ -510,15 +510,7 @@ int KItemListView::lastVisibleIndex() const
 
 QSizeF KItemListView::itemSizeHint(int index) const
 {
-    Q_UNUSED(index);
-    return itemSize();
-}
-
-qreal KItemListView::preferredRoleColumnWidth(const QByteArray& role, int index) const
-{
-    Q_UNUSED(role);
-    Q_UNUSED(index);
-    return 100;
+    return m_widgetCreator->itemSizeHint(index, this);
 }
 
 void KItemListView::setSupportsItemExpanding(bool supportsExpanding)
@@ -1915,7 +1907,7 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
         for (int i = startIndex; i <= endIndex; ++i) {
             foreach (const QByteArray& visibleRole, visibleRoles()) {
                 qreal maxWidth = widths.value(visibleRole, 0);
-                const qreal width = preferredRoleColumnWidth(visibleRole, i);
+                const qreal width = m_widgetCreator->preferredRoleColumnWidth(visibleRole, i, this);
                 maxWidth = qMax(width, maxWidth);
                 widths.insert(visibleRole, maxWidth);
             }

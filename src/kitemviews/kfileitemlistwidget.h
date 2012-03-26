@@ -28,6 +28,9 @@
 #include <QPointF>
 #include <QStaticText>
 
+class KItemListView;
+class KItemListStyleOption;
+
 class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidget : public KItemListWidget
 {
     Q_OBJECT
@@ -57,12 +60,20 @@ public:
     virtual QRectF selectionToggleRect() const;
 
     /**
-     * @return Shown string for the role \p role of the item with the values \p values.
+     * Implementation of KItemListWidgetCreatorBase::itemSizeHint() when
+     * using the KItemListWidgetCreator-template.
+     *
+     * @see KItemListView
      */
-    // TODO: Move this method to a helper class shared by KFileItemListWidget and
-    // KFileItemListView to share information that is required to calculate the size hints
-    // in KFileItemListView and to represent the actual data in KFileItemListWidget.
-    static QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values);
+    static QSizeF itemSizeHint(int index, const KItemListView* view);
+
+    /**
+     * Implementation of KItemListWidgetCreatorBase::preferredRoleColumnWidth() when
+     * using the KItemListWidgetCreator-template.
+     *
+     * @see KItemListView
+     */
+    static qreal preferredRoleColumnWidth(const QByteArray& role, int index, const KItemListView* view);
 
 protected:
     /**
@@ -126,9 +137,14 @@ private:
     void drawSiblingsInformation(QPainter* painter);
 
     static QPixmap pixmapForIcon(const QString& name, int size);
-    static TextId roleTextId(const QByteArray& role);
     static void applyCutEffect(QPixmap& pixmap);
     static void applyHiddenEffect(QPixmap& pixmap);
+    static TextId roleTextId(const QByteArray& role);
+
+    /**
+     * @return Shown string for the role \p role of the item with the values \p values.
+     */
+    static QString roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values);
 
 private:
     bool m_isCut;
