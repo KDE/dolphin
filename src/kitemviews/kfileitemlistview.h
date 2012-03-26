@@ -78,7 +78,7 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /** @reimp */
-    virtual qreal preferredColumnWidth(int index, const QByteArray& role) const;
+    virtual qreal preferredRoleColumnWidth(const QByteArray& role, int index) const;
 
     /** @reimp */
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;

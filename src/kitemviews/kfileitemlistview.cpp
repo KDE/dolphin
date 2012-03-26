@@ -193,7 +193,7 @@ QSizeF KFileItemListView::itemSizeHint(int index) const
     return QSize();
 }
 
-qreal KFileItemListView::preferredColumnWidth(int index, const QByteArray& role) const
+qreal KFileItemListView::preferredRoleColumnWidth(const QByteArray& role, int index) const
 {
     const KItemListStyleOption& option = styleOption();
 

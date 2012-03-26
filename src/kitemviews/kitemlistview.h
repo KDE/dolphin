@@ -193,10 +193,10 @@ public:
     virtual QSizeF itemSizeHint(int index) const;
 
     /**
-     * @return The preferred column-width of the item with the index \a index
-     *         for the given \a role that is shown in the column.
+     * @return The preferred column-width of the given \a role for the item
+     *         with the index \a index.
      */
-    virtual qreal preferredColumnWidth(int index, const QByteArray& role) const;
+    virtual qreal preferredRoleColumnWidth(const QByteArray& role, int index) const;
 
     /**
      * If set to true, items having child-items can be expanded to show the child-items as
