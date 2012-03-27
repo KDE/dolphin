@@ -870,6 +870,11 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
     if (!error.isEmpty()) {
         emit errorMessage(error);
     }
+
+    if (destUrl == url()) {
+        // Mark the dropped urls as selected.
+        markPastedUrlsAsSelected(event->mimeData());
+    }
 }
 
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
@@ -1058,6 +1063,8 @@ void DolphinView::updateViewState()
     }
 
     if (!m_selectedUrls.isEmpty()) {
+        clearSelection();
+
         KItemListSelectionManager* selectionManager = m_container->controller()->selectionManager();
         QSet<int> selectedItems = selectionManager->selectedItems();
         const KFileItemModel* model = fileItemModel();
@@ -1335,8 +1342,13 @@ QMimeData* DolphinView::selectionMimeData() const
 
 void DolphinView::markPastedUrlsAsSelected(const QMimeData* mimeData)
 {
-    const KUrl::List urls = KUrl::List::fromMimeData(mimeData);
-    markUrlsAsSelected(urls);
+    const KUrl::List sourceUrls = KUrl::List::fromMimeData(mimeData);
+    KUrl::List destUrls;
+    foreach (const KUrl& source, sourceUrls) {
+        KUrl destination(url().url() + "/" + source.fileName());
+        destUrls << destination;
+    }
+    markUrlsAsSelected(destUrls);
 }
 
 void DolphinView::updateWritableState()
