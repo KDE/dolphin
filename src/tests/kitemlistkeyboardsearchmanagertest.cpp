@@ -75,9 +75,9 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
     QCOMPARE(spy.count(), 1);
     QCOMPARE(spy.takeFirst(), QList<QVariant>() << "fi" << false);
 
-    // If the delay between two key presses is larger than QApplication::keyboardInputInterval(),
+    // If the delay between two key presses is larger than 5000 milliseconds,
     // a new search is started. We add a small safety margin to avoid race conditions.
-    QTest::qWait(QApplication::keyboardInputInterval() + 10);
+    QTest::qWait(5000 + 10);
 
     m_keyboardSearchManager.addKeys("l");
     QCOMPARE(spy.count(), 1);

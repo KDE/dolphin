@@ -41,8 +41,8 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
 {
     const bool keyboardTimeWasValid = m_keyboardInputTime.isValid();
     const qint64 keyboardInputTimeElapsed = m_keyboardInputTime.restart();
-    if (keyboardInputTimeElapsed > QApplication::keyboardInputInterval()
-        || !keyboardTimeWasValid || keys.isEmpty()) {
+    const qint64 timeout = 5000;
+    if (keyboardInputTimeElapsed > timeout || !keyboardTimeWasValid || keys.isEmpty()) {
         m_searchedString.clear();
     }
 
