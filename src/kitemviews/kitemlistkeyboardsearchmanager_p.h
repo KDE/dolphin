@@ -49,6 +49,15 @@ public:
      */
     void addKeys(const QString& keys);
 
+    /**
+     * Sets the delay after which the search is cancelled to \a milliseconds.
+     * If the time interval between two calls of addKeys(const QString&) is
+     * larger than this, the second call will start a new search, rather than
+     * combining the keys received from both calls to a single search string.
+     */
+    void setTimeout(qint64 milliseconds);
+    qint64 timeout() const;
+
 signals:
     /**
      * Is emitted if the current item should be changed corresponding
@@ -64,6 +73,7 @@ signals:
 private:
     QString m_searchedString;
     QElapsedTimer m_keyboardInputTime;
+    qint64 m_timeout;
 };
 
 #endif

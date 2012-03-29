@@ -28,7 +28,8 @@
 #include <KDebug>
 
 KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject* parent) :
-    QObject(parent)
+    QObject(parent),
+    m_timeout(5000)
 {
     m_keyboardInputTime.invalidate();
 }
@@ -41,8 +42,7 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
 {
     const bool keyboardTimeWasValid = m_keyboardInputTime.isValid();
     const qint64 keyboardInputTimeElapsed = m_keyboardInputTime.restart();
-    const qint64 timeout = 5000;
-    if (keyboardInputTimeElapsed > timeout || !keyboardTimeWasValid || keys.isEmpty()) {
+    if (keyboardInputTimeElapsed > m_timeout || !keyboardTimeWasValid || keys.isEmpty()) {
         m_searchedString.clear();
     }
 
@@ -65,3 +65,14 @@ void KItemListKeyboardSearchManager::addKeys(const QString& keys)
     }
     m_keyboardInputTime.start();
 }
+
+void KItemListKeyboardSearchManager::setTimeout(qint64 milliseconds)
+{
+    m_timeout = milliseconds;
+}
+
+qint64 KItemListKeyboardSearchManager::timeout() const
+{
+    return m_timeout;
+}
+

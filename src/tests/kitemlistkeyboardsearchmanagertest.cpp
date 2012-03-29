@@ -65,6 +65,10 @@ void KItemListKeyboardSearchManagerTest::testBasicKeyboardSearch()
 
 void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
 {
+    // Set the timeout to a small value (the default is 5000 milliseconds)
+    // to save time when running this test.
+    m_keyboardSearchManager.setTimeout(100);
+
     QSignalSpy spy(&m_keyboardSearchManager, SIGNAL(changeCurrentItem(QString,bool)));
 
     m_keyboardSearchManager.addKeys("f");
@@ -75,9 +79,9 @@ void KItemListKeyboardSearchManagerTest::testAbortedKeyboardSearch()
     QCOMPARE(spy.count(), 1);
     QCOMPARE(spy.takeFirst(), QList<QVariant>() << "fi" << false);
 
-    // If the delay between two key presses is larger than 5000 milliseconds,
+    // If the delay between two key presses is larger than the chosen timeout,
     // a new search is started. We add a small safety margin to avoid race conditions.
-    QTest::qWait(5000 + 10);
+    QTest::qWait(m_keyboardSearchManager.timeout() + 10);
 
     m_keyboardSearchManager.addKeys("l");
     QCOMPARE(spy.count(), 1);
