@@ -20,6 +20,8 @@
 
 #include "dolphinview.h"
 
+#include <config-nepomuk.h>
+
 #include <QAbstractItemView>
 #include <QApplication>
 #include <QBoxLayout>
@@ -69,6 +71,10 @@
 #include "viewproperties.h"
 #include "views/tooltips/tooltipmanager.h"
 #include "zoomlevelinfo.h"
+
+#ifdef HAVE_NEPOMUK
+    #include <Nepomuk/ResourceManager>
+#endif
 
 namespace {
     const int MaxModeEnum = DolphinView::CompactView;
@@ -784,6 +790,16 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
     KItemListView* view = m_container->controller()->view();
     const QSet<QByteArray> visibleRolesSet = view->visibleRoles().toSet();
 
+    bool nepomukRunning = false;
+    bool indexingEnabled = false;
+#ifdef HAVE_NEPOMUK
+    nepomukRunning = (Nepomuk::ResourceManager::instance()->init() == 0);
+    if (nepomukRunning) {
+        KConfig config("nepomukserverrc");
+        indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
+    }
+#endif
+
     QString groupName;
     QMenu* groupMenu = 0;
 
@@ -811,6 +827,11 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
         action->setCheckable(true);
         action->setChecked(visibleRolesSet.contains(info.role));
         action->setData(info.role);
+
+        const bool enable = (!info.requiresNepomuk && !info.requiresIndexer) ||
+                            (info.requiresNepomuk && nepomukRunning) ||
+                            (info.requiresIndexer && indexingEnabled);
+        action->setEnabled(enable);
     }
 
     menu->addSeparator();
@@ -861,8 +882,10 @@ void DolphinView::slotHeaderContextMenuRequested(const QPointF& pos)
             props.setVisibleRoles(visibleRoles);
 
             QList<int> columnWidths;
-            foreach (const QByteArray& role, view->visibleRoles()) {
-                columnWidths.append(header->columnWidth(role));
+            if (!header->automaticColumnResizing()) {
+                foreach (const QByteArray& role, view->visibleRoles()) {
+                    columnWidths.append(header->columnWidth(role));
+                }
             }
             props.setHeaderColumnWidths(columnWidths);
         }

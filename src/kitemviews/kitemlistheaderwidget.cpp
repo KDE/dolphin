@@ -34,6 +34,7 @@ KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
     QGraphicsWidget(parent),
     m_automaticColumnResizing(true),
     m_model(0),
+    m_offset(0),
     m_columns(),
     m_columnWidths(),
     m_preferredColumnWidths(),
@@ -48,10 +49,6 @@ KItemListHeaderWidget::KItemListHeaderWidget(QGraphicsWidget* parent) :
     m_movingRole.index = -1;
 
     setAcceptHoverEvents(true);
-
-    QStyleOptionHeader option;
-    const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection, &option, QSize());
-    resize(0, headerSize.height());
 }
 
 KItemListHeaderWidget::~KItemListHeaderWidget()
@@ -142,6 +139,19 @@ qreal KItemListHeaderWidget::preferredColumnWidth(const QByteArray& role) const
     return m_preferredColumnWidths.value(role);
 }
 
+void KItemListHeaderWidget::setOffset(qreal offset)
+{
+    if (m_offset != offset) {
+        m_offset = offset;
+        update();
+    }
+}
+
+qreal KItemListHeaderWidget::offset() const
+{
+    return m_offset;
+}
+
 qreal KItemListHeaderWidget::minimumColumnWidth() const
 {
     QFontMetricsF fontMetrics(font());
@@ -161,7 +171,7 @@ void KItemListHeaderWidget::paint(QPainter* painter, const QStyleOptionGraphicsI
     painter->setFont(font());
     painter->setPen(palette().text().color());
 
-    qreal x = 0;
+    qreal x = -m_offset;
     int orderIndex = 0;
     foreach (const QByteArray& role, m_columns) {
         const qreal roleWidth = m_columnWidths.value(role);
@@ -265,7 +275,7 @@ void KItemListHeaderWidget::mouseMoveEvent(QGraphicsSceneMouseEvent* event)
             } else {
                 m_movingRole.pixmap = createRolePixmap(roleIndex);
 
-                qreal roleX = 0;
+                qreal roleX = -m_offset;
                 for (int i = 0; i < roleIndex; ++i) {
                     const QByteArray role = m_columns[i];
                     roleX += m_columnWidths.value(role);
@@ -429,7 +439,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
 {
     int index = -1;
 
-    qreal x = 0;
+    qreal x = -m_offset;
     foreach (const QByteArray& role, m_columns) {
         ++index;
         x += m_columnWidths.value(role);
@@ -443,7 +453,7 @@ int KItemListHeaderWidget::roleIndexAt(const QPointF& pos) const
 
 bool KItemListHeaderWidget::isAboveRoleGrip(const QPointF& pos, int roleIndex) const
 {
-    qreal x = 0;
+    qreal x = -m_offset;
     for (int i = 0; i <= roleIndex; ++i) {
         const QByteArray role = m_columns[i];
         x += m_columnWidths.value(role);
@@ -484,7 +494,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
     const int movingRight = movingLeft + movingWidth - 1;
 
     int targetIndex = 0;
-    qreal targetLeft = 0;
+    qreal targetLeft = -m_offset;
     while (targetIndex < m_columns.count()) {
         const QByteArray role = m_columns[targetIndex];
         const qreal targetWidth = m_columnWidths.value(role);
@@ -510,7 +520,7 @@ int KItemListHeaderWidget::targetOfMovingRole() const
 
 qreal KItemListHeaderWidget::roleXPosition(const QByteArray& role) const
 {
-    qreal x = 0;
+    qreal x = -m_offset;
     foreach (const QByteArray& visibleRole, m_columns) {
         if (visibleRole == role) {
             return x;

@@ -140,6 +140,7 @@ void DolphinItemListContainer::setItemLayout(KFileItemListView::Layout layout)
         m_fileItemListView->setScrollOrientation(Qt::Vertical);
         m_fileItemListView->setHeaderVisible(true);
         m_fileItemListView->setSupportsItemExpanding(DetailsModeSettings::expandableFolders());
+
         break;
     case KFileItemListView::CompactLayout:
         m_fileItemListView->setScrollOrientation(Qt::Horizontal);

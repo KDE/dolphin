@@ -162,8 +162,16 @@ public:
     {   QByteArray role;
         QString translation;
         QString group;
+        bool requiresNepomuk;
+        bool requiresIndexer;
     };
 
+    /**
+     * @return Provides static information for all available roles that
+     *         are supported by KFileItemModel. Some roles can only be
+     *         determined if Nepomuk is enabled and/or the Nepomuk
+     *         indexing is enabled.
+     */
     static QList<RoleInfo> rolesInformation();
 
 signals:
@@ -344,6 +352,8 @@ private:
         const char* const roleTranslation;
         const char* const groupTranslationContext;
         const char* const groupTranslation;
+        const bool requiresNepomuk;
+        const bool requiresIndexer;
     };
 
     /**

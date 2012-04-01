@@ -55,8 +55,7 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_scaledPixmapSize(),
     m_iconRect(),
     m_hoverPixmap(),
-    m_textPos(),
-    m_text(),
+    m_textInfo(),
     m_textRect(),
     m_sortedVisibleRoles(),
     m_expansionArea(),
@@ -64,14 +63,12 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_additionalInfoTextColor(),
     m_overlay()
 {
-    for (int i = 0; i < TextIdCount; ++i) {
-        m_text[i].setTextFormat(Qt::PlainText);
-        m_text[i].setPerformanceHint(QStaticText::AggressiveCaching);
-    }
 }
 
 KFileItemListWidget::~KFileItemListWidget()
 {
+    qDeleteAll(m_textInfo);
+    m_textInfo.clear();
 }
 
 void KFileItemListWidget::setLayout(Layout layout)
@@ -131,7 +128,8 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
     painter->setFont(itemListStyleOption.font);
     painter->setPen(textColor());
-    painter->drawStaticText(m_textPos[Name], m_text[Name]);
+    const TextInfo* textInfo = m_textInfo.value("name");
+    painter->drawStaticText(textInfo->pos, textInfo->staticText);
 
     bool clipAdditionalInfoBounds = false;
     if (m_supportsItemExpanding) {
@@ -139,7 +137,7 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
         // with the icon. This can happen if the user has minimized the width
         // of the name-column to a very small value.
         const qreal minX = m_pixmapPos.x() + m_pixmap.width() + 4 * itemListStyleOption.padding;
-        if (m_textPos[Name].x() + columnWidth("name") > minX) {
+        if (textInfo->pos.x() + columnWidth("name") > minX) {
             clipAdditionalInfoBounds = true;
             painter->save();
             painter->setClipRect(minX, 0, size().width() - minX, size().height(), Qt::IntersectClip);
@@ -148,8 +146,10 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
 
     painter->setPen(m_additionalInfoTextColor);
     painter->setFont(itemListStyleOption.font);
-    for (int i = Name + 1; i < TextIdCount; ++i) {
-        painter->drawStaticText(m_textPos[i], m_text[i]);
+
+    for (int i = 1; i < m_sortedVisibleRoles.count(); ++i) {
+        const TextInfo* textInfo = m_textInfo.value(m_sortedVisibleRoles[i]);
+        painter->drawStaticText(textInfo->pos, textInfo->staticText);
     }
 
     if (clipAdditionalInfoBounds) {
@@ -579,7 +579,8 @@ void KFileItemListWidget::updatePixmapCache()
 
     int scaledIconSize = 0;
     if (iconOnTop) {
-        scaledIconSize = static_cast<int>(m_textPos[Name].y() - 2 * padding);
+        const TextInfo* textInfo = m_textInfo.value("name");
+        scaledIconSize = static_cast<int>(textInfo->pos.y() - 2 * padding);
     } else {
         const int textRowsCount = (m_layout == CompactLayout) ? visibleRoles().count() : 1;
         const qreal requiredTextHeight = textRowsCount * option.fontMetrics.height();
@@ -599,7 +600,8 @@ void KFileItemListWidget::updatePixmapCache()
         m_pixmapPos.setY(padding + scaledIconSize - m_scaledPixmapSize.height());
     } else {
         // Center horizontally and vertically within the icon-area
-        m_pixmapPos.setX(m_textPos[Name].x() - 2 * padding
+        const TextInfo* textInfo = m_textInfo.value("name");
+        m_pixmapPos.setX(textInfo->pos.x() - 2 * padding
                          - (scaledIconSize + m_scaledPixmapSize.width()) / 2);
         m_pixmapPos.setY(padding
                          + (scaledIconSize - m_scaledPixmapSize.height()) / 2);
@@ -641,9 +643,14 @@ void KFileItemListWidget::updateTextsCache()
         break;
     }
 
-    for (int i = 0; i < TextIdCount; ++i) {
-        m_text[i].setText(QString());
-        m_text[i].setTextOption(textOption);
+    qDeleteAll(m_textInfo);
+    m_textInfo.clear();
+    for (int i = 0; i < m_sortedVisibleRoles.count(); ++i) {
+        TextInfo* textInfo = new TextInfo();
+        textInfo->staticText.setTextFormat(Qt::PlainText);
+        textInfo->staticText.setPerformanceHint(QStaticText::AggressiveCaching);
+        textInfo->staticText.setTextOption(textOption);
+        m_textInfo.insert(m_sortedVisibleRoles[i], textInfo);
     }
 
     switch (m_layout) {
@@ -676,15 +683,16 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
 
     // Initialize properties for the "name" role. It will be used as anchor
     // for initializing the position of the other roles.
-    m_text[Name].setText(KStringHandler::preProcessWrap(values["name"].toString()));
+    TextInfo* nameTextInfo = m_textInfo.value("name");
+    nameTextInfo->staticText.setText(KStringHandler::preProcessWrap(values["name"].toString()));
 
     // Calculate the number of lines required for the name and the required width
     int textLinesCountForName = 0;
     qreal requiredWidthForName = 0;
     QTextLine line;
 
-    QTextLayout layout(m_text[Name].text(), option.font);
-    layout.setTextOption(m_text[Name].textOption());
+    QTextLayout layout(nameTextInfo->staticText.text(), option.font);
+    layout.setTextOption(nameTextInfo->staticText.textOption());
     layout.beginLayout();
     while ((line = layout.createLine()).isValid()) {
         line.setLineWidth(maxWidth);
@@ -698,28 +706,28 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
     textLinesCount += additionalRolesCount;
 
-    m_text[Name].setTextWidth(maxWidth);
-    m_textPos[Name] = QPointF(padding, widgetHeight - textLinesCount * fontHeight - padding);
+    nameTextInfo->staticText.setTextWidth(maxWidth);
+    nameTextInfo->pos = QPointF(padding, widgetHeight - textLinesCount * fontHeight - padding);
     m_textRect = QRectF(padding + (maxWidth - requiredWidthForName) / 2,
-                        m_textPos[Name].y(),
+                        nameTextInfo->pos.y(),
                         requiredWidthForName,
                         textLinesCountForName * fontHeight);
 
     // Calculate the position for each additional information
-    qreal y = m_textPos[Name].y() + textLinesCountForName * fontHeight;
+    qreal y = nameTextInfo->pos.y() + textLinesCountForName * fontHeight;
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
-        const TextId textId = roleTextId(role);
-        if (textId == Name) {
+        if (role == "name") {
             continue;
         }
 
         const QString text = roleText(role, values);
-        m_text[textId].setText(text);
+        TextInfo* textInfo = m_textInfo.value(role);
+        textInfo->staticText.setText(text);
 
         qreal requiredWidth = 0;
 
         QTextLayout layout(text, option.font);
-        layout.setTextOption(m_text[textId].textOption());
+        layout.setTextOption(textInfo->staticText.textOption());
         layout.beginLayout();
         QTextLine textLine = layout.createLine();
         if (textLine.isValid()) {
@@ -731,13 +739,13 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
                 // not get elided although it does not fit into the given width. As workaround
                 // the padding is substracted.
                 const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth - padding);
-                m_text[textId].setText(elidedText);
+                textInfo->staticText.setText(elidedText);
             }
         }
         layout.endLayout();
 
-        m_textPos[textId] = QPointF(padding, y);
-        m_text[textId].setTextWidth(maxWidth);
+        textInfo->pos = QPointF(padding, y);
+        textInfo->staticText.setTextWidth(maxWidth);
 
         const QRectF textRect(padding + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
         m_textRect |= textRect;
@@ -768,20 +776,19 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
     qreal y = (widgetHeight - textLinesHeight) / 2;
     const qreal maxWidth = size().width() - x - option.padding;
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
-        const TextId textId = roleTextId(role);
-
         const QString text = roleText(role, values);
-        m_text[textId].setText(text);
+        TextInfo* textInfo = m_textInfo.value(role);
+        textInfo->staticText.setText(text);
 
         qreal requiredWidth = option.fontMetrics.width(text);
         if (requiredWidth > maxWidth) {
             requiredWidth = maxWidth;
             const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
-            m_text[textId].setText(elidedText);
+            textInfo->staticText.setText(elidedText);
         }
 
-        m_textPos[textId] = QPointF(x, y);
-        m_text[textId].setTextWidth(maxWidth);
+        textInfo->pos = QPointF(x, y);
+        textInfo->staticText.setTextWidth(maxWidth);
 
         maximumRequiredTextWidth = qMax(maximumRequiredTextWidth, requiredWidth);
 
@@ -820,7 +827,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     const qreal y = qMax(qreal(option.padding), (widgetHeight - fontHeight) / 2);
 
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
-        const TextId textId = roleTextId(role);
+        const RoleType type = roleType(role);
 
         QString text = roleText(role, values);
 
@@ -828,7 +835,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         qreal requiredWidth = option.fontMetrics.width(text);
         const qreal roleWidth = columnWidth(role);
         qreal availableTextWidth = roleWidth - 2 * columnPadding;
-        if (textId == Name) {
+        if (type == Name) {
             availableTextWidth -= firstColumnInc;
         }
 
@@ -837,16 +844,17 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
             requiredWidth = option.fontMetrics.width(text);
         }
 
-        m_text[textId].setText(text);
-        m_textPos[textId] = QPointF(x + columnPadding, y);
+        TextInfo* textInfo = m_textInfo.value(role);
+        textInfo->staticText.setText(text);
+        textInfo->pos = QPointF(x + columnPadding, y);
         x += roleWidth;
 
-        switch (textId) {
+        switch (type) {
         case Name: {
             const qreal textWidth = option.extendedSelectionRegion
-                                    ? size().width() - m_textPos[textId].x()
+                                    ? size().width() - textInfo->pos.x()
                                     : requiredWidth + 2 * option.padding;
-            m_textRect = QRectF(m_textPos[textId].x() - option.padding, 0,
+            m_textRect = QRectF(textInfo->pos.x() - option.padding, 0,
                                 textWidth, size().height());
 
             // The column after the name should always be aligned on the same x-position independent
@@ -856,7 +864,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         }
         case Size:
             // The values for the size should be right aligned
-            m_textPos[textId].rx() += roleWidth - requiredWidth - 2 * columnPadding;
+            textInfo->pos.rx() += roleWidth - requiredWidth - 2 * columnPadding;
             break;
 
         default:
@@ -976,22 +984,16 @@ void KFileItemListWidget::applyHiddenEffect(QPixmap& pixmap)
     KIconEffect::semiTransparent(pixmap);
 }
 
-KFileItemListWidget::TextId KFileItemListWidget::roleTextId(const QByteArray& role)
+KFileItemListWidget::RoleType KFileItemListWidget::roleType(const QByteArray& role)
 {
-    static QHash<QByteArray, TextId> rolesHash;
+    static QHash<QByteArray, RoleType> rolesHash;
     if (rolesHash.isEmpty()) {
         rolesHash.insert("name", Name);
         rolesHash.insert("size", Size);
         rolesHash.insert("date", Date);
-        rolesHash.insert("permissions", Permissions);
-        rolesHash.insert("owner", Owner);
-        rolesHash.insert("group", Group);
-        rolesHash.insert("type", Type);
-        rolesHash.insert("destination", Destination);
-        rolesHash.insert("path", Path);
     }
 
-    return rolesHash.value(role);
+    return rolesHash.value(role, Generic);
 }
 
 QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteArray, QVariant>& values)
@@ -999,17 +1001,7 @@ QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteA
     QString text;
     const QVariant roleValue = values.value(role);
 
-    switch (roleTextId(role)) {
-    case Name:
-    case Permissions:
-    case Owner:
-    case Group:
-    case Type:
-    case Destination:
-    case Path:
-        text = roleValue.toString();
-        break;
-
+    switch (roleType(role)) {
     case Size: {
         if (values.value("isDir").toBool()) {
             // The item represents a directory. Show the number of sub directories
@@ -1037,6 +1029,11 @@ QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteA
         text = KGlobal::locale()->formatDateTime(dateTime);
         break;
     }
+
+    case Name:
+    case Generic:
+        text = roleValue.toString();
+        break;
 
     default:
         Q_ASSERT(false);

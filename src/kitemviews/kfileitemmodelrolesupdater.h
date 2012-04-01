@@ -20,6 +20,7 @@
 #ifndef KFILEITEMMODELROLESUPDATER_H
 #define KFILEITEMMODELROLESUPDATER_H
 
+#include <config-nepomuk.h>
 #include <libdolphin_export.h>
 
 #include <KFileItem>
@@ -204,6 +205,13 @@ private:
     // of time.
     QTimer* m_changedItemsTimer;
     QSet<KFileItem> m_changedItems;
+
+#ifdef HAVE_NEPOMUK
+    // True if roles must be resolved with the help of Nepomuk inside
+    // KFileItemModelRolesUpdater::rolesData().
+    bool m_resolveNepomukRoles;
+#endif
+
 };
 
 #endif

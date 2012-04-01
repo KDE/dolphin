@@ -237,7 +237,7 @@ void KItemListView::setItemOffset(qreal offset)
 
     m_layouter->setItemOffset(offset);
     if (m_headerWidget->isVisible()) {
-        m_headerWidget->setPos(-offset, 0);
+        m_headerWidget->setOffset(offset);
     }
 
     // Don't check whether the m_layoutTimer is active: Changing the
@@ -418,6 +418,7 @@ void KItemListView::setGeometry(const QRectF& rect)
 
     const QSizeF newSize = rect.size();
     if (m_itemSize.isEmpty()) {
+        m_headerWidget->resize(rect.width(), m_headerWidget->size().height());
         if (m_headerWidget->automaticColumnResizing()) {
             applyAutomaticColumnWidths();
         } else {
@@ -425,7 +426,6 @@ void KItemListView::setGeometry(const QRectF& rect)
             const QSizeF dynamicItemSize(qMax(newSize.width(), requiredWidth),
                                          m_itemSize.height());
             m_layouter->setItemSize(dynamicItemSize);
-            m_headerWidget->resize(dynamicItemSize.width(), m_headerWidget->size().height());
         }
 
         // Triggering a synchronous layout is fine from a performance point of view,
@@ -604,10 +604,18 @@ bool KItemListView::isTransactionActive() const
     return m_activeTransactions > 0;
 }
 
+// TODO:
+#include <QGraphicsScene>
+#include <QGraphicsView>
 void KItemListView::setHeaderVisible(bool visible)
 {
     if (visible && !m_headerWidget->isVisible()) {
-        m_headerWidget->setPos(0, 0);
+        QStyleOptionHeader option;
+        const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection,
+                                                           &option, QSize());
+
+        m_headerWidget->setPos(0, 0);        
+        m_headerWidget->resize(size().width(), headerSize.height());
         m_headerWidget->setModel(m_model);
         m_headerWidget->setColumns(m_visibleRoles);
         m_headerWidget->setZValue(1);
@@ -621,7 +629,7 @@ void KItemListView::setHeaderVisible(bool visible)
         connect(m_headerWidget, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
                 this, SIGNAL(sortRoleChanged(QByteArray,QByteArray)));
 
-        m_layouter->setHeaderHeight(m_headerWidget->size().height());
+        m_layouter->setHeaderHeight(headerSize.height());
         m_headerWidget->setVisible(true);
     } else if (!visible && m_headerWidget->isVisible()) {
         disconnect(m_headerWidget, SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
@@ -1898,6 +1906,19 @@ QHash<QByteArray, qreal> KItemListView::preferredColumnWidths(const KItemRangeLi
 
     QHash<QByteArray, qreal> widths;
 
+    // Calculate the minimum width for each column that is required
+    // to show the headline unclipped.
+    const QFontMetricsF fontMetrics(m_headerWidget->font());
+    const int gripMargin   = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderGripMargin);
+    const int headerMargin = m_headerWidget->style()->pixelMetric(QStyle::PM_HeaderMargin);
+    foreach (const QByteArray& visibleRole, visibleRoles()) {
+        const QString headerText = m_model->roleDescription(visibleRole);
+        const qreal headerWidth = fontMetrics.width(headerText) + gripMargin + headerMargin * 2;
+        widths.insert(visibleRole, headerWidth);
+    }
+
+    // Calculate the preferred column withs for each item and ignore values
+    // smaller than the width for showing the headline unclipped.
     int calculatedItemCount = 0;
     bool maxTimeExceeded = false;
     foreach (const KItemRange& itemRange, itemRanges) {
@@ -1936,7 +1957,6 @@ void KItemListView::applyColumnWidthsFromHeader()
     const QSizeF dynamicItemSize(qMax(size().width(), requiredWidth),
                                  m_itemSize.height());
     m_layouter->setItemSize(dynamicItemSize);
-    m_headerWidget->resize(dynamicItemSize.width(), m_headerWidget->size().height());
 
     // Update the role sizes for all visible widgets
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
@@ -2001,13 +2021,8 @@ void KItemListView::updatePreferredColumnWidths(const KItemRangeList& itemRanges
 
 void KItemListView::updatePreferredColumnWidths()
 {
-    if (!m_model) {
-        return;
-    }
-
-    const int itemCount = m_model->count();
-    if (itemCount > 0) {
-        updatePreferredColumnWidths(KItemRangeList() << KItemRange(0, itemCount));
+    if (m_model) {
+        updatePreferredColumnWidths(KItemRangeList() << KItemRange(0, m_model->count()));
     }
 }
 
@@ -2056,7 +2071,6 @@ void KItemListView::applyAutomaticColumnWidths()
     dynamicItemSize.rwidth() = qMax(requiredWidth, availableWidth);
 
     m_layouter->setItemSize(dynamicItemSize);
-    m_headerWidget->resize(dynamicItemSize.width(), m_headerWidget->size().height());
 
     // Update the role sizes for all visible widgets
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);

@@ -59,6 +59,9 @@ public:
     void setPreferredColumnWidth(const QByteArray& role, qreal width);
     qreal preferredColumnWidth(const QByteArray& role) const;
 
+    void setOffset(qreal offset);
+    qreal offset() const;
+
     qreal minimumColumnWidth() const;
 
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -144,6 +147,7 @@ private:
 
     bool m_automaticColumnResizing;
     KItemModelBase* m_model;
+    qreal m_offset;
     QList<QByteArray> m_columns;
     QHash<QByteArray, qreal> m_columnWidths;
     QHash<QByteArray, qreal> m_preferredColumnWidths;

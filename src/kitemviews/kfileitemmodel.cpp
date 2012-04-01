@@ -274,19 +274,8 @@ QList<QPair<int, QVariant> > KFileItemModel::groups() const
         case SizeRole:        m_groups = sizeRoleGroups(); break;
         case DateRole:        m_groups = dateRoleGroups(); break;
         case PermissionsRole: m_groups = permissionRoleGroups(); break;
-        case OwnerRole:       m_groups = genericStringRoleGroups("owner"); break;
-        case GroupRole:       m_groups = genericStringRoleGroups("group"); break;
-        case TypeRole:        m_groups = genericStringRoleGroups("type"); break;
-        case DestinationRole: m_groups = genericStringRoleGroups("destination"); break;
-        case PathRole:        m_groups = genericStringRoleGroups("path"); break;
-        case CommentRole:     m_groups = genericStringRoleGroups("comment"); break;
-        case TagsRole:        m_groups = genericStringRoleGroups("tags"); break;
         case RatingRole:      m_groups = ratingRoleGroups(); break;
-        case NoRole:          break;
-        case IsDirRole:       break;
-        case IsExpandedRole:  break;
-        case ExpandedParentsCountRole: break;
-        default:                 Q_ASSERT(false); break;
+        default:              m_groups = genericStringRoleGroups(sortRole()); break;
         }
 
 #ifdef KFILEITEMMODEL_DEBUG
@@ -558,6 +547,8 @@ QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
                 info.role = map[i].role;
                 info.translation = map[i].roleTranslation;
                 info.group = map[i].groupTranslation;
+                info.requiresNepomuk = map[i].requiresNepomuk;
+                info.requiresIndexer = map[i].requiresIndexer;
                 rolesInfo.append(info);
             }
         }
@@ -1344,6 +1335,15 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
         break;
     }
 
+    case ImageSizeRole: {
+        // Alway use a natural comparing to interpret the numbers of a string like
+        // "1600 x 1200" for having a correct sorting.
+        result = KStringHandler::naturalCompare(a->values.value("imageSize").toString(),
+                                                b->values.value("imageSize").toString(),
+                                                Qt::CaseSensitive);
+        break;
+    }
+
     case PermissionsRole:
     case OwnerRole:
     case GroupRole:
@@ -1953,29 +1953,29 @@ KFileItemList KFileItemModel::childItems(const KFileItem& item) const
 const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
 {
     static const RoleInfoMap rolesInfoMap[] = {
-    //    role           roleType         role translation                                  group translation
-        { 0,             NoRole,          0, 0,                                             0, 0 },
-        { "name",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0 },
-        { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0 },
-        { "date",        DateRole,        I18N_NOOP2_NOSTRIP("@label", "Date"),             0, 0 },
-        { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             0, 0 },
-        { "rating",      RatingRole,      I18N_NOOP2_NOSTRIP("@label", "Rating"),           0, 0 },
-        { "tags",        TagsRole,        I18N_NOOP2_NOSTRIP("@label", "Tags"),             0, 0 },
-        { "comment",     CommentRole,     I18N_NOOP2_NOSTRIP("@label", "Comment"),          0, 0 },
-        { "wordCount",   WordCountRole,   I18N_NOOP2_NOSTRIP("@label", "Word Count"),       I18N_NOOP2_NOSTRIP("@label", "Document") },
-        { "lineCount",   LineCountRole,   I18N_NOOP2_NOSTRIP("@label", "Line Count"),       I18N_NOOP2_NOSTRIP("@label", "Document") },
-        { "imageSize",   ImageSizeRole,   I18N_NOOP2_NOSTRIP("@label", "Image Size"),       I18N_NOOP2_NOSTRIP("@label", "Image") },
-        { "orientation", OrientationRole, I18N_NOOP2_NOSTRIP("@label", "Orientation"),      I18N_NOOP2_NOSTRIP("@label", "Image") },
-        { "artist",      ArtistRole,      I18N_NOOP2_NOSTRIP("@label", "Artist"),           I18N_NOOP2_NOSTRIP("@label", "Music") },
-        { "album",       AlbumRole,       I18N_NOOP2_NOSTRIP("@label", "Album"),            I18N_NOOP2_NOSTRIP("@label", "Music") },
-        { "duration",    DurationRole,    I18N_NOOP2_NOSTRIP("@label", "Duration"),         I18N_NOOP2_NOSTRIP("@label", "Music") },
-        { "track",       TrackRole,       I18N_NOOP2_NOSTRIP("@label", "Track"),            I18N_NOOP2_NOSTRIP("@label", "Music") },
-        { "path",        PathRole,        I18N_NOOP2_NOSTRIP("@label", "Path"),             I18N_NOOP2_NOSTRIP("@label", "Other") },
-        { "destination", DestinationRole, I18N_NOOP2_NOSTRIP("@label", "Link Destination"), I18N_NOOP2_NOSTRIP("@label", "Other") },
-        { "copiedFrom",  CopiedFromRole,  I18N_NOOP2_NOSTRIP("@label", "Copied From"),      I18N_NOOP2_NOSTRIP("@label", "Other") },
-        { "permissions", PermissionsRole, I18N_NOOP2_NOSTRIP("@label", "Permissions"),      I18N_NOOP2_NOSTRIP("@label", "Other") },
-        { "owner",       OwnerRole,       I18N_NOOP2_NOSTRIP("@label", "Owner"),            I18N_NOOP2_NOSTRIP("@label", "Other") },
-        { "group",       GroupRole,       I18N_NOOP2_NOSTRIP("@label", "Group"),            I18N_NOOP2_NOSTRIP("@label", "Other") },
+    //  | role         | roleType       | role translation                                | group translation           | requires Nepomuk | requires indexer
+        { 0,             NoRole,          0, 0,                                             0, 0,                                     false, false },
+        { "name",        NameRole,        I18N_NOOP2_NOSTRIP("@label", "Name"),             0, 0,                                     false, false },
+        { "size",        SizeRole,        I18N_NOOP2_NOSTRIP("@label", "Size"),             0, 0,                                     false, false },
+        { "date",        DateRole,        I18N_NOOP2_NOSTRIP("@label", "Date"),             0, 0,                                     false, false },
+        { "type",        TypeRole,        I18N_NOOP2_NOSTRIP("@label", "Type"),             0, 0,                                     false, false },
+        { "rating",      RatingRole,      I18N_NOOP2_NOSTRIP("@label", "Rating"),           0, 0,                                     true,  false },
+        { "tags",        TagsRole,        I18N_NOOP2_NOSTRIP("@label", "Tags"),             0, 0,                                     true,  false },
+        { "comment",     CommentRole,     I18N_NOOP2_NOSTRIP("@label", "Comment"),          0, 0,                                     true,  false },
+        { "wordCount",   WordCountRole,   I18N_NOOP2_NOSTRIP("@label", "Word Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
+        { "lineCount",   LineCountRole,   I18N_NOOP2_NOSTRIP("@label", "Line Count"),       I18N_NOOP2_NOSTRIP("@label", "Document"), true,  true  },
+        { "imageSize",   ImageSizeRole,   I18N_NOOP2_NOSTRIP("@label", "Image Size"),       I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
+        { "orientation", OrientationRole, I18N_NOOP2_NOSTRIP("@label", "Orientation"),      I18N_NOOP2_NOSTRIP("@label", "Image"),    true,  true  },
+        { "artist",      ArtistRole,      I18N_NOOP2_NOSTRIP("@label", "Artist"),           I18N_NOOP2_NOSTRIP("@label", "Music"),    true,  true  },
+        { "album",       AlbumRole,       I18N_NOOP2_NOSTRIP("@label", "Album"),            I18N_NOOP2_NOSTRIP("@label", "Music"),    true,  true  },
+        { "duration",    DurationRole,    I18N_NOOP2_NOSTRIP("@label", "Duration"),         I18N_NOOP2_NOSTRIP("@label", "Music"),    true,  true  },
+        { "track",       TrackRole,       I18N_NOOP2_NOSTRIP("@label", "Track"),            I18N_NOOP2_NOSTRIP("@label", "Music"),    true,  true  },
+        { "path",        PathRole,        I18N_NOOP2_NOSTRIP("@label", "Path"),             I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+        { "destination", DestinationRole, I18N_NOOP2_NOSTRIP("@label", "Link Destination"), I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+        { "copiedFrom",  CopiedFromRole,  I18N_NOOP2_NOSTRIP("@label", "Copied From"),      I18N_NOOP2_NOSTRIP("@label", "Other"),    true,  false },
+        { "permissions", PermissionsRole, I18N_NOOP2_NOSTRIP("@label", "Permissions"),      I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+        { "owner",       OwnerRole,       I18N_NOOP2_NOSTRIP("@label", "Owner"),            I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
+        { "group",       GroupRole,       I18N_NOOP2_NOSTRIP("@label", "User Group"),       I18N_NOOP2_NOSTRIP("@label", "Other"),    false, false },
     };
 
     count = sizeof(rolesInfoMap) / sizeof(RoleInfoMap);

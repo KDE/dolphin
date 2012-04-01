@@ -33,6 +33,10 @@
 #include <QElapsedTimer>
 #include <QTimer>
 
+#ifdef HAVE_NEPOMUK
+    #include "knepomukrolesprovider_p.h"
+#endif
+
 // Required includes for subItemsCount():
 #ifdef Q_WS_WIN
     #include <QDir>
@@ -74,6 +78,10 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_previewJobs(),
     m_changedItemsTimer(0),
     m_changedItems()
+  #ifdef HAVE_NEPOMUK
+  , m_resolveNepomukRoles(false)
+  #endif
+
 {
     Q_ASSERT(model);
 
@@ -218,6 +226,23 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 {
     if (m_roles != roles) {
         m_roles = roles;
+
+#ifdef HAVE_NEPOMUK
+        // Check whether there is at least one role that must be resolved
+        // with the help of Nepomuk. If this is the case, m_resolveNepomukRoles
+        // will be set to true and the (quite expensive) resolving will be done
+        // in KFileItemModelRolesUpdater::rolesData().
+        const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
+        m_resolveNepomukRoles = false;
+        QSetIterator<QByteArray> it(roles);
+        while (it.hasNext()) {
+            const QByteArray& role = it.next();
+            if (rolesProvider.isNepomukRole(role)) {
+                m_resolveNepomukRoles = true;
+                break;
+            }
+        }
+#endif
 
         if (m_paused) {
             m_rolesChangedDuringPausing = true;
@@ -753,6 +778,17 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     }
 
     data.insert("iconOverlays", item.overlays());
+
+#ifdef HAVE_NEPOMUK
+    if (m_resolveNepomukRoles) {
+        const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
+        QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(item.url(), m_roles));
+        while (it.hasNext()) {
+            it.next();
+            data.insert(it.key(), it.value());
+        }
+    }
+#endif
 
     return data;
 }

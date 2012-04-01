@@ -67,6 +67,13 @@ set(dolphinprivate_LIB_SRCS
     views/zoomlevelinfo.cpp
 )
 
+if (Nepomuk_FOUND)
+    set(dolphinprivate_LIB_SRCS
+        ${dolphinprivate_LIB_SRCS}
+        kitemviews/knepomukrolesprovider.cpp
+    )
+endif (Nepomuk_FOUND)
+
 kde4_add_kcfg_files(dolphinprivate_LIB_SRCS
     settings/dolphin_compactmodesettings.kcfgc
     settings/dolphin_directoryviewpropertysettings.kcfgc
@@ -80,17 +87,15 @@ kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
 target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF3_LIBS})
 if (Nepomuk_FOUND)
-  target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} nepomukutils ${SOPRANO_LIBRARIES})
+    target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} nepomukutils ${SOPRANO_LIBRARIES})
 endif (Nepomuk_FOUND)
+
 if(X11_Xrender_FOUND)
-  target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
+    target_link_libraries(dolphinprivate ${X11_Xrender_LIB} )
 endif(X11_Xrender_FOUND)
-
-
 
 set_target_properties(dolphinprivate PROPERTIES VERSION ${GENERIC_LIB_VERSION} SOVERSION ${GENERIC_LIB_SOVERSION} )
 install(TARGETS dolphinprivate  ${INSTALL_TARGETS_DEFAULT_ARGS})
-
 
 ##########################################
 
@@ -165,10 +170,7 @@ kde4_add_kcfg_files(dolphin_SRCS
 )
 
 if(Nepomuk_FOUND)
-    set(dolphin_SRCS
-        ${dolphin_SRCS}
-        panels/search/searchpanel.cpp
-    )
+    set(dolphin_SRCS ${dolphin_SRCS} panels/search/searchpanel.cpp)
 endif(Nepomuk_FOUND)
 
 if(NOT WIN32)

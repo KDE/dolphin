@@ -109,17 +109,11 @@ private slots:
     void slotCutItemsChanged();
 
 private:
-    enum TextId {
+    enum RoleType {
         Name,
         Size,
         Date,
-        Permissions,
-        Owner,
-        Group,
-        Type,
-        Destination,
-        Path,
-        TextIdCount // Mandatory last entry
+        Generic  // Mandatory last entry
     };
 
     void triggerCacheRefreshing();
@@ -139,7 +133,7 @@ private:
     static QPixmap pixmapForIcon(const QString& name, int size);
     static void applyCutEffect(QPixmap& pixmap);
     static void applyHiddenEffect(QPixmap& pixmap);
-    static TextId roleTextId(const QByteArray& role);
+    static RoleType roleType(const QByteArray& role);
 
     /**
      * @return Shown string for the role \p role of the item with the values \p values.
@@ -164,8 +158,13 @@ private:
     QRectF m_iconRect;          // Cache for KItemListWidget::iconRect()
     QPixmap m_hoverPixmap;      // Cache for modified m_pixmap when hovering the item
 
-    QPointF m_textPos[TextIdCount];
-    QStaticText m_text[TextIdCount];
+    struct TextInfo
+    {
+        QPointF pos;
+        QStaticText staticText;
+    };
+    QHash<QByteArray, TextInfo*> m_textInfo;
+
     QRectF m_textRect;
 
     QList<QByteArray> m_sortedVisibleRoles;

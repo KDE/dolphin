@@ -20,6 +20,8 @@
 
 #include "dolphinviewactionhandler.h"
 
+#include <config-nepomuk.h>
+
 #include "settings/viewpropertiesdialog.h"
 #include "views/dolphinview.h"
 #include "views/zoomlevelinfo.h"
@@ -36,6 +38,10 @@
 #include <KToggleAction>
 #include <KRun>
 #include <KPropertiesDialog>
+
+#ifdef HAVE_NEPOMUK
+    #include <Nepomuk/ResourceManager>
+#endif
 
 #include <KDebug>
 
@@ -228,6 +234,16 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
     KActionMenu* groupMenu = 0;
     QActionGroup* groupMenuGroup = 0;
 
+    bool nepomukRunning = false;
+    bool indexingEnabled = false;
+#ifdef HAVE_NEPOMUK
+    nepomukRunning = (Nepomuk::ResourceManager::instance()->init() == 0);
+    if (nepomukRunning) {
+        KConfig config("nepomukserverrc");
+        indexingEnabled = config.group("Service-nepomukfileindexer").readEntry("autostart", false);
+    }
+#endif
+
     const QList<KFileItemModel::RoleInfo> rolesInfo = KFileItemModel::rolesInformation();
     foreach (const KFileItemModel::RoleInfo& info, rolesInfo) {
         if (!isSortGroup && info.role == "name") {
@@ -264,6 +280,11 @@ QActionGroup* DolphinViewActionHandler::createFileItemRolesActionGroup(const QSt
         }
         action->setText(info.translation);
         action->setData(info.role);
+
+        const bool enable = (!info.requiresNepomuk && !info.requiresIndexer) ||
+                            (info.requiresNepomuk && nepomukRunning) ||
+                            (info.requiresIndexer && indexingEnabled);
+        action->setEnabled(enable);
 
         if (isSortGroup) {
             m_sortByActions.insert(info.role, action);
