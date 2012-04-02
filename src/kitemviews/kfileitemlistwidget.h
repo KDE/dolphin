@@ -56,6 +56,7 @@ public:
 
     virtual QRectF iconRect() const;
     virtual QRectF textRect() const;
+    virtual QRectF textFocusRect() const;
     virtual QRectF expansionToggleRect() const;
     virtual QRectF selectionToggleRect() const;
 

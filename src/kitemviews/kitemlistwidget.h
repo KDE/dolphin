@@ -121,6 +121,15 @@ public:
     virtual QRectF textRect() const = 0;
 
     /**
+     * @return Focus rectangle for indicating the current item. Per default
+     *         textRect() will be returned. Overwrite this method if textRect()
+     *         provides a larger rectangle than the actual text (e.g. to
+     *         be aligned with the iconRect()). The textFocusRect() may not be
+     *         outside the boundaries of textRect().
+     */
+    virtual QRectF textFocusRect() const;
+
+    /**
      * @return Rectangle for the selection-toggle that is used to select or deselect an item.
      *         Per default an empty rectangle is returned which means that no selection-toggle
      *         is available.

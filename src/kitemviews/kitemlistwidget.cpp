@@ -122,17 +122,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
     if (isCurrent()) {
         QStyleOptionFocusRect focusRectOption;
         focusRectOption.initFrom(widget);
-
-        const QRect iconBounds = iconRect().toRect();
-        const QRect textBounds = textRect().toRect();
-        if (iconBounds.bottom() > textBounds.top()) {
-            focusRectOption.rect = textBounds;
-        } else {
-            // See KItemListWidget::drawItemStyleOption(): The selection rectangle
-            // gets decreased.
-            focusRectOption.rect = textBounds.adjusted(1, 1, -1, -1);
-        }
-
+        focusRectOption.rect = textFocusRect().toRect();
         focusRectOption.state = QStyle::State_Enabled | QStyle::State_Item | QStyle::State_KeyboardFocusChange;
         if (m_selected) {
             focusRectOption.state |= QStyle::State_Selected;
@@ -330,6 +320,11 @@ bool KItemListWidget::contains(const QPointF& point) const
            selectionToggleRect().contains(point);
 }
 
+QRectF KItemListWidget::textFocusRect() const
+{
+    return textRect();
+}
+
 QRectF KItemListWidget::selectionToggleRect() const
 {
     return QRectF();
@@ -460,7 +455,7 @@ void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QS
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = textBounds.adjusted(1, 0, -1, 0);
+    viewItemOption.rect = textBounds;
     widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 

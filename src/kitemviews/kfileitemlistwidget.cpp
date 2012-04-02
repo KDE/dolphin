@@ -179,6 +179,24 @@ QRectF KFileItemListWidget::textRect() const
     return m_textRect;
 }
 
+QRectF KFileItemListWidget::textFocusRect() const
+{
+    const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
+    if (m_layout == CompactLayout) {
+        // In the compact layout a larger textRect() is returned to be aligned
+        // with the iconRect(). This is useful to have a larger selection/hover-area
+        // when having a quite large icon size but only one line of text. Still the
+        // focus rectangle should be shown as narrow as possible around the text.
+        QRectF rect = m_textRect;
+        const TextInfo* topText    = m_textInfo.value(m_sortedVisibleRoles.first());
+        const TextInfo* bottomText = m_textInfo.value(m_sortedVisibleRoles.last());
+        rect.setTop(topText->pos.y());
+        rect.setBottom(bottomText->pos.y() + bottomText->staticText.size().height());
+        return rect;
+    }
+    return m_textRect;
+}
+
 QRectF KFileItemListWidget::expansionToggleRect() const
 {
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
@@ -233,27 +251,26 @@ QSizeF KFileItemListWidget::itemSizeHint(int index, const KItemListView* view)
         const QString text = KStringHandler::preProcessWrap(values["name"].toString());
 
         const qreal maxWidth = view->itemSize().width() - 2 * option.padding;
-        int textLinesCount = 0;
         QTextLine line;
 
         // Calculate the number of lines required for wrapping the name
         QTextOption textOption(Qt::AlignHCenter);
         textOption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
 
+        qreal textHeight = 0;
         QTextLayout layout(text, option.font);
         layout.setTextOption(textOption);
         layout.beginLayout();
         while ((line = layout.createLine()).isValid()) {
             line.setLineWidth(maxWidth);
             line.naturalTextWidth();
-            ++textLinesCount;
+            textHeight += line.height();
         }
         layout.endLayout();
 
         // Add one line for each additional information
-        textLinesCount += additionalRolesCount;
-
-        const qreal height = textLinesCount * option.fontMetrics.height() +
+        const qreal height = textHeight +
+                             additionalRolesCount * option.fontMetrics.lineSpacing() +
                              option.iconSize +
                              option.padding * 3;
         return QSizeF(view->itemSize().width(), height);
@@ -271,7 +288,7 @@ QSizeF KFileItemListWidget::itemSizeHint(int index, const KItemListView* view)
         }
 
         const qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
-        const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.height());
+        const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.lineSpacing());
         return QSizeF(width, height);
     }
 
@@ -679,7 +696,7 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     const qreal padding = option.padding;
     const qreal maxWidth = size().width() - 2 * padding;
     const qreal widgetHeight = size().height();
-    const qreal fontHeight = option.fontMetrics.height();
+    const qreal lineSpacing = option.fontMetrics.lineSpacing();
 
     // Initialize properties for the "name" role. It will be used as anchor
     // for initializing the position of the other roles.
@@ -687,8 +704,8 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     nameTextInfo->staticText.setText(KStringHandler::preProcessWrap(values["name"].toString()));
 
     // Calculate the number of lines required for the name and the required width
-    int textLinesCountForName = 0;
-    qreal requiredWidthForName = 0;
+    qreal nameWidth = 0;
+    qreal nameHeight = 0;
     QTextLine line;
 
     QTextLayout layout(nameTextInfo->staticText.text(), option.font);
@@ -696,25 +713,25 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     layout.beginLayout();
     while ((line = layout.createLine()).isValid()) {
         line.setLineWidth(maxWidth);
-        requiredWidthForName = qMax(requiredWidthForName, line.naturalTextWidth());
-        ++textLinesCountForName;
+        nameWidth = qMax(nameWidth, line.naturalTextWidth());
+        nameHeight += line.height();
     }
     layout.endLayout();
 
     // Use one line for each additional information
-    int textLinesCount = textLinesCountForName;
     const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
-    textLinesCount += additionalRolesCount;
-
     nameTextInfo->staticText.setTextWidth(maxWidth);
-    nameTextInfo->pos = QPointF(padding, widgetHeight - textLinesCount * fontHeight - padding);
-    m_textRect = QRectF(padding + (maxWidth - requiredWidthForName) / 2,
+    nameTextInfo->pos = QPointF(padding, widgetHeight -
+                                         nameHeight -
+                                         additionalRolesCount * lineSpacing -
+                                         padding);
+    m_textRect = QRectF(padding + (maxWidth - nameWidth) / 2,
                         nameTextInfo->pos.y(),
-                        requiredWidthForName,
-                        textLinesCountForName * fontHeight);
+                        nameWidth,
+                        nameHeight);
 
     // Calculate the position for each additional information
-    qreal y = nameTextInfo->pos.y() + textLinesCountForName * fontHeight;
+    qreal y = nameTextInfo->pos.y() + nameHeight;
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
         if (role == "name") {
             continue;
@@ -747,10 +764,10 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
         textInfo->pos = QPointF(padding, y);
         textInfo->staticText.setTextWidth(maxWidth);
 
-        const QRectF textRect(padding + (maxWidth - requiredWidth) / 2, y, requiredWidth, fontHeight);
+        const QRectF textRect(padding + (maxWidth - requiredWidth) / 2, y, requiredWidth, lineSpacing);
         m_textRect |= textRect;
 
-        y += fontHeight;
+        y += lineSpacing;
     }
 
     // Add a padding to the text rectangle
@@ -767,13 +784,13 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
 
     const KItemListStyleOption& option = styleOption();
     const qreal widgetHeight = size().height();
-    const qreal fontHeight = option.fontMetrics.height();
-    const qreal textLinesHeight = qMax(visibleRoles().count(), 1) * fontHeight;
+    const qreal lineSpacing = option.fontMetrics.lineSpacing();
+    const qreal textLinesHeight = qMax(visibleRoles().count(), 1) * lineSpacing;
     const int scaledIconSize = (textLinesHeight < option.iconSize) ? widgetHeight - 2 * option.padding : option.iconSize;
 
     qreal maximumRequiredTextWidth = 0;
     const qreal x = option.padding * 3 + scaledIconSize;
-    qreal y = (widgetHeight - textLinesHeight) / 2;
+    qreal y = qRound((widgetHeight - textLinesHeight) / 2);
     const qreal maxWidth = size().width() - x - option.padding;
     foreach (const QByteArray& role, m_sortedVisibleRoles) {
         const QString text = roleText(role, values);
@@ -792,7 +809,7 @@ void KFileItemListWidget::updateCompactLayoutTextCache()
 
         maximumRequiredTextWidth = qMax(maximumRequiredTextWidth, requiredWidth);
 
-        y += fontHeight;
+        y += lineSpacing;
     }
 
     m_textRect = QRectF(x - option.padding, 0, maximumRequiredTextWidth + 2 * option.padding, widgetHeight);
