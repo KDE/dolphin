@@ -448,14 +448,12 @@ void KItemListWidget::clearHoverCache()
 
 void KItemListWidget::drawItemStyleOption(QPainter* painter, QWidget* widget, QStyle::State styleState)
 {
-    const QRect textBounds = textRect().toRect();
-
     QStyleOptionViewItemV4 viewItemOption;
     viewItemOption.initFrom(widget);
     viewItemOption.state = styleState;
     viewItemOption.viewItemPosition = QStyleOptionViewItemV4::OnlyOne;
     viewItemOption.showDecorationSelected = true;
-    viewItemOption.rect = textBounds;
+    viewItemOption.rect = textRect().toRect();
     widget->style()->drawPrimitive(QStyle::PE_PanelItemViewItem, &viewItemOption, painter, widget);
 }
 
