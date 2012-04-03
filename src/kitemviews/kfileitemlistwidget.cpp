@@ -28,6 +28,7 @@
 #include <KIconEffect>
 #include <KIconLoader>
 #include <KLocale>
+#include <kratingpainter.h>
 #include <KStringHandler>
 #include <KDebug>
 
@@ -61,7 +62,8 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_expansionArea(),
     m_customTextColor(),
     m_additionalInfoTextColor(),
-    m_overlay()
+    m_overlay(),
+    m_rating()
 {
 }
 
@@ -150,6 +152,16 @@ void KFileItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsIte
     for (int i = 1; i < m_sortedVisibleRoles.count(); ++i) {
         const TextInfo* textInfo = m_textInfo.value(m_sortedVisibleRoles[i]);
         painter->drawStaticText(textInfo->pos, textInfo->staticText);
+    }
+
+    if (!m_rating.isNull()) {
+        const TextInfo* ratingTextInfo = m_textInfo.value("rating");
+        QPointF pos = ratingTextInfo->pos;
+        const Qt::Alignment align = ratingTextInfo->staticText.textOption().alignment();
+        if (align & Qt::AlignHCenter) {
+            pos.rx() += (size().width() - m_rating.width()) / 2;
+        }
+        painter->drawPixmap(pos, m_rating);
     }
 
     if (clipAdditionalInfoBounds) {
@@ -309,24 +321,26 @@ qreal KFileItemListWidget::preferredRoleColumnWidth(const QByteArray& role,
                                                     int index,
                                                     const KItemListView* view)
 {
-    qreal width = 0;
 
     const QHash<QByteArray, QVariant> values = view->model()->data(index);
     const KItemListStyleOption& option = view->styleOption();
 
     const QString text = KFileItemListWidget::roleText(role, values);
-    if (!text.isEmpty()) {
-        const qreal columnPadding = option.padding * 3;
-        width = qMax(width, qreal(2 * columnPadding + option.fontMetrics.width(text)));
-    }
+    qreal width = columnPadding(option);
 
-    if (role == "name") {
-        // Increase the width by the expansion-toggle and the current expansion level
-        const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
-        width += option.padding + (expandedParentsCount + 1) * view->itemSize().height() + KIconLoader::SizeSmall;
+    if (role == "rating") {
+        width += preferredRatingSize(option).width();
+    } else {
+        width += option.fontMetrics.width(text);
 
-        // Increase the width by the required space for the icon
-        width += option.padding * 2 + option.iconSize;
+        if (role == "name") {
+            // Increase the width by the expansion-toggle and the current expansion level
+            const int expandedParentsCount = values.value("expandedParentsCount", 0).toInt();
+            width += option.padding + (expandedParentsCount + 1) * view->itemSize().height() + KIconLoader::SizeSmall;
+
+            // Increase the width by the required space for the icon
+            width += option.padding * 2 + option.iconSize;
+        }
     }
 
     return width;
@@ -676,6 +690,30 @@ void KFileItemListWidget::updateTextsCache()
     case DetailsLayout: updateDetailsLayoutTextCache(); break;
     default: Q_ASSERT(false); break;
     }
+
+    const TextInfo* ratingTextInfo = m_textInfo.value("rating");
+    if (ratingTextInfo) {
+        // The text of the rating-role has been set to empty to get
+        // replaced by a rating-image showing the rating as stars.
+        const KItemListStyleOption& option = styleOption();
+        QSizeF ratingSize = preferredRatingSize(option);
+
+        const qreal availableWidth = (m_layout == DetailsLayout)
+                                     ? columnWidth("rating") - columnPadding(option)
+                                     : m_textRect.width();
+        if (ratingSize.width() > availableWidth) {
+            ratingSize.rwidth() = availableWidth;
+        }
+        m_rating = QPixmap(ratingSize.toSize());
+        m_rating.fill(Qt::transparent);
+
+        QPainter painter(&m_rating);
+        const QRect rect(0, 0, m_rating.width(), m_rating.height());
+        const int rating = data().value("rating").toInt();
+        KRatingPainter::paintRating(&painter, rect, Qt::AlignJustify | Qt::AlignVCenter, rating);
+    } else if (!m_rating.isNull()) {
+        m_rating = QPixmap();
+    }
 }
 
 void KFileItemListWidget::updateIconsLayoutTextCache()
@@ -832,7 +870,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
     const int scaledIconSize = widgetHeight - 2 * option.padding;
     const int fontHeight = option.fontMetrics.height();
 
-    const qreal columnPadding = option.padding * 3;
+    const qreal columnWidthInc = columnPadding(option);
     qreal firstColumnInc = scaledIconSize;
     if (m_supportsItemExpanding) {
         firstColumnInc += (m_expansionArea.left() + m_expansionArea.right() + widgetHeight) / 2;
@@ -851,7 +889,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         // Elide the text in case it does not fit into the available column-width
         qreal requiredWidth = option.fontMetrics.width(text);
         const qreal roleWidth = columnWidth(role);
-        qreal availableTextWidth = roleWidth - 2 * columnPadding;
+        qreal availableTextWidth = roleWidth - columnWidthInc;
         if (type == Name) {
             availableTextWidth -= firstColumnInc;
         }
@@ -863,7 +901,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
 
         TextInfo* textInfo = m_textInfo.value(role);
         textInfo->staticText.setText(text);
-        textInfo->pos = QPointF(x + columnPadding, y);
+        textInfo->pos = QPointF(x + columnWidthInc / 2, y);
         x += roleWidth;
 
         switch (type) {
@@ -881,7 +919,7 @@ void KFileItemListWidget::updateDetailsLayoutTextCache()
         }
         case Size:
             // The values for the size should be right aligned
-            textInfo->pos.rx() += roleWidth - requiredWidth - 2 * columnPadding;
+            textInfo->pos.rx() += roleWidth - requiredWidth - columnWidthInc;
             break;
 
         default:
@@ -1008,6 +1046,7 @@ KFileItemListWidget::RoleType KFileItemListWidget::roleType(const QByteArray& ro
         rolesHash.insert("name", Name);
         rolesHash.insert("size", Size);
         rolesHash.insert("date", Date);
+        rolesHash.insert("rating", Rating);
     }
 
     return rolesHash.value(role, Generic);
@@ -1047,6 +1086,10 @@ QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteA
         break;
     }
 
+    case Rating:
+        // Always use an empty text, as the rating is shown by the image m_rating.
+        break;
+
     case Name:
     case Generic:
         text = roleValue.toString();
@@ -1059,4 +1102,16 @@ QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteA
 
     return text;
 }
+
+QSizeF KFileItemListWidget::preferredRatingSize(const KItemListStyleOption& option)
+{
+    const qreal height = option.fontMetrics.ascent();
+    return QSizeF(height * 5, height);
+}
+
+qreal KFileItemListWidget::columnPadding(const KItemListStyleOption& option)
+{
+    return option.padding * 6;
+}
+
 #include "kfileitemlistwidget.moc"

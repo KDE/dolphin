@@ -110,10 +110,16 @@ private slots:
     void slotCutItemsChanged();
 
 private:
+    /**
+     * Typedefinitions for roles that require a special handling
+     * and must be accessible in a fast way. The mapping of a
+     * QByteArray role to the type is done by KFileItemListWidget::roleType().
+     */
     enum RoleType {
         Name,
         Size,
         Date,
+        Rating,
         Generic  // Mandatory last entry
     };
 
@@ -135,6 +141,19 @@ private:
     static void applyCutEffect(QPixmap& pixmap);
     static void applyHiddenEffect(QPixmap& pixmap);
     static RoleType roleType(const QByteArray& role);
+
+    /**
+     * @return Preferred size of the rating-image based on the given
+     *         style-option. The height of the font is taken as
+     *         reference.
+     */
+    static QSizeF preferredRatingSize(const KItemListStyleOption& option);
+
+    /**
+     * @return Horizontal padding in pixels that is added to the required width of
+     *         a column to display the content.
+     */
+    static qreal columnPadding(const KItemListStyleOption& option);
 
     /**
      * @return Shown string for the role \p role of the item with the values \p values.
@@ -176,6 +195,7 @@ private:
     QColor m_additionalInfoTextColor;
 
     QPixmap m_overlay;
+    QPixmap m_rating;
 };
 
 #endif
