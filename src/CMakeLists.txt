@@ -23,6 +23,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/kfileitemlistview.cpp
     kitemviews/kfileitemlistwidget.cpp
     kitemviews/kfileitemmodel.cpp
+    kitemviews/kfileitemmodelsortalgorithm.cpp
     kitemviews/kfileitemmodelfilter.cpp
     kitemviews/kfileitemmodelrolesupdater.cpp
     kitemviews/kitemlistcontainer.cpp

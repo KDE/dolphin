@@ -274,30 +274,6 @@ private:
      */
     int sortRoleCompare(const ItemData* a, const ItemData* b) const;
 
-    /**
-     * Sorts the items by using lessThan() as comparison criteria.
-     * The merge sort algorithm is used to assure a worst-case
-     * of O(n * log(n)) and to keep the number of comparisons low.
-     */
-    void sort(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end);
-
-    /** Helper method for sort(). */
-    void merge(QList<ItemData*>::iterator begin,
-               QList<ItemData*>::iterator pivot,
-               QList<ItemData*>::iterator end);
-
-    /** Helper method for sort(). */
-    QList<ItemData*>::iterator lowerBound(QList<ItemData*>::iterator begin,
-                                          QList<ItemData*>::iterator end,
-                                          const ItemData* value);
-
-    /** Helper method for sort(). */
-    QList<ItemData*>::iterator upperBound(QList<ItemData*>::iterator begin,
-                                          QList<ItemData*>::iterator end,
-                                          const ItemData* value);
-    /** Helper method for sort(). */
-    void reverse(QList<ItemData*>::iterator begin, QList<ItemData*>::iterator end);
-
     int stringCompare(const QString& a, const QString& b) const;
 
     /**
@@ -408,7 +384,8 @@ private:
     // and done step after step in slotCompleted().
     QSet<KUrl> m_urlsToExpand;
 
-    friend class KFileItemModelTest; // For unit testing
+    friend class KFileItemModelSortAlgorithm;  // Accesses lessThan() method
+    friend class KFileItemModelTest;           // For unit testing
 };
 
 inline bool KFileItemModel::isChildItem(int index) const

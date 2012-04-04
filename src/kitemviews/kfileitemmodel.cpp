@@ -21,6 +21,7 @@
 
 #include <KDirLister>
 #include <KDirModel>
+#include "kfileitemmodelsortalgorithm_p.h"
 #include <KGlobalSettings>
 #include <KLocale>
 #include <KStringHandler>
@@ -613,7 +614,7 @@ void KFileItemModel::resortAllItems()
     m_items.clear();
 
     // Resort the items
-    sort(m_itemData.begin(), m_itemData.end());
+    KFileItemModelSortAlgorithm::sort(this, m_itemData.begin(), m_itemData.end());
     for (int i = 0; i < itemCount; ++i) {
         m_items.insert(m_itemData.at(i)->item.url(), i);
     }
@@ -887,7 +888,7 @@ void KFileItemModel::insertItems(const KFileItemList& items)
     m_groups.clear();
 
     QList<ItemData*> sortedItems = createItemDataList(items);
-    sort(sortedItems.begin(), sortedItems.end());
+    KFileItemModelSortAlgorithm::sort(this, sortedItems.begin(), sortedItems.end());
 
 #ifdef KFILEITEMMODEL_DEBUG
     kDebug() << "[TIME] Sorting:" << timer.elapsed();
@@ -966,7 +967,7 @@ void KFileItemModel::removeItems(const KFileItemList& items)
             sortedItems.append(m_itemData.at(index));
         }
     }
-    sort(sortedItems.begin(), sortedItems.end());
+    KFileItemModelSortAlgorithm::sort(this, sortedItems.begin(), sortedItems.end());
 
     QList<int> indexesToRemove;
     indexesToRemove.reserve(items.count());
@@ -1384,128 +1385,6 @@ int KFileItemModel::sortRoleCompare(const ItemData* a, const ItemData* b) const
     // equal. In this case a comparison of the URL is done which is unique in all cases
     // within KDirLister.
     return QString::compare(itemA.url().url(), itemB.url().url(), Qt::CaseSensitive);
-}
-
-void KFileItemModel::sort(QList<ItemData*>::iterator begin,
-                          QList<ItemData*>::iterator end)
-{
-    // The implementation is based on qStableSortHelper() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-    // In opposite to qStableSort() it allows to use a member-function for the comparison of elements.
-
-    const int span = end - begin;
-    if (span < 2) {
-        return;
-    }
-
-    const QList<ItemData*>::iterator middle = begin + span / 2;
-    sort(begin, middle);
-    sort(middle, end);
-    merge(begin, middle, end);
-}
-
-void KFileItemModel::merge(QList<ItemData*>::iterator begin,
-                           QList<ItemData*>::iterator pivot,
-                           QList<ItemData*>::iterator end)
-{
-    // The implementation is based on qMerge() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-
-    const int len1 = pivot - begin;
-    const int len2 = end - pivot;
-
-    if (len1 == 0 || len2 == 0) {
-        return;
-    }
-
-    if (len1 + len2 == 2) {
-        if (lessThan(*(begin + 1), *(begin))) {
-            qSwap(*begin, *(begin + 1));
-        }
-        return;
-    }
-
-    QList<ItemData*>::iterator firstCut;
-    QList<ItemData*>::iterator secondCut;
-    int len2Half;
-    if (len1 > len2) {
-        const int len1Half = len1 / 2;
-        firstCut = begin + len1Half;
-        secondCut = lowerBound(pivot, end, *firstCut);
-        len2Half = secondCut - pivot;
-    } else {
-        len2Half = len2 / 2;
-        secondCut = pivot + len2Half;
-        firstCut = upperBound(begin, pivot, *secondCut);
-    }
-
-    reverse(firstCut, pivot);
-    reverse(pivot, secondCut);
-    reverse(firstCut, secondCut);
-
-    const QList<ItemData*>::iterator newPivot = firstCut + len2Half;
-    merge(begin, firstCut, newPivot);
-    merge(newPivot, secondCut, end);
-}
-
-QList<KFileItemModel::ItemData*>::iterator KFileItemModel::lowerBound(QList<ItemData*>::iterator begin,
-                                                                      QList<ItemData*>::iterator end,
-                                                                      const ItemData* value)
-{
-    // The implementation is based on qLowerBound() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-
-    QList<ItemData*>::iterator middle;
-    int n = int(end - begin);
-    int half;
-
-    while (n > 0) {
-        half = n >> 1;
-        middle = begin + half;
-        if (lessThan(*middle, value)) {
-            begin = middle + 1;
-            n -= half + 1;
-        } else {
-            n = half;
-        }
-    }
-    return begin;
-}
-
-QList<KFileItemModel::ItemData*>::iterator KFileItemModel::upperBound(QList<ItemData*>::iterator begin,
-                                                                      QList<ItemData*>::iterator end,
-                                                                      const ItemData* value)
-{
-    // The implementation is based on qUpperBound() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-
-    QList<ItemData*>::iterator middle;
-    int n = end - begin;
-    int half;
-
-    while (n > 0) {
-        half = n >> 1;
-        middle = begin + half;
-        if (lessThan(value, *middle)) {
-            n = half;
-        } else {
-            begin = middle + 1;
-            n -= half + 1;
-        }
-    }
-    return begin;
-}
-
-void KFileItemModel::reverse(QList<ItemData*>::iterator begin,
-                             QList<ItemData*>::iterator end)
-{
-    // The implementation is based on qReverse() from qalgorithms.h
-    // Copyright (C) 2011 Nokia Corporation and/or its subsidiary(-ies).
-
-    --end;
-    while (begin < end) {
-        qSwap(*begin++, *end--);
-    }
 }
 
 int KFileItemModel::stringCompare(const QString& a, const QString& b) const
