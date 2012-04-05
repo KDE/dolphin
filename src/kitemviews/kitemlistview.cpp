@@ -614,7 +614,7 @@ void KItemListView::setHeaderVisible(bool visible)
         const QSize headerSize = style()->sizeFromContents(QStyle::CT_HeaderSection,
                                                            &option, QSize());
 
-        m_headerWidget->setPos(0, 0);        
+        m_headerWidget->setPos(0, 0);
         m_headerWidget->resize(size().width(), headerSize.height());
         m_headerWidget->setModel(m_model);
         m_headerWidget->setColumns(m_visibleRoles);
@@ -927,8 +927,13 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
     m_layouter->markAsDirty();
 
+    int removedItemsCount = 0;
+    for (int i = 0; i < itemRanges.count(); ++i) {
+        removedItemsCount += itemRanges[i].count;
+    }
+
     for (int i = itemRanges.count() - 1; i >= 0; --i) {
-        const KItemRange& range = itemRanges.at(i);
+        const KItemRange& range = itemRanges[i];
         const int index = range.index;
         const int count = range.count;
         if (index < 0 || count <= 0) {
@@ -940,7 +945,8 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
         const int firstRemovedIndex = index;
         const int lastRemovedIndex = index + count - 1;
-        const int lastIndex = m_model->count() + count - 1;
+        const int lastIndex = m_model->count() -1 + removedItemsCount;
+        removedItemsCount -= count;
 
         // Remove all KItemListWidget instances that got deleted
         for (int i = firstRemovedIndex; i <= lastRemovedIndex; ++i) {
