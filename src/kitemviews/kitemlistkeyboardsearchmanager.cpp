@@ -29,7 +29,7 @@
 
 KItemListKeyboardSearchManager::KItemListKeyboardSearchManager(QObject* parent) :
     QObject(parent),
-    m_timeout(5000)
+    m_timeout(1000)
 {
     m_keyboardInputTime.invalidate();
 }
