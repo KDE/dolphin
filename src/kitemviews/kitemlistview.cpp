@@ -604,9 +604,6 @@ bool KItemListView::isTransactionActive() const
     return m_activeTransactions > 0;
 }
 
-// TODO:
-#include <QGraphicsScene>
-#include <QGraphicsView>
 void KItemListView::setHeaderVisible(bool visible)
 {
     if (visible && !m_headerWidget->isVisible()) {
@@ -945,7 +942,7 @@ void KItemListView::slotItemsRemoved(const KItemRangeList& itemRanges)
 
         const int firstRemovedIndex = index;
         const int lastRemovedIndex = index + count - 1;
-        const int lastIndex = m_model->count() -1 + removedItemsCount;
+        const int lastIndex = m_model->count() - 1 + removedItemsCount;
         removedItemsCount -= count;
 
         // Remove all KItemListWidget instances that got deleted
