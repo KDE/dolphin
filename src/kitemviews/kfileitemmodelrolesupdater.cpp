@@ -35,6 +35,7 @@
 
 #ifdef HAVE_NEPOMUK
     #include "knepomukrolesprovider_p.h"
+    #include "knepomukresourcewatcher_p.h"
 #endif
 
 // Required includes for subItemsCount():
@@ -79,7 +80,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_changedItemsTimer(0),
     m_changedItems()
   #ifdef HAVE_NEPOMUK
-  , m_resolveNepomukRoles(false)
+  , m_nepomukResourceWatcher(0),
+    m_nepomukUriItems()
   #endif
 
 {
@@ -229,18 +231,38 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
 
 #ifdef HAVE_NEPOMUK
         // Check whether there is at least one role that must be resolved
-        // with the help of Nepomuk. If this is the case, m_resolveNepomukRoles
-        // will be set to true and the (quite expensive) resolving will be done
-        // in KFileItemModelRolesUpdater::rolesData().
+        // with the help of Nepomuk. If this is the case, a (quite expensive)
+        // resolving will be done in KFileItemModelRolesUpdater::rolesData() and
+        // the role gets watched for changes.
         const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-        m_resolveNepomukRoles = false;
+        bool hasNepomukRole = false;
         QSetIterator<QByteArray> it(roles);
         while (it.hasNext()) {
             const QByteArray& role = it.next();
             if (rolesProvider.isNepomukRole(role)) {
-                m_resolveNepomukRoles = true;
+                hasNepomukRole = true;
                 break;
             }
+        }
+
+        if (hasNepomukRole && !m_nepomukResourceWatcher) {
+            Q_ASSERT(m_nepomukUriItems.isEmpty());
+
+            m_nepomukResourceWatcher = new Nepomuk::ResourceWatcher(this);
+            connect(m_nepomukResourceWatcher, SIGNAL(propertyChanged(Nepomuk::Resource,Nepomuk::Types::Property,QVariantList,QVariantList)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
+            connect(m_nepomukResourceWatcher, SIGNAL(propertyRemoved(Nepomuk::Resource,Nepomuk::Types::Property,QVariant)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
+            connect(m_nepomukResourceWatcher, SIGNAL(propertyAdded(Nepomuk::Resource,Nepomuk::Types::Property,QVariant)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
+            connect(m_nepomukResourceWatcher, SIGNAL(resourceCreated(Nepomuk::Resource,QList<QUrl>)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
+            connect(m_nepomukResourceWatcher, SIGNAL(resourceRemoved(QUrl,QList<QUrl>)),
+                    this, SLOT(applyChangedNepomukRoles(Nepomuk::Resource)));
+        } else if (!hasNepomukRole && m_nepomukResourceWatcher) {
+            delete m_nepomukResourceWatcher;
+            m_nepomukResourceWatcher = 0;
+            m_nepomukUriItems.clear();
         }
 #endif
 
@@ -275,6 +297,30 @@ void KFileItemModelRolesUpdater::slotItemsInserted(const KItemRangeList& itemRan
 void KFileItemModelRolesUpdater::slotItemsRemoved(const KItemRangeList& itemRanges)
 {
     Q_UNUSED(itemRanges);
+
+#ifdef HAVE_NEPOMUK
+    if (m_nepomukResourceWatcher) {
+        // Don't let the ResourceWatcher watch for removed items
+        if (m_model->count() == 0) {
+            m_nepomukResourceWatcher->setResources(QList<Nepomuk::Resource>());
+            m_nepomukUriItems.clear();
+        } else {
+            QList<Nepomuk::Resource> newResources;
+            const QList<Nepomuk::Resource> oldResources = m_nepomukResourceWatcher->resources();
+            foreach (const Nepomuk::Resource& resource, oldResources) {
+                const QUrl uri = resource.resourceUri();
+                const KUrl itemUrl = m_nepomukUriItems.value(uri);
+                if (m_model->index(itemUrl) >= 0) {
+                    newResources.append(resource);
+                } else {
+                    m_nepomukUriItems.remove(uri);
+                }
+            }
+            m_nepomukResourceWatcher->setResources(newResources);
+        }
+    }
+#endif
+
     m_firstVisibleIndex = 0;
     m_lastVisibleIndex = -1;
     if (!hasPendingRoles()) {
@@ -446,6 +492,31 @@ void KFileItemModelRolesUpdater::resolveChangedItems()
     m_changedItems.clear();
 
     startUpdating(itemRanges);
+}
+
+void KFileItemModelRolesUpdater::applyChangedNepomukRoles(const Nepomuk::Resource& resource)
+{
+#ifdef HAVE_NEPOMUK
+    const KUrl itemUrl = m_nepomukUriItems.value(resource.resourceUri());
+    const KFileItem item = m_model->fileItem(itemUrl);
+    QHash<QByteArray, QVariant> data = rolesData(item);
+
+    const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
+    QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(resource, m_roles));
+    while (it.hasNext()) {
+        it.next();
+        data.insert(it.key(), it.value());
+    }
+
+    disconnect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+               this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    const int index = m_model->index(item);
+    m_model->setData(index, data);
+    connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+            this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+#else
+    Q_UNUSED(resource);
+#endif
 }
 
 void KFileItemModelRolesUpdater::startUpdating(const KItemRangeList& itemRanges)
@@ -780,12 +851,30 @@ QHash<QByteArray, QVariant> KFileItemModelRolesUpdater::rolesData(const KFileIte
     data.insert("iconOverlays", item.overlays());
 
 #ifdef HAVE_NEPOMUK
-    if (m_resolveNepomukRoles) {
+    if (m_nepomukResourceWatcher) {
         const KNepomukRolesProvider& rolesProvider = KNepomukRolesProvider::instance();
-        QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(item.url(), m_roles));
+        Nepomuk::Resource resource(item.url());
+        QHashIterator<QByteArray, QVariant> it(rolesProvider.roleValues(resource, m_roles));
         while (it.hasNext()) {
             it.next();
             data.insert(it.key(), it.value());
+        }
+
+        QUrl uri = resource.resourceUri();
+        if (uri.isEmpty()) {
+            // TODO: Is there another way to explicitly create a resource?
+            // We need a resource to be able to track it for changes.
+            resource.setRating(0);
+            uri = resource.resourceUri();
+        }
+        if (!uri.isEmpty() && !m_nepomukUriItems.contains(uri)) {
+            // TODO: Calling stop()/start() is a workaround until
+            // ResourceWatcher has been fixed.
+            m_nepomukResourceWatcher->stop();
+            m_nepomukResourceWatcher->addResource(resource);
+            m_nepomukResourceWatcher->start();
+
+            m_nepomukUriItems.insert(uri, item.url());
         }
     }
 #endif

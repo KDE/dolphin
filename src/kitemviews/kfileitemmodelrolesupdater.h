@@ -21,10 +21,11 @@
 #define KFILEITEMMODELROLESUPDATER_H
 
 #include <config-nepomuk.h>
-#include <libdolphin_export.h>
 
 #include <KFileItem>
 #include <kitemviews/kitemmodelbase.h>
+
+#include <libdolphin_export.h>
 
 #include <QObject>
 #include <QSet>
@@ -35,6 +36,21 @@ class KFileItemModel;
 class KJob;
 class QPixmap;
 class QTimer;
+
+#ifdef HAVE_NEPOMUK
+    namespace Nepomuk
+    {
+        class ResourceWatcher;
+        class Resource;
+    }
+#else
+    // Required for the slot applyChangedNepomukRoles() that
+    // cannot be ifdefined due to moc.
+    namespace Nepomuk
+    {
+        class Resource;
+    }
+#endif
 
 /**
  * @brief Resolves expensive roles asynchronously and applies them to the KFileItemModel.
@@ -133,6 +149,8 @@ private slots:
      */
     void resolveChangedItems();
 
+    void applyChangedNepomukRoles(const Nepomuk::Resource& resource);
+
 private:
     /**
      * Updates the roles for the given item ranges. The roles for the currently
@@ -207,11 +225,9 @@ private:
     QSet<KFileItem> m_changedItems;
 
 #ifdef HAVE_NEPOMUK
-    // True if roles must be resolved with the help of Nepomuk inside
-    // KFileItemModelRolesUpdater::rolesData().
-    bool m_resolveNepomukRoles;
+    Nepomuk::ResourceWatcher* m_nepomukResourceWatcher;
+    mutable QHash<QUrl, KUrl> m_nepomukUriItems;
 #endif
-
 };
 
 #endif

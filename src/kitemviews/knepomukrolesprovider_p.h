@@ -20,11 +20,16 @@
 #ifndef KNEPOMUKROLESPROVIDER_H
 #define KNEPOMUKROLESPROVIDER_H
 
+#include <libdolphin_export.h>
+
 #include <QHash>
 #include <QSet>
 #include <QUrl>
 
-class QUrl;
+namespace Nepomuk
+{
+    class Resource;
+}
 
 /**
  * @brief Allows accessing metadata of a file by providing KFileItemModel roles.
@@ -32,7 +37,7 @@ class QUrl;
  * Is a helper class for KFileItemModelRolesUpdater to retrieve roles that
  * are only accessible with Nepomuk.
  */
-class KNepomukRolesProvider
+class LIBDOLPHINPRIVATE_EXPORT KNepomukRolesProvider
 {
 public:
     static KNepomukRolesProvider& instance();
@@ -47,7 +52,8 @@ public:
      * @return Values for the roles \a roles that can be determined from the file
      *         with the URL \a url.
      */
-    QHash<QByteArray, QVariant> roleValues(const QUrl& url, const QSet<QByteArray>& roles) const;
+    QHash<QByteArray, QVariant> roleValues(const Nepomuk::Resource& resource,
+                                           const QSet<QByteArray>& roles) const;
 
 protected:
     KNepomukRolesProvider();

@@ -88,7 +88,14 @@ kde4_add_library(dolphinprivate SHARED ${dolphinprivate_LIB_SRCS})
 
 target_link_libraries(dolphinprivate ${KDE4_KFILE_LIBS} konq ${KDE4_KNEWSTUFF3_LIBS})
 if (Nepomuk_FOUND)
-    target_link_libraries(dolphinprivate ${NEPOMUK_LIBRARIES} ${NEPOMUK_QUERY_LIBRARIES} nepomukutils ${SOPRANO_LIBRARIES})
+    target_link_libraries(
+        dolphinprivate
+        ${NEPOMUK_LIBRARIES}
+        ${NEPOMUK_QUERY_LIBRARIES}
+        nepomukdatamanagement
+        nepomukutils
+        ${SOPRANO_LIBRARIES}
+    )
 endif (Nepomuk_FOUND)
 
 if(X11_Xrender_FOUND)
@@ -198,6 +205,7 @@ if (Nepomuk_FOUND)
         ${NEPOMUK_LIBRARIES}
         ${SOPRANO_LIBRARIES}
         ${NEPOMUK_QUERY_LIBRARIES}
+        nepomukdatamanagement
         nepomukutils
     )
 endif (Nepomuk_FOUND)
