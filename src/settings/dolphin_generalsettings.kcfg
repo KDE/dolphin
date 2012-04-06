@@ -83,5 +83,9 @@
             <label>Lock the layout of the panels</label>
             <default>true</default>
         </entry>
+        <entry name="EnlargeSmallPreviews" type="Bool">
+            <label>Enlarge Small Previews</label>
+            <default>true</default>
+        </entry>
     </group>
 </kcfg>

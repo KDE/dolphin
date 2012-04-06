@@ -82,13 +82,25 @@ KFileItemListView::~KFileItemListView()
 void KFileItemListView::setPreviewsShown(bool show)
 {
     if (m_modelRolesUpdater) {
-        m_modelRolesUpdater->setPreviewShown(show);
+        m_modelRolesUpdater->setPreviewsShown(show);
     }
 }
 
 bool KFileItemListView::previewsShown() const
 {
-    return m_modelRolesUpdater->isPreviewShown();
+    return m_modelRolesUpdater ? m_modelRolesUpdater->previewsShown() : false;
+}
+
+void KFileItemListView::setEnlargeSmallPreviews(bool enlarge)
+{
+    if (m_modelRolesUpdater) {
+        m_modelRolesUpdater->setEnlargeSmallPreviews(enlarge);
+    }
+}
+
+bool KFileItemListView::enlargeSmallPreviews() const
+{
+    return m_modelRolesUpdater ? m_modelRolesUpdater->enlargeSmallPreviews() : false;
 }
 
 void KFileItemListView::setItemLayout(Layout layout)

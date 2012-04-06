@@ -392,3 +392,9 @@ void KPixmapModifier::applyFrame(QPixmap& icon, const QSize& scaledSize)
     icon = framedIcon;
 }
 
+QSize KPixmapModifier::sizeInsideFrame(const QSize& frameSize)
+{
+    return QSize(frameSize.width() - TileSet::LeftMargin - TileSet::RightMargin,
+                 frameSize.height() - TileSet::TopMargin - TileSet::BottomMargin);
+}
+
