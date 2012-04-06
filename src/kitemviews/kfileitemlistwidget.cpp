@@ -782,19 +782,19 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
         qreal requiredWidth = 0;
 
         QTextLayout layout(text, option.font);
-        layout.setTextOption(textInfo->staticText.textOption());
+        QTextOption textOption;
+        textOption.setWrapMode(QTextOption::NoWrap);
+        layout.setTextOption(textOption);
+
         layout.beginLayout();
         QTextLine textLine = layout.createLine();
         if (textLine.isValid()) {
             textLine.setLineWidth(maxWidth);
             requiredWidth = textLine.naturalTextWidth();
-            if (textLine.textLength() < text.length()) {
-                // TODO: QFontMetrics::elidedText() works different regarding the given width
-                // in comparison to QTextLine::setLineWidth(). It might happen that the text does
-                // not get elided although it does not fit into the given width. As workaround
-                // the padding is substracted.
-                const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth - padding);
+            if (requiredWidth > maxWidth) {
+                const QString elidedText = option.fontMetrics.elidedText(text, Qt::ElideRight, maxWidth);
                 textInfo->staticText.setText(elidedText);
+                requiredWidth = option.fontMetrics.width(elidedText);
             }
         }
         layout.endLayout();
