@@ -48,9 +48,11 @@ DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
     controller()->setModel(new KFileItemModel(dirLister, this));
 
     m_fileItemListView = new KFileItemListView();
+    controller()->setView(m_fileItemListView);
+
     m_fileItemListView->setWidgetCreator(new KItemListWidgetCreator<DolphinFileItemListWidget>());
     m_fileItemListView->setEnabledSelectionToggles(GeneralSettings::showSelectionToggle());
-    controller()->setView(m_fileItemListView);
+    m_fileItemListView->setEnlargeSmallPreviews(GeneralSettings::enlargeSmallPreviews());
 
     updateAutoActivationDelay();
     updateFont();

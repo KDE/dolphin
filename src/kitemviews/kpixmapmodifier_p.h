@@ -30,6 +30,7 @@ class LIBDOLPHINPRIVATE_EXPORT KPixmapModifier
 public:
     static void scale(QPixmap& pixmap, const QSize& scaledSize);
     static void applyFrame(QPixmap& icon, const QSize& scaledSize);
+    static QSize sizeInsideFrame(const QSize& frameSize);
 };
 
 #endif

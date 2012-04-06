@@ -54,6 +54,14 @@ public:
     void setPreviewsShown(bool show);
     bool previewsShown() const;
 
+    /**
+     * If enabled a small preview gets upscaled to the icon size in case where
+     * the icon size is larger than the preview. Per default enlarging is
+     * enabled.
+     */
+    void setEnlargeSmallPreviews(bool enlarge);
+    bool enlargeSmallPreviews() const;
+
     void setItemLayout(Layout layout);
     Layout itemLayout() const;
 

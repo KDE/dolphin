@@ -62,6 +62,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_iconSizeChangedDuringPausing(false),
     m_rolesChangedDuringPausing(false),
     m_previewShown(false),
+    m_enlargeSmallPreviews(true),
     m_clearPreviews(false),
     m_model(model),
     m_iconSize(),
@@ -145,7 +146,7 @@ void KFileItemModelRolesUpdater::setVisibleIndexRange(int index, int count)
     }
 }
 
-void KFileItemModelRolesUpdater::setPreviewShown(bool show)
+void KFileItemModelRolesUpdater::setPreviewsShown(bool show)
 {
     if (show == m_previewShown) {
         return;
@@ -156,30 +157,35 @@ void KFileItemModelRolesUpdater::setPreviewShown(bool show)
         m_clearPreviews = true;
     }
 
-    if (m_paused) {
-        m_previewChangedDuringPausing = true;
-    } else {
-        sortAndResolveAllRoles();
+    updateAllPreviews();
+}
+
+bool KFileItemModelRolesUpdater::previewsShown() const
+{
+    return m_previewShown;
+}
+
+void KFileItemModelRolesUpdater::setEnlargeSmallPreviews(bool enlarge)
+{
+    if (enlarge != m_enlargeSmallPreviews) {
+        m_enlargeSmallPreviews = enlarge;
+        if (m_previewShown) {
+            updateAllPreviews();
+        }
     }
 }
 
-bool KFileItemModelRolesUpdater::isPreviewShown() const
+bool KFileItemModelRolesUpdater::enlargeSmallPreviews() const
 {
-    return m_previewShown;
+    return m_enlargeSmallPreviews;
 }
 
 void KFileItemModelRolesUpdater::setEnabledPlugins(const QStringList& list)
 {
     if (m_enabledPlugins == list) {
-        return;
-    }
-
-    m_enabledPlugins = list;
-    if (m_previewShown) {
-        if (m_paused) {
-            m_previewChangedDuringPausing = true;
-        } else {
-            sortAndResolveAllRoles();
+        m_enabledPlugins = list;
+        if (m_previewShown) {
+            updateAllPreviews();
         }
     }
 }
@@ -319,7 +325,34 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
     const int slashIndex = mimeType.indexOf(QLatin1Char('/'));
     const QString mimeTypeGroup = mimeType.left(slashIndex);
     if (mimeTypeGroup == QLatin1String("image")) {
-        KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+        if (m_enlargeSmallPreviews) {
+            KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+        } else {
+            // Assure that small previews don't get enlarged. Instead they
+            // should be shown centered within the frame.
+            const QSize contentSize = KPixmapModifier::sizeInsideFrame(m_iconSize);
+            const bool enlargingRequired = scaledPixmap.width()  < contentSize.width() &&
+                                           scaledPixmap.height() < contentSize.height();
+            if (enlargingRequired) {
+                QSize frameSize = scaledPixmap.size();
+                frameSize.scale(m_iconSize, Qt::KeepAspectRatio);
+
+                QPixmap largeFrame(frameSize);
+                largeFrame.fill(Qt::transparent);
+
+                KPixmapModifier::applyFrame(largeFrame, frameSize);
+
+                QPainter painter(&largeFrame);
+                painter.drawPixmap((largeFrame.width()  - scaledPixmap.width()) / 2,
+                                   (largeFrame.height() - scaledPixmap.height()) / 2,
+                                   scaledPixmap);
+                scaledPixmap = largeFrame;
+            } else {
+                // The image must be shrinked as it is too large to fit into
+                // the available icon size
+                KPixmapModifier::applyFrame(scaledPixmap, m_iconSize);
+            }
+        }
     } else {
         KPixmapModifier::scale(scaledPixmap, m_iconSize);
     }
@@ -841,6 +874,15 @@ int KFileItemModelRolesUpdater::subItemsCount(const QString& path) const
     }
     return count;
 #endif
+}
+
+void KFileItemModelRolesUpdater::updateAllPreviews()
+{
+    if (m_paused) {
+        m_previewChangedDuringPausing = true;
+    } else {
+        sortAndResolveAllRoles();
+    }
 }
 
 #include "kfileitemmodelrolesupdater.moc"

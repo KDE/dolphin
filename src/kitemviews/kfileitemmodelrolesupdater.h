@@ -64,8 +64,16 @@ public:
      * of the file. If \a show is false the MIME type icon will be used for the "iconPixmap"
      * role.
      */
-    void setPreviewShown(bool show);
-    bool isPreviewShown() const;
+    void setPreviewsShown(bool show);
+    bool previewsShown() const;
+
+    /**
+     * If enabled a small preview gets upscaled to the icon size in case where
+     * the icon size is larger than the preview. Per default enlarging is
+     * enabled.
+     */
+    void setEnlargeSmallPreviews(bool enlarge);
+    bool enlargeSmallPreviews() const;
 
     /**
      * If \a paused is set to true the asynchronous resolving of roles will be paused.
@@ -168,6 +176,12 @@ private:
      */
     int subItemsCount(const QString& path) const;
 
+    /**
+     * Must be invoked if a property has been changed that affects
+     * the look of the preview. Takes care to update all previews.
+     */
+    void updateAllPreviews();
+
 private:
     // Property for setPaused()/isPaused().
     bool m_paused;
@@ -178,8 +192,11 @@ private:
     bool m_iconSizeChangedDuringPausing;
     bool m_rolesChangedDuringPausing;
 
-    // Property for setPreviewShown()/previewShown().
+    // Property for setPreviewsShown()/previewsShown().
     bool m_previewShown;
+
+    // Property for setEnlargeSmallPreviews()/enlargeSmallPreviews()
+    bool m_enlargeSmallPreviews;
 
     // True if the role "iconPixmap" should be cleared when resolving the next
     // role with resolveRole(). Is necessary if the preview gets disabled
