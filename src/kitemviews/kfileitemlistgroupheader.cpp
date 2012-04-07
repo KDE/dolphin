@@ -22,12 +22,14 @@
 
 #include "kfileitemlistgroupheader.h"
 
+#include <kratingpainter.h>
 #include <QPainter>
 
 KFileItemListGroupHeader::KFileItemListGroupHeader(QGraphicsWidget* parent) :
     KItemListGroupHeader(parent),
-    m_font(),
-    m_text()
+    m_dirtyCache(true),
+    m_text(),
+    m_pixmap()
 {
     m_text.setTextFormat(Qt::PlainText);
     m_text.setPerformanceHint(QStaticText::AggressiveCaching);
@@ -41,32 +43,65 @@ void KFileItemListGroupHeader::paint(QPainter* painter, const QStyleOptionGraphi
 {
     KItemListGroupHeader::paint(painter, option, widget);
 
-    painter->setPen(roleColor());
-    painter->setFont(m_font);
-    painter->drawStaticText(roleBounds().topLeft(), m_text);
+    if (m_dirtyCache) {
+        updateCache();
+    }
+
+    if (m_pixmap.isNull()) {
+        painter->setPen(roleColor());
+        painter->drawStaticText(roleBounds().topLeft(), m_text);
+    } else {
+        painter->drawPixmap(roleBounds().topLeft(), m_pixmap);
+    }
+}
+
+void KFileItemListGroupHeader::roleChanged(const QByteArray &current, const QByteArray &previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    m_dirtyCache = true;
 }
 
 void KFileItemListGroupHeader::dataChanged(const QVariant& current, const QVariant& previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);
-    updateText();
+    m_dirtyCache = true;
 }
 
 void KFileItemListGroupHeader::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
     QGraphicsWidget::resizeEvent(event);
-    updateText();
+    m_dirtyCache = true;
 }
 
-void KFileItemListGroupHeader::updateText()
+void KFileItemListGroupHeader::updateCache()
 {
-    const qreal width = size().width() - 4 * styleOption().padding;
-    m_font = font(); // TODO: Most probably the font size will be slightly shrinked in future
+    Q_ASSERT(m_dirtyCache);
+    m_dirtyCache = false;
 
-    QFontMetricsF fontMetrics(m_font);
-    const QString text = fontMetrics.elidedText(data().toString(), Qt::ElideRight, width);
-    m_text.setText(text);
+    const qreal maxWidth = size().width() - 4 * styleOption().padding;
+
+    if (role() == "rating") {
+        m_text = QString();
+
+        const qreal height = styleOption().fontMetrics.ascent();
+        const QSizeF pixmapSize(qMin(height * 5, maxWidth), height);
+
+        m_pixmap = QPixmap(pixmapSize.toSize());
+        m_pixmap.fill(Qt::transparent);
+
+        QPainter painter(&m_pixmap);
+        const QRect rect(0, 0, m_pixmap.width(), m_pixmap.height());
+        const int rating = data().toInt();
+        KRatingPainter::paintRating(&painter, rect, Qt::AlignJustify | Qt::AlignVCenter, rating);
+    } else {
+        m_pixmap = QPixmap();
+
+        QFontMetricsF fontMetrics(font());
+        const QString text = fontMetrics.elidedText(data().toString(), Qt::ElideRight, maxWidth);
+        m_text.setText(text);
+    }
 }
 
 #include "kfileitemlistgroupheader.moc"
