@@ -1187,7 +1187,7 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     if (m_requestRole[DestinationRole]) {
         QString destination = item.linkDest();
         if (destination.isEmpty()) {
-            destination = i18nc("@item:intable", "No destination");
+            destination = QLatin1String("-");
         }
         data.insert("destination", destination);
     }
