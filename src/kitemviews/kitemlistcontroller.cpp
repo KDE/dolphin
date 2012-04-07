@@ -749,6 +749,8 @@ bool KItemListController::dragMoveEvent(QGraphicsSceneDragDropEvent* event, cons
         return false;
     }
 
+    event->acceptProposedAction();
+
     KItemListWidget* oldHoveredWidget = hoveredWidget();
 
     const QPointF pos = transform.map(event->pos());
