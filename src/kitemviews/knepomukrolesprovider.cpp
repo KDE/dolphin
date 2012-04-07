@@ -96,6 +96,13 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Res
         }
     }
 
+    // Assure that empty values get replaced by "-"
+    foreach (const QByteArray& role, roles) {
+        if (m_roles.contains(role) && values.value(role).toString().isEmpty()) {
+            values.insert(role, QLatin1String("-"));
+        }
+    }
+
     return values;
 }
 
