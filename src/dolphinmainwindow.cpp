@@ -104,18 +104,6 @@ namespace {
 };
 
 /*
- * Menu shown when pressing the configure-button in the toolbar.
- */
-class ToolBarMenu : public KMenu
-{
-public:
-    ToolBarMenu(QWidget* parent);
-    virtual ~ToolBarMenu();
-protected:
-    virtual void showEvent(QShowEvent* event);
-};
-
-/*
  * Remembers the tab configuration if a tab has been closed.
  * Each closed tab can be restored by the menu
  * "Go -> Recently Closed Tabs".
@@ -139,8 +127,7 @@ DolphinMainWindow::DolphinMainWindow() :
     m_actionHandler(0),
     m_remoteEncoding(0),
     m_settingsDialog(),
-    m_toolBarSpacer(0),
-    m_openToolBarMenuButton(0),
+    m_controlButton(0),
     m_updateToolBarTimer(0),
     m_lastHandleUrlStatJob(0),
     m_searchDockIsTemporaryVisible(false)
@@ -263,7 +250,7 @@ DolphinMainWindow::DolphinMainWindow() :
     QAction* showMenuBarAction = actionCollection()->action(KStandardAction::name(KStandardAction::ShowMenubar));
     showMenuBarAction->setChecked(showMenu);  // workaround for bug #171080
     if (!showMenu) {
-        createToolBarMenuButton();
+        createControlButton();
     }
 }
 
@@ -1093,9 +1080,9 @@ void DolphinMainWindow::toggleShowMenuBar()
     const bool visible = menuBar()->isVisible();
     menuBar()->setVisible(!visible);
     if (visible) {
-        createToolBarMenuButton();
+        createControlButton();
     } else {
-        deleteToolBarMenuButton();
+        deleteControlButton();
     }
 }
 
@@ -1415,7 +1402,7 @@ void DolphinMainWindow::openContextMenu(const QPoint& pos,
     delete contextMenu.data();
 }
 
-void DolphinMainWindow::updateToolBarMenu()
+void DolphinMainWindow::updateControlMenu()
 {
     KMenu* menu = qobject_cast<KMenu*>(sender());
     Q_ASSERT(menu);
@@ -1514,27 +1501,14 @@ void DolphinMainWindow::updateToolBarMenu()
 void DolphinMainWindow::updateToolBar()
 {
     if (!menuBar()->isVisible()) {
-        createToolBarMenuButton();
+        createControlButton();
     }
 }
 
-void DolphinMainWindow::slotToolBarSpacerDeleted()
+void DolphinMainWindow::slotControlButtonDeleted()
 {
-    m_toolBarSpacer = 0;
+    m_controlButton = 0;
     m_updateToolBarTimer->start();
-}
-
-void DolphinMainWindow::slotToolBarMenuButtonDeleted()
-{
-    m_openToolBarMenuButton = 0;
-    m_updateToolBarTimer->start();
-}
-
-void DolphinMainWindow::slotToolBarIconSizeChanged(const QSize& iconSize)
-{
-    if (m_openToolBarMenuButton) {
-        m_openToolBarMenuButton->setIconSize(iconSize);
-    }
 }
 
 void DolphinMainWindow::setActiveViewContainer(DolphinViewContainer* viewContainer)
@@ -1957,48 +1931,43 @@ void DolphinMainWindow::updateGoActions()
     goUpAction->setEnabled(currentUrl.upUrl() != currentUrl);
 }
 
-void DolphinMainWindow::createToolBarMenuButton()
+void DolphinMainWindow::createControlButton()
 {
-    if (m_toolBarSpacer && m_openToolBarMenuButton) {
+    if (m_controlButton) {
         return;
     }
-    Q_ASSERT(!m_toolBarSpacer);
-    Q_ASSERT(!m_openToolBarMenuButton);
+    Q_ASSERT(!m_controlButton);
 
-    m_toolBarSpacer = new QWidget(this);
-    m_toolBarSpacer->setSizePolicy(QSizePolicy::MinimumExpanding, QSizePolicy::MinimumExpanding);
+    m_controlButton = new QToolButton(this);
+    m_controlButton->setIcon(KIcon("applications-system"));
+    m_controlButton->setText(i18nc("@action", "Control"));
+    m_controlButton->setPopupMode(QToolButton::InstantPopup);
+    m_controlButton->setToolButtonStyle(toolBar()->toolButtonStyle());
 
-    m_openToolBarMenuButton = new QToolButton(this);
-    m_openToolBarMenuButton->setIcon(KIcon("configure"));
-    m_openToolBarMenuButton->setPopupMode(QToolButton::InstantPopup);
-    m_openToolBarMenuButton->setToolTip(i18nc("@info:tooltip", "Configure and control Dolphin"));
+    KMenu* controlMenu = new KMenu(m_controlButton);
+    connect(controlMenu, SIGNAL(aboutToShow()), this, SLOT(updateControlMenu()));
 
-    KMenu* toolBarMenu = new ToolBarMenu(m_openToolBarMenuButton);
-    connect(toolBarMenu, SIGNAL(aboutToShow()), this, SLOT(updateToolBarMenu()));
+    m_controlButton->setMenu(controlMenu);
 
-    m_openToolBarMenuButton->setMenu(toolBarMenu);
-
-    toolBar()->addWidget(m_toolBarSpacer);
-    toolBar()->addWidget(m_openToolBarMenuButton);
-    connect(toolBar(), SIGNAL(iconSizeChanged(QSize)), this, SLOT(slotToolBarIconSizeChanged(QSize)));
+    toolBar()->addWidget(m_controlButton);
+    connect(toolBar(), SIGNAL(iconSizeChanged(QSize)),
+            m_controlButton, SLOT(setIconSize(QSize)));
+    connect(toolBar(), SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)),
+            m_controlButton, SLOT(setToolButtonStyle(Qt::ToolButtonStyle)));
 
     // The added widgets are owned by the toolbar and may get deleted when e.g. the toolbar
     // gets edited. In this case we must add them again. The adding is done asynchronously by
     // m_updateToolBarTimer.
-    connect(m_toolBarSpacer, SIGNAL(destroyed()), this, SLOT(slotToolBarSpacerDeleted()));
-    connect(m_openToolBarMenuButton, SIGNAL(destroyed()), this, SLOT(slotToolBarMenuButtonDeleted()));
+    connect(m_controlButton, SIGNAL(destroyed()), this, SLOT(slotControlButtonDeleted()));
     m_updateToolBarTimer = new QTimer(this);
     m_updateToolBarTimer->setInterval(500);
     connect(m_updateToolBarTimer, SIGNAL(timeout()), this, SLOT(updateToolBar()));
 }
 
-void DolphinMainWindow::deleteToolBarMenuButton()
+void DolphinMainWindow::deleteControlButton()
 {
-    delete m_toolBarSpacer;
-    m_toolBarSpacer = 0;
-
-    delete m_openToolBarMenuButton;
-    m_openToolBarMenuButton = 0;
+    delete m_controlButton;
+    m_controlButton = 0;
 
     delete m_updateToolBarTimer;
     m_updateToolBarTimer = 0;
@@ -2269,49 +2238,6 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
     } else {
         KIO::FileUndoManager::UiInterface::jobError(job);
     }
-}
-
-ToolBarMenu::ToolBarMenu(QWidget* parent) :
-    KMenu(parent)
-{
-}
-
-ToolBarMenu::~ToolBarMenu()
-{
-}
-
-void ToolBarMenu::showEvent(QShowEvent* event)
-{
-    KMenu::showEvent(event);
-
-    // Adjust the position of the menu to be shown within the
-    // Dolphin window to reduce the cases that sub-menus might overlap
-    // the right screen border.
-    QPoint pos;
-    QWidget* button = parentWidget();
-    if (layoutDirection() == Qt::RightToLeft) {
-        pos = button->mapToGlobal(QPoint(0, button->height()));
-    } else {
-        pos = button->mapToGlobal(QPoint(button->width(), button->height()));
-        pos.rx() -= width();
-    }
-
-    // Assure that the menu is not shown outside the screen boundaries and
-    // that it does not overlap with the parent button.
-    const QRect screen = QApplication::desktop()->screenGeometry(QCursor::pos());
-    if (pos.x() < screen.x()) {
-        pos.rx() = screen.x();
-    } else if (pos.x() + width() > screen.x() + screen.width()) {
-        pos.rx() = screen.x() + screen.width() - width();
-    }
-
-    if (pos.y() < screen.y()) {
-        pos.ry() = screen.y();
-    } else if (pos.y() + height() > screen.y() + screen.height()) {
-        pos.ry() = button->mapToGlobal(QPoint(0, 0)).y() - height();
-    }
-
-    move(pos);
 }
 
 #include "dolphinmainwindow.moc"

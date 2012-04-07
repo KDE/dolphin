@@ -456,11 +456,9 @@ private slots:
                          const KUrl& url,
                          const QList<QAction*>& customActions);
 
-    void updateToolBarMenu();
+    void updateControlMenu();
     void updateToolBar();
-    void slotToolBarSpacerDeleted();
-    void slotToolBarMenuButtonDeleted();
-    void slotToolBarIconSizeChanged(const QSize& iconSize);
+    void slotControlButtonDeleted();
 
 private:
     /**
@@ -482,8 +480,8 @@ private:
     void updateViewActions();
     void updateGoActions();
 
-    void createToolBarMenuButton();
-    void deleteToolBarMenuButton();
+    void createControlButton();
+    void deleteControlButton();
 
     /**
      * Adds the action \p action to the menu \p menu in
@@ -585,8 +583,7 @@ private:
     QWeakPointer<DolphinSettingsDialog> m_settingsDialog;
 
     // Members for the toolbar menu that is shown when the menubar is hidden:
-    QWidget* m_toolBarSpacer;
-    QToolButton* m_openToolBarMenuButton;
+    QToolButton* m_controlButton;
     QTimer* m_updateToolBarTimer;
 
     KJob* m_lastHandleUrlStatJob;
