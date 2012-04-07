@@ -59,7 +59,17 @@ protected:
     KNepomukRolesProvider();
 
 private:
+    /**
+     * @return User visible string for the given tag-values.
+     */
     QString tagsFromValues(const QStringList& values) const;
+
+    /**
+     * @return User visible string for the EXIF-orientation property
+     *         which can have the values 0 to 8.
+     *         (see http://sylvana.net/jpegcrop/exif_orientation.html)
+     */
+    QString orientationFromValue(int value) const;
 
 private:
     QSet<QByteArray> m_roles;

@@ -21,6 +21,7 @@
 
 #include <KDebug>
 #include <KGlobal>
+#include <KLocale>
 
 #include <Nepomuk/Resource>
 #include <Nepomuk/Tag>
@@ -91,6 +92,9 @@ QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Res
         } else if (role == "tags") {
             const QString tags = tagsFromValues(value.toStringList());
             values.insert(role, tags);
+        } else if (role == "orientation") {
+            const QString orientation = orientationFromValue(value.toInt());
+            values.insert(role, orientation);
         } else {
             values.insert(role, value.toString());
         }
@@ -155,5 +159,23 @@ QString KNepomukRolesProvider::tagsFromValues(const QStringList& values) const
     }
 
     return tags;
+}
+
+QString KNepomukRolesProvider::orientationFromValue(int value) const
+{
+    QString string;
+    switch (value) {
+    case 1: string = i18nc("@item:intable Image orientation", "Unchanged"); break;
+    case 2: string = i18nc("@item:intable Image orientation", "Horizontally flipped"); break;
+    case 3: string = i18nc("@item:intable image orientation", "180° rotated"); break;
+    case 4: string = i18nc("@item:intable image orientation", "Vertically flipped"); break;
+    case 5: string = i18nc("@item:intable image orientation", "Transposed"); break;
+    case 6: string = i18nc("@item:intable image orientation", "90° rotated"); break;
+    case 7: string = i18nc("@item:intable image orientation", "Transversed"); break;
+    case 8: string = i18nc("@item:intable image orientation", "270° rotated"); break;
+    default:
+        break;
+    }
+    return string;
 }
 
