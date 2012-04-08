@@ -126,7 +126,8 @@ void ToolTipManager::startContentRetrieval()
     // Request a preview of the item
     m_fileMetaDataToolTip->setPreview(QPixmap());
 
-    KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << m_item, QSize(256, 256));
+    KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256));
+    job->setIgnoreMaximumSize(m_item.isLocalFile());
 
     connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(setPreviewPix(KFileItem,QPixmap)));

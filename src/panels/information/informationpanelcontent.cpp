@@ -173,8 +173,9 @@ void InformationPanelContent::showItem(const KFileItem& item)
                 m_outdatedPreviewTimer->start();
             }
 
-            KIO::PreviewJob* job = KIO::filePreview(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
+            KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
             job->setScaleType(KIO::PreviewJob::Unscaled);
+            job->setIgnoreMaximumSize(item.isLocalFile());
 
             connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
                     this, SLOT(showPreview(KFileItem,QPixmap)));

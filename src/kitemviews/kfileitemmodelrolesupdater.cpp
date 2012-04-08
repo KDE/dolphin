@@ -608,7 +608,7 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
     // worst case) might block the application for several seconds. To prevent such
     // a blocking the MIME-type of the items will determined until the MaxBlockTimeout
     // has been reached and only those items will get passed. As soon as the MIME-type
-    // has been resolved once KIO::filePreview() can already access the resolved
+    // has been resolved once KIO::PreviewJob() can already access the resolved
     // MIME-type in a fast way.
     QElapsedTimer timer;
     timer.start();
@@ -625,7 +625,8 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
             break;
         }
     }
-    KJob* job = KIO::filePreview(itemSubSet, cacheSize, &m_enabledPlugins);
+    KIO::PreviewJob* job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
+    job->setIgnoreMaximumSize(items.first().isLocalFile());
 
     connect(job,  SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(slotGotPreview(KFileItem,QPixmap)));

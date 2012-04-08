@@ -35,6 +35,7 @@
 
 #include <QCheckBox>
 #include <QGroupBox>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QListView>
 #include <QPainter>
@@ -42,13 +43,11 @@
 #include <QShowEvent>
 #include <QSlider>
 #include <QSortFilterProxyModel>
-#include <QGridLayout>
 #include <QVBoxLayout>
 
 // default settings
 namespace {
     const bool UseThumbnails = true;
-    const int MaxLocalPreviewSize = 5;  // 5 MB
     const int MaxRemotePreviewSize = 0; // 0 MB
 }
 
@@ -57,7 +56,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_initialized(false),
     m_listView(0),
     m_enabledPreviewPlugins(),
-    m_localFileSizeBox(0),
     m_remoteFileSizeBox(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
@@ -83,40 +81,27 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
 
     QVBoxLayout* listBoxLayout = new QVBoxLayout(listBox);
+    listBoxLayout->setSpacing(KDialog::spacingHint());
+    listBoxLayout->setMargin(KDialog::marginHint());
     listBoxLayout->addWidget(m_listView);
 
-    // Create group box "Don't create previews for"
-    QGroupBox* fileSizeBox = new QGroupBox(i18nc("@title:group", "Do not create previews for"), this);
-
-    QLabel* localFileSizeLabel = new QLabel(i18nc("@label Don't create previews for: <Local files above:> XX MByte",
-                                                  "Local files above:"), this);
-
-    m_localFileSizeBox = new KIntSpinBox(this);
-    m_localFileSizeBox->setSingleStep(1);
-    m_localFileSizeBox->setSuffix(QLatin1String(" MB"));
-    m_localFileSizeBox->setRange(0, 9999999); /* MB */
-
-    QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label Don't create previews for: <Remote files above:> XX MByte",
-                                                   "Remote files above:"), this);
+    QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label", "Skip previews for remote files above:"), this);
 
     m_remoteFileSizeBox = new KIntSpinBox(this);
     m_remoteFileSizeBox->setSingleStep(1);
     m_remoteFileSizeBox->setSuffix(QLatin1String(" MB"));
     m_remoteFileSizeBox->setRange(0, 9999999); /* MB */
 
-    QGridLayout* fileSizeBoxLayout = new QGridLayout(fileSizeBox);
-    fileSizeBoxLayout->addWidget(localFileSizeLabel, 0, 0, Qt::AlignRight);
-    fileSizeBoxLayout->addWidget(m_localFileSizeBox, 0, 1);
-    fileSizeBoxLayout->addWidget(remoteFileSizeLabel, 1, 0, Qt::AlignRight);
-    fileSizeBoxLayout->addWidget(m_remoteFileSizeBox, 1, 1);
+    QHBoxLayout* fileSizeBoxLayout = new QHBoxLayout(this);
+    fileSizeBoxLayout->addWidget(remoteFileSizeLabel, 0, Qt::AlignRight);
+    fileSizeBoxLayout->addWidget(m_remoteFileSizeBox);
 
     topLayout->addWidget(listBox);
-    topLayout->addWidget(fileSizeBox);
+    topLayout->addLayout(fileSizeBoxLayout);
 
     loadSettings();
 
     connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
-    connect(m_localFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
     connect(m_remoteFileSizeBox, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
 }
 
@@ -143,10 +128,6 @@ void PreviewsSettingsPage::applySettings()
     KConfigGroup globalConfig(KGlobal::config(), QLatin1String("PreviewSettings"));
     globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
 
-    const qulonglong maximumLocalSize = static_cast<qulonglong>(m_localFileSizeBox->value()) * 1024 * 1024;
-    globalConfig.writeEntry("MaximumSize",
-                            maximumLocalSize,
-                            KConfigBase::Normal | KConfigBase::Global);
     const qulonglong maximumRemoteSize = static_cast<qulonglong>(m_remoteFileSizeBox->value()) * 1024 * 1024;
     globalConfig.writeEntry("MaximumRemoteSize",
                             maximumRemoteSize,
@@ -156,7 +137,6 @@ void PreviewsSettingsPage::applySettings()
 
 void PreviewsSettingsPage::restoreDefaults()
 {
-    m_localFileSizeBox->setValue(MaxLocalPreviewSize);
     m_remoteFileSizeBox->setValue(MaxRemotePreviewSize);
 }
 
@@ -220,11 +200,6 @@ void PreviewsSettingsPage::loadSettings()
         globalConfig.writeEntry("Plugins", m_enabledPreviewPlugins);
         globalConfig.sync();
     }
-
-    const qulonglong defaultLocalPreview = static_cast<qulonglong>(MaxLocalPreviewSize) * 1024 * 1024;
-    const qulonglong maxLocalByteSize = globalConfig.readEntry("MaximumSize", defaultLocalPreview);
-    const int maxLocalMByteSize = maxLocalByteSize / (1024 * 1024);
-    m_localFileSizeBox->setValue(maxLocalMByteSize);
 
     const qulonglong defaultRemotePreview = static_cast<qulonglong>(MaxRemotePreviewSize) * 1024 * 1024;
     const qulonglong maxRemoteByteSize = globalConfig.readEntry("MaximumRemoteSize", defaultRemotePreview);
