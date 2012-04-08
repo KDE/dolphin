@@ -27,6 +27,8 @@
 class QCheckBox;
 class QGroupBox;
 class QListView;
+class QSortFilterProxyModel;
+class ServiceModel;
 
 /**
  * @brief Page for the 'Services' settings of the Dolphin settings dialog.
@@ -62,11 +64,19 @@ private:
 
     bool isInServicesList(const QString& service) const;
 
+    /**
+     * Adds a row to the model of m_listView.
+     */
+    void addRow(const QString& icon,
+                const QString& text,
+                const QString& value,
+                bool checked);
+
 private:
     bool m_initialized;
-    QListView *m_listView;
-    QGroupBox* m_vcsGroupBox;
-    QMap<QString, QCheckBox*> m_vcsPluginsMap;
+    ServiceModel* m_serviceModel;
+    QSortFilterProxyModel* m_sortModel;
+    QListView* m_listView;
     QStringList m_enabledVcsPlugins;
 };
 

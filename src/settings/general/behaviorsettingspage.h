@@ -23,6 +23,7 @@
 #include <settings/settingspagebase.h>
 #include <KUrl>
 
+class KComboBox;
 class QCheckBox;
 class QLabel;
 class QRadioButton;
@@ -50,12 +51,7 @@ private:
 private:
     KUrl m_url;
 
-    QRadioButton* m_localProps;
-    QRadioButton* m_globalProps;
-
-    QCheckBox* m_confirmMoveToTrash;
-    QCheckBox* m_confirmDelete;
-    QCheckBox* m_confirmClosingMultipleTabs;
+    KComboBox* m_viewProps;
 
     QCheckBox* m_showToolTips;
     QLabel* m_configureToolTips;

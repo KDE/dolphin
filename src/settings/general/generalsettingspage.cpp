@@ -21,7 +21,7 @@
 #include "generalsettingspage.h"
 
 #include "behaviorsettingspage.h"
-#include "contextmenusettingspage.h"
+#include "confirmationssettingspage.h"
 #include "previewssettingspage.h"
 #include <settings/settingspagebase.h>
 #include "statusbarsettingspage.h"
@@ -54,9 +54,9 @@ GeneralSettingsPage::GeneralSettingsPage(const KUrl& url, QWidget* parent) :
     connect(previewsPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
     // initialize 'Context Menu' tab
-    ContextMenuSettingsPage* contextMenuPage = new ContextMenuSettingsPage(tabWidget);
-    tabWidget->addTab(contextMenuPage, i18nc("@title:tab Context Menu settings", "Context Menu"));
-    connect(contextMenuPage, SIGNAL(changed()), this, SIGNAL(changed()));
+    ConfirmationsSettingsPage* confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
+    tabWidget->addTab(confirmationsPage, i18nc("@title:tab Confirmations settings", "Confirmations"));
+    connect(confirmationsPage, SIGNAL(changed()), this, SIGNAL(changed()));
 
     // initialize 'Status Bar' tab
     StatusBarSettingsPage* statusBarPage = new StatusBarSettingsPage(tabWidget);
@@ -65,7 +65,7 @@ GeneralSettingsPage::GeneralSettingsPage(const KUrl& url, QWidget* parent) :
 
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);
-    m_pages.append(contextMenuPage);
+    m_pages.append(confirmationsPage);
     m_pages.append(statusBarPage);
 
     topLayout->addWidget(tabWidget, 0, 0);

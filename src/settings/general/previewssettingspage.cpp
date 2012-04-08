@@ -59,11 +59,8 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_remoteFileSizeBox(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    topLayout->setSpacing(KDialog::spacingHint());
-    topLayout->setMargin(KDialog::marginHint());
 
-    // Create group box "Show previews for:"
-    QGroupBox* listBox = new QGroupBox(i18nc("@title:group", "Show previews for"), this);
+    QLabel* showPreviewsLabel = new QLabel(i18nc("@title:group", "Show previews for:"), this);
 
     m_listView = new QListView(this);
 
@@ -80,11 +77,6 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
 
-    QVBoxLayout* listBoxLayout = new QVBoxLayout(listBox);
-    listBoxLayout->setSpacing(KDialog::spacingHint());
-    listBoxLayout->setMargin(KDialog::marginHint());
-    listBoxLayout->addWidget(m_listView);
-
     QLabel* remoteFileSizeLabel = new QLabel(i18nc("@label", "Skip previews for remote files above:"), this);
 
     m_remoteFileSizeBox = new KIntSpinBox(this);
@@ -96,7 +88,9 @@ PreviewsSettingsPage::PreviewsSettingsPage(QWidget* parent) :
     fileSizeBoxLayout->addWidget(remoteFileSizeLabel, 0, Qt::AlignRight);
     fileSizeBoxLayout->addWidget(m_remoteFileSizeBox);
 
-    topLayout->addWidget(listBox);
+    topLayout->addSpacing(KDialog::spacingHint());
+    topLayout->addWidget(showPreviewsLabel);
+    topLayout->addWidget(m_listView);
     topLayout->addLayout(fileSizeBoxLayout);
 
     loadSettings();

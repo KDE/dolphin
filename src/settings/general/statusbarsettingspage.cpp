@@ -23,7 +23,6 @@
 
 #include <KDialog>
 #include <KLocale>
-#include <KVBox>
 
 #include <QCheckBox>
 #include <QVBoxLayout>
@@ -33,20 +32,14 @@ StatusBarSettingsPage::StatusBarSettingsPage(QWidget* parent) :
     m_showZoomSlider(0),
     m_showSpaceInfo(0)
 {
+    m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), this);
+    m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), this);
+
     QVBoxLayout* topLayout = new QVBoxLayout(this);
-    KVBox* vBox = new KVBox(this);
-    vBox->setSpacing(KDialog::spacingHint());
-
-    m_showZoomSlider = new QCheckBox(i18nc("@option:check", "Show zoom slider"), vBox);
-
-    m_showSpaceInfo = new QCheckBox(i18nc("@option:check", "Show space information"), vBox);
-
-    // Add a dummy widget with no restriction regarding
-    // a vertical resizing. This assures that the dialog layout
-    // is not stretched vertically.
-    new QWidget(vBox);
-
-    topLayout->addWidget(vBox);
+    topLayout->addSpacing(KDialog::spacingHint());
+    topLayout->addWidget(m_showZoomSlider);
+    topLayout->addWidget(m_showSpaceInfo);
+    topLayout->addStretch();
 
     loadSettings();
 

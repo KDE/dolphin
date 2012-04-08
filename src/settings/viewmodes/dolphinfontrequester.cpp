@@ -62,7 +62,6 @@ void DolphinFontRequester::setMode(Mode mode)
 {
     m_mode = mode;
     m_modeCombo->setCurrentIndex(m_mode);
-    m_modeCombo->setFont(customFont());
     m_chooseFontButton->setEnabled(m_mode == CustomFont);
 }
 
@@ -84,14 +83,6 @@ void DolphinFontRequester::setCustomFont(const QFont& font)
 QFont DolphinFontRequester::customFont() const
 {
     return m_customFont;
-}
-
-bool DolphinFontRequester::event(QEvent* event)
-{
-    if (event->type() == QEvent::Polish) {
-        m_modeCombo->setFont(customFont());
-    }
-    return QWidget::event(event);
 }
 
 void DolphinFontRequester::openFontDialog()

@@ -19,6 +19,7 @@
 
 #include "servicessettingspage.h"
 
+#include "dolphin_generalsettings.h"
 #include "dolphin_versioncontrolsettings.h"
 
 #include <KConfig>
@@ -45,12 +46,20 @@
 #include <QSortFilterProxyModel>
 #include <QShowEvent>
 
+namespace
+{
+    const bool ShowDeleteDefault = false;
+    const char* VersionControlServicePrefix = "_version_control_";
+    const char* DeleteService = "_delete";
+    const char* CopyToMoveToService ="_copy_to_move_to";
+}
+
 ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
     SettingsPageBase(parent),
     m_initialized(false),
+    m_serviceModel(0),
+    m_sortModel(0),
     m_listView(0),
-    m_vcsGroupBox(0),
-    m_vcsPluginsMap(),
     m_enabledVcsPlugins()
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
@@ -62,11 +71,11 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
 
     m_listView = new QListView(this);
     ServiceItemDelegate* delegate = new ServiceItemDelegate(m_listView, m_listView);
-    ServiceModel* serviceModel = new ServiceModel(this);
-    QSortFilterProxyModel* proxyModel = new QSortFilterProxyModel(this);
-    proxyModel->setSourceModel(serviceModel);
-    proxyModel->setSortRole(Qt::DisplayRole);
-    m_listView->setModel(proxyModel);
+    m_serviceModel = new ServiceModel(this);
+    m_sortModel = new QSortFilterProxyModel(this);
+    m_sortModel->setSourceModel(m_serviceModel);
+    m_sortModel->setSortRole(Qt::DisplayRole);
+    m_listView->setModel(m_sortModel);
     m_listView->setItemDelegate(delegate);
     m_listView->setVerticalScrollMode(QListView::ScrollPerPixel);
     connect(m_listView, SIGNAL(clicked(QModelIndex)), this, SIGNAL(changed()));
@@ -76,17 +85,12 @@ ServicesSettingsPage::ServicesSettingsPage(QWidget* parent) :
                                                     this);
     connect(downloadButton, SIGNAL(dialogFinished(KNS3::Entry::List)), this, SLOT(loadServices()));
 
-    m_vcsGroupBox = new QGroupBox(i18nc("@title:group", "Version Control Systems"), this);
-    // Only show the version control group box, if a version
-    // control system could be found (see loadVersionControlSystems())
-    m_vcsGroupBox->hide();
-
     topLayout->addWidget(label);
     topLayout->addWidget(m_listView);
     topLayout->addWidget(downloadButton);
-    topLayout->addWidget(m_vcsGroupBox);
 
     m_enabledVcsPlugins = VersionControlSettings::enabledPlugins();
+    qSort(m_enabledVcsPlugins);
 }
 
 ServicesSettingsPage::~ServicesSettingsPage()
@@ -99,29 +103,35 @@ void ServicesSettingsPage::applySettings()
         return;
     }
 
-    // Apply service menu settingsentries
     KConfig config("kservicemenurc", KConfig::NoGlobals);
     KConfigGroup showGroup = config.group("Show");
+
+    QStringList enabledPlugins;
 
     const QAbstractItemModel* model = m_listView->model();
     for (int i = 0; i < model->rowCount(); ++i) {
         const QModelIndex index = model->index(i, 0);
-        const bool show = model->data(index, Qt::CheckStateRole).toBool();
         const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
-        showGroup.writeEntry(service, show);
+        const bool checked = model->data(index, Qt::CheckStateRole).toBool();
+
+        if (service.startsWith(VersionControlServicePrefix)) {
+            if (checked) {
+                enabledPlugins.append(model->data(index, Qt::DisplayRole).toString());
+            }
+        } else if (service == QLatin1String(DeleteService)) {
+            KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::NoGlobals);
+            KConfigGroup configGroup(globalConfig, "KDE");
+            configGroup.writeEntry("ShowDeleteCommand", checked);
+            configGroup.sync();
+        } else if (service == QLatin1String(CopyToMoveToService)) {
+            GeneralSettings::setShowCopyMoveMenu(checked);
+            GeneralSettings::self()->writeConfig();
+        } else {
+            showGroup.writeEntry(service, checked);
+        }
     }
 
     showGroup.sync();
-
-    // Apply version control settings
-    QStringList enabledPlugins;
-    QMap<QString, QCheckBox*>::const_iterator it = m_vcsPluginsMap.constBegin();
-    while (it != m_vcsPluginsMap.constEnd()) {
-        if (it.value()->isChecked()) {
-            enabledPlugins.append(it.key());
-        }
-        ++it;
-    }
 
     if (m_enabledVcsPlugins != enabledPlugins) {
         VersionControlSettings::setEnabledPlugins(enabledPlugins);
@@ -140,7 +150,12 @@ void ServicesSettingsPage::restoreDefaults()
     QAbstractItemModel* model = m_listView->model();
     for (int i = 0; i < model->rowCount(); ++i) {
         const QModelIndex index = model->index(i, 0);
-        model->setData(index, true, Qt::CheckStateRole);
+        const QString service = model->data(index, ServiceModel::DesktopEntryNameRole).toString();
+
+        const bool checked = !service.startsWith(VersionControlServicePrefix)
+                             && service != QLatin1String(DeleteService)
+                             && service != QLatin1String(CopyToMoveToService);
+        model->setData(index, checked, Qt::CheckStateRole);
     }
 }
 
@@ -148,7 +163,25 @@ void ServicesSettingsPage::showEvent(QShowEvent* event)
 {
     if (!event->spontaneous() && !m_initialized) {
         loadServices();
+
         loadVersionControlSystems();
+
+        // Add "Show 'Delete' command" as service
+        KSharedConfig::Ptr globalConfig = KSharedConfig::openConfig("kdeglobals", KConfig::IncludeGlobals);
+        KConfigGroup configGroup(globalConfig, "KDE");
+        addRow("edit-delete",
+               i18nc("@option:check", "Delete"),
+               DeleteService,
+               configGroup.readEntry("ShowDeleteCommand", ShowDeleteDefault));
+
+        // Add "Show 'Copy To' and 'Move To' commands" as service
+        addRow("edit-copy",
+               i18nc("@option:check", "'Copy To' and 'Move To' commands"),
+               CopyToMoveToService,
+               GeneralSettings::showCopyMoveMenu());
+
+        m_sortModel->sort(Qt::DisplayRole);
+
         m_initialized = true;
     }
     SettingsPageBase::showEvent(event);
@@ -156,8 +189,6 @@ void ServicesSettingsPage::showEvent(QShowEvent* event)
 
 void ServicesSettingsPage::loadServices()
 {
-    QAbstractItemModel* model = m_listView->model();
-
     const KConfig config("kservicemenurc", KConfig::NoGlobals);
     const KConfigGroup showGroup = config.group("Show");
 
@@ -181,14 +212,8 @@ void ServicesSettingsPage::loadServices()
                 const QString itemName = subMenuName.isEmpty()
                                          ? action.text()
                                          : i18nc("@item:inmenu", "%1: %2", subMenuName, action.text());
-                const bool show = showGroup.readEntry(serviceName, true);
-
-                model->insertRow(0);
-                const QModelIndex index = model->index(0, 0);
-                model->setData(index, action.icon(), Qt::DecorationRole);
-                model->setData(index, show, Qt::CheckStateRole);
-                model->setData(index, itemName, Qt::DisplayRole);
-                model->setData(index, serviceName, ServiceModel::DesktopEntryNameRole);
+                const bool checked = showGroup.readEntry(serviceName, true);
+                addRow(action.icon(), itemName, serviceName, checked);
             }
         }
     }
@@ -198,18 +223,12 @@ void ServicesSettingsPage::loadServices()
     foreach (const KSharedPtr<KService>& service, pluginServices) {
         const QString desktopEntryName = service->desktopEntryName();
         if (!isInServicesList(desktopEntryName)) {
-            const bool show = showGroup.readEntry(desktopEntryName, true);
-
-            model->insertRow(0);
-            const QModelIndex index = model->index(0, 0);
-            model->setData(index, service->icon(), Qt::DecorationRole);
-            model->setData(index, show, Qt::CheckStateRole);
-            model->setData(index, service->name(), Qt::DisplayRole);
-            model->setData(index, desktopEntryName, ServiceModel::DesktopEntryNameRole);
+            const bool checked = showGroup.readEntry(desktopEntryName, true);
+            addRow(service->icon(), service->name(), desktopEntryName, checked);
         }
     }
 
-    model->sort(Qt::DisplayRole);
+    m_sortModel->sort(Qt::DisplayRole);
 }
 
 void ServicesSettingsPage::loadVersionControlSystems()
@@ -220,39 +239,38 @@ void ServicesSettingsPage::loadVersionControlSystems()
     const KService::List pluginServices = KServiceTypeTrader::self()->query("FileViewVersionControlPlugin");
     for (KService::List::ConstIterator it = pluginServices.constBegin(); it != pluginServices.constEnd(); ++it) {
         const QString pluginName = (*it)->name();
-        QCheckBox* checkBox = new QCheckBox(pluginName, m_vcsGroupBox);
-        checkBox->setChecked(enabledPlugins.contains(pluginName));
-        connect(checkBox, SIGNAL(clicked()), this, SIGNAL(changed()));
-        m_vcsPluginsMap.insert(pluginName, checkBox);
+        addRow("code-class",
+               pluginName,
+               VersionControlServicePrefix + pluginName,
+               enabledPlugins.contains(pluginName));
     }
 
-    // Add the checkboxes into a grid layout of 2 columns
-    QGridLayout* layout = new QGridLayout(m_vcsGroupBox);
-    const int maxRows = (m_vcsPluginsMap.count() + 1) / 2;
-
-    int index = 0;
-    QMap<QString, QCheckBox*>::const_iterator it = m_vcsPluginsMap.constBegin();
-    while (it != m_vcsPluginsMap.constEnd()) {
-        const int column = index / maxRows;
-        const int row = index % maxRows;
-        layout->addWidget(it.value(), row, column);
-        ++it;
-        ++index;
-    }
-
-    m_vcsGroupBox->setVisible(!m_vcsPluginsMap.isEmpty());
+    m_sortModel->sort(Qt::DisplayRole);
 }
 
 bool ServicesSettingsPage::isInServicesList(const QString& service) const
 {
-    QAbstractItemModel* model = m_listView->model();
-    for (int i = 0; i < model->rowCount(); ++i) {
-        const QModelIndex index = model->index(i, 0);
-        if (model->data(index, ServiceModel::DesktopEntryNameRole).toString() == service) {
+    for (int i = 0; i < m_serviceModel->rowCount(); ++i) {
+        const QModelIndex index = m_serviceModel->index(i, 0);
+        if (m_serviceModel->data(index, ServiceModel::DesktopEntryNameRole).toString() == service) {
             return true;
         }
     }
     return false;
+}
+
+void ServicesSettingsPage::addRow(const QString& icon,
+                                  const QString& text,
+                                  const QString& value,
+                                  bool checked)
+{
+    m_serviceModel->insertRow(0);
+
+    const QModelIndex index = m_serviceModel->index(0, 0);
+    m_serviceModel->setData(index, icon, Qt::DecorationRole);
+    m_serviceModel->setData(index, text, Qt::DisplayRole);
+    m_serviceModel->setData(index, value, ServiceModel::DesktopEntryNameRole);
+    m_serviceModel->setData(index, checked, Qt::CheckStateRole);
 }
 
 #include "servicessettingspage.moc"

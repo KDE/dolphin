@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Peter Penz <peter.penz19@gmail.com>             *
+ *   Copyright (C) 2012 by Peter Penz <peter.penz19@gmail.com>             *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,23 +16,23 @@
  *   Free Software Foundation, Inc.,                                       *
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
-#ifndef CONTEXTMENUSETTINGSPAGE_H
-#define CONTEXTMENUSETTINGSPAGE_H
+#ifndef CONFIRMATIONSSETTINGSPAGE_H
+#define CONFIRMATIONSSETTINGSPAGE_H
 
 #include <settings/settingspagebase.h>
 
 class QCheckBox;
 
 /**
- * @brief Page for the 'Context Menu' settings of the Dolphin settings dialog.
+ * @brief Page for the enabling or disabling confirmation dialogs.
  */
-class ContextMenuSettingsPage : public SettingsPageBase
+class ConfirmationsSettingsPage : public SettingsPageBase
 {
     Q_OBJECT
 
 public:
-    ContextMenuSettingsPage(QWidget* parent);
-    virtual ~ContextMenuSettingsPage();
+    ConfirmationsSettingsPage(QWidget* parent);
+    virtual ~ConfirmationsSettingsPage();
 
     /** @see SettingsPageBase::applySettings() */
     virtual void applySettings();
@@ -44,8 +44,9 @@ private:
     void loadSettings();
 
 private:
-    QCheckBox* m_showDeleteCommand;
-    QCheckBox* m_showCopyMoveMenu;
+    QCheckBox* m_confirmMoveToTrash;
+    QCheckBox* m_confirmDelete;
+    QCheckBox* m_confirmClosingMultipleTabs;
 };
 
 #endif

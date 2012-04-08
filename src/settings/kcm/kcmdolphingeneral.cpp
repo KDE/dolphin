@@ -27,7 +27,7 @@
 
 #include <settings/general/behaviorsettingspage.h>
 #include <settings/general/previewssettingspage.h>
-#include <settings/general/contextmenusettingspage.h>
+#include <settings/general/confirmationssettingspage.h>
 
 #include <QDir>
 #include <QVBoxLayout>
@@ -61,14 +61,14 @@ DolphinGeneralConfigModule::DolphinGeneralConfigModule(QWidget* parent, const QV
     tabWidget->addTab(previewsPage, i18nc("@title:tab Previews settings", "Previews"));
     connect(previewsPage, SIGNAL(changed()), this, SLOT(changed()));
 
-    // initialize 'Context Menu' tab
-    ContextMenuSettingsPage *contextMenuPage = new ContextMenuSettingsPage(tabWidget);
-    tabWidget->addTab(contextMenuPage,  i18nc("@title:tab Context Menu settings", "Context Menu"));
-    connect(contextMenuPage, SIGNAL(changed()), this, SLOT(changed()));
+    // initialize 'Confirmations' tab
+    ConfirmationsSettingsPage* confirmationsPage = new ConfirmationsSettingsPage(tabWidget);
+    tabWidget->addTab(confirmationsPage,  i18nc("@title:tab Confirmations settings", "Confirmations"));
+    connect(confirmationsPage, SIGNAL(changed()), this, SLOT(changed()));
 
     m_pages.append(behaviorPage);
     m_pages.append(previewsPage);
-    m_pages.append(contextMenuPage);
+    m_pages.append(confirmationsPage);
 
     topLayout->addWidget(tabWidget, 0, 0);
 }

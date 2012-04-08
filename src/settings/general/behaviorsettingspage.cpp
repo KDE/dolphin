@@ -22,6 +22,7 @@
 
 #include "dolphin_generalsettings.h"
 
+#include <KComboBox>
 #include <KDialog>
 #include <KLocale>
 
@@ -34,48 +35,27 @@
 
 #include <views/viewproperties.h>
 
-const bool CONFIRM_TRASH = false;
-const bool CONFIRM_DELETE = true;
-
 BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
-    m_localProps(0),
-    m_globalProps(0),
-    m_confirmMoveToTrash(0),
-    m_confirmDelete(0),
+    m_viewProps(0),
     m_showToolTips(0),
     m_showSelectionToggle(0),
     m_naturalSorting(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
-    // 'View Properties' box
-    QGroupBox* propsBox = new QGroupBox(i18nc("@title:group", "View Properties"), this);
-    propsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
+    // View properties
+    QLabel* viewPropsLabel = new QLabel(i18nc("@label", "View properties:"), this);
 
-    m_localProps = new QRadioButton(i18nc("@option:radio", "Remember view properties for each folder"), propsBox);
+    m_viewProps = new KComboBox(this);
+    const bool useGlobalProps = true;
+    m_viewProps->addItem(i18nc("@option:radio", "Remember view properties for each folder"), !useGlobalProps);
+    m_viewProps->addItem(i18nc("@option:radio", "Use common view properties for all folders"), useGlobalProps);
 
-    m_globalProps = new QRadioButton(i18nc("@option:radio", "Use common view properties for all folders"), propsBox);
-
-    QVBoxLayout* propsBoxLayout = new QVBoxLayout(propsBox);
-    propsBoxLayout->addWidget(m_localProps);
-    propsBoxLayout->addWidget(m_globalProps);
-
-    // 'Ask Confirmation For' box
-    QGroupBox* confirmBox = new QGroupBox(i18nc("@title:group", "Ask For Confirmation When"), this);
-    confirmBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
-    m_confirmMoveToTrash = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
-                                               "Moving files or folders to trash"), confirmBox);
-    m_confirmDelete = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
-                                          "Deleting files or folders"), confirmBox);
-    m_confirmClosingMultipleTabs = new QCheckBox(i18nc("@option:check Ask for Confirmation When",
-                                                       "Closing windows with multiple tabs"), confirmBox);
-
-    QVBoxLayout* confirmBoxLayout = new QVBoxLayout(confirmBox);
-    confirmBoxLayout->addWidget(m_confirmMoveToTrash);
-    confirmBoxLayout->addWidget(m_confirmDelete);
-    confirmBoxLayout->addWidget(m_confirmClosingMultipleTabs);
+    QHBoxLayout* viewPropsLayout = new QHBoxLayout(this);
+    viewPropsLayout->addWidget(viewPropsLabel, 0, Qt::AlignRight);
+    viewPropsLayout->addWidget(m_viewProps);
 
     // 'Show tooltips'
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
@@ -86,8 +66,9 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     // 'Natural sorting of items'
     m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), this);
 
-    topLayout->addWidget(propsBox);
-    topLayout->addWidget(confirmBox);
+    topLayout->addSpacing(KDialog::spacingHint());
+    topLayout->addLayout(viewPropsLayout);
+    topLayout->addSpacing(KDialog::spacingHint());
     topLayout->addWidget(m_showToolTips);
     topLayout->addWidget(m_showSelectionToggle);
     topLayout->addWidget(m_naturalSorting);
@@ -95,11 +76,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_localProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_globalProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_confirmMoveToTrash, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_confirmDelete, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
-    connect(m_confirmClosingMultipleTabs, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_viewProps, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
     connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -111,12 +88,16 @@ BehaviorSettingsPage::~BehaviorSettingsPage()
 
 void BehaviorSettingsPage::applySettings()
 {
+    GeneralSettings* settings = GeneralSettings::self();
     ViewProperties props(m_url);  // read current view properties
 
-    const bool useGlobalProps = m_globalProps->isChecked();
-
-    GeneralSettings* settings = GeneralSettings::self();
+    const int index = m_viewProps->currentIndex();
+    const bool useGlobalProps = m_viewProps->itemData(index).toBool();
     settings->setGlobalViewProps(useGlobalProps);
+
+    settings->setShowToolTips(m_showToolTips->isChecked());
+    settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
+    settings->writeConfig();
 
     if (useGlobalProps) {
         // Remember the global view properties by applying the current view properties.
@@ -126,17 +107,6 @@ void BehaviorSettingsPage::applySettings()
         ViewProperties globalProps(m_url);
         globalProps.setDirProperties(props);
     }
-
-    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig("kiorc", KConfig::NoGlobals);
-    KConfigGroup confirmationGroup(kioConfig, "Confirmations");
-    confirmationGroup.writeEntry("ConfirmTrash", m_confirmMoveToTrash->isChecked());
-    confirmationGroup.writeEntry("ConfirmDelete", m_confirmDelete->isChecked());
-    confirmationGroup.sync();
-
-    settings->setConfirmClosingMultipleTabs(m_confirmClosingMultipleTabs->isChecked());
-    settings->setShowToolTips(m_showToolTips->isChecked());
-    settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
-    settings->writeConfig();
 
     const bool naturalSorting = m_naturalSorting->isChecked();
     if (KGlobalSettings::naturalSorting() != naturalSorting) {
@@ -152,24 +122,13 @@ void BehaviorSettingsPage::restoreDefaults()
     settings->useDefaults(true);
     loadSettings();
     settings->useDefaults(false);
-    m_confirmMoveToTrash->setChecked(CONFIRM_TRASH);
-    m_confirmDelete->setChecked(CONFIRM_DELETE);
 }
 
 void BehaviorSettingsPage::loadSettings()
 {
-    if (GeneralSettings::globalViewProps()) {
-        m_globalProps->setChecked(true);
-    } else {
-        m_localProps->setChecked(true);
-    }
+    const int index = (m_viewProps->itemData(0).toBool() == GeneralSettings::globalViewProps()) ? 0 : 1;
+    m_viewProps->setCurrentIndex(index);
 
-    KSharedConfig::Ptr kioConfig = KSharedConfig::openConfig("kiorc", KConfig::IncludeGlobals);
-    const KConfigGroup confirmationGroup(kioConfig, "Confirmations");
-    m_confirmMoveToTrash->setChecked(confirmationGroup.readEntry("ConfirmTrash", CONFIRM_TRASH));
-    m_confirmDelete->setChecked(confirmationGroup.readEntry("ConfirmDelete", CONFIRM_DELETE));
-
-    m_confirmClosingMultipleTabs->setChecked(GeneralSettings::confirmClosingMultipleTabs());
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
     m_naturalSorting->setChecked(KGlobalSettings::naturalSorting());

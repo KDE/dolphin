@@ -60,9 +60,6 @@ signals:
     /** Is emitted, if the font has been changed. */
     void changed();
 
-protected:
-    bool event(QEvent* event);
-
 private slots:
     void openFontDialog();
     void changeMode(int index);

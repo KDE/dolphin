@@ -145,7 +145,7 @@ set(dolphin_SRCS
     search/dolphinsearchinformation.cpp
     settings/general/behaviorsettingspage.cpp
     settings/general/configurepreviewplugindialog.cpp
-    settings/general/contextmenusettingspage.cpp
+    settings/general/confirmationssettingspage.cpp
     settings/general/generalsettingspage.cpp
     settings/general/previewssettingspage.cpp
     settings/general/statusbarsettingspage.cpp
@@ -239,7 +239,7 @@ set(kcm_dolphingeneral_PART_SRCS
     settings/general/behaviorsettingspage.cpp
     settings/general/previewssettingspage.cpp
     settings/general/configurepreviewplugindialog.cpp
-    settings/general/contextmenusettingspage.cpp
+    settings/general/confirmationssettingspage.cpp
     settings/settingspagebase.cpp
     settings/serviceitemdelegate.cpp
     settings/servicemodel.cpp)
