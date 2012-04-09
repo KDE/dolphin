@@ -532,9 +532,12 @@ QString DolphinView::statusBarText() const
 
     if (fileCount > 0 && folderCount > 0) {
         summary = i18nc("@info:status folders, files (size)", "%1, %2 (%3)",
-                        foldersText, filesText, fileSizeText(totalFileSize));
+                        foldersText, filesText,
+                        KGlobal::locale()->formatByteSize(totalFileSize));
     } else if (fileCount > 0) {
-        summary = i18nc("@info:status files (size)", "%1 (%2)", filesText, fileSizeText(totalFileSize));
+        summary = i18nc("@info:status files (size)", "%1 (%2)",
+                        filesText,
+                        KGlobal::locale()->formatByteSize(totalFileSize));
     } else if (folderCount > 0) {
         summary = foldersText;
     }
@@ -1399,29 +1402,6 @@ DolphinView::Sorting DolphinView::sortingForSortRole(const QByteArray& sortRole)
         sortHash.insert("path", SortByPath);
     }
     return sortHash.value(sortRole);
-}
-
-QString DolphinView::fileSizeText(KIO::filesize_t fileSize)
-{
-    const KLocale* locale = KGlobal::locale();
-    const unsigned int multiplier = (locale->binaryUnitDialect() == KLocale::MetricBinaryDialect)
-                                    ? 1000 : 1024;
-
-    QString text;
-    if (fileSize < multiplier) {
-        // Show the size in bytes
-        text = locale->formatByteSize(fileSize, 0, KLocale::DefaultBinaryDialect, KLocale::UnitByte);
-    } else if (fileSize < multiplier * multiplier) {
-        // Show the size in kilobytes and always round up. This is done
-        // for consistency with the values shown e.g. in the "Size" column
-        // of the details-view.
-        fileSize += (multiplier / 2) - 1;
-        text = locale->formatByteSize(fileSize, 0, KLocale::DefaultBinaryDialect, KLocale::UnitKiloByte);
-    } else {
-        // Show the size in the best fitting unit having one decimal
-        text = locale->formatByteSize(fileSize, 1);
-    }
-    return text;
 }
 
 #include "dolphinview.moc"
