@@ -38,6 +38,7 @@
 #include <KToggleAction>
 #include <KRun>
 #include <KPropertiesDialog>
+#include <KIcon>
 
 #ifdef HAVE_NEPOMUK
     #include <Nepomuk/ResourceManager>

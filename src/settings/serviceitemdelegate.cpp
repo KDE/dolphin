@@ -21,6 +21,7 @@
 
 #include <KDebug>
 #include <KPushButton>
+#include <KIcon>
 
 #include "servicemodel.h"
 

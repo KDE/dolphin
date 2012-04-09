@@ -24,6 +24,7 @@
 #include <KLocale>
 #include <KPluginFactory>
 #include <KPluginLoader>
+#include <KIcon>
 
 #include <settings/viewmodes/viewsettingstab.h>
 

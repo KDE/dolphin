@@ -24,6 +24,7 @@
 #include <konq_operations.h>
 #include <KStringHandler>
 #include <knuminput.h>
+#include <kmimetype.h>
 
 #include <QHBoxLayout>
 #include <QLabel>

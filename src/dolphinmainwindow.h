@@ -29,6 +29,7 @@
 #include <ksortablelist.h>
 #include <kxmlguiwindow.h>
 #include <KActionMenu>
+#include <KIcon>
 
 #include <QList>
 #include <QWeakPointer>
