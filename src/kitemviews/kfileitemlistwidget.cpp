@@ -1071,11 +1071,8 @@ QString KFileItemListWidget::roleText(const QByteArray& role, const QHash<QByteA
                 }
             }
         } else {
-            // Show the size in kilobytes (always round up)
-            const KLocale* locale = KGlobal::locale();
-            const int roundInc = (locale->binaryUnitDialect() == KLocale::MetricBinaryDialect) ? 499 : 511;
-            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>() + roundInc;
-            text = locale->formatByteSize(size, 0, KLocale::DefaultBinaryDialect, KLocale::UnitKiloByte);
+            const KIO::filesize_t size = roleValue.value<KIO::filesize_t>();
+            text = KGlobal::locale()->formatByteSize(size);
         }
         break;
     }

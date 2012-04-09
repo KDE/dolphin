@@ -716,12 +716,6 @@ private:
      */
     void updateWritableState();
 
-    /**
-     * Returns the text for the filesize by converting it to the best fitting
-     * unit.
-     */
-    static QString fileSizeText(KIO::filesize_t fileSize);
-
 private:
     bool m_active;
     bool m_tabsForFiles;
