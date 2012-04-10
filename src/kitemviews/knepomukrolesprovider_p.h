@@ -44,9 +44,9 @@ public:
     virtual ~KNepomukRolesProvider();
 
     /**
-     * @return True if the values of the role can be determined by Nepomuk.
+     * @return Roles that can be provided by KNepomukRolesProvider.
      */
-    bool isNepomukRole(const QByteArray& role) const;
+    QSet<QByteArray> roles() const;
 
     /**
      * @return Values for the roles \a roles that can be determined from the file

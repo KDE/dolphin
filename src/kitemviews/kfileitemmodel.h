@@ -184,6 +184,13 @@ signals:
      */
     void loadingCompleted();
 
+    /**
+     * Is emitted if the sort-role gets resolved asynchronously and provides
+     * the progress-information of the sorting in percent. It is assured
+     * that the last sortProgress-signal contains 100 as value.
+     */
+    void sortProgress(int percent);
+
 protected:
     virtual void onGroupedSortingChanged(bool current);
     virtual void onSortRoleChanged(const QByteArray& current, const QByteArray& previous);
@@ -317,6 +324,12 @@ private:
     KFileItemList childItems(const KFileItem& item) const;
 
     /**
+     * Is invoked by KFileItemModelRolesUpdater and results in emitting the
+     * sortProgress signal with a percent-value of the progress.
+     */
+    void emitSortProgress(int resolvedCount);
+
+    /**
      * Maps the QByteArray-roles to RoleTypes and provides translation- and
      * group-contexts.
      */
@@ -337,6 +350,12 @@ private:
      */
     static const RoleInfoMap* rolesInfoMap(int& count);
 
+    /**
+     * Determines the MIME-types of all items that can be done within
+     * the given timeout.
+     */
+    static void determineMimeTypes(const KFileItemList& items, int timeout);
+
 private:
     QWeakPointer<KDirLister> m_dirLister;
 
@@ -344,6 +363,7 @@ private:
     bool m_sortFoldersFirst;
 
     RoleType m_sortRole;
+    int m_sortProgressPercent; // Value of sortProgress() signal
     QSet<QByteArray> m_roles;
     Qt::CaseSensitivity m_caseSensitivity;
 
@@ -385,6 +405,7 @@ private:
     QSet<KUrl> m_urlsToExpand;
 
     friend class KFileItemModelSortAlgorithm;  // Accesses lessThan() method
+    friend class KFileItemModelRolesUpdater;   // Accesses emitSortProgress() method
     friend class KFileItemModelTest;           // For unit testing
 };
 

@@ -154,7 +154,9 @@ private slots:
      */
     void updateStatusBar();
 
-    void updateProgress(int percent);
+    void updateLoadingProgress(int percent);
+
+    void updateSortProgress(int percent);
 
     /**
      * Updates the statusbar to show an undetermined progress with the correct

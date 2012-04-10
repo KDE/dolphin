@@ -38,6 +38,7 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_naturalSorting(KGlobalSettings::naturalSorting()),
     m_sortFoldersFirst(true),
     m_sortRole(NameRole),
+    m_sortProgressPercent(-1),
     m_roles(),
     m_caseSensitivity(Qt::CaseInsensitive),
     m_itemData(),
@@ -876,6 +877,13 @@ void KFileItemModel::insertItems(const KFileItemList& items)
 {
     if (items.isEmpty()) {
         return;
+    }
+
+    if (m_sortRole == TypeRole) {
+        // Try to resolve the MIME-types synchronously to prevent a reordering of
+        // the items when sorting by type (per default MIME-types are resolved
+        // asynchronously by KFileItemModelRolesUpdater).
+        determineMimeTypes(items, 200);
     }
 
 #ifdef KFILEITEMMODEL_DEBUG
@@ -1829,6 +1837,34 @@ KFileItemList KFileItemModel::childItems(const KFileItem& item) const
     return items;
 }
 
+void KFileItemModel::emitSortProgress(int resolvedCount)
+{
+    // Be tolerant against a resolvedCount with a wrong range.
+    // Although there should not be a case where KFileItemModelRolesUpdater
+    // (= caller) provides a wrong range, it is important to emit
+    // a useful progress information even if there is an unexpected
+    // implementation issue.
+
+    const int itemCount = count();
+    if (resolvedCount >= itemCount) {
+        m_sortProgressPercent = -1;
+        if (m_resortAllItemsTimer->isActive()) {
+            m_resortAllItemsTimer->stop();
+            resortAllItems();
+        }
+
+        emit sortProgress(100);
+    } else if (itemCount > 0) {
+        resolvedCount = qBound(0, resolvedCount, itemCount);
+
+        const int progress = resolvedCount * 100 / itemCount;
+        if (m_sortProgressPercent != progress) {
+            m_sortProgressPercent = progress;
+            emit sortProgress(progress);
+        }
+    }
+}
+
 const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
 {
     static const RoleInfoMap rolesInfoMap[] = {
@@ -1859,6 +1895,20 @@ const KFileItemModel::RoleInfoMap* KFileItemModel::rolesInfoMap(int& count)
 
     count = sizeof(rolesInfoMap) / sizeof(RoleInfoMap);
     return rolesInfoMap;
+}
+
+void KFileItemModel::determineMimeTypes(const KFileItemList& items, int timeout)
+{
+    QElapsedTimer timer;
+    timer.start();
+    foreach (KFileItem item, items) {
+        item.determineMimeType();
+        if (timer.elapsed() > timeout) {
+            // Don't block the user interface, let the remaining items
+            // be resolved asynchronously.
+            return;
+        }
+    }
 }
 
 #include "kfileitemmodel.moc"

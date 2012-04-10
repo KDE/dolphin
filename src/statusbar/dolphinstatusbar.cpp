@@ -96,7 +96,7 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent, DolphinView* view) :
     m_progressBar->hide();
 
     m_showProgressBarTimer = new QTimer(this);
-    m_showProgressBarTimer->setInterval(1000);
+    m_showProgressBarTimer->setInterval(200);
     m_showProgressBarTimer->setSingleShot(true);
     connect(m_showProgressBarTimer, SIGNAL(timeout()), this, SLOT(updateProgressInfo()));
 

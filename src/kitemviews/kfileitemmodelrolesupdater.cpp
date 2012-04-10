@@ -69,6 +69,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_previewShown(false),
     m_enlargeSmallPreviews(true),
     m_clearPreviews(false),
+    m_sortProgress(-1),
     m_model(model),
     m_iconSize(),
     m_firstVisibleIndex(0),
@@ -100,6 +101,8 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
             this,    SLOT(slotItemsRemoved(KItemRangeList)));
     connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
             this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+    connect(m_model, SIGNAL(sortRoleChanged(QByteArray,QByteArray)),
+            this,    SLOT(slotSortRoleChanged(QByteArray,QByteArray)));
 
     // Use a timer to prevent that each call of slotItemsChanged() results in a synchronous
     // resolving of the roles. Postpone the resolving until no update has been done for 1 second.
@@ -107,6 +110,13 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_changedItemsTimer->setInterval(1000);
     m_changedItemsTimer->setSingleShot(true);
     connect(m_changedItemsTimer, SIGNAL(timeout()), this, SLOT(resolveChangedItems()));
+
+    m_resolvableRoles.insert("size");
+    m_resolvableRoles.insert("type");
+    m_resolvableRoles.insert("isExpandable");
+#ifdef HAVE_NEPOMUK
+    m_resolvableRoles += KNepomukRolesProvider::instance().roles();
+#endif
 }
 
 KFileItemModelRolesUpdater::~KFileItemModelRolesUpdater()
@@ -245,7 +255,7 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
         QSetIterator<QByteArray> it(roles);
         while (it.hasNext()) {
             const QByteArray& role = it.next();
-            if (rolesProvider.isNepomukRole(role)) {
+            if (rolesProvider.roles().contains(role)) {
                 hasNepomukRole = true;
                 break;
             }
@@ -269,6 +279,8 @@ void KFileItemModelRolesUpdater::setRoles(const QSet<QByteArray>& roles)
             m_nepomukUriItems.clear();
         }
 #endif
+
+        updateSortProgress();
 
         if (m_paused) {
             m_rolesChangedDuringPausing = true;
@@ -378,6 +390,14 @@ void KFileItemModelRolesUpdater::slotItemsChanged(const KItemRangeList& itemRang
     m_changedItemsTimer->start();
 }
 
+void KFileItemModelRolesUpdater::slotSortRoleChanged(const QByteArray& current,
+                                                     const QByteArray& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+    updateSortProgress();
+}
+
 void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPixmap& pixmap)
 {
     m_pendingVisibleItems.remove(item);
@@ -434,6 +454,8 @@ void KFileItemModelRolesUpdater::slotGotPreview(const KFileItem& item, const QPi
     m_model->setData(index, data);
     connect(m_model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
             this,    SLOT(slotItemsChanged(KItemRangeList,QSet<QByteArray>)));
+
+    applySortProgressToModel();
 }
 
 void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
@@ -445,6 +467,8 @@ void KFileItemModelRolesUpdater::slotPreviewFailed(const KFileItem& item)
     m_clearPreviews = true;
     applyResolvedRoles(item, ResolveAll);
     m_clearPreviews = clearPreviews;
+
+    applySortProgressToModel();
 }
 
 void KFileItemModelRolesUpdater::slotPreviewJobFinished(KJob* job)
@@ -493,6 +517,8 @@ void KFileItemModelRolesUpdater::resolveNextPendingRoles()
     } else {
         m_clearPreviews = false;
     }
+
+    applySortProgressToModel();
 
 #ifdef KFILEITEMMODELROLESUPDATER_DEBUG
     static int callCount = 0;
@@ -648,10 +674,17 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
 {
     int resolvedCount = 0;
 
-    const bool hasSlowRoles = m_previewShown
-                              || m_roles.contains("size")
-                              || m_roles.contains("type")
-                              || m_roles.contains("isExpandable");
+    bool hasSlowRoles = m_previewShown;
+    if (!hasSlowRoles) {
+        QSetIterator<QByteArray> it(m_roles);
+        while (it.hasNext()) {
+            if (m_resolvableRoles.contains(it.next())) {
+                hasSlowRoles = true;
+                break;
+            }
+        }
+    }
+
     const ResolveHint resolveHint = hasSlowRoles ? ResolveFast : ResolveAll;
 
     // Resolving the MIME type can be expensive. Assure that not more than MaxBlockTimeout ms are
@@ -664,12 +697,12 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
     QSetIterator<KFileItem> visibleIt(m_pendingVisibleItems);
     while (visibleIt.hasNext()) {
         const KFileItem item = visibleIt.next();
-        applyResolvedRoles(item, resolveHint);
         if (!hasSlowRoles) {
             Q_ASSERT(!m_pendingInvisibleItems.contains(item));
-            // All roles have been resolved already by applyResolvedRoles()
+            // All roles will be resolved by applyResolvedRoles()
             m_pendingVisibleItems.remove(item);
         }
+        applyResolvedRoles(item, resolveHint);
         ++resolvedCount;
 
         if (timer.elapsed() > MaxBlockTimeout) {
@@ -720,6 +753,8 @@ void KFileItemModelRolesUpdater::resolvePendingRoles()
     }
     kDebug() << "[TIME] Resolved pending roles:" << timer.elapsed();
 #endif
+
+    applySortProgressToModel();
 }
 
 void KFileItemModelRolesUpdater::resetPendingRoles()
@@ -810,6 +845,56 @@ void KFileItemModelRolesUpdater::sortAndResolvePendingRoles()
     }
 
     resolvePendingRoles();
+}
+
+void KFileItemModelRolesUpdater::applySortProgressToModel()
+{
+    if (m_sortProgress < 0) {
+        return;
+    }
+
+    // Inform the model about the progress of the resolved items,
+    // so that it can give an indication when the sorting has been finished.
+    const int resolvedCount = m_model->count()
+                              - m_pendingVisibleItems.count()
+                              - m_pendingInvisibleItems.count();
+    if (resolvedCount > 0) {
+        m_model->emitSortProgress(resolvedCount);
+        if (resolvedCount == m_model->count()) {
+            m_sortProgress = -1;
+        }
+    }
+}
+
+void KFileItemModelRolesUpdater::updateSortProgress()
+{
+    const QByteArray sortRole = m_model->sortRole();
+
+    // Optimization if the sorting is done by type: In case if all MIME-types
+    // are known, the types have been resolved already by KFileItemModel and
+    // no sort-progress feedback is required.
+    const bool showProgress = (sortRole == "type")
+                              ? hasUnknownMimeTypes()
+                              : m_resolvableRoles.contains(sortRole);
+
+    if (m_sortProgress >= 0) {
+        // Mark the current sorting as finished
+        m_model->emitSortProgress(m_model->count());
+    }
+    m_sortProgress = showProgress ? 0 : -1;
+}
+
+bool KFileItemModelRolesUpdater::hasUnknownMimeTypes() const
+{
+    const int count = m_model->count();
+    for (int i = 0; i < count; ++i) {
+        const KFileItem item = m_model->fileItem(i);
+        if (!item.isMimeTypeKnown()) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 bool KFileItemModelRolesUpdater::applyResolvedRoles(const KFileItem& item, ResolveHint hint)

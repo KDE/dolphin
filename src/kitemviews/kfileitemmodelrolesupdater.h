@@ -128,6 +128,8 @@ private slots:
     void slotItemsRemoved(const KItemRangeList& itemRanges);
     void slotItemsChanged(const KItemRangeList& itemRanges,
                           const QSet<QByteArray>& roles);
+    void slotSortRoleChanged(const QByteArray& current,
+                             const QByteArray& previous);
 
     /**
      * Is invoked after a preview has been received successfully.
@@ -180,6 +182,22 @@ private:
     void resetPendingRoles();
     void sortAndResolveAllRoles();
     void sortAndResolvePendingRoles();
+    void applySortProgressToModel();
+
+    /**
+     * Updates m_sortProgress to be 0 if the sort-role
+     * needs to get resolved asynchronously and hence a
+     * progress is required. Otherwise m_sortProgress
+     * will be set to -1 which means that no progress
+     * will be provided.
+     */
+    void updateSortProgress();
+
+    /**
+     * @return True, if at least one item from the model
+     *         has an unknown MIME-type.
+     */
+    bool hasUnknownMimeTypes() const;
 
     enum ResolveHint {
         ResolveFast,
@@ -222,11 +240,14 @@ private:
     // during the roles-updater has been paused by setPaused().
     bool m_clearPreviews;
 
+    int m_sortProgress;
+
     KFileItemModel* m_model;
     QSize m_iconSize;
     int m_firstVisibleIndex;
     int m_lastVisibleIndex;
     QSet<QByteArray> m_roles;
+    QSet<QByteArray> m_resolvableRoles;
     QStringList m_enabledPlugins;
 
     QSet<KFileItem> m_pendingVisibleItems;

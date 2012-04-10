@@ -492,6 +492,8 @@ signals:
      */
     void pathLoadingProgress(int percent);
 
+    void sortProgress(int percent);
+
     /**
      * Is emitted if the DolphinView::setUrl() is invoked but the URL is not
      * a directory.
@@ -669,8 +671,6 @@ private slots:
     void updateViewState();
 
     void hideToolTip();
-
-    //void slotUrlChangeRequested(const KUrl& url);
 
 private:
     KFileItemModel* fileItemModel() const;

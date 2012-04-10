@@ -44,9 +44,9 @@ KNepomukRolesProvider::~KNepomukRolesProvider()
 {
 }
 
-bool KNepomukRolesProvider::isNepomukRole(const QByteArray& role) const
+QSet<QByteArray> KNepomukRolesProvider::roles() const
 {
-    return m_roles.contains(role);
+    return m_roles;
 }
 
 QHash<QByteArray, QVariant> KNepomukRolesProvider::roleValues(const Nepomuk::Resource& resource,

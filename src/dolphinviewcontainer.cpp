@@ -102,7 +102,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(startedPathLoading(KUrl)),     this, SLOT(slotStartedPathLoading()));
     connect(m_view, SIGNAL(finishedPathLoading(KUrl)),    this, SLOT(slotFinishedPathLoading()));
     connect(m_view, SIGNAL(itemCountChanged()),           this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(pathLoadingProgress(int)),     this, SLOT(updateProgress(int)));
+    connect(m_view, SIGNAL(pathLoadingProgress(int)),     this, SLOT(updateLoadingProgress(int)));
+    connect(m_view, SIGNAL(sortProgress(int)),            this, SLOT(updateSortProgress(int)));
     connect(m_view, SIGNAL(infoMessage(QString)),         this, SLOT(showInfoMessage(QString)));
     connect(m_view, SIGNAL(errorMessage(QString)),        this, SLOT(showErrorMessage(QString)));
     connect(m_view, SIGNAL(urlIsFileError(KUrl)),         this, SLOT(openFile(KUrl)));
@@ -332,10 +333,18 @@ void DolphinViewContainer::updateStatusBar()
     }
 }
 
-void DolphinViewContainer::updateProgress(int percent)
+void DolphinViewContainer::updateLoadingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder..."));
+    }
+    m_statusBar->setProgress(percent);
+}
+
+void DolphinViewContainer::updateSortProgress(int percent)
+{
+    if (m_statusBar->progressText().isEmpty()) {
+        m_statusBar->setProgressText(i18nc("@info:progress", "Sorting..."));
     }
     m_statusBar->setProgress(percent);
 }
@@ -352,7 +361,7 @@ void DolphinViewContainer::slotStartedPathLoading()
         // Trigger an undetermined progress indication. The progress
         // information in percent will be triggered by the percent() signal
         // of the directory lister later.
-        updateProgress(-1);
+        updateLoadingProgress(-1);
     }
 }
 

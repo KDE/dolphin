@@ -158,6 +158,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     KFileItemModel* model = fileItemModel();
     if (model) {
         connect(model, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
+        connect(model, SIGNAL(sortProgress(int)), this, SIGNAL(sortProgress(int)));
     }
 
     KItemListView* view = controller->view();
