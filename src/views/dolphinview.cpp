@@ -536,6 +536,8 @@ QString DolphinView::statusBarText() const
                         KGlobal::locale()->formatByteSize(totalFileSize));
     } else if (folderCount > 0) {
         summary = foldersText;
+    } else {
+        summary = i18nc("@info:status", "0 Folders, 0 Files");
     }
 
     return summary;
