@@ -17,9 +17,9 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kitemlistviewanimation_p.h"
+#include "kitemlistviewanimation.h"
 
-#include "kitemlistview.h"
+#include <kitemviews/kitemlistview.h>
 
 #include <KDebug>
 #include <KGlobalSettings>
@@ -242,4 +242,4 @@ void KItemListViewAnimation::slotFinished()
     Q_ASSERT(false);
 }
 
-#include "kitemlistviewanimation_p.moc"
+#include "kitemlistviewanimation.moc"

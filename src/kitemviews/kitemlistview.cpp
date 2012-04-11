@@ -24,13 +24,14 @@
 
 #include "kitemlistcontroller.h"
 #include "kitemlistheader.h"
-#include "kitemlistheaderwidget_p.h"
-#include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
-#include "kitemlistsizehintresolver_p.h"
-#include "kitemlistviewlayouter_p.h"
-#include "kitemlistviewanimation_p.h"
 #include "kitemlistwidget.h"
+
+#include "private/kitemlistheaderwidget.h"
+#include "private/kitemlistrubberband.h"
+#include "private/kitemlistsizehintresolver.h"
+#include "private/kitemlistviewlayouter.h"
+#include "private/kitemlistviewanimation.h"
 
 #include <KDebug>
 

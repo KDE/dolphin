@@ -18,8 +18,9 @@
  ***************************************************************************/
 
 #include "kitemlistheader.h"
-#include "kitemlistheaderwidget_p.h"
 #include "kitemlistview.h"
+
+#include "private/kitemlistheaderwidget.h"
 
 KItemListHeader::~KItemListHeader()
 {

@@ -17,11 +17,11 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kitemlistheaderwidget_p.h"
+#include "kitemlistheaderwidget.h"
 
 #include <KAction>
 #include <KMenu>
-#include "kitemmodelbase.h"
+#include <kitemviews/kitemmodelbase.h>
 
 #include <QApplication>
 #include <QGraphicsSceneHoverEvent>
@@ -532,4 +532,4 @@ qreal KItemListHeaderWidget::roleXPosition(const QByteArray& role) const
     return -1;
 }
 
-#include "kitemlistheaderwidget_p.moc"
+#include "kitemlistheaderwidget.moc"

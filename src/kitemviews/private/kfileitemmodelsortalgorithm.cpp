@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kfileitemmodelsortalgorithm_p.h"
+#include "kfileitemmodelsortalgorithm.h"
 
 void KFileItemModelSortAlgorithm::sort(KFileItemModel* model,
                                        QList<KFileItemModel::ItemData*>::iterator begin,

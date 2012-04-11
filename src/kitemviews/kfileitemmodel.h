@@ -23,12 +23,12 @@
 #include <libdolphin_export.h>
 #include <KFileItemList>
 #include <KUrl>
-#include <kitemviews/kfileitemmodelfilter_p.h>
 #include <kitemviews/kitemmodelbase.h>
+#include <kitemviews/private/kfileitemmodelfilter.h>
 
 #include <QHash>
 
-class KDirLister;
+class KFileItemModelDirLister;
 class QTimer;
 
 /**
@@ -42,23 +42,36 @@ class QTimer;
  *
  * Also the recursive expansion of sub-directories is supported by
  * KFileItemModel::setExpanded().
- *
- * TODO: In the longterm instead of passing a KDirLister just an URL should
- * be passed and a KDirLister used internally. This solves the following issues:
- * - The user of the API does not need to decide whether he listens to KDirLister
- *   or KFileItemModel.
- * - It resolves minor conceptual differences between KDirLister and KFileItemModel.
- *   E.g. there is no way for KFileItemModel to check whether a completed() signal
- *   will be emitted after newItems() will be send by KDirLister or not (in the case
- *   of setShowingDotFiles() no completed() signal will get emitted).
  */
 class LIBDOLPHINPRIVATE_EXPORT KFileItemModel : public KItemModelBase
 {
     Q_OBJECT
 
 public:
-    explicit KFileItemModel(KDirLister* dirLister, QObject* parent = 0);
+    explicit KFileItemModel(QObject* parent = 0);
     virtual ~KFileItemModel();
+
+    /**
+     * Loads the directory specified by \a url. The signals
+     * dirLoadingStarted(), dirLoadingProgress() and dirLoadingCompleted()
+     * indicate the current state of the loading process. The items
+     * of the directory are added after the loading has been completed.
+     */
+    void loadDir(const KUrl& url);
+
+    /**
+     * Throws away all currently loaded items and refreshes the directory
+     * by reloading all items again.
+     */
+    void refreshDir(const KUrl& url);
+
+    /**
+     * @return Parent directory of the items that are shown. In case
+     *         if a directory tree is shown, KFileItemModel::dir() returns
+     *         the root-parent of all items.
+     * @see rootItem()
+     */
+    KUrl dir() const;
 
     virtual int count() const;
     virtual QHash<QByteArray, QVariant> data(int index) const;
@@ -123,7 +136,8 @@ public:
     int index(const KUrl& url) const;
 
     /**
-     * @return Root item of all items.
+     * @return Root item of all items representing the item
+     *         for KFileItemModel::dir().
      */
     KFileItem rootItem() const;
 
@@ -158,6 +172,8 @@ public:
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
 
+    void cancelDirLoading();
+
     struct RoleInfo
     {   QByteArray role;
         QString translation;
@@ -176,20 +192,52 @@ public:
 
 signals:
     /**
+     * Is emitted if the loading of a directory has been started. It is
+     * assured that a signal dirLoadingCompleted() will be send after
+     * the loading has been finished. For tracking the loading progress
+     * the signal dirLoadingProgress() gets emitted in between.
+     */
+    void dirLoadingStarted();
+
+    /**
      * Is emitted after the loading of a directory has been completed or new
      * items have been inserted to an already loaded directory. Usually
      * one or more itemsInserted() signals are emitted before loadingCompleted()
      * (the only exception is loading an empty directory, where only a
      * loadingCompleted() signal gets emitted).
      */
-    void loadingCompleted();
+    void dirLoadingCompleted();
+
+    /**
+     * Informs about the progress in percent when loading a directory. It is assured
+     * that the signal dirLoadingStarted() has been emitted before.
+     */
+    void dirLoadingProgress(int percent);
 
     /**
      * Is emitted if the sort-role gets resolved asynchronously and provides
      * the progress-information of the sorting in percent. It is assured
      * that the last sortProgress-signal contains 100 as value.
      */
-    void sortProgress(int percent);
+    void dirSortingProgress(int percent);
+
+    /**
+     * Is emitted if an information message (e.g. "Connecting to host...")
+     * should be shown.
+     */
+    void infoMessage(const QString& message);
+
+    /**
+     * Is emitted if an error message (e.g. "Unknown location")
+     * should be shown.
+     */
+    void errorMessage(const QString& message);
+
+    /**
+     * Is emitted if a redirection from the current URL \a oldUrl
+     * to the new URL \a newUrl has been done.
+     */
+    void redirection(const KUrl& oldUrl, const KUrl& newUrl);
 
 protected:
     virtual void onGroupedSortingChanged(bool current);
@@ -357,13 +405,13 @@ private:
     static void determineMimeTypes(const KFileItemList& items, int timeout);
 
 private:
-    QWeakPointer<KDirLister> m_dirLister;
+    KFileItemModelDirLister* m_dirLister;
 
     bool m_naturalSorting;
     bool m_sortFoldersFirst;
 
     RoleType m_sortRole;
-    int m_sortProgressPercent; // Value of sortProgress() signal
+    int m_sortingProgressPercent; // Value of dirSortingProgress() signal
     QSet<QByteArray> m_roles;
     Qt::CaseSensitivity m_caseSensitivity;
 

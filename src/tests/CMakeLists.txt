@@ -49,7 +49,7 @@ target_link_libraries(kfileitemmodeltest dolphinprivate ${KDE4_KIO_LIBS} ${QT_QT
 # KItemListKeyboardSearchManagerTest
 set(kitemlistkeyboardsearchmanagertest_SRCS
     kitemlistkeyboardsearchmanagertest.cpp
-    ../kitemviews/kitemlistkeyboardsearchmanager.cpp
+    ../kitemviews/private/kitemlistkeyboardsearchmanager.cpp
 )
 kde4_add_unit_test(kitemlistkeyboardsearchmanagertest TEST ${kitemlistkeyboardsearchmanagertest_SRCS})
 target_link_libraries(kitemlistkeyboardsearchmanagertest ${KDE4_KIO_LIBS} ${QT_QTTEST_LIBRARY})

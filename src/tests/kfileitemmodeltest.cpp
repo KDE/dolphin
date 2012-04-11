@@ -22,6 +22,7 @@
 
 #include <KDirLister>
 #include "kitemviews/kfileitemmodel.h"
+#include "kitemviews/private/kfileitemmodeldirlister.h"
 #include "testdir.h"
 
 void myMessageOutput(QtMsgType type, const char* msg)
@@ -62,7 +63,7 @@ private slots:
     void testDefaultGroupedSorting();
     void testNewItems();
     void testRemoveItems();
-    void testLoadingCompleted();
+    void testDirLoadingCompleted();
     void testSetData();
     void testSetDataWithModifiedSortRole_data();
     void testSetDataWithModifiedSortRole();
@@ -82,7 +83,6 @@ private:
 
 private:
     KFileItemModel* m_model;
-    KDirLister* m_dirLister;
     TestDir* m_testDir;
 };
 
@@ -97,18 +97,14 @@ void KFileItemModelTest::init()
     qRegisterMetaType<KFileItemList>("KFileItemList");
 
     m_testDir = new TestDir();
-    m_dirLister = new KDirLister();
-    m_dirLister->setAutoUpdate(false);
-    m_model = new KFileItemModel(m_dirLister);
+    m_model = new KFileItemModel();
+    m_model->m_dirLister->setAutoUpdate(false);
 }
 
 void KFileItemModelTest::cleanup()
 {
     delete m_model;
     m_model = 0;
-
-    delete m_dirLister;
-    m_dirLister = 0;
 
     delete m_testDir;
     m_testDir = 0;
@@ -131,7 +127,7 @@ void KFileItemModelTest::testDefaultSortRole()
 
     m_testDir->createFiles(files);
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     QCOMPARE(m_model->count(), 3);
@@ -151,7 +147,7 @@ void KFileItemModelTest::testNewItems()
     files << "a.txt" << "b.txt" << "c.txt";
     m_testDir->createFiles(files);
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     QCOMPARE(m_model->count(), 3);
@@ -163,36 +159,36 @@ void KFileItemModelTest::testRemoveItems()
 {
     m_testDir->createFile("a.txt");
     m_testDir->createFile("b.txt");
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 2);
     QVERIFY(isModelConsistent());
 
     m_testDir->removeFile("a.txt");
-    m_dirLister->updateDirectory(m_testDir->url());
+    m_model->m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 1);
     QVERIFY(isModelConsistent());
 }
 
-void KFileItemModelTest::testLoadingCompleted()
+void KFileItemModelTest::testDirLoadingCompleted()
 {
-    QSignalSpy loadingCompletedSpy(m_model, SIGNAL(loadingCompleted()));
+    QSignalSpy loadingCompletedSpy(m_model, SIGNAL(dirLoadingCompleted()));
     QSignalSpy itemsInsertedSpy(m_model, SIGNAL(itemsInserted(KItemRangeList)));
     QSignalSpy itemsRemovedSpy(m_model, SIGNAL(itemsRemoved(KItemRangeList)));
 
     m_testDir->createFiles(QStringList() << "a.txt" << "b.txt" << "c.txt");
 
-    m_dirLister->openUrl(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    m_model->loadDir(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
     QCOMPARE(loadingCompletedSpy.count(), 1);
     QCOMPARE(itemsInsertedSpy.count(), 1);
     QCOMPARE(itemsRemovedSpy.count(), 0);
     QCOMPARE(m_model->count(), 3);
 
     m_testDir->createFiles(QStringList() << "d.txt" << "e.txt");
-    m_dirLister->updateDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    m_model->m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
     QCOMPARE(loadingCompletedSpy.count(), 2);
     QCOMPARE(itemsInsertedSpy.count(), 2);
     QCOMPARE(itemsRemovedSpy.count(), 0);
@@ -200,15 +196,15 @@ void KFileItemModelTest::testLoadingCompleted()
 
     m_testDir->removeFile("a.txt");
     m_testDir->createFile("f.txt");
-    m_dirLister->updateDirectory(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    m_model->m_dirLister->updateDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
     QCOMPARE(loadingCompletedSpy.count(), 3);
     QCOMPARE(itemsInsertedSpy.count(), 3);
     QCOMPARE(itemsRemovedSpy.count(), 1);
     QCOMPARE(m_model->count(), 5);
 
     m_testDir->removeFile("b.txt");
-    m_dirLister->updateDirectory(m_testDir->url());
+    m_model->m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsRemoved(KItemRangeList)), DefaultTimeout));
     QCOMPARE(loadingCompletedSpy.count(), 4);
     QCOMPARE(itemsInsertedSpy.count(), 3);
@@ -222,7 +218,7 @@ void KFileItemModelTest::testSetData()
 {
     m_testDir->createFile("a.txt");
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     QHash<QByteArray, QVariant> values;
@@ -279,7 +275,7 @@ void KFileItemModelTest::testSetDataWithModifiedSortRole()
     files << "a.txt" << "b.txt" << "c.txt";
     m_testDir->createFiles(files);
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     // Fill the "rating" role of each file:
@@ -331,7 +327,7 @@ void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
     // KFileItemModel to do a lot of insert operation and hence decrease
     // the timeout to 1 millisecond.
     m_testDir->createFile("1");
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
     QCOMPARE(m_model->count(), 1);
 
@@ -351,7 +347,7 @@ void KFileItemModelTest::testModelConsistencyWhenInsertingItems()
             m_testDir->createFile(QString::number(itemName));
         }
 
-        m_dirLister->updateDirectory(m_testDir->url());
+        m_model->m_dirLister->updateDirectory(m_testDir->url());
         if (spy.count() == 0) {
             QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
         }
@@ -371,7 +367,7 @@ void KFileItemModelTest::testItemRangeConsistencyWhenInsertingItems()
     // Due to inserting the 3 items one item-range with index == 0 and
     // count == 3 must be given
     QSignalSpy spy1(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     QCOMPARE(spy1.count(), 1);
@@ -396,7 +392,7 @@ void KFileItemModelTest::testItemRangeConsistencyWhenInsertingItems()
     m_testDir->createFiles(files);
 
     QSignalSpy spy2(m_model, SIGNAL(itemsInserted(KItemRangeList)));
-    m_dirLister->updateDirectory(m_testDir->url());
+    m_model->m_dirLister->updateDirectory(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     QCOMPARE(spy2.count(), 1);
@@ -424,7 +420,7 @@ void KFileItemModelTest::testExpandItems()
     QSet<KUrl> allFolders;
     allFolders << KUrl(m_testDir->name() + "a") << KUrl(m_testDir->name() + "a/a") << KUrl(m_testDir->name() + "a/a-1");
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     // So far, the model contains only "a/"
@@ -496,9 +492,9 @@ void KFileItemModelTest::testExpandItems()
     QCOMPARE(m_model->count(), 0);
     QVERIFY(m_model->expandedUrls().empty());
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     m_model->restoreExpandedUrls(allFolders);
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QVERIFY(m_model->isExpanded(0));
     QVERIFY(m_model->isExpanded(1));
@@ -509,12 +505,12 @@ void KFileItemModelTest::testExpandItems()
 
     // Move to a sub folder, then call restoreExpandedFolders() *before* going back.
     // This is how DolphinView restores the expanded folders when navigating in history.
-    m_dirLister->openUrl(KUrl(m_testDir->name() + "a/a/"));
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    m_model->loadDir(KUrl(m_testDir->name() + "a/a/"));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 1);  // 1 item: "1"
     m_model->restoreExpandedUrls(allFolders);
-    m_dirLister->openUrl(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    m_model->loadDir(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
     QCOMPARE(m_model->count(), 5);  // 5 items: "a/", "a/a/", "a/a/1", "a/a-1/", "a/a-1/1"
     QCOMPARE(m_model->expandedUrls(), allFolders);
 }
@@ -537,7 +533,7 @@ void KFileItemModelTest::testExpandParentItems()
     files << "a 1/b1/c1/file.txt" << "a2/b2/c2/d2/file.txt"; // missing folders are created automatically
     m_testDir->createFiles(files);
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     // So far, the model contains only "a 1/" and "a2/".
@@ -546,7 +542,7 @@ void KFileItemModelTest::testExpandParentItems()
 
     // Expand the parents of "a2/b2/c2".
     m_model->expandParentItems(KUrl(m_testDir->name() + "a2/b2/c2"));
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
 
     // The model should now contain "a 1/", "a2/", "a2/b2/", and "a2/b2/c2/".
     // It's important that only the parents of "a1/b1/c1" are expanded.
@@ -558,7 +554,7 @@ void KFileItemModelTest::testExpandParentItems()
 
     // Expand the parents of "a 1/b1".
     m_model->expandParentItems(KUrl(m_testDir->name() + "a 1/b1"));
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
 
     // The model should now contain "a 1/", "a 1/b1/", "a2/", "a2/b2", and "a2/b2/c2/".
     // It's important that only the parents of "a 1/b1/" and "a2/b2/c2/" are expanded.
@@ -593,7 +589,7 @@ void KFileItemModelTest::testSorting()
     m_testDir->createFile("e", "An even larger file", now.addDays(-4));
     m_testDir->createFile(".f");
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     int index = m_model->index(KUrl(m_testDir->url().url() + "c"));
@@ -705,7 +701,7 @@ void KFileItemModelTest::testIndexForKeyboardSearch()
     files << "a" << "aa" << "Image.jpg" << "Image.png" << "Text" << "Text1" << "Text2" << "Text11";
     m_testDir->createFiles(files);
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     // Search from index 0
@@ -755,7 +751,7 @@ void KFileItemModelTest::testNameFilter()
     files << "A1" << "A2" << "Abc" << "Bcd" << "Cde";
     m_testDir->createFiles(files);
 
-    m_dirLister->openUrl(m_testDir->url());
+    m_model->loadDir(m_testDir->url());
     QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(itemsInserted(KItemRangeList)), DefaultTimeout));
 
     m_model->setNameFilter("A"); // Shows A1, A2 and Abc

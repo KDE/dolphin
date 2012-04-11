@@ -39,7 +39,6 @@
 
 typedef KIO::FileUndoManager::CommandType CommandType;
 
-class DolphinDirLister;
 class DolphinItemListContainer;
 class KAction;
 class KActionCollection;
@@ -153,6 +152,12 @@ public:
      * Returns the items of the view.
      */
     KFileItemList items() const;
+
+    /**
+     * @return The number of items. itemsCount() is faster in comparison
+     *         to items().count().
+     */
+    int itemsCount() const;
 
     /**
      * Returns the selected items. The list is empty if no item has been
@@ -474,25 +479,29 @@ signals:
 
     /**
      * Is emitted after DolphinView::setUrl() has been invoked and
-     * the path \a url is currently loaded. If this signal is emitted,
+     * the directory \a url is currently loaded. If this signal is emitted,
      * it is assured that the view contains already the correct root
      * URL and property settings.
      */
-    void startedPathLoading(const KUrl& url);
+    void startedDirLoading(const KUrl& url);
 
     /**
-     * Is emitted after the path triggered by DolphinView::setUrl()
+     * Is emitted after the directory triggered by DolphinView::setUrl()
      * has been loaded.
      */
-    void finishedPathLoading(const KUrl& url);
+    void finishedDirLoading(const KUrl& url);
 
     /**
      * Is emitted after DolphinView::setUrl() has been invoked and provides
-     * the information how much percent of the current path have been loaded.
+     * the information how much percent of the current directory have been loaded.
      */
-    void pathLoadingProgress(int percent);
+    void dirLoadingProgress(int percent);
 
-    void sortProgress(int percent);
+    /**
+     * Is emitted if the sorting is done asynchronously and provides the
+     * progress information of the sorting.
+     */
+    void dirSortingProgress(int percent);
 
     /**
      * Is emitted if the DolphinView::setUrl() is invoked but the URL is not
@@ -501,7 +510,7 @@ signals:
     void urlIsFileError(const KUrl& file);
 
     /**
-     * Emitted when KDirLister emits redirection.
+     * Emitted when the file-item-model emits redirection.
      * Testcase: fish://localhost
      */
     void redirection(const KUrl& oldUrl, const KUrl& newUrl);
@@ -606,23 +615,21 @@ private slots:
     void slotDeleteFileFinished(KJob* job);
 
     /**
-     * Invoked when the directory lister has been started the
-     * loading of \a url.
+     * Invoked when the file item model has started the loading
+     * of the directory specified by DolphinView::url().
      */
-    void slotDirListerStarted(const KUrl& url);
+    void slotDirLoadingStarted();
 
     /**
-     * Invoked when the file item model indicates that the directory lister has completed the loading
-     * of items, and that expanded folders have been restored (if the view mode is 'Details', and the
-     * view state is restored after navigating back or forward in history). Assures that pasted items
-     * and renamed items get seleced.
+     * Invoked when the file item model indicates that the loading of a directory has
+     * been completed. Assures that pasted items and renamed items get seleced.
      */
-    void slotLoadingCompleted();
+    void slotDirLoadingCompleted();
 
     /**
-     * Is invoked when the KDirLister indicates refreshed items.
+     * Is invoked when items of KFileItemModel have been changed.
      */
-    void slotRefreshItems();
+    void slotItemsChanged();
 
     /**
      * Is invoked when the sort order has been changed by the user by clicking
@@ -730,7 +737,6 @@ private:
 
     QVBoxLayout* m_topLayout;
 
-    DolphinDirLister* m_dirLister;
     DolphinItemListContainer* m_container;
 
     ToolTipManager* m_toolTipManager;

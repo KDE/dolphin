@@ -240,7 +240,7 @@ private:
     // during the roles-updater has been paused by setPaused().
     bool m_clearPreviews;
 
-    int m_sortProgress;
+    int m_sortingProgress;
 
     KFileItemModel* m_model;
     QSize m_iconSize;

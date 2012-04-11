@@ -19,7 +19,7 @@
 
 #include <qtest_kde.h>
 
-#include "kitemviews/kitemlistkeyboardsearchmanager_p.h"
+#include "kitemviews/private/kitemlistkeyboardsearchmanager.h"
 
 class KItemListKeyboardSearchManagerTest : public QObject
 {

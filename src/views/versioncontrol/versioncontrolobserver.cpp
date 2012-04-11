@@ -21,7 +21,6 @@
 
 #include "dolphin_versioncontrolsettings.h"
 
-#include <KDirLister>
 #include <KLocale>
 #include <KService>
 #include <KServiceTypeTrader>
@@ -30,6 +29,7 @@
 
 #include "updateitemstatesthread.h"
 
+#include <QFile>
 #include <QMutexLocker>
 #include <QTimer>
 
@@ -298,7 +298,6 @@ KVersionControlPlugin* VersionControlObserver::searchPlugin(const KUrl& director
     // Verify whether the current directory contains revision information
     // like .svn, .git, ...
     foreach (KVersionControlPlugin* plugin, plugins) {
-        // Use the KDirLister cache to check for .svn, .git, ... files
         const QString fileName = directory.path(KUrl::AddTrailingSlash) + plugin->fileName();
         if (QFile::exists(fileName)) {
             return plugin;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2009 by Peter Penz <peter.penz19@gmail.com>        *
+ *   Copyright (C) 2006-2012 by Peter Penz <peter.penz19@gmail.com>        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -17,8 +17,8 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#ifndef DOLPHINDIRLISTER_H
-#define DOLPHINDIRLISTER_H
+#ifndef KFILEITEMMODELDIRLISTER_H
+#define KFILEITEMMODELDIRLISTER_H
 
 #include <libdolphin_export.h>
 #include <KDirLister>
@@ -26,21 +26,19 @@
 /**
  * @brief Extends the class KDirLister by emitting a signal when an
  *        error occurred instead of showing an error dialog.
+ *        KDirLister::autoErrorHandlingEnabled() is set to false.
  */
-class LIBDOLPHINPRIVATE_EXPORT DolphinDirLister : public KDirLister
+class LIBDOLPHINPRIVATE_EXPORT KFileItemModelDirLister : public KDirLister
 {
     Q_OBJECT
 
 public:
-    DolphinDirLister(QObject* parent = 0);
-    virtual ~DolphinDirLister();
+    KFileItemModelDirLister(QObject* parent = 0);
+    virtual ~KFileItemModelDirLister();
 
 signals:
     /** Is emitted whenever an error has occurred. */
     void errorMessage(const QString& msg);
-
-    /** Is emitted when the URL of the directory lister represents a file. */
-    void urlIsFileError(const KUrl& url);
 
 protected:
     virtual void handleError(KIO::Job* job);

@@ -23,9 +23,9 @@
 #include "kfileitemmodelrolesupdater.h"
 #include "kfileitemlistwidget.h"
 #include "kfileitemmodel.h"
-#include "kpixmapmodifier_p.h"
 #include <KLocale>
 #include <KStringHandler>
+#include "private/kpixmapmodifier.h"
 
 #include <KDebug>
 #include <KIcon>

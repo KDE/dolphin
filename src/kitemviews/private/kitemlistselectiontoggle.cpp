@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kitemlistselectiontoggle_p.h"
+#include "kitemlistselectiontoggle.h"
 
 #include <KIconEffect>
 #include <KIconLoader>
@@ -103,4 +103,4 @@ void KItemListSelectionToggle::updatePixmap()
     }
 }
 
-#include "kitemlistselectiontoggle_p.moc"
+#include "kitemlistselectiontoggle.moc"

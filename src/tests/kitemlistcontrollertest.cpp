@@ -21,13 +21,12 @@
 #include <qtestmouse.h>
 #include <qtestkeyboard.h>
 
-#include <KDirLister>
 #include "kitemviews/kitemlistcontainer.h"
 #include "kitemviews/kfileitemlistview.h"
 #include "kitemviews/kfileitemmodel.h"
 #include "kitemviews/kitemlistcontroller.h"
 #include "kitemviews/kitemlistselectionmanager.h"
-#include "kitemviews/kitemlistviewlayouter_p.h"
+#include "kitemviews/private/kitemlistviewlayouter.h"
 #include "testdir.h"
 
 namespace {
@@ -65,7 +64,6 @@ private:
     KItemListController* m_controller;
     KItemListSelectionManager* m_selectionManager;
     KFileItemModel* m_model;
-    KDirLister* m_dirLister;
     TestDir* m_testDir;
     KItemListContainer* m_container;
 };
@@ -80,8 +78,7 @@ void KItemListControllerTest::initTestCase()
     qRegisterMetaType<QSet<int> >("QSet<int>");
 
     m_testDir = new TestDir();
-    m_dirLister = new KDirLister();
-    m_model = new KFileItemModel(m_dirLister);
+    m_model = new KFileItemModel();
     m_container = new KItemListContainer();
     m_controller = m_container->controller();
     m_controller->setSelectionBehavior(KItemListController::MultiSelection);
@@ -100,8 +97,8 @@ void KItemListControllerTest::initTestCase()
         << "e1" << "e2" << "e3" << "e4" << "e5" << "e6" << "e7";
 
     m_testDir->createFiles(files);
-    m_dirLister->openUrl(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(loadingCompleted()), DefaultTimeout));
+    m_model->loadDir(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
 
     m_container->show();
     QTest::qWaitForWindowShown(m_container);
@@ -118,9 +115,6 @@ void KItemListControllerTest::cleanupTestCase()
 
     delete m_model;
     m_model = 0;
-
-    delete m_dirLister;
-    m_dirLister = 0;
 
     delete m_testDir;
     m_testDir = 0;

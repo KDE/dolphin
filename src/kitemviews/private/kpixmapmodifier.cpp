@@ -32,7 +32,7 @@
     THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "kpixmapmodifier_p.h"
+#include "kpixmapmodifier.h"
 
 #include <QImage>
 #include <QPainter>

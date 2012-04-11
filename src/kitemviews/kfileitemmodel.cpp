@@ -19,26 +19,27 @@
 
 #include "kfileitemmodel.h"
 
-#include <KDirLister>
 #include <KDirModel>
-#include "kfileitemmodelsortalgorithm_p.h"
 #include <KGlobalSettings>
 #include <KLocale>
 #include <KStringHandler>
 #include <KDebug>
+
+#include "private/kfileitemmodelsortalgorithm.h"
+#include "private/kfileitemmodeldirlister.h"
 
 #include <QMimeData>
 #include <QTimer>
 
 // #define KFILEITEMMODEL_DEBUG
 
-KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
+KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("name", parent),
-    m_dirLister(dirLister),
+    m_dirLister(0),
     m_naturalSorting(KGlobalSettings::naturalSorting()),
     m_sortFoldersFirst(true),
     m_sortRole(NameRole),
-    m_sortProgressPercent(-1),
+    m_sortingProgressPercent(-1),
     m_roles(),
     m_caseSensitivity(Qt::CaseInsensitive),
     m_itemData(),
@@ -54,22 +55,28 @@ KFileItemModel::KFileItemModel(KDirLister* dirLister, QObject* parent) :
     m_expandedUrls(),
     m_urlsToExpand()
 {
+    m_dirLister = new KFileItemModelDirLister(this);
+    m_dirLister->setAutoUpdate(true);
+    m_dirLister->setDelayedMimeTypes(true);
+
+    connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(dirLoadingStarted()));
+    connect(m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));
+    connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted()));
+    connect(m_dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(slotNewItems(KFileItemList)));
+    connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
+    connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
+    connect(m_dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
+    connect(m_dirLister, SIGNAL(clear(KUrl)), this, SLOT(slotClear(KUrl)));
+    connect(m_dirLister, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
+    connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
+    connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SIGNAL(redirection(KUrl,KUrl)));
+
     // Apply default roles that should be determined
     resetRoles();
     m_requestRole[NameRole] = true;
     m_requestRole[IsDirRole] = true;
     m_roles.insert("name");
     m_roles.insert("isDir");
-
-    Q_ASSERT(dirLister);
-
-    connect(dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));
-    connect(dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted()));
-    connect(dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(slotNewItems(KFileItemList)));
-    connect(dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SLOT(slotItemsDeleted(KFileItemList)));
-    connect(dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)), this, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
-    connect(dirLister, SIGNAL(clear()), this, SLOT(slotClear()));
-    connect(dirLister, SIGNAL(clear(KUrl)), this, SLOT(slotClear(KUrl)));
 
     // For slow KIO-slaves like used for searching it makes sense to show results periodically even
     // before the completed() or canceled() signal has been emitted.
@@ -94,6 +101,21 @@ KFileItemModel::~KFileItemModel()
 {
     qDeleteAll(m_itemData);
     m_itemData.clear();
+}
+
+void KFileItemModel::loadDir(const KUrl& url)
+{
+    m_dirLister->openUrl(url);
+}
+
+void KFileItemModel::refreshDir(const KUrl& url)
+{
+    m_dirLister->openUrl(url, KDirLister::Reload);
+}
+
+KUrl KFileItemModel::dir() const
+{
+    return m_dirLister->url();
 }
 
 int KFileItemModel::count() const
@@ -160,34 +182,26 @@ bool KFileItemModel::sortFoldersFirst() const
 
 void KFileItemModel::setShowHiddenFiles(bool show)
 {
-    KDirLister* dirLister = m_dirLister.data();
-    if (dirLister) {
-        dirLister->setShowingDotFiles(show);
-        dirLister->emitChanges();
-        if (show) {
-            slotCompleted();
-        }
+    m_dirLister->setShowingDotFiles(show);
+    m_dirLister->emitChanges();
+    if (show) {
+        slotCompleted();
     }
 }
 
 bool KFileItemModel::showHiddenFiles() const
 {
-    const KDirLister* dirLister = m_dirLister.data();
-    return dirLister ? dirLister->showingDotFiles() : false;
+    return m_dirLister->showingDotFiles();
 }
 
 void KFileItemModel::setShowFoldersOnly(bool enabled)
 {
-    KDirLister* dirLister = m_dirLister.data();
-    if (dirLister) {
-        dirLister->setDirOnlyMode(enabled);
-    }
+    m_dirLister->setDirOnlyMode(enabled);
 }
 
 bool KFileItemModel::showFoldersOnly() const
 {
-    KDirLister* dirLister = m_dirLister.data();
-    return dirLister ? dirLister->dirOnlyMode() : false;
+    return m_dirLister->dirOnlyMode();
 }
 
 QMimeData* KFileItemModel::createMimeData(const QSet<int>& indexes) const
@@ -324,11 +338,7 @@ int KFileItemModel::index(const KUrl& url) const
 
 KFileItem KFileItemModel::rootItem() const
 {
-    const KDirLister* dirLister = m_dirLister.data();
-    if (dirLister) {
-        return dirLister->rootItem();
-    }
-    return KFileItem();
+    return m_dirLister->rootItem();
 }
 
 void KFileItemModel::clear()
@@ -391,21 +401,14 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
         return false;
     }
 
-    KDirLister* dirLister = m_dirLister.data();
     const KUrl url = m_itemData.at(index)->item.url();
     if (expanded) {
         m_expandedUrls.insert(url);
-
-        if (dirLister) {
-            dirLister->openUrl(url, KDirLister::Keep);
-            return true;
-        }
+        m_dirLister->openUrl(url, KDirLister::Keep);
     } else {
         m_expandedUrls.remove(url);
+        m_dirLister->stop(url);
 
-        if (dirLister) {
-            dirLister->stop(url);
-        }
 
         KFileItemList itemsToRemove;
         const int expandedParentsCount = data(index)["expandedParentsCount"].toInt();
@@ -415,10 +418,9 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
             ++index;
         }
         removeItems(itemsToRemove);
-        return true;
     }
 
-    return false;
+    return true;
 }
 
 bool KFileItemModel::isExpanded(int index) const
@@ -460,18 +462,13 @@ void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
 
 void KFileItemModel::expandParentItems(const KUrl& url)
 {
-    const KDirLister* dirLister = m_dirLister.data();
-    if (!dirLister) {
-        return;
-    }
-
-    const int pos = dirLister->url().path().length();
+    const int pos = m_dirLister->url().path().length();
 
     // Assure that each sub-path of the URL that should be
     // expanded is added to m_urlsToExpand. KDirLister
     // does not care whether the parent-URL has already been
     // expanded.
-    KUrl urlToExpand = dirLister->url();
+    KUrl urlToExpand = m_dirLister->url();
     const QStringList subDirs = url.path().mid(pos).split(QDir::separator());
     for (int i = 0; i < subDirs.count() - 1; ++i) {
         urlToExpand.addPath(subDirs.at(i));
@@ -535,6 +532,11 @@ void KFileItemModel::setNameFilter(const QString& nameFilter)
 QString KFileItemModel::nameFilter() const
 {
     return m_filter.pattern();
+}
+
+void KFileItemModel::cancelDirLoading()
+{
+    m_dirLister->stop();
 }
 
 QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
@@ -666,7 +668,7 @@ void KFileItemModel::slotCompleted()
         m_urlsToExpand.clear();
     }
 
-    emit loadingCompleted();
+    emit dirLoadingCompleted();
 }
 
 void KFileItemModel::slotCanceled()
@@ -1222,8 +1224,8 @@ QHash<QByteArray, QVariant> KFileItemModel::retrieveData(const KFileItem& item) 
     }
 
     if (m_requestRole[ExpandedParentsCountRole]) {
-        if (m_expandedParentsCountRoot == UninitializedExpandedParentsCountRoot && m_dirLister.data()) {
-            const KUrl rootUrl = m_dirLister.data()->url();
+        if (m_expandedParentsCountRoot == UninitializedExpandedParentsCountRoot) {
+            const KUrl rootUrl = m_dirLister->url();
             const QString protocol = rootUrl.protocol();
             const bool forceExpandedParentsCountRoot = (protocol == QLatin1String("trash") ||
                                                         protocol == QLatin1String("nepomuk") ||
@@ -1501,8 +1503,7 @@ QString KFileItemModel::subPath(const KFileItem& item,
 
 bool KFileItemModel::useMaximumUpdateInterval() const
 {
-    const KDirLister* dirLister = m_dirLister.data();
-    return dirLister && !dirLister->url().isLocalFile();
+    return !m_dirLister->url().isLocalFile();
 }
 
 QList<QPair<int, QVariant> > KFileItemModel::nameRoleGroups() const
@@ -1847,20 +1848,20 @@ void KFileItemModel::emitSortProgress(int resolvedCount)
 
     const int itemCount = count();
     if (resolvedCount >= itemCount) {
-        m_sortProgressPercent = -1;
+        m_sortingProgressPercent = -1;
         if (m_resortAllItemsTimer->isActive()) {
             m_resortAllItemsTimer->stop();
             resortAllItems();
         }
 
-        emit sortProgress(100);
+        emit dirSortingProgress(100);
     } else if (itemCount > 0) {
         resolvedCount = qBound(0, resolvedCount, itemCount);
 
         const int progress = resolvedCount * 100 / itemCount;
-        if (m_sortProgressPercent != progress) {
-            m_sortProgressPercent = progress;
-            emit sortProgress(progress);
+        if (m_sortingProgressPercent != progress) {
+            m_sortingProgressPercent = progress;
+            emit dirSortingProgress(progress);
         }
     }
 }

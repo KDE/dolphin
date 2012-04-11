@@ -45,11 +45,11 @@
 #include "views/dolphinviewactionhandler.h"
 #include "views/dolphinnewfilemenuobserver.h"
 #include "views/dolphinremoteencoding.h"
-#include "views/dolphindirlister.h"
 
 #include <QActionGroup>
 #include <QApplication>
 #include <QClipboard>
+#include <QDir>
 
 K_PLUGIN_FACTORY(DolphinPartFactory, registerPlugin<DolphinPart>();)
 K_EXPORT_PLUGIN(DolphinPartFactory("dolphinpart", "dolphin"))
@@ -69,8 +69,8 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
 
-    connect(m_view, SIGNAL(finishedPathLoading(KUrl)), this, SLOT(slotCompleted(KUrl)));
-    connect(m_view, SIGNAL(pathLoadingProgress(int)), this, SLOT(updateProgress(int)));
+    connect(m_view, SIGNAL(finishedDirLoading(KUrl)), this, SLOT(slotCompleted(KUrl)));
+    connect(m_view, SIGNAL(dirLoadingProgress(int)), this, SLOT(updateProgress(int)));
     connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
 
     setXMLFile("dolphinpart.rc");

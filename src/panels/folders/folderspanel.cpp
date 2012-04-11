@@ -30,7 +30,6 @@
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kfileitemmodel.h>
 
-#include <KDirLister>
 #include <KFileItem>
 #include <konq_operations.h>
 
@@ -50,7 +49,6 @@
 FoldersPanel::FoldersPanel(QWidget* parent) :
     Panel(parent),
     m_updateCurrentItem(false),
-    m_dirLister(0),
     m_controller(0)
 {
     setLayoutDirection(Qt::LeftToRight);
@@ -65,9 +63,6 @@ FoldersPanel::~FoldersPanel()
         m_controller->setView(0);
         delete view;
     }
-
-    delete m_dirLister;
-    m_dirLister = 0;
 }
 
 void FoldersPanel::setShowHiddenFiles(bool show)
@@ -116,7 +111,7 @@ bool FoldersPanel::urlChanged()
         return false;
     }
 
-    if (m_dirLister) {
+    if (m_controller) {
         loadTree(url());
     }
 
@@ -130,16 +125,10 @@ void FoldersPanel::showEvent(QShowEvent* event)
         return;
     }
 
-    if (!m_dirLister) {
+    if (!m_controller) {
         // Postpone the creating of the dir lister to the first show event.
         // This assures that no performance and memory overhead is given when the TreeView is not
         // used at all (see FoldersPanel::setUrl()).
-        m_dirLister = new KDirLister();
-        m_dirLister->setAutoUpdate(true);
-        m_dirLister->setMainWindow(window());
-        m_dirLister->setDelayedMimeTypes(true);
-        m_dirLister->setAutoErrorHandlingEnabled(false, this);
-
         KFileItemListView* view  = new KFileItemListView();
         view->setWidgetCreator(new KItemListWidgetCreator<KFileItemListWidget>());
 
@@ -158,12 +147,12 @@ void FoldersPanel::showEvent(QShowEvent* event)
         // opening the folders panel.
         view->setOpacity(0);
 
-        KFileItemModel* model = new KFileItemModel(m_dirLister, this);
+        KFileItemModel* model = new KFileItemModel(this);
         model->setShowFoldersOnly(true);
         model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
         // Use a QueuedConnection to give the view the possibility to react first on the
         // finished loading.
-        connect(model, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
+        connect(model, SIGNAL(dirLoadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
 
         KItemListContainer* container = new KItemListContainer(this);
         m_controller = container->controller();
@@ -305,7 +294,7 @@ void FoldersPanel::startFadeInAnimation()
 
 void FoldersPanel::loadTree(const KUrl& url)
 {
-    Q_ASSERT(m_dirLister);
+    Q_ASSERT(m_controller);
 
     m_updateCurrentItem = false;
 
@@ -319,13 +308,12 @@ void FoldersPanel::loadTree(const KUrl& url)
         baseUrl.setPath(QString('/'));
     }
 
-    if (m_dirLister->url() != baseUrl) {
+    KFileItemModel* model = fileItemModel();
+    if (model->dir() != baseUrl) {
         m_updateCurrentItem = true;
-        m_dirLister->stop();
-        m_dirLister->openUrl(baseUrl, KDirLister::Reload);
+        model->refreshDir(baseUrl);
     }
 
-    KFileItemModel* model = fileItemModel();
     const int index = model->index(url);
     if (index >= 0) {
         updateCurrentItem(index);

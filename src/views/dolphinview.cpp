@@ -35,7 +35,6 @@
 
 #include <KActionCollection>
 #include <KColorScheme>
-#include <KDirLister>
 #include <KDirModel>
 #include <KIconEffect>
 #include <KFileItem>
@@ -59,7 +58,6 @@
 #include <KToggleAction>
 #include <KUrl>
 
-#include "dolphindirlister.h"
 #include "dolphinnewfilemenuobserver.h"
 #include "dolphin_detailsmodesettings.h"
 #include "dolphin_generalsettings.h"
@@ -91,7 +89,6 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     m_mode(DolphinView::IconsView),
     m_visibleRoles(),
     m_topLayout(0),
-    m_dirLister(0),
     m_container(0),
     m_toolTipManager(0),
     m_selectionChangedTimer(0),
@@ -117,24 +114,7 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(m_selectionChangedTimer, SIGNAL(timeout()),
             this, SLOT(emitSelectionChangedSignal()));
 
-    m_dirLister = new DolphinDirLister(this);
-    m_dirLister->setAutoUpdate(true);
-    m_dirLister->setDelayedMimeTypes(true);
-
-    connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SLOT(slotRedirection(KUrl,KUrl)));
-    connect(m_dirLister, SIGNAL(started(KUrl)),          this, SLOT(slotDirListerStarted(KUrl)));
-    connect(m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
-            this, SLOT(slotRefreshItems()));
-
-    connect(m_dirLister, SIGNAL(clear()),                     this, SIGNAL(itemCountChanged()));
-    connect(m_dirLister, SIGNAL(newItems(KFileItemList)),     this, SIGNAL(itemCountChanged()));
-    connect(m_dirLister, SIGNAL(infoMessage(QString)),        this, SIGNAL(infoMessage(QString)));
-    connect(m_dirLister, SIGNAL(errorMessage(QString)),       this, SIGNAL(infoMessage(QString)));
-    connect(m_dirLister, SIGNAL(percent(int)),                this, SIGNAL(pathLoadingProgress(int)));
-    connect(m_dirLister, SIGNAL(urlIsFileError(KUrl)),        this, SIGNAL(urlIsFileError(KUrl)));
-    connect(m_dirLister, SIGNAL(itemsDeleted(KFileItemList)), this, SIGNAL(itemCountChanged()));
-
-    m_container = new DolphinItemListContainer(m_dirLister, this);
+    m_container = new DolphinItemListContainer(this);
     m_container->setVisibleRoles(QList<QByteArray>() << "name");
     m_container->installEventFilter(this);
     setFocusProxy(m_container);
@@ -156,10 +136,17 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)), this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
 
     KFileItemModel* model = fileItemModel();
-    if (model) {
-        connect(model, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
-        connect(model, SIGNAL(sortProgress(int)), this, SIGNAL(sortProgress(int)));
-    }
+    connect(model, SIGNAL(dirLoadingStarted()),            this, SLOT(slotDirLoadingStarted()));
+    connect(model, SIGNAL(dirLoadingCompleted()),          this, SLOT(slotDirLoadingCompleted()));
+    connect(model, SIGNAL(dirLoadingProgress(int)),        this, SIGNAL(dirLoadingProgress(int)));
+    connect(model, SIGNAL(dirSortingProgress(int)),        this, SIGNAL(dirSortingProgress(int)));
+    connect(model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
+            this, SLOT(slotItemsChanged()));
+    connect(model, SIGNAL(itemsRemoved(KItemRangeList)),   this, SIGNAL(itemCountChanged()));
+    connect(model, SIGNAL(itemsInserted(KItemRangeList)),  this, SIGNAL(itemCountChanged()));
+    connect(model, SIGNAL(infoMessage(QString)),           this, SIGNAL(infoMessage(QString)));
+    connect(model, SIGNAL(errorMessage(QString)),          this, SIGNAL(errorMessage(QString)));
+    connect(model, SIGNAL(redirection(KUrl,KUrl)),         this, SLOT(slotRedirection(KUrl,KUrl)));
 
     KItemListView* view = controller->view();
     view->installEventFilter(this);
@@ -269,7 +256,8 @@ bool DolphinView::previewsShown() const
 
 void DolphinView::setHiddenFilesShown(bool show)
 {
-    if (m_dirLister->showingDotFiles() == show) {
+    KFileItemModel* model = fileItemModel();
+    if (model->showHiddenFiles() == show) {
         return;
     }
 
@@ -280,13 +268,13 @@ void DolphinView::setHiddenFilesShown(bool show)
     ViewProperties props(url());
     props.setHiddenFilesShown(show);
 
-    fileItemModel()->setShowHiddenFiles(show);
+    model->setShowHiddenFiles(show);
     emit hiddenFilesShownChanged(show);
 }
 
 bool DolphinView::hiddenFilesShown() const
 {
-    return m_dirLister->showingDotFiles();
+    return fileItemModel()->showHiddenFiles();
 }
 
 void DolphinView::setGroupedSorting(bool grouped)
@@ -311,7 +299,21 @@ bool DolphinView::groupedSorting() const
 
 KFileItemList DolphinView::items() const
 {
-    return m_dirLister->items();
+    KFileItemList list;
+    const KFileItemModel* model = fileItemModel();
+    const int itemCount = model->count();
+    list.reserve(itemCount);
+
+    for (int i = 0; i < itemCount; ++i) {
+        list.append(model->fileItem(i));
+    }
+
+    return list;
+}
+
+int DolphinView::itemsCount() const
+{
+    return fileItemModel()->count();
 }
 
 KFileItemList DolphinView::selectedItems() const
@@ -455,7 +457,7 @@ void DolphinView::reload()
 
 void DolphinView::stopLoading()
 {
-    m_dirLister->stop();
+    fileItemModel()->cancelDirLoading();
 }
 
 void DolphinView::readSettings()
@@ -492,7 +494,10 @@ void DolphinView::calculateItemCount(int& fileCount,
                                      int& folderCount,
                                      KIO::filesize_t& totalFileSize) const
 {
-    foreach (const KFileItem& item, m_dirLister->items()) {
+    const KFileItemModel* model = fileItemModel();
+    const int itemCount = model->count();
+    for (int i = 0; i < itemCount; ++i) {
+        const KFileItem item = model->fileItem(i);
         if (item.isDir()) {
             ++folderCount;
         } else {
@@ -628,8 +633,9 @@ void DolphinView::renameSelectedItems()
         dialog->activateWindow();
     //}
 
-    // assure that the current index remains visible when KDirLister
-    // will notify the view about changed items
+    // Assure that the current index remains visible when KFileItemModel
+    // will notify the view about changed items (which might result in
+    // a changed sorting).
     m_assureVisibleCurrentIndex = true;
 }
 
@@ -979,11 +985,11 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
     if (previous != 0) {
-        disconnect(previous, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
+        disconnect(previous, SIGNAL(dirLoadingCompleted()), this, SLOT(slotDirLoadingCompleted()));
     }
 
     Q_ASSERT(qobject_cast<KFileItemModel*>(current));
-    connect(current, SIGNAL(loadingCompleted()), this, SLOT(slotLoadingCompleted()));
+    connect(current, SIGNAL(loadingCompleted()), this, SLOT(slotDirLoadingCompleted()));
 
     KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(current);
     m_versionControlObserver->setModel(fileItemModel);
@@ -1121,7 +1127,7 @@ bool DolphinView::hasSelection() const
 
 KFileItem DolphinView::rootItem() const
 {
-    return m_dirLister->rootItem();
+    return fileItemModel()->rootItem();
 }
 
 void DolphinView::observeCreatedItem(const KUrl& url)
@@ -1222,7 +1228,7 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     }
 }
 
-void DolphinView::slotDirListerStarted(const KUrl& url)
+void DolphinView::slotDirLoadingStarted()
 {
     // Disable the writestate temporary until it can be determined in a fast way
     // in DolphinView::slotLoadingCompleted()
@@ -1231,29 +1237,23 @@ void DolphinView::slotDirListerStarted(const KUrl& url)
         emit writeStateChanged(m_isFolderWritable);
     }
 
-    emit startedPathLoading(url);
+    emit startedDirLoading(url());
 }
 
-void DolphinView::slotLoadingCompleted()
+void DolphinView::slotDirLoadingCompleted()
 {
     // Update the view-state. This has to be done using a Qt::QueuedConnection
     // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, SLOT(updateViewState()));
 
-    emit finishedPathLoading(url());
+    emit finishedDirLoading(url());
 
     updateWritableState();
 }
 
-void DolphinView::slotRefreshItems()
+void DolphinView::slotItemsChanged()
 {
-    if (m_assureVisibleCurrentIndex) {
-        m_assureVisibleCurrentIndex = false;
-        //QAbstractItemView* view = m_viewAccessor.itemView();
-        //if (view) {
-        //    m_viewAccessor.itemView()->scrollTo(m_viewAccessor.itemView()->currentIndex());
-        //}
-    }
+    m_assureVisibleCurrentIndex = false;
 }
 
 void DolphinView::slotSortOrderChangedByHeader(Qt::SortOrder current, Qt::SortOrder previous)
@@ -1311,7 +1311,12 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
         return;
     }
 
-    m_dirLister->openUrl(url, reload ? KDirLister::Reload : KDirLister::NoFlags);
+    KFileItemModel* model = fileItemModel();
+    if (reload) {
+        model->refreshDir(url);
+    } else {
+        model->loadDir(url);
+    }
 }
 
 void DolphinView::applyViewProperties()
@@ -1465,7 +1470,7 @@ void DolphinView::updateWritableState()
     const bool wasFolderWritable = m_isFolderWritable;
     m_isFolderWritable = true;
 
-    const KFileItem item = m_dirLister->rootItem();
+    const KFileItem item = fileItemModel()->rootItem();
     if (!item.isNull()) {
         KFileItemListProperties capabilities(KFileItemList() << item);
         m_isFolderWritable = capabilities.supportsWriting();

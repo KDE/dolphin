@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "knepomukrolesprovider_p.h"
+#include "knepomukrolesprovider.h"
 
 #include <KDebug>
 #include <KGlobal>

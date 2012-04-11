@@ -29,7 +29,7 @@
 #include <QtDBus/QDBusVariant>
 #include <QtCore/QVariant>
 
-#include "knepomukdatamanagement_export_p.h"
+#include "knepomukdatamanagement_export.h"
 
 namespace Nepomuk {
 

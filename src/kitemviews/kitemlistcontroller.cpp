@@ -23,10 +23,14 @@
 
 #include "kitemlistcontroller.h"
 
+#include <KGlobalSettings>
+#include <KDebug>
+
 #include "kitemlistview.h"
-#include "kitemlistrubberband_p.h"
 #include "kitemlistselectionmanager.h"
-#include "kitemlistkeyboardsearchmanager_p.h"
+
+#include "private/kitemlistrubberband.h"
+#include "private/kitemlistkeyboardsearchmanager.h"
 
 #include <QApplication>
 #include <QDrag>
@@ -36,9 +40,6 @@
 #include <QGraphicsView>
 #include <QMimeData>
 #include <QTimer>
-
-#include <KGlobalSettings>
-#include <KDebug>
 
 KItemListController::KItemListController(QObject* parent) :
     QObject(parent),

@@ -92,21 +92,20 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
     m_view = new DolphinView(url, this);
-    connect(m_view, SIGNAL(urlChanged(KUrl)),             m_urlNavigator, SLOT(setUrl(KUrl)));
-    connect(m_view, SIGNAL(writeStateChanged(bool)),      this, SIGNAL(writeStateChanged(bool)));
-    connect(m_view, SIGNAL(requestItemInfo(KFileItem)),   this, SLOT(showItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(errorMessage(QString)),        this, SLOT(showErrorMessage(QString)));
-    connect(m_view, SIGNAL(infoMessage(QString)),         this, SLOT(showInfoMessage(QString)));
-    connect(m_view, SIGNAL(itemActivated(KFileItem)),     this, SLOT(slotItemActivated(KFileItem)));
-    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),       this, SLOT(redirect(KUrl,KUrl)));
-    connect(m_view, SIGNAL(startedPathLoading(KUrl)),     this, SLOT(slotStartedPathLoading()));
-    connect(m_view, SIGNAL(finishedPathLoading(KUrl)),    this, SLOT(slotFinishedPathLoading()));
-    connect(m_view, SIGNAL(itemCountChanged()),           this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(pathLoadingProgress(int)),     this, SLOT(updateLoadingProgress(int)));
-    connect(m_view, SIGNAL(sortProgress(int)),            this, SLOT(updateSortProgress(int)));
-    connect(m_view, SIGNAL(infoMessage(QString)),         this, SLOT(showInfoMessage(QString)));
-    connect(m_view, SIGNAL(errorMessage(QString)),        this, SLOT(showErrorMessage(QString)));
-    connect(m_view, SIGNAL(urlIsFileError(KUrl)),         this, SLOT(openFile(KUrl)));
+    connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_urlNavigator, SLOT(setUrl(KUrl)));
+    connect(m_view, SIGNAL(writeStateChanged(bool)),            this, SIGNAL(writeStateChanged(bool)));
+    connect(m_view, SIGNAL(requestItemInfo(KFileItem)),         this, SLOT(showItemInfo(KFileItem)));
+    connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
+    connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
+    connect(m_view, SIGNAL(itemActivated(KFileItem)),           this, SLOT(slotItemActivated(KFileItem)));
+    connect(m_view, SIGNAL(redirection(KUrl,KUrl)),             this, SLOT(redirect(KUrl,KUrl)));
+    connect(m_view, SIGNAL(startedDirLoading(KUrl)),            this, SLOT(slotStartedDirLoading()));
+    connect(m_view, SIGNAL(finishedDirLoading(KUrl)),           this, SLOT(slotFinishedDirLoading()));
+    connect(m_view, SIGNAL(itemCountChanged()),                 this, SLOT(delayedStatusBarUpdate()));
+    connect(m_view, SIGNAL(dirLoadingProgress(int)),            this, SLOT(updateDirLoadingProgress(int)));
+    connect(m_view, SIGNAL(dirSortingProgress(int)),            this, SLOT(updateSortingProgress(int)));
+    connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
+    connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(operationCompletedMessage(QString)), this, SLOT(showOperationCompletedMessage(QString)));
     connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
@@ -333,7 +332,7 @@ void DolphinViewContainer::updateStatusBar()
     }
 }
 
-void DolphinViewContainer::updateLoadingProgress(int percent)
+void DolphinViewContainer::updateDirLoadingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder..."));
@@ -341,7 +340,7 @@ void DolphinViewContainer::updateLoadingProgress(int percent)
     m_statusBar->setProgress(percent);
 }
 
-void DolphinViewContainer::updateSortProgress(int percent)
+void DolphinViewContainer::updateSortingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(i18nc("@info:progress", "Sorting..."));
@@ -349,7 +348,7 @@ void DolphinViewContainer::updateSortProgress(int percent)
     m_statusBar->setProgress(percent);
 }
 
-void DolphinViewContainer::slotStartedPathLoading()
+void DolphinViewContainer::slotStartedDirLoading()
 {
     if (isSearchUrl(url())) {
         // Search KIO-slaves usually don't provide any progress information. Give
@@ -361,18 +360,18 @@ void DolphinViewContainer::slotStartedPathLoading()
         // Trigger an undetermined progress indication. The progress
         // information in percent will be triggered by the percent() signal
         // of the directory lister later.
-        updateLoadingProgress(-1);
+        updateDirLoadingProgress(-1);
     }
 }
 
-void DolphinViewContainer::slotFinishedPathLoading()
+void DolphinViewContainer::slotFinishedDirLoading()
 {
     if (!m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(QString());
         m_statusBar->setProgress(100);
     }
 
-    if (isSearchUrl(url()) && m_view->items().isEmpty()) {
+    if (isSearchUrl(url()) && m_view->itemsCount() == 0) {
         // The dir lister has been completed on a Nepomuk-URI and no items have been found. Instead
         // of showing the default status bar information ("0 items") a more helpful information is given:
         m_statusBar->setMessage(i18nc("@info:status", "No items found."), DolphinStatusBar::Information);
@@ -420,12 +419,6 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
     }
 
     item.run();
-}
-
-void DolphinViewContainer::openFile(const KUrl& url)
-{
-    const KFileItem item(KFileItem::Unknown, KFileItem::Unknown, url);
-    slotItemActivated(item);
 }
 
 void DolphinViewContainer::showItemInfo(const KFileItem& item)

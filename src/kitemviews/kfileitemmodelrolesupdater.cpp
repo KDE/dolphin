@@ -20,7 +20,6 @@
 #include "kfileitemmodelrolesupdater.h"
 
 #include "kfileitemmodel.h"
-#include "kpixmapmodifier_p.h"
 
 #include <KConfig>
 #include <KConfigGroup>
@@ -28,14 +27,17 @@
 #include <KFileItem>
 #include <KGlobal>
 #include <KIO/PreviewJob>
+
+#include "private/kpixmapmodifier.h"
+
 #include <QPainter>
 #include <QPixmap>
 #include <QElapsedTimer>
 #include <QTimer>
 
 #ifdef HAVE_NEPOMUK
-    #include "knepomukrolesprovider_p.h"
-    #include "knepomukresourcewatcher_p.h"
+    #include "private/knepomukrolesprovider.h"
+    #include "private/knepomukresourcewatcher.h"
 #endif
 
 // Required includes for subItemsCount():
@@ -69,7 +71,7 @@ KFileItemModelRolesUpdater::KFileItemModelRolesUpdater(KFileItemModel* model, QO
     m_previewShown(false),
     m_enlargeSmallPreviews(true),
     m_clearPreviews(false),
-    m_sortProgress(-1),
+    m_sortingProgress(-1),
     m_model(model),
     m_iconSize(),
     m_firstVisibleIndex(0),
@@ -849,7 +851,7 @@ void KFileItemModelRolesUpdater::sortAndResolvePendingRoles()
 
 void KFileItemModelRolesUpdater::applySortProgressToModel()
 {
-    if (m_sortProgress < 0) {
+    if (m_sortingProgress < 0) {
         return;
     }
 
@@ -861,7 +863,7 @@ void KFileItemModelRolesUpdater::applySortProgressToModel()
     if (resolvedCount > 0) {
         m_model->emitSortProgress(resolvedCount);
         if (resolvedCount == m_model->count()) {
-            m_sortProgress = -1;
+            m_sortingProgress = -1;
         }
     }
 }
@@ -877,11 +879,11 @@ void KFileItemModelRolesUpdater::updateSortProgress()
                               ? hasUnknownMimeTypes()
                               : m_resolvableRoles.contains(sortRole);
 
-    if (m_sortProgress >= 0) {
+    if (m_sortingProgress >= 0) {
         // Mark the current sorting as finished
         m_model->emitSortProgress(m_model->count());
     }
-    m_sortProgress = showProgress ? 0 : -1;
+    m_sortingProgress = showProgress ? 0 : -1;
 }
 
 bool KFileItemModelRolesUpdater::hasUnknownMimeTypes() const

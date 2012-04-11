@@ -17,10 +17,10 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kitemlistviewlayouter_p.h"
+#include "kitemlistviewlayouter.h"
 
-#include "kitemmodelbase.h"
-#include "kitemlistsizehintresolver_p.h"
+#include <kitemviews/kitemmodelbase.h>
+#include "kitemlistsizehintresolver.h"
 
 #include <KDebug>
 
@@ -627,4 +627,4 @@ qreal KItemListViewLayouter::minimumGroupHeaderWidth() const
     return 100;
 }
 
-#include "kitemlistviewlayouter_p.moc"
+#include "kitemlistviewlayouter.moc"

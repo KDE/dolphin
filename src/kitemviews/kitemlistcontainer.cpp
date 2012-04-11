@@ -23,9 +23,10 @@
 #include "kitemlistcontainer.h"
 
 #include "kitemlistcontroller.h"
-#include "kitemlistsmoothscroller_p.h"
 #include "kitemlistview.h"
 #include "kitemmodelbase.h"
+
+#include "private/kitemlistsmoothscroller.h"
 
 #include <QApplication>
 #include <QGraphicsScene>

@@ -27,9 +27,9 @@
 
 #include <kitemviews/kitemlistgroupheader.h>
 #include <kitemviews/kitemliststyleoption.h>
-#include <kitemviews/kitemlistviewanimation_p.h>
 #include <kitemviews/kitemlistwidget.h>
 #include <kitemviews/kitemmodelbase.h>
+#include <kitemviews/private/kitemlistviewanimation.h>
 #include <QGraphicsWidget>
 #include <QSet>
 

@@ -154,21 +154,21 @@ private slots:
      */
     void updateStatusBar();
 
-    void updateLoadingProgress(int percent);
+    void updateDirLoadingProgress(int percent);
 
-    void updateSortProgress(int percent);
+    void updateSortingProgress(int percent);
 
     /**
      * Updates the statusbar to show an undetermined progress with the correct
      * context information whether a searching or a directory loading is done.
      */
-    void slotStartedPathLoading();
+    void slotStartedDirLoading();
 
     /**
      * Assures that the viewport position is restored and updates the
      * statusbar to reflect the current content.
      */
-    void slotFinishedPathLoading();
+    void slotFinishedDirLoading();
 
     /**
      * Handles clicking on an item. If the item is a directory, the
@@ -176,13 +176,6 @@ private slots:
      * gets started by the corresponding application.
      */
     void slotItemActivated(const KFileItem& item);
-
-    /**
-     * Opens a the file \a url by opening the corresponding application.
-     * Is connected with the signal urlIsFile() from DolphinDirLister and will
-     * get invoked if the user manually has entered a file into the URL navigator.
-     */
-    void openFile(const KUrl& url);
 
     /**
      * Shows the information for the item \a item inside the statusbar. If the

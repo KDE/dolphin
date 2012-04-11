@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kitemlistrubberband_p.h"
+#include "kitemlistrubberband.h"
 
 KItemListRubberBand::KItemListRubberBand(QObject* parent) :
     QObject(parent),
@@ -72,4 +72,4 @@ bool KItemListRubberBand::isActive() const
     return m_active;
 }
 
-#include "kitemlistrubberband_p.moc"
+#include "kitemlistrubberband.moc"

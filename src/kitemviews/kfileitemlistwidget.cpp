@@ -19,10 +19,8 @@
 
 #include "kfileitemlistwidget.h"
 
-#include "kfileitemclipboard_p.h"
 #include "kfileitemlistview.h"
 #include "kfileitemmodel.h"
-#include "kpixmapmodifier_p.h"
 
 #include <KIcon>
 #include <KIconEffect>
@@ -31,6 +29,9 @@
 #include <kratingpainter.h>
 #include <KStringHandler>
 #include <KDebug>
+
+#include "private/kfileitemclipboard.h"
+#include "private/kpixmapmodifier.h"
 
 #include <QFontMetricsF>
 #include <QGraphicsSceneResizeEvent>
@@ -193,12 +194,15 @@ QRectF KFileItemListWidget::textRect() const
 
 QRectF KFileItemListWidget::textFocusRect() const
 {
+    // In the compact- and details-layout a larger textRect() is returned to be aligned
+    // with the iconRect(). This is useful to have a larger selection/hover-area
+    // when having a quite large icon size but only one line of text. Still the
+    // focus rectangle should be shown as narrow as possible around the text.
+
     const_cast<KFileItemListWidget*>(this)->triggerCacheRefreshing();
-    if (m_layout == CompactLayout) {
-        // In the compact layout a larger textRect() is returned to be aligned
-        // with the iconRect(). This is useful to have a larger selection/hover-area
-        // when having a quite large icon size but only one line of text. Still the
-        // focus rectangle should be shown as narrow as possible around the text.
+
+    switch (m_layout) {
+    case CompactLayout: {
         QRectF rect = m_textRect;
         const TextInfo* topText    = m_textInfo.value(m_sortedVisibleRoles.first());
         const TextInfo* bottomText = m_textInfo.value(m_sortedVisibleRoles.last());
@@ -206,6 +210,19 @@ QRectF KFileItemListWidget::textFocusRect() const
         rect.setBottom(bottomText->pos.y() + bottomText->staticText.size().height());
         return rect;
     }
+
+    case DetailsLayout: {
+        QRectF rect = m_textRect;
+        const TextInfo* textInfo    = m_textInfo.value(m_sortedVisibleRoles.first());
+        rect.setTop(textInfo->pos.y());
+        rect.setBottom(textInfo->pos.y() + textInfo->staticText.size().height());
+        return rect;
+    }
+
+    default:
+        break;
+    }
+
     return m_textRect;
 }
 

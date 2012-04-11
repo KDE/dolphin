@@ -23,7 +23,6 @@
 #include <KUrl>
 #include <panels/panel.h>
 
-class KDirLister;
 class KFileItemModel;
 class KItemListController;
 class QGraphicsSceneDragDropEvent;
@@ -100,7 +99,6 @@ private:
 
 private:
     bool m_updateCurrentItem;
-    KDirLister* m_dirLister;
     KItemListController* m_controller;
 };
 

@@ -17,7 +17,7 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kitemlistsmoothscroller_p.h"
+#include "kitemlistsmoothscroller.h"
 
 #include <KGlobalSettings>
 #include <QEvent>
@@ -204,4 +204,4 @@ void KItemListSmoothScroller::handleWheelEvent(QWheelEvent* event)
     event->accept();
 }
 
-#include "kitemlistsmoothscroller_p.moc"
+#include "kitemlistsmoothscroller.moc"

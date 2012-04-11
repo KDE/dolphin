@@ -18,38 +18,38 @@ add_subdirectory(tests)
 ########### next target ###############
 
 set(dolphinprivate_LIB_SRCS
-    kitemviews/kfileitemclipboard.cpp
     kitemviews/kfileitemlistgroupheader.cpp
     kitemviews/kfileitemlistview.cpp
     kitemviews/kfileitemlistwidget.cpp
     kitemviews/kfileitemmodel.cpp
-    kitemviews/kfileitemmodelsortalgorithm.cpp
-    kitemviews/kfileitemmodelfilter.cpp
     kitemviews/kfileitemmodelrolesupdater.cpp
     kitemviews/kitemlistcontainer.cpp
     kitemviews/kitemlistcontroller.cpp
     kitemviews/kitemlistgroupheader.cpp
     kitemviews/kitemlistheader.cpp
-    kitemviews/kitemlistheaderwidget.cpp
-    kitemviews/kitemlistkeyboardsearchmanager.cpp
-    kitemviews/kitemlistrubberband.cpp
     kitemviews/kitemlistselectionmanager.cpp
-    kitemviews/kitemlistselectiontoggle.cpp
-    kitemviews/kitemlistsizehintresolver.cpp
-    kitemviews/kitemlistsmoothscroller.cpp
     kitemviews/kitemliststyleoption.cpp
     kitemviews/kitemlistview.cpp
-    kitemviews/kitemlistviewanimation.cpp
-    kitemviews/kitemlistviewlayouter.cpp
     kitemviews/kitemlistwidget.cpp
     kitemviews/kitemmodelbase.cpp
-    kitemviews/kpixmapmodifier.cpp
+    kitemviews/private/kfileitemclipboard.cpp
+    kitemviews/private/kfileitemmodeldirlister.cpp
+    kitemviews/private/kfileitemmodelsortalgorithm.cpp
+    kitemviews/private/kfileitemmodelfilter.cpp
+    kitemviews/private/kitemlistheaderwidget.cpp
+    kitemviews/private/kitemlistkeyboardsearchmanager.cpp
+    kitemviews/private/kitemlistrubberband.cpp
+    kitemviews/private/kitemlistselectiontoggle.cpp
+    kitemviews/private/kitemlistsizehintresolver.cpp
+    kitemviews/private/kitemlistsmoothscroller.cpp
+    kitemviews/private/kitemlistviewanimation.cpp
+    kitemviews/private/kitemlistviewlayouter.cpp
+    kitemviews/private/kpixmapmodifier.cpp
     settings/additionalinfodialog.cpp
     settings/applyviewpropsjob.cpp
     settings/viewmodes/viewmodesettings.cpp
     settings/viewpropertiesdialog.cpp
     settings/viewpropsprogressinfo.cpp
-    views/dolphindirlister.cpp
     views/dolphinfileitemlistwidget.cpp
     views/dolphinitemlistcontainer.cpp
     views/dolphinnewfilemenuobserver.cpp
@@ -71,7 +71,7 @@ set(dolphinprivate_LIB_SRCS
 if (Nepomuk_FOUND)
     set(dolphinprivate_LIB_SRCS
         ${dolphinprivate_LIB_SRCS}
-        kitemviews/knepomukrolesprovider.cpp
+        kitemviews/private/knepomukrolesprovider.cpp
     )
 endif (Nepomuk_FOUND)
 

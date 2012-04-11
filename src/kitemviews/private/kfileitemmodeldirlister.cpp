@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011 by Janardhan Reddy                                 *
- *   <annapareddyjanardhanreddy@gmail.com>                                 *
+ *   Copyright (C) 2006-2012 by Peter Penz <peter.penz19@gmail.com>        *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -18,54 +17,28 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA            *
  ***************************************************************************/
 
-#include "kfileitemmodelfilter_p.h"
+#include "kfileitemmodeldirlister.h"
+#include <KLocale>
+#include <KIO/JobClasses>
 
-#include <KFileItem>
-#include <QRegExp>
+KFileItemModelDirLister::KFileItemModelDirLister(QObject* parent) :
+    KDirLister(parent)
+{
+    setAutoErrorHandlingEnabled(false, 0);
+}
 
-KFileItemModelFilter::KFileItemModelFilter() :
-    m_useRegExp(false),
-    m_regExp(0),
-    m_lowerCasePattern(),
-    m_pattern()
+KFileItemModelDirLister::~KFileItemModelDirLister()
 {
 }
 
-KFileItemModelFilter::~KFileItemModelFilter()
+void KFileItemModelDirLister::handleError(KIO::Job* job)
 {
-    delete m_regExp;
-    m_regExp = 0;
-}
-
-void KFileItemModelFilter::setPattern(const QString& filter)
-{
-    m_pattern = filter;
-    m_lowerCasePattern = filter.toLower();
-
-    m_useRegExp = filter.contains('*') ||
-                  filter.contains('?') ||
-                  filter.contains('[');
-    if (m_useRegExp) {
-        if (!m_regExp) {
-            m_regExp = new QRegExp();
-            m_regExp->setCaseSensitivity(Qt::CaseInsensitive);
-            m_regExp->setMinimal(false);
-            m_regExp->setPatternSyntax(QRegExp::WildcardUnix);
-        }
-        m_regExp->setPattern(filter);
-    }
-}
-
-QString KFileItemModelFilter::pattern() const
-{
-    return m_pattern;
-}
-
-bool KFileItemModelFilter::matches(const KFileItem& item) const
-{
-    if (m_useRegExp) {
-        return m_regExp->exactMatch(item.text());
+    const QString errorString = job->errorString();
+    if (errorString.isEmpty()) {
+        emit errorMessage(i18nc("@info:status", "Unknown error."));
     } else {
-        return item.text().toLower().contains(m_lowerCasePattern);
+        emit errorMessage(errorString);
     }
 }
+
+#include "kfileitemmodeldirlister.moc"

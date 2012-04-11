@@ -22,9 +22,10 @@
 
 #include "kitemlistwidget.h"
 
-#include "kitemlistselectiontoggle_p.h"
 #include "kitemlistview.h"
 #include "kitemmodelbase.h"
+
+#include "private/kitemlistselectiontoggle.h"
 
 #include <KDebug>
 

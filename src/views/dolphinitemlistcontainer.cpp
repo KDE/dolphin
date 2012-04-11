@@ -31,7 +31,6 @@
 #include <kitemviews/kitemlistcontroller.h>
 #include <kitemviews/kitemliststyleoption.h>
 
-#include <KDirLister>
 #include <KGlobalSettings>
 
 #include <views/viewmodecontroller.h>
@@ -39,13 +38,12 @@
 #include "zoomlevelinfo.h"
 
 
-DolphinItemListContainer::DolphinItemListContainer(KDirLister* dirLister,
-                                                   QWidget* parent) :
+DolphinItemListContainer::DolphinItemListContainer(QWidget* parent) :
     KItemListContainer(parent),
     m_zoomLevel(0),
     m_fileItemListView(0)
 {
-    controller()->setModel(new KFileItemModel(dirLister, this));
+    controller()->setModel(new KFileItemModel(this));
 
     m_fileItemListView = new KFileItemListView();
     controller()->setView(m_fileItemListView);
