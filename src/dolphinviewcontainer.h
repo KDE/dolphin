@@ -162,13 +162,13 @@ private slots:
      * Updates the statusbar to show an undetermined progress with the correct
      * context information whether a searching or a directory loading is done.
      */
-    void slotStartedDirLoading();
+    void slotDirLoadingStarted();
 
     /**
      * Assures that the viewport position is restored and updates the
      * statusbar to reflect the current content.
      */
-    void slotFinishedDirLoading();
+    void slotDirLoadingCompleted();
 
     /**
      * Handles clicking on an item. If the item is a directory, the

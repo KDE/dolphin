@@ -189,7 +189,7 @@ public:
      * All items that match to the pattern \a pattern will get selected
      * if \a enabled is true and deselected if  \a enabled is false.
      */
-    void setItemSelectionEnabled(const QRegExp& pattern, bool enabled);
+    void selectItems(const QRegExp& pattern, bool enabled);
 
     /**
      * Sets the zoom level to \a level. It is assured that the used
@@ -198,18 +198,6 @@ public:
      */
     void setZoomLevel(int level);
     int zoomLevel() const;
-
-    /**
-     * Returns true, if zooming in is possible. If false is returned,
-     * the maximum zooming level has been reached.
-     */
-    bool isZoomInPossible() const;
-
-    /**
-     * Returns true, if zooming out is possible. If false is returned,
-     * the minimum zooming level has been reached.
-     */
-    bool isZoomOutPossible() const;
 
     void setSortRole(const QByteArray& role);
     QByteArray sortRole() const;
@@ -227,9 +215,7 @@ public:
     /** Returns the additional information which should be shown for the items. */
     QList<QByteArray> visibleRoles() const;
 
-    /** Reloads the current directory. */
     void reload();
-
     void stopLoading();
 
     /**
@@ -249,16 +235,6 @@ public:
      */
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
-
-    /**
-     * Calculates the number of currently shown files into
-     * \a fileCount and the number of folders into \a folderCount.
-     * The size of all files is written into \a totalFileSize.
-     * It is recommend using this method instead of asking the
-     * directory lister or the model directly, as it takes
-     * filtering and hierarchical previews into account.
-     */
-    void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
 
     /**
      * Returns a textual representation of the state of the current
@@ -303,9 +279,6 @@ public:
      * Saves the view state (current item, contents position, details view expansion state)
      */
     void saveState(QDataStream& stream);
-
-    /** Returns true, if at least one item is selected. */
-    bool hasSelection() const;
 
     /**
      * Returns the root item which represents the current URL.
@@ -479,17 +452,17 @@ signals:
 
     /**
      * Is emitted after DolphinView::setUrl() has been invoked and
-     * the directory \a url is currently loaded. If this signal is emitted,
+     * the current directory is loaded. If this signal is emitted,
      * it is assured that the view contains already the correct root
      * URL and property settings.
      */
-    void startedDirLoading(const KUrl& url);
+    void dirLoadingStarted();
 
     /**
      * Is emitted after the directory triggered by DolphinView::setUrl()
      * has been loaded.
      */
-    void finishedDirLoading(const KUrl& url);
+    void dirLoadingCompleted();
 
     /**
      * Is emitted after DolphinView::setUrl() has been invoked and provides
@@ -502,12 +475,6 @@ signals:
      * progress information of the sorting.
      */
     void dirSortingProgress(int percent);
-
-    /**
-     * Is emitted if the DolphinView::setUrl() is invoked but the URL is not
-     * a directory.
-     */
-    void urlIsFileError(const KUrl& file);
 
     /**
      * Emitted when the file-item-model emits redirection.
@@ -678,6 +645,16 @@ private slots:
     void updateViewState();
 
     void hideToolTip();
+
+    /**
+     * Calculates the number of currently shown files into
+     * \a fileCount and the number of folders into \a folderCount.
+     * The size of all files is written into \a totalFileSize.
+     * It is recommend using this method instead of asking the
+     * directory lister or the model directly, as it takes
+     * filtering and hierarchical previews into account.
+     */
+    void calculateItemCount(int& fileCount, int& folderCount, KIO::filesize_t& totalFileSize) const;
 
 private:
     KFileItemModel* fileItemModel() const;

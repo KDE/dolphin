@@ -477,7 +477,7 @@ void DolphinPart::openSelectionDialog(const QString& title, const QString& text,
 
     if (okClicked && !pattern.isEmpty()) {
         QRegExp patternRegExp(pattern, Qt::CaseSensitive, QRegExp::Wildcard);
-        m_view->setItemSelectionEnabled(patternRegExp, selectItems);
+        m_view->selectItems(patternRegExp, selectItems);
     }
 }
 
@@ -608,7 +608,7 @@ DolphinPart* DolphinPartFileInfoExtension::part() const
 
 bool DolphinPartFileInfoExtension::hasSelection() const
 {
-    return part()->view()->hasSelection();
+    return part()->view()->selectedItemsCount() > 0;
 }
 
 KParts::FileInfoExtension::QueryModes DolphinPartFileInfoExtension::supportedQueryModes() const

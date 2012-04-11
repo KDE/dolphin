@@ -99,8 +99,8 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
     connect(m_view, SIGNAL(itemActivated(KFileItem)),           this, SLOT(slotItemActivated(KFileItem)));
     connect(m_view, SIGNAL(redirection(KUrl,KUrl)),             this, SLOT(redirect(KUrl,KUrl)));
-    connect(m_view, SIGNAL(startedDirLoading(KUrl)),            this, SLOT(slotStartedDirLoading()));
-    connect(m_view, SIGNAL(finishedDirLoading(KUrl)),           this, SLOT(slotFinishedDirLoading()));
+    connect(m_view, SIGNAL(dirLoadingStarted()),                this, SLOT(slotDirLoadingStarted()));
+    connect(m_view, SIGNAL(dirLoadingCompleted()),              this, SLOT(slotDirLoadingCompleted()));
     connect(m_view, SIGNAL(itemCountChanged()),                 this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(dirLoadingProgress(int)),            this, SLOT(updateDirLoadingProgress(int)));
     connect(m_view, SIGNAL(dirSortingProgress(int)),            this, SLOT(updateSortingProgress(int)));
@@ -348,7 +348,7 @@ void DolphinViewContainer::updateSortingProgress(int percent)
     m_statusBar->setProgress(percent);
 }
 
-void DolphinViewContainer::slotStartedDirLoading()
+void DolphinViewContainer::slotDirLoadingStarted()
 {
     if (isSearchUrl(url())) {
         // Search KIO-slaves usually don't provide any progress information. Give
@@ -364,7 +364,7 @@ void DolphinViewContainer::slotStartedDirLoading()
     }
 }
 
-void DolphinViewContainer::slotFinishedDirLoading()
+void DolphinViewContainer::slotDirLoadingCompleted()
 {
     if (!m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(QString());

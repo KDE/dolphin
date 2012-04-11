@@ -347,7 +347,7 @@ void DolphinView::markUrlAsCurrent(const KUrl& url)
     m_currentItemUrl = url;
 }
 
-void DolphinView::setItemSelectionEnabled(const QRegExp& pattern, bool enabled)
+void DolphinView::selectItems(const QRegExp& pattern, bool enabled)
 {
     const KItemListSelectionManager::SelectionMode mode = enabled
                                                         ? KItemListSelectionManager::Select
@@ -490,23 +490,6 @@ QString DolphinView::nameFilter() const
     return fileItemModel()->nameFilter();
 }
 
-void DolphinView::calculateItemCount(int& fileCount,
-                                     int& folderCount,
-                                     KIO::filesize_t& totalFileSize) const
-{
-    const KFileItemModel* model = fileItemModel();
-    const int itemCount = model->count();
-    for (int i = 0; i < itemCount; ++i) {
-        const KFileItem item = model->fileItem(i);
-        if (item.isDir()) {
-            ++folderCount;
-        } else {
-            ++fileCount;
-            totalFileSize += item.size();
-        }
-    }
-}
-
 QString DolphinView::statusBarText() const
 {
     QString summary;
@@ -517,7 +500,7 @@ QString DolphinView::statusBarText() const
     int fileCount = 0;
     KIO::filesize_t totalFileSize = 0;
 
-    if (hasSelection()) {
+    if (m_container->controller()->selectionManager()->hasSelection()) {
         // Give a summary of the status of the selected files
         const KFileItemList list = selectedItems();
         foreach (const KFileItem& item, list) {
@@ -1120,11 +1103,6 @@ void DolphinView::saveState(QDataStream& stream)
     stream << fileItemModel()->expandedUrls();
 }
 
-bool DolphinView::hasSelection() const
-{
-    return m_container->controller()->selectionManager()->hasSelection();
-}
-
 KFileItem DolphinView::rootItem() const
 {
     return fileItemModel()->rootItem();
@@ -1209,6 +1187,23 @@ void DolphinView::hideToolTip()
     }
 }
 
+void DolphinView::calculateItemCount(int& fileCount,
+                                     int& folderCount,
+                                     KIO::filesize_t& totalFileSize) const
+{
+    const KFileItemModel* model = fileItemModel();
+    const int itemCount = model->count();
+    for (int i = 0; i < itemCount; ++i) {
+        const KFileItem item = model->fileItem(i);
+        if (item.isDir()) {
+            ++folderCount;
+        } else {
+            ++fileCount;
+            totalFileSize += item.size();
+        }
+    }
+}
+
 void DolphinView::showHoverInformation(const KFileItem& item)
 {
     emit requestItemInfo(item);
@@ -1237,16 +1232,16 @@ void DolphinView::slotDirLoadingStarted()
         emit writeStateChanged(m_isFolderWritable);
     }
 
-    emit startedDirLoading(url());
+    emit dirLoadingStarted();
 }
 
 void DolphinView::slotDirLoadingCompleted()
 {
-    // Update the view-state. This has to be done using a Qt::QueuedConnection
+    // Update the view-state. This has to be done asynchronously
     // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, SLOT(updateViewState()));
 
-    emit finishedDirLoading(url());
+    emit dirLoadingCompleted();
 
     updateWritableState();
 }
