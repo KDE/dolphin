@@ -97,8 +97,8 @@ void KItemListControllerTest::initTestCase()
         << "e1" << "e2" << "e3" << "e4" << "e5" << "e6" << "e7";
 
     m_testDir->createFiles(files);
-    m_model->loadDir(m_testDir->url());
-    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(dirLoadingCompleted()), DefaultTimeout));
+    m_model->loadDirectory(m_testDir->url());
+    QVERIFY(QTest::kWaitForSignal(m_model, SIGNAL(directoryLoadingCompleted()), DefaultTimeout));
 
     m_container->show();
     QTest::qWaitForWindowShown(m_container);

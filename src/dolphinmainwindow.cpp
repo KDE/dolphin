@@ -2088,9 +2088,9 @@ void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
             this, SLOT(openNewTab(KUrl)));
     connect(view, SIGNAL(requestContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)),
             this, SLOT(openContextMenu(QPoint,KFileItem,KUrl,QList<QAction*>)));
-    connect(view, SIGNAL(dirLoadingStarted()),
+    connect(view, SIGNAL(directoryLoadingStarted()),
             this, SLOT(enableStopAction()));
-    connect(view, SIGNAL(dirLoadingCompleted()),
+    connect(view, SIGNAL(directoryLoadingCompleted()),
             this, SLOT(disableStopAction()));
     connect(view, SIGNAL(goBackRequested()),
             this, SLOT(goBack()));

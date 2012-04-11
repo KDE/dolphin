@@ -1040,7 +1040,7 @@ KFileItemList KFileItemModelRolesUpdater::sortedItems(const QSet<KFileItem>& ite
 int KFileItemModelRolesUpdater::subItemsCount(const QString& path) const
 {
     const bool countHiddenFiles = m_model->showHiddenFiles();
-    const bool showFoldersOnly  = m_model->showFoldersOnly();
+    const bool showFoldersOnly  = m_model->showDirectoriesOnly();
 
 #ifdef Q_WS_WIN
     QDir dir(path);

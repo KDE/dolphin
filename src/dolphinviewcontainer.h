@@ -154,21 +154,21 @@ private slots:
      */
     void updateStatusBar();
 
-    void updateDirLoadingProgress(int percent);
+    void updateDirectoryLoadingProgress(int percent);
 
-    void updateSortingProgress(int percent);
+    void updateDirectorySortingProgress(int percent);
 
     /**
      * Updates the statusbar to show an undetermined progress with the correct
      * context information whether a searching or a directory loading is done.
      */
-    void slotDirLoadingStarted();
+    void slotDirectoryLoadingStarted();
 
     /**
      * Assures that the viewport position is restored and updates the
      * statusbar to reflect the current content.
      */
-    void slotDirLoadingCompleted();
+    void slotDirectoryLoadingCompleted();
 
     /**
      * Handles clicking on an item. If the item is a directory, the

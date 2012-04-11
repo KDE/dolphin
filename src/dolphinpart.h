@@ -153,7 +153,7 @@ private Q_SLOTS:
      * Testcase 1: fish://localhost
      * Testcase 2: showing a directory that is being renamed by another window (#180156)
      */
-    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
      * Updates the state of the 'Edit' menu actions and emits

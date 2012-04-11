@@ -456,25 +456,25 @@ signals:
      * it is assured that the view contains already the correct root
      * URL and property settings.
      */
-    void dirLoadingStarted();
+    void directoryLoadingStarted();
 
     /**
      * Is emitted after the directory triggered by DolphinView::setUrl()
      * has been loaded.
      */
-    void dirLoadingCompleted();
+    void directoryLoadingCompleted();
 
     /**
      * Is emitted after DolphinView::setUrl() has been invoked and provides
      * the information how much percent of the current directory have been loaded.
      */
-    void dirLoadingProgress(int percent);
+    void directoryLoadingProgress(int percent);
 
     /**
      * Is emitted if the sorting is done asynchronously and provides the
      * progress information of the sorting.
      */
-    void dirSortingProgress(int percent);
+    void directorySortingProgress(int percent);
 
     /**
      * Emitted when the file-item-model emits redirection.
@@ -585,13 +585,13 @@ private slots:
      * Invoked when the file item model has started the loading
      * of the directory specified by DolphinView::url().
      */
-    void slotDirLoadingStarted();
+    void slotDirectoryLoadingStarted();
 
     /**
      * Invoked when the file item model indicates that the loading of a directory has
      * been completed. Assures that pasted items and renamed items get seleced.
      */
-    void slotDirLoadingCompleted();
+    void slotDirectoryLoadingCompleted();
 
     /**
      * Is invoked when items of KFileItemModel have been changed.
@@ -636,7 +636,7 @@ private slots:
      * Called when a redirection happens.
      * Testcase: fish://localhost
      */
-    void slotRedirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
     /**
      * Applies the state that has been restored by restoreViewState()

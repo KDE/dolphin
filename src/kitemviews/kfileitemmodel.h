@@ -34,13 +34,11 @@ class QTimer;
 /**
  * @brief KItemModelBase implementation for KFileItems.
  *
- * KFileItemModel is connected with one KDirLister. Each time the KDirLister
- * emits new items, removes items or changes items the model gets synchronized.
+ * Allows to load items of a directory. Sorting and grouping of
+ * items are supported. Roles that are not part of KFileItem can
+ * be added with KFileItemModel::setData().
  *
- * KFileItemModel supports sorting and grouping of items. Additional roles that
- * are not part of KFileItem can be added with KFileItemModel::setData().
- *
- * Also the recursive expansion of sub-directories is supported by
+ * Recursive expansion of sub-directories is supported by
  * KFileItemModel::setExpanded().
  */
 class LIBDOLPHINPRIVATE_EXPORT KFileItemModel : public KItemModelBase
@@ -53,17 +51,17 @@ public:
 
     /**
      * Loads the directory specified by \a url. The signals
-     * dirLoadingStarted(), dirLoadingProgress() and dirLoadingCompleted()
+     * directoryLoadingStarted(), directoryLoadingProgress() and directoryLoadingCompleted()
      * indicate the current state of the loading process. The items
      * of the directory are added after the loading has been completed.
      */
-    void loadDir(const KUrl& url);
+    void loadDirectory(const KUrl& url);
 
     /**
      * Throws away all currently loaded items and refreshes the directory
      * by reloading all items again.
      */
-    void refreshDir(const KUrl& url);
+    void refreshDirectory(const KUrl& url);
 
     /**
      * @return Parent directory of the items that are shown. In case
@@ -71,27 +69,34 @@ public:
      *         the root-parent of all items.
      * @see rootItem()
      */
-    KUrl dir() const;
+    KUrl directory() const;
+
+    /**
+     * Cancels the loading of a directory which has been started by either
+     * loadDirectory() or refreshDirectory().
+     */
+    void cancelDirectoryLoading();
 
     virtual int count() const;
     virtual QHash<QByteArray, QVariant> data(int index) const;
     virtual bool setData(int index, const QHash<QByteArray, QVariant>& values);
 
     /**
-     * Sets a separate sorting with folders first (true) or a mixed sorting of files and folders (false).
+     * Sets a separate sorting with directories first (true) or a mixed
+     * sorting of files and directories (false).
      */
-    void setSortFoldersFirst(bool foldersFirst);
-    bool sortFoldersFirst() const;
+    void setSortDirectoriesFirst(bool dirsFirst);
+    bool sortDirectoriesFirst() const;
 
     void setShowHiddenFiles(bool show);
     bool showHiddenFiles() const;
 
     /**
-     * If set to true, only folders are shown as items of the model. Files
+     * If set to true, only directories are shown as items of the model. Files
      * are ignored.
      */
-    void setShowFoldersOnly(bool enabled);
-    bool showFoldersOnly() const;
+    void setShowDirectoriesOnly(bool enabled);
+    bool showDirectoriesOnly() const;
 
     /** @reimp */
     virtual QMimeData* createMimeData(const QSet<int>& indexes) const;
@@ -146,7 +151,9 @@ public:
      */
     void clear();
 
-    // TODO: "name" + "isDir" is default in ctor
+    /**
+     * Sets the roles that should be shown for each item.
+     */
     void setRoles(const QSet<QByteArray>& roles);
     QSet<QByteArray> roles() const;
 
@@ -155,24 +162,22 @@ public:
     virtual bool isExpandable(int index) const;
     virtual int expandedParentsCount(int index) const;
 
-    QSet<KUrl> expandedUrls() const;
+    QSet<KUrl> expandedDirectories() const;
 
     /**
-     * Marks the URLs in \a urls as subfolders which were expanded previously.
-     * They are re-expanded one by one each time the KDirLister's completed() signal is received.
-     * Note that a manual triggering of the KDirLister is required.
+     * Marks the URLs in \a urls as sub-directories which were expanded previously.
+     * After calling loadDirectory() or refreshDirectory() the marked sub-directories
+     * will be expanded step-by-step.
      */
-    void restoreExpandedUrls(const QSet<KUrl>& urls);
+    void restoreExpandedDirectories(const QSet<KUrl>& urls);
 
     /**
-     * Expands all parent-items of \a url.
+     * Expands all parent-directories of the item \a url.
      */
-    void expandParentItems(const KUrl& url);
+    void expandParentDirectories(const KUrl& url);
 
     void setNameFilter(const QString& nameFilter);
     QString nameFilter() const;
-
-    void cancelDirLoading();
 
     struct RoleInfo
     {   QByteArray role;
@@ -193,11 +198,11 @@ public:
 signals:
     /**
      * Is emitted if the loading of a directory has been started. It is
-     * assured that a signal dirLoadingCompleted() will be send after
+     * assured that a signal directoryLoadingCompleted() will be send after
      * the loading has been finished. For tracking the loading progress
-     * the signal dirLoadingProgress() gets emitted in between.
+     * the signal directoryLoadingProgress() gets emitted in between.
      */
-    void dirLoadingStarted();
+    void directoryLoadingStarted();
 
     /**
      * Is emitted after the loading of a directory has been completed or new
@@ -206,20 +211,20 @@ signals:
      * (the only exception is loading an empty directory, where only a
      * loadingCompleted() signal gets emitted).
      */
-    void dirLoadingCompleted();
+    void directoryLoadingCompleted();
 
     /**
      * Informs about the progress in percent when loading a directory. It is assured
-     * that the signal dirLoadingStarted() has been emitted before.
+     * that the signal directoryLoadingStarted() has been emitted before.
      */
-    void dirLoadingProgress(int percent);
+    void directoryLoadingProgress(int percent);
 
     /**
      * Is emitted if the sort-role gets resolved asynchronously and provides
      * the progress-information of the sorting in percent. It is assured
      * that the last sortProgress-signal contains 100 as value.
      */
-    void dirSortingProgress(int percent);
+    void directorySortingProgress(int percent);
 
     /**
      * Is emitted if an information message (e.g. "Connecting to host...")
@@ -237,7 +242,7 @@ signals:
      * Is emitted if a redirection from the current URL \a oldUrl
      * to the new URL \a newUrl has been done.
      */
-    void redirection(const KUrl& oldUrl, const KUrl& newUrl);
+    void directoryRedirection(const KUrl& oldUrl, const KUrl& newUrl);
 
 protected:
     virtual void onGroupedSortingChanged(bool current);
@@ -408,10 +413,10 @@ private:
     KFileItemModelDirLister* m_dirLister;
 
     bool m_naturalSorting;
-    bool m_sortFoldersFirst;
+    bool m_sortDirsFirst;
 
     RoleType m_sortRole;
-    int m_sortingProgressPercent; // Value of dirSortingProgress() signal
+    int m_sortingProgressPercent; // Value of directorySortingProgress() signal
     QSet<QByteArray> m_roles;
     Qt::CaseSensitivity m_caseSensitivity;
 
@@ -445,8 +450,8 @@ private:
     };
     mutable int m_expandedParentsCountRoot;
 
-    // Stores the URLs of the expanded folders.
-    QSet<KUrl> m_expandedUrls;
+    // Stores the URLs of the expanded directories.
+    QSet<KUrl> m_expandedDirs;
 
     // URLs that must be expanded. The expanding is initially triggered in setExpanded()
     // and done step after step in slotCompleted().

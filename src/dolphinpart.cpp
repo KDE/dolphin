@@ -70,7 +70,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     setWidget(m_view);
 
     connect(m_view, SIGNAL(finishedDirLoading(KUrl)), this, SLOT(slotCompleted(KUrl)));
-    connect(m_view, SIGNAL(dirLoadingProgress(int)), this, SLOT(updateProgress(int)));
+    connect(m_view, SIGNAL(directoryLoadingProgress(int)), this, SLOT(updateProgress(int)));
     connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
 
     setXMLFile("dolphinpart.rc");
@@ -96,7 +96,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     connect(m_view, SIGNAL(modeChanged(DolphinView::Mode,DolphinView::Mode)),
             this, SIGNAL(viewModeChanged())); // relay signal
     connect(m_view, SIGNAL(redirection(KUrl,KUrl)),
-            this, SLOT(slotRedirection(KUrl,KUrl)));
+            this, SLOT(slotDirectoryRedirection(KUrl,KUrl)));
 
     // Watch for changes that should result in updates to the
     // status bar text.
@@ -437,7 +437,7 @@ void DolphinPart::slotOpenContextMenu(const QPoint& pos,
                                 actionGroups);
 }
 
-void DolphinPart::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinPart::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
     //kDebug() << oldUrl << newUrl << "currentUrl=" << url();
     if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash /* #207572 */)) {

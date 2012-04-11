@@ -136,17 +136,17 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
     connect(controller, SIGNAL(modelChanged(KItemModelBase*,KItemModelBase*)), this, SLOT(slotModelChanged(KItemModelBase*,KItemModelBase*)));
 
     KFileItemModel* model = fileItemModel();
-    connect(model, SIGNAL(dirLoadingStarted()),            this, SLOT(slotDirLoadingStarted()));
-    connect(model, SIGNAL(dirLoadingCompleted()),          this, SLOT(slotDirLoadingCompleted()));
-    connect(model, SIGNAL(dirLoadingProgress(int)),        this, SIGNAL(dirLoadingProgress(int)));
-    connect(model, SIGNAL(dirSortingProgress(int)),        this, SIGNAL(dirSortingProgress(int)));
+    connect(model, SIGNAL(directoryLoadingStarted()),       this, SLOT(slotDirectoryLoadingStarted()));
+    connect(model, SIGNAL(directoryLoadingCompleted()),     this, SLOT(slotDirectoryLoadingCompleted()));
+    connect(model, SIGNAL(directoryLoadingProgress(int)),   this, SIGNAL(directoryLoadingProgress(int)));
+    connect(model, SIGNAL(directorySortingProgress(int)),   this, SIGNAL(directorySortingProgress(int)));
     connect(model, SIGNAL(itemsChanged(KItemRangeList,QSet<QByteArray>)),
             this, SLOT(slotItemsChanged()));
-    connect(model, SIGNAL(itemsRemoved(KItemRangeList)),   this, SIGNAL(itemCountChanged()));
-    connect(model, SIGNAL(itemsInserted(KItemRangeList)),  this, SIGNAL(itemCountChanged()));
-    connect(model, SIGNAL(infoMessage(QString)),           this, SIGNAL(infoMessage(QString)));
-    connect(model, SIGNAL(errorMessage(QString)),          this, SIGNAL(errorMessage(QString)));
-    connect(model, SIGNAL(redirection(KUrl,KUrl)),         this, SLOT(slotRedirection(KUrl,KUrl)));
+    connect(model, SIGNAL(itemsRemoved(KItemRangeList)),    this, SIGNAL(itemCountChanged()));
+    connect(model, SIGNAL(itemsInserted(KItemRangeList)),   this, SIGNAL(itemCountChanged()));
+    connect(model, SIGNAL(infoMessage(QString)),            this, SIGNAL(infoMessage(QString)));
+    connect(model, SIGNAL(errorMessage(QString)),           this, SIGNAL(errorMessage(QString)));
+    connect(model, SIGNAL(directoryRedirection(KUrl,KUrl)), this, SLOT(slotDirectoryRedirection(KUrl,KUrl)));
 
     KItemListView* view = controller->view();
     view->installEventFilter(this);
@@ -417,7 +417,7 @@ void DolphinView::setSortFoldersFirst(bool foldersFirst)
 bool DolphinView::sortFoldersFirst() const
 {
     KFileItemModel* model = fileItemModel();
-    return model->sortFoldersFirst();
+    return model->sortDirectoriesFirst();
 }
 
 void DolphinView::setVisibleRoles(const QList<QByteArray>& roles)
@@ -457,7 +457,7 @@ void DolphinView::reload()
 
 void DolphinView::stopLoading()
 {
-    fileItemModel()->cancelDirLoading();
+    fileItemModel()->cancelDirectoryLoading();
 }
 
 void DolphinView::readSettings()
@@ -968,11 +968,11 @@ void DolphinView::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* even
 void DolphinView::slotModelChanged(KItemModelBase* current, KItemModelBase* previous)
 {
     if (previous != 0) {
-        disconnect(previous, SIGNAL(dirLoadingCompleted()), this, SLOT(slotDirLoadingCompleted()));
+        disconnect(previous, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotDirectoryLoadingCompleted()));
     }
 
     Q_ASSERT(qobject_cast<KFileItemModel*>(current));
-    connect(current, SIGNAL(loadingCompleted()), this, SLOT(slotDirLoadingCompleted()));
+    connect(current, SIGNAL(loadingCompleted()), this, SLOT(slotDirectoryLoadingCompleted()));
 
     KFileItemModel* fileItemModel = static_cast<KFileItemModel*>(current);
     m_versionControlObserver->setModel(fileItemModel);
@@ -1042,7 +1042,7 @@ void DolphinView::updateSortFoldersFirst(bool foldersFirst)
     props.setSortFoldersFirst(foldersFirst);
 
     KFileItemModel* model = fileItemModel();
-    model->setSortFoldersFirst(foldersFirst);
+    model->setSortDirectoriesFirst(foldersFirst);
 
     emit sortFoldersFirstChanged(foldersFirst);
 }
@@ -1078,7 +1078,7 @@ void DolphinView::restoreState(QDataStream& stream)
     // Restore expanded folders (only relevant for the details view - will be ignored by the view in other view modes)
     QSet<KUrl> urls;
     stream >> urls;
-    fileItemModel()->restoreExpandedUrls(urls);
+    fileItemModel()->restoreExpandedDirectories(urls);
 }
 
 void DolphinView::saveState(QDataStream& stream)
@@ -1100,7 +1100,7 @@ void DolphinView::saveState(QDataStream& stream)
     stream << QPoint(x, y);
 
     // Save expanded folders (only relevant for the details view - the set will be empty in other view modes)
-    stream << fileItemModel()->expandedUrls();
+    stream << fileItemModel()->expandedDirectories();
 }
 
 KFileItem DolphinView::rootItem() const
@@ -1131,7 +1131,7 @@ void DolphinView::selectAndScrollToCreatedItem()
     m_createdItemUrl = KUrl();
 }
 
-void DolphinView::slotRedirection(const KUrl& oldUrl, const KUrl& newUrl)
+void DolphinView::slotDirectoryRedirection(const KUrl& oldUrl, const KUrl& newUrl)
 {
     if (oldUrl.equals(url(), KUrl::CompareWithoutTrailingSlash)) {
         emit redirection(oldUrl, newUrl);
@@ -1223,7 +1223,7 @@ void DolphinView::slotDeleteFileFinished(KJob* job)
     }
 }
 
-void DolphinView::slotDirLoadingStarted()
+void DolphinView::slotDirectoryLoadingStarted()
 {
     // Disable the writestate temporary until it can be determined in a fast way
     // in DolphinView::slotLoadingCompleted()
@@ -1232,16 +1232,16 @@ void DolphinView::slotDirLoadingStarted()
         emit writeStateChanged(m_isFolderWritable);
     }
 
-    emit dirLoadingStarted();
+    emit directoryLoadingStarted();
 }
 
-void DolphinView::slotDirLoadingCompleted()
+void DolphinView::slotDirectoryLoadingCompleted()
 {
     // Update the view-state. This has to be done asynchronously
     // because the view might not be in its final state yet.
     QTimer::singleShot(0, this, SLOT(updateViewState()));
 
-    emit dirLoadingCompleted();
+    emit directoryLoadingCompleted();
 
     updateWritableState();
 }
@@ -1308,9 +1308,9 @@ void DolphinView::loadDirectory(const KUrl& url, bool reload)
 
     KFileItemModel* model = fileItemModel();
     if (reload) {
-        model->refreshDir(url);
+        model->refreshDirectory(url);
     } else {
-        model->loadDir(url);
+        model->loadDirectory(url);
     }
 }
 
@@ -1370,8 +1370,8 @@ void DolphinView::applyViewProperties()
     }
 
     const bool sortFoldersFirst = props.sortFoldersFirst();
-    if (sortFoldersFirst != model->sortFoldersFirst()) {
-        model->setSortFoldersFirst(sortFoldersFirst);
+    if (sortFoldersFirst != model->sortDirectoriesFirst()) {
+        model->setSortDirectoriesFirst(sortFoldersFirst);
         emit sortFoldersFirstChanged(sortFoldersFirst);
     }
 

@@ -148,11 +148,11 @@ void FoldersPanel::showEvent(QShowEvent* event)
         view->setOpacity(0);
 
         KFileItemModel* model = new KFileItemModel(this);
-        model->setShowFoldersOnly(true);
+        model->setShowDirectoriesOnly(true);
         model->setShowHiddenFiles(FoldersPanelSettings::hiddenFilesShown());
         // Use a QueuedConnection to give the view the possibility to react first on the
         // finished loading.
-        connect(model, SIGNAL(dirLoadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
+        connect(model, SIGNAL(directoryLoadingCompleted()), this, SLOT(slotLoadingCompleted()), Qt::QueuedConnection);
 
         KItemListContainer* container = new KItemListContainer(this);
         m_controller = container->controller();
@@ -309,9 +309,9 @@ void FoldersPanel::loadTree(const KUrl& url)
     }
 
     KFileItemModel* model = fileItemModel();
-    if (model->dir() != baseUrl) {
+    if (model->directory() != baseUrl) {
         m_updateCurrentItem = true;
-        model->refreshDir(baseUrl);
+        model->refreshDirectory(baseUrl);
     }
 
     const int index = model->index(url);
@@ -319,7 +319,7 @@ void FoldersPanel::loadTree(const KUrl& url)
         updateCurrentItem(index);
     } else {
         m_updateCurrentItem = true;
-        model->expandParentItems(url);
+        model->expandParentDirectories(url);
         // slotLoadingCompleted() will be invoked after the model has
         // expanded the url
     }

@@ -37,7 +37,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     KItemModelBase("name", parent),
     m_dirLister(0),
     m_naturalSorting(KGlobalSettings::naturalSorting()),
-    m_sortFoldersFirst(true),
+    m_sortDirsFirst(true),
     m_sortRole(NameRole),
     m_sortingProgressPercent(-1),
     m_roles(),
@@ -52,14 +52,14 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_pendingItemsToInsert(),
     m_groups(),
     m_expandedParentsCountRoot(UninitializedExpandedParentsCountRoot),
-    m_expandedUrls(),
+    m_expandedDirs(),
     m_urlsToExpand()
 {
     m_dirLister = new KFileItemModelDirLister(this);
     m_dirLister->setAutoUpdate(true);
     m_dirLister->setDelayedMimeTypes(true);
 
-    connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(dirLoadingStarted()));
+    connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(directoryLoadingStarted()));
     connect(m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));
     connect(m_dirLister, SIGNAL(completed(KUrl)), this, SLOT(slotCompleted()));
     connect(m_dirLister, SIGNAL(newItems(KFileItemList)), this, SLOT(slotNewItems(KFileItemList)));
@@ -69,7 +69,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     connect(m_dirLister, SIGNAL(clear(KUrl)), this, SLOT(slotClear(KUrl)));
     connect(m_dirLister, SIGNAL(infoMessage(QString)), this, SIGNAL(infoMessage(QString)));
     connect(m_dirLister, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
-    connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SIGNAL(redirection(KUrl,KUrl)));
+    connect(m_dirLister, SIGNAL(redirection(KUrl,KUrl)), this, SIGNAL(directoryRedirection(KUrl,KUrl)));
 
     // Apply default roles that should be determined
     resetRoles();
@@ -103,19 +103,24 @@ KFileItemModel::~KFileItemModel()
     m_itemData.clear();
 }
 
-void KFileItemModel::loadDir(const KUrl& url)
+void KFileItemModel::loadDirectory(const KUrl& url)
 {
     m_dirLister->openUrl(url);
 }
 
-void KFileItemModel::refreshDir(const KUrl& url)
+void KFileItemModel::refreshDirectory(const KUrl& url)
 {
     m_dirLister->openUrl(url, KDirLister::Reload);
 }
 
-KUrl KFileItemModel::dir() const
+KUrl KFileItemModel::directory() const
 {
     return m_dirLister->url();
+}
+
+void KFileItemModel::cancelDirectoryLoading()
+{
+    m_dirLister->stop();
 }
 
 int KFileItemModel::count() const
@@ -167,17 +172,17 @@ bool KFileItemModel::setData(int index, const QHash<QByteArray, QVariant>& value
     return true;
 }
 
-void KFileItemModel::setSortFoldersFirst(bool foldersFirst)
+void KFileItemModel::setSortDirectoriesFirst(bool dirsFirst)
 {
-    if (foldersFirst != m_sortFoldersFirst) {
-        m_sortFoldersFirst = foldersFirst;
+    if (dirsFirst != m_sortDirsFirst) {
+        m_sortDirsFirst = dirsFirst;
         resortAllItems();
     }
 }
 
-bool KFileItemModel::sortFoldersFirst() const
+bool KFileItemModel::sortDirectoriesFirst() const
 {
-    return m_sortFoldersFirst;
+    return m_sortDirsFirst;
 }
 
 void KFileItemModel::setShowHiddenFiles(bool show)
@@ -194,12 +199,12 @@ bool KFileItemModel::showHiddenFiles() const
     return m_dirLister->showingDotFiles();
 }
 
-void KFileItemModel::setShowFoldersOnly(bool enabled)
+void KFileItemModel::setShowDirectoriesOnly(bool enabled)
 {
     m_dirLister->setDirOnlyMode(enabled);
 }
 
-bool KFileItemModel::showFoldersOnly() const
+bool KFileItemModel::showDirectoriesOnly() const
 {
     return m_dirLister->dirOnlyMode();
 }
@@ -403,10 +408,10 @@ bool KFileItemModel::setExpanded(int index, bool expanded)
 
     const KUrl url = m_itemData.at(index)->item.url();
     if (expanded) {
-        m_expandedUrls.insert(url);
+        m_expandedDirs.insert(url);
         m_dirLister->openUrl(url, KDirLister::Keep);
     } else {
-        m_expandedUrls.remove(url);
+        m_expandedDirs.remove(url);
         m_dirLister->stop(url);
 
 
@@ -450,17 +455,17 @@ int KFileItemModel::expandedParentsCount(int index) const
     return 0;
 }
 
-QSet<KUrl> KFileItemModel::expandedUrls() const
+QSet<KUrl> KFileItemModel::expandedDirectories() const
 {
-    return m_expandedUrls;
+    return m_expandedDirs;
 }
 
-void KFileItemModel::restoreExpandedUrls(const QSet<KUrl>& urls)
+void KFileItemModel::restoreExpandedDirectories(const QSet<KUrl>& urls)
 {
     m_urlsToExpand = urls;
 }
 
-void KFileItemModel::expandParentItems(const KUrl& url)
+void KFileItemModel::expandParentDirectories(const KUrl& url)
 {
     const int pos = m_dirLister->url().path().length();
 
@@ -532,11 +537,6 @@ void KFileItemModel::setNameFilter(const QString& nameFilter)
 QString KFileItemModel::nameFilter() const
 {
     return m_filter.pattern();
-}
-
-void KFileItemModel::cancelDirLoading()
-{
-    m_dirLister->stop();
 }
 
 QList<KFileItemModel::RoleInfo> KFileItemModel::rolesInformation()
@@ -668,7 +668,7 @@ void KFileItemModel::slotCompleted()
         m_urlsToExpand.clear();
     }
 
-    emit dirLoadingCompleted();
+    emit directoryLoadingCompleted();
 }
 
 void KFileItemModel::slotCanceled()
@@ -853,7 +853,7 @@ void KFileItemModel::slotClear()
         emit itemsRemoved(KItemRangeList() << KItemRange(0, removedCount));
     }
 
-    m_expandedUrls.clear();
+    m_expandedDirs.clear();
 }
 
 void KFileItemModel::slotClear(const KUrl& url)
@@ -1089,7 +1089,7 @@ void KFileItemModel::removeExpandedItems()
     removeItems(expandedItems);
 
     m_expandedParentsCountRoot = UninitializedExpandedParentsCountRoot;
-    m_expandedUrls.clear();
+    m_expandedDirs.clear();
 }
 
 void KFileItemModel::resetRoles()
@@ -1271,7 +1271,7 @@ bool KFileItemModel::lessThan(const ItemData* a, const ItemData* b) const
         }
     }
 
-    if (m_sortFoldersFirst || m_sortRole == SizeRole) {
+    if (m_sortDirsFirst || m_sortRole == SizeRole) {
         const bool isDirA = a->item.isDir();
         const bool isDirB = b->item.isDir();
         if (isDirA && !isDirB) {
@@ -1459,7 +1459,7 @@ int KFileItemModel::expandedParentsCountCompare(const ItemData* a, const ItemDat
     bool isDirB = true;
     const QString subPathB = subPath(b->item, pathB, index, &isDirB);
 
-    if (m_sortFoldersFirst || m_sortRole == SizeRole) {
+    if (m_sortDirsFirst || m_sortRole == SizeRole) {
         if (isDirA && !isDirB) {
             return (sortOrder() == Qt::AscendingOrder) ? -1 : +1;
         } else if (!isDirA && isDirB) {
@@ -1854,14 +1854,14 @@ void KFileItemModel::emitSortProgress(int resolvedCount)
             resortAllItems();
         }
 
-        emit dirSortingProgress(100);
+        emit directorySortingProgress(100);
     } else if (itemCount > 0) {
         resolvedCount = qBound(0, resolvedCount, itemCount);
 
         const int progress = resolvedCount * 100 / itemCount;
         if (m_sortingProgressPercent != progress) {
             m_sortingProgressPercent = progress;
-            emit dirSortingProgress(progress);
+            emit directorySortingProgress(progress);
         }
     }
 }

@@ -99,11 +99,11 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
     connect(m_view, SIGNAL(itemActivated(KFileItem)),           this, SLOT(slotItemActivated(KFileItem)));
     connect(m_view, SIGNAL(redirection(KUrl,KUrl)),             this, SLOT(redirect(KUrl,KUrl)));
-    connect(m_view, SIGNAL(dirLoadingStarted()),                this, SLOT(slotDirLoadingStarted()));
-    connect(m_view, SIGNAL(dirLoadingCompleted()),              this, SLOT(slotDirLoadingCompleted()));
+    connect(m_view, SIGNAL(directoryLoadingStarted()),          this, SLOT(slotDirectoryLoadingStarted()));
+    connect(m_view, SIGNAL(directoryLoadingCompleted()),        this, SLOT(slotDirectoryLoadingCompleted()));
     connect(m_view, SIGNAL(itemCountChanged()),                 this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(dirLoadingProgress(int)),            this, SLOT(updateDirLoadingProgress(int)));
-    connect(m_view, SIGNAL(dirSortingProgress(int)),            this, SLOT(updateSortingProgress(int)));
+    connect(m_view, SIGNAL(directoryLoadingProgress(int)),      this, SLOT(updateDirectoryLoadingProgress(int)));
+    connect(m_view, SIGNAL(directorySortingProgress(int)),      this, SLOT(updateDirectorySortingProgress(int)));
     connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
     connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
@@ -332,7 +332,7 @@ void DolphinViewContainer::updateStatusBar()
     }
 }
 
-void DolphinViewContainer::updateDirLoadingProgress(int percent)
+void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(i18nc("@info:progress", "Loading folder..."));
@@ -340,7 +340,7 @@ void DolphinViewContainer::updateDirLoadingProgress(int percent)
     m_statusBar->setProgress(percent);
 }
 
-void DolphinViewContainer::updateSortingProgress(int percent)
+void DolphinViewContainer::updateDirectorySortingProgress(int percent)
 {
     if (m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(i18nc("@info:progress", "Sorting..."));
@@ -348,7 +348,7 @@ void DolphinViewContainer::updateSortingProgress(int percent)
     m_statusBar->setProgress(percent);
 }
 
-void DolphinViewContainer::slotDirLoadingStarted()
+void DolphinViewContainer::slotDirectoryLoadingStarted()
 {
     if (isSearchUrl(url())) {
         // Search KIO-slaves usually don't provide any progress information. Give
@@ -360,11 +360,11 @@ void DolphinViewContainer::slotDirLoadingStarted()
         // Trigger an undetermined progress indication. The progress
         // information in percent will be triggered by the percent() signal
         // of the directory lister later.
-        updateDirLoadingProgress(-1);
+        updateDirectoryLoadingProgress(-1);
     }
 }
 
-void DolphinViewContainer::slotDirLoadingCompleted()
+void DolphinViewContainer::slotDirectoryLoadingCompleted()
 {
     if (!m_statusBar->progressText().isEmpty()) {
         m_statusBar->setProgressText(QString());
