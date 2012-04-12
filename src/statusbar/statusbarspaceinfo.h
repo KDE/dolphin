@@ -51,8 +51,10 @@ protected:
     void hideEvent(QHideEvent* event);
 
 private slots:
-    /** Refreshes the space information for the current set URL. */
-    void refresh();
+    /**
+     * Calculates the space information for the current set URL.
+     */
+    void calculateSpaceInfo();
 
 private:
     quint64 m_kBSize;

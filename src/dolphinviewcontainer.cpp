@@ -34,6 +34,7 @@
 #include <KIconEffect>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
+#include <KMessageWidget>
 #include <KNewFileMenu>
 #include <konqmimedata.h>
 #include <konq_operations.h>
@@ -58,6 +59,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_topLayout(0),
     m_urlNavigator(0),
     m_searchBox(0),
+    m_messageWidget(0),
     m_view(0),
     m_filterBar(0),
     m_statusBar(0),
@@ -91,12 +93,14 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_searchBox, SIGNAL(search(QString)), this, SLOT(startSearching(QString)));
     connect(m_searchBox, SIGNAL(returnPressed(QString)), this, SLOT(requestFocus()));
 
+    m_messageWidget = new KMessageWidget(this);
+    m_messageWidget->setCloseButtonVisible(true);
+    m_messageWidget->hide();
+
     m_view = new DolphinView(url, this);
     connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_urlNavigator, SLOT(setUrl(KUrl)));
     connect(m_view, SIGNAL(writeStateChanged(bool)),            this, SIGNAL(writeStateChanged(bool)));
     connect(m_view, SIGNAL(requestItemInfo(KFileItem)),         this, SLOT(showItemInfo(KFileItem)));
-    connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
-    connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
     connect(m_view, SIGNAL(itemActivated(KFileItem)),           this, SLOT(slotItemActivated(KFileItem)));
     connect(m_view, SIGNAL(redirection(KUrl,KUrl)),             this, SLOT(redirect(KUrl,KUrl)));
     connect(m_view, SIGNAL(directoryLoadingStarted()),          this, SLOT(slotDirectoryLoadingStarted()));
@@ -104,11 +108,11 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(itemCountChanged()),                 this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(directoryLoadingProgress(int)),      this, SLOT(updateDirectoryLoadingProgress(int)));
     connect(m_view, SIGNAL(directorySortingProgress(int)),      this, SLOT(updateDirectorySortingProgress(int)));
-    connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
-    connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
-    connect(m_view, SIGNAL(operationCompletedMessage(QString)), this, SLOT(showOperationCompletedMessage(QString)));
     connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
+    connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
+    connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
+    connect(m_view, SIGNAL(operationCompletedMessage(QString)), m_statusBar, SLOT(setText(QString)));
 
     connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(KUrl)),
             this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(KUrl)));
@@ -117,21 +121,25 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_urlNavigator, SIGNAL(historyChanged()),
             this, SLOT(slotHistoryChanged()));
 
-    // initialize status bar
-    m_statusBar = new DolphinStatusBar(this, m_view);
-    connect(m_statusBar, SIGNAL(stopPressed()), this, SLOT(stopLoading()));
+    // Initialize status bar
+    m_statusBar = new DolphinStatusBar(this);
+    m_statusBar->setUrl(m_view->url());
+    m_statusBar->setZoomLevel(m_view->zoomLevel());
+    connect(m_view, SIGNAL(urlChanged(KUrl)), m_statusBar, SLOT(setUrl(KUrl)));
+    connect(m_view, SIGNAL(zoomLevelChanged(int,int)), m_statusBar, SLOT(setZoomLevel(int)));
+    connect(m_statusBar, SIGNAL(stopPressed()), this, SLOT(stopDirectoryLoading()));
+    connect(m_statusBar, SIGNAL(zoomLevelChanged(int)), this, SLOT(slotStatusBarZoomLevelChanged(int)));
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
     m_statusBarTimer->setInterval(300);
-    connect(m_statusBarTimer, SIGNAL(timeout()),
-            this, SLOT(updateStatusBar()));
+    connect(m_statusBarTimer, SIGNAL(timeout()), this, SLOT(updateStatusBar()));
 
     KIO::FileUndoManager* undoManager = KIO::FileUndoManager::self();
     connect(undoManager, SIGNAL(jobRecordingFinished(CommandType)),
             this, SLOT(delayedStatusBarUpdate()));
 
-    // initialize filter bar
+    // Initialize filter bar
     m_filterBar = new FilterBar(this);
     m_filterBar->setVisible(settings->filterBar());
     connect(m_filterBar, SIGNAL(filterChanged(QString)),
@@ -143,6 +151,7 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
 
     m_topLayout->addWidget(m_urlNavigator);
     m_topLayout->addWidget(m_searchBox);
+    m_topLayout->addWidget(m_messageWidget);
     m_topLayout->addWidget(m_view);
     m_topLayout->addWidget(m_filterBar);
     m_topLayout->addWidget(m_statusBar);
@@ -209,6 +218,30 @@ const DolphinSearchBox* DolphinViewContainer::searchBox() const
 DolphinSearchBox* DolphinViewContainer::searchBox()
 {
     return m_searchBox;
+}
+
+void DolphinViewContainer::showMessage(const QString& msg, MessageType type)
+{
+    if (msg.isEmpty()) {
+        return;
+    }
+
+    m_messageWidget->setText(msg);
+
+    switch (type) {
+    case Information: m_messageWidget->setMessageType(KMessageWidget::Information); break;
+    case Warning:     m_messageWidget->setMessageType(KMessageWidget::Warning); break;
+    case Error:       m_messageWidget->setMessageType(KMessageWidget::Error); break;
+    default:
+        Q_ASSERT(false);
+        break;
+    }
+
+    m_messageWidget->setWordWrap(false);
+    const int unwrappedWidth = m_messageWidget->sizeHint().width();
+    m_messageWidget->setWordWrap(unwrappedWidth > size().width());
+
+    m_messageWidget->animatedShow();
 }
 
 void DolphinViewContainer::readSettings()
@@ -322,14 +355,9 @@ void DolphinViewContainer::updateStatusBar()
 {
     m_statusBarTimestamp.start();
 
-    const QString newMessage = m_view->statusBarText();
-    m_statusBar->setDefaultText(newMessage);
-
-    // We don't want to override errors. Other messages are only protected by
-    // the Statusbar itself depending on timings (see DolphinStatusBar::setMessage).
-    if (m_statusBar->type() != DolphinStatusBar::Error) {
-        m_statusBar->setMessage(newMessage, DolphinStatusBar::Default);
-    }
+    const QString text = m_view->statusBarText();
+    m_statusBar->setDefaultText(text);
+    m_statusBar->resetToDefaultText();
 }
 
 void DolphinViewContainer::updateDirectoryLoadingProgress(int percent)
@@ -374,7 +402,7 @@ void DolphinViewContainer::slotDirectoryLoadingCompleted()
     if (isSearchUrl(url()) && m_view->itemsCount() == 0) {
         // The dir lister has been completed on a Nepomuk-URI and no items have been found. Instead
         // of showing the default status bar information ("0 items") a more helpful information is given:
-        m_statusBar->setMessage(i18nc("@info:status", "No items found."), DolphinStatusBar::Information);
+        m_statusBar->setText(i18nc("@info:status", "No items found."));
     } else {
         updateStatusBar();
     }
@@ -424,32 +452,11 @@ void DolphinViewContainer::slotItemActivated(const KFileItem& item)
 void DolphinViewContainer::showItemInfo(const KFileItem& item)
 {
     if (item.isNull()) {
-        // Only clear the status bar if unimportant messages are shown.
-        // This prevents that information- or error-messages get hidden
-        // by moving the mouse above the viewport or when closing the
-        // context menu.
-        if (m_statusBar->type() == DolphinStatusBar::Default) {
-            m_statusBar->clear();
-        }
+        m_statusBar->resetToDefaultText();
     } else {
-        const QString message = item.isDir() ? item.text() : item.getStatusBarInfo();
-        m_statusBar->setMessage(message, DolphinStatusBar::Default);
+        const QString text = item.isDir() ? item.text() : item.getStatusBarInfo();
+        m_statusBar->setText(text);
     }
-}
-
-void DolphinViewContainer::showInfoMessage(const QString& msg)
-{
-    m_statusBar->setMessage(msg, DolphinStatusBar::Information);
-}
-
-void DolphinViewContainer::showErrorMessage(const QString& msg)
-{
-    m_statusBar->setMessage(msg, DolphinStatusBar::Error);
-}
-
-void DolphinViewContainer::showOperationCompletedMessage(const QString& msg)
-{
-    m_statusBar->setMessage(msg, DolphinStatusBar::OperationCompleted);
 }
 
 void DolphinViewContainer::closeFilterBar()
@@ -510,8 +517,10 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
     } else if (KProtocolManager::isSourceProtocol(url)) {
         QString app = "konqueror";
         if (url.protocol().startsWith(QLatin1String("http"))) {
-            showErrorMessage(i18nc("@info:status",
-                                   "Dolphin does not support web pages, the web browser has been launched"));
+            showMessage(i18nc("@info:status",
+                              "Dolphin does not support web pages, the web browser has been launched"),
+                        Information);
+
             const KConfigGroup config(KSharedConfig::openConfig("kdeglobals"), "General");
             const QString browser = config.readEntry("BrowserApplication");
             if (!browser.isEmpty()) {
@@ -522,21 +531,25 @@ void DolphinViewContainer::slotUrlNavigatorLocationChanged(const KUrl& url)
                 }
             }
         } else {
-            showErrorMessage(i18nc("@info:status",
-                                   "Protocol not supported by Dolphin, Konqueror has been launched"));
+            showMessage(i18nc("@info:status",
+                              "Protocol not supported by Dolphin, Konqueror has been launched"),
+                        Information);
         }
 
         const QString secureUrl = KShell::quoteArg(url.pathOrUrl());
         const QString command = app + ' ' + secureUrl;
         KRun::runCommand(command, app, app, this);
     } else {
-        showErrorMessage(i18nc("@info:status", "Invalid protocol"));
+        showMessage(i18nc("@info:status", "Invalid protocol"), Error);
     }
 }
 
 void DolphinViewContainer::dropUrls(const KUrl& destination, QDropEvent* event)
 {
-    DragAndDropHelper::dropUrls(KFileItem(), destination, event);
+    const QString error = DragAndDropHelper::dropUrls(KFileItem(), destination, event);
+    if (!error.isEmpty()) {
+        showMessage(error, Error);
+    }
 }
 
 void DolphinViewContainer::redirect(const KUrl& oldUrl, const KUrl& newUrl)
@@ -588,10 +601,25 @@ void DolphinViewContainer::closeSearchBox()
     setSearchModeEnabled(false);
 }
 
-void DolphinViewContainer::stopLoading()
+void DolphinViewContainer::stopDirectoryLoading()
 {
     m_view->stopLoading();
     m_statusBar->setProgress(100);
+}
+
+void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
+{
+    m_view->setZoomLevel(zoomLevel);
+}
+
+void DolphinViewContainer::showErrorMessage(const QString& msg)
+{
+    showMessage(msg, Error);
+}
+
+void DolphinViewContainer::showInfoMessage(const QString& msg)
+{
+    showMessage(msg, Information);
 }
 
 bool DolphinViewContainer::isSearchUrl(const KUrl& url) const

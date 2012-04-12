@@ -33,6 +33,7 @@
 #include <views/dolphinview.h>
 
 class FilterBar;
+class KMessageWidget;
 class KUrl;
 class KUrlNavigator;
 class DolphinSearchBox;
@@ -55,6 +56,13 @@ class DolphinViewContainer : public QWidget
     Q_OBJECT
 
 public:
+    enum MessageType
+    {
+        Information,
+        Warning,
+        Error
+    };
+
     DolphinViewContainer(const KUrl& url, QWidget* parent);
     virtual ~DolphinViewContainer();
 
@@ -82,6 +90,12 @@ public:
 
     const DolphinSearchBox* searchBox() const;
     DolphinSearchBox* searchBox();
+
+    /**
+     * Shows the message \msg with the given type non-modal above
+     * the view-content.
+     */
+    void showMessage(const QString& msg, MessageType type);
 
     /**
      * Refreshes the view container to get synchronized with the (updated) Dolphin settings.
@@ -183,15 +197,6 @@ private slots:
      */
     void showItemInfo(const KFileItem& item);
 
-    /** Shows the information \a msg inside the statusbar. */
-    void showInfoMessage(const QString& msg);
-
-    /** Shows the error message \a msg inside the statusbar. */
-    void showErrorMessage(const QString& msg);
-
-    /** Shows the "operation completed" message \a msg inside the statusbar. */
-    void showOperationCompletedMessage(const QString& msg);
-
     void closeFilterBar();
 
     /**
@@ -259,7 +264,19 @@ private slots:
      * Stops the loading of a directory. Is connected with the "stopPressed" signal
      * from the statusbar.
      */
-    void stopLoading();
+    void stopDirectoryLoading();
+
+    void slotStatusBarZoomLevelChanged(int zoomLevel);
+
+    /**
+     * Slot that calls showMessage(msg, Error).
+     */
+    void showErrorMessage(const QString& msg);
+
+    /**
+     * Slot that calls showMessage(msg, Information).
+     */
+    void showInfoMessage(const QString& msg);
 
 private:
     /**
@@ -277,6 +294,7 @@ private:
     QVBoxLayout* m_topLayout;
     KUrlNavigator* m_urlNavigator;
     DolphinSearchBox* m_searchBox;
+    KMessageWidget* m_messageWidget;
 
     DolphinView* m_view;
 

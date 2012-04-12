@@ -331,29 +331,23 @@ void DolphinMainWindow::showCommand(CommandType command)
     DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
     switch (command) {
     case KIO::FileUndoManager::Copy:
-        statusBar->setMessage(i18nc("@info:status", "Successfully copied."),
-                              DolphinStatusBar::OperationCompleted);
+        statusBar->setText(i18nc("@info:status", "Successfully copied."));
         break;
     case KIO::FileUndoManager::Move:
-        statusBar->setMessage(i18nc("@info:status", "Successfully moved."),
-                              DolphinStatusBar::OperationCompleted);
+        statusBar->setText(i18nc("@info:status", "Successfully moved."));
         break;
     case KIO::FileUndoManager::Link:
-        statusBar->setMessage(i18nc("@info:status", "Successfully linked."),
-                              DolphinStatusBar::OperationCompleted);
+        statusBar->setText(i18nc("@info:status", "Successfully linked."));
         break;
     case KIO::FileUndoManager::Trash:
-        statusBar->setMessage(i18nc("@info:status", "Successfully moved to trash."),
-                              DolphinStatusBar::OperationCompleted);
+        statusBar->setText(i18nc("@info:status", "Successfully moved to trash."));
         break;
     case KIO::FileUndoManager::Rename:
-        statusBar->setMessage(i18nc("@info:status", "Successfully renamed."),
-                              DolphinStatusBar::OperationCompleted);
+        statusBar->setText(i18nc("@info:status", "Successfully renamed."));
         break;
 
     case KIO::FileUndoManager::Mkdir:
-        statusBar->setMessage(i18nc("@info:status", "Created folder."),
-                              DolphinStatusBar::OperationCompleted);
+        statusBar->setText(i18nc("@info:status", "Created folder."));
         break;
 
     default:
@@ -729,10 +723,7 @@ void DolphinMainWindow::quit()
 
 void DolphinMainWindow::showErrorMessage(const QString& message)
 {
-    if (!message.isEmpty()) {
-        DolphinStatusBar* statusBar = m_activeViewContainer->statusBar();
-        statusBar->setMessage(message, DolphinStatusBar::Error);
-    }
+    m_activeViewContainer->showMessage(message, DolphinViewContainer::Error);
 }
 
 void DolphinMainWindow::slotUndoAvailable(bool available)
@@ -1320,7 +1311,10 @@ void DolphinMainWindow::tabDropEvent(int tab, QDropEvent* event)
         const ViewTab& viewTab = m_viewTab[tab];
         const DolphinView* view = viewTab.isPrimaryViewActive ? viewTab.primaryView->view()
                                                               : viewTab.secondaryView->view();
-        DragAndDropHelper::dropUrls(view->rootItem(), view->url(), event);
+        const QString error = DragAndDropHelper::dropUrls(view->rootItem(), view->url(), event);
+        if (!error.isEmpty()) {
+            activeViewContainer()->showMessage(error, DolphinViewContainer::Error);
+        }
     }
 }
 
@@ -2061,7 +2055,7 @@ void DolphinMainWindow::refreshViews()
 
 void DolphinMainWindow::clearStatusBar()
 {
-    m_activeViewContainer->statusBar()->clear();
+    m_activeViewContainer->statusBar()->resetToDefaultText();
 }
 
 void DolphinMainWindow::connectViewSignals(DolphinViewContainer* container)
@@ -2233,8 +2227,8 @@ void DolphinMainWindow::UndoUiInterface::jobError(KIO::Job* job)
 {
     DolphinMainWindow* mainWin= qobject_cast<DolphinMainWindow *>(parentWidget());
     if (mainWin) {
-        DolphinStatusBar* statusBar = mainWin->activeViewContainer()->statusBar();
-        statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
+        DolphinViewContainer* container = mainWin->activeViewContainer();
+        container->showMessage(job->errorString(), DolphinViewContainer::Error);
     } else {
         KIO::FileUndoManager::UiInterface::jobError(job);
     }

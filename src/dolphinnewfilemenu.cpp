@@ -44,8 +44,8 @@ DolphinNewFileMenu::~DolphinNewFileMenu()
 void DolphinNewFileMenu::slotResult(KJob* job)
 {
     if (job->error()) {
-        DolphinStatusBar* statusBar = m_mainWin->activeViewContainer()->statusBar();
-        statusBar->setMessage(job->errorString(), DolphinStatusBar::Error);
+        DolphinViewContainer* container = m_mainWin->activeViewContainer();
+        container->showMessage(job->errorString(), DolphinViewContainer::Error);
     } else {
         KNewFileMenu::slotResult(job);
     }
