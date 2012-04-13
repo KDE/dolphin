@@ -30,7 +30,8 @@ KItemListStyleOption::KItemListStyleOption() :
     horizontalMargin(0),
     verticalMargin(0),
     iconSize(KIconLoader::SizeMedium),
-    extendedSelectionRegion(false)
+    extendedSelectionRegion(false),
+    maxTextSize()
 {
 }
 
@@ -43,7 +44,8 @@ KItemListStyleOption::KItemListStyleOption(const KItemListStyleOption& other) :
     horizontalMargin(other.horizontalMargin),
     verticalMargin(other.verticalMargin),
     iconSize(other.iconSize),
-    extendedSelectionRegion(other.extendedSelectionRegion)
+    extendedSelectionRegion(other.extendedSelectionRegion),
+    maxTextSize(other.maxTextSize)
 {
 }
 

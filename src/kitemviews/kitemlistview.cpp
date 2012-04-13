@@ -148,10 +148,10 @@ Qt::Orientation KItemListView::scrollOrientation() const
     return m_layouter->scrollOrientation();
 }
 
-void KItemListView::setItemSize(const QSizeF& itemSize)
+void KItemListView::setItemSize(const QSizeF& size)
 {
     const QSizeF previousSize = m_itemSize;
-    if (itemSize == previousSize) {
+    if (size == previousSize) {
         return;
     }
 
@@ -159,14 +159,14 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
     // are changed in the grid layout. Although the animation
     // engine can handle this usecase, it looks obtrusive.
     const bool animate = !changesItemGridLayout(m_layouter->size(),
-                                                itemSize,
+                                                size,
                                                 m_layouter->itemMargin());
 
     const bool alternateBackgroundsChanged = (m_visibleRoles.count() > 1) &&
-                                             (( m_itemSize.isEmpty() && !itemSize.isEmpty()) ||
-                                              (!m_itemSize.isEmpty() && itemSize.isEmpty()));
+                                             (( m_itemSize.isEmpty() && !size.isEmpty()) ||
+                                              (!m_itemSize.isEmpty() && size.isEmpty()));
 
-    m_itemSize = itemSize;
+    m_itemSize = size;
 
     if (alternateBackgroundsChanged) {
         // For an empty item size alternate backgrounds are drawn if more than
@@ -175,23 +175,23 @@ void KItemListView::setItemSize(const QSizeF& itemSize)
         updateAlternateBackgrounds();
     }
 
-    if (itemSize.isEmpty()) {
+    if (size.isEmpty()) {
         if (m_headerWidget->automaticColumnResizing()) {
             updatePreferredColumnWidths();
         } else {
             // Only apply the changed height and respect the header widths
             // set by the user
             const qreal currentWidth = m_layouter->itemSize().width();
-            const QSizeF newSize(currentWidth, itemSize.height());
+            const QSizeF newSize(currentWidth, size.height());
             m_layouter->setItemSize(newSize);
         }
     } else {
-        m_layouter->setItemSize(itemSize);
+        m_layouter->setItemSize(size);
     }
 
     m_sizeHintResolver->clearCache();
     doLayout(animate ? Animation : NoAnimation);
-    onItemSizeChanged(itemSize, previousSize);
+    onItemSizeChanged(size, previousSize);
 }
 
 QSizeF KItemListView::itemSize() const
@@ -392,6 +392,12 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
         updateGroupHeaderHeight();
     }
 
+    if (animate && previousOption.maxTextSize != option.maxTextSize) {
+        // Animating a change of the maximum text size just results in expensive
+        // temporary eliding and clipping operations and does not look good visually.
+        animate = false;
+    }
+
     QHashIterator<int, KItemListWidget*> it(m_visibleItems);
     while (it.hasNext()) {
         it.next();
@@ -399,6 +405,7 @@ void KItemListView::setStyleOption(const KItemListStyleOption& option)
     }
 
     m_sizeHintResolver->clearCache();
+    m_layouter->markAsDirty();
     doLayout(animate ? Animation : NoAnimation);
 
     onStyleOptionChanged(option, previousOption);

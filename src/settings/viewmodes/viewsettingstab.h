@@ -63,7 +63,8 @@ private:
     QSlider* m_previewSizeSlider;
 
     DolphinFontRequester* m_fontRequester;
-    KComboBox* m_textWidthBox;
+    KComboBox* m_widthBox;
+    KComboBox* m_maxLinesBox;
     QCheckBox* m_expandableFolders;
 };
 

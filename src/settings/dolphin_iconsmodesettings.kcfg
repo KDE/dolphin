@@ -40,5 +40,9 @@
             <label>Text width index</label>
             <default>1</default>
         </entry>
+        <entry name="MaximumTextLines" type="Int">
+            <label>Maximum textlines (0 means unlimited)</label>
+            <default>0</default>
+        </entry>
     </group>
 </kcfg>

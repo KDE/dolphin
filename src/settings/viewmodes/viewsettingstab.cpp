@@ -41,7 +41,8 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
     m_defaultSizeSlider(0),
     m_previewSizeSlider(0),
     m_fontRequester(0),
-    m_textWidthBox(0),
+    m_widthBox(0),
+    m_maxLinesBox(0),
     m_expandableFolders(0)
 {
     QVBoxLayout* topLayout = new QVBoxLayout(this);
@@ -83,15 +84,38 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
     switch (m_mode) {
     case IconsMode: {
-        QLabel* textWidthLabel = new QLabel(i18nc("@label:listbox", "Text width:"), textGroup);
-        m_textWidthBox = new KComboBox(textGroup);
-        m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
-        m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
-        m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
-        m_textWidthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
+        QLabel* widthLabel = new QLabel(i18nc("@label:listbox", "Width:"), textGroup);
+        m_widthBox = new KComboBox(textGroup);
+        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Small"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Medium"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Large"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Text width", "Huge"));
 
-        textGroupLayout->addWidget(textWidthLabel, 2, 0, Qt::AlignRight);
-        textGroupLayout->addWidget(m_textWidthBox, 2, 1);
+        QLabel* maxLinesLabel = new QLabel(i18nc("@label:listbox", "Maximum lines:"), textGroup);
+        m_maxLinesBox = new KComboBox(textGroup);
+        m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "Unlimited"));
+        m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "1"));
+        m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "2"));
+        m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "3"));
+        m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "4"));
+        m_maxLinesBox->addItem(i18nc("@item:inlistbox Maximum lines", "5"));
+
+        textGroupLayout->addWidget(widthLabel, 2, 0, Qt::AlignRight);
+        textGroupLayout->addWidget(m_widthBox, 2, 1);
+        textGroupLayout->addWidget(maxLinesLabel, 3, 0, Qt::AlignRight);
+        textGroupLayout->addWidget(m_maxLinesBox, 3, 1);
+        break;
+    }
+    case CompactMode: {
+        QLabel* maxWidthLabel = new QLabel(i18nc("@label:listbox", "Maximum width:"), textGroup);
+        m_widthBox = new KComboBox(textGroup);
+        m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Unlimited"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Small"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Medium"));
+        m_widthBox->addItem(i18nc("@item:inlistbox Maximum width", "Large"));
+
+        textGroupLayout->addWidget(maxWidthLabel, 2, 0, Qt::AlignRight);
+        textGroupLayout->addWidget(m_widthBox, 2, 1);
         break;
     }
     case DetailsMode:
@@ -114,7 +138,11 @@ ViewSettingsTab::ViewSettingsTab(Mode mode, QWidget* parent) :
 
     switch (m_mode) {
     case IconsMode:
-        connect(m_textWidthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+        connect(m_widthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+        connect(m_maxLinesBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+        break;
+    case CompactMode:
+        connect(m_widthBox, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
         break;
     case DetailsMode:
         connect(m_expandableFolders, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -135,7 +163,11 @@ void ViewSettingsTab::applySettings()
 
     switch (m_mode) {
     case IconsMode:
-        IconsModeSettings::setTextWidthIndex(m_textWidthBox->currentIndex());
+        IconsModeSettings::setTextWidthIndex(m_widthBox->currentIndex());
+        IconsModeSettings::setMaximumTextLines(m_maxLinesBox->currentIndex());
+        break;
+    case CompactMode:
+        CompactModeSettings::setMaximumTextWidthIndex(m_widthBox->currentIndex());
         break;
     case DetailsMode:
         DetailsModeSettings::setExpandableFolders(m_expandableFolders->isChecked());
@@ -179,7 +211,11 @@ void ViewSettingsTab::loadSettings()
 {
     switch (m_mode) {
     case IconsMode:
-        m_textWidthBox->setCurrentIndex(IconsModeSettings::textWidthIndex());
+        m_widthBox->setCurrentIndex(IconsModeSettings::textWidthIndex());
+        m_maxLinesBox->setCurrentIndex(IconsModeSettings::maximumTextLines());
+        break;
+    case CompactMode:
+        m_widthBox->setCurrentIndex(CompactModeSettings::maximumTextWidthIndex());
         break;
     case DetailsMode:
         m_expandableFolders->setChecked(DetailsModeSettings::expandableFolders());

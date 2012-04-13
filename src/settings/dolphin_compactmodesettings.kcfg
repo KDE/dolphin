@@ -36,5 +36,9 @@
             <label>Preview size</label>
             <default code="true">KIconLoader::SizeLarge</default>
         </entry>
+        <entry name="MaximumTextWidthIndex" type="Int">
+            <label>Maximum text width index (0 means unlimited)</label>
+            <default>0</default>
+        </entry>
     </group>
 </kcfg>

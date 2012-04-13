@@ -279,7 +279,8 @@ QSizeF KFileItemListWidget::itemSizeHint(int index, const KItemListView* view)
     case IconsLayout: {
         const QString text = KStringHandler::preProcessWrap(values["name"].toString());
 
-        const qreal maxWidth = view->itemSize().width() - 2 * option.padding;
+        const qreal itemWidth = view->itemSize().width();
+        const qreal maxWidth = itemWidth - 2 * option.padding;
         QTextLine line;
 
         // Calculate the number of lines required for wrapping the name
@@ -298,11 +299,14 @@ QSizeF KFileItemListWidget::itemSizeHint(int index, const KItemListView* view)
         layout.endLayout();
 
         // Add one line for each additional information
-        const qreal height = textHeight +
-                             additionalRolesCount * option.fontMetrics.lineSpacing() +
-                             option.iconSize +
-                             option.padding * 3;
-        return QSizeF(view->itemSize().width(), height);
+        textHeight += additionalRolesCount * option.fontMetrics.lineSpacing();
+
+        const qreal maxTextHeight = option.maxTextSize.height();
+        if (maxTextHeight > 0 && textHeight > maxTextHeight) {
+            textHeight = maxTextHeight;
+        }
+
+        return QSizeF(itemWidth, textHeight + option.iconSize + option.padding * 3);
     }
 
     case CompactLayout: {
@@ -316,7 +320,11 @@ QSizeF KFileItemListWidget::itemSizeHint(int index, const KItemListView* view)
             maximumRequiredWidth = qMax(maximumRequiredWidth, requiredWidth);
         }
 
-        const qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
+        qreal width = option.padding * 4 + option.iconSize + maximumRequiredWidth;
+        const qreal maxWidth = option.maxTextSize.width();
+        if (maxWidth > 0 && width > maxWidth) {
+            width = maxWidth;
+        }
         const qreal height = option.padding * 2 + qMax(option.iconSize, (1 + additionalRolesCount) * option.fontMetrics.lineSpacing());
         return QSizeF(width, height);
     }
@@ -756,25 +764,46 @@ void KFileItemListWidget::updateIconsLayoutTextCache()
     // Initialize properties for the "name" role. It will be used as anchor
     // for initializing the position of the other roles.
     TextInfo* nameTextInfo = m_textInfo.value("name");
-    nameTextInfo->staticText.setText(KStringHandler::preProcessWrap(values["name"].toString()));
+    const QString nameText = KStringHandler::preProcessWrap(values["name"].toString());
+    nameTextInfo->staticText.setText(nameText);
 
     // Calculate the number of lines required for the name and the required width
     qreal nameWidth = 0;
     qreal nameHeight = 0;
     QTextLine line;
 
+    const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
+    const int maxNameLines = (option.maxTextSize.height() / int(lineSpacing)) - additionalRolesCount;
+
     QTextLayout layout(nameTextInfo->staticText.text(), option.font);
     layout.setTextOption(nameTextInfo->staticText.textOption());
     layout.beginLayout();
+    int nameLineIndex = 0;
     while ((line = layout.createLine()).isValid()) {
         line.setLineWidth(maxWidth);
         nameWidth = qMax(nameWidth, line.naturalTextWidth());
         nameHeight += line.height();
+
+        ++nameLineIndex;
+        if (nameLineIndex == maxNameLines) {
+            // The maximum number of textlines has been reached. If this is
+            // the case provide an elided text if necessary.
+            const int textLength = line.textStart() + line.textLength();
+            if (textLength < nameText.length()) {
+                // Elide the last line of the text
+                QString lastTextLine = nameText.mid(line.textStart(), line.textLength());
+                lastTextLine = option.fontMetrics.elidedText(lastTextLine,
+                                                             Qt::ElideRight,
+                                                             line.naturalTextWidth() - 1);
+                const QString elidedText = nameText.left(line.textStart()) + lastTextLine;
+                nameTextInfo->staticText.setText(elidedText);
+            }
+            break;
+        }
     }
     layout.endLayout();
 
     // Use one line for each additional information
-    const int additionalRolesCount = qMax(visibleRoles().count() - 1, 0);
     nameTextInfo->staticText.setTextWidth(maxWidth);
     nameTextInfo->pos = QPointF(padding, widgetHeight -
                                          nameHeight -

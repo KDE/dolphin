@@ -43,6 +43,7 @@ public:
     int verticalMargin;
     int iconSize;
     bool extendedSelectionRegion;
+    QSize maxTextSize;
 };
 #endif
 
