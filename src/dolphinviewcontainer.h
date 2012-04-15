@@ -273,11 +273,6 @@ private slots:
      */
     void showErrorMessage(const QString& msg);
 
-    /**
-     * Slot that calls showMessage(msg, Information).
-     */
-    void showInfoMessage(const QString& msg);
-
 private:
     /**
      * @return True if the URL protocol is a search URL (e. g. nepomuksearch:// or filenamesearch://).

@@ -41,6 +41,10 @@
 #include <views/dolphinview.h>
 #include <views/zoomlevelinfo.h>
 
+namespace {
+    const int ResetToDefaultTimeout = 1000;
+}
+
 DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     QWidget(parent),
     m_text(),
@@ -51,7 +55,9 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_progressBar(0),
     m_stopButton(0),
     m_progress(100),
-    m_showProgressBarTimer(0)
+    m_showProgressBarTimer(0),
+    m_resetToDefaultTextTimer(0),
+    m_textTimestamp()
 {
     // Initialize text label
     m_label = new QLabel(this);
@@ -90,6 +96,11 @@ DolphinStatusBar::DolphinStatusBar(QWidget* parent) :
     m_showProgressBarTimer->setSingleShot(true);
     connect(m_showProgressBarTimer, SIGNAL(timeout()), this, SLOT(updateProgressInfo()));
 
+    m_resetToDefaultTextTimer = new QTimer(this);
+    m_resetToDefaultTextTimer->setInterval(ResetToDefaultTimeout);
+    m_resetToDefaultTextTimer->setSingleShot(true);
+    connect(m_resetToDefaultTextTimer, SIGNAL(timeout()), this, SLOT(slotResetToDefaultText()));
+
     // Initialize top layout and size policies
     const int fontHeight = QFontMetrics(m_label->font()).height();
     const int zoomSliderHeight = m_zoomSlider->minimumSizeHint().height();
@@ -123,8 +134,23 @@ DolphinStatusBar::~DolphinStatusBar()
 
 void DolphinStatusBar::setText(const QString& text)
 {
-    if (m_text != text) {
+    if (m_text == text) {
+        return;
+    }
+
+    m_textTimestamp = QTime::currentTime();
+
+    if (text.isEmpty()) {
+        // Assure that the previous set text won't get
+        // cleared immediatelly.
+        m_resetToDefaultTextTimer->start();
+    } else {
         m_text = text;
+
+        if (m_resetToDefaultTextTimer->isActive()) {
+            m_resetToDefaultTextTimer->start();
+        }
+
         updateLabelText();
     }
 }
@@ -174,8 +200,13 @@ int DolphinStatusBar::progress() const
 
 void DolphinStatusBar::resetToDefaultText()
 {
-    m_text.clear();
-    updateLabelText();
+    QTime currentTime;
+    if (currentTime.msecsTo(m_textTimestamp) < ResetToDefaultTimeout) {
+        m_resetToDefaultTextTimer->start();
+    } else {
+        m_resetToDefaultTextTimer->stop();
+        slotResetToDefaultText();
+    }
 }
 
 void DolphinStatusBar::setDefaultText(const QString& text)
@@ -288,6 +319,12 @@ void DolphinStatusBar::updateLabelText()
     const QString elidedText = fontMetrics.elidedText(text, Qt::ElideRight, m_label->width());
     m_label->setText(elidedText);
     m_label->setToolTip(text == elidedText ? QString() : text);
+}
+
+void DolphinStatusBar::slotResetToDefaultText()
+{
+    m_text.clear();
+    updateLabelText();
 }
 
 void DolphinStatusBar::setExtensionsVisible(bool visible)

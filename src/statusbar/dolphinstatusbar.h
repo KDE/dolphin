@@ -20,6 +20,7 @@
 #ifndef DOLPHINSTATUSBAR_H
 #define DOLPHINSTATUSBAR_H
 
+#include <QTime>
 #include <QWidget>
 
 class KUrl;
@@ -56,8 +57,8 @@ public:
 
     /**
      * Sets the progress in percent (0 - 100). The
-     * progress is shown delayed by 1 second:
-     * If the progress does reach 100 % within 1 second,
+     * progress is shown delayed by 500 milliseconds:
+     * If the progress does reach 100 % within 500 milliseconds,
      * the progress is not shown at all.
      */
     void setProgress(int percent);
@@ -65,8 +66,9 @@ public:
 
     /**
      * Replaces the text set by setText() by the text that
-     * has been set by setDefaultText(). DolphinStatusBar::text()
-     * will return an empty string afterwards.
+     * has been set by setDefaultText(). It is assured that the previous
+     * text will be shown for at least 1 second. DolphinStatusBar::text()
+     * will return an empty string after the reset has been done.
      */
     void resetToDefaultText();
 
@@ -112,6 +114,14 @@ private slots:
      */
     void updateLabelText();
 
+    /**
+     * Is invoked by m_resetToDefaultTextTimer and clears
+     * m_text so that the default text will be shown. This
+     * prevents that information-messages will be cleared
+     * too fast.
+     */
+    void slotResetToDefaultText();
+
 private:
     /**
      * Makes the space information widget and zoom slider widget
@@ -142,6 +152,9 @@ private:
     QToolButton* m_stopButton;
     int m_progress;
     QTimer* m_showProgressBarTimer;
+
+    QTimer* m_resetToDefaultTextTimer;
+    QTime m_textTimestamp;
 };
 
 #endif

@@ -111,8 +111,6 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     connect(m_view, SIGNAL(selectionChanged(KFileItemList)),    this, SLOT(delayedStatusBarUpdate()));
     connect(m_view, SIGNAL(urlAboutToBeChanged(KUrl)),          this, SLOT(slotViewUrlAboutToBeChanged(KUrl)));
     connect(m_view, SIGNAL(errorMessage(QString)),              this, SLOT(showErrorMessage(QString)));
-    connect(m_view, SIGNAL(infoMessage(QString)),               this, SLOT(showInfoMessage(QString)));
-    connect(m_view, SIGNAL(operationCompletedMessage(QString)), m_statusBar, SLOT(setText(QString)));
 
     connect(m_urlNavigator, SIGNAL(urlAboutToBeChanged(KUrl)),
             this, SLOT(slotUrlNavigatorLocationAboutToBeChanged(KUrl)));
@@ -125,10 +123,12 @@ DolphinViewContainer::DolphinViewContainer(const KUrl& url, QWidget* parent) :
     m_statusBar = new DolphinStatusBar(this);
     m_statusBar->setUrl(m_view->url());
     m_statusBar->setZoomLevel(m_view->zoomLevel());
-    connect(m_view, SIGNAL(urlChanged(KUrl)), m_statusBar, SLOT(setUrl(KUrl)));
-    connect(m_view, SIGNAL(zoomLevelChanged(int,int)), m_statusBar, SLOT(setZoomLevel(int)));
-    connect(m_statusBar, SIGNAL(stopPressed()), this, SLOT(stopDirectoryLoading()));
-    connect(m_statusBar, SIGNAL(zoomLevelChanged(int)), this, SLOT(slotStatusBarZoomLevelChanged(int)));
+    connect(m_view, SIGNAL(urlChanged(KUrl)),                   m_statusBar, SLOT(setUrl(KUrl)));
+    connect(m_view, SIGNAL(zoomLevelChanged(int,int)),          m_statusBar, SLOT(setZoomLevel(int)));
+    connect(m_view, SIGNAL(infoMessage(QString)),               m_statusBar, SLOT(setText(QString)));
+    connect(m_view, SIGNAL(operationCompletedMessage(QString)), m_statusBar, SLOT(setText(QString)));
+    connect(m_statusBar, SIGNAL(stopPressed()),                 this, SLOT(stopDirectoryLoading()));
+    connect(m_statusBar, SIGNAL(zoomLevelChanged(int)),         this, SLOT(slotStatusBarZoomLevelChanged(int)));
 
     m_statusBarTimer = new QTimer(this);
     m_statusBarTimer->setSingleShot(true);
@@ -615,11 +615,6 @@ void DolphinViewContainer::slotStatusBarZoomLevelChanged(int zoomLevel)
 void DolphinViewContainer::showErrorMessage(const QString& msg)
 {
     showMessage(msg, Error);
-}
-
-void DolphinViewContainer::showInfoMessage(const QString& msg)
-{
-    showMessage(msg, Information);
 }
 
 bool DolphinViewContainer::isSearchUrl(const KUrl& url) const
