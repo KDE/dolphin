@@ -51,7 +51,8 @@ private:
 private:
     KUrl m_url;
 
-    KComboBox* m_viewProps;
+    QRadioButton* m_localViewProps;
+    QRadioButton* m_globalViewProps;
 
     QCheckBox* m_showToolTips;
     QLabel* m_configureToolTips;

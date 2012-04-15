@@ -38,7 +38,8 @@
 BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     SettingsPageBase(parent),
     m_url(url),
-    m_viewProps(0),
+    m_localViewProps(0),
+    m_globalViewProps(0),
     m_showToolTips(0),
     m_showSelectionToggle(0),
     m_naturalSorting(0)
@@ -46,16 +47,15 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     QVBoxLayout* topLayout = new QVBoxLayout(this);
 
     // View properties
-    QLabel* viewPropsLabel = new QLabel(i18nc("@label", "View properties:"), this);
+    QGroupBox* viewPropsBox = new QGroupBox(i18nc("@title:group", "View"), this);
+    viewPropsBox->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Maximum);
 
-    m_viewProps = new KComboBox(this);
-    const bool useGlobalProps = true;
-    m_viewProps->addItem(i18nc("@option:radio", "Remember view properties for each folder"), !useGlobalProps);
-    m_viewProps->addItem(i18nc("@option:radio", "Use common view properties for all folders"), useGlobalProps);
+    m_localViewProps = new QRadioButton(i18nc("@option:radio", "Remember properties for each folder"), viewPropsBox);
+    m_globalViewProps = new QRadioButton(i18nc("@option:radio", "Use common properties for all folders"), viewPropsBox);
 
-    QHBoxLayout* viewPropsLayout = new QHBoxLayout(this);
-    viewPropsLayout->addWidget(viewPropsLabel, 0, Qt::AlignRight);
-    viewPropsLayout->addWidget(m_viewProps);
+    QVBoxLayout* viewPropsLayout = new QVBoxLayout(viewPropsBox);
+    viewPropsLayout->addWidget(m_localViewProps);
+    viewPropsLayout->addWidget(m_globalViewProps);
 
     // 'Show tooltips'
     m_showToolTips = new QCheckBox(i18nc("@option:check", "Show tooltips"), this);
@@ -66,9 +66,7 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
     // 'Natural sorting of items'
     m_naturalSorting = new QCheckBox(i18nc("option:check", "Natural sorting of items"), this);
 
-    topLayout->addSpacing(KDialog::spacingHint());
-    topLayout->addLayout(viewPropsLayout);
-    topLayout->addSpacing(KDialog::spacingHint());
+    topLayout->addWidget(viewPropsBox);
     topLayout->addWidget(m_showToolTips);
     topLayout->addWidget(m_showSelectionToggle);
     topLayout->addWidget(m_naturalSorting);
@@ -76,7 +74,8 @@ BehaviorSettingsPage::BehaviorSettingsPage(const KUrl& url, QWidget* parent) :
 
     loadSettings();
 
-    connect(m_viewProps, SIGNAL(currentIndexChanged(int)), this, SIGNAL(changed()));
+    connect(m_localViewProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
+    connect(m_globalViewProps, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_showToolTips, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_showSelectionToggle, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
     connect(m_naturalSorting, SIGNAL(toggled(bool)), this, SIGNAL(changed()));
@@ -91,15 +90,14 @@ void BehaviorSettingsPage::applySettings()
     GeneralSettings* settings = GeneralSettings::self();
     ViewProperties props(m_url);  // read current view properties
 
-    const int index = m_viewProps->currentIndex();
-    const bool useGlobalProps = m_viewProps->itemData(index).toBool();
-    settings->setGlobalViewProps(useGlobalProps);
+    const bool useGlobalViewProps = m_globalViewProps->isChecked();
+    settings->setGlobalViewProps(useGlobalViewProps);
 
     settings->setShowToolTips(m_showToolTips->isChecked());
     settings->setShowSelectionToggle(m_showSelectionToggle->isChecked());
     settings->writeConfig();
 
-    if (useGlobalProps) {
+    if (useGlobalViewProps) {
         // Remember the global view properties by applying the current view properties.
         // It is important that GeneralSettings::globalViewProps() is set before
         // the class ViewProperties is used, as ViewProperties uses this setting
@@ -126,8 +124,9 @@ void BehaviorSettingsPage::restoreDefaults()
 
 void BehaviorSettingsPage::loadSettings()
 {
-    const int index = (m_viewProps->itemData(0).toBool() == GeneralSettings::globalViewProps()) ? 0 : 1;
-    m_viewProps->setCurrentIndex(index);
+    const bool useGlobalViewProps = GeneralSettings::globalViewProps();
+    m_localViewProps->setChecked(!useGlobalViewProps);
+    m_globalViewProps->setChecked(useGlobalViewProps);
 
     m_showToolTips->setChecked(GeneralSettings::showToolTips());
     m_showSelectionToggle->setChecked(GeneralSettings::showSelectionToggle());
