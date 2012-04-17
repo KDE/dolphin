@@ -21,6 +21,7 @@
 
 #include "informationpanelcontent.h"
 #include <KIO/Job>
+#include <KIO/JobUiDelegate>
 #include <KDirNotify>
 #include <QApplication>
 #include <QShowEvent>
@@ -182,6 +183,9 @@ void InformationPanel::showItemInfo()
             // No item is hovered and no selection has been done: provide
             // an item for the currently shown directory.
             m_folderStatJob = KIO::stat(url(), KIO::HideProgressInfo);
+            if (m_folderStatJob->ui()) {
+                m_folderStatJob->ui()->setWindow(this);
+            }
             connect(m_folderStatJob, SIGNAL(result(KJob*)),
                     this, SLOT(slotFolderStatFinished(KJob*)));
         } else {

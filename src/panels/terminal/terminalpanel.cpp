@@ -115,7 +115,9 @@ void TerminalPanel::changeDir(const KUrl& url)
         sendCdToTerminal(url.toLocalFile());
     } else {
         m_mostLocalUrlJob = KIO::mostLocalUrl(url, KIO::HideProgressInfo);
-        m_mostLocalUrlJob->ui()->setWindow(this);
+        if (m_mostLocalUrlJob->ui()) {
+            m_mostLocalUrlJob->ui()->setWindow(this);
+        }
         connect(m_mostLocalUrlJob, SIGNAL(result(KJob*)), this, SLOT(slotMostLocalUrlResult(KJob*)));
     }
 }

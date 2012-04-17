@@ -21,6 +21,7 @@
 
 #include "filemetadatatooltip.h"
 #include <KIcon>
+#include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 
 #include <QApplication>
@@ -128,6 +129,9 @@ void ToolTipManager::startContentRetrieval()
 
     KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << m_item, QSize(256, 256));
     job->setIgnoreMaximumSize(m_item.isLocalFile());
+    if (job->ui()) {
+        job->ui()->setWindow(qApp->activeWindow());
+    }
 
     connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(setPreviewPix(KFileItem,QPixmap)));

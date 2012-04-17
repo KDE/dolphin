@@ -47,6 +47,7 @@
 #include <kitemviews/kitemlistview.h>
 #include <kitemviews/kitemlistcontroller.h>
 #include <KIO/DeleteJob>
+#include <KIO/JobUiDelegate>
 #include <KIO/NetAccess>
 #include <KIO/PreviewJob>
 #include <KJob>
@@ -638,6 +639,9 @@ void DolphinView::deleteSelectedItems()
 
     if (del) {
         KIO::Job* job = KIO::del(list);
+        if (job->ui()) {
+            job->ui()->setWindow(this);
+        }
         connect(job, SIGNAL(result(KJob*)),
                 this, SLOT(slotDeleteFileFinished(KJob*)));
     }

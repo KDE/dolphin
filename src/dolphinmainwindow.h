@@ -587,7 +587,7 @@ private:
     QToolButton* m_controlButton;
     QTimer* m_updateToolBarTimer;
 
-    KJob* m_lastHandleUrlStatJob;
+    KIO::Job* m_lastHandleUrlStatJob;
 
     /**
      * Set to true, if the filter dock visibility is only temporary set

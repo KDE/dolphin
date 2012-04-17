@@ -28,6 +28,7 @@
 #include "private/kfileitemmodelsortalgorithm.h"
 #include "private/kfileitemmodeldirlister.h"
 
+#include <QApplication>
 #include <QMimeData>
 #include <QTimer>
 
@@ -58,6 +59,7 @@ KFileItemModel::KFileItemModel(QObject* parent) :
     m_dirLister = new KFileItemModelDirLister(this);
     m_dirLister->setAutoUpdate(true);
     m_dirLister->setDelayedMimeTypes(true);
+    m_dirLister->setMainWindow(qApp->activeWindow());
 
     connect(m_dirLister, SIGNAL(started(KUrl)), this, SIGNAL(directoryLoadingStarted()));
     connect(m_dirLister, SIGNAL(canceled()), this, SLOT(slotCanceled()));

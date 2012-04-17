@@ -26,10 +26,12 @@
 #include <KDebug>
 #include <KFileItem>
 #include <KGlobal>
+#include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 
 #include "private/kpixmapmodifier.h"
 
+#include <QApplication>
 #include <QPainter>
 #include <QPixmap>
 #include <QElapsedTimer>
@@ -655,6 +657,9 @@ void KFileItemModelRolesUpdater::startPreviewJob(const KFileItemList& items)
     }
     KIO::PreviewJob* job = new KIO::PreviewJob(itemSubSet, cacheSize, &m_enabledPlugins);
     job->setIgnoreMaximumSize(items.first().isLocalFile());
+    if (job->ui()) {
+        job->ui()->setWindow(qApp->activeWindow());
+    }
 
     connect(job,  SIGNAL(gotPreview(KFileItem,QPixmap)),
             this, SLOT(slotGotPreview(KFileItem,QPixmap)));

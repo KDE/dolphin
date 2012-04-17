@@ -23,10 +23,15 @@
 #include <Nepomuk/Query/Query>
 #include <panels/panel.h>
 
-class KJob;
+namespace KIO
+{
+    class Job;
+};
 
-namespace Nepomuk {
-    namespace Utils {
+namespace Nepomuk
+{
+    namespace Utils
+    {
         class FacetWidget;
     }
 }
@@ -92,7 +97,7 @@ private:
 private:
     bool m_initialized;
     SearchLocation m_searchLocation;
-    KJob* m_lastSetUrlStatJob;
+    KIO::Job* m_lastSetUrlStatJob;
 
     KUrl m_startedFromDir;
     Nepomuk::Utils::FacetWidget* m_facetWidget;

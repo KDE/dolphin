@@ -38,8 +38,9 @@
 #include <search/dolphinsearchinformation.h>
 
 #include <KFileItem>
-#include <KIO/JobClasses>
 #include <KIO/Job>
+#include <KIO/JobClasses>
+#include <KIO/JobUiDelegate>
 #include <KMenu>
 
 #include <QPushButton>
@@ -101,6 +102,9 @@ bool SearchPanel::urlChanged()
             // Reset the current query and disable the facet-widget until
             // the new query has been determined by KIO::stat():
             m_lastSetUrlStatJob = KIO::stat(url(), KIO::HideProgressInfo);
+            if (m_lastSetUrlStatJob->ui()) {
+                m_lastSetUrlStatJob->ui()->setWindow(this);
+            }
             connect(m_lastSetUrlStatJob, SIGNAL(result(KJob*)),
                     this, SLOT(slotSetUrlStatFinished(KJob*)));
         } else {

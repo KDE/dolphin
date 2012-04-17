@@ -67,6 +67,7 @@
 #include <KIcon>
 #include <KIconLoader>
 #include <KIO/NetAccess>
+#include <KIO/JobUiDelegate>
 #include <KInputDialog>
 #include <KLocale>
 #include <KProtocolManager>
@@ -1284,6 +1285,9 @@ void DolphinMainWindow::handleUrl(const KUrl& url)
     } else if (KProtocolManager::supportsListing(url)) {
         // stat the URL to see if it is a dir or not
         m_lastHandleUrlStatJob = KIO::stat(url, KIO::HideProgressInfo);
+        if (m_lastHandleUrlStatJob->ui()) {
+            m_lastHandleUrlStatJob->ui()->setWindow(this);
+        }
         connect(m_lastHandleUrlStatJob, SIGNAL(result(KJob*)),
                 this, SLOT(slotHandleUrlStatFinished(KJob*)));
 

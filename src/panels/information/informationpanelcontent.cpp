@@ -24,6 +24,7 @@
 #include <kfilemetadatawidget.h>
 #include <KFilePlacesModel>
 #include <KGlobalSettings>
+#include <KIO/JobUiDelegate>
 #include <KIO/PreviewJob>
 #include <KIconEffect>
 #include <KIconLoader>
@@ -176,6 +177,9 @@ void InformationPanelContent::showItem(const KFileItem& item)
             KIO::PreviewJob* job = new KIO::PreviewJob(KFileItemList() << item, QSize(m_preview->width(), m_preview->height()));
             job->setScaleType(KIO::PreviewJob::Unscaled);
             job->setIgnoreMaximumSize(item.isLocalFile());
+            if (job->ui()) {
+                job->ui()->setWindow(this);
+            }
 
             connect(job, SIGNAL(gotPreview(KFileItem,QPixmap)),
                     this, SLOT(showPreview(KFileItem,QPixmap)));

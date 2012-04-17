@@ -23,6 +23,10 @@
 #include <panels/panel.h>
 
 class InformationPanelContent;
+namespace KIO
+{
+    class Job;
+}
 
 /**
  * @brief Panel for showing meta information of one ore more selected items.
@@ -147,7 +151,7 @@ private:
     KFileItem m_fileItem; // file item for m_shownUrl if available (otherwise null)
     KFileItemList m_selection;
 
-    KJob* m_folderStatJob;
+    KIO::Job* m_folderStatJob;
 
     InformationPanelContent* m_content;
 };
