@@ -156,6 +156,8 @@ DolphinView::DolphinView(const KUrl& url, QWidget* parent) :
             this, SLOT(slotSortRoleChangedByHeader(QByteArray,QByteArray)));
     connect(view, SIGNAL(visibleRolesChanged(QList<QByteArray>,QList<QByteArray>)),
             this, SLOT(slotVisibleRolesChangedByHeader(QList<QByteArray>,QList<QByteArray>)));
+    connect(view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
     connect(view->header(), SIGNAL(columnWidthChanged(QByteArray,qreal,qreal)),
             this, SLOT(slotHeaderColumnWidthChanged(QByteArray,qreal,qreal)));
 
@@ -598,30 +600,26 @@ void DolphinView::clearSelection()
 
 void DolphinView::renameSelectedItems()
 {
-    KFileItemList items = selectedItems();
-    const int itemCount = items.count();
-    if (itemCount < 1) {
-        return;
-    }
+    const KFileItemList items = selectedItems();
+     if (items.isEmpty()) {
+         return;
+     }
 
-    // TODO: The new view-engine introduced with Dolphin 2.0 does not support inline
-    // renaming yet.
-    /*if ((itemCount == 1) && DolphinSettings::instance().generalSettings()->renameInline()) {
-        const QModelIndex dirIndex = m_viewAccessor.dirModel()->indexForItem(items.first());
-        const QModelIndex proxyIndex = m_viewAccessor.proxyModel()->mapFromSource(dirIndex);
-        m_viewAccessor.itemView()->edit(proxyIndex);
-    } else {*/
-        RenameDialog* dialog = new RenameDialog(this, items);
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-        dialog->show();
-        dialog->raise();
-        dialog->activateWindow();
-    //}
+     if (items.count() == 1) {
+         const int index = fileItemModel()->index(items.first());
+         m_container->controller()->view()->editRole(index, "name");
+     } else {
+         RenameDialog* dialog = new RenameDialog(this, items);
+         dialog->setAttribute(Qt::WA_DeleteOnClose);
+         dialog->show();
+         dialog->raise();
+         dialog->activateWindow();
+     }
 
-    // Assure that the current index remains visible when KFileItemModel
-    // will notify the view about changed items (which might result in
-    // a changed sorting).
-    m_assureVisibleCurrentIndex = true;
+     // Assure that the current index remains visible when KFileItemModel
+     // will notify the view about changed items (which might result in
+     // a changed sorting).
+     m_assureVisibleCurrentIndex = true;
 }
 
 void DolphinView::trashSelectedItems()
@@ -1289,6 +1287,17 @@ void DolphinView::slotVisibleRolesChangedByHeader(const QList<QByteArray>& curre
     props.setVisibleRoles(m_visibleRoles);
 
     emit visibleRolesChanged(m_visibleRoles, previousVisibleRoles);
+}
+
+void DolphinView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
+{
+    if (role == "name") {
+        const KFileItem item = fileItemModel()->fileItem(index);
+        const QString newName = value.toString();
+        if (!newName.isEmpty() && newName != item.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
+            KonqOperations::rename(this, item.url(), newName);
+        }
+    }
 }
 
 KFileItemModel* DolphinView::fileItemModel() const

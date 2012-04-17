@@ -38,6 +38,7 @@ set(dolphinprivate_LIB_SRCS
     kitemviews/private/kfileitemmodelfilter.cpp
     kitemviews/private/kitemlistheaderwidget.cpp
     kitemviews/private/kitemlistkeyboardsearchmanager.cpp
+    kitemviews/private/kitemlistroleeditor.cpp
     kitemviews/private/kitemlistrubberband.cpp
     kitemviews/private/kitemlistselectiontoggle.cpp
     kitemviews/private/kitemlistsizehintresolver.cpp

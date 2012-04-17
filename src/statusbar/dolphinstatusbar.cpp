@@ -301,6 +301,9 @@ void DolphinStatusBar::updateProgressInfo()
 {
     if (m_progress < 100) {
         // Show the progress information and hide the extensions
+        m_stopButton->show();
+        m_progressTextLabel->show();
+        m_progressBar->show();
         setExtensionsVisible(false);
     } else {
         // Hide the progress information and show the extensions

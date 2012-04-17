@@ -31,10 +31,13 @@
 #include <KDebug>
 
 #include "private/kfileitemclipboard.h"
+#include "private/kitemlistroleeditor.h"
 #include "private/kpixmapmodifier.h"
 
 #include <QFontMetricsF>
+#include <QGraphicsScene>
 #include <QGraphicsSceneResizeEvent>
+#include <QGraphicsView>
 #include <QPainter>
 #include <QStyleOption>
 #include <QTextLayout>
@@ -64,7 +67,8 @@ KFileItemListWidget::KFileItemListWidget(QGraphicsItem* parent) :
     m_customTextColor(),
     m_additionalInfoTextColor(),
     m_overlay(),
-    m_rating()
+    m_rating(),
+    m_roleEditor(0)
 {
 }
 
@@ -72,6 +76,8 @@ KFileItemListWidget::~KFileItemListWidget()
 {
     qDeleteAll(m_textInfo);
     m_textInfo.clear();
+
+    delete m_roleEditor;
 }
 
 void KFileItemListWidget::setLayout(Layout layout)
@@ -482,10 +488,76 @@ void KFileItemListWidget::siblingsInformationChanged(const QBitArray& current, c
     m_dirtyLayout = true;
 }
 
+void KFileItemListWidget::editedRoleChanged(const QByteArray& current, const QByteArray& previous)
+{
+    Q_UNUSED(previous);
+
+   QGraphicsView* parent = scene()->views()[0];
+   if (current.isEmpty() || !parent || current != "name") {
+        if (m_roleEditor) {
+            emit roleEditingCanceled(index(), current, data().value(current));
+            m_roleEditor->deleteLater();
+            m_roleEditor = 0;
+        }
+        return;
+    }
+
+    Q_ASSERT(!m_roleEditor);
+
+    const TextInfo* textInfo = m_textInfo.value("name");
+
+    m_roleEditor = new KItemListRoleEditor(parent);
+    m_roleEditor->setIndex(index());
+    m_roleEditor->setRole(current);
+
+    const QString text = data().value(current).toString();
+    m_roleEditor->setPlainText(text);
+
+    QTextOption textOption = textInfo->staticText.textOption();
+    m_roleEditor->document()->setDefaultTextOption(textOption);
+
+    // Select the text without MIME-type extension
+    int selectionLength = text.length();
+
+    const QString extension = KMimeType::extractKnownExtension(text);
+    if (!extension.isEmpty()) {
+        selectionLength -= extension.length() + 1;
+    }
+
+    if (selectionLength > 0) {
+        QTextCursor cursor = m_roleEditor->textCursor();
+        cursor.movePosition(QTextCursor::StartOfBlock);
+        cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor, selectionLength);
+        m_roleEditor->setTextCursor(cursor);
+    }
+
+    connect(m_roleEditor, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
+    connect(m_roleEditor, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+
+    // Adjust the geometry of the editor
+    QRectF rect = roleEditingRect(current);
+    const int frameWidth = m_roleEditor->frameWidth();
+    rect.adjust(-frameWidth, -frameWidth, frameWidth, frameWidth);
+    rect.translate(pos());
+    if (rect.right() > parent->width()) {
+        rect.setWidth(parent->width() - rect.left());
+    }
+    m_roleEditor->setGeometry(rect.toRect());
+    m_roleEditor->show();
+    m_roleEditor->setFocus();
+}
 
 void KFileItemListWidget::resizeEvent(QGraphicsSceneResizeEvent* event)
 {
+    if (m_roleEditor) {
+        setEditedRole(QByteArray());
+        Q_ASSERT(!m_roleEditor);
+    }
+
     KItemListWidget::resizeEvent(event);
+
     m_dirtyLayout = true;
 }
 
@@ -521,6 +593,26 @@ void KFileItemListWidget::slotCutItemsChanged()
         m_dirtyContent = true;
         update();
     }
+}
+
+void KFileItemListWidget::slotRoleEditingCanceled(int index,
+                                                  const QByteArray& role,
+                                                  const QVariant& value)
+{
+    m_roleEditor->deleteLater();
+    m_roleEditor = 0;
+    emit roleEditingCanceled(index, role, value);
+    setEditedRole(QByteArray());
+}
+
+void KFileItemListWidget::slotRoleEditingFinished(int index,
+                                                  const QByteArray& role,
+                                                  const QVariant& value)
+{
+    m_roleEditor->deleteLater();
+    m_roleEditor = 0;
+    emit roleEditingFinished(index, role, value);
+    setEditedRole(QByteArray());
 }
 
 void KFileItemListWidget::triggerCacheRefreshing()
@@ -1041,6 +1133,21 @@ void KFileItemListWidget::drawSiblingsInformation(QPainter* painter)
 
         siblingRect.translate(-siblingRect.width(), 0);
     }
+}
+
+QRectF KFileItemListWidget::roleEditingRect(const QByteArray& role) const
+{
+    const TextInfo* textInfo = m_textInfo.value(role);
+    if (!textInfo) {
+        return QRectF();
+    }
+
+    QRectF rect(textInfo->pos, textInfo->staticText.size());
+    if (m_layout == DetailsLayout) {
+        rect.setWidth(columnWidth(role) - rect.x());
+    }
+
+    return rect;
 }
 
 QPixmap KFileItemListWidget::pixmapForIcon(const QString& name, int size)

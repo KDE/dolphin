@@ -36,7 +36,6 @@
 #include <KNewFileMenu>
 #include <KSelectAction>
 #include <KToggleAction>
-#include <KRun>
 #include <KPropertiesDialog>
 #include <KIcon>
 

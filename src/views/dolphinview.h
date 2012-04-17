@@ -617,6 +617,8 @@ private slots:
     void slotVisibleRolesChangedByHeader(const QList<QByteArray>& current,
                                          const QList<QByteArray>& previous);
 
+    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+
     /**
      * Observes the item with the URL \a url. As soon as the directory
      * model indicates that the item is available, the item will

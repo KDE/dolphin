@@ -266,6 +266,11 @@ public:
     virtual QPixmap createDragPixmap(const QSet<int>& indexes) const;
 
     /**
+     * Lets the user edit the role \a role for item with the index \a index.
+     */
+    void editRole(int index, const QByteArray& role);
+
+    /**
      * @reimp
      */
     virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
@@ -304,7 +309,14 @@ signals:
      */
     void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
 
+    void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
+    void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+
 protected:
+    /**
+     * Is called when creating a new KItemListWidget instance and allows derived
+     * classes to do a custom initialization.
+     */
     virtual void initializeItemListWidget(KItemListWidget* item);
 
     /**
@@ -393,6 +405,9 @@ private slots:
      * parent widget.
      */
     void slotGeometryOfGroupHeaderParentChanged();
+
+    void slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
+    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
 private:
     enum LayoutAnimationHint
@@ -633,6 +648,7 @@ private:
     bool m_enabledSelectionToggles;
     bool m_grouped;
     bool m_supportsItemExpanding;
+    bool m_editingRole;
     int m_activeTransactions; // Counter for beginTransaction()/endTransaction()
     LayoutAnimationHint m_endTransactionAnimationHint;
 

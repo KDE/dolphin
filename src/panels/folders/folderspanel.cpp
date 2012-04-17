@@ -42,7 +42,6 @@
 #include <QTimer>
 
 #include <views/draganddrophelper.h>
-#include <views/renamedialog.h>
 
 #include <KDebug>
 
@@ -89,18 +88,8 @@ bool FoldersPanel::autoScrolling() const
 
 void FoldersPanel::rename(const KFileItem& item)
 {
-    // TODO: Inline renaming is not supported anymore in Dolphin 2.0
-    if (false /* GeneralSettings::renameInline() */) {
-        //const QModelIndex dirIndex = m_dolphinModel->indexForItem(item);
-        //const QModelIndex proxyIndex = m_proxyModel->mapFromSource(dirIndex);
-        //m_treeView->edit(proxyIndex);
-    } else {
-        RenameDialog* dialog = new RenameDialog(this, KFileItemList() << item);
-        dialog->setAttribute(Qt::WA_DeleteOnClose);
-        dialog->show();
-        dialog->raise();
-        dialog->activateWindow();
-    }
+    const int index = fileItemModel()->index(item);
+    m_controller->view()->editRole(index, "name");
 }
 
 bool FoldersPanel::urlChanged()
@@ -146,6 +135,9 @@ void FoldersPanel::showEvent(QShowEvent* event)
         // has been finished in slotLoadingCompleted(). This prevents an unnecessary animation-mess when
         // opening the folders panel.
         view->setOpacity(0);
+
+        connect(view, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+                this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
 
         KFileItemModel* model = new KFileItemModel(this);
         model->setShowDirectoriesOnly(true);
@@ -258,6 +250,17 @@ void FoldersPanel::slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* eve
                              event->modifiers());
 
         DragAndDropHelper::dropUrls(destItem, destItem.url(), &dropEvent);
+    }
+}
+
+void FoldersPanel::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
+{
+    if (role == "name") {
+        const KFileItem item = fileItemModel()->fileItem(index);
+        const QString newName = value.toString();
+        if (!newName.isEmpty() && newName != item.text() && newName != QLatin1String(".") && newName != QLatin1String("..")) {
+            KonqOperations::rename(this, item.url(), newName);
+        }
     }
 }
 

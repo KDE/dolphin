@@ -51,7 +51,8 @@ KItemListWidget::KItemListWidget(QGraphicsItem* parent) :
     m_hoverOpacity(0),
     m_hoverCache(0),
     m_hoverAnimation(0),
-    m_selectionToggle(0)
+    m_selectionToggle(0),
+    m_editedRole()
 {
 }
 
@@ -112,7 +113,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
         painter->fillRect(backgroundRect, backgroundColor);
     }
 
-    if (m_selected) {
+    if (m_selected && m_editedRole.isEmpty()) {
         const QStyle::State activeState(isActiveWindow() ? QStyle::State_Active : 0);
         drawItemStyleOption(painter, widget, activeState |
                                              QStyle::State_Enabled |
@@ -120,7 +121,7 @@ void KItemListWidget::paint(QPainter* painter, const QStyleOptionGraphicsItem* o
                                              QStyle::State_Item);
     }
 
-    if (isCurrent()) {
+    if (m_current && m_editedRole.isEmpty()) {
         QStyleOptionFocusRect focusRectOption;
         focusRectOption.initFrom(widget);
         focusRectOption.rect = textFocusRect().toRect();
@@ -309,6 +310,20 @@ QBitArray KItemListWidget::siblingsInformation() const
     return m_siblingsInfo;
 }
 
+void KItemListWidget::setEditedRole(const QByteArray& role)
+{
+    if (m_editedRole != role) {
+        const QByteArray previous = m_editedRole;
+        m_editedRole = role;
+        editedRoleChanged(role, previous);
+    }
+}
+
+QByteArray KItemListWidget::editedRole() const
+{
+    return m_editedRole;
+}
+
 bool KItemListWidget::contains(const QPointF& point) const
 {
     if (!QGraphicsWidget::contains(point)) {
@@ -387,6 +402,12 @@ void KItemListWidget::alternateBackgroundChanged(bool enabled)
 }
 
 void KItemListWidget::siblingsInformationChanged(const QBitArray& current, const QBitArray& previous)
+{
+    Q_UNUSED(current);
+    Q_UNUSED(previous);
+}
+
+void KItemListWidget::editedRoleChanged(const QByteArray& current, const QByteArray& previous)
 {
     Q_UNUSED(current);
     Q_UNUSED(previous);

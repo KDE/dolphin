@@ -103,6 +103,16 @@ public:
     QBitArray siblingsInformation() const;
 
     /**
+     * Allows the user to edit the role \a role. The signals
+     * roleEditingCanceled() or roleEditingFinished() will be
+     * emitted after editing. An ongoing editing gets canceled if
+     * the role is empty. Derived classes must implement
+     * editedRoleChanged().
+     */
+    void setEditedRole(const QByteArray& role);
+    QByteArray editedRole() const;
+
+    /**
      * @return True if \a point is inside KItemListWidget::hoverRect(),
      *         KItemListWidget::textRect(), KItemListWidget::selectionToggleRect()
      *         or KItemListWidget::expansionToggleRect().
@@ -143,6 +153,10 @@ public:
      */
     virtual QRectF expansionToggleRect() const;
 
+signals:
+    void roleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
+    void roleEditingFinished(int index, const QByteArray& role, const QVariant& value);
+
 protected:
     virtual void dataChanged(const QHash<QByteArray, QVariant>& current, const QSet<QByteArray>& roles = QSet<QByteArray>());
     virtual void visibleRolesChanged(const QList<QByteArray>& current, const QList<QByteArray>& previous);
@@ -153,6 +167,7 @@ protected:
     virtual void hoveredChanged(bool hovered);
     virtual void alternateBackgroundChanged(bool enabled);
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
+    virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
 
     /**
@@ -190,6 +205,8 @@ private:
     QPropertyAnimation* m_hoverAnimation;
 
     KItemListSelectionToggle* m_selectionToggle;
+
+    QByteArray m_editedRole;
 };
 #endif
 

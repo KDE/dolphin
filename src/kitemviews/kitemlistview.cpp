@@ -57,6 +57,7 @@ KItemListView::KItemListView(QGraphicsWidget* parent) :
     m_enabledSelectionToggles(false),
     m_grouped(false),
     m_supportsItemExpanding(false),
+    m_editingRole(false),
     m_activeTransactions(0),
     m_endTransactionAnimationHint(Animation),
     m_itemSize(),
@@ -667,6 +668,23 @@ QPixmap KItemListView::createDragPixmap(const QSet<int>& indexes) const
     return QPixmap();
 }
 
+void KItemListView::editRole(int index, const QByteArray& role)
+{
+    KItemListWidget* widget = m_visibleItems.value(index);
+    if (!widget) {
+        return;
+    }
+
+    Q_ASSERT(!m_editingRole);
+    m_editingRole = true;
+    widget->setEditedRole(role);
+
+    connect(widget, SIGNAL(roleEditingCanceled(int,QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingCanceled(int,QByteArray,QVariant)));
+    connect(widget, SIGNAL(roleEditingFinished(int,QByteArray,QVariant)),
+            this, SLOT(slotRoleEditingFinished(int,QByteArray,QVariant)));
+}
+
 void KItemListView::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     QGraphicsWidget::paint(painter, option, widget);
@@ -760,7 +778,7 @@ void KItemListView::onTransactionEnd()
 bool KItemListView::event(QEvent* event)
 {
     // Forward all events to the controller and handle them there
-    if (m_controller && m_controller->processEvent(event, transform())) {
+    if (!m_editingRole && m_controller && m_controller->processEvent(event, transform())) {
         event->accept();
         return true;
     }
@@ -1329,6 +1347,18 @@ void KItemListView::slotGeometryOfGroupHeaderParentChanged()
     KItemListGroupHeader* groupHeader = m_visibleGroups.value(widget);
     Q_ASSERT(groupHeader);
     updateGroupHeaderLayout(widget);
+}
+
+void KItemListView::slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value)
+{
+    emit roleEditingCanceled(index, role, value);
+    m_editingRole = false;
+}
+
+void KItemListView::slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value)
+{
+    emit roleEditingFinished(index, role, value);
+    m_editingRole = false;
 }
 
 void KItemListView::setController(KItemListController* controller)

@@ -29,6 +29,7 @@
 
 #include <KDebug>
 #include <KIcon>
+#include <KTextEdit>
 
 #include <QPainter>
 #include <QTextLine>

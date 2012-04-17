@@ -1288,7 +1288,7 @@ void DolphinMainWindow::handleUrl(const KUrl& url)
                 this, SLOT(slotHandleUrlStatFinished(KJob*)));
 
     } else {
-        new KRun(url, this);
+        new KRun(url, this); // Automatically deletes itself after being finished
     }
 }
 
@@ -1300,7 +1300,7 @@ void DolphinMainWindow::slotHandleUrlStatFinished(KJob* job)
     if (entry.isDir()) {
         activeViewContainer()->setUrl(url);
     } else {
-        new KRun(url, this);
+        new KRun(url, this);  // Automatically deletes itself after being finished
     }
 }
 

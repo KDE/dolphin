@@ -72,6 +72,7 @@ private slots:
     void slotItemContextMenuRequested(int index, const QPointF& pos);
     void slotViewContextMenuRequested(const QPointF& pos);
     void slotItemDropEvent(int index, QGraphicsSceneDragDropEvent* event);
+    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
     void slotLoadingCompleted();
 

@@ -28,8 +28,9 @@
 #include <QPointF>
 #include <QStaticText>
 
-class KItemListView;
+class KItemListRoleEditor;
 class KItemListStyleOption;
+class KItemListView;
 
 class LIBDOLPHINPRIVATE_EXPORT KFileItemListWidget : public KItemListWidget
 {
@@ -102,12 +103,15 @@ protected:
     virtual void hoveredChanged(bool hovered);
     virtual void selectedChanged(bool selected);
     virtual void siblingsInformationChanged(const QBitArray& current, const QBitArray& previous);
+    virtual void editedRoleChanged(const QByteArray& current, const QByteArray& previous);
     virtual void resizeEvent(QGraphicsSceneResizeEvent* event);
     virtual void showEvent(QShowEvent* event);
     virtual void hideEvent(QHideEvent* event);
 
 private slots:
     void slotCutItemsChanged();
+    void slotRoleEditingCanceled(int index, const QByteArray& role, const QVariant& value);
+    void slotRoleEditingFinished(int index, const QByteArray& role, const QVariant& value);
 
 private:
     /**
@@ -136,6 +140,8 @@ private:
 
     void drawPixmap(QPainter* painter, const QPixmap& pixmap);
     void drawSiblingsInformation(QPainter* painter);
+
+    QRectF roleEditingRect(const QByteArray &role) const;
 
     static QPixmap pixmapForIcon(const QString& name, int size);
     static void applyCutEffect(QPixmap& pixmap);
@@ -196,6 +202,8 @@ private:
 
     QPixmap m_overlay;
     QPixmap m_rating;
+
+    KItemListRoleEditor* m_roleEditor;
 };
 
 #endif
