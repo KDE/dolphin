@@ -544,6 +544,9 @@ void KFileItemListWidget::editedRoleChanged(const QByteArray& current, const QBy
     if (rect.right() > parent->width()) {
         rect.setWidth(parent->width() - rect.left());
     }
+    if (rect.bottom() > parent->height()) {
+        rect.setHeight(parent->height() - rect.top());
+    }
     m_roleEditor->setGeometry(rect.toRect());
     m_roleEditor->show();
     m_roleEditor->setFocus();

@@ -63,7 +63,7 @@ QByteArray KItemListRoleEditor::role() const
 bool  KItemListRoleEditor::eventFilter(QObject* watched, QEvent* event)
 {
     if (watched == parentWidget() && event->type() == QEvent::Resize) {
-        autoAdjustSize();
+        emit roleEditingFinished(m_index, m_role, toPlainText());
     }
 
     return KTextEdit::eventFilter(watched, event);
@@ -99,14 +99,26 @@ void KItemListRoleEditor::keyPressEvent(QKeyEvent* event)
 
 void KItemListRoleEditor::autoAdjustSize()
 {
+    const qreal frameBorder = 2 * frameWidth();
+
     const qreal requiredWidth = document()->size().width();
-    const qreal availableWidth = size().width() - 2 * frameWidth();
+    const qreal availableWidth = size().width() - frameBorder;
     if (requiredWidth > availableWidth) {
-        qreal newWidth = requiredWidth + 2 * frameWidth();
+        qreal newWidth = requiredWidth + frameBorder;
         if (parentWidget() && pos().x() + newWidth > parentWidget()->width()) {
             newWidth = parentWidget()->width() - pos().x();
         }
         resize(newWidth, size().height());
+    }
+
+    const qreal requiredHeight = document()->size().height();
+    const qreal availableHeight = size().height() - frameBorder;
+    if (requiredHeight > availableHeight) {
+        qreal newHeight = requiredHeight + frameBorder;
+        if (parentWidget() && pos().y() + newHeight > parentWidget()->height()) {
+            newHeight = parentWidget()->height() - pos().y();
+        }
+        resize(size().width(), newHeight);
     }
 }
 

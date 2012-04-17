@@ -31,8 +31,7 @@
  * pressing Escape or when losing the focus) or when the editing
  * got finished (e.g. by pressing Enter or Return).
  *
- * The width automatically gets increased if the text does not
- * fit into the available width.
+ * The size automatically gets increased if the text does not fit.
  */
 class LIBDOLPHINPRIVATE_EXPORT KItemListRoleEditor : public KTextEdit
 {
@@ -60,7 +59,7 @@ protected:
 
 private slots:
     /**
-     * Increases the width of the editor in case if there is not
+     * Increases the size of the editor in case if there is not
      * enough room for the text.
      */
     void autoAdjustSize();
