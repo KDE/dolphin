@@ -117,7 +117,6 @@ Q_SIGNALS:
     void aboutToOpenURL();
 
 private Q_SLOTS:
-    void slotCompleted(const KUrl& url);
     void slotMessage(const QString& msg);
     void slotErrorMessage(const QString& msg);
     /**

@@ -69,7 +69,7 @@ DolphinPart::DolphinPart(QWidget* parentWidget, QObject* parent, const QVariantL
     m_view->setTabsForFilesEnabled(true);
     setWidget(m_view);
 
-    connect(m_view, SIGNAL(finishedDirLoading(KUrl)), this, SLOT(slotCompleted(KUrl)));
+    connect(m_view, SIGNAL(directoryLoadingCompleted()), this, SIGNAL(completed()));
     connect(m_view, SIGNAL(directoryLoadingProgress(int)), this, SLOT(updateProgress(int)));
     connect(m_view, SIGNAL(errorMessage(QString)), this, SLOT(slotErrorMessage(QString)));
 
@@ -297,12 +297,6 @@ bool DolphinPart::openUrl(const KUrl& url)
     if (reload)
         m_view->reload();
     return true;
-}
-
-void DolphinPart::slotCompleted(const KUrl& url)
-{
-    Q_UNUSED(url)
-    emit completed();
 }
 
 void DolphinPart::slotMessage(const QString& msg)
