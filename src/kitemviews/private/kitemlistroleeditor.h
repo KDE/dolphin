@@ -25,7 +25,14 @@
 #include <KTextEdit>
 
 /**
- * @brief
+ * @brief Editor for renaming roles of a KItemListWidget.
+ *
+ * Provides signals when the editing got cancelled (e.g. by
+ * pressing Escape or when losing the focus) or when the editing
+ * got finished (e.g. by pressing Enter or Return).
+ *
+ * The width automatically gets increased if the text does not
+ * fit into the available width.
  */
 class LIBDOLPHINPRIVATE_EXPORT KItemListRoleEditor : public KTextEdit
 {
