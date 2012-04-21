@@ -573,11 +573,10 @@ QPixmap KItemListView::createDragPixmap(const QSet<int>& indexes) const
 void KItemListView::editRole(int index, const QByteArray& role)
 {
     KItemListWidget* widget = m_visibleItems.value(index);
-    if (!widget) {
+    if (!widget || m_editingRole) {
         return;
     }
 
-    Q_ASSERT(!m_editingRole);
     m_editingRole = true;
     widget->setEditedRole(role);
 
